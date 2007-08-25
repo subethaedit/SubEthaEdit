@@ -2376,6 +2376,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         [savePanel setInternalShowsHiddenFiles:showsHiddenFiles];
     }    
 
+    [savePanel setExtensionHidden:NO];
     [savePanel setCanSelectHiddenExtension:NO];
 
     I_savePanel = savePanel;
@@ -2512,21 +2513,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     }
 
     [super saveToURL:anAbsoluteURL ofType:aType forSaveOperation:saveOperation delegate:delegate didSaveSelector:didSaveSelector contextInfo:aContextInfo];
-}
-
-- (NSFileWrapper *)fileWrapperOfType:(NSString *)typeName error:(NSError **)outError {
-	if ([typeName isEqualToString:@"SEETextType"]) {
-		NSLog(@"%s %@",__FUNCTION__,typeName);
-		NSFileWrapper *pkgInfoWrapper = [[[NSFileWrapper alloc] initRegularFileWithContents:[@"????????" dataUsingEncoding:NSUTF8StringEncoding]] autorelease];
-		NSFileWrapper *contentsDirectory = [[[NSFileWrapper alloc] initDirectoryWithFileWrappers:[NSDictionary dictionaryWithObject:pkgInfoWrapper forKey:@"PkgInfo"]] autorelease];
-		NSFileWrapper *thumbnailImage = [[[NSFileWrapper alloc] initRegularFileWithContents:[[NSBitmapImageRep imageRepWithData:[[self thumbnailImage] TIFFRepresentation]] representationUsingType:NSJPEGFileType properties:[NSDictionary dictionary]]] autorelease];
-		NSFileWrapper *quicklookDirectory = [[[NSFileWrapper alloc] initDirectoryWithFileWrappers:[NSDictionary dictionaryWithObject:thumbnailImage forKey:@"Thumbnail.jpg"]] autorelease];
-		NSFileWrapper *containerData = [[[NSFileWrapper alloc] initRegularFileWithContents:[self dataOfType:typeName error:outError]] autorelease];
-		NSFileWrapper *resultWrapper = [[[NSFileWrapper alloc] initDirectoryWithFileWrappers:[NSDictionary dictionaryWithObjectsAndKeys:containerData,@"data.bencoded",contentsDirectory,@"Contents",quicklookDirectory,@"QuickLook",nil]] autorelease];
-		return resultWrapper;
-	} else {
-		return [super fileWrapperOfType:typeName error:outError];
-	}
 }
 
 - (NSData *)dataOfType:(NSString *)aType error:(NSError **)outError{
@@ -3053,22 +3039,65 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     return [self TCM_readFromURL:anURL ofType:docType properties:properties error:outError];
 }
 
+- (BOOL)writeToURL:(NSURL *)absoluteURL ofType:(NSString *)inTypeName forSaveOperation:(NSSaveOperationType)saveOperation originalContentsURL:(NSURL *)originalContentsURL error:(NSError **)outError {
+    DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"write to:%@ type:%@ originalURL:%@", absoluteURL, inTypeName, originalContentsURL);
+    if ([inTypeName isEqualToString:@"PlainTextType"]) {
+        // let us write using NSStrings write methods so the encoding is added to the extended attributes
+        return [[[self textStorage] string] writeToURL:absoluteURL atomically:NO encoding:[self fileEncoding] error:outError];
+    } else if ([inTypeName isEqualToString:@"SEETextType"]) {
+        NSString *packagePath = [absoluteURL path];
+        NSFileManager *fm =[NSFileManager defaultManager];
+        if ([fm createDirectoryAtPath:packagePath attributes:nil]) {
+            BOOL success = YES;
+
+            // mark it as package
+            NSString *contentsPath = [packagePath stringByAppendingPathComponent:@"Contents"];
+            success = [fm createDirectoryAtPath:contentsPath attributes:nil];
+            if (success) success = [[@"????????" dataUsingEncoding:NSUTF8StringEncoding] writeToURL:[NSURL fileURLWithPath:[contentsPath stringByAppendingPathComponent:@"PkgInfo"]] options:0 error:outError];
+            NSString *quicklookPath = [packagePath stringByAppendingPathComponent:@"QuickLook"];
+            if (success) success = [fm createDirectoryAtPath:quicklookPath attributes:nil];
+            if (success) [[[NSBitmapImageRep imageRepWithData:[[self thumbnailImage] TIFFRepresentation]] representationUsingType:NSJPEGFileType properties:[NSDictionary dictionary]] writeToURL:[NSURL fileURLWithPath:[quicklookPath stringByAppendingPathComponent:@"Thumbnail.jpg"]] options:0 error:outError];
+            if (success) success = [[self dataOfType:inTypeName error:outError] writeToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"data.bencoded"]] options:0 error:outError];
+            if (success) {
+                return YES;
+            } else {
+                [fm removeFileAtPath:packagePath handler:nil];
+                if (outError && !*outError) {
+                    return [[NSData data] writeToURL:[NSURL fileURLWithPath:@"/asdfaoinefqwef/asdofinasdfpoie/aspdoifnaspdfo/asdofinapsodifn"] options:0 error:outError];
+                } else {
+                    return NO;
+                }
+            }
+        } else {
+            // let us generate some generic error from nsdata
+            if (outError && !*outError) {
+                return [[NSData data] writeToURL:[NSURL fileURLWithPath:@"/asdfaoinefqwef/asdofinasdfpoie/aspdoifnaspdfo/asdofinapsodifn"] options:0 error:outError];
+            } else {
+                return NO;
+            }
+        }
+	} else {
+        return [super writeToURL:absoluteURL ofType:inTypeName forSaveOperation:saveOperation originalContentsURL:originalContentsURL error:outError];
+    }   
+}
+
 - (NSDictionary *)fileAttributesToWriteToURL:(NSURL *)absoluteURL ofType:(NSString *)documentTypeName forSaveOperation:(NSSaveOperationType)saveOperationType originalContentsURL:(NSURL *)absoluteOriginalContentsURL error:(NSError **)outError {
-    NSString *fullDocumentPath = [absoluteURL path];
 
     if ([documentTypeName isEqualToString:@"SEETextType"]) {
         return [NSDictionary dictionary];
     }
 
-    DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"fileAttributesToWriteToFile: %@", fullDocumentPath);
+    DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"fileAttributesToWriteToURL: %@ previousURL:%@", absoluteURL,absoluteOriginalContentsURL);
     
     // Preserve HFS Type and Creator code
     if ([self fileName] && [self fileType]) {
         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Preserve HFS Type and Creator Code");
-        NSMutableDictionary *newAttributes = [NSMutableDictionary dictionaryWithDictionary:[super fileAttributesToWriteToFile:fullDocumentPath ofType:documentTypeName saveOperation:saveOperationType]];
-        if ([self fileAttributes] != nil) {
-            [newAttributes setObject:[[self fileAttributes] objectForKey:NSFileHFSTypeCode] forKey:NSFileHFSTypeCode];
-            [newAttributes setObject:[[self fileAttributes] objectForKey:NSFileHFSCreatorCode] forKey:NSFileHFSCreatorCode];
+        NSMutableDictionary *newAttributes = [[[super
+        fileAttributesToWriteToURL:absoluteURL ofType:documentTypeName forSaveOperation:saveOperationType originalContentsURL:absoluteOriginalContentsURL error:outError] mutableCopy] autorelease];
+        NSDictionary *attributes = [self fileAttributes];
+        if (attributes != nil) {
+            if ([attributes objectForKey:NSFileHFSTypeCode]) [newAttributes setObject:[attributes objectForKey:NSFileHFSTypeCode] forKey:NSFileHFSTypeCode];
+            if ([attributes objectForKey:NSFileHFSCreatorCode]) [newAttributes setObject:[attributes objectForKey:NSFileHFSCreatorCode] forKey:NSFileHFSCreatorCode];
         } else {
             DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"File is not new, but no fileAttributes are set.");
         }
@@ -3116,9 +3145,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     }
 
     // Add the type and/or creator to the dictionary if they exist.
-    newAttributes = [NSMutableDictionary dictionaryWithDictionary:[super
-        fileAttributesToWriteToFile:fullDocumentPath ofType:documentTypeName
-        saveOperation:saveOperationType]];
+    newAttributes = [[[super
+        fileAttributesToWriteToURL:absoluteURL ofType:documentTypeName forSaveOperation:saveOperationType originalContentsURL:absoluteOriginalContentsURL error:outError] mutableCopy] autorelease];
     if (typeCode)
         [newAttributes setObject:typeCode forKey:NSFileHFSTypeCode];
     if (creatorCode)
@@ -3138,7 +3166,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     return newAttributes;
 }
 
-- (BOOL)TCM_writeUsingAuthorizedHelperToFile:(NSString *)fullDocumentPath ofType:(NSString *)docType saveOperation:(NSSaveOperationType)saveOperationType {
+- (BOOL)TCM_writeUsingAuthorizedHelperToURL:(NSURL *)anAbsoluteURL ofType:(NSString *)docType saveOperation:(NSSaveOperationType)saveOperationType error:(NSError **)outError {
+    NSString *fullDocumentPath = [anAbsoluteURL path];
     OSStatus err = noErr;
     CFURLRef tool = NULL;
     NSDictionary *request = nil;
@@ -3245,7 +3274,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
             CFQRelease(tool);
             
-            return ((err == noErr) ? YES : NO);
+            if (err == noErr) {
+                return YES;
+            } else {
+                *outError = [NSError errorWithDomain:@"MoreSec" code:err userInfo:nil];
+                return NO;
+            }
         }
     }
               
@@ -3317,7 +3351,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     // Create the request dictionary for exchanging file contents
 
     if (err == noErr) {
-        NSMutableDictionary *attrs = [[self fileAttributesToWriteToFile:fullDocumentPath ofType:docType saveOperation:saveOperationType] mutableCopy];
+        NSMutableDictionary *attrs = [[[self fileAttributesToWriteToFile:fullDocumentPath ofType:docType saveOperation:saveOperationType] mutableCopy] autorelease];
         if (![attrs objectForKey:NSFilePosixPermissions]) {
             [attrs setObject:[NSNumber numberWithUnsignedShort:S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH] forKey:NSFilePosixPermissions];
         }
@@ -3325,7 +3359,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                             @"ExchangeFileContents", @"CommandName",
                             fullDocumentPath, @"ActualFileName",
                             intermediateFileName, @"IntermediateFileName",
-                            [attrs autorelease], @"Attributes",
+                            attrs, @"Attributes",
                             nil];
     }
 
@@ -3353,7 +3387,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
     CFQRelease(tool);
     
-    return ((err == noErr) ? YES : NO);
+    if (err == noErr) {
+        return YES;
+    } else {
+        *outError = [NSError errorWithDomain:@"MoreSec" code:err userInfo:nil];
+        return NO;
+    }
 }
 
 - (BOOL)writeSafelyToURL:(NSURL*)anAbsoluteURL ofType:(NSString *)docType forSaveOperation:(NSSaveOperationType)saveOperationType error:(NSError **)outError {
@@ -3361,7 +3400,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"writeSavelyToURL: %@", anAbsoluteURL);
     BOOL hasBeenWritten = [super writeSafelyToURL:anAbsoluteURL ofType:docType forSaveOperation:saveOperationType error:outError];
     if (!hasBeenWritten) {
-        DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"Failed to write using writeWithBackupToFile: %@",*outError);
+        DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"Failed to write using writeSafelyToURL: %@",*outError);
         
         NSFileManager *fileManager = [NSFileManager defaultManager];
         NSDictionary *fileAttributes = [fileManager fileAttributesAtPath:fullDocumentPath traverseLink:YES];
@@ -3405,11 +3444,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
                 if (returnCode == NSAlertFirstButtonReturn) {
                     DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"We need root power!");
-                    hasBeenWritten = [self TCM_writeUsingAuthorizedHelperToFile:fullDocumentPath ofType:docType saveOperation:saveOperationType];
+                    hasBeenWritten = [self TCM_writeUsingAuthorizedHelperToURL:anAbsoluteURL ofType:docType saveOperation:saveOperationType error:outError];
                 } else if (returnCode == NSAlertSecondButtonReturn) {
                     NSFileManager *fileManager = [NSFileManager defaultManager];
                     NSString *tempFilePath = tempFileName(fullDocumentPath);
-                    hasBeenWritten = [self writeToURL:[NSURL fileURLWithPath:tempFilePath] ofType:docType error:outError];
+                    hasBeenWritten = [self writeToURL:[NSURL fileURLWithPath:tempFilePath] ofType:docType forSaveOperation:saveOperationType originalContentsURL:nil error:outError];
                     if (hasBeenWritten) {
                         BOOL result = [fileManager removeFileAtPath:fullDocumentPath handler:nil];
                         if (result) {
@@ -3445,7 +3484,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 }
             } else {
                 DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"We need root power!");
-                hasBeenWritten = [self TCM_writeUsingAuthorizedHelperToFile:fullDocumentPath ofType:docType saveOperation:saveOperationType];
+                hasBeenWritten = [self TCM_writeUsingAuthorizedHelperToURL:anAbsoluteURL ofType:docType saveOperation:saveOperationType error:outError];
             }
         }
      }
