@@ -118,4 +118,8 @@
     return I_statisticsArray;
 }
 
+- (NSArray *)loggedOperations {
+    return I_loggedOperations;
+}
+
 @end

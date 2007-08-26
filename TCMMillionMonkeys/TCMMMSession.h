@@ -52,6 +52,7 @@ typedef enum TCMMMSessionClientState {
 - (void)updateProxyWindow;
 - (void)showWindows;
 - (NSSet *)userIDsOfContributors;
+- (NSSet *)allUserIDs;
 - (void)sendInitialUserState;
 - (BOOL)isReceivingContent;
 - (void)validateEditability;

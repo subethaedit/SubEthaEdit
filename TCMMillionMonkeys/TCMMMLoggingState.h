@@ -23,5 +23,6 @@
 - (NSSet *)participantIDs;
 - (NSArray *)statisticsArray;
 - (TCMMMLogStatisticsEntry *)statisicsEntryForUserID:(NSString *)aUserID;
+- (NSArray *)loggedOperations;
 
 @end

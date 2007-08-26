@@ -334,6 +334,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (void)takeSettingsFromSessionInformation:(NSDictionary *)aSessionInformation;
 - (void)takeSettingsFromDocumentState:(NSDictionary *)aDocumentState;
 
+- (NSSet *)allUserIDs;
 - (NSSet *)userIDsOfContributors;
 - (void)sendInitialUserState;
 - (NSDictionary *)sessionInformation;
