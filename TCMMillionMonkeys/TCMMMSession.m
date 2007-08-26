@@ -721,6 +721,16 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         NSString *contributorID=[contributor userID];
         [contributorsByID setObject:[contributor dictionaryRepresentation] forKey:contributorID];
     }
+    NSEnumerator *participantIDs = [[[self loggingState] participantIDs] objectEnumerator];
+    NSString *contributorID = nil;
+    while ((contributorID = [participantIDs nextObject])) {
+        if (![contributorsByID objectForKey:contributorID]) {
+            contributor = [[TCMMMUserManager sharedInstance] userForUserID:contributorID];
+            if (contributor) {
+                [contributorsByID setObject:[contributor dictionaryRepresentation] forKey:contributorID];
+            }
+        }
+    }
     return contributorsByID;
 }
 
@@ -729,7 +739,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     NSMutableDictionary *sessionInformation=[NSMutableDictionary dictionary];
     NSMutableArray *contributorNotifications=[NSMutableArray array];
     NSEnumerator *contributors = [I_contributors objectEnumerator];
-    NSSet *userIDsOfContributors = [[self document] userIDsOfContributors];
+    NSSet *userIDsOfContributors = [[self document] allUserIDs];
     TCMMMUser *contributor=nil;
     while ((contributor=[contributors nextObject])) {
         NSString *contributorID=[contributor userID];

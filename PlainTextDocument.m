@@ -1312,6 +1312,16 @@ static NSString *tempFileName(NSString *origPath) {
     }
 }
 
+- (IBAction)prettyPrintXML:(id)aSender {
+    NSError *error=nil;
+    NSXMLDocument *document = [[[NSXMLDocument alloc] initWithXMLString:[[self textStorage] string] options:NSXMLNodePreserveEmptyElements error:&error] autorelease];
+    if (document) {
+        [self performSelector:@selector(setScriptedContents:) withObject:[document XMLStringWithOptions:NSXMLNodePrettyPrint|NSXMLNodePreserveEmptyElements]];
+        [self clearChangeMarks:aSender];
+    } else {
+        [self presentError:(NSError *)error modalForWindow:[self windowForSheet] delegate:nil didPresentSelector:NULL contextInfo:nil];
+    }
+}
 
 - (IBAction)refreshWebPreview:(id)aSender {
     if (!I_webPreviewWindowController) {
@@ -2537,29 +2547,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         } else {
             return data;
         }
-    } else if ([aType isEqualToString:@"SEETextType"]) {
-        NSLog(@"%s saving SEEText",__FUNCTION__);
-        NSMutableData *data=[NSMutableData dataWithData:[@"SEEText" dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:NO]];
-        NSMutableArray *dataArray = [NSMutableArray arrayWithObject:[NSNumber numberWithInt:1]]; 
-        // so this is version 1 of the file format...
-        // combine data
-        NSMutableDictionary *compressedDict = [NSMutableDictionary dictionary];
-        NSMutableDictionary *directDict = [NSMutableDictionary dictionary];
-        // collect users - uncompressed because compressing pngs again doesn't help...
-        [directDict setObject:[[self session] contributersAsDictionaryRepresentation] forKey:@"Contributors"];
-        // get text storage and document settings
-        [compressedDict setObject:[self textStorageDictionaryRepresentation] forKey:@"TextStorage"];
-        [compressedDict setObject:[[[self session] loggingState] dictionaryRepresentation] forKey:@"LoggingState"];
-        [compressedDict setObject:[self documentState] forKey:@"DocumentState"];
-
-        // add direct and compressed data to the top level array
-        [dataArray addObject:[NSArray arrayWithObject:directDict]];
-        [dataArray addObject:[TCM_BencodedObject(compressedDict) arrayOfCompressedDataWithLevel:Z_DEFAULT_COMPRESSION]];
-        if ([self preservedDataFromSEETextFile]) {
-            [dataArray addObjectsFromArray:[self preservedDataFromSEETextFile]];
-        }
-        [data appendData:TCM_BencodedObject(dataArray)];
-        return data;
     }
 
     if (outError) *outError = [NSError errorWithDomain:@"SEEDomain" code:42 userInfo:
@@ -2740,7 +2727,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     BOOL isReverting = ([textStorage length] != 0);
 
     if ([docType isEqualToString:@"SEETextType"]) {
-        NSData *fileData = [NSData dataWithContentsOfURL:[NSURL fileURLWithPath:[[anURL path] stringByAppendingPathComponent:@"data.bencoded"]] options:0 error:outError];
+        NSData *fileData = [NSData dataWithContentsOfURL:[NSURL fileURLWithPath:[[anURL path] stringByAppendingPathComponent:@"collaborationdata.bencoded"]] options:0 error:outError];
         if (!fileData) {
             I_flags.isReadingFile = NO;
             return NO;
@@ -2776,6 +2763,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         }
         [self setPreservedDataFromSEETextFile:preservedData];
         I_flags.isSEEText = YES;
+        // load text into dictionary
+        NSMutableDictionary *storageRep = [dictRep objectForKey:@"TextStorage"];
+        NSString *string = [NSString stringWithContentsOfURL:[NSURL fileURLWithPath:[[anURL path] stringByAppendingPathComponent:@"plain.txt"]]  encoding:(NSStringEncoding)[[storageRep objectForKey:@"Encoding"] unsignedIntValue] error:outError];
+        if (!string) return NO;
+        [storageRep setObject:string forKey:@"String"];
         [self setContentByDictionaryRepresentation:dictRep];
         [self takeSettingsFromDocumentState:[dictRep objectForKey:@"DocumentState"]];
         if ([dictRep objectForKey:@"LoggingState"]) {
@@ -3039,6 +3031,60 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     return [self TCM_readFromURL:anURL ofType:docType properties:properties error:outError];
 }
 
+- (BOOL)writeMetaDataToURL:(NSURL *)absoluteURL error:(NSError **)outError {
+    NSXMLElement *rootElement = [NSXMLNode elementWithName:@"seemetadata"];
+    [rootElement addChild:[NSXMLNode elementWithName:@"charset" stringValue:[self encoding]]];
+    
+    
+    TCMMMUserManager *um = [TCMMMUserManager sharedInstance];
+    TCMMMLoggingState *ls = [[self session] loggingState];
+    TCMMMLoggedOperation *lop = [[ls loggedOperations] objectAtIndex:0];
+    NSXMLElement *element = [NSXMLNode elementWithName:@"firstoperation" stringValue:[[lop date] rfc1123Representation]];
+    TCMMMUser *user = [um userForUserID:[[lop operation] userID]];
+    if (user) [element addAttribute:[NSXMLNode attributeWithName:@"name" stringValue:[user name]]];
+    [rootElement addChild:element];
+    
+    lop = [[ls loggedOperations] lastObject];
+    element = [NSXMLNode elementWithName:@"lastoperation" stringValue:[[lop date] rfc1123Representation]];
+    user = [um userForUserID:[[lop operation] userID]];
+    if (user) [element addAttribute:[NSXMLNode attributeWithName:@"name" stringValue:[user name]]];
+    [rootElement addChild:element];
+    
+    NSMutableArray *contributorArray = [NSMutableArray array];
+    NSEnumerator *userIDs = [[self allUserIDs] objectEnumerator];
+    NSString *userID = nil;
+    while ((userID = [userIDs nextObject])) {
+        TCMMMUser *user = [um userForUserID:userID];
+        if (user) {
+            [contributorArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:user,@"user",[ls statisicsEntryForUserID:userID],@"stat",nil]];
+        }
+    }
+    [contributorArray sortUsingDescriptors:[NSArray arrayWithObjects:[[[NSSortDescriptor alloc] initWithKey:@"stat.dateOfLastActivity" ascending:NO] autorelease],[[[NSSortDescriptor alloc] initWithKey:@"user.name" ascending:YES] autorelease],nil]];
+    
+    NSXMLElement *contributorsElement = [NSXMLNode elementWithName:@"contributors"];
+    [rootElement addChild:contributorsElement];
+    NSEnumerator *contributors = [contributorArray objectEnumerator];
+    NSDictionary *contributorEntry = nil;
+    while ((contributorEntry = [contributors nextObject])) {
+        NSXMLElement *element = [NSXMLNode elementWithName:@"contributor"];
+        TCMMMUser *contributor = [contributorEntry objectForKey:@"user"];
+        [element addAttribute:[NSXMLNode attributeWithName:@"name" stringValue:[contributor name]]];
+        if ([contributor email]) [element addAttribute:[NSXMLNode attributeWithName:@"email" stringValue:[contributor email]]];
+        if ([contributor aim])   [element addAttribute:[NSXMLNode attributeWithName:@"aim"   stringValue:[contributor aim]]];
+        TCMMMLogStatisticsEntry *stat = [contributorEntry objectForKey:@"stat"];
+        if (stat) {
+            [element addAttribute:[NSXMLNode attributeWithName:@"lastactivity" stringValue:[[stat dateOfLastActivity] rfc1123Representation]]];
+            [element addAttribute:[NSXMLNode attributeWithName:@"deletions"  stringValue:[NSString stringWithFormat:@"%u",[stat deletedCharacters]]]];
+            [element addAttribute:[NSXMLNode attributeWithName:@"insertions" stringValue:[NSString stringWithFormat:@"%u",[stat insertedCharacters]]]];
+            [element addAttribute:[NSXMLNode attributeWithName:@"selections" stringValue:[NSString stringWithFormat:@"%u",[stat selectedCharacters]]]];
+        }
+        [contributorsElement addChild:element];
+    }
+    NSXMLDocument *document = [NSXMLDocument documentWithRootElement:rootElement];
+    [document setCharacterEncoding:(NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(NSUTF8StringEncoding))];
+    return [[document XMLDataWithOptions:NSXMLNodePrettyPrint|NSXMLNodePreserveEmptyElements] writeToURL:absoluteURL options:0 error:outError];
+}
+
 - (BOOL)writeToURL:(NSURL *)absoluteURL ofType:(NSString *)inTypeName forSaveOperation:(NSSaveOperationType)saveOperation originalContentsURL:(NSURL *)originalContentsURL error:(NSError **)outError {
     DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"write to:%@ type:%@ originalURL:%@", absoluteURL, inTypeName, originalContentsURL);
     if ([inTypeName isEqualToString:@"PlainTextType"]) {
@@ -3057,7 +3103,33 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             NSString *quicklookPath = [packagePath stringByAppendingPathComponent:@"QuickLook"];
             if (success) success = [fm createDirectoryAtPath:quicklookPath attributes:nil];
             if (success) [[[NSBitmapImageRep imageRepWithData:[[self thumbnailImage] TIFFRepresentation]] representationUsingType:NSJPEGFileType properties:[NSDictionary dictionary]] writeToURL:[NSURL fileURLWithPath:[quicklookPath stringByAppendingPathComponent:@"Thumbnail.jpg"]] options:0 error:outError];
-            if (success) success = [[self dataOfType:inTypeName error:outError] writeToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"data.bencoded"]] options:0 error:outError];
+            
+            NSMutableData *data=[NSMutableData dataWithData:[@"SEEText" dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:NO]];
+            NSMutableArray *dataArray = [NSMutableArray arrayWithObject:[NSNumber numberWithInt:1]]; 
+            // so this is version 1 of the file format...
+            // combine data
+            NSMutableDictionary *compressedDict = [NSMutableDictionary dictionary];
+            NSMutableDictionary *directDict = [NSMutableDictionary dictionary];
+            // collect users - uncompressed because compressing pngs again doesn't help...
+            [directDict setObject:[[self session] contributersAsDictionaryRepresentation] forKey:@"Contributors"];
+            // get text storage and document settings
+            NSMutableDictionary *textStorageRep = [[[self textStorageDictionaryRepresentation] mutableCopy] autorelease];
+            [textStorageRep removeObjectForKey:@"String"];
+            [compressedDict setObject:textStorageRep forKey:@"TextStorage"];
+            [compressedDict setObject:[[[self session] loggingState] dictionaryRepresentation] forKey:@"LoggingState"];
+            [compressedDict setObject:[self documentState] forKey:@"DocumentState"];
+    
+            // add direct and compressed data to the top level array
+            [dataArray addObject:[NSArray arrayWithObject:directDict]];
+            [dataArray addObject:[TCM_BencodedObject(compressedDict) arrayOfCompressedDataWithLevel:Z_DEFAULT_COMPRESSION]];
+            if ([self preservedDataFromSEETextFile]) {
+                [dataArray addObjectsFromArray:[self preservedDataFromSEETextFile]];
+            }
+            [data appendData:TCM_BencodedObject(dataArray)];
+            
+            if (success) success = [data writeToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"collaborationdata.bencoded"]] options:0 error:outError];
+            if (success) success = [[[self textStorage] string] writeToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"plain.txt"]] atomically:NO encoding:[self fileEncoding] error:outError];
+            if (success) success = [self writeMetaDataToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"metadata.xml"]] error:outError];
             if (success) {
                 return YES;
             } else {
@@ -4709,6 +4781,11 @@ static NSString *S_measurementUnits;
     return result;
 }
 
+- (NSSet *)allUserIDs {
+    return [[self userIDsOfContributors] setByAddingObjectsFromSet:[[[self session] loggingState] participantIDs]];
+}
+
+
 - (void)sendInitialUserState {
     TCMMMSession *session=[self session];
     NSString *sessionID=[session sessionID];
@@ -5531,7 +5608,7 @@ static NSString *S_measurementUnits;
     NSTextView *myTextView = [[[self topmostWindowController] activePlainTextEditorForDocument:self] textView];
     [myTextView setDrawsBackground:NO];
     NSRect rectToCache = [myTextView frame];
-    int maxHeight = rectToCache.size.width*2.;
+    int maxHeight = rectToCache.size.width*1.414; // A4 verhŠltnis
     if (rectToCache.size.height > maxHeight) {
         rectToCache.size.height = maxHeight;
     }
