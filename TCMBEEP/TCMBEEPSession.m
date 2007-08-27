@@ -74,6 +74,7 @@ static NSString *certKeychainPath = nil;
 static CFArrayRef certArrayRef = NULL;
 static SecKeychainRef kcRef;
 static NSString *pathToTempKeyAndCert = nil;
+static NSDate *launchDate;
 
 + (void)removeTemporaryKeychain {
     [[NSFileManager defaultManager] removeFileAtPath:certKeychainPath handler:nil];
@@ -117,7 +118,11 @@ static NSString *pathToTempKeyAndCert = nil;
         // generate identity
 
         pathToTempKeyAndCert = [[certKeychainPath stringByAppendingPathExtension:@"cert"] retain];
-        NSTask *opensslTask = [NSTask launchedTaskWithLaunchPath:@"/usr/bin/openssl" arguments:[NSArray arrayWithObjects:
+        NSTask *opensslTask = [[[NSTask alloc] init] autorelease];
+        [opensslTask setStandardError:[NSPipe pipe]];
+        [opensslTask setStandardOutput:[NSPipe pipe]];
+        [opensslTask setLaunchPath:@"/usr/bin/openssl"]; 
+        [opensslTask setArguments:[NSArray arrayWithObjects:
             @"req",
             @"-new",
             @"-x509",
@@ -133,7 +138,8 @@ static NSString *pathToTempKeyAndCert = nil;
             @"-nodes",
             @"-batch",
             nil]];
-            
+        [opensslTask launch];
+        launchDate = [NSDate new];    
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openSSLTaskDidTerminate:) name:NSTaskDidTerminateNotification object:opensslTask];
     }
 }
@@ -143,7 +149,10 @@ static NSString *pathToTempKeyAndCert = nil;
 }
 
 + (void)openSSLTaskDidTerminate:(NSNotification *)aNotification {
-//    NSLog(@"%s %@",__FUNCTION__, aNotification);
+    NSTask *task=[aNotification object];
+//    NSLog(@"%s %@ %@",__FUNCTION__, [[[NSString alloc] initWithData:[[[task standardOutput] fileHandleForReading] readDataToEndOfFile] encoding:NSUTF8StringEncoding] autorelease], [[[NSString alloc] initWithData:[[[task standardError] fileHandleForReading] readDataToEndOfFile] encoding:NSUTF8StringEncoding] autorelease]);
+    NSLog(@"%s generation of certificate took: %f seconds",__FUNCTION__,[launchDate timeIntervalSinceNow]*-1.);
+    
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSTaskDidTerminateNotification object:[aNotification object]];
     [[NSNotificationQueue defaultQueue] enqueueNotification:[NSNotification notificationWithName:@"TCMBEEPTempCertificateCreationForSSLDidFinish" object:self] postingStyle:NSPostASAP];
     CFArrayRef array;
