@@ -426,6 +426,7 @@ static AppController *sharedInstance = nil;
                                                                                                                 
     [self setupTextViewContextMenu];
     [NSApp setServicesProvider:[DocumentController sharedDocumentController]];
+    [[DocumentController sharedDocumentController] setAutosavingDelay:60.];
 }
 
 static OSStatus AuthorizationRightSetWithWorkaround(

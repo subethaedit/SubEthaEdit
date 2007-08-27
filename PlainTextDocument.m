@@ -57,6 +57,7 @@
 #import "NSMenuTCMAdditions.h"
 
 #import "TCMMMLoggingState.h"
+#import "BacktracingException.h"
 
 #pragma options align=mac68k
 struct SelectionRange
@@ -2480,10 +2481,22 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     return I_preservedDataFromSEETextFile;
 }
 
+- (void)autosaveDocumentWithDelegate:(id)delegate didAutosaveSelector:(SEL)didAutosaveSelector contextInfo:(void *)aContext {
+    // autosave to @"~/Library/Autosave Information/UUID.seetext"
+    NSLog(@"%s %@ %@ %@",__FUNCTION__,delegate, NSStringFromSelector(didAutosaveSelector), aContext);
+    NSURL *autosaveURL = [self autosavedContentsFileURL];
+    if (!autosaveURL) autosaveURL = [NSURL fileURLWithPath:[[NSString stringWithFormat:@"~/Library/Autosave Information/%@.seetext", [NSString UUIDString]] stringByStandardizingPath]];
+    if (autosaveURL) [self setAutosavedContentsFileURL:autosaveURL];
+    [super autosaveDocumentWithDelegate:delegate didAutosaveSelector:didAutosaveSelector contextInfo:aContext];
+}
+
 - (void)saveToURL:(NSURL *)anAbsoluteURL ofType:(NSString *)aType forSaveOperation:(NSSaveOperationType)saveOperation delegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)aContextInfo {
-    BOOL didShowPanel = (I_savePanel)?YES:NO;
-    [I_savePanel setDelegate:nil];
-    I_savePanel = nil;
+     BOOL didShowPanel=NO;
+     if (saveOperation != NSAutosaveOperation) {
+        didShowPanel = (I_savePanel)?YES:NO;
+        [I_savePanel setDelegate:nil];
+        I_savePanel = nil;
+    }
     
     if (anAbsoluteURL) {
         if (I_flags.shouldSelectModeOnSave) {
@@ -2775,6 +2788,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             if (logState) {
                 [[self session] setLoggingState:logState];
             }
+        }
+        if ([dictRep objectForKey:@"AutosaveInformation"]) {
+            NSLog(@"%s %@",__FUNCTION__,[dictRep objectForKey:@"AutosaveInformation"]);
+            [self setFileType:[[dictRep objectForKey:@"AutosaveInformation"] objectForKey:@"fileType"]];
+            I_flags.isSEEText = [[self fileType] isEqualToString:@"SEETextType"];
+            fileName = [self fileName];
         }
         TCMMMUserManager *um = [TCMMMUserManager sharedInstance];
         NSEnumerator *userdicts = [[dictRep objectForKey:@"Contributors"] objectEnumerator];
@@ -3085,8 +3104,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     return [[document XMLDataWithOptions:NSXMLNodePrettyPrint|NSXMLNodePreserveEmptyElements] writeToURL:absoluteURL options:0 error:outError];
 }
 
+- (NSString *)autosavingFileType {
+    return @"SEETextType";
+}
+
 - (BOOL)writeToURL:(NSURL *)absoluteURL ofType:(NSString *)inTypeName forSaveOperation:(NSSaveOperationType)saveOperation originalContentsURL:(NSURL *)originalContentsURL error:(NSError **)outError {
-    DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"write to:%@ type:%@ originalURL:%@", absoluteURL, inTypeName, originalContentsURL);
+    DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"write to:%@ type:%@ saveOperation:%d originalURL:%@", absoluteURL, inTypeName, saveOperation,originalContentsURL);
     if ([inTypeName isEqualToString:@"PlainTextType"]) {
         // let us write using NSStrings write methods so the encoding is added to the extended attributes
         return [[[self textStorage] string] writeToURL:absoluteURL atomically:NO encoding:[self fileEncoding] error:outError];
@@ -3100,9 +3123,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             NSString *contentsPath = [packagePath stringByAppendingPathComponent:@"Contents"];
             success = [fm createDirectoryAtPath:contentsPath attributes:nil];
             if (success) success = [[@"????????" dataUsingEncoding:NSUTF8StringEncoding] writeToURL:[NSURL fileURLWithPath:[contentsPath stringByAppendingPathComponent:@"PkgInfo"]] options:0 error:outError];
-            NSString *quicklookPath = [packagePath stringByAppendingPathComponent:@"QuickLook"];
-            if (success) success = [fm createDirectoryAtPath:quicklookPath attributes:nil];
-            if (success) [[[NSBitmapImageRep imageRepWithData:[[self thumbnailImage] TIFFRepresentation]] representationUsingType:NSJPEGFileType properties:[NSDictionary dictionary]] writeToURL:[NSURL fileURLWithPath:[quicklookPath stringByAppendingPathComponent:@"Thumbnail.jpg"]] options:0 error:outError];
+            if (saveOperation != NSAutosaveOperation) {
+                NSString *quicklookPath = [packagePath stringByAppendingPathComponent:@"QuickLook"];
+                if (success) success = [fm createDirectoryAtPath:quicklookPath attributes:nil];
+                if (success) [[[NSBitmapImageRep imageRepWithData:[[self thumbnailImage] TIFFRepresentation]] representationUsingType:NSJPEGFileType properties:[NSDictionary dictionary]] writeToURL:[NSURL fileURLWithPath:[quicklookPath stringByAppendingPathComponent:@"Thumbnail.jpg"]] options:0 error:outError];
+            }
             
             NSMutableData *data=[NSMutableData dataWithData:[@"SEEText" dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:NO]];
             NSMutableArray *dataArray = [NSMutableArray arrayWithObject:[NSNumber numberWithInt:1]]; 
@@ -3118,6 +3143,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             [compressedDict setObject:textStorageRep forKey:@"TextStorage"];
             [compressedDict setObject:[[[self session] loggingState] dictionaryRepresentation] forKey:@"LoggingState"];
             [compressedDict setObject:[self documentState] forKey:@"DocumentState"];
+            if (saveOperation == NSAutosaveOperation) {
+                NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:[self fileType],@"fileType",[[self fileURL] absoluteString],@"fileURL",nil];
+                [compressedDict setObject:dictionary forKey:@"AutosaveInformation"];
+            }
     
             // add direct and compressed data to the top level array
             [dataArray addObject:[NSArray arrayWithObject:directDict]];
@@ -3233,7 +3262,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         [newAttributes setObject:[NSNumber numberWithUnsignedLong:pwdInfo->pw_gid]
                           forKey:NSFileGroupOwnerAccountID];
     }
-
     [self setFileAttributes:newAttributes];
     return newAttributes;
 }
@@ -3577,7 +3605,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         [self setTemporaryDisplayName:nil];
     }
     
-    if (saveOperationType != NSSaveToOperation) {
+    if (saveOperationType != NSSaveToOperation && saveOperationType != NSAutosaveOperation) {
         NSDictionary *fattrs = [[NSFileManager defaultManager] fileAttributesAtPath:fullDocumentPath traverseLink:YES];
         [self setFileAttributes:fattrs];
         [self setIsFileWritable:[[NSFileManager defaultManager] isWritableFileAtPath:fullDocumentPath] || hasBeenWritten];
