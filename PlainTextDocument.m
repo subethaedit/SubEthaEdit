@@ -4782,7 +4782,9 @@ static NSString *S_measurementUnits;
 }
 
 - (NSSet *)allUserIDs {
-    return [[self userIDsOfContributors] setByAddingObjectsFromSet:[[[self session] loggingState] participantIDs]];
+    NSMutableSet *result = [[[self userIDsOfContributors] mutableCopy] autorelease];
+    [result unionSet:[[[self session] loggingState] participantIDs]];
+    return result;
 }
 
 
