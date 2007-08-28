@@ -25,6 +25,7 @@
 #import <PSMTabBarControl/PSMTabBarControl.h>
 #import <objc/objc-runtime.h>			// for objc_msgSend
 
+#import "BacktracingException.h"
 
 @interface DocumentController (DocumentControllerPrivateAdditions)
 
@@ -36,6 +37,10 @@
 
 @implementation DocumentController (DocumentControllerPrivateAdditions)
 
+//- (void) _writeAutosaveRecords {
+//    NSLog(@"%s %@",__FUNCTION__,[BacktracingException backtrace]);
+//    [super _writeAutosaveRecords];
+//}
 
 - (void)setEncodingFromLastRunOpenPanel:(NSStringEncoding)stringEncoding {
     I_encodingFromLastRunOpenPanel = stringEncoding;

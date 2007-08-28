@@ -551,7 +551,11 @@
 		   "  fi\n"
 		   "  rm -rf \"${TEMP_FOLDER}\"\n"
 		   "} &>/dev/null &'");
-	[NSApp terminate:self];	
+    if ([NSApp respondsToSelector:@selector(terminateForRestart:)]) {
+        [NSApp performSelector:@selector(terminateForRestart:) withObject:self];
+    } else {
+    	[NSApp terminate:self];
+    }
 }
 
 - (IBAction)cancelDownload:sender
