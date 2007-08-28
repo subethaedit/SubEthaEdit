@@ -214,17 +214,6 @@ remoteDirectory = [SDDirectory new];
 
 - (void)BEEPSessionDidReceiveGreeting:(NSNotification *)aNotification {
 //    NSLog(@"%s %@",__FUNCTION__,[aNotification object]);
-    [[[aNotification object] authenticationServer] setDelegate:self];
 }
-
-- (int)authenticationResultForServer:(TCMBEEPAuthenticationServer *)aServer user:(NSString 
-*)aUser password:(NSString *)aPassword {
-    if ([aPassword isEqualToString:[[[SDDirectory sharedInstance] userForShortName:aUser] password]]) {
-        return SASL_OK;
-    } else {
-        return SASL_BADAUTH;
-    }
-}
-
 
 @end
