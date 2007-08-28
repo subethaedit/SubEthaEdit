@@ -467,7 +467,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
             [profile acceptJoin];
             [profile sendSessionInformation:[self TCM_sessionInformationForUserID:[user userID]]];
             id <SEEDocument> document = [self document];
-            [document sendInitialUserState];
+            [document sendInitialUserStateViaMMState:state];
             [state release];
             [user joinSessionID:[self sessionID]];
             NSMutableDictionary *properties=[user propertiesForSessionID:[self sessionID]];
@@ -1052,7 +1052,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     [I_statesByClientID setObject:state forKey:[user userID]];
     [profile sendSessionInformation:[self TCM_sessionInformationForUserID:[user userID]]];
     id <SEEDocument> document = [self document];
-    [document sendInitialUserState];
+    [document sendInitialUserStateViaMMState:state];
     [state release];
     [user joinSessionID:[self sessionID]];
     NSMutableDictionary *properties=[user propertiesForSessionID:[self sessionID]];

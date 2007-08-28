@@ -337,7 +337,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 
 - (NSSet *)allUserIDs;
 - (NSSet *)userIDsOfContributors;
-- (void)sendInitialUserState;
+- (void)sendInitialUserStateViaMMState:(TCMMMState *)aState;;
 - (NSDictionary *)sessionInformation;
 - (void)sessionDidAcceptJoinRequest:(TCMMMSession *)aSession;
 - (void)session:(TCMMMSession *)aSession didReceiveSessionInformation:(NSDictionary *)aSessionInformation;
