@@ -10,8 +10,6 @@
 #import "TCMBEEPChannel.h"
 #import "TCMBEEPFrame.h"
 #import "TCMBEEPManagementProfile.h"
-#import "TCMBEEPAuthenticationClient.h"
-#import "TCMBEEPAuthenticationServer.h"
 #import <Security/Security.h>
 
 #import <netinet/in.h>
@@ -258,8 +256,6 @@ static NSDate *launchDate;
     I_maximumFrameSize = 946;
     I_timeout = [[NSUserDefaults standardUserDefaults] floatForKey:NetworkTimeoutPreferenceKey];
     
-    _authClient = nil;
-    _authServer = nil;
     I_flags.amReading = NO;
     I_flags.needsToReadAgain = NO;
     
@@ -324,7 +320,6 @@ static NSDate *launchDate;
         
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnableTLS"])
             [self addProfileURIs:[NSArray arrayWithObject:TCMBEEPTLSProfileURI]];
-        _authServer = [[TCMBEEPAuthenticationServer alloc] initWithSession:self addressData:[self addressData] peerAddressData:aData];
     }
     
     return self;
@@ -374,8 +369,6 @@ static NSDate *launchDate;
     [I_terminateTimer invalidate];
     [I_terminateTimer release];
     
-    [_authClient release];
-    [_authServer release];
 #ifndef TCM_NO_DEBUG
 	if (isLogging) {
 		NSString *trailerString = [NSString stringWithFormat:@"\n\n[%@] dealloc\n\n", [[NSCalendarDate calendarDate] description]];
@@ -552,16 +545,6 @@ static NSDate *launchDate;
     return I_flags.isProhibitingInboundInternetSessions;
 }
 
-- (TCMBEEPAuthenticationClient *)authenticationClient
-{
-    return _authClient;
-}
-
-- (TCMBEEPAuthenticationServer *)authenticationServer
-{
-    return _authServer;
-}
-
 - (BOOL)isInitiator
 {
     return I_flags.isInitiator;
@@ -596,36 +579,28 @@ static NSDate *launchDate;
     return addressData;
 }
 
-- (BOOL)isAuthenticated
-{
-    if (_authClient) return [_authClient isAuthenticated];
-    else if (_authServer) return [_authServer isAuthenticated];
-    else return NO;
+- (BOOL)isAuthenticated {
+    return NO;
 }
 
-- (BOOL)isTLSEnabled
-{
+- (BOOL)isTLSEnabled {
     return I_flags.isTLSEnabled;
 }
 
-- (NSArray *)channels
-{
+- (NSArray *)channels {
     return I_channels;
 }
 
-- (int32_t)nextChannelNumber
-{
+- (int32_t)nextChannelNumber {
     I_nextChannelNumber += 2;
     return I_nextChannelNumber;
 }
 
-- (int)maximumFrameSize
-{
+- (int)maximumFrameSize {
     return I_maximumFrameSize;
 }
 
-- (TCMBEEPSessionStatus)sessionStatus
-{
+- (TCMBEEPSessionStatus)sessionStatus {
     return I_sessionStatus;
 }
 
@@ -681,8 +656,6 @@ static NSDate *launchDate;
     if ([self isInitiator]) {
         // SASL setup for client
         CFStringRef remoteHostName = CFReadStreamCopyProperty(I_readStream, kCFStreamPropertySocketRemoteHostName);
-        DEBUGLOG(@"SASLLogDomain", DetailedLogLevel, @"remoteHostName: %@", (NSString *)remoteHostName);
-        _authClient = [[TCMBEEPAuthenticationClient alloc] initWithSession:self addressData:[self addressData] peerAddressData:[self peerAddressData] serverFQDN:(NSString *)remoteHostName];
         if (remoteHostName) CFRelease(remoteHostName);
     }
     
@@ -1251,9 +1224,7 @@ static NSDate *launchDate;
             [requestArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:profileURI, @"ProfileURI", [aDataArray objectAtIndex:i], @"Data", nil]];
             if (!preferedAnswer)  {
                 NSData *answerData = [NSData data];
-                if ([profileURI hasPrefix:TCMBEEPSASLProfileURIPrefix]) {
-                    answerData = [_authServer answerDataForChannelStartProfileURI:profileURI data:[aDataArray objectAtIndex:i]];
-                } else if ([profileURI isEqualToString:TCMBEEPTLSProfileURI]) {
+                if ([profileURI isEqualToString:TCMBEEPTLSProfileURI]) {
                     // parse data for 'ready' element, may have attribute
                     NSString *element, *content;
                     NSDictionary *attributes;
@@ -1344,9 +1315,6 @@ static NSDate *launchDate;
     
     [self activateChannel:channel];
     if (!isInitiator) {
-        if ([aProfileURI hasPrefix:TCMBEEPSASLProfileURIPrefix]) {
-            [_authServer setProfile:[channel profile]];
-        }
         id delegate = [self delegate];
         if ([delegate respondsToSelector:@selector(BEEPSession:didOpenChannelWithProfile:data:)])
             [delegate BEEPSession:self didOpenChannelWithProfile:[channel profile] data:inData];

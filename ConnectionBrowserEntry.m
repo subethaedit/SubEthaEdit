@@ -240,15 +240,7 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
         }
     } else if (aTag == TCMMMBrowserItemImageNextToNameTag) {
         if (showUser) {
-            if ([[[_BEEPSession authenticationClient] availableAuthenticationMechanisms] count] > 0) {
-                if ([_BEEPSession isAuthenticated]) {
-                    return [NSImage imageNamed:@"LoginButtonIn"];
-                } else {
-                    return [NSImage imageNamed:@"LoginButton"];
-                }
-            } else {
-                return [user colorImage];
-            }
+            return [user colorImage];
         } else {
             return nil;
         }

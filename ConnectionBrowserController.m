@@ -398,7 +398,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     [item setEnabled:NO];
 
     item = [menu itemWithTag:BrowserContextMenuTagLogIn];
-    [item setEnabled:([entries count] == 1 && [[[[[entries lastObject] BEEPSession] authenticationClient] availableAuthenticationMechanisms] count] > 0)];
+    [item setEnabled:NO];
     
     if ([entries count] > 0) {
 

@@ -8,4 +8,6 @@
 #import "TCMMMNoOperation.h"
 #import "TCMMMMessage.h"
 #import "TCMMMState.h"
+#import "TCMMMLoggingState.h"
+#import "TCMMMLoggedOperation.h"
 #import "TCMMMTransformator.h"

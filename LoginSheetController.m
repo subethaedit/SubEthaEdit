@@ -58,14 +58,14 @@
 - (void)setBEEPSession:(TCMBEEPSession *)aBEEPSession; {
     if (_BEEPSession) {
         [[NSNotificationCenter defaultCenter] removeObserver:self name:nil object:_BEEPSession];
-        [[NSNotificationCenter defaultCenter] removeObserver:self name:nil object:[_BEEPSession authenticationClient]];
+//        [[NSNotificationCenter defaultCenter] removeObserver:self name:nil object:[_BEEPSession authenticationClient]];
     }
     [_BEEPSession autorelease];
     _BEEPSession = [aBEEPSession retain];
     if (_BEEPSession) {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(BEEPSessionDidEnd:) name:TCMBEEPSessionDidEndNotification object:_BEEPSession];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didAuthenticate:) name:TCMBEEPAuthenticationClientDidAuthenticateNotification object:[_BEEPSession authenticationClient]];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didNotAuthenticate:) name:TCMBEEPAuthenticationClientDidNotAuthenticateNotification object:[_BEEPSession authenticationClient]];
+//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didAuthenticate:) name:TCMBEEPAuthenticationClientDidAuthenticateNotification object:[_BEEPSession authenticationClient]];
+//        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(didNotAuthenticate:) name:TCMBEEPAuthenticationClientDidNotAuthenticateNotification object:[_BEEPSession authenticationClient]];
         [self resetDisplayedData];
     }
 }
@@ -86,7 +86,7 @@
     [O_statusTextField setStringValue:NSLocalizedString(@"Logging in ...",@"LoginSheet text for logging in...")];
     [O_usernameTextField setEnabled:NO];
     [O_passwordTextField setEnabled:NO];
-    [[_BEEPSession authenticationClient] startAuthenticationWithUserName:[O_usernameTextField stringValue] password:[O_passwordTextField stringValue]];
+//    [[_BEEPSession authenticationClient] startAuthenticationWithUserName:[O_usernameTextField stringValue] password:[O_passwordTextField stringValue]];
 }
 - (IBAction)cancel:(id)aSender {
     [self setBEEPSession:nil];

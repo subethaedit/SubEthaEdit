@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "sasl.h"
 #import "TCMHost.h"
 
 extern NSString * const TCMBEEPAuthenticationClientDidAuthenticateNotification;

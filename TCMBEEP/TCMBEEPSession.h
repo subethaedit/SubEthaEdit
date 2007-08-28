@@ -7,10 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "sasl.h"
 #import "TCMBEEPProfile.h"
-#import "TCMBEEPAuthenticationClient.h"
-#import "TCMBEEPAuthenticationServer.h"
 
 extern NSString * const NetworkTimeoutPreferenceKey;
 extern NSString * const kTCMBEEPFrameTrailer;
@@ -41,7 +38,7 @@ enum {
 };
 
 
-@class TCMBEEPChannel, TCMBEEPFrame, TCMBEEPProfile, TCMBEEPAuthenticationClient, TCMBEEPAuthenticationServer;
+@class TCMBEEPChannel, TCMBEEPFrame, TCMBEEPProfile;
 
 
 @interface TCMBEEPSession : NSObject
@@ -92,10 +89,7 @@ enum {
 
     NSTimer *I_terminateTimer;
     NSTimeInterval I_timeout;
-    
-    TCMBEEPAuthenticationClient *_authClient;
-    TCMBEEPAuthenticationServer *_authServer;
-    
+        
 #ifndef TCM_NO_DEBUG
 	BOOL isLogging;
     NSFileHandle *I_frameLogHandle;
@@ -143,8 +137,6 @@ enum {
 - (NSArray *)channels;
 - (void)setIsProhibitingInboundInternetSessions:(BOOL)flag;
 - (BOOL)isProhibitingInboundInternetSessions;
-- (TCMBEEPAuthenticationClient *)authenticationClient;
-- (TCMBEEPAuthenticationServer *)authenticationServer;
 - (NSData *)addressData;
 - (BOOL)isAuthenticated;
 - (BOOL)isTLSEnabled;

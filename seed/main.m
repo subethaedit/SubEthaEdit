@@ -7,7 +7,6 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "sasl.h"
 
 #import "SDAppController.h"
 #import "SDDocumentManager.h"
@@ -16,53 +15,6 @@
 #import "SessionProfile.h"
 #import "FileManagementProfile.h"
 #import "BacktracingException.h"
-
-
-static int sasl_getopt_callback(void *context, const char *plugin_name, const char *option, const char **result, unsigned *len);
-static int sasl_log_callback(void *context, int level, const char *message);
-static int sasl_verifyfile_callback(void *context, const char *file, sasl_verify_type_t type);
-
-static sasl_callback_t callbacks[] = {
-    {SASL_CB_GETOPT, &sasl_getopt_callback, NULL},
-    //{SASL_CB_VERIFYFILE, &sasl_verifyfile_callback, NULL},
-    {SASL_CB_LOG, &sasl_log_callback, NULL},
-    {SASL_CB_LIST_END, NULL, NULL}
-};
-
-#pragma mark -
-
-static int sasl_getopt_callback(void *context, const char *plugin_name, const char *option, const char **result, unsigned *len)
-{
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-  
-    DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"plugin_name: %s, option: %s", plugin_name, option);
-
-    if (!strcmp(option, "reauth_timeout")) {
-        DEBUGLOG(@"SASLLogDomain", AllLogLevel, @"setting reauth_timeout");
-        *result = "0";
-        if (len) *len = 1;
-    }
-
-    [pool release];
-    return SASL_OK;
-}
-
-static int sasl_log_callback(void *context, int level, const char *message)
-{
-    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
-  
-    DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"level: %d, message: %s", level, message);
-
-    [pool release];
-    return SASL_OK;
-}
-
-static int sasl_verifyfile_callback(void *context, const char *file, sasl_verify_type_t type)
-{
-    DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"verifyfile: %s", file);
-
-    return SASL_OK;
-}
 
 #pragma mark -
 
@@ -95,34 +47,7 @@ int main(int argc, const char *argv[])
     NSLog(@"seed %@ (%@)", shortVersion, bundleVersion);
     
     endRunLoop = NO;
-
-
-    const char *implementation;
-    const char *version_string;
-    int version_major;
-    int version_minor;
-    int version_step;
-    int version_patch;
-    sasl_version_info(&implementation, &version_string, &version_major, &version_minor, &version_step, &version_patch);
-    NSLog(@"%s %s (%d.%d.%d.%d)", implementation, version_string, version_major, version_minor, version_step, version_patch);
-
-    int result;
-    result = sasl_server_init(callbacks, "seed");
-    if (result != SASL_OK) {
-        DEBUGLOG(@"SASLLogDomain", SimpleLogLevel, @"sasl_server_init failed");
-    }
-    
-    NSMutableString *mechanisms = [[NSMutableString alloc] init];
-    [mechanisms appendString:@"SASL mechanisms:\n"];
-    const char **mech_list = sasl_global_listmech();
-    const char *mech;
-    int i = 0;
-    while ((mech = mech_list[i++])) {
-        [mechanisms appendFormat:@"\t%s\n", mech];
-    }
-    DEBUGLOG(@"SASLLogDomain", DetailedLogLevel, mechanisms);
-
-    
+        
     [BacktracingException install];
     [[NSRunLoop currentRunLoop] addPort:[NSPort port] forMode:NSDefaultRunLoopMode];
 
@@ -189,8 +114,6 @@ int main(int argc, const char *argv[])
 
 
     [appController release];
-    
-    sasl_done();
     
     NSLog(@"Bye bye!");
 

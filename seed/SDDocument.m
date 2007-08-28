@@ -442,6 +442,12 @@ NSString * const SDDocumentDidChangeChangeCountNotification = @"SDDocumentDidCha
     return result;
 }
 
+- (NSSet *)allUserIDs {
+    NSMutableSet *result = [[[self userIDsOfContributors] mutableCopy] autorelease];
+    [result unionSet:[[[self session] loggingState] participantIDs]];
+    return result;
+}
+
 - (void)sendInitialUserState
 {
 //    NSLog(@"%s", __FUNCTION__);
