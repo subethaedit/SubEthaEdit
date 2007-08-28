@@ -234,6 +234,7 @@ static NSString *tempFileName(NSString *origPath) {
 
 - (void)TCM_initHelper {
     I_printOperationIsRunning=NO;
+    I_flags.isAutosavingForRestart=NO;
     I_flags.isHandlingUndoManually=NO;
     I_flags.shouldSelectModeOnSave=YES;
     [self setUndoManager:nil];
@@ -1181,6 +1182,10 @@ static NSString *tempFileName(NSString *origPath) {
     [self setFileEncoding:anEncoding];
 }
 
+//- (NSURL *)autosavedContentsFileURL {
+//    NSLog(@"%s %@ %@",__FUNCTION__,[super autosavedContentsFileURL],[BacktracingException backtrace]);
+//    return [super autosavedContentsFileURL];
+//}
 
 - (NSDictionary *)fileAttributes {
     return I_fileAttributes;
@@ -2481,13 +2486,54 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     return I_preservedDataFromSEETextFile;
 }
 
+- (BOOL)isDocumentEdited {
+    if (I_flags.isAutosavingForRestart) {
+        return YES;
+    } else {
+        return [super isDocumentEdited];
+    }
+}
+
+- (BOOL)hasUnautosavedChanges {
+    if (I_flags.isAutosavingForRestart) {
+        return YES;
+    } else {
+        return [super hasUnautosavedChanges];
+    }
+}
+
+- (void)autosaveForRestart {
+    I_flags.isAutosavingForRestart = YES;
+    [self autosaveDocumentWithDelegate:nil didAutosaveSelector:NULL contextInfo:NULL];
+    I_flags.isAutosavingForRestart = NO;
+}
+
+- (void)setAutosavedContentsFileURL:(NSURL *)anURL {
+    NSLog(@"%s %@",__FUNCTION__,anURL);
+    NSURL *URLToDelete = nil;
+    if (!anURL) {
+        URLToDelete = [self autosavedContentsFileURL];
+    }
+    [super setAutosavedContentsFileURL:anURL];
+    if (URLToDelete) {
+        NSFileManager *fm = [NSFileManager defaultManager];
+        if ([fm fileExistsAtPath:[URLToDelete path]]) {
+            [fm removeFileAtPath:[URLToDelete path] handler:nil];
+        }
+    }
+}
+
 - (void)autosaveDocumentWithDelegate:(id)delegate didAutosaveSelector:(SEL)didAutosaveSelector contextInfo:(void *)aContext {
     // autosave to @"~/Library/Autosave Information/UUID.seetext"
     NSLog(@"%s %@ %@ %@",__FUNCTION__,delegate, NSStringFromSelector(didAutosaveSelector), aContext);
     NSURL *autosaveURL = [self autosavedContentsFileURL];
-    if (!autosaveURL) autosaveURL = [NSURL fileURLWithPath:[[NSString stringWithFormat:@"~/Library/Autosave Information/%@.seetext", [NSString UUIDString]] stringByStandardizingPath]];
-    if (autosaveURL) [self setAutosavedContentsFileURL:autosaveURL];
-    [super autosaveDocumentWithDelegate:delegate didAutosaveSelector:didAutosaveSelector contextInfo:aContext];
+    if ([self isDocumentEdited]) { 
+        if (!autosaveURL) autosaveURL = [NSURL fileURLWithPath:[[NSString stringWithFormat:@"~/Library/Autosave Information/%@.seetext", [NSString UUIDString]] stringByStandardizingPath]];
+        if (autosaveURL) [self setAutosavedContentsFileURL:autosaveURL];
+        [super autosaveDocumentWithDelegate:delegate didAutosaveSelector:didAutosaveSelector contextInfo:aContext];
+    } else if (autosaveURL) {
+        [self setAutosavedContentsFileURL:nil];
+    }
 }
 
 - (void)saveToURL:(NSURL *)anAbsoluteURL ofType:(NSString *)aType forSaveOperation:(NSSaveOperationType)saveOperation delegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)aContextInfo {
@@ -2792,6 +2838,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         if ([dictRep objectForKey:@"AutosaveInformation"]) {
             NSLog(@"%s %@",__FUNCTION__,[dictRep objectForKey:@"AutosaveInformation"]);
             [self setFileType:[[dictRep objectForKey:@"AutosaveInformation"] objectForKey:@"fileType"]];
+            BOOL hadChanges = [[[dictRep objectForKey:@"AutosaveInformation"] objectForKey:@"hadChanges"] boolValue];
+            if (!hadChanges) {
+                [self performSelector:@selector(clearChangeCount) withObject:nil afterDelay:0.0];
+                [self performSelector:@selector(setAutosavedContentsFileURL:) withObject:nil afterDelay:0.0];
+            }
             I_flags.isSEEText = [[self fileType] isEqualToString:@"SEETextType"];
             fileName = [self fileName];
         }
@@ -3057,17 +3108,22 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     
     TCMMMUserManager *um = [TCMMMUserManager sharedInstance];
     TCMMMLoggingState *ls = [[self session] loggingState];
-    TCMMMLoggedOperation *lop = [[ls loggedOperations] objectAtIndex:0];
-    NSXMLElement *element = [NSXMLNode elementWithName:@"firstoperation" stringValue:[[lop date] rfc1123Representation]];
-    TCMMMUser *user = [um userForUserID:[[lop operation] userID]];
-    if (user) [element addAttribute:[NSXMLNode attributeWithName:@"name" stringValue:[user name]]];
-    [rootElement addChild:element];
+    TCMMMLoggedOperation *lop = NULL;
+    if ([[ls loggedOperations] count]>0) {
+        [[ls loggedOperations] objectAtIndex:0];
+        NSXMLElement *element = [NSXMLNode elementWithName:@"firstoperation" stringValue:[[lop date] rfc1123Representation]];
+        TCMMMUser *user = [um userForUserID:[[lop operation] userID]];
+        if (user) [element addAttribute:[NSXMLNode attributeWithName:@"name" stringValue:[user name]]];
+        [rootElement addChild:element];
+    }
     
     lop = [[ls loggedOperations] lastObject];
-    element = [NSXMLNode elementWithName:@"lastoperation" stringValue:[[lop date] rfc1123Representation]];
-    user = [um userForUserID:[[lop operation] userID]];
-    if (user) [element addAttribute:[NSXMLNode attributeWithName:@"name" stringValue:[user name]]];
-    [rootElement addChild:element];
+    if (ls) {
+        NSXMLElement *element = [NSXMLNode elementWithName:@"lastoperation" stringValue:[[lop date] rfc1123Representation]];
+        TCMMMUser *user = [um userForUserID:[[lop operation] userID]];
+        if (user) [element addAttribute:[NSXMLNode attributeWithName:@"name" stringValue:[user name]]];
+        [rootElement addChild:element];
+    }
     
     NSMutableArray *contributorArray = [NSMutableArray array];
     NSEnumerator *userIDs = [[self allUserIDs] objectEnumerator];
@@ -3144,7 +3200,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             [compressedDict setObject:[[[self session] loggingState] dictionaryRepresentation] forKey:@"LoggingState"];
             [compressedDict setObject:[self documentState] forKey:@"DocumentState"];
             if (saveOperation == NSAutosaveOperation) {
-                NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:[self fileType],@"fileType",[[self fileURL] absoluteString],@"fileURL",nil];
+                NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+                    [self fileType],@"fileType",
+                    [NSNumber numberWithBool:[super isDocumentEdited]],@"hadChanges",
+                    [[self fileURL] absoluteString],@"fileURL",nil];
                 [compressedDict setObject:dictionary forKey:@"AutosaveInformation"];
             }
     
@@ -4673,6 +4732,10 @@ static NSString *S_measurementUnits;
     }
 
     (void)[self TCM_validateDocument];
+}
+
+- (void)clearChangeCount {
+    [self updateChangeCount:NSChangeCleared];
 }
 
 - (void)updateChangeCount:(NSDocumentChangeType)changeType {

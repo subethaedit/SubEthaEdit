@@ -70,4 +70,16 @@
     return [[DocumentModeManager sharedInstance] documentModeForName:name];
 }
 
+- (IBAction)terminateForRestart:(id)aSender {
+    [[NSUserDefaults standardUserDefaults] synchronize];
+    NSEnumerator *documents  =[[[DocumentController sharedInstance] documents] objectEnumerator];
+    NSDocument *document = nil;
+    while ((document=[documents nextObject])) {
+        if ([document respondsToSelector:@selector(autosaveForRestart)]) {
+            [document performSelector:@selector(autosaveForRestart)];
+        }
+    }
+    [NSApp stop:aSender];
+}
+
 @end
