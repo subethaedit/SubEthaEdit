@@ -44,7 +44,7 @@
             }
         }
     }
-    NSLog(@"%s imported %d operations, the last one being:%@ statistics are:%@",__FUNCTION__,[I_loggedOperations count],[I_loggedOperations lastObject],I_statisticsArray);
+    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel,@"imported %d operations, the last one being:%@ statistics are:%@",__FUNCTION__,[I_loggedOperations count],[I_loggedOperations lastObject],I_statisticsArray);
     return self;
 }
 
