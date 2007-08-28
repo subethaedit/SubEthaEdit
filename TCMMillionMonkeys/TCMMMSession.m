@@ -540,7 +540,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         [[I_invitedUsers objectForKey:@"ReadOnly"] removeObject:aUser];
         [[I_invitedUsers objectForKey:aGroup] addObject:aUser];
     //    NSLog(@"BeepSession: %@ forUser:%@",aBEEPSession, aUser);
-        [aBEEPSession startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"] andData:nil sender:self];
+        [aBEEPSession startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"] andData:[NSArray arrayWithObject:[SessionProfile defaultInitializationData]] sender:self];
         [self TCM_sendParticipantsDidChangeNotification];
     } else if ([I_pendingUsers containsObject:aUser]) {
         [self setGroup:aGroup forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndex:[I_pendingUsers indexOfObject:aUser]]];
@@ -567,7 +567,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
                 [document updateProxyWindow];
                 [document showWindows];
             }
-            [session startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"] andData:nil sender:self];
+            [session startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"] andData:[NSArray arrayWithObject:[SessionProfile defaultInitializationData]] sender:self];
         }
     } else {
          [document showWindows];    
@@ -765,7 +765,9 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     id <SEEDocument> document = [self document];
     [sessionInformation setObject:[document sessionInformation] forKey:@"DocumentSessionInformation"];
 
-    NSDictionary *sessionContent=[NSDictionary dictionaryWithObjectsAndKeys:[document textStorageDictionaryRepresentation],@"TextStorage",[I_loggingState dictionaryRepresentation],@"LoggingState",nil];
+    id loggingState = nil;
+    if ([[[[I_profilesByUserID objectForKey:userID] optionDictionary] objectForKey:@"SendHistory"] boolValue]) loggingState = [I_loggingState dictionaryRepresentation];
+    NSDictionary *sessionContent=[NSDictionary dictionaryWithObjectsAndKeys:[document textStorageDictionaryRepresentation],@"TextStorage",loggingState,@"LoggingState",nil];
     [I_sessionContentForUserID setObject:TCM_BencodedObject(sessionContent) forKey:userID];
 
     [sessionInformation setObject:[NSNumber numberWithUnsignedInt:[(NSData *)[I_sessionContentForUserID objectForKey:userID] length]] forKey:@"ContentLength"];
@@ -951,12 +953,15 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         [state release];
     }
     NSDictionary *loggingStateRep = [aContent objectForKey:@"LoggingState"];
+    id loggingState = nil;
     if (loggingStateRep) {
-        id loggingState = [[TCMMMLoggingState alloc] initWithDictionaryRepresentation:loggingStateRep];
-        if (loggingState) {
-            [I_loggingState release];
-             I_loggingState = loggingState;
-        }
+        loggingState = [[TCMMMLoggingState alloc] initWithDictionaryRepresentation:loggingStateRep];
+    } else {
+        loggingState = [[TCMMMLoggingState alloc] init];
+    }
+    
+    if (loggingState) {
+        [self setLoggingState:loggingState];
     }
     [[self document] session:self didReceiveContent:aContent];
 }

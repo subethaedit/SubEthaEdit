@@ -27,6 +27,7 @@
 
 - (id)initWithChannel:(TCMBEEPChannel *)aChannel;
 
+- (void)handleInitializationData:(NSData *)aData;
 - (void)processBEEPMessage:(TCMBEEPMessage *)aMessage;
 
 - (void)setDelegate:(id)aDelegate;
