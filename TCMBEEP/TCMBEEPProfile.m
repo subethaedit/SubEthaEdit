@@ -30,6 +30,10 @@
     [super dealloc];
 }
 
+- (void)handleInitializationData:(NSData *)aData {
+    DEBUGLOG(@"BEEPLogDomain",DetailedLogLevel,@"%s %@ should Handle data:%@",__FUNCTION__,I_profileURI,[[[NSString alloc] initWithData:aData encoding:NSISOLatin1StringEncoding] autorelease]);
+}
+
 - (void)setDelegate:(id)aDelegate
 {
     I_delegate = aDelegate;

@@ -505,7 +505,11 @@ static TCMMMBEEPSessionManager *sharedInstance;
 
 - (NSMutableDictionary *)BEEPSession:(TCMBEEPSession *)aBEEPSession willSendReply:(NSMutableDictionary *)aReply forChannelRequests:(NSArray *)aRequests
 {
-    return aReply;
+    if ([[aReply objectForKey:@"ProfileURI"] isEqualToString:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"]) {
+        return [NSDictionary dictionaryWithObjectsAndKeys:[SessionProfile defaultInitializationData],@"Data",[aReply objectForKey:@"ProfileURI"],@"ProfileURI",nil];
+    } else {
+        return aReply;
+    }
 }
 
 - (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didOpenChannelWithProfile:(TCMBEEPProfile *)aProfile data:(NSData *)inData

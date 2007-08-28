@@ -238,7 +238,10 @@
         TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:payload];
         [[self channel] sendMessage:[message autorelease]];
         DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"juhuhh... sent accept: %@",message);
-        [[self delegate] initiateChannelWithNumber:channelNumber profileURI:[reply objectForKey:@"ProfileURI"] data:[reply objectForKey:@"Data"] asInitiator:NO];
+        // find the correct data
+        unsigned index = [profileURIs indexOfObject:[reply objectForKey:@"ProfileURI"]];
+        NSData *recievedData = index==NSNotFound?[NSData data]:[dataArray objectAtIndex:index];
+        [[self delegate] initiateChannelWithNumber:channelNumber profileURI:[reply objectForKey:@"ProfileURI"] data:recievedData asInitiator:NO];
     } else {
         NSMutableData *payload = [NSMutableData dataWithData:[[NSString stringWithFormat:@"Content-Type: application/beep+xml\r\n\r\n<error code='501'>channel request denied</error>"] dataUsingEncoding:NSUTF8StringEncoding]];
         TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:payload];

@@ -1253,6 +1253,7 @@ static NSDate *launchDate;
                 preferedAnswer = [NSMutableDictionary dictionaryWithObjectsAndKeys:profileURI, @"ProfileURI", 
                                                                                    answerData, @"Data",
                                                                                    nil];
+                break;
             }
         }
     }
@@ -1310,6 +1311,7 @@ static NSDate *launchDate;
 - (void)initiateChannelWithNumber:(int32_t)aChannelNumber profileURI:(NSString *)aProfileURI data:(NSData *)inData asInitiator:(BOOL)isInitiator
 {
     TCMBEEPChannel *channel = [[TCMBEEPChannel alloc] initWithSession:self number:aChannelNumber profileURI:aProfileURI asInitiator:isInitiator];
+    [[channel profile] handleInitializationData:inData];
     [self insertObject:channel inChannelsAtIndex:[self countOfChannels]];
     [channel release];
     

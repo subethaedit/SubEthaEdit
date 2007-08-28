@@ -13,6 +13,19 @@
 
 @implementation SessionProfile
 
++ (NSData *)defaultInitializationData {
+    // optionally send the options here
+    static NSData *data = nil;
+    if (!data) {
+        data = [TCM_BencodedObject([NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES],@"SendHistory",nil]) retain];
+    }
+    return data;
+}
+
+- (NSDictionary *)optionDictionary {
+    return I_options;
+}
+
 - (id)initWithChannel:(TCMBEEPChannel *)aChannel {
     self = [super initWithChannel:aChannel];
     if (self) {
@@ -20,11 +33,20 @@
         I_flags.isClosing=NO;
         I_outgoingMMMessageQueue=[NSMutableArray new];
         I_numberOfUnacknowledgedSessconMSG=-1;
+        I_options = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithBool:NO],@"SendHistory",nil];
     }
     return self;
 }
 
+- (void)handleInitializationData:(NSData *)aData {
+    NSDictionary *options = TCM_BdecodedObjectWithData(aData);
+    if (options) {
+        [I_options addEntriesFromDictionary:options];
+    }
+}
+
 - (void)dealloc {
+    [I_options release];
     [I_outgoingMMMessageQueue release];
     [super dealloc];
 }
