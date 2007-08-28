@@ -32,7 +32,7 @@ typedef enum TCMMMSessionClientState {
 } TCMMMSessionClientState;
 
 
-@class TCMMMSession;
+@class TCMMMSession,TCMMMState;
 
 @protocol SEEDocument
 - (NSDictionary *)sessionInformation;
@@ -53,7 +53,7 @@ typedef enum TCMMMSessionClientState {
 - (void)showWindows;
 - (NSSet *)userIDsOfContributors;
 - (NSSet *)allUserIDs;
-- (void)sendInitialUserState;
+- (void)sendInitialUserStateViaMMState:(TCMMMState *)aState;
 - (BOOL)isReceivingContent;
 - (void)validateEditability;
 - (BOOL)handleOperation:(TCMMMOperation *)aOperation;

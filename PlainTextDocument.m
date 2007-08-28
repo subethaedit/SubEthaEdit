@@ -4879,7 +4879,7 @@ static NSString *S_measurementUnits;
 }
 
 
-- (void)sendInitialUserState {
+- (void)sendInitialUserStateViaMMState:(TCMMMState *)aState {
     TCMMMSession *session=[self session];
     NSString *sessionID=[session sessionID];
     NSEnumerator *writingParticipants=[[[session participants] objectForKey:@"ReadWrite"] objectEnumerator];
@@ -4887,11 +4887,11 @@ static NSString *S_measurementUnits;
     while ((user=[writingParticipants nextObject])) {
         SelectionOperation *selectionOperation=[[user propertiesForSessionID:sessionID] objectForKey:@"SelectionOperation"];
         if (selectionOperation) {
-            [session documentDidApplyOperation:selectionOperation];
+            [aState handleOperation:selectionOperation];
         }
     }
 
-    [session documentDidApplyOperation:[SelectionOperation selectionOperationWithRange:[[[[self topmostWindowController] activePlainTextEditorForDocument:self] textView] selectedRange] userID:[TCMMMUserManager myUserID]]];
+    [aState handleOperation:[SelectionOperation selectionOperationWithRange:[[[[self topmostWindowController] activePlainTextEditorForDocument:self] textView] selectedRange] userID:[TCMMMUserManager myUserID]]];
 }
 
 - (void)sessionDidDenyJoinRequest:(TCMMMSession *)aSession {

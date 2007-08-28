@@ -448,7 +448,7 @@ NSString * const SDDocumentDidChangeChangeCountNotification = @"SDDocumentDidCha
     return result;
 }
 
-- (void)sendInitialUserState
+- (void)sendInitialUserStateViaMMState:(TCMMMState *)aState
 {
 //    NSLog(@"%s", __FUNCTION__);
     
@@ -459,11 +459,11 @@ NSString * const SDDocumentDidChangeChangeCountNotification = @"SDDocumentDidCha
     while ((user = [writingParticipants nextObject])) {
         SelectionOperation *selectionOperation = [[user propertiesForSessionID:sessionID] objectForKey:@"SelectionOperation"];
         if (selectionOperation) {
-            [session documentDidApplyOperation:selectionOperation];
+            [aState handleOperation:selectionOperation];
         }
     }
 
-    [session documentDidApplyOperation:[SelectionOperation selectionOperationWithRange:NSMakeRange(0, 0) userID:[TCMMMUserManager myUserID]]];
+    [aState handleOperation:[SelectionOperation selectionOperationWithRange:NSMakeRange(0, 0) userID:[TCMMMUserManager myUserID]]];
 
 }
 

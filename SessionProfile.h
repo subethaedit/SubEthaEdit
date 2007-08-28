@@ -26,7 +26,7 @@
     } I_flags;
     int32_t I_numberOfTrackedSesConMSG;
     int32_t I_numberOfUnacknowledgedSessconMSG;
-    NSDictionary *I_options;
+    NSMutableDictionary *I_options;
 }
 
 + (NSData *)defaultInitializationData;
