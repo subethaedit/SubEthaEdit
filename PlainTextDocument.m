@@ -2509,7 +2509,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (void)setAutosavedContentsFileURL:(NSURL *)anURL {
-    NSLog(@"%s %@",__FUNCTION__,anURL);
     NSURL *URLToDelete = nil;
     if (!anURL) {
         URLToDelete = [self autosavedContentsFileURL];
@@ -2822,6 +2821,17 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         }
         [self setPreservedDataFromSEETextFile:preservedData];
         I_flags.isSEEText = YES;
+        // load users
+        TCMMMUserManager *um = [TCMMMUserManager sharedInstance];
+        NSEnumerator *userdicts = [[dictRep objectForKey:@"Contributors"] objectEnumerator];
+        NSDictionary *userdict = nil;
+        NSMutableArray *contributors = [NSMutableArray array];
+        while ((userdict = [userdicts nextObject])) {
+            TCMMMUser *user = [TCMMMUser userWithDictionaryRepresentation:userdict];
+            [um addUser:user];
+            [contributors addObject:user];
+        }
+        [[self session] addContributors:contributors];
         // load text into dictionary
         NSMutableDictionary *storageRep = [dictRep objectForKey:@"TextStorage"];
         NSString *string = [NSString stringWithContentsOfURL:[NSURL fileURLWithPath:[[anURL path] stringByAppendingPathComponent:@"plain.txt"]]  encoding:(NSStringEncoding)[[storageRep objectForKey:@"Encoding"] unsignedIntValue] error:outError];
@@ -2846,16 +2856,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             I_flags.isSEEText = [[self fileType] isEqualToString:@"SEETextType"];
             fileName = [self fileName];
         }
-        TCMMMUserManager *um = [TCMMMUserManager sharedInstance];
-        NSEnumerator *userdicts = [[dictRep objectForKey:@"Contributors"] objectEnumerator];
-        NSDictionary *userdict = nil;
-        NSMutableArray *contributors = [NSMutableArray array];
-        while ((userdict = [userdicts nextObject])) {
-            TCMMMUser *user = [TCMMMUser userWithDictionaryRepresentation:userdict];
-            [um addUser:user];
-            [contributors addObject:user];
-        }
-        [[self session] addContributors:contributors];
     } else {
     
         BOOL isDocumentFromOpenPanel = [(DocumentController *)[NSDocumentController sharedDocumentController] isDocumentFromLastRunOpenPanel:self];
