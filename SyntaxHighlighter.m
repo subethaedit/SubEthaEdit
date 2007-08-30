@@ -7,8 +7,6 @@
 //
 //
 
-#warning Investigate if removeAllObjects is faster than creating a new temp dict.
-
 #import "SyntaxHighlighter.h"
 #import "PlainTextDocument.h"
 #import "time.h"
@@ -80,6 +78,7 @@ NSString * const kSyntaxHighlightingTypeAttributeName = @"Type";
     // Clean up state attributes in the string we work on now
     [aString removeAttribute:kSyntaxHighlightingStackName range:aRange];
     [aString removeAttribute:kSyntaxHighlightingStateDelimiterName range:aRange];
+    [aString removeAttribute:kSyntaxHighlightingTypeAttributeName range:aRange];
 
     NSMutableDictionary *scratchAttributes = [NSMutableDictionary dictionary];
     
@@ -240,9 +239,10 @@ NSString * const kSyntaxHighlightingTypeAttributeName = @"Type";
         }
 
         if (!matchesUp) {
-           [aString removeAttribute:kSyntaxHighlightingIsCorrectAttributeName range:NSMakeRange(nextIndex,MIN(makeDirty,[theString length]-nextIndex))];
-           [aString removeAttribute:kSyntaxHighlightingStackName range:NSMakeRange(nextIndex,MIN(makeDirty,[theString length]-nextIndex))];
-
+			NSRange doesNotMatchRange = NSMakeRange(nextIndex,MIN(makeDirty,[theString length]-nextIndex));
+			[aString removeAttribute:kSyntaxHighlightingIsCorrectAttributeName range:doesNotMatchRange];
+			[aString removeAttribute:kSyntaxHighlightingStackName range:doesNotMatchRange];
+			[aString removeAttribute:kSyntaxHighlightingTypeAttributeName range:doesNotMatchRange];
         }
     }
 }
@@ -440,6 +440,7 @@ NSString * const kSyntaxHighlightingTypeAttributeName = @"Type";
     [aTextStorage removeAttribute:kSyntaxHighlightingIsCorrectAttributeName range:aRange];
     [aTextStorage removeAttribute:kSyntaxHighlightingStackName range:aRange];
     [aTextStorage removeAttribute:kSyntaxHighlightingStateDelimiterName range:aRange];
+    [aTextStorage removeAttribute:kSyntaxHighlightingTypeAttributeName range:aRange];
     [aTextStorage endEditing];
 }
 

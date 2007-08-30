@@ -12,6 +12,10 @@
 extern NSString * const kSyntaxHighlightingIsCorrectAttributeName;
 extern NSString * const kSyntaxHighlightingIsCorrectAttributeValue;
 extern NSString * const kSyntaxHighlightingStyleIDAttributeName;
+extern NSString * const kSyntaxHighlightingStackName;
+extern NSString * const kSyntaxHighlightingStateDelimiterName;
+extern NSString * const kSyntaxHighlightingTypeAttributeName;
+
 
 @interface SyntaxHighlighter : NSObject {
     SyntaxDefinition *I_syntaxDefinition;
