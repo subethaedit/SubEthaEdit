@@ -33,6 +33,8 @@
 #import "SymbolTableEntry.h"
 
 #import "TextStorage.h"
+#import "LayoutManager.h"
+#import "TextView.h"
 #import "EncodingManager.h"
 #import "TextOperation.h"
 #import "SelectionOperation.h"
@@ -3188,13 +3190,16 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                     [printInfo setJobDisposition:NSPrintSaveJob];
                     NSMutableDictionary *printDict = [printInfo dictionary];
                     NSString *pdfPath = [quicklookPath stringByAppendingPathComponent:@"Preview.pdf"];
-                    [printDict setObject:[quicklookPath stringByAppendingPathComponent:@"Preview.pdf"] forKey:NSPrintSavePath];
+                    [printDict setObject:pdfPath forKey:NSPrintSavePath];
                     NSPrintOperation *op = [NSPrintOperation printOperationWithView:printView printInfo:printInfo];
                     [op setShowPanels:NO];
                     [self runModalPrintOperation:op
                                         delegate:nil
                                   didRunSelector:NULL
                                      contextInfo:nil];
+                    NSURL *thumbnailURL = [NSURL fileURLWithPath:[quicklookPath stringByAppendingPathComponent:@"Thumbnail.jpg"]];
+                    NSData *jpegData = [[self thumbnailBitmapRepresentation] representationUsingType:NSJPEGFileType properties:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:0.90],NSImageCompressionFactor,nil]];
+                    success = [jpegData writeToURL:thumbnailURL options:0 error:outError];
                 }
             }
             
@@ -5710,20 +5715,31 @@ static NSString *S_measurementUnits;
     }
 }
 
-- (NSImage *)thumbnailImage {
-    NSTextView *myTextView = [[[self topmostWindowController] activePlainTextEditorForDocument:self] textView];
-    [myTextView setDrawsBackground:NO];
-    NSRect rectToCache = [myTextView frame];
-    int maxHeight = rectToCache.size.width*1.414; // A4 verhŠltnis
-    if (rectToCache.size.height > maxHeight) {
-        rectToCache.size.height = maxHeight;
-    }
-    NSImage *imageContext = [NSImage clearedImageWithSize:rectToCache.size];
-    [imageContext setFlipped:YES];
-    [imageContext lockFocus];
-    [myTextView drawRect:rectToCache];
-    [imageContext unlockFocus];
-    return imageContext;
+- (NSBitmapImageRep *)thumbnailBitmapRepresentation {
+    // generate Texts 
+    LayoutManager *layoutManager = [LayoutManager new];
+    [[self textStorage] addLayoutManager:layoutManager];
+    NSRect frame = NSMakeRect(0.,0.,512.,640.);
+    NSSize textContainerInset = NSMakeSize(10.,5.);
+    NSTextContainer *textContainer = [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(frame.size.width - textContainerInset.width*2,frame.size.height - textContainerInset.height*2)];
+    TextView *textView = [[TextView alloc] initWithFrame:frame textContainer:textContainer];
+    [textView setTextContainerInset:textContainerInset];
+    [textView setMaxSize:[textView frame].size];
+    [textView setBackgroundColor:[self documentBackgroundColor]];
+    [textView setDrawsBackground:YES];
+    [layoutManager setShowsChangeMarks:YES];
+    [layoutManager addTextContainer:textContainer];
+
+    NSRect rectToCache = [textView frame];
+    NSBitmapImageRep *rep = [textView bitmapImageRepForCachingDisplayInRect:rectToCache];
+    [textView cacheDisplayInRect:[textView frame] toBitmapImageRep:rep];
+//    NSPasteboard *pb=[NSPasteboard generalPasteboard];
+//    [pb declareTypes:[NSArray arrayWithObject:NSTIFFPboardType] owner:self];
+//    [pb setData:[rep TIFFRepresentation] forType:NSTIFFPboardType];
+    [textContainer release];
+    [layoutManager release];
+    [textView release];
+    return rep;
 }
 
 
