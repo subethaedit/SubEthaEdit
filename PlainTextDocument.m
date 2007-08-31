@@ -3182,7 +3182,20 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             if (saveOperation != NSAutosaveOperation) {
                 NSString *quicklookPath = [packagePath stringByAppendingPathComponent:@"QuickLook"];
                 if (success) success = [fm createDirectoryAtPath:quicklookPath attributes:nil];
-                if (success) [[[NSBitmapImageRep imageRepWithData:[[self thumbnailImage] TIFFRepresentation]] representationUsingType:NSJPEGFileType properties:[NSDictionary dictionary]] writeToURL:[NSURL fileURLWithPath:[quicklookPath stringByAppendingPathComponent:@"Thumbnail.jpg"]] options:0 error:outError];
+                if (success) {
+                    NSView *printView = [self printableView];
+                    NSPrintInfo *printInfo = [[[self printInfo] copy] autorelease];
+                    [printInfo setJobDisposition:NSPrintSaveJob];
+                    NSMutableDictionary *printDict = [printInfo dictionary];
+                    NSString *pdfPath = [quicklookPath stringByAppendingPathComponent:@"Preview.pdf"];
+                    [printDict setObject:[quicklookPath stringByAppendingPathComponent:@"Preview.pdf"] forKey:NSPrintSavePath];
+                    NSPrintOperation *op = [NSPrintOperation printOperationWithView:printView printInfo:printInfo];
+                    [op setShowPanels:NO];
+                    [self runModalPrintOperation:op
+                                        delegate:nil
+                                  didRunSelector:NULL
+                                     contextInfo:nil];
+                }
             }
             
             NSMutableData *data=[NSMutableData dataWithData:[@"SEEText" dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:NO]];
