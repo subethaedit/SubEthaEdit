@@ -64,7 +64,7 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
         }
         I_measures.emailAIMLabelWidth   = MAX([NSLocalizedString(@"PrintExportLegendEmailLabel",@"Label for Email in legend in Print and Export") sizeWithAttributes:S_contactLabelAttributes].width,
                                               [NSLocalizedString(@"PrintExportLegendAIMLabel",@"Label for AIM in legend in Print and Export") sizeWithAttributes:S_contactLabelAttributes].width);
-        
+        [self setHeaderFormatString:@"\t%1$@"];
     }
     return self;
 }
@@ -178,6 +178,7 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
         }
         copyFirst=!copyFirst;
     }
+    [I_textStorage beginEditing];
 
     BOOL needToEnforceWhiteBackground=
         ([[printDictionary objectForKey:@"SEEWhiteBackground"] boolValue] && 
@@ -466,15 +467,16 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
         
         
         // Create correct tabstops for tab users
+        float tabstopPosition = tabStart;
         NSFont *font=[I_textStorage attribute:NSFontAttributeName atIndex:0 effectiveRange:nil];
         float charWidth = [font widthOfString:@" "];
         if (charWidth<=0) {
             charWidth=[font maximumAdvancement].width;
         }
         float tabWidth=charWidth*[I_document tabWidth];
-        while (tabStart+tabWidth < I_textContainerSize.width) {
-            tabStart+=tabWidth;
-            NSTextTab *tab=[[NSTextTab alloc] initWithType:NSLeftTabStopType location:tabStart];
+        while (tabstopPosition+tabWidth < I_textContainerSize.width) {
+            tabstopPosition+=tabWidth;
+            NSTextTab *tab=[[NSTextTab alloc] initWithType:NSLeftTabStopType location:tabstopPosition];
             [paragraphStyle addTabStop:tab];
             [tab release];
         }
@@ -485,10 +487,11 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
 
         // NSLog(@"TabStops: %@",[[paragraphStyle tabStops] description]);
 
+        NSFont *usedFont = [I_textStorage attribute:NSFontAttributeName atIndex:0 effectiveRange:NULL];
+
         if (lineNumbers) {
             NSMutableDictionary *attributes=[NSMutableDictionary dictionaryWithObjectsAndKeys:[NSColor grayColor],NSForegroundColorAttributeName,[NSFont userFixedPitchFontOfSize:lineNumberSize],NSFontAttributeName,nil];
             
-            [I_textStorage beginEditing];
             int lineNumber=1;
             NSString *lineNumberString=nil;
             NSRange lineRange=NSMakeRange(0,0);
@@ -498,14 +501,45 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
                 lineNumberString=[[NSString alloc] initWithFormat:@"\t%d:\t",lineNumber];
                 [I_textStorage replaceCharactersInRange:lineRange withString:lineNumberString];
                 lineRange.length=[lineNumberString length];
-                [I_textStorage setAttributes:attributes range:lineRange];
+                [I_textStorage addAttributes:attributes range:lineRange];
+                [I_textStorage removeAttribute:WrittenByUserIDAttributeName range:lineRange];
+                [I_textStorage removeAttribute:ChangedByUserIDAttributeName range:lineRange];
                 lineRange=[[I_textStorage string] lineRangeForRange:lineRange];
                 [lineNumberString release];
                 lineNumber++;
             } while (NSMaxRange(lineRange)<[I_textStorage length]);
         }
         
-        [I_textStorage addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0,[I_textStorage length])];
+        if ([[[I_document documentMode] defaultForKey:DocumentModeIndentWrappedLinesPreferenceKey] boolValue] && [I_textStorage length]) {
+            unsigned length = [I_textStorage length];
+            NSString *string = [I_textStorage string];
+            NSFont *font=usedFont;
+            int tabWidth=[I_document tabWidth];
+            float characterWidth=[font widthOfString:@" "];
+            int indentWrappedCharacterAmount = [[[I_document documentMode] defaultForKey:DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey] intValue];
+            NSLog(@"%s indenting with %d characters",__FUNCTION__,indentWrappedCharacterAmount);
+            // look at all the lines and fix the indention
+            NSRange myRange = NSMakeRange(0,0);
+            do {
+                myRange = [string lineRangeForRange:NSMakeRange(NSMaxRange(myRange),0)];
+                if (myRange.length>0) {
+                    NSParagraphStyle *style=[I_textStorage attribute:NSParagraphStyleAttributeName atIndex:myRange.location effectiveRange:NULL];
+                    if (style) {
+                        unsigned whitespaceStartLocation = lineNumbers ? [string rangeOfString:@"\t" options:0 range:NSMakeRange(myRange.location+1,myRange.length-1)].location + 1 : myRange.location;
+                        float desiredHeadIndent = characterWidth*[string detabbedLengthForRange:[string rangeOfLeadingWhitespaceStartingAt:whitespaceStartLocation] tabWidth:tabWidth] + [style firstLineHeadIndent] + indentWrappedCharacterAmount * characterWidth;
+                        
+                        if (ABS([style headIndent]-desiredHeadIndent)>0.01) {
+                            NSMutableParagraphStyle *newStyle=[paragraphStyle mutableCopy];
+                            [newStyle setHeadIndent:desiredHeadIndent + tabStart];
+                            [I_textStorage addAttribute:NSParagraphStyleAttributeName value:newStyle range:myRange];
+                            [newStyle release];
+                        }
+                    }
+                }
+            } while (NSMaxRange(myRange)<length); 
+        } else {
+            [I_textStorage addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0,[I_textStorage length])];
+        }
         [paragraphStyle release];
         [I_textStorage endEditing];
 
