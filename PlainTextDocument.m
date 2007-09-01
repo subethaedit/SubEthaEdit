@@ -2435,7 +2435,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         }
         [O_savePanelAccessoryFileFormatMatrix2 selectCellWithTag:I_flags.isSEEText?1:0];
     }
-    NSLog(@"%s isSeeText %d",__FUNCTION__,I_flags.isSEEText);
 	
     [O_savePanelAccessoryView release];
     O_savePanelAccessoryView = nil;
@@ -2526,7 +2525,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 - (void)autosaveDocumentWithDelegate:(id)delegate didAutosaveSelector:(SEL)didAutosaveSelector contextInfo:(void *)aContext {
     // autosave to @"~/Library/Autosave Information/UUID.seetext"
-    NSLog(@"%s %@ %@ %@",__FUNCTION__,delegate, NSStringFromSelector(didAutosaveSelector), aContext);
     NSURL *autosaveURL = [self autosavedContentsFileURL];
     if ([self isDocumentEdited]) { 
         if (!autosaveURL) autosaveURL = [NSURL fileURLWithPath:[[NSString stringWithFormat:@"~/Library/Autosave Information/%@.seetext", [NSString UUIDString]] stringByStandardizingPath]];
@@ -2848,7 +2846,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             }
         }
         if ([dictRep objectForKey:@"AutosaveInformation"]) {
-            NSLog(@"%s %@",__FUNCTION__,[dictRep objectForKey:@"AutosaveInformation"]);
             [self setFileType:[[dictRep objectForKey:@"AutosaveInformation"] objectForKey:@"fileType"]];
             BOOL hadChanges = [[[dictRep objectForKey:@"AutosaveInformation"] objectForKey:@"hadChanges"] boolValue];
             if (!hadChanges) {
@@ -3251,6 +3248,37 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             if (success) success = [data writeToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"collaborationdata.bencoded"]] options:0 error:outError];
             if (success) success = [[[self textStorage] string] writeToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"plain.txt"]] atomically:NO encoding:[self fileEncoding] error:outError];
             if (success) success = [self writeMetaDataToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"metadata.xml"]] error:outError];
+            
+            if (success) {
+                // save .svn and .cvs directories for versioning
+                NSString *originalPath = [originalContentsURL path];
+                if (originalPath) {
+                    BOOL isDirectory = NO;
+                    if ([fm fileExistsAtPath:originalPath isDirectory:&isDirectory] && isDirectory) {
+                        NSString *scms[] = {@".svn",@".cvs"};
+                        NSString *subpaths[] = {@"",@"Contents",@"QuickLook"};
+                        int spIndex = 0;
+                        for (spIndex = 0;spIndex<3;spIndex++) {
+                            NSString *subPath = subpaths[spIndex];
+                            int scmIndex = 0;
+                            for (scmIndex=0;scmIndex<2;scmIndex++) {
+                                subPath = [subPath stringByAppendingPathComponent:scms[scmIndex]];
+                                NSString *sourcePath = [originalPath stringByAppendingPathComponent:subPath];
+                                NSString *targetPath = [packagePath stringByAppendingPathComponent:subPath];
+                                if ([fm fileExistsAtPath:sourcePath]) {
+                                    // make sure target directory exists (important for autosave)
+                                    if (![fm fileExistsAtPath:[targetPath stringByDeletingLastPathComponent]]) {
+                                        [fm createDirectoryAtPath:[targetPath stringByDeletingLastPathComponent] attributes:nil];
+                                    }
+                                    // copy the file afterwards
+                                    [fm copyPath:sourcePath toPath:targetPath handler:nil];
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            
             if (success) {
                 return YES;
             } else {
@@ -4238,13 +4266,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 {
     [aController setDocument:self];
     if (I_findAllControllers) [I_findAllControllers addObject:aController];
-    //else NSLog(@"Something has gone terribly wrong: No FindAllController array");
 }
 
 - (void)removeFindAllController:(FindAllController *)aController
 {
     if (I_findAllControllers) [I_findAllControllers removeObject:aController];
-    //else NSLog(@"Something has gone terribly wrong: No FindAllController array");
 }
 
 - (NSURL *)documentURL {
@@ -4874,7 +4900,6 @@ static NSString *S_measurementUnits;
 }
 
 - (void)highlightSyntaxLoop {
-//    NSLog(@"%s",__FUNCTION__);
     I_flags.isPerformingSyntaxHighlighting=NO;
     if (I_flags.highlightSyntax) {
         SyntaxHighlighter *highlighter=[I_documentMode syntaxHighlighter];
