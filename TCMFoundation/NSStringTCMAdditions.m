@@ -17,11 +17,23 @@
 @implementation NSString (NSStringTCMAdditions) 
 
 + (NSString *)stringWithUUIDData:(NSData *)aData {
+    static NSMutableDictionary *dictionary = nil;
+    if (!dictionary) dictionary = [NSMutableDictionary new];
     if (aData!=nil && [aData length]>= sizeof(CFUUIDBytes)) {
         CFUUIDRef uuid=CFUUIDCreateFromUUIDBytes(NULL,*(CFUUIDBytes *)[aData bytes]);
         NSString *uuidString=(NSString *)CFUUIDCreateString(NULL,uuid);
         CFRelease(uuid);
-        return [uuidString autorelease];
+        NSString *result = [dictionary objectForKey:uuidString];
+        if (uuidString) {
+            if (!result) {
+                [dictionary setObject:uuidString forKey:uuidString];
+                result = uuidString;
+            }
+        } else {
+            NSLog(@"%s %@ was nil",__FUNCTION__,aData);
+        }
+        [uuidString release];
+        return result;
     } else {
         return nil;
     }

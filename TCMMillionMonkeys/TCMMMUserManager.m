@@ -82,6 +82,11 @@ static TCMMMUserManager *sharedInstance=nil;
 
 - (void)addUser:(TCMMMUser *)aUser {
     DEBUGLOG(@"MillionMonkeysLogDomain",AllLogLevel,@"AddUser: %@",aUser);
+    NSAssert(aUser,@"TCMMMUserManager add: User added must not be nil!");
+    if (!aUser) {
+        NSLog(@"Adding a nil user");
+        return;
+    }
     NSString *userID=[aUser userID];
     TCMMMUser *user=[self userForUserID:userID];
     BOOL userDidChange=NO;
