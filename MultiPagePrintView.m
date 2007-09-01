@@ -691,7 +691,10 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
                                         LEGENDTABLEENTRYHEIGHT-2*LEGENDIMAGEPADDING,
                                         LEGENDTABLEENTRYHEIGHT-2*LEGENDIMAGEPADDING);
         NSImage *userImage=[aUser image];
-        if (![userImage isFlipped]) [userImage setFlipped:YES];
+        if (![userImage isFlipped]) {
+            userImage = [[[NSImage alloc] initWithData:[userImage TIFFRepresentation]] autorelease];
+            [userImage setFlipped:YES];
+        }
 //        [userImage setScalesWhenResized:YES];
 //        [userImage setSize:myPictureRect.size];
 //        [userImage compositeToPoint:myPictureRect.origin fromRect:NSMakeRect(0.,0.,[userImage size].width,[userImage size].height) 
