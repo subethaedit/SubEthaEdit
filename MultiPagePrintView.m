@@ -690,7 +690,7 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
         NSRect myPictureRect=NSMakeRect(point.x+LEGENDIMAGEPADDING,point.y+LEGENDIMAGEPADDING,
                                         LEGENDTABLEENTRYHEIGHT-2*LEGENDIMAGEPADDING,
                                         LEGENDTABLEENTRYHEIGHT-2*LEGENDIMAGEPADDING);
-        NSImage *userImage=[[[aUser image] copy] autorelease];
+        NSImage *userImage=[aUser image];
         if (![userImage isFlipped]) [userImage setFlipped:YES];
 //        [userImage setScalesWhenResized:YES];
 //        [userImage setSize:myPictureRect.size];
@@ -715,7 +715,7 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
         
         NSString *aim=[[aUser properties] objectForKey:@"AIM"];
         if ([aim length]>0) {
-            [S_contactAttributes setObject:[NSURL URLWithString:@"http://www.dasgenie.com/"] forKey:NSLinkAttributeName];
+//            [S_contactAttributes setObject:[NSURL URLWithString:@"http://www.dasgenie.com/"] forKey:NSLinkAttributeName];
             [mutableAttributedString appendAttributedString:aimLabel];
             [mutableAttributedString appendString:@" "];
             [mutableAttributedString appendAttributedString:[[[NSAttributedString alloc] initWithString:aim attributes:S_contactAttributes] autorelease]];
