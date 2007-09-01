@@ -5720,22 +5720,33 @@ static NSString *S_measurementUnits;
     LayoutManager *layoutManager = [LayoutManager new];
     [[self textStorage] addLayoutManager:layoutManager];
     NSRect frame = NSMakeRect(0.,0.,512.,640.);
-    NSSize textContainerInset = NSMakeSize(10.,5.);
+    NSSize textContainerInset = NSMakeSize(20.,20.);
     NSTextContainer *textContainer = [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(frame.size.width - textContainerInset.width*2,frame.size.height - textContainerInset.height*2)];
+    [textContainer setWidthTracksTextView:YES];
     TextView *textView = [[TextView alloc] initWithFrame:frame textContainer:textContainer];
     [textView setTextContainerInset:textContainerInset];
     [textView setMaxSize:[textView frame].size];
     [textView setBackgroundColor:[self documentBackgroundColor]];
-    [textView setDrawsBackground:YES];
     [layoutManager setShowsChangeMarks:YES];
     [layoutManager addTextContainer:textContainer];
-
+    NSRange wholeRange = NSMakeRange(0,[[self textStorage] length]);
+    [layoutManager invalidateLayoutForCharacterRange:wholeRange isSoft:NO actualCharacterRange:NULL];
+    
+//    NSImage *imageContext = [NSImage clearedImageWithSize:frame.size];
+//    [imageContext setFlipped:YES];
+//    [imageContext lockFocus];
+//    [textView drawRect:frame];
+//    [imageContext unlockFocus];
+    
+    
     NSRect rectToCache = [textView frame];
     NSBitmapImageRep *rep = [textView bitmapImageRepForCachingDisplayInRect:rectToCache];
     [textView cacheDisplayInRect:[textView frame] toBitmapImageRep:rep];
-//    NSPasteboard *pb=[NSPasteboard generalPasteboard];
-//    [pb declareTypes:[NSArray arrayWithObject:NSTIFFPboardType] owner:self];
-//    [pb setData:[rep TIFFRepresentation] forType:NSTIFFPboardType];
+
+//    NSBitmapImageRep *rep = [NSBitmapImageRep imageRepWithData:[imageContext TIFFRepresentation]] ;
+    NSPasteboard *pb=[NSPasteboard generalPasteboard];
+    [pb declareTypes:[NSArray arrayWithObject:NSTIFFPboardType] owner:self];
+    [pb setData:[rep TIFFRepresentation] forType:NSTIFFPboardType];
     [textContainer release];
     [layoutManager release];
     [textView release];

@@ -212,9 +212,9 @@ static NSString *S_specialGlyphs[16];
 - (void)drawBackgroundForGlyphRange:(NSRange)aGlyphRange atPoint:(NSPoint)anOrigin {
     NSTextContainer *container = [self textContainerForGlyphAtIndex:aGlyphRange.location effectiveRange:nil];
     NSRange charRange = [self characterRangeForGlyphRange:aGlyphRange actualGlyphRange:nil];
+    NSColor *backgroundColor = [[container textView] backgroundColor];
+    NSPoint containerOrigin = [[container textView] textContainerOrigin];
     if (I_flags.showsChangeMarks) {
-        PlainTextDocument *document = (PlainTextDocument *)[[[[container textView] window] windowController] document];
-        NSColor *backgroundColor=[document documentBackgroundColor];
         NSTextStorage *textStorage = [self textStorage];
         NSString *textStorageString=[textStorage string];
         unsigned int position = charRange.location;
@@ -237,6 +237,12 @@ static NSString *S_specialGlyphs[16];
                     if (contentsEndIndex>NSMaxRange(attributeRange)) contentsEndIndex=NSMaxRange(attributeRange);
                     unsigned rectCount;
                     NSRectArray rectArray = [self rectArrayForCharacterRange:NSMakeRange(startIndex,contentsEndIndex-startIndex) withinSelectedCharacterRange:NSMakeRange(NSNotFound,0) inTextContainer:container rectCount:&rectCount];
+                    if (!NSEqualPoints(containerOrigin,NSZeroPoint)) {
+                        unsigned rectIndex = rectCount;
+                        while (rectIndex--) {
+                            rectArray[rectIndex]=NSOffsetRect(rectArray[rectIndex],containerOrigin.x,containerOrigin.y);
+                        }
+                    }
                     NSRectFillList(rectArray,rectCount);
                 }
             }
@@ -252,7 +258,6 @@ static NSString *S_specialGlyphs[16];
     NSEnumerator *participants = [[sessionParticipants objectForKey:@"ReadWrite"] objectEnumerator];
     TCMMMUser *user;
 //    float saturation=[[[NSUserDefaults standardUserDefaults] objectForKey:SelectionSaturationPreferenceKey] floatValue];
-    NSColor *backgroundColor=[document documentBackgroundColor];
     while ((user = [participants nextObject])) {
         SelectionOperation *selectionOperation=[[user propertiesForSessionID:sessionID] objectForKey:@"SelectionOperation"];
         if (selectionOperation) {
