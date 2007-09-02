@@ -455,6 +455,25 @@ static NSString *tempFileName(NSString *origPath) {
     return NO;
 }
 
+// When inserting characters that character is unparse, hence untyped. Therefore we need to provide a best effort guestimate.
+// Currently that is if before and after the current character are invalid states we return NO, else YES.
+- (BOOL)TCM_validTypeForBracketBeforeAndAfterIndex:(unsigned)index {
+	if (index==0) return YES;
+	if (index>=[[self textStorage] length]) return YES;
+	
+	BOOL beforeIsInvalid = (([[[self textStorage] attribute:kSyntaxHighlightingTypeAttributeName atIndex:index-1 effectiveRange:nil] isEqualToString:@"comment"])||([[[self textStorage] attribute:kSyntaxHighlightingTypeAttributeName atIndex:index-1 effectiveRange:nil] isEqualToString:@"string"]));
+	BOOL afterIsInvalid = (([[[self textStorage] attribute:kSyntaxHighlightingTypeAttributeName atIndex:index+1 effectiveRange:nil] isEqualToString:@"comment"])||([[[self textStorage] attribute:kSyntaxHighlightingTypeAttributeName atIndex:index+1 effectiveRange:nil] isEqualToString:@"string"]));
+	if (beforeIsInvalid && afterIsInvalid) return NO;
+	
+	return YES;
+
+}
+
+- (BOOL)TCM_validTypeForBracketAtIndex:(unsigned)index {
+//	NSLog(@"Index %d = %@",index, ((![[[self textStorage] attribute:kSyntaxHighlightingTypeAttributeName atIndex:index effectiveRange:nil] isEqualToString:@"comment"])&&(![[[self textStorage] attribute:kSyntaxHighlightingTypeAttributeName atIndex:index effectiveRange:nil] isEqualToString:@"string"]))?@"YES":@"NO");
+	return ((![[[self textStorage] attribute:kSyntaxHighlightingTypeAttributeName atIndex:index effectiveRange:nil] isEqualToString:@"comment"])&&(![[[self textStorage] attribute:kSyntaxHighlightingTypeAttributeName atIndex:index effectiveRange:nil] isEqualToString:@"string"]));
+}
+
 - (BOOL)TCM_charIsBracket:(unichar)aPossibleBracket {
     return ([self TCM_charIsOpeningBracket:aPossibleBracket] ||
             [self TCM_charIsClosingBracket:aPossibleBracket]);
@@ -725,13 +744,13 @@ static NSString *tempFileName(NSString *origPath) {
             // go through the buffer
             if (forward) {
                 for (i=0;i<(int)bufferRange.length && !stop;i++) {
-                    if ([self TCM_charIsOpeningBracket:buffer[i]]) {
+                    if ([self TCM_charIsOpeningBracket:buffer[i]]&&[self TCM_validTypeForBracketAtIndex:bufferRange.location+i]) {
                         if (++stackPosition>=STACKLIMIT) {
                             stop=YES;
                         } else {
                             stack[stackPosition]=[self TCM_matchingBracketForChar:buffer[i]];
                         }
-                    } else if ([self TCM_charIsClosingBracket:buffer[i]]) {
+                    } else if ([self TCM_charIsClosingBracket:buffer[i]]&&[self TCM_validTypeForBracketAtIndex:bufferRange.location+i]) {
                         if (buffer[i]!=stack[stackPosition]) {
                             stop=YES;
                         } else {
@@ -744,13 +763,13 @@ static NSString *tempFileName(NSString *origPath) {
                 }
             } else { // backward
                 for (i=bufferRange.length-1;i>=0 && !stop;i--) {
-                    if ([self TCM_charIsClosingBracket:buffer[i]]) {
-                        if (++stackPosition>=STACKLIMIT) {
+                    if ([self TCM_charIsClosingBracket:buffer[i]]&&[self TCM_validTypeForBracketAtIndex:bufferRange.location+i]) {
+                       if (++stackPosition>=STACKLIMIT) {
                             stop=YES;
                         } else {
                             stack[stackPosition]=[self TCM_matchingBracketForChar:buffer[i]];
                         }
-                    } else if ([self TCM_charIsOpeningBracket:buffer[i]]) {
+                    } else if ([self TCM_charIsOpeningBracket:buffer[i]]&&[self TCM_validTypeForBracketAtIndex:bufferRange.location+i]) {
                         if (buffer[i]!=stack[stackPosition]) {
                             NSBeep(); // do it like project builder :-
                             stop=YES;
@@ -5320,7 +5339,7 @@ static NSString *S_measurementUnits;
             !I_flags.isRemotelyEditingTextStorage &&
     //        !I_blockedit.isBlockediting && !I_blockedit.didBlockedit &&
             [aString length]==1 &&
-            [self TCM_charIsBracket:[aString characterAtIndex:0]]) {
+            [self TCM_charIsBracket:[aString characterAtIndex:0]] && [self TCM_validTypeForBracketBeforeAndAfterIndex:aRange.location]) {
             I_bracketMatching.matchingBracketPosition=aRange.location;
         }
     } else {
@@ -5525,7 +5544,7 @@ static NSString *S_measurementUnits;
             }
             NSString *string=[[self textStorage] string];
             if (position>=0 && position<[string length] &&
-                [self TCM_charIsBracket:[string characterAtIndex:position]]) {
+                [self TCM_charIsBracket:[string characterAtIndex:position]] && [self TCM_validTypeForBracketAtIndex:position]) {
                 [self TCM_highlightBracketAtPosition:position inTextView:aTextView];
             }
         }
@@ -5575,7 +5594,7 @@ static NSString *S_measurementUnits;
             // Convert the glyph index to a character index
             unsigned charIndex=[layoutManager characterIndexForGlyphAtIndex:glyphIndex];
             NSString *string=[[self textStorage] string];
-            if ([self TCM_charIsBracket:[string characterAtIndex:charIndex]]) {
+            if ([self TCM_charIsBracket:[string characterAtIndex:charIndex]] && [self TCM_validTypeForBracketAtIndex:charIndex]) {
                 unsigned matchingPosition=[self TCM_positionOfMatchingBracketToPosition:charIndex];
                 if (matchingPosition!=NSNotFound) {
                    aNewSelectedCharRange = NSUnionRange(NSMakeRange(charIndex,1),
