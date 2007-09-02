@@ -21,6 +21,7 @@
 
 /*"Document Interaction"*/
 - (NSArray *)symbolsForTextStorage:(NSTextStorage *)aTextStorage;
+- (NSArray *)symbolsForTextStorage:(NSTextStorage *)aTextStorage inRange:(NSRange)aRange;
 
 
 @end

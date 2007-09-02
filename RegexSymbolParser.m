@@ -9,6 +9,7 @@
 #import "RegexSymbolParser.h"
 #import "SymbolTableEntry.h"
 #import "SyntaxHighlighter.h"
+#import "DocumentModeManager.h"
 #import <OgreKit/OgreKit.h>
 
 
@@ -39,8 +40,32 @@
      I_symbolDefinition = [aSymbolDefinition retain];
 }
 
+- (NSArray *)symbolsForTextStorage:(NSTextStorage *)aTextStorage {
+    NSMutableArray *returnArray =[NSMutableArray array];
+	NSRange currentRange = NSMakeRange(0,0);
+	NSRange fullRange = NSMakeRange(0, [aTextStorage length]);
+	
+	// Iterate through blocks of stuff, using the different Parsers
+	while (NSMaxRange(currentRange)<NSMaxRange(fullRange)) {
+		NSRange effectiveRange;
+		NSString *modeForSymbols = [aTextStorage attribute:kSyntaxHighlightingParentModeForSymbolsAttributeName atIndex:currentRange.location longestEffectiveRange:&effectiveRange inRange:fullRange];
+		if (!modeForSymbols) {
+			return nil; // Not yet ready.	
+		}	
+		
+		RegexSymbolParser *symbolParser = [[[DocumentModeManager sharedInstance] documentModeForName:modeForSymbols] symbolParser];
+		
+		//NSLog(@"Found %@ within %@. Using parser %@.", modeForSymbols, NSStringFromRange(effectiveRange), symbolParser);
+		
+		[returnArray addObjectsFromArray:[symbolParser symbolsForTextStorage:aTextStorage inRange:effectiveRange]];
+		currentRange = NSMakeRange(NSMaxRange(effectiveRange),0);
+	}
+	
+    return [returnArray sortedArrayUsingSelector:@selector(sortByRange:)];
+}
 
-- (NSArray *)symbolsForTextStorage:(NSTextStorage *)aTextStorage 
+
+- (NSArray *)symbolsForTextStorage:(NSTextStorage *)aTextStorage inRange:(NSRange)aRange
 {
     RegexSymbolDefinition *definition = [self symbolDefinition];
     NSMutableArray *returnArray =[NSMutableArray array];
@@ -52,8 +77,6 @@
     int i,j;
     int count = [symbols count];
     
-    // Aneinander kleben -> Schneller!
-    
     for (i=0;i<count;i++) {
         NSDictionary *symbol = [symbols objectAtIndex:i];
         OGRegularExpression *regex = [symbol objectForKey:@"regex"];
@@ -62,7 +85,7 @@
         int indent = [[symbol objectForKey:@"indentation"] intValue];
         NSImage *image = [symbol objectForKey:@"image"];
 		
-        NSEnumerator *matchEnumerator = [[regex allMatchesInString:[aTextStorage string]] objectEnumerator];
+        NSEnumerator *matchEnumerator = [[regex allMatchesInString:[aTextStorage string] range:aRange] objectEnumerator];
         OGRegularExpressionMatch *aMatch;
         while ((aMatch = [matchEnumerator nextObject])) {
             NSRange jumprange = [aMatch rangeOfSubstringAtIndex:1];
@@ -93,7 +116,8 @@
 		}
     }
     //NSLog(@"time for symbols: %f",(((double)(clock()-start_time))/CLOCKS_PER_SEC));
-    return [returnArray sortedArrayUsingSelector:@selector(sortByRange:)];
+    return returnArray;
+//    return [returnArray sortedArrayUsingSelector:@selector(sortByRange:)];
 }
 
 @end
