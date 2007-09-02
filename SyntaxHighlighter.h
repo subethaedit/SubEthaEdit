@@ -15,7 +15,7 @@ extern NSString * const kSyntaxHighlightingStyleIDAttributeName;
 extern NSString * const kSyntaxHighlightingStackName;
 extern NSString * const kSyntaxHighlightingStateDelimiterName;
 extern NSString * const kSyntaxHighlightingTypeAttributeName;
-
+extern NSString * const kSyntaxHighlightingParentModeForSymbolsAttributeName;
 
 @interface SyntaxHighlighter : NSObject {
     SyntaxDefinition *I_syntaxDefinition;

@@ -49,6 +49,7 @@
 		I_combinedStateRegexCalculating = NO;
         I_cacheStylesReady = NO;
 		I_cacheStylesCalculating = NO;
+		I_symbolAndAutocompleteInheritanceReady=NO;
     }
     
 //    NSLog([self description]);
@@ -282,6 +283,12 @@
         if (![aState objectForKey:@"states"]) [aState setObject:[NSMutableArray array] forKey:@"states"];
         [[aState objectForKey:@"states"] addObject:stateDictionary];
     }
+
+	NSString *symbolsFromMode = [[stateNode attributeForName:@"usesymbolsfrommode"] stringValue];
+	if (symbolsFromMode) [stateDictionary setObject:symbolsFromMode forKey:@"switchtosymbolsfrommode"];
+	
+	NSString *autocompleteFromMode = [[stateNode attributeForName:@"useautocompletefrommode"] stringValue];
+	if (autocompleteFromMode) [stateDictionary setObject:symbolsFromMode forKey:@"switchtoautocompletefrommode"];
 	
 	//Weak-link to imported states, for later copying
     
@@ -289,7 +296,7 @@
     if ([importedStates count]>0) {
         if (![stateDictionary objectForKey:@"states"]) [stateDictionary setObject:[NSMutableArray array] forKey:@"states"];
 
-        NSMutableArray *weaklinks = [NSMutableArray array];
+        NSMutableDictionary *weaklinks = [NSMutableDictionary dictionary];
         [stateDictionary setObject:weaklinks forKey:@"imports"];
         NSEnumerator *importedStateEnumerator = [importedStates objectEnumerator];
         NSXMLElement *import;
@@ -300,17 +307,11 @@
 				
 			importState = [[import attributeForName:@"state"] stringValue];
 			if (!importState) importState = SyntaxStyleBaseIdentifier;
-			
-			BOOL keywordsOnly = NO;
-			NSXMLNode *keywordsOnlyAttribute = [import attributeForName:@"keywords-only"];
-			if ([[keywordsOnlyAttribute stringValue] isEqualToString:@"yes"]) keywordsOnly = YES;
-			
+						
 			NSString *importName = [NSString stringWithFormat:@"/%@/%@", importMode, importState];
-			
-			if (keywordsOnly) importName = [NSString stringWithFormat:@"%@/%@", importName, @"keywords-only"];
-				
+							
 			[I_importedModes setObject:@"import" forKey:importMode];
-			[weaklinks addObject:importName];
+			[weaklinks setObject:import forKey:importName];
         }
     }
 
@@ -467,7 +468,7 @@
      I_name = [aString copy];
 }
 
-- (NSDictionary *)defaultState
+- (NSMutableDictionary *)defaultState
 {
     return I_defaultState;
 }
@@ -503,7 +504,6 @@
 
 - (BOOL)state:(NSString *)aState includesState:(NSString *)anotherState {
 
-    #warning Optimize this via caching/hashing
     NSDictionary *searchState = [self stateForID:aState];
     NSEnumerator *enumerator = [[searchState objectForKey:@"states"] objectEnumerator];
     id object;
@@ -514,12 +514,47 @@
     return NO;
 }
 
+- (NSString *) keyForInheritedSymbols {
+	return [NSString stringWithFormat:@"/%@/useSymbolsFrom", [self name]];
+}
 
-//- (NSArray *)states {
-//    return [I_allStates allValues];
-//}
+- (NSString *) keyForInheritedAutocomplete {
+	return [NSString stringWithFormat:@"/%@/useAutocompleteFrom", [self name]];
+}
+
+// Calculate inheritances recursivly
+- (void) calculateSymbolInheritanceForState:(NSMutableDictionary *)state inheritedSymbols:(NSString *)oldSymbols inheritedAutocomplete:(NSString *)oldAutocomplete {
+	NSString *symbols = oldSymbols;
+	NSString *autocomplete = oldAutocomplete;
+	
+	if ([state objectForKey:@"switchtosymbolsfrommode"]) symbols = [state objectForKey:@"switchtosymbolsfrommode"];
+	if ([state objectForKey:@"switchtoautocompletefrommode"]) autocomplete = [state objectForKey:@"switchtoautocompletefrommode"];
+
+	[state setObject:symbols forKey:[self keyForInheritedSymbols]];
+	[state setObject:autocomplete forKey:[self keyForInheritedAutocomplete]];
+	
+	//NSLog(@"%@ calculated %@, Sym:%@, Auto:%@", [self name], [state objectForKey:@"id"], [state objectForKey:[self keyForInheritedSymbols]],[state objectForKey:[self keyForInheritedAutocomplete]]);
+	
+	NSEnumerator *enumerator = [[state objectForKey:@"states"] objectEnumerator];
+    id childState;
+    while ((childState = [enumerator nextObject])) {
+		if (![childState objectForKey:[self keyForInheritedSymbols]])
+			[self calculateSymbolInheritanceForState:childState inheritedSymbols:symbols inheritedAutocomplete:autocomplete];
+    }
+}
+
+- (void) getReady {
+    if (!I_combinedStateRegexReady && !I_combinedStateRegexCalculating) [self calculateCombinedStateRegexes];
+    if (!I_cacheStylesReady && !I_cacheStylesCalculating) [self cacheStyles];
+	if (!I_symbolAndAutocompleteInheritanceReady) {
+		[self calculateSymbolInheritanceForState:[I_allStates objectForKey:[NSString stringWithFormat:@"/%@/%@", [self name], SyntaxStyleBaseIdentifier]] inheritedSymbols:[self name] inheritedAutocomplete:[self name]];
+		I_symbolAndAutocompleteInheritanceReady = YES;
+//		NSLog(@"Defaultstate: Sym:%@, Auto:%@", [[self defaultState] objectForKey:[self keyForInheritedSymbols]],[[self defaultState] objectForKey:[self keyForInheritedAutocomplete]]);
+	}
+}
 
 - (NSDictionary *)stateForID:(NSString *)aString {
+    if (!I_combinedStateRegexReady && !I_combinedStateRegexCalculating) [self getReady];
 	NSArray *components = [aString componentsSeparatedByString:@"/"];
 	NSString *modeName = [components objectAtIndex:1];
 	
@@ -527,9 +562,7 @@
 		return [[[[DocumentModeManager sharedInstance] documentModeForName:modeName] syntaxDefinition] stateForID:aString];
 	} 
 	
-    if (!I_combinedStateRegexReady && !I_combinedStateRegexCalculating) [self calculateCombinedStateRegexes];
-    if (!I_cacheStylesReady && !I_cacheStylesCalculating) [self cacheStyles];
-    if ([aString isEqualToString:SyntaxStyleBaseIdentifier]) return I_defaultState;
+    if ([aString isEqualToString:SyntaxStyleBaseIdentifier]) return [self defaultState];
     return [I_allStates objectForKey:aString];
 }
 
@@ -586,14 +619,14 @@
 { 
 	if ([aState objectForKey:@"imports"]) {
 		
-		NSEnumerator *enumerator = [[aState objectForKey:@"imports"] objectEnumerator];
+		NSEnumerator *enumerator = [[aState objectForKey:@"imports"] keyEnumerator];
 		id importName;
 		while ((importName = [enumerator nextObject])) {
 			NSArray *components = [importName componentsSeparatedByString:@"/"];
 			BOOL keywordsOnly = NO;
-			if ([components count]>3) {
-				if ([[components objectAtIndex:1] isEqualToString:@"keywords-only"]) keywordsOnly = YES;
-			}
+			
+			NSXMLElement *importNode = [[aState objectForKey:@"imports"] objectForKey:importName];
+			if ([[[importNode attributeForName:@"keywords-only"]stringValue] isEqualToString:@"yes"]) keywordsOnly = YES;
 			
 			SyntaxDefinition *linkedDefinition = [[[DocumentModeManager sharedInstance] documentModeForName:[components objectAtIndex:1]] syntaxDefinition];
 			NSDictionary *linkedState = [linkedDefinition stateForID:importName];

@@ -14,5 +14,6 @@
 /* returns length change */
 - (NSRange)detab:(BOOL)shouldDetab inRange:(NSRange)aRange tabWidth:(int)aTabWidth askingTextView:(NSTextView *)aTextView;
 - (void)makeLeadingWhitespaceNonBreaking;
+- (void)removeAttributes:(NSArray *)names range:(NSRange)aRange;
 
 @end

@@ -11,6 +11,7 @@
 #import "PlainTextDocument.h"
 #import "time.h"
 #import <OgreKit/OgreKit.h>
+#import "NSMutableAttributedStringSEEAdditions.h"
 
 #define chunkSize              		5000
 #define makeDirty              		 100
@@ -21,6 +22,7 @@ NSString * const kSyntaxHighlightingStackName = @"HighlightingStack";
 NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDelimiter";
 NSString * const kSyntaxHighlightingStyleIDAttributeName = @"StyleID";
 NSString * const kSyntaxHighlightingTypeAttributeName = @"Type";
+NSString * const kSyntaxHighlightingParentModeForSymbolsAttributeName = @"ParentModeForSymbols";
 
 @implementation SyntaxHighlighter
 /*"A Syntax Highlighter"*/
@@ -62,6 +64,7 @@ NSString * const kSyntaxHighlightingTypeAttributeName = @"Type";
 {
     SyntaxDefinition *definition = [self syntaxDefinition];
     if (!definition) NSLog(@"ERROR: No defintion for highlighter.");
+	[definition getReady]; // Make sure everything is setup 
     NSString *theString = [aString string];
     
     NSRange currentRange = aRange;
@@ -74,11 +77,9 @@ NSString * const kSyntaxHighlightingTypeAttributeName = @"Type";
     OGRegularExpressionMatch *delimiterMatch;
 
 
-
     // Clean up state attributes in the string we work on now
-    [aString removeAttribute:kSyntaxHighlightingStackName range:aRange];
-    [aString removeAttribute:kSyntaxHighlightingStateDelimiterName range:aRange];
-    [aString removeAttribute:kSyntaxHighlightingTypeAttributeName range:aRange];
+	NSArray *attributesToCleanup = [NSArray arrayWithObjects:kSyntaxHighlightingStackName,kSyntaxHighlightingStateDelimiterName,kSyntaxHighlightingTypeAttributeName,kSyntaxHighlightingParentModeForSymbolsAttributeName,nil];
+    [aString removeAttributes:attributesToCleanup range:aRange];
 
     NSMutableDictionary *scratchAttributes = [NSMutableDictionary dictionary];
     
@@ -180,7 +181,9 @@ NSString * const kSyntaxHighlightingTypeAttributeName = @"Type";
 		NSString *typeAttributeString;
 		if ((typeAttributeString=[currentState objectForKey:@"type"]))
 			[scratchAttributes setObject:typeAttributeString forKey:kSyntaxHighlightingTypeAttributeName];
-                                    
+		
+		[scratchAttributes setObject:[currentState objectForKey:[definition keyForInheritedSymbols]] forKey:kSyntaxHighlightingParentModeForSymbolsAttributeName];
+			
         //NSLog(@"Calculating color range");
 
         NSRange colorRange;
@@ -240,9 +243,7 @@ NSString * const kSyntaxHighlightingTypeAttributeName = @"Type";
 
         if (!matchesUp) {
 			NSRange doesNotMatchRange = NSMakeRange(nextIndex,MIN(makeDirty,[theString length]-nextIndex));
-			[aString removeAttribute:kSyntaxHighlightingIsCorrectAttributeName range:doesNotMatchRange];
-			[aString removeAttribute:kSyntaxHighlightingStackName range:doesNotMatchRange];
-			[aString removeAttribute:kSyntaxHighlightingTypeAttributeName range:doesNotMatchRange];
+			[aString removeAttributes:attributesToCleanup range:doesNotMatchRange];
         }
     }
 }
@@ -437,10 +438,7 @@ NSString * const kSyntaxHighlightingTypeAttributeName = @"Type";
 - (void)cleanUpTextStorage:(NSTextStorage *)aTextStorage inRange:(NSRange)aRange
 {
     [aTextStorage beginEditing];
-    [aTextStorage removeAttribute:kSyntaxHighlightingIsCorrectAttributeName range:aRange];
-    [aTextStorage removeAttribute:kSyntaxHighlightingStackName range:aRange];
-    [aTextStorage removeAttribute:kSyntaxHighlightingStateDelimiterName range:aRange];
-    [aTextStorage removeAttribute:kSyntaxHighlightingTypeAttributeName range:aRange];
+    [aTextStorage removeAttributes:[NSArray arrayWithObjects:kSyntaxHighlightingIsCorrectAttributeName,kSyntaxHighlightingStackName,kSyntaxHighlightingStateDelimiterName,kSyntaxHighlightingTypeAttributeName,kSyntaxHighlightingParentModeForSymbolsAttributeName,nil] range:aRange];
     [aTextStorage endEditing];
 }
 

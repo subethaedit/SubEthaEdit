@@ -517,7 +517,14 @@ static NSString *tempFileName(NSString *origPath) {
     I_symbolArray=nil;
     if ([mode hasSymbols]) {
         I_symbolArray = [[mode symbolArrayForTextStorage:[self textStorage]] copy];
-
+		
+		// If symbolArrayForTextStorage: return nil the document is not yet ready for symbol recognition.
+		if (!I_symbolArray) {
+			[self performSelector:@selector(triggerUpdateSymbolTableTimer) withObject:nil afterDelay:0.1];
+			return;
+		}
+		
+		
         [I_symbolPopUpMenu release];
         I_symbolPopUpMenu = [NSMenu new];
         [I_symbolPopUpMenuSorted release];
@@ -572,7 +579,7 @@ static NSString *tempFileName(NSString *origPath) {
         while ((menuItem=[menuItems nextObject])) {
             [I_symbolPopUpMenuSorted addItem:menuItem];
         }
-
+				
     } else {
         I_symbolArray=[NSArray new];
     }

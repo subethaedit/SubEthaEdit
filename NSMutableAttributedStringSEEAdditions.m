@@ -114,4 +114,12 @@
     }
 }
 
+- (void)removeAttributes:(NSArray *)names range:(NSRange)aRange {
+	int count = [names count];
+	int i;
+	for (i=0;i<count;i++)
+		[self removeAttribute:[names objectAtIndex:i] range:aRange];
+}
+
+
 @end

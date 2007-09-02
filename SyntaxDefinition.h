@@ -30,6 +30,7 @@
     BOOL I_combinedStateRegexCalculating;
 	BOOL I_cacheStylesReady;
 	BOOL I_cacheStylesCalculating;
+	BOOL I_symbolAndAutocompleteInheritanceReady;
 
     SyntaxStyle *I_defaultSyntaxStyle;
 }
@@ -43,13 +44,16 @@
 
 /*"Caching and Precalculation"*/
 -(void)cacheStyles;
+-(void) getReady;
 
 /*"Accessors"*/
+- (NSString *) keyForInheritedSymbols;
+- (NSString *) keyForInheritedAutocomplete;	
 - (NSString *)name;
 - (void)setName:(NSString *)aString;
 //- (NSArray *)states;
 - (NSDictionary *)stateForID:(NSString *)aString;
-- (NSDictionary *)defaultState;
+- (NSMutableDictionary *)defaultState;
 - (NSDictionary *)importedModes;
 - (NSCharacterSet *)tokenSet;
 - (NSCharacterSet *)invertedTokenSet;
