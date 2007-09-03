@@ -393,6 +393,7 @@
 		F234E3AE0BE20E8400504A7C /* ServerConnection.nib in Resources */ = {isa = PBXBuildFile; fileRef = F234E3AC0BE20E8400504A7C /* ServerConnection.nib */; };
 		F234E4590BE2592300504A7C /* NSWorkspaceTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F234E4570BE2592300504A7C /* NSWorkspaceTCMAdditions.m */; };
 		F23905670C7DEA3000E85DF8 /* seetext.icns in Resources */ = {isa = PBXBuildFile; fileRef = F23905660C7DEA3000E85DF8 /* seetext.icns */; };
+		F25A19B60C8C79CA00147E4C /* ssllock.png in Resources */ = {isa = PBXBuildFile; fileRef = F25A19B50C8C79CA00147E4C /* ssllock.png */; };
 		F27B2E800B5271AE00679CF2 /* hud_titlebar-close.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2E7F0B5271AE00679CF2 /* hud_titlebar-close.tiff */; };
 		F27B2EE30B52957800679CF2 /* hud_buttonLeft-N.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2EDD0B52957800679CF2 /* hud_buttonLeft-N.tiff */; };
 		F27B2EE40B52957800679CF2 /* hud_buttonRight-N.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2EDE0B52957800679CF2 /* hud_buttonRight-N.tiff */; };
@@ -1142,6 +1143,7 @@
 		F234E4560BE2592300504A7C /* NSWorkspaceTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSWorkspaceTCMAdditions.h; sourceTree = "<group>"; };
 		F234E4570BE2592300504A7C /* NSWorkspaceTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSWorkspaceTCMAdditions.m; sourceTree = "<group>"; };
 		F23905660C7DEA3000E85DF8 /* seetext.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = seetext.icns; path = artwork/seetext.icns; sourceTree = "<group>"; };
+		F25A19B50C8C79CA00147E4C /* ssllock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ssllock.png; path = artwork/ssllock.png; sourceTree = "<group>"; };
 		F27B2E7F0B5271AE00679CF2 /* hud_titlebar-close.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "hud_titlebar-close.tiff"; path = "artwork/hud_titlebar-close.tiff"; sourceTree = "<group>"; };
 		F27B2EDD0B52957800679CF2 /* hud_buttonLeft-N.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "hud_buttonLeft-N.tiff"; path = "artwork/hud_buttonLeft-N.tiff"; sourceTree = "<group>"; };
 		F27B2EDE0B52957800679CF2 /* hud_buttonRight-N.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "hud_buttonRight-N.tiff"; path = "artwork/hud_buttonRight-N.tiff"; sourceTree = "<group>"; };
@@ -1353,6 +1355,7 @@
 				14289088095743F200D14688 /* ShowChangeMarks.png */,
 				1428908A095743F200D14688 /* SplitClose.tiff */,
 				1428908B095743F200D14688 /* SplitOpen.tiff */,
+				F25A19B50C8C79CA00147E4C /* ssllock.png */,
 				1428908C095743F200D14688 /* StatusButtonKick.tiff */,
 				1428908D095743F200D14688 /* StatusButtonReadOnly.tiff */,
 				1428908E095743F200D14688 /* StatusButtonReadWrite.tiff */,
@@ -2498,6 +2501,7 @@
 				F2ABC5470C79D9C4007437A2 /* DebugHistory.nib in Resources */,
 				F20948E50C7B4C2300E78EBA /* UserStatistics.nib in Resources */,
 				F23905670C7DEA3000E85DF8 /* seetext.icns in Resources */,
+				F25A19B60C8C79CA00147E4C /* ssllock.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

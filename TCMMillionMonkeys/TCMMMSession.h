@@ -133,6 +133,7 @@ typedef enum TCMMMSessionClientState {
 
 - (NSDictionary *)invitedUsers;
 - (NSString *)stateOfInvitedUserById:(NSString *)aUserID;
+- (TCMBEEPSession *)BEEPSessionForUserID:(NSString *)aUserID;
 - (unsigned int)participantCount;
 - (NSDictionary *)participants;
 - (NSArray *)pendingUsers;

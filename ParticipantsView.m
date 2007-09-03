@@ -91,16 +91,25 @@
         [image compositeToPoint:NSMakePoint(4,32+3) 
                       operation:NSCompositeSourceOver];
     }
+    
+    float nameXOrigin = 32.+11.;
+    NSImage *browserStatus2Image = [dataSource listView:self objectValueForTag:ParticipantsChildStatusImageTag atChildIndex:aChildIndex ofItemAtIndex:aItemIndex];
+    if (browserStatus2Image) {
+        [browserStatus2Image compositeToPoint:NSMakePoint(nameXOrigin-4.,1.+10.+[browserStatus2Image size].height/2.) 
+                                   operation:NSCompositeSourceOver];
+        nameXOrigin += [browserStatus2Image size].width-2.;
+    }
+    
     NSString *string=[dataSource listView:self objectValueForTag:ParticipantsChildNameTag atChildIndex:aChildIndex ofItemAtIndex:aItemIndex];
     [[NSColor blackColor] set];
     if (string) {
-        [string drawAtPoint:NSMakePoint(32.+11.,1.)
+        [string drawAtPoint:NSMakePoint(nameXOrigin,1.)
                 withAttributes:mNameAttributes];
     }
     NSSize nameSize=[string sizeWithAttributes:mNameAttributes];
     image=[dataSource listView:self objectValueForTag:ParticipantsChildImageNextToNameTag atChildIndex:aChildIndex ofItemAtIndex:aItemIndex];
     if (image) {
-        [image compositeToPoint:NSMakePoint(32.+11.+(int)nameSize.width+6.,
+        [image compositeToPoint:NSMakePoint(nameXOrigin+(int)nameSize.width+6.,
                                             (int)(1.+nameSize.height)-(nameSize.height - [image size].height)/3.) 
                       operation:NSCompositeSourceOver];
     }

@@ -287,6 +287,11 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     return [I_stateOfInvitedUsers objectForKey:aUserID];
 }
 
+- (TCMBEEPSession *)BEEPSessionForUserID:(NSString *)aUserID {
+    SessionProfile *profile=[I_profilesByUserID objectForKey:aUserID];
+    return [profile session];
+}
+
 - (NSDictionary *)participants {
     return I_participants;
 }

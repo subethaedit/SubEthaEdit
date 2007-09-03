@@ -15,6 +15,7 @@ enum {
     ParticipantsChildImageTag,
     ParticipantsChildNameTag,
     ParticipantsChildImageNextToNameTag,
+    ParticipantsChildStatusImageTag,
     ParticipantsChildStatusTag
 };
 
