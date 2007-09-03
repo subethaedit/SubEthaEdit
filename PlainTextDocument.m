@@ -124,6 +124,7 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 
 
 @interface PlainTextDocument (PlainTextDocumentPrivateAdditions)
+- (NSTextView *)printableView;
 - (void)TCM_invalidateDefaultParagraphStyle;
 - (void)TCM_invalidateTextAttributes;
 - (void)TCM_styleFonts;
@@ -3204,6 +3205,41 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             NSString *contentsPath = [packagePath stringByAppendingPathComponent:@"Contents"];
             success = [fm createDirectoryAtPath:contentsPath attributes:nil];
             if (success) success = [[@"????????" dataUsingEncoding:NSUTF8StringEncoding] writeToURL:[NSURL fileURLWithPath:[contentsPath stringByAppendingPathComponent:@"PkgInfo"]] options:0 error:outError];
+            
+            NSMutableData *data=[NSMutableData dataWithData:[@"SEEText" dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:NO]];
+            NSMutableArray *dataArray = [NSMutableArray arrayWithObject:[NSNumber numberWithInt:1]]; 
+            // so this is version 1 of the file format...
+            // combine data
+            NSMutableDictionary *compressedDict = [NSMutableDictionary dictionary];
+            NSMutableDictionary *directDict = [NSMutableDictionary dictionary];
+            // collect users - uncompressed because compressing pngs again doesn't help...
+            [directDict setObject:[[self session] contributersAsDictionaryRepresentation] forKey:@"Contributors"];
+            // get text storage and document settings
+            NSMutableDictionary *textStorageRep = [[[self textStorageDictionaryRepresentation] mutableCopy] autorelease];
+            [textStorageRep removeObjectForKey:@"String"];
+            [compressedDict setObject:textStorageRep forKey:@"TextStorage"];
+            [compressedDict setObject:[[[self session] loggingState] dictionaryRepresentation] forKey:@"LoggingState"];
+            [compressedDict setObject:[self documentState] forKey:@"DocumentState"];
+            if (saveOperation == NSAutosaveOperation) {
+                NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+                    [self fileType],@"fileType",
+                    [NSNumber numberWithBool:[super isDocumentEdited]],@"hadChanges",
+                    [[self fileURL] absoluteString],@"fileURL",nil];
+                [compressedDict setObject:dictionary forKey:@"AutosaveInformation"];
+            }
+    
+            // add direct and compressed data to the top level array
+            [dataArray addObject:[NSArray arrayWithObject:directDict]];
+            [dataArray addObject:[TCM_BencodedObject(compressedDict) arrayOfCompressedDataWithLevel:Z_DEFAULT_COMPRESSION]];
+            if ([self preservedDataFromSEETextFile]) {
+                [dataArray addObjectsFromArray:[self preservedDataFromSEETextFile]];
+            }
+            [data appendData:TCM_BencodedObject(dataArray)];
+            
+            if (success) success = [data writeToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"collaborationdata.bencoded"]] options:0 error:outError];
+            if (success) success = [[[self textStorage] string] writeToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"plain.txt"]] atomically:NO encoding:[self fileEncoding] error:outError];
+            if (success) success = [self writeMetaDataToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"metadata.xml"]] error:outError];
+            
             if (saveOperation != NSAutosaveOperation) {
                 NSString *quicklookPath = [packagePath stringByAppendingPathComponent:@"QuickLook"];
                 if (success) success = [fm createDirectoryAtPath:quicklookPath attributes:nil];
@@ -3240,41 +3276,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                     success = [jpegData writeToURL:thumbnailURL options:0 error:outError];
                 }
             }
-            
-            NSMutableData *data=[NSMutableData dataWithData:[@"SEEText" dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:NO]];
-            NSMutableArray *dataArray = [NSMutableArray arrayWithObject:[NSNumber numberWithInt:1]]; 
-            // so this is version 1 of the file format...
-            // combine data
-            NSMutableDictionary *compressedDict = [NSMutableDictionary dictionary];
-            NSMutableDictionary *directDict = [NSMutableDictionary dictionary];
-            // collect users - uncompressed because compressing pngs again doesn't help...
-            [directDict setObject:[[self session] contributersAsDictionaryRepresentation] forKey:@"Contributors"];
-            // get text storage and document settings
-            NSMutableDictionary *textStorageRep = [[[self textStorageDictionaryRepresentation] mutableCopy] autorelease];
-            [textStorageRep removeObjectForKey:@"String"];
-            [compressedDict setObject:textStorageRep forKey:@"TextStorage"];
-            [compressedDict setObject:[[[self session] loggingState] dictionaryRepresentation] forKey:@"LoggingState"];
-            [compressedDict setObject:[self documentState] forKey:@"DocumentState"];
-            if (saveOperation == NSAutosaveOperation) {
-                NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-                    [self fileType],@"fileType",
-                    [NSNumber numberWithBool:[super isDocumentEdited]],@"hadChanges",
-                    [[self fileURL] absoluteString],@"fileURL",nil];
-                [compressedDict setObject:dictionary forKey:@"AutosaveInformation"];
-            }
-    
-            // add direct and compressed data to the top level array
-            [dataArray addObject:[NSArray arrayWithObject:directDict]];
-            [dataArray addObject:[TCM_BencodedObject(compressedDict) arrayOfCompressedDataWithLevel:Z_DEFAULT_COMPRESSION]];
-            if ([self preservedDataFromSEETextFile]) {
-                [dataArray addObjectsFromArray:[self preservedDataFromSEETextFile]];
-            }
-            [data appendData:TCM_BencodedObject(dataArray)];
-            
-            if (success) success = [data writeToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"collaborationdata.bencoded"]] options:0 error:outError];
-            if (success) success = [[[self textStorage] string] writeToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"plain.txt"]] atomically:NO encoding:[self fileEncoding] error:outError];
-            if (success) success = [self writeMetaDataToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"metadata.xml"]] error:outError];
-            
+
             if (success) {
                 // save .svn and .cvs directories for versioning
                 NSString *originalPath = [originalContentsURL path];
@@ -5131,10 +5133,6 @@ static NSString *S_measurementUnits;
                forKey:DocumentModeShowInvisibleCharactersPreferenceKey];
     [result setObject:[NSNumber numberWithBool:[self highlightsSyntax]]
                forKey:DocumentModeHighlightSyntaxPreferenceKey];
-    [result setObject:[NSNumber numberWithInt:[self lineEnding]]
-               forKey:DocumentModeLineEndingPreferenceKey];
-    [result setObject:[NSNumber numberWithInt:[self lineEnding]]
-               forKey:DocumentModeLineEndingPreferenceKey];
     
     return result;
 }
