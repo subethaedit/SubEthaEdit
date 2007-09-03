@@ -2800,6 +2800,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
     BOOL isDir, fileExists;
     fileExists = [[NSFileManager defaultManager] fileExistsAtPath:fileName isDirectory:&isDir];
+    if (fileExists && !isDir && [docType isEqualToString:@"SEETextType"]) {
+        docType = @"PlainTextType";
+        [self performSelector:@selector(setFileType:) withObject:docType afterDelay:0.];
+    }
     if (!fileExists || isDir && ![docType isEqualToString:@"SEETextType"]) {
         // generate the correct error
         [NSData dataWithContentsOfURL:anURL options:0 error:outError];
@@ -3244,36 +3248,42 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 NSString *quicklookPath = [packagePath stringByAppendingPathComponent:@"QuickLook"];
                 if (success) success = [fm createDirectoryAtPath:quicklookPath attributes:nil];
                 if (success) {
-                    NSView *printView = [self printableView];
-                    NSPrintInfo *printInfo = [[[self printInfo] copy] autorelease];
-                    [printInfo setJobDisposition:NSPrintSaveJob];
-                    NSMutableDictionary *printDict = [printInfo dictionary];
-                    NSString *pdfPath = [quicklookPath stringByAppendingPathComponent:@"Preview.pdf"];
-                    [printDict setObject:pdfPath forKey:NSPrintSavePath];
-                    NSDictionary *savedPrintOptions = [[self printOptions] copy];
-                    printDict = [self printOptions];
-                    [printDict setObject:[NSNumber numberWithBool:YES] forKey:@"SEEParticipants"];
-                    [printDict setObject:[NSNumber numberWithBool:YES] forKey:@"SEEParticipantImages"];
-                    [printDict setObject:[NSNumber numberWithBool:YES] forKey:@"SEEParticipantsAIMAndEmail"];
-                    [printDict setObject:[NSNumber numberWithBool:YES] forKey:@"SEEParticipantsVisitors"];
-                    [printDict setObject:[NSNumber numberWithBool:YES] forKey:@"SEEColorizeChangeMarks"];
-                    [printDict setObject:[NSNumber numberWithBool:YES] forKey:@"SEEWhiteBackground"];
-                    [printDict setObject:[NSNumber numberWithBool:NO] forKey:@"SEEUseCustomFont"];
-                    [printDict setObject:[NSNumber numberWithBool:YES] forKey:@"SEEPageHeader"];
-                    [printDict setObject:[NSNumber numberWithBool:YES] forKey:@"SEEPageHeaderFilename"];
-                    [printDict setObject:[NSNumber numberWithBool:NO] forKey:@"SEEPageHeaderFullPath"];
-                    [printDict setObject:[NSNumber numberWithBool:YES] forKey:@"SEEPageHeaderCurrentDate"];
-                    [printDict setObject:[NSNumber numberWithFloat:8.0] forKey:@"SEEResizeDocumentFontTo"];
-                    NSPrintOperation *op = [NSPrintOperation printOperationWithView:printView printInfo:printInfo];
-                    [op setShowPanels:NO];
-                    [self runModalPrintOperation:op
-                                        delegate:nil
-                                  didRunSelector:NULL
-                                     contextInfo:nil];
-                    [[self printOptions] addEntriesFromDictionary:savedPrintOptions];
                     NSURL *thumbnailURL = [NSURL fileURLWithPath:[quicklookPath stringByAppendingPathComponent:@"Thumbnail.jpg"]];
                     NSData *jpegData = [[self thumbnailBitmapRepresentation] representationUsingType:NSJPEGFileType properties:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:0.90],NSImageCompressionFactor,nil]];
                     success = [jpegData writeToURL:thumbnailURL options:0 error:outError];
+                    if (success && [[NSUserDefaults standardUserDefaults] boolForKey:@"SaveSeeTextPreview"]) {
+                        NSView *printView = [self printableView];
+                        NSPrintInfo *printInfo = [[[self printInfo] copy] autorelease];
+                        [printInfo setJobDisposition:NSPrintSaveJob];
+                        NSMutableDictionary *printDict = [printInfo dictionary];
+                        NSString *pdfPath = [quicklookPath stringByAppendingPathComponent:@"Preview.pdf"];
+                        [printDict setObject:pdfPath forKey:NSPrintSavePath];
+                        NSDictionary *savedPrintOptions = [[self printOptions] copy];
+                        printDict = [self printOptions];
+                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEParticipants"];
+                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEParticipantImages"];
+                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEParticipantsAIMAndEmail"];
+                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEParticipantsVisitors"];
+                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEColorizeChangeMarks"];
+                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEAnnotateChangeMarks"];
+                        [printDict setObject:[NSNumber numberWithBool:NO]   forKey:@"SEEColorizeWrittenBy"];
+                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEAnnotateWrittenBy"];
+                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEWhiteBackground"];
+                        [printDict setObject:[NSNumber numberWithBool:NO]   forKey:@"SEEUseCustomFont"];
+                        [printDict setObject:[NSNumber numberWithBool:NO]   forKey:@"SEELineNumbers"];
+                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEPageHeader"];
+                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEPageHeaderFilename"];
+                        [printDict setObject:[NSNumber numberWithBool:NO]   forKey:@"SEEPageHeaderFullPath"];
+                        [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEPageHeaderCurrentDate"];
+                        [printDict setObject:[NSNumber numberWithFloat:8.0] forKey:@"SEEResizeDocumentFontTo"];
+                        NSPrintOperation *op = [NSPrintOperation printOperationWithView:printView printInfo:printInfo];
+                        [op setShowPanels:NO];
+                        [self runModalPrintOperation:op
+                                            delegate:nil
+                                      didRunSelector:NULL
+                                         contextInfo:nil];
+                        [[self printOptions] addEntriesFromDictionary:savedPrintOptions];
+                    }
                 }
             }
 
