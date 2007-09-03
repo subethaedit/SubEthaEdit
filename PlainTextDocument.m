@@ -3134,22 +3134,23 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 - (BOOL)writeMetaDataToURL:(NSURL *)absoluteURL error:(NSError **)outError {
     NSXMLElement *rootElement = [NSXMLNode elementWithName:@"seemetadata"];
     [rootElement addChild:[NSXMLNode elementWithName:@"charset" stringValue:[self encoding]]];
+    [rootElement addChild:[NSXMLNode elementWithName:@"mode" stringValue:[[self documentMode] documentModeIdentifier]]];
     
     
     TCMMMUserManager *um = [TCMMMUserManager sharedInstance];
     TCMMMLoggingState *ls = [[self session] loggingState];
     TCMMMLoggedOperation *lop = NULL;
     if ([[ls loggedOperations] count]>0) {
-        [[ls loggedOperations] objectAtIndex:0];
-        NSXMLElement *element = [NSXMLNode elementWithName:@"firstoperation" stringValue:[[lop date] rfc1123Representation]];
+        lop = [[ls loggedOperations] objectAtIndex:0];
+        NSXMLElement *element = [NSXMLNode elementWithName:@"firstactivity" stringValue:[[lop date] rfc1123Representation]];
         TCMMMUser *user = [um userForUserID:[[lop operation] userID]];
         if (user) [element addAttribute:[NSXMLNode attributeWithName:@"name" stringValue:[user name]]];
         [rootElement addChild:element];
     }
     
     lop = [[ls loggedOperations] lastObject];
-    if (ls) {
-        NSXMLElement *element = [NSXMLNode elementWithName:@"lastoperation" stringValue:[[lop date] rfc1123Representation]];
+    if (lop) {
+        NSXMLElement *element = [NSXMLNode elementWithName:@"lastactivity" stringValue:[[lop date] rfc1123Representation]];
         TCMMMUser *user = [um userForUserID:[[lop operation] userID]];
         if (user) [element addAttribute:[NSXMLNode attributeWithName:@"name" stringValue:[user name]]];
         [rootElement addChild:element];
