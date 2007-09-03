@@ -32,8 +32,8 @@
     TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
     static NSMutableDictionary *annotationAttributes=nil;
     if (!annotationAttributes) {
-        NSFont *             annotationFont = [NSFont fontWithName:@"Helvetica" size:7.];
-        if (!annotationFont) annotationFont = [NSFont systemFontOfSize:7.];
+        NSFont *             annotationFont = [NSFont fontWithName:@"Helvetica" size:6.];
+        if (!annotationFont) annotationFont = [NSFont systemFontOfSize:6.];
         NSMutableParagraphStyle *paragraphStyle=[[[NSMutableParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
         [paragraphStyle setAlignment:NSLeftTextAlignment];
         [paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
