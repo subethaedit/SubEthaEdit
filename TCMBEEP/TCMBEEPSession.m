@@ -73,6 +73,7 @@ static CFArrayRef certArrayRef = NULL;
 static SecKeychainRef kcRef;
 static NSString *pathToTempKeyAndCert = nil;
 static NSDate *launchDate;
+static NSString *keychainPassword = nil;
 
 + (void)removeTemporaryKeychain {
     [[NSFileManager defaultManager] removeFileAtPath:certKeychainPath handler:nil];
@@ -96,11 +97,13 @@ static NSDate *launchDate;
         CFArrayRef searchList;
         SecKeychainCopySearchList(&searchList);
         
+        
+        keychainPassword = [[NSString UUIDString] retain];
         // generate the temporary keychain
         OSStatus status = SecKeychainCreate (
            [certKeychainPath UTF8String],
-           0,
-           "",
+           [keychainPassword length],
+           [keychainPassword UTF8String],
            FALSE,
            NULL,
            &kcRef
@@ -147,7 +150,7 @@ static NSDate *launchDate;
 }
 
 + (void)openSSLTaskDidTerminate:(NSNotification *)aNotification {
-    NSTask *task=[aNotification object];
+//    NSTask *task=[aNotification object];
 //    NSLog(@"%s %@ %@",__FUNCTION__, [[[NSString alloc] initWithData:[[[task standardOutput] fileHandleForReading] readDataToEndOfFile] encoding:NSUTF8StringEncoding] autorelease], [[[NSString alloc] initWithData:[[[task standardError] fileHandleForReading] readDataToEndOfFile] encoding:NSUTF8StringEncoding] autorelease]);
     NSLog(@"%s generation of certificate took: %f seconds",__FUNCTION__,[launchDate timeIntervalSinceNow]*-1.);
     
@@ -905,10 +908,11 @@ static NSDate *launchDate;
 	usedKeychain:(SecKeychainRef*)pKcRef // RETURNED
 {
     SecKeychainStatus keychainStatus;
-    OSStatus result = SecKeychainGetStatus(kcRef,&keychainStatus);
+    //OSStatus result = 
+    SecKeychainGetStatus(kcRef,&keychainStatus);
     if (keychainStatus && kSecUnlockStateStatus) {
 //        NSLog(@"%s keychain was locked!",__FUNCTION__);
-        SecKeychainUnlock(kcRef,0,"",TRUE);
+        SecKeychainUnlock(kcRef,[keychainPassword length],[keychainPassword UTF8String],TRUE);
     }
     return certArrayRef; // shortcut for now
 	char 				kcPath[MAXPATHLEN + 1];
