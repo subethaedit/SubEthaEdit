@@ -44,6 +44,10 @@
             }
         }
     }
+    if ([aDictionary objectForKey:@"initialtext"]) {
+        NSLog(@"%s had initial text:%@",__FUNCTION__,[aDictionary objectForKey:@"initialtext"]);
+        [self setInitialTextStorageDictionaryRepresentation:[aDictionary objectForKey:@"initialtext"]];
+    }
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel,@"imported %d operations, the last one being:%@ statistics are:%@",__FUNCTION__,[I_loggedOperations count],[I_loggedOperations lastObject],I_statisticsArray);
     return self;
 }
@@ -57,6 +61,10 @@
         [operationReps addObject:[operation dictionaryRepresentation]];
     }
     [dictRep setObject:operationReps forKey:@"ops"];
+    if (I_initialTextStorageDictionaryRepresentation) {
+        NSLog(@"%s save initial text:%@",__FUNCTION__,I_initialTextStorageDictionaryRepresentation);
+        [dictRep setObject:I_initialTextStorageDictionaryRepresentation forKey:@"initialtext"];
+    }
     return dictRep;
 }
 
@@ -121,5 +129,15 @@
 - (NSArray *)loggedOperations {
     return I_loggedOperations;
 }
+
+- (void)setInitialTextStorageDictionaryRepresentation:(NSDictionary *)aInitialRepresentation {
+    [I_initialTextStorageDictionaryRepresentation autorelease];
+     I_initialTextStorageDictionaryRepresentation = [aInitialRepresentation copy];
+}
+
+- (NSDictionary *)initialTextStorageDictionaryRepresentation {
+    return I_initialTextStorageDictionaryRepresentation;
+}
+
 
 @end
