@@ -223,7 +223,7 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
     BOOL showUser = [self isVisible] && (_hostStatus == HostEntryStatusSessionOpen) && user;
     if (aTag == TCMMMBrowserItemStatus2ImageTag) {
         if ([_BEEPSession isTLSEnabled]) {
-            return [NSImage imageNamed:@"StatusLock"];
+            return [NSImage imageNamed:@"ssllock18"];
         } else {
             return nil;
         }

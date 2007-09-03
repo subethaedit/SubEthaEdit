@@ -128,16 +128,25 @@
         [image compositeToPoint:NSMakePoint(4,32+3) 
                       operation:NSCompositeSourceOver];
     }
+    
+    float nameXOrigin = 32.+11.;
+    NSImage *browserStatus2Image = [dataSource listView:self objectValueForTag:TCMMMBrowserItemStatus2ImageTag atChildIndex:-1 ofItemAtIndex:aIndex];
+    if (browserStatus2Image) {
+        [browserStatus2Image compositeToPoint:NSMakePoint(nameXOrigin-4.,1.+10.+[browserStatus2Image size].height/2.) 
+                                   operation:NSCompositeSourceOver];
+        nameXOrigin += [browserStatus2Image size].width;
+    }
+    
     NSString *string=[dataSource listView:self objectValueForTag:TCMMMBrowserItemNameTag atChildIndex:-1 ofItemAtIndex:aIndex];
     [[NSColor blackColor] set];
     if (string) {
-        [string drawAtPoint:NSMakePoint(32.+11.,1.)
+        [string drawAtPoint:NSMakePoint(nameXOrigin,1.)
                withAttributes:mNameAttributes];
     }
     NSSize nameSize=[string sizeWithAttributes:mNameAttributes];
     image=[dataSource listView:self objectValueForTag:TCMMMBrowserItemImageNextToNameTag atChildIndex:-1 ofItemAtIndex:aIndex];
     if (image) {
-        [image compositeToPoint:NSMakePoint(32.+11.+(int)nameSize.width+6.,
+        [image compositeToPoint:NSMakePoint(nameXOrigin+(int)nameSize.width+6.,
                                             (int)(1.+nameSize.height)-(nameSize.height - [image size].height)/3.) 
                       operation:NSCompositeSourceOver];
     }
@@ -153,13 +162,6 @@
         additionalSpace += [browserStatusImage size].width + 4.;
     }
     
-    browserStatusImage = [dataSource listView:self objectValueForTag:TCMMMBrowserItemStatus2ImageTag atChildIndex:-1 ofItemAtIndex:aIndex];
-    if (browserStatusImage) {
-        [browserStatusImage compositeToPoint:NSMakePoint(32.+10+additionalSpace,32+2) 
-                                   operation:NSCompositeSourceOver];
-        additionalSpace += [browserStatusImage size].width + 4.;
-    }
-
     string=[dataSource listView:self objectValueForTag:TCMMMBrowserItemStatusTag atChildIndex:-1 ofItemAtIndex:aIndex];
     if (string) {
         [string drawAtPoint:NSMakePoint(32.+11+additionalSpace,20.) //was 32.+27 for with diclosure triangle
