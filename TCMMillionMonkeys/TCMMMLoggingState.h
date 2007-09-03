@@ -15,6 +15,7 @@
     NSMutableArray *I_loggedOperations;
     NSMutableSet *I_participantIDs;
     NSMutableDictionary *I_statisticsEntryByUserID;
+    NSDictionary *I_initialTextStorageDictionaryRepresentation;
     NSMutableArray *I_statisticsArray;
 }
 
@@ -24,5 +25,7 @@
 - (NSArray *)statisticsArray;
 - (TCMMMLogStatisticsEntry *)statisicsEntryForUserID:(NSString *)aUserID;
 - (NSArray *)loggedOperations;
+- (void)setInitialTextStorageDictionaryRepresentation:(NSDictionary *)aInitialRepresentation;
+- (NSDictionary *)initialTextStorageDictionaryRepresentation;
 
 @end

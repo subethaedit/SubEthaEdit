@@ -288,6 +288,7 @@ static NSString *tempFileName(NSString *origPath) {
     [self setEditAnyway:NO];
     [self setIsFileWritable:YES];
     I_undoManager = [(UndoManager *)[UndoManager alloc] initWithDocument:self];
+    [[[self session] loggingState] setInitialTextStorageDictionaryRepresentation:[self textStorageDictionaryRepresentation]];
 }
 
 - (void)updateViewBecauseOfPreferences:(NSNotification *)aNotification {
@@ -2514,6 +2515,27 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     return I_preservedDataFromSEETextFile;
 }
 
+- (IBAction)playbackLoggingState:(id)aSender {
+    TCMMMLoggingState *ls = [[self session] loggingState];
+    NSArray *loggedOperations = [ls loggedOperations];
+    unsigned opCount = [loggedOperations count];
+
+    TextStorage *textStorage=(TextStorage *)[self textStorage];
+    [textStorage setContentByDictionaryRepresentation:[ls initialTextStorageDictionaryRepresentation]];
+    NSRange wholeRange=NSMakeRange(0,[textStorage length]);
+    [textStorage addAttributes:[self plainTextAttributes] range:wholeRange];
+    [textStorage addAttribute:NSParagraphStyleAttributeName value:[self defaultParagraphStyle] range:wholeRange];
+
+    NSView *viewToUpdate = [[[self plainTextEditors] lastObject] editorView];
+    [viewToUpdate display];
+    
+    unsigned i = 0;
+    for (i=0;i<opCount;i++) {
+        [self handleOperation:[[loggedOperations objectAtIndex:i] operation]];
+        [viewToUpdate display];
+    }
+}
+
 - (BOOL)isDocumentEdited {
     if (I_flags.isAutosavingForRestart) {
         return YES;
@@ -3120,6 +3142,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                            range:NSMakeRange(0, wholeLength)];
 
     [self updateChangeCount:NSChangeCleared];
+
+    if (!isReverting && ![docType isEqualToString:@"SEETextType"]) {
+        [[[self session] loggingState] setInitialTextStorageDictionaryRepresentation:[self textStorageDictionaryRepresentation]];
+    }
 
     I_flags.isReadingFile = NO;
 
