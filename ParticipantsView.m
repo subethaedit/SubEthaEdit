@@ -93,12 +93,6 @@
     }
     
     float nameXOrigin = 32.+11.;
-    NSImage *browserStatus2Image = [dataSource listView:self objectValueForTag:ParticipantsChildStatusImageTag atChildIndex:aChildIndex ofItemAtIndex:aItemIndex];
-    if (browserStatus2Image) {
-        [browserStatus2Image compositeToPoint:NSMakePoint(nameXOrigin-4.,1.+10.+[browserStatus2Image size].height/2.) 
-                                   operation:NSCompositeSourceOver];
-        nameXOrigin += [browserStatus2Image size].width-2.;
-    }
     
     NSString *string=[dataSource listView:self objectValueForTag:ParticipantsChildNameTag atChildIndex:aChildIndex ofItemAtIndex:aItemIndex];
     [[NSColor blackColor] set];

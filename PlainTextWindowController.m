@@ -1608,8 +1608,6 @@ enum {
                     result =[(TextStorage *)[document textStorage] positionStringForRange:[selectionOperation selectedRange]];
                 }
                 return [[[NSAttributedString alloc] initWithString:result attributes:attributes] autorelease];
-            } else if (aTag==ParticipantsChildStatusImageTag) {
-                return [[session BEEPSessionForUserID:[user userID]] isTLSEnabled]?[NSImage imageNamed:@"ssllock18"]:nil;
             } else if (aTag==ParticipantsChildImageTag) {
                 return ((status || anItemIndex==2) ? [user image32Dimmed] : [user image32]);
             } else if (aTag==ParticipantsChildImageNextToNameTag) {
