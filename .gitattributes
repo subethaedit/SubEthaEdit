@@ -1640,6 +1640,7 @@ test/Performance/CreateStringByUnicharTest/Info.plist -text
 test/Performance/CreateStringByUnicharTest/main.m -text
 test/Performance/EncodingTests/LongAndFew.txt -text
 test/Performance/EncodingTests/LongAndMany.txt -text
+test/Syntax/ERB/application.rhtml -text
 test/Syntax/HTML/tcm-index.html -text
 test/Syntax/PHP-HTML/Classes.php -text
 test/Syntax/PHP-HTML/Library.php -text
