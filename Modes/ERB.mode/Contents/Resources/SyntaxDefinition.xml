@@ -204,8 +204,8 @@
                     <end>
                         <regex>"</regex>
                     </end>
+                    <state-link state="Ruby" />
                 </state>
-                <state-link state="Ruby" />
                 <keywords id="Attributes in Tags" color="#994500" useforautocomplete="no">
                     <regex>([\w-]*)(?=[ \t]*=)</regex>
                 </keywords>

@@ -5,7 +5,7 @@
     <head>
         <name>PHP-HTML</name> <!-- The definitions title -->
         <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@"]]></charsintokens> 
-        <charsincompletion><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@</="!]]></charsincompletion> 
+        <charsincompletion><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@$</="!]]></charsincompletion> 
     </head>
 
    <states>
@@ -3807,8 +3807,8 @@
                     <end>
                         <regex>"</regex>
                     </end>
+                    <state-link state="PHP" />
                 </state>
-                <state-link state="PHP" />
                 <keywords id="Attributes in Tags" color="#994500" useforautocomplete="no">
                     <regex>([\w-]*)(?=[ \t]*=)</regex>
                 </keywords>
