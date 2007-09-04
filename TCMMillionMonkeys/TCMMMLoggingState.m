@@ -62,7 +62,7 @@
     }
     [dictRep setObject:operationReps forKey:@"ops"];
     if (I_initialTextStorageDictionaryRepresentation) {
-        NSLog(@"%s save initial text:%@",__FUNCTION__,I_initialTextStorageDictionaryRepresentation);
+        // NSLog(@"%s save initial text:%@",__FUNCTION__,I_initialTextStorageDictionaryRepresentation);
         [dictRep setObject:I_initialTextStorageDictionaryRepresentation forKey:@"initialtext"];
     }
     return dictRep;
