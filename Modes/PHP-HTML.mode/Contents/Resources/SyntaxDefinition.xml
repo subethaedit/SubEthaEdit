@@ -3633,42 +3633,26 @@
               </state>
             
             <state id="Comment" type="comment" color="#236E25" font-style="italic">
-                <begin>
-                    <regex>&lt;!--</regex>
-                </begin>
-                <end>
-                    <regex>--></regex>
-                </end>
+                <begin><regex>&lt;!--</regex></begin>
+                <end><regex>--&gt;</regex></end>
                 <keywords id="SGML Double Dash" color="#f00" font-weight="bold" useforautocomplete="no">
-                    <regex>(?&lt;!\!)(--)(?!>)</regex>
+                <regex>(?&lt;!\!)(--)(?!&gt;)</regex>
                 </keywords>
                 <state-link state="PHP" />
             </state>
             <state id="CDATA" color="#f00" font-style="italic">
-                <begin>
-                    <regex>&lt;!\s*\[CDATA\s*\[</regex>
-                </begin>
-                <end>
-                    <regex>\]\s*\]\s*></regex>
-                </end>
+                <begin><regex>&lt;!\s*\[CDATA\s*\[</regex></begin>
+                <end><regex>\]\s*\]\s*&gt;</regex></end>
                 <state-link state="PHP" />
             </state>
             <state id="Doctype" color="#236E25" font-style="italic">
-                <begin>
-                    <regex>&lt;!</regex>
-                </begin>
-                <end>
-                    <regex>></regex>
-                </end>
+                <begin><regex>&lt;!</regex></begin>
+                <end><regex>&gt;</regex></end>
                 <state-link state="PHP" />
             </state>
             <state id="Escape" color="#236E25" font-style="italic">
-                <begin>
-                    <regex>&lt;\?</regex>
-                </begin>
-                <end>
-                    <regex>\?></regex>
-                </end>
+                <begin><regex>&lt;\?</regex></begin>
+                <end><regex>\?&gt;</regex></end>
                 <state-link state="PHP" />
             </state>
 
@@ -3797,7 +3781,7 @@
                     <regex>&lt;</regex>
                 </begin>
                 <end>
-                    <regex>></regex>
+                    <regex>&gt;</regex>
                 </end>
                 <state-link state="PHP" />
                 <state id="Strings in Tags" type="string" color="#1A1AA6" useforautocomplete="no">
