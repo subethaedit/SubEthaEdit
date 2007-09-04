@@ -78,7 +78,7 @@ NSString * const kSyntaxHighlightingParentModeForSymbolsAttributeName = @"Parent
 
 
     // Clean up state attributes in the string we work on now
-	NSArray *attributesToCleanup = [NSArray arrayWithObjects:kSyntaxHighlightingStackName,kSyntaxHighlightingStateDelimiterName,kSyntaxHighlightingTypeAttributeName,kSyntaxHighlightingParentModeForSymbolsAttributeName,nil];
+	NSArray *attributesToCleanup = [NSArray arrayWithObjects:kSyntaxHighlightingStackName,kSyntaxHighlightingStateDelimiterName,kSyntaxHighlightingTypeAttributeName,kSyntaxHighlightingParentModeForSymbolsAttributeName,kSyntaxHighlightingIsCorrectAttributeName,nil];
     [aString removeAttributes:attributesToCleanup range:aRange];
 
     NSMutableDictionary *scratchAttributes = [NSMutableDictionary dictionary];
