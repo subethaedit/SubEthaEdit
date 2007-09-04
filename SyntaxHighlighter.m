@@ -96,10 +96,10 @@ NSString * const kSyntaxHighlightingParentModeForSymbolsAttributeName = @"Parent
             //NSLog(@"Getting stack at: '%@': %@", [[aString string] substringWithRange:NSMakeRange(currentRange.location-1,1)], stack);
         }
         
+		// No State yet? Use the default.
         if (!stack) stack = [NSMutableArray arrayWithObjects:[defaultState objectForKey:@"id"], nil];
         
         NSAutoreleasePool *syntaxPool = [NSAutoreleasePool new];
-        // Are we already in a state?
             
         //NSLog(@"Stack at start: %@", stack);
         currentState = [definition stateForID:[stack lastObject]];
@@ -136,23 +136,26 @@ NSString * const kSyntaxHighlightingParentModeForSymbolsAttributeName = @"Parent
                 nextRange.location = NSMaxRange(stateRange);
                 nextRange.length = currentRange.length - stateRange.length;
 
-                //Exclude delRang from stateRange
+                //Exclude delimiterRang from stateRange
                 stateRange.length = stateRange.length - delimiterRange.length;
                 
-                
                 NSDictionary *subState = [[currentState objectForKey:@"states"] objectAtIndex:delimiterStateNumber];
-
                 savedStack = [stack componentsJoinedByString:@","];
-                
+
                 [stack addObject:[subState objectForKey:@"id"]];
+
+                
                 [scratchAttributes removeAllObjects];
                 [scratchAttributes addEntriesFromDictionary:[theDocument styleAttributesForStyleID:[subState objectForKey:@"styleID"]]];
-                [scratchAttributes setObject:savedStack forKey:kSyntaxHighlightingStackName];
+                [scratchAttributes setObject:[stack componentsJoinedByString:@","] forKey:kSyntaxHighlightingStackName];
                 [scratchAttributes setObject:@"Start" forKey:kSyntaxHighlightingStateDelimiterName];
+				NSString *typeAttributeString;
+				if ((typeAttributeString=[subState objectForKey:@"type"]))
+					[scratchAttributes setObject:typeAttributeString forKey:kSyntaxHighlightingTypeAttributeName];
+				
+				[scratchAttributes setObject:[currentState objectForKey:[definition keyForInheritedSymbols]] forKey:kSyntaxHighlightingParentModeForSymbolsAttributeName];
 				
                 [aString addAttributes:scratchAttributes range:delimiterRange];
-
-            
             } else { // Found end of current state
                 //NSLog(@"Found and end");
                 nextRange.location = NSMaxRange(stateRange);
@@ -196,7 +199,7 @@ NSString * const kSyntaxHighlightingParentModeForSymbolsAttributeName = @"Parent
 
         //NSLog(@"Adding scratchAttributes");
 
-        [aString addAttributes:scratchAttributes range:colorRange];
+        [aString addAttributes:scratchAttributes range:stateRange];
 
         //NSLog(@"Highlighting stuff");
         
