@@ -4959,7 +4959,7 @@ static NSString *S_measurementUnits;
 - (void)performHighlightSyntax {
     if (!I_flags.isPerformingSyntaxHighlighting && I_flags.highlightSyntax &&
         [I_documentMode syntaxHighlighter]!=nil) {
-        [self performSelector:@selector(highlightSyntaxLoop) withObject:nil afterDelay:0.3];
+        [self performSelector:@selector(highlightSyntaxLoop) withObject:nil afterDelay:0.0];
         I_flags.isPerformingSyntaxHighlighting=YES;
     }
 }
