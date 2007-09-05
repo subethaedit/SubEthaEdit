@@ -105,10 +105,12 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         I_flags.shouldSendJoinRequest = NO;
         I_flags.isPerformingRoundRobin = NO;
         I_flags.pauseCount = 0;
+        I_flags.isSecure = YES;
         I_statesWithRemainingMessages=[NSMutableSet new];
         [self setIsServer:NO];
         [self setClientState:TCMMMSessionClientNoState];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChange:) name:TCMMMUserManagerUserDidChangeNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(coalescedSessionDidChange:) name:TCMMMSessionDidChangeNotification object:self];
         I_loggingState = [[TCMMMLoggingState alloc] init];
     }
     return self;
@@ -201,7 +203,16 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
      I_loggingState = [aState retain];
 }
 
-
+- (void)coalescedSessionDidChange:(NSNotification *)aNotification {
+    NSLog(@"%s %@",__FUNCTION__,[self dictionaryRepresentation]);
+    if ([self isServer]) {
+        NSEnumerator *profiles = [I_profilesByUserID objectEnumerator];
+        SessionProfile *profile = nil;
+        while ((profile=[profiles nextObject])) {
+            [profile sendSessionChange:self];
+        }
+    }
+}
 
 #pragma mark -
 #pragma ### Accessors ###
@@ -265,6 +276,10 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 - (BOOL)isServer
 {
     return I_flags.isServer;
+}
+
+- (BOOL)isSecure {
+    return I_flags.isSecure;
 }
 
 - (void)setWasInvited:(BOOL)wasInvited {
@@ -510,6 +525,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     [sessionDict setObject:[NSData dataWithUUIDString:[self sessionID]] forKey:@"sID"];
     [sessionDict setObject:[NSData dataWithUUIDString:[self hostID]] forKey:@"hID"];
     [sessionDict setObject:[NSNumber numberWithInt:I_accessState] forKey:@"acc"];
+    [sessionDict setObject:[NSNumber numberWithBool:[self isSecure]] forKey:@"sec"];
     return sessionDict;
 }
 
@@ -821,6 +837,12 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 
 #pragma mark -
 #pragma mark ### profile interaction ###
+
+- (void)profileDidReceiveSessionChange:(NSDictionary *)sessionRepresentation {
+    NSLog(@"%s %@",__FUNCTION__,sessionRepresentation);
+}
+
+
 // When you request a profile you have to implement BEEPSession:didOpenChannelWithProfile: to receive the profile
 - (void)BEEPSession:(TCMBEEPSession *)session didOpenChannelWithProfile:(TCMBEEPProfile *)profile data:(NSData *)inData
 {

@@ -39,6 +39,7 @@
 - (void)cancelJoin;
 - (void)sendSessionContent:(NSData *)aSessionContent;
 - (void)sendSessionInformation:(NSDictionary *)aSessionInformation;
+- (void)sendSessionChange:(TCMMMSession *)aSession;
 - (void)cancelInvitation;
 - (void)acceptInvitation;
 - (void)declineInvitation;
@@ -57,6 +58,7 @@
 
 @interface NSObject (SessionProfileDelegateAdditions)
 
+- (void)profileDidReceiveSessionChange:(NSDictionary *)sessionRepresentation;
 - (void)profile:(SessionProfile *)aProfile didReceiveSessionContent:(id)content;
 - (void)profileDidAckSessionContent:(SessionProfile *)aProfile;
 - (void)profile:(SessionProfile *)aProfile didReceiveJoinRequestForSessionID:(NSString *)aSessionID;

@@ -251,6 +251,26 @@ enum {
     [I_tabBar setHideForSingleTab:!shouldHideTabBar];
     [I_tabBar hideTabBar:!shouldHideTabBar animate:NO];
 
+    {
+        NSButton *button=[NSWindow standardWindowButton:NSWindowToolbarButton forStyleMask:[[self window] styleMask]];
+        NSLog(@"%s %@",__FUNCTION__,button);
+        // add a transparent child window to display a lock next to the toolbar button
+        NSImage *lockImage = [NSImage imageNamed:@"LockTitlebar"];
+        NSRect frame=NSZeroRect;
+        frame.size = [lockImage size];
+        frame.origin = [[self window] frame].origin;
+        frame.origin.x += 100;
+        NSLog(@"%s %@",__FUNCTION__,NSStringFromRect(frame));
+        NSWindow *childWindow = [[NSWindow alloc] initWithContentRect:frame styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
+        [childWindow setIgnoresMouseEvents:YES];
+        NSImageView *imageView = [[NSImageView alloc] initWithFrame:frame];
+        [imageView setImage:lockImage];
+        [childWindow setContentView:imageView];
+        [childWindow setOpaque:NO];
+        [childWindow setBackgroundColor:[NSColor clearColor]];
+        [[self window] addChildWindow:childWindow ordered:NSWindowAbove];
+        I_lockChildWindow = [childWindow autorelease];
+    }
     //[self validateButtons];
 }
 
@@ -1761,6 +1781,14 @@ enum {
 #pragma mark -
 #pragma mark ### window delegation  ###
 
+- (void)windowDidResize:(NSNotification *)aNotification {
+    NSRect lockFrame = [I_lockChildWindow frame];
+    NSRect windowFrame = [[self window] frame];
+    lockFrame.origin.y = NSMaxY(windowFrame)-17.;
+    lockFrame.origin.x = NSMaxX(windowFrame)-43.;
+    [I_lockChildWindow setFrame:lockFrame display:YES];
+}
+
 - (NSRect)windowWillUseStandardFrame:(NSWindow *)sender defaultFrame:(NSRect)defaultFrame {
     if (!([[NSApp currentEvent] modifierFlags] & NSShiftKeyMask)) {
         NSRect windowFrame=[[self window] frame];
@@ -1845,6 +1873,7 @@ enum {
 - (IBAction)showWindow:(id)aSender {
     if (![[self window] isVisible]) {
         [self cascadeWindow];
+        [self windowDidResize:nil];
     }
     [super showWindow:aSender];
 }
