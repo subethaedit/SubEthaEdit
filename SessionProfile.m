@@ -17,7 +17,7 @@
     // optionally send the options here
     static NSData *data = nil;
     if (!data) {
-        data = [TCM_BencodedObject([NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES],@"SendHistory",nil]) retain];
+        data = [TCM_BencodedObject([NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES],@"SendHistory",[NSNumber numberWithBool:YES],@"SendSESCHG",nil]) retain];
     }
     return data;
 }
@@ -33,7 +33,7 @@
         I_flags.isClosing=NO;
         I_outgoingMMMessageQueue=[NSMutableArray new];
         I_numberOfUnacknowledgedSessconMSG=-1;
-        I_options = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithBool:NO],@"SendHistory",nil];
+        I_options = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithBool:NO],@"SendHistory",[NSNumber numberWithBool:NO],@"SendSESCHG",nil];
     }
     return self;
 }
@@ -151,6 +151,15 @@
     [data appendData:TCM_BencodedObject(aSessionInformation)];
     [[self channel] sendMSGMessageWithPayload:data];
 }
+
+- (void)sendSessionChange:(TCMMMSession *)aSession {
+    if ([[I_options objectForKey:@"SendSESCHG"] boolValue] && [aSession isServer]) {
+        NSMutableData *data=[NSMutableData dataWithBytes:"SESCHG" length:6];
+        [data appendData:[aSession sessionBencoded]];
+        [[self channel] sendMSGMessageWithPayload:data];
+    }
+}
+
 
 - (void)sendSessionContent:(NSData *)aSessionContent {
     NSMutableData *data = [NSMutableData dataWithBytes:"SESCON" length:6];
@@ -275,6 +284,12 @@
             id delegate=[self delegate];
             if ([delegate respondsToSelector:@selector(profileDidAcceptInvitation:)]) {
                 [delegate profileDidAcceptInvitation:self];
+            }
+        } else if (strncmp(type, "SESCHG", 6) == 0) {
+            DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Receive accepted invitation.");
+            id delegate=[self delegate];
+            if ([delegate respondsToSelector:@selector(profileDidReceiveSessionChange:)]) {
+                [delegate profileDidReceiveSessionChange:TCM_BdecodedObjectWithData([[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)])];
             }
         } else if (strncmp(type, "SESINF", 6) == 0) {
             DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received session information.");

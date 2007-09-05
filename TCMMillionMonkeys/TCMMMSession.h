@@ -94,6 +94,7 @@ typedef enum TCMMMSessionClientState {
         BOOL shouldSendJoinRequest;
         BOOL wasInvited;
         BOOL isPerformingRoundRobin;
+        BOOL isSecure;
         int pauseCount;
     } I_flags;
     unsigned int I_sessionContentLength;
@@ -120,6 +121,8 @@ typedef enum TCMMMSessionClientState {
 
 - (void)setIsServer:(BOOL)isServer;
 - (BOOL)isServer;
+
+- (BOOL)isSecure;
 
 - (void)setWasInvited:(BOOL)wasInvited;
 - (BOOL)wasInvited;
