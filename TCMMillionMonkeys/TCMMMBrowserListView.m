@@ -132,7 +132,7 @@
     float nameXOrigin = 32.+11.;
     NSImage *browserStatus2Image = [dataSource listView:self objectValueForTag:TCMMMBrowserItemStatus2ImageTag atChildIndex:-1 ofItemAtIndex:aIndex];
     if (browserStatus2Image) {
-        [browserStatus2Image compositeToPoint:NSMakePoint(nameXOrigin-4.,1.+10.+[browserStatus2Image size].height/2.) 
+        [browserStatus2Image compositeToPoint:NSMakePoint(nameXOrigin-2.,1.+10.+[browserStatus2Image size].height/2.) 
                                    operation:NSCompositeSourceOver];
         nameXOrigin += [browserStatus2Image size].width;
     }
