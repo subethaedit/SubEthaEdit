@@ -91,7 +91,7 @@ enum {
 
 - (void)insertObject:(NSDocument *)document inDocumentsAtIndex:(unsigned int)index;
 - (void)removeObjectFromDocumentsAtIndex:(unsigned int)index;
-
+- (void)adjustLockWindow;
 @end
 
 #pragma mark -
@@ -182,6 +182,7 @@ enum {
     [toolbar setAutosavesConfiguration:YES];
     [toolbar setDelegate:self];
     [[self window] setToolbar:toolbar];
+    [self adjustLockWindow];
 }
 
 - (void)windowDidLoad {
@@ -252,15 +253,13 @@ enum {
     [I_tabBar hideTabBar:!shouldHideTabBar animate:NO];
 
     {
-        NSButton *button=[NSWindow standardWindowButton:NSWindowToolbarButton forStyleMask:[[self window] styleMask]];
-        NSLog(@"%s %@",__FUNCTION__,button);
+//        NSButton *button=[NSWindow standardWindowButton:NSWindowToolbarButton forStyleMask:[[self window] styleMask]];
         // add a transparent child window to display a lock next to the toolbar button
         NSImage *lockImage = [NSImage imageNamed:@"LockTitlebar"];
         NSRect frame=NSZeroRect;
         frame.size = [lockImage size];
         frame.origin = [[self window] frame].origin;
         frame.origin.x += 100;
-        NSLog(@"%s %@",__FUNCTION__,NSStringFromRect(frame));
         NSWindow *childWindow = [[NSWindow alloc] initWithContentRect:frame styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
         [childWindow setIgnoresMouseEvents:YES];
         NSImageView *imageView = [[NSImageView alloc] initWithFrame:frame];
@@ -1171,6 +1170,7 @@ enum {
 
 - (void)participantsDidChange:(NSNotification *)aNotifcation {
     [O_participantsView reloadData];
+    [self synchronizeWindowTitleWithDocumentName]; // update the lock
     [self refreshDisplay];
 }
 
@@ -1193,6 +1193,15 @@ enum {
 }
 
 #pragma mark -
+
+- (void)synchronizeWindowTitleWithDocumentName {
+    [super synchronizeWindowTitleWithDocumentName];
+    BOOL showLock=NO;
+    PlainTextDocument *document = (PlainTextDocument *)[self document];
+    TCMMMSession *session = [document session];
+    showLock = [session isSecure] && ([document isAnnounced] || [session participantCount] + [session openInvitationCount]>1);
+    [I_lockChildWindow setAlphaValue:showLock?1.0:0.01];
+}
 
 - (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName document:(PlainTextDocument *)document {
     TCMMMSession *session = [document session];
@@ -1781,12 +1790,17 @@ enum {
 #pragma mark -
 #pragma mark ### window delegation  ###
 
-- (void)windowDidResize:(NSNotification *)aNotification {
+- (void)adjustLockWindow {
     NSRect lockFrame = [I_lockChildWindow frame];
     NSRect windowFrame = [[self window] frame];
     lockFrame.origin.y = NSMaxY(windowFrame)-17.;
     lockFrame.origin.x = NSMaxX(windowFrame)-43.;
     [I_lockChildWindow setFrame:lockFrame display:YES];
+}
+
+
+- (void)windowDidResize:(NSNotification *)aNotification {
+    [self adjustLockWindow];
 }
 
 - (NSRect)windowWillUseStandardFrame:(NSWindow *)sender defaultFrame:(NSRect)defaultFrame {
@@ -1804,6 +1818,7 @@ enum {
 }
 
 - (void)windowDidBecomeMain:(NSNotification *)aNotification {
+    [self adjustLockWindow];
     // switch mode menu on becoming main
     [(PlainTextDocument *)[self document] adjustModeMenu];
     // also make sure the tab menu is updated correctly

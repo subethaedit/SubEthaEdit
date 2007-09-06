@@ -279,6 +279,9 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
             // merge
             [session setFilename:[aSession filename]];
             [session setAccessState:[aSession accessState]];
+            if (![aSession isServer]) {
+                [session setIsSecure:[aSession isSecure]];
+            }
         }
         return session;
     } else {

@@ -46,6 +46,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 - (NSArray *)TCM_setSessionParticipants:(NSDictionary *)aParticipants  forProfile:(SessionProfile *)profile;
 - (void)triggerPerformRoundRobin;
 - (void)processRoundRobinMessageProcessing;
+- (void)validateSecurity;
 
 @end
 
@@ -62,6 +63,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 }
 
 - (void)TCM_sendParticipantsDidChangeNotification {
+    [self validateSecurity];
     [[NSNotificationQueue defaultQueue] 
     enqueueNotification:[NSNotification notificationWithName:TCMMMSessionParticipantsDidChangeNotification object:self]
            postingStyle:NSPostASAP
@@ -80,6 +82,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     TCMMMSession *session = [[TCMMMSession alloc] initWithSessionID:[NSString stringWithUUIDData:[aDictionary objectForKey:@"sID"]] filename:[aDictionary objectForKey:@"name"]];
     [session setHostID:[NSString stringWithUUIDData:[aDictionary objectForKey:@"hID"]]];
     [session setAccessState:[[aDictionary objectForKey:@"acc"] intValue]];
+    [session setIsSecure:[[aDictionary objectForKey:@"sec"] boolValue]];
     return [session autorelease];
 }
 
@@ -204,7 +207,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 }
 
 - (void)coalescedSessionDidChange:(NSNotification *)aNotification {
-    NSLog(@"%s %@",__FUNCTION__,[self dictionaryRepresentation]);
+//    NSLog(@"%s %@",__FUNCTION__,[self dictionaryRepresentation]);
     if ([self isServer]) {
         NSEnumerator *profiles = [I_profilesByUserID objectEnumerator];
         SessionProfile *profile = nil;
@@ -278,8 +281,30 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     return I_flags.isServer;
 }
 
+- (void)validateSecurity {
+//    NSLog(@"%s",__FUNCTION__);
+    if ([self isServer]) {
+        BOOL secure = YES;
+        NSEnumerator *profiles = [I_profilesByUserID objectEnumerator];
+        SessionProfile *profile = nil;
+        while ((profile=[profiles nextObject])) {
+            if (![[profile session] isTLSEnabled]) {
+                secure = NO;
+                break;
+            }
+        }
+        [self setIsSecure:secure];
+    }
+}
+
 - (BOOL)isSecure {
     return I_flags.isSecure;
+}
+
+- (void)setIsSecure:(BOOL)aFlag {
+    BOOL sendNotification = I_flags.isSecure != aFlag;
+    I_flags.isSecure = aFlag;
+    if (sendNotification) [self TCM_sendSessionDidChangeNotification];
 }
 
 - (void)setWasInvited:(BOOL)wasInvited {
@@ -292,6 +317,10 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 
 - (unsigned int)participantCount {
     return [I_groupByUserID count];
+}
+
+- (unsigned int)openInvitationCount {
+    return [[[I_stateOfInvitedUsers allValues] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF = 'AwaitingResponse'"]] count];
 }
 
 - (NSDictionary *)invitedUsers {
@@ -449,6 +478,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         }
         [self TCM_sendParticipantsDidChangeNotification];
     }
+    [self validateSecurity];
 }
 
 - (void)setGroup:(NSString *)aGroup forPendingUsersWithIndexes:(NSIndexSet *)aSet {
@@ -504,6 +534,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         [set removeIndex:index];
     }
     [set release];
+    [self validateSecurity];
     [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMSessionPendingUsersDidChangeNotification object:self];
 }
 
@@ -568,6 +599,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     } else {
         [I_helper playBeep];
     }
+    [self validateSecurity];
 }
 
 - (void)joinUsingBEEPSession:(TCMBEEPSession *)aBEEPSession
@@ -839,7 +871,11 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 #pragma mark ### profile interaction ###
 
 - (void)profileDidReceiveSessionChange:(NSDictionary *)sessionRepresentation {
-    NSLog(@"%s %@",__FUNCTION__,sessionRepresentation);
+    if (![self isServer]) {
+//        NSLog(@"%s %@",__FUNCTION__,sessionRepresentation);
+        [self setIsSecure:[[sessionRepresentation objectForKey:@"sec"] boolValue]];
+        [self setFilename:[sessionRepresentation objectForKey:@"name"]];
+    }
 }
 
 
@@ -859,6 +895,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
             DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Invitation not sent because of fishyness");
             [profile close];
         }
+        [self validateSecurity];
     } else {
         DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"BEEPSession:%@ didOpenChannel: %@", session, profile);
         if (I_flags.shouldSendJoinRequest) {

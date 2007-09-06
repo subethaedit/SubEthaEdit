@@ -38,11 +38,12 @@ static DebugController * sharedInstance = nil;
         [self release];
     } else if ((self = [super init])) {
         sharedInstance = self;
-        
-        [[NSNotificationCenter defaultCenter] addObserver:self
-                                                 selector:@selector(userDidChange:)
-                                                     name:TCMMMUserManagerUserDidChangeNotification
-                                                   object:nil];
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"DebugSaveUsersInCache"]) {
+            [[NSNotificationCenter defaultCenter] addObserver:self
+                                                     selector:@selector(userDidChange:)
+                                                         name:TCMMMUserManagerUserDidChangeNotification
+                                                       object:nil];
+        }
     }
     return sharedInstance;
 }
