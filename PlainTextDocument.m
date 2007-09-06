@@ -4981,6 +4981,7 @@ static NSString *S_measurementUnits;
             }
         }
     }
+	[self triggerUpdateSymbolTableTimer];
 }
 
 #pragma mark -
