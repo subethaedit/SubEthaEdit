@@ -49,12 +49,11 @@
 	while (NSMaxRange(currentRange)<NSMaxRange(fullRange)) {
 		NSRange effectiveRange;
 		NSString *modeForSymbols = [aTextStorage attribute:kSyntaxHighlightingParentModeForSymbolsAttributeName atIndex:currentRange.location longestEffectiveRange:&effectiveRange inRange:fullRange];
-		if (!modeForSymbols) {
-			return nil; // Not yet ready.	
-		}	
 		
-		RegexSymbolParser *symbolParser = [[[DocumentModeManager sharedInstance] documentModeForName:modeForSymbols] symbolParser];
-		
+		RegexSymbolParser *symbolParser;
+		if (modeForSymbols) symbolParser = [[[DocumentModeManager sharedInstance] documentModeForName:modeForSymbols] symbolParser];
+		else symbolParser = self;
+			
 		//NSLog(@"Found %@ within %@. Using parser %@.", modeForSymbols, NSStringFromRange(effectiveRange), symbolParser);
 		
 		[returnArray addObjectsFromArray:[symbolParser symbolsForTextStorage:aTextStorage inRange:effectiveRange]];
