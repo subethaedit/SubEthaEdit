@@ -1307,6 +1307,9 @@ static NSString *tempFileName(NSString *origPath) {
                 }
             }
         }
+        // needed for updating of the lock
+        [[self windowControllers] makeObjectsPerformSelector:@selector(synchronizeWindowTitleWithDocumentName)];
+
     }
 }
 

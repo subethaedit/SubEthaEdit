@@ -123,6 +123,7 @@ typedef enum TCMMMSessionClientState {
 - (BOOL)isServer;
 
 - (BOOL)isSecure;
+- (void)setIsSecure:(BOOL)aFlag;
 
 - (void)setWasInvited:(BOOL)wasInvited;
 - (BOOL)wasInvited;
@@ -138,6 +139,7 @@ typedef enum TCMMMSessionClientState {
 - (NSString *)stateOfInvitedUserById:(NSString *)aUserID;
 - (TCMBEEPSession *)BEEPSessionForUserID:(NSString *)aUserID;
 - (unsigned int)participantCount;
+- (unsigned int)openInvitationCount;
 - (NSDictionary *)participants;
 - (NSArray *)pendingUsers;
 
