@@ -31,6 +31,7 @@
 #import "InsetTextFieldCell.h"
 #import <OgreKit/OgreKit.h>
 #import "SyntaxDefinition.h"
+#import "SyntaxHighlighter.h"
 #import "ScriptTextSelection.h"
 #import "NSMenuTCMAdditions.h"
 #import "NSMutableAttributedStringSEEAdditions.h"
@@ -1561,21 +1562,24 @@
     // find all matches in the current text for this prefix
     OGRegularExpression *findExpression=[[OGRegularExpression alloc] initWithString:[NSString stringWithFormat:@"(?<=\\W)%@\\w+",partialWord] options:OgreFindNotEmptyOption];
     DocumentMode *documentMode = [[self document] documentMode];
-    NSEnumerator *documents=[[[DocumentController sharedInstance] documentsInMode:documentMode] objectEnumerator];
-    PlainTextDocument *document=nil;
-    while ((document=[documents nextObject])) {
-        NSEnumerator *matches=[findExpression matchEnumeratorInString:[[document textStorage] string]];
-        OGRegularExpressionMatch *match=nil;
-        while ((match=[matches nextObject])) {
-            [dictionaryOfResultStrings setObject:@"YES" forKey:[match matchedString]];
-        }
-    }
-    [findExpression release];
+
+	NSEnumerator *matches=[findExpression matchEnumeratorInString:textString];
+	OGRegularExpressionMatch *match=nil;
+	while ((match=[matches nextObject])) {
+		[dictionaryOfResultStrings setObject:@"YES" forKey:[match matchedString]];
+	}
     [completions addObjectsFromArray:[[dictionaryOfResultStrings allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)]];
-    
-    // Find all known names.
-    NSArray *completionSource = [documentMode autocompleteDictionary];
-    // Examine the names one by one.
+	
+	// Check if we should use a different mode than the default mode here.
+	NSString *modeForAutocomplete = [[textView textStorage] attribute:kSyntaxHighlightingParentModeForAutocompleteAttributeName atIndex:charRange.location effectiveRange:NULL];
+	
+	DocumentMode *theMode;
+	if (modeForAutocomplete) theMode = [[DocumentModeManager sharedInstance] documentModeForName:modeForAutocomplete];
+	else theMode = documentMode;
+	
+    // Get autocompletions from mode responsible for the insert location.
+    NSArray *completionSource = [theMode autocompleteDictionary];
+    // Examine them one by one.
     count = [completionSource count];
     for (i = 0; i < count; i++) {
         completionEntry = [completionSource objectAtIndex:i];
@@ -1587,7 +1591,23 @@
         }
     }
 
-    // add the originally suggested words
+	// add suggestions from all other open documents
+	NSMutableDictionary *otherDictionaryOfResultStrings=[NSMutableDictionary new];
+    NSEnumerator *documents=[[[DocumentController sharedInstance] documents] objectEnumerator];
+    PlainTextDocument *document=nil;
+    while ((document=[documents nextObject])) {
+		if (document==[self document]) continue;
+        NSEnumerator *matches=[findExpression matchEnumeratorInString:[[document textStorage] string]];
+        OGRegularExpressionMatch *match=nil;
+        while ((match=[matches nextObject])) {
+            [otherDictionaryOfResultStrings setObject:@"YES" forKey:[match matchedString]];
+        }
+    }
+    [findExpression release];
+    [completions addObjectsFromArray:[[otherDictionaryOfResultStrings allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)]];
+	[dictionaryOfResultStrings addEntriesFromDictionary:otherDictionaryOfResultStrings];
+    
+	// add the originally suggested words if spelling dictionary should be used
     if ([[documentMode syntaxDefinition] useSpellingDictionary]) {
         NSEnumerator *enumerator = [words objectEnumerator];
         id word;
@@ -1600,6 +1620,7 @@
 
     //DEBUGLOG(@"SyntaxHighlighterDomain", DetailedLogLevel, @"Finished autocomplete");
     [dictionaryOfResultStrings release];
+    [otherDictionaryOfResultStrings release];
 
     return completions;
 }

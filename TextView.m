@@ -26,6 +26,7 @@
 #import <OgreKit/OgreKit.h>
 #import "NSCursorSEEAdditions.h"
 #import "BacktracingException.h"
+#import "DocumentModeManager.h"
 
 #define SPANNINGRANGE(a,b) NSMakeRange(MIN(a,b),MAX(a,b)-MIN(a,b)+1)
 
@@ -638,7 +639,14 @@ static NSMenu *defaultMenu=nil;
 - (NSRange)rangeForUserCompletion {
     NSRange result=[super rangeForUserCompletion];
     NSString *string=[[self textStorage] string];
-    NSCharacterSet *tokenSet = [[[[[self document] documentMode] syntaxHighlighter] syntaxDefinition] autoCompleteTokenSet];
+	
+	NSString *modeForAutocomplete = [[self textStorage] attribute:kSyntaxHighlightingParentModeForAutocompleteAttributeName atIndex:result.location effectiveRange:NULL];
+	
+	DocumentMode *theMode;
+	if (modeForAutocomplete) theMode = [[DocumentModeManager sharedInstance] documentModeForName:modeForAutocomplete];
+	else theMode = [[self document] documentMode];
+	
+    NSCharacterSet *tokenSet = [[[theMode syntaxHighlighter] syntaxDefinition] autoCompleteTokenSet];
 
     if (tokenSet) {
         result = [self selectedRange]; // Start with a fresh range
