@@ -23,6 +23,7 @@ NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDeli
 NSString * const kSyntaxHighlightingStyleIDAttributeName = @"StyleID";
 NSString * const kSyntaxHighlightingTypeAttributeName = @"Type";
 NSString * const kSyntaxHighlightingParentModeForSymbolsAttributeName = @"ParentModeForSymbols";
+NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"ParentModeForAutocomplete";
 
 @implementation SyntaxHighlighter
 /*"A Syntax Highlighter"*/
@@ -78,7 +79,7 @@ NSString * const kSyntaxHighlightingParentModeForSymbolsAttributeName = @"Parent
 
 
     // Clean up state attributes in the string we work on now
-	NSArray *attributesToCleanup = [NSArray arrayWithObjects:kSyntaxHighlightingStackName,kSyntaxHighlightingStateDelimiterName,kSyntaxHighlightingTypeAttributeName,kSyntaxHighlightingParentModeForSymbolsAttributeName,kSyntaxHighlightingIsCorrectAttributeName,nil];
+	NSArray *attributesToCleanup = [NSArray arrayWithObjects:kSyntaxHighlightingStackName,kSyntaxHighlightingStateDelimiterName,kSyntaxHighlightingTypeAttributeName,kSyntaxHighlightingParentModeForSymbolsAttributeName,kSyntaxHighlightingParentModeForAutocompleteAttributeName,kSyntaxHighlightingIsCorrectAttributeName,nil];
     [aString removeAttributes:attributesToCleanup range:aRange];
 
     NSMutableDictionary *scratchAttributes = [NSMutableDictionary dictionary];
@@ -154,6 +155,7 @@ NSString * const kSyntaxHighlightingParentModeForSymbolsAttributeName = @"Parent
 					[scratchAttributes setObject:typeAttributeString forKey:kSyntaxHighlightingTypeAttributeName];
 				
 				[scratchAttributes setObject:[currentState objectForKey:[definition keyForInheritedSymbols]] forKey:kSyntaxHighlightingParentModeForSymbolsAttributeName];
+				[scratchAttributes setObject:[currentState objectForKey:[definition keyForInheritedAutocomplete]] forKey:kSyntaxHighlightingParentModeForAutocompleteAttributeName];
 				
                 [aString addAttributes:scratchAttributes range:delimiterRange];
             } else { // Found end of current state
@@ -186,6 +188,7 @@ NSString * const kSyntaxHighlightingParentModeForSymbolsAttributeName = @"Parent
 			[scratchAttributes setObject:typeAttributeString forKey:kSyntaxHighlightingTypeAttributeName];
 		
 		[scratchAttributes setObject:[currentState objectForKey:[definition keyForInheritedSymbols]] forKey:kSyntaxHighlightingParentModeForSymbolsAttributeName];
+		[scratchAttributes setObject:[currentState objectForKey:[definition keyForInheritedAutocomplete]] forKey:kSyntaxHighlightingParentModeForAutocompleteAttributeName];
 			
         //NSLog(@"Calculating color range");
 
@@ -441,7 +444,7 @@ NSString * const kSyntaxHighlightingParentModeForSymbolsAttributeName = @"Parent
 - (void)cleanUpTextStorage:(NSTextStorage *)aTextStorage inRange:(NSRange)aRange
 {
     [aTextStorage beginEditing];
-    [aTextStorage removeAttributes:[NSArray arrayWithObjects:kSyntaxHighlightingIsCorrectAttributeName,kSyntaxHighlightingStackName,kSyntaxHighlightingStateDelimiterName,kSyntaxHighlightingTypeAttributeName,kSyntaxHighlightingParentModeForSymbolsAttributeName,nil] range:aRange];
+    [aTextStorage removeAttributes:[NSArray arrayWithObjects:kSyntaxHighlightingIsCorrectAttributeName,kSyntaxHighlightingStackName,kSyntaxHighlightingStateDelimiterName,kSyntaxHighlightingTypeAttributeName,kSyntaxHighlightingParentModeForAutocompleteAttributeName,kSyntaxHighlightingParentModeForSymbolsAttributeName,nil] range:aRange];
     [aTextStorage endEditing];
 }
 

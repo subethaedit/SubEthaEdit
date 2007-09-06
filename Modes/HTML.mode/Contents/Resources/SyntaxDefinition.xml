@@ -10,11 +10,11 @@
 
     <states>
     
-        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="HTML">
+        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal"  usesymbolsfrommode="HTML" useautocompletefrommode="HTML">
             
             <import mode="XML" />
                                                     
-            <state id="Inline CSS" color="#000" font-style="italic">
+            <state id="Inline CSS" color="#000" font-style="italic" usesymbolsfrommode="CSS" useautocompletefrommode="CSS">
                 <begin><regex>&lt;(?=style)</regex></begin>
                 <end><regex>/style&gt;</regex></end>
                 
@@ -25,7 +25,7 @@
                     <regex>(&lt;/style[^&gt;]*&gt;)</regex>
                 </keywords>
 
-                <state id="Opening Style Tag" color="#881280" font-style="italic" usesymbolsfrommode="HTML">
+                <state id="Opening Style Tag" color="#881280" font-style="italic" usesymbolsfrommode="HTML" useautocompletefrommode="HTML">
                     <begin><regex>\Astyle</regex></begin>
                     <end><regex>&gt;</regex></end>
         
@@ -34,7 +34,7 @@
                 
             </state>
 
-            <state id="Inline Javascript" color="#000" usesymbolsfrommode="Javascript">
+            <state id="Inline Javascript" color="#000" usesymbolsfrommode="Javascript" useautocompletefrommode="Javascript">
                 <begin><regex>&lt;(?=script)</regex></begin>
                 <end><regex>/script&gt;</regex></end>
     
@@ -45,7 +45,7 @@
                     <regex>(&lt;/script[^&gt;]*&gt;)</regex>
                 </keywords>
 
-                <state id="Opening Script Tag" color="#881280" font-style="italic" usesymbolsfrommode="HTML">
+                <state id="Opening Script Tag" color="#881280" font-style="italic" usesymbolsfrommode="HTML" useautocompletefrommode="HTML">
                     <begin><regex>\Ascript</regex></begin>
                     <end><regex>&gt;</regex></end>
         
