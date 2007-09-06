@@ -1560,7 +1560,7 @@
     NSMutableDictionary *dictionaryOfResultStrings=[NSMutableDictionary new];
 
     // find all matches in the current text for this prefix
-    OGRegularExpression *findExpression=[[OGRegularExpression alloc] initWithString:[NSString stringWithFormat:@"(?<=\\W)%@\\w+",partialWord] options:OgreFindNotEmptyOption];
+    OGRegularExpression *findExpression=[[OGRegularExpression alloc] initWithString:[NSString stringWithFormat:@"(?<=\\W|^)%@\\w+",partialWord] options:OgreFindNotEmptyOption];
     DocumentMode *documentMode = [[self document] documentMode];
 
 	NSEnumerator *matches=[findExpression matchEnumeratorInString:textString];
