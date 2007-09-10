@@ -461,7 +461,7 @@ static NSString *tempFileName(NSString *origPath) {
 // Currently that is if before and after the current character are invalid states we return NO, else YES.
 - (BOOL)TCM_validTypeForBracketBeforeAndAfterIndex:(unsigned)index {
 	if (index==0) return YES;
-	if (index>=[[self textStorage] length]) return YES;
+	if (index+1>=[[self textStorage] length]) return YES;
 	
 	BOOL beforeIsInvalid = (([[[self textStorage] attribute:kSyntaxHighlightingTypeAttributeName atIndex:index-1 effectiveRange:nil] isEqualToString:@"comment"])||([[[self textStorage] attribute:kSyntaxHighlightingTypeAttributeName atIndex:index-1 effectiveRange:nil] isEqualToString:@"string"]));
 	BOOL afterIsInvalid = (([[[self textStorage] attribute:kSyntaxHighlightingTypeAttributeName atIndex:index+1 effectiveRange:nil] isEqualToString:@"comment"])||([[[self textStorage] attribute:kSyntaxHighlightingTypeAttributeName atIndex:index+1 effectiveRange:nil] isEqualToString:@"string"]));
