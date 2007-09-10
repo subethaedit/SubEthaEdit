@@ -1,57 +1,173 @@
-{
-    IBClasses = (
-        {
-            ACTIONS = {
-                chooseTabWidth = id; 
-                findNextAndOrderOut = id; 
-                gotoLine = id; 
-                gotoLineAndClosePanel = id; 
-                orderFrontFindPanel = id; 
-                orderFrontGotoPanel = id; 
-                orderFrontTabWidthPanel = id; 
-                performFindPanelAction = id; 
-                updateRegexDrawer = id; 
-            }; 
-            CLASS = FindReplaceController; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                "O_FindAllButton" = NSButton; 
-                "O_NextButton" = NSButton; 
-                "O_PrevButton" = NSButton; 
-                "O_ReplaceAllButton" = NSButton; 
-                "O_ReplaceButton" = NSButton; 
-                "O_ReplaceFindButton" = NSButton; 
-                "O_findComboBox" = NSComboBox; 
-                "O_findPanel" = NSPanel; 
-                "O_gotoLineTextField" = NSTextField; 
-                "O_gotoPanel" = NSPanel; 
-                "O_ignoreCaseCheckbox" = NSButton; 
-                "O_progressIndicator" = NSProgressIndicator; 
-                "O_progressIndicatorDet" = NSProgressIndicator; 
-                "O_regexCaptureGroupsCheckbox" = NSButton; 
-                "O_regexCheckbox" = NSButton; 
-                "O_regexDontCaptureCheckbox" = NSButton; 
-                "O_regexDrawer" = NSDrawer; 
-                "O_regexEscapeCharacter" = NSPopUpButton; 
-                "O_regexExtendedCheckbox" = NSButton; 
-                "O_regexFindLongestCheckbox" = NSButton; 
-                "O_regexIgnoreEmptyCheckbox" = NSButton; 
-                "O_regexMultilineCheckbox" = NSButton; 
-                "O_regexNegateSinglelineCheckbox" = NSButton; 
-                "O_regexOptionsView" = NSView; 
-                "O_regexSinglelineCheckbox" = NSButton; 
-                "O_regexSyntaxPopup" = NSPopUpButton; 
-                "O_replaceComboBox" = NSComboBox; 
-                "O_scopePopup" = NSPopUpButton; 
-                "O_statusTextField" = NSTextField; 
-                "O_tabWidthPanel" = NSPanel; 
-                "O_tabWidthTextField" = NSTextField; 
-                "O_wrapAroundCheckbox" = NSButton; 
-            }; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {CLASS = OgreAFPCComboBox; LANGUAGE = ObjC; SUPERCLASS = NSComboBox; }
-    ); 
-    IBVersion = 1; 
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBClasses</key>
+	<array>
+		<dict>
+			<key>CLASS</key>
+			<string>NSApplication</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSMenu</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>hostDidResolveAddress</key>
+				<string>TCMHost</string>
+				<key>hostDidResolveName</key>
+				<string>TCMHost</string>
+			</dict>
+			<key>CLASS</key>
+			<string>NSObject</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSWindow</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSMenuItem</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>TCMHost</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>I_delegate</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>chooseTabWidth</key>
+				<string>id</string>
+				<key>findNextAndOrderOut</key>
+				<string>id</string>
+				<key>gotoLine</key>
+				<string>id</string>
+				<key>gotoLineAndClosePanel</key>
+				<string>id</string>
+				<key>orderFrontFindPanel</key>
+				<string>id</string>
+				<key>orderFrontGotoPanel</key>
+				<string>id</string>
+				<key>orderFrontTabWidthPanel</key>
+				<string>id</string>
+				<key>performFindPanelAction</key>
+				<string>id</string>
+				<key>updateRegexDrawer</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>FindReplaceController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>O_FindAllButton</key>
+				<string>NSButton</string>
+				<key>O_NextButton</key>
+				<string>NSButton</string>
+				<key>O_PrevButton</key>
+				<string>NSButton</string>
+				<key>O_ReplaceAllButton</key>
+				<string>NSButton</string>
+				<key>O_ReplaceButton</key>
+				<string>NSButton</string>
+				<key>O_ReplaceFindButton</key>
+				<string>NSButton</string>
+				<key>O_findComboBox</key>
+				<string>NSComboBox</string>
+				<key>O_findPanel</key>
+				<string>NSPanel</string>
+				<key>O_gotoLineTextField</key>
+				<string>NSTextField</string>
+				<key>O_gotoPanel</key>
+				<string>NSPanel</string>
+				<key>O_ignoreCaseCheckbox</key>
+				<string>NSButton</string>
+				<key>O_progressIndicator</key>
+				<string>NSProgressIndicator</string>
+				<key>O_progressIndicatorDet</key>
+				<string>NSProgressIndicator</string>
+				<key>O_regexCaptureGroupsCheckbox</key>
+				<string>NSButton</string>
+				<key>O_regexCheckbox</key>
+				<string>NSButton</string>
+				<key>O_regexDontCaptureCheckbox</key>
+				<string>NSButton</string>
+				<key>O_regexDrawer</key>
+				<string>NSDrawer</string>
+				<key>O_regexEscapeCharacter</key>
+				<string>NSPopUpButton</string>
+				<key>O_regexExtendedCheckbox</key>
+				<string>NSButton</string>
+				<key>O_regexFindLongestCheckbox</key>
+				<string>NSButton</string>
+				<key>O_regexIgnoreEmptyCheckbox</key>
+				<string>NSButton</string>
+				<key>O_regexMultilineCheckbox</key>
+				<string>NSButton</string>
+				<key>O_regexNegateSinglelineCheckbox</key>
+				<string>NSButton</string>
+				<key>O_regexOptionsView</key>
+				<string>NSView</string>
+				<key>O_regexSinglelineCheckbox</key>
+				<string>NSButton</string>
+				<key>O_regexSyntaxPopup</key>
+				<string>NSPopUpButton</string>
+				<key>O_replaceComboBox</key>
+				<string>NSComboBox</string>
+				<key>O_scopePopup</key>
+				<string>NSPopUpButton</string>
+				<key>O_statusTextField</key>
+				<string>NSTextField</string>
+				<key>O_tabWidthPanel</key>
+				<string>NSPanel</string>
+				<key>O_tabWidthTextField</key>
+				<string>NSTextField</string>
+				<key>O_wrapAroundCheckbox</key>
+				<string>NSButton</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+	</array>
+	<key>IBVersion</key>
+	<string>1</string>
+</dict>
+</plist>
