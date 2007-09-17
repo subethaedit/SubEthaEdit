@@ -14,7 +14,7 @@
  redistribute this Apple software.
 
  In consideration of your agreement to abide by the following terms, and subject to these
- terms, Apple grants you a personal, non-exclusive license, under AppleÕs copyrights in
+ terms, Apple grants you a personal, non-exclusive license, under Appleâ€™s copyrights in
  this original Apple software (the "Apple Software"), to use, reproduce, modify and
  redistribute the Apple Software, with or without modifications, in source and/or binary
  forms; provided that if you redistribute the Apple Software in its entirety and without
@@ -219,7 +219,9 @@ static int encodingCompare(const void *firstPtr, const void *secondPtr) {
 
     for (cnt = 0; cnt < numEncodings; cnt++) {
         NSStringEncoding encoding = [[allEncodings objectAtIndex:cnt] unsignedIntValue];
-        NSString *encodingName = [NSString localizedNameOfStringEncoding:encoding];
+        NSString *ianaName = [(NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(encoding)) lowercaseString];
+        NSString *encodingName = ianaName?[NSString stringWithFormat:@"%@ [%@]",[NSString localizedNameOfStringEncoding:encoding],ianaName]:[NSString localizedNameOfStringEncoding:encoding];
+        //[NSString localizedNameOfStringEncoding:encoding];
         NSCell *cell;
         if (cnt >= [encodingMatrix numberOfRows]) [encodingMatrix addRow];
         cell = [encodingMatrix cellAtRow:cnt column:0];
@@ -415,7 +417,7 @@ static int encodingCompare(const void *firstPtr, const void *secondPtr) {
 
 /* Action methods */
 
-- (IBAction)showPanel:(id)sender {
+- (void)ensureMatrix {
     if (!encodingMatrix) {
         if (![NSBundle loadNibNamed:@"SelectEncodingsPanel" owner:self])  {
             NSLog(@"Failed to load SelectEncodingsPanel.nib");
@@ -425,8 +427,13 @@ static int encodingCompare(const void *firstPtr, const void *secondPtr) {
         [[encodingMatrix window] setLevel:NSModalPanelWindowLevel];	// Again, for the same reason
         [self setupEncodingsList];					// Initialize the list (only need to do this once)
     }
+}
+
+- (IBAction)showPanel:(id)sender {
+    [self ensureMatrix];
     [[encodingMatrix window] makeKeyAndOrderFront:nil];
 }
+
 
 - (IBAction)encodingListChanged:(id)sender {
     int cnt, numRows = [encodingMatrix numberOfRows];
@@ -442,6 +449,15 @@ static int encodingCompare(const void *firstPtr, const void *secondPtr) {
 
     [self noteEncodingListChange:YES updateList:NO postNotification:YES];
 }
+
+- (void)activateEncoding:(NSStringEncoding)anEncoding {
+    if (![encodings containsObject:[NSNumber numberWithUnsignedInt:anEncoding]]) {
+        [encodings autorelease];
+        encodings = [[encodings arrayByAddingObject:[NSNumber numberWithUnsignedInt:anEncoding]] retain];
+        [self noteEncodingListChange:YES updateList:NO postNotification:YES];
+    }
+}
+
 
 - (IBAction)clearAll:(id)sender {
     [encodings autorelease];
