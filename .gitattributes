@@ -96,6 +96,8 @@ Directory/SDDirectoryUserGroupList.m -text
 /DocumentModeManager.m -text
 /DocumentProxyWindowController.h -text
 /DocumentProxyWindowController.m -text
+/DocumentSharedMethods.h -text
+/DocumentSharedMethods.m -text
 /EditPreferences.h -text
 /EditPreferences.m -text
 /EncodingDoctorDialog.h -text

@@ -11,6 +11,7 @@
 #import "../TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "../SelectionOperation.h"
 #import "../TextOperation.h"
+#import "NSMutableAttributedStringSEEAdditions.h"
 
 
 NSString * const WrittenByUserIDAttributeName = @"WrittenByUserID";
@@ -41,6 +42,9 @@ NSString * const SDDocumentDidChangeChangeCountNotification = @"SDDocumentDidCha
         NSString *name = [oldSession filename];
         [newSession setFilename:name];
         //[self setTemporaryDisplayName:[[self temporaryDisplayName] lastPathComponent]];
+        [newSession setLoggingState:[oldSession loggingState]];
+    } else {
+        [[[self session] loggingState] setInitialTextStorageDictionaryRepresentation:[self textStorageDictionaryRepresentation]];
     }
     NSArray *contributors = [oldSession contributors];
     if ([contributors count]) {
@@ -92,8 +96,7 @@ NSString * const SDDocumentDidChangeChangeCountNotification = @"SDDocumentDidCha
 }
 
 
-- (id)init
-{
+- (id)init {
     self = [super init];
     if (self) {
         _stringEncoding = NSUTF8StringEncoding;
@@ -247,8 +250,10 @@ NSString * const SDDocumentDidChangeChangeCountNotification = @"SDDocumentDidCha
         [_attributedString replaceCharactersInRange:NSMakeRange(0, [_attributedString length])
                                          withString:contentString];
         [contentString release];
+        [[[self session] loggingState] setInitialTextStorageDictionaryRepresentation:[self textStorageDictionaryRepresentation]];
         return YES;
     }
+    
     
     return NO;
 }
@@ -369,63 +374,19 @@ NSString * const SDDocumentDidChangeChangeCountNotification = @"SDDocumentDidCha
     return [self pathRelativeToDocumentRoot];
 }
 
-- (void)invalidateLayoutForRange:(NSRange)aRange
-{
+- (void)invalidateLayoutForRange:(NSRange)aRange {
+
 }
 
-- (NSDictionary *)textStorageDictionaryRepresentation
-{
-    //NSLog(@"%s", __FUNCTION__);
-
-    NSMutableDictionary *dictionary = [NSMutableDictionary dictionary];
-
-    [dictionary setObject:[[[_attributedString string] copy] autorelease] forKey:@"String"];
-    [dictionary setObject:[NSNumber numberWithUnsignedInt:_stringEncoding] forKey:@"Encoding"];
-    NSMutableDictionary *attributeDictionary = [[NSMutableDictionary alloc] init];
-    NSEnumerator *attributeNames = [[NSArray arrayWithObjects:WrittenByUserIDAttributeName, ChangedByUserIDAttributeName ,nil] objectEnumerator];
-    NSString *attributeName;
-    NSRange wholeRange = NSMakeRange(0, [_attributedString length]);
-    if (wholeRange.length) {
-        while ((attributeName = [attributeNames nextObject])) {
-            NSMutableArray *attributeArray = [[NSMutableArray alloc] init];
-            NSRange searchRange = NSMakeRange(0,0);
-            while (NSMaxRange(searchRange)<wholeRange.length) {
-                id value = [_attributedString attribute:attributeName
-                                                atIndex:NSMaxRange(searchRange) 
-                                  longestEffectiveRange:&searchRange 
-                                                inRange:wholeRange];
-                if (value) {
-                    [attributeArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                        value, @"val",
-                        [NSNumber numberWithUnsignedInt:searchRange.location], @"loc",
-                        [NSNumber numberWithUnsignedInt:searchRange.length], @"len",
-                        nil]];
-                }
-            }
-            if ([attributeArray count]) {
-                [attributeDictionary setObject:attributeArray forKey:attributeName];
-            }
-            [attributeArray release];
-        }
-    }
-    [dictionary setObject:attributeDictionary forKey:@"Attributes"];
-    [attributeDictionary release];
-
-    return dictionary;
-}
-
-- (void)updateProxyWindow
-{
+- (void)updateProxyWindow {
     //NSLog(@"%s", __FUNCTION__);
 }
 
-- (void)showWindows
-{
+- (void)showWindows {
     //NSLog(@"%s", __FUNCTION__);
 }
 
-- (NSSet *)userIDsOfContributors
-{
+- (NSSet *)userIDsOfContributors {
     //NSLog(@"%s", __FUNCTION__);
 
     NSMutableSet *result = [NSMutableSet set];
@@ -515,5 +476,10 @@ NSString * const SDDocumentDidChangeChangeCountNotification = @"SDDocumentDidCha
 - (NSString *)description {
     return [NSString stringWithFormat:@"%@ dictionaryRep:%@ session:%@",[super description],[[self dictionaryRepresentation] description],[[self session] description]];
 }
+
+- (NSDictionary *)textStorageDictionaryRepresentation {
+    return [_attributedString dictionaryRepresentationUsingEncoding:[self stringEncoding]];
+}
+
 
 @end

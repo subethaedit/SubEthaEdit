@@ -405,6 +405,9 @@
 		F27B2EF10B52968E00679CF2 /* HUDButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F27B2EED0B52968E00679CF2 /* HUDButtonCell.m */; };
 		F27B2EF20B52968E00679CF2 /* HUDButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F27B2EEE0B52968E00679CF2 /* HUDButton.m */; };
 		F29940600C0C7F3400A53189 /* NSScreenTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F299405E0C0C7F3400A53189 /* NSScreenTCMAdditions.m */; };
+		F2A0934F0C9EA923000AD27A /* DocumentSharedMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A0934E0C9EA923000AD27A /* DocumentSharedMethods.m */; };
+		F2A093510C9EA923000AD27A /* DocumentSharedMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A0934E0C9EA923000AD27A /* DocumentSharedMethods.m */; };
+		F2A0937A0C9EB0AC000AD27A /* NSMutableAttributedStringSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142D18B30BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m */; };
 		F2A707970BF8935400482EFC /* LoginButton.png in Resources */ = {isa = PBXBuildFile; fileRef = F2A707960BF8935400482EFC /* LoginButton.png */; };
 		F2A707B00BF89A4300482EFC /* LoginButtonIn.png in Resources */ = {isa = PBXBuildFile; fileRef = F2A707AF0BF89A4300482EFC /* LoginButtonIn.png */; };
 		F2A707BB0BF89F4200482EFC /* LoginSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A707B90BF89F4200482EFC /* LoginSheetController.m */; };
@@ -1160,6 +1163,8 @@
 		F299405E0C0C7F3400A53189 /* NSScreenTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = NSScreenTCMAdditions.m; sourceTree = "<group>"; };
 		F299405F0C0C7F3400A53189 /* NSScreenTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = NSScreenTCMAdditions.h; sourceTree = "<group>"; };
 		F29940780C0C806600A53189 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info.plist; path = see/Info.plist; sourceTree = "<group>"; };
+		F2A0934D0C9EA923000AD27A /* DocumentSharedMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentSharedMethods.h; sourceTree = "<group>"; };
+		F2A0934E0C9EA923000AD27A /* DocumentSharedMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentSharedMethods.m; sourceTree = "<group>"; };
 		F2A707960BF8935400482EFC /* LoginButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LoginButton.png; path = artwork/LoginButton.png; sourceTree = "<group>"; };
 		F2A707AF0BF89A4300482EFC /* LoginButtonIn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LoginButtonIn.png; path = artwork/LoginButtonIn.png; sourceTree = "<group>"; };
 		F2A707B80BF89F4200482EFC /* LoginSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginSheetController.h; sourceTree = "<group>"; };
@@ -1568,6 +1573,8 @@
 		142892490957526300D14688 /* Document */ = {
 			isa = PBXGroup;
 			children = (
+				F2A0934D0C9EA923000AD27A /* DocumentSharedMethods.h */,
+				F2A0934E0C9EA923000AD27A /* DocumentSharedMethods.m */,
 				F27B2EEF0B52968E00679CF2 /* HUDButton.h */,
 				F27B2EEE0B52968E00679CF2 /* HUDButton.m */,
 				F27B2EEC0B52968E00679CF2 /* HUDButtonCell.h */,
@@ -2667,6 +2674,8 @@
 				F2ABC4D70C799775007437A2 /* TCMMMLoggingState.m in Sources */,
 				F2ABC4E50C799CCD007437A2 /* TCMMMLoggedOperation.m in Sources */,
 				F20948BA0C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m in Sources */,
+				F2A0934F0C9EA923000AD27A /* DocumentSharedMethods.m in Sources */,
+				F2A0937A0C9EB0AC000AD27A /* NSMutableAttributedStringSEEAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2872,6 +2881,7 @@
 				F2ABC5400C79D9AB007437A2 /* DebugHistoryController.m in Sources */,
 				F20948BC0C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m in Sources */,
 				F20948EE0C7B4C7100E78EBA /* UserStatisticsController.m in Sources */,
+				F2A093510C9EA923000AD27A /* DocumentSharedMethods.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3244,7 +3254,7 @@
 					vmutils,
 				);
 				PRODUCT_NAME = seed;
-				ZERO_LINK = YES;
+				ZERO_LINK = NO;
 			};
 			name = Debug;
 		};
