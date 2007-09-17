@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import <OgreKit/OgreKit.h>
+#import "NSMutableAttributedStringSEEAdditions.h"
 
 extern NSString * const BlockeditAttributeName ;
 extern NSString * const BlockeditAttributeValue;

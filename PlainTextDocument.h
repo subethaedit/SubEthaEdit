@@ -384,3 +384,7 @@ typedef enum {
 @interface NSTextView (NSTextViewLeopardInterfaceAdditions)
 - (void)showFindIndicatorForRange:(NSRange)aRange;
 @end
+
+#import "DocumentSharedMethods.h"
+
+

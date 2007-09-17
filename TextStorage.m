@@ -716,37 +716,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 "*/
 
 - (NSDictionary *)dictionaryRepresentation {
-    NSMutableDictionary *dictionary=[NSMutableDictionary dictionary];
-    [dictionary setObject:[[[self string] copy] autorelease] forKey:@"String"];
-    [dictionary setObject:[NSNumber numberWithUnsignedInt:[self encoding]] forKey:@"Encoding"];
-    NSMutableDictionary *attributeDictionary=[NSMutableDictionary new];
-    NSEnumerator *attributeNames=[[NSArray arrayWithObjects:WrittenByUserIDAttributeName,ChangedByUserIDAttributeName,nil] objectEnumerator];
-    NSString *attributeName;
-    NSRange wholeRange=NSMakeRange(0,[self length]);
-    if (wholeRange.length) {
-        while ((attributeName=[attributeNames nextObject])) {
-            NSMutableArray *attributeArray=[NSMutableArray new];
-            NSRange searchRange=NSMakeRange(0,0);
-            while (NSMaxRange(searchRange)<wholeRange.length) {
-                id value=[self attribute:attributeName atIndex:NSMaxRange(searchRange) 
-                       longestEffectiveRange:&searchRange inRange:wholeRange];
-                if (value) {
-                    [attributeArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                        value,@"val",
-                        [NSNumber numberWithUnsignedInt:searchRange.location],@"loc",
-                        [NSNumber numberWithUnsignedInt:searchRange.length],@"len",
-                        nil]];
-                }
-            }
-            if ([attributeArray count]) {
-                [attributeDictionary setObject:attributeArray forKey:attributeName];
-            }
-            [attributeArray release];
-        }
-    }
-    [dictionary setObject:attributeDictionary forKey:@"Attributes"];
-    [attributeDictionary release];
-    return dictionary;
+    return [self dictionaryRepresentationUsingEncoding:[self encoding]];
 }
 
 - (void)setContentByDictionaryRepresentation:(NSDictionary *)aRepresentation {

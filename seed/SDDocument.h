@@ -68,4 +68,8 @@ extern NSString * const SDDocumentDidChangeChangeCountNotification;
 - (BOOL)isAnnounced;
 - (BOOL)setIsAnnounced:(BOOL)flag;
 
+- (NSDictionary *)textStorageDictionaryRepresentation;
+
 @end
+
+#import "DocumentSharedMethods.h"
