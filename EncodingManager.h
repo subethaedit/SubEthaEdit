@@ -64,7 +64,7 @@ enum {
 - (IBAction)clearAll:(id)sender;
 - (IBAction)selectAll:(id)sender;
 - (IBAction)revertToDefault:(id)sender;
-    
+- (void)activateEncoding:(NSStringEncoding)anEncoding;    
 /* Internal method to save and communicate changes to the encoding list
 */
 - (void)noteEncodingListChange:(BOOL)writeDefault updateList:(BOOL)updateList postNotification:(BOOL)post;

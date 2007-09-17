@@ -408,6 +408,8 @@
 		F2A0934F0C9EA923000AD27A /* DocumentSharedMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A0934E0C9EA923000AD27A /* DocumentSharedMethods.m */; };
 		F2A093510C9EA923000AD27A /* DocumentSharedMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A0934E0C9EA923000AD27A /* DocumentSharedMethods.m */; };
 		F2A0937A0C9EB0AC000AD27A /* NSMutableAttributedStringSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142D18B30BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m */; };
+		F2A099500C9EBC5B000AD27A /* UniversalDetector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2A093BB0C9EBB42000AD27A /* UniversalDetector.framework */; };
+		F2A0997A0C9EE015000AD27A /* UniversalDetector.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F2A093BB0C9EBB42000AD27A /* UniversalDetector.framework */; };
 		F2A707970BF8935400482EFC /* LoginButton.png in Resources */ = {isa = PBXBuildFile; fileRef = F2A707960BF8935400482EFC /* LoginButton.png */; };
 		F2A707B00BF89A4300482EFC /* LoginButtonIn.png in Resources */ = {isa = PBXBuildFile; fileRef = F2A707AF0BF89A4300482EFC /* LoginButtonIn.png */; };
 		F2A707BB0BF89F4200482EFC /* LoginSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A707B90BF89F4200482EFC /* LoginSheetController.m */; };
@@ -601,6 +603,34 @@
 			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
 			remoteInfo = SubEthaEdit;
 		};
+		F2A093BA0C9EBB42000AD27A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F2A093B40C9EBB42000AD27A /* UniversalDetector.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
+			remoteInfo = UniversalDetector;
+		};
+		F2A093BC0C9EBB42000AD27A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F2A093B40C9EBB42000AD27A /* UniversalDetector.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 1B0DDCAB0A2D0AD10009B697;
+			remoteInfo = DetectorTest;
+		};
+		F2A093BE0C9EBB42000AD27A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F2A093B40C9EBB42000AD27A /* UniversalDetector.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 3DBF4F570BCD396800DA401A;
+			remoteInfo = universaldetector;
+		};
+		F2A099420C9EBC39000AD27A /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F2A093B40C9EBB42000AD27A /* UniversalDetector.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = UniversalDetector;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -623,6 +653,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				F2A0997A0C9EE015000AD27A /* UniversalDetector.framework in Copy Files (Frameworks) */,
 				144E3AD30B6FEEDF001C49C2 /* OgreKit.framework in Copy Files (Frameworks) */,
 				31D5FB230AA309200088DB18 /* HDCrashReporter.framework in Copy Files (Frameworks) */,
 				141F4EB40AE4266F001B73D2 /* PSMTabBarControl.framework in Copy Files (Frameworks) */,
@@ -1165,6 +1196,7 @@
 		F29940780C0C806600A53189 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info.plist; path = see/Info.plist; sourceTree = "<group>"; };
 		F2A0934D0C9EA923000AD27A /* DocumentSharedMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentSharedMethods.h; sourceTree = "<group>"; };
 		F2A0934E0C9EA923000AD27A /* DocumentSharedMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentSharedMethods.m; sourceTree = "<group>"; };
+		F2A093B40C9EBB42000AD27A /* UniversalDetector.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = UniversalDetector.xcodeproj; path = UniversalDetector/UniversalDetector.xcodeproj; sourceTree = "<group>"; };
 		F2A707960BF8935400482EFC /* LoginButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LoginButton.png; path = artwork/LoginButton.png; sourceTree = "<group>"; };
 		F2A707AF0BF89A4300482EFC /* LoginButtonIn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LoginButtonIn.png; path = artwork/LoginButtonIn.png; sourceTree = "<group>"; };
 		F2A707B80BF89F4200482EFC /* LoginSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginSheetController.h; sourceTree = "<group>"; };
@@ -1239,6 +1271,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F2A099500C9EBC5B000AD27A /* UniversalDetector.framework in Frameworks */,
 				144E3AD20B6FEED6001C49C2 /* OgreKit.framework in Frameworks */,
 				141F4F120AE42BC7001B73D2 /* PSMTabBarControl.framework in Frameworks */,
 				312B7C070A99DA460014E52A /* Sparkle.framework in Frameworks */,
@@ -1873,6 +1906,7 @@
 				141F4E970AE42602001B73D2 /* PSMTabBarControl.xcodeproj */,
 				312B7BB20A99D1B50014E52A /* Sparkle.xcodeproj */,
 				14F16CEF0971A87300402129 /* OgreKit.xcodeproj */,
+				F2A093B40C9EBB42000AD27A /* UniversalDetector.xcodeproj */,
 				5EC6382B0ABEB71100D3295B /* Unit Tests-Info.plist */,
 			);
 			comments = "Build Requirements:\n\nMake sure you use a shared build directory for both the SubEthaEdit project and the OgreKit project. Currently, both projects use the default build location so you can set the shared build directory in the global Xcode preferences and both projects will pick it up. You can also set the shared build location in both projects directly.\n\n/usr/local/bin/svnversion is required if you want automatic versioning support of the build.";
@@ -2076,6 +2110,16 @@
 			name = Directory;
 			sourceTree = "<group>";
 		};
+		F2A093B50C9EBB42000AD27A /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F2A093BB0C9EBB42000AD27A /* UniversalDetector.framework */,
+				F2A093BD0C9EBB42000AD27A /* DetectorTest */,
+				F2A093BF0C9EBB42000AD27A /* libuniversaldetector.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXLegacyTarget section */
@@ -2207,6 +2251,7 @@
 				312B7BBF0A99D2000014E52A /* PBXTargetDependency */,
 				141F4EA90AE42641001B73D2 /* PBXTargetDependency */,
 				144E3AD10B6FEEC1001C49C2 /* PBXTargetDependency */,
+				F2A099430C9EBC39000AD27A /* PBXTargetDependency */,
 			);
 			name = SubEthaEdit;
 			productInstallPath = "$(HOME)/Applications";
@@ -2246,6 +2291,10 @@
 				{
 					ProductGroup = 312B7BB30A99D1B50014E52A /* Products */;
 					ProjectRef = 312B7BB20A99D1B50014E52A /* Sparkle.xcodeproj */;
+				},
+				{
+					ProductGroup = F2A093B50C9EBB42000AD27A /* Products */;
+					ProjectRef = F2A093B40C9EBB42000AD27A /* UniversalDetector.xcodeproj */;
 				},
 			);
 			projectRoot = "";
@@ -2345,6 +2394,27 @@
 			fileType = wrapper.framework;
 			path = HDCrashReporter.framework;
 			remoteRef = 31D5F8580AA2FB760088DB18 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F2A093BB0C9EBB42000AD27A /* UniversalDetector.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = UniversalDetector.framework;
+			remoteRef = F2A093BA0C9EBB42000AD27A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F2A093BD0C9EBB42000AD27A /* DetectorTest */ = {
+			isa = PBXReferenceProxy;
+			fileType = "compiled.mach-o.executable";
+			path = DetectorTest;
+			remoteRef = F2A093BC0C9EBB42000AD27A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F2A093BF0C9EBB42000AD27A /* libuniversaldetector.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libuniversaldetector.a;
+			remoteRef = F2A093BE0C9EBB42000AD27A /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -2942,6 +3012,11 @@
 			isa = PBXTargetDependency;
 			target = 8D15AC270486D014006FF6A4 /* SubEthaEdit */;
 			targetProxy = 5EC638300ABEB78000D3295B /* PBXContainerItemProxy */;
+		};
+		F2A099430C9EBC39000AD27A /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = UniversalDetector;
+			targetProxy = F2A099420C9EBC39000AD27A /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

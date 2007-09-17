@@ -152,6 +152,10 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
     NSArray *I_preservedDataFromSEETextFile;
     
     AuthorizationRef I_authRef;
+    
+    #ifndef TCM_NO_DEBUG
+        NSMutableString *_readFromURLDebugInformation;
+    #endif
 }
 
 + (PlainTextDocument *)transientDocument;
