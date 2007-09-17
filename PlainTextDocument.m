@@ -2924,7 +2924,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Document opened via open panel: %@", isDocumentFromOpenPanel ? @"YES" : @"NO");
 
         // load the data of the file
-        NSStringEncoding systemEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringGetSystemEncoding());
+//        NSStringEncoding systemEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringGetSystemEncoding());
         BOOL isReadable = [[NSFileManager defaultManager] isReadableFileAtPath:fileName];
         
         NSString *extension = [[fileName pathExtension] lowercaseString];
@@ -3058,42 +3058,28 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             ( [docAttrs objectForKey:NSConvertedDocumentAttribute] && 
              [[docAttrs objectForKey:NSConvertedDocumentAttribute] intValue])) {
 
-            NSData *data = fileData;
-            
             NSStringEncoding	encoding = NSUTF8StringEncoding;
             float				confidence = 0.0;
-            
-            // check to see if encoding has been passed in from prefs
-            if ( [options objectForKey:@"CharacterEncoding"] != nil ) {
-            
-                encoding = [[options objectForKey:@"CharacterEncoding"] unsignedIntValue];
-                confidence = 1.0;
-                
-                [options setObject:[NSNumber numberWithUnsignedInt:encoding] forKey:NSCharacterEncodingDocumentOption];
-                success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];
-    #ifndef TCM_NO_DEBUG
-        [_readFromURLDebugInformation appendFormat:@"--> 2. Step:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n",success,[options description],[docAttrs description],(success?nil:*outError)];
-    #endif
-            }
-            
+                        
             if ( !success ) {
                 // checking if we can guess the correct encoding based on the charset - first check html
-                NSString	*fileContent = [NSString stringWithData:data encoding:NSMacOSRomanStringEncoding];
+                NSString	*fileContent = [NSString stringWithData:fileData encoding:NSMacOSRomanStringEncoding];
                 BOOL		foundEncoding = NO;
                 
-//                if ( [[mode documentModeIdentifier] isEqualToString:@"SEEMode.CSS"] ) {
-//                    //check for css encoding
-//                    foundEncoding = [fileContent findIANAEncodingUsingExpression:@"@charset.*?\"(.*?)\"" encoding:&encoding];
-//                } else {
-//                    // check for html charset in all other documents
-//                    foundEncoding = [fileContent findIANAEncodingUsingExpression:@"<meta.*?charset=(.*?)\"" encoding:&encoding];
-//                }
+                if ( [[mode documentModeIdentifier] isEqualToString:@"SEEMode.CSS"] ) {
+                    //check for css encoding
+                    foundEncoding = [fileContent findIANAEncodingUsingExpression:@"@charset.*?\"(.*?)\"" encoding:&encoding];
+                } else {
+                    // check for html charset in all other documents
+                    foundEncoding = [fileContent findIANAEncodingUsingExpression:@"<meta.*?charset=(.*?)\"" encoding:&encoding];
+                }
                 
                 if ( foundEncoding ) {
                     [options setObject:[NSNumber numberWithUnsignedInt:encoding] forKey:NSCharacterEncodingDocumentOption];
-                    success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs];
+                    success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];
+                    if (success) [[EncodingManager sharedInstance] activateEncoding:encoding];
     #ifndef TCM_NO_DEBUG
-        [_readFromURLDebugInformation appendFormat:@"---> 3. Step - reading encoding/charset setting from html/xml/css:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n",success,[options description],[docAttrs description],(success?nil:*outError)];
+        [_readFromURLDebugInformation appendFormat:@"--> 2. Step - reading encoding/charset setting from html/xml/css:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n",success,[options description],[docAttrs description],(success?nil:*outError)];
     #endif
                 }
             }
@@ -3102,7 +3088,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 // guess encoding based on character sniffing
                 UniversalDetector	*detector = [UniversalDetector detector];
                 
-                [detector analyzeData:data];
+                [detector analyzeData:fileData];
                 encoding = [detector encoding];
                 confidence = [detector confidence];
     #ifndef TCM_NO_DEBUG
@@ -3111,10 +3097,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 if ( encoding > 0 && confidence > 0.0 ) {
                     // lookup found something, use it
                     [options setObject:[NSNumber numberWithUnsignedInt:encoding] forKey:NSCharacterEncodingDocumentOption];
-                    success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs];
+                    success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];
                     if (success) [[EncodingManager sharedInstance] activateEncoding:encoding];
     #ifndef TCM_NO_DEBUG
-        [_readFromURLDebugInformation appendFormat:@"----> 4. Step - using UniversalDetector:\n success:%d confidence:%1.3f encoding:%@ readWithOptions:%@ docAttributes:%@ error:%@\n",success,confidence,CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(encoding)) ,[options description],[docAttrs description],(success?nil:*outError)];
+        [_readFromURLDebugInformation appendFormat:@"---> 3. Step - using UniversalDetector:\n success:%d confidence:%1.3f encoding:%@ readWithOptions:%@ docAttributes:%@ error:%@\n",success,confidence,CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(encoding)) ,[options description],[docAttrs description],(success?nil:*outError)];
     #endif
                 }
             }
@@ -3122,17 +3108,17 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             if ( !success ) {
                 //all guess attempts failed, try system encoding
                 [options removeObjectForKey:NSCharacterEncodingDocumentOption];
-                success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs];					
+                success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];					
     #ifndef TCM_NO_DEBUG
-        [_readFromURLDebugInformation appendFormat:@"-----> 5. Step - using system encoding by not specifying an encoding:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n",success,[options description],[docAttrs description],(success?nil:*outError)];
+        [_readFromURLDebugInformation appendFormat:@"----> 4. Step - using system encoding by not specifying an encoding:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n",success,[options description],[docAttrs description],(success?nil:*outError)];
     #endif
             }
             if ( !success ) {
                 //all guess attempts failed, try Mac OS Roman system encoding
                 [options setObject:[NSNumber numberWithUnsignedInt:NSMacOSRomanStringEncoding] forKey:NSCharacterEncodingDocumentOption];
-                success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs];					
+                success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];					
     #ifndef TCM_NO_DEBUG
-        [_readFromURLDebugInformation appendFormat:@"------> 6. Step - using mac os roman encoding:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n",success,[options description],[docAttrs description],(success?nil:*outError)];
+        [_readFromURLDebugInformation appendFormat:@"-----> 5. Step - using mac os roman encoding:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n",success,[options description],[docAttrs description],(success?nil:*outError)];
     #endif
                 }
             }
