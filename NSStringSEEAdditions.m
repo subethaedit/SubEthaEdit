@@ -7,7 +7,7 @@
 //
 
 #import "NSStringSEEAdditions.h"
-
+#import <OgreKit/OgreKit.h>
 
 static void convertLineEndingsInString(NSMutableString *string, NSString *newLineEnding)
 {
@@ -611,6 +611,55 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
     
     return string;
 }
+
+- (BOOL)findIANAEncodingUsingExpression:(NSString*)regEx encoding:(NSStringEncoding*)outEncoding;
+{
+    NSLog(@"%s",__FUNCTION__);
+	OGRegularExpression			*regex = nil;
+	OGRegularExpressionMatch	*match = nil;
+	BOOL						success = NO;
+	
+	//@"<meta.*?charset=(.*?)\""
+	
+	NS_DURING
+		regex = [OGRegularExpression regularExpressionWithString:regEx options:OgreCaptureGroupOption | OgreIgnoreCaseOption];
+		match = [regex matchInString:self];
+
+		if ( [match count] >= 2 )
+		{
+			NSString *matchString = [self substringWithRange:[match rangeOfSubstringAtIndex:1]];
+			
+			if ( matchString )
+			{
+				CFStringEncoding cfEncoding = CFStringConvertIANACharSetNameToEncoding((CFStringRef)matchString);
+			
+				if ( cfEncoding == kCFStringEncodingInvalidId )
+				{
+					NSLog(@"findIANAEncodingUsingExpression:encoding: invalid encoding");
+				}
+				else
+				{
+					if ( outEncoding )
+					{
+						*outEncoding = CFStringConvertEncodingToNSStringEncoding(cfEncoding);
+						success = YES;
+					}
+					else
+					{
+						success = NO;
+					}
+				}
+			}
+		}
+		
+	NS_HANDLER
+		NSLog(@"%@", [localException description]);
+	NS_ENDHANDLER
+
+	return success;
+}
+
+
 @end
 
 @implementation NSAttributedString (NSAttributedStringSEEAdditions)

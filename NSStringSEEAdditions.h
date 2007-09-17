@@ -36,10 +36,11 @@ typedef enum _LineEnding {
                 length:(unsigned *)rLength upToCharacterIndex:(unsigned *)rIndex
               tabWidth:(int)aTabWidth;
 - (NSMutableString *)stringByReplacingEntitiesForUTF8:(BOOL)forUTF8;
+- (BOOL)findIANAEncodingUsingExpression:(NSString*)regEx encoding:(NSStringEncoding*)outEncoding;
+
 @end
 
 @interface NSAttributedString (NSAttributedStringSEEAdditions)
 
 - (NSMutableString *)XHTMLStringWithAttributeMapping:(NSDictionary *)anAttributeMapping forUTF8:(BOOL)forUTF8;
-
 @end
