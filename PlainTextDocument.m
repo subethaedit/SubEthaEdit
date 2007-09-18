@@ -2804,6 +2804,99 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     }
 }
 
+
+/*
+  So what happens when loading a File?
+  
+  - we try to load the data - if we can't we use root to do it
+  
+  - then we try to determine the mode if this wasn't a revert
+  
+  - if we have data we try to load it into the textstorage using these methods to determine the encoding:
+    - if the file starts with an UTF8BOM then UTF8 is used as encoding
+    - first we look for css or html/xml encoding information - if there is one this is tried first
+    - after that we try to guess using the UniversalDetector 
+    - if an encoding is set in the properties we try this one
+    - then we look into the encoding settings of the chosen mode - if it is not automatic we try this encoding
+    - after that we try loading without a set encoding, thus using system encoding
+    - after that (because dom is paranoid) we try loading using MacOS Roman encoding, because system encoding might change someday to something that cannot load every file
+
+*/
+
+- (BOOL)readSEETextFromURL:(NSURL *)anURL properties:(NSDictionary *)aProperties wasAutosave:(BOOL *)wasAutosave error:(NSError **)outError {
+    NSData *fileData = [NSData dataWithContentsOfURL:[NSURL fileURLWithPath:[[anURL path] stringByAppendingPathComponent:@"collaborationdata.bencoded"]] options:0 error:outError];
+    if (!fileData) {
+        I_flags.isReadingFile = NO;
+        return NO;
+    }
+    // in the top level of the file there is an bencoded array
+    // the elements of the array will be merged into a Dictionary that actually holds the data
+    // the purpose of this is so there can be compressed and uncompressed data in it
+    // currently 2 types are supported
+    // - a Number - this number indicates the fileformatversion which the saving app new about.
+    // - an Array with exactly one entry which is a dictionary with uncompressed content
+    // - an Array with exactly 2 entries which is a length followed by an compressed content dictionary
+    // - everthing else will be ignored but preserved so we have potential upward compatibility
+    
+    int headerLength = [@"SEEText" length];
+    NSArray *topLevelArray = TCM_BdecodedObjectWithData([fileData subdataWithRange:NSMakeRange(headerLength,[fileData length]-headerLength)]);
+    int fileversion=0;
+    NSMutableArray *preservedData = [NSMutableArray array];
+    NSMutableDictionary *dictRep = [NSMutableDictionary dictionary];
+    NSEnumerator *elements = [topLevelArray objectEnumerator];
+    id element = [elements nextObject];
+    if (element) fileversion = [element unsignedIntValue];
+    while ((element=[elements nextObject])) {
+        if ([element isKindOfClass:[NSArray class]] && [element count]==1 && [[element objectAtIndex:0] isKindOfClass:[NSDictionary class]]) {
+            [dictRep addEntriesFromDictionary:[element objectAtIndex:0]];
+        } else if ([element isKindOfClass:[NSArray class]] && [element count]==2) {
+            NSDictionary *dict = TCM_BdecodedObjectWithData([NSData dataWithArrayOfCompressedData:element]);
+            if (dict && [dict isKindOfClass:[NSDictionary class]]) {
+                [dictRep addEntriesFromDictionary:dict];
+            }
+        } else {
+            [preservedData addObject:element];
+        }
+    }
+    [self setPreservedDataFromSEETextFile:preservedData];
+    I_flags.isSEEText = YES;
+    // load users
+    TCMMMUserManager *um = [TCMMMUserManager sharedInstance];
+    NSEnumerator *userdicts = [[dictRep objectForKey:@"Contributors"] objectEnumerator];
+    NSDictionary *userdict = nil;
+    NSMutableArray *contributors = [NSMutableArray array];
+    while ((userdict = [userdicts nextObject])) {
+        TCMMMUser *user = [TCMMMUser userWithDictionaryRepresentation:userdict];
+        [um addUser:user];
+        [contributors addObject:user];
+    }
+    [[self session] addContributors:contributors];
+    // load text into dictionary
+    NSMutableDictionary *storageRep = [dictRep objectForKey:@"TextStorage"];
+    NSString *string = [NSString stringWithContentsOfURL:[NSURL fileURLWithPath:[[anURL path] stringByAppendingPathComponent:@"plain.txt"]]  encoding:(NSStringEncoding)[[storageRep objectForKey:@"Encoding"] unsignedIntValue] error:outError];
+    if (!string) return NO;
+    [storageRep setObject:string forKey:@"String"];
+    [self setContentByDictionaryRepresentation:dictRep];
+    [self takeSettingsFromDocumentState:[dictRep objectForKey:@"DocumentState"]];
+    if ([dictRep objectForKey:@"LoggingState"]) {
+        TCMMMLoggingState *logState=[[[TCMMMLoggingState alloc] initWithDictionaryRepresentation:[dictRep objectForKey:@"LoggingState"]] autorelease];
+        if (logState) {
+            [[self session] setLoggingState:logState];
+        }
+    }
+    if ([dictRep objectForKey:@"AutosaveInformation"]) {
+        [self setFileType:[[dictRep objectForKey:@"AutosaveInformation"] objectForKey:@"fileType"]];
+        BOOL hadChanges = [[[dictRep objectForKey:@"AutosaveInformation"] objectForKey:@"hadChanges"] boolValue];
+        if (!hadChanges) {
+            [self performSelector:@selector(clearChangeCount) withObject:nil afterDelay:0.0];
+            [self performSelector:@selector(setAutosavedContentsFileURL:) withObject:nil afterDelay:0.0];
+        }
+        I_flags.isSEEText = [[self fileType] isEqualToString:@"SEETextType"];
+        if (wasAutosave) *wasAutosave = YES;
+    }
+    return YES;
+}
+
 - (BOOL)TCM_readFromURL:(NSURL *)anURL ofType:(NSString *)docType properties:(NSDictionary *)aProperties error:(NSError **)outError {
     NSString *fileName = [anURL path];
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"readFromURL:%@ ofType:%@ properties: %@", anURL, docType, aProperties);
@@ -2847,84 +2940,21 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     NSTextStorage *textStorage = [self textStorage];
     BOOL isReverting = ([textStorage length] != 0);
 
+    BOOL wasAutosaved = NO;
+
     if ([docType isEqualToString:@"SEETextType"]) {
-        NSData *fileData = [NSData dataWithContentsOfURL:[NSURL fileURLWithPath:[[anURL path] stringByAppendingPathComponent:@"collaborationdata.bencoded"]] options:0 error:outError];
-        if (!fileData) {
+        BOOL result = [self readSEETextFromURL:anURL properties:aProperties wasAutosave:&wasAutosaved error:outError];
+        if (!result) {
             I_flags.isReadingFile = NO;
-            return NO;
+            return result;
         }
-        // in the top level of the file there is an bencoded array
-        // the elements of the array will be merged into a Dictionary that actually holds the data
-        // the purpose of this is so there can be compressed and uncompressed data in it
-        // currently 2 types are supported
-        // - a Number - this number indicates the fileformatversion which the saving app new about.
-        // - an Array with exactly one entry which is a dictionary with uncompressed content
-        // - an Array with exactly 2 entries which is a length followed by an compressed content dictionary
-        // - everthing else will be ignored but preserved so we have potential upward compatibility
-        
-        int headerLength = [@"SEEText" length];
-        NSArray *topLevelArray = TCM_BdecodedObjectWithData([fileData subdataWithRange:NSMakeRange(headerLength,[fileData length]-headerLength)]);
-        int fileversion=0;
-        NSMutableArray *preservedData = [NSMutableArray array];
-        NSMutableDictionary *dictRep = [NSMutableDictionary dictionary];
-        NSEnumerator *elements = [topLevelArray objectEnumerator];
-        id element = [elements nextObject];
-        if (element) fileversion = [element unsignedIntValue];
-        while ((element=[elements nextObject])) {
-            if ([element isKindOfClass:[NSArray class]] && [element count]==1 && [[element objectAtIndex:0] isKindOfClass:[NSDictionary class]]) {
-                [dictRep addEntriesFromDictionary:[element objectAtIndex:0]];
-            } else if ([element isKindOfClass:[NSArray class]] && [element count]==2) {
-                NSDictionary *dict = TCM_BdecodedObjectWithData([NSData dataWithArrayOfCompressedData:element]);
-                if (dict && [dict isKindOfClass:[NSDictionary class]]) {
-                    [dictRep addEntriesFromDictionary:dict];
-                }
-            } else {
-                [preservedData addObject:element];
-            }
-        }
-        [self setPreservedDataFromSEETextFile:preservedData];
-        I_flags.isSEEText = YES;
-        // load users
-        TCMMMUserManager *um = [TCMMMUserManager sharedInstance];
-        NSEnumerator *userdicts = [[dictRep objectForKey:@"Contributors"] objectEnumerator];
-        NSDictionary *userdict = nil;
-        NSMutableArray *contributors = [NSMutableArray array];
-        while ((userdict = [userdicts nextObject])) {
-            TCMMMUser *user = [TCMMMUser userWithDictionaryRepresentation:userdict];
-            [um addUser:user];
-            [contributors addObject:user];
-        }
-        [[self session] addContributors:contributors];
-        // load text into dictionary
-        NSMutableDictionary *storageRep = [dictRep objectForKey:@"TextStorage"];
-        NSString *string = [NSString stringWithContentsOfURL:[NSURL fileURLWithPath:[[anURL path] stringByAppendingPathComponent:@"plain.txt"]]  encoding:(NSStringEncoding)[[storageRep objectForKey:@"Encoding"] unsignedIntValue] error:outError];
-        if (!string) return NO;
-        [storageRep setObject:string forKey:@"String"];
-        [self setContentByDictionaryRepresentation:dictRep];
-        [self takeSettingsFromDocumentState:[dictRep objectForKey:@"DocumentState"]];
-        if ([dictRep objectForKey:@"LoggingState"]) {
-            TCMMMLoggingState *logState=[[[TCMMMLoggingState alloc] initWithDictionaryRepresentation:[dictRep objectForKey:@"LoggingState"]] autorelease];
-            if (logState) {
-                [[self session] setLoggingState:logState];
-            }
-        }
-        if ([dictRep objectForKey:@"AutosaveInformation"]) {
-            [self setFileType:[[dictRep objectForKey:@"AutosaveInformation"] objectForKey:@"fileType"]];
-            BOOL hadChanges = [[[dictRep objectForKey:@"AutosaveInformation"] objectForKey:@"hadChanges"] boolValue];
-            if (!hadChanges) {
-                [self performSelector:@selector(clearChangeCount) withObject:nil afterDelay:0.0];
-                [self performSelector:@selector(setAutosavedContentsFileURL:) withObject:nil afterDelay:0.0];
-            }
-            I_flags.isSEEText = [[self fileType] isEqualToString:@"SEETextType"];
-            fileName = [self fileName];
-        }
+        if (wasAutosaved) fileName = [self fileName];
     } else {
     
         BOOL isDocumentFromOpenPanel = [(DocumentController *)[NSDocumentController sharedDocumentController] isDocumentFromLastRunOpenPanel:self];
         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Document opened via open panel: %@", isDocumentFromOpenPanel ? @"YES" : @"NO");
 
         // load the data of the file
-//        NSStringEncoding systemEncoding = CFStringConvertEncodingToNSStringEncoding(CFStringGetSystemEncoding());
         BOOL isReadable = [[NSFileManager defaultManager] isReadableFileAtPath:fileName];
         
         NSString *extension = [[fileName pathExtension] lowercaseString];
@@ -2950,51 +2980,35 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
     
         // Determine mode
+        // How things should work:
+        // - if we are reverting we stay in the mode we are
+        // - If the user chose a mode explicidly in the open panel or via the see tool (in aProperties) it is taken
+        // - Otherwise automatic mode recognition will take place
+        
         DocumentMode *mode = nil;
-        BOOL chooseModeByContent = NO;
-        if (!isReverting) {
+        
+        if (isReverting) {
+            mode = [self documentMode];
+        } else {
             if ([aProperties objectForKey:@"mode"]) {
                 NSString *modeName = [aProperties objectForKey:@"mode"];
                 mode = [[DocumentModeManager sharedInstance] documentModeForName:modeName];
-                if (!mode) {
-                    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Mode name invalid: %@", modeName);
-                }
-            } else {
-                if (isDocumentFromOpenPanel) {
-                    NSString *identifier = [(DocumentController *)[NSDocumentController sharedDocumentController] modeIdentifierFromLastRunOpenPanel];
-                    if ([identifier isEqualToString:AUTOMATICMODEIDENTIFIER]) {
-                        // Choose mode
-                        // Priorities: Filename, Regex, Extension
-                        // Check filename
-                        mode = [[DocumentModeManager sharedInstance] documentModeForFilename:[fileName lastPathComponent]];
-                        if ([mode isBaseMode]) {
-                            chooseModeByContent = YES;
-                            // Check extensions
-                            mode = [[DocumentModeManager sharedInstance] documentModeForExtension:extension];
-                        }
-                    } else {
-                        mode = [[DocumentModeManager sharedInstance] documentModeForIdentifier:identifier];
-                    }
+            } else if (isDocumentFromOpenPanel) {
+                NSString *identifier = [(DocumentController *)[NSDocumentController sharedDocumentController] modeIdentifierFromLastRunOpenPanel];
+                if (![identifier isEqualToString:AUTOMATICMODEIDENTIFIER]) {
+                    mode = [[DocumentModeManager sharedInstance] documentModeForIdentifier:identifier];
                 }
             }
-    
-            if (!mode) {
-                // get default mode (may be automatic)
-                // currently following workaround is used
-                mode = [[DocumentModeManager sharedInstance] documentModeForFilename:[fileName lastPathComponent]];
-                if ([mode isBaseMode]) {
-                    chooseModeByContent = YES;
-                    // Check extensions
-                    NSString *extension = [fileName pathExtension];
-                    mode = [[DocumentModeManager sharedInstance] documentModeForExtension:extension];
-                }
-            }
-        } else {
-            mode = [self documentMode];
         }
+
+        if (!mode) { // that means automatic mode detection
+            mode = [[DocumentModeManager sharedInstance] documentModeForFilename:[fileName lastPathComponent]];
+            if ([mode isBaseMode]) {
+                mode = [[DocumentModeManager sharedInstance] documentModeForExtension:extension];
+            }
+        } 
     
         // Determine encoding
-        BOOL usesModePreferenceEncoding = NO;
         NSStringEncoding encoding = NoStringEncoding;
         if ([aProperties objectForKey:@"encoding"]) {
             NSString *IANACharSetName = [aProperties objectForKey:@"encoding"];
@@ -3006,22 +3020,21 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"IANACharSetName invalid: %@", IANACharSetName);
                 }
             }
-        } else {
+        } 
+        
+        if (encoding == NoStringEncoding) {
             if (isDocumentFromOpenPanel) {
                 DocumentController *documentController = (DocumentController *)[NSDocumentController sharedDocumentController];
                 encoding = [documentController encodingFromLastRunOpenPanel];
                 if (encoding == ModeStringEncoding) {
                     encoding = [[mode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
-                    usesModePreferenceEncoding = YES;
                 }
             }
         }
         
         if (encoding == NoStringEncoding) {
             encoding = [[mode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
-            usesModePreferenceEncoding = YES;
         }
-        
         
         NSDictionary *docAttrs = nil;
         NSMutableDictionary *options = [NSMutableDictionary dictionary];
@@ -3040,88 +3053,89 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"We found a UTF-8 BOM!");
             I_flags.hasUTF8BOM = YES;
             [options setObject:[NSNumber numberWithUnsignedInt:NSUTF8StringEncoding] forKey:@"CharacterEncoding"];
-        }
-        
-        // only try here if we have a clue (= fixed encoding set by the mode) about the encoding
-        if ([options objectForKey:@"CharacterEncoding"]) {
             success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];
-    
     #ifndef TCM_NO_DEBUG
-        [_readFromURLDebugInformation appendFormat:@"-> 1. Step:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n",success,[options description],[docAttrs description],(success?nil:*outError)];
+        [_readFromURLDebugInformation appendFormat:@"-> Found UTF8BOM:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n",success,[options description],[docAttrs description],(success?nil:*outError)];
     #endif
         }
-
-        DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Read successful? %@", success ? @"YES" : @"NO");
-        DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"documentAttributes: %@", [docAttrs description]);
-
-        if (!success || 
-            ( [docAttrs objectForKey:NSConvertedDocumentAttribute] && 
-             [[docAttrs objectForKey:NSConvertedDocumentAttribute] intValue])) {
-
-            NSStringEncoding	encoding = NSUTF8StringEncoding;
-            float				confidence = 0.0;
-                        
-            if ( !success ) {
-                // checking if we can guess the correct encoding based on the charset - first check html
-                NSString	*fileContent = [NSString stringWithData:fileData encoding:NSMacOSRomanStringEncoding];
-                BOOL		foundEncoding = NO;
-                
-                if ( [[mode documentModeIdentifier] isEqualToString:@"SEEMode.CSS"] ) {
-                    //check for css encoding
-                    foundEncoding = [fileContent findIANAEncodingUsingExpression:@"@charset.*?\"(.*?)\"" encoding:&encoding];
-                } else {
-                    // check for html charset in all other documents
-                    foundEncoding = [fileContent findIANAEncodingUsingExpression:@"<meta.*?charset=(.*?)\"" encoding:&encoding];
-                }
-                
-                if ( foundEncoding ) {
-                    [options setObject:[NSNumber numberWithUnsignedInt:encoding] forKey:NSCharacterEncodingDocumentOption];
-                    success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];
-                    if (success) [[EncodingManager sharedInstance] activateEncoding:encoding];
+        
+        if ( !success ) {
+            // checking if we can guess the correct encoding based on the charset inside the doc - check only the first 4k to avoid finding encoding settings in strings later on in the file (my counter example is a php file that writes out an email with html content that has another encoding than my php file - this is an actual example ;) )
+            unsigned dataLength = MIN([fileData length],4096);
+            NSString	*fileContent = [[[NSString alloc] initWithBytesNoCopy:(void *)[fileData bytes] length:dataLength encoding:NSMacOSRomanStringEncoding freeWhenDone:NO] autorelease];
+            BOOL		foundEncoding = NO;
+            
+            if ( [[mode documentModeIdentifier] isEqualToString:@"SEEMode.CSS"] ) {
+                //check for css encoding
+                foundEncoding = [fileContent findIANAEncodingUsingExpression:@"@charset.*?\"(.*?)\"" encoding:&encoding];
+            } else {
+                // check for html charset in all other documents
+                foundEncoding = [fileContent findIANAEncodingUsingExpression:@"<meta.*?charset=(.*?)\"" encoding:&encoding];
+            }
+            
+            if ( foundEncoding ) {
+                [options setObject:[NSNumber numberWithUnsignedInt:encoding] forKey:NSCharacterEncodingDocumentOption];
+                success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];
+                if (success) [[EncodingManager sharedInstance] activateEncoding:encoding];
     #ifndef TCM_NO_DEBUG
         [_readFromURLDebugInformation appendFormat:@"--> 2. Step - reading encoding/charset setting from html/xml/css:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n",success,[options description],[docAttrs description],(success?nil:*outError)];
     #endif
-                }
             }
+        }
+
+        if (!success) {
+        // Panic checked for this too - but i actually don't know if this ever would happen when NSPlainTextDocumentType was set 
+        //            ( [docAttrs objectForKey:NSConvertedDocumentAttribute] && 
+        //             [[docAttrs objectForKey:NSConvertedDocumentAttribute] intValue])) {
+            float   confidence = 0.0;
+
             
-            if ( !success ) {
-                // guess encoding based on character sniffing
-                UniversalDetector	*detector = [UniversalDetector detector];
-                
-                [detector analyzeData:fileData];
-                encoding = [detector encoding];
-                confidence = [detector confidence];
+            // guess encoding based on character sniffing
+            UniversalDetector   *detector = [UniversalDetector detector];
+            
+            [detector analyzeData:fileData];
+            encoding = [detector encoding];
+            confidence = [detector confidence];
     #ifndef TCM_NO_DEBUG
         [_readFromURLDebugInformation appendFormat:@"UniversalDetector:\n confidence:%1.3f encoding:%@\n",confidence,CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(encoding))];
     #endif
-                if ( encoding > 0 && confidence > 0.0 ) {
-                    // lookup found something, use it
-                    [options setObject:[NSNumber numberWithUnsignedInt:encoding] forKey:NSCharacterEncodingDocumentOption];
-                    success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];
-                    if (success) [[EncodingManager sharedInstance] activateEncoding:encoding];
+            if ( encoding > 0 && confidence > 0.0 ) {
+                // lookup found something, use it
+                [options setObject:[NSNumber numberWithUnsignedInt:encoding] forKey:NSCharacterEncodingDocumentOption];
+                success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];
+                if (success) [[EncodingManager sharedInstance] activateEncoding:encoding];
     #ifndef TCM_NO_DEBUG
         [_readFromURLDebugInformation appendFormat:@"---> 3. Step - using UniversalDetector:\n success:%d confidence:%1.3f encoding:%@ readWithOptions:%@ docAttributes:%@ error:%@\n",success,confidence,CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(encoding)) ,[options description],[docAttrs description],(success?nil:*outError)];
     #endif
-                }
             }
-                
-            if ( !success ) {
-                //all guess attempts failed, try system encoding
-                [options removeObjectForKey:NSCharacterEncodingDocumentOption];
-                success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];					
+        }
+
+        // only try here if we have a clue (= fixed encoding set by the mode) about the encoding
+        if (!success && encoding != NoStringEncoding && encoding < SmallestCustomStringEncoding) {
+            [options setObject:[NSNumber numberWithUnsignedInt:encoding] forKey:@"CharacterEncoding"];
+            success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];
+    #ifndef TCM_NO_DEBUG
+        [_readFromURLDebugInformation appendFormat:@"-> Mode Encoding Step:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n",success,[options description],[docAttrs description],(success?nil:*outError)];
+    #endif
+        }
+            
+        if ( !success ) {
+            //all guess attempts failed, try system encoding
+            [options removeObjectForKey:NSCharacterEncodingDocumentOption];
+            success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];
     #ifndef TCM_NO_DEBUG
         [_readFromURLDebugInformation appendFormat:@"----> 4. Step - using system encoding by not specifying an encoding:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n",success,[options description],[docAttrs description],(success?nil:*outError)];
     #endif
-            }
-            if ( !success ) {
-                //all guess attempts failed, try Mac OS Roman system encoding
-                [options setObject:[NSNumber numberWithUnsignedInt:NSMacOSRomanStringEncoding] forKey:NSCharacterEncodingDocumentOption];
-                success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];					
+        }
+        
+        if ( !success ) {
+            //even system failed, try Mac OS Roman system encoding
+            [options setObject:[NSNumber numberWithUnsignedInt:NSMacOSRomanStringEncoding] forKey:NSCharacterEncodingDocumentOption];
+            success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];
     #ifndef TCM_NO_DEBUG
         [_readFromURLDebugInformation appendFormat:@"-----> 5. Step - using mac os roman encoding:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n",success,[options description],[docAttrs description],(success?nil:*outError)];
     #endif
-                }
-            }
+        }
     
         [self setFileEncoding:[[docAttrs objectForKey:@"CharacterEncoding"] unsignedIntValue]];
 
@@ -3129,31 +3143,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     #ifndef TCM_NO_DEBUG
         NSLog(@"%@",_readFromURLDebugInformation);
     #endif
-        
-    
-        // Check for ModeByContent changes and reinterpret to new encoding if necessary.
-        if (chooseModeByContent) {
-            NSString *beginning = [[I_textStorage string] substringWithRange:NSMakeRange(0,MIN(4000,[[I_textStorage string] length]))];
-            DocumentMode *contentmode = [[DocumentModeManager sharedInstance] documentModeForContent:beginning];
-            if (![contentmode isBaseMode]) {
-                mode = contentmode;
-                // Check for encoding!
-                if (usesModePreferenceEncoding) {
-                    NSStringEncoding newencoding = [[mode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
-                    if (newencoding != encoding) {
-                        encoding = newencoding;
-                        if ([[I_textStorage string] canBeConvertedToEncoding:encoding]){
-                            NSString *reinterpretedString = [[NSString alloc] initWithData:[[I_textStorage string] dataUsingEncoding:[self fileEncoding]] encoding:encoding];
-                            if (reinterpretedString) {
-                                [I_textStorage replaceCharactersInRange:NSMakeRange(0, [I_textStorage length]) withString:reinterpretedString];
-                                [self setFileEncoding:encoding];
-                            }
-                        }
-                    }
-                }
-            }
-        }
-
+        DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Read successful? %@", success ? @"YES" : @"NO");
+        DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"documentAttributes: %@", [docAttrs description]);
 
         [self setDocumentMode:mode];
         if ([I_textStorage length] > [[NSUserDefaults standardUserDefaults] integerForKey:@"StringLengthToStopHighlightingAndWrapping"]) {
@@ -3162,7 +3153,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         }
         [self performSelector:@selector(TCM_validateSizeAndLineEndings) withObject:nil afterDelay:0.0f];
 
-    }
+    } // end of part where the file wasn't SEEText
 
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"fileEncoding: %@", [NSString localizedNameOfStringEncoding:[self fileEncoding]]);
 
