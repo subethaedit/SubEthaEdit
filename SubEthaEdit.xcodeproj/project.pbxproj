@@ -430,6 +430,10 @@
 		F2BB09FA0CA018BC00258EC7 /* NSImage-Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = F2BB09EF0CA0189900258EC7 /* NSImage-Additions.m */; };
 		F2BB09FD0CA018CA00258EC7 /* PCRolloverImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2BB09FC0CA018CA00258EC7 /* PCRolloverImageView.m */; };
 		F2BB09FF0CA018CA00258EC7 /* PCRolloverImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2BB09FC0CA018CA00258EC7 /* PCRolloverImageView.m */; };
+		F2BB0A950CA0442A00258EC7 /* HMBlkAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2BB0A900CA043E300258EC7 /* HMBlkAppKit.framework */; };
+		F2BB0AA40CA0443A00258EC7 /* HMBlkAppKit.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F2BB0A900CA043E300258EC7 /* HMBlkAppKit.framework */; };
+		F2CA79A50CA04BAC008BEA38 /* HUDStatisticGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CA79A30CA04BAC008BEA38 /* HUDStatisticGraphView.m */; };
+		F2CA79A60CA04BAC008BEA38 /* HUDStatisticGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CA79A30CA04BAC008BEA38 /* HUDStatisticGraphView.m */; };
 		F2D129FC0BF0B64A00A776CC /* ConnectionBrowserController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D129F80BF0B64700A776CC /* ConnectionBrowserController.m */; };
 		F2D12A0B0BF0B6B000A776CC /* ConnectionBrowser.nib in Resources */ = {isa = PBXBuildFile; fileRef = F2D12A090BF0B6B000A776CC /* ConnectionBrowser.nib */; };
 		F2D12A1D0BF0B8DF00A776CC /* ConnectionBrowserEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D12A1B0BF0B8DF00A776CC /* ConnectionBrowserEntry.m */; };
@@ -639,6 +643,27 @@
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = UniversalDetector;
 		};
+		F2BB0A8F0CA043E300258EC7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F2BB0A8A0CA043E200258EC7 /* HMBlkAppKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
+			remoteInfo = HMBlkAppKit;
+		};
+		F2BB0A910CA043E300258EC7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F2BB0A8A0CA043E200258EC7 /* HMBlkAppKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 0B6BCA930BB237EF0014D0BF;
+			remoteInfo = TestApp;
+		};
+		F2BB0A930CA0440800258EC7 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F2BB0A8A0CA043E200258EC7 /* HMBlkAppKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
+			remoteInfo = HMBlkAppKit;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -661,6 +686,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				F2BB0AA40CA0443A00258EC7 /* HMBlkAppKit.framework in Copy Files (Frameworks) */,
 				F2A0997A0C9EE015000AD27A /* UniversalDetector.framework in Copy Files (Frameworks) */,
 				144E3AD30B6FEEDF001C49C2 /* OgreKit.framework in Copy Files (Frameworks) */,
 				31D5FB230AA309200088DB18 /* HDCrashReporter.framework in Copy Files (Frameworks) */,
@@ -1229,6 +1255,9 @@
 		F2BB09F50CA018B100258EC7 /* NSImage-States.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "NSImage-States.h"; path = "Panic/NSImage-States.h"; sourceTree = "<group>"; };
 		F2BB09FB0CA018CA00258EC7 /* PCRolloverImageView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PCRolloverImageView.h; path = Panic/PCRolloverImageView.h; sourceTree = "<group>"; };
 		F2BB09FC0CA018CA00258EC7 /* PCRolloverImageView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PCRolloverImageView.m; path = Panic/PCRolloverImageView.m; sourceTree = "<group>"; };
+		F2BB0A8A0CA043E200258EC7 /* HMBlkAppKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HMBlkAppKit.xcodeproj; path = HMBlkAppKit1.1/HMBlkAppKit.xcodeproj; sourceTree = "<group>"; };
+		F2CA79A20CA04BAC008BEA38 /* HUDStatisticGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HUDStatisticGraphView.h; sourceTree = "<group>"; };
+		F2CA79A30CA04BAC008BEA38 /* HUDStatisticGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HUDStatisticGraphView.m; sourceTree = "<group>"; };
 		F2D129F80BF0B64700A776CC /* ConnectionBrowserController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ConnectionBrowserController.m; sourceTree = "<group>"; };
 		F2D129F90BF0B64700A776CC /* ConnectionBrowserController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ConnectionBrowserController.h; sourceTree = "<group>"; };
 		F2D12A0A0BF0B6B000A776CC /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/ConnectionBrowser.nib; sourceTree = "<group>"; };
@@ -1287,6 +1316,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F2BB0A950CA0442A00258EC7 /* HMBlkAppKit.framework in Frameworks */,
 				F2A099500C9EBC5B000AD27A /* UniversalDetector.framework in Frameworks */,
 				144E3AD20B6FEED6001C49C2 /* OgreKit.framework in Frameworks */,
 				141F4F120AE42BC7001B73D2 /* PSMTabBarControl.framework in Frameworks */,
@@ -1697,6 +1727,8 @@
 				1428946109575B9700D14688 /* WebPreviewWindowController.m */,
 				F20948EA0C7B4C7100E78EBA /* UserStatisticsController.h */,
 				F20948EB0C7B4C7100E78EBA /* UserStatisticsController.m */,
+				F2CA79A20CA04BAC008BEA38 /* HUDStatisticGraphView.h */,
+				F2CA79A30CA04BAC008BEA38 /* HUDStatisticGraphView.m */,
 			);
 			name = Document;
 			sourceTree = "<group>";
@@ -1926,6 +1958,7 @@
 				2A37F4B8FDCFA73011CA2CEA /* Resources */,
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
+				F2BB0A8A0CA043E200258EC7 /* HMBlkAppKit.xcodeproj */,
 				31D5F8510AA2FB760088DB18 /* CrashReporter.xcodeproj */,
 				141F4E970AE42602001B73D2 /* PSMTabBarControl.xcodeproj */,
 				312B7BB20A99D1B50014E52A /* Sparkle.xcodeproj */,
@@ -2144,6 +2177,15 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		F2BB0A8B0CA043E200258EC7 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F2BB0A900CA043E300258EC7 /* HMBlkAppKit.framework */,
+				F2BB0A920CA043E300258EC7 /* TestApp.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXLegacyTarget section */
@@ -2276,6 +2318,7 @@
 				141F4EA90AE42641001B73D2 /* PBXTargetDependency */,
 				144E3AD10B6FEEC1001C49C2 /* PBXTargetDependency */,
 				F2A099430C9EBC39000AD27A /* PBXTargetDependency */,
+				F2BB0A940CA0440800258EC7 /* PBXTargetDependency */,
 			);
 			name = SubEthaEdit;
 			productInstallPath = "$(HOME)/Applications";
@@ -2303,6 +2346,10 @@
 				{
 					ProductGroup = 31D5F8520AA2FB760088DB18 /* Products */;
 					ProjectRef = 31D5F8510AA2FB760088DB18 /* CrashReporter.xcodeproj */;
+				},
+				{
+					ProductGroup = F2BB0A8B0CA043E200258EC7 /* Products */;
+					ProjectRef = F2BB0A8A0CA043E200258EC7 /* HMBlkAppKit.xcodeproj */;
 				},
 				{
 					ProductGroup = 144E3A970B6FEE8D001C49C2 /* Products */;
@@ -2439,6 +2486,20 @@
 			fileType = archive.ar;
 			path = libuniversaldetector.a;
 			remoteRef = F2A093BE0C9EBB42000AD27A /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F2BB0A900CA043E300258EC7 /* HMBlkAppKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = HMBlkAppKit.framework;
+			remoteRef = F2BB0A8F0CA043E300258EC7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F2BB0A920CA043E300258EC7 /* TestApp.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = TestApp.app;
+			remoteRef = F2BB0A910CA043E300258EC7 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -2774,6 +2835,7 @@
 				F2BB09F10CA0189900258EC7 /* NSImage-Additions.m in Sources */,
 				F2BB09F60CA018B100258EC7 /* NSImage-States.m in Sources */,
 				F2BB09FD0CA018CA00258EC7 /* PCRolloverImageView.m in Sources */,
+				F2CA79A60CA04BAC008BEA38 /* HUDStatisticGraphView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2984,6 +3046,7 @@
 				F2BB09F90CA018B600258EC7 /* NSImage-States.m in Sources */,
 				F2BB09FA0CA018BC00258EC7 /* NSImage-Additions.m in Sources */,
 				F2BB09FF0CA018CA00258EC7 /* PCRolloverImageView.m in Sources */,
+				F2CA79A50CA04BAC008BEA38 /* HUDStatisticGraphView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3049,6 +3112,11 @@
 			isa = PBXTargetDependency;
 			name = UniversalDetector;
 			targetProxy = F2A099420C9EBC39000AD27A /* PBXContainerItemProxy */;
+		};
+		F2BB0A940CA0440800258EC7 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = HMBlkAppKit;
+			targetProxy = F2BB0A930CA0440800258EC7 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
