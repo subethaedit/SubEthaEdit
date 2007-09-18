@@ -1642,6 +1642,7 @@ test/Performance/EncodingTests/LongAndFew.txt -text
 test/Performance/EncodingTests/LongAndMany.txt -text
 test/Syntax/ERB/application.rhtml -text
 test/Syntax/HTML/tcm-index.html -text
+test/Syntax/Java/ParseTree-NoSymbols.java -text
 test/Syntax/PHP-HTML/Classes.php -text
 test/Syntax/PHP-HTML/Library.php -text
 tool/AutoCompleteParsers/classes.pl -text
