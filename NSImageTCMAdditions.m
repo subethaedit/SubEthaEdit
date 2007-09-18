@@ -24,7 +24,6 @@
 - (NSImage *)resizedImageWithSize:(NSSize)aSize {
     
     NSSize originalSize=[self size];
-    NSLog(@"%s originalSize:%@",__FUNCTION__,NSStringFromSize(originalSize));
     NSSize newSize=aSize;
     if (originalSize.width>originalSize.height) {
         newSize.height=(int)(originalSize.height/originalSize.width*newSize.width);
@@ -33,7 +32,6 @@
         newSize.width=(int)(originalSize.width/originalSize.height*newSize.height);            
         if (newSize.width <=0) newSize.width=1;
     }
-    NSLog(@"%s newSize:%@",__FUNCTION__,NSStringFromSize(newSize));
     NSImage *image=[NSImage clearedImageWithSize:newSize];
     [image lockFocus];
     NSGraphicsContext *context=[NSGraphicsContext currentContext];
