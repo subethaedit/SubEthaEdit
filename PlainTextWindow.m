@@ -72,6 +72,11 @@
     if (result.x + [self frame].size.width > NSMaxX(visibleFrame)) {
         result.x = visibleFrame.origin.x;
     }
+    
+    // oops we forgot to take care of the fact that the window should not be to far left
+    if (result.x < NSMinX(visibleFrame)) {
+        result.x = NSMinX(visibleFrame);
+    }
 
     float toHighDifference = visibleFrame.origin.y - (result.y - [self frame].size.height);
     if (toHighDifference > 0) {
