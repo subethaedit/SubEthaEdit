@@ -1600,7 +1600,7 @@
         NSEnumerator *matches=[findExpression matchEnumeratorInString:[[document textStorage] string]];
         OGRegularExpressionMatch *match=nil;
         while ((match=[matches nextObject])) {
-			if ([dictionaryOfResultStrings objectForKey:completionEntry]==nil)
+			if ([dictionaryOfResultStrings objectForKey:[match matchedString]]==nil)
 				[otherDictionaryOfResultStrings setObject:@"YES" forKey:[match matchedString]];
         }
     }
