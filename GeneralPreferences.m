@@ -30,6 +30,7 @@ NSString * const SelectedMyColorPreferenceKey               = @"SelectedMyColor"
 NSString * const MyNamePreferenceKey                        = @"MyName";
 NSString * const MyAIMPreferenceKey                         = @"MyAIM";
 NSString * const MyEmailPreferenceKey                       = @"MyEmail";
+NSString * const MyImagePreferenceKey                       = @"MyImage";
 NSString * const MyAIMIdentifierPreferenceKey               = @"MyAIMIdentifier";
 NSString * const MyEmailIdentifierPreferenceKey             = @"MyEmailIdentifier";
 NSString * const MyAIMsPreferenceKey                        = @"MyAIMs";
@@ -319,6 +320,78 @@ NSString * const AlwaysShowTabBarKey                        = @"AlwaysShowTabBar
     [TCMMMUserManager didChangeMe];
 
     [self TCM_updateWells];
+}
+
+- (IBAction)useAddressBookImage:(id)aSender {
+    [[NSUserDefaults standardUserDefaults] removeObjectForKey:MyImagePreferenceKey];
+    ABPerson *meCard=[[ABAddressBook sharedAddressBook] me];
+    NSImage *myImage=nil;
+    if (meCard) {
+        NSData  *imageData;
+        if ((imageData=[meCard imageData])) {
+            myImage=[[[NSImage alloc] initWithData:imageData] autorelease];
+            [myImage setCacheMode:NSImageCacheNever];
+        } 
+    }
+    
+    if (!myImage) {
+        myImage=[NSImage imageNamed:@"DefaultPerson"];
+    }
+    NSData *pngData=[[myImage resizedImageWithSize:NSMakeSize(64.,64.)] TIFFRepresentation];
+    pngData=[[NSBitmapImageRep imageRepWithData:pngData] representationUsingType:NSPNGFileType properties:[NSDictionary dictionary]];
+
+    TCMMMUser *me = [TCMMMUserManager me];
+    [[me properties] setObject:pngData forKey:@"ImageAsPNG"];
+    [me recacheImages];
+    [O_pictureImageView setImage:[me image]];
+    [TCMMMUserManager didChangeMe];
+}
+
+- (IBAction)chooseImage:(id)aSender {
+    NSOpenPanel *panel = [NSOpenPanel openPanel];
+    
+    [panel beginSheetForDirectory:nil 
+                             file:nil 
+                            types:nil 
+                   modalForWindow:[O_pictureImageView window] 
+                    modalDelegate:self
+                   didEndSelector:@selector(chooseImagePanelDidEnd:returnCode:contextInfo:) 
+                      contextInfo:nil];
+}
+
+- (IBAction)takeImageFromImageView:(id)aSender {
+    NSData *pngData=[[[O_pictureImageView realImage] resizedImageWithSize:NSMakeSize(64.,64.)] TIFFRepresentation];
+    pngData=[[NSBitmapImageRep imageRepWithData:pngData] representationUsingType:NSPNGFileType properties:[NSDictionary dictionary]];
+
+    TCMMMUser *me = [TCMMMUserManager me];
+    [[me properties] setObject:pngData forKey:@"ImageAsPNG"];
+    [me recacheImages];
+    [[NSUserDefaults standardUserDefaults] setObject:pngData forKey:MyImagePreferenceKey];
+    [O_pictureImageView setImage:[me image]];
+    [TCMMMUserManager didChangeMe];
+}
+
+- (void)chooseImagePanelDidEnd:(NSSavePanel *)aSavePanel returnCode:(int)returnCode  contextInfo:(void  *)contextInfo {
+    if (returnCode == NSOKButton) {
+        NSImage *image = [[[NSImage alloc]initWithContentsOfURL:[aSavePanel URL]] autorelease];
+        if (image) {
+            [O_pictureImageView setImage:image];
+            [self takeImageFromImageView:O_pictureImageView];
+        } else {
+            NSBeep();
+        }
+    }
+}
+
+- (IBAction)clearImage:(id)aSender {
+    NSData *pngData=[[NSImage imageNamed:@"DefaultPerson"] TIFFRepresentation];
+    pngData=[[NSBitmapImageRep imageRepWithData:pngData] representationUsingType:NSPNGFileType properties:[NSDictionary dictionary]];
+    TCMMMUser *me = [TCMMMUserManager me];
+    [[me properties] setObject:pngData forKey:@"ImageAsPNG"];
+    [me recacheImages];
+    [[NSUserDefaults standardUserDefaults] setObject:pngData forKey:MyImagePreferenceKey];
+    [O_pictureImageView setImage:[me image]];
+    [TCMMMUserManager didChangeMe];
 }
 
 

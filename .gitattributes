@@ -1124,6 +1124,17 @@ PSMTabBarControl/source/WindowController.h -text
 PSMTabBarControl/source/WindowController.m -text
 PSMTabBarControl/source/main.m -text
 PSMTabBarControl/version.plist -text
+Panic/AppDelegate.txt -text
+Panic/NSBezierPath-Arrow.h -text
+Panic/NSBezierPath-Arrow.m -text
+Panic/NSImage-Additions.h -text
+Panic/NSImage-Additions.m -text
+Panic/NSImage-States.h -text
+Panic/NSImage-States.m -text
+Panic/PCRolloverImageView.h -text
+Panic/PCRolloverImageView.m -text
+Panic/TCMMMUser-AddressBook.h -text
+Panic/TCMMMUser-AddressBook.m -text
 /ParticipantsView.h -text
 /ParticipantsView.m -text
 /PlainTextDocument.h -text

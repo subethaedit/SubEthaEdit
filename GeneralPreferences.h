@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "TCMPreferenceModule.h"
+#import "PCRolloverImageView.h"
 
 extern NSString * const GeneralViewPreferencesDidChangeNotificiation;
 
@@ -25,6 +26,7 @@ extern NSString * const AdditionalShownPathComponentsPreferenceKey;
 extern NSString * const MyNamePreferenceKey;
 extern NSString * const MyAIMPreferenceKey ;
 extern NSString * const MyEmailPreferenceKey;
+extern NSString * const MyImagePreferenceKey;
 extern NSString * const MyAIMIdentifierPreferenceKey;
 extern NSString * const MyEmailIdentifierPreferenceKey;
 extern NSString * const MyNamesPreferenceKey;
@@ -38,7 +40,7 @@ extern NSString * const AlwaysShowTabBarKey;
 
 @interface GeneralPreferences : TCMPreferenceModule {
     IBOutlet NSButton    *O_useAddressbookButton;
-    IBOutlet NSImageView *O_pictureImageView;
+    IBOutlet PCRolloverImageView *O_pictureImageView;
     IBOutlet NSTextField *O_nameTextField;
     IBOutlet NSComboBox  *O_aimComboBox;
     IBOutlet NSComboBox  *O_emailComboBox;
@@ -60,6 +62,11 @@ extern NSString * const AlwaysShowTabBarKey;
     
     IBOutlet DocumentModePopUpButton *O_modeForNewDocumentsPopUpButton;
 }
+
+- (IBAction)useAddressBookImage:(id)aSender;
+- (IBAction)chooseImage:(id)aSender;
+- (IBAction)clearImage:(id)aSender;
+- (IBAction)takeImageFromImageView:(id)aSender;
 
 - (IBAction)postGeneralViewPreferencesDidChangeNotificiation:(id)aSender;
 - (IBAction)changeName:(id)aSender;
