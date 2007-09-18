@@ -16,7 +16,11 @@
                 changeModeForNewDocuments = id; 
                 changeMyColor = id; 
                 changeName = id; 
+                chooseImage = id; 
+                clearImage = id; 
                 postGeneralViewPreferencesDidChangeNotificiation = id; 
+                takeImageFromImageView = id; 
+                useAddressBookImage = id; 
             }; 
             CLASS = GeneralPreferences; 
             LANGUAGE = ObjC; 
@@ -41,6 +45,7 @@
             }; 
             SUPERCLASS = TCMPreferenceModule; 
         }, 
+        {CLASS = PCRolloverImageView; LANGUAGE = ObjC; SUPERCLASS = NSImageView; }, 
         {
             CLASS = TCMPreferenceModule; 
             LANGUAGE = ObjC; 

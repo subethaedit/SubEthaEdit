@@ -422,6 +422,14 @@
 		F2ABC5470C79D9C4007437A2 /* DebugHistory.nib in Resources */ = {isa = PBXBuildFile; fileRef = F2ABC5460C79D9C4007437A2 /* DebugHistory.nib */; };
 		F2B18CEB0C4BB550000BB062 /* GlassButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F2B18CE70C4BB550000BB062 /* GlassButtonCell.m */; };
 		F2B18CEE0C4BB550000BB062 /* GlassButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F2B18CEA0C4BB550000BB062 /* GlassButton.m */; };
+		F2BB09EA0CA0186400258EC7 /* NSBezierPath-Arrow.m in Sources */ = {isa = PBXBuildFile; fileRef = F2BB09E80CA0186400258EC7 /* NSBezierPath-Arrow.m */; };
+		F2BB09EB0CA0186400258EC7 /* NSBezierPath-Arrow.m in Sources */ = {isa = PBXBuildFile; fileRef = F2BB09E80CA0186400258EC7 /* NSBezierPath-Arrow.m */; };
+		F2BB09F10CA0189900258EC7 /* NSImage-Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = F2BB09EF0CA0189900258EC7 /* NSImage-Additions.m */; };
+		F2BB09F60CA018B100258EC7 /* NSImage-States.m in Sources */ = {isa = PBXBuildFile; fileRef = F2BB09F40CA018B100258EC7 /* NSImage-States.m */; };
+		F2BB09F90CA018B600258EC7 /* NSImage-States.m in Sources */ = {isa = PBXBuildFile; fileRef = F2BB09F40CA018B100258EC7 /* NSImage-States.m */; };
+		F2BB09FA0CA018BC00258EC7 /* NSImage-Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = F2BB09EF0CA0189900258EC7 /* NSImage-Additions.m */; };
+		F2BB09FD0CA018CA00258EC7 /* PCRolloverImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2BB09FC0CA018CA00258EC7 /* PCRolloverImageView.m */; };
+		F2BB09FF0CA018CA00258EC7 /* PCRolloverImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2BB09FC0CA018CA00258EC7 /* PCRolloverImageView.m */; };
 		F2D129FC0BF0B64A00A776CC /* ConnectionBrowserController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D129F80BF0B64700A776CC /* ConnectionBrowserController.m */; };
 		F2D12A0B0BF0B6B000A776CC /* ConnectionBrowser.nib in Resources */ = {isa = PBXBuildFile; fileRef = F2D12A090BF0B6B000A776CC /* ConnectionBrowser.nib */; };
 		F2D12A1D0BF0B8DF00A776CC /* ConnectionBrowserEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D12A1B0BF0B8DF00A776CC /* ConnectionBrowserEntry.m */; };
@@ -1213,6 +1221,14 @@
 		F2B18CE80C4BB550000BB062 /* GlassButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GlassButtonCell.h; sourceTree = "<group>"; };
 		F2B18CE90C4BB550000BB062 /* GlassButton.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GlassButton.h; sourceTree = "<group>"; };
 		F2B18CEA0C4BB550000BB062 /* GlassButton.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GlassButton.m; sourceTree = "<group>"; };
+		F2BB09E80CA0186400258EC7 /* NSBezierPath-Arrow.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSBezierPath-Arrow.m"; path = "Panic/NSBezierPath-Arrow.m"; sourceTree = "<group>"; };
+		F2BB09E90CA0186400258EC7 /* NSBezierPath-Arrow.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "NSBezierPath-Arrow.h"; path = "Panic/NSBezierPath-Arrow.h"; sourceTree = "<group>"; };
+		F2BB09EF0CA0189900258EC7 /* NSImage-Additions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSImage-Additions.m"; path = "Panic/NSImage-Additions.m"; sourceTree = "<group>"; };
+		F2BB09F00CA0189900258EC7 /* NSImage-Additions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "NSImage-Additions.h"; path = "Panic/NSImage-Additions.h"; sourceTree = "<group>"; };
+		F2BB09F40CA018B100258EC7 /* NSImage-States.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSImage-States.m"; path = "Panic/NSImage-States.m"; sourceTree = "<group>"; };
+		F2BB09F50CA018B100258EC7 /* NSImage-States.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "NSImage-States.h"; path = "Panic/NSImage-States.h"; sourceTree = "<group>"; };
+		F2BB09FB0CA018CA00258EC7 /* PCRolloverImageView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PCRolloverImageView.h; path = Panic/PCRolloverImageView.h; sourceTree = "<group>"; };
+		F2BB09FC0CA018CA00258EC7 /* PCRolloverImageView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PCRolloverImageView.m; path = Panic/PCRolloverImageView.m; sourceTree = "<group>"; };
 		F2D129F80BF0B64700A776CC /* ConnectionBrowserController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ConnectionBrowserController.m; sourceTree = "<group>"; };
 		F2D129F90BF0B64700A776CC /* ConnectionBrowserController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ConnectionBrowserController.h; sourceTree = "<group>"; };
 		F2D12A0A0BF0B6B000A776CC /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/ConnectionBrowser.nib; sourceTree = "<group>"; };
@@ -1544,6 +1560,14 @@
 				F234E4570BE2592300504A7C /* NSWorkspaceTCMAdditions.m */,
 				1428920C095751CB00D14688 /* TCMMMUserSEEAdditions.h */,
 				1428920D095751CB00D14688 /* TCMMMUserSEEAdditions.m */,
+				F2BB09E90CA0186400258EC7 /* NSBezierPath-Arrow.h */,
+				F2BB09E80CA0186400258EC7 /* NSBezierPath-Arrow.m */,
+				F2BB09F00CA0189900258EC7 /* NSImage-Additions.h */,
+				F2BB09EF0CA0189900258EC7 /* NSImage-Additions.m */,
+				F2BB09F50CA018B100258EC7 /* NSImage-States.h */,
+				F2BB09F40CA018B100258EC7 /* NSImage-States.m */,
+				F2BB09FB0CA018CA00258EC7 /* PCRolloverImageView.h */,
+				F2BB09FC0CA018CA00258EC7 /* PCRolloverImageView.m */,
 			);
 			name = Additions;
 			sourceTree = "<group>";
@@ -2746,6 +2770,10 @@
 				F20948BA0C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m in Sources */,
 				F2A0934F0C9EA923000AD27A /* DocumentSharedMethods.m in Sources */,
 				F2A0937A0C9EB0AC000AD27A /* NSMutableAttributedStringSEEAdditions.m in Sources */,
+				F2BB09EA0CA0186400258EC7 /* NSBezierPath-Arrow.m in Sources */,
+				F2BB09F10CA0189900258EC7 /* NSImage-Additions.m in Sources */,
+				F2BB09F60CA018B100258EC7 /* NSImage-States.m in Sources */,
+				F2BB09FD0CA018CA00258EC7 /* PCRolloverImageView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2952,6 +2980,10 @@
 				F20948BC0C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m in Sources */,
 				F20948EE0C7B4C7100E78EBA /* UserStatisticsController.m in Sources */,
 				F2A093510C9EA923000AD27A /* DocumentSharedMethods.m in Sources */,
+				F2BB09EB0CA0186400258EC7 /* NSBezierPath-Arrow.m in Sources */,
+				F2BB09F90CA018B600258EC7 /* NSImage-States.m in Sources */,
+				F2BB09FA0CA018BC00258EC7 /* NSImage-Additions.m in Sources */,
+				F2BB09FF0CA018CA00258EC7 /* PCRolloverImageView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

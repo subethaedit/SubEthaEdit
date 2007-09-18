@@ -59,6 +59,12 @@
 
 #pragma mark -
 
+- (void)recacheImages {
+    NSMutableDictionary *properties = [self properties];
+    [properties removeObjectsForKeys:[NSArray arrayWithObjects:@"Image",@"Image32",@"Image48",@"Image16",@"Image32Dimmed",@"ColorImage",nil]];
+}
+
+
 - (NSImage *)colorImage
 {
     if ([[self properties] objectForKey:@"ColorImage"]) {

@@ -300,13 +300,13 @@ static AppController *sharedInstance = nil;
     NSData *pngData=[scaledMyImage TIFFRepresentation];
     pngData=[[NSBitmapImageRep imageRepWithData:pngData] representationUsingType:NSPNGFileType properties:[NSDictionary dictionary]];
     // do this because my resized Images don't behave right on setFlipped:, initWithData ones do!
-    scaledMyImage=[[[NSImage alloc] initWithData:pngData] autorelease];
+    NSData *prefData = [defaults dataForKey:MyImagePreferenceKey];
+    if (prefData) pngData=prefData;
     [me setUserID:userID];
 
     [me setName:myName];
     [[me properties] setObject:myEmail forKey:@"Email"];
     [[me properties] setObject:myAIM forKey:@"AIM"];
-    [[me properties] setObject:scaledMyImage forKey:@"Image"];
     [[me properties] setObject:pngData forKey:@"ImageAsPNG"];
     [me setUserHue:[defaults objectForKey:MyColorHuePreferenceKey]];
 

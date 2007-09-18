@@ -23,10 +23,8 @@
 
 - (NSImage *)resizedImageWithSize:(NSSize)aSize {
     
-    NSImage *workImage=[self copy];
-    
-    [workImage setScalesWhenResized:YES];
-    NSSize originalSize=[workImage size];
+    NSSize originalSize=[self size];
+    NSLog(@"%s originalSize:%@",__FUNCTION__,NSStringFromSize(originalSize));
     NSSize newSize=aSize;
     if (originalSize.width>originalSize.height) {
         newSize.height=(int)(originalSize.height/originalSize.width*newSize.width);
@@ -35,19 +33,19 @@
         newSize.width=(int)(originalSize.width/originalSize.height*newSize.height);            
         if (newSize.width <=0) newSize.width=1;
     }
-    [workImage setSize:newSize];
+    NSLog(@"%s newSize:%@",__FUNCTION__,NSStringFromSize(newSize));
     NSImage *image=[NSImage clearedImageWithSize:newSize];
     [image lockFocus];
     NSGraphicsContext *context=[NSGraphicsContext currentContext];
     NSImageInterpolation oldInterpolation=[context imageInterpolation];
     [context setImageInterpolation:NSImageInterpolationHigh];
-    [workImage compositeToPoint:NSMakePoint(0.+(aSize.width-newSize.width )/2.,
-                                       0.+(aSize.height-newSize.height)/2.)
-                 operation:NSCompositeSourceOver];
+    [self      drawInRect:NSMakeRect(0.,0.,newSize.width, newSize.height)
+                 fromRect:NSMakeRect(0.,0.,originalSize.width,originalSize.height)
+                operation:NSCompositeSourceOver
+                 fraction:1.0];
     [context setImageInterpolation:oldInterpolation];
     [image unlockFocus];
-    
-    [workImage release];
+
     return image;
 }
 
