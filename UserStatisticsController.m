@@ -7,12 +7,17 @@
 //
 
 #import "UserStatisticsController.h"
+#import "HUDStatisticPersonCell.h"
 
 
 @implementation UserStatisticsController
 
 - (NSString *)windowNibName {
     return @"UserStatistics";
+}
+
+- (void)windowDidLoad {
+    [[O_userTableView tableColumnWithIdentifier:@"entries"] setDataCell:[[HUDStatisticPersonCell alloc] init]];
 }
 
 @end

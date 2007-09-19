@@ -418,6 +418,8 @@ HTMLExport/Base.html -text
 /HUDButtonCell.m -text
 /HUDStatisticGraphView.h -text
 /HUDStatisticGraphView.m -text
+/HUDStatisticPersonCell.h -text
+/HUDStatisticPersonCell.m -text
 /HandshakeProfile.h -text
 /HandshakeProfile.m -text
 /HueToColorValueTransformer.h -text

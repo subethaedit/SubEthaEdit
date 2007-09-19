@@ -436,6 +436,8 @@
 		F2CA7CE60CA11FC9008BEA38 /* StatusLock.png in Resources */ = {isa = PBXBuildFile; fileRef = F2CA7CE50CA11FC9008BEA38 /* StatusLock.png */; };
 		F2CA7CE80CA11FDA008BEA38 /* Internet13.png in Resources */ = {isa = PBXBuildFile; fileRef = F2CA7CE70CA11FDA008BEA38 /* Internet13.png */; };
 		F2CA7CEA0CA11FFB008BEA38 /* ToolbarIconConnectionBrowser.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2CA7CE90CA11FFB008BEA38 /* ToolbarIconConnectionBrowser.tiff */; };
+		F2CA7D2F0CA142B1008BEA38 /* HUDStatisticPersonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CA7D2D0CA142B0008BEA38 /* HUDStatisticPersonCell.m */; };
+		F2CA7D300CA142B1008BEA38 /* HUDStatisticPersonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CA7D2D0CA142B0008BEA38 /* HUDStatisticPersonCell.m */; };
 		F2D129FC0BF0B64A00A776CC /* ConnectionBrowserController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D129F80BF0B64700A776CC /* ConnectionBrowserController.m */; };
 		F2D12A0B0BF0B6B000A776CC /* ConnectionBrowser.nib in Resources */ = {isa = PBXBuildFile; fileRef = F2D12A090BF0B6B000A776CC /* ConnectionBrowser.nib */; };
 		F2D12A1D0BF0B8DF00A776CC /* ConnectionBrowserEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D12A1B0BF0B8DF00A776CC /* ConnectionBrowserEntry.m */; };
@@ -1263,6 +1265,8 @@
 		F2CA7CE50CA11FC9008BEA38 /* StatusLock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = StatusLock.png; path = artwork/StatusLock.png; sourceTree = "<group>"; };
 		F2CA7CE70CA11FDA008BEA38 /* Internet13.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Internet13.png; path = artwork/Internet13.png; sourceTree = "<group>"; };
 		F2CA7CE90CA11FFB008BEA38 /* ToolbarIconConnectionBrowser.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ToolbarIconConnectionBrowser.tiff; path = artwork/ToolbarIconConnectionBrowser.tiff; sourceTree = "<group>"; };
+		F2CA7D2C0CA142B0008BEA38 /* HUDStatisticPersonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HUDStatisticPersonCell.h; sourceTree = "<group>"; };
+		F2CA7D2D0CA142B0008BEA38 /* HUDStatisticPersonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HUDStatisticPersonCell.m; sourceTree = "<group>"; };
 		F2D129F80BF0B64700A776CC /* ConnectionBrowserController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ConnectionBrowserController.m; sourceTree = "<group>"; };
 		F2D129F90BF0B64700A776CC /* ConnectionBrowserController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ConnectionBrowserController.h; sourceTree = "<group>"; };
 		F2D12A0A0BF0B6B000A776CC /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/ConnectionBrowser.nib; sourceTree = "<group>"; };
@@ -1737,6 +1741,8 @@
 				F20948EB0C7B4C7100E78EBA /* UserStatisticsController.m */,
 				F2CA79A20CA04BAC008BEA38 /* HUDStatisticGraphView.h */,
 				F2CA79A30CA04BAC008BEA38 /* HUDStatisticGraphView.m */,
+				F2CA7D2C0CA142B0008BEA38 /* HUDStatisticPersonCell.h */,
+				F2CA7D2D0CA142B0008BEA38 /* HUDStatisticPersonCell.m */,
 			);
 			name = Document;
 			sourceTree = "<group>";
@@ -2846,6 +2852,7 @@
 				F2BB09F60CA018B100258EC7 /* NSImage-States.m in Sources */,
 				F2BB09FD0CA018CA00258EC7 /* PCRolloverImageView.m in Sources */,
 				F2CA79A60CA04BAC008BEA38 /* HUDStatisticGraphView.m in Sources */,
+				F2CA7D300CA142B1008BEA38 /* HUDStatisticPersonCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3057,6 +3064,7 @@
 				F2BB09FA0CA018BC00258EC7 /* NSImage-Additions.m in Sources */,
 				F2BB09FF0CA018CA00258EC7 /* PCRolloverImageView.m in Sources */,
 				F2CA79A50CA04BAC008BEA38 /* HUDStatisticGraphView.m in Sources */,
+				F2CA7D2F0CA142B1008BEA38 /* HUDStatisticPersonCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

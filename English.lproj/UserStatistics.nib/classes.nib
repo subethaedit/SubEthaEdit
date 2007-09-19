@@ -36,6 +36,13 @@
         {
             CLASS = UserStatisticsController; 
             LANGUAGE = ObjC; 
+            OUTLETS = {
+                "O_documentImageView" = NSImageView; 
+                "O_documentNameTextField" = NSTextField; 
+                "O_graphView" = HUDStatisticGraphView; 
+                "O_userTableView" = NSTableView; 
+                "O_wordCountTextField" = NSTextField; 
+            }; 
             SUPERCLASS = NSWindowController; 
         }, 
         {

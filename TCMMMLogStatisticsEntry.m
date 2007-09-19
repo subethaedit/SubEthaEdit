@@ -32,6 +32,11 @@
     return self;
 }
 
+// only for usage in a tableview cell
+- (id)copyWithZone:(NSZone *)aZone {
+    return [self retain];
+}
+
 - (void)dealloc {
     [lastActivity release];
     [user release];
