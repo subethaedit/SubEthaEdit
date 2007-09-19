@@ -123,7 +123,6 @@
 		142890DD095743F200D14688 /* StatusButtonKick.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1428908C095743F200D14688 /* StatusButtonKick.tiff */; };
 		142890DE095743F200D14688 /* StatusButtonReadOnly.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1428908D095743F200D14688 /* StatusButtonReadOnly.tiff */; };
 		142890DF095743F200D14688 /* StatusButtonReadWrite.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1428908E095743F200D14688 /* StatusButtonReadWrite.tiff */; };
-		142890E0095743F200D14688 /* StatusLock.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 1428908F095743F200D14688 /* StatusLock.tiff */; };
 		142890E1095743F200D14688 /* StatusPending.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14289090095743F200D14688 /* StatusPending.tiff */; };
 		142890E2095743F200D14688 /* StatusReadOnly.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14289091095743F200D14688 /* StatusReadOnly.tiff */; };
 		142890E3095743F200D14688 /* StatusReadWrite.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 14289092095743F200D14688 /* StatusReadWrite.tiff */; };
@@ -434,6 +433,9 @@
 		F2BB0AA40CA0443A00258EC7 /* HMBlkAppKit.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F2BB0A900CA043E300258EC7 /* HMBlkAppKit.framework */; };
 		F2CA79A50CA04BAC008BEA38 /* HUDStatisticGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CA79A30CA04BAC008BEA38 /* HUDStatisticGraphView.m */; };
 		F2CA79A60CA04BAC008BEA38 /* HUDStatisticGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CA79A30CA04BAC008BEA38 /* HUDStatisticGraphView.m */; };
+		F2CA7CE60CA11FC9008BEA38 /* StatusLock.png in Resources */ = {isa = PBXBuildFile; fileRef = F2CA7CE50CA11FC9008BEA38 /* StatusLock.png */; };
+		F2CA7CE80CA11FDA008BEA38 /* Internet13.png in Resources */ = {isa = PBXBuildFile; fileRef = F2CA7CE70CA11FDA008BEA38 /* Internet13.png */; };
+		F2CA7CEA0CA11FFB008BEA38 /* ToolbarIconConnectionBrowser.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2CA7CE90CA11FFB008BEA38 /* ToolbarIconConnectionBrowser.tiff */; };
 		F2D129FC0BF0B64A00A776CC /* ConnectionBrowserController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D129F80BF0B64700A776CC /* ConnectionBrowserController.m */; };
 		F2D12A0B0BF0B6B000A776CC /* ConnectionBrowser.nib in Resources */ = {isa = PBXBuildFile; fileRef = F2D12A090BF0B6B000A776CC /* ConnectionBrowser.nib */; };
 		F2D12A1D0BF0B8DF00A776CC /* ConnectionBrowserEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D12A1B0BF0B8DF00A776CC /* ConnectionBrowserEntry.m */; };
@@ -1258,6 +1260,9 @@
 		F2BB0A8A0CA043E200258EC7 /* HMBlkAppKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HMBlkAppKit.xcodeproj; path = HMBlkAppKit1.1/HMBlkAppKit.xcodeproj; sourceTree = "<group>"; };
 		F2CA79A20CA04BAC008BEA38 /* HUDStatisticGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HUDStatisticGraphView.h; sourceTree = "<group>"; };
 		F2CA79A30CA04BAC008BEA38 /* HUDStatisticGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HUDStatisticGraphView.m; sourceTree = "<group>"; };
+		F2CA7CE50CA11FC9008BEA38 /* StatusLock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = StatusLock.png; path = artwork/StatusLock.png; sourceTree = "<group>"; };
+		F2CA7CE70CA11FDA008BEA38 /* Internet13.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Internet13.png; path = artwork/Internet13.png; sourceTree = "<group>"; };
+		F2CA7CE90CA11FFB008BEA38 /* ToolbarIconConnectionBrowser.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ToolbarIconConnectionBrowser.tiff; path = artwork/ToolbarIconConnectionBrowser.tiff; sourceTree = "<group>"; };
 		F2D129F80BF0B64700A776CC /* ConnectionBrowserController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ConnectionBrowserController.m; sourceTree = "<group>"; };
 		F2D129F90BF0B64700A776CC /* ConnectionBrowserController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ConnectionBrowserController.h; sourceTree = "<group>"; };
 		F2D12A0A0BF0B6B000A776CC /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/ConnectionBrowser.nib; sourceTree = "<group>"; };
@@ -1413,6 +1418,7 @@
 				F27B2EE20B52957800679CF2 /* hud_buttonLeft-P.tiff */,
 				F27B2E7F0B5271AE00679CF2 /* hud_titlebar-close.tiff */,
 				1428906F095743F200D14688 /* Internet.tiff */,
+				F2CA7CE70CA11FDA008BEA38 /* Internet13.png */,
 				14289070095743F200D14688 /* InternetResume.tiff */,
 				14289071095743F200D14688 /* InternetStop.tiff */,
 				5E18F62909A8A43A00A96A6C /* InvitationBadge3.tiff */,
@@ -1447,6 +1453,7 @@
 				1428908D095743F200D14688 /* StatusButtonReadOnly.tiff */,
 				1428908E095743F200D14688 /* StatusButtonReadWrite.tiff */,
 				1428908F095743F200D14688 /* StatusLock.tiff */,
+				F2CA7CE50CA11FC9008BEA38 /* StatusLock.png */,
 				14289090095743F200D14688 /* StatusPending.tiff */,
 				14289091095743F200D14688 /* StatusReadOnly.tiff */,
 				14289092095743F200D14688 /* StatusReadWrite.tiff */,
@@ -1473,6 +1480,7 @@
 				5E294A4A09DAD29D0010A5B2 /* ToolbarIconBuild.tiff */,
 				5EFF54390A21D293005DC26B /* ToolbarIconBuildAndRun.tiff */,
 				5E6AEEE209FE7C5700276D7C /* ToolbarIconColorChooser.tiff */,
+				F2CA7CE90CA11FFB008BEA38 /* ToolbarIconConnectionBrowser.tiff */,
 				5EFF5C4B0A22EE7F005DC26B /* ToolbarIconGenericScript.tiff */,
 				5E7E7FE70A1B71EE00B8F2A5 /* ToolbarIconOpenURL.png */,
 				5EB51B260A179E9B00AE2E17 /* ToolbarIconRun.tiff */,
@@ -2586,7 +2594,6 @@
 				142890DD095743F200D14688 /* StatusButtonKick.tiff in Resources */,
 				142890DE095743F200D14688 /* StatusButtonReadOnly.tiff in Resources */,
 				142890DF095743F200D14688 /* StatusButtonReadWrite.tiff in Resources */,
-				142890E0095743F200D14688 /* StatusLock.tiff in Resources */,
 				142890E1095743F200D14688 /* StatusPending.tiff in Resources */,
 				142890E2095743F200D14688 /* StatusReadOnly.tiff in Resources */,
 				142890E3095743F200D14688 /* StatusReadWrite.tiff in Resources */,
@@ -2668,6 +2675,9 @@
 				F23905670C7DEA3000E85DF8 /* seetext.icns in Resources */,
 				F25A19B60C8C79CA00147E4C /* ssllock.png in Resources */,
 				F2406F0C0C8EE481000DC9FF /* LockTitlebar.png in Resources */,
+				F2CA7CE60CA11FC9008BEA38 /* StatusLock.png in Resources */,
+				F2CA7CE80CA11FDA008BEA38 /* Internet13.png in Resources */,
+				F2CA7CEA0CA11FFB008BEA38 /* ToolbarIconConnectionBrowser.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

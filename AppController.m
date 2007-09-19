@@ -329,10 +329,11 @@ static AppController *sharedInstance = nil;
     image = [[[NSImage imageNamed:@"Rendezvous"] resizedImageWithSize:NSMakeSize(13.0, 13.0)] retain];
     [image setName:@"Rendezvous13"];
 
-    image = [[[NSImage imageNamed:@"Internet"] resizedImageWithSize:NSMakeSize(13.0, 13.0)] retain];
-    [image setName:@"Internet13"];
+//    image = [[[NSImage imageNamed:@"Internet"] resizedImageWithSize:NSMakeSize(13.0, 13.0)] retain];
+//    [image setName:@"Internet13"];
 
-    image = [[[NSImage imageNamed:@"ssllock"] resizedImageWithSize:NSMakeSize(15.0, 15.0)] retain];
+//    image = [[[NSImage imageNamed:@"ssllock"] resizedImageWithSize:NSMakeSize(16.0, 16.0)] retain];
+    image = [NSImage imageNamed:@"ssllock"];
     [image setName:@"ssllock18"];
     
     
