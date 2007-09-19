@@ -52,8 +52,6 @@ NSString * const NextChangeToolbarItemIdentifier =
                @"NextChangeToolbarItemIdentifier";
 NSString * const PreviousChangeToolbarItemIdentifier = 
                @"PreviousChangeToolbarItemIdentifier";
-NSString * const RendezvousToolbarItemIdentifier = 
-               @"RendezvousToolbarItemIdentifier";
 NSString * const InternetToolbarItemIdentifier = 
                @"InternetToolbarItemIdentifier";
 NSString * const ToggleChangeMarksToolbarItemIdentifier = 
@@ -923,18 +921,11 @@ enum {
         [toolbarItem setImage:[NSImage imageNamed:@"Participants"]];
         [toolbarItem setTarget:self];
         [toolbarItem setAction:@selector(toggleParticipantsDrawer:)];
-    } else if ([itemIdent isEqual:RendezvousToolbarItemIdentifier]) { 
-        [toolbarItem setPaletteLabel:NSLocalizedString(@"Rendezvous", nil)];
-        [toolbarItem setLabel:NSLocalizedString(@"Rendezvous", nil)];
-        [toolbarItem setToolTip:NSLocalizedString(@"Open Rendezvous Browser", nil)];
-        [toolbarItem setImage:[NSImage imageNamed: @"Rendezvous"]];
-        [toolbarItem setTarget:[ConnectionBrowserController sharedInstance]];
-        [toolbarItem setAction:@selector(showWindow:)];
     } else if ([itemIdent isEqual:InternetToolbarItemIdentifier]) { 
-        [toolbarItem setPaletteLabel:NSLocalizedString(@"Internet", nil)];
-        [toolbarItem setLabel:NSLocalizedString(@"Internet", nil)];
-        [toolbarItem setToolTip:NSLocalizedString(@"Open Internet Browser", nil)];
-        [toolbarItem setImage:[NSImage imageNamed: @"Internet"]];
+        [toolbarItem setPaletteLabel:NSLocalizedString(@"Connections", nil)];
+        [toolbarItem setLabel:NSLocalizedString(@"Connections", nil)];
+        [toolbarItem setToolTip:NSLocalizedString(@"Open Connections Browser", nil)];
+        [toolbarItem setImage:[NSImage imageNamed: @"ToolbarIconConnectionBrowser"]];
         [toolbarItem setTarget:[ConnectionBrowserController sharedInstance]];
         [toolbarItem setAction:@selector(showWindow:)];
     } else if ([itemIdent isEqual:ShiftRightToolbarItemIdentifier]) {
@@ -1027,7 +1018,7 @@ enum {
                 NextChangeToolbarItemIdentifier,
                 ToggleChangeMarksToolbarItemIdentifier,
                 NSToolbarFlexibleSpaceItemIdentifier,
-                RendezvousToolbarItemIdentifier,
+                InternetToolbarItemIdentifier,
                 nil];
     [result addObjectsFromArray:
         [[AppController sharedInstance] 
@@ -1042,7 +1033,6 @@ enum {
 - (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar {
     return [[[NSArray arrayWithObjects:
                 InternetToolbarItemIdentifier,
-                RendezvousToolbarItemIdentifier,
                 ShiftLeftToolbarItemIdentifier,
                 ShiftRightToolbarItemIdentifier,
                 PreviousSymbolToolbarItemIdentifier,

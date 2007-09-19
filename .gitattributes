@@ -1631,6 +1631,7 @@ artwork/HideChangeMarks.png -text
 artwork/HideChangeMarks.psd -text
 artwork/HomeFolderIcon.tiff -text
 artwork/Internet.tiff -text
+artwork/Internet13.png -text
 artwork/InternetResume.tiff -text
 artwork/InternetStop.tiff -text
 artwork/InvertedIBeam.tiff -text
@@ -1672,6 +1673,7 @@ artwork/SplitOpen.tiff -text
 artwork/StatusButtonKick.tiff -text
 artwork/StatusButtonReadOnly.tiff -text
 artwork/StatusButtonReadWrite.tiff -text
+artwork/StatusLock.png -text
 artwork/StatusLock.tiff -text
 artwork/StatusPending.tiff -text
 artwork/StatusReadOnly.tiff -text
@@ -1708,6 +1710,7 @@ artwork/TCM-48x48.png -text
 artwork/ToolbarIconBuild.tiff -text
 artwork/ToolbarIconBuildAndRun.tiff -text
 artwork/ToolbarIconColorChooser.tiff -text
+artwork/ToolbarIconConnectionBrowser.tiff -text
 artwork/ToolbarIconGenericScript.tiff -text
 artwork/ToolbarIconOpenURL.png -text
 artwork/ToolbarIconOpenURL.psd -text
