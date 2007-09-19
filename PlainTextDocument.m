@@ -3088,24 +3088,24 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         //            ( [docAttrs objectForKey:NSConvertedDocumentAttribute] && 
         //             [[docAttrs objectForKey:NSConvertedDocumentAttribute] intValue])) {
             float   confidence = 0.0;
-
+            NSStringEncoding udEncoding=NSUTF8StringEncoding;
             
             // guess encoding based on character sniffing
             UniversalDetector   *detector = [UniversalDetector detector];
             
             [detector analyzeData:fileData];
-            encoding = [detector encoding];
+            udEncoding = [detector encoding];
             confidence = [detector confidence];
     #ifndef TCM_NO_DEBUG
-        [_readFromURLDebugInformation appendFormat:@"UniversalDetector:\n confidence:%1.3f encoding:%@\n",confidence,CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(encoding))];
+        [_readFromURLDebugInformation appendFormat:@"UniversalDetector:\n confidence:%1.3f encoding:%@\n",confidence,CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(udEncoding))];
     #endif
-            if ( encoding > 0 && confidence > 0.0 ) {
+            if ( udEncoding > 0 && confidence > 0.0 ) {
                 // lookup found something, use it
-                [options setObject:[NSNumber numberWithUnsignedInt:encoding] forKey:NSCharacterEncodingDocumentOption];
+                [options setObject:[NSNumber numberWithUnsignedInt:udEncoding] forKey:NSCharacterEncodingDocumentOption];
                 success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];
-                if (success) [[EncodingManager sharedInstance] activateEncoding:encoding];
+                if (success) [[EncodingManager sharedInstance] activateEncoding:udEncoding];
     #ifndef TCM_NO_DEBUG
-        [_readFromURLDebugInformation appendFormat:@"---> 3. Step - using UniversalDetector:\n success:%d confidence:%1.3f encoding:%@ readWithOptions:%@ docAttributes:%@ error:%@\n",success,confidence,CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(encoding)) ,[options description],[docAttrs description],(success?nil:*outError)];
+        [_readFromURLDebugInformation appendFormat:@"---> 3. Step - using UniversalDetector:\n success:%d confidence:%1.3f encoding:%@ readWithOptions:%@ docAttributes:%@ error:%@\n",success,confidence,CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(udEncoding)) ,[options description],[docAttrs description],(success?nil:*outError)];
     #endif
             }
         }
