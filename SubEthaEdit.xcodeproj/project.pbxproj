@@ -404,6 +404,7 @@
 		F27B2EF10B52968E00679CF2 /* HUDButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F27B2EED0B52968E00679CF2 /* HUDButtonCell.m */; };
 		F27B2EF20B52968E00679CF2 /* HUDButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F27B2EEE0B52968E00679CF2 /* HUDButton.m */; };
 		F29940600C0C7F3400A53189 /* NSScreenTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F299405E0C0C7F3400A53189 /* NSScreenTCMAdditions.m */; };
+		F29AD8670CA3391B0097D04E /* Bonjour13.png in Resources */ = {isa = PBXBuildFile; fileRef = F29AD8660CA3391B0097D04E /* Bonjour13.png */; };
 		F2A0934F0C9EA923000AD27A /* DocumentSharedMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A0934E0C9EA923000AD27A /* DocumentSharedMethods.m */; };
 		F2A093510C9EA923000AD27A /* DocumentSharedMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A0934E0C9EA923000AD27A /* DocumentSharedMethods.m */; };
 		F2A0937A0C9EB0AC000AD27A /* NSMutableAttributedStringSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142D18B30BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m */; };
@@ -1232,6 +1233,7 @@
 		F299405E0C0C7F3400A53189 /* NSScreenTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = NSScreenTCMAdditions.m; sourceTree = "<group>"; };
 		F299405F0C0C7F3400A53189 /* NSScreenTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = NSScreenTCMAdditions.h; sourceTree = "<group>"; };
 		F29940780C0C806600A53189 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info.plist; path = see/Info.plist; sourceTree = "<group>"; };
+		F29AD8660CA3391B0097D04E /* Bonjour13.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Bonjour13.png; path = artwork/Bonjour13.png; sourceTree = "<group>"; };
 		F2A0934D0C9EA923000AD27A /* DocumentSharedMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentSharedMethods.h; sourceTree = "<group>"; };
 		F2A0934E0C9EA923000AD27A /* DocumentSharedMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentSharedMethods.m; sourceTree = "<group>"; };
 		F2A093B40C9EBB42000AD27A /* UniversalDetector.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = UniversalDetector.xcodeproj; path = UniversalDetector/UniversalDetector.xcodeproj; sourceTree = "<group>"; };
@@ -1399,6 +1401,7 @@
 				14289061095743F200D14688 /* ActionPressed.tiff */,
 				14289062095743F200D14688 /* AdvancedPrefs.tiff */,
 				14289063095743F200D14688 /* Announce.tiff */,
+				F29AD8660CA3391B0097D04E /* Bonjour13.png */,
 				14289064095743F200D14688 /* CandyBar.png */,
 				14289066095743F200D14688 /* Conceal.png */,
 				1428905E095743B300D14688 /* debug.tiff */,
@@ -2684,6 +2687,7 @@
 				F2CA7CE60CA11FC9008BEA38 /* StatusLock.png in Resources */,
 				F2CA7CE80CA11FDA008BEA38 /* Internet13.png in Resources */,
 				F2CA7CEA0CA11FFB008BEA38 /* ToolbarIconConnectionBrowser.tiff in Resources */,
+				F29AD8670CA3391B0097D04E /* Bonjour13.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

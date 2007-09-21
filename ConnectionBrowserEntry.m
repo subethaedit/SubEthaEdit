@@ -215,7 +215,7 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
     TCMMMUser *user = [self user];
     if (aTag == TCMMMBrowserItemStatusImageTag) {
         if ([self isBonjour]) {
-            return [NSImage imageNamed:@"Rendezvous13"];
+            return [NSImage imageNamed:@"Bonjour13"];
         } else {
             return [NSImage imageNamed:@"Internet13"];
         }
