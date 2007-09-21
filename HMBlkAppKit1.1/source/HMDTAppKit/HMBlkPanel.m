@@ -57,7 +57,7 @@ POSSIBILITY OF SUCH DAMAGE.
 {
     static NSColor* _highlightCellColor = nil;
     if (!_highlightCellColor) {
-        _highlightCellColor = [[NSColor colorWithCalibratedWhite:0.5f alpha:0.8f] retain];
+        _highlightCellColor = [[NSColor colorWithCalibratedWhite:0.15f alpha:0.8f] retain];
     }
     
     return _highlightCellColor;
