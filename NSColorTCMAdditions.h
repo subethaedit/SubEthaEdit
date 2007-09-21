@@ -11,6 +11,9 @@
 
 @interface NSColor (NSColorTCMAdditions)
 
++ (NSColor *)insertionsStatisticsColor;
++ (NSColor *)deletionsStatisticsColor;
++ (NSColor *)selectionsStatisticsColor;
 + (NSColor *)colorForHTMLString:(NSString *)htmlString;
 - (NSString *)shortHTMLString;
 - (NSString *)HTMLString;

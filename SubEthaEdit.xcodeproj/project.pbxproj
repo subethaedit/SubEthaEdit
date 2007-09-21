@@ -394,6 +394,8 @@
 		F23905670C7DEA3000E85DF8 /* seetext.icns in Resources */ = {isa = PBXBuildFile; fileRef = F23905660C7DEA3000E85DF8 /* seetext.icns */; };
 		F2406F0C0C8EE481000DC9FF /* LockTitlebar.png in Resources */ = {isa = PBXBuildFile; fileRef = F2406F0B0C8EE481000DC9FF /* LockTitlebar.png */; };
 		F25A19B60C8C79CA00147E4C /* ssllock.png in Resources */ = {isa = PBXBuildFile; fileRef = F25A19B50C8C79CA00147E4C /* ssllock.png */; };
+		F26B7D860CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F26B7D850CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m */; };
+		F26B7D880CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F26B7D850CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m */; };
 		F27B2E800B5271AE00679CF2 /* hud_titlebar-close.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2E7F0B5271AE00679CF2 /* hud_titlebar-close.tiff */; };
 		F27B2EE30B52957800679CF2 /* hud_buttonLeft-N.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2EDD0B52957800679CF2 /* hud_buttonLeft-N.tiff */; };
 		F27B2EE40B52957800679CF2 /* hud_buttonRight-N.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2EDE0B52957800679CF2 /* hud_buttonRight-N.tiff */; };
@@ -1219,6 +1221,8 @@
 		F23905660C7DEA3000E85DF8 /* seetext.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = seetext.icns; path = artwork/seetext.icns; sourceTree = "<group>"; };
 		F2406F0B0C8EE481000DC9FF /* LockTitlebar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LockTitlebar.png; path = artwork/LockTitlebar.png; sourceTree = "<group>"; };
 		F25A19B50C8C79CA00147E4C /* ssllock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ssllock.png; path = artwork/ssllock.png; sourceTree = "<group>"; };
+		F26B7D840CA3F7680039C8A1 /* NSBezierPathTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSBezierPathTCMAdditions.h; sourceTree = "<group>"; };
+		F26B7D850CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSBezierPathTCMAdditions.m; sourceTree = "<group>"; };
 		F27B2E7F0B5271AE00679CF2 /* hud_titlebar-close.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "hud_titlebar-close.tiff"; path = "artwork/hud_titlebar-close.tiff"; sourceTree = "<group>"; };
 		F27B2EDD0B52957800679CF2 /* hud_buttonLeft-N.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "hud_buttonLeft-N.tiff"; path = "artwork/hud_buttonLeft-N.tiff"; sourceTree = "<group>"; };
 		F27B2EDE0B52957800679CF2 /* hud_buttonRight-N.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "hud_buttonRight-N.tiff"; path = "artwork/hud_buttonRight-N.tiff"; sourceTree = "<group>"; };
@@ -1613,6 +1617,8 @@
 				F2BB09F40CA018B100258EC7 /* NSImage-States.m */,
 				F2BB09FB0CA018CA00258EC7 /* PCRolloverImageView.h */,
 				F2BB09FC0CA018CA00258EC7 /* PCRolloverImageView.m */,
+				F26B7D840CA3F7680039C8A1 /* NSBezierPathTCMAdditions.h */,
+				F26B7D850CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m */,
 			);
 			name = Additions;
 			sourceTree = "<group>";
@@ -2857,6 +2863,7 @@
 				F2BB09FD0CA018CA00258EC7 /* PCRolloverImageView.m in Sources */,
 				F2CA79A60CA04BAC008BEA38 /* HUDStatisticGraphView.m in Sources */,
 				F2CA7D300CA142B1008BEA38 /* HUDStatisticPersonCell.m in Sources */,
+				F26B7D860CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3069,6 +3076,7 @@
 				F2BB09FF0CA018CA00258EC7 /* PCRolloverImageView.m in Sources */,
 				F2CA79A50CA04BAC008BEA38 /* HUDStatisticGraphView.m in Sources */,
 				F2CA7D2F0CA142B1008BEA38 /* HUDStatisticPersonCell.m in Sources */,
+				F26B7D880CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

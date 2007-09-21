@@ -49,9 +49,9 @@
     [[NSColor colorWithCalibratedRed:69./255. green:80./255. blue:81./255. alpha:0.3] set];
     [NSBezierPath fillRect:graphRect];
     
-    NSColor *deletionsColor = [NSColor colorWithCalibratedRed:221./255. green:43./255. blue:32./255. alpha:1.0];
-    NSColor *insertionsColor = [NSColor colorWithCalibratedRed:117./255. green:243./255. blue:68./255. alpha:1.0];
-    NSColor *selectionsColor = [NSColor colorWithCalibratedRed:251./255. green:249./255. blue:77./255. alpha:1.0];
+    NSColor *deletionsColor  = [NSColor deletionsStatisticsColor];
+    NSColor *insertionsColor = [NSColor insertionsStatisticsColor];
+    NSColor *selectionsColor = [NSColor selectionsStatisticsColor];
     
     NSColor *colors[] = {deletionsColor,insertionsColor,selectionsColor};
     CGPoint sampledPoints[DATAPOINTS*3];
