@@ -80,7 +80,12 @@
     [userImage setFlipped:YES];
     [userImage drawInRect:imageRect fromRect:NSMakeRect(0,0,[userImage size].width,[userImage size].height) operation:NSCompositeSourceOver fraction:1.0];
     [[NSColor redColor] set];
-    //NSFrameRect(aFrame);
+    if ([self isHighlighted]) {
+        [NSGraphicsContext saveGraphicsState];
+        NSSetFocusRingStyle (NSFocusRingOnly);
+        [NSBezierPath fillRect:imageRect];
+        [NSGraphicsContext restoreGraphicsState];
+    }
     
     NSRect labelRect = [self labelRectForBounds:aFrame];
     [[NSColor greenColor] set];

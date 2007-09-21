@@ -105,6 +105,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
 - (id)_highlightColorForCell:(id)cell
 {
+    return [NSColor colorWithCalibratedWhite:0.06f alpha:0.92f];
     return [HMBlkPanel highlighedCellColor];
 }
 
