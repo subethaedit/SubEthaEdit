@@ -7,12 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
-@interface NSBezierPath(BezierPathDWAdditions)
-+ (NSBezierPath *)bezierPathWithRoundedRect:(NSRect)rect radius:(float)radius;
-+ (NSBezierPath *)bezierPathWithTopCapOfRoundedRect:(NSRect)rect radius:(float)radius;
-@end
-
+#import "NSBezierPathTCMAdditions.h"
 
 @interface DWRoundedTransparentView : NSView {
     NSString *I_titleString;

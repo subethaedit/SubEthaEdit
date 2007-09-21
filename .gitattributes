@@ -764,6 +764,8 @@ MoreIsBetter/MoreUNIX.h -text
 /NSAppleScriptTCMAdditions.m -text
 /NSApplicationTCMAdditions.h -text
 /NSApplicationTCMAdditions.m -text
+/NSBezierPathTCMAdditions.h -text
+/NSBezierPathTCMAdditions.m -text
 /NSColorTCMAdditions.h -text
 /NSColorTCMAdditions.m -text
 /NSCoreSuite.sdef -text
