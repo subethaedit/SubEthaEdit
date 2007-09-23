@@ -17,6 +17,11 @@
     NSMutableDictionary *I_statisticsEntryByUserID;
     NSDictionary *I_initialTextStorageDictionaryRepresentation;
     NSMutableArray *I_statisticsArray;
+    unsigned long operationCount;
+    unsigned long deletedCharacters;
+    unsigned long insertedCharacters;
+    unsigned long selectedCharacters;
+    
 }
 
 - (id)initWithDictionaryRepresentation:(NSDictionary *)aDictionary;
@@ -27,5 +32,9 @@
 - (NSArray *)loggedOperations;
 - (void)setInitialTextStorageDictionaryRepresentation:(NSDictionary *)aInitialRepresentation;
 - (NSDictionary *)initialTextStorageDictionaryRepresentation;
+- (unsigned long)operationCount;
+- (unsigned long)deletedCharacters;
+- (unsigned long)insertedCharacters;
+- (unsigned long)selectedCharacters;
 
 @end

@@ -7,10 +7,12 @@
 //
 
 #import "TCMMMLogStatisticsEntry.h"
+#import "TCMMMLoggingState.h"
 #import "TCMMMUser.h"
 #import "TCMMMLoggedOperation.h"
 #import "SelectionOperation.h"
 #import "TextOperation.h"
+#import "UserChangeOperation.h"
 
 @interface TCMMMLogStatisticsEntry (TCMMMLogStatisticsEntryPrivateAdditions)
 - (void)setDateOfLastActivity:(NSCalendarDate *)aDate;
@@ -53,10 +55,31 @@
     if ([[op operationID] isEqualToString:[TextOperation operationID]]) {
         deletedCharacters+=[op affectedCharRange].length;
         insertedCharacters+=[[op replacementString] length];
+        isInside = YES;
     } else if ([[op operationID] isEqualToString:[SelectionOperation operationID]]) {
         selectedCharacters+=[op selectedRange].length;
+        isInside = YES;
+    } else if ([[op operationID] isEqualToString:[UserChangeOperation operationID]]) {
+        if ([(UserChangeOperation *)op type] == UserChangeTypeLeave) {
+            isInside = NO;
+        } else {
+            isInside = YES;
+        }
     }
 }
+
+- (BOOL)isInside {
+    return isInside;
+}
+
+- (TCMMMLoggingState *)loggingState {
+    return self->loggingState;
+}
+
+- (void)setLoggingState:(TCMMMLoggingState *)aLoggingState {
+    self->loggingState = aLoggingState;
+}
+
 - (unsigned long)operationCount {
     return operationCount;
 }
