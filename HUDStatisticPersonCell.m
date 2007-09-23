@@ -77,8 +77,12 @@
             //imageRect.origin.y   += ABS(imageRect.size.height-imageRect.size.width) / 2.;
         }
     }
+//    if (![entry isInside]) {
+//        [[NSColor colorWithCalibratedWhite:1.0 alpha:0.25] set];
+//        [NSBezierPath fillRect:imageRect];
+//    }
     [userImage setFlipped:YES];
-    [userImage drawInRect:imageRect fromRect:NSMakeRect(0,0,[userImage size].width,[userImage size].height) operation:NSCompositeSourceOver fraction:1.0];
+    [userImage drawInRect:imageRect fromRect:NSMakeRect(0,0,[userImage size].width,[userImage size].height) operation:NSCompositeSourceOver fraction:[entry isInside]?1.0:0.25];
     [[NSColor redColor] set];
     if ([self isHighlighted]) {
         [NSGraphicsContext saveGraphicsState];
@@ -95,7 +99,11 @@
     NSString *lastActivityString = [NSString stringWithFormat:@"Last activity: %@\n",[[entry dateOfLastActivity] descriptionWithCalendarFormat:@"%d.%m.%y %H:%M:%S"]];
     labelRect = NSOffsetRect(NSInsetRect(labelRect,0,7.),0,8.);
     [lastActivityString drawInRect:labelRect withAttributes:mStatusAttributes];
-    // NSFrameRect(labelRect);
+    
+//    if (![entry isInside]) {
+//        NSFrameRect(labelRect);
+//    }
+//    
     labelRect = NSOffsetRect(NSInsetRect(labelRect,0,8.),0,7.);
 
     NSColor *deletionsColor  = [NSColor deletionsStatisticsColor];
@@ -103,17 +111,22 @@
     NSColor *selectionsColor = [NSColor selectionsStatisticsColor];
     
     NSColor *colors[] = {deletionsColor,insertionsColor,selectionsColor};
-    int i=3;
-    while (i--) {
+    float absoluteValues[]={[entry deletedCharacters],[entry insertedCharacters],[entry selectedCharacters]};
+    TCMMMLoggingState *loggingState = [entry loggingState];
+    float sums[]={MAX(1.,[loggingState deletedCharacters]),MAX(1.,[loggingState insertedCharacters]),MAX(1.,[loggingState selectedCharacters])};
+    float sumValue = MAX(1.,absoluteValues[0]+absoluteValues[1]+absoluteValues[2]);
+    int i=0;
+    for (i=0;i<3;i++) {
         [colors[i] set];
-        float barValue = random()%1001/1000.;
+        float barValue = absoluteValues[i]/sums[i];
         
         NSRect barRect = NSInsetRect(labelRect,0.,1.);
         barRect.size.width -= 30.;
         NSRect percentageRect = barRect;
         barRect.size.height = 8.;
         barRect.size.width = barValue * barRect.size.width;
-        NSBezierPath *barPath = [NSBezierPath bezierPathWithRoundedRect:barRect radius:4.];
+        barRect.size.width = MAX(1.,barRect.size.width);
+        NSBezierPath *barPath = [NSBezierPath bezierPathWithRoundedRect:barRect radius:MIN(4.,barRect.size.width/2.)];
         [barPath fill];
         
         percentageRect.origin.x = NSMaxX(barRect)+4.;

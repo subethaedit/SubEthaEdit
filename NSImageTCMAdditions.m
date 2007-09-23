@@ -32,6 +32,7 @@
         newSize.width=(int)(originalSize.width/originalSize.height*newSize.height);            
         if (newSize.width <=0) newSize.width=1;
     }
+    [self setFlipped:NO];
     NSImage *image=[NSImage clearedImageWithSize:newSize];
     [image lockFocus];
     NSGraphicsContext *context=[NSGraphicsContext currentContext];

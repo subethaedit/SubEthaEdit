@@ -281,14 +281,14 @@
 									<key>PBXSmartGroupTreeModuleOutlineStateSelectionKey</key>
 									<array>
 										<array>
-											<integer>31</integer>
+											<integer>17</integer>
 											<integer>3</integer>
 											<integer>1</integer>
 											<integer>0</integer>
 										</array>
 									</array>
 									<key>PBXSmartGroupTreeModuleOutlineStateVisibleRectKey</key>
-									<string>{{0, 289}, {333, 334}}</string>
+									<string>{{0, 223}, {333, 334}}</string>
 								</dict>
 								<key>PBXTopSmartGroupGIDs</key>
 								<array/>
@@ -311,7 +311,7 @@
 									<real>43</real>
 								</array>
 								<key>RubberWindowFrame</key>
-								<string>632 458 350 420 0 0 1440 878 </string>
+								<string>748 458 350 420 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXSmartGroupTreeModule</string>
@@ -488,7 +488,7 @@
 		<string>/Users/dom/Data/Work/TCM/svn/seed-branch/HMBlkAppKit1.1/HMBlkAppKit.xcodeproj</string>
 	</array>
 	<key>WindowString</key>
-	<string>632 458 350 420 0 0 1440 878 </string>
+	<string>748 458 350 420 0 0 1440 878 </string>
 	<key>WindowTools</key>
 	<array>
 		<dict>

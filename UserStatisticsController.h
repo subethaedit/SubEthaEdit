@@ -16,6 +16,8 @@
     IBOutlet NSTextField *O_wordCountTextField;
     IBOutlet NSTableView *O_userTableView;
     IBOutlet HUDStatisticGraphView *O_graphView;
+    IBOutlet NSArrayController *O_statEntryArrayController;
+    IBOutlet NSObjectController *O_loggingStateObjectController;
 }
 
 @end

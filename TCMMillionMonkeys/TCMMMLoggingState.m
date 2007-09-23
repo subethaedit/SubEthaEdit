@@ -11,6 +11,9 @@
 #import "TCMMMNoOperation.h"
 #import "TCMMMUserManager.h"
 #import "TCMMMLogStatisticsEntry.h"
+#import "SelectionOperation.h"
+#import "TextOperation.h"
+#import "UserChangeOperation.h"
 
 @interface TCMMMLoggingState (TCMMMLoggingStatePrivateAdditions)
 - (void)addLoggedOperation:(TCMMMLoggedOperation *)anOperation;
@@ -107,10 +110,21 @@
                 
                 [I_statisticsEntryByUserID setObject:statisticsEntry forKey:userID];
                 [I_statisticsArray addObject:statisticsEntry];
+                [statisticsEntry setLoggingState:self];
                 [self didChange:NSKeyValueChangeInsertion valuesAtIndexes:changeSet forKey:@"statisticsArray"];
             }
         }
+        NSIndexSet *changeSet = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,[I_statisticsArray count])];
+        [self willChange:NSKeyValueChangeSetting valuesAtIndexes:changeSet forKey:@"statisticsArray"];
         [statisticsEntry updateWithOperation:anOperation];
+        id op = [anOperation operation];
+            if ([[op operationID] isEqualToString:[TextOperation operationID]]) {
+            deletedCharacters+=[op affectedCharRange].length;
+            insertedCharacters+=[[op replacementString] length];
+        } else if ([[op operationID] isEqualToString:[SelectionOperation operationID]]) {
+            selectedCharacters+=[op selectedRange].length;
+        }
+        [self didChange:NSKeyValueChangeSetting valuesAtIndexes:changeSet forKey:@"statisticsArray"];
     }
 }
 
@@ -129,6 +143,20 @@
 - (NSArray *)loggedOperations {
     return I_loggedOperations;
 }
+
+- (unsigned long)operationCount {
+    return operationCount;
+}
+- (unsigned long)deletedCharacters {
+    return deletedCharacters;
+}
+- (unsigned long)insertedCharacters {
+    return insertedCharacters;
+}
+- (unsigned long)selectedCharacters {
+    return selectedCharacters;
+}
+
 
 - (void)setInitialTextStorageDictionaryRepresentation:(NSDictionary *)aInitialRepresentation {
     [I_initialTextStorageDictionaryRepresentation autorelease];
