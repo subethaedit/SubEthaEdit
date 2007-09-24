@@ -12,7 +12,7 @@
 
     <states>
     
-        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
+        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="Objective-C" useautocompletefrommode="Objective-C">
             <import mode="C"/>
 
             <state id="NSString" type="string" color="#760f15" background-color="none" font-weight="normal" font-style="normal">

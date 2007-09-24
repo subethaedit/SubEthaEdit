@@ -311,6 +311,13 @@
 		312B7C070A99DA460014E52A /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 312B7BBB0A99D1B50014E52A /* Sparkle.framework */; };
 		316A0D2A0C68A47100720268 /* DebugAttributeInspectorController.m in Sources */ = {isa = PBXBuildFile; fileRef = 316A0D280C68A47100720268 /* DebugAttributeInspectorController.m */; };
 		316A0D2B0C68A47100720268 /* DebugAttributesInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = 316A0D290C68A47100720268 /* DebugAttributesInspector.nib */; };
+		31D2C6FF0CA7C9B9003CC5C9 /* PrecedencePreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2C6E70CA7C7A7003CC5C9 /* PrecedencePreferences.m */; };
+		31D2C7000CA7C9C8003CC5C9 /* PrecedenceRuleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2C6E50CA7C7A7003CC5C9 /* PrecedenceRuleCell.m */; };
+		31D2C7010CA7C9D1003CC5C9 /* PrecedenceRuleCell.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 31D2C6E60CA7C7A7003CC5C9 /* PrecedenceRuleCell.h */; };
+		31D2C7020CA7C9D8003CC5C9 /* PrecedencePreferences.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 31D2C6E80CA7C7A7003CC5C9 /* PrecedencePreferences.h */; };
+		31D2C7040CA7C9F9003CC5C9 /* PrecedencePrefs.tif in Resources */ = {isa = PBXBuildFile; fileRef = 31D2C6EB0CA7C7DE003CC5C9 /* PrecedencePrefs.tif */; };
+		31D2C7050CA7CA04003CC5C9 /* PrecedencePrefs.nib in Resources */ = {isa = PBXBuildFile; fileRef = 31D2C6D10CA7C78C003CC5C9 /* PrecedencePrefs.nib */; };
+		31D2C7060CA7CA08003CC5C9 /* PrecedenceRules.nib in Resources */ = {isa = PBXBuildFile; fileRef = 31D2C6D30CA7C78C003CC5C9 /* PrecedenceRules.nib */; };
 		31D5F8680AA301E80088DB18 /* HDCrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31D5F8590AA2FB760088DB18 /* HDCrashReporter.framework */; };
 		31D5FB230AA309200088DB18 /* HDCrashReporter.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 31D5F8590AA2FB760088DB18 /* HDCrashReporter.framework */; };
 		5E0F01C30AB573A100A5DE33 /* DialogBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F01C10AB573A100A5DE33 /* DialogBackgroundView.m */; };
@@ -699,6 +706,8 @@
 				31D5FB230AA309200088DB18 /* HDCrashReporter.framework in Copy Files (Frameworks) */,
 				141F4EB40AE4266F001B73D2 /* PSMTabBarControl.framework in Copy Files (Frameworks) */,
 				312B7BC00A99D22C0014E52A /* Sparkle.framework in Copy Files (Frameworks) */,
+				31D2C7010CA7C9D1003CC5C9 /* PrecedenceRuleCell.h in Copy Files (Frameworks) */,
+				31D2C7020CA7C9D8003CC5C9 /* PrecedencePreferences.h in Copy Files (Frameworks) */,
 			);
 			name = "Copy Files (Frameworks)";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -715,7 +724,7 @@
 		141F4E970AE42602001B73D2 /* PSMTabBarControl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PSMTabBarControl.xcodeproj; path = PSMTabBarControl/PSMTabBarControl.xcodeproj; sourceTree = "<group>"; };
 		141F50EA0AE51B65001B73D2 /* PlainTextWindowControllerTabContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlainTextWindowControllerTabContext.h; sourceTree = "<group>"; };
 		141F50EB0AE51B65001B73D2 /* PlainTextWindowControllerTabContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlainTextWindowControllerTabContext.m; sourceTree = "<group>"; };
-		14251B920BBD5DD300052C84 /* seed */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = seed; sourceTree = BUILT_PRODUCTS_DIR; };
+		14251B920BBD5DD300052C84 /* seed */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "compiled.mach-o.executable"; path = seed; sourceTree = BUILT_PRODUCTS_DIR; };
 		14288FDD09573E8900D14688 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = /System/Library/Frameworks/AddressBook.framework; sourceTree = "<absolute>"; };
 		14288FDF09573EA300D14688 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		14288FEC09573F2B00D14688 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
@@ -1122,6 +1131,13 @@
 		316A0D270C68A47100720268 /* DebugAttributeInspectorController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DebugAttributeInspectorController.h; path = Debug/DebugAttributeInspectorController.h; sourceTree = "<group>"; };
 		316A0D280C68A47100720268 /* DebugAttributeInspectorController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = DebugAttributeInspectorController.m; path = Debug/DebugAttributeInspectorController.m; sourceTree = "<group>"; };
 		316A0D290C68A47100720268 /* DebugAttributesInspector.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = DebugAttributesInspector.nib; path = Debug/DebugAttributesInspector.nib; sourceTree = "<group>"; };
+		31D2C6D20CA7C78C003CC5C9 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PrecedencePrefs.nib; sourceTree = "<group>"; };
+		31D2C6D40CA7C78C003CC5C9 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PrecedenceRules.nib; sourceTree = "<group>"; };
+		31D2C6E50CA7C7A7003CC5C9 /* PrecedenceRuleCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PrecedenceRuleCell.m; sourceTree = "<group>"; };
+		31D2C6E60CA7C7A7003CC5C9 /* PrecedenceRuleCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PrecedenceRuleCell.h; sourceTree = "<group>"; };
+		31D2C6E70CA7C7A7003CC5C9 /* PrecedencePreferences.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PrecedencePreferences.m; sourceTree = "<group>"; };
+		31D2C6E80CA7C7A7003CC5C9 /* PrecedencePreferences.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PrecedencePreferences.h; sourceTree = "<group>"; };
+		31D2C6EB0CA7C7DE003CC5C9 /* PrecedencePrefs.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = PrecedencePrefs.tif; path = artwork/PrecedencePrefs.tif; sourceTree = "<group>"; };
 		31D5F8510AA2FB760088DB18 /* CrashReporter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CrashReporter.xcodeproj; path = CrashReporter/CrashReporter.xcodeproj; sourceTree = "<group>"; };
 		32DBCF750370BD2300C91783 /* SubEthaEdit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubEthaEdit_Prefix.pch; sourceTree = "<group>"; };
 		5E0F01C10AB573A100A5DE33 /* DialogBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DialogBackgroundView.m; sourceTree = "<group>"; };
@@ -1449,6 +1465,7 @@
 				1428907B095743F200D14688 /* Participants.icns */,
 				1428907C095743F200D14688 /* PreviousChange.png */,
 				1428907E095743F200D14688 /* PreviousSymbol.png */,
+				31D2C6EB0CA7C7DE003CC5C9 /* PrecedencePrefs.tif */,
 				14289080095743F200D14688 /* PrintPrefs.tiff */,
 				14289081095743F200D14688 /* Rendezvous.tiff */,
 				14289082095743F200D14688 /* ScriptMenu.tiff */,
@@ -1807,6 +1824,10 @@
 				14289396095758C100D14688 /* OverlayView.m */,
 				14289397095758C100D14688 /* PrintPreferences.h */,
 				14289398095758C100D14688 /* PrintPreferences.m */,
+				31D2C6E50CA7C7A7003CC5C9 /* PrecedenceRuleCell.m */,
+				31D2C6E60CA7C7A7003CC5C9 /* PrecedenceRuleCell.h */,
+				31D2C6E70CA7C7A7003CC5C9 /* PrecedencePreferences.m */,
+				31D2C6E80CA7C7A7003CC5C9 /* PrecedencePreferences.h */,
 				14289399095758C100D14688 /* StylePreferences.h */,
 				1428939A095758C100D14688 /* StylePreferences.m */,
 				1428939B095758C100D14688 /* TableView.h */,
@@ -2071,6 +2092,8 @@
 				14289026095741BA00D14688 /* PlainTextEditor.nib */,
 				14289028095741BA00D14688 /* PlainTextWindow.nib */,
 				142893D90957599F00D14688 /* Preferences.nib */,
+				31D2C6D10CA7C78C003CC5C9 /* PrecedencePrefs.nib */,
+				31D2C6D30CA7C78C003CC5C9 /* PrecedenceRules.nib */,
 				1428902A095741BA00D14688 /* PrintOptions.nib */,
 				1428902C095741BA00D14688 /* PrintPrefs.nib */,
 				14289030095741BA00D14688 /* SavePanelAccessory.nib */,
@@ -2694,6 +2717,9 @@
 				F2CA7CE80CA11FDA008BEA38 /* Internet13.png in Resources */,
 				F2CA7CEA0CA11FFB008BEA38 /* ToolbarIconConnectionBrowser.tiff in Resources */,
 				F29AD8670CA3391B0097D04E /* Bonjour13.png in Resources */,
+				31D2C7040CA7C9F9003CC5C9 /* PrecedencePrefs.tif in Resources */,
+				31D2C7050CA7CA04003CC5C9 /* PrecedencePrefs.nib in Resources */,
+				31D2C7060CA7CA08003CC5C9 /* PrecedenceRules.nib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3077,6 +3103,8 @@
 				F2CA79A50CA04BAC008BEA38 /* HUDStatisticGraphView.m in Sources */,
 				F2CA7D2F0CA142B1008BEA38 /* HUDStatisticPersonCell.m in Sources */,
 				F26B7D880CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m in Sources */,
+				31D2C6FF0CA7C9B9003CC5C9 /* PrecedencePreferences.m in Sources */,
+				31D2C7000CA7C9C8003CC5C9 /* PrecedenceRuleCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3374,6 +3402,22 @@
 				1468BA9D097D9291006F5936 /* German */,
 			);
 			name = MainMenu.nib;
+			sourceTree = "<group>";
+		};
+		31D2C6D10CA7C78C003CC5C9 /* PrecedencePrefs.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				31D2C6D20CA7C78C003CC5C9 /* English */,
+			);
+			name = PrecedencePrefs.nib;
+			sourceTree = "<group>";
+		};
+		31D2C6D30CA7C78C003CC5C9 /* PrecedenceRules.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				31D2C6D40CA7C78C003CC5C9 /* English */,
+			);
+			name = PrecedenceRules.nib;
 			sourceTree = "<group>";
 		};
 		5E2F5E41097BE32E00F7AA3C /* Export.nib */ = {

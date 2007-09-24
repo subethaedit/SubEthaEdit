@@ -20,8 +20,11 @@
 
 @interface DocumentModeManager (DocumentModeManagerPrivateAdditions)
 - (void)TCM_findModes;
+- (NSMutableArray *)reloadPrecedences;
 - (void)setupMenu:(NSMenu *)aMenu action:(SEL)aSelector alternateDisplay:(BOOL)aFlag;
 - (void)setupPopUp:(DocumentModePopUpButton *)aPopUp selectedModeIdentifier:(NSString *)aModeIdentifier automaticMode:(BOOL)hasAutomaticMode;
+- (NSMutableArray *)modePrecedenceArray;
+- (void)setModePrecedenceArray:(NSMutableArray *)anArray;
 @end
 
 @implementation DocumentModePopUpButton
@@ -143,7 +146,8 @@
 		[I_modeIdentifiersTagArray addObject:@"-"];
 		[I_modeIdentifiersTagArray addObject:AUTOMATICMODEIDENTIFIER];
 		[I_modeIdentifiersTagArray addObject:BASEMODEIDENTIFIER];
-        [self TCM_findModes];
+		[self TCM_findModes];
+        [self setModePrecedenceArray:[self reloadPrecedences]];
     }
     return self;
 }
@@ -155,6 +159,102 @@
 	[I_modeIdentifiersByFilename release];
 	[I_modeIdentifiersByRegex release];
     [super dealloc];
+}
+
+- (NSMutableArray *)reloadPrecedences {
+	// Mode rules cannot be edited by user.
+	
+	// Remember: RULE ORDER DOES NOT MATTER.
+
+	// How it works:
+	// Regenerate precedences from modes
+	// Add user added rules back in from defaults (if exisiting)
+	// Set new defaults
+	
+	NSArray *oldPrecedenceArray = nil;
+    NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
+    oldPrecedenceArray = [defaults objectForKey:@"ModePrecedences"];
+	
+	NSMutableArray *precendenceArray = [NSMutableArray array];
+	
+    NSEnumerator *enumerator = [I_modeBundles objectEnumerator];
+    NSBundle *bundle;
+    while (bundle = [enumerator nextObject]) {
+		
+        ModeSettings *modeSettings = [[ModeSettings alloc] initWithFile:[bundle pathForResource:@"ModeSettings" ofType:@"xml"]];
+		NSMutableDictionary *modeDictionary = [NSMutableDictionary dictionary];
+		NSMutableArray *ruleArray = [NSMutableArray array];
+		
+        NSEnumerator *extensions, *filenames, *regexes;
+        if (modeSettings) {
+            extensions = [[modeSettings recognizedExtensions] objectEnumerator];
+            filenames = [[modeSettings recognizedFilenames] objectEnumerator];
+            regexes = [[modeSettings recognizedRegexes] objectEnumerator];
+
+			[precendenceArray addObject:modeDictionary];
+			[modeDictionary setObject:[bundle bundleIdentifier] forKey:@"Identifier"];
+			[modeDictionary setObject:[[self documentModeForIdentifier:[bundle bundleIdentifier]] displayName] forKey:@"Name"];
+			[modeDictionary setObject:[bundle objectForInfoDictionaryKey:@"CFBundleVersion"] forKey:@"Version"];
+			NSString *bundlePath = [bundle bundlePath];
+			NSString *location = @"User Library";
+			if ([bundlePath hasPrefix:@"/Library"]) location = @"System Library";
+			if ([bundlePath hasPrefix:@"/Network/Library"]) location = @"Network Library";
+			if ([bundlePath hasPrefix:[[NSBundle mainBundle] bundlePath]]) location = @"Application";
+			[modeDictionary setObject:location forKey:@"Location"];
+			
+			[modeDictionary setObject:ruleArray forKey:@"Rules"];
+        } 
+		
+        NSString *extension = nil;
+        NSString *filename = nil;
+        NSString *regex = nil;
+		
+        while ((extension = [extensions nextObject])) {
+			[ruleArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:extension,@"String",
+																			//@"Extension",@"Type",
+																			[NSNumber numberWithInt:0],@"TypeIdentifier",
+																			[NSNumber numberWithBool:YES],@"ModeRule",
+																			nil]];
+        }
+        
+        while ((filename = [filenames nextObject])) {
+			[ruleArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:filename,@"String",
+								                                            //@"Filename",@"Type",
+																			[NSNumber numberWithInt:1],@"TypeIdentifier",
+																			[NSNumber numberWithBool:YES],@"ModeRule",nil]];
+        }
+        
+        while ((regex = [regexes nextObject])) {
+            if ([OGRegularExpression isValidExpressionString:regex]) {
+				[ruleArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:regex,@"String",
+																				//@"Content Regex",@"Type",
+																				[NSNumber numberWithInt:2],@"TypeIdentifier",
+																				[NSNumber numberWithBool:YES],@"ModeRule",nil]];
+            }
+        }
+ 
+        [modeSettings release];
+ 
+		// Enumerate rules from defaults to add user added rules back in
+		NSEnumerator *oldModes = [oldPrecedenceArray objectEnumerator];
+		id oldMode;
+		while ((oldMode = [oldModes nextObject])) {
+			if (![[oldMode objectForKey:@"Identifier"] isEqualToString:[bundle bundleIdentifier]]) continue;
+			NSEnumerator *oldRules = [[oldMode objectForKey:@"Rules"] objectEnumerator];
+			NSDictionary *oldRule;
+			while ((oldRule = [oldRules nextObject])) {
+				if (![[oldRule objectForKey:@"ModeRule"] boolValue]) {
+					[ruleArray addObject:[[oldRule mutableCopy] autorelease]];
+				}
+				
+				//FIXME Checkboxen nicht vergessen
+			}						
+		}
+	}
+	
+//	NSLog(@"Precedences: %@", precendenceArray);
+	[defaults setObject:precendenceArray forKey:@"ModePrecedences"];
+	return precendenceArray;
 }
 
 - (void)TCM_findModes {
@@ -197,48 +297,6 @@
             }
             
         }
-    }
-
-    enumerator = [I_modeBundles objectEnumerator];
-    NSBundle *bundle;
-    while (bundle = [enumerator nextObject]) {
-
-        ModeSettings *modeSettings = [[ModeSettings alloc] initWithFile:[bundle pathForResource:@"ModeSettings" ofType:@"xml"]];
-        NSEnumerator *extensions, *filenames, *regexes;
-        if (modeSettings) {
-            extensions = [[modeSettings recognizedExtensions] objectEnumerator];
-            filenames = [[modeSettings recognizedFilenames] objectEnumerator];
-            regexes = [[modeSettings recognizedRegexes] objectEnumerator];
-        } else {
-            CFURLRef url = CFURLCreateWithFileSystemPath(NULL, (CFStringRef)[bundle bundlePath], kCFURLPOSIXPathStyle, 1);
-            CFDictionaryRef infodict = CFBundleCopyInfoDictionaryInDirectory(url);
-            NSDictionary *infoDictionary = (NSDictionary *) infodict;
-            extensions = [[infoDictionary objectForKey:@"TCMModeExtensions"] objectEnumerator];
-            filenames = [[infoDictionary objectForKey:@"TCMModeFilenames"] objectEnumerator];
-            regexes = [[infoDictionary objectForKey:@"TCMModeRegex"] objectEnumerator];
-            CFRelease(url);
-            CFRelease(infodict);
-        }
-    
-        NSString *extension = nil;
-        NSString *filename = nil;
-        NSString *regex = nil;
-    
-        while ((extension = [extensions nextObject])) {
-            [I_modeIdentifiersByExtension setObject:[bundle bundleIdentifier] forKey:extension];
-        }
-        
-        while ((filename = [filenames nextObject])) {
-            [I_modeIdentifiersByFilename setObject:[bundle bundleIdentifier] forKey:filename];
-        }
-        
-        while ((regex = [regexes nextObject])) {
-            if ([OGRegularExpression isValidExpressionString:regex]) {
-            [I_modeIdentifiersByRegex setObject:[bundle bundleIdentifier] forKey:[[[OGRegularExpression alloc] initWithString:regex options:OgreFindNotEmptyOption]autorelease]];
-            }
-        }
-        
-        [modeSettings release];
     }
 
 }
@@ -344,32 +402,56 @@
     return returnValue;
 }
 
-- (DocumentMode *)documentModeForExtension:(NSString *)anExtension {
-    NSString *identifier=[I_modeIdentifiersByExtension objectForKey:anExtension];
-    if (identifier) {
-        return [self documentModeForIdentifier:identifier];
-	} else {
-        return [self baseMode];
-	}
+- (NSMutableArray *)modePrecedenceArray {
+	return I_modePrecedenceArray;
 }
 
-- (DocumentMode *)documentModeForFilename:(NSString *)aFilename {
-    NSString *identifier=[I_modeIdentifiersByFilename objectForKey:aFilename];
-    if (identifier) {
-        return [self documentModeForIdentifier:identifier];
-	} else {
-        return [self baseMode];
-	}
+- (void)setModePrecedenceArray:(NSMutableArray *)anArray {
+    [I_modePrecedenceArray autorelease];
+    I_modePrecedenceArray=[anArray retain];
 }
 
-- (DocumentMode *)documentModeForContent:(NSString *)aString {
-    NSEnumerator *regexes = [I_modeIdentifiersByRegex keyEnumerator];
-    id regex;
-    OGRegularExpressionMatch *match;
-    while (regex = [regexes nextObject]) {
-        match = [regex matchInString:aString];
-        if ([match count]>0) return [self documentModeForIdentifier:[I_modeIdentifiersByRegex objectForKey:regex]];
-     }
+- (DocumentMode *)documentModeForPath:(NSString *)path withContent:(NSData *)content {
+	NSString *filename = [path lastPathComponent];
+	NSString *extension = [path pathExtension];
+	
+	NSString *contentString = nil;
+		
+	NSEnumerator *modeEnumerator = [[self modePrecedenceArray] objectEnumerator];
+    NSMutableDictionary *mode;
+    while ((mode = [modeEnumerator nextObject])) {
+
+		NSEnumerator *ruleEnumerator = [[mode objectForKey:@"Rules"] objectEnumerator];
+		NSMutableDictionary *rule;
+		while ((rule = [ruleEnumerator nextObject])) {
+			int ruleType = [[rule objectForKey:@"TypeIdentifier"] intValue];
+			NSString *ruleString = [rule objectForKey:@"String"];
+			
+			if (ruleType == 0) {
+				if ([ruleString isEqualToString:extension]) return [self documentModeForIdentifier:[mode objectForKey:@"Identifier"]];
+			} 
+			if (ruleType == 1) {
+				if ([ruleString isEqualToString:filename]) return [self documentModeForIdentifier:[mode objectForKey:@"Identifier"]];
+			}  
+			if (ruleType == 2) {
+				if (!contentString) {
+					// Convert data to ASCII, we don't know encoding yet at this point
+					// FIXME Don't forget to handle UTF16/32
+					contentString = [[[NSString alloc] initWithBytesNoCopy:(void *)[content bytes] length:[content length] encoding:NSMacOSRomanStringEncoding freeWhenDone:NO] autorelease];
+				}
+				OGRegularExpressionMatch *match;
+				OGRegularExpression *regex = [rule objectForKey:@"RegEx"];
+				if (!regex) {
+					// Compile and cache into dictionary
+					regex = [[[OGRegularExpression alloc] initWithString:ruleString options:OgreFindNotEmptyOption] autorelease];
+					[rule setObject:regex forKey:@"RegEx"];
+				}
+				match = [regex matchInString:contentString];
+				if ([match count]>0) return [self documentModeForIdentifier:[mode objectForKey:@"Identifier"]];
+			}
+		}
+		
+    }
 
     return [self baseMode];
 }
@@ -455,9 +537,7 @@
         }
     }
 
-    NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:[[baseMode bundle] objectForInfoDictionaryKey:@"CFBundleName"]
-                                                      action:aSelector
-                                               keyEquivalent:@""];
+    NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:[[baseMode bundle] objectForInfoDictionaryKey:@"CFBundleName"] action:aSelector keyEquivalent:@""];
     [menuItem setTag:[self tagForDocumentModeIdentifier:BASEMODEIDENTIFIER]];
     [aMenu addItem:menuItem];
     [menuItem release];
