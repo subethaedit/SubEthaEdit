@@ -251,7 +251,9 @@ NSString * const AlwaysShowTabBarKey                        = @"AlwaysShowTabBar
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
     
     TCMMMUser *me=[TCMMMUserManager me];
-    [O_pictureImageView setImage:[me image]];
+    NSImage *myImage = [me image];
+    [myImage setFlipped:NO];
+    [O_pictureImageView setImage:myImage];
     [O_nameTextField setStringValue:[me name]];
     [O_emailComboBox setStringValue:[[me properties] objectForKey:@"Email"]];
     [O_aimComboBox   setStringValue:[[me properties] objectForKey:@"AIM"]];

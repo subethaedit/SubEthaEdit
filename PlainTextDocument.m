@@ -183,6 +183,15 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
     return transientDocument;
 }
 
+- (NSImage *)documentIcon {
+    if ([@"SEETextType" isEqualToString:[self fileType]]) {
+        return [NSImage imageNamed:@"seetext"];
+    } else {
+        return [NSImage imageNamed:@"SubEthaEditFiles"];
+    }
+}
+
+
 static NSString *tempFileName(NSString *origPath) {
     static int sequenceNumber = 0;
     NSString *name;

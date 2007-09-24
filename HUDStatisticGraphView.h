@@ -10,7 +10,9 @@
 
 
 @interface HUDStatisticGraphView : NSView {
-
+    id statisticsEntryContainer;
+    NSString *statisticsEntryKeyPath;
+    BOOL realtiveMode;
 }
 
 @end

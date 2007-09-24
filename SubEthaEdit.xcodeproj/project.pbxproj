@@ -449,6 +449,8 @@
 		F2D12A0B0BF0B6B000A776CC /* ConnectionBrowser.nib in Resources */ = {isa = PBXBuildFile; fileRef = F2D12A090BF0B6B000A776CC /* ConnectionBrowser.nib */; };
 		F2D12A1D0BF0B8DF00A776CC /* ConnectionBrowserEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D12A1B0BF0B8DF00A776CC /* ConnectionBrowserEntry.m */; };
 		F2F2B5A70CA7F7B80045C189 /* PrecedencePreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2C6E70CA7C7A7003CC5C9 /* PrecedencePreferences.m */; };
+		F2F2B60E0CA811240045C189 /* TCMMMLogStatisticsDataPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F2B60D0CA811240045C189 /* TCMMMLogStatisticsDataPoint.m */; };
+		F2F2B6100CA811240045C189 /* TCMMMLogStatisticsDataPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F2B60D0CA811240045C189 /* TCMMMLogStatisticsDataPoint.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -1290,6 +1292,8 @@
 		F2D12A0A0BF0B6B000A776CC /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/ConnectionBrowser.nib; sourceTree = "<group>"; };
 		F2D12A1A0BF0B8DF00A776CC /* ConnectionBrowserEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionBrowserEntry.h; sourceTree = "<group>"; };
 		F2D12A1B0BF0B8DF00A776CC /* ConnectionBrowserEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionBrowserEntry.m; sourceTree = "<group>"; };
+		F2F2B60C0CA811240045C189 /* TCMMMLogStatisticsDataPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCMMMLogStatisticsDataPoint.h; sourceTree = "<group>"; };
+		F2F2B60D0CA811240045C189 /* TCMMMLogStatisticsDataPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMMMLogStatisticsDataPoint.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1883,6 +1887,8 @@
 				F2ABC4D40C799775007437A2 /* TCMMMLoggingState.m */,
 				F20948B80C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.h */,
 				F20948B90C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m */,
+				F2F2B60C0CA811240045C189 /* TCMMMLogStatisticsDataPoint.h */,
+				F2F2B60D0CA811240045C189 /* TCMMMLogStatisticsDataPoint.m */,
 				F2ABC4E20C799CCD007437A2 /* TCMMMLoggedOperation.h */,
 				F2ABC4E10C799CCD007437A2 /* TCMMMLoggedOperation.m */,
 				14289321095756D800D14688 /* TCMMMStatusProfile.h */,
@@ -2886,6 +2892,7 @@
 				F2CA79A60CA04BAC008BEA38 /* HUDStatisticGraphView.m in Sources */,
 				F2CA7D300CA142B1008BEA38 /* HUDStatisticPersonCell.m in Sources */,
 				F26B7D860CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m in Sources */,
+				F2F2B60E0CA811240045C189 /* TCMMMLogStatisticsDataPoint.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3101,6 +3108,7 @@
 				F26B7D880CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m in Sources */,
 				31D2C7000CA7C9C8003CC5C9 /* PrecedenceRuleCell.m in Sources */,
 				F2F2B5A70CA7F7B80045C189 /* PrecedencePreferences.m in Sources */,
+				F2F2B6100CA811240045C189 /* TCMMMLogStatisticsDataPoint.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
