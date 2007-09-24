@@ -48,13 +48,13 @@
 
 - (IBAction) addUserRule:(id)sender {	
 	NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
-	[defaults willChangeValueForKey:@"ModePrecedences"];
 	int index = [[o_rulesController arrangedObjects] count];
 	//NSLog(@"foo: %@", [o_rulesController arrangedObjects]);
-	[o_rulesController insertObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:@"Placeholder",@"String",[NSNumber numberWithBool:NO],@"ModeRule",[NSNumber numberWithInt:0],@"TypeIdentifier",nil] atArrangedObjectIndex:index];
+	NSMutableDictionary *newRule = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"Placeholder",@"String",[NSNumber numberWithBool:NO],@"ModeRule",[NSNumber numberWithInt:0],@"TypeIdentifier",nil];
+	// NSLog(@"%s %@ %d",__FUNCTION__, newRule,(int)newRule);
+	[o_rulesController insertObject:newRule atArrangedObjectIndex:index];
 	//NSLog(@"bar: %@", [o_rulesController arrangedObjects]);
 	[o_rulesController setSelectionIndex:index];
-	[defaults didChangeValueForKey:@"ModePrecedences"];
 }
 
 - (IBAction) removeUserRule:(id)sender {
@@ -70,7 +70,8 @@
 
 - (void) tableView:(NSTableView *) tableView willDisplayCell:(id) cell forTableColumn:(NSTableColumn *) tableColumn row:(int) row {
 	if (tableView != o_rulesTableView) return;
-	NSDictionary *rule = [[o_rulesController arrangedObjects] objectAtIndex:row];
+	NSMutableDictionary *rule = [[o_rulesController arrangedObjects] objectAtIndex:row];
+	//NSLog(@"%s %@ %d",__FUNCTION__, rule, (int)rule);
 	
 	NSString *key = [NSString stringWithFormat:@"%@/%d",[[[o_modesController arrangedObjects] objectAtIndex:[o_modesController selectionIndex]] objectForKey:@"Identifier"], row];
 	//NSLog(@"rule requested: %@", rule);
