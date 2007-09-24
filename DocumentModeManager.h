@@ -50,7 +50,8 @@
 - (DocumentMode *)baseMode;
 - (DocumentMode *)modeForNewDocuments;
 - (DocumentMode *)documentModeForIdentifier:(NSString *)anIdentifier;
-- (DocumentMode *)documentModeForPath:(NSString *)path withContent:(NSData *)content;
+- (DocumentMode *)documentModeForPath:(NSString *)path withContentData:(NSData *)content;
+- (DocumentMode *)documentModeForPath:(NSString *)path withContentString:(NSString *)contentString;
 - (DocumentMode *)documentModeForName:(NSString *)aName;
 - (NSString *)documentModeIdentifierForTag:(int)aTag;
 - (BOOL)documentModeAvailableModeIdentifier:(NSString *)anIdentifier;

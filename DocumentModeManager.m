@@ -411,12 +411,17 @@
     I_modePrecedenceArray=[anArray retain];
 }
 
-- (DocumentMode *)documentModeForPath:(NSString *)path withContent:(NSData *)content {
+- (DocumentMode *)documentModeForPath:(NSString *)path withContentData:(NSData *)content {
+	// Convert data to ASCII, we don't know encoding yet at this point
+	// FIXME Don't forget to handle UTF16/32
+	NSString *contentString = [[[NSString alloc] initWithBytesNoCopy:(void *)[content bytes] length:[content length] encoding:NSMacOSRomanStringEncoding freeWhenDone:NO] autorelease];
+	return [self documentModeForPath:path withContentString:contentString];
+}
+
+- (DocumentMode *)documentModeForPath:(NSString *)path withContentString:(NSString *)contentString {
 	NSString *filename = [path lastPathComponent];
 	NSString *extension = [path pathExtension];
-	
-	NSString *contentString = nil;
-		
+			
 	NSEnumerator *modeEnumerator = [[self modePrecedenceArray] objectEnumerator];
     NSMutableDictionary *mode;
     while ((mode = [modeEnumerator nextObject])) {
@@ -434,11 +439,6 @@
 				if ([ruleString isEqualToString:filename]) return [self documentModeForIdentifier:[mode objectForKey:@"Identifier"]];
 			}  
 			if (ruleType == 2) {
-				if (!contentString) {
-					// Convert data to ASCII, we don't know encoding yet at this point
-					// FIXME Don't forget to handle UTF16/32
-					contentString = [[[NSString alloc] initWithBytesNoCopy:(void *)[content bytes] length:[content length] encoding:NSMacOSRomanStringEncoding freeWhenDone:NO] autorelease];
-				}
 				OGRegularExpressionMatch *match;
 				OGRegularExpression *regex = [rule objectForKey:@"RegEx"];
 				if (!regex) {

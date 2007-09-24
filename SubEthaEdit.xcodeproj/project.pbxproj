@@ -3548,7 +3548,7 @@
 				INSTALL_PATH = "$(HOME)/bin";
 				PREBINDING = NO;
 				PRODUCT_NAME = SubEthaEditHelperToolTemplate;
-				ZERO_LINK = YES;
+				ZERO_LINK = NO;
 			};
 			name = Debug;
 		};
@@ -3587,7 +3587,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = see;
-				ZERO_LINK = YES;
+				ZERO_LINK = NO;
 			};
 			name = Debug;
 		};
@@ -3663,7 +3663,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = "SubEthaEdit-SystemVersionCheck";
-				ZERO_LINK = YES;
+				ZERO_LINK = NO;
 			};
 			name = Debug;
 		};

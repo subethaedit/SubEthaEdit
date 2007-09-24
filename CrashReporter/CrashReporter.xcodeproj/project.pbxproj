@@ -254,7 +254,7 @@
 				PRODUCT_NAME = HDCrashReporter;
 				SKIP_INSTALL = YES;
 				WRAPPER_EXTENSION = framework;
-				ZERO_LINK = YES;
+				ZERO_LINK = NO;
 			};
 			name = Debug;
 		};
