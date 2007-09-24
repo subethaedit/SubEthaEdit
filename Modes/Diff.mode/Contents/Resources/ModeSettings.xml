@@ -6,5 +6,6 @@
         <extension>DIFF</extension>
         <extension>patch</extension>
         <extension>PATCH</extension>
+        <regex>Index:[^\n]*\n={67}</regex>
     </recognition>
 </settings>
