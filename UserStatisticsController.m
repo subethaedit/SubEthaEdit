@@ -9,6 +9,28 @@
 #import "UserStatisticsController.h"
 #import "HUDStatisticPersonCell.h"
 
+#import <HMBlkAppKit/HMBlkAppKit.h>
+
+@interface HMBlkPanel (MBlkPanelSEEAdditions)
++ (NSColor*)highlighedCellColor;
+- (BOOL)canBecomeMainWindow;
+@end
+
+@implementation HMBlkPanel (MBlkPanelSEEAdditions)
++ (NSColor*)highlighedCellColor
+{
+    static NSColor* _highlightCellColor = nil;
+    if (!_highlightCellColor) {
+        _highlightCellColor = [[NSColor colorWithCalibratedWhite:0.15f alpha:0.8f] retain];
+    }
+    
+    return _highlightCellColor;
+}
+- (BOOL)canBecomeMainWindow {
+    return NO;
+}
+@end
+
 
 @implementation UserStatisticsController
 

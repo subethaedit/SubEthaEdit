@@ -87,7 +87,8 @@
     if ([self isHighlighted]) {
         [NSGraphicsContext saveGraphicsState];
         NSSetFocusRingStyle (NSFocusRingOnly);
-        [NSBezierPath fillRect:imageRect];
+        [userImage drawInRect:imageRect fromRect:NSMakeRect(0,0,[userImage size].width,[userImage size].height) operation:NSCompositeSourceOver fraction:[entry isInside]?1.0:0.25];
+//        [NSBezierPath fillRect:imageRect];
         [NSGraphicsContext restoreGraphicsState];
     }
     
