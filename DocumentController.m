@@ -890,7 +890,7 @@ static NSString *tempFileName() {
         if (document) {
             [(PlainTextDocument *)document setIsWaiting:(shouldWait || isPipingOut)];
             if (!documentModeIdentifierArgument) {
-                DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForExtension:[fileName pathExtension]];
+				DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForPath:fileName withContentString:nil];
                 [properties setObject:[mode documentModeIdentifier] forKey:@"mode"];
             }
             if ([properties objectForKey:@"encoding"] == nil && documentModeIdentifierArgument != nil) {
@@ -956,7 +956,7 @@ static NSString *tempFileName() {
             }
 
             if (pipeTitle && ![properties objectForKey:@"mode"]) {
-                DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForExtension:[pipeTitle pathExtension]];
+				DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForPath:pipeTitle withContentString:[[(PlainTextDocument *)document textStorage] string]];
                 [(PlainTextDocument *)document setDocumentMode:mode];
                 [(PlainTextDocument *)document resizeAccordingToDocumentMode];
                 [(PlainTextDocument *)document setShouldSelectModeOnSave:NO];

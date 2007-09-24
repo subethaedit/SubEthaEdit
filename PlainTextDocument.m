@@ -2599,7 +2599,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     
     if (anAbsoluteURL) {
         if (I_flags.shouldSelectModeOnSave) {
-            DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForExtension:[[anAbsoluteURL path] pathExtension]];
+            DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForPath:[anAbsoluteURL path] withContentString:[[self textStorage] string]];
+			
             if (![mode isBaseMode]) {
                 [self setDocumentMode:mode];
             }
@@ -2957,7 +2958,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         // load the data of the file
         BOOL isReadable = [[NSFileManager defaultManager] isReadableFileAtPath:fileName];
         
-        NSString *extension = [[fileName pathExtension] lowercaseString];
+        //NSString *extension = [[fileName pathExtension] lowercaseString];
         
         NSData *fileData = nil;
         if (!isReadable) {
@@ -3002,7 +3003,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         }
 
         if (!mode) { // that means automatic mode detection
-            mode = [[DocumentModeManager sharedInstance] documentModeForPath:fileName withContent:fileData];
+            mode = [[DocumentModeManager sharedInstance] documentModeForPath:fileName withContentData:fileData];
         } 
     
         // Determine encoding
@@ -5126,7 +5127,7 @@ static NSString *S_measurementUnits;
     DocumentModeManager *manager=[DocumentModeManager sharedInstance];
     DocumentMode *mode=[manager documentModeForIdentifier:[aSessionInformation objectForKey:@"DocumentMode"]];
     if (!mode) {
-        mode = [manager documentModeForExtension:[[[self session] filename] pathExtension]];
+		mode = [[DocumentModeManager sharedInstance] documentModeForPath:[[self session] filename] withContentString:[[self textStorage] string]];
     }
     [self setDocumentMode:mode];
     [self setLineEnding:[[aSessionInformation objectForKey:DocumentModeLineEndingPreferenceKey] intValue]];
