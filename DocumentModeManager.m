@@ -107,14 +107,15 @@
 
 @end
 
+static DocumentModeManager *S_sharedInstance=nil;
+
 @implementation DocumentModeManager
 
 + (DocumentModeManager *)sharedInstance {
-    static DocumentModeManager *sharedInstance=nil;
-    if (!sharedInstance) {
-        sharedInstance = [self new];
+    if (!S_sharedInstance) {
+        S_sharedInstance = [self new];
     }
-    return sharedInstance;
+    return S_sharedInstance;
 }
 
 + (DocumentMode *)baseMode {
@@ -135,19 +136,26 @@
 }
 
 - (id)init {
-    self = [super init];
-    if (self) {
-        I_modeBundles=[NSMutableDictionary new];
-        I_documentModesByIdentifier =[NSMutableDictionary new];
-		I_modeIdentifiersByExtension=[NSMutableDictionary new];
-		I_modeIdentifiersByFilename =[NSMutableDictionary new];
-		I_modeIdentifiersByRegex    =[NSMutableDictionary new];
-		I_modeIdentifiersTagArray   =[NSMutableArray new];
-		[I_modeIdentifiersTagArray addObject:@"-"];
-		[I_modeIdentifiersTagArray addObject:AUTOMATICMODEIDENTIFIER];
-		[I_modeIdentifiersTagArray addObject:BASEMODEIDENTIFIER];
-		[self TCM_findModes];
-        [self setModePrecedenceArray:[self reloadPrecedences]];
+    if (S_sharedInstance) {
+        [self dealloc];
+        self = S_sharedInstance;
+    } else {
+        self = [super init];
+        if (self) {
+            I_modeBundles=[NSMutableDictionary new];
+            I_documentModesByIdentifier =[NSMutableDictionary new];
+            I_modeIdentifiersByExtension=[NSMutableDictionary new];
+            I_modeIdentifiersByFilename =[NSMutableDictionary new];
+            I_modeIdentifiersByRegex    =[NSMutableDictionary new];
+            I_modeIdentifiersTagArray   =[NSMutableArray new];
+            [I_modeIdentifiersTagArray addObject:@"-"];
+            [I_modeIdentifiersTagArray addObject:AUTOMATICMODEIDENTIFIER];
+            [I_modeIdentifiersTagArray addObject:BASEMODEIDENTIFIER];
+            [self TCM_findModes];
+            [self setModePrecedenceArray:[self reloadPrecedences]];
+            // Preference Handling
+            [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:nil];
+        }
     }
     return self;
 }
@@ -256,6 +264,11 @@
 	[defaults setObject:precendenceArray forKey:@"ModePrecedences"];
 	return precendenceArray;
 }
+
+- (void)applicationWillTerminate:(NSNotification *)aNotification {
+	[[NSUserDefaults standardUserDefaults] setObject:[self modePrecedenceArray] forKey:@"ModePrecedences"];
+}
+
 
 - (void)TCM_findModes {
     NSString *file;
@@ -407,8 +420,10 @@
 }
 
 - (void)setModePrecedenceArray:(NSMutableArray *)anArray {
+    [self willChangeValueForKey:@"modePrecedenceArray"];
     [I_modePrecedenceArray autorelease];
     I_modePrecedenceArray=[anArray retain];
+    [self didChangeValueForKey:@"modePrecedenceArray"];
 }
 
 - (DocumentMode *)documentModeForPath:(NSString *)path withContentData:(NSData *)content {

@@ -138,6 +138,12 @@ static DebugController * sharedInstance = nil;
         [menu addItem:blahItem];
         [blahItem release];
 
+        blahItem = [[NSMenuItem alloc] initWithTitle:@"Log Mode Precedences to console" action:@selector(printModePrecedences:) keyEquivalent:@""];
+        [blahItem setTarget:self];
+        [menu addItem:blahItem];
+        [blahItem release];
+
+
         blahItem = [[NSMenuItem alloc] initWithTitle:@"Show Attribute Inspector..." action:@selector(showAttributeInspector:) keyEquivalent:@""];
         [blahItem setTarget:self];
         [menu addItem:blahItem];
@@ -209,6 +215,10 @@ static DebugController * sharedInstance = nil;
 
 - (IBAction)sendCrashReport:(id)sender {
     [HDCrashReporter doCrashSubmitting];
+}
+
+- (IBAction)printModePrecedences:(id)aSender {
+    NSLog(@"%s %@",__FUNCTION__,[[[NSUserDefaults standardUserDefaults] objectForKey:@"ModePrecedences"] debugDescription]);
 }
 
 @end
