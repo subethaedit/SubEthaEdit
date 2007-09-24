@@ -22,6 +22,7 @@ extern NSString * const TextStorageHasMixedLineEndingsDidChange;
     NSMutableAttributedString *I_contents;
     unsigned int I_encoding;
     LineEnding I_lineEnding;
+    unsigned I_numberOfWords;
 
     struct {
         BOOL hasBlockeditRanges;
@@ -47,6 +48,10 @@ extern NSString * const TextStorageHasMixedLineEndingsDidChange;
 
 + (OGRegularExpression *)wrongLineEndingRegex:(LineEnding)aLineEnding;
 
+
+- (unsigned)numberOfLines;
+- (unsigned)numberOfCharacters;
+- (unsigned)numberOfWords;
 
 - (int)lineNumberForLocation:(unsigned)location;
 - (BOOL)lastLineIsEmpty;

@@ -272,6 +272,24 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 }
 
 
+- (unsigned)numberOfLines {
+    return [self lineNumberForLocation:[self length]];
+}
+- (unsigned)numberOfCharacters {
+    return [self length];
+}
+- (unsigned)numberOfWords {
+    if (I_numberOfWords == 0) {
+        static OGRegularExpression *s_wordCountRegex = nil;
+        if (!s_wordCountRegex) {
+            s_wordCountRegex = [[OGRegularExpression regularExpressionWithString:@"[\\w']+"] retain];
+        }
+        I_numberOfWords  = [[s_wordCountRegex allMatchesInString:[self string]] count];
+    }
+    return I_numberOfWords;
+}
+
+
 - (int)lineNumberForLocation:(unsigned)aLocation {
 
     if (I_lineStartsValidUpTo == 0 && [I_lineStarts count] > 1) {
@@ -320,9 +338,12 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 }
 
 - (void)setLineStartsOnlyValidUpTo:(unsigned int)aLocation {
+    [self willChangeValueForKey:@"numberOfLines"];
     if (aLocation<I_lineStartsValidUpTo) {
         I_lineStartsValidUpTo=aLocation;
     }
+    I_numberOfWords = 0;
+    [self didChangeValueForKey:@"numberOfLines"];
 }
 
 - (NSRange)findLine:(int)aLineNumber {
