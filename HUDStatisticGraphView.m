@@ -19,6 +19,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code here.
+        relativeMode = YES;
     }
     return self;
 }
@@ -39,6 +40,14 @@
     statisticsEntryKeyPath = aKeyPath;
 }
 
+- (void)setRelativeMode:(BOOL)aFlag {
+    relativeMode = aFlag;
+    [self setNeedsDisplay:YES];
+}
+
+- (BOOL)relativeMode {
+    return relativeMode;
+}
 
 - (void)bind:(NSString *)bindingName
     toObject:(id)observableObject
@@ -171,7 +180,7 @@
     
     NSBezierPath *paths[]={deletionsPath,insertionsPath,selectionsPath};
     float values[]={0.,0.,0.};
-    double maxValue = 1.;
+    double maxValue = relativeMode ? 0.1 : 1.0;
     double lastXValue = -1.;
     double valueThreshold = 1./(NSWidth(bounds)*2.);
     int count = [dataPoints count];
@@ -185,9 +194,16 @@
         NSPoint point = NSMakePoint((interval/timeRange),0.);
         if (point.x-lastXValue < valueThreshold) continue;
         TCMMMLogStatisticsDataPoint *dataPoint = [entryDict objectForKey:userID];
-        values[0]=[dataPoint deletedCharacters];
-        values[1]=[dataPoint insertedCharacters];
-        values[2]=[dataPoint selectedCharacters];
+        TCMMMLogStatisticsDataPoint *overallPoint = [entryDict objectForKey:@"document"];
+        if (relativeMode) {
+            values[0]=[dataPoint deletedCharacters] /(float)MAX(1.,[overallPoint deletedCharacters]) ;
+            values[1]=[dataPoint insertedCharacters]/(float)MAX(1.,[overallPoint insertedCharacters]);
+            values[2]=[dataPoint selectedCharacters]/(float)MAX(1.,[overallPoint selectedCharacters]);
+        } else {
+            values[0]=[dataPoint deletedCharacters] ;
+            values[1]=[dataPoint insertedCharacters];
+            values[2]=[dataPoint selectedCharacters];
+        }
         int j=0;
         for (j=0;j<3;j++) {
             point.y=values[j];
@@ -202,6 +218,7 @@
     }
     
     NSString *maxDataString = [NSString stringWithFormat:@"%.0f",maxValue];
+    if (relativeMode) maxDataString = [NSString stringWithFormat:@"%.0f %%",maxValue*100];
     NSSize dataSize = [maxDataString sizeWithAttributes:mLabelAttributes];
 
     float leftMargin = MAX(YMARKERSPACE,dataSize.width+6.);

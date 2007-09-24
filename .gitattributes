@@ -1478,6 +1478,8 @@ TCMFoundation/version.plist -text
 /TCMIdleTimer.m -text
 /TCMListView.h -text
 /TCMListView.m -text
+/TCMMMLogStatisticsDataPoint.h -text
+/TCMMMLogStatisticsDataPoint.m -text
 /TCMMMLogStatisticsEntry.h -text
 /TCMMMLogStatisticsEntry.m -text
 /TCMMMUserManagerKitAdditions.h -text
@@ -1640,6 +1642,8 @@ artwork/DefaultPerson.png -text
 artwork/EditPrefs.tiff -text
 artwork/EmptyButton.tiff -text
 artwork/GeneralPrefs.tiff -text
+artwork/HUDRelative-1.png -text
+artwork/HUDRelative-2.png -text
 artwork/HideChangeMarks.png -text
 artwork/HideChangeMarks.psd -text
 artwork/HomeFolderIcon.tiff -text

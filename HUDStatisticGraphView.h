@@ -12,7 +12,10 @@
 @interface HUDStatisticGraphView : NSView {
     id statisticsEntryContainer;
     NSString *statisticsEntryKeyPath;
-    BOOL realtiveMode;
+    BOOL relativeMode;
 }
+
+- (void)setRelativeMode:(BOOL)aFlag;
+- (BOOL)relativeMode;
 
 @end

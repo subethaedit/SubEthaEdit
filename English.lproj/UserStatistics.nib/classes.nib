@@ -59,6 +59,7 @@
         {CLASS = NSToolbarItemViewer; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
         {CLASS = NSToolbarView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
         {
+            ACTIONS = {togglePercentage = id; }; 
             CLASS = UserStatisticsController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
@@ -66,6 +67,7 @@
                 "O_documentNameTextField" = NSTextField; 
                 "O_graphView" = HUDStatisticGraphView; 
                 "O_loggingStateObjectController" = NSObjectController; 
+                "O_percentageButton" = NSButton; 
                 "O_statEntryArrayController" = NSArrayController; 
                 "O_userTableView" = NSTableView; 
                 "O_wordCountTextField" = NSTextField; 

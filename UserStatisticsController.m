@@ -51,6 +51,11 @@
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rearrangeObjectsNotification:) name:@"UserStatisticsControllerRearrangeObjects" object:self];
 //    [[self window] retain];
     [O_graphView bind:@"statisticsEntry" toObject:O_statEntryArrayController withKeyPath:@"selectedObjects" options:0];
+    [O_percentageButton setState:NSOnState];
+    BOOL relativeMode = [O_percentageButton state]==NSOnState;
+    [O_graphView setRelativeMode:relativeMode];
+    [[[[O_userTableView tableColumns] objectAtIndex:0] dataCell] setRelativeMode:relativeMode];
+    [O_userTableView setNeedsDisplay:YES];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -62,5 +67,13 @@
 - (void)rearrangeObjectsNotification:(NSNotification *)aNotification {
     [O_statEntryArrayController rearrangeObjects];
 }
+
+- (IBAction)togglePercentage:(id)aSender {
+    BOOL relativeMode = [aSender state]==NSOnState;
+    [O_graphView setRelativeMode:relativeMode];
+    [[[[O_userTableView tableColumns] objectAtIndex:0] dataCell] setRelativeMode:relativeMode];
+    [O_userTableView setNeedsDisplay:YES];
+}
+
 
 @end

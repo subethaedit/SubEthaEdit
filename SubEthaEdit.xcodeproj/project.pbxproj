@@ -451,6 +451,8 @@
 		F2F2B5A70CA7F7B80045C189 /* PrecedencePreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2C6E70CA7C7A7003CC5C9 /* PrecedencePreferences.m */; };
 		F2F2B60E0CA811240045C189 /* TCMMMLogStatisticsDataPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F2B60D0CA811240045C189 /* TCMMMLogStatisticsDataPoint.m */; };
 		F2F2B6100CA811240045C189 /* TCMMMLogStatisticsDataPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F2B60D0CA811240045C189 /* TCMMMLogStatisticsDataPoint.m */; };
+		F2F2B6CD0CA842040045C189 /* HUDRelative-2.png in Resources */ = {isa = PBXBuildFile; fileRef = F2F2B6CB0CA842040045C189 /* HUDRelative-2.png */; };
+		F2F2B6CE0CA842070045C189 /* HUDRelative-1.png in Resources */ = {isa = PBXBuildFile; fileRef = F2F2B6CC0CA842040045C189 /* HUDRelative-1.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -1294,6 +1296,8 @@
 		F2D12A1B0BF0B8DF00A776CC /* ConnectionBrowserEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionBrowserEntry.m; sourceTree = "<group>"; };
 		F2F2B60C0CA811240045C189 /* TCMMMLogStatisticsDataPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCMMMLogStatisticsDataPoint.h; sourceTree = "<group>"; };
 		F2F2B60D0CA811240045C189 /* TCMMMLogStatisticsDataPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMMMLogStatisticsDataPoint.m; sourceTree = "<group>"; };
+		F2F2B6CB0CA842040045C189 /* HUDRelative-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "HUDRelative-2.png"; path = "artwork/HUDRelative-2.png"; sourceTree = "<group>"; };
+		F2F2B6CC0CA842040045C189 /* HUDRelative-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "HUDRelative-1.png"; path = "artwork/HUDRelative-1.png"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1444,6 +1448,8 @@
 				F27B2EE10B52957800679CF2 /* hud_buttonFill-N.tiff */,
 				F27B2EE20B52957800679CF2 /* hud_buttonLeft-P.tiff */,
 				F27B2E7F0B5271AE00679CF2 /* hud_titlebar-close.tiff */,
+				F2F2B6CB0CA842040045C189 /* HUDRelative-2.png */,
+				F2F2B6CC0CA842040045C189 /* HUDRelative-1.png */,
 				1428906F095743F200D14688 /* Internet.tiff */,
 				F2CA7CE70CA11FDA008BEA38 /* Internet13.png */,
 				14289070095743F200D14688 /* InternetResume.tiff */,
@@ -2722,6 +2728,8 @@
 				31D2C7040CA7C9F9003CC5C9 /* PrecedencePrefs.tif in Resources */,
 				31D2C7050CA7CA04003CC5C9 /* PrecedencePrefs.nib in Resources */,
 				31D2C7060CA7CA08003CC5C9 /* PrecedenceRules.nib in Resources */,
+				F2F2B6CD0CA842040045C189 /* HUDRelative-2.png in Resources */,
+				F2F2B6CE0CA842070045C189 /* HUDRelative-1.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
