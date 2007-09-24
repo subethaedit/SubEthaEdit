@@ -120,9 +120,10 @@
     for (i=0;i<3;i++) {
         [colors[i] set];
         float barValue = absoluteValues[i]/sums[i];
+        if (!relativeMode) barValue = absoluteValues[i]/MAX(absoluteValues[0],MAX(absoluteValues[1],absoluteValues[2]));
         
         NSRect barRect = NSInsetRect(labelRect,0.,1.);
-        barRect.size.width -= 30.;
+        barRect.size.width -= relativeMode ? 30. : 60.;
         NSRect percentageRect = barRect;
         barRect.size.height = 8.;
         barRect.size.width = barValue * barRect.size.width;
@@ -133,11 +134,22 @@
         percentageRect.origin.x = NSMaxX(barRect)+4.;
         percentageRect.size.width = 26.;
         percentageRect.origin.y-=3.;
-        [[NSString stringWithFormat:@"%d %%",(int)(barValue * 100)] drawInRect:percentageRect  withAttributes:mPercentageAttributes];
+        NSString *stringToWrite = [NSString stringWithFormat:@"%.0f",absoluteValues[i]];
+        if (relativeMode) stringToWrite = [NSString stringWithFormat:@"%d %%",(int)(barValue * 100)];
+        [stringToWrite drawInRect:percentageRect  withAttributes:mPercentageAttributes];
         
         labelRect.origin.y += 11.;
     }
 
 }
+
+- (void)setRelativeMode:(BOOL)aFlag {
+    relativeMode = aFlag;
+}
+
+- (BOOL)relativeMode {
+    return relativeMode;
+}
+
 
 @end

@@ -10,7 +10,10 @@
 
 
 @interface HUDStatisticPersonCell : NSCell {
-
+    BOOL relativeMode;
 }
+
+- (void)setRelativeMode:(BOOL)aFlag;
+- (BOOL)relativeMode;
 
 @end
