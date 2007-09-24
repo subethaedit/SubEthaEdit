@@ -21,6 +21,7 @@
     unsigned long deletedCharacters;
     unsigned long insertedCharacters;
     unsigned long selectedCharacters;
+    NSMutableArray *I_statisticsData;
     
 }
 
@@ -36,5 +37,6 @@
 - (unsigned long)deletedCharacters;
 - (unsigned long)insertedCharacters;
 - (unsigned long)selectedCharacters;
+- (NSArray *)statisticsData;
 
 @end

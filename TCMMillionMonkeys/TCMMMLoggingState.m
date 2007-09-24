@@ -14,6 +14,7 @@
 #import "SelectionOperation.h"
 #import "TextOperation.h"
 #import "UserChangeOperation.h"
+#import "TCMMMLogStatisticsDataPoint.h"
 
 @interface TCMMMLoggingState (TCMMMLoggingStatePrivateAdditions)
 - (void)addLoggedOperation:(TCMMMLoggedOperation *)anOperation;
@@ -28,6 +29,7 @@
         I_participantIDs   = [NSMutableSet new];
         I_statisticsArray  = [NSMutableArray new];
         I_statisticsEntryByUserID = [NSMutableDictionary new];
+        I_statisticsData = [NSMutableArray new];
     }
     return self;
 }
@@ -76,6 +78,7 @@
     [I_statisticsArray release];
     [I_loggedOperations release];
     [I_participantIDs release];
+    [I_statisticsData release];
     [super dealloc];
 }
 
@@ -125,7 +128,22 @@
             selectedCharacters+=[op selectedRange].length;
         }
         [self didChange:NSKeyValueChangeSetting valuesAtIndexes:changeSet forKey:@"statisticsArray"];
+        
+        NSMutableDictionary *dataEntry = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+            [anOperation date], @"date",
+            nil];
+        [dataEntry setObject:[[[TCMMMLogStatisticsDataPoint alloc] initWithDataObject:self] autorelease] forKey:@"document"];
+        unsigned count = [I_statisticsArray count];
+        while (count--) {
+            TCMMMLogStatisticsEntry *entry = [I_statisticsArray objectAtIndex:count];
+            [dataEntry setObject:[[[TCMMMLogStatisticsDataPoint alloc] initWithDataObject:entry] autorelease] forKey:[[entry user] userID]];
+        }
+        [I_statisticsData addObject:dataEntry];
     }
+}
+
+- (NSArray *)statisticsData {
+    return I_statisticsData;
 }
 
 - (TCMMMLogStatisticsEntry *)statisicsEntryForUserID:(NSString *)aUserID {

@@ -160,6 +160,8 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 
 + (PlainTextDocument *)transientDocument;
 
+- (NSImage *)documentIcon;
+
 - (void)setPreservedDataFromSEETextFile:(NSArray *)aPreservedData;
 - (NSArray *)preservedDataFromSEETextFile;
 

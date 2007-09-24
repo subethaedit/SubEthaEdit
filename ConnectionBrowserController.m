@@ -220,7 +220,9 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 - (void)TCM_synchronizeMyNameAndPicture {
     TCMMMUser *me=[TCMMMUserManager me];
     [O_myNameTextField setStringValue:[me name]];
-    [O_imageView setImage:[me image]];
+    NSImage *myImage = [me image];
+    [myImage setFlipped:NO];
+    [O_imageView setImage:myImage];
 }
 
 - (void)windowDidLoad {
