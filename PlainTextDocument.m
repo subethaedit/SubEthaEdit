@@ -3002,10 +3002,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         }
 
         if (!mode) { // that means automatic mode detection
-            mode = [[DocumentModeManager sharedInstance] documentModeForFilename:[fileName lastPathComponent]];
-            if ([mode isBaseMode]) {
-                mode = [[DocumentModeManager sharedInstance] documentModeForExtension:extension];
-            }
+            mode = [[DocumentModeManager sharedInstance] documentModeForPath:fileName withContent:fileData];
         } 
     
         // Determine encoding

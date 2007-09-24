@@ -157,6 +157,12 @@ English.lproj/PlainTextLoadProgress.nib/keyedobjects.nib -text
 English.lproj/PlainTextWindow.nib/classes.nib -text
 English.lproj/PlainTextWindow.nib/info.nib -text
 English.lproj/PlainTextWindow.nib/keyedobjects.nib -text
+English.lproj/PrecedencePrefs.nib/classes.nib -text
+English.lproj/PrecedencePrefs.nib/info.nib -text
+English.lproj/PrecedencePrefs.nib/keyedobjects.nib -text
+English.lproj/PrecedenceRules.nib/classes.nib -text
+English.lproj/PrecedenceRules.nib/info.nib -text
+English.lproj/PrecedenceRules.nib/keyedobjects.nib -text
 English.lproj/PrintOptions.nib/classes.nib -text
 English.lproj/PrintOptions.nib/info.nib -text
 English.lproj/PrintOptions.nib/keyedobjects.nib -text
@@ -1255,6 +1261,10 @@ Panic/TCMMMUser-AddressBook.m -text
 /PopUpButton.m -text
 /PopUpButtonCell.h -text
 /PopUpButtonCell.m -text
+/PrecedencePreferences.h -text
+/PrecedencePreferences.m -text
+/PrecedenceRuleCell.h -text
+/PrecedenceRuleCell.m -text
 Preferences.nib/classes.nib -text
 Preferences.nib/info.nib -text
 Preferences.nib/keyedobjects.nib -text
@@ -1656,6 +1666,7 @@ artwork/NextChange.png -text
 artwork/NextSymbol.png -text
 artwork/ParticipantBar_Fill.tiff -text
 artwork/Participants.icns -text
+artwork/PrecedencePrefs.tif -text
 artwork/PreviousChange.png -text
 artwork/PreviousChange.psd -text
 artwork/PreviousSymbol.png -text
