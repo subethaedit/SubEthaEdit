@@ -14,7 +14,7 @@
 @implementation PrecedencePreferences
 
 - (NSImage *)icon {
-    return [NSImage imageNamed:@"PrecedencePrefs"];
+    return [NSImage imageNamed:@"Mode.icns"];
 }
 
 - (NSString *)iconLabel {

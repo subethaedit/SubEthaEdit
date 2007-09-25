@@ -29,6 +29,11 @@
 - (BOOL)canBecomeMainWindow {
     return NO;
 }
+- (BOOL)canBecomeKeyWindow {
+    return YES;
+}
+
+
 @end
 
 
@@ -38,8 +43,17 @@
     return @"UserStatistics";
 }
 
+- (void)windowWillClose:(NSNotification *)aNotification {
+    if ([[aNotification object] isMainWindow]) {
+        [O_documentObjectController setContent:nil];
+    }
+}
+
+
 - (void)mainWindowDidChange:(NSNotification *)aNotification {
-    [O_documentObjectController setContent:[[[NSApp mainWindow] windowController] document]];
+    NSWindow *window = [aNotification object];
+    if (!window) window = [NSApp mainWindow];
+    [O_documentObjectController setContent:[[window windowController] document]];
 }
 
 - (void)windowDidLoad {
@@ -62,16 +76,15 @@
     [O_userTableView setNeedsDisplay:YES];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mainWindowDidChange:) name:NSWindowDidBecomeMainNotification object:nil];
     [self mainWindowDidChange:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowWillClose:) name:NSWindowWillCloseNotification object:nil];
+    [self mainWindowDidChange:nil];
+    [[self window] setBecomesKeyOnlyIfNeeded:NO];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
 //    NSLog(@"%s key:%@ object:%@ change:%@",__FUNCTION__,keyPath,object,change);
 //    [O_userTableView setNeedsDisplay:YES];
 //    [[NSNotificationQueue defaultQueue] enqueueNotification:[NSNotification notificationWithName:@"UserStatisticsControllerRearrangeObjects" object:self] postingStyle:NSPostWhenIdle coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender forModes:nil];
-}
-
-- (void)rearrangeObjectsNotification:(NSNotification *)aNotification {
-    [O_statEntryArrayController rearrangeObjects];
 }
 
 - (IBAction)togglePercentage:(id)aSender {

@@ -360,4 +360,8 @@ static NSRect   _rightTopRect = {{0, 0}, {0, 0}};
     [attrStr release];
 }
 
+- (BOOL)acceptsFirstMouse:(NSEvent *)anEvent {
+    return YES;
+}
+
 @end
