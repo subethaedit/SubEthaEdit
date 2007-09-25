@@ -13,6 +13,7 @@
     id statisticsEntryContainer;
     NSString *statisticsEntryKeyPath;
     BOOL relativeMode;
+	NSTimeInterval timeInterval;
 }
 
 - (void)setRelativeMode:(BOOL)aFlag;

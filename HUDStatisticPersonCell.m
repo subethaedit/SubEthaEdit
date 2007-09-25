@@ -32,6 +32,7 @@
 
 - (void)drawInteriorWithFrame:(NSRect)aFrame inView:(NSView *)aControlView {
     static NSMutableDictionary *mNameAttributes=nil;
+    static NSMutableDictionary *mInactiveNameAttributes=nil;
     static NSMutableDictionary *mStatusAttributes=nil;
     static NSMutableDictionary *mPercentageAttributes=nil;
     static NSMutableParagraphStyle *mNoWrapParagraphStyle = nil;
@@ -46,6 +47,13 @@
         mNameAttributes = [[NSMutableDictionary dictionaryWithObjectsAndKeys:
             [NSFont boldSystemFontOfSize:[NSFont systemFontSize]],NSFontAttributeName,
             [NSColor whiteColor],NSForegroundColorAttributeName,
+            mNoWrapParagraphStyle,NSParagraphStyleAttributeName,
+            nil] retain];
+    }
+    if (!mInactiveNameAttributes) {
+        mInactiveNameAttributes = [[NSMutableDictionary dictionaryWithObjectsAndKeys:
+            [NSFont boldSystemFontOfSize:[NSFont systemFontSize]],NSFontAttributeName,
+            [NSColor colorWithCalibratedWhite:0.8 alpha:1.0],NSForegroundColorAttributeName,
             mNoWrapParagraphStyle,NSParagraphStyleAttributeName,
             nil] retain];
     }
@@ -82,19 +90,19 @@
 //        [NSBezierPath fillRect:imageRect];
 //    }
     [userImage setFlipped:YES];
-    [userImage drawInRect:imageRect fromRect:NSMakeRect(0,0,[userImage size].width,[userImage size].height) operation:NSCompositeSourceOver fraction:[entry isInside]?1.0:0.25];
+    [userImage drawInRect:imageRect fromRect:NSMakeRect(0,0,[userImage size].width,[userImage size].height) operation:NSCompositeSourceOver fraction:[entry isInside]?1.0:0.45];
     [[NSColor redColor] set];
     if ([self isHighlighted]) {
         [NSGraphicsContext saveGraphicsState];
         NSSetFocusRingStyle (NSFocusRingOnly);
-        [userImage drawInRect:imageRect fromRect:NSMakeRect(0,0,[userImage size].width,[userImage size].height) operation:NSCompositeSourceOver fraction:[entry isInside]?1.0:0.25];
+        [userImage drawInRect:imageRect fromRect:NSMakeRect(0,0,[userImage size].width,[userImage size].height) operation:NSCompositeSourceOver fraction:1.0];
 //        [NSBezierPath fillRect:imageRect];
         [NSGraphicsContext restoreGraphicsState];
     }
     
     NSRect labelRect = [self labelRectForBounds:aFrame];
     [[NSColor greenColor] set];
-    [[user name] drawInRect:labelRect withAttributes:mNameAttributes];
+    [[user name] drawInRect:labelRect withAttributes:[entry isInside]?mNameAttributes:mInactiveNameAttributes];
     
     NSString *statString = [NSString stringWithFormat:@"ins:%d dels:%d sels:%d ops:%d",[entry insertedCharacters],[entry deletedCharacters],[entry selectedCharacters],[entry operationCount]];
     NSString *lastActivityString = [NSString stringWithFormat:@"Last activity: %@\n",[[entry dateOfLastActivity] descriptionWithCalendarFormat:@"%d.%m.%y %H:%M:%S"]];

@@ -101,7 +101,9 @@
 //    [((NSPanel *)window) setFloatingPanel:NO];
     [window setHidesOnDeactivate:NO];
     TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:[I_session hostID]];
-    [O_userImageView setImage:[user image]];
+	NSImage *userImage = [user image];
+	[userImage setFlipped:NO];
+    [O_userImageView setImage:userImage];
     [O_userNameTextField setStringValue:[user name]];
     NSString *filename=[I_session filename];
     [O_documentTitleTextField setStringValue:filename];

@@ -99,7 +99,7 @@
 		[[self cell] setHighlighted:YES];
 		
 		NSImage	*curImage = [[self image] retain];
-		
+		[altImage setFlipped:NO];
 		[super setImage:altImage];
 
 		[altImage release];
@@ -116,7 +116,7 @@
 		[[self cell] setHighlighted:NO];
 
 		NSImage	*curImage = [[self image] retain];
-	
+		[altImage setFlipped:NO];
 		[super setImage:altImage];
 
 		[altImage release];
