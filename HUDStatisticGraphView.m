@@ -20,6 +20,7 @@
     if (self) {
         // Initialization code here.
         relativeMode = YES;
+		timeInterval = 0.;
     }
     return self;
 }
@@ -154,6 +155,9 @@
     NSArray *dataPoints = [state statisticsData];
     NSCalendarDate *firstDate = [[dataPoints objectAtIndex:0] objectForKey:@"date"];
     NSCalendarDate *lastDate = [[dataPoints lastObject] objectForKey:@"date"];
+	if (timeInterval>0.) {
+		firstDate = [[[NSCalendarDate alloc] initWithTimeInterval:-1.*timeInterval sinceDate:lastDate] autorelease];
+	}
 //    NSLog(@"%s %@-%@",__FUNCTION__,firstDate,lastDate);
     NSString *firstDateString = [firstDate descriptionWithCalendarFormat:@"%m-%d %H:%M"];
     NSString *lastDateString  = [lastDate  descriptionWithCalendarFormat:@"%m-%d %H:%M"];
@@ -185,6 +189,7 @@
     double valueThreshold = 1./(NSWidth(bounds)*2.);
     int count = [dataPoints count];
     int step = 1.;//MAX(1,(int)(count/(NSWidth(bounds)*20.)));
+	BOOL didMove=NO;
     for (i=0;i<count;i+=step) {
         NSDictionary *entryDict = [dataPoints objectAtIndex:i];
         if (i+step>count) {
@@ -192,7 +197,14 @@
         }
         NSTimeInterval interval = [[entryDict objectForKey:@"date"] timeIntervalSinceDate:firstDate];
         NSPoint point = NSMakePoint((interval/timeRange),0.);
-        if (point.x-lastXValue < valueThreshold) continue;
+		if (interval<0.) {
+			if (i+1<count && [[[dataPoints objectAtIndex:i+1] objectForKey:@"date"] timeIntervalSinceDate:firstDate]>=0.) {
+				point.x=0.;
+			} else {
+				continue;
+			}
+		}
+        if (point.x-lastXValue < valueThreshold && !i+1==count) continue;
         TCMMMLogStatisticsDataPoint *dataPoint = [entryDict objectForKey:userID];
         TCMMMLogStatisticsDataPoint *overallPoint = [entryDict objectForKey:@"document"];
         if (relativeMode) {
@@ -208,12 +220,13 @@
         for (j=0;j<3;j++) {
             point.y=values[j];
             maxValue = MAX(point.y,maxValue);
-            if (i==0) {
+            if (!didMove) {
                 [paths[j] moveToPoint:point];
             } else {
                 [paths[j] lineToPoint:point];
             }
         }
+		didMove = YES;
         lastXValue = point.x;
     }
     
@@ -222,9 +235,10 @@
     NSSize dataSize = [maxDataString sizeWithAttributes:mLabelAttributes];
 
     float leftMargin = MAX(YMARKERSPACE,dataSize.width+6.);
+	float rightMargin = 4.;
 
     NSRect graphRect = NSOffsetRect(bounds,leftMargin,XMARKERSPACE+LEGENDHEIGHT);
-    graphRect.size.width -= leftMargin;
+    graphRect.size.width -= leftMargin+rightMargin;
     graphRect.size.height -= XMARKERSPACE+LEGENDHEIGHT+YTOPPADDING;
     [NSBezierPath strokeLineFromPoint:NSMakePoint(NSMinX(graphRect),NSMinY(graphRect))
                   toPoint:NSMakePoint(NSMaxX(graphRect),NSMinY(graphRect))];
@@ -244,13 +258,41 @@
         [paths[i] transformUsingAffineTransform:at];
         [paths[i] stroke];
     }
-    
-    NSSize dateSize = [firstDateString sizeWithAttributes:mLabelAttributes];
-    [firstDateString drawAtPoint:NSMakePoint(NSMinX(graphRect),NSMinY(graphRect)-dateSize.height) withAttributes:mLabelAttributes];
-    dateSize = [firstDateString sizeWithAttributes:mLabelAttributes];
-    [lastDateString drawAtPoint:NSMakePoint(NSMaxX(graphRect)-dateSize.width-2.,NSMinY(graphRect)-dateSize.height) withAttributes:mLabelAttributes];
-    [maxDataString drawAtPoint:NSMakePoint(NSMinX(graphRect)-dataSize.width-2.,NSMaxY(graphRect)-dataSize.height+2.) withAttributes:mLabelAttributes];
-    
+    if (entry) {
+		NSSize dateSize = [firstDateString sizeWithAttributes:mLabelAttributes];
+		[firstDateString drawAtPoint:NSMakePoint(NSMinX(graphRect),NSMinY(graphRect)-dateSize.height) withAttributes:mLabelAttributes];
+		dateSize = [firstDateString sizeWithAttributes:mLabelAttributes];
+		[lastDateString drawAtPoint:NSMakePoint(NSMaxX(graphRect)-dateSize.width,NSMinY(graphRect)-dateSize.height) withAttributes:mLabelAttributes];
+		[maxDataString  drawAtPoint:NSMakePoint(NSMinX(graphRect)-dataSize.width-2.,NSMaxY(graphRect)-dataSize.height+2.) withAttributes:mLabelAttributes];
+	}
+}
+
+- (void)toggleInterval {
+	if (timeInterval <= 0.) {
+		timeInterval = 60.*10.;
+	} else if (timeInterval <= 60.*10.) {
+		timeInterval = 60.*60.;
+	} else if (timeInterval <= 60.*60.) {
+		timeInterval = 60.*60.*12;
+	} else if (timeInterval <= 60.*60.*12) {
+		timeInterval = 60.*60.*24*7;
+	} else {
+		timeInterval = 0.;
+	}
+	[self setNeedsDisplay:YES];
+}
+
+
+- (BOOL)tryToPerform:(SEL)anAction with:(id)anObject {
+	NSLog(@"%s selector:%@ object:%@",__FUNCTION__,NSStringFromSelector(anAction),anObject);
+	return [super tryToPerform:anAction with:anObject];
+}
+
+- (void)mouseUp:(NSEvent *)anEvent {
+	NSPoint point = [self convertPoint:[anEvent locationInWindow] fromView:nil];
+	if (NSPointInRect(point,NSOffsetRect(NSInsetRect([self bounds],0,LEGENDHEIGHT/2.),0,LEGENDHEIGHT))) {
+		[self toggleInterval];
+	}
 }
 
 @end

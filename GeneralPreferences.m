@@ -345,7 +345,9 @@ NSString * const AlwaysShowTabBarKey                        = @"AlwaysShowTabBar
     TCMMMUser *me = [TCMMMUserManager me];
     [[me properties] setObject:pngData forKey:@"ImageAsPNG"];
     [me recacheImages];
-    [O_pictureImageView setImage:[me image]];
+	myImage = [me image];
+    [myImage setFlipped:NO];
+    [O_pictureImageView setImage:myImage];
     [TCMMMUserManager didChangeMe];
 }
 
@@ -369,7 +371,9 @@ NSString * const AlwaysShowTabBarKey                        = @"AlwaysShowTabBar
     [[me properties] setObject:pngData forKey:@"ImageAsPNG"];
     [me recacheImages];
     [[NSUserDefaults standardUserDefaults] setObject:pngData forKey:MyImagePreferenceKey];
-    [O_pictureImageView setImage:[me image]];
+	NSImage *myImage = [me image];
+    [myImage setFlipped:NO];
+    [O_pictureImageView setImage:myImage];
     [TCMMMUserManager didChangeMe];
 }
 

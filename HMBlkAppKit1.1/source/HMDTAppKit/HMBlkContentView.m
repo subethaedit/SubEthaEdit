@@ -135,10 +135,12 @@ static NSRect   _rightTopRect = {{0, 0}, {0, 0}};
     if (NSPointInRect(mousePoint, growBoxRect)) {
         // Start resizing
         _isResizing = YES;
+		_isDragging = NO;
     }
     // Other place
     else {
         // Start dragging
+		_isResizing = NO;
         _isDragging = YES;
     }
     
