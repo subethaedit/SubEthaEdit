@@ -234,7 +234,7 @@
     if (relativeMode) maxDataString = [NSString stringWithFormat:@"%.0f %%",maxValue*100];
     NSSize dataSize = [maxDataString sizeWithAttributes:mLabelAttributes];
 
-    float leftMargin = MAX(YMARKERSPACE,dataSize.width+6.);
+    float leftMargin = ceil(MAX(YMARKERSPACE,dataSize.width+6.));
 	float rightMargin = 4.;
 
     NSRect graphRect = NSOffsetRect(bounds,leftMargin,XMARKERSPACE+LEGENDHEIGHT);
@@ -259,12 +259,27 @@
         [paths[i] stroke];
     }
     if (entry) {
-		NSSize dateSize = [firstDateString sizeWithAttributes:mLabelAttributes];
+        NSSize dateSize = [firstDateString sizeWithAttributes:mLabelAttributes];
 		[firstDateString drawAtPoint:NSMakePoint(NSMinX(graphRect),NSMinY(graphRect)-dateSize.height) withAttributes:mLabelAttributes];
 		dateSize = [firstDateString sizeWithAttributes:mLabelAttributes];
 		[lastDateString drawAtPoint:NSMakePoint(NSMaxX(graphRect)-dateSize.width,NSMinY(graphRect)-dateSize.height) withAttributes:mLabelAttributes];
 		[maxDataString  drawAtPoint:NSMakePoint(NSMinX(graphRect)-dataSize.width-2.,NSMaxY(graphRect)-dataSize.height+2.) withAttributes:mLabelAttributes];
 	}
+	NSString *modeString = NSLocalizedString(@"All",@"string for display of all data in statistic window");
+	if (timeInterval > 0.) {
+	   if (timeInterval < 60.*60.) {
+	       modeString = [NSString stringWithFormat:@"%.0fm",round(timeInterval / 60.)];
+	   } else if (timeInterval < 60. * 60. * 24.){
+	       modeString = [NSString stringWithFormat:@"%.0fh",round(timeInterval / (60.*60.))];
+	   } else if (timeInterval < 60. * 60. * 24. * 7.){
+	       modeString = [NSString stringWithFormat:@"%.0fd",round(timeInterval / (60.*60.*24.))];
+	   } else {
+	       modeString = [NSString stringWithFormat:@"%.0fw",round(timeInterval / (60.*60.*24.*7.))];
+	   }
+	}
+    NSSize modeSize = [modeString sizeWithAttributes:mLabelAttributes];
+    [modeString drawAtPoint:NSMakePoint(NSMinX(graphRect)+ (NSWidth(graphRect) - modeSize.width)/2.,NSMinY(graphRect)-modeSize.height) withAttributes:mLabelAttributes];
+	
 }
 
 - (void)toggleInterval {
