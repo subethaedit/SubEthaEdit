@@ -38,6 +38,10 @@
     return @"UserStatistics";
 }
 
+- (void)mainWindowDidChange:(NSNotification *)aNotification {
+    [O_documentObjectController setContent:[[[NSApp mainWindow] windowController] document]];
+}
+
 - (void)windowDidLoad {
     [[O_userTableView tableColumnWithIdentifier:@"entries"] setDataCell:[[HUDStatisticPersonCell alloc] init]];
     [O_statEntryArrayController setSortDescriptors:
@@ -56,6 +60,8 @@
     [O_graphView setRelativeMode:relativeMode];
     [[[[O_userTableView tableColumns] objectAtIndex:0] dataCell] setRelativeMode:relativeMode];
     [O_userTableView setNeedsDisplay:YES];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mainWindowDidChange:) name:NSWindowDidBecomeMainNotification object:nil];
+    [self mainWindowDidChange:nil];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {

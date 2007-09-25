@@ -18,6 +18,7 @@
     IBOutlet HUDStatisticGraphView *O_graphView;
     IBOutlet NSArrayController *O_statEntryArrayController;
     IBOutlet NSObjectController *O_loggingStateObjectController;
+    IBOutlet NSObjectController *O_documentObjectController;
     IBOutlet NSButton *O_percentageButton;
 }
 
