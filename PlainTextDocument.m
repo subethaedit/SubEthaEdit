@@ -3167,7 +3167,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [self setKeepDocumentVersion:NO];
     NSDictionary *fattrs = [[NSFileManager defaultManager] fileAttributesAtPath:fileName traverseLink:YES];
     [self setFileAttributes:fattrs];
-    BOOL isWritable = [[NSFileManager defaultManager] isWritableFileAtPath:fileName];
+    BOOL isWritable = [[NSFileManager defaultManager] isWritableFileAtPath:fileName] || wasAutosaved;
     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"isWritable: %@", isWritable ? @"YES" : @"NO");
     [self setIsFileWritable:isWritable];
 
