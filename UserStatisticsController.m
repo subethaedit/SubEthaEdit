@@ -52,7 +52,7 @@
 
 - (void)mainWindowDidChange:(NSNotification *)aNotification {
     NSWindow *window = [aNotification object];
-    if (!window) window = [NSApp mainWindow];
+    if (!window || ![window isKindOfClass:[NSWindow class]]) window = [NSApp mainWindow];
     [O_documentObjectController setContent:[[window windowController] document]];
 }
 
@@ -77,6 +77,9 @@
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mainWindowDidChange:) name:NSWindowDidBecomeMainNotification object:nil];
     [self mainWindowDidChange:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowWillClose:) name:NSWindowWillCloseNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mainWindowDidChange:) name:@"PlainTextWindowControllerDocumentDidChangeNotification" object:nil];
+    
+    
     [self mainWindowDidChange:nil];
     [[self window] setBecomesKeyOnlyIfNeeded:NO];
 }

@@ -2295,35 +2295,37 @@ enum {
         //[I_tabView selectTabViewItemAtIndex:0];
     }
 
-    [[NSNotificationCenter defaultCenter] removeObserver:self 
+    NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+
+    [center removeObserver:self 
                                                     name:PlainTextDocumentSessionWillChangeNotification
                                                   object:[self document]];
 
-    [[NSNotificationCenter defaultCenter] removeObserver:self 
+    [center removeObserver:self 
                                                     name:PlainTextDocumentSessionDidChangeNotification
                                                   object:[self document]];
                                                   
-    [[NSNotificationCenter defaultCenter] removeObserver:self 
+    [center removeObserver:self 
                                                     name:PlainTextDocumentParticipantsDataDidChangeNotification
                                                   object:[self document]];
 
-    [[NSNotificationCenter defaultCenter] removeObserver:self 
+    [center removeObserver:self 
                                                     name:TCMMMSessionParticipantsDidChangeNotification
                                                   object:[(PlainTextDocument *)[self document] session]];
                                                   
-    [[NSNotificationCenter defaultCenter] removeObserver:self 
+    [center removeObserver:self 
                                                    name:TCMMMSessionPendingUsersDidChangeNotification 
                                                  object:[(PlainTextDocument *)[self document] session]];
 
-    [[NSNotificationCenter defaultCenter] removeObserver:self 
+    [center removeObserver:self 
                                                     name:TCMMMSessionDidChangeNotification 
                                                   object:[(PlainTextDocument *)[self document] session]];
                                                
-    [[NSNotificationCenter defaultCenter] removeObserver:self 
+    [center removeObserver:self 
                                                     name:PlainTextDocumentDidChangeDisplayNameNotification 
                                                   object:[self document]];
 
-    [[NSNotificationCenter defaultCenter] removeObserver:self 
+    [center removeObserver:self 
                                                     name:PlainTextDocumentDidChangeDocumentModeNotification 
                                                   object:[self document]];        
                                                    
@@ -2352,44 +2354,45 @@ enum {
                               rows:[[mode defaultForKey:DocumentModeRowsPreferenceKey] intValue]];
         }
         
-        [[NSNotificationCenter defaultCenter] addObserver:self 
+        [center addObserver:self 
                                                  selector:@selector(sessionWillChange:)
                                                      name:PlainTextDocumentSessionWillChangeNotification 
                                                    object:[self document]];
-        [[NSNotificationCenter defaultCenter] addObserver:self 
+        [center addObserver:self 
                                                  selector:@selector(sessionDidChange:)
                                                      name:PlainTextDocumentSessionDidChangeNotification 
                                                    object:[self document]];
 
-        [[NSNotificationCenter defaultCenter] addObserver:self 
+        [center addObserver:self 
                                                  selector:@selector(participantsDataDidChange:)
                                                      name:PlainTextDocumentParticipantsDataDidChangeNotification 
                                                    object:[self document]];
 
-        [[NSNotificationCenter defaultCenter] addObserver:self 
+        [center addObserver:self 
                                                  selector:@selector(participantsDidChange:)
                                                      name:TCMMMSessionParticipantsDidChangeNotification 
                                                    object:[(PlainTextDocument *)[self document] session]];
 
-        [[NSNotificationCenter defaultCenter] addObserver:self 
+        [center addObserver:self 
                                                  selector:@selector(pendingUsersDidChange:)
                                                      name:TCMMMSessionPendingUsersDidChangeNotification 
                                                    object:[(PlainTextDocument *)[self document] session]];
 
-        [[NSNotificationCenter defaultCenter] addObserver:self 
+        [center addObserver:self 
                                                  selector:@selector(MMSessionDidChange:)
                                                      name:TCMMMSessionDidChangeNotification 
                                                    object:[(PlainTextDocument *)[self document] session]];
                                                    
-        [[NSNotificationCenter defaultCenter] addObserver:self 
+        [center addObserver:self 
                                                  selector:@selector(displayNameDidChange:)
                                                      name:PlainTextDocumentDidChangeDisplayNameNotification 
                                                    object:[self document]];
 
-        [[NSNotificationCenter defaultCenter] addObserver:self 
+        [center addObserver:self 
                                                  selector:@selector(adjustToolbarToDocumentMode)
                                                      name:PlainTextDocumentDidChangeDocumentModeNotification 
-                                                   object:[self document]];        
+                                                   object:[self document]];
+        [center postNotificationName:@"PlainTextWindowControllerDocumentDidChangeNotification" object:self];     
     }
 }
 
