@@ -132,7 +132,7 @@ POSSIBILITY OF SUCH DAMAGE.
         [_closeButton setImage:closeButtonImage];
         [_closeButton setAutoresizingMask:NSViewMaxXMargin | NSViewMinYMargin];
         [_closeButton setTarget:self];
-        [_closeButton setAction:@selector(orderOut:)];
+        [_closeButton setAction:@selector(performClose:)];
         
         [_blkContentView addSubview:_closeButton];
         
@@ -284,6 +284,18 @@ static float    SRBookmarkFadeoutAlphaDiff = 0.01f;
     // Set alpha value
     alpha -= SRBookmarkFadeoutAlphaDiff;
     [self setAlphaValue:alpha];
+}
+
+- (IBAction)performClose:(id)aSender {
+    BOOL shouldClose = YES;
+    if ([[self delegate] respondsToSelector:@selector(windowShouldClose:)]) {
+        shouldClose = [[self delegate] windowShouldClose:self];
+    }
+    if (shouldClose) {
+        [self close];
+    } else {
+        NSBeep();
+    }
 }
 
 @end

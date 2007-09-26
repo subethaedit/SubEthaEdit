@@ -368,8 +368,6 @@
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
-		F2061CD40B4BF44800E6631F /* DWRoundedTransparentView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061CD20B4BF44800E6631F /* DWRoundedTransparentView.m */; };
-		F2061CD70B4BF48E00E6631F /* BorderlessWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061CD50B4BF48E00E6631F /* BorderlessWindow.m */; };
 		F2061D590B4C13AF00E6631F /* SmallGrowBoxRight3.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2061D570B4C13AF00E6631F /* SmallGrowBoxRight3.tiff */; };
 		F2061D690B4C152600E6631F /* FirstClickCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061D670B4C152600E6631F /* FirstClickCustomView.m */; };
 		F20948BA0C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = F20948B90C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m */; };
@@ -1197,10 +1195,6 @@
 		5EFF5C4B0A22EE7F005DC26B /* ToolbarIconGenericScript.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ToolbarIconGenericScript.tiff; path = artwork/ToolbarIconGenericScript.tiff; sourceTree = "<group>"; };
 		8D15AC360486D014006FF6A4 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
 		8D15AC370486D014006FF6A4 /* SubEthaEdit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SubEthaEdit.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		F2061CD10B4BF44800E6631F /* DWRoundedTransparentView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DWRoundedTransparentView.h; sourceTree = "<group>"; };
-		F2061CD20B4BF44800E6631F /* DWRoundedTransparentView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DWRoundedTransparentView.m; sourceTree = "<group>"; };
-		F2061CD50B4BF48E00E6631F /* BorderlessWindow.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = BorderlessWindow.m; sourceTree = "<group>"; };
-		F2061CD60B4BF48E00E6631F /* BorderlessWindow.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = BorderlessWindow.h; sourceTree = "<group>"; };
 		F2061D570B4C13AF00E6631F /* SmallGrowBoxRight3.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = SmallGrowBoxRight3.tiff; path = artwork/SmallGrowBoxRight3.tiff; sourceTree = "<group>"; };
 		F2061D660B4C152600E6631F /* FirstClickCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirstClickCustomView.h; sourceTree = "<group>"; };
 		F2061D670B4C152600E6631F /* FirstClickCustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstClickCustomView.m; sourceTree = "<group>"; };
@@ -1713,8 +1707,6 @@
 				5E754EA60AB5649C00C5119E /* Dialogs */,
 				1428941509575AE600D14688 /* BorderedTextField.h */,
 				1428941609575AE600D14688 /* BorderedTextField.m */,
-				F2061CD60B4BF48E00E6631F /* BorderlessWindow.h */,
-				F2061CD50B4BF48E00E6631F /* BorderlessWindow.m */,
 				1428941709575AE600D14688 /* ButtonScrollView.h */,
 				1428941809575AE600D14688 /* ButtonScrollView.m */,
 				1428941909575AE600D14688 /* CandyBarView.h */,
@@ -1723,8 +1715,6 @@
 				1428942C09575AE600D14688 /* DocumentController.m */,
 				1428942D09575AE600D14688 /* DocumentProxyWindowController.h */,
 				1428942E09575AE600D14688 /* DocumentProxyWindowController.m */,
-				F2061CD10B4BF44800E6631F /* DWRoundedTransparentView.h */,
-				F2061CD20B4BF44800E6631F /* DWRoundedTransparentView.m */,
 				1428943E09575B3400D14688 /* FindAllController.h */,
 				1428943F09575B3400D14688 /* FindAllController.m */,
 				1428944009575B3400D14688 /* FindAllTableView.h */,
@@ -3072,8 +3062,6 @@
 				5E0F01C30AB573A100A5DE33 /* DialogBackgroundView.m in Sources */,
 				141F50ED0AE51B66001B73D2 /* PlainTextWindowControllerTabContext.m in Sources */,
 				148167AE0B15B002008894C9 /* PlainTextWindow.m in Sources */,
-				F2061CD40B4BF44800E6631F /* DWRoundedTransparentView.m in Sources */,
-				F2061CD70B4BF48E00E6631F /* BorderlessWindow.m in Sources */,
 				F2061D690B4C152600E6631F /* FirstClickCustomView.m in Sources */,
 				F27B2EF10B52968E00679CF2 /* HUDButtonCell.m in Sources */,
 				F27B2EF20B52968E00679CF2 /* HUDButton.m in Sources */,

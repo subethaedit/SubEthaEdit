@@ -14,7 +14,6 @@
 #import "PlainTextDocument.h"
 #import "PlainTextWindowController.h"
 #import "GeneralPreferences.h"
-#import "DWRoundedTransparentView.h"
 
 @interface NSWindow (NSWindowNonBlockingAnimationAdditions) 
 - (void)setFrameUsingNonBlockingAnimation:(NSRect)aFrame;
@@ -115,7 +114,6 @@
     [[window contentView] addSubview:O_bottomStatusView];
     [[window contentView] addSubview:O_bottomDecisionView];
 
-    [(DWRoundedTransparentView *)[window contentView] setTitle:[self windowTitleForDocumentDisplayName:[[self document] displayName]]];
     [window setTitle:[self windowTitleForDocumentDisplayName:[[self document] displayName]]];
 
     [NSApp addWindowsItem:window title:[window title] filename:NO];
@@ -186,6 +184,10 @@
     if ([I_session wasInvited]) {
         [window orderFrontRegardless];
     }
+    NSRect frame = [window frame];
+    [window setMinSize:frame.size];
+    frame.size.width = 2048;
+    [window setMaxSize:frame.size];
 }
 
 - (IBAction)acceptAction:(id)aSender {
@@ -209,10 +211,7 @@
     NSRect frame=[[self window] frame];
     frame.origin.y=NSMaxY(frame);
 
-    DWRoundedTransparentView *proxyview = [[DWRoundedTransparentView new] autorelease];
-    [proxyview setTitle:nil];
-    [[self window] setContentView:proxyview];
-    [O_containerView setAutoresizingMask:([O_containerView autoresizingMask] & ~NSViewWidthSizable) | NSViewMinXMargin | NSViewMaxXMargin];
+    [[self window] setContentView:[[[NSView alloc] initWithFrame:frame] autorelease]];
 
     I_dissolveToFrame = [[I_targetWindow windowController] dissolveToFrame];
     [[self window] setFrameUsingNonBlockingAnimation:I_dissolveToFrame];
@@ -232,6 +231,13 @@
     [O_bottomStatusView   setHidden:NO];
     [O_bottomDecisionView setHidden:YES];
     [O_statusBarTextField setStringValue:NSLocalizedString(@"Did lose Connection!",@"Text in Proxy window")];
+}
+
+- (void)windowDidMove:(NSNotification *)aNotification {
+    NSEvent *currentEvent = [NSApp currentEvent];
+    if ([currentEvent window]==[self window]) {
+        [[self window] setLevel:NSNormalWindowLevel];
+    }
 }
 
 - (void)windowDidResize:(NSNotification *)aNotification {

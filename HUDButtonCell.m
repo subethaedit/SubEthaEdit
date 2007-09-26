@@ -7,7 +7,7 @@
 //
 
 #import "HUDButtonCell.h"
-#import "DWRoundedTransparentView.h"
+#import "NSBezierPathTCMAdditions.h"
 
 static NSImage *s_pressed[]={nil,nil,nil};
 static NSImage *s_normal[]={nil,nil,nil};
