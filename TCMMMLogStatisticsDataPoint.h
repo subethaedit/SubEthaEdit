@@ -15,6 +15,7 @@
     unsigned long insertedCharacters;
     unsigned long selectedCharacters;
 }
+- (id)initWithDataObject:(id)anObject;
 - (unsigned long)operationCount;
 - (unsigned long)deletedCharacters;
 - (unsigned long)insertedCharacters;

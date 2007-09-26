@@ -30,6 +30,7 @@
         }, 
         {CLASS = FirstClickCustomView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
         {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = HMBlkPanel; LANGUAGE = ObjC; SUPERCLASS = NSPanel; }, 
         {CLASS = HUDButton; LANGUAGE = ObjC; SUPERCLASS = NSButton; }, 
         {CLASS = HUDWindow; LANGUAGE = ObjC; SUPERCLASS = NSPanel; }
     ); 

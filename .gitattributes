@@ -10,8 +10,6 @@
 /BacktracingException.m -text
 /BorderedTextField.h -text
 /BorderedTextField.m -text
-/BorderlessWindow.h -text
-/BorderlessWindow.m -text
 /ButtonScrollView.h -text
 /ButtonScrollView.m -text
 /CandyBarView.h -text
@@ -37,8 +35,6 @@ CrashReporter/crashReporter.h -text
 CrashReporter/crashReporter.m -text
 CrashReporter/crashReporter_Prefix.pch -text
 CrashReporter/license.txt -text
-/DWRoundedTransparentView.h -text
-/DWRoundedTransparentView.m -text
 Debug/DebugAttributeInspectorController.h -text
 Debug/DebugAttributeInspectorController.m -text
 Debug/DebugAttributesInspector.nib/classes.nib -text
