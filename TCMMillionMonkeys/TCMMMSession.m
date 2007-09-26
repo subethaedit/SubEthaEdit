@@ -1022,6 +1022,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         loggingState = [[TCMMMLoggingState alloc] initWithDictionaryRepresentation:loggingStateRep];
     } else {
         loggingState = [[TCMMMLoggingState alloc] init];
+        [loggingState setInitialTextStorageDictionaryRepresentation:[aContent objectForKey:@"TextStorage"]];
     }
     
     if (loggingState) {
