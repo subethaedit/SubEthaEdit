@@ -305,7 +305,7 @@
 
 - (void)mouseUp:(NSEvent *)anEvent {
 	NSPoint point = [self convertPoint:[anEvent locationInWindow] fromView:nil];
-	if (NSPointInRect(point,NSOffsetRect(NSInsetRect([self bounds],0,LEGENDHEIGHT/2.),0,LEGENDHEIGHT))) {
+	if (NSPointInRect(point,NSOffsetRect(NSInsetRect([self bounds],0,LEGENDHEIGHT/2.),0,LEGENDHEIGHT/2.))) {
 		[self toggleInterval];
 	}
 }
