@@ -17,3 +17,5 @@ SubEthaEdit.xcodeproj/*.pbxuser
 /SubEthaEditSuite.scriptTerminology
 /TCMTextSuite.scriptSuite
 /TCMTextSuite.scriptTerminology
+UniversalDetector/UniversalDetector.xcodeproj/*.mode*
+UniversalDetector/UniversalDetector.xcodeproj/*.pbxuser

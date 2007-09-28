@@ -1553,8 +1553,6 @@ UniversalDetector/English.lproj/InfoPlist.strings -text
 UniversalDetector/Info.plist -text
 UniversalDetector/UniversalDetector.h -text
 UniversalDetector/UniversalDetector.mm -text
-UniversalDetector/UniversalDetector.xcodeproj/dom.mode2 -text
-UniversalDetector/UniversalDetector.xcodeproj/dom.pbxuser -text
 UniversalDetector/UniversalDetector.xcodeproj/project.pbxproj -text
 UniversalDetector/UniversalDetector_Prefix.pch -text
 UniversalDetector/kludge/kludge.c -text

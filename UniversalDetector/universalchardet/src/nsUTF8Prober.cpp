@@ -63,8 +63,14 @@ nsProbingState nsUTF8Prober::HandleData(const char* aBuf, PRUint32 aLen)
     }
     if (codingState == eStart)
     {
-      if (mCodingSM->GetCurrentCharLen() >= 2)
-        mNumOfMBChar++;
+      if (mCodingSM->GetCurrentCharLen() >= 2) {
+        mNumOfMBChar++; 
+        // check for the umlauts ae or ue to rank them higher than the EUC stuff
+        if (((aBuf[i-1] & 0xff) == 0xc3) && 
+            (((aBuf[i] & 0xff) == 0xa4) || ((aBuf[i] & 0xff) == 0xbc))) { // when we find ae or ue then lets just win
+          mNumOfMBChar += 5;
+        }
+      }
     }
   }
 
@@ -82,7 +88,8 @@ float nsUTF8Prober::GetConfidence(void)
 
   if (mNumOfMBChar < 6)
   {
-    for (PRUint32 i = 0; i < mNumOfMBChar; i++)
+    // improved the confidence so one multibyte character wins against windows encoding
+    for (PRUint32 i = 0; i < mNumOfMBChar+1; i++)
       unlike *= ONE_CHAR_PROB;
     return (float)1.0 - unlike;
   }
