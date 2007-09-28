@@ -1366,6 +1366,8 @@ struct ModificationInfo
     NSTextStorage *ts = [document textStorage];
     [ts removeAttribute:NSBackgroundColorAttributeName range:NSMakeRange(0,[ts length])];
     [ts removeAttribute:NSLinkAttributeName range:NSMakeRange(0,[ts length])];
+    DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForPath:@"" withContentString:[ts string]];
+    [(PlainTextDocument *)document setDocumentMode:mode];
     [document clearChangeMarks:self];
 }
 
