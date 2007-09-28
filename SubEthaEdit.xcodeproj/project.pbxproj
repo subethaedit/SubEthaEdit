@@ -311,6 +311,7 @@
 		312B7C070A99DA460014E52A /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 312B7BBB0A99D1B50014E52A /* Sparkle.framework */; };
 		316A0D2A0C68A47100720268 /* DebugAttributeInspectorController.m in Sources */ = {isa = PBXBuildFile; fileRef = 316A0D280C68A47100720268 /* DebugAttributeInspectorController.m */; };
 		316A0D2B0C68A47100720268 /* DebugAttributesInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = 316A0D290C68A47100720268 /* DebugAttributesInspector.nib */; };
+		3188F67A0CAD1218009E4C0B /* DNDArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3188F6780CAD1218009E4C0B /* DNDArrayController.m */; };
 		31D2C7000CA7C9C8003CC5C9 /* PrecedenceRuleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2C6E50CA7C7A7003CC5C9 /* PrecedenceRuleCell.m */; };
 		31D2C7040CA7C9F9003CC5C9 /* PrecedencePrefs.tif in Resources */ = {isa = PBXBuildFile; fileRef = 31D2C6EB0CA7C7DE003CC5C9 /* PrecedencePrefs.tif */; };
 		31D2C7050CA7CA04003CC5C9 /* PrecedencePrefs.nib in Resources */ = {isa = PBXBuildFile; fileRef = 31D2C6D10CA7C78C003CC5C9 /* PrecedencePrefs.nib */; };
@@ -1132,6 +1133,8 @@
 		316A0D270C68A47100720268 /* DebugAttributeInspectorController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DebugAttributeInspectorController.h; path = Debug/DebugAttributeInspectorController.h; sourceTree = "<group>"; };
 		316A0D280C68A47100720268 /* DebugAttributeInspectorController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = DebugAttributeInspectorController.m; path = Debug/DebugAttributeInspectorController.m; sourceTree = "<group>"; };
 		316A0D290C68A47100720268 /* DebugAttributesInspector.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = DebugAttributesInspector.nib; path = Debug/DebugAttributesInspector.nib; sourceTree = "<group>"; };
+		3188F6780CAD1218009E4C0B /* DNDArrayController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DNDArrayController.m; sourceTree = "<group>"; };
+		3188F6790CAD1218009E4C0B /* DNDArrayController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DNDArrayController.h; sourceTree = "<group>"; };
 		31D2C6D20CA7C78C003CC5C9 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PrecedencePrefs.nib; sourceTree = "<group>"; };
 		31D2C6D40CA7C78C003CC5C9 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PrecedenceRules.nib; sourceTree = "<group>"; };
 		31D2C6E50CA7C7A7003CC5C9 /* PrecedenceRuleCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PrecedenceRuleCell.m; sourceTree = "<group>"; };
@@ -1829,6 +1832,8 @@
 				31D2C6E50CA7C7A7003CC5C9 /* PrecedenceRuleCell.m */,
 				31D2C6E80CA7C7A7003CC5C9 /* PrecedencePreferences.h */,
 				31D2C6E70CA7C7A7003CC5C9 /* PrecedencePreferences.m */,
+				3188F6780CAD1218009E4C0B /* DNDArrayController.m */,
+				3188F6790CAD1218009E4C0B /* DNDArrayController.h */,
 				14289399095758C100D14688 /* StylePreferences.h */,
 				1428939A095758C100D14688 /* StylePreferences.m */,
 				1428939B095758C100D14688 /* TableView.h */,
@@ -2898,6 +2903,7 @@
 				F2CA7D300CA142B1008BEA38 /* HUDStatisticPersonCell.m in Sources */,
 				F26B7D860CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m in Sources */,
 				F2F2B60E0CA811240045C189 /* TCMMMLogStatisticsDataPoint.m in Sources */,
+				3188F67A0CAD1218009E4C0B /* DNDArrayController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
