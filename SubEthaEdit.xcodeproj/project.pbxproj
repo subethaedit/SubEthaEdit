@@ -374,6 +374,8 @@
 		F20948BC0C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = F20948B90C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m */; };
 		F20948E50C7B4C2300E78EBA /* UserStatistics.nib in Resources */ = {isa = PBXBuildFile; fileRef = F20948E30C7B4C2300E78EBA /* UserStatistics.nib */; };
 		F20948EE0C7B4C7100E78EBA /* UserStatisticsController.m in Sources */ = {isa = PBXBuildFile; fileRef = F20948EB0C7B4C7100E78EBA /* UserStatisticsController.m */; };
+		F20E1FAD0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F20E1FAB0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.h */; };
+		F20E1FAE0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = F20E1FAC0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.m */; };
 		F2230A440BE0241A00437D55 /* FileManagementProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F2230A430BE0241A00437D55 /* FileManagementProfile.m */; };
 		F2230A490BE0243100437D55 /* TCMBEEPBencodedMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F2230A460BE0243100437D55 /* TCMBEEPBencodedMessage.m */; };
 		F2230A4A0BE0243100437D55 /* TCMBEEPBencodingProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F2230A480BE0243100437D55 /* TCMBEEPBencodingProfile.m */; };
@@ -706,6 +708,7 @@
 				31D5FB230AA309200088DB18 /* HDCrashReporter.framework in Copy Files (Frameworks) */,
 				141F4EB40AE4266F001B73D2 /* PSMTabBarControl.framework in Copy Files (Frameworks) */,
 				312B7BC00A99D22C0014E52A /* Sparkle.framework in Copy Files (Frameworks) */,
+				F20E1FAD0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.h in Copy Files (Frameworks) */,
 			);
 			name = "Copy Files (Frameworks)";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1203,6 +1206,8 @@
 		F20948E40C7B4C2300E78EBA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/UserStatistics.nib; sourceTree = "<group>"; };
 		F20948EA0C7B4C7100E78EBA /* UserStatisticsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserStatisticsController.h; sourceTree = "<group>"; };
 		F20948EB0C7B4C7100E78EBA /* UserStatisticsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserStatisticsController.m; sourceTree = "<group>"; };
+		F20E1FAB0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThousandSeparatorValueTransformer.h; sourceTree = "<group>"; };
+		F20E1FAC0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThousandSeparatorValueTransformer.m; sourceTree = "<group>"; };
 		F2230A420BE0241A00437D55 /* FileManagementProfile.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FileManagementProfile.h; sourceTree = "<group>"; };
 		F2230A430BE0241A00437D55 /* FileManagementProfile.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FileManagementProfile.m; sourceTree = "<group>"; };
 		F2230A450BE0243100437D55 /* TCMBEEPBencodedMessage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TCMBEEPBencodedMessage.h; path = TCMBEEP/TCMBEEPBencodedMessage.h; sourceTree = "<group>"; };
@@ -1841,6 +1846,8 @@
 		142892550957529900D14688 /* ValueTransformers */ = {
 			isa = PBXGroup;
 			children = (
+				F20E1FAB0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.h */,
+				F20E1FAC0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.m */,
 				142893820957585600D14688 /* FontAttributesToStringValueTransformer.h */,
 				142893830957585600D14688 /* FontAttributesToStringValueTransformer.m */,
 				142893840957585600D14688 /* HueToColorValueTransformer.h */,
@@ -3105,6 +3112,7 @@
 				31D2C7000CA7C9C8003CC5C9 /* PrecedenceRuleCell.m in Sources */,
 				F2F2B5A70CA7F7B80045C189 /* PrecedencePreferences.m in Sources */,
 				F2F2B6100CA811240045C189 /* TCMMMLogStatisticsDataPoint.m in Sources */,
+				F20E1FAE0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

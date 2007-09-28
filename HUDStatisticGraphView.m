@@ -159,12 +159,16 @@
 		firstDate = [[[NSCalendarDate alloc] initWithTimeInterval:-1.*timeInterval sinceDate:lastDate] autorelease];
 	}
 //    NSLog(@"%s %@-%@",__FUNCTION__,firstDate,lastDate);
-    NSString *firstDateString = [firstDate descriptionWithCalendarFormat:@"%m-%d %H:%M"];
-    NSString *lastDateString  = [lastDate  descriptionWithCalendarFormat:@"%m-%d %H:%M"];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+
+    NSString *firstDateString = [firstDate descriptionWithCalendarFormat:[defaults objectForKey:NSShortTimeDateFormatString]];
+    NSString *lastDateString  = [lastDate  descriptionWithCalendarFormat:[defaults objectForKey:NSShortTimeDateFormatString]];
     NSTimeInterval timeRange = [lastDate timeIntervalSinceDate:firstDate];
     if (timeRange<60*60*12) {
-        firstDateString = [firstDate descriptionWithCalendarFormat:@"%H:%M:%S"];
-        lastDateString  = [lastDate  descriptionWithCalendarFormat:@"%H:%M:%S"];
+        NSMutableString *timeFormatString = [defaults objectForKey:NSTimeFormatString];
+
+        firstDateString = [firstDate descriptionWithCalendarFormat:timeFormatString];
+        lastDateString  = [lastDate  descriptionWithCalendarFormat:timeFormatString];
     }
 
     
@@ -230,7 +234,7 @@
         lastXValue = point.x;
     }
     
-    NSString *maxDataString = [NSString stringWithFormat:@"%.0f",maxValue];
+    NSString *maxDataString = [NSString stringByAddingThousandSeparatorsToNumber:[NSNumber numberWithFloat:maxValue]];
     if (relativeMode) maxDataString = [NSString stringWithFormat:@"%.0f %%",maxValue*100];
     NSSize dataSize = [maxDataString sizeWithAttributes:mLabelAttributes];
 
@@ -251,7 +255,6 @@
     [at translateXBy:graphRect.origin.x yBy:graphRect.origin.y];
     [at scaleXBy:NSWidth(graphRect) yBy:NSHeight(graphRect)/maxValue];
     
-    CGPoint sampledPoints[DATAPOINTS*3];
     i=3;
     while (i--) {
         [colors[i] set];

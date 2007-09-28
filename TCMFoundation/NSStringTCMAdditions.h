@@ -17,6 +17,7 @@
 
 + (NSString *)stringWithAddressData:(NSData *)aData;
 + (NSString *)stringWithAddressData:(NSData *)aData cyrusSASLCompatible:(BOOL)cyrusSASLCompatible;
++ (NSString *)stringByAddingThousandSeparatorsToNumber:(NSNumber *)aNumber;
 
 - (NSData *)UTF8DataWithMaximumLength:(unsigned)aLength;
 
