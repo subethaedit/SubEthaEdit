@@ -560,8 +560,8 @@ static DocumentModeManager *S_sharedInstance=nil;
 				OGRegularExpression *regex = [rule objectForKey:@"RegEx"];
 				if (!regex) {
 					// Compile and cache into dictionary
-					regex = [[[OGRegularExpression alloc] initWithString:ruleString options:OgreFindNotEmptyOption] autorelease];
-					[rule setObject:regex forKey:@"RegEx"];
+					regex = [[[OGRegularExpression alloc] initWithString:ruleString options:OgreFindNotEmptyOption|OgreMultilineOption] autorelease];
+					//[rule setObject:regex forKey:@"RegEx"];
 				}
 				match = [regex matchInString:contentString];
 				if ([match count]>0) return [self documentModeForIdentifier:[mode objectForKey:@"Identifier"]];
