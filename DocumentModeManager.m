@@ -173,7 +173,7 @@ static DocumentModeManager *S_sharedInstance=nil;
 
 - (void)revalidatePrecedences {
 	// Check for overriden Rules
-	// FIXME Remove @"" Placeholders
+	// FIXME Remove @"" Placeholders if there are any.
 
 	NSMutableArray *rulesSoFar = [NSMutableArray array];
 	
@@ -432,7 +432,9 @@ static DocumentModeManager *S_sharedInstance=nil;
         DocumentMode *newMode = [self documentModeForIdentifier:[oldMode documentModeIdentifier]];
         [document setDocumentMode:newMode];
     }
-    
+
+	[self setModePrecedenceArray:[self reloadPrecedences]];
+	[self revalidatePrecedences];
 }
 
 - (void) resolveAllDependenciesForMode:(DocumentMode *) aMode {
