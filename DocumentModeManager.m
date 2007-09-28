@@ -153,6 +153,8 @@ static DocumentModeManager *S_sharedInstance=nil;
             [I_modeIdentifiersTagArray addObject:BASEMODEIDENTIFIER];
             [self TCM_findModes];
             [self setModePrecedenceArray:[self reloadPrecedences]];
+			[self revalidatePrecedences];
+			
             // Preference Handling
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:nil];
         }
@@ -171,10 +173,51 @@ static DocumentModeManager *S_sharedInstance=nil;
 
 - (void)revalidatePrecedences {
 	// Check for overriden Rules
-	// Remove @"" Placeholders
-	// [self modePrecedenceArray];
+	// FIXME Remove @"" Placeholders
+
+	NSMutableArray *rulesSoFar = [NSMutableArray array];
 	
-	//FIXME Add case sensistivity
+    NSEnumerator *modes = [[self modePrecedenceArray] objectEnumerator];
+    id mode;
+    while ((mode = [modes nextObject])) {
+        
+		NSEnumerator *rules = [[mode objectForKey:@"Rules"] objectEnumerator];
+		id rule;
+		while ((rule = [rules nextObject])) {
+			BOOL isOverridden = NO;
+			NSMutableDictionary *ruleCopy = [[rule mutableCopy] autorelease];
+			[ruleCopy setObject:[mode objectForKey:@"Identifier"] forKey:@"FromMode"];
+
+			int typeRule = [[rule objectForKey:@"TypeIdentifier"] intValue];
+			NSString *stringRule = [rule objectForKey:@"String"];
+			
+			// Check if overridden
+			NSEnumerator *overridingRules = [rulesSoFar objectEnumerator];
+			id override;
+			while ((override = [overridingRules nextObject])) {
+				int typeOverride = [[override objectForKey:@"TypeIdentifier"] intValue];
+				NSString *stringOverride = [override objectForKey:@"String"];
+				
+				BOOL simpleOverride = ((typeOverride==typeRule) && ([stringRule isEqualToString:stringOverride]));
+				BOOL caseOverride = (((typeRule==3)&&(typeOverride==0)) && ([[stringRule uppercaseString] isEqualToString:[stringOverride uppercaseString]]));
+				
+				if (simpleOverride||caseOverride) {
+					[rule setObject:[NSNumber numberWithBool:YES] forKey:@"Overridden"];
+					[rule setObject:[NSString stringWithFormat:NSLocalizedString(@"Overriden by rule in %@ mode",@"Mode Precedence Overriden Tooltip"), [[[self documentModeForIdentifier:[override objectForKey:@"FromMode"]] syntaxDefinition] name]] forKey:@"OverriddenTooltip"];
+					isOverridden = YES;
+				} 	
+				
+			}
+			
+			if (!isOverridden) {
+				[rule setObject:[NSNumber numberWithBool:NO] forKey:@"Overridden"];
+				[rule setObject:@"" forKey:@"OverriddenTooltip"];
+			}
+			
+			if ([[rule objectForKey:@"Enabled"] boolValue]) [rulesSoFar addObject:ruleCopy];
+		}
+		
+    }
 }
 
 - (NSMutableArray *)reloadPrecedences {
@@ -314,7 +357,6 @@ static DocumentModeManager *S_sharedInstance=nil;
 		}
 	}
 	
-	[self revalidatePrecedences];
 //	NSLog(@"Precedences: %@", precendenceArray);
 	[defaults setObject:precendenceArray forKey:@"ModePrecedences"];
 	return precendenceArray;

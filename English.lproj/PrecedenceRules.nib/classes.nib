@@ -34,6 +34,11 @@
 			<string>ObjC</string>
 		</dict>
 		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>valuesChanged</key>
+				<string>id</string>
+			</dict>
 			<key>CLASS</key>
 			<string>RuleViewController</string>
 			<key>LANGUAGE</key>

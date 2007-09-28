@@ -3,7 +3,7 @@
 <syntax>
 
     <head>
-        <name>Javascript</name> <!-- The definitions title -->
+        <name>Actionscript</name> <!-- The definitions title -->
         <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]></charsintokens> <!-- Valid Characters for Variables -->
         <!-- <charsdelimitingtokens></charsdelimitingtokens> -->
     </head>
