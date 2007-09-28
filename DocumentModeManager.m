@@ -182,7 +182,6 @@ static DocumentModeManager *S_sharedInstance=nil;
 	NSArray *oldPrecedenceArray = nil;
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
     oldPrecedenceArray = [defaults objectForKey:@"ModePrecedences"];
-	NSLog(@"foo: %@", oldPrecedenceArray);
 	
 	NSMutableArray *precendenceArray = [NSMutableArray array];
 	
