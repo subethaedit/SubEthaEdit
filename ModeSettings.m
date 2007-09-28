@@ -22,6 +22,7 @@
         I_recognitionExtenstions = [NSMutableArray new];
         I_recognitionRegexes = [NSMutableArray new];
         I_recognitionFilenames = [NSMutableArray new];
+		I_recognitionCasesensitveExtenstions = [NSMutableArray new];
         // Parse XML File
         [self parseXMLFile:aPath];
     }
@@ -36,6 +37,7 @@
 
 - (void)dealloc {
     [I_recognitionExtenstions release];
+    [I_recognitionCasesensitveExtenstions release];
     [I_recognitionRegexes release];
     [I_recognitionFilenames release];
     [I_templateFile release];
@@ -81,7 +83,18 @@
         NSString *value = [entry stringValue];
         
         if ([@"extension" isEqualToString:name]) {
-            [I_recognitionExtenstions addObject:value];
+			// Check
+			NSString *caseSensitive = [[entry attributeForName:@"casesensitive"] stringValue];
+			if ([caseSensitive isEqualToString:@"no"]) [I_recognitionCasesensitveExtenstions addObject:value];
+			else {
+				BOOL alreadyInThere = NO;
+				NSEnumerator *enumerator = [I_recognitionExtenstions objectEnumerator];
+				id object;
+				while ((object = [enumerator nextObject])) {
+					if ([[object uppercaseString] isEqualToString:[value uppercaseString]]) alreadyInThere = YES;
+				}				
+				if (!alreadyInThere) [I_recognitionExtenstions addObject:value];
+			}
         }  else if ([@"filename" isEqualToString:name]) {
             [I_recognitionFilenames addObject:value];
         }  else if ([@"regex" isEqualToString:name]) {
@@ -100,6 +113,10 @@
     }    
     
     [modeSettingsXML release];
+}
+
+- (NSArray *)recognizedCasesensitveExtensions {
+    return I_recognitionCasesensitveExtenstions;
 }
 
 - (NSArray *)recognizedExtensions {
