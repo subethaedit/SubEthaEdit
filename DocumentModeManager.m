@@ -182,9 +182,31 @@ static DocumentModeManager *S_sharedInstance=nil;
 	NSArray *oldPrecedenceArray = nil;
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
     oldPrecedenceArray = [defaults objectForKey:@"ModePrecedences"];
+	NSLog(@"foo: %@", oldPrecedenceArray);
 	
 	NSMutableArray *precendenceArray = [NSMutableArray array];
 	
+	
+	NSMutableArray *modeOrder;
+	if (oldPrecedenceArray) {
+		//Recover order
+		modeOrder = [NSMutableArray array];
+		NSEnumerator *oldModes = [oldPrecedenceArray objectEnumerator];
+		id oldMode;
+		while ((oldMode = [oldModes nextObject])) {
+			[modeOrder addObject:[oldMode objectForKey:@"Identifier"]];
+		}
+	} else {
+		// Default order
+		modeOrder = [NSMutableArray arrayWithObjects:@"SEEMode.Diff",@"SEEMode.bash",nil]; // FIXME 
+	}
+	
+	int i;
+	for(i=0;i<[modeOrder count];i++) {
+		[precendenceArray addObject:@""];
+	}
+
+	// Reihenfolge!
     NSEnumerator *enumerator = [I_modeBundles objectEnumerator];
     NSBundle *bundle;
     while (bundle = [enumerator nextObject]) {
@@ -198,8 +220,12 @@ static DocumentModeManager *S_sharedInstance=nil;
             extensions = [[modeSettings recognizedExtensions] objectEnumerator];
             filenames = [[modeSettings recognizedFilenames] objectEnumerator];
             regexes = [[modeSettings recognizedRegexes] objectEnumerator];
-
-			[precendenceArray addObject:modeDictionary];
+			
+			i = [modeOrder indexOfObject:[bundle bundleIdentifier]];
+			if (i!=NSNotFound) {
+				[precendenceArray replaceObjectAtIndex:i withObject:modeDictionary];
+			} else [precendenceArray addObject:modeDictionary];
+			
 			[modeDictionary setObject:[bundle bundleIdentifier] forKey:@"Identifier"];
 			[modeDictionary setObject:[[self documentModeForIdentifier:[bundle bundleIdentifier]] displayName] forKey:@"Name"];
 			[modeDictionary setObject:[bundle objectForInfoDictionaryKey:@"CFBundleVersion"] forKey:@"Version"];

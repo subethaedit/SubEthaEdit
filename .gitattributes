@@ -35,6 +35,8 @@ CrashReporter/crashReporter.h -text
 CrashReporter/crashReporter.m -text
 CrashReporter/crashReporter_Prefix.pch -text
 CrashReporter/license.txt -text
+/DNDArrayController.h -text
+/DNDArrayController.m -text
 Debug/DebugAttributeInspectorController.h -text
 Debug/DebugAttributeInspectorController.m -text
 Debug/DebugAttributesInspector.nib/classes.nib -text
