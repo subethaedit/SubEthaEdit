@@ -1,5 +1,6 @@
 
 #import "DNDArrayController.h"
+#import "DocumentModeManager.h"
 
 
 NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
@@ -95,7 +96,8 @@ NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 		[self setSelectionIndexes:indexSet];
 		
 		[[tableView delegate] tableViewSelectionDidChange:[NSNotification notificationWithName:NSTableViewSelectionDidChangeNotification object:tableView]];
-		
+		[[DocumentModeManager sharedInstance] revalidatePrecedences];
+
 		return YES;
     }
 	

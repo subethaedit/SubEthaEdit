@@ -7,6 +7,7 @@
 //
 
 #import "PrecedenceRuleCell.h"
+#import "DocumentModeManager.h"
 
 
 @implementation PrecedenceRuleCell
@@ -53,6 +54,10 @@
     [view setHidden:YES];    
     [view release];    
     [super dealloc];
+}
+
+-(IBAction)valuesChanged:(id)sender{
+	[[DocumentModeManager sharedInstance] revalidatePrecedences];
 }
 
 

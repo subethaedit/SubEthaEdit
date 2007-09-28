@@ -27,5 +27,6 @@
 - (NSPopUpButton *) typePopup;
 - (NSTextField *) stringTextfield;
 - (NSImageView *) warningImageView;
-	
+-(IBAction)valuesChanged:(id)sender;
+
 @end

@@ -72,6 +72,7 @@
 	[o_rulesController removeObjectAtArrangedObjectIndex:[o_rulesController selectionIndex]];
 	[[[ruleViews objectForKey:key] view] setHidden:YES];
 	[ruleViews removeObjectForKey:key];
+	[[DocumentModeManager sharedInstance] revalidatePrecedences];
 }
 
 @end
