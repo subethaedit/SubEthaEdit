@@ -10,6 +10,7 @@
 #import "DocumentController.h"
 #import "GeneralPreferences.h"
 #import "PrecedenceRuleCell.h"
+#import "DocumentModeManager.h"
 
 @implementation PrecedencePreferences
 
@@ -47,14 +48,23 @@
 }
 
 - (IBAction) addUserRule:(id)sender {	
-	NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
 	int index = [[o_rulesController arrangedObjects] count];
 	//NSLog(@"foo: %@", [o_rulesController arrangedObjects]);
-	NSMutableDictionary *newRule = [NSMutableDictionary dictionaryWithObjectsAndKeys:@"Placeholder",@"String",[NSNumber numberWithBool:NO],@"ModeRule",[NSNumber numberWithInt:0],@"TypeIdentifier",nil];
+	NSMutableDictionary *newRule = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+									@"Placeholder",@"String",
+									[NSNumber numberWithBool:NO],@"ModeRule",
+									[NSNumber numberWithInt:0],@"TypeIdentifier",
+									[NSNumber numberWithBool:YES],@"Enabled",
+									[NSNumber numberWithBool:NO],@"Overridden",
+									@"",@"OverriddenTooltip",
+									nil];
+
 	// NSLog(@"%s %@ %d",__FUNCTION__, newRule,(int)newRule);
 	[o_rulesController insertObject:newRule atArrangedObjectIndex:index];
 	//NSLog(@"bar: %@", [o_rulesController arrangedObjects]);
 	[o_rulesController setSelectionIndex:index];
+	[[DocumentModeManager sharedInstance] revalidatePrecedences];
+	[o_rulesTableView scrollRowToVisible:index];
 }
 
 - (IBAction) removeUserRule:(id)sender {
@@ -80,11 +90,14 @@
 		//NSLog(@"Binding to: %@", rule);
 		//NSLog(@"foo: %@", [cell exposedBindings]);
 		ruleViewController = [[RuleViewController new] autorelease];
-		//[[ruleViewController stringTextfield] bind:@"value" toObject:o_rulesController withKeyPath:@"selection.String" options:nil];
 		[[ruleViewController stringTextfield] bind:@"value" toObject:rule withKeyPath:@"String" options:nil];
 		[[ruleViewController stringTextfield] bind:@"editable" toObject:rule withKeyPath:@"ModeRule" options:[NSDictionary dictionaryWithObject:NSNegateBooleanTransformerName forKey:NSValueTransformerNameBindingOption]];
 		[[ruleViewController typePopup] bind:@"selectedTag" toObject:rule withKeyPath:@"TypeIdentifier" options:nil];
 		[[ruleViewController typePopup] bind:@"enabled" toObject:rule withKeyPath:@"ModeRule" options:[NSDictionary dictionaryWithObject:NSNegateBooleanTransformerName forKey:NSValueTransformerNameBindingOption]];
+		[[ruleViewController enabledCheckbox] bind:@"value" toObject:rule withKeyPath:@"Enabled" options:nil];
+		[[ruleViewController enabledCheckbox] bind:@"hidden" toObject:rule withKeyPath:@"Overridden" options:nil];
+		[[ruleViewController warningImageView] bind:@"hidden" toObject:rule withKeyPath:@"Overridden" options:[NSDictionary dictionaryWithObject:NSNegateBooleanTransformerName forKey:NSValueTransformerNameBindingOption]];
+		[[ruleViewController warningImageView] bind:@"toolTip" toObject:rule withKeyPath:@"OverriddenTooltip" options:nil];
 		[ruleViews setObject:ruleViewController forKey:key];
 	}
 		

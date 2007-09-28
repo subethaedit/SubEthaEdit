@@ -169,15 +169,15 @@ static DocumentModeManager *S_sharedInstance=nil;
     [super dealloc];
 }
 
-- (NSMutableArray *)reloadPrecedences {
-	// Mode rules cannot be edited by user.
+- (void)revalidatePrecedences {
+	// Check for overriden Rules
+	// Remove @"" Placeholders
+	// [self modePrecedenceArray];
 	
-	// Remember: RULE ORDER DOES NOT MATTER.
+	//FIXME Add case sensistivity
+}
 
-	// How it works:
-	// Regenerate precedences from modes
-	// Add user added rules back in from defaults (if exisiting)
-	// Set new defaults
+- (NSMutableArray *)reloadPrecedences {
 	
 	NSArray *oldPrecedenceArray = nil;
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
@@ -196,8 +196,8 @@ static DocumentModeManager *S_sharedInstance=nil;
 			[modeOrder addObject:[oldMode objectForKey:@"Identifier"]];
 		}
 	} else {
-		// Default order
-		modeOrder = [NSMutableArray arrayWithObjects:@"SEEMode.Diff",@"SEEMode.bash",nil]; // FIXME 
+		// Default internal order
+		modeOrder = [NSMutableArray arrayWithObjects:@"SEEMode.PHP-HTML", @"SEEMode.ERB", @"SEEMode.Ruby", @"SEEMode.bash", @"SEEMode.Objective-C", @"SEEMode.C", @"SEEMode.C++", @"SEEMode.Diff", @"SEEMode.HTML", @"SEEMode.CSS", @"SEEMode.Javascript", @"SEEMode.XML", @"SEEMode.Perl", @"SEEMode.Pascal", @"SEEMode.Lua", @"SEEMode.AppleScript", @"SEEMode.ActionScript", @"SEEMode.LaTeX", @"SEEMode.Java", @"SEEMode.Python", @"SEEMode.SQL", @"SEEMode.Conference", nil]; 
 	}
 	
 	int i;
@@ -205,7 +205,6 @@ static DocumentModeManager *S_sharedInstance=nil;
 		[precendenceArray addObject:@""];
 	}
 
-	// Reihenfolge!
     NSEnumerator *enumerator = [I_modeBundles objectEnumerator];
     NSBundle *bundle;
     while (bundle = [enumerator nextObject]) {
@@ -214,9 +213,10 @@ static DocumentModeManager *S_sharedInstance=nil;
 		NSMutableDictionary *modeDictionary = [NSMutableDictionary dictionary];
 		NSMutableArray *ruleArray = [NSMutableArray array];
 		
-        NSEnumerator *extensions, *filenames, *regexes;
+        NSEnumerator *extensions, *filenames, *regexes, *casesensitiveExtensions;
         if (modeSettings) {
             extensions = [[modeSettings recognizedExtensions] objectEnumerator];
+            casesensitiveExtensions = [[modeSettings recognizedCasesensitveExtensions] objectEnumerator];
             filenames = [[modeSettings recognizedFilenames] objectEnumerator];
             regexes = [[modeSettings recognizedRegexes] objectEnumerator];
 			
@@ -239,30 +239,53 @@ static DocumentModeManager *S_sharedInstance=nil;
         } 
 		
         NSString *extension = nil;
+        NSString *casesensitiveExtension = nil;
         NSString *filename = nil;
         NSString *regex = nil;
-		
+				
         while ((extension = [extensions nextObject])) {
-			[ruleArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:extension,@"String",
-																			//@"Extension",@"Type",
-																			[NSNumber numberWithInt:0],@"TypeIdentifier",
-																			[NSNumber numberWithBool:YES],@"ModeRule",
-																			nil]];
+			[ruleArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+								  extension,@"String",
+								  [NSNumber numberWithBool:YES],@"Enabled",
+								  [NSNumber numberWithInt:0],@"TypeIdentifier",
+								  [NSNumber numberWithBool:NO],@"Overridden",
+								  @"",@"OverriddenTooltip",
+								  [NSNumber numberWithBool:YES],@"ModeRule",
+								  nil]];
+        }
+        
+        while ((casesensitiveExtension = [casesensitiveExtensions nextObject])) {
+			[ruleArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+								  casesensitiveExtension,@"String",
+								  [NSNumber numberWithBool:YES],@"Enabled",
+								  [NSNumber numberWithInt:3],@"TypeIdentifier",
+								  [NSNumber numberWithBool:NO],@"Overridden",
+								  @"",@"OverriddenTooltip",
+								  [NSNumber numberWithBool:YES],@"ModeRule",
+								  nil]];
         }
         
         while ((filename = [filenames nextObject])) {
-			[ruleArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:filename,@"String",
-								                                            //@"Filename",@"Type",
-																			[NSNumber numberWithInt:1],@"TypeIdentifier",
-																			[NSNumber numberWithBool:YES],@"ModeRule",nil]];
+			[ruleArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+								  filename,@"String",
+								  [NSNumber numberWithBool:YES],@"Enabled",
+								  [NSNumber numberWithInt:1],@"TypeIdentifier",
+								  [NSNumber numberWithBool:NO],@"Overridden",
+								  @"",@"OverriddenTooltip",
+								  [NSNumber numberWithBool:YES],@"ModeRule",
+								  nil]];
         }
         
         while ((regex = [regexes nextObject])) {
             if ([OGRegularExpression isValidExpressionString:regex]) {
-				[ruleArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:regex,@"String",
-																				//@"Content Regex",@"Type",
-																				[NSNumber numberWithInt:2],@"TypeIdentifier",
-																				[NSNumber numberWithBool:YES],@"ModeRule",nil]];
+				[ruleArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+									  regex,@"String",
+									  [NSNumber numberWithBool:YES],@"Enabled",
+									  [NSNumber numberWithInt:2],@"TypeIdentifier",
+									  [NSNumber numberWithBool:NO],@"Overridden",
+									  @"",@"OverriddenTooltip",
+									  [NSNumber numberWithBool:YES],@"ModeRule",
+									  nil]];
             }
         }
  
@@ -280,11 +303,18 @@ static DocumentModeManager *S_sharedInstance=nil;
 					[ruleArray addObject:[[oldRule mutableCopy] autorelease]];
 				}
 				
-				//FIXME Checkboxen nicht vergessen
+				NSEnumerator *newRulesEnumerator = [ruleArray objectEnumerator];
+				id newRule;
+				while ((newRule = [newRulesEnumerator nextObject])) {
+					if (([[oldRule objectForKey:@"String"] isEqualToString:[newRule objectForKey:@"String"]])&&([[oldRule objectForKey:@"TypeIdentifier"] intValue] == [[newRule objectForKey:@"TypeIdentifier"] intValue])) {
+						  [newRule setObject:[oldRule objectForKey:@"Enabled"] forKey:@"Enabled"];
+						 }
+				}
 			}						
 		}
 	}
 	
+	[self revalidatePrecedences];
 //	NSLog(@"Precedences: %@", precendenceArray);
 	[defaults setObject:precendenceArray forKey:@"ModePrecedences"];
 	return precendenceArray;
@@ -472,7 +502,10 @@ static DocumentModeManager *S_sharedInstance=nil;
 			int ruleType = [[rule objectForKey:@"TypeIdentifier"] intValue];
 			NSString *ruleString = [rule objectForKey:@"String"];
 			
-			if (ruleType == 0) {
+			if (ruleType == 0) { // Case insensitive extension
+				if ([[ruleString uppercaseString] isEqualToString:[extension uppercaseString]]) return [self documentModeForIdentifier:[mode objectForKey:@"Identifier"]];
+			} 
+			if (ruleType == 3) { // Case sensitive extension
 				if ([ruleString isEqualToString:extension]) return [self documentModeForIdentifier:[mode objectForKey:@"Identifier"]];
 			} 
 			if (ruleType == 1) {

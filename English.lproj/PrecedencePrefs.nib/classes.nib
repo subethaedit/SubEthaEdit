@@ -1,80 +1,134 @@
-{
-    IBClasses =     (
-                {
-            CLASS = DNDArrayController;
-            LANGUAGE = ObjC;
-            OUTLETS =             {
-                tableView = NSTableView;
-            };
-            SUPERCLASS = NSArrayController;
-        },
-                {
-            ACTIONS =             {
-                reloadDocumentModes = id;
-            };
-            CLASS = DocumentModeManager;
-            LANGUAGE = ObjC;
-            SUPERCLASS = NSObject;
-        },
-                {
-            CLASS = FirstResponder;
-            LANGUAGE = ObjC;
-            SUPERCLASS = NSObject;
-        },
-                {
-            CLASS = NSApplication;
-            LANGUAGE = ObjC;
-            SUPERCLASS = NSResponder;
-        },
-                {
-            CLASS = NSMenu;
-            LANGUAGE = ObjC;
-            SUPERCLASS = NSObject;
-        },
-                {
-            ACTIONS =             {
-                hostDidResolveAddress = TCMHost;
-                hostDidResolveName = TCMHost;
-            };
-            CLASS = NSObject;
-            LANGUAGE = ObjC;
-        },
-                {
-            CLASS = NSWindow;
-            LANGUAGE = ObjC;
-            SUPERCLASS = NSResponder;
-        },
-                {
-            ACTIONS =             {
-                addUserRule = id;
-                removeUserRule = id;
-            };
-            CLASS = PrecedencePreferences;
-            LANGUAGE = ObjC;
-            OUTLETS =             {
-                "o_modesController" = NSArrayController;
-                "o_precedenceView" = NSView;
-                "o_rulesController" = NSArrayController;
-                "o_rulesTableView" = NSTableView;
-            };
-            SUPERCLASS = TCMPreferenceModule;
-        },
-                {
-            CLASS = TCMHost;
-            LANGUAGE = ObjC;
-            OUTLETS =             {
-                "I_delegate" = id;
-            };
-            SUPERCLASS = NSObject;
-        },
-                {
-            CLASS = TCMPreferenceModule;
-            LANGUAGE = ObjC;
-            OUTLETS =             {
-                "O_window" = NSWindow;
-            };
-            SUPERCLASS = NSResponder;
-        }
-    );
-    IBVersion = 1;
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBClasses</key>
+	<array>
+		<dict>
+			<key>CLASS</key>
+			<string>NSApplication</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>TCMPreferenceModule</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>O_window</key>
+				<string>NSWindow</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSMenu</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>hostDidResolveAddress</key>
+				<string>TCMHost</string>
+				<key>hostDidResolveName</key>
+				<string>TCMHost</string>
+			</dict>
+			<key>CLASS</key>
+			<string>NSObject</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSWindow</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>DNDArrayController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>tableView</key>
+				<string>NSTableView</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSArrayController</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>TCMHost</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>I_delegate</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>reloadDocumentModes</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>DocumentModeManager</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>addUserRule</key>
+				<string>id</string>
+				<key>removeUserRule</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>PrecedencePreferences</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>o_modesController</key>
+				<string>NSArrayController</string>
+				<key>o_precedenceView</key>
+				<string>NSView</string>
+				<key>o_rulesController</key>
+				<string>NSArrayController</string>
+				<key>o_rulesTableView</key>
+				<string>NSTableView</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>TCMPreferenceModule</string>
+		</dict>
+	</array>
+	<key>IBVersion</key>
+	<string>1</string>
+</dict>
+</plist>

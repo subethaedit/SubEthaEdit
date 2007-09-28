@@ -11,6 +11,7 @@
 
 @interface ModeSettings : NSObject {
     NSMutableArray *I_recognitionExtenstions;
+    NSMutableArray *I_recognitionCasesensitveExtenstions;
     NSMutableArray *I_recognitionRegexes;
     NSMutableArray *I_recognitionFilenames;
     NSString *I_templateFile;
@@ -24,6 +25,7 @@
 
 /*"Accessors"*/
 - (NSArray *)recognizedExtensions;
+- (NSArray *)recognizedCasesensitveExtensions;
 - (NSArray *)recognizedRegexes;
 - (NSArray *)recognizedFilenames;
 - (NSString *)templateFile;

@@ -58,6 +58,7 @@
 - (int)tagForDocumentModeIdentifier:(NSString *)anIdentifier;
 - (NSDictionary *)availableModes;
 - (NSMutableArray *)reloadPrecedences;
+- (void)revalidatePrecedences;
 
 - (IBAction)reloadDocumentModes:(id)aSender;
 
