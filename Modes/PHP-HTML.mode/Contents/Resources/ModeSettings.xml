@@ -5,14 +5,11 @@
         <extension>php</extension>
         <extension>php3</extension>
         <extension>php4</extension>
+        <extension>php5</extension>
         <extension>phtml</extension>
         <extension>inc</extension>
-        <extension>PHP</extension>
-        <extension>PHP3</extension>
-        <extension>PHP4</extension>
-        <extension>PHTML</extension>
-        <extension>INC</extension>
         <regex>\A#!/usr/bin/php</regex>
         <regex>\A#!/usr/bin/env php</regex>
+        <regex>&lt;\?php.+\?&gt;</regex>
     </recognition>
 </settings>

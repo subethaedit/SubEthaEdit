@@ -349,7 +349,7 @@ static DocumentModeManager *S_sharedInstance=nil;
 				NSEnumerator *newRulesEnumerator = [ruleArray objectEnumerator];
 				id newRule;
 				while ((newRule = [newRulesEnumerator nextObject])) {
-					if (([[oldRule objectForKey:@"String"] isEqualToString:[newRule objectForKey:@"String"]])&&([[oldRule objectForKey:@"TypeIdentifier"] intValue] == [[newRule objectForKey:@"TypeIdentifier"] intValue])) {
+					if (([[oldRule objectForKey:@"String"] isEqualToString:[newRule objectForKey:@"String"]])&&([[oldRule objectForKey:@"TypeIdentifier"] intValue] == [[newRule objectForKey:@"TypeIdentifier"] intValue]) &&[oldRule objectForKey:@"Enabled"]) {
 						  [newRule setObject:[oldRule objectForKey:@"Enabled"] forKey:@"Enabled"];
 						 }
 				}
