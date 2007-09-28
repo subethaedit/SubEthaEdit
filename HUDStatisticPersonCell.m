@@ -104,8 +104,16 @@
     [[NSColor greenColor] set];
     [[user name] drawInRect:labelRect withAttributes:[entry isInside]?mNameAttributes:mInactiveNameAttributes];
     
-    NSString *statString = [NSString stringWithFormat:@"ins:%d dels:%d sels:%d ops:%d",[entry insertedCharacters],[entry deletedCharacters],[entry selectedCharacters],[entry operationCount]];
-    NSString *lastActivityString = [NSString stringWithFormat:@"Last activity: %@\n",[[entry dateOfLastActivity] descriptionWithCalendarFormat:@"%d.%m.%y %H:%M:%S"]];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSMutableString *dateTimeFormatString = [NSMutableString new];
+    [dateTimeFormatString appendString:[defaults objectForKey:NSShortTimeDateFormatString]];
+    NSRange minuteRange = [dateTimeFormatString rangeOfString:@"%M"];
+    if (minuteRange.location != NSNotFound) {
+        [dateTimeFormatString replaceCharactersInRange:NSMakeRange(NSMaxRange(minuteRange),0) withString:@":%S"];
+    }
+    
+    NSString *lastActivityString = [NSString stringWithFormat:NSLocalizedString(@"Last activity: %@",@"String appearing in the statistics window below the name, last time of actifity is inserted"),[[entry dateOfLastActivity] descriptionWithCalendarFormat:dateTimeFormatString]];
+    [dateTimeFormatString release];
     labelRect = NSOffsetRect(NSInsetRect(labelRect,0,7.),0,8.);
     [lastActivityString drawInRect:labelRect withAttributes:mStatusAttributes];
     
@@ -123,7 +131,6 @@
     float absoluteValues[]={[entry deletedCharacters],[entry insertedCharacters],[entry selectedCharacters]};
     TCMMMLoggingState *loggingState = [entry loggingState];
     float sums[]={MAX(1.,[loggingState deletedCharacters]),MAX(1.,[loggingState insertedCharacters]),MAX(1.,[loggingState selectedCharacters])};
-    float sumValue = MAX(1.,absoluteValues[0]+absoluteValues[1]+absoluteValues[2]);
     int i=0;
     for (i=0;i<3;i++) {
         [colors[i] set];
@@ -140,10 +147,10 @@
         [barPath fill];
         
         percentageRect.origin.x = NSMaxX(barRect)+4.;
-        percentageRect.size.width = 26.;
+        percentageRect.size.width = relativeMode ? 30. : 60.;
         percentageRect.origin.y-=3.;
-        NSString *stringToWrite = [NSString stringWithFormat:@"%.0f",absoluteValues[i]];
-        if (relativeMode) stringToWrite = [NSString stringWithFormat:@"%d %%",(int)(barValue * 100)];
+        NSString *stringToWrite = [NSString stringWithFormat:@"%d %%",(int)(barValue * 100)];
+        if (!relativeMode) stringToWrite = [NSString stringByAddingThousandSeparatorsToNumber:[NSNumber numberWithFloat:absoluteValues[i]]];
         [stringToWrite drawInRect:percentageRect  withAttributes:mPercentageAttributes];
         
         labelRect.origin.y += 11.;

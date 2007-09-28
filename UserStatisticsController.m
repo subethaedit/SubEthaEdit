@@ -81,7 +81,7 @@
     
     
     [self mainWindowDidChange:nil];
-    [[self window] setBecomesKeyOnlyIfNeeded:NO];
+    [(NSPanel *)[self window] setBecomesKeyOnlyIfNeeded:NO];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {

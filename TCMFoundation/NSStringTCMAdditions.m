@@ -16,6 +16,16 @@
 
 @implementation NSString (NSStringTCMAdditions) 
 
++ (NSString *)stringByAddingThousandSeparatorsToNumber:(NSNumber *)aNumber {
+    static NSNumberFormatter *mThousandSeparatingNumberFormatter = nil;
+    if (!mThousandSeparatingNumberFormatter) {
+        mThousandSeparatingNumberFormatter = [NSNumberFormatter new];
+        [mThousandSeparatingNumberFormatter setFormat:@"#,###,###,###,###,###,###,###,###,##0"];
+    }
+    return [mThousandSeparatingNumberFormatter stringFromNumber:aNumber];
+}
+
+
 + (NSString *)stringWithUUIDData:(NSData *)aData {
     static NSMutableDictionary *dictionary = nil;
     if (!dictionary) dictionary = [NSMutableDictionary new];

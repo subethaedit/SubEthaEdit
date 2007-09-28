@@ -47,6 +47,7 @@
 #import "HueToColorValueTransformer.h"
 #import "SaturationToColorValueTransformer.h"
 #import "PointsToDisplayValueTransformer.h"
+#import "ThousandSeparatorValueTransformer.h"
 #import "NSMenuTCMAdditions.h"
 
 #import "ScriptWrapper.h"
@@ -115,6 +116,7 @@ static AppController *sharedInstance = nil;
 @implementation AppController
 
 + (void)initialize {
+    [NSNumberFormatter setDefaultFormatterBehavior:NSNumberFormatterBehavior10_4];
     [NSURLProtocol registerClass:[URLDataProtocol class]];
     NSMutableDictionary *defaults = [NSMutableDictionary dictionary];
     [defaults setObject:[NSNumber numberWithInt:SUBETHAEDIT_DEFAULT_PORT] forKey:DefaultPortNumber];
@@ -163,6 +165,8 @@ static AppController *sharedInstance = nil;
                                     forName:@"HueToColor"];
     [NSValueTransformer setValueTransformer:[[PointsToDisplayValueTransformer new] autorelease]
                                     forName:@"PointsToDisplay"];
+    [NSValueTransformer setValueTransformer:[[ThousandSeparatorValueTransformer new] autorelease]
+                                    forName:@"AddThousandSeparators"];
     SaturationToColorValueTransformer *satTrans=[[[SaturationToColorValueTransformer alloc] initWithColor:[NSColor blackColor]] autorelease];
     [NSValueTransformer setValueTransformer:satTrans 
                                     forName:@"SaturationToBlackColor"];
