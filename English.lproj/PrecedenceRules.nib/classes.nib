@@ -47,6 +47,8 @@
 			<dict>
 				<key>enabledCheckbox</key>
 				<string>NSButton</string>
+				<key>removeButton</key>
+				<string>NSButton</string>
 				<key>stringTextfield</key>
 				<string>NSTextField</string>
 				<key>typePopup</key>
