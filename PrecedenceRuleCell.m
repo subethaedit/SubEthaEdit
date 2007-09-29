@@ -77,4 +77,8 @@
 	return warningImageView;
 }
 
+- (NSImageView *) removeButton {
+	return removeButton;
+}
+
 @end

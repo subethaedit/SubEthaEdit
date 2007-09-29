@@ -18,6 +18,7 @@
 @interface RuleViewController : NSObject {
 	IBOutlet NSView *view;
 	IBOutlet NSButton *enabledCheckbox;
+	IBOutlet NSButton *removeButton;
 	IBOutlet NSPopUpButton *typePopup;
 	IBOutlet NSTextField *stringTextfield;
 	IBOutlet NSImageView *warningImageView;
@@ -27,6 +28,7 @@
 - (NSPopUpButton *) typePopup;
 - (NSTextField *) stringTextfield;
 - (NSImageView *) warningImageView;
+- (NSImageView *) removeButton;
 -(IBAction)valuesChanged:(id)sender;
 
 @end

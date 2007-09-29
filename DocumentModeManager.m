@@ -561,7 +561,7 @@ static DocumentModeManager *S_sharedInstance=nil;
 				if (!regex) {
 					// Compile and cache into dictionary
 					regex = [[[OGRegularExpression alloc] initWithString:ruleString options:OgreFindNotEmptyOption|OgreMultilineOption] autorelease];
-					//[rule setObject:regex forKey:@"RegEx"];
+					//[rule setObject:regex forKey:@"RegEx"]; // FIXME make local cacheDictionary
 				}
 				match = [regex matchInString:contentString];
 				if ([match count]>0) return [self documentModeForIdentifier:[mode objectForKey:@"Identifier"]];
