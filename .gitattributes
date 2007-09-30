@@ -1667,6 +1667,10 @@ artwork/NextSymbol.png -text
 artwork/ParticipantBar_Fill.tiff -text
 artwork/Participants.icns -text
 artwork/PrecedencePrefs.tif -text
+artwork/Precedence_Add.tiff -text
+artwork/Precedence_AddPressed.tiff -text
+artwork/Precedence_Remove.tiff -text
+artwork/Precedence_RemovePressed.tiff -text
 artwork/PreviousChange.png -text
 artwork/PreviousChange.psd -text
 artwork/PreviousSymbol.png -text

@@ -51,7 +51,7 @@
 	int index = [[o_rulesController arrangedObjects] count];
 	//NSLog(@"foo: %@", [o_rulesController arrangedObjects]);
 	NSMutableDictionary *newRule = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-									@"Placeholder",@"String",
+									@"",@"String",
 									[NSNumber numberWithBool:NO],@"ModeRule",
 									[NSNumber numberWithInt:0],@"TypeIdentifier",
 									[NSNumber numberWithBool:YES],@"Enabled",
@@ -68,11 +68,19 @@
 }
 
 - (IBAction) removeUserRule:(id)sender {
-	NSString *key = [NSString stringWithFormat:@"%@/%d",[[[o_modesController arrangedObjects] objectAtIndex:[o_modesController selectionIndex]] objectForKey:@"Identifier"], [o_rulesController selectionIndex]];
-	[o_rulesController removeObjectAtArrangedObjectIndex:[o_rulesController selectionIndex]];
-	[[[ruleViews objectForKey:key] view] setHidden:YES];
+	RuleViewController *ruleViewController = sender;
+	[[ruleViewController view] setHidden:YES];
+	int i;
+	for (i=0;i<[[o_rulesController arrangedObjects] count];i++){
+		if ((int)[[o_rulesController arrangedObjects] objectAtIndex:i] == (int)[sender rule]) {
+			[o_rulesController removeObjectAtArrangedObjectIndex:i];
+			break;
+		}
+	}
+	NSString *key = [NSString stringWithFormat:@"%d", (int)[sender rule]];
 	[ruleViews removeObjectForKey:key];
 	[[DocumentModeManager sharedInstance] revalidatePrecedences];
+//	[o_rulesTableView setNeedsDisplay:YES];
 }
 
 @end
@@ -84,13 +92,15 @@
 	NSMutableDictionary *rule = [[o_rulesController arrangedObjects] objectAtIndex:row];
 	//NSLog(@"%s %@ %d",__FUNCTION__, rule, (int)rule);
 	
-	NSString *key = [NSString stringWithFormat:@"%@/%d",[[[o_modesController arrangedObjects] objectAtIndex:[o_modesController selectionIndex]] objectForKey:@"Identifier"], row];
+	NSString *key = [NSString stringWithFormat:@"%d", (int)rule];
 	//NSLog(@"rule requested: %@", rule);
 	RuleViewController *ruleViewController = [ruleViews objectForKey:key];
 	if (!ruleViewController) {
 		//NSLog(@"Binding to: %@", rule);
 		//NSLog(@"foo: %@", [cell exposedBindings]);
 		ruleViewController = [[RuleViewController new] autorelease];
+		[ruleViewController setPreferenceController:self];
+		[ruleViewController setRule:rule];
 		[[ruleViewController stringTextfield] bind:@"value" toObject:rule withKeyPath:@"String" options:nil];
 		[[ruleViewController stringTextfield] bind:@"editable" toObject:rule withKeyPath:@"ModeRule" options:[NSDictionary dictionaryWithObject:NSNegateBooleanTransformerName forKey:NSValueTransformerNameBindingOption]];
 		[[ruleViewController typePopup] bind:@"selectedTag" toObject:rule withKeyPath:@"TypeIdentifier" options:nil];
@@ -120,5 +130,14 @@
         [[object view] setHidden:YES]; 
     }
 }
+
+- (int)numberOfRowsInTableView:(NSTableView *)tableView {
+	return 0;
+}
+
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row {
+	return nil;
+}
+
 
 @end

@@ -45,6 +45,7 @@
     self = [super init];
     if (self) {
 		[NSBundle loadNibNamed: @"PrecedenceRules" owner: self];
+		preferenceController = nil;
     }
     return self;
 }
@@ -52,14 +53,32 @@
 - (void) dealloc
 {
     [view setHidden:YES];    
-    [view release];    
+    [view release];
+	[preferenceController release];
+	[rule release];
     [super dealloc];
+}
+
+- (void)setPreferenceController:(PrecedencePreferences*)controller {
+	preferenceController = [controller retain];
+}
+
+- (void)setRule:(NSMutableDictionary *)dict {
+	[rule autorelease];
+	rule = [dict retain];
+}
+
+- (NSMutableDictionary *)rule {
+	return rule;
 }
 
 -(IBAction)valuesChanged:(id)sender{
 	[[DocumentModeManager sharedInstance] revalidatePrecedences];
 }
 
+-(IBAction)removeRule:(id)sender {
+	[preferenceController removeUserRule:self];
+}
 
 - (NSView *) view {
 	return view;
@@ -77,7 +96,7 @@
 	return warningImageView;
 }
 
-- (NSImageView *) removeButton {
+- (NSButton *) removeButton {
 	return removeButton;
 }
 

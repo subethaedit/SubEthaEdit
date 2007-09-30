@@ -312,6 +312,10 @@
 		316A0D2A0C68A47100720268 /* DebugAttributeInspectorController.m in Sources */ = {isa = PBXBuildFile; fileRef = 316A0D280C68A47100720268 /* DebugAttributeInspectorController.m */; };
 		316A0D2B0C68A47100720268 /* DebugAttributesInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = 316A0D290C68A47100720268 /* DebugAttributesInspector.nib */; };
 		3188F6800CAD13E0009E4C0B /* DNDArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3188F6780CAD1218009E4C0B /* DNDArrayController.m */; };
+		319AAE3B0CB0165800ACDAB4 /* Precedence_Add.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 319AAE190CB015B300ACDAB4 /* Precedence_Add.tiff */; };
+		319AAE3C0CB0165800ACDAB4 /* Precedence_AddPressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 319AAE1A0CB015B300ACDAB4 /* Precedence_AddPressed.tiff */; };
+		319AAE3D0CB0165900ACDAB4 /* Precedence_Remove.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 319AAE1B0CB015B300ACDAB4 /* Precedence_Remove.tiff */; };
+		319AAE3E0CB0165A00ACDAB4 /* Precedence_RemovePressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 319AAE1C0CB015B300ACDAB4 /* Precedence_RemovePressed.tiff */; };
 		31D2C7000CA7C9C8003CC5C9 /* PrecedenceRuleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2C6E50CA7C7A7003CC5C9 /* PrecedenceRuleCell.m */; };
 		31D2C7040CA7C9F9003CC5C9 /* PrecedencePrefs.tif in Resources */ = {isa = PBXBuildFile; fileRef = 31D2C6EB0CA7C7DE003CC5C9 /* PrecedencePrefs.tif */; };
 		31D2C7050CA7CA04003CC5C9 /* PrecedencePrefs.nib in Resources */ = {isa = PBXBuildFile; fileRef = 31D2C6D10CA7C78C003CC5C9 /* PrecedencePrefs.nib */; };
@@ -724,7 +728,7 @@
 		141F4E970AE42602001B73D2 /* PSMTabBarControl.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = PSMTabBarControl.xcodeproj; path = PSMTabBarControl/PSMTabBarControl.xcodeproj; sourceTree = "<group>"; };
 		141F50EA0AE51B65001B73D2 /* PlainTextWindowControllerTabContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlainTextWindowControllerTabContext.h; sourceTree = "<group>"; };
 		141F50EB0AE51B65001B73D2 /* PlainTextWindowControllerTabContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlainTextWindowControllerTabContext.m; sourceTree = "<group>"; };
-		14251B920BBD5DD300052C84 /* seed */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = seed; sourceTree = BUILT_PRODUCTS_DIR; };
+		14251B920BBD5DD300052C84 /* seed */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "compiled.mach-o.executable"; path = seed; sourceTree = BUILT_PRODUCTS_DIR; };
 		14288FDD09573E8900D14688 /* AddressBook.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AddressBook.framework; path = /System/Library/Frameworks/AddressBook.framework; sourceTree = "<absolute>"; };
 		14288FDF09573EA300D14688 /* Carbon.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Carbon.framework; path = /System/Library/Frameworks/Carbon.framework; sourceTree = "<absolute>"; };
 		14288FEC09573F2B00D14688 /* Security.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Security.framework; path = /System/Library/Frameworks/Security.framework; sourceTree = "<absolute>"; };
@@ -1133,6 +1137,10 @@
 		316A0D290C68A47100720268 /* DebugAttributesInspector.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = DebugAttributesInspector.nib; path = Debug/DebugAttributesInspector.nib; sourceTree = "<group>"; };
 		3188F6780CAD1218009E4C0B /* DNDArrayController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DNDArrayController.m; sourceTree = "<group>"; };
 		3188F6790CAD1218009E4C0B /* DNDArrayController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DNDArrayController.h; sourceTree = "<group>"; };
+		319AAE190CB015B300ACDAB4 /* Precedence_Add.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Precedence_Add.tiff; path = artwork/Precedence_Add.tiff; sourceTree = "<group>"; };
+		319AAE1A0CB015B300ACDAB4 /* Precedence_AddPressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Precedence_AddPressed.tiff; path = artwork/Precedence_AddPressed.tiff; sourceTree = "<group>"; };
+		319AAE1B0CB015B300ACDAB4 /* Precedence_Remove.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Precedence_Remove.tiff; path = artwork/Precedence_Remove.tiff; sourceTree = "<group>"; };
+		319AAE1C0CB015B300ACDAB4 /* Precedence_RemovePressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Precedence_RemovePressed.tiff; path = artwork/Precedence_RemovePressed.tiff; sourceTree = "<group>"; };
 		31D2C6D20CA7C78C003CC5C9 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PrecedencePrefs.nib; sourceTree = "<group>"; };
 		31D2C6D40CA7C78C003CC5C9 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PrecedenceRules.nib; sourceTree = "<group>"; };
 		31D2C6E50CA7C7A7003CC5C9 /* PrecedenceRuleCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PrecedenceRuleCell.m; sourceTree = "<group>"; };
@@ -1472,6 +1480,10 @@
 				1428907C095743F200D14688 /* PreviousChange.png */,
 				1428907E095743F200D14688 /* PreviousSymbol.png */,
 				31D2C6EB0CA7C7DE003CC5C9 /* PrecedencePrefs.tif */,
+				319AAE190CB015B300ACDAB4 /* Precedence_Add.tiff */,
+				319AAE1A0CB015B300ACDAB4 /* Precedence_AddPressed.tiff */,
+				319AAE1B0CB015B300ACDAB4 /* Precedence_Remove.tiff */,
+				319AAE1C0CB015B300ACDAB4 /* Precedence_RemovePressed.tiff */,
 				14289080095743F200D14688 /* PrintPrefs.tiff */,
 				14289081095743F200D14688 /* Rendezvous.tiff */,
 				14289082095743F200D14688 /* ScriptMenu.tiff */,
@@ -2730,6 +2742,10 @@
 				31D2C7060CA7CA08003CC5C9 /* PrecedenceRules.nib in Resources */,
 				F2F2B6CD0CA842040045C189 /* HUDRelative-2.png in Resources */,
 				F2F2B6CE0CA842070045C189 /* HUDRelative-1.png in Resources */,
+				319AAE3B0CB0165800ACDAB4 /* Precedence_Add.tiff in Resources */,
+				319AAE3C0CB0165800ACDAB4 /* Precedence_AddPressed.tiff in Resources */,
+				319AAE3D0CB0165900ACDAB4 /* Precedence_Remove.tiff in Resources */,
+				319AAE3E0CB0165A00ACDAB4 /* Precedence_RemovePressed.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
