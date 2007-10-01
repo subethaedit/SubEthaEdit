@@ -135,19 +135,5 @@
     }
 }
 
-- (int)numberOfRowsInTableView:(NSTableView *)tableView {
-	return 0;
-}
-
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row {
-	return nil;
-}
-
-- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(int)rowIndex {
-	if (aTableView == o_rulesTableView) return NO;
-	return YES;
-}
-
-
 
 @end
