@@ -83,25 +83,24 @@ NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"P
     [aString removeAttributes:attributesToCleanup range:aRange];
 
     NSMutableDictionary *scratchAttributes = [NSMutableDictionary dictionary];
+
+    // Initialize (or preserve) stack
+    NSArray *savedStack = nil;
+    if ((!stack)&&(currentRange.location>0)) {
+        stack = [NSMutableArray arrayWithArray:[aString attribute:kSyntaxHighlightingStackName atIndex:currentRange.location-1 effectiveRange:nil]];
+        if ([[aString attribute:kSyntaxHighlightingStateDelimiterName atIndex:currentRange.location-1 effectiveRange:nil] isEqualTo:@"End"]) {
+            [stack removeLastObject];
+        }
+        //NSLog(@"Getting stack at: '%@': %@", [[aString string] substringWithRange:NSMakeRange(currentRange.location-1,1)], stack);
+    }
+    
+    // No State yet? Use the default.
+    if (!stack) stack = [NSMutableArray arrayWithObjects:[defaultState objectForKey:@"id"], nil];
     
     do {
-        //DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"New loop with Range: %@",NSStringFromRange(currentRange));
 
-        // Initialize (or preserve) stack
-        NSString *savedStack = nil;
-        if ((!stack)&&(currentRange.location>0)) {
-            stack = [NSMutableArray arrayWithArray:[[aString attribute:kSyntaxHighlightingStackName atIndex:currentRange.location-1 effectiveRange:nil] componentsSeparatedByString:@","]];
-            if ([[aString attribute:kSyntaxHighlightingStateDelimiterName atIndex:currentRange.location-1 effectiveRange:nil] isEqualTo:@"End"]) {
-                [stack removeLastObject];
-            }
-            //NSLog(@"Getting stack at: '%@': %@", [[aString string] substringWithRange:NSMakeRange(currentRange.location-1,1)], stack);
-        }
-        
-		// No State yet? Use the default.
-        if (!stack) stack = [NSMutableArray arrayWithObjects:[defaultState objectForKey:@"id"], nil];
-        
         NSAutoreleasePool *syntaxPool = [NSAutoreleasePool new];
-            
+                    
         //NSLog(@"Stack at start: %@", stack);
         currentState = [definition stateForID:[stack lastObject]];
         
@@ -141,20 +140,21 @@ NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"P
                 stateRange.length = stateRange.length - delimiterRange.length;
                 
                 NSDictionary *subState = [[currentState objectForKey:@"states"] objectAtIndex:delimiterStateNumber];
-                savedStack = [stack componentsJoinedByString:@","];
+                savedStack = [[stack copy] autorelease];
 
                 [stack addObject:[subState objectForKey:@"id"]];
-
+				//NSLog(@"foo: %@", stack);
                 
                 [scratchAttributes removeAllObjects];
                 [scratchAttributes addEntriesFromDictionary:[theDocument styleAttributesForStyleID:[subState objectForKey:@"styleID"]]];
-                [scratchAttributes setObject:[stack componentsJoinedByString:@","] forKey:kSyntaxHighlightingStackName];
+                [scratchAttributes setObject:[[stack copy] autorelease] forKey:kSyntaxHighlightingStackName];
                 [scratchAttributes setObject:@"Start" forKey:kSyntaxHighlightingStateDelimiterName];
 				NSString *typeAttributeString;
 				if ((typeAttributeString=[subState objectForKey:@"type"]))
 					[scratchAttributes setObject:typeAttributeString forKey:kSyntaxHighlightingTypeAttributeName];
 				
 				[scratchAttributes setObject:[currentState objectForKey:[definition keyForInheritedSymbols]] forKey:kSyntaxHighlightingParentModeForSymbolsAttributeName];
+				[scratchAttributes setObject:kSyntaxHighlightingIsCorrectAttributeValue forKey:kSyntaxHighlightingIsCorrectAttributeName];
 				[scratchAttributes setObject:[currentState objectForKey:[definition keyForInheritedAutocomplete]] forKey:kSyntaxHighlightingParentModeForAutocompleteAttributeName];
 				
                 [aString addAttributes:scratchAttributes range:delimiterRange];
@@ -163,7 +163,7 @@ NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"P
                 nextRange.location = NSMaxRange(stateRange);
                 nextRange.length = currentRange.length - stateRange.length;
                 [aString addAttribute:kSyntaxHighlightingStateDelimiterName value:@"End" range:delimiterRange];
-                savedStack = [stack componentsJoinedByString:@","];
+                savedStack = [[stack copy] autorelease];
                 [stack removeLastObject]; // Default state doesn't have an end, stack is always > 0
             }
             
@@ -174,7 +174,7 @@ NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"P
             //NSLog(@"Nothing interesting here.");
             stateRange = NSMakeRange(currentRange.location, NSMaxRange(aRange) - currentRange.location);
             nextRange = NSMakeRange(NSNotFound,0);
-            savedStack = [stack componentsJoinedByString:@","];
+			savedStack = [[stack copy] autorelease];
         }
 
         // Now apply style to the identified range
@@ -189,6 +189,7 @@ NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"P
 		
 		[scratchAttributes setObject:[currentState objectForKey:[definition keyForInheritedSymbols]] forKey:kSyntaxHighlightingParentModeForSymbolsAttributeName];
 		[scratchAttributes setObject:[currentState objectForKey:[definition keyForInheritedAutocomplete]] forKey:kSyntaxHighlightingParentModeForAutocompleteAttributeName];
+        [scratchAttributes setObject:kSyntaxHighlightingIsCorrectAttributeValue forKey:kSyntaxHighlightingIsCorrectAttributeName];
 			
         //NSLog(@"Calculating color range");
 
@@ -216,8 +217,6 @@ NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"P
         [syntaxPool release];
     } while (currentRange.length>0);
     
-    [aString addAttribute:kSyntaxHighlightingIsCorrectAttributeName value:kSyntaxHighlightingIsCorrectAttributeValue range:aRange];
-
     // Check if the string after the area we just colored matches up
     // Make it dirty if there is a logical glitch
     
@@ -228,9 +227,9 @@ NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"P
         BOOL matchesUp = NO;
         BOOL leftIsEnd = [[aString attribute:kSyntaxHighlightingStateDelimiterName atIndex:nextIndex-1 effectiveRange:nil] isEqualTo:@"End"];
         BOOL rightIsStart = [[aString attribute:kSyntaxHighlightingStateDelimiterName atIndex:nextIndex effectiveRange:nil] isEqualTo:@"Start"];
-        NSArray *leftStack = [[aString attribute:kSyntaxHighlightingStackName atIndex:nextIndex-1 effectiveRange:nil] componentsSeparatedByString:@","];
+        NSArray *leftStack = [aString attribute:kSyntaxHighlightingStackName atIndex:nextIndex-1 effectiveRange:nil];
         int leftCount = [leftStack count];
-        NSArray *rightStack = [[aString attribute:kSyntaxHighlightingStackName atIndex:nextIndex effectiveRange:nil] componentsSeparatedByString:@","];
+        NSArray *rightStack = [aString attribute:kSyntaxHighlightingStackName atIndex:nextIndex effectiveRange:nil];
         int rightCount = [rightStack count];
         
         // Same stack, no ends and begins or both an end and a begin

@@ -51,6 +51,7 @@
 -(void)parseXMLFile:(NSString *)aPath {
 
     NSError *err=nil;
+	// FIXME seed
     NSXMLDocument *modeSettingsXML = [[NSXMLDocument alloc] initWithContentsOfURL:[NSURL fileURLWithPath:aPath] options:NSXMLDocumentTidyXML error:&err];
 
     if (err) {
