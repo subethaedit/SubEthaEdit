@@ -5144,6 +5144,9 @@ static NSString *S_measurementUnits;
     [self setUsesTabs:[[aSessionInformation objectForKey:DocumentModeUseTabsPreferenceKey] boolValue]];
     [self setWrapLines:[[aSessionInformation objectForKey:DocumentModeWrapLinesPreferenceKey] boolValue]];
     [self setWrapMode:[[aSessionInformation objectForKey:DocumentModeWrapModePreferenceKey] intValue]];
+    if ([aSessionInformation objectForKey:@"FileType"]) {
+        [self setFileType:[aSessionInformation objectForKey:@"FileType"]];
+    }
 }
 
 - (void)session:(TCMMMSession *)aSession didReceiveSessionInformation:(NSDictionary *)aSessionInformation {
@@ -5198,6 +5201,8 @@ static NSString *S_measurementUnits;
             forKey:DocumentModeWrapLinesPreferenceKey];
     [result setObject:[NSNumber numberWithInt:[self wrapMode]]
             forKey:DocumentModeWrapModePreferenceKey];
+    [result setObject:[self fileType]
+            forKey:@"FileType"];
     return result;
 }
 

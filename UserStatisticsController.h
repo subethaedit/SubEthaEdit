@@ -20,6 +20,7 @@
     IBOutlet NSObjectController *O_loggingStateObjectController;
     IBOutlet NSObjectController *O_documentObjectController;
     IBOutlet NSButton *O_percentageButton;
+    BOOL I_wordCountUpdateScheduled;
 }
 
 - (IBAction)togglePercentage:(id)aSender;
