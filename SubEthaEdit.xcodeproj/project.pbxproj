@@ -309,6 +309,9 @@
 		311717F40A0E8C3600A9DA18 /* ModeSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 311717F20A0E8C3600A9DA18 /* ModeSettings.m */; };
 		312B7BC00A99D22C0014E52A /* Sparkle.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 312B7BBB0A99D1B50014E52A /* Sparkle.framework */; };
 		312B7C070A99DA460014E52A /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 312B7BBB0A99D1B50014E52A /* Sparkle.framework */; };
+		3134F7AA0CB1331900F8C116 /* PrecedenceRolloverButton.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 3134F7A80CB1331800F8C116 /* PrecedenceRolloverButton.h */; };
+		3134F7AB0CB1331900F8C116 /* PrecedenceRolloverButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 3134F7A90CB1331900F8C116 /* PrecedenceRolloverButton.m */; };
+		3134F7DE0CB13A2E00F8C116 /* Precedence_RemoveRollover.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3134F7DD0CB13A2E00F8C116 /* Precedence_RemoveRollover.tiff */; };
 		316A0D2A0C68A47100720268 /* DebugAttributeInspectorController.m in Sources */ = {isa = PBXBuildFile; fileRef = 316A0D280C68A47100720268 /* DebugAttributeInspectorController.m */; };
 		316A0D2B0C68A47100720268 /* DebugAttributesInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = 316A0D290C68A47100720268 /* DebugAttributesInspector.nib */; };
 		3188F6800CAD13E0009E4C0B /* DNDArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3188F6780CAD1218009E4C0B /* DNDArrayController.m */; };
@@ -711,6 +714,7 @@
 				31D5FB230AA309200088DB18 /* HDCrashReporter.framework in Copy Files (Frameworks) */,
 				141F4EB40AE4266F001B73D2 /* PSMTabBarControl.framework in Copy Files (Frameworks) */,
 				312B7BC00A99D22C0014E52A /* Sparkle.framework in Copy Files (Frameworks) */,
+				3134F7AA0CB1331900F8C116 /* PrecedenceRolloverButton.h in Copy Files (Frameworks) */,
 			);
 			name = "Copy Files (Frameworks)";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1131,6 +1135,9 @@
 		311717F20A0E8C3600A9DA18 /* ModeSettings.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ModeSettings.m; sourceTree = "<group>"; };
 		311717F30A0E8C3600A9DA18 /* ModeSettings.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ModeSettings.h; sourceTree = "<group>"; };
 		312B7BB20A99D1B50014E52A /* Sparkle.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = Sparkle.xcodeproj; path = Sparkle/Sparkle.xcodeproj; sourceTree = "<group>"; };
+		3134F7A80CB1331800F8C116 /* PrecedenceRolloverButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrecedenceRolloverButton.h; sourceTree = "<group>"; };
+		3134F7A90CB1331900F8C116 /* PrecedenceRolloverButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrecedenceRolloverButton.m; sourceTree = "<group>"; };
+		3134F7DD0CB13A2E00F8C116 /* Precedence_RemoveRollover.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Precedence_RemoveRollover.tiff; path = artwork/Precedence_RemoveRollover.tiff; sourceTree = "<group>"; };
 		316A0D270C68A47100720268 /* DebugAttributeInspectorController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DebugAttributeInspectorController.h; path = Debug/DebugAttributeInspectorController.h; sourceTree = "<group>"; };
 		316A0D280C68A47100720268 /* DebugAttributeInspectorController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = DebugAttributeInspectorController.m; path = Debug/DebugAttributeInspectorController.m; sourceTree = "<group>"; };
 		316A0D290C68A47100720268 /* DebugAttributesInspector.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = DebugAttributesInspector.nib; path = Debug/DebugAttributesInspector.nib; sourceTree = "<group>"; };
@@ -1483,6 +1490,7 @@
 				319AAE1A0CB015B300ACDAB4 /* Precedence_AddPressed.tiff */,
 				319AAE1B0CB015B300ACDAB4 /* Precedence_Remove.tiff */,
 				319AAE1C0CB015B300ACDAB4 /* Precedence_RemovePressed.tiff */,
+				3134F7DD0CB13A2E00F8C116 /* Precedence_RemoveRollover.tiff */,
 				14289080095743F200D14688 /* PrintPrefs.tiff */,
 				14289081095743F200D14688 /* Rendezvous.tiff */,
 				14289082095743F200D14688 /* ScriptMenu.tiff */,
@@ -1841,6 +1849,8 @@
 				31D2C6E50CA7C7A7003CC5C9 /* PrecedenceRuleCell.m */,
 				31D2C6E80CA7C7A7003CC5C9 /* PrecedencePreferences.h */,
 				31D2C6E70CA7C7A7003CC5C9 /* PrecedencePreferences.m */,
+				3134F7A80CB1331800F8C116 /* PrecedenceRolloverButton.h */,
+				3134F7A90CB1331900F8C116 /* PrecedenceRolloverButton.m */,
 				3188F6780CAD1218009E4C0B /* DNDArrayController.m */,
 				3188F6790CAD1218009E4C0B /* DNDArrayController.h */,
 				14289399095758C100D14688 /* StylePreferences.h */,
@@ -2744,6 +2754,7 @@
 				319AAE3C0CB0165800ACDAB4 /* Precedence_AddPressed.tiff in Resources */,
 				319AAE3D0CB0165900ACDAB4 /* Precedence_Remove.tiff in Resources */,
 				319AAE3E0CB0165A00ACDAB4 /* Precedence_RemovePressed.tiff in Resources */,
+				3134F7DE0CB13A2E00F8C116 /* Precedence_RemoveRollover.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3131,6 +3142,7 @@
 				F2F2B6100CA811240045C189 /* TCMMMLogStatisticsDataPoint.m in Sources */,
 				F20E1FAE0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.m in Sources */,
 				3188F6800CAD13E0009E4C0B /* DNDArrayController.m in Sources */,
+				3134F7AB0CB1331900F8C116 /* PrecedenceRolloverButton.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
