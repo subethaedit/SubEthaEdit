@@ -263,6 +263,7 @@ enum {
         [childWindow setIgnoresMouseEvents:YES];
         NSImageView *imageView = [[NSImageView alloc] initWithFrame:frame];
         [imageView setImage:lockImage];
+        [imageView setToolTip:NSLocalizedString(@"All participants of this document are connected using secure connections",@"Tooltip for ssl lock at top of the window")];
         [childWindow setContentView:imageView];
         [childWindow setOpaque:NO];
         [childWindow setBackgroundColor:[NSColor clearColor]];
