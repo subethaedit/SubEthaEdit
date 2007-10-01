@@ -1259,6 +1259,8 @@ Panic/TCMMMUser-AddressBook.m -text
 /PopUpButtonCell.m -text
 /PrecedencePreferences.h -text
 /PrecedencePreferences.m -text
+/PrecedenceRolloverButton.h -text
+/PrecedenceRolloverButton.m -text
 /PrecedenceRuleCell.h -text
 /PrecedenceRuleCell.m -text
 Preferences.nib/classes.nib -text
