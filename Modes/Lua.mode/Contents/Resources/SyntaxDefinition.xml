@@ -273,6 +273,12 @@
                 <begin><string>"</string></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
             </state>
+            
+            <state id="Long bracket string" color="#994500" background-color="none" font-weight="normal" font-style="normal">
+                <begin><string>[(?&lt;brackets&gt;=+)[</string></begin>
+                <end><regex>](?#insert-start-group:brackets)]</regex></end>
+            </state>
+            
         </default>
 
     </states>
