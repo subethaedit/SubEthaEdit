@@ -170,11 +170,6 @@ NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 	return nil;
 }
 
-- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(int)rowIndex {
-	return YES;
-}
-
-
 @end
 
 

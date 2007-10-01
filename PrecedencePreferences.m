@@ -135,5 +135,10 @@
     }
 }
 
+- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(int)rowIndex {
+	if (aTableView == o_rulesTableView) return NO;
+	return YES;
+}
+
 
 @end
