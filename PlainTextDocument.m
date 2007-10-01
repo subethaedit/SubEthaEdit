@@ -837,7 +837,9 @@ static NSString *tempFileName(NSString *origPath) {
         NSString *name = [oldSession filename];
         [newSession setFilename:name];
         [self setTemporaryDisplayName:[[self temporaryDisplayName] lastPathComponent]];
-        [newSession setLoggingState:[oldSession loggingState]];
+        TCMMMLoggingState *oldState = [oldSession loggingState];
+        [oldState makeAllParticipantsLeave];
+        [newSession setLoggingState:oldState];
     }
     NSArray *contributors=[oldSession contributors];
     if ([contributors count]) {
@@ -3177,8 +3179,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                            range:NSMakeRange(0, wholeLength)];
 
     [self updateChangeCount:NSChangeCleared];
+    
 
     if (!isReverting && ![docType isEqualToString:@"SEETextType"]) {
+        // clear the logging state
+         [[self session] setLoggingState:[[TCMMMLoggingState new] autorelease]];
         [[[self session] loggingState] setInitialTextStorageDictionaryRepresentation:[self textStorageDictionaryRepresentation]];
     }
 

@@ -28,6 +28,7 @@
 - (id)initWithDictionaryRepresentation:(NSDictionary *)aDictionary;
 - (NSDictionary *)dictionaryRepresentation;
 - (NSDictionary *)dictionaryRepresentationForSaving;
+- (void)makeAllParticipantsLeave;
 - (NSSet *)participantIDs;
 - (NSArray *)statisticsArray;
 - (TCMMMLogStatisticsEntry *)statisicsEntryForUserID:(NSString *)aUserID;

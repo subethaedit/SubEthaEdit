@@ -50,11 +50,22 @@
         }
     }
     if ([aDictionary objectForKey:@"initialtext"]) {
-        NSLog(@"%s had initial text:%@",__FUNCTION__,[aDictionary objectForKey:@"initialtext"]);
         [self setInitialTextStorageDictionaryRepresentation:[aDictionary objectForKey:@"initialtext"]];
     }
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel,@"imported %d operations, the last one being:%@ statistics are:%@",__FUNCTION__,[I_loggedOperations count],[I_loggedOperations lastObject],I_statisticsArray);
     return self;
+}
+
+- (void)makeAllParticipantsLeave {
+    NSEnumerator *statisticsEntries = [I_statisticsEntryByUserID objectEnumerator];
+    TCMMMLogStatisticsEntry *entry = nil;
+    long long index = [(TCMMMLoggedOperation *)[I_loggedOperations lastObject] index];
+    while ((entry = [statisticsEntries nextObject])) {
+        if ([entry isInside]) {
+            TCMMMOperation *op = [UserChangeOperation userChangeOperationWithType:UserChangeTypeLeave userID:[[entry user] userID] newGroup:@"PoofGroup"];
+            [self handleOperation:op];
+        }
+    }
 }
 
 - (NSDictionary *)dictionaryRepresentationForSaving {
