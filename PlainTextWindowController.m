@@ -71,6 +71,7 @@ static int KickStateMask=16;
 static int ReadWriteButtonForcedOffMask=32;
 static int ReadOnlyButtonForcedOffMask=64;
 static int FollowUserStateMask=128;
+static int FollowUserValueStateMask=256;
 
 enum {
     ParticipantContextMenuTagFollow = 1,
@@ -638,6 +639,23 @@ enum {
         buttonState |= FollowUserStateMask;
     }
     
+    if (buttonState & FollowUserStateMask) {
+        int selectedRow=[O_participantsView selectedRow];
+        ItemChildPair pair=[O_participantsView itemChildPairAtRow:selectedRow];
+        if (pair.childIndex!=-1) {
+            if (pair.itemIndex!=2) {
+                NSArray *participantArray=[[[(PlainTextDocument *)[self document] session] participants] objectForKey:(pair.itemIndex==0?@"ReadWrite":@"ReadOnly")];
+                if ([participantArray count]>pair.childIndex) {
+                    NSString *userID=[[participantArray objectAtIndex:pair.childIndex] userID];
+                
+                    if ([[[self activePlainTextEditor] followUserID] isEqualToString:userID]) {
+                        buttonState |= FollowUserValueStateMask;
+                    }
+                }
+            }
+        }
+    }
+    
     return buttonState;
 }
 
@@ -656,6 +674,8 @@ enum {
     [O_kickButton setEnabled:(state & KickButtonStateMask)];
     [O_readOnlyButton setEnabled:(state & ReadOnlyButtonStateMask)];
     [O_readWriteButton setEnabled:(state & ReadWriteButtonStateMask)];
+    [O_followButton setEnabled:(state & FollowUserStateMask)];
+    [O_followButton setState:(state & FollowUserValueStateMask)?NSOnState:NSOffState];
 }
 
 - (IBAction)kickButtonAction:(id)aSender {
@@ -774,6 +794,15 @@ enum {
     
         [O_participantsView reloadData];
         [self validateButtons];
+    }
+}
+
+- (IBAction)toggleFollowUser:(id)aSender {
+    int state=[self buttonStateForSelectedRows:[O_participantsView selectedRowIndexes]];
+    if ((state & FollowUserValueStateMask)) {
+        [[self activePlainTextEditor] setFollowUserID:nil];
+    } else {
+        [self followUser:aSender];
     }
 }
 

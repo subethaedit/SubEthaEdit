@@ -404,6 +404,8 @@
 		F234E4590BE2592300504A7C /* NSWorkspaceTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F234E4570BE2592300504A7C /* NSWorkspaceTCMAdditions.m */; };
 		F23905670C7DEA3000E85DF8 /* seetext.icns in Resources */ = {isa = PBXBuildFile; fileRef = F23905660C7DEA3000E85DF8 /* seetext.icns */; };
 		F2406F0C0C8EE481000DC9FF /* LockTitlebar.png in Resources */ = {isa = PBXBuildFile; fileRef = F2406F0B0C8EE481000DC9FF /* LockTitlebar.png */; };
+		F247D74A0CB140AD00908450 /* ParticipantFollowEmpty.png in Resources */ = {isa = PBXBuildFile; fileRef = F247D7490CB140AD00908450 /* ParticipantFollowEmpty.png */; };
+		F247D74F0CB147F100908450 /* ParticipantFollowActive.png in Resources */ = {isa = PBXBuildFile; fileRef = F247D74E0CB147F100908450 /* ParticipantFollowActive.png */; };
 		F25A19B60C8C79CA00147E4C /* ssllock.png in Resources */ = {isa = PBXBuildFile; fileRef = F25A19B50C8C79CA00147E4C /* ssllock.png */; };
 		F26B7D860CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F26B7D850CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m */; };
 		F26B7D880CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F26B7D850CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m */; };
@@ -1250,6 +1252,8 @@
 		F234E4570BE2592300504A7C /* NSWorkspaceTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSWorkspaceTCMAdditions.m; sourceTree = "<group>"; };
 		F23905660C7DEA3000E85DF8 /* seetext.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = seetext.icns; path = artwork/seetext.icns; sourceTree = "<group>"; };
 		F2406F0B0C8EE481000DC9FF /* LockTitlebar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LockTitlebar.png; path = artwork/LockTitlebar.png; sourceTree = "<group>"; };
+		F247D7490CB140AD00908450 /* ParticipantFollowEmpty.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ParticipantFollowEmpty.png; path = artwork/ParticipantFollowEmpty.png; sourceTree = "<group>"; };
+		F247D74E0CB147F100908450 /* ParticipantFollowActive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ParticipantFollowActive.png; path = artwork/ParticipantFollowActive.png; sourceTree = "<group>"; };
 		F25A19B50C8C79CA00147E4C /* ssllock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ssllock.png; path = artwork/ssllock.png; sourceTree = "<group>"; };
 		F26B7D840CA3F7680039C8A1 /* NSBezierPathTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSBezierPathTCMAdditions.h; sourceTree = "<group>"; };
 		F26B7D850CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSBezierPathTCMAdditions.m; sourceTree = "<group>"; };
@@ -1483,6 +1487,8 @@
 				14289078095743F200D14688 /* NextSymbol.png */,
 				1428907A095743F200D14688 /* ParticipantBar_Fill.tiff */,
 				1428907B095743F200D14688 /* Participants.icns */,
+				F247D7490CB140AD00908450 /* ParticipantFollowEmpty.png */,
+				F247D74E0CB147F100908450 /* ParticipantFollowActive.png */,
 				1428907C095743F200D14688 /* PreviousChange.png */,
 				1428907E095743F200D14688 /* PreviousSymbol.png */,
 				31D2C6EB0CA7C7DE003CC5C9 /* PrecedencePrefs.tif */,
@@ -2755,6 +2761,8 @@
 				319AAE3D0CB0165900ACDAB4 /* Precedence_Remove.tiff in Resources */,
 				319AAE3E0CB0165A00ACDAB4 /* Precedence_RemovePressed.png in Resources */,
 				3134F7DE0CB13A2E00F8C116 /* Precedence_RemoveRollover.tiff in Resources */,
+				F247D74A0CB140AD00908450 /* ParticipantFollowEmpty.png in Resources */,
+				F247D74F0CB147F100908450 /* ParticipantFollowActive.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

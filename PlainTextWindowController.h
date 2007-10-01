@@ -31,6 +31,7 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
     IBOutlet NSButton            *O_kickButton;
     IBOutlet NSButton            *O_readOnlyButton;
     IBOutlet NSButton            *O_readWriteButton;
+    IBOutlet NSButton            *O_followButton;
     
     IBOutlet NSImageView         *O_URLImageView;
     
@@ -72,7 +73,9 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 - (IBAction)kickButtonAction:(id)aSender;
 - (IBAction)readOnlyButtonAction:(id)aSender;
 - (IBAction)readWriteButtonAction:(id)aSender;
-
+- (IBAction)followUser:(id)aSender;
+- (IBAction)toggleFollowUser:(id)aSender;
+ 
 - (IBAction)openInSeparateWindow:(id)sender;
 
 - (void)gotoLine:(unsigned)aLine;
