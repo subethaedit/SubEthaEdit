@@ -3,17 +3,15 @@
 <plist version="1.0">
 <dict>
 	<key>IBFramework Version</key>
-	<string>623</string>
-	<key>IBLastKnownRelativeProjectPath</key>
-	<string>../../SubEthaEdit.xcodeproj</string>
+	<string>628</string>
 	<key>IBOldestOS</key>
 	<integer>5</integer>
 	<key>IBOpenObjects</key>
 	<array>
-		<integer>8</integer>
+		<integer>3</integer>
 	</array>
 	<key>IBSystem Version</key>
-	<string>9A527</string>
+	<string>9A559</string>
 	<key>targetFramework</key>
 	<string>IBCocoaFramework</string>
 </dict>
