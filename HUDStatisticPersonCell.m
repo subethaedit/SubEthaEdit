@@ -127,7 +127,7 @@
     NSColor *insertionsColor = [NSColor insertionsStatisticsColor];
     NSColor *selectionsColor = [NSColor selectionsStatisticsColor];
     
-    NSColor *colors[] = {deletionsColor,insertionsColor,selectionsColor};
+    NSColor *colors[] = {[deletionsColor colorWithAlphaComponent:0.4],[insertionsColor colorWithAlphaComponent:0.4],[selectionsColor colorWithAlphaComponent:0.4]};
     float absoluteValues[]={[entry deletedCharacters],[entry insertedCharacters],[entry selectedCharacters]};
     TCMMMLoggingState *loggingState = [entry loggingState];
     float sums[]={MAX(1.,[loggingState deletedCharacters]),MAX(1.,[loggingState insertedCharacters]),MAX(1.,[loggingState selectedCharacters])};
@@ -138,12 +138,18 @@
         if (!relativeMode) barValue = absoluteValues[i]/MAX(absoluteValues[0],MAX(absoluteValues[1],absoluteValues[2]));
         
         NSRect barRect = NSInsetRect(labelRect,0.,1.);
-        barRect.size.width -= relativeMode ? 30. : 60.;
+        barRect.size.width -= relativeMode ? 30. : 50.;
         NSRect percentageRect = barRect;
         barRect.size.height = 8.;
         barRect.size.width = barValue * barRect.size.width;
-        barRect.size.width = MAX(1.,barRect.size.width);
+        barRect.size.width = MAX(3.,barRect.size.width);
         NSBezierPath *barPath = [NSBezierPath bezierPathWithRoundedRect:barRect radius:MIN(4.,barRect.size.width/2.)];
+        [barPath fill];
+        barPath = [NSBezierPath bezierPathWithRoundedRect:NSOffsetRect(NSInsetRect(barRect,1.,1.),0,-0.5) radius:MIN(3.,barRect.size.width/2.)];
+        [barPath fill];
+        barPath = [NSBezierPath bezierPathWithRoundedRect:NSOffsetRect(NSInsetRect(barRect,2.,2.),0,-1.0) radius:MIN(3.,barRect.size.width/2.)];
+        [barPath fill];
+        barPath = [NSBezierPath bezierPathWithRoundedRect:NSOffsetRect(NSInsetRect(barRect,3.,3.),0.,-1.5) radius:MIN(2.,barRect.size.width/2.)];
         [barPath fill];
         
         percentageRect.origin.x = NSMaxX(barRect)+4.;
