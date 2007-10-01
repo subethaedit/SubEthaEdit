@@ -57,6 +57,23 @@
     return self;
 }
 
+- (NSDictionary *)dictionaryRepresentationForSaving {
+    NSMutableDictionary *dictRep = [NSMutableDictionary dictionaryWithDictionary:[self dictionaryRepresentation]];
+    NSMutableArray *leaveOperations = [NSMutableArray array];
+    NSEnumerator *statisticsEntries = [I_statisticsEntryByUserID objectEnumerator];
+    TCMMMLogStatisticsEntry *entry = nil;
+    long long index = [(TCMMMLoggedOperation *)[I_loggedOperations lastObject] index];
+    while ((entry = [statisticsEntries nextObject])) {
+        if ([entry isInside]) {
+            TCMMMLoggedOperation *op = [TCMMMLoggedOperation loggedOperationWithOperation:[UserChangeOperation userChangeOperationWithType:UserChangeTypeLeave userID:[[entry user] userID] newGroup:@"PoofGroup"] index:++index];
+            [leaveOperations addObject:[op dictionaryRepresentation]];
+        }
+    }
+    [dictRep setObject:[[dictRep objectForKey:@"ops"] arrayByAddingObjectsFromArray:leaveOperations] forKey:@"ops"];
+    return dictRep;
+}
+
+
 - (NSDictionary *)dictionaryRepresentation {
     NSMutableDictionary *dictRep = [NSMutableDictionary dictionary];
     NSMutableArray *operationReps = [NSMutableArray array];

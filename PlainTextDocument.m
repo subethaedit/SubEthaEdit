@@ -3292,7 +3292,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             NSMutableDictionary *textStorageRep = [[[self textStorageDictionaryRepresentation] mutableCopy] autorelease];
             [textStorageRep removeObjectForKey:@"String"];
             [compressedDict setObject:textStorageRep forKey:@"TextStorage"];
-            [compressedDict setObject:[[[self session] loggingState] dictionaryRepresentation] forKey:@"LoggingState"];
+            [compressedDict setObject:[[[self session] loggingState] dictionaryRepresentationForSaving] forKey:@"LoggingState"];
             [compressedDict setObject:[self documentState] forKey:@"DocumentState"];
             if (saveOperation == NSAutosaveOperation) {
                 NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
