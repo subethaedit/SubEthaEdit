@@ -55,7 +55,6 @@ static NSString *s_updateContext   = @"UpdateContext";
 }
 
 - (void)showWindow:(id)aSender {
-    NSLog(@"%s",__FUNCTION__);
     [self window];
     [self updateWordCount];
     [super showWindow:aSender];
@@ -91,9 +90,6 @@ static NSString *s_updateContext   = @"UpdateContext";
     [O_statEntryArrayController rearrangeObjects];
     [O_documentObjectController addObserver:self forKeyPath:@"selection" options:0 context:s_updateContext];
     [O_documentObjectController addObserver:self forKeyPath:@"selection.textStorage.numberOfLines" options:0 context:s_scheduleContext];
-//    [O_statEntryArrayController addObserver:self forKeyPath:@"arrangedObjects.dateOfLastActivity" options:0 context:NULL];
-//    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rearrangeObjectsNotification:) name:@"UserStatisticsControllerRearrangeObjects" object:self];
-//    [[self window] retain];
     [O_graphView bind:@"statisticsEntry" toObject:O_statEntryArrayController withKeyPath:@"selectedObjects" options:0];
     [O_percentageButton setState:NSOnState];
     BOOL relativeMode = [O_percentageButton state]==NSOnState;
@@ -117,9 +113,6 @@ static NSString *s_updateContext   = @"UpdateContext";
         [self performSelector:@selector(updateWordCount) withObject:self afterDelay:0.5];
         I_wordCountUpdateScheduled = YES;
     }
-//    NSLog(@"%s key:%@ object:%@ change:%@",__FUNCTION__,keyPath,object,change);
-//    [O_userTableView setNeedsDisplay:YES];
-//    [[NSNotificationQueue defaultQueue] enqueueNotification:[NSNotification notificationWithName:@"UserStatisticsControllerRearrangeObjects" object:self] postingStyle:NSPostWhenIdle coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender forModes:nil];
 }
 
 - (IBAction)togglePercentage:(id)aSender {
