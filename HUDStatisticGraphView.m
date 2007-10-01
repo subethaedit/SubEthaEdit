@@ -187,13 +187,15 @@
     NSBezierPath *selectionsPath  = [NSBezierPath bezierPath];
     
     NSBezierPath *paths[]={deletionsPath,insertionsPath,selectionsPath};
+	float unitOfOnePixel = ([self convertPoint:NSMakePoint(1.0,1.0) fromView:nil].x) - ([self convertPoint:NSMakePoint(0.0,1.0) fromView:nil].x);
     float values[]={0.,0.,0.};
     double maxValue = relativeMode ? 0.1 : 1.0;
-    double lastXValue = -1.;
-    double valueThreshold = 1./(NSWidth(bounds)*2.);
+    NSPoint lastPoints[] = {NSMakePoint(-1.,-1.),NSMakePoint(-1.,-1.),NSMakePoint(-1.,-1.)};
+    double valueThreshold = unitOfOnePixel/(NSWidth(bounds)*2.);
     int count = [dataPoints count];
     int step = 1.;//MAX(1,(int)(count/(NSWidth(bounds)*20.)));
 	BOOL didMove=NO;
+	float lastX=-1.;
     for (i=0;i<count;i+=step) {
         NSDictionary *entryDict = [dataPoints objectAtIndex:i];
         if (i+step>count) {
@@ -208,7 +210,6 @@
 				continue;
 			}
 		}
-        if (point.x-lastXValue < valueThreshold && !i+1==count) continue;
         TCMMMLogStatisticsDataPoint *dataPoint = [entryDict objectForKey:userID];
         TCMMMLogStatisticsDataPoint *overallPoint = [entryDict objectForKey:@"document"];
         if (relativeMode) {
@@ -224,15 +225,22 @@
         for (j=0;j<3;j++) {
             point.y=values[j];
             maxValue = MAX(point.y,maxValue);
+            if (point.y == lastPoints[j].y && 
+                point.x-lastPoints[j].x <= valueThreshold && 
+                i+1 != count && didMove) {
+                continue;
+            }
             if (!didMove) {
                 [paths[j] moveToPoint:point];
             } else {
                 [paths[j] lineToPoint:point];
             }
+            lastPoints[j]=point;
+            lastX = point.x;
         }
 		didMove = YES;
-        lastXValue = point.x;
     }
+    
     
     NSString *maxDataString = [NSString stringByAddingThousandSeparatorsToNumber:[NSNumber numberWithFloat:maxValue]];
     if (relativeMode) maxDataString = [NSString stringWithFormat:@"%.0f %%",maxValue*100];
@@ -244,21 +252,23 @@
     NSRect graphRect = NSOffsetRect(bounds,leftMargin,XMARKERSPACE+LEGENDHEIGHT);
     graphRect.size.width -= leftMargin+rightMargin;
     graphRect.size.height -= XMARKERSPACE+LEGENDHEIGHT+YTOPPADDING;
+    graphRect = [self convertRect:NSOffsetRect(NSIntegralRect([self convertRect:graphRect toView:nil]),0.5,0.5) fromView:nil];
     [NSBezierPath strokeLineFromPoint:NSMakePoint(NSMinX(graphRect),NSMinY(graphRect))
                   toPoint:NSMakePoint(NSMaxX(graphRect),NSMinY(graphRect))];
     [NSBezierPath strokeLineFromPoint:NSMakePoint(NSMinX(graphRect),NSMinY(graphRect))
                   toPoint:NSMakePoint(NSMinX(graphRect),NSMaxY(graphRect))];
-    [[NSColor colorWithCalibratedRed:69./255. green:80./255. blue:81./255. alpha:0.3] set];
+    [[NSColor colorWithCalibratedRed:69./255. green:80./255. blue:81./255. alpha:0.4] set];
     [NSBezierPath fillRect:graphRect];
 
     NSAffineTransform *at = [NSAffineTransform transform];
-    [at translateXBy:graphRect.origin.x yBy:graphRect.origin.y];
-    [at scaleXBy:NSWidth(graphRect) yBy:NSHeight(graphRect)/maxValue];
+    [at translateXBy:graphRect.origin.x yBy:graphRect.origin.y+1.];
+    [at scaleXBy:NSWidth(graphRect) yBy:(NSHeight(graphRect)-2.)/maxValue];
     
     i=3;
     while (i--) {
         [colors[i] set];
         [paths[i] transformUsingAffineTransform:at];
+        [paths[i] setLineWidth:1.5];
         [paths[i] stroke];
     }
     if (entry) {
