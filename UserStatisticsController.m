@@ -36,8 +36,30 @@
 
 @end
 
+static NSString *s_scheduleContext = @"ScheduleContext";
+static NSString *s_updateContext   = @"UpdateContext";
 
 @implementation UserStatisticsController
+
+- (void)updateWordCount {
+    id document = [O_documentObjectController content];
+    if (document) {
+        [O_wordCountTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%@ lines, %@ words, %@ characters",@"word count string in statistics controller"), 
+            [NSString stringByAddingThousandSeparatorsToNumber:[document valueForKeyPath:@"textStorage.numberOfLines"]],
+            [NSString stringByAddingThousandSeparatorsToNumber:[document valueForKeyPath:@"textStorage.numberOfWords"]],
+            [NSString stringByAddingThousandSeparatorsToNumber:[document valueForKeyPath:@"textStorage.numberOfCharacters"]]]];
+    } else {
+        [O_wordCountTextField setStringValue:@""];
+    }
+    I_wordCountUpdateScheduled = NO;
+}
+
+- (void)showWindow:(id)aSender {
+    NSLog(@"%s",__FUNCTION__);
+    [self window];
+    [self updateWordCount];
+    [super showWindow:aSender];
+}
 
 - (NSString *)windowNibName {
     return @"UserStatistics";
@@ -57,6 +79,8 @@
 }
 
 - (void)windowDidLoad {
+    I_wordCountUpdateScheduled = NO;
+    
     [[O_userTableView tableColumnWithIdentifier:@"entries"] setDataCell:[[HUDStatisticPersonCell alloc] init]];
     [O_statEntryArrayController setSortDescriptors:
         [NSArray arrayWithObjects:
@@ -65,6 +89,8 @@
         ]
     ];
     [O_statEntryArrayController rearrangeObjects];
+    [O_documentObjectController addObserver:self forKeyPath:@"selection" options:0 context:s_updateContext];
+    [O_documentObjectController addObserver:self forKeyPath:@"selection.textStorage.numberOfLines" options:0 context:s_scheduleContext];
 //    [O_statEntryArrayController addObserver:self forKeyPath:@"arrangedObjects.dateOfLastActivity" options:0 context:NULL];
 //    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(rearrangeObjectsNotification:) name:@"UserStatisticsControllerRearrangeObjects" object:self];
 //    [[self window] retain];
@@ -85,6 +111,12 @@
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    if (context == s_updateContext) {
+        [self updateWordCount];
+    } else if (!I_wordCountUpdateScheduled) {
+        [self performSelector:@selector(updateWordCount) withObject:self afterDelay:0.5];
+        I_wordCountUpdateScheduled = YES;
+    }
 //    NSLog(@"%s key:%@ object:%@ change:%@",__FUNCTION__,keyPath,object,change);
 //    [O_userTableView setNeedsDisplay:YES];
 //    [[NSNotificationQueue defaultQueue] enqueueNotification:[NSNotification notificationWithName:@"UserStatisticsControllerRearrangeObjects" object:self] postingStyle:NSPostWhenIdle coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender forModes:nil];

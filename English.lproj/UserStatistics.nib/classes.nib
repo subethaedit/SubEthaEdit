@@ -25,7 +25,12 @@
             }; 
             SUPERCLASS = NSDocumentController; 
         }, 
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {"" = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
         {CLASS = HMBlkBox; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
         {CLASS = HMBlkButton; LANGUAGE = ObjC; SUPERCLASS = NSButton; }, 
         {CLASS = HMBlkButtonCell; LANGUAGE = ObjC; SUPERCLASS = NSButtonCell; }, 

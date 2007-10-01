@@ -423,7 +423,6 @@
 		F2A707970BF8935400482EFC /* LoginButton.png in Resources */ = {isa = PBXBuildFile; fileRef = F2A707960BF8935400482EFC /* LoginButton.png */; };
 		F2A707B00BF89A4300482EFC /* LoginButtonIn.png in Resources */ = {isa = PBXBuildFile; fileRef = F2A707AF0BF89A4300482EFC /* LoginButtonIn.png */; };
 		F2A707BB0BF89F4200482EFC /* LoginSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A707B90BF89F4200482EFC /* LoginSheetController.m */; };
-		F2A707C80BF8A54100482EFC /* LoginSheet.nib in Resources */ = {isa = PBXBuildFile; fileRef = F2A707C60BF8A54100482EFC /* LoginSheet.nib */; };
 		F2ABC4D60C799775007437A2 /* TCMMMLoggingState.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC4D40C799775007437A2 /* TCMMMLoggingState.m */; };
 		F2ABC4D70C799775007437A2 /* TCMMMLoggingState.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC4D40C799775007437A2 /* TCMMMLoggingState.m */; };
 		F2ABC4E30C799CCD007437A2 /* TCMMMLoggedOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC4E10C799CCD007437A2 /* TCMMMLoggedOperation.m */; };
@@ -2726,7 +2725,6 @@
 				F2D12A0B0BF0B6B000A776CC /* ConnectionBrowser.nib in Resources */,
 				F2A707970BF8935400482EFC /* LoginButton.png in Resources */,
 				F2A707B00BF89A4300482EFC /* LoginButtonIn.png in Resources */,
-				F2A707C80BF8A54100482EFC /* LoginSheet.nib in Resources */,
 				316A0D2B0C68A47100720268 /* DebugAttributesInspector.nib in Resources */,
 				F2ABC5470C79D9C4007437A2 /* DebugHistory.nib in Resources */,
 				F20948E50C7B4C2300E78EBA /* UserStatistics.nib in Resources */,
