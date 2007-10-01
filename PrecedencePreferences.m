@@ -62,7 +62,7 @@
 	// NSLog(@"%s %@ %d",__FUNCTION__, newRule,(int)newRule);
 	[o_rulesController insertObject:newRule atArrangedObjectIndex:index];
 	//NSLog(@"bar: %@", [o_rulesController arrangedObjects]);
-	[o_rulesController setSelectionIndex:index];
+	//[o_rulesController setSelectionIndex:index];
 	[[DocumentModeManager sharedInstance] revalidatePrecedences];
 	[o_rulesTableView scrollRowToVisible:index];
 }
@@ -112,6 +112,10 @@
 		[[ruleViewController warningImageView] bind:@"toolTip" toObject:rule withKeyPath:@"OverriddenTooltip" options:nil];
 		[[ruleViewController removeButton] bind:@"hidden" toObject:rule withKeyPath:@"ModeRule" options:nil];
 		
+		if ([[rule objectForKey:@"ModeRule"] boolValue]) {
+			[[ruleViewController view] setToolTip:NSLocalizedString(@"PrecedencePrefsModeRuleTooltip", @"Mode rules cannot be edited or removed. But you can disable them.")];
+		}
+		
 		[ruleViews setObject:ruleViewController forKey:key];
 	}
 		
@@ -138,6 +142,12 @@
 - (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row {
 	return nil;
 }
+
+- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(int)rowIndex {
+	if (aTableView == o_rulesTableView) return NO;
+	return YES;
+}
+
 
 
 @end
