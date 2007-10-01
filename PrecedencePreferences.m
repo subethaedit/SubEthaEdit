@@ -102,7 +102,7 @@
 		[ruleViewController setPreferenceController:self];
 		[ruleViewController setRule:rule];
 		[[ruleViewController stringTextfield] bind:@"value" toObject:rule withKeyPath:@"String" options:nil];
-		[[ruleViewController stringTextfield] bind:@"editable" toObject:rule withKeyPath:@"ModeRule" options:[NSDictionary dictionaryWithObject:NSNegateBooleanTransformerName forKey:NSValueTransformerNameBindingOption]];
+		[[ruleViewController stringTextfield] bind:@"enabled" toObject:rule withKeyPath:@"ModeRule" options:[NSDictionary dictionaryWithObject:NSNegateBooleanTransformerName forKey:NSValueTransformerNameBindingOption]];
 		[[ruleViewController typePopup] bind:@"selectedTag" toObject:rule withKeyPath:@"TypeIdentifier" options:nil];
 		[[ruleViewController typePopup] bind:@"enabled" toObject:rule withKeyPath:@"ModeRule" options:[NSDictionary dictionaryWithObject:NSNegateBooleanTransformerName forKey:NSValueTransformerNameBindingOption]];
 		[[ruleViewController enabledCheckbox] bind:@"value" toObject:rule withKeyPath:@"Enabled" options:nil];
