@@ -614,7 +614,6 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
 
 - (BOOL)findIANAEncodingUsingExpression:(NSString*)regEx encoding:(NSStringEncoding*)outEncoding;
 {
-    NSLog(@"%s",__FUNCTION__);
 	OGRegularExpression			*regex = nil;
 	OGRegularExpressionMatch	*match = nil;
 	BOOL						success = NO;
