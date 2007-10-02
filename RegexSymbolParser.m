@@ -111,7 +111,7 @@
 					[aSymbolTableEntry setIsSeparator:YES];
 				}
 				[returnArray addObject:aSymbolTableEntry];
-			}
+			} 
 		}
     }
     //NSLog(@"time for symbols: %f",(((double)(clock()-start_time))/CLOCKS_PER_SEC));
