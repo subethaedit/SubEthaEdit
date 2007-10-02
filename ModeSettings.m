@@ -51,9 +51,7 @@
 -(void)parseXMLFile:(NSString *)aPath {
 
     NSError *err=nil;
-	// FIXME seed
-//    NSXMLDocument *modeSettingsXML = [[NSXMLDocument alloc] initWithContentsOfURL:[NSURL fileURLWithPath:aPath] options:NSXMLDocumentTidyXML error:&err];
-    NSXMLDocument *modeSettingsXML = [[NSXMLDocument alloc] initWithData:[NSData dataWithContentsOfFile:aPath] options:NSXMLDocumentTidyXML error:&err];
+    NSXMLDocument *modeSettingsXML = [[NSXMLDocument alloc] initWithData:[NSData dataWithContentsOfFile:aPath] options:nil error:&err];
 
     if (err) {
         NSLog(@"Error while loading '%@': %@", aPath, [err localizedDescription]);

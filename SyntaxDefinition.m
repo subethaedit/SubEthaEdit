@@ -81,8 +81,7 @@
 -(void)parseXMLFile:(NSString *)aPath {
 
     NSError *err=nil;
-//    NSXMLDocument *syntaxDefinitionXML = [[NSXMLDocument alloc] initWithContentsOfURL:[NSURL fileURLWithPath:aPath] options:nil error:&err];
-    NSXMLDocument *syntaxDefinitionXML = [[NSXMLDocument alloc] initWithData:[NSData dataWithContentsOfFile:aPath] options:NSXMLDocumentTidyXML error:&err];
+    NSXMLDocument *syntaxDefinitionXML = [[NSXMLDocument alloc] initWithData:[NSData dataWithContentsOfFile:aPath] options:nil error:&err];
 
     if (err) {
         #warning Error should be presented

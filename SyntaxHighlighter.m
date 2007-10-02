@@ -20,7 +20,6 @@
 NSString * const kSyntaxHighlightingIsCorrectAttributeName  = @"HighlightingIsCorrect";
 NSString * const kSyntaxHighlightingIsCorrectAttributeValue = @"Correct";
 NSString * const kSyntaxHighlightingStackName = @"HighlightingStack";
-NSString * const kSyntaxHighlightingTranscendenceName = @"HighlightingTrancendenceStack";
 NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDelimiter";
 NSString * const kSyntaxHighlightingStyleIDAttributeName = @"StyleID";
 NSString * const kSyntaxHighlightingTypeAttributeName = @"Type";
@@ -81,7 +80,7 @@ NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"P
 
 
     // Clean up state attributes in the string we work on now
-	NSArray *attributesToCleanup = [NSArray arrayWithObjects:kSyntaxHighlightingTranscendenceName,kSyntaxHighlightingStackName,kSyntaxHighlightingStateDelimiterName,kSyntaxHighlightingTypeAttributeName,kSyntaxHighlightingParentModeForSymbolsAttributeName,kSyntaxHighlightingParentModeForAutocompleteAttributeName,kSyntaxHighlightingIsCorrectAttributeName,nil];
+	NSArray *attributesToCleanup = [NSArray arrayWithObjects:kSyntaxHighlightingStackName,kSyntaxHighlightingStateDelimiterName,kSyntaxHighlightingTypeAttributeName,kSyntaxHighlightingParentModeForSymbolsAttributeName,kSyntaxHighlightingParentModeForAutocompleteAttributeName,kSyntaxHighlightingIsCorrectAttributeName,nil];
     [aString removeAttributes:attributesToCleanup range:aRange];
 
     NSMutableDictionary *scratchAttributes = [NSMutableDictionary dictionary];
