@@ -69,6 +69,7 @@
     [I_importedModes release];
     [I_stylesForToken release];
     [I_stylesForRegex release];
+    [I_autocompleteTokenString release];
     [super dealloc];
 }
 
@@ -109,8 +110,10 @@
 
     NSString *charsInCompletion = [[[syntaxDefinitionXML nodesForXPath:@"/syntax/head/charsincompletion" error:&err] lastObject] stringValue];
 
+
     if (charsInCompletion) {
         [self setAutoCompleteTokenSet:[NSCharacterSet characterSetWithCharactersInString:charsInCompletion]];
+        I_autocompleteTokenString = [charsInCompletion copy];
     }
 
     I_useSpellingDictionary = [[[[syntaxDefinitionXML nodesForXPath:@"/syntax/head/autocompleteoptions/@use-spelling-dictionary" error:&err] lastObject] stringValue] isEqualTo:@"yes"];    
@@ -477,6 +480,10 @@
 - (NSCharacterSet *)tokenSet
 {
     return I_tokenSet;
+}
+
+- (NSString *)autocompleteTokenString {
+    return I_autocompleteTokenString;
 }
 
 - (NSCharacterSet *)autoCompleteTokenSet

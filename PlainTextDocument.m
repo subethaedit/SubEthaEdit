@@ -5283,6 +5283,28 @@ static NSString *S_measurementUnits;
 }
 
 
+- (NSEnumerator *)matchEnumeratorForAutocompleteString:(NSString *)aPartialWord {
+
+    static OGRegularExpression *escapingExpression = nil;
+    if (!escapingExpression) {
+        escapingExpression = [[OGRegularExpression alloc] initWithString:@"[\\-\\[\\]^]" options:OgreFindNotEmptyOption];
+    }
+
+    NSString *escapedString = [aPartialWord stringByReplacingRegularExpressionOperators];
+    NSString *autocompleteTokenString = [[[self documentMode] syntaxDefinition] autocompleteTokenString];
+    NSString *autocompleteSetString         = @"\\w";
+    NSString *autocompleteInverseSetString  = @"\\W";
+    if (autocompleteTokenString) {
+        autocompleteTokenString = [escapingExpression replaceAllMatchesInString:autocompleteTokenString withString:@"\\\\\\0" options:OgreNoneOption];
+        autocompleteSetString        = [NSString stringWithFormat:@"[%@]",autocompleteTokenString];
+        autocompleteInverseSetString = [NSString stringWithFormat:@"[^%@]",autocompleteTokenString];
+    }
+    NSString *regExString = [NSString stringWithFormat:@"(?<=%@|^)%@%@+",autocompleteInverseSetString,escapedString,autocompleteSetString];
+    OGRegularExpression *findExpression=[[[OGRegularExpression alloc] initWithString:regExString options:OgreFindNotEmptyOption] autorelease];
+    return [findExpression matchEnumeratorInString:[[self textStorage] string]];
+}
+
+
 - (void)changeSelectionOfUserWithID:(NSString *)aUserID toRange:(NSRange)aRange {
     TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:aUserID];
     NSMutableDictionary *properties=[user propertiesForSessionID:[[self session] sessionID]];
