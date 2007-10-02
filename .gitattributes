@@ -723,6 +723,13 @@ Modes/SQL.mode/Contents/Resources/German.lproj/Localizable.strings -text
 Modes/SQL.mode/Contents/Resources/ModeSettings.xml -text
 Modes/SQL.mode/Contents/Resources/RegexSymbols.xml -text
 Modes/SQL.mode/Contents/Resources/SyntaxDefinition.xml -text
+Modes/SVNLog.mode/Contents/Info.plist -text
+Modes/SVNLog.mode/Contents/Resources/ChangeLog.txt -text
+Modes/SVNLog.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
+Modes/SVNLog.mode/Contents/Resources/German.lproj/InfoPlist.strings -text
+Modes/SVNLog.mode/Contents/Resources/ModeSettings.xml -text
+Modes/SVNLog.mode/Contents/Resources/RegexSymbols.xml -text
+Modes/SVNLog.mode/Contents/Resources/SyntaxDefinition.xml -text
 Modes/XML.mode/Contents/Info.plist -text
 Modes/XML.mode/Contents/Resources/ChangeLog.txt -text
 Modes/XML.mode/Contents/Resources/English.lproj/InfoPlist.strings -text

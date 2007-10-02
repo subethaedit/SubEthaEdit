@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+    <recognition>
+        <regex>^r[0-9]+ \|.+ \| (.+) \| [0-9]+ lines?$</regex>
+    </recognition>
+</settings>
