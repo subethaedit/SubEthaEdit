@@ -24,7 +24,7 @@
     </symbol>
 
     <symbol id="Inline Funtions" image="SymbolF()" indentation="0" ignoreblocks="yes">
-        <regex>([^\s]+)\s*=\s*function\s*\([^\)]*\)(?=\s*\{)</regex>
+        <regex>(\w+)\s*=\s*function\s*\([^\)]*\)(?=\s*\{)</regex>
         <postprocess>
             <find>(.*)</find>
             <replace>\1()</replace>
