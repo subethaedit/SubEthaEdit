@@ -18,7 +18,7 @@
     </symbol>
 
     <symbol id="HEADINGS" font-weight="normal" font-style="normal" indentation="0" ignoreblocks="yes" image="SymbolH">
-        <regex>^([[:upper:]0-9]+[[:upper:]0-9 &amp;_\-/']*)[\n\r]</regex>
+        <regex>^([[:upper:]0-9]+[[:upper:]0-9 &amp;_\-/'!?.]*)[\n\r]</regex>
     </symbol>
 
     <symbol id="Events" font-weight="normal" font-style="italic" indentation="1" ignoreblocks="yes">
