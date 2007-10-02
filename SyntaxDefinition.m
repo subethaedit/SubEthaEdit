@@ -80,7 +80,8 @@
 -(void)parseXMLFile:(NSString *)aPath {
 
     NSError *err=nil;
-    NSXMLDocument *syntaxDefinitionXML = [[NSXMLDocument alloc] initWithContentsOfURL:[NSURL fileURLWithPath:aPath] options:nil error:&err];
+//    NSXMLDocument *syntaxDefinitionXML = [[NSXMLDocument alloc] initWithContentsOfURL:[NSURL fileURLWithPath:aPath] options:nil error:&err];
+    NSXMLDocument *syntaxDefinitionXML = [[NSXMLDocument alloc] initWithData:[NSData dataWithContentsOfFile:aPath] options:NSXMLDocumentTidyXML error:&err];
 
     if (err) {
         #warning Error should be presented
@@ -723,9 +724,23 @@
         }
 
         if ([OGRegularExpression isValidExpressionString:combinedString]) {
-            OGRegularExpression *combindedRegex = [[OGRegularExpression alloc] initWithString:combinedString options:OgreFindNotEmptyOption|OgreCaptureGroupOption];
-            [aState setObject:combindedRegex forKey:@"Combined Delimiter Regex"];
-        } else {
+			if ((endString)&&([endString rangeOfString:@"(?#see-insert-start-group"].location!=NSNotFound)) {
+				[aState setObject:combinedString forKey:@"Combined Delimiter String"];
+					
+				NSMutableArray *captureGroups = [NSMutableArray array];
+				OGRegularExpression *filterGroupsRegex = [[[OGRegularExpression alloc] initWithString:@"(?<=\\(\\?#see-insert-start-group:)[^\\)]+" options:OgreFindNotEmptyOption|OgreCaptureGroupOption] autorelease];
+				NSEnumerator *matchEnumerator = [[filterGroupsRegex allMatchesInString:endString] objectEnumerator];
+				OGRegularExpressionMatch *aMatch;
+				while ((aMatch = [matchEnumerator nextObject])) {
+					[captureGroups addObject:[aMatch matchedString]];
+				}
+				
+				[aState setObject:captureGroups forKey:@"Combined Delimiter String End Capture Groups"];
+			} else {
+				OGRegularExpression *combindedRegex = [[[OGRegularExpression alloc] initWithString:combinedString options:OgreFindNotEmptyOption|OgreCaptureGroupOption] autorelease];
+				[aState setObject:combindedRegex forKey:@"Combined Delimiter Regex"];
+			}
+		} else {
             NSLog(@"ERROR: %@ (begins of all states) is not a valid regular expression", combinedString);
             NSAlert *alert = [[[NSAlert alloc] init] autorelease];
             [alert setAlertStyle:NSWarningAlertStyle];
