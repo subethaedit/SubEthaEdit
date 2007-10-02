@@ -375,6 +375,11 @@
                 <begin><regex>(?&lt;!\$)(?:')</regex></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
             </state>
+
+            <state id="Heredoc" color="#760f15" inverted-color="#f48700" background-color="none" font-weight="normal" font-style="italic">
+                <begin><string>&lt;&lt;(?&lt;heredoc&gt;[A-Za-z][A-Za-z0-9_]*)</string></begin>
+                <end><regex>(?#see-insert-start-group:heredoc)</regex></end>
+            </state>
     
             <state id="Backticks" color="#b80f15" inverted-color="#737373"  font-style="normal" font-weight="normal">
                 <begin><regex>(?&lt;!\$)(?:`)</regex></begin>

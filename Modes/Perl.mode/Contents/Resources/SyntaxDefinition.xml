@@ -312,8 +312,8 @@
             </state>
     
             <state id="POD style comments" color="#236E25">
-                <begin><regex>(?&lt;=[\n\r])=</regex></begin>
-                <end><regex>(?&lt;=[\n\r])=cut[^\n\r]*</regex></end>
+                <begin><regex>^=</regex></begin>
+                <end><regex>^=cut[^\n\r]*</regex></end>
             </state>
     
             <state id="/Regular Expressions/" color="#760f15">
@@ -344,6 +344,11 @@
             <state id="String with single quotes" type="string" color="#760f15">
                 <begin><regex>(?&lt;!\$|\\)(?:\\\\)*'</regex></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
+            </state>
+
+            <state id="Heredoc" color="#760f15" background-color="none" font-weight="normal" font-style="normal">
+                <begin><string>&lt;&lt;(?&lt;heredoc&gt;[A-Za-z][A-Za-z0-9_]*);</string></begin>
+                <end><regex>(?#see-insert-start-group:heredoc)</regex></end>
             </state>
 
         </default>

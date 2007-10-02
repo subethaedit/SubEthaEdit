@@ -3630,6 +3630,10 @@
                       <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
                   </state>
 
+                  <state id="PHP Heredoc" color="#EB7300" background-color="none"  font-weight="normal" font-style="normal">
+                    <begin><string>&lt;&lt;&lt;(?&lt;heredoc&gt;[A-Za-z][A-Za-z0-9_]*)</string></begin>
+                    <end><regex>(?#see-insert-start-group:heredoc)</regex></end>
+                  </state>
               </state>
             
             <state id="Comment" type="comment" color="#236E25" font-style="italic">
