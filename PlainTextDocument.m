@@ -300,6 +300,8 @@ static NSString *tempFileName(NSString *origPath) {
     [self setIsFileWritable:YES];
     I_undoManager = [(UndoManager *)[UndoManager alloc] initWithDocument:self];
     [[[self session] loggingState] setInitialTextStorageDictionaryRepresentation:[self textStorageDictionaryRepresentation]];
+    [[[self session] loggingState] handleOperation:[SelectionOperation selectionOperationWithRange:NSMakeRange(0,0) userID:[TCMMMUserManager myUserID]]];
+
 }
 
 - (void)updateViewBecauseOfPreferences:(NSNotification *)aNotification {
@@ -3183,6 +3185,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         // clear the logging state
          [[self session] setLoggingState:[[TCMMMLoggingState new] autorelease]];
         [[[self session] loggingState] setInitialTextStorageDictionaryRepresentation:[self textStorageDictionaryRepresentation]];
+    }
+    if (!isReverting) {
+        [[[self session] loggingState] handleOperation:[SelectionOperation selectionOperationWithRange:NSMakeRange(0,0) userID:[TCMMMUserManager myUserID]]];
     }
 
     I_flags.isReadingFile = NO;
