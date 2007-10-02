@@ -8,6 +8,8 @@
 
 #import "UserStatisticsController.h"
 #import "HUDStatisticPersonCell.h"
+#import "TCMMMLogStatisticsEntry.h"
+#import "TCMMMUser.h"
 
 #import <HMBlkAppKit/HMBlkAppKit.h>
 
@@ -122,5 +124,15 @@ static NSString *s_updateContext   = @"UpdateContext";
     [O_userTableView setNeedsDisplay:YES];
 }
 
+- (NSString *)tableView:(NSTableView *)aTableView toolTipForCell:(NSCell *)aCell rect:(NSRectPointer)rect tableColumn:(NSTableColumn *)aTableColumn row:(int)aRow mouseLocation:(NSPoint)mouseLocation {
+    NSArray *array = [O_statEntryArrayController arrangedObjects];
+    if ([array count] > aRow) {
+        TCMMMUser *user = [(TCMMMLogStatisticsEntry *)[array objectAtIndex:aRow] user];
+        if (user) {
+            return [NSString stringWithFormat:@"AIM:%@\nEmail:%@",[[user properties] objectForKey:@"AIM"],[[user properties] objectForKey:@"Email"]];
+        }
+    }
+    return nil;
+}
 
 @end

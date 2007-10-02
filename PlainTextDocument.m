@@ -3149,9 +3149,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         [self setFileEncoding:[[docAttrs objectForKey:@"CharacterEncoding"] unsignedIntValue]];
 
 
-    #ifndef TCM_NO_DEBUG
-        NSLog(@"%@",_readFromURLDebugInformation);
-    #endif
+        DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Encoding guessing information: %@", _readFromURLDebugInformation);
         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Read successful? %@", success ? @"YES" : @"NO");
         DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"documentAttributes: %@", [docAttrs description]);
 

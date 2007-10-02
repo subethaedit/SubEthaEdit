@@ -101,8 +101,22 @@
     }
     
     NSRect labelRect = [self labelRectForBounds:aFrame];
-    [[NSColor greenColor] set];
-    [[user name] drawInRect:labelRect withAttributes:[entry isInside]?mNameAttributes:mInactiveNameAttributes];
+    NSRect nameRect = labelRect;
+    NSColor *typingColor = [[user color] colorWithAlphaComponent:0.6];
+    NSRect colorRect = NSZeroRect;
+    colorRect.size = NSMakeSize(13,8);
+    colorRect.origin.x = NSMaxX(nameRect)-NSWidth(colorRect);
+    colorRect.origin.y = NSMinY(nameRect)+5.;
+    nameRect.size.width -= NSWidth(colorRect) + 5.;
+    [[user name] drawInRect:nameRect withAttributes:[entry isInside]?mNameAttributes:mInactiveNameAttributes];
+    [typingColor set];
+    NSBezierPath *colorPath = [NSBezierPath bezierPathWithRoundedRect:colorRect radius:2.];
+    [colorPath fill];
+    [[NSBezierPath bezierPathWithRoundedRect:NSOffsetRect(NSInsetRect(colorRect,1.,1.),0,-0.5) radius:MIN(2.,NSHeight(colorRect)/2.)] fill];
+    [[NSBezierPath bezierPathWithRoundedRect:NSOffsetRect(NSInsetRect(colorRect,2.,2.),0,-1.) radius:MIN(1.,NSHeight(colorRect)/2.)] fill];
+    [[NSColor colorWithCalibratedWhite:0.2 alpha:0.4] set];
+    [colorPath stroke];
+
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSMutableString *dateTimeFormatString = [NSMutableString new];

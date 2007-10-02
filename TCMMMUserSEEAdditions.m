@@ -64,28 +64,52 @@
     [properties removeObjectsForKeys:[NSArray arrayWithObjects:@"Image",@"Image32",@"Image48",@"Image16",@"Image32Dimmed",@"ColorImage",nil]];
 }
 
+- (NSColor *)color {
+    NSColor *result = nil;
+    NSNumber *hue = [[self properties] objectForKey:@"Hue"];
+    if (hue) {
+        NSValueTransformer *hueTrans = [NSValueTransformer valueTransformerForName:@"HueToColor"];
+        result=[hueTrans transformedValue:hue];
+    }
+    return result;
+}
 
-- (NSImage *)colorImage
-{
-    if ([[self properties] objectForKey:@"ColorImage"]) {
-        return [[self properties] objectForKey:@"ColorImage"];
+- (NSImage *)colorImageWithLineOfColor:(NSColor *)aColor {
+    NSNumber *hue = [[self properties] objectForKey:@"Hue"];
+    if (hue) {
+        NSValueTransformer *hueTrans = [NSValueTransformer valueTransformerForName:@"HueToColor"];
+        NSColor *color = [hueTrans transformedValue:hue];
+        NSRect rect = NSMakeRect(0, 0, 13, 8);
+        NSImage *image = [[[NSImage alloc] initWithSize:rect.size] autorelease];
+        [image lockFocus];
+        [color drawSwatchInRect:rect];
+        [aColor set];
+        [NSBezierPath strokeRect:rect];
+        [image unlockFocus];
+        return image;
     } else {
-        NSNumber *hue = [[self properties] objectForKey:@"Hue"];
-        if (hue) {
-            NSValueTransformer *hueTrans = [NSValueTransformer valueTransformerForName:@"HueToColor"];
-            NSColor *color = [hueTrans transformedValue:hue];
-            NSRect rect = NSMakeRect(0, 0, 13, 8);
-            NSImage *image = [[[NSImage alloc] initWithSize:rect.size] autorelease];
-            [image lockFocus];
-            [color drawSwatchInRect:rect];
-            [[NSColor blackColor] set];
-            [NSBezierPath strokeRect:rect];
-            [image unlockFocus];
-            return image;
-        } else {
-            return nil;
+        return nil;
+    }
+}
+
+- (NSImage *)colorImage {
+    if (![[self properties] objectForKey:@"ColorImage"]) {
+        NSImage *image = [self colorImageWithLineOfColor:[[NSColor blackColor] colorWithAlphaComponent:0.7]];
+        if (image) {
+            [[self properties] setObject:image forKey:@"ColorImage"];
         }
     }
+    return [[self properties] objectForKey:@"ColorImage"];
+}
+
+- (NSImage *)colorImageWithBrightLine {
+    if (![[self properties] objectForKey:@"ColorImageBrightLine"]) {
+        NSImage *image = [self colorImageWithLineOfColor:[[NSColor whiteColor] colorWithAlphaComponent:0.7]];
+        if (image) {
+            [[self properties] setObject:image forKey:@"ColorImageBrightLine"];
+        }
+    }
+    return [[self properties] objectForKey:@"ColorImageBrightLine"];
 }
 
 - (NSImage *)image
