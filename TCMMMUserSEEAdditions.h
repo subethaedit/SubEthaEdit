@@ -18,6 +18,8 @@
 #pragma mark -
 - (void)recacheImages;
 
+- (NSColor *)color;
+- (NSImage *)colorImageWithBrightLine;
 - (NSImage *)colorImage;
 - (NSImage *)image;
 - (NSImage *)image48;

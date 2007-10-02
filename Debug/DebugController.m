@@ -218,7 +218,7 @@ static DebugController * sharedInstance = nil;
 }
 
 - (IBAction)printModePrecedences:(id)aSender {
-    NSLog(@"%s %@",__FUNCTION__,[[[NSUserDefaults standardUserDefaults] objectForKey:@"ModePrecedences"] debugDescription]);
+    NSLog(@"%s %@",__FUNCTION__,[[[NSUserDefaults standardUserDefaults] objectForKey:@"ModePrecedences"] performSelector:@selector(debugDescription)]);
 }
 
 @end
