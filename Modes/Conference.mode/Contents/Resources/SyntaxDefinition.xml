@@ -3,7 +3,7 @@
 <syntax>
 
     <head>
-        <name>Confrerence</name> <!-- The definitions title -->
+        <name>Conference</name> <!-- The definitions title -->
         <autocompleteoptions use-spelling-dictionary="yes" />
         <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@"]]></charsintokens> 
     </head>
@@ -17,11 +17,11 @@
             </keywords>
                         
             <keywords id="Headings" color="#8f6d00" inverted-color="#c09100" font-weight="bold" useforautocomplete="no">
-                <regex>^([[:upper:]0-9]+[[:upper:]0-9 &amp;_\-/']*)[\n\r]</regex>
+                <regex>^([[:upper:]0-9]+[[:upper:]0-9 &amp;_\-/'.?!]*)[\n\r]</regex>
             </keywords>
 
             <keywords id="Sections" color="#a61a1a" inverted-color="#ff2528" font-weight="bold" useforautocomplete="no">
-                <regex>^([[:upper:]0-9 _\-/&amp;]+):</regex>
+                <regex>^([[:upper:]0-9 _\-/&amp;.?!]+):</regex>
             </keywords>
             
             <keywords id="Separators" color="#333" inverted-color="#ddd" useforautocomplete="no">
