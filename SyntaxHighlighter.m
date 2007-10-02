@@ -12,6 +12,7 @@
 #import "time.h"
 #import <OgreKit/OgreKit.h>
 #import "NSMutableAttributedStringSEEAdditions.h"
+#import "NSStringSEEAdditions.h"
 
 #define chunkSize              		5000
 #define makeDirty              		 100
@@ -19,6 +20,7 @@
 NSString * const kSyntaxHighlightingIsCorrectAttributeName  = @"HighlightingIsCorrect";
 NSString * const kSyntaxHighlightingIsCorrectAttributeValue = @"Correct";
 NSString * const kSyntaxHighlightingStackName = @"HighlightingStack";
+NSString * const kSyntaxHighlightingTranscendenceName = @"HighlightingTrancendenceStack";
 NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDelimiter";
 NSString * const kSyntaxHighlightingStyleIDAttributeName = @"StyleID";
 NSString * const kSyntaxHighlightingTypeAttributeName = @"Type";
@@ -79,7 +81,7 @@ NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"P
 
 
     // Clean up state attributes in the string we work on now
-	NSArray *attributesToCleanup = [NSArray arrayWithObjects:kSyntaxHighlightingStackName,kSyntaxHighlightingStateDelimiterName,kSyntaxHighlightingTypeAttributeName,kSyntaxHighlightingParentModeForSymbolsAttributeName,kSyntaxHighlightingParentModeForAutocompleteAttributeName,kSyntaxHighlightingIsCorrectAttributeName,nil];
+	NSArray *attributesToCleanup = [NSArray arrayWithObjects:kSyntaxHighlightingTranscendenceName,kSyntaxHighlightingStackName,kSyntaxHighlightingStateDelimiterName,kSyntaxHighlightingTypeAttributeName,kSyntaxHighlightingParentModeForSymbolsAttributeName,kSyntaxHighlightingParentModeForAutocompleteAttributeName,kSyntaxHighlightingIsCorrectAttributeName,nil];
     [aString removeAttributes:attributesToCleanup range:aRange];
 
     NSMutableDictionary *scratchAttributes = [NSMutableDictionary dictionary];
@@ -95,18 +97,25 @@ NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"P
     }
     
     // No State yet? Use the default.
-    if (!stack) stack = [NSMutableArray arrayWithObjects:[defaultState objectForKey:@"id"], nil];
+    if (!stack) stack = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:[defaultState objectForKey:@"id"], @"state", nil], nil];
     
     do {
 
         NSAutoreleasePool *syntaxPool = [NSAutoreleasePool new];
                     
         //NSLog(@"Stack at start: %@", stack);
-        currentState = [definition stateForID:[stack lastObject]];
+        currentState = [definition stateForID:[[stack lastObject] objectForKey:@"state"]];
         
         // Identify the next block of homogenous state
 
         stateDelimiter = [currentState objectForKey:@"Combined Delimiter Regex"];
+		// If using transcendence we have to compile on the fly.
+		if (!stateDelimiter) {
+			NSString *combinedDelimiterString = [[stack lastObject] objectForKey:@"combinedDelimiterString"];
+			if (combinedDelimiterString && [OGRegularExpression isValidExpressionString:combinedDelimiterString]) {
+				stateDelimiter = [[[OGRegularExpression alloc] initWithString:combinedDelimiterString options:OgreFindNotEmptyOption|OgreCaptureGroupOption] autorelease];
+			}
+		}
         
         NSRange delimiterRange, stateRange, startRange, nextRange;
         startRange = NSMakeRange(NSNotFound,0);
@@ -132,7 +141,7 @@ NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"P
             
             if (delimiterStateNumber<4242) { // Found a start within current state
                 //NSLog(@"Found a start: '%@'",[[aString string] substringWithRange:delimiterRange]);
-
+				
                 nextRange.location = NSMaxRange(stateRange);
                 nextRange.length = currentRange.length - stateRange.length;
 
@@ -142,8 +151,26 @@ NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"P
                 NSDictionary *subState = [[currentState objectForKey:@"states"] objectAtIndex:delimiterStateNumber];
                 savedStack = [[stack copy] autorelease];
 
-                [stack addObject:[subState objectForKey:@"id"]];
-				//NSLog(@"foo: %@", stack);
+				// Check for transcendence
+				// Use substringNamed: of delimiterMatch to get the content of named groups
+				NSArray *captureGroups = [subState objectForKey:@"Combined Delimiter String End Capture Groups"];
+				NSMutableString *combinedDelimiterString = nil;
+				if (captureGroups) {
+					combinedDelimiterString = [[[subState objectForKey:@"Combined Delimiter String"] mutableCopy] autorelease];
+					int i;
+					int count = [captureGroups count];
+					for (i=0;i<count;i++) {
+						NSString *groupName = [captureGroups objectAtIndex:i];
+						NSString *replacement = [[delimiterMatch substringNamed:groupName] stringByReplacingRegularExpressionOperators];
+						if (groupName && replacement) [combinedDelimiterString replaceOccurrencesOfString:[NSString stringWithFormat:@"(?#see-insert-start-group:%@)",groupName] withString:replacement options:nil range:NSMakeRange(0,[combinedDelimiterString length])];
+					}
+				}
+				
+				if (combinedDelimiterString) {
+					[stack addObject:[NSDictionary dictionaryWithObjectsAndKeys:[subState objectForKey:@"id"], @"state", combinedDelimiterString, @"combinedDelimiterString", nil]];
+				} else {
+					[stack addObject:[NSDictionary dictionaryWithObjectsAndKeys:[subState objectForKey:@"id"], @"state", nil]];
+				}
                 
                 [scratchAttributes removeAllObjects];
                 [scratchAttributes addEntriesFromDictionary:[theDocument styleAttributesForStyleID:[subState objectForKey:@"styleID"]]];
@@ -239,11 +266,11 @@ NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"P
         }
         // Left stack exactly one bigger than right and there is an end => rightState must include leftState
         else if ((leftCount == rightCount + 1) && leftIsEnd) {
-            if ([definition state:[rightStack lastObject] includesState:[leftStack lastObject]]) matchesUp = YES;
+            if ([definition state:[[rightStack lastObject] objectForKey:@"state"] includesState:[[leftStack lastObject] objectForKey:@"state"]]) matchesUp = YES;
         }
         // Left stack exactly one smaller than right and there is a start => leftState must include rightState
         else if ((leftCount == rightCount - 1) && rightIsStart) {  
-            if ([definition state:[leftStack lastObject] includesState:[rightStack lastObject]]) matchesUp = YES;
+            if ([definition state:[[leftStack lastObject] objectForKey:@"state"] includesState:[[rightStack lastObject] objectForKey:@"state"]]) matchesUp = YES;
         }
 
         if (!matchesUp) {

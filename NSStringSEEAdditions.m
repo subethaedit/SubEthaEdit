@@ -659,6 +659,10 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
 	return success;
 }
 
+- (NSString *) stringByReplacingRegularExpressionOperators  {
+	OGRegularExpression *find = [[[OGRegularExpression alloc] initWithString:@"[\\\\(){}\\[\\]?*+^$|]" options:OgreFindNotEmptyOption] autorelease];
+	return [find replaceAllMatchesInString:self withString:@"\\\\\\0" options:OgreNoneOption];
+}
 
 @end
 

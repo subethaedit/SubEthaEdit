@@ -52,7 +52,7 @@
 - (NSString *)name;
 - (void)setName:(NSString *)aString;
 //- (NSArray *)states;
-- (NSMutableDictionary *)stateForID:(NSString *)aString;
+- (NSDictionary *)stateForID:(NSString *)aString;
 - (NSMutableDictionary *)defaultState;
 - (NSDictionary *)importedModes;
 - (NSCharacterSet *)tokenSet;
