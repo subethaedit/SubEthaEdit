@@ -1,6 +1,10 @@
 CrashReporter/CrashReporter.xcodeproj/*.mode2
 CrashReporter/CrashReporter.xcodeproj/*.pbxuser
 CrashReporter/CrashReporter.xcodeproj/*.perspective
+HMBlkAppKit1.1/HMBlkAppKit.xcodeproj/*.mode*
+HMBlkAppKit1.1/HMBlkAppKit.xcodeproj/*.pbxuser
+OgreKit/OgreKit.xcodeproj/*.mode*
+OgreKit/OgreKit.xcodeproj/*.pbxuser
 OgreKit/RegularExpression/oniguruma/intel
 OgreKit/RegularExpression/oniguruma/ppc
 OgreKit/RegularExpression/oniguruma/universal
