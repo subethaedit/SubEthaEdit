@@ -1564,10 +1564,10 @@
     NSMutableDictionary *dictionaryOfResultStrings=[NSMutableDictionary new];
 
     // find all matches in the current text for this prefix
-    OGRegularExpression *findExpression=[[OGRegularExpression alloc] initWithString:[NSString stringWithFormat:@"(?<=\\W|^)%@\\w+",partialWord] options:OgreFindNotEmptyOption];
-    DocumentMode *documentMode = [[self document] documentMode];
+    PlainTextDocument *myDocument = [self document];
+    DocumentMode *documentMode = [myDocument documentMode];
 
-	NSEnumerator *matches=[findExpression matchEnumeratorInString:textString];
+	NSEnumerator *matches=[myDocument matchEnumeratorForAutocompleteString:partialWord];
 	OGRegularExpressionMatch *match=nil;
 	while ((match=[matches nextObject])) {
 		[dictionaryOfResultStrings setObject:@"YES" forKey:[match matchedString]];
@@ -1600,15 +1600,14 @@
     NSEnumerator *documents=[[[DocumentController sharedInstance] documents] objectEnumerator];
     PlainTextDocument *document=nil;
     while ((document=[documents nextObject])) {
-		if (document==[self document]) continue;
-        NSEnumerator *matches=[findExpression matchEnumeratorInString:[[document textStorage] string]];
+		if (document==myDocument) continue;
+        NSEnumerator *matches=[document matchEnumeratorForAutocompleteString:partialWord];
         OGRegularExpressionMatch *match=nil;
         while ((match=[matches nextObject])) {
 			if ([dictionaryOfResultStrings objectForKey:[match matchedString]]==nil)
 				[otherDictionaryOfResultStrings setObject:@"YES" forKey:[match matchedString]];
         }
     }
-    [findExpression release];
     [completions addObjectsFromArray:[[otherDictionaryOfResultStrings allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)]];
 	[dictionaryOfResultStrings addEntriesFromDictionary:otherDictionaryOfResultStrings];
     

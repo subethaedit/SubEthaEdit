@@ -18,6 +18,7 @@
     NSCharacterSet *I_tokenSet;     /*"Set for tokenizing"*/
     NSCharacterSet *I_invertedTokenSet;     /*"Set for tokenizing"*/
     NSCharacterSet *I_autoCompleteTokenSet;     /*"Set for autocomplete tokenizing"*/
+    NSString *I_autocompleteTokenString;
     NSMutableDictionary *I_allStates;       /*"All states except the default state"*/
     NSMutableDictionary *I_defaultState;    /*"Default state"*/
     NSMutableDictionary *I_stylesForToken;   /*"Chached plainstrings"*/
@@ -58,6 +59,7 @@
 - (NSCharacterSet *)tokenSet;
 - (NSCharacterSet *)invertedTokenSet;
 - (NSCharacterSet *)autoCompleteTokenSet;
+- (NSString *)autocompleteTokenString;
 - (void)setTokenSet:(NSCharacterSet *)aCharacterSet;
 - (void)setAutoCompleteTokenSet:(NSCharacterSet *)aCharacterSet;
 - (BOOL)state:(NSString *)aState includesState:(NSString *)anotherState;

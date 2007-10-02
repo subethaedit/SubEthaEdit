@@ -660,8 +660,11 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
 }
 
 - (NSString *) stringByReplacingRegularExpressionOperators  {
-	OGRegularExpression *find = [[[OGRegularExpression alloc] initWithString:@"[\\\\(){}\\[\\]?*+^$|]" options:OgreFindNotEmptyOption] autorelease];
-	return [find replaceAllMatchesInString:self withString:@"\\\\\\0" options:OgreNoneOption];
+    static OGRegularExpression *escapingExpression = nil;
+    if (!escapingExpression) {
+        escapingExpression = [[OGRegularExpression alloc] initWithString:@"[\\\\(){}\\[\\]?*+^$|]" options:OgreFindNotEmptyOption];
+    }
+	return [escapingExpression replaceAllMatchesInString:self withString:@"\\\\\\0" options:OgreNoneOption];
 }
 
 @end

@@ -267,6 +267,8 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (void)setPlainTextEditorsShowChangeMarksOnInvitation;
 - (NSDictionary *)textStorageDictionaryRepresentation;
 
+- (NSEnumerator *)matchEnumeratorForAutocompleteString:(NSString *)aPartialWord;
+
 #pragma mark -
 #pragma mark ### Flag Accessors ###
 - (BOOL)isHandlingUndoManually;
