@@ -587,12 +587,20 @@ static NSString *tempFileName() {
 - (id)openDocumentWithContentsOfURL:(NSURL *)anURL display:(BOOL)flag error:(NSError **)outError {
     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"openDocumentWithContentsOfFile:display");
     
-    NSDocument *document = [super openDocumentWithContentsOfURL:anURL display:flag error:outError];
-    if (document && flag) {
-        [(PlainTextDocument *)document handleOpenDocumentEvent];
+    NSString *filename = [anURL path];
+    BOOL isFilePackage = [[NSWorkspace sharedWorkspace] isFilePackageAtPath:filename];
+    NSString *extension = [filename pathExtension];
+    if (isFilePackage && [extension isEqualToString:@"mode"]) {
+        [self openModeFile:filename];
+        // have to return something that is not nil so no error turns up
+        return [NSNumber numberWithBool:YES];
+    } else {
+        NSDocument *document = [super openDocumentWithContentsOfURL:anURL display:flag error:outError];
+        if (document && flag) {
+            [(PlainTextDocument *)document handleOpenDocumentEvent];
+        }
+        return document;
     }
-        
-    return document;
 }
 
 - (id)openUntitledDocumentOfType:(NSString *)docType display:(BOOL)display {
