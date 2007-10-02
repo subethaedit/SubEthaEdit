@@ -30,13 +30,22 @@
 }
 
 - (void)drawChildWithIndex:(int)aChildIndex ofItemAtIndex:(int)aItemIndex drawBackground:(BOOL)aDrawBackground{
+    static NSMutableParagraphStyle *mNoWrapParagraphStyle = nil;
+    if (!mNoWrapParagraphStyle) {
+        mNoWrapParagraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+        [mNoWrapParagraphStyle setLineBreakMode:NSLineBreakByTruncatingMiddle];
+        if ([mNoWrapParagraphStyle respondsToSelector:@selector(setTighteningFactorForTruncation:)]) {
+            [mNoWrapParagraphStyle setTighteningFactorForTruncation:0.15];
+        }
+    }
+
     Class myClass=[self class];
     float childRowHeight  =[myClass childRowHeight];
 
     static NSMutableDictionary *mNameAttributes=nil;
     if (!mNameAttributes) {
-        mNameAttributes = [[NSMutableDictionary dictionaryWithObject:
-            [NSFont systemFontOfSize:[NSFont smallSystemFontSize]] forKey:NSFontAttributeName] retain];
+        mNameAttributes = [[NSMutableDictionary dictionaryWithObjectsAndKeys:
+            [NSFont systemFontOfSize:[NSFont smallSystemFontSize]],NSFontAttributeName,mNoWrapParagraphStyle,NSParagraphStyleAttributeName,nil] retain];
     }
     NSRect bounds=[self bounds];
     NSRect childRect=NSMakeRect(0, 0,bounds.size.width, childRowHeight);
@@ -75,8 +84,9 @@
     NSString *string=[dataSource listView:self objectValueForTag:TCMMMBrowserChildNameTag atChildIndex:aChildIndex ofItemAtIndex:aItemIndex];
     [[NSColor blackColor] set];
     if (string) {
-        [string drawAtPoint:NSMakePoint(32.+9+16.+3.,4.)
-               withAttributes:mNameAttributes];
+        [string drawInRect:NSMakeRect(32.+9+16.+3.,4.,NSWidth(bounds)-(32.+9+16+3+5),16.) withAttributes:mNameAttributes];
+//        [string drawAtPoint:NSMakePoint(32.+9+16.+3.,4.)
+//               withAttributes:mNameAttributes];
     }
 }
 
