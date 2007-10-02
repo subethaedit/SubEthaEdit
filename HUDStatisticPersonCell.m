@@ -89,33 +89,46 @@
 //        [[NSColor colorWithCalibratedWhite:1.0 alpha:0.25] set];
 //        [NSBezierPath fillRect:imageRect];
 //    }
+    NSColor *typingColor = [[user color] colorWithAlphaComponent:[self isHighlighted]?0.75:0.5];
+    [typingColor set];
+    NSBezierPath *typingRect = [NSBezierPath bezierPathWithRoundedRect:NSInsetRect(imageRect,-1.,-1.) radius:3.];
+    [[[user color] colorWithAlphaComponent:0.10] set];
+    [typingRect fill];
+    [typingColor set];
+    typingRect = [NSBezierPath bezierPathWithRoundedRect:NSInsetRect(imageRect,-1.5,-1.5) radius:3.];
+    [typingRect setLineWidth:2.];
+    [typingRect stroke];
+
     [userImage setFlipped:YES];
     [userImage drawInRect:imageRect fromRect:NSMakeRect(0,0,[userImage size].width,[userImage size].height) operation:NSCompositeSourceOver fraction:[entry isInside]?1.0:0.45];
-    [[NSColor redColor] set];
-    if ([self isHighlighted]) {
-        [NSGraphicsContext saveGraphicsState];
-        NSSetFocusRingStyle (NSFocusRingOnly);
-        [userImage drawInRect:imageRect fromRect:NSMakeRect(0,0,[userImage size].width,[userImage size].height) operation:NSCompositeSourceOver fraction:1.0];
-//        [NSBezierPath fillRect:imageRect];
-        [NSGraphicsContext restoreGraphicsState];
-    }
+
+//    if ([self isHighlighted]) {
+//        [NSGraphicsContext saveGraphicsState];
+//        NSSetFocusRingStyle (NSFocusRingOnly);
+//        typingRect = [NSBezierPath bezierPathWithRoundedRect:NSInsetRect(imageRect,-2.5,-2.5) radius:3.];
+//        [typingRect fill];
+////        [userImage drawInRect:imageRect fromRect:NSMakeRect(0,0,[userImage size].width,[userImage size].height) operation:NSCompositeSourceOver fraction:1.0];
+////        [NSBezierPath fillRect:imageRect];
+//        [NSGraphicsContext restoreGraphicsState];
+//    }
     
     NSRect labelRect = [self labelRectForBounds:aFrame];
+    
+//    NSRect colorRect = NSZeroRect;
+//    colorRect.size = NSMakeSize(14,11);
+//    colorRect.origin.x = NSMaxX(imageRect)-NSWidth (colorRect)+3.;
+//    colorRect.origin.y = NSMaxY(imageRect)-NSHeight(colorRect)+3.;
+//    [typingColor set];
+//    NSBezierPath *colorPath = [NSBezierPath bezierPathWithRoundedRect:colorRect radius:2.];
+//    [colorPath fill];
+//    [[NSBezierPath bezierPathWithRoundedRect:NSOffsetRect(NSInsetRect(colorRect,1.,1.),0,-0.5) radius:MIN(2.,NSHeight(colorRect)/2.)] fill];
+//    [[NSBezierPath bezierPathWithRoundedRect:NSOffsetRect(NSInsetRect(colorRect,2.,2.),0,-1.) radius:MIN(1.,NSHeight(colorRect)/2.)] fill];
+//    [[NSColor colorWithCalibratedWhite:1.0 alpha:0.7] set];
+//    [colorPath stroke];
+
     NSRect nameRect = labelRect;
-    NSColor *typingColor = [[user color] colorWithAlphaComponent:0.6];
-    NSRect colorRect = NSZeroRect;
-    colorRect.size = NSMakeSize(13,8);
-    colorRect.origin.x = NSMaxX(nameRect)-NSWidth(colorRect);
-    colorRect.origin.y = NSMinY(nameRect)+5.;
-    nameRect.size.width -= NSWidth(colorRect) + 5.;
+//    nameRect.size.width -= NSWidth(colorRect) + 5.;
     [[user name] drawInRect:nameRect withAttributes:[entry isInside]?mNameAttributes:mInactiveNameAttributes];
-    [typingColor set];
-    NSBezierPath *colorPath = [NSBezierPath bezierPathWithRoundedRect:colorRect radius:2.];
-    [colorPath fill];
-    [[NSBezierPath bezierPathWithRoundedRect:NSOffsetRect(NSInsetRect(colorRect,1.,1.),0,-0.5) radius:MIN(2.,NSHeight(colorRect)/2.)] fill];
-    [[NSBezierPath bezierPathWithRoundedRect:NSOffsetRect(NSInsetRect(colorRect,2.,2.),0,-1.) radius:MIN(1.,NSHeight(colorRect)/2.)] fill];
-    [[NSColor colorWithCalibratedWhite:0.2 alpha:0.4] set];
-    [colorPath stroke];
 
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
