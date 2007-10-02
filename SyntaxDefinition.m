@@ -69,6 +69,7 @@
     [I_importedModes release];
     [I_stylesForToken release];
     [I_stylesForRegex release];
+	[I_defaultSyntaxStyle release];
     [I_autocompleteTokenString release];
     [super dealloc];
 }
