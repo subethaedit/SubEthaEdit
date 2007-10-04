@@ -35,7 +35,8 @@ enum {
     BrowserContextMenuTagCancelConnection,
     BrowserContextMenuTagReconnect,
     BrowserContextMenuTagLogIn,
-    BrowserContextMenuTagManageFiles = 10
+    BrowserContextMenuTagManageFiles,
+    BrowserContextMenuTagClear
 };
 
 @interface ConnectionBrowserController (InternetBrowserControllerPrivateAdditions)
@@ -115,14 +116,14 @@ static NSPredicate *S_joinableSessionPredicate = nil;
         
         [I_contextMenu addItem:[NSMenuItem separatorItem]];
 
-        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuLogIn", @"Log In entry for Browser context menu") action:@selector(login:) keyEquivalent:@""];
-        [item setTarget:self];
-        [item setTag:BrowserContextMenuTagLogIn];
-
-
-        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuManageFiles", @"Manage files entry for Browser context menu") action:@selector(openServerConnection:) keyEquivalent:@""];
-        [item setTarget:[ServerConnectionManager sharedInstance]];
-        [item setTag:BrowserContextMenuTagManageFiles];
+//        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuLogIn", @"Log In entry for Browser context menu") action:@selector(login:) keyEquivalent:@""];
+//        [item setTarget:self];
+//        [item setTag:BrowserContextMenuTagLogIn];
+//
+//
+//        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuManageFiles", @"Manage files entry for Browser context menu") action:@selector(openServerConnection:) keyEquivalent:@""];
+//        [item setTarget:[ServerConnectionManager sharedInstance]];
+//        [item setTag:BrowserContextMenuTagManageFiles];
 
         [I_contextMenu setDelegate:self];        
 

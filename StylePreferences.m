@@ -377,9 +377,9 @@
         [alert setAlertStyle:NSWarningAlertStyle];
         [alert setMessageText:NSLocalizedString(@"SeeStyleImportMessage", @"Message Text of Style load alert sheet")];
         [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"SeeStyleImportInformative %@",  @"Informative Text of Style load alert sheet"),modeString]];
-        [alert addButtonWithTitle:NSLocalizedString(@"Import", nil)];
-        [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
-        [alert addButtonWithTitle:NSLocalizedString(@"Open in Editor", nil)];
+        [alert addButtonWithTitle:NSLocalizedString(@"Import", @"Button choice allowing user to import")];
+        [alert addButtonWithTitle:NSLocalizedString(@"Cancel", @"Button choice allowing user to cancel.")];
+        [alert addButtonWithTitle:NSLocalizedString(@"Open in Editor", @"Button choice allowing user open a file in the editor.")];
         [alert beginSheetModalForWindow:[O_stylesTableView window]
                           modalDelegate:self
                          didEndSelector:@selector(importDidEnd:returnCode:contextInfo:)

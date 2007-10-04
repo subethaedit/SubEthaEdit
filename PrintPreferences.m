@@ -98,6 +98,9 @@ static NSString *S_measurementUnits;
     if (!S_measurementUnits) {
         S_measurementUnits=[[[NSUserDefaults standardUserDefaults] stringForKey:@"AppleMeasurementUnits"] retain];
     }
+    // (void)NSLocalizedString(@"LabelCentimeters", @"Label for centimeters in Print Options");
+    // (void)NSLocalizedString(@"LabelInches", @"Label for inches in Print Options");
+
     NSString *labelText=NSLocalizedString(([NSString stringWithFormat:@"Label%@",S_measurementUnits]),
                                           @"Centimeters or Inches, short label string for them");
     int i=996;

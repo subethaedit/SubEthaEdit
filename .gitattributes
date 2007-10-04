@@ -1789,6 +1789,7 @@ artwork/seetext.icns -text
 artwork/ssllock.png -text
 artwork/style.icns -text
 /createDiskImage.sh -text
+/genstrings.sh -text
 /main.m -text
 see/Info.plist -text
 see/main.m -text
@@ -1806,3 +1807,4 @@ seed/SDDocumentManager.m -text
 seed/config.plist -text
 seed/main.m -text
 seed/seed_Prefix.pch -text
+/wincent-strings-util -text
