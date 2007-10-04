@@ -408,37 +408,6 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         }
         [export setObject:html forKey:DocumentModeExportHTMLPreferenceKey];
 
-
-        I_defaultSyntaxStyle = [self syntaxHighlighter]?[[[self syntaxHighlighter] defaultSyntaxStyle] copy]:[SyntaxStyle new];
-        [I_defaultSyntaxStyle setDocumentMode:self];
-
-        SyntaxStyle *style=[I_defaultSyntaxStyle copy];
-        NSDictionary *syntaxStyleDictionary=[I_defaults objectForKey:DocumentModeSyntaxStylePreferenceKey];
-        if (syntaxStyleDictionary) {
-            [style takeStylesFromDefaultsDictionary:syntaxStyleDictionary];
-        }        
-
-        if (![I_defaults objectForKey:DocumentModeBackgroundColorIsDarkPreferenceKey]) {
-            [I_defaults setObject:[NSNumber numberWithBool:NO] forKey:DocumentModeBackgroundColorIsDarkPreferenceKey];
-            if ([self isBaseMode] && [I_defaults objectForKey:DocumentModeBackgroundColorPreferenceKey]) {
-                // take old background and foreground color settings
-                NSValueTransformer *transformer=[NSValueTransformer valueTransformerForName:NSUnarchiveFromDataTransformerName];
-                NSColor *color=nil;
-                
-                color=[transformer transformedValue:[dictionary objectForKey:DocumentModeBackgroundColorPreferenceKey]];
-                if (!color) color=[NSColor whiteColor];
-                BOOL isDark=[color isDark];
-                [I_defaults setObject:[NSNumber numberWithBool:isDark] forKey:DocumentModeBackgroundColorIsDarkPreferenceKey];
-                [[style styleForKey:SyntaxStyleBaseIdentifier] setObject:color forKey:isDark?@"inverted-background-color":@"background-color"];
-
-                color=[transformer transformedValue:[I_defaults objectForKey:DocumentModeForegroundColorPreferenceKey]];
-                if (!color) color=[NSColor blackColor];
-                [[style styleForKey:SyntaxStyleBaseIdentifier] setObject:color forKey:isDark?@"inverted-color":@"color"];
-            }
-        }
-
-        [self setSyntaxStyle:style];
-        [style release];
         
         [I_defaults addObserver:self
                      forKeyPath:DocumentModeEncodingPreferenceKey
@@ -575,6 +544,9 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 }
 
 - (SyntaxStyle *)syntaxStyle {
+    if (!I_syntaxStyle) {
+        [self defaultSyntaxStyle];
+    }
     return I_syntaxStyle;
 }
 
@@ -584,6 +556,38 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 }
 
 - (SyntaxStyle *)defaultSyntaxStyle {
+    if (!I_defaultSyntaxStyle) {
+        I_defaultSyntaxStyle = [self syntaxHighlighter]?[[[self syntaxHighlighter] defaultSyntaxStyle] copy]:[SyntaxStyle new];
+        [I_defaultSyntaxStyle setDocumentMode:self];
+
+        SyntaxStyle *style=[I_defaultSyntaxStyle copy];
+        NSDictionary *syntaxStyleDictionary=[I_defaults objectForKey:DocumentModeSyntaxStylePreferenceKey];
+        if (syntaxStyleDictionary) {
+            [style takeStylesFromDefaultsDictionary:syntaxStyleDictionary];
+        }        
+
+        if (![I_defaults objectForKey:DocumentModeBackgroundColorIsDarkPreferenceKey]) {
+            [I_defaults setObject:[NSNumber numberWithBool:NO] forKey:DocumentModeBackgroundColorIsDarkPreferenceKey];
+            if ([self isBaseMode] && [I_defaults objectForKey:DocumentModeBackgroundColorPreferenceKey]) {
+                // take old background and foreground color settings
+                NSValueTransformer *transformer=[NSValueTransformer valueTransformerForName:NSUnarchiveFromDataTransformerName];
+                NSColor *color=nil;
+                
+                color=[transformer transformedValue:[I_defaults objectForKey:DocumentModeBackgroundColorPreferenceKey]];
+                if (!color) color=[NSColor whiteColor];
+                BOOL isDark=[color isDark];
+                [I_defaults setObject:[NSNumber numberWithBool:isDark] forKey:DocumentModeBackgroundColorIsDarkPreferenceKey];
+                [[style styleForKey:SyntaxStyleBaseIdentifier] setObject:color forKey:isDark?@"inverted-background-color":@"background-color"];
+
+                color=[transformer transformedValue:[I_defaults objectForKey:DocumentModeForegroundColorPreferenceKey]];
+                if (!color) color=[NSColor blackColor];
+                [[style styleForKey:SyntaxStyleBaseIdentifier] setObject:color forKey:isDark?@"inverted-color":@"color"];
+            }
+        }
+
+        [self setSyntaxStyle:style];
+        [style release];
+    }
     return I_defaultSyntaxStyle;
 }
 

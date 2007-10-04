@@ -50,7 +50,7 @@
         I_cacheStylesReady = NO;
 		I_cacheStylesCalculating = NO;
 		I_symbolAndAutocompleteInheritanceReady=NO;
-    }
+	}
     
 //    NSLog([self description]);
     
@@ -631,6 +631,24 @@
     else return nil;
 }
 
+- (void)addImportedStyleIDsFromState:(NSDictionary *)aState {
+	aState = [self stateForID:[aState objectForKey:@"id"]]; // Refetch state to be sure to get the orignal and not a weak-link zombie
+	if (![aState objectForKey:@"styleID"]) return;
+    [I_defaultSyntaxStyle takeValuesFromDictionary:aState];
+    NSEnumerator *keywords = [[aState objectForKey:@"KeywordGroups"] objectEnumerator];
+    id keyword;
+    while ((keyword = [keywords nextObject])) {
+        [I_defaultSyntaxStyle takeValuesFromDictionary:keyword];
+    }
+    
+    NSEnumerator *subStates = [[aState objectForKey:@"states"] objectEnumerator];
+    id subState;
+    while ((subState = [subStates nextObject])) {
+        if (![I_defaultSyntaxStyle styleForKey:[subState objectForKey:@"styleID"]]) [self addImportedStyleIDsFromState:[self stateForID:[subState objectForKey:@"id"]]];
+    }
+    
+}
+
 - (void)setCombinedStateRegexForState:(NSMutableDictionary *)aState
 { 
 	if ([aState objectForKey:@"imports"]) {
@@ -646,7 +664,8 @@
 			
 			SyntaxDefinition *linkedDefinition = [[[DocumentModeManager sharedInstance] documentModeForName:[components objectAtIndex:1]] syntaxDefinition];
 			NSDictionary *linkedState = [linkedDefinition stateForID:importName];
-			
+
+
 			if (linkedState) {
 				if (!keywordsOnly) {
 					if (![aState objectForKey:@"states"]) [aState setObject:[NSMutableArray array] forKey:@"states"];
@@ -655,8 +674,8 @@
 				
 				if (![aState objectForKey:@"KeywordGroups"]) [aState setObject:[NSMutableArray array] forKey:@"KeywordGroups"];
 				[[aState objectForKey:@"KeywordGroups"] addObjectsFromArray:[linkedState objectForKey:@"KeywordGroups"]];
+                [self addImportedStyleIDsFromState:linkedState];		
 			}
-
 		}
 	} 
 
@@ -670,7 +689,6 @@
 	while ((aDictionary = [statesEnumerator nextObject])) {
         i++;
         NSString *beginString;
-                
 		if ([aDictionary objectForKey:@"hardlink"]) {
             NSString *linkedName = [aDictionary objectForKey:@"id"];
             NSArray *components = [linkedName componentsSeparatedByString:@"/"];
@@ -692,7 +710,9 @@
 				if ([linkedState objectForKey:@"type"])
 					[aDictionary setObject:[linkedState objectForKey:@"type"] forKey:@"type"];
             }
-        }
+			[self addImportedStyleIDsFromState:[self stateForID:linkedName]];
+
+		}
 		
 		
         if ((beginString = [aDictionary objectForKey:@"BeginsWithRegexString"])) {

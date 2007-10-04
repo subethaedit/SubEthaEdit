@@ -354,6 +354,7 @@ NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"P
 }
 
 - (SyntaxStyle *)defaultSyntaxStyle {
+	[I_syntaxDefinition getReady];
     return [I_syntaxDefinition defaultSyntaxStyle];
 }
 

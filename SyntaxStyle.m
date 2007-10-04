@@ -126,7 +126,7 @@ static NSArray *S_possibleStyleColors;
     CFXMLTreeRef cfXMLTree;
     CFDataRef xmlData;
     if (!(aPath)) {
-        NSLog(@"ERROR: Can't parse nil syntax definition.");
+        NSLog(@"ERROR: Can't parse nil syntax style.");
         return result;
     }
     CFURLRef sourceURL = (CFURLRef)[NSURL fileURLWithPath:aPath];
@@ -145,7 +145,7 @@ static NSArray *S_possibleStyleColors;
     int             childCount;
     int             index;
 
-    // Get a count of the top level nodeâ€™s children.
+    // Get a count of the top level nodeÕs children.
     childCount = CFTreeGetChildCount(cfXMLTree);
 
     // Print the data string for each top-level node.
@@ -259,20 +259,13 @@ static NSArray *S_possibleStyleColors;
 }
 
 - (void)addKey:(NSString *)aKey {
-    if (![SyntaxStyleBaseIdentifier isEqualTo:aKey]) 
-        [I_keyArray addObject:aKey];
+    if (![SyntaxStyleBaseIdentifier isEqualTo:aKey]) {
+        if (![I_keyArray containsObject:aKey]) [I_keyArray addObject:aKey];
+    }
 }
 
 
 - (NSMutableDictionary *)styleForKey:(NSString *)aKey {
-	NSArray *components = [aKey componentsSeparatedByString:@"/"];
-	NSString *modeName = nil;
-	if ([components count]>1) modeName = [components objectAtIndex:1];
-	
-	if (modeName && ![modeName isEqualToString:[[[self documentMode] syntaxDefinition] name]]) {
-		return [[[[DocumentModeManager sharedInstance] documentModeForName:modeName] syntaxStyle] styleForKey:aKey];
-	} 
-
     return [I_styleDictionary objectForKey:aKey];
 }
 
