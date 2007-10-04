@@ -911,7 +911,7 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
                 if (index<count) {
                         [self drawTableHeading:(visitors)
                          ?NSLocalizedString(@"Visitors",@"Title for Visitors in Export and Print")
-                         :NSLocalizedString(@"Contributors",@"Title for Visitors in Export and Print") 
+                         :NSLocalizedString(@"Contributors",@"Title for Contributors in Export and Print") 
                                 atPoint:cursor width:tableWidth];
                         cursor.y+=LEGENDTABLEHEADERHEIGHT;
                     
