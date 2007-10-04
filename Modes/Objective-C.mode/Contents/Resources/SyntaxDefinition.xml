@@ -1377,6 +1377,70 @@
                 <string>NSXMLNodeKind</string>
             </keywords>
             <keywords id="Cocoa Constants" color="#400080" font-weight="normal" font-style="italic" useforautocomplete="yes">
+                <string>NSAppKitVersionNumber10_0</string>
+                <string>NSAppKitVersionNumber10_1</string>
+                <string>NSAppKitVersionNumber10_2</string>
+                <string>NSAppKitVersionNumber10_2_3</string>
+                <string>NSAppKitVersionNumber10_3</string>
+                <string>NSAppKitVersionNumber10_3_3</string>
+                <string>NSAppKitVersionNumber10_3_5</string>
+                <string>NSAppKitVersionNumber10_3_7</string>
+                <string>NSAppKitVersionNumber10_3_9</string>
+                <string>NSAppKitVersionNumber10_4</string>
+                <string>NSAppKitVersionNumber</string>
+                <string>NSDefaultRunLoopMode</string>
+                <string>NSFoundationVersionNumber</string>
+                <string>NSFoundationVersionNumber10_0</string>
+                <string>NSFoundationVersionNumber10_1</string>
+                <string>NSFoundationVersionNumber10_1_1</string>
+                <string>NSFoundationVersionNumber10_1_2</string>
+                <string>NSFoundationVersionNumber10_1_3</string>
+                <string>NSFoundationVersionNumber10_1_4</string>
+                <string>NSFoundationVersionNumber10_2</string>
+                <string>NSFoundationVersionNumber10_2_1</string>
+                <string>NSFoundationVersionNumber10_2_2</string>
+                <string>NSFoundationVersionNumber10_2_3</string>
+                <string>NSFoundationVersionNumber10_2_4</string>
+                <string>NSFoundationVersionNumber10_2_5</string>
+                <string>NSFoundationVersionNumber10_2_6</string>
+                <string>NSFoundationVersionNumber10_2_7</string>
+                <string>NSFoundationVersionNumber10_2_8</string>
+                <string>NSFoundationVersionNumber10_3</string>
+                <string>NSFoundationVersionNumber10_3_1</string>
+                <string>NSFoundationVersionNumber10_3_2</string>
+                <string>NSFoundationVersionNumber10_3_3</string>
+                <string>NSFoundationVersionNumber10_3_4</string>
+                <string>NSFoundationVersionNumber10_3_5</string>
+                <string>NSFoundationVersionNumber10_3_6</string>
+                <string>NSFoundationVersionNumber10_3_7</string>
+                <string>NSFoundationVersionNumber10_3_8</string>
+                <string>NSFoundationVersionNumber10_3_9</string>
+                <string>NSFoundationVersionNumber10_4</string>
+                <string>NSFoundationVersionNumber10_4_1</string>
+                <string>NSFoundationVersionNumber10_4_2</string>
+                <string>NSFoundationVersionNumber10_4_3</string>
+                <string>NSFoundationVersionNumber10_4_4_Intel</string>
+                <string>NSFoundationVersionNumber10_4_4_PowerPC</string>
+                <string>NSFoundationVersionNumber10_4_5</string>
+                <string>NSFoundationVersionNumber10_4_6</string>
+                <string>NSFoundationVersionNumber10_4_7</string>
+                <string>NSFoundationVersionNumber10_4_8</string>
+                <string>NSFoundationVersionNumber10_4_9</string>
+                <string>NSFoundationVersionNumber10_4_10</string>
+                <string>NSFoundationVersionNumber10_4_11</string>
+                <string>NSAppKitVersionNumber10_0</string>
+                <string>NSAppKitVersionNumber10_1</string>
+                <string>NSAppKitVersionNumber10_2</string>
+                <string>NSAppKitVersionNumber10_2_3</string>
+                <string>NSAppKitVersionNumber10_3</string>
+                <string>NSAppKitVersionNumber10_3_3</string>
+                <string>NSAppKitVersionNumber10_3_5</string>
+                <string>NSAppKitVersionNumber10_3_7</string>
+                <string>NSAppKitVersionNumber10_3_9</string>
+                <string>NSAppKitVersionNumber10_4</string>
+                <string>NSAppKitVersionNumber</string>
+                <string>NSDefaultRunLoopMode</string>
+                <string>NSFoundationVersion</string>
                 <string>NSViewAnimationTargetKey</string>
                 <string>NSViewAnimationStartFrameKey</string>
                 <string>NSViewAnimationEndFrameKey</string>
