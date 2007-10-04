@@ -269,7 +269,7 @@ static DocumentModeManager *S_sharedInstance=nil;
 			} else [precendenceArray addObject:modeDictionary];
 			
 			[modeDictionary setObject:[bundle bundleIdentifier] forKey:@"Identifier"];
-			[modeDictionary setObject:[[self documentModeForIdentifier:[bundle bundleIdentifier]] displayName] forKey:@"Name"];
+			[modeDictionary setObject:[bundle objectForInfoDictionaryKey:@"CFBundleName"] forKey:@"Name"];
 			[modeDictionary setObject:[bundle objectForInfoDictionaryKey:@"CFBundleVersion"] forKey:@"Version"];
 			NSString *bundlePath = [bundle bundlePath];
 			NSString *location = @"User Library";

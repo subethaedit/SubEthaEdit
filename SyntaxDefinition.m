@@ -121,6 +121,11 @@
     
     // Parse states
     NSXMLElement *defaultStateNode = [[syntaxDefinitionXML nodesForXPath:@"/syntax/states/default" error:&err] lastObject];
+	
+	if (!defaultStateNode) {
+#warning Throw error here: No default state found
+	}
+	
     [self parseState:defaultStateNode addToState:I_defaultState];
     
     // For old-style, non-recursive modes
