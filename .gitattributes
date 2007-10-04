@@ -226,6 +226,9 @@ German.lproj/AboutPanel.nib/keyedobjects.nib -text
 German.lproj/AdvancedPrefs.nib/classes.nib -text
 German.lproj/AdvancedPrefs.nib/info.nib -text
 German.lproj/AdvancedPrefs.nib/keyedobjects.nib -text
+German.lproj/ConnectionBrowser.nib/classes.nib -text
+German.lproj/ConnectionBrowser.nib/info.nib -text
+German.lproj/ConnectionBrowser.nib/keyedobjects.nib -text
 German.lproj/DocumentProxy.nib/classes.nib -text
 German.lproj/DocumentProxy.nib/info.nib -text
 German.lproj/DocumentProxy.nib/keyedobjects.nib -text
@@ -270,6 +273,12 @@ German.lproj/PlainTextLoadProgress.nib/keyedobjects.nib -text
 German.lproj/PlainTextWindow.nib/classes.nib -text
 German.lproj/PlainTextWindow.nib/info.nib -text
 German.lproj/PlainTextWindow.nib/keyedobjects.nib -text
+German.lproj/PrecedencePrefs.nib/classes.nib -text
+German.lproj/PrecedencePrefs.nib/info.nib -text
+German.lproj/PrecedencePrefs.nib/keyedobjects.nib -text
+German.lproj/PrecedenceRules.nib/classes.nib -text
+German.lproj/PrecedenceRules.nib/info.nib -text
+German.lproj/PrecedenceRules.nib/keyedobjects.nib -text
 German.lproj/PrintOptions.nib/classes.nib -text
 German.lproj/PrintOptions.nib/info.nib -text
 German.lproj/PrintOptions.nib/keyedobjects.nib -text
@@ -309,6 +318,9 @@ German.lproj/SubEthaEditHelp/img/see-small.png -text
 German.lproj/SubEthaEditHelp/img/see.png -text
 German.lproj/SubEthaEditHelp/img/vertline2.gif -text
 German.lproj/SystemVersionCheck.strings -text
+German.lproj/UserStatistics.nib/classes.nib -text
+German.lproj/UserStatistics.nib/info.nib -text
+German.lproj/UserStatistics.nib/keyedobjects.nib -text
 German.lproj/WebPreview.nib/classes.nib -text
 German.lproj/WebPreview.nib/info.nib -text
 German.lproj/WebPreview.nib/keyedobjects.nib -text
