@@ -389,7 +389,6 @@
 		F2280A430BEF621A00255AAE /* SDDirectory.m in Sources */ = {isa = PBXBuildFile; fileRef = F2280A250BEF560000255AAE /* SDDirectory.m */; };
 		F234E1010BE0F1E100504A7C /* ServerConnectionWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = F234E0FF0BE0F1E100504A7C /* ServerConnectionWindowController.m */; };
 		F234E1020BE0F1EA00504A7C /* ServerConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F234E0FA0BE0F1C500504A7C /* ServerConnectionManager.m */; };
-		F234E3AE0BE20E8400504A7C /* ServerConnection.nib in Resources */ = {isa = PBXBuildFile; fileRef = F234E3AC0BE20E8400504A7C /* ServerConnection.nib */; };
 		F234E4590BE2592300504A7C /* NSWorkspaceTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F234E4570BE2592300504A7C /* NSWorkspaceTCMAdditions.m */; };
 		F23905670C7DEA3000E85DF8 /* seetext.icns in Resources */ = {isa = PBXBuildFile; fileRef = F23905660C7DEA3000E85DF8 /* seetext.icns */; };
 		F2406F0C0C8EE481000DC9FF /* LockTitlebar.png in Resources */ = {isa = PBXBuildFile; fileRef = F2406F0B0C8EE481000DC9FF /* LockTitlebar.png */; };
@@ -1268,6 +1267,9 @@
 		F27B2EED0B52968E00679CF2 /* HUDButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = HUDButtonCell.m; sourceTree = "<group>"; };
 		F27B2EEE0B52968E00679CF2 /* HUDButton.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = HUDButton.m; sourceTree = "<group>"; };
 		F27B2EEF0B52968E00679CF2 /* HUDButton.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = HUDButton.h; sourceTree = "<group>"; };
+		F28CAAF00CB55B900001111D /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/PrecedencePrefs.nib; sourceTree = "<group>"; };
+		F28CAAF10CB55B9A0001111D /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/PrecedenceRules.nib; sourceTree = "<group>"; };
+		F28CAAF20CB55BB00001111D /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/UserStatistics.nib; sourceTree = "<group>"; };
 		F299405E0C0C7F3400A53189 /* NSScreenTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = NSScreenTCMAdditions.m; sourceTree = "<group>"; };
 		F299405F0C0C7F3400A53189 /* NSScreenTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = NSScreenTCMAdditions.h; sourceTree = "<group>"; };
 		F29940780C0C806600A53189 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info.plist; path = see/Info.plist; sourceTree = "<group>"; };
@@ -2147,6 +2149,7 @@
 				2A37F4B6FDCFA73011CA2CEA /* MainMenu.nib */,
 				14289024095741BA00D14688 /* OpenPanelAccessory.nib */,
 				14289026095741BA00D14688 /* PlainTextEditor.nib */,
+				149774070B5E14FC004A546C /* PlainTextLoadProgress.nib */,
 				14289028095741BA00D14688 /* PlainTextWindow.nib */,
 				142893D90957599F00D14688 /* Preferences.nib */,
 				31D2C6D10CA7C78C003CC5C9 /* PrecedencePrefs.nib */,
@@ -2156,6 +2159,7 @@
 				14289030095741BA00D14688 /* SavePanelAccessory.nib */,
 				14289032095741BA00D14688 /* SelectEncodingsPanel.nib */,
 				14289036095741BA00D14688 /* StylePrefs.nib */,
+				F20948E30C7B4C2300E78EBA /* UserStatistics.nib */,
 				14289038095741BA00D14688 /* WebPreview.nib */,
 				1428904E0957429A00D14688 /* AppleScript */,
 				14289051095742A100D14688 /* Artwork */,
@@ -2164,10 +2168,8 @@
 				1428904A0957427100D14688 /* Modes */,
 				5E4DA73A09E15C6800D91CFC /* Scripts */,
 				142890450957421300D14688 /* SubEthaEditHelp */,
-				149774070B5E14FC004A546C /* PlainTextLoadProgress.nib */,
 				F234E3AC0BE20E8400504A7C /* ServerConnection.nib */,
 				F2A707C60BF8A54100482EFC /* LoginSheet.nib */,
-				F20948E30C7B4C2300E78EBA /* UserStatistics.nib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -2748,7 +2750,6 @@
 				F27B2EE70B52957800679CF2 /* hud_buttonFill-N.tiff in Resources */,
 				F27B2EE80B52957800679CF2 /* hud_buttonLeft-P.tiff in Resources */,
 				149774090B5E14FC004A546C /* PlainTextLoadProgress.nib in Resources */,
-				F234E3AE0BE20E8400504A7C /* ServerConnection.nib in Resources */,
 				F2D12A0B0BF0B6B000A776CC /* ConnectionBrowser.nib in Resources */,
 				F2A707970BF8935400482EFC /* LoginButton.png in Resources */,
 				F2A707B00BF89A4300482EFC /* LoginButtonIn.png in Resources */,
@@ -3476,6 +3477,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				31D2C6D20CA7C78C003CC5C9 /* English */,
+				F28CAAF00CB55B900001111D /* German */,
 			);
 			name = PrecedencePrefs.nib;
 			sourceTree = "<group>";
@@ -3484,6 +3486,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				31D2C6D40CA7C78C003CC5C9 /* English */,
+				F28CAAF10CB55B9A0001111D /* German */,
 			);
 			name = PrecedenceRules.nib;
 			sourceTree = "<group>";
@@ -3510,6 +3513,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				F20948E40C7B4C2300E78EBA /* English */,
+				F28CAAF20CB55BB00001111D /* German */,
 			);
 			name = UserStatistics.nib;
 			sourceTree = "<group>";
