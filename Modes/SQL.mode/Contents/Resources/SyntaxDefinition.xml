@@ -825,12 +825,12 @@
 				<regex>([A-Za-z0-9_]+ *)\(</regex>
             </keywords>
         
-            <state id="Comment" type="comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
+            <state id="Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
                 <begin><regex>/\*</regex></begin>
                 <end><regex>\*/</regex></end>
             </state>
             
-            <state id="Single Comment" type="comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
+            <state id="Single Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
                 <begin><regex>--</regex></begin>
                 <end><regex>[\n\r]</regex></end>
             </state>
@@ -841,17 +841,17 @@
             </state>
     
             
-            <state id="String Singlequoted" type="string" color="#760f15" background-color="none" font-weight="normal" font-style="normal">
+            <state id="String Singlequoted" type="string" color="#760f15" font-weight="normal" font-style="normal">
                 <begin><regex>'</regex></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
             </state>
             
-            <state id="String with Backticks" type="string" color="#760f15" background-color="none" font-weight="normal" font-style="normal">
+            <state id="String with Backticks" type="string" color="#760f15" font-weight="normal" font-style="normal">
                 <begin><regex>`</regex></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)`</regex></end>
             </state>
             
-            <state id="String Doublequoted" type="string" color="#608" background-color="none" font-weight="normal" font-style="normal">
+            <state id="String Doublequoted" type="string" color="#608" font-weight="normal" font-style="normal">
                 <begin><regex>"</regex></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
             </state>

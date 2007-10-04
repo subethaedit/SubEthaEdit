@@ -100,31 +100,31 @@
                     <state-link state="CSSSingleString" />
                 </state>
                 
-                <state id="CSSComment" type="comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
+                <state id="CSSComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
                     <begin><string>/\*</string></begin>
                     <end><regex>\*/</regex></end>
                     <state-link state="Ruby" />
                 </state>
                 
-                <state id="CSSSingleComment" type="comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
+                <state id="CSSSingleComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
                     <begin><string>//</string></begin>
                     <end><regex>[\n\r]</regex></end>
                     <state-link state="Ruby" />
                 </state>
         
-                <state id="CSSRound bracket" type="string" color="#760f15" background-color="none" font-weight="normal" font-style="normal">
+                <state id="CSSRound bracket" type="string" color="#760f15" font-weight="normal" font-style="normal">
                     <begin><string>\(</string></begin>
                     <end><regex>\)</regex></end>
                     <state-link state="Ruby" />
                 </state>
                 
-                <state id="CSSString" type="string" color="#760f15" background-color="none" font-weight="normal" font-style="normal">
+                <state id="CSSString" type="string" color="#760f15" font-weight="normal" font-style="normal">
                     <begin><string>"</string></begin>
                     <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
                     <state-link state="Ruby" />
                 </state>
         
-                <state id="CSSSingleString" type="string" color="#760f15" background-color="none" font-weight="normal" font-style="normal">
+                <state id="CSSSingleString" type="string" color="#760f15" font-weight="normal" font-style="normal">
                     <begin><string>'</string></begin>
                     <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
                     <state-link state="Ruby" />
@@ -151,19 +151,19 @@
                 
                 <state-link state="Ruby" />
                 
-                <state id="JSAutodocComment" type="comment" color="#236E25" background-color="none" font-weight="bold" font-style="italic">
+                <state id="JSAutodocComment" type="comment" color="#236E25" font-weight="bold" font-style="italic">
                     <begin><regex>/\*"</regex></begin>
                     <end><regex>"\*/</regex></end>
                     <state-link state="Ruby" />
                 </state>
         
-                <state id="JSComment" type="comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
+                <state id="JSComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
                     <begin><regex>/\*</regex></begin>
                     <end><regex>\*/</regex></end>
                     <state-link state="Ruby" />
                 </state>
                 
-                <state id="JSSingleComment" type="comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
+                <state id="JSSingleComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
                     <begin><regex>//</regex></begin>
                     <end><regex>[\n\r]</regex></end>
                     <state-link state="Ruby" />
@@ -175,13 +175,13 @@
                     <state-link state="Ruby" />
                 </state>
         
-                <state id="JSString" type="string" color="#760f15" background-color="none" font-weight="normal" font-style="normal">
+                <state id="JSString" type="string" color="#760f15" font-weight="normal" font-style="normal">
                     <begin><regex>"</regex></begin>
                     <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
                     <state-link state="Ruby" />
                 </state>
         
-                <state id="JSSingleString" type="string" color="#760f15" background-color="none" font-weight="normal" font-style="normal">
+                <state id="JSSingleString" type="string" color="#760f15" font-weight="normal" font-style="normal">
                     <begin><regex>'</regex></begin>
                     <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
                     <state-link state="Ruby" />

@@ -164,7 +164,7 @@
             if (aColor) attributeValue = aColor;
             else {
                 [aDictionary removeObjectForKey:attributeValue];
-				[self showWarning:NSLocalizedString(@"XML Color Error",@"XML Color Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"Cannot parse color '%@' in %@ mode: %@",@"Syntax XML Color Error Informative Text"), attributeValue, [self name]]];
+				[self showWarning:NSLocalizedString(@"XML Color Error",@"XML Color Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"Cannot parse color '%@' in %@ mode",@"Syntax XML Color Error Informative Text"), attributeValue, [self name]]];
                 continue;
             }
         }        
@@ -221,6 +221,7 @@
     } else if (stringBegin) {
         [stateDictionary setObject:stringBegin forKey:@"BeginsWithPlainString"];
     } else {
+		if (![name isEqualToString:@"default"])
 		[self showWarning:NSLocalizedString(@"XML Structure Error",@"XML Structure Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"State '%@' in %@ mode has no begin tag",@"Syntax State No Begin Error Informative Text"), [stateDictionary objectForKey:@"id"], [self name]]];
     }
 
@@ -236,6 +237,7 @@
     } else if (stringEnd) {
         [stateDictionary setObject:stringEnd forKey:@"EndsWithPlainString"];
     } else {
+		if (![name isEqualToString:@"default"])
 		[self showWarning:NSLocalizedString(@"XML Structure Error",@"XML Structure Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"State '%@' in %@ mode has no end tag",@"Syntax State No End Error Informative Text"), [stateDictionary objectForKey:@"id"], [self name]]];
     }
 

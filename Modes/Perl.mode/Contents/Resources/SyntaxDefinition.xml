@@ -346,7 +346,7 @@
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
             </state>
 
-            <state id="Heredoc" color="#760f15" background-color="none" font-weight="normal" font-style="normal">
+            <state id="Heredoc" color="#760f15" font-weight="normal" font-style="normal">
                 <begin><string>&lt;&lt;(?&lt;heredoc&gt;[A-Za-z][A-Za-z0-9_]*);</string></begin>
                 <end><regex>(?#see-insert-start-group:heredoc)</regex></end>
             </state>
