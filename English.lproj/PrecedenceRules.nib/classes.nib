@@ -1,101 +1,59 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-	<key>IBClasses</key>
-	<array>
-		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>removeRule</key>
-				<string>id</string>
-				<key>valuesChanged</key>
-				<string>id</string>
-			</dict>
-			<key>CLASS</key>
-			<string>RuleViewController</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>enabledCheckbox</key>
-				<string>NSButton</string>
-				<key>preferenceController</key>
-				<string>id</string>
-				<key>removeButton</key>
-				<string>NSButton</string>
-				<key>stringTextfield</key>
-				<string>NSTextField</string>
-				<key>typePopup</key>
-				<string>NSPopUpButton</string>
-				<key>view</key>
-				<string>NSView</string>
-				<key>warningImageView</key>
-				<string>NSImageView</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>NSApplication</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSResponder</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>NSMenuItem</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>TCMHost</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>I_delegate</key>
-				<string>id</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>NSMenu</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
-		</dict>
-		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>hostDidResolveAddress</key>
-				<string>TCMHost</string>
-				<key>hostDidResolveName</key>
-				<string>TCMHost</string>
-			</dict>
-			<key>CLASS</key>
-			<string>NSObject</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>PrecedenceRolloverButton</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSButton</string>
-		</dict>
-	</array>
-	<key>IBVersion</key>
-	<string>1</string>
-</dict>
-</plist>
+{
+    IBClasses =     (
+                {
+            CLASS = NSApplication;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSResponder;
+        },
+                {
+            CLASS = NSMenu;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSObject;
+        },
+                {
+            CLASS = NSMenuItem;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSObject;
+        },
+                {
+            ACTIONS =             {
+                hostDidResolveAddress = TCMHost;
+                hostDidResolveName = TCMHost;
+            };
+            CLASS = NSObject;
+            LANGUAGE = ObjC;
+        },
+                {
+            CLASS = PrecedenceRolloverButton;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSButton;
+        },
+                {
+            ACTIONS =             {
+                removeRule = id;
+                valuesChanged = id;
+            };
+            CLASS = RuleViewController;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                enabledCheckbox = NSButton;
+                preferenceController = id;
+                removeButton = NSButton;
+                stringTextfield = NSTextField;
+                typePopup = NSPopUpButton;
+                view = NSView;
+                warningImageView = NSImageView;
+            };
+            SUPERCLASS = NSObject;
+        },
+                {
+            CLASS = TCMHost;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                "I_delegate" = id;
+            };
+            SUPERCLASS = NSObject;
+        }
+    );
+    IBVersion = 1;
+}
