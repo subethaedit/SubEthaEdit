@@ -139,22 +139,22 @@
             </keywords>
 
         
-            <state id="Comment" type="comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
+            <state id="Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
                 <begin><regex>\(\*</regex></begin>
                 <end><regex>\*\)</regex></end>
             </state>
             
-            <state id="Comment Curly" type="comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
+            <state id="Comment Curly" type="comment" color="#236E25" font-weight="normal" font-style="italic">
                 <begin><regex>\{</regex></begin>
                 <end><regex>\}</regex></end>
             </state>
             
-            <state id="SingleComment" type="comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
+            <state id="SingleComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
                 <begin><regex>//</regex></begin>
                 <end><regex>[\n\r]</regex></end>
             </state>
             
-            <state id="String" type="string" color="#760f15" background-color="none" font-weight="normal" font-style="normal">
+            <state id="String" type="string" color="#760f15" font-weight="normal" font-style="normal">
                 <begin><regex>'</regex></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
             </state>

@@ -1726,27 +1726,27 @@
 				<regex>(^[ 	]*#([^\n\r])*)</regex>
             </keywords>
         
-            <state id="JavadocComment" type="comment" color="#236E25" background-color="none" font-weight="bold" font-style="italic">
+            <state id="JavadocComment" type="comment" color="#236E25" font-weight="bold" font-style="italic">
                 <begin><regex>/\*\*(?=[\n\r])</regex></begin>
                 <end><regex>\*/</regex></end>
             </state>
     
-            <state id="Comment" type="comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
+            <state id="Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
                 <begin><regex>/\*</regex></begin>
                 <end><regex>\*/</regex></end>
             </state>
             
-            <state id="SingleComment" type="comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
+            <state id="SingleComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
                 <begin><regex>//</regex></begin>
                 <end><regex>[\n\r]</regex></end>
             </state>
             
-            <state id="Double Quoted String" type="string" color="#727272" background-color="none" font-weight="normal" font-style="normal">
+            <state id="Double Quoted String" type="string" color="#727272" font-weight="normal" font-style="normal">
                 <begin><regex>"</regex></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
             </state>
             
-            <state id="Single Quoted String" type="string" color="#727272" background-color="none" font-weight="normal" font-style="normal">
+            <state id="Single Quoted String" type="string" color="#727272" font-weight="normal" font-style="normal">
                 <begin><regex>'</regex></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
             </state>

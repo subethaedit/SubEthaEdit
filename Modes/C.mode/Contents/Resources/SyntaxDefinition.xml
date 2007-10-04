@@ -72,12 +72,12 @@
 				<regex>([A-Za-z0-9_]+ *)\(</regex>
             </keywords>
 
-            <state id="Characters" color="#00f" background-color="none" font-weight="normal" font-style="normal">
+            <state id="Characters" color="#00f" font-weight="normal" font-style="normal">
                 <begin><regex>'(?=\\?.')</regex></begin>
                 <end><regex>(\\'')|(.')</regex></end>
             </state>
     
-            <state id="Preprocessor" color="#683821" background-color="none">
+            <state id="Preprocessor" color="#683821">
                 <begin><regex>#</regex></begin>
                 <end><regex>((?&lt;=[^\\])[\n\r])|(^[\n\r])</regex></end>
                 <keywords id="Numbers" color="#00f" useforautocomplete="no">
@@ -85,7 +85,7 @@
                 </keywords>
             </state>
     
-            <state id="DoxyGen Comment" type="comment" color="#236E25" background-color="none"  font-style="italic">
+            <state id="DoxyGen Comment" type="comment" color="#236E25"  font-style="italic">
                 <begin><regex>/\*[\*\!]</regex></begin>
                 <end><regex>\*/</regex></end>
                 <keywords id="DoxyGen Tags" color="#236E25" font-weight="bold" useforautocomplete="no">
@@ -93,22 +93,22 @@
                 </keywords>
             </state>
     
-            <state id="AutodocComment" type="comment" color="#236E25" background-color="none" font-weight="bold" font-style="italic">
+            <state id="AutodocComment" type="comment" color="#236E25" font-weight="bold" font-style="italic">
                 <begin><regex>/\*"</regex></begin>
                 <end><regex>"\*/</regex></end>
             </state>
     
-            <state id="Comment" type="comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
+            <state id="Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
                 <begin><regex>/\*</regex></begin>
                 <end><regex>\*/</regex></end>
             </state>
             
-            <state id="SingleComment" type="comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
+            <state id="SingleComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
                 <begin><regex>//</regex></begin>
                 <end><regex>[\n\r]</regex></end>
             </state>
             
-            <state id="String" type="string" color="#760f15" background-color="none" font-weight="normal" font-style="normal">
+            <state id="String" type="string" color="#760f15" font-weight="normal" font-style="normal">
                 <begin><regex>"</regex></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
             </state>
