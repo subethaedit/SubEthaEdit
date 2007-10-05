@@ -498,6 +498,8 @@ Modes/C.mode/Contents/Resources/Scripts/60-un_comment_lines.scpt -text
 Modes/C.mode/Contents/Resources/SyntaxDefinition.xml -text
 Modes/C.mode/Contents/Resources/ToolbarCounterpart.png -text
 Modes/CFML.mode/Contents/Info.plist -text
+Modes/CFML.mode/Contents/Resources/English.lproj/Localizable.strings -text
+Modes/CFML.mode/Contents/Resources/German.lproj/Localizable.strings -text
 Modes/CFML.mode/Contents/Resources/ModeSettings.xml -text
 Modes/CFML.mode/Contents/Resources/RegexSymbols.xml -text
 Modes/CFML.mode/Contents/Resources/Scripts/Add[!!-~]Link.scpt -text

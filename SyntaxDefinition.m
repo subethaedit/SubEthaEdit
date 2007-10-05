@@ -567,6 +567,7 @@
 		I_symbolAndAutocompleteInheritanceReady = YES;
 //		NSLog(@"Defaultstate: Sym:%@, Auto:%@", [[self defaultState] objectForKey:[self keyForInheritedSymbols]],[[self defaultState] objectForKey:[self keyForInheritedAutocomplete]]);
 	}
+	//NSLog(@"foo: %@", [I_defaultSyntaxStyle allKeys]);
 }
 
 - (NSDictionary *)stateForID:(NSString *)aString {
