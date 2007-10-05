@@ -323,6 +323,11 @@ static AppController *sharedInstance = nil;
 #define MODEMENUNAMETAG 20 
 
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
+    //#warning "Termination has to be removed before release!"
+    if ([[NSDate dateWithString:@"2007-10-21 12:00:00 +0000"] timeIntervalSinceNow] < 0) {
+        [NSApp terminate:self];
+        return;
+    }
 
     // prepare images
     NSImage *image = [[[NSImage imageNamed:@"UnknownPerson"] resizedImageWithSize:NSMakeSize(32.0, 32.0)] retain];
