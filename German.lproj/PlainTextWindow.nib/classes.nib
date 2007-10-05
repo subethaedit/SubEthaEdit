@@ -11,17 +11,27 @@
             ACTIONS = {
                 changePendingUsersAccess = id; 
                 closeParticipantsDrawer = id; 
+                closeTab = id; 
+                followUser = id; 
                 kickButtonAction = id; 
+                openInSeparateWindow = id; 
                 openParticipantsDrawer = id; 
+                participantDoubleAction = id; 
                 readOnlyButtonAction = id; 
                 readWriteButtonAction = id; 
+                selectNextTab = id; 
+                selectPreviousTab = id; 
+                showDocumentAtIndex = id; 
+                toggleFollowUser = id; 
                 toggleLineNumbers = id; 
             }; 
             CLASS = PlainTextWindowController; 
             LANGUAGE = ObjC; 
             OUTLETS = {
+                "I_documentDialog" = id; 
                 "O_URLImageView" = NSImageView; 
                 "O_actionPullDown" = NSPopUpButton; 
+                "O_followButton" = NSButton; 
                 "O_kickButton" = NSButton; 
                 "O_participantsDrawer" = NSDrawer; 
                 "O_participantsScrollView" = NSScrollView; 
