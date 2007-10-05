@@ -251,9 +251,6 @@ German.lproj/GeneralPrefs.nib/classes.nib -text
 German.lproj/GeneralPrefs.nib/info.nib -text
 German.lproj/GeneralPrefs.nib/keyedobjects.nib -text
 German.lproj/InfoPlist.strings -text
-German.lproj/InternetBrowser.nib/classes.nib -text
-German.lproj/InternetBrowser.nib/info.nib -text
-German.lproj/InternetBrowser.nib/keyedobjects.nib -text
 German.lproj/License.nib/classes.nib -text
 German.lproj/License.nib/info.nib -text
 German.lproj/License.nib/keyedobjects.nib -text
@@ -286,9 +283,6 @@ German.lproj/PrintPrefs.nib/classes.nib -text
 German.lproj/PrintPrefs.nib/info.nib -text
 German.lproj/PrintPrefs.nib/keyedobjects.nib -text
 German.lproj/ReleaseNotes.txt -text
-German.lproj/RendezvousBrowser.nib/classes.nib -text
-German.lproj/RendezvousBrowser.nib/info.nib -text
-German.lproj/RendezvousBrowser.nib/keyedobjects.nib -text
 German.lproj/SavePanelAccessory.nib/classes.nib -text
 German.lproj/SavePanelAccessory.nib/info.nib -text
 German.lproj/SavePanelAccessory.nib/keyedobjects.nib -text
