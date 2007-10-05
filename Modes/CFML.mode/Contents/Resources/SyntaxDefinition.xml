@@ -1,0 +1,838 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "syntax.dtd">
+<syntax>
+
+
+	<head>
+
+		<name>CFML</name>
+
+		<charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ><.:;,-+*#@&]]></charsintokens> 
+		<charsincompletion><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ.&-@</="!()]]></charsincompletion>
+	</head>
+	
+	<states>
+	
+		<!-- HTML is the default -->
+		<default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
+
+			<keywords id="Tags" color="#881280" useforautocomplete="no">
+				<regex>(&lt;[^&gt;]*&gt;)</regex>
+			</keywords>
+
+			<keywords id="CFML Output Variables" color="#825900" casesensitive="no" useforautocomplete="no">
+				<regex>(#[^&gt;&lt;#=]+#)</regex><!-- outside tags -->
+				<regex>"(#[^"&gt;&lt;#=]+#)"(?=[^&lt;]*&gt;)</regex><!-- inside tags -->
+				<regex>'(#[^'&gt;&lt;#=]+#)'(?=[^&lt;]*&gt;)</regex><!-- inside tags -->
+			</keywords>
+
+			<keywords id="Strings in Tags" color="#1A1AA6" useforautocomplete="no">
+				<regex>=("[^"&lt;&gt;#]*#?[^"&lt;&gt;#]*")(?=[^&lt;#]*&gt;)</regex><!-- can include pound signs -->
+				<regex>=("[#]{0,2}[^"&lt;&gt;#]*")(?=[^&lt;]*&gt;)</regex><!-- cannot include pound signs -->
+				<regex>=('[#]{0,2}[^'&gt;&lt;#]*')(?=[^&lt;]*&gt;)</regex><!-- cannot include pound signs -->
+				<regex>=("http[\w/.#,=:]+[^"&lt;&gt;#]*")(?=[^&lt;]*&gt;)</regex><!-- flash code base and pulgin urls may have anchors in them -->
+				<regex>=('http[\w/.#,=:]+[^'&lt;&gt;#]*')(?=[^&lt;]*&gt;)</regex><!-- flash code base and pulgin urls may have anchors in them -->
+				<regex>="([\w/.,=:\?]+[^"&lt;&gt;#]*)#[^"&lt;&gt;#=]*#(?=[^&lt;]*&gt;)</regex><!-- color the string preceding an embedded CFML output variable -->
+				<regex>='([\w/.,=:\?]+[^'&lt;&gt;#]*)#[^'&lt;&gt;#=]*#(?=[^&lt;]*&gt;)</regex><!-- color the string preceding an embedded CFML output variable -->
+				<regex>#[^"&lt;&gt;#=]*#([\w/.,=:\?]+[^"&lt;&gt;#]*)"(?=[^&lt;]*&gt;)</regex><!-- and after -->
+				<regex>#[^'&lt;&gt;#=]*#([\w/.,=:\?]+[^'&lt;&gt;#]*)'(?=[^&lt;]*&gt;)</regex><!-- and after -->
+
+			</keywords>
+	
+			<keywords id="Attributes in Tags" color="#994500" useforautocomplete="no">
+				<regex>([\w-]*)[ \t]*=[ \t]*"[^"&gt;&lt;]*"(?=[^&lt;]*&gt;)</regex>
+				<regex>([\w-]*)[ \t]*=[ \t]*'[^'&gt;&lt;]*'(?=[^&lt;]*&gt;)</regex>
+			</keywords>
+			
+			<keywords id="Entities" color="#881280" useforautocomplete="no">
+				<regex>(&amp;\w{1,8};)</regex>
+				<regex>(&amp;#[0-9]+;)</regex>
+				<regex>(&amp;#x[A-Fa-f0-9]+;)</regex>
+			</keywords>
+			
+		</default>
+		
+		<!-- CFML -->
+		<state id="CFML" color="#000000" inverted-color="#FFFFFF">
+			<begin><regex>&lt;[/]?cf</regex></begin>
+			<end><regex>[^&gt;]*&gt;</regex></end>
+			
+			<keywords id="Tags" color="#C0180D" casesensitive="no" useforautocomplete="no">
+				<regex>(&lt;[/]?cf[^&gt;]*&gt;)</regex>
+			</keywords>
+			
+			<keywords id="Scope and Tag Variables" color="#760f15" casesensitive="no" useforautocomplete="no">
+				<regex>((session\.|application\.|request\.|request\.session\.|client\.|server\.|server\.coldfusion\.|form\.|cfcatch\.|cfdirectory\.|cferror\.|cffile\.|cfftp\.|cfhtp\.|cfindex\.|cfldap\.|cfpop\.|cfquery\.|cfregistry\.|cfsearch\.|cfstoredproc\.|cgi\.|url\.|cookie\.)([\w\d])+(\[([\w\d"'])+\])?)</regex>
+			</keywords>
+			
+			<keywords id="Tag Attribute Values" color="#EB7300" casesensitive="no" useforautocomplete="no">
+				<regex>("[^"&gt;&lt;]*")(?=[^&lt;]*&gt;)</regex>
+				<regex>('[^'&gt;&lt;]*')(?=[^&lt;]*&gt;)</regex>
+			</keywords>
+			
+			<keywords id="Generic Functions" color="#661AA9" casesensitive="no" useforautocomplete="no">
+				<regex>([\w]+[\(]{1}[\w\s\.\[\]\)\(\"/;,|#&amp;]+[\)]{1})(?=[^&lt;]*&gt;)</regex>
+			</keywords>
+
+			<keywords id="Output Variables" color="#825900" casesensitive="no" useforautocomplete="no">
+				<regex>(#[^&lt;&gt;#]+#)</regex>
+			</keywords>
+			
+			<keywords id="Functions" color="#661AA9" font-style="normal" casesensitive="no" useforautocomplete="yes">
+				<string>Abs</string>
+				<string>ACos</string>
+				<string>AddSOAPRequestHeader</string>
+				<string>AddSOAPResponseHeader</string>
+				<string>ArrayAppend</string>
+				<string>ArrayAvg</string>
+				<string>ArrayClear</string>
+				<string>ArrayDeleteAt</string>
+				<string>ArrayInsertAt</string>
+				<string>ArrayIsEmpty</string>
+				<string>ArrayLen</string>
+				<string>ArrayMax</string>
+				<string>ArrayMin</string>
+				<string>ArrayNew</string>
+				<string>ArrayPrepend</string>
+				<string>ArrayResize</string>
+				<string>ArraySet</string>
+				<string>ArraySort</string>
+				<string>ArraySum</string>
+				<string>ArraySwap</string>
+				<string>ArrayToList</string>
+				<string>Asc</string>
+				<string>ASin</string>
+				<string>Atn</string>
+				<string>BinaryDecode</string>
+				<string>BinaryEncode</string>
+				<string>BitAnd</string>
+				<string>BitMaskClear</string>
+				<string>BitMaskRead</string>
+				<string>BitMaskSet</string>
+				<string>BitNot</string>
+				<string>BitOr</string>
+				<string>BitSHLN</string>
+				<string>BitSHRN</string>
+				<string>BitXor</string>
+				<string>Ceiling</string>
+				<string>CharsetDecode</string>
+				<string>CharsetEncode</string>
+				<string>Chr</string>
+				<string>CJustify</string>
+				<string>Compare</string>
+				<string>CompareNoCase</string>
+				<string>Cos</string>
+				<string>CreateDate</string>
+				<string>CreateDateTime</string>
+				<string>CreateObject</string>
+				<string>CreateODBCDate</string>
+				<string>CreateODBCDateTime</string>
+				<string>CreateODBCTime</string>
+				<string>CreateTime</string>
+				<string>CreateTimeSpan</string>
+				<string>CreateUUID</string>
+				<string>DateAdd</string>
+				<string>DateCompare</string>
+				<string>DateConvert</string>
+				<string>DateDiff</string>
+				<string>DateFormat</string>
+				<string>DatePart</string>
+				<string>Day</string>
+				<string>DayOfWeek</string>
+				<string>DayOfWeekAsString</string>
+				<string>DayOfYear</string>
+				<string>DaysInMonth</string>
+				<string>DaysInYear</string>
+				<string>DE</string>
+				<string>DecimalFormat</string>
+				<string>DecrementValue</string>
+				<string>Decrypt</string>
+				<string>DecryptBinary</string>
+				<string>DeleteClientVariable</string>
+				<string>DirectoryExists</string>
+				<string>DollarFormat</string>
+				<string>Duplicate</string>
+				<string>Encrypt</string>
+				<string>EncryptBinary</string>
+				<string>Evaluate</string>
+				<string>Exp</string>
+				<string>ExpandPath</string>
+				<string>FileExists</string>
+				<string>Find</string>
+				<string>FindNoCase</string>
+				<string>FindOneOf</string>
+				<string>FirstDayOfMonth</string>
+				<string>Fix</string>
+				<string>FormatBaseN</string>
+				<string>GetAuthUser</string>
+				<string>GetBaseTagData</string>
+				<string>GetBaseTagList</string>
+				<string>GetBaseTemplatePath</string>
+				<string>GetClientVariablesList</string>
+				<string>GetCurrentTemplatePath</string>
+				<string>GetDirectoryFromPath</string>
+				<string>GetEncoding</string>
+				<string>GetException</string>
+				<string>GetFileFromPath</string>
+				<string>GetFunctionList</string>
+				<string>GetGatewayHelper</string>
+				<string>GetHttpRequestData</string>
+				<string>GetHttpTimeString</string>
+				<string>GetLocale</string>
+				<string>GetLocaleDisplayName</string>
+				<string>GetLocalHostIP</string>
+				<string>GetMetaData</string>
+				<string>GetMetricData</string>
+				<string>GetPageContext</string>
+				<string>GetProfileSections</string>
+				<string>GetProfileString</string>
+				<string>GetSOAPRequest</string>
+				<string>GetSOAPRequestHeader</string>
+				<string>GetSOAPResponse</string>
+				<string>GetSOAPResponseHeader</string>
+				<string>GetTempDirectory</string>
+				<string>GetTempFile</string>
+				<string>GetTickCount</string>
+				<string>GetTimeZoneInfo</string>
+				<string>GetToken</string>
+				<string>Hash</string>
+				<string>Hour</string>
+				<string>HTMLCodeFormat</string>
+				<string>HTMLEditFormat</string>
+				<string>IIf</string>
+				<string>IncrementValue</string>
+				<string>InputBaseN</string>
+				<string>Insert</string>
+				<string>Int</string>
+				<string>IsArray</string>
+				<string>IsBinary</string>
+				<string>IsBoolean</string>
+				<string>IsCustomFunction</string>
+				<string>IsDate</string>
+				<string>IsDebugMode</string>
+				<string>IsDefined</string>
+				<string>IsLeapYear</string>
+				<string>IsLocalHost</string>
+				<string>IsNumeric</string>
+				<string>IsNumericDate</string>
+				<string>IsObject</string>
+				<string>IsQuery</string>
+				<string>IsSimpleValue</string>
+				<string>IsSOAPRequest</string>
+				<string>IsStruct</string>
+				<string>IsUserInRole</string>
+				<string>IsValid</string>
+				<string>IsWDDX</string>
+				<string>IsXML</string>
+				<string>IsXmlAttribute</string>
+				<string>IsXmlDoc</string>
+				<string>IsXmlElem</string>
+				<string>IsXmlNode</string>
+				<string>IsXmlRoot</string>
+				<string>JavaCast</string>
+				<string>JSStringFormat</string>
+				<string>LCase</string>
+				<string>Left</string>
+				<string>Len</string>
+				<string>ListAppend</string>
+				<string>ListChangeDelims</string>
+				<string>ListContains</string>
+				<string>ListContainsNoCase</string>
+				<string>ListDeleteAt</string>
+				<string>ListFind</string>
+				<string>ListFindNoCase</string>
+				<string>ListFirst</string>
+				<string>ListGetAt</string>
+				<string>ListInsertAt</string>
+				<string>ListLast</string>
+				<string>ListLen</string>
+				<string>ListPrepend</string>
+				<string>ListQualify</string>
+				<string>ListRest</string>
+				<string>ListSetAt</string>
+				<string>ListSort</string>
+				<string>ListToArray</string>
+				<string>ListValueCount</string>
+				<string>ListValueCountNoCase</string>
+				<string>LJustify</string>
+				<string>Log</string>
+				<string>Log10</string>
+				<string>LSCurrencyFormat</string>
+				<string>LSDateFormat</string>
+				<string>LSEuroCurrencyFormat</string>
+				<string>LSIsCurrency</string>
+				<string>LSIsDate</string>
+				<string>LSIsNumeric</string>
+				<string>LSNumberFormat</string>
+				<string>LSParseCurrency</string>
+				<string>LSParseDateTime</string>
+				<string>LSParseEuroCurrency</string>
+				<string>LSParseNumber</string>
+				<string>LSTimeFormat</string>
+				<string>LTrim</string>
+				<string>Max</string>
+				<string>Mid</string>
+				<string>Min</string>
+				<string>Minute</string>
+				<string>Month</string>
+				<string>MonthAsString</string>
+				<string>Now</string>
+				<string>NumberFormat</string>
+				<string>ParagraphFormat</string>
+				<string>ParseDateTime</string>
+				<string>Pi</string>
+				<string>PreserveSingleQuotes</string>
+				<string>Quarter</string>
+				<string>QueryAddColumn</string>
+				<string>QueryAddRow</string>
+				<string>QueryNew</string>
+				<string>QuerySetCell</string>
+				<string>QuotedValueList</string>
+				<string>Rand</string>
+				<string>Randomize</string>
+				<string>RandRange</string>
+				<string>REFind</string>
+				<string>REFindNoCase</string>
+				<string>ReleaseComObject</string>
+				<string>RemoveChars</string>
+				<string>RepeatString</string>
+				<string>Replace</string>
+				<string>ReplaceList</string>
+				<string>ReplaceNoCase</string>
+				<string>REReplace</string>
+				<string>REReplaceNoCase</string>
+				<string>Reverse</string>
+				<string>Right</string>
+				<string>RJustify</string>
+				<string>Round</string>
+				<string>RTrim</string>
+				<string>Second</string>
+				<string>SendGatewayMessage</string>
+				<string>SetEncoding</string>
+				<string>SetLocale</string>
+				<string>SetProfileString</string>
+				<string>SetVariable</string>
+				<string>Sgn</string>
+				<string>Sin</string>
+				<string>SpanExcluding</string>
+				<string>SpanIncluding</string>
+				<string>Sqr</string>
+				<string>StripCR</string>
+				<string>StructAppend</string>
+				<string>StructClear</string>
+				<string>StructCopy</string>
+				<string>StructCount</string>
+				<string>StructDelete</string>
+				<string>StructFind</string>
+				<string>StructFindKey</string>
+				<string>StructFindValue</string>
+				<string>StructGet</string>
+				<string>StructInsert</string>
+				<string>StructIsEmpty</string>
+				<string>StructKeyArray</string>
+				<string>StructKeyExists</string>
+				<string>StructKeyList</string>
+				<string>StructNew</string>
+				<string>StructSort</string>
+				<string>StructUpdate</string>
+				<string>Tan</string>
+				<string>TimeFormat</string>
+				<string>ToBase64</string>
+				<string>ToBinary</string>
+				<string>ToScript</string>
+				<string>ToString</string>
+				<string>Trim</string>
+				<string>UCase</string>
+				<string>URLDecode</string>
+				<string>URLEncodedFormat</string>
+				<string>URLSessionFormat</string>
+				<string>Val</string>
+				<string>ValueList</string>
+				<string>Week</string>
+				<string>Wrap</string>
+				<string>WriteOutput</string>
+				<string>XmlChildPos</string>
+				<string>XmlElemNew</string>
+				<string>XmlFormat</string>
+				<string>XmlGetNodeType</string>
+				<string>XmlNew</string>
+				<string>XmlParse</string>
+				<string>XmlSearch</string>
+				<string>XmlTransform</string>
+				<string>XmlValidate</string>
+				<string>Year</string>
+				<string>YesNoFormat</string>
+			</keywords>
+						
+		</state>
+
+		<!-- revised comments to distinguish between HTML and CFML comments (CFML comments do not output to the source code of the web page -->
+		<state id="HTML Comment" color="#236E25" font-weight="normal" font-style="italic">
+			<begin><regex>&lt;!--[\s]{1}</regex></begin>
+			<end><regex>[^&gt;]*[\s]{1}--&gt;</regex></end>			   
+		</state>
+		
+		<state id="CFML Comment" color="#727272" font-weight="normal" font-style="italic">
+			<begin><regex>&lt;!---[\s]{1}</regex></begin>
+			<end><regex>[^&gt;]*[\s]{1}---&gt;</regex></end>			
+		</state>
+		<!-- end revised comments -->		
+		
+		<state id="Escape" color="#236E25" font-style="italic">
+			<begin><regex>&lt;\?</regex></begin>
+			<end><regex>\?&gt;</regex></end>
+		</state>
+		
+		<state id="Inline CSS" color="#000" font-style="normal">
+			<begin><regex>&lt;style</regex></begin>
+			<end><regex>(?:/style&gt;)|(?:/&gt;)</regex></end>
+
+			<keywords id="CSS Attributes" font-style="normal" color="#9B4400" useforautocomplete="yes">
+				<string>inherit</string>
+				<string>none</string>
+				<string>hidden</string>
+				<string>dotted</string>
+				<string>dashed</string>
+				<string>solid</string>
+				<string>double</string>
+				<string>groove</string>
+				<string>ridge</string>
+				<string>inset</string>
+				<string>outset</string>
+				<string>xx-small</string>
+				<string>x-small</string>
+				<string>small</string>
+				<string>medium</string>
+				<string>large</string>
+				<string>x-large</string>
+				<string>xx-large</string>
+				<string>smaller</string>
+				<string>larger</string>
+				<string>italic</string>
+				<string>oblique</string>
+				<string>small-caps</string>
+				<string>normal</string>
+				<string>bold</string>
+				<string>bolder</string>
+				<string>lighter</string>
+				<string>light</string>
+				<string>100</string>
+				<string>200</string>
+				<string>300</string>
+				<string>400</string>
+				<string>500</string>
+				<string>600</string>
+				<string>700</string>
+				<string>800</string>
+				<string>900</string>
+				<string>transparent</string>
+				<string>repeat</string>
+				<string>repeat-x</string>
+				<string>repeat-y</string>
+				<string>no-repeat</string>
+				<string>baseline</string>
+				<string>sub</string>
+				<string>super</string>
+				<string>top</string>
+				<string>text-top</string>
+				<string>middle</string>
+				<string>bottom</string>
+				<string>text-bottom</string>
+				<string>left</string>
+				<string>right</string>
+				<string>center</string>
+				<string>justify</string>
+				<string>konq-center</string>
+				<string>disc</string>
+				<string>circle</string>
+				<string>square</string>
+				<string>decimal</string>
+				<string>decimal-leading-zero</string>
+				<string>lower-roman</string>
+				<string>upper-roman</string>
+				<string>lower-greek</string>
+				<string>lower-alpha</string>
+				<string>lower-latin</string>
+				<string>upper-alpha</string>
+				<string>upper-latin</string>
+				<string>hebrew</string>
+				<string>armenian</string>
+				<string>georgian</string>
+				<string>cjk-ideographic</string>
+				<string>hiragana</string>
+				<string>katakana</string>
+				<string>hiragana-iroha</string>
+				<string>katakana-iroha</string>
+				<string>inline</string>
+				<string>block</string>
+				<string>list-item</string>
+				<string>run-in</string>
+				<string>compact</string>
+				<string>marker</string>
+				<string>table</string>
+				<string>inline-table</string>
+				<string>table-row-group</string>
+				<string>table-header-group</string>
+				<string>table-footer-group</string>
+				<string>table-row</string>
+				<string>table-column-group</string>
+				<string>table-column</string>
+				<string>table-cell</string>
+				<string>table-caption</string>
+				<string>auto</string>
+				<string>crosshair</string>
+				<string>default</string>
+				<string>pointer</string>
+				<string>move</string>
+				<string>e-resize</string>
+				<string>ne-resize</string>
+				<string>nw-resize</string>
+				<string>n-resize</string>
+				<string>se-resize</string>
+				<string>sw-resize</string>
+				<string>s-resize</string>
+				<string>w-resize</string>
+				<string>text</string>
+				<string>wait</string>
+				<string>help</string>
+				<string>above</string>
+				<string>absolute</string>
+				<string>always</string>
+				<string>avoid</string>
+				<string>below</string>
+				<string>bidi-override</string>
+				<string>blink</string>
+				<string>both</string>
+				<string>capitalize</string>
+				<string>caption</string>
+				<string>close-quote</string>
+				<string>collapse</string>
+				<string>condensed</string>
+				<string>crop</string>
+				<string>cross</string>
+				<string>embed</string>
+				<string>expanded</string>
+				<string>extra-condensed</string>
+				<string>extra-expanded</string>
+				<string>fixed</string>
+				<string>hand</string>
+				<string>hide</string>
+				<string>higher</string>
+				<string>icon</string>
+				<string>inside</string>
+				<string>invert</string>
+				<string>landscape</string>
+				<string>level</string>
+				<string>line-through</string>
+				<string>loud</string>
+				<string>lower</string>
+				<string>lowercase</string>
+				<string>ltr</string>
+				<string>menu</string>
+				<string>message-box</string>
+				<string>mix</string>
+				<string>narrower</string>
+				<string>no-close-quote</string>
+				<string>no-open-quote</string>
+				<string>nowrap</string>
+				<string>open-quote</string>
+				<string>outside</string>
+				<string>overline</string>
+				<string>portrait</string>
+				<string>pre</string>
+				<string>relative</string>
+				<string>rtl</string>
+				<string>scroll</string>
+				<string>semi-condensed</string>
+				<string>semi-expanded</string>
+				<string>separate</string>
+				<string>show</string>
+				<string>small-caption</string>
+				<string>static</string>
+				<string>static-position</string>
+				<string>status-bar</string>
+				<string>thick</string>
+				<string>thin</string>
+				<string>ultra-condensed</string>
+				<string>ultra-expanded</string>
+				<string>underline</string>
+				<string>uppercase</string>
+				<string>visible</string>
+				<string>wider</string>
+				<string>break</string>
+				<string>url</string>
+				<string>aqua</string>
+				<string>black</string>
+				<string>blue</string>
+				<string>fuchsia</string>
+				<string>gray</string>
+				<string>green</string>
+				<string>lime</string>
+				<string>maroon</string>
+				<string>navy</string>
+				<string>olive</string>
+				<string>purple</string>
+				<string>red</string>
+				<string>silver</string>
+				<string>teal</string>
+				<string>white</string>
+				<string>yellow</string>
+				<string>never</string>
+				<string>break-all</string>
+				<string>break-strict</string>
+				<string>keep-all</string>
+				<string>break-word</string>
+				<string>loose</string>
+				<string>url</string>
+			</keywords>
+
+			<keywords id="CSS Keywords" color="#88134F" font-style="normal" useforautocomplete="yes">
+				<string>azimuth</string>
+				<string>background-attachment</string>
+				<string>background-color</string>
+				<string>background-image</string>
+				<string>background-position</string>
+				<string>background-position-y</string>
+				<string>background-position-x</string>
+				<string>background-repeat</string>
+				<string>border-collapse</string>
+				<string>border-spacing</string>
+				<string>border-top-color</string>
+				<string>border-right-color</string>
+				<string>border-bottom-color</string>
+				<string>border-left-color</string>
+				<string>border-top-style</string>
+				<string>border-right-style</string>
+				<string>border-bottom-style</string>
+				<string>border-left-style</string>
+				<string>border-top-width</string>
+				<string>border-right-width</string>
+				<string>border-bottom-width</string>
+				<string>border-left-width</string>
+				<string>bottom</string>
+				<string>caption-side</string>
+				<string>clear</string>
+				<string>clip</string>
+				<string>color</string>
+				<string>content</string>
+				<string>counter-increment</string>
+				<string>counter-reset</string>
+				<string>cue-after</string>
+				<string>cue-before</string>
+				<string>cursor</string>
+				<string>direction</string>
+				<string>display</string>
+				<string>elevation</string>
+				<string>empty-cells</string>
+				<string>float</string>
+				<string>font-family</string>
+				<string>font-size</string>
+				<string>font-size-adjust</string>
+				<string>font-stretch</string>
+				<string>font-style</string>
+				<string>font-variant</string>
+				<string>font-weight</string>
+				<string>height</string>
+				<string>layer-background-color</string>                
+				<string>layer-background-image</string>                
+				<string>layout-flow</string>                
+				<string>layout-grid</string>                
+				<string>layout-grid-char</string>                
+				<string>layout-grid-char-spacing</string>                
+				<string>layout-grid-line</string>                
+				<string>layout-grid-mode</string>                
+				<string>layout-grid-type</string>                
+				<string>left</string>
+				<string>letter-spacing</string>
+				<string>line-height</string>
+				<string>list-style-image</string>
+				<string>list-style-type</string>
+				<string>list-style-position</string>
+				<string>list-style-keyword</string>
+				<string>margin-top</string>
+				<string>margin-right</string>
+				<string>margin-bottom</string>
+				<string>margin-left</string>
+				<string>marker-offset</string>
+				<string>max-height</string>
+				<string>max-width</string>
+				<string>min-height</string>
+				<string>min-width</string>
+				<string>orphans</string>
+				<string>outline-color</string>
+				<string>outline-style</string>
+				<string>outline-width</string>
+				<string>overflow</string>
+				<string>padding-top</string>
+				<string>padding-right</string>
+				<string>padding-bottom</string>
+				<string>padding-left</string>
+				<string>page</string>
+				<string>page-break-after</string>
+				<string>page-break-before</string>
+				<string>page-break-inside</string>
+				<string>pause-after</string>
+				<string>pause-before</string>
+				<string>pitch</string>
+				<string>pitch-range</string>
+				<string>play-during</string>
+				<string>position</string>
+				<string>quotes</string>
+				<string>richness</string>
+				<string>right</string>
+				<string>size</string>
+				<string>speak</string>
+				<string>speak-header</string>
+				<string>speak-numeral</string>
+				<string>speak-punctuation</string>
+				<string>speech-rate</string>
+				<string>stress</string>
+				<string>table-layout</string>
+				<string>text-align</string>
+				<string>text-decoration</string>
+				<string>text-decoration-color</string>
+				<string>text-indent</string>
+				<string>text-shadow</string>
+				<string>text-transform</string>
+				<string>top</string>
+				<string>unicode-bidi</string>
+				<string>vertical-align</string>
+				<string>visibility</string>
+				<string>voice-family</string>
+				<string>volume</string>
+				<string>white-space</string>
+				<string>widows</string>
+				<string>width</string>
+				<string>word-spacing</string>
+				<string>word-break</string>
+				<string>word-wrap</string>
+				<string>z-index</string>
+				<string>background</string>
+				<string>border</string>
+				<string>border-color</string>
+				<string>border-style</string>
+				<string>border-top</string>
+				<string>border-right</string>
+				<string>border-bottom</string>
+				<string>border-left</string>
+				<string>border-width</string>
+				<string>cue</string>
+				<string>font</string>
+				<string>list-style</string>
+				<string>margin</string>
+				<string>outline</string>
+				<string>padding</string>
+				<string>pause</string>
+				<string>konq_bgpos_x</string>
+				<string>konq_bgpos_y</string>
+				<string>-moz-binding</string>
+				<string>-moz-border-bottom-colors</string>
+				<string>-moz-border-left-colors</string>
+				<string>-moz-border-radius</string>
+				<string>-moz-border-radius-bottomleft</string>
+				<string>-moz-border-radius-bottomright</string>
+				<string>-moz-border-radius-topleft</string>
+				<string>-moz-border-radius-topright</string>
+				<string>-moz-border-right-colors</string>
+				<string>-moz-border-top-colors</string>
+				<string>-moz-opacity</string>
+				<string>-moz-outline</string>
+				<string>-moz-outline-color</string>
+				<string>-moz-outline-style</string>
+				<string>-moz-outline-width</string>
+				<string>-moz-user-focus</string>
+				<string>-moz-user-input</string>
+				<string>-moz-user-modify</string>
+				<string>-moz-user-select</string>
+			</keywords>
+
+			<keywords id="CSS Digits" color="#00f" font-style="bold" useforautocomplete="yes">
+				<regex>(?&lt;![#\d\w])([\d]+[ \t]*(?:px|pt|em|ex|cm|in|mm|pc|%)?)</regex>
+			</keywords>
+			
+			<keywords id="CSS Colors" color="#760f15" font-style="bold" useforautocomplete="yes">
+				<regex>(#[\da-fA-F]{3})</regex>
+				<regex>(#[\da-fA-F]{6})</regex>
+			</keywords>
+			
+			<keywords id="CSS Strings in Tags" color="#1A1AA6" useforautocomplete="no">
+				<regex>("[^"&gt;&lt;]*")(?=[^&lt;]*&gt;)</regex>
+				<regex>('[^'&gt;&lt;]*')(?=[^&lt;]*&gt;)</regex>
+			</keywords>
+			
+			<keywords id="CSS Attributes in Tags" color="#994500" useforautocomplete="no">
+				<regex>([\w-]*)[ \t]*=[ \t]*"[^"&gt;&lt;]*"(?=[^&lt;]*&gt;)</regex>
+			</keywords>
+			<keywords id="CSS Begin and End" color="#881280" useforautocomplete="no">
+				<regex>(&lt;/?style[^&gt;]*&gt;)</regex>
+			</keywords>
+
+		</state>
+		
+		<state id="Inline Javascript" color="#000">
+			<begin><regex>&lt;script(?:[^"&gt;]|"[^"]*")*(?&lt;!/)&gt;</regex></begin>
+			<end><regex>/script&gt;</regex></end>
+
+			<keywords id="Javascript Keywords" color="#88134F" useforautocomplete="yes">
+				<string>if</string>
+				<string>else</string>
+				<string>for</string>
+				<string>in</string>
+				<string>while</string>
+				<string>do</string>
+				<string>continue</string>
+				<string>break</string>
+				<string>with</string>
+				<string>try</string>
+				<string>catch</string>
+				<string>switch</string>
+				<string>case</string>
+				<string>new</string>
+				<string>var</string>
+				<string>function</string>
+				<string>return</string>
+				<string>this</string>
+				<string>delete</string>
+				<string>true</string>
+				<string>false</string>
+				<string>void</string>
+				<string>throw</string>
+				<string>typeof</string>
+				<string>const</string>
+				<string>default</string>
+			</keywords>
+
+			<keywords id="Javascript Numbers" color="#00f" useforautocomplete="no">
+				<regex>(?&lt;=[^[A-Za-z0-9]]|^)((([0-9]+\.[0-9]*)|(\.[0-9]+)([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]))(([uU][lL]?)|([lL][uU]?))?))(?=[^[A-Za-z0-9]]|$)</regex>
+			</keywords>
+			
+			<keywords id="Javascript String" color="#1A1AA6" useforautocomplete="no">
+				<regex>('([^']|(\\'))*')</regex>
+				<regex>("([^"]|(\\"))*")</regex>
+			</keywords>
+
+			<keywords id="Javascript FunctionRegex" color="#003369" useforautocomplete="no">
+				<regex>([A-Za-z0-9_]+ *)\(</regex>
+			</keywords>
+
+			<keywords id="Javascript Begin and End" color="#881280" useforautocomplete="no">
+				<regex>(&lt;/?script[^&gt;]*&gt;)</regex>
+			</keywords>
+
+			<keywords id="Javascript Strings in Tags" color="#1A1AA6" useforautocomplete="no">
+				<regex>("[^"&gt;&lt;]*")(?=[^&lt;]*&gt;)</regex>
+			</keywords>
+
+			<keywords id="Javascript Single Comments" font-style="italic" color="#236E25" useforautocomplete="no">
+				<regex>(//[^\n\r]*[\n\r])</regex>
+			</keywords>
+
+			<keywords id="Javascript Attributes in Tags" color="#994500" useforautocomplete="no">
+				<regex>([\w-]*)[ \t]*=[ \t]*"[^"&gt;&lt;]*"(?=[^&lt;]*&gt;)</regex>
+			</keywords>
+
+		</state>
+
+	</states>
+
+</syntax>
