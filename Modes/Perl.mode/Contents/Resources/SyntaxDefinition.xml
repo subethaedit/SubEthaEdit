@@ -266,42 +266,42 @@
 				<regex>(\\x[0-9a-fA-F]{2,4}|\\x\{[0-9a-fA-F]{2,4}\})</regex>
             </keywords>
             
-            <state id="q//, qq//, qx//, qw//" color="#760f15">
+            <state id="q Operators with Slashes" color="#760f15">
                 <begin><regex>(?&lt;=[^\w\d\$]|\A)q[qxw]?(?&lt;qclosure&gt;[^\d\w\s\(]).*?[^\\](?=\k&lt;qclosure&gt;)</regex></begin>
                 <end><regex>.</regex></end>
             </state>
     
-            <state id="q(), qq(), qx(), qw()" color="#760f15">
+            <state id="q Operators with Parenthesis" color="#760f15">
                 <begin><regex>(?&lt;=[^\w\d\$]|\A)q[qxwr]?\(</regex></begin>
                 <end><regex>[^\\]\)</regex></end>
             </state>
     
-            <state id="qr//" color="#760f15">
+            <state id="qr Operator with Slashes" color="#760f15">
                 <begin><regex>(?&lt;=[^\w\d\$]|\A)qr(?&lt;qrclosure&gt;[^\d\w\s\(]).+?[^\\](?=\k&lt;qrclosure&gt;)</regex></begin>
                 <end><regex>.[imosx]*</regex></end>
             </state>
     
-            <state id="m//" color="#760f15">
+            <state id="m Operator with Slashes" color="#760f15">
                 <begin><regex>(?&lt;=[^\w\d\$]|\A)m(?&lt;mclosure&gt;[^\d\w\s\(]).*?[^\\](?=\k&lt;mclosure&gt;)</regex></begin>
                 <end><regex>.[cgimosx]*</regex></end>
             </state>
     
-            <state id="s///" color="#760f15">
+            <state id="s Operator with Slashes" color="#760f15">
                 <begin><regex>(?&lt;=[^\w\d\$]|\A)s(?&lt;sclosure&gt;[^\d\w\s\(])(?:.*?[^\\])?\k&lt;sclosure&gt;(?:.*?[^\\])?(?=\k&lt;sclosure&gt;)</regex></begin>
                 <end><regex>.[egimosx]*</regex></end>
             </state>
     
-            <state id="s()()" color="#760f15">
+            <state id="s Operator with Parenthesis" color="#760f15">
                 <begin><regex>(?&lt;=[^\w\d\$]|\A)(?:tr|y|s)\([^\)]*\)\(</regex></begin>
                 <end><regex>\)[egimosx]*</regex></end>
             </state>
     
-            <state id="s{}{}" color="#760f15">
+            <state id="s Operator with Curlies" color="#760f15">
                 <begin><regex>(?&lt;=[^\w\d\$]|\A)(?:tr|y|s)\{[^\}]*\}\{</regex></begin>
                 <end><regex>\}[egimosx]*</regex></end>
             </state>
     
-            <state id="tr///, y///" color="#760f15">
+            <state id="tr, y Operator with Slashes" color="#760f15">
                 <begin><regex>(?&lt;=[^\w\d\$]|\A)(?:tr|y)(?&lt;yclosure&gt;[^\d\w\s\(])(?:.*?[^\\])?\k&lt;yclosure&gt;(?:.*?[^\\])?(?=\k&lt;yclosure&gt;)</regex></begin>
                 <end><regex>.[cds]*</regex></end>
             </state>
@@ -316,17 +316,17 @@
                 <end><regex>^=cut[^\n\r]*</regex></end>
             </state>
     
-            <state id="/Regular Expressions/" color="#760f15">
+            <state id="Regular Expressions" color="#760f15">
                 <begin><regex>(?&lt;=[=])\s*/.*?[^\\](?=/[^\n\r]*;)</regex></begin>
                 <end><regex>/[cgimosx]*</regex></end>
             </state>
     
-            <state id="/Regular Expressions/ 2" color="#760f15">
+            <state id="Regular Expressions 2" color="#760f15">
                 <begin><regex>(?&lt;=[=]\S)\s*/.*?[^\\](?=/[^\n\r]*;)</regex></begin>
                 <end><regex>/[cgimosx]*</regex></end>
             </state>
     
-            <state id="?Regular Expressions?" color="#760f15">
+            <state id="Regular Expressions 3" color="#760f15">
                 <begin><regex>\?[^:]*?[^\\](?=\?[^\n\r]*;)</regex></begin>
                 <end><regex>\?</regex></end>
             </state>

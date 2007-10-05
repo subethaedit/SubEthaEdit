@@ -1,0 +1,10 @@
+/* State and Keywordgroupnames */
+"/SVNLog/Index" = "Index Marke";
+"/SVNLog/Added" = "Neue Dateien";
+"/SVNLog/Deleted" = "Entfernte Dateien";
+"/SVNLog/Modified" = "Geänderte Dateien";
+"/SVNLog/-----------------" = "--- Separator";
+"/SVNLog/@@" = "@@ Ortsangaben";
+"/SVNLog/Pipes" = "Pipes";
+"/SVNLog/User" = "Benutzer";
+"/SVNLog/Headline" = "Überschrift";

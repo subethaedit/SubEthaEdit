@@ -64,7 +64,7 @@
                 <end><regex>[\n\r]</regex></end>
             </state>
             
-            <state id="/Regular Expressions/" color="#760f15">
+            <state id="Regular Expressions" color="#760f15">
                 <begin><regex>(?&lt;!&lt;)/.*?[^\\](?=/[^\n\r]*(?:;|\)))</regex></begin>
                 <end><regex>/[cgimosx]*</regex></end>
             </state>
