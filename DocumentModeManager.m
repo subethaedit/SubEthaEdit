@@ -278,10 +278,10 @@ static DocumentModeManager *S_sharedInstance=nil;
 			[modeDictionary setObject:[bundle objectForInfoDictionaryKey:@"CFBundleName"] forKey:@"Name"];
 			[modeDictionary setObject:[bundle objectForInfoDictionaryKey:@"CFBundleVersion"] forKey:@"Version"];
 			NSString *bundlePath = [bundle bundlePath];
-			NSString *location = @"User Library";
-			if ([bundlePath hasPrefix:@"/Library"]) location = @"System Library";
-			if ([bundlePath hasPrefix:@"/Network/Library"]) location = @"Network Library";
-			if ([bundlePath hasPrefix:[[NSBundle mainBundle] bundlePath]]) location = @"Application";
+			NSString *location = NSLocalizedString(@"User Library", @"Location: User Library");
+			if ([bundlePath hasPrefix:@"/Library"]) location = NSLocalizedString(@"System Library", @"Location: System Library");
+			if ([bundlePath hasPrefix:@"/Network/Library"]) location = NSLocalizedString(@"Network Library", @"Location: Network Library");
+			if ([bundlePath hasPrefix:[[NSBundle mainBundle] bundlePath]]) location = NSLocalizedString(@"Application", @"Location: Application");
 			[modeDictionary setObject:location forKey:@"Location"];
 			
 			[modeDictionary setObject:ruleArray forKey:@"Rules"];
