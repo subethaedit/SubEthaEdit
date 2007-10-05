@@ -1,91 +1,186 @@
 {
-    IBClasses = (
-        {
-            ACTIONS = {
-                alwaysShowTabBar = id; 
-                cancelModeInstallation = id; 
-                changeModeInstallationDomain = id; 
-                goIntoBundles = id; 
-                installMode = id; 
-                menuValidationNoneAction = id; 
-                showHiddenFiles = id; 
-            }; 
-            CLASS = DocumentController; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                "O_encodingPopUpButton" = EncodingPopUpButton; 
-                "O_goIntoBundlesCheckbox" = NSButton; 
-                "O_modeInstallerDomainMatrix" = NSMatrix; 
-                "O_modeInstallerInformativeTextField" = NSTextField; 
-                "O_modeInstallerMessageTextField" = NSTextField; 
-                "O_modeInstallerPanel" = NSPanel; 
-                "O_modePopUpButton" = DocumentModePopUpButton; 
-                "O_openPanelAccessoryView" = NSView; 
-                "O_showHiddenFilesCheckbox" = NSButton; 
-            }; 
-            SUPERCLASS = NSDocumentController; 
-        }, 
-        {
-            ACTIONS = {"" = id; }; 
-            CLASS = FirstResponder; 
-            LANGUAGE = ObjC; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {CLASS = HMBlkBox; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
-        {CLASS = HMBlkButton; LANGUAGE = ObjC; SUPERCLASS = NSButton; }, 
-        {CLASS = HMBlkButtonCell; LANGUAGE = ObjC; SUPERCLASS = NSButtonCell; }, 
-        {CLASS = HMBlkContentView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
-        {CLASS = HMBlkOutlineView; LANGUAGE = ObjC; SUPERCLASS = NSOutlineView; }, 
-        {CLASS = HMBlkPanel; LANGUAGE = ObjC; SUPERCLASS = NSPanel; }, 
-        {
-            CLASS = HMBlkProgressIndicator; 
-            LANGUAGE = ObjC; 
-            SUPERCLASS = NSProgressIndicator; 
-        }, 
-        {CLASS = HMBlkScrollView; LANGUAGE = ObjC; SUPERCLASS = NSScrollView; }, 
-        {CLASS = HMBlkScroller; LANGUAGE = ObjC; SUPERCLASS = NSScroller; }, 
-        {
-            CLASS = HMBlkTableHeaderCell; 
-            LANGUAGE = ObjC; 
-            SUPERCLASS = NSTableHeaderCell; 
-        }, 
-        {CLASS = HMBlkTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }, 
-        {CLASS = HUDStatisticGraphView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
-        {CLASS = NSApplication; LANGUAGE = ObjC; SUPERCLASS = NSResponder; }, 
-        {CLASS = NSBrowser; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
-        {CLASS = NSCell; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {CLASS = NSDocumentController; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {CLASS = NSImage; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {CLASS = NSNextStepFrame; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
-        {CLASS = NSObject; LANGUAGE = ObjC; }, 
-        {CLASS = NSOutlineView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }, 
-        {CLASS = NSScroller; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
-        {CLASS = NSTableView; LANGUAGE = ObjC; SUPERCLASS = NSControl; }, 
-        {CLASS = NSToolbarItemViewer; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
-        {CLASS = NSToolbarView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
-        {
-            ACTIONS = {togglePercentage = id; }; 
-            CLASS = UserStatisticsController; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                "O_documentImageView" = NSImageView; 
-                "O_documentNameTextField" = NSTextField; 
-                "O_documentObjectController" = NSObjectController; 
-                "O_graphView" = HUDStatisticGraphView; 
-                "O_loggingStateObjectController" = NSObjectController; 
-                "O_percentageButton" = NSButton; 
-                "O_statEntryArrayController" = NSArrayController; 
-                "O_userTableView" = NSTableView; 
-                "O_wordCountTextField" = NSTextField; 
-            }; 
-            SUPERCLASS = NSWindowController; 
-        }, 
-        {
-            CLASS = "_NSArrayControllerTreeNode"; 
-            LANGUAGE = ObjC; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {CLASS = "_NSControllerTreeProxy"; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
-    ); 
-    IBVersion = 1; 
+    IBClasses =     (
+                {
+            ACTIONS =             {
+                alwaysShowTabBar = id;
+                cancelModeInstallation = id;
+                changeModeInstallationDomain = id;
+                goIntoBundles = id;
+                installMode = id;
+                menuValidationNoneAction = id;
+                showHiddenFiles = id;
+            };
+            CLASS = DocumentController;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                "O_encodingPopUpButton" = EncodingPopUpButton;
+                "O_goIntoBundlesCheckbox" = NSButton;
+                "O_modeInstallerDomainMatrix" = NSMatrix;
+                "O_modeInstallerInformativeTextField" = NSTextField;
+                "O_modeInstallerMessageTextField" = NSTextField;
+                "O_modeInstallerPanel" = NSPanel;
+                "O_modePopUpButton" = DocumentModePopUpButton;
+                "O_openPanelAccessoryView" = NSView;
+                "O_showHiddenFilesCheckbox" = NSButton;
+            };
+            SUPERCLASS = NSDocumentController;
+        },
+                {
+            ACTIONS =             {
+                "" = id;
+            };
+            CLASS = FirstResponder;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSObject;
+        },
+                {
+            CLASS = HMBlkBox;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSView;
+        },
+                {
+            CLASS = HMBlkButton;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSButton;
+        },
+                {
+            CLASS = HMBlkButtonCell;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSButtonCell;
+        },
+                {
+            CLASS = HMBlkContentView;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSView;
+        },
+                {
+            CLASS = HMBlkOutlineView;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSOutlineView;
+        },
+                {
+            CLASS = HMBlkPanel;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSPanel;
+        },
+                {
+            CLASS = HMBlkProgressIndicator;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSProgressIndicator;
+        },
+                {
+            CLASS = HMBlkScrollView;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSScrollView;
+        },
+                {
+            CLASS = HMBlkScroller;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSScroller;
+        },
+                {
+            CLASS = HMBlkTableHeaderCell;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSTableHeaderCell;
+        },
+                {
+            CLASS = HMBlkTableView;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSTableView;
+        },
+                {
+            CLASS = HUDStatisticGraphView;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSView;
+        },
+                {
+            CLASS = NSApplication;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSResponder;
+        },
+                {
+            CLASS = NSBrowser;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSControl;
+        },
+                {
+            CLASS = NSCell;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSObject;
+        },
+                {
+            CLASS = NSDocumentController;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSObject;
+        },
+                {
+            CLASS = NSImage;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSObject;
+        },
+                {
+            CLASS = NSNextStepFrame;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSView;
+        },
+                {
+            CLASS = NSObject;
+            LANGUAGE = ObjC;
+        },
+                {
+            CLASS = NSOutlineView;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSTableView;
+        },
+                {
+            CLASS = NSScroller;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSControl;
+        },
+                {
+            CLASS = NSTableView;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSControl;
+        },
+                {
+            CLASS = NSToolbarItemViewer;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSView;
+        },
+                {
+            CLASS = NSToolbarView;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSView;
+        },
+                {
+            ACTIONS =             {
+                togglePercentage = id;
+            };
+            CLASS = UserStatisticsController;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                "O_documentImageView" = NSImageView;
+                "O_documentNameTextField" = NSTextField;
+                "O_documentObjectController" = NSObjectController;
+                "O_graphView" = HUDStatisticGraphView;
+                "O_loggingStateObjectController" = NSObjectController;
+                "O_percentageButton" = NSButton;
+                "O_statEntryArrayController" = NSArrayController;
+                "O_userTableView" = NSTableView;
+                "O_wordCountTextField" = NSTextField;
+            };
+            SUPERCLASS = NSWindowController;
+        },
+                {
+            CLASS = "_NSArrayControllerTreeNode";
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSObject;
+        },
+                {
+            CLASS = "_NSControllerTreeProxy";
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSObject;
+        }
+    );
+    IBVersion = 1;
 }

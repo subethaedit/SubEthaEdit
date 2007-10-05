@@ -314,7 +314,6 @@
 		319AAE3D0CB0165900ACDAB4 /* Precedence_Remove.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 319AAE1B0CB015B300ACDAB4 /* Precedence_Remove.tiff */; };
 		319AAE3E0CB0165A00ACDAB4 /* Precedence_RemovePressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 319AAE1C0CB015B300ACDAB4 /* Precedence_RemovePressed.png */; };
 		31D2C7000CA7C9C8003CC5C9 /* PrecedenceRuleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2C6E50CA7C7A7003CC5C9 /* PrecedenceRuleCell.m */; };
-		31D2C7040CA7C9F9003CC5C9 /* PrecedencePrefs.tif in Resources */ = {isa = PBXBuildFile; fileRef = 31D2C6EB0CA7C7DE003CC5C9 /* PrecedencePrefs.tif */; };
 		31D2C7050CA7CA04003CC5C9 /* PrecedencePrefs.nib in Resources */ = {isa = PBXBuildFile; fileRef = 31D2C6D10CA7C78C003CC5C9 /* PrecedencePrefs.nib */; };
 		31D2C7060CA7CA08003CC5C9 /* PrecedenceRules.nib in Resources */ = {isa = PBXBuildFile; fileRef = 31D2C6D30CA7C78C003CC5C9 /* PrecedenceRules.nib */; };
 		31D5F8680AA301E80088DB18 /* HDCrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31D5F8590AA2FB760088DB18 /* HDCrashReporter.framework */; };
@@ -2759,7 +2758,6 @@
 				F2CA7CE80CA11FDA008BEA38 /* Internet13.png in Resources */,
 				F2CA7CEA0CA11FFB008BEA38 /* ToolbarIconConnectionBrowser.tiff in Resources */,
 				F29AD8670CA3391B0097D04E /* Bonjour13.png in Resources */,
-				31D2C7040CA7C9F9003CC5C9 /* PrecedencePrefs.tif in Resources */,
 				31D2C7050CA7CA04003CC5C9 /* PrecedencePrefs.nib in Resources */,
 				31D2C7060CA7CA08003CC5C9 /* PrecedenceRules.nib in Resources */,
 				F2F2B6CD0CA842040045C189 /* HUDRelative-2.png in Resources */,
