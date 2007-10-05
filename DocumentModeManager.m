@@ -236,7 +236,13 @@ static DocumentModeManager *S_sharedInstance=nil;
 		NSEnumerator *oldModes = [oldPrecedenceArray objectEnumerator];
 		id oldMode;
 		while ((oldMode = [oldModes nextObject])) {
-			[modeOrder addObject:[oldMode objectForKey:@"Identifier"]];
+            if ([oldMode respondsToSelector:@selector(objectForKey:)]) {
+                if ([oldMode objectForKey:@"Identifier"]) {
+                    [modeOrder addObject:[oldMode objectForKey:@"Identifier"]];
+                }
+            } else {
+                NSLog(@"ModePrecedences had an entry that wasn't a dictionary: %@", oldMode);
+            }
 		}
 	} else {
 		// Default internal order
@@ -338,6 +344,10 @@ static DocumentModeManager *S_sharedInstance=nil;
 		NSEnumerator *oldModes = [oldPrecedenceArray objectEnumerator];
 		id oldMode;
 		while ((oldMode = [oldModes nextObject])) {
+            if (![oldMode respondsToSelector:@selector(objectForKey:)]) {
+                NSLog(@"Wrong Type in ModePrecedence Preferences: %@ %@",[oldMode class], oldMode);
+                continue;
+            }
 			if (![[oldMode objectForKey:@"Identifier"] isEqualToString:[bundle bundleIdentifier]]) continue;
 			NSEnumerator *oldRules = [[oldMode objectForKey:@"Rules"] objectEnumerator];
 			NSDictionary *oldRule;
