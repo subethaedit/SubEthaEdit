@@ -674,7 +674,17 @@
 				
 				if (![aState objectForKey:@"KeywordGroups"]) [aState setObject:[NSMutableArray array] forKey:@"KeywordGroups"];
 				[[aState objectForKey:@"KeywordGroups"] addObjectsFromArray:[linkedState objectForKey:@"KeywordGroups"]];
-                [self addImportedStyleIDsFromState:linkedState];		
+			
+				if (keywordsOnly) {
+					NSEnumerator *keywords = [[linkedState objectForKey:@"KeywordGroups"] objectEnumerator];
+					id keyword;
+					while ((keyword = [keywords nextObject])) {
+						[I_defaultSyntaxStyle takeValuesFromDictionary:keyword];
+					}
+				} else {
+					[self addImportedStyleIDsFromState:linkedState];						
+				}
+			
 			}
 		}
 	} 
@@ -710,6 +720,7 @@
 				if ([linkedState objectForKey:@"type"])
 					[aDictionary setObject:[linkedState objectForKey:@"type"] forKey:@"type"];
             }
+			
 			[self addImportedStyleIDsFromState:[self stateForID:linkedName]];
 
 		}
