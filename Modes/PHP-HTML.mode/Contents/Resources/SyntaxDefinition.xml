@@ -3681,7 +3681,7 @@
                 <state id="Inside curly brackets" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
                     <begin><string>{</string></begin>
                     <end><regex>}</regex></end>
-                    <import mode="CSS" state="Inside curly brackets" keywordsonly="yes"/>
+                    <import mode="CSS" state="Inside curly brackets" keywords-only="yes"/>
                     <state-link state="PHP" />
                     
                     <state-link state="CSSComment" />
@@ -3727,7 +3727,7 @@
                 <begin><regex>&lt;(?=script)</regex></begin>
                 <end><regex>/script&gt;</regex></end>
     
-                <import mode="Javascript" keywordsonly="yes"/>
+                <import mode="Javascript" keywords-only="yes"/>
 
                 <keywords id="Script Tags"  color="#881280" font-style="italic">
                     <regex>(\A&lt;\Z)</regex>

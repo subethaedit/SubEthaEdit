@@ -532,7 +532,9 @@ Modes/Conference.mode/Contents/Resources/notes_template.notes -text
 Modes/Diff.mode/Contents/Info.plist -text
 Modes/Diff.mode/Contents/Resources/ChangeLog.txt -text
 Modes/Diff.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
+Modes/Diff.mode/Contents/Resources/English.lproj/Localizable.strings -text svneol=unset#application/octet-stream
 Modes/Diff.mode/Contents/Resources/German.lproj/InfoPlist.strings -text
+Modes/Diff.mode/Contents/Resources/German.lproj/Localizable.strings -text
 Modes/Diff.mode/Contents/Resources/ModeSettings.xml -text
 Modes/Diff.mode/Contents/Resources/RegexSymbols.xml -text
 Modes/Diff.mode/Contents/Resources/SymbolID.png -text
@@ -738,7 +740,9 @@ Modes/SQL.mode/Contents/Resources/SyntaxDefinition.xml -text
 Modes/SVNLog.mode/Contents/Info.plist -text
 Modes/SVNLog.mode/Contents/Resources/ChangeLog.txt -text
 Modes/SVNLog.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
+Modes/SVNLog.mode/Contents/Resources/English.lproj/Localizable.strings -text
 Modes/SVNLog.mode/Contents/Resources/German.lproj/InfoPlist.strings -text
+Modes/SVNLog.mode/Contents/Resources/German.lproj/Localizable.strings -text
 Modes/SVNLog.mode/Contents/Resources/ModeSettings.xml -text
 Modes/SVNLog.mode/Contents/Resources/RegexSymbols.xml -text
 Modes/SVNLog.mode/Contents/Resources/SyntaxDefinition.xml -text
