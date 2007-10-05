@@ -5911,6 +5911,7 @@ static NSString *S_measurementUnits;
     [layoutManager addTextContainer:textContainer];
     NSRange wholeRange = NSMakeRange(0,[[self textStorage] length]);
     [layoutManager invalidateLayoutForCharacterRange:wholeRange isSoft:NO actualCharacterRange:NULL];
+    [textView setNeedsDisplay:YES];
     
 //    NSImage *imageContext = [NSImage clearedImageWithSize:frame.size];
 //    [imageContext setFlipped:YES];
