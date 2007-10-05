@@ -2611,7 +2611,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     }
     
     if (anAbsoluteURL) {
-        if (I_flags.shouldSelectModeOnSave) {
+        if (I_flags.shouldSelectModeOnSave && (saveOperation != NSAutosaveOperation)) {
             DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForPath:[anAbsoluteURL path] withContentString:[[self textStorage] string]];
 			
             if (![mode isBaseMode]) {
@@ -2620,7 +2620,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             I_flags.shouldSelectModeOnSave=NO;
         }
         // we have saved, so no more extension changing
-        if (I_flags.shouldChangeExtensionOnModeChange) {
+        if (I_flags.shouldChangeExtensionOnModeChange && (saveOperation != NSAutosaveOperation)) {
             I_flags.shouldChangeExtensionOnModeChange=NO;
         }
 
