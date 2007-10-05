@@ -1114,27 +1114,27 @@
 				<regex>(])</regex>
 			</keywords>
     
-            <state id="MultiComment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
+            <state id="MultiComment" color="#236E25" font-weight="normal" font-style="italic">
                 <begin><regex>/\*</regex></begin>
                 <end><regex>\*/</regex></end>
             </state>
     
-            <state id="SingleComment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
+            <state id="SingleComment" color="#236E25" font-weight="normal" font-style="italic">
                 <begin><regex>(?://)</regex></begin>
                 <end><regex>[\n\r]</regex></end>
             </state>
     
-            <state id="StringDouble" color="#EB7300" background-color="none" font-weight="normal" font-style="normal">
+            <state id="StringDouble" color="#EB7300" font-weight="normal" font-style="normal">
                 <begin><regex>"</regex></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
             </state>
     
-            <state id="String" color="#EB7300" background-color="none" font-weight="normal" font-style="normal">
+            <state id="String" color="#EB7300" font-weight="normal" font-style="normal">
                 <begin><regex>'</regex></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
             </state>
     
-            <state id="HTML" color="#000" background-color="none" font-weight="normal" font-style="normal">
+            <state id="HTML" color="#000" font-weight="normal" font-style="normal">
                 <begin><regex>(?:&lt;html)|(?:(?&lt;=\]).)|(?:\])|(?:\?(?=&gt;))|(?:&lt;\!DOCTYPE)</regex></begin>
                 <end>
                     <regex>(\[|&lt;\?(?i)lassoscript)</regex>
