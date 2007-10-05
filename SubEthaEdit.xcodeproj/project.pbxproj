@@ -377,11 +377,6 @@
 		F2230A440BE0241A00437D55 /* FileManagementProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F2230A430BE0241A00437D55 /* FileManagementProfile.m */; };
 		F2230A490BE0243100437D55 /* TCMBEEPBencodedMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F2230A460BE0243100437D55 /* TCMBEEPBencodedMessage.m */; };
 		F2230A4A0BE0243100437D55 /* TCMBEEPBencodingProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F2230A480BE0243100437D55 /* TCMBEEPBencodingProfile.m */; };
-		F2280A120BEF55B500255AAE /* SDDirectoryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = F2280A100BEF55B500255AAE /* SDDirectoryEntry.m */; };
-		F2280A1B0BEF55D800255AAE /* SDDirectoryUser.m in Sources */ = {isa = PBXBuildFile; fileRef = F2280A190BEF55D800255AAE /* SDDirectoryUser.m */; };
-		F2280A210BEF55E600255AAE /* SDDirectoryGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = F2280A1F0BEF55E600255AAE /* SDDirectoryGroup.m */; };
-		F2280A270BEF560000255AAE /* SDDirectory.m in Sources */ = {isa = PBXBuildFile; fileRef = F2280A250BEF560000255AAE /* SDDirectory.m */; };
-		F2280A320BEF56AB00255AAE /* SDDirectoryUserGroupList.m in Sources */ = {isa = PBXBuildFile; fileRef = F2280A300BEF56AB00255AAE /* SDDirectoryUserGroupList.m */; };
 		F2280A3F0BEF621700255AAE /* SDDirectoryUserGroupList.m in Sources */ = {isa = PBXBuildFile; fileRef = F2280A300BEF56AB00255AAE /* SDDirectoryUserGroupList.m */; };
 		F2280A400BEF621800255AAE /* SDDirectoryGroup.m in Sources */ = {isa = PBXBuildFile; fileRef = F2280A1F0BEF55E600255AAE /* SDDirectoryGroup.m */; };
 		F2280A410BEF621900255AAE /* SDDirectoryUser.m in Sources */ = {isa = PBXBuildFile; fileRef = F2280A190BEF55D800255AAE /* SDDirectoryUser.m */; };
@@ -1325,6 +1320,7 @@
 		F2D5FF4C0CB2679100407399 /* PrintPrefs.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = PrintPrefs.icns; path = artwork/PrintPrefs.icns; sourceTree = "<group>"; };
 		F2D5FF4F0CB26EA800407399 /* ToolbarIconRunInTerminal.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = ToolbarIconRunInTerminal.icns; path = artwork/ToolbarIconRunInTerminal.icns; sourceTree = "<group>"; };
 		F2D5FF500CB26EA800407399 /* ToolbarIconTerminal.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = ToolbarIconTerminal.icns; path = artwork/ToolbarIconTerminal.icns; sourceTree = "<group>"; };
+		F2EFCBEF0CB656C700AEE298 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/ConnectionBrowser.nib; sourceTree = "<group>"; };
 		F2F2B60C0CA811240045C189 /* TCMMMLogStatisticsDataPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCMMMLogStatisticsDataPoint.h; sourceTree = "<group>"; };
 		F2F2B60D0CA811240045C189 /* TCMMMLogStatisticsDataPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMMMLogStatisticsDataPoint.m; sourceTree = "<group>"; };
 		F2F2B6CB0CA842040045C189 /* HUDRelative-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "HUDRelative-2.png"; path = "artwork/HUDRelative-2.png"; sourceTree = "<group>"; };
@@ -3143,11 +3139,6 @@
 				F234E1010BE0F1E100504A7C /* ServerConnectionWindowController.m in Sources */,
 				F234E1020BE0F1EA00504A7C /* ServerConnectionManager.m in Sources */,
 				F234E4590BE2592300504A7C /* NSWorkspaceTCMAdditions.m in Sources */,
-				F2280A120BEF55B500255AAE /* SDDirectoryEntry.m in Sources */,
-				F2280A1B0BEF55D800255AAE /* SDDirectoryUser.m in Sources */,
-				F2280A210BEF55E600255AAE /* SDDirectoryGroup.m in Sources */,
-				F2280A270BEF560000255AAE /* SDDirectory.m in Sources */,
-				F2280A320BEF56AB00255AAE /* SDDirectoryUserGroupList.m in Sources */,
 				F2D129FC0BF0B64A00A776CC /* ConnectionBrowserController.m in Sources */,
 				F2D12A1D0BF0B8DF00A776CC /* ConnectionBrowserEntry.m in Sources */,
 				F2A707BB0BF89F4200482EFC /* LoginSheetController.m in Sources */,
@@ -3538,6 +3529,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				F2D12A0A0BF0B6B000A776CC /* English */,
+				F2EFCBEF0CB656C700AEE298 /* German */,
 			);
 			name = ConnectionBrowser.nib;
 			sourceTree = "<group>";
