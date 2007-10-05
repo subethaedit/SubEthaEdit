@@ -1,3 +1,55 @@
+SubEthaEdit 3.0b - Release Notes
+================================
+
+  New Features
+  --------
+    - All connections 2048-bit SSL encrypted if possible
+    - Persistent file format to store collaboration metadata
+    - Collaboration metadata is preserved where possible
+    - Shiny new statistics window (Command-I)
+    - User Interface for Mode order and triggers
+    - Storing encoding with file metadata on 10.5 and later
+    - Restoring document contents after a crash
+    - ERB (eRuby) Syntax Coloring 
+    - Lasso Syntax Coloring 
+    - ColdFusion Syntax Coloring
+    - svn log Syntax Coloring
+
+  Improvements
+  ------------
+    - Highlighter supports unlimited nesting of states
+    - Highlighter supports unlimited importing and linking of states in states
+    - Highlighter supports transcendend named groups in states (used for e.g. HEREDOC syntax)
+    - Highlighting speed improved
+    - Mode Recognition can match extensions case-insensitivly
+    - Faster document loading
+    - Unified connection window for local and remote connections
+    - Characters, word and line count in statistics window
+    - Total rewrite of the encoding guessing, now this order is used:
+        - UTF-BOMs of any kind
+        - Meta tags in XML/HTML and CSS
+        - The result of the Universal-Detector Framework - if it has a clue
+        - The encoding set in the mode if it is set
+        - The system encoding (Mac Roman) as last resort.
+    - Improved Modes: PHP/HTML, Perl, XML, HTML, Objective-C, C++, C, Diff, Python
+    - Improved parenthesis matching with comments and strings
+    - Symbols in comments and strings are now ignored
+    - Support for a custom user image
+    - Autocompleting honors token characters
+    - Better Sparkle updating experience: Open documents are restored after (next) update
+    - Improved Leopard Compatibility
+    - Added a Follow button to the participants drawer
+
+  Bugs
+  ----
+    - Fixed crash in -[PlainTextDocument dealloc]
+    - Fixed crash in -[TCMMMPresenceManager unregisterSession:] 
+    - Fixed exception on getting kicked out of session with empty session title
+    - Fixed crash while reload Scripts and Toolbar 
+    - Fixed crash in -[Toolbar setDisplayMode:] 
+    - Fixed crash with CFRelease in -[PlainTextDocument documentURL]
+    - Fixed crashes while loading html documents
+    - Connection Browser remembers selection
 
 SubEthaEdit 2.6.5
 =================
