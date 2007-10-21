@@ -1,0 +1,21 @@
+Changes with Version 1.4  (SEE 2.6.4)
+   *) fixed the validate scripts to work with unicode and leopard
+   *) fixed the validate scripts to work with tabs
+
+Changes with Version 1.3 (SEE 2.5.1)
+    *) Substituted 501 with `id -g` to make all utf-8 "do shell script" commands work on non-501 users. (fixes SEE-1042)
+    *) Corrected precedence of states for built-in modes
+    *) Fixed issue SEE-1040: "Check Syntax" script has same key shortcut as block edit by changing it to ctrl-command-b
+    *) Improved XSLT script to always use the same window and report errors
+
+
+Changes with Version 1.2 (SEE 2.5)
+
+    *) added scripts: Close Last Tag, Check Well Fromedness, Validate, Transform With XSLT, Comment Selection, Insert/Edit HTML Color.
+    *) EXTENSIONS: Added sdef, xsd
+    *) Fixed SEE-913: Newlines in XML tags cause subsequent lines not to be syntax highlighted.
+    *) Fixed SEE-1015 by simplifying attributes in new XML.mode
+
+Changes with Version 1.1
+    
+    *) EXTENSIONS: Added uppercase variants where appropriate.

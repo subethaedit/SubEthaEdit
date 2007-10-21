@@ -1,0 +1,42 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                addNewTab = id; 
+                closeTab = id; 
+                configAddTabButton = id; 
+                configAutomaticallyAnimates = id; 
+                configCanCloseOnlyTab = id; 
+                configDisableTabClose = id; 
+                configHideForSingleTab = id; 
+                configOrientation = id; 
+                configStyle = id; 
+                configTabMaxWidth = id; 
+                configTabMinWidth = id; 
+                configTabOptimumWidth = id; 
+                configTabSizeToFit = id; 
+                configUseOverflowMenu = id; 
+                isProcessingAction = id; 
+                setIconNamed = id; 
+                setObjectCount = id; 
+                setTabLabel = id; 
+                stopProcessing = id; 
+                toggleToolbar = id; 
+            }; 
+            CLASS = WindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                drawer = NSDrawer; 
+                iconButton = NSPopUpButton; 
+                isProcessingButton = NSButton; 
+                objectCounterField = NSTextField; 
+                tabBar = PSMTabBarControl; 
+                tabField = NSTextField; 
+                tabView = NSTabView; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "syntax.dtd">
+<syntax>
+
+    <head>
+        <name>ERB</name> <!-- The definitions title -->
+        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@"]]></charsintokens> 
+        <charsincompletion><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@</="!]]></charsincompletion> 
+    </head>
+
+    <states>
+    
+        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="HTML" useautocompletefrommode="HTML">
+            
+            <keywords id="Entities" color="#881280" useforautocomplete="no">
+                <regex>(&amp;\w{1,8};)</regex>
+                <regex>(&amp;#[0-9]+;)</regex>
+                <regex>(&amp;#x[A-Fa-f0-9]+;)</regex>
+            </keywords>
+            
+            <state id="Ruby" color="#000000" inverted-color="#ffffff"  font-style="normal" font-weight="normal" usesymbolsfrommode="Ruby" useautocompletefrommode="Ruby">
+                <begin><regex>(?:&lt;%=?)</regex></begin>
+                <end><regex>(?:-?%&gt;)</regex></end>
+                <import mode="Ruby" />
+
+                <keywords id="ERB Delimiter" color="#d00000" inverted-color="#ff2f2f"  font-style="normal" font-weight="bold" useforautocomplete="no">
+                    <regex>(-?%&gt;)</regex>
+                    <regex>(&lt;%=?)</regex>
+                </keywords>
+            </state>
+            
+            <state id="Comment" type="comment" color="#236E25" font-style="italic">
+                <begin>
+                    <regex>&lt;!--</regex>
+                </begin>
+                <end>
+                    <regex>--></regex>
+                </end>
+                <keywords id="SGML Double Dash" color="#f00" font-weight="bold" useforautocomplete="no">
+                    <regex>(?&lt;!\!)(--)(?!>)</regex>
+                </keywords>
+                <state-link state="Ruby" />
+            </state>
+            <state id="CDATA" color="#f00" font-style="italic">
+                <begin>
+                    <regex>&lt;!\s*\[CDATA\s*\[</regex>
+                </begin>
+                <end>
+                    <regex>\]\s*\]\s*></regex>
+                </end>
+                <state-link state="Ruby" />
+            </state>
+            <state id="Doctype" color="#236E25" font-style="italic">
+                <begin>
+                    <regex>&lt;!</regex>
+                </begin>
+                <end>
+                    <regex>&gt;</regex>
+                </end>
+                <state-link state="Ruby" />
+            </state>
+            <state id="Escape" color="#236E25" font-style="italic">
+                <begin>
+                    <regex>&lt;\?</regex>
+                </begin>
+                <end>
+                    <regex>\?></regex>
+                </end>
+                <state-link state="Ruby" />
+            </state>
+
+            <state id="Inline CSS" color="#000" font-style="italic" usesymbolsfrommode="CSS" useautocompletefrommode="CSS">
+                <begin><regex>&lt;(?=style)</regex></begin>
+                <end><regex>/style&gt;</regex></end>
+                
+                <keywords id="Style Tags"  color="#881280" font-style="italic">
+                    <regex>(\A&lt;\Z)</regex>
+                    <regex>(&lt;/style[^&gt;]*&gt;)</regex>
+                </keywords>
+
+                <state id="Opening Style Tag" color="#881280" font-style="italic" usesymbolsfrommode="HTML" useautocompletefrommode="HTML">
+                    <begin><regex>\Astyle</regex></begin>
+                    <end><regex>&gt;</regex></end>
+        
+                    <import state="Tags" />
+                </state>
+                
+                <state-link state="Ruby" />
+                
+                <state id="Inside curly brackets" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
+                    <begin><string>{</string></begin>
+                    <end><regex>}</regex></end>
+                    <import mode="CSS" state="Inside curly brackets" keywords-only="yes"/>
+                    <state-link state="Ruby" />
+                    
+                    <state-link state="CSSComment" />
+                    <state-link state="CSSSingleComment" />
+                    <state-link state="CSSRound bracket" />
+                    <state-link state="CSSString" />
+                    <state-link state="CSSSingleString" />
+                </state>
+                
+                <state id="CSSComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
+                    <begin><string>/\*</string></begin>
+                    <end><regex>\*/</regex></end>
+                    <state-link state="Ruby" />
+                </state>
+                
+                <state id="CSSSingleComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
+                    <begin><string>//</string></begin>
+                    <end><regex>[\n\r]</regex></end>
+                    <state-link state="Ruby" />
+                </state>
+        
+                <state id="CSSRound bracket" type="string" color="#760f15" font-weight="normal" font-style="normal">
+                    <begin><string>\(</string></begin>
+                    <end><regex>\)</regex></end>
+                    <state-link state="Ruby" />
+                </state>
+                
+                <state id="CSSString" type="string" color="#760f15" font-weight="normal" font-style="normal">
+                    <begin><string>"</string></begin>
+                    <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
+                    <state-link state="Ruby" />
+                </state>
+        
+                <state id="CSSSingleString" type="string" color="#760f15" font-weight="normal" font-style="normal">
+                    <begin><string>'</string></begin>
+                    <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
+                    <state-link state="Ruby" />
+                </state>
+
+            </state>
+
+            <state id="Inline Javascript" color="#000" usesymbolsfrommode="Javascript" useautocompletefrommode="Javascript">
+                <begin><regex>&lt;(?=script)</regex></begin>
+                <end><regex>/script&gt;</regex></end>
+    
+                <import mode="Javascript" keywords-only="yes"/>
+
+                <keywords id="Script Tags"  color="#881280" font-style="italic">
+                    <regex>(\A&lt;\Z)</regex>
+                    <regex>(&lt;/script[^&gt;]*&gt;)</regex>
+                </keywords>
+
+                <state id="Opening Script Tag" color="#881280" font-style="italic" usesymbolsfrommode="HTML" useautocompletefrommode="HTML">
+                    <begin><regex>\Ascript</regex></begin>
+                    <end><regex>&gt;</regex></end>
+                    <import state="Tags" />
+                </state>
+                
+                <state-link state="Ruby" />
+                
+                <state id="JSAutodocComment" type="comment" color="#236E25" font-weight="bold" font-style="italic">
+                    <begin><regex>/\*"</regex></begin>
+                    <end><regex>"\*/</regex></end>
+                    <state-link state="Ruby" />
+                </state>
+        
+                <state id="JSComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
+                    <begin><regex>/\*</regex></begin>
+                    <end><regex>\*/</regex></end>
+                    <state-link state="Ruby" />
+                </state>
+                
+                <state id="JSSingleComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
+                    <begin><regex>//</regex></begin>
+                    <end><regex>[\n\r]</regex></end>
+                    <state-link state="Ruby" />
+                </state>
+                
+                <state id="JSRegEx" color="#760f15">
+                    <begin><regex>(?&lt;!&lt;)/.*?[^\\](?=/[^\n\r]*(?:;|\)))</regex></begin>
+                    <end><regex>/[cgimosx]*</regex></end>
+                    <state-link state="Ruby" />
+                </state>
+        
+                <state id="JSString" type="string" color="#760f15" font-weight="normal" font-style="normal">
+                    <begin><regex>"</regex></begin>
+                    <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
+                    <state-link state="Ruby" />
+                </state>
+        
+                <state id="JSSingleString" type="string" color="#760f15" font-weight="normal" font-style="normal">
+                    <begin><regex>'</regex></begin>
+                    <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
+                    <state-link state="Ruby" />
+                </state>
+                
+            </state>
+
+            <state id="Tags" color="#881280" font-style="italic">
+                <begin>
+                    <regex>&lt;</regex>
+                </begin>
+                <end>
+                    <regex>></regex>
+                </end>
+                <state-link state="Ruby" />
+                <state id="Strings in Tags" type="string" color="#1A1AA6" useforautocomplete="no">
+                    <begin>
+                        <regex>"</regex>
+                    </begin>
+                    <end>
+                        <regex>"</regex>
+                    </end>
+                    <state-link state="Ruby" />
+                </state>
+                <keywords id="Attributes in Tags" color="#994500" useforautocomplete="no">
+                    <regex>([\w-]*)(?=[ \t]*=)</regex>
+                </keywords>
+                <state-link state="Ruby" />
+            </state>
+        </default>
+
+    </states>
+
+</syntax>

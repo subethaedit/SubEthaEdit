@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "syntax.dtd">
+<syntax>
+
+    <head>
+        <name>C</name> <!-- The definitions title -->
+        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]></charsintokens> <!-- Valid Characters for Variables -->
+        <!-- <charsdelimitingtokens></charsdelimitingtokens> -->
+    </head>
+
+    <states>
+    
+        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
+            <keywords id="C Keywords" color="#881350" font-weight="bold" useforautocomplete="yes">
+				<string>break</string>
+				<string>case</string>
+				<string>continue</string>
+				<string>default</string>
+				<string>do</string>
+				<string>else</string>
+				<string>enum</string>
+				<string>extern</string>
+				<string>for</string>
+				<string>goto</string>
+				<string>if</string>
+				<string>NULL</string>
+				<string>void</string>
+				<string>return</string>
+				<string>sizeof</string>
+				<string>struct</string>
+				<string>switch</string>
+				<string>typedef</string>
+				<string>union</string>
+				<string>while</string>
+				<string>self</string>
+				<string>super</string>
+				<string>int</string>
+				<string>long</string>
+				<string>float</string>
+				<string>double</string>
+				<string>char</string>
+				<string>unichar</string>
+				<string>unsigned</string>
+				<string>signed</string>
+				<string>const</string>
+				<string>extern</string>
+				<string>static</string>
+                <string>auto</string>
+                <string>register</string>
+                <string>short</string>
+                <string>volatile</string>
+                <string>int16_t</string>
+                <string>int32_t</string>
+                <string>int8_t</string>
+                <string>int64_t</string>
+                <string>uint16_t</string>
+                <string>uint32_t</string>
+                <string>uint8_t</string>
+                <string>uint64_t</string>
+                <string>UInt32</string>
+                <string>UInt16</string>
+                <string>UInt8</string>
+                <string>NSUInteger</string>
+                <string>NSInteger</string>
+            </keywords>
+            
+            <keywords id="Numbers" color="#00f" useforautocomplete="no">
+				<regex>(?&lt;=[^\w\d]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
+            </keywords>
+            
+            <keywords id="FunctionRegex" color="#003369" useforautocomplete="no">
+				<regex>([A-Za-z0-9_]+ *)\(</regex>
+            </keywords>
+
+            <state id="Characters" color="#00f" font-weight="normal" font-style="normal">
+                <begin><regex>'(?=\\?.')</regex></begin>
+                <end><regex>(\\'')|(.')</regex></end>
+            </state>
+    
+            <state id="Preprocessor" color="#683821">
+                <begin><regex>#</regex></begin>
+                <end><regex>((?&lt;=[^\\])[\n\r])|(^[\n\r])</regex></end>
+                <keywords id="Numbers" color="#00f" useforautocomplete="no">
+                    <regex>(?&lt;=[^\w\d]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
+                </keywords>
+            </state>
+    
+            <state id="DoxyGen Comment" type="comment" color="#236E25"  font-style="italic">
+                <begin><regex>/\*[\*\!]</regex></begin>
+                <end><regex>\*/</regex></end>
+                <keywords id="DoxyGen Tags" color="#236E25" font-weight="bold" useforautocomplete="no">
+                    <regex>(?&lt;=[^\w\d]|^)([@\\]\w+)</regex>
+                </keywords>
+            </state>
+    
+            <state id="AutodocComment" type="comment" color="#236E25" font-weight="bold" font-style="italic">
+                <begin><regex>/\*"</regex></begin>
+                <end><regex>"\*/</regex></end>
+            </state>
+    
+            <state id="Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
+                <begin><regex>/\*</regex></begin>
+                <end><regex>\*/</regex></end>
+            </state>
+            
+            <state id="SingleComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
+                <begin><regex>//</regex></begin>
+                <end><regex>[\n\r]</regex></end>
+            </state>
+            
+            <state id="String" type="string" color="#760f15" font-weight="normal" font-style="normal">
+                <begin><regex>"</regex></begin>
+                <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
+            </state>
+
+        </default>
+
+    </states>
+
+</syntax>

@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "syntax.dtd">
+<syntax>
+
+    <head>
+        <name>Javascript</name> <!-- The definitions title -->
+        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]></charsintokens> <!-- Valid Characters for Variables -->
+        <!-- <charsdelimitingtokens></charsdelimitingtokens> -->
+    </head>
+
+    <states>
+    
+        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
+            <keywords id="Keywords" color="#881350" useforautocomplete="yes">
+                <string>if</string>
+                <string>else</string>
+                <string>for</string>
+                <string>in</string>
+                <string>while</string>
+                <string>do</string>
+                <string>continue</string>
+                <string>break</string>
+                <string>with</string>
+                <string>try</string>
+                <string>catch</string>
+                <string>switch</string>
+                <string>case</string>
+                <string>new</string>
+                <string>var</string>
+                <string>function</string>
+                <string>return</string>
+                <string>this</string>
+                <string>delete</string>
+                <string>true</string>
+                <string>false</string>
+                <string>void</string>
+                <string>throw</string>
+                <string>typeof</string>
+                <string>const</string>
+                <string>default</string>
+            </keywords>
+            <keywords id="Numbers" color="#00f" useforautocomplete="no">
+				<regex>(?&lt;=[^\w\d]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
+            </keywords>
+            <keywords id="Characters" color="#00f" useforautocomplete="no">
+				<regex>('.')</regex>
+            </keywords>
+            <keywords id="FunctionRegex" color="#003369" useforautocomplete="no">
+				<regex>([A-Za-z0-9_]+ *)\(</regex>
+            </keywords>
+        
+            <state id="AutodocComment" type="comment" color="#236E25" font-weight="bold" font-style="italic">
+                <begin><regex>/\*"</regex></begin>
+                <end><regex>"\*/</regex></end>
+            </state>
+    
+            <state id="Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
+                <begin><regex>/\*</regex></begin>
+                <end><regex>\*/</regex></end>
+            </state>
+            
+            <state id="SingleComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
+                <begin><regex>//</regex></begin>
+                <end><regex>[\n\r]</regex></end>
+            </state>
+            
+            <state id="Regular Expressions" color="#760f15">
+                <begin><regex>(?&lt;!&lt;)/.*?[^\\](?=/[^\n\r]*(?:;|\)))</regex></begin>
+                <end><regex>/[cgimosx]*</regex></end>
+            </state>
+    
+            <state id="String" type="string" color="#760f15" font-weight="normal" font-style="normal">
+                <begin><regex>"</regex></begin>
+                <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
+            </state>
+    
+            <state id="SingleString" type="string" color="#760f15" font-weight="normal" font-style="normal">
+                <begin><regex>'</regex></begin>
+                <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
+            </state>
+        </default>
+
+    </states>
+
+</syntax>

@@ -1,0 +1,26 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            CLASS = PSMTabBarControlInspector; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "_allowsBackgroundTabClosing" = NSButton; 
+                "_automaticallyAnimates" = NSButton; 
+                "_canCloseOnlyTab" = NSButton; 
+                "_cellMaxWidth" = NSTextField; 
+                "_cellMinWidth" = NSTextField; 
+                "_cellOptimumWidth" = NSTextField; 
+                "_disableTabClose" = NSButton; 
+                "_hideForSingleTab" = NSButton; 
+                "_selectsTabsOnMouseDown" = NSButton; 
+                "_showAddTab" = NSButton; 
+                "_sizeToFit" = NSButton; 
+                "_stylePopUp" = NSPopUpButton; 
+                "_useOverflowMenu" = NSButton; 
+            }; 
+            SUPERCLASS = IBInspector; 
+        }
+    ); 
+    IBVersion = 1; 
+}

@@ -1,0 +1,57 @@
+{
+    IBClasses = (
+        {CLASS = DocumentModeManager; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = DocumentModeMenu; LANGUAGE = ObjC; SUPERCLASS = NSMenu; }, 
+        {
+            CLASS = DocumentModePopUpButton; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSPopUpButton; 
+        }, 
+        {CLASS = EncodingPopUpButton; LANGUAGE = ObjC; SUPERCLASS = NSPopUpButton; }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                changeAIM = id; 
+                changeEmail = id; 
+                changeModeForNewDocuments = id; 
+                changeMyColor = id; 
+                changeName = id; 
+                chooseImage = id; 
+                clearImage = id; 
+                postGeneralViewPreferencesDidChangeNotificiation = id; 
+                takeImageFromImageView = id; 
+                useAddressBookImage = id; 
+            }; 
+            CLASS = GeneralPreferences; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "O_aimComboBox" = NSComboBox; 
+                "O_alsoInLocalDocumentsButton" = NSButton; 
+                "O_changeSaturationSlider" = NSSlider; 
+                "O_changesDarkColorWell" = NSColorWell; 
+                "O_changesLightColorWell" = NSColorWell; 
+                "O_colorsPopUpButton" = NSPopUpButton; 
+                "O_defaultModePopUpButton" = NSPopUpButton; 
+                "O_emailComboBox" = NSComboBox; 
+                "O_higlightChangesButton" = NSButton; 
+                "O_modeForNewDocumentsPopUpButton" = DocumentModePopUpButton; 
+                "O_nameTextField" = NSTextField; 
+                "O_openNewDocumentAtStartupButton" = NSButton; 
+                "O_pictureImageView" = NSImageView; 
+                "O_selectionDarkColorWell" = NSColorWell; 
+                "O_selectionLightColorWell" = NSColorWell; 
+                "O_selectionSaturationSlider" = NSSlider; 
+                "O_useAddressbookButton" = NSButton; 
+            }; 
+            SUPERCLASS = TCMPreferenceModule; 
+        }, 
+        {CLASS = PCRolloverImageView; LANGUAGE = ObjC; SUPERCLASS = NSImageView; }, 
+        {
+            CLASS = TCMPreferenceModule; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"O_window" = NSWindow; }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

@@ -1,0 +1,46 @@
+{
+    IBClasses = (
+        {
+            CLASS = DocumentModePopUpButton; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSPopUpButton; 
+        }, 
+        {
+            ACTIONS = {
+                clearAll = id; 
+                encodingListChanged = id; 
+                revertToDefault = id; 
+                selectAll = id; 
+                selectedEncoding = id; 
+                showPanel = id; 
+            }; 
+            CLASS = EncodingManager; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                encodingAccessory = NSView; 
+                encodingMatrix = NSMatrix; 
+                encodingPopupButton = EncodingPopUpButton; 
+                ignoreRichTextButton = NSButton; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = EncodingMenu; LANGUAGE = ObjC; SUPERCLASS = NSMenu; }, 
+        {CLASS = EncodingPopUpButton; LANGUAGE = ObjC; SUPERCLASS = NSPopUpButton; }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {changeAccessState = id; changeAnnounced = id; newFile = id; }; 
+            CLASS = ServerConnectionWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "O_accessStatePopUpButton" = NSPopUpButton; 
+                "O_encodingPopUpButton" = EncodingPopUpButton; 
+                "O_modePopUpButton" = DocumentModePopUpButton; 
+                "O_newfileNameTextField" = NSTextField; 
+                "O_remoteFilesController" = NSArrayController; 
+                "O_tableView" = NSTableView; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

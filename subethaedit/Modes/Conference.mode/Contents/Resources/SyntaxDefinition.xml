@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "syntax.dtd">
+<syntax>
+
+    <head>
+        <name>Conference</name> <!-- The definitions title -->
+        <autocompleteoptions use-spelling-dictionary="yes" />
+        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@"]]></charsintokens> 
+    </head>
+
+    <states>
+    
+        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
+        
+            <keywords id="Variables" color="#881280" inverted-color="#ed77e5" useforautocomplete="no">
+                <regex>\b(_[\w_]+(?=_)_)\b</regex>
+            </keywords>
+                        
+            <keywords id="Headings" color="#8f6d00" inverted-color="#c09100" font-weight="bold" useforautocomplete="no">
+                <regex>^([[:upper:]0-9]+[[:upper:]0-9 &amp;_\-/'.?!]*)[\n\r]</regex>
+            </keywords>
+
+            <keywords id="Sections" color="#a61a1a" inverted-color="#ff2528" font-weight="bold" useforautocomplete="no">
+                <regex>^([[:upper:]0-9 _\-/&amp;.?!]+):</regex>
+            </keywords>
+            
+            <keywords id="Separators" color="#333" inverted-color="#ddd" useforautocomplete="no">
+                <regex>^(-{6,})</regex>
+            </keywords>
+
+            <keywords id="Events" color="#333" inverted-color="#ccc" font-style="italic">
+                <regex>(\*\*\* [^\n\r\*]+ \*\*\*)</regex>
+            </keywords>
+
+            <keywords id="References" color="#225" inverted-color="#ddf" useforautocomplete="no">
+                <regex>(\[\d+\])</regex>
+            </keywords>
+
+
+            <keywords id="Emphasis" color="#000" inverted-color="#fff" font-style="italic" font-weight="bold" useforautocomplete="no">
+                <regex>(\*\w+\*)</regex>
+            </keywords>
+
+            <keywords id="Emails and URLs" color="#0000ff" inverted-color="#4939ff" casesensitive="no">
+                <regex>\b([A-Z0-9._%-]+@[A-Z0-9._%-]+\.[A-Z]{2,4})\b</regex>
+                <regex>\b(\S+://[^\s&lt;&gt;]+)</regex>
+            </keywords>
+                        
+            <state id="Tool Tip" color="#076e09" inverted-color="#67dd6a" font-weight="normal" font-style="italic">
+                <begin><regex>{</regex></begin>
+                <end><regex>}</regex></end>
+            </state>
+
+        </default>
+
+    </states>
+
+</syntax>

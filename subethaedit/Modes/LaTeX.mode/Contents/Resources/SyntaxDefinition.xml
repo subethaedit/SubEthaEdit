@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "syntax.dtd">
+<syntax>
+
+    <head>
+        <name>TeX</name>
+        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]></charsintokens>
+    </head>
+
+    <states>
+    
+        <default id="Base" color="#000">
+            <keywords id="Keywords" color="#881350" useforautocomplete="yes">
+                <regex>((((?&lt;!\\)(\\\\)*)|^)\\[\w\d]+)</regex>
+                <regex>(\\\\)</regex>
+            </keywords>
+            <keywords id="Functions" color="#408" useforautocomplete="yes">
+                <regex>((\[[\w\d,\. ]*\])?({[^}]*(?=})[^{]*})+)</regex>
+            </keywords>
+        
+			<state id="Singleline Comment" color="#236E25" font-style="italic">
+				<begin><regex>(?&lt;!\\)%</regex></begin>
+				<end><regex>[\n\r]</regex></end>
+			</state>
+        
+		</default>
+
+    </states>
+
+</syntax>

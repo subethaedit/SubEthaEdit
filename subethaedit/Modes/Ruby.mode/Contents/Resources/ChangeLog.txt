@@ -1,0 +1,30 @@
+Changes with Version 3.0 (SEE 2.7)
+    *) removed ERB and put it into a new mode
+
+Changes with Version 2.7 (SEE 2.6.4)
+    *) fixed the validate scripts to work with unicode and leopard
+    *) fixed hexadecimal character keyword
+    *) fixed the validate scripts to work with tabs
+
+Changes with Version 2.6 (SEE 2.5.1)
+    *) fixed issue SEE-1040: "Check Syntax" script has same key shortcut as block edit by changing it to ctrl-command-b
+
+Changes with Version 2.5 (SEE 2.5)
+    *) added scripts: Insert Shebang, chmod ug+x, Check Syntax, Run in Terminal, Insert/Edit HTML Color.
+
+Changes with Version 2.4 (by dom - SEE 2.3)
+    *) added more AutocompleteAdditions (standard XHTML, CSS)
+    *) added comment mark recognition <!-- mark
+    *) added coloring of oneline <!-- comments -->
+    *) added recognition of named divs
+    *) removed the "def" in the function popup (so you can directly jump to functions via the keyboard)
+    *) added #mark to symbol recognition (like #pragma mark in C/Objective-C
+
+Changes with Version 2.3 (by dom)
+
+    *) added AutocompleteAdditions (http://www.ruby-doc.org/ core api and http://rails.rubyonrails.org/)
+    *) added core classes to syntax highlighting
+
+Changes with Version 2.2
+    
+    *) EXTENSIONS: Added uppercase variants where appropriate.

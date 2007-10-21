@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "symbol.dtd">
+<symbols>
+
+    <blocks>
+        <beginregex>&lt;!--</beginregex>
+        <endregex>--&gt;</endregex>
+    </blocks>
+    
+    <symbol id="Headers" font-weight="normal" font-style="normal" image="SymbolH.png" indentation="0" ignoreblocks="yes">
+        <regex>&lt;[hH][1-6]&gt;([^&lt;]+)&lt;/[hH][1-6]&gt;</regex>
+        <postprocess>
+            <find>^[ \n\r\t]+</find>
+            <replace></replace>
+            <find>[ \n\r\t]+$</find>
+            <replace></replace>
+        </postprocess>
+    </symbol>
+    
+    <symbol id="Divs with IDs" font-weight="normal" font-style="normal" image="SymbolD.png" indentation="0" ignoreblocks="yes">
+        <regex>&lt;div[^&gt;]*id *= *"([^"]*)"[^&gt;]*&gt;</regex>
+    </symbol>
+    
+    <symbol id="Named anchors" font-weight="normal" font-style="normal" image="Symbola.png" indentation="0" ignoreblocks="yes">
+        <regex>&lt;a[^&gt;]*name *= *"([^"]*)"[^&gt;]*&gt;</regex>
+        <postprocess>
+            <find>(?i)%20</find>
+            <replace> </replace>
+            <find>(?i)%3f</find>
+            <replace>\?</replace>
+            <find>%24</find>
+            <replace>\$</replace>
+            <find>%26</find>
+            <replace>\+</replace>
+            <find>(?i)%2c</find>
+            <replace>,</replace>
+            <find>(?i)%2f</find>
+            <replace>/</replace>
+            <find>(?i)%3a</find>
+            <replace>:</replace>
+            <find>(?i)%3b</find>
+            <replace>;</replace>
+            <find>(?i)%3d</find>
+            <replace>=</replace>
+            <find>(?i)%40</find>
+            <replace>@</replace>
+        </postprocess>
+    </symbol>
+
+    <symbol id="Pragma marks" font-weight="normal" font-style="normal" image="Symbol!.png" indentation="0" ignoreblocks="no">
+        <regex>&lt;!-- !([^-]*) --&gt;</regex>
+    </symbol>
+
+</symbols>

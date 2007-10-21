@@ -1,0 +1,59 @@
+{
+    IBClasses =     (
+                {
+            CLASS = DNDArrayController;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                tableView = NSTableView;
+            };
+            SUPERCLASS = NSArrayController;
+        },
+                {
+            ACTIONS =             {
+                reloadDocumentModes = id;
+            };
+            CLASS = DocumentModeManager;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSObject;
+        },
+                {
+            CLASS = DocumentModeMenu;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSMenu;
+        },
+                {
+            CLASS = DocumentModePopUpButton;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSPopUpButton;
+        },
+                {
+            CLASS = FirstResponder;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSObject;
+        },
+                {
+            ACTIONS =             {
+                addUserRule = id;
+                removeUserRule = id;
+            };
+            CLASS = PrecedencePreferences;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                "o_modesController" = NSArrayController;
+                "o_precedenceView" = NSView;
+                "o_rulesController" = NSArrayController;
+                "o_rulesTableView" = NSTableView;
+            };
+            SUPERCLASS = TCMPreferenceModule;
+        },
+                {
+            CLASS = TCMPreferenceModule;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                "O_window" = NSWindow;
+            };
+            SUPERCLASS = NSResponder;
+        }
+    );
+    IBVersion = 1;
+}

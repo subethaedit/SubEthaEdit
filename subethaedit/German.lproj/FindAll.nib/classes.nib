@@ -1,0 +1,21 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {findAll = id; }; 
+            CLASS = FindAllController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "O_findAllPanel" = NSPanel; 
+                "O_findRegexTextField" = NSTextField; 
+                "O_findResultsTextField" = NSTextField; 
+                "O_progressIndicator" = NSProgressIndicator; 
+                "O_resultsController" = NSArrayController; 
+                "O_resultsTableView" = NSTableView; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = FindAllTableView; LANGUAGE = ObjC; SUPERCLASS = NSTableView; }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}

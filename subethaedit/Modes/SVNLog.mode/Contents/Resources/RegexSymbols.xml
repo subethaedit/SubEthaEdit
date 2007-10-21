@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "symbol.dtd">
+<symbols>
+
+    <symbol id="Index" font-weight="bold" font-style="normal" indentation="0" ignoreblocks="yes">
+        <regex>^(r[0-9]+ \|.+ \| (.+)) \| [0-9]+ lines?$</regex>
+    </symbol>
+
+</symbols>

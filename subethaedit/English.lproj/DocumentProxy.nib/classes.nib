@@ -1,0 +1,38 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {setTitle = id; }; 
+            CLASS = AMRollOverButton; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSButton; 
+        }, 
+        {CLASS = AMRollOverButtonCell; LANGUAGE = ObjC; SUPERCLASS = NSButtonCell; }, 
+        {CLASS = BorderlessWindow; LANGUAGE = ObjC; SUPERCLASS = NSWindow; }, 
+        {CLASS = DWRoundedTransparentView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {
+            ACTIONS = {acceptAction = id; }; 
+            CLASS = DocumentProxyWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "O_acceptButton" = AMRollOverButton; 
+                "O_bottomCustomView" = NSView; 
+                "O_bottomDecisionView" = NSView; 
+                "O_bottomStatusView" = NSView; 
+                "O_containerView" = NSView; 
+                "O_declineButton" = AMRollOverButton; 
+                "O_documentImageView" = NSImageView; 
+                "O_documentTitleTextField" = NSTextField; 
+                "O_statusBarTextField" = NSTextField; 
+                "O_userImageView" = NSImageView; 
+                "O_userNameTextField" = NSTextField; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = FirstClickCustomView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = HMBlkPanel; LANGUAGE = ObjC; SUPERCLASS = NSPanel; }, 
+        {CLASS = HUDButton; LANGUAGE = ObjC; SUPERCLASS = NSButton; }, 
+        {CLASS = HUDWindow; LANGUAGE = ObjC; SUPERCLASS = NSPanel; }
+    ); 
+    IBVersion = 1; 
+}

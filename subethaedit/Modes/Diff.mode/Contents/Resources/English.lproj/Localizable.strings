@@ -1,0 +1,6 @@
+/* State and Keywordgroupnames */
+"Index" = "Index Marker";
+"+++" = "+++ Added";
+"---" = "--- Removed";
+"==================" = "=== Separator";
+"@@" = "@@ Locations";

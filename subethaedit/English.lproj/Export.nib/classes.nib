@@ -1,0 +1,31 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                cancelExport = id; 
+                chooseLineEndings = id; 
+                continueExport = id; 
+                convertLineEndings = id; 
+                exportDocument = id; 
+                goIntoBundles = id; 
+                newView = id; 
+                toggleIsAnnounced = id; 
+                toggleSyntaxHighlighting = id; 
+            }; 
+            CLASS = PlainTextDocument; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "O_encodingPopUpButton" = EncodingPopUpButton; 
+                "O_exportSheet" = NSWindow; 
+                "O_exportSheetController" = NSController; 
+                "O_goIntoBundlesCheckbox" = NSButton; 
+                "O_goIntoBundlesCheckbox2" = NSButton; 
+                "O_savePanelAccessoryView" = NSView; 
+                "O_savePanelAccessoryView2" = NSView; 
+            }; 
+            SUPERCLASS = NSDocument; 
+        }
+    ); 
+    IBVersion = 1; 
+}

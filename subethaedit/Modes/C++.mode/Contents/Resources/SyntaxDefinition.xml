@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "syntax.dtd">
+<syntax>
+
+    <head>
+        <name>C++</name> <!-- The definitions title -->
+        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]></charsintokens> <!-- Valid Characters for Variables -->
+        <!-- <charsdelimitingtokens></charsdelimitingtokens> -->
+    </head>
+
+    <states>
+    
+        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
+            <keywords id="C++ Keywords" color="#881350" useforautocomplete="yes">
+                <string>class</string>
+                <string>false</string>
+                <string>friend</string>
+                <string>inline</string>
+                <string>namespace</string>
+                <string>new</string>
+                <string>delete</string>
+                <string>operator</string>
+                <string>private</string>
+                <string>protected</string>
+                <string>public</string>
+                <string>const_cast</string>
+                <string>reinterpret_cast</string>
+                <string>static_cast</string>
+                <string>dynamic_cast</string>
+                <string>explicit</string>
+                <string>template</string>
+                <string>this</string>
+                <string>throw</string>
+                <string>true</string>
+                <string>try</string>
+                <string>catch</string>
+                <string>typeid</string>
+                <string>typename</string>
+                <string>using</string>
+                <string>virtual</string>
+                <string>and_eq</string>
+                <string>and</string>
+                <string>bitand</string>
+                <string>bitor</string>
+                <string>compl</string>
+                <string>not_eq</string>
+                <string>not</string>
+                <string>or_eq</string>
+                <string>or</string>
+                <string>xor_eq</string>
+                <string>xor</string>
+                <string>bad_cast</string>
+                <string>bad_typeid</string>
+                <string>except</string>
+                <string>finally</string>
+                <string>type_info</string>
+                <string>xalloc</string>
+                <string>Q_EXPORT</string>
+                <string>Q_OBJECT</string>
+                <string>K_DCOP</string>
+                <string>SLOT</string>
+                <string>SIGNAL</string>
+                <string>slots</string>
+                <string>signals</string>
+                <string>Q_PROPERTY</string>
+                <string>Q_ENUMS</string>
+                <string>Q_SETS</string>
+                <string>Q_OVERRIDE</string>
+                <string>Q_CLASSINFO</string>
+                <string>TRUE</string>
+                <string>FALSE</string>
+            </keywords>
+    
+            <import mode="C"/>
+
+        </default>
+    </states>
+
+</syntax>

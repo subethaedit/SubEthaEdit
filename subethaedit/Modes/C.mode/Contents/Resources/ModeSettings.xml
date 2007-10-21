@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+    <recognition>
+        <extension>c</extension>
+        <extension>strings</extension>
+        <extension>h</extension>
+    </recognition>
+</settings>

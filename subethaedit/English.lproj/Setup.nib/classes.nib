@@ -1,0 +1,38 @@
+{
+    IBClasses = (
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {
+                agreeLicense = id; 
+                commercialChanged = id; 
+                continueDone = id; 
+                disagreeLicense = id; 
+                goBack = id; 
+                purchaseNow = id; 
+            }; 
+            CLASS = SetupController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "O_commercialRadioButton" = NSButton; 
+                "O_continueButton" = NSButton; 
+                "O_doneTabItem" = NSTabViewItem; 
+                "O_doneTabView" = NSTabView; 
+                "O_goBackButton" = NSButton; 
+                "O_licenseConfirmationSheet" = NSWindow; 
+                "O_licenseTabItem" = NSTabViewItem; 
+                "O_licenseTextView" = NSTextView; 
+                "O_licenseeNameField" = NSTextField; 
+                "O_licenseeOrganizationField" = NSTextField; 
+                "O_noncommercialRadioButton" = NSButton; 
+                "O_purchaseHintField" = NSTextField; 
+                "O_purchaseTabItem" = NSTabViewItem; 
+                "O_serialNumberField" = NSTextField; 
+                "O_tabView" = NSTabView; 
+                "O_useCommandLineToolCheckbox" = NSButton; 
+                "O_welcomeTabItem" = NSTabViewItem; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}
