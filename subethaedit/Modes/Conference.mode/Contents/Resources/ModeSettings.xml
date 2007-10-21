@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE syntax SYSTEM "settings.dtd">
-<settings>
-    <template>notes_template.notes</template>
-    <recognition>
-        <extension>notes</extension>
-        <extension>NOTES</extension>
-    </recognition>
-</settings>
