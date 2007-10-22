@@ -289,11 +289,15 @@ static AppController *sharedInstance = nil;
     }
 
     if (meCard) {
-        NSData  *imageData;
-        if ((imageData=[meCard imageData])) {
-            myImage=[[NSImage alloc] initWithData:imageData];
-            [myImage setCacheMode:NSImageCacheNever];
-        } 
+        @try {
+            NSData  *imageData;
+            if ((imageData=[meCard imageData])) {
+                myImage=[[NSImage alloc] initWithData:imageData];
+                [myImage setCacheMode:NSImageCacheNever];
+            }
+        } @catch (id exception) {
+        
+        }
     }
     
     if (!myImage) {
