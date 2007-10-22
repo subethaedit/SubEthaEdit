@@ -322,4 +322,8 @@
 	}
 }
 
+- (BOOL)acceptsFirstMouse:(NSEvent *)anEvent {
+    return YES;
+}
+
 @end
