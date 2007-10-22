@@ -40,19 +40,41 @@
     if ((self=[self init])) {
         NSEnumerator *operationReps = [[aDictionary objectForKey:@"ops"] objectEnumerator];
         NSDictionary *operationRep =nil;
+        NSMutableArray *loggedOperations = [NSMutableArray new];
         while ((operationRep = [operationReps nextObject])) {
             id operation = [[[TCMMMLoggedOperation alloc] initWithDictionaryRepresentation:operationRep] autorelease];
             if (operation) {
+                [loggedOperations addObject:operation];
                 NSString *userID = [[operation operation] userID];
                 if (userID) {
                     [I_participantIDs addObject:userID];
                 }
-                [self addLoggedOperation:operation];
             }
         }
-    }
-    if ([aDictionary objectForKey:@"initialtext"]) {
-        [self setInitialTextStorageDictionaryRepresentation:[aDictionary objectForKey:@"initialtext"]];
+    
+        // check if times are correct if not move all operations backwards
+        NSDate *referenceDate = [[loggedOperations lastObject] date];
+        NSTimeInterval timeDifference = 0.0;
+        if (referenceDate) {
+            NSTimeInterval timeSinceNow = [referenceDate timeIntervalSinceNow];
+            if (timeSinceNow > 0) {
+                timeDifference = -timeSinceNow;
+            }
+        }
+        
+        int i=0;
+        int count = [loggedOperations count];
+        for (i=0;i<count;i++) {
+            TCMMMLoggedOperation *operation = [loggedOperations objectAtIndex:i];
+            if (timeDifference < 0) {
+                [operation setDate:[[operation date] addTimeInterval:timeDifference]];
+            }
+            [self addLoggedOperation:operation];
+        }
+        
+        if ([aDictionary objectForKey:@"initialtext"]) {
+            [self setInitialTextStorageDictionaryRepresentation:[aDictionary objectForKey:@"initialtext"]];
+        }
     }
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel,@"imported %d operations, the last one being:%@ statistics are:%@",[I_loggedOperations count],[I_loggedOperations lastObject],I_statisticsArray);
     return self;

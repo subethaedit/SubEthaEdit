@@ -21,6 +21,7 @@
 - (id)initWithDictionaryRepresentation:(NSDictionary *)aRepresentation;
 
 - (NSDictionary *)dictionaryRepresentation;
+- (void)setDate:(NSCalendarDate *)aDate;
 - (NSCalendarDate *)date;
 - (TCMMMOperation *)operation;
 - (long long)index;
