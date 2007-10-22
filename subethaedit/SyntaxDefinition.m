@@ -594,7 +594,7 @@
     NSDictionary *keywordGroup = nil;
     while ((keywordGroup=[keywordGroups nextObject])) {
         if ([[keywordGroup objectForKey:@"styleID"] isEqualToString:aStyleID]) {
-            return aLevel+1;
+            return aLevel;
         }
     }
     NSEnumerator *subStates = [[aState objectForKey:@"states"] objectEnumerator];

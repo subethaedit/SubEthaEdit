@@ -636,14 +636,14 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = F2989FFE0CCB9ED900C4DB8B /* SeeTextImporter.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 8D576316048677EA00EA77CD /* SeeTextImporter.mdimporter */;
+			remoteGlobalIDString = 8D576316048677EA00EA77CD;
 			remoteInfo = SeeTextImporter;
 		};
 		F298A00B0CCB9F4100C4DB8B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F2989FFE0CCB9ED900C4DB8B /* SeeTextImporter.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 8D57630D048677EA00EA77CD /* SeeTextImporter */;
+			remoteGlobalIDString = 8D57630D048677EA00EA77CD;
 			remoteInfo = SeeTextImporter;
 		};
 		F2A093BA0C9EBB42000AD27A /* PBXContainerItemProxy */ = {
