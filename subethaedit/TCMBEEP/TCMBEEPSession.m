@@ -97,16 +97,6 @@ static NSString *keychainPassword = nil;
         CFArrayRef searchList;
         SecKeychainCopySearchList(&searchList);
         
-        SecTrustedApplicationRef myself;
-        OSStatus err = SecTrustedApplicationCreateFromPath ([[[NSBundle mainBundle] bundlePath] UTF8String],&myself);
-        if (err=noErr) {
-            NSArray *array = [NSArray arrayWithObject:myself];
-            SecAccessRef accessRef;
-            err = SecAccesCreate((CFStringRef)@"MyCertificateItems",(CFArrayRef)array,&accessRef);
-            if (err!=noErr) {
-                accessRef = NULL;
-            }
-        }
         keychainPassword = [[NSString UUIDString] retain];
         // generate the temporary keychain
         OSStatus status = SecKeychainCreate (
