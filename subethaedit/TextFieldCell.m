@@ -31,7 +31,7 @@
     if (floor(NSAppKitVersionNumber) > 824.) {
         [[self attributedStringValue] drawInRect:NSInsetRect(cellFrame,5.,0)];
     } else {
-        [super drawInteriorWithFrame:cellFrame inView:nil];
+        [super drawInteriorWithFrame:cellFrame inView:controlView];
     }
 }
 @end
