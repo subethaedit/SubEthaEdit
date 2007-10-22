@@ -50,6 +50,7 @@
         I_cacheStylesReady = NO;
 		I_cacheStylesCalculating = NO;
 		I_symbolAndAutocompleteInheritanceReady=NO;
+		I_levelsForStyleIDs = [NSMutableDictionary new];
 	}
     
 //    NSLog([self description]);
@@ -71,6 +72,9 @@
     [I_stylesForRegex release];
 	[I_defaultSyntaxStyle release];
     [I_autocompleteTokenString release];
+    [I_levelsForStyleIDs release];
+    [self setTokenSet:nil];
+    [self setAutoCompleteTokenSet:nil];
     [super dealloc];
 }
 
@@ -164,7 +168,8 @@
             if (aColor) attributeValue = aColor;
             else {
                 [aDictionary removeObjectForKey:attributeValue];
-				[self showWarning:NSLocalizedString(@"XML Color Error",@"XML Color Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"Cannot parse color '%@' in %@ mode",@"Syntax XML Color Error Informative Text"), attributeValue, [self name]]];
+				if (![attributeValue isEqualToString:@"none"])
+					[self showWarning:NSLocalizedString(@"XML Color Error",@"XML Color Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"Cannot parse color '%@' in %@ mode",@"Syntax XML Color Error Informative Text"), attributeValue, [self name]]];
                 continue;
             }
         }        
@@ -228,7 +233,7 @@
     if (regexEnd) {
         OGRegularExpression *endRegex;
         if ([OGRegularExpression isValidExpressionString:regexEnd]) {
-            if ((endRegex = [[[OGRegularExpression alloc] initWithString:regexEnd options:OgreFindLongestOption|OgreFindNotEmptyOption] autorelease]))
+            if ((endRegex = [[[OGRegularExpression alloc] initWithString:regexEnd options:OgreFindNotEmptyOption] autorelease]))
                 [stateDictionary setObject:endRegex forKey:@"EndsWithRegex"];
                 [stateDictionary setObject:regexEnd forKey:@"EndsWithRegexString"];
         } else {
@@ -254,7 +259,6 @@
         [self addAttributes:[keywordGroupNode attributes] toDictionary:keywordGroupDictionary];
         NSString *keywordGroupName = [keywordGroupDictionary objectForKey:@"id"];
         if (keywordGroupName) [keywordGroups addObject:keywordGroupDictionary];
-        [I_defaultSyntaxStyle takeValuesFromDictionary:keywordGroupDictionary];
         
         // Add regexes for keyword group
         NSMutableArray *regexes = [NSMutableArray array];
@@ -281,6 +285,15 @@
         }
         
     }
+    
+    if ([name isEqualToString:@"default"]) {        
+        [stateDictionary setObject:[NSString stringWithFormat:@"/%@/%@", [self name], SyntaxStyleBaseIdentifier] forKey:@"id"];
+        [stateDictionary setObject:SyntaxStyleBaseIdentifier forKey:@"styleID"];
+        [I_defaultState addEntriesFromDictionary:stateDictionary];
+    } else {
+        if (![aState objectForKey:@"states"]) [aState setObject:[NSMutableArray array] forKey:@"states"];
+        [[aState objectForKey:@"states"] addObject:stateDictionary];
+    }
 
     //Recursive descent into sub-states
     
@@ -293,16 +306,7 @@
             [self parseState:subState addToState:stateDictionary];           
         }
     }
-    
-    if ([name isEqualToString:@"default"]) {        
-        [stateDictionary setObject:[NSString stringWithFormat:@"/%@/%@", [self name], SyntaxStyleBaseIdentifier] forKey:@"id"];
-        [stateDictionary setObject:SyntaxStyleBaseIdentifier forKey:@"styleID"];
-        [I_defaultState addEntriesFromDictionary:stateDictionary];
-    } else {
-        if (![aState objectForKey:@"states"]) [aState setObject:[NSMutableArray array] forKey:@"states"];
-        [[aState objectForKey:@"states"] addObject:stateDictionary];
-    }
-
+	
 	NSString *symbolsFromMode = [[stateNode attributeForName:@"usesymbolsfrommode"] stringValue];
 	if (symbolsFromMode) [stateDictionary setObject:symbolsFromMode forKey:@"switchtosymbolsfrommode"];
 	
@@ -365,7 +369,6 @@
 
     [I_allStates setObject:stateDictionary forKey:[stateDictionary objectForKey:@"id"]]; // Used for easy caching and precalculating
 
-    [I_defaultSyntaxStyle takeValuesFromDictionary:stateDictionary];    
 }
 
 #pragma mark - 
@@ -420,8 +423,7 @@
                     NSString *aString;
                     while ((keyword = [keywordEnumerator nextObject])) {
                         OGRegularExpression *regex;
-                        unsigned regexOptions = OgreFindLongestOption|OgreFindNotEmptyOption;
-                        //unsigned regexOptions = OgreFindNotEmptyOption;
+                        unsigned regexOptions = OgreFindNotEmptyOption;
                         if ((aString = [keywordGroup objectForKey:@"casesensitive"])) {       
                             if (([aString isEqualTo:@"no"])) {
                                 regexOptions = regexOptions|OgreIgnoreCaseOption;
@@ -561,6 +563,7 @@
 
 - (void) getReady {
     if (!I_combinedStateRegexReady && !I_combinedStateRegexCalculating) [self calculateCombinedStateRegexes];
+	[self addStyleIDsFromState:[self defaultState]];
     if (!I_cacheStylesReady && !I_cacheStylesCalculating) [self cacheStyles];
 	if (!I_symbolAndAutocompleteInheritanceReady) {
 		[self calculateSymbolInheritanceForState:[I_allStates objectForKey:[NSString stringWithFormat:@"/%@/%@", [self name], SyntaxStyleBaseIdentifier]] inheritedSymbols:[self name] inheritedAutocomplete:[self name]];
@@ -581,6 +584,44 @@
 	
     if ([aString isEqualToString:SyntaxStyleBaseIdentifier]) return [self defaultState];
     return [I_allStates objectForKey:aString];
+}
+
+- (int)levelForStyleID:(NSString *)aStyleID currentLevel:(int)aLevel maxLevel:(int)aMaxLevel inState:(NSDictionary *)aState {
+    if (aMaxLevel == aLevel) return aLevel;
+    aState = [self stateForID:[aState objectForKey:@"id"]];
+    if ([[aState objectForKey:@"styleID"] isEqualToString:aStyleID]) return aLevel;
+    NSEnumerator *keywordGroups = [[aState objectForKey:@"KeywordGroups"] objectEnumerator];
+    NSDictionary *keywordGroup = nil;
+    while ((keywordGroup=[keywordGroups nextObject])) {
+        if ([[keywordGroup objectForKey:@"styleID"] isEqualToString:aStyleID]) {
+            return aLevel;
+        }
+    }
+    NSEnumerator *subStates = [[aState objectForKey:@"states"] objectEnumerator];
+    NSDictionary *subState = nil;
+    if (!subStates) return aLevel;
+    while ((subState=[subStates nextObject])) {
+        if ([[subState objectForKey:@"styleID"] isEqualToString:aStyleID]) return aLevel;
+    }
+
+    int result = aMaxLevel;
+    subStates = [[aState objectForKey:@"states"] objectEnumerator];
+    subState = nil;
+    while ((subState=[subStates nextObject])) {
+        result = MIN(result,[self levelForStyleID:aStyleID currentLevel:aLevel+1 maxLevel:aMaxLevel inState:subState]);
+    }    
+    
+    return result;
+}
+
+- (int)levelForStyleID:(NSString *)aStyleID {
+    NSNumber *level = [I_levelsForStyleIDs objectForKey:aStyleID];
+    if (!level) {
+        int intLevel = [self levelForStyleID:aStyleID currentLevel:0 maxLevel:5 inState:I_defaultState];
+        level = [NSNumber numberWithInt:intLevel];
+        [I_levelsForStyleIDs setObject:level forKey:aStyleID];
+    }
+    return [level intValue];
 }
 
 - (NSString *)styleForToken:(NSString *)aToken inState:(NSString *)aState 
@@ -632,7 +673,7 @@
     else return nil;
 }
 
-- (void)addImportedStyleIDsFromState:(NSDictionary *)aState {
+- (void)addStyleIDsFromState:(NSDictionary *)aState {
 	aState = [self stateForID:[aState objectForKey:@"id"]]; // Refetch state to be sure to get the orignal and not a weak-link zombie
 	if (![aState objectForKey:@"styleID"]) return;
     [I_defaultSyntaxStyle takeValuesFromDictionary:aState];
@@ -645,7 +686,7 @@
     NSEnumerator *subStates = [[aState objectForKey:@"states"] objectEnumerator];
     id subState;
     while ((subState = [subStates nextObject])) {
-        if (![I_defaultSyntaxStyle styleForKey:[subState objectForKey:@"styleID"]]) [self addImportedStyleIDsFromState:[self stateForID:[subState objectForKey:@"id"]]];
+        if ((![I_defaultSyntaxStyle styleForKey:[subState objectForKey:@"styleID"]])&&(![[aState objectForKey:@"id"] isEqualToString:[subState objectForKey:@"id"]])) [self addStyleIDsFromState:[self stateForID:[subState objectForKey:@"id"]]];
     }
     
 }
@@ -674,18 +715,7 @@
 				}
 				
 				if (![aState objectForKey:@"KeywordGroups"]) [aState setObject:[NSMutableArray array] forKey:@"KeywordGroups"];
-				[[aState objectForKey:@"KeywordGroups"] addObjectsFromArray:[linkedState objectForKey:@"KeywordGroups"]];
-			
-				if (keywordsOnly) {
-					NSEnumerator *keywords = [[linkedState objectForKey:@"KeywordGroups"] objectEnumerator];
-					id keyword;
-					while ((keyword = [keywords nextObject])) {
-						[I_defaultSyntaxStyle takeValuesFromDictionary:keyword];
-					}
-				} else {
-					[self addImportedStyleIDsFromState:linkedState];						
-				}
-			
+				[[aState objectForKey:@"KeywordGroups"] addObjectsFromArray:[linkedState objectForKey:@"KeywordGroups"]];			
 			}
 		}
 	} 
@@ -721,16 +751,13 @@
 				if ([linkedState objectForKey:@"type"])
 					[aDictionary setObject:[linkedState objectForKey:@"type"] forKey:@"type"];
             }
-			
-			[self addImportedStyleIDsFromState:[self stateForID:linkedName]];
-
 		}
 		
 		
         if ((beginString = [aDictionary objectForKey:@"BeginsWithRegexString"])) {
             DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found regex string state start:%@",beginString);
             // Warn if begin contains unnamed group
-            OGRegularExpression *testForGroups = [[OGRegularExpression alloc] initWithString:beginString options:OgreFindLongestOption|OgreFindNotEmptyOption|OgreCaptureGroupOption];
+            OGRegularExpression *testForGroups = [[OGRegularExpression alloc] initWithString:beginString options:OgreFindNotEmptyOption|OgreCaptureGroupOption];
 
             if ([testForGroups numberOfGroups]>[testForGroups numberOfNames]) {
                 [self showWarning:NSLocalizedString(@"XML Group Error",@"XML Group Error Title") withDescription:[NSString stringWithFormat:NSLocalizedString(@"The <begin> tag of <state> \"%@\" contains a regex that has captured groups. This is currently not allowed. Please escape all groups to be not-captured with (?:).",@"Syntax XML Group Error Informative Text"),[aDictionary objectForKey:@"id"]]];

@@ -22,7 +22,7 @@
 				<string>False</string>
 				<string>NotImplemented</string>
             </keywords>
-            <keywords id="Types" color="#0f0" useforautocomplete="yes">
+            <keywords id="Types" color="#00b301" useforautocomplete="yes">
 				<string>NoneType</string>
 				<string>TypeType</string>
 				<string>BooleanType</string>

@@ -152,7 +152,7 @@
         if ([object isKindOfClass:[NSDictionary class]]) {
             [self updateFileDict:object];
         } else {
-            #warning TODO: implement removal of documents
+            // TODO: implement removal of documents
         }
     }
 }

@@ -168,6 +168,10 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 }
 
 - (BOOL)hasMixedLineEndingsInRange:(NSRange)aRange {
+    static int limit = 0;
+    if (limit==0) limit = [[NSUserDefaults standardUserDefaults] integerForKey:@"ByteLengthToUseForModeRecognitionAndEncodingGuessing"];
+    if (aRange.length > limit && limit != -1) aRange.length = limit;
+
     OGRegularExpression *wrongExpression = [TextStorage wrongLineEndingRegex:[self lineEnding]];
     OGRegularExpressionMatch *match = [wrongExpression matchInString:[self string] range:aRange];
     return [match count]!=0;
@@ -279,7 +283,10 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     return [self length];
 }
 - (unsigned)numberOfWords {
-    if (I_numberOfWords == 0) {
+    static int limit = 0;
+    if (limit==0) limit = [[NSUserDefaults standardUserDefaults] integerForKey:@"ByteLengthToUseForModeRecognitionAndEncodingGuessing"];
+    
+    if (I_numberOfWords == 0 && limit>[self length]) {
         static OGRegularExpression *s_wordCountRegex = nil;
         if (!s_wordCountRegex) {
             s_wordCountRegex = [[OGRegularExpression regularExpressionWithString:@"[\\w']+"] retain];

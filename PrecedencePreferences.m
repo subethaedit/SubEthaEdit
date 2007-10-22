@@ -106,7 +106,6 @@
 		[[ruleViewController typePopup] bind:@"selectedTag" toObject:rule withKeyPath:@"TypeIdentifier" options:nil];
 		[[ruleViewController typePopup] bind:@"enabled" toObject:rule withKeyPath:@"ModeRule" options:[NSDictionary dictionaryWithObject:NSNegateBooleanTransformerName forKey:NSValueTransformerNameBindingOption]];
 		[[ruleViewController enabledCheckbox] bind:@"value" toObject:rule withKeyPath:@"Enabled" options:nil];
-//		[[ruleViewController enabledCheckbox] bind:@"hidden" toObject:rule withKeyPath:@"Overridden" options:nil];
 		[[ruleViewController warningImageView] bind:@"hidden" toObject:rule withKeyPath:@"Overridden" options:[NSDictionary dictionaryWithObject:NSNegateBooleanTransformerName forKey:NSValueTransformerNameBindingOption]];
 		[[ruleViewController warningImageView] bind:@"hidden2" toObject:rule withKeyPath:@"Enabled" options:[NSDictionary dictionaryWithObject:NSNegateBooleanTransformerName forKey:NSValueTransformerNameBindingOption]];
 		[[ruleViewController warningImageView] bind:@"toolTip" toObject:rule withKeyPath:@"OverriddenTooltip" options:nil];

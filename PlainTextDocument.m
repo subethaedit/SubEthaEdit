@@ -61,6 +61,8 @@
 #import "TCMMMLoggingState.h"
 #import "BacktracingException.h"
 
+#import "UKXattrMetadataStore.h"
+
 #import <UniversalDetector/UniversalDetector.h>
 
 #pragma options align=mac68k
@@ -181,6 +183,12 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 + (PlainTextDocument *)transientDocument
 {
     return transientDocument;
+}
+
+- (void)setFileType:(NSString *)aString {
+    [self willChangeValueForKey:@"documentIcon"];
+    [super setFileType:aString];
+    [self didChangeValueForKey:@"documentIcon"];
 }
 
 - (NSImage *)documentIcon {
@@ -1332,6 +1340,37 @@ static NSString *tempFileName(NSString *origPath) {
     [self setIsAnnounced:![self isAnnounced]];
 }
 
+- (IBAction)toggleIsAnnouncedOnAllDocuments:(id)aSender {
+    BOOL targetSetting = ![self isAnnounced];
+    NSEnumerator *documents = [[[DocumentController sharedInstance] documents] objectEnumerator];
+    PlainTextDocument *document = nil;
+    while ((document=[documents nextObject])) {
+        [document setIsAnnounced:targetSetting];
+    }
+}
+
+- (IBAction)changePendingUsersAccess:(id)aSender {
+    if ([[self session] isServer]) {
+        int newState=-1;
+        if ([aSender isKindOfClass:[NSPopUpButton class]]) {
+            newState=[[aSender selectedItem] tag];
+        } else {
+            newState=[aSender tag];
+        }
+        if (newState!=-1) {
+            TCMMMSession *session=[self session];
+            [session setAccessState:newState];
+        }
+    }
+}
+
+- (IBAction)changePendingUsersAccessOnAllDocuments:(id)aSender {
+    NSEnumerator *documents = [[[DocumentController sharedInstance] documents] objectEnumerator];
+    PlainTextDocument *document = nil;
+    while ((document=[documents nextObject])) {
+        [document changePendingUsersAccess:aSender];
+    }
+}
 - (BOOL)isEditable {
     return [[self session] isEditable];
 }
@@ -1368,11 +1407,31 @@ static NSString *tempFileName(NSString *origPath) {
 
 - (IBAction)prettyPrintXML:(id)aSender {
     NSError *error=nil;
-    NSXMLDocument *document = [[[NSXMLDocument alloc] initWithXMLString:[[self textStorage] string] options:NSXMLNodePreserveEmptyElements error:&error] autorelease];
+    NSXMLDocument *document = [[NSXMLDocument alloc] initWithXMLString:[[self textStorage] string] options:NSXMLNodePreserveEmptyElements error:&error];
     if (document) {
-        [self performSelector:@selector(setScriptedContents:) withObject:[document XMLStringWithOptions:NSXMLNodePrettyPrint|NSXMLNodePreserveEmptyElements]];
-        [self clearChangeMarks:aSender];
+        NSString *xmlString = [document XMLStringWithOptions:NSXMLNodePrettyPrint|NSXMLNodePreserveEmptyElements];
+        [document release];
+        if ([self tabWidth] != 4 || [self usesTabs]) {
+            OGRegularExpression *spaceMatch = [OGRegularExpression regularExpressionWithString:@"((    )+)<"];
+            NSMutableString *string = [[xmlString mutableCopy] autorelease];
+            NSString *replacementString = [self usesTabs]?@"\t":[@" " stringByPaddingToLength:[self tabWidth] withString:@" " startingAtIndex:0];
+            NSArray *matchArray=[spaceMatch allMatchesInString:xmlString range:NSMakeRange(0,[string length])];
+            NSEnumerator *matches = [matchArray reverseObjectEnumerator];
+            OGRegularExpressionMatch *match = nil;
+            while ((match=[matches nextObject])) {
+                NSRange replacementRange = [match rangeOfSubstringAtIndex:1];
+                int numberOfReplacements = replacementRange.length / 4;
+                while (--numberOfReplacements > 0) {
+                    [string replaceCharactersInRange:NSMakeRange(NSMaxRange(replacementRange),0) withString:replacementString];
+                }
+                [string replaceCharactersInRange:replacementRange withString:replacementString];
+            }
+            xmlString = (NSString *)string;
+        }
+        [self performSelector:@selector(setScriptedContents:) withObject:xmlString];
+        // [self clearChangeMarks:aSender];
     } else {
+        [document release];
         [self presentError:(NSError *)error modalForWindow:[self windowForSheet] delegate:nil didPresentSelector:NULL contextInfo:nil];
     }
 }
@@ -1447,6 +1506,23 @@ static NSString *tempFileName(NSString *origPath) {
 - (IBAction)clearChangeMarks:(id)aSender {
     NSTextStorage *textStorage=[self textStorage];
     [textStorage removeAttribute:ChangedByUserIDAttributeName range:NSMakeRange(0,[textStorage length])];
+}
+
+- (IBAction)restoreChangeMarks:(id)aSender {
+    NSTextStorage *textStorage=[self textStorage];
+    NSRange wholeRange=NSMakeRange(0,[textStorage length]);
+    if (wholeRange.length) {
+        [textStorage beginEditing];
+        NSRange searchRange=NSMakeRange(0,0);
+        while (NSMaxRange(searchRange)<wholeRange.length) {
+            id value=[textStorage attribute:WrittenByUserIDAttributeName atIndex:NSMaxRange(searchRange) 
+                   longestEffectiveRange:&searchRange inRange:wholeRange];
+            if (value) {
+                [textStorage addAttribute:ChangedByUserIDAttributeName value:value range:searchRange];
+            }
+        }
+        [textStorage endEditing];
+    }
 }
 
 - (IBAction)selectEncoding:(id)aSender {
@@ -1565,7 +1641,15 @@ static NSString *tempFileName(NSString *origPath) {
 static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 
 - (void)makeWindowControllers {
-    if ([[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey]) {
+    BOOL shouldOpenInTab = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
+    DocumentController *controller = [DocumentController sharedInstance];
+    if ([controller isOpeningUsingAlternateMenuItem]) {
+        if (shouldOpenInTab) { // if so we just open one new window
+            [controller setIsOpeningUsingAlternateMenuItem:NO];
+        }
+        shouldOpenInTab = !shouldOpenInTab;
+    }
+    if (shouldOpenInTab) {
         PlainTextWindowController *controller = [[DocumentController sharedDocumentController] activeWindowController];
         [self addWindowController:controller];
         [[(PlainTextWindowController *)controller tabBar] setHideForSingleTab:![[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey]];
@@ -1738,6 +1822,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 }
 
 - (void)TCM_validateLineEndings {
+    DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"validating line endings");
 
     NSString *string = [[self textStorage] string];
     unsigned length = [string length];
@@ -2441,6 +2526,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     }    
 
     [savePanel setExtensionHidden:NO];
+    [savePanel performSelector:@selector(setExtensionHidden:) withObject:nil afterDelay:0.0];
     [savePanel setCanSelectHiddenExtension:NO];
 
     I_savePanel = savePanel;
@@ -2987,6 +3073,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         } else {
             fileData = [NSData dataWithContentsOfURL:anURL options:0 error:outError];
         }
+                
+        DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"Data of size: %d bytes read", [fileData length]);
+
 
     #ifndef TCM_NO_DEBUG
         [_readFromURLDebugInformation appendFormat:@"was Readable:%d didLoadBytesOfData:%d\n",isReadable,fileData?[fileData length]:-1];
@@ -3016,16 +3105,21 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         }
 
         if (!mode) { // that means automatic mode detection
+            DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"Automatic mode detection starting");
+
             mode = [[DocumentModeManager sharedInstance] documentModeForPath:fileName withContentData:fileData];
         } 
+        DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"Mode will be: %@",[mode documentModeIdentifier]);
     
         // Determine encoding
+        BOOL encodingWasChosenExplicidly = NO;
         NSStringEncoding encoding = NoStringEncoding;
         if ([aProperties objectForKey:@"encoding"]) {
             NSString *IANACharSetName = [aProperties objectForKey:@"encoding"];
             if (IANACharSetName) {
                 CFStringEncoding cfEncoding = CFStringConvertIANACharSetNameToEncoding((CFStringRef)IANACharSetName);
                 if (cfEncoding != kCFStringEncodingInvalidId) {
+                    encodingWasChosenExplicidly = YES;
                     encoding = CFStringConvertEncodingToNSStringEncoding(cfEncoding);
                 } else {
                     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"IANACharSetName invalid: %@", IANACharSetName);
@@ -3039,6 +3133,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 encoding = [documentController encodingFromLastRunOpenPanel];
                 if (encoding == ModeStringEncoding) {
                     encoding = [[mode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
+                } else if (encoding != NoStringEncoding) {
+                    encodingWasChosenExplicidly = YES;
                 }
             }
         }
@@ -3050,17 +3146,54 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         NSDictionary *docAttrs = nil;
         NSMutableDictionary *options = [NSMutableDictionary dictionary];
         [options setObject:NSPlainTextDocumentType forKey:@"DocumentType"];
-    
-        if (encoding < SmallestCustomStringEncoding) {
-            DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Setting \"CharacterEncoding\" option: %@", [NSString localizedNameOfStringEncoding:encoding]);
-            [options setObject:[NSNumber numberWithUnsignedInt:encoding] forKey:@"CharacterEncoding"];
-        }
-            
+        
+        [textStorage beginEditing];     
         [[textStorage mutableString] setString:@""]; // Empty the document
         
         BOOL success = NO;
+        
+        if (encodingWasChosenExplicidly) {
+            DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"The user did choose an explicid encoding (via open panel or seetool): %@",CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(encoding)));
+            [options setObject:[NSNumber numberWithUnsignedInt:encoding] forKey:@"CharacterEncoding"];
+            success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];
+        }
 
-        if ([fileData startsWithUTF8BOM]) {
+//        NSArray *xattrKeys = [UKXattrMetadataStore allKeysAtPath:[anURL path] traverseLink:YES];
+//        NSLog(@"%s xattrKeys:%@",__FUNCTION__,xattrKeys);
+        if (!success) {
+            NSString *encodingXattrKey = @"com.apple.TextEncoding";
+            NSString *xattrEncoding = [UKXattrMetadataStore stringForKey:encodingXattrKey atPath:[anURL path] traverseLink:YES];
+            if (xattrEncoding) {
+                NSArray *elements = [xattrEncoding componentsSeparatedByString:@";"];
+                NSStringEncoding xEncoding = NoStringEncoding;
+                if ([elements count] > 0) {
+                    // test first part if its an IANA encoding
+                    NSString *ianaEncodingString = [elements objectAtIndex:0];
+                    if ([ianaEncodingString length]>0) {
+                        CFStringEncoding cfEncoding = CFStringConvertIANACharSetNameToEncoding((CFStringRef)ianaEncodingString);
+                        if (cfEncoding != kCFStringEncodingInvalidId) {
+                            xEncoding = CFStringConvertEncodingToNSStringEncoding(cfEncoding);
+                        }
+                    }
+                    if (xEncoding == NoStringEncoding && [elements count]>1) {
+                        NSScanner *scanner = [NSScanner scannerWithString:[elements objectAtIndex:1]];
+                        int scannedCFEncoding = 0;
+                        if ([scanner scanInt:&scannedCFEncoding]) {
+                            xEncoding = CFStringConvertEncodingToNSStringEncoding(scannedCFEncoding);
+                        }
+                    }
+                    
+                    if (xEncoding != NoStringEncoding) {
+                        DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"We found an encoding in the xattrs! %@",CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(xEncoding)));
+                        [options setObject:[NSNumber numberWithUnsignedInt:xEncoding] forKey:@"CharacterEncoding"];
+                        success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];
+                    }
+                    
+                }
+            }
+        }
+
+        if (!success && [fileData startsWithUTF8BOM]) {
             DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"We found a UTF-8 BOM!");
             I_flags.hasUTF8BOM = YES;
             [options setObject:[NSNumber numberWithUnsignedInt:NSUTF8StringEncoding] forKey:@"CharacterEncoding"];
@@ -3070,7 +3203,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     #endif
         }
         
+
         if ( !success ) {
+            DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"Checking for encoding/charset setting from html/xml/css");
             // checking if we can guess the correct encoding based on the charset inside the doc - check only the first 4k to avoid finding encoding settings in strings later on in the file (my counter example is a php file that writes out an email with html content that has another encoding than my php file - this is an actual example ;) )
             unsigned dataLength = MIN([fileData length],4096);
             NSString	*fileContent = [[[NSString alloc] initWithBytesNoCopy:(void *)[fileData bytes] length:dataLength encoding:NSMacOSRomanStringEncoding freeWhenDone:NO] autorelease];
@@ -3095,6 +3230,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         }
 
         if (!success) {
+            DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"Checking with universal detector");
         // Panic checked for this too - but i actually don't know if this ever would happen when NSPlainTextDocumentType was set 
         //            ( [docAttrs objectForKey:NSConvertedDocumentAttribute] && 
         //             [[docAttrs objectForKey:NSConvertedDocumentAttribute] intValue])) {
@@ -3103,10 +3239,17 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             
             // guess encoding based on character sniffing
             UniversalDetector   *detector = [UniversalDetector detector];
-            
-            [detector analyzeData:fileData];
+            int maxLength = [[NSUserDefaults standardUserDefaults] integerForKey:@"ByteLengthToUseForModeRecognitionAndEncodingGuessing"];
+            NSData *checkData = fileData;
+            if ([fileData length] > maxLength) {
+                checkData = [[NSData alloc] initWithBytes:(void *)[fileData bytes] length:maxLength];
+            }
+            [detector analyzeData:checkData];
             udEncoding = [detector encoding];
             confidence = [detector confidence];
+            if ([fileData length] > maxLength) {
+                [checkData release];
+            }
     #ifndef TCM_NO_DEBUG
         [_readFromURLDebugInformation appendFormat:@"UniversalDetector:\n confidence:%1.3f encoding:%@\n",confidence,CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(udEncoding))];
     #endif
@@ -3123,6 +3266,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
         // only try here if we have a clue (= fixed encoding set by the mode) about the encoding
         if (!success && encoding != NoStringEncoding && encoding < SmallestCustomStringEncoding) {
+            DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"Checking with encoding set by mode");
             [options setObject:[NSNumber numberWithUnsignedInt:encoding] forKey:@"CharacterEncoding"];
             success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];
     #ifndef TCM_NO_DEBUG
@@ -3131,6 +3275,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         }
             
         if ( !success ) {
+            DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"Checking with system encoding");
+
             //all guess attempts failed, try system encoding
             [options removeObjectForKey:NSCharacterEncodingDocumentOption];
             success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];
@@ -3140,6 +3286,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         }
         
         if ( !success ) {
+            DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"Checking with Mac OS Roman as last resort");
             //even system failed, try Mac OS Roman system encoding
             [options setObject:[NSNumber numberWithUnsignedInt:NSMacOSRomanStringEncoding] forKey:NSCharacterEncodingDocumentOption];
             success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];
@@ -3151,7 +3298,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         [self setFileEncoding:[[docAttrs objectForKey:@"CharacterEncoding"] unsignedIntValue]];
 
 
-        DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Encoding guessing information: %@", _readFromURLDebugInformation);
+        DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Encoding guessing information summary: %@", _readFromURLDebugInformation);
         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Read successful? %@", success ? @"YES" : @"NO");
         DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"documentAttributes: %@", [docAttrs description]);
 
@@ -3161,6 +3308,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             [self setWrapLines:NO];
         }
         [self performSelector:@selector(TCM_validateSizeAndLineEndings) withObject:nil afterDelay:0.0f];
+        [textStorage endEditing];     
 
     } // end of part where the file wasn't SEEText
 
@@ -3183,8 +3331,13 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
     if (!isReverting && ![docType isEqualToString:@"SEETextType"]) {
         // clear the logging state
-         [[self session] setLoggingState:[[TCMMMLoggingState new] autorelease]];
-        [[[self session] loggingState] setInitialTextStorageDictionaryRepresentation:[self textStorageDictionaryRepresentation]];
+        if ([I_textStorage length] > [[NSUserDefaults standardUserDefaults] integerForKey:@"ByteLengthToUseForModeRecognitionAndEncodingGuessing"]) {
+        // if the file is to big no logging state to save space
+            [[self session] setLoggingState:nil];
+        } else {
+             [[self session] setLoggingState:[[TCMMMLoggingState new] autorelease]];
+            [[[self session] loggingState] setInitialTextStorageDictionaryRepresentation:[self textStorageDictionaryRepresentation]];
+        }
     }
     if (!isReverting) {
         [[[self session] loggingState] handleOperation:[SelectionOperation selectionOperationWithRange:NSMakeRange(0,0) userID:[TCMMMUserManager myUserID]]];
@@ -3300,7 +3453,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             NSMutableDictionary *textStorageRep = [[[self textStorageDictionaryRepresentation] mutableCopy] autorelease];
             [textStorageRep removeObjectForKey:@"String"];
             [compressedDict setObject:textStorageRep forKey:@"TextStorage"];
-            [compressedDict setObject:[[[self session] loggingState] dictionaryRepresentationForSaving] forKey:@"LoggingState"];
+            if ([[self session] loggingState]) {
+                [compressedDict setObject:[[[self session] loggingState] dictionaryRepresentationForSaving] forKey:@"LoggingState"];
+            }
             [compressedDict setObject:[self documentState] forKey:@"DocumentState"];
             if (saveOperation == NSAutosaveOperation) {
                 NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -3312,7 +3467,14 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     
             // add direct and compressed data to the top level array
             [dataArray addObject:[NSArray arrayWithObject:directDict]];
-            [dataArray addObject:[TCM_BencodedObject(compressedDict) arrayOfCompressedDataWithLevel:Z_DEFAULT_COMPRESSION]];
+            NSArray *compressedArray = [TCM_BencodedObject(compressedDict) arrayOfCompressedDataWithLevel:Z_DEFAULT_COMPRESSION];
+            if (!compressedArray) {
+                if (outError) {
+                    *outError = [NSError errorWithDomain:@"ZLIBDomain" code:-5 userInfo:nil];
+                }
+                return NO;
+            }
+            [dataArray addObject:compressedArray];
             if ([self preservedDataFromSEETextFile]) {
                 [dataArray addObjectsFromArray:[self preservedDataFromSEETextFile]];
             }
@@ -3958,11 +4120,20 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     } else if (selector == @selector(changeTabWidth:)) {
         [anItem setState:(I_tabWidth==[[anItem title]intValue]?NSOnState:NSOffState)];
         return ![self isProxyDocument];
+    } else if (selector == @selector(changePendingUsersAccess:)) {
+        TCMMMSession *session=[self session];
+        [anItem setState:([anItem tag]==[session accessState])?NSOnState:NSOffState];
+        return [session isServer];
     } else if (selector == @selector(toggleIsAnnounced:)) {
         [anItem setTitle:[self isAnnounced]?
                          NSLocalizedString(@"Conceal",@"Menu/Toolbar Title for concealing the Document"):
                          NSLocalizedString(@"Announce",@"Menu/Toolbar Title for announcing the Document")];
         return [[self session] isServer];
+    } else if (selector == @selector(toggleIsAnnouncedOnAllDocuments:)) {
+        [anItem setTitle:[self isAnnounced]?
+                         NSLocalizedString(@"Conceal All",@"Menu/Toolbar Title for concealing all Documents"):
+                         NSLocalizedString(@"Announce All",@"Menu/Toolbar Title for announcing all Documents")];
+        return YES;
     } else if (selector == @selector(saveDocument:)) {
         return ![self isProxyDocument];
     } else if (selector == @selector(saveDocumentAs:)) {
@@ -3979,7 +4150,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         return ![self isProxyDocument];
     } else if (selector == @selector(refreshWebPreview:)) {
         return ![self isProxyDocument];
-    } else if (selector == @selector(clearChangeMarks:)) {
+    } else if (selector == @selector(clearChangeMarks:) || selector == @selector(restoreChangeMarks:)) {
         return ![self isProxyDocument];
     }
 
@@ -4062,6 +4233,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                contextInfo:[contextInfo retain]];
     } else {
         TextStorage *textStorage=(TextStorage *)[self textStorage];
+        [textStorage beginEditing];
         [textStorage setShouldWatchLineEndings:NO];
 
         [self setLineEnding:lineEnding];
@@ -4071,6 +4243,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
         [textStorage setShouldWatchLineEndings:YES];
         [textStorage setHasMixedLineEndings:NO];
+        [textStorage endEditing];
     }
 }
 
@@ -5010,7 +5183,18 @@ static NSString *S_measurementUnits;
 - (void)performHighlightSyntax {
     if (!I_flags.isPerformingSyntaxHighlighting && I_flags.highlightSyntax &&
         [I_documentMode syntaxHighlighter]!=nil) {
-        [self performSelector:@selector(highlightSyntaxLoop) withObject:nil afterDelay:0.0];
+        // do relaxed slow highlighting if not the front window
+        // the highlighter takes up to 0.3 seconds so schedule the highlighting for background windows
+        // corresponding to that but no longer than 3 seconds
+        float delay = MIN(3.,[[[DocumentController sharedInstance] documents] count]*0.3);
+        if ([[[NSApp mainWindow] windowController] document] == self) {
+            delay = 0.0;
+            if (!I_flags.textDidChangeSinceLastSyntaxHighlighting) {
+                // if we don't have a recent change take our time (but still be as quick as 2.6.5
+                delay = 0.3;
+            }
+        }
+        [self performSelector:@selector(highlightSyntaxLoop) withObject:nil afterDelay:delay];
         I_flags.isPerformingSyntaxHighlighting=YES;
     }
 }
@@ -5022,6 +5206,7 @@ static NSString *S_measurementUnits;
         if (highlighter) {
             if (!I_flags.syntaxHighlightingIsSuspended) {
                 if (![highlighter colorizeDirtyRanges:I_textStorage ofDocument:self]) {
+                    I_flags.textDidChangeSinceLastSyntaxHighlighting = NO;
                     [self performHighlightSyntax];
                 }
             } else {
@@ -5218,7 +5403,7 @@ static NSString *S_measurementUnits;
 
 - (NSDictionary *)documentState {
     NSMutableDictionary *result = [[self sessionInformation] mutableCopy];
-    
+    [result removeObjectForKey:@"FileType"]; // don't save the filetype in a seetext
     [result setObject:[NSNumber numberWithBool:[self showsChangeMarks]]
                forKey:HighlightChangesPreferenceKey];
     [result setObject:[NSNumber numberWithBool:[self showsGutter]]
@@ -5459,6 +5644,7 @@ static NSString *S_measurementUnits;
     } else {
         [self updateChangeCount:NSChangeUndone];
     }
+    I_flags.textDidChangeSinceLastSyntaxHighlighting=YES;
     [self triggerUpdateSymbolTableTimer];
 
 // transform all selectedRanges

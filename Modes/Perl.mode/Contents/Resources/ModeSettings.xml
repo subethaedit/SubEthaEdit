@@ -4,9 +4,6 @@
         <extension>pl</extension>
         <extension>perl</extension>
         <extension>pm</extension>
-        <extension>PL</extension>
-        <extension>PM</extension>
-        <extension>PERL</extension>
         <regex>\A#!/usr/bin/(env )?perl</regex>
     </recognition>
 </settings>

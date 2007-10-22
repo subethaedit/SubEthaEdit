@@ -3,5 +3,6 @@
     <recognition>
         <extension>c</extension>
         <extension>strings</extension>
+        <extension>h</extension>
     </recognition>
 </settings>

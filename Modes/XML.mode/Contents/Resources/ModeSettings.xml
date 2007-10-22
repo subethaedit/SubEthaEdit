@@ -9,16 +9,6 @@
         <extension>rss</extension>
         <extension>rdf</extension>
         <extension>seestyle</extension>
-        <extension>sdef</extension>
-        <extension>XML</extension>
-        <extension>XSLT</extension>
-        <extension>XSL</extension>
-        <extension>XSD</extension>
-        <extension>PLIST</extension>
-        <extension>RSS</extension>
-        <extension>RDF</extension>
-        <extension>SEESTYLE</extension>
-        <extension>SDEF</extension>
         <extension>scriptSuite</extension>
         <extension>scriptTerminology</extension>
         <regex>\A#&lt;\?xml</regex>

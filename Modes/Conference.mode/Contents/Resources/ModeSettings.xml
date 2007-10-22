@@ -3,6 +3,5 @@
     <template>notes_template.notes</template>
     <recognition>
         <extension>notes</extension>
-        <extension>NOTES</extension>
     </recognition>
 </settings>

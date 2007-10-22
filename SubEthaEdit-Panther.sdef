@@ -267,6 +267,15 @@
             <parameter name="pipetitle" code="Pipe" type="text" optional="yes" hidden="yes" description="">
                 <cocoa key="PipeTitle"/>                    
             </parameter>
+            <parameter name="gotoString" code="GoTo" type="text" optional="yes" hidden="yes" description="">
+                <cocoa key="GotoString"/>                    
+            </parameter>
+            <parameter name="open-in" code="OpIn" type="text" optional="yes" hidden="yes" description="">
+                <cocoa key="OpenIn"/>                    
+            </parameter>
+            <parameter name="pipe-dirty" code="Pdty" type="boolean" optional="yes" hidden="yes" description="">
+                <cocoa key="ShouldMakePipeDirty"/>                    
+            </parameter>
             <parameter name="print" code="Prnt" type="boolean" optional="yes" hidden="yes" description="">
                 <cocoa key="ShouldPrint"/>                    
             </parameter>
@@ -416,61 +425,8 @@
             </responds-to>
         </class>
         
-        <class name="window" code="cwin" description="A window.">
+        <class name="window" code="cwin" description="A window." inherits="window">
             <cocoa class="NSWindow"/>
-			<property name="name" code="pnam" type="text" description="The full title of the window.">
-				<cocoa key="title"/>
-			</property>
-			<property name="id" code="ID  " type="number" access="r" description="The unique identifier of the window.">
-				<cocoa key="uniqueID"/>
-			</property>
-			<property name="bounds" code="pbnd" type="rectangle" description="The bounding rectangle of the window.">
-				<cocoa key="boundsAsQDRect"/>
-			</property>
-			<property name="document" code="docu" type="document" access="r" description="The document whose contents are being displayed in the window."/>
-			<property name="closeable" code="hclb" type="boolean" access="r" description="Whether the window has a close box.">
-				<cocoa key="hasCloseBox"/>
-			</property>
-			<property name="titled" code="ptit" type="boolean" access="r" description="Whether the window has a title bar.">
-				<cocoa key="hasTitleBar"/>
-			</property>
-			<property name="index" code="pidx" type="number" description="The index of the window in the back-to-front window ordering.">
-<!-- the type is supposed to be "integer" -->
-				<cocoa key="orderedIndex"/>
-			</property>
-			<property name="floating" code="isfl" type="boolean" access="r" description="Whether the window floats.">
-				<cocoa key="isFloatingPanel"/>
-			</property>
-			<property name="miniaturizable" code="ismn" type="boolean" access="r" description="Whether the window can be miniaturized.">
-				<cocoa key="isMiniaturizable"/>
-			</property>
-			<property name="miniaturized" code="pmnd" type="boolean" description="Whether the window is currently miniaturized.">
-				<cocoa key="isMiniaturized"/>
-			</property>
-			<property name="modal" code="pmod" type="boolean" access="r" description="Whether the window is the application's current modal window.">
-				<cocoa key="isModalPanel"/>
-			</property>
-			<property name="resizable" code="prsz" type="boolean" access="r" description="Whether the window can be resized.">
-				<cocoa key="isResizable"/>
-			</property>
-			<property name="visible" code="pvis" type="boolean" description="Whether the window is currently visible.">
-				<cocoa key="isVisible"/>
-			</property>
-			<property name="zoomable" code="iszm" type="boolean" access="r" description="Whether the window can be zoomed.">
-				<cocoa key="isZoomable"/>
-			</property>
-			<property name="zoomed" code="pzum" type="boolean" description="Whether the window is currently zoomed.">
-				<cocoa key="isZoomed"/>
-			</property>
-			<responds-to name="close">
-				<cocoa method="handleCloseScriptCommand:"/>
-			</responds-to>
-			<responds-to name="print">
-				<cocoa method="handlePrintScriptCommand:"/>
-			</responds-to>
-			<responds-to name="save">
-				<cocoa method="handleSaveScriptCommand:"/>
-			</responds-to>
             <property name="selection" code="pSel" description="The current selection or insertion point.">
                 <cocoa key="scriptSelection"/>
                 <type type="selection-object"/>

@@ -64,7 +64,7 @@
                 <string>static</string>
                 <string>void</string>
             </keywords>
-            <keywords id="Keywords 2" color="#408" useforautocomplete="yes">
+            <keywords id="Classes" color="#408" useforautocomplete="yes">
                 <string>AbstractAction</string>
                 <string>AbstractBorder</string>
                 <string>AbstractButton</string>

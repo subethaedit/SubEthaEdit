@@ -32,7 +32,7 @@
     </symbol>
 
     <symbol id="C++ Classes" image="SymbolC" indentation="1" ignoreblocks="yes">
-        <regex>(?&lt;=[\n\r]|^)class[\t ]([\w0-9_]*)(?=\s*\{)</regex>
+        <regex>(?&lt;=[\n\r]|^)(?:template[\t ]*&lt;[^&gt;]*&gt;[\t\r\n ]*)?class[\t ]([\w0-9_]*)(?:[\t ]*:[\t ]*[\w0-9_]+[\t ][\w0-9_&lt;&gt;]+)?(?=\s*\{)</regex>
     </symbol>
 
     <symbol id="Pragma Marks" font-weight="bold" indentation="0" ignoreblocks="yes">

@@ -1,28 +1,21 @@
 {
-    IBClasses =     (
-                {
-            CLASS = AboutPanelController;
-            LANGUAGE = ObjC;
-            OUTLETS =             {
-                "O_appIconView" = NSImageView;
-                "O_legalTextField" = NSTextField;
-                "O_licenseeLabel" = NSTextField;
-                "O_licenseeNameField" = NSTextField;
-                "O_licenseeOrganizationField" = NSTextField;
-                "O_ogreVersionField" = NSTextField;
-                "O_versionField" = NSTextField;
-            };
-            SUPERCLASS = NSWindowController;
-        },
-                {
-            CLASS = FirstResponder;
-            LANGUAGE = ObjC;
-            SUPERCLASS = NSObject;
-        },
-                {
-            CLASS = "java.lang.Object";
-            LANGUAGE = Java;
-        }
-    );
-    IBVersion = 1;
+    IBClasses = (
+        {
+            CLASS = AboutPanelController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "O_appIconView" = NSImageView; 
+                "O_legalTextField" = NSTextField; 
+                "O_licenseeLabel" = NSTextField; 
+                "O_licenseeNameField" = NSTextField; 
+                "O_licenseeOrganizationField" = NSTextField; 
+                "O_ogreVersionField" = NSTextField; 
+                "O_versionField" = NSTextField; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = "java.lang.Object"; LANGUAGE = Java; }
+    ); 
+    IBVersion = 1; 
 }

@@ -2,7 +2,6 @@
 <settings>
     <recognition>
 	   <extension>rhtml</extension>
-	   <extension>RHTML</extension>
     </recognition>
 </settings>
 

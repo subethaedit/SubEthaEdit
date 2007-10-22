@@ -86,6 +86,7 @@ extern NSString const * WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
 
 #ifndef TCM_ISSEED
 - (void)makeLeadingWhitespaceNonBreaking {
+    [self beginEditing];
     NSString *hardspaceString=nil;
     if (hardspaceString==nil) {
         unichar hardspace=0x00A0;
@@ -109,7 +110,7 @@ extern NSString const * WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
         index=startIndex;
     }
     
-    OGRegularExpression *moreThanOneSpace=[[[OGRegularExpression alloc] initWithString:@"  +" options:OgreFindLongestOption|OgreFindNotEmptyOption] autorelease];
+    OGRegularExpression *moreThanOneSpace=[[[OGRegularExpression alloc] initWithString:@"  +" options:OgreFindNotEmptyOption] autorelease];
     NSEnumerator *matches=[[moreThanOneSpace allMatchesInString:[self string] range:NSMakeRange(0,[self length])] reverseObjectEnumerator];
     OGRegularExpressionMatch *match=nil;
     while ((match=[matches nextObject])) {
@@ -117,14 +118,17 @@ extern NSString const * WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
         [self replaceCharactersInRange:matchRange
               withString:[@" " stringByPaddingToLength:matchRange.length withString:hardspaceString startingAtIndex:0]];
     }
+    [self endEditing];
 }
 #endif
 
 - (void)removeAttributes:(NSArray *)names range:(NSRange)aRange {
+    [self beginEditing];
 	int count = [names count];
 	int i;
 	for (i=0;i<count;i++)
 		[self removeAttribute:[names objectAtIndex:i] range:aRange];
+    [self endEditing];
 }
 
 - (NSDictionary *)dictionaryRepresentationUsingEncoding:(NSStringEncoding)anEncoding {

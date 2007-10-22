@@ -269,7 +269,7 @@ static int namedGroupCallback(const unsigned char *name, const unsigned char *na
 	// 正規表現オブジェクトの作成
     OnigCompileInfo ci;
     ci.num_of_elements = 5;
-    
+	
 	// Next seven lines by MATSUMOTO Satoshi, Sep 31 2005
 #if defined( __BIG_ENDIAN__ )
     ci.pattern_enc = ONIG_ENCODING_UTF16_BE;
@@ -279,9 +279,9 @@ static int namedGroupCallback(const unsigned char *name, const unsigned char *na
     ci.target_enc  = ONIG_ENCODING_UTF16_LE;
 #endif
 
-    ci.syntax      = [[self class] onigSyntaxTypeForSyntax:_syntax];
-    ci.option      = compileTimeOptions;
-    ci.ambig_flag  = ONIGENC_AMBIGUOUS_MATCH_DEFAULT;
+    ci.syntax         = [[self class] onigSyntaxTypeForSyntax:_syntax];
+    ci.option         = compileTimeOptions;
+    ci.case_fold_flag = ONIGENC_CASE_FOLD_DEFAULT;
     
 	r = onig_new_deluxe(
         &_regexBuffer, 
@@ -291,7 +291,7 @@ static int namedGroupCallback(const unsigned char *name, const unsigned char *na
         &einfo);
 	if (r != ONIG_NORMAL) {
 		// エラー。例外を発生させる。
-		char s[ONIG_MAX_ERROR_MESSAGE_LEN];
+		unsigned char s[ONIG_MAX_ERROR_MESSAGE_LEN];
 		onig_error_code_to_str(s, r, &einfo);
 		[self release];
 		[NSException raise:OgreException format:@"%s", s];
@@ -515,9 +515,15 @@ static int namedGroupCallback(const unsigned char *name, const unsigned char *na
 	options:(unsigned)options 
 	range:(NSRange)searchRange
 {
-	return [[self matchEnumeratorInString:string 
-		options:options 
-		range:searchRange] nextObject];
+	OGRegularExpressionEnumerator	*enumerator;
+	enumerator = [[OGRegularExpressionEnumerator alloc] 
+		initWithOGString:[(OGPlainString *)[OGPlainString stringWithString:string] substringWithRange:searchRange]
+		options:OgreSearchTimeOptionMask(options)
+		range:searchRange
+		regularExpression:self];
+	OGRegularExpressionMatch* match=[enumerator nextObject];
+	[enumerator release];
+	return match;
 }
 
 
@@ -1381,7 +1387,7 @@ static int namedGroupCallback(const unsigned char *name, const unsigned char *na
 	}
 	if (lastMatch == nil) {
 		// マッチ箇所がなかった場合は、そのまま返す。
-		replacedString = targetString;
+		replacedString = (NSObject<OGStringProtocol,OGMutableStringProtocol>*)targetString;
 	} else {
 		// 最後のマッチ以降をコピ
 		[replacedString appendOGString:[lastMatch postmatchOGString]];

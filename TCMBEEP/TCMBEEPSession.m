@@ -91,12 +91,11 @@ static NSString *keychainPassword = nil;
         if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:nil]) {
              [[NSFileManager defaultManager] createDirectoryAtPath:fullPath attributes:nil];
         }
-        certKeychainPath = [[fullPath stringByAppendingPathComponent:[NSString stringWithFormat:@"seetempcerts-%d.keychain",(int)[[NSDate date]timeIntervalSinceReferenceDate]]] retain];
+        certKeychainPath = [[fullPath stringByAppendingPathComponent:[NSString stringWithFormat:@"seetempcerts-%@.keychain",[NSString UUIDString]]] retain];
         
         // we don't want to add this keychain in the default searchlist so we get the list
         CFArrayRef searchList;
         SecKeychainCopySearchList(&searchList);
-        
         
         keychainPassword = [[NSString UUIDString] retain];
         // generate the temporary keychain
@@ -108,8 +107,11 @@ static NSString *keychainPassword = nil;
            NULL,
            &kcRef
         );
+        SecKeychainSettings newKeychainSettings =
+                      { SEC_KEYCHAIN_SETTINGS_VERS1, FALSE, FALSE, INT_MAX };
+        SecKeychainSetSettings(kcRef, &newKeychainSettings);
 //        NSLog(@"%s status:%d keychain:%@",__FUNCTION__,status,kcRef);
-
+        
         // remove from Search list
         status=SecKeychainSetSearchList (searchList);
 //        NSLog(@"%s status:%d, list:%@",__FUNCTION__,status,searchList);
@@ -156,7 +158,6 @@ static NSString *keychainPassword = nil;
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSTaskDidTerminateNotification object:[aNotification object]];
     [[NSNotificationQueue defaultQueue] enqueueNotification:[NSNotification notificationWithName:@"TCMBEEPTempCertificateCreationForSSLDidFinish" object:self] postingStyle:NSPostASAP];
-    CFArrayRef array;
     SecKeychainItemImport (
         (CFDataRef)[NSData dataWithContentsOfFile:pathToTempKeyAndCert],
         NULL,
@@ -165,7 +166,7 @@ static NSString *keychainPassword = nil;
         0,
         NULL,
         kcRef,
-        &array
+        NULL
     );
 
     // delete temp keychain 
@@ -199,6 +200,7 @@ static NSString *keychainPassword = nil;
     if(certArrayRef == nil) {
         printf("CFArrayCreate error\n");
     }
+    CFRelease(srchRef);
 }
 
 - (void)TCM_initHelper
@@ -321,7 +323,9 @@ static NSString *keychainPassword = nil;
         I_nextChannelNumber = 0;
         [self TCM_initHelper];
         
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnableTLS"])
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnableTLS"] && 
+            [TCMBEEPSession certArrayRef] && 
+            [(NSArray *)[TCMBEEPSession certArrayRef] count]>0)
             [self addProfileURIs:[NSArray arrayWithObject:TCMBEEPTLSProfileURI]];
     }
     
@@ -908,11 +912,13 @@ static NSString *keychainPassword = nil;
 	usedKeychain:(SecKeychainRef*)pKcRef // RETURNED
 {
     SecKeychainStatus keychainStatus;
-    //OSStatus result = 
-    SecKeychainGetStatus(kcRef,&keychainStatus);
-    if (keychainStatus && kSecUnlockStateStatus) {
+    OSStatus result = SecKeychainGetStatus(kcRef,&keychainStatus);
+//    NSLog(@"%s result was %d, status was %d",__FUNCTION__,result, keychainStatus);
+    if (result == noErr && !(keychainStatus && kSecUnlockStateStatus)) {
 //        NSLog(@"%s keychain was locked!",__FUNCTION__);
         SecKeychainUnlock(kcRef,[keychainPassword length],[keychainPassword UTF8String],TRUE);
+    } else if (result != noErr) {
+        return nil;
     }
     return certArrayRef; // shortcut for now
 	char 				kcPath[MAXPATHLEN + 1];
@@ -1107,6 +1113,9 @@ static NSString *keychainPassword = nil;
 - (void)TCM_handleStreamErrorOccurredEvent:(NSError *)error
 {
     DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"%@", error);
+    if ([error code] == errSecNoSuchKeychain) {
+        certArrayRef = NULL;
+    }
     [self terminate];
 }
 
@@ -1240,7 +1249,7 @@ static NSString *keychainPassword = nil;
                         if (version && ![version isEqualToString:@"1"]) {
                             shouldProceed = NO;
                             answerData = [@"<error code='501'>version attribute poorly formed in &lt;ready&gt; element</error>" dataUsingEncoding:NSUTF8StringEncoding];
-                            #warning Opened TLS channel but there is no TLS
+//                            #warning Opened TLS channel but there is no TLS
                         }
                         
                         if (shouldProceed) {
@@ -1336,7 +1345,7 @@ static NSString *keychainPassword = nil;
                     [self TCM_startTLSHandshake];
                 } else if ([element isEqualToString:@"error"]) {
                     DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Received error: %@ (%@)", [attributes objectForKey:@"code"], content);
-                    #warning Opened TLS channel but there is no TLS
+//                    #warning Opened TLS channel but there is no TLS
                 }
             } else {
                 // Terminate session?

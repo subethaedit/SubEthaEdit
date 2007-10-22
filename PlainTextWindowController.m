@@ -637,7 +637,16 @@ enum {
             [rows removeIndex:row];
         }
     } else  if (![session isServer] && [selectedRows count]==1) {
-        buttonState |= FollowUserStateMask;
+        ItemChildPair pair = [O_participantsView itemChildPairAtRow:[selectedRows firstIndex]];
+        if (pair.childIndex != -1 && pair.itemIndex == 0) {
+            NSDictionary *participants=[session participants];
+            NSArray *dataSource = [participants objectForKey:@"ReadWrite"];
+            if (pair.childIndex<[dataSource count]) {
+                if (![[[dataSource objectAtIndex:pair.childIndex] userID] isEqualToString:[TCMMMUserManager myUserID]]) {
+                    buttonState |= FollowUserStateMask;
+                }
+            }
+        }
     }
     
     if (buttonState & FollowUserStateMask) {
@@ -854,16 +863,7 @@ enum {
 }
 
 - (IBAction)changePendingUsersAccess:(id)aSender {
-    int newState=-1;
-    if ([aSender isKindOfClass:[NSPopUpButton class]]) {
-        newState=[[aSender selectedItem] tag];
-    } else {
-        newState=[aSender tag];;
-    }
-    if (newState!=-1) {
-        TCMMMSession *session=[(PlainTextDocument *)[self document] session];
-        [session setAccessState:newState];
-    }
+    [(PlainTextDocument *)[self document] changePendingUsersAccess:aSender];
 }
 
 - (IBAction)toggleBottomStatusBar:(id)aSender {
@@ -1695,8 +1695,42 @@ enum {
         } else if (anItemIndex==2) {
             user=[[session pendingUsers] objectAtIndex:aChildIndex];
         }
+
         if (user) {
-            return [NSString stringWithFormat:@"AIM:%@\nEmail:%@",[[user properties] objectForKey:@"AIM"],[[user properties] objectForKey:@"Email"]];
+        
+            NSMutableArray *toolTipArray = [NSMutableArray array];
+            
+            NSString *addressDataString = nil, *userAgent=nil;
+            BOOL isInbound = NO;
+            TCMBEEPSession *beepSession = [session BEEPSessionForUserID:[user userID]];
+            if (beepSession) {
+                addressDataString = [NSString stringWithAddressData:[beepSession peerAddressData]];
+                userAgent = [[beepSession userInfo] objectForKey:@"userAgent"];
+                if (!userAgent) userAgent = @"SubEthaEdit/2.x";
+                isInbound = ![beepSession isInitiator];
+            }
+            
+            if (user) {
+                [toolTipArray addObject:[user name]];
+                if ([[[user properties] objectForKey:@"AIM"] length] > 0)
+                    [toolTipArray addObject:[NSString stringWithFormat:@"AIM: %@",[[user properties] objectForKey:@"AIM"]]];
+                if ([[[user properties] objectForKey:@"Email"] length] > 0)
+                    [toolTipArray addObject:[NSString stringWithFormat:@"Email: %@",[[user properties] objectForKey:@"Email"]]];
+            }
+            
+            if (userAgent) {
+                [toolTipArray addObject:userAgent];
+            }
+            
+            if (addressDataString) {
+                [toolTipArray addObject:addressDataString];
+            }
+            
+            if (isInbound) {
+                [toolTipArray addObject:NSLocalizedString(@"Inbound Connection", @"Inbound Connection ToolTip")];
+            }
+            
+            return [toolTipArray count] > 0 ? [toolTipArray componentsJoinedByString:@"\n"] : nil;
         }
     }
     return nil;

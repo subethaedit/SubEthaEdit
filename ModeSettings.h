@@ -22,6 +22,7 @@
 
 /*"XML parsing"*/
 - (void)parseXMLFile:(NSString *)aPath;
+- (id)initWithPlist:(NSString *)bundlePath;
 
 /*"Accessors"*/
 - (NSArray *)recognizedExtensions;

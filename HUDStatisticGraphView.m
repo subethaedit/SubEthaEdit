@@ -111,7 +111,6 @@
 #define LEGENDDOTOFFSET 4.
 
 - (void)drawRect:(NSRect)rect {
-
     static NSMutableDictionary *mLabelAttributes=nil;
 
     if (!mLabelAttributes) {
@@ -321,6 +320,10 @@
 	if (NSPointInRect(point,NSOffsetRect(NSInsetRect([self bounds],0,LEGENDHEIGHT/2.),0,LEGENDHEIGHT/2.))) {
 		[self toggleInterval];
 	}
+}
+
+- (BOOL)acceptsFirstMouse:(NSEvent *)anEvent {
+    return YES;
 }
 
 @end

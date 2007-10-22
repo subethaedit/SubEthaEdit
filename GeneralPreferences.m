@@ -329,11 +329,15 @@ NSString * const AlwaysShowTabBarKey                        = @"AlwaysShowTabBar
     ABPerson *meCard=[[ABAddressBook sharedAddressBook] me];
     NSImage *myImage=nil;
     if (meCard) {
-        NSData  *imageData;
-        if ((imageData=[meCard imageData])) {
-            myImage=[[[NSImage alloc] initWithData:imageData] autorelease];
-            [myImage setCacheMode:NSImageCacheNever];
-        } 
+        @try {
+            NSData  *imageData;
+            if ((imageData=[meCard imageData])) {
+                myImage=[[[NSImage alloc] initWithData:imageData] autorelease];
+                [myImage setCacheMode:NSImageCacheNever];
+            } 
+        } @catch (id exception) {
+        
+        }
     }
     
     if (!myImage) {

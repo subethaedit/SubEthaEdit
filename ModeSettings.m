@@ -11,6 +11,14 @@
 
 @implementation ModeSettings
 
+- (void)getReady {
+	everythingOkay = YES;
+	I_recognitionExtenstions = [NSMutableArray new];
+	I_recognitionRegexes = [NSMutableArray new];
+	I_recognitionFilenames = [NSMutableArray new];
+	I_recognitionCasesensitveExtenstions = [NSMutableArray new];	
+}
+
 - (id)initWithFile:(NSString *)aPath {
     self=[super init];
     if (self) {
@@ -18,21 +26,38 @@
             [self dealloc];
             return nil;
         }
-        everythingOkay = YES;
-        I_recognitionExtenstions = [NSMutableArray new];
-        I_recognitionRegexes = [NSMutableArray new];
-        I_recognitionFilenames = [NSMutableArray new];
-		I_recognitionCasesensitveExtenstions = [NSMutableArray new];
         // Parse XML File
+		[self getReady];
         [self parseXMLFile:aPath];
     }
 
     if (everythingOkay) return self;
     else {
-        NSLog(@"Critical errors while loading mode settings. ModeSettings.xml will be ignored, falling back to Info.plist.");
+//        NSLog(@"Critical errors while loading mode settings. ModeSettings.xml will be ignored, falling back to Info.plist.");
         [self dealloc];
         return nil;
     }
+}
+
+- (id)initWithPlist:(NSString *)bundlePath {
+    self=[super init];
+    if (self) {
+        if (!bundlePath) {
+            [self dealloc];
+            return nil;
+        }
+
+		[self getReady];
+    
+		CFURLRef url = CFURLCreateWithFileSystemPath(NULL, (CFStringRef) bundlePath, kCFURLPOSIXPathStyle, 1);
+        CFDictionaryRef infodict = CFBundleCopyInfoDictionaryInDirectory(url);
+        NSDictionary *infoDictionary = (NSDictionary *) infodict;
+        [I_recognitionExtenstions addObjectsFromArray:[infoDictionary objectForKey:@"TCMModeExtensions"]];
+        CFRelease(url);
+        CFRelease(infodict);
+    }
+	
+	return self;
 }
 
 - (void)dealloc {

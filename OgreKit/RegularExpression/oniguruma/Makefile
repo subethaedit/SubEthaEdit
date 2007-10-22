@@ -1,4 +1,4 @@
-ONIGURUMA_VERSION=onig-4.0.1
+ONIGURUMA_VERSION=onig-5.9.0
 OS_VERSION=$(shell uname -r)
 UNIVERSAL_DIR=universal
 INTEL_DIR=intel
@@ -8,7 +8,7 @@ PPC_CONFIGURE_FLAGS=--disable-dependency-tracking --host=ppc-apple-darwin$(OS_VE
 INTEL_SDK=$(SDKROOT)
 INTEL_CC=gcc -isysroot $(SDKROOT)
 PPC_SDK=$(SDKROOT)
-PPC_CC=gcc -arch ppc -isysroot $(SDKROOT) 
+PPC_CC=gcc -arch ppc -isysroot $(SDKROOT)
 ONIG_TARGET=libonig.la
 LIBS_DIR=.libs
 ONIGURUMA=libonig.a
@@ -26,7 +26,6 @@ $(INTEL_DIR)/$(ONIG_TARGET): $(INTEL_DIR)
 	make $(@F)
 
 $(PPC_DIR)/$(ONIG_TARGET): $(PPC_DIR)
-	export;\
 	cd $(@D);\
 	CC="$(PPC_CC)" ./configure $(PPC_CONFIGURE_FLAGS);\
 	perl -pi -e 's@CFLAGS =@CFLAGS =@' Makefile;\

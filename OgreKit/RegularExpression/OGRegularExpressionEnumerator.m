@@ -181,7 +181,7 @@ NSString	* const OgreEnumeratorException = @"OGRegularExpressionEnumeratorExcept
 		_terminalOfLastMatch = -1;
 	} else {
 		// エラー。例外を発生させる。
-		char s[ONIG_MAX_ERROR_MESSAGE_LEN];
+		unsigned char s[ONIG_MAX_ERROR_MESSAGE_LEN];
 		onig_error_code_to_str(s, r);
 		[NSException raise:OgreEnumeratorException format:@"%s", s];
 	}

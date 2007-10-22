@@ -2,7 +2,6 @@
 <settings>
     <recognition>
         <extension>lua</extension>
-        <extension>LUA</extension>
         <regex>\A#!/usr(/local)?/bin/lua</regex>
         <regex>\A#!/usr/bin/env lua</regex>
     </recognition>

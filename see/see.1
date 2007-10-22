@@ -6,7 +6,7 @@
 .\"
 .\" nroff -msafer -mandoc see.1 | less
 .\"
-.Dd September 29, 2004               \" DATE 
+.Dd October 13, 2007               \" DATE 
 .Dt SEE "" "SubEthaEdit Command Line Manual"     \" Program name and manual section number 
 .Os "Mac OS X"
 .Sh NAME                 \" Section Header - required - don't modify 
@@ -19,10 +19,12 @@
 .Nd Command line interface for SubEthaEdit.
 .Sh SYNOPSIS             \" Section Header - required - don't modify
 .Nm
-.Op Fl bhlprvw
+.Op Fl bdhlprvw
 .Op Fl e Ar encoding_name
+.Op Fl g Ar line\fP[:\fIcolumn\fP[,\fIlength\fP ] ]
 .Op Fl j Ar string
 .Op Fl m Ar mode_identifier
+.Op Fl o Ar where
 .Op Fl t Ar string
 .\" .Op Ar file              \" [file]
 .Op Ar                   \" [file ...]
@@ -46,6 +48,8 @@ The options are as follows:
 Keep SubEthaEdit in the background or launch it in the background if it's not already running.
 .It Fl e, -encoding Ar name
 Specify the internet name of an encoding to open the specified file(s) using that encoding.
+.It Fl g, -goto Ar line\fP[:\fIcolumn\fP[,\fIlength\fP ] ]
+Set the selection to the specified line, column and length. If only line is given the whole line is selected. If line and column is given, a selection with length 0 is set. So select arbitary character ranges use 1:start,length.
 .It Fl h, -help
 Display usage information and exit.
 .It Fl j, -job-description Ar string
@@ -54,12 +58,16 @@ Specify a string describing the context in which the command is used. The string
 Launch SubEthaEdit or activate it, if it's already running.
 .It Fl m, -mode Ar identifier
 Specify the identifier of a mode to open the specified file(s) using that mode.
+.It Fl o, -open-in Ar [\fIwhere\fP ]
+Specify in which container the files should be openend. Possible containers are: tabs windows new-window.
 .It Fl p, -print
 Print the specified file(s) on the default printer.
 .It Fl r, -resume
 Bring the application which was in the foreground when the 
 .Nm
 command was invoked to the foreground again.
+.It Fl d, -pipe-dirty
+Make the document containing the text from stdin dirty so it shows a dialog on close.
 .It Fl t, -pipe-title Ar string
 Specify a string which should be used as the window title for the document containing the text from stdin.
 .It Fl v, -version
@@ -88,9 +96,17 @@ Open a file using XML mode:
 .Pp
 .Dl see --mode XML environment.plist
 .Pp
-Pipe a directory listing into see, edit the opened document in SubEthaEdit and after closing it grep the output for a string:
+Select the 8th line in .bash_profile:
 .Pp
-.Dl ls -l | see | grep \&"foo\&"
+.Dl see --goto 8 .bash_rc
+.Pp
+Put the insertion point at the beginning of the 8th line in .bash_profile:
+.Pp
+.Dl see -g 8:0 .bash_rc
+.Pp
+Pipe all not yet added files of an subversion working copy into a SubEthaEdit document and execute the contents of the document on close so all files still present will be added to the working copy:
+.Pp
+.Dl svn st | grep '^?' | sed -e 's/?[ ]*/svn add /g' | see -r -t \&"svn st\&" -j \&"->to sh\&" | sh
 .\" .Sh BUGS              \" Document known, unremedied bugs 
 .\" .Sh HISTORY           \" Document history if command behaves in a unique manner 
 .Sh AUTHOR

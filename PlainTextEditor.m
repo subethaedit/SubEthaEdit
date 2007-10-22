@@ -165,6 +165,7 @@
     [I_textView setUsesFindPanel:YES];
     [I_textView setAllowsUndo:NO];
     [I_textView setSmartInsertDeleteEnabled:NO];
+    [I_textView turnOffLigatures:self];
 //	if ([I_textView respondsToSelector:@selector(setAutomaticLinkDetectionEnabled:)]) {
 //		[I_textView setAutomaticLinkDetectionEnabled:YES];
 //	}
@@ -1191,8 +1192,12 @@
             [s_cell setMenu:[[DocumentController sharedInstance] documentMenu]];
             NSEnumerator *menuItems = [[[s_cell menu] itemArray] objectEnumerator];
             NSMenuItem   *menuItem  = nil;
+            PlainTextWindowController *wc = [[I_textView window] windowController];
+            NSArray *orderedDocuments=[wc orderedDocuments];
+            PlainTextDocument *myDocument = [self document];
             while ((menuItem=[menuItems nextObject])) {
-                if ([menuItem target]==[[I_textView window] windowController] && [menuItem representedObject]==[self document]) {
+                if ([menuItem target]==wc && 
+                    [[menuItem representedObject] intValue] == [orderedDocuments indexOfObject:myDocument] ) {
                     [s_cell selectItem:menuItem];
                     break;
                 }

@@ -40,5 +40,6 @@
 - (unsigned long)insertedCharacters;
 - (unsigned long)selectedCharacters;
 - (NSArray *)statisticsData;
+- (void)addOperationsForInitialRepresentation;
 
 @end

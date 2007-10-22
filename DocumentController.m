@@ -31,6 +31,9 @@
 
 - (void)setModeIdentifierFromLastRunOpenPanel:(NSString *)modeIdentifier;
 - (void)setEncodingFromLastRunOpenPanel:(NSStringEncoding)stringEncoding;
+- (void)setLocationForNextOpenPanel:(NSURL*)anURL;
+- (NSURL *)locationForNextOpenPanel;
+
 
 @end
 
@@ -41,6 +44,17 @@
 //    NSLog(@"%s %@",__FUNCTION__,[BacktracingException backtrace]);
 //    [super _writeAutosaveRecords];
 //}
+
+
+// for directory drags for which we open an open panel so the user can select the (multiple) files he wants to open
+- (void)setLocationForNextOpenPanel:(NSURL*)anURL {
+    [I_locationForNextOpenPanel autorelease];
+     I_locationForNextOpenPanel=[anURL copy];
+}
+- (NSURL *)locationForNextOpenPanel {
+    return I_locationForNextOpenPanel;
+}
+
 
 - (void)setEncodingFromLastRunOpenPanel:(NSStringEncoding)stringEncoding {
     I_encodingFromLastRunOpenPanel = stringEncoding;
@@ -463,35 +477,19 @@ static NSString *tempFileName() {
     }
     
     I_openPanel = openPanel;
+    if ([self locationForNextOpenPanel]) {
+        [I_openPanel setDirectory:[[self locationForNextOpenPanel] path]];
+        [self setLocationForNextOpenPanel:nil];
+    }
     int result = [super runModalOpenPanel:openPanel forTypes:extensions];
     I_openPanel = nil;
     
     [self setModeIdentifierFromLastRunOpenPanel:[O_modePopUpButton selectedModeIdentifier]];
     [self setEncodingFromLastRunOpenPanel:[[O_encodingPopUpButton selectedItem] tag]];
-        
+    if (result==NSFileHandlingPanelCancelButton) {
+        [self setIsOpeningUsingAlternateMenuItem:NO];
+    }    
     return result;
-}
-
-- (NSArray *)fileNamesFromRunningOpenPanel {
-    NSArray *fileNamesFromRunningOpenPanel = [super fileNamesFromRunningOpenPanel];
-    NSMutableArray *fileNames = [NSMutableArray array];
-    NSEnumerator *enumerator = [fileNamesFromRunningOpenPanel objectEnumerator];
-    NSString *fileName;
-    while ((fileName = [enumerator nextObject])) {
-        BOOL isDir = NO;
-        BOOL isFilePackage = [[NSWorkspace sharedWorkspace] isFilePackageAtPath:fileName];
-        NSString *extension = [fileName pathExtension];
-        if (isFilePackage && [extension isEqualToString:@"mode"]) {
-            [self openModeFile:fileName];
-        } else if ([[NSFileManager defaultManager] fileExistsAtPath:fileName isDirectory:&isDir] && isDir && !isFilePackage) {
-            [self openDirectory:fileName];
-        } else {
-            [fileNames addObject:fileName];
-        }
-    }
-    [I_fileNamesFromLastRunOpenPanel removeAllObjects];
-    [I_fileNamesFromLastRunOpenPanel addObjectsFromArray:fileNames];
-    return fileNames;
 }
 
 - (NSArray *)URLsFromRunningOpenPanel {
@@ -511,8 +509,12 @@ static NSString *tempFileName() {
             } else if ([[NSFileManager defaultManager] fileExistsAtPath:fileName isDirectory:&isDir] && isDir && !isFilePackage) {
                 [self openDirectory:fileName];
             } else {
-                [I_fileNamesFromLastRunOpenPanel addObject:fileName];
-                [URLs addObject:URL];
+                if ([self isOpeningUsingAlternateMenuItem] && [self documentForURL:URL]) {
+                    // do nothing to not accidently put a window in front and distribute the new files
+                } else {
+                    [I_fileNamesFromLastRunOpenPanel addObject:fileName];
+                    [URLs addObject:URL];
+                }
             }        
         }
     }
@@ -584,16 +586,44 @@ static NSString *tempFileName() {
     [I_windowControllers removeObject:[[aWindowController retain] autorelease]];
 }
 
+- (void)setIsOpeningUsingAlternateMenuItem:(BOOL)aFlag {
+    I_isOpeningUsingAlternateMenuItem = aFlag;
+}
+
+- (BOOL)isOpeningUsingAlternateMenuItem {
+    return I_isOpeningUsingAlternateMenuItem;
+}
+
+- (IBAction)openNormalDocument:(id)aSender {
+    [self setIsOpeningUsingAlternateMenuItem:NO];
+    [self openDocument:(id)aSender];
+}
+
+- (IBAction)openAlternateDocument:(id)aSender {
+    [self setIsOpeningUsingAlternateMenuItem:YES];
+    [self openDocument:(id)aSender];
+}
+
+
 - (id)openDocumentWithContentsOfURL:(NSURL *)anURL display:(BOOL)flag error:(NSError **)outError {
+    if ([I_fileNamesFromLastRunOpenPanel count]==0) {
+        [self setIsOpeningUsingAlternateMenuItem:NO];
+    }
     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"openDocumentWithContentsOfFile:display");
     
     NSString *filename = [anURL path];
     BOOL isFilePackage = [[NSWorkspace sharedWorkspace] isFilePackageAtPath:filename];
     NSString *extension = [filename pathExtension];
+    BOOL isDirectory = NO;
+    [[NSFileManager defaultManager] fileExistsAtPath:[anURL path] isDirectory:&isDirectory];
     if (isFilePackage && [extension isEqualToString:@"mode"]) {
         [self openModeFile:filename];
         // have to return something that is not nil so no error turns up
         return [NSNumber numberWithBool:YES];
+    } else if (!isFilePackage && isDirectory) {
+        [self setLocationForNextOpenPanel:anURL];
+        [self performSelector:@selector(openDocument:) withObject:nil afterDelay:0];
+        return [NSNumber numberWithBool:YES];        
     } else {
         NSDocument *document = [super openDocumentWithContentsOfURL:anURL display:flag error:outError];
         if (document && flag) {
@@ -846,6 +876,40 @@ static NSString *tempFileName() {
     BOOL shouldPrint = [[[command evaluatedArguments] objectForKey:@"ShouldPrint"] boolValue];
     BOOL isPipingOut = [[[command evaluatedArguments] objectForKey:@"PipeOut"] boolValue];
     BOOL shouldWait = [[[command evaluatedArguments] objectForKey:@"ShouldWait"] boolValue];
+    BOOL shouldMakePipeDirty = [[[command evaluatedArguments] objectForKey:@"ShouldMakePipeDirty"] boolValue];
+    NSString *openIn = [[command evaluatedArguments] objectForKey:@"OpenIn"];
+    NSArray *gotoLineComponents = [[[command evaluatedArguments] objectForKey:@"GotoString"] componentsSeparatedByString:@":"];
+    int lineToGoTo=0,columnToGoTo=-1, selectionLength = 0;
+    BOOL shouldJumpToLine = NO;
+    if ([gotoLineComponents count]>0) {
+        if ([[NSScanner scannerWithString:[gotoLineComponents objectAtIndex:0]] scanInt:&lineToGoTo]) {
+            shouldJumpToLine = YES;
+            if ([gotoLineComponents count] > 1) {
+                NSScanner *scanner = [NSScanner scannerWithString:[gotoLineComponents objectAtIndex:1]];
+                if (![scanner scanInt:&columnToGoTo]) {
+                    columnToGoTo=-1;
+                } else {
+                    if ([scanner scanCharactersFromSet:[NSCharacterSet characterSetWithCharactersInString:@","] intoString:nil]) {
+                        if (![scanner scanInt:&selectionLength]) {
+                            selectionLength=0;
+                        }
+                    } 
+                }
+            }
+        }
+    }
+    BOOL previousOpenSetting = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
+    BOOL shouldSwitchOpening = NO;
+    if (openIn) {
+        if ([openIn isEqualToString:@"tabs"]) {
+            [[NSUserDefaults standardUserDefaults] setBool:YES forKey:OpenNewDocumentInTabKey];
+        } else if ([openIn isEqualToString:@"windows"]) {
+            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:OpenNewDocumentInTabKey];
+        } else { // new-window
+            [[NSUserDefaults standardUserDefaults] setBool:NO forKey:OpenNewDocumentInTabKey];
+            shouldSwitchOpening = YES;
+        }
+    }
     
     NSMutableArray *documents = [NSMutableArray array];
     
@@ -865,8 +929,11 @@ static NSString *tempFileName() {
         [I_propertiesForOpenedFiles setObject:properties forKey:fileName];
         NSError *error=nil;
         NSDocument *document = [self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:fileName] display:YES error:&error];
-        NSLog(@"%@",error);
         if (document) {
+            if (shouldSwitchOpening) {
+                shouldSwitchOpening = NO;
+                [[NSUserDefaults standardUserDefaults] setBool:YES forKey:OpenNewDocumentInTabKey];
+            }
             [(PlainTextDocument *)document setIsWaiting:(shouldWait || isPipingOut)];
             if (jobDescription) {
                 [(PlainTextDocument *)document setJobDescription:jobDescription];
@@ -875,8 +942,18 @@ static NSString *tempFileName() {
                 [document printShowingPrintPanel:NO];
                 [document close];            
             } else {
+                if (shouldJumpToLine) {
+                    if (columnToGoTo!=-1) {
+                        NSRange lineRange = [(TextStorage *)[(PlainTextDocument *)document textStorage] findLine:lineToGoTo];
+                        [(PlainTextDocument *)document selectRange:NSMakeRange(lineRange.location+columnToGoTo,selectionLength)];
+                    } else {
+                        [(PlainTextDocument *)document gotoLine:lineToGoTo];
+                    }
+                }
                 [documents addObject:document];
             }
+        } else {
+            NSLog(@"%@",error);
         }
     }
 
@@ -896,6 +973,10 @@ static NSString *tempFileName() {
     while ((fileName = [enumerator nextObject])) {
         NSDocument *document = [self openUntitledDocumentOfType:@"PlainTextType" display:YES];
         if (document) {
+            if (shouldSwitchOpening) {
+                shouldSwitchOpening = NO;
+                [[NSUserDefaults standardUserDefaults] setBool:YES forKey:OpenNewDocumentInTabKey];
+            }
             [(PlainTextDocument *)document setIsWaiting:(shouldWait || isPipingOut)];
             if (!documentModeIdentifierArgument) {
 				DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForPath:fileName withContentString:nil];
@@ -947,6 +1028,10 @@ static NSString *tempFileName() {
     
         NSDocument *document = [self openUntitledDocumentOfType:@"PlainTextType" display:YES];
         if (document) {
+            if (shouldSwitchOpening) {
+                shouldSwitchOpening = NO;
+                [[NSUserDefaults standardUserDefaults] setBool:YES forKey:OpenNewDocumentInTabKey];
+            }
             [(PlainTextDocument *)document setIsWaiting:(shouldWait || isPipingOut)];
             if (isPipingOut) {
                 [(PlainTextDocument *)document setShouldChangeChangeCount:NO];
@@ -959,17 +1044,18 @@ static NSString *tempFileName() {
             [I_propertiesForOpenedFiles setObject:properties forKey:standardInputFile];
             [(PlainTextDocument *)document resizeAccordingToDocumentMode];
             [document readFromURL:[NSURL fileURLWithPath:standardInputFile] ofType:@"PlainTextType" error:NULL];
+            if (shouldMakePipeDirty) {
+                [document updateChangeCount:NSChangeDone];
+            }
             if (!pipeTitle) {
                 [(PlainTextDocument *)document setShouldChangeExtensionOnModeChange:YES];
             }
 
-            if (pipeTitle && ![properties objectForKey:@"mode"]) {
+            if (![properties objectForKey:@"mode"]) {
 				DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForPath:pipeTitle withContentString:[[(PlainTextDocument *)document textStorage] string]];
                 [(PlainTextDocument *)document setDocumentMode:mode];
                 [(PlainTextDocument *)document resizeAccordingToDocumentMode];
-                [(PlainTextDocument *)document setShouldSelectModeOnSave:NO];
-            } else if (![properties objectForKey:@"mode"]) {
-                [(PlainTextDocument *)document setShouldSelectModeOnSave:YES];
+                [(PlainTextDocument *)document setShouldSelectModeOnSave:[mode isBaseMode]];
             }
             
             if (jobDescription) {
@@ -980,6 +1066,14 @@ static NSString *tempFileName() {
                 [document printShowingPrintPanel:NO];
                 [document close];            
             } else {
+                if (shouldJumpToLine) {
+                    if (columnToGoTo!=-1) {
+                        NSRange lineRange = [(TextStorage *)[(PlainTextDocument *)document textStorage] findLine:lineToGoTo];
+                        [(PlainTextDocument *)document selectRange:NSMakeRange(lineRange.location+columnToGoTo,selectionLength)];
+                    } else {
+                        [(PlainTextDocument *)document gotoLine:lineToGoTo];
+                    }
+                }
                 [documents addObject:document];
             }
         }
@@ -1000,7 +1094,9 @@ static NSString *tempFileName() {
             [I_refCountsOfSeeScriptCommands setObject:[NSNumber numberWithInt:count] forKey:identifier];
         }
     }
-    
+    if (openIn) {
+        [[NSUserDefaults standardUserDefaults] setBool:previousOpenSetting forKey:OpenNewDocumentInTabKey];
+    }    
     return nil;
 }
 
@@ -1032,12 +1128,12 @@ static NSString *tempFileName() {
     }
 }
 
-- (void)newDocument:(id)sender
+- (IBAction)newDocument:(id)sender
 {
     [self newDocumentWithModeMenuItem:[sender representedObject]];
 }
 
-- (void)newAlternateDocument:(id)sender
+- (IBAction)newAlternateDocument:(id)sender
 {
     BOOL flag = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
     [[NSUserDefaults standardUserDefaults] setBool:!flag forKey:OpenNewDocumentInTabKey];
@@ -1142,6 +1238,13 @@ struct ModificationInfo
             [menuItem setTitle:NSLocalizedString(@"New Window", nil)];
         } else {
             [menuItem setTitle:NSLocalizedString(@"New Tab", nil)];
+        }
+        return YES;
+    } else if (selector == @selector(openAlternateDocument:)) {
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey]) {
+            [menuItem setTitle:NSLocalizedString(@"Open in New Window...", @"Menu Entry for opening files in a new window.")];
+        } else {
+            [menuItem setTitle:NSLocalizedString(@"Open in Front Window...", @"Menu Entry for opening files in the front window.")];
         }
         return YES;
     } else if ([menuItem tag] == GotoTabMenuItemTag) {

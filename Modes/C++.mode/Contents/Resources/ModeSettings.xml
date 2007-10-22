@@ -7,14 +7,8 @@
 	   <extension>cxx</extension>
 	   <extension>hxx</extension>
 	   <extension>hpp</extension>
-	   <extension>C</extension>
+	   <extension casesensitive="yes">C</extension>
 	   <extension>cc</extension>
-	   <extension>CPP</extension>
-	   <extension>C++</extension>
-	   <extension>CP</extension>
-	   <extension>CXX</extension>
-	   <extension>HXX</extension>
-	   <extension>HPP</extension>
-	   <extension>CC</extension>
+       <extension>h</extension>
     </recognition>
 </settings>

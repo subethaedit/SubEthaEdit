@@ -50,6 +50,12 @@
     return I_op;
 }
 
+- (void)setDate:(NSCalendarDate *)aDate {
+    [I_date autorelease];
+     I_date = [aDate retain];
+}
+
+
 - (NSCalendarDate *)date {
     return I_date;
 }

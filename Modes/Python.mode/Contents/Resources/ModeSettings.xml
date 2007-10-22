@@ -5,10 +5,6 @@
         <extension>pw</extension>
         <extension>pyw</extension>
         <extension>python</extension>
-        <extension>PY</extension>
-        <extension>PW</extension>
-        <extension>PYW</extension>
-        <extension>PYTHON</extension>
         <regex>\A#!/usr/bin/(env )?python</regex>
     </recognition>
 </settings>

@@ -9,7 +9,7 @@
 	<key>CFBundleExecutable</key>
 	<string>seed</string>
 	<key>CFBundleGetInfoString</key>
-	<string>see 1.1, Copyright © 2007, TheCodingMonkeys</string>
+	<string>see 1.2, Copyright © 2007, TheCodingMonkeys</string>
 	<key>CFBundleIdentifier</key>
 	<string>de.codingmonkeys.see</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -19,7 +19,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.1</string>
+	<string>1.2</string>
 	<key>CFBundleSignature</key>
 	<string>SeeC</string>
 	<key>CFBundleVersion</key>
@@ -27,7 +27,7 @@
 	<key>LSEnvironment</key>
 	<dict>
 		<key>MinimumSystemVersion</key>
-		<string>10.3.9</string>
+		<string>10.4</string>
 	</dict>
 	<key>NSHumanReadableCopyright</key>
 	<string>Copyright © 2007, TheCodingMonkeys</string>

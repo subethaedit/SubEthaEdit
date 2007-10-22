@@ -70,6 +70,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
         BOOL isHandlingUndoManually;
         BOOL isWaiting;
         BOOL syntaxHighlightingIsSuspended;
+        BOOL textDidChangeSinceLastSyntaxHighlighting;
         BOOL hasUTF8BOM;
         BOOL isSEEText;
         BOOL isAutosavingForRestart;
@@ -199,6 +200,10 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (BOOL)isAnnounced;
 - (void)setIsAnnounced:(BOOL)aFlag;
 - (IBAction)toggleIsAnnounced:(id)aSender;
+- (IBAction)toggleIsAnnouncedOnAllDocuments:(id)aSender;
+- (IBAction)changePendingUsersAccess:(id)aSender;
+- (IBAction)changePendingUsersAccessOnAllDocuments:(id)aSender;
+
 - (BOOL)isEditable;
 - (void)validateEditability;
 
@@ -293,6 +298,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (BOOL)showsChangeMarks;
 - (void)setShowsChangeMarks:(BOOL)aFlag;
 - (IBAction)clearChangeMarks:(id)aSender;
+- (IBAction)restoreChangeMarks:(id)aSender;
 - (BOOL)indentsNewLines;
 - (void)setIndentsNewLines:(BOOL)aFlag;
 - (BOOL)showsTopStatusBar;

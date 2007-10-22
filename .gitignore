@@ -10,6 +10,8 @@ OgreKit/RegularExpression/oniguruma/ppc
 OgreKit/RegularExpression/oniguruma/universal
 PSMTabBarControl/PSMTabBarControl.xcodeproj/*.mode2
 PSMTabBarControl/PSMTabBarControl.xcodeproj/*.pbxuser
+SeeTextImporter/SeeTextImporter.xcodeproj/*.mode*
+SeeTextImporter/SeeTextImporter.xcodeproj/*.pbxuser
 Sparkle/Sparkle.xcodeproj/*.mode2
 Sparkle/Sparkle.xcodeproj/*.pbxuser
 /SubEthaEdit-PantherScripting.r

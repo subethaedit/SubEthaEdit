@@ -819,7 +819,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     [sessionInformation setObject:[document sessionInformation] forKey:@"DocumentSessionInformation"];
 
     id loggingState = nil;
-    if ([[[[I_profilesByUserID objectForKey:userID] optionDictionary] objectForKey:@"SendHistory"] boolValue]) loggingState = [I_loggingState dictionaryRepresentation];
+    if ([[[[I_profilesByUserID objectForKey:userID] optionDictionary] objectForKey:@"SendHistory"] boolValue] && ![[NSUserDefaults standardUserDefaults] boolForKey:@"DontSubmitAndRequestHistory"]) loggingState = [I_loggingState dictionaryRepresentation];
     NSDictionary *sessionContent=[NSDictionary dictionaryWithObjectsAndKeys:[document textStorageDictionaryRepresentation],@"TextStorage",loggingState,@"LoggingState",nil];
     [I_sessionContentForUserID setObject:TCM_BencodedObject(sessionContent) forKey:userID];
 
@@ -1023,6 +1023,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     } else {
         loggingState = [[TCMMMLoggingState alloc] init];
         [loggingState setInitialTextStorageDictionaryRepresentation:[aContent objectForKey:@"TextStorage"]];
+        [loggingState addOperationsForInitialRepresentation];
     }
     
     if (loggingState) {
