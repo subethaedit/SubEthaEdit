@@ -97,7 +97,16 @@ static NSString *keychainPassword = nil;
         CFArrayRef searchList;
         SecKeychainCopySearchList(&searchList);
         
-        
+        SecTrustedApplicationRef myself;
+        OSStatus err = SecTrustedApplicationCreateFromPath ([[[NSBundle mainBundle] bundlePath] UTF8String],&myself);
+        if (err=noErr) {
+            NSArray *array = [NSArray arrayWithObject:myself];
+            SecAccessRef accessRef;
+            err = SecAccesCreate((CFStringRef)@"MyCertificateItems",(CFArrayRef)array,&accessRef);
+            if (err!=noErr) {
+                accessRef = NULL;
+            }
+        }
         keychainPassword = [[NSString UUIDString] retain];
         // generate the temporary keychain
         OSStatus status = SecKeychainCreate (
@@ -108,6 +117,9 @@ static NSString *keychainPassword = nil;
            NULL,
            &kcRef
         );
+        SecKeychainSettings newKeychainSettings =
+                      { SEC_KEYCHAIN_SETTINGS_VERS1, FALSE, FALSE, INT_MAX };
+        SecKeychainSetSettings(kcRef, &newKeychainSettings);
 //        NSLog(@"%s status:%d keychain:%@",__FUNCTION__,status,kcRef);
         
         // remove from Search list
@@ -910,11 +922,13 @@ static NSString *keychainPassword = nil;
 	usedKeychain:(SecKeychainRef*)pKcRef // RETURNED
 {
     SecKeychainStatus keychainStatus;
-    //OSStatus result = 
-    SecKeychainGetStatus(kcRef,&keychainStatus);
-    if (keychainStatus && kSecUnlockStateStatus) {
+    OSStatus result = SecKeychainGetStatus(kcRef,&keychainStatus);
+//    NSLog(@"%s result was %d, status was %d",__FUNCTION__,result, keychainStatus);
+    if (result == noErr && !(keychainStatus && kSecUnlockStateStatus)) {
 //        NSLog(@"%s keychain was locked!",__FUNCTION__);
         SecKeychainUnlock(kcRef,[keychainPassword length],[keychainPassword UTF8String],TRUE);
+    } else if (result != noErr) {
+        return nil;
     }
     return certArrayRef; // shortcut for now
 	char 				kcPath[MAXPATHLEN + 1];

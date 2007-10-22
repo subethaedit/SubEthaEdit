@@ -280,16 +280,17 @@ static TCMMMBEEPSessionManager *sharedInstance;
 - (void)connectToNetService:(NSNetService *)aNetService {
 
     NSString *userID = [[aNetService TXTRecordDictionary] objectForKey:@"userid"];
-
-    NSMutableDictionary *sessionInformation = [self sessionInformationForUserID:userID];
-    NSString *status = [sessionInformation objectForKey:@"RendezvousStatus"];
-    if (![status isEqualToString:kBEEPSessionStatusGotSession]) {
-        [sessionInformation setObject:aNetService forKey:@"NetService"];
-        [sessionInformation setObject:kBEEPSessionStatusConnecting forKey:@"RendezvousStatus"];
-        [sessionInformation setObject:[NSNumber numberWithInt:0] forKey:@"TriedNetServiceAddresses"];
-        [self TCM_connectToNetServiceWithInformation:sessionInformation];
-    } else {
-//        TCMBEEPSession *session = [sessionInformation objectForKey:@"RendezvousSession"];
+    if (userID) {
+        NSMutableDictionary *sessionInformation = [self sessionInformationForUserID:userID];
+        NSString *status = [sessionInformation objectForKey:@"RendezvousStatus"];
+        if (![status isEqualToString:kBEEPSessionStatusGotSession]) {
+            [sessionInformation setObject:aNetService forKey:@"NetService"];
+            [sessionInformation setObject:kBEEPSessionStatusConnecting forKey:@"RendezvousStatus"];
+            [sessionInformation setObject:[NSNumber numberWithInt:0] forKey:@"TriedNetServiceAddresses"];
+            [self TCM_connectToNetServiceWithInformation:sessionInformation];
+        } else {
+    //        TCMBEEPSession *session = [sessionInformation objectForKey:@"RendezvousSession"];
+        }
     }
 }
 
