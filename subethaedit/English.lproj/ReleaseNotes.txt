@@ -9,7 +9,7 @@ Additions/New Features:
 - Collaboration metadata is preserved where possible.
 - Shiny new statistics window (Command-I) showing word, character and lines 
   counts as well as a user history.
-- User Interface for Mode recognition order and Mode recognition triggers.
+- User Interface for mode recognition order and mode recognition triggers.
 - Restoring document contents after a crash (including metadata).
 - Highlighter supports unlimited nesting of states.
 - Highlighter supports unlimited importing and linking of states in states.
@@ -21,26 +21,26 @@ Additions/New Features:
   BOMs of any kind, extended attributes and heuristical analysis.
 - The user image now can be customized.
 - Symbol recognition now ignores comment content.
-- The Participants drawer now features a follow button.
-- New Modes: SVNLog, SDEF, ERB (eRuby), ColdFusion and Lasso.
-- New Connection browser that combines the old bonjour and internet browsers 
+- The participants drawer now features a follow button.
+- New modes: SVNLog, SDEF, ERB (eRuby), ColdFusion and Lasso.
+- New connection browser that combines the old bonjour and internet browsers 
   into one.
-- New Menu commands for announcing and setting the access to all open 
+- New menu commands for announcing and setting the access to all open 
   documents.
-- New Menu commands for opening files in tabs / new window depending on the 
+- New menu commands for opening files in tabs / new window depending on the 
   user preference.
-- New Menu command for restoring change marks - especially useful with the new 
+- New menu command for restoring change marks - especially useful with the new 
   file format.
-- New Menu command that pretty prints XML repecting the users indentation 
+- New menu command that pretty prints XML respecting the users indentation 
   settings.
 - New regular expression features (look into Help->Regular Expressions) for 
   details.
 
 Changes:
-- Mode Recognition can match extensions case-insensitivly
+- Mode recognition can match extensions case-insensitivly
 - Improved highlighting speed.
-- Greatly improved Modes which now take advanctage of the new features of the 
-  Highlighter: PHP/HTML, Perl, XML, XSLT, HTML, Objective-C, C++, C, Diff, 
+- Greatly improved modes which now take advanctage of the new features of the 
+  highlighter: PHP/HTML, Perl, XML, XSLT, HTML, Objective-C, C++, C, Diff, 
   Python.
 - Improved error reporting when loading of documents fails.
 - Better auto updating experience: Open documents are restored after (next) 
@@ -48,12 +48,12 @@ Changes:
 - New highres artwork for Leopard resolution independence.
 
 Fixes:
-- Improved Leopard Compatibility
+- Improved Leopard compatibility
 - Added content based mode detection for many modes.
 - Parenthesis matching now knows about comments and strings.
 - Autocompletion now honors the charsinautocompletion setting of the mode.
 - Fixed issue with window cascading if you disconnect a screen that is on the 
-  left and the last openend window was on that screen.
+  left and the last opened window was on that screen.
 
 
 SubEthaEdit 2.6.5

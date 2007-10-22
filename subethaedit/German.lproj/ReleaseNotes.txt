@@ -16,21 +16,21 @@ Neue Funktionen:
   verwendet werden soll.
 - Veränderte, ungespeicherte Dokumente werden nach einem Absturz 
   wiederhergestellt (inklusive Metadaten).
-- Der Syntax Highlighter kann "states" jetzt beliebig verschactheln.
-- Der Syntax Highlighter erlaubt belibiges unlimitiertes verlinken und 
-  importieren von "states".
-- Der Syntax Highlighter erlaubt im Ende eines "states" jetzt bezüge auf den 
+- Der Syntax Highlighter kann "states" jetzt beliebig verschachteln.
+- Der Syntax Highlighter erlaubt belibiges unlimitiertes Verlinken und 
+  Importieren von "states".
+- Der Syntax Highlighter erlaubt im Ende eines "states" jetzt Bezüge auf den 
   Anfang. Damit werden z.b. HEREDOC Elemente unterstüzt.
-- Das see-Kommandozeilen tool erlaubt jetzt das setzten der Auswahl, das 
-  Anspringen von Zeilen, Öffnen von Dateien in Tabs sowie das Aktivieren der 
+- Das see-Kommandozeilen Tool erlaubt jetzt das Setzten der Auswahl, das 
+  Anspringen von Zeilen, öffnen von Dateien in Tabs sowie das Aktivieren der 
   Veränderungsmarkierung für "pipe"-Dokumente.
-- Die funktion "automatisch" bei der Dateikodierung wurde komplett 
+- Die Funktion "automatisch" bei der Dateikodierung wurde komplett 
   überarbeitet. Jetzt werden meta-tags, BOMs jeglicher Art, erweiterte 
   Dateiattribute sowie im Zweifel eine heuristische Inhaltsanalyse 
   berücksichtigt.
-- Die Symbolerkennung ingoriert nun Kommentare.
+- Die Symbolerkennung ignoriert nun Kommentare.
 - Das Benutzerbild ist nun veränderbar.
-- Ein neuer Beobachten Knopf ermöglicht einfacheres Beobachten von Teilnehmern.
+- Ein neuer Beobachten-Knopf ermöglicht einfacheres Beobachten von Teilnehmern.
 - Neue Modi: SVNLog, SDEF, ERB (eRuby), ColdFusion und Lasso.
 - Das neue und überarbeitete Verbindungen Fenster vereinheitlicht die 
   "Bonjour"- und "Internet"-Fenster 
@@ -44,14 +44,14 @@ Neue Funktionen:
   (Hilfe->Reguläre Ausdrücke).
 
 Veränderugen:
-- Die Mode-Erkennung bietet eine option für nicht berücksichtigung von 
+- Die Mode-Erkennung bietet eine Option für Nicht-Berücksichtigung von 
   Groß-/Kleinschreibung für Dateierweiterungen.
 - Die Geschwindigkeit des Syntax-Highlighters wurde verbessert.
 - Folgende Modi wurden massiv verbessert und nutzen nun die neuen Möglichkeiten 
   des Syntax Highlighters: PHP/HTML, Perl, XML, XSLT, HTML, Objective-C, C++, 
   C, Diff, Python.
 - Die Fehlermeldungen wurden Aussagekräftiger gemacht.
-- Beim Automatischen Software Update werden nun nach dem update die aktuellen 
+- Beim Automatischen Software Update werden nun nach dem Update die aktuellen 
   Fenster und Dateien wieder geöffnet.
 - Neue Grafiken für das Auflösungsunabhängigkeit-Feature von Leopard sowie den 
   neuen Finder und QuickLook.
