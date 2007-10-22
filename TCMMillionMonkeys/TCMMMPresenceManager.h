@@ -33,6 +33,7 @@ extern NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotifica
 
     TCMRendezvousBrowser *I_browser;
     NSMutableSet *I_foundUserIDs;
+    NSTimer *I_resolveUnconnectedFoundNetServicesTimer;
 }
 
 + (TCMMMPresenceManager *)sharedInstance;

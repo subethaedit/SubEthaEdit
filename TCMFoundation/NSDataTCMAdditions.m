@@ -244,8 +244,8 @@ static unsigned long local_preprocessForDecode( const unsigned char *inBytes, un
 }
 
 - (NSData*)compressedDataWithLevel:(int)aLevel {
-    unsigned long length;
-    NSMutableData *result = [[NSMutableData alloc] initWithLength:[self length]+[self length]/10+12];
+    unsigned long length=compressBound([self length]);
+    NSMutableData *result = [[[NSMutableData alloc] initWithLength:length] autorelease];
     int zResult = compress2([result mutableBytes],&length,[self bytes],[self length],aLevel);
     if (zResult == Z_OK) {
         [result setLength:length];

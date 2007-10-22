@@ -190,7 +190,7 @@
 			<string>Editor</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>com.codingmonkeys.subethaedit.syntaxstyle</string>
+				<string>de.codingmonkeys.subethaedit.syntaxstyle</string>
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
@@ -210,7 +210,7 @@
 			<string>Viewer</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>com.codingmonkeys.subethaedit.mode</string>
+				<string>de.codingmonkeys.subethaedit.mode</string>
 			</array>
 			<key>LSTypeIsPackage</key>
 			<true/>
@@ -228,7 +228,7 @@
 			<string>Editor</string>
 			<key>LSItemContentTypes</key>
 			<array>
-				<string>com.codingmonkeys.subethaedit.seetext</string>
+				<string>de.codingmonkeys.subethaedit.seetext</string>
 			</array>
 			<key>LSTypeIsPackage</key>
 			<true/>
@@ -239,7 +239,7 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}${SYSTEM_VERSION_CHECK_SUFFIX}</string>
 	<key>CFBundleGetInfoString</key>
-	<string>SubEthaEdit 3.0b, Copyright © 2003-2007, TheCodingMonkeys</string>
+	<string>SubEthaEdit 3.0, Copyright © 2003-2007, TheCodingMonkeys</string>
 	<key>CFBundleHelpBookFolder</key>
 	<string>SubEthaEditHelp</string>
 	<key>CFBundleHelpBookName</key>
@@ -255,7 +255,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>3.0b</string>
+	<string>3.0</string>
 	<key>CFBundleSignature</key>
 	<string>Hdra</string>
 	<key>CFBundleURLTypes</key>
@@ -345,7 +345,7 @@ NpVfZko6DqvJJcLklZ8=
 			<key>UTTypeIconFile</key>
 			<string>Mode.icns</string>
 			<key>UTTypeIdentifier</key>
-			<string>com.codingmonkeys.subethaedit.mode</string>
+			<string>de.codingmonkeys.subethaedit.mode</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>
@@ -362,7 +362,7 @@ NpVfZko6DqvJJcLklZ8=
 			<key>UTTypeIconFile</key>
 			<string>style.icns</string>
 			<key>UTTypeIdentifier</key>
-			<string>com.codingmonkeys.subethaedit.syntaxstyle</string>
+			<string>de.codingmonkeys.subethaedit.syntaxstyle</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>
@@ -380,7 +380,7 @@ NpVfZko6DqvJJcLklZ8=
 			<key>UTTypeIconFile</key>
 			<string>seetext.icns</string>
 			<key>UTTypeIdentifier</key>
-			<string>com.codingmonkeys.subethaedit.seetext</string>
+			<string>de.codingmonkeys.subethaedit.seetext</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>

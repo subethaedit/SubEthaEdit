@@ -27,4 +27,11 @@
     return NSInsetRect([super drawingRectForBounds:aRect],3,0);
 }
 
+- (void)drawInteriorWithFrame:(NSRect)cellFrame inView:(NSView *)controlView {
+    if (floor(NSAppKitVersionNumber) > 824.) {
+        [[self attributedStringValue] drawInRect:NSInsetRect(cellFrame,5.,0)];
+    } else {
+        [super drawInteriorWithFrame:cellFrame inView:controlView];
+    }
+}
 @end

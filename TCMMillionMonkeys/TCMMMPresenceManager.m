@@ -71,13 +71,16 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
         I_foundUserIDs=[NSMutableSet new];
         sharedInstance = self;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TCM_didAcceptSession:) name:TCMMMBEEPSessionManagerDidAcceptSessionNotification object:[TCMMMBEEPSessionManager sharedInstance]]; 
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TCM_didEndSession:) name:TCMMMBEEPSessionManagerSessionDidEndNotification object:[TCMMMBEEPSessionManager sharedInstance]]; 
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TCM_didEndSession:) name:TCMMMBEEPSessionManagerSessionDidEndNotification object:[TCMMMBEEPSessionManager sharedInstance]];
+        I_resolveUnconnectedFoundNetServicesTimer = [NSTimer scheduledTimerWithTimeInterval:90. target:self selector:@selector(resolveUnconnectedFoundNetServices:) userInfo:nil repeats:YES];
+        
     }
     return self;
 }
 
 - (void)dealloc 
 {
+    [I_resolveUnconnectedFoundNetServicesTimer invalidate];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [I_foundUserIDs release];
     [I_announcedSessions release];
@@ -492,6 +495,20 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
         [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMPresenceManagerUserRendezvousStatusDidChangeNotification object:self userInfo:[NSDictionary dictionaryWithObject:[NSArray arrayWithObject:userID] forKey:@"UserIDs"]];
         if (![[status objectForKey:@"Status"] isEqualToString:@"GotStatus"]) {
             [self performSelector:@selector(connectToRendezvousUserID:) withObject:userID afterDelay:0.3];
+        }
+    }
+}
+
+- (void)resolveUnconnectedFoundNetServices:(NSTimer *)aTimer {
+    NSEnumerator *userIDs = [I_foundUserIDs objectEnumerator];
+    NSString *userID = nil;
+    while ((userID=[userIDs nextObject])) {
+        NSMutableDictionary *status=[self statusOfUserID:userID];
+        if (![[status objectForKey:@"Status"] isEqualToString:@"GotStatus"]) {
+            if ([status objectForKey:@"NetService"]) {
+                [[status objectForKey:@"NetService"] resolveWithTimeout:15.];
+                [self performSelector:@selector(connectToRendezvousUserID:) withObject:userID afterDelay:0.3];
+            }
         }
     }
 }

@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0B6BCA320BB236390014D0BF /* Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = 0B6BC9E20BB236390014D0BF /* Info.plist */; };
 		0B6BCA340BB236390014D0BF /* HMAppKitEx.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B6BC9E50BB236390014D0BF /* HMAppKitEx.m */; };
 		0B6BCA350BB236390014D0BF /* HMBlkBox.h in Headers */ = {isa = PBXBuildFile; fileRef = 0B6BC9E60BB236390014D0BF /* HMBlkBox.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0B6BCA360BB236390014D0BF /* HMBlkBox.m in Sources */ = {isa = PBXBuildFile; fileRef = 0B6BC9E70BB236390014D0BF /* HMBlkBox.m */; };
@@ -528,7 +527,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */,
-				0B6BCA320BB236390014D0BF /* Info.plist in Resources */,
 				0B6BCA500BB236390014D0BF /* blkCancelButton.tiff in Resources */,
 				0B6BCA510BB236390014D0BF /* blkCloseButton.tiff in Resources */,
 				0B6BCA520BB236390014D0BF /* blkContextButton.tiff in Resources */,

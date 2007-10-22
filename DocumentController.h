@@ -29,6 +29,7 @@
     NSOpenPanel *I_openPanel;
     
     BOOL I_isOpeningUntitledDocument;
+    BOOL I_isOpeningUsingAlternateMenuItem;
     
     NSStringEncoding I_encodingFromLastRunOpenPanel;
     NSString *I_modeIdentifierFromLastRunOpenPanel;
@@ -41,6 +42,7 @@
     NSMutableArray *I_pipingSeeScriptCommands;
     
     NSString *I_currentModeFileName;
+    NSURL *I_locationForNextOpenPanel;
     
     @private
     NSMutableArray *I_documentsWithPendingDisplay;
@@ -59,6 +61,8 @@
 
 - (IBAction)installMode:(id)sender;
 - (IBAction)cancelModeInstallation:(id)sender;
+- (IBAction)openNormalDocument:(id)aSender;
+- (IBAction)openAlternateDocument:(id)aSender;
 
 - (void)addProxyDocumentWithSession:(TCMMMSession *)aSession;
 
@@ -72,6 +76,8 @@
 - (NSDictionary *)propertiesForOpenedFile:(NSString *)fileName;
 
 - (BOOL)isOpeningUntitledDocument;
+- (void)setIsOpeningUsingAlternateMenuItem:(BOOL)aFlag;
+- (BOOL)isOpeningUsingAlternateMenuItem;
 
 - (id)handleOpenScriptCommand:(NSScriptCommand *)command;
 - (id)handlePrintScriptCommand:(NSScriptCommand *)command;

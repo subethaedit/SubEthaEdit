@@ -1,55 +1,71 @@
-SubEthaEdit 3.0b - Release Notes
-================================
 
-  New Features
-  --------
-    - All connections 2048-bit SSL encrypted if possible
-    - Persistent file format to store collaboration metadata
-    - Collaboration metadata is preserved where possible
-    - Shiny new statistics window (Command-I)
-    - User Interface for Mode order and triggers
-    - Storing encoding with file metadata on 10.5 and later
-    - Restoring document contents after a crash
-    - ERB (eRuby) Syntax Coloring 
-    - Lasso Syntax Coloring 
-    - ColdFusion Syntax Coloring
-    - svn log Syntax Coloring
+SubEthaEdit 3.0
+===============
 
-  Improvements
-  ------------
-    - Highlighter supports unlimited nesting of states
-    - Highlighter supports unlimited importing and linking of states in states
-    - Highlighter supports transcendend named groups in states (used for e.g. HEREDOC syntax)
-    - Highlighting speed improved
-    - Mode Recognition can match extensions case-insensitivly
-    - Faster document loading
-    - Unified connection window for local and remote connections
-    - Characters, word and line count in statistics window
-    - Total rewrite of the encoding guessing, now this order is used:
-        - UTF-BOMs of any kind
-        - Meta tags in XML/HTML and CSS
-        - The result of the Universal-Detector Framework - if it has a clue
-        - The encoding set in the mode if it is set
-        - The system encoding (Mac Roman) as last resort.
-    - Improved Modes: PHP/HTML, Perl, XML, HTML, Objective-C, C++, C, Diff, Python
-    - Improved parenthesis matching with comments and strings
-    - Symbols in comments and strings are now ignored
-    - Support for a custom user image
-    - Autocompleting honors token characters
-    - Better Sparkle updating experience: Open documents are restored after (next) update
-    - Improved Leopard Compatibility
-    - Added a Follow button to the participants drawer
+Neue Funktionen:
+- Verbindungen werden nun falls möglich mit 2048-bit SSL Verschlüsselung 
+  versehen.
+- Mit dem "SubEtha Text"-Dateiformat werden Kollaborations-Metadaten sowie der 
+  Verlauf mit gespeichert. Das Dateiformat unterstützt sowohl Spotlight als 
+  auch QuickLook.
+- Kollaborations-Metadaten werden soweit möglich übermittelt und erhalten.
+- Das Statistik-Fenster (Befehl-I) zeigt an wieviele Zeichen, Wörter und Zeilen 
+  sich im Dokument befinden und noch weitere nützliche Informationen über die 
+  Autoren und Teilnehmer.
+- Ein Interface um einfach festzulegen wann und für welche Dateien ein Mode 
+  verwendet werden soll.
+- Veränderte, ungespeicherte Dokumente werden nach einem Absturz 
+  wiederhergestellt (inklusive Metadaten).
+- Der Syntax Highlighter kann "states" jetzt beliebig verschachteln.
+- Der Syntax Highlighter erlaubt belibiges unlimitiertes Verlinken und 
+  Importieren von "states".
+- Der Syntax Highlighter erlaubt im Ende eines "states" jetzt Bezüge auf den 
+  Anfang. Damit werden z.b. HEREDOC Elemente unterstüzt.
+- Das see-Kommandozeilen Tool erlaubt jetzt das Setzten der Auswahl, das 
+  Anspringen von Zeilen, öffnen von Dateien in Tabs sowie das Aktivieren der 
+  Veränderungsmarkierung für "pipe"-Dokumente.
+- Die Funktion "automatisch" bei der Dateikodierung wurde komplett 
+  überarbeitet. Jetzt werden meta-tags, BOMs jeglicher Art, erweiterte 
+  Dateiattribute sowie im Zweifel eine heuristische Inhaltsanalyse 
+  berücksichtigt.
+- Die Symbolerkennung ignoriert nun Kommentare.
+- Das Benutzerbild ist nun veränderbar.
+- Ein neuer Beobachten-Knopf ermöglicht einfacheres Beobachten von Teilnehmern.
+- Neue Modi: SVNLog, SDEF, ERB (eRuby), ColdFusion und Lasso.
+- Das neue und überarbeitete Verbindungen Fenster vereinheitlicht die 
+  "Bonjour"- und "Internet"-Fenster 
+- Ein neuer Menübefehl zum Freigeben von allen offnen Dokumenten.
+- Ein neuer Menübefehl um Dateien in Tabs / dem vordersten Fenster zu öffnen.
+- Ein neuer Menübefehl um die Veränderungsmarkierungen wiederherzustellen - 
+  besonder nützlich im zusammenhang mit dem neuen Dateiformat.
+- Ein neuer Menübefehl um XML zu reformatieren welcher die Tabulator und 
+  Einrückungs-Einstellung des Benutzers berücksichtigt.
+- Die Regulären Audrücke sind noch mächtiger geworden. Mehr Details unter 
+  (Hilfe->Reguläre Ausdrücke).
 
-  Bugs
-  ----
-    - Fixed crash in -[PlainTextDocument dealloc]
-    - Fixed crash in -[TCMMMPresenceManager unregisterSession:] 
-    - Fixed exception on getting kicked out of session with empty session title
-    - Fixed crash while reload Scripts and Toolbar 
-    - Fixed crash in -[Toolbar setDisplayMode:] 
-    - Fixed crash with CFRelease in -[PlainTextDocument documentURL]
-    - Fixed crashes while loading html documents
-    - Connection Browser remembers selection
+Veränderugen:
+- Die Mode-Erkennung bietet eine Option für Nicht-Berücksichtigung von 
+  Groß-/Kleinschreibung für Dateierweiterungen.
+- Die Geschwindigkeit des Syntax-Highlighters wurde verbessert.
+- Folgende Modi wurden massiv verbessert und nutzen nun die neuen Möglichkeiten 
+  des Syntax Highlighters: PHP/HTML, Perl, XML, XSLT, HTML, Objective-C, C++, 
+  C, Diff, Python.
+- Die Fehlermeldungen wurden Aussagekräftiger gemacht.
+- Beim Automatischen Software Update werden nun nach dem Update die aktuellen 
+  Fenster und Dateien wieder geöffnet.
+- Neue Grafiken für das Auflösungsunabhängigkeit-Feature von Leopard sowie den 
+  neuen Finder und QuickLook.
+
+Korrekturen:
+- Verbesserte Kompatibilität mit Mac OS X 10.5 Leopard
+- Bei vielen Modi wurde die Mode-Erkennung um Inhaltsanalyse erweitert.
+- Die Klammern-Hervorhebung und -Auswahl berücksichtigt nun Kommentare und 
+  Zeichenketten.
+- Die Autovervollständigen-Funktion berücksichtigt nun die 
+  "charsinautocompletion" option der Syntaxdefinition.
+- Ein Fehler wurde behoben der Fenster zu weit links ausserhalb des sichtbaren 
+  Bereiches geöffnet hatte, falls ein externer Monitor entfernt wurde.
+
 
 SubEthaEdit 2.6.5
 =================
@@ -61,7 +77,7 @@ Korrekturen:
   eingeschalten wurde, wenn sich kein Text im Document befand, der zum 
   Zeitpunkt des Einschaltens umgebrochen werden musste.
 - Ein Fehler wurde behoben, welcher dafür sorgte, dass das letzte Zeichen einer 
-  Änderung machnmal nicht richtig markiert dargestellt wurde.
+  Änderung manchmal nicht richtig markiert dargestellt wurde.
 - Ein Fehler wurde behoben, welcher zum Schliessen des automatisch geöffneten 
   Dokumentes führte, wenn man es über das Fenster Menü aktivierte.
 

@@ -54,7 +54,10 @@ static FindReplaceController *sharedInstance=nil;
     if (!O_findPanel) {
         if (![NSBundle loadNibNamed:@"FindReplace" owner:self]) {
             NSBeep();
-        }
+        } else {
+			[O_findComboBox setButtonBordered:NO];
+			[O_replaceComboBox setButtonBordered:NO];
+		}
     }
 }
 

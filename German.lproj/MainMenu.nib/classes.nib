@@ -7,7 +7,9 @@
         }, 
         {
             ACTIONS = {
+                additionalModes = id; 
                 enterSerialNumber = id; 
+                gotoDocumentation = id; 
                 provideFeedback = id; 
                 purchaseSubEthaEdit = id; 
                 redo = id; 
@@ -55,6 +57,8 @@
                 goIntoBundles = id; 
                 installMode = id; 
                 menuValidationNoneAction = id; 
+                openAlternateDocument = id; 
+                openNormalDocument = id; 
                 showHiddenFiles = id; 
             }; 
             CLASS = DocumentController; 
@@ -120,6 +124,7 @@
                 alwaysShowTabBar = id; 
                 blockeditSelection = id; 
                 changePendingUsersAccess = id; 
+                changePendingUsersAccessOnAllDocuments = id; 
                 changeTabWidth = id; 
                 chooseLineEndings = id; 
                 clearChangeMarks = id; 
@@ -143,6 +148,7 @@
                 openInSeparateWindow = id; 
                 prettyPrintXML = id; 
                 refreshWebPreview = id; 
+                restoreChangeMarks = id; 
                 selectNextTab = id; 
                 selectPreviousTab = id; 
                 selectWrapMode = id; 
@@ -153,6 +159,7 @@
                 toggleCharacterWrapping = id; 
                 toggleIndentNewLines = id; 
                 toggleIsAnnounced = id; 
+                toggleIsAnnouncedOnAllDocuments = id; 
                 toggleLineNumbers = id; 
                 toggleParticipantsDrawer = id; 
                 toggleShowInvisibles = id; 

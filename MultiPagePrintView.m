@@ -517,7 +517,7 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
             int tabWidth=[I_document tabWidth];
             float characterWidth=[font widthOfString:@" "];
             int indentWrappedCharacterAmount = [[[I_document documentMode] defaultForKey:DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey] intValue];
-            NSLog(@"%s indenting with %d characters",__FUNCTION__,indentWrappedCharacterAmount);
+//            NSLog(@"%s indenting with %d characters",__FUNCTION__,indentWrappedCharacterAmount);
             // look at all the lines and fix the indention
             NSRange myRange = NSMakeRange(0,0);
             do {

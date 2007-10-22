@@ -15,6 +15,8 @@
 #import "TextOperation.h"
 #import "UserChangeOperation.h"
 #import "TCMMMLogStatisticsDataPoint.h"
+#import "TextStorage.h"
+#import "PlainTextDocument.h"
 
 @interface TCMMMLoggingState (TCMMMLoggingStatePrivateAdditions)
 - (void)addLoggedOperation:(TCMMMLoggedOperation *)anOperation;
@@ -38,28 +40,49 @@
     if ((self=[self init])) {
         NSEnumerator *operationReps = [[aDictionary objectForKey:@"ops"] objectEnumerator];
         NSDictionary *operationRep =nil;
+        NSMutableArray *loggedOperations = [NSMutableArray new];
         while ((operationRep = [operationReps nextObject])) {
             id operation = [[[TCMMMLoggedOperation alloc] initWithDictionaryRepresentation:operationRep] autorelease];
             if (operation) {
+                [loggedOperations addObject:operation];
                 NSString *userID = [[operation operation] userID];
                 if (userID) {
                     [I_participantIDs addObject:userID];
                 }
-                [self addLoggedOperation:operation];
             }
         }
+    
+        // check if times are correct if not move all operations backwards
+        NSDate *referenceDate = [[loggedOperations lastObject] date];
+        NSTimeInterval timeDifference = 0.0;
+        if (referenceDate) {
+            NSTimeInterval timeSinceNow = [referenceDate timeIntervalSinceNow];
+            if (timeSinceNow > 0) {
+                timeDifference = -timeSinceNow;
+            }
+        }
+        
+        int i=0;
+        int count = [loggedOperations count];
+        for (i=0;i<count;i++) {
+            TCMMMLoggedOperation *operation = [loggedOperations objectAtIndex:i];
+            if (timeDifference < 0) {
+                [operation setDate:[[operation date] addTimeInterval:timeDifference]];
+            }
+            [self addLoggedOperation:operation];
+        }
+        
+        if ([aDictionary objectForKey:@"initialtext"]) {
+            [self setInitialTextStorageDictionaryRepresentation:[aDictionary objectForKey:@"initialtext"]];
+        }
     }
-    if ([aDictionary objectForKey:@"initialtext"]) {
-        [self setInitialTextStorageDictionaryRepresentation:[aDictionary objectForKey:@"initialtext"]];
-    }
-    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel,@"imported %d operations, the last one being:%@ statistics are:%@",__FUNCTION__,[I_loggedOperations count],[I_loggedOperations lastObject],I_statisticsArray);
+    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel,@"imported %d operations, the last one being:%@ statistics are:%@",[I_loggedOperations count],[I_loggedOperations lastObject],I_statisticsArray);
     return self;
 }
 
 - (void)makeAllParticipantsLeave {
     NSEnumerator *statisticsEntries = [I_statisticsEntryByUserID objectEnumerator];
     TCMMMLogStatisticsEntry *entry = nil;
-    long long index = [(TCMMMLoggedOperation *)[I_loggedOperations lastObject] index];
     while ((entry = [statisticsEntries nextObject])) {
         if ([entry isInside]) {
             TCMMMOperation *op = [UserChangeOperation userChangeOperationWithType:UserChangeTypeLeave userID:[[entry user] userID] newGroup:@"PoofGroup"];
@@ -107,6 +130,7 @@
     [I_loggedOperations release];
     [I_participantIDs release];
     [I_statisticsData release];
+    [I_initialTextStorageDictionaryRepresentation release];
     [super dealloc];
 }
 
@@ -207,6 +231,26 @@
 - (void)setInitialTextStorageDictionaryRepresentation:(NSDictionary *)aInitialRepresentation {
     [I_initialTextStorageDictionaryRepresentation autorelease];
      I_initialTextStorageDictionaryRepresentation = [aInitialRepresentation copy];
+}
+
+- (void)addOperationsForInitialRepresentation {
+    TextStorage *ts = [TextStorage new];
+    [ts setContentByDictionaryRepresentation:I_initialTextStorageDictionaryRepresentation];
+    NSRange wholeRange = NSMakeRange(0,[ts length]);
+    NSMutableSet *userSet=[NSMutableSet set];
+    if (wholeRange.length) {
+        NSRange searchRange=NSMakeRange(0,0);
+        while (NSMaxRange(searchRange)<wholeRange.length) {
+            id value=[ts attribute:WrittenByUserIDAttributeName atIndex:NSMaxRange(searchRange) 
+                   longestEffectiveRange:&searchRange inRange:wholeRange];
+            if (value) {
+                [self handleOperation:[TextOperation textOperationWithAffectedCharRange:searchRange replacementString:[[ts string] substringWithRange:searchRange] userID:value]];
+                [userSet addObject:value];
+            }
+        }
+        [self makeAllParticipantsLeave]; // so they don't appear as inside the document when they aren't
+    }
+    [ts release];
 }
 
 - (NSDictionary *)initialTextStorageDictionaryRepresentation {

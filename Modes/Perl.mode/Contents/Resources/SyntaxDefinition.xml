@@ -330,6 +330,11 @@
                 <begin><regex>\?[^:]*?[^\\](?=\?[^\n\r]*;)</regex></begin>
                 <end><regex>\?</regex></end>
             </state>
+
+            <state id="Regular Expressions 4" color="#760f15">
+                <begin><regex>(?&lt;==~) */</regex></begin>
+                <end><regex>(?&lt;!\\)/</regex></end>
+            </state>
     
             <state id="Singleline Comment" type="comment" color="#236E25" font-style="italic">
                 <begin><regex>(?&lt;!\$)#</regex></begin>

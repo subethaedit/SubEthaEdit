@@ -16,7 +16,12 @@
             }; 
             SUPERCLASS = TCMPreferenceModule; 
         }, 
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {"" = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
         {
             CLASS = TCMPreferenceModule; 
             LANGUAGE = ObjC; 

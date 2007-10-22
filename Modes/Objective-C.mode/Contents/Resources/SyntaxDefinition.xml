@@ -939,6 +939,7 @@
                 <string>@required</string>
                 <string>@property</string>
                 <string>@synthesize</string>
+                <string>@dynamic</string>
                 <string>@synchronized</string>
                 <string>@throw</string>
                 <string>@try</string>

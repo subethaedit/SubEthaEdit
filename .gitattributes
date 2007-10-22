@@ -132,11 +132,11 @@ English.lproj/FindReplace.nib/keyedobjects.nib -text
 English.lproj/GeneralPrefs.nib/classes.nib -text
 English.lproj/GeneralPrefs.nib/info.nib -text
 English.lproj/GeneralPrefs.nib/keyedobjects.nib -text
-English.lproj/InfoPlist.strings -text svneol=unset#text/plain
+English.lproj/InfoPlist.strings -text
 English.lproj/License.nib/classes.nib -text
 English.lproj/License.nib/info.nib -text
 English.lproj/License.nib/keyedobjects.nib -text
-English.lproj/Localizable.strings -text svneol=unset#text/plain
+English.lproj/Localizable.strings -text
 English.lproj/LoginSheet.nib/classes.nib -text
 English.lproj/LoginSheet.nib/info.nib -text
 English.lproj/LoginSheet.nib/keyedobjects.nib -text
@@ -777,6 +777,23 @@ Modes/Ruby.mode/Contents/Resources/Scripts/Insert[!!-~]HTML[!!-~]Color.scpt -tex
 Modes/Ruby.mode/Contents/Resources/Symbol!.png -text
 Modes/Ruby.mode/Contents/Resources/SymbolD.png -text
 Modes/Ruby.mode/Contents/Resources/SyntaxDefinition.xml -text
+Modes/SDEF.mode/Contents/Info.plist -text
+Modes/SDEF.mode/Contents/Resources/AutocompleteAdditions.txt -text
+Modes/SDEF.mode/Contents/Resources/ChangeLog.txt -text
+Modes/SDEF.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
+Modes/SDEF.mode/Contents/Resources/English.lproj/Localizable.strings -text
+Modes/SDEF.mode/Contents/Resources/German.lproj/InfoPlist.strings -text
+Modes/SDEF.mode/Contents/Resources/German.lproj/Localizable.strings -text
+Modes/SDEF.mode/Contents/Resources/ModeSettings.xml -text
+Modes/SDEF.mode/Contents/Resources/RegexSymbols.xml -text
+Modes/SDEF.mode/Contents/Resources/Scripts/30-CheckSyntax.scpt -text
+Modes/SDEF.mode/Contents/Resources/Scripts/CloseLastTag.scpt -text
+Modes/SDEF.mode/Contents/Resources/Scripts/Comment[!!-~]Selection.scpt -text
+Modes/SDEF.mode/Contents/Resources/Scripts/Validate.scpt -text
+Modes/SDEF.mode/Contents/Resources/Scripts/shell/closetag.pl -text
+Modes/SDEF.mode/Contents/Resources/Scripts/shell/validate.pl -text
+Modes/SDEF.mode/Contents/Resources/Symbol!.png -text
+Modes/SDEF.mode/Contents/Resources/SyntaxDefinition.xml -text
 Modes/SQL.mode/Contents/Info.plist -text
 Modes/SQL.mode/Contents/Resources/ChangeLog.txt -text
 Modes/SQL.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
@@ -1107,8 +1124,6 @@ OgreKit/MyFindPanelExample/MyMenuController.m -text
 OgreKit/MyFindPanelExample/MyTextFinder.h -text
 OgreKit/MyFindPanelExample/MyTextFinder.m -text
 OgreKit/MyFindPanelExample/main.m -text
-OgreKit/OgreKit.xcodeproj/isao.mode1 -text
-OgreKit/OgreKit.xcodeproj/isao.pbxuser -text
 OgreKit/OgreKit.xcodeproj/project.pbxproj -text
 OgreKit/OnigurumaTest/English.lproj/InfoPlist.strings -text
 OgreKit/OnigurumaTest/English.lproj/MainMenu.nib/JavaCompiling.plist -text
@@ -1168,7 +1183,7 @@ OgreKit/RegularExpression/OgreKit_Prefix.pch -text
 OgreKit/RegularExpression/configure.sh -text
 OgreKit/RegularExpression/oniguruma/.cvsignore -text
 OgreKit/RegularExpression/oniguruma/Makefile -text
-OgreKit/RegularExpression/oniguruma/onig-4.0.1.tar.gz -text
+OgreKit/RegularExpression/oniguruma/onig-5.9.0.tar.gz -text
 OgreKit/RegularExpression/version.plist -text
 OgreKit/RegularExpressionTest/Calc.h -text
 OgreKit/RegularExpressionTest/Calc.m -text
@@ -1386,6 +1401,17 @@ Scripts/90-Diff[!!-~]Unsaved[!!-~]Changes.scpt -text
 Scripts/99-PipeThrough.scpt -text
 Scripts/shell/dehardwrap.pl -text
 Scripts/shell/open_url.rb -text
+SeeTextImporter/English.lproj/InfoPlist.strings -text
+SeeTextImporter/English.lproj/schema.strings -text
+SeeTextImporter/German.lproj/InfoPlist.strings -text
+SeeTextImporter/German.lproj/schema.strings -text
+SeeTextImporter/GetMetadataForFile.m -text
+SeeTextImporter/Info.plist -text
+SeeTextImporter/SeeTextImporter.xcodeproj/project.pbxproj -text
+SeeTextImporter/Version -text
+SeeTextImporter/main.c -text
+SeeTextImporter/schema.xml -text
+SeeTextImporter/version.plist -text
 /SelectCommand.h -text
 /SelectCommand.m -text
 /SelectionOperation.h -text
@@ -1614,6 +1640,9 @@ Tests/DataTests.m -text
 /Toolbar.h -text
 /Toolbar.m -text
 /Typesetter.m -text
+UKXattrMetadataStore/UKXattrMetadataStore[!!-~]Readme.txt -text
+UKXattrMetadataStore/UKXattrMetadataStore.h -text
+UKXattrMetadataStore/UKXattrMetadataStore.m -text
 /URLDataProtocol.h -text
 /URLDataProtocol.m -text
 /URLImageView.h -text

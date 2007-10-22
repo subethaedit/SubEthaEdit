@@ -1,55 +1,60 @@
-SubEthaEdit 3.0b - Release Notes
-================================
 
-  New Features
-  --------
-    - All connections 2048-bit SSL encrypted if possible
-    - Persistent file format to store collaboration metadata
-    - Collaboration metadata is preserved where possible
-    - Shiny new statistics window (Command-I)
-    - User Interface for Mode order and triggers
-    - Storing encoding with file metadata on 10.5 and later
-    - Restoring document contents after a crash
-    - ERB (eRuby) Syntax Coloring 
-    - Lasso Syntax Coloring 
-    - ColdFusion Syntax Coloring
-    - svn log Syntax Coloring
+SubEthaEdit 3.0
+===============
 
-  Improvements
-  ------------
-    - Highlighter supports unlimited nesting of states
-    - Highlighter supports unlimited importing and linking of states in states
-    - Highlighter supports transcendend named groups in states (used for e.g. HEREDOC syntax)
-    - Highlighting speed improved
-    - Mode Recognition can match extensions case-insensitivly
-    - Faster document loading
-    - Unified connection window for local and remote connections
-    - Characters, word and line count in statistics window
-    - Total rewrite of the encoding guessing, now this order is used:
-        - UTF-BOMs of any kind
-        - Meta tags in XML/HTML and CSS
-        - The result of the Universal-Detector Framework - if it has a clue
-        - The encoding set in the mode if it is set
-        - The system encoding (Mac Roman) as last resort.
-    - Improved Modes: PHP/HTML, Perl, XML, HTML, Objective-C, C++, C, Diff, Python
-    - Improved parenthesis matching with comments and strings
-    - Symbols in comments and strings are now ignored
-    - Support for a custom user image
-    - Autocompleting honors token characters
-    - Better Sparkle updating experience: Open documents are restored after (next) update
-    - Improved Leopard Compatibility
-    - Added a Follow button to the participants drawer
+Additions/New Features:
+- All connections are 2048-bit SSL encrypted if possible.
+- Persistent file format that stores collaboration metadata and history with 
+  QuickLook support.
+- Collaboration metadata is preserved where possible.
+- Shiny new statistics window (Command-I) showing word, character and lines 
+  counts as well as a user history.
+- User Interface for mode recognition order and mode recognition triggers.
+- Restoring document contents after a crash (including metadata).
+- Highlighter supports unlimited nesting of states.
+- Highlighter supports unlimited importing and linking of states in states.
+- Highlighter supports transcendend named groups in states (used for e.g. 
+  HEREDOC syntax).
+- see command line tool now has options for selection, opening files in tabs, 
+  and marking pipe in documents dirty.
+- Total rewrite of the encoding guessing which now includes: meta-tag content, 
+  BOMs of any kind, extended attributes and heuristical analysis.
+- The user image now can be customized.
+- Symbol recognition now ignores comment content.
+- The participants drawer now features a follow button.
+- New modes: SVNLog, SDEF, ERB (eRuby), ColdFusion and Lasso.
+- New connection browser that combines the old bonjour and internet browsers 
+  into one.
+- New menu commands for announcing and setting the access to all open 
+  documents.
+- New menu commands for opening files in tabs / new window depending on the 
+  user preference.
+- New menu command for restoring change marks - especially useful with the new 
+  file format.
+- New menu command that pretty prints XML respecting the users indentation 
+  settings.
+- New regular expression features (look into Help->Regular Expressions) for 
+  details.
 
-  Bugs
-  ----
-    - Fixed crash in -[PlainTextDocument dealloc]
-    - Fixed crash in -[TCMMMPresenceManager unregisterSession:] 
-    - Fixed exception on getting kicked out of session with empty session title
-    - Fixed crash while reload Scripts and Toolbar 
-    - Fixed crash in -[Toolbar setDisplayMode:] 
-    - Fixed crash with CFRelease in -[PlainTextDocument documentURL]
-    - Fixed crashes while loading html documents
-    - Connection Browser remembers selection
+Changes:
+- Mode recognition can match extensions case-insensitivly
+- Improved highlighting speed.
+- Greatly improved modes which now take advanctage of the new features of the 
+  highlighter: PHP/HTML, Perl, XML, XSLT, HTML, Objective-C, C++, C, Diff, 
+  Python.
+- Improved error reporting when loading of documents fails.
+- Better auto updating experience: Open documents are restored after (next) 
+  update
+- New highres artwork for Leopard resolution independence.
+
+Fixes:
+- Improved Leopard compatibility
+- Added content based mode detection for many modes.
+- Parenthesis matching now knows about comments and strings.
+- Autocompletion now honors the charsinautocompletion setting of the mode.
+- Fixed issue with window cascading if you disconnect a screen that is on the 
+  left and the last opened window was on that screen.
+
 
 SubEthaEdit 2.6.5
 =================

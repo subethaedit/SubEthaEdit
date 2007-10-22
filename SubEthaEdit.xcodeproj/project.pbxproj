@@ -401,6 +401,7 @@
 		F27B2EE80B52957800679CF2 /* hud_buttonLeft-P.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2EE20B52957800679CF2 /* hud_buttonLeft-P.tiff */; };
 		F27B2EF10B52968E00679CF2 /* HUDButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F27B2EED0B52968E00679CF2 /* HUDButtonCell.m */; };
 		F27B2EF20B52968E00679CF2 /* HUDButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F27B2EEE0B52968E00679CF2 /* HUDButton.m */; };
+		F298A00A0CCB9F3200C4DB8B /* SeeTextImporter.mdimporter in Copy Importers */ = {isa = PBXBuildFile; fileRef = F298A0030CCB9ED900C4DB8B /* SeeTextImporter.mdimporter */; };
 		F29940600C0C7F3400A53189 /* NSScreenTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F299405E0C0C7F3400A53189 /* NSScreenTCMAdditions.m */; };
 		F29AD8670CA3391B0097D04E /* Bonjour13.png in Resources */ = {isa = PBXBuildFile; fileRef = F29AD8660CA3391B0097D04E /* Bonjour13.png */; };
 		F2A0934F0C9EA923000AD27A /* DocumentSharedMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A0934E0C9EA923000AD27A /* DocumentSharedMethods.m */; };
@@ -408,8 +409,6 @@
 		F2A0937A0C9EB0AC000AD27A /* NSMutableAttributedStringSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142D18B30BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m */; };
 		F2A099500C9EBC5B000AD27A /* UniversalDetector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2A093BB0C9EBB42000AD27A /* UniversalDetector.framework */; };
 		F2A0997A0C9EE015000AD27A /* UniversalDetector.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F2A093BB0C9EBB42000AD27A /* UniversalDetector.framework */; };
-		F2A707970BF8935400482EFC /* LoginButton.png in Resources */ = {isa = PBXBuildFile; fileRef = F2A707960BF8935400482EFC /* LoginButton.png */; };
-		F2A707B00BF89A4300482EFC /* LoginButtonIn.png in Resources */ = {isa = PBXBuildFile; fileRef = F2A707AF0BF89A4300482EFC /* LoginButtonIn.png */; };
 		F2A707BB0BF89F4200482EFC /* LoginSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A707B90BF89F4200482EFC /* LoginSheetController.m */; };
 		F2ABC4D60C799775007437A2 /* TCMMMLoggingState.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC4D40C799775007437A2 /* TCMMMLoggingState.m */; };
 		F2ABC4D70C799775007437A2 /* TCMMMLoggingState.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC4D40C799775007437A2 /* TCMMMLoggingState.m */; };
@@ -454,6 +453,7 @@
 		F2F2B6100CA811240045C189 /* TCMMMLogStatisticsDataPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F2B60D0CA811240045C189 /* TCMMMLogStatisticsDataPoint.m */; };
 		F2F2B6CD0CA842040045C189 /* HUDRelative-2.png in Resources */ = {isa = PBXBuildFile; fileRef = F2F2B6CB0CA842040045C189 /* HUDRelative-2.png */; };
 		F2F2B6CE0CA842070045C189 /* HUDRelative-1.png in Resources */ = {isa = PBXBuildFile; fileRef = F2F2B6CC0CA842040045C189 /* HUDRelative-1.png */; };
+		F2FB96E30CBE68ED000B85AE /* UKXattrMetadataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = F2FB96E10CBE68ED000B85AE /* UKXattrMetadataStore.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXBuildRule section */
@@ -632,6 +632,20 @@
 			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
 			remoteInfo = SubEthaEdit;
 		};
+		F298A0020CCB9ED900C4DB8B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F2989FFE0CCB9ED900C4DB8B /* SeeTextImporter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8D576316048677EA00EA77CD;
+			remoteInfo = SeeTextImporter;
+		};
+		F298A00B0CCB9F4100C4DB8B /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F2989FFE0CCB9ED900C4DB8B /* SeeTextImporter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D57630D048677EA00EA77CD;
+			remoteInfo = SeeTextImporter;
+		};
 		F2A093BA0C9EBB42000AD27A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F2A093B40C9EBB42000AD27A /* UniversalDetector.xcodeproj */;
@@ -712,6 +726,17 @@
 				3134F7AA0CB1331900F8C116 /* PrecedenceRolloverButton.h in Copy Files (Frameworks) */,
 			);
 			name = "Copy Files (Frameworks)";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F298A0040CCB9EFC00C4DB8B /* Copy Importers */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = Contents/Library/Spotlight;
+			dstSubfolderSpec = 1;
+			files = (
+				F298A00A0CCB9F3200C4DB8B /* SeeTextImporter.mdimporter in Copy Importers */,
+			);
+			name = "Copy Importers";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -1264,6 +1289,7 @@
 		F28CAAF00CB55B900001111D /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/PrecedencePrefs.nib; sourceTree = "<group>"; };
 		F28CAAF10CB55B9A0001111D /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/PrecedenceRules.nib; sourceTree = "<group>"; };
 		F28CAAF20CB55BB00001111D /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/UserStatistics.nib; sourceTree = "<group>"; };
+		F2989FFE0CCB9ED900C4DB8B /* SeeTextImporter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SeeTextImporter.xcodeproj; path = SeeTextImporter/SeeTextImporter.xcodeproj; sourceTree = "<group>"; };
 		F299405E0C0C7F3400A53189 /* NSScreenTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = NSScreenTCMAdditions.m; sourceTree = "<group>"; };
 		F299405F0C0C7F3400A53189 /* NSScreenTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = NSScreenTCMAdditions.h; sourceTree = "<group>"; };
 		F29940780C0C806600A53189 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info.plist; path = see/Info.plist; sourceTree = "<group>"; };
@@ -1324,6 +1350,8 @@
 		F2F2B60D0CA811240045C189 /* TCMMMLogStatisticsDataPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMMMLogStatisticsDataPoint.m; sourceTree = "<group>"; };
 		F2F2B6CB0CA842040045C189 /* HUDRelative-2.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "HUDRelative-2.png"; path = "artwork/HUDRelative-2.png"; sourceTree = "<group>"; };
 		F2F2B6CC0CA842040045C189 /* HUDRelative-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "HUDRelative-1.png"; path = "artwork/HUDRelative-1.png"; sourceTree = "<group>"; };
+		F2FB96E00CBE68ED000B85AE /* UKXattrMetadataStore.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = UKXattrMetadataStore.h; path = UKXattrMetadataStore/UKXattrMetadataStore.h; sourceTree = "<group>"; };
+		F2FB96E10CBE68ED000B85AE /* UKXattrMetadataStore.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = UKXattrMetadataStore.m; path = UKXattrMetadataStore/UKXattrMetadataStore.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -2062,6 +2090,7 @@
 				312B7BB20A99D1B50014E52A /* Sparkle.xcodeproj */,
 				14F16CEF0971A87300402129 /* OgreKit.xcodeproj */,
 				F2A093B40C9EBB42000AD27A /* UniversalDetector.xcodeproj */,
+				F2989FFE0CCB9ED900C4DB8B /* SeeTextImporter.xcodeproj */,
 				5EC6382B0ABEB71100D3295B /* Unit Tests-Info.plist */,
 			);
 			comments = "Build Requirements:\n\nMake sure you use a shared build directory for both the SubEthaEdit project and the OgreKit project. Currently, both projects use the default build location so you can set the shared build directory in the global Xcode preferences and both projects will pick it up. You can also set the shared build location in both projects directly.\n\n/usr/local/bin/svnversion is required if you want automatic versioning support of the build.";
@@ -2095,6 +2124,8 @@
 				142893ED09575A3000D14688 /* PullDownButtonCell.m */,
 				142893F209575A3000D14688 /* TexturedButtonCell.h */,
 				142893F309575A3000D14688 /* TexturedButtonCell.m */,
+				F2FB96E00CBE68ED000B85AE /* UKXattrMetadataStore.h */,
+				F2FB96E10CBE68ED000B85AE /* UKXattrMetadataStore.m */,
 				142893F409575A3000D14688 /* UndoManager.h */,
 				142893F509575A3000D14688 /* UndoManager.m */,
 				142893F609575A3000D14688 /* URLImageView.h */,
@@ -2267,6 +2298,14 @@
 			name = Directory;
 			sourceTree = "<group>";
 		};
+		F2989FFF0CCB9ED900C4DB8B /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F298A0030CCB9ED900C4DB8B /* SeeTextImporter.mdimporter */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		F2A093B50C9EBB42000AD27A /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -2403,6 +2442,7 @@
 				8D15AC300486D014006FF6A4 /* Sources */,
 				8D15AC330486D014006FF6A4 /* Frameworks */,
 				149EC6970958726E002BDC41 /* Copy Files (Frameworks) */,
+				F298A0040CCB9EFC00C4DB8B /* Copy Importers */,
 				142894C30957614300D14688 /* Copy Files (Auxiliary Binaries) */,
 				14EB1AB90AA2ED9A004F5BEE /* Run Script (Versioning) */,
 				142898130958165400D14688 /* Run Script (Deployment) */,
@@ -2419,6 +2459,7 @@
 				144E3AD10B6FEEC1001C49C2 /* PBXTargetDependency */,
 				F2A099430C9EBC39000AD27A /* PBXTargetDependency */,
 				F2BB0A940CA0440800258EC7 /* PBXTargetDependency */,
+				F298A00C0CCB9F4100C4DB8B /* PBXTargetDependency */,
 			);
 			name = SubEthaEdit;
 			productInstallPath = "$(HOME)/Applications";
@@ -2458,6 +2499,10 @@
 				{
 					ProductGroup = 141F4E980AE42602001B73D2 /* Products */;
 					ProjectRef = 141F4E970AE42602001B73D2 /* PSMTabBarControl.xcodeproj */;
+				},
+				{
+					ProductGroup = F2989FFF0CCB9ED900C4DB8B /* Products */;
+					ProjectRef = F2989FFE0CCB9ED900C4DB8B /* SeeTextImporter.xcodeproj */;
 				},
 				{
 					ProductGroup = 312B7BB30A99D1B50014E52A /* Products */;
@@ -2565,6 +2610,13 @@
 			fileType = wrapper.framework;
 			path = HDCrashReporter.framework;
 			remoteRef = 31D5F8580AA2FB760088DB18 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F298A0030CCB9ED900C4DB8B /* SeeTextImporter.mdimporter */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SeeTextImporter.mdimporter;
+			remoteRef = F298A0020CCB9ED900C4DB8B /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		F2A093BB0C9EBB42000AD27A /* UniversalDetector.framework */ = {
@@ -2745,8 +2797,6 @@
 				F27B2EE70B52957800679CF2 /* hud_buttonFill-N.tiff in Resources */,
 				F27B2EE80B52957800679CF2 /* hud_buttonLeft-P.tiff in Resources */,
 				149774090B5E14FC004A546C /* PlainTextLoadProgress.nib in Resources */,
-				F2A707970BF8935400482EFC /* LoginButton.png in Resources */,
-				F2A707B00BF89A4300482EFC /* LoginButtonIn.png in Resources */,
 				316A0D2B0C68A47100720268 /* DebugAttributesInspector.nib in Resources */,
 				F2ABC5470C79D9C4007437A2 /* DebugHistory.nib in Resources */,
 				F20948E50C7B4C2300E78EBA /* UserStatistics.nib in Resources */,
@@ -3163,6 +3213,7 @@
 				F20E1FAE0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.m in Sources */,
 				3188F6800CAD13E0009E4C0B /* DNDArrayController.m in Sources */,
 				3134F7AB0CB1331900F8C116 /* PrecedenceRolloverButton.m in Sources */,
+				F2FB96E30CBE68ED000B85AE /* UKXattrMetadataStore.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3223,6 +3274,11 @@
 			isa = PBXTargetDependency;
 			target = 8D15AC270486D014006FF6A4 /* SubEthaEdit */;
 			targetProxy = 5EC638300ABEB78000D3295B /* PBXContainerItemProxy */;
+		};
+		F298A00C0CCB9F4100C4DB8B /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SeeTextImporter;
+			targetProxy = F298A00B0CCB9F4100C4DB8B /* PBXContainerItemProxy */;
 		};
 		F2A099430C9EBC39000AD27A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;

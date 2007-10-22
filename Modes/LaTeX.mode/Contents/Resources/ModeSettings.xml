@@ -4,9 +4,6 @@
 	   <extension>tex</extension>
 	   <extension>latex</extension>
 	   <extension>sty</extension>
-	   <extension>TEX</extension>
-	   <extension>LATEX</extension>
-	   <extension>STY</extension>
     </recognition>
 </settings>
 

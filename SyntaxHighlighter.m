@@ -349,8 +349,9 @@ NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"P
 
 - (void)setSyntaxDefinition:(SyntaxDefinition *)aSyntaxDefinition
 {
-    [I_syntaxDefinition autorelease];
-     I_syntaxDefinition = [aSyntaxDefinition retain];
+//    [I_syntaxDefinition autorelease];
+//     I_syntaxDefinition = [aSyntaxDefinition retain];
+    I_syntaxDefinition = aSyntaxDefinition;
 }
 
 - (SyntaxStyle *)defaultSyntaxStyle {

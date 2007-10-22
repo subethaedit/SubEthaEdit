@@ -24,7 +24,6 @@
     NSMutableDictionary *I_stylesForToken;   /*"Chached plainstrings"*/
     NSMutableDictionary *I_stylesForRegex;   /*"Chached regexs"*/
     NSMutableDictionary *I_importedModes;   /*"Chached regexs"*/
-    OGRegularExpression *I_combinedStateRegex;     /*"All state-begins in one regex"*/
     BOOL everythingOkay;
     BOOL I_useSpellingDictionary;
     BOOL I_combinedStateRegexReady;
@@ -32,7 +31,7 @@
 	BOOL I_cacheStylesReady;
 	BOOL I_cacheStylesCalculating;
 	BOOL I_symbolAndAutocompleteInheritanceReady;
-
+    NSMutableDictionary *I_levelsForStyleIDs;
     SyntaxStyle *I_defaultSyntaxStyle;
 }
 
@@ -46,6 +45,7 @@
 /*"Caching and Precalculation"*/
 -(void)cacheStyles;
 -(void) getReady;
+- (void)addStyleIDsFromState:(NSDictionary *)aState;
 
 /*"Accessors"*/
 - (NSString *) keyForInheritedSymbols;
@@ -72,5 +72,6 @@
 - (SyntaxStyle *)defaultSyntaxStyle;
 - (BOOL)useSpellingDictionary;
 
+- (int)levelForStyleID:(NSString *)aStyleID;
 @end
 

@@ -1,32 +1,34 @@
 {
     IBClasses =     (
                 {
-            CLASS = NSApplication;
-            LANGUAGE = ObjC;
-            SUPERCLASS = NSResponder;
-        },
-                {
-            CLASS = NSMenu;
-            LANGUAGE = ObjC;
-            SUPERCLASS = NSObject;
-        },
-                {
-            CLASS = NSMenuItem;
+            CLASS = FirstResponder;
             LANGUAGE = ObjC;
             SUPERCLASS = NSObject;
         },
                 {
             ACTIONS =             {
-                hostDidResolveAddress = TCMHost;
-                hostDidResolveName = TCMHost;
+                addUserRule = id;
+                removeUserRule = id;
             };
-            CLASS = NSObject;
+            CLASS = PrecedencePreferences;
             LANGUAGE = ObjC;
+            OUTLETS =             {
+                "o_modesController" = NSArrayController;
+                "o_precedenceView" = NSView;
+                "o_rulesController" = NSArrayController;
+                "o_rulesTableView" = NSTableView;
+            };
+            SUPERCLASS = TCMPreferenceModule;
         },
                 {
             CLASS = PrecedenceRolloverButton;
             LANGUAGE = ObjC;
             SUPERCLASS = NSButton;
+        },
+                {
+            CLASS = PrecedenceRuleCell;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSCell;
         },
                 {
             ACTIONS =             {
@@ -37,7 +39,6 @@
             LANGUAGE = ObjC;
             OUTLETS =             {
                 enabledCheckbox = NSButton;
-                preferenceController = id;
                 removeButton = NSButton;
                 stringTextfield = NSTextField;
                 typePopup = NSPopUpButton;
@@ -47,12 +48,17 @@
             SUPERCLASS = NSObject;
         },
                 {
-            CLASS = TCMHost;
+            CLASS = TCMPreferenceController;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSWindowController;
+        },
+                {
+            CLASS = TCMPreferenceModule;
             LANGUAGE = ObjC;
             OUTLETS =             {
-                "I_delegate" = id;
+                "O_window" = NSWindow;
             };
-            SUPERCLASS = NSObject;
+            SUPERCLASS = NSResponder;
         }
     );
     IBVersion = 1;

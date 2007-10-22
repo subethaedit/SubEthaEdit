@@ -7,6 +7,7 @@
 //
 
 #import "SyntaxStyle.h"
+#import "SyntaxDefinition.h"
 #import "DocumentModeManager.h"
 
 NSString * const SyntaxStyleBaseIdentifier = @"_Default";
@@ -279,9 +280,15 @@ static NSArray *S_possibleStyleColors;
     }
     NSBundle *bundle = [I_documentMode bundle];
     if (bundle) {
-        NSString *localizeKey=[[aKey componentsSeparatedByString:@"."] lastObject];
+        SyntaxDefinition *definition = [I_documentMode syntaxDefinition];
+        NSString *localizeKey = aKey;
+        NSString *prefixString = [NSString stringWithFormat:@"/%@/",[definition name]];
+        if ([aKey hasPrefix:prefixString]) {
+            localizeKey = [aKey substringFromIndex:[prefixString length]];
+        }
         NSString *result=[bundle localizedStringForKey:localizeKey value:localizeKey table:nil];
-        return [localizeKey isEqualToString:aKey]?result:[NSString stringWithFormat:@"  %@",result];
+        int level = [definition levelForStyleID:aKey];
+        return level?[NSString stringWithFormat:@"%@%@",[@"" stringByPaddingToLength:level*2 withString:@"                         " startingAtIndex:0],result]:result;
     } else {
         return aKey;
     }

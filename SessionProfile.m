@@ -15,11 +15,12 @@
 
 + (NSData *)defaultInitializationData {
     // optionally send the options here
-    static NSData *data = nil;
+    static NSData *data=nil,*historyData= nil;
     if (!data) {
-        data = [TCM_BencodedObject([NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES],@"SendHistory",[NSNumber numberWithBool:YES],@"SendSESCHG",nil]) retain];
+        historyData = [TCM_BencodedObject([NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES],@"SendHistory",[NSNumber numberWithBool:YES],@"SendSESCHG",nil]) retain];
+        data = [TCM_BencodedObject([NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES],@"SendSESCHG",nil]) retain];
     }
-    return data;
+    return [[NSUserDefaults standardUserDefaults] boolForKey:@"DontSubmitAndRequestHistory"]?data:historyData;
 }
 
 - (NSDictionary *)optionDictionary {
@@ -229,7 +230,7 @@
                 [delegate profile:self didReceiveJoinRequestForSessionID:sessionID];
             }
         } else if (strncmp(type, "INVINV", 6) == 0) {
-            #warning Invitations arrive here, seed should decline them here or in the session
+            //TODO: Invitations arrive here, seed should decline them here or in the session
 
             DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received invitation.");
             NSData *data = [[aMessage payload] subdataWithRange:NSMakeRange(6, [[aMessage payload] length]-6)];

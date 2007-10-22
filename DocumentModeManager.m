@@ -153,8 +153,8 @@ static DocumentModeManager *S_sharedInstance=nil;
             [I_modeIdentifiersTagArray addObject:BASEMODEIDENTIFIER];
             [self TCM_findModes];
             [self setModePrecedenceArray:[self reloadPrecedences]];
-			[self revalidatePrecedences];
-			
+            [self revalidatePrecedences];
+            
             // Preference Handling
             [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:nil];
         }
@@ -165,215 +165,220 @@ static DocumentModeManager *S_sharedInstance=nil;
 - (void)dealloc {
     [I_modeBundles release];
     [I_documentModesByIdentifier release];
-	[I_modeIdentifiersByExtension release];
-	[I_modeIdentifiersByFilename release];
-	[I_modeIdentifiersByRegex release];
+    [I_modeIdentifiersByExtension release];
+    [I_modeIdentifiersByFilename release];
+    [I_modeIdentifiersByRegex release];
     [super dealloc];
 }
 
 - (void)revalidatePrecedences {
-	// Check for overriden Rules
-	// FIXME Remove @"" Placeholders if there are any.
+    // Check for overriden Rules
+    // FIXME Remove @"" Placeholders if there are any.
 
-	NSMutableArray *rulesSoFar = [NSMutableArray array];
-	
+    NSMutableArray *rulesSoFar = [NSMutableArray array];
+    
     NSEnumerator *modes = [[self modePrecedenceArray] objectEnumerator];
     id mode;
     while ((mode = [modes nextObject])) {
         
-		NSEnumerator *rules = [[mode objectForKey:@"Rules"] objectEnumerator];
-		id rule;
-		while ((rule = [rules nextObject])) {
-			BOOL isOverridden = NO;
-			NSMutableDictionary *ruleCopy = [[rule mutableCopy] autorelease];
-			[ruleCopy setObject:[mode objectForKey:@"Identifier"] forKey:@"FromMode"];
+        NSEnumerator *rules = [[mode objectForKey:@"Rules"] objectEnumerator];
+        id rule;
+        while ((rule = [rules nextObject])) {
+            BOOL isOverridden = NO;
+            NSMutableDictionary *ruleCopy = [[rule mutableCopy] autorelease];
+            [ruleCopy setObject:[mode objectForKey:@"Identifier"] forKey:@"FromMode"];
 
-			int typeRule = [[rule objectForKey:@"TypeIdentifier"] intValue];
-			NSString *stringRule = [rule objectForKey:@"String"];
-			
-			// Check if overridden
-			NSEnumerator *overridingRules = [rulesSoFar objectEnumerator];
-			id override;
-			while ((override = [overridingRules nextObject])) {
-				int typeOverride = [[override objectForKey:@"TypeIdentifier"] intValue];
-				NSString *stringOverride = [override objectForKey:@"String"];
-				
-				BOOL simpleOverride = ((typeOverride==typeRule) && ([stringRule isEqualToString:stringOverride]));
-				BOOL caseOverride = (((typeRule==3)&&(typeOverride==0)) && ([[stringRule uppercaseString] isEqualToString:[stringOverride uppercaseString]]));
-				
-				if (simpleOverride||caseOverride) {
-					[rule setObject:[NSNumber numberWithBool:YES] forKey:@"Overridden"];
-					[rule setObject:[NSString stringWithFormat:NSLocalizedString(@"Overriden by rule in %@ mode",@"Mode Precedence Overriden Tooltip"), [[[self documentModeForIdentifier:[override objectForKey:@"FromMode"]] syntaxDefinition] name]] forKey:@"OverriddenTooltip"];
-					isOverridden = YES;
-				} 	
-				
-			}
-			
-			if (!isOverridden) {
-				[rule setObject:[NSNumber numberWithBool:NO] forKey:@"Overridden"];
-				[rule setObject:@"" forKey:@"OverriddenTooltip"];
-			}
-			
-			if ([[rule objectForKey:@"Enabled"] boolValue]) [rulesSoFar addObject:ruleCopy];
-		}
-		
+            int typeRule = [[rule objectForKey:@"TypeIdentifier"] intValue];
+            NSString *stringRule = [rule objectForKey:@"String"];
+            
+            // Check if overridden
+            NSEnumerator *overridingRules = [rulesSoFar objectEnumerator];
+            id override;
+            while ((override = [overridingRules nextObject])) {
+                int typeOverride = [[override objectForKey:@"TypeIdentifier"] intValue];
+                NSString *stringOverride = [override objectForKey:@"String"];
+                
+                BOOL simpleOverride = ((typeOverride==typeRule) && ([stringRule isEqualToString:stringOverride]));
+                BOOL caseOverride = (((typeRule==3)&&(typeOverride==0)) && ([[stringRule uppercaseString] isEqualToString:[stringOverride uppercaseString]]));
+                
+                if (simpleOverride||caseOverride) {
+                    [rule setObject:[NSNumber numberWithBool:YES] forKey:@"Overridden"];
+                    [rule setObject:[NSString stringWithFormat:NSLocalizedString(@"Overriden by trigger in %@ mode",@"Mode Precedence Overriden Tooltip"), [[[self documentModeForIdentifier:[override objectForKey:@"FromMode"]] syntaxDefinition] name]] forKey:@"OverriddenTooltip"];
+                    isOverridden = YES;
+                }   
+                
+            }
+            
+            if (!isOverridden) {
+                [rule setObject:[NSNumber numberWithBool:NO] forKey:@"Overridden"];
+                [rule setObject:@"" forKey:@"OverriddenTooltip"];
+            }
+            
+            if ([[rule objectForKey:@"Enabled"] boolValue]) [rulesSoFar addObject:ruleCopy];
+        }
+        
     }
 }
 
 - (NSMutableArray *)reloadPrecedences {
-	
-	NSArray *oldPrecedenceArray = nil;
+    
+    NSArray *oldPrecedenceArray = nil;
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
     oldPrecedenceArray = [defaults objectForKey:@"ModePrecedences"];
-	
-	NSMutableArray *precendenceArray = [NSMutableArray array];
-	
-	
-	NSMutableArray *modeOrder;
-	if (oldPrecedenceArray) {
-		//Recover order
-		modeOrder = [NSMutableArray array];
-		NSEnumerator *oldModes = [oldPrecedenceArray objectEnumerator];
-		id oldMode;
-		while ((oldMode = [oldModes nextObject])) {
+    
+    NSMutableArray *precendenceArray = [NSMutableArray array];
+    
+    
+    NSMutableArray *modeOrder;
+    if (oldPrecedenceArray) {
+        //Recover order
+        modeOrder = [NSMutableArray array];
+        NSEnumerator *oldModes = [oldPrecedenceArray objectEnumerator];
+        id oldMode;
+        while ((oldMode = [oldModes nextObject])) {
             if ([oldMode respondsToSelector:@selector(objectForKey:)]) {
                 if ([oldMode objectForKey:@"Identifier"]) {
                     [modeOrder addObject:[oldMode objectForKey:@"Identifier"]];
                 }
-            } else {
-                NSLog(@"ModePrecedences had an entry that wasn't a dictionary: %@", oldMode);
-            }
-		}
-	} else {
-		// Default internal order
-		modeOrder = [NSMutableArray arrayWithObjects:@"SEEMode.PHP-HTML", @"SEEMode.ERB", @"SEEMode.Ruby", @"SEEMode.bash", @"SEEMode.Objective-C", @"SEEMode.C++", @"SEEMode.C", @"SEEMode.Diff", @"SEEMode.HTML", @"SEEMode.CSS", @"SEEMode.Javascript", @"SEEMode.XML", @"SEEMode.Perl", @"SEEMode.Pascal", @"SEEMode.Lua", @"SEEMode.AppleScript", @"SEEMode.ActionScript", @"SEEMode.LaTeX", @"SEEMode.Java", @"SEEMode.Python", @"SEEMode.SQL", @"SEEMode.Conference", @"SEEMode.LassoScript-HTML", @"SEEMode.Coldfusion", nil]; 
-	}
-	
-	int i;
-	for(i=0;i<[modeOrder count];i++) {
-		[precendenceArray addObject:@""];
-	}
+            } 
+        }
+    } else {
+        // Default internal order
+        modeOrder = [NSMutableArray arrayWithObjects:@"SEEMode.PHP-HTML", @"SEEMode.ERB", @"SEEMode.Ruby", @"SEEMode.bash", @"SEEMode.Objective-C", @"SEEMode.C++", @"SEEMode.C", @"SEEMode.Diff", @"SEEMode.HTML", @"SEEMode.CSS", @"SEEMode.Javascript", @"SEEMode.XML", @"SEEMode.Perl", @"SEEMode.Pascal", @"SEEMode.Lua", @"SEEMode.AppleScript", @"SEEMode.ActionScript", @"SEEMode.LaTeX", @"SEEMode.Java", @"SEEMode.Python", @"SEEMode.SQL", @"SEEMode.Conference", @"SEEMode.LassoScript-HTML", @"SEEMode.Coldfusion", nil]; 
+    }
+    
+    int i;
+    for(i=0;i<[modeOrder count];i++) {
+        [precendenceArray addObject:[NSMutableDictionary dictionary]];
+    }
 
     NSEnumerator *enumerator = [I_modeBundles objectEnumerator];
     NSBundle *bundle;
     while (bundle = [enumerator nextObject]) {
-		
+        
         ModeSettings *modeSettings = [[ModeSettings alloc] initWithFile:[bundle pathForResource:@"ModeSettings" ofType:@"xml"]];
-		NSMutableDictionary *modeDictionary = [NSMutableDictionary dictionary];
-		NSMutableArray *ruleArray = [NSMutableArray array];
+		if (!modeSettings) { // Fall back to info.plist
+			modeSettings = [[ModeSettings alloc] initWithPlist:[bundle bundlePath]];
+		}
 		
+        NSMutableDictionary *modeDictionary = [NSMutableDictionary dictionary];
+        NSMutableArray *ruleArray = [NSMutableArray array];
+        
         NSEnumerator *extensions, *filenames, *regexes, *casesensitiveExtensions;
         if (modeSettings) {
             extensions = [[modeSettings recognizedExtensions] objectEnumerator];
             casesensitiveExtensions = [[modeSettings recognizedCasesensitveExtensions] objectEnumerator];
             filenames = [[modeSettings recognizedFilenames] objectEnumerator];
             regexes = [[modeSettings recognizedRegexes] objectEnumerator];
-			
-			i = [modeOrder indexOfObject:[bundle bundleIdentifier]];
-			if (i!=NSNotFound) {
-				[precendenceArray replaceObjectAtIndex:i withObject:modeDictionary];
-			} else [precendenceArray addObject:modeDictionary];
-			
-			[modeDictionary setObject:[bundle bundleIdentifier] forKey:@"Identifier"];
-			[modeDictionary setObject:[bundle objectForInfoDictionaryKey:@"CFBundleName"] forKey:@"Name"];
-			[modeDictionary setObject:[bundle objectForInfoDictionaryKey:@"CFBundleVersion"] forKey:@"Version"];
-			NSString *bundlePath = [bundle bundlePath];
-			NSString *location = NSLocalizedString(@"User Library", @"Location: User Library");
-			if ([bundlePath hasPrefix:@"/Library"]) location = NSLocalizedString(@"System Library", @"Location: System Library");
-			if ([bundlePath hasPrefix:@"/Network/Library"]) location = NSLocalizedString(@"Network Library", @"Location: Network Library");
-			if ([bundlePath hasPrefix:[[NSBundle mainBundle] bundlePath]]) location = NSLocalizedString(@"Application", @"Location: Application");
-			[modeDictionary setObject:location forKey:@"Location"];
-			
-			[modeDictionary setObject:ruleArray forKey:@"Rules"];
+            
+            i = [modeOrder indexOfObject:[bundle bundleIdentifier]];
+            if (i!=NSNotFound) {
+                [precendenceArray replaceObjectAtIndex:i withObject:modeDictionary];
+            } else [precendenceArray addObject:modeDictionary];
+            
+            [modeDictionary setObject:[bundle bundleIdentifier] forKey:@"Identifier"];
+            [modeDictionary setObject:[bundle objectForInfoDictionaryKey:@"CFBundleName"] forKey:@"Name"];
+            [modeDictionary setObject:[bundle objectForInfoDictionaryKey:@"CFBundleVersion"] forKey:@"Version"];
+            NSString *bundlePath = [bundle bundlePath];
+            NSString *location = NSLocalizedString(@"User Library", @"Location: User Library");
+            if ([bundlePath hasPrefix:@"/Library"]) location = NSLocalizedString(@"System Library", @"Location: System Library");
+            if ([bundlePath hasPrefix:@"/Network/Library"]) location = NSLocalizedString(@"Network Library", @"Location: Network Library");
+            if ([bundlePath hasPrefix:[[NSBundle mainBundle] bundlePath]]) location = NSLocalizedString(@"Application", @"Location: Application");
+            [modeDictionary setObject:location forKey:@"Location"];
+            
+            [modeDictionary setObject:ruleArray forKey:@"Rules"];
         } 
-		
+        
         NSString *extension = nil;
         NSString *casesensitiveExtension = nil;
         NSString *filename = nil;
         NSString *regex = nil;
-				
+                
         while ((extension = [extensions nextObject])) {
-			[ruleArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-								  extension,@"String",
-								  [NSNumber numberWithBool:YES],@"Enabled",
-								  [NSNumber numberWithInt:0],@"TypeIdentifier",
-								  [NSNumber numberWithBool:NO],@"Overridden",
-								  @"",@"OverriddenTooltip",
-								  [NSNumber numberWithBool:YES],@"ModeRule",
-								  nil]];
+            [ruleArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                  extension,@"String",
+                                  [NSNumber numberWithBool:YES],@"Enabled",
+                                  [NSNumber numberWithInt:0],@"TypeIdentifier",
+                                  [NSNumber numberWithBool:NO],@"Overridden",
+                                  @"",@"OverriddenTooltip",
+                                  [NSNumber numberWithBool:YES],@"ModeRule",
+                                  nil]];
         }
         
         while ((casesensitiveExtension = [casesensitiveExtensions nextObject])) {
-			[ruleArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-								  casesensitiveExtension,@"String",
-								  [NSNumber numberWithBool:YES],@"Enabled",
-								  [NSNumber numberWithInt:3],@"TypeIdentifier",
-								  [NSNumber numberWithBool:NO],@"Overridden",
-								  @"",@"OverriddenTooltip",
-								  [NSNumber numberWithBool:YES],@"ModeRule",
-								  nil]];
+            [ruleArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                  casesensitiveExtension,@"String",
+                                  [NSNumber numberWithBool:YES],@"Enabled",
+                                  [NSNumber numberWithInt:3],@"TypeIdentifier",
+                                  [NSNumber numberWithBool:NO],@"Overridden",
+                                  @"",@"OverriddenTooltip",
+                                  [NSNumber numberWithBool:YES],@"ModeRule",
+                                  nil]];
         }
         
         while ((filename = [filenames nextObject])) {
-			[ruleArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-								  filename,@"String",
-								  [NSNumber numberWithBool:YES],@"Enabled",
-								  [NSNumber numberWithInt:1],@"TypeIdentifier",
-								  [NSNumber numberWithBool:NO],@"Overridden",
-								  @"",@"OverriddenTooltip",
-								  [NSNumber numberWithBool:YES],@"ModeRule",
-								  nil]];
+            [ruleArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                  filename,@"String",
+                                  [NSNumber numberWithBool:YES],@"Enabled",
+                                  [NSNumber numberWithInt:1],@"TypeIdentifier",
+                                  [NSNumber numberWithBool:NO],@"Overridden",
+                                  @"",@"OverriddenTooltip",
+                                  [NSNumber numberWithBool:YES],@"ModeRule",
+                                  nil]];
         }
         
         while ((regex = [regexes nextObject])) {
             if ([OGRegularExpression isValidExpressionString:regex]) {
-				[ruleArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-									  regex,@"String",
-									  [NSNumber numberWithBool:YES],@"Enabled",
-									  [NSNumber numberWithInt:2],@"TypeIdentifier",
-									  [NSNumber numberWithBool:NO],@"Overridden",
-									  @"",@"OverriddenTooltip",
-									  [NSNumber numberWithBool:YES],@"ModeRule",
-									  nil]];
+                [ruleArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                                      regex,@"String",
+                                      [NSNumber numberWithBool:YES],@"Enabled",
+                                      [NSNumber numberWithInt:2],@"TypeIdentifier",
+                                      [NSNumber numberWithBool:NO],@"Overridden",
+                                      @"",@"OverriddenTooltip",
+                                      [NSNumber numberWithBool:YES],@"ModeRule",
+                                      nil]];
             }
         }
  
         [modeSettings release];
  
-		// Enumerate rules from defaults to add user added rules back in
-		NSEnumerator *oldModes = [oldPrecedenceArray objectEnumerator];
-		id oldMode;
-		while ((oldMode = [oldModes nextObject])) {
+        // Enumerate rules from defaults to add user added rules back in
+        NSEnumerator *oldModes = [oldPrecedenceArray objectEnumerator];
+        id oldMode;
+        while ((oldMode = [oldModes nextObject])) {
             if (![oldMode respondsToSelector:@selector(objectForKey:)]) {
                 NSLog(@"Wrong Type in ModePrecedence Preferences: %@ %@",[oldMode class], oldMode);
                 continue;
             }
-			if (![[oldMode objectForKey:@"Identifier"] isEqualToString:[bundle bundleIdentifier]]) continue;
-			NSEnumerator *oldRules = [[oldMode objectForKey:@"Rules"] objectEnumerator];
-			NSDictionary *oldRule;
-			while ((oldRule = [oldRules nextObject])) {
-				if (![[oldRule objectForKey:@"ModeRule"] boolValue]) {
-					[ruleArray addObject:[[oldRule mutableCopy] autorelease]];
-				}
-				
-				NSEnumerator *newRulesEnumerator = [ruleArray objectEnumerator];
-				id newRule;
-				while ((newRule = [newRulesEnumerator nextObject])) {
-					if (([[oldRule objectForKey:@"String"] isEqualToString:[newRule objectForKey:@"String"]])&&([[oldRule objectForKey:@"TypeIdentifier"] intValue] == [[newRule objectForKey:@"TypeIdentifier"] intValue]) &&[oldRule objectForKey:@"Enabled"]) {
-						  [newRule setObject:[oldRule objectForKey:@"Enabled"] forKey:@"Enabled"];
-						 }
-				}
-			}						
-		}
+            if (![[oldMode objectForKey:@"Identifier"] isEqualToString:[bundle bundleIdentifier]]) continue;
+            NSEnumerator *oldRules = [[oldMode objectForKey:@"Rules"] objectEnumerator];
+            NSDictionary *oldRule;
+            while ((oldRule = [oldRules nextObject])) {
+                if (![[oldRule objectForKey:@"ModeRule"] boolValue]) {
+                    [ruleArray addObject:[[oldRule mutableCopy] autorelease]];
+                }
+                
+                NSEnumerator *newRulesEnumerator = [ruleArray objectEnumerator];
+                id newRule;
+                while ((newRule = [newRulesEnumerator nextObject])) {
+                    if (([[oldRule objectForKey:@"String"] isEqualToString:[newRule objectForKey:@"String"]])&&([[oldRule objectForKey:@"TypeIdentifier"] intValue] == [[newRule objectForKey:@"TypeIdentifier"] intValue]) &&[oldRule objectForKey:@"Enabled"]) {
+                          [newRule setObject:[oldRule objectForKey:@"Enabled"] forKey:@"Enabled"];
+                         }
+                }
+            }                       
+        }
+    }
+    
+	for (i=[precendenceArray count]-1;i--;i>=0) {
+		if (![[precendenceArray objectAtIndex:i] objectForKey:@"Identifier"]) [precendenceArray removeObjectAtIndex:i];
 	}
 	
-//	NSLog(@"Precedences: %@", precendenceArray);
-	[defaults setObject:precendenceArray forKey:@"ModePrecedences"];
-	return precendenceArray;
+    [defaults setObject:precendenceArray forKey:@"ModePrecedences"];
+    return precendenceArray;
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-	[[NSUserDefaults standardUserDefaults] setObject:[self modePrecedenceArray] forKey:@"ModePrecedences"];
+    [[NSUserDefaults standardUserDefaults] setObject:[self modePrecedenceArray] forKey:@"ModePrecedences"];
 }
 
 
@@ -443,22 +448,22 @@ static DocumentModeManager *S_sharedInstance=nil;
         [document setDocumentMode:newMode];
     }
 
-	[self setModePrecedenceArray:[self reloadPrecedences]];
-	[self revalidatePrecedences];
+    [self setModePrecedenceArray:[self reloadPrecedences]];
+    [self revalidatePrecedences];
 }
 
 - (void) resolveAllDependenciesForMode:(DocumentMode *) aMode {
-	I_dependencyQueue = [NSMutableDictionary new];
-	[I_dependencyQueue setObject:@"queued" forKey:[[aMode syntaxDefinition] name]];
-	NSEnumerator *enumerator = [[[[aMode syntaxDefinition] importedModes] allKeys] objectEnumerator];
+    I_dependencyQueue = [NSMutableDictionary new];
+    [I_dependencyQueue setObject:@"queued" forKey:[[aMode syntaxDefinition] name]];
+    NSEnumerator *enumerator = [[[[aMode syntaxDefinition] importedModes] allKeys] objectEnumerator];
     id modeName;
     while ((modeName = [enumerator nextObject])) {
-		if (![I_dependencyQueue objectForKey:modeName]) {
-			[self documentModeForIdentifier:modeName];
-			[I_dependencyQueue setObject:@"queued" forKey:modeName];
-		}
+        if (![I_dependencyQueue objectForKey:modeName]) {
+            [self documentModeForIdentifier:modeName];
+            [I_dependencyQueue setObject:@"queued" forKey:modeName];
+        }
     }
-	[I_dependencyQueue release];
+    [I_dependencyQueue release];
 }
 
 - (NSString *)description {
@@ -489,8 +494,8 @@ static DocumentModeManager *S_sharedInstance=nil;
 }
 
 - (DocumentMode *)documentModeForIdentifier:(NSString *)anIdentifier {
-	NSBundle *bundle=[I_modeBundles objectForKey:anIdentifier];
-	if (bundle) {
+    NSBundle *bundle=[I_modeBundles objectForKey:anIdentifier];
+    if (bundle) {
         DocumentMode *mode=[I_documentModesByIdentifier objectForKey:anIdentifier];
         if (!mode) {
             mode = [[[DocumentMode alloc] initWithBundle:bundle] autorelease];
@@ -505,9 +510,9 @@ static DocumentModeManager *S_sharedInstance=nil;
                 }
             }
         }
-		[self resolveAllDependenciesForMode:mode];
+        [self resolveAllDependenciesForMode:mode];
         return mode;
-	} else {
+    } else {
         return nil;
     }
 }
@@ -525,7 +530,7 @@ static DocumentModeManager *S_sharedInstance=nil;
 }
 
 - (NSMutableArray *)modePrecedenceArray {
-	return I_modePrecedenceArray;
+    return I_modePrecedenceArray;
 }
 
 - (void)setModePrecedenceArray:(NSMutableArray *)anArray {
@@ -536,48 +541,47 @@ static DocumentModeManager *S_sharedInstance=nil;
 }
 
 - (DocumentMode *)documentModeForPath:(NSString *)path withContentData:(NSData *)content {
-	// Convert data to ASCII, we don't know encoding yet at this point
-	// FIXME Don't forget to handle UTF16/32
-	NSString *contentString = [[[NSString alloc] initWithBytesNoCopy:(void *)[content bytes] length:[content length] encoding:NSMacOSRomanStringEncoding freeWhenDone:NO] autorelease];
-	return [self documentModeForPath:path withContentString:contentString];
+    // Convert data to ASCII, we don't know encoding yet at this point
+    // FIXME Don't forget to handle UTF16/32
+    unsigned maxLength = [[NSUserDefaults standardUserDefaults] integerForKey:@"ByteLengthToUseForModeRecognitionAndEncodingGuessing"];
+    NSString *contentString = [[[NSString alloc] initWithBytesNoCopy:(void *)[content bytes] length:MIN([content length],maxLength) encoding:NSMacOSRomanStringEncoding freeWhenDone:NO] autorelease];
+    return [self documentModeForPath:path withContentString:contentString];
 }
 
 - (DocumentMode *)documentModeForPath:(NSString *)path withContentString:(NSString *)contentString {
-	NSString *filename = [path lastPathComponent];
-	NSString *extension = [path pathExtension];
-			
-	NSEnumerator *modeEnumerator = [[self modePrecedenceArray] objectEnumerator];
+    NSString *filename = [path lastPathComponent];
+    NSString *extension = [path pathExtension];
+            
+    NSEnumerator *modeEnumerator = [[self modePrecedenceArray] objectEnumerator];
     NSMutableDictionary *mode;
     while ((mode = [modeEnumerator nextObject])) {
 
-		NSEnumerator *ruleEnumerator = [[mode objectForKey:@"Rules"] objectEnumerator];
-		NSMutableDictionary *rule;
-		while ((rule = [ruleEnumerator nextObject])) {
-			int ruleType = [[rule objectForKey:@"TypeIdentifier"] intValue];
-			NSString *ruleString = [rule objectForKey:@"String"];
-			
-			if (ruleType == 0) { // Case insensitive extension
-				if ([[ruleString uppercaseString] isEqualToString:[extension uppercaseString]]) return [self documentModeForIdentifier:[mode objectForKey:@"Identifier"]];
-			} 
-			if (ruleType == 3) { // Case sensitive extension
-				if ([ruleString isEqualToString:extension]) return [self documentModeForIdentifier:[mode objectForKey:@"Identifier"]];
-			} 
-			if (ruleType == 1) {
-				if ([ruleString isEqualToString:filename]) return [self documentModeForIdentifier:[mode objectForKey:@"Identifier"]];
-			}  
-			if (ruleType == 2) {
-				OGRegularExpressionMatch *match;
-				OGRegularExpression *regex = [rule objectForKey:@"RegEx"];
-				if (!regex) {
-					// Compile and cache into dictionary
-					regex = [[[OGRegularExpression alloc] initWithString:ruleString options:OgreFindNotEmptyOption|OgreMultilineOption] autorelease];
-					//[rule setObject:regex forKey:@"RegEx"]; // FIXME make local cacheDictionary
-				}
-				match = [regex matchInString:contentString];
-				if ([match count]>0) return [self documentModeForIdentifier:[mode objectForKey:@"Identifier"]];
-			}
-		}
-		
+        NSEnumerator *ruleEnumerator = [[mode objectForKey:@"Rules"] objectEnumerator];
+        NSMutableDictionary *rule;
+        while ((rule = [ruleEnumerator nextObject])) {
+            int ruleType = [[rule objectForKey:@"TypeIdentifier"] intValue];
+            NSString *ruleString = [rule objectForKey:@"String"];
+            
+            if (ruleType == 0) { // Case insensitive extension
+                if ([[ruleString uppercaseString] isEqualToString:[extension uppercaseString]]) return [self documentModeForIdentifier:[mode objectForKey:@"Identifier"]];
+            } 
+            if (ruleType == 3) { // Case sensitive extension
+                if ([ruleString isEqualToString:extension]) return [self documentModeForIdentifier:[mode objectForKey:@"Identifier"]];
+            } 
+            if (ruleType == 1) {
+                if ([ruleString isEqualToString:filename]) return [self documentModeForIdentifier:[mode objectForKey:@"Identifier"]];
+            }  
+            if (ruleType == 2 && contentString) {
+                BOOL didMatch = NO;
+                OGRegularExpressionMatch *match;
+                OGRegularExpression *regex =
+                    [[[OGRegularExpression alloc] initWithString:ruleString options:OgreFindNotEmptyOption|OgreMultilineOption] autorelease];
+                match = [regex matchInString:contentString];
+                didMatch = [match count]>0;
+                if (didMatch) return [self documentModeForIdentifier:[mode objectForKey:@"Identifier"]];
+            }
+        }
+        
     }
 
     return [self baseMode];

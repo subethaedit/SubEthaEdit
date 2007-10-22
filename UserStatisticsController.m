@@ -59,6 +59,7 @@ static NSString *s_updateContext   = @"UpdateContext";
 - (void)showWindow:(id)aSender {
     [self window];
     [self updateWordCount];
+    [O_documentObjectController setContent:[[[NSApp mainWindow] windowController] document]];
     [super showWindow:aSender];
 }
 
@@ -67,7 +68,10 @@ static NSString *s_updateContext   = @"UpdateContext";
 }
 
 - (void)windowWillClose:(NSNotification *)aNotification {
-    if ([[aNotification object] isMainWindow]) {
+    NSWindow *notificationWindow = [aNotification object];
+    if ([notificationWindow isMainWindow]) {
+        [O_documentObjectController setContent:nil];
+    } if (notificationWindow == [self window]) {
         [O_documentObjectController setContent:nil];
     }
 }
@@ -75,8 +79,12 @@ static NSString *s_updateContext   = @"UpdateContext";
 
 - (void)mainWindowDidChange:(NSNotification *)aNotification {
     NSWindow *window = [aNotification object];
-    if (!window || ![window isKindOfClass:[NSWindow class]]) window = [NSApp mainWindow];
-    [O_documentObjectController setContent:[[window windowController] document]];
+    if ([[self window] isVisible]) {
+        if (!window || ![window isKindOfClass:[NSWindow class]]) {
+            window = [NSApp mainWindow];
+        }
+        [O_documentObjectController setContent:[[window windowController] document]];
+    }
 }
 
 - (void)windowDidLoad {
@@ -99,12 +107,10 @@ static NSString *s_updateContext   = @"UpdateContext";
     [[[[O_userTableView tableColumns] objectAtIndex:0] dataCell] setRelativeMode:relativeMode];
     [O_userTableView setNeedsDisplay:YES];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mainWindowDidChange:) name:NSWindowDidBecomeMainNotification object:nil];
-    [self mainWindowDidChange:nil];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowWillClose:) name:NSWindowWillCloseNotification object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(mainWindowDidChange:) name:@"PlainTextWindowControllerDocumentDidChangeNotification" object:nil];
-    
-    
-    [self mainWindowDidChange:nil];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(windowWillClose:) name:NSWindowWillCloseNotification object:nil];
+        
     [(NSPanel *)[self window] setBecomesKeyOnlyIfNeeded:NO];
 }
 
@@ -134,5 +140,6 @@ static NSString *s_updateContext   = @"UpdateContext";
     }
     return nil;
 }
+
 
 @end

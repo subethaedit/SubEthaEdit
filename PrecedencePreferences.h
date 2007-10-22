@@ -11,7 +11,6 @@
 
 
 @interface PrecedencePreferences : TCMPreferenceModule {
-	IBOutlet NSView *o_precedenceView;
 	IBOutlet NSTableView *o_rulesTableView;
 	IBOutlet NSArrayController *o_modesController;
 	IBOutlet NSArrayController *o_rulesController;

@@ -22,7 +22,6 @@ http://www.codingmonkeys.de</string>
 	<key>TCMModeExtensions</key>
 	<array>
 	   <string>txt</string>
-	   <string>TXT</string>
 	</array>
 </dict>
 </plist>

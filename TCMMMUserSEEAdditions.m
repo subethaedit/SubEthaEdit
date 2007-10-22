@@ -125,6 +125,7 @@
             [[self properties] setObject:pngData forKey:@"ImageAsPNG"];
         }   
         [[self properties] setObject:image forKey:@"Image"];
+        [image setCacheMode:NSImageCacheNever];
     }
     return image;
 }

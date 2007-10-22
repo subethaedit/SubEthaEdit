@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "symbol.dtd">
+<symbols>
+
+    <blocks>
+        <beginregex>&lt;!--</beginregex>
+        <endregex>--&gt;</endregex>
+    </blocks>
+    
+    <symbol id="Suites" font-weight="normal" font-style="normal" image="SymbolS.png" indentation="0" ignoreblocks="yes">
+        <regex>&lt;suite[^&gt;]*name *= *"([^"]*)"[^&gt;]*&gt;</regex>
+    </symbol>
+
+    <symbol id="Classes" font-weight="normal" font-style="normal" image="SymbolC.png" indentation="1" ignoreblocks="yes">
+        <regex>&lt;class[^&gt;]*name *= *"([^"]*)"[^&gt;]*&gt;</regex>
+    </symbol>
+
+    <symbol id="Enumeration" font-weight="normal" font-style="normal" image="SymbolE.png" indentation="1" ignoreblocks="yes">
+        <regex>&lt;enumeration[^&gt;]*name *= *"([^"]*)"[^&gt;]*&gt;</regex>
+    </symbol>
+
+    <symbol id="Elements" font-weight="normal" font-style="normal" image="SymbolE.png" indentation="2" ignoreblocks="yes">
+        <regex>&lt;element[^&gt;]*type *= *"([^"]*)"[^&gt;]*&gt;</regex>
+    </symbol>
+
+    <symbol id="Properties" font-weight="normal" font-style="normal" image="SymbolP.png" indentation="2" ignoreblocks="yes">
+        <regex>&lt;property[^&gt;]*name *= *"([^"]*)"[^&gt;]*&gt;</regex>
+    </symbol>
+
+    <symbol id="Recordtype" font-weight="normal" font-style="normal" image="SymbolT.png" indentation="1" ignoreblocks="yes">
+        <regex>&lt;record-type[^&gt;]*name *= *"([^"]*)"[^&gt;]*&gt;</regex>
+    </symbol>
+
+    <symbol id="Commands" font-weight="normal" font-style="normal"  image="SymbolM.png" indentation="1" ignoreblocks="yes">
+        <regex>&lt;command[^&gt;]*name *= *"([^"]*)"[^&gt;]*&gt;</regex>
+    </symbol>
+
+    <symbol id="Pragma marks" font-weight="normal" font-style="normal" image="Symbol!.png" indentation="0" ignoreblocks="no">
+        <regex>&lt;!-- !([^-]*) --&gt;</regex>
+    </symbol>
+
+</symbols>

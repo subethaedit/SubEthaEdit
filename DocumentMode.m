@@ -143,7 +143,10 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         I_bundle = [aBundle retain];
 
         I_modeSettings = [[ModeSettings alloc] initWithFile:[aBundle pathForResource:@"ModeSettings" ofType:@"xml"]];
-
+		if (!I_modeSettings) { // Fall back to info.plist
+			I_modeSettings = [[ModeSettings alloc] initWithPlist:[aBundle bundlePath]];
+		}
+		
         I_syntaxDefinition = [[SyntaxDefinition alloc] initWithFile:[aBundle pathForResource:@"SyntaxDefinition" ofType:@"xml"] forMode:self];
         
         RegexSymbolDefinition *symDef = [[[RegexSymbolDefinition alloc] initWithFile:[aBundle pathForResource:@"RegexSymbols" ofType:@"xml"] forMode:self] autorelease];
@@ -452,17 +455,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 }
 
 - (NSArray *)recognizedExtensions {
-    if (I_modeSettings) {
-        return [I_modeSettings recognizedExtensions];
-    } else {
-        CFURLRef url = CFURLCreateWithFileSystemPath(NULL, (CFStringRef)[I_bundle bundlePath], kCFURLPOSIXPathStyle, 1);
-        CFDictionaryRef infodict = CFBundleCopyInfoDictionaryInDirectory(url);
-        NSDictionary *infoDictionary = (NSDictionary *) infodict;
-        NSArray *returnArray = [[[infoDictionary objectForKey:@"TCMModeExtensions"] copy] autorelease];
-        CFRelease(url);
-        CFRelease(infodict);
-        return returnArray;
-    }
+	return [I_modeSettings recognizedExtensions];
 }
 
 - (ModeSettings *)modeSettings {

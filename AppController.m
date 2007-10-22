@@ -69,6 +69,8 @@ int const FileMenuTag = 100;
 int const EditMenuTag = 1000;
 int const FileNewMenuItemTag = 101;
 int const FileNewAlternateMenuItemTag = 102;
+int const FileOpenMenuItemTag = 111;
+int const FileOpenAlternateMenuItemTag = 112;
 int const CutMenuItemTag = 1;
 int const CopyMenuItemTag = 2;
 int const CopyXHTMLMenuItemTag = 5;
@@ -131,6 +133,8 @@ static AppController *sharedInstance = nil;
 	[defaults setObject:[NSNumber numberWithBool:NO] forKey:@"EnableBEEPLogging"];
 #endif
     [defaults setObject:[NSNumber numberWithInt:800*1024] forKey:@"StringLengthToStopHighlightingAndWrapping"];
+    [defaults setObject:[NSNumber numberWithInt:800*1024] forKey:@"StringLengthToStopSymbolRecognition"];
+    [defaults setObject:[NSNumber numberWithInt:4096*1024] forKey:@"ByteLengthToUseForModeRecognitionAndEncodingGuessing"];
     // fix of SEE-883 - only an issue on tiger...
     if (floor(NSAppKitVersionNumber) == 824.) {
         [defaults setObject:[NSNumber numberWithBool:NO] forKey:@"NSUseInsertionPointCache"];
@@ -285,11 +289,15 @@ static AppController *sharedInstance = nil;
     }
 
     if (meCard) {
-        NSData  *imageData;
-        if ((imageData=[meCard imageData])) {
-            myImage=[[NSImage alloc] initWithData:imageData];
-            [myImage setCacheMode:NSImageCacheNever];
-        } 
+        @try {
+            NSData  *imageData;
+            if ((imageData=[meCard imageData])) {
+                myImage=[[NSImage alloc] initWithData:imageData];
+                [myImage setCacheMode:NSImageCacheNever];
+            }
+        } @catch (id exception) {
+        
+        }
     }
     
     if (!myImage) {
@@ -323,11 +331,14 @@ static AppController *sharedInstance = nil;
 #define MODEMENUNAMETAG 20 
 
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
-    //#warning "Termination has to be removed before release!"
-    if ([[NSDate dateWithString:@"2007-10-21 12:00:00 +0000"] timeIntervalSinceNow] < 0) {
-        [NSApp terminate:self];
-        return;
-    }
+
+    // test for compression...
+//    int i=0;
+//    for (i=1;i<400096;i=i*2) {
+//        NSData *data = [[@"1234567890" stringByPaddingToLength:i withString:@"1234567890" startingAtIndex:0] dataUsingEncoding:NSMacOSRomanStringEncoding];
+//        NSData *compressedData = [data compressedDataWithLevel:Z_DEFAULT_COMPRESSION];
+//        if (!compressedData) NSLog(@"%d compression failed with data of length: %d",i,[data length]);
+//    }
 
     // prepare images
     NSImage *image = [[[NSImage imageNamed:@"UnknownPerson"] resizedImageWithSize:NSMakeSize(32.0, 32.0)] retain];
@@ -953,14 +964,14 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     NSMenu *EditMenu=[[mainMenu itemWithTag:EditMenuTag] submenu];
     NSMenu *FormatMenu=[[mainMenu itemWithTag:FormatMenuTag] submenu];
 
-    NSMenu *defaultMenu=[NSMenu new];
-    [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:CutMenuItemTag] copy]];
-    [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:CopyMenuItemTag] copy]];
-    [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:CopyXHTMLMenuItemTag] copy]];
-    [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:CopyStyledMenuItemTag] copy]];
-    [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:PasteMenuItemTag] copy]];
+    NSMenu *defaultMenu=[[NSMenu new] autorelease];
+    [defaultMenu addItem:[[(NSMenuItem *)[EditMenu itemWithTag:CutMenuItemTag] copy] autorelease]];
+    [defaultMenu addItem:[[(NSMenuItem *)[EditMenu itemWithTag:CopyMenuItemTag] copy] autorelease]];
+    [defaultMenu addItem:[[(NSMenuItem *)[EditMenu itemWithTag:CopyXHTMLMenuItemTag] copy] autorelease]];
+    [defaultMenu addItem:[[(NSMenuItem *)[EditMenu itemWithTag:CopyStyledMenuItemTag] copy] autorelease]];
+    [defaultMenu addItem:[[(NSMenuItem *)[EditMenu itemWithTag:PasteMenuItemTag] copy] autorelease]];
     [defaultMenu addItem:[NSMenuItem separatorItem]];
-    [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:BlockeditMenuItemTag] copy]];
+    [defaultMenu addItem:[[(NSMenuItem *)[EditMenu itemWithTag:BlockeditMenuItemTag] copy] autorelease]];
     NSMenuItem *scriptsSubmenuItem=[[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Scripts",@"Scripts entry for contextual menu") action:nil keyEquivalent:@""] autorelease];
     NSMenu *menu = [[NSMenu new] autorelease];
     [scriptsSubmenuItem setImage:[NSImage imageNamed:@"ScriptMenuItemIcon"]];
@@ -970,9 +981,9 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [menu setDelegate:self];
     [menu addItem:[NSMenuItem separatorItem]];
     [defaultMenu addItem:[NSMenuItem separatorItem]];
-    [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:SpellingMenuItemTag] copy]];
-    [defaultMenu addItem:[(NSMenuItem *)[FormatMenu itemWithTag:FontMenuItemTag] copy]];
-    [defaultMenu addItem:[(NSMenuItem *)[EditMenu itemWithTag:SpeechMenuItemTag] copy]];
+    [defaultMenu addItem:[[(NSMenuItem *)[EditMenu itemWithTag:SpellingMenuItemTag] copy] autorelease]];
+    [defaultMenu addItem:[[(NSMenuItem *)[FormatMenu itemWithTag:FontMenuItemTag] copy] autorelease]];
+    [defaultMenu addItem:[[(NSMenuItem *)[EditMenu itemWithTag:SpeechMenuItemTag] copy] autorelease]];
     
     [TextView setDefaultMenu:defaultMenu];
 }
@@ -1019,7 +1030,11 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 - (IBAction)showUserStatisticsWindow:(id)aSender {
     static UserStatisticsController *uc = nil;
     if (!uc) uc = [UserStatisticsController new];
-    [uc showWindow:aSender];
+    if (![[uc window] isVisible]) {
+        [uc showWindow:aSender];
+    } else {
+        [[uc window] performClose:self];
+    }
 }
 
 
@@ -1117,6 +1132,15 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 - (IBAction)visitWebsite:(id)sender {
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"http://www.subethaedit.net/",@"WebSite Link")]];
 }
+
+- (IBAction)additionalModes:(id)sender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"http://www.subethaedit.net/modes.html",@"WebSite Mode Link")]];
+}
+
+- (IBAction)gotoDocumentation:(id)sender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"http://www.codingmonkeys.de/subethaedit/documentation",@"Documentation Web Link")]];
+}
+
 
 - (IBAction)reportBug:(id)sender {
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:[NSString stringWithFormat:NSLocalizedString(@"http://www.subethaedit.net/bugs/?version=%@",@"BugTracker Deep Link"),[[[NSBundle mainBundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]]]];

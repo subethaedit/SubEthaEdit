@@ -32,8 +32,11 @@ static struct option longopts[] = {
     { "print",      no_argument,            0,  'p' }, // command/option
     { "encoding",   required_argument,      0,  'e' }, // option
     { "mode",       required_argument,      0,  'm' }, // option
+    { "open-in",    required_argument,      0,  'o' }, // option
+    { "pipe-dirty", no_argument,            0,  'd' }, // option
     { "pipe-title", required_argument,      0,  't' }, // option
     { "job-description", required_argument, 0,  'j' }, // option
+    { "goto",            required_argument, 0,  'g' }, // option
     { 0,            0,                      0,  0 }
 };
 
@@ -52,7 +55,7 @@ static NSString *tempFileName() {
 
 
 static void printHelp() {
-    fprintf(stdout, "Usage: see [-bhlprvw] [-e encoding_name] [-m mode_identifier] [-t title] [-j description] [file ...]\n");
+    fprintf(stdout, "Usage: see [-bdhlprvw] [-g line[:column]] [-o where] [-e encoding_name] [-m mode_identifier] [-t title] [-j description] [file ...]\n");
     fflush(stdout);
 }
 
@@ -349,6 +352,19 @@ static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFi
                 [appleEvent setParamDescriptor:[NSAppleEventDescriptor descriptorWithString:jobDescription]
                                     forKeyword:'JobD'];
             }
+
+            NSString *gotoString = [options objectForKey:@"goto"];
+            if (gotoString) {
+                [appleEvent setParamDescriptor:[NSAppleEventDescriptor descriptorWithString:gotoString]
+                                    forKeyword:'GoTo'];
+            }
+
+            NSString *openinString = [options objectForKey:@"open-in"];
+            if (openinString) {
+                [appleEvent setParamDescriptor:[NSAppleEventDescriptor descriptorWithString:openinString]
+                                    forKeyword:'OpIn'];
+            }
+
             
             NSString *pipeTitle = [options objectForKey:@"pipe-title"];
             if (pipeTitle) {
@@ -373,6 +389,12 @@ static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFi
                 [appleEvent setParamDescriptor:[NSAppleEventDescriptor descriptorWithBoolean:true]
                                     forKeyword:'PipO'];
             }
+
+            if ([options objectForKey:@"pipe-dirty"]) {
+                [appleEvent setParamDescriptor:[NSAppleEventDescriptor descriptorWithBoolean:true]
+                                    forKeyword:'Pdty'];
+            }
+
                         
             AppleEvent reply;
             OSStatus err = AESendMessage([appleEvent aeDesc], &reply, sendMode, timeOut);
@@ -543,10 +565,13 @@ int main (int argc, const char * argv[]) {
     //
     
     int ch;
-    while ((ch = getopt_long(argc, (char * const *)argv, "bhlprvwe:m:t:j:", longopts, NULL)) != -1) {
+    while ((ch = getopt_long(argc, (char * const *)argv, "bhlprvwe:m:o:dt:j:g:", longopts, NULL)) != -1) {
         switch(ch) {
             case 'b':
                 [options setObject:[NSNumber numberWithBool:YES] forKey:@"background"];
+                break;
+            case 'd':
+                [options setObject:[NSNumber numberWithBool:YES] forKey:@"pipe-dirty"];
                 break;
             case 'h':
                 help = YES;
@@ -571,10 +596,19 @@ int main (int argc, const char * argv[]) {
                     NSString *encoding = [NSString stringWithUTF8String:optarg];
                     [options setObject:encoding forKey:@"encoding"];
                 } break;
+            case 'g': {
+                    // argument is a goto string of the form line[:column]
+                    NSString *gotoString = [NSString stringWithUTF8String:optarg];
+                    [options setObject:gotoString forKey:@"goto"];
+                } break;
             case 'm': {
                     // identifies mode via BundleIdentifier, e.g. SEEMode.Objective-C ("SEEMode." is optional)
                     NSString *mode = [NSString stringWithUTF8String:optarg];
                     [options setObject:mode forKey:@"mode"];
+                } break;
+            case 'o': {
+                    NSString *openin = [NSString stringWithUTF8String:optarg];
+                    [options setObject:openin forKey:@"open-in"];
                 } break;
             case 't': {
                     NSString *pipeTitle = [NSString stringWithUTF8String:optarg];

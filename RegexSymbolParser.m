@@ -25,6 +25,11 @@
     return self;
 }
 
+- (void)dealloc {
+    [I_symbolDefinition release];
+    [super dealloc];
+}
+
 #pragma mark - 
 #pragma mark - Accessors
 #pragma mark - 
@@ -44,7 +49,9 @@
     NSMutableArray *returnArray =[NSMutableArray array];
 	NSRange currentRange = NSMakeRange(0,0);
 	NSRange fullRange = NSMakeRange(0, [aTextStorage length]);
-	
+	if (NSMaxRange(fullRange)>[[NSUserDefaults standardUserDefaults] integerForKey:@"StringLengthToStopSymbolRecognition"]) {
+	   return nil;
+	}
 	// Iterate through blocks of stuff, using the different Parsers
 	while (NSMaxRange(currentRange)<NSMaxRange(fullRange)) {
 		NSRange effectiveRange;
@@ -84,6 +91,8 @@
         int indent = [[symbol objectForKey:@"indentation"] intValue];
         NSImage *image = [symbol objectForKey:@"image"];
 		
+        // this is important because of ogrekit which copies almost the complete string as utf16 in an enumerator.
+		NSAutoreleasePool *ogrePool = [[NSAutoreleasePool alloc] init];
         NSEnumerator *matchEnumerator = [[regex allMatchesInString:[aTextStorage string] range:aRange] objectEnumerator];
         OGRegularExpressionMatch *aMatch;
         while ((aMatch = [matchEnumerator nextObject])) {
@@ -113,6 +122,7 @@
 				[returnArray addObject:aSymbolTableEntry];
 			} 
 		}
+		[ogrePool release];
     }
     //NSLog(@"time for symbols: %f",(((double)(clock()-start_time))/CLOCKS_PER_SEC));
     return returnArray;
