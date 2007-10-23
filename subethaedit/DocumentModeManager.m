@@ -173,7 +173,6 @@ static DocumentModeManager *S_sharedInstance=nil;
 
 - (void)revalidatePrecedences {
     // Check for overriden Rules
-    // FIXME Remove @"" Placeholders if there are any.
 
     NSMutableArray *rulesSoFar = [NSMutableArray array];
     
@@ -186,7 +185,7 @@ static DocumentModeManager *S_sharedInstance=nil;
         while ((rule = [rules nextObject])) {
             BOOL isOverridden = NO;
             NSMutableDictionary *ruleCopy = [[rule mutableCopy] autorelease];
-            [ruleCopy setObject:[mode objectForKey:@"Identifier"] forKey:@"FromMode"];
+            [ruleCopy setObject:[mode objectForKey:@"Name"] forKey:@"FromMode"];
 
             int typeRule = [[rule objectForKey:@"TypeIdentifier"] intValue];
             NSString *stringRule = [rule objectForKey:@"String"];
@@ -203,7 +202,7 @@ static DocumentModeManager *S_sharedInstance=nil;
                 
                 if (simpleOverride||caseOverride) {
                     [rule setObject:[NSNumber numberWithBool:YES] forKey:@"Overridden"];
-                    [rule setObject:[NSString stringWithFormat:NSLocalizedString(@"Overriden by trigger in %@ mode",@"Mode Precedence Overriden Tooltip"), [[[self documentModeForIdentifier:[override objectForKey:@"FromMode"]] syntaxDefinition] name]] forKey:@"OverriddenTooltip"];
+                    [rule setObject:[NSString stringWithFormat:NSLocalizedString(@"Overriden by trigger in %@ mode",@"Mode Precedence Overriden Tooltip"), [override objectForKey:@"FromMode"]] forKey:@"OverriddenTooltip"];
                     isOverridden = YES;
                 }   
                 
