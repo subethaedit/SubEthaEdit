@@ -48,6 +48,8 @@ extern void aslresponse_free(aslresponse a) __attribute__((weak_import));
     SInt32 MacVersion;
 
     NSDate *lastCrashDate = [[NSUserDefaults standardUserDefaults] valueForKey: @"HDCrashReporter.lastCrashDate"];
+	if (!lastCrashDate) lastCrashDate = [NSDate distantPast];
+	
 	NSArray *libraryDirectories = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask,FALSE);
 
     NSString *bundleName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
