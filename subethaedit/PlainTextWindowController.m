@@ -152,6 +152,10 @@ enum {
     [I_tabBar release];
     [I_tabView release];
 
+	if (I_lockChildWindow) [I_lockChildWindow release];
+	I_lockChildWindow = nil;
+
+
     [[DocumentController sharedInstance] updateTabMenu];
             
     [super dealloc];
@@ -268,7 +272,7 @@ enum {
         [childWindow setOpaque:NO];
         [childWindow setBackgroundColor:[NSColor clearColor]];
         [[self window] addChildWindow:childWindow ordered:NSWindowAbove];
-        I_lockChildWindow = [childWindow autorelease];
+        I_lockChildWindow = childWindow;
     }
     //[self validateButtons];
 }
