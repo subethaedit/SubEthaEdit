@@ -142,7 +142,6 @@
 
     LayoutManager *layoutManager=[LayoutManager new];
     if ([layoutManager respondsToSelector:@selector(setAllowsNonContiguousLayout:)]) {
-        NSLog(@"%s",__FUNCTION__);
         (void (
         *)(BOOL))objc_msgSend(layoutManager, @selector(setAllowsNonContiguousLayout:), YES);;
     }
@@ -181,6 +180,8 @@
     [O_scrollView setDocumentView:I_textView];
     [I_textView release];
     [[O_scrollView verticalRulerView] setClientView:I_textView];
+    [[O_scrollView contentView] setPostsBoundsChangedNotifications:YES];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(contentViewBoundsDidChange:) name:NSViewBoundsDidChangeNotification object:[O_scrollView contentView]];
 
 
     [layoutManager release];
@@ -1421,6 +1422,12 @@
 }
 
 - (void)textDidChange:(NSNotification *)aNotification {
+    if ([O_scrollView rulersVisible]) {
+        [[O_scrollView verticalRulerView] setNeedsDisplay:YES];
+    }
+}
+
+- (void)contentViewBoundsDidChange:(NSNotification *)aNotification {
     if ([O_scrollView rulersVisible]) {
         [[O_scrollView verticalRulerView] setNeedsDisplay:YES];
     }
