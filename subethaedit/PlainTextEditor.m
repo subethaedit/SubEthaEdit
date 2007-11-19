@@ -141,11 +141,10 @@
 
 
     LayoutManager *layoutManager=[LayoutManager new];
-    if ([layoutManager respondsToSelector:@selector(setNonContiguousLayout:)]) {
-        [layoutManager performSelector:@selector(setNonContiguousLayout:) withObject:[NSNumber numberWithBool:YES]];
-    }
-    if ([NSLayoutManager respondsToSelector:@selector(setNonContiguousLayout:)]) {
-        [NSLayoutManager performSelector:@selector(setNonContiguousLayout:) withObject:[NSNumber numberWithBool:YES]];
+    if ([layoutManager respondsToSelector:@selector(setAllowsNonContiguousLayout:)]) {
+        NSLog(@"%s",__FUNCTION__);
+        (void (
+        *)(BOOL))objc_msgSend(layoutManager, @selector(setAllowsNonContiguousLayout:), YES);;
     }
     [[document textStorage] addLayoutManager:layoutManager];
 

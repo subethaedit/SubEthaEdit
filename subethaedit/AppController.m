@@ -296,8 +296,7 @@ static AppController *sharedInstance = nil;
                 myImage=[[NSImage alloc] initWithData:imageData];
                 [myImage setCacheMode:NSImageCacheNever];
             }
-        } @catch (id exception) {
-        
+        } @catch (NSException *exception) {
         }
     }
     
