@@ -986,7 +986,8 @@ static NSString *tempFileName(NSString *origPath) {
     [I_documentForegroundColor release];
     [I_printOptions autorelease];
     [I_scheduledAlertDictionary release];
-
+	
+	[self setTemporarySavePanel:nil];
     free(I_bracketMatching.openingBracketsArray);
     free(I_bracketMatching.closingBracketsArray);
     [super dealloc];
@@ -2520,9 +2521,27 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     
     return filename;
 }
+
+- (void)setTemporarySavePanel:(NSSavePanel *)aPanel {
+	if (aPanel != I_savePanel) {
+		if (I_savePanel && [I_savePanel delegate] == self) {
+			[I_savePanel setDelegate:nil];
+		}
+		[I_savePanel autorelease];
+		 I_savePanel = [aPanel retain];
+	}
+}
+
+- (void) _savePanelWasPresented:(id)aPanel withResult:(int)aResult inContext:(void*) aContext; {
+	[I_savePanel setDelegate:nil];
+	if (aResult == NSCancelButton) {	
+		[self setTemporarySavePanel:nil];
+	}
+	[super _savePanelWasPresented:aPanel withResult:aResult inContext:aContext];
+}
     
 - (BOOL)prepareSavePanel:(NSSavePanel *)savePanel {
-
+	
     if (![NSBundle loadNibNamed:@"SavePanelAccessory" owner:self])  {
         NSLog(@"Failed to load SavePanelAccessory.nib");
         return NO;
@@ -2540,7 +2559,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [savePanel performSelector:@selector(setExtensionHidden:) withObject:nil afterDelay:0.0];
     [savePanel setCanSelectHiddenExtension:NO];
 
-    I_savePanel = savePanel;
+    [self setTemporarySavePanel:savePanel];
     [savePanel setDelegate:self];
 
     if (![self fileName] && [self directoryForSavePanel]) {
@@ -2700,11 +2719,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (void)saveToURL:(NSURL *)anAbsoluteURL ofType:(NSString *)aType forSaveOperation:(NSSaveOperationType)saveOperation delegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)aContextInfo {
-     BOOL didShowPanel=NO;
-     if (saveOperation != NSAutosaveOperation) {
+    BOOL didShowPanel=NO;
+    if (saveOperation != NSAutosaveOperation) {
         didShowPanel = (I_savePanel)?YES:NO;
-        [I_savePanel setDelegate:nil];
-        I_savePanel = nil;
+		[self setTemporarySavePanel:nil];
     }
     
     if (anAbsoluteURL) {
@@ -3009,6 +3027,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (BOOL)TCM_readFromURL:(NSURL *)anURL ofType:(NSString *)docType properties:(NSDictionary *)aProperties error:(NSError **)outError {
+	if (outError) {*outError = nil;}
+	if (!anURL) {
+		return NO;
+	}
     NSString *fileName = [anURL path];
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"readFromURL:%@ ofType:%@ properties: %@", anURL, docType, aProperties);
 
@@ -3469,6 +3491,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             }
             [compressedDict setObject:[self documentState] forKey:@"DocumentState"];
             if (saveOperation == NSAutosaveOperation) {
+//				NSLog(@"%s write to:%@ type:%@ saveOperation:%d originalURL:%@",__FUNCTION__, absoluteURL, inTypeName, saveOperation,originalContentsURL);
                 NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
                     [self fileType],@"fileType",
                     [NSNumber numberWithBool:[super isDocumentEdited]],@"hadChanges",
