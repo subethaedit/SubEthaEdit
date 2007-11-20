@@ -148,7 +148,7 @@
 		1B0DDC510A2CDA3D0009B697 /* kludge.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = kludge.c; sourceTree = "<group>"; };
 		1B0DDC730A2CDD2D0009B697 /* UniversalDetector.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UniversalDetector.h; sourceTree = "<group>"; };
 		1B0DDC740A2CDD2E0009B697 /* UniversalDetector.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = UniversalDetector.mm; sourceTree = "<group>"; };
-		1B0DDCAB0A2D0AD10009B697 /* DetectorTest */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = DetectorTest; sourceTree = BUILT_PRODUCTS_DIR; };
+		1B0DDCAB0A2D0AD10009B697 /* DetectorTest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "compiled.mach-o.executable"; path = DetectorTest; sourceTree = BUILT_PRODUCTS_DIR; };
 		1B0DDCB10A2D0B240009B697 /* DetectorTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DetectorTest.m; sourceTree = "<group>"; };
 		32DBCF5E0370ADEE00C91783 /* UniversalDetector_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UniversalDetector_Prefix.pch; sourceTree = "<group>"; };
 		3DBF4F570BCD396800DA401A /* libuniversaldetector.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libuniversaldetector.a; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -647,16 +647,22 @@
 					ppc,
 					i386,
 				);
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEPLOYMENT_POSTPROCESSING = YES;
 				DYLIB_COMPATIBILITY_VERSION = 1;
 				DYLIB_CURRENT_VERSION = 1;
 				FRAMEWORK_VERSION = A;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = UniversalDetector_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = "@executable_path/../Frameworks";
 				PRODUCT_NAME = UniversalDetector;
+				SEPARATE_STRIP = YES;
+				STRIP_INSTALLED_PRODUCT = YES;
+				STRIP_STYLE = "non-global";
 				WRAPPER_EXTENSION = framework;
 				ZERO_LINK = NO;
 			};

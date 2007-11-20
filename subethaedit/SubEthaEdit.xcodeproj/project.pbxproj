@@ -303,7 +303,6 @@
 		311717F40A0E8C3600A9DA18 /* ModeSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 311717F20A0E8C3600A9DA18 /* ModeSettings.m */; };
 		312B7BC00A99D22C0014E52A /* Sparkle.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 312B7BBB0A99D1B50014E52A /* Sparkle.framework */; };
 		312B7C070A99DA460014E52A /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 312B7BBB0A99D1B50014E52A /* Sparkle.framework */; };
-		3134F7AA0CB1331900F8C116 /* PrecedenceRolloverButton.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 3134F7A80CB1331800F8C116 /* PrecedenceRolloverButton.h */; };
 		3134F7AB0CB1331900F8C116 /* PrecedenceRolloverButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 3134F7A90CB1331900F8C116 /* PrecedenceRolloverButton.m */; };
 		3134F7DE0CB13A2E00F8C116 /* Precedence_RemoveRollover.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3134F7DD0CB13A2E00F8C116 /* Precedence_RemoveRollover.tiff */; };
 		316A0D2A0C68A47100720268 /* DebugAttributeInspectorController.m in Sources */ = {isa = PBXBuildFile; fileRef = 316A0D280C68A47100720268 /* DebugAttributeInspectorController.m */; };
@@ -723,7 +722,6 @@
 				31D5FB230AA309200088DB18 /* HDCrashReporter.framework in Copy Files (Frameworks) */,
 				141F4EB40AE4266F001B73D2 /* PSMTabBarControl.framework in Copy Files (Frameworks) */,
 				312B7BC00A99D22C0014E52A /* Sparkle.framework in Copy Files (Frameworks) */,
-				3134F7AA0CB1331900F8C116 /* PrecedenceRolloverButton.h in Copy Files (Frameworks) */,
 			);
 			name = "Copy Files (Frameworks)";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -3749,7 +3747,7 @@
 				COPY_PHASE_STRIP = YES;
 				DiskImageBackgroundImage = artwork/dmg_background.png;
 				DiskImageProduct = SubEthaEdit.app;
-				DiskImageSizeInMB = 20;
+				DiskImageSizeInMB = 100;
 				DiskImageVolumeName = SubEthaEdit;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
@@ -3932,6 +3930,8 @@
 					i386,
 				);
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)";
+				COPY_PHASE_STRIP = YES;
+				DEAD_CODE_STRIPPING = YES;
 				FRAMEWORK_SEARCH_PATHS = /System/Library/PrivateFrameworks;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
@@ -3946,7 +3946,10 @@
 					"-framework",
 					vmutils,
 				);
+				PREBINDING = YES;
 				PRODUCT_NAME = SubEthaEdit;
+				SEPARATE_STRIP = YES;
+				STRIP_STYLE = all;
 				SYSTEM_VERSION_CHECK_SUFFIX = "-SystemVersionCheck";
 				WRAPPER_EXTENSION = app;
 			};

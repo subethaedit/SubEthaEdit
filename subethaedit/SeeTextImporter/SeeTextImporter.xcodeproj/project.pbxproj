@@ -225,13 +225,20 @@
 					ppc,
 					i386,
 				);
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				DEAD_CODE_STRIPPING = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEPLOYMENT_POSTPROCESSING = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = NO;
 				INFOPLIST_FILE = Info.plist;
 				INSTALL_PATH = /Library/Spotlight;
 				LIBRARY_STYLE = Bundle;
+				ONLY_LINK_ESSENTIAL_SYMBOLS = NO;
 				PRODUCT_NAME = SeeTextImporter;
+				SEPARATE_STRIP = YES;
+				STRIP_INSTALLED_PRODUCT = YES;
+				STRIP_STYLE = "non-global";
 				WRAPPER_EXTENSION = mdimporter;
 			};
 			name = Release;
