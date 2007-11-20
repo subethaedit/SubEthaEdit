@@ -85,17 +85,14 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
             freeaddrinfo(result);
         } else {
             DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"Neither IPv4 nor IPv6 address");
+            return anURL;
         }
         if (portString) {
             free(portString);
         }
         
         NSString *URLString = nil;
-        if (isIPv6Address) {
-            URLString = [NSString stringWithFormat:@"%@://[%@]:%d", [anURL scheme], hostAddress, port];
-        } else {
-            URLString = [NSString stringWithFormat:@"%@://%@:%d", [anURL scheme], hostAddress, port];
-        }
+        URLString = [NSString stringWithFormat:@"%@://%@", [anURL scheme], [[NSString stringWithAddressData:addressData] stringByReplacingOccurrencesOfString:@"%" withString:@"%25"]];
         resultURL = [NSURL URLWithString:URLString];
         
         if ([[anURL path] length] > 0 && ![[anURL path] isEqualToString:@"/"]) {
