@@ -38,6 +38,17 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
     NSString *schemePrefix = [NSString stringWithFormat:@"%@://", @"see"];
     NSString *lowercaseAddress = [anAddress lowercaseString];
     if (![lowercaseAddress hasPrefix:schemePrefix]) {
+        // check if the address is an ipv6 address
+        NSCharacterSet *ipv6set = [NSCharacterSet characterSetWithCharactersInString:@"1234567890abcdef:"];
+        NSScanner *ipv6scanner = [NSScanner scannerWithString:anAddress];
+        NSString *scannedString = nil;
+        if ([ipv6scanner scanCharactersFromSet:ipv6set intoString:&scannedString]) {
+            if ([scannedString length] == [anAddress length]) {
+                anAddress = [NSString stringWithFormat:@"[%@]",scannedString];
+            } else if ([anAddress length] > [scannedString length]+1 && [anAddress characterAtIndex:[scannedString length]] == '%') {
+                anAddress = [NSString stringWithFormat:@"[%@%%25%@]",scannedString,[anAddress substringFromIndex:[scannedString length]+1]];
+            }
+        }
         NSString *addressWithPrefix = [schemePrefix stringByAppendingString:anAddress];
         URLString = addressWithPrefix;
     } else {
@@ -92,7 +103,9 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
         }
         
         NSString *URLString = nil;
-        URLString = [NSString stringWithFormat:@"%@://%@", [anURL scheme], [[NSString stringWithAddressData:addressData] stringByReplacingOccurrencesOfString:@"%" withString:@"%25"]];
+        NSMutableString *percentEscapedString = [[[NSString stringWithAddressData:addressData] mutableCopy] autorelease];
+        [percentEscapedString replaceOccurrencesOfString:@"%" withString:@"%25" options:0 range:NSMakeRange(0,[percentEscapedString length])];
+        URLString = [NSString stringWithFormat:@"%@://%@", [anURL scheme], percentEscapedString];
         resultURL = [NSURL URLWithString:URLString];
         
         if ([[anURL path] length] > 0 && ![[anURL path] isEqualToString:@"/"]) {
