@@ -4639,8 +4639,23 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     
     if (hostAddress == nil) {
         CFStringRef localHostName = SCDynamicStoreCopyLocalHostName(NULL);
-        hostAddress = [NSString stringWithFormat:@"%@.local", (NSString *)localHostName];
-        CFRelease(localHostName);
+        if (localHostName) {
+            hostAddress = [NSString stringWithFormat:@"%@.local", (NSString *)localHostName];
+            CFRelease(localHostName); // CFRelease(NULL) is not a good idea and crashes
+        } else {
+            hostAddress = @"hasnoaddress.local";
+        }
+    } else {
+        NSCharacterSet *ipv6set = [NSCharacterSet characterSetWithCharactersInString:@"1234567890abcdef:"];
+        NSScanner *ipv6scanner = [NSScanner scannerWithString:hostAddress];
+        NSString *scannedString = nil;
+        if ([ipv6scanner scanCharactersFromSet:ipv6set intoString:&scannedString]) {
+            if ([scannedString length] == [hostAddress length]) {
+                hostAddress = [NSString stringWithFormat:@"[%@]",scannedString];
+            } else if ([hostAddress length] > [scannedString length]+1 && [hostAddress characterAtIndex:[scannedString length]] == '%') {
+                hostAddress = [NSString stringWithFormat:@"[%@%%25%@]",scannedString,[hostAddress substringFromIndex:[scannedString length]+1]];
+            }
+        }
     }
 
     [address appendFormat:@"//%@", hostAddress];
