@@ -3286,8 +3286,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     #ifndef TCM_NO_DEBUG
         [_readFromURLDebugInformation appendFormat:@"UniversalDetector:\n confidence:%1.3f encoding:%@\n",confidence,CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(udEncoding))];
     #endif
-            if ( udEncoding > 0 && confidence > 0.0 ) {
-                // lookup found something, use it
+            // if the encoder detected NSWindowsCP1250StringEncoding then it's probably not very relevant because most files that are not koi8r or some other main different beast come out as NSWindowsCP1250StringEncoding
+            // so what we do here is to use the encoding set by the mode - if it was set
+            if ( udEncoding > 0 && confidence > 0.0 && 
+                 !(udEncoding == NSWindowsCP1250StringEncoding && encoding != NoStringEncoding)) {
+                // lookup found something meaningful, so try to use it
                 [options setObject:[NSNumber numberWithUnsignedInt:udEncoding] forKey:NSCharacterEncodingDocumentOption];
                 success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];
                 if (success) [[EncodingManager sharedInstance] activateEncoding:udEncoding];
