@@ -149,8 +149,6 @@ static AppController *sharedInstance = nil;
     [[TCMMMTransformator sharedInstance] registerTransformationTarget:[SelectionOperation class] selector:@selector(transformOperation:serverOperation:) forOperationId:[SelectionOperation operationID] andOperationID:[TextOperation operationID]];
     [UserChangeOperation class];
     [TCMMMNoOperation class];
-    
-    [BacktracingException install];
 }
 
 + (AppController *)sharedInstance {
@@ -375,6 +373,7 @@ static AppController *sharedInstance = nil;
     
     [self registerTransformers];
     [self addMe];
+    [BacktracingException install];
     [self setupFileEncodingsSubmenu];
     [self setupDocumentModeSubmenu];
     [self setupScriptMenu];
