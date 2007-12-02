@@ -614,6 +614,8 @@ static FindReplaceController *sharedInstance=nil;
     int index = I_replaceAllArrayIndex;
     TCMMMTransformator *transformator=[TCMMMTransformator sharedInstance];
 
+	if (!I_replaceAllTarget) return;
+	
     [[I_replaceAllTarget textStorage] beginEditing];
         
     for (i = index; i >= MAX(index-replacePerCycle,0); i--) {
