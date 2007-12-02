@@ -239,6 +239,9 @@ static FindReplaceController *sharedInstance=nil;
     [prefs setObject:[NSNumber numberWithInt:[O_regexNegateSinglelineCheckbox state]] forKey:@"NegateSingleline"];
     [prefs setObject:[NSNumber numberWithInt:[O_regexDontCaptureCheckbox state]] forKey:@"DontCapture"];
     [prefs setObject:[NSNumber numberWithInt:[O_regexCaptureGroupsCheckbox state]] forKey:@"Capture"];
+	
+	[prefs setObject:[NSNumber numberWithBool:YES] forKey:@"Confirmed Longest Match Option"];
+	
     if (I_findHistory) {
         [prefs setObject:I_findHistory forKey:@"FindHistory"];
     }
@@ -270,6 +273,7 @@ static FindReplaceController *sharedInstance=nil;
         [O_ignoreCaseCheckbox setState:[[prefs objectForKey:@"IgnoreCase"] intValue]];
         [O_regexExtendedCheckbox setState:[[prefs objectForKey:@"Extended"] intValue]];
         [O_regexFindLongestCheckbox setState:[[prefs objectForKey:@"FindLongest"] intValue]];
+		if (![prefs objectForKey:@"Confirmed Longest Match Option"]) [O_regexFindLongestCheckbox setState:NO];
         [O_regexIgnoreEmptyCheckbox setState:[[prefs objectForKey:@"IgnoreEmpty"] intValue]];
         [O_regexNegateSinglelineCheckbox setState:[[prefs objectForKey:@"NegateSingleline"] intValue]];
         [O_regexDontCaptureCheckbox setState:[[prefs objectForKey:@"DontCapture"] intValue]];
