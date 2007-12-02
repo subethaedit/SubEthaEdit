@@ -27,6 +27,7 @@
 #import "crashReporter.h"
 #import "NSURLRequestPostAdditions.h"
 #import <AddressBook/AddressBook.h>
+#import <OgreKit/OgreKit.h>
 
 #import <asl.h>
 
@@ -88,6 +89,22 @@ extern void aslresponse_free(aslresponse a) __attribute__((weak_import));
     return returnValue;
 }
   
+- (NSString *)parseTitleFromCrashReport:(NSString *)crashReport {
+	NSArray *lines = [crashReport componentsSeparatedByString:@"\n"];
+	NSEnumerator *enumerator = [lines objectEnumerator];
+    id object;
+    while ((object = [enumerator nextObject])) {
+        if ([object rangeOfString:@" Crashed:"].location != NSNotFound) break;
+    }
+	
+	NSString *line = [enumerator nextObject];
+	OGRegularExpression *crashComponentRegex = [[OGRegularExpression alloc] initWithString:@"(\\S+)\\s+(?<place>\\S+)\\s+(\\S+)\\s+(?<method>.*)" options:OgreFindNotEmptyOption|OgreCaptureGroupOption];
+	OGRegularExpressionMatch *match = [crashComponentRegex matchInString:line];
+	
+	NSString *title = [NSString stringWithFormat:@"Crash in %@ of [%@]",[match substringNamed:@"method"],[match substringNamed:@"place"]];
+	
+	return title;
+}
 
 + (void) doCrashSubmitting
 { 
@@ -205,7 +222,7 @@ extern void aslresponse_free(aslresponse a) __attribute__((weak_import));
    
   [[crashReporterController window] center];
   [crashReporterController showWindow: self];
-
+	
   [[crashReporterController window] makeFirstResponder:[crashReporterController bugReportTextView]];
   [[crashReporterController bugReportTextView] setString:bugReport];
   [[crashReporterController bugReportTextView] setSelectedRange:NSMakeRange(139+[userReportString length],3)]; // Select "..."
@@ -213,13 +230,15 @@ extern void aslresponse_free(aslresponse a) __attribute__((weak_import));
 
 - (IBAction) sendReport: (id) sender
 {   
+	NSString *bugText = [[self bugReportTextView] string];
+
     NSMutableDictionary *bugInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                             @"Bug", @"issue[issue_type]",
                             @"I Didn't Try", @"issue[issue_reproducibility]",
                             [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"], @"issue[affects_project_version]",
-                            @"Automatic Crash Report", @"issue[title]",
+                            [self parseTitleFromCrashReport:bugText], @"issue[title]",
                             @"crash", @"issue[tag_string]",
-                            [[self bugReportTextView] string], @"issue[details]",
+                            bugText, @"issue[details]",
                             @"", @"configuration_information",
                             @"", @"enclosure",
                             nil];
