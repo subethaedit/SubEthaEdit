@@ -187,8 +187,7 @@ static FindReplaceController *sharedInstance=nil;
     if ([O_regexFindLongestCheckbox state]==NSOnState) options |= OgreFindLongestOption;
     if ([O_regexIgnoreEmptyCheckbox state]==NSOnState) options |= OgreFindNotEmptyOption;
     if ([O_regexNegateSinglelineCheckbox state]==NSOnState) options |= OgreNegateSingleLineOption;
-    if ([O_regexDontCaptureCheckbox state]==NSOnState) options |= OgreDontCaptureGroupOption;
-    if ([O_regexCaptureGroupsCheckbox state]==NSOnState) options |= OgreCaptureGroupOption;
+    if ([O_regexCaptureGroupsCheckbox state]==NSOnState) options |= OgreCaptureGroupOption; else options |= OgreDontCaptureGroupOption;
     return options;
 }
 
