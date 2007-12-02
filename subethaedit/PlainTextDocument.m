@@ -3454,6 +3454,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (BOOL)writeToURL:(NSURL *)absoluteURL ofType:(NSString *)inTypeName forSaveOperation:(NSSaveOperationType)saveOperation originalContentsURL:(NSURL *)originalContentsURL error:(NSError **)outError {
+    NSDate *startDate = [NSDate date];
+    NSLog(@"%s %@ %@ %d %@",__FUNCTION__, absoluteURL, inTypeName, saveOperation,originalContentsURL);
     DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"write to:%@ type:%@ saveOperation:%d originalURL:%@", absoluteURL, inTypeName, saveOperation,originalContentsURL);
     if ([inTypeName isEqualToString:@"PlainTextType"]) {
         BOOL modeWantsUTF8BOM = [[[self documentMode] defaultForKey:DocumentModeUTF8BOMPreferenceKey] boolValue];
@@ -3484,14 +3486,20 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             NSMutableDictionary *compressedDict = [NSMutableDictionary dictionary];
             NSMutableDictionary *directDict = [NSMutableDictionary dictionary];
             // collect users - uncompressed because compressing pngs again doesn't help...
+            NSDate *intermediateDate = [NSDate date];
             [directDict setObject:[[self session] contributersAsDictionaryRepresentation] forKey:@"Contributors"];
+            NSLog(@"%s conributors entry creating took: %fs",__FUNCTION__,[intermediateDate timeIntervalSinceNow]*-1.);
             // get text storage and document settings
+            intermediateDate = [NSDate date];
             NSMutableDictionary *textStorageRep = [[[self textStorageDictionaryRepresentation] mutableCopy] autorelease];
             [textStorageRep removeObjectForKey:@"String"];
             [compressedDict setObject:textStorageRep forKey:@"TextStorage"];
+            NSLog(@"%s textstorage entry creating took: %fs",__FUNCTION__,[intermediateDate timeIntervalSinceNow]*-1.);
+            intermediateDate = [NSDate date];
             if ([[self session] loggingState]) {
                 [compressedDict setObject:[[[self session] loggingState] dictionaryRepresentationForSaving] forKey:@"LoggingState"];
             }
+            NSLog(@"%s loggingState dictionary entry creating took: %fs",__FUNCTION__,[intermediateDate timeIntervalSinceNow]*-1.);
             [compressedDict setObject:[self documentState] forKey:@"DocumentState"];
             if (saveOperation == NSAutosaveOperation) {
 //				NSLog(@"%s write to:%@ type:%@ saveOperation:%d originalURL:%@",__FUNCTION__, absoluteURL, inTypeName, saveOperation,originalContentsURL);
@@ -3503,19 +3511,28 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             }
     
             // add direct and compressed data to the top level array
+            intermediateDate = [NSDate date];
             [dataArray addObject:[NSArray arrayWithObject:directDict]];
-            NSArray *compressedArray = [TCM_BencodedObject(compressedDict) arrayOfCompressedDataWithLevel:Z_DEFAULT_COMPRESSION];
+            NSDate *tempDate = [NSDate date];
+            NSData *bencodedDataToBeCompressed = TCM_BencodedObject(compressedDict);
+            NSLog(@"generating bencodedDataToBeCompressed took %fs",[tempDate timeIntervalSinceNow]*-1.);
+            tempDate = [NSDate date];
+            NSArray *compressedArray = [bencodedDataToBeCompressed arrayOfCompressedDataWithLevel:Z_DEFAULT_COMPRESSION];
             if (!compressedArray) {
                 if (outError) {
                     *outError = [NSError errorWithDomain:@"ZLIBDomain" code:-5 userInfo:nil];
                 }
                 return NO;
             }
+            NSLog(@"compressing the array took %fs",[tempDate timeIntervalSinceNow]*-1.);
             [dataArray addObject:compressedArray];
             if ([self preservedDataFromSEETextFile]) {
                 [dataArray addObjectsFromArray:[self preservedDataFromSEETextFile]];
             }
+            tempDate = [NSDate date];
             [data appendData:TCM_BencodedObject(dataArray)];
+            NSLog(@"bencoding the final dictionary took %fs",[tempDate timeIntervalSinceNow]*-1.);
+            NSLog(@"%s bencoding and compressing took: %fs",__FUNCTION__,[intermediateDate timeIntervalSinceNow]*-1.);
             
             if (success) success = [data writeToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"collaborationdata.bencoded"]] options:0 error:outError];
             if (success) success = [[[self textStorage] string] writeToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"plain.txt"]] atomically:NO encoding:[self fileEncoding] error:outError];
@@ -3593,6 +3610,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                     }
                 }
             }
+
+            NSLog(@"%s Save took: %fs",__FUNCTION__, -1.*[startDate timeIntervalSinceNow]);
+
             
             if (success) {
                 return YES;

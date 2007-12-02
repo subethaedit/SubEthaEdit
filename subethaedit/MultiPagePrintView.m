@@ -71,7 +71,7 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
 
 - (void)dealloc {
     [I_textStorage removeLayoutManager:I_layoutManager];
-    [[self subviews] makeObjectsPerformSelector:@selector(removeFromSuperviewWithoutNeedingDisplay)];
+    [[[[self subviews] copy] autorelease] makeObjectsPerformSelector:@selector(removeFromSuperviewWithoutNeedingDisplay)];
     [I_document release];
     [I_layoutManager release];
     [I_textStorage release];
