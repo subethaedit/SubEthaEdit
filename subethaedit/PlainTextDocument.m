@@ -187,6 +187,7 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 
 - (void)setFileType:(NSString *)aString {
     [self willChangeValueForKey:@"documentIcon"];
+    I_flags.isSEEText = [@"SEETextType" isEqualToString:aString];
     [super setFileType:aString];
     [self didChangeValueForKey:@"documentIcon"];
 }
