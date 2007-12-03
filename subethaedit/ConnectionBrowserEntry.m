@@ -96,7 +96,7 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
             freeaddrinfo(result);
         } else {
             DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"Neither IPv4 nor IPv6 address");
-            return anURL;
+            return [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@:%d", [anURL scheme], hostAddress,port]];;
         }
         if (portString) {
             free(portString);

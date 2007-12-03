@@ -4633,6 +4633,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     while ((hostAddress = [enumerator nextObject])) {
         if ([hostAddress hasPrefix:@"::1"] ||
             [hostAddress hasPrefix:@"fe80"] ||
+            [hostAddress hasPrefix:@"fd"] ||
             [hostAddress hasPrefix:@"127.0.0.1"] ||
             [hostAddress hasPrefix:@"10."] ||
             [hostAddress hasPrefix:@"192.168."] ||

@@ -209,6 +209,7 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
             if ([[printDictionary objectForKey:@"SEEResizeDocumentFont"] boolValue]) {
                 newFont=[[NSFontManager sharedFontManager] convertFont:newFont toSize:[[printDictionary objectForKey:@"SEEResizeDocumentFontTo"] floatValue]];
             }
+            NSLog(@"%s %@",__FUNCTION__,newFont);
             I_baseFont=[newFont retain];
         }
         [highlighter updateStylesInTextStorage:I_textStorage ofDocument:self];
@@ -533,6 +534,8 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
                             [newStyle setHeadIndent:desiredHeadIndent + tabStart];
                             [I_textStorage addAttribute:NSParagraphStyleAttributeName value:newStyle range:myRange];
                             [newStyle release];
+                        } else {
+                            [I_textStorage addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:myRange];
                         }
                     }
                 }
