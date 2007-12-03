@@ -19,7 +19,8 @@ chmod -R g+w "${BUILT_PRODUCTS_DIR}/${DiskImageProduct}"
 echo "...done"
 echo
 echo "Creating Zip file ${dmgBasePath}..."
-zip -9 -r -y "${dmgBasePath}.zip" "${BUILT_PRODUCTS_DIR}/${DiskImageProduct}"
+cd "${BUILT_PRODUCTS_DIR}"
+zip -9 -r -y "${dmgBasePath}.zip" "${DiskImageProduct}"
 echo "...done"
 
 # -------------------------
