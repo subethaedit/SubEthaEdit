@@ -901,6 +901,9 @@ enum {
     } else {
         [textView setSelectedRange:change];
         [textView scrollRangeToVisible:change];
+        if ([textView respondsToSelector:@selector(showFindIndicatorForRange:)]) {
+            [textView showFindIndicatorForRange:change];
+        } 
     }
 }
 
@@ -913,6 +916,9 @@ enum {
     } else {
         [textView setSelectedRange:change];
         [textView scrollRangeToVisible:change];
+        if ([textView respondsToSelector:@selector(showFindIndicatorForRange:)]) {
+            [textView showFindIndicatorForRange:change];
+        } 
     }
 }
 

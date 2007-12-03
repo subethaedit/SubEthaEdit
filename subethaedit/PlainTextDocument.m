@@ -710,6 +710,10 @@ static NSString *tempFileName(NSString *origPath) {
         symbolRange=RangeConfinedToRange(symbolRange,wholeRange);
         [textView setSelectedRange:symbolRange];
         [textView scrollRangeToVisible:symbolRange];
+        if ([textView respondsToSelector:@selector(showFindIndicatorForRange:)]) {
+            [textView showFindIndicatorForRange:symbolRange];
+        } 
+
         PlainTextWindowController *controller=(PlainTextWindowController *)[[textView window] windowController];
         NSArray *plainTextEditors=[controller plainTextEditors];
         int i=0;
