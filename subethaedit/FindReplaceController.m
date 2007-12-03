@@ -599,6 +599,7 @@ static FindReplaceController *sharedInstance=nil;
                 [[aDocument session] startProcessing];
                 [self unlockDocument:aDocument];
             }
+            I_replaceAllTarget = nil;
             return;
         }
     }
@@ -614,8 +615,6 @@ static FindReplaceController *sharedInstance=nil;
     int index = I_replaceAllArrayIndex;
     TCMMMTransformator *transformator=[TCMMMTransformator sharedInstance];
 
-	if (!I_replaceAllTarget) return;
-	
     [[I_replaceAllTarget textStorage] beginEditing];
         
     for (i = index; i >= MAX(index-replacePerCycle,0); i--) {
@@ -644,10 +643,10 @@ static FindReplaceController *sharedInstance=nil;
     I_replaceAllArrayIndex = i;
     
     if (I_replaceAllArrayIndex > 0) { // Not ready yet
-        [self performSelector:@selector(replaceAFewMatches) withObject:nil afterDelay:0.1];
+        [self performSelector:@selector(replaceAFewMatches) withObject:nil afterDelay:0.02];
     } else { // Ready.
         [[I_replaceAllTarget textStorage] endEditing];
-        [I_replaceAllTarget release];
+        [I_replaceAllTarget autorelease];
         [I_replaceAllMatchArray release];
         [I_replaceAllText release];
         [I_replaceAllRepex release];
