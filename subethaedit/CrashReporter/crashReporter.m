@@ -97,11 +97,24 @@ extern void aslresponse_free(aslresponse a) __attribute__((weak_import));
         if ([object rangeOfString:@" Crashed:"].location != NSNotFound) break;
     }
 	
+	[enumerator nextObject];
 	NSString *line = [enumerator nextObject];
 	OGRegularExpression *crashComponentRegex = [[OGRegularExpression alloc] initWithString:@"(\\S+)\\s+(?<place>\\S+)\\s+(\\S+)\\s+(?<method>.*)" options:OgreFindNotEmptyOption|OgreCaptureGroupOption];
 	OGRegularExpressionMatch *match = [crashComponentRegex matchInString:line];
 	
-	NSString *title = [NSString stringWithFormat:@"Crash in %@ of [%@]",[match substringNamed:@"method"],[match substringNamed:@"place"]];
+	NSString *arch;
+#if defined(__ppc__) || defined(__ppc64__)
+	arch = @"ppc";
+#elif defined(__i386__) || defined(__ia64__) || defined(X86_64)
+	arch = @"intel";
+#endif
+	
+	NSMutableString *macosxVersion = [NSMutableString stringWithString:[[NSProcessInfo processInfo] operatingSystemVersionString]];
+	
+	[macosxVersion replaceOccurrencesOfString:@"Version " withString:@"" options:nil range:NSMakeRange(0, [macosxVersion length])];
+	[macosxVersion replaceOccurrencesOfString:@"Build " withString:@"" options:nil range:NSMakeRange(0, [macosxVersion length])];
+	
+	NSString *title = [NSString stringWithFormat:@"Crash in %@ of [%@] on %@ (%@)",[match substringNamed:@"method"], [match substringNamed:@"place"], macosxVersion, arch];
 	
 	return title;
 }

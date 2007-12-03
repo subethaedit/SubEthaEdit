@@ -7,12 +7,10 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0970B4B40997A83300CAA451 /* crashReporter.h in Headers */ = {isa = PBXBuildFile; fileRef = 0970B4B10997A83300CAA451 /* crashReporter.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		0970B4B50997A83300CAA451 /* crashReporter.m in Sources */ = {isa = PBXBuildFile; fileRef = 0970B4B20997A83300CAA451 /* crashReporter.m */; };
 		0970B4B90997A86800CAA451 /* crashReporter.nib in Resources */ = {isa = PBXBuildFile; fileRef = 0970B4B70997A86800CAA451 /* crashReporter.nib */; };
 		31C18CFA0D03147500F28853 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31C18CE60D0312DF00F28853 /* OgreKit.framework */; };
 		31D5FE410AA33A790088DB18 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31D5FE400AA33A790088DB18 /* AddressBook.framework */; };
-		31FF9EC90A9F90AE0036B7DD /* NSURLRequestPostAdditions.h in Headers */ = {isa = PBXBuildFile; fileRef = 31FF9EC70A9F90AE0036B7DD /* NSURLRequestPostAdditions.h */; };
 		31FF9ECA0A9F90AE0036B7DD /* NSURLRequestPostAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FF9EC80A9F90AE0036B7DD /* NSURLRequestPostAdditions.m */; };
 		8DC2EF530486A6940098B216 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C1666FE841158C02AAC07 /* InfoPlist.strings */; };
 		8DC2EF570486A6940098B216 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7B1FEA5585E11CA2CBB /* Cocoa.framework */; };
@@ -24,49 +22,49 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 31C18CDA0D0312DF00F28853 /* OgreKit.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216 /* OgreKit.framework */;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
 			remoteInfo = "OgreKit (Full Features)";
 		};
 		31C18CE70D0312DF00F28853 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 31C18CDA0D0312DF00F28853 /* OgreKit.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 4DC40BFC09150BDB0029A2A6 /* OgreKit.framework */;
+			remoteGlobalIDString = 4DC40BFC09150BDB0029A2A6;
 			remoteInfo = "OgreKit (without Find Panel)";
 		};
 		31C18CE90D0312DF00F28853 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 31C18CDA0D0312DF00F28853 /* OgreKit.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 4DC40C0409150C280029A2A6 /* OgreTest.app */;
+			remoteGlobalIDString = 4DC40C0409150C280029A2A6;
 			remoteInfo = "Regular Expression Test";
 		};
 		31C18CEB0D0312DF00F28853 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 31C18CDA0D0312DF00F28853 /* OgreKit.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 4DC40C0F09150C3E0029A2A6 /* OgreFindPanelTest.app */;
+			remoteGlobalIDString = 4DC40C0F09150C3E0029A2A6;
 			remoteInfo = "Find Panel Test";
 		};
 		31C18CED0D0312DF00F28853 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 31C18CDA0D0312DF00F28853 /* OgreKit.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 4DC40C1A09150C730029A2A6 /* MyFindPanelExample.app */;
+			remoteGlobalIDString = 4DC40C1A09150C730029A2A6;
 			remoteInfo = "My Find Panel Example";
 		};
 		31C18CEF0D0312DF00F28853 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 31C18CDA0D0312DF00F28853 /* OgreKit.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 4DC40C3009150C9E0029A2A6 /* ReplaceWithAttributesTest.app */;
+			remoteGlobalIDString = 4DC40C3009150C9E0029A2A6;
 			remoteInfo = "Replace With Attributes Test";
 		};
 		31C18CF30D0312F600F28853 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 31C18CDA0D0312DF00F28853 /* OgreKit.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 4DC40BF209150BDB0029A2A6 /* OgreKit (without Find Panel) */;
+			remoteGlobalIDString = 4DC40BF209150BDB0029A2A6;
 			remoteInfo = "OgreKit (without Find Panel)";
 		};
 /* End PBXContainerItemProxy section */
@@ -207,8 +205,6 @@
 			isa = PBXHeadersBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0970B4B40997A83300CAA451 /* crashReporter.h in Headers */,
-				31FF9EC90A9F90AE0036B7DD /* NSURLRequestPostAdditions.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
