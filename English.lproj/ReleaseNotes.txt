@@ -1,4 +1,53 @@
 
+SubEthaEdit 3.0.2
+=================
+
+Changes:
+- Encountered unexpected behaviour of the RegEx search and replace due to the 
+  "find longest match" option. Starting with 3.0 this option causes only the 
+  longest match(es) to be returned. We changed the naming of this option to 
+  "Only longest match" and turn it off by default to clarify things.
+- Merged the "Capture groups" and "Don't capture groups" as well as "Line 
+  context" and "Negate single line" options to simplify user interaction and 
+  mirror changes in OgreKit and Oniguruma.
+- Increased performance on large documents on Leopard.
+
+Fixes:
+- Fixed a crash that happened sometimes when saving after a prior saving dialog 
+  for that document had been canceled.
+- Fixed a crash that occured without side effects on quit when the quit started 
+  when the app wasn't active. (e.g. via the app switcher, dock or on shutdown)
+- Fixed a crash which happened when generating a document URL and the machine 
+  had no known name.
+- Fixed a crash that occured if you closed a document while a long search and 
+  replace operation was running.
+- Fixed a crash that happend when the encoding list was changed after tabs have 
+  been reordered and closed.
+- Fixed a performance issue with autosave that caused SubEthaEdit to hesitate 
+  on older G4 machines  on a regular basis.
+- Fixed an issue where line numbering was displayed wrongly on Leopard when 
+  scrolling slowly.
+- Fixed an issue where printing produced unreadable very tightly packed lines 
+  if the "indent wrapped lines" option was turned on for the current mode.
+- Fixed an issue where the encoding setting of the mode was ignored and 
+  windows-latin-2 was recognized. The mode encoding setting is now used again 
+  if the encoding detector is clueless.
+- Fixed an issue with the generated document URL: now when you have a valid 
+  IPv6 address it also generates correct URLs, e.g. see://[::1]:6943
+- Fixed an issue where link local IPv6 addresses didn't work in the Connections 
+  Browser, e.g. see://[fe80::216:cbff:fe89:706e%25en1]:6942/
+- Fixed an issue where the document scope popup in the find dialog initially 
+  showed both entries checked
+- Fixed an issue where the Javascript mode didn't recognize regular expressions 
+  correctly.
+- Fixed an issue where the Latex mode didn't recognize symbols.
+- Fixed an issue with the C++ mode where inline member functions weren't 
+  recognized.
+- Fixed an issue where bracket matching in PHP-HTML didn't recognize comments 
+  and strings. Now bracket matching works correctly even when in strings where 
+  PHP is embedded.
+
+
 SubEthaEdit 3.0.1
 =================
 

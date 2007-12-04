@@ -8,6 +8,20 @@
 
 #import <Foundation/Foundation.h>
 
+
+// bencoded data can be stored and put into corresponding dictionaryrepresentations
+@interface TCMMutableBencodedData : NSObject {
+    NSMutableData *I_mutableData;
+}
+- (id)initWithData:(NSData *)aData;
+- (id)initWithObject:(id)anObject;
+- (NSData*)data;
+- (void)appendObjectToBencodedArray:(id)anObject;
+- (id)decodedObject;
+- (void)appendObjectsFromArrayToBencodedArray:(NSArray *)anArray;
+- (id)mutableBencodedDataByAppendingObjectsFromArrayToBencodedArray:(NSArray *)anArray;
+@end
+
 NSData *TCM_BencodedObject(id aObject);
 
 id TCM_BdecodedObjectWithData(NSData *data);
