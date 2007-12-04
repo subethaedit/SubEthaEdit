@@ -180,13 +180,12 @@ static FindReplaceController *sharedInstance=nil;
 - (unsigned) currentOgreOptions 
 {
     unsigned options = OgreNoneOption;
-    if ([O_regexSinglelineCheckbox state]==NSOnState) options |= OgreSingleLineOption;
+    if ([O_regexSinglelineCheckbox state]==NSOnState) options |= OgreSingleLineOption; else options |= OgreNegateSingleLineOption;
     if ([O_regexMultilineCheckbox state]==NSOnState) options |= OgreMultilineOption;
     if ([O_ignoreCaseCheckbox state]==NSOnState) options |= OgreIgnoreCaseOption;
     if ([O_regexExtendedCheckbox state]==NSOnState) options |= OgreExtendOption;
     if ([O_regexFindLongestCheckbox state]==NSOnState) options |= OgreFindLongestOption;
     if ([O_regexIgnoreEmptyCheckbox state]==NSOnState) options |= OgreFindNotEmptyOption;
-    if ([O_regexNegateSinglelineCheckbox state]==NSOnState) options |= OgreNegateSingleLineOption;
     if ([O_regexCaptureGroupsCheckbox state]==NSOnState) options |= OgreCaptureGroupOption; else options |= OgreDontCaptureGroupOption;
     return options;
 }
@@ -236,8 +235,6 @@ static FindReplaceController *sharedInstance=nil;
     [prefs setObject:[NSNumber numberWithInt:[O_regexExtendedCheckbox state]] forKey:@"Extended"];
     [prefs setObject:[NSNumber numberWithInt:[O_regexFindLongestCheckbox state]] forKey:@"FindLongest"];
     [prefs setObject:[NSNumber numberWithInt:[O_regexIgnoreEmptyCheckbox state]] forKey:@"IgnoreEmpty"];
-    [prefs setObject:[NSNumber numberWithInt:[O_regexNegateSinglelineCheckbox state]] forKey:@"NegateSingleline"];
-    [prefs setObject:[NSNumber numberWithInt:[O_regexDontCaptureCheckbox state]] forKey:@"DontCapture"];
     [prefs setObject:[NSNumber numberWithInt:[O_regexCaptureGroupsCheckbox state]] forKey:@"Capture"];
 	
 	[prefs setObject:[NSNumber numberWithBool:YES] forKey:@"Confirmed Longest Match Option"];
@@ -275,8 +272,6 @@ static FindReplaceController *sharedInstance=nil;
         [O_regexFindLongestCheckbox setState:[[prefs objectForKey:@"FindLongest"] intValue]];
 		if (![prefs objectForKey:@"Confirmed Longest Match Option"]) [O_regexFindLongestCheckbox setState:NO];
         [O_regexIgnoreEmptyCheckbox setState:[[prefs objectForKey:@"IgnoreEmpty"] intValue]];
-        [O_regexNegateSinglelineCheckbox setState:[[prefs objectForKey:@"NegateSingleline"] intValue]];
-        [O_regexDontCaptureCheckbox setState:[[prefs objectForKey:@"DontCapture"] intValue]];
         [O_regexCaptureGroupsCheckbox setState:[[prefs objectForKey:@"Capture"] intValue]];
     }
     if ([prefs objectForKey:@"FindHistory"]) {
