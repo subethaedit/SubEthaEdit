@@ -750,7 +750,6 @@ static FindReplaceController *sharedInstance=nil;
             OGReplaceExpression *repex = [OGReplaceExpression replaceExpressionWithString:replaceString];
             
 			unsigned ogreoptions = [self currentOgreOptions];
-			ogreoptions &= ~OgreFindLongestOption;
             NSArray *matchArray = [regex allMatchesInString:text options:ogreoptions range:aRange];
             
             I_replaceAllRepex = [repex retain];
