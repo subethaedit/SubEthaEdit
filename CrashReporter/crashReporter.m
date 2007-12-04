@@ -27,6 +27,7 @@
 #import "crashReporter.h"
 #import "NSURLRequestPostAdditions.h"
 #import <AddressBook/AddressBook.h>
+#import <OgreKit/OgreKit.h>
 
 #import <asl.h>
 
@@ -48,6 +49,8 @@ extern void aslresponse_free(aslresponse a) __attribute__((weak_import));
     SInt32 MacVersion;
 
     NSDate *lastCrashDate = [[NSUserDefaults standardUserDefaults] valueForKey: @"HDCrashReporter.lastCrashDate"];
+	if (!lastCrashDate) lastCrashDate = [NSDate distantPast];
+	
 	NSArray *libraryDirectories = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask,FALSE);
 
     NSString *bundleName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
@@ -86,6 +89,35 @@ extern void aslresponse_free(aslresponse a) __attribute__((weak_import));
     return returnValue;
 }
   
+- (NSString *)parseTitleFromCrashReport:(NSString *)crashReport {
+	NSArray *lines = [crashReport componentsSeparatedByString:@"\n"];
+	NSEnumerator *enumerator = [lines objectEnumerator];
+    id object;
+    while ((object = [enumerator nextObject])) {
+        if ([object rangeOfString:@" Crashed:"].location != NSNotFound) break;
+    }
+	
+	[enumerator nextObject];
+	NSString *line = [enumerator nextObject];
+	OGRegularExpression *crashComponentRegex = [[OGRegularExpression alloc] initWithString:@"(\\S+)\\s+(?<place>\\S+)\\s+(\\S+)\\s+(?<method>.*)" options:OgreFindNotEmptyOption|OgreCaptureGroupOption];
+	OGRegularExpressionMatch *match = [crashComponentRegex matchInString:line];
+	
+	NSString *arch;
+#if defined(__ppc__) || defined(__ppc64__)
+	arch = @"ppc";
+#elif defined(__i386__) || defined(__ia64__) || defined(X86_64)
+	arch = @"intel";
+#endif
+	
+	NSMutableString *macosxVersion = [NSMutableString stringWithString:[[NSProcessInfo processInfo] operatingSystemVersionString]];
+	
+	[macosxVersion replaceOccurrencesOfString:@"Version " withString:@"" options:nil range:NSMakeRange(0, [macosxVersion length])];
+	[macosxVersion replaceOccurrencesOfString:@"Build " withString:@"" options:nil range:NSMakeRange(0, [macosxVersion length])];
+	
+	NSString *title = [NSString stringWithFormat:@"Crash in %@ of [%@] on %@ (%@)",[match substringNamed:@"method"], [match substringNamed:@"place"], macosxVersion, arch];
+	
+	return title;
+}
 
 + (void) doCrashSubmitting
 { 
@@ -203,7 +235,7 @@ extern void aslresponse_free(aslresponse a) __attribute__((weak_import));
    
   [[crashReporterController window] center];
   [crashReporterController showWindow: self];
-
+	
   [[crashReporterController window] makeFirstResponder:[crashReporterController bugReportTextView]];
   [[crashReporterController bugReportTextView] setString:bugReport];
   [[crashReporterController bugReportTextView] setSelectedRange:NSMakeRange(139+[userReportString length],3)]; // Select "..."
@@ -211,13 +243,15 @@ extern void aslresponse_free(aslresponse a) __attribute__((weak_import));
 
 - (IBAction) sendReport: (id) sender
 {   
+	NSString *bugText = [[self bugReportTextView] string];
+
     NSMutableDictionary *bugInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:
                             @"Bug", @"issue[issue_type]",
                             @"I Didn't Try", @"issue[issue_reproducibility]",
                             [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"], @"issue[affects_project_version]",
-                            @"Automatic Crash Report", @"issue[title]",
+                            [self parseTitleFromCrashReport:bugText], @"issue[title]",
                             @"crash", @"issue[tag_string]",
-                            [[self bugReportTextView] string], @"issue[details]",
+                            bugText, @"issue[details]",
                             @"", @"configuration_information",
                             @"", @"enclosure",
                             nil];

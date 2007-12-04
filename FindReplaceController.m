@@ -180,15 +180,13 @@ static FindReplaceController *sharedInstance=nil;
 - (unsigned) currentOgreOptions 
 {
     unsigned options = OgreNoneOption;
-    if ([O_regexSinglelineCheckbox state]==NSOnState) options |= OgreSingleLineOption;
+    if ([O_regexSinglelineCheckbox state]==NSOnState) options |= OgreSingleLineOption; else options |= OgreNegateSingleLineOption;
     if ([O_regexMultilineCheckbox state]==NSOnState) options |= OgreMultilineOption;
     if ([O_ignoreCaseCheckbox state]==NSOnState) options |= OgreIgnoreCaseOption;
     if ([O_regexExtendedCheckbox state]==NSOnState) options |= OgreExtendOption;
     if ([O_regexFindLongestCheckbox state]==NSOnState) options |= OgreFindLongestOption;
     if ([O_regexIgnoreEmptyCheckbox state]==NSOnState) options |= OgreFindNotEmptyOption;
-    if ([O_regexNegateSinglelineCheckbox state]==NSOnState) options |= OgreNegateSingleLineOption;
-    if ([O_regexDontCaptureCheckbox state]==NSOnState) options |= OgreDontCaptureGroupOption;
-    if ([O_regexCaptureGroupsCheckbox state]==NSOnState) options |= OgreCaptureGroupOption;
+    if ([O_regexCaptureGroupsCheckbox state]==NSOnState) options |= OgreCaptureGroupOption; else options |= OgreDontCaptureGroupOption;
     return options;
 }
 
@@ -237,9 +235,10 @@ static FindReplaceController *sharedInstance=nil;
     [prefs setObject:[NSNumber numberWithInt:[O_regexExtendedCheckbox state]] forKey:@"Extended"];
     [prefs setObject:[NSNumber numberWithInt:[O_regexFindLongestCheckbox state]] forKey:@"FindLongest"];
     [prefs setObject:[NSNumber numberWithInt:[O_regexIgnoreEmptyCheckbox state]] forKey:@"IgnoreEmpty"];
-    [prefs setObject:[NSNumber numberWithInt:[O_regexNegateSinglelineCheckbox state]] forKey:@"NegateSingleline"];
-    [prefs setObject:[NSNumber numberWithInt:[O_regexDontCaptureCheckbox state]] forKey:@"DontCapture"];
     [prefs setObject:[NSNumber numberWithInt:[O_regexCaptureGroupsCheckbox state]] forKey:@"Capture"];
+	
+	[prefs setObject:[NSNumber numberWithBool:YES] forKey:@"Confirmed Longest Match Option"];
+	
     if (I_findHistory) {
         [prefs setObject:I_findHistory forKey:@"FindHistory"];
     }
@@ -271,9 +270,8 @@ static FindReplaceController *sharedInstance=nil;
         [O_ignoreCaseCheckbox setState:[[prefs objectForKey:@"IgnoreCase"] intValue]];
         [O_regexExtendedCheckbox setState:[[prefs objectForKey:@"Extended"] intValue]];
         [O_regexFindLongestCheckbox setState:[[prefs objectForKey:@"FindLongest"] intValue]];
+		if (![prefs objectForKey:@"Confirmed Longest Match Option"]) [O_regexFindLongestCheckbox setState:NO];
         [O_regexIgnoreEmptyCheckbox setState:[[prefs objectForKey:@"IgnoreEmpty"] intValue]];
-        [O_regexNegateSinglelineCheckbox setState:[[prefs objectForKey:@"NegateSingleline"] intValue]];
-        [O_regexDontCaptureCheckbox setState:[[prefs objectForKey:@"DontCapture"] intValue]];
         [O_regexCaptureGroupsCheckbox setState:[[prefs objectForKey:@"Capture"] intValue]];
     }
     if ([prefs objectForKey:@"FindHistory"]) {
@@ -596,6 +594,7 @@ static FindReplaceController *sharedInstance=nil;
                 [[aDocument session] startProcessing];
                 [self unlockDocument:aDocument];
             }
+            I_replaceAllTarget = nil;
             return;
         }
     }
@@ -639,10 +638,10 @@ static FindReplaceController *sharedInstance=nil;
     I_replaceAllArrayIndex = i;
     
     if (I_replaceAllArrayIndex > 0) { // Not ready yet
-        [self performSelector:@selector(replaceAFewMatches) withObject:nil afterDelay:0.1];
+        [self performSelector:@selector(replaceAFewMatches) withObject:nil afterDelay:0.02];
     } else { // Ready.
         [[I_replaceAllTarget textStorage] endEditing];
-        [I_replaceAllTarget release];
+        [I_replaceAllTarget autorelease];
         [I_replaceAllMatchArray release];
         [I_replaceAllText release];
         [I_replaceAllRepex release];
@@ -745,7 +744,8 @@ static FindReplaceController *sharedInstance=nil;
     
             OGReplaceExpression *repex = [OGReplaceExpression replaceExpressionWithString:replaceString];
             
-            NSArray *matchArray = [regex allMatchesInString:text options:[self currentOgreOptions] range:aRange];
+			unsigned ogreoptions = [self currentOgreOptions];
+            NSArray *matchArray = [regex allMatchesInString:text options:ogreoptions range:aRange];
             
             I_replaceAllRepex = [repex retain];
             I_replaceAllRegex = [regex retain];

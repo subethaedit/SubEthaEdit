@@ -10,6 +10,7 @@
 
 #import <netinet/in.h>
 #import <netinet6/in6.h>
+#import <net/if.h>
 #import <arpa/inet.h>
 #import <sys/socket.h>
 
@@ -98,7 +99,13 @@
         if (cyrusSASLCompatible) {
             addressAsString = [NSString stringWithFormat:@"%@;%d", addressAsString, port];
         } else {
-            addressAsString = [NSString stringWithFormat:@"[%@]:%d", addressAsString, port];
+            char interfaceName[IF_NAMESIZE];
+            if ([addressAsString hasPrefix:@"fe80"] && if_indextoname(((struct sockaddr_in6 *)socketAddress)->sin6_scope_id,interfaceName)) {
+                NSString *zoneID = [NSString stringWithUTF8String:interfaceName];
+                addressAsString = [NSString stringWithFormat:@"[%@%%%@]:%d", addressAsString, zoneID, port];
+            } else {
+                addressAsString = [NSString stringWithFormat:@"[%@]:%d", addressAsString, port];
+            }
         }
     } else {
         addressAsString = @"neither IPv6 nor IPv4";
