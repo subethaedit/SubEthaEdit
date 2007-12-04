@@ -146,7 +146,7 @@
 }
 
 - (void)addLoggedOperation:(TCMMMLoggedOperation *)anOperation {
-    [I_bencodedLoggedOperations appendObjectToBencodedArray:anOperation];
+    [I_bencodedLoggedOperations appendObjectToBencodedArray:[anOperation dictionaryRepresentation]];
     [I_loggedOperations addObject:anOperation];
     NSString *userID = [[anOperation operation] userID];
     if (userID) {
