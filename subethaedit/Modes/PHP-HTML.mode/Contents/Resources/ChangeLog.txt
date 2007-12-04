@@ -1,3 +1,6 @@
+Changes with Version 1.9 (SEE 3.0.2)
+    *) fixed bracket matching
+
 Changes with Version 1.8 (SEE 3.0.1)
     *) greatly improved PHP mode by switching to nested states
 
