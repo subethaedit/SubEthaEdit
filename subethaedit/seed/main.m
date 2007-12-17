@@ -15,6 +15,9 @@
 #import "SessionProfile.h"
 #import "FileManagementProfile.h"
 #import "BacktracingException.h"
+#import "SelectionOperation.h"
+#import "TextOperation.h"
+#import "UserChangeOperation.h"
 
 #pragma mark -
 
@@ -50,6 +53,11 @@ int main(int argc, const char *argv[])
         
     [BacktracingException install];
     [[NSRunLoop currentRunLoop] addPort:[NSPort port] forMode:NSDefaultRunLoopMode];
+
+    [[TCMMMTransformator sharedInstance] registerTransformationTarget:[TextOperation class] selector:@selector(transformTextOperation:serverTextOperation:) forOperationId:[TextOperation operationID] andOperationID:[TextOperation operationID]];
+    [[TCMMMTransformator sharedInstance] registerTransformationTarget:[SelectionOperation class] selector:@selector(transformOperation:serverOperation:) forOperationId:[SelectionOperation operationID] andOperationID:[TextOperation operationID]];
+    [UserChangeOperation class];
+    [TCMMMNoOperation class];
 
     SDAppController *appController = [[SDAppController alloc] init];
 

@@ -18,5 +18,6 @@
 
 - (void)removeAttributes:(NSArray *)names range:(NSRange)aRange;
 - (NSDictionary *)dictionaryRepresentationUsingEncoding:(NSStringEncoding)anEncoding;
+- (void)setContentByDictionaryRepresentation:(NSDictionary *)aRepresentation;
 
 @end
