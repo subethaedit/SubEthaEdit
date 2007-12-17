@@ -18,6 +18,7 @@
 #import "SelectionOperation.h"
 #import "TextOperation.h"
 #import "UserChangeOperation.h"
+#import "GenericSASLProfile.h"
 
 #pragma mark -
 
@@ -89,12 +90,18 @@ int main(int argc, const char *argv[])
     [TCMBEEPChannel setClass:[TCMMMStatusProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"];
     [TCMBEEPChannel setClass:[SessionProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"];
     [TCMBEEPChannel setClass:[FileManagementProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SeedFileManagement"];
+    [TCMBEEPChannel setClass:[GenericSASLProfile class] forProfileURI:TCMBEEPSASLPLAINProfileURI];
 
     TCMMMBEEPSessionManager *sm = [TCMMMBEEPSessionManager sharedInstance];
     [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake" forGreetingInMode:kTCMMMBEEPSessionManagerDefaultMode];
-    [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus" forGreetingInMode:kTCMMMBEEPSessionManagerDefaultMode];
-    [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession" forGreetingInMode:kTCMMMBEEPSessionManagerDefaultMode];
-    [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/SeedFileManagement" forGreetingInMode:kTCMMMBEEPSessionManagerDefaultMode];
+    [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"          forGreetingInMode:kTCMMMBEEPSessionManagerDefaultMode];
+    [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"   forGreetingInMode:kTCMMMBEEPSessionManagerDefaultMode];
+
+    [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake" forGreetingInMode:kTCMMMBEEPSessionManagerTLSMode];
+    [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"          forGreetingInMode:kTCMMMBEEPSessionManagerTLSMode];
+    [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"   forGreetingInMode:kTCMMMBEEPSessionManagerTLSMode];
+    [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/SeedFileManagement"   forGreetingInMode:kTCMMMBEEPSessionManagerTLSMode];
+    [sm registerProfileURI:TCMBEEPSASLPLAINProfileURI                               forGreetingInMode:kTCMMMBEEPSessionManagerTLSMode];
 
     [sm listen];
     [[TCMMMPresenceManager sharedInstance] setVisible:YES];

@@ -63,6 +63,7 @@ enum {
     
     NSData *I_peerAddressData;
     
+    NSMutableArray *I_TLSProfileURIs;
     NSMutableArray *I_profileURIs;
     NSArray *I_peerProfileURIs;
     
@@ -116,6 +117,7 @@ enum {
 - (void)setUserInfo:(NSMutableDictionary *)aUserInfo;
 - (NSMutableDictionary *)userInfo;
 - (void)addProfileURIs:(NSArray *)anArray;
+- (void)addTLSProfileURIs:(NSArray *)anArray;
 - (void)setProfileURIs:(NSArray *)anArray;
 - (NSArray *)profileURIs;
 - (void)setPeerProfileURIs:(NSArray *)anArray;

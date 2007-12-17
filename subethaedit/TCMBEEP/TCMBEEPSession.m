@@ -242,6 +242,7 @@ static NSString *keychainPassword = nil;
     }
     
     I_profileURIs = [NSMutableArray new];
+    I_TLSProfileURIs = [NSMutableArray new];
     I_peerProfileURIs = [NSMutableArray new];
         
     I_readBuffer = [NSMutableData new];
@@ -365,6 +366,7 @@ static NSString *keychainPassword = nil;
     [I_activeChannels release];
     [I_peerAddressData release];
     [I_profileURIs release];
+    [I_TLSProfileURIs release];
     [I_peerProfileURIs release];
     [I_featuresAttribute release];
     [I_localizeAttribute release];
@@ -458,6 +460,11 @@ static NSString *keychainPassword = nil;
 - (NSMutableDictionary *)userInfo
 {
     return I_userInfo;
+}
+
+- (void)addTLSProfileURIs:(NSArray *)anArray {
+    if (!I_TLSProfileURIs) I_TLSProfileURIs = [[NSMutableArray alloc] init];
+    [I_TLSProfileURIs addObjectsFromArray:anArray];
 }
 
 - (void)addProfileURIs:(NSArray *)anArray
@@ -724,7 +731,7 @@ static NSString *keychainPassword = nil;
         DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"writeBuffer length: %d, readBuffer length: %d", [I_writeBuffer length], [I_readBuffer length]);
 
         I_flags.isTLSEnabled = YES;
-        [I_profileURIs removeObject:TCMBEEPTLSProfileURI];
+        [self setProfileURIs:I_TLSProfileURIs];
         [self TCM_createManagementChannelAndSendGreeting];
         I_flags.isTLSHandshaking = NO;
     }
