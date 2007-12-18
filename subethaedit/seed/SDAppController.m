@@ -14,6 +14,8 @@
 #import "FileManagementProfile.h"
 #import "SDDirectory.h"
 
+static SDAppController *S_sharedInstance = nil;
+
 NSString * const DemonWillTerminateNotification = @"DemonWillTerminateNotification";
 
 int fd = 0;
@@ -21,6 +23,11 @@ BOOL endRunLoop = NO;
 
 
 @implementation SDAppController
+
++ (id)sharedInstance {
+    if (!S_sharedInstance) S_sharedInstance = [[SDAppController alloc] init];
+    return S_sharedInstance;
+}
 
 - (id)init
 {
@@ -50,6 +57,7 @@ BOOL endRunLoop = NO;
         */
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(BEEPSessionDidReceiveGreeting:)
         name:TCMBEEPSessionDidReceiveGreetingNotification object:nil];
+        S_sharedInstance = self;
     }
     return self;
 }
@@ -215,5 +223,16 @@ remoteDirectory = [SDDirectory new];
 - (void)BEEPSessionDidReceiveGreeting:(NSNotification *)aNotification {
 //    NSLog(@"%s %@",__FUNCTION__,[aNotification object]);
 }
+
+- (id)authenticationInformationForCredentials:(NSDictionary *)credentials error:(NSError **)error {
+    SDDirectoryUser *user = [[SDDirectory sharedInstance] userForShortName:[credentials objectForKey:@"username"]];
+    if (user) {
+        if ([[user password] isEqualToString:[credentials objectForKey:@"password"]]) {
+            return user;
+        }
+    }
+    return nil;
+}
+
 
 @end

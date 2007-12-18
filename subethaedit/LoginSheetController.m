@@ -86,8 +86,9 @@
     [O_statusTextField setStringValue:NSLocalizedString(@"Logging in ...",@"LoginSheet text for logging in...")];
     [O_usernameTextField setEnabled:NO];
     [O_passwordTextField setEnabled:NO];
-//    [[_BEEPSession authenticationClient] startAuthenticationWithUserName:[O_usernameTextField stringValue] password:[O_passwordTextField stringValue]];
+    [_BEEPSession startAuthenticationWithUserName:[O_usernameTextField stringValue] password:[O_passwordTextField stringValue] profileURI:TCMBEEPSASLPLAINProfileURI];
 }
+
 - (IBAction)cancel:(id)aSender {
     [self setBEEPSession:nil];
     [O_loginButton setEnabled:YES];

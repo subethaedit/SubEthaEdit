@@ -16,6 +16,9 @@
 #import "HandshakeProfile.h"
 #import "SessionProfile.h"
 
+#ifdef TCM_ISSEED
+    #import "SDAppController.h"
+#endif
 
 #define PORTRANGELENGTH 10
 NSString * const DefaultPortNumber = @"port";
@@ -270,7 +273,8 @@ static TCMMMBEEPSessionManager *sharedInstance;
         [session release];
         [[session userInfo] setObject:[aInformation objectForKey:@"peerUserID"] forKey:@"peerUserID"];
         [[session userInfo] setObject:[NSNumber numberWithBool:YES] forKey:@"isRendezvous"];
-        [session addProfileURIs:[I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerDefaultMode]];
+        [session addProfileURIs:   [I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerDefaultMode]];
+        [session addTLSProfileURIs:[I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerTLSMode]];
         [session setDelegate:self];
         [session open];
     }
@@ -832,7 +836,11 @@ static TCMMMBEEPSessionManager *sharedInstance;
     [aBEEPSession addProfileURIs:[I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerDefaultMode]];
     [aBEEPSession addTLSProfileURIs:[I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerTLSMode]];
     [aBEEPSession setDelegate:self];
+#ifdef TCM_ISSEED
+    [aBEEPSession setAuthenticationDelegate:[SDAppController sharedInstance]];
+#endif
     [aBEEPSession open];
+
     [I_pendingSessions addObject:aBEEPSession];
     [self insertObject:aBEEPSession inSessionsAtIndex:[self countOfSessions]];
 }

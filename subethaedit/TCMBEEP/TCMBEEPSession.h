@@ -60,6 +60,8 @@ enum {
     int I_maximumFrameSize;
     
     id I_delegate;
+    id I_authenticationInformation;
+    id I_authenticationDelegate;
     
     NSData *I_peerAddressData;
     
@@ -114,6 +116,10 @@ enum {
 /*"Accessors"*/
 - (void)setDelegate:(id)aDelegate;
 - (id)delegate;
+- (void)setAuthenticationDelegate:(id)aDelegate;
+- (id)authenticationDelegate;
+- (void)setAuthenticationInformation:(id)anInformation;
+- (id)authenticationInformation;
 - (void)setUserInfo:(NSMutableDictionary *)aUserInfo;
 - (NSMutableDictionary *)userInfo;
 - (void)addProfileURIs:(NSArray *)anArray;
@@ -153,8 +159,16 @@ enum {
 - (void)closeRequestedForChannelWithNumber:(int32_t)aChannelNumber;
 - (void)acceptCloseRequestForChannelWithNumber:(int32_t)aChannelNumber;
 
+#pragma mark Authentication
+- (void)startAuthenticationWithUserName:(NSString *)aUserName password:(NSString *)aPassword profileURI:(NSString *)aProfileURI;
+
 @end
 
+@interface NSObject (TCMBEEPAuthenticationDelegateAdditions) 
+// provides an information Object representing the authenticated entitiy, if the credentials are valid. nil otherwise.
+// for the PLAIN mechanism the credentials are in form "username" and "password"
+- (id)authenticationInformationForCredentials:(NSDictionary *)credentials error:(NSError **)error;
+@end
 
 @interface NSObject (TCMBEEPSessionDelegateAdditions)
 

@@ -10,6 +10,7 @@
 #import "TCMBEEPChannel.h"
 #import "TCMBEEPFrame.h"
 #import "TCMBEEPManagementProfile.h"
+#import "GenericSASLProfile.h"
 #import <Security/Security.h>
 
 #import <netinet/in.h>
@@ -283,7 +284,7 @@ static NSString *keychainPassword = nil;
         NSString *name;
         do {
             sequenceNumber++;
-            name = [NSString stringWithFormat:@"%d-%d-%d", (int)[NSDate timeIntervalSinceReferenceDate], [[NSProcessInfo processInfo] processIdentifier], sequenceNumber];
+            name = [NSString stringWithFormat:@"%@-p%d-s%d", [[NSCalendarDate date] descriptionWithCalendarFormat:@"%Y-%m-%d--%H-%M-%S.%F-"], [[NSProcessInfo processInfo] processIdentifier], sequenceNumber];
             name = [[origPath stringByDeletingLastPathComponent] stringByAppendingPathComponent:name];
         } while ([[NSFileManager defaultManager] fileExistsAtPath:logDirectory]);
 
@@ -355,7 +356,7 @@ static NSString *keychainPassword = nil;
     I_delegate = nil;
     CFReadStreamSetClient(I_readStream, 0, NULL, NULL);
     CFWriteStreamSetClient(I_writeStream, 0, NULL, NULL);
-    
+    [I_authenticationInformation release];
     [I_readBuffer release];
     [I_writeBuffer release];
     CFRelease(I_readStream);
@@ -439,6 +440,25 @@ static NSString *keychainPassword = nil;
 
 - (void)removeObjectFromChannelsAtIndex:(unsigned int)index {
     [I_channels removeObjectAtIndex:index];
+}
+
+- (id)authenticationInformation {
+    return I_authenticationInformation;
+}
+
+- (void)setAuthenticationInformation:(id)anInformation {
+    [I_authenticationInformation autorelease];
+     I_authenticationInformation = [anInformation retain];
+}
+
+- (void)setAuthenticationDelegate:(id)aDelegate
+{
+    I_authenticationDelegate = aDelegate;
+}
+
+- (id)authenticationDelegate
+{
+    return I_authenticationDelegate;
 }
 
 - (void)setDelegate:(id)aDelegate
@@ -1236,12 +1256,13 @@ static NSString *keychainPassword = nil;
     // Profile URIs ausduennen 
     NSMutableArray *requestArray = [NSMutableArray array];
     NSMutableDictionary *preferedAnswer = nil;
-    //NSLog(@"profileURIs: %@ selfProfileURIs:%@ peerProfileURIs:%@\n\nSession:%@", aProfileURIArray, [self profileURIs], [self peerProfileURIs], self);
+//    NSLog(@"profileURIs: %@ selfProfileURIs:%@ peerProfileURIs:%@\n\nSession:%@", aProfileURIArray, [self profileURIs], [self peerProfileURIs], self);
     int i;
     for (i = 0; i < [aProfileURIArray count]; i++) {
         NSString *profileURI = [aProfileURIArray objectAtIndex:i];
         if ([[self profileURIs] containsObject:profileURI]) {
-            [requestArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:profileURI, @"ProfileURI", [aDataArray objectAtIndex:i], @"Data", nil]];
+            NSData *requestData = [aDataArray objectAtIndex:i];
+            [requestArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:profileURI, @"ProfileURI", requestData, @"Data", nil]];
             if (!preferedAnswer)  {
                 NSData *answerData = [NSData data];
                 if ([profileURI isEqualToString:TCMBEEPTLSProfileURI]) {
@@ -1268,6 +1289,9 @@ static NSString *keychainPassword = nil;
                     } else {
                         // Terminate session?
                     }
+                } else if ([profileURI hasPrefix:TCMBEEPSASLProfileURIPrefix]) {
+                    preferedAnswer = (NSMutableDictionary *)[GenericSASLProfile replyForChannelRequestWithProfileURI:profileURI andData:requestData inSession:self];
+                    break;
                 }
                 
                 preferedAnswer = [NSMutableDictionary dictionaryWithObjectsAndKeys:profileURI, @"ProfileURI", 
@@ -1357,8 +1381,11 @@ static NSString *keychainPassword = nil;
             } else {
                 // Terminate session?
             }
+        } else if ([aProfileURI isEqualToString:TCMBEEPSASLPLAINProfileURI]) {
+            NSLog(@"%s",__FUNCTION__);
+            // need to close it directly because this one doesn't do anything else
+            [[channel profile] close];
         }
-        
         // sender rausfinden
         NSNumber *channelNumber = [NSNumber numberWithInt:aChannelNumber];
         id aSender = [I_channelRequests objectForKey:channelNumber];
@@ -1419,6 +1446,16 @@ static NSString *keychainPassword = nil;
 {
     [[I_managementChannel profile] acceptCloseRequestForChannelWithNumber:aChannelNumber];
 }
+
+#pragma mark ### Authentication ###
+
+- (void)startAuthenticationWithUserName:(NSString *)aUserName password:(NSString *)aPassword profileURI:(NSString *)aProfileURI {
+    [self startChannelWithProfileURIs:[NSArray arrayWithObject:aProfileURI]
+                              andData:[NSArray arrayWithObject:[GenericSASLProfile initialDataForUserName:aUserName password:aPassword profileURI:aProfileURI]]
+                               sender:self];
+}
+
+
 
 @end
 

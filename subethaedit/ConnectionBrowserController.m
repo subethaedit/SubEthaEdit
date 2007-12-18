@@ -116,9 +116,9 @@ static NSPredicate *S_joinableSessionPredicate = nil;
         
         [I_contextMenu addItem:[NSMenuItem separatorItem]];
 
-//        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuLogIn", @"Log In entry for Browser context menu") action:@selector(login:) keyEquivalent:@""];
-//        [item setTarget:self];
-//        [item setTag:BrowserContextMenuTagLogIn];
+        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuLogIn", @"Log In entry for Browser context menu") action:@selector(login:) keyEquivalent:@""];
+        [item setTarget:self];
+        [item setTag:BrowserContextMenuTagLogIn];
 //
 //
 //        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuManageFiles", @"Manage files entry for Browser context menu") action:@selector(openServerConnection:) keyEquivalent:@""];
@@ -401,7 +401,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     [item setEnabled:NO];
 
     item = [menu itemWithTag:BrowserContextMenuTagLogIn];
-    [item setEnabled:NO];
+    [item setEnabled:YES];
     
     if ([entries count] > 0) {
 
@@ -536,7 +536,8 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 #pragma mark ### IBActions ###
 
 - (IBAction)login:(id)aSender {
-    NSSet *entries = [self selectedEntriesFilteredUsingPredicate:[NSPredicate predicateWithFormat:@"BEEPSession.authenticationClient.availableAuthenticationMechanisms.@count > 0"]];
+    NSSet *entries = [self selectedEntriesFilteredUsingPredicate:[NSPredicate predicateWithValue:YES]];
+    // predicateWithFormat:@"BEEPSession.authenticationClient.availableAuthenticationMechanisms.@count > 0"]];
     ConnectionBrowserEntry *entry = [entries anyObject];
     if (entry) {
         [O_loginSheetController setBEEPSession:[entry BEEPSession]];
