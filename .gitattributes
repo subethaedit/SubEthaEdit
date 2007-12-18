@@ -2182,6 +2182,15 @@ tool/CursorTest/ScrollView.m -text
 tool/CursorTest/TextView.h -text
 tool/CursorTest/TextView.m -text
 tool/CursorTest/main.m -text
+tool/DwarfTosser/Controller.h -text
+tool/DwarfTosser/Controller.m -text
+tool/DwarfTosser/DwarfTosser.xcodeproj/project.pbxproj -text
+tool/DwarfTosser/DwarfTosser_Prefix.pch -text
+tool/DwarfTosser/English.lproj/InfoPlist.strings -text
+tool/DwarfTosser/English.lproj/MainMenu.nib/designable.nib -text
+tool/DwarfTosser/English.lproj/MainMenu.nib/keyedobjects.nib -text
+tool/DwarfTosser/Info.plist -text
+tool/DwarfTosser/main.m -text
 tool/ExpatSimple/ExpatSimple.1 -text
 tool/ExpatSimple/ExpatSimple.xcode/project.pbxproj -text
 tool/ExpatSimple/ExpatSimple_Prefix.pch -text
