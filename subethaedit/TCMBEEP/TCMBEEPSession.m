@@ -34,6 +34,8 @@ NSString * const TCMBEEPSASLGSSAPIProfileURI = @"http://iana.org/beep/SASL/GSSAP
 NSString * const TCMBEEPSessionDidReceiveGreetingNotification = @"TCMBEEPSessionDidReceiveGreetingNotification";
 NSString * const TCMBEEPSessionDidEndNotification = @"TCMBEEPSessionDidEndNotification";
 
+NSString * const TCMBEEPSessionAuthenticationInformationDidChangeNotification = @"TCMBEEPSessionAuthenticationInformationDidChangeNotification";
+
 static void callBackReadStream(CFReadStreamRef stream, CFStreamEventType type, void *clientCallBackInfo);
 static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type, void *clientCallBackInfo);
 
@@ -368,6 +370,7 @@ static NSString *keychainPassword = nil;
     [I_peerAddressData release];
     [I_profileURIs release];
     [I_TLSProfileURIs release];
+    [I_saslProfileURIs release];
     [I_peerProfileURIs release];
     [I_featuresAttribute release];
     [I_localizeAttribute release];
@@ -1384,6 +1387,7 @@ static NSString *keychainPassword = nil;
         } else if ([aProfileURI isEqualToString:TCMBEEPSASLPLAINProfileURI]) {
             NSLog(@"%s",__FUNCTION__);
             // need to close it directly because this one doesn't do anything else
+            [GenericSASLProfile processPLAINAnswer:inData inSession:self];
             [[channel profile] close];
         }
         // sender rausfinden
@@ -1448,6 +1452,20 @@ static NSString *keychainPassword = nil;
 }
 
 #pragma mark ### Authentication ###
+
+- (NSArray *)availableSASLProfileURIs {
+    if (!I_saslProfileURIs) {
+        I_saslProfileURIs = [NSMutableArray new];
+        NSEnumerator *profiles = [[self peerProfileURIs] objectEnumerator];
+        NSString *profileURI = nil;
+        while ((profileURI=[profiles nextObject])) {
+            if ([profileURI hasPrefix:TCMBEEPSASLProfileURIPrefix]) {
+                [I_saslProfileURIs addObject:profileURI];
+            }
+        }
+    }
+    return I_saslProfileURIs;
+}
 
 - (void)startAuthenticationWithUserName:(NSString *)aUserName password:(NSString *)aPassword profileURI:(NSString *)aProfileURI {
     [self startChannelWithProfileURIs:[NSArray arrayWithObject:aProfileURI]

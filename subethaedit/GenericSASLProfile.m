@@ -16,15 +16,25 @@
     NSMutableDictionary *result = [NSMutableDictionary dictionary];
     NSXMLDocument *document = [[[NSXMLDocument alloc] initWithData:aData options:0 error:nil] autorelease];
     NSXMLElement *blobNode = (NSXMLElement *)[[document nodesForXPath:@"/blob" error:nil] lastObject];
-    NSLog(@"%s blobNode:%@",__FUNCTION__,blobNode);
-    NSLog(@"%s blobNode Attributes:%@",__FUNCTION__,[blobNode attributes]);
-    if ([blobNode attributeForName:@"status"]) {
-        [result setObject:[[blobNode attributeForName:@"status"] stringValue] forKey:@"status"];
+    if (blobNode) {
+        NSLog(@"%s blobNode:%@",__FUNCTION__,blobNode);
+        NSLog(@"%s blobNode Attributes:%@",__FUNCTION__,[blobNode attributes]);
+        if ([blobNode attributeForName:@"status"]) {
+            [result setObject:[[blobNode attributeForName:@"status"] stringValue] forKey:@"status"];
+        }
+        NSLog(@"%s base64String:%@",__FUNCTION__,[blobNode stringValue]);
+        NSData *data = [NSData dataWithBase64EncodedString:[blobNode stringValue]];
+        if (data) {
+            [result setObject:data forKey:@"data"];
+        }
     }
-    NSLog(@"%s base64String:%@",__FUNCTION__,[blobNode stringValue]);
-    NSData *data = [NSData dataWithBase64EncodedString:[blobNode stringValue]];
-    if (data) {
-        [result setObject:data forKey:@"data"];
+    NSXMLElement *errorNode = (NSXMLElement *)[[document nodesForXPath:@"/error" error:nil] lastObject];
+    if (errorNode) {
+        NSLog(@"%s errorNode:%@",__FUNCTION__,errorNode);    
+        NSError *error = [NSError errorWithDomain:@"BEEPDomain" code:[[[errorNode attributeForName:@"code"] stringValue] intValue] userInfo:[NSDictionary dictionaryWithObject:[errorNode stringValue] forKey:NSUnderlyingErrorKey]];
+        if (error) {
+            [result setObject:error forKey:@"error"];
+        }
     }
     return result;
 }
@@ -63,5 +73,15 @@
     }
 }
 
++ (void)processPLAINAnswer:(NSData *)aData inSession:(TCMBEEPSession *)aSession {
+    NSDictionary *result = [GenericSASLProfile parseBLOBData:aData];
+    [aSession setAuthenticationInformation:[[result objectForKey:@"status"] isEqualToString:@"complete"]?[NSNumber numberWithBool:YES]:nil];
+    NSDictionary *userInfo = nil;
+    if ([result objectForKey:@"error"]) {
+        userInfo = [NSDictionary dictionaryWithObject:[result objectForKey:@"error"] forKey:@"NSError"];
+    }
+    
+    [[NSNotificationCenter defaultCenter] postNotificationName:TCMBEEPSessionAuthenticationInformationDidChangeNotification object:aSession userInfo:userInfo];
+}
 
 @end

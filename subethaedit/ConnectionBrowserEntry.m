@@ -249,12 +249,19 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
             }
         }
     } else if (aTag == TCMMMBrowserItemImageNextToNameTag) {
-        if (showUser) {
-            return [user colorImage];
+        if ([[_BEEPSession availableSASLProfileURIs] count]) {
+            if ([_BEEPSession authenticationInformation]) {
+                return [NSImage imageNamed:@"LoginButtonIn"];
+            } else {
+                return [NSImage imageNamed:@"LoginButton"];
+            }
         } else {
-            return nil;
+            if (showUser) {
+                return [user colorImage];
+            } else {
+                return nil;
+            }
         }
-        return showUser?[user colorImage]:nil;
     } else 
     if (aTag == TCMMMBrowserItemNameTag) {
         if (showUser) {

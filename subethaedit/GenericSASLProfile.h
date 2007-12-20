@@ -16,4 +16,6 @@
 + (NSData *)initialDataForUserName:(NSString *)aUserName password:(NSString *)aPassword profileURI:(NSString *)aProfileURI;
 + (NSDictionary *)replyForChannelRequestWithProfileURI:(NSString *)aProfileURI andData:(NSData *)aData inSession:(TCMBEEPSession *)aSession;
 + (NSDictionary *)parseBLOBData:(NSData *)aData;
++ (void)processPLAINAnswer:(NSData *)aData inSession:(TCMBEEPSession *)aSession;
+
 @end

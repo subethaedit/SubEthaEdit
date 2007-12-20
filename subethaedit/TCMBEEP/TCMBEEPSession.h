@@ -22,6 +22,8 @@ extern NSString * const TCMBEEPSASLGSSAPIProfileURI;
 extern NSString * const TCMBEEPSessionDidReceiveGreetingNotification;
 extern NSString * const TCMBEEPSessionDidEndNotification;
 
+extern NSString * const TCMBEEPSessionAuthenticationInformationDidChangeNotification;
+
 typedef enum {
    TCMBEEPSessionStatusNotOpen = 0,
    TCMBEEPSessionStatusOpening,
@@ -67,6 +69,7 @@ enum {
     
     NSMutableArray *I_TLSProfileURIs;
     NSMutableArray *I_profileURIs;
+    NSMutableArray *I_saslProfileURIs;
     NSArray *I_peerProfileURIs;
     
     NSString *I_featuresAttribute;
@@ -160,6 +163,7 @@ enum {
 - (void)acceptCloseRequestForChannelWithNumber:(int32_t)aChannelNumber;
 
 #pragma mark Authentication
+- (NSArray *)availableSASLProfileURIs;
 - (void)startAuthenticationWithUserName:(NSString *)aUserName password:(NSString *)aPassword profileURI:(NSString *)aProfileURI;
 
 @end

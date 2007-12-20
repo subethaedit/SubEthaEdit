@@ -393,6 +393,8 @@
 		F247D74F0CB147F100908450 /* ParticipantFollowActive.png in Resources */ = {isa = PBXBuildFile; fileRef = F247D74E0CB147F100908450 /* ParticipantFollowActive.png */; };
 		F25A19B60C8C79CA00147E4C /* ssllock.png in Resources */ = {isa = PBXBuildFile; fileRef = F25A19B50C8C79CA00147E4C /* ssllock.png */; };
 		F26B7D880CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F26B7D850CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m */; };
+		F272F94E0D1A786400647928 /* LoginButton.png in Resources */ = {isa = PBXBuildFile; fileRef = F2A707960BF8935400482EFC /* LoginButton.png */; };
+		F272F94F0D1A786400647928 /* LoginButtonIn.png in Resources */ = {isa = PBXBuildFile; fileRef = F2A707AF0BF89A4300482EFC /* LoginButtonIn.png */; };
 		F27B2E800B5271AE00679CF2 /* hud_titlebar-close.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2E7F0B5271AE00679CF2 /* hud_titlebar-close.tiff */; };
 		F27B2EE30B52957800679CF2 /* hud_buttonLeft-N.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2EDD0B52957800679CF2 /* hud_buttonLeft-N.tiff */; };
 		F27B2EE40B52957800679CF2 /* hud_buttonRight-N.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2EDE0B52957800679CF2 /* hud_buttonRight-N.tiff */; };
@@ -2162,6 +2164,7 @@
 				142890150957418400D14688 /* AboutPanel.nib */,
 				142890170957418400D14688 /* AdvancedPrefs.nib */,
 				F2D12A090BF0B6B000A776CC /* ConnectionBrowser.nib */,
+				F2A707C60BF8A54100482EFC /* LoginSheet.nib */,
 				142890190957418400D14688 /* DocumentProxy.nib */,
 				1428901B0957418400D14688 /* EditPrefs.nib */,
 				5E754EB10AB56ACC00C5119E /* EncodingDoctor.nib */,
@@ -2193,7 +2196,6 @@
 				5E4DA73A09E15C6800D91CFC /* Scripts */,
 				142890450957421300D14688 /* SubEthaEditHelp */,
 				F234E3AC0BE20E8400504A7C /* ServerConnection.nib */,
-				F2A707C60BF8A54100482EFC /* LoginSheet.nib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -2830,6 +2832,8 @@
 				F2D5FF510CB26EA800407399 /* ToolbarIconRunInTerminal.icns in Resources */,
 				F2D5FF520CB26EA800407399 /* ToolbarIconTerminal.icns in Resources */,
 				F209A3C30CB6999700C8A744 /* ConnectionBrowser.nib in Resources */,
+				F272F94E0D1A786400647928 /* LoginButton.png in Resources */,
+				F272F94F0D1A786400647928 /* LoginButtonIn.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

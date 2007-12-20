@@ -131,7 +131,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChangeVisibility:) name:TCMMMPresenceManagerUserVisibilityDidChangeNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChangeAnnouncedDocuments:) name:TCMMMPresenceManagerUserSessionsDidChangeNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(connectionEntryDidChange:) name:ConnectionBrowserEntryStatusDidChangeNotification object:nil];
-    
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(connectionEntryDidChange:) name:TCMBEEPSessionAuthenticationInformationDidChangeNotification object:nil];    
         NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
         TCMMMBEEPSessionManager *manager = [TCMMMBEEPSessionManager sharedInstance];
         [defaultCenter addObserver:self 
@@ -239,7 +239,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     [O_browserListView setDelegate:self];
     [O_browserListView setTarget:self];
     [O_browserListView setAction:@selector(actionTriggered:)];
-    [O_browserListView setDoubleAction:@selector(joinSession:)];
+    [O_browserListView setDoubleAction:@selector(doubleAction:)];
     [O_scrollView setHasVerticalScroller:YES];
     [[O_scrollView verticalScroller] setControlSize:NSSmallControlSize];
     [O_scrollView setDocumentView:O_browserListView];
@@ -741,6 +741,19 @@ static NSPredicate *S_joinableSessionPredicate = nil;
         [self joinSessionsWithIndexes:[NSIndexSet indexSetWithIndex:row]];
     }
 }
+
+- (IBAction)doubleAction:(id)aSender {
+    int row = [aSender clickedRow];
+    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"joinSession in row: %d", row);
+    
+    ItemChildPair pair = [aSender itemChildPairAtRow:row];
+    if (pair.childIndex != -1) {
+        [self joinSessionsWithIndexes:[NSIndexSet indexSetWithIndex:row]];
+    } else {
+        [self login:aSender];
+    }
+}
+
 
 #pragma mark -
 #pragma mark ### Entry lifetime management ###
