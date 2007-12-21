@@ -1970,7 +1970,7 @@ enum {
         bounds = NSMakeRect(MIN(point1.x,point2.x),MIN(point1.y,point2.y),ABS(point1.x-point2.x),ABS(point1.y-point2.y));
         return bounds;
     } else {
-        return [[self window] frame];
+        return NSOffsetRect(NSInsetRect([[self window] frame],-9.,-9.),0.,-4.);
     }
 }
 

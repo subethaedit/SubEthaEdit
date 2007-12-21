@@ -50,6 +50,16 @@
 }
 
 - (void)setFrameUsingNonBlockingAnimation:(NSRect)aFrame {
+    if ([self respondsToSelector:@selector(animator)]) {
+//        NSLog(@"%s animator present!",__FUNCTION__);
+//        [NSClassFromString(@"NSAnimationContext") beginGrouping];
+        id currentContext = [NSClassFromString(@"NSAnimationContext") currentContext];
+        [currentContext setDuration:0.5];
+        id animator = [self performSelector:@selector(animator)];
+        [animator setFrame:aFrame display:YES];
+//       [NSClassFromString(@"NSAnimationContext") endGrouping];
+        return;
+    }
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionary];
     [userInfo setObject:[NSValue valueWithRect:[self frame]] forKey:@"sourceFrame"];
     [userInfo setObject:[NSValue valueWithRect:aFrame] forKey:@"targetFrame"];
@@ -240,10 +250,28 @@
     }
 }
 
+- (void)removeSelfAndWindow {
+    [[self window] orderOut:self];
+    [[I_targetWindow drawers] makeObjectsPerformSelector:@selector(open)];
+    [(PlainTextDocument *)[self document] killProxyWindowController];
+}
+
 - (void)windowDidResize:(NSNotification *)aNotification {
     if (I_targetWindow && NSEqualSizes([[self window] frame].size,I_dissolveToFrame.size)) {
         if (![I_targetWindow isVisible]) {
             [I_targetWindow orderWindow:NSWindowBelow relativeTo:[[self window] windowNumber]];
+        }
+        if ([[self window] respondsToSelector:@selector(animator)]) {
+//            NSLog(@"%s animator present!",__FUNCTION__);
+//            [NSClassFromString(@"NSAnimationContext") beginGrouping];
+            id currentContext = [NSClassFromString(@"NSAnimationContext") currentContext];
+            [currentContext setDuration:0.5];
+            [[self window] setHasShadow:NO];
+            id animator = [[self window] performSelector:@selector(animator)];
+            [animator setAlphaValue:0.00];
+            [self performSelector:@selector(removeSelfAndWindow) withObject:nil afterDelay:0.5];
+//            [NSClassFromString(@"NSAnimationContext") endGrouping];
+            return;
         }
         [[self window] orderOut:self];
         [[I_targetWindow drawers] makeObjectsPerformSelector:@selector(open)];
