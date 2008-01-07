@@ -336,6 +336,8 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
                 case TCMMMSessionAccessReadWriteState:
                     return [NSImage imageNamed:@"StatusReadWrite"];
             }            
+        } else if (aTag == TCMMMBrowserChildInsetTag) {
+            return [NSNumber numberWithInt:aChildIndex];
         }
     }
     return nil;

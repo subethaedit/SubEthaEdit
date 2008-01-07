@@ -23,7 +23,8 @@ enum {
     TCMMMBrowserChildNameTag,
     TCMMMBrowserChildStatusImageTag,
     TCMMMBrowserChildActionImageTag,
-    TCMMMBrowserChildClientStatusTag
+    TCMMMBrowserChildClientStatusTag,
+    TCMMMBrowserChildInsetTag
 };
 
 @interface TCMMMBrowserListView : TCMListView

@@ -61,7 +61,6 @@ static NSMutableDictionary *S_childNameAttributes=nil;
 
     Class myClass=[self class];
     float childRowHeight  =[myClass childRowHeight];
-
     NSRect bounds=[self bounds];
     NSRect childRect=NSMakeRect(0, 0,bounds.size.width, childRowHeight);
     if (aDrawBackground) {
@@ -76,6 +75,7 @@ static NSMutableDictionary *S_childNameAttributes=nil;
         NSRectFill(childRect);
     }    
     id dataSource=[self dataSource];
+    int inset = [[dataSource listView:self objectValueForTag:TCMMMBrowserChildInsetTag atChildIndex:aChildIndex ofItemAtIndex:aItemIndex] intValue];
     
     NSImage *image=[dataSource listView:self objectValueForTag:TCMMMBrowserChildStatusImageTag atChildIndex:aChildIndex ofItemAtIndex:aItemIndex];
     if (image) {
@@ -93,13 +93,13 @@ static NSMutableDictionary *S_childNameAttributes=nil;
             else if (status<3) fraction=.75;
             else fraction=1.0;
         }
-        [image compositeToPoint:NSMakePoint(32.+9,2+16) 
+        [image compositeToPoint:NSMakePoint(32.+9+inset*16.,2+16) 
                       operation:NSCompositeSourceOver fraction:fraction];
     }
     NSString *string=[dataSource listView:self objectValueForTag:TCMMMBrowserChildNameTag atChildIndex:aChildIndex ofItemAtIndex:aItemIndex];
     [[NSColor blackColor] set];
     if (string) {
-        [string drawInRect:NSMakeRect(32.+9+16.+3.,4.,NSWidth(bounds)-(32.+9+16+3+5),16.) withAttributes:S_childNameAttributes];
+        [string drawInRect:NSMakeRect(32.+9+inset*16.+16.+3.,4.,NSWidth(bounds)-(32.+9+16+3+5),16.) withAttributes:S_childNameAttributes];
 //        [string drawAtPoint:NSMakePoint(32.+9+16.+3.,4.)
 //               withAttributes:S_childNameAttributes];
     }
@@ -189,8 +189,8 @@ static NSMutableDictionary *S_childNameAttributes=nil;
                       operation:NSCompositeSourceOver];
     }
     
-    [[NSColor redColor] set];
-    NSFrameRect([self frameForTag:TCMMMBrowserItemImageNextToNameTag atChildIndex:-1 ofItemAtIndex:aIndex]);
+//    [[NSColor redColor] set];
+//    NSFrameRect([self frameForTag:TCMMMBrowserItemImageNextToNameTag atChildIndex:-1 ofItemAtIndex:aIndex]);
     
     
     NSImage *browserStatusImage = [dataSource listView:self objectValueForTag:TCMMMBrowserItemStatusImageTag atChildIndex:-1 ofItemAtIndex:aIndex];
