@@ -138,6 +138,7 @@ artwork/website/splash-overnight.psd -text
 artwork/website/splash.psd -text
 artwork/website/version2.psd -text
 artwork/website/website.psd -text
+documentation/SEEProtocol.notes -text
 documentation/SessionCreation.txt -text svneol=unset#unset
 documentation/SessionProfile.txt -text
 documentation/autodoc/HTMLTemplate.html -text

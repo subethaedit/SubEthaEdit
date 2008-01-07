@@ -80,6 +80,9 @@ UI
 *Client*-*side*
 - Connection Window gets outline view treatment: Display folder and documents, everything can be klappt away.
 - Rename, Create, Delete in place. Permissions ala Finder's cmd-I, drei tableviews.
+- You only see what you can interact with. so no files are shown with a lock. just readwrite and readonly.
+
+
 
 SASL-PLAIN EXAMPLE CONVERSATION
 > MSG 0 4 . 693 162
@@ -126,6 +129,13 @@ SASL-PLAIN EXAMPLE CONVERSATION
 The client initiates a channel with a blob containing base64 encoded <authid>0<username>0<password> string. the server answers (depending if the credentials are valid) either with a blob status="complete" or an error. after that the client closes the channel. another authentication try needs to redo this procedure - e.g. start another channel with this profile uri.
 
 since logging out isn't specified anywhere i will use trying to log in with empty credentials as logout. in fact any other authentication try that will fail will log out the current person.
+
+SERVER MANAGEMENT CHANNEL
+when logged in we will open an additional channel which not only allows seeing the files available but also allows modification according to the rights mentioned above.
+
+Since we are talking strictly client-server in this case we can synchronize on the server side and implement a simple last change win scenario. 
+
+This channel/profile has to provide
 
 LIGHTHOUSE
 
