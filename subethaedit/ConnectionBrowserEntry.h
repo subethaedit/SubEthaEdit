@@ -26,6 +26,7 @@ extern NSString * const ConnectionStatusNoConnection;
     TCMHost *_host;
     NSDate *_creationDate;
     NSArray *_announcedSessions;
+    BOOL _isDisclosed;
 }
 
 + (NSURL *)urlForAddress:(NSString *)anAddress;
@@ -44,6 +45,8 @@ extern NSString * const ConnectionStatusNoConnection;
 - (NSArray *)announcedSessions;
 - (BOOL)isBonjour;
 - (BOOL)isVisible;
+- (void)toggleDisclosure;
+- (BOOL)isDisclosed;
 - (NSString *)hostStatus;
 - (NSString *)connectionStatus;
 - (NSURL *)URL;

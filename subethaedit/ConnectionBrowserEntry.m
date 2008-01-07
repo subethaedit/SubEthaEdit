@@ -122,8 +122,13 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
     [[NSNotificationCenter defaultCenter] postNotificationName:ConnectionBrowserEntryStatusDidChangeNotification object:self];
 }
 
+- (void)initHelper {
+    _isDisclosed = YES;
+}
+
 - (id)initWithURL:(NSURL *)anURL {
     if ((self=[super init])) {
+        [self initHelper];
         _hostStatus = HostEntryStatusSessionAtEnd;
         _pendingDocumentRequests = [NSMutableArray new];
         NSURL *documentRequest = nil;
@@ -152,6 +157,7 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
 
 - (id)initWithBEEPSession:(TCMBEEPSession *)aSession {
     if ((self=[super init])) {
+        [self initHelper];
         _creationDate = [NSDate new];
         _BEEPSession = aSession;
         _hostStatus = HostEntryStatusSessionOpen;
@@ -229,6 +235,9 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
         } else {
             return [NSImage imageNamed:@"Internet13"];
         }
+    }
+    if (aTag == TCMMMBrowserItemIsDisclosedTag) {
+        return [NSNumber numberWithBool:_isDisclosed];
     }
     BOOL showUser = [self isVisible] && (_hostStatus == HostEntryStatusSessionOpen) && user;
     if (aTag == TCMMMBrowserItemStatus2ImageTag) {
@@ -354,6 +363,14 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
 
 - (BOOL)isVisible {
     return [[[[TCMMMPresenceManager sharedInstance] statusOfUserID:[self userID]] objectForKey:@"isVisible"] boolValue];
+}
+
+- (void)toggleDisclosure {
+    _isDisclosed = !_isDisclosed;
+}
+
+- (BOOL)isDisclosed {
+    return _isDisclosed;
 }
 
 - (NSString *)hostStatus {

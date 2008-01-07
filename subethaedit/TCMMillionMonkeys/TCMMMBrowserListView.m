@@ -162,8 +162,6 @@
     }
     
     
-//    NSSize cellSize=[I_disclosureCell cellSize];
-//    [I_disclosureCell drawWithFrame:NSMakeRect(32.+10,20.,cellSize.width,cellSize.height) inView:self];
     NSImage *browserStatusImage = [dataSource listView:self objectValueForTag:TCMMMBrowserItemStatusImageTag atChildIndex:-1 ofItemAtIndex:aIndex];
     float additionalSpace = 0.;
     if (browserStatusImage) {
@@ -172,11 +170,15 @@
         additionalSpace += [browserStatusImage size].width + 4.;
     }
     
+    NSSize cellSize=[I_disclosureCell cellSize];
+    [I_disclosureCell setState:[[dataSource listView:self objectValueForTag:TCMMMBrowserItemIsDisclosedTag atChildIndex:-1 ofItemAtIndex:aIndex] boolValue]?NSOnState:NSOffState];
+    [I_disclosureCell drawWithFrame:NSMakeRect(32.+11+additionalSpace-2.,21.,cellSize.width,cellSize.height) inView:self];
     string=[dataSource listView:self objectValueForTag:TCMMMBrowserItemStatusTag atChildIndex:-1 ofItemAtIndex:aIndex];
     if (string) {
-        [string drawAtPoint:NSMakePoint(32.+11+additionalSpace,21.) //was 32.+27 for with diclosure triangle
+        [string drawAtPoint:NSMakePoint(32.+11+additionalSpace+cellSize.width,21.) //was 32.+27 for with diclosure triangle
                withAttributes:mStatusAttributes];
     }
+
     
     if (actionImage) {
         [NSGraphicsContext restoreGraphicsState];

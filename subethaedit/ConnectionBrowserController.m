@@ -176,7 +176,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
             ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
             ConnectionBrowserEntry *entry = [[I_entriesController arrangedObjects] objectAtIndex:pair.itemIndex];
             if (pair.childIndex == -1) {
-                [[selectedObjects objectForKey:@"Entries"]addObject:entry];
+                [[selectedObjects objectForKey:@"Entries"] addObject:entry];
             } else {
                 NSMutableSet *set = [[selectedObjects objectForKey:@"SessionsByEntry"] objectForKey:[entry creationDate]];
                 if (!set) {
@@ -198,11 +198,13 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     int index = 0;
     for (i = 0; i<[arrangedObjects count];i++) {
         ConnectionBrowserEntry *entry = [arrangedObjects objectAtIndex:i];
-        if ([[selectedObjects objectForKey:@"Entries"] containsObject:entry]) [indexes addIndex:index];
+        if ([[selectedObjects objectForKey:@"Entries"] containsObject:entry]) {
+            [indexes addIndex:index];
+        }
         index +=1;
         NSArray *announcedSessions = [entry announcedSessions];
         NSSet *selectedSessions = [[selectedObjects objectForKey:@"SessionsByEntry"] objectForKey:[entry creationDate]];
-        if (selectedSessions) {
+        if (selectedSessions && [entry isDisclosed]) {
             int j = 0;
             for (j=0;j<[announcedSessions count];j++) {
                 if ([selectedSessions containsObject:[announcedSessions objectAtIndex:j]]) {
@@ -210,7 +212,8 @@ static NSPredicate *S_joinableSessionPredicate = nil;
                 }
             }
         }
-        index += [announcedSessions count];
+        if ([entry isDisclosed]) index += [announcedSessions count];
+
     }
     [O_browserListView selectRowIndexes:indexes byExtendingSelection:NO];
     if (selectedObjects) [I_storedSelections removeLastObject];
@@ -855,13 +858,31 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     return I_contextMenu;
 }
 
+- (BOOL)listView:(TCMListView *)aListView performActionForClickAtPoint:(NSPoint)aPoint atItemChildPair:(ItemChildPair)aPair {
+//    NSLog(@"%s %@ %d %d",__FUNCTION__,NSStringFromPoint(aPoint),aPair.itemIndex,aPair.childIndex);
+    if (aPair.childIndex == -1) {
+        if (aPair.itemIndex>=0 && aPair.itemIndex<[[I_entriesController arrangedObjects] count]) {
+            if (NSPointInRect(aPoint,NSMakeRect(62,25,9,9))) {
+                [self storeSelection];
+                ConnectionBrowserEntry *entry=[[I_entriesController arrangedObjects] objectAtIndex:aPair.itemIndex];
+                [entry toggleDisclosure];
+                [aListView reloadData];
+                [self restoreSelection];
+                return YES;
+            }
+        }
+    }
+    return NO;
+}
+
+
 - (int)listView:(TCMListView *)aListView numberOfEntriesOfItemAtIndex:(int)anItemIndex {
     if (anItemIndex==-1) {
         return [[I_entriesController arrangedObjects] count];
     } else {
         if (anItemIndex>=0 && anItemIndex<[[I_entriesController arrangedObjects] count]) {
             ConnectionBrowserEntry *entry=[[I_entriesController arrangedObjects] objectAtIndex:anItemIndex];
-            return [[entry announcedSessions] count];
+            return [entry isDisclosed]?[[entry announcedSessions] count]:0;
         }
         return 0;
     }
