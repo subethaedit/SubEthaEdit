@@ -16,6 +16,34 @@
 
 @implementation TCMMMBrowserListView
 
+static NSMutableDictionary *S_itemNameAttributes=nil;
+static NSMutableDictionary *S_itemStatusAttributes=nil;
+static NSMutableDictionary *S_childNameAttributes=nil;
+
++ (void)initialize {
+    static NSMutableParagraphStyle *mNoWrapParagraphStyle = nil;
+    if (!mNoWrapParagraphStyle) {
+        mNoWrapParagraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+        [mNoWrapParagraphStyle setLineBreakMode:NSLineBreakByTruncatingMiddle];
+        if ([mNoWrapParagraphStyle respondsToSelector:@selector(setTighteningFactorForTruncation:)]) {
+            [mNoWrapParagraphStyle setTighteningFactorForTruncation:0.15];
+        }
+    }
+    if (!S_itemNameAttributes) {
+        S_itemNameAttributes = [[NSMutableDictionary dictionaryWithObject:
+            [NSFont boldSystemFontOfSize:[NSFont systemFontSize]] forKey:NSFontAttributeName] retain];
+    }
+    if (!S_itemStatusAttributes) {
+        S_itemStatusAttributes = [[NSMutableDictionary dictionaryWithObject:
+			   [NSFont systemFontOfSize:[NSFont smallSystemFontSize]] forKey:NSFontAttributeName] retain];
+    } 
+    if (!S_childNameAttributes) {
+        S_childNameAttributes = [[NSMutableDictionary dictionaryWithObjectsAndKeys:
+            [NSFont systemFontOfSize:[NSFont smallSystemFontSize]],NSFontAttributeName,mNoWrapParagraphStyle,NSParagraphStyleAttributeName,nil] retain];
+    }
+    
+}
+
 + (float)itemRowHeight {
     return 38.;
 }
@@ -30,23 +58,10 @@
 }
 
 - (void)drawChildWithIndex:(int)aChildIndex ofItemAtIndex:(int)aItemIndex drawBackground:(BOOL)aDrawBackground{
-    static NSMutableParagraphStyle *mNoWrapParagraphStyle = nil;
-    if (!mNoWrapParagraphStyle) {
-        mNoWrapParagraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-        [mNoWrapParagraphStyle setLineBreakMode:NSLineBreakByTruncatingMiddle];
-        if ([mNoWrapParagraphStyle respondsToSelector:@selector(setTighteningFactorForTruncation:)]) {
-            [mNoWrapParagraphStyle setTighteningFactorForTruncation:0.15];
-        }
-    }
 
     Class myClass=[self class];
     float childRowHeight  =[myClass childRowHeight];
 
-    static NSMutableDictionary *mNameAttributes=nil;
-    if (!mNameAttributes) {
-        mNameAttributes = [[NSMutableDictionary dictionaryWithObjectsAndKeys:
-            [NSFont systemFontOfSize:[NSFont smallSystemFontSize]],NSFontAttributeName,mNoWrapParagraphStyle,NSParagraphStyleAttributeName,nil] retain];
-    }
     NSRect bounds=[self bounds];
     NSRect childRect=NSMakeRect(0, 0,bounds.size.width, childRowHeight);
     if (aDrawBackground) {
@@ -84,10 +99,35 @@
     NSString *string=[dataSource listView:self objectValueForTag:TCMMMBrowserChildNameTag atChildIndex:aChildIndex ofItemAtIndex:aItemIndex];
     [[NSColor blackColor] set];
     if (string) {
-        [string drawInRect:NSMakeRect(32.+9+16.+3.,4.,NSWidth(bounds)-(32.+9+16+3+5),16.) withAttributes:mNameAttributes];
+        [string drawInRect:NSMakeRect(32.+9+16.+3.,4.,NSWidth(bounds)-(32.+9+16+3+5),16.) withAttributes:S_childNameAttributes];
 //        [string drawAtPoint:NSMakePoint(32.+9+16.+3.,4.)
-//               withAttributes:mNameAttributes];
+//               withAttributes:S_childNameAttributes];
     }
+}
+
+- (NSRect)frameForTag:(int)aTag atChildIndex:(int)aChildIndex ofItemAtIndex:(int)anItemIndex {
+    if (aTag == TCMMMBrowserItemImageNextToNameTag) {
+        id dataSource = [self dataSource];
+        float nameXOrigin = 32.+11.;
+        NSImage *browserStatus2Image = [dataSource listView:self objectValueForTag:TCMMMBrowserItemStatus2ImageTag atChildIndex:-1 ofItemAtIndex:anItemIndex];
+        if (browserStatus2Image) {
+            nameXOrigin += [browserStatus2Image size].width+2.;
+        }
+        
+        NSString *string=[dataSource listView:self objectValueForTag:TCMMMBrowserItemNameTag atChildIndex:-1 ofItemAtIndex:anItemIndex];
+        NSSize nameSize=[string sizeWithAttributes:S_itemNameAttributes];
+        NSImage *image=[dataSource listView:self objectValueForTag:TCMMMBrowserItemImageNextToNameTag atChildIndex:-1 ofItemAtIndex:anItemIndex];
+        if (image) {
+            NSRect result = NSMakeRect(nameXOrigin+(int)nameSize.width+6.,
+                              (int)(1.+nameSize.height)-(nameSize.height - [image size].height)/3.,
+                              [image size].width,
+                              [image size].height);
+            result.origin.y-=result.size.height;
+            return result;
+        }
+        
+    }
+    return NSZeroRect;
 }
 
 - (void)drawItemAtIndex:(int)aIndex drawBackground:(BOOL)aDrawBackground{
@@ -95,18 +135,6 @@
     Class myClass=[self class];
     float itemRowHeight   =[myClass itemRowHeight];
     float actionImagePadding =[myClass actionImagePadding];
-
-    static NSMutableDictionary *mNameAttributes=nil;
-    static NSMutableDictionary *mStatusAttributes=nil;
-    if (!mNameAttributes) {
-        mNameAttributes = [[NSMutableDictionary dictionaryWithObject:
-            [NSFont boldSystemFontOfSize:[NSFont systemFontSize]] forKey:NSFontAttributeName] retain];
-    }
-    if (!mStatusAttributes) {
-        mStatusAttributes = [[NSMutableDictionary dictionaryWithObject:
-			   [NSFont systemFontOfSize:[NSFont smallSystemFontSize]] forKey:NSFontAttributeName] retain];
-    } 
-    
 
     NSRect bounds=[self bounds];
     NSRect itemRect=NSMakeRect(0, 0,bounds.size.width, itemRowHeight);
@@ -151,15 +179,18 @@
     [[NSColor blackColor] set];
     if (string) {
         [string drawAtPoint:NSMakePoint(nameXOrigin,2.)
-               withAttributes:mNameAttributes];
+               withAttributes:S_itemNameAttributes];
     }
-    NSSize nameSize=[string sizeWithAttributes:mNameAttributes];
+    NSSize nameSize=[string sizeWithAttributes:S_itemNameAttributes];
     image=[dataSource listView:self objectValueForTag:TCMMMBrowserItemImageNextToNameTag atChildIndex:-1 ofItemAtIndex:aIndex];
     if (image) {
         [image compositeToPoint:NSMakePoint(nameXOrigin+(int)nameSize.width+6.,
                                             (int)(1.+nameSize.height)-(nameSize.height - [image size].height)/3.) 
                       operation:NSCompositeSourceOver];
     }
+    
+    [[NSColor redColor] set];
+    NSFrameRect([self frameForTag:TCMMMBrowserItemImageNextToNameTag atChildIndex:-1 ofItemAtIndex:aIndex]);
     
     
     NSImage *browserStatusImage = [dataSource listView:self objectValueForTag:TCMMMBrowserItemStatusImageTag atChildIndex:-1 ofItemAtIndex:aIndex];
@@ -176,7 +207,7 @@
     string=[dataSource listView:self objectValueForTag:TCMMMBrowserItemStatusTag atChildIndex:-1 ofItemAtIndex:aIndex];
     if (string) {
         [string drawAtPoint:NSMakePoint(32.+11+additionalSpace+cellSize.width,21.) //was 32.+27 for with diclosure triangle
-               withAttributes:mStatusAttributes];
+               withAttributes:S_itemStatusAttributes];
     }
 
     

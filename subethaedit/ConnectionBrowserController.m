@@ -869,7 +869,12 @@ static NSPredicate *S_joinableSessionPredicate = nil;
                 [aListView reloadData];
                 [self restoreSelection];
                 return YES;
+            } else if (NSPointInRect(aPoint,[(TCMMMBrowserListView *)aListView frameForTag:TCMMMBrowserItemImageNextToNameTag atChildIndex:aPair.childIndex ofItemAtIndex:aPair.itemIndex])) { 
+                [aListView selectRow:[aListView rowForItem:aPair.itemIndex child:aPair.childIndex] byExtendingSelection:NO];
+                [self login:self];
+                return YES;
             }
+
         }
     }
     return NO;

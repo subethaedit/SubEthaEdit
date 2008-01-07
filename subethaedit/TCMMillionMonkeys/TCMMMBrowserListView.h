@@ -29,4 +29,7 @@ enum {
 @interface TCMMMBrowserListView : TCMListView
 {
 }
+
+- (NSRect)frameForTag:(int)aTag atChildIndex:(int)aChildIndex ofItemAtIndex:(int)anItemIndex;
+
 @end
