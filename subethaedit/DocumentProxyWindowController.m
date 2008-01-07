@@ -54,7 +54,7 @@
 //        NSLog(@"%s animator present!",__FUNCTION__);
 //        [NSClassFromString(@"NSAnimationContext") beginGrouping];
         id currentContext = [NSClassFromString(@"NSAnimationContext") currentContext];
-        [currentContext setDuration:0.5];
+        [currentContext setDuration:0.3];
         id animator = [self performSelector:@selector(animator)];
         [animator setFrame:aFrame display:YES];
 //       [NSClassFromString(@"NSAnimationContext") endGrouping];
@@ -265,7 +265,7 @@
 //            NSLog(@"%s animator present!",__FUNCTION__);
 //            [NSClassFromString(@"NSAnimationContext") beginGrouping];
             id currentContext = [NSClassFromString(@"NSAnimationContext") currentContext];
-            [currentContext setDuration:0.5];
+            [currentContext setDuration:0.3];
             [[self window] setHasShadow:NO];
             id animator = [[self window] performSelector:@selector(animator)];
             [animator setAlphaValue:0.00];

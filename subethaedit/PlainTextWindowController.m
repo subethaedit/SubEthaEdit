@@ -1963,6 +1963,10 @@ enum {
         NSWindow *window = [self window];
         NSRect bounds = [[I_tabBar performSelector:@selector(lastVisibleTab)] frame];
         bounds = [[window contentView] convertRect:bounds fromView:I_tabBar];
+        bounds.size.height += 25.;
+        bounds.origin.y -= 32.;
+        bounds = NSInsetRect(bounds,-8.,-9.);
+        bounds.origin.x +=1;
         NSPoint point1 = bounds.origin;
         NSPoint point2 = NSMakePoint(NSMaxX(bounds),NSMaxY(bounds));
         point1 = [window convertBaseToScreen:point1];
