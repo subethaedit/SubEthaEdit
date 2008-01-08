@@ -285,7 +285,6 @@
 		145047420997750100D18142 /* ReleaseNotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 145047410997750100D18142 /* ReleaseNotes.txt */; };
 		1454694A0BF49E3A00D5B00C /* TCMHost.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891D809574E5B00D14688 /* TCMHost.m */; };
 		145842390BDFBC3000EB6D15 /* SDDocumentManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 145842380BDFBC3000EB6D15 /* SDDocumentManager.m */; };
-		14584B2D0BE0C6CB00EB6D15 /* FileManagementProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F2230A430BE0241A00437D55 /* FileManagementProfile.m */; };
 		14584B2F0BE0C6E000EB6D15 /* TCMBEEPBencodedMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F2230A460BE0243100437D55 /* TCMBEEPBencodedMessage.m */; };
 		14584B300BE0C6E300EB6D15 /* TCMBEEPBencodingProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F2230A480BE0243100437D55 /* TCMBEEPBencodingProfile.m */; };
 		148167AE0B15B002008894C9 /* PlainTextWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 148167AC0B15B002008894C9 /* PlainTextWindow.m */; };
@@ -373,7 +372,6 @@
 		F20948EE0C7B4C7100E78EBA /* UserStatisticsController.m in Sources */ = {isa = PBXBuildFile; fileRef = F20948EB0C7B4C7100E78EBA /* UserStatisticsController.m */; };
 		F209A3C30CB6999700C8A744 /* ConnectionBrowser.nib in Resources */ = {isa = PBXBuildFile; fileRef = F2D12A090BF0B6B000A776CC /* ConnectionBrowser.nib */; };
 		F20E1FAE0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = F20E1FAC0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.m */; };
-		F2230A440BE0241A00437D55 /* FileManagementProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F2230A430BE0241A00437D55 /* FileManagementProfile.m */; };
 		F2230A490BE0243100437D55 /* TCMBEEPBencodedMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F2230A460BE0243100437D55 /* TCMBEEPBencodedMessage.m */; };
 		F2230A4A0BE0243100437D55 /* TCMBEEPBencodingProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F2230A480BE0243100437D55 /* TCMBEEPBencodingProfile.m */; };
 		F2280A3F0BEF621700255AAE /* SDDirectoryUserGroupList.m in Sources */ = {isa = PBXBuildFile; fileRef = F2280A300BEF56AB00255AAE /* SDDirectoryUserGroupList.m */; };
@@ -404,6 +402,8 @@
 		F27B2EE80B52957800679CF2 /* hud_buttonLeft-P.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2EE20B52957800679CF2 /* hud_buttonLeft-P.tiff */; };
 		F27B2EF10B52968E00679CF2 /* HUDButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F27B2EED0B52968E00679CF2 /* HUDButtonCell.m */; };
 		F27B2EF20B52968E00679CF2 /* HUDButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F27B2EEE0B52968E00679CF2 /* HUDButton.m */; };
+		F298693E0D338B0F0031C9F3 /* ServerManagementProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F298693C0D338B0F0031C9F3 /* ServerManagementProfile.m */; };
+		F29869530D338D6C0031C9F3 /* ServerManagementProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F298693C0D338B0F0031C9F3 /* ServerManagementProfile.m */; };
 		F298A00A0CCB9F3200C4DB8B /* SeeTextImporter.mdimporter in Copy Importers */ = {isa = PBXBuildFile; fileRef = F298A0030CCB9ED900C4DB8B /* SeeTextImporter.mdimporter */; };
 		F29940600C0C7F3400A53189 /* NSScreenTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F299405E0C0C7F3400A53189 /* NSScreenTCMAdditions.m */; };
 		F29AD8670CA3391B0097D04E /* Bonjour13.png in Resources */ = {isa = PBXBuildFile; fileRef = F29AD8660CA3391B0097D04E /* Bonjour13.png */; };
@@ -1239,8 +1239,6 @@
 		F20948EB0C7B4C7100E78EBA /* UserStatisticsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserStatisticsController.m; sourceTree = "<group>"; };
 		F20E1FAB0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThousandSeparatorValueTransformer.h; sourceTree = "<group>"; };
 		F20E1FAC0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThousandSeparatorValueTransformer.m; sourceTree = "<group>"; };
-		F2230A420BE0241A00437D55 /* FileManagementProfile.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = FileManagementProfile.h; sourceTree = "<group>"; };
-		F2230A430BE0241A00437D55 /* FileManagementProfile.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = FileManagementProfile.m; sourceTree = "<group>"; };
 		F2230A450BE0243100437D55 /* TCMBEEPBencodedMessage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TCMBEEPBencodedMessage.h; path = TCMBEEP/TCMBEEPBencodedMessage.h; sourceTree = "<group>"; };
 		F2230A460BE0243100437D55 /* TCMBEEPBencodedMessage.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = TCMBEEPBencodedMessage.m; path = TCMBEEP/TCMBEEPBencodedMessage.m; sourceTree = "<group>"; };
 		F2230A470BE0243100437D55 /* TCMBEEPBencodingProfile.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TCMBEEPBencodingProfile.h; path = TCMBEEP/TCMBEEPBencodingProfile.h; sourceTree = "<group>"; };
@@ -1287,6 +1285,8 @@
 		F28CAAF00CB55B900001111D /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/PrecedencePrefs.nib; sourceTree = "<group>"; };
 		F28CAAF10CB55B9A0001111D /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/PrecedenceRules.nib; sourceTree = "<group>"; };
 		F28CAAF20CB55BB00001111D /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/UserStatistics.nib; sourceTree = "<group>"; };
+		F298693C0D338B0F0031C9F3 /* ServerManagementProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerManagementProfile.m; sourceTree = "<group>"; };
+		F298693D0D338B0F0031C9F3 /* ServerManagementProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerManagementProfile.h; sourceTree = "<group>"; };
 		F2989FFE0CCB9ED900C4DB8B /* SeeTextImporter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SeeTextImporter.xcodeproj; path = SeeTextImporter/SeeTextImporter.xcodeproj; sourceTree = "<group>"; };
 		F299405E0C0C7F3400A53189 /* NSScreenTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = NSScreenTCMAdditions.m; sourceTree = "<group>"; };
 		F299405F0C0C7F3400A53189 /* NSScreenTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = NSScreenTCMAdditions.h; sourceTree = "<group>"; };
@@ -1761,12 +1761,12 @@
 		142892460957525900D14688 /* BEEPProfiles */ = {
 			isa = PBXGroup;
 			children = (
-				F2230A420BE0241A00437D55 /* FileManagementProfile.h */,
-				F2230A430BE0241A00437D55 /* FileManagementProfile.m */,
 				F24280C40D16CFCC0083AE21 /* GenericSASLProfile.h */,
 				F24280C50D16CFCC0083AE21 /* GenericSASLProfile.m */,
 				14289362095757AA00D14688 /* HandshakeProfile.h */,
 				14289363095757AA00D14688 /* HandshakeProfile.m */,
+				F298693D0D338B0F0031C9F3 /* ServerManagementProfile.h */,
+				F298693C0D338B0F0031C9F3 /* ServerManagementProfile.m */,
 				14289364095757AA00D14688 /* SessionProfile.h */,
 				14289365095757AA00D14688 /* SessionProfile.m */,
 			);
@@ -2983,7 +2983,6 @@
 				14251C790BBD5E2600052C84 /* UserChangeOperation.m in Sources */,
 				1428F4AB0BDE3B6600411CA6 /* BacktracingException.m in Sources */,
 				145842390BDFBC3000EB6D15 /* SDDocumentManager.m in Sources */,
-				F2230A440BE0241A00437D55 /* FileManagementProfile.m in Sources */,
 				F2230A490BE0243100437D55 /* TCMBEEPBencodedMessage.m in Sources */,
 				F2230A4A0BE0243100437D55 /* TCMBEEPBencodingProfile.m in Sources */,
 				F2280A3F0BEF621700255AAE /* SDDirectoryUserGroupList.m in Sources */,
@@ -2999,6 +2998,7 @@
 				F2A0937A0C9EB0AC000AD27A /* NSMutableAttributedStringSEEAdditions.m in Sources */,
 				F2F2B60E0CA811240045C189 /* TCMMMLogStatisticsDataPoint.m in Sources */,
 				F24280D00D16D1030083AE21 /* GenericSASLProfile.m in Sources */,
+				F29869530D338D6C0031C9F3 /* ServerManagementProfile.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3179,7 +3179,6 @@
 				141958B10BB951C400CB4AA4 /* TCMMMSessionAppKitHelper.m in Sources */,
 				1428F4AE0BDE3B7200411CA6 /* BacktracingException.m in Sources */,
 				1428F4B40BDE3B8A00411CA6 /* DebugSendOperationController.m in Sources */,
-				14584B2D0BE0C6CB00EB6D15 /* FileManagementProfile.m in Sources */,
 				14584B2F0BE0C6E000EB6D15 /* TCMBEEPBencodedMessage.m in Sources */,
 				14584B300BE0C6E300EB6D15 /* TCMBEEPBencodingProfile.m in Sources */,
 				F234E1010BE0F1E100504A7C /* ServerConnectionWindowController.m in Sources */,
@@ -3213,6 +3212,7 @@
 				3134F7AB0CB1331900F8C116 /* PrecedenceRolloverButton.m in Sources */,
 				F2FB96E30CBE68ED000B85AE /* UKXattrMetadataStore.m in Sources */,
 				F24280C60D16CFCC0083AE21 /* GenericSASLProfile.m in Sources */,
+				F298693E0D338B0F0031C9F3 /* ServerManagementProfile.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

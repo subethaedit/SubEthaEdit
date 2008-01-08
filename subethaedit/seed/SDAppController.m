@@ -11,7 +11,7 @@
 #import "SDDocumentManager.h"
 #import "TCMBEEP.h"
 #import "TCMMillionMonkeys.h"
-#import "FileManagementProfile.h"
+#import "ServerManagementProfile.h"
 #import "SDDirectory.h"
 
 static SDAppController *S_sharedInstance = nil;

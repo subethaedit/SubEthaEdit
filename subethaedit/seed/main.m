@@ -13,7 +13,7 @@
 #import "TCMMillionMonkeys.h"
 #import "HandshakeProfile.h"
 #import "SessionProfile.h"
-#import "FileManagementProfile.h"
+#import "ServerManagementProfile.h"
 #import "BacktracingException.h"
 #import "SelectionOperation.h"
 #import "TextOperation.h"
@@ -89,7 +89,7 @@ int main(int argc, const char *argv[])
     [TCMBEEPChannel setClass:[HandshakeProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake"];    
     [TCMBEEPChannel setClass:[TCMMMStatusProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"];
     [TCMBEEPChannel setClass:[SessionProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"];
-    [TCMBEEPChannel setClass:[FileManagementProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SeedFileManagement"];
+    [TCMBEEPChannel setClass:[ServerManagementProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SeedManagement"];
     [TCMBEEPChannel setClass:[GenericSASLProfile class] forProfileURI:TCMBEEPSASLPLAINProfileURI];
 
     TCMMMBEEPSessionManager *sm = [TCMMMBEEPSessionManager sharedInstance];
@@ -100,7 +100,7 @@ int main(int argc, const char *argv[])
     [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake" forGreetingInMode:kTCMMMBEEPSessionManagerTLSMode];
     [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"          forGreetingInMode:kTCMMMBEEPSessionManagerTLSMode];
     [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"   forGreetingInMode:kTCMMMBEEPSessionManagerTLSMode];
-    [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/SeedFileManagement"   forGreetingInMode:kTCMMMBEEPSessionManagerTLSMode];
+    [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/SeedManagement"   forGreetingInMode:kTCMMMBEEPSessionManagerTLSMode];
     [sm registerProfileURI:TCMBEEPSASLPLAINProfileURI                               forGreetingInMode:kTCMMMBEEPSessionManagerTLSMode];
 
     [sm listen];

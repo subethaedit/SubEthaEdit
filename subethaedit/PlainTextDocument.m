@@ -3067,7 +3067,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         docType = @"PlainTextType";
         [self performSelector:@selector(setFileType:) withObject:docType afterDelay:0.];
     }
-    if (!fileExists || isDir && ![docType isEqualToString:@"SEETextType"]) {
+    if (!fileExists || (isDir && ![docType isEqualToString:@"SEETextType"])) {
         // generate the correct error
         [NSData dataWithContentsOfURL:anURL options:0 error:outError];
         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"file doesn't exist %@",*outError);

@@ -10,7 +10,7 @@
 #import "SDDocumentManager.h"
 #import "SDDocument.h"
 #import "TCMMMBEEPSessionManager.h"
-#import "FileManagementProfile.h"
+#import "ServerManagementProfile.h"
 
 static SDDocumentManager *S_sharedInstance=nil;
 
@@ -195,7 +195,7 @@ static SDDocumentManager *S_sharedInstance=nil;
 }
 
 #pragma mark -
-#pragma mark ### FileManagementProfile interaction ###
+#pragma mark ### ServerManagementProfile interaction ###
 
 - (void)documentDidChangeChangeCount:(NSNotification *)aNotification {
     [_documentIDsWithPendingChanges addObject:[(SDDocument *)[aNotification object] uniqueID]];
@@ -221,7 +221,7 @@ static SDDocumentManager *S_sharedInstance=nil;
     [_documentIDsWithPendingChanges removeAllObjects];
     
     NSEnumerator *profiles = [_fileManagementProfiles objectEnumerator];
-    FileManagementProfile *profile = nil;
+    ServerManagementProfile *profile = nil;
     while ((profile = [profiles nextObject])) {
         if ([profile didSendFILLST]) {
             [profile sendFileUpdates:fileUpdateDictionary];
@@ -239,7 +239,7 @@ static SDDocumentManager *S_sharedInstance=nil;
 }
 
 
-- (NSArray *)fileListForProfile:(FileManagementProfile *)aProfile {
+- (NSArray *)fileListForProfile:(ServerManagementProfile *)aProfile {
     NSMutableArray *result = [NSMutableArray array];
     NSEnumerator *documents = [_availableDocumentsByID objectEnumerator];
     id document = nil;
@@ -249,7 +249,7 @@ static SDDocumentManager *S_sharedInstance=nil;
     return result;
 }
 
-- (id)profile:(FileManagementProfile *)aProfile didRequestNewDocumentWithAttributes:(NSDictionary *)attributes error:(NSError **)error {
+- (id)profile:(ServerManagementProfile *)aProfile didRequestNewDocumentWithAttributes:(NSDictionary *)attributes error:(NSError **)error {
     NSString *relativePath = [attributes objectForKey:@"FilePath"];
     if ([self documentForRelativePath:relativePath]) {
         return nil;
@@ -273,7 +273,7 @@ static SDDocumentManager *S_sharedInstance=nil;
     return document;
 }
 
-- (id)profile:(FileManagementProfile *)aProfile didRequestChangeOfAttributes:(NSDictionary *)aNewAttributes ofDocumentWithID:(NSString *)aFileID error:(NSError **)outError {
+- (id)profile:(ServerManagementProfile *)aProfile didRequestChangeOfAttributes:(NSDictionary *)aNewAttributes ofDocumentWithID:(NSString *)aFileID error:(NSError **)outError {
     SDDocument *document = [_availableDocumentsByID objectForKey:aFileID];
     if (!document) {
         *outError = [NSError errorWithDomain:@"DocumentManagementDomain" code:123 userInfo:nil];

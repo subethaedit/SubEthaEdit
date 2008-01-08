@@ -1,15 +1,15 @@
 //
-//  FileManagementProfile.m
+//  ServerManagementProfile.m
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on 25.04.07.
 //  Copyright 2007 TheCodingMonkeys. All rights reserved.
 //
 
-#import "FileManagementProfile.h"
+#import "ServerManagementProfile.h"
 
 
-@implementation FileManagementProfile
+@implementation ServerManagementProfile
 
 + (void)initialize {
     [self registerSelector:@selector(replyToFILLST:) forMessageType:@"MSG" 

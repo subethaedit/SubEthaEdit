@@ -99,7 +99,8 @@ static NSMutableDictionary *S_childNameAttributes=nil;
     NSString *string=[dataSource listView:self objectValueForTag:TCMMMBrowserChildNameTag atChildIndex:aChildIndex ofItemAtIndex:aItemIndex];
     [[NSColor blackColor] set];
     if (string) {
-        [string drawInRect:NSMakeRect(32.+9+inset*16.+16.+3.,4.,NSWidth(bounds)-(32.+9+16+3+5),16.) withAttributes:S_childNameAttributes];
+        float stringPositionX = 32.+9+inset*16.+16.+3.;
+        [string drawInRect:NSMakeRect(stringPositionX,4.,NSWidth(bounds)-stringPositionX,16.) withAttributes:S_childNameAttributes];
 //        [string drawAtPoint:NSMakePoint(32.+9+16.+3.,4.)
 //               withAttributes:S_childNameAttributes];
     }

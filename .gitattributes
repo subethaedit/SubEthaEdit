@@ -391,8 +391,6 @@ subethaedit/English.lproj/UserStatistics.nib/keyedobjects.nib -text
 subethaedit/English.lproj/WebPreview.nib/classes.nib -text
 subethaedit/English.lproj/WebPreview.nib/info.nib -text
 subethaedit/English.lproj/WebPreview.nib/keyedobjects.nib -text
-subethaedit/FileManagementProfile.h -text
-subethaedit/FileManagementProfile.m -text
 subethaedit/FindAllController.h -text
 subethaedit/FindAllController.m -text
 subethaedit/FindAllTableView.h -text
@@ -1607,6 +1605,8 @@ subethaedit/ServerConnectionManager.h -text
 subethaedit/ServerConnectionManager.m -text
 subethaedit/ServerConnectionWindowController.h -text
 subethaedit/ServerConnectionWindowController.m -text
+subethaedit/ServerManagementProfile.h -text
+subethaedit/ServerManagementProfile.m -text
 subethaedit/SessionProfile.h -text
 subethaedit/SessionProfile.m -text
 subethaedit/Setup.plist -text
