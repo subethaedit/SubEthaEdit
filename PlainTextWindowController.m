@@ -33,7 +33,7 @@
 #import <PSMTabBarControl/PSMTabBarControl.h>
 #import <PSMTabBarControl/PSMTabStyle.h>
 #import <objc/objc-runtime.h>			// for objc_msgSend
-
+#import "LockWindow.h"
 
 
 NSString * const PlainTextWindowToolbarIdentifier = 
@@ -152,7 +152,7 @@ enum {
     [I_tabBar release];
     [I_tabView release];
 
-	if (I_lockChildWindow) [I_lockChildWindow release];
+	if (I_lockChildWindow) [I_lockChildWindow autorelease];
 	I_lockChildWindow = nil;
 
 
@@ -263,7 +263,7 @@ enum {
         frame.size = [lockImage size];
         frame.origin = [[self window] frame].origin;
         frame.origin.x += 100;
-        NSWindow *childWindow = [[NSWindow alloc] initWithContentRect:frame styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
+        NSWindow *childWindow = [[LockWindow alloc] initWithContentRect:frame styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
         [childWindow setIgnoresMouseEvents:YES];
         NSImageView *imageView = [[NSImageView alloc] initWithFrame:frame];
         [imageView setImage:lockImage];

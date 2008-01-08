@@ -447,6 +447,8 @@
 		F2D5FF4D0CB2679100407399 /* PrintPrefs.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF4C0CB2679100407399 /* PrintPrefs.icns */; };
 		F2D5FF510CB26EA800407399 /* ToolbarIconRunInTerminal.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF4F0CB26EA800407399 /* ToolbarIconRunInTerminal.icns */; };
 		F2D5FF520CB26EA800407399 /* ToolbarIconTerminal.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF500CB26EA800407399 /* ToolbarIconTerminal.icns */; };
+		F2EE794A0D33C7D8006F262F /* LockWindow.h in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F2EE79480D33C7D8006F262F /* LockWindow.h */; };
+		F2EE794B0D33C7D8006F262F /* LockWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = F2EE79490D33C7D8006F262F /* LockWindow.m */; };
 		F2F2B5A70CA7F7B80045C189 /* PrecedencePreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2C6E70CA7C7A7003CC5C9 /* PrecedencePreferences.m */; };
 		F2F2B60E0CA811240045C189 /* TCMMMLogStatisticsDataPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F2B60D0CA811240045C189 /* TCMMMLogStatisticsDataPoint.m */; };
 		F2F2B6100CA811240045C189 /* TCMMMLogStatisticsDataPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F2B60D0CA811240045C189 /* TCMMMLogStatisticsDataPoint.m */; };
@@ -722,6 +724,7 @@
 				31D5FB230AA309200088DB18 /* HDCrashReporter.framework in Copy Files (Frameworks) */,
 				141F4EB40AE4266F001B73D2 /* PSMTabBarControl.framework in Copy Files (Frameworks) */,
 				312B7BC00A99D22C0014E52A /* Sparkle.framework in Copy Files (Frameworks) */,
+				F2EE794A0D33C7D8006F262F /* LockWindow.h in Copy Files (Frameworks) */,
 			);
 			name = "Copy Files (Frameworks)";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1343,6 +1346,8 @@
 		F2D5FF4C0CB2679100407399 /* PrintPrefs.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = PrintPrefs.icns; path = artwork/PrintPrefs.icns; sourceTree = "<group>"; };
 		F2D5FF4F0CB26EA800407399 /* ToolbarIconRunInTerminal.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = ToolbarIconRunInTerminal.icns; path = artwork/ToolbarIconRunInTerminal.icns; sourceTree = "<group>"; };
 		F2D5FF500CB26EA800407399 /* ToolbarIconTerminal.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = ToolbarIconTerminal.icns; path = artwork/ToolbarIconTerminal.icns; sourceTree = "<group>"; };
+		F2EE79480D33C7D8006F262F /* LockWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LockWindow.h; sourceTree = "<group>"; };
+		F2EE79490D33C7D8006F262F /* LockWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LockWindow.m; sourceTree = "<group>"; };
 		F2EFCBEF0CB656C700AEE298 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/ConnectionBrowser.nib; sourceTree = "<group>"; };
 		F2F2B60C0CA811240045C189 /* TCMMMLogStatisticsDataPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCMMMLogStatisticsDataPoint.h; sourceTree = "<group>"; };
 		F2F2B60D0CA811240045C189 /* TCMMMLogStatisticsDataPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMMMLogStatisticsDataPoint.m; sourceTree = "<group>"; };
@@ -1815,6 +1820,8 @@
 				148167AC0B15B002008894C9 /* PlainTextWindow.m */,
 				1428945009575B9700D14688 /* PlainTextWindowController.h */,
 				1428945109575B9700D14688 /* PlainTextWindowController.m */,
+				F2EE79480D33C7D8006F262F /* LockWindow.h */,
+				F2EE79490D33C7D8006F262F /* LockWindow.m */,
 				141F50EA0AE51B65001B73D2 /* PlainTextWindowControllerTabContext.h */,
 				141F50EB0AE51B65001B73D2 /* PlainTextWindowControllerTabContext.m */,
 				1428945209575B9700D14688 /* PopUpButton.h */,
@@ -3212,6 +3219,7 @@
 				3188F6800CAD13E0009E4C0B /* DNDArrayController.m in Sources */,
 				3134F7AB0CB1331900F8C116 /* PrecedenceRolloverButton.m in Sources */,
 				F2FB96E30CBE68ED000B85AE /* UKXattrMetadataStore.m in Sources */,
+				F2EE794B0D33C7D8006F262F /* LockWindow.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

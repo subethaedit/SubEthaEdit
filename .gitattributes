@@ -443,6 +443,8 @@ HTMLExport/Base.html -text
 /LayoutManager.m -text
 /LicenseController.h -text
 /LicenseController.m -text
+/LockWindow.h -text
+/LockWindow.m -text
 /LoginSheetController.h -text
 /LoginSheetController.m -text
 /ModeSettings.h -text
