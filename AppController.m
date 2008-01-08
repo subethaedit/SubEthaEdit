@@ -40,6 +40,7 @@
 #import "UserChangeOperation.h"
 #import "EncodingManager.h"
 #import "TextView.h"
+#import "LockWindow.h"
 
 #import "URLDataProtocol.h"
 
@@ -57,6 +58,8 @@
 #import "BacktracingException.h"
 
 #import "UserStatisticsController.h"
+
+#import "LockWindow.h"
 
 #ifndef TCM_NO_DEBUG
 #import "Debug/DebugPreferences.h"
@@ -598,7 +601,18 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [[TCMMMPresenceManager sharedInstance] stopRendezvousBrowsing];
 
     [TCMBEEPSession removeTemporaryKeychain];
-
+	
+	// if on tiger do some retaining so we don't crash...
+    if (floor(NSAppKitVersionNumber) == 824.) {
+	//	NSLog(@"%s %@",__FUNCTION__,[NSApp windows]);
+		NSEnumerator *windows = [[NSApp windows] objectEnumerator];
+		NSWindow *window = nil;
+		while ((window = [windows nextObject])) {
+			if ([window isKindOfClass:[LockWindow class]]) {
+				[window retain];
+			}
+		}
+	}
 }
 
 - (void)updateApplicationIcon {
