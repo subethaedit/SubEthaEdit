@@ -4576,7 +4576,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             break;
         }
     }
-    if (!result) result=[[self windowControllers] objectAtIndex:0];
+    if (!result) {
+		result=[[self windowControllers] lastObject];
+	}
+	if (!result) {
+		NSLog(@"%s Warning: wanting a windowController but returning none because we have none.",__FUNCTION__);
+	}
     return result;
 }
 
