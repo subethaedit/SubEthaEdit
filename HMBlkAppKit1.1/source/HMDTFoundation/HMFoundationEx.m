@@ -75,7 +75,7 @@ POSSIBILITY OF SUCH DAMAGE.
 
 static  NSMutableArray* _formats = nil;
 
-+ (void)load
++ (void)initialize
 {
     NSAutoreleasePool*  pool;
     pool = [[NSAutoreleasePool alloc] init];

@@ -53,7 +53,7 @@ static NSRect   _rightTopRect = {{0, 0}, {0, 0}};
 #pragma mark -- Initialize --
 //--------------------------------------------------------------//
 
-+ (void)load
++ (void)initialize
 {
     NSAutoreleasePool*  pool;
     pool = [[NSAutoreleasePool alloc] init];
