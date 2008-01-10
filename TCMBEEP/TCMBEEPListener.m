@@ -9,6 +9,7 @@
 #import "TCMBEEPListener.h"
 #import "TCMBEEPSession.h"
 
+#import <netinet/tcp.h>
 #import <netinet/in.h>
 #import <netinet6/in6.h>
 #import <sys/socket.h>

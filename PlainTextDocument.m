@@ -4518,7 +4518,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     if (!I_defaultParagraphStyle) {
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
         [paragraphStyle setTabStops:[NSArray array]];
-        NSFont *font=[sLayoutManager substituteFontForFont:[self fontWithTrait:nil]];
+        NSFont *font=[sLayoutManager substituteFontForFont:[self fontWithTrait:0]];
         float charWidth = [font widthOfString:@" "];
         if (charWidth<=0) {
             charWidth=[font maximumAdvancement].width;
