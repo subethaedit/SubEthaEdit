@@ -1,3 +1,4 @@
+setCollectionBehavior:
 AAPNotCreatedErr
 AAPNotFoundErr
 ACCESSOR_CALLS_ARE_FUNCTIONS

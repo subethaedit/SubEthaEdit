@@ -330,7 +330,11 @@
                 <string>WebHistoryItem</string>
                 <string>WebPreferences</string>
                 <string>WebView</string>
-
+                <string>NSAnimatablePropertyContainer</string>
+                <string>NSPathCellDelegate</string>
+                <string>NSPathControlDelegate</string>
+                <string>NSPrintPanelAccessorizing</string>
+                <string>NSTextInputClient</string>
                 <string>ABActionDelegate</string>
                 <string>WebFrameLoadDelegate</string>
                 <string>WebPolicyDelegate</string>
@@ -790,7 +794,6 @@
                 <string>NSInvocationOperation</string>
                 <string>NSOperationQueue</string>
                 <string>NSPointerArray</string>
-                <string>NSPointerArray</string>
                 <string>NSPointerFunctions</string>
                 <string>IMKCandidates</string>
                 <string>IMKInputController</string>
@@ -831,16 +834,9 @@
                 <string>QTFormatDescription</string>
                 <string>QTMovieLayer</string>
                 <string>QTSampleBuffer</string>
-                <string>QTSampleBuffer</string>
-                <string>IKFilterBrowserPanel</string>
                 <string>IKFilterBrowserPanel</string>
                 <string>IKFilterBrowserView</string>
                 <string>IKFilterUIView</string>
-                <string>IKImageBrowserView</string>
-                <string>IKImageBrowserView</string>
-                <string>IKImageBrowserView</string>
-                <string>IKImageBrowserView</string>
-                <string>IKImageBrowserView</string>
                 <string>IKImageBrowserView</string>
                 <string>IKImageEditPanel</string>
                 <string>IKImageView</string>
@@ -863,13 +859,9 @@
                 <string>QCCompositionParameterView</string>
                 <string>QCCompositionPickerPanel</string>
                 <string>QCCompositionPickerView</string>
-                <string>QCComposition</string>
                 <string>QCCompositionRepository</string>
                 <string>QCPlugIn</string>
-                <string>QCPlugIn</string>
-                <string>QCPlugIn</string>
                 <string>QCPlugInViewController</string>
-                <string>QCPlugIn</string>
                 <string>QuartzFilter</string>
                 <string>QuartzFilterView</string>
                 <string>QuartzFilterManager</string>
@@ -882,7 +874,6 @@
                 <string>CALayer</string>
                 <string>CAConstraintLayoutManager</string>
                 <string>CAConstraint</string>
-                <string>CALayer</string>
                 <string>CAMediaTimingFunction</string>
                 <string>CAOpenGLLayer</string>
                 <string>CARenderer</string>
@@ -911,18 +902,14 @@
                 <string>LKTransaction</string>
                 <string>RBObject</string>
                 <string>SBApplication</string>
-                <string>SBApplication</string>
                 <string>SBElementArray</string>
                 <string>SBObject</string>
-                <string>SBObject</string>
-                <string>SFAuthorizationPluginView</string>
                 <string>SFAuthorizationPluginView</string>
                 <string>ISyncRecordReference</string>
                 <string>ISyncSessionDriver</string>
                 <string>DOMKeyboardEvent</string>
                 <string>DOMOverflowEvent</string>
                 <string>DOMWheelEvent</string>
-                <string>DOMXPathExpression</string>
                 <string>DOMXPathExpression</string>
                 <string>DOMXPathResult</string>
             </keywords>
@@ -984,6 +971,8 @@
                 <string>retain</string>
             </keywords>
             <keywords id="Cocoa Functions" color="#400080" font-weight="normal" font-style="italic" useforautocomplete="yes">
+                <string>NSDrawThreePartImage</string>
+                <string>NSDrawNinePartImage</string>
                 <string>NSBeep</string>
                 <string>NSAccessibilityPostNotification</string>
                 <string>NSAccessibilityUnignoredAncestor</string>
@@ -1376,6 +1365,198 @@
                 <string>NSXMLDTDNodeKind</string>
                 <string>NSXMLDocumentContentKind</string>
                 <string>NSXMLNodeKind</string>
+                <string>imageEffectsRequested</string>
+                <string>isTemplate</string>
+                <string>NSImageNameActionTemplate</string>
+                <string>NSImageNameAddTemplate</string>
+                <string>NSImageNameAdvanced</string>
+                <string>NSImageNameBluetoothTemplate</string>
+                <string>NSImageNameBonjour</string>
+                <string>NSImageNameColorPanel</string>
+                <string>NSImageNameColumnViewTemplate</string>
+                <string>NSImageNameComputer</string>
+                <string>NSImageNameDotMac</string>
+                <string>NSImageNameEnterFullScreenTemplate</string>
+                <string>NSImageNameEveryone</string>
+                <string>NSImageNameExitFullScreenTemplate</string>
+                <string>NSImageNameFlowViewTemplate</string>
+                <string>NSImageNameFolderBurnable</string>
+                <string>NSImageNameFolderSmart</string>
+                <string>NSImageNameFollowLinkFreestandingTemplate</string>
+                <string>NSImageNameFontPanel</string>
+                <string>NSImageNameGoLeftTemplate</string>
+                <string>NSImageNameGoRightTemplate</string>
+                <string>NSImageNameIChatTheaterTemplate</string>
+                <string>NSImageNameIconViewTemplate</string>
+                <string>NSImageNameInfo</string>
+                <string>NSImageNameInvalidDataFreestandingTemplate</string>
+                <string>NSImageNameLeftFacingTriangleTemplate</string>
+                <string>NSImageNameListViewTemplate</string>
+                <string>NSImageNameLockLockedTemplate</string>
+                <string>NSImageNameLockUnlockedTemplate</string>
+                <string>NSImageNameMultipleDocuments</string>
+                <string>NSImageNameNetwork</string>
+                <string>NSImageNamePathTemplate</string>
+                <string>NSImageNamePreferencesGeneral</string>
+                <string>NSImageNameQuickLookTemplate</string>
+                <string>NSImageNameRefreshFreestandingTemplate</string>
+                <string>NSImageNameRefreshTemplate</string>
+                <string>NSImageNameRemoveTemplate</string>
+                <string>NSImageNameRevealFreestandingTemplate</string>
+                <string>NSImageNameRightFacingTriangleTemplate</string>
+                <string>NSImageNameSlideshowTemplate</string>
+                <string>NSImageNameSmartBadgeTemplate</string>
+                <string>NSImageNameStopProgressFreestandingTemplate</string>
+                <string>NSImageNameStopProgressTemplate</string>
+                <string>NSImageNameUser</string>
+                <string>NSImageNameUserAccounts</string>
+                <string>NSImageNameUserGroup</string>
+                <string>sampleMode</string>
+                <string>NSContentDictionaryBinding</string>
+                <string>NSContentPlacementTagBindingOption</string>
+                <string>NSExcludedKeysBinding</string>
+                <string>NSIncludedKeysBinding</string>
+                <string>NSInitialKeyBinding</string>
+                <string>NSInitialValueBinding</string>
+                <string>NSLocalizedKeyDictionaryBinding</string>
+                <string>NSTransparentBinding</string>
+                <string>NSMenuDidBeginTrackingNotification</string>
+                <string>checkedForEmptyRootItems</string>
+                <string>hasEmptyRootItems</string>
+                <string>reloadingData</string>
+                <string>validDataSourceMethods</string>
+                <string>NSHUDWindowMask</string>
+                <string>NSMultipleTextSelectionPboardType</string>
+                <string>NSPathStyle</string>
+                <string>NSPathStyleNavigationBar</string>
+                <string>NSPathStylePopUp</string>
+                <string>NSPathStyleStandard</string>
+                <string>NSPrintPanelAccessorySummaryItemDescriptionKey</string>
+                <string>NSPrintPanelAccessorySummaryItemNameKey</string>
+                <string>NSPrintPanelOptions</string>
+                <string>NSPrintPanelShowsCopies</string>
+                <string>NSPrintPanelShowsOrientation</string>
+                <string>NSPrintPanelShowsPageRange</string>
+                <string>NSPrintPanelShowsPageSetupAccessory</string>
+                <string>NSPrintPanelShowsPaperSize</string>
+                <string>NSPrintPanelShowsPreview</string>
+                <string>NSPrintPanelShowsScaling</string>
+                <string>NSRuleEditorNestingMode</string>
+                <string>NSRuleEditorNestingModeCompound</string>
+                <string>NSRuleEditorNestingModeList</string>
+                <string>NSRuleEditorNestingModeSimple</string>
+                <string>NSRuleEditorNestingModeSingle</string>
+                <string>NSRuleEditorPredicateComparisonModifier</string>
+                <string>NSRuleEditorPredicateCompoundType</string>
+                <string>NSRuleEditorPredicateCustomSelector</string>
+                <string>NSRuleEditorPredicateLeftExpression</string>
+                <string>NSRuleEditorPredicateOperatorType</string>
+                <string>NSRuleEditorPredicateOptions</string>
+                <string>NSRuleEditorPredicateRightExpression</string>
+                <string>NSRuleEditorRowsDidChangeNotification</string>
+                <string>NSRuleEditorRowType</string>
+                <string>NSRuleEditorRowTypeCompound</string>
+                <string>NSRuleEditorRowTypeSimple</string>
+                <string>setFloatValueKnobProportionOverridden</string>
+                <string>setFloatValueOverridden</string>
+                <string>NSSegmentStyle</string>
+                <string>NSSegmentStyleAutomatic</string>
+                <string>NSSegmentStyleCapsule</string>
+                <string>NSSegmentStyleRounded</string>
+                <string>NSSegmentStyleRoundRect</string>
+                <string>NSSegmentStyleSmallSquare</string>
+                <string>NSSegmentStyleTexturedRounded</string>
+                <string>NSSegmentStyleTexturedSquare</string>
+                <string>NSSpeechBoundary</string>
+                <string>NSSpeechCharacterModeProperty</string>
+                <string>NSSpeechCommandDelimiterProperty</string>
+                <string>NSSpeechCommandPrefix</string>
+                <string>NSSpeechCommandSuffix</string>
+                <string>NSSpeechCurrentVoiceProperty</string>
+                <string>NSSpeechDictionaryAbbreviations</string>
+                <string>NSSpeechDictionaryEntryPhonemes</string>
+                <string>NSSpeechDictionaryEntrySpelling</string>
+                <string>NSSpeechDictionaryLocaleIdentifier</string>
+                <string>NSSpeechDictionaryModificationDate</string>
+                <string>NSSpeechDictionaryPronunciations</string>
+                <string>NSSpeechErrorCount</string>
+                <string>NSSpeechErrorNewestCharacterOffset</string>
+                <string>NSSpeechErrorNewestCode</string>
+                <string>NSSpeechErrorOldestCharacterOffset</string>
+                <string>NSSpeechErrorOldestCode</string>
+                <string>NSSpeechErrorsProperty</string>
+                <string>NSSpeechImmediateBoundary</string>
+                <string>NSSpeechInputModeProperty</string>
+                <string>NSSpeechModeLiteral</string>
+                <string>NSSpeechModeNormal</string>
+                <string>NSSpeechModePhoneme</string>
+                <string>NSSpeechModeText</string>
+                <string>NSSpeechNumberModeProperty</string>
+                <string>NSSpeechOutputToFileURLProperty</string>
+                <string>NSSpeechPhonemeInfoExample</string>
+                <string>NSSpeechPhonemeInfoHiliteEnd</string>
+                <string>NSSpeechPhonemeInfoHiliteStart</string>
+                <string>NSSpeechPhonemeInfoOpcode</string>
+                <string>NSSpeechPhonemeInfoSymbol</string>
+                <string>NSSpeechPhonemeSymbolsProperty</string>
+                <string>NSSpeechPitchBaseProperty</string>
+                <string>NSSpeechPitchModProperty</string>
+                <string>NSSpeechRateProperty</string>
+                <string>NSSpeechRecentSyncProperty</string>
+                <string>NSSpeechResetProperty</string>
+                <string>NSSpeechSentenceBoundary</string>
+                <string>NSSpeechStatusNumberOfCharactersLeft</string>
+                <string>NSSpeechStatusOutputBusy</string>
+                <string>NSSpeechStatusOutputPaused</string>
+                <string>NSSpeechStatusPhonemeCode</string>
+                <string>NSSpeechStatusProperty</string>
+                <string>NSSpeechSynthesizerInfoIdentifier</string>
+                <string>NSSpeechSynthesizerInfoProperty</string>
+                <string>NSSpeechSynthesizerInfoVersion</string>
+                <string>NSSpeechVolumeProperty</string>
+                <string>NSSpeechWordBoundary</string>
+                <string>NSVoiceIndividuallySpokenCharacters</string>
+                <string>NSVoiceLocaleIdentifier</string>
+                <string>NSVoiceSupportedCharacters</string>
+                <string>NSSplitViewDividerStyle</string>
+                <string>NSSplitViewDividerStyleThick</string>
+                <string>NSSplitViewDividerStyleThin</string>
+                <string>NSTableViewSelectionHighlightStyle</string>
+                <string>NSTableViewSelectionHighlightStyleRegular</string>
+                <string>NSTableViewSelectionHighlightStyleSourceList</string>
+                <string>NSAllRomanInputSourcesLocaleIdentifier</string>
+                <string>NSFindPanelCaseInsensitiveSearch</string>
+                <string>NSFindPanelSearchOptionsPboardType</string>
+                <string>NSFindPanelSubstringMatch</string>
+                <string>NSFindPanelSubstringMatchType</string>
+                <string>NSTrackingActiveAlways</string>
+                <string>NSTrackingActiveInActiveApp</string>
+                <string>NSTrackingActiveInKeyWindow</string>
+                <string>NSTrackingActiveWhenFirstResponder</string>
+                <string>NSTrackingAreaOptions</string>
+                <string>NSTrackingAssumeInside</string>
+                <string>NSTrackingCursorUpdate</string>
+                <string>NSTrackingEnabledDuringMouseDrag</string>
+                <string>NSTrackingInVisibleRect</string>
+                <string>NSTrackingMouseEnteredAndExited</string>
+                <string>NSTrackingMouseMoved</string>
+                <string>ignoreObserving</string>
+                <string>NSFullScreenModeAllScreens</string>
+                <string>NSFullScreenModeSetting</string>
+                <string>NSFullScreenModeWindowLevel</string>
+                <string>NSViewDidUpdateTrackingAreasNotification</string>
+                <string>NSWindowBackingLocation</string>
+                <string>NSWindowBackingLocationDefault</string>
+                <string>NSWindowBackingLocationMainMemory</string>
+                <string>NSWindowBackingLocationVideoMemory</string>
+                <string>NSWindowCollectionBehavior</string>
+                <string>NSWindowCollectionBehaviorCanJoinAllSpaces</string>
+                <string>NSWindowCollectionBehaviorDefault</string>
+                <string>NSWindowCollectionBehaviorMoveToActiveSpace</string>
+                <string>NSWindowSharingNone</string>
+                <string>NSWindowSharingReadOnly</string>
+                <string>NSWindowSharingReadWrite</string>
+                <string>NSWindowSharingType</string>
             </keywords>
             <keywords id="Cocoa Constants" color="#400080" font-weight="normal" font-style="italic" useforautocomplete="yes">
                 <string>NSAppKitVersionNumber10_0</string>
@@ -1429,18 +1610,6 @@
                 <string>NSFoundationVersionNumber10_4_9</string>
                 <string>NSFoundationVersionNumber10_4_10</string>
                 <string>NSFoundationVersionNumber10_4_11</string>
-                <string>NSAppKitVersionNumber10_0</string>
-                <string>NSAppKitVersionNumber10_1</string>
-                <string>NSAppKitVersionNumber10_2</string>
-                <string>NSAppKitVersionNumber10_2_3</string>
-                <string>NSAppKitVersionNumber10_3</string>
-                <string>NSAppKitVersionNumber10_3_3</string>
-                <string>NSAppKitVersionNumber10_3_5</string>
-                <string>NSAppKitVersionNumber10_3_7</string>
-                <string>NSAppKitVersionNumber10_3_9</string>
-                <string>NSAppKitVersionNumber10_4</string>
-                <string>NSAppKitVersionNumber</string>
-                <string>NSDefaultRunLoopMode</string>
                 <string>NSFoundationVersion</string>
                 <string>NSViewAnimationTargetKey</string>
                 <string>NSViewAnimationStartFrameKey</string>
@@ -1459,7 +1628,6 @@
                 <string>NSModalPanelWindowLevel</string>
                 <string>NSPopUpMenuWindowLevel</string>
                 <string>NSScreenSaverWindowLevel</string>               
-                <string>NSDecimalMaxSize</string>
                 <string>NSDecimalNoScale</string>
                 <string>NSMaximumStringLength</string>
                 <string>NSNotAnIntMapKey</string>
@@ -2507,7 +2675,6 @@
                 <string>NSListModeMatrix</string>
                 <string>NSLiteralSearch</string>
                 <string>NSLocalDomainMask</string>
-                <string>NSLocalizedDescriptionKey</string>
                 <string>NSLogOtherExceptionMask</string>
                 <string>NSLogTopLevelExceptionMask</string>
                 <string>NSLogUncaughtExceptionMask</string>
@@ -2517,7 +2684,6 @@
                 <string>NSMACHOperatingSystem</string>
                 <string>NSMacOSRomanStringEncoding</string>
                 <string>NSMacSimpleTextDocumentType</string>
-                <string>NSMachErrorDomain</string>
                 <string>NSMacintoshInterfaceStyle</string>
                 <string>NSManagedObjectContextLockingError</string>
                 <string>NSManagedObjectExternalRelationshipError</string>
@@ -2647,7 +2813,6 @@
                 <string>NSNumericSearch</string>
                 <string>NSOKButton</string>
                 <string>NSOSF</string>
-                <string>NSOSStatusErrorDomain</string>
                 <string>NSObjCArrayType</string>
                 <string>NSObjCBitfield</string>
                 <string>NSObjCBoolType</string>
@@ -2759,7 +2924,6 @@
                 <string>NSPLUnitsButton</string>
                 <string>NSPLWidthForm</string>
                 <string>NSPNGFileType</string>
-                <string>NSPOSIXErrorDomain</string>
                 <string>NSPPCopiesField</string>
                 <string>NSPPDIncludeNotFoundException</string>
                 <string>NSPPDIncludeStackOverflowException</string>
@@ -3032,7 +3196,6 @@
                 <string>NSStringDrawingUsesDeviceMetrics</string>
                 <string>NSStringDrawingUsesFontLeading</string>
                 <string>NSStringDrawingUsesLineFragmentOrigin</string>
-                <string>NSStringEncodingErrorKey</string>
                 <string>NSStringPboardType</string>
                 <string>NSStrokeColorAttributeName</string>
                 <string>NSStrokeWidthAttributeName</string>
@@ -3226,9 +3389,6 @@
                 <string>NSUnderlyingErrorKey</string>
                 <string>NSUndoCloseGroupingRunLoopOrdering</string>
                 <string>NSUndoFunctionKey</string>
-                <string>NSUndoManagerDidRedoChangeNotification</string>
-                <string>NSUndoManagerDidUndoChangeNotification</string>
-                <string>NSUndoManagerWillCloseUndoGroupNotification</string>
                 <string>NSUnicodeStringEncoding</string>
                 <string>NSUnitalicFontMask</string>
                 <string>NSUnknownColorSpaceModel</string>
@@ -4899,7 +5059,41 @@
                 <string>sock_evt_flush_read</string>
                 <string>sock_evt_shutdown</string>
                 <string>typeSecIdentityRef</string>
-
+                <string>NSAccessibilityColumnCountAttribute</string>
+                <string>NSAccessibilityDisclosureTriangleRole</string>
+                <string>NSAccessibilityGridRole</string>
+                <string>NSAccessibilityOrderedByRowAttribute</string>
+                <string>NSAccessibilityRowCountAttribute</string>
+                <string>NSAccessibilitySelectedTextRangesAttribute</string>
+                <string>NSAccessibilityTimelineSubrole</string>
+                <string>NSAccessibilityValueDescriptionAttribute</string>
+                <string>NSAnimationTriggerOrderIn</string>
+                <string>NSAnimationTriggerOrderOut</string>
+                <string>NSMarkedClauseSegmentAttributeName</string>
+                <string>NSOfficeOpenXMLTextDocumentType</string>
+                <string>NSOpenDocumentTextDocumentType</string>
+                <string>NSSpellingStateAttributeName</string>
+                <string>NSImageFallbackBackgroundColor</string>
+                <string>NSBrowserDropAbove</string>
+                <string>NSBrowserDropOn</string>
+                <string>NSBrowserDropOperation</string>
+                <string>NSBackgroundStyle</string>
+                <string>NSBackgroundStyleDark</string>
+                <string>NSBackgroundStyleLight</string>
+                <string>NSBackgroundStyleLowered</string>
+                <string>NSBackgroundStyleRaised</string>
+                <string>NSCellHitContentArea</string>
+                <string>NSCellHitEditableTextArea</string>
+                <string>NSCellHitNone</string>
+                <string>NSCellHitTrackableArea</string>
+                <string>NSColorPanelMode</string>
+                <string>NSFontFeatureSelectorIdentifierKey</string>
+                <string>NSFontFeatureSettingsAttribute</string>
+                <string>NSFontFeatureTypeIdentifierKey</string>
+                <string>NSGradientDrawingOptions</string>
+                <string>NSGradientDrawsAfterEndingLocation</string>
+                <string>NSGradientDrawsBeforeStartingLocation</string>
+                <string>NSColorRenderingIntent</string>
                 <string>NSServiceApplicationNotFoundError</string>
                 <string>NSServiceApplicationLaunchFailedError</string>
                 <string>NSServiceRequestTimedOutError</string>
@@ -4917,10 +5111,6 @@
                 <string>NSImageScaleAxesIndependently</string>
                 <string>NSImageScaleNone</string>
                 <string>NSImageScaleProportionallyUpOrDown</string>
-                <string>NSCellHitNone</string>
-                <string>NSCellHitContentArea</string>
-                <string>NSCellHitEditableTextArea</string>
-                <string>NSCellHitTrackableArea</string>
                 <string>NSNoModeColorPanel</string>
                 <string>NSIndexedColorSpaceModel</string>
                 <string>NSPatternColorSpaceModel</string>
@@ -4990,8 +5180,6 @@
                 <string>NSAdobeJapan1CharacterCollection</string>
                 <string>NSAdobeJapan2CharacterCollection</string>
                 <string>NSAdobeKorea1CharacterCollection</string>
-                <string>NSGradientDrawsBeforeStartingLocation</string>
-                <string>NSGradientDrawsAfterEndingLocation</string>
                 <string>NSColorRenderingIntentDefault</string>
                 <string>NSColorRenderingIntentAbsoluteColorimetric</string>
                 <string>NSColorRenderingIntentRelativeColorimetric</string>
@@ -5003,41 +5191,11 @@
                 <string>NSTypesetterBehavior_10_3</string>
                 <string>NSTypesetterBehavior_10_4</string>
                 <string>NSOpenGLPFAAllowOfflineRenderers</string>
-                <string>NSHUDWindowMask</string>
-                <string>NSPathStyleStandard</string>
-                <string>NSPathStyleNavigationBar</string>
-                <string>NSPathStylePopUp</string>
-                <string>NSPrintPanelShowsCopies</string>
-                <string>NSPrintPanelShowsPageRange</string>
-                <string>NSPrintPanelShowsPaperSize</string>
-                <string>NSPrintPanelShowsOrientation</string>
-                <string>NSPrintPanelShowsScaling</string>
-                <string>NSPrintPanelShowsPageSetupAccessory</string>
-                <string>NSPrintPanelShowsPreview</string>
-                <string>NSRuleEditorNestingModeSingle</string>
-                <string>NSRuleEditorNestingModeList</string>
-                <string>NSRuleEditorNestingModeCompound</string>
-                <string>NSRuleEditorNestingModeSimple</string>
-                <string>NSRuleEditorRowTypeSimple</string>
-                <string>NSRuleEditorRowTypeCompound</string>
-                <string>NSSegmentStyleAutomatic</string>
-                <string>NSSegmentStyleRounded</string>
-                <string>NSSegmentStyleTexturedRounded</string>
-                <string>NSSegmentStyleRoundRect</string>
-                <string>NSSegmentStyleTexturedSquare</string>
-                <string>NSSegmentStyleCapsule</string>
-                <string>NSSegmentStyleSmallSquare</string>
-                <string>NSSpeechImmediateBoundary</string>
-                <string>NSSpeechWordBoundary</string>
-                <string>NSSpeechSentenceBoundary</string>
                 <string>NSTableColumnNoResizing</string>
                 <string>NSTableColumnAutoresizingMask</string>
                 <string>NSTableColumnUserResizingMask</string>
                 <string>CGFloat</string>
-                <string>CGFloat</string>
                 <string>_TvFlags</string>
-                <string>NSTableViewSelectionHighlightStyleRegular</string>
-                <string>NSTableViewSelectionHighlightStyleSourceList</string>
                 <string>NSTextListPrependEnclosingMarker</string>
                 <string>NSFindPanelSubstringMatchTypeContains</string>
                 <string>NSFindPanelSubstringMatchTypeStartsWith</string>
@@ -5047,23 +5205,7 @@
                 <string>NSToolbarItemVisibilityPriorityLow</string>
                 <string>NSToolbarItemVisibilityPriorityHigh</string>
                 <string>NSToolbarItemVisibilityPriorityUser</string>
-                <string>NSTrackingMouseEnteredAndExited</string>
-                <string>NSTrackingMouseMoved</string>
-                <string>NSTrackingCursorUpdate</string>
-                <string>NSTrackingActiveWhenFirstResponder</string>
-                <string>NSTrackingActiveInKeyWindow</string>
-                <string>NSTrackingActiveInActiveApp</string>
-                <string>NSTrackingActiveAlways</string>
-                <string>NSTrackingAssumeInside</string>
-                <string>NSTrackingInVisibleRect</string>
-                <string>NSTrackingEnabledDuringMouseDrag</string>
                 <string>NSUnscaledWindowMask</string>
-                <string>NSWindowSharingNone</string>
-                <string>NSWindowSharingReadOnly</string>
-                <string>NSWindowSharingReadWrite</string>
-                <string>NSWindowBackingLocationDefault</string>
-                <string>NSWindowBackingLocationVideoMemory</string>
-                <string>NSWindowBackingLocationMainMemory</string>
                 <string>NSExcludeQuickDrawElementsIconCreationOption</string>
                 <string>NSExclude10_4ElementsIconCreationOption</string>
                 <string>NSFileNoSuchFileError</string>
@@ -5182,7 +5324,6 @@
                 <string>NSURLRequestReloadIgnoringLocalAndRemoteCacheData</string>
                 <string>NSURLRequestReloadRevalidatingCacheData</string>
                 <string>NSXMLDocumentXInclude</string>
-                <string>NSXMLNodePreserveCharacterReferences</string>
                 <string>NSXMLNodePreserveCharacterReferences</string>
                 <string>NSScannedOption</string>
                 <string>NSCollectorDisabledOption</string>
