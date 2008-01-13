@@ -83,6 +83,10 @@
                 <keywords id="Numbers" color="#00f" useforautocomplete="no">
                     <regex>(?&lt;=[^\w\d]|^)(([+-]?(([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
                 </keywords>
+                <state-link state="DoxyGen Comment" />
+                <state-link state="AutodocComment" />
+                <state-link state="Comment" />
+                <state-link state="SingleComment" />
             </state>
     
             <state id="DoxyGen Comment" type="comment" color="#236E25"  font-style="italic">
