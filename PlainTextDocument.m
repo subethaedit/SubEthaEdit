@@ -4061,7 +4061,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             }
             [self setShouldChangeChangeCount:YES];
         }
-        [self TCM_webPreviewOnSaveRefresh];
+        if (saveOperationType != NSAutosaveOperation) {
+            [self TCM_webPreviewOnSaveRefresh];
+        }
         [self setTemporaryDisplayName:nil];
     }
     
