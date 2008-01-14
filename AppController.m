@@ -601,18 +601,6 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [[TCMMMPresenceManager sharedInstance] stopRendezvousBrowsing];
 
     [TCMBEEPSession removeTemporaryKeychain];
-	
-	// if on tiger do some retaining so we don't crash...
-    if (floor(NSAppKitVersionNumber) == 824.) {
-	//	NSLog(@"%s %@",__FUNCTION__,[NSApp windows]);
-		NSEnumerator *windows = [[NSApp windows] objectEnumerator];
-		NSWindow *window = nil;
-		while ((window = [windows nextObject])) {
-			if ([window isKindOfClass:[LockWindow class]]) {
-				[window retain];
-			}
-		}
-	}
 }
 
 - (void)updateApplicationIcon {
