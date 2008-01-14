@@ -57,6 +57,11 @@ static FindReplaceController *sharedInstance=nil;
         } else {
 			[O_findComboBox setButtonBordered:NO];
 			[O_replaceComboBox setButtonBordered:NO];
+            NSWindow *window = [O_replaceComboBox window];
+            if ([window respondsToSelector:@selector(setCollectionBehavior:)]) {
+                (void (*)(int))objc_msgSend(window, @selector(setCollectionBehavior:), 2);;
+            }
+
 		}
     }
 }
