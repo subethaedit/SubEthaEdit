@@ -600,7 +600,6 @@
 
             <state-link state="AutodocComment"/>
             <state-link state="Comment"/>
-            <state-link state="SingleComment"/>
             <state-link state="String"/>
             <state-link state="SingleString"/>
             <state-link state="Round bracket"/>
@@ -617,11 +616,6 @@
             <end><regex>\*/</regex></end>
         </state>
         
-        <state id="SingleComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
-            <begin><string>//</string></begin>
-            <end><regex>[\n\r]</regex></end>
-        </state>
-
         <state id="Round bracket" type="string" color="#760f15" font-weight="normal" font-style="normal">
             <begin><string>\(</string></begin>
             <end><regex>\)</regex></end>
