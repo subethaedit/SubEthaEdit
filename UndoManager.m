@@ -533,6 +533,7 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
 - (void)forwardInvocation:(NSInvocation *)anInvocation {
     if (_preparedInvocationTarget != nil) {
         [anInvocation setTarget:_preparedInvocationTarget];
+        if (![anInvocation argumentsRetained]) [anInvocation retainArguments];
         [self _registerAction:anInvocation shouldGroupWithPriorOperation:NO];
     } else {
         [NSException raise:NSInternalInconsistencyException format:@"prepareWithInvocationTarget: was not invoked before this method"];
