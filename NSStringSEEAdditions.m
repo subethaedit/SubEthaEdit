@@ -136,6 +136,7 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
     // Pirated number (2.6.3): SEE-BW26-J17T-QQ3Y (#1395435/557970)
     // Pirated number (2.6.3): SEE-Z410-71AH-5P0S (#798516/1669500)
 	// Pirated number (2.6.4): SEE-V006-81P0-35F4 (#123/1451814)	
+	// Pirated number (3.0.2): SEE-XAAU-IKZJ-55TA (#899633/1553286)	
     
     static int calls = 0;
     NSArray *splitArray = [self componentsSeparatedByString:@"-"];
@@ -165,6 +166,7 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
 
             // check for pirated number            
             if (((number==1500) && (rndnumber == 63000)) ||
+                ((number==899633) && (rndnumber == 1553286)) ||
                 ((number==123) && (rndnumber == 1451814)) ||
                 ((number==43400) && (rndnumber == 136374)) ||
                 ((number==1395435) && (rndnumber == 557970)) ||
