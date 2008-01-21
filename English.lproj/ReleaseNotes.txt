@@ -1,4 +1,36 @@
 
+SubEthaEdit 3.0.3
+=================
+
+Changes:
+- Shift click/drag in the line number gutter now works as it should: now it 
+  does span the current selection up to the target line.
+- Updated the Objective-C mode to the current state of the API in Tiger. Some 
+  methods and constants were missing.
+- Added WebKit specific CSS attributes to all modes using CSS
+- Deprecated support non-standard CSS single-line comments
+- Made joining resizing transition smoother by using Core Animation on Leopard.
+
+Fixes:
+- Fixed a crash on 10.4.x that occured on quit when the application was quit 
+  while being inactive after dismissing the unsaved changes dialog.
+- Fixed an issue with spaces where all SubEthaEdit windows were dragged to the 
+  space with the frontmost SubEthaEdit window.
+- Fixed an issue with spaces where the find window did live on another space 
+  than the document window it was searching in.
+- Fixed an issue where the live web preview when set to update "on save" did 
+  update also on autosave (that means at least every 60 seconds).
+- Fixed an issue where SubEthaEdit did not respect the Appearance scroll bar 
+  setting "Jump to here" if it was set while SubEthaEdit was not running.
+- Fixed an issue where undo after a revert did garble the document.
+- Fixed an issue with undo where the document did stay dirty after undoing 
+  beyond the last save point and redoing again to it.
+- Fixed an issue where C++ functions with class-qualified types did not appear 
+  in the symbol popup.
+- Fixed an issue where some indented C++ functions where not recognized.
+- Fixed an issue where comments in #defines weren't highlighted correctly.
+
+
 SubEthaEdit 3.0.2
 =================
 
