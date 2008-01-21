@@ -68,7 +68,7 @@ static SDDocumentManager *S_sharedInstance=nil;
         if (![fm fileExistsAtPath:_documentRootPath isDirectory:&wasDirectory]) {
             [fm createDirectoryAtPath:_documentRootPath attributes:nil];
         }        
-        [[TCMMMBEEPSessionManager sharedInstance] registerHandler:self forIncomingProfilesWithProfileURI:@"http://www.codingmonkeys.de/BEEP/SeedFileManagement"];
+        [[TCMMMBEEPSessionManager sharedInstance] registerHandler:self forIncomingProfilesWithProfileURI:@"http://www.codingmonkeys.de/BEEP/SeedManagement"];
         
         // iterate over directory and create a document for every File on disk
         [self addDocumentsFromPath:_documentRootPath];

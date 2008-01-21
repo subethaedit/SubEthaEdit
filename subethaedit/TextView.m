@@ -667,6 +667,7 @@ static NSMenu *defaultMenu=nil;
 #pragma mark ### handle ruler interaction ###
 
 - (void)trackMouseForLineSelectionWithEvent:(NSEvent *)anEvent {
+    BOOL wasShift = ([anEvent modifierFlags] & NSShiftKeyMask) != 0;
     NSString *textStorageString = [[self textStorage] string];
     if ([textStorageString length]==0) return;
     NSLayoutManager *layoutManager = [self layoutManager];
@@ -677,6 +678,16 @@ static NSMenu *defaultMenu=nil;
     glyphIndex=[layoutManager glyphIndexForPoint:point 
                                  inTextContainer:textContainer];
     endCharacterIndex = startCharacterIndex = [layoutManager characterIndexForGlyphAtIndex:glyphIndex];
+    if (wasShift) {
+        NSRange previousRange = [self selectedRange];
+        if (previousRange.location <= startCharacterIndex) {
+            startCharacterIndex = previousRange.location;
+        } else {
+            startCharacterIndex = NSMaxRange([self selectedRange]);
+            if (startCharacterIndex != 0 && 
+                (previousRange.length != 0 || startCharacterIndex == [textStorageString length]) ) startCharacterIndex--;
+        }
+    }
     NSRange selectedRange = [textStorageString lineRangeForRange:SPANNINGRANGE(startCharacterIndex, endCharacterIndex)];
     [self setSelectedRange:selectedRange];
     NSEvent *autoscrollEvent=nil;

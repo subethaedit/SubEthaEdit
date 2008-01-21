@@ -131,40 +131,6 @@ extern NSString const * WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
     [self endEditing];
 }
 
-- (NSDictionary *)dictionaryRepresentationUsingEncoding:(NSStringEncoding)anEncoding {
-    NSMutableDictionary *dictionary=[NSMutableDictionary dictionary];
-    [dictionary setObject:[[[self string] copy] autorelease] forKey:@"String"];
-    [dictionary setObject:[NSNumber numberWithUnsignedInt:anEncoding] forKey:@"Encoding"];
-    NSMutableDictionary *attributeDictionary=[NSMutableDictionary new];
-    NSEnumerator *attributeNames=[[NSArray arrayWithObjects:WrittenByUserIDAttributeName,ChangedByUserIDAttributeName,nil] objectEnumerator];
-    NSString *attributeName;
-    NSRange wholeRange=NSMakeRange(0,[self length]);
-    if (wholeRange.length) {
-        while ((attributeName=[attributeNames nextObject])) {
-            NSMutableArray *attributeArray=[NSMutableArray new];
-            NSRange searchRange=NSMakeRange(0,0);
-            while (NSMaxRange(searchRange)<wholeRange.length) {
-                id value=[self attribute:attributeName atIndex:NSMaxRange(searchRange) 
-                       longestEffectiveRange:&searchRange inRange:wholeRange];
-                if (value) {
-                    [attributeArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:
-                        value,@"val",
-                        [NSNumber numberWithUnsignedInt:searchRange.location],@"loc",
-                        [NSNumber numberWithUnsignedInt:searchRange.length],@"len",
-                        nil]];
-                }
-            }
-            if ([attributeArray count]) {
-                [attributeDictionary setObject:attributeArray forKey:attributeName];
-            }
-            [attributeArray release];
-        }
-    }
-    [dictionary setObject:attributeDictionary forKey:@"Attributes"];
-    [attributeDictionary release];
-    return dictionary;
-}
-
 - (void)setContentByDictionaryRepresentation:(NSDictionary *)aRepresentation {
     [self beginEditing];
     NSString *string=[aRepresentation objectForKey:@"String"];
@@ -202,5 +168,43 @@ extern NSString const * WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
     [self endEditing];
 }
 
+
+@end
+
+@implementation NSAttributedString (NSAttributedStringSeeAdditions)
+
+- (NSDictionary *)dictionaryRepresentationUsingEncoding:(NSStringEncoding)anEncoding {
+    NSMutableDictionary *dictionary=[NSMutableDictionary dictionary];
+    [dictionary setObject:[[[self string] copy] autorelease] forKey:@"String"];
+    [dictionary setObject:[NSNumber numberWithUnsignedInt:anEncoding] forKey:@"Encoding"];
+    NSMutableDictionary *attributeDictionary=[NSMutableDictionary new];
+    NSEnumerator *attributeNames=[[NSArray arrayWithObjects:WrittenByUserIDAttributeName,ChangedByUserIDAttributeName,nil] objectEnumerator];
+    NSString *attributeName;
+    NSRange wholeRange=NSMakeRange(0,[self length]);
+    if (wholeRange.length) {
+        while ((attributeName=[attributeNames nextObject])) {
+            NSMutableArray *attributeArray=[NSMutableArray new];
+            NSRange searchRange=NSMakeRange(0,0);
+            while (NSMaxRange(searchRange)<wholeRange.length) {
+                id value=[self attribute:attributeName atIndex:NSMaxRange(searchRange) 
+                       longestEffectiveRange:&searchRange inRange:wholeRange];
+                if (value) {
+                    [attributeArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                        value,@"val",
+                        [NSNumber numberWithUnsignedInt:searchRange.location],@"loc",
+                        [NSNumber numberWithUnsignedInt:searchRange.length],@"len",
+                        nil]];
+                }
+            }
+            if ([attributeArray count]) {
+                [attributeDictionary setObject:attributeArray forKey:attributeName];
+            }
+            [attributeArray release];
+        }
+    }
+    [dictionary setObject:attributeDictionary forKey:@"Attributes"];
+    [attributeDictionary release];
+    return dictionary;
+}
 
 @end

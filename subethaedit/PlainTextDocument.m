@@ -3077,8 +3077,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
     NSTextStorage *textStorage = [self textStorage];
     BOOL isReverting = ([textStorage length] != 0);
-
     BOOL wasAutosaved = NO;
+    NSAttributedString *undoString = nil;
+    if (isReverting) {
+        undoString = [I_textStorage attributedSubstringFromRange:NSMakeRange(0,[I_textStorage length])];
+    }
+
 
     if ([docType isEqualToString:@"SEETextType"]) {
         BOOL result = [self readSEETextFromURL:anURL properties:aProperties wasAutosave:&wasAutosaved error:outError];
@@ -3369,7 +3373,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
     [self updateChangeCount:NSChangeCleared];
     
-
+    if (isReverting) {
+        [[self documentUndoManager] beginUndoGrouping];
+        [[[self documentUndoManager] prepareWithInvocationTarget:self] setAttributedStringUndoable:undoString];
+        [[self documentUndoManager] endUndoGrouping];
+    }
+    
     if (!isReverting && ![docType isEqualToString:@"SEETextType"]) {
         // clear the logging state
         if ([I_textStorage length] > [[NSUserDefaults standardUserDefaults] integerForKey:@"ByteLengthToUseForModeRecognitionAndEncodingGuessing"]) {
@@ -4061,7 +4070,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             }
             [self setShouldChangeChangeCount:YES];
         }
-        [self TCM_webPreviewOnSaveRefresh];
+        if (saveOperationType != NSAutosaveOperation) {
+            [self TCM_webPreviewOnSaveRefresh];
+        }
         [self setTemporaryDisplayName:nil];
     }
     
@@ -4263,6 +4274,17 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [[[self documentUndoManager] prepareWithInvocationTarget:self] setLineEndingUndoable:[self lineEnding]];
     [[self documentUndoManager] endUndoGrouping];
     [self setLineEnding:lineEnding];
+}
+
+// caution this call releases its argument because it doesn't seem to work otherwise :(
+- (void)setAttributedStringUndoable:(NSAttributedString *)aString {
+    [[self documentUndoManager] beginUndoGrouping];
+    [[[self documentUndoManager] prepareWithInvocationTarget:self] setAttributedStringUndoable:[I_textStorage attributedSubstringFromRange:NSMakeRange(0,[I_textStorage length])]];
+    [[self documentUndoManager] endUndoGrouping];
+    BOOL previousState = [self isHandlingUndoManually];
+    [self setIsHandlingUndoManually:YES];
+    [I_textStorage setAttributedString:aString];
+    [self setIsHandlingUndoManually:previousState];
 }
 
 - (IBAction)chooseLineEndings:(id)aSender {
@@ -4518,7 +4540,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     if (!I_defaultParagraphStyle) {
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
         [paragraphStyle setTabStops:[NSArray array]];
-        NSFont *font=[sLayoutManager substituteFontForFont:[self fontWithTrait:nil]];
+        NSFont *font=[sLayoutManager substituteFontForFont:[self fontWithTrait:0]];
         float charWidth = [font widthOfString:@" "];
         if (charWidth<=0) {
             charWidth=[font maximumAdvancement].width;
@@ -4576,7 +4598,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             break;
         }
     }
-    if (!result) result=[[self windowControllers] objectAtIndex:0];
+    if (!result) {
+		result=[[self windowControllers] lastObject];
+	}
+	if (!result) {
+		NSLog(@"%s Warning: wanting a windowController but returning none because we have none.",__FUNCTION__);
+	}
     return result;
 }
 
@@ -5168,8 +5195,14 @@ static NSString *S_measurementUnits;
     if (transientDocument == self) {
         transientDocument = nil;
     }
+//    switch (changeType) {
+//        case NSChangeCleared: I_changeCount = 0;break;
+//        case NSChangeDone:    I_changeCount++; break;
+//        case NSChangeUndone:  I_changeCount--; break;
+//    }
     
-    if (changeType==NSChangeCleared || I_flags.shouldChangeChangeCount) {
+    
+    if (changeType==NSChangeCleared || changeType==NSChangeAutosaved || I_flags.shouldChangeChangeCount) {
         [super updateChangeCount:changeType];
     }
     
@@ -5180,6 +5213,9 @@ static NSString *S_measurementUnits;
             [(PlainTextWindowController *)windowController documentUpdatedChangeCount:self];
         }
     }
+
+//    NSString *changes[]={@"NSChangeDone",@"NSChangeUndone",@"NSChangeCleared",@"NSChangeReadOtherContents",@"NSChangeAutosaved",@"NSChangeRedone"};
+//    NSLog(@"%s count:%d %@ %@ %@",__FUNCTION__,I_changeCount,changes[changeType],[self isDocumentEdited]?@"Dirty":@"Clean",I_flags.shouldChangeChangeCount?@"shouldChange":@"doesn'tChange");
 }
 
 - (void)setIsDocumentEdited:(BOOL)aFlag {
@@ -5710,8 +5746,12 @@ static NSString *S_measurementUnits;
 
     UndoManager *undoManager=[self documentUndoManager];
     if (![undoManager isUndoing]) {
-//        NSLog(@"ChangeDone");
-        [self updateChangeCount:NSChangeDone];
+        if ([undoManager isRedoing] && 
+            floor(NSAppKitVersionNumber)>824){ //NSAppKitVersionNumber10_4
+            [self updateChangeCount:5]; //NSChangeRedone
+        } else {
+            [self updateChangeCount:NSChangeDone];
+        }
         if (I_flags.showMatchingBrackets && ![undoManager isRedoing] &&
             !I_flags.isRemotelyEditingTextStorage &&
     //        !I_blockedit.isBlockediting && !I_blockedit.didBlockedit &&

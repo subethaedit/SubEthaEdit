@@ -76,6 +76,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
         BOOL isAutosavingForRestart;
     } I_flags;
     int I_tabWidth;
+//    int I_changeCount;
     DocumentMode  *I_documentMode;
     NSTextStorage *I_textStorage;
     struct {
@@ -229,6 +230,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (unsigned int)fileEncoding;
 - (void)setFileEncoding:(unsigned int)anEncoding;
 - (void)setFileEncodingUndoable:(unsigned int)anEncoding;
+- (void)setAttributedStringUndoable:(NSAttributedString *)aString;
 - (NSDictionary *)fileAttributes;
 - (void)setFileAttributes:(NSDictionary *)attributes;
 - (NSDictionary *)ODBParameters;

@@ -76,7 +76,7 @@ enum {
 #pragma mark -- Initialize --
 //--------------------------------------------------------------//
 
-+ (void)load
++ (void)initialize
 {
     NSAutoreleasePool*  pool;
     pool = [[NSAutoreleasePool alloc] init];

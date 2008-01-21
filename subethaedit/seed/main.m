@@ -114,7 +114,7 @@ int main(int argc, const char *argv[])
     signal(SIGINFO, catch_signal);
     
     
-    NSString *configFile = [defaults stringForKey:@"config"];
+    NSString *configFile = [defaults stringForKey:@"config_file_path"];
     if (!configFile) {
         configFile = [[defaults stringForKey:@"base_location"] stringByAppendingPathComponent:@"config.plist"];
     }

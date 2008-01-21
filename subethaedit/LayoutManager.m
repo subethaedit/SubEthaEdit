@@ -71,9 +71,6 @@ static NSString *S_specialGlyphs[16];
         for (i=1;i<=u_2761_red;i++) {
             [string appendString:S_specialGlyphs[i]];
         }
-		if ([self respondsToSelector:@selector(setAllowsNonContiguousLayout:)]) {
-			[self performSelector:@selector(setAllowsNonContiguousLayout:) withObject:[NSNumber numberWithBool:YES]];
-		}
     }
     return self;
 }

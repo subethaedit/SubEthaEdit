@@ -41,6 +41,7 @@
 #import "UserChangeOperation.h"
 #import "EncodingManager.h"
 #import "TextView.h"
+#import "LockWindow.h"
 
 #import "URLDataProtocol.h"
 
@@ -58,6 +59,8 @@
 #import "BacktracingException.h"
 
 #import "UserStatisticsController.h"
+
+#import "LockWindow.h"
 
 #ifndef TCM_NO_DEBUG
 #import "Debug/DebugPreferences.h"
@@ -603,7 +606,6 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [[TCMMMPresenceManager sharedInstance] stopRendezvousBrowsing];
 
     [TCMBEEPSession removeTemporaryKeychain];
-
 }
 
 - (void)updateApplicationIcon {

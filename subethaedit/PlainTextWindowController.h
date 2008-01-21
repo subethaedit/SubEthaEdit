@@ -54,7 +54,7 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
     NSMutableArray *I_documents;
     NSDocument *I_documentBeingClosed;
 
-    NSWindow *I_lockChildWindow;
+    NSImageView *I_lockImageView;
 
 }
 
