@@ -27925,6 +27925,8 @@ initMACE6
 initMono
 initMonthlyRecurrenceWithInterval:
 initMonthlyRecurrenceWithInterval: end:
+initMonthlyRecurrenceWithInterval: forDaysOfTheMonth: end:
+initMonthlyRecurrenceWithInterval: forDayOfTheWeek: forWeekOfTheMonth: end:
 initMouseEvent:
 initMouseEvent: canBubble: cancelable: view: detail: screenX: screenY: clientX: clientY: ctrlKey: altKey: shiftKey: metaKey: button: relatedTarget:
 initMsg
@@ -27957,6 +27959,7 @@ initUIEvent:
 initUIEvent: canBubble: cancelable: view: detail:
 initWeeklyRecurrenceWithInterval:
 initWeeklyRecurrenceWithInterval: end:
+initWeeklyRecurrenceWithInterval: forDaysOfTheWeek: end:
 initWithAEDescNoCopy:
 initWithAddressBook:
 initWithArray:
@@ -28339,6 +28342,8 @@ initWithXMLString: options: error:
 initWithYear: month: day: hour: minute: second: timeZone:
 initYearlyRecurrenceWithInterval:
 initYearlyRecurrenceWithInterval: end:
+initYearlyRecurrenceWithInterval: forMonthsOfTheYear: end:
+initYearlyRecurrenceWithInterval: forDayOfTheWeek: forWeekOfTheMonth: forMonthsOfTheYear: end:
 initialFirstResponder
 initialKeyView
 initialRequest
