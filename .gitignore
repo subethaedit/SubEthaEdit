@@ -24,3 +24,5 @@ subethaedit/TCMTextSuite.scriptSuite
 subethaedit/TCMTextSuite.scriptTerminology
 subethaedit/UniversalDetector/UniversalDetector.xcodeproj/*.mode*
 subethaedit/UniversalDetector/UniversalDetector.xcodeproj/*.pbxuser
+tool/TCMPortMapper/Port[!!-~]Map.xcodeproj/*.mode*
+tool/TCMPortMapper/Port[!!-~]Map.xcodeproj/*.pbxuser

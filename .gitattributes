@@ -2361,6 +2361,7 @@ tool/TCMPortMapper/English.lproj/MainMenu.nib/designable.nib -text
 tool/TCMPortMapper/English.lproj/MainMenu.nib/keyedobjects.nib -text
 tool/TCMPortMapper/Info.plist -text
 tool/TCMPortMapper/Port[!!-~]Map.xcodeproj/project.pbxproj -text
+tool/TCMPortMapper/PortMap.icns -text
 tool/TCMPortMapper/PortMapper_Prefix.pch -text
 tool/TCMPortMapper/ReindexIcon.icns -text
 tool/TCMPortMapper/RemoveIcon.tiff -text

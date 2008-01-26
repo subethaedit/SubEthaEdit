@@ -20,6 +20,7 @@
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		F230BBF50D4B997D00013E89 /* PortMap.icns in Resources */ = {isa = PBXBuildFile; fileRef = F230BBF40D4B997D00013E89 /* PortMap.icns */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +53,7 @@
 		32CA4F630368D1EE00C91783 /* PortMapper_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PortMapper_Prefix.pch; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Port Map.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Port Map.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F230BBF40D4B997D00013E89 /* PortMap.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = PortMap.icns; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -132,6 +134,7 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F230BBF40D4B997D00013E89 /* PortMap.icns */,
 				3131ACE30D4A33A800F0D54D /* AddIcon.tiff */,
 				3131ACEA0D4A35A200F0D54D /* RemoveIcon.tiff */,
 				3131ACE50D4A33C700F0D54D /* ReindexIcon.icns */,
@@ -215,6 +218,7 @@
 				3131ACE40D4A33A800F0D54D /* AddIcon.tiff in Resources */,
 				3131ACE60D4A33C700F0D54D /* ReindexIcon.icns in Resources */,
 				3131ACEB0D4A35A200F0D54D /* RemoveIcon.tiff in Resources */,
+				F230BBF50D4B997D00013E89 /* PortMap.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
