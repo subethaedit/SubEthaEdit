@@ -2367,6 +2367,7 @@ tool/TCMPortMapper/ReindexIcon.icns -text
 tool/TCMPortMapper/RemoveIcon.tiff -text
 tool/TCMPortMapper/TCMNATPMPPortMapper.h -text
 tool/TCMPortMapper/TCMNATPMPPortMapper.m -text
+tool/TCMPortMapper/TCMPortMapper-Info.plist -text
 tool/TCMPortMapper/TCMPortMapper.h -text
 tool/TCMPortMapper/TCMPortMapper.m -text
 tool/TCMPortMapper/TCMUPNPPortMapper.h -text

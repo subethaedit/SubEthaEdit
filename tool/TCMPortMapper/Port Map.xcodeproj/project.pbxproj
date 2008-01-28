@@ -25,6 +25,13 @@
 		318011840D4DE7F400BE3B28 /* upnpcommands.c in Sources */ = {isa = PBXBuildFile; fileRef = 318011690D4DE7F400BE3B28 /* upnpcommands.c */; };
 		318011850D4DE7F400BE3B28 /* upnperrors.c in Sources */ = {isa = PBXBuildFile; fileRef = 3180116B0D4DE7F400BE3B28 /* upnperrors.c */; };
 		318011860D4DE7F400BE3B28 /* upnpreplyparse.c in Sources */ = {isa = PBXBuildFile; fileRef = 3180116D0D4DE7F400BE3B28 /* upnpreplyparse.c */; };
+		318011A50D4DEE1400BE3B28 /* TCMNATPMPPortMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3131ACAE0D4A2DF200F0D54D /* TCMNATPMPPortMapper.m */; };
+		318011A60D4DEE1600BE3B28 /* TCMPortMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3131A9190D4A1F8000F0D54D /* TCMPortMapper.m */; };
+		318011A70D4DEE1600BE3B28 /* TCMUPNPPortMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = 3131ACC90D4A305D00F0D54D /* TCMUPNPPortMapper.m */; };
+		318011A80D4DEE1C00BE3B28 /* TCMPortMapper.h in Headers */ = {isa = PBXBuildFile; fileRef = 3131A9180D4A1F8000F0D54D /* TCMPortMapper.h */; };
+		318011A90D4DEE4100BE3B28 /* getgateway.c in Sources */ = {isa = PBXBuildFile; fileRef = 318BEF9C0D325F2000CA58B5 /* getgateway.c */; };
+		318011AA0D4DEE4300BE3B28 /* natpmp.c in Sources */ = {isa = PBXBuildFile; fileRef = 318BEF9F0D325F2000CA58B5 /* natpmp.c */; };
+		318011AC0D4DEE9500BE3B28 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97325FDCFA39411CA2CEA /* Foundation.framework */; };
 		318BEFA40D325F2000CA58B5 /* getgateway.c in Sources */ = {isa = PBXBuildFile; fileRef = 318BEF9C0D325F2000CA58B5 /* getgateway.c */; };
 		318BEFA60D325F2000CA58B5 /* natpmp.c in Sources */ = {isa = PBXBuildFile; fileRef = 318BEF9F0D325F2000CA58B5 /* natpmp.c */; };
 		8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
@@ -88,6 +95,8 @@
 		3180116C0D4DE7F400BE3B28 /* upnperrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = upnperrors.h; sourceTree = "<group>"; };
 		3180116D0D4DE7F400BE3B28 /* upnpreplyparse.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = upnpreplyparse.c; sourceTree = "<group>"; };
 		3180116E0D4DE7F400BE3B28 /* upnpreplyparse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = upnpreplyparse.h; sourceTree = "<group>"; };
+		3180119F0D4DEC8400BE3B28 /* TCMPortMapper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TCMPortMapper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		318011A00D4DEC8400BE3B28 /* TCMPortMapper-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TCMPortMapper-Info.plist"; sourceTree = "<group>"; };
 		318BEF9B0D325F2000CA58B5 /* Changelog.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Changelog.txt; sourceTree = "<group>"; };
 		318BEF9C0D325F2000CA58B5 /* getgateway.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = getgateway.c; sourceTree = "<group>"; };
 		318BEF9D0D325F2000CA58B5 /* getgateway.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = getgateway.h; sourceTree = "<group>"; };
@@ -103,6 +112,14 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		3180119D0D4DEC8400BE3B28 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				318011AC0D4DEE9500BE3B28 /* Foundation.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D11072E0486CEB800E47090 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -151,6 +168,7 @@
 			isa = PBXGroup;
 			children = (
 				8D1107320486CEB800E47090 /* Port Map.app */,
+				3180119F0D4DEC8400BE3B28 /* TCMPortMapper.framework */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -163,6 +181,7 @@
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				318011A00D4DEC8400BE3B28 /* TCMPortMapper-Info.plist */,
 			);
 			name = PortMapper;
 			sourceTree = "<group>";
@@ -270,7 +289,36 @@
 		};
 /* End PBXGroup section */
 
+/* Begin PBXHeadersBuildPhase section */
+		3180119A0D4DEC8400BE3B28 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				318011A80D4DEE1C00BE3B28 /* TCMPortMapper.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
 /* Begin PBXNativeTarget section */
+		3180119E0D4DEC8400BE3B28 /* TCMPortMapper */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 318011A30D4DEC8500BE3B28 /* Build configuration list for PBXNativeTarget "TCMPortMapper" */;
+			buildPhases = (
+				3180119A0D4DEC8400BE3B28 /* Headers */,
+				3180119B0D4DEC8400BE3B28 /* Resources */,
+				3180119C0D4DEC8400BE3B28 /* Sources */,
+				3180119D0D4DEC8400BE3B28 /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TCMPortMapper;
+			productName = TCMPortMapper;
+			productReference = 3180119F0D4DEC8400BE3B28 /* TCMPortMapper.framework */;
+			productType = "com.apple.product-type.framework";
+		};
 		8D1107260486CEB800E47090 /* Port Map */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Port Map" */;
@@ -302,11 +350,19 @@
 			projectRoot = "";
 			targets = (
 				8D1107260486CEB800E47090 /* Port Map */,
+				3180119E0D4DEC8400BE3B28 /* TCMPortMapper */,
 			);
 		};
 /* End PBXProject section */
 
 /* Begin PBXResourcesBuildPhase section */
+		3180119B0D4DEC8400BE3B28 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D1107290486CEB800E47090 /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -325,6 +381,18 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
+		3180119C0D4DEC8400BE3B28 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				318011A50D4DEE1400BE3B28 /* TCMNATPMPPortMapper.m in Sources */,
+				318011A60D4DEE1600BE3B28 /* TCMPortMapper.m in Sources */,
+				318011A70D4DEE1600BE3B28 /* TCMUPNPPortMapper.m in Sources */,
+				318011A90D4DEE4100BE3B28 /* getgateway.c in Sources */,
+				318011AA0D4DEE4300BE3B28 /* natpmp.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		8D11072C0486CEB800E47090 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -370,6 +438,59 @@
 /* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
+		318011A10D4DEC8500BE3B28 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = PortMapper_Prefix.pch;
+				INFOPLIST_FILE = "TCMPortMapper-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = TCMPortMapper;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		318011A20D4DEC8500BE3B28 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DYLIB_COMPATIBILITY_VERSION = 1;
+				DYLIB_CURRENT_VERSION = 1;
+				FRAMEWORK_VERSION = A;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = PortMapper_Prefix.pch;
+				INFOPLIST_FILE = "TCMPortMapper-Info.plist";
+				INSTALL_PATH = "$(HOME)/Library/Frameworks";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = TCMPortMapper;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 		C01FCF4B08A954540054247B /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -429,6 +550,15 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		318011A30D4DEC8500BE3B28 /* Build configuration list for PBXNativeTarget "TCMPortMapper" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				318011A10D4DEC8500BE3B28 /* Debug */,
+				318011A20D4DEC8500BE3B28 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Port Map" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
