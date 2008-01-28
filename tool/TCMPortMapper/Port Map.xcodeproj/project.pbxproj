@@ -14,6 +14,17 @@
 		3131ACE40D4A33A800F0D54D /* AddIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3131ACE30D4A33A800F0D54D /* AddIcon.tiff */; };
 		3131ACE60D4A33C700F0D54D /* ReindexIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = 3131ACE50D4A33C700F0D54D /* ReindexIcon.icns */; };
 		3131ACEB0D4A35A200F0D54D /* RemoveIcon.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3131ACEA0D4A35A200F0D54D /* RemoveIcon.tiff */; };
+		318011700D4DE7F400BE3B28 /* igd_desc_parse.c in Sources */ = {isa = PBXBuildFile; fileRef = 3180114E0D4DE7F400BE3B28 /* igd_desc_parse.c */; };
+		318011710D4DE7F400BE3B28 /* LICENCE in Resources */ = {isa = PBXBuildFile; fileRef = 318011500D4DE7F400BE3B28 /* LICENCE */; };
+		318011740D4DE7F400BE3B28 /* miniupnpc.3 in Resources */ = {isa = PBXBuildFile; fileRef = 318011540D4DE7F400BE3B28 /* miniupnpc.3 */; };
+		318011760D4DE7F400BE3B28 /* minisoap.c in Sources */ = {isa = PBXBuildFile; fileRef = 318011560D4DE7F400BE3B28 /* minisoap.c */; };
+		318011770D4DE7F400BE3B28 /* minissdpc.c in Sources */ = {isa = PBXBuildFile; fileRef = 318011580D4DE7F400BE3B28 /* minissdpc.c */; };
+		318011780D4DE7F400BE3B28 /* miniupnpc.c in Sources */ = {isa = PBXBuildFile; fileRef = 3180115A0D4DE7F400BE3B28 /* miniupnpc.c */; };
+		3180117A0D4DE7F400BE3B28 /* miniwget.c in Sources */ = {isa = PBXBuildFile; fileRef = 3180115D0D4DE7F400BE3B28 /* miniwget.c */; };
+		3180117B0D4DE7F400BE3B28 /* minixml.c in Sources */ = {isa = PBXBuildFile; fileRef = 3180115F0D4DE7F400BE3B28 /* minixml.c */; };
+		318011840D4DE7F400BE3B28 /* upnpcommands.c in Sources */ = {isa = PBXBuildFile; fileRef = 318011690D4DE7F400BE3B28 /* upnpcommands.c */; };
+		318011850D4DE7F400BE3B28 /* upnperrors.c in Sources */ = {isa = PBXBuildFile; fileRef = 3180116B0D4DE7F400BE3B28 /* upnperrors.c */; };
+		318011860D4DE7F400BE3B28 /* upnpreplyparse.c in Sources */ = {isa = PBXBuildFile; fileRef = 3180116D0D4DE7F400BE3B28 /* upnpreplyparse.c */; };
 		318BEFA40D325F2000CA58B5 /* getgateway.c in Sources */ = {isa = PBXBuildFile; fileRef = 318BEF9C0D325F2000CA58B5 /* getgateway.c */; };
 		318BEFA60D325F2000CA58B5 /* natpmp.c in Sources */ = {isa = PBXBuildFile; fileRef = 318BEF9F0D325F2000CA58B5 /* natpmp.c */; };
 		8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
@@ -42,6 +53,41 @@
 		3131ACE30D4A33A800F0D54D /* AddIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = AddIcon.tiff; sourceTree = "<group>"; };
 		3131ACE50D4A33C700F0D54D /* ReindexIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = ReindexIcon.icns; sourceTree = "<group>"; };
 		3131ACEA0D4A35A200F0D54D /* RemoveIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = RemoveIcon.tiff; sourceTree = "<group>"; };
+		3180114B0D4DE7F400BE3B28 /* bsdqueue.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = bsdqueue.h; sourceTree = "<group>"; };
+		3180114C0D4DE7F400BE3B28 /* Changelog.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Changelog.txt; sourceTree = "<group>"; };
+		3180114D0D4DE7F400BE3B28 /* declspec.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = declspec.h; sourceTree = "<group>"; };
+		3180114E0D4DE7F400BE3B28 /* igd_desc_parse.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = igd_desc_parse.c; sourceTree = "<group>"; };
+		3180114F0D4DE7F400BE3B28 /* igd_desc_parse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = igd_desc_parse.h; sourceTree = "<group>"; };
+		318011500D4DE7F400BE3B28 /* LICENCE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENCE; sourceTree = "<group>"; };
+		318011510D4DE7F400BE3B28 /* Makefile */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.make; path = Makefile; sourceTree = "<group>"; };
+		318011520D4DE7F400BE3B28 /* Makefile.mingw */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Makefile.mingw; sourceTree = "<group>"; };
+		318011540D4DE7F400BE3B28 /* miniupnpc.3 */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = miniupnpc.3; sourceTree = "<group>"; };
+		318011550D4DE7F400BE3B28 /* mingw32make.bat */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = mingw32make.bat; sourceTree = "<group>"; };
+		318011560D4DE7F400BE3B28 /* minisoap.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = minisoap.c; sourceTree = "<group>"; };
+		318011570D4DE7F400BE3B28 /* minisoap.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = minisoap.h; sourceTree = "<group>"; };
+		318011580D4DE7F400BE3B28 /* minissdpc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = minissdpc.c; sourceTree = "<group>"; };
+		318011590D4DE7F400BE3B28 /* minissdpc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = minissdpc.h; sourceTree = "<group>"; };
+		3180115A0D4DE7F400BE3B28 /* miniupnpc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = miniupnpc.c; sourceTree = "<group>"; };
+		3180115B0D4DE7F400BE3B28 /* miniupnpc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = miniupnpc.h; sourceTree = "<group>"; };
+		3180115C0D4DE7F400BE3B28 /* miniupnpcmodule.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = miniupnpcmodule.c; sourceTree = "<group>"; };
+		3180115D0D4DE7F400BE3B28 /* miniwget.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = miniwget.c; sourceTree = "<group>"; };
+		3180115E0D4DE7F400BE3B28 /* miniwget.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = miniwget.h; sourceTree = "<group>"; };
+		3180115F0D4DE7F400BE3B28 /* minixml.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = minixml.c; sourceTree = "<group>"; };
+		318011600D4DE7F400BE3B28 /* minixml.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = minixml.h; sourceTree = "<group>"; };
+		318011610D4DE7F400BE3B28 /* minixmlvalid.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = minixmlvalid.c; sourceTree = "<group>"; };
+		318011620D4DE7F400BE3B28 /* pymoduletest.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = pymoduletest.py; sourceTree = "<group>"; };
+		318011630D4DE7F400BE3B28 /* README */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = README; sourceTree = "<group>"; };
+		318011640D4DE7F400BE3B28 /* setup.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = setup.py; sourceTree = "<group>"; };
+		318011650D4DE7F400BE3B28 /* setupmingw32.py */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.script.python; path = setupmingw32.py; sourceTree = "<group>"; };
+		318011660D4DE7F400BE3B28 /* testminixml.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = testminixml.c; sourceTree = "<group>"; };
+		318011670D4DE7F400BE3B28 /* testupnpreplyparse.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = testupnpreplyparse.c; sourceTree = "<group>"; };
+		318011680D4DE7F400BE3B28 /* upnpc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = upnpc.c; sourceTree = "<group>"; };
+		318011690D4DE7F400BE3B28 /* upnpcommands.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = upnpcommands.c; sourceTree = "<group>"; };
+		3180116A0D4DE7F400BE3B28 /* upnpcommands.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = upnpcommands.h; sourceTree = "<group>"; };
+		3180116B0D4DE7F400BE3B28 /* upnperrors.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = upnperrors.c; sourceTree = "<group>"; };
+		3180116C0D4DE7F400BE3B28 /* upnperrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = upnperrors.h; sourceTree = "<group>"; };
+		3180116D0D4DE7F400BE3B28 /* upnpreplyparse.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = upnpreplyparse.c; sourceTree = "<group>"; };
+		3180116E0D4DE7F400BE3B28 /* upnpreplyparse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = upnpreplyparse.h; sourceTree = "<group>"; };
 		318BEF9B0D325F2000CA58B5 /* Changelog.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Changelog.txt; sourceTree = "<group>"; };
 		318BEF9C0D325F2000CA58B5 /* getgateway.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = getgateway.c; sourceTree = "<group>"; };
 		318BEF9D0D325F2000CA58B5 /* getgateway.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = getgateway.h; sourceTree = "<group>"; };
@@ -124,6 +170,7 @@
 		29B97315FDCFA39411CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
+				3180114A0D4DE7F400BE3B28 /* miniupnpc */,
 				318BEF9A0D325F2000CA58B5 /* libnatpmp */,
 				32CA4F630368D1EE00C91783 /* PortMapper_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
@@ -152,6 +199,57 @@
 				1058C7A2FEA54F0111CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		3180114A0D4DE7F400BE3B28 /* miniupnpc */ = {
+			isa = PBXGroup;
+			children = (
+				3180114B0D4DE7F400BE3B28 /* bsdqueue.h */,
+				3180114C0D4DE7F400BE3B28 /* Changelog.txt */,
+				3180114D0D4DE7F400BE3B28 /* declspec.h */,
+				3180114E0D4DE7F400BE3B28 /* igd_desc_parse.c */,
+				3180114F0D4DE7F400BE3B28 /* igd_desc_parse.h */,
+				318011500D4DE7F400BE3B28 /* LICENCE */,
+				318011510D4DE7F400BE3B28 /* Makefile */,
+				318011520D4DE7F400BE3B28 /* Makefile.mingw */,
+				318011530D4DE7F400BE3B28 /* man3 */,
+				318011550D4DE7F400BE3B28 /* mingw32make.bat */,
+				318011560D4DE7F400BE3B28 /* minisoap.c */,
+				318011570D4DE7F400BE3B28 /* minisoap.h */,
+				318011580D4DE7F400BE3B28 /* minissdpc.c */,
+				318011590D4DE7F400BE3B28 /* minissdpc.h */,
+				3180115A0D4DE7F400BE3B28 /* miniupnpc.c */,
+				3180115B0D4DE7F400BE3B28 /* miniupnpc.h */,
+				3180115C0D4DE7F400BE3B28 /* miniupnpcmodule.c */,
+				3180115D0D4DE7F400BE3B28 /* miniwget.c */,
+				3180115E0D4DE7F400BE3B28 /* miniwget.h */,
+				3180115F0D4DE7F400BE3B28 /* minixml.c */,
+				318011600D4DE7F400BE3B28 /* minixml.h */,
+				318011610D4DE7F400BE3B28 /* minixmlvalid.c */,
+				318011620D4DE7F400BE3B28 /* pymoduletest.py */,
+				318011630D4DE7F400BE3B28 /* README */,
+				318011640D4DE7F400BE3B28 /* setup.py */,
+				318011650D4DE7F400BE3B28 /* setupmingw32.py */,
+				318011660D4DE7F400BE3B28 /* testminixml.c */,
+				318011670D4DE7F400BE3B28 /* testupnpreplyparse.c */,
+				318011680D4DE7F400BE3B28 /* upnpc.c */,
+				318011690D4DE7F400BE3B28 /* upnpcommands.c */,
+				3180116A0D4DE7F400BE3B28 /* upnpcommands.h */,
+				3180116B0D4DE7F400BE3B28 /* upnperrors.c */,
+				3180116C0D4DE7F400BE3B28 /* upnperrors.h */,
+				3180116D0D4DE7F400BE3B28 /* upnpreplyparse.c */,
+				3180116E0D4DE7F400BE3B28 /* upnpreplyparse.h */,
+			);
+			name = miniupnpc;
+			path = "miniupnpc-1.0-RC13";
+			sourceTree = "<group>";
+		};
+		318011530D4DE7F400BE3B28 /* man3 */ = {
+			isa = PBXGroup;
+			children = (
+				318011540D4DE7F400BE3B28 /* miniupnpc.3 */,
+			);
+			path = man3;
 			sourceTree = "<group>";
 		};
 		318BEF9A0D325F2000CA58B5 /* libnatpmp */ = {
@@ -219,6 +317,8 @@
 				3131ACE60D4A33C700F0D54D /* ReindexIcon.icns in Resources */,
 				3131ACEB0D4A35A200F0D54D /* RemoveIcon.tiff in Resources */,
 				F230BBF50D4B997D00013E89 /* PortMap.icns in Resources */,
+				318011710D4DE7F400BE3B28 /* LICENCE in Resources */,
+				318011740D4DE7F400BE3B28 /* miniupnpc.3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -236,6 +336,15 @@
 				3131A91A0D4A1F8000F0D54D /* TCMPortMapper.m in Sources */,
 				3131ACAF0D4A2DF200F0D54D /* TCMNATPMPPortMapper.m in Sources */,
 				3131ACCA0D4A305D00F0D54D /* TCMUPNPPortMapper.m in Sources */,
+				318011700D4DE7F400BE3B28 /* igd_desc_parse.c in Sources */,
+				318011760D4DE7F400BE3B28 /* minisoap.c in Sources */,
+				318011770D4DE7F400BE3B28 /* minissdpc.c in Sources */,
+				318011780D4DE7F400BE3B28 /* miniupnpc.c in Sources */,
+				3180117A0D4DE7F400BE3B28 /* miniwget.c in Sources */,
+				3180117B0D4DE7F400BE3B28 /* minixml.c in Sources */,
+				318011840D4DE7F400BE3B28 /* upnpcommands.c in Sources */,
+				318011850D4DE7F400BE3B28 /* upnperrors.c in Sources */,
+				318011860D4DE7F400BE3B28 /* upnpreplyparse.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
