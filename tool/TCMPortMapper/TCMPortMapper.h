@@ -10,14 +10,13 @@
 #import <errno.h>
 #import <string.h>
 #import <unistd.h>
-#import <netinet/in.h>
-#import <arpa/inet.h>
 
 
-extern NSString const * TCMPortMapperWillSearchForRouterNotification;
-extern NSString const * TCMPortMapperDidFindRouterNotification;
+extern NSString * const TCMPortMapperWillSearchForRouterNotification;
+extern NSString * const TCMPortMapperDidFindRouterNotification;
 
-extern NSString const * TCMPortMappingDidChangeMappingStateNotification;
+extern NSString * const TCMPortMappingDidChangeMappingStateNotification;
+extern NSString * const TCMNATPMPPortMapperExternalIPAddressDidChange;
 
 typedef enum {
     TCMPortMappingStatusUnmapped = 0,
@@ -42,9 +41,12 @@ typedef enum {
 
 @end
 
-
+@class IXSCNotificationManager;
 @interface TCMPortMapper : NSObject {
     NSMutableArray *_portMappings;
+    IXSCNotificationManager *_systemConfigNotificationManager;
+    BOOL _isRunning;
+    NSString *_externalIPAddress;
 }
 
 + (TCMPortMapper *)sharedInstance;
@@ -61,13 +63,5 @@ typedef enum {
 - (NSString *)routerName; // UPNP name or IP address
 - (NSString *)routerIPAddress;
 - (NSString *)routerHardwareAddress;
-
-@end
-
-@interface TCMPortMapper (Private) 
-
-- (void) mapPort:(uint16_t)aPublicPort;
-- (void) mapPublicPort:(uint16_t)aPublicPort toPrivatePort:(uint16_t)aPrivatePort;
-- (void) mapPublicPort:(uint16_t)aPublicPort toPrivatePort:(uint16_t)aPrivatePort withLifetime:(uint32_t)aLifetime;
 
 @end

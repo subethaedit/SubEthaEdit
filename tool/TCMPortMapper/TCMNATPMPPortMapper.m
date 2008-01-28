@@ -60,20 +60,7 @@ static TCMNATPMPPortMapper *sharedInstance;
 	
 	r = initnatpmp(&natpmp);
 	//	if(r<0) return 1;
-	
-	r = sendpublicaddressrequest(&natpmp);
-	//	if(r<0) return 1;
-	
-	do {
-		FD_ZERO(&fds);
-		FD_SET(natpmp.s, &fds);
-		getnatpmprequesttimeout(&natpmp, &timeout);
-		select(FD_SETSIZE, &fds, NULL, NULL, &timeout);
-		r = readnatpmpresponseorretry(&natpmp, &response);
-	} while(r==NATPMP_TRYAGAIN);
-	
-	//if(r<0) return 1;
-	
+		
 	/* TODO : check that response.type == 0 */
 	
 	r = sendnewportmappingrequest(&natpmp, NATPMP_PROTOCOL_TCP, aPrivatePort, aPublicPort, aLifetime);
