@@ -25,16 +25,56 @@ static TCMPortMapper *sharedInstance;
 	return [[TCMNATPMPPortMapper sharedInstance] externalIPAddress];
 }
 
-- (void) mapPublicPort:(int)publicPort toPrivatePort:(int)privatePort withLifetime:(int)seconds {
-	return [[TCMNATPMPPortMapper sharedInstance] mapPublicPort:publicPort toPrivatePort:privatePort withLifetime:seconds];
+- (void) mapPublicPort:(uint16_t)aPublicPort toPrivatePort:(uint16_t)aPrivatePort withLifetime:(uint32_t)aLifetime {
+	return [[TCMNATPMPPortMapper sharedInstance] mapPublicPort:aPublicPort toPrivatePort:aPrivatePort withLifetime:aLifetime];
 }
 
-- (void) mapPublicPort:(int)publicPort toPrivatePort:(int)privatePort {
-	[self mapPublicPort:publicPort toPrivatePort:privatePort withLifetime:3600]; // Default lifetime is an hour
+- (void) mapPublicPort:(uint16_t)aPublicPort toPrivatePort:(uint16_t)aPrivatePort{
+	[self mapPublicPort:aPublicPort toPrivatePort:aPrivatePort withLifetime:3600]; // Default lifetime is an hour
 }
 
-- (void) mapPort:(int)publicPort {
-	[self mapPublicPort:publicPort toPrivatePort:publicPort]; // Uses same port for external an local by default
+- (void) mapPort:(uint16_t)aPublicPort {
+	[self mapPublicPort:aPublicPort toPrivatePort:aPublicPort]; // Uses same port for external an local by default
+}
+
+- (NSArray *)portMappings{
+	return nil;
+}
+
+- (void)addPortMapping:(TCMPortMapping *)aMapping {
+	
+}
+
+- (void)removePortMapping:(TCMPortMapping *)aMapping {
+	
+}
+
+- (void)refreshPortMappings {
+	
+}
+
+- (void)start {
+	
+}
+
+- (void)stop {
+	
+}
+
+- (NSString *)mappingProtocol {
+	return nil;
+}
+
+- (NSString *)routerName {
+	return nil;
+}
+
+- (NSString *)routerIPAddress {
+	return nil;
+}
+
+- (NSString *)routerHardwareAddress {
+	return nil;
 }
 
 @end

@@ -49,7 +49,7 @@ static TCMNATPMPPortMapper *sharedInstance;
 	return ipString;
 }
 
-- (void) mapPublicPort:(int)publicPort toPrivatePort:(int)privatePort withLifetime:(int)seconds {
+- (void) mapPublicPort:(uint16_t)aPublicPort toPrivatePort:(uint16_t)aPrivatePort withLifetime:(uint32_t)aLifetime {
 #warning replace commented ifs with breaks and NSErrors.
 	natpmp_t natpmp;
 	natpmpresp_t response;
@@ -76,7 +76,7 @@ static TCMNATPMPPortMapper *sharedInstance;
 	
 	/* TODO : check that response.type == 0 */
 	
-	r = sendnewportmappingrequest(&natpmp, NATPMP_PROTOCOL_TCP, privatePort, publicPort,seconds);
+	r = sendnewportmappingrequest(&natpmp, NATPMP_PROTOCOL_TCP, aPrivatePort, aPublicPort, aLifetime);
 	
 	//if(r < 0) return 1;
 	
