@@ -36,6 +36,7 @@
 		3180154E0D4E08D900BE3B28 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3180154D0D4E08D900BE3B28 /* SystemConfiguration.framework */; };
 		3180159D0D4E1B9200BE3B28 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3180154D0D4E08D900BE3B28 /* SystemConfiguration.framework */; };
 		318015A00D4E1BA600BE3B28 /* IXSCNotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 3180154A0D4E088B00BE3B28 /* IXSCNotificationManager.m */; };
+		3180160C0D4E2F1600BE3B28 /* NSNotificationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 3180160B0D4E2F1600BE3B28 /* NSNotificationAdditions.m */; };
 		318BEFA40D325F2000CA58B5 /* getgateway.c in Sources */ = {isa = PBXBuildFile; fileRef = 318BEF9C0D325F2000CA58B5 /* getgateway.c */; };
 		318BEFA60D325F2000CA58B5 /* natpmp.c in Sources */ = {isa = PBXBuildFile; fileRef = 318BEF9F0D325F2000CA58B5 /* natpmp.c */; };
 		8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
@@ -104,6 +105,8 @@
 		318015490D4E088B00BE3B28 /* IXSCNotificationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = IXSCNotificationManager.h; sourceTree = "<group>"; };
 		3180154A0D4E088B00BE3B28 /* IXSCNotificationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = IXSCNotificationManager.m; sourceTree = "<group>"; };
 		3180154D0D4E08D900BE3B28 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
+		3180160A0D4E2F1600BE3B28 /* NSNotificationAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSNotificationAdditions.h; sourceTree = "<group>"; };
+		3180160B0D4E2F1600BE3B28 /* NSNotificationAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSNotificationAdditions.m; sourceTree = "<group>"; };
 		318BEF9B0D325F2000CA58B5 /* Changelog.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Changelog.txt; sourceTree = "<group>"; };
 		318BEF9C0D325F2000CA58B5 /* getgateway.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = getgateway.c; sourceTree = "<group>"; };
 		318BEF9D0D325F2000CA58B5 /* getgateway.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = getgateway.h; sourceTree = "<group>"; };
@@ -201,6 +204,9 @@
 			children = (
 				318015490D4E088B00BE3B28 /* IXSCNotificationManager.h */,
 				3180154A0D4E088B00BE3B28 /* IXSCNotificationManager.m */,
+				3180160A0D4E2F1600BE3B28 /* NSNotificationAdditions.h */,
+				3180160B0D4E2F1600BE3B28 /* NSNotificationAdditions.m */,
+				3180114A0D4DE7F400BE3B28 /* miniupnpc */,
 				318BEF9A0D325F2000CA58B5 /* libnatpmp */,
 				32CA4F630368D1EE00C91783 /* PortMapper_Prefix.pch */,
 				29B97316FDCFA39411CA2CEA /* main.m */,
@@ -211,7 +217,6 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				3180114A0D4DE7F400BE3B28 /* miniupnpc */,
 				F230BBF40D4B997D00013E89 /* PortMap.icns */,
 				3131ACE30D4A33A800F0D54D /* AddIcon.tiff */,
 				3131ACEA0D4A35A200F0D54D /* RemoveIcon.tiff */,
@@ -427,6 +432,7 @@
 				318011850D4DE7F400BE3B28 /* upnperrors.c in Sources */,
 				318011860D4DE7F400BE3B28 /* upnpreplyparse.c in Sources */,
 				3180154B0D4E088B00BE3B28 /* IXSCNotificationManager.m in Sources */,
+				3180160C0D4E2F1600BE3B28 /* NSNotificationAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

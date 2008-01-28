@@ -11,12 +11,12 @@
 #import <string.h>
 #import <unistd.h>
 
+extern NSString * const TCMPortMapperExternalIPAddressDidChange;
 
 extern NSString * const TCMPortMapperWillSearchForRouterNotification;
 extern NSString * const TCMPortMapperDidFindRouterNotification;
 
 extern NSString * const TCMPortMappingDidChangeMappingStateNotification;
-extern NSString * const TCMNATPMPPortMapperExternalIPAddressDidChange;
 
 typedef enum {
     TCMPortMappingStatusUnmapped = 0,
@@ -42,7 +42,9 @@ typedef enum {
 @end
 
 @class IXSCNotificationManager;
+@class TCMNATPMPPortMapper;
 @interface TCMPortMapper : NSObject {
+    TCMNATPMPPortMapper *_NATPMPPortMapper;
     NSMutableArray *_portMappings;
     IXSCNotificationManager *_systemConfigNotificationManager;
     BOOL _isRunning;

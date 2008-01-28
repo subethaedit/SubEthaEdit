@@ -7,8 +7,18 @@
 //
 
 #import "TCMPortMapper.h"
+
 #import "natpmp.h"
 
-@interface TCMNATPMPPortMapper : TCMPortMapper 
+extern NSString * const TCMNATPMPPortMapperDidFailNotification;
+extern NSString * const TCMNATPMPPortMapperDidGetExternalIPAddressNotification;
+
+
+@interface TCMNATPMPPortMapper : NSObject {
+    NSLock *natPMPThreadIsRunningLock;
+    BOOL IPAddressThreadShouldQuit;
+}
+
+- (void)refresh;
 	
 @end

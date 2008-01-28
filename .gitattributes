@@ -2362,6 +2362,8 @@ tool/TCMPortMapper/English.lproj/MainMenu.nib/keyedobjects.nib -text
 tool/TCMPortMapper/IXSCNotificationManager.h -text
 tool/TCMPortMapper/IXSCNotificationManager.m -text
 tool/TCMPortMapper/Info.plist -text
+tool/TCMPortMapper/NSNotificationAdditions.h -text
+tool/TCMPortMapper/NSNotificationAdditions.m -text
 tool/TCMPortMapper/Port[!!-~]Map.xcodeproj/project.pbxproj -text
 tool/TCMPortMapper/PortMap.icns -text
 tool/TCMPortMapper/PortMapper_Prefix.pch -text

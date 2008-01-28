@@ -7,7 +7,6 @@
 //
 
 #import "TCMPortMapper.h"
-#import "TCMNATPMPPortMapper.h"
 #import "IXSCNotificationManager.h"
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <SystemConfiguration/SCSchemaDefinitions.h>
@@ -18,9 +17,9 @@
 #import <netinet/if_ether.h>
 #import <net/if_dl.h>
 
-NSString * const TCMNATPMPPortMapperExternalIPAddressDidChange = @"TCMNATPMPPortMapperExternalIPAddressDidChange";
-NSString * const TCMPortMapperWillSearchForRouterNotification = @"TCMPortMapperWillSearchForRouterNotification";
-NSString * const TCMPortMapperDidFindRouterNotification = @"TCMPortMapperDidFindRouterNotification";
+NSString * const TCMPortMapperExternalIPAddressDidChange         = @"TCMPortMapperExternalIPAddressDidChange";
+NSString * const TCMPortMapperWillSearchForRouterNotification    = @"TCMPortMapperWillSearchForRouterNotification";
+NSString * const TCMPortMapperDidFindRouterNotification          = @"TCMPortMapperDidFindRouterNotification";
 NSString * const TCMPortMappingDidChangeMappingStateNotification = @"TCMPortMappingDidChangeMappingStateNotification";
 
 
@@ -88,7 +87,7 @@ static TCMPortMapper *S_sharedInstance;
     if ((self=[super init])) {
         _systemConfigNotificationManager = [IXSCNotificationManager new];
         _isRunning = NO;
-    
+        _NATPMPPortMapper = [[TCMNATPMPPortMapper alloc] init];
         S_sharedInstance = self;
     }
     return self;
@@ -96,6 +95,7 @@ static TCMPortMapper *S_sharedInstance;
 
 - (void)dealloc {
     [_systemConfigNotificationManager release];
+    [_NATPMPPortMapper release];
     [super dealloc];
 }
 
@@ -149,12 +149,13 @@ static TCMPortMapper *S_sharedInstance;
 	[self setExternalIPAddress:nil];
 //	[self setRouterName:nil];
 //	[self setMappingProtocol:nil];
+    [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperWillSearchForRouterNotification object:self];
 	
 	
 	NSString *routerAddress = [self routerIPAddress];
 	if (routerAddress) {
         BOOL inPrivateSubnet = [routerAddress IPv4AddressInPrivateSubnet];
-        NSLog(@"%s inPrivateSubnet:%@",__FUNCTION__,inPrivateSubnet?@"YES":@"NO");
+//        NSLog(@"%s inPrivateSubnet:%@",__FUNCTION__,inPrivateSubnet?@"YES":@"NO");
         SCDynamicStoreRef dynRef = SCDynamicStoreCreate(kCFAllocatorSystemDefault, (CFStringRef)@"TCMPortMapper", NULL, NULL); 
         NSDictionary *scobjects = (NSDictionary *)SCDynamicStoreCopyValue(dynRef,(CFStringRef)@"State:/Network/Global/IPv4" ); 
         
@@ -166,10 +167,10 @@ static TCMPortMapper *S_sharedInstance;
         dynRef = SCDynamicStoreCreate(kCFAllocatorSystemDefault, (CFStringRef)@"TCMPortMapper", NULL, NULL); 
         scobjects = (NSDictionary *)SCDynamicStoreCopyValue(dynRef,(CFStringRef)ipv4Key); 
         
-        NSLog(@"%s scobjects:%@",__FUNCTION__,scobjects);
+//        NSLog(@"%s scobjects:%@",__FUNCTION__,scobjects);
         NSArray *IPAddresses = (NSArray *)[scobjects objectForKey:(NSString *)kSCPropNetIPv4Addresses];
         NSArray *subNetMasks = (NSArray *)[scobjects objectForKey:(NSString *)kSCPropNetIPv4SubnetMasks];
-        NSLog(@"%s addresses:%@ masks:%@",__FUNCTION__,IPAddresses, subNetMasks);
+//        NSLog(@"%s addresses:%@ masks:%@",__FUNCTION__,IPAddresses, subNetMasks);
         
         int i;
         for (i=0;i<[IPAddresses count];i++) {
@@ -181,15 +182,16 @@ static TCMPortMapper *S_sharedInstance;
             in_addr_t myaddr = inet_addr([ipAddress UTF8String]);
             in_addr_t subnetmask = inet_addr([subNetMask UTF8String]);
             in_addr_t routeraddr = inet_addr([[self routerIPAddress] UTF8String]);
-            NSLog(@"%s ipNative:%X maskNative:%X",__FUNCTION__,routeraddr,subnetmask);
+//            NSLog(@"%s ipNative:%X maskNative:%X",__FUNCTION__,routeraddr,subnetmask);
             if ((myaddr & subnetmask) == (routeraddr & subnetmask)) {
                 // That's the one
                 if (inPrivateSubnet) {
-                    // [_NATPMPPortMapper refresh];
+                    [_NATPMPPortMapper refresh];
                     // [_UPNPPortMapper refresh];
                     [self setExternalIPAddress:routerAddress]; // FIXME that is wrong
                 } else {
                     [self setExternalIPAddress:ipAddress];
+                    [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidFindRouterNotification object:self];
                     // we know we have a public address so we are finished - but maybe we should set all mappings to mapped
                 }
             }
@@ -206,7 +208,7 @@ static TCMPortMapper *S_sharedInstance;
     NSLog(@"%s %@",__FUNCTION__,anIPAddress);
     [_externalIPAddress autorelease];
     _externalIPAddress = [anIPAddress copy];
-    [[NSNotificationCenter defaultCenter] postNotificationName:TCMNATPMPPortMapperExternalIPAddressDidChange object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperExternalIPAddressDidChange object:self];
 }
 
 - (NSString *) hardwareAddressForIPAddress: (NSString *) address {
@@ -263,7 +265,7 @@ static TCMPortMapper *S_sharedInstance;
     [[NSNotificationCenter defaultCenter] addObserver:self 
                                     selector:@selector(networkDidChange:) 
                                     name:@"State:/Network/Global/IPv4" 
-                                    object:_systemConfigNotificationManager];                          
+                                    object:_systemConfigNotificationManager];
     [self refreshPortMappings];
 }
 
