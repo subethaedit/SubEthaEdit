@@ -114,7 +114,7 @@ static TCMPortMapper *S_sharedInstance;
 }
 
 - (NSString *)externalIPAddress {
-    return [NSString stringWithString:_externalIPAddress];
+    return _externalIPAddress;
 	//return [[TCMNATPMPPortMapper sharedInstance] externalIPAddress];
 }
 
@@ -154,24 +154,34 @@ static TCMPortMapper *S_sharedInstance;
 	NSString *routerAddress = [self routerIPAddress];
 	if (routerAddress) {
         BOOL inPrivateSubnet = [routerAddress IPv4AddressInPrivateSubnet];
-        
+        NSLog(@"%s inPrivateSubnet:%@",__FUNCTION__,inPrivateSubnet?@"YES":@"NO");
         SCDynamicStoreRef dynRef = SCDynamicStoreCreate(kCFAllocatorSystemDefault, (CFStringRef)@"TCMPortMapper", NULL, NULL); 
         NSDictionary *scobjects = (NSDictionary *)SCDynamicStoreCopyValue(dynRef,(CFStringRef)@"State:/Network/Global/IPv4" ); 
         
-        NSArray *IPAddresses = [scobjects objectForKey:(NSArray *)kSCPropNetIPv4Addresses];
-        NSArray *subNetMasks = [scobjects objectForKey:(NSArray *)kSCPropNetIPv4SubnetMasks];
+        NSString *ipv4Key = [NSString stringWithFormat:@"State:/Network/Interface/%@/IPv4", [scobjects objectForKey:(NSString *)kSCDynamicStorePropNetPrimaryInterface]];
+        
+        CFRelease(dynRef);
+        [scobjects release];
+        
+        dynRef = SCDynamicStoreCreate(kCFAllocatorSystemDefault, (CFStringRef)@"TCMPortMapper", NULL, NULL); 
+        scobjects = (NSDictionary *)SCDynamicStoreCopyValue(dynRef,(CFStringRef)ipv4Key); 
+        
+        NSLog(@"%s scobjects:%@",__FUNCTION__,scobjects);
+        NSArray *IPAddresses = (NSArray *)[scobjects objectForKey:(NSString *)kSCPropNetIPv4Addresses];
+        NSArray *subNetMasks = (NSArray *)[scobjects objectForKey:(NSString *)kSCPropNetIPv4SubnetMasks];
+        NSLog(@"%s addresses:%@ masks:%@",__FUNCTION__,IPAddresses, subNetMasks);
         
         int i;
         for (i=0;i<[IPAddresses count];i++) {
             NSString *ipAddress = (NSString *) [IPAddresses objectAtIndex:i];
             NSString *subNetMask = (NSString *) [subNetMasks objectAtIndex:i];
-        
+            NSLog(@"%s ipAddress:%@ subNetMask:%@",__FUNCTION__, ipAddress, subNetMask);
             // Check if local to Host
             
             in_addr_t myaddr = inet_addr([ipAddress UTF8String]);
             in_addr_t subnetmask = inet_addr([subNetMask UTF8String]);
             in_addr_t routeraddr = inet_addr([[self routerIPAddress] UTF8String]);
-            
+            NSLog(@"%s ipNative:%X maskNative:%X",__FUNCTION__,routeraddr,subnetmask);
             if ((myaddr & subnetmask) == (routeraddr & subnetmask)) {
                 // That's the one
                 if (inPrivateSubnet) {
@@ -272,13 +282,14 @@ static TCMPortMapper *S_sharedInstance;
 
 - (NSString *)routerIPAddress {
     SCDynamicStoreRef dynRef = SCDynamicStoreCreate(kCFAllocatorSystemDefault, (CFStringRef)@"TCMPortMapper", NULL, NULL); 
-	NSDictionary *scobjects = (NSDictionary *)SCDynamicStoreCopyValue(dynRef,(CFStringRef)@"State:/Network/Global/IPv4" ); 
-
-	NSString *routerIPAddress = [NSString stringWithString:[scobjects objectForKey:(NSString *)kSCPropNetIPv4Router]];
-
+	NSDictionary *scobjects = (NSDictionary *)SCDynamicStoreCopyValue(dynRef,(CFStringRef)@"State:/Network/Global/IPv4" );
+    
+	NSString *routerIPAddress = (NSString *)[scobjects objectForKey:(NSString *)kSCPropNetIPv4Router];
+    routerIPAddress = [[routerIPAddress copy] autorelease];
+    
     CFRelease(dynRef);
 	[scobjects release];
-
+    NSLog(@"%s %@",__FUNCTION__,routerIPAddress);
     return routerIPAddress;
 }
 

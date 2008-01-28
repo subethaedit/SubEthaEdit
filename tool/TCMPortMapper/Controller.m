@@ -13,9 +13,9 @@
 @implementation Controller
 
 - (void) awakeFromNib {
-	[o_statusTextField setStringValue:[NSString stringWithFormat:@"Status: External IP is %@", [[TCMPortMapper sharedInstance] externalIPAddress]]];
+	//[o_statusTextField setStringValue:[NSString stringWithFormat:@"Status: External IP is %@", [[TCMPortMapper sharedInstance] externalIPAddress]]];
 	
-	[[TCMPortMapper sharedInstance] mapPort:777]; // Just a test
+	[[TCMPortMapper sharedInstance] start]; // Just a test
 }
 
 - (IBAction) addPortMapping:(id)sender {
