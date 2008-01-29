@@ -10,13 +10,14 @@
 #import <errno.h>
 #import <string.h>
 #import <unistd.h>
+#import "TCMNATPMPPortMapper.h"
 
 extern NSString * const TCMPortMapperExternalIPAddressDidChange;
 
 extern NSString * const TCMPortMapperWillSearchForRouterNotification;
 extern NSString * const TCMPortMapperDidFindRouterNotification;
 
-extern NSString * const TCMPortMappingDidChangeMappingStateNotification;
+extern NSString * const TCMPortMappingDidChangeMappingStatusNotification;
 
 extern NSString * const TCMNATPMPProtocol;
 extern NSString * const TCMUPNPProtocol;  
@@ -43,12 +44,13 @@ typedef enum {
     TCMPortMappingTransportProtocol _transportProtocol;
 }
 + (id)portMappingWithPrivatePort:(uint16_t)aPrivatePort desiredPublicPort:(uint16_t)aPublicPort userInfo:(id)aUserInfo;
+- (id)initWithPrivatePort:(uint16_t)aPrivatePort desiredPublicPort:(uint16_t)aPublicPort userInfo:(id)aUserInfo;
 - (uint16_t)desiredPublicPort;
 - (id)userInfo;
 - (TCMPortMappingStatus)mappingStatus;
 - (void)setMappingStatus:(TCMPortMappingStatus)aStatus;
 - (TCMPortMappingTransportProtocol)transportProtocol;
-- (void)setTransportProtocol:(TCMPortMappingTransportProtocol)aStatus;
+- (void)setTransportProtocol:(TCMPortMappingTransportProtocol)aProtocol;
 - (uint16_t)publicPort;
 - (uint16_t)privatePort;
 
@@ -72,7 +74,7 @@ typedef enum {
 - (NSMutableSet *)removeMappingQueue;
 - (void)addPortMapping:(TCMPortMapping *)aMapping;
 - (void)removePortMapping:(TCMPortMapping *)aMapping;
-- (void)refreshPortMappings;
+- (void)refresh;
 
 - (void)start;
 - (void)stop;

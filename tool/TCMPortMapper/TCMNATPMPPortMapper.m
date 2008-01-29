@@ -107,7 +107,7 @@ Standardablauf:
 	#warning FIXME protocol has to be configured
 	r = sendnewportmappingrequest(aNatPMPt, NATPMP_PROTOCOL_TCP, [aPortMapping privatePort],[aPortMapping desiredPublicPort], shouldRemove?0:3600);
 	//if(r < 0) return 1;
-	if (!shouldRemove) [aPortMapping setPortMappingStatus:TCMPortMappingStatusTrying];
+	if (!shouldRemove) [aPortMapping setMappingStatus:TCMPortMappingStatusTrying];
 	do {
 		FD_ZERO(&fds);
 		FD_SET(aNatPMPt->s, &fds);
@@ -120,10 +120,10 @@ Standardablauf:
 	
 	// update PortMapping
 	if (shouldRemove) {
-	   [aPortMapping setPortMappingStatus:TCMPortMappingStatusUnmapped];
+	   [aPortMapping setMappingStatus:TCMPortMappingStatusUnmapped];
 	} else {
 	   [aPortMapping setPublicPort:response.newportmapping.mappedpublicport];
-	   [aPortMapping setPortMappingStatus:TCMPortMappingStatusMapped];
+	   [aPortMapping setMappingStatus:TCMPortMappingStatusMapped];
 	}
 	
 	/* TODO : check response.type ! */

@@ -8,6 +8,7 @@
 
 #import "TCMPortMapper.h"
 #import "IXSCNotificationManager.h"
+#import "NSNotificationAdditions.h"
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <SystemConfiguration/SCSchemaDefinitions.h>
 #import <sys/sysctl.h> 
@@ -20,10 +21,9 @@
 NSString * const TCMPortMapperExternalIPAddressDidChange         = @"TCMPortMapperExternalIPAddressDidChange";
 NSString * const TCMPortMapperWillSearchForRouterNotification    = @"TCMPortMapperWillSearchForRouterNotification";
 NSString * const TCMPortMapperDidFindRouterNotification          = @"TCMPortMapperDidFindRouterNotification";
-NSString * const TCMPortMappingDidChangeMappingStateNotification = @"TCMPortMappingDidChangeMappingStateNotification";
+NSString * const TCMPortMappingDidChangeMappingStatusNotification = @"TCMPortMappingDidChangeMappingStatusNotification";
 NSString * const TCMNATPMPProtocol = @"TCMNATPMPProtocol";
 NSString * const TCMUPNPProtocol   = @"TCMUPNPProtocol";
-
 
 static TCMPortMapper *S_sharedInstance;
 
@@ -122,18 +122,6 @@ static TCMPortMapper *S_sharedInstance;
 - (NSString *)externalIPAddress {
     return _externalIPAddress;
 	//return [[TCMNATPMPPortMapper sharedInstance] externalIPAddress];
-}
-
-- (void)mapPublicPort:(uint16_t)aPublicPort toPrivatePort:(uint16_t)aPrivatePort withLifetime:(uint32_t)aLifetime {
-	return [[TCMNATPMPPortMapper sharedInstance] mapPublicPort:aPublicPort toPrivatePort:aPrivatePort withLifetime:aLifetime];
-}
-
-- (void)mapPublicPort:(uint16_t)aPublicPort toPrivatePort:(uint16_t)aPrivatePort{
-	[self mapPublicPort:aPublicPort toPrivatePort:aPrivatePort withLifetime:3600]; // Default lifetime is an hour
-}
-
-- (void)mapPort:(uint16_t)aPublicPort {
-	[self mapPublicPort:aPublicPort toPrivatePort:aPublicPort]; // Uses same port for external and local by default
 }
 
 - (NSSet *)portMappings{
@@ -335,3 +323,77 @@ static TCMPortMapper *S_sharedInstance;
 }
 
 @end
+
+
+@implementation TCMPortMapping 
+
+
++ (id)portMappingWithPrivatePort:(uint16_t)aPrivatePort desiredPublicPort:(uint16_t)aPublicPort userInfo:(id)aUserInfo {
+    return [[[self alloc] initWithPrivatePort:aPrivatePort desiredPublicPort:aPublicPort userInfo:aUserInfo] autorelease];
+}
+
+- (id)initWithPrivatePort:(uint16_t)aPrivatePort desiredPublicPort:(uint16_t)aPublicPort userInfo:(id)aUserInfo {
+    if ((self=[super init])) {
+        _desiredPublicPort = aPublicPort;
+        _privatePort = aPrivatePort;
+        _userInfo = [aUserInfo retain];
+    }
+    return self;
+}
+
+- (void)dealloc {
+    [_userInfo release];
+    [super dealloc];
+}
+
+- (uint16_t)desiredPublicPort {
+    return _desiredPublicPort;
+}
+
+
+- (id)userInfo {
+    return _userInfo;
+}
+
+
+- (TCMPortMappingStatus)mappingStatus {
+    return _mappingStatus;
+}
+
+
+- (void)setMappingStatus:(TCMPortMappingStatus)aStatus {
+    if (_mappingStatus != aStatus) {
+        _mappingStatus = aStatus;
+        [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadWithName:TCMPortMappingDidChangeMappingStatusNotification object:self];
+    }
+}
+
+
+- (TCMPortMappingTransportProtocol)transportProtocol {
+    return _transportProtocol;
+}
+
+
+- (void)setTransportProtocol:(TCMPortMappingTransportProtocol)aProtocol {
+    if (_transportProtocol != aProtocol) {
+        _transportProtocol = aProtocol;
+    }
+}
+
+
+- (uint16_t)publicPort {
+    return _publicPort;
+}
+
+- (void)setPublicPort:(uint16_t)aPublicPort {
+    _publicPort=aPublicPort;
+}
+
+
+- (uint16_t)privatePort {
+    return _privatePort;
+}
+
+
+@end
+
