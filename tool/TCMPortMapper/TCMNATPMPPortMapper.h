@@ -13,10 +13,19 @@
 extern NSString * const TCMNATPMPPortMapperDidFailNotification;
 extern NSString * const TCMNATPMPPortMapperDidGetExternalIPAddressNotification;
 
+typedef enum {
+    TCMExternalIPThreadID = 0,
+    TCMUpdatingMappingThreadID = 1,
+} TCMPortMappingThreadID;
+
 
 @interface TCMNATPMPPortMapper : NSObject {
     NSLock *natPMPThreadIsRunningLock;
     BOOL IPAddressThreadShouldQuit;
+    BOOL UpdatePortMappingsThreadShouldQuit;
+    BOOL UpdatePortMappingsThreadShouldRestart;
+    TCMPortMappingThreadID runningThreadID;
+    NSTimer *_updateTimer;
 }
 
 - (void)refresh;

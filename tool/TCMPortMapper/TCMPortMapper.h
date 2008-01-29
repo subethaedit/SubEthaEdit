@@ -18,11 +18,20 @@ extern NSString * const TCMPortMapperDidFindRouterNotification;
 
 extern NSString * const TCMPortMappingDidChangeMappingStateNotification;
 
+extern NSString * const TCMNATPMPProtocol;
+extern NSString * const TCMUPNPProtocol;  
+
 typedef enum {
     TCMPortMappingStatusUnmapped = 0,
     TCMPortMappingStatusTrying = 1,
     TCMPortMappingStatusMapped = 2
 } TCMPortMappingStatus;
+
+typedef enum {
+    UDP = 0,
+    TCP = 1,
+    Both = 2
+} TCMPortMappingTransportProtocol;
 
 
 @interface TCMPortMapping : NSObject {
@@ -31,11 +40,15 @@ typedef enum {
     uint16_t _desiredPublicPort;
     id  _userInfo;
     TCMPortMappingStatus _mappingStatus;
+    TCMPortMappingTransportProtocol _transportProtocol;
 }
 + (id)portMappingWithPrivatePort:(uint16_t)aPrivatePort desiredPublicPort:(uint16_t)aPublicPort userInfo:(id)aUserInfo;
 - (uint16_t)desiredPublicPort;
 - (id)userInfo;
 - (TCMPortMappingStatus)mappingStatus;
+- (void)setMappingStatus:(TCMPortMappingStatus)aStatus;
+- (TCMPortMappingTransportProtocol)transportProtocol;
+- (void)setTransportProtocol:(TCMPortMappingTransportProtocol)aStatus;
 - (uint16_t)publicPort;
 - (uint16_t)privatePort;
 
@@ -43,16 +56,20 @@ typedef enum {
 
 @class IXSCNotificationManager;
 @class TCMNATPMPPortMapper;
+@class TCMUPNPPortMapper;
 @interface TCMPortMapper : NSObject {
     TCMNATPMPPortMapper *_NATPMPPortMapper;
-    NSMutableArray *_portMappings;
+    TCMUPNPPortMapper *_UPNPPortMapper;
+    NSMutableSet *_portMappings;
+    NSMutableSet *_removeMappingQueue;
     IXSCNotificationManager *_systemConfigNotificationManager;
     BOOL _isRunning;
     NSString *_externalIPAddress;
 }
 
 + (TCMPortMapper *)sharedInstance;
-- (NSArray *)portMappings;
+- (NSSet *)portMappings;
+- (NSMutableSet *)removeMappingQueue;
 - (void)addPortMapping:(TCMPortMapping *)aMapping;
 - (void)removePortMapping:(TCMPortMapping *)aMapping;
 - (void)refreshPortMappings;

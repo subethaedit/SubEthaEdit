@@ -21,6 +21,8 @@ NSString * const TCMPortMapperExternalIPAddressDidChange         = @"TCMPortMapp
 NSString * const TCMPortMapperWillSearchForRouterNotification    = @"TCMPortMapperWillSearchForRouterNotification";
 NSString * const TCMPortMapperDidFindRouterNotification          = @"TCMPortMapperDidFindRouterNotification";
 NSString * const TCMPortMappingDidChangeMappingStateNotification = @"TCMPortMappingDidChangeMappingStateNotification";
+NSString * const TCMNATPMPProtocol = @"TCMNATPMPProtocol";
+NSString * const TCMUPNPProtocol   = @"TCMUPNPProtocol";
 
 
 static TCMPortMapper *S_sharedInstance;
@@ -33,9 +35,9 @@ static TCMPortMapper *S_sharedInstance;
 
 - (void)setExternalIPAddress:(NSString *)anAddress;
 
-- (void) mapPort:(uint16_t)aPublicPort;
-- (void) mapPublicPort:(uint16_t)aPublicPort toPrivatePort:(uint16_t)aPrivatePort;
-- (void) mapPublicPort:(uint16_t)aPublicPort toPrivatePort:(uint16_t)aPrivatePort withLifetime:(uint32_t)aLifetime;
+- (void)mapPort:(uint16_t)aPublicPort;
+- (void)mapPublicPort:(uint16_t)aPublicPort toPrivatePort:(uint16_t)aPrivatePort;
+- (void)mapPublicPort:(uint16_t)aPublicPort toPrivatePort:(uint16_t)aPrivatePort withLifetime:(uint32_t)aLifetime;
 
 @end
 
@@ -88,6 +90,8 @@ static TCMPortMapper *S_sharedInstance;
         _systemConfigNotificationManager = [IXSCNotificationManager new];
         _isRunning = NO;
         _NATPMPPortMapper = [[TCMNATPMPPortMapper alloc] init];
+        _portMappings = [NSMutableSet new];
+        _removeMappingQueue = [NSMutableSet new];
         S_sharedInstance = self;
     }
     return self;
@@ -96,6 +100,8 @@ static TCMPortMapper *S_sharedInstance;
 - (void)dealloc {
     [_systemConfigNotificationManager release];
     [_NATPMPPortMapper release];
+    [_portMappings release];
+    [_removeMappingQueue release];
     [super dealloc];
 }
 
@@ -110,7 +116,7 @@ static TCMPortMapper *S_sharedInstance;
 }
 
 - (void)networkDidChange:(NSNotification *)aNotification {
-    [self refreshPortMappings];
+    [self refresh];
 }
 
 - (NSString *)externalIPAddress {
@@ -118,31 +124,54 @@ static TCMPortMapper *S_sharedInstance;
 	//return [[TCMNATPMPPortMapper sharedInstance] externalIPAddress];
 }
 
-- (void) mapPublicPort:(uint16_t)aPublicPort toPrivatePort:(uint16_t)aPrivatePort withLifetime:(uint32_t)aLifetime {
+- (void)mapPublicPort:(uint16_t)aPublicPort toPrivatePort:(uint16_t)aPrivatePort withLifetime:(uint32_t)aLifetime {
 	return [[TCMNATPMPPortMapper sharedInstance] mapPublicPort:aPublicPort toPrivatePort:aPrivatePort withLifetime:aLifetime];
 }
 
-- (void) mapPublicPort:(uint16_t)aPublicPort toPrivatePort:(uint16_t)aPrivatePort{
+- (void)mapPublicPort:(uint16_t)aPublicPort toPrivatePort:(uint16_t)aPrivatePort{
 	[self mapPublicPort:aPublicPort toPrivatePort:aPrivatePort withLifetime:3600]; // Default lifetime is an hour
 }
 
-- (void) mapPort:(uint16_t)aPublicPort {
+- (void)mapPort:(uint16_t)aPublicPort {
 	[self mapPublicPort:aPublicPort toPrivatePort:aPublicPort]; // Uses same port for external and local by default
 }
 
-- (NSArray *)portMappings{
-	return nil;
+- (NSSet *)portMappings{
+	return _portMappings;
+}
+
+- (NSMutableSet *)removeMappingQueue {
+    return _removeMappingQueue;
+}
+
+- (void)updatePortMappings {
+    NSString *protocol = [self mappingProtocol];
+    if (protocol) {
+        [([protocol isEqualToString:TCMNATPMPProtocol] ? _NATPMPPortMapper : (id)_UPNPPortMapper) updatePortMappings];
+    }
 }
 
 - (void)addPortMapping:(TCMPortMapping *)aMapping {
-	
+    @synchronized(_portMappings) {
+        [_portMappings addObject:aMapping];
+    }
+    [self updatePortMappings];
 }
 
 - (void)removePortMapping:(TCMPortMapping *)aMapping {
-	
+    @synchronized(_portMappings) {
+        [[aMapping retain] autorelease];
+        [_portMappings removeObject:aMapping];
+    }
+    @synchronized(_removeMappingQueue) {
+        if ([aMapping mappingStatus] != TCMPortMappingStatusUnmapped) {
+            [_removeMappingQueue addObject:aMapping];
+        }
+    }
+    [self updatePortMappings];
 }
 
-- (void)refreshPortMappings {
+- (void)refresh {
     // reinitialisieren: public ip und router modell auf nil setzen - portmappingsstatus auf unmapped setzen, wenn trying dann upnp/natpimp zurücksetzen
 	// haben wir einen router
 	// dann upnp / natpimp starten um zu sehen was geht - internen status auf "trying" setzen.
@@ -266,7 +295,7 @@ static TCMPortMapper *S_sharedInstance;
                                     selector:@selector(networkDidChange:) 
                                     name:@"State:/Network/Global/IPv4" 
                                     object:_systemConfigNotificationManager];
-    [self refreshPortMappings];
+    [self refresh];
 }
 
 - (void)stop {
