@@ -33,6 +33,18 @@
 		F2C65C7B0D50B5F900820CAE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F2C65C770D50B5F900820CAE /* InfoPlist.strings */; };
 		F2C65C7C0D50B5F900820CAE /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = F2C65C790D50B5F900820CAE /* MainMenu.nib */; };
 		F2C65C800D50B62E00820CAE /* Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = F2C65C120D50B1F400820CAE /* Controller.m */; };
+		F2C6602B0D50C58800820CAE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F2C6602A0D50C58800820CAE /* main.m */; };
+		F2C6602E0D50C58F00820CAE /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2C6602C0D50C58F00820CAE /* AppController.m */; };
+		F2C660350D50C59B00820CAE /* On20.png in Resources */ = {isa = PBXBuildFile; fileRef = F2C6602F0D50C59B00820CAE /* On20.png */; };
+		F2C660360D50C59B00820CAE /* Off20.png in Resources */ = {isa = PBXBuildFile; fileRef = F2C660300D50C59B00820CAE /* Off20.png */; };
+		F2C660370D50C59B00820CAE /* DotRed.png in Resources */ = {isa = PBXBuildFile; fileRef = F2C660310D50C59B00820CAE /* DotRed.png */; };
+		F2C660380D50C59B00820CAE /* PortMap.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2C660320D50C59B00820CAE /* PortMap.icns */; };
+		F2C660390D50C59B00820CAE /* DotGreen.png in Resources */ = {isa = PBXBuildFile; fileRef = F2C660330D50C59B00820CAE /* DotGreen.png */; };
+		F2C6603A0D50C59B00820CAE /* DotYellow.png in Resources */ = {isa = PBXBuildFile; fileRef = F2C660340D50C59B00820CAE /* DotYellow.png */; };
+		F2C6603F0D50C62F00820CAE /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = F2C6603B0D50C62F00820CAE /* MainMenu.nib */; };
+		F2C660400D50C62F00820CAE /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F2C6603D0D50C62F00820CAE /* InfoPlist.strings */; };
+		F2C660480D50C68400820CAE /* TCMPortMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3180119F0D4DEC8400BE3B28 /* TCMPortMapper.framework */; };
+		F2C660510D50C69A00820CAE /* TCMPortMapper.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 3180119F0D4DEC8400BE3B28 /* TCMPortMapper.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -41,6 +53,13 @@
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 3180119E0D4DEC8400BE3B28;
+			remoteInfo = TCMPortMapper;
+		};
+		F2C660410D50C64A00820CAE /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3180119E0D4DEC8400BE3B28 /* TCMPortMapper */;
 			remoteInfo = TCMPortMapper;
 		};
 /* End PBXContainerItemProxy section */
@@ -53,6 +72,17 @@
 			dstSubfolderSpec = 10;
 			files = (
 				F2C65C5F0D50B5AC00820CAE /* TCMPortMapper.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F2C6605F0D50C6B000820CAE /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				F2C660510D50C69A00820CAE /* TCMPortMapper.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -96,6 +126,20 @@
 		F2C65C240D50B29E00820CAE /* AddIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = AddIcon.tiff; path = portmap_map/artwork/AddIcon.tiff; sourceTree = "<group>"; };
 		F2C65C780D50B5F900820CAE /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = InfoPlist.strings; sourceTree = "<group>"; };
 		F2C65C7A0D50B5F900820CAE /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = MainMenu.nib; sourceTree = "<group>"; };
+		F2C65FFF0D50C2D100820CAE /* Port Dom.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Port Dom.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2C660030D50C2D100820CAE /* Port Map (dom)-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Port Map (dom)-Info.plist"; sourceTree = "<group>"; };
+		F2C660290D50C58800820CAE /* PortMapper_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PortMapper_Prefix.pch; path = portmap_dom/PortMapper_Prefix.pch; sourceTree = "<group>"; };
+		F2C6602A0D50C58800820CAE /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = portmap_dom/main.m; sourceTree = "<group>"; };
+		F2C6602C0D50C58F00820CAE /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppController.m; path = portmap_dom/AppController.m; sourceTree = "<group>"; };
+		F2C6602D0D50C58F00820CAE /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppController.h; path = portmap_dom/AppController.h; sourceTree = "<group>"; };
+		F2C6602F0D50C59B00820CAE /* On20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = On20.png; path = portmap_dom/artwork/On20.png; sourceTree = "<group>"; };
+		F2C660300D50C59B00820CAE /* Off20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Off20.png; path = portmap_dom/artwork/Off20.png; sourceTree = "<group>"; };
+		F2C660310D50C59B00820CAE /* DotRed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DotRed.png; path = portmap_dom/artwork/DotRed.png; sourceTree = "<group>"; };
+		F2C660320D50C59B00820CAE /* PortMap.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = PortMap.icns; path = portmap_dom/artwork/PortMap.icns; sourceTree = "<group>"; };
+		F2C660330D50C59B00820CAE /* DotGreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DotGreen.png; path = portmap_dom/artwork/DotGreen.png; sourceTree = "<group>"; };
+		F2C660340D50C59B00820CAE /* DotYellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DotYellow.png; path = portmap_dom/artwork/DotYellow.png; sourceTree = "<group>"; };
+		F2C6603C0D50C62F00820CAE /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = portmap_dom/English.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		F2C6603E0D50C62F00820CAE /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = portmap_dom/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,6 +159,14 @@
 				F2C65C4C0D50B52A00820CAE /* TCMPortMapper.framework in Frameworks */,
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
 				3180154E0D4E08D900BE3B28 /* SystemConfiguration.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F2C65FFD0D50C2D100820CAE /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F2C660480D50C68400820CAE /* TCMPortMapper.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -145,6 +197,7 @@
 			children = (
 				8D1107320486CEB800E47090 /* Port Map.app */,
 				3180119F0D4DEC8400BE3B28 /* TCMPortMapper.framework */,
+				F2C65FFF0D50C2D100820CAE /* Port Dom.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -152,10 +205,12 @@
 		29B97314FDCFA39411CA2CEA /* PortMapper */ = {
 			isa = PBXGroup;
 			children = (
-				F2C65C0F0D50B1D300820CAE /* Port Map.app map */,
+				F2C65C0F0D50B1D300820CAE /* Port Map (map) */,
+				F2C6600B0D50C34500820CAE /* Port Map (dom) */,
 				F2C65BDD0D50B16100820CAE /* TCMPortMapper.framework */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
+				F2C660030D50C2D100820CAE /* Port Map (dom)-Info.plist */,
 			);
 			name = PortMapper;
 			sourceTree = "<group>";
@@ -204,14 +259,14 @@
 			path = "framework/libnatpmp-20071213";
 			sourceTree = "<group>";
 		};
-		F2C65C0F0D50B1D300820CAE /* Port Map.app map */ = {
+		F2C65C0F0D50B1D300820CAE /* Port Map (map) */ = {
 			isa = PBXGroup;
 			children = (
 				F2C65C200D50B25600820CAE /* Other sources */,
 				F2C65C1B0D50B24400820CAE /* Classes */,
 				F2C65C180D50B23B00820CAE /* Resources */,
 			);
-			name = "Port Map.app map";
+			name = "Port Map (map)";
 			sourceTree = "<group>";
 		};
 		F2C65C180D50B23B00820CAE /* Resources */ = {
@@ -253,6 +308,49 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
+		F2C6600B0D50C34500820CAE /* Port Map (dom) */ = {
+			isa = PBXGroup;
+			children = (
+				F2C660100D50C35D00820CAE /* Other sources */,
+				F2C660160D50C36D00820CAE /* Classes */,
+				F2C660130D50C36700820CAE /* Resources */,
+			);
+			name = "Port Map (dom)";
+			sourceTree = "<group>";
+		};
+		F2C660100D50C35D00820CAE /* Other sources */ = {
+			isa = PBXGroup;
+			children = (
+				F2C660290D50C58800820CAE /* PortMapper_Prefix.pch */,
+				F2C6602A0D50C58800820CAE /* main.m */,
+			);
+			name = "Other sources";
+			sourceTree = "<group>";
+		};
+		F2C660130D50C36700820CAE /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				F2C6603B0D50C62F00820CAE /* MainMenu.nib */,
+				F2C6603D0D50C62F00820CAE /* InfoPlist.strings */,
+				F2C6602F0D50C59B00820CAE /* On20.png */,
+				F2C660300D50C59B00820CAE /* Off20.png */,
+				F2C660310D50C59B00820CAE /* DotRed.png */,
+				F2C660320D50C59B00820CAE /* PortMap.icns */,
+				F2C660330D50C59B00820CAE /* DotGreen.png */,
+				F2C660340D50C59B00820CAE /* DotYellow.png */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		F2C660160D50C36D00820CAE /* Classes */ = {
+			isa = PBXGroup;
+			children = (
+				F2C6602D0D50C58F00820CAE /* AppController.h */,
+				F2C6602C0D50C58F00820CAE /* AppController.m */,
+			);
+			name = Classes;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXHeadersBuildPhase section */
@@ -286,9 +384,9 @@
 			productReference = 3180119F0D4DEC8400BE3B28 /* TCMPortMapper.framework */;
 			productType = "com.apple.product-type.framework";
 		};
-		8D1107260486CEB800E47090 /* Port Map */ = {
+		8D1107260486CEB800E47090 /* Port Map (map) */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Port Map" */;
+			buildConfigurationList = C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Port Map (map)" */;
 			buildPhases = (
 				F2C65C750D50B5C800820CAE /* Copy Frameworks */,
 				8D1107290486CEB800E47090 /* Resources */,
@@ -300,10 +398,29 @@
 			dependencies = (
 				F2C65C490D50B4EF00820CAE /* PBXTargetDependency */,
 			);
-			name = "Port Map";
+			name = "Port Map (map)";
 			productInstallPath = "$(HOME)/Applications";
 			productName = PortMapper;
 			productReference = 8D1107320486CEB800E47090 /* Port Map.app */;
+			productType = "com.apple.product-type.application";
+		};
+		F2C65FFE0D50C2D100820CAE /* Port Map (dom) */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F2C660060D50C2D200820CAE /* Build configuration list for PBXNativeTarget "Port Map (dom)" */;
+			buildPhases = (
+				F2C6605F0D50C6B000820CAE /* Copy Frameworks */,
+				F2C65FFB0D50C2D100820CAE /* Resources */,
+				F2C65FFC0D50C2D100820CAE /* Sources */,
+				F2C65FFD0D50C2D100820CAE /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F2C660420D50C64A00820CAE /* PBXTargetDependency */,
+			);
+			name = "Port Map (dom)";
+			productName = "Port Map (dom)";
+			productReference = F2C65FFF0D50C2D100820CAE /* Port Dom.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -318,8 +435,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8D1107260486CEB800E47090 /* Port Map */,
+				8D1107260486CEB800E47090 /* Port Map (map) */,
 				3180119E0D4DEC8400BE3B28 /* TCMPortMapper */,
+				F2C65FFE0D50C2D100820CAE /* Port Map (dom) */,
 			);
 		};
 /* End PBXProject section */
@@ -343,6 +461,21 @@
 				F2C65C280D50B29E00820CAE /* AddIcon.tiff in Resources */,
 				F2C65C7B0D50B5F900820CAE /* InfoPlist.strings in Resources */,
 				F2C65C7C0D50B5F900820CAE /* MainMenu.nib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F2C65FFB0D50C2D100820CAE /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F2C660350D50C59B00820CAE /* On20.png in Resources */,
+				F2C660360D50C59B00820CAE /* Off20.png in Resources */,
+				F2C660370D50C59B00820CAE /* DotRed.png in Resources */,
+				F2C660380D50C59B00820CAE /* PortMap.icns in Resources */,
+				F2C660390D50C59B00820CAE /* DotGreen.png in Resources */,
+				F2C6603A0D50C59B00820CAE /* DotYellow.png in Resources */,
+				F2C6603F0D50C62F00820CAE /* MainMenu.nib in Resources */,
+				F2C660400D50C62F00820CAE /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -374,6 +507,15 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		F2C65FFC0D50C2D100820CAE /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F2C6602B0D50C58800820CAE /* main.m in Sources */,
+				F2C6602E0D50C58F00820CAE /* AppController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
@@ -381,6 +523,11 @@
 			isa = PBXTargetDependency;
 			target = 3180119E0D4DEC8400BE3B28 /* TCMPortMapper */;
 			targetProxy = F2C65C480D50B4EF00820CAE /* PBXContainerItemProxy */;
+		};
+		F2C660420D50C64A00820CAE /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3180119E0D4DEC8400BE3B28 /* TCMPortMapper */;
+			targetProxy = F2C660410D50C64A00820CAE /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -401,6 +548,22 @@
 			);
 			name = MainMenu.nib;
 			path = portmap_map/English.lproj;
+			sourceTree = "<group>";
+		};
+		F2C6603B0D50C62F00820CAE /* MainMenu.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F2C6603C0D50C62F00820CAE /* English */,
+			);
+			name = MainMenu.nib;
+			sourceTree = "<group>";
+		};
+		F2C6603D0D50C62F00820CAE /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F2C6603E0D50C62F00820CAE /* English */,
+			);
+			name = InfoPlist.strings;
 			sourceTree = "<group>";
 		};
 /* End PBXVariantGroup section */
@@ -519,6 +682,55 @@
 			};
 			name = Release;
 		};
+		F2C660040D50C2D200820CAE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = portmap_dom/PortMapper_Prefix.pch;
+				INFOPLIST_FILE = portmap_dom/Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "Port Dom";
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		F2C660050D50C2D200820CAE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_MODEL_TUNING = G5;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = portmap_dom/PortMapper_Prefix.pch;
+				INFOPLIST_FILE = portmap_dom/Info.plist;
+				INSTALL_PATH = "$(HOME)/Applications";
+				OTHER_LDFLAGS = (
+					"-framework",
+					Foundation,
+					"-framework",
+					AppKit,
+				);
+				PREBINDING = NO;
+				PRODUCT_NAME = "Port Dom";
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -531,7 +743,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Port Map" */ = {
+		C01FCF4A08A954540054247B /* Build configuration list for PBXNativeTarget "Port Map (map)" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				C01FCF4B08A954540054247B /* Debug */,
@@ -545,6 +757,15 @@
 			buildConfigurations = (
 				C01FCF4F08A954540054247B /* Debug */,
 				C01FCF5008A954540054247B /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F2C660060D50C2D200820CAE /* Build configuration list for PBXNativeTarget "Port Map (dom)" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F2C660040D50C2D200820CAE /* Debug */,
+				F2C660050D50C2D200820CAE /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

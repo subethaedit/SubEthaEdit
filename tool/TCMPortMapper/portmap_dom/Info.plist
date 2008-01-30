@@ -9,7 +9,7 @@
 	<key>CFBundleIconFile</key>
 	<string>PortMap</string>
 	<key>CFBundleIdentifier</key>
-	<string>de.codingmonkeys.map.PortMap</string>
+	<string>de.codingmonkeys.dom.PortMap</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
