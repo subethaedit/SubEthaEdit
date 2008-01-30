@@ -283,7 +283,15 @@ static TCMPortMapper *S_sharedInstance;
                                     selector:@selector(networkDidChange:) 
                                     name:@"State:/Network/Global/IPv4" 
                                     object:_systemConfigNotificationManager];
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                    selector:@selector(printNotification:) 
+                                    name:nil 
+                                    object:_NATPMPPortMapper];
     [self refresh];
+}
+
+- (void)printNotification:(NSNotification *)aNotification {
+    NSLog(@"TCMPortMapper received notification: %@", aNotification);
 }
 
 - (void)stop {
@@ -394,6 +402,9 @@ static TCMPortMapper *S_sharedInstance;
     return _privatePort;
 }
 
+- (NSString *)description {
+    return [NSString stringWithFormat:@"%@ privatePort:%u desiredPublicPort:%u publicPort:%u mappingStatus:%@",[super description], _privatePort, _desiredPublicPort, _publicPort, _mappingStatus == TCMPortMappingStatusUnmapped ? @"unmapped" : (_mappingStatus == TCMPortMappingStatusMapped ? @"mapped" : @"trying")];
+}
 
 @end
 

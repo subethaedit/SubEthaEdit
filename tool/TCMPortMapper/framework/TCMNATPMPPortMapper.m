@@ -117,7 +117,10 @@ Standardablauf:
 	} while(r==NATPMP_TRYAGAIN);
 	
 	//if(r<0) return 1;
-	
+	if (r<0) {
+	   [aPortMapping setMappingStatus:TCMPortMappingStatusUnmapped];
+	   return NO;
+    }
 	// update PortMapping
 	if (shouldRemove) {
 	   [aPortMapping setMappingStatus:TCMPortMappingStatusUnmapped];
@@ -178,7 +181,10 @@ Standardablauf:
         
         if (!mappingToApply) break;
         
-        [self applyPortMapping:mappingToApply remove:NO natpmp:&natpmp];
+        if (![self applyPortMapping:mappingToApply remove:NO natpmp:&natpmp]) {
+            [[NSNotificationCenter defaultCenter] postNotificationOnMainThread:[NSNotification notificationWithName:TCMNATPMPPortMapperDidFailNotification object:self]];
+            break;
+        };
     }
     closenatpmp(&natpmp);
 
@@ -247,6 +253,7 @@ Standardablauf:
         NSLog(@"%s thread quit prematurely",__FUNCTION__);
         [self performSelectorOnMainThread:@selector(refresh) withObject:nil waitUntilDone:0];
     } else {
+        #warning port mapping should not be updated if external ip fails
         [self performSelectorOnMainThread:@selector(updatePortMappings) withObject:nil waitUntilDone:0];
     }
     [pool release];

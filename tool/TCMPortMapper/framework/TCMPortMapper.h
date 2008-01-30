@@ -51,6 +51,7 @@ typedef enum {
 - (void)setMappingStatus:(TCMPortMappingStatus)aStatus;
 - (TCMPortMappingTransportProtocol)transportProtocol;
 - (void)setTransportProtocol:(TCMPortMappingTransportProtocol)aProtocol;
+- (void)setPublicPort:(uint16_t)aPublicPort;
 - (uint16_t)publicPort;
 - (uint16_t)privatePort;
 
