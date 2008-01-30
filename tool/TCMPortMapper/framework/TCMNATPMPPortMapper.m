@@ -88,7 +88,7 @@ Standardablauf:
         UpdatePortMappingsThreadShouldRestart=NO;
         runningThreadID = TCMUpdatingMappingThreadID;
         [natPMPThreadIsRunningLock unlock];
-        [NSThread detachNewThreadSelector:@selector(updatePortMappings) toTarget:self withObject:nil];
+        [NSThread detachNewThreadSelector:@selector(updatePortMappingsInThread) toTarget:self withObject:nil];
         NSLog(@"%s detachedThread",__FUNCTION__);
     } else  {
         if (runningThreadID == TCMUpdatingMappingThreadID) {
