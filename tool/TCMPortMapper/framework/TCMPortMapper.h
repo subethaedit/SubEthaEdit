@@ -29,9 +29,9 @@ typedef enum {
 } TCMPortMappingStatus;
 
 typedef enum {
-    UDP = 0,
-    TCP = 1,
-    Both = 2
+    UDP = 1,
+    TCP = 2,
+    Both = 3
 } TCMPortMappingTransportProtocol;
 
 

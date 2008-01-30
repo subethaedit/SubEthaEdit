@@ -14,6 +14,8 @@
     IBOutlet NSTextField *O_taglineTextField;
     IBOutlet NSTableView *O_portMappingsTableView;
     IBOutlet NSArrayController *O_mappingsArrayController;
+    IBOutlet NSProgressIndicator *O_globalProgressIndicator;
+    IBOutlet NSButton    *O_refreshButton;
 }
 
 - (IBAction)refresh:(id)aSender;

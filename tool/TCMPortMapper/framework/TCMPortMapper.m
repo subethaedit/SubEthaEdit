@@ -205,7 +205,7 @@ static TCMPortMapper *S_sharedInstance;
                 if (inPrivateSubnet) {
                     [_NATPMPPortMapper refresh];
                     // [_UPNPPortMapper refresh];
-                    [self setExternalIPAddress:routerAddress]; // FIXME that is wrong
+                    // [self setExternalIPAddress:routerAddress]; // FIXME that is wrong
                 } else {
                     [self setExternalIPAddress:ipAddress];
                     [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidFindRouterNotification object:self];
@@ -287,8 +287,37 @@ static TCMPortMapper *S_sharedInstance;
                                     selector:@selector(printNotification:) 
                                     name:nil 
                                     object:_NATPMPPortMapper];
+                                    
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                    selector:@selector(NATPMPPortMapperDidGetExternalIPAddress:) 
+                                    name:TCMNATPMPPortMapperDidGetExternalIPAddressNotification 
+                                    object:_NATPMPPortMapper];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                    selector:@selector(NATPMPPortMapperDidFail:) 
+                                    name:TCMNATPMPPortMapperDidFailNotification 
+                                    object:_NATPMPPortMapper];
+
+    
     [self refresh];
 }
+
+
+- (void)NATPMPPortMapperDidGetExternalIPAddress:(NSNotification *)aNotification {
+    BOOL hadAddress = [self externalIPAddress];
+    [self setExternalIPAddress:[[aNotification userInfo] objectForKey:@"externalIPAddress"]];
+    if (!hadAddress) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidFindRouterNotification object:self];
+    }
+}
+
+- (void)NATPMPPortMapperDidFail:(NSNotification *)aNotification {
+    [self setExternalIPAddress:nil];
+    // also mark all port mappings as unmapped
+    [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidFindRouterNotification object:self];
+}
+
 
 - (void)printNotification:(NSNotification *)aNotification {
     NSLog(@"TCMPortMapper received notification: %@", aNotification);
