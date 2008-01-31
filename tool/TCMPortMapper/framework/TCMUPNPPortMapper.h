@@ -15,5 +15,6 @@
 
 
 - (void)refresh;
+- (void)stop;
 
 @end

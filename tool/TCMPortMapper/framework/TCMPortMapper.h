@@ -20,6 +20,7 @@ extern NSString * const TCMPortMappingDidChangeMappingStatusNotification;
 
 extern NSString * const TCMNATPMPProtocol;
 extern NSString * const TCMUPNPProtocol;  
+extern NSString * const TCMPortMapProtocolNone;
 
 typedef enum {
     TCMPortMappingStatusUnmapped = 0,
@@ -67,6 +68,10 @@ typedef enum {
     IXSCNotificationManager *_systemConfigNotificationManager;
     BOOL _isRunning;
     NSString *_externalIPAddress;
+    BOOL _NATPMPStatus;
+    BOOL _UPNPStatus;
+    NSString *_mappingProtocol;
+    NSString *_routerName;
 }
 
 + (TCMPortMapper *)sharedInstance;
@@ -81,7 +86,9 @@ typedef enum {
 - (void)stop;
 
 - (NSString *)externalIPAddress;
+- (void)setMappingProtocol:(NSString *)aProtocol;
 - (NSString *)mappingProtocol;
+- (void)setRouterName:(NSString *)aRouterName;
 - (NSString *)routerName; // UPNP name or IP address
 - (NSString *)routerIPAddress;
 - (NSString *)routerHardwareAddress;

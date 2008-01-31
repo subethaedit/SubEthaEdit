@@ -227,14 +227,14 @@ Standardablauf:
 	int r;
 	struct timeval timeout;
 	fd_set fds;
-	
+	BOOL didFail=NO;
 	r = initnatpmp(&natpmp);
 	if(r<0) {
-        [[NSNotificationCenter defaultCenter] postNotificationOnMainThread:[NSNotification notificationWithName:TCMNATPMPPortMapperDidFailNotification object:self]];
+	   didFail = YES;
 	} else {
         r = sendpublicaddressrequest(&natpmp);
         if(r<0) {
-            [[NSNotificationCenter defaultCenter] postNotificationOnMainThread:[NSNotification notificationWithName:TCMNATPMPPortMapperDidFailNotification object:self]];
+            didFail = YES;
         } else {
             
             do {
@@ -255,7 +255,7 @@ Standardablauf:
             } while(r==NATPMP_TRYAGAIN);
         
             if(r<0) {
-               [[NSNotificationCenter defaultCenter] postNotificationOnMainThread:[NSNotification notificationWithName:TCMNATPMPPortMapperDidFailNotification object:self]];
+               didFail = YES;
                NSLog(@"natpmp did time out");
             } else {
                 /* TODO : check that response.type == 0 */
@@ -272,8 +272,11 @@ Standardablauf:
         NSLog(@"%s thread quit prematurely",__FUNCTION__);
         [self performSelectorOnMainThread:@selector(refresh) withObject:nil waitUntilDone:0];
     } else {
-        #warning port mapping should not be updated if external ip fails
-        [self performSelectorOnMainThread:@selector(updatePortMappings) withObject:nil waitUntilDone:0];
+        if (didFail) {
+            [[NSNotificationCenter defaultCenter] postNotificationOnMainThread:[NSNotification notificationWithName:TCMNATPMPPortMapperDidFailNotification object:self]];
+        } else {
+            [self performSelectorOnMainThread:@selector(updatePortMappings) withObject:nil waitUntilDone:0];
+        }
     }
     [pool release];
 }
