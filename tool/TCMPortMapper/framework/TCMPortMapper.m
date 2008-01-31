@@ -303,7 +303,7 @@ static TCMPortMapper *S_sharedInstance;
                                     name:TCMNATPMPPortMapperDidFailNotification 
                                     object:_NATPMPPortMapper];
 
-    
+    _isRunning = YES;
     [self refresh];
 }
 
@@ -329,7 +329,9 @@ static TCMPortMapper *S_sharedInstance;
 
 - (void)stop {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-
+    _isRunning = NO;
+    [_NATPMPPortMapper stop];
+    [_UPNPPortMapper stop];
 }
 
 - (NSString *)mappingProtocol {

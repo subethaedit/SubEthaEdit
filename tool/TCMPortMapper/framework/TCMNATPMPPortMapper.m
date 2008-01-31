@@ -39,10 +39,22 @@ static TCMNATPMPPortMapper *S_sharedInstance;
     [super dealloc];
 }
 
+- (void)stop {
+    // TODO: remove listening for ExternalIPChhanges (have to implement them first also)
+    if ([_updateTimer isValid]) {
+        [_updateTimer invalidate];
+        [_updateTimer release];
+        _updateTimer = nil;
+    }
+
+    [self updatePortMappings];
+}
+
 - (void)refresh {
     // Run externalipAddress in Thread
     
     if ([natPMPThreadIsRunningLock tryLock]) {
+        _updateInterval = 3600 / 2.;
         IPAddressThreadShouldQuit=NO;
         runningThreadID = TCMExternalIPThreadID;
         [NSThread detachNewThreadSelector:@selector(refreshExternalIPInThread) toTarget:self withObject:nil];
@@ -63,7 +75,7 @@ static TCMNATPMPPortMapper *S_sharedInstance;
         [_updateTimer invalidate];
     }
     [_updateTimer autorelease];
-    _updateTimer = [[NSTimer scheduledTimerWithTimeInterval:3600/2. target:self selector:@selector(updatePortMappings) userInfo:nil repeats:NO] retain];
+    _updateTimer = [[NSTimer scheduledTimerWithTimeInterval:_updateInterval target:self selector:@selector(updatePortMappings) userInfo:nil repeats:NO] retain];
 }
 
 /*
@@ -123,12 +135,17 @@ Standardablauf:
 	if (shouldRemove) {
 	   [aPortMapping setMappingStatus:TCMPortMappingStatusUnmapped];
 	} else {
+	   _updateInterval = MIN(_updateInterval,response.newportmapping.lifetime/2.);
+	   if (_updateInterval < 60.) {
+	       NSLog(@"%s caution - new port mapping had a lifetime < 120. : %u - %@",__FUNCTION__,response.newportmapping.lifetime, aPortMapping);
+	       _updateInterval = 60.;
+	   }
 	   [aPortMapping setPublicPort:response.newportmapping.mappedpublicport];
 	   [aPortMapping setMappingStatus:TCMPortMappingStatusMapped];
 	}
 	
 	/* TODO : check response.type ! */
-	printf("Mapped public port %hu to localport %hu liftime %u\n", response.newportmapping.mappedpublicport, response.newportmapping.privateport, response.newportmapping.lifetime);
+	// printf("Mapped public port %hu to localport %hu liftime %u\n", response.newportmapping.mappedpublicport, response.newportmapping.privateport, response.newportmapping.lifetime);
 	//printf("epoch = %u\n", response.epoch);
 	return YES;
 }
@@ -160,7 +177,8 @@ Standardablauf:
         
     }    
 
-    NSSet *mappingsToAdd = [[TCMPortMapper sharedInstance] portMappings];
+    TCMPortMapper *pm=[TCMPortMapper sharedInstance];
+    NSSet *mappingsToAdd = [pm portMappings];
     
     while (!UpdatePortMappingsThreadShouldQuit && !UpdatePortMappingsThreadShouldRestart) {
         TCMPortMapping *mappingToApply;
@@ -168,8 +186,12 @@ Standardablauf:
             mappingToApply = nil;
             NSEnumerator *mappings = [mappingsToAdd objectEnumerator];
             TCMPortMapping *mapping = nil;
+            BOOL isRunning = [pm isRunning];
             while ((mapping = [mappings nextObject])) {
-                if ([mapping mappingStatus] == TCMPortMappingStatusUnmapped) {
+                if ([mapping mappingStatus] == TCMPortMappingStatusUnmapped && isRunning) {
+                    mappingToApply = mapping;
+                    break;
+                } else if ([mapping mappingStatus] == TCMPortMappingStatusMapped && !isRunning) {
                     mappingToApply = mapping;
                     break;
                 }
@@ -178,7 +200,7 @@ Standardablauf:
         
         if (!mappingToApply) break;
         
-        if (![self applyPortMapping:mappingToApply remove:NO natpmp:&natpmp]) {
+        if (![self applyPortMapping:mappingToApply remove:[pm isRunning]?NO:YES natpmp:&natpmp]) {
             [[NSNotificationCenter defaultCenter] postNotificationOnMainThread:[NSNotification notificationWithName:TCMNATPMPPortMapperDidFailNotification object:self]];
             break;
         };
@@ -191,6 +213,7 @@ Standardablauf:
     } else if (UpdatePortMappingsThreadShouldRestart) {
         [self performSelectorOnMainThread:@selector(updatePortMapping) withObject:nil waitUntilDone:NO];
     } else {
+        [pm isRunning];
         [self performSelectorOnMainThread:@selector(adjustUpdateTimer) withObject:nil waitUntilDone:NO];
     }
     [pool release];

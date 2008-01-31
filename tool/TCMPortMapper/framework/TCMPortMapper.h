@@ -76,6 +76,7 @@ typedef enum {
 - (void)removePortMapping:(TCMPortMapping *)aMapping;
 - (void)refresh;
 
+- (BOOL)isRunning;
 - (void)start;
 - (void)stop;
 

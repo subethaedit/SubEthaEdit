@@ -26,8 +26,11 @@ typedef enum {
     BOOL UpdatePortMappingsThreadShouldRestart;
     TCMPortMappingThreadID runningThreadID;
     NSTimer *_updateTimer;
+    NSTimeInterval _updateInterval;
 }
 
 - (void)refresh;
-	
+- (void)stop;
+- (void)updatePortMappings;
+
 @end
