@@ -45,7 +45,6 @@ static TCMNATPMPPortMapper *S_sharedInstance;
     if ([natPMPThreadIsRunningLock tryLock]) {
         IPAddressThreadShouldQuit=NO;
         runningThreadID = TCMExternalIPThreadID;
-        [natPMPThreadIsRunningLock unlock];
         [NSThread detachNewThreadSelector:@selector(refreshExternalIPInThread) toTarget:self withObject:nil];
         NSLog(@"%s detachedThread",__FUNCTION__);
     } else  {
@@ -87,7 +86,6 @@ Standardablauf:
     if ([natPMPThreadIsRunningLock tryLock]) {
         UpdatePortMappingsThreadShouldRestart=NO;
         runningThreadID = TCMUpdatingMappingThreadID;
-        [natPMPThreadIsRunningLock unlock];
         [NSThread detachNewThreadSelector:@selector(updatePortMappingsInThread) toTarget:self withObject:nil];
         NSLog(@"%s detachedThread",__FUNCTION__);
     } else  {
@@ -136,7 +134,6 @@ Standardablauf:
 }
 
 - (void)updatePortMappingsInThread {
-    [natPMPThreadIsRunningLock lock];
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
     
     natpmp_t natpmp;
@@ -188,7 +185,7 @@ Standardablauf:
     }
     closenatpmp(&natpmp);
 
-    [natPMPThreadIsRunningLock unlock];
+    [natPMPThreadIsRunningLock performSelectorOnMainThread:@selector(unlock) withObject:nil waitUntilDone:YES];
     if (UpdatePortMappingsThreadShouldQuit) {
         [self performSelectorOnMainThread:@selector(refresh) withObject:nil waitUntilDone:NO];
     } else if (UpdatePortMappingsThreadShouldRestart) {
@@ -200,7 +197,6 @@ Standardablauf:
 }
 
 - (void)refreshExternalIPInThread {
-    [natPMPThreadIsRunningLock lock];
     
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
 	natpmp_t natpmp;
@@ -226,8 +222,8 @@ Standardablauf:
                 r = readnatpmpresponseorretry(&natpmp, &response);
                 NSLog(@"%s:%d",__PRETTY_FUNCTION__,__LINE__);
                 if (IPAddressThreadShouldQuit) {
-                    NSLog(@"%s thread quit prematurely",__FUNCTION__);
-                    [natPMPThreadIsRunningLock unlock];
+                    NSLog(@"%s ----------------- thread quit prematurely",__FUNCTION__);
+                    [natPMPThreadIsRunningLock performSelectorOnMainThread:@selector(unlock) withObject:nil waitUntilDone:YES];
                     [self performSelectorOnMainThread:@selector(refresh) withObject:nil waitUntilDone:0];
                     closenatpmp(&natpmp);
                     [pool release];
@@ -248,7 +244,7 @@ Standardablauf:
         }
     }
 	closenatpmp(&natpmp);
-    [natPMPThreadIsRunningLock unlock];
+    [natPMPThreadIsRunningLock performSelectorOnMainThread:@selector(unlock) withObject:nil waitUntilDone:YES];
     if (IPAddressThreadShouldQuit) {
         NSLog(@"%s thread quit prematurely",__FUNCTION__);
         [self performSelectorOnMainThread:@selector(refresh) withObject:nil waitUntilDone:0];

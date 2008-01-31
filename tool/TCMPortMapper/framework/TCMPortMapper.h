@@ -10,7 +10,6 @@
 #import <errno.h>
 #import <string.h>
 #import <unistd.h>
-#import "TCMNATPMPPortMapper.h"
 
 extern NSString * const TCMPortMapperExternalIPAddressDidChange;
 

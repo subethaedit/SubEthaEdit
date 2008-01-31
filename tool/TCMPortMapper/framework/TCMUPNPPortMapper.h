@@ -8,8 +8,12 @@
 
 #import "TCMPortMapper.h"
 
-@interface TCMUPNPPortMapper : TCMPortMapper{
-
+@interface TCMUPNPPortMapper : NSObject {
+    NSLock *_threadIsRunningLock;
+    BOOL refreshThreadShouldQuit;
 }
+
+
+- (void)refresh;
 
 @end

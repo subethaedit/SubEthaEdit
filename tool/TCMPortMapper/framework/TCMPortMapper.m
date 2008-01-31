@@ -7,6 +7,8 @@
 //
 
 #import "TCMPortMapper.h"
+#import "TCMNATPMPPortMapper.h"
+#import "TCMUPNPPortMapper.h"
 #import "IXSCNotificationManager.h"
 #import "NSNotificationAdditions.h"
 #import <SystemConfiguration/SystemConfiguration.h>
@@ -90,6 +92,7 @@ static TCMPortMapper *S_sharedInstance;
         _systemConfigNotificationManager = [IXSCNotificationManager new];
         _isRunning = NO;
         _NATPMPPortMapper = [[TCMNATPMPPortMapper alloc] init];
+        _UPNPPortMapper = [[TCMUPNPPortMapper alloc] init];
         _portMappings = [NSMutableSet new];
         _removeMappingQueue = [NSMutableSet new];
         S_sharedInstance = self;
@@ -100,6 +103,7 @@ static TCMPortMapper *S_sharedInstance;
 - (void)dealloc {
     [_systemConfigNotificationManager release];
     [_NATPMPPortMapper release];
+    [_UPNPPortMapper release];
     [_portMappings release];
     [_removeMappingQueue release];
     [super dealloc];
@@ -204,7 +208,7 @@ static TCMPortMapper *S_sharedInstance;
                 // That's the one
                 if (inPrivateSubnet) {
                     [_NATPMPPortMapper refresh];
-                    // [_UPNPPortMapper refresh];
+                    [_UPNPPortMapper refresh];
                     // [self setExternalIPAddress:routerAddress]; // FIXME that is wrong
                 } else {
                     [self setExternalIPAddress:ipAddress];
