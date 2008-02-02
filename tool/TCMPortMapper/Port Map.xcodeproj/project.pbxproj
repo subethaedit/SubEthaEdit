@@ -532,8 +532,8 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				8D1107260486CEB800E47090 /* Port Map (map) */,
 				3180119E0D4DEC8400BE3B28 /* TCMPortMapper */,
+				8D1107260486CEB800E47090 /* Port Map (map) */,
 				F2C65FFE0D50C2D100820CAE /* Port Map (dom) */,
 			);
 		};

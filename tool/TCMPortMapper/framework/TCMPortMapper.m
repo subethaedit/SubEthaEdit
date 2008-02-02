@@ -313,6 +313,16 @@ enum {
                                     name:TCMNATPMPPortMapperDidFailNotification 
                                     object:_NATPMPPortMapper];
 
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                    selector:@selector(UPNPPortMapperDidGetExternalIPAddress:) 
+                                    name:TCMUPNPPortMapperDidGetExternalIPAddressNotification 
+                                    object:_UPNPPortMapper];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                    selector:@selector(UPNPPortMapperDidFail:) 
+                                    name:TCMUPNPPortMapperDidFailNotification 
+                                    object:_UPNPPortMapper];
+
     _isRunning = YES;
     [self refresh];
 }
@@ -342,6 +352,29 @@ enum {
     }
 }
 
+- (void)UPNPPortMapperDidGetExternalIPAddress:(NSNotification *)aNotification {
+    BOOL shouldNotify = NO;
+    if (_UPNPStatus==TCMPortMapProtocolTrying) {
+        _UPNPStatus =TCMPortMapProtocolWorks;
+        [self setMappingProtocol:TCMUPNPProtocol];
+        shouldNotify = YES;
+    }
+    [self setExternalIPAddress:[[aNotification userInfo] objectForKey:@"externalIPAddress"]];
+    if (shouldNotify) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidFindRouterNotification object:self];
+    }
+}
+
+- (void)UPNPPortMapperDidFail:(NSNotification *)aNotification {
+    if (_UPNPStatus==TCMPortMapProtocolTrying) {
+        _UPNPStatus =TCMPortMapProtocolFailed;
+        [self setExternalIPAddress:nil];
+    }
+    // also mark all port mappings as unmapped
+    if (_NATPMPStatus == TCMPortMapProtocolFailed) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidFindRouterNotification object:self];
+    }
+}
 
 - (void)printNotification:(NSNotification *)aNotification {
     NSLog(@"TCMPortMapper received notification: %@", aNotification);

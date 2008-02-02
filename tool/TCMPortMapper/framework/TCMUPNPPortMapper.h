@@ -8,6 +8,10 @@
 
 #import "TCMPortMapper.h"
 
+extern NSString * const TCMUPNPPortMapperDidFailNotification;
+extern NSString * const TCMUPNPPortMapperDidGetExternalIPAddressNotification;
+
+
 @interface TCMUPNPPortMapper : NSObject {
     NSLock *_threadIsRunningLock;
     BOOL refreshThreadShouldQuit;
@@ -15,6 +19,7 @@
 
 
 - (void)refresh;
+- (void)updatePortMappings;
 - (void)stop;
 
 @end

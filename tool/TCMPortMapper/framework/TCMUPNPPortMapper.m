@@ -12,6 +12,8 @@
 #include "upnpcommands.h"
 #include "upnperrors.h"
 
+NSString * const TCMUPNPPortMapperDidFailNotification = @"TCMNATPMPPortMapperDidFailNotification";
+NSString * const TCMUPNPPortMapperDidGetExternalIPAddressNotification = @"TCMNATPMPPortMapperDidGetExternalIPAddressNotification";
 
 @implementation TCMUPNPPortMapper
 
@@ -44,6 +46,8 @@
 	const char * minissdpdpath = 0;
 	char lanaddr[16];	/* my ip address on the LAN */
 	char externalIPAddress[16];
+	BOOL didFail=NO;
+	NSString *errorString = nil;
     if (( devlist = upnpDiscover(2000, multicastif, minissdpdpath) )) {
 		struct UPNPDev * device;
 		struct UPNPUrls urls;
@@ -54,23 +58,38 @@
 				NSLog(@" desc: %s\n st: %s\n\n",
 					   device->descURL, device->st);
 			}
-		}
-		if (UPNP_GetValidIGD(devlist, &urls, &data, lanaddr, sizeof(lanaddr))) {
-            int r = UPNP_GetExternalIPAddress(urls.controlURL,
-                                      data.servicetype,
-                                      externalIPAddress);
-            if(r != UPNPCOMMAND_SUCCESS) {
-                NSLog(@"GetExternalIPAddress() returned %d\n", r);
-            }
-            if(externalIPAddress[0]) {
-                NSLog(@"ExternalIPAddress = %s\n", externalIPAddress);
+            if (UPNP_GetValidIGD(devlist, &urls, &data, lanaddr, sizeof(lanaddr))) {
+                int r = UPNP_GetExternalIPAddress(urls.controlURL,
+                                          data.servicetype,
+                                          externalIPAddress);
+                if(r != UPNPCOMMAND_SUCCESS) {
+                    didFail = YES;
+                    errorString = [NSString stringWithFormat:@"GetExternalIPAddress() returned %d", r];
+                } else {
+                    if(externalIPAddress[0]) {
+                        NSLog(@"cureltname: %s" ,data.cureltname);
+                        NSLog(@"servicetype: %s",data.servicetype);
+                        NSLog(@"devicetype: %s" ,data.devicetype);
+                        NSLog(@"ExternalIPAddress = %s\n", externalIPAddress);
+                        NSString *ipString = [NSString stringWithUTF8String:externalIPAddress];
+                        [[NSNotificationCenter defaultCenter] postNotificationOnMainThread:[NSNotification notificationWithName:TCMUPNPPortMapperDidGetExternalIPAddressNotification object:self userInfo:[NSDictionary dictionaryWithObject:ipString forKey:@"externalIPAddress"]]];
+                    } else {
+                        didFail = YES;
+                        errorString = @"No external IP address!";
+                    }
+                }
             } else {
-                NSLog(@"GetExternalIPAddress failed.\n");
+                didFail = YES;
+                errorString = @"No IDG Device found on the network!";
             }
-		}
+		} else {
+            didFail = YES;
+            errorString = @"No IDG Device found on the network!";
+        }
 		freeUPNPDevlist(devlist); devlist = 0;
 	} else {
-		NSLog(@"No IGD UPnP Device found on the network !");
+        didFail = YES;
+        errorString = @"No IDG Device found on the network!";
 	}
 	[_threadIsRunningLock performSelectorOnMainThread:@selector(unlock) withObject:nil waitUntilDone:NO];
     [pool release];
