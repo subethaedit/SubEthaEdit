@@ -16,7 +16,6 @@
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(portMapperWillSearchForRouter:) name:TCMPortMapperWillSearchForRouterNotification object:[TCMPortMapper sharedInstance]];
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(portMapperDidFindRouter:) name:TCMPortMapperDidFindRouterNotification object:[TCMPortMapper sharedInstance]];
 	[[TCMPortMapper sharedInstance] start]; // Just a test
-	[[TCMPortMapper sharedInstance] addPortMapping:[TCMPortMapping portMappingWithPrivatePort:6942 desiredPublicPort:6942 userInfo:nil]];
 }
 
 - (IBAction)refresh:(id)aSender {
@@ -26,6 +25,16 @@
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)aSender {
     [[O_currentIPTextField window] orderFront:self];
     return NO;
+}
+
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    NSLog(@"%s %@ %@ %@",__FUNCTION__,keyPath,object,change);
+    if ([[[object userInfo] objectForKey:@"active"] boolValue]) {
+        [[TCMPortMapper sharedInstance] addPortMapping:object];
+    } else {
+        [[TCMPortMapper sharedInstance] removePortMapping:object];
+    }
 }
 
 - (void)portMapperExternalIPAddressDidChange:(NSNotification *)aNotification {
@@ -58,5 +67,46 @@
     }
 }
 
+- (IBAction)addMapping:(id)aSender {
+    [NSApp beginSheet:O_addSheetPanel modalForWindow:[O_currentIPTextField window] modalDelegate:self didEndSelector:@selector(addMappingSheetDidEnd:returnCode:contextInfo:) contextInfo:nil];
+}
+
+- (IBAction)removeMapping:(id)aSender {
+    NSEnumerator *mappings = [[O_mappingsArrayController selectedObjects] objectEnumerator];
+    TCMPortMapping *mapping = nil;
+    while ((mapping=[mappings nextObject])) {
+        if ([[[mapping userInfo] objectForKey:@"active"] boolValue]) {
+            [[TCMPortMapper sharedInstance] removePortMapping:mapping];
+        }
+        [mapping removeObserver:self forKeyPath:@"userInfo.active"];
+    }
+    [O_mappingsArrayController removeObjects:[O_mappingsArrayController selectedObjects]];
+}
+
+- (IBAction)portTextDidChange:(id)aSender {
+    [O_addDesiredField setStringValue:[O_addLocalPortField stringValue]];
+}
+
+- (void)addMappingSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+    [sheet orderOut:self];
+}
+
+- (IBAction)addMappingEndSheet:(id)aSender {
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:NO],@"active",[O_addDescriptionField stringValue],@"mappingTitle",nil];
+    TCMPortMapping *mapping = [TCMPortMapping portMappingWithPrivatePort:[O_addLocalPortField intValue] desiredPublicPort:[O_addDesiredField intValue] userInfo:userInfo];
+    int transportProtocol = 0;
+    if ([O_addProtocolTCPButton state] == NSOnState) transportProtocol+=TCP;
+    if ([O_addProtocolUDPButton state] == NSOnState) transportProtocol+=UDP;
+    [mapping setTransportProtocol:transportProtocol];
+    [mapping addObserver:self forKeyPath:@"userInfo.active" options:0 context:nil];
+    [O_mappingsArrayController addObject:mapping];
+    [NSApp endSheet:O_addSheetPanel];
+//    [O_addSheetPanel orderOut:self];
+}
+
+- (IBAction)addMappingCancelSheet:(id)aSender {
+    [NSApp endSheet:O_addSheetPanel];
+//    [O_addSheetPanel orderOut:self];
+}
 
 @end
