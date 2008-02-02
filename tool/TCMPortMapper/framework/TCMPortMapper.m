@@ -212,6 +212,7 @@ enum {
             in_addr_t routeraddr = inet_addr([[self routerIPAddress] UTF8String]);
 //            NSLog(@"%s ipNative:%X maskNative:%X",__FUNCTION__,routeraddr,subnetmask);
             if ((myaddr & subnetmask) == (routeraddr & subnetmask)) {
+                [_UPNPPortMapper setInternalIPAddress:ipAddress];
                 // That's the one
                 [self setRouterName:[NSString stringWithFormat:@"Generic (%@)",[self routerHardwareAddress]]]; 
                 if (inPrivateSubnet) {
@@ -225,6 +226,7 @@ enum {
                     [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidFindRouterNotification object:self];
                     // we know we have a public address so we are finished - but maybe we should set all mappings to mapped
                 }
+                break;
             }
             
         }

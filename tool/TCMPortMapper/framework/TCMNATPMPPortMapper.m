@@ -213,8 +213,9 @@ Standardablauf:
     } else if (UpdatePortMappingsThreadShouldRestart) {
         [self performSelectorOnMainThread:@selector(updatePortMapping) withObject:nil waitUntilDone:NO];
     } else {
-        [pm isRunning];
-        [self performSelectorOnMainThread:@selector(adjustUpdateTimer) withObject:nil waitUntilDone:NO];
+        if ([pm isRunning]) {
+            [self performSelectorOnMainThread:@selector(adjustUpdateTimer) withObject:nil waitUntilDone:NO];
+        }
     }
     [pool release];
 }
