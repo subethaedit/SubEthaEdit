@@ -92,7 +92,7 @@
 }
 
 - (IBAction)addMappingEndSheet:(id)aSender {
-    NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:NO],@"active",[O_addDescriptionField stringValue],@"mappingTitle",nil];
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES],@"active",[O_addDescriptionField stringValue],@"mappingTitle",nil];
     TCMPortMapping *mapping = [TCMPortMapping portMappingWithPrivatePort:[O_addLocalPortField intValue] desiredPublicPort:[O_addDesiredField intValue] userInfo:userInfo];
     int transportProtocol = 0;
     if ([O_addProtocolTCPButton state] == NSOnState) transportProtocol+=TCP;
@@ -100,6 +100,7 @@
     [mapping setTransportProtocol:transportProtocol];
     [mapping addObserver:self forKeyPath:@"userInfo.active" options:0 context:nil];
     [O_mappingsArrayController addObject:mapping];
+    [[TCMPortMapper sharedInstance] addPortMapping:mapping];
     [NSApp endSheet:O_addSheetPanel];
 //    [O_addSheetPanel orderOut:self];
 }

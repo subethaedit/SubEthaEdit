@@ -65,6 +65,11 @@ NSString * const TCMUPNPPortMapperDidGetExternalIPAddressNotification = @"TCMNAT
     return description;
 }
 
+// example device description root urls:
+// FritzBox: http://192.168.178.1:49000/igddesc.xml - desc: http://192.168.178.1:49000/fboxdesc.xml
+// Linksys: http://10.0.1.1:49152/gateway.xml
+// we need to cache these for better response time of the update mappings thread
+
 - (void)refreshInThread {
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
 	struct UPNPDev * devlist = 0;
@@ -93,10 +98,6 @@ NSString * const TCMUPNPPortMapperDidGetExternalIPAddressNotification = @"TCMNAT
                     errorString = [NSString stringWithFormat:@"GetExternalIPAddress() returned %d", r];
                 } else {
                     if(externalIPAddress[0]) {
-                        NSLog(@"cureltname: %s" ,data.cureltname);
-                        NSLog(@"servicetype: %s",data.servicetype);
-                        NSLog(@"devicetype: %s" ,data.devicetype);
-                        NSLog(@"ExternalIPAddress = %s\n", externalIPAddress);
                         NSString *ipString = [NSString stringWithUTF8String:externalIPAddress];
                         [[NSNotificationCenter defaultCenter] postNotificationOnMainThread:[NSNotification notificationWithName:TCMUPNPPortMapperDidGetExternalIPAddressNotification object:self userInfo:[NSDictionary dictionaryWithObject:ipString forKey:@"externalIPAddress"]]];
                     } else {
@@ -123,6 +124,7 @@ NSString * const TCMUPNPPortMapperDidGetExternalIPAddressNotification = @"TCMNAT
         [self performSelectorOnMainThread:@selector(refresh) withObject:nil waitUntilDone:0];
     } else {
         if (didFail) {
+            NSLog(@"%s didFaileWithError: %@",__FUNCTION__, errorString);
             [[NSNotificationCenter defaultCenter] postNotificationOnMainThread:[NSNotification notificationWithName:TCMUPNPPortMapperDidFailNotification object:self]];
         } else {
             [self performSelectorOnMainThread:@selector(updatePortMappings) withObject:nil waitUntilDone:0];
@@ -156,27 +158,39 @@ NSString * const TCMUPNPPortMapperDidGetExternalIPAddressNotification = @"TCMNAT
         }
         [aPortMapping setMappingStatus:TCMPortMappingStatusUnmapped];
         return YES;
-    } else {
+    } else { // if we should add it and not remove it
         int mappedPort = [aPortMapping desiredPublicPort];
         int protocol = UDP;
         for (protocol = UDP; protocol <= TCP; protocol++) {
             if ([aPortMapping transportProtocol] & protocol) {
-                int r = UPNP_AddPortMapping(aURLs->controlURL, aIGDData->servicetype,[[NSString stringWithFormat:@"%d",mappedPort] UTF8String],[[NSString stringWithFormat:@"%d",[aPortMapping privatePort]] UTF8String], [_internalIPAddress UTF8String], [[self portMappingDescription] UTF8String], protocol==UDP?"UDP":"TCP");
-                if (r!=UPNPCOMMAND_SUCCESS) {
-                    NSString *errorString = [NSString stringWithFormat:@"%d",r];
-                    switch (r) {
-                        case 718: errorString = [errorString stringByAppendingString:@": ConflictInMappingEntry"]; break;
-                        case 724: errorString = [errorString stringByAppendingString:@": SamePortValuesRequired"]; break;
-                        case 725: errorString = [errorString stringByAppendingString:@": OnlyPermanentLeasesSupported"]; break;
-                        case 727: errorString = [errorString stringByAppendingString:@": ExternalPortOnlySupportsWildcard"]; break;
+                int r = 0;
+                do {
+                    int r = UPNP_AddPortMapping(aURLs->controlURL, aIGDData->servicetype,[[NSString stringWithFormat:@"%d",mappedPort] UTF8String],[[NSString stringWithFormat:@"%d",[aPortMapping privatePort]] UTF8String], [_internalIPAddress UTF8String], [[self portMappingDescription] UTF8String], protocol==UDP?"UDP":"TCP");
+                    if (r!=UPNPCOMMAND_SUCCESS) {
+                        NSString *errorString = [NSString stringWithFormat:@"%d",r];
+                        switch (r) {
+                            case 718: 
+                                errorString = [errorString stringByAppendingString:@": ConflictInMappingEntry"]; 
+                                NSLog(@"%s mapping of external port %d failed, trying %d next",__FUNCTION__,mappedPort,mappedPort+1);
+                                if (protocol == TCP && ([aPortMapping transportProtocol] & UDP)) {
+                                    UPNP_DeletePortMapping(aURLs->controlURL, aIGDData->servicetype,[[NSString stringWithFormat:@"%d",mappedPort] UTF8String], "UDP");
+                                    protocol = UDP;
+                                }
+                                mappedPort++;
+                                break;
+                            case 724: errorString = [errorString stringByAppendingString:@": SamePortValuesRequired"]; break;
+                            case 725: errorString = [errorString stringByAppendingString:@": OnlyPermanentLeasesSupported"]; break;
+                            case 727: errorString = [errorString stringByAppendingString:@": ExternalPortOnlySupportsWildcard"]; break;
+                        }
+                        NSLog(@"%s error occured while mapping: %@",__FUNCTION__, errorString);
                     }
-                    NSLog(@"%s error occured while mapping: %@",__FUNCTION__, errorString);
-                }
-                
+                } while (r!=UPNPCOMMAND_SUCCESS && r==718 && mappedPort<=[aPortMapping desiredPublicPort]+20);
+                              
                 if (r!=UPNPCOMMAND_SUCCESS) {
                    didFail = YES;
                    [aPortMapping setMappingStatus:TCMPortMappingStatusUnmapped];
                 } else {
+                    NSLog(@"%s mapping successful: %@ - %d %@",__FUNCTION__,aPortMapping,mappedPort,protocol==UDP?@"UDP":@"TCP");
                    [aPortMapping setPublicPort:mappedPort];
                    [aPortMapping setMappingStatus:TCMPortMappingStatusMapped];
                 }
@@ -259,6 +273,10 @@ NSString * const TCMUPNPPortMapperDidGetExternalIPAddressNotification = @"TCMNAT
         [self performSelectorOnMainThread:@selector(updatePortMappings) withObject:nil waitUntilDone:NO];
     }
     [pool release];
+}
+
+- (void)stop {
+    [self updatePortMappings];
 }
 
 
