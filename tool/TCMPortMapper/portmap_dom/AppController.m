@@ -95,8 +95,8 @@
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES],@"active",[O_addDescriptionField stringValue],@"mappingTitle",nil];
     TCMPortMapping *mapping = [TCMPortMapping portMappingWithPrivatePort:[O_addLocalPortField intValue] desiredPublicPort:[O_addDesiredField intValue] userInfo:userInfo];
     int transportProtocol = 0;
-    if ([O_addProtocolTCPButton state] == NSOnState) transportProtocol+=TCP;
-    if ([O_addProtocolUDPButton state] == NSOnState) transportProtocol+=UDP;
+    if ([O_addProtocolTCPButton state] == NSOnState) transportProtocol+=TCMPortMappingTransportProtocolTCP;
+    if ([O_addProtocolUDPButton state] == NSOnState) transportProtocol+=TCMPortMappingTransportProtocolUDP;
     [mapping setTransportProtocol:transportProtocol];
     [mapping addObserver:self forKeyPath:@"userInfo.active" options:0 context:nil];
     [O_mappingsArrayController addObject:mapping];

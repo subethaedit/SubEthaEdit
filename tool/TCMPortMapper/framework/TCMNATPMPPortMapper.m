@@ -237,14 +237,14 @@ Standardablauf:
         if(r<0) {
             didFail = YES;
         } else {
-            
+            int count = 0;
             do {
                 FD_ZERO(&fds);
                 FD_SET(natpmp.s, &fds);
                 getnatpmprequesttimeout(&natpmp, &timeout);
+                NSLog(@"NATPMP refreshExternalIP try #%d",++count);
                 select(FD_SETSIZE, &fds, NULL, NULL, &timeout);
                 r = readnatpmpresponseorretry(&natpmp, &response);
-                NSLog(@"%s:%d",__PRETTY_FUNCTION__,__LINE__);
                 if (IPAddressThreadShouldQuit) {
                     NSLog(@"%s ----------------- thread quit prematurely",__FUNCTION__);
                     [natPMPThreadIsRunningLock performSelectorOnMainThread:@selector(unlock) withObject:nil waitUntilDone:YES];

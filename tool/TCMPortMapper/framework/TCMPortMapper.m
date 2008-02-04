@@ -20,9 +20,9 @@
 #import <netinet/if_ether.h>
 #import <net/if_dl.h>
 
-NSString * const TCMPortMapperExternalIPAddressDidChange         = @"TCMPortMapperExternalIPAddressDidChange";
-NSString * const TCMPortMapperWillSearchForRouterNotification    = @"TCMPortMapperWillSearchForRouterNotification";
-NSString * const TCMPortMapperDidFindRouterNotification          = @"TCMPortMapperDidFindRouterNotification";
+NSString * const TCMPortMapperExternalIPAddressDidChange          = @"TCMPortMapperExternalIPAddressDidChange";
+NSString * const TCMPortMapperWillSearchForRouterNotification     = @"TCMPortMapperWillSearchForRouterNotification";
+NSString * const TCMPortMapperDidFindRouterNotification           = @"TCMPortMapperDidFindRouterNotification";
 NSString * const TCMPortMappingDidChangeMappingStatusNotification = @"TCMPortMappingDidChangeMappingStatusNotification";
 NSString * const TCMNATPMPProtocol = @"NAT-PMP";
 NSString * const TCMUPNPProtocol   = @"UPnP";
@@ -127,6 +127,7 @@ enum {
 }
 
 - (void)networkDidChange:(NSNotification *)aNotification {
+    NSLog(@"%s",__FUNCTION__);
     [self refresh];
 }
 
@@ -233,6 +234,8 @@ enum {
     
         CFRelease(dynRef);
         [scobjects release];
+    } else {
+        [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidFindRouterNotification object:self];
     }
 
 }
@@ -346,6 +349,7 @@ enum {
 - (void)NATPMPPortMapperDidFail:(NSNotification *)aNotification {
     if (_NATPMPStatus==TCMPortMapProtocolTrying) {
         _NATPMPStatus =TCMPortMapProtocolFailed;
+    } else if (_NATPMPStatus==TCMPortMapProtocolWorks) {
         [self setExternalIPAddress:nil];
     }
     // also mark all port mappings as unmapped
@@ -370,6 +374,7 @@ enum {
 - (void)UPNPPortMapperDidFail:(NSNotification *)aNotification {
     if (_UPNPStatus==TCMPortMapProtocolTrying) {
         _UPNPStatus =TCMPortMapProtocolFailed;
+    } else if (_UPNPStatus==TCMPortMapProtocolWorks) {
         [self setExternalIPAddress:nil];
     }
     // also mark all port mappings as unmapped
@@ -420,7 +425,6 @@ enum {
     
     CFRelease(dynRef);
 	[scobjects release];
-    NSLog(@"%s %@",__FUNCTION__,routerIPAddress);
     return routerIPAddress;
 }
 
@@ -476,6 +480,9 @@ enum {
 - (void)setMappingStatus:(TCMPortMappingStatus)aStatus {
     if (_mappingStatus != aStatus) {
         _mappingStatus = aStatus;
+        if (_mappingStatus == TCMPortMappingStatusUnmapped) {
+            [self setPublicPort:0];
+        }
         [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadWithName:TCMPortMappingDidChangeMappingStatusNotification object:self];
     }
 }

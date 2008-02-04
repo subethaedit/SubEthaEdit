@@ -29,9 +29,9 @@ typedef enum {
 } TCMPortMappingStatus;
 
 typedef enum {
-    UDP = 1,
-    TCP = 2,
-    Both = 3
+    TCMPortMappingTransportProtocolUDP = 1,
+    TCMPortMappingTransportProtocolTCP = 2,
+    TCMPortMappingTransportProtocolBoth = 3
 } TCMPortMappingTransportProtocol;
 
 
@@ -68,8 +68,8 @@ typedef enum {
     IXSCNotificationManager *_systemConfigNotificationManager;
     BOOL _isRunning;
     NSString *_externalIPAddress;
-    BOOL _NATPMPStatus;
-    BOOL _UPNPStatus;
+    int _NATPMPStatus;
+    int _UPNPStatus;
     NSString *_mappingProtocol;
     NSString *_routerName;
 }
