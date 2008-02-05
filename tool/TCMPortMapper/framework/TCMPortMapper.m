@@ -44,10 +44,6 @@ enum {
 
 - (void)setExternalIPAddress:(NSString *)anAddress;
 
-- (void)mapPort:(uint16_t)aPublicPort;
-- (void)mapPublicPort:(uint16_t)aPublicPort toPrivatePort:(uint16_t)aPrivatePort;
-- (void)mapPublicPort:(uint16_t)aPublicPort toPrivatePort:(uint16_t)aPrivatePort withLifetime:(uint32_t)aLifetime;
-
 @end
 
 @implementation NSString (IPAdditions)
@@ -173,13 +169,18 @@ enum {
 
 - (void)refresh {
     // reinitialisieren: public ip und router modell auf nil setzen - portmappingsstatus auf unmapped setzen, wenn trying dann upnp/natpimp zurücksetzen
-	// haben wir einen router
-	// dann upnp / natpimp starten um zu sehen was geht - internen status auf "trying" setzen.
 	[self setExternalIPAddress:nil];
 	[self setRouterName:nil];
 	[self setMappingProtocol:nil];
-    [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperWillSearchForRouterNotification object:self];
-	
+	@synchronized(_portMappings) {
+	   NSEnumerator *portMappings = [_portMappings objectEnumerator];
+	   TCMPortMapping *portMapping = nil;
+	   while ((portMapping = [portMappings nextObject])) {
+	       if ([portMapping mappingStatus]==TCMPortMappingStatusMapped)
+    	       [portMapping setMappingStatus:TCMPortMappingStatusUnmapped];
+	   }
+	}
+    [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperWillSearchForRouterNotification object:self];	
 	
 	NSString *routerAddress = [self routerIPAddress];
 	if (routerAddress) {
@@ -444,11 +445,11 @@ enum {
 @implementation TCMPortMapping 
 
 
-+ (id)portMappingWithPrivatePort:(uint16_t)aPrivatePort desiredPublicPort:(uint16_t)aPublicPort userInfo:(id)aUserInfo {
++ (id)portMappingWithPrivatePort:(int)aPrivatePort desiredPublicPort:(int)aPublicPort userInfo:(id)aUserInfo {
     return [[[self alloc] initWithPrivatePort:aPrivatePort desiredPublicPort:aPublicPort userInfo:aUserInfo] autorelease];
 }
 
-- (id)initWithPrivatePort:(uint16_t)aPrivatePort desiredPublicPort:(uint16_t)aPublicPort userInfo:(id)aUserInfo {
+- (id)initWithPrivatePort:(int)aPrivatePort desiredPublicPort:(int)aPublicPort userInfo:(id)aUserInfo {
     if ((self=[super init])) {
         _desiredPublicPort = aPublicPort;
         _privatePort = aPrivatePort;
@@ -462,7 +463,7 @@ enum {
     [super dealloc];
 }
 
-- (uint16_t)desiredPublicPort {
+- (int)desiredPublicPort {
     return _desiredPublicPort;
 }
 
@@ -500,16 +501,16 @@ enum {
 }
 
 
-- (uint16_t)publicPort {
+- (int)publicPort {
     return _publicPort;
 }
 
-- (void)setPublicPort:(uint16_t)aPublicPort {
+- (void)setPublicPort:(int)aPublicPort {
     _publicPort=aPublicPort;
 }
 
 
-- (uint16_t)privatePort {
+- (int)privatePort {
     return _privatePort;
 }
 

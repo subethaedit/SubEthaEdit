@@ -36,24 +36,24 @@ typedef enum {
 
 
 @interface TCMPortMapping : NSObject {
-    uint16_t _privatePort;
-    uint16_t _publicPort;
-    uint16_t _desiredPublicPort;
+    int _privatePort;
+    int _publicPort;
+    int _desiredPublicPort;
     id  _userInfo;
     TCMPortMappingStatus _mappingStatus;
     TCMPortMappingTransportProtocol _transportProtocol;
 }
-+ (id)portMappingWithPrivatePort:(uint16_t)aPrivatePort desiredPublicPort:(uint16_t)aPublicPort userInfo:(id)aUserInfo;
-- (id)initWithPrivatePort:(uint16_t)aPrivatePort desiredPublicPort:(uint16_t)aPublicPort userInfo:(id)aUserInfo;
-- (uint16_t)desiredPublicPort;
++ (id)portMappingWithPrivatePort:(int)aPrivatePort desiredPublicPort:(int)aPublicPort userInfo:(id)aUserInfo;
+- (id)initWithPrivatePort:(int)aPrivatePort desiredPublicPort:(int)aPublicPort userInfo:(id)aUserInfo;
+- (int)desiredPublicPort;
 - (id)userInfo;
 - (TCMPortMappingStatus)mappingStatus;
 - (void)setMappingStatus:(TCMPortMappingStatus)aStatus;
 - (TCMPortMappingTransportProtocol)transportProtocol;
 - (void)setTransportProtocol:(TCMPortMappingTransportProtocol)aProtocol;
-- (void)setPublicPort:(uint16_t)aPublicPort;
-- (uint16_t)publicPort;
-- (uint16_t)privatePort;
+- (void)setPublicPort:(int)aPublicPort;
+- (int)publicPort;
+- (int)privatePort;
 
 @end
 

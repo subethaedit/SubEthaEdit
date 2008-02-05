@@ -8,8 +8,16 @@
 
 #import "AppController.h"
 #import <TCMPortMapper/TCMPortMapper.h>
+#import "TCMStatusImageFromMappingStatusValueTransformer.h"
+#import "TCMPortStringFromPublicPortValueTransformer.h"
 
 @implementation AppController
+
++ (void)initialize {
+    [NSValueTransformer setValueTransformer:[TCMStatusImageFromMappingStatusValueTransformer new] forName:@"TCMStatusImageFromMappingStatus"];
+    [NSValueTransformer setValueTransformer:[TCMPortStringFromPublicPortValueTransformer new] forName:@"TCMPortStringFromPublicPort"];
+    
+}
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
 	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(portMapperExternalIPAddressDidChange:) name:TCMPortMapperExternalIPAddressDidChange object:[TCMPortMapper sharedInstance]];
@@ -29,7 +37,7 @@
 
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-    NSLog(@"%s %@ %@ %@",__FUNCTION__,keyPath,object,change);
+//    NSLog(@"%s %@ %@ %@",__FUNCTION__,keyPath,object,change);
     if ([[[object userInfo] objectForKey:@"active"] boolValue]) {
         [[TCMPortMapper sharedInstance] addPortMapping:object];
     } else {
@@ -83,10 +91,6 @@
     [O_mappingsArrayController removeObjects:[O_mappingsArrayController selectedObjects]];
 }
 
-- (IBAction)portTextDidChange:(id)aSender {
-    [O_addDesiredField setStringValue:[O_addLocalPortField stringValue]];
-}
-
 - (void)addMappingSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
     [sheet orderOut:self];
 }
@@ -109,5 +113,16 @@
     [NSApp endSheet:O_addSheetPanel];
 //    [O_addSheetPanel orderOut:self];
 }
+
+- (void)controlTextDidChange:(NSNotification *)aNotification {
+    NSTextView *fieldEditor = [[aNotification userInfo] objectForKey:@"NSFieldEditor"];
+    if (fieldEditor == [O_addLocalPortField currentEditor]) {
+        [O_addDesiredField setStringValue:[O_addLocalPortField stringValue]];
+    }
+    [O_invalidLocalPortView   setHidden:[O_addLocalPortField intValue]>0 && [O_addLocalPortField intValue]<=65535];
+    [O_invalidDesiredPortView setHidden:  [O_addDesiredField intValue]>0 &&   [O_addDesiredField intValue]<=65535];
+}
+
+
 
 @end

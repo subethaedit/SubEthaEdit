@@ -2354,6 +2354,9 @@ tool/TCMFocusringTableView/TCMFocusringTableView_Prefix.pch -text
 tool/TCMFocusringTableView/main.m -text
 tool/TCMFocusringTableView/version.plist -text
 tool/TCMPortMapper/Port[!!-~]Map.xcodeproj/project.pbxproj -text
+tool/TCMPortMapper/RSVerticallyCenteredTextFieldCell/MIT-License.rtf -text
+tool/TCMPortMapper/RSVerticallyCenteredTextFieldCell/RSVerticallyCenteredTextFieldCell.h -text
+tool/TCMPortMapper/RSVerticallyCenteredTextFieldCell/RSVerticallyCenteredTextFieldCell.m -text
 tool/TCMPortMapper/framework/IXSCNotificationManager.h -text
 tool/TCMPortMapper/framework/IXSCNotificationManager.m -text
 tool/TCMPortMapper/framework/NSNotificationAdditions.h -text
@@ -2417,9 +2420,14 @@ tool/TCMPortMapper/portmap_dom/English.lproj/MainMenu.nib/designable.nib -text
 tool/TCMPortMapper/portmap_dom/English.lproj/MainMenu.nib/keyedobjects.nib -text
 tool/TCMPortMapper/portmap_dom/Info.plist -text
 tool/TCMPortMapper/portmap_dom/PortMapper_Prefix.pch -text
+tool/TCMPortMapper/portmap_dom/TCMPortStringFromPublicPortValueTransformer.h -text
+tool/TCMPortMapper/portmap_dom/TCMPortStringFromPublicPortValueTransformer.m -text
+tool/TCMPortMapper/portmap_dom/TCMStatusImageFromMappingStatusValueTransformer.h -text
+tool/TCMPortMapper/portmap_dom/TCMStatusImageFromMappingStatusValueTransformer.m -text
 tool/TCMPortMapper/portmap_dom/artwork/DotGreen.png -text
 tool/TCMPortMapper/portmap_dom/artwork/DotRed.png -text
 tool/TCMPortMapper/portmap_dom/artwork/DotYellow.png -text
+tool/TCMPortMapper/portmap_dom/artwork/GenericQuestionMarkIcon.icns -text
 tool/TCMPortMapper/portmap_dom/artwork/Off20.png -text
 tool/TCMPortMapper/portmap_dom/artwork/On20.png -text
 tool/TCMPortMapper/portmap_dom/artwork/PortMap.icns -text

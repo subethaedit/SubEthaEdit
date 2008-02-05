@@ -11,6 +11,10 @@
 		3180154E0D4E08D900BE3B28 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3180154D0D4E08D900BE3B28 /* SystemConfiguration.framework */; };
 		3180159D0D4E1B9200BE3B28 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3180154D0D4E08D900BE3B28 /* SystemConfiguration.framework */; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
+		F2482BA50D589FD0002DF811 /* RSVerticallyCenteredTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F2482BA40D589FD0002DF811 /* RSVerticallyCenteredTextFieldCell.m */; };
+		F2482BA90D58A15F002DF811 /* TCMStatusImageFromMappingStatusValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = F2482BA80D58A15F002DF811 /* TCMStatusImageFromMappingStatusValueTransformer.m */; };
+		F2482BAC0D58A415002DF811 /* GenericQuestionMarkIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2482BAB0D58A415002DF811 /* GenericQuestionMarkIcon.icns */; };
+		F2482BBB0D58ABFA002DF811 /* TCMPortStringFromPublicPortValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = F2482BBA0D58ABFA002DF811 /* TCMPortStringFromPublicPortValueTransformer.m */; };
 		F2C65BF80D50B1AE00820CAE /* Changelog.txt in Resources */ = {isa = PBXBuildFile; fileRef = F2C65BF00D50B1AE00820CAE /* Changelog.txt */; };
 		F2C65BF90D50B1AE00820CAE /* getgateway.c in Sources */ = {isa = PBXBuildFile; fileRef = F2C65BF10D50B1AE00820CAE /* getgateway.c */; };
 		F2C65BFB0D50B1AE00820CAE /* natpmp.c in Sources */ = {isa = PBXBuildFile; fileRef = F2C65BF40D50B1AE00820CAE /* natpmp.c */; };
@@ -107,6 +111,13 @@
 		3180119F0D4DEC8400BE3B28 /* TCMPortMapper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TCMPortMapper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3180154D0D4E08D900BE3B28 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
 		8D1107320486CEB800E47090 /* Port Map.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Port Map.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2482BA30D589FD0002DF811 /* RSVerticallyCenteredTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSVerticallyCenteredTextFieldCell.h; path = RSVerticallyCenteredTextFieldCell/RSVerticallyCenteredTextFieldCell.h; sourceTree = "<group>"; };
+		F2482BA40D589FD0002DF811 /* RSVerticallyCenteredTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSVerticallyCenteredTextFieldCell.m; path = RSVerticallyCenteredTextFieldCell/RSVerticallyCenteredTextFieldCell.m; sourceTree = "<group>"; };
+		F2482BA70D58A15F002DF811 /* TCMStatusImageFromMappingStatusValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCMStatusImageFromMappingStatusValueTransformer.h; path = portmap_dom/TCMStatusImageFromMappingStatusValueTransformer.h; sourceTree = "<group>"; };
+		F2482BA80D58A15F002DF811 /* TCMStatusImageFromMappingStatusValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMStatusImageFromMappingStatusValueTransformer.m; path = portmap_dom/TCMStatusImageFromMappingStatusValueTransformer.m; sourceTree = "<group>"; };
+		F2482BAB0D58A415002DF811 /* GenericQuestionMarkIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = GenericQuestionMarkIcon.icns; path = portmap_dom/artwork/GenericQuestionMarkIcon.icns; sourceTree = "<group>"; };
+		F2482BB90D58ABFA002DF811 /* TCMPortStringFromPublicPortValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCMPortStringFromPublicPortValueTransformer.h; path = portmap_dom/TCMPortStringFromPublicPortValueTransformer.h; sourceTree = "<group>"; };
+		F2482BBA0D58ABFA002DF811 /* TCMPortStringFromPublicPortValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMPortStringFromPublicPortValueTransformer.m; path = portmap_dom/TCMPortStringFromPublicPortValueTransformer.m; sourceTree = "<group>"; };
 		F2C65BDE0D50B17B00820CAE /* TCMUPNPPortMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMUPNPPortMapper.m; path = framework/TCMUPNPPortMapper.m; sourceTree = "<group>"; };
 		F2C65BDF0D50B17B00820CAE /* TCMUPNPPortMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCMUPNPPortMapper.h; path = framework/TCMUPNPPortMapper.h; sourceTree = "<group>"; };
 		F2C65BE00D50B17B00820CAE /* TCMPortMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMPortMapper.m; path = framework/TCMPortMapper.m; sourceTree = "<group>"; };
@@ -376,6 +387,7 @@
 		F2C660130D50C36700820CAE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F2482BAB0D58A415002DF811 /* GenericQuestionMarkIcon.icns */,
 				F2C6603B0D50C62F00820CAE /* MainMenu.nib */,
 				F2C6603D0D50C62F00820CAE /* InfoPlist.strings */,
 				F2C6602F0D50C59B00820CAE /* On20.png */,
@@ -393,6 +405,12 @@
 			children = (
 				F2C6602D0D50C58F00820CAE /* AppController.h */,
 				F2C6602C0D50C58F00820CAE /* AppController.m */,
+				F2482BA30D589FD0002DF811 /* RSVerticallyCenteredTextFieldCell.h */,
+				F2482BA40D589FD0002DF811 /* RSVerticallyCenteredTextFieldCell.m */,
+				F2482BB90D58ABFA002DF811 /* TCMPortStringFromPublicPortValueTransformer.h */,
+				F2482BBA0D58ABFA002DF811 /* TCMPortStringFromPublicPortValueTransformer.m */,
+				F2482BA70D58A15F002DF811 /* TCMStatusImageFromMappingStatusValueTransformer.h */,
+				F2482BA80D58A15F002DF811 /* TCMStatusImageFromMappingStatusValueTransformer.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -573,6 +591,7 @@
 				F2C6603A0D50C59B00820CAE /* DotYellow.png in Resources */,
 				F2C6603F0D50C62F00820CAE /* MainMenu.nib in Resources */,
 				F2C660400D50C62F00820CAE /* InfoPlist.strings in Resources */,
+				F2482BAC0D58A415002DF811 /* GenericQuestionMarkIcon.icns in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -620,6 +639,9 @@
 			files = (
 				F2C6602B0D50C58800820CAE /* main.m in Sources */,
 				F2C6602E0D50C58F00820CAE /* AppController.m in Sources */,
+				F2482BA50D589FD0002DF811 /* RSVerticallyCenteredTextFieldCell.m in Sources */,
+				F2482BA90D58A15F002DF811 /* TCMStatusImageFromMappingStatusValueTransformer.m in Sources */,
+				F2482BBB0D58ABFA002DF811 /* TCMPortStringFromPublicPortValueTransformer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
