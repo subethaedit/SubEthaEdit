@@ -31,6 +31,8 @@
 
 }
 
+- (IBAction)togglePortMapper:(id)aSender;
+
 - (IBAction)refresh:(id)aSender;
 - (IBAction)addMapping:(id)aSender;
 - (IBAction)removeMapping:(id)aSender;

@@ -106,6 +106,14 @@
     [self updateTagLine];
 }
 
+- (IBAction)togglePortMapper:(id)aSender {
+    if ([aSender state]==NSOnState) {
+        [[TCMPortMapper sharedInstance] start];
+    } else {
+        [[TCMPortMapper sharedInstance] stop];
+    }
+}
+
 - (void)startProgressIndicator:(NSNotification *)aNotification {
     [O_globalProgressIndicator startAnimation:self];
 }
