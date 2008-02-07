@@ -165,7 +165,8 @@ NSString * const TCMUPNPPortMapperDidGetExternalIPAddressNotification = @"TCMNAT
             if ([aPortMapping transportProtocol] & protocol) {
                 int r = 0;
                 do {
-                    int r = UPNP_AddPortMapping(aURLs->controlURL, aIGDData->servicetype,[[NSString stringWithFormat:@"%d",mappedPort] UTF8String],[[NSString stringWithFormat:@"%d",[aPortMapping privatePort]] UTF8String], [_internalIPAddress UTF8String], [[self portMappingDescription] UTF8String], protocol==TCMPortMappingTransportProtocolUDP?"UDP":"TCP");
+                    NSLog(@"previous error was %d",r);
+                    r = UPNP_AddPortMapping(aURLs->controlURL, aIGDData->servicetype,[[NSString stringWithFormat:@"%d",mappedPort] UTF8String],[[NSString stringWithFormat:@"%d",[aPortMapping privatePort]] UTF8String], [_internalIPAddress UTF8String], [[self portMappingDescription] UTF8String], protocol==TCMPortMappingTransportProtocolUDP?"UDP":"TCP");
                     if (r!=UPNPCOMMAND_SUCCESS) {
                         NSString *errorString = [NSString stringWithFormat:@"%d",r];
                         switch (r) {
@@ -205,6 +206,77 @@ NSString * const TCMUPNPPortMapperDidGetExternalIPAddressNotification = @"TCMNAT
     BOOL didFail=NO;
     TCMPortMapper *pm=[TCMPortMapper sharedInstance];
     NSMutableSet *mappingsSet = [pm removeMappingQueue];
+    NSSet *mappingsToAdd = [pm portMappings];
+
+    // get port mapping list as reference first
+{
+    int r;
+    int i = 0;
+    char index[6];
+    char intClient[16];
+    char intPort[6];
+    char extPort[6];
+    char protocol[4];
+    char desc[80];
+    char enabled[6];
+    char rHost[64];
+    char duration[16];
+    /*unsigned int num=0;
+    UPNP_GetPortMappingNumberOfEntries(urls->controlURL, data->servicetype, &num);
+    printf("PortMappingNumberOfEntries : %u\n", num);*/
+    do {
+        snprintf(index, 6, "%d", i);
+        rHost[0] = '\0'; enabled[0] = '\0';
+        duration[0] = '\0'; desc[0] = '\0';
+        extPort[0] = '\0'; intPort[0] = '\0'; intClient[0] = '\0';
+        r = UPNP_GetGenericPortMappingEntry(_urls.controlURL, _igddata.servicetype,
+                                       index,
+                                       extPort, intClient, intPort,
+                                       protocol, desc, enabled,
+                                       rHost, duration);
+        if(r==UPNPCOMMAND_SUCCESS) {
+            printf("%2d %s %5s->%s:%-5s '%s' '%s'\n",
+                   i, protocol, extPort, intClient, intPort,
+                   desc, rHost);
+            NSString *ipAddress = [NSString stringWithUTF8String:intClient];
+            NSString *portMappingDescription = [NSString stringWithUTF8String:desc];
+            if ([portMappingDescription isEqualToString:[self portMappingDescription]] && 
+                [ipAddress isEqualToString:_internalIPAddress]) {
+                NSLog(@"%s mapping is mine",__FUNCTION__);
+                int localPort = atoi(intPort);
+                int publicPort = atoi(extPort);
+                NSString *transportProtocol = [NSString stringWithUTF8String:protocol];
+                // check if we want this mapping, if not remove it, if yes set mapping status
+                BOOL isWanted = NO;
+                @synchronized (mappingsToAdd) {
+                    NSEnumerator *mappings = [mappingsToAdd objectEnumerator];
+                    TCMPortMapping *mapping = nil;
+                    while ((mapping = [mappings nextObject])) {
+                        if ([mapping privatePort]==localPort && 
+                            ([mapping transportProtocol]&([transportProtocol isEqualToString:@"UDP"]?TCMPortMappingTransportProtocolUDP:TCMPortMappingTransportProtocolTCP))) {
+                            isWanted = YES;
+                            [mapping setPublicPort:publicPort];
+                            if ([mapping mappingStatus]!=TCMPortMappingStatusMapped &&
+                                [mapping transportProtocol]!=TCMPortMappingTransportProtocolBoth) {
+                                [mapping setMappingStatus:TCMPortMappingStatusMapped];
+                            }
+                            break;
+                        }
+                    }
+                }
+                if (!isWanted) {
+                     r=UPNP_DeletePortMapping(_urls.controlURL, _igddata.servicetype,extPort,protocol);
+                     if (r==UPNPCOMMAND_SUCCESS) i--;
+                }
+            }
+        }
+        
+        i++;
+    } while(r==UPNPCOMMAND_SUCCESS && 
+            !UpdatePortMappingsThreadShouldQuit && 
+            !UpdatePortMappingsThreadShouldRestart);
+}
+
 
     while (!UpdatePortMappingsThreadShouldQuit && !UpdatePortMappingsThreadShouldRestart) {
         TCMPortMapping *mappingToRemove=nil;
@@ -216,7 +288,8 @@ NSString * const TCMUPNPPortMapperDidGetExternalIPAddressNotification = @"TCMNAT
         if (!mappingToRemove) break;
         
         if ([mappingToRemove mappingStatus] == TCMPortMappingStatusMapped) {
-            [self applyPortMapping:mappingToRemove remove:YES UPNPURLs:&_urls IGDDatas:&_igddata];
+            [mappingToRemove setMappingStatus:TCMPortMappingStatusUnmapped];
+            // the actual unmapping took place above already
         }
         
         @synchronized (mappingsSet) {
@@ -225,7 +298,6 @@ NSString * const TCMUPNPPortMapperDidGetExternalIPAddressNotification = @"TCMNAT
         
     }    
 
-    NSSet *mappingsToAdd = [pm portMappings];
     
     while (!UpdatePortMappingsThreadShouldQuit && !UpdatePortMappingsThreadShouldRestart) {
         TCMPortMapping *mappingToApply;
