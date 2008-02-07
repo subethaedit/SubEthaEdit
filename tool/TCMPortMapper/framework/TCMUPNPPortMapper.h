@@ -8,6 +8,10 @@
 
 #import "TCMPortMapper.h"
 #import "TCMNATPMPPortMapper.h"
+#include "miniwget.h"
+#include "miniupnpc.h"
+#include "upnpcommands.h"
+#include "upnperrors.h"
 
 extern NSString * const TCMUPNPPortMapperDidFailNotification;
 extern NSString * const TCMUPNPPortMapperDidGetExternalIPAddressNotification;
@@ -20,6 +24,8 @@ extern NSString * const TCMUPNPPortMapperDidGetExternalIPAddressNotification;
     BOOL UpdatePortMappingsThreadShouldRestart;
     NSString *_internalIPAddress;
     TCMPortMappingThreadID runningThreadID;
+    struct UPNPUrls _urls;
+    struct IGDdatas _igddata;
 }
 
 - (void)setInternalIPAddress:(NSString *)anIPAddressString;

@@ -8,10 +8,6 @@
 
 #import "TCMUPNPPortMapper.h"
 #import "NSNotificationAdditions.h"
-#include "miniwget.h"
-#include "miniupnpc.h"
-#include "upnpcommands.h"
-#include "upnperrors.h"
 
 NSString * const TCMUPNPPortMapperDidFailNotification = @"TCMNATPMPPortMapperDidFailNotification";
 NSString * const TCMUPNPPortMapperDidGetExternalIPAddressNotification = @"TCMNATPMPPortMapperDidGetExternalIPAddressNotification";
@@ -72,26 +68,26 @@ NSString * const TCMUPNPPortMapperDidGetExternalIPAddressNotification = @"TCMNAT
 
 - (void)refreshInThread {
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
-	struct UPNPDev * devlist = 0;
-	const char * multicastif = 0;
-	const char * minissdpdpath = 0;
-	char lanaddr[16];	/* my ip address on the LAN */
-	char externalIPAddress[16];
-	BOOL didFail=NO;
-	NSString *errorString = nil;
+    struct UPNPDev * devlist = 0;
+    const char * multicastif = 0;
+    const char * minissdpdpath = 0;
+    char lanaddr[16];   /* my ip address on the LAN */
+    char externalIPAddress[16];
+    BOOL didFail=NO;
+    NSString *errorString = nil;
     if (( devlist = upnpDiscover(2000, multicastif, minissdpdpath) )) {
-		struct UPNPDev * device;
-		struct UPNPUrls urls;
-		struct IGDdatas data;
-		if(devlist) {
-			NSLog(@"List of UPNP devices found on the network :\n");
-			for(device = devlist; device; device = device->pNext) {
-				NSLog(@" desc: %s\n st: %s\n\n",
-					   device->descURL, device->st);
-			}
-            if (UPNP_GetValidIGD(devlist, &urls, &data, lanaddr, sizeof(lanaddr))) {
-                int r = UPNP_GetExternalIPAddress(urls.controlURL,
-                                          data.servicetype,
+        if(devlist) {
+            if (YES) {// FIXME:debug switch here
+                struct UPNPDev * device;
+                NSLog(@"List of UPNP devices found on the network :\n");
+                for(device = devlist; device; device = device->pNext) {
+                    NSLog(@" desc: %s\n st: %s\n\n",
+                           device->descURL, device->st);
+                }
+            }
+            if (UPNP_GetValidIGD(devlist, &_urls, &_igddata, lanaddr, sizeof(lanaddr))) {
+                int r = UPNP_GetExternalIPAddress(_urls.controlURL,
+                                          _igddata.servicetype,
                                           externalIPAddress);
                 if(r != UPNPCOMMAND_SUCCESS) {
                     didFail = YES;
@@ -109,16 +105,16 @@ NSString * const TCMUPNPPortMapperDidGetExternalIPAddressNotification = @"TCMNAT
                 didFail = YES;
                 errorString = @"No IDG Device found on the network!";
             }
-		} else {
+        } else {
             didFail = YES;
             errorString = @"No IDG Device found on the network!";
         }
-		freeUPNPDevlist(devlist); devlist = 0;
-	} else {
+        freeUPNPDevlist(devlist); devlist = 0;
+    } else {
         didFail = YES;
         errorString = @"No IDG Device found on the network!";
-	}
-	[_threadIsRunningLock performSelectorOnMainThread:@selector(unlock) withObject:nil waitUntilDone:NO];
+    }
+    [_threadIsRunningLock performSelectorOnMainThread:@selector(unlock) withObject:nil waitUntilDone:NO];
     if (refreshThreadShouldQuit) {
         NSLog(@"%s thread quit prematurely",__FUNCTION__);
         [self performSelectorOnMainThread:@selector(refresh) withObject:nil waitUntilDone:0];
@@ -202,70 +198,58 @@ NSString * const TCMUPNPPortMapperDidGetExternalIPAddressNotification = @"TCMNAT
 
 - (void)updatePortMappingsInThread {
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
-	struct UPNPDev * devlist = 0;
-	const char * multicastif = 0;
-	const char * minissdpdpath = 0;
-	char lanaddr[16];	/* my ip address on the LAN */
-	BOOL didFail=NO;
-    if (( devlist = upnpDiscover(2000, multicastif, minissdpdpath) )) {
-		struct UPNPUrls urls;
-		struct IGDdatas data;
-		if (devlist) {
-            if (UPNP_GetValidIGD(devlist, &urls, &data, lanaddr, sizeof(lanaddr))) {
-                TCMPortMapper *pm=[TCMPortMapper sharedInstance];
-                NSMutableSet *mappingsSet = [pm removeMappingQueue];
+    BOOL didFail=NO;
+    TCMPortMapper *pm=[TCMPortMapper sharedInstance];
+    NSMutableSet *mappingsSet = [pm removeMappingQueue];
+
+    while (!UpdatePortMappingsThreadShouldQuit && !UpdatePortMappingsThreadShouldRestart) {
+        TCMPortMapping *mappingToRemove=nil;
+        
+        @synchronized (mappingsSet) {
+            mappingToRemove = [mappingsSet anyObject];
+        }
+        
+        if (!mappingToRemove) break;
+        
+        if ([mappingToRemove mappingStatus] == TCMPortMappingStatusMapped) {
+            [self applyPortMapping:mappingToRemove remove:YES UPNPURLs:&_urls IGDDatas:&_igddata];
+        }
+        
+        @synchronized (mappingsSet) {
+            [mappingsSet removeObject:mappingToRemove];
+        }
+        
+    }    
+
+    NSSet *mappingsToAdd = [pm portMappings];
     
-                while (!UpdatePortMappingsThreadShouldQuit && !UpdatePortMappingsThreadShouldRestart) {
-                    TCMPortMapping *mappingToRemove=nil;
-                    
-                    @synchronized (mappingsSet) {
-                        mappingToRemove = [mappingsSet anyObject];
-                    }
-                    
-                    if (!mappingToRemove) break;
-                    
-                    if ([mappingToRemove mappingStatus] == TCMPortMappingStatusMapped) {
-                        [self applyPortMapping:mappingToRemove remove:YES UPNPURLs:&urls IGDDatas:&data];
-                    }
-                    
-                    @synchronized (mappingsSet) {
-                        [mappingsSet removeObject:mappingToRemove];
-                    }
-                    
-                }    
-            
-                NSSet *mappingsToAdd = [pm portMappings];
-                
-                while (!UpdatePortMappingsThreadShouldQuit && !UpdatePortMappingsThreadShouldRestart) {
-                    TCMPortMapping *mappingToApply;
-                    @synchronized (mappingsToAdd) {
-                        mappingToApply = nil;
-                        NSEnumerator *mappings = [mappingsToAdd objectEnumerator];
-                        TCMPortMapping *mapping = nil;
-                        BOOL isRunning = [pm isRunning];
-                        while ((mapping = [mappings nextObject])) {
-                            if ([mapping mappingStatus] == TCMPortMappingStatusUnmapped && isRunning) {
-                                mappingToApply = mapping;
-                                break;
-                            } else if ([mapping mappingStatus] == TCMPortMappingStatusMapped && !isRunning) {
-                                mappingToApply = mapping;
-                                break;
-                            }
-                        }
-                    }
-                    
-                    if (!mappingToApply) break;
-                    
-                    if (![self applyPortMapping:mappingToApply remove:[pm isRunning]?NO:YES UPNPURLs:&urls IGDDatas:&data]) {
-                        didFail = YES;
-                        [[NSNotificationCenter defaultCenter] postNotificationOnMainThread:[NSNotification notificationWithName:TCMUPNPPortMapperDidFailNotification object:self]];
-                        break;
-                    };
+    while (!UpdatePortMappingsThreadShouldQuit && !UpdatePortMappingsThreadShouldRestart) {
+        TCMPortMapping *mappingToApply;
+        @synchronized (mappingsToAdd) {
+            mappingToApply = nil;
+            NSEnumerator *mappings = [mappingsToAdd objectEnumerator];
+            TCMPortMapping *mapping = nil;
+            BOOL isRunning = [pm isRunning];
+            while ((mapping = [mappings nextObject])) {
+                if ([mapping mappingStatus] == TCMPortMappingStatusUnmapped && isRunning) {
+                    mappingToApply = mapping;
+                    break;
+                } else if ([mapping mappingStatus] == TCMPortMappingStatusMapped && !isRunning) {
+                    mappingToApply = mapping;
+                    break;
                 }
             }
-            freeUPNPDevlist(devlist); devlist = 0;
         }
+        
+        if (!mappingToApply) break;
+        
+        if (![self applyPortMapping:mappingToApply remove:[pm isRunning]?NO:YES UPNPURLs:&_urls IGDDatas:&_igddata]) {
+            didFail = YES;
+            [[NSNotificationCenter defaultCenter] postNotificationOnMainThread:[NSNotification notificationWithName:TCMUPNPPortMapperDidFailNotification object:self]];
+            break;
+        };
     }
+
     [_threadIsRunningLock performSelectorOnMainThread:@selector(unlock) withObject:nil waitUntilDone:YES];
     if (UpdatePortMappingsThreadShouldQuit) {
         [self performSelectorOnMainThread:@selector(refresh) withObject:nil waitUntilDone:NO];
