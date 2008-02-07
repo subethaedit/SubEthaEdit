@@ -366,11 +366,11 @@ enum {
         [self setMappingProtocol:TCMUPNPProtocol];
         shouldNotify = YES;
     }
-    [self setExternalIPAddress:[[aNotification userInfo] objectForKey:@"externalIPAddress"]];
     NSString *routerName = [[aNotification userInfo] objectForKey:@"routerName"];
     if (routerName) {
         [self setRouterName:routerName];
     }
+    [self setExternalIPAddress:[[aNotification userInfo] objectForKey:@"externalIPAddress"]];
     if (shouldNotify) {
         [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidFindRouterNotification object:self];
     }

@@ -10,6 +10,7 @@
 #import <TCMPortMapper/TCMPortMapper.h>
 #import "TCMStatusImageFromMappingStatusValueTransformer.h"
 #import "TCMPortStringFromPublicPortValueTransformer.h"
+#import "TCMPortMappingAdditions.h"
 
 @implementation AppController
 
@@ -20,10 +21,31 @@
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(portMapperExternalIPAddressDidChange:) name:TCMPortMapperExternalIPAddressDidChange object:[TCMPortMapper sharedInstance]];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(portMapperWillSearchForRouter:) name:TCMPortMapperWillSearchForRouterNotification object:[TCMPortMapper sharedInstance]];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(portMapperDidFindRouter:) name:TCMPortMapperDidFindRouterNotification object:[TCMPortMapper sharedInstance]];
+    TCMPortMapper *pm=[TCMPortMapper sharedInstance];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(portMapperExternalIPAddressDidChange:) name:TCMPortMapperExternalIPAddressDidChange object:pm];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(portMapperWillSearchForRouter:) name:TCMPortMapperWillSearchForRouterNotification object:pm];
+	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(portMapperDidFindRouter:) name:TCMPortMapperDidFindRouterNotification object:pm];
+	NSEnumerator *mappings=[[[NSUserDefaults standardUserDefaults] objectForKey:@"StoredMappings"] objectEnumerator];
+	NSDictionary *mappingRep = nil;
+	while ((mappingRep = [mappings nextObject])) {
+	   TCMPortMapping *mapping = [TCMPortMapping portMappingWithDictionaryRepresentation:mappingRep];
+	   [O_mappingsArrayController addObject:mapping];
+	   if ([[[mapping userInfo] objectForKey:@"active"] boolValue]) {
+	       [pm addPortMapping:mapping];
+	   }
+	}
+
 	[[TCMPortMapper sharedInstance] start]; // Just a test
+}
+
+- (void)applicationWillTerminate:(NSNotification *)aNotification {
+    NSEnumerator *mappings = [[O_mappingsArrayController arrangedObjects] objectEnumerator];
+    NSMutableArray *mappingsToStore = [NSMutableArray array];
+    TCMPortMapping *mapping = nil;
+    while ((mapping=[mappings nextObject])) {
+        [mappingsToStore addObject:[mapping dictionaryRepresentation]];
+    }
+    [[NSUserDefaults standardUserDefaults] setObject:mappingsToStore forKey:@"StoredMappings"];
 }
 
 - (IBAction)refresh:(id)aSender {

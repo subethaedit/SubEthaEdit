@@ -59,6 +59,7 @@
 		F2C660D40D51E95500820CAE /* minissdpc.c in Sources */ = {isa = PBXBuildFile; fileRef = F2C660940D51E7EE00820CAE /* minissdpc.c */; };
 		F2C660D50D51E95A00820CAE /* upnperrors.c in Sources */ = {isa = PBXBuildFile; fileRef = F2C660A70D51E7EE00820CAE /* upnperrors.c */; };
 		F2C660E30D51ED9800820CAE /* upnpcommands.c in Sources */ = {isa = PBXBuildFile; fileRef = F2C660A50D51E7EE00820CAE /* upnpcommands.c */; };
+		F2D731D10D5B607D00CBD1D8 /* TCMPortMappingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D731D00D5B607D00CBD1D8 /* TCMPortMappingAdditions.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -196,6 +197,8 @@
 		F2C660A80D51E7EE00820CAE /* upnperrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = upnperrors.h; sourceTree = "<group>"; };
 		F2C660A90D51E7EE00820CAE /* upnpreplyparse.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = upnpreplyparse.c; sourceTree = "<group>"; };
 		F2C660AA0D51E7EE00820CAE /* upnpreplyparse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = upnpreplyparse.h; sourceTree = "<group>"; };
+		F2D731CF0D5B607D00CBD1D8 /* TCMPortMappingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCMPortMappingAdditions.h; path = portmap_dom/TCMPortMappingAdditions.h; sourceTree = "<group>"; };
+		F2D731D00D5B607D00CBD1D8 /* TCMPortMappingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMPortMappingAdditions.m; path = portmap_dom/TCMPortMappingAdditions.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -411,6 +414,8 @@
 				F2482BBA0D58ABFA002DF811 /* TCMPortStringFromPublicPortValueTransformer.m */,
 				F2482BA70D58A15F002DF811 /* TCMStatusImageFromMappingStatusValueTransformer.h */,
 				F2482BA80D58A15F002DF811 /* TCMStatusImageFromMappingStatusValueTransformer.m */,
+				F2D731CF0D5B607D00CBD1D8 /* TCMPortMappingAdditions.h */,
+				F2D731D00D5B607D00CBD1D8 /* TCMPortMappingAdditions.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -642,6 +647,7 @@
 				F2482BA50D589FD0002DF811 /* RSVerticallyCenteredTextFieldCell.m in Sources */,
 				F2482BA90D58A15F002DF811 /* TCMStatusImageFromMappingStatusValueTransformer.m in Sources */,
 				F2482BBB0D58ABFA002DF811 /* TCMPortStringFromPublicPortValueTransformer.m in Sources */,
+				F2D731D10D5B607D00CBD1D8 /* TCMPortMappingAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
