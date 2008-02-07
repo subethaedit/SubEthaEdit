@@ -45,15 +45,23 @@
     }
 }
 
+- (void)updateTagLine {
+    TCMPortMapper *pm=[TCMPortMapper sharedInstance];
+    if ([pm externalIPAddress]) {
+        [O_taglineTextField setStringValue:[NSString stringWithFormat:@"%@ - %@ - %@ - %@",[pm mappingProtocol],[pm routerName],[pm routerIPAddress],[pm routerHardwareAddress]]];
+    } else {
+        [O_taglineTextField setStringValue:[NSString stringWithFormat:@"%@ - %@ - %@ - %@",[pm mappingProtocol],[pm routerName],[pm routerIPAddress],[pm routerHardwareAddress]]];
+    }
+
+}
+
 - (void)portMapperExternalIPAddressDidChange:(NSNotification *)aNotification {
     NSLog(@"%s %@",__FUNCTION__,aNotification);
     TCMPortMapper *pm=[TCMPortMapper sharedInstance];
     if ([pm externalIPAddress]) {
         [O_currentIPTextField setObjectValue:[pm externalIPAddress]];
-        [O_taglineTextField setStringValue:[NSString stringWithFormat:@"%@ - %@ - %@",[pm mappingProtocol],[pm routerIPAddress],[pm routerHardwareAddress]]];
-    } else {
-        [O_taglineTextField setStringValue:[NSString stringWithFormat:@"%@ - %@ - %@",[pm mappingProtocol],[pm routerIPAddress],[pm routerHardwareAddress]]];
     }
+    [self updateTagLine];
 }
 
 - (void)portMapperWillSearchForRouter:(NSNotification *)aNotification {
@@ -73,6 +81,7 @@
     } else {
         [O_currentIPTextField setStringValue:@"Router incompatible."];
     }
+    [self updateTagLine];
 }
 
 - (IBAction)addMapping:(id)aSender {

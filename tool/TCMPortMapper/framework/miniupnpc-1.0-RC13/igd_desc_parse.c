@@ -17,6 +17,7 @@ void IGDstartelt(void * d, const char * name, int l)
 	struct IGDdatas * datas = (struct IGDdatas *)d;
 	memcpy( datas->cureltname, name, l);
 	datas->cureltname[l] = '\0';
+    //printf("element:%s\n",datas->cureltname);
 	datas->level++;
 }
 
@@ -56,10 +57,12 @@ void IGDdata(void * d, const char * data, int l)
 {
 	struct IGDdatas * datas = (struct IGDdatas *)d;
 	char * dstmember = 0;
-	/*printf("%2d %s : %.*s\n",
-           datas->level, datas->cureltname, l, data);	*/
+	printf("%2d %s : %.*s\n",
+           datas->level, datas->cureltname, l, data);	
 	if( !strcmp(datas->cureltname, "URLBase") )
 		dstmember = datas->urlbase;
+    if (!strcmp(datas->cureltname, "modelDescription") && datas->level <= 3)
+        dstmember = datas->modeldescription;
 	else if(datas->state<=1)
 	{
 		if( !strcmp(datas->cureltname, "serviceType") )
@@ -88,6 +91,9 @@ void IGDdata(void * d, const char * data, int l)
 	}
 	if(dstmember)
 	{
+        printf("----->dstmember: %2d %s : %.*s\n",
+           datas->level, datas->cureltname, l, data);	
+
 		if(l>=MINIUPNPC_URL_MAXSIZE)
 			l = MINIUPNPC_URL_MAXSIZE-1;
 		memcpy(dstmember, data, l);

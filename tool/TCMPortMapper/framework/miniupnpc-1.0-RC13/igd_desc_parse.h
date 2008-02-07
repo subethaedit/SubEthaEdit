@@ -27,6 +27,7 @@ struct IGDdatas {
 	char scpdurl[MINIUPNPC_URL_MAXSIZE];
 	char servicetype[MINIUPNPC_URL_MAXSIZE];
 	char devicetype[MINIUPNPC_URL_MAXSIZE];
+    char modeldescription[MINIUPNPC_URL_MAXSIZE];
 };
 
 void IGDstartelt(void *, const char *, int);

@@ -367,6 +367,10 @@ enum {
         shouldNotify = YES;
     }
     [self setExternalIPAddress:[[aNotification userInfo] objectForKey:@"externalIPAddress"]];
+    NSString *routerName = [[aNotification userInfo] objectForKey:@"routerName"];
+    if (routerName) {
+        [self setRouterName:routerName];
+    }
     if (shouldNotify) {
         [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidFindRouterNotification object:self];
     }
@@ -405,6 +409,7 @@ enum {
 }
 
 - (void)setRouterName:(NSString *)aRouterName {
+    NSLog(@"%s %@->%@",__FUNCTION__,_routerName,aRouterName);
     [_routerName autorelease];
     _routerName = [aRouterName copy];
 }

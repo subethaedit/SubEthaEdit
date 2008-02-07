@@ -95,7 +95,11 @@ NSString * const TCMUPNPPortMapperDidGetExternalIPAddressNotification = @"TCMNAT
                 } else {
                     if(externalIPAddress[0]) {
                         NSString *ipString = [NSString stringWithUTF8String:externalIPAddress];
-                        [[NSNotificationCenter defaultCenter] postNotificationOnMainThread:[NSNotification notificationWithName:TCMUPNPPortMapperDidGetExternalIPAddressNotification object:self userInfo:[NSDictionary dictionaryWithObject:ipString forKey:@"externalIPAddress"]]];
+                        NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithObject:ipString forKey:@"externalIPAddress"];
+                        NSString *routerName = [NSString stringWithUTF8String:_igddata.modeldescription];
+                        if (routerName) [userInfo setObject:routerName forKey:@"routerName"];
+                        NSLog(@"%s %@ %@",__FUNCTION__,routerName,userInfo);
+                        [[NSNotificationCenter defaultCenter] postNotificationOnMainThread:[NSNotification notificationWithName:TCMUPNPPortMapperDidGetExternalIPAddressNotification object:self userInfo:userInfo]];
                     } else {
                         didFail = YES;
                         errorString = @"No external IP address!";
