@@ -11,6 +11,9 @@
 
 NSString * const TCMNATPMPPortMapperDidFailNotification = @"TCMNATPMPPortMapperDidFailNotification";
 NSString * const TCMNATPMPPortMapperDidGetExternalIPAddressNotification = @"TCMNATPMPPortMapperDidGetExternalIPAddressNotification";
+// these notifications come in pairs. TCMPortmapper must reference count them and unify them to a notification pair that does not need to be reference counted
+NSString * const TCMNATPMPPortMapperDidBeginWorkingNotification =@"TCMNATPMPPortMapperDidBeginWorkingNotification";
+NSString * const TCMNATPMPPortMapperDidEndWorkingNotification   =@"TCMNATPMPPortMapperDidEndWorkingNotification";
 
 static TCMNATPMPPortMapper *S_sharedInstance;
 
@@ -152,6 +155,7 @@ Standardablauf:
 
 - (void)updatePortMappingsInThread {
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
+    [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadWithName:TCMNATPMPPortMapperDidBeginWorkingNotification object:self];
     
     natpmp_t natpmp;
     initnatpmp(&natpmp);
@@ -217,12 +221,14 @@ Standardablauf:
             [self performSelectorOnMainThread:@selector(adjustUpdateTimer) withObject:nil waitUntilDone:NO];
         }
     }
+    [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadWithName:TCMNATPMPPortMapperDidEndWorkingNotification object:self];
     [pool release];
 }
 
 - (void)refreshExternalIPInThread {
     
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
+    [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadWithName:TCMNATPMPPortMapperDidBeginWorkingNotification object:self];
 	natpmp_t natpmp;
 	natpmpresp_t response;
 	int r;
@@ -279,6 +285,7 @@ Standardablauf:
             [self performSelectorOnMainThread:@selector(updatePortMappings) withObject:nil waitUntilDone:0];
         }
     }
+    [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadWithName:TCMNATPMPPortMapperDidEndWorkingNotification object:self];
     [pool release];
 }
 

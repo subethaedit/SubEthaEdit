@@ -16,6 +16,9 @@ extern NSString * const TCMPortMapperExternalIPAddressDidChange;
 extern NSString * const TCMPortMapperWillSearchForRouterNotification;
 extern NSString * const TCMPortMapperDidFindRouterNotification;
 
+extern NSString * const TCMPortMapperDidStartWorkNotification;
+extern NSString * const TCMPortMapperDidEndWorkNotification;
+
 extern NSString * const TCMPortMappingDidChangeMappingStatusNotification;
 
 extern NSString * const TCMNATPMPProtocol;
@@ -72,6 +75,7 @@ typedef enum {
     int _UPNPStatus;
     NSString *_mappingProtocol;
     NSString *_routerName;
+    int _workCount;
 }
 
 + (TCMPortMapper *)sharedInstance;

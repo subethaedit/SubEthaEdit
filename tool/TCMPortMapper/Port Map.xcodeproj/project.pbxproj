@@ -752,6 +752,10 @@
 				HEADER_SEARCH_PATHS = framework;
 				INFOPLIST_FILE = "framework/TCMPortMapper-Info.plist";
 				INSTALL_PATH = "@executable_path/../Frameworks";
+				OTHER_CFLAGS = (
+					"-DNDEBUG",
+					"-DNS_BLOCK_ASSERTIONS",
+				);
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,

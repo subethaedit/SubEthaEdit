@@ -21,7 +21,7 @@
     [self userInfo],@"userInfo",
     [NSNumber numberWithInt:_privatePort],@"privatePort",
     [NSNumber numberWithInt:_desiredPublicPort],@"desiredPublicPort",
-    [NSNumber numberWithInt:_desiredPublicPort],@"transportProtocol",
+    [NSNumber numberWithInt:_transportProtocol],@"transportProtocol",
     nil];
 }
 

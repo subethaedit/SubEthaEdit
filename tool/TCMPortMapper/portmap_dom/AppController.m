@@ -23,14 +23,19 @@
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     TCMPortMapper *pm=[TCMPortMapper sharedInstance];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(portMapperExternalIPAddressDidChange:) name:TCMPortMapperExternalIPAddressDidChange object:pm];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(portMapperWillSearchForRouter:) name:TCMPortMapperWillSearchForRouterNotification object:pm];
-	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(portMapperDidFindRouter:) name:TCMPortMapperDidFindRouterNotification object:pm];
+    NSNotificationCenter *center=[NSNotificationCenter defaultCenter];
+	[center addObserver:self selector:@selector(portMapperExternalIPAddressDidChange:) name:TCMPortMapperExternalIPAddressDidChange object:pm];
+	[center addObserver:self selector:@selector(portMapperWillSearchForRouter:) name:TCMPortMapperWillSearchForRouterNotification object:pm];
+	[center addObserver:self selector:@selector(portMapperDidFindRouter:) name:TCMPortMapperDidFindRouterNotification object:pm];
+	[center addObserver:self selector:@selector(portMappingDidChangeMappingStatus:) name:TCMPortMappingDidChangeMappingStatusNotification object:nil];
+	[center addObserver:self selector:@selector(startProgressIndicator:) name:TCMPortMapperDidStartWorkNotification object:nil];
+	[center addObserver:self selector:@selector(stopProgressIndiciator:) name:TCMPortMapperDidEndWorkNotification   object:nil];
 	NSEnumerator *mappings=[[[NSUserDefaults standardUserDefaults] objectForKey:@"StoredMappings"] objectEnumerator];
 	NSDictionary *mappingRep = nil;
 	while ((mappingRep = [mappings nextObject])) {
 	   TCMPortMapping *mapping = [TCMPortMapping portMappingWithDictionaryRepresentation:mappingRep];
 	   [O_mappingsArrayController addObject:mapping];
+       [mapping addObserver:self forKeyPath:@"userInfo.active" options:0 context:nil];
 	   if ([[[mapping userInfo] objectForKey:@"active"] boolValue]) {
 	       [pm addPortMapping:mapping];
 	   }
@@ -94,7 +99,6 @@
 }
 
 - (void)portMapperExternalIPAddressDidChange:(NSNotification *)aNotification {
-    NSLog(@"%s %@",__FUNCTION__,aNotification);
     TCMPortMapper *pm=[TCMPortMapper sharedInstance];
     if ([pm externalIPAddress]) {
         [O_currentIPTextField setObjectValue:[pm externalIPAddress]];
@@ -102,14 +106,20 @@
     [self updateTagLine];
 }
 
-- (void)portMapperWillSearchForRouter:(NSNotification *)aNotification {
+- (void)startProgressIndicator:(NSNotification *)aNotification {
     [O_globalProgressIndicator startAnimation:self];
+}
+
+- (void)stopProgressIndiciator:(NSNotification *)aNotification {
+    [O_globalProgressIndicator stopAnimation:self];
+}
+
+- (void)portMapperWillSearchForRouter:(NSNotification *)aNotification {
     [O_refreshButton setEnabled:NO];
     [O_currentIPTextField setStringValue:@"Searching..."];
 }
 
 - (void)portMapperDidFindRouter:(NSNotification *)aNotification {
-    [O_globalProgressIndicator stopAnimation:self];
     [O_refreshButton setEnabled:YES];
     TCMPortMapper *pm=[TCMPortMapper sharedInstance];
     if ([pm externalIPAddress]) {
@@ -178,6 +188,10 @@
     [O_addDescriptionField setObjectValue:[preset objectForKey:@"mappingTitle"]];
     [O_addProtocolTCPButton setState:([[preset objectForKey:@"transportProtocol"] intValue] & TCMPortMappingTransportProtocolTCP)?NSOnState:NSOffState];
     [O_addProtocolUDPButton setState:([[preset objectForKey:@"transportProtocol"] intValue] & TCMPortMappingTransportProtocolUDP)?NSOnState:NSOffState];
+}
+
+- (void)portMappingDidChangeMappingStatus:(NSNotification *)aNotification {
+    [O_replacedReferenceStringTextField setStringValue:[[NSValueTransformer valueTransformerForName:@"TCMReplacedStringFromPortMappingReferenceString"] transformedValue:[O_mappingsArrayController selectedObjects]]];
 }
 
 @end

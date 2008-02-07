@@ -15,7 +15,8 @@
 
 extern NSString * const TCMUPNPPortMapperDidFailNotification;
 extern NSString * const TCMUPNPPortMapperDidGetExternalIPAddressNotification;
-
+extern NSString * const TCMUPNPPortMapperDidBeginWorkingNotification;
+extern NSString * const TCMUPNPPortMapperDidEndWorkingNotification;
 
 @interface TCMUPNPPortMapper : NSObject {
     NSLock *_threadIsRunningLock;

@@ -24,6 +24,10 @@ NSString * const TCMPortMapperExternalIPAddressDidChange          = @"TCMPortMap
 NSString * const TCMPortMapperWillSearchForRouterNotification     = @"TCMPortMapperWillSearchForRouterNotification";
 NSString * const TCMPortMapperDidFindRouterNotification           = @"TCMPortMapperDidFindRouterNotification";
 NSString * const TCMPortMappingDidChangeMappingStatusNotification = @"TCMPortMappingDidChangeMappingStatusNotification";
+NSString * const TCMPortMapperDidStartWorkNotification            = @"TCMPortMapperDidStartWorkNotification";
+NSString * const TCMPortMapperDidEndWorkNotification              = @"TCMPortMapperDidEndWorkNotification";
+
+
 NSString * const TCMNATPMPProtocol = @"NAT-PMP";
 NSString * const TCMUPNPProtocol   = @"UPnP";
 NSString * const TCMPortMapProtocolNone   = @"None";
@@ -99,6 +103,10 @@ enum {
         _portMappings = [NSMutableSet new];
         _removeMappingQueue = [NSMutableSet new];
         S_sharedInstance = self;
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(increaseWorkCount:) name:TCMUPNPPortMapperDidBeginWorkingNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(increaseWorkCount:) name:TCMNATPMPPortMapperDidBeginWorkingNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(decreaseWorkCount:) name:TCMUPNPPortMapperDidEndWorkingNotification object:nil];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(decreaseWorkCount:) name:TCMNATPMPPortMapperDidEndWorkingNotification object:nil];
     }
     return self;
 }
@@ -245,7 +253,6 @@ enum {
 }
 
 - (void)setExternalIPAddress:(NSString *)anIPAddress {
-    NSLog(@"%s %@",__FUNCTION__,anIPAddress);
     [_externalIPAddress autorelease];
     _externalIPAddress = [anIPAddress copy];
     [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperExternalIPAddressDidChange object:self];
@@ -302,35 +309,33 @@ enum {
 }
 
 - (void)start {
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                    selector:@selector(networkDidChange:) 
-                                    name:@"State:/Network/Global/IPv4" 
-                                    object:_systemConfigNotificationManager];
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                    selector:@selector(printNotification:) 
-                                    name:nil 
-                                    object:_NATPMPPortMapper];
+    NSNotificationCenter *center=[NSNotificationCenter defaultCenter];
+    
+    [center addObserver:self 
+            selector:@selector(networkDidChange:) 
+            name:@"State:/Network/Global/IPv4" 
+            object:_systemConfigNotificationManager];
                                     
     
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                    selector:@selector(NATPMPPortMapperDidGetExternalIPAddress:) 
-                                    name:TCMNATPMPPortMapperDidGetExternalIPAddressNotification 
-                                    object:_NATPMPPortMapper];
+    [center addObserver:self 
+            selector:@selector(NATPMPPortMapperDidGetExternalIPAddress:) 
+            name:TCMNATPMPPortMapperDidGetExternalIPAddressNotification 
+            object:_NATPMPPortMapper];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                    selector:@selector(NATPMPPortMapperDidFail:) 
-                                    name:TCMNATPMPPortMapperDidFailNotification 
-                                    object:_NATPMPPortMapper];
+    [center addObserver:self 
+            selector:@selector(NATPMPPortMapperDidFail:) 
+            name:TCMNATPMPPortMapperDidFailNotification 
+            object:_NATPMPPortMapper];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                    selector:@selector(UPNPPortMapperDidGetExternalIPAddress:) 
-                                    name:TCMUPNPPortMapperDidGetExternalIPAddressNotification 
-                                    object:_UPNPPortMapper];
+    [center addObserver:self 
+            selector:@selector(UPNPPortMapperDidGetExternalIPAddress:) 
+            name:TCMUPNPPortMapperDidGetExternalIPAddressNotification 
+            object:_UPNPPortMapper];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                    selector:@selector(UPNPPortMapperDidFail:) 
-                                    name:TCMUPNPPortMapperDidFailNotification 
-                                    object:_UPNPPortMapper];
+    [center addObserver:self 
+            selector:@selector(UPNPPortMapperDidFail:) 
+            name:TCMUPNPPortMapperDidFailNotification 
+            object:_UPNPPortMapper];
 
     _isRunning = YES;
     [self refresh];
@@ -396,7 +401,14 @@ enum {
 }
 
 - (void)stop {
-    [[NSNotificationCenter defaultCenter] removeObserver:self];
+    NSNotificationCenter *center=[NSNotificationCenter defaultCenter];
+    [center removeObserver:self name:@"State:/Network/Global/IPv4" object:_systemConfigNotificationManager];
+    [center removeObserver:self name:TCMNATPMPPortMapperDidGetExternalIPAddressNotification object:_NATPMPPortMapper];
+    [center removeObserver:self name:TCMNATPMPPortMapperDidFailNotification object:_NATPMPPortMapper];
+
+    [center removeObserver:self name:TCMUPNPPortMapperDidGetExternalIPAddressNotification object:_UPNPPortMapper];
+    [center removeObserver:self name:TCMUPNPPortMapperDidFailNotification object:_UPNPPortMapper];
+
     _isRunning = NO;
     [_NATPMPPortMapper stop];
     [_UPNPPortMapper stop];
@@ -445,6 +457,22 @@ enum {
 	} 
 	
 	return result;
+}
+
+- (void)increaseWorkCount:(NSNotificationCenter *)aNotification {
+    NSLog(@"%s %d",__FUNCTION__,_workCount);
+    if (_workCount == 0) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidStartWorkNotification object:self];
+    }
+    _workCount++;
+}
+
+- (void)decreaseWorkCount:(NSNotificationCenter *)aNotification {
+    NSLog(@"%s %d",__FUNCTION__,_workCount);
+    _workCount--;
+    if (_workCount == 0) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidEndWorkNotification object:self];
+    }
 }
 
 @end
@@ -523,7 +551,7 @@ enum {
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"%@ privatePort:%u desiredPublicPort:%u publicPort:%u mappingStatus:%@",[super description], _privatePort, _desiredPublicPort, _publicPort, _mappingStatus == TCMPortMappingStatusUnmapped ? @"unmapped" : (_mappingStatus == TCMPortMappingStatusMapped ? @"mapped" : @"trying")];
+    return [NSString stringWithFormat:@"%@ privatePort:%u desiredPublicPort:%u publicPort:%u mappingStatus:%@ transportProtocol:%d",[super description], _privatePort, _desiredPublicPort, _publicPort, _mappingStatus == TCMPortMappingStatusUnmapped ? @"unmapped" : (_mappingStatus == TCMPortMappingStatusMapped ? @"mapped" : @"trying"),_transportProtocol];
 }
 
 @end

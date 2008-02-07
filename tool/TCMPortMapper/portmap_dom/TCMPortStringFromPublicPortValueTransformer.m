@@ -33,9 +33,12 @@
 }
 
 - (id)transformedValue:(id)value {
-    if ([value isKindOfClass:[TCMPortMapping class]] &&
+//    NSLog(@"%s %@",__FUNCTION__,value);
+    if ([value respondsToSelector:@selector(lastObject)]) value = [value lastObject];
+    if ([value respondsToSelector:@selector(mappingStatus)] &&
         [value mappingStatus]==TCMPortMappingStatusMapped) {
         NSMutableString *string = [[[[value userInfo] objectForKey:@"referenceString"] mutableCopy] autorelease];
+//        NSLog(@"%s %@",__FUNCTION__,string);
         [string replaceCharactersInRange:[string rangeOfString:@"[IP]"] withString:[[TCMPortMapper sharedInstance] externalIPAddress]];
         [string replaceCharactersInRange:[string rangeOfString:@"[PORT]"] withString:[NSString stringWithFormat:@"%d",[value publicPort]]];
         return string;

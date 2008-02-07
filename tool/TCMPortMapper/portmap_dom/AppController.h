@@ -18,6 +18,7 @@
     IBOutlet NSButton    *O_refreshButton;
     IBOutlet NSView *O_invalidLocalPortView;
     IBOutlet NSView *O_invalidDesiredPortView;
+    IBOutlet NSTextField *O_replacedReferenceStringTextField;
     
     IBOutlet NSWindow *O_addSheetPanel;
     IBOutlet NSTextField *O_addDescriptionField;
@@ -27,6 +28,7 @@
     IBOutlet NSButton    *O_addProtocolUDPButton;
     IBOutlet NSPopUpButton *O_addPresetPopupButton;
     IBOutlet NSTextField *O_addReferenceStringField;
+
 }
 
 - (IBAction)refresh:(id)aSender;

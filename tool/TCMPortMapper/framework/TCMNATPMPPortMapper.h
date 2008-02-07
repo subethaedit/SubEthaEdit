@@ -12,6 +12,8 @@
 
 extern NSString * const TCMNATPMPPortMapperDidFailNotification;
 extern NSString * const TCMNATPMPPortMapperDidGetExternalIPAddressNotification;
+extern NSString * const TCMNATPMPPortMapperDidBeginWorkingNotification;
+extern NSString * const TCMNATPMPPortMapperDidEndWorkingNotification  ;
 
 typedef enum {
     TCMExternalIPThreadID = 0,
