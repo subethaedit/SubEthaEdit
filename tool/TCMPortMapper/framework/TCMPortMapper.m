@@ -142,8 +142,10 @@ enum {
 
 - (void)updatePortMappings {
     NSString *protocol = [self mappingProtocol];
-    if (protocol) {
-        [([protocol isEqualToString:TCMNATPMPProtocol] ? _NATPMPPortMapper : (id)_UPNPPortMapper) updatePortMappings];
+    if ([protocol isEqualToString:TCMNATPMPProtocol]) {
+        [_NATPMPPortMapper updatePortMappings];
+    } else if ([protocol isEqualToString:TCMUPNPProtocol]) {
+        [_UPNPPortMapper updatePortMappings];
     }
 }
 
@@ -169,9 +171,9 @@ enum {
 
 - (void)refresh {
     // reinitialisieren: public ip und router modell auf nil setzen - portmappingsstatus auf unmapped setzen, wenn trying dann upnp/natpimp zurücksetzen
+	[self setRouterName:@"..."];
+	[self setMappingProtocol:TCMPortMapProtocolNone];
 	[self setExternalIPAddress:nil];
-	[self setRouterName:nil];
-	[self setMappingProtocol:nil];
 	@synchronized(_portMappings) {
 	   NSEnumerator *portMappings = [_portMappings objectEnumerator];
 	   TCMPortMapping *portMapping = nil;
@@ -216,7 +218,8 @@ enum {
             if ((myaddr & subnetmask) == (routeraddr & subnetmask)) {
                 [_UPNPPortMapper setInternalIPAddress:ipAddress];
                 // That's the one
-                [self setRouterName:[NSString stringWithFormat:@"Generic (%@)",[self routerHardwareAddress]]]; 
+                [self setRouterName:[NSString stringWithFormat:@"Generic (%@)",[self routerHardwareAddress]]];
+                [self setExternalIPAddress:nil];
                 if (inPrivateSubnet) {
                     _NATPMPStatus = TCMPortMapProtocolTrying;
                     _UPNPStatus   = TCMPortMapProtocolTrying;
@@ -409,7 +412,7 @@ enum {
 }
 
 - (void)setRouterName:(NSString *)aRouterName {
-    NSLog(@"%s %@->%@",__FUNCTION__,_routerName,aRouterName);
+//    NSLog(@"%s %@->%@",__FUNCTION__,_routerName,aRouterName);
     [_routerName autorelease];
     _routerName = [aRouterName copy];
 }

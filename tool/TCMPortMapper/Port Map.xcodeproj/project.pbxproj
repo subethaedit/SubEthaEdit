@@ -60,6 +60,7 @@
 		F2C660D50D51E95A00820CAE /* upnperrors.c in Sources */ = {isa = PBXBuildFile; fileRef = F2C660A70D51E7EE00820CAE /* upnperrors.c */; };
 		F2C660E30D51ED9800820CAE /* upnpcommands.c in Sources */ = {isa = PBXBuildFile; fileRef = F2C660A50D51E7EE00820CAE /* upnpcommands.c */; };
 		F2D731D10D5B607D00CBD1D8 /* TCMPortMappingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D731D00D5B607D00CBD1D8 /* TCMPortMappingAdditions.m */; };
+		F2D731EA0D5B768300CBD1D8 /* Presets.plist in Resources */ = {isa = PBXBuildFile; fileRef = F2D731E90D5B768300CBD1D8 /* Presets.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -199,6 +200,7 @@
 		F2C660AA0D51E7EE00820CAE /* upnpreplyparse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = upnpreplyparse.h; sourceTree = "<group>"; };
 		F2D731CF0D5B607D00CBD1D8 /* TCMPortMappingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCMPortMappingAdditions.h; path = portmap_dom/TCMPortMappingAdditions.h; sourceTree = "<group>"; };
 		F2D731D00D5B607D00CBD1D8 /* TCMPortMappingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMPortMappingAdditions.m; path = portmap_dom/TCMPortMappingAdditions.m; sourceTree = "<group>"; };
+		F2D731E90D5B768300CBD1D8 /* Presets.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Presets.plist; path = portmap_dom/Presets.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -390,6 +392,7 @@
 		F2C660130D50C36700820CAE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F2D731E90D5B768300CBD1D8 /* Presets.plist */,
 				F2482BAB0D58A415002DF811 /* GenericQuestionMarkIcon.icns */,
 				F2C6603B0D50C62F00820CAE /* MainMenu.nib */,
 				F2C6603D0D50C62F00820CAE /* InfoPlist.strings */,
@@ -597,6 +600,7 @@
 				F2C6603F0D50C62F00820CAE /* MainMenu.nib in Resources */,
 				F2C660400D50C62F00820CAE /* InfoPlist.strings in Resources */,
 				F2482BAC0D58A415002DF811 /* GenericQuestionMarkIcon.icns in Resources */,
+				F2D731EA0D5B768300CBD1D8 /* Presets.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

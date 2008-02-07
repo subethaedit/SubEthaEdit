@@ -17,6 +17,7 @@
 + (void)initialize {
     [NSValueTransformer setValueTransformer:[TCMStatusImageFromMappingStatusValueTransformer new] forName:@"TCMStatusImageFromMappingStatus"];
     [NSValueTransformer setValueTransformer:[TCMPortStringFromPublicPortValueTransformer new] forName:@"TCMPortStringFromPublicPort"];
+    [NSValueTransformer setValueTransformer:[TCMReplacedStringFromPortMappingReferenceStringValueTransformer new] forName:@"TCMReplacedStringFromPortMappingReferenceString"];
     
 }
 
@@ -34,11 +35,21 @@
 	       [pm addPortMapping:mapping];
 	   }
 	}
-
 	[[TCMPortMapper sharedInstance] start]; // Just a test
+
+    NSArray *array = [[[NSArray alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Presets" ofType:@"plist"]] autorelease];
+    NSEnumerator *presets = [array objectEnumerator];
+    NSDictionary *preset = nil;
+    while ((preset = [presets nextObject])) {
+        NSString *title = [preset objectForKey:@"mappingTitle"];
+        if (title) {
+            [O_addPresetPopupButton addItemWithTitle:title];
+            [[[O_addPresetPopupButton itemArray] lastObject] setRepresentedObject:preset];
+        }
+    }
 }
 
-- (void)applicationWillTerminate:(NSNotification *)aNotification {
+- (void)writeMappingDefaults {
     NSEnumerator *mappings = [[O_mappingsArrayController arrangedObjects] objectEnumerator];
     NSMutableArray *mappingsToStore = [NSMutableArray array];
     TCMPortMapping *mapping = nil;
@@ -46,6 +57,10 @@
         [mappingsToStore addObject:[mapping dictionaryRepresentation]];
     }
     [[NSUserDefaults standardUserDefaults] setObject:mappingsToStore forKey:@"StoredMappings"];
+}
+
+- (void)applicationWillTerminate:(NSNotification *)aNotification {
+    [self writeMappingDefaults];
 }
 
 - (IBAction)refresh:(id)aSender {
@@ -65,6 +80,7 @@
     } else {
         [[TCMPortMapper sharedInstance] removePortMapping:object];
     }
+    [self writeMappingDefaults];
 }
 
 - (void)updateTagLine {
@@ -87,14 +103,12 @@
 }
 
 - (void)portMapperWillSearchForRouter:(NSNotification *)aNotification {
-    NSLog(@"%s %@",__FUNCTION__,aNotification);
     [O_globalProgressIndicator startAnimation:self];
     [O_refreshButton setEnabled:NO];
     [O_currentIPTextField setStringValue:@"Searching..."];
 }
 
 - (void)portMapperDidFindRouter:(NSNotification *)aNotification {
-    NSLog(@"%s %@",__FUNCTION__,aNotification);
     [O_globalProgressIndicator stopAnimation:self];
     [O_refreshButton setEnabled:YES];
     TCMPortMapper *pm=[TCMPortMapper sharedInstance];
@@ -127,7 +141,7 @@
 }
 
 - (IBAction)addMappingEndSheet:(id)aSender {
-    NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES],@"active",[O_addDescriptionField stringValue],@"mappingTitle",nil];
+    NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES],@"active",[O_addDescriptionField stringValue],@"mappingTitle",[O_addReferenceStringField stringValue],@"referenceString",nil];
     TCMPortMapping *mapping = [TCMPortMapping portMappingWithPrivatePort:[O_addLocalPortField intValue] desiredPublicPort:[O_addDesiredField intValue] userInfo:userInfo];
     int transportProtocol = 0;
     if ([O_addProtocolTCPButton state] == NSOnState) transportProtocol+=TCMPortMappingTransportProtocolTCP;
@@ -138,6 +152,7 @@
     [[TCMPortMapper sharedInstance] addPortMapping:mapping];
     [NSApp endSheet:O_addSheetPanel];
 //    [O_addSheetPanel orderOut:self];
+    [self writeMappingDefaults];
 }
 
 - (IBAction)addMappingCancelSheet:(id)aSender {
@@ -154,6 +169,15 @@
     [O_invalidDesiredPortView setHidden:  [O_addDesiredField intValue]>0 &&   [O_addDesiredField intValue]<=65535];
 }
 
-
+- (IBAction)choosePreset:(id)aSender {
+    NSLog(@"%s %@ %@ %@",__FUNCTION__,aSender, [aSender selectedItem],[[aSender selectedItem] representedObject]);
+    NSDictionary *preset = [[aSender selectedItem] representedObject];
+    [O_addLocalPortField setObjectValue:[preset objectForKey:@"localPort"]];
+    [O_addDesiredField   setObjectValue:[preset objectForKey:@"desiredPort"]];
+    [O_addReferenceStringField setObjectValue:[preset objectForKey:@"referenceString"]];
+    [O_addDescriptionField setObjectValue:[preset objectForKey:@"mappingTitle"]];
+    [O_addProtocolTCPButton setState:([[preset objectForKey:@"transportProtocol"] intValue] & TCMPortMappingTransportProtocolTCP)?NSOnState:NSOffState];
+    [O_addProtocolUDPButton setState:([[preset objectForKey:@"transportProtocol"] intValue] & TCMPortMappingTransportProtocolUDP)?NSOnState:NSOffState];
+}
 
 @end

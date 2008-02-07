@@ -2420,6 +2420,7 @@ tool/TCMPortMapper/portmap_dom/English.lproj/MainMenu.nib/designable.nib -text
 tool/TCMPortMapper/portmap_dom/English.lproj/MainMenu.nib/keyedobjects.nib -text
 tool/TCMPortMapper/portmap_dom/Info.plist -text
 tool/TCMPortMapper/portmap_dom/PortMapper_Prefix.pch -text
+tool/TCMPortMapper/portmap_dom/Presets.plist -text
 tool/TCMPortMapper/portmap_dom/TCMPortMappingAdditions.h -text
 tool/TCMPortMapper/portmap_dom/TCMPortMappingAdditions.m -text
 tool/TCMPortMapper/portmap_dom/TCMPortStringFromPublicPortValueTransformer.h -text

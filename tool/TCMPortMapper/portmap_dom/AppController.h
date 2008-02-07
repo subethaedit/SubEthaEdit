@@ -25,6 +25,8 @@
     IBOutlet NSTextField *O_addDesiredField;
     IBOutlet NSButton    *O_addProtocolTCPButton;
     IBOutlet NSButton    *O_addProtocolUDPButton;
+    IBOutlet NSPopUpButton *O_addPresetPopupButton;
+    IBOutlet NSTextField *O_addReferenceStringField;
 }
 
 - (IBAction)refresh:(id)aSender;
@@ -32,6 +34,6 @@
 - (IBAction)removeMapping:(id)aSender;
 - (IBAction)addMappingEndSheet:(id)aSender;
 - (IBAction)addMappingCancelSheet:(id)aSender;
-
+- (IBAction)choosePreset:(id)aSender;
 
 @end

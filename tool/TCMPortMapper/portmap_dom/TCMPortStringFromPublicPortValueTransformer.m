@@ -7,7 +7,7 @@
 //
 
 #import "TCMPortStringFromPublicPortValueTransformer.h"
-
+#import <TCMPortMapper/TCMPortMapper.h>
 
 @implementation TCMPortStringFromPublicPortValueTransformer
 + (Class)transformedValueClass {
@@ -26,3 +26,23 @@
 }
 
 @end
+
+@implementation TCMReplacedStringFromPortMappingReferenceStringValueTransformer
++ (Class)transformedValueClass {
+    return [NSString class];
+}
+
+- (id)transformedValue:(id)value {
+    if ([value isKindOfClass:[TCMPortMapping class]] &&
+        [value mappingStatus]==TCMPortMappingStatusMapped) {
+        NSMutableString *string = [[[[value userInfo] objectForKey:@"referenceString"] mutableCopy] autorelease];
+        [string replaceCharactersInRange:[string rangeOfString:@"[IP]"] withString:[[TCMPortMapper sharedInstance] externalIPAddress]];
+        [string replaceCharactersInRange:[string rangeOfString:@"[PORT]"] withString:[NSString stringWithFormat:@"%d",[value publicPort]]];
+        return string;
+    } else {
+        return @"";
+    }
+}
+
+@end
+

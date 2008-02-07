@@ -14,3 +14,10 @@
 }
 
 @end
+
+@interface TCMReplacedStringFromPortMappingReferenceStringValueTransformer : NSValueTransformer {
+
+}
+
+@end
+
