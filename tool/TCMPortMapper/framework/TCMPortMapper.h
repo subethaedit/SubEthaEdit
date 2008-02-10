@@ -47,7 +47,7 @@ typedef enum {
     TCMPortMappingTransportProtocol _transportProtocol;
 }
 + (id)portMappingWithPrivatePort:(int)aPrivatePort desiredPublicPort:(int)aPublicPort userInfo:(id)aUserInfo;
-- (id)initWithPrivatePort:(int)aPrivatePort desiredPublicPort:(int)aPublicPort userInfo:(id)aUserInfo;
+- (id)initWithPrivatePort:(int)aPrivatePort desiredPublicPort:(int)aPublicPort transportProtocol:(int)aTransportProtocol userInfo:(id)aUserInfo;
 - (int)desiredPublicPort;
 - (id)userInfo;
 - (TCMPortMappingStatus)mappingStatus;
@@ -70,12 +70,14 @@ typedef enum {
     NSMutableSet *_removeMappingQueue;
     IXSCNotificationManager *_systemConfigNotificationManager;
     BOOL _isRunning;
+    NSString *_localIPAddress;
     NSString *_externalIPAddress;
     int _NATPMPStatus;
     int _UPNPStatus;
     NSString *_mappingProtocol;
     NSString *_routerName;
     int _workCount;
+    BOOL _localIPOnRouterSubnet;
 }
 
 + (TCMPortMapper *)sharedInstance;
@@ -90,6 +92,7 @@ typedef enum {
 - (void)stop;
 
 - (NSString *)externalIPAddress;
+- (NSString *)localIPAddress;
 - (void)setMappingProtocol:(NSString *)aProtocol;
 - (NSString *)mappingProtocol;
 - (void)setRouterName:(NSString *)aRouterName;

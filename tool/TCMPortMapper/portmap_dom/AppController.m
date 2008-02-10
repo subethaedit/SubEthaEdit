@@ -114,14 +114,6 @@
     }
 }
 
-- (void)startProgressIndicator:(NSNotification *)aNotification {
-    [O_globalProgressIndicator startAnimation:self];
-}
-
-- (void)stopProgressIndiciator:(NSNotification *)aNotification {
-    [O_globalProgressIndicator stopAnimation:self];
-}
-
 - (void)portMapperWillSearchForRouter:(NSNotification *)aNotification {
     [O_refreshButton setEnabled:NO];
     [O_currentIPTextField setStringValue:@"Searching..."];

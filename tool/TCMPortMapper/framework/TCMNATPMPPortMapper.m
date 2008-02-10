@@ -59,6 +59,7 @@ static TCMNATPMPPortMapper *S_sharedInstance;
     if ([natPMPThreadIsRunningLock tryLock]) {
         _updateInterval = 3600 / 2.;
         IPAddressThreadShouldQuit=NO;
+        UpdatePortMappingsThreadShouldQuit = NO;
         runningThreadID = TCMExternalIPThreadID;
         [NSThread detachNewThreadSelector:@selector(refreshExternalIPInThread) toTarget:self withObject:nil];
         NSLog(@"%s detachedThread",__FUNCTION__);

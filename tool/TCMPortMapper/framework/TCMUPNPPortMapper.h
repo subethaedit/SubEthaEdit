@@ -23,13 +23,10 @@ extern NSString * const TCMUPNPPortMapperDidEndWorkingNotification;
     BOOL refreshThreadShouldQuit;
     BOOL UpdatePortMappingsThreadShouldQuit;
     BOOL UpdatePortMappingsThreadShouldRestart;
-    NSString *_internalIPAddress;
     TCMPortMappingThreadID runningThreadID;
     struct UPNPUrls _urls;
     struct IGDdatas _igddata;
 }
-
-- (void)setInternalIPAddress:(NSString *)anIPAddressString;
 
 - (void)refresh;
 - (void)updatePortMappings;

@@ -29,17 +29,11 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
     [super dealloc];
 }
 
-- (void)setInternalIPAddress:(NSString *)anIPAddressString {
-    if (_internalIPAddress != anIPAddressString) {
-        NSString *tmp = _internalIPAddress;
-        _internalIPAddress = [anIPAddressString copy];
-        [tmp release];
-    }
-}
-
 - (void)refresh {
+    NSLog(@"%s",__FUNCTION__);
     if ([_threadIsRunningLock tryLock]) {
         refreshThreadShouldQuit=NO;
+        UpdatePortMappingsThreadShouldQuit = NO;
         runningThreadID = TCMExternalIPThreadID;
         [NSThread detachNewThreadSelector:@selector(refreshInThread) toTarget:self withObject:nil];
 #ifndef NDEBUG
@@ -75,6 +69,7 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
 
 - (void)refreshInThread {
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
+    NSLog(@"%s",__FUNCTION__);
     [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadWithName:TCMUPNPPortMapperDidBeginWorkingNotification object:self];
     struct UPNPDev * devlist = 0;
     const char * multicastif = 0;
@@ -182,7 +177,7 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
             if ([aPortMapping transportProtocol] & protocol) {
                 int r = 0;
                 do {
-                    r = UPNP_AddPortMapping(aURLs->controlURL, aIGDData->servicetype,[[NSString stringWithFormat:@"%d",mappedPort] UTF8String],[[NSString stringWithFormat:@"%d",[aPortMapping privatePort]] UTF8String], [_internalIPAddress UTF8String], [[self portMappingDescription] UTF8String], protocol==TCMPortMappingTransportProtocolUDP?"UDP":"TCP");
+                    r = UPNP_AddPortMapping(aURLs->controlURL, aIGDData->servicetype,[[NSString stringWithFormat:@"%d",mappedPort] UTF8String],[[NSString stringWithFormat:@"%d",[aPortMapping privatePort]] UTF8String], [[[TCMPortMapper sharedInstance] localIPAddress] UTF8String], [[self portMappingDescription] UTF8String], protocol==TCMPortMappingTransportProtocolUDP?"UDP":"TCP");
                     if (r!=UPNPCOMMAND_SUCCESS) {
                         NSString *errorString = [NSString stringWithFormat:@"%d",r];
                         switch (r) {
@@ -262,7 +257,7 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
             NSString *ipAddress = [NSString stringWithUTF8String:intClient];
             NSString *portMappingDescription = [NSString stringWithUTF8String:desc];
             if ([portMappingDescription isEqualToString:[self portMappingDescription]] && 
-                [ipAddress isEqualToString:_internalIPAddress]) {
+                [ipAddress isEqualToString:[pm localIPAddress]]) {
                 int localPort = atoi(intPort);
                 int publicPort = atoi(extPort);
                 NSString *transportProtocol = [NSString stringWithUTF8String:protocol];
@@ -349,9 +344,9 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
 
     [_threadIsRunningLock performSelectorOnMainThread:@selector(unlock) withObject:nil waitUntilDone:YES];
     if (UpdatePortMappingsThreadShouldQuit) {
-        [self performSelectorOnMainThread:@selector(refresh) withObject:nil waitUntilDone:NO];
+        [self performSelectorOnMainThread:@selector(refresh) withObject:nil waitUntilDone:YES];
     } else if (UpdatePortMappingsThreadShouldRestart) {
-        [self performSelectorOnMainThread:@selector(updatePortMappings) withObject:nil waitUntilDone:NO];
+        [self performSelectorOnMainThread:@selector(updatePortMappings) withObject:nil waitUntilDone:YES];
     }
     [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadWithName:TCMUPNPPortMapperDidEndWorkingNotification object:self];
     [pool release];

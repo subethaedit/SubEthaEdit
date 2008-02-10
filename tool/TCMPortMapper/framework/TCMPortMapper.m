@@ -47,7 +47,7 @@ enum {
 @interface TCMPortMapper (Private) 
 
 - (void)setExternalIPAddress:(NSString *)anAddress;
-
+- (void)setLocalIPAddress:(NSString *)anAddress;
 @end
 
 @implementation NSString (IPAdditions)
@@ -136,9 +136,66 @@ enum {
 }
 
 - (NSString *)externalIPAddress {
-    return _externalIPAddress;
-	//return [[TCMNATPMPPortMapper sharedInstance] externalIPAddress];
+    return [[_externalIPAddress retain] autorelease];
 }
+
+- (void)updateLocalIPAddress {
+	NSString *routerAddress = [self routerIPAddress];
+    SCDynamicStoreRef dynRef = SCDynamicStoreCreate(kCFAllocatorSystemDefault, (CFStringRef)@"TCMPortMapper", NULL, NULL); 
+    NSDictionary *scobjects = (NSDictionary *)SCDynamicStoreCopyValue(dynRef,(CFStringRef)@"State:/Network/Global/IPv4" ); 
+    
+    NSString *ipv4Key = [NSString stringWithFormat:@"State:/Network/Interface/%@/IPv4", [scobjects objectForKey:(NSString *)kSCDynamicStorePropNetPrimaryInterface]];
+    
+    CFRelease(dynRef);
+    [scobjects release];
+    
+    dynRef = SCDynamicStoreCreate(kCFAllocatorSystemDefault, (CFStringRef)@"TCMPortMapper", NULL, NULL); 
+    scobjects = (NSDictionary *)SCDynamicStoreCopyValue(dynRef,(CFStringRef)ipv4Key); 
+    
+//        NSLog(@"%s scobjects:%@",__FUNCTION__,scobjects);
+    NSArray *IPAddresses = (NSArray *)[scobjects objectForKey:(NSString *)kSCPropNetIPv4Addresses];
+    NSArray *subNetMasks = (NSArray *)[scobjects objectForKey:(NSString *)kSCPropNetIPv4SubnetMasks];
+//    NSLog(@"%s addresses:%@ masks:%@",__FUNCTION__,IPAddresses, subNetMasks);
+    if (routerAddress) {
+        NSString *ipAddress = nil;
+        int i;
+        for (i=0;i<[IPAddresses count];i++) {
+            ipAddress = (NSString *) [IPAddresses objectAtIndex:i];
+            NSString *subNetMask = (NSString *) [subNetMasks objectAtIndex:i];
+ //           NSLog(@"%s ipAddress:%@ subNetMask:%@",__FUNCTION__, ipAddress, subNetMask);
+            // Check if local to Host
+            
+            in_addr_t myaddr = inet_addr([ipAddress UTF8String]);
+            in_addr_t subnetmask = inet_addr([subNetMask UTF8String]);
+            in_addr_t routeraddr = inet_addr([[self routerIPAddress] UTF8String]);
+    //            NSLog(@"%s ipNative:%X maskNative:%X",__FUNCTION__,routeraddr,subnetmask);
+            if ((myaddr & subnetmask) == (routeraddr & subnetmask)) {
+                [self setLocalIPAddress:ipAddress];
+                _localIPOnRouterSubnet = YES;
+                break;
+            }
+            
+        }
+        // this should never happen - if we have a router then we need to have an IP address on the same subnet to know this...
+        if (i==[IPAddresses count]) {
+            // we haven't found an IP address that matches - so set the last one
+            _localIPOnRouterSubnet = NO;
+            [self setLocalIPAddress:ipAddress];
+        }
+    } else {
+        [self setLocalIPAddress:[IPAddresses lastObject]];
+        _localIPOnRouterSubnet = NO;
+    }
+    CFRelease(dynRef);
+    [scobjects release];
+}
+
+- (NSString *)localIPAddress {
+    // make sure it is up to date
+    [self updateLocalIPAddress];
+    return [[_localIPAddress retain] autorelease];
+}
+
 
 - (NSSet *)portMappings{
 	return _portMappings;
@@ -165,16 +222,18 @@ enum {
 }
 
 - (void)removePortMapping:(TCMPortMapping *)aMapping {
-    @synchronized(_portMappings) {
-        [[aMapping retain] autorelease];
-        [_portMappings removeObject:aMapping];
-    }
-    @synchronized(_removeMappingQueue) {
-        if ([aMapping mappingStatus] != TCMPortMappingStatusUnmapped) {
-            [_removeMappingQueue addObject:aMapping];
+    if (aMapping) {
+        @synchronized(_portMappings) {
+            [[aMapping retain] autorelease];
+            [_portMappings removeObject:aMapping];
         }
-    }
+        @synchronized(_removeMappingQueue) {
+            if ([aMapping mappingStatus] != TCMPortMappingStatusUnmapped) {
+                [_removeMappingQueue addObject:aMapping];
+            }
+        }
     [self updatePortMappings];
+    }
 }
 
 - (void)refresh {
@@ -194,68 +253,47 @@ enum {
 	
 	NSString *routerAddress = [self routerIPAddress];
 	if (routerAddress) {
-        BOOL inPrivateSubnet = [routerAddress IPv4AddressInPrivateSubnet];
-//        NSLog(@"%s inPrivateSubnet:%@",__FUNCTION__,inPrivateSubnet?@"YES":@"NO");
-        SCDynamicStoreRef dynRef = SCDynamicStoreCreate(kCFAllocatorSystemDefault, (CFStringRef)@"TCMPortMapper", NULL, NULL); 
-        NSDictionary *scobjects = (NSDictionary *)SCDynamicStoreCopyValue(dynRef,(CFStringRef)@"State:/Network/Global/IPv4" ); 
-        
-        NSString *ipv4Key = [NSString stringWithFormat:@"State:/Network/Interface/%@/IPv4", [scobjects objectForKey:(NSString *)kSCDynamicStorePropNetPrimaryInterface]];
-        
-        CFRelease(dynRef);
-        [scobjects release];
-        
-        dynRef = SCDynamicStoreCreate(kCFAllocatorSystemDefault, (CFStringRef)@"TCMPortMapper", NULL, NULL); 
-        scobjects = (NSDictionary *)SCDynamicStoreCopyValue(dynRef,(CFStringRef)ipv4Key); 
-        
-//        NSLog(@"%s scobjects:%@",__FUNCTION__,scobjects);
-        NSArray *IPAddresses = (NSArray *)[scobjects objectForKey:(NSString *)kSCPropNetIPv4Addresses];
-        NSArray *subNetMasks = (NSArray *)[scobjects objectForKey:(NSString *)kSCPropNetIPv4SubnetMasks];
-//        NSLog(@"%s addresses:%@ masks:%@",__FUNCTION__,IPAddresses, subNetMasks);
-        
-        int i;
-        for (i=0;i<[IPAddresses count];i++) {
-            NSString *ipAddress = (NSString *) [IPAddresses objectAtIndex:i];
-            NSString *subNetMask = (NSString *) [subNetMasks objectAtIndex:i];
-            NSLog(@"%s ipAddress:%@ subNetMask:%@",__FUNCTION__, ipAddress, subNetMask);
-            // Check if local to Host
-            
-            in_addr_t myaddr = inet_addr([ipAddress UTF8String]);
-            in_addr_t subnetmask = inet_addr([subNetMask UTF8String]);
-            in_addr_t routeraddr = inet_addr([[self routerIPAddress] UTF8String]);
-//            NSLog(@"%s ipNative:%X maskNative:%X",__FUNCTION__,routeraddr,subnetmask);
-            if ((myaddr & subnetmask) == (routeraddr & subnetmask)) {
-                [_UPNPPortMapper setInternalIPAddress:ipAddress];
-                // That's the one
-                [self setRouterName:[NSString stringWithFormat:@"Generic (%@)",[self routerHardwareAddress]]];
-                [self setExternalIPAddress:nil];
-                if (inPrivateSubnet) {
-                    _NATPMPStatus = TCMPortMapProtocolTrying;
-                    _UPNPStatus   = TCMPortMapProtocolTrying;
-                    [_NATPMPPortMapper refresh];
-                    [_UPNPPortMapper refresh];
-                } else {
-                    [self setExternalIPAddress:ipAddress];
-                    [self setMappingProtocol:TCMPortMapProtocolNone];
-                    [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidFindRouterNotification object:self];
-                    // we know we have a public address so we are finished - but maybe we should set all mappings to mapped
-                }
-                break;
+        NSString *localIPAddress = [self localIPAddress]; // will always be updated when accessed
+        if (localIPAddress && _localIPOnRouterSubnet) {
+            [self setRouterName:[NSString stringWithFormat:@"Generic (%@)",[self routerHardwareAddress]]];
+            [self setExternalIPAddress:nil];
+            if ([routerAddress IPv4AddressInPrivateSubnet]) {
+                _NATPMPStatus = TCMPortMapProtocolTrying;
+                _UPNPStatus   = TCMPortMapProtocolTrying;
+                [_NATPMPPortMapper refresh];
+                [_UPNPPortMapper refresh];
+            } else {
+                _NATPMPStatus = TCMPortMapProtocolFailed;
+                _UPNPStatus   = TCMPortMapProtocolFailed;
+                [self setExternalIPAddress:localIPAddress];
+                [self setMappingProtocol:TCMPortMapProtocolNone];
+                [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidFindRouterNotification object:self];
+                // we know we have a public address so we are finished - but maybe we should set all mappings to mapped
             }
-            
+        } else {
+            [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidFindRouterNotification object:self];
         }
-    
-        CFRelease(dynRef);
-        [scobjects release];
     } else {
         [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidFindRouterNotification object:self];
     }
-
 }
 
 - (void)setExternalIPAddress:(NSString *)anIPAddress {
-    [_externalIPAddress autorelease];
-    _externalIPAddress = [anIPAddress copy];
+    if (_externalIPAddress != anIPAddress) {
+        NSString *tmp=_externalIPAddress;
+        _externalIPAddress = [anIPAddress retain];
+        [tmp release];
+    }
+    // notify always even if the external IP Address is unchanged so that we get the notification anytime when new information is here
     [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperExternalIPAddressDidChange object:self];
+}
+
+- (void)setLocalIPAddress:(NSString *)anIPAddress {
+    if (_localIPAddress != anIPAddress) {
+        NSString *tmp=_localIPAddress;
+        _localIPAddress = [anIPAddress retain];
+        [tmp release];
+    }
 }
 
 - (NSString *)hardwareAddressForIPAddress: (NSString *) address {
@@ -309,35 +347,37 @@ enum {
 }
 
 - (void)start {
-    NSNotificationCenter *center=[NSNotificationCenter defaultCenter];
+    if (!_isRunning) {
+        NSNotificationCenter *center=[NSNotificationCenter defaultCenter];
+        
+        [center addObserver:self 
+                selector:@selector(networkDidChange:) 
+                name:@"State:/Network/Global/IPv4" 
+                object:_systemConfigNotificationManager];
+                                        
+        
+        [center addObserver:self 
+                selector:@selector(NATPMPPortMapperDidGetExternalIPAddress:) 
+                name:TCMNATPMPPortMapperDidGetExternalIPAddressNotification 
+                object:_NATPMPPortMapper];
     
-    [center addObserver:self 
-            selector:@selector(networkDidChange:) 
-            name:@"State:/Network/Global/IPv4" 
-            object:_systemConfigNotificationManager];
-                                    
+        [center addObserver:self 
+                selector:@selector(NATPMPPortMapperDidFail:) 
+                name:TCMNATPMPPortMapperDidFailNotification 
+                object:_NATPMPPortMapper];
     
-    [center addObserver:self 
-            selector:@selector(NATPMPPortMapperDidGetExternalIPAddress:) 
-            name:TCMNATPMPPortMapperDidGetExternalIPAddressNotification 
-            object:_NATPMPPortMapper];
-
-    [center addObserver:self 
-            selector:@selector(NATPMPPortMapperDidFail:) 
-            name:TCMNATPMPPortMapperDidFailNotification 
-            object:_NATPMPPortMapper];
-
-    [center addObserver:self 
-            selector:@selector(UPNPPortMapperDidGetExternalIPAddress:) 
-            name:TCMUPNPPortMapperDidGetExternalIPAddressNotification 
-            object:_UPNPPortMapper];
-
-    [center addObserver:self 
-            selector:@selector(UPNPPortMapperDidFail:) 
-            name:TCMUPNPPortMapperDidFailNotification 
-            object:_UPNPPortMapper];
-
-    _isRunning = YES;
+        [center addObserver:self 
+                selector:@selector(UPNPPortMapperDidGetExternalIPAddress:) 
+                name:TCMUPNPPortMapperDidGetExternalIPAddressNotification 
+                object:_UPNPPortMapper];
+    
+        [center addObserver:self 
+                selector:@selector(UPNPPortMapperDidFail:) 
+                name:TCMUPNPPortMapperDidFailNotification 
+                object:_UPNPPortMapper];
+    
+        _isRunning = YES;
+    }
     [self refresh];
 }
 
@@ -401,17 +441,23 @@ enum {
 }
 
 - (void)stop {
-    NSNotificationCenter *center=[NSNotificationCenter defaultCenter];
-    [center removeObserver:self name:@"State:/Network/Global/IPv4" object:_systemConfigNotificationManager];
-    [center removeObserver:self name:TCMNATPMPPortMapperDidGetExternalIPAddressNotification object:_NATPMPPortMapper];
-    [center removeObserver:self name:TCMNATPMPPortMapperDidFailNotification object:_NATPMPPortMapper];
-
-    [center removeObserver:self name:TCMUPNPPortMapperDidGetExternalIPAddressNotification object:_UPNPPortMapper];
-    [center removeObserver:self name:TCMUPNPPortMapperDidFailNotification object:_UPNPPortMapper];
-
-    _isRunning = NO;
-    [_NATPMPPortMapper stop];
-    [_UPNPPortMapper stop];
+    if (_isRunning) {
+        NSNotificationCenter *center=[NSNotificationCenter defaultCenter];
+        [center removeObserver:self name:@"State:/Network/Global/IPv4" object:_systemConfigNotificationManager];
+        [center removeObserver:self name:TCMNATPMPPortMapperDidGetExternalIPAddressNotification object:_NATPMPPortMapper];
+        [center removeObserver:self name:TCMNATPMPPortMapperDidFailNotification object:_NATPMPPortMapper];
+    
+        [center removeObserver:self name:TCMUPNPPortMapperDidGetExternalIPAddressNotification object:_UPNPPortMapper];
+        [center removeObserver:self name:TCMUPNPPortMapperDidFailNotification object:_UPNPPortMapper];
+    
+        _isRunning = NO;
+        if (_NATPMPStatus != TCMPortMapProtocolFailed) {
+            [_NATPMPPortMapper stop];
+        }
+        if (_UPNPStatus   != TCMPortMapProtocolFailed) {
+            [_UPNPPortMapper stop];
+        }
+    }
 }
 
 - (void)setMappingProtocol:(NSString *)aProtocol {
@@ -483,14 +529,15 @@ enum {
 
 + (id)portMappingWithPrivatePort:(int)aPrivatePort desiredPublicPort:(int)aPublicPort userInfo:(id)aUserInfo {
 	NSAssert(aPrivatePort<65536 && aPublicPort<65536 && aPrivatePort>0 && aPublicPort>0, @"Port number has to be between 1 and 65535");
-    return [[[self alloc] initWithPrivatePort:aPrivatePort desiredPublicPort:aPublicPort userInfo:aUserInfo] autorelease];
+    return [[[self alloc] initWithPrivatePort:aPrivatePort desiredPublicPort:aPublicPort transportProtocol:TCMPortMappingTransportProtocolTCP userInfo:aUserInfo] autorelease];
 }
 
-- (id)initWithPrivatePort:(int)aPrivatePort desiredPublicPort:(int)aPublicPort userInfo:(id)aUserInfo {
+- (id)initWithPrivatePort:(int)aPrivatePort desiredPublicPort:(int)aPublicPort transportProtocol:(int)aTransportProtocol userInfo:(id)aUserInfo {
     if ((self=[super init])) {
         _desiredPublicPort = aPublicPort;
         _privatePort = aPrivatePort;
         _userInfo = [aUserInfo retain];
+        _transportProtocol = aTransportProtocol;
     }
     return self;
 }
