@@ -43,4 +43,17 @@
     NSLog(@"%s %@",__FUNCTION__,aNotification);
 }
 
+- (IBAction) removePortMapping:(id)sender {
+	NSEnumerator *enumerator = [[o_arrayController selectedObjects] objectEnumerator];
+    id object;
+    while ((object = [enumerator nextObject])) {
+		[[TCMPortMapper sharedInstance] removePortMapping:object];
+		[o_arrayController removeObject:object];
+    }
+}
+
+- (IBAction) refreshPortMappings:(id)sender {
+	[[TCMPortMapper sharedInstance] refresh];
+}
+
 @end

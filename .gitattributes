@@ -2442,6 +2442,8 @@ tool/TCMPortMapper/portmap_map/English.lproj/MainMenu.nib/designable.nib -text
 tool/TCMPortMapper/portmap_map/English.lproj/MainMenu.nib/keyedobjects.nib -text
 tool/TCMPortMapper/portmap_map/Info.plist -text
 tool/TCMPortMapper/portmap_map/PortMapper_Prefix.pch -text
+tool/TCMPortMapper/portmap_map/StatusFormatter.h -text
+tool/TCMPortMapper/portmap_map/StatusFormatter.m -text
 tool/TCMPortMapper/portmap_map/artwork/AddIcon.tiff -text
 tool/TCMPortMapper/portmap_map/artwork/PortMap.icns -text
 tool/TCMPortMapper/portmap_map/artwork/ReindexIcon.icns -text

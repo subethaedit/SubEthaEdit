@@ -21,4 +21,7 @@
 - (IBAction) addPortMapping:(id)sender;
 - (IBAction) mapNewPort:(id)sender;
 
+- (IBAction) removePortMapping:(id)sender;
+- (IBAction) refreshPortMappings:(id)sender;
+
 @end

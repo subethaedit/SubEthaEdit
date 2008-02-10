@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		317E74AE0D5F648F0068C763 /* StatusFormatter.m in Sources */ = {isa = PBXBuildFile; fileRef = 317E74AC0D5F648F0068C763 /* StatusFormatter.m */; };
 		318011AC0D4DEE9500BE3B28 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97325FDCFA39411CA2CEA /* Foundation.framework */; };
 		3180154E0D4E08D900BE3B28 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3180154D0D4E08D900BE3B28 /* SystemConfiguration.framework */; };
 		3180159D0D4E1B9200BE3B28 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3180154D0D4E08D900BE3B28 /* SystemConfiguration.framework */; };
@@ -110,6 +111,8 @@
 		13E42FB307B3F0F600E4EEF1 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = /System/Library/Frameworks/CoreData.framework; sourceTree = "<absolute>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		317E74AC0D5F648F0068C763 /* StatusFormatter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = StatusFormatter.m; path = portmap_map/StatusFormatter.m; sourceTree = "<group>"; };
+		317E74AD0D5F648F0068C763 /* StatusFormatter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = StatusFormatter.h; path = portmap_map/StatusFormatter.h; sourceTree = "<group>"; };
 		3180119F0D4DEC8400BE3B28 /* TCMPortMapper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TCMPortMapper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3180154D0D4E08D900BE3B28 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
 		8D1107320486CEB800E47090 /* Port Map.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Port Map.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -347,6 +350,8 @@
 		F2C65C1B0D50B24400820CAE /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				317E74AD0D5F648F0068C763 /* StatusFormatter.h */,
+				317E74AC0D5F648F0068C763 /* StatusFormatter.m */,
 				F2C65C100D50B1F400820CAE /* Controller.h */,
 				F2C65C120D50B1F400820CAE /* Controller.m */,
 			);
@@ -639,6 +644,7 @@
 				F2C65BFB0D50B1AE00820CAE /* natpmp.c in Sources */,
 				F2C65C150D50B21800820CAE /* main.m in Sources */,
 				F2C65C800D50B62E00820CAE /* Controller.m in Sources */,
+				317E74AE0D5F648F0068C763 /* StatusFormatter.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
