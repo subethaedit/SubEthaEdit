@@ -482,6 +482,7 @@ enum {
 
 
 + (id)portMappingWithPrivatePort:(int)aPrivatePort desiredPublicPort:(int)aPublicPort userInfo:(id)aUserInfo {
+	NSAssert(aPrivatePort<65536 && aPublicPort<65536 && aPrivatePort>0 && aPublicPort>0, @"Port number has to be between 1 and 65535");
     return [[[self alloc] initWithPrivatePort:aPrivatePort desiredPublicPort:aPublicPort userInfo:aUserInfo] autorelease];
 }
 
