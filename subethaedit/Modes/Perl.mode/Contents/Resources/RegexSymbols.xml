@@ -12,7 +12,7 @@
     </symbol>
 
     <symbol id="Packages" image="SymbolC" indentation="0" ignoreblocks="yes">
-        <regex>(?&lt;=[\n\r]|^)[ \t]*package[ \t]*([\w\d_]*)\s*;</regex>
+        <regex>^[ \t]*package[\t ]+([\w\D:_]*?);</regex>
     </symbol>
 
     <symbol id="CVS/SVN conflict" font-weight="bold" image="SymbolWarn" indentation="0" ignoreblocks="no">
