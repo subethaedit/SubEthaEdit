@@ -24,7 +24,8 @@
 }
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
-    [self stop];
+    [I_server stop];
+    [[TCMPortMapper sharedInstance] stopBlocking];
 }
 
 - (void)start {

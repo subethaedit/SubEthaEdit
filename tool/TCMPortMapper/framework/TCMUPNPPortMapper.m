@@ -356,5 +356,23 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
     [self updatePortMappings];
 }
 
+- (void)stopBlocking {
+    [_threadIsRunningLock lock];
+    NSSet *mappingsToStop = [[TCMPortMapper sharedInstance] portMappings];
+    @synchronized (mappingsToStop) {
+        NSEnumerator *mappings = [mappingsToStop objectEnumerator];
+        TCMPortMapping *mapping = nil;
+        while ((mapping = [mappings nextObject])) {
+            if ([mapping mappingStatus] == TCMPortMappingStatusMapped) {
+                UPNP_DeletePortMapping(_urls.controlURL, _igddata.servicetype, 
+                                       [mapping publicPort], 
+                                       ([mapping transportProtocol]==TCMPortMappingTransportProtocolUDP)?"UDP":"TCP");
+                [mapping setMappingStatus:TCMPortMappingStatusUnmapped];
+            }
+        }
+    }
+    [_threadIsRunningLock unlock];
+}
+
 
 @end

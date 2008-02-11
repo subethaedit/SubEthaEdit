@@ -20,6 +20,7 @@
 		F214E60C0D5F64BF00A06962 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = F214E60B0D5F64BF00A06962 /* AppController.m */; };
 		F214E6170D5F660100A06962 /* TCMPortMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3180119F0D4DEC8400BE3B28 /* TCMPortMapper.framework */; };
 		F214E6200D5F661400A06962 /* TCMPortMapper.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 3180119F0D4DEC8400BE3B28 /* TCMPortMapper.framework */; };
+		F217EF220D6082B40028E112 /* TCPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = F217EF210D6082B40028E112 /* TCPServer.m */; };
 		F2482BA50D589FD0002DF811 /* RSVerticallyCenteredTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F2482BA40D589FD0002DF811 /* RSVerticallyCenteredTextFieldCell.m */; };
 		F2482BA90D58A15F002DF811 /* TCMStatusImageFromMappingStatusValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = F2482BA80D58A15F002DF811 /* TCMStatusImageFromMappingStatusValueTransformer.m */; };
 		F2482BAC0D58A415002DF811 /* GenericQuestionMarkIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2482BAB0D58A415002DF811 /* GenericQuestionMarkIcon.icns */; };
@@ -152,6 +153,8 @@
 		F214E6070D5F646E00A06962 /* natecho_prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = natecho_prefix.pch; path = natecho/natecho_prefix.pch; sourceTree = "<group>"; };
 		F214E60A0D5F64BF00A06962 /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppController.h; path = natecho/AppController.h; sourceTree = "<group>"; };
 		F214E60B0D5F64BF00A06962 /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppController.m; path = natecho/AppController.m; sourceTree = "<group>"; };
+		F217EF200D6082B40028E112 /* TCPServer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCPServer.h; path = natecho/TCPServer.h; sourceTree = "<group>"; };
+		F217EF210D6082B40028E112 /* TCPServer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCPServer.m; path = natecho/TCPServer.m; sourceTree = "<group>"; };
 		F2482BA30D589FD0002DF811 /* RSVerticallyCenteredTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSVerticallyCenteredTextFieldCell.h; path = RSVerticallyCenteredTextFieldCell/RSVerticallyCenteredTextFieldCell.h; sourceTree = "<group>"; };
 		F2482BA40D589FD0002DF811 /* RSVerticallyCenteredTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSVerticallyCenteredTextFieldCell.m; path = RSVerticallyCenteredTextFieldCell/RSVerticallyCenteredTextFieldCell.m; sourceTree = "<group>"; };
 		F2482BA70D58A15F002DF811 /* TCMStatusImageFromMappingStatusValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCMStatusImageFromMappingStatusValueTransformer.h; path = portmap_dom/TCMStatusImageFromMappingStatusValueTransformer.h; sourceTree = "<group>"; };
@@ -342,6 +345,8 @@
 				F214E5F40D5F625700A06962 /* artwork */,
 				F214E60A0D5F64BF00A06962 /* AppController.h */,
 				F214E60B0D5F64BF00A06962 /* AppController.m */,
+				F217EF200D6082B40028E112 /* TCPServer.h */,
+				F217EF210D6082B40028E112 /* TCPServer.m */,
 			);
 			name = NATEcho.app;
 			sourceTree = "<group>";
@@ -771,6 +776,7 @@
 			files = (
 				F214E6080D5F646E00A06962 /* main.m in Sources */,
 				F214E60C0D5F64BF00A06962 /* AppController.m in Sources */,
+				F217EF220D6082B40028E112 /* TCPServer.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -107,6 +107,8 @@ enum {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(increaseWorkCount:) name:TCMNATPMPPortMapperDidBeginWorkingNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(decreaseWorkCount:) name:TCMUPNPPortMapperDidEndWorkingNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(decreaseWorkCount:) name:TCMNATPMPPortMapperDidEndWorkingNotification object:nil];
+        [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(didWake:) name:NSWorkspaceDidWakeNotification object:nil];
+        [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(willSleep:) name:NSWorkspaceWillSleepNotification object:nil];
     }
     return self;
 }
@@ -460,6 +462,18 @@ enum {
     }
 }
 
+- (void)stopBlocking {
+    if (_isRunning) {
+        if (_NATPMPStatus == TCMPortMapProtocolWorks) {
+            [_NATPMPPortMapper stopBlocking];
+        }
+        if (_UPNPStatus   == TCMPortMapProtocolWorks) {
+            [_UPNPPortMapper stopBlocking];
+        }
+        _isRunning = NO;
+    }
+}
+
 - (void)setMappingProtocol:(NSString *)aProtocol {
     [_mappingProtocol autorelease];
     _mappingProtocol = [aProtocol copy];
@@ -520,6 +534,30 @@ enum {
         [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidEndWorkNotification object:self];
     }
 }
+
+- (void)didWake:(NSNotification *)aNotification {
+    NSLog(@"%s",__FUNCTION__);
+    if (_isRunning) {
+        [self refresh];
+    }
+}
+
+- (void)willSleep:(NSNotification *)aNotificaiton {
+    NSLog(@"%s",__FUNCTION__);
+    if (_isRunning) {
+        if (_NATPMPStatus == TCMPortMapProtocolWorks) {
+            NSLog(@"%s stopping NATPMP",__FUNCTION__);
+            [_NATPMPPortMapper stopBlocking];
+            NSLog(@"%s NATPMP stopped",__FUNCTION__);
+        }
+        if (_UPNPStatus   == TCMPortMapProtocolWorks) {
+            NSLog(@"%s stopping UPNP",__FUNCTION__);
+            [_UPNPPortMapper stopBlocking];
+            NSLog(@"%s UPNP stopped",__FUNCTION__);
+        }
+    }
+}
+
 
 @end
 

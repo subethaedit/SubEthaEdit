@@ -290,5 +290,23 @@ Standardablauf:
     [pool release];
 }
 
+- (void)stopBlocking {
+    [natPMPThreadIsRunningLock lock];
+    NSSet *mappingsToStop = [[TCMPortMapper sharedInstance] portMappings];
+    natpmp_t natpmp;
+    initnatpmp(&natpmp);
+    @synchronized (mappingsToStop) {
+        NSEnumerator *mappings = [mappingsToStop objectEnumerator];
+        TCMPortMapping *mapping = nil;
+        while ((mapping = [mappings nextObject])) {
+            if ([mapping mappingStatus] == TCMPortMappingStatusMapped) {
+                [self applyPortMapping:mapping remove:YES natpmp:&natpmp];
+                [mapping setMappingStatus:TCMPortMappingStatusUnmapped];
+            }
+        }
+    }
+    [natPMPThreadIsRunningLock unlock];
+}
+
 
 @end

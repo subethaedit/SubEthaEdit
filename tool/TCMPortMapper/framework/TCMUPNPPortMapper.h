@@ -31,5 +31,6 @@ extern NSString * const TCMUPNPPortMapperDidEndWorkingNotification;
 - (void)refresh;
 - (void)updatePortMappings;
 - (void)stop;
+- (void)stopBlocking;
 
 @end

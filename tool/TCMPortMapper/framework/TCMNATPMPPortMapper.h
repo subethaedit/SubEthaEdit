@@ -34,5 +34,6 @@ typedef enum {
 - (void)refresh;
 - (void)stop;
 - (void)updatePortMappings;
+- (void)stopBlocking;
 
 @end
