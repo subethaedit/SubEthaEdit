@@ -118,23 +118,29 @@ Standardablauf:
 	struct timeval timeout;
 	fd_set fds;
 	
-	#warning FIXME protocol has to be configured
-	r = sendnewportmappingrequest(aNatPMPt, NATPMP_PROTOCOL_TCP, [aPortMapping privatePort],[aPortMapping desiredPublicPort], shouldRemove?0:3600);
-	//if(r < 0) return 1;
-	if (!shouldRemove) [aPortMapping setMappingStatus:TCMPortMappingStatusTrying];
-	do {
-		FD_ZERO(&fds);
-		FD_SET(aNatPMPt->s, &fds);
-		getnatpmprequesttimeout(aNatPMPt, &timeout);
-		select(FD_SETSIZE, &fds, NULL, NULL, &timeout);
-		r = readnatpmpresponseorretry(aNatPMPt, &response);
-	} while(r==NATPMP_TRYAGAIN);
-	
-	//if(r<0) return 1;
-	if (r<0) {
-	   [aPortMapping setMappingStatus:TCMPortMappingStatusUnmapped];
-	   return NO;
+    if (!shouldRemove) [aPortMapping setMappingStatus:TCMPortMappingStatusTrying];
+    TCMPortMappingTransportProtocol protocol = [aPortMapping transportProtocol];
+
+	int i;
+	for (i=1;i<=2;i++) {
+        if ((i == protocol)||(protocol == TCMPortMappingTransportProtocolBoth)) {
+            r = sendnewportmappingrequest(aNatPMPt, (i==TCMPortMappingTransportProtocolUDP)?NATPMP_PROTOCOL_UDP:NATPMP_PROTOCOL_TCP, [aPortMapping privatePort],[aPortMapping desiredPublicPort], shouldRemove?0:3600);
+        
+            do {
+                FD_ZERO(&fds);
+                FD_SET(aNatPMPt->s, &fds);
+                getnatpmprequesttimeout(aNatPMPt, &timeout);
+                select(FD_SETSIZE, &fds, NULL, NULL, &timeout);
+                r = readnatpmpresponseorretry(aNatPMPt, &response);
+            } while(r==NATPMP_TRYAGAIN);
+    
+            if (r<0) {
+               [aPortMapping setMappingStatus:TCMPortMappingStatusUnmapped];
+               return NO;
+            }
+        }
     }
+
 	// update PortMapping
 	if (shouldRemove) {
 	   [aPortMapping setMappingStatus:TCMPortMappingStatusUnmapped];
@@ -184,6 +190,26 @@ Standardablauf:
 
     TCMPortMapper *pm=[TCMPortMapper sharedInstance];
     NSSet *mappingsToAdd = [pm portMappings];
+
+    // Refresh exisiting mappings
+    
+    NSSet *existingMappings;
+    @synchronized (mappingsToAdd) {
+        existingMappings = [[mappingsToAdd copy] autorelease];
+    }
+    
+    NSEnumerator *existingMappingsEnumerator = [existingMappings objectEnumerator];
+    TCMPortMapping *mappingToRefresh;
+    while ((mappingToRefresh = [existingMappingsEnumerator nextObject])) {
+        if (![self applyPortMapping:mappingToRefresh remove:NO natpmp:&natpmp]) {
+            [[NSNotificationCenter defaultCenter] postNotificationOnMainThread:[NSNotification notificationWithName:TCMNATPMPPortMapperDidFailNotification object:self]];
+            break;
+        }
+        if (UpdatePortMappingsThreadShouldQuit || UpdatePortMappingsThreadShouldRestart) break;
+    }
+
+
+    // Add new mapping or remove existing mappings when not running.
     
     while (!UpdatePortMappingsThreadShouldQuit && !UpdatePortMappingsThreadShouldRestart) {
         TCMPortMapping *mappingToApply;
