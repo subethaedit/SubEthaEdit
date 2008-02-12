@@ -201,9 +201,11 @@ Standardablauf:
     NSEnumerator *existingMappingsEnumerator = [existingMappings objectEnumerator];
     TCMPortMapping *mappingToRefresh;
     while ((mappingToRefresh = [existingMappingsEnumerator nextObject])) {
-        if (![self applyPortMapping:mappingToRefresh remove:NO natpmp:&natpmp]) {
-            [[NSNotificationCenter defaultCenter] postNotificationOnMainThread:[NSNotification notificationWithName:TCMNATPMPPortMapperDidFailNotification object:self]];
-            break;
+        if ([mappingToRefresh mappingStatus] == TCMPortMappingStatusMapped && [pm isRunning]) {
+            if (![self applyPortMapping:mappingToRefresh remove:NO natpmp:&natpmp]) {
+                [[NSNotificationCenter defaultCenter] postNotificationOnMainThread:[NSNotification notificationWithName:TCMNATPMPPortMapperDidFailNotification object:self]];
+                break;
+            }
         }
         if (UpdatePortMappingsThreadShouldQuit || UpdatePortMappingsThreadShouldRestart) break;
     }
