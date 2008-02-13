@@ -2458,6 +2458,8 @@ tool/TCMPortMapper/portmap_map/artwork/PortMap.icns -text
 tool/TCMPortMapper/portmap_map/artwork/ReindexIcon.icns -text
 tool/TCMPortMapper/portmap_map/artwork/RemoveIcon.tiff -text
 tool/TCMPortMapper/portmap_map/main.m -text
+tool/TCMPortMapper/ruby/nat-pmp-ip-broadcaster.rb -text
+tool/TCMPortMapper/ruby/nat-pmp-listener.rb -text
 tool/TCMXMLParser/ParserDelegate.h -text
 tool/TCMXMLParser/ParserDelegate.m -text
 tool/TCMXMLParser/TCMXMLParser.1 -text

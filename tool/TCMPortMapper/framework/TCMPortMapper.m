@@ -108,6 +108,7 @@ enum {
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(increaseWorkCount:) name:TCMNATPMPPortMapperDidBeginWorkingNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(decreaseWorkCount:) name:TCMUPNPPortMapperDidEndWorkingNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(decreaseWorkCount:) name:TCMNATPMPPortMapperDidEndWorkingNotification object:nil];
+        
         [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(didWake:) name:NSWorkspaceDidWakeNotification object:nil];
         [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(willSleep:) name:NSWorkspaceWillSleepNotification object:nil];
     }
@@ -368,6 +369,12 @@ enum {
                 selector:@selector(NATPMPPortMapperDidFail:) 
                 name:TCMNATPMPPortMapperDidFailNotification 
                 object:_NATPMPPortMapper];
+
+        [center addObserver:self 
+                selector:@selector(NATPMPPortMapperDidReceiveBroadcastedExternalIPChange:) 
+                name:TCMNATPMPPortMapperDidReceiveBroadcastedExternalIPChangeNotification 
+                object:_NATPMPPortMapper];
+
     
         [center addObserver:self 
                 selector:@selector(UPNPPortMapperDidGetExternalIPAddress:) 
@@ -443,16 +450,20 @@ enum {
     NSLog(@"TCMPortMapper received notification: %@", aNotification);
 }
 
+- (void)internalStop {
+    NSNotificationCenter *center=[NSNotificationCenter defaultCenter];
+    [center removeObserver:self name:@"State:/Network/Global/IPv4" object:_systemConfigNotificationManager];
+    [center removeObserver:self name:TCMNATPMPPortMapperDidGetExternalIPAddressNotification object:_NATPMPPortMapper];
+    [center removeObserver:self name:TCMNATPMPPortMapperDidFailNotification object:_NATPMPPortMapper];
+    [center removeObserver:self name:TCMNATPMPPortMapperDidReceiveBroadcastedExternalIPChangeNotification object:_NATPMPPortMapper];
+    
+    [center removeObserver:self name:TCMUPNPPortMapperDidGetExternalIPAddressNotification object:_UPNPPortMapper];
+    [center removeObserver:self name:TCMUPNPPortMapperDidFailNotification object:_UPNPPortMapper];
+}
+
 - (void)stop {
     if (_isRunning) {
-        NSNotificationCenter *center=[NSNotificationCenter defaultCenter];
-        [center removeObserver:self name:@"State:/Network/Global/IPv4" object:_systemConfigNotificationManager];
-        [center removeObserver:self name:TCMNATPMPPortMapperDidGetExternalIPAddressNotification object:_NATPMPPortMapper];
-        [center removeObserver:self name:TCMNATPMPPortMapperDidFailNotification object:_NATPMPPortMapper];
-    
-        [center removeObserver:self name:TCMUPNPPortMapperDidGetExternalIPAddressNotification object:_UPNPPortMapper];
-        [center removeObserver:self name:TCMUPNPPortMapperDidFailNotification object:_UPNPPortMapper];
-    
+        [self internalStop];
         _isRunning = NO;
         if (_NATPMPStatus != TCMPortMapProtocolFailed) {
             [_NATPMPPortMapper stop];
@@ -465,6 +476,7 @@ enum {
 
 - (void)stopBlocking {
     if (_isRunning) {
+        [self internalStop];
         if (_NATPMPStatus == TCMPortMapProtocolWorks) {
             [_NATPMPPortMapper stopBlocking];
         }
@@ -559,6 +571,22 @@ enum {
     }
 }
 
+- (void)NATPMPPortMapperDidReceiveBroadcastedExternalIPChange:(NSNotification *)aNotification {
+    if (_isRunning) {
+        NSDictionary *userInfo = [aNotification userInfo];
+        // senderAddress is of the format <ipv4address>:<port>
+        NSString *senderIPAddress = [[[userInfo objectForKey:@"senderAddress"] componentsSeparatedByString:@":"] objectAtIndex:0];
+        // we have to check if the sender is actually our router - if not disregard
+        if ([senderIPAddress isEqualToString:[self routerIPAddress]]) {
+            if (![[self externalIPAddress] isEqualToString:[userInfo objectForKey:@"externalIPAddress"]]) {
+                NSLog(@"Refreshing because of  NAT-PMP-Device external IP broadcast:%@",userInfo);
+                [self refresh];
+            }
+        } else {
+            NSLog(@"Got Information from rogue NAT-PMP-Device:%@",userInfo);
+        }
+    }
+}
 
 @end
 

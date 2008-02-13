@@ -17,6 +17,8 @@
 
 NSString * const TCMNATPMPPortMapperDidFailNotification = @"TCMNATPMPPortMapperDidFailNotification";
 NSString * const TCMNATPMPPortMapperDidGetExternalIPAddressNotification = @"TCMNATPMPPortMapperDidGetExternalIPAddressNotification";
+NSString * const TCMNATPMPPortMapperDidReceiveBroadcastedExternalIPChangeNotification = @"TCMNATPMPPortMapperDidReceiveBroadcastedExternalIPChangeNotification";
+
 // these notifications come in pairs. TCMPortmapper must reference count them and unify them to a notification pair that does not need to be reference counted
 NSString * const TCMNATPMPPortMapperDidBeginWorkingNotification =@"TCMNATPMPPortMapperDidBeginWorkingNotification";
 NSString * const TCMNATPMPPortMapperDidEndWorkingNotification   =@"TCMNATPMPPortMapperDidEndWorkingNotification";
@@ -458,6 +460,25 @@ Standardablauf:
     [natPMPThreadIsRunningLock unlock];
 }
 
+- (void)didReceiveExternalIP:(NSString *)anExternalIPAddress fromSenderAddress:(NSString *)aSenderAddressString secondsSinceEpoch:(int)aSecondsSinceEpoch {
+    if (anExternalIPAddress!=nil && aSenderAddressString!=nil && 
+        (![_lastBroadcastedExternalIP isEqualToString:anExternalIPAddress] || 
+         ![_lastExternalIPSenderAddress isEqualToString:aSenderAddressString])) {
+        [_lastBroadcastedExternalIP release];
+         _lastBroadcastedExternalIP = [anExternalIPAddress copy];
+        [_lastExternalIPSenderAddress release];
+         _lastExternalIPSenderAddress = [aSenderAddressString copy];
+        [[NSNotificationCenter defaultCenter] 
+            postNotificationName:TCMNATPMPPortMapperDidReceiveBroadcastedExternalIPChangeNotification 
+            object:self 
+            userInfo:[NSDictionary dictionaryWithObjectsAndKeys:
+                        _lastBroadcastedExternalIP,@"externalIP",
+                        _lastExternalIPSenderAddress,@"senderAddress",
+                        [NSNumber numberWithInt:aSecondsSinceEpoch],@"secondsSinceStartOfEpoch",
+                      nil]
+        ];
+    }
+}
 
 @end
 
@@ -470,23 +491,26 @@ static void readData (
    void *anInfo
 ) {
     NSData *data = (NSData *)aData;
-    NSLog(@"%s yeah - data for me %@",__FUNCTION__,(id)data);
-    NSString *senderAddress = [NSString stringWithAddressData:(NSData *)anAddress];
-    // add UDP listener for public ip update packets
-    //    0                   1                   2                   3
-    //    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
-    //   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    //   | Vers = 0      | OP = 128 + 0  | Result Code                   |
-    //   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    //   | Seconds Since Start of Epoch                                  |
-    //   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    //   | Public IP Address (a.b.c.d)                                   |
-    //   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
-    char buffer[INET_ADDRSTRLEN];
-    unsigned char *bytes = (unsigned char *)[data bytes];
-    inet_ntop(AF_INET, &(bytes[8]), buffer, INET_ADDRSTRLEN);
-    NSNumber *secondsSinceEpoch=[NSNumber numberWithInt:ntohl(*((int32_t *)&(bytes[4])))];
-    NSLog(@"%s sender was:%@ seconds were:%@ new public ip address is:%s",__FUNCTION__,senderAddress,secondsSinceEpoch, buffer);
+    TCMNATPMPPortMapper *natpmpMapper = (TCMNATPMPPortMapper *)anInfo;
+    if ([data length]==12) {
+        NSString *senderAddress = [NSString stringWithAddressData:(NSData *)anAddress];
+        // add UDP listener for public ip update packets
+        //    0                   1                   2                   3
+        //    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+        //   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+        //   | Vers = 0      | OP = 128 + 0  | Result Code                   |
+        //   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+        //   | Seconds Since Start of Epoch                                  |
+        //   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+        //   | Public IP Address (a.b.c.d)                                   |
+        //   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+        char buffer[INET_ADDRSTRLEN];
+        unsigned char *bytes = (unsigned char *)[data bytes];
+        inet_ntop(AF_INET, &(bytes[8]), buffer, INET_ADDRSTRLEN);
+        NSString *newIPAddress = [NSString stringWithUTF8String:buffer];
+        int secondsSinceEpoch = ntohl(*((int32_t *)&(bytes[4])));
+        [natpmpMapper didReceiveExternalIP:newIPAddress fromSenderAddress:senderAddress secondsSinceEpoch:secondsSinceEpoch];
+    }
 }
 
 
