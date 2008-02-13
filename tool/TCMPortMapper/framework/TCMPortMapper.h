@@ -90,6 +90,7 @@ typedef enum {
 - (BOOL)isRunning;
 - (void)start;
 - (void)stop;
+- (void)stopBlocking;
 
 - (NSString *)externalIPAddress;
 - (NSString *)localIPAddress;

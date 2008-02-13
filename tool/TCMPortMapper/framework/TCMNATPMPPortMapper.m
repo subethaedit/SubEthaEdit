@@ -9,6 +9,12 @@
 #import "TCMNATPMPPortMapper.h"
 #import "NSNotificationAdditions.h"
 
+#import <netinet/in.h>
+#import <netinet6/in6.h>
+#import <net/if.h>
+#import <arpa/inet.h>
+#import <sys/socket.h>
+
 NSString * const TCMNATPMPPortMapperDidFailNotification = @"TCMNATPMPPortMapperDidFailNotification";
 NSString * const TCMNATPMPPortMapperDidGetExternalIPAddressNotification = @"TCMNATPMPPortMapperDidGetExternalIPAddressNotification";
 // these notifications come in pairs. TCMPortmapper must reference count them and unify them to a notification pair that does not need to be reference counted
@@ -16,6 +22,60 @@ NSString * const TCMNATPMPPortMapperDidBeginWorkingNotification =@"TCMNATPMPPort
 NSString * const TCMNATPMPPortMapperDidEndWorkingNotification   =@"TCMNATPMPPortMapperDidEndWorkingNotification";
 
 static TCMNATPMPPortMapper *S_sharedInstance;
+
+static void readData (
+   CFSocketRef aSocket,
+   CFSocketCallBackType aCallbackType,
+   CFDataRef anAddress,
+   const void *data,
+   void *info
+);
+
+@interface NSString (NSStringNATPortMapperAdditions)
++ (NSString *)stringWithAddressData:(NSData *)aData;
+@end
+
+@implementation NSString (NSStringNATPortMapperAdditions)
++ (NSString *)stringWithAddressData:(NSData *)aData
+{
+    struct sockaddr *socketAddress = (struct sockaddr *)[aData bytes];
+    
+    // IPv6 Addresses are "FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF:FFFF" at max, which is 40 bytes (0-terminated)
+    // IPv4 Addresses are "255.255.255.255" at max which is smaller
+    
+    char stringBuffer[MAX(INET6_ADDRSTRLEN,INET_ADDRSTRLEN)];
+    NSString *addressAsString = nil;
+    if (socketAddress->sa_family == AF_INET) {
+        if (inet_ntop(AF_INET, &(((struct sockaddr_in *)socketAddress)->sin_addr), stringBuffer, INET_ADDRSTRLEN)) {
+            addressAsString = [NSString stringWithUTF8String:stringBuffer];
+        } else {
+            addressAsString = @"IPv4 un-ntopable";
+        }
+        int port = ntohs(((struct sockaddr_in *)socketAddress)->sin_port);
+            addressAsString = [addressAsString stringByAppendingFormat:@":%d", port];
+    } else if (socketAddress->sa_family == AF_INET6) {
+         if (inet_ntop(AF_INET6, &(((struct sockaddr_in6 *)socketAddress)->sin6_addr), stringBuffer, INET6_ADDRSTRLEN)) {
+            addressAsString = [NSString stringWithUTF8String:stringBuffer];
+        } else {
+            addressAsString = @"IPv6 un-ntopable";
+        }
+        int port = ntohs(((struct sockaddr_in6 *)socketAddress)->sin6_port);
+        
+        // Suggested IPv6 format (see http://www.faqs.org/rfcs/rfc2732.html)
+        char interfaceName[IF_NAMESIZE];
+        if ([addressAsString hasPrefix:@"fe80"] && if_indextoname(((struct sockaddr_in6 *)socketAddress)->sin6_scope_id,interfaceName)) {
+            NSString *zoneID = [NSString stringWithUTF8String:interfaceName];
+            addressAsString = [NSString stringWithFormat:@"[%@%%%@]:%d", addressAsString, zoneID, port];
+        } else {
+            addressAsString = [NSString stringWithFormat:@"[%@]:%d", addressAsString, port];
+        }
+    } else {
+        addressAsString = @"neither IPv6 nor IPv4";
+    }
+    
+    return [[addressAsString copy] autorelease];
+}
+@end
 
 @implementation TCMNATPMPPortMapper
 + (TCMNATPMPPortMapper *)sharedInstance
@@ -33,6 +93,68 @@ static TCMNATPMPPortMapper *S_sharedInstance;
     }
     if ((self=[super init])) {
         natPMPThreadIsRunningLock = [NSLock new];
+        // add UDP listener for public ip update packets
+        //    0                   1                   2                   3
+        //    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+        //   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+        //   | Vers = 0      | OP = 128 + 0  | Result Code                   |
+        //   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+        //   | Seconds Since Start of Epoch                                  |
+        //   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+        //   | Public IP Address (a.b.c.d)                                   |
+        //   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+        CFSocketContext socketContext;
+        bzero(&socketContext, sizeof(CFSocketContext));
+        socketContext.info = self;
+        CFSocketRef listeningSocket = NULL;
+        listeningSocket = CFSocketCreate(kCFAllocatorDefault, PF_INET, SOCK_DGRAM, IPPROTO_UDP, 
+                                           kCFSocketDataCallBack, readData, &socketContext);
+        if (listeningSocket) {
+            int yes = 1;
+            int result = setsockopt(CFSocketGetNative(listeningSocket), SOL_SOCKET, 
+                                    SO_REUSEADDR, &yes, sizeof(int));
+            if (result == -1) {
+                NSLog(@"Could not setsockopt to reuseaddr: %@ / %s", errno, strerror(errno));
+            }
+            
+            result = setsockopt(CFSocketGetNative(listeningSocket), SOL_SOCKET, 
+                                    SO_REUSEPORT, &yes, sizeof(int));
+            if (result == -1) {
+                NSLog(@"Could not setsockopt to reuseport: %@ / %s", errno, strerror(errno));
+            }
+            
+            CFDataRef addressData = NULL;
+            struct sockaddr_in socketAddress;
+            
+            bzero(&socketAddress, sizeof(struct sockaddr_in));
+            socketAddress.sin_len = sizeof(struct sockaddr_in);
+            socketAddress.sin_family = PF_INET;
+            socketAddress.sin_port = htons(5351);
+            socketAddress.sin_addr.s_addr = inet_addr("224.0.0.1");
+            
+            addressData = CFDataCreate(kCFAllocatorDefault, (UInt8 *)&socketAddress, sizeof(struct sockaddr_in));
+            if (addressData == NULL) {
+                NSLog(@"Could not create addressData");
+            } else {
+                    
+                CFSocketError err = CFSocketSetAddress(listeningSocket, addressData);
+                if (err != kCFSocketSuccess) {
+                    NSLog(@"%s could not set address on socket",__FUNCTION__);
+                } else {
+                    CFRunLoopRef currentRunLoop = [[NSRunLoop currentRunLoop] getCFRunLoop];
+    
+                    CFRunLoopSourceRef runLoopSource = CFSocketCreateRunLoopSource(kCFAllocatorDefault, listeningSocket, 0);
+                    CFRunLoopAddSource(currentRunLoop, runLoopSource, kCFRunLoopCommonModes);
+                    CFRelease(runLoopSource);
+                }
+                
+                CFRelease(addressData);
+            }
+            addressData = NULL;
+
+        } else {
+            NSLog(@"Could not create listening socket for IPv4");
+        }
     }
     return self;
 }
@@ -338,3 +460,33 @@ Standardablauf:
 
 
 @end
+
+
+static void readData (
+   CFSocketRef aSocket,
+   CFSocketCallBackType aCallbackType,
+   CFDataRef anAddress,
+   const void *aData,
+   void *anInfo
+) {
+    NSData *data = (NSData *)aData;
+    NSLog(@"%s yeah - data for me %@",__FUNCTION__,(id)data);
+    NSString *senderAddress = [NSString stringWithAddressData:(NSData *)anAddress];
+    // add UDP listener for public ip update packets
+    //    0                   1                   2                   3
+    //    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
+    //   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    //   | Vers = 0      | OP = 128 + 0  | Result Code                   |
+    //   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    //   | Seconds Since Start of Epoch                                  |
+    //   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    //   | Public IP Address (a.b.c.d)                                   |
+    //   +-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+-+
+    char buffer[INET_ADDRSTRLEN];
+    unsigned char *bytes = (unsigned char *)[data bytes];
+    inet_ntop(AF_INET, &(bytes[8]), buffer, INET_ADDRSTRLEN);
+    NSNumber *secondsSinceEpoch=[NSNumber numberWithInt:ntohl(*((int32_t *)&(bytes[4])))];
+    NSLog(@"%s sender was:%@ seconds were:%@ new public ip address is:%s",__FUNCTION__,senderAddress,secondsSinceEpoch, buffer);
+}
+
+

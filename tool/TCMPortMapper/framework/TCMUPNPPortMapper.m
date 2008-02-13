@@ -365,7 +365,7 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
         while ((mapping = [mappings nextObject])) {
             if ([mapping mappingStatus] == TCMPortMappingStatusMapped) {
                 UPNP_DeletePortMapping(_urls.controlURL, _igddata.servicetype, 
-                                       [mapping publicPort], 
+                                       [[NSString stringWithFormat:@"%d",[mapping publicPort]] UTF8String], 
                                        ([mapping transportProtocol]==TCMPortMappingTransportProtocolUDP)?"UDP":"TCP");
                 [mapping setMappingStatus:TCMPortMappingStatusUnmapped];
             }

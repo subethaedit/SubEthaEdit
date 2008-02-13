@@ -29,7 +29,7 @@
 	[center addObserver:self selector:@selector(portMapperDidFindRouter:) name:TCMPortMapperDidFindRouterNotification object:pm];
 	[center addObserver:self selector:@selector(portMappingDidChangeMappingStatus:) name:TCMPortMappingDidChangeMappingStatusNotification object:nil];
 	[center addObserver:self selector:@selector(startProgressIndicator:) name:TCMPortMapperDidStartWorkNotification object:nil];
-	[center addObserver:self selector:@selector(stopProgressIndiciator:) name:TCMPortMapperDidEndWorkNotification   object:nil];
+	[center addObserver:self selector:@selector(stopProgressIndicator:) name:TCMPortMapperDidEndWorkNotification   object:nil];
 	NSEnumerator *mappings=[[[NSUserDefaults standardUserDefaults] objectForKey:@"StoredMappings"] objectEnumerator];
 	NSDictionary *mappingRep = nil;
 	while ((mappingRep = [mappings nextObject])) {
@@ -66,6 +66,7 @@
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     [self writeMappingDefaults];
+    [[TCMPortMapper sharedInstance] stopBlocking];
 }
 
 - (IBAction)refresh:(id)aSender {
@@ -192,6 +193,15 @@
 
 - (void)portMappingDidChangeMappingStatus:(NSNotification *)aNotification {
     [O_replacedReferenceStringTextField setStringValue:[[NSValueTransformer valueTransformerForName:@"TCMReplacedStringFromPortMappingReferenceString"] transformedValue:[O_mappingsArrayController selectedObjects]]];
+}
+
+- (void)startProgressIndicator:(NSNotification *)aNotification {
+    [O_globalProgressIndicator startAnimation:self];
+}
+
+
+- (void)stopProgressIndicator:(NSNotification *)aNotification {
+    [O_globalProgressIndicator stopAnimation:self];
 }
 
 @end
