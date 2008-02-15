@@ -61,7 +61,7 @@
             [O_addPresetPopupButton addItemWithTitle:title];
             [[[O_addPresetPopupButton itemArray] lastObject] setRepresentedObject:preset];
         }
-    }
+    }	
 }
 
 - (void)writeMappingDefaults {
@@ -145,9 +145,36 @@
     if ([pm externalIPAddress]) {
         [O_currentIPTextField setObjectValue:[pm externalIPAddress]];
     } else {
-        [O_currentIPTextField setStringValue:@"Router incompatible."];
+		if ([pm routerIPAddress]) {
+			[O_currentIPTextField setStringValue:@"Router incompatible."];
+			[self showInstructionalPanel:self];
+		} else {
+			[O_currentIPTextField setStringValue:@"Can't find router."];
+		}
     }
     [self updateTagLine];
+}
+
+
+- (IBAction)showInstructionalPanel:(id)aSender {
+	if (![[[NSUserDefaults standardUserDefaults] objectForKey:@"DontShowInstructionsAgain"] boolValue])
+		[NSApp beginSheet:O_instructionalSheetPanel modalForWindow:[O_currentIPTextField window] modalDelegate:self didEndSelector:@selector(instructionalSheetDidEnd:returnCode:contextInfo:) contextInfo:nil];	
+}
+
+- (void)instructionalSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+    [sheet orderOut:self];
+}
+
+- (IBAction)endInstructionalSheet:(id)aSender {
+	if ([aSender tag] == 42) {
+		[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://docs.info.apple.com/article.html?artnum=302510"]];
+	}
+	
+	if ([O_dontShowInstructionsAgainButton state] == NSOnState) {
+	    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:YES] forKey:@"DontShowInstructionsAgain"];	
+	}
+	
+    [NSApp endSheet:O_instructionalSheetPanel];
 }
 
 - (IBAction)addMapping:(id)aSender {

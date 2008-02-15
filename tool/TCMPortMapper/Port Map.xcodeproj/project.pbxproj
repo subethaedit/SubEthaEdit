@@ -272,7 +272,7 @@
 			isa = PBXGroup;
 			children = (
 				F214E5F10D5F600B00A06962 /* NATEcho.app */,
-				F2C6600B0D50C34500820CAE /* Port Map (dom) */,
+				F2C6600B0D50C34500820CAE /* Port Map */,
 				F2C65BDD0D50B16100820CAE /* TCMPortMapper.framework */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
@@ -377,14 +377,14 @@
 			name = Resources;
 			sourceTree = "<group>";
 		};
-		F2C6600B0D50C34500820CAE /* Port Map (dom) */ = {
+		F2C6600B0D50C34500820CAE /* Port Map */ = {
 			isa = PBXGroup;
 			children = (
 				F2C660100D50C35D00820CAE /* Other sources */,
 				F2C660160D50C36D00820CAE /* Classes */,
 				F2C660130D50C36700820CAE /* Resources */,
 			);
-			name = "Port Map (dom)";
+			name = "Port Map";
 			sourceTree = "<group>";
 		};
 		F2C660100D50C35D00820CAE /* Other sources */ = {

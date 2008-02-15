@@ -29,6 +29,8 @@
     IBOutlet NSPopUpButton *O_addPresetPopupButton;
     IBOutlet NSTextField *O_addReferenceStringField;
 
+	IBOutlet NSWindow *O_instructionalSheetPanel;
+    IBOutlet NSButton *O_dontShowInstructionsAgainButton;
 }
 
 - (IBAction)togglePortMapper:(id)aSender;
@@ -39,6 +41,8 @@
 - (IBAction)addMappingEndSheet:(id)aSender;
 - (IBAction)addMappingCancelSheet:(id)aSender;
 - (IBAction)choosePreset:(id)aSender;
+- (IBAction)showInstructionalPanel:(id)aSender;
+- (IBAction)endInstructionalSheet:(id)aSender;
 
 - (IBAction)gotoPortMapHomepage:(id)aSender;
 - (IBAction)gotoTCMPortMapperSources:(id)aSender;
