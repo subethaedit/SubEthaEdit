@@ -20,6 +20,9 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
 - (id)init {
     if ((self=[super init])) {
         _threadIsRunningLock = [NSLock new];
+        if ([_threadIsRunningLock respondsToSelector:@selector(setName:)]) 
+            [_threadIsRunningLock performSelector:@selector(setName:) withObject:@"UPNP-ThreadRunningLock"];
+
     }
     return self;
 }
@@ -36,6 +39,7 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
         UpdatePortMappingsThreadShouldQuit = NO;
         runningThreadID = TCMExternalIPThreadID;
         [NSThread detachNewThreadSelector:@selector(refreshInThread) toTarget:self withObject:nil];
+        [_threadIsRunningLock unlock];
 #ifndef NDEBUG
         NSLog(@"%s detachedThread",__FUNCTION__);
 #endif
@@ -68,6 +72,7 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
 // we need to cache these for better response time of the update mappings thread
 
 - (void)refreshInThread {
+    [_threadIsRunningLock lock];
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
     NSLog(@"%s",__FUNCTION__);
     [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadWithName:TCMUPNPPortMapperDidBeginWorkingNotification object:self];
@@ -122,7 +127,7 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
         didFail = YES;
         errorString = @"No IDG Device found on the network!";
     }
-    [_threadIsRunningLock performSelectorOnMainThread:@selector(unlock) withObject:nil waitUntilDone:NO];
+    [_threadIsRunningLock unlock];
     if (refreshThreadShouldQuit) {
 #ifndef NDEBUG
         NSLog(@"%s thread quit prematurely",__FUNCTION__);
@@ -147,6 +152,7 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
         UpdatePortMappingsThreadShouldRestart=NO;
         runningThreadID = TCMUpdatingMappingThreadID;
         [NSThread detachNewThreadSelector:@selector(updatePortMappingsInThread) toTarget:self withObject:nil];
+        [_threadIsRunningLock unlock];
 #ifndef NDEBUG
         NSLog(@"%s detachedThread",__FUNCTION__);
 #endif
@@ -215,6 +221,7 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
 }
 
 - (void)updatePortMappingsInThread {
+    [_threadIsRunningLock lock];
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
     [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadWithName:TCMUPNPPortMapperDidBeginWorkingNotification object:self];
     BOOL didFail=NO;
@@ -342,7 +349,7 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
         };
     }
 
-    [_threadIsRunningLock performSelectorOnMainThread:@selector(unlock) withObject:nil waitUntilDone:YES];
+    [_threadIsRunningLock unlock];
     if (UpdatePortMappingsThreadShouldQuit) {
         [self performSelectorOnMainThread:@selector(refresh) withObject:nil waitUntilDone:YES];
     } else if (UpdatePortMappingsThreadShouldRestart) {
@@ -357,6 +364,8 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
 }
 
 - (void)stopBlocking {
+    refreshThreadShouldQuit=YES;
+    UpdatePortMappingsThreadShouldQuit = YES;
     [_threadIsRunningLock lock];
     NSSet *mappingsToStop = [[TCMPortMapper sharedInstance] portMappings];
     @synchronized (mappingsToStop) {

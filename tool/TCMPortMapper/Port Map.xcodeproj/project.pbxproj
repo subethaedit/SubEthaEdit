@@ -69,6 +69,14 @@
 		F2C660D40D51E95500820CAE /* minissdpc.c in Sources */ = {isa = PBXBuildFile; fileRef = F2C660940D51E7EE00820CAE /* minissdpc.c */; };
 		F2C660D50D51E95A00820CAE /* upnperrors.c in Sources */ = {isa = PBXBuildFile; fileRef = F2C660A70D51E7EE00820CAE /* upnperrors.c */; };
 		F2C660E30D51ED9800820CAE /* upnpcommands.c in Sources */ = {isa = PBXBuildFile; fileRef = F2C660A50D51E7EE00820CAE /* upnpcommands.c */; };
+		F2CDB8C80D65BF2200B6A4E7 /* NSAddTemplate.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2CDB8C50D65BF2200B6A4E7 /* NSAddTemplate.tiff */; };
+		F2CDB8C90D65BF2200B6A4E7 /* NSRefreshTemplate.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2CDB8C60D65BF2200B6A4E7 /* NSRefreshTemplate.tiff */; };
+		F2CDB8CA0D65BF2200B6A4E7 /* NSRemoveTemplate.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2CDB8C70D65BF2200B6A4E7 /* NSRemoveTemplate.tiff */; };
+		F2CDB8CF0D65C0AF00B6A4E7 /* NSRemoveTemplate.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2CDB8C70D65BF2200B6A4E7 /* NSRemoveTemplate.tiff */; };
+		F2CDB8D00D65C0B000B6A4E7 /* NSRefreshTemplate.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2CDB8C60D65BF2200B6A4E7 /* NSRefreshTemplate.tiff */; };
+		F2CDB8D10D65C0B100B6A4E7 /* NSAddTemplate.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2CDB8C50D65BF2200B6A4E7 /* NSAddTemplate.tiff */; };
+		F2CDB8FB0D65D82900B6A4E7 /* OUItoCompany.plist in Resources */ = {isa = PBXBuildFile; fileRef = F2CDB8FA0D65D82900B6A4E7 /* OUItoCompany.plist */; };
+		F2CDB9000D65D8C100B6A4E7 /* OUItoCompany.plist in Resources */ = {isa = PBXBuildFile; fileRef = F2CDB8FA0D65D82900B6A4E7 /* OUItoCompany.plist */; };
 		F2D731D10D5B607D00CBD1D8 /* TCMPortMappingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D731D00D5B607D00CBD1D8 /* TCMPortMappingAdditions.m */; };
 		F2D731EA0D5B768300CBD1D8 /* Presets.plist in Resources */ = {isa = PBXBuildFile; fileRef = F2D731E90D5B768300CBD1D8 /* Presets.plist */; };
 /* End PBXBuildFile section */
@@ -240,6 +248,10 @@
 		F2C660A80D51E7EE00820CAE /* upnperrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = upnperrors.h; sourceTree = "<group>"; };
 		F2C660A90D51E7EE00820CAE /* upnpreplyparse.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = upnpreplyparse.c; sourceTree = "<group>"; };
 		F2C660AA0D51E7EE00820CAE /* upnpreplyparse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = upnpreplyparse.h; sourceTree = "<group>"; };
+		F2CDB8C50D65BF2200B6A4E7 /* NSAddTemplate.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = NSAddTemplate.tiff; path = portmap_dom/artwork/NSAddTemplate.tiff; sourceTree = "<group>"; };
+		F2CDB8C60D65BF2200B6A4E7 /* NSRefreshTemplate.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = NSRefreshTemplate.tiff; path = portmap_dom/artwork/NSRefreshTemplate.tiff; sourceTree = "<group>"; };
+		F2CDB8C70D65BF2200B6A4E7 /* NSRemoveTemplate.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = NSRemoveTemplate.tiff; path = portmap_dom/artwork/NSRemoveTemplate.tiff; sourceTree = "<group>"; };
+		F2CDB8FA0D65D82900B6A4E7 /* OUItoCompany.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; name = OUItoCompany.plist; path = framework/OUItoCompany.plist; sourceTree = "<group>"; };
 		F2D731CF0D5B607D00CBD1D8 /* TCMPortMappingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCMPortMappingAdditions.h; path = portmap_dom/TCMPortMappingAdditions.h; sourceTree = "<group>"; };
 		F2D731D00D5B607D00CBD1D8 /* TCMPortMappingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMPortMappingAdditions.m; path = portmap_dom/TCMPortMappingAdditions.m; sourceTree = "<group>"; };
 		F2D731E90D5B768300CBD1D8 /* Presets.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Presets.plist; path = portmap_dom/Presets.plist; sourceTree = "<group>"; };
@@ -461,6 +473,7 @@
 		F2C65C2C0D50B2B700820CAE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F2CDB8FA0D65D82900B6A4E7 /* OUItoCompany.plist */,
 				F2C65BE20D50B17B00820CAE /* TCMPortMapper-Info.plist */,
 			);
 			name = Resources;
@@ -488,6 +501,9 @@
 		F2C660130D50C36700820CAE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F2CDB8C50D65BF2200B6A4E7 /* NSAddTemplate.tiff */,
+				F2CDB8C60D65BF2200B6A4E7 /* NSRefreshTemplate.tiff */,
+				F2CDB8C70D65BF2200B6A4E7 /* NSRemoveTemplate.tiff */,
 				F2D731E90D5B768300CBD1D8 /* Presets.plist */,
 				F2482BAB0D58A415002DF811 /* GenericQuestionMarkIcon.icns */,
 				F2C6603B0D50C62F00820CAE /* MainMenu.nib */,
@@ -686,6 +702,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F2CDB9000D65D8C100B6A4E7 /* OUItoCompany.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -711,6 +728,10 @@
 				F214E5F90D5F626800A06962 /* DotRed.png in Resources */,
 				F214E5FA0D5F626800A06962 /* DotYellow.png in Resources */,
 				F214E5FD0D5F62F700A06962 /* MainMenu.nib in Resources */,
+				F2CDB8C80D65BF2200B6A4E7 /* NSAddTemplate.tiff in Resources */,
+				F2CDB8C90D65BF2200B6A4E7 /* NSRefreshTemplate.tiff in Resources */,
+				F2CDB8CA0D65BF2200B6A4E7 /* NSRemoveTemplate.tiff in Resources */,
+				F2CDB8FB0D65D82900B6A4E7 /* OUItoCompany.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -728,6 +749,9 @@
 				F2C660400D50C62F00820CAE /* InfoPlist.strings in Resources */,
 				F2482BAC0D58A415002DF811 /* GenericQuestionMarkIcon.icns in Resources */,
 				F2D731EA0D5B768300CBD1D8 /* Presets.plist in Resources */,
+				F2CDB8CF0D65C0AF00B6A4E7 /* NSRemoveTemplate.tiff in Resources */,
+				F2CDB8D00D65C0B000B6A4E7 /* NSRefreshTemplate.tiff in Resources */,
+				F2CDB8D10D65C0B100B6A4E7 /* NSAddTemplate.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

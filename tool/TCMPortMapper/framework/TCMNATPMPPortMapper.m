@@ -95,6 +95,8 @@ static void readData (
     }
     if ((self=[super init])) {
         natPMPThreadIsRunningLock = [NSLock new];
+        if ([natPMPThreadIsRunningLock respondsToSelector:@selector(setName:)]) 
+            [(id)natPMPThreadIsRunningLock performSelector:@selector(setName:) withObject:@"NATPMPThreadRunningLock"];
         // add UDP listener for public ip update packets
         //    0                   1                   2                   3
         //    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -186,11 +188,10 @@ static void readData (
         UpdatePortMappingsThreadShouldQuit = NO;
         runningThreadID = TCMExternalIPThreadID;
         [NSThread detachNewThreadSelector:@selector(refreshExternalIPInThread) toTarget:self withObject:nil];
-        NSLog(@"%s detachedThread",__FUNCTION__);
+        [natPMPThreadIsRunningLock unlock];
     } else  {
         if (runningThreadID == TCMExternalIPThreadID) {
             IPAddressThreadShouldQuit=YES;
-            NSLog(@"%s thread should quit",__FUNCTION__);
         } else if (runningThreadID == TCMUpdatingMappingThreadID) {
             UpdatePortMappingsThreadShouldQuit = YES;
         }
@@ -227,7 +228,7 @@ Standardablauf:
         UpdatePortMappingsThreadShouldRestart=NO;
         runningThreadID = TCMUpdatingMappingThreadID;
         [NSThread detachNewThreadSelector:@selector(updatePortMappingsInThread) toTarget:self withObject:nil];
-        NSLog(@"%s detachedThread",__FUNCTION__);
+        [natPMPThreadIsRunningLock unlock];
     } else  {
         if (runningThreadID == TCMUpdatingMappingThreadID) {
             UpdatePortMappingsThreadShouldRestart = YES;
@@ -285,6 +286,7 @@ Standardablauf:
 }
 
 - (void)updatePortMappingsInThread {
+    [natPMPThreadIsRunningLock lock];
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
     [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadWithName:TCMNATPMPPortMapperDidBeginWorkingNotification object:self];
     
@@ -364,7 +366,7 @@ Standardablauf:
     }
     closenatpmp(&natpmp);
 
-    [natPMPThreadIsRunningLock performSelectorOnMainThread:@selector(unlock) withObject:nil waitUntilDone:YES];
+    [natPMPThreadIsRunningLock unlock];
     if (UpdatePortMappingsThreadShouldQuit) {
         [self performSelectorOnMainThread:@selector(refresh) withObject:nil waitUntilDone:NO];
     } else if (UpdatePortMappingsThreadShouldRestart) {
@@ -379,7 +381,7 @@ Standardablauf:
 }
 
 - (void)refreshExternalIPInThread {
-    
+    [natPMPThreadIsRunningLock lock];
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
     [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadWithName:TCMNATPMPPortMapperDidBeginWorkingNotification object:self];
 	natpmp_t natpmp;
@@ -396,16 +398,22 @@ Standardablauf:
         if(r<0) {
             didFail = YES;
         } else {
+#ifndef NDEBUG
             int count = 0;
+#endif
             do {
                 FD_ZERO(&fds);
                 FD_SET(natpmp.s, &fds);
                 getnatpmprequesttimeout(&natpmp, &timeout);
+#ifndef NDEBUG
                 NSLog(@"NATPMP refreshExternalIP try #%d",++count);
+#endif
                 select(FD_SETSIZE, &fds, NULL, NULL, &timeout);
                 r = readnatpmpresponseorretry(&natpmp, &response);
                 if (IPAddressThreadShouldQuit) {
+#ifndef NDEBUG
                     NSLog(@"%s ----------------- thread quit prematurely",__FUNCTION__);
+#endif
                     [natPMPThreadIsRunningLock performSelectorOnMainThread:@selector(unlock) withObject:nil waitUntilDone:YES];
                     [self performSelectorOnMainThread:@selector(refresh) withObject:nil waitUntilDone:0];
                     closenatpmp(&natpmp);
@@ -416,20 +424,26 @@ Standardablauf:
         
             if(r<0) {
                didFail = YES;
+#ifndef NDEBUG
                NSLog(@"natpmp did time out");
+#endif
             } else {
                 /* TODO : check that response.type == 0 */
             
                 NSString *ipString = [NSString stringWithFormat:@"%s", inet_ntoa(response.publicaddress.addr)];
+#ifndef NDEBUG
                 NSLog(@"%s found ipString:%@",__FUNCTION__,ipString);
+#endif
                 [[NSNotificationCenter defaultCenter] postNotificationOnMainThread:[NSNotification notificationWithName:TCMNATPMPPortMapperDidGetExternalIPAddressNotification object:self userInfo:[NSDictionary dictionaryWithObject:ipString forKey:@"externalIPAddress"]]];
             }
         }
     }
 	closenatpmp(&natpmp);
-    [natPMPThreadIsRunningLock performSelectorOnMainThread:@selector(unlock) withObject:nil waitUntilDone:YES];
+    [natPMPThreadIsRunningLock unlock];
     if (IPAddressThreadShouldQuit) {
+#ifndef NDEBUG
         NSLog(@"%s thread quit prematurely",__FUNCTION__);
+#endif
         [self performSelectorOnMainThread:@selector(refresh) withObject:nil waitUntilDone:0];
     } else {
         if (didFail) {
@@ -443,6 +457,8 @@ Standardablauf:
 }
 
 - (void)stopBlocking {
+    UpdatePortMappingsThreadShouldQuit = YES;
+    IPAddressThreadShouldQuit = YES;
     [natPMPThreadIsRunningLock lock];
     NSSet *mappingsToStop = [[TCMPortMapper sharedInstance] portMappings];
     natpmp_t natpmp;

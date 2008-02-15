@@ -135,7 +135,6 @@ enum {
 }
 
 - (void)networkDidChange:(NSNotification *)aNotification {
-    NSLog(@"%s",__FUNCTION__);
     [self refresh];
 }
 
@@ -144,7 +143,7 @@ enum {
 }
 
 - (void)updateLocalIPAddress {
-	NSString *routerAddress = [self routerIPAddress];
+    NSString *routerAddress = [self routerIPAddress];
     SCDynamicStoreRef dynRef = SCDynamicStoreCreate(kCFAllocatorSystemDefault, (CFStringRef)@"TCMPortMapper", NULL, NULL); 
     NSDictionary *scobjects = (NSDictionary *)SCDynamicStoreCopyValue(dynRef,(CFStringRef)@"State:/Network/Global/IPv4" ); 
     
@@ -202,7 +201,7 @@ enum {
 
 
 - (NSSet *)portMappings{
-	return _portMappings;
+    return _portMappings;
 }
 
 - (NSMutableSet *)removeMappingQueue {
@@ -242,24 +241,29 @@ enum {
 
 - (void)refresh {
     // reinitialisieren: public ip und router modell auf nil setzen - portmappingsstatus auf unmapped setzen, wenn trying dann upnp/natpimp zurücksetzen
-	[self setRouterName:@"..."];
-	[self setMappingProtocol:TCMPortMapProtocolNone];
-	[self setExternalIPAddress:nil];
-	@synchronized(_portMappings) {
-	   NSEnumerator *portMappings = [_portMappings objectEnumerator];
-	   TCMPortMapping *portMapping = nil;
-	   while ((portMapping = [portMappings nextObject])) {
-	       if ([portMapping mappingStatus]==TCMPortMappingStatusMapped)
-    	       [portMapping setMappingStatus:TCMPortMappingStatusUnmapped];
-	   }
-	}
-    [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperWillSearchForRouterNotification object:self];	
-	
-	NSString *routerAddress = [self routerIPAddress];
-	if (routerAddress) {
+    [self setRouterName:@"Unknown"];
+    [self setMappingProtocol:TCMPortMapProtocolNone];
+    [self setExternalIPAddress:nil];
+    @synchronized(_portMappings) {
+       NSEnumerator *portMappings = [_portMappings objectEnumerator];
+       TCMPortMapping *portMapping = nil;
+       while ((portMapping = [portMappings nextObject])) {
+           if ([portMapping mappingStatus]==TCMPortMappingStatusMapped)
+               [portMapping setMappingStatus:TCMPortMappingStatusUnmapped];
+       }
+    }
+    [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperWillSearchForRouterNotification object:self];   
+    
+    NSString *routerAddress = [self routerIPAddress];
+    if (routerAddress) {
+        NSString *manufacturer = [TCMPortMapper manufacturerForHardwareAddress:[self routerHardwareAddress]];
+        if (manufacturer) {
+            [self setRouterName:manufacturer];
+        } else {
+            [self setRouterName:@"Unknown"];
+        }
         NSString *localIPAddress = [self localIPAddress]; // will always be updated when accessed
         if (localIPAddress && _localIPOnRouterSubnet) {
-            [self setRouterName:[NSString stringWithFormat:@"Generic (%@)",[self routerHardwareAddress]]];
             [self setExternalIPAddress:nil];
             if ([routerAddress IPv4AddressInPrivateSubnet]) {
                 _NATPMPStatus = TCMPortMapProtocolTrying;
@@ -302,53 +306,64 @@ enum {
 
 - (NSString *)hardwareAddressForIPAddress: (NSString *) address {
     if (!address) return nil;
-	int mib[6];
-	size_t needed;
-	char *lim, *buf, *next;
-	struct sockaddr_inarp blank_sin = {sizeof(blank_sin), AF_INET };
-	struct rt_msghdr *rtm;
-	struct sockaddr_inarp *sin;
-	struct sockaddr_dl *sdl;
+    int mib[6];
+    size_t needed;
+    char *lim, *buf, *next;
+    struct sockaddr_inarp blank_sin = {sizeof(blank_sin), AF_INET };
+    struct rt_msghdr *rtm;
+    struct sockaddr_inarp *sin;
+    struct sockaddr_dl *sdl;
 
-	struct sockaddr_inarp sin_m;
-	struct sockaddr_inarp *sin2 = &sin_m;
+    struct sockaddr_inarp sin_m;
+    struct sockaddr_inarp *sin2 = &sin_m;
 
-	sin_m = blank_sin;
-	sin2->sin_addr.s_addr = inet_addr([address UTF8String]);
-	u_long addr = sin2->sin_addr.s_addr;
+    sin_m = blank_sin;
+    sin2->sin_addr.s_addr = inet_addr([address UTF8String]);
+    u_long addr = sin2->sin_addr.s_addr;
 
-	mib[0] = CTL_NET;
-	mib[1] = PF_ROUTE;
-	mib[2] = 0;
-	mib[3] = AF_INET;
-	mib[4] = NET_RT_FLAGS;
-	mib[5] = RTF_LLINFO;
-	
-	if (sysctl(mib, 6, NULL, &needed, NULL, 0) < 0) err(1, "route-sysctl-estimate");
-	if ((buf = malloc(needed)) == NULL) err(1, "malloc");
-	if (sysctl(mib, 6, buf, &needed, NULL, 0) < 0) err(1, "actual retrieval of routing table");
-	
-	lim = buf + needed;
-	for (next = buf; next < lim; next += rtm->rtm_msglen) {
-		rtm = (struct rt_msghdr *)next;
-		sin = (struct sockaddr_inarp *)(rtm + 1);
-		sdl = (struct sockaddr_dl *)(sin + 1);
-		if (addr) {
-			if (addr != sin->sin_addr.s_addr) continue;
-		}
-			
-		if (sdl->sdl_alen) {
-			u_char *cp = (u_char *)LLADDR(sdl);
-			NSString* result = [NSString stringWithFormat:@"%02x:%02x:%02x:%02x:%02x:%02x", cp[0], cp[1], cp[2], cp[3], cp[4], cp[5]];
-        	free(buf);
-			return result;
-		} else {
-        	free(buf);
-		  return nil;
+    mib[0] = CTL_NET;
+    mib[1] = PF_ROUTE;
+    mib[2] = 0;
+    mib[3] = AF_INET;
+    mib[4] = NET_RT_FLAGS;
+    mib[5] = RTF_LLINFO;
+    
+    if (sysctl(mib, 6, NULL, &needed, NULL, 0) < 0) err(1, "route-sysctl-estimate");
+    if ((buf = malloc(needed)) == NULL) err(1, "malloc");
+    if (sysctl(mib, 6, buf, &needed, NULL, 0) < 0) err(1, "actual retrieval of routing table");
+    
+    lim = buf + needed;
+    for (next = buf; next < lim; next += rtm->rtm_msglen) {
+        rtm = (struct rt_msghdr *)next;
+        sin = (struct sockaddr_inarp *)(rtm + 1);
+        sdl = (struct sockaddr_dl *)(sin + 1);
+        if (addr) {
+            if (addr != sin->sin_addr.s_addr) continue;
         }
-	}
-	return nil;
+            
+        if (sdl->sdl_alen) {
+            u_char *cp = (u_char *)LLADDR(sdl);
+            NSString* result = [NSString stringWithFormat:@"%02x:%02x:%02x:%02x:%02x:%02x", cp[0], cp[1], cp[2], cp[3], cp[4], cp[5]];
+            free(buf);
+            return result;
+        } else {
+            free(buf);
+          return nil;
+        }
+    }
+    return nil;
 }
+
++ (NSString *)manufacturerForHardwareAddress:(NSString *)aMACAddress {
+    static NSDictionary *hardwareManufacturerDictionary = nil;
+    if (hardwareManufacturerDictionary==nil) {
+        NSString *plistPath = [[NSBundle bundleForClass:[self class]] pathForResource:@"OUItoCompany" ofType:@"plist"];
+        hardwareManufacturerDictionary = [[NSDictionary alloc] initWithContentsOfFile:plistPath];
+    }
+    if ([aMACAddress length]<8) return nil;
+    return [hardwareManufacturerDictionary objectForKey:[aMACAddress substringToIndex:8]];
+}
+
 
 - (void)start {
     if (!_isRunning) {
@@ -493,7 +508,7 @@ enum {
 }
 
 - (NSString *)mappingProtocol {
-	return _mappingProtocol;
+    return _mappingProtocol;
 }
 
 - (void)setRouterName:(NSString *)aRouterName {
@@ -503,7 +518,7 @@ enum {
 }
 
 - (NSString *)routerName {
-	return _routerName;
+    return _routerName;
 }
 
 - (BOOL)isRunning {
@@ -512,28 +527,27 @@ enum {
 
 - (NSString *)routerIPAddress {
     SCDynamicStoreRef dynRef = SCDynamicStoreCreate(kCFAllocatorSystemDefault, (CFStringRef)@"TCMPortMapper", NULL, NULL); 
-	NSDictionary *scobjects = (NSDictionary *)SCDynamicStoreCopyValue(dynRef,(CFStringRef)@"State:/Network/Global/IPv4" );
+    NSDictionary *scobjects = (NSDictionary *)SCDynamicStoreCopyValue(dynRef,(CFStringRef)@"State:/Network/Global/IPv4" );
     
-	NSString *routerIPAddress = (NSString *)[scobjects objectForKey:(NSString *)kSCPropNetIPv4Router];
+    NSString *routerIPAddress = (NSString *)[scobjects objectForKey:(NSString *)kSCPropNetIPv4Router];
     routerIPAddress = [[routerIPAddress copy] autorelease];
     
     CFRelease(dynRef);
-	[scobjects release];
+    [scobjects release];
     return routerIPAddress;
 }
 
 - (NSString *)routerHardwareAddress {
-	NSString *result = nil;
-	NSString *routerAddress = [self routerIPAddress];
-	if (routerAddress) {
-		result = [self hardwareAddressForIPAddress:routerAddress];
-	} 
-	
-	return result;
+    NSString *result = nil;
+    NSString *routerAddress = [self routerIPAddress];
+    if (routerAddress) {
+        result = [self hardwareAddressForIPAddress:routerAddress];
+    } 
+    
+    return result;
 }
 
 - (void)increaseWorkCount:(NSNotificationCenter *)aNotification {
-    NSLog(@"%s %d",__FUNCTION__,_workCount);
     if (_workCount == 0) {
         [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidStartWorkNotification object:self];
     }
@@ -541,7 +555,6 @@ enum {
 }
 
 - (void)decreaseWorkCount:(NSNotificationCenter *)aNotification {
-    NSLog(@"%s %d",__FUNCTION__,_workCount);
     _workCount--;
     if (_workCount == 0) {
         [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidEndWorkNotification object:self];
@@ -549,24 +562,18 @@ enum {
 }
 
 - (void)didWake:(NSNotification *)aNotification {
-    NSLog(@"%s",__FUNCTION__);
     if (_isRunning) {
         [self refresh];
     }
 }
 
 - (void)willSleep:(NSNotification *)aNotificaiton {
-    NSLog(@"%s",__FUNCTION__);
     if (_isRunning) {
         if (_NATPMPStatus == TCMPortMapProtocolWorks) {
-            NSLog(@"%s stopping NATPMP",__FUNCTION__);
             [_NATPMPPortMapper stopBlocking];
-            NSLog(@"%s NATPMP stopped",__FUNCTION__);
         }
         if (_UPNPStatus   == TCMPortMapProtocolWorks) {
-            NSLog(@"%s stopping UPNP",__FUNCTION__);
             [_UPNPPortMapper stopBlocking];
-            NSLog(@"%s UPNP stopped",__FUNCTION__);
         }
     }
 }
@@ -595,7 +602,7 @@ enum {
 
 
 + (id)portMappingWithPrivatePort:(int)aPrivatePort desiredPublicPort:(int)aPublicPort userInfo:(id)aUserInfo {
-	NSAssert(aPrivatePort<65536 && aPublicPort<65536 && aPrivatePort>0 && aPublicPort>0, @"Port number has to be between 1 and 65535");
+    NSAssert(aPrivatePort<65536 && aPublicPort<65536 && aPrivatePort>0 && aPublicPort>0, @"Port number has to be between 1 and 65535");
     return [[[self alloc] initWithPrivatePort:aPrivatePort desiredPublicPort:aPublicPort transportProtocol:TCMPortMappingTransportProtocolTCP userInfo:aUserInfo] autorelease];
 }
 

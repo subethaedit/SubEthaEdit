@@ -27,5 +27,5 @@ loopCount = 0
 while true do
   uni_socket.send([0,128,0,secondsSinceStart+loopCount,publicIPAddress+loopCount].pack('CCnNN'),0)
   sleep 10
-  loopCount += 1
+#  loopCount += 1
 end

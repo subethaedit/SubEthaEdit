@@ -81,6 +81,8 @@ typedef enum {
 }
 
 + (TCMPortMapper *)sharedInstance;
++ (NSString *)manufacturerForHardwareAddress:(NSString *)aMACAddress;
+
 - (NSSet *)portMappings;
 - (NSMutableSet *)removeMappingQueue;
 - (void)addPortMapping:(TCMPortMapping *)aMapping;
@@ -91,6 +93,7 @@ typedef enum {
 - (void)start;
 - (void)stop;
 - (void)stopBlocking;
+
 
 - (NSString *)externalIPAddress;
 - (NSString *)localIPAddress;

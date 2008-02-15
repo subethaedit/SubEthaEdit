@@ -2357,10 +2357,12 @@ tool/TCMPortMapper/Port[!!-~]Map.xcodeproj/project.pbxproj -text
 tool/TCMPortMapper/RSVerticallyCenteredTextFieldCell/MIT-License.rtf -text
 tool/TCMPortMapper/RSVerticallyCenteredTextFieldCell/RSVerticallyCenteredTextFieldCell.h -text
 tool/TCMPortMapper/RSVerticallyCenteredTextFieldCell/RSVerticallyCenteredTextFieldCell.m -text
+tool/TCMPortMapper/framework/Ethernet-OUI.txt -text
 tool/TCMPortMapper/framework/IXSCNotificationManager.h -text
 tool/TCMPortMapper/framework/IXSCNotificationManager.m -text
 tool/TCMPortMapper/framework/NSNotificationAdditions.h -text
 tool/TCMPortMapper/framework/NSNotificationAdditions.m -text
+tool/TCMPortMapper/framework/OUItoCompany.plist -text
 tool/TCMPortMapper/framework/TCMNATPMPPortMapper.h -text
 tool/TCMPortMapper/framework/TCMNATPMPPortMapper.m -text
 tool/TCMPortMapper/framework/TCMPortMapper-Info.plist -text
@@ -2440,6 +2442,9 @@ tool/TCMPortMapper/portmap_dom/TCMPortStringFromPublicPortValueTransformer.m -te
 tool/TCMPortMapper/portmap_dom/TCMStatusImageFromMappingStatusValueTransformer.h -text
 tool/TCMPortMapper/portmap_dom/TCMStatusImageFromMappingStatusValueTransformer.m -text
 tool/TCMPortMapper/portmap_dom/artwork/GenericQuestionMarkIcon.icns -text
+tool/TCMPortMapper/portmap_dom/artwork/NSAddTemplate.tiff -text
+tool/TCMPortMapper/portmap_dom/artwork/NSRefreshTemplate.tiff -text
+tool/TCMPortMapper/portmap_dom/artwork/NSRemoveTemplate.tiff -text
 tool/TCMPortMapper/portmap_dom/artwork/Off20.png -text
 tool/TCMPortMapper/portmap_dom/artwork/On20.png -text
 tool/TCMPortMapper/portmap_dom/artwork/PortMap.icns -text
