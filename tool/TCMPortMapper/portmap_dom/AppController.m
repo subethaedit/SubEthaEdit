@@ -12,6 +12,11 @@
 #import "TCMPortStringFromPublicPortValueTransformer.h"
 #import "TCMPortMappingAdditions.h"
 
+@interface NSWindow (privateLeopardAdditions)
+- (void)setAutorecalculatesContentBorderThickness:(BOOL)autorecalculateContentBorderThickness forEdge:(NSRectEdge)edge;
+- (void)setContentBorderThickness:(float)borderThickness forEdge:(NSRectEdge)edge;
+@end
+
 @implementation AppController
 
 + (void)initialize {
@@ -21,7 +26,11 @@
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
-
+    NSWindow *mainWindow = [O_refreshButton window];
+    if ([mainWindow respondsToSelector:@selector(setContentBorderThickness:forEdge:)]) {
+        [mainWindow setAutorecalculatesContentBorderThickness:NO forEdge:NSMaxYEdge];
+        [mainWindow setContentBorderThickness:20.0 forEdge:NSMaxYEdge];
+    }
 
     TCMPortMapper *pm=[TCMPortMapper sharedInstance];
     NSNotificationCenter *center=[NSNotificationCenter defaultCenter];

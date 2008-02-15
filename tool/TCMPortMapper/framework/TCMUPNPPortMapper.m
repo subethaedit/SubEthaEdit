@@ -33,7 +33,6 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
 }
 
 - (void)refresh {
-    NSLog(@"%s",__FUNCTION__);
     if ([_threadIsRunningLock tryLock]) {
         refreshThreadShouldQuit=NO;
         UpdatePortMappingsThreadShouldQuit = NO;
@@ -74,7 +73,6 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
 - (void)refreshInThread {
     [_threadIsRunningLock lock];
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
-    NSLog(@"%s",__FUNCTION__);
     [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadWithName:TCMUPNPPortMapperDidBeginWorkingNotification object:self];
     struct UPNPDev * devlist = 0;
     const char * multicastif = 0;
