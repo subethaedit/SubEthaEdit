@@ -152,7 +152,7 @@
 		F2C65BF50D50B1AE00820CAE /* natpmp.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = natpmp.h; sourceTree = "<group>"; };
 		F2C65BF60D50B1AE00820CAE /* natpmpc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = natpmpc.c; sourceTree = "<group>"; };
 		F2C65BF70D50B1AE00820CAE /* testgetgateway.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = testgetgateway.c; sourceTree = "<group>"; };
-		F2C65FFF0D50C2D100820CAE /* Port Dom.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Port Dom.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		F2C65FFF0D50C2D100820CAE /* Port Map.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Port Map.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2C660030D50C2D100820CAE /* Port Map (dom)-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Port Map (dom)-Info.plist"; sourceTree = "<group>"; };
 		F2C660290D50C58800820CAE /* PortMapper_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PortMapper_Prefix.pch; path = portmap_dom/PortMapper_Prefix.pch; sourceTree = "<group>"; };
 		F2C6602A0D50C58800820CAE /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = portmap_dom/main.m; sourceTree = "<group>"; };
@@ -262,7 +262,7 @@
 			isa = PBXGroup;
 			children = (
 				3180119F0D4DEC8400BE3B28 /* TCMPortMapper.framework */,
-				F2C65FFF0D50C2D100820CAE /* Port Dom.app */,
+				F2C65FFF0D50C2D100820CAE /* Port Map.app */,
 				F214E5DB0D5F5FE600A06962 /* NATEcho.app */,
 			);
 			name = Products;
@@ -552,7 +552,7 @@
 			);
 			name = "Port Map";
 			productName = "Port Map (dom)";
-			productReference = F2C65FFF0D50C2D100820CAE /* Port Dom.app */;
+			productReference = F2C65FFF0D50C2D100820CAE /* Port Map.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -866,7 +866,7 @@
 					AppKit,
 				);
 				PREBINDING = NO;
-				PRODUCT_NAME = "Port Dom";
+				PRODUCT_NAME = "Port Map";
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = YES;
 			};
@@ -890,7 +890,7 @@
 					AppKit,
 				);
 				PREBINDING = NO;
-				PRODUCT_NAME = "Port Dom";
+				PRODUCT_NAME = "Port Map";
 				WRAPPER_EXTENSION = app;
 				ZERO_LINK = NO;
 			};
