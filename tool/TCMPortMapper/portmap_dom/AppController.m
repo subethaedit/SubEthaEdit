@@ -25,11 +25,11 @@
     [NSValueTransformer setValueTransformer:[TCMReplacedStringFromPortMappingReferenceStringValueTransformer new] forName:@"TCMReplacedStringFromPortMappingReferenceString"];
 }
 
-- (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+- (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
     NSWindow *mainWindow = [O_refreshButton window];
     if ([mainWindow respondsToSelector:@selector(setContentBorderThickness:forEdge:)]) {
         [mainWindow setAutorecalculatesContentBorderThickness:NO forEdge:NSMaxYEdge];
-        [mainWindow setContentBorderThickness:20.0 forEdge:NSMaxYEdge];
+        [mainWindow setContentBorderThickness:73.0 forEdge:NSMaxYEdge];
     }
 
     TCMPortMapper *pm=[TCMPortMapper sharedInstance];
@@ -200,7 +200,7 @@
 }
 
 - (IBAction)choosePreset:(id)aSender {
-    NSLog(@"%s %@ %@ %@",__FUNCTION__,aSender, [aSender selectedItem],[[aSender selectedItem] representedObject]);
+//    NSLog(@"%s %@ %@ %@",__FUNCTION__,aSender, [aSender selectedItem],[[aSender selectedItem] representedObject]);
     NSDictionary *preset = [[aSender selectedItem] representedObject];
     [O_addLocalPortField setObjectValue:[preset objectForKey:@"localPort"]];
     [O_addDesiredField   setObjectValue:[preset objectForKey:@"desiredPort"]];
@@ -222,5 +222,17 @@
 - (void)stopProgressIndicator:(NSNotification *)aNotification {
     [O_globalProgressIndicator stopAnimation:self];
 }
+
+- (IBAction)gotoPortMapHomepage:(id)aSender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://www.codingmonkeys.de/portmap/"]];
+}
+- (IBAction)gotoTCMPortMapperSources:(id)aSender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://code.google.com/p/tcmportmapper/"]];
+}
+
+- (IBAction)reportABug:(id)aSender {
+    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://code.google.com/p/tcmportmapper/issues/entry"]];
+}
+
 
 @end

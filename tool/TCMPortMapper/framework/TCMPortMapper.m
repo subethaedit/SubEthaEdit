@@ -358,7 +358,11 @@ enum {
     static NSDictionary *hardwareManufacturerDictionary = nil;
     if (hardwareManufacturerDictionary==nil) {
         NSString *plistPath = [[NSBundle bundleForClass:[self class]] pathForResource:@"OUItoCompany" ofType:@"plist"];
-        hardwareManufacturerDictionary = [[NSDictionary alloc] initWithContentsOfFile:plistPath];
+        if (plistPath) {
+            hardwareManufacturerDictionary = [[NSDictionary alloc] initWithContentsOfFile:plistPath];
+        } else {
+            hardwareManufacturerDictionary = [NSDictionary new];
+        }
     }
     if ([aMACAddress length]<8) return nil;
     return [hardwareManufacturerDictionary objectForKey:[aMACAddress substringToIndex:8]];

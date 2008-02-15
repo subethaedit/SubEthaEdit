@@ -40,4 +40,8 @@
 - (IBAction)addMappingCancelSheet:(id)aSender;
 - (IBAction)choosePreset:(id)aSender;
 
+- (IBAction)gotoPortMapHomepage:(id)aSender;
+- (IBAction)gotoTCMPortMapperSources:(id)aSender;
+- (IBAction)reportABug:(id)aSender;
+
 @end
