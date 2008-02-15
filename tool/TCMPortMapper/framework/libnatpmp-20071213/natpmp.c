@@ -222,8 +222,7 @@ int readnatpmpresponseorretry(natpmp_t * p, natpmpresp_t * response)
 			gettimeofday(&now, NULL);	// check errors !
 			if(timercmp(&now, &p->retry_time, >=)) {
 				int delay, r;
-				if(p->try_number >= 7) { 
-#warning should be nine.
+				if(p->try_number >= 9) { 
 					return NATPMP_ERR_NOGATEWAYSUPPORT;
 				}
 				/*printf("retry! %d\n", p->try_number);*/

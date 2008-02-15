@@ -28,7 +28,7 @@
 	</dict>
 	<dict>
 		<key>mappingTitle</key>
-		<string>Apache</string>
+		<string>Web Server</string>
 		<key>desiredPort</key>
 		<integer>80</integer>
 		<key>localPort</key>
@@ -40,7 +40,7 @@
 	</dict>
 	<dict>
 		<key>mappingTitle</key>
-		<string>ssh</string>
+		<string>Secure Shell</string>
 		<key>desiredPort</key>
 		<integer>22</integer>
 		<key>localPort</key>
@@ -59,6 +59,18 @@
 		<integer>3000</integer>
 		<key>referenceString</key>
 		<string>http://[IP]:[PORT]</string>
+		<key>transportProtocol</key>
+		<integer>2</integer>
+	</dict>
+	<dict>
+		<key>mappingTitle</key>
+		<string>IRC Auth/Ident</string>
+		<key>desiredPort</key>
+		<integer>113</integer>
+		<key>localPort</key>
+		<integer>113</integer>
+		<key>referenceString</key>
+		<string>auth://[IP]:[PORT]</string>
 		<key>transportProtocol</key>
 		<integer>2</integer>
 	</dict>
