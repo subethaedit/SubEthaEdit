@@ -2449,6 +2449,7 @@ tool/TCMPortMapper/portmap_dom/artwork/Off20.png -text
 tool/TCMPortMapper/portmap_dom/artwork/On20.png -text
 tool/TCMPortMapper/portmap_dom/artwork/PortMap.icns -text
 tool/TCMPortMapper/portmap_dom/main.m -text
+tool/TCMPortMapper/portmap_dom/miniupnpc-LICENSE.txt -text
 tool/TCMPortMapper/ruby/nat-pmp-ip-broadcaster.rb -text
 tool/TCMPortMapper/ruby/nat-pmp-listener.rb -text
 tool/TCMXMLParser/ParserDelegate.h -text
