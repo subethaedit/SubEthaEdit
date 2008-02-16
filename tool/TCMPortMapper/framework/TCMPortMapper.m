@@ -135,6 +135,7 @@ enum {
 }
 
 - (void)networkDidChange:(NSNotification *)aNotification {
+    NSLog(@"%s %@",__FUNCTION__,aNotification);
     [self refresh];
 }
 
@@ -573,7 +574,8 @@ enum {
 
 - (void)didWake:(NSNotification *)aNotification {
     if (_isRunning) {
-        [self refresh];
+        // take some time because on the moment of awakening e.g. airport isn't yet connected
+        [self performSelector:@selector(refresh) withObject:nil afterDelay:1.];
     }
 }
 

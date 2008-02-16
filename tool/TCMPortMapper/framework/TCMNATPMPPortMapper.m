@@ -414,7 +414,7 @@ Standardablauf:
 #ifndef NDEBUG
                     NSLog(@"%s ----------------- thread quit prematurely",__FUNCTION__);
 #endif
-                    [natPMPThreadIsRunningLock performSelectorOnMainThread:@selector(unlock) withObject:nil waitUntilDone:YES];
+                    [natPMPThreadIsRunningLock unlock];
                     [self performSelectorOnMainThread:@selector(refresh) withObject:nil waitUntilDone:0];
                     closenatpmp(&natpmp);
                     [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadWithName:TCMNATPMPPortMapperDidEndWorkingNotification object:self];
