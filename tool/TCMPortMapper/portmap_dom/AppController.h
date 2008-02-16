@@ -31,6 +31,7 @@
 
 	IBOutlet NSWindow *O_instructionalSheetPanel;
     IBOutlet NSButton *O_dontShowInstructionsAgainButton;
+    IBOutlet NSWindow *O_aboutWindow;
 }
 
 - (IBAction)togglePortMapper:(id)aSender;
@@ -47,5 +48,7 @@
 - (IBAction)gotoPortMapHomepage:(id)aSender;
 - (IBAction)gotoTCMPortMapperSources:(id)aSender;
 - (IBAction)reportABug:(id)aSender;
+
+- (IBAction)showAbout:(id)aSender;
 
 @end

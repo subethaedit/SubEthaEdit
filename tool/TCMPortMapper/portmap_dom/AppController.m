@@ -261,5 +261,10 @@
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://code.google.com/p/tcmportmapper/issues/entry"]];
 }
 
+- (IBAction)showAbout:(id)aSender {
+    [O_aboutWindow center];
+    [O_aboutWindow makeKeyAndOrderFront:self];
+}
+
 
 @end
