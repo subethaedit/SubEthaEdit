@@ -105,7 +105,7 @@
         if ([pm externalIPAddress]) {
             [O_taglineTextField setStringValue:[NSString stringWithFormat:@"%@ - %@ - %@",[pm mappingProtocol],[pm routerName],[pm routerIPAddress]]];
         } else {
-            [O_taglineTextField setStringValue:[NSString stringWithFormat:@"%@ - %@ - %@",[pm mappingProtocol],[pm routerName],[pm routerIPAddress]]];
+            [O_taglineTextField setStringValue:[NSString stringWithFormat:@"%@ - %@ - %@",[pm mappingProtocol],[pm routerName],[pm routerIPAddress]?[pm routerIPAddress]:@"No Router"]];
         }
     } else {
         [O_taglineTextField setStringValue:@"Stopped"];

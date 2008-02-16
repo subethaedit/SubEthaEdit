@@ -417,6 +417,7 @@ Standardablauf:
                     [natPMPThreadIsRunningLock performSelectorOnMainThread:@selector(unlock) withObject:nil waitUntilDone:YES];
                     [self performSelectorOnMainThread:@selector(refresh) withObject:nil waitUntilDone:0];
                     closenatpmp(&natpmp);
+                    [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadWithName:TCMNATPMPPortMapperDidEndWorkingNotification object:self];
                     [pool release];
                     return;
                 }
@@ -509,7 +510,8 @@ static void readData (
     NSData *data = (NSData *)aData;
     TCMNATPMPPortMapper *natpmpMapper = (TCMNATPMPPortMapper *)anInfo;
     if ([data length]==12) {
-        NSString *senderAddress = [NSString stringWithAddressData:(NSData *)anAddress];
+        NSString *senderAddressAndPort = [NSString stringWithAddressData:(NSData *)anAddress];
+        NSString *senderAddress = [[senderAddressAndPort componentsSeparatedByString:@":"] objectAtIndex:0];
         // add UDP listener for public ip update packets
         //    0                   1                   2                   3
         //    0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1 2 3 4 5 6 7 8 9 0 1
@@ -525,6 +527,9 @@ static void readData (
         inet_ntop(AF_INET, &(bytes[8]), buffer, INET_ADDRSTRLEN);
         NSString *newIPAddress = [NSString stringWithUTF8String:buffer];
         int secondsSinceEpoch = ntohl(*((int32_t *)&(bytes[4])));
+#ifndef NDEBUG
+        NSLog(@"%s sender:%@ new:%@ seconds:%d",__FUNCTION__,senderAddressAndPort, newIPAddress, secondsSinceEpoch);
+#endif
         [natpmpMapper didReceiveExternalIP:newIPAddress fromSenderAddress:senderAddress secondsSinceEpoch:secondsSinceEpoch];
     }
 }

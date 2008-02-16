@@ -552,6 +552,9 @@ enum {
 }
 
 - (void)increaseWorkCount:(NSNotificationCenter *)aNotification {
+#ifndef NDEBUG
+    NSLog(@"%s %d %@",__FUNCTION__,_workCount,aNotification);
+#endif
     if (_workCount == 0) {
         [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidStartWorkNotification object:self];
     }
@@ -559,6 +562,9 @@ enum {
 }
 
 - (void)decreaseWorkCount:(NSNotificationCenter *)aNotification {
+#ifndef NDEBUG
+    NSLog(@"%s %d %@",__FUNCTION__,_workCount,aNotification);
+#endif
     _workCount--;
     if (_workCount == 0) {
         [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidEndWorkNotification object:self];
@@ -586,7 +592,7 @@ enum {
     if (_isRunning) {
         NSDictionary *userInfo = [aNotification userInfo];
         // senderAddress is of the format <ipv4address>:<port>
-        NSString *senderIPAddress = [[[userInfo objectForKey:@"senderAddress"] componentsSeparatedByString:@":"] objectAtIndex:0];
+        NSString *senderIPAddress = [userInfo objectForKey:@"senderAddress"];
         // we have to check if the sender is actually our router - if not disregard
         if ([senderIPAddress isEqualToString:[self routerIPAddress]]) {
             if (![[self externalIPAddress] isEqualToString:[userInfo objectForKey:@"externalIPAddress"]]) {
