@@ -57,8 +57,8 @@ void IGDdata(void * d, const char * data, int l)
 {
 	struct IGDdatas * datas = (struct IGDdatas *)d;
 	char * dstmember = 0;
-//	printf("%2d %s : %.*s\n",
-//           datas->level, datas->cureltname, l, data);	
+	/*printf("%2d %s : %.*s\n",
+           datas->level, datas->cureltname, l, data);	*/
 	if( !strcmp(datas->cureltname, "URLBase") )
 		dstmember = datas->urlbase;
     if (!strcmp(datas->cureltname, "modelDescription") && datas->level <= 3)

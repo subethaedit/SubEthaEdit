@@ -1,7 +1,7 @@
-/* $Id: upnpc.c,v 1.58 2007/12/22 11:28:03 nanard Exp $ */
+/* $Id: upnpc.c,v 1.60 2008/02/16 22:36:45 nanard Exp $ */
 /* Project : miniupnp
  * Author : Thomas Bernard
- * Copyright (c) 2005 Thomas Bernard
+ * Copyright (c) 2005-2008 Thomas Bernard
  * This software is subject to the conditions detailed in the
  * LICENCE file provided in this distribution.
  * */
@@ -231,7 +231,7 @@ int main(int argc, char ** argv)
 		return -1;
 	}
 #endif
-    printf("upnpc : miniupnp test client. (c) 2006-2007 Thomas Bernard\n");
+    printf("upnpc : miniupnpc library test client. (c) 2006-2008 Thomas Bernard\n");
     printf("Go to http://miniupnp.free.fr/ or http://miniupnp.tuxfamily.org/\n"
 	       "for more information.\n");
 	/* command line processing */
@@ -292,10 +292,26 @@ int main(int argc, char ** argv)
 					   device->descURL, device->st);
 			}
 		}
+		i = 1;
 		if( (rootdescurl && UPNP_GetIGDFromUrl(rootdescurl, &urls, &data, lanaddr, sizeof(lanaddr)))
-		  || UPNP_GetValidIGD(devlist, &urls, &data, lanaddr, sizeof(lanaddr)))
+		  || (i = UPNP_GetValidIGD(devlist, &urls, &data, lanaddr, sizeof(lanaddr))))
 		{
-			printf("Found valid IGD : %s\n", urls.controlURL);
+			switch(i) {
+			case 1:
+				printf("Found valid IGD : %s\n", urls.controlURL);
+				break;
+			case 2:
+				printf("Found a (not connected?) IGD : %s\n", urls.controlURL);
+				printf("Trying to continue anyway\n");
+				break;
+			case 3:
+				printf("UPnP device found. Is it an IGD ? : %s\n", urls.controlURL);
+				printf("Trying to continue anyway\n");
+				break;
+			default:
+				printf("Found device (igd ?) : %s\n", urls.controlURL);
+				printf("Trying to continue anyway\n");
+			}
 			printf("Local LAN ip address : %s\n", lanaddr);
 			#if 0
 			printf("getting \"%s\"\n", urls.ipcondescURL);

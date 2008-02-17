@@ -1,4 +1,4 @@
-/* $Id: upnperrors.c,v 1.1 2007/12/22 11:28:04 nanard Exp $ */
+/* $Id: upnperrors.c,v 1.2 2008/02/05 12:50:22 nanard Exp $ */
 /* Project : miniupnp
  * Author : Thomas BERNARD
  * copyright (c) 2007 Thomas Bernard
@@ -12,6 +12,9 @@ const char * strupnperror(int err)
 {
 	const char * s = NULL;
 	switch(err) {
+	case 401:
+		s = "Invalid Action";
+		break;
 	case 402:
 		s = "Invalid Args";
 		break;

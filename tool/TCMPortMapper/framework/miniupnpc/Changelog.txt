@@ -1,5 +1,13 @@
-$Id: Changelog.txt,v 1.55 2007/12/22 11:28:03 nanard Exp $
+$Id: Changelog.txt,v 1.58 2008/02/16 23:30:19 nanard Exp $
 miniUPnP client Changelog.
+
+2008/02/16:
+  better error handling in minisoap.c
+  improving display of "valid IGD found" in upnpc.c
+
+2008/02/03:
+  Fixing UPNP_GetValidIGD()
+  improved make install :)
 
 2007/12/22:
   Adding upnperrors.c/h to provide a strupnperror() function 

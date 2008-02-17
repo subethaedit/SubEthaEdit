@@ -1,4 +1,4 @@
-# $Id: Makefile,v 1.35 2007/12/22 11:28:03 nanard Exp $
+# $Id: Makefile,v 1.36 2008/02/03 22:26:41 nanard Exp $
 # MiniUPnP Project
 # http://miniupnp.free.fr/
 # (c) 2005-2007 Thomas Bernard
@@ -69,7 +69,7 @@ install:	$(LIBRARY) $(SHAREDLIBRARY)
 	$(INSTALL) --mode=644 $(LIBRARY) $(INSTALLDIRLIB)
 	$(INSTALL) --mode=644 $(SHAREDLIBRARY) $(INSTALLDIRLIB)/$(SONAME)
 	#ln --symbolic $(INSTALLDIRLIB)/$(SONAME) $(INSTALLDIRLIB)/$(SHAREDLIBRARY)
-	ln --symbolic $(SONAME) $(INSTALLDIRLIB)/$(SHAREDLIBRARY)
+	ln --symbolic --force $(SONAME) $(INSTALLDIRLIB)/$(SHAREDLIBRARY)
 
 cleaninstall:
 	$(RM) -r $(INSTALLDIRINC)
