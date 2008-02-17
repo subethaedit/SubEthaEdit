@@ -2379,6 +2379,7 @@ tool/TCMPortMapper/framework/libnatpmp-20071213/natpmp.c -text
 tool/TCMPortMapper/framework/libnatpmp-20071213/natpmp.h -text
 tool/TCMPortMapper/framework/libnatpmp-20071213/natpmpc.c -text
 tool/TCMPortMapper/framework/libnatpmp-20071213/testgetgateway.c -text
+tool/TCMPortMapper/framework/miniupnp_modeldescription.patch -text
 tool/TCMPortMapper/framework/miniupnpc/Changelog.txt -text
 tool/TCMPortMapper/framework/miniupnpc/LICENCE -text
 tool/TCMPortMapper/framework/miniupnpc/Makefile -text
