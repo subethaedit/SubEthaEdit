@@ -35,11 +35,11 @@
     TCMPortMapper *pm=[TCMPortMapper sharedInstance];
     NSNotificationCenter *center=[NSNotificationCenter defaultCenter];
     [center addObserver:self selector:@selector(portMapperExternalIPAddressDidChange:) name:TCMPortMapperExternalIPAddressDidChange object:pm];
-    [center addObserver:self selector:@selector(portMapperWillSearchForRouter:) name:TCMPortMapperWillSearchForRouterNotification object:pm];
-    [center addObserver:self selector:@selector(portMapperDidFindRouter:) name:TCMPortMapperDidFindRouterNotification object:pm];
+    [center addObserver:self selector:@selector(portMapperWillSearchForRouter:) name:TCMPortMapperWillStartSearchForRouterNotification object:pm];
+    [center addObserver:self selector:@selector(portMapperDidFindRouter:) name:TCMPortMapperDidFinishSearchForRouterNotification object:pm];
     [center addObserver:self selector:@selector(portMappingDidChangeMappingStatus:) name:TCMPortMappingDidChangeMappingStatusNotification object:nil];
     [center addObserver:self selector:@selector(startProgressIndicator:) name:TCMPortMapperDidStartWorkNotification object:nil];
-    [center addObserver:self selector:@selector(stopProgressIndicator:) name:TCMPortMapperDidEndWorkNotification   object:nil];
+    [center addObserver:self selector:@selector(stopProgressIndicator:) name:TCMPortMapperDidFinishWorkNotification   object:nil];
     NSEnumerator *mappings=[[[NSUserDefaults standardUserDefaults] objectForKey:@"StoredMappings"] objectEnumerator];
     NSDictionary *mappingRep = nil;
     while ((mappingRep = [mappings nextObject])) {

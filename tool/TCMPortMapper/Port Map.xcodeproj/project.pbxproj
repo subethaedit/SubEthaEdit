@@ -214,7 +214,6 @@
 		F2C65BF60D50B1AE00820CAE /* natpmpc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = natpmpc.c; sourceTree = "<group>"; };
 		F2C65BF70D50B1AE00820CAE /* testgetgateway.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = testgetgateway.c; sourceTree = "<group>"; };
 		F2C65FFF0D50C2D100820CAE /* Port Map.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Port Map.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F2C660030D50C2D100820CAE /* Port Map (dom)-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Port Map (dom)-Info.plist"; sourceTree = "<group>"; };
 		F2C660290D50C58800820CAE /* PortMapper_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PortMapper_Prefix.pch; path = portmap_dom/PortMapper_Prefix.pch; sourceTree = "<group>"; };
 		F2C6602A0D50C58800820CAE /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = portmap_dom/main.m; sourceTree = "<group>"; };
 		F2C6602C0D50C58F00820CAE /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppController.m; path = portmap_dom/AppController.m; sourceTree = "<group>"; };
@@ -303,7 +302,6 @@
 				F2C65BDD0D50B16100820CAE /* TCMPortMapper.framework */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
-				F2C660030D50C2D100820CAE /* Port Map (dom)-Info.plist */,
 			);
 			name = PortMapper;
 			sourceTree = "<group>";
@@ -864,8 +862,9 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/framework/miniupnpc\"",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 				);
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/framework/miniupnpc\"";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -892,8 +891,9 @@
 				INSTALL_PATH = "$(HOME)/Applications";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
-					"\"$(SRCROOT)/framework/miniupnpc\"",
+					"$(LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1)",
 				);
+				LIBRARY_SEARCH_PATHS_QUOTED_FOR_TARGET_1 = "\"$(SRCROOT)/framework/miniupnpc\"";
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,

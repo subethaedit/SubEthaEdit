@@ -13,33 +13,33 @@
 
 extern NSString * const TCMPortMapperExternalIPAddressDidChange;
 
-extern NSString * const TCMPortMapperWillSearchForRouterNotification;
-extern NSString * const TCMPortMapperDidFindRouterNotification;
+extern NSString * const TCMPortMapperWillStartSearchForRouterNotification;
+extern NSString * const TCMPortMapperDidFinishSearchForRouterNotification;
 
 extern NSString * const TCMPortMapperDidStartWorkNotification;
-extern NSString * const TCMPortMapperDidEndWorkNotification;
+extern NSString * const TCMPortMapperDidFinishWorkNotification;
 
 extern NSString * const TCMPortMappingDidChangeMappingStatusNotification;
 
-extern NSString * const TCMNATPMPProtocol;
-extern NSString * const TCMUPNPProtocol;  
-extern NSString * const TCMPortMapProtocolNone;
+extern NSString * const TCMNATPMPPortMapProtocol;
+extern NSString * const TCMUPNPPortMapProtocol;  
+extern NSString * const TCMNoPortMapProtocol;
 
 typedef enum {
     TCMPortMappingStatusUnmapped = 0,
-    TCMPortMappingStatusTrying = 1,
-    TCMPortMappingStatusMapped = 2
+    TCMPortMappingStatusTrying   = 1,
+    TCMPortMappingStatusMapped   = 2
 } TCMPortMappingStatus;
 
 typedef enum {
-    TCMPortMappingTransportProtocolUDP = 1,
-    TCMPortMappingTransportProtocolTCP = 2,
+    TCMPortMappingTransportProtocolUDP  = 1,
+    TCMPortMappingTransportProtocolTCP  = 2,
     TCMPortMappingTransportProtocolBoth = 3
 } TCMPortMappingTransportProtocol;
 
 
 @interface TCMPortMapping : NSObject {
-    int _privatePort;
+    int _localPort;
     int _publicPort;
     int _desiredPublicPort;
     id  _userInfo;
@@ -100,7 +100,7 @@ typedef enum {
 - (void)setMappingProtocol:(NSString *)aProtocol;
 - (NSString *)mappingProtocol;
 - (void)setRouterName:(NSString *)aRouterName;
-- (NSString *)routerName; // UPNP name or IP address
+- (NSString *)routerName;
 - (NSString *)routerIPAddress;
 - (NSString *)routerHardwareAddress;
 

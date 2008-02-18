@@ -19,7 +19,7 @@
 - (NSDictionary *)dictionaryRepresentation {
     return [NSDictionary dictionaryWithObjectsAndKeys:
     [self userInfo],@"userInfo",
-    [NSNumber numberWithInt:_privatePort],@"privatePort",
+    [NSNumber numberWithInt:_localPort],@"privatePort",
     [NSNumber numberWithInt:_desiredPublicPort],@"desiredPublicPort",
     [NSNumber numberWithInt:_transportProtocol],@"transportProtocol",
     nil];

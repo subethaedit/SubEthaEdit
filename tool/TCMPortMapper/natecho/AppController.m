@@ -14,7 +14,7 @@
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
     TCMPortMapper *pm = [TCMPortMapper sharedInstance];
     [[NSNotificationCenter defaultCenter] addObserver:O_publicIndicator selector:@selector(startAnimation:) name:TCMPortMapperDidStartWorkNotification object:pm];
-    [[NSNotificationCenter defaultCenter] addObserver:O_publicIndicator selector:@selector(stopAnimation:) name:TCMPortMapperDidEndWorkNotification object:pm];
+    [[NSNotificationCenter defaultCenter] addObserver:O_publicIndicator selector:@selector(stopAnimation:) name:TCMPortMapperDidFinishWorkNotification object:pm];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMappingStatus:) name:TCMPortMappingDidChangeMappingStatusNotification object:nil];
     I_server = [TCPServer new];
     [I_server setType:@"_echo._tcp."];

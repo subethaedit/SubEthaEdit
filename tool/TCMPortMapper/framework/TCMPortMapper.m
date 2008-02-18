@@ -20,17 +20,17 @@
 #import <netinet/if_ether.h>
 #import <net/if_dl.h>
 
-NSString * const TCMPortMapperExternalIPAddressDidChange          = @"TCMPortMapperExternalIPAddressDidChange";
-NSString * const TCMPortMapperWillSearchForRouterNotification     = @"TCMPortMapperWillSearchForRouterNotification";
-NSString * const TCMPortMapperDidFindRouterNotification           = @"TCMPortMapperDidFindRouterNotification";
-NSString * const TCMPortMappingDidChangeMappingStatusNotification = @"TCMPortMappingDidChangeMappingStatusNotification";
-NSString * const TCMPortMapperDidStartWorkNotification            = @"TCMPortMapperDidStartWorkNotification";
-NSString * const TCMPortMapperDidEndWorkNotification              = @"TCMPortMapperDidEndWorkNotification";
+NSString * const TCMPortMapperExternalIPAddressDidChange            = @"TCMPortMapperExternalIPAddressDidChange";
+NSString * const TCMPortMapperWillStartSearchForRouterNotification  = @"TCMPortMapperWillStartSearchForRouterNotification";
+NSString * const TCMPortMapperDidFinishSearchForRouterNotification  = @"TCMPortMapperDidFinishSearchForRouterNotification";
+NSString * const TCMPortMappingDidChangeMappingStatusNotification   = @"TCMPortMappingDidChangeMappingStatusNotification";
+NSString * const TCMPortMapperDidStartWorkNotification              = @"TCMPortMapperDidStartWorkNotification";
+NSString * const TCMPortMapperDidFinishWorkNotification             = @"TCMPortMapperDidFinishWorkNotification";
 
 
-NSString * const TCMNATPMPProtocol = @"NAT-PMP";
-NSString * const TCMUPNPProtocol   = @"UPnP";
-NSString * const TCMPortMapProtocolNone   = @"None";
+NSString * const TCMNATPMPPortMapProtocol = @"NAT-PMP";
+NSString * const TCMUPNPPortMapProtocol   = @"UPnP";
+NSString * const TCMNoPortMapProtocol   = @"None";
 
 
 static TCMPortMapper *S_sharedInstance;
@@ -211,9 +211,9 @@ enum {
 
 - (void)updatePortMappings {
     NSString *protocol = [self mappingProtocol];
-    if ([protocol isEqualToString:TCMNATPMPProtocol]) {
+    if ([protocol isEqualToString:TCMNATPMPPortMapProtocol]) {
         [_NATPMPPortMapper updatePortMappings];
-    } else if ([protocol isEqualToString:TCMUPNPProtocol]) {
+    } else if ([protocol isEqualToString:TCMUPNPPortMapProtocol]) {
         [_UPNPPortMapper updatePortMappings];
     }
 }
@@ -243,7 +243,7 @@ enum {
 - (void)refresh {
     // reinitialisieren: public ip und router modell auf nil setzen - portmappingsstatus auf unmapped setzen, wenn trying dann upnp/natpimp zurücksetzen
     [self setRouterName:@"Unknown"];
-    [self setMappingProtocol:TCMPortMapProtocolNone];
+    [self setMappingProtocol:TCMNoPortMapProtocol];
     [self setExternalIPAddress:nil];
     @synchronized(_portMappings) {
        NSEnumerator *portMappings = [_portMappings objectEnumerator];
@@ -253,7 +253,7 @@ enum {
                [portMapping setMappingStatus:TCMPortMappingStatusUnmapped];
        }
     }
-    [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperWillSearchForRouterNotification object:self];   
+    [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperWillStartSearchForRouterNotification object:self];   
     
     NSString *routerAddress = [self routerIPAddress];
     if (routerAddress) {
@@ -275,15 +275,15 @@ enum {
                 _NATPMPStatus = TCMPortMapProtocolFailed;
                 _UPNPStatus   = TCMPortMapProtocolFailed;
                 [self setExternalIPAddress:localIPAddress];
-                [self setMappingProtocol:TCMPortMapProtocolNone];
-                [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidFindRouterNotification object:self];
+                [self setMappingProtocol:TCMNoPortMapProtocol];
+                [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidFinishSearchForRouterNotification object:self];
                 // we know we have a public address so we are finished - but maybe we should set all mappings to mapped
             }
         } else {
-            [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidFindRouterNotification object:self];
+            [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidFinishSearchForRouterNotification object:self];
         }
     } else {
-        [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidFindRouterNotification object:self];
+        [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidFinishSearchForRouterNotification object:self];
     }
 }
 
@@ -416,12 +416,12 @@ enum {
     BOOL shouldNotify = NO;
     if (_NATPMPStatus==TCMPortMapProtocolTrying) {
         _NATPMPStatus =TCMPortMapProtocolWorks;
-        [self setMappingProtocol:TCMNATPMPProtocol];
+        [self setMappingProtocol:TCMNATPMPPortMapProtocol];
         shouldNotify = YES;
     }
     [self setExternalIPAddress:[[aNotification userInfo] objectForKey:@"externalIPAddress"]];
     if (shouldNotify) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidFindRouterNotification object:self];
+        [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidFinishSearchForRouterNotification object:self];
     }
 }
 
@@ -433,7 +433,7 @@ enum {
     }
     // also mark all port mappings as unmapped
     if (_UPNPStatus == TCMPortMapProtocolFailed) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidFindRouterNotification object:self];
+        [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidFinishSearchForRouterNotification object:self];
     }
 }
 
@@ -441,7 +441,7 @@ enum {
     BOOL shouldNotify = NO;
     if (_UPNPStatus==TCMPortMapProtocolTrying) {
         _UPNPStatus =TCMPortMapProtocolWorks;
-        [self setMappingProtocol:TCMUPNPProtocol];
+        [self setMappingProtocol:TCMUPNPPortMapProtocol];
         shouldNotify = YES;
     }
     NSString *routerName = [[aNotification userInfo] objectForKey:@"routerName"];
@@ -450,7 +450,7 @@ enum {
     }
     [self setExternalIPAddress:[[aNotification userInfo] objectForKey:@"externalIPAddress"]];
     if (shouldNotify) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidFindRouterNotification object:self];
+        [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidFinishSearchForRouterNotification object:self];
     }
 }
 
@@ -462,7 +462,7 @@ enum {
     }
     // also mark all port mappings as unmapped
     if (_NATPMPStatus == TCMPortMapProtocolFailed) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidFindRouterNotification object:self];
+        [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidFinishSearchForRouterNotification object:self];
     }
 }
 
@@ -568,7 +568,7 @@ enum {
 #endif
     _workCount--;
     if (_workCount == 0) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidEndWorkNotification object:self];
+        [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidFinishWorkNotification object:self];
     }
 }
 
@@ -621,7 +621,7 @@ enum {
 - (id)initWithPrivatePort:(int)aPrivatePort desiredPublicPort:(int)aPublicPort transportProtocol:(int)aTransportProtocol userInfo:(id)aUserInfo {
     if ((self=[super init])) {
         _desiredPublicPort = aPublicPort;
-        _privatePort = aPrivatePort;
+        _localPort = aPrivatePort;
         _userInfo = [aUserInfo retain];
         _transportProtocol = aTransportProtocol;
     }
@@ -681,11 +681,11 @@ enum {
 
 
 - (int)privatePort {
-    return _privatePort;
+    return _localPort;
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"%@ privatePort:%u desiredPublicPort:%u publicPort:%u mappingStatus:%@ transportProtocol:%d",[super description], _privatePort, _desiredPublicPort, _publicPort, _mappingStatus == TCMPortMappingStatusUnmapped ? @"unmapped" : (_mappingStatus == TCMPortMappingStatusMapped ? @"mapped" : @"trying"),_transportProtocol];
+    return [NSString stringWithFormat:@"%@ privatePort:%u desiredPublicPort:%u publicPort:%u mappingStatus:%@ transportProtocol:%d",[super description], _localPort, _desiredPublicPort, _publicPort, _mappingStatus == TCMPortMappingStatusUnmapped ? @"unmapped" : (_mappingStatus == TCMPortMappingStatusMapped ? @"mapped" : @"trying"),_transportProtocol];
 }
 
 @end
