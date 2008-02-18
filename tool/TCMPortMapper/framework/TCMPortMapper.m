@@ -613,14 +613,14 @@ enum {
 @implementation TCMPortMapping 
 
 
-+ (id)portMappingWithPrivatePort:(int)aPrivatePort desiredPublicPort:(int)aPublicPort userInfo:(id)aUserInfo {
++ (id)portMappingWithLocalPort:(int)aPrivatePort desiredExternalPort:(int)aPublicPort userInfo:(id)aUserInfo {
     NSAssert(aPrivatePort<65536 && aPublicPort<65536 && aPrivatePort>0 && aPublicPort>0, @"Port number has to be between 1 and 65535");
-    return [[[self alloc] initWithPrivatePort:aPrivatePort desiredPublicPort:aPublicPort transportProtocol:TCMPortMappingTransportProtocolTCP userInfo:aUserInfo] autorelease];
+    return [[[self alloc] initWithLocalPort:aPrivatePort desiredExternalPort:aPublicPort transportProtocol:TCMPortMappingTransportProtocolTCP userInfo:aUserInfo] autorelease];
 }
 
-- (id)initWithPrivatePort:(int)aPrivatePort desiredPublicPort:(int)aPublicPort transportProtocol:(int)aTransportProtocol userInfo:(id)aUserInfo {
+- (id)initWithLocalPort:(int)aPrivatePort desiredExternalPort:(int)aPublicPort transportProtocol:(int)aTransportProtocol userInfo:(id)aUserInfo {
     if ((self=[super init])) {
-        _desiredPublicPort = aPublicPort;
+        _desiredExternalPort = aPublicPort;
         _localPort = aPrivatePort;
         _userInfo = [aUserInfo retain];
         _transportProtocol = aTransportProtocol;
@@ -633,8 +633,8 @@ enum {
     [super dealloc];
 }
 
-- (int)desiredPublicPort {
-    return _desiredPublicPort;
+- (int)desiredExternalPort {
+    return _desiredExternalPort;
 }
 
 
@@ -652,7 +652,7 @@ enum {
     if (_mappingStatus != aStatus) {
         _mappingStatus = aStatus;
         if (_mappingStatus == TCMPortMappingStatusUnmapped) {
-            [self setPublicPort:0];
+            [self setExternalPort:0];
         }
         [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadWithName:TCMPortMappingDidChangeMappingStatusNotification object:self];
     }
@@ -671,21 +671,21 @@ enum {
 }
 
 
-- (int)publicPort {
-    return _publicPort;
+- (int)externalPort {
+    return _externalPort;
 }
 
-- (void)setPublicPort:(int)aPublicPort {
-    _publicPort=aPublicPort;
+- (void)setExternalPort:(int)aPublicPort {
+    _externalPort=aPublicPort;
 }
 
 
-- (int)privatePort {
+- (int)localPort {
     return _localPort;
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"%@ privatePort:%u desiredPublicPort:%u publicPort:%u mappingStatus:%@ transportProtocol:%d",[super description], _localPort, _desiredPublicPort, _publicPort, _mappingStatus == TCMPortMappingStatusUnmapped ? @"unmapped" : (_mappingStatus == TCMPortMappingStatusMapped ? @"mapped" : @"trying"),_transportProtocol];
+    return [NSString stringWithFormat:@"%@ privatePort:%u desiredPublicPort:%u publicPort:%u mappingStatus:%@ transportProtocol:%d",[super description], _localPort, _desiredExternalPort, _externalPort, _mappingStatus == TCMPortMappingStatusUnmapped ? @"unmapped" : (_mappingStatus == TCMPortMappingStatusMapped ? @"mapped" : @"trying"),_transportProtocol];
 }
 
 @end

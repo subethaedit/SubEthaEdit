@@ -41,7 +41,7 @@
         // because the port is an option we need to add a new port mapping each time
         // and remove it afterwards. if it was fixed we could add the port mapping in preparation 
         // and just start or stop the port mapper
-        [pm addPortMapping:[TCMPortMapping portMappingWithPrivatePort:port desiredPublicPort:port userInfo:nil]];
+        [pm addPortMapping:[TCMPortMapping portMappingWithLocalPort:port desiredExternalPort:port userInfo:nil]];
         [pm start];
     } else {
         NSLog(@"%s %@",__FUNCTION__,error);
@@ -84,7 +84,7 @@
         [O_publicStatusTextField setStringValue:@"Trying..."];
     } else if ([aMapping mappingStatus] == TCMPortMappingStatusMapped) {
         [O_publicStatusImageView setImage:[NSImage imageNamed:@"DotGreen"]];
-        [O_publicStatusTextField setStringValue:[NSString stringWithFormat:@"telnet %@ %d",[[TCMPortMapper sharedInstance] externalIPAddress],[aMapping publicPort]]];
+        [O_publicStatusTextField setStringValue:[NSString stringWithFormat:@"telnet %@ %d",[[TCMPortMapper sharedInstance] externalIPAddress],[aMapping externalPort]]];
     }
 }
 

@@ -44,7 +44,7 @@
 			if ([string rangeOfString:@"[IP]"].location!=NSNotFound)
 				[string replaceCharactersInRange:[string rangeOfString:@"[IP]"] withString:[[TCMPortMapper sharedInstance] externalIPAddress]];
 			if ([string rangeOfString:@"[PORT]"].location!=NSNotFound)
-				[string replaceCharactersInRange:[string rangeOfString:@"[PORT]"] withString:[NSString stringWithFormat:@"%d",[value publicPort]]];
+				[string replaceCharactersInRange:[string rangeOfString:@"[PORT]"] withString:[NSString stringWithFormat:@"%d",[value externalPort]]];
 		}
         return string;
     } else {

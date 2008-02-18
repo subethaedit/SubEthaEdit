@@ -249,7 +249,7 @@ Standardablauf:
 	int i;
 	for (i=1;i<=2;i++) {
         if ((i == protocol)||(protocol == TCMPortMappingTransportProtocolBoth)) {
-            r = sendnewportmappingrequest(aNatPMPt, (i==TCMPortMappingTransportProtocolUDP)?NATPMP_PROTOCOL_UDP:NATPMP_PROTOCOL_TCP, [aPortMapping privatePort],[aPortMapping desiredPublicPort], shouldRemove?0:3600);
+            r = sendnewportmappingrequest(aNatPMPt, (i==TCMPortMappingTransportProtocolUDP)?NATPMP_PROTOCOL_UDP:NATPMP_PROTOCOL_TCP, [aPortMapping localPort],[aPortMapping desiredExternalPort], shouldRemove?0:3600);
         
             do {
                 FD_ZERO(&fds);
@@ -275,7 +275,7 @@ Standardablauf:
 	       NSLog(@"%s caution - new port mapping had a lifetime < 120. : %u - %@",__FUNCTION__,response.newportmapping.lifetime, aPortMapping);
 	       _updateInterval = 60.;
 	   }
-	   [aPortMapping setPublicPort:response.newportmapping.mappedpublicport];
+	   [aPortMapping setExternalPort:response.newportmapping.mappedpublicport];
 	   [aPortMapping setMappingStatus:TCMPortMappingStatusMapped];
 	}
 	

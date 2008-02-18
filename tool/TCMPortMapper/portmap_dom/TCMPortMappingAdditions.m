@@ -12,7 +12,7 @@
 @implementation TCMPortMapping (TCMPortMappingAdditions)
 
 + (TCMPortMapping*)portMappingWithDictionaryRepresentation:(NSDictionary *)aDictionary {
-    TCMPortMapping *mapping = [TCMPortMapping portMappingWithPrivatePort:[[aDictionary objectForKey:@"privatePort"] intValue] desiredPublicPort:[[aDictionary objectForKey:@"desiredPublicPort"] intValue] userInfo:[aDictionary objectForKey:@"userInfo"]];
+    TCMPortMapping *mapping = [TCMPortMapping portMappingWithLocalPort:[[aDictionary objectForKey:@"privatePort"] intValue] desiredExternalPort:[[aDictionary objectForKey:@"desiredPublicPort"] intValue] userInfo:[aDictionary objectForKey:@"userInfo"]];
     [mapping setTransportProtocol:[[aDictionary objectForKey:@"transportProtocol"] intValue]];
     return mapping;
 }
@@ -20,7 +20,7 @@
     return [NSDictionary dictionaryWithObjectsAndKeys:
     [self userInfo],@"userInfo",
     [NSNumber numberWithInt:_localPort],@"privatePort",
-    [NSNumber numberWithInt:_desiredPublicPort],@"desiredPublicPort",
+    [NSNumber numberWithInt:_desiredExternalPort],@"desiredPublicPort",
     [NSNumber numberWithInt:_transportProtocol],@"transportProtocol",
     nil];
 }
