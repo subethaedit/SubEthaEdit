@@ -199,7 +199,7 @@
 
 - (IBAction)addMappingEndSheet:(id)aSender {
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES],@"active",[O_addDescriptionField stringValue],@"mappingTitle",[O_addReferenceStringField stringValue],@"referenceString",nil];
-    TCMPortMapping *mapping = [TCMPortMapping portMappingWithLocalPort:[O_addLocalPortField intValue] desiredExternalPort:[O_addDesiredField intValue] userInfo:userInfo];
+    TCMPortMapping *mapping = [TCMPortMapping portMappingWithLocalPort:[O_addLocalPortField intValue] desiredExternalPort:[O_addDesiredField intValue] transportProtocol:TCMPortMappingTransportProtocolTCP userInfo:userInfo];
     int transportProtocol = 0;
     if ([O_addProtocolTCPButton state] == NSOnState) transportProtocol+=TCMPortMappingTransportProtocolTCP;
     if ([O_addProtocolUDPButton state] == NSOnState) transportProtocol+=TCMPortMappingTransportProtocolUDP;

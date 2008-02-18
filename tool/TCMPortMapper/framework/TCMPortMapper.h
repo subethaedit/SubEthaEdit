@@ -46,7 +46,7 @@ typedef enum {
     TCMPortMappingStatus _mappingStatus;
     TCMPortMappingTransportProtocol _transportProtocol;
 }
-+ (id)portMappingWithLocalPort:(int)aPrivatePort desiredExternalPort:(int)aPublicPort userInfo:(id)aUserInfo;
++ (id)portMappingWithLocalPort:(int)aPrivatePort desiredExternalPort:(int)aPublicPort transportProtocol:(int)aTransportProtocol userInfo:(id)aUserInfo;
 - (id)initWithLocalPort:(int)aPrivatePort desiredExternalPort:(int)aPublicPort transportProtocol:(int)aTransportProtocol userInfo:(id)aUserInfo;
 - (int)desiredExternalPort;
 - (id)userInfo;

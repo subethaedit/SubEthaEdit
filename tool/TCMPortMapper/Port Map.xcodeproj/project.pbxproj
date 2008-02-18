@@ -19,30 +19,6 @@
 		F214E6170D5F660100A06962 /* TCMPortMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3180119F0D4DEC8400BE3B28 /* TCMPortMapper.framework */; };
 		F214E6200D5F661400A06962 /* TCMPortMapper.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 3180119F0D4DEC8400BE3B28 /* TCMPortMapper.framework */; };
 		F217EF220D6082B40028E112 /* TCPServer.m in Sources */ = {isa = PBXBuildFile; fileRef = F217EF210D6082B40028E112 /* TCPServer.m */; };
-		F2301B340D685C1B00728699 /* Changelog.txt in Resources */ = {isa = PBXBuildFile; fileRef = F2301B020D685C1B00728699 /* Changelog.txt */; };
-		F2301B350D685C1B00728699 /* igd_desc_parse.c in Sources */ = {isa = PBXBuildFile; fileRef = F2301B040D685C1B00728699 /* igd_desc_parse.c */; };
-		F2301B370D685C1B00728699 /* libminiupnpc.a in Frameworks */ = {isa = PBXBuildFile; fileRef = F2301B070D685C1B00728699 /* libminiupnpc.a */; };
-		F2301B380D685C1B00728699 /* LICENCE in Resources */ = {isa = PBXBuildFile; fileRef = F2301B080D685C1B00728699 /* LICENCE */; };
-		F2301B390D685C1B00728699 /* Makefile in Sources */ = {isa = PBXBuildFile; fileRef = F2301B090D685C1B00728699 /* Makefile */; };
-		F2301B3A0D685C1B00728699 /* Makefile.mingw in Resources */ = {isa = PBXBuildFile; fileRef = F2301B0A0D685C1B00728699 /* Makefile.mingw */; };
-		F2301B3B0D685C1B00728699 /* miniupnpc.3 in Resources */ = {isa = PBXBuildFile; fileRef = F2301B0C0D685C1B00728699 /* miniupnpc.3 */; };
-		F2301B3D0D685C1B00728699 /* minisoap.c in Sources */ = {isa = PBXBuildFile; fileRef = F2301B0E0D685C1B00728699 /* minisoap.c */; };
-		F2301B3F0D685C1B00728699 /* minissdpc.c in Sources */ = {isa = PBXBuildFile; fileRef = F2301B110D685C1B00728699 /* minissdpc.c */; };
-		F2301B410D685C1B00728699 /* miniupnpc.c in Sources */ = {isa = PBXBuildFile; fileRef = F2301B140D685C1B00728699 /* miniupnpc.c */; };
-		F2301B430D685C1B00728699 /* miniupnpcmodule.c in Sources */ = {isa = PBXBuildFile; fileRef = F2301B170D685C1B00728699 /* miniupnpcmodule.c */; };
-		F2301B440D685C1B00728699 /* miniwget.c in Sources */ = {isa = PBXBuildFile; fileRef = F2301B180D685C1B00728699 /* miniwget.c */; };
-		F2301B460D685C1B00728699 /* minixml.c in Sources */ = {isa = PBXBuildFile; fileRef = F2301B1B0D685C1B00728699 /* minixml.c */; };
-		F2301B490D685C1B00728699 /* minixmlvalid.c in Sources */ = {isa = PBXBuildFile; fileRef = F2301B1F0D685C1B00728699 /* minixmlvalid.c */; };
-		F2301B4B0D685C1B00728699 /* pymoduletest.py in Resources */ = {isa = PBXBuildFile; fileRef = F2301B210D685C1B00728699 /* pymoduletest.py */; };
-		F2301B4C0D685C1B00728699 /* README in Resources */ = {isa = PBXBuildFile; fileRef = F2301B220D685C1B00728699 /* README */; };
-		F2301B4D0D685C1B00728699 /* setup.py in Resources */ = {isa = PBXBuildFile; fileRef = F2301B230D685C1B00728699 /* setup.py */; };
-		F2301B4E0D685C1B00728699 /* setupmingw32.py in Resources */ = {isa = PBXBuildFile; fileRef = F2301B240D685C1B00728699 /* setupmingw32.py */; };
-		F2301B4F0D685C1B00728699 /* testminixml.c in Sources */ = {isa = PBXBuildFile; fileRef = F2301B250D685C1B00728699 /* testminixml.c */; };
-		F2301B500D685C1B00728699 /* testupnpreplyparse.c in Sources */ = {isa = PBXBuildFile; fileRef = F2301B260D685C1B00728699 /* testupnpreplyparse.c */; };
-		F2301B520D685C1B00728699 /* upnpc.c in Sources */ = {isa = PBXBuildFile; fileRef = F2301B280D685C1B00728699 /* upnpc.c */; };
-		F2301B540D685C1B00728699 /* upnpcommands.c in Sources */ = {isa = PBXBuildFile; fileRef = F2301B2A0D685C1B00728699 /* upnpcommands.c */; };
-		F2301B560D685C1B00728699 /* upnperrors.c in Sources */ = {isa = PBXBuildFile; fileRef = F2301B2D0D685C1B00728699 /* upnperrors.c */; };
-		F2301B580D685C1B00728699 /* upnpreplyparse.c in Sources */ = {isa = PBXBuildFile; fileRef = F2301B300D685C1B00728699 /* upnpreplyparse.c */; };
 		F2301B5B0D685C2700728699 /* igd_desc_parse.c in Sources */ = {isa = PBXBuildFile; fileRef = F2301B040D685C1B00728699 /* igd_desc_parse.c */; };
 		F2301B5C0D685C2A00728699 /* minisoap.c in Sources */ = {isa = PBXBuildFile; fileRef = F2301B0E0D685C1B00728699 /* minisoap.c */; };
 		F2301B5D0D685C3300728699 /* minissdpc.c in Sources */ = {isa = PBXBuildFile; fileRef = F2301B110D685C1B00728699 /* minissdpc.c */; };
@@ -250,7 +226,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F214E6170D5F660100A06962 /* TCMPortMapper.framework in Frameworks */,
-				F2301B370D685C1B00728699 /* libminiupnpc.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -621,14 +596,6 @@
 				F2CDB8C90D65BF2200B6A4E7 /* NSRefreshTemplate.tiff in Resources */,
 				F2CDB8CA0D65BF2200B6A4E7 /* NSRemoveTemplate.tiff in Resources */,
 				F2CDB8FB0D65D82900B6A4E7 /* OUItoCompany.plist in Resources */,
-				F2301B340D685C1B00728699 /* Changelog.txt in Resources */,
-				F2301B380D685C1B00728699 /* LICENCE in Resources */,
-				F2301B3A0D685C1B00728699 /* Makefile.mingw in Resources */,
-				F2301B3B0D685C1B00728699 /* miniupnpc.3 in Resources */,
-				F2301B4B0D685C1B00728699 /* pymoduletest.py in Resources */,
-				F2301B4C0D685C1B00728699 /* README in Resources */,
-				F2301B4D0D685C1B00728699 /* setup.py in Resources */,
-				F2301B4E0D685C1B00728699 /* setupmingw32.py in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -687,21 +654,6 @@
 				F214E6080D5F646E00A06962 /* main.m in Sources */,
 				F214E60C0D5F64BF00A06962 /* AppController.m in Sources */,
 				F217EF220D6082B40028E112 /* TCPServer.m in Sources */,
-				F2301B350D685C1B00728699 /* igd_desc_parse.c in Sources */,
-				F2301B390D685C1B00728699 /* Makefile in Sources */,
-				F2301B3D0D685C1B00728699 /* minisoap.c in Sources */,
-				F2301B3F0D685C1B00728699 /* minissdpc.c in Sources */,
-				F2301B410D685C1B00728699 /* miniupnpc.c in Sources */,
-				F2301B430D685C1B00728699 /* miniupnpcmodule.c in Sources */,
-				F2301B440D685C1B00728699 /* miniwget.c in Sources */,
-				F2301B460D685C1B00728699 /* minixml.c in Sources */,
-				F2301B490D685C1B00728699 /* minixmlvalid.c in Sources */,
-				F2301B4F0D685C1B00728699 /* testminixml.c in Sources */,
-				F2301B500D685C1B00728699 /* testupnpreplyparse.c in Sources */,
-				F2301B520D685C1B00728699 /* upnpc.c in Sources */,
-				F2301B540D685C1B00728699 /* upnpcommands.c in Sources */,
-				F2301B560D685C1B00728699 /* upnperrors.c in Sources */,
-				F2301B580D685C1B00728699 /* upnpreplyparse.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

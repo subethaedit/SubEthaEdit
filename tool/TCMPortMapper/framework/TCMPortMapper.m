@@ -45,40 +45,110 @@ enum {
 - (BOOL)IPv4AddressInPrivateSubnet;
 @end
 
+@implementation NSString (IPAdditions)
+
+- (BOOL)IPv4AddressInPrivateSubnet {
+    in_addr_t myaddr = inet_addr([self UTF8String]);
+    // private subnets as defined in http://tools.ietf.org/html/rfc1918
+    // loopback addresses 127.0.0.1/8 http://tools.ietf.org/html/rfc3330
+    // zeroconf/bonjour self assigned addresses 169.254.0.0/16 http://tools.ietf.org/html/rfc3927
+    char *ipAddresses[]  = {"192.168.0.0", "10.0.0.0", "172.16.0.0","127.0.0.1","169.254.0.0"};
+    char *networkMasks[] = {"255.255.0.0","255.0.0.0","255.240.0.0","255.0.0.0","255.255.0.0"};
+    int countOfAddresses=5;
+    int i = 0;
+    for (i=0;i<countOfAddresses;i++) {
+        in_addr_t subnetmask = inet_addr(networkMasks[i]);
+        in_addr_t networkaddress = inet_addr(ipAddresses[i]);
+        if ((myaddr & subnetmask) == (networkaddress & subnetmask)) {
+            return YES;
+        }
+    }
+    return NO;
+}
+
+@end
+
+
+@implementation TCMPortMapping 
+
++ (id)portMappingWithLocalPort:(int)aPrivatePort desiredExternalPort:(int)aPublicPort transportProtocol:(int)aTransportProtocol userInfo:(id)aUserInfo {
+    NSAssert(aPrivatePort<65536 && aPublicPort<65536 && aPrivatePort>0 && aPublicPort>0, @"Port number has to be between 1 and 65535");
+    return [[[self alloc] initWithLocalPort:aPrivatePort desiredExternalPort:aPublicPort transportProtocol:aTransportProtocol userInfo:aUserInfo] autorelease];
+}
+
+- (id)initWithLocalPort:(int)aPrivatePort desiredExternalPort:(int)aPublicPort transportProtocol:(int)aTransportProtocol userInfo:(id)aUserInfo {
+    if ((self=[super init])) {
+        _desiredExternalPort = aPublicPort;
+        _localPort = aPrivatePort;
+        _userInfo = [aUserInfo retain];
+        _transportProtocol = aTransportProtocol;
+    }
+    return self;
+}
+
+- (void)dealloc {
+    [_userInfo release];
+    [super dealloc];
+}
+
+- (int)desiredExternalPort {
+    return _desiredExternalPort;
+}
+
+
+- (id)userInfo {
+    return _userInfo;
+}
+
+- (TCMPortMappingStatus)mappingStatus {
+    return _mappingStatus;
+}
+
+- (void)setMappingStatus:(TCMPortMappingStatus)aStatus {
+    if (_mappingStatus != aStatus) {
+        _mappingStatus = aStatus;
+        if (_mappingStatus == TCMPortMappingStatusUnmapped) {
+            [self setExternalPort:0];
+        }
+        [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadWithName:TCMPortMappingDidChangeMappingStatusNotification object:self];
+    }
+}
+
+- (TCMPortMappingTransportProtocol)transportProtocol {
+    return _transportProtocol;
+}
+
+
+- (void)setTransportProtocol:(TCMPortMappingTransportProtocol)aProtocol {
+    if (_transportProtocol != aProtocol) {
+        _transportProtocol = aProtocol;
+    }
+}
+
+
+- (int)externalPort {
+    return _externalPort;
+}
+
+- (void)setExternalPort:(int)aPublicPort {
+    _externalPort=aPublicPort;
+}
+
+
+- (int)localPort {
+    return _localPort;
+}
+
+- (NSString *)description {
+    return [NSString stringWithFormat:@"%@ privatePort:%u desiredPublicPort:%u publicPort:%u mappingStatus:%@ transportProtocol:%d",[super description], _localPort, _desiredExternalPort, _externalPort, _mappingStatus == TCMPortMappingStatusUnmapped ? @"unmapped" : (_mappingStatus == TCMPortMappingStatusMapped ? @"mapped" : @"trying"),_transportProtocol];
+}
+
+@end
+
 @interface TCMPortMapper (Private) 
 
 - (void)setExternalIPAddress:(NSString *)anAddress;
 - (void)setLocalIPAddress:(NSString *)anAddress;
-@end
-
-@implementation NSString (IPAdditions)
-
-- (BOOL)IPv4AddressInPrivateSubnet {
-    if ([self hasPrefix:@"127.0.0.1"] ||
-        [self hasPrefix:@"10."] ||
-        [self hasPrefix:@"192.168."] ||
-        [self hasPrefix:@"169.254."] ||
-        [self hasPrefix:@"172.16."] ||
-        [self hasPrefix:@"172.17."] ||
-        [self hasPrefix:@"172.18."] ||
-        [self hasPrefix:@"172.19."] ||
-        [self hasPrefix:@"172.20."] ||
-        [self hasPrefix:@"172.21."] ||
-        [self hasPrefix:@"172.22."] ||
-        [self hasPrefix:@"172.23."] ||
-        [self hasPrefix:@"172.24."] ||
-        [self hasPrefix:@"172.25."] ||
-        [self hasPrefix:@"172.26."] ||
-        [self hasPrefix:@"172.27."] ||
-        [self hasPrefix:@"172.28."] ||
-        [self hasPrefix:@"172.29."] ||
-        [self hasPrefix:@"172.30."] ||
-        [self hasPrefix:@"172.31."]) {
-        return YES;
-    } else {
-        return NO;
-    }
-}
 @end
 
 @implementation TCMPortMapper
@@ -605,87 +675,6 @@ enum {
             NSLog(@"Got Information from rogue NAT-PMP-Device:%@",userInfo);
         }
     }
-}
-
-@end
-
-
-@implementation TCMPortMapping 
-
-
-+ (id)portMappingWithLocalPort:(int)aPrivatePort desiredExternalPort:(int)aPublicPort userInfo:(id)aUserInfo {
-    NSAssert(aPrivatePort<65536 && aPublicPort<65536 && aPrivatePort>0 && aPublicPort>0, @"Port number has to be between 1 and 65535");
-    return [[[self alloc] initWithLocalPort:aPrivatePort desiredExternalPort:aPublicPort transportProtocol:TCMPortMappingTransportProtocolTCP userInfo:aUserInfo] autorelease];
-}
-
-- (id)initWithLocalPort:(int)aPrivatePort desiredExternalPort:(int)aPublicPort transportProtocol:(int)aTransportProtocol userInfo:(id)aUserInfo {
-    if ((self=[super init])) {
-        _desiredExternalPort = aPublicPort;
-        _localPort = aPrivatePort;
-        _userInfo = [aUserInfo retain];
-        _transportProtocol = aTransportProtocol;
-    }
-    return self;
-}
-
-- (void)dealloc {
-    [_userInfo release];
-    [super dealloc];
-}
-
-- (int)desiredExternalPort {
-    return _desiredExternalPort;
-}
-
-
-- (id)userInfo {
-    return _userInfo;
-}
-
-
-- (TCMPortMappingStatus)mappingStatus {
-    return _mappingStatus;
-}
-
-
-- (void)setMappingStatus:(TCMPortMappingStatus)aStatus {
-    if (_mappingStatus != aStatus) {
-        _mappingStatus = aStatus;
-        if (_mappingStatus == TCMPortMappingStatusUnmapped) {
-            [self setExternalPort:0];
-        }
-        [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadWithName:TCMPortMappingDidChangeMappingStatusNotification object:self];
-    }
-}
-
-
-- (TCMPortMappingTransportProtocol)transportProtocol {
-    return _transportProtocol;
-}
-
-
-- (void)setTransportProtocol:(TCMPortMappingTransportProtocol)aProtocol {
-    if (_transportProtocol != aProtocol) {
-        _transportProtocol = aProtocol;
-    }
-}
-
-
-- (int)externalPort {
-    return _externalPort;
-}
-
-- (void)setExternalPort:(int)aPublicPort {
-    _externalPort=aPublicPort;
-}
-
-
-- (int)localPort {
-    return _localPort;
-}
-
-- (NSString *)description {
-    return [NSString stringWithFormat:@"%@ privatePort:%u desiredPublicPort:%u publicPort:%u mappingStatus:%@ transportProtocol:%d",[super description], _localPort, _desiredExternalPort, _externalPort, _mappingStatus == TCMPortMappingStatusUnmapped ? @"unmapped" : (_mappingStatus == TCMPortMappingStatusMapped ? @"mapped" : @"trying"),_transportProtocol];
 }
 
 @end
