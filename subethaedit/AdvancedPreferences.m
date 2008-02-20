@@ -9,12 +9,15 @@
 #import "AdvancedPreferences.h"
 #import "DocumentController.h"
 #import "GeneralPreferences.h"
+#import "TCMMMBEEPSessionManager.h"
 
 #import "MoreUNIX.h"
 #import "MoreSecurity.h"
 #import "MoreCFQ.h"
 
 #import <sys/stat.h>
+
+#import <TCMPortMapper/TCMPortMapper.h>
 
 @implementation AdvancedPreferences
 
@@ -34,12 +37,49 @@
     return @"AdvancedPrefs";
 }
 
+- (void)portMapperDidStartWork:(NSNotification *)aNotification {
+    [O_mappingStatusProgressIndicator startAnimation:self];
+    [O_mappingStatusImageView setHidden:YES];
+    [O_mappingStatusTextField setStringValue:NSLocalizedString(@"Checking port status...",@"Status of port mapping while trying")];
+}
+
+- (void)portMapperDidFinishWork:(NSNotification *)aNotification {
+    [O_mappingStatusProgressIndicator stopAnimation:self];
+    // since we only have one mapping this is fine
+    TCMPortMapping *mapping = [[[TCMPortMapper sharedInstance] portMappings] anyObject];
+    if ([mapping mappingStatus]==TCMPortMappingStatusMapped) {
+        [O_mappingStatusImageView setImage:[NSImage imageNamed:@"DotGreen"]];
+        [O_mappingStatusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Port mapped (%d)",@"Status of Port mapping when successful"), [mapping externalPort]]];
+    } else {
+        [O_mappingStatusImageView setImage:[NSImage imageNamed:@"DotRed"]];
+        [O_mappingStatusTextField setStringValue:NSLocalizedString(@"Port not mapped",@"Status of Port mapping when unsuccessful or intentionally unmapped")];
+    }
+    [O_mappingStatusImageView setHidden:NO];
+}
+
 - (void)mainViewDidLoad {
     NSUserDefaults *defaults=[NSUserDefaults standardUserDefaults];
     BOOL disableState=([defaults objectForKey:@"AppleScreenAdvanceSizeThreshold"] && [[defaults objectForKey:@"AppleScreenAdvanceSizeThreshold"] floatValue]<=1.);
     [O_disableScreenFontsButton setState:disableState?NSOnState:NSOffState];
     [O_synthesiseFontsButton setState:[defaults boolForKey:SynthesiseFontsPreferenceKey]?NSOnState:NSOffState];
+    [O_automaticallyMapPortButton setState:[defaults boolForKey:ShouldAutomaticallyMapPort]?NSOnState:NSOffState];
+    [O_localPortTextField setStringValue:[NSString stringWithFormat:@"%d",[[TCMMMBEEPSessionManager sharedInstance] listeningPort]]];
+    [self portMapperDidFinishWork:nil];
+    TCMPortMapper *pm = [TCMPortMapper sharedInstance];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(portMapperDidStartWork:) name:TCMPortMapperDidStartWorkNotification object:pm];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(portMapperDidFinishWork:) name:TCMPortMapperDidFinishWorkNotification object:pm];
 }
+
+- (IBAction)changeAutomaticallyMapPorts:(id)aSender {
+    BOOL shouldStart = ([O_automaticallyMapPortButton state]==NSOnState);
+    [[NSUserDefaults standardUserDefaults] setBool:shouldStart forKey:ShouldAutomaticallyMapPort];
+    if (shouldStart) {
+        [[TCMPortMapper sharedInstance] start];
+    } else {
+        [[TCMPortMapper sharedInstance] stop];
+    }
+}
+
 
 - (void)didSelect {
     BOOL isDir;

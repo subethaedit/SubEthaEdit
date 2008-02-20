@@ -33,7 +33,6 @@
 #import <PSMTabBarControl/PSMTabBarControl.h>
 #import <PSMTabBarControl/PSMTabStyle.h>
 #import <objc/objc-runtime.h>			// for objc_msgSend
-#import "LockWindow.h"
 
 
 NSString * const PlainTextWindowToolbarIdentifier = 

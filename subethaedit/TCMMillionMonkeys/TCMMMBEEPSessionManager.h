@@ -9,6 +9,7 @@
 #import <Foundation/Foundation.h>
 
 extern NSString * const DefaultPortNumber;
+extern NSString * const ShouldAutomaticallyMapPort;
     
 extern NSString * const ProhibitInboundInternetSessions;
 

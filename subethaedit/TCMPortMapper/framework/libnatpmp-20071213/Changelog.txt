@@ -1,0 +1,15 @@
+$Id: Changelog.txt,v 1.5 2007/12/13 14:55:15 nanard Exp $
+
+2007/12/13:
+  Fixed getgateway.c for working under OS X ;)
+  Fixed values for NATPMP_PROTOCOL_TCP and NATPMP_PROTOCOL_UDP
+
+2007/12/11:
+  Fixed getgateway.c for compilation under Mac OS X
+
+2007/12/01:
+  added some comments in .h
+
+2007/11/30:
+  implemented almost everything
+

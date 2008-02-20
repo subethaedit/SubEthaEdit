@@ -1,33 +1,127 @@
-{
-    IBClasses = (
-        {
-            ACTIONS = {
-                changeDisableScreenFonts = id; 
-                changeSynthesiseFonts = id; 
-                commandLineToolInstall = id; 
-                commandLineToolRemove = id; 
-            }; 
-            CLASS = AdvancedPreferences; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                "O_commandLineToolRemoveButton" = NSButton; 
-                "O_disableScreenFontsButton" = NSButton; 
-                "O_synthesiseFontsButton" = NSButton; 
-            }; 
-            SUPERCLASS = TCMPreferenceModule; 
-        }, 
-        {
-            ACTIONS = {"" = id; }; 
-            CLASS = FirstResponder; 
-            LANGUAGE = ObjC; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {
-            CLASS = TCMPreferenceModule; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {"O_window" = NSWindow; }; 
-            SUPERCLASS = NSResponder; 
-        }
-    ); 
-    IBVersion = 1; 
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBClasses</key>
+	<array>
+		<dict>
+			<key>CLASS</key>
+			<string>NSApplication</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>TCMPreferenceModule</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>O_window</key>
+				<string>NSWindow</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSMenu</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>hostDidResolveAddress</key>
+				<string>TCMHost</string>
+				<key>hostDidResolveName</key>
+				<string>TCMHost</string>
+			</dict>
+			<key>CLASS</key>
+			<string>NSObject</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSWindow</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>TCMHost</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>I_delegate</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key></key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>changeAutomaticallyMapPorts</key>
+				<string>id</string>
+				<key>changeDisableScreenFonts</key>
+				<string>id</string>
+				<key>changeSynthesiseFonts</key>
+				<string>id</string>
+				<key>commandLineToolInstall</key>
+				<string>id</string>
+				<key>commandLineToolRemove</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>AdvancedPreferences</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>O_automaticallyMapPortButton</key>
+				<string>NSButton</string>
+				<key>O_commandLineToolRemoveButton</key>
+				<string>NSButton</string>
+				<key>O_disableScreenFontsButton</key>
+				<string>NSButton</string>
+				<key>O_localPortTextField</key>
+				<string>NSTextField</string>
+				<key>O_mappingStatusImageView</key>
+				<string>NSImageView</string>
+				<key>O_mappingStatusProgressIndicator</key>
+				<string>NSProgressIndicator</string>
+				<key>O_mappingStatusTextField</key>
+				<string>NSTextField</string>
+				<key>O_synthesiseFontsButton</key>
+				<string>NSButton</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>TCMPreferenceModule</string>
+		</dict>
+	</array>
+	<key>IBVersion</key>
+	<string>1</string>
+</dict>
+</plist>

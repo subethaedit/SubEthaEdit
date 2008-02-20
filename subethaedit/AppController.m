@@ -10,6 +10,7 @@
 #import <Security/Security.h>
 #import <Carbon/Carbon.h>
 #import <HDCrashReporter/crashReporter.h>
+#import <TCMPortMapper/TCMPortMapper.h>
 
 #import "TCMBEEP.h"
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
@@ -41,7 +42,6 @@
 #import "UserChangeOperation.h"
 #import "EncodingManager.h"
 #import "TextView.h"
-#import "LockWindow.h"
 
 #import "URLDataProtocol.h"
 
@@ -59,8 +59,6 @@
 #import "BacktracingException.h"
 
 #import "UserStatisticsController.h"
-
-#import "LockWindow.h"
 
 #ifndef TCM_NO_DEBUG
 #import "Debug/DebugPreferences.h"
@@ -146,7 +144,7 @@ static AppController *sharedInstance = nil;
     }
     
     [defaults setObject:[NSNumber numberWithBool:floor(NSAppKitVersionNumber) > 824.] forKey:@"SaveSeeTextPreview"];
-    
+    [defaults setObject:[NSNumber numberWithBool:YES] forKey:ShouldAutomaticallyMapPort];
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
     
     [[TCMMMTransformator sharedInstance] registerTransformationTarget:[TextOperation class] selector:@selector(transformTextOperation:serverTextOperation:) forOperationId:[TextOperation operationID] andOperationID:[TextOperation operationID]];
@@ -601,6 +599,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     // reset dock icon to normal
     [NSApp setApplicationIconImage:[NSImage imageNamed:@"NSApplicationIcon"]];
 
+    [[TCMPortMapper sharedInstance] stopBlocking];
     [[TCMMMBEEPSessionManager sharedInstance] stopListening];    
     [[TCMMMPresenceManager sharedInstance] setVisible:NO];
     [[TCMMMPresenceManager sharedInstance] stopRendezvousBrowsing];

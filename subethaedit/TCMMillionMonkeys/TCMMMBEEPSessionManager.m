@@ -15,6 +15,8 @@
 #import "TCMHost.h"
 #import "HandshakeProfile.h"
 #import "SessionProfile.h"
+#import "AppController.h"
+#import <TCMPortMapper/TCMPortMapper.h>
 
 #ifdef TCM_ISSEED
     #import "SDAppController.h"
@@ -22,6 +24,7 @@
 
 #define PORTRANGELENGTH 10
 NSString * const DefaultPortNumber = @"port";
+NSString * const ShouldAutomaticallyMapPort = @"ShouldAutomaticallyMapPort";
 
 
 NSString * const ProhibitInboundInternetSessions = @"ProhibitInboundInternetSessions";
@@ -177,7 +180,8 @@ static TCMMMBEEPSessionManager *sharedInstance;
 
 - (BOOL)listen {
     // set up BEEPListener
-    int port = [[NSUserDefaults standardUserDefaults] integerForKey:DefaultPortNumber];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    int port = [defaults integerForKey:DefaultPortNumber];
     for (I_listeningPort = port; I_listeningPort < port + PORTRANGELENGTH; I_listeningPort++) {
         I_listener = [[TCMBEEPListener alloc] initWithPort:I_listeningPort];
         [I_listener setDelegate:self];
@@ -190,10 +194,18 @@ static TCMMMBEEPSessionManager *sharedInstance;
             I_listener = nil;
         }
     }
+    if (I_listener) {
+        TCMPortMapper *pm = [TCMPortMapper sharedInstance];
+        [pm addPortMapping:[TCMPortMapping portMappingWithLocalPort:I_listeningPort desiredExternalPort:SUBETHAEDIT_DEFAULT_PORT transportProtocol:TCMPortMappingTransportProtocolTCP userInfo:nil]];
+        if ([defaults boolForKey:ShouldAutomaticallyMapPort]) {
+            [pm start];
+        }
+    }
     return (I_listener != nil);
 }
 
 - (void)stopListening {
+    [[TCMPortMapper sharedInstance] stop];
     [I_listener close];
     [I_listener setDelegate:nil];
     [I_listener release];
