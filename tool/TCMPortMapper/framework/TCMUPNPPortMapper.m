@@ -186,8 +186,10 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
                         NSString *errorString = [NSString stringWithFormat:@"%d",r];
                         switch (r) {
                             case 718: 
-                                errorString = [errorString stringByAppendingString:@": ConflictInMappingEntry"]; 
+                                errorString = [errorString stringByAppendingString:@": ConflictInMappingEntry"];
+#ifndef NDEBUG
                                 NSLog(@"%s mapping of external port %d failed, trying %d next",__FUNCTION__,mappedPort,mappedPort+1);
+#endif
                                 if (protocol == TCMPortMappingTransportProtocolTCP && ([aPortMapping transportProtocol] & TCMPortMappingTransportProtocolUDP)) {
                                     UPNP_DeletePortMapping(aURLs->controlURL, aIGDData->servicetype,[[NSString stringWithFormat:@"%d",mappedPort] UTF8String], "UDP");
                                     protocol = TCMPortMappingTransportProtocolUDP;

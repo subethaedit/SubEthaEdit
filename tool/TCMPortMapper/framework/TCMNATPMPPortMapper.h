@@ -21,10 +21,9 @@ typedef enum {
     TCMUpdatingMappingThreadID = 1,
 } TCMPortMappingThreadID;
 
-
 @interface TCMNATPMPPortMapper : NSObject {
     NSLock *natPMPThreadIsRunningLock;
-    BOOL IPAddressThreadShouldQuit;
+    int IPAddressThreadShouldQuitAndRestart;
     BOOL UpdatePortMappingsThreadShouldQuit;
     BOOL UpdatePortMappingsThreadShouldRestart;
     TCMPortMappingThreadID runningThreadID;

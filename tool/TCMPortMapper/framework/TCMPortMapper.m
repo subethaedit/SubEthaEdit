@@ -501,7 +501,7 @@ enum {
     } else if (_NATPMPStatus==TCMPortMapProtocolWorks) {
         [self setExternalIPAddress:nil];
     }
-    // also mark all port mappings as unmapped
+    // also mark all port mappings as unmapped if UPNP failed too
     if (_UPNPStatus == TCMPortMapProtocolFailed) {
         [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidFinishSearchForRouterNotification object:self];
     }
@@ -513,6 +513,10 @@ enum {
         _UPNPStatus =TCMPortMapProtocolWorks;
         [self setMappingProtocol:TCMUPNPPortMapProtocol];
         shouldNotify = YES;
+        if (_NATPMPStatus==TCMPortMapProtocolTrying) {
+            [_NATPMPPortMapper stop];
+            _NATPMPStatus =TCMPortMapProtocolFailed;
+        }
     }
     NSString *routerName = [[aNotification userInfo] objectForKey:@"routerName"];
     if (routerName) {
@@ -530,7 +534,7 @@ enum {
     } else if (_UPNPStatus==TCMPortMapProtocolWorks) {
         [self setExternalIPAddress:nil];
     }
-    // also mark all port mappings as unmapped
+    // also mark all port mappings as unmapped if NATPMP failed too
     if (_NATPMPStatus == TCMPortMapProtocolFailed) {
         [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidFinishSearchForRouterNotification object:self];
     }
