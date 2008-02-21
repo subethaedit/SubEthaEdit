@@ -600,8 +600,8 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [NSApp setApplicationIconImage:[NSImage imageNamed:@"NSApplicationIcon"]];
 
     [[TCMPortMapper sharedInstance] stopBlocking];
+    [[TCMMMPresenceManager sharedInstance] setVisible:NO]; // will validate so listening so has to be before stopping listening
     [[TCMMMBEEPSessionManager sharedInstance] stopListening];    
-    [[TCMMMPresenceManager sharedInstance] setVisible:NO];
     [[TCMMMPresenceManager sharedInstance] stopRendezvousBrowsing];
 
     [TCMBEEPSession removeTemporaryKeychain];

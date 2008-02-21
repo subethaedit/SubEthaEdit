@@ -64,14 +64,15 @@
     [O_synthesiseFontsButton setState:[defaults boolForKey:SynthesiseFontsPreferenceKey]?NSOnState:NSOffState];
     [O_automaticallyMapPortButton setState:[defaults boolForKey:ShouldAutomaticallyMapPort]?NSOnState:NSOffState];
     [O_localPortTextField setStringValue:[NSString stringWithFormat:@"%d",[[TCMMMBEEPSessionManager sharedInstance] listeningPort]]];
-    if ([[TCMPortMapper sharedInstance] isRunning]) {
+
+    TCMPortMapper *pm = [TCMPortMapper sharedInstance];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(portMapperDidStartWork:) name:TCMPortMapperDidStartWorkNotification object:pm];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(portMapperDidFinishWork:) name:TCMPortMapperDidFinishWorkNotification object:pm];
+    if ([pm isAtWork]) {
         [self portMapperDidStartWork:nil];
     } else {
         [self portMapperDidFinishWork:nil];
     }
-    TCMPortMapper *pm = [TCMPortMapper sharedInstance];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(portMapperDidStartWork:) name:TCMPortMapperDidStartWorkNotification object:pm];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(portMapperDidFinishWork:) name:TCMPortMapperDidFinishWorkNotification object:pm];
 }
 
 - (IBAction)changeAutomaticallyMapPorts:(id)aSender {

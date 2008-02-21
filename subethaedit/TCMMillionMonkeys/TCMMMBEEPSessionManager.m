@@ -171,7 +171,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
     if (!isVisible && [self isProhibitingInboundInternetSessions]) {
         // stop listening
         [self stopListening];
-    } else {
+    } else if (!I_listener) {
         // start listening
         [self stopListening];
         (void)[self listen];

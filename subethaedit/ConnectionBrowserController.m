@@ -346,16 +346,15 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     }
     
     // Port Mappings
-    if ([[TCMPortMapper sharedInstance] isRunning]) {
-        [self portMapperDidStartWork:nil];
-    } else {
-        [self portMapperDidFinishWork:nil];
-    }
     TCMPortMapper *pm = [TCMPortMapper sharedInstance];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(portMapperDidStartWork:) name:TCMPortMapperDidStartWorkNotification object:pm];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(portMapperDidFinishWork:) name:TCMPortMapperDidFinishWorkNotification object:pm];
     [O_portStatusImageView setDelegate:self];
-
+    if ([pm isAtWork]) {
+        [self portMapperDidStartWork:nil];
+    } else {
+        [self portMapperDidFinishWork:nil];
+    }
 }
 
 - (NSURL*)URLForURLImageView:(URLImageView *)anImageView {
