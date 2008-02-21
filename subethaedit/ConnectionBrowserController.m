@@ -23,6 +23,7 @@
 #import "ConnectionBrowserEntry.h"
 
 #import <netdb.h>       // getaddrinfo, struct addrinfo, AI_NUMERICHOST
+#import <TCMPortMapper/TCMPortMapper.h>
 
 
 #define kMaxNumberOfItems 10
@@ -229,6 +230,29 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     [O_imageView setImage:myImage];
 }
 
+- (void)portMapperDidStartWork:(NSNotification *)aNotification {
+    [O_portStatusProgressIndicator startAnimation:self];
+    [O_portStatusImageView setHidden:YES];
+    [O_portStatusTextField setStringValue:NSLocalizedString(@"Checking port status...",@"Status of port mapping while trying")];
+}
+
+- (void)portMapperDidFinishWork:(NSNotification *)aNotification {
+    [O_portStatusProgressIndicator stopAnimation:self];
+
+    TCMPortMapper *pm = [TCMPortMapper sharedInstance];
+    // since we only have one mapping this is fine
+    TCMPortMapping *mapping = [[pm portMappings] anyObject];
+    if ([mapping mappingStatus]==TCMPortMappingStatusMapped) {
+        [O_portStatusImageView setImage:[NSImage imageNamed:@"URLIconOK"]];
+        [O_portStatusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"see://%@:%d",@"Connection Browser URL display"), [pm externalIPAddress],[mapping externalPort]]];
+    } else {
+        [O_portStatusImageView setImage:[NSImage imageNamed:@"URLIconNotOK"]];
+        [O_portStatusTextField setStringValue:NSLocalizedString(@"No public mapping.",@"Connection Browser Display when not reachable")];
+    }
+    [O_portStatusImageView setHidden:NO];
+}
+
+
 - (void)windowDidLoad {
     [[self window] setFrameAutosaveName:@"InternetBrowser"];
     [self TCM_synchronizeMyNameAndPicture];
@@ -320,7 +344,30 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     if ([[self comboBoxItems] count] > 0) {
         [O_addressComboBox setObjectValue:[[self comboBoxItems] objectAtIndex:0]];
     }
+    
+    // Port Mappings
+    if ([[TCMPortMapper sharedInstance] isRunning]) {
+        [self portMapperDidStartWork:nil];
+    } else {
+        [self portMapperDidFinishWork:nil];
+    }
+    TCMPortMapper *pm = [TCMPortMapper sharedInstance];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(portMapperDidStartWork:) name:TCMPortMapperDidStartWorkNotification object:pm];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(portMapperDidFinishWork:) name:TCMPortMapperDidFinishWorkNotification object:pm];
+    [O_portStatusImageView setDelegate:self];
+
 }
+
+- (NSURL*)URLForURLImageView:(URLImageView *)anImageView {
+    TCMPortMapper *pm = [TCMPortMapper sharedInstance];
+    NSString *URLString = [NSString stringWithFormat:@"see://%@:%d", [pm localIPAddress],[[TCMMMBEEPSessionManager sharedInstance] listeningPort]];
+    TCMPortMapping *mapping = [[pm portMappings] anyObject];
+    if ([mapping mappingStatus]==TCMPortMappingStatusMapped) {
+        URLString = [NSString stringWithFormat:@"see://%@:%d", [pm externalIPAddress],[mapping externalPort]];
+    }
+    return [NSURL URLWithString:URLString];
+}
+
 
 - (void)sessionClientStateDidChange:(NSNotification *)aNotificaiton {
     [O_browserListView setNeedsDisplay:YES];

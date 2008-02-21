@@ -2144,6 +2144,8 @@ subethaedit/artwork/ToolbarIconTerminal.icns -text
 subethaedit/artwork/ToolbarIconTerminal.png -text
 subethaedit/artwork/ToolbarSitesFolderIcon.icns -text
 subethaedit/artwork/URLIcon.tiff -text
+subethaedit/artwork/URLIconNotOK.tiff -text
+subethaedit/artwork/URLIconOK.tiff -text
 subethaedit/artwork/UnknownPerson.icns -text
 subethaedit/artwork/UnknownPerson.png -text
 subethaedit/artwork/WaitPipe.png -text

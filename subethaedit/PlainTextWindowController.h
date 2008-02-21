@@ -7,9 +7,9 @@
 //
 
 #import <AppKit/AppKit.h>
+#import <TCMPortMapper/TCMPortMapper.h>
 
-
-@class ParticipantsView, PlainTextEditor, PSMTabBarControl, PlainTextDocument;
+@class ParticipantsView, PlainTextEditor, PSMTabBarControl, PlainTextDocument,URLImageView;
 
 extern NSString * const PlainTextWindowToolbarIdentifier;
 extern NSString * const ParticipantsToolbarItemIdentifier;
@@ -33,7 +33,7 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
     IBOutlet NSButton            *O_readWriteButton;
     IBOutlet NSButton            *O_followButton;
     
-    IBOutlet NSImageView         *O_URLImageView;
+    IBOutlet URLImageView         *O_URLImageView;
     
     // Pointers to the current instances
     NSSplitView *I_editorSplitView;

@@ -1,56 +1,197 @@
-{
-    IBClasses = (
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {
-            CLASS = PendingParticipantsTableView; 
-            LANGUAGE = ObjC; 
-            SUPERCLASS = NSTableView; 
-        }, 
-        {CLASS = PlainTextWindow; LANGUAGE = ObjC; SUPERCLASS = NSWindow; }, 
-        {
-            ACTIONS = {
-                changePendingUsersAccess = id; 
-                closeParticipantsDrawer = id; 
-                closeTab = id; 
-                followUser = id; 
-                kickButtonAction = id; 
-                openInSeparateWindow = id; 
-                openParticipantsDrawer = id; 
-                participantDoubleAction = id; 
-                readOnlyButtonAction = id; 
-                readWriteButtonAction = id; 
-                selectNextTab = id; 
-                selectPreviousTab = id; 
-                showDocumentAtIndex = id; 
-                toggleFollowUser = id; 
-                toggleLineNumbers = id; 
-            }; 
-            CLASS = PlainTextWindowController; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                "I_documentDialog" = id; 
-                "O_URLImageView" = NSImageView; 
-                "O_actionPullDown" = NSPopUpButton; 
-                "O_followButton" = NSButton; 
-                "O_kickButton" = NSButton; 
-                "O_participantsDrawer" = NSDrawer; 
-                "O_participantsScrollView" = NSScrollView; 
-                "O_participantsView" = ParticipantsView; 
-                "O_pendingUsersAccessPopUpButton" = NSPopUpButton; 
-                "O_progressIndicator" = NSProgressIndicator; 
-                "O_readOnlyButton" = NSButton; 
-                "O_readWriteButton" = NSButton; 
-                "O_receivingContentView" = NSView; 
-                "O_receivingStatusTextField" = NSTextField; 
-            }; 
-            SUPERCLASS = NSWindowController; 
-        }, 
-        {
-            CLASS = URLImageView; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {"O_windowController" = id; }; 
-            SUPERCLASS = NSImageView; 
-        }
-    ); 
-    IBVersion = 1; 
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBClasses</key>
+	<array>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>changePendingUsersAccess</key>
+				<string>id</string>
+				<key>closeParticipantsDrawer</key>
+				<string>id</string>
+				<key>closeTab</key>
+				<string>id</string>
+				<key>followUser</key>
+				<string>id</string>
+				<key>kickButtonAction</key>
+				<string>id</string>
+				<key>openInSeparateWindow</key>
+				<string>id</string>
+				<key>openParticipantsDrawer</key>
+				<string>id</string>
+				<key>participantDoubleAction</key>
+				<string>id</string>
+				<key>readOnlyButtonAction</key>
+				<string>id</string>
+				<key>readWriteButtonAction</key>
+				<string>id</string>
+				<key>selectNextTab</key>
+				<string>id</string>
+				<key>selectPreviousTab</key>
+				<string>id</string>
+				<key>showDocumentAtIndex</key>
+				<string>id</string>
+				<key>toggleFollowUser</key>
+				<string>id</string>
+				<key>toggleLineNumbers</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>PlainTextWindowController</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>I_documentDialog</key>
+				<string>id</string>
+				<key>O_URLImageView</key>
+				<string>NSImageView</string>
+				<key>O_actionPullDown</key>
+				<string>NSPopUpButton</string>
+				<key>O_followButton</key>
+				<string>NSButton</string>
+				<key>O_kickButton</key>
+				<string>NSButton</string>
+				<key>O_participantsDrawer</key>
+				<string>NSDrawer</string>
+				<key>O_participantsScrollView</key>
+				<string>NSScrollView</string>
+				<key>O_participantsView</key>
+				<string>ParticipantsView</string>
+				<key>O_pendingUsersAccessPopUpButton</key>
+				<string>NSPopUpButton</string>
+				<key>O_progressIndicator</key>
+				<string>NSProgressIndicator</string>
+				<key>O_readOnlyButton</key>
+				<string>NSButton</string>
+				<key>O_readWriteButton</key>
+				<string>NSButton</string>
+				<key>O_receivingContentView</key>
+				<string>NSView</string>
+				<key>O_receivingStatusTextField</key>
+				<string>NSTextField</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSWindowController</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSApplication</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSMenu</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>hostDidResolveAddress</key>
+				<string>TCMHost</string>
+				<key>hostDidResolveName</key>
+				<string>TCMHost</string>
+			</dict>
+			<key>CLASS</key>
+			<string>NSObject</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSWindow</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>PlainTextWindow</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSWindow</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>ParticipantsView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>TCMListView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSMenuItem</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>URLImageView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>I_delegate</key>
+				<string>id</string>
+				<key>O_windowController</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSImageView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>TCMListView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>I_dataSource</key>
+				<string>id</string>
+				<key>I_delegate</key>
+				<string>id</string>
+				<key>I_target</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>TCMHost</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>I_delegate</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+	</array>
+	<key>IBVersion</key>
+	<string>1</string>
+</dict>
+</plist>

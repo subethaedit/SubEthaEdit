@@ -127,8 +127,14 @@ enum {
         [I_contextMenu setDelegate:self];
         
         [self setShouldCascadeWindows:NO];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateForPortMapStatus) name:TCMPortMapperDidFinishWorkNotification object:[TCMPortMapper sharedInstance]];
     }
     return self;
+}
+
+- (void)updateForPortMapStatus {
+    BOOL portMapped = ([[[[TCMPortMapper sharedInstance] portMappings] anyObject] mappingStatus] == TCMPortMappingStatusMapped);
+    [O_URLImageView setImage:[NSImage imageNamed:(portMapped?@"URLIconOK":@"URLIconNotOK")]];
 }
 
 - (void)dealloc {
@@ -241,7 +247,15 @@ enum {
     BOOL shouldHideTabBar = [[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey];
     [I_tabBar setHideForSingleTab:!shouldHideTabBar];
     [I_tabBar hideTabBar:!shouldHideTabBar animate:NO];
+
+    [O_URLImageView setDelegate:self];
+    [self updateForPortMapStatus];
 }
+
+- (NSURL*)URLForURLImageView:(URLImageView *)anImageView {
+    return [[self document] documentURL];
+}
+
 
 - (void)takeSettingsFromDocument {
     [self setShowsBottomStatusBar:[(PlainTextDocument *)[self document] showsBottomStatusBar]];

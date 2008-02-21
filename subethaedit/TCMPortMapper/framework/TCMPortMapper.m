@@ -604,6 +604,10 @@ enum {
     return _isRunning;
 }
 
+- (BOOL)isAtWork {
+    return (_workCount > 0);
+}
+
 - (NSString *)routerIPAddress {
     SCDynamicStoreRef dynRef = SCDynamicStoreCreate(kCFAllocatorSystemDefault, (CFStringRef)@"TCMPortMapper", NULL, NULL); 
     NSDictionary *scobjects = (NSDictionary *)SCDynamicStoreCopyValue(dynRef,(CFStringRef)@"State:/Network/Global/IPv4" );

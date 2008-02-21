@@ -176,15 +176,11 @@ static void readData (
         [_updateTimer release];
         _updateTimer = nil;
     }
-    if (![natPMPThreadIsRunningLock tryLock]) {
-        if (runningThreadID == TCMExternalIPThreadID) {
-            // stop that one
-            IPAddressThreadShouldQuitAndRestart = PORTMAPREFRESHSHOULDNOTRESTART;
-        } else {
-            // restart update to remove mappings
-            [self updatePortMappings];
-        }
+    if (![natPMPThreadIsRunningLock tryLock] && (runningThreadID == TCMExternalIPThreadID)) {
+        // stop that one
+        IPAddressThreadShouldQuitAndRestart = PORTMAPREFRESHSHOULDNOTRESTART;
     } else {
+        [natPMPThreadIsRunningLock unlock];
         // restart update to remove mappings before stopping
         [self updatePortMappings];
     }
@@ -192,7 +188,6 @@ static void readData (
 
 - (void)refresh {
     // Run externalipAddress in Thread
-    
     if ([natPMPThreadIsRunningLock tryLock]) {
         _updateInterval = 3600 / 2.;
         IPAddressThreadShouldQuitAndRestart=NO;
@@ -379,6 +374,7 @@ Standardablauf:
 
     [natPMPThreadIsRunningLock unlock];
     if (UpdatePortMappingsThreadShouldQuit) {
+        NSLog(@"%s scheduled refresh",__FUNCTION__);
         [self performSelectorOnMainThread:@selector(refresh) withObject:nil waitUntilDone:NO];
     } else if (UpdatePortMappingsThreadShouldRestart) {
         [self performSelectorOnMainThread:@selector(updatePortMapping) withObject:nil waitUntilDone:NO];
@@ -426,7 +422,9 @@ Standardablauf:
                     NSLog(@"%s ----------------- thread quit prematurely",__FUNCTION__);
 #endif
                     [natPMPThreadIsRunningLock unlock];
-                    [self performSelectorOnMainThread:@selector(refresh) withObject:nil waitUntilDone:0];
+                    if (IPAddressThreadShouldQuitAndRestart != PORTMAPREFRESHSHOULDNOTRESTART) {
+                        [self performSelectorOnMainThread:@selector(refresh) withObject:nil waitUntilDone:0];
+                    }
                     closenatpmp(&natpmp);
                     [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadWithName:TCMNATPMPPortMapperDidEndWorkingNotification object:self];
                     [pool release];

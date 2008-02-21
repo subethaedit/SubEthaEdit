@@ -432,6 +432,8 @@
 		F2BB09FF0CA018CA00258EC7 /* PCRolloverImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2BB09FC0CA018CA00258EC7 /* PCRolloverImageView.m */; };
 		F2BB0A950CA0442A00258EC7 /* HMBlkAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2BB0A900CA043E300258EC7 /* HMBlkAppKit.framework */; };
 		F2BB0AA40CA0443A00258EC7 /* HMBlkAppKit.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F2BB0A900CA043E300258EC7 /* HMBlkAppKit.framework */; };
+		F2C6D3750D6DB131002B401D /* URLIconNotOK.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2C6D3730D6DB131002B401D /* URLIconNotOK.tiff */; };
+		F2C6D3760D6DB131002B401D /* URLIconOK.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2C6D3740D6DB131002B401D /* URLIconOK.tiff */; };
 		F2CA79A50CA04BAC008BEA38 /* HUDStatisticGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CA79A30CA04BAC008BEA38 /* HUDStatisticGraphView.m */; };
 		F2CA7CE60CA11FC9008BEA38 /* StatusLock.png in Resources */ = {isa = PBXBuildFile; fileRef = F2CA7CE50CA11FC9008BEA38 /* StatusLock.png */; };
 		F2CA7CE80CA11FDA008BEA38 /* Internet13.png in Resources */ = {isa = PBXBuildFile; fileRef = F2CA7CE70CA11FDA008BEA38 /* Internet13.png */; };
@@ -638,28 +640,28 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = F23025570D6C6E7000728699 /* Port Map.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 3180119F0D4DEC8400BE3B28 /* TCMPortMapper.framework */;
+			remoteGlobalIDString = 3180119F0D4DEC8400BE3B28;
 			remoteInfo = TCMPortMapper;
 		};
 		F23025640D6C6E7000728699 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F23025570D6C6E7000728699 /* Port Map.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = F2C65FFF0D50C2D100820CAE /* Port Map.app */;
+			remoteGlobalIDString = F2C65FFF0D50C2D100820CAE;
 			remoteInfo = "Port Map";
 		};
 		F23025660D6C6E7000728699 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F23025570D6C6E7000728699 /* Port Map.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = F214E5DB0D5F5FE600A06962 /* NATEcho.app */;
+			remoteGlobalIDString = F214E5DB0D5F5FE600A06962;
 			remoteInfo = NATEcho;
 		};
 		F23025680D6C6E8800728699 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F23025570D6C6E7000728699 /* Port Map.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 3180119E0D4DEC8400BE3B28 /* TCMPortMapper */;
+			remoteGlobalIDString = 3180119E0D4DEC8400BE3B28;
 			remoteInfo = TCMPortMapper;
 		};
 		F298A0020CCB9ED900C4DB8B /* PBXContainerItemProxy */ = {
@@ -1358,6 +1360,8 @@
 		F2BB09FB0CA018CA00258EC7 /* PCRolloverImageView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PCRolloverImageView.h; path = Panic/PCRolloverImageView.h; sourceTree = "<group>"; };
 		F2BB09FC0CA018CA00258EC7 /* PCRolloverImageView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PCRolloverImageView.m; path = Panic/PCRolloverImageView.m; sourceTree = "<group>"; };
 		F2BB0A8A0CA043E200258EC7 /* HMBlkAppKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HMBlkAppKit.xcodeproj; path = HMBlkAppKit1.1/HMBlkAppKit.xcodeproj; sourceTree = "<group>"; };
+		F2C6D3730D6DB131002B401D /* URLIconNotOK.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = URLIconNotOK.tiff; path = artwork/URLIconNotOK.tiff; sourceTree = "<group>"; };
+		F2C6D3740D6DB131002B401D /* URLIconOK.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = URLIconOK.tiff; path = artwork/URLIconOK.tiff; sourceTree = "<group>"; };
 		F2CA79A20CA04BAC008BEA38 /* HUDStatisticGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HUDStatisticGraphView.h; sourceTree = "<group>"; };
 		F2CA79A30CA04BAC008BEA38 /* HUDStatisticGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HUDStatisticGraphView.m; sourceTree = "<group>"; };
 		F2CA7CE50CA11FC9008BEA38 /* StatusLock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = StatusLock.png; path = artwork/StatusLock.png; sourceTree = "<group>"; };
@@ -1512,6 +1516,8 @@
 		14289051095742A100D14688 /* Artwork */ = {
 			isa = PBXGroup;
 			children = (
+				F2C6D3730D6DB131002B401D /* URLIconNotOK.tiff */,
+				F2C6D3740D6DB131002B401D /* URLIconOK.tiff */,
 				14289060095743F200D14688 /* Action.tiff */,
 				14289061095743F200D14688 /* ActionPressed.tiff */,
 				F2D5FF430CB2669200407399 /* AdvancedPrefs.icns */,
@@ -2916,6 +2922,8 @@
 				F23025740D6C709A00728699 /* DotRed.png in Resources */,
 				F23025750D6C709A00728699 /* DotGreen.png in Resources */,
 				F23025760D6C709A00728699 /* DotYellow.png in Resources */,
+				F2C6D3750D6DB131002B401D /* URLIconNotOK.tiff in Resources */,
+				F2C6D3760D6DB131002B401D /* URLIconOK.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

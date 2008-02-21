@@ -4656,69 +4656,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         return nil;
     }
 
-    NSMutableString *address = [[[NSMutableString alloc] init] autorelease];
-    [address appendFormat:@"%@:", @"see"];
-
-    NSString *hostAddress = nil;
-    NSHost *currentHost = [NSHost currentHost];
-    NSEnumerator *enumerator = [[currentHost addresses] objectEnumerator];
-    while ((hostAddress = [enumerator nextObject])) {
-        if ([hostAddress hasPrefix:@"::1"] ||
-            [hostAddress hasPrefix:@"fe80"] ||
-            [hostAddress hasPrefix:@"fd"] ||
-            [hostAddress hasPrefix:@"127.0.0.1"] ||
-            [hostAddress hasPrefix:@"10."] ||
-            [hostAddress hasPrefix:@"192.168."] ||
-            [hostAddress hasPrefix:@"169.254."] ||
-            [hostAddress hasPrefix:@"172.16."] ||
-            [hostAddress hasPrefix:@"172.17."] ||
-            [hostAddress hasPrefix:@"172.18."] ||
-            [hostAddress hasPrefix:@"172.19."] ||
-            [hostAddress hasPrefix:@"172.20."] ||
-            [hostAddress hasPrefix:@"172.21."] ||
-            [hostAddress hasPrefix:@"172.22."] ||
-            [hostAddress hasPrefix:@"172.23."] ||
-            [hostAddress hasPrefix:@"172.24."] ||
-            [hostAddress hasPrefix:@"172.25."] ||
-            [hostAddress hasPrefix:@"172.26."] ||
-            [hostAddress hasPrefix:@"172.27."] ||
-            [hostAddress hasPrefix:@"172.28."] ||
-            [hostAddress hasPrefix:@"172.29."] ||
-            [hostAddress hasPrefix:@"172.30."] ||
-            [hostAddress hasPrefix:@"172.31."]) {
-            
-            hostAddress = nil;
-        } else {
-            break;
-        }
-    }
-    
-    if (hostAddress == nil) {
-        CFStringRef localHostName = SCDynamicStoreCopyLocalHostName(NULL);
-        if (localHostName) {
-            hostAddress = [NSString stringWithFormat:@"%@.local", (NSString *)localHostName];
-            CFRelease(localHostName); // CFRelease(NULL) is not a good idea and crashes
-        } else {
-            hostAddress = @"hasnoaddress.local";
-        }
-    } else {
-        NSCharacterSet *ipv6set = [NSCharacterSet characterSetWithCharactersInString:@"1234567890abcdef:"];
-        NSScanner *ipv6scanner = [NSScanner scannerWithString:hostAddress];
-        NSString *scannedString = nil;
-        if ([ipv6scanner scanCharactersFromSet:ipv6set intoString:&scannedString]) {
-            if ([scannedString length] == [hostAddress length]) {
-                hostAddress = [NSString stringWithFormat:@"[%@]",scannedString];
-            } else if ([hostAddress length] > [scannedString length]+1 && [hostAddress characterAtIndex:[scannedString length]] == '%') {
-                hostAddress = [NSString stringWithFormat:@"[%@%%25%@]",scannedString,[hostAddress substringFromIndex:[scannedString length]+1]];
-            }
-        }
-    }
-
-    [address appendFormat:@"//%@", hostAddress];
-
-    int port = [[TCMMMBEEPSessionManager sharedInstance] listeningPort];
-    if (port != SUBETHAEDIT_DEFAULT_PORT) {
-        [address appendFormat:@":%d", port];
+    TCMPortMapper *pm = [TCMPortMapper sharedInstance];
+    NSMutableString *address = [NSMutableString stringWithFormat:@"see://%@:%d", [pm localIPAddress],[[TCMMMBEEPSessionManager sharedInstance] listeningPort]];
+    TCMPortMapping *mapping = [[pm portMappings] anyObject];
+    if ([mapping mappingStatus]==TCMPortMappingStatusMapped) {
+        address = [NSMutableString stringWithFormat:@"see://%@:%d", [pm externalIPAddress],[mapping externalPort]];
     }
     
     NSString *title = [[self fileName] lastPathComponent];
