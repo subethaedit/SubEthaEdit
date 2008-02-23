@@ -15,6 +15,48 @@
 
 @implementation TCMMMStatusProfile
 
++ (NSData *)defaultInitializationData {
+    // optionally send the options here
+    static NSData *data=nil;
+    if (!data) {
+        data = [TCM_BencodedObject([NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES],@"SendUSRRCH",nil]) retain];
+    }
+    return data;
+}
+
+- (NSDictionary *)optionDictionary {
+    return I_options;
+}
+
+- (id)initWithChannel:(TCMBEEPChannel *)aChannel {
+    self = [super initWithChannel:aChannel];
+    if (self) {
+        I_options = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithBool:NO],@"SendUSRRCH",nil];
+    }
+    return self;
+}
+
+- (void)dealloc {
+    [I_options release];
+     I_options = nil;
+    [super dealloc];
+}
+
+- (void)handleInitializationData:(NSData *)aData {
+    NSDictionary *options = TCM_BdecodedObjectWithData(aData);
+    if (options) {
+        [I_options addEntriesFromDictionary:options];
+    }
+}
+
+- (void)sendReachabilityURLString:(NSString *)anURLString forUserID:(NSString *)aUserID {
+    if (aUserID && anURLString && [[I_options objectForKey:@"SendUSRRCH"] boolValue]) {
+        NSMutableData *data=[NSMutableData dataWithBytes:"USRRCH" length:6];
+        [data appendData:TCM_BencodedObject([NSDictionary dictionaryWithObjectsAndKeys:anURLString,@"url",aUserID,@"uid",nil])];
+        [[self channel] sendMSGMessageWithPayload:data];
+    }
+}
+
 - (void)sendVisibility:(BOOL)isVisible {
     NSData *data=nil;
     if (isVisible) {
@@ -84,6 +126,10 @@
                 [data appendData:[[TCMMMUserManager me] userBencoded]];
                 TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:data];
                 [[self channel] sendMessage:[message autorelease]];
+                return;
+            } else if (strncmp(bytes,"USRRCH",6)==0) {
+                NSDictionary *dict = TCM_BdecodedObjectWithData([[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]);
+                NSLog(@"%s got reachability notice %@",__FUNCTION__,dict);
                 return;
             } else if (strncmp(bytes,"DOC",3)==0) {
                 DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received Document");

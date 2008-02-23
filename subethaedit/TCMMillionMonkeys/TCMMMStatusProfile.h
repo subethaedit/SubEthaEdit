@@ -12,18 +12,21 @@
 @class TCMMMUser, TCMMMSession;
 
 @interface TCMMMStatusProfile : TCMBEEPProfile {
-
+    NSMutableDictionary *I_options;
 }
 
++ (NSData *)defaultInitializationData;
+- (void)announceSession:(TCMMMSession *)aSession;
 - (void)requestUser;
 - (void)sendUserDidChangeNotification:(TCMMMUser *)aUser;
-- (void)announceSession:(TCMMMSession *)aSession;
+- (void)sendVisibility:(BOOL)isVisible;
+- (void)sendReachabilityURLString:(NSString *)anURLString forUserID:(NSString *)aUserID;
 @end
 
 @interface NSObject (TCMMMStatusProfileDelegateMethods) 
-- (void)sendVisibility:(BOOL)isVisible;
 - (void)profile:(TCMMMStatusProfile *)aProfile didReceiveVisibilityChange:(BOOL)isVisible;
 - (void)profile:(TCMMMStatusProfile *)aProfile didReceiveAnnouncedSession:(TCMMMSession *)aSession;
 - (void)profile:(TCMMMStatusProfile *)aProfile didReceiveConcealedSessionID:(NSString *)anID;
+- (void)profile:(TCMMMStatusProfile *)aProfile didReceiveReachabilityURLString:(NSString *)anURLString forUserID:(NSString *)aUserID;
 
 @end

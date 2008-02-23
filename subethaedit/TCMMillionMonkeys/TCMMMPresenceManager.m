@@ -14,7 +14,7 @@
 #import "TCMMMSession.h"
 #import "TCMRendezvousBrowser.h"
 #import <SystemConfiguration/SystemConfiguration.h>
-
+#import <TCMPortMapper/TCMPortMapper.h>
 
 NSString * const VisibilityPrefKey = @"VisibilityPrefKey";
 
@@ -73,6 +73,7 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TCM_didAcceptSession:) name:TCMMMBEEPSessionManagerDidAcceptSessionNotification object:[TCMMMBEEPSessionManager sharedInstance]]; 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TCM_didEndSession:) name:TCMMMBEEPSessionManagerSessionDidEndNotification object:[TCMMMBEEPSessionManager sharedInstance]];
         I_resolveUnconnectedFoundNetServicesTimer = [NSTimer scheduledTimerWithTimeInterval:90. target:self selector:@selector(resolveUnconnectedFoundNetServices:) userInfo:nil repeats:YES];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(broadcastMyReachability) name:TCMPortMapperDidFinishWorkNotification object:[TCMPortMapper sharedInstance]];
         
     }
     return self;
@@ -318,14 +319,36 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
     }
 }
 
+- (NSString *)myReachabilityURLString {
+    TCMPortMapper *pm = [TCMPortMapper sharedInstance];
+    TCMPortMapping *mapping = [[pm portMappings] anyObject];
+    if ([mapping mappingStatus]==TCMPortMappingStatusMapped) {
+        return [NSString stringWithFormat:@"see://%@:%d", [pm externalIPAddress],[mapping externalPort]];
+    } else {
+        return @"";
+    }
+}
+
+- (void)broadcastMyReachability {
+    NSString *reachabilityString = [self myReachabilityURLString];
+    NSString *userID = [TCMMMUserManager myUserID];
+    NSEnumerator *profiles=[I_statusProfilesInServerRole objectEnumerator];
+    TCMMMStatusProfile *profile=nil;
+    while ((profile=[profiles nextObject])) {
+        [profile sendReachabilityURLString:reachabilityString forUserID:userID];
+    }
+}
+
 - (void)sendInitialStatusViaProfile:(TCMMMStatusProfile *)aProfile {
     [aProfile sendUserDidChangeNotification:[TCMMMUserManager me]];
     [aProfile sendVisibility:[self isVisible]];
+    [aProfile sendReachabilityURLString:[self myReachabilityURLString] forUserID:[TCMMMUserManager myUserID]];
     NSEnumerator *sessions=[[self announcedSessions] objectEnumerator];
     TCMMMSession *session=nil;
     while ((session=[sessions nextObject])) {
         [aProfile announceSession:session];
     }
+    // send reachability
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"%@",[[TCMMMBEEPSessionManager sharedInstance] description]);
 }
 
@@ -402,7 +425,7 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
                 userInfo:[NSDictionary dictionaryWithObjectsAndKeys:userID,@"UserID",[status objectForKey:@"Sessions"],@"Sessions",nil]];
         TCMBEEPSession *beepSession=[[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:userID];
         if (beepSession) {
-            [beepSession startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"] andData:nil sender:self];
+            [beepSession startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"] andData:[NSArray arrayWithObject:[TCMMMStatusProfile defaultInitializationData]] sender:self];
         } else {
             NSNetService *netService=[status objectForKey:@"NetService"];
             if (netService) {
@@ -433,7 +456,7 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
     NSMutableDictionary *statusOfUserID=[self statusOfUserID:userID];
     if ([[statusOfUserID objectForKey:@"Status"] isEqualToString:@"NoStatus"]) {
         DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"starting StatusProfile with: %@", userID);
-        [session startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"] andData:nil sender:self];
+        [session startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"] andData:[NSArray arrayWithObject:[TCMMMStatusProfile defaultInitializationData]] sender:self];
     }
     [statusOfUserID setObject:[NSNumber numberWithBool:YES] forKey:@"shouldSendVisibilityChangeNotification"];    
 }
@@ -447,6 +470,7 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
 - (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didOpenChannelWithProfile:(TCMBEEPProfile *)aProfile data:(NSData *)inData
 {
     [aProfile setDelegate:self];
+    [aProfile handleInitializationData:inData];
     if ([aProfile isServer]) {
         DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"acceptStatusProfile!");
         [self sendInitialStatusViaProfile:(TCMMMStatusProfile *)aProfile];
