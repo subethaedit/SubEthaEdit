@@ -201,7 +201,11 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
     } else
     if (aTag == TCMMMBrowserItemStatusTag) {
         if (showUser) {
-            return [NSString stringWithFormat:NSLocalizedString(@"%d Document(s)",@"Status string showing the number of documents in Rendezvous and Internet browser"), [[self announcedSessions] count]];
+            NSString *documentString = [NSString stringWithFormat:NSLocalizedString(@"%d Document(s)",@"Status string showing the number of documents in Rendezvous and Internet browser"), [[self announcedSessions] count]];
+            if ([[[[TCMMMPresenceManager sharedInstance] statusOfUserID:[user userID]] objectForKey:@"shouldAutoConnect"] boolValue]) {
+                documentString = [documentString stringByAppendingString:@" (PEX)"];
+            }
+            return documentString;
         } else {
             // (void)NSLocalizedString(@"HostEntryStatusResolving", @"Resolving");
             // (void)NSLocalizedString(@"HostEntryStatusResolveFailed", @"Could not resolve");
@@ -253,7 +257,7 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
                     return [NSImage imageNamed:@"StatusReadWrite"];
             }            
         } else if (aTag == TCMMMBrowserChildInsetTag) {
-            return [NSNumber numberWithInt:aChildIndex];
+            return [NSNumber numberWithInt:0];
         }
     }
     return nil;

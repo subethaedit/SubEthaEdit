@@ -18,6 +18,7 @@
 #import <TCMPortMapper/TCMPortMapper.h>
 
 NSString * const VisibilityPrefKey = @"VisibilityPrefKey";
+NSString * const AutoconnectPrefKey = @"shouldAutoConnect";
 
 static TCMMMPresenceManager *sharedInstance = nil;
 
@@ -50,6 +51,7 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
         @"InternalIsVisible" => nil | NSNumber "YES" // for internal use only
         @"StatusProfile" => TCMMMStatusProfile if present
         @"shouldSendVisibilityChangeNotification" => nil | NSNumber "YES"  // for internal use only
+        @"shouldAutoConnect" => nil | NSNumber "YES" // if we autoconnect to reachability infos of that user
 "*/
 
 
@@ -168,6 +170,17 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
     }
     [[TCMMMBEEPSessionManager sharedInstance] validateListener];
 }
+
+- (void)setShouldAutoconnect:(BOOL)aFlag forUserID:(NSString *)aUserID {
+    NSMutableDictionary *status = [self statusOfUserID:aUserID];
+    if (aFlag) {
+        [status setObject:[NSNumber numberWithBool:YES] forKey:@"shouldAutoConnect"];
+        [[status objectForKey:@"StatusProfile"] requestReachability];
+    } else {
+        [status removeObjectForKey:@"shouldAutoConnect"];
+    }
+}
+
 
 - (NSMutableDictionary *)statusOfUserID:(NSString *)aUserID {
     if (!aUserID) return nil;
@@ -342,10 +355,7 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
     }
 }
 
-- (void)sendInitialStatusViaProfile:(TCMMMStatusProfile *)aProfile {
-    [aProfile sendUserDidChangeNotification:[TCMMMUserManager me]];
-    [aProfile sendVisibility:[self isVisible]];
-
+- (void)sendReachabilityViaProfile:(TCMMMStatusProfile *)aProfile {
     [aProfile sendReachabilityURLString:[self myReachabilityURLString] forUserID:[TCMMMUserManager myUserID]];
     // send reachability for everyone that is connected to me currently and thinks he knows how he can be reached
     NSString *myPeerID = [[[aProfile session] userInfo] objectForKey:@"peerUserID"];
@@ -362,7 +372,12 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
             }
         }
     }
-    
+}
+
+- (void)sendInitialStatusViaProfile:(TCMMMStatusProfile *)aProfile {
+    [aProfile sendUserDidChangeNotification:[TCMMMUserManager me]];
+    [aProfile sendVisibility:[self isVisible]];
+    [self sendReachabilityViaProfile:aProfile];
     
     NSEnumerator *sessions=[[self announcedSessions] objectEnumerator];
     TCMMMSession *session=nil;
@@ -405,28 +420,37 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
     } else {
         NSLog(@"%s got information about a third party: %@ %@",__FUNCTION__,anURLString,aUserID);
         // see if we already have a connection to that userID, if not initiate connection to that user
-        // TODO: if we connected to that user manually
-        if (![[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:aUserID]) {
-            // we have no session for this userID so let's connect
-            NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:anURLString,@"URLString",aUserID,@"UserID",nil];
-            NSURL *URL = [NSURL URLWithString:anURLString];
-            NSData *addressData=nil;
-            [TCMMMBEEPSessionManager reducedURL:URL addressData:&addressData documentRequest:nil];
-            TCMHost *host = nil;
-            if (addressData) {
-                host = [[[TCMHost alloc] initWithAddressData:addressData port:[[URL port] intValue] userInfo:userInfo] autorelease];
-                NSLog(@"%s connecting to host: %@",__FUNCTION__,host);
-                [[TCMMMBEEPSessionManager sharedInstance] connectToHost:host];
-            } else {
-                host = [[[TCMHost alloc] initWithName:[URL host] port:[[URL port] intValue] userInfo:userInfo] autorelease];
-                [host resolve];
-                // give him some time to resolve
-                [[TCMMMBEEPSessionManager sharedInstance] performSelector:@selector(connectToHost:) withObject:host afterDelay:4.0];
+        NSMutableDictionary *status = [self statusOfUserID:userID];
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:AutoconnectPrefKey]) {
+            if ([[status objectForKey:@"shouldAutoConnect"] boolValue]) {
+                // TODO: if we connected to that user manually
+                if (![[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:aUserID]) {
+                    // we have no session for this userID so let's connect
+                    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:anURLString,@"URLString",aUserID,@"UserID",nil];
+                    NSURL *URL = [NSURL URLWithString:anURLString];
+                    NSData *addressData=nil;
+                    [TCMMMBEEPSessionManager reducedURL:URL addressData:&addressData documentRequest:nil];
+                    TCMHost *host = nil;
+                    if (addressData) {
+                        host = [[[TCMHost alloc] initWithAddressData:addressData port:[[URL port] intValue] userInfo:userInfo] autorelease];
+                        NSLog(@"%s connecting to host: %@",__FUNCTION__,host);
+                        [[TCMMMBEEPSessionManager sharedInstance] connectToHost:host];
+                    } else {
+                        host = [[[TCMHost alloc] initWithName:[URL host] port:[[URL port] intValue] userInfo:userInfo] autorelease];
+                        [host resolve];
+                        // give him some time to resolve
+                        [[TCMMMBEEPSessionManager sharedInstance] performSelector:@selector(connectToHost:) withObject:host afterDelay:4.0];
+                    }
+                }
             }
         }
     }
 }
 
+- (void)profileDidReceiveReachabilityRequest:(TCMMMStatusProfile *)aProfile {
+    NSLog(@"%s",__FUNCTION__);
+    [self sendReachabilityViaProfile:aProfile];
+}
 
 - (void)profile:(TCMMMStatusProfile *)aProfile didReceiveAnnouncedSession:(TCMMMSession *)aSession
 {
@@ -555,6 +579,11 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
     }
 }
 
+- (NSMutableDictionary *)BEEPSession:(TCMBEEPSession *)aBEEPSession willSendReply:(NSMutableDictionary *)aReply forChannelRequests:(NSArray *)aRequests {
+    NSLog(@"%s %@",__FUNCTION__,aReply);
+    [aReply setObject:[TCMMMStatusProfile defaultInitializationData] forKey:@"Data"];
+    return aReply;
+}
 
 #pragma mark -
 #pragma mark ### TCMRendezvousBrowser Delegate ###

@@ -616,10 +616,11 @@ static TCMMMBEEPSessionManager *sharedInstance;
 - (NSMutableDictionary *)BEEPSession:(TCMBEEPSession *)aBEEPSession willSendReply:(NSMutableDictionary *)aReply forChannelRequests:(NSArray *)aRequests
 {
     if ([[aReply objectForKey:@"ProfileURI"] isEqualToString:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"]) {
-        return [NSDictionary dictionaryWithObjectsAndKeys:[SessionProfile defaultInitializationData],@"Data",[aReply objectForKey:@"ProfileURI"],@"ProfileURI",nil];
-    } else {
-        return aReply;
+        [aReply setObject:[SessionProfile defaultInitializationData] forKey:@"Data"];
+    } else if ([[aReply objectForKey:@"ProfileURI"] isEqualToString:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"]) {
+        [aReply setObject:[TCMMMStatusProfile defaultInitializationData] forKey:@"Data"];
     }
+    return aReply;
 }
 
 - (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didOpenChannelWithProfile:(TCMBEEPProfile *)aProfile data:(NSData *)inData

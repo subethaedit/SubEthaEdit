@@ -340,7 +340,6 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
         
     }    
 
-    
     while (!UpdatePortMappingsThreadShouldQuit && !UpdatePortMappingsThreadShouldRestart) {
         TCMPortMapping *mappingToApply;
         @synchronized (mappingsToAdd) {

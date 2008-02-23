@@ -37,7 +37,8 @@ enum {
     BrowserContextMenuTagReconnect,
     BrowserContextMenuTagLogIn,
     BrowserContextMenuTagManageFiles,
-    BrowserContextMenuTagClear
+    BrowserContextMenuTagClear,
+    BrowserContextMenuTagPeerExchange
 };
 
 @interface ConnectionBrowserController (InternetBrowserControllerPrivateAdditions)
@@ -117,9 +118,15 @@ static NSPredicate *S_joinableSessionPredicate = nil;
         
         [I_contextMenu addItem:[NSMenuItem separatorItem]];
 
-        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuLogIn", @"Log In entry for Browser context menu") action:@selector(login:) keyEquivalent:@""];
+        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuPeerExchange", @"Log In entry for Browser context Peer Exchange") action:@selector(togglePeerExchange:) keyEquivalent:@""];
         [item setTarget:self];
-        [item setTag:BrowserContextMenuTagLogIn];
+        [item setTag:BrowserContextMenuTagPeerExchange];
+
+//        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuLogIn", @"Log In entry for Browser context menu") action:@selector(login:) keyEquivalent:@""];
+//        [item setTarget:self];
+//        [item setTag:BrowserContextMenuTagLogIn];
+//
+//
 //
 //
 //        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuManageFiles", @"Manage files entry for Browser context menu") action:@selector(openServerConnection:) keyEquivalent:@""];
@@ -385,6 +392,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     SEL selector = [menuItem action];
     if (selector == @selector(join:) ||
         selector == @selector(login:) ||
+        selector == @selector(togglePeerExchange:) ||
         selector == @selector(show:) ||
         selector == @selector(reconnect:) ||
         selector == @selector(clear:) ||
@@ -475,6 +483,17 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 //        NSLog(@"reconnectableEntries: %@",reconnectableEntries);
         item = [menu itemWithTag:BrowserContextMenuTagReconnect];
         [item setEnabled:([reconnectableEntries count] > 0)];
+        
+        item = [menu itemWithTag:BrowserContextMenuTagPeerExchange];
+        if ([entries count] == 1 && [users count] == 1) {
+            [item setEnabled:YES];
+            TCMMMUser *user = [users lastObject];
+            NSMutableDictionary *status = [[TCMMMPresenceManager sharedInstance] statusOfUserID:[user userID]];
+            [item setState:[[status objectForKey:@"shouldAutoConnect"] boolValue]?NSOnState:NSOffState];
+        } else {
+            [item setState:NSOffState];
+            [item setEnabled:NO];
+        }
     }
 }
 
@@ -717,6 +736,22 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     [self joinSessionsWithIndexes:[self indexSetOfSelectedSessionsFilteredUsingPredicate:S_showableSessionPredicate]];
 }
 
+- (IBAction)togglePeerExchange:(id)aSender {
+    NSIndexSet *indexes = [O_browserListView selectedRowIndexes];
+    if ([indexes count] == 1) {
+        unsigned int index = [indexes firstIndex];
+        ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
+        ConnectionBrowserEntry *entry = [[I_entriesController arrangedObjects] objectAtIndex:pair.itemIndex];
+        TCMMMUser *user = [entry user];
+        if (user) {
+            BOOL newValue = ![[[[TCMMMPresenceManager sharedInstance] statusOfUserID:[user userID]] objectForKey:@"shouldAutoConnect"] boolValue];
+            [[TCMMMPresenceManager sharedInstance] setShouldAutoconnect:newValue forUserID:[user userID]];
+            [O_browserListView setNeedsDisplay:YES];
+        }
+    }
+
+}
+
 - (NSSet *)selectedEntriesFilteredUsingPredicate:(NSPredicate *)aPredicate {
     NSMutableSet *set = [NSMutableSet set];
     NSIndexSet *indexes = [O_browserListView selectedRowIndexes];
@@ -799,7 +834,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     if (pair.childIndex != -1) {
         [self joinSessionsWithIndexes:[NSIndexSet indexSetWithIndex:row]];
     } else {
-        [self login:aSender];
+        [self togglePeerExchange:aSender];
     }
 }
 

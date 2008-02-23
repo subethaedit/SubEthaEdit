@@ -78,6 +78,15 @@
     [[self channel] sendMSGMessageWithPayload:data];
 }
 
+- (void)requestReachability {
+    NSLog(@"%s %@",__FUNCTION__,I_options);
+    if ([[I_options objectForKey:@"SendUSRRCH"] boolValue]) {
+        NSMutableData *data=[NSMutableData dataWithBytes:"RCHREQ" length:6];
+        [[self channel] sendMSGMessageWithPayload:data];
+    }
+}
+
+
 - (void)announceSession:(TCMMMSession *)aSession {
     NSMutableData *data=[NSMutableData dataWithBytes:"DOCANN" length:6];
     [data appendData:[aSession sessionBencoded]];
@@ -121,6 +130,12 @@
                 } else {
                     [[self session] terminate];
                 }
+            } else if (strncmp(bytes,"RCHREQ",6)==0) {
+                id delegate = [self delegate];
+                if ([delegate respondsToSelector:@selector(profileDidReceiveReachabilityRequest:)]) {
+                    [delegate profileDidReceiveReachabilityRequest:self];
+                }
+
             } else if (strncmp(bytes,"USRREQ",6)==0) {
                 NSMutableData *data=[NSMutableData dataWithBytes:"USRFUL" length:6];
                 [data appendData:[[TCMMMUserManager me] userBencoded]];
@@ -134,7 +149,6 @@
                 if ([delegate respondsToSelector:@selector(profile:didReceiveReachabilityURLString:forUserID:)]) {
                     [delegate profile:self didReceiveReachabilityURLString:[dict objectForKey:@"url"] forUserID:[dict objectForKey:@"uid"]];
                 }
-                return;
             } else if (strncmp(bytes,"DOC",3)==0) {
                 DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received Document");
                 if (strncmp(&bytes[3],"ANN",3)==0) {

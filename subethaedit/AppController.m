@@ -131,6 +131,7 @@ static AppController *sharedInstance = nil;
     [defaults setObject:[NSNumber numberWithDouble:60.] forKey:NetworkTimeoutPreferenceKey];
     [defaults setObject:[NSNumber numberWithDouble:60.] forKey:@"AutoSavingDelay"];
     [defaults setObject:[NSNumber numberWithBool:YES] forKey:VisibilityPrefKey];
+    [defaults setObject:[NSNumber numberWithBool:YES] forKey:AutoconnectPrefKey];
     [defaults setObject:[NSNumber numberWithBool:NO] forKey:@"GoIntoBundlesPrefKey"];
 #ifdef TCM_NO_DEBUG
 	[defaults setObject:[NSNumber numberWithBool:NO] forKey:@"EnableBEEPLogging"];
