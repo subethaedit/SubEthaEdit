@@ -149,6 +149,8 @@ enum {
 
 - (void)setExternalIPAddress:(NSString *)anAddress;
 - (void)setLocalIPAddress:(NSString *)anAddress;
+- (void)increaseWorkCount:(NSNotification *)aNotification;
+- (void)decreaseWorkCount:(NSNotification *)aNotification;
 @end
 
 @implementation TCMPortMapper
@@ -174,10 +176,18 @@ enum {
         _portMappings = [NSMutableSet new];
         _removeMappingQueue = [NSMutableSet new];
         S_sharedInstance = self;
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(increaseWorkCount:) name:TCMUPNPPortMapperDidBeginWorkingNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(increaseWorkCount:) name:TCMNATPMPPortMapperDidBeginWorkingNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(decreaseWorkCount:) name:TCMUPNPPortMapperDidEndWorkingNotification object:nil];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(decreaseWorkCount:) name:TCMNATPMPPortMapperDidEndWorkingNotification object:nil];
+
+        NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+        
+        [center addObserver:self selector:@selector(increaseWorkCount:) 
+                name:  TCMUPNPPortMapperDidBeginWorkingNotification    object:_UPNPPortMapper];
+        [center addObserver:self selector:@selector(increaseWorkCount:) 
+                name:TCMNATPMPPortMapperDidBeginWorkingNotification    object:_NATPMPPortMapper];
+
+        [center addObserver:self selector:@selector(decreaseWorkCount:) 
+                name:  TCMUPNPPortMapperDidEndWorkingNotification    object:_UPNPPortMapper];
+        [center addObserver:self selector:@selector(decreaseWorkCount:) 
+                name:TCMNATPMPPortMapperDidEndWorkingNotification    object:_NATPMPPortMapper];
         
         [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(didWake:) name:NSWorkspaceDidWakeNotification object:nil];
         [[[NSWorkspace sharedWorkspace] notificationCenter] addObserver:self selector:@selector(willSleep:) name:NSWorkspaceWillSleepNotification object:nil];
@@ -311,10 +321,13 @@ enum {
 }
 
 - (void)refresh {
-    // reinitialisieren: public ip und router modell auf nil setzen - portmappingsstatus auf unmapped setzen, wenn trying dann upnp/natpimp zurücksetzen
+
+    [self increaseWorkCount:nil];
+    
     [self setRouterName:@"Unknown"];
     [self setMappingProtocol:TCMNoPortMapProtocol];
     [self setExternalIPAddress:nil];
+    
     @synchronized(_portMappings) {
        NSEnumerator *portMappings = [_portMappings objectEnumerator];
        TCMPortMapping *portMapping = nil;
@@ -346,6 +359,15 @@ enum {
                 _UPNPStatus   = TCMPortMapProtocolFailed;
                 [self setExternalIPAddress:localIPAddress];
                 [self setMappingProtocol:TCMNoPortMapProtocol];
+                // set all mappings to be mapped with their local port number being the external one
+                @synchronized(_portMappings) {
+                   NSEnumerator *portMappings = [_portMappings objectEnumerator];
+                   TCMPortMapping *portMapping = nil;
+                   while ((portMapping = [portMappings nextObject])) {
+                        [portMapping setExternalPort:[portMapping localPort]];
+                        [portMapping setMappingStatus:TCMPortMappingStatusMapped];
+                   }
+                }
                 [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidFinishSearchForRouterNotification object:self];
                 // we know we have a public address so we are finished - but maybe we should set all mappings to mapped
             }
@@ -355,6 +377,10 @@ enum {
     } else {
         [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidFinishSearchForRouterNotification object:self];
     }
+
+    // add the delay to bridge the gap between the thread starting and this method returning
+    [self performSelector:@selector(decreaseWorkCount:) withObject:nil afterDelay:1.0];
+
 }
 
 - (void)setExternalIPAddress:(NSString *)anIPAddress {
@@ -630,7 +656,7 @@ enum {
     return result;
 }
 
-- (void)increaseWorkCount:(NSNotificationCenter *)aNotification {
+- (void)increaseWorkCount:(NSNotification *)aNotification {
 #ifndef NDEBUG
     NSLog(@"%s %d %@",__FUNCTION__,_workCount,aNotification);
 #endif
@@ -640,7 +666,7 @@ enum {
     _workCount++;
 }
 
-- (void)decreaseWorkCount:(NSNotificationCenter *)aNotification {
+- (void)decreaseWorkCount:(NSNotification *)aNotification {
 #ifndef NDEBUG
     NSLog(@"%s %d %@",__FUNCTION__,_workCount,aNotification);
 #endif

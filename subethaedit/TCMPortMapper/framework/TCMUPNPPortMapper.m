@@ -65,6 +65,13 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
     return description;
 }
 
+- (void)postDidEndWorkingNotification {
+    [[NSNotificationCenter defaultCenter] postNotificationName:TCMUPNPPortMapperDidEndWorkingNotification object:self];
+}
+
+- (void)postDelayedDidEndWorkingNotification {
+    [self performSelector:@selector(postDidEndWorkingNotification) withObject:nil afterDelay:0.5];
+}
 // example device description root urls:
 // FritzBox: http://192.168.178.1:49000/igddesc.xml - desc: http://192.168.178.1:49000/fboxdesc.xml
 // Linksys: http://10.0.1.1:49152/gateway.xml
@@ -141,7 +148,8 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
             [self performSelectorOnMainThread:@selector(updatePortMappings) withObject:nil waitUntilDone:0];
         }
     }
-    [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadWithName:TCMUPNPPortMapperDidEndWorkingNotification object:self];
+    // the delaying bridges the small time gap between this thread and the update thread
+    [self performSelectorOnMainThread:@selector(postDelayedDidEndWorkingNotification) withObject:nil waitUntilDone:NO];
     [pool release];
 }
 
@@ -161,7 +169,7 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
     }
 }
 
-- (BOOL)applyPortMapping:(TCMPortMapping *)aPortMapping remove:(BOOL)shouldRemove UPNPURLs:(struct UPNPUrls *)aURLs IGDDatas:(struct IGDdatas *)aIGDData{
+- (BOOL)applyPortMapping:(TCMPortMapping *)aPortMapping remove:(BOOL)shouldRemove UPNPURLs:(struct UPNPUrls *)aURLs IGDDatas:(struct IGDdatas *)aIGDData reservedExternalPortNumbers:(NSIndexSet *)aExternalPortSet {
     BOOL didFail = NO;
     //NSLog(@"%s %@",__FUNCTION__,aPortMapping);
     [aPortMapping setMappingStatus:TCMPortMappingStatusTrying];
@@ -174,13 +182,16 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
         }
         [aPortMapping setMappingStatus:TCMPortMappingStatusUnmapped];
         return YES;
-    } else { // if we should add it and not remove it
+    } else { // We should add it
         int mappedPort = [aPortMapping desiredExternalPort];
         int protocol = TCMPortMappingTransportProtocolUDP;
         for (protocol = TCMPortMappingTransportProtocolUDP; protocol <= TCMPortMappingTransportProtocolTCP; protocol++) {
             if ([aPortMapping transportProtocol] & protocol) {
                 int r = 0;
                 do {
+                    while ([aExternalPortSet containsIndex:mappedPort] && mappedPort<[aPortMapping desiredExternalPort]+40) {
+                        mappedPort++;
+                    }
                     r = UPNP_AddPortMapping(aURLs->controlURL, aIGDData->servicetype,[[NSString stringWithFormat:@"%d",mappedPort] UTF8String],[[NSString stringWithFormat:@"%d",[aPortMapping localPort]] UTF8String], [[[TCMPortMapper sharedInstance] localIPAddress] UTF8String], [[self portMappingDescription] UTF8String], protocol==TCMPortMappingTransportProtocolUDP?"UDP":"TCP");
                     if (r!=UPNPCOMMAND_SUCCESS) {
                         NSString *errorString = [NSString stringWithFormat:@"%d",r];
@@ -202,7 +213,7 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
                         }
                         if (r!=718) NSLog(@"%s error occured while mapping: %@",__FUNCTION__, errorString);
                     }
-                } while (r!=UPNPCOMMAND_SUCCESS && r==718 && mappedPort<=[aPortMapping desiredExternalPort]+20);
+                } while (r!=UPNPCOMMAND_SUCCESS && r==718 && mappedPort<=[aPortMapping desiredExternalPort]+40);
                               
                 if (r!=UPNPCOMMAND_SUCCESS) {
                    didFail = YES;
@@ -228,7 +239,11 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
     TCMPortMapper *pm=[TCMPortMapper sharedInstance];
     NSMutableSet *mappingsSet = [pm removeMappingQueue];
     NSSet *mappingsToAdd = [pm portMappings];
-
+    // we need to safeguard mappings that others might have made 
+    // (upnp is quite generous in giving us what we want, even if 
+    //  other mappings are there, especially when from the same local IP)
+    NSMutableIndexSet *reservedPortNumbers = [[NSMutableIndexSet new] autorelease];
+    
     // get port mapping list as reference first
 {
     int r;
@@ -283,6 +298,7 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
                                 [mapping transportProtocol]!=TCMPortMappingTransportProtocolBoth) {
                                 [mapping setMappingStatus:TCMPortMappingStatusMapped];
                             }
+                            [reservedPortNumbers addIndex:publicPort];
                             break;
                         }
                     }
@@ -291,6 +307,9 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
                      r=UPNP_DeletePortMapping(_urls.controlURL, _igddata.servicetype,extPort,protocol);
                      if (r==UPNPCOMMAND_SUCCESS) i--;
                 }
+            } else {
+                // the portmapping is from someone else - so respect it!
+                [reservedPortNumbers addIndex:atoi(extPort)];
             }
         }
         
@@ -342,7 +361,7 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
         
         if (!mappingToApply) break;
         
-        if (![self applyPortMapping:mappingToApply remove:[pm isRunning]?NO:YES UPNPURLs:&_urls IGDDatas:&_igddata]) {
+        if (![self applyPortMapping:mappingToApply remove:[pm isRunning]?NO:YES UPNPURLs:&_urls IGDDatas:&_igddata reservedExternalPortNumbers:reservedPortNumbers]) {
             didFail = YES;
             [[NSNotificationCenter defaultCenter] postNotificationOnMainThread:[NSNotification notificationWithName:TCMUPNPPortMapperDidFailNotification object:self]];
             break;
