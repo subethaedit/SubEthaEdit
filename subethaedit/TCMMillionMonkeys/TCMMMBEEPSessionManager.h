@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#define SUBETHAEDIT_DEFAULT_PORT 6942
 
 extern NSString * const DefaultPortNumber;
 extern NSString * const ShouldAutomaticallyMapPort;
@@ -42,11 +43,15 @@ extern NSString * const kTCMMMBEEPSessionManagerTLSMode;
 
 + (TCMMMBEEPSessionManager *)sharedInstance;
 
++ (NSURL *)urlForAddress:(NSString *)anAddress;
++ (NSURL *)reducedURL:(NSURL *)anURL addressData:(NSData **)anAddressData documentRequest:(NSURL **)aRequest;
+
 - (void)validateListener;
 - (BOOL)listen;
 - (void)stopListening;
 - (int)listeningPort;
 
+- (NSArray *)allBEEPSessions;
 - (void)terminateAllBEEPSessions;
 
 - (void)setIsProhibitingInboundInternetSessions:(BOOL)flag;

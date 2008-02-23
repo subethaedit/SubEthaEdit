@@ -29,7 +29,6 @@ extern NSString * const ConnectionStatusNoConnection;
     BOOL _isDisclosed;
 }
 
-+ (NSURL *)urlForAddress:(NSString *)anAddress;
 
 - (id)initWithURL:(NSURL *)anURL;
 - (id)initWithBEEPSession:(TCMBEEPSession *)aSession;

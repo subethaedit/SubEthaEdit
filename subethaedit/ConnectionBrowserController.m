@@ -486,7 +486,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     
     [self showWindow:nil];
     
-    NSURL *url = [ConnectionBrowserEntry urlForAddress:address];
+    NSURL *url = [TCMMMBEEPSessionManager urlForAddress:address];
     
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"scheme: %@\nhost: %@\nport: %@\npath: %@\nparameterString: %@\nquery: %@", [url scheme], [url host],  [url port], [url path], [url parameterString], [url query]);
     

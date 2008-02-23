@@ -33,90 +33,6 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
 
 @implementation ConnectionBrowserEntry
 
-+ (NSURL *)urlForAddress:(NSString *)anAddress {
-    NSString *URLString = nil;
-    NSString *schemePrefix = [NSString stringWithFormat:@"%@://", @"see"];
-    NSString *lowercaseAddress = [anAddress lowercaseString];
-    if (![lowercaseAddress hasPrefix:schemePrefix]) {
-        // check if the address is an ipv6 address
-        NSCharacterSet *ipv6set = [NSCharacterSet characterSetWithCharactersInString:@"1234567890abcdef:"];
-        NSScanner *ipv6scanner = [NSScanner scannerWithString:anAddress];
-        NSString *scannedString = nil;
-        if ([ipv6scanner scanCharactersFromSet:ipv6set intoString:&scannedString]) {
-            if ([scannedString length] == [anAddress length]) {
-                anAddress = [NSString stringWithFormat:@"[%@]",scannedString];
-            } else if ([anAddress length] > [scannedString length]+1 && [anAddress characterAtIndex:[scannedString length]] == '%') {
-                anAddress = [NSString stringWithFormat:@"[%@%%25%@]",scannedString,[anAddress substringFromIndex:[scannedString length]+1]];
-            }
-        }
-        NSString *addressWithPrefix = [schemePrefix stringByAppendingString:anAddress];
-        URLString = addressWithPrefix;
-    } else {
-        URLString = anAddress;
-    }
-    
-    NSURL *url = [NSURL URLWithString:URLString];
-    return url;
-}
-
-+ (NSURL *)reducedURL:(NSURL *)anURL addressData:(NSData **)anAddressData documentRequest:(NSURL **)aRequest {
-    NSURL *resultURL = nil;
-    if (anURL != nil && [anURL host] != nil) {
-        UInt16 port;
-        if ([anURL port] != nil) {
-            port = [[anURL port] unsignedShortValue];
-        } else {
-            port = SUBETHAEDIT_DEFAULT_PORT;
-        }
-        
-        NSData *addressData = nil;
-        NSString *hostAddress = [anURL host];
-
-        const char *ipAddress = [hostAddress UTF8String];
-        struct addrinfo hints;
-        struct addrinfo *result = NULL;
-        BOOL isIPv6Address = NO;
-
-        memset(&hints, 0, sizeof(hints));
-        hints.ai_flags    = AI_NUMERICHOST;
-        hints.ai_family   = PF_UNSPEC;
-        hints.ai_socktype = SOCK_STREAM;
-        hints.ai_protocol = 0;
-        
-        char *portString = NULL;
-        int err = asprintf(&portString, "%d", port);
-        NSAssert(err != -1, @"Failed to convert given port from int to char*");
-
-        err = getaddrinfo(ipAddress, portString, &hints, &result);
-        if (err == 0) {
-            addressData = [NSData dataWithBytes:(UInt8 *)result->ai_addr length:result->ai_addrlen];
-            isIPv6Address = result->ai_family == PF_INET6;
-            DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"getaddrinfo succeeded with addr: %@", [NSString stringWithAddressData:addressData]);
-            if (anAddressData) *anAddressData = addressData;
-            freeaddrinfo(result);
-        } else {
-            DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"Neither IPv4 nor IPv6 address");
-            return [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@:%d", [anURL scheme], hostAddress,port]];;
-        }
-        if (portString) {
-            free(portString);
-        }
-        
-        NSString *URLString = nil;
-        NSMutableString *percentEscapedString = [[[NSString stringWithAddressData:addressData] mutableCopy] autorelease];
-        [percentEscapedString replaceOccurrencesOfString:@"%" withString:@"%25" options:0 range:NSMakeRange(0,[percentEscapedString length])];
-        URLString = [NSString stringWithFormat:@"%@://%@", [anURL scheme], percentEscapedString];
-        resultURL = [NSURL URLWithString:URLString];
-        
-        if ([[anURL path] length] > 0 && ![[anURL path] isEqualToString:@"/"]) {
-            if (aRequest) *aRequest = anURL;
-        }
-        
-    } else {
-        DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"Invalid URI");
-    }
-    return resultURL;
-}
 
 - (void)sendStatusDidChangeNotification {
     [[NSNotificationCenter defaultCenter] postNotificationName:ConnectionBrowserEntryStatusDidChangeNotification object:self];
@@ -133,7 +49,7 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
         _pendingDocumentRequests = [NSMutableArray new];
         NSURL *documentRequest = nil;
         NSData *addressData = nil;
-        _URL = [[ConnectionBrowserEntry reducedURL:anURL addressData:&addressData documentRequest:&documentRequest] retain];
+        _URL = [[TCMMMBEEPSessionManager reducedURL:anURL addressData:&addressData documentRequest:&documentRequest] retain];
         if (!_URL) {
             [_pendingDocumentRequests release];
             [super dealloc];
@@ -188,7 +104,7 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
 - (BOOL)handleURL:(NSURL *)anURL {
     if (_URL) {
         NSURL *request=nil;
-        NSURL *reducedURL = [ConnectionBrowserEntry reducedURL:anURL addressData:nil documentRequest:&request];
+        NSURL *reducedURL = [TCMMMBEEPSessionManager reducedURL:anURL addressData:nil documentRequest:&request];
         if ([_URL isEqualTo:reducedURL]) {
             if (request) [_pendingDocumentRequests addObject:request];
             return YES;

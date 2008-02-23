@@ -10,7 +10,6 @@
 
 #define kKAHL 'KAHL'
 #define kMOD 'MOD '
-#define SUBETHAEDIT_DEFAULT_PORT 6942
 
 extern int const AppMenuTag;
 extern int const EnterSerialMenuItemTag;

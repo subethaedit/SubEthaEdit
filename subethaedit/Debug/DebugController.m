@@ -21,6 +21,7 @@
 #import "TCMMillionMonkeys.h"
 #import "TCMMMUserSEEAdditions.h"
 #import "DocumentController.h"
+#import "DebugAttributeInspectorController.h"
 
 
 static DebugController * sharedInstance = nil;

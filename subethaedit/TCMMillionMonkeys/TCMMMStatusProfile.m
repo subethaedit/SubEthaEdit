@@ -130,6 +130,10 @@
             } else if (strncmp(bytes,"USRRCH",6)==0) {
                 NSDictionary *dict = TCM_BdecodedObjectWithData([[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]);
                 NSLog(@"%s got reachability notice %@",__FUNCTION__,dict);
+                id delegate = [self delegate];
+                if ([delegate respondsToSelector:@selector(profile:didReceiveReachabilityURLString:forUserID:)]) {
+                    [delegate profile:self didReceiveReachabilityURLString:[dict objectForKey:@"url"] forUserID:[dict objectForKey:@"uid"]];
+                }
                 return;
             } else if (strncmp(bytes,"DOC",3)==0) {
                 DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received Document");
