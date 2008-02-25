@@ -187,6 +187,13 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
                 return nil;
             }
         }
+    }  else if (aTag == TCMMMBrowserItemImage2NextToNameTag) {
+        if ([[[[TCMMMPresenceManager sharedInstance] statusOfUserID:[user userID]] objectForKey:@"shouldAutoConnect"] boolValue]) {
+            return [NSImage imageNamed:@"FriendCast13"]; 
+        } else {
+            return [NSImage imageNamed:@"FriendCast13Off"]; 
+        }
+
     } else 
     if (aTag == TCMMMBrowserItemNameTag) {
         if (showUser) {

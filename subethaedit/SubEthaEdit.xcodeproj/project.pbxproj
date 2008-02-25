@@ -441,6 +441,12 @@
 		F2CA7D2F0CA142B1008BEA38 /* HUDStatisticPersonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CA7D2D0CA142B0008BEA38 /* HUDStatisticPersonCell.m */; };
 		F2D129FC0BF0B64A00A776CC /* ConnectionBrowserController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D129F80BF0B64700A776CC /* ConnectionBrowserController.m */; };
 		F2D12A1D0BF0B8DF00A776CC /* ConnectionBrowserEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D12A1B0BF0B8DF00A776CC /* ConnectionBrowserEntry.m */; };
+		F2D2CDB20D73043D000E3812 /* FriendCast16Active.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D2CDAE0D73043D000E3812 /* FriendCast16Active.png */; };
+		F2D2CDB30D73043D000E3812 /* FriendCast16.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D2CDAF0D73043D000E3812 /* FriendCast16.png */; };
+		F2D2CDB40D73043D000E3812 /* FriendCastBlue.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2D2CDB00D73043D000E3812 /* FriendCastBlue.tiff */; };
+		F2D2CDB50D73043D000E3812 /* FriendCastBlack.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2D2CDB10D73043D000E3812 /* FriendCastBlack.tiff */; };
+		F2D2CDCB0D730C3C000E3812 /* FriendCast13.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D2CDC90D730C3C000E3812 /* FriendCast13.png */; };
+		F2D2CDCC0D730C3C000E3812 /* FriendCast13Off.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D2CDCA0D730C3C000E3812 /* FriendCast13Off.png */; };
 		F2D5FF380CB2660100407399 /* Announce.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF370CB2660100407399 /* Announce.icns */; };
 		F2D5FF3A0CB2661000407399 /* DefaultPerson.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF390CB2661000407399 /* DefaultPerson.icns */; };
 		F2D5FF3C0CB2661900407399 /* GeneralPrefs.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF3B0CB2661900407399 /* GeneralPrefs.icns */; };
@@ -1374,6 +1380,12 @@
 		F2D12A0A0BF0B6B000A776CC /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/ConnectionBrowser.nib; sourceTree = "<group>"; };
 		F2D12A1A0BF0B8DF00A776CC /* ConnectionBrowserEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionBrowserEntry.h; sourceTree = "<group>"; };
 		F2D12A1B0BF0B8DF00A776CC /* ConnectionBrowserEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionBrowserEntry.m; sourceTree = "<group>"; };
+		F2D2CDAE0D73043D000E3812 /* FriendCast16Active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FriendCast16Active.png; path = artwork/FriendCast16Active.png; sourceTree = "<group>"; };
+		F2D2CDAF0D73043D000E3812 /* FriendCast16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FriendCast16.png; path = artwork/FriendCast16.png; sourceTree = "<group>"; };
+		F2D2CDB00D73043D000E3812 /* FriendCastBlue.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = FriendCastBlue.tiff; path = artwork/FriendCastBlue.tiff; sourceTree = "<group>"; };
+		F2D2CDB10D73043D000E3812 /* FriendCastBlack.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = FriendCastBlack.tiff; path = artwork/FriendCastBlack.tiff; sourceTree = "<group>"; };
+		F2D2CDC90D730C3C000E3812 /* FriendCast13.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FriendCast13.png; path = artwork/FriendCast13.png; sourceTree = "<group>"; };
+		F2D2CDCA0D730C3C000E3812 /* FriendCast13Off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FriendCast13Off.png; path = artwork/FriendCast13Off.png; sourceTree = "<group>"; };
 		F2D5FF370CB2660100407399 /* Announce.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Announce.icns; path = artwork/Announce.icns; sourceTree = "<group>"; };
 		F2D5FF390CB2661000407399 /* DefaultPerson.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = DefaultPerson.icns; path = artwork/DefaultPerson.icns; sourceTree = "<group>"; };
 		F2D5FF3B0CB2661900407399 /* GeneralPrefs.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = GeneralPrefs.icns; path = artwork/GeneralPrefs.icns; sourceTree = "<group>"; };
@@ -1532,6 +1544,12 @@
 				F2D5FF390CB2661000407399 /* DefaultPerson.icns */,
 				14289069095743F200D14688 /* EditPrefs.tiff */,
 				1428906A095743F200D14688 /* EmptyButton.tiff */,
+				F2D2CDC90D730C3C000E3812 /* FriendCast13.png */,
+				F2D2CDCA0D730C3C000E3812 /* FriendCast13Off.png */,
+				F2D2CDAE0D73043D000E3812 /* FriendCast16Active.png */,
+				F2D2CDAF0D73043D000E3812 /* FriendCast16.png */,
+				F2D2CDB00D73043D000E3812 /* FriendCastBlue.tiff */,
+				F2D2CDB10D73043D000E3812 /* FriendCastBlack.tiff */,
 				1428906B095743F200D14688 /* GeneralPrefs.tiff */,
 				F2D5FF3B0CB2661900407399 /* GeneralPrefs.icns */,
 				5E67DB870ABF21270013562D /* glass-normal-cap-left.tiff */,
@@ -2924,6 +2942,12 @@
 				F23025760D6C709A00728699 /* DotYellow.png in Resources */,
 				F2C6D3750D6DB131002B401D /* URLIconNotOK.tiff in Resources */,
 				F2C6D3760D6DB131002B401D /* URLIconOK.tiff in Resources */,
+				F2D2CDB20D73043D000E3812 /* FriendCast16Active.png in Resources */,
+				F2D2CDB30D73043D000E3812 /* FriendCast16.png in Resources */,
+				F2D2CDB40D73043D000E3812 /* FriendCastBlue.tiff in Resources */,
+				F2D2CDB50D73043D000E3812 /* FriendCastBlack.tiff in Resources */,
+				F2D2CDCB0D730C3C000E3812 /* FriendCast13.png in Resources */,
+				F2D2CDCC0D730C3C000E3812 /* FriendCast13Off.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

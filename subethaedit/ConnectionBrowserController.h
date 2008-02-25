@@ -23,6 +23,7 @@
     IBOutlet NSComboBox *O_addressComboBox;
     IBOutlet NSPopUpButton *O_actionPullDownButton;
     IBOutlet NSPopUpButton *O_statusPopUpButton;
+    IBOutlet NSButton   *O_toggleFriendcastButton;
     IBOutlet NSButton   *O_clearButton;
     IBOutlet LoginSheetController *O_loginSheetController;
 
@@ -45,6 +46,7 @@
 - (IBAction)connect:(id)aSender;
 - (IBAction)setVisibilityByMenuItem:(id)aSender;
 - (IBAction)toggleProhibitInboundConnections:(id)aSender;
+- (IBAction)toggleFriendcast:(id)aSender;
 - (IBAction)clear:(id)aSender;
 
 - (void)connectToAddress:(NSString *)address;

@@ -184,11 +184,20 @@ static NSMutableDictionary *S_childNameAttributes=nil;
     }
     NSSize nameSize=[string sizeWithAttributes:S_itemNameAttributes];
     image=[dataSource listView:self objectValueForTag:TCMMMBrowserItemImageNextToNameTag atChildIndex:-1 ofItemAtIndex:aIndex];
+    float imageWidth = [image size].width;
     if (image) {
         [image compositeToPoint:NSMakePoint(nameXOrigin+(int)nameSize.width+6.,
                                             (int)(1.+nameSize.height)-(nameSize.height - [image size].height)/3.) 
                       operation:NSCompositeSourceOver];
     }
+
+    image=[dataSource listView:self objectValueForTag:TCMMMBrowserItemImage2NextToNameTag atChildIndex:-1 ofItemAtIndex:aIndex];
+    if (image) {
+        [image compositeToPoint:NSMakePoint(nameXOrigin+(int)nameSize.width+6.+(imageWidth?imageWidth+6.:0),
+                                            (int)(1.+nameSize.height)-(nameSize.height - [image size].height)/3.) 
+                      operation:NSCompositeSourceOver];
+    }
+
     
 //    [[NSColor redColor] set];
 //    NSFrameRect([self frameForTag:TCMMMBrowserItemImageNextToNameTag atChildIndex:-1 ofItemAtIndex:aIndex]);

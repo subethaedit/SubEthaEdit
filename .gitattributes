@@ -2037,6 +2037,12 @@ subethaedit/artwork/DefaultPerson.icns -text
 subethaedit/artwork/DefaultPerson.png -text
 subethaedit/artwork/EditPrefs.tiff -text
 subethaedit/artwork/EmptyButton.tiff -text
+subethaedit/artwork/FriendCast13.png -text
+subethaedit/artwork/FriendCast13Off.png -text
+subethaedit/artwork/FriendCast16.png -text
+subethaedit/artwork/FriendCast16Active.png -text
+subethaedit/artwork/FriendCastBlack.tiff -text
+subethaedit/artwork/FriendCastBlue.tiff -text
 subethaedit/artwork/GeneralPrefs.icns -text
 subethaedit/artwork/GeneralPrefs.tiff -text
 subethaedit/artwork/HUDRelative-1.png -text

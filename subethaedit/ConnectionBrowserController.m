@@ -163,6 +163,19 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     [super dealloc];
 }
 
+- (void) validateButtons {
+    NSSet *entries = [self selectedEntriesFilteredUsingPredicate:[NSPredicate predicateWithValue:YES]];
+    if ([entries count] == 1) {
+        ConnectionBrowserEntry *entry = [entries anyObject];
+        [O_toggleFriendcastButton setEnabled:YES];
+        NSMutableDictionary *status = [[TCMMMPresenceManager sharedInstance] statusOfUserID:[[entry user] userID]];
+        [O_toggleFriendcastButton setState:[[status objectForKey:@"shouldAutoConnect"] boolValue]?NSOnState:NSOffState];
+    } else {
+        [O_toggleFriendcastButton setState:NSOffState];
+        [O_toggleFriendcastButton setEnabled:NO];
+    }
+}
+
 // on application launch (mainmenu.nib)
 - (void)awakeFromNib {
     sharedInstance = self;
@@ -351,6 +364,9 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     if ([[self comboBoxItems] count] > 0) {
         [O_addressComboBox setObjectValue:[[self comboBoxItems] objectAtIndex:0]];
     }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(validateButtons) name:ListViewDidChangeSelectionNotification object:O_browserListView];
+
     
     // Port Mappings
     TCMPortMapper *pm = [TCMPortMapper sharedInstance];
@@ -749,8 +765,13 @@ static NSPredicate *S_joinableSessionPredicate = nil;
             [O_browserListView setNeedsDisplay:YES];
         }
     }
-
+    [self validateButtons];
 }
+
+- (IBAction)toggleFriendcast:(id)aSender {
+    [self togglePeerExchange:aSender];
+}
+
 
 - (NSSet *)selectedEntriesFilteredUsingPredicate:(NSPredicate *)aPredicate {
     NSMutableSet *set = [NSMutableSet set];

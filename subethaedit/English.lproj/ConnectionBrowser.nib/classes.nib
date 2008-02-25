@@ -134,6 +134,19 @@
 			<string>NSView</string>
 		</dict>
 		<dict>
+			<key>CLASS</key>
+			<string>TCMHost</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>I_delegate</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
 			<key>ACTIONS</key>
 			<dict>
 				<key>clear</key>
@@ -143,6 +156,8 @@
 				<key>login</key>
 				<string>id</string>
 				<key>setVisibilityByMenuItem</key>
+				<string>id</string>
+				<key>toggleFriendcast</key>
 				<string>id</string>
 				<key>toggleProhibitInboundConnections</key>
 				<string>id</string>
@@ -177,22 +192,11 @@
 				<string>NSScrollView</string>
 				<key>O_statusPopUpButton</key>
 				<string>NSPopUpButton</string>
+				<key>O_toggleFriendcastButton</key>
+				<string>NSButton</string>
 			</dict>
 			<key>SUPERCLASS</key>
 			<string>NSWindowController</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>TCMHost</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>I_delegate</key>
-				<string>id</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
 		</dict>
 		<dict>
 			<key>ACTIONS</key>
