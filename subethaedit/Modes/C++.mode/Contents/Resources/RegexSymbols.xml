@@ -31,6 +31,18 @@
         </postprocess>
     </symbol>
 
+    <symbol id="C++ Templates" image="SymbolM" indentation="1" ignoreblocks="yes">
+        <regex>(?&lt;=[\n\r]|^)[ \t]*(?:template[\t ]*&lt;[^&gt;]*&gt;[\t\r\n ]*)(?:(?:[\w&lt;&gt;0-9_*]+(?:::[\w&lt;&gt;0-9_]+)*\s?)+)[^{]*</regex>
+        <postprocess>
+            <find>\([^\)]*\)</find>
+            <replace>()</replace>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+
     <symbol id="C++ Classes" image="SymbolC" indentation="1" ignoreblocks="yes">
         <regex>(?&lt;=[\n\r]|^)[ \t]*(?:template[\t ]*&lt;[^&gt;]*&gt;[\t\r\n ]*)?class[\t ]([\w0-9_]*)(?:[\t ]*:[\t ]*[\w0-9_]+[\t ][\w0-9_&lt;&gt;]+)?(?:const)?(?=\s*\{)</regex>
     </symbol>
