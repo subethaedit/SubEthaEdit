@@ -112,6 +112,7 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
 #ifdef DEBUG
             NSLog(@"List of UPNP devices found on the network :\n");
 #endif
+            NSMutableArray *URLsToTry = [NSMutableArray array];
             NSMutableSet *triedURLSet = [NSMutableSet set];
             for(device = devlist; device && !foundIDGDevice; device = device->pNext) {
                 NSURL *descURL = [NSURL URLWithString:[NSString stringWithUTF8String:device->descURL]];
@@ -135,26 +136,38 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
                 if (success && (status & kSCNetworkFlagsIsDirect)) {
                     if (![triedURLSet containsObject:descURL]) {
                         [triedURLSet addObject:descURL];
-                        if (UPNP_GetIGDFromUrl(device->descURL,&_urls,&_igddata,lanaddr,sizeof(lanaddr))) {
-                            int r = UPNP_GetExternalIPAddress(_urls.controlURL,
-                                                      _igddata.servicetype,
-                                                      externalIPAddress);
-                            if(r != UPNPCOMMAND_SUCCESS) {
-                                didFail = YES;
-                                errorString = [NSString stringWithFormat:@"GetExternalIPAddress() returned %d", r];
-                            } else {
-                                if(externalIPAddress[0]) {
-                                    NSString *ipString = [NSString stringWithUTF8String:externalIPAddress];
-                                    NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithObject:ipString forKey:@"externalIPAddress"];
-                                    NSString *routerName = [NSString stringWithUTF8String:_igddata.modeldescription];
-                                    if (routerName) [userInfo setObject:routerName forKey:@"routerName"];
-                                    [[NSNotificationCenter defaultCenter] postNotificationOnMainThread:[NSNotification notificationWithName:TCMUPNPPortMapperDidGetExternalIPAddressNotification object:self userInfo:userInfo]];
-                                    foundIDGDevice = YES;
-                                } else {
-                                    didFail = YES;
-                                    errorString = @"No external IP address!";
-                                }
-                            }
+                        if ([[descURL host] isEqualToString:[[TCMPortMapper sharedInstance] routerIPAddress]]) {
+                            [URLsToTry insertObject:descURL atIndex:0];
+                        } else {
+                            [URLsToTry addObject:descURL];
+                        }
+                    }
+                }
+            }
+            NSEnumerator *URLEnumerator = [URLsToTry objectEnumerator];
+            NSURL *descURL = nil;
+            while ((descURL = [URLEnumerator nextObject])) {
+                NSLog(@"%s trying URL:%@",__FUNCTION__,descURL);
+                if (UPNP_GetIGDFromUrl([[descURL absoluteString] UTF8String],&_urls,&_igddata,lanaddr,sizeof(lanaddr))) {
+                    int r = UPNP_GetExternalIPAddress(_urls.controlURL,
+                                              _igddata.servicetype,
+                                              externalIPAddress);
+                    if(r != UPNPCOMMAND_SUCCESS) {
+                        didFail = YES;
+                        errorString = [NSString stringWithFormat:@"GetExternalIPAddress() returned %d", r];
+                    } else {
+                        if(externalIPAddress[0]) {
+                            NSString *ipString = [NSString stringWithUTF8String:externalIPAddress];
+                            NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithObject:ipString forKey:@"externalIPAddress"];
+                            NSString *routerName = [NSString stringWithUTF8String:_igddata.modeldescription];
+                            if (routerName) [userInfo setObject:routerName forKey:@"routerName"];
+                            [[NSNotificationCenter defaultCenter] postNotificationOnMainThread:[NSNotification notificationWithName:TCMUPNPPortMapperDidGetExternalIPAddressNotification object:self userInfo:userInfo]];
+                            foundIDGDevice = YES;
+                            didFail = NO;
+                            break;
+                        } else {
+                            didFail = YES;
+                            errorString = @"No external IP address!";
                         }
                     }
                 }
