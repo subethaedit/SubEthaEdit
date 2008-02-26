@@ -7,7 +7,22 @@
 //
 
 #import "TCMUPNPPortMapper.h"
+#import <SystemConfiguration/SystemConfiguration.h>
+#import <SystemConfiguration/SCSchemaDefinitions.h>
 #import "NSNotificationAdditions.h"
+
+//static void PrintHeader(void)
+//    // Prints an explanation of the flag coding.
+//{
+//    fprintf(stdout, "t = kSCNetworkFlagsTransientConnection\n");
+//    fprintf(stdout, "r = kSCNetworkFlagsReachable\n");
+//    fprintf(stdout, "c = kSCNetworkFlagsConnectionRequired\n");
+//    fprintf(stdout, "C = kSCNetworkFlagsConnectionAutomatic\n");
+//    fprintf(stdout, "i = kSCNetworkFlagsInterventionRequired\n");
+//    fprintf(stdout, "l = kSCNetworkFlagsIsLocalAddress\n");
+//    fprintf(stdout, "d = kSCNetworkFlagsIsDirect\n");
+//    fprintf(stdout, "\n");
+//}
 
 NSString * const TCMUPNPPortMapperDidFailNotification = @"TCMNATPMPPortMapperDidFailNotification";
 NSString * const TCMUPNPPortMapperDidGetExternalIPAddressNotification = @"TCMNATPMPPortMapperDidGetExternalIPAddressNotification";
@@ -90,36 +105,61 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
     NSString *errorString = nil;
     if (( devlist = upnpDiscover(2000, multicastif, minissdpdpath) )) {
         if(devlist) {
-#ifndef NDEBUG
-            if (YES) {// FIXME:debug switch here
-                struct UPNPDev * device;
-                NSLog(@"List of UPNP devices found on the network :\n");
-                for(device = devlist; device; device = device->pNext) {
-                    NSLog(@" desc: %s\n st: %s\n\n",
-                           device->descURL, device->st);
-                }
-            }
+        
+            // let us check all of the devices for reachability
+            BOOL foundIDGDevice = NO;
+            struct UPNPDev * device;
+#ifdef DEBUG
+            NSLog(@"List of UPNP devices found on the network :\n");
 #endif
-            if (UPNP_GetValidIGD(devlist, &_urls, &_igddata, lanaddr, sizeof(lanaddr))) {
-                int r = UPNP_GetExternalIPAddress(_urls.controlURL,
-                                          _igddata.servicetype,
-                                          externalIPAddress);
-                if(r != UPNPCOMMAND_SUCCESS) {
-                    didFail = YES;
-                    errorString = [NSString stringWithFormat:@"GetExternalIPAddress() returned %d", r];
-                } else {
-                    if(externalIPAddress[0]) {
-                        NSString *ipString = [NSString stringWithUTF8String:externalIPAddress];
-                        NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithObject:ipString forKey:@"externalIPAddress"];
-                        NSString *routerName = [NSString stringWithUTF8String:_igddata.modeldescription];
-                        if (routerName) [userInfo setObject:routerName forKey:@"routerName"];
-                        [[NSNotificationCenter defaultCenter] postNotificationOnMainThread:[NSNotification notificationWithName:TCMUPNPPortMapperDidGetExternalIPAddressNotification object:self userInfo:userInfo]];
-                    } else {
-                        didFail = YES;
-                        errorString = @"No external IP address!";
+            NSMutableSet *triedURLSet = [NSMutableSet set];
+            for(device = devlist; device && !foundIDGDevice; device = device->pNext) {
+                NSURL *descURL = [NSURL URLWithString:[NSString stringWithUTF8String:device->descURL]];
+                SCNetworkConnectionFlags status;
+                Boolean success = SCNetworkCheckReachabilityByName([[descURL host] UTF8String], &status); 
+#ifdef DEBUG
+                NSLog(@"%@ %c%c%c%c%c%c%c host:%s st:%s",
+                    success ? @"YES" : @" NO",
+                    (status & kSCNetworkFlagsTransientConnection)  ? 't' : '-',
+                    (status & kSCNetworkFlagsReachable)            ? 'r' : '-',
+                    (status & kSCNetworkFlagsConnectionRequired)   ? 'c' : '-',
+                    (status & kSCNetworkFlagsConnectionAutomatic)  ? 'C' : '-',
+                    (status & kSCNetworkFlagsInterventionRequired) ? 'i' : '-',
+                    (status & kSCNetworkFlagsIsLocalAddress)       ? 'l' : '-',
+                    (status & kSCNetworkFlagsIsDirect)             ? 'd' : '-',
+                    device->descURL,
+                    device->st
+                );
+#endif
+                // only connect to directly reachable hosts which we haven't tried yet (if you are multihoming then you get all of the announcement twice
+                if (success && (status & kSCNetworkFlagsIsDirect)) {
+                    if (![triedURLSet containsObject:descURL]) {
+                        [triedURLSet addObject:descURL];
+                        if (UPNP_GetIGDFromUrl(device->descURL,&_urls,&_igddata,lanaddr,sizeof(lanaddr))) {
+                            int r = UPNP_GetExternalIPAddress(_urls.controlURL,
+                                                      _igddata.servicetype,
+                                                      externalIPAddress);
+                            if(r != UPNPCOMMAND_SUCCESS) {
+                                didFail = YES;
+                                errorString = [NSString stringWithFormat:@"GetExternalIPAddress() returned %d", r];
+                            } else {
+                                if(externalIPAddress[0]) {
+                                    NSString *ipString = [NSString stringWithUTF8String:externalIPAddress];
+                                    NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithObject:ipString forKey:@"externalIPAddress"];
+                                    NSString *routerName = [NSString stringWithUTF8String:_igddata.modeldescription];
+                                    if (routerName) [userInfo setObject:routerName forKey:@"routerName"];
+                                    [[NSNotificationCenter defaultCenter] postNotificationOnMainThread:[NSNotification notificationWithName:TCMUPNPPortMapperDidGetExternalIPAddressNotification object:self userInfo:userInfo]];
+                                    foundIDGDevice = YES;
+                                } else {
+                                    didFail = YES;
+                                    errorString = @"No external IP address!";
+                                }
+                            }
+                        }
                     }
                 }
-            } else {
+            }
+            if (!foundIDGDevice) {
                 didFail = YES;
                 errorString = @"No IDG Device found on the network!";
             }
