@@ -12,6 +12,7 @@
     
         <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
             <keywords id="C++ Keywords" color="#881350" useforautocomplete="yes">
+                <string>bool</string>
                 <string>class</string>
                 <string>false</string>
                 <string>friend</string>
