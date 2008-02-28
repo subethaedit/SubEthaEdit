@@ -51,7 +51,8 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
         @"InternalIsVisible" => nil | NSNumber "YES" // for internal use only
         @"StatusProfile" => TCMMMStatusProfile if present
         @"shouldSendVisibilityChangeNotification" => nil | NSNumber "YES"  // for internal use only
-        @"shouldAutoConnect" => nil | NSNumber "YES" // if we autoconnect to reachability infos of that user
+        @"shouldAutoConnect" => nil | NSNumber "YES" // if we autoconnect to reachability infos of that user - == subscribe to friendcast
+        @"hasFriendCast" => nil | NSNumber "YES"
 "*/
 
 
@@ -79,9 +80,21 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TCM_didEndSession:) name:TCMMMBEEPSessionManagerSessionDidEndNotification object:[TCMMMBEEPSessionManager sharedInstance]];
         I_resolveUnconnectedFoundNetServicesTimer = [NSTimer scheduledTimerWithTimeInterval:90. target:self selector:@selector(resolveUnconnectedFoundNetServices:) userInfo:nil repeats:YES];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(broadcastMyReachability) name:TCMPortMapperDidFinishWorkNotification object:[TCMPortMapper sharedInstance]];
+        // bind to user defaults
+        [[NSUserDefaultsController sharedUserDefaultsController] addObserver:self forKeyPath:[@"values." stringByAppendingString:AutoconnectPrefKey] options:0 context:nil];
         
     }
     return self;
+}
+
+- (void)observeValueForKeyPath:(NSString *)aKeyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+    // send new friendcasting status
+    NSEnumerator *profiles = [I_statusProfilesInServerRole objectEnumerator];
+    TCMMMStatusProfile *profile = nil;
+    BOOL hasFriendCast = [[object valueForKeyPath:aKeyPath] boolValue];
+    while ((profile = [profiles nextObject])) {
+        [profile sendIsFriendcasting:hasFriendCast];
+    }
 }
 
 - (void)dealloc 
@@ -376,6 +389,7 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
 
 - (void)sendInitialStatusViaProfile:(TCMMMStatusProfile *)aProfile {
     [aProfile sendUserDidChangeNotification:[TCMMMUserManager me]];
+    [aProfile sendIsFriendcasting:[[NSUserDefaults standardUserDefaults] boolForKey:AutoconnectPrefKey]];
     [aProfile sendVisibility:[self isVisible]];
     [self sendReachabilityViaProfile:aProfile];
     
@@ -398,6 +412,20 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
     }
     [self TCM_validateVisibilityOfUserID:userID];
 }
+
+- (void)profile:(TCMMMStatusProfile *)aProfile didReceiveFriendcastingChange:(BOOL)hasFriendCast {
+    NSString *userID=[[[aProfile session] userInfo] objectForKey:@"peerUserID"];
+    NSMutableDictionary *status=[self statusOfUserID:userID];
+    if (hasFriendCast) {
+        [status setObject:[NSNumber numberWithBool:YES] forKey:@"hasFriendCast"];
+    } else {
+        [status removeObjectForKey:@"hasFriendCast"];
+    }
+    // make sure the UI gets notified of that change
+    [status setObject:[NSNumber numberWithBool:YES] forKey:@"shouldSendVisibilityChangeNotification"];
+    [self TCM_validateVisibilityOfUserID:userID];
+}
+
 
 - (void)profile:(TCMMMStatusProfile *)aProfile didReceiveReachabilityURLString:(NSString *)anURLString forUserID:(NSString *)aUserID {
     NSMutableDictionary *sessionUserInfo = [[aProfile session] userInfo];

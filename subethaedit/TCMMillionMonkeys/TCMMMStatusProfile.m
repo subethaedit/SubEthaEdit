@@ -67,6 +67,18 @@
     [[self channel] sendMSGMessageWithPayload:data];
 }
 
+- (void)sendIsFriendcasting:(BOOL)isFriendcasting {
+    if ([[I_options objectForKey:@"SendUSRRCH"] boolValue]) {
+        NSData *data=nil;
+        if (isFriendcasting) {
+            data=[NSData dataWithBytes:"FCAYES" length:6];
+        } else {
+            data=[NSData dataWithBytes:"FCAOFF" length:6];
+        }
+        [[self channel] sendMSGMessageWithPayload:data];
+    }
+}
+
 - (void)sendUserDidChangeNotification:(TCMMMUser *)aUser {
     NSMutableData *data=[NSMutableData dataWithBytes:"USRCHG" length:6];
     [data appendData:[aUser notificationBencoded]];
@@ -165,6 +177,12 @@
                     [[self delegate] profile:self didReceiveVisibilityChange:YES];
                 } else if (strncmp(&bytes[3],"INV",3)==0) {
                     [[self delegate] profile:self didReceiveVisibilityChange:NO];
+                }
+            } else if (strncmp(bytes,"FCA",3)==0){
+                if (strncmp(&bytes[3],"YES",3)==0) {
+                    [[self delegate] profile:self didReceiveFriendcastingChange:YES];
+                } else if (strncmp(&bytes[3],"OFF",3)==0) {
+                    [[self delegate] profile:self didReceiveFriendcastingChange:NO];
                 }
             }
 

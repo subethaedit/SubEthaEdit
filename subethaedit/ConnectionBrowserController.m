@@ -167,8 +167,8 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     NSSet *entries = [self selectedEntriesFilteredUsingPredicate:[NSPredicate predicateWithValue:YES]];
     if ([entries count] == 1) {
         ConnectionBrowserEntry *entry = [entries anyObject];
-        [O_toggleFriendcastButton setEnabled:YES];
         NSMutableDictionary *status = [[TCMMMPresenceManager sharedInstance] statusOfUserID:[[entry user] userID]];
+        [O_toggleFriendcastButton setEnabled:[[status objectForKey:@"hasFriendCast"] boolValue]];
         [O_toggleFriendcastButton setState:[[status objectForKey:@"shouldAutoConnect"] boolValue]?NSOnState:NSOffState];
     } else {
         [O_toggleFriendcastButton setState:NSOffState];
@@ -367,7 +367,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(validateButtons) name:ListViewDidChangeSelectionNotification object:O_browserListView];
 
-    
+    [self validateButtons];
     // Port Mappings
     TCMPortMapper *pm = [TCMPortMapper sharedInstance];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(portMapperDidStartWork:) name:TCMPortMapperDidStartWorkNotification object:pm];

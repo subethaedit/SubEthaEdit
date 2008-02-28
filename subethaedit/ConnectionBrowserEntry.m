@@ -188,10 +188,15 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
             }
         }
     }  else if (aTag == TCMMMBrowserItemImage2NextToNameTag) {
-        if ([[[[TCMMMPresenceManager sharedInstance] statusOfUserID:[user userID]] objectForKey:@"shouldAutoConnect"] boolValue]) {
-            return [NSImage imageNamed:@"FriendCast13"]; 
+        NSDictionary *status = [[TCMMMPresenceManager sharedInstance] statusOfUserID:[user userID]];
+        if ([[status objectForKey:@"hasFriendCast"] boolValue]) {
+            if ([[status objectForKey:@"shouldAutoConnect"] boolValue]) {
+                return [NSImage imageNamed:@"FriendCast13"]; 
+            } else {
+                return [NSImage imageNamed:@"FriendCast13Off"]; 
+            }
         } else {
-            return [NSImage imageNamed:@"FriendCast13Off"]; 
+            return nil;
         }
 
     } else 
@@ -209,9 +214,6 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
     if (aTag == TCMMMBrowserItemStatusTag) {
         if (showUser) {
             NSString *documentString = [NSString stringWithFormat:NSLocalizedString(@"%d Document(s)",@"Status string showing the number of documents in Rendezvous and Internet browser"), [[self announcedSessions] count]];
-            if ([[[[TCMMMPresenceManager sharedInstance] statusOfUserID:[user userID]] objectForKey:@"shouldAutoConnect"] boolValue]) {
-                documentString = [documentString stringByAppendingString:@" (PEX)"];
-            }
             return documentString;
         } else {
             // (void)NSLocalizedString(@"HostEntryStatusResolving", @"Resolving");

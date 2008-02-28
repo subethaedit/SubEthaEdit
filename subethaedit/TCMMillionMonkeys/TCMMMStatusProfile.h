@@ -21,11 +21,13 @@
 - (void)requestReachability;
 - (void)sendUserDidChangeNotification:(TCMMMUser *)aUser;
 - (void)sendVisibility:(BOOL)isVisible;
+- (void)sendIsFriendcasting:(BOOL)isFriendcasting;
 - (void)sendReachabilityURLString:(NSString *)anURLString forUserID:(NSString *)aUserID;
 @end
 
 @interface NSObject (TCMMMStatusProfileDelegateMethods)
 - (void)profileDidReceiveReachabilityRequest:(TCMMMStatusProfile *)aProfile; 
+- (void)profile:(TCMMMStatusProfile *)aProfile didReceiveFriendcastingChange:(BOOL)isFriendcasting;
 - (void)profile:(TCMMMStatusProfile *)aProfile didReceiveVisibilityChange:(BOOL)isVisible;
 - (void)profile:(TCMMMStatusProfile *)aProfile didReceiveAnnouncedSession:(TCMMMSession *)aSession;
 - (void)profile:(TCMMMStatusProfile *)aProfile didReceiveConcealedSessionID:(NSString *)anID;
