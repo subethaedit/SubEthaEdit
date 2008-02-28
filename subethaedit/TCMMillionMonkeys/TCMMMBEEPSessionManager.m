@@ -428,7 +428,9 @@ static TCMMMBEEPSessionManager *sharedInstance;
     while ((addressData = [addresses nextObject])) {
         TCMBEEPSession *session = [[TCMBEEPSession alloc] initWithAddressData:addressData];
         [[session userInfo] setObject:[[aHost userInfo] objectForKey:@"URLString"] forKey:@"URLString"];
- 
+        if ([[aHost userInfo] objectForKey:@"isAutoConnect"]) {
+            [[session userInfo] setObject:[[aHost userInfo] objectForKey:@"isAutoConnect"] forKey:@"isAutoConnect"];
+        }
         [self insertObject:session inSessionsAtIndex:[self countOfSessions]];
         [session setIsProhibitingInboundInternetSessions:[self isProhibitingInboundInternetSessions]];
 
@@ -835,6 +837,14 @@ static TCMMMBEEPSessionManager *sharedInstance;
                 return nil;
             }
         }
+    } else if ([[[aProfile session] userInfo] objectForKey:@"isAutoConnect"]) {
+        // check if we already have a valid session to that user
+        if ([self sessionForUserID:aUserID]) {
+            NSLog(@"%s already got session",__FUNCTION__);
+            return nil;
+        } else {
+            return [TCMMMUserManager myUserID];
+        }
     } else {
         return [TCMMMUserManager myUserID];
     }
@@ -845,6 +855,12 @@ static TCMMMBEEPSessionManager *sharedInstance;
 - (BOOL)profile:(HandshakeProfile *)aProfile shouldAckHandshakeWithUserID:(NSString *)aUserID {
     NSMutableDictionary *information = [self sessionInformationForUserID:aUserID];
     TCMBEEPSession *session = [aProfile session];
+
+    // disallow self connect
+    if ([aUserID isEqualToString:[TCMMMUserManager myUserID]]) {
+        return NO;
+    }
+
     if ([[session userInfo] objectForKey:@"isRendezvous"]) {
         TCMBEEPSession *inboundSession = [information objectForKey:@"InboundRendezvousSession"];
         if (inboundSession) {
@@ -863,11 +879,12 @@ static TCMMMBEEPSessionManager *sharedInstance;
             [information setObject:kBEEPSessionStatusGotSession forKey:@"RendezvousStatus"];
             return YES;
         }
+
     } else {
-        if ([aUserID isEqualToString:[TCMMMUserManager myUserID]]) {
-            return NO;
-        }
-        
+        if ([[session userInfo] objectForKey:@"isAutoConnect"]) {
+            // check if we already have a valid session to that user
+            if ([self sessionForUserID:aUserID]) return NO;
+        }        
         [[[aProfile session] userInfo] setObject:aUserID forKey:@"peerUserID"];
         [[information objectForKey:@"OutboundSessions"] addObject:session];
         NSDictionary *infoDict = [I_outboundInternetSessions objectForKey:[[session userInfo] objectForKey:@"URLString"]];

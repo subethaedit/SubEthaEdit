@@ -454,7 +454,7 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
                 // TODO: if we connected to that user manually
                 if (![[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:aUserID]) {
                     // we have no session for this userID so let's connect
-                    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:anURLString,@"URLString",aUserID,@"UserID",nil];
+                    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:anURLString,@"URLString",aUserID,@"UserID",[NSNumber numberWithBool:YES],@"isAutoConnect",nil];
                     NSURL *URL = [NSURL URLWithString:anURLString];
                     NSData *addressData=nil;
                     [TCMMMBEEPSessionManager reducedURL:URL addressData:&addressData documentRequest:nil];
