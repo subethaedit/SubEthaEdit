@@ -11,6 +11,7 @@
 #import "TCMMMUserManager.h"
 #import "TCMBencodingUtilities.h"
 #import "TCMMMSession.h"
+#import "TCMMMPresenceManager.h"
 
 
 @implementation TCMMMStatusProfile
@@ -50,7 +51,7 @@
 }
 
 - (void)sendReachabilityURLString:(NSString *)anURLString forUserID:(NSString *)aUserID {
-    if (aUserID && anURLString && [[I_options objectForKey:@"SendUSRRCH"] boolValue]) {
+    if (aUserID && anURLString && [[I_options objectForKey:@"SendUSRRCH"] boolValue] && [[NSUserDefaults standardUserDefaults] boolForKey:AutoconnectPrefKey]) {
         NSMutableData *data=[NSMutableData dataWithBytes:"USRRCH" length:6];
         [data appendData:TCM_BencodedObject([NSDictionary dictionaryWithObjectsAndKeys:anURLString,@"url",aUserID,@"uid",nil])];
         [[self channel] sendMSGMessageWithPayload:data];

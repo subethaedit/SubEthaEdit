@@ -374,19 +374,21 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
 }
 
 - (void)sendReachabilityViaProfile:(TCMMMStatusProfile *)aProfile {
-    [aProfile sendReachabilityURLString:[self myReachabilityURLString] forUserID:[TCMMMUserManager myUserID]];
-    // send reachability for everyone that is connected to me currently and thinks he knows how he can be reached
-    NSString *myPeerID = [[[aProfile session] userInfo] objectForKey:@"peerUserID"];
-    NSEnumerator *beepSessions = [[[TCMMMBEEPSessionManager sharedInstance] allBEEPSessions] objectEnumerator];
-    TCMBEEPSession *beepSession = nil;
-    while ((beepSession = [beepSessions nextObject])) {
-        NSDictionary *userInfo = [beepSession userInfo];
-        NSString *peerUserID = [userInfo objectForKey:@"peerUserID"];
-        if (peerUserID && ![peerUserID isEqualToString:myPeerID]) {
-            NSString *reachabilityURL = [userInfo objectForKey:@"ReachabilityURL"];
-            if (reachabilityURL) {
-                //NSLog(@"%s sending %@ for %@ to %@",__FUNCTION__,reachabilityURL,peerUserID,myPeerID);
-                [aProfile sendReachabilityURLString:reachabilityURL forUserID:peerUserID];
+    if ([[NSUserDefaults standardUserDefaults] boolForKey:AutoconnectPrefKey]) {
+        [aProfile sendReachabilityURLString:[self myReachabilityURLString] forUserID:[TCMMMUserManager myUserID]];
+        // send reachability for everyone that is connected to me currently and thinks he knows how he can be reached
+        NSString *myPeerID = [[[aProfile session] userInfo] objectForKey:@"peerUserID"];
+        NSEnumerator *beepSessions = [[[TCMMMBEEPSessionManager sharedInstance] allBEEPSessions] objectEnumerator];
+        TCMBEEPSession *beepSession = nil;
+        while ((beepSession = [beepSessions nextObject])) {
+            NSDictionary *userInfo = [beepSession userInfo];
+            NSString *peerUserID = [userInfo objectForKey:@"peerUserID"];
+            if (peerUserID && ![peerUserID isEqualToString:myPeerID]) {
+                NSString *reachabilityURL = [userInfo objectForKey:@"ReachabilityURL"];
+                if (reachabilityURL) {
+                    //NSLog(@"%s sending %@ for %@ to %@",__FUNCTION__,reachabilityURL,peerUserID,myPeerID);
+                    [aProfile sendReachabilityURLString:reachabilityURL forUserID:peerUserID];
+                }
             }
         }
     }

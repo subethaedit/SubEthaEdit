@@ -193,7 +193,8 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
     }  else if (aTag == TCMMMBrowserItemImage2NextToNameTag) {
         NSDictionary *status = [[TCMMMPresenceManager sharedInstance] statusOfUserID:[user userID]];
         if ([[status objectForKey:@"hasFriendCast"] boolValue]) {
-            if ([[status objectForKey:@"shouldAutoConnect"] boolValue]) {
+            if ([[status objectForKey:@"shouldAutoConnect"] boolValue] && 
+                [[NSUserDefaults standardUserDefaults] boolForKey:AutoconnectPrefKey]) {
                 return [NSImage imageNamed:@"FriendCast13"]; 
             } else {
                 return [NSImage imageNamed:@"FriendCast13Off"]; 

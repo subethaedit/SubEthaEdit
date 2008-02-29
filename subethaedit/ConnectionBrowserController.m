@@ -118,7 +118,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
         
         [I_contextMenu addItem:[NSMenuItem separatorItem]];
 
-        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuPeerExchange", @"Log In entry for Browser context Peer Exchange") action:@selector(togglePeerExchange:) keyEquivalent:@""];
+        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuFriendcast", @"Log In entry for Browser context Peer Exchange") action:@selector(togglePeerExchange:) keyEquivalent:@""];
         [item setTarget:self];
         [item setTag:BrowserContextMenuTagPeerExchange];
 
@@ -165,7 +165,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 
 - (void) validateButtons {
     NSSet *entries = [self selectedEntriesFilteredUsingPredicate:[NSPredicate predicateWithValue:YES]];
-    if ([entries count] == 1) {
+    if ([entries count] == 1 && [[NSUserDefaults standardUserDefaults] boolForKey:AutoconnectPrefKey]) {
         ConnectionBrowserEntry *entry = [entries anyObject];
         NSMutableDictionary *status = [[TCMMMPresenceManager sharedInstance] statusOfUserID:[[entry user] userID]];
         [O_toggleFriendcastButton setEnabled:[[status objectForKey:@"hasFriendCast"] boolValue]];
@@ -378,7 +378,15 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     } else {
         [self portMapperDidFinishWork:nil];
     }
+    
+	[[NSUserDefaultsController sharedUserDefaultsController] addObserver:self forKeyPath:[@"values." stringByAppendingString:AutoconnectPrefKey] options:0 context:nil];
 }
+
+- (void)observeValueForKeyPath:(NSString *)aKeyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+	[O_browserListView setNeedsDisplay:YES];
+	[self validateButtons];
+}
+
 
 - (NSURL*)URLForURLImageView:(URLImageView *)anImageView {
     TCMPortMapper *pm = [TCMPortMapper sharedInstance];
@@ -501,7 +509,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
         [item setEnabled:([reconnectableEntries count] > 0)];
         
         item = [menu itemWithTag:BrowserContextMenuTagPeerExchange];
-        if ([entries count] == 1 && [users count] == 1) {
+        if ([entries count] == 1 && [users count] == 1 && [[NSUserDefaults standardUserDefaults] boolForKey:AutoconnectPrefKey]) {
             [item setEnabled:YES];
             TCMMMUser *user = [users lastObject];
             NSMutableDictionary *status = [[TCMMMPresenceManager sharedInstance] statusOfUserID:[user userID]];
