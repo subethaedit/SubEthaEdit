@@ -116,7 +116,7 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
 - (BOOL)handleSession:(TCMBEEPSession *)aSession {
     if (_URL && !_BEEPSession) {
         if ([[[aSession userInfo] objectForKey:@"URLString"] isEqualToString:[_URL absoluteString]]) {
-            if (_hostStatus==HostEntryStatusCancelling ||  _hostStatus==HostEntryStatusCancelled) {
+            if ( (_hostStatus==HostEntryStatusCancelling ||  _hostStatus==HostEntryStatusCancelled) && ![[aSession userInfo] objectForKey:@"isAutoConnect"]) {
                 _hostStatus = HostEntryStatusCancelled;
             } else {
                 _BEEPSession = aSession;
