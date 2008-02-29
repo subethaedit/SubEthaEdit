@@ -121,6 +121,9 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
             } else {
                 _BEEPSession = aSession;
                 _hostStatus = HostEntryStatusSessionOpen;
+                if (![[aSession userInfo] objectForKey:@"isAutoConnect"]) {
+                    [[TCMMMPresenceManager sharedInstance] setShouldAutoconnect:YES forUserID:[self userID]];
+                }
             }
             [self reloadAnnouncedSessions];
             return YES;
@@ -404,9 +407,16 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
         [toolTipArray addObject:addressDataString];
     }
     
-    if (isInbound) {
+    if ([[_BEEPSession userInfo] objectForKey:@"isAutoConnect"]) {
+        if (isInbound) {
+            [toolTipArray addObject:NSLocalizedString(@"Inbound Friendcast Connection", @"Inbound Friendcast Connection ToolTip")];
+        } else {
+            [toolTipArray addObject:NSLocalizedString(@"Friendcast Connection", @"Friendcast Connection ToolTip")];
+        }
+    } else if (isInbound) {
         [toolTipArray addObject:NSLocalizedString(@"Inbound Connection", @"Inbound Connection ToolTip")];
     }
+
     
     return [toolTipArray count] > 0 ? [toolTipArray componentsJoinedByString:@"\n"] : nil;
 }

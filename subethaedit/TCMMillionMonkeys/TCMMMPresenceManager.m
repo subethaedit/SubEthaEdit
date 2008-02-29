@@ -36,6 +36,7 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
 @interface TCMMMPresenceManager (TCMMMPresenceManagerPrivateAdditions)
 
 - (void)TCM_validateServiceAnnouncement;
+- (void)sendReachabilityViaProfile:(TCMMMStatusProfile *)aProfile;
 
 @end
 
@@ -94,6 +95,10 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
     BOOL hasFriendCast = [[object valueForKeyPath:aKeyPath] boolValue];
     while ((profile = [profiles nextObject])) {
         [profile sendIsFriendcasting:hasFriendCast];
+        if (hasFriendCast) {
+            // also send the current friendcast information
+            [self sendReachabilityViaProfile:profile];
+        }
     }
 }
 
@@ -380,7 +385,7 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
         if (peerUserID && ![peerUserID isEqualToString:myPeerID]) {
             NSString *reachabilityURL = [userInfo objectForKey:@"ReachabilityURL"];
             if (reachabilityURL) {
-                NSLog(@"%s sending %@ for %@ to %@",__FUNCTION__,reachabilityURL,peerUserID,myPeerID);
+                //NSLog(@"%s sending %@ for %@ to %@",__FUNCTION__,reachabilityURL,peerUserID,myPeerID);
                 [aProfile sendReachabilityURLString:reachabilityURL forUserID:peerUserID];
             }
         }
@@ -420,6 +425,8 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
         [status setObject:[NSNumber numberWithBool:YES] forKey:@"hasFriendCast"];
     } else {
         [status removeObjectForKey:@"hasFriendCast"];
+        NSMutableDictionary *sessionUserInfo = [[aProfile session] userInfo];
+        [sessionUserInfo removeObjectForKey:@"ReachabilityURL"];
     }
     // make sure the UI gets notified of that change
     [status setObject:[NSNumber numberWithBool:YES] forKey:@"shouldSendVisibilityChangeNotification"];
@@ -431,7 +438,7 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
     NSMutableDictionary *sessionUserInfo = [[aProfile session] userInfo];
     NSString *userID=[sessionUserInfo objectForKey:@"peerUserID"];
     if ([userID isEqualToString:aUserID]) {
-        NSLog(@"%s got a self information",__FUNCTION__);
+        //NSLog(@"%s got a self information",__FUNCTION__);
         if ([anURLString isEqualToString:@""]) {
             [sessionUserInfo removeObjectForKey:@"ReachabilityURL"];
         } else {
@@ -446,7 +453,7 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
             }
         }
     } else {
-        NSLog(@"%s got information about a third party: %@ %@",__FUNCTION__,anURLString,aUserID);
+        //NSLog(@"%s got information about a third party: %@ %@",__FUNCTION__,anURLString,aUserID);
         // see if we already have a connection to that userID, if not initiate connection to that user
         NSMutableDictionary *status = [self statusOfUserID:userID];
         if ([[NSUserDefaults standardUserDefaults] boolForKey:AutoconnectPrefKey]) {
@@ -461,7 +468,7 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
                     TCMHost *host = nil;
                     if (addressData) {
                         host = [[[TCMHost alloc] initWithAddressData:addressData port:[[URL port] intValue] userInfo:userInfo] autorelease];
-                        NSLog(@"%s connecting to host: %@",__FUNCTION__,host);
+                        //NSLog(@"%s connecting to host: %@",__FUNCTION__,host);
                         [[TCMMMBEEPSessionManager sharedInstance] connectToHost:host];
                     } else {
                         host = [[[TCMHost alloc] initWithName:[URL host] port:[[URL port] intValue] userInfo:userInfo] autorelease];
@@ -476,7 +483,7 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
 }
 
 - (void)profileDidReceiveReachabilityRequest:(TCMMMStatusProfile *)aProfile {
-    NSLog(@"%s",__FUNCTION__);
+    //NSLog(@"%s",__FUNCTION__);
     [self sendReachabilityViaProfile:aProfile];
 }
 
@@ -608,7 +615,7 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
 }
 
 - (NSMutableDictionary *)BEEPSession:(TCMBEEPSession *)aBEEPSession willSendReply:(NSMutableDictionary *)aReply forChannelRequests:(NSArray *)aRequests {
-    NSLog(@"%s %@",__FUNCTION__,aReply);
+    //NSLog(@"%s %@",__FUNCTION__,aReply);
     [aReply setObject:[TCMMMStatusProfile defaultInitializationData] forKey:@"Data"];
     return aReply;
 }
