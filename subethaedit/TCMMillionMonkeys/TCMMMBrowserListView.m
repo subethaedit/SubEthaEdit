@@ -44,6 +44,16 @@ static NSMutableDictionary *S_childNameAttributes=nil;
     
 }
 
+- (id)initWithFrame:(NSRect)frameRect {
+    self = [super initWithFrame:frameRect];
+    if (self) {
+        [self registerForDraggedTypes:[NSArray arrayWithObjects:@"PresentityNames",nil]];
+        I_dragToItem=-1;
+    }
+    return self;
+}
+
+
 + (float)itemRowHeight {
     return 38.;
 }
@@ -226,5 +236,91 @@ static NSMutableDictionary *S_childNameAttributes=nil;
     }
 }
 
+#pragma mark === Drag & Drop ===
+
+- (NSRect)highlightRectForItem:(int)itemIndex {
+    NSRect itemRect=[self rectForItem:I_dragToItem child:-1];
+    float height=1.;
+    if (itemIndex != [self numberOfItems]-1) {
+        NSRect nextItemRect=[self rectForItem:I_dragToItem+1 child:-1];
+        height=nextItemRect.origin.y-NSMaxY(itemRect)-1;
+    } else {
+        NSScrollView *scrollView=[self enclosingScrollView];
+        NSRect documentVisibleRect=[[scrollView contentView] documentVisibleRect];
+        height=NSMaxY(documentVisibleRect)-NSMaxY(itemRect);
+    }
+    return NSMakeRect(itemRect.origin.x,NSMaxY(itemRect),itemRect.size.width,height);
+}
+
+- (void)highlightItemForDrag:(int)itemIndex {
+    if (itemIndex!=I_dragToItem) {
+        I_dragToItem=itemIndex;
+        [self setNeedsDisplay:YES];
+    }
+}
+
+
+- (NSDragOperation)validateDrag:(id <NSDraggingInfo>)sender {
+    NSDragOperation result = NSDragOperationNone;
+    if ([I_delegate respondsToSelector:@selector(listView:validateDrag:)]) {
+        result = [I_delegate listView:self validateDrag:sender];
+    }
+    if (result != NSDragOperationNone) {
+        [self highlightItemForDrag:NSNotFound];
+    }
+    return result;
+}
+
+- (NSDragOperation)draggingEntered:(id <NSDraggingInfo>)sender {
+    return [self validateDrag:sender];
+}
+
+- (void)draggingExited:(id <NSDraggingInfo>)sender {
+    [self highlightItemForDrag:-1];
+}
+
+- (NSDragOperation)draggingUpdated:(id <NSDraggingInfo>)sender {
+    return [self validateDrag:sender];
+}
+
+- (BOOL)prepareForDragOperation:(id <NSDraggingInfo>)sender {
+    BOOL result=NO;
+    if ([I_delegate respondsToSelector:@selector(listView:prepareForDragOperation:)]) {
+        result = [I_delegate listView:self prepareForDragOperation:sender];
+    }
+    if (!result) {
+        [self highlightItemForDrag:-1];
+    }
+    return result;
+}
+
+- (BOOL)performDragOperation:(id <NSDraggingInfo>)sender {
+    BOOL result=NO;
+    if ([I_delegate respondsToSelector:@selector(listView:performDragOperation:)]) {
+        result = [I_delegate listView:self performDragOperation:sender];
+    }
+    [self highlightItemForDrag:-1];
+    return result;
+}
+
+- (void)drawRect:(NSRect)rect {
+    [super drawRect:rect];
+    if (I_dragToItem == NSNotFound) {
+        [[[NSColor selectedTextBackgroundColor] colorWithAlphaComponent:0.5] set];
+        NSScrollView *scrollView=[self enclosingScrollView];
+        NSRect niceRect=[[scrollView contentView] documentVisibleRect];
+        NSBezierPath *path=[NSBezierPath bezierPathWithRect:NSInsetRect(niceRect,2,2)];
+        [path setLineWidth:4.];
+        [path setLineJoinStyle:NSRoundLineCapStyle];
+        [path stroke];
+    } else if (I_dragToItem!=-1) {
+        [[[NSColor selectedTextBackgroundColor] colorWithAlphaComponent:0.5] set];
+        NSRect niceRect=[self highlightRectForItem:I_dragToItem];
+        NSBezierPath *path=[NSBezierPath bezierPathWithRect:NSInsetRect(niceRect,2,2)];
+        [path setLineWidth:4.];
+        [path setLineJoinStyle:NSRoundLineCapStyle];
+        [path stroke];
+    }
+}
 
 @end

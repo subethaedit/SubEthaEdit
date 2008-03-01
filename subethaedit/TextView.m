@@ -27,6 +27,7 @@
 #import "NSCursorSEEAdditions.h"
 #import "BacktracingException.h"
 #import "DocumentModeManager.h"
+#import "ConnectionBrowserController.h"
 
 #define SPANNINGRANGE(a,b) NSMakeRange(MIN(a,b),MAX(a,b)-MIN(a,b)+1)
 
@@ -490,6 +491,12 @@ static NSMenu *defaultMenu=nil;
             [self setIsDragTarget:YES];
             return NSDragOperationGeneric;
         }
+    } else if ([[pboard types] containsObject:@"PresentityNames"]) {
+        BOOL shouldDrag=[[(PlainTextDocument *)[self document] session] isServer];
+        if (shouldDrag) {
+            [self setIsDragTarget:YES];
+            return NSDragOperationGeneric;
+        }
     }
     [self setIsDragTarget:NO];
     return [super draggingEntered:sender];
@@ -514,7 +521,14 @@ static NSMenu *defaultMenu=nil;
             [self setIsDragTarget:YES];
             return NSDragOperationGeneric;
         }
-    } 
+    } else if ([[pboard types] containsObject:@"PresentityNames"]) {
+        BOOL shouldDrag=[[(PlainTextDocument *)[self document] session] isServer];
+        if (shouldDrag) {
+            [self setIsDragTarget:YES];
+            return NSDragOperationGeneric;
+        }
+    }
+ 
     [self setIsDragTarget:NO];
     return [super draggingUpdated:sender];
 }
@@ -531,7 +545,14 @@ static NSMenu *defaultMenu=nil;
             [[[sender draggingSource] window] windowController]==[[self window]  windowController]) {
             return YES;
         }
+    } else if ([[pboard types] containsObject:@"PresentityNames"]) {
+        BOOL shouldDrag=[[(PlainTextDocument *)[self document] session] isServer];        [self setIsDragTarget:YES];
+        if (shouldDrag) {
+            [(PlainTextDocument *)[self document] setIsAnnounced:YES];
+            return YES;
+        }
     }
+
     
     return [super prepareForDragOperation:sender];
 }
@@ -563,7 +584,15 @@ static NSMenu *defaultMenu=nil;
             [self setIsDragTarget:NO];
             return YES;
         }
+    } else if ([[pboard types] containsObject:@"PresentityNames"]) {
+        BOOL shouldDrag=[[(PlainTextDocument *)[self document] session] isServer];        [self setIsDragTarget:YES];
+        if (shouldDrag) {
+            [ConnectionBrowserController invitePeopleFromPasteboard:pboard withURL:[[self document] documentURL]];
+            [self setIsDragTarget:NO];
+            return YES;
+        }
     }
+
     [self setIsDragTarget:NO];
     PlainTextDocument *document=nil;
     if (I_flags.isDraggingText) {
@@ -582,6 +611,7 @@ static NSMenu *defaultMenu=nil;
     NSMutableArray *dragTypes=[[super acceptableDragTypes] mutableCopy];
     [dragTypes addObject:@"PboardTypeTBD"];
     [dragTypes addObject:@"ParticipantDrag"];
+    [dragTypes addObject:@"PresentityNames"];
     return [dragTypes autorelease];
 }
 

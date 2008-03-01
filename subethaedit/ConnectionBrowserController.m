@@ -21,6 +21,7 @@
 #import "NSWorkspaceTCMAdditions.h"
 #import "ServerConnectionManager.h"
 #import "ConnectionBrowserEntry.h"
+#import <AddressBook/AddressBook.h>
 
 #import <netdb.h>       // getaddrinfo, struct addrinfo, AI_NUMERICHOST
 #import <TCMPortMapper/TCMPortMapper.h>
@@ -1069,6 +1070,51 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     [O_browserListView reloadData];
     [self TCM_validateClearButton];
 }
+
+- (NSDragOperation)listView:(TCMListView *)aListView validateDrag:(id <NSDraggingInfo>)sender {
+    NSPasteboard *pboard = [sender draggingPasteboard];
+    if ([[pboard types] containsObject:@"PresentityNames"] && [[TCMPortMapper sharedInstance] externalIPAddress]) {
+        return NSDragOperationGeneric;
+    } else {
+        return NSDragOperationNone;
+    }
+}
+- (BOOL)listView:(TCMListView *)aListView prepareForDragOperation:(id <NSDraggingInfo>)sender {
+    NSLog(@"%s",__FUNCTION__);
+    return YES;
+}
+- (BOOL)listView:(TCMListView *)aListView performDragOperation:(id <NSDraggingInfo>)sender{
+    NSLog(@"%s",__FUNCTION__);
+    NSPasteboard *pboard = [sender draggingPasteboard];
+    return [ConnectionBrowserController invitePeopleFromPasteboard:pboard withURL:[self URLForURLImageView:nil]];
+}
+
++ (NSString *)quoteEscapedStringWithString:(NSString *)aString {
+    NSMutableString *string = [[aString mutableCopy] autorelease];
+    [string replaceOccurrencesOfString:@"\"" withString:@"\\\"" options:NSLiteralSearch range:NSMakeRange(0,[aString length])];
+    return (NSString *)string;
+}
+
++ (BOOL)invitePeopleFromPasteboard:(NSPasteboard *)aPasteboard withURL:(NSURL *)aDocumentURL{
+    BOOL success = NO;
+    if ([[aPasteboard types] containsObject:@"PresentityNames"] && 
+        [[TCMPortMapper sharedInstance] externalIPAddress]) {
+        NSArray *presentityNames=[aPasteboard propertyListForType:@"PresentityNames"]; 
+        // format is service id, id in that service, onlinestatus (0=offline),groupname
+        NSString *message = [NSString stringWithFormat:NSLocalizedString(@"Please join me in SubEthaEdit:\n%@\n\n(You can download SubEthaEdit from http://www.codingmonkeys.de/subethaedit )",@"iChat invitation String with Placeholder for actual URL"),[aDocumentURL absoluteString]];
+        int i=0;
+        for (i=0;i<[presentityNames count];i+=4) {
+            NSString *applescriptString = [NSString stringWithFormat:@"tell application \"iChat\" to send \"%@\" to buddy id \"%@:%@\"",[self quoteEscapedStringWithString:message],[presentityNames objectAtIndex:i],[presentityNames objectAtIndex:i+1]];
+            NSAppleScript *script = [[[NSAppleScript alloc] initWithSource:applescriptString] autorelease];
+            // need to delay the sending so we don't try to send while in the dragging event
+            [script performSelector:@selector(executeAndReturnError:) withObject:nil afterDelay:0.1];
+        }
+        success = YES;
+    }
+
+    return success;
+}
+
 
 #pragma mark -
 #pragma mark ### combo box data source methods ###

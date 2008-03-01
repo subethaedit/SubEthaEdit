@@ -13,7 +13,6 @@
 
 @class TCMMMBrowserListView, ConnectionBrowserEntry, LoginSheetController;
 
-
 @interface ConnectionBrowserController : NSWindowController
 {
     IBOutlet NSScrollView *O_scrollView;
@@ -38,6 +37,7 @@
 }
 
 + (ConnectionBrowserController *)sharedInstance;
++ (BOOL)invitePeopleFromPasteboard:(NSPasteboard *)aPasteboard withURL:(NSURL *)aURL;
 
 - (NSMutableArray *)comboBoxItems;
 - (void)setComboBoxItems:(NSMutableArray *)anArray;
