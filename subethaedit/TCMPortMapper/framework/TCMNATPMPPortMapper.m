@@ -405,20 +405,20 @@ Standardablauf:
         if(r<0) {
             didFail = YES;
         } else {
-#ifndef NDEBUG
+#ifdef DEBUG
             int count = 0;
 #endif
             do {
                 FD_ZERO(&fds);
                 FD_SET(natpmp.s, &fds);
                 getnatpmprequesttimeout(&natpmp, &timeout);
-#ifndef NDEBUG
+#ifdef DEBUG
                 NSLog(@"NATPMP refreshExternalIP try #%d",++count);
 #endif
                 select(FD_SETSIZE, &fds, NULL, NULL, &timeout);
                 r = readnatpmpresponseorretry(&natpmp, &response);
                 if (IPAddressThreadShouldQuitAndRestart) {
-#ifndef NDEBUG
+#ifdef DEBUG
                     NSLog(@"%s ----------------- thread quit prematurely",__FUNCTION__);
 #endif
                     [natPMPThreadIsRunningLock unlock];
@@ -435,14 +435,14 @@ Standardablauf:
             if(r<0) {
                didFail = YES;
 #ifndef NDEBUG
-               NSLog(@"natpmp did time out");
+               NSLog(@"NAT-PMP: IP refresh did time out");
 #endif
             } else {
                 /* TODO : check that response.type == 0 */
             
                 NSString *ipString = [NSString stringWithFormat:@"%s", inet_ntoa(response.publicaddress.addr)];
 #ifndef NDEBUG
-                NSLog(@"%s found ipString:%@",__FUNCTION__,ipString);
+                NSLog(@"NAT-PMP:  found IP:%@",ipString);
 #endif
                 [[NSNotificationCenter defaultCenter] postNotificationOnMainThread:[NSNotification notificationWithName:TCMNATPMPPortMapperDidGetExternalIPAddressNotification object:self userInfo:[NSDictionary dictionaryWithObject:ipString forKey:@"externalIPAddress"]]];
             }
@@ -451,7 +451,7 @@ Standardablauf:
 	closenatpmp(&natpmp);
     [natPMPThreadIsRunningLock unlock];
     if (IPAddressThreadShouldQuitAndRestart) {
-#ifndef NDEBUG
+#ifndef DEBUG
         NSLog(@"%s thread quit prematurely",__FUNCTION__);
 #endif
         if (IPAddressThreadShouldQuitAndRestart != PORTMAPREFRESHSHOULDNOTRESTART) {

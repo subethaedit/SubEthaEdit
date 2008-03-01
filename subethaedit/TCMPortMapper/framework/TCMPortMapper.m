@@ -657,7 +657,7 @@ enum {
 }
 
 - (void)increaseWorkCount:(NSNotification *)aNotification {
-#ifndef NDEBUG
+#ifdef DEBUG
     NSLog(@"%s %d %@",__FUNCTION__,_workCount,aNotification);
 #endif
     if (_workCount == 0) {
@@ -667,7 +667,7 @@ enum {
 }
 
 - (void)decreaseWorkCount:(NSNotification *)aNotification {
-#ifndef NDEBUG
+#ifdef DEBUG
     NSLog(@"%s %d %@",__FUNCTION__,_workCount,aNotification);
 #endif
     _workCount--;

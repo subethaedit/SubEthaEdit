@@ -54,13 +54,13 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
         runningThreadID = TCMExternalIPThreadID;
         [NSThread detachNewThreadSelector:@selector(refreshInThread) toTarget:self withObject:nil];
         [_threadIsRunningLock unlock];
-#ifndef NDEBUG
+#ifdef DEBUG
         NSLog(@"%s detachedThread",__FUNCTION__);
 #endif
     } else {
         if (runningThreadID == TCMExternalIPThreadID) {
             refreshThreadShouldQuit=YES;
-#ifndef NDEBUG
+#ifdef DEBUG
             NSLog(@"%s thread should quit",__FUNCTION__);
 #endif
         } else if (runningThreadID == TCMUpdatingMappingThreadID) {
@@ -118,8 +118,8 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
                 NSURL *descURL = [NSURL URLWithString:[NSString stringWithUTF8String:device->descURL]];
                 SCNetworkConnectionFlags status;
                 Boolean success = SCNetworkCheckReachabilityByName([[descURL host] UTF8String], &status); 
-#ifdef DEBUG
-                NSLog(@"%@ %c%c%c%c%c%c%c host:%s st:%s",
+#ifndef NDEBUG
+                NSLog(@"UPnP: %@ %c%c%c%c%c%c%c host:%s st:%s",
                     success ? @"YES" : @" NO",
                     (status & kSCNetworkFlagsTransientConnection)  ? 't' : '-',
                     (status & kSCNetworkFlagsReachable)            ? 'r' : '-',
@@ -147,7 +147,7 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
             NSEnumerator *URLEnumerator = [URLsToTry objectEnumerator];
             NSURL *descURL = nil;
             while ((descURL = [URLEnumerator nextObject])) {
-                NSLog(@"%s trying URL:%@",__FUNCTION__,descURL);
+                NSLog(@"UPnP: trying URL:%@",descURL);
                 if (UPNP_GetIGDFromUrl([[descURL absoluteString] UTF8String],&_urls,&_igddata,lanaddr,sizeof(lanaddr))) {
                     int r = UPNP_GetExternalIPAddress(_urls.controlURL,
                                               _igddata.servicetype,
@@ -187,13 +187,13 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
     }
     [_threadIsRunningLock unlock];
     if (refreshThreadShouldQuit) {
-#ifndef NDEBUG
+#ifdef DEBUG
         NSLog(@"%s thread quit prematurely",__FUNCTION__);
 #endif
         [self performSelectorOnMainThread:@selector(refresh) withObject:nil waitUntilDone:0];
     } else {
         if (didFail) {
-#ifndef NDEBUG
+#ifdef DEBUG
             NSLog(@"%s didFailWithError: %@",__FUNCTION__, errorString);
 #endif
             [[NSNotificationCenter defaultCenter] postNotificationOnMainThread:[NSNotification notificationWithName:TCMUPNPPortMapperDidFailNotification object:self]];
@@ -212,7 +212,7 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
         runningThreadID = TCMUpdatingMappingThreadID;
         [NSThread detachNewThreadSelector:@selector(updatePortMappingsInThread) toTarget:self withObject:nil];
         [_threadIsRunningLock unlock];
-#ifndef NDEBUG
+#ifdef DEBUG
         NSLog(@"%s detachedThread",__FUNCTION__);
 #endif
     } else  {
@@ -251,7 +251,7 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
                         switch (r) {
                             case 718: 
                                 errorString = [errorString stringByAppendingString:@": ConflictInMappingEntry"];
-#ifndef NDEBUG
+#ifdef DEBUG
                                 NSLog(@"%s mapping of external port %d failed, trying %d next",__FUNCTION__,mappedPort,mappedPort+1);
 #endif
                                 if (protocol == TCMPortMappingTransportProtocolTCP && ([aPortMapping transportProtocol] & TCMPortMappingTransportProtocolUDP)) {
@@ -272,7 +272,12 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
                    didFail = YES;
                    [aPortMapping setMappingStatus:TCMPortMappingStatusUnmapped];
                 } else {
+#ifndef DEBUG
 #ifndef NDEBUG
+                    NSLog(@"UPnP: mapped local %@ port %d to external port %d",protocol==TCMPortMappingTransportProtocolUDP?@"UDP":@"TCP",mappedPort,[aPortMapping localPort]);
+#endif
+#endif
+#ifdef DEBUG
                     NSLog(@"%s mapping successful: %@ - %d %@",__FUNCTION__,aPortMapping,mappedPort,protocol==TCMPortMappingTransportProtocolUDP?@"UDP":@"TCP");
 #endif
                    [aPortMapping setExternalPort:mappedPort];
@@ -325,7 +330,7 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
                                        rHost, duration);
         if(r==UPNPCOMMAND_SUCCESS) {
 #ifndef NDEBUG
-            NSLog(@"%2d %s %5s->%s:%-5s '%s' '%s'",
+            NSLog(@"UPnP: %2d %s %5s->%s:%-5s '%s' '%s'",
                    i, protocol, extPort, intClient, intPort,
                    desc, rHost);
 #endif
