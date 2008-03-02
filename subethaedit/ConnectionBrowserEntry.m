@@ -85,6 +85,8 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
 - (void)reloadAnnouncedSessions {
     [_announcedSessions autorelease];
      _announcedSessions = [[[[TCMMMPresenceManager sharedInstance] statusOfUserID:[self userID]] objectForKey:@"OrderedSessions"] copy];
+    // check if we need to connect to any of them
+    [self checkDocumentRequests];
 }
 
 - (void)dealloc {
@@ -331,7 +333,7 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
 }
 
 - (void)checkDocumentRequests {
-    if (_BEEPSession) {
+    if (_BEEPSession && [[self announcedSessions] count]) {
         int count = [_pendingDocumentRequests count];
         while (count-- > 0) {
             NSURL *url = [_pendingDocumentRequests objectAtIndex:count];

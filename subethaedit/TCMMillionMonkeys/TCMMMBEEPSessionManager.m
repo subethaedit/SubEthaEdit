@@ -144,19 +144,18 @@ static TCMMMBEEPSessionManager *sharedInstance;
             DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"getaddrinfo succeeded with addr: %@", [NSString stringWithAddressData:addressData]);
             if (anAddressData) *anAddressData = addressData;
             freeaddrinfo(result);
+            NSString *URLString = nil;
+            NSMutableString *percentEscapedString = [[[NSString stringWithAddressData:addressData] mutableCopy] autorelease];
+            [percentEscapedString replaceOccurrencesOfString:@"%" withString:@"%25" options:0 range:NSMakeRange(0,[percentEscapedString length])];
+            URLString = [NSString stringWithFormat:@"%@://%@", [anURL scheme], percentEscapedString];
+            resultURL = [NSURL URLWithString:URLString];
         } else {
             DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"Neither IPv4 nor IPv6 address");
-            return [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@:%d", [anURL scheme], hostAddress,port]];;
+            resultURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@:%d", [anURL scheme], hostAddress,port]];;
         }
         if (portString) {
             free(portString);
         }
-        
-        NSString *URLString = nil;
-        NSMutableString *percentEscapedString = [[[NSString stringWithAddressData:addressData] mutableCopy] autorelease];
-        [percentEscapedString replaceOccurrencesOfString:@"%" withString:@"%25" options:0 range:NSMakeRange(0,[percentEscapedString length])];
-        URLString = [NSString stringWithFormat:@"%@://%@", [anURL scheme], percentEscapedString];
-        resultURL = [NSURL URLWithString:URLString];
         
         if ([[anURL path] length] > 0 && ![[anURL path] isEqualToString:@"/"]) {
             if (aRequest) *aRequest = anURL;

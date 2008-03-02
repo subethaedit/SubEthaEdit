@@ -147,7 +147,9 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
             NSEnumerator *URLEnumerator = [URLsToTry objectEnumerator];
             NSURL *descURL = nil;
             while ((descURL = [URLEnumerator nextObject])) {
+#ifndef NDEBUG
                 NSLog(@"UPnP: trying URL:%@",descURL);
+#endif
                 if (UPNP_GetIGDFromUrl([[descURL absoluteString] UTF8String],&_urls,&_igddata,lanaddr,sizeof(lanaddr))) {
                     int r = UPNP_GetExternalIPAddress(_urls.controlURL,
                                               _igddata.servicetype,

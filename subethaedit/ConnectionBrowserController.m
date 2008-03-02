@@ -1080,11 +1080,11 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     }
 }
 - (BOOL)listView:(TCMListView *)aListView prepareForDragOperation:(id <NSDraggingInfo>)sender {
-    NSLog(@"%s",__FUNCTION__);
+//    NSLog(@"%s",__FUNCTION__);
     return YES;
 }
 - (BOOL)listView:(TCMListView *)aListView performDragOperation:(id <NSDraggingInfo>)sender{
-    NSLog(@"%s",__FUNCTION__);
+//    NSLog(@"%s",__FUNCTION__);
     NSPasteboard *pboard = [sender draggingPasteboard];
     return [ConnectionBrowserController invitePeopleFromPasteboard:pboard withURL:[self URLForURLImageView:nil]];
 }
