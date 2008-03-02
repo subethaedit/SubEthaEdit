@@ -133,8 +133,16 @@ enum {
 }
 
 - (void)updateForPortMapStatus {
-    BOOL portMapped = ([[[[TCMPortMapper sharedInstance] portMappings] anyObject] mappingStatus] == TCMPortMappingStatusMapped);
-    [O_URLImageView setImage:[NSImage imageNamed:(portMapped?@"URLIconOK":@"URLIconNotOK")]];
+    BOOL isAnnounced = [(PlainTextDocument *)[self document] isAnnounced];
+    if (isAnnounced) {
+        BOOL portMapped = ([[[[TCMPortMapper sharedInstance] portMappings] anyObject] mappingStatus] == TCMPortMappingStatusMapped);
+        [O_URLImageView setImage:[NSImage imageNamed:(portMapped?@"URLIconOK":@"URLIconNotOK")]];
+        NSString *URLString = [[[[[self document] documentURL] absoluteString] componentsSeparatedByString:@"?"] objectAtIndex:0];
+        [O_URLTextField setObjectValue:URLString];
+    } else {
+        [O_URLImageView setImage:[NSImage imageNamed:@"Conceal"]];
+        [O_URLTextField setObjectValue:NSLocalizedString(@"Document not announced.\nNo Document URL.",@"Text for document URL field when not announced")];
+    }
 }
 
 - (void)dealloc {
@@ -656,11 +664,11 @@ enum {
 - (void)validateUpperDrawer {
     TCMMMSession *session = [(PlainTextDocument *)[self document] session];
     BOOL isServer=[session isServer];
-    [O_URLImageView setHidden:![(PlainTextDocument *)[self document] isAnnounced]];
     [O_pendingUsersAccessPopUpButton setEnabled:isServer];
     TCMMMSessionAccessState state = [session accessState];
     int index = [O_pendingUsersAccessPopUpButton indexOfItemWithTag:state];
     [O_pendingUsersAccessPopUpButton selectItemAtIndex:index];
+    [self updateForPortMapStatus];
 }
 
 - (void)validateButtons {
@@ -1214,6 +1222,7 @@ enum {
 
 - (void)synchronizeWindowTitleWithDocumentName {
     [super synchronizeWindowTitleWithDocumentName];
+    [self updateForPortMapStatus];
     [self updateLock];
 }
 
@@ -2464,7 +2473,7 @@ enum {
                                                  selector:@selector(adjustToolbarToDocumentMode)
                                                      name:PlainTextDocumentDidChangeDocumentModeNotification 
                                                    object:[self document]];
-        [center postNotificationName:@"PlainTextWindowControllerDocumentDidChangeNotification" object:self];     
+        [center postNotificationName:@"PlainTextWindowControllerDocumentDidChangeNotification" object:self];
     }
 }
 

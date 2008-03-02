@@ -47,7 +47,9 @@
 				<key>I_documentDialog</key>
 				<string>id</string>
 				<key>O_URLImageView</key>
-				<string>NSImageView</string>
+				<string>URLImageView</string>
+				<key>O_URLTextField</key>
+				<string>NSTextField</string>
 				<key>O_actionPullDown</key>
 				<string>NSPopUpButton</string>
 				<key>O_followButton</key>

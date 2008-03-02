@@ -4657,7 +4657,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     }
 
     TCMPortMapper *pm = [TCMPortMapper sharedInstance];
-    NSMutableString *address = [NSMutableString stringWithFormat:@"see://%@:%d", [pm localIPAddress],[[TCMMMBEEPSessionManager sharedInstance] listeningPort]];
+    NSMutableString *address = [NSMutableString stringWithFormat:@"see://%@:%d", [pm localBonjourHostName],[[TCMMMBEEPSessionManager sharedInstance] listeningPort]];
     TCMPortMapping *mapping = [[pm portMappings] anyObject];
     if ([mapping mappingStatus]==TCMPortMappingStatusMapped) {
         address = [NSMutableString stringWithFormat:@"see://%@:%d", [pm externalIPAddress],[mapping externalPort]];

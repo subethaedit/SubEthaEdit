@@ -391,7 +391,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 
 - (NSURL*)URLForURLImageView:(URLImageView *)anImageView {
     TCMPortMapper *pm = [TCMPortMapper sharedInstance];
-    NSString *URLString = [NSString stringWithFormat:@"see://%@:%d", [pm localIPAddress],[[TCMMMBEEPSessionManager sharedInstance] listeningPort]];
+    NSString *URLString = [NSString stringWithFormat:@"see://%@:%d", [pm localBonjourHostName],[[TCMMMBEEPSessionManager sharedInstance] listeningPort]];
     TCMPortMapping *mapping = [[pm portMappings] anyObject];
     if ([mapping mappingStatus]==TCMPortMappingStatusMapped) {
         URLString = [NSString stringWithFormat:@"see://%@:%d", [pm externalIPAddress],[mapping externalPort]];

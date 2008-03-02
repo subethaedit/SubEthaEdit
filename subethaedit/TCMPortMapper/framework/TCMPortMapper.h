@@ -98,6 +98,7 @@ typedef enum {
 
 - (NSString *)externalIPAddress;
 - (NSString *)localIPAddress;
+- (NSString *)localBonjourHostName;
 - (void)setMappingProtocol:(NSString *)aProtocol;
 - (NSString *)mappingProtocol;
 - (void)setRouterName:(NSString *)aRouterName;

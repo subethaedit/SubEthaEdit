@@ -34,6 +34,7 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
     IBOutlet NSButton            *O_followButton;
     
     IBOutlet URLImageView         *O_URLImageView;
+    IBOutlet NSTextField          *O_URLTextField;
     
     // Pointers to the current instances
     NSSplitView *I_editorSplitView;

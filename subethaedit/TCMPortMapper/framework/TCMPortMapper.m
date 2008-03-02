@@ -223,6 +223,13 @@ enum {
     return [[_externalIPAddress retain] autorelease];
 }
 
+- (NSString *)localBonjourHostName {
+    SCDynamicStoreRef dynRef = SCDynamicStoreCreate(kCFAllocatorSystemDefault, (CFStringRef)@"TCMPortMapper", NULL, NULL); 
+    NSString *hostname = [(NSString *)SCDynamicStoreCopyLocalHostName(dynRef) autorelease];
+    CFRelease(dynRef);
+    return [hostname stringByAppendingString:@".local"];
+}
+
 - (void)updateLocalIPAddress {
     NSString *routerAddress = [self routerIPAddress];
     SCDynamicStoreRef dynRef = SCDynamicStoreCreate(kCFAllocatorSystemDefault, (CFStringRef)@"TCMPortMapper", NULL, NULL); 
