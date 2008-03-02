@@ -522,7 +522,8 @@ static NSMenu *defaultMenu=nil;
             return NSDragOperationGeneric;
         }
     } else if ([[pboard types] containsObject:@"PresentityNames"]) {
-        BOOL shouldDrag=[[(PlainTextDocument *)[self document] session] isServer];
+        // perform this by selector to not create dependency on TCMPortMapper
+        BOOL shouldDrag=([[(PlainTextDocument *)[self document] session] isServer] && [[NSClassFromString(@"TCMPortMapper") sharedInstance] performSelector:@selector(externalIPAddress) withObject:nil] != nil);
         if (shouldDrag) {
             [self setIsDragTarget:YES];
             return NSDragOperationGeneric;
