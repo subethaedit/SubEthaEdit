@@ -57,7 +57,7 @@ void parserootdesc(const char * buffer, int bufsize, struct IGDdatas * data)
 	parser.datafunc = IGDdata;
 	parser.attfunc = 0;
 	parsexml(&parser);
-#ifndef NDEBUG
+#ifdef DEBUG
 	printIGD(data);
 #endif
 }

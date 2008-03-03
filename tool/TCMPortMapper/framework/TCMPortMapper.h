@@ -89,6 +89,7 @@ typedef enum {
 - (void)removePortMapping:(TCMPortMapping *)aMapping;
 - (void)refresh;
 
+- (BOOL)isAtWork;
 - (BOOL)isRunning;
 - (void)start;
 - (void)stop;
@@ -97,6 +98,7 @@ typedef enum {
 
 - (NSString *)externalIPAddress;
 - (NSString *)localIPAddress;
+- (NSString *)localBonjourHostName;
 - (void)setMappingProtocol:(NSString *)aProtocol;
 - (NSString *)mappingProtocol;
 - (void)setRouterName:(NSString *)aRouterName;
