@@ -1073,7 +1073,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 
 - (NSDragOperation)listView:(TCMListView *)aListView validateDrag:(id <NSDraggingInfo>)sender {
     NSPasteboard *pboard = [sender draggingPasteboard];
-    if ([[pboard types] containsObject:@"PresentityNames"] && [[TCMPortMapper sharedInstance] externalIPAddress]) {
+    if ([[pboard types] containsObject:@"PresentityNames"]) {
         return NSDragOperationGeneric;
     } else {
         return NSDragOperationNone;
@@ -1097,8 +1097,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 
 + (BOOL)invitePeopleFromPasteboard:(NSPasteboard *)aPasteboard withURL:(NSURL *)aDocumentURL{
     BOOL success = NO;
-    if ([[aPasteboard types] containsObject:@"PresentityNames"] && 
-        [[TCMPortMapper sharedInstance] externalIPAddress]) {
+    if ([[aPasteboard types] containsObject:@"PresentityNames"]) {
         NSArray *presentityNames=[aPasteboard propertyListForType:@"PresentityNames"]; 
         // format is service id, id in that service, onlinestatus (0=offline),groupname
         NSString *message = [NSString stringWithFormat:NSLocalizedString(@"Please join me in SubEthaEdit:\n%@\n\n(You can download SubEthaEdit from http://www.codingmonkeys.de/subethaedit )",@"iChat invitation String with Placeholder for actual URL"),[aDocumentURL absoluteString]];

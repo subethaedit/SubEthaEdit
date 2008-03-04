@@ -523,7 +523,7 @@ static NSMenu *defaultMenu=nil;
         }
     } else if ([[pboard types] containsObject:@"PresentityNames"]) {
         // perform this by selector to not create dependency on TCMPortMapper
-        BOOL shouldDrag=([[(PlainTextDocument *)[self document] session] isServer] && [[NSClassFromString(@"TCMPortMapper") sharedInstance] performSelector:@selector(externalIPAddress) withObject:nil] != nil);
+        BOOL shouldDrag=[[(PlainTextDocument *)[self document] session] isServer];
         if (shouldDrag) {
             [self setIsDragTarget:YES];
             return NSDragOperationGeneric;
@@ -547,7 +547,8 @@ static NSMenu *defaultMenu=nil;
             return YES;
         }
     } else if ([[pboard types] containsObject:@"PresentityNames"]) {
-        BOOL shouldDrag=[[(PlainTextDocument *)[self document] session] isServer];        [self setIsDragTarget:YES];
+        BOOL shouldDrag=[[(PlainTextDocument *)[self document] session] isServer];
+        [self setIsDragTarget:YES];
         if (shouldDrag) {
             [(PlainTextDocument *)[self document] setIsAnnounced:YES];
             return YES;
@@ -586,7 +587,8 @@ static NSMenu *defaultMenu=nil;
             return YES;
         }
     } else if ([[pboard types] containsObject:@"PresentityNames"]) {
-        BOOL shouldDrag=[[(PlainTextDocument *)[self document] session] isServer];        [self setIsDragTarget:YES];
+        BOOL shouldDrag=[[(PlainTextDocument *)[self document] session] isServer];
+        [self setIsDragTarget:YES];
         if (shouldDrag) {
             [ConnectionBrowserController invitePeopleFromPasteboard:pboard withURL:[[self document] documentURL]];
             [self setIsDragTarget:NO];

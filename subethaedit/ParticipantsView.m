@@ -246,10 +246,8 @@
             [self highlightItemForDrag:-1];
             return NSDragOperationPrivate;
         } else if ([[pboard types] containsObject:@"PresentityNames"]) {
-            if ([[NSClassFromString(@"TCMPortMapper") sharedInstance] performSelector:@selector(externalIPAddress) withObject:nil] != nil) {
-                [self highlightItemForDrag:NSNotFound];
-                return NSDragOperationGeneric;
-            }
+            [self highlightItemForDrag:NSNotFound];
+            return NSDragOperationGeneric;
         }
     }
     [self highlightItemForDrag:-1];
@@ -307,8 +305,7 @@
         [self highlightItemForDrag:-1];
         return result;
     } else if ([[pboard types] containsObject:@"PresentityNames"]) {
-        if ([[(PlainTextDocument *)[self document] session] isServer] && 
-            [[NSClassFromString(@"TCMPortMapper") sharedInstance] performSelector:@selector(externalIPAddress) withObject:nil] != nil) {
+        if ([[(PlainTextDocument *)[self document] session] isServer]) {
             [ConnectionBrowserController invitePeopleFromPasteboard:pboard withURL:[[self document] documentURL]];
             [self highlightItemForDrag:-1];
             return YES;
