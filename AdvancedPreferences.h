@@ -18,11 +18,17 @@
     IBOutlet NSButton *O_commandLineToolRemoveButton;
     IBOutlet NSButton *O_disableScreenFontsButton;
     IBOutlet NSButton *O_synthesiseFontsButton;
+    IBOutlet NSButton *O_automaticallyMapPortButton;
+    IBOutlet NSTextField *O_localPortTextField;
+    IBOutlet NSTextField *O_mappingStatusTextField;
+    IBOutlet NSImageView *O_mappingStatusImageView;
+    IBOutlet NSProgressIndicator *O_mappingStatusProgressIndicator;
 }
 
 - (IBAction)commandLineToolInstall:(id)sender;
 - (IBAction)commandLineToolRemove:(id)sender;
 - (IBAction)changeDisableScreenFonts:(id)aSender;
 - (IBAction)changeSynthesiseFonts:(id)aSender;
+- (IBAction)changeAutomaticallyMapPorts:(id)aSender;
 
 @end

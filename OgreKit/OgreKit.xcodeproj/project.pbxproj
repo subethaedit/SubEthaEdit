@@ -481,7 +481,7 @@
 		4D82DCFE09BA0CFC007F03B0 /* README */ = {isa = PBXFileReference; fileEncoding = 0; lastKnownFileType = text; name = README; path = intel/README; sourceTree = "<group>"; };
 		4D9DBE2B09BAB999003DD4A8 /* libonig.a */ = {isa = PBXFileReference; lastKnownFileType = archive.ar; name = libonig.a; path = RegularExpression/oniguruma/universal/libonig.a; sourceTree = "<group>"; };
 		4DC40BFC09150BDB0029A2A6 /* OgreKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OgreKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		4DC40C0409150C280029A2A6 /* OgreTest.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = OgreTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4DC40C0409150C280029A2A6 /* OgreTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OgreTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DC40C0F09150C3E0029A2A6 /* OgreFindPanelTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OgreFindPanelTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DC40C1A09150C730029A2A6 /* MyFindPanelExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MyFindPanelExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4DC40C3009150C9E0029A2A6 /* ReplaceWithAttributesTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ReplaceWithAttributesTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1690,6 +1690,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 4DC40BA3091509DC0029A2A6 /* Build configuration list for PBXProject "OgreKit" */;
+			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
@@ -1705,6 +1706,7 @@
 			mainGroup = 0867D691FE84028FC02AAC07 /* OgreKit */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
 			projectDirPath = "";
+			projectRoot = "";
 			targets = (
 				4DC412B3091519A60029A2A6 /* All */,
 				4D82DCCA09B9ECD1007F03B0 /* Oniguruma */,

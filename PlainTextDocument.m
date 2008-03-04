@@ -995,6 +995,9 @@ static NSString *tempFileName(NSString *origPath) {
 	[self setTemporarySavePanel:nil];
     free(I_bracketMatching.openingBracketsArray);
     free(I_bracketMatching.closingBracketsArray);
+    
+    [I_currentTextOperation release];
+    
     [super dealloc];
 }
 
@@ -3067,7 +3070,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         docType = @"PlainTextType";
         [self performSelector:@selector(setFileType:) withObject:docType afterDelay:0.];
     }
-    if (!fileExists || isDir && ![docType isEqualToString:@"SEETextType"]) {
+    if (!fileExists || (isDir && ![docType isEqualToString:@"SEETextType"])) {
         // generate the correct error
         [NSData dataWithContentsOfURL:anURL options:0 error:outError];
         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"file doesn't exist %@",*outError);
@@ -4656,69 +4659,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         return nil;
     }
 
-    NSMutableString *address = [[[NSMutableString alloc] init] autorelease];
-    [address appendFormat:@"%@:", @"see"];
-
-    NSString *hostAddress = nil;
-    NSHost *currentHost = [NSHost currentHost];
-    NSEnumerator *enumerator = [[currentHost addresses] objectEnumerator];
-    while ((hostAddress = [enumerator nextObject])) {
-        if ([hostAddress hasPrefix:@"::1"] ||
-            [hostAddress hasPrefix:@"fe80"] ||
-            [hostAddress hasPrefix:@"fd"] ||
-            [hostAddress hasPrefix:@"127.0.0.1"] ||
-            [hostAddress hasPrefix:@"10."] ||
-            [hostAddress hasPrefix:@"192.168."] ||
-            [hostAddress hasPrefix:@"169.254."] ||
-            [hostAddress hasPrefix:@"172.16."] ||
-            [hostAddress hasPrefix:@"172.17."] ||
-            [hostAddress hasPrefix:@"172.18."] ||
-            [hostAddress hasPrefix:@"172.19."] ||
-            [hostAddress hasPrefix:@"172.20."] ||
-            [hostAddress hasPrefix:@"172.21."] ||
-            [hostAddress hasPrefix:@"172.22."] ||
-            [hostAddress hasPrefix:@"172.23."] ||
-            [hostAddress hasPrefix:@"172.24."] ||
-            [hostAddress hasPrefix:@"172.25."] ||
-            [hostAddress hasPrefix:@"172.26."] ||
-            [hostAddress hasPrefix:@"172.27."] ||
-            [hostAddress hasPrefix:@"172.28."] ||
-            [hostAddress hasPrefix:@"172.29."] ||
-            [hostAddress hasPrefix:@"172.30."] ||
-            [hostAddress hasPrefix:@"172.31."]) {
-            
-            hostAddress = nil;
-        } else {
-            break;
-        }
-    }
-    
-    if (hostAddress == nil) {
-        CFStringRef localHostName = SCDynamicStoreCopyLocalHostName(NULL);
-        if (localHostName) {
-            hostAddress = [NSString stringWithFormat:@"%@.local", (NSString *)localHostName];
-            CFRelease(localHostName); // CFRelease(NULL) is not a good idea and crashes
-        } else {
-            hostAddress = @"hasnoaddress.local";
-        }
-    } else {
-        NSCharacterSet *ipv6set = [NSCharacterSet characterSetWithCharactersInString:@"1234567890abcdef:"];
-        NSScanner *ipv6scanner = [NSScanner scannerWithString:hostAddress];
-        NSString *scannedString = nil;
-        if ([ipv6scanner scanCharactersFromSet:ipv6set intoString:&scannedString]) {
-            if ([scannedString length] == [hostAddress length]) {
-                hostAddress = [NSString stringWithFormat:@"[%@]",scannedString];
-            } else if ([hostAddress length] > [scannedString length]+1 && [hostAddress characterAtIndex:[scannedString length]] == '%') {
-                hostAddress = [NSString stringWithFormat:@"[%@%%25%@]",scannedString,[hostAddress substringFromIndex:[scannedString length]+1]];
-            }
-        }
-    }
-
-    [address appendFormat:@"//%@", hostAddress];
-
-    int port = [[TCMMMBEEPSessionManager sharedInstance] listeningPort];
-    if (port != SUBETHAEDIT_DEFAULT_PORT) {
-        [address appendFormat:@":%d", port];
+    TCMPortMapper *pm = [TCMPortMapper sharedInstance];
+    NSMutableString *address = [NSMutableString stringWithFormat:@"see://%@:%d", [pm localIPAddress],[[TCMMMBEEPSessionManager sharedInstance] listeningPort]];
+    TCMPortMapping *mapping = [[pm portMappings] anyObject];
+    if ([mapping mappingStatus]==TCMPortMappingStatusMapped) {
+        address = [NSMutableString stringWithFormat:@"see://%@:%d", [pm externalIPAddress],[mapping externalPort]];
     }
     
     NSString *title = [[self fileName] lastPathComponent];
@@ -5662,6 +5607,7 @@ static NSString *S_measurementUnits;
             PlainTextEditor *editor=nil;
             while ((editor=[editorEnumerator nextObject])) {
                 [oldSelections addObject:[SelectionOperation selectionOperationWithRange:[[editor textView] selectedRange] userID:@"doesn't matter"]];
+                [editor storePosition];
             }
         }
 
@@ -5687,6 +5633,7 @@ static NSString *S_measurementUnits;
                 [transformator transformOperation:selectionOperation serverOperation:aOperation];
                 PlainTextEditor *editor = [editors objectAtIndex:index];
                 [[editor textView] setSelectedRange:[selectionOperation selectedRange]];
+                [editor restorePositionAfterOperation:aOperation];
             }
         }
 
@@ -5695,8 +5642,16 @@ static NSString *S_measurementUnits;
         }
         I_flags.isRemotelyEditingTextStorage=NO;
     } else if ([[aOperation operationID] isEqualToString:[SelectionOperation operationID]]){
+        NSArray *editors=[self plainTextEditors];
+        BOOL isNonConti = [[[[editors lastObject] textView] layoutManager] respondsToSelector:@selector(setAllowsNonContiguousLayout:)];
+        if (isNonConti) {
+            [editors makeObjectsPerformSelector:@selector(storePosition) withObject:nil];
+        }
         [self changeSelectionOfUserWithID:[aOperation userID]
               toRange:[(SelectionOperation *)aOperation selectedRange]];
+        if (isNonConti) {
+            [editors makeObjectsPerformSelector:@selector(restorePositionAfterOperation:) withObject:aOperation];
+        }
     }
     return YES;
 }
@@ -6037,7 +5992,6 @@ static NSString *S_measurementUnits;
 }
 
 - (BOOL)textView:(NSTextView *)aTextView shouldChangeTextInRange:(NSRange)aAffectedCharRange replacementString:(NSString *)aReplacementString {
-
     TextStorage *textStorage=(TextStorage *)[aTextView textStorage];
     if ([aTextView hasMarkedText] && !I_flags.didPauseBecauseOfMarkedText) {
         //NSLog(@"paused because of marked...");
@@ -6101,6 +6055,19 @@ static NSString *S_measurementUnits;
             [textStorage stopBlockedit];
         }
 
+    }
+
+    NSArray *plainTextEditors = [self plainTextEditors];
+    unsigned editorCount = [plainTextEditors count];
+    if ([plainTextEditors count] > 1) {
+        [I_currentTextOperation release];
+         I_currentTextOperation = [[TextOperation textOperationWithAffectedCharRange:aAffectedCharRange replacementString:aReplacementString userID:(NSString *)[TCMMMUserManager myUserID]] retain];
+        while (editorCount--) {
+            PlainTextEditor *editor = [plainTextEditors objectAtIndex:editorCount];
+            if ([editor textView] != aTextView) {
+                [editor storePosition];
+            }
+        }
     }
 
     return YES;
@@ -6197,6 +6164,18 @@ static NSString *S_measurementUnits;
             [textView setSelectedRange:newSelectedRange];
         }
     }
+
+    NSArray *plainTextEditors = [self plainTextEditors];
+    unsigned editorCount = [plainTextEditors count];
+    if ([plainTextEditors count] > 1) {
+        while (editorCount--) {
+            PlainTextEditor *editor = [plainTextEditors objectAtIndex:editorCount];
+            if ([editor textView] != textView) {
+                [editor restorePositionAfterOperation:I_currentTextOperation];
+            }
+        }
+    }
+
 }
 
 - (NSBitmapImageRep *)thumbnailBitmapRepresentation {

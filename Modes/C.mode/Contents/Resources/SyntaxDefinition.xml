@@ -100,7 +100,7 @@
     
             <state id="AutodocComment" type="comment" color="#236E25" font-weight="bold" font-style="italic">
                 <begin><regex>/\*"</regex></begin>
-                <end><regex>"\*/</regex></end>
+                <end><regex>\*/</regex></end>
             </state>
     
             <state id="Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic">

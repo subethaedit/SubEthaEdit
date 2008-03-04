@@ -17,6 +17,7 @@
 #endif
 
 - (void)removeAttributes:(NSArray *)names range:(NSRange)aRange;
+- (void)setContentByDictionaryRepresentation:(NSDictionary *)aRepresentation;
 
 @end
 

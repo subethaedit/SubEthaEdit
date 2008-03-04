@@ -1,0 +1,40 @@
+# $Id: Makefile.mingw,v 1.7 2008/01/18 11:40:13 nanard Exp $
+CC = gcc
+#CFLAGS = -Wall -g -DDEBUG -DSTATICLIB
+CFLAGS = -Wall -Os -DNDEBUG -DSTATICLIB
+LDLIBS = -lws2_32
+# -lwsock32
+PYTHON=\utils\python25\python
+
+all:	upnpc testminixml libminiupnpc.a
+
+clean:
+	del upnpc testminixml *.o
+
+libminiupnpc.a:	miniwget.o minixml.o igd_desc_parse.o minisoap.o miniupnpc.o upnpreplyparse.o upnpcommands.o upnperrors.o
+	$(AR) cr $@ $?
+
+pythonmodule:	libminiupnpc.a
+	$(PYTHON) setupmingw32.py build --compiler=mingw32
+	$(PYTHON) setupmingw32.py install --skip-build
+
+upnpc:	upnpc.o libminiupnpc.a
+
+minixml.o:	minixml.c minixml.h
+
+upnpc.o:	upnpc.c miniwget.h minisoap.h miniupnpc.h igd_desc_parse.h upnpreplyparse.h upnpcommands.h
+
+miniwget.o:	miniwget.c miniwget.h
+
+minisoap.o:	minisoap.c minisoap.h
+
+miniupnpc.o:	miniupnpc.c miniupnpc.h minisoap.h miniwget.h minixml.h
+
+igd_desc_parse.o:	igd_desc_parse.c igd_desc_parse.h
+
+testminixml:	minixml.o igd_desc_parse.o testminixml.c
+
+upnpreplyparse.o:	upnpreplyparse.c upnpreplyparse.h minixml.h
+
+upnpcommands.o:	upnpcommands.c upnpcommands.h upnpreplyparse.h miniupnpc.h
+

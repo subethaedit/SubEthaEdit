@@ -452,6 +452,8 @@ NSString * const SDDocumentDidChangeChangeCountNotification = @"SDDocumentDidCha
             return NO;
         }
 
+        // TODO: change the selections of other users according to the text change
+
         [_attributedString beginEditing];
         NSRange newRange = NSMakeRange([operation  affectedCharRange].location,
                                        [[operation replacementString] length]);
@@ -461,7 +463,6 @@ NSString * const SDDocumentDidChangeChangeCountNotification = @"SDDocumentDidCha
                                   range:newRange];
         [_attributedString addAttribute:ChangedByUserIDAttributeName value:[operation userID]
                                   range:newRange];
-        //[_attributedString addAttributes:[self plainTextAttributes] range:newRange];
         [_attributedString endEditing];
 
 

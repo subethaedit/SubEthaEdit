@@ -12,7 +12,7 @@
 #import "TCMMillionMonkeys.h"
 #import "EncodingManager.h"
 
-@class FileManagementProfile;
+@class ServerManagementProfile;
 
 @interface ServerConnectionWindowController : NSWindowController {
     IBOutlet NSTableView *O_tableView;
@@ -22,7 +22,7 @@
     IBOutlet NSPopUpButton *O_accessStatePopUpButton;
     IBOutlet NSArrayController *O_remoteFilesController;
 
-    FileManagementProfile *_profile;
+    ServerManagementProfile *_profile;
     TCMMMUser *_user;
     TCMBEEPSession *_BEEPSession;
 }

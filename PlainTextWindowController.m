@@ -33,7 +33,6 @@
 #import <PSMTabBarControl/PSMTabBarControl.h>
 #import <PSMTabBarControl/PSMTabStyle.h>
 #import <objc/objc-runtime.h>			// for objc_msgSend
-#import "LockWindow.h"
 
 
 NSString * const PlainTextWindowToolbarIdentifier = 
@@ -128,8 +127,22 @@ enum {
         [I_contextMenu setDelegate:self];
         
         [self setShouldCascadeWindows:NO];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateForPortMapStatus) name:TCMPortMapperDidFinishWorkNotification object:[TCMPortMapper sharedInstance]];
     }
     return self;
+}
+
+- (void)updateForPortMapStatus {
+    BOOL isAnnounced = [(PlainTextDocument *)[self document] isAnnounced];
+    if (isAnnounced) {
+        BOOL portMapped = ([[[[TCMPortMapper sharedInstance] portMappings] anyObject] mappingStatus] == TCMPortMappingStatusMapped);
+        [O_URLImageView setImage:[NSImage imageNamed:(portMapped?@"URLIconOK":@"URLIconNotOK")]];
+        NSString *URLString = [[[[[self document] documentURL] absoluteString] componentsSeparatedByString:@"?"] objectAtIndex:0];
+        [O_URLTextField setObjectValue:URLString];
+    } else {
+        [O_URLImageView setImage:[NSImage imageNamed:@"Conceal"]];
+        [O_URLTextField setObjectValue:NSLocalizedString(@"Document not announced.\nNo Document URL.",@"Text for document URL field when not announced")];
+    }
 }
 
 - (void)dealloc {
@@ -242,7 +255,15 @@ enum {
     BOOL shouldHideTabBar = [[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey];
     [I_tabBar setHideForSingleTab:!shouldHideTabBar];
     [I_tabBar hideTabBar:!shouldHideTabBar animate:NO];
+
+    [O_URLImageView setDelegate:self];
+    [self updateForPortMapStatus];
 }
+
+- (NSURL*)URLForURLImageView:(URLImageView *)anImageView {
+    return [[self document] documentURL];
+}
+
 
 - (void)takeSettingsFromDocument {
     [self setShowsBottomStatusBar:[(PlainTextDocument *)[self document] showsBottomStatusBar]];
@@ -643,11 +664,11 @@ enum {
 - (void)validateUpperDrawer {
     TCMMMSession *session = [(PlainTextDocument *)[self document] session];
     BOOL isServer=[session isServer];
-    [O_URLImageView setHidden:![(PlainTextDocument *)[self document] isAnnounced]];
     [O_pendingUsersAccessPopUpButton setEnabled:isServer];
     TCMMMSessionAccessState state = [session accessState];
     int index = [O_pendingUsersAccessPopUpButton indexOfItemWithTag:state];
     [O_pendingUsersAccessPopUpButton selectItemAtIndex:index];
+    [self updateForPortMapStatus];
 }
 
 - (void)validateButtons {
@@ -1201,6 +1222,7 @@ enum {
 
 - (void)synchronizeWindowTitleWithDocumentName {
     [super synchronizeWindowTitleWithDocumentName];
+    [self updateForPortMapStatus];
     [self updateLock];
 }
 
@@ -2357,36 +2379,36 @@ enum {
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
 
     [center removeObserver:self 
-                                                    name:PlainTextDocumentSessionWillChangeNotification
-                                                  object:[self document]];
+                      name:PlainTextDocumentSessionWillChangeNotification
+                    object:[self document]];
 
     [center removeObserver:self 
-                                                    name:PlainTextDocumentSessionDidChangeNotification
-                                                  object:[self document]];
-                                                  
+                      name:PlainTextDocumentSessionDidChangeNotification
+                    object:[self document]];
+                    
     [center removeObserver:self 
-                                                    name:PlainTextDocumentParticipantsDataDidChangeNotification
-                                                  object:[self document]];
+                      name:PlainTextDocumentParticipantsDataDidChangeNotification
+                    object:[self document]];
 
     [center removeObserver:self 
-                                                    name:TCMMMSessionParticipantsDidChangeNotification
-                                                  object:[(PlainTextDocument *)[self document] session]];
-                                                  
-    [center removeObserver:self 
-                                                   name:TCMMMSessionPendingUsersDidChangeNotification 
-                                                 object:[(PlainTextDocument *)[self document] session]];
+                      name:TCMMMSessionParticipantsDidChangeNotification
+                    object:[(PlainTextDocument *)[self document] session]];
 
     [center removeObserver:self 
-                                                    name:TCMMMSessionDidChangeNotification 
-                                                  object:[(PlainTextDocument *)[self document] session]];
-                                               
-    [center removeObserver:self 
-                                                    name:PlainTextDocumentDidChangeDisplayNameNotification 
-                                                  object:[self document]];
+                      name:TCMMMSessionPendingUsersDidChangeNotification 
+                    object:[(PlainTextDocument *)[self document] session]];
 
     [center removeObserver:self 
-                                                    name:PlainTextDocumentDidChangeDocumentModeNotification 
-                                                  object:[self document]];        
+                      name:TCMMMSessionDidChangeNotification 
+                    object:[(PlainTextDocument *)[self document] session]];
+
+    [center removeObserver:self 
+                      name:PlainTextDocumentDidChangeDisplayNameNotification 
+                    object:[self document]];
+
+    [center removeObserver:self 
+                      name:PlainTextDocumentDidChangeDocumentModeNotification 
+                    object:[self document]];        
                                                    
     [super setDocument:document];
     
@@ -2451,7 +2473,7 @@ enum {
                                                  selector:@selector(adjustToolbarToDocumentMode)
                                                      name:PlainTextDocumentDidChangeDocumentModeNotification 
                                                    object:[self document]];
-        [center postNotificationName:@"PlainTextWindowControllerDocumentDidChangeNotification" object:self];     
+        [center postNotificationName:@"PlainTextWindowControllerDocumentDidChangeNotification" object:self];
     }
 }
 

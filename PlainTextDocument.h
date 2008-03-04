@@ -155,6 +155,8 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
     
     AuthorizationRef I_authRef;
     
+    TextOperation *I_currentTextOperation;
+    
     #ifndef TCM_NO_DEBUG
         NSMutableString *_readFromURLDebugInformation;
     #endif
