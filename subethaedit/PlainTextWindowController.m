@@ -2379,36 +2379,36 @@ enum {
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
 
     [center removeObserver:self 
-                                                    name:PlainTextDocumentSessionWillChangeNotification
-                                                  object:[self document]];
+                      name:PlainTextDocumentSessionWillChangeNotification
+                    object:[self document]];
 
     [center removeObserver:self 
-                                                    name:PlainTextDocumentSessionDidChangeNotification
-                                                  object:[self document]];
-                                                  
+                      name:PlainTextDocumentSessionDidChangeNotification
+                    object:[self document]];
+                    
     [center removeObserver:self 
-                                                    name:PlainTextDocumentParticipantsDataDidChangeNotification
-                                                  object:[self document]];
+                      name:PlainTextDocumentParticipantsDataDidChangeNotification
+                    object:[self document]];
 
     [center removeObserver:self 
-                                                    name:TCMMMSessionParticipantsDidChangeNotification
-                                                  object:[(PlainTextDocument *)[self document] session]];
-                                                  
-    [center removeObserver:self 
-                                                   name:TCMMMSessionPendingUsersDidChangeNotification 
-                                                 object:[(PlainTextDocument *)[self document] session]];
+                      name:TCMMMSessionParticipantsDidChangeNotification
+                    object:[(PlainTextDocument *)[self document] session]];
 
     [center removeObserver:self 
-                                                    name:TCMMMSessionDidChangeNotification 
-                                                  object:[(PlainTextDocument *)[self document] session]];
-                                               
-    [center removeObserver:self 
-                                                    name:PlainTextDocumentDidChangeDisplayNameNotification 
-                                                  object:[self document]];
+                      name:TCMMMSessionPendingUsersDidChangeNotification 
+                    object:[(PlainTextDocument *)[self document] session]];
 
     [center removeObserver:self 
-                                                    name:PlainTextDocumentDidChangeDocumentModeNotification 
-                                                  object:[self document]];        
+                      name:TCMMMSessionDidChangeNotification 
+                    object:[(PlainTextDocument *)[self document] session]];
+
+    [center removeObserver:self 
+                      name:PlainTextDocumentDidChangeDisplayNameNotification 
+                    object:[self document]];
+
+    [center removeObserver:self 
+                      name:PlainTextDocumentDidChangeDocumentModeNotification 
+                    object:[self document]];        
                                                    
     [super setDocument:document];
     

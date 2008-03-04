@@ -995,6 +995,9 @@ static NSString *tempFileName(NSString *origPath) {
 	[self setTemporarySavePanel:nil];
     free(I_bracketMatching.openingBracketsArray);
     free(I_bracketMatching.closingBracketsArray);
+    
+    [I_currentTextOperation release];
+    
     [super dealloc];
 }
 
@@ -5604,6 +5607,7 @@ static NSString *S_measurementUnits;
             PlainTextEditor *editor=nil;
             while ((editor=[editorEnumerator nextObject])) {
                 [oldSelections addObject:[SelectionOperation selectionOperationWithRange:[[editor textView] selectedRange] userID:@"doesn't matter"]];
+                [editor storePosition];
             }
         }
 
@@ -5629,6 +5633,7 @@ static NSString *S_measurementUnits;
                 [transformator transformOperation:selectionOperation serverOperation:aOperation];
                 PlainTextEditor *editor = [editors objectAtIndex:index];
                 [[editor textView] setSelectedRange:[selectionOperation selectedRange]];
+                [editor restorePositionAfterOperation:aOperation];
             }
         }
 
@@ -5637,8 +5642,16 @@ static NSString *S_measurementUnits;
         }
         I_flags.isRemotelyEditingTextStorage=NO;
     } else if ([[aOperation operationID] isEqualToString:[SelectionOperation operationID]]){
+        NSArray *editors=[self plainTextEditors];
+        BOOL isNonConti = [[[[editors lastObject] textView] layoutManager] respondsToSelector:@selector(setAllowsNonContiguousLayout:)];
+        if (isNonConti) {
+            [editors makeObjectsPerformSelector:@selector(storePosition) withObject:nil];
+        }
         [self changeSelectionOfUserWithID:[aOperation userID]
               toRange:[(SelectionOperation *)aOperation selectedRange]];
+        if (isNonConti) {
+            [editors makeObjectsPerformSelector:@selector(restorePositionAfterOperation:) withObject:aOperation];
+        }
     }
     return YES;
 }
@@ -5979,7 +5992,6 @@ static NSString *S_measurementUnits;
 }
 
 - (BOOL)textView:(NSTextView *)aTextView shouldChangeTextInRange:(NSRange)aAffectedCharRange replacementString:(NSString *)aReplacementString {
-
     TextStorage *textStorage=(TextStorage *)[aTextView textStorage];
     if ([aTextView hasMarkedText] && !I_flags.didPauseBecauseOfMarkedText) {
         //NSLog(@"paused because of marked...");
@@ -6043,6 +6055,19 @@ static NSString *S_measurementUnits;
             [textStorage stopBlockedit];
         }
 
+    }
+
+    NSArray *plainTextEditors = [self plainTextEditors];
+    unsigned editorCount = [plainTextEditors count];
+    if ([plainTextEditors count] > 1) {
+        [I_currentTextOperation release];
+         I_currentTextOperation = [[TextOperation textOperationWithAffectedCharRange:aAffectedCharRange replacementString:aReplacementString userID:(NSString *)[TCMMMUserManager myUserID]] retain];
+        while (editorCount--) {
+            PlainTextEditor *editor = [plainTextEditors objectAtIndex:editorCount];
+            if ([editor textView] != aTextView) {
+                [editor storePosition];
+            }
+        }
     }
 
     return YES;
@@ -6139,6 +6164,18 @@ static NSString *S_measurementUnits;
             [textView setSelectedRange:newSelectedRange];
         }
     }
+
+    NSArray *plainTextEditors = [self plainTextEditors];
+    unsigned editorCount = [plainTextEditors count];
+    if ([plainTextEditors count] > 1) {
+        while (editorCount--) {
+            PlainTextEditor *editor = [plainTextEditors objectAtIndex:editorCount];
+            if ([editor textView] != textView) {
+                [editor restorePositionAfterOperation:I_currentTextOperation];
+            }
+        }
+    }
+
 }
 
 - (NSBitmapImageRep *)thumbnailBitmapRepresentation {

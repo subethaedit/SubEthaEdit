@@ -333,7 +333,7 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
 }
 
 - (void)checkDocumentRequests {
-    if (_BEEPSession && [[self announcedSessions] count]) {
+    if (_BEEPSession && _pendingDocumentRequests && [[self announcedSessions] count]) {
         int count = [_pendingDocumentRequests count];
         while (count-- > 0) {
             NSURL *url = [_pendingDocumentRequests objectAtIndex:count];
