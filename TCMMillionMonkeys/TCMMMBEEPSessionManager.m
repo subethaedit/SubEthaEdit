@@ -15,10 +15,19 @@
 #import "TCMHost.h"
 #import "HandshakeProfile.h"
 #import "SessionProfile.h"
+#import "AppController.h"
+#import <TCMPortMapper/TCMPortMapper.h>
+#import "TCMHost.h"
+#import "NSWorkspaceTCMAdditions.h"
+#import <netdb.h>       // getaddrinfo, struct addrinfo, AI_NUMERICHOST
 
+#ifdef TCM_ISSEED
+    #import "SDAppController.h"
+#endif
 
 #define PORTRANGELENGTH 10
 NSString * const DefaultPortNumber = @"port";
+NSString * const ShouldAutomaticallyMapPort = @"ShouldAutomaticallyMapPort";
 
 
 NSString * const ProhibitInboundInternetSessions = @"ProhibitInboundInternetSessions";
@@ -73,6 +82,91 @@ static TCMMMBEEPSessionManager *sharedInstance;
     }
     return sharedInstance;
 }
+
++ (NSURL *)urlForAddress:(NSString *)anAddress {
+    NSString *URLString = nil;
+    NSString *schemePrefix = [NSString stringWithFormat:@"%@://", @"see"];
+    NSString *lowercaseAddress = [anAddress lowercaseString];
+    if (![lowercaseAddress hasPrefix:schemePrefix]) {
+        // check if the address is an ipv6 address
+        NSCharacterSet *ipv6set = [NSCharacterSet characterSetWithCharactersInString:@"1234567890abcdef:"];
+        NSScanner *ipv6scanner = [NSScanner scannerWithString:anAddress];
+        NSString *scannedString = nil;
+        if ([ipv6scanner scanCharactersFromSet:ipv6set intoString:&scannedString]) {
+            if ([scannedString length] == [anAddress length]) {
+                anAddress = [NSString stringWithFormat:@"[%@]",scannedString];
+            } else if ([anAddress length] > [scannedString length]+1 && [anAddress characterAtIndex:[scannedString length]] == '%') {
+                anAddress = [NSString stringWithFormat:@"[%@%%25%@]",scannedString,[anAddress substringFromIndex:[scannedString length]+1]];
+            }
+        }
+        NSString *addressWithPrefix = [schemePrefix stringByAppendingString:anAddress];
+        URLString = addressWithPrefix;
+    } else {
+        URLString = anAddress;
+    }
+    
+    NSURL *url = [NSURL URLWithString:URLString];
+    return url;
+}
+
++ (NSURL *)reducedURL:(NSURL *)anURL addressData:(NSData **)anAddressData documentRequest:(NSURL **)aRequest {
+    NSURL *resultURL = nil;
+    if (anURL != nil && [anURL host] != nil) {
+        UInt16 port;
+        if ([anURL port] != nil) {
+            port = [[anURL port] unsignedShortValue];
+        } else {
+            port = SUBETHAEDIT_DEFAULT_PORT;
+        }
+        
+        NSData *addressData = nil;
+        NSString *hostAddress = [anURL host];
+
+        const char *ipAddress = [hostAddress UTF8String];
+        struct addrinfo hints;
+        struct addrinfo *result = NULL;
+        BOOL isIPv6Address = NO;
+
+        memset(&hints, 0, sizeof(hints));
+        hints.ai_flags    = AI_NUMERICHOST;
+        hints.ai_family   = PF_UNSPEC;
+        hints.ai_socktype = SOCK_STREAM;
+        hints.ai_protocol = 0;
+        
+        char *portString = NULL;
+        int err = asprintf(&portString, "%d", port);
+        NSAssert(err != -1, @"Failed to convert given port from int to char*");
+
+        err = getaddrinfo(ipAddress, portString, &hints, &result);
+        if (err == 0) {
+            addressData = [NSData dataWithBytes:(UInt8 *)result->ai_addr length:result->ai_addrlen];
+            isIPv6Address = result->ai_family == PF_INET6;
+            DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"getaddrinfo succeeded with addr: %@", [NSString stringWithAddressData:addressData]);
+            if (anAddressData) *anAddressData = addressData;
+            freeaddrinfo(result);
+            NSString *URLString = nil;
+            NSMutableString *percentEscapedString = [[[NSString stringWithAddressData:addressData] mutableCopy] autorelease];
+            [percentEscapedString replaceOccurrencesOfString:@"%" withString:@"%25" options:0 range:NSMakeRange(0,[percentEscapedString length])];
+            URLString = [NSString stringWithFormat:@"%@://%@", [anURL scheme], percentEscapedString];
+            resultURL = [NSURL URLWithString:URLString];
+        } else {
+            DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"Neither IPv4 nor IPv6 address");
+            resultURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@:%d", [anURL scheme], hostAddress,port]];;
+        }
+        if (portString) {
+            free(portString);
+        }
+        
+        if ([[anURL path] length] > 0 && ![[anURL path] isEqualToString:@"/"]) {
+            if (aRequest) *aRequest = anURL;
+        }
+        
+    } else {
+        DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"Invalid URI");
+    }
+    return resultURL;
+}
+
 
 - (void)logRetainCounts
 {
@@ -165,7 +259,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
     if (!isVisible && [self isProhibitingInboundInternetSessions]) {
         // stop listening
         [self stopListening];
-    } else {
+    } else if (!I_listener) {
         // start listening
         [self stopListening];
         (void)[self listen];
@@ -174,7 +268,8 @@ static TCMMMBEEPSessionManager *sharedInstance;
 
 - (BOOL)listen {
     // set up BEEPListener
-    int port = [[NSUserDefaults standardUserDefaults] integerForKey:DefaultPortNumber];
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    int port = [defaults integerForKey:DefaultPortNumber];
     for (I_listeningPort = port; I_listeningPort < port + PORTRANGELENGTH; I_listeningPort++) {
         I_listener = [[TCMBEEPListener alloc] initWithPort:I_listeningPort];
         [I_listener setDelegate:self];
@@ -187,10 +282,18 @@ static TCMMMBEEPSessionManager *sharedInstance;
             I_listener = nil;
         }
     }
+    if (I_listener) {
+        TCMPortMapper *pm = [TCMPortMapper sharedInstance];
+        [pm addPortMapping:[TCMPortMapping portMappingWithLocalPort:I_listeningPort desiredExternalPort:SUBETHAEDIT_DEFAULT_PORT transportProtocol:TCMPortMappingTransportProtocolTCP userInfo:nil]];
+        if ([defaults boolForKey:ShouldAutomaticallyMapPort]) {
+            [pm start];
+        }
+    }
     return (I_listener != nil);
 }
 
 - (void)stopListening {
+    [[TCMPortMapper sharedInstance] stop];
     [I_listener close];
     [I_listener setDelegate:nil];
     [I_listener release];
@@ -199,6 +302,10 @@ static TCMMMBEEPSessionManager *sharedInstance;
 
 - (int)listeningPort {
     return I_listeningPort;
+}
+
+- (NSArray *)allBEEPSessions {
+    return I_sessions;
 }
 
 - (void)terminateAllBEEPSessions {
@@ -270,7 +377,8 @@ static TCMMMBEEPSessionManager *sharedInstance;
         [session release];
         [[session userInfo] setObject:[aInformation objectForKey:@"peerUserID"] forKey:@"peerUserID"];
         [[session userInfo] setObject:[NSNumber numberWithBool:YES] forKey:@"isRendezvous"];
-        [session addProfileURIs:[I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerDefaultMode]];
+        [session addProfileURIs:   [I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerDefaultMode]];
+        [session addTLSProfileURIs:[I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerTLSMode]];
         [session setDelegate:self];
         [session open];
     }
@@ -319,13 +427,16 @@ static TCMMMBEEPSessionManager *sharedInstance;
     while ((addressData = [addresses nextObject])) {
         TCMBEEPSession *session = [[TCMBEEPSession alloc] initWithAddressData:addressData];
         [[session userInfo] setObject:[[aHost userInfo] objectForKey:@"URLString"] forKey:@"URLString"];
- 
+        if ([[aHost userInfo] objectForKey:@"isAutoConnect"]) {
+            [[session userInfo] setObject:[[aHost userInfo] objectForKey:@"isAutoConnect"] forKey:@"isAutoConnect"];
+        }
         [self insertObject:session inSessionsAtIndex:[self countOfSessions]];
         [session setIsProhibitingInboundInternetSessions:[self isProhibitingInboundInternetSessions]];
 
         [sessions addObject:session];
         [session release];
         [session addProfileURIs:[I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerDefaultMode]];
+        [session addTLSProfileURIs:[I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerTLSMode]];
         [session setDelegate:self];
         [session open];
     }
@@ -506,10 +617,11 @@ static TCMMMBEEPSessionManager *sharedInstance;
 - (NSMutableDictionary *)BEEPSession:(TCMBEEPSession *)aBEEPSession willSendReply:(NSMutableDictionary *)aReply forChannelRequests:(NSArray *)aRequests
 {
     if ([[aReply objectForKey:@"ProfileURI"] isEqualToString:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"]) {
-        return [NSDictionary dictionaryWithObjectsAndKeys:[SessionProfile defaultInitializationData],@"Data",[aReply objectForKey:@"ProfileURI"],@"ProfileURI",nil];
-    } else {
-        return aReply;
+        [aReply setObject:[SessionProfile defaultInitializationData] forKey:@"Data"];
+    } else if ([[aReply objectForKey:@"ProfileURI"] isEqualToString:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"]) {
+        [aReply setObject:[TCMMMStatusProfile defaultInitializationData] forKey:@"Data"];
     }
+    return aReply;
 }
 
 - (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didOpenChannelWithProfile:(TCMBEEPProfile *)aProfile data:(NSData *)inData
@@ -724,6 +836,14 @@ static TCMMMBEEPSessionManager *sharedInstance;
                 return nil;
             }
         }
+    } else if ([[[aProfile session] userInfo] objectForKey:@"isAutoConnect"]) {
+        // check if we already have a valid session to that user
+        if ([self sessionForUserID:aUserID]) {
+            NSLog(@"%s already got session",__FUNCTION__);
+            return nil;
+        } else {
+            return [TCMMMUserManager myUserID];
+        }
     } else {
         return [TCMMMUserManager myUserID];
     }
@@ -734,6 +854,12 @@ static TCMMMBEEPSessionManager *sharedInstance;
 - (BOOL)profile:(HandshakeProfile *)aProfile shouldAckHandshakeWithUserID:(NSString *)aUserID {
     NSMutableDictionary *information = [self sessionInformationForUserID:aUserID];
     TCMBEEPSession *session = [aProfile session];
+
+    // disallow self connect
+    if ([aUserID isEqualToString:[TCMMMUserManager myUserID]]) {
+        return NO;
+    }
+
     if ([[session userInfo] objectForKey:@"isRendezvous"]) {
         TCMBEEPSession *inboundSession = [information objectForKey:@"InboundRendezvousSession"];
         if (inboundSession) {
@@ -752,11 +878,12 @@ static TCMMMBEEPSessionManager *sharedInstance;
             [information setObject:kBEEPSessionStatusGotSession forKey:@"RendezvousStatus"];
             return YES;
         }
+
     } else {
-        if ([aUserID isEqualToString:[TCMMMUserManager myUserID]]) {
-            return NO;
-        }
-        
+        if ([[session userInfo] objectForKey:@"isAutoConnect"]) {
+            // check if we already have a valid session to that user
+            if ([self sessionForUserID:aUserID]) return NO;
+        }        
         [[[aProfile session] userInfo] setObject:aUserID forKey:@"peerUserID"];
         [[information objectForKey:@"OutboundSessions"] addObject:session];
         NSDictionary *infoDict = [I_outboundInternetSessions objectForKey:[[session userInfo] objectForKey:@"URLString"]];
@@ -829,8 +956,13 @@ static TCMMMBEEPSessionManager *sharedInstance;
 - (void)BEEPListener:(TCMBEEPListener *)aBEEPListener didAcceptBEEPSession:(TCMBEEPSession *)aBEEPSession {
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"BEEPListener:didAcceptBEEPSession: %@", aBEEPSession);
     [aBEEPSession addProfileURIs:[I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerDefaultMode]];
+    [aBEEPSession addTLSProfileURIs:[I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerTLSMode]];
     [aBEEPSession setDelegate:self];
+#ifdef TCM_ISSEED
+    [aBEEPSession setAuthenticationDelegate:[SDAppController sharedInstance]];
+#endif
     [aBEEPSession open];
+
     [I_pendingSessions addObject:aBEEPSession];
     [self insertObject:aBEEPSession inSessionsAtIndex:[self countOfSessions]];
 }

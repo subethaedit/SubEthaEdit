@@ -4,6 +4,11 @@
 	   <extension>tex</extension>
 	   <extension>latex</extension>
 	   <extension>sty</extension>
+	   <extension>cls</extension>
+	   <extension>bib</extension>
+	   <extension>bst</extension>
+	   <extension>bbl</extension>
+	   <extension>toc</extension>
     </recognition>
 </settings>
 

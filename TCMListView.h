@@ -106,4 +106,5 @@ typedef struct _ItemChildPair {
 @interface NSObject (ListViewDelegateAdditions)
 - (void)participantsViewDidChangeSelection:(TCMListView *)alistView;
 - (NSMenu *)contextMenuForListView:(TCMListView *)aListView clickedAtRow:(int)aRow;
+- (BOOL)listView:(TCMListView *)aListView performActionForClickAtPoint:(NSPoint)aPoint atItemChildPair:(ItemChildPair)aPair;
 @end

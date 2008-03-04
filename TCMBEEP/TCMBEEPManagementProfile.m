@@ -71,7 +71,8 @@
     NSData *payload = [payloadString dataUsingEncoding:NSUTF8StringEncoding];
     TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[[self channel] nextMessageNumber] payload:payload];
     [[self channel] sendMessage:[message autorelease]];
-    
+    DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Sending Greeting: %@", payloadString);
+   
     NSTimeInterval timeout=[[NSUserDefaults standardUserDefaults] floatForKey:NetworkTimeoutPreferenceKey]/3.0;
     if (!timeout) timeout=20.;
     I_keepBEEPTimer = [[NSTimer timerWithTimeInterval:timeout

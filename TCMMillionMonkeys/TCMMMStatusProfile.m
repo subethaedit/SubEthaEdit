@@ -11,9 +11,52 @@
 #import "TCMMMUserManager.h"
 #import "TCMBencodingUtilities.h"
 #import "TCMMMSession.h"
+#import "TCMMMPresenceManager.h"
 
 
 @implementation TCMMMStatusProfile
+
++ (NSData *)defaultInitializationData {
+    // optionally send the options here
+    static NSData *data=nil;
+    if (!data) {
+        data = [TCM_BencodedObject([NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES],@"SendUSRRCH",nil]) retain];
+    }
+    return data;
+}
+
+- (NSDictionary *)optionDictionary {
+    return I_options;
+}
+
+- (id)initWithChannel:(TCMBEEPChannel *)aChannel {
+    self = [super initWithChannel:aChannel];
+    if (self) {
+        I_options = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSNumber numberWithBool:NO],@"SendUSRRCH",nil];
+    }
+    return self;
+}
+
+- (void)dealloc {
+    [I_options release];
+     I_options = nil;
+    [super dealloc];
+}
+
+- (void)handleInitializationData:(NSData *)aData {
+    NSDictionary *options = TCM_BdecodedObjectWithData(aData);
+    if (options) {
+        [I_options addEntriesFromDictionary:options];
+    }
+}
+
+- (void)sendReachabilityURLString:(NSString *)anURLString forUserID:(NSString *)aUserID {
+    if (aUserID && anURLString && [[I_options objectForKey:@"SendUSRRCH"] boolValue] && [[NSUserDefaults standardUserDefaults] boolForKey:AutoconnectPrefKey]) {
+        NSMutableData *data=[NSMutableData dataWithBytes:"USRRCH" length:6];
+        [data appendData:TCM_BencodedObject([NSDictionary dictionaryWithObjectsAndKeys:anURLString,@"url",aUserID,@"uid",nil])];
+        [[self channel] sendMSGMessageWithPayload:data];
+    }
+}
 
 - (void)sendVisibility:(BOOL)isVisible {
     NSData *data=nil;
@@ -23,6 +66,18 @@
         data=[NSData dataWithBytes:"STAINV" length:6];
     }
     [[self channel] sendMSGMessageWithPayload:data];
+}
+
+- (void)sendIsFriendcasting:(BOOL)isFriendcasting {
+    if ([[I_options objectForKey:@"SendUSRRCH"] boolValue]) {
+        NSData *data=nil;
+        if (isFriendcasting) {
+            data=[NSData dataWithBytes:"FCAYES" length:6];
+        } else {
+            data=[NSData dataWithBytes:"FCAOFF" length:6];
+        }
+        [[self channel] sendMSGMessageWithPayload:data];
+    }
 }
 
 - (void)sendUserDidChangeNotification:(TCMMMUser *)aUser {
@@ -35,6 +90,15 @@
     NSMutableData *data=[NSMutableData dataWithBytes:"USRREQ" length:6];
     [[self channel] sendMSGMessageWithPayload:data];
 }
+
+- (void)requestReachability {
+    //NSLog(@"%s %@",__FUNCTION__,I_options);
+    if ([[I_options objectForKey:@"SendUSRRCH"] boolValue]) {
+        NSMutableData *data=[NSMutableData dataWithBytes:"RCHREQ" length:6];
+        [[self channel] sendMSGMessageWithPayload:data];
+    }
+}
+
 
 - (void)announceSession:(TCMMMSession *)aSession {
     NSMutableData *data=[NSMutableData dataWithBytes:"DOCANN" length:6];
@@ -79,12 +143,25 @@
                 } else {
                     [[self session] terminate];
                 }
+            } else if (strncmp(bytes,"RCHREQ",6)==0) {
+                id delegate = [self delegate];
+                if ([delegate respondsToSelector:@selector(profileDidReceiveReachabilityRequest:)]) {
+                    [delegate profileDidReceiveReachabilityRequest:self];
+                }
+
             } else if (strncmp(bytes,"USRREQ",6)==0) {
                 NSMutableData *data=[NSMutableData dataWithBytes:"USRFUL" length:6];
                 [data appendData:[[TCMMMUserManager me] userBencoded]];
                 TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"RPY" messageNumber:[aMessage messageNumber] payload:data];
                 [[self channel] sendMessage:[message autorelease]];
                 return;
+            } else if (strncmp(bytes,"USRRCH",6)==0) {
+                NSDictionary *dict = TCM_BdecodedObjectWithData([[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]);
+                //NSLog(@"%s got reachability notice %@",__FUNCTION__,dict);
+                id delegate = [self delegate];
+                if ([delegate respondsToSelector:@selector(profile:didReceiveReachabilityURLString:forUserID:)]) {
+                    [delegate profile:self didReceiveReachabilityURLString:[dict objectForKey:@"url"] forUserID:[dict objectForKey:@"uid"]];
+                }
             } else if (strncmp(bytes,"DOC",3)==0) {
                 DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received Document");
                 if (strncmp(&bytes[3],"ANN",3)==0) {
@@ -101,6 +178,12 @@
                     [[self delegate] profile:self didReceiveVisibilityChange:YES];
                 } else if (strncmp(&bytes[3],"INV",3)==0) {
                     [[self delegate] profile:self didReceiveVisibilityChange:NO];
+                }
+            } else if (strncmp(bytes,"FCA",3)==0){
+                if (strncmp(&bytes[3],"YES",3)==0) {
+                    [[self delegate] profile:self didReceiveFriendcastingChange:YES];
+                } else if (strncmp(&bytes[3],"OFF",3)==0) {
+                    [[self delegate] profile:self didReceiveFriendcastingChange:NO];
                 }
             }
 

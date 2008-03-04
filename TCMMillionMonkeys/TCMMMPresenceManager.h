@@ -11,6 +11,7 @@
 @class TCMMMStatusProfile, TCMHost, TCMMMSession, TCMRendezvousBrowser;
 
 extern NSString * const VisibilityPrefKey;
+extern NSString * const AutoconnectPrefKey;
 
 extern NSString * const TCMMMPresenceManagerUserVisibilityDidChangeNotification;
 extern NSString * const TCMMMPresenceManagerUserRendezvousStatusDidChangeNotification;
@@ -43,6 +44,7 @@ extern NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotifica
 - (void)startRendezvousBrowsing;
 - (BOOL)isVisible;
 - (void)setVisible:(BOOL)aFlag;
+- (void)setShouldAutoconnect:(BOOL)aFlag forUserID:(NSString *)aUserID;
 
 - (NSDictionary *)announcedSessions;
 - (void)announceSession:(TCMMMSession *)aSession;

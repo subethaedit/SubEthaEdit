@@ -15,8 +15,7 @@ SeeTextImporter/SeeTextImporter.xcodeproj/*.pbxuser
 Sparkle/Sparkle.xcodeproj/*.mode2
 Sparkle/Sparkle.xcodeproj/*.pbxuser
 /SubEthaEdit-PantherScripting.r
-SubEthaEdit.xcodeproj/*.mode1
-SubEthaEdit.xcodeproj/*.mode2
+SubEthaEdit.xcodeproj/*.mode*
 SubEthaEdit.xcodeproj/*.pbxuser
 /SubEthaEditScripting.r
 /SubEthaEditSuite.scriptSuite
