@@ -510,7 +510,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
         [item setEnabled:([reconnectableEntries count] > 0)];
         
         item = [menu itemWithTag:BrowserContextMenuTagPeerExchange];
-        if ([entries count] == 1 && [users count] == 1 && [[NSUserDefaults standardUserDefaults] boolForKey:AutoconnectPrefKey]) {
+        if ([entries count] == 1 && [users count] == 1 && [[NSUserDefaults standardUserDefaults] boolForKey:AutoconnectPrefKey] && [[[[TCMMMPresenceManager sharedInstance] statusOfUserID:[[users lastObject] userID]] objectForKey:@"hasFriendCast"] boolValue]) {
             [item setEnabled:YES];
             TCMMMUser *user = [users lastObject];
             NSMutableDictionary *status = [[TCMMMPresenceManager sharedInstance] statusOfUserID:[user userID]];
@@ -980,11 +980,12 @@ static NSPredicate *S_joinableSessionPredicate = nil;
                 [aListView reloadData];
                 [self restoreSelection];
                 return YES;
-            } else if (NSPointInRect(aPoint,[(TCMMMBrowserListView *)aListView frameForTag:TCMMMBrowserItemImageNextToNameTag atChildIndex:aPair.childIndex ofItemAtIndex:aPair.itemIndex])) { 
-                [aListView selectRow:[aListView rowForItem:aPair.itemIndex child:aPair.childIndex] byExtendingSelection:NO];
-                [self login:self];
-                return YES;
-            }
+            } 
+//            else if (NSPointInRect(aPoint,[(TCMMMBrowserListView *)aListView frameForTag:TCMMMBrowserItemImageNextToNameTag atChildIndex:aPair.childIndex ofItemAtIndex:aPair.itemIndex])) { 
+//                [aListView selectRow:[aListView rowForItem:aPair.itemIndex child:aPair.childIndex] byExtendingSelection:NO];
+//                [self login:self];
+//                return YES;
+//            }
 
         }
     }

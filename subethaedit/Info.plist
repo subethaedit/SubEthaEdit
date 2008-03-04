@@ -239,7 +239,7 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}${SYSTEM_VERSION_CHECK_SUFFIX}</string>
 	<key>CFBundleGetInfoString</key>
-	<string>SubEthaEdit 3.0.3, Copyright © 2003-2008, TheCodingMonkeys</string>
+	<string>SubEthaEdit 3.1b1, Copyright © 2003-2008, TheCodingMonkeys</string>
 	<key>CFBundleHelpBookFolder</key>
 	<string>SubEthaEditHelp</string>
 	<key>CFBundleHelpBookName</key>
@@ -247,7 +247,7 @@
 	<key>CFBundleIconFile</key>
 	<string>SubEthaEdit.icns</string>
 	<key>CFBundleIdentifier</key>
-	<string>de.codingmonkeys.SubEthaEditDouble</string>
+	<string>de.codingmonkeys.SubEthaEdit</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -255,7 +255,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>3.0.3</string>
+	<string>3.1b1</string>
 	<key>CFBundleSignature</key>
 	<string>Hdra</string>
 	<key>CFBundleURLTypes</key>
