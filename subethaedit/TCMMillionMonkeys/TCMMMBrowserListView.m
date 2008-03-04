@@ -117,7 +117,7 @@ static NSMutableDictionary *S_childNameAttributes=nil;
 }
 
 - (NSRect)frameForTag:(int)aTag atChildIndex:(int)aChildIndex ofItemAtIndex:(int)anItemIndex {
-    if (aTag == TCMMMBrowserItemImageNextToNameTag) {
+    if (aTag == TCMMMBrowserItemImage2NextToNameTag) {
         id dataSource = [self dataSource];
         float nameXOrigin = 32.+11.;
         NSImage *browserStatus2Image = [dataSource listView:self objectValueForTag:TCMMMBrowserItemStatus2ImageTag atChildIndex:-1 ofItemAtIndex:anItemIndex];
@@ -131,9 +131,12 @@ static NSMutableDictionary *S_childNameAttributes=nil;
         if (image) {
             NSRect result = NSMakeRect(nameXOrigin+(int)nameSize.width+6.,
                               (int)(1.+nameSize.height)-(nameSize.height - [image size].height)/3.,
-                              [image size].width,
+                              [image size].width+1,
                               [image size].height);
-            result.origin.y-=result.size.height;
+            result.origin.x+=result.size.width+6;
+            image=[dataSource listView:self objectValueForTag:TCMMMBrowserItemImage2NextToNameTag atChildIndex:-1 ofItemAtIndex:anItemIndex];
+            result.size = [image size];
+            result.origin.y-=result.size.height-3;
             return result;
         }
         
