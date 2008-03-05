@@ -122,27 +122,28 @@ static NSMutableDictionary *S_childNameAttributes=nil;
 
 - (NSRect)frameForTag:(int)aTag atChildIndex:(int)aChildIndex ofItemAtIndex:(int)anItemIndex {
     if (aTag == TCMMMBrowserItemImageInFrontOfNameTag) {
-        id dataSource = [self dataSource];
-        float nameXOrigin = 32.+11.;
-        NSImage *browserStatus2Image = [dataSource listView:self objectValueForTag:TCMMMBrowserItemStatusImageOverlayTag atChildIndex:-1 ofItemAtIndex:anItemIndex];
-        if (browserStatus2Image) {
-            nameXOrigin += [browserStatus2Image size].width+2.;
-        }
-        
-        NSString *string=[dataSource listView:self objectValueForTag:TCMMMBrowserItemNameTag atChildIndex:-1 ofItemAtIndex:anItemIndex];
-        NSSize nameSize=[string sizeWithAttributes:S_itemNameAttributes];
-        NSImage *image=[dataSource listView:self objectValueForTag:TCMMMBrowserItemImageNextToNameTag atChildIndex:-1 ofItemAtIndex:anItemIndex];
-        if (image) {
-            NSRect result = NSMakeRect(nameXOrigin+(int)nameSize.width+6.,
-                              (int)(1.+nameSize.height)-(nameSize.height - [image size].height)/3.,
-                              [image size].width+1,
-                              [image size].height);
-            result.origin.x+=result.size.width+6;
-            image=[dataSource listView:self objectValueForTag:TCMMMBrowserItemImageInFrontOfNameTag atChildIndex:-1 ofItemAtIndex:anItemIndex];
-            result.size = [image size];
-            result.origin.y-=result.size.height-3;
-            return result;
-        }
+        return NSInsetRect(NSMakeRect(32.+11.,1.,16.,16),-1,-1);
+//        id dataSource = [self dataSource];
+//        float nameXOrigin = 32.+11.;
+//        NSImage *browserStatus2Image = [dataSource listView:self objectValueForTag:TCMMMBrowserItemStatusImageOverlayTag atChildIndex:-1 ofItemAtIndex:anItemIndex];
+//        if (browserStatus2Image) {
+//            nameXOrigin += [browserStatus2Image size].width+2.;
+//        }
+//        
+//        NSString *string=[dataSource listView:self objectValueForTag:TCMMMBrowserItemNameTag atChildIndex:-1 ofItemAtIndex:anItemIndex];
+//        NSSize nameSize=[string sizeWithAttributes:S_itemNameAttributes];
+//        NSImage *image=[dataSource listView:self objectValueForTag:TCMMMBrowserItemImageNextToNameTag atChildIndex:-1 ofItemAtIndex:anItemIndex];
+//        if (image) {
+//            NSRect result = NSMakeRect(nameXOrigin+(int)nameSize.width+6.,
+//                              (int)(1.+nameSize.height)-(nameSize.height - [image size].height)/3.,
+//                              [image size].width+1,
+//                              [image size].height);
+//            result.origin.x+=result.size.width+6;
+//            image=[dataSource listView:self objectValueForTag:TCMMMBrowserItemImageInFrontOfNameTag atChildIndex:-1 ofItemAtIndex:anItemIndex];
+//            result.size = [image size];
+//            result.origin.y-=result.size.height-3;
+//            return result;
+//        }
         
     }
     return NSZeroRect;
@@ -187,7 +188,7 @@ static NSMutableDictionary *S_childNameAttributes=nil;
 
     image=[dataSource listView:self objectValueForTag:TCMMMBrowserItemStatusImageOverlayTag atChildIndex:-1 ofItemAtIndex:aIndex];
     if (image) {
-        [image compositeToPoint:NSMakePoint(4+32-[image size].width,32+3) 
+        [image compositeToPoint:NSMakePoint(4+32-[image size].width+2,32+3+2) 
                       operation:NSCompositeSourceOver];
     }
 
@@ -225,11 +226,10 @@ static NSMutableDictionary *S_childNameAttributes=nil;
     
     
     NSImage *browserStatusImage = [dataSource listView:self objectValueForTag:TCMMMBrowserItemStatusImageTag atChildIndex:-1 ofItemAtIndex:aIndex];
-    float additionalSpace = 0.;
+    float additionalSpace = 20.;
     if (browserStatusImage) {
-        [browserStatusImage compositeToPoint:NSMakePoint(32.+10,32+3) 
+        [browserStatusImage compositeToPoint:NSMakePoint(32.+9.,32+3) 
                                    operation:NSCompositeSourceOver];
-        additionalSpace += [browserStatusImage size].width + 4.;
     }
     
 //    NSSize cellSize=[I_disclosureCell cellSize];

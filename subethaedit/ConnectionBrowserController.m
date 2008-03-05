@@ -973,15 +973,16 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 //    NSLog(@"%s %@ %d %d",__FUNCTION__,NSStringFromPoint(aPoint),aPair.itemIndex,aPair.childIndex);
     if (aPair.childIndex == -1) {
         if (aPair.itemIndex>=0 && aPair.itemIndex<[[I_entriesController arrangedObjects] count]) {
-            if (NSPointInRect(aPoint,NSMakeRect(62,25,9,9))) {
-                [self storeSelection];
-                ConnectionBrowserEntry *entry=[[I_entriesController arrangedObjects] objectAtIndex:aPair.itemIndex];
-                [entry toggleDisclosure];
-                [aListView reloadData];
-                [self restoreSelection];
-                return YES;
-            } 
-            else if (NSPointInRect(aPoint,[(TCMMMBrowserListView *)aListView frameForTag:TCMMMBrowserItemImageInFrontOfNameTag atChildIndex:aPair.childIndex ofItemAtIndex:aPair.itemIndex])) { 
+//            if (NSPointInRect(aPoint,NSMakeRect(62,25,9,9))) {
+//                [self storeSelection];
+//                ConnectionBrowserEntry *entry=[[I_entriesController arrangedObjects] objectAtIndex:aPair.itemIndex];
+//                [entry toggleDisclosure];
+//                [aListView reloadData];
+//                [self restoreSelection];
+//                return YES;
+//            } 
+//            else 
+            if (NSPointInRect(aPoint,[(TCMMMBrowserListView *)aListView frameForTag:TCMMMBrowserItemImageInFrontOfNameTag atChildIndex:aPair.childIndex ofItemAtIndex:aPair.itemIndex])) { 
                 [aListView selectRow:[aListView rowForItem:aPair.itemIndex child:aPair.childIndex] byExtendingSelection:NO];
                 [self toggleFriendcast:self];
                 return YES;

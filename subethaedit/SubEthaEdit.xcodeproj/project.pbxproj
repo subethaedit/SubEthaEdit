@@ -426,6 +426,8 @@
 		F2ABC5470C79D9C4007437A2 /* DebugHistory.nib in Resources */ = {isa = PBXBuildFile; fileRef = F2ABC5460C79D9C4007437A2 /* DebugHistory.nib */; };
 		F2B18CEB0C4BB550000BB062 /* GlassButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F2B18CE70C4BB550000BB062 /* GlassButtonCell.m */; };
 		F2B18CEE0C4BB550000BB062 /* GlassButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F2B18CEA0C4BB550000BB062 /* GlassButton.m */; };
+		F2B91DA00D7EEE3400626BBC /* FriendCast13None.png in Resources */ = {isa = PBXBuildFile; fileRef = F2B91D9F0D7EEE3400626BBC /* FriendCast13None.png */; };
+		F2B91DBC0D7EF93000626BBC /* FriendcastingConnection.png in Resources */ = {isa = PBXBuildFile; fileRef = F2B91DBB0D7EF93000626BBC /* FriendcastingConnection.png */; };
 		F2BB09EB0CA0186400258EC7 /* NSBezierPath-Arrow.m in Sources */ = {isa = PBXBuildFile; fileRef = F2BB09E80CA0186400258EC7 /* NSBezierPath-Arrow.m */; };
 		F2BB09F90CA018B600258EC7 /* NSImage-States.m in Sources */ = {isa = PBXBuildFile; fileRef = F2BB09F40CA018B100258EC7 /* NSImage-States.m */; };
 		F2BB09FA0CA018BC00258EC7 /* NSImage-Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = F2BB09EF0CA0189900258EC7 /* NSImage-Additions.m */; };
@@ -1357,6 +1359,8 @@
 		F2B18CE80C4BB550000BB062 /* GlassButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GlassButtonCell.h; sourceTree = "<group>"; };
 		F2B18CE90C4BB550000BB062 /* GlassButton.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GlassButton.h; sourceTree = "<group>"; };
 		F2B18CEA0C4BB550000BB062 /* GlassButton.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GlassButton.m; sourceTree = "<group>"; };
+		F2B91D9F0D7EEE3400626BBC /* FriendCast13None.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FriendCast13None.png; path = artwork/FriendCast13None.png; sourceTree = "<group>"; };
+		F2B91DBB0D7EF93000626BBC /* FriendcastingConnection.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FriendcastingConnection.png; path = artwork/FriendcastingConnection.png; sourceTree = "<group>"; };
 		F2BB09E80CA0186400258EC7 /* NSBezierPath-Arrow.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSBezierPath-Arrow.m"; path = "Panic/NSBezierPath-Arrow.m"; sourceTree = "<group>"; };
 		F2BB09E90CA0186400258EC7 /* NSBezierPath-Arrow.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "NSBezierPath-Arrow.h"; path = "Panic/NSBezierPath-Arrow.h"; sourceTree = "<group>"; };
 		F2BB09EF0CA0189900258EC7 /* NSImage-Additions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSImage-Additions.m"; path = "Panic/NSImage-Additions.m"; sourceTree = "<group>"; };
@@ -1546,10 +1550,12 @@
 				1428906A095743F200D14688 /* EmptyButton.tiff */,
 				F2D2CDC90D730C3C000E3812 /* FriendCast13.png */,
 				F2D2CDCA0D730C3C000E3812 /* FriendCast13Off.png */,
+				F2B91D9F0D7EEE3400626BBC /* FriendCast13None.png */,
 				F2D2CDAE0D73043D000E3812 /* FriendCast16Active.png */,
 				F2D2CDAF0D73043D000E3812 /* FriendCast16.png */,
 				F2D2CDB00D73043D000E3812 /* FriendCastBlue.tiff */,
 				F2D2CDB10D73043D000E3812 /* FriendCastBlack.tiff */,
+				F2B91DBB0D7EF93000626BBC /* FriendcastingConnection.png */,
 				1428906B095743F200D14688 /* GeneralPrefs.tiff */,
 				F2D5FF3B0CB2661900407399 /* GeneralPrefs.icns */,
 				5E67DB870ABF21270013562D /* glass-normal-cap-left.tiff */,
@@ -2948,6 +2954,8 @@
 				F2D2CDB50D73043D000E3812 /* FriendCastBlack.tiff in Resources */,
 				F2D2CDCB0D730C3C000E3812 /* FriendCast13.png in Resources */,
 				F2D2CDCC0D730C3C000E3812 /* FriendCast13Off.png in Resources */,
+				F2B91DA00D7EEE3400626BBC /* FriendCast13None.png in Resources */,
+				F2B91DBC0D7EF93000626BBC /* FriendcastingConnection.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

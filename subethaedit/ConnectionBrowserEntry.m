@@ -153,6 +153,8 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
     if (aTag == TCMMMBrowserItemStatusImageTag) {
         if ([self isBonjour]) {
             return [NSImage imageNamed:@"Bonjour13"];
+        } else  if ([[_BEEPSession userInfo] objectForKey:@"isAutoConnect"]) {
+            return [NSImage imageNamed:@"FriendcastingConnection"];
         } else {
             return [NSImage imageNamed:@"Internet13"];
         }
@@ -162,7 +164,7 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
     }
     BOOL showUser = [self isVisible] && (_hostStatus == HostEntryStatusSessionOpen) && user;
     if (aTag == TCMMMBrowserItemStatusImageOverlayTag) {
-        if ([_BEEPSession isTLSEnabled]) {
+        if (_BEEPSession && ![_BEEPSession isTLSEnabled]) {
             return [NSImage imageNamed:@"ssllock18"];
         } else {
             return nil;
@@ -178,20 +180,20 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
                 return [NSImage imageNamed:@"UnknownPerson32"];
             }
         }
-    } else if (aTag == TCMMMBrowserItemImageNextToNameTag) {
-        if ([[_BEEPSession availableSASLProfileURIs] count]) {
-            if ([_BEEPSession authenticationInformation]) {
-                return [NSImage imageNamed:@"LoginButtonIn"];
-            } else {
-                return [NSImage imageNamed:@"LoginButton"];
-            }
-        } else {
-            if (showUser) {
-                return [user colorImage];
-            } else {
-                return nil;
-            }
-        }
+//    } else if (aTag == TCMMMBrowserItemImageNextToNameTag) {
+//        if ([[_BEEPSession availableSASLProfileURIs] count]) {
+//            if ([_BEEPSession authenticationInformation]) {
+//                return [NSImage imageNamed:@"LoginButtonIn"];
+//            } else {
+//                return [NSImage imageNamed:@"LoginButton"];
+//            }
+//        } else {
+//            if (showUser) {
+//                return [user colorImage];
+//            } else {
+//                return nil;
+//            }
+//        }
     }  else if (aTag == TCMMMBrowserItemImageInFrontOfNameTag) {
         NSDictionary *status = [[TCMMMPresenceManager sharedInstance] statusOfUserID:[user userID]];
         if ([[status objectForKey:@"hasFriendCast"] boolValue]) {
@@ -202,7 +204,7 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
                 return [NSImage imageNamed:@"FriendCast13Off"]; 
             }
         } else {
-            return nil;
+            return [NSImage imageNamed:@"FriendCast13None"];
         }
 
     } else 
@@ -394,6 +396,7 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
     TCMMMUser *user = [self user];
     if (user && [self isVisible]) {
         [toolTipArray addObject:[user name]];
+
         if ([[[user properties] objectForKey:@"AIM"] length] > 0)
             [toolTipArray addObject:[NSString stringWithFormat:@"AIM: %@",[[user properties] objectForKey:@"AIM"]]];
         if ([[[user properties] objectForKey:@"Email"] length] > 0)
@@ -410,6 +413,14 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
         [toolTipArray addObject:addressDataString];
     }
     
+    if (_BEEPSession) {
+        if ([_BEEPSession isTLSEnabled]) {
+            [toolTipArray addObject:NSLocalizedString(@"Connection is 2048-bit SSL encrypted",@"SSL Encryption Connection Tooltip Text Encrypted")];
+        } else {
+            [toolTipArray addObject:NSLocalizedString(@"Connection is NOT encrypted",@"SSL Encryption Connection Tooltip Text NOT Encrypted")];
+        }
+    }
+    
     if ([[_BEEPSession userInfo] objectForKey:@"isAutoConnect"]) {
         if (isInbound) {
             [toolTipArray addObject:NSLocalizedString(@"Inbound Friendcast Connection", @"Inbound Friendcast Connection ToolTip")];
@@ -419,7 +430,6 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
     } else if (isInbound) {
         [toolTipArray addObject:NSLocalizedString(@"Inbound Connection", @"Inbound Connection ToolTip")];
     }
-
     
     return [toolTipArray count] > 0 ? [toolTipArray componentsJoinedByString:@"\n"] : nil;
 }
