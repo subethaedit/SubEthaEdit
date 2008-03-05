@@ -161,7 +161,7 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
         return [NSNumber numberWithBool:_isDisclosed];
     }
     BOOL showUser = [self isVisible] && (_hostStatus == HostEntryStatusSessionOpen) && user;
-    if (aTag == TCMMMBrowserItemStatus2ImageTag) {
+    if (aTag == TCMMMBrowserItemStatusImageOverlayTag) {
         if ([_BEEPSession isTLSEnabled]) {
             return [NSImage imageNamed:@"ssllock18"];
         } else {
@@ -192,7 +192,7 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
                 return nil;
             }
         }
-    }  else if (aTag == TCMMMBrowserItemImage2NextToNameTag) {
+    }  else if (aTag == TCMMMBrowserItemImageInFrontOfNameTag) {
         NSDictionary *status = [[TCMMMPresenceManager sharedInstance] statusOfUserID:[user userID]];
         if ([[status objectForKey:@"hasFriendCast"] boolValue]) {
             if ([[status objectForKey:@"shouldAutoConnect"] boolValue] && 
