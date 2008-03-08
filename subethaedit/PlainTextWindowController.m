@@ -256,6 +256,18 @@ enum {
     [I_tabBar setHideForSingleTab:!shouldHideTabBar];
     [I_tabBar hideTabBar:!shouldHideTabBar animate:NO];
 
+	NSMutableParagraphStyle *paragraphStyle = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
+    [paragraphStyle setAlignment:NSCenterTextAlignment];
+    [paragraphStyle setFirstLineHeadIndent:30.];
+    [paragraphStyle setHeadIndent:30.];
+    [paragraphStyle setTailIndent:-30.];
+	[O_participantsView setEmptySpaceString:[[[NSAttributedString alloc] initWithString:@"Drag your\niChat buddies here\nor onto the text\nto invite them." attributes:[NSDictionary dictionaryWithObjectsAndKeys:
+	   paragraphStyle,NSParagraphStyleAttributeName,
+	   [NSFont systemFontOfSize:12.],NSFontAttributeName,
+	   [NSColor colorWithCalibratedWhite:0.6 alpha:1.0],NSForegroundColorAttributeName,
+	nil]] autorelease]];
+
+
     [O_URLImageView setDelegate:self];
     [self updateForPortMapStatus];
 }

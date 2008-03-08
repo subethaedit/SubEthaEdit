@@ -381,6 +381,18 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     }
     
 	[[NSUserDefaultsController sharedUserDefaultsController] addObserver:self forKeyPath:[@"values." stringByAppendingString:AutoconnectPrefKey] options:0 context:nil];
+	
+	
+	NSMutableParagraphStyle *paragraphStyle = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
+    [paragraphStyle setAlignment:NSCenterTextAlignment];
+    [paragraphStyle setFirstLineHeadIndent:30.];
+    [paragraphStyle setHeadIndent:30.];
+    [paragraphStyle setTailIndent:-30.];
+	[O_browserListView setEmptySpaceString:[[[NSAttributedString alloc] initWithString:@"Drag your\niChat buddies here\nto invite them." attributes:[NSDictionary dictionaryWithObjectsAndKeys:
+	   paragraphStyle,NSParagraphStyleAttributeName,
+	   [NSFont systemFontOfSize:12.],NSFontAttributeName,
+	   [NSColor colorWithCalibratedWhite:0.6 alpha:1.0],NSForegroundColorAttributeName,
+	nil]] autorelease]];
 }
 
 - (void)observeValueForKeyPath:(NSString *)aKeyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {

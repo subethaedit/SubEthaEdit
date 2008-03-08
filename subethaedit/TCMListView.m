@@ -126,7 +126,21 @@ NSString *ListViewDidChangeSelectionNotification=
 
         if (NSMaxY(smallRect)>=I_indexMaxHeight) {
             [[NSColor whiteColor] set];
-            NSRectFill(NSMakeRect(smallRect.origin.x,I_indexMaxHeight,smallRect.size.width, NSMaxY(smallRect)-I_indexMaxHeight));
+            NSRect remainingRect = NSMakeRect(smallRect.origin.x,I_indexMaxHeight,
+                                              smallRect.size.width, NSMaxY(smallRect)-I_indexMaxHeight);
+            NSRectFill(remainingRect);
+            NSRect visibleRect = [self visibleRect];
+            float difference = I_indexMaxHeight-visibleRect.origin.y;
+            visibleRect.size.height -= difference;
+            visibleRect.origin.y    += difference;
+            NSSize textSize = [I_emptySpaceString size];
+            textSize.height += 10.;
+            if (textSize.height < visibleRect.size.height) {
+                float deplacement = (visibleRect.size.height - textSize.height)/2.;
+                visibleRect.origin.y += deplacement;
+                visibleRect.size.height -= deplacement;
+                [I_emptySpaceString drawInRect:visibleRect];
+            }
         }
     
         int startRow = [self indexOfRowAtPoint:smallRect.origin];
@@ -798,5 +812,11 @@ NSString *ListViewDidChangeSelectionNotification=
 {
     I_doubleAction = anAction;
 }
+
+- (void)setEmptySpaceString:(NSAttributedString *)aEmptySpaceString {
+    [I_emptySpaceString autorelease];
+    I_emptySpaceString = [aEmptySpaceString retain];
+}
+
 
 @end
