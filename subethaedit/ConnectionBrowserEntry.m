@@ -150,7 +150,7 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
 
 - (id)itemObjectValueForTag:(int)aTag {
     TCMMMUser *user = [self user];
-    if (aTag == TCMMMBrowserItemStatusImageTag) {
+    if (aTag == TCMMMBrowserItemImageInFrontOfNameTag) {
         if ([self isBonjour]) {
             return [NSImage imageNamed:@"Bonjour13"];
         } else  if ([[_BEEPSession userInfo] objectForKey:@"isAutoConnect"]) {
@@ -194,9 +194,9 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
 //                return nil;
 //            }
 //        }
-    }  else if (aTag == TCMMMBrowserItemImageInFrontOfNameTag) {
+    }  else if (aTag == TCMMMBrowserItemStatusImageTag) {
         NSDictionary *status = [[TCMMMPresenceManager sharedInstance] statusOfUserID:[user userID]];
-        if ([[status objectForKey:@"hasFriendCast"] boolValue]) {
+        if ([[status objectForKey:@"hasFriendCast"] boolValue] && showUser) {
             if ([[status objectForKey:@"shouldAutoConnect"] boolValue] && 
                 [[NSUserDefaults standardUserDefaults] boolForKey:AutoconnectPrefKey]) {
                 return [NSImage imageNamed:@"FriendCast13"]; 
@@ -212,16 +212,42 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
         if (showUser) {
             return [user name];
         } else {
-            if (_URL) {
+            if (user) {
+                return NSLocalizedString(@"Invisible User",@"User name for invisible users in Connection Browser");
+            } else if (_URL) {
                 return [_URL absoluteString];
             } else {
                 return [NSString stringWithFormat:NSLocalizedString(@"Inbound Connection from %@", @"Inbound Connection ToolTip With Address"), [NSString stringWithAddressData:[_BEEPSession peerAddressData]]];
             }
         }
     } else
+//  if (aTag == TCMMMBrowserItemUserNameTag) {
+//      if (showUser) {
+//          return [user name];
+//      }
+//  } else
     if (aTag == TCMMMBrowserItemStatusTag) {
-        if (showUser) {
-            NSString *documentString = [NSString stringWithFormat:NSLocalizedString(@"%d Document(s)",@"Status string showing the number of documents in Rendezvous and Internet browser"), [[self announcedSessions] count]];
+        if (showUser || ([self connectionStatus] == ConnectionStatusConnected)) {
+            NSString *reachabilityURLString = [[TCMMMPresenceManager sharedInstance] reachabilityURLStringOfUserID:[user userID]];
+            if ([self isBonjour]) {
+                return @"Bonjour";
+            } else if (_URL) {
+                return [_URL absoluteString];
+            } else if (reachabilityURLString) {
+                return reachabilityURLString;
+            } else if ([[_BEEPSession userInfo] objectForKey:@"isAutoConnect"]) {
+                return @"Friend of a Friend";
+            } else {
+                return @"Internet connection";
+            }
+
+            NSString *documentString = NSLocalizedString(@"None announced",@"Status string showing the number of documents when none are announced");
+            unsigned int count = [[self announcedSessions] count];
+            if (count == 1) {
+                documentString = NSLocalizedString(@"1 Document",@"Status string showing the number of documents when one is announced");
+            } else if (count > 1) {
+                documentString = [NSString stringWithFormat:NSLocalizedString(@"%d Documents",@"Status string showing the number of documents The browser when there are multiple documents announced"), count];
+            }
             return documentString;
         } else {
             // (void)NSLocalizedString(@"HostEntryStatusResolving", @"Resolving");

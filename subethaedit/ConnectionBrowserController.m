@@ -982,7 +982,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 //                return YES;
 //            } 
 //            else 
-            if (NSPointInRect(aPoint,[(TCMMMBrowserListView *)aListView frameForTag:TCMMMBrowserItemImageInFrontOfNameTag atChildIndex:aPair.childIndex ofItemAtIndex:aPair.itemIndex])) { 
+            if (NSPointInRect(aPoint,[(TCMMMBrowserListView *)aListView frameForTag:TCMMMBrowserItemStatusImageTag atChildIndex:aPair.childIndex ofItemAtIndex:aPair.itemIndex])) { 
                 [aListView selectRow:[aListView rowForItem:aPair.itemIndex child:aPair.childIndex] byExtendingSelection:NO];
                 [self toggleFriendcast:self];
                 return YES;

@@ -12,6 +12,7 @@
 enum {
     TCMMMBrowserItemImageTag,
     TCMMMBrowserItemNameTag,
+    TCMMMBrowserItemUserNameTag,
     TCMMMBrowserItemImageNextToNameTag,
     TCMMMBrowserItemImageInFrontOfNameTag,
     TCMMMBrowserItemStatusTag,

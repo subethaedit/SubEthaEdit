@@ -49,6 +49,7 @@ extern NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotifica
 - (NSDictionary *)announcedSessions;
 - (void)announceSession:(TCMMMSession *)aSession;
 - (void)concealSession:(TCMMMSession *)aSession;
+- (NSString *)reachabilityURLStringOfUserID:(NSString *)aUserID;
 - (NSMutableDictionary *)statusOfUserID:(NSString *)aUserID;
 - (TCMMMSession *)sessionForSessionID:(NSString *)aSessionID;
 - (void)propagateChangeOfMyself;

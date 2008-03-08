@@ -89,7 +89,7 @@
     
     NSImage *image=[dataSource listView:self objectValueForTag:ParticipantsChildImageTag atChildIndex:aChildIndex ofItemAtIndex:aItemIndex];
     if (image) {
-        [image compositeToPoint:NSMakePoint(4,32+3) 
+        [image compositeToPoint:NSMakePoint(4+(32.-[image size].width),32+3) 
                       operation:NSCompositeSourceOver];
     }
     

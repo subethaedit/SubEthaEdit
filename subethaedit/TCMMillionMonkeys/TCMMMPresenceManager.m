@@ -374,6 +374,10 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
     }
 }
 
+- (NSString *)reachabilityURLStringOfUserID:(NSString *)aUserID {
+    return [[[[self statusProfileForUserID:aUserID] session] userInfo] objectForKey:@"ReachabilityURL"];
+}
+
 - (void)sendReachabilityViaProfile:(TCMMMStatusProfile *)aProfile {
     if ([[NSUserDefaults standardUserDefaults] boolForKey:AutoconnectPrefKey]) {
         [aProfile sendReachabilityURLString:[self myReachabilityURLString] forUserID:[TCMMMUserManager myUserID]];
