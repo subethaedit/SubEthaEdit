@@ -211,8 +211,9 @@ static NSMutableDictionary *S_childNameAttributes=nil;
 
     image=[dataSource listView:self objectValueForTag:TCMMMBrowserItemStatusImageOverlayTag atChildIndex:-1 ofItemAtIndex:aIndex];
     if (image) {
-        [image compositeToPoint:NSMakePoint(4+32+2,32+3+2) 
-                      operation:NSCompositeSourceOver];
+        [image compositeToPoint:NSMakePoint(4+32+5-[image size].width,32+3+3) 
+                      operation:NSCompositeSourceOver
+                       fraction:1.0];
     }
 
     
@@ -257,7 +258,7 @@ static NSMutableDictionary *S_childNameAttributes=nil;
     
     
     NSImage *browserStatusImage = [dataSource listView:self objectValueForTag:TCMMMBrowserItemStatusImageTag atChildIndex:-1 ofItemAtIndex:aIndex];
-    float additionalSpace = 21.;
+//    float additionalSpace = 21.;
     if (browserStatusImage) {
         [browserStatusImage compositeToPoint:NSMakePoint(32.+9.,32+1.) 
                                    operation:NSCompositeSourceOver];
