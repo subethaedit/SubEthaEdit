@@ -47,6 +47,8 @@ artwork/icons/FriendCast.lineform/data -text
 artwork/icons/FriendCast.opacity -text
 artwork/icons/FriendCast.pdf -text
 artwork/icons/FriendCast.png -text
+artwork/icons/FriendcastingConnection.acorn -text
+artwork/icons/FriendcastingConnection.png -text
 artwork/icons/HYDRA2a.tif -text
 artwork/icons/HYDRA3b.psd -text
 artwork/icons/HYDRA3b2[!!-~]16x16.psd -text
@@ -67,6 +69,7 @@ artwork/icons/Hydra2-2.psd -text
 artwork/icons/Hydra3b-2.psd -text
 artwork/icons/HydraFiles.icns -text
 artwork/icons/LockOverlay.acorn -text
+artwork/icons/NegatedLockWhite.acorn -text
 artwork/icons/Seed.psd -text
 artwork/icons/ShowChangeMarks.psd -text
 artwork/icons/SubEthaEdit_Splash.psd -text
@@ -96,6 +99,7 @@ artwork/icons/ToolbarItems/ToolbarIconCounterpart.psd -text
 artwork/icons/ToolbarItems/nextSymbol.psd -text
 artwork/icons/ToolbarItems/previousSymbol.psd -text
 artwork/icons/ToolbarItems/test.psd -text
+artwork/icons/WarningNoSSL.acorn -text
 artwork/icons/favicon.psd -text
 artwork/icons/mode.psd -text
 artwork/icons/mode32.psd -text
