@@ -56,13 +56,14 @@
     [[self window] setHidesOnDeactivate:NO];
     [[self window] setDelegate:self];
     [O_findRegexTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Find: %@",@"FindRegexPrefix"),[I_regularExpression expressionString]]];
-    [O_resultsTableView setDelegate:self];
     [O_resultsTableView setDoubleAction:@selector(jumpToSelection:)];
     [O_resultsTableView setTarget:self];
 }
 
 - (void)findAll:(id)sender
 {
+    [O_resultsTableView setDelegate:nil];
+
     [O_progressIndicator startAnimation:nil];
     [self showWindow:self];
     [O_resultsController removeObjects:[O_resultsController arrangedObjects]]; //Clear arraycontroller
@@ -146,15 +147,20 @@
         [O_resultsTableView tile];
         if ([[self arrangedObjects] count] > 0) {
             [O_resultsController setSelectionIndex:0];
-            [self tableView:O_resultsTableView shouldSelectRow:0];
+            NSRange range = [[[[O_resultsController arrangedObjects] objectAtIndex:0] objectForKey:@"selectionOperation"] selectedRange];
+            [I_document selectRangeInBackground:range];
+            [O_findAllPanel makeKeyAndOrderFront:self]; 
         }
     }
     [O_progressIndicator stopAnimation:nil];
+    [O_resultsTableView setDelegate:self];
+
 }
 
 - (void)jumpToSelection:(id)sender
 {
     if(I_document) {
+        if ([[O_resultsController selectedObjects]count]>1) return;
         NSRange range = [[[[O_resultsController selectedObjects] lastObject] objectForKey:@"selectionOperation"] selectedRange];
         if (([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask)) {
             [I_document newView:self];
@@ -163,11 +169,12 @@
     } 
 }
 
-- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(int)rowIndex {
-	NSRange range = [[[[O_resultsController arrangedObjects] objectAtIndex:rowIndex] objectForKey:@"selectionOperation"] selectedRange];
-	[I_document selectRangeInBackground:range];
-	[O_findAllPanel makeKeyAndOrderFront:self]; 
-	return YES;
+- (void)tableViewSelectionDidChange:(NSNotification *)aNotification {
+	if ([[O_resultsController selectedObjects]count]==1) {
+        NSRange range = [[[[O_resultsController selectedObjects] lastObject] objectForKey:@"selectionOperation"] selectedRange];
+        [I_document selectRangeInBackground:range];
+        [O_findAllPanel makeKeyAndOrderFront:self]; 
+    }
 }
 
 @end
