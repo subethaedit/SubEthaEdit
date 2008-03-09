@@ -835,7 +835,27 @@ subethaedit/Modes/LaTeX.mode/Contents/Resources/German.lproj/InfoPlist.strings -
 subethaedit/Modes/LaTeX.mode/Contents/Resources/German.lproj/Localizable.strings -text
 subethaedit/Modes/LaTeX.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/LaTeX.mode/Contents/Resources/RegexSymbols.xml -text
+subethaedit/Modes/LaTeX.mode/Contents/Resources/Scripts/05-TypesetAndView.scpt -text
+subethaedit/Modes/LaTeX.mode/Contents/Resources/Scripts/10-CleanUpAuxiliaries.scpt -text
+subethaedit/Modes/LaTeX.mode/Contents/Resources/Scripts/20-RunBibTeX.scpt -text
+subethaedit/Modes/LaTeX.mode/Contents/Resources/Scripts/30-ViewProduct.scpt -text
+subethaedit/Modes/LaTeX.mode/Contents/Resources/Scripts/40-BibDeskCompletions.scpt -text
+subethaedit/Modes/LaTeX.mode/Contents/Resources/Scripts/50-InlineMath.scpt -text
+subethaedit/Modes/LaTeX.mode/Contents/Resources/Scripts/60-InsertEnvironment.scpt -text
+subethaedit/Modes/LaTeX.mode/Contents/Resources/Scripts/70-CommentLines.scpt -text
+subethaedit/Modes/LaTeX.mode/Contents/Resources/Scripts/90-OpenEnvironment.scpt -text
+subethaedit/Modes/LaTeX.mode/Contents/Resources/Scripts/95-ModeHelp.scpt -text
+subethaedit/Modes/LaTeX.mode/Contents/Resources/Scripts/Read[!!-~]Me.rtf -text
+subethaedit/Modes/LaTeX.mode/Contents/Resources/Scripts/de.codingmonkeys.SubEthaEdit.LaTeX_environment.plist -text
+subethaedit/Modes/LaTeX.mode/Contents/Resources/Scripts/help.pdf -text svneol=unset#unset
 subethaedit/Modes/LaTeX.mode/Contents/Resources/SyntaxDefinition.xml -text
+subethaedit/Modes/LaTeX.mode/Contents/Resources/ToolbarBibDesk.png -text
+subethaedit/Modes/LaTeX.mode/Contents/Resources/bin/buildlatex.sh -text
+subethaedit/Modes/LaTeX.mode/Contents/Resources/bin/cleanupaux.sh -text
+subethaedit/Modes/LaTeX.mode/Contents/Resources/bin/comment.sh -text
+subethaedit/Modes/LaTeX.mode/Contents/Resources/bin/commentlines.sh -text
+subethaedit/Modes/LaTeX.mode/Contents/Resources/bin/runbibtex.sh -text
+subethaedit/Modes/LaTeX.mode/Contents/Resources/bin/viewproduct.sh -text
 subethaedit/Modes/LassoScript-HTML.mode/Contents/Info.plist -text
 subethaedit/Modes/LassoScript-HTML.mode/Contents/Resources/AutocompleteAdditions.txt -text
 subethaedit/Modes/LassoScript-HTML.mode/Contents/Resources/ChangeLog.txt -text
