@@ -39,6 +39,9 @@ NSString * const TCMMMSessionClientStateDidChangeNotification =
 NSString * const TCMMMSessionDidReceiveContentNotification = 
                @"TCMMMSessionDidReceiveContentNotification";
 
+NSString * const TCMMMSessionReadWriteGroupName = @"ReadWrite";
+NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
+
 
 @interface TCMMMSession (TCMMMSessionPrivateAdditions)
 
@@ -103,6 +106,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         I_profilesByUserID = [NSMutableDictionary new];
         I_pendingUsers = [NSMutableArray new];
         I_groupByUserID = [NSMutableDictionary new];
+        I_groupByToken = [NSMutableDictionary new];
         I_contributors = [NSMutableSet new];
         I_statesByClientID = [NSMutableDictionary new];
         I_flags.shouldSendJoinRequest = NO;
@@ -114,6 +118,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
         [self setClientState:TCMMMSessionClientNoState];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChange:) name:TCMMMUserManagerUserDidChangeNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(coalescedSessionDidChange:) name:TCMMMSessionDidChangeNotification object:self];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(presenceManagerDidReceiveToken:) name:TCMMMPresenceManagerDidReceiveTokenNotification object:[TCMMMPresenceManager sharedInstance]];
         I_loggingState = [[TCMMMLoggingState alloc] init];
     }
     return self;
@@ -174,6 +179,7 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
     [[I_statesByClientID allValues] makeObjectsPerformSelector:@selector(setClient:) withObject:nil];
     [[I_statesByClientID allValues] makeObjectsPerformSelector:@selector(setDelegate:) withObject:nil];
     [I_statesByClientID release];
+    [I_groupByToken release];
     DEBUGLOG(@"MillionMonkeysLogDomain", AllLogLevel, @"MMSession deallocated");
     [super dealloc];
 }
@@ -402,6 +408,30 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 
 - (BOOL)isEditable {
     return [[I_groupByUserID objectForKey:[TCMMMUserManager myUserID]] isEqualToString:@"ReadWrite"];
+}
+
+- (void)presenceManagerDidReceiveToken:(NSNotification *)aNotification {
+    NSLog(@"%s %@",__FUNCTION__,aNotification);
+    NSDictionary *userInfo = [aNotification userInfo];
+    NSLog(@"%s %@",__FUNCTION__,I_groupByToken);
+    NSString *token = [userInfo objectForKey:@"token"];
+    NSString *group = [I_groupByToken objectForKey:token];
+    if (group) {
+        NSString *userID = [userInfo objectForKey:@"userID"];
+        TCMMMUser *user = [[TCMMMUserManager sharedInstance] userForUserID:userID];
+        if (user) {
+            NSLog(@"%s inviting User: %@ into group: %@",__FUNCTION__,user,group);
+            [self inviteUser:user intoGroup:group usingBEEPSession:nil];
+        }
+        [I_groupByToken removeObjectForKey:token];
+    }
+}
+
+- (NSString *)invitationTokenForGroup:(NSString *)aGroup {
+    NSString *tokenString = [NSString UUIDString];
+    [I_groupByToken setObject:aGroup forKey:tokenString]; 
+    NSLog(@"%s %@",__FUNCTION__,I_groupByToken);
+    return tokenString;
 }
 
 - (void)setGroup:(NSString *)aGroup forParticipantsWithUserIDs:(NSArray *)aUserIDs {
@@ -988,8 +1018,13 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
             DEBUGLOG(@"MillionMonkeysLogDomain", AlwaysLogLevel, @"invitationWithProfile but another profile is in place: %@", [I_profilesByUserID objectForKey:[self hostID]]);
         }
         [I_profilesByUserID setObject:profile forKey:[self hostID]];
-        [self setClientState:TCMMMSessionClientInvitedState];
-        [I_helper playSoundNamed:@"Invitation"];
+        if ([[TCMMMPresenceManager sharedInstance] shouldAutoAcceptInviteToSessionID:[self sessionID]] ||
+            state==TCMMMSessionClientJoiningState) {
+            [self acceptInvitation];
+        } else {
+            [self setClientState:TCMMMSessionClientInvitedState];
+            [I_helper playSoundNamed:@"Invitation"];
+        }
         if (!document) {
             [self setWasInvited:YES];
             [I_helper addProxyDocumentWithSession:self];

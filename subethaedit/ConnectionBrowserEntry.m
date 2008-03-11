@@ -42,11 +42,42 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
     _isDisclosed = YES;
 }
 
+- (void)checkURLForToken:(NSURL *)anURL {
+    NSString *urlQuery = [anURL query];
+    NSString *query;
+    if (urlQuery != nil) {
+        query = (NSString *)CFURLCreateStringByReplacingPercentEscapes(kCFAllocatorDefault, (CFStringRef)urlQuery, CFSTR(""));
+        [query autorelease];
+        NSArray *components = [query componentsSeparatedByString:@"&"];
+        NSEnumerator *enumerator = [components objectEnumerator];
+        NSString *token = nil;
+        NSString *sessionID = nil;
+        NSString *item;
+        while ((item = [enumerator nextObject])) {
+            NSArray *keyValue = [item componentsSeparatedByString:@"="];
+            if ([keyValue count] == 2) {
+                if ([[keyValue objectAtIndex:0] isEqualToString:@"token"]) {
+                    token = [keyValue objectAtIndex:1];
+                    if (token) {
+                        [_tokensToSend addObject:token];
+                    }
+                } else if ([[keyValue objectAtIndex:0] isEqualToString:@"sessionID"]) {
+                    sessionID = [keyValue objectAtIndex:1];
+                }
+            }
+        }
+        if (sessionID && token) {
+            [[TCMMMPresenceManager sharedInstance] setShouldAutoAcceptInviteToSessionID:sessionID];
+        }
+    }
+}
+
 - (id)initWithURL:(NSURL *)anURL {
     if ((self=[super init])) {
         [self initHelper];
         _hostStatus = HostEntryStatusSessionAtEnd;
         _pendingDocumentRequests = [NSMutableArray new];
+        _tokensToSend = [NSMutableArray new];
         NSURL *documentRequest = nil;
         NSData *addressData = nil;
         _URL = [[TCMMMBEEPSessionManager reducedURL:anURL addressData:&addressData documentRequest:&documentRequest] retain];
@@ -57,6 +88,7 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
         }
         if (documentRequest) {
             [_pendingDocumentRequests addObject:documentRequest];
+            [self checkURLForToken:documentRequest];
         }
         NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[_URL absoluteString] forKey:@"URLString"];
         if (addressData) {
@@ -95,6 +127,7 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [_host release];
     [_pendingDocumentRequests release];
+    [_tokensToSend release];
     [_URL release];
     [super dealloc];
 }
@@ -108,7 +141,10 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
         NSURL *request=nil;
         NSURL *reducedURL = [TCMMMBEEPSessionManager reducedURL:anURL addressData:nil documentRequest:&request];
         if ([_URL isEqualTo:reducedURL]) {
-            if (request) [_pendingDocumentRequests addObject:request];
+            if (request) {
+                [_pendingDocumentRequests addObject:request];
+                [self checkURLForToken:anURL];
+            }
             return YES;
         }
     }
@@ -373,6 +409,15 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
                     [_pendingDocumentRequests removeObjectAtIndex:count];
                     break;
                 }
+            }
+        }
+    }
+    TCMMMStatusProfile *statusProfile = [[TCMMMPresenceManager sharedInstance] statusProfileForUserID:[self userID]];
+    if (statusProfile && [_tokensToSend count] && _BEEPSession && _pendingDocumentRequests) {
+        int count = [_tokensToSend count];
+        while (count-- > 0) {
+            if ([statusProfile sendToken:[_tokensToSend objectAtIndex:count]]) {
+                [_tokensToSend removeObjectAtIndex:count];
             }
         }
     }

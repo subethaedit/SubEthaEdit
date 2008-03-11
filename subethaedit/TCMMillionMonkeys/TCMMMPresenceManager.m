@@ -32,6 +32,9 @@ NSString * const TCMMMPresenceManagerAnnouncedSessionsDidChangeNotification=
                @"TCMMMPresenceManagerAnnouncedSessionsDidChangeNotification";
 NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
                @"TCMMMPresenceManagerServiceAnnouncementDidChangeNotification";
+NSString * const TCMMMPresenceManagerDidReceiveTokenNotification=
+               @"TCMMMPresenceManagerDidReceiveTokenNotification";
+               
 
 @interface TCMMMPresenceManager (TCMMMPresenceManagerPrivateAdditions)
 
@@ -74,6 +77,7 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
         I_statusProfilesInServerRole = [NSMutableSet new];
         I_announcedSessions  = [NSMutableDictionary new];
         I_registeredSessions = [NSMutableDictionary new];
+        I_autoAcceptInviteSessions = [NSMutableDictionary new];
         I_flags.serviceIsPublished=NO;
         I_foundUserIDs=[NSMutableSet new];
         sharedInstance = self;
@@ -493,6 +497,28 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
     //NSLog(@"%s",__FUNCTION__);
     [self sendReachabilityViaProfile:aProfile];
 }
+
+- (void)setShouldAutoAcceptInviteToSessionID:(NSString *)aSessionID {
+    [I_autoAcceptInviteSessions setObject:[NSNumber numberWithBool:YES] forKey:aSessionID];
+}
+// this call also removes the autoacceptflag
+- (BOOL)shouldAutoAcceptInviteToSessionID:(NSString *)aSessionID {
+    if ([I_autoAcceptInviteSessions objectForKey:aSessionID]) {
+        [I_autoAcceptInviteSessions removeObjectForKey:aSessionID];
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
+
+- (void)profile:(TCMMMStatusProfile *)aProfile didReceiveToken:(NSString *)aToken {
+    NSString *userID=[[[aProfile session] userInfo] objectForKey:@"peerUserID"];
+    if (userID && aToken) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMPresenceManagerDidReceiveTokenNotification object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:userID,@"userID",aToken,@"token",nil]];
+    }
+}
+
 
 - (void)profile:(TCMMMStatusProfile *)aProfile didReceiveAnnouncedSession:(TCMMMSession *)aSession
 {

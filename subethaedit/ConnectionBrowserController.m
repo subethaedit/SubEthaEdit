@@ -21,6 +21,7 @@
 #import "NSWorkspaceTCMAdditions.h"
 #import "ServerConnectionManager.h"
 #import "ConnectionBrowserEntry.h"
+#import "PlainTextDocument.h"
 #import <AddressBook/AddressBook.h>
 
 #import <netdb.h>       // getaddrinfo, struct addrinfo, AI_NUMERICHOST
@@ -1115,18 +1116,36 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     return (NSString *)string;
 }
 
++ (void)sendInvitationToServiceWithID:(NSString *)aServiceID buddy:(NSString *)aBuddy url:(NSURL *)anURL {
+    // format is service id, id in that service, onlinestatus (0=offline),groupname
+    NSString *message = [NSString stringWithFormat:NSLocalizedString(@"Please join me in SubEthaEdit:\n%@\n\n(You can download SubEthaEdit from http://www.codingmonkeys.de/subethaedit )",@"iChat invitation String with Placeholder for actual URL"),[anURL absoluteString]];
+    NSString *applescriptString = [NSString stringWithFormat:@"tell application \"iChat\" to send \"%@\" to buddy id \"%@:%@\"",[self quoteEscapedStringWithString:message],aServiceID,aBuddy];
+    NSAppleScript *script = [[[NSAppleScript alloc] initWithSource:applescriptString] autorelease];
+    // need to delay the sending so we don't try to send while in the dragging event
+    [script performSelector:@selector(executeAndReturnError:) withObject:nil afterDelay:0.1];
+}
+
++ (BOOL)invitePeopleFromPasteboard:(NSPasteboard *)aPasteboard intoDocument:(PlainTextDocument *)aDocument group:(NSString *)aGroup {
+    BOOL success = NO;
+    if ([[aPasteboard types] containsObject:@"PresentityNames"]) {
+        NSArray *presentityNames=[aPasteboard propertyListForType:@"PresentityNames"]; 
+        int i=0;
+        for (i=0;i<[presentityNames count];i+=4) {
+            [self sendInvitationToServiceWithID:[presentityNames objectAtIndex:i] buddy:[presentityNames objectAtIndex:i+1] url:[aDocument documentURLForGroup:aGroup]];
+        }
+        success = YES;
+    }
+
+    return success;
+}
+
 + (BOOL)invitePeopleFromPasteboard:(NSPasteboard *)aPasteboard withURL:(NSURL *)aDocumentURL{
     BOOL success = NO;
     if ([[aPasteboard types] containsObject:@"PresentityNames"]) {
         NSArray *presentityNames=[aPasteboard propertyListForType:@"PresentityNames"]; 
-        // format is service id, id in that service, onlinestatus (0=offline),groupname
-        NSString *message = [NSString stringWithFormat:NSLocalizedString(@"Please join me in SubEthaEdit:\n%@\n\n(You can download SubEthaEdit from http://www.codingmonkeys.de/subethaedit )",@"iChat invitation String with Placeholder for actual URL"),[aDocumentURL absoluteString]];
         int i=0;
         for (i=0;i<[presentityNames count];i+=4) {
-            NSString *applescriptString = [NSString stringWithFormat:@"tell application \"iChat\" to send \"%@\" to buddy id \"%@:%@\"",[self quoteEscapedStringWithString:message],[presentityNames objectAtIndex:i],[presentityNames objectAtIndex:i+1]];
-            NSAppleScript *script = [[[NSAppleScript alloc] initWithSource:applescriptString] autorelease];
-            // need to delay the sending so we don't try to send while in the dragging event
-            [script performSelector:@selector(executeAndReturnError:) withObject:nil afterDelay:0.1];
+            [self sendInvitationToServiceWithID:[presentityNames objectAtIndex:i] buddy:[presentityNames objectAtIndex:i+1] url:aDocumentURL];
         }
         success = YES;
     }

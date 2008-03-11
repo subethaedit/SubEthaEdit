@@ -16,6 +16,7 @@
 }
 
 + (NSData *)defaultInitializationData;
+- (NSDictionary *)optionDictionary;
 - (void)announceSession:(TCMMMSession *)aSession;
 - (void)requestUser;
 - (void)requestReachability;
@@ -23,6 +24,7 @@
 - (void)sendVisibility:(BOOL)isVisible;
 - (void)sendIsFriendcasting:(BOOL)isFriendcasting;
 - (void)sendReachabilityURLString:(NSString *)anURLString forUserID:(NSString *)aUserID;
+- (BOOL)sendToken:(NSString *)aToken;
 @end
 
 @interface NSObject (TCMMMStatusProfileDelegateMethods)
@@ -32,5 +34,5 @@
 - (void)profile:(TCMMMStatusProfile *)aProfile didReceiveAnnouncedSession:(TCMMMSession *)aSession;
 - (void)profile:(TCMMMStatusProfile *)aProfile didReceiveConcealedSessionID:(NSString *)anID;
 - (void)profile:(TCMMMStatusProfile *)aProfile didReceiveReachabilityURLString:(NSString *)anURLString forUserID:(NSString *)aUserID;
-
+- (void)profile:(TCMMMStatusProfile *)aProfile didReceiveToken:(NSString *)aToken;
 @end

@@ -270,6 +270,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (int)selectedSymbolForRange:(NSRange)aRange;
 
 - (NSURL *)documentURL;
+- (NSURL *)documentURLForGroup:(NSString *)aGroup;
 
 - (UndoManager *)documentUndoManager;
 

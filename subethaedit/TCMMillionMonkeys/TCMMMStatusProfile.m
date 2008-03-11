@@ -50,6 +50,18 @@
     }
 }
 
+- (BOOL)sendToken:(NSString *)aToken {
+    if (aToken && [[I_options objectForKey:@"SendUSRRCH"] boolValue]) {
+        NSMutableData *data=[NSMutableData dataWithBytes:"INVTOK" length:6];
+        [data appendData:TCM_BencodedObject([NSDictionary dictionaryWithObjectsAndKeys:aToken,@"token",nil])];
+        [[self channel] sendMSGMessageWithPayload:data];
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
+
 - (void)sendReachabilityURLString:(NSString *)anURLString forUserID:(NSString *)aUserID {
     if (aUserID && anURLString && [[I_options objectForKey:@"SendUSRRCH"] boolValue] && [[NSUserDefaults standardUserDefaults] boolForKey:AutoconnectPrefKey]) {
         NSMutableData *data=[NSMutableData dataWithBytes:"USRRCH" length:6];
@@ -161,6 +173,13 @@
                 id delegate = [self delegate];
                 if ([delegate respondsToSelector:@selector(profile:didReceiveReachabilityURLString:forUserID:)]) {
                     [delegate profile:self didReceiveReachabilityURLString:[dict objectForKey:@"url"] forUserID:[dict objectForKey:@"uid"]];
+                }
+            } else if (strncmp(bytes,"INVTOK",6)==0) {
+                NSDictionary *dict = TCM_BdecodedObjectWithData([[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]);
+                NSLog(@"%s got token %@",__FUNCTION__,dict);
+                id delegate = [self delegate];
+                if ([delegate respondsToSelector:@selector(profile:didReceiveToken:)]) {
+                    [delegate profile:self didReceiveToken:[dict objectForKey:@"token"]];
                 }
             } else if (strncmp(bytes,"DOC",3)==0) {
                 DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Received Document");

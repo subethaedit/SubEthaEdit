@@ -590,7 +590,7 @@ static NSMenu *defaultMenu=nil;
         BOOL shouldDrag=[[(PlainTextDocument *)[self document] session] isServer];
         [self setIsDragTarget:YES];
         if (shouldDrag) {
-            [ConnectionBrowserController invitePeopleFromPasteboard:pboard withURL:[[self document] documentURL]];
+            [ConnectionBrowserController invitePeopleFromPasteboard:pboard intoDocument:[self document] group:TCMMMSessionReadWriteGroupName];
             [self setIsDragTarget:NO];
             return YES;
         }

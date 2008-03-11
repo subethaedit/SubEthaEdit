@@ -11,7 +11,7 @@
 #import "LoginSheetController.h"
 #import "URLImageView.h"
 
-@class TCMMMBrowserListView, ConnectionBrowserEntry, LoginSheetController;
+@class TCMMMBrowserListView, ConnectionBrowserEntry, LoginSheetController,PlainTextDocument;
 
 @interface ConnectionBrowserController : NSWindowController
 {
@@ -38,6 +38,7 @@
 
 + (ConnectionBrowserController *)sharedInstance;
 + (BOOL)invitePeopleFromPasteboard:(NSPasteboard *)aPasteboard withURL:(NSURL *)aURL;
++ (BOOL)invitePeopleFromPasteboard:(NSPasteboard *)aPasteboard intoDocument:(PlainTextDocument *)aDocument group:(NSString *)aGroup;
 
 - (NSMutableArray *)comboBoxItems;
 - (void)setComboBoxItems:(NSMutableArray *)anArray;
