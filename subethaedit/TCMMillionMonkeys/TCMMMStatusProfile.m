@@ -176,7 +176,6 @@
                 }
             } else if (strncmp(bytes,"INVTOK",6)==0) {
                 NSDictionary *dict = TCM_BdecodedObjectWithData([[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]);
-                NSLog(@"%s got token %@",__FUNCTION__,dict);
                 id delegate = [self delegate];
                 if ([delegate respondsToSelector:@selector(profile:didReceiveToken:)]) {
                     [delegate profile:self didReceiveToken:[dict objectForKey:@"token"]];

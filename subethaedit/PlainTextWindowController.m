@@ -82,6 +82,7 @@ enum {
     ParticipantContextMenuTagKickDeny
 };
 
+static NSAttributedString *S_dragString = nil;
 
 @interface PlainTextWindowController (PlainTextWindowControllerPrivateAdditions)
 
@@ -134,14 +135,18 @@ enum {
 
 - (void)updateForPortMapStatus {
     BOOL isAnnounced = [(PlainTextDocument *)[self document] isAnnounced];
+    BOOL isServer = [[(PlainTextDocument *)[self document] session] isServer];
     if (isAnnounced) {
         BOOL portMapped = ([[[[TCMPortMapper sharedInstance] portMappings] anyObject] mappingStatus] == TCMPortMappingStatusMapped);
         [O_URLImageView setImage:[NSImage imageNamed:(portMapped?@"URLIconOK":@"URLIconNotOK")]];
         NSString *URLString = [[[[[self document] documentURL] absoluteString] componentsSeparatedByString:@"?"] objectAtIndex:0];
         [O_URLTextField setObjectValue:URLString];
-    } else {
+    } else if (isServer) {
         [O_URLImageView setImage:[NSImage imageNamed:@"Conceal"]];
         [O_URLTextField setObjectValue:NSLocalizedString(@"Document not announced.\nNo Document URL.",@"Text for document URL field when not announced")];
+    } else {
+        [O_URLImageView setImage:[NSImage imageNamed:@"URLIconNotOK"]];
+        [O_URLTextField setObjectValue:NSLocalizedString(@"Not your Document.\nNo Document URL.",@"Text for document URL field when not your document")];
     }
 }
 
@@ -261,11 +266,18 @@ enum {
     [paragraphStyle setFirstLineHeadIndent:30.];
     [paragraphStyle setHeadIndent:30.];
     [paragraphStyle setTailIndent:-30.];
-	[O_participantsView setEmptySpaceString:[[[NSAttributedString alloc] initWithString:@"Drag your\niChat buddies here\nor onto the text\nto invite them." attributes:[NSDictionary dictionaryWithObjectsAndKeys:
-	   paragraphStyle,NSParagraphStyleAttributeName,
-	   [NSFont systemFontOfSize:12.],NSFontAttributeName,
-	   [NSColor colorWithCalibratedWhite:0.6 alpha:1.0],NSForegroundColorAttributeName,
-	nil]] autorelease]];
+    
+    if (!S_dragString) {
+        S_dragString = 
+        [[NSAttributedString alloc] initWithString:@"Drag your\nFriends\nfrom the\niChat Buddy List\nor\nConnection Browser\nto a category\nor the text\nto invite them." 
+            attributes:[NSDictionary dictionaryWithObjectsAndKeys:
+                           paragraphStyle,NSParagraphStyleAttributeName,
+                           [NSFont systemFontOfSize:12.],NSFontAttributeName,
+                           [NSColor colorWithCalibratedWhite:0.7 alpha:1.0],NSForegroundColorAttributeName,
+                        nil]];
+    }
+    
+	[O_participantsView setEmptySpaceString:S_dragString];
 
 
     [O_URLImageView setDelegate:self];
@@ -681,6 +693,7 @@ enum {
     int index = [O_pendingUsersAccessPopUpButton indexOfItemWithTag:state];
     [O_pendingUsersAccessPopUpButton selectItemAtIndex:index];
     [self updateForPortMapStatus];
+    [O_participantsView setEmptySpaceString:[session isServer]?S_dragString:nil];
 }
 
 - (void)validateButtons {

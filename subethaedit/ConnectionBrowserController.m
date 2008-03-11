@@ -389,10 +389,10 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     [paragraphStyle setFirstLineHeadIndent:30.];
     [paragraphStyle setHeadIndent:30.];
     [paragraphStyle setTailIndent:-30.];
-	[O_browserListView setEmptySpaceString:[[[NSAttributedString alloc] initWithString:@"Drag your\niChat buddies here\nto invite them." attributes:[NSDictionary dictionaryWithObjectsAndKeys:
+	[O_browserListView setEmptySpaceString:[[[NSAttributedString alloc] initWithString:@"Drag your\niChat Buddies here\nto invite them." attributes:[NSDictionary dictionaryWithObjectsAndKeys:
 	   paragraphStyle,NSParagraphStyleAttributeName,
 	   [NSFont systemFontOfSize:12.],NSFontAttributeName,
-	   [NSColor colorWithCalibratedWhite:0.6 alpha:1.0],NSForegroundColorAttributeName,
+	   [NSColor colorWithCalibratedWhite:0.7 alpha:1.0],NSForegroundColorAttributeName,
 	nil]] autorelease]];
 }
 
@@ -1051,7 +1051,9 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     BOOL allowDrag = YES;
     NSMutableArray *plist = [NSMutableArray array];
     NSMutableString *vcfString= [NSMutableString string];
+    NSURL *reachabilityURL = nil;
     unsigned int index = [indexes firstIndex];
+    TCMMMUser *lastUser=nil;
     while (index != NSNotFound) {
         ItemChildPair pair = [listView itemChildPairAtRow:index];
         if (pair.childIndex != -1) {
@@ -1074,14 +1076,25 @@ static NSPredicate *S_joinableSessionPredicate = nil;
             [plist addObject:entry];
             [entry release];
         }
+        if ([browserEntry user]) {
+            lastUser = [browserEntry user];
+            NSString *reachabilityURLString = [[TCMMMPresenceManager sharedInstance] reachabilityURLStringOfUserID:[browserEntry userID]];
+            if (reachabilityURLString) {
+                reachabilityURL = [NSURL URLWithString:reachabilityURLString];
+            } else if ([browserEntry URL]) {
+                reachabilityURL = [browserEntry URL];
+            }
+        }
         index = [indexes indexGreaterThanIndex:index];
     }
     
     if (allowDrag) {
-        [pboard declareTypes:[NSArray arrayWithObjects:@"PboardTypeTBD", NSVCardPboardType,NSCreateFileContentsPboardType(@"vcf"), nil] owner:nil];
+        [pboard declareTypes:[NSArray arrayWithObjects:@"PboardTypeTBD", NSVCardPboardType,NSCreateFileContentsPboardType(@"vcf"),NSCreateFilenamePboardType(@"vcf"),reachabilityURL?NSURLPboardType:nil, nil] owner:nil];
         [pboard setPropertyList:plist forType:@"PboardTypeTBD"];
         [pboard setData:[vcfString dataUsingEncoding:NSUnicodeStringEncoding] forType:NSVCardPboardType];
         [pboard setData:[vcfString dataUsingEncoding:NSUnicodeStringEncoding] forType:NSCreateFileContentsPboardType(@"vcf")];
+        [pboard setString:[[lastUser name] stringByAppendingPathExtension:@".vcf"] forType:NSCreateFilenamePboardType(@"vcf")];
+        [reachabilityURL writeToPasteboard:pboard];
     }
     
     return allowDrag;

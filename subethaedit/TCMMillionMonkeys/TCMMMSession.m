@@ -411,16 +411,13 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
 }
 
 - (void)presenceManagerDidReceiveToken:(NSNotification *)aNotification {
-    NSLog(@"%s %@",__FUNCTION__,aNotification);
     NSDictionary *userInfo = [aNotification userInfo];
-    NSLog(@"%s %@",__FUNCTION__,I_groupByToken);
     NSString *token = [userInfo objectForKey:@"token"];
     NSString *group = [I_groupByToken objectForKey:token];
     if (group) {
         NSString *userID = [userInfo objectForKey:@"userID"];
         TCMMMUser *user = [[TCMMMUserManager sharedInstance] userForUserID:userID];
         if (user) {
-            NSLog(@"%s inviting User: %@ into group: %@",__FUNCTION__,user,group);
             [self inviteUser:user intoGroup:group usingBEEPSession:nil];
         }
         [I_groupByToken removeObjectForKey:token];
@@ -430,7 +427,6 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
 - (NSString *)invitationTokenForGroup:(NSString *)aGroup {
     NSString *tokenString = [NSString UUIDString];
     [I_groupByToken setObject:aGroup forKey:tokenString]; 
-    NSLog(@"%s %@",__FUNCTION__,I_groupByToken);
     return tokenString;
 }
 
