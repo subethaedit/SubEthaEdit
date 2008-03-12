@@ -116,6 +116,7 @@
 		3180119F0D4DEC8400BE3B28 /* TCMPortMapper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TCMPortMapper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3180154D0D4E08D900BE3B28 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
 		31FAE7D30D672D410085867F /* miniupnpc-LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "miniupnpc-LICENSE.txt"; path = "portmap_dom/miniupnpc-LICENSE.txt"; sourceTree = "<group>"; };
+		F2143AD90D881D9D00C91B69 /* libssl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libssl.dylib; path = /usr/lib/libssl.dylib; sourceTree = "<absolute>"; };
 		F214E5DB0D5F5FE600A06962 /* NATEcho.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NATEcho.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F214E5DD0D5F5FE600A06962 /* NATEcho-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "NATEcho-Info.plist"; path = "natecho/NATEcho-Info.plist"; sourceTree = "<group>"; };
 		F214E5F50D5F626800A06962 /* DotGreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DotGreen.png; path = general_artwork/DotGreen.png; sourceTree = "<group>"; };
@@ -272,6 +273,7 @@
 		29B97314FDCFA39411CA2CEA /* PortMapper */ = {
 			isa = PBXGroup;
 			children = (
+				F2143AD90D881D9D00C91B69 /* libssl.dylib */,
 				F214E5F10D5F600B00A06962 /* NATEcho.app */,
 				F2C6600B0D50C34500820CAE /* Port Map */,
 				F2C65BDD0D50B16100820CAE /* TCMPortMapper.framework */,
@@ -735,6 +737,8 @@
 					Foundation,
 					"-framework",
 					AppKit,
+					"-lssl",
+					"-lcrypto",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = TCMPortMapper;
@@ -767,6 +771,8 @@
 					Foundation,
 					"-framework",
 					AppKit,
+					"-lssl",
+					"-lcrypto",
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = TCMPortMapper;
