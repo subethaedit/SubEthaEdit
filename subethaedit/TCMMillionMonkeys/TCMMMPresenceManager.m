@@ -40,7 +40,7 @@ NSString * const TCMMMPresenceManagerDidReceiveTokenNotification=
 
 - (void)TCM_validateServiceAnnouncement;
 - (void)sendReachabilityViaProfile:(TCMMMStatusProfile *)aProfile;
-
+- (void)broadcastMyReachability;
 @end
 
 #pragma mark -
@@ -185,6 +185,7 @@ NSString * const TCMMMPresenceManagerDidReceiveTokenNotification=
 {
     I_flags.isVisible = aFlag;
     [self TCM_validateServiceAnnouncement];
+    [self broadcastMyReachability];
     NSEnumerator *profiles=[I_statusProfilesInServerRole objectEnumerator];
     TCMMMStatusProfile *profile=nil;
     while ((profile=[profiles nextObject])) {
@@ -361,7 +362,7 @@ NSString * const TCMMMPresenceManagerDidReceiveTokenNotification=
 - (NSString *)myReachabilityURLString {
     TCMPortMapper *pm = [TCMPortMapper sharedInstance];
     TCMPortMapping *mapping = [[pm portMappings] anyObject];
-    if ([mapping mappingStatus]==TCMPortMappingStatusMapped) {
+    if ([mapping mappingStatus]==TCMPortMappingStatusMapped && [self isVisible]) {
         return [NSString stringWithFormat:@"see://%@:%d", [pm externalIPAddress],[mapping externalPort]];
     } else {
         return @"";
