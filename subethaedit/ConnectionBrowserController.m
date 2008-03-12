@@ -167,7 +167,11 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 
 - (void) validateButtons {
     NSSet *entries = [self selectedEntriesFilteredUsingPredicate:[NSPredicate predicateWithValue:YES]];
-    if ([entries count] == 1 && [[NSUserDefaults standardUserDefaults] boolForKey:AutoconnectPrefKey]) {
+    NSDictionary *status = [[TCMMMPresenceManager sharedInstance] statusOfUserID:[[entries anyObject] userID]];
+    if ([entries count] == 1 && 
+        [[NSUserDefaults standardUserDefaults] boolForKey:AutoconnectPrefKey] &&
+        [[status objectForKey:@"hasFriendCast"] boolValue] &&
+        [[entries anyObject] isVisible]) {
         ConnectionBrowserEntry *entry = [entries anyObject];
         NSMutableDictionary *status = [[TCMMMPresenceManager sharedInstance] statusOfUserID:[[entry user] userID]];
         [O_toggleFriendcastButton setEnabled:[[status objectForKey:@"hasFriendCast"] boolValue]];
