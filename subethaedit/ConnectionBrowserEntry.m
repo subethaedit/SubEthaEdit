@@ -272,9 +272,9 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
             } else if (reachabilityURLString) {
                 return reachabilityURLString;
             } else if ([[_BEEPSession userInfo] objectForKey:@"isAutoConnect"]) {
-                return @"Friend of a Friend";
+                return NSLocalizedString(@"Friend of a Friend",@"Connection browser subtitle for friendcasting connections");
             } else {
-                return @"Internet connection";
+                return NSLocalizedString(@"Internet connection",@"Connection browser subtitle for internet connections");
             }
 
             NSString *documentString = NSLocalizedString(@"None announced",@"Status string showing the number of documents when none are announced");
