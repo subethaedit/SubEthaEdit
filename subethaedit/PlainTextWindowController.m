@@ -287,6 +287,11 @@ static NSAttributedString *S_dragString = nil;
 }
 
 - (NSURL*)URLForURLImageView:(URLImageView *)anImageView {
+    BOOL isAnnounced = [(PlainTextDocument *)[self document] isAnnounced];
+    BOOL isServer = [[(PlainTextDocument *)[self document] session] isServer];
+    if (!isAnnounced && isServer) {
+        return nil;
+    }
     return [[self document] documentURL];
 }
 
