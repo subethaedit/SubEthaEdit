@@ -380,7 +380,7 @@ static NSMutableDictionary *profileURIToClassMapping;
             if ([aFrame isNUL]) {
                 // FEHLER?
                 if ([I_answerReadQueues count] > 0) {
-                    // FEHLER! bei NUL müssen alle Antworten abgeschlossen sein...
+                    // FEHLER! bei NUL m√ºssen alle Antworten abgeschlossen sein...
                 }
             }
             if ([aFrame isERR]) {

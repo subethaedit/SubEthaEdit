@@ -393,7 +393,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     [paragraphStyle setFirstLineHeadIndent:30.];
     [paragraphStyle setHeadIndent:30.];
     [paragraphStyle setTailIndent:-30.];
-	[O_browserListView setEmptySpaceString:[[[NSAttributedString alloc] initWithString:@"Drag your\niChat Buddies here\nto invite them." attributes:[NSDictionary dictionaryWithObjectsAndKeys:
+	[O_browserListView setEmptySpaceString:[[[NSAttributedString alloc] initWithString:NSLocalizedString(@"Drag your\niChat Buddies here\nto invite them.",@"Drag target string in Connection Browser") attributes:[NSDictionary dictionaryWithObjectsAndKeys:
 	   paragraphStyle,NSParagraphStyleAttributeName,
 	   [NSFont systemFontOfSize:12.],NSFontAttributeName,
 	   [NSColor colorWithCalibratedWhite:0.7 alpha:1.0],NSForegroundColorAttributeName,

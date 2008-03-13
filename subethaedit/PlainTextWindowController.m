@@ -271,7 +271,7 @@ static NSAttributedString *S_dragString = nil;
     
     if (!S_dragString) {
         S_dragString = 
-        [[NSAttributedString alloc] initWithString:@"Drag your\nFriends\nfrom the\niChat Buddy List\nor\nConnection Browser\nto a category\nor the text\nto invite them." 
+        [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Drag your\nFriends\nfrom the\niChat Buddy List\nor\nConnection Browser\nto a category\nor the text\nto invite them.",@"Drag target string in Participants Drawer") 
             attributes:[NSDictionary dictionaryWithObjectsAndKeys:
                            paragraphStyle,NSParagraphStyleAttributeName,
                            [NSFont systemFontOfSize:12.],NSFontAttributeName,
