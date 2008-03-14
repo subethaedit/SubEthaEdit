@@ -1,4 +1,46 @@
 
+SubEthaEdit 3.1
+===============
+
+Additions/New Features:
+- NAT-Traversal - SubEthaEdit now automatically maps its port so it can be 
+  reached from anywhere on the internet.
+- iChat Invites - Documents and the Connection Browser allow drag and drop of 
+  iChat Buddies to invite them.
+- Friendcasting - if you activate Friendcasting you get automatic connections 
+  to the friends of your friends. In a typical company setup one publicly 
+  reachable SubEthaEdit will be enough to act as friend to connect everyone to 
+  each other.
+
+Changes:
+- The overall look of the Connection Browser has been greatly improved. SSL 
+  connections now are default, a non SSL connection is showen via a crossed out 
+  lock.
+- You can drag and drop other people from the Connection Browser into a text 
+  field (e.g. iChat) to copy their reachability see:// URL.
+- Improved C++ mode and function recognition.
+- Improved the LaTeX mode.
+
+Fixes:
+- Fixed an issue where the status of a document in the overflow tab menu was 
+  not displayed correctly.
+- Fixed an issue where a simultaneous join and invite to a restricted document 
+  did not result in a allowed join
+- Fixed an issue where see:// document URLs did not result in a join of the 
+  addressed document if there was already a connection.
+- Fixed an issue with the display of subversion conflicts in the symbol popup.
+- Fixed an issue with the modes preferences where users could edit read-only 
+  information.
+- Fixed an issue with Bonjour and Back To My Mac where the last found 
+  netservice did determine which connections occured.
+- Fixed an issue where the location in the window did move and redraw issues 
+  occured if others have been writing above you
+- Fixed an issue with split views and multiple views where the other windows 
+  did move their position in the text if text was changed
+- Fixed an issue with "Find All" where a junk of text would be highlighted over 
+  and over again if many search results are found.
+
+
 SubEthaEdit 3.0.3
 =================
 

@@ -61,7 +61,6 @@
 		F2CDB8D00D65C0B000B6A4E7 /* NSRefreshTemplate.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2CDB8C60D65BF2200B6A4E7 /* NSRefreshTemplate.tiff */; };
 		F2CDB8D10D65C0B100B6A4E7 /* NSAddTemplate.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2CDB8C50D65BF2200B6A4E7 /* NSAddTemplate.tiff */; };
 		F2CDB8FB0D65D82900B6A4E7 /* OUItoCompany.plist in Resources */ = {isa = PBXBuildFile; fileRef = F2CDB8FA0D65D82900B6A4E7 /* OUItoCompany.plist */; };
-		F2CDB9000D65D8C100B6A4E7 /* OUItoCompany.plist in Resources */ = {isa = PBXBuildFile; fileRef = F2CDB8FA0D65D82900B6A4E7 /* OUItoCompany.plist */; };
 		F2D731D10D5B607D00CBD1D8 /* TCMPortMappingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D731D00D5B607D00CBD1D8 /* TCMPortMappingAdditions.m */; };
 		F2D731EA0D5B768300CBD1D8 /* Presets.plist in Resources */ = {isa = PBXBuildFile; fileRef = F2D731E90D5B768300CBD1D8 /* Presets.plist */; };
 /* End PBXBuildFile section */
@@ -582,7 +581,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F2CDB9000D65D8C100B6A4E7 /* OUItoCompany.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
