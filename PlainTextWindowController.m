@@ -82,6 +82,7 @@ enum {
     ParticipantContextMenuTagKickDeny
 };
 
+static NSAttributedString *S_dragString = nil;
 
 @interface PlainTextWindowController (PlainTextWindowControllerPrivateAdditions)
 
@@ -134,14 +135,18 @@ enum {
 
 - (void)updateForPortMapStatus {
     BOOL isAnnounced = [(PlainTextDocument *)[self document] isAnnounced];
+    BOOL isServer = [[(PlainTextDocument *)[self document] session] isServer];
     if (isAnnounced) {
         BOOL portMapped = ([[[[TCMPortMapper sharedInstance] portMappings] anyObject] mappingStatus] == TCMPortMappingStatusMapped);
         [O_URLImageView setImage:[NSImage imageNamed:(portMapped?@"URLIconOK":@"URLIconNotOK")]];
         NSString *URLString = [[[[[self document] documentURL] absoluteString] componentsSeparatedByString:@"?"] objectAtIndex:0];
         [O_URLTextField setObjectValue:URLString];
-    } else {
+    } else if (isServer) {
         [O_URLImageView setImage:[NSImage imageNamed:@"Conceal"]];
         [O_URLTextField setObjectValue:NSLocalizedString(@"Document not announced.\nNo Document URL.",@"Text for document URL field when not announced")];
+    } else {
+        [O_URLImageView setImage:[NSImage imageNamed:@"URLIconNotOK"]];
+        [O_URLTextField setObjectValue:NSLocalizedString(@"Not your Document.\nNo Document URL.",@"Text for document URL field when not your document")];
     }
 }
 
@@ -255,12 +260,39 @@ enum {
     BOOL shouldHideTabBar = [[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey];
     [I_tabBar setHideForSingleTab:!shouldHideTabBar];
     [I_tabBar hideTabBar:!shouldHideTabBar animate:NO];
+//    [I_tabBar setCellOptimumWidth:160];
+//    [I_tabBar setCellMinWidth:120];
+
+	NSMutableParagraphStyle *paragraphStyle = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
+    [paragraphStyle setAlignment:NSCenterTextAlignment];
+    [paragraphStyle setFirstLineHeadIndent:30.];
+    [paragraphStyle setHeadIndent:30.];
+    [paragraphStyle setTailIndent:-30.];
+    
+    if (floor(NSAppKitVersionNumber) > 824.) {
+		if (!S_dragString) {
+			S_dragString = 
+			[[NSAttributedString alloc] initWithString:NSLocalizedString(@"Drag your\nFriends\nfrom the\niChat Buddy List\nor\nConnection Browser\nto a category\nor the text\nto invite them.",@"Drag target string in Participants Drawer") 
+				attributes:[NSDictionary dictionaryWithObjectsAndKeys:
+							   paragraphStyle,NSParagraphStyleAttributeName,
+							   [NSFont systemFontOfSize:12.],NSFontAttributeName,
+							   [NSColor colorWithCalibratedWhite:0.7 alpha:1.0],NSForegroundColorAttributeName,
+							nil]];
+		}
+	}
+	[O_participantsView setEmptySpaceString:S_dragString];
+
 
     [O_URLImageView setDelegate:self];
     [self updateForPortMapStatus];
 }
 
 - (NSURL*)URLForURLImageView:(URLImageView *)anImageView {
+    BOOL isAnnounced = [(PlainTextDocument *)[self document] isAnnounced];
+    BOOL isServer = [[(PlainTextDocument *)[self document] session] isServer];
+    if (!isAnnounced && isServer) {
+        return nil;
+    }
     return [[self document] documentURL];
 }
 
@@ -669,6 +701,7 @@ enum {
     int index = [O_pendingUsersAccessPopUpButton indexOfItemWithTag:state];
     [O_pendingUsersAccessPopUpButton selectItemAtIndex:index];
     [self updateForPortMapStatus];
+	[O_participantsView setEmptySpaceString:[session isServer]?S_dragString:nil];
 }
 
 - (void)validateButtons {
@@ -2728,16 +2761,17 @@ float ToolbarHeightForWindow(NSWindow *window)
 
 - (BOOL)tabView:(NSTabView *)aTabView validateOverflowMenuItem:(NSMenuItem *)menuItem forTabViewItem:(NSTabViewItem *)tabViewItem
 {
+    int offset = floor(NSAppKitVersionNumber)>824 ? 1 : 0 ;//NSAppKitVersionNumber10_4 - need an offset for leopard
     PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
     PlainTextDocument *document = [tabContext document];
     if ([document isDocumentEdited]) {
-        SetItemMark(_NSGetCarbonMenu([menuItem menu]), [[menuItem menu] indexOfItem:menuItem], kBulletCharCode);
+        SetItemMark(_NSGetCarbonMenu([menuItem menu]), [[menuItem menu] indexOfItem:menuItem]+offset, kBulletCharCode);
     } else {
-        SetItemMark(_NSGetCarbonMenu([menuItem menu]), [[menuItem menu] indexOfItem:menuItem], noMark);
+        SetItemMark(_NSGetCarbonMenu([menuItem menu]), [[menuItem menu] indexOfItem:menuItem]+offset, noMark);
     }
 
     if ([I_tabView selectedTabViewItem] == tabViewItem)
-        SetItemMark(_NSGetCarbonMenu([menuItem menu]), [[menuItem menu] indexOfItem:menuItem], checkMark);
+        SetItemMark(_NSGetCarbonMenu([menuItem menu]), [[menuItem menu] indexOfItem:menuItem]+offset, checkMark);
         
     return YES;
 }

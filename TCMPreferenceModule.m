@@ -49,16 +49,16 @@
 
 - (NSView *)loadMainView
 {
-    // Determines the name of the main nib file by calling the preference pane object’s mainNibName method.
+    // Determines the name of the main nib file by calling the preference pane objectmainNibName method.
     NSString *mainNibName = [self mainNibName];
 
-    // Loads that nib file, passing in the preference pane object as the nib file’s owner.
+    // Loads that nib file, passing in the preference pane object as the nib file's owner.
     [NSBundle loadNibNamed:mainNibName owner:self];
 
-    // Invokes the preference pane object’s assignMainView method to find and assign the main view.
+    // Invokes the preference pane object assignMainView method to find and assign the main view.
     NSView *mainView = [self assignMainView];
     
-    // Invokes the preference pane object’s mainViewDidLoad method.
+    // Invokes the preference pane object mainViewDidLoad method.
     [self mainViewDidLoad];
 
     // Returns the main view.

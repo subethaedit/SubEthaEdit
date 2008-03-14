@@ -23,6 +23,7 @@ extern NSString * const ConnectionStatusNoConnection;
     NSURL *_URL;
     NSString *_hostStatus;
     NSMutableArray *_pendingDocumentRequests;
+    NSMutableArray *_tokensToSend;
     TCMHost *_host;
     NSDate *_creationDate;
     NSArray *_announcedSessions;

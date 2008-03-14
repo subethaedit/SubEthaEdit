@@ -146,7 +146,7 @@ static NSArray *S_possibleStyleColors;
     int             childCount;
     int             index;
 
-    // Get a count of the top level nodeÕs children.
+    // Get a count of the top level nodeâ€™s children.
     childCount = CFTreeGetChildCount(cfXMLTree);
 
     // Print the data string for each top-level node.

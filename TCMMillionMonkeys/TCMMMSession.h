@@ -16,6 +16,10 @@ extern NSString * const TCMMMSessionPendingInvitationsDidChange;
 extern NSString * const TCMMMSessionDidChangeNotification;
 extern NSString * const TCMMMSessionDidReceiveContentNotification;
 
+extern NSString * const TCMMMSessionReadWriteGroupName;
+extern NSString * const TCMMMSessionReadOnlyGroupName ;
+
+
 @class SessionProfile, TCMMMOperation, TCMBEEPSession, TCMMMUser, TCMMMLoggingState;
 
 typedef enum TCMMMSessionAccessState {
@@ -85,6 +89,7 @@ typedef enum TCMMMSessionClientState {
     NSMutableArray *I_pendingUsers;
     NSMutableDictionary *I_groupByUserID;
     NSMutableDictionary *I_statesByClientID;
+    NSMutableDictionary *I_groupByToken;
     NSMutableSet *I_statesWithRemainingMessages;
     TCMMMSessionAccessState I_accessState;
     TCMMMSessionClientState I_clientState;
@@ -151,6 +156,7 @@ typedef enum TCMMMSessionClientState {
 
 - (BOOL)isEditable;
 
+- (NSString *)invitationTokenForGroup:(NSString *)aGroup;
 - (void)setGroup:(NSString *)aGroup forParticipantsWithUserIDs:(NSArray *)aUserIDs;
 - (void)setGroup:(NSString *)aGroup forPendingUsersWithIndexes:(NSIndexSet *)aSet;
 

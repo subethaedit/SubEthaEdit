@@ -21,6 +21,7 @@
 #import "NSWorkspaceTCMAdditions.h"
 #import "ServerConnectionManager.h"
 #import "ConnectionBrowserEntry.h"
+#import "PlainTextDocument.h"
 #import <AddressBook/AddressBook.h>
 
 #import <netdb.h>       // getaddrinfo, struct addrinfo, AI_NUMERICHOST
@@ -166,7 +167,11 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 
 - (void) validateButtons {
     NSSet *entries = [self selectedEntriesFilteredUsingPredicate:[NSPredicate predicateWithValue:YES]];
-    if ([entries count] == 1 && [[NSUserDefaults standardUserDefaults] boolForKey:AutoconnectPrefKey]) {
+    NSDictionary *status = [[TCMMMPresenceManager sharedInstance] statusOfUserID:[[entries anyObject] userID]];
+    if ([entries count] == 1 && 
+        [[NSUserDefaults standardUserDefaults] boolForKey:AutoconnectPrefKey] &&
+        [[status objectForKey:@"hasFriendCast"] boolValue] &&
+        [[entries anyObject] isVisible]) {
         ConnectionBrowserEntry *entry = [entries anyObject];
         NSMutableDictionary *status = [[TCMMMPresenceManager sharedInstance] statusOfUserID:[[entry user] userID]];
         [O_toggleFriendcastButton setEnabled:[[status objectForKey:@"hasFriendCast"] boolValue]];
@@ -381,6 +386,20 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     }
     
 	[[NSUserDefaultsController sharedUserDefaultsController] addObserver:self forKeyPath:[@"values." stringByAppendingString:AutoconnectPrefKey] options:0 context:nil];
+	
+	
+	NSMutableParagraphStyle *paragraphStyle = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
+    [paragraphStyle setAlignment:NSCenterTextAlignment];
+    [paragraphStyle setFirstLineHeadIndent:30.];
+    [paragraphStyle setHeadIndent:30.];
+    [paragraphStyle setTailIndent:-30.];
+    if (floor(NSAppKitVersionNumber) > 824.) {
+		[O_browserListView setEmptySpaceString:[[[NSAttributedString alloc] initWithString:NSLocalizedString(@"Drag your\niChat Buddies here\nto invite them.",@"Drag target string in Connection Browser") attributes:[NSDictionary dictionaryWithObjectsAndKeys:
+		   paragraphStyle,NSParagraphStyleAttributeName,
+		   [NSFont systemFontOfSize:12.],NSFontAttributeName,
+		   [NSColor colorWithCalibratedWhite:0.7 alpha:1.0],NSForegroundColorAttributeName,
+		nil]] autorelease]];
+	}
 }
 
 - (void)observeValueForKeyPath:(NSString *)aKeyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -973,15 +992,16 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 //    NSLog(@"%s %@ %d %d",__FUNCTION__,NSStringFromPoint(aPoint),aPair.itemIndex,aPair.childIndex);
     if (aPair.childIndex == -1) {
         if (aPair.itemIndex>=0 && aPair.itemIndex<[[I_entriesController arrangedObjects] count]) {
-            if (NSPointInRect(aPoint,NSMakeRect(62,25,9,9))) {
-                [self storeSelection];
-                ConnectionBrowserEntry *entry=[[I_entriesController arrangedObjects] objectAtIndex:aPair.itemIndex];
-                [entry toggleDisclosure];
-                [aListView reloadData];
-                [self restoreSelection];
-                return YES;
-            } 
-            else if (NSPointInRect(aPoint,[(TCMMMBrowserListView *)aListView frameForTag:TCMMMBrowserItemImage2NextToNameTag atChildIndex:aPair.childIndex ofItemAtIndex:aPair.itemIndex])) { 
+//            if (NSPointInRect(aPoint,NSMakeRect(62,25,9,9))) {
+//                [self storeSelection];
+//                ConnectionBrowserEntry *entry=[[I_entriesController arrangedObjects] objectAtIndex:aPair.itemIndex];
+//                [entry toggleDisclosure];
+//                [aListView reloadData];
+//                [self restoreSelection];
+//                return YES;
+//            } 
+//            else 
+            if (NSPointInRect(aPoint,[(TCMMMBrowserListView *)aListView frameForTag:TCMMMBrowserItemStatusImageTag atChildIndex:aPair.childIndex ofItemAtIndex:aPair.itemIndex])) { 
                 [aListView selectRow:[aListView rowForItem:aPair.itemIndex child:aPair.childIndex] byExtendingSelection:NO];
                 [self toggleFriendcast:self];
                 return YES;
@@ -1037,7 +1057,9 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     BOOL allowDrag = YES;
     NSMutableArray *plist = [NSMutableArray array];
     NSMutableString *vcfString= [NSMutableString string];
+    NSURL *reachabilityURL = nil;
     unsigned int index = [indexes firstIndex];
+    TCMMMUser *lastUser=nil;
     while (index != NSNotFound) {
         ItemChildPair pair = [listView itemChildPairAtRow:index];
         if (pair.childIndex != -1) {
@@ -1060,16 +1082,26 @@ static NSPredicate *S_joinableSessionPredicate = nil;
             [plist addObject:entry];
             [entry release];
         }
+        if ([browserEntry user]) {
+            lastUser = [browserEntry user];
+            NSString *reachabilityURLString = [[TCMMMPresenceManager sharedInstance] reachabilityURLStringOfUserID:[browserEntry userID]];
+            if (reachabilityURLString) {
+                reachabilityURL = [NSURL URLWithString:reachabilityURLString];
+            } else if ([browserEntry URL]) {
+                reachabilityURL = [browserEntry URL];
+            }
+        }
         index = [indexes indexGreaterThanIndex:index];
     }
     
     if (allowDrag) {
-        [pboard declareTypes:[NSArray arrayWithObjects:@"PboardTypeTBD", NSVCardPboardType,NSCreateFileContentsPboardType(@"vcf"), nil] owner:nil];
+        [pboard declareTypes:[NSArray arrayWithObjects:@"PboardTypeTBD", NSVCardPboardType,NSCreateFileContentsPboardType(@"vcf"),NSCreateFilenamePboardType(@"vcf"),reachabilityURL?NSURLPboardType:nil, nil] owner:nil];
         [pboard setPropertyList:plist forType:@"PboardTypeTBD"];
         [pboard setData:[vcfString dataUsingEncoding:NSUnicodeStringEncoding] forType:NSVCardPboardType];
         [pboard setData:[vcfString dataUsingEncoding:NSUnicodeStringEncoding] forType:NSCreateFileContentsPboardType(@"vcf")];
+        [pboard setString:[[lastUser name] stringByAppendingPathExtension:@".vcf"] forType:NSCreateFilenamePboardType(@"vcf")];
+        [reachabilityURL writeToPasteboard:pboard];
     }
-    
     return allowDrag;
 }
 
@@ -1080,6 +1112,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 
 - (NSDragOperation)listView:(TCMListView *)aListView validateDrag:(id <NSDraggingInfo>)sender {
     NSPasteboard *pboard = [sender draggingPasteboard];
+
     if ([[pboard types] containsObject:@"PresentityNames"]) {
         return NSDragOperationGeneric;
     } else {
@@ -1102,18 +1135,36 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     return (NSString *)string;
 }
 
++ (void)sendInvitationToServiceWithID:(NSString *)aServiceID buddy:(NSString *)aBuddy url:(NSURL *)anURL {
+    // format is service id, id in that service, onlinestatus (0=offline),groupname
+    NSString *message = [NSString stringWithFormat:NSLocalizedString(@"Please join me in SubEthaEdit:\n%@\n\n(You can download SubEthaEdit from http://www.codingmonkeys.de/subethaedit )",@"iChat invitation String with Placeholder for actual URL"),[anURL absoluteString]];
+    NSString *applescriptString = [NSString stringWithFormat:@"tell application \"iChat\" to send \"%@\" to buddy id \"%@:%@\"",[self quoteEscapedStringWithString:message],aServiceID,aBuddy];
+    NSAppleScript *script = [[[NSAppleScript alloc] initWithSource:applescriptString] autorelease];
+    // need to delay the sending so we don't try to send while in the dragging event
+    [script performSelector:@selector(executeAndReturnError:) withObject:nil afterDelay:0.1];
+}
+
++ (BOOL)invitePeopleFromPasteboard:(NSPasteboard *)aPasteboard intoDocument:(PlainTextDocument *)aDocument group:(NSString *)aGroup {
+    BOOL success = NO;
+    if ([[aPasteboard types] containsObject:@"PresentityNames"]) {
+        NSArray *presentityNames=[aPasteboard propertyListForType:@"PresentityNames"]; 
+        int i=0;
+        for (i=0;i<[presentityNames count];i+=4) {
+            [self sendInvitationToServiceWithID:[presentityNames objectAtIndex:i] buddy:[presentityNames objectAtIndex:i+1] url:[aDocument documentURLForGroup:aGroup]];
+        }
+        success = YES;
+    }
+
+    return success;
+}
+
 + (BOOL)invitePeopleFromPasteboard:(NSPasteboard *)aPasteboard withURL:(NSURL *)aDocumentURL{
     BOOL success = NO;
     if ([[aPasteboard types] containsObject:@"PresentityNames"]) {
         NSArray *presentityNames=[aPasteboard propertyListForType:@"PresentityNames"]; 
-        // format is service id, id in that service, onlinestatus (0=offline),groupname
-        NSString *message = [NSString stringWithFormat:NSLocalizedString(@"Please join me in SubEthaEdit:\n%@\n\n(You can download SubEthaEdit from http://www.codingmonkeys.de/subethaedit )",@"iChat invitation String with Placeholder for actual URL"),[aDocumentURL absoluteString]];
         int i=0;
         for (i=0;i<[presentityNames count];i+=4) {
-            NSString *applescriptString = [NSString stringWithFormat:@"tell application \"iChat\" to send \"%@\" to buddy id \"%@:%@\"",[self quoteEscapedStringWithString:message],[presentityNames objectAtIndex:i],[presentityNames objectAtIndex:i+1]];
-            NSAppleScript *script = [[[NSAppleScript alloc] initWithSource:applescriptString] autorelease];
-            // need to delay the sending so we don't try to send while in the dragging event
-            [script performSelector:@selector(executeAndReturnError:) withObject:nil afterDelay:0.1];
+            [self sendInvitationToServiceWithID:[presentityNames objectAtIndex:i] buddy:[presentityNames objectAtIndex:i+1] url:aDocumentURL];
         }
         success = YES;
     }

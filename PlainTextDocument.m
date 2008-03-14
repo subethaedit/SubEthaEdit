@@ -4654,7 +4654,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     if (I_findAllControllers) [I_findAllControllers removeObject:aController];
 }
 
-- (NSURL *)documentURL {
+- (NSURL *)documentURLForGroup:(NSString *)aGroup {
     if (![[self session] isServer]) {
         return nil;
     }
@@ -4682,7 +4682,17 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"escapedDocumentId: %@", escapedDocumentId);
     if (escapedDocumentId != nil) {
         [escapedDocumentId autorelease];
-        [address appendFormat:@"?%@=%@", @"documentID", escapedDocumentId];
+        [address appendFormat:@"?%@=%@", @"sessionID", escapedDocumentId];
+
+        if (aGroup) {
+            NSString *token = [[self session] invitationTokenForGroup:aGroup];
+            NSString *escapedToken = (NSString *)CFURLCreateStringByAddingPercentEscapes(kCFAllocatorDefault, (CFStringRef)token, NULL, CFSTR(";/?:@&=+,$"), kCFStringEncodingUTF8);
+            if (escapedToken) {
+                [escapedToken autorelease];
+                [address appendFormat:@"&token=%@",escapedToken];
+            }
+        }
+
     }
 
     DEBUGLOG(@"InternetLogLevel", DetailedLogLevel, @"address: %@", address);
@@ -4693,6 +4703,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     }
 
     return nil;
+}
+
+- (NSURL *)documentURL {
+    return [self documentURLForGroup:nil];
 }
 
 #pragma mark -

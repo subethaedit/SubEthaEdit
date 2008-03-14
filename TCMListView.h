@@ -43,6 +43,7 @@ typedef struct _ItemChildPair {
     float I_indexMaxHeight;
     NSRange *I_indexYRangesForItem;
     int I_indexNumberOfRows;
+    NSAttributedString *I_emptySpaceString;
 }
 
 + (float)itemRowHeight;
@@ -81,6 +82,8 @@ typedef struct _ItemChildPair {
 - (void)resizeToFit;
 - (NSPasteboard *)currentDraggingPasteboard;
 - (int)numberOfRows;
+
+- (void)setEmptySpaceString:(NSAttributedString *)aEmptySpaceString;
 
 /*"Selection Handling"*/
 - (int)selectedRow;

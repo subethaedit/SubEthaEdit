@@ -64,6 +64,7 @@ cp -Rpv "${TARGET_BUILD_DIR}/UniversalDetector.framework.dSYM" "${mountedDmgPath
 cp -Rpv "${TARGET_BUILD_DIR}/SeeTextImporter.mdimporter.dSYM" "${mountedDmgPath}"
 cp -Rpv "${TARGET_BUILD_DIR}/HMBlkAppKit.framework.dSYM" "${mountedDmgPath}"
 cp -Rpv "${TARGET_BUILD_DIR}/PSMTabBarControl.framework.dSYM" "${mountedDmgPath}"
+cp -Rpv "${TARGET_BUILD_DIR}/TCMPortMapper.framework.dSYM" "${mountedDmgPath}"
 echo "...done"
 echo
 
