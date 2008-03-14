@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>BIBINPUTS</key>
+	<string>"$HOME/Library/texmf/bibtex/bib"</string>
+	<key>SEE_BIBTEX</key>
+	<string>'bibtex "${FILE%.tex}" | open -f -a SubEthaEdit'</string>
+	<key>SEE_LATEX_CLEANUP</key>
+	<string>'latexmk -C "$FILE"'</string>
+	<key>SEE_LATEX_COMMENT</key>
+	<string>'"$SEE_MODE_RESOURCES"/bin/comment.sh "% "'</string>
+	<key>SEE_LATEX_COMPILER</key>
+	<string>'latexmk -pdf -quiet "$FILE"'</string>
+	<key>SEE_LATEX_COMPILEVIEWER</key>
+	<string>'open -a Skim "$PRODUCT"'</string>
+	<key>SEE_LATEX_PRODUCT_TYPE</key>
+	<string>pdf</string>
+	<key>SEE_LATEX_VIEWER</key>
+	<string>'export __CF_USER_TEXT_ENCODING=0x1F5:0:0; /Applications/Skim.app/Contents/SharedSupport/displayline $LINE "$PRODUCT"'</string>
+</dict>
+</plist>

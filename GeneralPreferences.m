@@ -232,7 +232,7 @@ NSString * const AlwaysShowTabBarKey                        = @"AlwaysShowTabBar
 }
 
 - (NSString *)iconLabel {
-    return NSLocalizedString(@"GeneralPrefsIconLabel",Ê@"Label displayed below general icon and used as window title.");
+    return NSLocalizedString(@"GeneralPrefsIconLabel",@"Label displayed below general icon and used as window title.");
 }
 
 - (NSString *)identifier {

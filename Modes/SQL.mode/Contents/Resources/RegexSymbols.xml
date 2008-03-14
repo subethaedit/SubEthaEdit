@@ -11,6 +11,10 @@
         <regex>(?i)CREATE[ \t]+TABLE[ \t]*([\w\d_]+)[ \t]*\(</regex>
     </symbol>
 
+    <symbol id="SQL Triggers" image="SymbolT" indentation="1" ignoreblocks="yes">
+        <regex>(?i)CREATE[ \t]+TRIGGER[ \t]*([\w\d_]+)</regex>
+    </symbol>
+
     <symbol id="CVS/SVN conflict" font-weight="bold" image="SymbolWarn" indentation="0" ignoreblocks="no">
         <regex>^&lt;&lt;&lt;&lt;&lt;&lt;&lt;([\n\r]|.)*?======([\n\r]|.)*?&gt;&gt;&gt;&gt;&gt;&gt;&gt;</regex>
         <postprocess>

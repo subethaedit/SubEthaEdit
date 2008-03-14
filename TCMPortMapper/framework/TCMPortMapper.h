@@ -78,6 +78,7 @@ typedef enum {
     NSString *_routerName;
     int _workCount;
     BOOL _localIPOnRouterSubnet;
+    NSString *_userID;
 }
 
 + (TCMPortMapper *)sharedInstance;
@@ -95,6 +96,12 @@ typedef enum {
 - (void)stop;
 - (void)stopBlocking;
 
+// needed for generating a UPNP port mapping description that differs for each user
+- (NSString *)userID;
+- (void)setUserID:(NSString *)aUserID;
+// we provide a half length md5 has for convenience
+// we could use full length but the description field of the routers might be limited
+- (void)hashUserID:(NSString *)aUserIDToHash;
 
 - (NSString *)externalIPAddress;
 - (NSString *)localIPAddress;

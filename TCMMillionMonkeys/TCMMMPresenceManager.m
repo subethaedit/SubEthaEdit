@@ -32,12 +32,15 @@ NSString * const TCMMMPresenceManagerAnnouncedSessionsDidChangeNotification=
                @"TCMMMPresenceManagerAnnouncedSessionsDidChangeNotification";
 NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
                @"TCMMMPresenceManagerServiceAnnouncementDidChangeNotification";
+NSString * const TCMMMPresenceManagerDidReceiveTokenNotification=
+               @"TCMMMPresenceManagerDidReceiveTokenNotification";
+               
 
 @interface TCMMMPresenceManager (TCMMMPresenceManagerPrivateAdditions)
 
 - (void)TCM_validateServiceAnnouncement;
 - (void)sendReachabilityViaProfile:(TCMMMStatusProfile *)aProfile;
-
+- (void)broadcastMyReachability;
 @end
 
 #pragma mark -
@@ -74,6 +77,7 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
         I_statusProfilesInServerRole = [NSMutableSet new];
         I_announcedSessions  = [NSMutableDictionary new];
         I_registeredSessions = [NSMutableDictionary new];
+        I_autoAcceptInviteSessions = [NSMutableDictionary new];
         I_flags.serviceIsPublished=NO;
         I_foundUserIDs=[NSMutableSet new];
         sharedInstance = self;
@@ -181,6 +185,7 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
 {
     I_flags.isVisible = aFlag;
     [self TCM_validateServiceAnnouncement];
+    [self broadcastMyReachability];
     NSEnumerator *profiles=[I_statusProfilesInServerRole objectEnumerator];
     TCMMMStatusProfile *profile=nil;
     while ((profile=[profiles nextObject])) {
@@ -357,7 +362,7 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
 - (NSString *)myReachabilityURLString {
     TCMPortMapper *pm = [TCMPortMapper sharedInstance];
     TCMPortMapping *mapping = [[pm portMappings] anyObject];
-    if ([mapping mappingStatus]==TCMPortMappingStatusMapped) {
+    if ([mapping mappingStatus]==TCMPortMappingStatusMapped && [self isVisible]) {
         return [NSString stringWithFormat:@"see://%@:%d", [pm externalIPAddress],[mapping externalPort]];
     } else {
         return @"";
@@ -372,6 +377,10 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
     while ((profile=[profiles nextObject])) {
         [profile sendReachabilityURLString:reachabilityString forUserID:userID];
     }
+}
+
+- (NSString *)reachabilityURLStringOfUserID:(NSString *)aUserID {
+    return [[[[self statusProfileForUserID:aUserID] session] userInfo] objectForKey:@"ReachabilityURL"];
 }
 
 - (void)sendReachabilityViaProfile:(TCMMMStatusProfile *)aProfile {
@@ -489,6 +498,28 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
     //NSLog(@"%s",__FUNCTION__);
     [self sendReachabilityViaProfile:aProfile];
 }
+
+- (void)setShouldAutoAcceptInviteToSessionID:(NSString *)aSessionID {
+    [I_autoAcceptInviteSessions setObject:[NSNumber numberWithBool:YES] forKey:aSessionID];
+}
+// this call also removes the autoacceptflag
+- (BOOL)shouldAutoAcceptInviteToSessionID:(NSString *)aSessionID {
+    if ([I_autoAcceptInviteSessions objectForKey:aSessionID]) {
+        [I_autoAcceptInviteSessions removeObjectForKey:aSessionID];
+        return YES;
+    } else {
+        return NO;
+    }
+}
+
+
+- (void)profile:(TCMMMStatusProfile *)aProfile didReceiveToken:(NSString *)aToken {
+    NSString *userID=[[[aProfile session] userInfo] objectForKey:@"peerUserID"];
+    if (userID && aToken) {
+        [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMPresenceManagerDidReceiveTokenNotification object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:userID,@"userID",aToken,@"token",nil]];
+    }
+}
+
 
 - (void)profile:(TCMMMStatusProfile *)aProfile didReceiveAnnouncedSession:(TCMMMSession *)aSession
 {

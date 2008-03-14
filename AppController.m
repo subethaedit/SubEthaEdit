@@ -376,6 +376,8 @@ static AppController *sharedInstance = nil;
     
     [self registerTransformers];
     [self addMe];
+    [[TCMPortMapper sharedInstance] hashUserID:[TCMMMUserManager myUserID]];
+
     [BacktracingException install];
     [self setupFileEncodingsSubmenu];
     [self setupDocumentModeSubmenu];
