@@ -269,16 +269,17 @@ static NSAttributedString *S_dragString = nil;
     [paragraphStyle setHeadIndent:30.];
     [paragraphStyle setTailIndent:-30.];
     
-    if (!S_dragString) {
-        S_dragString = 
-        [[NSAttributedString alloc] initWithString:NSLocalizedString(@"Drag your\nFriends\nfrom the\niChat Buddy List\nor\nConnection Browser\nto a category\nor the text\nto invite them.",@"Drag target string in Participants Drawer") 
-            attributes:[NSDictionary dictionaryWithObjectsAndKeys:
-                           paragraphStyle,NSParagraphStyleAttributeName,
-                           [NSFont systemFontOfSize:12.],NSFontAttributeName,
-                           [NSColor colorWithCalibratedWhite:0.7 alpha:1.0],NSForegroundColorAttributeName,
-                        nil]];
-    }
-    
+    if (floor(NSAppKitVersionNumber) > 824.) {
+		if (!S_dragString) {
+			S_dragString = 
+			[[NSAttributedString alloc] initWithString:NSLocalizedString(@"Drag your\nFriends\nfrom the\niChat Buddy List\nor\nConnection Browser\nto a category\nor the text\nto invite them.",@"Drag target string in Participants Drawer") 
+				attributes:[NSDictionary dictionaryWithObjectsAndKeys:
+							   paragraphStyle,NSParagraphStyleAttributeName,
+							   [NSFont systemFontOfSize:12.],NSFontAttributeName,
+							   [NSColor colorWithCalibratedWhite:0.7 alpha:1.0],NSForegroundColorAttributeName,
+							nil]];
+		}
+	}
 	[O_participantsView setEmptySpaceString:S_dragString];
 
 
@@ -700,7 +701,7 @@ static NSAttributedString *S_dragString = nil;
     int index = [O_pendingUsersAccessPopUpButton indexOfItemWithTag:state];
     [O_pendingUsersAccessPopUpButton selectItemAtIndex:index];
     [self updateForPortMapStatus];
-    [O_participantsView setEmptySpaceString:[session isServer]?S_dragString:nil];
+	[O_participantsView setEmptySpaceString:[session isServer]?S_dragString:nil];
 }
 
 - (void)validateButtons {

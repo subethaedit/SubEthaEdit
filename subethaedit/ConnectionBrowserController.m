@@ -393,11 +393,13 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     [paragraphStyle setFirstLineHeadIndent:30.];
     [paragraphStyle setHeadIndent:30.];
     [paragraphStyle setTailIndent:-30.];
-	[O_browserListView setEmptySpaceString:[[[NSAttributedString alloc] initWithString:NSLocalizedString(@"Drag your\niChat Buddies here\nto invite them.",@"Drag target string in Connection Browser") attributes:[NSDictionary dictionaryWithObjectsAndKeys:
-	   paragraphStyle,NSParagraphStyleAttributeName,
-	   [NSFont systemFontOfSize:12.],NSFontAttributeName,
-	   [NSColor colorWithCalibratedWhite:0.7 alpha:1.0],NSForegroundColorAttributeName,
-	nil]] autorelease]];
+    if (floor(NSAppKitVersionNumber) > 824.) {
+		[O_browserListView setEmptySpaceString:[[[NSAttributedString alloc] initWithString:NSLocalizedString(@"Drag your\niChat Buddies here\nto invite them.",@"Drag target string in Connection Browser") attributes:[NSDictionary dictionaryWithObjectsAndKeys:
+		   paragraphStyle,NSParagraphStyleAttributeName,
+		   [NSFont systemFontOfSize:12.],NSFontAttributeName,
+		   [NSColor colorWithCalibratedWhite:0.7 alpha:1.0],NSForegroundColorAttributeName,
+		nil]] autorelease]];
+	}
 }
 
 - (void)observeValueForKeyPath:(NSString *)aKeyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
@@ -1100,7 +1102,6 @@ static NSPredicate *S_joinableSessionPredicate = nil;
         [pboard setString:[[lastUser name] stringByAppendingPathExtension:@".vcf"] forType:NSCreateFilenamePboardType(@"vcf")];
         [reachabilityURL writeToPasteboard:pboard];
     }
-    
     return allowDrag;
 }
 
@@ -1111,6 +1112,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 
 - (NSDragOperation)listView:(TCMListView *)aListView validateDrag:(id <NSDraggingInfo>)sender {
     NSPasteboard *pboard = [sender draggingPasteboard];
+
     if ([[pboard types] containsObject:@"PresentityNames"]) {
         return NSDragOperationGeneric;
     } else {
