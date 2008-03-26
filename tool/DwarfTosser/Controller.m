@@ -12,6 +12,9 @@
 
 @implementation Controller
 
+- (void)awakeFromNib {
+    [NSApp setServicesProvider:self];
+}
 
 - (NSString *) resolveSymbolsInString:(NSString *)inString 
 {
@@ -22,12 +25,12 @@
     NSString *architecture = nil;
         
     // 10.4 and 10.5 version parsing
-    regex = [OGRegularExpression regularExpressionWithString:@"^Version: +(.*)"];
+    regex = [OGRegularExpression regularExpressionWithString:@"^Version:[ \\t]+(.*)"];
     match = [regex matchInString:inString];
     version = [match lastMatchSubstring];
     
     // 10.5 architecure parsing
-    regex = [OGRegularExpression regularExpressionWithString:@"^Code Type: +(...)"];
+    regex = [OGRegularExpression regularExpressionWithString:@"Code Type:[ \\t]+(...)"];
     match = [regex matchInString:inString];
     if ([match count]>0) {
         if ([[match lastMatchSubstring] isEqualToString:@"X86"]) architecture = @"i386";
@@ -45,22 +48,29 @@
         }
     }
     
-    regex = [OGRegularExpression regularExpressionWithString:@"^\\d+ +([\\w.]+) +([0-9a-f]x[0-9a-f]+) +([0-9a-f]x[0-9a-f]+)"];
+    regex = [OGRegularExpression regularExpressionWithString:@"\\d+[ \\t]+([\\w.]+)[ \\t]+([0-9a-f]x[0-9a-f]+)[ \\t]+([0-9a-f]x[0-9a-f]+)[ \\t]+\\+[ \\t]+([0-9a-f]+)"];
 
-    
     NSEnumerator *enumerator = [[regex allMatchesInString:inString] reverseObjectEnumerator];
     while ((match = [enumerator nextObject])) {
-        NSRange replaceRange = [match rangeOfLastMatchSubstring];
+        NSRange replaceRange = [match rangeOfSubstringAtIndex:3];
         NSString *dsymName = [match substringAtIndex:1];
-        NSString *offset = [match substringAtIndex:2];
+        NSString *offset = [match substringAtIndex:3];
+        NSString *address = [match substringAtIndex:4];
         NSString *dsymPath = [self dsymPathForName:dsymName andVersion:version];
         
+        NSScanner *scanner;
+        unsigned int off;
+        scanner = [NSScanner scannerWithString:offset];
+        [scanner scanHexInt:&off];
+        
+        off =+ [address intValue];
+                
         NSTask *task;
         task = [[NSTask alloc] init];
         [task setLaunchPath: @"/usr/bin/dwarfdump"];
         
         NSArray *arguments;
-        arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"--lookup=%@", offset], [NSString stringWithFormat:@"--arch=%@", architecture], dsymPath, nil];
+        arguments = [NSArray arrayWithObjects:[NSString stringWithFormat:@"--lookup=%d", off], [NSString stringWithFormat:@"--arch=%@", architecture], dsymPath, nil];
         [task setArguments: arguments];
         
         NSPipe *pipe;
@@ -81,12 +91,12 @@
         [task release];
         
         if ([outputString rangeOfString:@"debug information...not found"].location!=NSNotFound) {
-            NSLog(@"Could not resolve symbol: %@", offset);
+           // NSLog(@"Could not resolve symbol: %@", offset);
         } else {
             regex = [OGRegularExpression regularExpressionWithString:@"AT_name\\( \"([^\"]+)"];
             match = [[regex allMatchesInString:outputString] lastObject];
             NSString *resolvedSymbol = [match lastMatchSubstring];
-//            NSLog(@"Resolved %@ to %@", offset, resolvedSymbol);
+            //NSLog(@"Resolved %@ to %@", offset, resolvedSymbol);
             
             [returnString replaceCharactersInRange:replaceRange withString:resolvedSymbol];
         }
@@ -94,7 +104,6 @@
         //NSLog(@"dsym: '%@', offset:'%@'", dsymName, offset);
     }
     
-    //NSLog(@"returnString: %@", returnString);
     return returnString;
 }
 
@@ -132,5 +141,18 @@
 	[o_textView setString:[self resolveSymbolsInString:[[o_textView textStorage] string]]];
 }
 
+- (void) resolveSymbolsInPasteboard:(NSPasteboard *)pboard userData:(NSString *)data error:(NSString **)error
+{
+    NSArray *types = [pboard types];
+    NSString *string = nil;
+    
+    if ([types containsObject:NSStringPboardType]) {
+        string = [pboard stringForType:NSStringPboardType];
+        string = [self resolveSymbolsInString:string];
+        types = [NSArray arrayWithObject:NSStringPboardType]; 
+        [pboard declareTypes:types owner:nil]; 
+        [pboard setString:string forType:NSStringPboardType]; 
+    }
+}
 
 @end

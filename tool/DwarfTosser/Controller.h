@@ -16,5 +16,6 @@
 
 - (IBAction) resolveSymbols:(id)sender;
 - (NSString *)dsymPathForName:(NSString *)inName andVersion:(NSString *)inVersion;
+- (void) resolveSymbolsInPasteboard:(NSPasteboard *)pboard userData:(NSString *)data error:(NSString **)error;
 
 @end
