@@ -15,5 +15,6 @@
 }
 
 - (IBAction) resolveSymbols:(id)sender;
+- (NSString *)dsymPathForName:(NSString *)inName andVersion:(NSString *)inVersion;
 
 @end

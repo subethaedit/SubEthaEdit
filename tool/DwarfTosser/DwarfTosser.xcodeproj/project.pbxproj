@@ -7,12 +7,65 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		316E68FE0D9A7DB5003AD111 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 316E68B90D9A776B003AD111 /* OgreKit.framework */; };
 		31DED1740D180BD90095EB3B /* Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 31DED1730D180BD90095EB3B /* Controller.m */; };
 		8D11072A0486CEB800E47090 /* MainMenu.nib in Resources */ = {isa = PBXBuildFile; fileRef = 29B97318FDCFA39411CA2CEA /* MainMenu.nib */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		316E68B80D9A776B003AD111 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 316E68AD0D9A776B003AD111 /* OgreKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216 /* OgreKit.framework */;
+			remoteInfo = "OgreKit (Full Features)";
+		};
+		316E68BA0D9A776B003AD111 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 316E68AD0D9A776B003AD111 /* OgreKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4DC40BFC09150BDB0029A2A6 /* OgreKit.framework */;
+			remoteInfo = "OgreKit (without Find Panel)";
+		};
+		316E68BC0D9A776B003AD111 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 316E68AD0D9A776B003AD111 /* OgreKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4DC40C0409150C280029A2A6 /* OgreTest.app */;
+			remoteInfo = "Regular Expression Test";
+		};
+		316E68BE0D9A776B003AD111 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 316E68AD0D9A776B003AD111 /* OgreKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4DC40C0F09150C3E0029A2A6 /* OgreFindPanelTest.app */;
+			remoteInfo = "Find Panel Test";
+		};
+		316E68C00D9A776B003AD111 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 316E68AD0D9A776B003AD111 /* OgreKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4DC40C1A09150C730029A2A6 /* MyFindPanelExample.app */;
+			remoteInfo = "My Find Panel Example";
+		};
+		316E68C20D9A776B003AD111 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 316E68AD0D9A776B003AD111 /* OgreKit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 4DC40C3009150C9E0029A2A6 /* ReplaceWithAttributesTest.app */;
+			remoteInfo = "Replace With Attributes Test";
+		};
+		316E68D00D9A7794003AD111 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 316E68AD0D9A776B003AD111 /* OgreKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 4DC40BF209150BDB0029A2A6 /* OgreKit (without Find Panel) */;
+			remoteInfo = "OgreKit (without Find Panel)";
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		089C165DFE840E0CC02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -22,6 +75,7 @@
 		29B97319FDCFA39411CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		316E68AD0D9A776B003AD111 /* OgreKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OgreKit.xcodeproj; path = ../../subethaedit/OgreKit/OgreKit.xcodeproj; sourceTree = SOURCE_ROOT; };
 		31DED1720D180BD90095EB3B /* Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Controller.h; sourceTree = "<group>"; };
 		31DED1730D180BD90095EB3B /* Controller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Controller.m; sourceTree = "<group>"; };
 		32CA4F630368D1EE00C91783 /* DwarfTosser_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DwarfTosser_Prefix.pch; sourceTree = "<group>"; };
@@ -35,6 +89,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */,
+				316E68FE0D9A7DB5003AD111 /* OgreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +138,7 @@
 				29B97315FDCFA39411CA2CEA /* Other Sources */,
 				29B97317FDCFA39411CA2CEA /* Resources */,
 				29B97323FDCFA39411CA2CEA /* Frameworks */,
+				316E68AD0D9A776B003AD111 /* OgreKit.xcodeproj */,
 				19C28FACFE9D520D11CA2CBB /* Products */,
 			);
 			name = DwarfTosser;
@@ -116,6 +172,19 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		316E68AE0D9A776B003AD111 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				316E68B90D9A776B003AD111 /* OgreKit.framework */,
+				316E68BB0D9A776B003AD111 /* OgreKit.framework */,
+				316E68BD0D9A776B003AD111 /* OgreTest.app */,
+				316E68BF0D9A776B003AD111 /* OgreFindPanelTest.app */,
+				316E68C10D9A776B003AD111 /* MyFindPanelExample.app */,
+				316E68C30D9A776B003AD111 /* ReplaceWithAttributesTest.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -130,6 +199,7 @@
 			buildRules = (
 			);
 			dependencies = (
+				316E68D10D9A7794003AD111 /* PBXTargetDependency */,
 			);
 			name = DwarfTosser;
 			productInstallPath = "$(HOME)/Applications";
@@ -147,12 +217,63 @@
 			hasScannedForEncodings = 1;
 			mainGroup = 29B97314FDCFA39411CA2CEA /* DwarfTosser */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 316E68AE0D9A776B003AD111 /* Products */;
+					ProjectRef = 316E68AD0D9A776B003AD111 /* OgreKit.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				8D1107260486CEB800E47090 /* DwarfTosser */,
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		316E68B90D9A776B003AD111 /* OgreKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OgreKit.framework;
+			remoteRef = 316E68B80D9A776B003AD111 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		316E68BB0D9A776B003AD111 /* OgreKit.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = OgreKit.framework;
+			remoteRef = 316E68BA0D9A776B003AD111 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		316E68BD0D9A776B003AD111 /* OgreTest.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = OgreTest.app;
+			remoteRef = 316E68BC0D9A776B003AD111 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		316E68BF0D9A776B003AD111 /* OgreFindPanelTest.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = OgreFindPanelTest.app;
+			remoteRef = 316E68BE0D9A776B003AD111 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		316E68C10D9A776B003AD111 /* MyFindPanelExample.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = MyFindPanelExample.app;
+			remoteRef = 316E68C00D9A776B003AD111 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		316E68C30D9A776B003AD111 /* ReplaceWithAttributesTest.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = ReplaceWithAttributesTest.app;
+			remoteRef = 316E68C20D9A776B003AD111 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		8D1107290486CEB800E47090 /* Resources */ = {
@@ -177,6 +298,14 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		316E68D10D9A7794003AD111 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "OgreKit (without Find Panel)";
+			targetProxy = 316E68D00D9A7794003AD111 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		089C165CFE840E0CC02AAC07 /* InfoPlist.strings */ = {
