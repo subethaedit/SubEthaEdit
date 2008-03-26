@@ -59,11 +59,11 @@
         NSString *dsymPath = [self dsymPathForName:dsymName andVersion:version];
         
         NSScanner *scanner;
-        unsigned int off;
+        unsigned int off = 0;
         scanner = [NSScanner scannerWithString:offset];
         [scanner scanHexInt:&off];
-        
-        off =+ [address intValue];
+                
+        off = off + [address intValue];
                 
         NSTask *task;
         task = [[NSTask alloc] init];
