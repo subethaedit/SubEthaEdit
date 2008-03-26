@@ -52,7 +52,7 @@
 
     NSEnumerator *enumerator = [[regex allMatchesInString:inString] reverseObjectEnumerator];
     while ((match = [enumerator nextObject])) {
-        NSRange replaceRange = [match rangeOfSubstringAtIndex:3];
+        NSRange replaceRange = NSUnionRange([match rangeOfSubstringAtIndex:3], [match rangeOfSubstringAtIndex:4]);
         NSString *dsymName = [match substringAtIndex:1];
         NSString *offset = [match substringAtIndex:3];
         NSString *address = [match substringAtIndex:4];
@@ -96,9 +96,13 @@
             regex = [OGRegularExpression regularExpressionWithString:@"AT_name\\( \"([^\"]+)"];
             match = [[regex allMatchesInString:outputString] lastObject];
             NSString *resolvedSymbol = [match lastMatchSubstring];
-            //NSLog(@"Resolved %@ to %@", offset, resolvedSymbol);
+
+            regex = [OGRegularExpression regularExpressionWithString:@"Line table file: '(.*)' line (\\d+)"];
+            match = [[regex allMatchesInString:outputString] lastObject];
+            NSString *fileName = [match substringAtIndex:1];
+            NSString *lineNumber = [match substringAtIndex:2];
             
-            [returnString replaceCharactersInRange:replaceRange withString:resolvedSymbol];
+            [returnString replaceCharactersInRange:replaceRange withString:[NSString stringWithFormat:@"%@ (%@:%@)",resolvedSymbol, fileName, lineNumber]];
         }
         
         //NSLog(@"dsym: '%@', offset:'%@'", dsymName, offset);
