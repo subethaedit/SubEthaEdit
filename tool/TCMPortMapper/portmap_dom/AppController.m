@@ -50,7 +50,9 @@
            [pm addPortMapping:mapping];
        }
     }
-    [[TCMPortMapper sharedInstance] start]; 
+    [pm start]; 
+
+    [center addObserver:self selector:@selector(portMapperDidReceiveUPNPMappingTable:) name:TCMPortMapperDidReceiveUPNPMappingTableNotification object:pm];
 
     NSArray *array = [[[NSArray alloc] initWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"Presets" ofType:@"plist"]] autorelease];
     NSEnumerator *presets = [array objectEnumerator];
@@ -178,7 +180,7 @@
 }
 
 - (IBAction)addMapping:(id)aSender {
-    [NSApp beginSheet:O_addSheetPanel modalForWindow:[O_currentIPTextField window] modalDelegate:self didEndSelector:@selector(addMappingSheetDidEnd:returnCode:contextInfo:) contextInfo:nil];
+    [NSApp beginSheet:O_addSheetPanel modalForWindow:[O_currentIPTextField window] modalDelegate:self didEndSelector:@selector(genericSheetDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
 
 - (IBAction)removeMapping:(id)aSender {
@@ -193,7 +195,7 @@
     [O_mappingsArrayController removeObjects:[O_mappingsArrayController selectedObjects]];
 }
 
-- (void)addMappingSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+- (void)genericSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
     [sheet orderOut:self];
 }
 
@@ -243,11 +245,16 @@
 
 - (void)startProgressIndicator:(NSNotification *)aNotification {
     [O_globalProgressIndicator startAnimation:self];
+    [O_showUPNPMappingTableButton setEnabled:NO];
+    [O_UPNPTabItemProgressIndicator startAnimation:self];
 }
 
 
 - (void)stopProgressIndicator:(NSNotification *)aNotification {
     [O_globalProgressIndicator stopAnimation:self];
+    [O_UPNPTabItemProgressIndicator stopAnimation:self];
+    [O_showUPNPMappingTableButton setEnabled:[[TCMPortMapper sharedInstance] mappingProtocol] == TCMUPNPPortMapProtocol];
+    [O_localIPAddressTextField setStringValue:[[TCMPortMapper sharedInstance] localIPAddress]];
 }
 
 - (IBAction)gotoPortMapHomepage:(id)aSender {
@@ -266,5 +273,24 @@
     [O_aboutWindow makeKeyAndOrderFront:self];
 }
 
+- (IBAction)requestUPNPMappingTable:(id)aSender {
+    [[O_progressIndictatorTabItem tabView] selectTabViewItem:O_progressIndictatorTabItem];
+    [[TCMPortMapper sharedInstance] requestUPNPMappingTable];
+    [NSApp beginSheet:O_showUPNPMappingListWindow modalForWindow:[O_currentIPTextField window] modalDelegate:self didEndSelector:@selector(genericSheetDidEnd:returnCode:contextInfo:) contextInfo:nil];
+}
+
+- (void)portMapperDidReceiveUPNPMappingTable:(NSNotification *)aNotification {
+    [O_UPNPMappingListArrayController setContent:[[aNotification userInfo] objectForKey:@"mappingTable"]];
+    [[O_upnpMappingListTabItem tabView] selectTabViewItem:O_upnpMappingListTabItem];
+}
+
+- (IBAction)requestUPNPMappingTableRemoveMappings:(id)aSender {
+    [[TCMPortMapper sharedInstance] removeUPNPMappings:[O_UPNPMappingListArrayController selectedObjects]];
+    [NSApp endSheet:O_showUPNPMappingListWindow];
+}
+
+- (IBAction)requestUPNPMappingTableOKSheet:(id)aSender {
+    [NSApp endSheet:O_showUPNPMappingListWindow];
+}
 
 @end

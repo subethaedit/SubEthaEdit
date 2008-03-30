@@ -4,7 +4,7 @@
 <array>
 	<dict>
 		<key>mappingTitle</key>
-		<string>SubEthaEdit</string>
+		<string>SubEtha Engine</string>
 		<key>desiredPort</key>
 		<integer>6942</integer>
 		<key>localPort</key>

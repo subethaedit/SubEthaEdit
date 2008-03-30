@@ -28,6 +28,14 @@
     IBOutlet NSButton    *O_addProtocolUDPButton;
     IBOutlet NSPopUpButton *O_addPresetPopupButton;
     IBOutlet NSTextField *O_addReferenceStringField;
+    
+    IBOutlet NSWindow *O_showUPNPMappingListWindow;
+    IBOutlet NSArrayController *O_UPNPMappingListArrayController;
+    IBOutlet NSTextField *O_localIPAddressTextField;
+    IBOutlet NSButton *O_showUPNPMappingTableButton;
+    IBOutlet NSTabViewItem *O_upnpMappingListTabItem;
+    IBOutlet NSTabViewItem *O_progressIndictatorTabItem;
+    IBOutlet NSProgressIndicator *O_UPNPTabItemProgressIndicator;
 
 	IBOutlet NSWindow *O_instructionalSheetPanel;
     IBOutlet NSButton *O_dontShowInstructionsAgainButton;
@@ -50,5 +58,9 @@
 - (IBAction)reportABug:(id)aSender;
 
 - (IBAction)showAbout:(id)aSender;
+
+- (IBAction)requestUPNPMappingTable:(id)aSender;
+- (IBAction)requestUPNPMappingTableRemoveMappings:(id)aSender;
+- (IBAction)requestUPNPMappingTableOKSheet:(id)aSender;
 
 @end

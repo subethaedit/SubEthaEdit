@@ -19,7 +19,10 @@ extern NSString * const TCMPortMapperDidFinishSearchForRouterNotification;
 extern NSString * const TCMPortMapperDidStartWorkNotification;
 extern NSString * const TCMPortMapperDidFinishWorkNotification;
 
+extern NSString * const TCMPortMapperDidReceiveUPNPMappingTableNotification;
+
 extern NSString * const TCMPortMappingDidChangeMappingStatusNotification;
+
 
 extern NSString * const TCMNATPMPPortMapProtocol;
 extern NSString * const TCMUPNPPortMapProtocol;  
@@ -78,7 +81,9 @@ typedef enum {
     NSString *_routerName;
     int _workCount;
     BOOL _localIPOnRouterSubnet;
+    BOOL _sendUPNPMappingTableNotification;
     NSString *_userID;
+    NSMutableSet *_upnpPortMappingsToRemove;
 }
 
 + (TCMPortMapper *)sharedInstance;
@@ -96,6 +101,11 @@ typedef enum {
 - (void)stop;
 - (void)stopBlocking;
 
+// will request the complete UPNPMappingTable and deliver it using a TCMPortMapperDidReceiveUPNPMappingTableNotification with "mappingTable" in the userInfo Dictionary (if current router is a UPNP router)
+- (void)requestUPNPMappingTable;
+// this is mainly for Port Map.app and can remove any mappings that can be removed using UPNP (including mappings from other hosts). aMappingList is an Array of Dictionaries with the key @"protocol" and @"publicPort".
+- (void)removeUPNPMappings:(NSArray *)aMappingList;
+
 // needed for generating a UPNP port mapping description that differs for each user
 - (NSString *)userID;
 - (void)setUserID:(NSString *)aUserID;
@@ -112,5 +122,9 @@ typedef enum {
 - (NSString *)routerName;
 - (NSString *)routerIPAddress;
 - (NSString *)routerHardwareAddress;
+
+// private accessors
+- (NSMutableSet *)_upnpPortMappingsToRemove;
+
 
 @end
