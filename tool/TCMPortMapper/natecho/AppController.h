@@ -11,7 +11,7 @@
 
 @interface AppController : NSObject {
     IBOutlet NSTextField *O_portTextField;
-    IBOutlet NSButton *O_startStopButton;
+    IBOutlet NSButton    *O_startStopButton;
     IBOutlet NSImageView *O_serverStatusImageView;
     IBOutlet NSTextField *O_serverStatusTextField;
     IBOutlet NSTextField *O_serverReachabilityTextField;

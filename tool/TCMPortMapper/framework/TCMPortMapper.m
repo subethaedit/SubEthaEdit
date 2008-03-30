@@ -19,6 +19,8 @@
 #import <net/route.h>
 #import <netinet/if_ether.h>
 #import <net/if_dl.h>
+#import <openssl/md5.h>
+
 
 NSString * const TCMPortMapperExternalIPAddressDidChange            = @"TCMPortMapperExternalIPAddressDidChange";
 NSString * const TCMPortMapperWillStartSearchForRouterNotification  = @"TCMPortMapperWillStartSearchForRouterNotification";
@@ -175,6 +177,9 @@ enum {
         _UPNPPortMapper = [[TCMUPNPPortMapper alloc] init];
         _portMappings = [NSMutableSet new];
         _removeMappingQueue = [NSMutableSet new];
+        
+        [self hashUserID:NSUserName()];
+        
         S_sharedInstance = self;
 
         NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
@@ -201,6 +206,7 @@ enum {
     [_UPNPPortMapper release];
     [_portMappings release];
     [_removeMappingQueue release];
+    [_userID release];
     [super dealloc];
 }
 
@@ -255,15 +261,16 @@ enum {
             NSString *subNetMask = (NSString *) [subNetMasks objectAtIndex:i];
  //           NSLog(@"%s ipAddress:%@ subNetMask:%@",__FUNCTION__, ipAddress, subNetMask);
             // Check if local to Host
-            
-            in_addr_t myaddr = inet_addr([ipAddress UTF8String]);
-            in_addr_t subnetmask = inet_addr([subNetMask UTF8String]);
-            in_addr_t routeraddr = inet_addr([[self routerIPAddress] UTF8String]);
-    //            NSLog(@"%s ipNative:%X maskNative:%X",__FUNCTION__,routeraddr,subnetmask);
-            if ((myaddr & subnetmask) == (routeraddr & subnetmask)) {
-                [self setLocalIPAddress:ipAddress];
-                _localIPOnRouterSubnet = YES;
-                break;
+            if (ipAddress && subNetMask) {
+                in_addr_t myaddr = inet_addr([ipAddress UTF8String]);
+                in_addr_t subnetmask = inet_addr([subNetMask UTF8String]);
+                in_addr_t routeraddr = inet_addr([routerAddress UTF8String]);
+        //            NSLog(@"%s ipNative:%X maskNative:%X",__FUNCTION__,routeraddr,subnetmask);
+                if ((myaddr & subnetmask) == (routeraddr & subnetmask)) {
+                    [self setLocalIPAddress:ipAddress];
+                    _localIPOnRouterSubnet = YES;
+                    break;
+                }
             }
             
         }
@@ -287,6 +294,30 @@ enum {
     return [[_localIPAddress retain] autorelease];
 }
 
+- (NSString *)userID {
+    return [[_userID retain] autorelease];
+}
+
+- (void)hashUserID:(NSString *)aUserIDToHash {
+    // md5 has the username and take the first 8 bytes as hex
+    unsigned char digest[16];
+    char hashstring[32];
+    int i;
+    NSData *userNameData = [aUserIDToHash dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:NO];
+    MD5([userNameData bytes],[userNameData length],digest);
+    for(i=0;i<8;i++) sprintf(hashstring+i*2,"%02x",digest[i]);
+    hashstring[i*2]=0;
+    
+    [self setUserID:[NSString stringWithUTF8String:hashstring]];
+}
+
+- (void)setUserID:(NSString *)aUserID {
+    if (_userID != aUserID) {
+        NSString *tmp = _userID;
+        _userID = [aUserID copy];
+        [tmp release];
+    }
+}
 
 - (NSSet *)portMappings{
     return _portMappings;
@@ -323,7 +354,7 @@ enum {
                 [_removeMappingQueue addObject:aMapping];
             }
         }
-    [self updatePortMappings];
+        if (_isRunning) [self updatePortMappings];
     }
 }
 

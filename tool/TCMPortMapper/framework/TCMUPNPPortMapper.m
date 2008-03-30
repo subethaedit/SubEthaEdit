@@ -72,10 +72,12 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
 - (NSString *)portMappingDescription {
     static NSString *description = nil;
     if (!description) {
-        NSMutableArray *descriptionComponents=[NSMutableArray arrayWithObject:@"TCMPortMapper"];
-        NSString *component = [[[NSBundle mainBundle] bundlePath] lastPathComponent];
+        NSMutableArray *descriptionComponents=[NSMutableArray arrayWithObject:@"TCMPM"];
+        NSString *component = [[[[NSBundle mainBundle] bundlePath] lastPathComponent] stringByDeletingPathExtension];
         if (component) [descriptionComponents addObject:component];
-        description = [[descriptionComponents componentsJoinedByString:@"-"] retain];
+        NSString *userID = [[TCMPortMapper sharedInstance] userID];
+        if (userID) [descriptionComponents addObject:userID];
+        description = [[descriptionComponents componentsJoinedByString:@"/"] retain];
     }
     return description;
 }
@@ -276,7 +278,7 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
                 } else {
 #ifndef DEBUG
 #ifndef NDEBUG
-                    NSLog(@"UPnP: mapped local %@ port %d to external port %d",protocol==TCMPortMappingTransportProtocolUDP?@"UDP":@"TCP",mappedPort,[aPortMapping localPort]);
+                    NSLog(@"UPnP: mapped local %@ port %d to external port %d",protocol==TCMPortMappingTransportProtocolUDP?@"UDP":@"TCP",[aPortMapping localPort],mappedPort);
 #endif
 #endif
 #ifdef DEBUG
@@ -303,7 +305,6 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
     // (upnp is quite generous in giving us what we want, even if 
     //  other mappings are there, especially when from the same local IP)
     NSMutableIndexSet *reservedPortNumbers = [[NSMutableIndexSet new] autorelease];
-    
     // get port mapping list as reference first
 {
     int r;
@@ -433,7 +434,10 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
     } else if (UpdatePortMappingsThreadShouldRestart) {
         [self performSelectorOnMainThread:@selector(updatePortMappings) withObject:nil waitUntilDone:YES];
     }
-    [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadWithName:TCMUPNPPortMapperDidEndWorkingNotification object:self];
+    
+	// this tiny delay should take account of the cases where we restart the loop (e.g. removing a port mapping and then stopping the portmapper)
+    [self performSelectorOnMainThread:@selector(postDelayedDidEndWorkingNotification) withObject:nil waitUntilDone:NO];
+
     [pool release];
 }
 
