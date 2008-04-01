@@ -115,7 +115,7 @@
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		3180119F0D4DEC8400BE3B28 /* TCMPortMapper.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = TCMPortMapper.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		3180154D0D4E08D900BE3B28 /* SystemConfiguration.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SystemConfiguration.framework; path = /System/Library/Frameworks/SystemConfiguration.framework; sourceTree = "<absolute>"; };
-		31FAE7D30D672D410085867F /* miniupnpc-LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "miniupnpc-LICENSE.txt"; path = "portmap_dom/miniupnpc-LICENSE.txt"; sourceTree = "<group>"; };
+		31FAE7D30D672D410085867F /* miniupnpc-LICENSE.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = "miniupnpc-LICENSE.txt"; path = "portmap/miniupnpc-LICENSE.txt"; sourceTree = "<group>"; };
 		F2143AD90D881D9D00C91B69 /* libssl.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libssl.dylib; path = /usr/lib/libssl.dylib; sourceTree = "<absolute>"; };
 		F214E5DB0D5F5FE600A06962 /* NATEcho.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = NATEcho.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F214E5DD0D5F5FE600A06962 /* NATEcho-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = "NATEcho-Info.plist"; path = "natecho/NATEcho-Info.plist"; sourceTree = "<group>"; };
@@ -166,11 +166,11 @@
 		F2301B310D685C1B00728699 /* upnpreplyparse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = upnpreplyparse.h; sourceTree = "<group>"; };
 		F2482BA30D589FD0002DF811 /* RSVerticallyCenteredTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSVerticallyCenteredTextFieldCell.h; path = RSVerticallyCenteredTextFieldCell/RSVerticallyCenteredTextFieldCell.h; sourceTree = "<group>"; };
 		F2482BA40D589FD0002DF811 /* RSVerticallyCenteredTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSVerticallyCenteredTextFieldCell.m; path = RSVerticallyCenteredTextFieldCell/RSVerticallyCenteredTextFieldCell.m; sourceTree = "<group>"; };
-		F2482BA70D58A15F002DF811 /* TCMStatusImageFromMappingStatusValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCMStatusImageFromMappingStatusValueTransformer.h; path = portmap_dom/TCMStatusImageFromMappingStatusValueTransformer.h; sourceTree = "<group>"; };
-		F2482BA80D58A15F002DF811 /* TCMStatusImageFromMappingStatusValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMStatusImageFromMappingStatusValueTransformer.m; path = portmap_dom/TCMStatusImageFromMappingStatusValueTransformer.m; sourceTree = "<group>"; };
-		F2482BAB0D58A415002DF811 /* GenericQuestionMarkIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = GenericQuestionMarkIcon.icns; path = portmap_dom/artwork/GenericQuestionMarkIcon.icns; sourceTree = "<group>"; };
-		F2482BB90D58ABFA002DF811 /* TCMPortStringFromPublicPortValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCMPortStringFromPublicPortValueTransformer.h; path = portmap_dom/TCMPortStringFromPublicPortValueTransformer.h; sourceTree = "<group>"; };
-		F2482BBA0D58ABFA002DF811 /* TCMPortStringFromPublicPortValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMPortStringFromPublicPortValueTransformer.m; path = portmap_dom/TCMPortStringFromPublicPortValueTransformer.m; sourceTree = "<group>"; };
+		F2482BA70D58A15F002DF811 /* TCMStatusImageFromMappingStatusValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCMStatusImageFromMappingStatusValueTransformer.h; path = portmap/TCMStatusImageFromMappingStatusValueTransformer.h; sourceTree = "<group>"; };
+		F2482BA80D58A15F002DF811 /* TCMStatusImageFromMappingStatusValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMStatusImageFromMappingStatusValueTransformer.m; path = portmap/TCMStatusImageFromMappingStatusValueTransformer.m; sourceTree = "<group>"; };
+		F2482BAB0D58A415002DF811 /* GenericQuestionMarkIcon.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = GenericQuestionMarkIcon.icns; path = portmap/artwork/GenericQuestionMarkIcon.icns; sourceTree = "<group>"; };
+		F2482BB90D58ABFA002DF811 /* TCMPortStringFromPublicPortValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCMPortStringFromPublicPortValueTransformer.h; path = portmap/TCMPortStringFromPublicPortValueTransformer.h; sourceTree = "<group>"; };
+		F2482BBA0D58ABFA002DF811 /* TCMPortStringFromPublicPortValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMPortStringFromPublicPortValueTransformer.m; path = portmap/TCMPortStringFromPublicPortValueTransformer.m; sourceTree = "<group>"; };
 		F2C65BDE0D50B17B00820CAE /* TCMUPNPPortMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMUPNPPortMapper.m; path = framework/TCMUPNPPortMapper.m; sourceTree = "<group>"; };
 		F2C65BDF0D50B17B00820CAE /* TCMUPNPPortMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCMUPNPPortMapper.h; path = framework/TCMUPNPPortMapper.h; sourceTree = "<group>"; };
 		F2C65BE00D50B17B00820CAE /* TCMPortMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMPortMapper.m; path = framework/TCMPortMapper.m; sourceTree = "<group>"; };
@@ -191,25 +191,25 @@
 		F2C65BF60D50B1AE00820CAE /* natpmpc.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = natpmpc.c; sourceTree = "<group>"; };
 		F2C65BF70D50B1AE00820CAE /* testgetgateway.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = testgetgateway.c; sourceTree = "<group>"; };
 		F2C65FFF0D50C2D100820CAE /* Port Map.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Port Map.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		F2C660290D50C58800820CAE /* PortMapper_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PortMapper_Prefix.pch; path = portmap_dom/PortMapper_Prefix.pch; sourceTree = "<group>"; };
-		F2C6602A0D50C58800820CAE /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = portmap_dom/main.m; sourceTree = "<group>"; };
-		F2C6602C0D50C58F00820CAE /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppController.m; path = portmap_dom/AppController.m; sourceTree = "<group>"; };
-		F2C6602D0D50C58F00820CAE /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppController.h; path = portmap_dom/AppController.h; sourceTree = "<group>"; };
-		F2C6602F0D50C59B00820CAE /* On20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = On20.png; path = portmap_dom/artwork/On20.png; sourceTree = "<group>"; };
-		F2C660300D50C59B00820CAE /* Off20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Off20.png; path = portmap_dom/artwork/Off20.png; sourceTree = "<group>"; };
+		F2C660290D50C58800820CAE /* PortMapper_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PortMapper_Prefix.pch; path = portmap/PortMapper_Prefix.pch; sourceTree = "<group>"; };
+		F2C6602A0D50C58800820CAE /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = portmap/main.m; sourceTree = "<group>"; };
+		F2C6602C0D50C58F00820CAE /* AppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = AppController.m; path = portmap/AppController.m; sourceTree = "<group>"; };
+		F2C6602D0D50C58F00820CAE /* AppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppController.h; path = portmap/AppController.h; sourceTree = "<group>"; };
+		F2C6602F0D50C59B00820CAE /* On20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = On20.png; path = portmap/artwork/On20.png; sourceTree = "<group>"; };
+		F2C660300D50C59B00820CAE /* Off20.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Off20.png; path = portmap/artwork/Off20.png; sourceTree = "<group>"; };
 		F2C660310D50C59B00820CAE /* DotRed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DotRed.png; path = general_artwork/DotRed.png; sourceTree = "<group>"; };
-		F2C660320D50C59B00820CAE /* PortMap.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = PortMap.icns; path = portmap_dom/artwork/PortMap.icns; sourceTree = "<group>"; };
+		F2C660320D50C59B00820CAE /* PortMap.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = PortMap.icns; path = portmap/artwork/PortMap.icns; sourceTree = "<group>"; };
 		F2C660330D50C59B00820CAE /* DotGreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DotGreen.png; path = general_artwork/DotGreen.png; sourceTree = "<group>"; };
 		F2C660340D50C59B00820CAE /* DotYellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DotYellow.png; path = general_artwork/DotYellow.png; sourceTree = "<group>"; };
-		F2C6603C0D50C62F00820CAE /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = portmap_dom/English.lproj/MainMenu.nib; sourceTree = "<group>"; };
-		F2C6603E0D50C62F00820CAE /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = portmap_dom/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		F2CDB8C50D65BF2200B6A4E7 /* NSAddTemplate.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = NSAddTemplate.tiff; path = portmap_dom/artwork/NSAddTemplate.tiff; sourceTree = "<group>"; };
-		F2CDB8C60D65BF2200B6A4E7 /* NSRefreshTemplate.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = NSRefreshTemplate.tiff; path = portmap_dom/artwork/NSRefreshTemplate.tiff; sourceTree = "<group>"; };
-		F2CDB8C70D65BF2200B6A4E7 /* NSRemoveTemplate.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = NSRemoveTemplate.tiff; path = portmap_dom/artwork/NSRemoveTemplate.tiff; sourceTree = "<group>"; };
+		F2C6603C0D50C62F00820CAE /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = portmap/English.lproj/MainMenu.nib; sourceTree = "<group>"; };
+		F2C6603E0D50C62F00820CAE /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = portmap/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		F2CDB8C50D65BF2200B6A4E7 /* NSAddTemplate.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = NSAddTemplate.tiff; path = portmap/artwork/NSAddTemplate.tiff; sourceTree = "<group>"; };
+		F2CDB8C60D65BF2200B6A4E7 /* NSRefreshTemplate.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = NSRefreshTemplate.tiff; path = portmap/artwork/NSRefreshTemplate.tiff; sourceTree = "<group>"; };
+		F2CDB8C70D65BF2200B6A4E7 /* NSRemoveTemplate.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = NSRemoveTemplate.tiff; path = portmap/artwork/NSRemoveTemplate.tiff; sourceTree = "<group>"; };
 		F2CDB8FA0D65D82900B6A4E7 /* OUItoCompany.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist; name = OUItoCompany.plist; path = framework/OUItoCompany.plist; sourceTree = "<group>"; };
-		F2D731CF0D5B607D00CBD1D8 /* TCMPortMappingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCMPortMappingAdditions.h; path = portmap_dom/TCMPortMappingAdditions.h; sourceTree = "<group>"; };
-		F2D731D00D5B607D00CBD1D8 /* TCMPortMappingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMPortMappingAdditions.m; path = portmap_dom/TCMPortMappingAdditions.m; sourceTree = "<group>"; };
-		F2D731E90D5B768300CBD1D8 /* Presets.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Presets.plist; path = portmap_dom/Presets.plist; sourceTree = "<group>"; };
+		F2D731CF0D5B607D00CBD1D8 /* TCMPortMappingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCMPortMappingAdditions.h; path = portmap/TCMPortMappingAdditions.h; sourceTree = "<group>"; };
+		F2D731D00D5B607D00CBD1D8 /* TCMPortMappingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMPortMappingAdditions.m; path = portmap/TCMPortMappingAdditions.m; sourceTree = "<group>"; };
+		F2D731E90D5B768300CBD1D8 /* Presets.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Presets.plist; path = portmap/Presets.plist; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -875,8 +875,8 @@
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = portmap_dom/PortMapper_Prefix.pch;
-				INFOPLIST_FILE = portmap_dom/Info.plist;
+				GCC_PREFIX_HEADER = portmap/PortMapper_Prefix.pch;
+				INFOPLIST_FILE = portmap/Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -899,8 +899,8 @@
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = portmap_dom/PortMapper_Prefix.pch;
-				INFOPLIST_FILE = portmap_dom/Info.plist;
+				GCC_PREFIX_HEADER = portmap/PortMapper_Prefix.pch;
+				INFOPLIST_FILE = portmap/Info.plist;
 				INSTALL_PATH = "$(HOME)/Applications";
 				OTHER_LDFLAGS = (
 					"-framework",
