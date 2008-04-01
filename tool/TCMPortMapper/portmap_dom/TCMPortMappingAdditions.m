@@ -1,10 +1,3 @@
-//
-//  TCMPortMappingAdditions.m
-//  Port Map
-//
-//  Created by Dominik Wagner on 07.02.08.
-//  Copyright 2008 TheCodingMonkeys. All rights reserved.
-//
 
 #import "TCMPortMappingAdditions.h"
 

@@ -1,10 +1,3 @@
-//
-//  AppController.m
-//  Port Map
-//
-//  Created by Dominik Wagner on 10.02.08.
-//  Copyright 2008 TheCodingMonkeys. All rights reserved.
-//
 
 #import "AppController.h"
 #import <TCMPortMapper/TCMPortMapper.h>

@@ -1,10 +1,3 @@
-//
-//  TCMStatusImageFromMappingStatusValueTransformer.m
-//  Port Map
-//
-//  Created by Dominik Wagner on 05.02.08.
-//  Copyright 2008 TheCodingMonkeys. All rights reserved.
-//
 
 #import "TCMStatusImageFromMappingStatusValueTransformer.h"
 

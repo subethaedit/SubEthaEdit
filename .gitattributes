@@ -2501,8 +2501,8 @@ tool/TCMPortMapper/RSVerticallyCenteredTextFieldCell/RSVerticallyCenteredTextFie
 tool/TCMPortMapper/framework/Ethernet-OUI.txt -text
 tool/TCMPortMapper/framework/IXSCNotificationManager.h -text
 tool/TCMPortMapper/framework/IXSCNotificationManager.m -text
-tool/TCMPortMapper/framework/NSNotificationAdditions.h -text
-tool/TCMPortMapper/framework/NSNotificationAdditions.m -text
+tool/TCMPortMapper/framework/NSNotificationCenterThreadingAdditions.h -text
+tool/TCMPortMapper/framework/NSNotificationCenterThreadingAdditions.m -text
 tool/TCMPortMapper/framework/OUItoCompany.plist -text
 tool/TCMPortMapper/framework/TCMNATPMPPortMapper.h -text
 tool/TCMPortMapper/framework/TCMNATPMPPortMapper.m -text

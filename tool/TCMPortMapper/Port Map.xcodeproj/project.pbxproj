@@ -42,7 +42,7 @@
 		F2C65C330D50B2E900820CAE /* TCMUPNPPortMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = F2C65BDE0D50B17B00820CAE /* TCMUPNPPortMapper.m */; };
 		F2C65C340D50B2F300820CAE /* getgateway.c in Sources */ = {isa = PBXBuildFile; fileRef = F2C65BF10D50B1AE00820CAE /* getgateway.c */; };
 		F2C65C350D50B2F700820CAE /* natpmp.c in Sources */ = {isa = PBXBuildFile; fileRef = F2C65BF40D50B1AE00820CAE /* natpmp.c */; };
-		F2C65C360D50B2F800820CAE /* NSNotificationAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F2C65BE50D50B17B00820CAE /* NSNotificationAdditions.m */; };
+		F2C65C360D50B2F800820CAE /* NSNotificationCenterThreadingAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F2C65BE50D50B17B00820CAE /* NSNotificationCenterThreadingAdditions.m */; };
 		F2C6602B0D50C58800820CAE /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F2C6602A0D50C58800820CAE /* main.m */; };
 		F2C6602E0D50C58F00820CAE /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2C6602C0D50C58F00820CAE /* AppController.m */; };
 		F2C660350D50C59B00820CAE /* On20.png in Resources */ = {isa = PBXBuildFile; fileRef = F2C6602F0D50C59B00820CAE /* On20.png */; };
@@ -178,10 +178,10 @@
 		F2C65BE20D50B17B00820CAE /* TCMPortMapper-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "TCMPortMapper-Info.plist"; path = "framework/TCMPortMapper-Info.plist"; sourceTree = "<group>"; };
 		F2C65BE30D50B17B00820CAE /* TCMNATPMPPortMapper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMNATPMPPortMapper.m; path = framework/TCMNATPMPPortMapper.m; sourceTree = "<group>"; };
 		F2C65BE40D50B17B00820CAE /* TCMNATPMPPortMapper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCMNATPMPPortMapper.h; path = framework/TCMNATPMPPortMapper.h; sourceTree = "<group>"; };
-		F2C65BE50D50B17B00820CAE /* NSNotificationAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSNotificationAdditions.m; path = framework/NSNotificationAdditions.m; sourceTree = "<group>"; };
+		F2C65BE50D50B17B00820CAE /* NSNotificationCenterThreadingAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NSNotificationCenterThreadingAdditions.m; path = framework/NSNotificationCenterThreadingAdditions.m; sourceTree = "<group>"; };
 		F2C65BE60D50B17B00820CAE /* IXSCNotificationManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = IXSCNotificationManager.m; path = framework/IXSCNotificationManager.m; sourceTree = "<group>"; };
 		F2C65BE70D50B17B00820CAE /* IXSCNotificationManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IXSCNotificationManager.h; path = framework/IXSCNotificationManager.h; sourceTree = "<group>"; };
-		F2C65BE80D50B17B00820CAE /* NSNotificationAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSNotificationAdditions.h; path = framework/NSNotificationAdditions.h; sourceTree = "<group>"; };
+		F2C65BE80D50B17B00820CAE /* NSNotificationCenterThreadingAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NSNotificationCenterThreadingAdditions.h; path = framework/NSNotificationCenterThreadingAdditions.h; sourceTree = "<group>"; };
 		F2C65BF00D50B1AE00820CAE /* Changelog.txt */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = Changelog.txt; sourceTree = "<group>"; };
 		F2C65BF10D50B1AE00820CAE /* getgateway.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = getgateway.c; sourceTree = "<group>"; };
 		F2C65BF20D50B1AE00820CAE /* getgateway.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = getgateway.h; sourceTree = "<group>"; };
@@ -396,8 +396,8 @@
 				F2C65BDE0D50B17B00820CAE /* TCMUPNPPortMapper.m */,
 				F2C65BE40D50B17B00820CAE /* TCMNATPMPPortMapper.h */,
 				F2C65BE30D50B17B00820CAE /* TCMNATPMPPortMapper.m */,
-				F2C65BE80D50B17B00820CAE /* NSNotificationAdditions.h */,
-				F2C65BE50D50B17B00820CAE /* NSNotificationAdditions.m */,
+				F2C65BE80D50B17B00820CAE /* NSNotificationCenterThreadingAdditions.h */,
+				F2C65BE50D50B17B00820CAE /* NSNotificationCenterThreadingAdditions.m */,
 				F2C65BE70D50B17B00820CAE /* IXSCNotificationManager.h */,
 				F2C65BE60D50B17B00820CAE /* IXSCNotificationManager.m */,
 				F2C65C2C0D50B2B700820CAE /* Resources */,
@@ -635,7 +635,7 @@
 				F2C65C330D50B2E900820CAE /* TCMUPNPPortMapper.m in Sources */,
 				F2C65C340D50B2F300820CAE /* getgateway.c in Sources */,
 				F2C65C350D50B2F700820CAE /* natpmp.c in Sources */,
-				F2C65C360D50B2F800820CAE /* NSNotificationAdditions.m in Sources */,
+				F2C65C360D50B2F800820CAE /* NSNotificationCenterThreadingAdditions.m in Sources */,
 				F2301B5B0D685C2700728699 /* igd_desc_parse.c in Sources */,
 				F2301B5C0D685C2A00728699 /* minisoap.c in Sources */,
 				F2301B5D0D685C3300728699 /* minissdpc.c in Sources */,

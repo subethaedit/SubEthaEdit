@@ -1,9 +1,8 @@
 //
 //  TCMPortStringFromPublicPortValueTransformer.h
-//  Port Map
 //
-//  Created by Dominik Wagner on 05.02.08.
-//  Copyright 2008 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2007-2008 TheCodingMonkeys: <http://codingmonkeys.de>
+//  Some rights reserved: <http://opensource.org/licenses/mit-license.php> 
 //
 
 #import <Cocoa/Cocoa.h>

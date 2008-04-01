@@ -1,9 +1,9 @@
 //
 //  TCMUPNPPortMapper.h
-//  PortMapper
+//  Encapsulates miniupnp framework
 //
-//  Created by Martin Pittenauer on 25.01.08.
-//  Copyright 2008 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2007-2008 TheCodingMonkeys: <http://codingmonkeys.de>
+//  Some rights reserved: <http://opensource.org/licenses/mit-license.php> 
 //
 
 #import "TCMPortMapper.h"

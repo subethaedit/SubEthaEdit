@@ -1,9 +1,9 @@
 //
 //  TCMNATPMPPortMapper.h
-//  PortMapper
+//  Encapsulates libnatpmp, listens for router changes
 //
-//  Created by Martin Pittenauer on 15.01.08.
-//  Copyright 2008 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2007-2008 TheCodingMonkeys: <http://codingmonkeys.de>
+//  Some rights reserved: <http://opensource.org/licenses/mit-license.php> 
 //
 
 #import "TCMPortMapper.h"

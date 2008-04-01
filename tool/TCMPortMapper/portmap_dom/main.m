@@ -1,9 +1,8 @@
 //
 //  main.m
-//  PortMapper
 //
-//  Created by Martin Pittenauer on 07.01.08.
-//  Copyright TheCodingMonkeys 2008. All rights reserved.
+//  Copyright (c) 2007-2008 TheCodingMonkeys: <http://codingmonkeys.de>
+//  Some rights reserved: <http://opensource.org/licenses/mit-license.php> 
 //
 
 #import <Cocoa/Cocoa.h>

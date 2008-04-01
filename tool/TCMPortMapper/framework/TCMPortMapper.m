@@ -1,16 +1,9 @@
-//
-//  TCMPortMapper.m
-//  PortMapper
-//
-//  Created by Martin Pittenauer on 15.01.08.
-//  Copyright 2008 TheCodingMonkeys. All rights reserved.
-//
 
 #import "TCMPortMapper.h"
 #import "TCMNATPMPPortMapper.h"
 #import "TCMUPNPPortMapper.h"
 #import "IXSCNotificationManager.h"
-#import "NSNotificationAdditions.h"
+#import "NSNotificationCenterThreadingAdditions.h"
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <SystemConfiguration/SCSchemaDefinitions.h>
 #import <sys/sysctl.h> 
