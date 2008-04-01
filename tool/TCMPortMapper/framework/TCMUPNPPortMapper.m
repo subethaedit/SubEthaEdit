@@ -474,7 +474,7 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
         [self performSelectorOnMainThread:@selector(updatePortMappings) withObject:nil waitUntilDone:YES];
     }
     
-	// this tiny delay should take account of the cases where we restart the loop (e.g. removing a port mapping and then stopping the portmapper)
+    // this tiny delay should take account of the cases where we restart the loop (e.g. removing a port mapping and then stopping the portmapper)
     [self performSelectorOnMainThread:@selector(postDelayedDidEndWorkingNotification) withObject:nil waitUntilDone:NO];
 
     [pool release];

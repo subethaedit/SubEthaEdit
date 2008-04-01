@@ -2,27 +2,37 @@
 #import <pthread.h>
 
 @implementation NSNotificationCenter (NSNotificationCenterThreadingAdditions)
-- (void) postNotificationOnMainThread:(NSNotification *) notification {
-	if( pthread_main_np() ) return [self postNotification:notification];
-	[[self class] performSelectorOnMainThread:@selector( _postNotification: ) withObject:notification waitUntilDone:NO];
+
++ (void)_postNotification:(NSNotification *)aNotification {
+    [[self defaultCenter] postNotification:aNotification];
 }
 
-+ (void) _postNotification:(NSNotification *) notification {
-	[[self defaultCenter] postNotification:notification];
++ (void)_postNotificationViaDictionary:(NSDictionary *)anInfoDictionary {
+    NSString *name   = [anInfoDictionary objectForKey:@"name"];
+    id        object = [anInfoDictionary objectForKey:@"object"];
+    [[self defaultCenter] postNotificationName:name 
+                                        object:object 
+                                      userInfo:nil];
+    [anInfoDictionary release];
 }
 
-- (void) postNotificationOnMainThreadWithName:(NSString *) name object:(id) object {
-	if( pthread_main_np() ) return [self postNotificationName:name object:object userInfo:nil];
-	NSMutableDictionary *info = [[NSMutableDictionary allocWithZone:nil] initWithCapacity:2];
-	if( name ) [info setObject:name forKey:@"name"];
-	if( object ) [info setObject:object forKey:@"object"];
-	[[self class] performSelectorOnMainThread:@selector( _postNotificationName: ) withObject:info waitUntilDone:NO];
+
+- (void)postNotificationOnMainThread:(NSNotification *)aNotification {
+    if( pthread_main_np() ) return [self postNotification:aNotification];
+    [[self class] performSelectorOnMainThread:@selector( _postNotification: ) withObject:aNotification waitUntilDone:NO];
 }
 
-+ (void) _postNotificationName:(NSDictionary *) info {
-	NSString *name = [info objectForKey:@"name"];
-	id object = [info objectForKey:@"object"];
-	[[self defaultCenter] postNotificationName:name object:object userInfo:nil];
-	[info release];
+- (void) postNotificationOnMainThreadWithName:(NSString *)aName object:(id)anObject {
+    if( pthread_main_np() ) return [self postNotificationName:aName object:anObject userInfo:nil];
+    NSMutableDictionary *info = [[NSMutableDictionary allocWithZone:nil] initWithCapacity:2];
+    if (aName) {
+        [info setObject:aName forKey:@"name"];
+    }
+    if (anObject) {
+        [info setObject:anObject forKey:@"object"];
+    }
+    [[self class] performSelectorOnMainThread:@selector(_postNotificationViaDictionary:)
+                                   withObject:info 
+                                waitUntilDone:NO];
 }
 @end

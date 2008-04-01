@@ -2,7 +2,8 @@
 //  TCMPortMapper.h
 //  Establishes port mapping via upnp or natpmp
 //
-//  Copyright (c) 2007-2008 TheCodingMonkeys: <http://codingmonkeys.de>
+//  Copyright (c) 2007-2008 TheCodingMonkeys: 
+//  Martin Pittenauer, Dominik Wagner, <http://codingmonkeys.de>
 //  Some rights reserved: <http://opensource.org/licenses/mit-license.php> 
 //
 
