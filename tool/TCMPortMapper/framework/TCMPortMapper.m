@@ -500,7 +500,8 @@ enum {
         }
     }
     if ([aMACAddress length]<8) return nil;
-    return [hardwareManufacturerDictionary objectForKey:[aMACAddress substringToIndex:8]];
+	NSString *result = [hardwareManufacturerDictionary objectForKey:[[aMACAddress substringToIndex:8] uppercaseString]];
+    return result;
 }
 
 

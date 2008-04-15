@@ -155,47 +155,39 @@
     [self updateTagLine];
 }
 
-
-- (IBAction)showInstructionalPanel:(id)aSender {
-	if (![[[NSUserDefaults standardUserDefaults] objectForKey:@"DontShowInstructionsAgain"] boolValue])
-		[NSApp beginSheet:O_instructionalSheetPanel modalForWindow:[O_currentIPTextField window] modalDelegate:self didEndSelector:@selector(instructionalSheetDidEnd:returnCode:contextInfo:) contextInfo:nil];	
-}
-
-- (void)instructionalSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-    [sheet orderOut:self];
-}
-
-- (IBAction)endInstructionalSheet:(id)aSender {
-	if ([aSender tag] == 42) {
-		[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://docs.info.apple.com/article.html?artnum=302510"]];
-	}
-	
-	if ([O_dontShowInstructionsAgainButton state] == NSOnState) {
-	    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:YES] forKey:@"DontShowInstructionsAgain"];	
-	}
-	
-    [NSApp endSheet:O_instructionalSheetPanel];
-}
-
-- (IBAction)addMapping:(id)aSender {
-    [NSApp beginSheet:O_addSheetPanel modalForWindow:[O_currentIPTextField window] modalDelegate:self didEndSelector:@selector(genericSheetDidEnd:returnCode:contextInfo:) contextInfo:nil];
-}
-
-- (IBAction)removeMapping:(id)aSender {
-    NSEnumerator *mappings = [[O_mappingsArrayController selectedObjects] objectEnumerator];
-    TCMPortMapping *mapping = nil;
-    while ((mapping=[mappings nextObject])) {
-        if ([[[mapping userInfo] objectForKey:@"active"] boolValue]) {
-            [[TCMPortMapper sharedInstance] removePortMapping:mapping];
-        }
-        [mapping removeObserver:self forKeyPath:@"userInfo.active"];
-    }
-    [O_mappingsArrayController removeObjects:[O_mappingsArrayController selectedObjects]];
-}
-
 - (void)genericSheetDidEnd:(NSWindow *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
     [sheet orderOut:self];
 }
+
+- (void)controlTextDidChange:(NSNotification *)aNotification {
+    NSTextView *fieldEditor = [[aNotification userInfo] objectForKey:@"NSFieldEditor"];
+    if (fieldEditor == [O_addLocalPortField currentEditor]) {
+        [O_addDesiredField setStringValue:[O_addLocalPortField stringValue]];
+    }
+    [O_invalidLocalPortView   setHidden:[O_addLocalPortField intValue]>0 && [O_addLocalPortField intValue]<=65535];
+    [O_invalidDesiredPortView setHidden:  [O_addDesiredField intValue]>0 &&   [O_addDesiredField intValue]<=65535];
+}
+
+- (void)portMappingDidChangeMappingStatus:(NSNotification *)aNotification {
+    [O_replacedReferenceStringTextField setStringValue:[[NSValueTransformer valueTransformerForName:@"TCMReplacedStringFromPortMappingReferenceString"] transformedValue:[O_mappingsArrayController selectedObjects]]];
+}
+
+- (void)startProgressIndicator:(NSNotification *)aNotification {
+    [O_globalProgressIndicator startAnimation:self];
+    [O_showUPNPMappingTableButton setEnabled:NO];
+    [O_UPNPTabItemProgressIndicator startAnimation:self];
+}
+
+
+- (void)stopProgressIndicator:(NSNotification *)aNotification {
+    [O_globalProgressIndicator stopAnimation:self];
+    [O_UPNPTabItemProgressIndicator stopAnimation:self];
+    [O_showUPNPMappingTableButton setEnabled:[[TCMPortMapper sharedInstance] mappingProtocol] == TCMUPNPPortMapProtocol];
+    [O_localIPAddressTextField setStringValue:[[TCMPortMapper sharedInstance] localIPAddress]];
+}
+
+#pragma mark -
+#pragma mark IBActions
 
 - (IBAction)addMappingEndSheet:(id)aSender {
     NSMutableDictionary *userInfo = [NSMutableDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithBool:YES],@"active",[O_addDescriptionField stringValue],@"mappingTitle",[O_addReferenceStringField stringValue],@"referenceString",nil];
@@ -217,13 +209,21 @@
 //    [O_addSheetPanel orderOut:self];
 }
 
-- (void)controlTextDidChange:(NSNotification *)aNotification {
-    NSTextView *fieldEditor = [[aNotification userInfo] objectForKey:@"NSFieldEditor"];
-    if (fieldEditor == [O_addLocalPortField currentEditor]) {
-        [O_addDesiredField setStringValue:[O_addLocalPortField stringValue]];
-    }
-    [O_invalidLocalPortView   setHidden:[O_addLocalPortField intValue]>0 && [O_addLocalPortField intValue]<=65535];
-    [O_invalidDesiredPortView setHidden:  [O_addDesiredField intValue]>0 &&   [O_addDesiredField intValue]<=65535];
+- (IBAction)showInstructionalPanel:(id)aSender {
+	if (![[[NSUserDefaults standardUserDefaults] objectForKey:@"DontShowInstructionsAgain"] boolValue])
+		[NSApp beginSheet:O_instructionalSheetPanel modalForWindow:[O_currentIPTextField window] modalDelegate:self didEndSelector:@selector(genericSheetDidEnd:returnCode:contextInfo:) contextInfo:nil];	
+}
+
+- (IBAction)endInstructionalSheet:(id)aSender {
+	if ([aSender tag] == 42) {
+		[[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:@"http://docs.info.apple.com/article.html?artnum=302510"]];
+	}
+	
+	if ([O_dontShowInstructionsAgainButton state] == NSOnState) {
+	    [[NSUserDefaults standardUserDefaults] setObject:[NSNumber numberWithBool:YES] forKey:@"DontShowInstructionsAgain"];	
+	}
+	
+    [NSApp endSheet:O_instructionalSheetPanel];
 }
 
 - (IBAction)choosePreset:(id)aSender {
@@ -237,22 +237,21 @@
     [O_addProtocolUDPButton setState:([[preset objectForKey:@"transportProtocol"] intValue] & TCMPortMappingTransportProtocolUDP)?NSOnState:NSOffState];
 }
 
-- (void)portMappingDidChangeMappingStatus:(NSNotification *)aNotification {
-    [O_replacedReferenceStringTextField setStringValue:[[NSValueTransformer valueTransformerForName:@"TCMReplacedStringFromPortMappingReferenceString"] transformedValue:[O_mappingsArrayController selectedObjects]]];
+
+- (IBAction)addMapping:(id)aSender {
+    [NSApp beginSheet:O_addSheetPanel modalForWindow:[O_currentIPTextField window] modalDelegate:self didEndSelector:@selector(genericSheetDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
 
-- (void)startProgressIndicator:(NSNotification *)aNotification {
-    [O_globalProgressIndicator startAnimation:self];
-    [O_showUPNPMappingTableButton setEnabled:NO];
-    [O_UPNPTabItemProgressIndicator startAnimation:self];
-}
-
-
-- (void)stopProgressIndicator:(NSNotification *)aNotification {
-    [O_globalProgressIndicator stopAnimation:self];
-    [O_UPNPTabItemProgressIndicator stopAnimation:self];
-    [O_showUPNPMappingTableButton setEnabled:[[TCMPortMapper sharedInstance] mappingProtocol] == TCMUPNPPortMapProtocol];
-    [O_localIPAddressTextField setStringValue:[[TCMPortMapper sharedInstance] localIPAddress]];
+- (IBAction)removeMapping:(id)aSender {
+    NSEnumerator *mappings = [[O_mappingsArrayController selectedObjects] objectEnumerator];
+    TCMPortMapping *mapping = nil;
+    while ((mapping=[mappings nextObject])) {
+        if ([[[mapping userInfo] objectForKey:@"active"] boolValue]) {
+            [[TCMPortMapper sharedInstance] removePortMapping:mapping];
+        }
+        [mapping removeObserver:self forKeyPath:@"userInfo.active"];
+    }
+    [O_mappingsArrayController removeObjects:[O_mappingsArrayController selectedObjects]];
 }
 
 - (IBAction)gotoPortMapHomepage:(id)aSender {

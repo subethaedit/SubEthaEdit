@@ -93,28 +93,28 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = F2C65FFE0D50C2D100820CAE /* Port Map */;
+			remoteGlobalIDString = F2C65FFE0D50C2D100820CAE;
 			remoteInfo = "Port Map";
 		};
 		F246036D0DB4B45E00C509E9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = 3180119E0D4DEC8400BE3B28 /* TCMPortMapper */;
+			remoteGlobalIDString = 3180119E0D4DEC8400BE3B28;
 			remoteInfo = TCMPortMapper;
 		};
 		F24603750DB4B4BD00C509E9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = F246036A0DB4B45900C509E9 /* Create TCMPortMapper Release Zip */;
+			remoteGlobalIDString = F246036A0DB4B45900C509E9;
 			remoteInfo = "Create TCMPortMapper Release Zip";
 		};
 		F24603770DB4B4C000C509E9 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
 			proxyType = 1;
-			remoteGlobalIDString = F24603510DB4B19100C509E9 /* Create Port Map Release Zip */;
+			remoteGlobalIDString = F24603510DB4B19100C509E9;
 			remoteInfo = "Create Port Map Release Zip";
 		};
 		F2C660410D50C64A00820CAE /* PBXContainerItemProxy */ = {
