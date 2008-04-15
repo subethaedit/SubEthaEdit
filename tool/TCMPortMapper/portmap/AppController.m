@@ -56,7 +56,12 @@
             [O_addPresetPopupButton addItemWithTitle:title];
             [[[O_addPresetPopupButton itemArray] lastObject] setRepresentedObject:preset];
         }
-    }	
+    }
+    
+    // set the version
+    NSDictionary *infoDictionary = [[NSBundle mainBundle] infoDictionary];
+    NSString *versionString = [NSString stringWithFormat:@"%@ %@ (%@)",[O_aboutVersionLineTextField stringValue],[infoDictionary objectForKey:@"CFBundleShortVersionString"],[infoDictionary objectForKey:@"CFBundleVersion"]];
+    [O_aboutVersionLineTextField setStringValue:versionString];
 }
 
 - (void)writeMappingDefaults {

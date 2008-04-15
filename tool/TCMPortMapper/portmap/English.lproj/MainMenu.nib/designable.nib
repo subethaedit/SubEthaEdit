@@ -3,15 +3,15 @@
 	<data>
 		<int key="IBDocument.SystemTarget">1040</int>
 		<string key="IBDocument.SystemVersion">9C7010</string>
-		<string key="IBDocument.InterfaceBuilderVersion">648</string>
+		<string key="IBDocument.InterfaceBuilderVersion">649</string>
 		<string key="IBDocument.AppKitVersion">949.26</string>
 		<string key="IBDocument.HIToolboxVersion">352.00</string>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
 			<integer value="29"/>
+			<integer value="372"/>
 			<integer value="563"/>
 			<integer value="622"/>
-			<integer value="372"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -2518,7 +2518,7 @@ ciBoZWxwLg</string>
 							<object class="NSTextFieldCell" key="NSCell" id="845865631">
 								<int key="NSCellFlags">67239488</int>
 								<int key="NSCellFlags2">138544128</int>
-								<string type="base64-UTF8" key="NSContents">VmVyc2lvbiAxLjDDnw</string>
+								<string key="NSContents">Version</string>
 								<object class="NSFont" key="NSSupport" id="24">
 									<string key="NSName">LucidaGrande</string>
 									<double key="NSSize">1.000000e+01</double>
@@ -3517,6 +3517,14 @@ dXBucGMuCk9wZW4gYXBwbGljYXRpb24gYnVuZGxlIGZvciBkZXRhaWxzLg</string>
 						<reference key="destination" ref="94031528"/>
 					</object>
 					<int key="connectionID">642</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">O_aboutVersionLineTextField</string>
+						<reference key="source" ref="781372343"/>
+						<reference key="destination" ref="905799129"/>
+					</object>
+					<int key="connectionID">643</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -5628,9 +5636,9 @@ dXBucGMuCk9wZW4gYXBwbGljYXRpb24gYnVuZGxlIGZvciBkZXRhaWxzLg</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="134431484"/>
-					<string>{{527, 434}, {252, 220}}</string>
+					<string>{{485, 434}, {252, 220}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{527, 434}, {252, 220}}</string>
+					<string>{{485, 434}, {252, 220}}</string>
 					<reference ref="8"/>
 					<string>{{299, 299}, {252, 220}}</string>
 					<reference ref="134431484"/>
@@ -5664,10 +5672,10 @@ dXBucGMuCk9wZW4gYXBwbGljYXRpb24gYnVuZGxlIGZvciBkZXRhaWxzLg</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<reference ref="134431484"/>
-					<string>{{192, 438}, {640, 402}}</string>
+					<string>{{97, 438}, {640, 402}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{192, 438}, {640, 402}}</string>
-					<integer value="0"/>
+					<string>{{97, 438}, {640, 402}}</string>
+					<reference ref="8"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -5736,7 +5744,7 @@ dXBucGMuCk9wZW4gYXBwbGljYXRpb24gYnVuZGxlIGZvciBkZXRhaWxzLg</string>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">642</int>
+			<int key="maxID">643</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -5828,6 +5836,7 @@ dXBucGMuCk9wZW4gYXBwbGljYXRpb24gYnVuZGxlIGZvciBkZXRhaWxzLg</string>
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>O_UPNPMappingListArrayController</string>
 							<string>O_UPNPTabItemProgressIndicator</string>
+							<string>O_aboutVersionLineTextField</string>
 							<string>O_aboutWindow</string>
 							<string>O_addDescriptionField</string>
 							<string>O_addDesiredField</string>
@@ -5858,6 +5867,7 @@ dXBucGMuCk9wZW4gYXBwbGljYXRpb24gYnVuZGxlIGZvciBkZXRhaWxzLg</string>
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>NSArrayController</string>
 							<string>NSProgressIndicator</string>
+							<string>NSTextField</string>
 							<string>NSWindow</string>
 							<string>NSTextField</string>
 							<string>NSTextField</string>
@@ -5887,7 +5897,7 @@ dXBucGMuCk9wZW4gYXBwbGljYXRpb24gYnVuZGxlIGZvciBkZXRhaWxzLg</string>
 					</object>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">portmap_dom/AppController.h</string>
+						<string key="minorKey">portmap/AppController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

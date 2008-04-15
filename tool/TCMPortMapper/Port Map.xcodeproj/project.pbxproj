@@ -6,6 +6,21 @@
 	objectVersion = 44;
 	objects = {
 
+/* Begin PBXAggregateTarget section */
+		F24603720DB4B4B600C509E9 /* Create Release Zips */ = {
+			isa = PBXAggregateTarget;
+			buildConfigurationList = F24603830DB4B4F400C509E9 /* Build configuration list for PBXAggregateTarget "Create Release Zips" */;
+			buildPhases = (
+			);
+			dependencies = (
+				F24603760DB4B4BD00C509E9 /* PBXTargetDependency */,
+				F24603780DB4B4C000C509E9 /* PBXTargetDependency */,
+			);
+			name = "Create Release Zips";
+			productName = "Create Release Zips";
+		};
+/* End PBXAggregateTarget section */
+
 /* Begin PBXBuildFile section */
 		318011AC0D4DEE9500BE3B28 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 29B97325FDCFA39411CA2CEA /* Foundation.framework */; };
 		3180159D0D4E1B9200BE3B28 /* SystemConfiguration.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 3180154D0D4E08D900BE3B28 /* SystemConfiguration.framework */; };
@@ -29,11 +44,11 @@
 		F2301B630D685C4B00728699 /* upnpcommands.c in Sources */ = {isa = PBXBuildFile; fileRef = F2301B2A0D685C1B00728699 /* upnpcommands.c */; };
 		F2301B640D685C4F00728699 /* upnperrors.c in Sources */ = {isa = PBXBuildFile; fileRef = F2301B2D0D685C1B00728699 /* upnperrors.c */; };
 		F2301B650D685C5300728699 /* upnpreplyparse.c in Sources */ = {isa = PBXBuildFile; fileRef = F2301B300D685C1B00728699 /* upnpreplyparse.c */; };
+		F24602F70DB4AFE300C509E9 /* OUItoCompany.plist in Resources */ = {isa = PBXBuildFile; fileRef = F2CDB8FA0D65D82900B6A4E7 /* OUItoCompany.plist */; };
 		F2482BA50D589FD0002DF811 /* RSVerticallyCenteredTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F2482BA40D589FD0002DF811 /* RSVerticallyCenteredTextFieldCell.m */; };
 		F2482BA90D58A15F002DF811 /* TCMStatusImageFromMappingStatusValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = F2482BA80D58A15F002DF811 /* TCMStatusImageFromMappingStatusValueTransformer.m */; };
 		F2482BAC0D58A415002DF811 /* GenericQuestionMarkIcon.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2482BAB0D58A415002DF811 /* GenericQuestionMarkIcon.icns */; };
 		F2482BBB0D58ABFA002DF811 /* TCMPortStringFromPublicPortValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = F2482BBA0D58ABFA002DF811 /* TCMPortStringFromPublicPortValueTransformer.m */; };
-		F297E3230D9FD88400D0FE58 /* TCMPortMapper-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = F2C65BE20D50B17B00820CAE /* TCMPortMapper-Info.plist */; };
 		F2C65C2D0D50B2D800820CAE /* IXSCNotificationManager.h in Headers */ = {isa = PBXBuildFile; fileRef = F2C65BE70D50B17B00820CAE /* IXSCNotificationManager.h */; };
 		F2C65C2E0D50B2D900820CAE /* IXSCNotificationManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F2C65BE60D50B17B00820CAE /* IXSCNotificationManager.m */; };
 		F2C65C2F0D50B2E000820CAE /* TCMNATPMPPortMapper.m in Sources */ = {isa = PBXBuildFile; fileRef = F2C65BE30D50B17B00820CAE /* TCMNATPMPPortMapper.m */; };
@@ -73,6 +88,34 @@
 			proxyType = 1;
 			remoteGlobalIDString = 3180119E0D4DEC8400BE3B28;
 			remoteInfo = TCMPortMapper;
+		};
+		F246035E0DB4B36400C509E9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F2C65FFE0D50C2D100820CAE /* Port Map */;
+			remoteInfo = "Port Map";
+		};
+		F246036D0DB4B45E00C509E9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 3180119E0D4DEC8400BE3B28 /* TCMPortMapper */;
+			remoteInfo = TCMPortMapper;
+		};
+		F24603750DB4B4BD00C509E9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F246036A0DB4B45900C509E9 /* Create TCMPortMapper Release Zip */;
+			remoteInfo = "Create TCMPortMapper Release Zip";
+		};
+		F24603770DB4B4C000C509E9 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 29B97313FDCFA39411CA2CEA /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = F24603510DB4B19100C509E9 /* Create Port Map Release Zip */;
+			remoteInfo = "Create Port Map Release Zip";
 		};
 		F2C660410D50C64A00820CAE /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -164,6 +207,7 @@
 		F2301B2E0D685C1B00728699 /* upnperrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = upnperrors.h; sourceTree = "<group>"; };
 		F2301B300D685C1B00728699 /* upnpreplyparse.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = upnpreplyparse.c; sourceTree = "<group>"; };
 		F2301B310D685C1B00728699 /* upnpreplyparse.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = upnpreplyparse.h; sourceTree = "<group>"; };
+		F24603850DB4B61E00C509E9 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = portmap/Info.plist; sourceTree = "<group>"; };
 		F2482BA30D589FD0002DF811 /* RSVerticallyCenteredTextFieldCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = RSVerticallyCenteredTextFieldCell.h; path = RSVerticallyCenteredTextFieldCell/RSVerticallyCenteredTextFieldCell.h; sourceTree = "<group>"; };
 		F2482BA40D589FD0002DF811 /* RSVerticallyCenteredTextFieldCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = RSVerticallyCenteredTextFieldCell.m; path = RSVerticallyCenteredTextFieldCell/RSVerticallyCenteredTextFieldCell.m; sourceTree = "<group>"; };
 		F2482BA70D58A15F002DF811 /* TCMStatusImageFromMappingStatusValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = TCMStatusImageFromMappingStatusValueTransformer.h; path = portmap/TCMStatusImageFromMappingStatusValueTransformer.h; sourceTree = "<group>"; };
@@ -385,6 +429,22 @@
 			path = man3;
 			sourceTree = "<group>";
 		};
+		F24603880DB4B63A00C509E9 /* Artwork */ = {
+			isa = PBXGroup;
+			children = (
+				F2482BAB0D58A415002DF811 /* GenericQuestionMarkIcon.icns */,
+				F2CDB8C50D65BF2200B6A4E7 /* NSAddTemplate.tiff */,
+				F2CDB8C60D65BF2200B6A4E7 /* NSRefreshTemplate.tiff */,
+				F2CDB8C70D65BF2200B6A4E7 /* NSRemoveTemplate.tiff */,
+				F2C6602F0D50C59B00820CAE /* On20.png */,
+				F2C660300D50C59B00820CAE /* Off20.png */,
+				F2C660310D50C59B00820CAE /* DotRed.png */,
+				F2C660330D50C59B00820CAE /* DotGreen.png */,
+				F2C660340D50C59B00820CAE /* DotYellow.png */,
+			);
+			name = Artwork;
+			sourceTree = "<group>";
+		};
 		F2C65BDD0D50B16100820CAE /* TCMPortMapper.framework */ = {
 			isa = PBXGroup;
 			children = (
@@ -452,20 +512,13 @@
 		F2C660130D50C36700820CAE /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				31FAE7D30D672D410085867F /* miniupnpc-LICENSE.txt */,
-				F2CDB8C50D65BF2200B6A4E7 /* NSAddTemplate.tiff */,
-				F2CDB8C60D65BF2200B6A4E7 /* NSRefreshTemplate.tiff */,
-				F2CDB8C70D65BF2200B6A4E7 /* NSRemoveTemplate.tiff */,
-				F2D731E90D5B768300CBD1D8 /* Presets.plist */,
-				F2482BAB0D58A415002DF811 /* GenericQuestionMarkIcon.icns */,
+				F24603880DB4B63A00C509E9 /* Artwork */,
+				F24603850DB4B61E00C509E9 /* Info.plist */,
 				F2C6603B0D50C62F00820CAE /* MainMenu.nib */,
 				F2C6603D0D50C62F00820CAE /* InfoPlist.strings */,
-				F2C6602F0D50C59B00820CAE /* On20.png */,
-				F2C660300D50C59B00820CAE /* Off20.png */,
-				F2C660310D50C59B00820CAE /* DotRed.png */,
+				F2D731E90D5B768300CBD1D8 /* Presets.plist */,
+				31FAE7D30D672D410085867F /* miniupnpc-LICENSE.txt */,
 				F2C660320D50C59B00820CAE /* PortMap.icns */,
-				F2C660330D50C59B00820CAE /* DotGreen.png */,
-				F2C660340D50C59B00820CAE /* DotYellow.png */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -501,6 +554,37 @@
 		};
 /* End PBXHeadersBuildPhase section */
 
+/* Begin PBXLegacyTarget section */
+		F24603510DB4B19100C509E9 /* Create Port Map Release Zip */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "-c \"$(SRCROOT)/createZip.sh\" $(ACTION)";
+			buildConfigurationList = F24603540DB4B1C900C509E9 /* Build configuration list for PBXLegacyTarget "Create Port Map Release Zip" */;
+			buildPhases = (
+			);
+			buildToolPath = /bin/sh;
+			dependencies = (
+				F246035F0DB4B36400C509E9 /* PBXTargetDependency */,
+			);
+			name = "Create Port Map Release Zip";
+			passBuildSettingsInEnvironment = 1;
+			productName = "Create Port Map Release Zip";
+		};
+		F246036A0DB4B45900C509E9 /* Create TCMPortMapper Release Zip */ = {
+			isa = PBXLegacyTarget;
+			buildArgumentsString = "-c \"$(SRCROOT)/createZip.sh\" $(ACTION)";
+			buildConfigurationList = F24603710DB4B4AB00C509E9 /* Build configuration list for PBXLegacyTarget "Create TCMPortMapper Release Zip" */;
+			buildPhases = (
+			);
+			buildToolPath = /bin/sh;
+			dependencies = (
+				F246036E0DB4B45E00C509E9 /* PBXTargetDependency */,
+			);
+			name = "Create TCMPortMapper Release Zip";
+			passBuildSettingsInEnvironment = 1;
+			productName = "Create TCMPortMapper Release Zip";
+		};
+/* End PBXLegacyTarget section */
+
 /* Begin PBXNativeTarget section */
 		3180119E0D4DEC8400BE3B28 /* TCMPortMapper */ = {
 			isa = PBXNativeTarget;
@@ -510,6 +594,7 @@
 				3180119B0D4DEC8400BE3B28 /* Resources */,
 				3180119C0D4DEC8400BE3B28 /* Sources */,
 				3180119D0D4DEC8400BE3B28 /* Frameworks */,
+				F24602C10DB4AB3E00C509E9 /* Versioning */,
 			);
 			buildRules = (
 			);
@@ -547,6 +632,7 @@
 				F2C65FFB0D50C2D100820CAE /* Resources */,
 				F2C65FFC0D50C2D100820CAE /* Sources */,
 				F2C65FFD0D50C2D100820CAE /* Frameworks */,
+				F24602E80DB4AF3900C509E9 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -573,6 +659,9 @@
 				3180119E0D4DEC8400BE3B28 /* TCMPortMapper */,
 				F2C65FFE0D50C2D100820CAE /* Port Map */,
 				F214E5DA0D5F5FE600A06962 /* NATEcho */,
+				F24603510DB4B19100C509E9 /* Create Port Map Release Zip */,
+				F246036A0DB4B45900C509E9 /* Create TCMPortMapper Release Zip */,
+				F24603720DB4B4B600C509E9 /* Create Release Zips */,
 			);
 		};
 /* End PBXProject section */
@@ -582,7 +671,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F297E3230D9FD88400D0FE58 /* TCMPortMapper-Info.plist in Resources */,
+				F24602F70DB4AFE300C509E9 /* OUItoCompany.plist in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -623,6 +712,36 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXResourcesBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		F24602C10DB4AB3E00C509E9 /* Versioning */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = Versioning;
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = "/usr/bin/perl -w";
+			shellScript = "# Xcode auto-versioning script for Subversion\n# by Axel Andersson, modified by Daniel Jalkut to add\n# \"--revision HEAD\" to the svn info line, which allows\n# the latest revision to always be used.\n        \nuse strict;\n        \ndie \"$0: Must be run from Xcode\" unless $ENV{\"BUILT_PRODUCTS_DIR\"};\n        \n# Get the current subversion revision number and use it to set the CFBundleVersion value\nmy $REV = `export PATH=\\$PATH:/usr/local/bin;/usr/bin/env svnversion -n ./`;\nmy $INFO = \"$ENV{BUILT_PRODUCTS_DIR}/$ENV{WRAPPER_NAME}/Resources/Info.plist\";\n        \nmy $version = $REV;\n$version =~ s/([\\d]*:)(\\d+[M|S]*).*/$2/;\ndie \"$0: No Subversion revision found\" unless $version;\n        \nopen(FH, \"$INFO\") or die \"$0: $INFO: $!\";\nmy $info = join(\"\", <FH>);\nclose(FH);\n        \n$info =~ s/([\\t ]+<key>BuildRevision<\\/key>\\n[\\t ]+<string>).*?(<\\/string>)/$1$version$2/;\n        \nopen(FH, \">$INFO\") or die \"$0: $INFO: $!\";\nprint FH $info;\nclose(FH);\n";
+		};
+		F24602E80DB4AF3900C509E9 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = "/usr/bin/perl -w";
+			shellScript = "# Xcode auto-versioning script for Subversion\n# by Axel Andersson, modified by Daniel Jalkut to add\n# \"--revision HEAD\" to the svn info line, which allows\n# the latest revision to always be used.\n        \nuse strict;\n        \ndie \"$0: Must be run from Xcode\" unless $ENV{\"BUILT_PRODUCTS_DIR\"};\n        \n# Get the current subversion revision number and use it to set the CFBundleVersion value\nmy $REV = `export PATH=\\$PATH:/usr/local/bin;/usr/bin/env svnversion -n ./`;\nmy $INFO = \"$ENV{BUILT_PRODUCTS_DIR}/$ENV{WRAPPER_NAME}/Contents/Info.plist\";\n        \nmy $version = $REV;\n$version =~ s/([\\d]*:)(\\d+[M|S]*).*/$2/;\ndie \"$0: No Subversion revision found\" unless $version;\n        \nopen(FH, \"$INFO\") or die \"$0: $INFO: $!\";\nmy $info = join(\"\", <FH>);\nclose(FH);\n        \n$info =~ s/([\\t ]+<key>CFBundleVersion<\\/key>\\n[\\t ]+<string>).*?(<\\/string>)/$1$version$2/;\n        \nopen(FH, \">$INFO\") or die \"$0: $INFO: $!\";\nprint FH $info;\nclose(FH);\n";
+		};
+/* End PBXShellScriptBuildPhase section */
 
 /* Begin PBXSourcesBuildPhase section */
 		3180119C0D4DEC8400BE3B28 /* Sources */ = {
@@ -679,6 +798,26 @@
 			isa = PBXTargetDependency;
 			target = 3180119E0D4DEC8400BE3B28 /* TCMPortMapper */;
 			targetProxy = F214E60F0D5F65D300A06962 /* PBXContainerItemProxy */;
+		};
+		F246035F0DB4B36400C509E9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F2C65FFE0D50C2D100820CAE /* Port Map */;
+			targetProxy = F246035E0DB4B36400C509E9 /* PBXContainerItemProxy */;
+		};
+		F246036E0DB4B45E00C509E9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 3180119E0D4DEC8400BE3B28 /* TCMPortMapper */;
+			targetProxy = F246036D0DB4B45E00C509E9 /* PBXContainerItemProxy */;
+		};
+		F24603760DB4B4BD00C509E9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F246036A0DB4B45900C509E9 /* Create TCMPortMapper Release Zip */;
+			targetProxy = F24603750DB4B4BD00C509E9 /* PBXContainerItemProxy */;
+		};
+		F24603780DB4B4C000C509E9 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = F24603510DB4B19100C509E9 /* Create Port Map Release Zip */;
+			targetProxy = F24603770DB4B4C000C509E9 /* PBXContainerItemProxy */;
 		};
 		F2C660420D50C64A00820CAE /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -866,6 +1005,73 @@
 			};
 			name = Release;
 		};
+		F24603520DB4B19100C509E9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = "Create Port Map Release Zip";
+			};
+			name = Debug;
+		};
+		F24603530DB4B19100C509E9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = "Create Port Map Release Zip";
+				ZERO_LINK = NO;
+				ZipName = PortMap;
+				ZipProduct = "Port Map.app";
+			};
+			name = Release;
+		};
+		F246036B0DB4B45A00C509E9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = "Create TCMPortMapper Release Zip";
+			};
+			name = Debug;
+		};
+		F246036C0DB4B45A00C509E9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = "Create TCMPortMapper Release Zip";
+				ZERO_LINK = NO;
+				ZipName = TCMPortMapper;
+				ZipProduct = TCMPortMapper.framework;
+			};
+			name = Release;
+		};
+		F24603730DB4B4B700C509E9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = NO;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				PRODUCT_NAME = "Create Release Zips";
+			};
+			name = Debug;
+		};
+		F24603740DB4B4B700C509E9 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				PRODUCT_NAME = "Create Release Zips";
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
 		F2C660040D50C2D200820CAE /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -941,6 +1147,33 @@
 			buildConfigurations = (
 				F214E5DE0D5F5FE800A06962 /* Debug */,
 				F214E5DF0D5F5FE800A06962 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F24603540DB4B1C900C509E9 /* Build configuration list for PBXLegacyTarget "Create Port Map Release Zip" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F24603520DB4B19100C509E9 /* Debug */,
+				F24603530DB4B19100C509E9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F24603710DB4B4AB00C509E9 /* Build configuration list for PBXLegacyTarget "Create TCMPortMapper Release Zip" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F246036B0DB4B45A00C509E9 /* Debug */,
+				F246036C0DB4B45A00C509E9 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F24603830DB4B4F400C509E9 /* Build configuration list for PBXAggregateTarget "Create Release Zips" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F24603730DB4B4B700C509E9 /* Debug */,
+				F24603740DB4B4B700C509E9 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

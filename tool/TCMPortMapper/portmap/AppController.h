@@ -40,6 +40,8 @@
 	IBOutlet NSWindow *O_instructionalSheetPanel;
     IBOutlet NSButton *O_dontShowInstructionsAgainButton;
     IBOutlet NSWindow *O_aboutWindow;
+    
+    IBOutlet NSTextField *O_aboutVersionLineTextField;
 }
 
 - (IBAction)togglePortMapper:(id)aSender;
