@@ -157,6 +157,10 @@ miniwget2(const char * url, const char * host,
  *    1 - Success         */
 int parseURL(const char * url, char * hostname, unsigned short * port, char * * path)
 {
+	if ( url==0 ) {
+		printf("%s: url was empty zero\n",__PRETTY_FUNCTION__);
+		return 0;
+	}
 	char * p1, *p2, *p3;
 	p1 = strstr(url, "://");
 	if(!p1)

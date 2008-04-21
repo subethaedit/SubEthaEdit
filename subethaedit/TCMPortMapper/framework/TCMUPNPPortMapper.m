@@ -487,6 +487,7 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
 - (void)stopBlocking {
     refreshThreadShouldQuit=YES;
     UpdatePortMappingsThreadShouldQuit = YES;
+    UpdatePortMappingsThreadShouldRestart=NO;
     [_threadIsRunningLock lock];
     NSSet *mappingsToStop = [[TCMPortMapper sharedInstance] portMappings];
     @synchronized (mappingsToStop) {
@@ -502,6 +503,9 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
         }
     }
     [_threadIsRunningLock unlock];
+    refreshThreadShouldQuit=YES;
+    UpdatePortMappingsThreadShouldQuit = YES;
+    UpdatePortMappingsThreadShouldRestart=NO;
 }
 
 
