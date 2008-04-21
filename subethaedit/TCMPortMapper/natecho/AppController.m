@@ -1,21 +1,44 @@
-//
-//  AppController.m
-//  Port Map
-//
-//  Created by Dominik Wagner on 10.02.08.
-//  Copyright 2008 TheCodingMonkeys. All rights reserved.
-//
 
 #import "AppController.h"
 #import <TCMPortMapper/TCMPortMapper.h>
 
 @implementation AppController
 
+- (void)portMapperDidStartWork:(NSNotification *)aNotification {
+	NSLog(@"%s",__FUNCTION__);
+    [O_publicIndicator startAnimation:self];
+    [O_publicStatusImageView setHidden:YES];
+    [O_publicStatusTextField setStringValue:NSLocalizedString(@"Checking port status...",@"Status of port mapping while trying")];
+}
+
+- (void)portMapperDidFinishWork:(NSNotification *)aNotification {
+	NSLog(@"%s",__FUNCTION__);
+    [O_publicIndicator stopAnimation:self];
+
+    TCMPortMapper *pm = [TCMPortMapper sharedInstance];
+    // since we only have one mapping this is fine
+    TCMPortMapping *mapping = [[pm portMappings] anyObject];
+    if ([mapping mappingStatus]==TCMPortMappingStatusMapped) {
+        [O_publicStatusImageView setImage:[NSImage imageNamed:@"DotGreen"]];
+        [O_publicStatusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"telnet %@ %d",@"Public echo server availability string"), [pm externalIPAddress],[mapping externalPort]]];
+    } else {
+        [O_publicStatusImageView setImage:[NSImage imageNamed:@"DotRed"]];
+        [O_publicStatusTextField setStringValue:NSLocalizedString(@"No public mapping.",@"Connection Browser Display when not reachable")];
+    }
+    [O_publicStatusImageView setHidden:NO];
+}
+
 - (void)applicationWillFinishLaunching:(NSNotification *)aNotification {
     TCMPortMapper *pm = [TCMPortMapper sharedInstance];
-    [[NSNotificationCenter defaultCenter] addObserver:O_publicIndicator selector:@selector(startAnimation:) name:TCMPortMapperDidStartWorkNotification object:pm];
-    [[NSNotificationCenter defaultCenter] addObserver:O_publicIndicator selector:@selector(stopAnimation:) name:TCMPortMapperDidFinishWorkNotification object:pm];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateMappingStatus:) name:TCMPortMappingDidChangeMappingStatusNotification object:nil];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(portMapperDidStartWork:) name:TCMPortMapperDidStartWorkNotification object:pm];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(portMapperDidFinishWork:) name:TCMPortMapperDidFinishWorkNotification object:pm];
+    // this is if this code goes elswhere where we may have already started searching for a mapping
+    if ([pm isAtWork]) {
+        [self portMapperDidStartWork:nil];
+    } else {
+        [self portMapperDidFinishWork:nil];
+    }
+
     I_server = [TCPServer new];
     [I_server setType:@"_echo._tcp."];
     [I_server setName:@"NATEcho"];
@@ -25,6 +48,7 @@
 
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     [I_server stop];
+    // this is needed so we don't leave stale mappings on quit in case of upnp
     [[TCMPortMapper sharedInstance] stopBlocking];
 }
 
@@ -52,13 +76,15 @@
     [I_server stop];
     [O_serverStatusImageView setImage:[NSImage imageNamed:@"DotRed"]];
     [O_serverStatusTextField setStringValue:@"Stopped"];
+    [O_serverReachabilityTextField setStringValue:@"Not running"];
+
     TCMPortMapper *pm = [TCMPortMapper sharedInstance];
     // we know that we just added one port mapping so let us remove it
-    [O_serverReachabilityTextField setStringValue:@"Not running"];
     [pm removePortMapping:[[pm portMappings] anyObject]];
     // stop also stops the current mappings, but it stores the mappings
     // so you could start again and get the same mappings
     [pm stop];
+
 }
 
 - (IBAction)startStop:(id)aSender {
@@ -70,21 +96,6 @@
         [O_portTextField setEnabled:YES];
         [O_startStopButton setTitle:@"Start"];
         [self stop];
-    }
-}
-
-- (void)updateMappingStatus:(NSNotification *)aNotification {
-    NSLog(@"%s %@",__FUNCTION__,[aNotification object]);
-    TCMPortMapping *aMapping = [aNotification object];
-    if ([aMapping mappingStatus] == TCMPortMappingStatusUnmapped) {
-        [O_publicStatusImageView setImage:[NSImage imageNamed:@"DotRed"]];
-        [O_publicStatusTextField setStringValue:@"Unreachable"];
-    } else if ([aMapping mappingStatus] == TCMPortMappingStatusTrying) {
-        [O_publicStatusImageView setImage:[NSImage imageNamed:@"DotYellow"]];
-        [O_publicStatusTextField setStringValue:@"Trying..."];
-    } else if ([aMapping mappingStatus] == TCMPortMappingStatusMapped) {
-        [O_publicStatusImageView setImage:[NSImage imageNamed:@"DotGreen"]];
-        [O_publicStatusTextField setStringValue:[NSString stringWithFormat:@"telnet %@ %d",[[TCMPortMapper sharedInstance] externalIPAddress],[aMapping externalPort]]];
     }
 }
 

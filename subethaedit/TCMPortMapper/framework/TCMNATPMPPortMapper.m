@@ -1,13 +1,6 @@
-//
-//  TCMNATPMPPortMapper.m
-//  PortMapper
-//
-//  Created by Martin Pittenauer on 15.01.08.
-//  Copyright 2008 TheCodingMonkeys. All rights reserved.
-//
 
 #import "TCMNATPMPPortMapper.h"
-#import "NSNotificationAdditions.h"
+#import "NSNotificationCenterThreadingAdditions.h"
 
 #import <netinet/in.h>
 #import <netinet6/in6.h>
@@ -243,17 +236,17 @@ Standardablauf:
 }
 
 - (BOOL)applyPortMapping:(TCMPortMapping *)aPortMapping remove:(BOOL)shouldRemove natpmp:(natpmp_t *)aNatPMPt {
-	natpmpresp_t response;
-	int r;
-	//int sav_errno;
-	struct timeval timeout;
-	fd_set fds;
-	
+    natpmpresp_t response;
+    int r;
+    //int sav_errno;
+    struct timeval timeout;
+    fd_set fds;
+    
     if (!shouldRemove) [aPortMapping setMappingStatus:TCMPortMappingStatusTrying];
     TCMPortMappingTransportProtocol protocol = [aPortMapping transportProtocol];
 
-	int i;
-	for (i=1;i<=2;i++) {
+    int i;
+    for (i=1;i<=2;i++) {
         if ((i == protocol)||(protocol == TCMPortMappingTransportProtocolBoth)) {
             r = sendnewportmappingrequest(aNatPMPt, (i==TCMPortMappingTransportProtocolUDP)?NATPMP_PROTOCOL_UDP:NATPMP_PROTOCOL_TCP, [aPortMapping localPort],[aPortMapping desiredExternalPort], shouldRemove?0:3600);
         
@@ -272,23 +265,23 @@ Standardablauf:
         }
     }
 
-	// update PortMapping
-	if (shouldRemove) {
-	   [aPortMapping setMappingStatus:TCMPortMappingStatusUnmapped];
-	} else {
-	   _updateInterval = MIN(_updateInterval,response.newportmapping.lifetime/2.);
-	   if (_updateInterval < 60.) {
-	       NSLog(@"%s caution - new port mapping had a lifetime < 120. : %u - %@",__FUNCTION__,response.newportmapping.lifetime, aPortMapping);
-	       _updateInterval = 60.;
-	   }
-	   [aPortMapping setExternalPort:response.newportmapping.mappedpublicport];
-	   [aPortMapping setMappingStatus:TCMPortMappingStatusMapped];
-	}
-	
-	/* TODO : check response.type ! */
-	// printf("Mapped public port %hu to localport %hu liftime %u\n", response.newportmapping.mappedpublicport, response.newportmapping.privateport, response.newportmapping.lifetime);
-	//printf("epoch = %u\n", response.epoch);
-	return YES;
+    // update PortMapping
+    if (shouldRemove) {
+       [aPortMapping setMappingStatus:TCMPortMappingStatusUnmapped];
+    } else {
+       _updateInterval = MIN(_updateInterval,response.newportmapping.lifetime/2.);
+       if (_updateInterval < 60.) {
+           NSLog(@"%s caution - new port mapping had a lifetime < 120. : %u - %@",__FUNCTION__,response.newportmapping.lifetime, aPortMapping);
+           _updateInterval = 60.;
+       }
+       [aPortMapping setExternalPort:response.newportmapping.mappedpublicport];
+       [aPortMapping setMappingStatus:TCMPortMappingStatusMapped];
+    }
+    
+    /* TODO : check response.type ! */
+    // printf("Mapped public port %hu to localport %hu liftime %u\n", response.newportmapping.mappedpublicport, response.newportmapping.privateport, response.newportmapping.lifetime);
+    //printf("epoch = %u\n", response.epoch);
+    return YES;
 }
 
 - (void)updatePortMappingsInThread {
@@ -391,16 +384,16 @@ Standardablauf:
     [natPMPThreadIsRunningLock lock];
     NSAutoreleasePool *pool = [NSAutoreleasePool new];
     [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadWithName:TCMNATPMPPortMapperDidBeginWorkingNotification object:self];
-	natpmp_t natpmp;
-	natpmpresp_t response;
-	int r;
-	struct timeval timeout;
-	fd_set fds;
-	BOOL didFail=NO;
-	r = initnatpmp(&natpmp);
-	if(r<0) {
-	   didFail = YES;
-	} else {
+    natpmp_t natpmp;
+    natpmpresp_t response;
+    int r;
+    struct timeval timeout;
+    fd_set fds;
+    BOOL didFail=NO;
+    r = initnatpmp(&natpmp);
+    if(r<0) {
+       didFail = YES;
+    } else {
         r = sendpublicaddressrequest(&natpmp);
         if(r<0) {
             didFail = YES;
@@ -448,7 +441,7 @@ Standardablauf:
             }
         }
     }
-	closenatpmp(&natpmp);
+    closenatpmp(&natpmp);
     [natPMPThreadIsRunningLock unlock];
     if (IPAddressThreadShouldQuitAndRestart) {
 #ifndef DEBUG

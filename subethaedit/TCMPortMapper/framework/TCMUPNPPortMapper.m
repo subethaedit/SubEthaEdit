@@ -1,15 +1,8 @@
-//
-//  TCMUPNPPortMapper.m
-//  PortMapper
-//
-//  Created by Martin Pittenauer on 25.01.08.
-//  Copyright 2008 TheCodingMonkeys. All rights reserved.
-//
 
 #import "TCMUPNPPortMapper.h"
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <SystemConfiguration/SCSchemaDefinitions.h>
-#import "NSNotificationAdditions.h"
+#import "NSNotificationCenterThreadingAdditions.h"
 
 //static void PrintHeader(void)
 //    // Prints an explanation of the flag coding.
@@ -44,8 +37,22 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
 
 - (void)dealloc {
     [_threadIsRunningLock release];
+    [_latestUPNPPortMappingsList release];
     [super dealloc];
 }
+
+- (void)setLatestUPNPPortMappingsList:(NSArray *)aLatestList {
+    if (aLatestList != _latestUPNPPortMappingsList) {
+        id tmp = _latestUPNPPortMappingsList;
+        _latestUPNPPortMappingsList = [aLatestList retain];
+        [tmp autorelease];
+    }
+}
+
+- (NSArray *)latestUPNPPortMappingsList {
+    return [[_latestUPNPPortMappingsList retain] autorelease];
+}
+
 
 - (void)refresh {
     if ([_threadIsRunningLock tryLock]) {
@@ -306,6 +313,7 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
     //  other mappings are there, especially when from the same local IP)
     NSMutableIndexSet *reservedPortNumbers = [[NSMutableIndexSet new] autorelease];
     // get port mapping list as reference first
+    NSMutableArray *latestUPNPPortMappingsList = [NSMutableArray array];
 {
     int r;
     int i = 0;
@@ -339,10 +347,18 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
 #endif
             NSString *ipAddress = [NSString stringWithUTF8String:intClient];
             NSString *portMappingDescription = [NSString stringWithUTF8String:desc];
+            int localPort = atoi(intPort);
+            int publicPort = atoi(extPort);
+            [latestUPNPPortMappingsList addObject:[NSDictionary dictionaryWithObjectsAndKeys:
+                    ipAddress,@"ipAddress",
+                    [NSNumber numberWithInt:localPort],@"localPort",
+                    [NSNumber numberWithInt:publicPort],@"publicPort",
+                    [NSString stringWithUTF8String:protocol],@"protocol",
+                    portMappingDescription,@"description",
+                nil]
+            ];
             if ([portMappingDescription isEqualToString:[self portMappingDescription]] && 
                 [ipAddress isEqualToString:[pm localIPAddress]]) {
-                int localPort = atoi(intPort);
-                int publicPort = atoi(extPort);
                 NSString *transportProtocol = [NSString stringWithUTF8String:protocol];
                 // check if we want this mapping, if not remove it, if yes set mapping status
                 BOOL isWanted = NO;
@@ -378,6 +394,7 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
     } while(r==UPNPCOMMAND_SUCCESS && 
             !UpdatePortMappingsThreadShouldQuit && 
             !UpdatePortMappingsThreadShouldRestart);
+    [self setLatestUPNPPortMappingsList:latestUPNPPortMappingsList];
 }
 
 
@@ -397,6 +414,28 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
         
         @synchronized (mappingsSet) {
             [mappingsSet removeObject:mappingToRemove];
+        }
+        
+    }    
+
+    // in this section we can also remove port mappings from others - this is mainly for Port Map.app to clean up stale mappings from other apps
+    NSMutableSet *upnpRemoveSet = [pm _upnpPortMappingsToRemove];
+    
+    while (!UpdatePortMappingsThreadShouldQuit && !UpdatePortMappingsThreadShouldRestart) {
+        NSDictionary *mappingToRemove=nil;
+        
+        @synchronized (upnpRemoveSet) {
+            mappingToRemove = [upnpRemoveSet anyObject];
+        }
+        
+        if (!mappingToRemove) break;
+        
+        char *publicPort = (char *)[[NSString stringWithFormat:@"%d",[[mappingToRemove objectForKey:@"publicPort"] intValue]] UTF8String];
+        char *protocol = (char *)[[mappingToRemove objectForKey:@"protocol"] UTF8String];
+        UPNP_DeletePortMapping(_urls.controlURL,_igddata.servicetype,publicPort,protocol);
+        
+        @synchronized (upnpRemoveSet) {
+            [upnpRemoveSet removeObject:mappingToRemove];
         }
         
     }    
@@ -434,7 +473,10 @@ NSString * const TCMUPNPPortMapperDidEndWorkingNotification   =@"TCMUPNPPortMapp
     } else if (UpdatePortMappingsThreadShouldRestart) {
         [self performSelectorOnMainThread:@selector(updatePortMappings) withObject:nil waitUntilDone:YES];
     }
-    [[NSNotificationCenter defaultCenter] postNotificationOnMainThreadWithName:TCMUPNPPortMapperDidEndWorkingNotification object:self];
+    
+    // this tiny delay should take account of the cases where we restart the loop (e.g. removing a port mapping and then stopping the portmapper)
+    [self performSelectorOnMainThread:@selector(postDelayedDidEndWorkingNotification) withObject:nil waitUntilDone:NO];
+
     [pool release];
 }
 

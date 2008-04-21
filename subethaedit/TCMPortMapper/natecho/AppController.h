@@ -1,9 +1,8 @@
 //
 //  AppController.h
-//  Port Map
 //
-//  Created by Dominik Wagner on 10.02.08.
-//  Copyright 2008 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2007-2008 TheCodingMonkeys: <http://codingmonkeys.de>
+//  Some rights reserved: <http://opensource.org/licenses/mit-license.php> 
 //
 
 #import <Cocoa/Cocoa.h>
@@ -11,7 +10,7 @@
 
 @interface AppController : NSObject {
     IBOutlet NSTextField *O_portTextField;
-    IBOutlet NSButton *O_startStopButton;
+    IBOutlet NSButton    *O_startStopButton;
     IBOutlet NSImageView *O_serverStatusImageView;
     IBOutlet NSTextField *O_serverStatusTextField;
     IBOutlet NSTextField *O_serverReachabilityTextField;

@@ -1,16 +1,9 @@
-//
-//  TCMPortMapper.m
-//  PortMapper
-//
-//  Created by Martin Pittenauer on 15.01.08.
-//  Copyright 2008 TheCodingMonkeys. All rights reserved.
-//
 
 #import "TCMPortMapper.h"
 #import "TCMNATPMPPortMapper.h"
 #import "TCMUPNPPortMapper.h"
 #import "IXSCNotificationManager.h"
-#import "NSNotificationAdditions.h"
+#import "NSNotificationCenterThreadingAdditions.h"
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <SystemConfiguration/SCSchemaDefinitions.h>
 #import <sys/sysctl.h> 
@@ -22,12 +15,14 @@
 #import <openssl/md5.h>
 
 
-NSString * const TCMPortMapperExternalIPAddressDidChange            = @"TCMPortMapperExternalIPAddressDidChange";
-NSString * const TCMPortMapperWillStartSearchForRouterNotification  = @"TCMPortMapperWillStartSearchForRouterNotification";
-NSString * const TCMPortMapperDidFinishSearchForRouterNotification  = @"TCMPortMapperDidFinishSearchForRouterNotification";
-NSString * const TCMPortMappingDidChangeMappingStatusNotification   = @"TCMPortMappingDidChangeMappingStatusNotification";
-NSString * const TCMPortMapperDidStartWorkNotification              = @"TCMPortMapperDidStartWorkNotification";
-NSString * const TCMPortMapperDidFinishWorkNotification             = @"TCMPortMapperDidFinishWorkNotification";
+NSString * const TCMPortMapperExternalIPAddressDidChange             = @"TCMPortMapperExternalIPAddressDidChange";
+NSString * const TCMPortMapperWillStartSearchForRouterNotification   = @"TCMPortMapperWillStartSearchForRouterNotification";
+NSString * const TCMPortMapperDidFinishSearchForRouterNotification   = @"TCMPortMapperDidFinishSearchForRouterNotification";
+NSString * const TCMPortMappingDidChangeMappingStatusNotification    = @"TCMPortMappingDidChangeMappingStatusNotification";
+NSString * const TCMPortMapperDidStartWorkNotification               = @"TCMPortMapperDidStartWorkNotification";
+NSString * const TCMPortMapperDidFinishWorkNotification              = @"TCMPortMapperDidFinishWorkNotification";
+
+NSString * const TCMPortMapperDidReceiveUPNPMappingTableNotification = @"TCMPortMapperDidReceiveUPNPMappingTableNotification";
 
 
 NSString * const TCMNATPMPPortMapProtocol = @"NAT-PMP";
@@ -177,6 +172,7 @@ enum {
         _UPNPPortMapper = [[TCMUPNPPortMapper alloc] init];
         _portMappings = [NSMutableSet new];
         _removeMappingQueue = [NSMutableSet new];
+        _upnpPortMappingsToRemove = [NSMutableSet new];
         
         [self hashUserID:NSUserName()];
         
@@ -327,6 +323,10 @@ enum {
     return _removeMappingQueue;
 }
 
+- (NSMutableSet *)_upnpPortMappingsToRemove {
+    return _upnpPortMappingsToRemove;
+}
+
 - (void)updatePortMappings {
     NSString *protocol = [self mappingProtocol];
     if ([protocol isEqualToString:TCMNATPMPPortMapProtocol]) {
@@ -354,7 +354,7 @@ enum {
                 [_removeMappingQueue addObject:aMapping];
             }
         }
-    [self updatePortMappings];
+        if (_isRunning) [self updatePortMappings];
     }
 }
 
@@ -500,7 +500,8 @@ enum {
         }
     }
     if ([aMACAddress length]<8) return nil;
-    return [hardwareManufacturerDictionary objectForKey:[aMACAddress substringToIndex:8]];
+	NSString *result = [hardwareManufacturerDictionary objectForKey:[[aMACAddress substringToIndex:8] uppercaseString]];
+    return result;
 }
 
 
@@ -645,6 +646,23 @@ enum {
     }
 }
 
+- (void)removeUPNPMappings:(NSArray *)aMappingList {
+    if (_UPNPStatus == TCMPortMapProtocolWorks) {
+        @synchronized (_upnpPortMappingsToRemove) {
+            [_upnpPortMappingsToRemove addObjectsFromArray:aMappingList];
+        }
+        [_UPNPPortMapper updatePortMappings];
+    }
+}
+
+- (void)requestUPNPMappingTable {
+    if (_UPNPStatus == TCMPortMapProtocolWorks) {
+        _sendUPNPMappingTableNotification = YES;
+        [_UPNPPortMapper updatePortMappings];
+    }
+}
+
+
 - (void)setMappingProtocol:(NSString *)aProtocol {
     [_mappingProtocol autorelease];
     _mappingProtocol = [aProtocol copy];
@@ -710,6 +728,11 @@ enum {
 #endif
     _workCount--;
     if (_workCount == 0) {
+        if (_UPNPStatus == TCMPortMapProtocolWorks && _sendUPNPMappingTableNotification) {
+            [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidReceiveUPNPMappingTableNotification object:self userInfo:[NSDictionary dictionaryWithObject:[_UPNPPortMapper latestUPNPPortMappingsList] forKey:@"mappingTable"]];
+            _sendUPNPMappingTableNotification = NO;
+        }
+    
         [[NSNotificationCenter defaultCenter] postNotificationName:TCMPortMapperDidFinishWorkNotification object:self];
     }
 }

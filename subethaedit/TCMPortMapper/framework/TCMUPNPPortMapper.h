@@ -1,9 +1,10 @@
 //
 //  TCMUPNPPortMapper.h
-//  PortMapper
+//  Encapsulates miniupnp framework
 //
-//  Created by Martin Pittenauer on 25.01.08.
-//  Copyright 2008 TheCodingMonkeys. All rights reserved.
+//  Copyright (c) 2007-2008 TheCodingMonkeys: 
+//  Martin Pittenauer, Dominik Wagner, <http://codingmonkeys.de>
+//  Some rights reserved: <http://opensource.org/licenses/mit-license.php> 
 //
 
 #import "TCMPortMapper.h"
@@ -24,6 +25,7 @@ extern NSString * const TCMUPNPPortMapperDidEndWorkingNotification;
     BOOL UpdatePortMappingsThreadShouldQuit;
     BOOL UpdatePortMappingsThreadShouldRestart;
     TCMPortMappingThreadID runningThreadID;
+    NSArray *_latestUPNPPortMappingsList;
     struct UPNPUrls _urls;
     struct IGDdatas _igddata;
 }
@@ -32,5 +34,6 @@ extern NSString * const TCMUPNPPortMapperDidEndWorkingNotification;
 - (void)updatePortMappings;
 - (void)stop;
 - (void)stopBlocking;
+- (NSArray *)latestUPNPPortMappingsList;
 
 @end
