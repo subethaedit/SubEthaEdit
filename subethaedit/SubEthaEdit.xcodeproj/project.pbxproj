@@ -288,9 +288,6 @@
 		14584B2F0BE0C6E000EB6D15 /* TCMBEEPBencodedMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F2230A460BE0243100437D55 /* TCMBEEPBencodedMessage.m */; };
 		14584B300BE0C6E300EB6D15 /* TCMBEEPBencodingProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F2230A480BE0243100437D55 /* TCMBEEPBencodingProfile.m */; };
 		148167AE0B15B002008894C9 /* PlainTextWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = 148167AC0B15B002008894C9 /* PlainTextWindow.m */; };
-		1493A7F90A10C87E004ECE6A /* SystemVersionCheck.m in Sources */ = {isa = PBXBuildFile; fileRef = 1493A7E40A10C85C004ECE6A /* SystemVersionCheck.m */; };
-		1493A7FA0A10C889004ECE6A /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
-		1493A80C0A10C8EB004ECE6A /* SubEthaEdit-SystemVersionCheck in Copy Files (Auxiliary Binaries) */ = {isa = PBXBuildFile; fileRef = 1493A7E80A10C873004ECE6A /* SubEthaEdit-SystemVersionCheck */; };
 		1493A8590A10DABB004ECE6A /* SystemVersionCheck.strings in Resources */ = {isa = PBXBuildFile; fileRef = 1493A8580A10DABB004ECE6A /* SystemVersionCheck.strings */; };
 		149774090B5E14FC004A546C /* PlainTextLoadProgress.nib in Resources */ = {isa = PBXBuildFile; fileRef = 149774070B5E14FC004A546C /* PlainTextLoadProgress.nib */; };
 		149774180B5E159F004A546C /* PlainTextLoadProgress.m in Sources */ = {isa = PBXBuildFile; fileRef = 149774160B5E159F004A546C /* PlainTextLoadProgress.m */; };
@@ -579,13 +576,6 @@
 			remoteGlobalIDString = 4DC40BF209150BDB0029A2A6;
 			remoteInfo = "OgreKit (without Find Panel)";
 		};
-		1493A80A0A10C8C4004ECE6A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 1493A7E70A10C873004ECE6A;
-			remoteInfo = SystemVersionCheck;
-		};
 		14C431AC0BF3465A007D29EB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -742,7 +732,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 6;
 			files = (
-				1493A80C0A10C8EB004ECE6A /* SubEthaEdit-SystemVersionCheck in Copy Files (Auxiliary Binaries) */,
 				1428955C095770FB00D14688 /* SubEthaEditHelperToolTemplate in Copy Files (Auxiliary Binaries) */,
 				142894FF0957686C00D14688 /* see in Copy Files (Auxiliary Binaries) */,
 			);
@@ -1164,8 +1153,6 @@
 		148167AB0B15B002008894C9 /* PlainTextWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlainTextWindow.h; sourceTree = "<group>"; };
 		148167AC0B15B002008894C9 /* PlainTextWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlainTextWindow.m; sourceTree = "<group>"; };
 		148364660B5E2AD000B47455 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/PlainTextLoadProgress.nib; sourceTree = "<group>"; };
-		1493A7E40A10C85C004ECE6A /* SystemVersionCheck.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SystemVersionCheck.m; sourceTree = "<group>"; };
-		1493A7E80A10C873004ECE6A /* SubEthaEdit-SystemVersionCheck */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = "SubEthaEdit-SystemVersionCheck"; sourceTree = BUILT_PRODUCTS_DIR; };
 		1493A8460A10D9E8004ECE6A /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/SystemVersionCheck.strings; sourceTree = "<group>"; };
 		1493E0F80BA837FA00A18284 /* SDAppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDAppController.h; path = seed/SDAppController.h; sourceTree = "<group>"; };
 		1493E0F90BA837FA00A18284 /* SDAppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDAppController.m; path = seed/SDAppController.m; sourceTree = "<group>"; };
@@ -1436,14 +1423,6 @@
 			files = (
 				142894E00957670900D14688 /* Carbon.framework in Frameworks */,
 				142894E10957670900D14688 /* Foundation.framework in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		1493A7E60A10C873004ECE6A /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1493A7FA0A10C889004ECE6A /* Cocoa.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2119,7 +2098,6 @@
 				8D15AC370486D014006FF6A4 /* SubEthaEdit.app */,
 				142894AA0957606F00D14688 /* SubEthaEditHelperToolTemplate */,
 				142894DE095766EE00D14688 /* see */,
-				1493A7E80A10C873004ECE6A /* SubEthaEdit-SystemVersionCheck */,
 				5EC6382A0ABEB71100D3295B /* Unit Tests.octest */,
 				14251B920BBD5DD300052C84 /* seed */,
 			);
@@ -2212,7 +2190,6 @@
 		2A37F4AFFDCFA73011CA2CEA /* Other Sources */ = {
 			isa = PBXGroup;
 			children = (
-				1493A7E40A10C85C004ECE6A /* SystemVersionCheck.m */,
 				32DBCF750370BD2300C91783 /* SubEthaEdit_Prefix.pch */,
 				2A37F4B0FDCFA73011CA2CEA /* main.m */,
 				14289172095747F800D14688 /* ODBEditorSuite.h */,
@@ -2478,22 +2455,6 @@
 			productReference = 142894DE095766EE00D14688 /* see */;
 			productType = "com.apple.product-type.tool";
 		};
-		1493A7E70A10C873004ECE6A /* SystemVersionCheck */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 1493A7FF0A10C891004ECE6A /* Build configuration list for PBXNativeTarget "SystemVersionCheck" */;
-			buildPhases = (
-				1493A7E50A10C873004ECE6A /* Sources */,
-				1493A7E60A10C873004ECE6A /* Frameworks */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			name = SystemVersionCheck;
-			productName = SystemVersionCheck;
-			productReference = 1493A7E80A10C873004ECE6A /* SubEthaEdit-SystemVersionCheck */;
-			productType = "com.apple.product-type.tool";
-		};
 		5EC638290ABEB71100D3295B /* Unit Tests */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = 5EC6382D0ABEB71200D3295B /* Build configuration list for PBXNativeTarget "Unit Tests" */;
@@ -2533,7 +2494,6 @@
 			dependencies = (
 				142894C20957611D00D14688 /* PBXTargetDependency */,
 				142894FC0957685A00D14688 /* PBXTargetDependency */,
-				1493A80B0A10C8C4004ECE6A /* PBXTargetDependency */,
 				144E3AD10B6FEEC1001C49C2 /* PBXTargetDependency */,
 				31D5F85D0AA301C10088DB18 /* PBXTargetDependency */,
 				312B7BBF0A99D2000014E52A /* PBXTargetDependency */,
@@ -2607,7 +2567,6 @@
 				142894A90957606F00D14688 /* HelperTool */,
 				142894DD095766EE00D14688 /* see */,
 				142898180958189300D14688 /* Create Disk Image */,
-				1493A7E70A10C873004ECE6A /* SystemVersionCheck */,
 				5EC638290ABEB71100D3295B /* Unit Tests */,
 				14C431AB0BF34655007D29EB /* World */,
 			);
@@ -3015,7 +2974,7 @@
 			);
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
-			shellScript = "echo \"Removing debug nib files...\"\nfind -d \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources\" -name \"Debug*.nib\" -exec rm -rf \"{}\" \\;\n\necho \"Rename resource file...\"\nmv \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources/SubEthaEdit.rsrc\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources/SubEthaEdit-SystemVersionCheck.rsrc\"\n\necho \"Remove Headers directories...\"\nfind \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" -path '*/Headers/*' -delete\nfind \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" -name 'Headers' -type d -delete\nfind \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" -name 'Headers' -type l -delete";
+			shellScript = "echo \"Removing debug nib files...\"\nfind -d \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources\" -name \"Debug*.nib\" -exec rm -rf \"{}\" \\;\n\n# echo \"Rename resource file...\"\n# mv \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources/SubEthaEdit.rsrc\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources/SubEthaEdit-SystemVersionCheck.rsrc\"\n\necho \"Remove Headers directories...\"\nfind \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" -path '*/Headers/*' -delete\nfind \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" -name 'Headers' -type d -delete\nfind \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" -name 'Headers' -type l -delete";
 		};
 		14EB1AB90AA2ED9A004F5BEE /* Run Script (Versioning) */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3136,14 +3095,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				142894EB095767CD00D14688 /* main.m in Sources */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		1493A7E50A10C873004ECE6A /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-				1493A7F90A10C87E004ECE6A /* SystemVersionCheck.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3361,11 +3312,6 @@
 			isa = PBXTargetDependency;
 			name = "OgreKit (without Find Panel)";
 			targetProxy = 144E3AD00B6FEEC1001C49C2 /* PBXContainerItemProxy */;
-		};
-		1493A80B0A10C8C4004ECE6A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 1493A7E70A10C873004ECE6A /* SystemVersionCheck */;
-			targetProxy = 1493A80A0A10C8C4004ECE6A /* PBXContainerItemProxy */;
 		};
 		14C431AD0BF3465A007D29EB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -3880,61 +3826,6 @@
 			};
 			name = Release;
 		};
-		1493A8000A10C891004ECE6A /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_ENABLE_FIX_AND_CONTINUE = YES;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_MODEL_TUNING = G5;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				GCC_VERSION_i386 = 4.0;
-				GCC_VERSION_ppc = 3.3;
-				INSTALL_PATH = "$(HOME)/bin";
-				MACOSX_DEPLOYMENT_TARGET = 10.1;
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = "SubEthaEdit-SystemVersionCheck";
-				ZERO_LINK = NO;
-			};
-			name = Debug;
-		};
-		1493A8010A10C891004ECE6A /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
-				DEBUG_INFORMATION_FORMAT = stabs;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_MODEL_TUNING = G5;
-				GCC_PRECOMPILE_PREFIX_HEADER = YES;
-				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
-				GCC_VERSION_i386 = 4.0;
-				GCC_VERSION_ppc = 3.3;
-				INSTALL_PATH = "$(HOME)/bin";
-				MACOSX_DEPLOYMENT_TARGET = 10.1;
-				OTHER_LDFLAGS = (
-					"-framework",
-					Foundation,
-					"-framework",
-					AppKit,
-				);
-				PREBINDING = NO;
-				PRODUCT_NAME = "SubEthaEdit-SystemVersionCheck";
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
 		14C431B70BF3467D007D29EB /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -4074,7 +3965,6 @@
 				PRODUCT_NAME = SubEthaEdit;
 				SEPARATE_STRIP = YES;
 				STRIP_STYLE = all;
-				SYSTEM_VERSION_CHECK_SUFFIX = "-SystemVersionCheck";
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
@@ -4151,15 +4041,6 @@
 			buildConfigurations = (
 				1428981A095818E200D14688 /* Debug */,
 				1428981B095818E200D14688 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		1493A7FF0A10C891004ECE6A /* Build configuration list for PBXNativeTarget "SystemVersionCheck" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				1493A8000A10C891004ECE6A /* Debug */,
-				1493A8010A10C891004ECE6A /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
