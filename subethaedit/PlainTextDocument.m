@@ -3968,9 +3968,16 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (BOOL)writeSafelyToURL:(NSURL*)anAbsoluteURL ofType:(NSString *)docType forSaveOperation:(NSSaveOperationType)saveOperationType error:(NSError **)outError {
+    
     NSString *fullDocumentPath = [anAbsoluteURL path];
     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"writeSavelyToURL: %@", anAbsoluteURL);
-    BOOL hasBeenWritten = [super writeSafelyToURL:anAbsoluteURL ofType:docType forSaveOperation:saveOperationType error:outError];
+    
+    NSError *error = nil;
+    BOOL hasBeenWritten = [super writeSafelyToURL:anAbsoluteURL ofType:docType forSaveOperation:saveOperationType error:&error];
+    if (outError) {
+        *outError = error;
+    }
+    
     if (!hasBeenWritten) {
         DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"Failed to write using writeSafelyToURL: %@",*outError);
         
@@ -4000,7 +4007,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             }
         }
         
-        if (!hasBeenWritten) {
+        if ( !hasBeenWritten && (error && [error code] == NSFileWriteNoPermissionError) ) {
+            if (outError) *outError = nil; // clear outerror because we already showed it
             BOOL isDirWritable = [fileManager isWritableFileAtPath:[fullDocumentPath stringByDeletingLastPathComponent]];
             BOOL isFileDeletable = [fileManager isDeletableFileAtPath:fullDocumentPath];
             if (isDirWritable && isFileDeletable) {
@@ -4082,7 +4090,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     if (saveOperationType != NSSaveToOperation && saveOperationType != NSAutosaveOperation) {
         NSDictionary *fattrs = [[NSFileManager defaultManager] fileAttributesAtPath:fullDocumentPath traverseLink:YES];
         [self setFileAttributes:fattrs];
-        [self setIsFileWritable:[[NSFileManager defaultManager] isWritableFileAtPath:fullDocumentPath] || hasBeenWritten];
+        [self setIsFileWritable:hasBeenWritten];
     }
 
     if (hasBeenWritten) {

@@ -452,18 +452,20 @@ static DocumentModeManager *S_sharedInstance=nil;
     [self revalidatePrecedences];
 }
 
-- (void) resolveAllDependenciesForMode:(DocumentMode *) aMode {
-    I_dependencyQueue = [NSMutableDictionary new];
-    [I_dependencyQueue setObject:@"queued" forKey:[[aMode syntaxDefinition] name]];
-    NSEnumerator *enumerator = [[[[aMode syntaxDefinition] importedModes] allKeys] objectEnumerator];
-    id modeName;
-    while ((modeName = [enumerator nextObject])) {
-        if (![I_dependencyQueue objectForKey:modeName]) {
-            [self documentModeForIdentifier:modeName];
-            [I_dependencyQueue setObject:@"queued" forKey:modeName];
+- (void)resolveAllDependenciesForMode:(DocumentMode *)aMode {
+    if (aMode) {
+        I_dependencyQueue = [NSMutableDictionary new];
+        [I_dependencyQueue setObject:@"queued" forKey:[[aMode syntaxDefinition] name]];
+        NSEnumerator *enumerator = [[[[aMode syntaxDefinition] importedModes] allKeys] objectEnumerator];
+        id modeName;
+        while ((modeName = [enumerator nextObject])) {
+            if (![I_dependencyQueue objectForKey:modeName]) {
+                [self documentModeForIdentifier:modeName];
+                [I_dependencyQueue setObject:@"queued" forKey:modeName];
+            }
         }
+        [I_dependencyQueue release];
     }
-    [I_dependencyQueue release];
 }
 
 - (NSString *)description {

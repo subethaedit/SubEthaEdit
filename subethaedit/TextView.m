@@ -772,6 +772,34 @@ static NSMenu *defaultMenu=nil;
     }
 }
 
+- (void)cursorUpdate:(NSEvent *)anEvent
+{
+    // ugly
+    if ( [NSCursor currentCursor] == [NSCursor IBeamCursor] && 
+         [[self backgroundColor] isDark]) {
+
+        [[NSCursor invertedIBeamCursor] set];
+
+    } else if ([NSCursor currentCursor] != [NSCursor invertedIBeamCursor] &&
+               [super respondsToSelector:@selector(cursorUpdate:)]) {
+		[super performSelector:@selector(cursorUpdate:) withObject:anEvent];
+	}
+}
+
+- (void)mouseMoved:(NSEvent *)anEvent
+{
+	// ugly
+    if ( [NSCursor currentCursor] == [NSCursor IBeamCursor] &&
+         [[self backgroundColor] isDark] )  {
+
+        [[NSCursor invertedIBeamCursor] set];
+
+	} else if ([NSCursor currentCursor] != [NSCursor invertedIBeamCursor] &&
+	           [super respondsToSelector:@selector(mouseMoved:)]) {
+		[super mouseMoved:anEvent];
+	}
+}
+
 // needs the textview to be delegate to the ruler
 - (void)rulerView:(NSRulerView *)aRulerView handleMouseDown:(NSEvent *)anEvent {
     if (([anEvent modifierFlags] & NSAlternateKeyMask) && [self isEditable]) {
