@@ -2677,6 +2677,7 @@ tool/seeflyopts/src/flyopts.pch -text
 tool/seeflyopts/src/main.m -text
 tool/seeserver.pl -text
 tool/serials/appleserials.txt -text
+tool/serials/aquafads.txt -text
 tool/serials/attackserial.pl -text
 tool/serials/checkserial.pl -text
 tool/serials/checkserial/checkserial.xcode/pittenau.pbxuser -text
