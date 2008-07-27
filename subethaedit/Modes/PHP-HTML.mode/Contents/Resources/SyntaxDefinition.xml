@@ -23,7 +23,8 @@
               <end><regex>\?&gt;</regex></end>
               <keywords id="PHP Delimiter" color="#D00" font-weight="bold" useforautocomplete="no">
                 <regex>(&lt;\?(?i)php\d?)</regex>
-                <regex>(&lt;\?=?)(?![\S])</regex>
+                <regex>(&lt;\?)(?![\S])</regex>
+                <regex>(&lt;\?=)</regex>
                 <regex>(\?&gt;)</regex>
               </keywords>
 

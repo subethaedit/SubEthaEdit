@@ -781,8 +781,10 @@ static NSMenu *defaultMenu=nil;
         [[NSCursor invertedIBeamCursor] set];
 
     } else if ([NSCursor currentCursor] != [NSCursor invertedIBeamCursor] &&
-               [super respondsToSelector:@selector(cursorUpdate:)]) {
+               [super respondsToSelector:@selector(cursorUpdate:)] && !I_flags.isDoingUglyHack) {
+		I_flags.isDoingUglyHack = YES;
 		[super performSelector:@selector(cursorUpdate:) withObject:anEvent];
+		I_flags.isDoingUglyHack = NO;
 	}
 }
 

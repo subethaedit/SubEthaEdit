@@ -1058,7 +1058,7 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
     }
     
     if (loggingState) {
-        [self setLoggingState:loggingState];
+        [self setLoggingState:[loggingState autorelease]];
     }
     [[self document] session:self didReceiveContent:aContent];
 }
