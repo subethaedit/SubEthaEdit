@@ -930,6 +930,7 @@ subethaedit/Modes/PHP-HTML.mode/Contents/Resources/Scripts/40-RunUsingPHP.scpt -
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/Scripts/Comment[!!-~]Selection.scpt -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/Scripts/Lookup[!!-~]in[!!-~]PHP[!!-~]Documentation.scpt -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/Scripts/shell/closetag.pl -text
+subethaedit/Modes/PHP-HTML.mode/Contents/Resources/StyleIDTransition.plist -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/ToolbarIconPHPLookup.png -text
 subethaedit/Modes/PHP-HTML.mode/Contents/Resources/ToolbarIconRunUsingPHP.png -text

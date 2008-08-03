@@ -75,9 +75,9 @@ static NSArray *S_possibleStyleColors;
 }
 
 - (void)takeValuesFromModeSubtree:(CFXMLTreeRef)aModeTree {
+	NSDictionary *styleIDTransitionDictionary = [I_documentMode styleIDTransitionDictionary];
     int childCount;
     int index;
-    
     childCount = CFTreeGetChildCount(aModeTree);
     for (index = 0; index < childCount; index++) {
         CFXMLTreeRef xmlTree = CFTreeGetChildAtIndex(aModeTree, index);
@@ -86,20 +86,33 @@ static NSArray *S_possibleStyleColors;
         NSString *tag = (NSString *)CFXMLNodeGetString(xmlNode);
         if ([@"style" isEqualToString:tag]) {
             NSString *styleID=[attributes objectForKey:@"id"];
-            NSMutableDictionary *style=[self styleForKey:styleID];
-            if (style) {
-                NSFontTraitMask mask = 0;
-                if ([[attributes objectForKey:@"font-weight"] isEqualTo:@"bold"]) mask = mask | NSBoldFontMask;
-                if ([[attributes objectForKey:@"font-style"] isEqualTo:@"italic"]) mask = mask | NSItalicFontMask;
-                [style setObject:[NSNumber numberWithUnsignedInt:mask] forKey:@"font-trait"];
-                NSEnumerator *colorKeys=[S_possibleStyleColors objectEnumerator];
-                NSString *colorKey=nil;
-                while ((colorKey=[colorKeys nextObject])) {
-                    NSString *htmlColor=[attributes objectForKey:colorKey];
-                    if (htmlColor) {
-                        [style setObject:[NSColor colorForHTMLString:htmlColor] forKey:colorKey];
-                    }
-                }
+            
+            NSMutableArray *styleIDs = [NSMutableArray arrayWithObject:styleID];
+            NSEnumerator *enumerator = [styleIDTransitionDictionary keyEnumerator];
+            NSString *key = nil;
+            while ((key = [enumerator nextObject])) {
+            	if ([styleID isEqualToString:[styleIDTransitionDictionary objectForKey:key]]) {
+            		[styleIDs addObject:key];
+            	}
+            }
+            
+            enumerator = [styleIDs objectEnumerator];
+            while ((styleID = [enumerator nextObject])) {
+				NSMutableDictionary *style=[self styleForKey:styleID];
+				if (style) {
+					NSFontTraitMask mask = 0;
+					if ([[attributes objectForKey:@"font-weight"] isEqualTo:@"bold"]) mask = mask | NSBoldFontMask;
+					if ([[attributes objectForKey:@"font-style"] isEqualTo:@"italic"]) mask = mask | NSItalicFontMask;
+					[style setObject:[NSNumber numberWithUnsignedInt:mask] forKey:@"font-trait"];
+					NSEnumerator *colorKeys=[S_possibleStyleColors objectEnumerator];
+					NSString *colorKey=nil;
+					while ((colorKey=[colorKeys nextObject])) {
+						NSString *htmlColor=[attributes objectForKey:colorKey];
+						if (htmlColor) {
+							[style setObject:[NSColor colorForHTMLString:htmlColor] forKey:colorKey];
+						}
+					}
+				}
             }
         }
     }
@@ -225,11 +238,36 @@ static NSArray *S_possibleStyleColors;
     [super dealloc];
 }
 
+- (void)writeOutAllStylesDictionaryToHome
+{
+	NSMutableDictionary *allStylesDictionary = [NSMutableDictionary new];
+    NSEnumerator *keys=[[self allKeys] objectEnumerator];
+    NSString *key = nil;
+    while ((key=[keys nextObject])) {
+		[allStylesDictionary setObject:key forKey:key];
+	}
+	[allStylesDictionary writeToFile:[[NSString stringWithFormat:@"~/%@.StyleIDTransition.plist", [I_documentMode documentModeIdentifier]] stringByStandardizingPath] atomically:YES];
+}
+
 - (void)takeStylesFromDefaultsDictionary:(NSDictionary *)aDictionary {
     NSString *key=nil;
+
+	// this is for writing out inital plists for modes to change with the corresponding keys wanted for the styleIDTransitionDictionary
+	[self writeOutAllStylesDictionaryToHome];
+	
+
+    NSDictionary *styleIDTransitionDictionary = [I_documentMode styleIDTransitionDictionary];
     NSEnumerator *keys=[[self allKeys] objectEnumerator];
     while ((key=[keys nextObject])) {
         NSDictionary *value=[aDictionary objectForKey:key];
+        if (!value && styleIDTransitionDictionary) {
+        	NSString *otherKey = [styleIDTransitionDictionary objectForKey:key];
+        	if (otherKey)
+        	{
+        		value = [aDictionary objectForKey:otherKey];
+        		NSLog(@"%s found transition %@->%@ : %@",__FUNCTION__,otherKey,key,value);
+        	}
+        }
         if (value) {
             NSMutableDictionary *style=[value mutableCopy];
             NSString *colorKey=nil;
@@ -244,6 +282,8 @@ static NSArray *S_possibleStyleColors;
             [style release];
         }
     }
+    
+    
 }
 
 - (void)setDocumentMode:(DocumentMode *)aMode {
