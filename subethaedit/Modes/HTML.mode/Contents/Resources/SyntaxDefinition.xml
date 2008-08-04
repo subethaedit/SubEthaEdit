@@ -15,18 +15,18 @@
             <import mode="XML" />
                                                     
             <state id="Inline CSS" color="#000" font-style="italic" usesymbolsfrommode="CSS" useautocompletefrommode="CSS">
-                <begin><regex>&lt;(?=style)</regex></begin>
-                <end><regex>/style&gt;</regex></end>
+                <begin><regex>&lt;(?=(?i)style)</regex></begin>
+                <end><regex>(?i)/style&gt;</regex></end>
                 
                 <import mode="CSS"/>
 
                 <keywords id="Style Tags"  color="#881280" font-style="italic">
                     <regex>(\A&lt;\Z)</regex>
-                    <regex>(&lt;/style[^&gt;]*&gt;)</regex>
+                    <regex>(&lt;(?i)/style[^&gt;]*&gt;)</regex>
                 </keywords>
 
                 <state id="Opening Style Tag" color="#881280" font-style="italic" usesymbolsfrommode="HTML" useautocompletefrommode="HTML">
-                    <begin><regex>\Astyle</regex></begin>
+                    <begin><regex>\A(?i)style</regex></begin>
                     <end><regex>&gt;</regex></end>
         
                     <import mode="XML" state="Tags" />
@@ -35,18 +35,18 @@
             </state>
 
             <state id="Inline Javascript" color="#000" usesymbolsfrommode="Javascript" useautocompletefrommode="Javascript">
-                <begin><regex>&lt;(?=script)</regex></begin>
-                <end><regex>/script&gt;</regex></end>
+                <begin><regex>&lt;(?=(?i)script)</regex></begin>
+                <end><regex>(?i)/script&gt;</regex></end>
     
                 <import mode="Javascript" />
 
                 <keywords id="Script Tags"  color="#881280" font-style="italic">
                     <regex>(\A&lt;\Z)</regex>
-                    <regex>(&lt;/script[^&gt;]*&gt;)</regex>
+                    <regex>(&lt;(?i)/script[^&gt;]*&gt;)</regex>
                 </keywords>
 
                 <state id="Opening Script Tag" color="#881280" font-style="italic" usesymbolsfrommode="HTML" useautocompletefrommode="HTML">
-                    <begin><regex>\Ascript</regex></begin>
+                    <begin><regex>\A(?i)script</regex></begin>
                     <end><regex>&gt;</regex></end>
         
                     <import mode="XML" state="Tags" />

@@ -226,7 +226,7 @@
         </postprocess>
     </symbol>
 
-    <symbol id="Comment Marks" font-weight="normal" indentation="0" ignoreblocks="yes">
+    <symbol id="Comment Marks" font-weight="normal" indentation="0" ignoreblocks="yes" show-in-comments="yes">
         <regex>//- mark[\t ]*(?:-(?=[\n\r]))?([^\n\r]*)</regex>
     </symbol>
 

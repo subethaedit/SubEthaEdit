@@ -3,7 +3,7 @@
 #import "TCMNATPMPPortMapper.h"
 #import "TCMUPNPPortMapper.h"
 #import "IXSCNotificationManager.h"
-#import "NSNotificationCenterThreadingAdditions.h"
+#import "NSNotificationAdditions.h"
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <SystemConfiguration/SCSchemaDefinitions.h>
 #import <sys/sysctl.h> 

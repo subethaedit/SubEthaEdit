@@ -98,7 +98,9 @@
         while ((aMatch = [matchEnumerator nextObject])) {
             NSRange jumprange = [aMatch rangeOfSubstringAtIndex:1];
             if (![aMatch substringAtIndex:1]) jumprange = [aMatch rangeOfMatchedString];
-            if (![[aTextStorage attribute:kSyntaxHighlightingTypeAttributeName atIndex:jumprange.location effectiveRange:nil] isEqualToString:@"comment"]) {
+            BOOL isComment = [[aTextStorage attribute:kSyntaxHighlightingTypeAttributeName atIndex:jumprange.location effectiveRange:nil] isEqualToString:@"comment"];
+            BOOL showInComments = [[symbol objectForKey:@"show-in-comments"] isEqualToString:@"yes"];
+            if (!isComment||showInComments) {
 				
 				NSRange fullrange = [aMatch rangeOfMatchedString];
 				NSString *name = [aMatch substringAtIndex:1];

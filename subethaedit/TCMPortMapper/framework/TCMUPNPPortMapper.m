@@ -2,7 +2,7 @@
 #import "TCMUPNPPortMapper.h"
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <SystemConfiguration/SCSchemaDefinitions.h>
-#import "NSNotificationCenterThreadingAdditions.h"
+#import "NSNotificationAdditions.h"
 
 //static void PrintHeader(void)
 //    // Prints an explanation of the flag coding.

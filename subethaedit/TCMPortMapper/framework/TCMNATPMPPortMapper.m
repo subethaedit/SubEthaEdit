@@ -1,6 +1,6 @@
 
 #import "TCMNATPMPPortMapper.h"
-#import "NSNotificationCenterThreadingAdditions.h"
+#import "NSNotificationAdditions.h"
 
 #import <netinet/in.h>
 #import <netinet6/in6.h>
