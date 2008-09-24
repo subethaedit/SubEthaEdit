@@ -4468,7 +4468,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         NSColor *foregroundColor=[style objectForKey:darkBackground?@"inverted-color":@"color"];
         result=[NSDictionary dictionaryWithObjectsAndKeys:font,NSFontAttributeName,
             foregroundColor,NSForegroundColorAttributeName,
-            aStyleID,kSyntaxHighlightingTypeAttributeName,
+            aStyleID,@"styleID",
             [NSNumber numberWithFloat:obliquenessFactor],NSObliquenessAttributeName,
             [NSNumber numberWithFloat:strokeWidth],NSStrokeWidthAttributeName,
             nil];

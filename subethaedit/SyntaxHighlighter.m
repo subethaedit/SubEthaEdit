@@ -172,7 +172,7 @@ NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"P
 				}
                 
                 [scratchAttributes removeAllObjects];
-                [scratchAttributes addEntriesFromDictionary:[theDocument styleAttributesForStyleID:[subState objectForKey:kSyntaxHighlightingTypeAttributeName]]];
+                [scratchAttributes addEntriesFromDictionary:[theDocument styleAttributesForStyleID:[subState objectForKey:kSyntaxHighlightingStyleIDAttributeName]]];
                 [scratchAttributes setObject:[[stack copy] autorelease] forKey:kSyntaxHighlightingStackName];
                 [scratchAttributes setObject:@"Start" forKey:kSyntaxHighlightingStateDelimiterName];
 				NSString *typeAttributeString;
@@ -207,7 +207,7 @@ NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"P
 
         //NSLog(@"Building scratch attributes");
         [scratchAttributes removeAllObjects];
-        [scratchAttributes addEntriesFromDictionary:[theDocument styleAttributesForStyleID:[currentState objectForKey:kSyntaxHighlightingTypeAttributeName]]];
+        [scratchAttributes addEntriesFromDictionary:[theDocument styleAttributesForStyleID:[currentState objectForKey:kSyntaxHighlightingStyleIDAttributeName]]];
         [scratchAttributes setObject:savedStack forKey:kSyntaxHighlightingStackName];
 		NSString *typeAttributeString;
 		if ((typeAttributeString=[currentState objectForKey:@"type"]))
@@ -370,7 +370,7 @@ NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"P
     NSRange foundRange;
     unsigned int position=0;
     while (position<NSMaxRange(wholeRange)) {
-        styleID=[aTextStorage attribute:kSyntaxHighlightingTypeAttributeName atIndex:position longestEffectiveRange:&foundRange inRange:wholeRange];
+        styleID=[aTextStorage attribute:kSyntaxHighlightingStyleIDAttributeName atIndex:position longestEffectiveRange:&foundRange inRange:wholeRange];
         if (!styleID) styleID=SyntaxStyleBaseIdentifier;
         NSDictionary *styleAttributes=[aSender styleAttributesForStyleID:styleID];
         if (!styleAttributes) styleAttributes=[aSender styleAttributesForStyleID:SyntaxStyleBaseIdentifier];

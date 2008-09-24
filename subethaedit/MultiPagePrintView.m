@@ -143,7 +143,7 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
             }
         }
         [result setObject:font     forKey:NSFontAttributeName];
-        [result setObject:aStyleID forKey:kSyntaxHighlightingTypeAttributeName];
+        [result setObject:aStyleID forKey:kSyntaxHighlightingStyleIDAttributeName];
         [result setObject:[style objectForKey:@"color"] forKey:NSForegroundColorAttributeName];
         [I_styleCacheDictionary setObject:result forKey:aStyleID];
     }

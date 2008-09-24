@@ -456,7 +456,7 @@
     NSEnumerator *selectedStyles=[self selectedStylesEnumerator];
     SyntaxStyle *defaultStyle=[[O_modePopUpButton selectedMode] defaultSyntaxStyle];
     while ((style=[selectedStyles nextObject])) {
-        [style addEntriesFromDictionary:[defaultStyle styleForKey:[style objectForKey:kSyntaxHighlightingTypeAttributeName]]];
+        [style addEntriesFromDictionary:[defaultStyle styleForKey:[style objectForKey:kSyntaxHighlightingStyleIDAttributeName]]];
     }
     [O_stylesTableView reloadData];
     [self updateInspector];

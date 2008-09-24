@@ -9,6 +9,7 @@
 #import "SyntaxStyle.h"
 #import "SyntaxDefinition.h"
 #import "DocumentModeManager.h"
+#import "SyntaxHighlighter.h"
 
 NSString * const SyntaxStyleBaseIdentifier = @"_Default";
 
@@ -57,11 +58,11 @@ static NSArray *S_possibleStyleColors;
 }
 
 - (void)takeValuesFromDictionary:(NSDictionary *)aDictionary {
-    NSString *styleID = [aDictionary objectForKey:@"styleID"];
+    NSString *styleID = [aDictionary objectForKey:kSyntaxHighlightingStyleIDAttributeName];
     NSMutableDictionary *styleDictionary = [NSMutableDictionary dictionary];
     NSMutableArray *possibleKeys = [NSMutableArray array];
     [possibleKeys addObjectsFromArray:S_possibleStyleColors];
-    [possibleKeys addObjectsFromArray:[NSArray arrayWithObjects:@"font-trait",@"styleID",nil]];
+    [possibleKeys addObjectsFromArray:[NSArray arrayWithObjects:@"font-trait",kSyntaxHighlightingStyleIDAttributeName,nil]];
     
     NSEnumerator *enumerator = [possibleKeys objectEnumerator];
     id key;
@@ -207,7 +208,7 @@ static NSArray *S_possibleStyleColors;
             [NSColor blackColor],@"color",[NSColor whiteColor],@"inverted-color",
             [NSColor whiteColor],@"background-color",[NSColor blackColor],@"inverted-background-color",
             [NSNumber numberWithUnsignedInt:0],@"font-trait",
-            SyntaxStyleBaseIdentifier,@"styleID",nil]
+            SyntaxStyleBaseIdentifier,kSyntaxHighlightingStyleIDAttributeName,nil]
               forKey:SyntaxStyleBaseIdentifier];
     }
     return self;
