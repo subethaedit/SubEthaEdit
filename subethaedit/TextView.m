@@ -348,7 +348,7 @@ static NSMenu *defaultMenu=nil;
             unsigned int index = [self characterIndexForPoint:[[self window] convertBaseToScreen:[[NSApp currentEvent] locationInWindow]]];
             NSRange resultRange = lineRange;
             if (index != NSNotFound && index < NSMaxRange(wholeRange)) {
-                [ts attribute:@"styleID" atIndex:index longestEffectiveRange:&resultRange inRange:wholeRange];
+                [ts attribute:kSyntaxHighlightingTypeAttributeName atIndex:index longestEffectiveRange:&resultRange inRange:wholeRange];
                 return RangeConfinedToRange(resultRange,lineRange);
             }
         } else if (clickCount >= 5) {

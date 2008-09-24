@@ -10,6 +10,7 @@
 #import "SyntaxDefinition.h"
 #import "NSColorTCMAdditions.h"
 #import "TCMFoundation.h"
+#import "SyntaxHighlighter.h"
 
 
 @implementation SyntaxDefinition
@@ -203,7 +204,7 @@
     NSString *stateID = [NSString stringWithFormat:@"/%@/%@", [self name], [aDictionary objectForKey:@"id"]];
     if (stateID) {
         [aDictionary setObject:stateID forKey:@"id"];
-        [aDictionary setObject:stateID forKey:@"styleID"];
+        [aDictionary setObject:stateID forKey:kSyntaxHighlightingTypeAttributeName];
     }
 }
 
@@ -288,7 +289,7 @@
     
     if ([name isEqualToString:@"default"]) {        
         [stateDictionary setObject:[NSString stringWithFormat:@"/%@/%@", [self name], SyntaxStyleBaseIdentifier] forKey:@"id"];
-        [stateDictionary setObject:SyntaxStyleBaseIdentifier forKey:@"styleID"];
+        [stateDictionary setObject:SyntaxStyleBaseIdentifier forKey:kSyntaxHighlightingTypeAttributeName];
         [I_defaultState addEntriesFromDictionary:stateDictionary];
     } else {
         if (![aState objectForKey:@"states"]) [aState setObject:[NSMutableArray array] forKey:@"states"];
@@ -399,7 +400,7 @@
             [I_stylesForRegex setObject:newRegExArray forKey:[state objectForKey:@"id"]];
         
             while ((keywordGroup = [groupEnumerator nextObject])) {
-                NSString *styleID=[keywordGroup objectForKey:@"styleID"];
+                NSString *styleID=[keywordGroup objectForKey:kSyntaxHighlightingTypeAttributeName];
                 
                 // First do the plainstring stuff
                 
@@ -589,11 +590,11 @@
 - (int)levelForStyleID:(NSString *)aStyleID currentLevel:(int)aLevel maxLevel:(int)aMaxLevel inState:(NSDictionary *)aState {
     if (aMaxLevel == aLevel) return aLevel;
     aState = [self stateForID:[aState objectForKey:@"id"]];
-    if ([[aState objectForKey:@"styleID"] isEqualToString:aStyleID]) return aLevel;
+    if ([[aState objectForKey:kSyntaxHighlightingTypeAttributeName] isEqualToString:aStyleID]) return aLevel;
     NSEnumerator *keywordGroups = [[aState objectForKey:@"KeywordGroups"] objectEnumerator];
     NSDictionary *keywordGroup = nil;
     while ((keywordGroup=[keywordGroups nextObject])) {
-        if ([[keywordGroup objectForKey:@"styleID"] isEqualToString:aStyleID]) {
+        if ([[keywordGroup objectForKey:kSyntaxHighlightingTypeAttributeName] isEqualToString:aStyleID]) {
             return aLevel;
         }
     }
@@ -601,7 +602,7 @@
     NSDictionary *subState = nil;
     if (!subStates) return aLevel;
     while ((subState=[subStates nextObject])) {
-        if ([[subState objectForKey:@"styleID"] isEqualToString:aStyleID]) return aLevel;
+        if ([[subState objectForKey:kSyntaxHighlightingTypeAttributeName] isEqualToString:aStyleID]) return aLevel;
     }
 
     int result = aMaxLevel;
@@ -675,7 +676,7 @@
 
 - (void)addStyleIDsFromState:(NSDictionary *)aState {
 	aState = [self stateForID:[aState objectForKey:@"id"]]; // Refetch state to be sure to get the orignal and not a weak-link zombie
-	if (![aState objectForKey:@"styleID"]) return;
+	if (![aState objectForKey:kSyntaxHighlightingTypeAttributeName]) return;
     [I_defaultSyntaxStyle takeValuesFromDictionary:aState];
     NSEnumerator *keywords = [[aState objectForKey:@"KeywordGroups"] objectEnumerator];
     id keyword;
@@ -686,7 +687,7 @@
     NSEnumerator *subStates = [[aState objectForKey:@"states"] objectEnumerator];
     id subState;
     while ((subState = [subStates nextObject])) {
-        if ((![I_defaultSyntaxStyle styleForKey:[subState objectForKey:@"styleID"]])&&(![[aState objectForKey:@"id"] isEqualToString:[subState objectForKey:@"id"]])) [self addStyleIDsFromState:[self stateForID:[subState objectForKey:@"id"]]];
+        if ((![I_defaultSyntaxStyle styleForKey:[subState objectForKey:kSyntaxHighlightingTypeAttributeName]])&&(![[aState objectForKey:@"id"] isEqualToString:[subState objectForKey:@"id"]])) [self addStyleIDsFromState:[self stateForID:[subState objectForKey:@"id"]]];
     }
     
 }
@@ -746,8 +747,8 @@
 					[aDictionary setObject:[linkedState objectForKey:@"EndsWithRegexString"] forKey:@"EndsWithRegexString"];
 				if ([linkedState objectForKey:@"EndsWithPlainString"])
 					[aDictionary setObject:[linkedState objectForKey:@"EndsWithPlainString"] forKey:@"EndsWithPlainString"];
-				if ([linkedState objectForKey:@"styleID"])
-					[aDictionary setObject:[linkedState objectForKey:@"styleID"] forKey:@"styleID"];
+				if ([linkedState objectForKey:kSyntaxHighlightingTypeAttributeName])
+					[aDictionary setObject:[linkedState objectForKey:kSyntaxHighlightingTypeAttributeName] forKey:kSyntaxHighlightingTypeAttributeName];
 				if ([linkedState objectForKey:@"type"])
 					[aDictionary setObject:[linkedState objectForKey:@"type"] forKey:@"type"];
             }

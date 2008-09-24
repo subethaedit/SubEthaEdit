@@ -14,6 +14,7 @@
 #import "TextFieldCell.h"
 #import "GeneralPreferences.h"
 #import "OverlayView.h"
+#import "SyntaxHighlighter.h"
 
 @implementation StylePreferences
 
@@ -455,7 +456,7 @@
     NSEnumerator *selectedStyles=[self selectedStylesEnumerator];
     SyntaxStyle *defaultStyle=[[O_modePopUpButton selectedMode] defaultSyntaxStyle];
     while ((style=[selectedStyles nextObject])) {
-        [style addEntriesFromDictionary:[defaultStyle styleForKey:[style objectForKey:@"styleID"]]];
+        [style addEntriesFromDictionary:[defaultStyle styleForKey:[style objectForKey:kSyntaxHighlightingTypeAttributeName]]];
     }
     [O_stylesTableView reloadData];
     [self updateInspector];
