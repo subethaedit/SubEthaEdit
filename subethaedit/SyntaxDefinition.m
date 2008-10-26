@@ -549,6 +549,7 @@
 	if ([state objectForKey:@"switchtosymbolsfrommode"]) symbols = [state objectForKey:@"switchtosymbolsfrommode"];
 	if ([state objectForKey:@"switchtoautocompletefrommode"]) autocomplete = [state objectForKey:@"switchtoautocompletefrommode"];
 
+    state = [self stateForID:[state objectForKey:@"id"]];
 	[state setObject:symbols forKey:[self keyForInheritedSymbols]];
 	[state setObject:autocomplete forKey:[self keyForInheritedAutocomplete]];
 	
@@ -574,7 +575,7 @@
 	//NSLog(@"foo: %@", [I_defaultSyntaxStyle allKeys]);
 }
 
-- (NSDictionary *)stateForID:(NSString *)aString {
+- (NSMutableDictionary *)stateForID:(NSString *)aString {
     if (!I_combinedStateRegexReady && !I_combinedStateRegexCalculating) [self getReady];
 	NSArray *components = [aString componentsSeparatedByString:@"/"];
 	NSString *modeName = [components objectAtIndex:1];

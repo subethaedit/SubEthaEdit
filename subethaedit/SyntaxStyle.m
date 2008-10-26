@@ -266,7 +266,7 @@ static NSArray *S_possibleStyleColors;
         	if (otherKey)
         	{
         		value = [aDictionary objectForKey:otherKey];
-        		NSLog(@"%s found transition %@->%@ : %@",__FUNCTION__,otherKey,key,value);
+        		//NSLog(@"%s found transition %@->%@ : %@",__FUNCTION__,otherKey,key,value);
         	}
         }
         if (value) {
