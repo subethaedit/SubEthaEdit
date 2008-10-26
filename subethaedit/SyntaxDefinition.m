@@ -296,75 +296,69 @@
         [[aState objectForKey:@"states"] addObject:stateDictionary];
     }
 
-    //Recursive descent into sub-states
-    
-    NSArray *subStates = [stateNode nodesForXPath:@"./state" error:&err];
-    if ([subStates count]>0) {
-        [stateDictionary setObject:[NSMutableArray array] forKey:@"states"];
-        NSEnumerator *subStateEnumerator = [subStates objectEnumerator];
-        id subState;
-        while ((subState = [subStateEnumerator nextObject])) {
-            [self parseState:subState addToState:stateDictionary];           
-        }
-    }
-	
-	NSString *symbolsFromMode = [[stateNode attributeForName:@"usesymbolsfrommode"] stringValue];
+    // Set symbols and autocomplete hints
+
+    NSString *symbolsFromMode = [[stateNode attributeForName:@"usesymbolsfrommode"] stringValue];
 	if (symbolsFromMode) [stateDictionary setObject:symbolsFromMode forKey:@"switchtosymbolsfrommode"];
 	
 	NSString *autocompleteFromMode = [[stateNode attributeForName:@"useautocompletefrommode"] stringValue];
 	if (autocompleteFromMode) [stateDictionary setObject:symbolsFromMode forKey:@"switchtoautocompletefrommode"];
-	
-	//Weak-link to imported states, for later copying
     
-    NSArray *importedStates = [stateNode nodesForXPath:@"./import" error:&err];
-    if ([importedStates count]>0) {
+    // Get all nodes and preserve order
+    NSArray *allStateNodes = [stateNode nodesForXPath:@"./state | ./import | ./state-link" error:&err];
+    NSEnumerator *allStateNodesEnumerator = [allStateNodes objectEnumerator];
+    id nextState;
+    while ((nextState = [allStateNodesEnumerator nextObject])) {
+        NSString *nodeName = [nextState name];
         if (![stateDictionary objectForKey:@"states"]) [stateDictionary setObject:[NSMutableArray array] forKey:@"states"];
+     
+        if ([nodeName isEqualToString:@"state"]) {  //Recursive descent into sub-states
+            [self parseState:nextState addToState:stateDictionary];           
+        } 
+        else if ([nodeName isEqualToString:@"import"]) //Weak-link to imported states, for later copying
+        {  
+            NSMutableDictionary *weaklinks = [stateDictionary objectForKey:@"imports"];
+            if (!weaklinks) {
+                weaklinks = [NSMutableDictionary dictionary];
+                [stateDictionary setObject:weaklinks forKey:@"imports"];
+                
+            }
 
-        NSMutableDictionary *weaklinks = [NSMutableDictionary dictionary];
-        [stateDictionary setObject:weaklinks forKey:@"imports"];
-        NSEnumerator *importedStateEnumerator = [importedStates objectEnumerator];
-        NSXMLElement *import;
-        while ((import = [importedStateEnumerator nextObject])) {
             NSString *importMode, *importState;
-            importMode = [[import attributeForName:@"mode"] stringValue];
-			if (!importMode) importMode = [self name];
-				
-			importState = [[import attributeForName:@"state"] stringValue];
-			if (!importState) importState = SyntaxStyleBaseIdentifier;
-						
-			NSString *importName = [NSString stringWithFormat:@"/%@/%@", importMode, importState];
-							
-			[I_importedModes setObject:@"import" forKey:importMode];
-			[weaklinks setObject:import forKey:importName];
-        }
-    }
+            importMode = [[nextState attributeForName:@"mode"] stringValue];
+            if (!importMode) importMode = [self name];
+            
+            importState = [[nextState attributeForName:@"state"] stringValue];
+            if (!importState) importState = SyntaxStyleBaseIdentifier;
+            
+            NSString *importName = [NSString stringWithFormat:@"/%@/%@", importMode, importState];
+            
+            [I_importedModes setObject:@"import" forKey:importMode];
+            [weaklinks setObject:nextState forKey:importName];
+            
+        } 
+        else if ([nodeName isEqualToString:@"state-link"]) 	// Hard-link state-links
+        {
+            NSMutableArray *hardlinks = [stateDictionary objectForKey:@"links"];
+            if (!hardlinks) {
+                hardlinks = [NSMutableArray array];
+                [stateDictionary setObject:hardlinks forKey:@"links"];
+            }
 
-	// Hard-link state-links
-    NSArray *linkedStates = [stateNode nodesForXPath:@"./state-link" error:&err];
-    if ([linkedStates count]>0) {
-        if (![stateDictionary objectForKey:@"states"]) [stateDictionary setObject:[NSMutableArray array] forKey:@"states"];
-        NSMutableArray *hardlinks = [NSMutableArray array];
-        [stateDictionary setObject:hardlinks forKey:@"links"];
-        NSEnumerator *linkedStateEnumerator = [linkedStates objectEnumerator];
-        NSXMLElement *link;
-
-        while ((link = [linkedStateEnumerator nextObject])) {
             NSString *linkMode, *linkState;
-            linkMode = [[link attributeForName:@"mode"] stringValue];
-			if (!linkMode) linkMode = [self name];
-			
-			linkState = [[link attributeForName:@"state"] stringValue];
-			
-			if (linkState) {
-				NSString *linkName = [NSString stringWithFormat:@"/%@/%@", linkMode, linkState];
-				[hardlinks addObject:linkName];
-				[I_importedModes setObject:@"import" forKey:linkMode];
-				[[stateDictionary objectForKey:@"states"] addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:linkName, @"id", @"yes", @"hardlink", [stateDictionary objectForKey:@"id"], @"parentState", nil]];
-			}
-			
-		}
-	}
-	
+            linkMode = [[nextState attributeForName:@"mode"] stringValue];
+            if (!linkMode) linkMode = [self name];
+            
+            linkState = [[nextState attributeForName:@"state"] stringValue];
+            
+            if (linkState) {
+                NSString *linkName = [NSString stringWithFormat:@"/%@/%@", linkMode, linkState];
+                [hardlinks addObject:linkName];
+                [I_importedModes setObject:@"import" forKey:linkMode];
+                [[stateDictionary objectForKey:@"states"] addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:linkName, @"id", @"yes", @"hardlink", [stateDictionary objectForKey:@"id"], @"parentState", nil]];
+            }
+        }        
+    }
 	
     // Put the stuff into the dictionary
 
