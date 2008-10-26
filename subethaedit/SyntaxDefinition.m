@@ -215,36 +215,42 @@
     
     [self addAttributes:[stateNode attributes] toDictionary:stateDictionary];
 
-    // Parse and prepare begin/end
-    NSString *regexBegin = [[[stateNode nodesForXPath:@"./begin/regex" error:&err] lastObject] stringValue];
-    NSString *stringBegin = [[[stateNode nodesForXPath:@"./begin/string" error:&err] lastObject] stringValue];
-    NSString *regexEnd = [[[stateNode nodesForXPath:@"./end/regex" error:&err] lastObject] stringValue];
-    NSString *stringEnd = [[[stateNode nodesForXPath:@"./end/string" error:&err] lastObject] stringValue];
+    BOOL isContainerState = [[[stateNode attributeForName:@"containerState"] stringValue] isEqualToString:@"yes"];
 
-    if (regexBegin) {
-        // Begins get compiled later en-block, so just store a string now.
-        [stateDictionary setObject:regexBegin forKey:@"BeginsWithRegexString"];
-    } else if (stringBegin) {
-        [stateDictionary setObject:stringBegin forKey:@"BeginsWithPlainString"];
+    if (isContainerState) {
+        [stateDictionary setObject:@"yes" forKey:@"containerState"];
     } else {
-		if (![name isEqualToString:@"default"])
-		[self showWarning:NSLocalizedString(@"XML Structure Error",@"XML Structure Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"State '%@' in %@ mode has no begin tag",@"Syntax State No Begin Error Informative Text"), [stateDictionary objectForKey:@"id"], [self name]]];
-    }
-
-    if (regexEnd) {
-        OGRegularExpression *endRegex;
-        if ([OGRegularExpression isValidExpressionString:regexEnd]) {
-            if ((endRegex = [[[OGRegularExpression alloc] initWithString:regexEnd options:OgreFindNotEmptyOption] autorelease]))
-                [stateDictionary setObject:endRegex forKey:@"EndsWithRegex"];
-                [stateDictionary setObject:regexEnd forKey:@"EndsWithRegexString"];
+        // Parse and prepare begin/end
+        NSString *regexBegin = [[[stateNode nodesForXPath:@"./begin/regex" error:&err] lastObject] stringValue];
+        NSString *stringBegin = [[[stateNode nodesForXPath:@"./begin/string" error:&err] lastObject] stringValue];
+        NSString *regexEnd = [[[stateNode nodesForXPath:@"./end/regex" error:&err] lastObject] stringValue];
+        NSString *stringEnd = [[[stateNode nodesForXPath:@"./end/string" error:&err] lastObject] stringValue];
+        
+        if (regexBegin) {
+            // Begins get compiled later en-block, so just store a string now.
+            [stateDictionary setObject:regexBegin forKey:@"BeginsWithRegexString"];
+        } else if (stringBegin) {
+            [stateDictionary setObject:stringBegin forKey:@"BeginsWithPlainString"];
         } else {
-			[self showWarning:NSLocalizedString(@"XML Regex Error",@"XML Regex Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"State '%@' in %@ mode has a begin tag that is not a valid regex",@"Syntax State Malformed Begin Error Informative Text"), [stateDictionary objectForKey:@"id"], [self name]]];
+            if (![name isEqualToString:@"default"])
+                [self showWarning:NSLocalizedString(@"XML Structure Error",@"XML Structure Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"State '%@' in %@ mode has no begin tag",@"Syntax State No Begin Error Informative Text"), [stateDictionary objectForKey:@"id"], [self name]]];
         }
-    } else if (stringEnd) {
-        [stateDictionary setObject:stringEnd forKey:@"EndsWithPlainString"];
-    } else {
-		if (![name isEqualToString:@"default"])
-		[self showWarning:NSLocalizedString(@"XML Structure Error",@"XML Structure Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"State '%@' in %@ mode has no end tag",@"Syntax State No End Error Informative Text"), [stateDictionary objectForKey:@"id"], [self name]]];
+        
+        if (regexEnd) {
+            OGRegularExpression *endRegex;
+            if ([OGRegularExpression isValidExpressionString:regexEnd]) {
+                if ((endRegex = [[[OGRegularExpression alloc] initWithString:regexEnd options:OgreFindNotEmptyOption] autorelease]))
+                    [stateDictionary setObject:endRegex forKey:@"EndsWithRegex"];
+                [stateDictionary setObject:regexEnd forKey:@"EndsWithRegexString"];
+            } else {
+                [self showWarning:NSLocalizedString(@"XML Regex Error",@"XML Regex Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"State '%@' in %@ mode has a begin tag that is not a valid regex",@"Syntax State Malformed Begin Error Informative Text"), [stateDictionary objectForKey:@"id"], [self name]]];
+            }
+        } else if (stringEnd) {
+            [stateDictionary setObject:stringEnd forKey:@"EndsWithPlainString"];
+        } else {
+            if (![name isEqualToString:@"default"])
+                [self showWarning:NSLocalizedString(@"XML Structure Error",@"XML Structure Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"State '%@' in %@ mode has no end tag",@"Syntax State No End Error Informative Text"), [stateDictionary objectForKey:@"id"], [self name]]];
+        }
     }
 
     // Add keywords
@@ -746,6 +752,8 @@
 					[aDictionary setObject:[linkedState objectForKey:kSyntaxHighlightingStyleIDAttributeName] forKey:kSyntaxHighlightingStyleIDAttributeName];
 				if ([linkedState objectForKey:@"type"])
 					[aDictionary setObject:[linkedState objectForKey:@"type"] forKey:@"type"];
+                if ([linkedState objectForKey:@"containerState"])
+					[aDictionary setObject:[linkedState objectForKey:@"containerState"] forKey:@"containerState"];
             }
 		}
 		
@@ -762,6 +770,8 @@
             [testForGroups release];
         } else if ((beginString = [aDictionary objectForKey:@"BeginsWithPlainString"])) {
             DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found plain string state start:%@",beginString);
+        } else if ([aDictionary objectForKey:@"containerState"]) {
+            DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found a container state");
         } else {
 			[self showWarning:NSLocalizedString(@"XML Structure Error",@"XML Structure Error Title") withDescription:[NSString stringWithFormat:NSLocalizedString(@"<state> \"%@\" has no <begin>. This confuses me. Please check your syntax definition.",@"Syntax XML Structure Error Informative Text"),[aDictionary objectForKey:@"id"]]];
         }
