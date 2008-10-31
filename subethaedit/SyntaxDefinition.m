@@ -543,18 +543,26 @@
 
 // Calculate inheritances recursivly
 - (void) calculateSymbolInheritanceForState:(NSMutableDictionary *)state inheritedSymbols:(NSString *)oldSymbols inheritedAutocomplete:(NSString *)oldAutocomplete {
-	NSString *symbols = oldSymbols;
-	NSString *autocomplete = oldAutocomplete;
+	NSString *symbols = nil;
+	NSString *autocomplete = nil;
 	
-	if ([state objectForKey:@"switchtosymbolsfrommode"]) symbols = [state objectForKey:@"switchtosymbolsfrommode"];
-	if ([state objectForKey:@"switchtoautocompletefrommode"]) autocomplete = [state objectForKey:@"switchtoautocompletefrommode"];
+	if ([state objectForKey:@"switchtosymbolsfrommode"]) symbols = [[[state objectForKey:@"switchtosymbolsfrommode"] copy] autorelease];
+    else symbols = [[oldSymbols copy] autorelease];
+	if ([state objectForKey:@"switchtoautocompletefrommode"]) autocomplete = [[[state objectForKey:@"switchtoautocompletefrommode"] copy] autorelease];
+    else autocomplete = [[oldAutocomplete copy] autorelease];
+    
 
+    BOOL isLinked = ([state objectForKey:@"hardlink"]!=nil);
     state = [self stateForID:[state objectForKey:@"id"]];
-	[state setObject:symbols forKey:[self keyForInheritedSymbols]];
-	[state setObject:autocomplete forKey:[self keyForInheritedAutocomplete]];
-	
-	//NSLog(@"%@ calculated %@, Sym:%@, Auto:%@", [self name], [state objectForKey:@"id"], [state objectForKey:[self keyForInheritedSymbols]],[state objectForKey:[self keyForInheritedAutocomplete]]);
-	
+    BOOL isLocal = [[[[state objectForKey:@"id"] componentsSeparatedByString:@"/"] objectAtIndex:1] isEqualToString:[self name]];
+    
+    if (!(isLocal&&isLinked)) // If it's a local state, then resolve in the non-linked instance.
+    {
+        if (![state objectForKey:[self keyForInheritedSymbols]]) [state setObject:symbols forKey:[self keyForInheritedSymbols]];
+        if (![state objectForKey:[self keyForInheritedAutocomplete]]) [state setObject:autocomplete forKey:[self keyForInheritedAutocomplete]];
+        //NSLog(@"%@ calculated %@, Sym:%@, Auto:%@", [self name], [state objectForKey:@"id"], [state objectForKey:[self keyForInheritedSymbols]],[state objectForKey:[self keyForInheritedAutocomplete]]);	
+    } 
+        
 	NSEnumerator *enumerator = [[state objectForKey:@"states"] objectEnumerator];
     id childState;
     while ((childState = [enumerator nextObject])) {

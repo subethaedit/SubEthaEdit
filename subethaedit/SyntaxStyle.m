@@ -254,7 +254,7 @@ static NSArray *S_possibleStyleColors;
     NSString *key=nil;
 
 	// this is for writing out inital plists for modes to change with the corresponding keys wanted for the styleIDTransitionDictionary
-	[self writeOutAllStylesDictionaryToHome];
+	//[self writeOutAllStylesDictionaryToHome];
 	
 
     NSDictionary *styleIDTransitionDictionary = [I_documentMode styleIDTransitionDictionary];
