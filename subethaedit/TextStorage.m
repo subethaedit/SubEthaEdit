@@ -516,6 +516,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
                     } else {
                     	aReplacementRange.length=toIndex-index+1;
                         int spacesTheTabTakes=tabWidth-(toLength)%tabWidth;
+                        NSLog(@"there tab took %d spaces, replacementRange: %@, replacmentString:%@",spacesTheTabTakes,NSStringFromRange(aReplacementRange),aReplacementString);
 		                aReplacementString=[NSString stringWithFormat:@"%@%@",
 		                                    aReplacementString,
 		                                    [@" " stringByPaddingToLength:spacesTheTabTakes-(NSMaxRange(aRange)-toLength)
@@ -543,9 +544,10 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
                 } else {           
                     	aReplacementRange.length=toIndex-index+1;
                         int spacesTheTabTakes=tabWidth-(toLength)%tabWidth;
+                        int paddingLength = MAX(0,spacesTheTabTakes-(int)(NSMaxRange(aRange)-toLength));
 		                aReplacementString=[NSString stringWithFormat:@"%@%@",
 		                                    aReplacementString,
-		                                    [@" " stringByPaddingToLength:spacesTheTabTakes-(NSMaxRange(aRange)-toLength)
+		                                    [@" " stringByPaddingToLength:paddingLength
 		                                                     withString:@" " startingAtIndex:0]];
                 }
             }

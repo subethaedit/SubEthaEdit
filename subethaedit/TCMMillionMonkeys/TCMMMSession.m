@@ -1135,26 +1135,31 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
     [I_groupOfInvitedUsers removeObjectForKey:peerUserID];
     [I_stateOfInvitedUsers removeObjectForKey:peerUserID];
     
-    [I_groupByUserID setObject:group forKey:peerUserID];
-    if (![I_participants objectForKey:group]) {
-        [I_participants setObject:[NSMutableArray array] forKey:group];
-    }
-    [[I_participants objectForKey:group] addObject:user];
-    [I_contributors addObject:user];
-    [self documentDidApplyOperation:[UserChangeOperation userChangeOperationWithType:UserChangeTypeJoin user:user newGroup:group]];
-    SessionProfile *profile = aProfile; //[I_profilesByUserID objectForKey:[user userID]];
-    TCMMMState *state = [[TCMMMState alloc] initAsServer:YES];
-    [state setDelegate:self];
-    [state setClient:profile];
-    [I_statesByClientID setObject:state forKey:[user userID]];
-    [profile sendSessionInformation:[self TCM_sessionInformationForUserID:[user userID]]];
-    id <SEEDocument> document = [self document];
-    [document sendInitialUserStateViaMMState:state];
-    [state release];
-    [user joinSessionID:[self sessionID]];
-    NSMutableDictionary *properties=[user propertiesForSessionID:[self sessionID]];
-    [properties setObject:[SelectionOperation selectionOperationWithRange:NSMakeRange(0,0) userID:[user userID]] forKey:@"SelectionOperation"];
-    [self TCM_sendParticipantsDidChangeNotification];
+    if (group) {
+		
+		[I_groupByUserID setObject:group forKey:peerUserID];
+		if (![I_participants objectForKey:group]) {
+			[I_participants setObject:[NSMutableArray array] forKey:group];
+		}
+		[[I_participants objectForKey:group] addObject:user];
+		[I_contributors addObject:user];
+		[self documentDidApplyOperation:[UserChangeOperation userChangeOperationWithType:UserChangeTypeJoin user:user newGroup:group]];
+		SessionProfile *profile = aProfile; //[I_profilesByUserID objectForKey:[user userID]];
+		TCMMMState *state = [[TCMMMState alloc] initAsServer:YES];
+		[state setDelegate:self];
+		[state setClient:profile];
+		[I_statesByClientID setObject:state forKey:[user userID]];
+		[profile sendSessionInformation:[self TCM_sessionInformationForUserID:[user userID]]];
+		id <SEEDocument> document = [self document];
+		[document sendInitialUserStateViaMMState:state];
+		[state release];
+		[user joinSessionID:[self sessionID]];
+		NSMutableDictionary *properties=[user propertiesForSessionID:[self sessionID]];
+		[properties setObject:[SelectionOperation selectionOperationWithRange:NSMakeRange(0,0) userID:[user userID]] forKey:@"SelectionOperation"];
+	} else {
+		NSLog(@"%s got an accept with no group in place - bady",__FUNCTION__);
+	}
+	[self TCM_sendParticipantsDidChangeNotification];
 }
 
 - (NSArray *)profile:(SessionProfile *)profile userRequestsForSessionInformation:(NSDictionary *)sessionInfo

@@ -376,8 +376,6 @@
 		F2280A410BEF621900255AAE /* SDDirectoryUser.m in Sources */ = {isa = PBXBuildFile; fileRef = F2280A190BEF55D800255AAE /* SDDirectoryUser.m */; };
 		F2280A420BEF621A00255AAE /* SDDirectoryEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = F2280A100BEF55B500255AAE /* SDDirectoryEntry.m */; };
 		F2280A430BEF621A00255AAE /* SDDirectory.m in Sources */ = {isa = PBXBuildFile; fileRef = F2280A250BEF560000255AAE /* SDDirectory.m */; };
-		F230256A0D6C6EB800728699 /* TCMPortMapper.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F23025630D6C6E7000728699 /* TCMPortMapper.framework */; };
-		F230256B0D6C6EBE00728699 /* TCMPortMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F23025630D6C6E7000728699 /* TCMPortMapper.framework */; };
 		F23025740D6C709A00728699 /* DotRed.png in Resources */ = {isa = PBXBuildFile; fileRef = F23025710D6C709A00728699 /* DotRed.png */; };
 		F23025750D6C709A00728699 /* DotGreen.png in Resources */ = {isa = PBXBuildFile; fileRef = F23025720D6C709A00728699 /* DotGreen.png */; };
 		F23025760D6C709A00728699 /* DotYellow.png in Resources */ = {isa = PBXBuildFile; fileRef = F23025730D6C709A00728699 /* DotYellow.png */; };
@@ -404,6 +402,8 @@
 		F27B2EE80B52957800679CF2 /* hud_buttonLeft-P.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2EE20B52957800679CF2 /* hud_buttonLeft-P.tiff */; };
 		F27B2EF10B52968E00679CF2 /* HUDButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F27B2EED0B52968E00679CF2 /* HUDButtonCell.m */; };
 		F27B2EF20B52968E00679CF2 /* HUDButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F27B2EEE0B52968E00679CF2 /* HUDButton.m */; };
+		F290D9D80EDB04EF00E643C0 /* TCMPortMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F290D9D70EDB04EF00E643C0 /* TCMPortMapper.framework */; };
+		F290D9DD0EDB04F900E643C0 /* TCMPortMapper.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F290D9D70EDB04EF00E643C0 /* TCMPortMapper.framework */; };
 		F298693E0D338B0F0031C9F3 /* ServerManagementProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F298693C0D338B0F0031C9F3 /* ServerManagementProfile.m */; };
 		F29869530D338D6C0031C9F3 /* ServerManagementProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F298693C0D338B0F0031C9F3 /* ServerManagementProfile.m */; };
 		F298A00A0CCB9F3200C4DB8B /* SeeTextImporter.mdimporter in Copy Importers */ = {isa = PBXBuildFile; fileRef = F298A0030CCB9ED900C4DB8B /* SeeTextImporter.mdimporter */; };
@@ -632,34 +632,6 @@
 			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
 			remoteInfo = SubEthaEdit;
 		};
-		F23025620D6C6E7000728699 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F23025570D6C6E7000728699 /* Port Map.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 3180119F0D4DEC8400BE3B28;
-			remoteInfo = TCMPortMapper;
-		};
-		F23025640D6C6E7000728699 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F23025570D6C6E7000728699 /* Port Map.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F2C65FFF0D50C2D100820CAE;
-			remoteInfo = "Port Map";
-		};
-		F23025660D6C6E7000728699 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F23025570D6C6E7000728699 /* Port Map.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = F214E5DB0D5F5FE600A06962;
-			remoteInfo = NATEcho;
-		};
-		F23025680D6C6E8800728699 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F23025570D6C6E7000728699 /* Port Map.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 3180119E0D4DEC8400BE3B28;
-			remoteInfo = TCMPortMapper;
-		};
 		F298A0020CCB9ED900C4DB8B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F2989FFE0CCB9ED900C4DB8B /* SeeTextImporter.xcodeproj */;
@@ -744,13 +716,13 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F230256A0D6C6EB800728699 /* TCMPortMapper.framework in Copy Files (Frameworks) */,
 				F2BB0AA40CA0443A00258EC7 /* HMBlkAppKit.framework in Copy Files (Frameworks) */,
 				F2A0997A0C9EE015000AD27A /* UniversalDetector.framework in Copy Files (Frameworks) */,
 				144E3AD30B6FEEDF001C49C2 /* OgreKit.framework in Copy Files (Frameworks) */,
 				31D5FB230AA309200088DB18 /* HDCrashReporter.framework in Copy Files (Frameworks) */,
 				141F4EB40AE4266F001B73D2 /* PSMTabBarControl.framework in Copy Files (Frameworks) */,
 				312B7BC00A99D22C0014E52A /* Sparkle.framework in Copy Files (Frameworks) */,
+				F290D9DD0EDB04F900E643C0 /* TCMPortMapper.framework in Copy Files (Frameworks) */,
 			);
 			name = "Copy Files (Frameworks)";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1284,10 +1256,9 @@
 		F2280A250BEF560000255AAE /* SDDirectory.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDDirectory.m; path = Directory/SDDirectory.m; sourceTree = "<group>"; };
 		F2280A2F0BEF56AB00255AAE /* SDDirectoryUserGroupList.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = SDDirectoryUserGroupList.h; path = Directory/SDDirectoryUserGroupList.h; sourceTree = "<group>"; };
 		F2280A300BEF56AB00255AAE /* SDDirectoryUserGroupList.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = SDDirectoryUserGroupList.m; path = Directory/SDDirectoryUserGroupList.m; sourceTree = "<group>"; };
-		F23025570D6C6E7000728699 /* Port Map.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = "Port Map.xcodeproj"; path = "TCMPortMapper/Port Map.xcodeproj"; sourceTree = "<group>"; };
-		F23025710D6C709A00728699 /* DotRed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DotRed.png; path = TCMPortMapper/general_artwork/DotRed.png; sourceTree = "<group>"; };
-		F23025720D6C709A00728699 /* DotGreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DotGreen.png; path = TCMPortMapper/general_artwork/DotGreen.png; sourceTree = "<group>"; };
-		F23025730D6C709A00728699 /* DotYellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DotYellow.png; path = TCMPortMapper/general_artwork/DotYellow.png; sourceTree = "<group>"; };
+		F23025710D6C709A00728699 /* DotRed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DotRed.png; path = artwork/DotRed.png; sourceTree = "<group>"; };
+		F23025720D6C709A00728699 /* DotGreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DotGreen.png; path = artwork/DotGreen.png; sourceTree = "<group>"; };
+		F23025730D6C709A00728699 /* DotYellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DotYellow.png; path = artwork/DotYellow.png; sourceTree = "<group>"; };
 		F234E0F90BE0F1C500504A7C /* ServerConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerConnectionManager.h; sourceTree = "<group>"; };
 		F234E0FA0BE0F1C500504A7C /* ServerConnectionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerConnectionManager.m; sourceTree = "<group>"; };
 		F234E0FE0BE0F1E100504A7C /* ServerConnectionWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerConnectionWindowController.h; sourceTree = "<group>"; };
@@ -1318,6 +1289,7 @@
 		F28CAAF00CB55B900001111D /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/PrecedencePrefs.nib; sourceTree = "<group>"; };
 		F28CAAF10CB55B9A0001111D /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/PrecedenceRules.nib; sourceTree = "<group>"; };
 		F28CAAF20CB55BB00001111D /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/UserStatistics.nib; sourceTree = "<group>"; };
+		F290D9D70EDB04EF00E643C0 /* TCMPortMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TCMPortMapper.framework; path = TCMPortMapper/TCMPortMapper.framework; sourceTree = "<group>"; };
 		F298693C0D338B0F0031C9F3 /* ServerManagementProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerManagementProfile.m; sourceTree = "<group>"; };
 		F298693D0D338B0F0031C9F3 /* ServerManagementProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerManagementProfile.h; sourceTree = "<group>"; };
 		F2989FFE0CCB9ED900C4DB8B /* SeeTextImporter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SeeTextImporter.xcodeproj; path = SeeTextImporter/SeeTextImporter.xcodeproj; sourceTree = "<group>"; };
@@ -1438,7 +1410,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F230256B0D6C6EBE00728699 /* TCMPortMapper.framework in Frameworks */,
 				F2BB0A950CA0442A00258EC7 /* HMBlkAppKit.framework in Frameworks */,
 				F2A099500C9EBC5B000AD27A /* UniversalDetector.framework in Frameworks */,
 				144E3AD20B6FEED6001C49C2 /* OgreKit.framework in Frameworks */,
@@ -1451,6 +1422,7 @@
 				142894D4095765CF00D14688 /* SystemConfiguration.framework in Frameworks */,
 				14288FF509573F4900D14688 /* WebKit.framework in Frameworks */,
 				31D5F8680AA301E80088DB18 /* HDCrashReporter.framework in Frameworks */,
+				F290D9D80EDB04EF00E643C0 /* TCMPortMapper.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1460,6 +1432,7 @@
 		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				F290D9D70EDB04EF00E643C0 /* TCMPortMapper.framework */,
 				14288FDD09573E8900D14688 /* AddressBook.framework */,
 				14288FDF09573EA300D14688 /* Carbon.framework */,
 				1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */,
@@ -2139,7 +2112,6 @@
 				14F16CEF0971A87300402129 /* OgreKit.xcodeproj */,
 				F2A093B40C9EBB42000AD27A /* UniversalDetector.xcodeproj */,
 				F2989FFE0CCB9ED900C4DB8B /* SeeTextImporter.xcodeproj */,
-				F23025570D6C6E7000728699 /* Port Map.xcodeproj */,
 				5EC6382B0ABEB71100D3295B /* Unit Tests-Info.plist */,
 			);
 			comments = "Build Requirements:\n\nMake sure you use a shared build directory for both the SubEthaEdit project and the OgreKit project. Currently, both projects use the default build location so you can set the shared build directory in the global Xcode preferences and both projects will pick it up. You can also set the shared build location in both projects directly.\n\n/usr/local/bin/svnversion is required if you want automatic versioning support of the build.";
@@ -2346,16 +2318,6 @@
 			name = Directory;
 			sourceTree = "<group>";
 		};
-		F23025580D6C6E7000728699 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				F23025630D6C6E7000728699 /* TCMPortMapper.framework */,
-				F23025650D6C6E7000728699 /* Port Map.app */,
-				F23025670D6C6E7000728699 /* NATEcho.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		F2989FFF0CCB9ED900C4DB8B /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -2501,7 +2463,6 @@
 				F2A099430C9EBC39000AD27A /* PBXTargetDependency */,
 				F2BB0A940CA0440800258EC7 /* PBXTargetDependency */,
 				F298A00C0CCB9F4100C4DB8B /* PBXTargetDependency */,
-				F23025690D6C6E8800728699 /* PBXTargetDependency */,
 			);
 			name = SubEthaEdit;
 			productInstallPath = "$(HOME)/Applications";
@@ -2541,10 +2502,6 @@
 				{
 					ProductGroup = 144E3A970B6FEE8D001C49C2 /* Products */;
 					ProjectRef = 14F16CEF0971A87300402129 /* OgreKit.xcodeproj */;
-				},
-				{
-					ProductGroup = F23025580D6C6E7000728699 /* Products */;
-					ProjectRef = F23025570D6C6E7000728699 /* Port Map.xcodeproj */;
 				},
 				{
 					ProductGroup = 141F4E980AE42602001B73D2 /* Products */;
@@ -2659,27 +2616,6 @@
 			fileType = wrapper.framework;
 			path = HDCrashReporter.framework;
 			remoteRef = 31D5F8580AA2FB760088DB18 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		F23025630D6C6E7000728699 /* TCMPortMapper.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = TCMPortMapper.framework;
-			remoteRef = F23025620D6C6E7000728699 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		F23025650D6C6E7000728699 /* Port Map.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = "Port Map.app";
-			remoteRef = F23025640D6C6E7000728699 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		F23025670D6C6E7000728699 /* NATEcho.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = NATEcho.app;
-			remoteRef = F23025660D6C6E7000728699 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		F298A0030CCB9ED900C4DB8B /* SeeTextImporter.mdimporter */ = {
@@ -3341,11 +3277,6 @@
 			target = 8D15AC270486D014006FF6A4 /* SubEthaEdit */;
 			targetProxy = 5EC638300ABEB78000D3295B /* PBXContainerItemProxy */;
 		};
-		F23025690D6C6E8800728699 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = TCMPortMapper;
-			targetProxy = F23025680D6C6E8800728699 /* PBXContainerItemProxy */;
-		};
 		F298A00C0CCB9F4100C4DB8B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = SeeTextImporter;
@@ -3918,7 +3849,10 @@
 			buildSettings = {
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)";
 				COPY_PHASE_STRIP = NO;
-				FRAMEWORK_SEARCH_PATHS = /System/Library/PrivateFrameworks;
+				FRAMEWORK_SEARCH_PATHS = (
+					/System/Library/PrivateFrameworks,
+					"\"$(SRCROOT)/TCMPortMapper\"",
+				);
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_MODEL_TUNING = G5;
@@ -3950,7 +3884,10 @@
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)";
 				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = YES;
-				FRAMEWORK_SEARCH_PATHS = /System/Library/PrivateFrameworks;
+				FRAMEWORK_SEARCH_PATHS = (
+					/System/Library/PrivateFrameworks,
+					"\"$(SRCROOT)/TCMPortMapper\"",
+				);
 				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = SubEthaEdit_Prefix.pch;
