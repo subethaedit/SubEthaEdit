@@ -178,10 +178,11 @@ NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"P
 				NSString *typeAttributeString;
 				if ((typeAttributeString=[subState objectForKey:@"type"]))
 					[scratchAttributes setObject:typeAttributeString forKey:kSyntaxHighlightingTypeAttributeName];
-				
-				[scratchAttributes setObject:[currentState objectForKey:[definition keyForInheritedSymbols]] forKey:kSyntaxHighlightingParentModeForSymbolsAttributeName];
+				                
+                subState = [definition stateForID:[subState objectForKey:@"id"]];
+				[scratchAttributes setObject:[subState objectForKey:[definition keyForInheritedSymbols]] forKey:kSyntaxHighlightingParentModeForSymbolsAttributeName];
+				[scratchAttributes setObject:[subState objectForKey:[definition keyForInheritedAutocomplete]] forKey:kSyntaxHighlightingParentModeForAutocompleteAttributeName];
 				[scratchAttributes setObject:kSyntaxHighlightingIsCorrectAttributeValue forKey:kSyntaxHighlightingIsCorrectAttributeName];
-				[scratchAttributes setObject:[currentState objectForKey:[definition keyForInheritedAutocomplete]] forKey:kSyntaxHighlightingParentModeForAutocompleteAttributeName];
 				
                 [aString addAttributes:scratchAttributes range:delimiterRange];
             } else { // Found end of current state
