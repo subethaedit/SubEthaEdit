@@ -88,6 +88,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
     NSMutableDictionary *I_styleCacheDictionary;
     NSDictionary *I_plainTextAttributes;
     NSDictionary *I_typingAttributes;
+	NSMutableDictionary *I_adjustedTypingAttributes;
     NSParagraphStyle *I_defaultParagraphStyle;
     NSDictionary *I_fileAttributes;
     NSDictionary *I_ODBParameters;
@@ -219,6 +220,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (void)setLineEnding:(LineEnding)newLineEnding;
 
 - (NSFont *)fontWithTrait:(NSFontTraitMask)aFontTrait;
+- (NSDictionary *)typingAttributesForCurrentTypingAttributes:(NSDictionary *)inCurrentTypingAttributes;
 - (NSDictionary *)typingAttributes;
 - (NSDictionary *)plainTextAttributes;
 - (NSDictionary *)blockeditAttributes;

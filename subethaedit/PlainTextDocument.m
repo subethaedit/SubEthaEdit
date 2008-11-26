@@ -960,7 +960,8 @@ static NSString *tempFileName(NSString *origPath) {
     [I_session release];
     [I_plainTextAttributes release];
     [I_typingAttributes release];
-    [I_blockeditAttributes release];
+	[I_adjustedTypingAttributes autorelease];
+	[I_blockeditAttributes release];
     [I_fonts.plainFont release];
     [I_fonts.boldFont release];
     [I_fonts.italicFont release];
@@ -4477,6 +4478,18 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     return result;
 }
 
+- (NSDictionary *)typingAttributesForCurrentTypingAttributes:(NSDictionary *)inCurrentTypingAttributes {
+	if (!I_adjustedTypingAttributes) {
+		I_adjustedTypingAttributes = [[self typingAttributes] mutableCopy];
+	}
+	NSFont *font = [inCurrentTypingAttributes objectForKey:NSFontAttributeName];
+	if (font) [I_adjustedTypingAttributes setObject:font forKey:NSFontAttributeName];
+	NSColor *foregroundColor = [inCurrentTypingAttributes objectForKey:NSForegroundColorAttributeName];
+	if (foregroundColor) [I_adjustedTypingAttributes setObject:foregroundColor forKey:NSForegroundColorAttributeName];
+//	NSLog(@"%s %@",__FUNCTION__,I_adjustedTypingAttributes);
+	return I_adjustedTypingAttributes;
+}
+
 - (NSDictionary *)typingAttributes {
     if (!I_typingAttributes) {
         NSMutableDictionary *attributes=[[self plainTextAttributes] mutableCopy];
@@ -4575,6 +4588,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
      I_plainTextAttributes=nil;
     [I_typingAttributes release];
      I_typingAttributes=nil;
+    [I_adjustedTypingAttributes autorelease];
+     I_adjustedTypingAttributes=nil;
     [I_styleCacheDictionary removeAllObjects];
     [[NSNotificationQueue defaultQueue]
         enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentDefaultParagraphStyleDidChangeNotification object:self]
@@ -4588,6 +4603,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
      I_plainTextAttributes=nil;
     [I_typingAttributes release];
      I_typingAttributes=nil;
+    [I_adjustedTypingAttributes autorelease];
+     I_adjustedTypingAttributes=nil;
     [I_blockeditAttributes release];
      I_blockeditAttributes=nil;
     [I_styleCacheDictionary removeAllObjects];

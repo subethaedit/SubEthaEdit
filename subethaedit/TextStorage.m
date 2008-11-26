@@ -516,7 +516,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
                     } else {
                     	aReplacementRange.length=toIndex-index+1;
                         int spacesTheTabTakes=tabWidth-(toLength)%tabWidth;
-                        NSLog(@"there tab took %d spaces, replacementRange: %@, replacmentString:%@",spacesTheTabTakes,NSStringFromRange(aReplacementRange),aReplacementString);
+//                        NSLog(@"there tab took %d spaces, replacementRange: %@, replacmentString:%@",spacesTheTabTakes,NSStringFromRange(aReplacementRange),aReplacementString);
 		                aReplacementString=[NSString stringWithFormat:@"%@%@",
 		                                    aReplacementString,
 		                                    [@" " stringByPaddingToLength:spacesTheTabTakes-(NSMaxRange(aRange)-toLength)
@@ -895,7 +895,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 }
 
 - (void)removeObjectFromScriptedCharactersAtIndex:(unsigned)anIndex {
-    NSLog(@"%s: %d", __FUNCTION__, anIndex);
+//    NSLog(@"%s: %d", __FUNCTION__, anIndex);
     [[self valueInScriptedCharactersAtIndex:anIndex] setScriptedContents:@""];
 }
 
