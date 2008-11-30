@@ -220,7 +220,6 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (void)setLineEnding:(LineEnding)newLineEnding;
 
 - (NSFont *)fontWithTrait:(NSFontTraitMask)aFontTrait;
-- (NSDictionary *)typingAttributesForCurrentTypingAttributes:(NSDictionary *)inCurrentTypingAttributes;
 - (NSDictionary *)typingAttributes;
 - (NSDictionary *)plainTextAttributes;
 - (NSDictionary *)blockeditAttributes;

@@ -4478,18 +4478,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     return result;
 }
 
-- (NSDictionary *)typingAttributesForCurrentTypingAttributes:(NSDictionary *)inCurrentTypingAttributes {
-	if (!I_adjustedTypingAttributes) {
-		I_adjustedTypingAttributes = [[self typingAttributes] mutableCopy];
-	}
-	NSFont *font = [inCurrentTypingAttributes objectForKey:NSFontAttributeName];
-	if (font) [I_adjustedTypingAttributes setObject:font forKey:NSFontAttributeName];
-	NSColor *foregroundColor = [inCurrentTypingAttributes objectForKey:NSForegroundColorAttributeName];
-	if (foregroundColor) [I_adjustedTypingAttributes setObject:foregroundColor forKey:NSForegroundColorAttributeName];
-//	NSLog(@"%s %@",__FUNCTION__,I_adjustedTypingAttributes);
-	return I_adjustedTypingAttributes;
-}
-
 - (NSDictionary *)typingAttributes {
     if (!I_typingAttributes) {
         NSMutableDictionary *attributes=[[self plainTextAttributes] mutableCopy];
@@ -5629,7 +5617,7 @@ static NSString *S_measurementUnits;
 - (BOOL)handleOperation:(TCMMMOperation *)aOperation {
     if ([[aOperation operationID] isEqualToString:[TextOperation operationID]]) {
         TextOperation *operation=(TextOperation *)aOperation;
-        NSTextStorage *textStorage=[self textStorage];
+        TextStorage *textStorage=[self textStorage];
     
         // check validity of operation
         if (NSMaxRange([operation affectedCharRange])>[textStorage length]) {
@@ -5659,7 +5647,7 @@ static NSString *S_measurementUnits;
                             range:newRange];
         [textStorage addAttribute:ChangedByUserIDAttributeName value:[operation userID]
                             range:newRange];
-        [textStorage addAttributes:[self plainTextAttributes] range:newRange];
+        [textStorage addAttributes:[textStorage attributeDictionaryByAddingStyleAttributesForInsertLocation:newRange.location toDictionary:[self plainTextAttributes]] range:newRange];
         [textStorage endEditing];
 
 

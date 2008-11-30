@@ -1435,13 +1435,7 @@
         }
         return NO;
     } else {
-		if (affectedCharRange.location > 0) {
-			// get previous char and get attributes for it
-			NSDictionary *attributes = [[aTextView textStorage] attributesAtIndex:affectedCharRange.location-1 effectiveRange:NULL];
-			[aTextView setTypingAttributes:[(PlainTextDocument *)[self document] typingAttributesForCurrentTypingAttributes:attributes]];
-		} else {
-			[aTextView setTypingAttributes:[(PlainTextDocument *)[self document] typingAttributes]];
-		}
+		[aTextView setTypingAttributes:[(TextStorage *)[aTextView textStorage] attributeDictionaryByAddingStyleAttributesForInsertLocation:affectedCharRange.location toDictionary:[(PlainTextDocument *)[self document] typingAttributes]]];
     }
     
     if ([(TextView *)aTextView isPasting] && ![(TextStorage *)[aTextView textStorage] hasMixedLineEndings]) {
