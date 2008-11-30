@@ -15,6 +15,7 @@
 #import "NSStringSEEAdditions.h"
 
 #define chunkSize              		5000
+#define padding              		 100
 #define makeDirty              		 100
 
 NSString * const kSyntaxHighlightingIsCorrectAttributeName  = @"HighlightingIsCorrect";
@@ -415,8 +416,26 @@ NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"P
                     if (NSMaxRange(newRange)<=NSMaxRange(textRange)) chunkRange = newRange;
                 }
                 
-                chunkRange = [[aTextStorage string] lineRangeForRange:chunkRange];
+                // Optimization path for very long lines
+                // Extends dirty range based upon white space
+                
+                NSRange linerange = [[aTextStorage string] lineRangeForRange:chunkRange];
+                if (linerange.length<=2*chunkSize) //Optimization for humongously long lines
+                    chunkRange = linerange;
+                else {
+                    NSRange nextWhiteSpaceRange = [[aTextStorage string] rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet] options:nil range:NSMakeRange(NSMaxRange(chunkRange), [[aTextStorage string] length] - NSMaxRange(chunkRange))];
+                    NSRange prevWhiteSpaceRange = [[aTextStorage string] rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet] options:NSBackwardsSearch range:NSMakeRange(0, chunkRange.location)];
 
+                    if (nextWhiteSpaceRange.location==NSNotFound)
+                        chunkRange = NSUnionRange(chunkRange, NSMakeRange(NSMaxRange(linerange), 0));
+                    else
+                        chunkRange = NSUnionRange(chunkRange, nextWhiteSpaceRange);
+                    
+                    if (prevWhiteSpaceRange.location!=NSNotFound)
+                        chunkRange = NSUnionRange(chunkRange, prevWhiteSpaceRange);                    
+                }
+
+                
                 //DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Chunk #%d, Dirty: %@, Chunk: %@", chunks, NSStringFromRange(dirtyRange),NSStringFromRange(chunkRange));
 
 
