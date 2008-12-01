@@ -455,6 +455,7 @@
 		F2D5FF4D0CB2679100407399 /* PrintPrefs.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF4C0CB2679100407399 /* PrintPrefs.icns */; };
 		F2D5FF510CB26EA800407399 /* ToolbarIconRunInTerminal.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF4F0CB26EA800407399 /* ToolbarIconRunInTerminal.icns */; };
 		F2D5FF520CB26EA800407399 /* ToolbarIconTerminal.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF500CB26EA800407399 /* ToolbarIconTerminal.icns */; };
+		F2DCD8F20EE432F900F2854F /* FontForwardingTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = F2DCD8F10EE432F900F2854F /* FontForwardingTextField.m */; };
 		F2F2B5A70CA7F7B80045C189 /* PrecedencePreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2C6E70CA7C7A7003CC5C9 /* PrecedencePreferences.m */; };
 		F2F2B60E0CA811240045C189 /* TCMMMLogStatisticsDataPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F2B60D0CA811240045C189 /* TCMMMLogStatisticsDataPoint.m */; };
 		F2F2B6100CA811240045C189 /* TCMMMLogStatisticsDataPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F2B60D0CA811240045C189 /* TCMMMLogStatisticsDataPoint.m */; };
@@ -1358,6 +1359,8 @@
 		F2D5FF4C0CB2679100407399 /* PrintPrefs.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = PrintPrefs.icns; path = artwork/PrintPrefs.icns; sourceTree = "<group>"; };
 		F2D5FF4F0CB26EA800407399 /* ToolbarIconRunInTerminal.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = ToolbarIconRunInTerminal.icns; path = artwork/ToolbarIconRunInTerminal.icns; sourceTree = "<group>"; };
 		F2D5FF500CB26EA800407399 /* ToolbarIconTerminal.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = ToolbarIconTerminal.icns; path = artwork/ToolbarIconTerminal.icns; sourceTree = "<group>"; };
+		F2DCD8F00EE432F900F2854F /* FontForwardingTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontForwardingTextField.h; sourceTree = "<group>"; };
+		F2DCD8F10EE432F900F2854F /* FontForwardingTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontForwardingTextField.m; sourceTree = "<group>"; };
 		F2EFCBEF0CB656C700AEE298 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/ConnectionBrowser.nib; sourceTree = "<group>"; };
 		F2F2B60C0CA811240045C189 /* TCMMMLogStatisticsDataPoint.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCMMMLogStatisticsDataPoint.h; sourceTree = "<group>"; };
 		F2F2B60D0CA811240045C189 /* TCMMMLogStatisticsDataPoint.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMMMLogStatisticsDataPoint.m; sourceTree = "<group>"; };
@@ -2014,6 +2017,8 @@
 				1428937B0957580F00D14688 /* PrintTextView.m */,
 				1428937C0957580F00D14688 /* PrintTypesetter.h */,
 				1428937D0957580F00D14688 /* PrintTypesetter.m */,
+				F2DCD8F00EE432F900F2854F /* FontForwardingTextField.h */,
+				F2DCD8F10EE432F900F2854F /* FontForwardingTextField.m */,
 			);
 			name = Printing;
 			sourceTree = "<group>";
@@ -3221,6 +3226,7 @@
 				F2FB96E30CBE68ED000B85AE /* UKXattrMetadataStore.m in Sources */,
 				F24280C60D16CFCC0083AE21 /* GenericSASLProfile.m in Sources */,
 				F298693E0D338B0F0031C9F3 /* ServerManagementProfile.m in Sources */,
+				F2DCD8F20EE432F900F2854F /* FontForwardingTextField.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

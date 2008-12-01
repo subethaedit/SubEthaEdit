@@ -21,7 +21,7 @@ enum {
 
 @class TCMMMSession, TCMMMOperation, DocumentMode, EncodingPopUpButton, 
        PlainTextWindowController, WebPreviewWindowController,
-       DocumentProxyWindowController, FindAllController, UndoManager, TextOperation, TextStorage, TCMMMLoggingState;
+       DocumentProxyWindowController, FindAllController, UndoManager, TextOperation, TextStorage, TCMMMLoggingState, FontForwardingTextField;
 
 extern NSString * const PlainTextDocumentSessionWillChangeNotification;
 extern NSString * const PlainTextDocumentSessionDidChangeNotification;
@@ -144,6 +144,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
     
     NSMutableDictionary *I_printOptions;
     // Print nib
+	IBOutlet FontForwardingTextField *O_printOptionTextField;
     IBOutlet NSView *O_printOptionView;
     IBOutlet NSObjectController *O_printOptionController;
     BOOL I_printOperationIsRunning;

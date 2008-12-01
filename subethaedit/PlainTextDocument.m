@@ -26,6 +26,7 @@
 #import "NSSavePanelTCMAdditions.h"
 #import "EncodingDoctorDialog.h"
 #import "NSMutableAttributedStringSEEAdditions.h"
+#import "FontForwardingTextField.h"
 
 #import "DocumentModeManager.h"
 #import "DocumentMode.h"
@@ -4801,6 +4802,7 @@ static NSString *S_measurementUnits;
         for (i=996;i<1000;i++) {
             [[O_printOptionView viewWithTag:i] setStringValue:labelText];
         }
+		[O_printOptionTextField setFontDelegate:self];
     }
 
     // Construct the print operation and setup Print panel
@@ -4831,7 +4833,7 @@ static NSString *S_measurementUnits;
 }
 
 - (IBAction)changeFontViaPanel:(id)sender {
-    NSDictionary *fontAttributes=[[O_printOptionController content] valueForKeyPath:@"dictionary.SEEFontAttributes"];
+    NSDictionary *fontAttributes=[[O_printOptionController content] valueForKeyPath:@"SEEFontAttributes"];
     NSFont *newFont=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
     if (!newFont) newFont=[NSFont userFixedPitchFontOfSize:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
     
@@ -4839,6 +4841,9 @@ static NSString *S_measurementUnits;
         setSelectedFont:newFont 
              isMultiple:NO];
     [[NSFontManager sharedFontManager] orderFrontFontPanel:self];
+	
+	[[sender window] makeFirstResponder:O_printOptionTextField];
+
 }
 
 - (void)changeFont:(id)aSender {

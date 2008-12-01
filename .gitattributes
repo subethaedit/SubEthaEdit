@@ -411,6 +411,8 @@ subethaedit/FirstClickCustomView.h -text
 subethaedit/FirstClickCustomView.m -text
 subethaedit/FontAttributesToStringValueTransformer.h -text
 subethaedit/FontAttributesToStringValueTransformer.m -text
+subethaedit/FontForwardingTextField.h -text
+subethaedit/FontForwardingTextField.m -text
 subethaedit/GeneralPreferences.h -text
 subethaedit/GeneralPreferences.m -text
 subethaedit/GenericSASLProfile.h -text
