@@ -5617,7 +5617,7 @@ static NSString *S_measurementUnits;
 - (BOOL)handleOperation:(TCMMMOperation *)aOperation {
     if ([[aOperation operationID] isEqualToString:[TextOperation operationID]]) {
         TextOperation *operation=(TextOperation *)aOperation;
-        TextStorage *textStorage=[self textStorage];
+        TextStorage *textStorage=(TextStorage *)[self textStorage];
     
         // check validity of operation
         if (NSMaxRange([operation affectedCharRange])>[textStorage length]) {
