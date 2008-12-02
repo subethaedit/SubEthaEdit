@@ -311,8 +311,8 @@
             </state>
     
             <state id="POD style comments" color="#236E25">
-                <begin><regex>^=</regex></begin>
-                <end><regex>^=cut[^\n\r]*</regex></end>
+                <begin><regex>(?&lt;=[\n\r])=(?=\w.*[\n\r])</regex></begin>
+                <end><regex>(?&lt;=\s)=cut[^\n\r]*</regex></end>
             </state>
     
             <state id="Regular Expressions" color="#760f15">
