@@ -28609,6 +28609,8 @@ isBackButtonVisible
 isBaseFont
 isBezeled
 isBordered
+backgroundStyle  
+interiorBackgroundStyle
 isBusy
 isButtonBordered
 isBycopy
@@ -52012,6 +52014,7 @@ setBackgroundImage:
 setBackgroundLayoutEnabled:
 setBackgroundPosition:
 setBackgroundRepeat:
+setBackgroundStyle:
 setBackingType:
 setBadgeLabel:
 setBannerText:
