@@ -2612,6 +2612,7 @@ tool/addressbookkiller/addressbookkiller_Prefix.pch -text
 tool/autodoc -text
 tool/convertcolor.pl -text
 tool/customers2vcf.pl -text
+tool/dsa-signing/TheCodingMonkeysCodeSigning.cer -text
 tool/dsa-signing/dsa_priv.pem -text
 tool/dsa-signing/dsa_pub.pem -text
 tool/dsa-signing/sign -text
