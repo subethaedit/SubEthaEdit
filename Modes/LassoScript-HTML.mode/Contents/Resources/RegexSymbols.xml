@@ -226,9 +226,14 @@
         </postprocess>
     </symbol>
 
-    <symbol id="Comment Marks" font-weight="normal" indentation="0" ignoreblocks="yes">
+	<!-- STUDIO replaced "Symbol!" with SymbolMark -->
+    <symbol id="Comment Marks" font-weight="normal" indentation="0" ignoreblocks="yes" image="SymbolMark" show-in-comments="yes">
         <regex>//- mark[\t ]*(?:-(?=[\n\r]))?([^\n\r]*)</regex>
     </symbol>
 
+	<!-- STUDIO -->
+	<symbol id="Comment Marks" font-weight="normal" indentation="0" ignoreblocks="yes" image="SymbolMark" show-in-comments="yes">
+        <regex>//\s*![\t ]*(?:-(?=[\n\r]))?([^\n\r]*)</regex>
+    </symbol>
 
 </symbols>

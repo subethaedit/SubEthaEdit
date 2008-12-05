@@ -18,6 +18,12 @@ echo "Setting permissions..."
 chmod -R g+w "${BUILT_PRODUCTS_DIR}/${DiskImageProduct}"
 echo "...done"
 echo
+echo "Signing bundle and binaries"
+codesign -s "TheCodingMonkeys Code Signing" "${BUILT_PRODUCTS_DIR}/${DiskImageProduct}/Contents/MacOS/SubEthaEditHelperToolTemplate"
+codesign -s "TheCodingMonkeys Code Signing" "${BUILT_PRODUCTS_DIR}/${DiskImageProduct}/Contents/MacOS/see"
+codesign -s "TheCodingMonkeys Code Signing" "${BUILT_PRODUCTS_DIR}/${DiskImageProduct}/Contents/Library/Spotlight/SeeTextImporter.mdimporter"
+codesign -s "TheCodingMonkeys Code Signing" "${BUILT_PRODUCTS_DIR}/${DiskImageProduct}"
+echo "...done"
 echo "Creating Zip file ${dmgBasePath}..."
 cd "${BUILT_PRODUCTS_DIR}"
 zip -9 -r -y "${dmgBasePath}.zip" "${DiskImageProduct}"
@@ -28,7 +34,7 @@ echo "...done"
 echo "Archiving deployment image and dSYM files..."
 echo
 
-REV=`/usr/local/bin/svnversion -n "${SRCROOT}"`
+REV=`/usr/bin/env svnversion -n "${SRCROOT}"`
 dmgBasePath="${TARGET_BUILD_DIR}/${DiskImageVolumeName}-${REV}"
 echo "Creating ${dmgSize} MB disk image named '${DiskImageVolumeName}-${REV}'..."
 rm -f "${dmgBasePath}.dmg"
@@ -55,7 +61,6 @@ echo "Copying..."
 cp -Rpv "${TARGET_BUILD_DIR}/${DiskImageProduct}" "${mountedDmgPath}"
 cp -Rpv "${TARGET_BUILD_DIR}/SubEthaEdit.zip" "${mountedDmgPath}"
 cp -Rpv "${TARGET_BUILD_DIR}/HDCrashReporter.framework.dSYM" "${mountedDmgPath}"
-cp -Rpv "${TARGET_BUILD_DIR}/Sparkle.framework.dSYM" "${mountedDmgPath}"
 cp -Rpv "${TARGET_BUILD_DIR}/OgreKit.framework.dSYM" "${mountedDmgPath}"
 cp -Rpv "${TARGET_BUILD_DIR}/see.dSYM" "${mountedDmgPath}"
 cp -Rpv "${TARGET_BUILD_DIR}/SubEthaEditHelperToolTemplate.dSYM" "${mountedDmgPath}"
@@ -64,7 +69,6 @@ cp -Rpv "${TARGET_BUILD_DIR}/UniversalDetector.framework.dSYM" "${mountedDmgPath
 cp -Rpv "${TARGET_BUILD_DIR}/SeeTextImporter.mdimporter.dSYM" "${mountedDmgPath}"
 cp -Rpv "${TARGET_BUILD_DIR}/HMBlkAppKit.framework.dSYM" "${mountedDmgPath}"
 cp -Rpv "${TARGET_BUILD_DIR}/PSMTabBarControl.framework.dSYM" "${mountedDmgPath}"
-cp -Rpv "${TARGET_BUILD_DIR}/TCMPortMapper.framework.dSYM" "${mountedDmgPath}"
 echo "...done"
 echo
 

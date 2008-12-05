@@ -15,13 +15,14 @@
 #import "NSStringSEEAdditions.h"
 
 #define chunkSize              		5000
+#define padding              		 100
 #define makeDirty              		 100
 
 NSString * const kSyntaxHighlightingIsCorrectAttributeName  = @"HighlightingIsCorrect";
 NSString * const kSyntaxHighlightingIsCorrectAttributeValue = @"Correct";
 NSString * const kSyntaxHighlightingStackName = @"HighlightingStack";
 NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDelimiter";
-NSString * const kSyntaxHighlightingStyleIDAttributeName = @"StyleID";
+NSString * const kSyntaxHighlightingStyleIDAttributeName = @"styleID";
 NSString * const kSyntaxHighlightingTypeAttributeName = @"Type";
 NSString * const kSyntaxHighlightingParentModeForSymbolsAttributeName = @"ParentModeForSymbols";
 NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"ParentModeForAutocomplete";
@@ -172,16 +173,17 @@ NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"P
 				}
                 
                 [scratchAttributes removeAllObjects];
-                [scratchAttributes addEntriesFromDictionary:[theDocument styleAttributesForStyleID:[subState objectForKey:@"styleID"]]];
+                [scratchAttributes addEntriesFromDictionary:[theDocument styleAttributesForStyleID:[subState objectForKey:kSyntaxHighlightingStyleIDAttributeName]]];
                 [scratchAttributes setObject:[[stack copy] autorelease] forKey:kSyntaxHighlightingStackName];
                 [scratchAttributes setObject:@"Start" forKey:kSyntaxHighlightingStateDelimiterName];
 				NSString *typeAttributeString;
 				if ((typeAttributeString=[subState objectForKey:@"type"]))
 					[scratchAttributes setObject:typeAttributeString forKey:kSyntaxHighlightingTypeAttributeName];
-				
-				[scratchAttributes setObject:[currentState objectForKey:[definition keyForInheritedSymbols]] forKey:kSyntaxHighlightingParentModeForSymbolsAttributeName];
+				                
+                subState = [definition stateForID:[subState objectForKey:@"id"]];
+				[scratchAttributes setObject:[subState objectForKey:[definition keyForInheritedSymbols]] forKey:kSyntaxHighlightingParentModeForSymbolsAttributeName];
+				[scratchAttributes setObject:[subState objectForKey:[definition keyForInheritedAutocomplete]] forKey:kSyntaxHighlightingParentModeForAutocompleteAttributeName];
 				[scratchAttributes setObject:kSyntaxHighlightingIsCorrectAttributeValue forKey:kSyntaxHighlightingIsCorrectAttributeName];
-				[scratchAttributes setObject:[currentState objectForKey:[definition keyForInheritedAutocomplete]] forKey:kSyntaxHighlightingParentModeForAutocompleteAttributeName];
 				
                 [aString addAttributes:scratchAttributes range:delimiterRange];
             } else { // Found end of current state
@@ -207,7 +209,7 @@ NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"P
 
         //NSLog(@"Building scratch attributes");
         [scratchAttributes removeAllObjects];
-        [scratchAttributes addEntriesFromDictionary:[theDocument styleAttributesForStyleID:[currentState objectForKey:@"styleID"]]];
+        [scratchAttributes addEntriesFromDictionary:[theDocument styleAttributesForStyleID:[currentState objectForKey:kSyntaxHighlightingStyleIDAttributeName]]];
         [scratchAttributes setObject:savedStack forKey:kSyntaxHighlightingStackName];
 		NSString *typeAttributeString;
 		if ((typeAttributeString=[currentState objectForKey:@"type"]))
@@ -370,7 +372,7 @@ NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"P
     NSRange foundRange;
     unsigned int position=0;
     while (position<NSMaxRange(wholeRange)) {
-        styleID=[aTextStorage attribute:@"styleID" atIndex:position longestEffectiveRange:&foundRange inRange:wholeRange];
+        styleID=[aTextStorage attribute:kSyntaxHighlightingStyleIDAttributeName atIndex:position longestEffectiveRange:&foundRange inRange:wholeRange];
         if (!styleID) styleID=SyntaxStyleBaseIdentifier;
         NSDictionary *styleAttributes=[aSender styleAttributesForStyleID:styleID];
         if (!styleAttributes) styleAttributes=[aSender styleAttributesForStyleID:SyntaxStyleBaseIdentifier];
@@ -414,8 +416,26 @@ NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"P
                     if (NSMaxRange(newRange)<=NSMaxRange(textRange)) chunkRange = newRange;
                 }
                 
-                chunkRange = [[aTextStorage string] lineRangeForRange:chunkRange];
+                // Optimization path for very long lines
+                // Extends dirty range based upon white space
+                
+                NSRange linerange = [[aTextStorage string] lineRangeForRange:chunkRange];
+                if (linerange.length<=2*chunkSize) //Optimization for humongously long lines
+                    chunkRange = linerange;
+                else {
+                    NSRange nextWhiteSpaceRange = [[aTextStorage string] rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet] options:nil range:NSMakeRange(NSMaxRange(chunkRange), [[aTextStorage string] length] - NSMaxRange(chunkRange))];
+                    NSRange prevWhiteSpaceRange = [[aTextStorage string] rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet] options:NSBackwardsSearch range:NSMakeRange(0, chunkRange.location)];
 
+                    if (nextWhiteSpaceRange.location==NSNotFound)
+                        chunkRange = NSUnionRange(chunkRange, NSMakeRange(NSMaxRange(linerange), 0));
+                    else
+                        chunkRange = NSUnionRange(chunkRange, nextWhiteSpaceRange);
+                    
+                    if (prevWhiteSpaceRange.location!=NSNotFound)
+                        chunkRange = NSUnionRange(chunkRange, prevWhiteSpaceRange);                    
+                }
+
+                
                 //DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Chunk #%d, Dirty: %@, Chunk: %@", chunks, NSStringFromRange(dirtyRange),NSStringFromRange(chunkRange));
 
 

@@ -15,6 +15,7 @@
         BOOL autoCompleteInProgress;
         BOOL isPasting;
         BOOL isDraggingText;
+        BOOL isDoingUglyHack;
     } I_flags;
     float I_pageGuidePosition;
     NSTimer *I_timer;

@@ -2,7 +2,6 @@
 //  TCMBEEPListener.h
 //  TCMBEEP
 //
-//  Created by Martin Ott on Mon Feb 16 2004.
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
