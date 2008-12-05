@@ -3856,7 +3856,7 @@
 				PREBINDING = YES;
 				PRODUCT_NAME = SubEthaEdit;
 				SEPARATE_STRIP = YES;
-				STRIP_STYLE = all;
+				STRIP_STYLE = debugging;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;

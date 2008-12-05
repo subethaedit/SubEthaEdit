@@ -18,6 +18,11 @@ echo "Setting permissions..."
 chmod -R g+w "${BUILT_PRODUCTS_DIR}/${DiskImageProduct}"
 echo "...done"
 echo
+echo "Signing bundle and binaries"
+codesign -s "TheCodingMonkeys Code Signing" "${BUILT_PRODUCTS_DIR}/${DiskImageProduct}"
+codesign -s "TheCodingMonkeys Code Signing" "${BUILT_PRODUCTS_DIR}/${DiskImageProduct}/Contents/MacOS/see"
+codesign -s "TheCodingMonkeys Code Signing" "${BUILT_PRODUCTS_DIR}/${DiskImageProduct}/Contents/MacOS/SubEthaEditHelperToolTemplate"
+echo "...done"
 echo "Creating Zip file ${dmgBasePath}..."
 cd "${BUILT_PRODUCTS_DIR}"
 zip -9 -r -y "${dmgBasePath}.zip" "${DiskImageProduct}"
@@ -28,7 +33,7 @@ echo "...done"
 echo "Archiving deployment image and dSYM files..."
 echo
 
-REV=`/usr/local/bin/svnversion -n "${SRCROOT}"`
+REV=`/usr/bin/env svnversion -n "${SRCROOT}"`
 dmgBasePath="${TARGET_BUILD_DIR}/${DiskImageVolumeName}-${REV}"
 echo "Creating ${dmgSize} MB disk image named '${DiskImageVolumeName}-${REV}'..."
 rm -f "${dmgBasePath}.dmg"
