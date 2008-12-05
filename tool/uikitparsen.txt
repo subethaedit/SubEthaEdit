@@ -1,0 +1,3 @@
+cat UI* | grep '@interface' | perl -pe 's/.*interface //;s/\W.*//' | sort | uniq | see
+cat UI* | grep '^[-+]' | perl -pe 's/;.*//g;s/\(.*?\)//g;s/:\w+ ?/: /g;s/^[+-] //g;' | sort | uniq | see
+cat UI* | grep "UI" | grep -v '@interface' | grep -v "#import" | grep -v "@class" | grep -v "^[+-]" | grep -v '^//' | grep -v 'Internal' | perl -pe 's/\/\/.*//g;' | grep -v '@property' | grep -v 'UI\w+ +\*' | perl -pe 's/ /\n/g;' | grep UI | perl -pe 's/;//g;' | sort | uniq |see

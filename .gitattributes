@@ -2654,6 +2654,7 @@ tool/serials/makeserial.pl -text
 tool/serials/serials1.txt -text
 tool/serials/serials2.txt -text
 tool/serials/twolicenses.txt -text
+tool/uikitparsen.txt -text
 tool/xmpp-cli/Controller.h -text
 tool/xmpp-cli/Controller.m -text
 tool/xmpp-cli/main.m -text
