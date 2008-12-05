@@ -116,6 +116,7 @@ extern NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree);
                 if ([attributes objectForKey:@"id"]) [I_currentSymbol setObject:[attributes objectForKey:@"id"] forKey:@"id"];
                 if ([attributes objectForKey:@"indentation"]) [I_currentSymbol setObject:[attributes objectForKey:@"indentation"] forKey:@"indentation"];
                 if ([attributes objectForKey:@"ignoreblocks"]) [I_currentSymbol setObject:[attributes objectForKey:@"ignoreblocks"] forKey:@"ignoreblocks"];
+                if ([attributes objectForKey:@"show-in-comments"]) [I_currentSymbol setObject:[attributes objectForKey:@"show-in-comments"] forKey:@"show-in-comments"];
                 if ([attributes objectForKey:@"font-weight"]||[attributes objectForKey:@"font-weight"]) {
                     NSFontTraitMask mask = 0;
                     if ([[attributes objectForKey:@"font-weight"] isEqualTo:@"bold"]) mask = mask | NSBoldFontMask;

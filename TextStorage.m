@@ -516,6 +516,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
                     } else {
                     	aReplacementRange.length=toIndex-index+1;
                         int spacesTheTabTakes=tabWidth-(toLength)%tabWidth;
+//                        NSLog(@"there tab took %d spaces, replacementRange: %@, replacmentString:%@",spacesTheTabTakes,NSStringFromRange(aReplacementRange),aReplacementString);
 		                aReplacementString=[NSString stringWithFormat:@"%@%@",
 		                                    aReplacementString,
 		                                    [@" " stringByPaddingToLength:spacesTheTabTakes-(NSMaxRange(aRange)-toLength)
@@ -543,9 +544,10 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
                 } else {           
                     	aReplacementRange.length=toIndex-index+1;
                         int spacesTheTabTakes=tabWidth-(toLength)%tabWidth;
+                        int paddingLength = MAX(0,spacesTheTabTakes-(int)(NSMaxRange(aRange)-toLength));
 		                aReplacementString=[NSString stringWithFormat:@"%@%@",
 		                                    aReplacementString,
-		                                    [@" " stringByPaddingToLength:spacesTheTabTakes-(NSMaxRange(aRange)-toLength)
+		                                    [@" " stringByPaddingToLength:paddingLength
 		                                                     withString:@" " startingAtIndex:0]];
                 }
             }
@@ -678,6 +680,26 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
         [self removeAttribute:attributeName
                         range:aRange];
     }
+}
+
+- (NSDictionary *)attributeDictionaryByAddingStyleAttributesForInsertLocation:(unsigned int)inLocation toDictionary:(NSDictionary *)inBaseStyle
+{
+	unsigned int length = [self length];
+	if (inLocation > length || inLocation < 1) return inBaseStyle; // do nothing if document is empty, or the proposed insertion point is beyond the current size
+	
+	// if this is not the case, copy the appropriate styles
+	inLocation = inLocation - 1; // select the style from the character in front of the insertion, range validity was checked above
+	NSDictionary *attributes = [self attributesAtIndex:inLocation effectiveRange:NULL];
+	NSMutableDictionary *resultDictionary = [[inBaseStyle mutableCopy] autorelease];
+	
+	// currently visual style means font and color so copy these
+	NSFont *font = [attributes objectForKey:NSFontAttributeName];
+	if (font) [resultDictionary setObject:font forKey:NSFontAttributeName];
+	NSColor *foregroundColor = [attributes objectForKey:NSForegroundColorAttributeName];
+	if (foregroundColor) [resultDictionary setObject:foregroundColor forKey:NSForegroundColorAttributeName];
+
+	
+	return resultDictionary;
 }
 
 
@@ -893,7 +915,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 }
 
 - (void)removeObjectFromScriptedCharactersAtIndex:(unsigned)anIndex {
-    NSLog(@"%s: %d", __FUNCTION__, anIndex);
+//    NSLog(@"%s: %d", __FUNCTION__, anIndex);
     [[self valueInScriptedCharactersAtIndex:anIndex] setScriptedContents:@""];
 }
 

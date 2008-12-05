@@ -3,12 +3,13 @@
 <symbols>
 
     <blocks>
-        <beginregex>&lt;!--</beginregex>
-        <endregex>--&gt;</endregex>
+        <beginregex>&lt;!---</beginregex>
+        <endregex>---&gt;</endregex>
     </blocks>
     
     <symbol id="Headers" font-weight="normal" font-style="normal" image="SymbolH" indentation="0" ignoreblocks="yes">
-        <regex>&lt;[hH][1-6]&gt;([^&lt;]+)&lt;/[hH][1-6]&gt;</regex>
+		 <!--<regex>&lt;[hH][1-6]&gt;([^&lt;]+)&lt;/[hH][1-6]&gt;</regex>-->
+        <regex>&lt;[hH][1-6][^&gt;\n\r]*[&gt;](.*?)&lt;/[hH][1-6]&gt;</regex>
         <postprocess>
             <find>^[ \n\r\t]+</find>
             <replace></replace>
@@ -47,92 +48,75 @@
         </postprocess>
     </symbol>
 
-    <symbol id="Pragma marks" font-weight="normal" font-style="normal" image="Symbol!" indentation="0" ignoreblocks="no">
-        <regex>&lt;!-- !([^-]*) --&gt;</regex>
+	<!-- STUDIO -->
+    <symbol id="Pragma marks" font-weight="normal" font-style="normal" image="SymbolMark" indentation="0" ignoreblocks="no" show-in-comments="yes">
+        <regex>&lt;!--\s*!.*--&gt;</regex>
+    </symbol>
+
+	<symbol id="Pragma marks" font-weight="normal" font-style="normal" image="SymbolMark" indentation="0" ignoreblocks="no" show-in-comments="yes">
+        <regex>&lt;!---\s*!.*---&gt;</regex>
     </symbol>
     
-    <symbol id="cfapplication" font-weight="normal" font-style="normal" image="cfapplication" indentation="0" ignoreblocks="yes">
+     <symbol id="cfapplication" font-weight="normal" font-style="normal" image="Symbola" indentation="0" ignoreblocks="yes">
         <regex>&lt;cfapplication[^&gt;]*name *= *"([^"]*)"[^&gt;]*&gt;</regex>
     </symbol>
     
-    <symbol id="cfargument" font-weight="normal" font-style="normal" image="cfargument" indentation="0" ignoreblocks="yes">
+    <symbol id="cfargument" font-weight="normal" font-style="normal" image="Symbola" indentation="0" ignoreblocks="yes">
         <regex>&lt;cfargument[^&gt;]*name *= *"([^"]*)"[^&gt;]*&gt;</regex>
     </symbol>
     
-    <symbol id="cfdump" font-weight="normal" font-style="normal" image="cfdump" indentation="0" ignoreblocks="yes">
+    <symbol id="cfdump" font-weight="normal" font-style="normal" image="SymbolD" indentation="0" ignoreblocks="yes">
         <regex>&lt;cfdump[^&gt;]*var *= *"([^"]*)"[^&gt;]*&gt;</regex>
     </symbol>
     
-    <symbol id="cfftp" font-weight="normal" font-style="normal" image="cfftp" indentation="0" ignoreblocks="yes">
+    <symbol id="cfftp" font-weight="normal" font-style="normal" image="SymbolS" indentation="0" ignoreblocks="yes">
         <regex>&lt;cfftp[^&gt;]*action *= *"([^"]*)"[^&gt;]*&gt;</regex>
     </symbol>
     
-    <symbol id="cffunction" font-weight="normal" font-style="normal" image="cffunction" indentation="0" ignoreblocks="yes">
+    <symbol id="cffunction" font-weight="normal" font-style="normal" image="SymbolF()" indentation="0" ignoreblocks="yes">
         <regex>&lt;cffunction[^&gt;]*name *= *"([^"]*)"[^&gt;]*&gt;</regex>
     </symbol>
-    
-    <symbol id="cfhttp" font-weight="normal" font-style="normal" image="cfhttp" indentation="0" ignoreblocks="yes">
-        <regex>&lt;cfhttp[^&gt;]*url *= *"([^"]*)"[^&gt;]*&gt;</regex>
-    </symbol>
-    
-    <symbol id="cfhttpparam" font-weight="normal" font-style="normal" image="cfhttpparam" indentation="0" ignoreblocks="yes">
+        
+    <symbol id="cfhttpparam" font-weight="normal" font-style="normal" image="SymbolP" indentation="0" ignoreblocks="yes">
         <regex>&lt;cfhttpparam[^&gt;]*name *= *"([^"]*)"[^&gt;]*&gt;</regex>
     </symbol>
     
-    <symbol id="cfinclude" font-weight="normal" font-style="normal" image="cfinclude" indentation="0" ignoreblocks="yes">
+    <symbol id="cfinclude" font-weight="normal" font-style="normal" image="Symbol#" indentation="0" ignoreblocks="yes">
         <regex>&lt;cfinclude[^&gt;]*template *= *"([^"]*)"[^&gt;]*&gt;</regex>
     </symbol>
     
-    <symbol id="cflocation" font-weight="normal" font-style="normal" image="cflocation" indentation="0" ignoreblocks="yes">
+    <symbol id="cflocation" font-weight="normal" font-style="normal" image="SymbolL" indentation="0" ignoreblocks="yes">
         <regex>&lt;cflocation[^&gt;]*url *= *"([^"]*)"[^&gt;]*&gt;</regex>
     </symbol>
-    
-    <symbol id="cflock" font-weight="normal" font-style="normal" image="cflock" indentation="0" ignoreblocks="yes">
-        <regex>&lt;cflock[^&gt;]*name *= *"([^"]*)"[^&gt;]*&gt;</regex>
-    </symbol>
-    
-    <symbol id="cfloop" font-weight="normal" font-style="normal" image="cfloop" indentation="0" ignoreblocks="yes">
-        <regex>&lt;cfloop[^&gt;]*query *= *"([^"]*)"[^&gt;]*&gt;</regex>
-    </symbol>
-    
-    <symbol id="cfobject" font-weight="normal" font-style="normal" image="cfobject" indentation="0" ignoreblocks="yes">
-        <regex>&lt;cfobject[^&gt;]*name *= *"([^"]*)"[^&gt;]*&gt;</regex>
-    </symbol>
-    
-    <symbol id="cfoutput" font-weight="normal" font-style="normal" image="cfoutput" indentation="0" ignoreblocks="yes">
-        <regex>&lt;cfoutput[^&gt;]*query *= *"([^"]*)"[^&gt;]*&gt;</regex>
-    </symbol>
-    
-    <symbol id="cfparam" font-weight="normal" font-style="normal" image="cfparam" indentation="0" ignoreblocks="yes">
+          
+    <symbol id="cfparam" font-weight="normal" font-style="normal" image="SymbolP" indentation="0" ignoreblocks="yes">
         <regex>&lt;cfparam[^&gt;]*name *= *"([^"]*)"[^&gt;]*&gt;</regex>
     </symbol>
     
-    <symbol id="cfprocparam" font-weight="normal" font-style="normal" image="cfprocparam" indentation="0" ignoreblocks="yes">
+    <symbol id="cfprocparam" font-weight="normal" font-style="normal" image="SymbolP" indentation="0" ignoreblocks="yes">
         <regex>&lt;cfprocparam[^&gt;]*variable *= *"([^"]*)"[^&gt;]*&gt;</regex>
     </symbol>
     
-    <symbol id="cfprocresult" font-weight="normal" font-style="normal" image="cfprocresult" indentation="0" ignoreblocks="yes">
+    <symbol id="cfprocresult" font-weight="normal" font-style="normal" indentation="0" ignoreblocks="yes">
         <regex>&lt;cfprocresult[^&gt;]*name *= *"([^"]*)"[^&gt;]*&gt;</regex>
     </symbol>
-    
-    <symbol id="cfquery" font-weight="normal" font-style="normal" image="cfquery" indentation="0" ignoreblocks="yes">
-        <regex>&lt;cfquery[^&gt;]*name *= *"([^"]*)"[^&gt;]*&gt;</regex>
-    </symbol>
-    
-    <symbol id="cfqueryparam" font-weight="normal" font-style="normal" image="cfqueryparam" indentation="0" ignoreblocks="yes">
+        
+    <symbol id="cfqueryparam" font-weight="normal" font-style="normal" image="SymbolP" indentation="0" ignoreblocks="yes">
         <regex>&lt;cfqueryparam[^&gt;]*value *= *"([^"]*)"[^&gt;]*&gt;</regex>
     </symbol>
     
-    <symbol id="cfset" font-weight="normal" font-style="normal" image="cfset" indentation="0" ignoreblocks="yes">
+    <symbol id="cfset" font-weight="normal" font-style="normal" image="SymbolS" indentation="0" ignoreblocks="yes">
         <regex>&lt;cfset ([\w\[\]\.]+) *= *[^&gt;]*&gt;</regex>
     </symbol>
     
-    <symbol id="cfset-var" font-weight="normal" font-style="normal" image="cfset" indentation="0" ignoreblocks="yes">
+    <symbol id="cfset-var" font-weight="normal" font-style="normal" image="SymbolS" indentation="0" ignoreblocks="yes">
         <regex>&lt;cfset var ([\w\[\]\.]+) *= *[^&gt;]*&gt;</regex>
     </symbol>
     
-    <symbol id="cfstoredproc" font-weight="normal" font-style="normal" image="cfstoredproc" indentation="0" ignoreblocks="yes">
+    <symbol id="cfstoredproc" font-weight="normal" font-style="normal" image="SymbolP" indentation="0" ignoreblocks="yes">
         <regex>&lt;cfstoredproc[^&gt;]*procedure *= *"([^"]*)"[^&gt;]*&gt;</regex>
     </symbol>
+    
+    <!-- END -->
 
 </symbols>

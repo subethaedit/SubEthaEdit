@@ -24,49 +24,49 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = F22AC0AC0D05A2F30037FA20 /* OgreKit.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216 /* HDCrashReporter.framework */;
+			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
 			remoteInfo = "OgreKit (Full Features)";
 		};
 		F22AC0B90D05A2F30037FA20 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F22AC0AC0D05A2F30037FA20 /* OgreKit.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 4DC40BFC09150BDB0029A2A6 /* OgreKit.framework */;
+			remoteGlobalIDString = 4DC40BFC09150BDB0029A2A6;
 			remoteInfo = "OgreKit (without Find Panel)";
 		};
 		F22AC0BB0D05A2F30037FA20 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F22AC0AC0D05A2F30037FA20 /* OgreKit.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 4DC40C0409150C280029A2A6 /* OgreTest.app */;
+			remoteGlobalIDString = 4DC40C0409150C280029A2A6;
 			remoteInfo = "Regular Expression Test";
 		};
 		F22AC0BD0D05A2F30037FA20 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F22AC0AC0D05A2F30037FA20 /* OgreKit.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 4DC40C0F09150C3E0029A2A6 /* OgreFindPanelTest.app */;
+			remoteGlobalIDString = 4DC40C0F09150C3E0029A2A6;
 			remoteInfo = "Find Panel Test";
 		};
 		F22AC0BF0D05A2F30037FA20 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F22AC0AC0D05A2F30037FA20 /* OgreKit.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 4DC40C1A09150C730029A2A6 /* MyFindPanelExample.app */;
+			remoteGlobalIDString = 4DC40C1A09150C730029A2A6;
 			remoteInfo = "My Find Panel Example";
 		};
 		F22AC0C10D05A2F30037FA20 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F22AC0AC0D05A2F30037FA20 /* OgreKit.xcodeproj */;
 			proxyType = 2;
-			remoteGlobalIDString = 4DC40C3009150C9E0029A2A6 /* ReplaceWithAttributesTest.app */;
+			remoteGlobalIDString = 4DC40C3009150C9E0029A2A6;
 			remoteInfo = "Replace With Attributes Test";
 		};
 		F22AC0C60D05A3150037FA20 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F22AC0AC0D05A2F30037FA20 /* OgreKit.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 4DC40BF209150BDB0029A2A6 /* OgreKit (without Find Panel) */;
+			remoteGlobalIDString = 4DC40BF209150BDB0029A2A6;
 			remoteInfo = "OgreKit (without Find Panel)";
 		};
 /* End PBXContainerItemProxy section */
@@ -241,6 +241,7 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 1DEB91B108733DA50010E9CD /* Build configuration list for PBXProject "CrashReporter" */;
+			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			mainGroup = 0867D691FE84028FC02AAC07 /* crashReporter */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
@@ -251,6 +252,7 @@
 					ProjectRef = F22AC0AC0D05A2F30037FA20 /* OgreKit.xcodeproj */;
 				},
 			);
+			projectRoot = "";
 			targets = (
 				8DC2EF4F0486A6940098B216 /* HDCrashReporter */,
 			);

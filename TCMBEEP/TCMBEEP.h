@@ -2,7 +2,6 @@
 //  TCMBEEP.h
 //  TCMBEEP
 //
-//  Created by Martin Ott on Wed Feb 18 2004.
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 

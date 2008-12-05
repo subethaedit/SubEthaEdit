@@ -37,8 +37,8 @@
         </postprocess>
     </symbol>
 
-    <symbol id="Pragma marks" font-weight="normal" font-style="normal" image="Symbol!.png" indentation="0" ignoreblocks="no">
-        <regex>&lt;!-- !([^-]*) --&gt;</regex>
+    <symbol id="Pragma marks" font-weight="normal" font-style="normal" image="Symbol!.png" indentation="0" ignoreblocks="no" show-in-comments="yes">
+        <regex>/\* !(.*) \*/</regex>
     </symbol>
     
 </symbols>

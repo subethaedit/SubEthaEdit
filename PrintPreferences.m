@@ -7,6 +7,7 @@
 //
 
 #import "PrintPreferences.h"
+#import "FontForwardingTextField.h"
 #import "DocumentMode.h"
 #import "DocumentModeManager.h"
 
@@ -113,7 +114,7 @@ static NSString *S_measurementUnits;
     
     [self changeMode:O_modePopUpButton];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentModeListChanged:) name:@"DocumentModeListChanged" object:nil];
-    
+    [O_printOptionTextField setFontDelegate:self];
 }
 
 - (void)documentModeListChanged:(NSNotification *)aNotification {
@@ -158,6 +159,7 @@ static NSString *S_measurementUnits;
         setSelectedFont:newFont 
              isMultiple:NO];
     [[NSFontManager sharedFontManager] orderFrontFontPanel:self];
+	[[O_printOptionTextField window] makeFirstResponder:O_printOptionTextField];
 }
 
 - (void)changeFont:(id)aSender {

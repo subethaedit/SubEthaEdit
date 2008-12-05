@@ -14,6 +14,7 @@ extern NSString * PrintPreferencesDidChangeNotification;
 
 @class DocumentModePopUpButton;
 @class DocumentMode;
+@class FontForwardingTextField;
 
 @interface PrintPreferences : TCMPreferenceModule {
     IBOutlet NSView *O_placeholderView;
@@ -21,6 +22,7 @@ extern NSString * PrintPreferencesDidChangeNotification;
     IBOutlet NSButton *O_defaultButton;
 
     // PrintOptions nib
+	IBOutlet FontForwardingTextField *O_printOptionTextField;
     IBOutlet NSView *O_printOptionView;
     IBOutlet NSObjectController *O_printOptionController;
     

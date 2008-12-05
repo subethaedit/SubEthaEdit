@@ -1037,17 +1037,16 @@
     return ![O_scrollView hasHorizontalScroller];
 }
 
-/*"IBAction to toggle Wrap/NoWrap"*/
 - (IBAction)toggleWrap:(id)aSender {
     if (![O_scrollView hasHorizontalScroller]) {
         // turn wrap off
-        [O_scrollView setHasHorizontalScroller:YES];
         [I_textContainer setWidthTracksTextView:NO];
         [I_textView setAutoresizingMask:NSViewNotSizable];
         [I_textContainer setContainerSize:NSMakeSize(FLT_MAX,FLT_MAX)];
         [I_textView setHorizontallyResizable:YES];
         [I_textView setNeedsDisplay:YES];
         [O_scrollView setNeedsDisplay:YES];
+        [O_scrollView setHasHorizontalScroller:YES];
     } else {
         // turn wrap on
         [O_scrollView setHasHorizontalScroller:NO];
@@ -1062,6 +1061,10 @@
         [I_textContainer setContainerSize:NSMakeSize(NSWidth([I_textView frame])-2.0*[I_textView textContainerInset].width,FLT_MAX)];
         [I_textView setNeedsDisplay:YES];
     }
+    
+    // fixes cursor position after layout change
+//    [I_textView updateInsertionPointStateAndRestartTimer:YES];
+    
     [[self document] setWrapLines:[self wrapsLines]];
     [self TCM_updateBottomStatusBar];
 }
@@ -1432,7 +1435,7 @@
         }
         return NO;
     } else {
-        [aTextView setTypingAttributes:[(PlainTextDocument *)[self document] typingAttributes]];
+		[aTextView setTypingAttributes:[(TextStorage *)[aTextView textStorage] attributeDictionaryByAddingStyleAttributesForInsertLocation:affectedCharRange.location toDictionary:[(PlainTextDocument *)[self document] typingAttributes]]];
     }
     
     if ([(TextView *)aTextView isPasting] && ![(TextStorage *)[aTextView textStorage] hasMixedLineEndings]) {

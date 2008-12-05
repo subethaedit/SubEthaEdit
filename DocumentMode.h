@@ -86,10 +86,12 @@ extern NSString * const DocumentModeApplyStylePreferencesNotification;
     NSMutableDictionary *I_toolbarItemsByIdentifier;
     NSMutableArray *I_toolbarItemIdentifiers;
     NSMutableArray *I_defaultToolbarItemIdentifiers;
+    NSMutableDictionary *I_styleIDTransitionDictionary;
 }
 
 - (id)initWithBundle:(NSBundle *)aBundle;
 
+- (NSDictionary *)styleIDTransitionDictionary;
 - (ModeSettings *)modeSettings;
 - (SyntaxHighlighter *)syntaxHighlighter;
 - (SyntaxDefinition *)syntaxDefinition;

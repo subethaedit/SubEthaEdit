@@ -45,7 +45,7 @@
         </postprocess>
     </symbol>
 
-    <symbol id="Pragma Marks" font-weight="bold" indentation="0" ignoreblocks="yes">
+    <symbol id="Pragma Marks" font-weight="bold" indentation="0" ignoreblocks="yes" show-in-comments="yes">
         <regex>(#pragma mark[	 -]*[^\n]*)\n</regex>
         <postprocess>
             <find>#pragma mark[-	 \n]*</find> <!-- An empty string places a separator -->
