@@ -405,7 +405,6 @@
 		F290D9DD0EDB04F900E643C0 /* TCMPortMapper.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F290D9D70EDB04EF00E643C0 /* TCMPortMapper.framework */; };
 		F298693E0D338B0F0031C9F3 /* ServerManagementProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F298693C0D338B0F0031C9F3 /* ServerManagementProfile.m */; };
 		F29869530D338D6C0031C9F3 /* ServerManagementProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F298693C0D338B0F0031C9F3 /* ServerManagementProfile.m */; };
-		F298A00A0CCB9F3200C4DB8B /* SeeTextImporter.mdimporter in Copy Importers */ = {isa = PBXBuildFile; fileRef = F298A0030CCB9ED900C4DB8B /* SeeTextImporter.mdimporter */; };
 		F29940600C0C7F3400A53189 /* NSScreenTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F299405E0C0C7F3400A53189 /* NSScreenTCMAdditions.m */; };
 		F29AD8670CA3391B0097D04E /* Bonjour13.png in Resources */ = {isa = PBXBuildFile; fileRef = F29AD8660CA3391B0097D04E /* Bonjour13.png */; };
 		F2A0934F0C9EA923000AD27A /* DocumentSharedMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A0934E0C9EA923000AD27A /* DocumentSharedMethods.m */; };
@@ -439,6 +438,7 @@
 		F2CA7D2F0CA142B1008BEA38 /* HUDStatisticPersonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CA7D2D0CA142B0008BEA38 /* HUDStatisticPersonCell.m */; };
 		F2D129FC0BF0B64A00A776CC /* ConnectionBrowserController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D129F80BF0B64700A776CC /* ConnectionBrowserController.m */; };
 		F2D12A1D0BF0B8DF00A776CC /* ConnectionBrowserEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D12A1B0BF0B8DF00A776CC /* ConnectionBrowserEntry.m */; };
+		F2D22CB40EE9C5E3004B8E33 /* SeeTextImporter.mdimporter in Copy Importers */ = {isa = PBXBuildFile; fileRef = F2D22CB30EE9C5DE004B8E33 /* SeeTextImporter.mdimporter */; };
 		F2D2CDB20D73043D000E3812 /* FriendCast16Active.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D2CDAE0D73043D000E3812 /* FriendCast16Active.png */; };
 		F2D2CDB30D73043D000E3812 /* FriendCast16.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D2CDAF0D73043D000E3812 /* FriendCast16.png */; };
 		F2D2CDCB0D730C3C000E3812 /* FriendCast13.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D2CDC90D730C3C000E3812 /* FriendCast13.png */; };
@@ -611,20 +611,6 @@
 			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
 			remoteInfo = SubEthaEdit;
 		};
-		F298A0020CCB9ED900C4DB8B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F2989FFE0CCB9ED900C4DB8B /* SeeTextImporter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8D576316048677EA00EA77CD;
-			remoteInfo = SeeTextImporter;
-		};
-		F298A00B0CCB9F4100C4DB8B /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F2989FFE0CCB9ED900C4DB8B /* SeeTextImporter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8D57630D048677EA00EA77CD;
-			remoteInfo = SeeTextImporter;
-		};
 		F2A093BA0C9EBB42000AD27A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F2A093B40C9EBB42000AD27A /* UniversalDetector.xcodeproj */;
@@ -674,6 +660,20 @@
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = HMBlkAppKit;
 		};
+		F2D22CB20EE9C5DE004B8E33 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F2D22CAE0EE9C5DE004B8E33 /* SeeTextImporter.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = 8D576316048677EA00EA77CD;
+			remoteInfo = SeeTextImporter;
+		};
+		F2D22CB50EE9C5ED004B8E33 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = F2D22CAE0EE9C5DE004B8E33 /* SeeTextImporter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8D57630D048677EA00EA77CD;
+			remoteInfo = SeeTextImporter;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -712,7 +712,7 @@
 			dstPath = Contents/Library/Spotlight;
 			dstSubfolderSpec = 1;
 			files = (
-				F298A00A0CCB9F3200C4DB8B /* SeeTextImporter.mdimporter in Copy Importers */,
+				F2D22CB40EE9C5E3004B8E33 /* SeeTextImporter.mdimporter in Copy Importers */,
 			);
 			name = "Copy Importers";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1271,7 +1271,6 @@
 		F290D9D70EDB04EF00E643C0 /* TCMPortMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TCMPortMapper.framework; path = TCMPortMapper/TCMPortMapper.framework; sourceTree = "<group>"; };
 		F298693C0D338B0F0031C9F3 /* ServerManagementProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerManagementProfile.m; sourceTree = "<group>"; };
 		F298693D0D338B0F0031C9F3 /* ServerManagementProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerManagementProfile.h; sourceTree = "<group>"; };
-		F2989FFE0CCB9ED900C4DB8B /* SeeTextImporter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SeeTextImporter.xcodeproj; path = SeeTextImporter/SeeTextImporter.xcodeproj; sourceTree = "<group>"; };
 		F299405E0C0C7F3400A53189 /* NSScreenTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = NSScreenTCMAdditions.m; sourceTree = "<group>"; };
 		F299405F0C0C7F3400A53189 /* NSScreenTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = NSScreenTCMAdditions.h; sourceTree = "<group>"; };
 		F29940780C0C806600A53189 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; name = Info.plist; path = see/Info.plist; sourceTree = "<group>"; };
@@ -1295,6 +1294,7 @@
 		F2B18CE80C4BB550000BB062 /* GlassButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GlassButtonCell.h; sourceTree = "<group>"; };
 		F2B18CE90C4BB550000BB062 /* GlassButton.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GlassButton.h; sourceTree = "<group>"; };
 		F2B18CEA0C4BB550000BB062 /* GlassButton.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GlassButton.m; sourceTree = "<group>"; };
+		F2B6CCC20EE9C6390077417E /* SeeTextImporter.mdimporter */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SeeTextImporter.mdimporter; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2B91D9F0D7EEE3400626BBC /* FriendCast13None.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FriendCast13None.png; path = artwork/FriendCast13None.png; sourceTree = "<group>"; };
 		F2B91DBB0D7EF93000626BBC /* FriendcastingConnection.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FriendcastingConnection.png; path = artwork/FriendcastingConnection.png; sourceTree = "<group>"; };
 		F2BB09E80CA0186400258EC7 /* NSBezierPath-Arrow.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = "NSBezierPath-Arrow.m"; path = "Panic/NSBezierPath-Arrow.m"; sourceTree = "<group>"; };
@@ -1320,6 +1320,7 @@
 		F2D12A0A0BF0B6B000A776CC /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/ConnectionBrowser.nib; sourceTree = "<group>"; };
 		F2D12A1A0BF0B8DF00A776CC /* ConnectionBrowserEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ConnectionBrowserEntry.h; sourceTree = "<group>"; };
 		F2D12A1B0BF0B8DF00A776CC /* ConnectionBrowserEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionBrowserEntry.m; sourceTree = "<group>"; };
+		F2D22CAE0EE9C5DE004B8E33 /* SeeTextImporter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SeeTextImporter.xcodeproj; path = SeeTextImporter/SeeTextImporter.xcodeproj; sourceTree = "<group>"; };
 		F2D2CDAE0D73043D000E3812 /* FriendCast16Active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FriendCast16Active.png; path = artwork/FriendCast16Active.png; sourceTree = "<group>"; };
 		F2D2CDAF0D73043D000E3812 /* FriendCast16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FriendCast16.png; path = artwork/FriendCast16.png; sourceTree = "<group>"; };
 		F2D2CDB00D73043D000E3812 /* FriendCastBlue.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = FriendCastBlue.tiff; path = artwork/FriendCastBlue.tiff; sourceTree = "<group>"; };
@@ -2056,6 +2057,7 @@
 				142894DE095766EE00D14688 /* see */,
 				5EC6382A0ABEB71100D3295B /* Unit Tests.octest */,
 				14251B920BBD5DD300052C84 /* seed */,
+				F2B6CCC20EE9C6390077417E /* SeeTextImporter.mdimporter */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2093,7 +2095,7 @@
 				141F4E970AE42602001B73D2 /* PSMTabBarControl.xcodeproj */,
 				14F16CEF0971A87300402129 /* OgreKit.xcodeproj */,
 				F2A093B40C9EBB42000AD27A /* UniversalDetector.xcodeproj */,
-				F2989FFE0CCB9ED900C4DB8B /* SeeTextImporter.xcodeproj */,
+				F2D22CAE0EE9C5DE004B8E33 /* SeeTextImporter.xcodeproj */,
 				5EC6382B0ABEB71100D3295B /* Unit Tests-Info.plist */,
 			);
 			comments = "Build Requirements:\n\nMake sure you use a shared build directory for both the SubEthaEdit project and the OgreKit project. Currently, both projects use the default build location so you can set the shared build directory in the global Xcode preferences and both projects will pick it up. You can also set the shared build location in both projects directly.\n\n/usr/local/bin/svnversion is required if you want automatic versioning support of the build.";
@@ -2291,14 +2293,6 @@
 			name = Directory;
 			sourceTree = "<group>";
 		};
-		F2989FFF0CCB9ED900C4DB8B /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				F298A0030CCB9ED900C4DB8B /* SeeTextImporter.mdimporter */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		F2A093B50C9EBB42000AD27A /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -2314,6 +2308,14 @@
 			children = (
 				F2BB0A900CA043E300258EC7 /* HMBlkAppKit.framework */,
 				F2BB0A920CA043E300258EC7 /* TestApp.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		F2D22CAF0EE9C5DE004B8E33 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				F2D22CB30EE9C5DE004B8E33 /* SeeTextImporter.mdimporter */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -2434,7 +2436,7 @@
 				141F4EA90AE42641001B73D2 /* PBXTargetDependency */,
 				F2A099430C9EBC39000AD27A /* PBXTargetDependency */,
 				F2BB0A940CA0440800258EC7 /* PBXTargetDependency */,
-				F298A00C0CCB9F4100C4DB8B /* PBXTargetDependency */,
+				F2D22CB60EE9C5ED004B8E33 /* PBXTargetDependency */,
 			);
 			name = SubEthaEdit;
 			productInstallPath = "$(HOME)/Applications";
@@ -2480,8 +2482,8 @@
 					ProjectRef = 141F4E970AE42602001B73D2 /* PSMTabBarControl.xcodeproj */;
 				},
 				{
-					ProductGroup = F2989FFF0CCB9ED900C4DB8B /* Products */;
-					ProjectRef = F2989FFE0CCB9ED900C4DB8B /* SeeTextImporter.xcodeproj */;
+					ProductGroup = F2D22CAF0EE9C5DE004B8E33 /* Products */;
+					ProjectRef = F2D22CAE0EE9C5DE004B8E33 /* SeeTextImporter.xcodeproj */;
 				},
 				{
 					ProductGroup = F2A093B50C9EBB42000AD27A /* Products */;
@@ -2572,13 +2574,6 @@
 			remoteRef = 31D5F8580AA2FB760088DB18 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
-		F298A0030CCB9ED900C4DB8B /* SeeTextImporter.mdimporter */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.cfbundle;
-			path = SeeTextImporter.mdimporter;
-			remoteRef = F298A0020CCB9ED900C4DB8B /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		F2A093BB0C9EBB42000AD27A /* UniversalDetector.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -2612,6 +2607,13 @@
 			fileType = wrapper.application;
 			path = TestApp.app;
 			remoteRef = F2BB0A910CA043E300258EC7 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		F2D22CB30EE9C5DE004B8E33 /* SeeTextImporter.mdimporter */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = SeeTextImporter.mdimporter;
+			remoteRef = F2D22CB20EE9C5DE004B8E33 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 /* End PBXReferenceProxy section */
@@ -3227,11 +3229,6 @@
 			target = 8D15AC270486D014006FF6A4 /* SubEthaEdit */;
 			targetProxy = 5EC638300ABEB78000D3295B /* PBXContainerItemProxy */;
 		};
-		F298A00C0CCB9F4100C4DB8B /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = SeeTextImporter;
-			targetProxy = F298A00B0CCB9F4100C4DB8B /* PBXContainerItemProxy */;
-		};
 		F2A099430C9EBC39000AD27A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = UniversalDetector;
@@ -3241,6 +3238,11 @@
 			isa = PBXTargetDependency;
 			name = HMBlkAppKit;
 			targetProxy = F2BB0A930CA0440800258EC7 /* PBXContainerItemProxy */;
+		};
+		F2D22CB60EE9C5ED004B8E33 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = SeeTextImporter;
+			targetProxy = F2D22CB50EE9C5ED004B8E33 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
