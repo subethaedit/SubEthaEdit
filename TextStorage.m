@@ -694,7 +694,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 	
 	// currently visual style means font and color so copy these
 	NSFont *font = [attributes objectForKey:NSFontAttributeName];
-	if (font) [resultDictionary setObject:font forKey:NSFontAttributeName];
+	if (font && [[[resultDictionary objectForKey:NSFontAttributeName] familyName] isEqualToString:[font familyName]]) [resultDictionary setObject:font forKey:NSFontAttributeName];
 	NSColor *foregroundColor = [attributes objectForKey:NSForegroundColorAttributeName];
 	if (foregroundColor) [resultDictionary setObject:foregroundColor forKey:NSForegroundColorAttributeName];
 

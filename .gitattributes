@@ -645,20 +645,18 @@ Modes/LaTeX.mode/Contents/Resources/English.lproj/Localizable.strings -text
 Modes/LaTeX.mode/Contents/Resources/German.lproj/InfoPlist.strings -text
 Modes/LaTeX.mode/Contents/Resources/German.lproj/Localizable.strings -text
 Modes/LaTeX.mode/Contents/Resources/ModeSettings.xml -text
+Modes/LaTeX.mode/Contents/Resources/Read[!!-~]Me.rtf -text
 Modes/LaTeX.mode/Contents/Resources/RegexSymbols.xml -text
-Modes/LaTeX.mode/Contents/Resources/Scripts/05-TypesetAndView.scpt -text
-Modes/LaTeX.mode/Contents/Resources/Scripts/10-CleanUpAuxiliaries.scpt -text
-Modes/LaTeX.mode/Contents/Resources/Scripts/20-RunBibTeX.scpt -text
-Modes/LaTeX.mode/Contents/Resources/Scripts/30-ViewProduct.scpt -text
-Modes/LaTeX.mode/Contents/Resources/Scripts/40-BibDeskCompletions.scpt -text
-Modes/LaTeX.mode/Contents/Resources/Scripts/50-InlineMath.scpt -text
-Modes/LaTeX.mode/Contents/Resources/Scripts/60-InsertEnvironment.scpt -text
-Modes/LaTeX.mode/Contents/Resources/Scripts/70-CommentLines.scpt -text
-Modes/LaTeX.mode/Contents/Resources/Scripts/90-OpenEnvironment.scpt -text
-Modes/LaTeX.mode/Contents/Resources/Scripts/95-ModeHelp.scpt -text
-Modes/LaTeX.mode/Contents/Resources/Scripts/Read[!!-~]Me.rtf -text
-Modes/LaTeX.mode/Contents/Resources/Scripts/de.codingmonkeys.SubEthaEdit.LaTeX_environment.plist -text
-Modes/LaTeX.mode/Contents/Resources/Scripts/help.pdf -text svneol=unset#unset
+Modes/LaTeX.mode/Contents/Resources/Scripts/05-TypesetAndView.scpt -text svneol=unset#unset
+Modes/LaTeX.mode/Contents/Resources/Scripts/10-CleanUpAuxiliaries.scpt -text svneol=unset#unset
+Modes/LaTeX.mode/Contents/Resources/Scripts/20-RunBibTeX.scpt -text svneol=unset#unset
+Modes/LaTeX.mode/Contents/Resources/Scripts/30-ViewProduct.scpt -text svneol=unset#unset
+Modes/LaTeX.mode/Contents/Resources/Scripts/40-BibDeskCompletions.scpt -text svneol=unset#unset
+Modes/LaTeX.mode/Contents/Resources/Scripts/50-InlineMath.scpt -text svneol=unset#unset
+Modes/LaTeX.mode/Contents/Resources/Scripts/60-InsertEnvironment.scpt -text svneol=unset#unset
+Modes/LaTeX.mode/Contents/Resources/Scripts/70-CommentLines.scpt -text svneol=unset#unset
+Modes/LaTeX.mode/Contents/Resources/Scripts/90-OpenEnvironment.scpt -text svneol=unset#unset
+Modes/LaTeX.mode/Contents/Resources/Scripts/95-ModeHelp.scpt -text svneol=unset#unset
 Modes/LaTeX.mode/Contents/Resources/SyntaxDefinition.xml -text
 Modes/LaTeX.mode/Contents/Resources/ToolbarBibDesk.png -text
 Modes/LaTeX.mode/Contents/Resources/bin/buildlatex.sh -text
@@ -667,6 +665,8 @@ Modes/LaTeX.mode/Contents/Resources/bin/comment.sh -text
 Modes/LaTeX.mode/Contents/Resources/bin/commentlines.sh -text
 Modes/LaTeX.mode/Contents/Resources/bin/runbibtex.sh -text
 Modes/LaTeX.mode/Contents/Resources/bin/viewproduct.sh -text
+Modes/LaTeX.mode/Contents/Resources/de.codingmonkeys.SubEthaEdit.LaTeX_environment.plist -text
+Modes/LaTeX.mode/Contents/Resources/help.pdf -text svneol=unset#unset
 Modes/LassoScript-HTML.mode/Contents/Info.plist -text
 Modes/LassoScript-HTML.mode/Contents/Resources/AutocompleteAdditions.txt -text
 Modes/LassoScript-HTML.mode/Contents/Resources/ChangeLog.txt -text
