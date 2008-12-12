@@ -255,7 +255,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>3.2.1t</string>
+	<string>3.2.1</string>
 	<key>CFBundleSignature</key>
 	<string>Hdra</string>
 	<key>CFBundleURLTypes</key>
