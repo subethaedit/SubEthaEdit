@@ -1,0 +1,28 @@
+{
+    "Name" = "TextEdit";
+    "AppleEventCode" = "txdt";
+    
+    "Classes" = {
+        "NSApplication" = {
+            "Superclass" = "NSCoreSuite.NSApplication";
+            "ToManyRelationships" = {
+                "orderedDocuments" = {
+                    "Type" = "Document";
+                    "AppleEventCode" = "docu";
+                };
+            };
+            "AppleEventCode" = "capp";
+        };
+        "Document" = {
+            "Superclass" = "NSCoreSuite.NSDocument";
+            "AppleEventCode" = "docu";
+	    "DefaultSubcontainerAttribute" = "textStorage";
+            "ToOneRelationships" = {
+                "textStorage" = {
+                    "Type" = "NSTextSuite.NSTextStorage";
+                    "AppleEventCode" = "ctxt";
+                };
+            };
+	};
+    };
+}

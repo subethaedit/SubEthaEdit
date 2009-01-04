@@ -1,0 +1,23 @@
+{
+    "Name" = "TextEdit suite";
+    "Description" = "TextEdit specific classes.";
+
+    "Classes" = {
+        "NSApplication" = {
+            "Name" = "application";
+            "PluralName" = "applications";
+            "Description" = "TextEdit's top level scripting object.";
+        };
+        "Document" = {
+            "Name" = "document";
+            "PluralName" = "documents";
+            "Description" = "A TextEdit document.";
+	    "ToOneRelationships" = {
+		"textStorage" = {
+		    "Name" = "text";
+		    "Description" = "The text of the document.";
+		};
+	    };
+        };
+    };
+}

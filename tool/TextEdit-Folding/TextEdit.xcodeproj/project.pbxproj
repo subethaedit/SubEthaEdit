@@ -1,0 +1,609 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 42;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		41097A6808F6EE81001E6639 /* TextEditErrors.h in Headers */ = {isa = PBXBuildFile; fileRef = 41097A6708F6EE81001E6639 /* TextEditErrors.h */; };
+		412CFBD50B62AC8A00A46D76 /* LinePanelController.h in Headers */ = {isa = PBXBuildFile; fileRef = 412CFBD30B62AC8A00A46D76 /* LinePanelController.h */; };
+		412CFBD60B62AC8A00A46D76 /* LinePanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 412CFBD40B62AC8A00A46D76 /* LinePanelController.m */; };
+		413912160BD54AB700760A3D /* DocumentPropertiesPanelController.h in Headers */ = {isa = PBXBuildFile; fileRef = 413912140BD54AB700760A3D /* DocumentPropertiesPanelController.h */; };
+		413912170BD54AB800760A3D /* DocumentPropertiesPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 413912150BD54AB700760A3D /* DocumentPropertiesPanelController.m */; };
+		413A189C0B6433EF00B26CF9 /* LinePanel.strings in Resources */ = {isa = PBXBuildFile; fileRef = 413A189A0B6433EF00B26CF9 /* LinePanel.strings */; };
+		415B215C07BC0732009CEA53 /* Document.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FE20903FE93D5F211CA2CEA /* Document.h */; };
+		415B215D07BC0732009CEA53 /* Controller.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FE20904FE93D5F211CA2CEA /* Controller.h */; };
+		415B215E07BC0732009CEA53 /* MultiplePageView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FE20905FE93D5F211CA2CEA /* MultiplePageView.h */; };
+		415B215F07BC0732009CEA53 /* ScalingScrollView.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FE20907FE93D5F211CA2CEA /* ScalingScrollView.h */; };
+		415B216007BC0732009CEA53 /* Preferences.h in Headers */ = {isa = PBXBuildFile; fileRef = 6FE20908FE93D5F211CA2CEA /* Preferences.h */; };
+		415B216107BC0732009CEA53 /* EncodingManager.h in Headers */ = {isa = PBXBuildFile; fileRef = 92A68B0A02972957007F9DE6 /* EncodingManager.h */; };
+		415B216307BC0732009CEA53 /* EncodingAccessory.nib in Resources */ = {isa = PBXBuildFile; fileRef = 6FE2090CFE93D5F211CA2CEA /* EncodingAccessory.nib */; };
+		415B216407BC0732009CEA53 /* Preferences.nib in Resources */ = {isa = PBXBuildFile; fileRef = 6FE20910FE93D5F211CA2CEA /* Preferences.nib */; };
+		415B216507BC0732009CEA53 /* Edit.nib in Resources */ = {isa = PBXBuildFile; fileRef = 6FE20912FE93D5F211CA2CEA /* Edit.nib */; };
+		415B216607BC0732009CEA53 /* txt.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6FE2091CFE93D5F211CA2CEA /* txt.icns */; };
+		415B216707BC0732009CEA53 /* ZoomValues.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6FE2091DFE93D5F211CA2CEA /* ZoomValues.strings */; };
+		415B216807BC0732009CEA53 /* Edit.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6FE2091FFE93D5F211CA2CEA /* Edit.icns */; };
+		415B216907BC0732009CEA53 /* rtf.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6FE20922FE93D5F211CA2CEA /* rtf.icns */; };
+		415B216A07BC0732009CEA53 /* TextEdit.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 6FE20924FE93D5F211CA2CEA /* TextEdit.scriptTerminology */; };
+		415B216B07BC0732009CEA53 /* rtfd.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6FE20925FE93D5F211CA2CEA /* rtfd.icns */; };
+		415B216C07BC0732009CEA53 /* TextEdit.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 6FE20926FE93D5F211CA2CEA /* TextEdit.scriptSuite */; };
+		415B216D07BC0732009CEA53 /* html.icns in Resources */ = {isa = PBXBuildFile; fileRef = 6FE20927FE93D5F211CA2CEA /* html.icns */; };
+		415B216E07BC0732009CEA53 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6FE20928FE93D5F211CA2CEA /* Localizable.strings */; };
+		415B217007BC0732009CEA53 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 01AA5997FF66FE3311CA0C5D /* InfoPlist.strings */; };
+		415B217207BC0732009CEA53 /* DocumentWindow.nib in Resources */ = {isa = PBXBuildFile; fileRef = F549503200E2A3BB01CA0CA4 /* DocumentWindow.nib */; };
+		415B217307BC0732009CEA53 /* SelectEncodingsPanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 92A68B1702972AB9007F9DE6 /* SelectEncodingsPanel.nib */; };
+		415B217407BC0732009CEA53 /* ServicesMenu.strings in Resources */ = {isa = PBXBuildFile; fileRef = 41249AD503895A6700F1DAE5 /* ServicesMenu.strings */; };
+		415B217607BC0732009CEA53 /* TextEdit Test Document.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 418B04C8062631D5009F55E2 /* TextEdit Test Document.rtf */; };
+		415B217707BC0732009CEA53 /* DocumentProperties.nib in Resources */ = {isa = PBXBuildFile; fileRef = 41278ABE06AF663000B5D78D /* DocumentProperties.nib */; };
+		415B217907BC0732009CEA53 /* Document.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FE208FBFE93D5F211CA2CEA /* Document.m */; settings = {ATTRIBUTES = (); }; };
+		415B217B07BC0732009CEA53 /* Controller.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FE208FDFE93D5F211CA2CEA /* Controller.m */; settings = {ATTRIBUTES = (); }; };
+		415B217C07BC0732009CEA53 /* ScalingScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FE208FEFE93D5F211CA2CEA /* ScalingScrollView.m */; settings = {ATTRIBUTES = (); }; };
+		415B217D07BC0732009CEA53 /* MultiplePageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FE208FFFE93D5F211CA2CEA /* MultiplePageView.m */; settings = {ATTRIBUTES = (); }; };
+		415B217E07BC0732009CEA53 /* Preferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FE20900FE93D5F211CA2CEA /* Preferences.m */; settings = {ATTRIBUTES = (); }; };
+		415B217F07BC0732009CEA53 /* Edit_main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6FE2090AFE93D5F211CA2CEA /* Edit_main.m */; settings = {ATTRIBUTES = (); }; };
+		415B218007BC0732009CEA53 /* EncodingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 92A68B0B02972957007F9DE6 /* EncodingManager.m */; };
+		415B218207BC0732009CEA53 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0230D2BAFF2F83FC11CA0C5D /* Cocoa.framework */; };
+		417C5C210B962CDF008C4735 /* PrintPanelAccessory.strings in Resources */ = {isa = PBXBuildFile; fileRef = 417C5C1F0B962CDF008C4735 /* PrintPanelAccessory.strings */; };
+		419167BC0B78226D00B4CA33 /* SelectLinePanel.nib in Resources */ = {isa = PBXBuildFile; fileRef = 419167BA0B78226C00B4CA33 /* SelectLinePanel.nib */; };
+		41FA793A0B95E61A00FA84AA /* PrintPanelAccessoryController.h in Headers */ = {isa = PBXBuildFile; fileRef = 41FA79380B95E61A00FA84AA /* PrintPanelAccessoryController.h */; };
+		41FA793B0B95E61A00FA84AA /* PrintPanelAccessoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FA79390B95E61A00FA84AA /* PrintPanelAccessoryController.m */; };
+		41FA79A10B95F0F300FA84AA /* PrintPanelAccessory.nib in Resources */ = {isa = PBXBuildFile; fileRef = 41FA799F0B95F0F300FA84AA /* PrintPanelAccessory.nib */; };
+		FB69D020085E20E300646BBF /* DocumentWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = FB69D01E085E20E300646BBF /* DocumentWindowController.h */; };
+		FB69D021085E20E300646BBF /* DocumentWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB69D01F085E20E300646BBF /* DocumentWindowController.m */; };
+		FBF176CA084E77CE005F6CEB /* DocumentController.h in Headers */ = {isa = PBXBuildFile; fileRef = FBF176C8084E77CE005F6CEB /* DocumentController.h */; };
+		FBF176CB084E77CE005F6CEB /* DocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = FBF176C9084E77CE005F6CEB /* DocumentController.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		01AA5998FF66FE3311CA0C5D /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		0230D2BAFF2F83FC11CA0C5D /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = /System/Library/Frameworks/Cocoa.framework; sourceTree = "<absolute>"; };
+		0230D2BFFF2F85EF11CA0C5D /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
+		0230D2C1FF2F85EF11CA0C5D /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
+		41097A6708F6EE81001E6639 /* TextEditErrors.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextEditErrors.h; sourceTree = "<group>"; };
+		41249AD603895A6700F1DAE5 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/ServicesMenu.strings; sourceTree = "<group>"; };
+		41278ABF06AF663000B5D78D /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/DocumentProperties.nib; sourceTree = "<group>"; };
+		412CFBD30B62AC8A00A46D76 /* LinePanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LinePanelController.h; sourceTree = "<group>"; };
+		412CFBD40B62AC8A00A46D76 /* LinePanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LinePanelController.m; sourceTree = "<group>"; };
+		413912140BD54AB700760A3D /* DocumentPropertiesPanelController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentPropertiesPanelController.h; sourceTree = "<group>"; };
+		413912150BD54AB700760A3D /* DocumentPropertiesPanelController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentPropertiesPanelController.m; sourceTree = "<group>"; };
+		413A189B0B6433EF00B26CF9 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/LinePanel.strings; sourceTree = "<group>"; };
+		415B218507BC0732009CEA53 /* Info-TextEdit.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "Info-TextEdit.plist"; sourceTree = "<group>"; };
+		415B218607BC0732009CEA53 /* TextEdit.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TextEdit.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		417C5C200B962CDF008C4735 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/PrintPanelAccessory.strings; sourceTree = "<group>"; };
+		418B04C8062631D5009F55E2 /* TextEdit Test Document.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = "TextEdit Test Document.rtf"; sourceTree = "<group>"; };
+		419167BB0B78226D00B4CA33 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SelectLinePanel.nib; sourceTree = "<group>"; };
+		41FA79380B95E61A00FA84AA /* PrintPanelAccessoryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PrintPanelAccessoryController.h; sourceTree = "<group>"; };
+		41FA79390B95E61A00FA84AA /* PrintPanelAccessoryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrintPanelAccessoryController.m; sourceTree = "<group>"; };
+		41FA79A00B95F0F300FA84AA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PrintPanelAccessory.nib; sourceTree = "<group>"; };
+		6FE208FBFE93D5F211CA2CEA /* Document.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Document.m; sourceTree = "<group>"; };
+		6FE208FDFE93D5F211CA2CEA /* Controller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Controller.m; sourceTree = "<group>"; };
+		6FE208FEFE93D5F211CA2CEA /* ScalingScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ScalingScrollView.m; sourceTree = "<group>"; };
+		6FE208FFFE93D5F211CA2CEA /* MultiplePageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MultiplePageView.m; sourceTree = "<group>"; };
+		6FE20900FE93D5F211CA2CEA /* Preferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Preferences.m; sourceTree = "<group>"; };
+		6FE20903FE93D5F211CA2CEA /* Document.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Document.h; sourceTree = "<group>"; };
+		6FE20904FE93D5F211CA2CEA /* Controller.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Controller.h; sourceTree = "<group>"; };
+		6FE20905FE93D5F211CA2CEA /* MultiplePageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MultiplePageView.h; sourceTree = "<group>"; };
+		6FE20907FE93D5F211CA2CEA /* ScalingScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ScalingScrollView.h; sourceTree = "<group>"; };
+		6FE20908FE93D5F211CA2CEA /* Preferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Preferences.h; sourceTree = "<group>"; };
+		6FE2090AFE93D5F211CA2CEA /* Edit_main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Edit_main.m; sourceTree = "<group>"; };
+		6FE2090DFE93D5F211CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/EncodingAccessory.nib; sourceTree = "<group>"; };
+		6FE20911FE93D5F211CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Preferences.nib; sourceTree = "<group>"; };
+		6FE20914FE93D5F211CA2CEA /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/Edit.nib; sourceTree = "<group>"; };
+		6FE2091CFE93D5F211CA2CEA /* txt.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = txt.icns; sourceTree = "<group>"; };
+		6FE2091EFE93D5F211CA2CEA /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/ZoomValues.strings; sourceTree = "<group>"; };
+		6FE2091FFE93D5F211CA2CEA /* Edit.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = Edit.icns; sourceTree = "<group>"; };
+		6FE20922FE93D5F211CA2CEA /* rtf.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = rtf.icns; sourceTree = "<group>"; };
+		6FE20924FE93D5F211CA2CEA /* TextEdit.scriptTerminology */ = {isa = PBXFileReference; lastKnownFileType = text.plist.scriptTerminology; path = TextEdit.scriptTerminology; sourceTree = "<group>"; };
+		6FE20925FE93D5F211CA2CEA /* rtfd.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = rtfd.icns; sourceTree = "<group>"; };
+		6FE20926FE93D5F211CA2CEA /* TextEdit.scriptSuite */ = {isa = PBXFileReference; lastKnownFileType = text.plist.scriptSuite; path = TextEdit.scriptSuite; sourceTree = "<group>"; };
+		6FE20927FE93D5F211CA2CEA /* html.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; path = html.icns; sourceTree = "<group>"; };
+		6FE20929FE93D5F211CA2CEA /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/Localizable.strings; sourceTree = "<group>"; };
+		6FE20936FE93D5F211CA2CEA /* README.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = README.rtf; sourceTree = "<group>"; };
+		6FE20938FE93D5F211CA2CEA /* TextEdit.scatterload */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = TextEdit.scatterload; sourceTree = "<group>"; };
+		92A68B0A02972957007F9DE6 /* EncodingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EncodingManager.h; sourceTree = "<group>"; };
+		92A68B0B02972957007F9DE6 /* EncodingManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EncodingManager.m; sourceTree = "<group>"; };
+		92A68B1802972AB9007F9DE6 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SelectEncodingsPanel.nib; sourceTree = "<group>"; };
+		F549503200E2A3BB01CA0CA4 /* DocumentWindow.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = DocumentWindow.nib; sourceTree = "<group>"; };
+		FB69D01E085E20E300646BBF /* DocumentWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentWindowController.h; sourceTree = "<group>"; };
+		FB69D01F085E20E300646BBF /* DocumentWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentWindowController.m; sourceTree = "<group>"; };
+		FBF176C8084E77CE005F6CEB /* DocumentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentController.h; sourceTree = "<group>"; };
+		FBF176C9084E77CE005F6CEB /* DocumentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentController.m; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		415B218107BC0732009CEA53 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				415B218207BC0732009CEA53 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		0230D2BEFF2F85A411CA0C5D /* References (Non-linked frameworks) */ = {
+			isa = PBXGroup;
+			children = (
+				0230D2BFFF2F85EF11CA0C5D /* AppKit.framework */,
+				0230D2C1FF2F85EF11CA0C5D /* Foundation.framework */,
+			);
+			name = "References (Non-linked frameworks)";
+			sourceTree = "<group>";
+		};
+		0866A932FE94153C11CA2CEA /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				415B218607BC0732009CEA53 /* TextEdit.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6FE208F9FE93D5F211CA2CEA /* TextEdit */ = {
+			isa = PBXGroup;
+			children = (
+				6FE20936FE93D5F211CA2CEA /* README.rtf */,
+				6FE20903FE93D5F211CA2CEA /* Document.h */,
+				6FE208FBFE93D5F211CA2CEA /* Document.m */,
+				FB69D01E085E20E300646BBF /* DocumentWindowController.h */,
+				FB69D01F085E20E300646BBF /* DocumentWindowController.m */,
+				FBF176C8084E77CE005F6CEB /* DocumentController.h */,
+				FBF176C9084E77CE005F6CEB /* DocumentController.m */,
+				6FE20904FE93D5F211CA2CEA /* Controller.h */,
+				6FE208FDFE93D5F211CA2CEA /* Controller.m */,
+				412CFBD30B62AC8A00A46D76 /* LinePanelController.h */,
+				412CFBD40B62AC8A00A46D76 /* LinePanelController.m */,
+				413912140BD54AB700760A3D /* DocumentPropertiesPanelController.h */,
+				413912150BD54AB700760A3D /* DocumentPropertiesPanelController.m */,
+				41FA79380B95E61A00FA84AA /* PrintPanelAccessoryController.h */,
+				41FA79390B95E61A00FA84AA /* PrintPanelAccessoryController.m */,
+				6FE20907FE93D5F211CA2CEA /* ScalingScrollView.h */,
+				6FE208FEFE93D5F211CA2CEA /* ScalingScrollView.m */,
+				6FE20905FE93D5F211CA2CEA /* MultiplePageView.h */,
+				6FE208FFFE93D5F211CA2CEA /* MultiplePageView.m */,
+				6FE20908FE93D5F211CA2CEA /* Preferences.h */,
+				6FE20900FE93D5F211CA2CEA /* Preferences.m */,
+				92A68B0A02972957007F9DE6 /* EncodingManager.h */,
+				92A68B0B02972957007F9DE6 /* EncodingManager.m */,
+				41097A6708F6EE81001E6639 /* TextEditErrors.h */,
+				6FE2090AFE93D5F211CA2CEA /* Edit_main.m */,
+				6FE2090BFE93D5F211CA2CEA /* Interfaces */,
+				6FE20917FE93D5F211CA2CEA /* Images */,
+				6FE2091BFE93D5F211CA2CEA /* Resources */,
+				6FE2092DFE93D5F211CA2CEA /* Supporting Files */,
+				6FE20939FE93D5F211CA2CEA /* External Frameworks and Libraries */,
+				0866A932FE94153C11CA2CEA /* Products */,
+				415B218507BC0732009CEA53 /* Info-TextEdit.plist */,
+			);
+			name = TextEdit;
+			sourceTree = "<group>";
+		};
+		6FE2090BFE93D5F211CA2CEA /* Interfaces */ = {
+			isa = PBXGroup;
+			children = (
+				F549503200E2A3BB01CA0CA4 /* DocumentWindow.nib */,
+				6FE20912FE93D5F211CA2CEA /* Edit.nib */,
+				6FE20910FE93D5F211CA2CEA /* Preferences.nib */,
+				6FE2090CFE93D5F211CA2CEA /* EncodingAccessory.nib */,
+				41FA799F0B95F0F300FA84AA /* PrintPanelAccessory.nib */,
+				92A68B1702972AB9007F9DE6 /* SelectEncodingsPanel.nib */,
+				41278ABE06AF663000B5D78D /* DocumentProperties.nib */,
+				419167BA0B78226C00B4CA33 /* SelectLinePanel.nib */,
+			);
+			name = Interfaces;
+			sourceTree = "<group>";
+		};
+		6FE20917FE93D5F211CA2CEA /* Images */ = {
+			isa = PBXGroup;
+			children = (
+				6FE2091FFE93D5F211CA2CEA /* Edit.icns */,
+				6FE2091CFE93D5F211CA2CEA /* txt.icns */,
+				6FE20922FE93D5F211CA2CEA /* rtf.icns */,
+				6FE20925FE93D5F211CA2CEA /* rtfd.icns */,
+				6FE20927FE93D5F211CA2CEA /* html.icns */,
+			);
+			name = Images;
+			sourceTree = "<group>";
+		};
+		6FE2091BFE93D5F211CA2CEA /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				6FE20928FE93D5F211CA2CEA /* Localizable.strings */,
+				6FE2091DFE93D5F211CA2CEA /* ZoomValues.strings */,
+				41249AD503895A6700F1DAE5 /* ServicesMenu.strings */,
+				413A189A0B6433EF00B26CF9 /* LinePanel.strings */,
+				01AA5997FF66FE3311CA0C5D /* InfoPlist.strings */,
+				417C5C1F0B962CDF008C4735 /* PrintPanelAccessory.strings */,
+				6FE20926FE93D5F211CA2CEA /* TextEdit.scriptSuite */,
+				6FE20924FE93D5F211CA2CEA /* TextEdit.scriptTerminology */,
+				418B04C8062631D5009F55E2 /* TextEdit Test Document.rtf */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+		6FE2092DFE93D5F211CA2CEA /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6FE20938FE93D5F211CA2CEA /* TextEdit.scatterload */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		6FE20939FE93D5F211CA2CEA /* External Frameworks and Libraries */ = {
+			isa = PBXGroup;
+			children = (
+				0230D2BAFF2F83FC11CA0C5D /* Cocoa.framework */,
+				0230D2BEFF2F85A411CA0C5D /* References (Non-linked frameworks) */,
+			);
+			name = "External Frameworks and Libraries";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXHeadersBuildPhase section */
+		415B215B07BC0732009CEA53 /* Headers */ = {
+			isa = PBXHeadersBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				415B215C07BC0732009CEA53 /* Document.h in Headers */,
+				415B215D07BC0732009CEA53 /* Controller.h in Headers */,
+				415B215E07BC0732009CEA53 /* MultiplePageView.h in Headers */,
+				415B215F07BC0732009CEA53 /* ScalingScrollView.h in Headers */,
+				415B216007BC0732009CEA53 /* Preferences.h in Headers */,
+				415B216107BC0732009CEA53 /* EncodingManager.h in Headers */,
+				FBF176CA084E77CE005F6CEB /* DocumentController.h in Headers */,
+				FB69D020085E20E300646BBF /* DocumentWindowController.h in Headers */,
+				41097A6808F6EE81001E6639 /* TextEditErrors.h in Headers */,
+				412CFBD50B62AC8A00A46D76 /* LinePanelController.h in Headers */,
+				41FA793A0B95E61A00FA84AA /* PrintPanelAccessoryController.h in Headers */,
+				413912160BD54AB700760A3D /* DocumentPropertiesPanelController.h in Headers */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXHeadersBuildPhase section */
+
+/* Begin PBXNativeTarget section */
+		415B215A07BC0732009CEA53 /* TextEdit */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 41534B8E08A2B299002069FE /* Build configuration list for PBXNativeTarget "TextEdit" */;
+			buildPhases = (
+				415B215B07BC0732009CEA53 /* Headers */,
+				415B216207BC0732009CEA53 /* Resources */,
+				415B217807BC0732009CEA53 /* Sources */,
+				415B218107BC0732009CEA53 /* Frameworks */,
+				415B218307BC0732009CEA53 /* Rez */,
+				415B218407BC0732009CEA53 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = TextEdit;
+			productInstallPath = "$(SYSTEM_APPS_DIR)";
+			productName = TextEdit;
+			productReference = 415B218607BC0732009CEA53 /* TextEdit.app */;
+			productType = "com.apple.product-type.application";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6FE208F8FE93D5F211CA2CEA /* Project object */ = {
+			isa = PBXProject;
+			buildConfigurationList = 41534B9208A2B299002069FE /* Build configuration list for PBXProject "TextEdit" */;
+			compatibilityVersion = "Xcode 2.4";
+			hasScannedForEncodings = 1;
+			mainGroup = 6FE208F9FE93D5F211CA2CEA /* TextEdit */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				415B215A07BC0732009CEA53 /* TextEdit */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		415B216207BC0732009CEA53 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				415B216307BC0732009CEA53 /* EncodingAccessory.nib in Resources */,
+				415B216407BC0732009CEA53 /* Preferences.nib in Resources */,
+				415B216507BC0732009CEA53 /* Edit.nib in Resources */,
+				415B216607BC0732009CEA53 /* txt.icns in Resources */,
+				415B216707BC0732009CEA53 /* ZoomValues.strings in Resources */,
+				415B216807BC0732009CEA53 /* Edit.icns in Resources */,
+				415B216907BC0732009CEA53 /* rtf.icns in Resources */,
+				415B216A07BC0732009CEA53 /* TextEdit.scriptTerminology in Resources */,
+				415B216B07BC0732009CEA53 /* rtfd.icns in Resources */,
+				415B216C07BC0732009CEA53 /* TextEdit.scriptSuite in Resources */,
+				415B216D07BC0732009CEA53 /* html.icns in Resources */,
+				415B216E07BC0732009CEA53 /* Localizable.strings in Resources */,
+				415B217007BC0732009CEA53 /* InfoPlist.strings in Resources */,
+				415B217207BC0732009CEA53 /* DocumentWindow.nib in Resources */,
+				415B217307BC0732009CEA53 /* SelectEncodingsPanel.nib in Resources */,
+				415B217407BC0732009CEA53 /* ServicesMenu.strings in Resources */,
+				415B217607BC0732009CEA53 /* TextEdit Test Document.rtf in Resources */,
+				415B217707BC0732009CEA53 /* DocumentProperties.nib in Resources */,
+				413A189C0B6433EF00B26CF9 /* LinePanel.strings in Resources */,
+				419167BC0B78226D00B4CA33 /* SelectLinePanel.nib in Resources */,
+				41FA79A10B95F0F300FA84AA /* PrintPanelAccessory.nib in Resources */,
+				417C5C210B962CDF008C4735 /* PrintPanelAccessory.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXRezBuildPhase section */
+		415B218307BC0732009CEA53 /* Rez */ = {
+			isa = PBXRezBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXRezBuildPhase section */
+
+/* Begin PBXShellScriptBuildPhase section */
+		415B218407BC0732009CEA53 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 8;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 1;
+			shellPath = /bin/sh;
+			shellScript = "# This shell-script build phase happens only when installing and causes the \n# project sources (which are shipped as an example) to be installed along \n# with the application.\n\nEXAMPLESDIR=${SYSTEM_DEVELOPER_DIR}/Examples/AppKit\n\n# install the source\nxcodebuild installsrc \"SYMROOT=${SYMROOT}\" \"OBJROOT=${OBJROOT}\" \"DSTROOT=${DSTROOT}\" \"SRCROOT=${DSTROOT}${EXAMPLESDIR}/${PRODUCT_NAME}\"\n\n# fix up some stuff\nsed '/APPLE INTERNAL SELF TEST/q' ${DSTROOT}${EXAMPLESDIR}/${PRODUCT_NAME}/Controller.m | grep -v \"APPLE INTERNAL SELF TEST\" > ${DSTROOT}${EXAMPLESDIR}/${PRODUCT_NAME}/Controller.m~\nmv ${DSTROOT}${EXAMPLESDIR}/${PRODUCT_NAME}/Controller.m~ ${DSTROOT}${EXAMPLESDIR}/${PRODUCT_NAME}/Controller.m\n\n# strip out garbage\nfind ${DSTROOT}${EXAMPLESDIR}/${PRODUCT_NAME} -name \"*~\" -exec rm -rf {} \\; -prune ; \nfind ${DSTROOT}${EXAMPLESDIR}/${PRODUCT_NAME} -name \"*~.*\" -exec rm -rf {} \\; -prune ; \nfind ${DSTROOT}${EXAMPLESDIR}/${PRODUCT_NAME} -type d -name \"CVS\" -exec rm -rf {} \\; -prune ;\nfind ${DSTROOT}${EXAMPLESDIR}/${PRODUCT_NAME} -name \"*.pbxuser\" -exec rm -rf {} \\; ;\nfind ${DSTROOT}${EXAMPLESDIR}/${PRODUCT_NAME} -name \"*.perspective\" -exec rm -rf {} \\; ;\nfind ${DSTROOT}${EXAMPLESDIR}/${PRODUCT_NAME} -name \"*.mode[1234567890]\" -exec rm -rf {} \\; ;\nfind ${DSTROOT}${EXAMPLESDIR}/${PRODUCT_NAME} -name \".nfs*\" -exec rm -rf {} \\; ;\nfind ${DSTROOT}${EXAMPLESDIR}/${PRODUCT_NAME} -name \".gdb*\" -exec rm -rf {} \\; ;\nfind ${DSTROOT}${EXAMPLESDIR}/${PRODUCT_NAME} -name \".#*\" -exec rm -rf {} \\; ;\nfind ${DSTROOT}${EXAMPLESDIR}/${PRODUCT_NAME} -name \".DS_Store\" -exec rm -rf {} \\; ;\nfind ${DSTROOT} -name \"._*\" -exec rm -rf {} \\; ;\nrm -rf ${DSTROOT}${EXAMPLESDIR}/${PRODUCT_NAME}/build\n\n# set permissions\t\nchmod -R u+rwX,go+rX,go-w ${DSTROOT}${EXAMPLESDIR}/${PRODUCT_NAME}\nchown -R ${INSTALL_OWNER}:${INSTALL_GROUP} ${DSTROOT}${EXAMPLESDIR}/${PRODUCT_NAME}\n";
+		};
+/* End PBXShellScriptBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		415B217807BC0732009CEA53 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				415B217907BC0732009CEA53 /* Document.m in Sources */,
+				415B217B07BC0732009CEA53 /* Controller.m in Sources */,
+				415B217C07BC0732009CEA53 /* ScalingScrollView.m in Sources */,
+				415B217D07BC0732009CEA53 /* MultiplePageView.m in Sources */,
+				415B217E07BC0732009CEA53 /* Preferences.m in Sources */,
+				415B217F07BC0732009CEA53 /* Edit_main.m in Sources */,
+				415B218007BC0732009CEA53 /* EncodingManager.m in Sources */,
+				FBF176CB084E77CE005F6CEB /* DocumentController.m in Sources */,
+				FB69D021085E20E300646BBF /* DocumentWindowController.m in Sources */,
+				412CFBD60B62AC8A00A46D76 /* LinePanelController.m in Sources */,
+				41FA793B0B95E61A00FA84AA /* PrintPanelAccessoryController.m in Sources */,
+				413912170BD54AB800760A3D /* DocumentPropertiesPanelController.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		01AA5997FF66FE3311CA0C5D /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				01AA5998FF66FE3311CA0C5D /* English */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		41249AD503895A6700F1DAE5 /* ServicesMenu.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				41249AD603895A6700F1DAE5 /* English */,
+			);
+			name = ServicesMenu.strings;
+			sourceTree = "<group>";
+		};
+		41278ABE06AF663000B5D78D /* DocumentProperties.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				41278ABF06AF663000B5D78D /* English */,
+			);
+			name = DocumentProperties.nib;
+			sourceTree = "<group>";
+		};
+		413A189A0B6433EF00B26CF9 /* LinePanel.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				413A189B0B6433EF00B26CF9 /* English */,
+			);
+			name = LinePanel.strings;
+			sourceTree = "<group>";
+		};
+		417C5C1F0B962CDF008C4735 /* PrintPanelAccessory.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				417C5C200B962CDF008C4735 /* English */,
+			);
+			name = PrintPanelAccessory.strings;
+			sourceTree = "<group>";
+		};
+		419167BA0B78226C00B4CA33 /* SelectLinePanel.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				419167BB0B78226D00B4CA33 /* English */,
+			);
+			name = SelectLinePanel.nib;
+			sourceTree = "<group>";
+		};
+		41FA799F0B95F0F300FA84AA /* PrintPanelAccessory.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				41FA79A00B95F0F300FA84AA /* English */,
+			);
+			name = PrintPanelAccessory.nib;
+			sourceTree = "<group>";
+		};
+		6FE2090CFE93D5F211CA2CEA /* EncodingAccessory.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6FE2090DFE93D5F211CA2CEA /* English */,
+			);
+			name = EncodingAccessory.nib;
+			sourceTree = "<group>";
+		};
+		6FE20910FE93D5F211CA2CEA /* Preferences.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6FE20911FE93D5F211CA2CEA /* English */,
+			);
+			name = Preferences.nib;
+			sourceTree = "<group>";
+		};
+		6FE20912FE93D5F211CA2CEA /* Edit.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6FE20914FE93D5F211CA2CEA /* English */,
+			);
+			name = Edit.nib;
+			sourceTree = "<group>";
+		};
+		6FE2091DFE93D5F211CA2CEA /* ZoomValues.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6FE2091EFE93D5F211CA2CEA /* English */,
+			);
+			name = ZoomValues.strings;
+			sourceTree = "<group>";
+		};
+		6FE20928FE93D5F211CA2CEA /* Localizable.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6FE20929FE93D5F211CA2CEA /* English */,
+			);
+			name = Localizable.strings;
+			sourceTree = "<group>";
+		};
+		92A68B1702972AB9007F9DE6 /* SelectEncodingsPanel.nib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				92A68B1802972AB9007F9DE6 /* English */,
+			);
+			name = SelectEncodingsPanel.nib;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		41534B8F08A2B299002069FE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUILD_PHASING = YES;
+				COPY_PHASE_STRIP = NO;
+				CURRENT_PROJECT_VERSION = 244;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_FIX_AND_CONTINUE = YES;
+				GCC_ENABLE_OBJC_GC = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = "\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Libraries/CIncludes\"";
+				INFOPLIST_FILE = "Info-TextEdit.plist";
+				INSTALL_GROUP = wheel;
+				INSTALL_OWNER = root;
+				INSTALL_PATH = "$(SYSTEM_APPS_DIR)";
+				LIBRARY_SEARCH_PATHS = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				OTHER_CFLAGS = "$(cflags)";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = TextEdit;
+				SECTORDER_FLAGS = (
+					"-sectorder",
+					__TEXT,
+					__text,
+					TextEdit.scatterload,
+					"-e",
+					start,
+				);
+				VERSIONING_SYSTEM = "apple-generic";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = YES;
+			};
+			name = Debug;
+		};
+		41534B9008A2B299002069FE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUILD_PHASING = YES;
+				COPY_PHASE_STRIP = YES;
+				CURRENT_PROJECT_VERSION = 244;
+				FRAMEWORK_SEARCH_PATHS = "";
+				GCC_C_LANGUAGE_STANDARD = c99;
+				GCC_ENABLE_FIX_AND_CONTINUE = NO;
+				GCC_ENABLE_OBJC_GC = NO;
+				HEADER_SEARCH_PATHS = "\"$(SYSTEM_LIBRARY_DIR)/Frameworks/Carbon.framework/Libraries/CIncludes\"";
+				INFOPLIST_FILE = "Info-TextEdit.plist";
+				INSTALL_GROUP = wheel;
+				INSTALL_OWNER = root;
+				INSTALL_PATH = "$(SYSTEM_APPS_DIR)";
+				LIBRARY_SEARCH_PATHS = "";
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
+				OTHER_CFLAGS = "$(cflags)";
+				OTHER_LDFLAGS = "";
+				OTHER_REZFLAGS = "";
+				PRODUCT_NAME = TextEdit;
+				SECTORDER_FLAGS = (
+					"-sectorder",
+					__TEXT,
+					__text,
+					TextEdit.scatterload,
+					"-e",
+					start,
+				);
+				VERSIONING_SYSTEM = "apple-generic";
+				WARNING_CFLAGS = (
+					"-Wmost",
+					"-Wno-four-char-constants",
+					"-Wno-unknown-pragmas",
+				);
+				WRAPPER_EXTENSION = app;
+				ZERO_LINK = NO;
+			};
+			name = Release;
+		};
+		41534B9308A2B299002069FE /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		41534B9408A2B299002069FE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		41534B8E08A2B299002069FE /* Build configuration list for PBXNativeTarget "TextEdit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				41534B8F08A2B299002069FE /* Debug */,
+				41534B9008A2B299002069FE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		41534B9208A2B299002069FE /* Build configuration list for PBXProject "TextEdit" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				41534B9308A2B299002069FE /* Debug */,
+				41534B9408A2B299002069FE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6FE208F8FE93D5F211CA2CEA /* Project object */;
+}

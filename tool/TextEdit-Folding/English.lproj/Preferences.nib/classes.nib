@@ -1,0 +1,61 @@
+{
+    IBClasses = (
+        {
+            CLASS = EncodingPopUpButton; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {accessibilityTitleUIElement = id; }; 
+            SUPERCLASS = NSPopUpButton; 
+        }, 
+        {
+            ACTIONS = {"" = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {
+                changePlainTextFont = id; 
+                changeRichTextFont = id; 
+                miscChanged = id; 
+                ok = id; 
+                revert = id; 
+                revertToDefault = id; 
+                showPanel = id; 
+            }; 
+            CLASS = Preferences; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                HTMLDocumentTypePopUp = id; 
+                HTMLEncodingPopUp = id; 
+                HTMLStylingPopUp = id; 
+                addExtensionToNewPlainTextFilesButton = id; 
+                authorPropertyField = id; 
+                checkGrammarWithSpellingButton = id; 
+                checkSpellingAsYouTypeButton = id; 
+                companyPropertyField = id; 
+                copyrightPropertyField = id; 
+                deleteBackupButton = id; 
+                ignoreHTMLButton = id; 
+                ignoreRichTextButton = id; 
+                numberPagesWhenPrintingButton = id; 
+                panel = id; 
+                plainTextEncodingForReadPopup = id; 
+                plainTextEncodingForWritePopup = id; 
+                plainTextFontNameField = id; 
+                preserveWhiteSpaceButton = id; 
+                richTextFontNameField = id; 
+                richTextMatrix = id; 
+                showPageBreaksButton = id; 
+                showRulerButton = id; 
+                smartCopyPasteButton = id; 
+                smartLinksButton = id; 
+                smartQuotesButton = id; 
+                tabWidthField = id; 
+                windowHeightField = id; 
+                windowWidthField = id; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}

@@ -1,0 +1,18 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {"" = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {lineFieldChanged = id; selectClicked = id; }; 
+            CLASS = LinePanelController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {lineField = id; }; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

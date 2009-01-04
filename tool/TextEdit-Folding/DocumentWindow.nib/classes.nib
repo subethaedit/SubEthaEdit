@@ -1,0 +1,47 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {
+                close = id; 
+                doPageLayout = id; 
+                printDocument = id; 
+                revert = id; 
+                richTextDocumentFormatChanged = id; 
+                richTextWithGraphicsDocumentFormatChanged = id; 
+                save = id; 
+                saveAs = id; 
+                saveTo = id; 
+                togglePageBreaks = id; 
+                toggleReadOnly = id; 
+                toggleRich = id; 
+            }; 
+            CLASS = Document; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                richTextDocumentFormatAccessory = NSView; 
+                richTextDocumentFormatPopUp = NSPopUpButton; 
+                scrollView = ScalingScrollView; 
+            }; 
+            SUPERCLASS = NSDocument; 
+        }, 
+        {
+            CLASS = DocumentController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSDocumentController; 
+        }, 
+        {
+            CLASS = DocumentWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {scrollView = ScalingScrollView; }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {
+            ACTIONS = {scalePopUpAction = id; }; 
+            CLASS = ScalingScrollView; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSScrollView; 
+        }
+    ); 
+    IBVersion = 1; 
+}

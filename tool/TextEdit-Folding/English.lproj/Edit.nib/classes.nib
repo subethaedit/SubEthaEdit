@@ -1,0 +1,134 @@
+{
+    IBClasses = (
+        {
+            ACTIONS = {createNew = id; open = id; saveAll = id; }; 
+            CLASS = Controller; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = DocumentController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSDocumentController; 
+        }, 
+        {
+            ACTIONS = {toggleWindow = id; }; 
+            CLASS = DocumentPropertiesPanelController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {keywordsField = id; }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {
+                alignJustified = id; 
+                centerSelectionInVisibleArea = id; 
+                close = id; 
+                complete = id; 
+                doPageLayout = id; 
+                insertContainerBreak = id; 
+                insertLineBreak = id; 
+                insertNewline = id; 
+                insertParagraphSeparator = id; 
+                insertTab = id; 
+                orderFrontLinkPanel = id; 
+                orderFrontListPanel = id; 
+                orderFrontSpacingPanel = id; 
+                orderFrontTablePanel = id; 
+                outline = id; 
+                pasteAsPlainText = id; 
+                performFindPanelAction = id; 
+                printDocument = id; 
+                redo = id; 
+                revert = id; 
+                save = id; 
+                saveAs = id; 
+                saveTo = id; 
+                startSpeaking = id; 
+                stopSpeaking = id; 
+                toggleAutomaticLinkDetection = id; 
+                toggleAutomaticQuoteSubstitution = id; 
+                toggleBaseWritingDirection = id; 
+                toggleContinuousSpellChecking = id; 
+                toggleGrammarChecking = id; 
+                toggleHyphenation = id; 
+                togglePageBreaks = id; 
+                toggleReadOnly = id; 
+                toggleRich = id; 
+                toggleSmartInsertDelete = id; 
+                toggleTraditionalCharacterShape = id; 
+                undo = id; 
+            }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            CLASS = LinePanelController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {hideOtherApplications = id; unhideOtherApplications = id; }; 
+            CLASS = NSApplication; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSResponder; 
+        }, 
+        {
+            ACTIONS = {orderFrontStylesPanel = id; }; 
+            CLASS = NSFontManager; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {
+                changePlainTextFont = id; 
+                changeRichTextFont = id; 
+                miscChanged = id; 
+                ok = id; 
+                revert = id; 
+                revertToDefault = id; 
+                showPanel = id; 
+            }; 
+            CLASS = Preferences; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                deleteBackupMatrix = id; 
+                plainTextEncodingPopup = id; 
+                plainTextFontNameField = id; 
+                richTextFontNameField = id; 
+                richTextMatrix = id; 
+                saveFilesWritableButton = id; 
+                showPageBreaksButton = id; 
+                tabWidthField = id; 
+                windowHeightField = id; 
+                windowWidthField = id; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {
+                findNext = id; 
+                findNextAndOrderFindPanelOut = id; 
+                findPrevious = id; 
+                jumpToSelection = id; 
+                orderFrontFindPanel = id; 
+                replace = id; 
+                replaceAll = id; 
+                replaceAndFind = id; 
+                takeFindStringFromSelection = id; 
+            }; 
+            CLASS = TextFinder; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                findNextButton = id; 
+                findTextField = id; 
+                ignoreCaseButton = id; 
+                replaceAllScopeMatrix = id; 
+                replaceTextField = id; 
+                statusField = id; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }
+    ); 
+    IBVersion = 1; 
+}
