@@ -624,7 +624,7 @@ attachmentFlag allows for optimizing some cases where we know we have no attachm
 - (void)textView:(NSTextView *)view doubleClickedOnCell:(id <NSTextAttachmentCell>)cell inRect:(NSRect)rect atIndex:(NSUInteger)inIndex {
 	if ([[cell attachment] isKindOfClass:[FoldedTextAttachment class]])
 	{
-		[(FoldableTextStorage *)[view textStorage] unfoldAttachment:(FoldedTextAttachment *)[cell attachment] atIndex:inIndex];
+		[(FoldableTextStorage *)[view textStorage] unfoldAttachment:(FoldedTextAttachment *)[cell attachment] atCharacterIndex:inIndex];
 	}
 	else
 	{

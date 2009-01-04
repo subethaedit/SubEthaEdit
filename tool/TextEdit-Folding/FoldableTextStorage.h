@@ -23,6 +23,7 @@
 @interface FoldableTextStorage : NSTextStorage {
 	NSMutableAttributedString *I_internalAttributedString;
 	FullTextStorage *I_fullTextStorage;
+	NSMutableArray *I_sortedFoldedTextAttachments;
 }
 
 - (NSRange)fullRangeForFoldableRange:(NSRange)inRange;
@@ -34,7 +35,7 @@
 
 #pragma mark folding methods
 - (void)foldRange:(NSRange)inRange;
-- (void)unfoldAttachment:(FoldedTextAttachment *)inAttachment atIndex:(NSUInteger)inIndex;
+- (void)unfoldAttachment:(FoldedTextAttachment *)inAttachment atCharacterIndex:(NSUInteger)inIndex;
 
 
 @end

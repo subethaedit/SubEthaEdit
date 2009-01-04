@@ -20,7 +20,7 @@
 
 - (void)logDebugOutput:(id)inSender
 {
-	NSLog(@"%s \nts:\n%@\n-------\nfts:\n%@",__FUNCTION__,[self textStorage],[(FoldableTextStorage *)[self textStorage] fullTextStorage]);
+	NSLog(@"%s \nts:\n%@\n-------\nfts:\n%@",__FUNCTION__,[[self textStorage] string],[[(FoldableTextStorage *)[self textStorage] fullTextStorage] string]);
 }
 
 @end
