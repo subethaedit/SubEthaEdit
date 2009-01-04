@@ -53,6 +53,10 @@
 		F28FF4680F10BBF70027D500 /* TextView.h in Headers */ = {isa = PBXBuildFile; fileRef = F28FF4660F10BBF70027D500 /* TextView.h */; };
 		F28FF4690F10BBF70027D500 /* TextView.m in Sources */ = {isa = PBXBuildFile; fileRef = F28FF4670F10BBF70027D500 /* TextView.m */; };
 		F28FF4900F10BED60027D500 /* folded.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F28FF48F0F10BED60027D500 /* folded.tiff */; };
+		F29863CA0F10EEC000B34ACE /* FoldableTextStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = F29863C80F10EEC000B34ACE /* FoldableTextStorage.h */; };
+		F29863CB0F10EEC000B34ACE /* FoldableTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = F29863C90F10EEC000B34ACE /* FoldableTextStorage.m */; };
+		F29863D00F10EF3400B34ACE /* FullTextStorage.h in Headers */ = {isa = PBXBuildFile; fileRef = F29863CE0F10EF3400B34ACE /* FullTextStorage.h */; };
+		F29863D10F10EF3400B34ACE /* FullTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = F29863CF0F10EF3400B34ACE /* FullTextStorage.m */; };
 		FB69D020085E20E300646BBF /* DocumentWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = FB69D01E085E20E300646BBF /* DocumentWindowController.h */; };
 		FB69D021085E20E300646BBF /* DocumentWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB69D01F085E20E300646BBF /* DocumentWindowController.m */; };
 		FBF176CA084E77CE005F6CEB /* DocumentController.h in Headers */ = {isa = PBXBuildFile; fileRef = FBF176C8084E77CE005F6CEB /* DocumentController.h */; };
@@ -111,6 +115,10 @@
 		F28FF4660F10BBF70027D500 /* TextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextView.h; sourceTree = "<group>"; };
 		F28FF4670F10BBF70027D500 /* TextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextView.m; sourceTree = "<group>"; };
 		F28FF48F0F10BED60027D500 /* folded.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = folded.tiff; sourceTree = "<group>"; };
+		F29863C80F10EEC000B34ACE /* FoldableTextStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoldableTextStorage.h; sourceTree = "<group>"; };
+		F29863C90F10EEC000B34ACE /* FoldableTextStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoldableTextStorage.m; sourceTree = "<group>"; };
+		F29863CE0F10EF3400B34ACE /* FullTextStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FullTextStorage.h; sourceTree = "<group>"; };
+		F29863CF0F10EF3400B34ACE /* FullTextStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FullTextStorage.m; sourceTree = "<group>"; };
 		F549503200E2A3BB01CA0CA4 /* DocumentWindow.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = DocumentWindow.nib; sourceTree = "<group>"; };
 		FB69D01E085E20E300646BBF /* DocumentWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentWindowController.h; sourceTree = "<group>"; };
 		FB69D01F085E20E300646BBF /* DocumentWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentWindowController.m; sourceTree = "<group>"; };
@@ -150,6 +158,8 @@
 		6FE208F9FE93D5F211CA2CEA /* TextEdit */ = {
 			isa = PBXGroup;
 			children = (
+				F29863CE0F10EF3400B34ACE /* FullTextStorage.h */,
+				F29863CF0F10EF3400B34ACE /* FullTextStorage.m */,
 				6FE20936FE93D5F211CA2CEA /* README.rtf */,
 				6FE20903FE93D5F211CA2CEA /* Document.h */,
 				6FE208FBFE93D5F211CA2CEA /* Document.m */,
@@ -170,6 +180,8 @@
 				6FE20905FE93D5F211CA2CEA /* MultiplePageView.h */,
 				6FE208FFFE93D5F211CA2CEA /* MultiplePageView.m */,
 				F28FF4660F10BBF70027D500 /* TextView.h */,
+				F29863C80F10EEC000B34ACE /* FoldableTextStorage.h */,
+				F29863C90F10EEC000B34ACE /* FoldableTextStorage.m */,
 				F28FF4670F10BBF70027D500 /* TextView.m */,
 				6FE20908FE93D5F211CA2CEA /* Preferences.h */,
 				6FE20900FE93D5F211CA2CEA /* Preferences.m */,
@@ -269,6 +281,8 @@
 				41FA793A0B95E61A00FA84AA /* PrintPanelAccessoryController.h in Headers */,
 				413912160BD54AB700760A3D /* DocumentPropertiesPanelController.h in Headers */,
 				F28FF4680F10BBF70027D500 /* TextView.h in Headers */,
+				F29863CA0F10EEC000B34ACE /* FoldableTextStorage.h in Headers */,
+				F29863D00F10EF3400B34ACE /* FullTextStorage.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -386,6 +400,8 @@
 				41FA793B0B95E61A00FA84AA /* PrintPanelAccessoryController.m in Sources */,
 				413912170BD54AB800760A3D /* DocumentPropertiesPanelController.m in Sources */,
 				F28FF4690F10BBF70027D500 /* TextView.m in Sources */,
+				F29863CB0F10EEC000B34ACE /* FoldableTextStorage.m in Sources */,
+				F29863D10F10EF3400B34ACE /* FullTextStorage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

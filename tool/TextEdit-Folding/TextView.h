@@ -7,15 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
-@interface FoldedTextAttachment : NSTextAttachment
-{
-	NSAttributedString *I_foldedText;
-}
-- (id)initWithFoldedText:(NSAttributedString *)inFoldedText;
-- (NSAttributedString *)foldedText;
-@end
-
+#import "FoldableTextStorage.h"
 
 
 @interface TextView : NSTextView {
@@ -23,6 +15,5 @@
 }
 
 - (void)collapseSelection:(id)inSender;
-- (void)unfoldAttachment:(FoldedTextAttachment *)inAttachment atIndex:(NSUInteger)inIndex;
 
 @end

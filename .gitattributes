@@ -2608,6 +2608,10 @@ tool/TextEdit-Folding/English.lproj/SelectLinePanel.nib/info.nib -text
 tool/TextEdit-Folding/English.lproj/SelectLinePanel.nib/keyedobjects.nib -text
 tool/TextEdit-Folding/English.lproj/ServicesMenu.strings -text
 tool/TextEdit-Folding/English.lproj/ZoomValues.strings -text
+tool/TextEdit-Folding/FoldableTextStorage.h -text
+tool/TextEdit-Folding/FoldableTextStorage.m -text
+tool/TextEdit-Folding/FullTextStorage.h -text
+tool/TextEdit-Folding/FullTextStorage.m -text
 tool/TextEdit-Folding/Info-TextEdit.plist -text
 tool/TextEdit-Folding/LinePanelController.h -text
 tool/TextEdit-Folding/LinePanelController.m -text

@@ -47,6 +47,7 @@
 #import "Preferences.h"
 #import "PrintPanelAccessoryController.h"
 #import "TextEditErrors.h"
+#import "FoldableTextStorage.h"
 
 
 
@@ -65,7 +66,7 @@ NSString *OpenDocumentTextType = @"OpenDocument Text document";
 
 - (id)init {
     if (self = [super init]) {
-	textStorage = [[NSTextStorage allocWithZone:[self zone]] init];
+	textStorage = [FoldableTextStorage new];
 	
 	[self setBackgroundColor:[NSColor whiteColor]];
 	[self setEncoding:NoStringEncoding];
