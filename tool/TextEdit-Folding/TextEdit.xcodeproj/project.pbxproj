@@ -50,6 +50,9 @@
 		41FA793A0B95E61A00FA84AA /* PrintPanelAccessoryController.h in Headers */ = {isa = PBXBuildFile; fileRef = 41FA79380B95E61A00FA84AA /* PrintPanelAccessoryController.h */; };
 		41FA793B0B95E61A00FA84AA /* PrintPanelAccessoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = 41FA79390B95E61A00FA84AA /* PrintPanelAccessoryController.m */; };
 		41FA79A10B95F0F300FA84AA /* PrintPanelAccessory.nib in Resources */ = {isa = PBXBuildFile; fileRef = 41FA799F0B95F0F300FA84AA /* PrintPanelAccessory.nib */; };
+		F28FF4680F10BBF70027D500 /* TextView.h in Headers */ = {isa = PBXBuildFile; fileRef = F28FF4660F10BBF70027D500 /* TextView.h */; };
+		F28FF4690F10BBF70027D500 /* TextView.m in Sources */ = {isa = PBXBuildFile; fileRef = F28FF4670F10BBF70027D500 /* TextView.m */; };
+		F28FF4900F10BED60027D500 /* folded.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F28FF48F0F10BED60027D500 /* folded.tiff */; };
 		FB69D020085E20E300646BBF /* DocumentWindowController.h in Headers */ = {isa = PBXBuildFile; fileRef = FB69D01E085E20E300646BBF /* DocumentWindowController.h */; };
 		FB69D021085E20E300646BBF /* DocumentWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = FB69D01F085E20E300646BBF /* DocumentWindowController.m */; };
 		FBF176CA084E77CE005F6CEB /* DocumentController.h in Headers */ = {isa = PBXBuildFile; fileRef = FBF176C8084E77CE005F6CEB /* DocumentController.h */; };
@@ -105,6 +108,9 @@
 		92A68B0A02972957007F9DE6 /* EncodingManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EncodingManager.h; sourceTree = "<group>"; };
 		92A68B0B02972957007F9DE6 /* EncodingManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EncodingManager.m; sourceTree = "<group>"; };
 		92A68B1802972AB9007F9DE6 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/SelectEncodingsPanel.nib; sourceTree = "<group>"; };
+		F28FF4660F10BBF70027D500 /* TextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TextView.h; sourceTree = "<group>"; };
+		F28FF4670F10BBF70027D500 /* TextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextView.m; sourceTree = "<group>"; };
+		F28FF48F0F10BED60027D500 /* folded.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = folded.tiff; sourceTree = "<group>"; };
 		F549503200E2A3BB01CA0CA4 /* DocumentWindow.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; path = DocumentWindow.nib; sourceTree = "<group>"; };
 		FB69D01E085E20E300646BBF /* DocumentWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentWindowController.h; sourceTree = "<group>"; };
 		FB69D01F085E20E300646BBF /* DocumentWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentWindowController.m; sourceTree = "<group>"; };
@@ -163,6 +169,8 @@
 				6FE208FEFE93D5F211CA2CEA /* ScalingScrollView.m */,
 				6FE20905FE93D5F211CA2CEA /* MultiplePageView.h */,
 				6FE208FFFE93D5F211CA2CEA /* MultiplePageView.m */,
+				F28FF4660F10BBF70027D500 /* TextView.h */,
+				F28FF4670F10BBF70027D500 /* TextView.m */,
 				6FE20908FE93D5F211CA2CEA /* Preferences.h */,
 				6FE20900FE93D5F211CA2CEA /* Preferences.m */,
 				92A68B0A02972957007F9DE6 /* EncodingManager.h */,
@@ -198,6 +206,7 @@
 		6FE20917FE93D5F211CA2CEA /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				F28FF48F0F10BED60027D500 /* folded.tiff */,
 				6FE2091FFE93D5F211CA2CEA /* Edit.icns */,
 				6FE2091CFE93D5F211CA2CEA /* txt.icns */,
 				6FE20922FE93D5F211CA2CEA /* rtf.icns */,
@@ -259,6 +268,7 @@
 				412CFBD50B62AC8A00A46D76 /* LinePanelController.h in Headers */,
 				41FA793A0B95E61A00FA84AA /* PrintPanelAccessoryController.h in Headers */,
 				413912160BD54AB700760A3D /* DocumentPropertiesPanelController.h in Headers */,
+				F28FF4680F10BBF70027D500 /* TextView.h in Headers */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -330,6 +340,7 @@
 				419167BC0B78226D00B4CA33 /* SelectLinePanel.nib in Resources */,
 				41FA79A10B95F0F300FA84AA /* PrintPanelAccessory.nib in Resources */,
 				417C5C210B962CDF008C4735 /* PrintPanelAccessory.strings in Resources */,
+				F28FF4900F10BED60027D500 /* folded.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -374,6 +385,7 @@
 				412CFBD60B62AC8A00A46D76 /* LinePanelController.m in Sources */,
 				41FA793B0B95E61A00FA84AA /* PrintPanelAccessoryController.m in Sources */,
 				413912170BD54AB800760A3D /* DocumentPropertiesPanelController.m in Sources */,
+				F28FF4690F10BBF70027D500 /* TextView.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

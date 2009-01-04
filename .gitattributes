@@ -2628,6 +2628,9 @@ tool/TextEdit-Folding/TextEdit.xcodeproj/dom.mode1v3 -text
 tool/TextEdit-Folding/TextEdit.xcodeproj/dom.pbxuser -text
 tool/TextEdit-Folding/TextEdit.xcodeproj/project.pbxproj -text
 tool/TextEdit-Folding/TextEditErrors.h -text
+tool/TextEdit-Folding/TextView.h -text
+tool/TextEdit-Folding/TextView.m -text
+tool/TextEdit-Folding/folded.tiff -text
 tool/TextEdit-Folding/html.icns -text
 tool/TextEdit-Folding/rtf.icns -text
 tool/TextEdit-Folding/rtfd.icns -text

@@ -44,6 +44,7 @@
 #import "EncodingManager.h"
 #import "Preferences.h"
 #import "TextEditErrors.h"
+#import "TextView.h"
 
 /* A very simple container class which is used to collect the outlets from loading the encoding accessory.  No implementation provided, because all of the references are weak and don't need retain/release.  Would be nice to be able to switch to a mutable dictionary here at some point.
 */
@@ -66,7 +67,7 @@
     BOOL result = NO;
     NSString *type = nil;
     NSMutableArray *availableTypes = [NSMutableArray arrayWithArray:[pb types]];
-    NSTextView *textView = [[[NSTextView alloc] initWithFrame:NSMakeRect(0., 0., CGFLOAT_MAX, CGFLOAT_MAX)] autorelease];   // Temporary
+    NSTextView *textView = [[[TextView alloc] initWithFrame:NSMakeRect(0., 0., CGFLOAT_MAX, CGFLOAT_MAX)] autorelease];   // Temporary
     
     // Look for a type to read; we do this ourselves so that we know exactly which type is read
     while (!result && [availableTypes count] > 0 && (type = [textView preferredPasteboardTypeFromArray:availableTypes restrictedToTypesFromArray:nil])) {

@@ -42,6 +42,7 @@
 #import "Document.h"
 #import "MultiplePageView.h"
 #import "Preferences.h"
+#import "TextView.h"
 
 @interface DocumentWindowController(Private)
 
@@ -320,7 +321,7 @@ attachmentFlag allows for optimizing some cases where we know we have no attachm
     NSTextContainer *textContainer = [[NSTextContainer allocWithZone:zone] initWithContainerSize:textSize];
     NSTextView *textView;
     [pagesView setNumberOfPages:numberOfPages + 1];
-    textView = [[NSTextView allocWithZone:zone] initWithFrame:[pagesView documentRectForPageNumber:numberOfPages] textContainer:textContainer];
+    textView = [[TextView allocWithZone:zone] initWithFrame:[pagesView documentRectForPageNumber:numberOfPages] textContainer:textContainer];
     [textView setHorizontallyResizable:NO];
     [textView setVerticallyResizable:NO];
     [pagesView addSubview:textView];
@@ -387,7 +388,7 @@ attachmentFlag allows for optimizing some cases where we know we have no attachm
     } else {
         NSSize size = [scrollView contentSize];
         NSTextContainer *textContainer = [[NSTextContainer allocWithZone:zone] initWithContainerSize:NSMakeSize(size.width, CGFLOAT_MAX)];
-        NSTextView *textView = [[NSTextView allocWithZone:zone] initWithFrame:NSMakeRect(0.0, 0.0, size.width, size.height) textContainer:textContainer];
+        NSTextView *textView = [[TextView allocWithZone:zone] initWithFrame:NSMakeRect(0.0, 0.0, size.width, size.height) textContainer:textContainer];
 	
         // Insert the single container as the first container in the layout manager before removing the existing pages in order to preserve the shared view state.
         [[self layoutManager] insertTextContainer:textContainer atIndex:0];
@@ -620,23 +621,30 @@ attachmentFlag allows for optimizing some cases where we know we have no attachm
     return YES;
 }
 
-- (void)textView:(NSTextView *)view doubleClickedOnCell:(id <NSTextAttachmentCell>)cell inRect:(NSRect)rect {
-    BOOL success = NO;
-    NSString *name = [[[cell attachment] fileWrapper] filename];
-    NSURL *docURL = [[self document] fileURL];
-    if (docURL && name && [docURL isFileURL]) {
-	NSString *docPath = [docURL path];
-    	NSString *pathToAttachment = [docPath stringByAppendingPathComponent:name];
-        if (pathToAttachment) success = [[NSWorkspace sharedWorkspace] openFile:pathToAttachment];
-    }
-    if (!success) {
-        if ([[self document] isDocumentEdited]) {
-	    NSBeginAlertSheet(NSLocalizedString(@"The attached document could not be opened.", @"Title of alert indicating attached document in TextEdit file could not be opened."),
-			      NSLocalizedString(@"OK", @"OK"), nil, nil, [view window], self, NULL, NULL, nil, 
-			      NSLocalizedString(@"This is likely because the file has not yet been saved.  If possible, try again after saving.", @"Message indicating text attachment could not be opened, likely because document has not yet been saved."));
+- (void)textView:(NSTextView *)view doubleClickedOnCell:(id <NSTextAttachmentCell>)cell inRect:(NSRect)rect atIndex:(NSUInteger)inIndex {
+	if ([[cell attachment] isKindOfClass:[FoldedTextAttachment class]])
+	{
+		[(TextView *)view unfoldAttachment:(FoldedTextAttachment *)[cell attachment] atIndex:inIndex];
 	}
-        NSBeep();
-    }
+	else
+	{
+		BOOL success = NO;
+		NSString *name = [[[cell attachment] fileWrapper] filename];
+		NSURL *docURL = [[self document] fileURL];
+		if (docURL && name && [docURL isFileURL]) {
+		NSString *docPath = [docURL path];
+			NSString *pathToAttachment = [docPath stringByAppendingPathComponent:name];
+			if (pathToAttachment) success = [[NSWorkspace sharedWorkspace] openFile:pathToAttachment];
+		}
+		if (!success) {
+			if ([[self document] isDocumentEdited]) {
+			NSBeginAlertSheet(NSLocalizedString(@"The attached document could not be opened.", @"Title of alert indicating attached document in TextEdit file could not be opened."),
+					  NSLocalizedString(@"OK", @"OK"), nil, nil, [view window], self, NULL, NULL, nil, 
+					  NSLocalizedString(@"This is likely because the file has not yet been saved.  If possible, try again after saving.", @"Message indicating text attachment could not be opened, likely because document has not yet been saved."));
+		}
+			NSBeep();
+		}
+	}
 }
 
 - (NSArray *)textView:(NSTextView *)view writablePasteboardTypesForCell:(id <NSTextAttachmentCell>)cell atIndex:(NSUInteger)charIndex {
