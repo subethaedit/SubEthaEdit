@@ -7,18 +7,15 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "AbstractFoldingTextStorage.h"
 
 @class FoldableTextStorage;
 
-@interface FullTextStorage : NSTextStorage {
+@interface FullTextStorage : AbstractFoldingTextStorage {
 	NSMutableAttributedString *I_internalAttributedString;
 	FoldableTextStorage *I_foldableTextStorage;
 }
 
 - (id)initWithFoldableTextStorage:(FoldableTextStorage *)inTextStorage;
-
-#pragma mark basic methods for synchronization
-- (void)replaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString synchronize:(BOOL)inSynchroFlag;
-- (void)setAttributes:(NSDictionary *)attributes range:(NSRange)aRange synchronize:(BOOL)inSynchronizeFlag;
 
 @end

@@ -99,7 +99,7 @@
 	
 	while (index <= count && attachment) {
 		NSRange attachmentRange = [attachment foldedTextRange];
-		NSLog(@"%s    - comparing attachmentRange: %@ to  resultRange: %@",__FUNCTION__,NSStringFromRange(attachmentRange),NSStringFromRange(resultRange));
+//		NSLog(@"%s    - comparing attachmentRange: %@ to  resultRange: %@",__FUNCTION__,NSStringFromRange(attachmentRange),NSStringFromRange(resultRange));
 		// test if the attachment range lies inside our range
 		if (NSLocationInRange(attachmentRange.location,resultRange)) {
 			resultRange.length += attachmentRange.length - 1;
@@ -114,9 +114,14 @@
 		}
 	}
 	
-	NSLog(@"%s converted: %@ to full range: %@",__FUNCTION__,NSStringFromRange(inRange),NSStringFromRange(resultRange));
+//	NSLog(@"%s converted: %@ to full range: %@",__FUNCTION__,NSStringFromRange(inRange),NSStringFromRange(resultRange));
 	
 	return resultRange;
+}
+
+
+- (NSMutableAttributedString *)internalMutableAttributedString {
+	return I_internalAttributedString;
 }
 
 
@@ -124,61 +129,91 @@
 #pragma mark ### Abstract Primitives of NSTextStorage ###
 
 - (NSString *)string {
-    return [I_internalAttributedString string];
+	NSAttributedString *attributedString = I_internalAttributedString ? I_internalAttributedString : I_fullTextStorage;
+    return [attributedString string];
 }
 
 - (NSDictionary *)attributesAtIndex:(unsigned)aIndex 
                      effectiveRange:(NSRangePointer)aRange {
 	if ([self length]==0) return nil;
-    return [I_internalAttributedString attributesAtIndex:aIndex effectiveRange:aRange];
+	NSAttributedString *attributedString = I_internalAttributedString ? I_internalAttributedString : I_fullTextStorage;
+    return [attributedString attributesAtIndex:aIndex effectiveRange:aRange];
 }
 
 - (void)replaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString synchronize:(BOOL)inSynchronizeFlag {
-    unsigned origLen = [I_internalAttributedString length];
-    [I_internalAttributedString replaceCharactersInRange:aRange withString:aString];
-    
-    if (inSynchronizeFlag) {
-    	NSRange fullRange = [self fullRangeForFoldableRange:aRange];
-    	[self adjustFoldedTextAttachmentsToReplacementOfFullRange:fullRange withString:aString];
-    	[I_fullTextStorage replaceCharactersInRange:fullRange withString:aString synchronize:NO];
-    }
-    
-    [self edited:NSTextStorageEditedCharacters range:aRange 
-          changeInLength:[I_internalAttributedString length] - origLen];
+
+	if (I_internalAttributedString) {
+		unsigned origLen = [I_internalAttributedString length];
+		[I_internalAttributedString replaceCharactersInRange:aRange withString:aString];
+		
+		if (inSynchronizeFlag) {
+			NSRange fullRange = [self fullRangeForFoldableRange:aRange];
+			[self adjustFoldedTextAttachmentsToReplacementOfFullRange:fullRange withString:aString];
+			[I_fullTextStorage replaceCharactersInRange:fullRange withString:aString synchronize:NO];
+		}
+		[self edited:NSTextStorageEditedCharacters range:aRange 
+			  changeInLength:[I_internalAttributedString length] - origLen];
+	} else {
+		unsigned origLen = [I_internalAttributedString length];
+		[I_fullTextStorage replaceCharactersInRange:aRange withString:aString synchronize:NO];
+		[self edited:NSTextStorageEditedCharacters range:aRange 
+			  changeInLength:[I_fullTextStorage length] - origLen];
+	}    
 }
 
 - (void)replaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString {
 	[self replaceCharactersInRange:aRange withString:aString synchronize:YES];
 }
 
-
 - (void)setAttributes:(NSDictionary *)attributes range:(NSRange)aRange synchronize:(BOOL)inSynchronizeFlag {
-    [I_internalAttributedString setAttributes:attributes range:aRange];
-
-    if (inSynchronizeFlag) {
-    	[I_fullTextStorage setAttributes:attributes range:[self fullRangeForFoldableRange:aRange] synchronize:NO];
-    }
-
-    [self edited:NSTextStorageEditedAttributes range:aRange 
-          changeInLength:0];
+	if (I_internalAttributedString) {
+		[I_internalAttributedString setAttributes:attributes range:aRange];
+	
+		if (inSynchronizeFlag && !I_fixingCounter) {
+			[I_fullTextStorage setAttributes:attributes range:[self fullRangeForFoldableRange:aRange] synchronize:NO];
+		}
+	} else {
+		[I_fullTextStorage setAttributes:attributes range:[self fullRangeForFoldableRange:aRange] synchronize:NO];
+	}
+	[self edited:NSTextStorageEditedAttributes range:aRange 
+		  changeInLength:0];
 }
 
 - (void)setAttributes:(NSDictionary *)attributes range:(NSRange)aRange {
 	[self setAttributes:attributes range:aRange synchronize:YES];
 }
 
+
 // convenience method
 - (void)replaceCharactersInRange:(NSRange)inRange withAttributedString:(NSAttributedString *)inAttributedString synchronize:(BOOL)inSynchronizeFlag 
 {
-	if (inSynchronizeFlag) { // fall back to the one of NSTextStorage, which in turn should call the primitives and synchronize
-		[self replaceCharactersInRange:inRange withAttributedString:inAttributedString];
-	} else { // do it ourselves with the primitives
-	    unsigned origLen = [I_internalAttributedString length];
-		[I_internalAttributedString replaceCharactersInRange:inRange withAttributedString:inAttributedString];
-		[self edited:NSTextStorageEditedCharacters | NSTextStorageEditedAttributes range:inRange 
-			  changeInLength:[I_internalAttributedString length] - origLen];
+	if (I_internalAttributedString) {
+		if (inSynchronizeFlag) { // fall back to the one of NSTextStorage, which in turn should call the primitives and synchronize
+			[self replaceCharactersInRange:inRange withAttributedString:inAttributedString];
+		} else { // do it ourselves with the primitives
+			unsigned origLen = [I_internalAttributedString length];
+			[I_internalAttributedString replaceCharactersInRange:inRange withAttributedString:inAttributedString];
+			[self edited:NSTextStorageEditedCharacters | NSTextStorageEditedAttributes range:inRange 
+				  changeInLength:[I_internalAttributedString length] - origLen];
+		}
+	} else { // no foldings - no double data
+		[I_fullTextStorage replaceCharactersInRange:inRange withAttributedString:inAttributedString];
 	}
 }
+
+#pragma mark methods for upstream synchronization
+- (void)fullTextDidReplaceCharactersinRange:(NSRange)inRange withString:(NSString *)inString {
+	// lots of cases have to be considered here
+	// - changed range does not intersect with any folding -> straight through
+	// - changed range is inside a folding -> just adjust folding ranges
+	// - changed range starts inside a folding and ends outside of it -> unfold all foldings that are concerned and apply the changes.
+	// - changed range contains foldings -> remove the foldings
+}
+
+- (void)fullTextDidSetAttributes:(NSDictionary *)inAttributes range:(NSRange)inRange {
+
+}
+
 
 #pragma mark folding
 
@@ -206,6 +241,7 @@
 - (void)unfoldAttachment:(FoldedTextAttachment *)inAttachment atCharacterIndex:(NSUInteger)inIndex
 {
 	NSAttributedString *string = [I_fullTextStorage attributedSubstringFromRange:[inAttachment foldedTextRange]];
+	NSLog(@"%s unfolding: %@",__FUNCTION__,[string description]);
 	[self replaceCharactersInRange:NSMakeRange(inIndex,1) withAttributedString:string synchronize:NO];
 	[I_sortedFoldedTextAttachments removeObject:inAttachment];
 }

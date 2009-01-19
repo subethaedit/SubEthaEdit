@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 
 @class FullTextStorage;
+#import "AbstractFoldingTextStorage.h"
 
 @interface FoldedTextAttachment : NSTextAttachment
 {
@@ -20,7 +21,7 @@
 @end
 
 
-@interface FoldableTextStorage : NSTextStorage {
+@interface FoldableTextStorage : AbstractFoldingTextStorage {
 	NSMutableAttributedString *I_internalAttributedString;
 	FullTextStorage *I_fullTextStorage;
 	NSMutableArray *I_sortedFoldedTextAttachments;
@@ -29,9 +30,8 @@
 - (NSRange)fullRangeForFoldableRange:(NSRange)inRange;
 - (FullTextStorage *)fullTextStorage;
 
-#pragma mark basic methods for synchronization
-- (void)replaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString synchronize:(BOOL)inSynchroFlag;
-- (void)setAttributes:(NSDictionary *)attributes range:(NSRange)aRange synchronize:(BOOL)inSynchronizeFlag;
+- (void)fullTextDidReplaceCharactersinRange:(NSRange)inRange withString:(NSString *)inString;
+- (void)fullTextDidSetAttributes:(NSDictionary *)inAttributes range:(NSRange)inRange;
 
 #pragma mark folding methods
 - (void)foldRange:(NSRange)inRange;

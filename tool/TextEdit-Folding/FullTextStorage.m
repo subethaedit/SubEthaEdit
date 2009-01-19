@@ -22,6 +22,11 @@
 }
 
 
+
+- (NSMutableAttributedString *)internalMutableAttributedString {
+	return I_internalAttributedString;
+}
+
 #pragma mark -
 #pragma mark ### Abstract Primitives of NSTextStorage ###
 
@@ -40,6 +45,7 @@
     [I_internalAttributedString replaceCharactersInRange:aRange withString:aString];
     [self edited:NSTextStorageEditedCharacters range:aRange 
           changeInLength:[I_internalAttributedString length] - origLen];
+    if (inSynchronizeFlag && [I_foldableTextStorage internalMutableAttributedString]) [I_foldableTextStorage fullTextDidReplaceCharactersinRange:aRange withString:aString];
 }
 
 - (void)replaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString {
@@ -51,6 +57,9 @@
     [I_internalAttributedString setAttributes:attributes range:aRange];
     [self edited:NSTextStorageEditedAttributes range:aRange 
           changeInLength:0];
+    if (inSynchronizeFlag && !I_fixingCounter && [I_foldableTextStorage internalMutableAttributedString]) {
+    	[I_foldableTextStorage fullTextDidSetAttributes:attributes range:aRange];
+    }
 }
 
 - (void)setAttributes:(NSDictionary *)attributes range:(NSRange)aRange {

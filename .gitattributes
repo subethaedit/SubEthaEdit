@@ -2566,6 +2566,8 @@ tool/TCMXMLParser/TCMXMLParser_Prefix.pch -text
 tool/TCMXMLParser/expat.h -text
 tool/TCMXMLParser/libexpat.a -text
 tool/TCMXMLParser/main.m -text
+tool/TextEdit-Folding/AbstractFoldingTextStorage.h -text
+tool/TextEdit-Folding/AbstractFoldingTextStorage.m -text
 tool/TextEdit-Folding/Controller.h -text
 tool/TextEdit-Folding/Controller.m -text
 tool/TextEdit-Folding/Document.h -text
