@@ -25,6 +25,7 @@
 	NSMutableAttributedString *I_internalAttributedString;
 	FullTextStorage *I_fullTextStorage;
 	NSMutableArray *I_sortedFoldedTextAttachments;
+	int I_editingCount;
 }
 
 - (NSRange)fullRangeForFoldableRange:(NSRange)inRange;

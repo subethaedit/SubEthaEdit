@@ -23,7 +23,20 @@
 	return nil;
 }
 
+// methods for having data in them in the gdb stacktraces
 
+//- (NSDictionary *)attributesAtIndex:(NSUInteger)index longestEffectiveRange:(NSRangePointer)aRange inRange:(NSRange)rangeLimit {
+//	return [super attributesAtIndex:index longestEffectiveRange:aRange inRange:rangeLimit];
+//}
+//
+//- (id)attribute:(NSString *)attributeName atIndex:(NSUInteger)index effectiveRange:(NSRangePointer)aRange {
+//	return [super attribute:attributeName atIndex:index effectiveRange:aRange];
+//}
+//
+//- (id)attribute:(NSString *)attributeName atIndex:(NSUInteger)index longestEffectiveRange:(NSRangePointer)aRange inRange:(NSRange)rangeLimit {
+//	return [super attribute:attributeName atIndex:index longestEffectiveRange:aRange inRange:rangeLimit];
+//}
+//
 #pragma mark synchronization deadlock preventing methods
 
 - (void)fixFontAttributeInRange:(NSRange)inRange {
@@ -34,6 +47,7 @@
 
 - (void)fixAttributesInRange:(NSRange)inRange {
 	I_fixingCounter ++;
+//	NSLog(@"%s %@ %@ - my length: %d",__FUNCTION__,[self class], NSStringFromRange(inRange), [self length]);
 	[super fixAttributesInRange:inRange];
 	I_fixingCounter --;
 }

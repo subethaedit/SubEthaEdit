@@ -43,7 +43,7 @@
 
 - (id)init {
     if ((self = [super init])) {
-        I_internalAttributedString = [NSMutableAttributedString new];
+        I_internalAttributedString = nil; //[NSMutableAttributedString new];
         I_fullTextStorage = [[FullTextStorage alloc] initWithFoldableTextStorage:self];
 		I_sortedFoldedTextAttachments = [NSMutableArray new];
     }
@@ -154,7 +154,7 @@
 		[self edited:NSTextStorageEditedCharacters range:aRange 
 			  changeInLength:[I_internalAttributedString length] - origLen];
 	} else {
-		unsigned origLen = [I_internalAttributedString length];
+		unsigned origLen = [I_fullTextStorage length];
 		[I_fullTextStorage replaceCharactersInRange:aRange withString:aString synchronize:NO];
 		[self edited:NSTextStorageEditedCharacters range:aRange 
 			  changeInLength:[I_fullTextStorage length] - origLen];
@@ -187,6 +187,7 @@
 // convenience method
 - (void)replaceCharactersInRange:(NSRange)inRange withAttributedString:(NSAttributedString *)inAttributedString synchronize:(BOOL)inSynchronizeFlag 
 {
+	[self beginEditing];
 	if (I_internalAttributedString) {
 		if (inSynchronizeFlag) { // fall back to the one of NSTextStorage, which in turn should call the primitives and synchronize
 			[self replaceCharactersInRange:inRange withAttributedString:inAttributedString];
@@ -197,8 +198,29 @@
 				  changeInLength:[I_internalAttributedString length] - origLen];
 		}
 	} else { // no foldings - no double data
+		unsigned origLen = [I_fullTextStorage length];
 		[I_fullTextStorage replaceCharactersInRange:inRange withAttributedString:inAttributedString];
+		[self edited:NSTextStorageEditedCharacters | NSTextStorageEditedAttributes range:inRange 
+			  changeInLength:[I_fullTextStorage length] - origLen];
 	}
+	[self endEditing];
+}
+
+
+- (void)replaceCharactersInRange:(NSRange)inRange withAttributedString:(NSAttributedString *)inAttributedString 
+{
+	[self replaceCharactersInRange:inRange withAttributedString:inAttributedString synchronize:YES];
+}
+
+// performance optimization
+- (void)beginEditing {
+	if (!I_internalAttributedString) [I_fullTextStorage beginEditing];
+	[super beginEditing];
+}
+
+- (void)endEditing {
+	if (!I_internalAttributedString) [I_fullTextStorage endEditing];
+	[super endEditing];
 }
 
 #pragma mark methods for upstream synchronization
@@ -233,7 +255,11 @@
 {
 	FoldedTextAttachment *attachment = [[[FoldedTextAttachment alloc] initWithFoldedTextRange:[self fullRangeForFoldableRange:inRange]] autorelease];
 	NSAttributedString *collapsedString = [NSAttributedString attributedStringWithAttachment:attachment];
-	NSLog(@"%s %@",__FUNCTION__,collapsedString);
+//	NSLog(@"%s %@",__FUNCTION__,collapsedString);
+	if (!I_internalAttributedString) { // generate it on first fold
+		I_internalAttributedString = [I_fullTextStorage mutableCopy];
+		NSLog(@"%s ------------------------------> generated mutable string storage",__FUNCTION__);
+	}
 	[self replaceCharactersInRange:inRange withAttributedString:collapsedString synchronize:NO];
 	[self addFoldedTextAttachment:attachment];
 }
@@ -244,6 +270,11 @@
 	NSLog(@"%s unfolding: %@",__FUNCTION__,[string description]);
 	[self replaceCharactersInRange:NSMakeRange(inIndex,1) withAttributedString:string synchronize:NO];
 	[I_sortedFoldedTextAttachments removeObject:inAttachment];
+	if ([I_sortedFoldedTextAttachments count] == 0) {
+		[I_internalAttributedString release];
+		I_internalAttributedString = nil;
+		NSLog(@"%s ------------------------------> killed mutable string storage",__FUNCTION__);
+	}
 }
 
 
