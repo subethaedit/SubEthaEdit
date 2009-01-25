@@ -43,7 +43,7 @@
 
 - (id)init {
     if ((self = [super init])) {
-        I_internalAttributedString = nil; //[NSMutableAttributedString new];
+        I_internalAttributedString = [NSMutableAttributedString new];
         I_fullTextStorage = [[FullTextStorage alloc] initWithFoldableTextStorage:self];
 		I_sortedFoldedTextAttachments = [NSMutableArray new];
     }
@@ -146,7 +146,7 @@
 		unsigned origLen = [I_internalAttributedString length];
 		[I_internalAttributedString replaceCharactersInRange:aRange withString:aString];
 		
-		if (inSynchronizeFlag) {
+		if (inSynchronizeFlag && NO) {
 			NSRange fullRange = [self fullRangeForFoldableRange:aRange];
 			[self adjustFoldedTextAttachmentsToReplacementOfFullRange:fullRange withString:aString];
 			[I_fullTextStorage replaceCharactersInRange:fullRange withString:aString synchronize:NO];
@@ -187,19 +187,21 @@
 // convenience method
 - (void)replaceCharactersInRange:(NSRange)inRange withAttributedString:(NSAttributedString *)inAttributedString synchronize:(BOOL)inSynchronizeFlag 
 {
+	NSLog(@"%s",__FUNCTION__);
 	[self beginEditing];
 	if (I_internalAttributedString) {
-		if (inSynchronizeFlag) { // fall back to the one of NSTextStorage, which in turn should call the primitives and synchronize
-			[self replaceCharactersInRange:inRange withAttributedString:inAttributedString];
-		} else { // do it ourselves with the primitives
-			unsigned origLen = [I_internalAttributedString length];
-			[I_internalAttributedString replaceCharactersInRange:inRange withAttributedString:inAttributedString];
-			[self edited:NSTextStorageEditedCharacters | NSTextStorageEditedAttributes range:inRange 
-				  changeInLength:[I_internalAttributedString length] - origLen];
+		unsigned origLen = [I_internalAttributedString length];
+
+		if (inSynchronizeFlag) {
+			[I_fullTextStorage replaceCharactersInRange:[self fullRangeForFoldableRange:inRange] withAttributedString:inAttributedString synchronize:NO];
 		}
+
+		[I_internalAttributedString replaceCharactersInRange:inRange withAttributedString:inAttributedString];
+		[self edited:NSTextStorageEditedCharacters | NSTextStorageEditedAttributes range:inRange 
+			  changeInLength:[I_internalAttributedString length] - origLen];
 	} else { // no foldings - no double data
 		unsigned origLen = [I_fullTextStorage length];
-		[I_fullTextStorage replaceCharactersInRange:inRange withAttributedString:inAttributedString];
+		[I_fullTextStorage replaceCharactersInRange:inRange withAttributedString:inAttributedString synchronize:NO];
 		[self edited:NSTextStorageEditedCharacters | NSTextStorageEditedAttributes range:inRange 
 			  changeInLength:[I_fullTextStorage length] - origLen];
 	}
@@ -214,12 +216,14 @@
 
 // performance optimization
 - (void)beginEditing {
-	if (!I_internalAttributedString) [I_fullTextStorage beginEditing];
+	//if (!I_internalAttributedString) 
+	[I_fullTextStorage beginEditing];
 	[super beginEditing];
 }
 
 - (void)endEditing {
-	if (!I_internalAttributedString) [I_fullTextStorage endEditing];
+	//if (!I_internalAttributedString) 
+	[I_fullTextStorage endEditing];
 	[super endEditing];
 }
 

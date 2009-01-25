@@ -159,6 +159,8 @@
 		<dict>
 			<key>ACTIONS</key>
 			<dict>
+				<key>changeTextStorageType</key>
+				<string>id</string>
 				<key>createNew</key>
 				<string>id</string>
 				<key>open</key>

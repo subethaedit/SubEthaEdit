@@ -18,4 +18,8 @@
 
 - (id)initWithFoldableTextStorage:(FoldableTextStorage *)inTextStorage;
 
+- (void)replaceCharactersInRange:(NSRange)inRange withAttributedString:(NSAttributedString *)inAttributedString synchronize:(BOOL)inSynchronizeFlag;
+- (void)replaceCharactersInRange:(NSRange)inRange withAttributedString:(NSAttributedString *)inAttributedString;
+
+
 @end

@@ -59,8 +59,24 @@
 #import "Preferences.h"
 #import "TextEditErrors.h"
 
+static id S_controller;
 
 @implementation Controller
+
++ (id)sharedInstance {
+	return S_controller;
+}
+
+- (id)init
+{
+	NSLog(@"%s",__FUNCTION__);
+	if ((self = [super init])) {
+		S_controller = self;
+		[self setTextStorageType:1];
+	}
+	
+	return self;
+}
 
 - (void)applicationDidFinishLaunching:(NSNotification *)notification {
     // To get service requests to go to the controller...
@@ -133,6 +149,31 @@
         // No need to report an error string...
     }
 }
+
+- (void)setTextStorageType:(int)inType {
+	I_textStorageType = inType;
+}
+
+- (int)textStorageType {
+	return I_textStorageType;
+}
+
+- (IBAction)changeTextStorageType:(id)inSender {
+	I_textStorageType = [inSender tag];
+}
+
+- (BOOL)validateMenuItem:(NSMenuItem *)inItem {
+	SEL itemSel = [inItem action];
+	if (itemSel == @selector(changeTextStorageType:)) {
+		[inItem setState:[inItem tag] == I_textStorageType ? NSOnState : NSOffState];
+		return YES;
+	}
+	else
+	{
+		return YES;
+	}
+}
+
 
 @end
 

@@ -48,6 +48,7 @@
 #import "PrintPanelAccessoryController.h"
 #import "TextEditErrors.h"
 #import "FoldableTextStorage.h"
+#import "Controller.h"
 
 
 
@@ -66,7 +67,7 @@ NSString *OpenDocumentTextType = @"OpenDocument Text document";
 
 - (id)init {
     if (self = [super init]) {
-	textStorage = [FoldableTextStorage new];
+	textStorage = [[Controller sharedInstance] textStorageType] == 0 ? [NSTextStorage new] :[FoldableTextStorage new];
 	
 	[self setBackgroundColor:[NSColor whiteColor]];
 	[self setEncoding:NoStringEncoding];
