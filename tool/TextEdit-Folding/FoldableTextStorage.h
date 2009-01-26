@@ -28,15 +28,16 @@
 	int I_editingCount;
 }
 
-- (NSRange)fullRangeForFoldableRange:(NSRange)inRange;
+- (NSRange)fullRangeForFoldedRange:(NSRange)inRange;
 - (FullTextStorage *)fullTextStorage;
 
-- (void)fullTextDidReplaceCharactersinRange:(NSRange)inRange withString:(NSString *)inString;
+- (void)fullTextDidReplaceCharactersInRange:(NSRange)inRange withString:(NSString *)inString;
 - (void)fullTextDidSetAttributes:(NSDictionary *)inAttributes range:(NSRange)inRange;
 
 #pragma mark folding methods
 - (void)foldRange:(NSRange)inRange;
 - (void)unfoldAttachment:(FoldedTextAttachment *)inAttachment atCharacterIndex:(NSUInteger)inIndex;
 
+- (NSString *)foldedStringRepresentation;
 
 @end

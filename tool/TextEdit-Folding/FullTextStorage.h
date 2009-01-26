@@ -14,6 +14,7 @@
 @interface FullTextStorage : AbstractFoldingTextStorage {
 	NSMutableAttributedString *I_internalAttributedString;
 	FoldableTextStorage *I_foldableTextStorage;
+	int I_shouldNotSynchronize;
 }
 
 - (id)initWithFoldableTextStorage:(FoldableTextStorage *)inTextStorage;

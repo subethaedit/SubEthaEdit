@@ -94,6 +94,8 @@
 				<string>id</string>
 				<key>logDebugOutput</key>
 				<string>id</string>
+				<key>makeRandomChangeInFullStorage</key>
+				<string>id</string>
 				<key>orderFrontLinkPanel</key>
 				<string>id</string>
 				<key>orderFrontListPanel</key>

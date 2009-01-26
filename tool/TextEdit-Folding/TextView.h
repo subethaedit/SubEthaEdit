@@ -15,5 +15,6 @@
 }
 
 - (void)collapseSelection:(id)inSender;
+- (void)makeRandomChangeInFullStorage:(id)inSender;
 
 @end

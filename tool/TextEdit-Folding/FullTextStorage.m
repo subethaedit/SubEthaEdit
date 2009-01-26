@@ -17,6 +17,7 @@
     if ((self = [super init])) {
         I_internalAttributedString = [NSMutableAttributedString new];
         I_foldableTextStorage = inTextStorage; // no retain here - the foldableTextstorage owns us
+        I_shouldNotSynchronize = 0;
     }
     return self;
 }
@@ -42,10 +43,13 @@
 
 - (void)replaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString synchronize:(BOOL)inSynchronizeFlag {
     unsigned origLen = [I_internalAttributedString length];
+	NSString *foldingBefore = [I_foldableTextStorage foldedStringRepresentation];
+	NSLog(@"%s before: %@",__FUNCTION__,foldingBefore);
+	NSLog(@"%s %@ %@ %@",__FUNCTION__, NSStringFromRange(aRange), aString, inSynchronizeFlag ? @"YES" : @"NO");
     [I_internalAttributedString replaceCharactersInRange:aRange withString:aString];
 //    [self edited:NSTextStorageEditedCharacters range:aRange 
 //          changeInLength:[I_internalAttributedString length] - origLen];
-    if (inSynchronizeFlag && [I_foldableTextStorage internalMutableAttributedString]) [I_foldableTextStorage fullTextDidReplaceCharactersinRange:aRange withString:aString];
+    if (inSynchronizeFlag && !I_shouldNotSynchronize) [I_foldableTextStorage fullTextDidReplaceCharactersInRange:aRange withString:aString];
 }
 
 - (void)replaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString {
@@ -57,7 +61,7 @@
     [I_internalAttributedString setAttributes:attributes range:aRange];
 //    [self edited:NSTextStorageEditedAttributes range:aRange 
 //          changeInLength:0];
-    if (inSynchronizeFlag && !I_fixingCounter && [I_foldableTextStorage internalMutableAttributedString]) {
+    if (inSynchronizeFlag && !I_shouldNotSynchronize && !I_fixingCounter) {
     	[I_foldableTextStorage fullTextDidSetAttributes:attributes range:aRange];
     }
 }
@@ -69,7 +73,9 @@
 // convenience method
 - (void)replaceCharactersInRange:(NSRange)inRange withAttributedString:(NSAttributedString *)inAttributedString synchronize:(BOOL)inSynchronizeFlag 
 {
+	if (!inSynchronizeFlag) I_shouldNotSynchronize++;
 	[self replaceCharactersInRange:inRange withAttributedString:inAttributedString];
+	if (!inSynchronizeFlag) I_shouldNotSynchronize--;
 }
 
 
