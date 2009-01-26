@@ -124,6 +124,17 @@
 			F2A364500F2C7B9E005E1E8A /* PBXTextBookmark */ = F2A364500F2C7B9E005E1E8A /* PBXTextBookmark */;
 			F2A364520F2C7EAB005E1E8A /* PBXTextBookmark */ = F2A364520F2C7EAB005E1E8A /* PBXTextBookmark */;
 			F2A364530F2C7EAB005E1E8A /* PBXTextBookmark */ = F2A364530F2C7EAB005E1E8A /* PBXTextBookmark */;
+			F2A3645B0F2DBB32005E1E8A /* PBXTextBookmark */ = F2A3645B0F2DBB32005E1E8A /* PBXTextBookmark */;
+			F2A3645C0F2DBB32005E1E8A /* PBXTextBookmark */ = F2A3645C0F2DBB32005E1E8A /* PBXTextBookmark */;
+			F2A364630F2DBBC5005E1E8A /* PBXTextBookmark */ = F2A364630F2DBBC5005E1E8A /* PBXTextBookmark */;
+			F2A364640F2DBBC5005E1E8A /* PBXTextBookmark */ = F2A364640F2DBBC5005E1E8A /* PBXTextBookmark */;
+			F2A364650F2DBBC5005E1E8A /* PBXTextBookmark */ = F2A364650F2DBBC5005E1E8A /* PBXTextBookmark */;
+			F2A364660F2DBBC5005E1E8A /* PBXTextBookmark */ = F2A364660F2DBBC5005E1E8A /* PBXTextBookmark */;
+			F2A368310F2DC3C2005E1E8A /* PBXTextBookmark */ = F2A368310F2DC3C2005E1E8A /* PBXTextBookmark */;
+			F2A368320F2DC3C2005E1E8A /* PBXTextBookmark */ = F2A368320F2DC3C2005E1E8A /* PBXTextBookmark */;
+			F2A368330F2DC3C2005E1E8A /* PBXTextBookmark */ = F2A368330F2DC3C2005E1E8A /* PBXTextBookmark */;
+			F2A368340F2DC3C2005E1E8A /* PBXTextBookmark */ = F2A368340F2DC3C2005E1E8A /* PBXTextBookmark */;
+			F2A368350F2DC3C2005E1E8A /* PBXTextBookmark */ = F2A368350F2DC3C2005E1E8A /* PBXTextBookmark */;
 			F2EFDCE40F24CDBF006E19C5 = F2EFDCE40F24CDBF006E19C5 /* PBXTextBookmark */;
 			F2EFDCE60F24CDBF006E19C5 = F2EFDCE60F24CDBF006E19C5 /* PBXTextBookmark */;
 			F2EFDD290F24D7EE006E19C5 = F2EFDD290F24D7EE006E19C5 /* PBXTextBookmark */;
@@ -203,7 +214,7 @@
 		argumentStrings = (
 		);
 		autoAttachOnCrash = 1;
-		breakpointsEnabled = 0;
+		breakpointsEnabled = 1;
 		configStateDict = {
 		};
 		customDataFormattersEnabled = 1;
@@ -273,9 +284,9 @@
 	};
 	F29863C90F10EEC000B34ACE /* FoldableTextStorage.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {1074, 3794}}";
+			sepNavIntBoundsRect = "{{0, 0}, {1074, 3836}}";
 			sepNavSelRange = "{10058, 0}";
-			sepNavVisRange = "{5101, 2136}";
+			sepNavVisRange = "{4884, 2213}";
 			sepNavWindowFrame = "{{61, 88}, {1133, 743}}";
 		};
 	};
@@ -288,9 +299,9 @@
 	};
 	F29863CF0F10EF3400B34ACE /* FullTextStorage.m */ = {
 		uiCtxt = {
-			sepNavIntBoundsRect = "{{0, 0}, {568, 1050}}";
-			sepNavSelRange = "{2392, 0}";
-			sepNavVisRange = "{794, 1598}";
+			sepNavIntBoundsRect = "{{0, 0}, {568, 1328}}";
+			sepNavSelRange = "{2875, 0}";
+			sepNavVisRange = "{1614, 1261}";
 			sepNavWindowFrame = "{{38, 109}, {1133, 743}}";
 		};
 	};
@@ -325,7 +336,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		location = CoreFoundation;
-		modificationTime = 254494937.453059;
+		modificationTime = 254657471.807868;
 		state = 1;
 		symbolName = "-[NSException raise]";
 	};
@@ -340,7 +351,7 @@
 		hitCount = 0;
 		ignoreCount = 0;
 		location = libobjc.A.dylib;
-		modificationTime = 254494937.453069;
+		modificationTime = 254657471.808063;
 		state = 1;
 		symbolName = objc_exception_throw;
 	};
@@ -684,6 +695,114 @@
 		vrLen = 2136;
 		vrLoc = 5101;
 	};
+	F2A3645B0F2DBB32005E1E8A /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6FE208FDFE93D5F211CA2CEA /* Controller.m */;
+		name = "Controller.m: 182";
+		rLen = 0;
+		rLoc = 7867;
+		rType = 0;
+		vrLen = 1901;
+		vrLoc = 0;
+	};
+	F2A3645C0F2DBB32005E1E8A /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F29863C90F10EEC000B34ACE /* FoldableTextStorage.m */;
+		name = "FoldableTextStorage.m: 287";
+		rLen = 0;
+		rLoc = 10058;
+		rType = 0;
+		vrLen = 2136;
+		vrLoc = 5101;
+	};
+	F2A364630F2DBBC5005E1E8A /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6FE208FDFE93D5F211CA2CEA /* Controller.m */;
+		name = "Controller.m: 182";
+		rLen = 0;
+		rLoc = 7867;
+		rType = 0;
+		vrLen = 1901;
+		vrLoc = 0;
+	};
+	F2A364640F2DBBC5005E1E8A /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = 6FE208FDFE93D5F211CA2CEA /* Controller.m */;
+		name = "Controller.m: 182";
+		rLen = 0;
+		rLoc = 7867;
+		rType = 0;
+		vrLen = 1901;
+		vrLoc = 0;
+	};
+	F2A364650F2DBBC5005E1E8A /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F29863C90F10EEC000B34ACE /* FoldableTextStorage.m */;
+		name = "FoldableTextStorage.m: 287";
+		rLen = 0;
+		rLoc = 10064;
+		rType = 0;
+		vrLen = 1260;
+		vrLoc = 7434;
+	};
+	F2A364660F2DBBC5005E1E8A /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F29863C90F10EEC000B34ACE /* FoldableTextStorage.m */;
+		name = "FoldableTextStorage.m: 287";
+		rLen = 0;
+		rLoc = 10064;
+		rType = 0;
+		vrLen = 2088;
+		vrLoc = 5038;
+	};
+	F2A368310F2DC3C2005E1E8A /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F29863C90F10EEC000B34ACE /* FoldableTextStorage.m */;
+		name = "FoldableTextStorage.m: 287";
+		rLen = 0;
+		rLoc = 10064;
+		rType = 0;
+		vrLen = 1260;
+		vrLoc = 7434;
+	};
+	F2A368320F2DC3C2005E1E8A /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		comments = "warning: method definition for '-replaceCharactersInRange:withAttributedString:' not found";
+		fRef = F29863CF0F10EF3400B34ACE /* FullTextStorage.m */;
+		rLen = 1;
+		rLoc = 80;
+		rType = 1;
+	};
+	F2A368330F2DC3C2005E1E8A /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F29863C90F10EEC000B34ACE /* FoldableTextStorage.m */;
+		name = "FoldableTextStorage.m: 287";
+		rLen = 0;
+		rLoc = 10064;
+		rType = 0;
+		vrLen = 1260;
+		vrLoc = 7434;
+	};
+	F2A368340F2DC3C2005E1E8A /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F29863CF0F10EF3400B34ACE /* FullTextStorage.m */;
+		name = "FullTextStorage.m: 82";
+		rLen = 0;
+		rLoc = 2875;
+		rType = 0;
+		vrLen = 1261;
+		vrLoc = 1614;
+	};
+	F2A368350F2DC3C2005E1E8A /* PBXTextBookmark */ = {
+		isa = PBXTextBookmark;
+		fRef = F29863C90F10EEC000B34ACE /* FoldableTextStorage.m */;
+		name = "FoldableTextStorage.m: 287";
+		rLen = 0;
+		rLoc = 10058;
+		rType = 0;
+		vrLen = 2213;
+		vrLoc = 4884;
+	};
 	F2EFDCC30F24C5D7006E19C5 /* FoldableTextStorage.m:156 */ = {
 		isa = PBXFileBreakpoint;
 		actions = (
@@ -698,7 +817,7 @@
 		ignoreCount = 0;
 		lineNumber = 156;
 		location = TextEdit;
-		modificationTime = 254566559.726344;
+		modificationTime = 254657471.807463;
 		state = 2;
 	};
 	F2EFDCD80F24CB07006E19C5 /* AbstractFoldingTextStorage.h */ = {

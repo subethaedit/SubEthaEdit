@@ -43,7 +43,7 @@
 
 - (id)init {
     if ((self = [super init])) {
-        I_internalAttributedString = [NSMutableAttributedString new];
+        I_internalAttributedString = nil;//[NSMutableAttributedString new];
         I_fullTextStorage = [[FullTextStorage alloc] initWithFoldableTextStorage:self];
 		I_sortedFoldedTextAttachments = [NSMutableArray new];
     }
@@ -146,7 +146,7 @@
 		unsigned origLen = [I_internalAttributedString length];
 		[I_internalAttributedString replaceCharactersInRange:aRange withString:aString];
 		
-		if (inSynchronizeFlag && NO) {
+		if (inSynchronizeFlag) {
 			NSRange fullRange = [self fullRangeForFoldableRange:aRange];
 			[self adjustFoldedTextAttachmentsToReplacementOfFullRange:fullRange withString:aString];
 			[I_fullTextStorage replaceCharactersInRange:fullRange withString:aString synchronize:NO];
