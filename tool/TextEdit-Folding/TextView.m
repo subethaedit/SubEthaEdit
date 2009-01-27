@@ -21,6 +21,13 @@
 	[(FoldableTextStorage *)[self textStorage] foldRange:selectedRange];
 }
 
+// without seeding this always produces the same results - tested stuff
+// 2 Foldings|a˪bc˩d˪e˩f
+// 1 Foldings|ab˪cde˩f
+// 1 Foldings|ab˪cdef˩
+
+
+
 - (void)makeRandomChangeInFullStorage:(id)inSender {
 	NSTextStorage *fullText = [(FoldableTextStorage *)[self textStorage] fullTextStorage];
 	NSRange fullLength = NSMakeRange(0,[fullText length]);
