@@ -16,6 +16,7 @@
 	if ((self = [super initWithFileWrapper:[[[NSFileWrapper alloc] initWithPath:[[NSBundle mainBundle] pathForResource:@"folded" ofType:@"tiff"]] autorelease]]))
 	{
 		I_foldedTextRange = inFoldedTextRange;
+		I_innerAttachments = [NSMutableArray new];
 	}
 	return self;
 }
@@ -28,9 +29,13 @@
 	I_foldedTextRange = inRange;
 }
 
+- (NSMutableArray *)innerAttachments {
+	return I_innerAttachments;
+}
 
 - (void)dealloc
 {
+	[I_innerAttachments release];
 	[super dealloc];
 }
 
@@ -62,38 +67,46 @@
 	return I_fullTextStorage;
 }
 
-- (NSString *)foldedStringRepresentation {
-
+- (NSString *)foldedStringRepresentationOfRange:(NSRange)inRange foldings:(NSArray *)inFoldings level:(int)inLevel
+{
+	if (inLevel > 10) return @"RECURSION";
+	inLevel++;
 	NSMutableString *result = [NSMutableString string];
 	NSString *fullTextString = [I_fullTextStorage string];
-	NSInteger currentIndex = 0;
-	
-	NSUInteger count = [I_sortedFoldedTextAttachments count];
-	[result appendFormat:@"%d Foldings|",count];
+	NSInteger currentIndex = inRange.location;
+	NSUInteger count = [inFoldings count];
 	NSUInteger attachmentIndex = 0;
+	FoldedTextAttachment *attachment = nil;
 	while (attachmentIndex < count) {
-		FoldedTextAttachment *attachment = [I_sortedFoldedTextAttachments objectAtIndex:attachmentIndex++];
+		attachment = [inFoldings objectAtIndex:attachmentIndex++];
 		NSRange attachmentRange = [attachment foldedTextRange];
-		if (currentIndex <= attachmentRange.location) {
+		if (currentIndex < attachmentRange.location) {
 			[result appendString:[fullTextString substringWithRange:NSMakeRange(currentIndex, attachmentRange.location - currentIndex)]];
 		}
-		[result appendFormat:@"\u02ea%@\u02e9", [fullTextString substringWithRange:attachmentRange]];
+		[result appendFormat:@"\u02eaL%d|%@\u02e9", inLevel,[self foldedStringRepresentationOfRange:attachmentRange foldings:[attachment innerAttachments] level:inLevel]];
 		currentIndex = NSMaxRange(attachmentRange);
 	}
-	if (currentIndex < [fullTextString length]) {
-		[result appendString:[fullTextString substringFromIndex:currentIndex]];
+	if (currentIndex < NSMaxRange(inRange)) {
+		[result appendString:[fullTextString substringWithRange:NSMakeRange(currentIndex,NSMaxRange(inRange) - currentIndex)]];
 	}
 	return result;
+	
+}
+
+- (NSString *)foldedStringRepresentation {
+
+	return [[self foldedStringRepresentationOfRange:NSMakeRange(0,[I_fullTextStorage length]) foldings:I_sortedFoldedTextAttachments level:0] stringByAppendingFormat:@"\n->%d Foldings",[I_sortedFoldedTextAttachments count]];
+;
 }
 
 
 // don't call this when there are no foldings
 // TODO: this also has to work recursively for inner foldings once i implement them. it should be essentially the same cases without doubling the code - maybe i should implement this again from the viewpoint of a folding range thinking (foldingRange,replacementRange,replacementString) => (newFoldingRange) if that is possible - however then still the range of change in the folded textstorage needs to be determined
-- (NSRange)foldedReplacementRangeForFullTextReplaceCharactersInRange:(NSRange)inRange withString:(NSString *)inString shouldInsertString:(BOOL *)outShouldInsertString {
+- (NSRange)foldedReplacementRangeForFullTextReplaceCharactersInRange:(NSRange)inRange withString:(NSString *)inString shouldInsertString:(BOOL *)outShouldInsertString foldingAttachments:(NSMutableArray *)inFoldingAttachments {
 	NSUInteger indexInFullText   = 0;
 	NSUInteger indexAfterFolding = 0; // points to the first character after the current folding in the folded text
 	NSUInteger attachmentIndex = 0;
-	NSUInteger attachmentCount = [I_sortedFoldedTextAttachments count];
+	NSUInteger attachmentCount = [inFoldingAttachments count];
 	NSUInteger previousAttachmentMaxRange = 0;
 	*outShouldInsertString = YES; // initialize value
 	FoldedTextAttachment *attachment = nil;
@@ -111,7 +124,7 @@
 
 	// go to the start
 	do {
-		attachment = [I_sortedFoldedTextAttachments objectAtIndex:attachmentIndex];
+		attachment = [inFoldingAttachments objectAtIndex:attachmentIndex];
 		attachmentRange = [attachment foldedTextRange];
 		indexInFullText = attachmentRange.location;
 		indexAfterFolding += attachmentRange.location - previousAttachmentMaxRange + 1;
@@ -170,7 +183,7 @@
 						resultRange.length = 1;
 						endFound = YES;
 						attachmentIndex--;
-						[I_sortedFoldedTextAttachments removeObjectAtIndex:attachmentIndex];
+						[inFoldingAttachments removeObjectAtIndex:attachmentIndex];
 						attachmentCount--;
 						break;
 					} else {
@@ -192,7 +205,7 @@
 					originalAttachmentRange.length = leftOverLength + locationDifference + (NSMaxRange(inRange)-originalAttachmentRange.location);
 					[attachmentReplacementStartetIn setFoldedTextRange:originalAttachmentRange];
 					attachmentIndex--;
-					[I_sortedFoldedTextAttachments removeObjectAtIndex:attachmentIndex];
+					[inFoldingAttachments removeObjectAtIndex:attachmentIndex];
 					NSLog(@"%s removed attachment with range:%@",__FUNCTION__,NSStringFromRange([attachment foldedTextRange]));
 					attachmentCount--;
 					endFound = YES;
@@ -207,7 +220,7 @@
 					// remove this empty folding
 					resultRange.length = indexAfterFolding - resultRange.location;
 					attachmentIndex--;
-					[I_sortedFoldedTextAttachments removeObjectAtIndex:attachmentIndex];
+					[inFoldingAttachments removeObjectAtIndex:attachmentIndex];
 					NSLog(@"%s removed attachment with range:%@",__FUNCTION__,NSStringFromRange([attachment foldedTextRange]));
 					attachmentCount--;
 				} else {
@@ -220,7 +233,7 @@
 		} else if (attachment != attachmentReplacementStartetIn) {
 			// current attachment is consumed by the replacement range - so kill the current attachment
 			attachmentIndex--;
-			[I_sortedFoldedTextAttachments removeObjectAtIndex:attachmentIndex];
+			[inFoldingAttachments removeObjectAtIndex:attachmentIndex];
 			NSLog(@"%s removed attachment with range:%@",__FUNCTION__,NSStringFromRange([attachment foldedTextRange]));
 			attachmentCount--;
 		}
@@ -228,7 +241,7 @@
 		if (attachmentIndex >= attachmentCount) {
 			break;
 		} else { // advance
-			attachment = [I_sortedFoldedTextAttachments objectAtIndex:attachmentIndex];
+			attachment = [inFoldingAttachments objectAtIndex:attachmentIndex];
 			attachmentRange = [attachment foldedTextRange];
 			indexInFullText = attachmentRange.location;
 			indexAfterFolding += attachmentRange.location - previousAttachmentMaxRange + 1;
@@ -249,7 +262,7 @@
 	} else {
 		// adjust the other attachment ranges according to the change being beforehand
 		while (attachmentIndex < attachmentCount) {
-			attachment = [I_sortedFoldedTextAttachments objectAtIndex:attachmentIndex++];
+			attachment = [inFoldingAttachments objectAtIndex:attachmentIndex++];
 			attachmentRange = [attachment foldedTextRange];
 			attachmentRange.location += locationDifference;
 			[attachment setFoldedTextRange:attachmentRange];
@@ -258,22 +271,43 @@
 	return resultRange;
 }
 
-- (void)adjustFoldedTextAttachmentsToReplacementOfFullRange:(NSRange)inFullRange withString:(NSString *)aString
+- (void)adjustFoldedTextAttachments:(NSMutableArray *)inAttachments toReplacementOfFullRange:(NSRange)inFullRange withString:(NSString *)aString
 {
-	NSUInteger count = [I_sortedFoldedTextAttachments count];
+	NSUInteger count = [inAttachments count];
 	NSInteger locationDifference = ((NSInteger)[aString length]) - inFullRange.length;
 	while (count > 0) {
-		FoldedTextAttachment *attachment = [I_sortedFoldedTextAttachments objectAtIndex:--count];
+		FoldedTextAttachment *attachment = [inAttachments objectAtIndex:--count];
 		NSRange attachmentRange = [attachment foldedTextRange];
 		if (attachmentRange.location >= NSMaxRange(inFullRange)) {
 			attachmentRange.location += locationDifference;
 			[attachment setFoldedTextRange:attachmentRange];
+			[self adjustFoldedTextAttachments:[attachment innerAttachments] toReplacementOfFullRange:inFullRange withString:aString];
 		} else if (attachmentRange.location >= inFullRange.location && NSMaxRange(attachmentRange) <= NSMaxRange(inFullRange)) { // attachment was inside the replacement, so it has to die
-			[I_sortedFoldedTextAttachments removeObjectAtIndex:count];
+			[inAttachments removeObjectAtIndex:count];
 		} else { // nothing left to do so break out
 			break;
 		}
 	}
+}
+
+- (NSRange)indexRangeOfFoldingAttachments:(NSArray *)inAttachmentArray fullyContainedInRange:(NSRange)inRange
+{
+	NSRange result = NSMakeRange(0,0);
+	NSUInteger index = 0;
+	NSUInteger count = [inAttachmentArray count];
+	while (index < count) {
+		FoldedTextAttachment *attachment = [inAttachmentArray objectAtIndex:index++];
+		NSRange attachmentRange = [attachment foldedTextRange];
+		if (inRange.location <= attachmentRange.location && NSMaxRange(inRange) >= NSMaxRange(attachmentRange)) {
+			// this one is inside
+			if (result.length == 0) {
+				result.location = index-1;
+			}
+			result.length++;
+		}
+		if (NSMaxRange(attachmentRange) > NSMaxRange(inRange)) break;
+	}
+	return result;
 }
 
 - (NSRange)fullRangeForFoldedRange:(NSRange)inRange
@@ -343,7 +377,7 @@
 		
 		if (inSynchronizeFlag) {
 			NSRange fullRange = [self fullRangeForFoldedRange:aRange];
-			[self adjustFoldedTextAttachmentsToReplacementOfFullRange:fullRange withString:aString];
+			[self adjustFoldedTextAttachments:I_sortedFoldedTextAttachments toReplacementOfFullRange:fullRange withString:aString];
 			[I_fullTextStorage replaceCharactersInRange:fullRange withString:aString synchronize:NO];
 		}
 		[self edited:NSTextStorageEditedCharacters range:aRange 
@@ -434,7 +468,7 @@
 		
 		BOOL shouldInsertString = YES; 
 		// this call also adjusts the foldings as necessary
-		NSRange foldedReplacementRange = [self foldedReplacementRangeForFullTextReplaceCharactersInRange:inRange withString:inString shouldInsertString:&shouldInsertString];
+		NSRange foldedReplacementRange = [self foldedReplacementRangeForFullTextReplaceCharactersInRange:inRange withString:inString shouldInsertString:&shouldInsertString foldingAttachments:I_sortedFoldedTextAttachments];
 		NSLog(@"%s replacing folded range %@ with %@", __FUNCTION__, NSStringFromRange(foldedReplacementRange), shouldInsertString ? @"inString" : @"NOTHING");
 		if (foldedReplacementRange.length > 0 || shouldInsertString) {
 			[self replaceCharactersInRange:foldedReplacementRange withString: (shouldInsertString ? inString : @"") synchronize:NO];
@@ -469,7 +503,22 @@
 
 - (void)foldRange:(NSRange)inRange
 {
-	FoldedTextAttachment *attachment = [[[FoldedTextAttachment alloc] initWithFoldedTextRange:[self fullRangeForFoldedRange:inRange]] autorelease];
+	NSRange fullRange = [self fullRangeForFoldedRange:inRange];
+	
+	FoldedTextAttachment *attachment = [[[FoldedTextAttachment alloc] initWithFoldedTextRange:fullRange] autorelease];
+	
+	NSRange includedAttachmentsRange = [self indexRangeOfFoldingAttachments:I_sortedFoldedTextAttachments fullyContainedInRange:fullRange];
+	
+	if (includedAttachmentsRange.length > 0) {
+		// put these attachments inside the new attachment
+		NSMutableArray *innerAttachments = [attachment innerAttachments];
+		while (includedAttachmentsRange.length > 0) {
+			[innerAttachments addObject:[I_sortedFoldedTextAttachments objectAtIndex:includedAttachmentsRange.location]];
+			[I_sortedFoldedTextAttachments removeObjectAtIndex:includedAttachmentsRange.location];
+			includedAttachmentsRange.length--;
+		}
+	}
+	
 	NSAttributedString *collapsedString = [NSAttributedString attributedStringWithAttachment:attachment];
 //	NSLog(@"%s %@",__FUNCTION__,collapsedString);
 	if (!I_internalAttributedString) { // generate it on first fold

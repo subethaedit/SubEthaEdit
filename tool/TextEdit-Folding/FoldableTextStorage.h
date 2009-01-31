@@ -14,9 +14,11 @@
 @interface FoldedTextAttachment : NSTextAttachment
 {
 	NSRange I_foldedTextRange;
+	NSMutableArray *I_innerAttachments;
 }
 - (id)initWithFoldedTextRange:(NSRange)inFoldedTextRange;
 - (NSRange)foldedTextRange;
+- (NSMutableArray *)innerAttachments;
 - (void)setFoldedTextRange:(NSRange)inRange;
 @end
 

@@ -43,9 +43,9 @@
 
 - (void)replaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString synchronize:(BOOL)inSynchronizeFlag {
     unsigned origLen = [I_internalAttributedString length];
-	NSString *foldingBefore = [I_foldableTextStorage foldedStringRepresentation];
-	NSLog(@"%s before: %@",__FUNCTION__,foldingBefore);
-	NSLog(@"%s %@ %@ %@",__FUNCTION__, NSStringFromRange(aRange), aString, inSynchronizeFlag ? @"YES" : @"NO");
+//	NSString *foldingBefore = [I_foldableTextStorage foldedStringRepresentation];
+//	NSLog(@"%s before: %@",__FUNCTION__,foldingBefore);
+//	NSLog(@"%s %@ %@ %@",__FUNCTION__, NSStringFromRange(aRange), aString, inSynchronizeFlag ? @"YES" : @"NO");
     [I_internalAttributedString replaceCharactersInRange:aRange withString:aString];
 //    [self edited:NSTextStorageEditedCharacters range:aRange 
 //          changeInLength:[I_internalAttributedString length] - origLen];
