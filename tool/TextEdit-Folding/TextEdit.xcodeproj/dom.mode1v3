@@ -319,7 +319,7 @@
 							<real>277</real>
 						</array>
 						<key>RubberWindowFrame</key>
-						<string>-1694 33 928 795 -1920 -300 1920 1200 </string>
+						<string>117 82 928 795 0 0 1440 878 </string>
 					</dict>
 					<key>Module</key>
 					<string>PBXSmartGroupTreeModule</string>
@@ -349,7 +349,7 @@
 										<key>_historyCapacity</key>
 										<integer>10</integer>
 										<key>bookmark</key>
-										<string>F2115E9B0F34A0D900B8AC48</string>
+										<string>F2115EAA0F34BA2800B8AC48</string>
 										<key>history</key>
 										<array>
 											<string>F2EFDD660F25E784006E19C5</string>
@@ -388,7 +388,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {629, 577}}</string>
 								<key>RubberWindowFrame</key>
-								<string>-1694 33 928 795 -1920 -300 1920 1200 </string>
+								<string>117 82 928 795 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXNavigatorGroup</string>
@@ -408,7 +408,7 @@
 								<key>Frame</key>
 								<string>{{0, 582}, {629, 172}}</string>
 								<key>RubberWindowFrame</key>
-								<string>-1694 33 928 795 -1920 -300 1920 1200 </string>
+								<string>117 82 928 795 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>XCDetailModule</string>
@@ -553,7 +553,7 @@
 	<key>StatusbarIsVisible</key>
 	<true/>
 	<key>TimeStamp</key>
-	<real>255107289.43644601</real>
+	<real>255113768.60321501</real>
 	<key>ToolbarDisplayMode</key>
 	<integer>2</integer>
 	<key>ToolbarIsVisible</key>
@@ -568,7 +568,7 @@
 	<integer>5</integer>
 	<key>WindowOrderList</key>
 	<array>
-		<string>F2115E9C0F34A0D900B8AC48</string>
+		<string>F2115EAB0F34BA2800B8AC48</string>
 		<string>F2115E650F349C4100B8AC48</string>
 		<string>F2115E660F349C4100B8AC48</string>
 		<string>/Users/dom/Data/Work/TCM/svn/subethaedit-trunk/tool/TextEdit-Folding/TextEdit.xcodeproj</string>
@@ -577,7 +577,7 @@
 		<string>1C78EAAD065D492600B07095</string>
 	</array>
 	<key>WindowString</key>
-	<string>-1694 33 928 795 -1920 -300 1920 1200 </string>
+	<string>117 82 928 795 0 0 1440 878 </string>
 	<key>WindowToolsV3</key>
 	<array>
 		<dict>
@@ -598,7 +598,7 @@
 								<key>PBXProjectModuleGUID</key>
 								<string>1CD0528F0623707200166675</string>
 								<key>PBXProjectModuleLabel</key>
-								<string></string>
+								<string>FoldableTextStorage.m</string>
 								<key>StatusBarVisibility</key>
 								<true/>
 							</dict>
@@ -915,7 +915,7 @@
 								<key>Frame</key>
 								<string>{{0, 0}, {1193, 729}}</string>
 								<key>RubberWindowFrame</key>
-								<string>-1819 121 1193 770 -1920 -300 1920 1200 </string>
+								<string>34 107 1193 770 0 0 1440 878 </string>
 							</dict>
 							<key>Module</key>
 							<string>PBXDebugCLIModule</string>
@@ -944,7 +944,7 @@
 			<key>ToolbarConfiguration</key>
 			<string>xcode.toolbar.config.consoleV3</string>
 			<key>WindowString</key>
-			<string>-1819 121 1193 770 -1920 -300 1920 1200 </string>
+			<string>34 107 1193 770 0 0 1440 878 </string>
 			<key>WindowToolGUID</key>
 			<string>1C78EAAD065D492600B07095</string>
 			<key>WindowToolIsVisible</key>

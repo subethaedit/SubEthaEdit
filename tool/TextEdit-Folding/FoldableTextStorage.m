@@ -531,9 +531,34 @@
 
 - (void)unfoldAttachment:(FoldedTextAttachment *)inAttachment atCharacterIndex:(NSUInteger)inIndex
 {
-	NSAttributedString *string = [I_fullTextStorage attributedSubstringFromRange:[inAttachment foldedTextRange]];
-	NSLog(@"%s unfolding: %@",__FUNCTION__,[string description]);
-	[self replaceCharactersInRange:NSMakeRange(inIndex,1) withAttributedString:string synchronize:NO];
+	NSMutableAttributedString *stringToInsert = nil;
+	NSArray *innerAttachments = [inAttachment innerAttachments];
+	NSRange foldedTextRange = [inAttachment foldedTextRange];
+	NSUInteger index = 0;
+	NSUInteger count = [innerAttachments count];
+	if (count == 0) {
+		stringToInsert = (NSMutableAttributedString *)[I_fullTextStorage attributedSubstringFromRange:foldedTextRange];
+	} else {
+		stringToInsert = [[NSMutableAttributedString new] autorelease];
+		NSUInteger currentIndex = foldedTextRange.location;
+		FoldedTextAttachment *attachment = nil;
+		do {
+			attachment = [innerAttachments objectAtIndex:index];
+			NSRange attachmentRange = [attachment foldedTextRange];
+			if (attachmentRange.location > foldedTextRange.location) {
+				[stringToInsert appendAttributedString:[I_fullTextStorage attributedSubstringFromRange:NSMakeRange(currentIndex,attachmentRange.location - currentIndex)]];
+			}
+			[stringToInsert appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
+			[self addFoldedTextAttachment:attachment];
+			currentIndex = NSMaxRange(attachmentRange);
+			index++;
+		} while (index < count);
+		if (currentIndex < NSMaxRange(foldedTextRange)) {
+			[stringToInsert appendAttributedString:[I_fullTextStorage attributedSubstringFromRange:NSMakeRange(currentIndex,NSMaxRange(foldedTextRange) - currentIndex)]];
+		}
+	}
+	NSLog(@"%s unfolding: %@",__FUNCTION__,[self foldedStringRepresentationOfRange:[inAttachment foldedTextRange] foldings:innerAttachments level:1]);
+	[self replaceCharactersInRange:NSMakeRange(inIndex,1) withAttributedString:stringToInsert synchronize:NO];
 	[I_sortedFoldedTextAttachments removeObject:inAttachment];
 	if ([I_sortedFoldedTextAttachments count] == 0) {
 		[I_internalAttributedString release];
