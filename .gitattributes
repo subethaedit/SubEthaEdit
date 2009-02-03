@@ -1,6 +1,8 @@
 * text=auto !eol
 /AboutPanelController.h -text
 /AboutPanelController.m -text
+/AbstractFoldingTextStorage.h -text
+/AbstractFoldingTextStorage.m -text
 /Acknowledgements.txt -text
 /AdvancedPreferences.h -text
 /AdvancedPreferences.m -text
@@ -214,10 +216,14 @@ English.lproj/WebPreview.nib/keyedobjects.nib -text
 /FindReplaceController.m -text
 /FirstClickCustomView.h -text
 /FirstClickCustomView.m -text
+/FoldableTextStorage.h -text
+/FoldableTextStorage.m -text
 /FontAttributesToStringValueTransformer.h -text
 /FontAttributesToStringValueTransformer.m -text
 /FontForwardingTextField.h -text
 /FontForwardingTextField.m -text
+/FullTextStorage.h -text
+/FullTextStorage.m -text
 /GeneralPreferences.h -text
 /GeneralPreferences.m -text
 /GenericSASLProfile.h -text
