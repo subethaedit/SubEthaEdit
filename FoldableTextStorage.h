@@ -8,21 +8,10 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class FullTextStorage;
+#import "FoldedTextAttachment.h"
 #import "AbstractFoldingTextStorage.h"
 
-@interface FoldedTextAttachment : NSTextAttachment
-{
-	NSRange I_foldedTextRange;
-	NSMutableArray *I_innerAttachments;
-}
-- (id)initWithFoldedTextRange:(NSRange)inFoldedTextRange;
-- (NSRange)foldedTextRange;
-- (NSMutableArray *)innerAttachments;
-- (void)setFoldedTextRange:(NSRange)inRange;
-- (void)moveAttachmentLocation:(int)inLocationDifference;
-@end
-
+@class FullTextStorage;
 
 @interface FoldableTextStorage : AbstractFoldingTextStorage {
 	NSMutableAttributedString *I_internalAttributedString;

@@ -218,6 +218,8 @@ English.lproj/WebPreview.nib/keyedobjects.nib -text
 /FirstClickCustomView.m -text
 /FoldableTextStorage.h -text
 /FoldableTextStorage.m -text
+/FoldedTextAttachment.h -text
+/FoldedTextAttachment.m -text
 /FontAttributesToStringValueTransformer.h -text
 /FontAttributesToStringValueTransformer.m -text
 /FontForwardingTextField.h -text
@@ -1964,6 +1966,7 @@ artwork/WebReload.tiff -text
 artwork/codingmonkeys.png -text
 artwork/debug.tiff -text
 artwork/dmg_background.png -text
+artwork/folded.tiff -text
 artwork/glass-normal-cap-left.tiff -text
 artwork/glass-normal-cap-right.tiff -text
 artwork/glass-normal-fill.tiff -text
