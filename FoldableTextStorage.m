@@ -355,6 +355,19 @@
 
 - (void)replaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString synchronize:(BOOL)inSynchronizeFlag {
 
+	// TODO: delegate methods need to be filled from the fulltextstorage
+
+	id delegate = [self delegate];
+	if ([delegate respondsToSelector:@selector(textStorage:willReplaceCharactersInRange:withString:)]) {
+		[delegate textStorage:self willReplaceCharactersInRange:aRange withString:aString];
+	}
+	BOOL needsCompleteValidation = NO;
+	if (I_flags.shouldWatchLineEndings && I_flags.hasMixedLineEndings && aRange.length && [self hasMixedLineEndingsInRange:aRange]) {
+		needsCompleteValidation = YES;
+	}
+	unsigned origLen = [self length];
+
+
 	if (I_internalAttributedString) {
 		unsigned origLen = [I_internalAttributedString length];
 		[I_internalAttributedString replaceCharactersInRange:aRange withString:aString];
@@ -372,6 +385,22 @@
 //		[self edited:NSTextStorageEditedCharacters range:aRange 
 //			  changeInLength:[I_fullTextStorage length] - origLen];
 	}    
+
+
+	if ([delegate respondsToSelector:@selector(textStorage:didReplaceCharactersInRange:withString:)]) {
+		[delegate textStorage:self didReplaceCharactersInRange:aRange withString:aString];
+	}
+	[self setLineStartsOnlyValidUpTo:aRange.location];
+	if (I_flags.shouldWatchLineEndings && [aString length] > 0 && (!I_flags.hasMixedLineEndings || needsCompleteValidation)) {
+		if ([self hasMixedLineEndingsInRange:NSMakeRange(aRange.location, [aString length])]) {
+			[self setHasMixedLineEndings:YES];
+			needsCompleteValidation=NO;
+		}
+	}
+	if (needsCompleteValidation) {
+		[self validateHasMixedLineEndings];
+	}
+
 }
 
 - (void)replaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString {

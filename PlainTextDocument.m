@@ -34,6 +34,7 @@
 #import "SymbolTableEntry.h"
 
 #import "TextStorage.h"
+#import "FoldableTextStorage.h"
 #import "LayoutManager.h"
 #import "TextView.h"
 #import "EncodingManager.h"
@@ -877,7 +878,7 @@ static NSString *tempFileName(NSString *origPath) {
             transientDocument = nil;
         }
         [self TCM_generateNewSession];
-        I_textStorage = [TextStorage new];
+        I_textStorage = [FoldableTextStorage new];
         [I_textStorage setDelegate:self];
         [self setLineEnding:LineEndingLF];
         [self setDocumentMode:[[DocumentModeManager sharedInstance] modeForNewDocuments]];
@@ -903,7 +904,7 @@ static NSString *tempFileName(NSString *origPath) {
         [self setShouldChangeChangeCount:NO];
         [self setSession:aSession];
         [[TCMMMPresenceManager sharedInstance] registerSession:[self session]];
-        I_textStorage = [TextStorage new];
+        I_textStorage = [FoldableTextStorage new];
         [I_textStorage setDelegate:self];
         [self setDocumentMode:[[DocumentModeManager sharedInstance] baseMode]];
         I_flags.isRemotelyEditingTextStorage=NO;

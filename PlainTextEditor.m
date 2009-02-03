@@ -36,7 +36,8 @@
 #import "ScriptTextSelection.h"
 #import "NSMenuTCMAdditions.h"
 #import "NSMutableAttributedStringSEEAdditions.h"
-
+#import "FoldableTextStorage.h"
+#import "FoldedTextAttachment.h"
 
 @interface NSTextView (PrivateAdditions)
 - (BOOL)_isUnmarking;
@@ -1359,6 +1360,13 @@
 
 #pragma mark -
 #pragma mark ### NSTextView delegate methods ###
+
+- (void)textView:(NSTextView *)view doubleClickedOnCell:(id <NSTextAttachmentCell>)cell inRect:(NSRect)rect atIndex:(unsigned)inIndex {
+	if ([[cell attachment] isKindOfClass:[FoldedTextAttachment class]])
+	{
+		[(FoldableTextStorage *)[view textStorage] unfoldAttachment:(FoldedTextAttachment *)[cell attachment] atCharacterIndex:inIndex];
+	}
+}
 
 - (void)textViewContextMenuNeedsUpdate:(NSMenu *)aContextMenu {
     NSMenu *scriptMenu = [[aContextMenu itemWithTag:12345] submenu];
