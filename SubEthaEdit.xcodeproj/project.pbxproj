@@ -404,6 +404,8 @@
 		F281D34D0F38756100AD7DE1 /* FullTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D34B0F38756100AD7DE1 /* FullTextStorage.m */; };
 		F281D34E0F38756100AD7DE1 /* FoldableTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D34C0F38756100AD7DE1 /* FoldableTextStorage.m */; };
 		F281D3600F38758600AD7DE1 /* AbstractFoldingTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D35F0F38758600AD7DE1 /* AbstractFoldingTextStorage.m */; };
+		F281D37C0F38775200AD7DE1 /* folded.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F281D37B0F38775200AD7DE1 /* folded.tiff */; };
+		F281D3910F3877A900AD7DE1 /* FoldedTextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D3900F3877A900AD7DE1 /* FoldedTextAttachment.m */; };
 		F290D9D80EDB04EF00E643C0 /* TCMPortMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F290D9D70EDB04EF00E643C0 /* TCMPortMapper.framework */; };
 		F290D9DD0EDB04F900E643C0 /* TCMPortMapper.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F290D9D70EDB04EF00E643C0 /* TCMPortMapper.framework */; };
 		F298693E0D338B0F0031C9F3 /* ServerManagementProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F298693C0D338B0F0031C9F3 /* ServerManagementProfile.m */; };
@@ -1274,6 +1276,9 @@
 		F281D34C0F38756100AD7DE1 /* FoldableTextStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoldableTextStorage.m; sourceTree = "<group>"; };
 		F281D35E0F38758600AD7DE1 /* AbstractFoldingTextStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AbstractFoldingTextStorage.h; sourceTree = "<group>"; };
 		F281D35F0F38758600AD7DE1 /* AbstractFoldingTextStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AbstractFoldingTextStorage.m; sourceTree = "<group>"; };
+		F281D37B0F38775200AD7DE1 /* folded.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = folded.tiff; path = artwork/folded.tiff; sourceTree = "<group>"; };
+		F281D38F0F3877A900AD7DE1 /* FoldedTextAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FoldedTextAttachment.h; sourceTree = "<group>"; };
+		F281D3900F3877A900AD7DE1 /* FoldedTextAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoldedTextAttachment.m; sourceTree = "<group>"; };
 		F28CAAF00CB55B900001111D /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/PrecedencePrefs.nib; sourceTree = "<group>"; };
 		F28CAAF10CB55B9A0001111D /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/PrecedenceRules.nib; sourceTree = "<group>"; };
 		F28CAAF20CB55BB00001111D /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/UserStatistics.nib; sourceTree = "<group>"; };
@@ -1473,6 +1478,7 @@
 		14289051095742A100D14688 /* Artwork */ = {
 			isa = PBXGroup;
 			children = (
+				F281D37B0F38775200AD7DE1 /* folded.tiff */,
 				F2C6D3730D6DB131002B401D /* URLIconNotOK.tiff */,
 				F2C6D3740D6DB131002B401D /* URLIconOK.tiff */,
 				14289060095743F200D14688 /* Action.tiff */,
@@ -2312,6 +2318,8 @@
 				1428945B09575B9700D14688 /* TextStorage.m */,
 				1428945C09575B9700D14688 /* TextView.h */,
 				1428945D09575B9700D14688 /* TextView.m */,
+				F281D38F0F3877A900AD7DE1 /* FoldedTextAttachment.h */,
+				F281D3900F3877A900AD7DE1 /* FoldedTextAttachment.m */,
 			);
 			name = TextSystem;
 			sourceTree = "<group>";
@@ -2829,6 +2837,7 @@
 				F2D2CDCC0D730C3C000E3812 /* FriendCast13Off.png in Resources */,
 				F2B91DA00D7EEE3400626BBC /* FriendCast13None.png in Resources */,
 				F2B91DBC0D7EF93000626BBC /* FriendcastingConnection.png in Resources */,
+				F281D37C0F38775200AD7DE1 /* folded.tiff in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3204,6 +3213,7 @@
 				F281D34D0F38756100AD7DE1 /* FullTextStorage.m in Sources */,
 				F281D34E0F38756100AD7DE1 /* FoldableTextStorage.m in Sources */,
 				F281D3600F38758600AD7DE1 /* AbstractFoldingTextStorage.m in Sources */,
+				F281D3910F3877A900AD7DE1 /* FoldedTextAttachment.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
