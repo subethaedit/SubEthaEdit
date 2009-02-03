@@ -220,6 +220,8 @@ English.lproj/WebPreview.nib/keyedobjects.nib -text
 /FoldableTextStorage.m -text
 /FoldedTextAttachment.h -text
 /FoldedTextAttachment.m -text
+/FoldingTextAttachmentCell.h -text
+/FoldingTextAttachmentCell.m -text
 /FontAttributesToStringValueTransformer.h -text
 /FontAttributesToStringValueTransformer.m -text
 /FontForwardingTextField.h -text
