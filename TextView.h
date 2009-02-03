@@ -25,6 +25,8 @@
 - (void)setPageGuidePosition:(float)aPosition;
 - (BOOL)isPasting;
 
+- (IBAction)foldTextSelection:(id)aSender;
+
 @end
 
 @interface NSObject (TextViewDelegateMethods) 

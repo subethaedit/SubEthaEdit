@@ -9,6 +9,7 @@
 #import "LayoutManager.h"
 #import "TextView.h"
 #import "TextStorage.h"
+#import "FoldableTextStorage.h"
 #import "PlainTextDocument.h"
 #import "TCMMMUserManager.h"
 #import "TCMMMUser.h"
@@ -334,6 +335,17 @@ static NSMenu *defaultMenu=nil;
     // disable cursor rects and therefore mouse cursor changing when we have a dark background so the documentcursor is used
     if ([[self insertionPointColor] isDark]) [super resetCursorRects];
 }
+
+- (IBAction)foldTextSelection:(id)aSender {
+	NSRange selectedRange = [self selectedRange];
+	if (selectedRange.length > 0) {
+		FoldableTextStorage *ts = (FoldableTextStorage *)[self textStorage];
+		[ts foldRange:selectedRange];
+	} else {
+		NSBeep();
+	}
+}
+
 
 - (NSRange)selectionRangeForProposedRange:(NSRange)proposedSelRange granularity:(NSSelectionGranularity)granularity {
     NSEvent *currentEvent=[NSApp currentEvent];

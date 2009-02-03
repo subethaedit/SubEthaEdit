@@ -10,11 +10,11 @@
 
 #import "FoldedTextAttachment.h"
 #import "AbstractFoldingTextStorage.h"
+#import "TextStorage.h"
 
-@class FullTextStorage;
+@class FullTextStorage, TextStorage;
 
-@interface FoldableTextStorage : AbstractFoldingTextStorage {
-	NSMutableAttributedString *I_internalAttributedString;
+@interface FoldableTextStorage : TextStorage {
 	FullTextStorage *I_fullTextStorage;
 	NSMutableArray *I_sortedFoldedTextAttachments;
 	int I_editingCount;

@@ -63,7 +63,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     I_flags.shouldWatchLineEndings = YES;
     I_flags.hasMixedLineEndings    = NO;
     I_lineEnding = LineEndingLF;
-    I_contents=[NSMutableAttributedString new];
+    I_internalAttributedString=[NSMutableAttributedString new];
     I_lineStarts=[NSMutableArray new];
     [I_lineStarts addObject:[NSNumber numberWithUnsignedInt:0]];
     I_lineStartsValidUpTo=0;
@@ -86,7 +86,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
     [[EncodingManager sharedInstance] unregisterEncoding:I_encoding];
-    [I_contents release];
+    [I_internalAttributedString release];
     [I_lineStarts  release];
     [super dealloc];
 }
@@ -707,13 +707,15 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 #pragma mark ### Abstract Primitives of NSTextStorage ###
 
 - (NSString *)string {
-    return [I_contents string];
+    return [I_internalAttributedString string];
 }
 
 - (NSDictionary *)attributesAtIndex:(unsigned)aIndex 
                      effectiveRange:(NSRangePointer)aRange {
-	if ([self length]==0) return nil;
-    return [I_contents attributesAtIndex:aIndex effectiveRange:aRange];
+    // TODO: fix this elsewhere, as this is probably not a good performance choice (see r2436)
+//	if ([self length]==0) return nil;
+ 
+    return [I_internalAttributedString attributesAtIndex:aIndex effectiveRange:aRange];
 }
 
 - (void)replaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString {
@@ -725,10 +727,10 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     if (I_flags.shouldWatchLineEndings && I_flags.hasMixedLineEndings && aRange.length && [self hasMixedLineEndingsInRange:aRange]) {
         needsCompleteValidation = YES;
     }
-    unsigned origLen = [I_contents length];
-    [I_contents replaceCharactersInRange:aRange withString:aString];
+    unsigned origLen = [I_internalAttributedString length];
+    [I_internalAttributedString replaceCharactersInRange:aRange withString:aString];
     [self edited:NSTextStorageEditedCharacters range:aRange 
-          changeInLength:[I_contents length] - origLen];
+          changeInLength:[I_internalAttributedString length] - origLen];
     if ([delegate respondsToSelector:@selector(textStorage:didReplaceCharactersInRange:withString:)]) {
         [delegate textStorage:self didReplaceCharactersInRange:aRange withString:aString];
     }
@@ -745,7 +747,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 }
 
 - (void)setAttributes:(NSDictionary *)attributes range:(NSRange)aRange {
-    [I_contents setAttributes:attributes range:aRange];
+    [I_internalAttributedString setAttributes:attributes range:aRange];
     [self edited:NSTextStorageEditedAttributes range:aRange 
           changeInLength:0];
 }

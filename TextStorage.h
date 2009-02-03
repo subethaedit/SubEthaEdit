@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import <OgreKit/OgreKit.h>
 #import "NSMutableAttributedStringSEEAdditions.h"
+#import "AbstractFoldingTextStorage.h"
 
 extern NSString * const BlockeditAttributeName ;
 extern NSString * const BlockeditAttributeValue;
@@ -16,10 +17,10 @@ extern NSString * const BlockeditAttributeValue;
 extern NSString * const TextStorageLineEndingDidChange;
 extern NSString * const TextStorageHasMixedLineEndingsDidChange;
 
-@interface TextStorage : NSTextStorage {
+@interface TextStorage : AbstractFoldingTextStorage {
     NSMutableArray *I_lineStarts;
     unsigned int I_lineStartsValidUpTo;
-    NSMutableAttributedString *I_contents;
+    NSMutableAttributedString *I_internalAttributedString;
     unsigned int I_encoding;
     LineEnding I_lineEnding;
     unsigned I_numberOfWords;
