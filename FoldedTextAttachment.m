@@ -6,16 +6,18 @@
 //  Copyright 2009 TheCodingMonkeys. All rights reserved.
 //
 
+#import "FoldingTextAttachmentCell.h"
 #import "FoldedTextAttachment.h"
 
 
 @implementation FoldedTextAttachment
 - (id)initWithFoldedTextRange:(NSRange)inFoldedTextRange
 {
-	if ((self = [super initWithFileWrapper:[[[NSFileWrapper alloc] initWithPath:[[NSBundle mainBundle] pathForResource:@"folded" ofType:@"tiff"]] autorelease]]))
+	if ((self = [self init]))
 	{
 		I_foldedTextRange = inFoldedTextRange;
 		I_innerAttachments = [NSMutableArray new];
+		[self setAttachmentCell:[[FoldingTextAttachmentCell new] autorelease]];
 	}
 	return self;
 }

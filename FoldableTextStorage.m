@@ -15,6 +15,8 @@
 
 - (id)init {
     if ((self = [super init])) {
+// as long as we are a subclass of TextStorage
+	    [I_internalAttributedString release];
         I_internalAttributedString = nil;//[NSMutableAttributedString new];
         I_fullTextStorage = [[FullTextStorage alloc] initWithFoldableTextStorage:self];
 		I_sortedFoldedTextAttachments = [NSMutableArray new];
@@ -24,7 +26,8 @@
 
 - (void)dealloc {
 	[I_sortedFoldedTextAttachments release];
-    [I_internalAttributedString release];
+// as long as we are a subclass of TextStorage
+//    [I_internalAttributedString release];
     [I_fullTextStorage release];
     [super dealloc];
 }
