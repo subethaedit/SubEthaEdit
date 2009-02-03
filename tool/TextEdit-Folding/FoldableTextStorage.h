@@ -20,6 +20,7 @@
 - (NSRange)foldedTextRange;
 - (NSMutableArray *)innerAttachments;
 - (void)setFoldedTextRange:(NSRange)inRange;
+- (void)moveAttachmentLocation:(NSInteger)inLocationDifference;
 @end
 
 
