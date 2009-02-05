@@ -535,12 +535,13 @@
 		}
 	}
 	
-	NSAttributedString *collapsedString = [NSAttributedString attributedStringWithAttachment:attachment];
+	NSMutableAttributedString *collapsedString = [NSMutableAttributedString attributedStringWithAttachment:attachment];
 //	NSLog(@"%s %@",__FUNCTION__,collapsedString);
 	if (!I_internalAttributedString) { // generate it on first fold
 		I_internalAttributedString = [I_fullTextStorage mutableCopy];
 		NSLog(@"%s ------------------------------> generated mutable string storage",__FUNCTION__);
 	}
+	[collapsedString addAttribute:NSToolTipAttributeName value:@"stub" range:NSMakeRange(0,[collapsedString length])];
 	[self replaceCharactersInRange:inRange withAttributedString:collapsedString synchronize:NO];
 	[self addFoldedTextAttachment:attachment];
 }
