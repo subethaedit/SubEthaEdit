@@ -32,6 +32,7 @@
 
 
 #pragma mark debug output
+- (NSMutableAttributedString *)attributedStringOfFolding:(FoldedTextAttachment *)inAttachment;
 - (NSString *)foldedStringRepresentationOfRange:(NSRange)inRange foldings:(NSArray *)inFoldings level:(int)inLevel;
 - (NSString *)foldedStringRepresentation;
 

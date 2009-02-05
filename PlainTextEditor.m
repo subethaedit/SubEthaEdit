@@ -1365,7 +1365,14 @@
 	FoldableTextStorage *ts = (FoldableTextStorage *)[inTextView textStorage];
 	id attachment = [ts attribute:NSAttachmentAttributeName atIndex:inCharacterIndex effectiveRange:NULL];
 	if (attachment) {
-		return [ts foldedStringRepresentationOfRange:[attachment foldedTextRange] foldings:[attachment innerAttachments] level:1];
+		NSHelpManager *hm = [NSHelpManager sharedHelpManager];
+		NSAttributedString *helpString = [ts attributedStringOfFolding:attachment];
+		NSLog(@"%s helpString",__FUNCTION__);
+		[hm setContextHelp:helpString forObject:attachment];
+		[hm showContextHelpForObject:attachment locationHint:[NSEvent mouseLocation]];
+		[hm removeContextHelpForObject:attachment];
+		return nil;
+//		return [ts foldedStringRepresentationOfRange:[attachment foldedTextRange] foldings:[attachment innerAttachments] level:1];
 	} else {
 		return inTooltip;
 	}
