@@ -546,6 +546,36 @@
 	[self addFoldedTextAttachment:attachment];
 }
 
+- (NSMutableAttributedString *)attributedStringOfFolding:(FoldedTextAttachment *)inAttachment {
+	NSMutableAttributedString *stringToInsert = nil;
+	NSArray *innerAttachments = [inAttachment innerAttachments];
+	NSRange foldedTextRange = [inAttachment foldedTextRange];
+	unsigned index = 0;
+	unsigned count = [innerAttachments count];
+	if (count == 0) {
+		stringToInsert = (NSMutableAttributedString *)[I_fullTextStorage attributedSubstringFromRange:foldedTextRange];
+	} else {
+		stringToInsert = [[NSMutableAttributedString new] autorelease];
+		unsigned currentIndex = foldedTextRange.location;
+		FoldedTextAttachment *attachment = nil;
+		do {
+			attachment = [innerAttachments objectAtIndex:index];
+			NSRange attachmentRange = [attachment foldedTextRange];
+			if (attachmentRange.location > foldedTextRange.location) {
+				[stringToInsert appendAttributedString:[I_fullTextStorage attributedSubstringFromRange:NSMakeRange(currentIndex,attachmentRange.location - currentIndex)]];
+			}
+			[stringToInsert appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
+			[stringToInsert addAttribute:NSToolTipAttributeName value:@"stub" range:NSMakeRange([stringToInsert length] - 1,1)];
+			currentIndex = NSMaxRange(attachmentRange);
+			index++;
+		} while (index < count);
+		if (currentIndex < NSMaxRange(foldedTextRange)) {
+			[stringToInsert appendAttributedString:[I_fullTextStorage attributedSubstringFromRange:NSMakeRange(currentIndex,NSMaxRange(foldedTextRange) - currentIndex)]];
+		}
+	}
+	return stringToInsert;
+}
+
 - (void)unfoldAttachment:(FoldedTextAttachment *)inAttachment atCharacterIndex:(unsigned)inIndex
 {
 	NSMutableAttributedString *stringToInsert = nil;
@@ -566,6 +596,7 @@
 				[stringToInsert appendAttributedString:[I_fullTextStorage attributedSubstringFromRange:NSMakeRange(currentIndex,attachmentRange.location - currentIndex)]];
 			}
 			[stringToInsert appendAttributedString:[NSAttributedString attributedStringWithAttachment:attachment]];
+			[stringToInsert addAttribute:NSToolTipAttributeName value:@"stub" range:NSMakeRange([stringToInsert length] - 1,1)];
 			[self addFoldedTextAttachment:attachment];
 			currentIndex = NSMaxRange(attachmentRange);
 			index++;
