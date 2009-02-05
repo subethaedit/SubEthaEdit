@@ -30,6 +30,9 @@
 - (void)foldRange:(NSRange)inRange;
 - (void)unfoldAttachment:(FoldedTextAttachment *)inAttachment atCharacterIndex:(unsigned)inIndex;
 
+
+#pragma mark debug output
+- (NSString *)foldedStringRepresentationOfRange:(NSRange)inRange foldings:(NSArray *)inFoldings level:(int)inLevel;
 - (NSString *)foldedStringRepresentation;
 
 @end

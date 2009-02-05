@@ -1361,6 +1361,16 @@
 #pragma mark -
 #pragma mark ### NSTextView delegate methods ###
 
+- (NSString *)textView:(NSTextView *)inTextView willDisplayToolTip:(NSString *)inTooltip forCharacterAtIndex:(unsigned)inCharacterIndex {
+	FoldableTextStorage *ts = (FoldableTextStorage *)[inTextView textStorage];
+	id attachment = [ts attribute:NSAttachmentAttributeName atIndex:inCharacterIndex effectiveRange:NULL];
+	if (attachment) {
+		return [ts foldedStringRepresentationOfRange:[attachment foldedTextRange] foldings:[attachment innerAttachments] level:1];
+	} else {
+		return inTooltip;
+	}
+}
+
 - (void)textView:(NSTextView *)view doubleClickedOnCell:(id <NSTextAttachmentCell>)cell inRect:(NSRect)rect atIndex:(unsigned)inIndex {
 	if ([[cell attachment] isKindOfClass:[FoldedTextAttachment class]])
 	{
