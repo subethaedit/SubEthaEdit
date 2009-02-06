@@ -625,10 +625,10 @@
 	NSLog(@"%s unfolding: %@",__FUNCTION__,[self foldedStringRepresentationOfRange:[inAttachment foldedTextRange] foldings:innerAttachments level:1]);
 	[self replaceCharactersInRange:NSMakeRange(inIndex,1) withAttributedString:stringToInsert synchronize:NO];
 	[I_sortedFoldedTextAttachments removeObject:inAttachment];
-	if ([I_sortedFoldedTextAttachments count] == 0 && NO) { // this would be nice but breaks as it seems
+	if ([I_sortedFoldedTextAttachments count] == 0) {
 		[I_internalAttributedString release];
 		I_internalAttributedString = nil;
-		
+		[self edited:NSTextStorageEditedCharacters | NSTextStorageEditedAttributes range:NSMakeRange(0,[I_internalAttributedString length]) changeInLength:0];
 		NSLog(@"%s ------------------------------> killed mutable string storage",__FUNCTION__);
 	}
 }
