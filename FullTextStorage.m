@@ -438,4 +438,18 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     }
 }
 
+
+#pragma mark -
+// performance optimization
+- (void)beginEditing {
+	[I_foldableTextStorage beginEditing];
+	[super beginEditing];
+}
+
+- (void)endEditing {
+	[I_foldableTextStorage endEditing];
+	[super endEditing];
+}
+
+
 @end
