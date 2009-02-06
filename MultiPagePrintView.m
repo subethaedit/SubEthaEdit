@@ -7,6 +7,7 @@
 //
 
 #import "MultiPagePrintView.h"
+#import "FoldableTextStorage.h"
 #import "PrintTypesetter.h"
 #import "PrintTextView.h"
 #import "SyntaxHighlighter.h"
@@ -27,7 +28,8 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
     self = [super initWithFrame:frame];
     if (self) {
         // Initialization code here.
-        I_textStorage=[[aDocument textStorage] retain];
+        I_textStorage=[NSTextStorage new];
+        [I_textStorage setAttributedString:[(FoldableTextStorage *)[aDocument textStorage] fullTextStorage]];
         I_document=[aDocument retain];
         I_contributorArray=[NSMutableArray new];
         I_visitorArray=[NSMutableArray new];
@@ -165,19 +167,28 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
         highlighter=[[I_document documentMode] syntaxHighlighter];
     }
 
-    BOOL copyFirst=([[printDictionary objectForKey:@"SEEHighlightSyntax"] boolValue] != [I_document highlightsSyntax]);
-    
-    int i=0;
-    for (i=0;i<2;i++) {
-        if (copyFirst) {
-            I_textStorage = [[NSTextStorage alloc] initWithAttributedString:[I_textStorage autorelease]];
-        } else {
-            if (highlighter) {
-                while (![highlighter colorizeDirtyRanges:I_textStorage ofDocument:I_document]);
-            }
-        }
-        copyFirst=!copyFirst;
-    }
+
+// since folding we always copy first to have a real NSTextStorage that can be layouted
+	if (highlighter) {
+		while (![highlighter colorizeDirtyRanges:I_textStorage ofDocument:I_document]);
+	}
+
+
+//    BOOL copyFirst=([[printDictionary objectForKey:@"SEEHighlightSyntax"] boolValue] != [I_document highlightsSyntax]);
+//    
+//    int i=0;
+//    for (i=0;i<2;i++) {
+//        if (copyFirst) {
+//            I_textStorage = [[NSTextStorage alloc] initWithAttributedString:[I_textStorage autorelease]];
+//        } else {
+//            if (highlighter) {
+//                while (![highlighter colorizeDirtyRanges:I_textStorage ofDocument:I_document]);
+//            }
+//        }
+//        copyFirst=!copyFirst;
+//    }
+//
+
     [I_textStorage beginEditing];
 
     BOOL needToEnforceWhiteBackground=

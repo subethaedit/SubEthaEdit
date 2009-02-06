@@ -3485,7 +3485,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             return [[data dataPrefixedWithUTF8BOM] writeToURL:absoluteURL options:0 error:outError];
         } else {
             // let us write using NSStrings write methods so the encoding is added to the extended attributes
-            return [[[self textStorage] string] writeToURL:absoluteURL atomically:NO encoding:[self fileEncoding] error:outError];
+            return [[[(FoldableTextStorage *)[self textStorage] fullTextStorage] string] writeToURL:absoluteURL atomically:NO encoding:[self fileEncoding] error:outError];
         }
     } else if ([inTypeName isEqualToString:@"SEETextType"]) {
         NSString *packagePath = [absoluteURL path];
@@ -3554,7 +3554,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 //-timelog            NSLog(@"%s bencoding and compressing took: %fs",__FUNCTION__,[intermediateDate timeIntervalSinceNow]*-1.);
             
             if (success) success = [data writeToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"collaborationdata.bencoded"]] options:0 error:outError];
-            if (success) success = [[[self textStorage] string] writeToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"plain.txt"]] atomically:NO encoding:[self fileEncoding] error:outError];
+            if (success) success = [[[(FoldableTextStorage *)[self textStorage] fullTextStorage] string] writeToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"plain.txt"]] atomically:NO encoding:[self fileEncoding] error:outError];
             if (success) success = [self writeMetaDataToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"metadata.xml"]] error:outError];
             
             if (saveOperation != NSAutosaveOperation) {
@@ -5530,7 +5530,7 @@ static NSString *S_measurementUnits;
 
 - (NSDictionary *)textStorageDictionaryRepresentation
 {
-    return [(TextStorage *)[self textStorage] dictionaryRepresentation];
+    return [[(FoldableTextStorage *)[self textStorage] fullTextStorage] dictionaryRepresentation];
 }
 
 - (void)setContentByDictionaryRepresentation:(NSDictionary *)aRepresentation {

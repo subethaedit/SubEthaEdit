@@ -19,6 +19,14 @@
     NSMutableArray *I_lineStarts;
     unsigned int I_lineStartsValidUpTo;
     unsigned I_numberOfWords;
+    
+    unsigned int I_encoding;
+    LineEnding I_lineEnding;
+	struct {
+        BOOL hasMixedLineEndings;
+        BOOL shouldWatchLineEndings;
+    } I_flags;
+
 }
 
 - (id)initWithFoldableTextStorage:(FoldableTextStorage *)inTextStorage;
@@ -29,6 +37,16 @@
 - (NSMutableArray *)lineStarts;
 - (void)setLineStartsOnlyValidUpTo:(unsigned int)aLocation;
 - (NSRange)findLine:(int)aLineNumber;
+
+#pragma mark - line endings and encoding
+- (LineEnding)lineEnding;
+- (void)setLineEnding:(LineEnding)newLineEnding;
+- (void)setShouldWatchLineEndings:(BOOL)aFlag;
+- (BOOL)hasMixedLineEndings;
+- (void)setHasMixedLineEndings:(BOOL)aFlag;
+- (unsigned int)encoding;
+- (void)setEncoding:(unsigned int)anEncoding;
+- (NSArray *)selectionOperationsForRangesUnconvertableToEncoding:(NSStringEncoding)encoding;
 
 #pragma mark -
 - (void)replaceCharactersInRange:(NSRange)inRange withAttributedString:(NSAttributedString *)inAttributedString synchronize:(BOOL)inSynchronizeFlag;

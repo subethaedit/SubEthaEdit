@@ -35,22 +35,6 @@ static NSString * S_LineEndingUnicodeLineSeparatorRegExPart;
 static NSString * S_LineEndingUnicodeParagraphSeparatorRegExPart;
 static NSArray  * S_AllLineEndingRegexPartsArray;
 
-@interface NSArray (NSArrayTextStorageAdditions) 
-- (NSArray *)arrayByRemovingObject:(id)anObject;
-- (OGRegularExpression *)combinedRegex;
-@end
-
-@implementation NSArray (NSArrayTextStorageAdditions) 
-- (NSArray *)arrayByRemovingObject:(id)anObject {
-    NSMutableArray *result=[[self mutableCopy] autorelease];
-    [result removeObject:anObject];
-    return (NSArray *)result;
-}
-- (OGRegularExpression *)combinedRegex {
-    return [OGRegularExpression regularExpressionWithString:[self componentsJoinedByString:@"|"]];
-}
-@end
-
 @implementation TextStorage
 
 - (void)TCM_initHelper {
@@ -60,12 +44,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     I_blockedit.didBlockeditRange = NSMakeRange(NSNotFound,0);
     I_blockedit.didBlockeditLineRange = NSMakeRange(NSNotFound,0);
 
-    I_flags.shouldWatchLineEndings = YES;
-    I_flags.hasMixedLineEndings    = NO;
-    I_lineEnding = LineEndingLF;
     I_internalAttributedString=[NSMutableAttributedString new];
-    I_encoding=CFStringConvertEncodingToNSStringEncoding(CFStringGetSystemEncoding());
-    [[EncodingManager sharedInstance] registerEncoding:I_encoding];
 }
 
 
@@ -82,7 +61,6 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     // maybe fixed:
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     
-    [[EncodingManager sharedInstance] unregisterEncoding:I_encoding];
     [I_internalAttributedString release];
     [super dealloc];
 }
@@ -103,108 +81,6 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     S_LineEndingUnicodeLineSeparatorRegExPart = [[NSString alloc] initWithFormat:@"(?:%@)", sUnicodeLSEP];
     S_LineEndingUnicodeParagraphSeparatorRegExPart = [[NSString alloc] initWithFormat:@"(?:%@)", sUnicodePSEP];
     S_AllLineEndingRegexPartsArray = [[NSArray alloc] initWithObjects:S_LineEndingLFRegExPart,S_LineEndingCRRegExPart,S_LineEndingCRLFRegExPart,S_LineEndingUnicodeLineSeparatorRegExPart,S_LineEndingUnicodeParagraphSeparatorRegExPart,nil];
-}
-
-+ (OGRegularExpression *)wrongLineEndingRegex:(LineEnding)aLineEnding {
-    switch(aLineEnding) {
-        case LineEndingCR: {
-            static OGRegularExpression *sWrong;
-            if (!sWrong)
-                sWrong=
-                    [[[S_AllLineEndingRegexPartsArray arrayByRemovingObject:S_LineEndingCRRegExPart] combinedRegex] retain];
-            return sWrong;
-        }
-        case LineEndingCRLF: {
-            static OGRegularExpression *sWrong;
-            if (!sWrong)
-                sWrong=
-                    [[[S_AllLineEndingRegexPartsArray arrayByRemovingObject:S_LineEndingCRLFRegExPart] combinedRegex] retain];
-            return sWrong;
-        }
-        case LineEndingUnicodeLineSeparator: {
-            static OGRegularExpression *sWrong;
-            if (!sWrong)
-                sWrong=
-                    [[[S_AllLineEndingRegexPartsArray arrayByRemovingObject:S_LineEndingUnicodeLineSeparatorRegExPart] combinedRegex] retain];
-            return sWrong;
-        }
-        case LineEndingUnicodeParagraphSeparator:{
-            static OGRegularExpression *sWrong;
-            if (!sWrong)
-                sWrong=
-                    [[[S_AllLineEndingRegexPartsArray arrayByRemovingObject:S_LineEndingUnicodeParagraphSeparatorRegExPart] combinedRegex] retain];
-            return sWrong;
-        }
-        case LineEndingLF: 
-        default: {
-            static OGRegularExpression *sWrong;
-            if (!sWrong)
-                sWrong=
-                    [[[S_AllLineEndingRegexPartsArray arrayByRemovingObject:S_LineEndingLFRegExPart] combinedRegex] retain];
-            return sWrong;
-        }
-    }
-}
-
-- (void)setHasMixedLineEndings:(BOOL)aFlag {
-    if (aFlag!=I_flags.hasMixedLineEndings) {
-        I_flags.hasMixedLineEndings = aFlag;
-//        NSLog(@"hasMixedLineEndings: %@",aFlag?@"YES":@"NO");
-        [[NSNotificationQueue defaultQueue] 
-            enqueueNotification:
-                [NSNotification notificationWithName:TextStorageHasMixedLineEndingsDidChange object:self] 
-                   postingStyle:NSPostWhenIdle 
-                   coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender 
-                       forModes:nil];
-    }
-}
-
-- (void)setShouldWatchLineEndings:(BOOL)aFlag {
-    I_flags.shouldWatchLineEndings = aFlag;
-}
-
-- (BOOL)hasMixedLineEndingsInRange:(NSRange)aRange {
-    static int limit = 0;
-    if (limit==0) limit = [[NSUserDefaults standardUserDefaults] integerForKey:@"ByteLengthToUseForModeRecognitionAndEncodingGuessing"];
-    if (aRange.length > limit && limit != -1) aRange.length = limit;
-
-    OGRegularExpression *wrongExpression = [TextStorage wrongLineEndingRegex:[self lineEnding]];
-    OGRegularExpressionMatch *match = [wrongExpression matchInString:[self string] range:aRange];
-    return [match count]!=0;
-}
-
-- (void)validateHasMixedLineEndings {
-    [self setHasMixedLineEndings:[self hasMixedLineEndingsInRange:NSMakeRange(0, [self length])]];
-}
-
-- (LineEnding)lineEnding {
-    return I_lineEnding;
-}
-- (void)setLineEnding:(LineEnding)newLineEnding {
-    if (I_lineEnding!= newLineEnding) {
-        I_lineEnding = newLineEnding;
-        [self validateHasMixedLineEndings];
-        [[NSNotificationQueue defaultQueue] 
-            enqueueNotification:
-                [NSNotification notificationWithName:TextStorageLineEndingDidChange object:self] 
-                   postingStyle:NSPostASAP 
-                   coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender 
-                       forModes:nil];
-    }
-}
-
-- (BOOL)hasMixedLineEndings {
-    return I_flags.hasMixedLineEndings;
-}
-
-- (unsigned int)encoding {
-    return I_encoding;
-}
-
-- (void)setEncoding:(unsigned int)anEncoding {
-    [[EncodingManager sharedInstance] unregisterEncoding:I_encoding];
-    I_encoding = anEncoding;
-    [[EncodingManager sharedInstance] registerEncoding:anEncoding];
 }
 
 - (NSRange)doubleClickAtIndex:(unsigned)index {
@@ -593,26 +469,12 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     if ([delegate respondsToSelector:@selector(textStorage:willReplaceCharactersInRange:withString:)]) {
         [delegate textStorage:self willReplaceCharactersInRange:aRange withString:aString];
     }
-    BOOL needsCompleteValidation = NO;
-    if (I_flags.shouldWatchLineEndings && I_flags.hasMixedLineEndings && aRange.length && [self hasMixedLineEndingsInRange:aRange]) {
-        needsCompleteValidation = YES;
-    }
     unsigned origLen = [I_internalAttributedString length];
     [I_internalAttributedString replaceCharactersInRange:aRange withString:aString];
     [self edited:NSTextStorageEditedCharacters range:aRange 
           changeInLength:[I_internalAttributedString length] - origLen];
     if ([delegate respondsToSelector:@selector(textStorage:didReplaceCharactersInRange:withString:)]) {
         [delegate textStorage:self didReplaceCharactersInRange:aRange withString:aString];
-    }
-//    [self setLineStartsOnlyValidUpTo:aRange.location];
-    if (I_flags.shouldWatchLineEndings && [aString length] > 0 && (!I_flags.hasMixedLineEndings || needsCompleteValidation)) {
-        if ([self hasMixedLineEndingsInRange:NSMakeRange(aRange.location, [aString length])]) {
-            [self setHasMixedLineEndings:YES];
-            needsCompleteValidation=NO;
-        }
-    }
-    if (needsCompleteValidation) {
-        [self validateHasMixedLineEndings];
     }
 }
 
