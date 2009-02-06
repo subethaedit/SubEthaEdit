@@ -85,8 +85,6 @@ extern NSString * const TextStorageHasMixedLineEndingsDidChange;
 
 - (void)removeAttributes:(id)anObjectEnumerable range:(NSRange)aRange;
 
-- (NSDictionary *)attributeDictionaryByAddingStyleAttributesForInsertLocation:(unsigned int)inLocation toDictionary:(NSDictionary *)inBaseStyle;
-
 @end
 
 #pragma mark -

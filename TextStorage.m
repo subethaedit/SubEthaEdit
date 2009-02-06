@@ -428,27 +428,6 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     }
 }
 
-- (NSDictionary *)attributeDictionaryByAddingStyleAttributesForInsertLocation:(unsigned int)inLocation toDictionary:(NSDictionary *)inBaseStyle
-{
-	unsigned int length = [self length];
-	if (inLocation > length || inLocation < 1) return inBaseStyle; // do nothing if document is empty, or the proposed insertion point is beyond the current size
-	
-	// if this is not the case, copy the appropriate styles
-	inLocation = inLocation - 1; // select the style from the character in front of the insertion, range validity was checked above
-	NSDictionary *attributes = [self attributesAtIndex:inLocation effectiveRange:NULL];
-	NSMutableDictionary *resultDictionary = [[inBaseStyle mutableCopy] autorelease];
-	
-	// currently visual style means font and color so copy these
-	NSFont *font = [attributes objectForKey:NSFontAttributeName];
-	if (font && [[[resultDictionary objectForKey:NSFontAttributeName] familyName] isEqualToString:[font familyName]]) [resultDictionary setObject:font forKey:NSFontAttributeName];
-	NSColor *foregroundColor = [attributes objectForKey:NSForegroundColorAttributeName];
-	if (foregroundColor) [resultDictionary setObject:foregroundColor forKey:NSForegroundColorAttributeName];
-
-	
-	return resultDictionary;
-}
-
-
 #pragma mark -
 #pragma mark ### Abstract Primitives of NSTextStorage ###
 

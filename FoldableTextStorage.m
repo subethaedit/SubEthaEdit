@@ -456,11 +456,11 @@
 		BOOL shouldInsertString = YES; 
 		// this call also adjusts the foldings as necessary
 		NSRange foldedReplacementRange = [self foldedReplacementRangeForFullTextReplaceCharactersInRange:inRange withString:inString shouldInsertString:&shouldInsertString foldingAttachments:I_sortedFoldedTextAttachments];
-		NSLog(@"%s replacing folded range %@ with %@", __FUNCTION__, NSStringFromRange(foldedReplacementRange), shouldInsertString ? @"inString" : @"NOTHING");
+//		NSLog(@"%s replacing folded range %@ with %@", __FUNCTION__, NSStringFromRange(foldedReplacementRange), shouldInsertString ? @"inString" : @"NOTHING");
 		if (foldedReplacementRange.length > 0 || shouldInsertString) {
 			[self replaceCharactersInRange:foldedReplacementRange withString: (shouldInsertString ? inString : @"") synchronize:NO];
 		}
-		NSLog(@"%s after: %@",__FUNCTION__,[self foldedStringRepresentation]);
+//		NSLog(@"%s after: %@",__FUNCTION__,[self foldedStringRepresentation]);
 	}
 }
 
