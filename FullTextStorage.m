@@ -145,7 +145,6 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 
 - (void)replaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString synchronize:(BOOL)inSynchronizeFlag {
 
-//    unsigned origLen = [I_internalAttributedString length];
 
 //	NSString *foldingBefore = [I_foldableTextStorage foldedStringRepresentation];
 //	NSLog(@"%s before: %@",__FUNCTION__,foldingBefore);
@@ -156,6 +155,12 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     if (I_flags.shouldWatchLineEndings && I_flags.hasMixedLineEndings && aRange.length && [self hasMixedLineEndingsInRange:aRange]) {
         needsCompleteValidation = YES;
     }
+
+	id delegate = [I_foldableTextStorage delegate];
+	if ([delegate respondsToSelector:@selector(textStorage:willReplaceCharactersInRange:withString:)]) {
+		[delegate textStorage:self willReplaceCharactersInRange:aRange withString:aString];
+	}
+	unsigned origLen = [self length];
 
     [I_internalAttributedString replaceCharactersInRange:aRange withString:aString];
 //    [self edited:NSTextStorageEditedCharacters range:aRange 
@@ -174,6 +179,10 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     }
 
     if (inSynchronizeFlag && !I_shouldNotSynchronize) [I_foldableTextStorage fullTextDidReplaceCharactersInRange:aRange withString:aString];
+
+	if ([delegate respondsToSelector:@selector(textStorage:didReplaceCharactersInRange:withString:)]) {
+		[delegate textStorage:self didReplaceCharactersInRange:aRange withString:aString];
+	}
 }
 
 - (void)replaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString {
