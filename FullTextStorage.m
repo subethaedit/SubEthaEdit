@@ -18,11 +18,19 @@
         I_internalAttributedString = [NSMutableAttributedString new];
         I_foldableTextStorage = inTextStorage; // no retain here - the foldableTextstorage owns us
         I_shouldNotSynchronize = 0;
+
+		I_lineStarts=[NSMutableArray new];
+		[I_lineStarts addObject:[NSNumber numberWithUnsignedInt:0]];
+	    I_lineStartsValidUpTo=0;
     }
     return self;
 }
 
-
+- (void)dealloc {
+	[I_lineStarts  release];
+	[I_internalAttributedString release];
+	[super dealloc];
+}
 
 - (NSMutableAttributedString *)internalMutableAttributedString {
 	return I_internalAttributedString;
@@ -49,6 +57,7 @@
     [I_internalAttributedString replaceCharactersInRange:aRange withString:aString];
 //    [self edited:NSTextStorageEditedCharacters range:aRange 
 //          changeInLength:[I_internalAttributedString length] - origLen];
+	[self setLineStartsOnlyValidUpTo:aRange.location];
     if (inSynchronizeFlag && !I_shouldNotSynchronize) [I_foldableTextStorage fullTextDidReplaceCharactersInRange:aRange withString:aString];
 }
 
@@ -83,5 +92,135 @@
 //{
 //	[self replaceCharactersInRange:inRange withAttributedString:inAttributedString synchronize:YES];
 //}
+
+#pragma mark ### Line Ranges
+
+
+- (NSString *)positionStringForRange:(NSRange)aRange {
+    int lineNumber=[self lineNumberForLocation:aRange.location];
+    unsigned lineStartLocation=[[[self lineStarts] objectAtIndex:lineNumber-1] intValue];
+    int positionInLine = aRange.location-lineStartLocation;
+    NSString *string=[NSString stringWithFormat:@"%d:%d",lineNumber, positionInLine];
+    if (aRange.length>0) string=[string stringByAppendingFormat:@" (%d)",aRange.length];
+    return string;
+}
+
+
+- (unsigned)numberOfLines {
+    return [self lineNumberForLocation:[self length]];
+}
+- (unsigned)numberOfCharacters {
+    return [self length];
+}
+- (unsigned)numberOfWords {
+    static int limit = 0;
+    if (limit==0) limit = [[NSUserDefaults standardUserDefaults] integerForKey:@"ByteLengthToUseForModeRecognitionAndEncodingGuessing"];
+    
+    if (I_numberOfWords == 0 && limit>[self length]) {
+        static OGRegularExpression *s_wordCountRegex = nil;
+        if (!s_wordCountRegex) {
+            s_wordCountRegex = [[OGRegularExpression regularExpressionWithString:@"[\\w']+"] retain];
+        }
+        I_numberOfWords  = [[s_wordCountRegex allMatchesInString:[self string]] count];
+    }
+    return I_numberOfWords;
+}
+
+
+- (int)lineNumberForLocation:(unsigned)aLocation {
+
+    if (I_lineStartsValidUpTo == 0 && [I_lineStarts count] > 1) {
+        [I_lineStarts removeAllObjects];
+        [I_lineStarts addObject:[NSNumber numberWithUnsignedInt:0]];
+    } else {
+        while ([[I_lineStarts lastObject] unsignedIntValue] > I_lineStartsValidUpTo) {
+            [I_lineStarts removeLastObject];
+        }
+    }
+
+    int i;
+    int result=0;
+    if (!(aLocation<=I_lineStartsValidUpTo)) {
+        NSString *string=[self string];
+        unsigned int length = [string length];
+        i=[I_lineStarts count]-1;
+        unsigned lineStart=[[I_lineStarts objectAtIndex:i] unsignedIntValue];
+        NSRange lineRange=[string lineRangeForRange:NSMakeRange(lineStart,0)];
+        I_lineStartsValidUpTo=NSMaxRange(lineRange)-1;
+        while (NSMaxRange(lineRange)<length && I_lineStartsValidUpTo<aLocation) {
+            lineRange=[string lineRangeForRange:NSMakeRange(NSMaxRange(lineRange),0)];
+            [I_lineStarts addObject:[NSNumber numberWithUnsignedInt:lineRange.location]];
+            I_lineStartsValidUpTo=NSMaxRange(lineRange)-1;
+        }
+        if (NSMaxRange(lineRange)==length) {
+            NSRange lastRange=[string lineRangeForRange:NSMakeRange(length,0)];
+            if (lastRange.location == length && [[I_lineStarts lastObject] intValue] != length) {
+                [I_lineStarts addObject:[NSNumber numberWithUnsignedInt:length]];
+                I_lineStartsValidUpTo=length;
+            }
+        }
+
+    }
+    for (i=[I_lineStarts count]-1;i>=0;i--) {
+        if ([[I_lineStarts objectAtIndex:i] unsignedIntValue]<=aLocation) {
+            result=i+1;
+            break;
+        }
+    }
+    return result;
+}
+
+- (NSMutableArray *)lineStarts {
+    return I_lineStarts;
+}
+
+- (void)setLineStartsOnlyValidUpTo:(unsigned int)aLocation {
+    [self willChangeValueForKey:@"numberOfLines"];
+    if (aLocation<I_lineStartsValidUpTo) {
+        I_lineStartsValidUpTo=aLocation;
+    }
+    I_numberOfWords = 0;
+    [self didChangeValueForKey:@"numberOfLines"];
+}
+
+- (NSRange)findLine:(int)aLineNumber {
+    NSString *string=[self string];
+    NSRange lineRange=NSMakeRange(NSNotFound,0);
+    unsigned length = [string length];
+    if (aLineNumber < 1) return lineRange;
+
+    if (I_lineStartsValidUpTo == 0 && [I_lineStarts count] > 1) {
+        [I_lineStarts removeAllObjects];
+        [I_lineStarts addObject:[NSNumber numberWithUnsignedInt:0]];
+    } else {
+        while ([[I_lineStarts lastObject] unsignedIntValue] > I_lineStartsValidUpTo) {
+            [I_lineStarts removeLastObject];
+        }
+    }
+
+    if ([I_lineStarts count]<aLineNumber) {
+        int lineNumber=[I_lineStarts count];
+        lineRange=[string lineRangeForRange:NSMakeRange([[I_lineStarts objectAtIndex:lineNumber-1] unsignedIntValue],0)];
+        while (lineNumber<aLineNumber && NSMaxRange(lineRange)<length) {
+            lineRange=[string lineRangeForRange:NSMakeRange(NSMaxRange(lineRange),0)];
+            [I_lineStarts addObject:[NSNumber numberWithUnsignedInt:lineRange.location]];
+            I_lineStartsValidUpTo=NSMaxRange(lineRange)-1;
+            lineNumber++;
+        }
+        if (NSMaxRange(lineRange)==length) {
+            NSRange lastRange=[string lineRangeForRange:NSMakeRange(length,0)];
+            if (lastRange.location == length && [[I_lineStarts lastObject] intValue] != length) {
+                lineRange = lastRange;
+                [I_lineStarts addObject:[NSNumber numberWithUnsignedInt:length]];
+                I_lineStartsValidUpTo=length;
+            }
+        }
+    } else {
+        lineRange=[string lineRangeForRange:NSMakeRange([[I_lineStarts objectAtIndex:aLineNumber-1] unsignedIntValue],0)];
+    }
+    // NSLog(@"%@ %s %d",NSStringFromRange(lineRange), __FUNCTION__, aLineNumber);
+    return lineRange;
+}
+
 
 @end

@@ -19,6 +19,7 @@
 #import "StylePreferences.h"
 #import "GeneralPreferences.h"
 #import "TextStorage.h"
+#import "FoldableTextStorage.h"
 #import "NSSavePanelTCMAdditions.h"
 #import "MoreSecurity.h"
 #import "PlainTextWindowController.h"
@@ -944,7 +945,7 @@ static NSString *tempFileName() {
             } else {
                 if (shouldJumpToLine) {
                     if (columnToGoTo!=-1) {
-                        NSRange lineRange = [(TextStorage *)[(PlainTextDocument *)document textStorage] findLine:lineToGoTo];
+                        NSRange lineRange = [(FoldableTextStorage *)[(PlainTextDocument *)document textStorage] findLine:lineToGoTo];
                         [(PlainTextDocument *)document selectRange:NSMakeRange(lineRange.location+columnToGoTo,selectionLength)];
                     } else {
                         [(PlainTextDocument *)document gotoLine:lineToGoTo];
@@ -1068,7 +1069,7 @@ static NSString *tempFileName() {
             } else {
                 if (shouldJumpToLine) {
                     if (columnToGoTo!=-1) {
-                        NSRange lineRange = [(TextStorage *)[(PlainTextDocument *)document textStorage] findLine:lineToGoTo];
+                        NSRange lineRange = [(FoldableTextStorage *)[(PlainTextDocument *)document textStorage] findLine:lineToGoTo];
                         [(PlainTextDocument *)document selectRange:NSMakeRange(lineRange.location+columnToGoTo,selectionLength)];
                     } else {
                         [(PlainTextDocument *)document gotoLine:lineToGoTo];

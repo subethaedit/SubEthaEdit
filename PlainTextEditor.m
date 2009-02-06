@@ -1382,6 +1382,10 @@
 	if ([[cell attachment] isKindOfClass:[FoldedTextAttachment class]])
 	{
 		[(FoldableTextStorage *)[view textStorage] unfoldAttachment:(FoldedTextAttachment *)[cell attachment] atCharacterIndex:inIndex];
+		if ([O_scrollView rulersVisible]) {
+			[[O_scrollView verticalRulerView] setNeedsDisplay:YES];
+		}
+
 	}
 }
 

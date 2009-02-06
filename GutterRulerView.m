@@ -98,7 +98,8 @@
                 }
             }
             maxRange=NSMaxRange(lineRange);
-            lineNumber++;
+			lineNumber=[textStorage lineNumberForLocation:lineRange.location];
+//            lineNumber++;
             while (lineNumber>=cardinalityComparitor) {
                 cardinalityComparitor*=10;
                 cardinality++;
