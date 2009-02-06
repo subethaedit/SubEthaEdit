@@ -5620,10 +5620,11 @@ static NSString *S_measurementUnits;
 - (BOOL)handleOperation:(TCMMMOperation *)aOperation {
     if ([[aOperation operationID] isEqualToString:[TextOperation operationID]]) {
         TextOperation *operation=(TextOperation *)aOperation;
-        TextStorage *textStorage=(TextStorage *)[self textStorage];
+        FoldableTextStorage *foldableTextStorage=(TextStorage *)[self textStorage];
+		FullTextStorage *fullTextStorage = [I_textStorage fullTextStorage];
     
         // check validity of operation
-        if (NSMaxRange([operation affectedCharRange])>[textStorage length]) {
+        if (NSMaxRange([operation affectedCharRange])>[fullTextStorage length]) {
             NSLog(@"User tried to change text outside the document bounds:%@ %@",operation,[[TCMMMUserManager sharedInstance] userForUserID:[operation userID]]);
             return NO;
         }
@@ -5641,17 +5642,17 @@ static NSString *S_measurementUnits;
             }
         }
 
-        [textStorage beginEditing];
+        [fullTextStorage beginEditing];
         NSRange newRange=NSMakeRange([operation affectedCharRange].location,
                                      [[operation replacementString] length]);
-        [textStorage replaceCharactersInRange:[operation affectedCharRange]
+        [fullTextStorage replaceCharactersInRange:[operation affectedCharRange]
                                    withString:[operation replacementString]];
-        [textStorage addAttribute:WrittenByUserIDAttributeName value:[operation userID]
+        [fullTextStorage addAttribute:WrittenByUserIDAttributeName value:[operation userID]
                             range:newRange];
-        [textStorage addAttribute:ChangedByUserIDAttributeName value:[operation userID]
+        [fullTextStorage addAttribute:ChangedByUserIDAttributeName value:[operation userID]
                             range:newRange];
-        [textStorage addAttributes:[textStorage attributeDictionaryByAddingStyleAttributesForInsertLocation:newRange.location toDictionary:[self plainTextAttributes]] range:newRange];
-        [textStorage endEditing];
+        [fullTextStorage addAttributes:[fullTextStorage attributeDictionaryByAddingStyleAttributesForInsertLocation:newRange.location toDictionary:[self plainTextAttributes]] range:newRange];
+        [fullTextStorage endEditing];
 
 
         if (I_flags.isRemotelyEditingTextStorage) {
@@ -6021,7 +6022,7 @@ static NSString *S_measurementUnits;
 - (void)textViewDidChangeSelection:(NSNotification *)aNotification {
     if (!I_flags.isRemotelyEditingTextStorage) {
         NSTextView *textView=(NSTextView *)[aNotification object];
-        NSRange selectedRange = [textView selectedRange];
+        NSRange selectedRange = [I_textStorage fullRangeForFoldedRange:[textView selectedRange]];
         SelectionOperation *selOp = [SelectionOperation selectionOperationWithRange:selectedRange userID:[TCMMMUserManager myUserID]];
         [[self session] documentDidApplyOperation:selOp];
         [self TCM_sendPlainTextDocumentParticipantsDataDidChangeNotification];
