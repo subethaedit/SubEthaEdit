@@ -393,7 +393,7 @@
 	if ([delegate respondsToSelector:@selector(textStorage:didReplaceCharactersInRange:withString:)]) {
 		[delegate textStorage:self didReplaceCharactersInRange:aRange withString:aString];
 	}
-	[self setLineStartsOnlyValidUpTo:aRange.location];
+
 	if (I_flags.shouldWatchLineEndings && [aString length] > 0 && (!I_flags.hasMixedLineEndings || needsCompleteValidation)) {
 		if ([self hasMixedLineEndingsInRange:NSMakeRange(aRange.location, [aString length])]) {
 			[self setHasMixedLineEndings:YES];
@@ -502,6 +502,21 @@
 	}
 }
 
+#pragma mark line numbers
+- (int)lineNumberForLocation:(unsigned)location {
+	int result = [I_fullTextStorage lineNumberForLocation:[self fullRangeForFoldedRange:NSMakeRange(location,0)].location];
+	return result;
+}
+
+- (NSString *)positionStringForRange:(NSRange)aRange {
+	return [I_fullTextStorage positionStringForRange:[self fullRangeForFoldedRange:aRange]];
+}
+
+- (NSRange)findLine:(int)aLineNumber {
+	// TODO: convert line numbers from fulltextstorage
+	NSRange resultRange = [I_fullTextStorage findLine:aLineNumber];
+	return resultRange;
+}
 
 #pragma mark folding
 

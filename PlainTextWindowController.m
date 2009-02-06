@@ -12,6 +12,7 @@
 #import "DocumentMode.h"
 #import "PlainTextEditor.h"
 #import "TextStorage.h"
+#import "FoldableTextStorage.h"
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "TCMMMUserSEEAdditions.h"
 #import "SelectionOperation.h"
@@ -513,7 +514,7 @@ static NSAttributedString *S_dragString = nil;
 #pragma mark -
 
 - (void)gotoLine:(unsigned)aLine {
-    NSRange range=[(TextStorage *)[[self document] textStorage] findLine:aLine];
+    NSRange range=[(FoldableTextStorage *)[[self document] textStorage] findLine:aLine];
     [self selectRange:range];
 }
 
@@ -1687,10 +1688,10 @@ static NSAttributedString *S_dragString = nil;
                     // (void)NSLocalizedString(@"DeclinedInvitation", @"Declined Invitation");
                     result=NSLocalizedString(status,@"<do not localize>");
                 } else if ([[user userID] isEqualToString:[TCMMMUserManager myUserID]]) {
-                    result =[(TextStorage *)[document textStorage] 
+                    result =[(FoldableTextStorage *)[document textStorage] 
                             positionStringForRange:[[[self activePlainTextEditor] textView] selectedRange]];
                 } else if (selectionOperation) {
-                    result =[(TextStorage *)[document textStorage] positionStringForRange:[selectionOperation selectedRange]];
+                    result =[(FoldableTextStorage *)[document textStorage] positionStringForRange:[selectionOperation selectedRange]];
                 }
                 return [[[NSAttributedString alloc] initWithString:result attributes:attributes] autorelease];
             } else if (aTag==ParticipantsChildImageTag) {

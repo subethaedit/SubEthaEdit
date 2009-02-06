@@ -30,6 +30,12 @@
 - (void)foldRange:(NSRange)inRange;
 - (void)unfoldAttachment:(FoldedTextAttachment *)inAttachment atCharacterIndex:(unsigned)inIndex;
 
+#pragma mark line numbers
+- (int)lineNumberForLocation:(unsigned)location;
+- (NSString *)positionStringForRange:(NSRange)aRange;
+- (NSRange)findLine:(int)aLineNumber;
+
+
 
 #pragma mark debug output
 - (NSMutableAttributedString *)attributedStringOfFolding:(FoldedTextAttachment *)inAttachment;

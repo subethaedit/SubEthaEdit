@@ -18,8 +18,6 @@ extern NSString * const TextStorageLineEndingDidChange;
 extern NSString * const TextStorageHasMixedLineEndingsDidChange;
 
 @interface TextStorage : AbstractFoldingTextStorage {
-    NSMutableArray *I_lineStarts;
-    unsigned int I_lineStartsValidUpTo;
     NSMutableAttributedString *I_internalAttributedString;
     unsigned int I_encoding;
     LineEnding I_lineEnding;
@@ -49,17 +47,18 @@ extern NSString * const TextStorageHasMixedLineEndingsDidChange;
 
 + (OGRegularExpression *)wrongLineEndingRegex:(LineEnding)aLineEnding;
 
+#pragma mark -
+- (NSString *)positionStringForRange:(NSRange)aRange;
+- (int)lineNumberForLocation:(unsigned)location;
+- (NSRange)findLine:(int)aLineNumber;
+#pragma mark -
+
 
 - (unsigned)numberOfLines;
 - (unsigned)numberOfCharacters;
 - (unsigned)numberOfWords;
 
-- (int)lineNumberForLocation:(unsigned)location;
 - (BOOL)lastLineIsEmpty;
-- (NSString *)positionStringForRange:(NSRange)aRange;
-- (NSMutableArray *)lineStarts;
-- (NSRange)findLine:(int)aLineNumber;
-- (void)setLineStartsOnlyValidUpTo:(unsigned int)aLocation;
 
 - (LineEnding)lineEnding;
 - (void)setLineEnding:(LineEnding)newLineEnding;

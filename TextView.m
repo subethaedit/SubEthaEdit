@@ -341,6 +341,10 @@ static NSMenu *defaultMenu=nil;
 	if (selectedRange.length > 0) {
 		FoldableTextStorage *ts = (FoldableTextStorage *)[self textStorage];
 		[ts foldRange:selectedRange];
+		NSScrollView *scrollView = [self enclosingScrollView];
+		if ([scrollView rulersVisible]) {
+			[[scrollView verticalRulerView] setNeedsDisplay:YES];
+		}
 	} else {
 		NSBeep();
 	}
