@@ -358,15 +358,6 @@
 
 - (void)replaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString synchronize:(BOOL)inSynchronizeFlag {
 
-	// TODO: delegate methods need to be filled from the fulltextstorage
-
-	id delegate = [self delegate];
-	if ([delegate respondsToSelector:@selector(textStorage:willReplaceCharactersInRange:withString:)]) {
-		[delegate textStorage:self willReplaceCharactersInRange:aRange withString:aString];
-	}
-	unsigned origLen = [self length];
-
-
 	if (I_internalAttributedString) {
 		unsigned origLen = [I_internalAttributedString length];
 		[I_internalAttributedString replaceCharactersInRange:aRange withString:aString];
@@ -384,12 +375,6 @@
 //		[self edited:NSTextStorageEditedCharacters range:aRange 
 //			  changeInLength:[I_fullTextStorage length] - origLen];
 	}    
-
-
-	if ([delegate respondsToSelector:@selector(textStorage:didReplaceCharactersInRange:withString:)]) {
-		[delegate textStorage:self didReplaceCharactersInRange:aRange withString:aString];
-	}
-
 }
 
 - (void)replaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString {

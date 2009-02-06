@@ -5234,13 +5234,14 @@ static NSString *S_measurementUnits;
 
 - (void)setHighlightsSyntax:(BOOL)aFlag {
     if (I_flags.highlightSyntax != aFlag) {
+    	FullTextStorage *fts = [I_textStorage fullTextStorage];
         I_flags.highlightSyntax = aFlag;
         if (I_flags.highlightSyntax) {
-            [self highlightSyntaxInRange:NSMakeRange(0,[I_textStorage length])];
+            [self highlightSyntaxInRange:NSMakeRange(0,[fts length])];
         } else {
-            [[I_documentMode syntaxHighlighter] cleanUpTextStorage:I_textStorage];
-            [I_textStorage addAttributes:[self plainTextAttributes]
-                                   range:NSMakeRange(0,[I_textStorage length])];
+            [[I_documentMode syntaxHighlighter] cleanUpTextStorage:fts];
+            [fts addAttributes:[self plainTextAttributes]
+                                   range:NSMakeRange(0,[fts length])];
         }
     }
 }
@@ -5255,9 +5256,10 @@ static NSString *S_measurementUnits;
 
 - (void)highlightSyntaxInRange:(NSRange)aRange {
     if (I_flags.highlightSyntax) {
-        NSRange range=NSIntersectionRange(aRange,NSMakeRange(0,[I_textStorage length]));
+    	FullTextStorage *fts = [I_textStorage fullTextStorage];
+        NSRange range=NSIntersectionRange(aRange,NSMakeRange(0,[fts length]));
         if (range.length>0) {
-            [I_textStorage removeAttribute:kSyntaxHighlightingIsCorrectAttributeName range:range];
+            [fts removeAttribute:kSyntaxHighlightingIsCorrectAttributeName range:range];
             [[NSNotificationQueue defaultQueue]
                 enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentSyntaxColorizeNotification object:self]
                        postingStyle:NSPostWhenIdle
@@ -5292,7 +5294,7 @@ static NSString *S_measurementUnits;
         SyntaxHighlighter *highlighter=[I_documentMode syntaxHighlighter];
         if (highlighter) {
             if (!I_flags.syntaxHighlightingIsSuspended) {
-                if (![highlighter colorizeDirtyRanges:I_textStorage ofDocument:self]) {
+                if (![highlighter colorizeDirtyRanges:[I_textStorage fullTextStorage] ofDocument:self]) {
                     I_flags.textDidChangeSinceLastSyntaxHighlighting = NO;
                     [self performHighlightSyntax];
                 }
@@ -5686,9 +5688,14 @@ static NSString *S_measurementUnits;
 
 #pragma mark -
 #pragma mark ### TextStorage Delegate Methods ###
+
+// these delegate methods return ranges regarding the fullTextStorage, and also return it
+
 - (void)textStorage:(NSTextStorage *)aTextStorage willReplaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString {
 //    NSLog(@"textStorage:%@ willReplaceCharactersInRange:%@ withString:%@",aTextStorage,NSStringFromRange(aRange),aString);
     if (!I_flags.isRemotelyEditingTextStorage && !I_flags.isReadingFile && !I_flags.isHandlingUndoManually) {
+    	FullTextStorage *fullTextStorage = (FoldableTextStorage *)aTextStorage;
+    
         TextOperation *operation=[TextOperation textOperationWithAffectedCharRange:aRange replacementString:aString userID:(NSString *)[TCMMMUserManager myUserID]];
         UndoManager *undoManager=[self documentUndoManager];
         BOOL shouldGroup=YES;
@@ -5696,7 +5703,7 @@ static NSString *S_measurementUnits;
             shouldGroup=[operation shouldBeGroupedWithTextOperation:I_lastRegisteredUndoOperation];
         }
         [undoManager registerUndoChangeTextInRange:NSMakeRange(aRange.location,[aString length])
-                     replacementString:[[aTextStorage string] substringWithRange:aRange] shouldGroupWithPriorOperation:shouldGroup];
+                     replacementString:[[fullTextStorage string] substringWithRange:aRange] shouldGroupWithPriorOperation:shouldGroup];
         [I_lastRegisteredUndoOperation release];
         I_lastRegisteredUndoOperation = [operation retain];
     }
@@ -5704,13 +5711,15 @@ static NSString *S_measurementUnits;
 
 - (void)textStorage:(NSTextStorage *)aTextStorage didReplaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString {
 //    NSLog(@"textStorage:%@ didReplaceCharactersInRange:%@ withString:%@\n\n%d==%d?",aTextStorage,NSStringFromRange(aRange),aString, [aTextStorage length], [aString length]);
+
+	FullTextStorage *fullTextStorage = (FoldableTextStorage *)aTextStorage;
     TextOperation *textOp=[TextOperation textOperationWithAffectedCharRange:aRange replacementString:aString userID:[TCMMMUserManager myUserID]];
     if (!I_flags.isRemotelyEditingTextStorage) {
         [[self session] documentDidApplyOperation:textOp];
     } 
     
-    if ([aTextStorage length]==[aString length]) {
-        [aTextStorage addAttributes:[self plainTextAttributes] range:NSMakeRange(0,[aString length])];
+    if ([fullTextStorage length]==[aString length]) { // complete replacement needs basic attributes set again
+        [fullTextStorage addAttributes:[self plainTextAttributes] range:NSMakeRange(0,[aString length])];
     }
 
     if (I_flags.highlightSyntax) {

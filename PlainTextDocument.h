@@ -19,7 +19,7 @@ enum {
 
 
 
-@class TCMMMSession, TCMMMOperation, DocumentMode, EncodingPopUpButton, 
+@class FoldableTextStorage, TCMMMSession, TCMMMOperation, DocumentMode, EncodingPopUpButton, 
        PlainTextWindowController, WebPreviewWindowController,
        DocumentProxyWindowController, FindAllController, UndoManager, TextOperation, TextStorage, TCMMMLoggingState, FontForwardingTextField;
 
@@ -78,7 +78,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
     int I_tabWidth;
 //    int I_changeCount;
     DocumentMode  *I_documentMode;
-    NSTextStorage *I_textStorage;
+    FoldableTextStorage *I_textStorage;
     struct {
         NSFont *plainFont;
         NSFont *boldFont;
