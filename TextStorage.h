@@ -19,8 +19,6 @@ extern NSString * const TextStorageHasMixedLineEndingsDidChange;
 
 @interface TextStorage : AbstractFoldingTextStorage {
     NSMutableAttributedString *I_internalAttributedString;
-    unsigned int I_encoding;
-    LineEnding I_lineEnding;
     unsigned I_numberOfWords;
 
     struct {
@@ -30,11 +28,6 @@ extern NSString * const TextStorageHasMixedLineEndingsDidChange;
         NSRange didBlockeditRange;
         NSRange didBlockeditLineRange;
     } I_blockedit;
-
-    struct {
-        BOOL hasMixedLineEndings;
-        BOOL shouldWatchLineEndings;
-    } I_flags;
     
     TextStorage *I_containerTextStorage;
     struct {

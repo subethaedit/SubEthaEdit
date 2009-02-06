@@ -364,10 +364,6 @@
 	if ([delegate respondsToSelector:@selector(textStorage:willReplaceCharactersInRange:withString:)]) {
 		[delegate textStorage:self willReplaceCharactersInRange:aRange withString:aString];
 	}
-	BOOL needsCompleteValidation = NO;
-	if (I_flags.shouldWatchLineEndings && I_flags.hasMixedLineEndings && aRange.length && [self hasMixedLineEndingsInRange:aRange]) {
-		needsCompleteValidation = YES;
-	}
 	unsigned origLen = [self length];
 
 
@@ -392,16 +388,6 @@
 
 	if ([delegate respondsToSelector:@selector(textStorage:didReplaceCharactersInRange:withString:)]) {
 		[delegate textStorage:self didReplaceCharactersInRange:aRange withString:aString];
-	}
-
-	if (I_flags.shouldWatchLineEndings && [aString length] > 0 && (!I_flags.hasMixedLineEndings || needsCompleteValidation)) {
-		if ([self hasMixedLineEndingsInRange:NSMakeRange(aRange.location, [aString length])]) {
-			[self setHasMixedLineEndings:YES];
-			needsCompleteValidation=NO;
-		}
-	}
-	if (needsCompleteValidation) {
-		[self validateHasMixedLineEndings];
 	}
 
 }
@@ -517,6 +503,37 @@
 	NSRange resultRange = [I_fullTextStorage findLine:aLineNumber];
 	return resultRange;
 }
+
+#pragma mark - line endings and encoding
+- (LineEnding)lineEnding {
+	return [I_fullTextStorage lineEnding];
+}
+
+- (void)setLineEnding:(LineEnding)newLineEnding {
+	[I_fullTextStorage setLineEnding:newLineEnding];
+}
+
+- (void)setShouldWatchLineEndings:(BOOL)aFlag {
+	[I_fullTextStorage setShouldWatchLineEndings:aFlag];
+}
+
+- (BOOL)hasMixedLineEndings {
+	[I_fullTextStorage hasMixedLineEndings];
+}
+
+- (void)setHasMixedLineEndings:(BOOL)aFlag {
+	[I_fullTextStorage setHasMixedLineEndings:aFlag];
+}
+
+
+- (unsigned int)encoding {
+	return [I_fullTextStorage encoding];
+}
+
+- (void)setEncoding:(unsigned int)anEncoding {
+	[I_fullTextStorage setEncoding:anEncoding];
+}
+
 
 #pragma mark folding
 

@@ -34,6 +34,7 @@
 - (int)lineNumberForLocation:(unsigned)location;
 - (NSString *)positionStringForRange:(NSRange)aRange;
 - (NSRange)findLine:(int)aLineNumber;
+- (void)setHasMixedLineEndings:(BOOL)aFlag;
 
 
 
