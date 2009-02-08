@@ -14,6 +14,7 @@
 #import "TCMMMSession.h"
 #import "GeneralPreferences.h"
 #import "TextStorage.h"
+#import "FoldableTextStorage.h"
 #import "SelectionOperation.h"
 
 enum {
@@ -255,10 +256,11 @@ static NSString *S_specialGlyphs[16];
     NSEnumerator *participants = [[sessionParticipants objectForKey:@"ReadWrite"] objectEnumerator];
     TCMMMUser *user;
 //    float saturation=[[[NSUserDefaults standardUserDefaults] objectForKey:SelectionSaturationPreferenceKey] floatValue];
+	FoldableTextStorage *ts = (FoldableTextStorage *)[self textStorage];
     while ((user = [participants nextObject])) {
         SelectionOperation *selectionOperation=[[user propertiesForSessionID:sessionID] objectForKey:@"SelectionOperation"];
         if (selectionOperation) {
-            NSRange selectionRange = NSIntersectionRange(charRange, [selectionOperation selectedRange]);
+            NSRange selectionRange = NSIntersectionRange(charRange, [ts foldedRangeForFullRange:[selectionOperation selectedRange]]);
             if (selectionRange.length !=0) {
                 NSColor *changeColor=[user changeColor];
                 NSColor *selectionColor=[backgroundColor blendedColorWithFraction:

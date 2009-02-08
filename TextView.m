@@ -259,12 +259,13 @@ static NSMenu *defaultMenu=nil;
     NSEnumerator *participants = [[sessionParticipants objectForKey:@"ReadWrite"] objectEnumerator];
     TCMMMUser *user;
     TCMMMUser *me=[TCMMMUserManager me];
+    FoldableTextStorage *ts = (FoldableTextStorage *)[self textStorage];
     if (document) {
         while ((user=[participants nextObject])) {
             if (user != me) {
                 SelectionOperation *selectionOperation= [[user propertiesForSessionID:sessionID] objectForKey:@"SelectionOperation"];
                 if (selectionOperation) {
-                    NSRange selectionRange = [selectionOperation selectedRange];
+                    NSRange selectionRange = [ts foldedRangeForFullRange:[selectionOperation selectedRange]];
                     if (selectionRange.length==0) {
                         // now we have to paint a caret at position
         //                NSRange selection = NSMakeRange((unsigned)[(NSNumber *)[selection objectAtIndex:0] unsignedIntValue],0);
