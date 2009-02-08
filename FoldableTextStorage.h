@@ -20,6 +20,7 @@
 	int I_editingCount;
 }
 
+- (NSRange)foldedRangeForFullRange:(NSRange)inRange;
 - (NSRange)fullRangeForFoldedRange:(NSRange)inRange;
 - (FullTextStorage *)fullTextStorage;
 

@@ -5687,6 +5687,19 @@ static NSString *S_measurementUnits;
     return YES;
 }
 
+- (void)undoManagerDidPerformUndoGroupWithLastOperation:(TextOperation *)aOperation {
+	// adjust selection to be after the changed character or if it was more than one character select the whole text
+	NSTextView *textView = [[[self topmostWindowController] activePlainTextEditor] textView];
+	NSRange rangeToSelect = NSMakeRange([aOperation affectedCharRange].location,[[aOperation replacementString] length]);
+	if ([[self documentUndoManager] isRedoing]) {
+		rangeToSelect.location += rangeToSelect.length;
+		rangeToSelect.length = 0;
+	}
+	[textView setSelectedRange:rangeToSelect];
+	[textView scrollRangeToVisible:[textView selectedRange]];
+}
+
+
 #pragma mark -
 #pragma mark ### TextStorage Delegate Methods ###
 
