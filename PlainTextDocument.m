@@ -5695,7 +5695,7 @@ static NSString *S_measurementUnits;
 		rangeToSelect.location += rangeToSelect.length;
 		rangeToSelect.length = 0;
 	}
-	[textView setSelectedRange:rangeToSelect];
+	[textView setSelectedRange:[I_textStorage foldedRangeForFullRange:rangeToSelect]];
 	[textView scrollRangeToVisible:[textView selectedRange]];
 }
 
