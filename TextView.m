@@ -10,6 +10,7 @@
 #import "TextView.h"
 #import "TextStorage.h"
 #import "FoldableTextStorage.h"
+#import "FullTextStorage.h"
 #import "PlainTextDocument.h"
 #import "TCMMMUserManager.h"
 #import "TCMMMUser.h"
@@ -480,6 +481,12 @@ static NSMenu *defaultMenu=nil;
     [self copy:aSender];
     [self setRichText:NO];
 }
+
+#pragma mark Folding Related Methods
+- (void)scrollFullRangeToVisible:(NSRange)aRange {
+	[self scrollRangeToVisible:[(FoldableTextStorage *)[self textStorage] foldedRangeForFullRange:aRange]];
+}
+
 
 #pragma mark -
 #pragma mark ### dragging ###
