@@ -1529,7 +1529,7 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (IBAction)clearChangeMarks:(id)aSender {
-    NSTextStorage *textStorage=[self textStorage];
+    NSTextStorage *textStorage=[(FoldableTextStorage *)[self textStorage] fullTextStorage];
     [textStorage removeAttribute:ChangedByUserIDAttributeName range:NSMakeRange(0,[textStorage length])];
 }
 
@@ -5262,7 +5262,7 @@ static NSString *S_measurementUnits;
     	FullTextStorage *fts = [I_textStorage fullTextStorage];
         NSRange range=NSIntersectionRange(aRange,NSMakeRange(0,[fts length]));
         if (range.length>0) {
-            [fts removeAttribute:kSyntaxHighlightingIsCorrectAttributeName range:range];
+            [fts removeAttribute:kSyntaxHighlightingIsCorrectAttributeName range:range synchronize:NO];
             [[NSNotificationQueue defaultQueue]
                 enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentSyntaxColorizeNotification object:self]
                        postingStyle:NSPostWhenIdle
@@ -5623,7 +5623,6 @@ static NSString *S_measurementUnits;
 - (BOOL)handleOperation:(TCMMMOperation *)aOperation {
     if ([[aOperation operationID] isEqualToString:[TextOperation operationID]]) {
         TextOperation *operation=(TextOperation *)aOperation;
-        FoldableTextStorage *foldableTextStorage=(TextStorage *)[self textStorage];
 		FullTextStorage *fullTextStorage = [I_textStorage fullTextStorage];
     
         // check validity of operation

@@ -515,7 +515,25 @@
 	if (!I_internalAttributedString) {
 		[self edited:NSTextStorageEditedAttributes range:inRange changeInLength:0];
 	} else {
+		BOOL didBeginEditing = NO;
 		// TODO: go through the range, set the attributes, and if folded areas are involved split the ranges up
+		NSRange changeRange = [self foldedRangeForFullRange:inRange];
+		NSRange attributeRange = NSMakeRange(changeRange.location,0);
+		
+		do {
+			id attachment = [self attribute:NSAttachmentAttributeName atIndex:NSMaxRange(attributeRange) longestEffectiveRange:&attributeRange inRange:changeRange];
+			if (!attachment) {
+				// set Attributes
+				if (!didBeginEditing) {
+					[self beginEditing];
+					didBeginEditing = YES;
+				}
+				[self setAttributes:inAttributes range:attributeRange synchronize:NO];
+			}
+		} while (NSMaxRange(attributeRange) < NSMaxRange(changeRange));
+		
+		
+		if (didBeginEditing) [self endEditing];
 	}
 }
 
@@ -549,7 +567,7 @@
 }
 
 - (BOOL)hasMixedLineEndings {
-	[I_fullTextStorage hasMixedLineEndings];
+	return [I_fullTextStorage hasMixedLineEndings];
 }
 
 - (void)setHasMixedLineEndings:(BOOL)aFlag {
