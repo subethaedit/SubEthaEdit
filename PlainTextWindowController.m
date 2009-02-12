@@ -1691,7 +1691,7 @@ static NSAttributedString *S_dragString = nil;
                     result =[(FoldableTextStorage *)[document textStorage] 
                             positionStringForRange:[[[self activePlainTextEditor] textView] selectedRange]];
                 } else if (selectionOperation) {
-                    result =[(FoldableTextStorage *)[document textStorage] positionStringForRange:[selectionOperation selectedRange]];
+                    result =[[(FoldableTextStorage *)[document textStorage] fullTextStorage] positionStringForRange:[selectionOperation selectedRange]];
                 }
                 return [[[NSAttributedString alloc] initWithString:result attributes:attributes] autorelease];
             } else if (aTag==ParticipantsChildImageTag) {

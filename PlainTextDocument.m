@@ -35,6 +35,7 @@
 
 #import "TextStorage.h"
 #import "FoldableTextStorage.h"
+#import "FullTextStorage.h"
 #import "LayoutManager.h"
 #import "TextView.h"
 #import "EncodingManager.h"
@@ -520,13 +521,14 @@ static NSString *tempFileName(NSString *origPath) {
 
 
 - (void)executeInvalidateLayout:(NSNotification *)aNotification {
-    TextStorage *textStorage=(TextStorage *)[self textStorage];
+    FoldableTextStorage *textStorage=(FoldableTextStorage *)[self textStorage];
     NSRange wholeRange=NSMakeRange(0,[textStorage length]);
     NSEnumerator *rangeValues=[I_rangesToInvalidate objectEnumerator];
     NSValue *rangeValue=nil;
     [textStorage beginEditing];
     while ((rangeValue=[rangeValues nextObject])) {
-        NSRange changeRange=NSIntersectionRange(wholeRange,[rangeValue rangeValue]);
+    	NSRange changeRange=[textStorage foldedRangeForFullRange:[rangeValue rangeValue]];
+        changeRange=NSIntersectionRange(wholeRange,changeRange);
         if (changeRange.length!=0) {
             [textStorage edited:NSTextStorageEditedAttributes range:changeRange changeInLength:0];
         }
@@ -535,8 +537,9 @@ static NSString *tempFileName(NSString *origPath) {
     [I_rangesToInvalidate removeAllObjects];
 }
 
+// this is invalidating textRanges for the fullTextStorage
 - (void)invalidateLayoutForRange:(NSRange)aRange {
-    TextStorage *textStorage=(TextStorage *)[self textStorage];
+    FoldableTextStorage *textStorage=(FoldableTextStorage *)[self textStorage];
     NSRange wholeRange=NSMakeRange(0,[textStorage length]);
     if (aRange.length==0) {
         if (aRange.location>0) {

@@ -1572,7 +1572,7 @@
         NSDictionary *sessionProperties=[user propertiesForSessionID:[[[self document] session] sessionID]];
         SelectionOperation *selectionOperation=[sessionProperties objectForKey:@"SelectionOperation"];
         if (selectionOperation) {
-            [I_textView scrollRangeToVisible:[selectionOperation selectedRange]];
+            [I_textView scrollFullRangeToVisible:[selectionOperation selectedRange]];
         }
     }
 }
