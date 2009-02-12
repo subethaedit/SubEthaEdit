@@ -211,6 +211,11 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 	if (!inSynchronizeFlag) I_shouldNotSynchronize--;
 }
 
+- (void)removeAttribute:(NSString *)anAttribute range:(NSRange)aRange synchronize:(BOOL)aSynchronizeFlag {
+	if (!aSynchronizeFlag) I_shouldNotSynchronize++;
+	[self removeAttribute:anAttribute range:(aRange)];
+	if (!aSynchronizeFlag) I_shouldNotSynchronize--;
+}
 
 //- (void)replaceCharactersInRange:(NSRange)inRange withAttributedString:(NSAttributedString *)inAttributedString 
 //{

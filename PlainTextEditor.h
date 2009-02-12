@@ -11,7 +11,7 @@
 #import "SelectionOperation.h"
 #import "PlainTextWindowControllerTabContext.h"
 
-@class PlainTextWindowControllerTabContext,PlainTextDocument,PopUpButton,RadarScroller,TCMMMUser;
+@class PlainTextWindowControllerTabContext,PlainTextDocument,PopUpButton,RadarScroller,TCMMMUser, TextView;
 
 @interface PlainTextEditor : NSResponder {
     IBOutlet NSImageView *O_waitPipeStatusImageView;
