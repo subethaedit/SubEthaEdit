@@ -34,6 +34,8 @@
 #import "SymbolTableEntry.h"
 
 #import "TextStorage.h"
+#import "FoldableTextStorage.h"
+#import "FullTextStorage.h"
 #import "LayoutManager.h"
 #import "TextView.h"
 #import "EncodingManager.h"
@@ -519,13 +521,14 @@ static NSString *tempFileName(NSString *origPath) {
 
 
 - (void)executeInvalidateLayout:(NSNotification *)aNotification {
-    TextStorage *textStorage=(TextStorage *)[self textStorage];
+    FoldableTextStorage *textStorage=(FoldableTextStorage *)[self textStorage];
     NSRange wholeRange=NSMakeRange(0,[textStorage length]);
     NSEnumerator *rangeValues=[I_rangesToInvalidate objectEnumerator];
     NSValue *rangeValue=nil;
     [textStorage beginEditing];
     while ((rangeValue=[rangeValues nextObject])) {
-        NSRange changeRange=NSIntersectionRange(wholeRange,[rangeValue rangeValue]);
+    	NSRange changeRange=[textStorage foldedRangeForFullRange:[rangeValue rangeValue]];
+        changeRange=NSIntersectionRange(wholeRange,changeRange);
         if (changeRange.length!=0) {
             [textStorage edited:NSTextStorageEditedAttributes range:changeRange changeInLength:0];
         }
@@ -534,8 +537,9 @@ static NSString *tempFileName(NSString *origPath) {
     [I_rangesToInvalidate removeAllObjects];
 }
 
+// this is invalidating textRanges for the fullTextStorage
 - (void)invalidateLayoutForRange:(NSRange)aRange {
-    TextStorage *textStorage=(TextStorage *)[self textStorage];
+    FoldableTextStorage *textStorage=(FoldableTextStorage *)[self textStorage];
     NSRange wholeRange=NSMakeRange(0,[textStorage length]);
     if (aRange.length==0) {
         if (aRange.location>0) {
@@ -877,7 +881,7 @@ static NSString *tempFileName(NSString *origPath) {
             transientDocument = nil;
         }
         [self TCM_generateNewSession];
-        I_textStorage = [TextStorage new];
+        I_textStorage = [FoldableTextStorage new];
         [I_textStorage setDelegate:self];
         [self setLineEnding:LineEndingLF];
         [self setDocumentMode:[[DocumentModeManager sharedInstance] modeForNewDocuments]];
@@ -903,7 +907,7 @@ static NSString *tempFileName(NSString *origPath) {
         [self setShouldChangeChangeCount:NO];
         [self setSession:aSession];
         [[TCMMMPresenceManager sharedInstance] registerSession:[self session]];
-        I_textStorage = [TextStorage new];
+        I_textStorage = [FoldableTextStorage new];
         [I_textStorage setDelegate:self];
         [self setDocumentMode:[[DocumentModeManager sharedInstance] baseMode]];
         I_flags.isRemotelyEditingTextStorage=NO;
@@ -1525,7 +1529,7 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (IBAction)clearChangeMarks:(id)aSender {
-    NSTextStorage *textStorage=[self textStorage];
+    NSTextStorage *textStorage=[(FoldableTextStorage *)[self textStorage] fullTextStorage];
     [textStorage removeAttribute:ChangedByUserIDAttributeName range:NSMakeRange(0,[textStorage length])];
 }
 
@@ -3484,7 +3488,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             return [[data dataPrefixedWithUTF8BOM] writeToURL:absoluteURL options:0 error:outError];
         } else {
             // let us write using NSStrings write methods so the encoding is added to the extended attributes
-            return [[[self textStorage] string] writeToURL:absoluteURL atomically:NO encoding:[self fileEncoding] error:outError];
+            return [[[(FoldableTextStorage *)[self textStorage] fullTextStorage] string] writeToURL:absoluteURL atomically:NO encoding:[self fileEncoding] error:outError];
         }
     } else if ([inTypeName isEqualToString:@"SEETextType"]) {
         NSString *packagePath = [absoluteURL path];
@@ -3553,7 +3557,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 //-timelog            NSLog(@"%s bencoding and compressing took: %fs",__FUNCTION__,[intermediateDate timeIntervalSinceNow]*-1.);
             
             if (success) success = [data writeToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"collaborationdata.bencoded"]] options:0 error:outError];
-            if (success) success = [[[self textStorage] string] writeToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"plain.txt"]] atomically:NO encoding:[self fileEncoding] error:outError];
+            if (success) success = [[[(FoldableTextStorage *)[self textStorage] fullTextStorage] string] writeToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"plain.txt"]] atomically:NO encoding:[self fileEncoding] error:outError];
             if (success) success = [self writeMetaDataToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"metadata.xml"]] error:outError];
             
             if (saveOperation != NSAutosaveOperation) {
@@ -5233,13 +5237,14 @@ static NSString *S_measurementUnits;
 
 - (void)setHighlightsSyntax:(BOOL)aFlag {
     if (I_flags.highlightSyntax != aFlag) {
+    	FullTextStorage *fts = [I_textStorage fullTextStorage];
         I_flags.highlightSyntax = aFlag;
         if (I_flags.highlightSyntax) {
-            [self highlightSyntaxInRange:NSMakeRange(0,[I_textStorage length])];
+            [self highlightSyntaxInRange:NSMakeRange(0,[fts length])];
         } else {
-            [[I_documentMode syntaxHighlighter] cleanUpTextStorage:I_textStorage];
-            [I_textStorage addAttributes:[self plainTextAttributes]
-                                   range:NSMakeRange(0,[I_textStorage length])];
+            [[I_documentMode syntaxHighlighter] cleanUpTextStorage:fts];
+            [fts addAttributes:[self plainTextAttributes]
+                                   range:NSMakeRange(0,[fts length])];
         }
     }
 }
@@ -5254,9 +5259,10 @@ static NSString *S_measurementUnits;
 
 - (void)highlightSyntaxInRange:(NSRange)aRange {
     if (I_flags.highlightSyntax) {
-        NSRange range=NSIntersectionRange(aRange,NSMakeRange(0,[I_textStorage length]));
+    	FullTextStorage *fts = [I_textStorage fullTextStorage];
+        NSRange range=NSIntersectionRange(aRange,NSMakeRange(0,[fts length]));
         if (range.length>0) {
-            [I_textStorage removeAttribute:kSyntaxHighlightingIsCorrectAttributeName range:range];
+            [fts removeAttribute:kSyntaxHighlightingIsCorrectAttributeName range:range synchronize:NO];
             [[NSNotificationQueue defaultQueue]
                 enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentSyntaxColorizeNotification object:self]
                        postingStyle:NSPostWhenIdle
@@ -5291,7 +5297,7 @@ static NSString *S_measurementUnits;
         SyntaxHighlighter *highlighter=[I_documentMode syntaxHighlighter];
         if (highlighter) {
             if (!I_flags.syntaxHighlightingIsSuspended) {
-                if (![highlighter colorizeDirtyRanges:I_textStorage ofDocument:self]) {
+                if (![highlighter colorizeDirtyRanges:[I_textStorage fullTextStorage] ofDocument:self]) {
                     I_flags.textDidChangeSinceLastSyntaxHighlighting = NO;
                     [self performHighlightSyntax];
                 }
@@ -5529,7 +5535,7 @@ static NSString *S_measurementUnits;
 
 - (NSDictionary *)textStorageDictionaryRepresentation
 {
-    return [(TextStorage *)[self textStorage] dictionaryRepresentation];
+    return [[(FoldableTextStorage *)[self textStorage] fullTextStorage] dictionaryRepresentation];
 }
 
 - (void)setContentByDictionaryRepresentation:(NSDictionary *)aRepresentation {
@@ -5617,10 +5623,10 @@ static NSString *S_measurementUnits;
 - (BOOL)handleOperation:(TCMMMOperation *)aOperation {
     if ([[aOperation operationID] isEqualToString:[TextOperation operationID]]) {
         TextOperation *operation=(TextOperation *)aOperation;
-        TextStorage *textStorage=(TextStorage *)[self textStorage];
+		FullTextStorage *fullTextStorage = [I_textStorage fullTextStorage];
     
         // check validity of operation
-        if (NSMaxRange([operation affectedCharRange])>[textStorage length]) {
+        if (NSMaxRange([operation affectedCharRange])>[fullTextStorage length]) {
             NSLog(@"User tried to change text outside the document bounds:%@ %@",operation,[[TCMMMUserManager sharedInstance] userForUserID:[operation userID]]);
             return NO;
         }
@@ -5638,17 +5644,17 @@ static NSString *S_measurementUnits;
             }
         }
 
-        [textStorage beginEditing];
+        [fullTextStorage beginEditing];
         NSRange newRange=NSMakeRange([operation affectedCharRange].location,
                                      [[operation replacementString] length]);
-        [textStorage replaceCharactersInRange:[operation affectedCharRange]
+        [fullTextStorage replaceCharactersInRange:[operation affectedCharRange]
                                    withString:[operation replacementString]];
-        [textStorage addAttribute:WrittenByUserIDAttributeName value:[operation userID]
+        [fullTextStorage addAttribute:WrittenByUserIDAttributeName value:[operation userID]
                             range:newRange];
-        [textStorage addAttribute:ChangedByUserIDAttributeName value:[operation userID]
+        [fullTextStorage addAttribute:ChangedByUserIDAttributeName value:[operation userID]
                             range:newRange];
-        [textStorage addAttributes:[textStorage attributeDictionaryByAddingStyleAttributesForInsertLocation:newRange.location toDictionary:[self plainTextAttributes]] range:newRange];
-        [textStorage endEditing];
+        [fullTextStorage addAttributes:[fullTextStorage attributeDictionaryByAddingStyleAttributesForInsertLocation:newRange.location toDictionary:[self plainTextAttributes]] range:newRange];
+        [fullTextStorage endEditing];
 
 
         if (I_flags.isRemotelyEditingTextStorage) {
@@ -5683,11 +5689,29 @@ static NSString *S_measurementUnits;
     return YES;
 }
 
+- (void)undoManagerDidPerformUndoGroupWithLastOperation:(TextOperation *)aOperation {
+	// adjust selection to be after the changed character or if it was more than one character select the whole text
+	NSTextView *textView = [[[self topmostWindowController] activePlainTextEditor] textView];
+	NSRange rangeToSelect = NSMakeRange([aOperation affectedCharRange].location,[[aOperation replacementString] length]);
+	if ([[self documentUndoManager] isRedoing]) {
+		rangeToSelect.location += rangeToSelect.length;
+		rangeToSelect.length = 0;
+	}
+	[textView setSelectedRange:[I_textStorage foldedRangeForFullRange:rangeToSelect]];
+	[textView scrollRangeToVisible:[textView selectedRange]];
+}
+
+
 #pragma mark -
 #pragma mark ### TextStorage Delegate Methods ###
+
+// these delegate methods return ranges regarding the fullTextStorage, and also return it
+
 - (void)textStorage:(NSTextStorage *)aTextStorage willReplaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString {
 //    NSLog(@"textStorage:%@ willReplaceCharactersInRange:%@ withString:%@",aTextStorage,NSStringFromRange(aRange),aString);
     if (!I_flags.isRemotelyEditingTextStorage && !I_flags.isReadingFile && !I_flags.isHandlingUndoManually) {
+    	FullTextStorage *fullTextStorage = (FoldableTextStorage *)aTextStorage;
+    
         TextOperation *operation=[TextOperation textOperationWithAffectedCharRange:aRange replacementString:aString userID:(NSString *)[TCMMMUserManager myUserID]];
         UndoManager *undoManager=[self documentUndoManager];
         BOOL shouldGroup=YES;
@@ -5695,7 +5719,7 @@ static NSString *S_measurementUnits;
             shouldGroup=[operation shouldBeGroupedWithTextOperation:I_lastRegisteredUndoOperation];
         }
         [undoManager registerUndoChangeTextInRange:NSMakeRange(aRange.location,[aString length])
-                     replacementString:[[aTextStorage string] substringWithRange:aRange] shouldGroupWithPriorOperation:shouldGroup];
+                     replacementString:[[fullTextStorage string] substringWithRange:aRange] shouldGroupWithPriorOperation:shouldGroup];
         [I_lastRegisteredUndoOperation release];
         I_lastRegisteredUndoOperation = [operation retain];
     }
@@ -5703,13 +5727,15 @@ static NSString *S_measurementUnits;
 
 - (void)textStorage:(NSTextStorage *)aTextStorage didReplaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString {
 //    NSLog(@"textStorage:%@ didReplaceCharactersInRange:%@ withString:%@\n\n%d==%d?",aTextStorage,NSStringFromRange(aRange),aString, [aTextStorage length], [aString length]);
+
+	FullTextStorage *fullTextStorage = (FoldableTextStorage *)aTextStorage;
     TextOperation *textOp=[TextOperation textOperationWithAffectedCharRange:aRange replacementString:aString userID:[TCMMMUserManager myUserID]];
     if (!I_flags.isRemotelyEditingTextStorage) {
         [[self session] documentDidApplyOperation:textOp];
     } 
     
-    if ([aTextStorage length]==[aString length]) {
-        [aTextStorage addAttributes:[self plainTextAttributes] range:NSMakeRange(0,[aString length])];
+    if ([fullTextStorage length]==[aString length]) { // complete replacement needs basic attributes set again
+        [fullTextStorage addAttributes:[self plainTextAttributes] range:NSMakeRange(0,[aString length])];
     }
 
     if (I_flags.highlightSyntax) {
@@ -6011,7 +6037,7 @@ static NSString *S_measurementUnits;
 - (void)textViewDidChangeSelection:(NSNotification *)aNotification {
     if (!I_flags.isRemotelyEditingTextStorage) {
         NSTextView *textView=(NSTextView *)[aNotification object];
-        NSRange selectedRange = [textView selectedRange];
+        NSRange selectedRange = [I_textStorage fullRangeForFoldedRange:[textView selectedRange]];
         SelectionOperation *selOp = [SelectionOperation selectionOperationWithRange:selectedRange userID:[TCMMMUserManager myUserID]];
         [[self session] documentDidApplyOperation:selOp];
         [self TCM_sendPlainTextDocumentParticipantsDataDidChangeNotification];

@@ -196,6 +196,8 @@ documentation/syntax-styles-whiteboard.jpg -text
 documentation/whiteboard-1411.jpg -text
 subethaedit/AboutPanelController.h -text
 subethaedit/AboutPanelController.m -text
+subethaedit/AbstractFoldingTextStorage.h -text
+subethaedit/AbstractFoldingTextStorage.m -text
 subethaedit/Acknowledgements.txt -text
 subethaedit/AdvancedPreferences.h -text
 subethaedit/AdvancedPreferences.m -text
@@ -409,10 +411,18 @@ subethaedit/FindReplaceController.h -text
 subethaedit/FindReplaceController.m -text
 subethaedit/FirstClickCustomView.h -text
 subethaedit/FirstClickCustomView.m -text
+subethaedit/FoldableTextStorage.h -text
+subethaedit/FoldableTextStorage.m -text
+subethaedit/FoldedTextAttachment.h -text
+subethaedit/FoldedTextAttachment.m -text
+subethaedit/FoldingTextAttachmentCell.h -text
+subethaedit/FoldingTextAttachmentCell.m -text
 subethaedit/FontAttributesToStringValueTransformer.h -text
 subethaedit/FontAttributesToStringValueTransformer.m -text
 subethaedit/FontForwardingTextField.h -text
 subethaedit/FontForwardingTextField.m -text
+subethaedit/FullTextStorage.h -text
+subethaedit/FullTextStorage.m -text
 subethaedit/GeneralPreferences.h -text
 subethaedit/GeneralPreferences.m -text
 subethaedit/GenericSASLProfile.h -text
@@ -2153,6 +2163,7 @@ subethaedit/artwork/WebReload.tiff -text
 subethaedit/artwork/codingmonkeys.png -text
 subethaedit/artwork/debug.tiff -text
 subethaedit/artwork/dmg_background.png -text
+subethaedit/artwork/folded.tiff -text
 subethaedit/artwork/glass-normal-cap-left.tiff -text
 subethaedit/artwork/glass-normal-cap-right.tiff -text
 subethaedit/artwork/glass-normal-fill.tiff -text

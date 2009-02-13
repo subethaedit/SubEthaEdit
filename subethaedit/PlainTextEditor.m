@@ -36,7 +36,8 @@
 #import "ScriptTextSelection.h"
 #import "NSMenuTCMAdditions.h"
 #import "NSMutableAttributedStringSEEAdditions.h"
-
+#import "FoldableTextStorage.h"
+#import "FoldedTextAttachment.h"
 
 @interface NSTextView (PrivateAdditions)
 - (BOOL)_isUnmarking;
@@ -1360,6 +1361,34 @@
 #pragma mark -
 #pragma mark ### NSTextView delegate methods ###
 
+- (NSString *)textView:(NSTextView *)inTextView willDisplayToolTip:(NSString *)inTooltip forCharacterAtIndex:(unsigned)inCharacterIndex {
+	FoldableTextStorage *ts = (FoldableTextStorage *)[inTextView textStorage];
+	id attachment = [ts attribute:NSAttachmentAttributeName atIndex:inCharacterIndex effectiveRange:NULL];
+	if (attachment) {
+		NSHelpManager *hm = [NSHelpManager sharedHelpManager];
+		NSAttributedString *helpString = [ts attributedStringOfFolding:attachment];
+		NSLog(@"%s helpString",__FUNCTION__);
+		[hm setContextHelp:helpString forObject:attachment];
+		[hm showContextHelpForObject:attachment locationHint:[NSEvent mouseLocation]];
+		[hm removeContextHelpForObject:attachment];
+		return nil;
+//		return [ts foldedStringRepresentationOfRange:[attachment foldedTextRange] foldings:[attachment innerAttachments] level:1];
+	} else {
+		return inTooltip;
+	}
+}
+
+- (void)textView:(NSTextView *)view doubleClickedOnCell:(id <NSTextAttachmentCell>)cell inRect:(NSRect)rect atIndex:(unsigned)inIndex {
+	if ([[cell attachment] isKindOfClass:[FoldedTextAttachment class]])
+	{
+		[(FoldableTextStorage *)[view textStorage] unfoldAttachment:(FoldedTextAttachment *)[cell attachment] atCharacterIndex:inIndex];
+		if ([O_scrollView rulersVisible]) {
+			[[O_scrollView verticalRulerView] setNeedsDisplay:YES];
+		}
+
+	}
+}
+
 - (void)textViewContextMenuNeedsUpdate:(NSMenu *)aContextMenu {
     NSMenu *scriptMenu = [[aContextMenu itemWithTag:12345] submenu];
     [scriptMenu removeAllItems];
@@ -1543,7 +1572,7 @@
         NSDictionary *sessionProperties=[user propertiesForSessionID:[[[self document] session] sessionID]];
         SelectionOperation *selectionOperation=[sessionProperties objectForKey:@"SelectionOperation"];
         if (selectionOperation) {
-            [I_textView scrollRangeToVisible:[selectionOperation selectedRange]];
+            [I_textView scrollFullRangeToVisible:[selectionOperation selectedRange]];
         }
     }
 }

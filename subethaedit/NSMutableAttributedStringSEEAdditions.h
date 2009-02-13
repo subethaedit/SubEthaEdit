@@ -19,6 +19,8 @@
 - (void)removeAttributes:(NSArray *)names range:(NSRange)aRange;
 - (void)setContentByDictionaryRepresentation:(NSDictionary *)aRepresentation;
 
+- (NSDictionary *)attributeDictionaryByAddingStyleAttributesForInsertLocation:(unsigned int)inLocation toDictionary:(NSDictionary *)inBaseStyle;
+
 @end
 
 @interface NSAttributedString (NSAttributedStringSeeAdditions)

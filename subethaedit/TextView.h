@@ -25,6 +25,11 @@
 - (void)setPageGuidePosition:(float)aPosition;
 - (BOOL)isPasting;
 
+- (IBAction)foldTextSelection:(id)aSender;
+
+#pragma mark Folding Related Methods
+- (void)scrollFullRangeToVisible:(NSRange)aRange;
+
 @end
 
 @interface NSObject (TextViewDelegateMethods) 

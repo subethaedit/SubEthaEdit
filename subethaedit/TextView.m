@@ -9,6 +9,8 @@
 #import "LayoutManager.h"
 #import "TextView.h"
 #import "TextStorage.h"
+#import "FoldableTextStorage.h"
+#import "FullTextStorage.h"
 #import "PlainTextDocument.h"
 #import "TCMMMUserManager.h"
 #import "TCMMMUser.h"
@@ -258,12 +260,13 @@ static NSMenu *defaultMenu=nil;
     NSEnumerator *participants = [[sessionParticipants objectForKey:@"ReadWrite"] objectEnumerator];
     TCMMMUser *user;
     TCMMMUser *me=[TCMMMUserManager me];
+    FoldableTextStorage *ts = (FoldableTextStorage *)[self textStorage];
     if (document) {
         while ((user=[participants nextObject])) {
             if (user != me) {
                 SelectionOperation *selectionOperation= [[user propertiesForSessionID:sessionID] objectForKey:@"SelectionOperation"];
                 if (selectionOperation) {
-                    NSRange selectionRange = [selectionOperation selectedRange];
+                    NSRange selectionRange = [ts foldedRangeForFullRange:[selectionOperation selectedRange]];
                     if (selectionRange.length==0) {
                         // now we have to paint a caret at position
         //                NSRange selection = NSMakeRange((unsigned)[(NSNumber *)[selection objectAtIndex:0] unsignedIntValue],0);
@@ -334,6 +337,21 @@ static NSMenu *defaultMenu=nil;
     // disable cursor rects and therefore mouse cursor changing when we have a dark background so the documentcursor is used
     if ([[self insertionPointColor] isDark]) [super resetCursorRects];
 }
+
+- (IBAction)foldTextSelection:(id)aSender {
+	NSRange selectedRange = [self selectedRange];
+	if (selectedRange.length > 0) {
+		FoldableTextStorage *ts = (FoldableTextStorage *)[self textStorage];
+		[ts foldRange:selectedRange];
+		NSScrollView *scrollView = [self enclosingScrollView];
+		if ([scrollView rulersVisible]) {
+			[[scrollView verticalRulerView] setNeedsDisplay:YES];
+		}
+	} else {
+		NSBeep();
+	}
+}
+
 
 - (NSRange)selectionRangeForProposedRange:(NSRange)proposedSelRange granularity:(NSSelectionGranularity)granularity {
     NSEvent *currentEvent=[NSApp currentEvent];
@@ -463,6 +481,12 @@ static NSMenu *defaultMenu=nil;
     [self copy:aSender];
     [self setRichText:NO];
 }
+
+#pragma mark Folding Related Methods
+- (void)scrollFullRangeToVisible:(NSRange)aRange {
+	[self scrollRangeToVisible:[(FoldableTextStorage *)[self textStorage] foldedRangeForFullRange:aRange]];
+}
+
 
 #pragma mark -
 #pragma mark ### dragging ###

@@ -11,7 +11,7 @@
 #import "SelectionOperation.h"
 #import "PlainTextWindowControllerTabContext.h"
 
-@class PlainTextWindowControllerTabContext,PlainTextDocument,PopUpButton,RadarScroller,TCMMMUser;
+@class PlainTextWindowControllerTabContext,PlainTextDocument,PopUpButton,RadarScroller,TCMMMUser, TextView;
 
 @interface PlainTextEditor : NSResponder {
     IBOutlet NSImageView *O_waitPipeStatusImageView;
@@ -28,7 +28,7 @@
     IBOutlet NSView       *O_topStatusBarView;
     IBOutlet NSView       *O_bottomStatusBarView;
     RadarScroller   *I_radarScroller;
-    NSTextView      *I_textView;
+    TextView        *I_textView;
     NSTextContainer *I_textContainer;
     NSMutableArray *I_storedSelectedRanges;
     PlainTextWindowControllerTabContext *I_windowControllerTabContext;
