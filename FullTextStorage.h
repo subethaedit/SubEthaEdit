@@ -15,6 +15,9 @@
 	NSMutableAttributedString *I_internalAttributedString;
 	FoldableTextStorage *I_foldableTextStorage;
 	int I_shouldNotSynchronize;
+	int I_linearAttributeChangeState;
+	NSRange I_unionRangeOfLinearAttributeChanges;
+	int I_linearAttributeChangesCount;
 
     NSMutableArray *I_lineStarts;
     unsigned int I_lineStartsValidUpTo;
@@ -52,6 +55,12 @@
 //- (void)replaceCharactersInRange:(NSRange)inRange withAttributedString:(NSAttributedString *)inAttributedString synchronize:(BOOL)inSynchronizeFlag;
 //- (void)replaceCharactersInRange:(NSRange)inRange withAttributedString:(NSAttributedString *)inAttributedString;
 - (void)removeAttribute:(NSString *)anAttribute range:(NSRange)aRange synchronize:(BOOL)aSynchronizeFlag;
+
+// disables synchronisation until linear attribute changing ends;
+- (void)beginLinearAttributeChanges;
+- (void)endLinearAttributeChanges;
+
+#pragma mark -
 
 
 - (BOOL)hasMixedLineEndingsInRange:(NSRange)aRange;
