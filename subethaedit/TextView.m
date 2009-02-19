@@ -482,6 +482,26 @@ static NSMenu *defaultMenu=nil;
     [self setRichText:NO];
 }
 
+- (IBAction)copy:(id)aSender {
+	NSRange selectedRange = [self selectedRange];
+	if (selectedRange.length == 0) return;
+	
+	id textStorage = [self textStorage];
+	if ([textStorage respondsToSelector:@selector(fullRangeForFoldedRange:)]) {
+		selectedRange = [textStorage fullRangeForFoldedRange:selectedRange];
+		textStorage = [textStorage fullTextStorage];
+	}
+	NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
+	BOOL isRichText = [self isRichText];
+	
+	[pasteboard declareTypes:(isRichText ? [NSArray arrayWithObjects:NSStringPboardType,NSRTFPboardType,nil] : [NSArray arrayWithObjects:NSStringPboardType,nil]) owner:nil];
+	
+	[pasteboard setString:[[textStorage string] substringWithRange:selectedRange] forType:NSStringPboardType];
+	if (isRichText) {
+		[pasteboard setData:[textStorage RTFFromRange:selectedRange documentAttributes:nil] forType:NSRTFPboardType];
+	}
+}
+
 #pragma mark Folding Related Methods
 - (void)scrollFullRangeToVisible:(NSRange)aRange {
 	[self scrollRangeToVisible:[(FoldableTextStorage *)[self textStorage] foldedRangeForFullRange:aRange]];
