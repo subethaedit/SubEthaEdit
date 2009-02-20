@@ -11,6 +11,7 @@
 #import "FullTextStorage.h"
 #import "TextStorage.h"
 #import "EncodingManager.h"
+#import "SyntaxHighlighter.h"
 
 
 static NSString * S_LineEndingLFRegExPart;
@@ -181,7 +182,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     if (inSynchronizeFlag && !I_shouldNotSynchronize) [I_foldableTextStorage fullTextDidReplaceCharactersInRange:aRange withString:aString];
 
 	if ([delegate respondsToSelector:@selector(textStorage:didReplaceCharactersInRange:withString:)]) {
-		[delegate textStorage:self didReplaceCharactersInRange:aRange withString:aString];
+		[delegate textStorage:(NSTextStorage *)self didReplaceCharactersInRange:aRange withString:aString];
 	}
 }
 
@@ -213,7 +214,8 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 
 - (void)removeAttribute:(NSString *)anAttribute range:(NSRange)aRange synchronize:(BOOL)aSynchronizeFlag {
 	if (!aSynchronizeFlag) I_shouldNotSynchronize++;
-	[self removeAttribute:anAttribute range:(aRange)];
+//	NSLog(@"%s %@ %@",__FUNCTION__,anAttribute, NSStringFromRange(aRange));
+	[self removeAttribute:anAttribute range:aRange];
 	if (!aSynchronizeFlag) I_shouldNotSynchronize--;
 }
 

@@ -406,6 +406,7 @@ NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"P
     while (position<NSMaxRange(textRange)) {
         correct=[aTextStorage attribute:kSyntaxHighlightingIsCorrectAttributeName atIndex:position longestEffectiveRange:&dirtyRange inRange:textRange];
         if (!correct) {
+//        	NSLog(@"%s found a dirty range: %@",__FUNCTION__,NSStringFromRange(dirtyRange));
             while (YES) {
                 chunks++;
                 chunkRange = dirtyRange;

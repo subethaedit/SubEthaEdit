@@ -9,9 +9,16 @@
 
 #import "FullTextStorage.h"
 #import "FoldableTextStorage.h"
+#import "SyntaxHighlighter.h"
+
+static NSArray *S_nonSyncAttributes = nil;
 
 
 @implementation FoldableTextStorage
+
++ (void)initialize {
+	S_nonSyncAttributes = [[NSArray alloc] initWithObjects:kSyntaxHighlightingIsCorrectAttributeName,BlockeditAttributeName,nil];
+}
 
 - (id)init {
     if ((self = [super init])) {
@@ -432,7 +439,11 @@
 		[I_internalAttributedString setAttributes:attributes range:aRange];
 	
 		if (inSynchronizeFlag && !I_fixingCounter) {
-			[I_fullTextStorage setAttributes:attributes range:[self fullRangeForFoldedRange:aRange] synchronize:NO];
+			// sync most of the attributes, but not all
+			NSMutableDictionary *filteredAttributes = [attributes mutableCopy];
+			[filteredAttributes removeObjectsForKeys:S_nonSyncAttributes];
+			[I_fullTextStorage setAttributes:filteredAttributes range:[self fullRangeForFoldedRange:aRange] synchronize:NO];
+			[filteredAttributes release];
 		}
 	} else {
 		[I_fullTextStorage setAttributes:attributes range:[self fullRangeForFoldedRange:aRange] synchronize:YES];

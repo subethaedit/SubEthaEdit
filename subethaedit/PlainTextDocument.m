@@ -1205,9 +1205,9 @@ static NSString *tempFileName(NSString *origPath) {
          I_documentMode = [aDocumentMode retain];
         [self takeSettingsFromDocumentMode];
         [I_textStorage addAttributes:[self plainTextAttributes]
-                                   range:NSMakeRange(0,[I_textStorage length])];
+                                   range:NSMakeRange(0,[[I_textStorage fullTextStorage] length])];
         if (I_flags.highlightSyntax) {
-            [self highlightSyntaxInRange:NSMakeRange(0,[[self textStorage] length])];
+            [self highlightSyntaxInRange:NSMakeRange(0,[[I_textStorage fullTextStorage] length])];
         }
         [self setContinuousSpellCheckingEnabled:[[aDocumentMode defaultForKey:DocumentModeSpellCheckingPreferenceKey] boolValue]];
         [self updateSymbolTable];
@@ -1646,7 +1646,7 @@ static NSString *tempFileName(NSString *origPath) {
                     [I_textStorage setAttributes:[self typingAttributes] range:NSMakeRange(0, [I_textStorage length])];
                 }
                 if (I_flags.highlightSyntax) {
-                    [self highlightSyntaxInRange:NSMakeRange(0, [I_textStorage length])];
+                    [self highlightSyntaxInRange:NSMakeRange(0, [[I_textStorage fullTextStorage] length])];
                 }
                 [I_textStorage endEditing];
                 [[self documentUndoManager] endUndoGrouping];
@@ -4596,7 +4596,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [I_blockeditAttributes release];
      I_blockeditAttributes=nil;
     [I_styleCacheDictionary removeAllObjects];
-    NSRange wholeRange=NSMakeRange(0,[[self textStorage] length]);
+    NSRange wholeRange=NSMakeRange(0,[[I_textStorage fullTextStorage] length]);
     [I_textStorage addAttributes:[self plainTextAttributes]
                            range:wholeRange];
     if (I_flags.highlightSyntax) {
@@ -5257,6 +5257,7 @@ static NSString *S_measurementUnits;
     [self setHighlightsSyntax:![self highlightsSyntax]];
 }
 
+// this method expects ranges of the fulltextstorage
 - (void)highlightSyntaxInRange:(NSRange)aRange {
     if (I_flags.highlightSyntax) {
     	FullTextStorage *fts = [I_textStorage fullTextStorage];
@@ -5710,7 +5711,7 @@ static NSString *S_measurementUnits;
 - (void)textStorage:(NSTextStorage *)aTextStorage willReplaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString {
 //    NSLog(@"textStorage:%@ willReplaceCharactersInRange:%@ withString:%@",aTextStorage,NSStringFromRange(aRange),aString);
     if (!I_flags.isRemotelyEditingTextStorage && !I_flags.isReadingFile && !I_flags.isHandlingUndoManually) {
-    	FullTextStorage *fullTextStorage = (FoldableTextStorage *)aTextStorage;
+    	FullTextStorage *fullTextStorage = (FullTextStorage *)aTextStorage;
     
         TextOperation *operation=[TextOperation textOperationWithAffectedCharRange:aRange replacementString:aString userID:(NSString *)[TCMMMUserManager myUserID]];
         UndoManager *undoManager=[self documentUndoManager];
@@ -5741,6 +5742,7 @@ static NSString *S_measurementUnits;
     if (I_flags.highlightSyntax) {
         if ([aString length]) {
             NSRange range=NSMakeRange(aRange.location,[aString length]);
+//            NSLog(@"%s %@",__FUNCTION__, NSStringFromRange(range));
             [self highlightSyntaxInRange:range];
         } else {
             unsigned length=[aTextStorage length];
@@ -6316,7 +6318,7 @@ static NSString *S_measurementUnits;
     [mutableString release];
     
     if (I_flags.highlightSyntax) {
-        [self highlightSyntaxInRange:NSMakeRange(0, [I_textStorage length])];
+        [self highlightSyntaxInRange:NSMakeRange(0, [[I_textStorage fullTextStorage] length])];
     }
 
 }
