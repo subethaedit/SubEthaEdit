@@ -69,6 +69,15 @@ NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"P
     if (!definition) NSLog(@"ERROR: No defintion for highlighter.");
 	[definition getReady]; // Make sure everything is setup 
     NSString *theString = [aString string];
+
+    // If our dirty range beings with a start delimiter, make sure it is cleared completely to avoid confusing the engine with zombie starts
+    if (aRange.location>0) {
+        if ([[aString attribute:kSyntaxHighlightingStateDelimiterName atIndex:aRange.location-1 effectiveRange:nil] isEqualTo:@"Start"]) {
+            NSRange midwayStartDelimiterRange;
+            [aString attribute:kSyntaxHighlightingStateDelimiterName atIndex:aRange.location-1 longestEffectiveRange:&midwayStartDelimiterRange inRange:NSMakeRange(0, [theString length])];
+            aRange = NSUnionRange(aRange, midwayStartDelimiterRange);
+        }
+    }
     
     NSRange currentRange = aRange;
     int delimiterStateNumber;
