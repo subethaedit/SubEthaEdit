@@ -98,7 +98,7 @@
 -(void)parseXMLFile:(NSString *)aPath {
 
     NSError *err=nil;
-    NSXMLDocument *syntaxDefinitionXML = [[NSXMLDocument alloc] initWithData:[NSData dataWithContentsOfFile:aPath] options:0 error:&err];
+    NSXMLDocument *syntaxDefinitionXML = [[[NSXMLDocument alloc] initWithData:[NSData dataWithContentsOfFile:aPath] options:0 error:&err] autorelease];
 
     if (err) {
 		[self showWarning:NSLocalizedString(@"XML Structure Error",@"XML Structure Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"Error while loading '%@': %@",@"Syntax XML Loading Error Informative Text"),aPath, [err localizedDescription]]];
@@ -111,7 +111,7 @@
 
     NSString *charsInToken = [[[syntaxDefinitionXML nodesForXPath:@"/syntax/head/charsintokens" error:&err] lastObject] stringValue];
     NSString *charsDelimitingToken = [[[syntaxDefinitionXML nodesForXPath:@"/syntax/head/charsdelimitingtokens" error:&err] lastObject] stringValue];
-    NSCharacterSet *tokenSet;
+    NSCharacterSet *tokenSet = nil; // TODO: what should be the value if neither charsInToken nor charsDelimitingToken?
     
     if (charsInToken) {
         tokenSet = [NSCharacterSet characterSetWithCharactersInString:charsInToken];
@@ -153,7 +153,6 @@
         [I_allStates setObject:I_defaultState forKey:[I_defaultState objectForKey:@"id"]]; // Reread default mode
     }
 
-    [syntaxDefinitionXML release];
 }
 
 - (void)addAttributes:(NSArray *)attributes toDictionary:(NSMutableDictionary *)aDictionary {

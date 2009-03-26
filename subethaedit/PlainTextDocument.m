@@ -2291,7 +2291,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     
         // ShortID users
         BOOL colorConflict=NO;
-        NSMutableSet *userColors=[NSMutableSet new];
+        NSMutableSet *userColors=[NSMutableSet set];
         NSMutableArray *contributorDictionaries=[NSMutableArray array];
         NSMutableArray *lurkerDictionaries=[NSMutableArray array];
         NSMutableDictionary *contributorDictionary=[NSMutableDictionary dictionary];
@@ -4394,7 +4394,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         if (aRange.location>0) aRange.location-=1;
         else return NSMakeRange(NSNotFound,0);
     }
-    userID=[textStorage attribute:ChangedByUserIDAttributeName atIndex:aRange.location longestEffectiveRange:&searchRange inRange:fullRange];
+    
+    [textStorage attribute:ChangedByUserIDAttributeName atIndex:aRange.location longestEffectiveRange:&searchRange inRange:fullRange];
     userID=nil;
     while (!userID) {
         if (aPrevious) {

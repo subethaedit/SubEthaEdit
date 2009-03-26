@@ -110,7 +110,7 @@ NSString * const AlwaysShowTabBarKey                        = @"AlwaysShowTabBar
         [O_emailComboBox addItemWithObjectValue:[emails valueAtIndex:index]];
     }
     ABMultiValue *aims=[meCard valueForProperty:kABAIMInstantProperty];
-    index=0;
+
     count=[aims count];
     for (index=0;index<count;index++) {
         [O_aimComboBox addItemWithObjectValue:[aims valueAtIndex:index]];

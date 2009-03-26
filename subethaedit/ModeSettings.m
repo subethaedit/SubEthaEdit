@@ -76,7 +76,7 @@
 -(void)parseXMLFile:(NSString *)aPath {
 
     NSError *err=nil;
-    NSXMLDocument *modeSettingsXML = [[NSXMLDocument alloc] initWithData:[NSData dataWithContentsOfFile:aPath] options:0 error:&err];
+    NSXMLDocument *modeSettingsXML = [[[NSXMLDocument alloc] initWithData:[NSData dataWithContentsOfFile:aPath] options:0 error:&err] autorelease];
 
     if (err) {
         NSLog(@"Error while loading '%@': %@", aPath, [err localizedDescription]);
@@ -137,7 +137,6 @@
         }
     }    
     
-    [modeSettingsXML release];
 }
 
 - (NSArray *)recognizedCasesensitveExtensions {

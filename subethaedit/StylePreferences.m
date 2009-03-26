@@ -88,9 +88,9 @@
                                  [styleBox frame].origin.y) toView:nil];
         screenOrigin = [[styleBox window] convertBaseToScreen:baseOrigin];
 
-        NSRect windowRect=NSMakeRect(screenOrigin.x,screenOrigin.y,
-                                     [styleBox frame].size.width,[styleBox frame].size.height);
-        windowRect=NSInsetRect(windowRect,-2,-2);
+//        NSRect windowRect=NSMakeRect(screenOrigin.x,screenOrigin.y,
+//                                     [styleBox frame].size.width,[styleBox frame].size.height);
+//        windowRect=NSInsetRect(windowRect,-2,-2);
     
         OverlayView *view=[[[OverlayView alloc] initWithFrame:[styleBox frame]] autorelease];
         [view setDelegate:self];

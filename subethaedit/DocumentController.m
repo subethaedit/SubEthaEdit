@@ -550,6 +550,8 @@ static NSString *tempFileName() {
     [alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"File operation error: %@ with file: %@", nil), [errorInfo objectForKey:@"Error"], [errorInfo objectForKey:@"Path"]]];
     [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
     (void)[alert runModal];
+	[alert release];
+	
     return YES;
 }
 

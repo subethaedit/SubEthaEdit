@@ -345,7 +345,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     NSEnumerator *menuItems = [[oldMenu itemArray] objectEnumerator];
     NSMenuItem *item=nil;
     while ((item = [menuItems nextObject])) {
-        [menu addItem:[item copy]];
+        [menu addItem:[[item copy] autorelease]];
     }
     [oldMenu release];
     [O_statusPopUpButton setCell:cell];

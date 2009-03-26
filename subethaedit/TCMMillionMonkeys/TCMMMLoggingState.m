@@ -41,7 +41,7 @@
     if ((self=[self init])) {
         NSEnumerator *operationReps = [[aDictionary objectForKey:@"ops"] objectEnumerator];
         NSDictionary *operationRep =nil;
-        NSMutableArray *loggedOperations = [NSMutableArray new];
+        NSMutableArray *loggedOperations = [NSMutableArray array];
         while ((operationRep = [operationReps nextObject])) {
             id operation = [[[TCMMMLoggedOperation alloc] initWithDictionaryRepresentation:operationRep] autorelease];
             if (operation) {

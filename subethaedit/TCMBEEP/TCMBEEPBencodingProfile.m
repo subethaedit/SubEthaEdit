@@ -21,10 +21,10 @@ static NSMutableDictionary *S_routingDictionary=nil;
 + (NSMutableDictionary *)myRoutingDictionary {
     id result = [S_routingDictionary objectForKey:[self class]];
     if (!result) {
-        result = [NSMutableDictionary new];
+        result = [NSMutableDictionary dictionary];
         [S_routingDictionary setObject:result forKey:[self class]];
-        [result setObject:[NSMutableDictionary new] forKey:[NSNumber numberWithInt:TCMBEEPChannelRoleInitiator]];
-        [result setObject:[NSMutableDictionary new] forKey:[NSNumber numberWithInt:TCMBEEPChannelRoleResponder]];
+        [result setObject:[NSMutableDictionary dictionary] forKey:[NSNumber numberWithInt:TCMBEEPChannelRoleInitiator]];
+        [result setObject:[NSMutableDictionary dictionary] forKey:[NSNumber numberWithInt:TCMBEEPChannelRoleResponder]];
     }
     return result;
 }

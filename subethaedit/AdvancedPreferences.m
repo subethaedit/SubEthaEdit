@@ -360,6 +360,7 @@
         [alert setMessageText:NSLocalizedString(@"The see command line tool couldn't be removed.", @"Message text in modal dialog in advanced prefs")];
         [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
         (void)[alert runModal];
+		[alert release];
     }
 }
 

@@ -90,7 +90,7 @@ static NSString *s_updateContext   = @"UpdateContext";
 - (void)windowDidLoad {
     I_wordCountUpdateScheduled = NO;
     
-    [[O_userTableView tableColumnWithIdentifier:@"entries"] setDataCell:[[HUDStatisticPersonCell alloc] init]];
+    [[O_userTableView tableColumnWithIdentifier:@"entries"] setDataCell:[[[HUDStatisticPersonCell alloc] init] autorelease]];
     [O_statEntryArrayController setSortDescriptors:
         [NSArray arrayWithObjects:
             [[[NSSortDescriptor alloc] initWithKey:@"dateOfLastActivity" ascending:NO] autorelease],

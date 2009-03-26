@@ -1273,7 +1273,7 @@ static NSAttributedString *S_dragString = nil;
         int count = [pathComponents count];
         if (count != 0) {
             NSMutableString *result = [NSMutableString string];
-            int i = count;
+            int i = 0;
             int pathComponentsToShow = [[NSUserDefaults standardUserDefaults] integerForKey:AdditionalShownPathComponentsPreferenceKey] + 1;
             for (i = count-1; i >= 1 && i > count-pathComponentsToShow-1; i--) {
                 if (i != count-1) {

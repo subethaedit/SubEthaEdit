@@ -84,21 +84,24 @@ static DebugController * sharedInstance = nil;
         NSMenuItem *BEEPItem = [[NSMenuItem alloc] initWithTitle:@"Sessions Viewer" action:@selector(showBEEP:) keyEquivalent:@""];
         [BEEPItem setTarget:self];
         [menu addItem:BEEPItem];
+        [BEEPItem release];
         
         [menu addItem:[NSMenuItem separatorItem]];
 
         NSMenuItem *sendOperationItem = [[NSMenuItem alloc] initWithTitle:@"Show Send Operation..." action:@selector(showSendOperation:) keyEquivalent:@""];
         [sendOperationItem setTarget:self];
         [menu addItem:sendOperationItem];
-
+		[sendOperationItem release];
 
         NSMenuItem *CrashItem = [[NSMenuItem alloc] initWithTitle:@"Crash Application" action:@selector(crash:) keyEquivalent:@""];
         [CrashItem setTarget:self];
         [menu addItem:CrashItem];
+		[CrashItem release];
 
         NSMenuItem *CrashReportItem = [[NSMenuItem alloc] initWithTitle:@"Resend Last Crash Report" action:@selector(sendCrashReport:) keyEquivalent:@""];
         [CrashReportItem setTarget:self];
         [menu addItem:CrashReportItem];
+		[CrashReportItem release];
 
         NSMenuItem *blahItem = [[NSMenuItem alloc] initWithTitle:@"Log All BEEP Session Retain Counts" action:@selector(logRetainCounts) keyEquivalent:@""];
         [blahItem setTarget:[TCMMMBEEPSessionManager sharedInstance]];

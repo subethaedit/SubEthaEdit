@@ -334,7 +334,7 @@ static NSRect   _rightTopRect = {{0, 0}, {0, 0}};
     static NSDictionary*    _attrs = nil;
     if (!_attrs) {
         NSMutableParagraphStyle*    paragraph;
-        paragraph = [[NSMutableParagraphStyle alloc] init];
+        paragraph = [[[NSMutableParagraphStyle alloc] init] autorelease];
         [paragraph setAlignment:NSCenterTextAlignment];
         [paragraph setLineBreakMode:NSLineBreakByTruncatingTail];
         

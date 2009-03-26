@@ -58,7 +58,7 @@ Boolean GetMetadataForFile(void* thisInterface,
     NSMutableArray *authors = [NSMutableArray array];
     NSMutableArray *contactKeywords = [NSMutableArray array];
     NSError *err=nil;
-    NSXMLDocument *metadata = [[NSXMLDocument alloc] initWithData:[NSData dataWithContentsOfFile:[(NSString *)pathToFile stringByAppendingPathComponent:@"metadata.xml"]] options:nil error:&err];
+    NSXMLDocument *metadata = [[[NSXMLDocument alloc] initWithData:[NSData dataWithContentsOfFile:[(NSString *)pathToFile stringByAppendingPathComponent:@"metadata.xml"]] options:nil error:&err] autorelease];
     if (!err) {
         NSEnumerator *contributors = [[metadata nodesForXPath:@"/seemetadata/contributors/contributor" error:&err] objectEnumerator];
         NSXMLElement *contributor = nil;

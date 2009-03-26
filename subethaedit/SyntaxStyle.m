@@ -241,7 +241,7 @@ static NSArray *S_possibleStyleColors;
 
 - (void)writeOutAllStylesDictionaryToHome
 {
-	NSMutableDictionary *allStylesDictionary = [NSMutableDictionary new];
+	NSMutableDictionary *allStylesDictionary = [NSMutableDictionary dictionary];
     NSEnumerator *keys=[[self allKeys] objectEnumerator];
     NSString *key = nil;
     while ((key=[keys nextObject])) {
