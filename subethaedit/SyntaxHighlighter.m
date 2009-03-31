@@ -26,6 +26,7 @@ NSString * const kSyntaxHighlightingStyleIDAttributeName = @"styleID";
 NSString * const kSyntaxHighlightingTypeAttributeName = @"Type";
 NSString * const kSyntaxHighlightingParentModeForSymbolsAttributeName = @"ParentModeForSymbols";
 NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"ParentModeForAutocomplete";
+NSString * const kSyntaxHighlightingFoldableAttributeName = @"Foldable";
 
 @implementation SyntaxHighlighter
 /*"A Syntax Highlighter"*/
@@ -90,7 +91,7 @@ NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"P
 
 
     // Clean up state attributes in the string we work on now
-	NSArray *attributesToCleanup = [NSArray arrayWithObjects:kSyntaxHighlightingStackName,kSyntaxHighlightingStateDelimiterName,kSyntaxHighlightingTypeAttributeName,kSyntaxHighlightingParentModeForSymbolsAttributeName,kSyntaxHighlightingParentModeForAutocompleteAttributeName,kSyntaxHighlightingIsCorrectAttributeName,nil];
+	NSArray *attributesToCleanup = [NSArray arrayWithObjects:kSyntaxHighlightingStackName,kSyntaxHighlightingStateDelimiterName,kSyntaxHighlightingTypeAttributeName,kSyntaxHighlightingParentModeForSymbolsAttributeName,kSyntaxHighlightingParentModeForAutocompleteAttributeName,kSyntaxHighlightingIsCorrectAttributeName,kSyntaxHighlightingFoldableAttributeName,nil];
     [aString removeAttributes:attributesToCleanup range:aRange];
 
     NSMutableDictionary *scratchAttributes = [NSMutableDictionary dictionary];
@@ -192,13 +193,16 @@ NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"P
                 subState = [definition stateForID:[subState objectForKey:@"id"]];
 				[scratchAttributes setObject:[subState objectForKey:[definition keyForInheritedSymbols]] forKey:kSyntaxHighlightingParentModeForSymbolsAttributeName];
 				[scratchAttributes setObject:[subState objectForKey:[definition keyForInheritedAutocomplete]] forKey:kSyntaxHighlightingParentModeForAutocompleteAttributeName];
-				[scratchAttributes setObject:kSyntaxHighlightingIsCorrectAttributeValue forKey:kSyntaxHighlightingIsCorrectAttributeName];
+                if ([[subState objectForKey:@"foldable"] isEqualToString:@"yes"]) [scratchAttributes setObject:@"state" forKey:kSyntaxHighlightingFoldableAttributeName];
+
+                [scratchAttributes setObject:kSyntaxHighlightingIsCorrectAttributeValue forKey:kSyntaxHighlightingIsCorrectAttributeName];
 				
                 [aString addAttributes:scratchAttributes range:delimiterRange];
             } else { // Found end of current state
                 //NSLog(@"Found and end");
                 nextRange.location = NSMaxRange(stateRange);
                 nextRange.length = currentRange.length - stateRange.length;
+                if ([[currentState objectForKey:@"foldable"] isEqualToString:@"yes"]) [scratchAttributes setObject:@"state" forKey:kSyntaxHighlightingFoldableAttributeName];
                 [aString addAttribute:kSyntaxHighlightingStateDelimiterName value:@"End" range:delimiterRange];
                 savedStack = [[stack copy] autorelease];
                 [stack removeLastObject]; // Default state doesn't have an end, stack is always > 0
@@ -226,6 +230,7 @@ NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"P
 		
 		[scratchAttributes setObject:[currentState objectForKey:[definition keyForInheritedSymbols]] forKey:kSyntaxHighlightingParentModeForSymbolsAttributeName];
 		[scratchAttributes setObject:[currentState objectForKey:[definition keyForInheritedAutocomplete]] forKey:kSyntaxHighlightingParentModeForAutocompleteAttributeName];
+        if ([[currentState objectForKey:@"foldable"] isEqualToString:@"yes"]) [scratchAttributes setObject:@"state" forKey:kSyntaxHighlightingFoldableAttributeName];
         [scratchAttributes setObject:kSyntaxHighlightingIsCorrectAttributeValue forKey:kSyntaxHighlightingIsCorrectAttributeName];
 			
         //NSLog(@"Calculating color range");

@@ -7,6 +7,8 @@
 //
 
 #import "DebugAttributeInspectorController.h"
+#import "FullTextStorage.h"
+#import "FoldableTextStorage.h"
 
 
 @implementation DebugAttributeInspectorController
@@ -38,6 +40,9 @@
                 }
                 [O_attributesContentController addObject:dictionary];
             }
+            NSMutableDictionary *bonusDictionary = [NSMutableDictionary dictionaryWithObject:@"Foldable Range" forKey:@"attributeName"];
+            [bonusDictionary setObject:NSStringFromRange([[(FoldableTextStorage *)textStorage fullTextStorage] foldableRangeForCharacterAtIndex:selectedRange.location]) forKey:@"contentValue"];
+            [O_attributesContentController addObject:bonusDictionary];
         }
         [O_attributesContentController rearrangeObjects];
     }

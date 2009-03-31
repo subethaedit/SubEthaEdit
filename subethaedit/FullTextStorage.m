@@ -458,5 +458,56 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 	[super endEditing];
 }
 
+- (NSRange)foldableRangeForCharacterAtIndex:(unsigned long int)index
+{
+    // Looks up the range of a folding
+    // Search backwards for a start with matching stack, then forwards for an end.
+    
+    NSMutableAttributedString *string = self;
+    NSString *kindOfFolding = [string attribute:kSyntaxHighlightingFoldableAttributeName atIndex:index effectiveRange:nil];
+    
+    if ([kindOfFolding isEqualToString:@"state"]) { // Foldable state from definition
+        unsigned long int startIndex = 0, endIndex = 0;
+        
+        NSRange indexStackRange, startRange, endRange, originalRange;
+        NSArray *stack = [string attribute:kSyntaxHighlightingStackName atIndex:index longestEffectiveRange:&indexStackRange inRange:NSMakeRange(0, [string length])];
+        originalRange = indexStackRange;
+        
+        NSArray *neighborStack = stack;
+        // Look for start
+        while ([neighborStack count]>=[stack count]) {
+            if (indexStackRange.location<=0) return NSMakeRange(NSNotFound, 0); // Not foldable
+            if ([neighborStack count]==[stack count]) startIndex = indexStackRange.location;
+            neighborStack = [string attribute:kSyntaxHighlightingStackName atIndex:indexStackRange.location-1 longestEffectiveRange:&indexStackRange inRange:NSMakeRange(0, indexStackRange.location)];
+        }
+        
+        if ([[string attribute:kSyntaxHighlightingStateDelimiterName atIndex:startIndex effectiveRange:&startRange] isEqualTo:@"Start"]) {
+            // Found a start
+            startIndex = NSMaxRange(startRange);            
+            // Look for an end
+            neighborStack = stack;
+            indexStackRange = originalRange;
+            while ([neighborStack count]>=[stack count]) {
+                if (NSMaxRange(indexStackRange)<=0) break;
+                if ([neighborStack count]==[stack count]) endIndex = NSMaxRange(indexStackRange);
+                
+                if (NSMaxRange(indexStackRange)>=[string length]) break;
+                neighborStack = [string attribute:kSyntaxHighlightingStackName atIndex:indexStackRange.location+1 longestEffectiveRange:&indexStackRange inRange:NSMakeRange(NSMaxRange(indexStackRange), [string length]-NSMaxRange(indexStackRange))];
+            }
+            
+
+            
+            if ((endIndex>0)&&[[string attribute:kSyntaxHighlightingStateDelimiterName atIndex:endIndex-1 effectiveRange:&endRange] isEqualTo:@"End"]) {
+                endIndex = endRange.location;
+                return NSMakeRange(startIndex, endIndex-startIndex);
+            }
+            
+            
+        }
+    }
+    
+    return NSMakeRange(NSNotFound, 0); // Not foldable
+}
+
 
 @end
