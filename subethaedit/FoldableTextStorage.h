@@ -14,10 +14,22 @@
 
 @class FullTextStorage, TextStorage;
 
+extern NSString * const BlockeditAttributeName ;
+extern NSString * const BlockeditAttributeValue;
+
 @interface FoldableTextStorage : TextStorage {
 	FullTextStorage *I_fullTextStorage;
 	NSMutableArray *I_sortedFoldedTextAttachments;
 	int I_editingCount;
+
+    struct {
+        BOOL hasBlockeditRanges;
+        BOOL  isBlockediting;
+        BOOL didBlockedit;
+        NSRange didBlockeditRange;
+        NSRange didBlockeditLineRange;
+    } I_blockedit;
+    
 }
 
 - (NSRange)foldedRangeForFullRange:(NSRange)inRange;
@@ -37,6 +49,19 @@
 - (NSRange)findLine:(int)aLineNumber;
 - (void)setHasMixedLineEndings:(BOOL)aFlag;
 
+#pragma mark Blockedit
+- (BOOL)hasBlockeditRanges;
+- (void)setHasBlockeditRanges:(BOOL)aFlag;
+- (BOOL)isBlockediting;
+- (void)setIsBlockediting:(BOOL)aFlag;
+- (BOOL)didBlockedit;
+- (void)setDidBlockedit:(BOOL)aFlag;
+- (NSRange)didBlockeditRange;
+- (void)setDidBlockeditRange:(NSRange)aRange;
+- (NSRange)didBlockeditLineRange;
+- (void)setDidBlockeditLineRange:(NSRange)aRange;
+
+- (void)stopBlockedit;
 
 
 #pragma mark debug output
@@ -45,3 +70,12 @@
 - (NSString *)foldedStringRepresentation;
 
 @end
+
+@interface NSObject (TextStorageBlockeditDelegateAdditions)
+
+- (NSDictionary *)blockeditAttributesForTextStorage:(TextStorage *)aTextStorage;
+- (void)textStorageDidStopBlockedit:(TextStorage *)aTextStorage;
+- (void)textStorageDidStartBlockedit:(TextStorage *)aTextStorage;
+
+@end
+

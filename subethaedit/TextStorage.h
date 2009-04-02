@@ -11,8 +11,6 @@
 #import "NSMutableAttributedStringSEEAdditions.h"
 #import "AbstractFoldingTextStorage.h"
 
-extern NSString * const BlockeditAttributeName ;
-extern NSString * const BlockeditAttributeValue;
 
 extern NSString * const TextStorageLineEndingDidChange;
 extern NSString * const TextStorageHasMixedLineEndingsDidChange;
@@ -21,14 +19,6 @@ extern NSString * const TextStorageHasMixedLineEndingsDidChange;
     NSMutableAttributedString *I_internalAttributedString;
     unsigned I_numberOfWords;
 
-    struct {
-        BOOL hasBlockeditRanges;
-        BOOL  isBlockediting;
-        BOOL didBlockedit;
-        NSRange didBlockeditRange;
-        NSRange didBlockeditLineRange;
-    } I_blockedit;
-    
     TextStorage *I_containerTextStorage;
     struct {
         int length;
@@ -62,21 +52,9 @@ extern NSString * const TextStorageHasMixedLineEndingsDidChange;
 - (void)setEncoding:(unsigned int)anEncoding;
 - (NSArray *)selectionOperationsForRangesUnconvertableToEncoding:(NSStringEncoding)encoding;
 
-- (BOOL)hasBlockeditRanges;
-- (void)setHasBlockeditRanges:(BOOL)aFlag;
-- (BOOL)isBlockediting;
-- (void)setIsBlockediting:(BOOL)aFlag;
-- (BOOL)didBlockedit;
-- (void)setDidBlockedit:(BOOL)aFlag;
-- (NSRange)didBlockeditRange;
-- (void)setDidBlockeditRange:(NSRange)aRange;
-- (NSRange)didBlockeditLineRange;
-- (void)setDidBlockeditLineRange:(NSRange)aRange;
-
 - (NSRange)blockChangeTextInRange:(NSRange)aRange replacementString:(NSString *)aReplacementString
                    paragraphRange:(NSRange)aParagraphRange inTextView:(NSTextView *)aTextView tabWidth:(unsigned)aTabWidth useTabs:(BOOL)aUseTabs;
 
-- (void)stopBlockedit;
 
 - (NSDictionary *)dictionaryRepresentation;
 - (void)setContentByDictionaryRepresentation:(NSDictionary *)aRepresentation;
@@ -108,11 +86,7 @@ extern NSString * const TextStorageHasMixedLineEndingsDidChange;
 
 #pragma mark -
 
-@interface NSObject (TextStorageDelegateAdditions)
-
-- (NSDictionary *)blockeditAttributesForTextStorage:(TextStorage *)aTextStorage;
-- (void)textStorageDidStopBlockedit:(TextStorage *)aTextStorage;
-- (void)textStorageDidStartBlockedit:(TextStorage *)aTextStorage;
+@interface TextStorage (TextStorageDelegateAdditions)
 - (void)textStorage:(TextStorage *)aTextStorage willReplaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString;
 - (void)textStorage:(TextStorage *)aTextStorage didReplaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString;
 

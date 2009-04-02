@@ -1201,13 +1201,14 @@ static NSString *tempFileName(NSString *origPath) {
     if (aDocumentMode != I_documentMode) {
         [I_documentMode autorelease];
         SyntaxHighlighter *highlighter=[I_documentMode syntaxHighlighter];
-        [highlighter cleanUpTextStorage:[self textStorage]];
+        FullTextStorage *fullTextStorage = [I_textStorage fullTextStorage];
+        [highlighter cleanUpTextStorage:fullTextStorage];
          I_documentMode = [aDocumentMode retain];
         [self takeSettingsFromDocumentMode];
-        [I_textStorage addAttributes:[self plainTextAttributes]
-                                   range:NSMakeRange(0,[[I_textStorage fullTextStorage] length])];
+        [fullTextStorage addAttributes:[self plainTextAttributes]
+                                   range:NSMakeRange(0,[fullTextStorage length])];
         if (I_flags.highlightSyntax) {
-            [self highlightSyntaxInRange:NSMakeRange(0,[[I_textStorage fullTextStorage] length])];
+            [self highlightSyntaxInRange:NSMakeRange(0,[fullTextStorage length])];
         }
         [self setContinuousSpellCheckingEnabled:[[aDocumentMode defaultForKey:DocumentModeSpellCheckingPreferenceKey] boolValue]];
         [self updateSymbolTable];
@@ -4597,8 +4598,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [I_blockeditAttributes release];
      I_blockeditAttributes=nil;
     [I_styleCacheDictionary removeAllObjects];
-    NSRange wholeRange=NSMakeRange(0,[[I_textStorage fullTextStorage] length]);
-    [I_textStorage addAttributes:[self plainTextAttributes]
+    FullTextStorage *fullTextStorage = [I_textStorage fullTextStorage];
+    NSRange wholeRange=NSMakeRange(0,[fullTextStorage length]);
+    [fullTextStorage addAttributes:[self plainTextAttributes]
                            range:wholeRange];
     if (I_flags.highlightSyntax) {
         [self highlightSyntaxInRange:wholeRange];
@@ -5730,7 +5732,7 @@ static NSString *S_measurementUnits;
 - (void)textStorage:(NSTextStorage *)aTextStorage didReplaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString {
 //    NSLog(@"textStorage:%@ didReplaceCharactersInRange:%@ withString:%@\n\n%d==%d?",aTextStorage,NSStringFromRange(aRange),aString, [aTextStorage length], [aString length]);
 
-	FullTextStorage *fullTextStorage = (FoldableTextStorage *)aTextStorage;
+	FullTextStorage *fullTextStorage = (FullTextStorage *)aTextStorage;
     TextOperation *textOp=[TextOperation textOperationWithAffectedCharRange:aRange replacementString:aString userID:[TCMMMUserManager myUserID]];
     if (!I_flags.isRemotelyEditingTextStorage) {
         [[self session] documentDidApplyOperation:textOp];
@@ -5862,10 +5864,12 @@ static NSString *S_measurementUnits;
 }
 
 - (void)textStorageDidStartBlockedit:(TextStorage *)aTextStorage {
+	NSLog(@"%s",__FUNCTION__);
     [[self plainTextEditors] makeObjectsPerformSelector:@selector(TCM_updateStatusBar)];
 }
 
 - (void)textStorageDidStopBlockedit:(TextStorage *)aTextStorage {
+	NSLog(@"%s",__FUNCTION__);
     [[self plainTextEditors] makeObjectsPerformSelector:@selector(TCM_updateStatusBar)];
 }
 
@@ -5891,7 +5895,7 @@ static NSString *S_measurementUnits;
     NSRange affectedRange=[aTextView rangeForUserTextChange];
     NSRange selectedRange=[aTextView selectedRange];
     if (aSelector==@selector(cancel:)) {
-        TextStorage *textStorage=(TextStorage *)[self textStorage];
+        FoldableTextStorage *textStorage=(FoldableTextStorage *)[self textStorage];
         if ([textStorage hasBlockeditRanges]) {
             [textStorage stopBlockedit];
             return YES;
@@ -5985,7 +5989,7 @@ static NSString *S_measurementUnits;
 - (NSRange)textView:(NSTextView *)aTextView
            willChangeSelectionFromCharacterRange:(NSRange)aOldSelectedCharRange
                                 toCharacterRange:(NSRange)aNewSelectedCharRange {
-    TextStorage *textStorage = (TextStorage *)[aTextView textStorage];
+    FoldableTextStorage *textStorage = (FoldableTextStorage *)[aTextView textStorage];
     if (![textStorage isBlockediting] && [textStorage hasBlockeditRanges] && !I_flags.isRemotelyEditingTextStorage && ![[self documentUndoManager] isPerformingGroup]) {
         if ([textStorage length]==0) {
             [textStorage stopBlockedit];
@@ -6048,7 +6052,7 @@ static NSString *S_measurementUnits;
 }
 
 - (BOOL)textView:(NSTextView *)aTextView shouldChangeTextInRange:(NSRange)aAffectedCharRange replacementString:(NSString *)aReplacementString {
-    TextStorage *textStorage=(TextStorage *)[aTextView textStorage];
+    FoldableTextStorage *textStorage=(FoldableTextStorage *)[aTextView textStorage];
     if ([aTextView hasMarkedText] && !I_flags.didPauseBecauseOfMarkedText) {
         //NSLog(@"paused because of marked...");
         I_flags.didPauseBecauseOfMarkedText=YES;
@@ -6139,7 +6143,7 @@ static NSString *S_measurementUnits;
     }
 
 
-    TextStorage *textStorage = (TextStorage *) [textView textStorage];
+    FoldableTextStorage *textStorage = (FoldableTextStorage *) [textView textStorage];
     // take care for blockedit
 
     if (![textStorage didBlockedit]) {

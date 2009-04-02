@@ -89,7 +89,7 @@ static NSMenu *defaultMenu=nil;
     unsigned glyphIndex,characterIndex,beginIndex;
 
     LayoutManager *layoutManager=(LayoutManager *)[self layoutManager];
-    TextStorage *textStorage=(TextStorage *)[self textStorage];
+    FoldableTextStorage *textStorage=(FoldableTextStorage *)[self textStorage];
     if ([textStorage length]==0) return;
     NSString *string = [self string];
 
@@ -402,7 +402,7 @@ static NSMenu *defaultMenu=nil;
 }
 
 - (void)complete:(id)sender {
-    TextStorage *textStorage=(TextStorage *)[self textStorage];
+    FoldableTextStorage *textStorage=(FoldableTextStorage *)[self textStorage];
     if ([textStorage hasBlockeditRanges]) {
         NSEvent *event=[NSApp currentEvent];
         // 53 is the escape key

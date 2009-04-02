@@ -6,13 +6,16 @@
 //  Copyright 2009 TheCodingMonkeys. All rights reserved.
 //
 
-
+#import "PlainTextDocument.h"
 #import "FullTextStorage.h"
 #import "FoldableTextStorage.h"
 #import "SyntaxHighlighter.h"
 
+
 static NSArray *S_nonSyncAttributes = nil;
 
+NSString * const BlockeditAttributeName =@"Blockedit";
+NSString * const BlockeditAttributeValue=@"YES";
 
 @implementation FoldableTextStorage
 
@@ -27,6 +30,12 @@ static NSArray *S_nonSyncAttributes = nil;
         I_internalAttributedString = nil;//[NSMutableAttributedString new];
         I_fullTextStorage = [[FullTextStorage alloc] initWithFoldableTextStorage:self];
 		I_sortedFoldedTextAttachments = [NSMutableArray new];
+
+		I_blockedit.hasBlockeditRanges=NO;
+		I_blockedit.isBlockediting    =NO;
+		I_blockedit.didBlockedit      =NO;
+		I_blockedit.didBlockeditRange = NSMakeRange(NSNotFound,0);
+		I_blockedit.didBlockeditLineRange = NSMakeRange(NSNotFound,0);
     }
     return self;
 }
@@ -437,7 +446,6 @@ static NSArray *S_nonSyncAttributes = nil;
 - (void)setAttributes:(NSDictionary *)attributes range:(NSRange)aRange synchronize:(BOOL)inSynchronizeFlag {
 	if (I_internalAttributedString) {
 		[I_internalAttributedString setAttributes:attributes range:aRange];
-	
 		if (inSynchronizeFlag && !I_fixingCounter) {
 			// sync most of the attributes, but not all
 			NSMutableDictionary *filteredAttributes = [attributes mutableCopy];
@@ -522,7 +530,8 @@ static NSArray *S_nonSyncAttributes = nil;
 }
 
 - (void)fullTextDidSetAttributes:(NSDictionary *)inAttributes range:(NSRange)inRange {
-//	NSLog(@"%s %@",__FUNCTION__, NSStringFromRange(inRange));
+	NSLog(@"%s %@",__FUNCTION__, NSStringFromRange(inRange));
+	NSMutableDictionary *attributesPlusBlockedit = nil;
 	if (!I_internalAttributedString) {
 		[self edited:NSTextStorageEditedAttributes range:inRange changeInLength:0];
 	} else {
@@ -539,7 +548,21 @@ static NSArray *S_nonSyncAttributes = nil;
 					[self beginEditing];
 					didBeginEditing = YES;
 				}
-				[self setAttributes:inAttributes range:attributeRange synchronize:NO];
+				
+				// preserve blockedit attribute if there
+				NSRange blockeditAttributeRange = NSMakeRange(attributeRange.location,0);
+				do {
+					id blockeditAttribute = [self attribute:BlockeditAttributeName atIndex:NSMaxRange(blockeditAttributeRange) longestEffectiveRange:&blockeditAttributeRange inRange:attributeRange];
+					if (blockeditAttribute) {
+						if (!attributesPlusBlockedit) {
+							attributesPlusBlockedit = [[inAttributes mutableCopy] autorelease];
+							[attributesPlusBlockedit setObject:BlockeditAttributeValue forKey:BlockeditAttributeName];
+						}
+						[self setAttributes:attributesPlusBlockedit range:blockeditAttributeRange synchronize:NO];
+					} else {
+						[self setAttributes:inAttributes range:blockeditAttributeRange synchronize:NO];
+					}
+				} while (NSMaxRange(blockeditAttributeRange) < NSMaxRange(attributeRange));
 			}
 		} while (NSMaxRange(attributeRange) < NSMaxRange(changeRange));
 		
@@ -627,7 +650,7 @@ static NSArray *S_nonSyncAttributes = nil;
 		}
 	}
 	
-	NSMutableAttributedString *collapsedString = [NSMutableAttributedString attributedStringWithAttachment:attachment];
+	NSMutableAttributedString *collapsedString = (NSMutableAttributedString *)[NSMutableAttributedString attributedStringWithAttachment:attachment];
 //	NSLog(@"%s %@",__FUNCTION__,collapsedString);
 	if (!I_internalAttributedString) { // generate it on first fold
 		I_internalAttributedString = [I_fullTextStorage mutableCopy];
@@ -706,6 +729,136 @@ static NSArray *S_nonSyncAttributes = nil;
 		[self edited:NSTextStorageEditedCharacters | NSTextStorageEditedAttributes range:NSMakeRange(0,[I_internalAttributedString length]) changeInLength:0];
 		NSLog(@"%s ------------------------------> killed mutable string storage",__FUNCTION__);
 	}
+}
+
+#pragma mark Blockedit
+
+- (BOOL)hasBlockeditRanges {
+    return I_blockedit.hasBlockeditRanges;
+}
+- (void)setHasBlockeditRanges:(BOOL)aFlag {
+	NSLog(@"%s %d",__FUNCTION__,aFlag);
+    if (aFlag != I_blockedit.hasBlockeditRanges) {
+        I_blockedit.hasBlockeditRanges=aFlag;
+        id delegate=[self delegate];
+        SEL selector=I_blockedit.hasBlockeditRanges?
+                     @selector(textStorageDidStartBlockedit:):
+                     @selector(textStorageDidStopBlockedit:);
+        if ([delegate respondsToSelector:selector]) {
+            [delegate performSelector:selector withObject:self];
+        }
+    }
+}
+
+- (BOOL)isBlockediting {
+//	NSLog(@"%s %d",__FUNCTION__,I_blockedit.isBlockediting);
+    return I_blockedit.isBlockediting;
+}
+- (void)setIsBlockediting:(BOOL)aFlag {
+//	NSLog(@"%s %d",__FUNCTION__,aFlag);
+    I_blockedit.isBlockediting=aFlag;
+}
+
+- (BOOL)didBlockedit {
+//	NSLog(@"%s %d",__FUNCTION__,I_blockedit.didBlockedit);
+    return I_blockedit.didBlockedit;
+}
+- (void)setDidBlockedit:(BOOL)aFlag {
+//	NSLog(@"%s %d",__FUNCTION__,aFlag);
+    I_blockedit.didBlockedit=aFlag;
+}
+
+- (NSRange)didBlockeditRange {
+//	NSLog(@"%s %@",__FUNCTION__,NSStringFromRange(I_blockedit.didBlockeditRange));
+    return I_blockedit.didBlockeditRange;
+}
+- (void)setDidBlockeditRange:(NSRange)aRange {
+//	NSLog(@"%s %@",__FUNCTION__,NSStringFromRange(aRange));
+    I_blockedit.didBlockeditRange=aRange;
+}
+
+- (NSRange)didBlockeditLineRange {
+//	NSLog(@"%s %@",__FUNCTION__,NSStringFromRange(I_blockedit.didBlockeditLineRange));
+    return I_blockedit.didBlockeditLineRange;
+}
+- (void)setDidBlockeditLineRange:(NSRange)aRange {
+	NSLog(@"%s %@",__FUNCTION__,NSStringFromRange(aRange));
+    I_blockedit.didBlockeditLineRange=aRange;
+}
+
+- (void)stopBlockedit {
+//	NSLog(@"%s",__FUNCTION__);
+    NSDictionary *blockeditAttributes=[[self delegate] blockeditAttributesForTextStorage:self];
+    NSArray *attributeNameArray=[blockeditAttributes allKeys];
+    NSRange range;
+    NSRange wholeRange=NSMakeRange(0,[self length]);
+    [self beginEditing];
+    unsigned position=wholeRange.location;
+    while (position<wholeRange.length) {
+        id value=[self attribute:BlockeditAttributeName atIndex:position 
+                       longestEffectiveRange:&range inRange:wholeRange];
+        if (value) {
+            int i=0;
+            for (i=0;i<[attributeNameArray count];i++) {
+                [self removeAttribute:[attributeNameArray objectAtIndex:i]
+                                range:range];
+            }
+        }
+        position=NSMaxRange(range);
+    }
+    [self endEditing];
+    [self setHasBlockeditRanges:NO];
+}
+
+
+- (void)fixParagraphStyleAttributeInRange:(NSRange)aRange {
+	NSLog(@"%s %@",__FUNCTION__,NSStringFromRange(aRange));
+    [super fixParagraphStyleAttributeInRange:aRange];
+
+    NSDictionary *blockeditAttributes=[[self delegate] blockeditAttributesForTextStorage:self];
+
+    NSString *string=[self string];
+    NSRange lineRange=[string lineRangeForRange:aRange];
+    NSRange blockeditRange;
+    id value;
+    unsigned position=lineRange.location;
+    while (position<NSMaxRange(lineRange)) {
+        value=[self attribute:BlockeditAttributeName atIndex:position
+                            longestEffectiveRange:&blockeditRange inRange:lineRange];
+        if (value) {
+            NSRange blockLineRange=[string lineRangeForRange:blockeditRange];
+            if (!NSEqualRanges(blockLineRange,blockeditRange)) {
+                blockeditRange=blockLineRange;
+                [self addAttributes:blockeditAttributes range:blockeditRange];
+            }
+        }
+        position=NSMaxRange(blockeditRange);
+    }
+    
+    if ([[[[self delegate] documentMode] defaultForKey:DocumentModeIndentWrappedLinesPreferenceKey] boolValue]) {
+        NSFont *font=[[self delegate] fontWithTrait:0];
+        int tabWidth=[[self delegate] tabWidth];
+        float characterWidth=[font widthOfString:@" "];
+        int indentWrappedCharacterAmount = [[[[self delegate] documentMode] defaultForKey:DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey] intValue];
+        // look at all the lines and fixe the indention
+        NSRange myRange = NSMakeRange(aRange.location,0);
+        do {
+            myRange = [string lineRangeForRange:NSMakeRange(NSMaxRange(myRange),0)];
+            if (myRange.length>0) {
+                NSParagraphStyle *style=[self attribute:NSParagraphStyleAttributeName atIndex:myRange.location effectiveRange:NULL];
+                if (style) {
+                    float desiredHeadIndent = characterWidth*[string detabbedLengthForRange:[string rangeOfLeadingWhitespaceStartingAt:myRange.location] tabWidth:tabWidth] + [style firstLineHeadIndent] + indentWrappedCharacterAmount * characterWidth;
+                    
+                    if (ABS([style headIndent]-desiredHeadIndent)>0.01) {
+                        NSMutableParagraphStyle *newStyle=[style mutableCopy];
+                        [newStyle setHeadIndent:desiredHeadIndent];
+                        [self addAttribute:NSParagraphStyleAttributeName value:newStyle range:myRange];
+                        [newStyle release];
+                    }
+                }
+            }
+        } while (NSMaxRange(myRange)<NSMaxRange(aRange)); 
+    }
 }
 
 

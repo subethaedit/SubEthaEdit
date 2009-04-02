@@ -20,9 +20,6 @@
 #import "DocumentMode.h"
 
 
-NSString * const BlockeditAttributeName =@"Blockedit";
-NSString * const BlockeditAttributeValue=@"YES";
-
 NSString * const TextStorageLineEndingDidChange =
                @"TextStorageLineEndingDidChange";
 NSString * const TextStorageHasMixedLineEndingsDidChange =
@@ -38,12 +35,6 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 @implementation TextStorage
 
 - (void)TCM_initHelper {
-    I_blockedit.hasBlockeditRanges=NO;
-    I_blockedit.isBlockediting    =NO;
-    I_blockedit.didBlockedit      =NO;
-    I_blockedit.didBlockeditRange = NSMakeRange(NSNotFound,0);
-    I_blockedit.didBlockeditLineRange = NSMakeRange(NSNotFound,0);
-
     I_internalAttributedString=[NSMutableAttributedString new];
 }
 
@@ -137,56 +128,6 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     [[self string] getLineStart:&lineStartIndex end:&lineEndIndex contentsEnd:NULL forRange:NSMakeRange([self length],0)];
     return lineStartIndex == lineEndIndex;
 }
-
-- (void)fixParagraphStyleAttributeInRange:(NSRange)aRange {
-    [super fixParagraphStyleAttributeInRange:aRange];
-
-    NSDictionary *blockeditAttributes=[[self delegate] blockeditAttributesForTextStorage:self];
-
-    NSString *string=[self string];
-    NSRange lineRange=[string lineRangeForRange:aRange];
-    NSRange blockeditRange;
-    id value;
-    unsigned position=lineRange.location;
-    while (position<NSMaxRange(lineRange)) {
-        value=[self attribute:BlockeditAttributeName atIndex:position
-                            longestEffectiveRange:&blockeditRange inRange:lineRange];
-        if (value) {
-            NSRange blockLineRange=[string lineRangeForRange:blockeditRange];
-            if (!NSEqualRanges(blockLineRange,blockeditRange)) {
-                blockeditRange=blockLineRange;
-                [self addAttributes:blockeditAttributes range:blockeditRange];
-            }
-        }
-        position=NSMaxRange(blockeditRange);
-    }
-    
-    if ([[[[self delegate] documentMode] defaultForKey:DocumentModeIndentWrappedLinesPreferenceKey] boolValue]) {
-        NSFont *font=[[self delegate] fontWithTrait:0];
-        int tabWidth=[[self delegate] tabWidth];
-        float characterWidth=[font widthOfString:@" "];
-        int indentWrappedCharacterAmount = [[[[self delegate] documentMode] defaultForKey:DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey] intValue];
-        // look at all the lines and fixe the indention
-        NSRange myRange = NSMakeRange(aRange.location,0);
-        do {
-            myRange = [string lineRangeForRange:NSMakeRange(NSMaxRange(myRange),0)];
-            if (myRange.length>0) {
-                NSParagraphStyle *style=[self attribute:NSParagraphStyleAttributeName atIndex:myRange.location effectiveRange:NULL];
-                if (style) {
-                    float desiredHeadIndent = characterWidth*[string detabbedLengthForRange:[string rangeOfLeadingWhitespaceStartingAt:myRange.location] tabWidth:tabWidth] + [style firstLineHeadIndent] + indentWrappedCharacterAmount * characterWidth;
-                    
-                    if (ABS([style headIndent]-desiredHeadIndent)>0.01) {
-                        NSMutableParagraphStyle *newStyle=[style mutableCopy];
-                        [newStyle setHeadIndent:desiredHeadIndent];
-                        [self addAttribute:NSParagraphStyleAttributeName value:newStyle range:myRange];
-                        [newStyle release];
-                    }
-                }
-            }
-        } while (NSMaxRange(myRange)<NSMaxRange(aRange)); 
-    }
-}
-
 
 - (int)blockChangeTextInRange:(NSRange)aRange replacementString:(NSString *)aReplacementString
            lineRange:(NSRange)aLineRange inTextView:(NSTextView *)aTextView tabWidth:(unsigned)aTabWidth useTabs:(BOOL)aUseTabs{
@@ -352,72 +293,6 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 }
 
 
-- (BOOL)hasBlockeditRanges {
-    return I_blockedit.hasBlockeditRanges;
-}
-- (void)setHasBlockeditRanges:(BOOL)aFlag {
-    if (aFlag != I_blockedit.hasBlockeditRanges) {
-        I_blockedit.hasBlockeditRanges=aFlag;
-        id delegate=[self delegate];
-        SEL selector=I_blockedit.hasBlockeditRanges?
-                     @selector(textStorageDidStartBlockedit:):
-                     @selector(textStorageDidStopBlockedit:);
-        if ([delegate respondsToSelector:selector]) {
-            [delegate performSelector:selector withObject:self];
-        }
-    }
-}
-
-- (BOOL)isBlockediting {
-    return I_blockedit.isBlockediting;
-}
-- (void)setIsBlockediting:(BOOL)aFlag {
-    I_blockedit.isBlockediting=aFlag;
-}
-
-- (BOOL)didBlockedit {
-    return I_blockedit.didBlockedit;
-}
-- (void)setDidBlockedit:(BOOL)aFlag {
-    I_blockedit.didBlockedit=aFlag;
-}
-
-- (NSRange)didBlockeditRange {
-    return I_blockedit.didBlockeditRange;
-}
-- (void)setDidBlockeditRange:(NSRange)aRange {
-    I_blockedit.didBlockeditRange=aRange;
-}
-
-- (NSRange)didBlockeditLineRange {
-    return I_blockedit.didBlockeditLineRange;
-}
-- (void)setDidBlockeditLineRange:(NSRange)aRange {
-    I_blockedit.didBlockeditLineRange=aRange;
-}
-
-- (void)stopBlockedit {
-    NSDictionary *blockeditAttributes=[[self delegate] blockeditAttributesForTextStorage:self];
-    NSArray *attributeNameArray=[blockeditAttributes allKeys];
-    NSRange range;
-    NSRange wholeRange=NSMakeRange(0,[self length]);
-    [self beginEditing];
-    unsigned position=wholeRange.location;
-    while (position<wholeRange.length) {
-        id value=[self attribute:BlockeditAttributeName atIndex:position 
-                       longestEffectiveRange:&range inRange:wholeRange];
-        if (value) {
-            int i=0;
-            for (i=0;i<[attributeNameArray count];i++) {
-                [self removeAttribute:[attributeNameArray objectAtIndex:i]
-                                range:range];
-            }
-        }
-        position=NSMaxRange(range);
-    }
-    [self endEditing];
-    [self setHasBlockeditRanges:NO];
-}
 
 - (void)removeAttributes:(id)anObjectEnumerable range:(NSRange)aRange {
     NSEnumerator *attributeNames=[anObjectEnumerable objectEnumerator];

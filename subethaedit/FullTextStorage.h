@@ -54,6 +54,7 @@
 - (void)removeAttribute:(NSString *)anAttribute range:(NSRange)aRange synchronize:(BOOL)aSynchronizeFlag;
 - (NSRange)foldableRangeForCharacterAtIndex:(unsigned long int)index;
 
+- (void)replaceCharactersInRange:(NSRange)inRange withAttributedString:(NSAttributedString *)inAttributedString synchronize:(BOOL)inSynchronizeFlag;
 
 - (BOOL)hasMixedLineEndingsInRange:(NSRange)aRange;
 - (void)validateHasMixedLineEndings;
