@@ -557,6 +557,7 @@ NSString * const BlockeditAttributeValue=@"YES";
 						if (!attributesPlusBlockedit) {
 							attributesPlusBlockedit = [[inAttributes mutableCopy] autorelease];
 							[attributesPlusBlockedit setObject:BlockeditAttributeValue forKey:BlockeditAttributeName];
+							[attributesPlusBlockedit addEntriesFromDictionary:[[self delegate] blockeditAttributesForTextStorage:self]];
 						}
 						[self setAttributes:attributesPlusBlockedit range:blockeditAttributeRange synchronize:NO];
 					} else {
@@ -737,7 +738,7 @@ NSString * const BlockeditAttributeValue=@"YES";
     return I_blockedit.hasBlockeditRanges;
 }
 - (void)setHasBlockeditRanges:(BOOL)aFlag {
-	NSLog(@"%s %d",__FUNCTION__,aFlag);
+//	NSLog(@"%s %d",__FUNCTION__,aFlag);
     if (aFlag != I_blockedit.hasBlockeditRanges) {
         I_blockedit.hasBlockeditRanges=aFlag;
         id delegate=[self delegate];
@@ -782,7 +783,7 @@ NSString * const BlockeditAttributeValue=@"YES";
     return I_blockedit.didBlockeditLineRange;
 }
 - (void)setDidBlockeditLineRange:(NSRange)aRange {
-	NSLog(@"%s %@",__FUNCTION__,NSStringFromRange(aRange));
+//	NSLog(@"%s %@",__FUNCTION__,NSStringFromRange(aRange));
     I_blockedit.didBlockeditLineRange=aRange;
 }
 
@@ -812,7 +813,7 @@ NSString * const BlockeditAttributeValue=@"YES";
 
 
 - (void)fixParagraphStyleAttributeInRange:(NSRange)aRange {
-	NSLog(@"%s %@",__FUNCTION__,NSStringFromRange(aRange));
+//	NSLog(@"%s %@",__FUNCTION__,NSStringFromRange(aRange));
     [super fixParagraphStyleAttributeInRange:aRange];
 
     NSDictionary *blockeditAttributes=[[self delegate] blockeditAttributesForTextStorage:self];

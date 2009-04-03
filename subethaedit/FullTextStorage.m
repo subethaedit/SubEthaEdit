@@ -521,11 +521,11 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 		I_linearAttributeChangesCount = 0;
 	}
 	I_linearAttributeChangeState++;
-	NSLog(@"%s",__FUNCTION__);
+//	NSLog(@"%s",__FUNCTION__);
 }
 
 - (void)endLinearAttributeChanges {
-	NSLog(@"%s",__FUNCTION__);
+//	NSLog(@"%s",__FUNCTION__);
 	I_linearAttributeChangeState--;
 	I_shouldNotSynchronize--;
 	int aggregatedChangesCount = 0;
@@ -537,7 +537,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 			[I_foldableTextStorage fullTextDidSetAttributes:attributes range:attributeRange];
 			aggregatedChangesCount++;
 		} while (NSMaxRange(attributeRange) < NSMaxRange(I_unionRangeOfLinearAttributeChanges));
-		NSLog(@"%s aggregated %d changes into %d changes (%2.1f%% reduction) in resulting range: %@",__FUNCTION__,I_linearAttributeChangesCount,aggregatedChangesCount,100.0 - ((((double)aggregatedChangesCount) / I_linearAttributeChangesCount)*100.0),NSStringFromRange(I_unionRangeOfLinearAttributeChanges));
+//		NSLog(@"%s aggregated %d changes into %d changes (%2.1f%% reduction) in resulting range: %@",__FUNCTION__,I_linearAttributeChangesCount,aggregatedChangesCount,100.0 - ((((double)aggregatedChangesCount) / I_linearAttributeChangesCount)*100.0),NSStringFromRange(I_unionRangeOfLinearAttributeChanges));
 	}
 }
 

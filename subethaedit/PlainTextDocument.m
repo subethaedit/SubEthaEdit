@@ -5864,12 +5864,12 @@ static NSString *S_measurementUnits;
 }
 
 - (void)textStorageDidStartBlockedit:(TextStorage *)aTextStorage {
-	NSLog(@"%s",__FUNCTION__);
+//	NSLog(@"%s",__FUNCTION__);
     [[self plainTextEditors] makeObjectsPerformSelector:@selector(TCM_updateStatusBar)];
 }
 
 - (void)textStorageDidStopBlockedit:(TextStorage *)aTextStorage {
-	NSLog(@"%s",__FUNCTION__);
+//	NSLog(@"%s",__FUNCTION__);
     [[self plainTextEditors] makeObjectsPerformSelector:@selector(TCM_updateStatusBar)];
 }
 
