@@ -530,7 +530,7 @@ NSString * const BlockeditAttributeValue=@"YES";
 }
 
 - (void)fullTextDidSetAttributes:(NSDictionary *)inAttributes range:(NSRange)inRange {
-	NSLog(@"%s %@",__FUNCTION__, NSStringFromRange(inRange));
+//	NSLog(@"%s %@",__FUNCTION__, NSStringFromRange(inRange));
 	NSMutableDictionary *attributesPlusBlockedit = nil;
 	if (!I_internalAttributedString) {
 		[self edited:NSTextStorageEditedAttributes range:inRange changeInLength:0];

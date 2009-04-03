@@ -197,6 +197,13 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 //          changeInLength:0];
     if (inSynchronizeFlag && !I_shouldNotSynchronize && !I_fixingCounter) {
     	[I_foldableTextStorage fullTextDidSetAttributes:attributes range:aRange];
+    } else if (I_linearAttributeChangeState) {
+    	if (I_unionRangeOfLinearAttributeChanges.length == NSNotFound) {
+    		I_unionRangeOfLinearAttributeChanges = aRange;
+    	} else {
+    		I_unionRangeOfLinearAttributeChanges = NSUnionRange(aRange, I_unionRangeOfLinearAttributeChanges);
+    	}
+    	I_linearAttributeChangesCount++;
     }
 }
 
@@ -494,9 +501,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
                 if (NSMaxRange(indexStackRange)>=[string length]) break;
                 neighborStack = [string attribute:kSyntaxHighlightingStackName atIndex:indexStackRange.location+1 longestEffectiveRange:&indexStackRange inRange:NSMakeRange(NSMaxRange(indexStackRange), [string length]-NSMaxRange(indexStackRange))];
             }
-            
-
-            
+                        
             if ((endIndex>0)&&[[string attribute:kSyntaxHighlightingStateDelimiterName atIndex:endIndex-1 effectiveRange:&endRange] isEqualTo:@"End"]) {
                 endIndex = endRange.location;
                 return NSMakeRange(startIndex, endIndex-startIndex);
@@ -509,5 +514,31 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     return NSMakeRange(NSNotFound, 0); // Not foldable
 }
 
+- (void)beginLinearAttributeChanges {
+	I_shouldNotSynchronize++;
+	if (I_linearAttributeChangeState == 0) {
+		I_unionRangeOfLinearAttributeChanges = NSMakeRange(0,NSNotFound);
+		I_linearAttributeChangesCount = 0;
+	}
+	I_linearAttributeChangeState++;
+	NSLog(@"%s",__FUNCTION__);
+}
+
+- (void)endLinearAttributeChanges {
+	NSLog(@"%s",__FUNCTION__);
+	I_linearAttributeChangeState--;
+	I_shouldNotSynchronize--;
+	int aggregatedChangesCount = 0;
+	if (I_linearAttributeChangeState == 0 && I_unionRangeOfLinearAttributeChanges.length != NSNotFound) {
+		// propagate the whole area up to the foldableTextstorage
+		NSRange attributeRange = NSMakeRange(I_unionRangeOfLinearAttributeChanges.location,0);
+		do {
+			NSDictionary *attributes = [I_internalAttributedString attributesAtIndex:NSMaxRange(attributeRange) longestEffectiveRange:&attributeRange inRange:I_unionRangeOfLinearAttributeChanges];
+			[I_foldableTextStorage fullTextDidSetAttributes:attributes range:attributeRange];
+			aggregatedChangesCount++;
+		} while (NSMaxRange(attributeRange) < NSMaxRange(I_unionRangeOfLinearAttributeChanges));
+		NSLog(@"%s aggregated %d changes into %d changes (%2.1f%% reduction) in resulting range: %@",__FUNCTION__,I_linearAttributeChangesCount,aggregatedChangesCount,100.0 - ((((double)aggregatedChangesCount) / I_linearAttributeChangesCount)*100.0),NSStringFromRange(I_unionRangeOfLinearAttributeChanges));
+	}
+}
 
 @end

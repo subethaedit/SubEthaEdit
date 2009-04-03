@@ -13,6 +13,7 @@
 #import <OgreKit/OgreKit.h>
 #import "NSMutableAttributedStringSEEAdditions.h"
 #import "NSStringSEEAdditions.h"
+#import "FullTextStorage.h"
 
 #define chunkSize              		5000
 #define padding              		 100
@@ -414,6 +415,7 @@ NSString * const kSyntaxHighlightingFoldableAttributeName = @"Foldable";
     
     theDocument = sender;
     [aTextStorage beginEditing];
+    if ([aTextStorage respondsToSelector:@selector(beginLinearAttributeChanges)]) [(id)aTextStorage beginLinearAttributeChanges];
     
     unsigned int position;
     position=0;
@@ -492,6 +494,7 @@ NSString * const kSyntaxHighlightingFoldableAttributeName = @"Foldable";
         textRange.length  =textRange.length-position;
     }
     
+    if ([aTextStorage respondsToSelector:@selector(endLinearAttributeChanges)]) [(id)aTextStorage endLinearAttributeChanges];
     [aTextStorage endEditing];
     
     return returnvalue;
@@ -506,7 +509,9 @@ NSString * const kSyntaxHighlightingFoldableAttributeName = @"Foldable";
 - (void)cleanUpTextStorage:(NSTextStorage *)aTextStorage inRange:(NSRange)aRange
 {
     [aTextStorage beginEditing];
+    if ([aTextStorage respondsToSelector:@selector(beginLinearAttributeChanges)]) [(id)aTextStorage beginLinearAttributeChanges];
     [aTextStorage removeAttributes:[NSArray arrayWithObjects:kSyntaxHighlightingIsCorrectAttributeName,kSyntaxHighlightingStackName,kSyntaxHighlightingStateDelimiterName,kSyntaxHighlightingTypeAttributeName,kSyntaxHighlightingParentModeForAutocompleteAttributeName,kSyntaxHighlightingParentModeForSymbolsAttributeName,nil] range:aRange];
+    if ([aTextStorage respondsToSelector:@selector(endLinearAttributeChanges)]) [(id)aTextStorage endLinearAttributeChanges];
     [aTextStorage endEditing];
 }
 
