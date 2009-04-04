@@ -145,6 +145,14 @@ NSString * const kSyntaxHighlightingFoldableAttributeName = @"Foldable";
             //NSLog(@"Searching for next delimiter");
             delimiterRange = [delimiterMatch rangeOfMatchedString];
             
+            NSRange checkForStartFalsePositiveRange = [theString lineRangeForRange:delimiterRange];
+            OGRegularExpressionMatch * checkMatch = [stateDelimiter matchInString:theString range:checkForStartFalsePositiveRange];
+            if (!checkMatch || [delimiterMatch indexOfFirstMatchedSubstring]!=[checkMatch indexOfFirstMatchedSubstring]) {
+                currentRange.location++;
+                currentRange.length--;
+                continue;
+            }             
+            
             stateRange = NSMakeRange(currentRange.location, NSMaxRange(delimiterRange) - currentRange.location);
 
             NSString *delimiterName = [delimiterMatch nameOfSubstringAtIndex:[delimiterMatch indexOfFirstMatchedSubstring]];
