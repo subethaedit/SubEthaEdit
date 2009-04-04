@@ -352,6 +352,26 @@ static NSMenu *defaultMenu=nil;
 	}
 }
 
+- (IBAction)foldCurrentBlock:(id)aSender {
+	FoldableTextStorage *ts = (FoldableTextStorage *)[self textStorage];
+	NSRange selectedRange = [ts fullRangeForFoldedRange:[self selectedRange]];
+	NSRange fullRangeToFold = [[ts fullTextStorage] foldableRangeForCharacterAtIndex:selectedRange.location]; 
+	if (fullRangeToFold.location != NSNotFound) {
+		NSRange foldableRangeToFold = [ts foldedRangeForFullRange:fullRangeToFold];
+		[ts foldRange:foldableRangeToFold];
+		NSScrollView *scrollView = [self enclosingScrollView];
+		if ([scrollView rulersVisible]) {
+			[[scrollView verticalRulerView] setNeedsDisplay:YES];
+		}
+	} else {
+		NSBeep();
+	}
+}
+
+- (IBAction)unfoldAllBlocks:(id)aSender {
+	FoldableTextStorage *ts = (FoldableTextStorage *)[self textStorage];
+	[ts unfoldAll];
+}
 
 - (NSRange)selectionRangeForProposedRange:(NSRange)proposedSelRange granularity:(NSSelectionGranularity)granularity {
     NSEvent *currentEvent=[NSApp currentEvent];

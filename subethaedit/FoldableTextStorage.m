@@ -695,8 +695,7 @@ NSString * const BlockeditAttributeValue=@"YES";
 	return stringToInsert;
 }
 
-- (void)unfoldAttachment:(FoldedTextAttachment *)inAttachment atCharacterIndex:(unsigned)inIndex
-{
+- (void)unfoldAttachment:(FoldedTextAttachment *)inAttachment atCharacterIndex:(unsigned)inIndex {
 	// first stop blockedit if there
 	if ([self hasBlockeditRanges]) [self stopBlockedit];
 
@@ -735,6 +734,22 @@ NSString * const BlockeditAttributeValue=@"YES";
 		I_internalAttributedString = nil;
 		[self edited:NSTextStorageEditedCharacters | NSTextStorageEditedAttributes range:NSMakeRange(0,[I_internalAttributedString length]) changeInLength:0];
 		NSLog(@"%s ------------------------------> killed mutable string storage",__FUNCTION__);
+	}
+}
+
+- (void)unfoldAll {
+	// iterate and unfold all attachments - do so from bottom to top
+	unsigned int length = [self length];
+	if (length > 0 && [I_sortedFoldedTextAttachments count]) {
+		NSRange iterationRange = NSMakeRange(length,0);
+		id attachment = nil;
+		do {
+			attachment = [I_internalAttributedString attribute:NSAttachmentAttributeName atIndex:iterationRange.location-1 effectiveRange:&iterationRange];
+			if (attachment && [attachment isKindOfClass:[FoldedTextAttachment class]]) {
+				// remove attachment
+				[self unfoldAttachment:attachment atCharacterIndex:iterationRange.location];
+			}
+		} while (iterationRange.location > 0 && [I_sortedFoldedTextAttachments count]);
 	}
 }
 
