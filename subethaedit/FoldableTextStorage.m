@@ -447,11 +447,14 @@ NSString * const BlockeditAttributeValue=@"YES";
 	if (I_internalAttributedString) {
 		[I_internalAttributedString setAttributes:attributes range:aRange];
 		if (inSynchronizeFlag && !I_fixingCounter) {
-			// sync most of the attributes, but not all
-			NSMutableDictionary *filteredAttributes = [attributes mutableCopy];
-			[filteredAttributes removeObjectsForKeys:S_nonSyncAttributes];
-			[I_fullTextStorage setAttributes:filteredAttributes range:[self fullRangeForFoldedRange:aRange] synchronize:NO];
-			[filteredAttributes release];
+			// if the attributes contain an attachment - don't sync
+			if (![attributes objectForKey:NSAttachmentAttributeName]) {
+				// sync most of the attributes, but not all
+				NSMutableDictionary *filteredAttributes = [attributes mutableCopy];
+				[filteredAttributes removeObjectsForKeys:S_nonSyncAttributes];
+				[I_fullTextStorage setAttributes:filteredAttributes range:[self fullRangeForFoldedRange:aRange] synchronize:NO];
+				[filteredAttributes release];
+			}
 		}
 	} else {
 		[I_fullTextStorage setAttributes:attributes range:[self fullRangeForFoldedRange:aRange] synchronize:YES];
@@ -694,6 +697,9 @@ NSString * const BlockeditAttributeValue=@"YES";
 
 - (void)unfoldAttachment:(FoldedTextAttachment *)inAttachment atCharacterIndex:(unsigned)inIndex
 {
+	// first stop blockedit if there
+	if ([self hasBlockeditRanges]) [self stopBlockedit];
+
 	NSMutableAttributedString *stringToInsert = nil;
 	NSArray *innerAttachments = [inAttachment innerAttachments];
 	NSRange foldedTextRange = [inAttachment foldedTextRange];

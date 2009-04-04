@@ -192,6 +192,12 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 
 
 - (void)setAttributes:(NSDictionary *)attributes range:(NSRange)aRange synchronize:(BOOL)inSynchronizeFlag {
+
+	if ([attributes objectForKey:NSToolTipAttributeName]) {
+		// here to break
+//		NSLog(@"%s had tooltipattribute",__FUNCTION__);
+	}
+
     [I_internalAttributedString setAttributes:attributes range:aRange];
 //    [self edited:NSTextStorageEditedAttributes range:aRange 
 //          changeInLength:0];
