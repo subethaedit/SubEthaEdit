@@ -66,7 +66,7 @@ NSString * const kSyntaxHighlightingFoldableAttributeName = @"Foldable";
 
 "*/
 -(void)highlightAttributedString:(NSMutableAttributedString *)aString inRange:(NSRange)aRange 
-{
+{    
     SyntaxDefinition *definition = [self syntaxDefinition];
     if (!definition) NSLog(@"ERROR: No defintion for highlighter.");
 	[definition getReady]; // Make sure everything is setup 
@@ -140,7 +140,7 @@ NSString * const kSyntaxHighlightingFoldableAttributeName = @"Foldable";
             startRange = NSIntersectionRange(attRange,sameStackRange);
             if (startRange.length == 0) startRange.location = NSNotFound;
         } 
-                            
+        
         if ((delimiterMatch = [stateDelimiter matchInString:theString range:currentRange])) { // Search for a delimiter
             //NSLog(@"Searching for next delimiter");
             delimiterRange = [delimiterMatch rangeOfMatchedString];
@@ -151,7 +151,7 @@ NSString * const kSyntaxHighlightingFoldableAttributeName = @"Foldable";
             delimiterStateNumber = [[delimiterName substringFromIndex:16] intValue];
             
             if (delimiterStateNumber<4242) { // Found a start within current state
-                //NSLog(@"Found a start: '%@'",[[aString string] substringWithRange:delimiterRange]);
+                //NSLog(@"Found a start: '%@' current range: %@",[[aString string] substringWithRange:delimiterRange], NSStringFromRange(currentRange));
 				
                 nextRange.location = NSMaxRange(stateRange);
                 nextRange.length = currentRange.length - stateRange.length;
@@ -437,6 +437,10 @@ NSString * const kSyntaxHighlightingFoldableAttributeName = @"Foldable";
                 // Extends dirty range based upon white space
                 
                 NSRange linerange = [[aTextStorage string] lineRangeForRange:chunkRange];
+                if (linerange.location>=2) { // Extend linerange so matching newlines at the start works correctly.
+                    linerange.location = linerange.location - 2;
+                    linerange.length = linerange.length + 2;
+                }
                 if (linerange.length<=2*chunkSize) //Optimization for humongously long lines
                     chunkRange = linerange;
                 else {
