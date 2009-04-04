@@ -147,7 +147,7 @@ NSString * const kSyntaxHighlightingFoldableAttributeName = @"Foldable";
             
             NSRange checkForStartFalsePositiveRange = [theString lineRangeForRange:delimiterRange];
             OGRegularExpressionMatch * checkMatch = [stateDelimiter matchInString:theString range:checkForStartFalsePositiveRange];
-            if (!checkMatch || [delimiterMatch indexOfFirstMatchedSubstring]!=[checkMatch indexOfFirstMatchedSubstring]) {
+            if (checkForStartFalsePositiveRange.location>=aRange.location && (!checkMatch || [delimiterMatch indexOfFirstMatchedSubstring]!=[checkMatch indexOfFirstMatchedSubstring])) {
                 currentRange.location++;
                 currentRange.length--;
                 continue;
