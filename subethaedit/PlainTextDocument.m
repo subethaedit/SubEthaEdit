@@ -5710,6 +5710,11 @@ static NSString *S_measurementUnits;
 #pragma mark -
 #pragma mark ### TextStorage Delegate Methods ###
 
+- (void)textStorageDidChangeNumberOfTopLevelFoldings:(FoldableTextStorage *)aFoldableTextStorage {
+	// currently just ensure the gutter updates
+	[[self plainTextEditors] makeObjectsPerformSelector:@selector(setNeedsDisplayForRuler) withObject:nil];
+}
+
 // these delegate methods return ranges regarding the fullTextStorage, and also return it
 
 - (void)textStorage:(NSTextStorage *)aTextStorage willReplaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString {

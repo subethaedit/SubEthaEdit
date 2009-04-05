@@ -7,6 +7,27 @@
 //
 
 #import "GutterRulerView.h"
+#import "SyntaxHighlighter.h"
+
+#define FOLDING_BAR_WIDTH 9.
+#define RIGHT_INSET  4.
+#define MAX_FOLDING_DEPTH 5.
+
+@interface NSBezierPath (BezierPathGutterRulerViewAdditions)
++ (void)fillTriangleInRect:(NSRect)aRect arrowPoint:(NSRectEdge)anEdge;
+@end
+
+@implementation NSBezierPath (BezierPathGutterRulerViewAdditions)
++ (void)fillTriangleInRect:(NSRect)aRect arrowPoint:(NSRectEdge)anEdge {
+	// ignore edge for the moment
+	NSBezierPath *path = [NSBezierPath bezierPath];
+	[path moveToPoint:aRect.origin];
+	[path lineToPoint:NSMakePoint(aRect.origin.x,NSMaxY(aRect))];
+	[path lineToPoint:NSMakePoint(NSMaxX(aRect),aRect.origin.y + aRect.size.height / 2.0)];
+	[path closePath];
+	[path fill];
+}
+@end
 
 @implementation GutterRulerView
 
@@ -24,7 +45,6 @@
 }
 
 - (void)drawHashMarksAndLabelsInRect:(NSRect)aRect {
-    [[NSColor blackColor] set];
     
     static NSDictionary *attributes=nil;
     static float linenumberFontSize=9.;
@@ -48,16 +68,28 @@
     point.y+=aRect.origin.y+1.;
     unsigned glyphIndex,characterIndex;
     NSString *lineNumberString;
-    NSRect boundingRect,previousBoundingRect;
+    NSRect boundingRect,previousBoundingRect,lineFragmentRectForLastCharacter;
+    NSColor *delimiterLineColor = [NSColor colorWithCalibratedWhite:0.5 alpha:1.0];
+    NSColor *triangleColor      = [NSColor colorWithCalibratedWhite:0.2 alpha:1.0];
 
+	NSRange longestEffectiveAttachmentRange;
     NSRange lineRange;
     unsigned lineNumber;
     unsigned maxRange;
     unsigned cardinalityComparitor=10;
     unsigned cardinality=1;
 
+	double ruleThickness = [self ruleThickness];
+	double rightHandAlignment = ruleThickness - FOLDING_BAR_WIDTH - RIGHT_INSET;
+
+	NSRect foldingAreaRect  = NSMakeRect(rightHandAlignment + RIGHT_INSET + 1.0,0,FOLDING_BAR_WIDTH-3.0,0);
+	[delimiterLineColor set];
+	[NSBezierPath strokeLineFromPoint:NSMakePoint(foldingAreaRect.origin.x-1.5,boundingRect.origin.y - visibleRect.origin.y) 
+							  toPoint:NSMakePoint(foldingAreaRect.origin.x-1.5,visibleRect.origin.y + NSHeight(visibleRect))];
+
     if ([textStorage length]) {
     
+
         boundingRect=NSMakeRect(0,0,0,0);
         previousBoundingRect=boundingRect;
         glyphIndex=[layoutManager glyphIndexForPoint:point 
@@ -75,7 +107,7 @@
         if (characterIndex==[text lineRangeForRange:NSMakeRange(characterIndex,0)].location) {
             [[NSColor blackColor] set];
             lineNumberString=[NSString stringWithFormat:@"%u",lineNumber];
-            [lineNumberString drawAtPoint:NSMakePoint([self ruleThickness]-(4+sizeOfZero.width*cardinality),
+            [lineNumberString drawAtPoint:NSMakePoint(rightHandAlignment-(sizeOfZero.width*cardinality),
                                                       NSMaxY(boundingRect)-visibleRect.origin.y-sizeOfZero.height
                                                       -(boundingRect.size.height-sizeOfZero.height)/2.-1.) 
                            withAttributes:attributes];
@@ -86,6 +118,28 @@
 
         lineRange=[text lineRangeForRange:NSMakeRange(characterIndex,0)];
         maxRange=NSMaxRange(lineRange);
+
+		glyphIndex=[layoutManager glyphRangeForCharacterRange:NSMakeRange(maxRange-1,1) 
+										 actualCharacterRange:nil].location;
+        lineFragmentRectForLastCharacter=[layoutManager lineFragmentRectForGlyphAtIndex:glyphIndex 
+                                                               effectiveRange:nil];
+
+		foldingAreaRect.origin.y = boundingRect.origin.y - visibleRect.origin.y;
+        foldingAreaRect.size.height = NSMaxY(lineFragmentRectForLastCharacter) - boundingRect.origin.y;
+       	
+       	NSColor *depthColor = [NSColor colorWithCalibratedWhite:1.0 - ((MAX([[textStorage attribute:kSyntaxHighlightingStackName atIndex:lineRange.location effectiveRange:NULL] count], 1.0) - 1) / MAX_FOLDING_DEPTH) alpha:1.0];
+		[depthColor set];
+        NSRectFill(foldingAreaRect);
+
+		if (lineRange.length) {
+			[textStorage attribute:NSAttachmentAttributeName atIndex:lineRange.location longestEffectiveRange:&longestEffectiveAttachmentRange inRange:lineRange];
+			if (!NSEqualRanges(lineRange,longestEffectiveAttachmentRange)) {
+				// there is an attachment of some kind in our line. so show it
+				[triangleColor set];
+				[NSBezierPath fillTriangleInRect:NSMakeRect(foldingAreaRect.origin.x+1, NSMaxY(boundingRect)-visibleRect.origin.y - FOLDING_BAR_WIDTH - (boundingRect.size.height-FOLDING_BAR_WIDTH - 3)/2. ,FOLDING_BAR_WIDTH - 4,FOLDING_BAR_WIDTH - 2) arrowPoint:NSMaxXEdge];
+			}
+		}
+
         while (NSMaxY(previousBoundingRect)<NSMaxY(boundingRect) && 
                NSMaxY(boundingRect)<visibleRect.origin.y+NSMaxY(aRect) &&
                goOn) {
@@ -120,15 +174,38 @@
                 boundingRect.origin.y += boundingRect.size.height;
             }
             lineNumberString=[NSString stringWithFormat:@"%u",lineNumber];
-            [lineNumberString drawAtPoint:NSMakePoint([self ruleThickness]-(4+sizeOfZero.width*cardinality),
+            [lineNumberString drawAtPoint:NSMakePoint(rightHandAlignment-(+sizeOfZero.width*cardinality),
                                                       NSMaxY(boundingRect)-visibleRect.origin.y-sizeOfZero.height
                                                       -(boundingRect.size.height-sizeOfZero.height)/2.-1.) 
                            withAttributes:attributes];
+
+			glyphIndex=[layoutManager glyphRangeForCharacterRange:NSMakeRange(maxRange-1,1) 
+											 actualCharacterRange:nil].location;
+			lineFragmentRectForLastCharacter=[layoutManager lineFragmentRectForGlyphAtIndex:glyphIndex 
+																   effectiveRange:nil];
+	
+			foldingAreaRect.origin.y = boundingRect.origin.y - visibleRect.origin.y;
+			foldingAreaRect.size.height = NSMaxY(lineFragmentRectForLastCharacter) - boundingRect.origin.y;
+
+			if (lineRange.length > 0) {
+				depthColor = [NSColor colorWithCalibratedWhite:1.0 - ((MAX([[textStorage attribute:kSyntaxHighlightingStackName atIndex:lineRange.location effectiveRange:NULL] count], 1.0) - 1) / MAX_FOLDING_DEPTH) alpha:1.0];
+			}
+			[depthColor set];
+			NSRectFill(foldingAreaRect);
+
+			if (lineRange.length) {
+				[textStorage attribute:NSAttachmentAttributeName atIndex:lineRange.location longestEffectiveRange:&longestEffectiveAttachmentRange inRange:lineRange];
+				if (!NSEqualRanges(lineRange,longestEffectiveAttachmentRange)) {
+					// there is an attachment of some kind in our line. so show it
+					[triangleColor set];
+					[NSBezierPath fillTriangleInRect:NSMakeRect(foldingAreaRect.origin.x+1, NSMaxY(boundingRect)-visibleRect.origin.y - FOLDING_BAR_WIDTH - (boundingRect.size.height-FOLDING_BAR_WIDTH - 3)/2. ,FOLDING_BAR_WIDTH - 4,FOLDING_BAR_WIDTH - 2) arrowPoint:NSMaxXEdge];
+				}
+			}
         }
  
         
         
-        float potentialNewWidth=8.+sizeOfZero.width*cardinality;
+        float potentialNewWidth=8.+sizeOfZero.width*cardinality + FOLDING_BAR_WIDTH + RIGHT_INSET;
         if ([self ruleThickness]<potentialNewWidth) {
             [self setRuleThickness:ceil(potentialNewWidth)];
         }

@@ -202,7 +202,7 @@
 
     [O_scrollView setVerticalRulerView:[[[GutterRulerView alloc] initWithScrollView:O_scrollView orientation:NSVerticalRuler] autorelease]];
     [O_scrollView setHasVerticalRuler:YES];
-    [[O_scrollView verticalRulerView] setRuleThickness:32.];
+    [[O_scrollView verticalRulerView] setRuleThickness:42.];
 
     [O_scrollView setDocumentView:I_textView];
     [I_textView release];
@@ -1382,10 +1382,6 @@
 	if ([[cell attachment] isKindOfClass:[FoldedTextAttachment class]])
 	{
 		[(FoldableTextStorage *)[view textStorage] unfoldAttachment:(FoldedTextAttachment *)[cell attachment] atCharacterIndex:inIndex];
-		if ([O_scrollView rulersVisible]) {
-			[[O_scrollView verticalRulerView] setNeedsDisplay:YES];
-		}
-
 	}
 }
 
@@ -1518,16 +1514,18 @@
     return [document textView:aTextView shouldChangeTextInRange:affectedCharRange replacementString:replacementString];
 }
 
-- (void)textDidChange:(NSNotification *)aNotification {
+- (void)setNeedsDisplayForRuler {
     if ([O_scrollView rulersVisible]) {
         [[O_scrollView verticalRulerView] setNeedsDisplay:YES];
     }
 }
 
+- (void)textDidChange:(NSNotification *)aNotification {
+	[self setNeedsDisplayForRuler];
+}
+
 - (void)contentViewBoundsDidChange:(NSNotification *)aNotification {
-    if ([O_scrollView rulersVisible]) {
-        [[O_scrollView verticalRulerView] setNeedsDisplay:YES];
-    }
+	[self setNeedsDisplayForRuler];
 }
 
 - (NSRange)textView:(NSTextView *)aTextView

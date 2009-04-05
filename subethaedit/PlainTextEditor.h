@@ -81,6 +81,8 @@
 
 - (void)scrollToUserWithID:(NSString *)aUserID;
 
+- (void)setNeedsDisplayForRuler;
+
 - (void)updateViews;
 
 - (void)storePosition;

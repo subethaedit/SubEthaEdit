@@ -40,6 +40,7 @@ extern NSString * const BlockeditAttributeValue;
 - (void)fullTextDidSetAttributes:(NSDictionary *)inAttributes range:(NSRange)inRange;
 
 #pragma mark folding methods
+- (int)numberOfTopLevelFoldings;
 - (void)foldRange:(NSRange)inRange;
 - (void)unfoldAttachment:(FoldedTextAttachment *)inAttachment atCharacterIndex:(unsigned)inIndex;
 - (void)unfoldAll;
@@ -69,6 +70,12 @@ extern NSString * const BlockeditAttributeValue;
 - (NSMutableAttributedString *)attributedStringOfFolding:(FoldedTextAttachment *)inAttachment;
 - (NSString *)foldedStringRepresentationOfRange:(NSRange)inRange foldings:(NSArray *)inFoldings level:(int)inLevel;
 - (NSString *)foldedStringRepresentation;
+
+@end
+
+@interface NSObject (FoldableTextStorageDelegateAdditions)
+
+- (void)textStorageDidChangeNumberOfTopLevelFoldings:(FoldableTextStorage *)aTextStorage;
 
 @end
 

@@ -79,6 +79,10 @@ NSString * const BlockeditAttributeValue=@"YES";
 	
 }
 
+- (int)numberOfTopLevelFoldings {
+	return [I_sortedFoldedTextAttachments count];
+}
+
 - (NSString *)foldedStringRepresentation {
 
 	return [[self foldedStringRepresentationOfRange:NSMakeRange(0,[I_fullTextStorage length]) foldings:I_sortedFoldedTextAttachments level:0] stringByAppendingFormat:@"\n->%d Foldings",[I_sortedFoldedTextAttachments count]];
@@ -278,6 +282,7 @@ NSString * const BlockeditAttributeValue=@"YES";
 // this is the quick one for changes that happen inside the foldable textstorage which makes sure that the range does not intersect with foldings
 - (void)adjustFoldedTextAttachments:(NSMutableArray *)inAttachments toReplacementOfFullRange:(NSRange)inFullRange withString:(NSString *)aString
 {
+	int removedAttachments = 0;
 	unsigned count = [inAttachments count];
 	int locationDifference = ((int)[aString length]) - inFullRange.length;
 	while (count > 0) {
@@ -287,8 +292,16 @@ NSString * const BlockeditAttributeValue=@"YES";
 			[attachment moveAttachmentLocation:locationDifference];
 		} else if (attachmentRange.location >= inFullRange.location && NSMaxRange(attachmentRange) <= NSMaxRange(inFullRange)) { // attachment was inside the replacement, so it has to die
 			[inAttachments removeObjectAtIndex:count];
+			removedAttachments++;
 		} else { // nothing left to do so break out
 			break;
+		}
+	}
+	
+	if (removedAttachments > 0) {
+		id delegate = [self delegate];
+		if ([delegate respondsToSelector:@selector(textStorageDidChangeNumberOfTopLevelFoldings:)]) {
+			[delegate textStorageDidChangeNumberOfTopLevelFoldings:self];
 		}
 	}
 }
@@ -429,6 +442,7 @@ NSString * const BlockeditAttributeValue=@"YES";
 			[self adjustFoldedTextAttachments:I_sortedFoldedTextAttachments toReplacementOfFullRange:fullRange withString:aString];
 			[I_fullTextStorage replaceCharactersInRange:fullRange withString:aString synchronize:NO];
 		}
+
 		[self edited:NSTextStorageEditedCharacters | NSTextStorageEditedAttributes range:aRange 
 			  changeInLength:[I_internalAttributedString length] - origLen];
 	} else {
@@ -437,6 +451,10 @@ NSString * const BlockeditAttributeValue=@"YES";
 //		[self edited:NSTextStorageEditedCharacters range:aRange 
 //			  changeInLength:[I_fullTextStorage length] - origLen];
 	}    
+
+	if (I_internalAttributedString && [I_sortedFoldedTextAttachments count] == 0) {
+		[self removeInternalStorageString];
+	}
 }
 
 - (void)replaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString {
@@ -471,7 +489,7 @@ NSString * const BlockeditAttributeValue=@"YES";
 // convenience method
 - (void)replaceCharactersInRange:(NSRange)inRange withAttributedString:(NSAttributedString *)inAttributedString synchronize:(BOOL)inSynchronizeFlag 
 {
-	NSLog(@"%s",__FUNCTION__);
+//	NSLog(@"%s",__FUNCTION__);
 	[self beginEditing];
 	if (I_internalAttributedString) {
 		unsigned origLen = [I_internalAttributedString length];
@@ -512,6 +530,7 @@ NSString * const BlockeditAttributeValue=@"YES";
 #pragma mark methods for upstream synchronization
 - (void)fullTextDidReplaceCharactersInRange:(NSRange)inRange withString:(NSString *)inString {
 //	NSLog(@"%s %@ %@ lengthChange %d",__FUNCTION__, NSStringFromRange(inRange), inString, [inString length] - inRange.length);
+
 	if (!I_internalAttributedString) {
 		[self edited:NSTextStorageEditedCharacters range:inRange changeInLength:[inString length] - inRange.length];
 	} else {
@@ -663,6 +682,11 @@ NSString * const BlockeditAttributeValue=@"YES";
 	[collapsedString addAttribute:NSToolTipAttributeName value:@"stub" range:NSMakeRange(0,[collapsedString length])];
 	[self replaceCharactersInRange:inRange withAttributedString:collapsedString synchronize:NO];
 	[self addFoldedTextAttachment:attachment];
+
+	id delegate = [self delegate];
+	if ([delegate respondsToSelector:@selector(textStorageDidChangeNumberOfTopLevelFoldings:)]) {
+		[delegate textStorageDidChangeNumberOfTopLevelFoldings:self];
+	}
 }
 
 - (NSMutableAttributedString *)attributedStringOfFolding:(FoldedTextAttachment *)inAttachment {
@@ -693,6 +717,13 @@ NSString * const BlockeditAttributeValue=@"YES";
 		}
 	}
 	return stringToInsert;
+}
+
+- (void)removeInternalStorageString {
+	[I_internalAttributedString release];
+	I_internalAttributedString = nil;
+	[self edited:NSTextStorageEditedCharacters | NSTextStorageEditedAttributes range:NSMakeRange(0,[I_internalAttributedString length]) changeInLength:0];
+	NSLog(@"%s ------------------------------> killed mutable string storage",__FUNCTION__);
 }
 
 - (void)unfoldAttachment:(FoldedTextAttachment *)inAttachment atCharacterIndex:(unsigned)inIndex {
@@ -729,11 +760,14 @@ NSString * const BlockeditAttributeValue=@"YES";
 	NSLog(@"%s unfolding: %@",__FUNCTION__,[self foldedStringRepresentationOfRange:[inAttachment foldedTextRange] foldings:innerAttachments level:1]);
 	[self replaceCharactersInRange:NSMakeRange(inIndex,1) withAttributedString:stringToInsert synchronize:NO];
 	[I_sortedFoldedTextAttachments removeObject:inAttachment];
+	
 	if ([I_sortedFoldedTextAttachments count] == 0) {
-		[I_internalAttributedString release];
-		I_internalAttributedString = nil;
-		[self edited:NSTextStorageEditedCharacters | NSTextStorageEditedAttributes range:NSMakeRange(0,[I_internalAttributedString length]) changeInLength:0];
-		NSLog(@"%s ------------------------------> killed mutable string storage",__FUNCTION__);
+		[self removeInternalStorageString];
+	}
+	
+	id delegate = [self delegate];
+	if ([delegate respondsToSelector:@selector(textStorageDidChangeNumberOfTopLevelFoldings:)]) {
+		[delegate textStorageDidChangeNumberOfTopLevelFoldings:self];
 	}
 }
 
