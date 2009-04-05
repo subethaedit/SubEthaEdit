@@ -93,18 +93,22 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
 
 
     // Clean up state attributes in the string we work on now
-	NSArray *attributesToCleanup = [NSArray arrayWithObjects:kSyntaxHighlightingStackName,kSyntaxHighlightingStateDelimiterName,kSyntaxHighlightingTypeAttributeName,kSyntaxHighlightingParentModeForSymbolsAttributeName,kSyntaxHighlightingParentModeForAutocompleteAttributeName,kSyntaxHighlightingIsCorrectAttributeName,kSyntaxHighlightingFoldableAttributeName,nil];
+	NSArray *attributesToCleanup = [NSArray arrayWithObjects:kSyntaxHighlightingStackName,kSyntaxHighlightingStateDelimiterName,kSyntaxHighlightingTypeAttributeName,kSyntaxHighlightingParentModeForSymbolsAttributeName,kSyntaxHighlightingParentModeForAutocompleteAttributeName,kSyntaxHighlightingIsCorrectAttributeName,kSyntaxHighlightingFoldableAttributeName,kSyntaxHighlightingFoldingDepthAttributeName,nil];
     [aString removeAttributes:attributesToCleanup range:aRange];
 
     NSMutableDictionary *scratchAttributes = [NSMutableDictionary dictionary];
 
     // Initialize (or preserve) stack
     NSArray *savedStack = nil;
+    int foldingDepth = 0, newFoldingDepth = 0;
     if ((!stack)&&(currentRange.location>0)) {
         stack = [NSMutableArray arrayWithArray:[aString attribute:kSyntaxHighlightingStackName atIndex:currentRange.location-1 effectiveRange:nil]];
         if ([[aString attribute:kSyntaxHighlightingStateDelimiterName atIndex:currentRange.location-1 effectiveRange:nil] isEqualTo:@"End"]) {
             [stack removeLastObject];
         }
+        
+        foldingDepth = [[aString attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:currentRange.location-1 effectiveRange:nil] intValue];
+        
         //NSLog(@"Getting stack at: '%@': %@", [[aString string] substringWithRange:NSMakeRange(currentRange.location-1,1)], stack);
     }
     
@@ -130,6 +134,7 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
 		}
         
         NSRange delimiterRange, stateRange, startRange, nextRange;
+        BOOL foundEnd = NO;
         startRange = NSMakeRange(NSNotFound,0);
         // Add start to colorRange to color keywords within
         // But check for starts that contain \n
@@ -217,15 +222,19 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
 				[scratchAttributes setObject:[subState objectForKey:[definition keyForInheritedAutocomplete]] forKey:kSyntaxHighlightingParentModeForAutocompleteAttributeName];
                 if ([[subState objectForKey:@"foldable"] isEqualToString:@"yes"]) [scratchAttributes setObject:@"state" forKey:kSyntaxHighlightingFoldableAttributeName];
 
+                [scratchAttributes setObject:[NSNumber numberWithInt:foldingDepth] forKey:kSyntaxHighlightingFoldingDepthAttributeName];
                 [scratchAttributes setObject:kSyntaxHighlightingIsCorrectAttributeValue forKey:kSyntaxHighlightingIsCorrectAttributeName];
 				
                 [aString addAttributes:scratchAttributes range:delimiterRange];
+                if ([[subState objectForKey:@"foldable"] isEqualToString:@"yes"]) newFoldingDepth = foldingDepth + 1;
+
             } else { // Found end of current state
                 //NSLog(@"Found an end: '%@' current range: %@",[[aString string] substringWithRange:delimiterRange], NSStringFromRange(currentRange));
+                foundEnd = YES;
                 nextRange.location = NSMaxRange(stateRange);
                 nextRange.length = currentRange.length - stateRange.length;
-                if ([[currentState objectForKey:@"foldable"] isEqualToString:@"yes"]) [scratchAttributes setObject:@"state" forKey:kSyntaxHighlightingFoldableAttributeName];
-                [aString addAttribute:kSyntaxHighlightingStateDelimiterName value:@"End" range:delimiterRange];
+                [scratchAttributes setObject:@"End" forKey:kSyntaxHighlightingStateDelimiterName];
+                [aString addAttributes:scratchAttributes range:delimiterRange];
                 savedStack = [[stack copy] autorelease];
                 [stack removeLastObject]; // Default state doesn't have an end, stack is always > 0
             }
@@ -253,6 +262,8 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
 		[scratchAttributes setObject:[currentState objectForKey:[definition keyForInheritedSymbols]] forKey:kSyntaxHighlightingParentModeForSymbolsAttributeName];
 		[scratchAttributes setObject:[currentState objectForKey:[definition keyForInheritedAutocomplete]] forKey:kSyntaxHighlightingParentModeForAutocompleteAttributeName];
         if ([[currentState objectForKey:@"foldable"] isEqualToString:@"yes"]) [scratchAttributes setObject:@"state" forKey:kSyntaxHighlightingFoldableAttributeName];
+        
+        [scratchAttributes setObject:[NSNumber numberWithInt:foldingDepth] forKey:kSyntaxHighlightingFoldingDepthAttributeName];
         [scratchAttributes setObject:kSyntaxHighlightingIsCorrectAttributeValue forKey:kSyntaxHighlightingIsCorrectAttributeName];
 			
         //NSLog(@"Calculating color range");
@@ -269,6 +280,14 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
 
         [aString addAttributes:scratchAttributes range:stateRange];
 
+        if (foundEnd) {
+            if ([[currentState objectForKey:@"foldable"] isEqualToString:@"yes"]) {
+                foldingDepth--;
+                newFoldingDepth = foldingDepth;
+                [aString addAttribute:kSyntaxHighlightingFoldingDepthAttributeName value:[NSNumber numberWithInt:foldingDepth] range:delimiterRange];
+            }
+        }
+        
         //NSLog(@"Highlighting stuff");
         
         [self highlightRegularExpressionsOfAttributedString:aString inRange:colorRange forState:[currentState objectForKey:@"id"]];
@@ -277,7 +296,7 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
         //NSLog(@"Finished highlighting for this state %@ '%@'", [currentState objectForKey:@"id"], [[aString string] substringWithRange:colorRange]);
 
         currentRange = nextRange;
-        
+        foldingDepth = newFoldingDepth;
         [syntaxPool release];
     } while (currentRange.length>0);
     
