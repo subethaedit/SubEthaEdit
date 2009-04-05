@@ -3084,12 +3084,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         return NO;
     }
 
-    NSTextStorage *textStorage = [self textStorage];
+    NSTextStorage *textStorage = [I_textStorage fullTextStorage];
     BOOL isReverting = ([textStorage length] != 0);
     BOOL wasAutosaved = NO;
     NSAttributedString *undoString = nil;
     if (isReverting) {
-        undoString = [I_textStorage attributedSubstringFromRange:NSMakeRange(0,[I_textStorage length])];
+        undoString = [textStorage attributedSubstringFromRange:NSMakeRange(0,[textStorage length])];
     }
 
 
@@ -4296,7 +4296,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 // caution this call releases its argument because it doesn't seem to work otherwise :(
 - (void)setAttributedStringUndoable:(NSAttributedString *)aString {
     [[self documentUndoManager] beginUndoGrouping];
-    [[[self documentUndoManager] prepareWithInvocationTarget:self] setAttributedStringUndoable:[I_textStorage attributedSubstringFromRange:NSMakeRange(0,[I_textStorage length])]];
+    FullTextStorage *fullTextStorage = [I_textStorage fullTextStorage];
+    [[[self documentUndoManager] prepareWithInvocationTarget:self] setAttributedStringUndoable:[fullTextStorage attributedSubstringFromRange:NSMakeRange(0,[fullTextStorage length])]];
     [[self documentUndoManager] endUndoGrouping];
     BOOL previousState = [self isHandlingUndoManually];
     [self setIsHandlingUndoManually:YES];

@@ -121,7 +121,7 @@ NSString * const BlockeditAttributeValue=@"YES";
 	
 	if (inRange.location >= previousAttachmentMaxRange) {
 		// the replacement range is completely after all foldings
-		NSLog(@"%s the replacement range is completely after all foldings",__FUNCTION__);
+//		NSLog(@"%s the replacement range is completely after all foldings",__FUNCTION__);
 		resultRange = inRange;
 		resultRange.location = indexAfterFolding + (inRange.location - NSMaxRange(attachmentRange));
 		return resultRange;
@@ -164,7 +164,7 @@ NSString * const BlockeditAttributeValue=@"YES";
 			if (startInsideFolding) {
 				if (attachment == attachmentReplacementStartetIn) {
 					if (NSEqualRanges(inRange,attachmentRange) && [inString length] == 0) {
-						NSLog(@"%s go away attachment because you have been replaced completely (start and end attachment were equal)",__FUNCTION__);
+//						NSLog(@"%s go away attachment because you have been replaced completely (start and end attachment were equal)",__FUNCTION__);
 						//attachment has to go
 						resultRange.location -=1;
 						resultRange.length = 1;
@@ -175,7 +175,7 @@ NSString * const BlockeditAttributeValue=@"YES";
 						break;
 					} else {
 						// adjust attachmentRange
-						NSLog(@"%s change attachmentrange (start and end attachment were equal)",__FUNCTION__);
+//						NSLog(@"%s change attachmentrange (start and end attachment were equal)",__FUNCTION__);
 						endFound = YES;
 						attachmentRange.length += locationDifference;
 						[attachment setFoldedTextRange:attachmentRange];
@@ -185,14 +185,14 @@ NSString * const BlockeditAttributeValue=@"YES";
 				} else {
 					// our change started in an attachment which is different from the current attachment
 					// so the current attachment has to go and the original attachments length has to be adjusted
-					NSLog(@"%s start and end attachment have been different, removing the current attachment and adjusting the first",__FUNCTION__);
+//					NSLog(@"%s start and end attachment have been different, removing the current attachment and adjusting the first",__FUNCTION__);
 					int leftOverLength = NSMaxRange(attachmentRange)-NSMaxRange(inRange);
 					resultRange.length = indexAfterFolding - resultRange.location;
 					NSRange originalAttachmentRange = [attachmentReplacementStartetIn foldedTextRange];
 					originalAttachmentRange.length = leftOverLength + locationDifference + (NSMaxRange(inRange)-originalAttachmentRange.location);
 					[attachmentReplacementStartetIn setFoldedTextRange:originalAttachmentRange];
 					attachmentIndex--;
-					NSLog(@"%s removed attachment with range:%@",__FUNCTION__,NSStringFromRange([attachment foldedTextRange]));
+//					NSLog(@"%s removed attachment with range:%@",__FUNCTION__,NSStringFromRange([attachment foldedTextRange]));
 					[inFoldingAttachments removeObjectAtIndex:attachmentIndex];
 					attachmentCount--;
 					endFound = YES;
@@ -200,14 +200,14 @@ NSString * const BlockeditAttributeValue=@"YES";
 				}
 			} else {
 				// truncate the first part of the current folding that was chopped of
-				NSLog(@"%s trimming the head of the current folding",__FUNCTION__);
+//				NSLog(@"%s trimming the head of the current folding",__FUNCTION__);
 				int truncatedCharacters = NSMaxRange(inRange)-attachmentRange.location;
 				NSRange settingRange = NSMakeRange(attachmentRange.location + truncatedCharacters + locationDifference, attachmentRange.length - truncatedCharacters);
 				if (settingRange.length == 0) {
 					// remove this empty folding
 					resultRange.length = indexAfterFolding - resultRange.location;
 					attachmentIndex--;
-					NSLog(@"%s removed attachment with range:%@",__FUNCTION__,NSStringFromRange([attachment foldedTextRange]));
+//					NSLog(@"%s removed attachment with range:%@",__FUNCTION__,NSStringFromRange([attachment foldedTextRange]));
 					[inFoldingAttachments removeObjectAtIndex:attachmentIndex];
 					attachmentCount--;
 				} else {
@@ -216,7 +216,7 @@ NSString * const BlockeditAttributeValue=@"YES";
 					// do recursive treatment for this fellow
 					BOOL ignore;
 					NSMutableArray * innerAttachments = [attachment innerAttachments];
-					NSLog(@"%s doing a recursion for a trimmed attachment (%d inner Attachments)",__FUNCTION__,[innerAttachments count]);
+//					NSLog(@"%s doing a recursion for a trimmed attachment (%d inner Attachments)",__FUNCTION__,[innerAttachments count]);
 
 					if ([innerAttachments count] > 0) {
 						[self foldedReplacementRangeForFullTextReplaceCharactersInRange:inRange withString:inString shouldInsertString:&ignore foldingAttachments:innerAttachments];
@@ -229,7 +229,7 @@ NSString * const BlockeditAttributeValue=@"YES";
 		} else if (attachment != attachmentReplacementStartetIn) {
 			// current attachment is consumed by the replacement range - so kill the current attachment
 			attachmentIndex--;
-			NSLog(@"%s removed attachment with range:%@",__FUNCTION__,NSStringFromRange([attachment foldedTextRange]));
+//			NSLog(@"%s removed attachment with range:%@",__FUNCTION__,NSStringFromRange([attachment foldedTextRange]));
 			[inFoldingAttachments removeObjectAtIndex:attachmentIndex];
 			attachmentCount--;
 		}
@@ -247,7 +247,7 @@ NSString * const BlockeditAttributeValue=@"YES";
 	}
 	
 	if (!endFound) {
-		NSLog(@"%s end lies behind all attachments",__FUNCTION__);
+//		NSLog(@"%s end lies behind all attachments",__FUNCTION__);
 		resultRange.length = (indexAfterFolding + NSMaxRange(inRange) - NSMaxRange(attachmentRange)) - resultRange.location;
 		if (startInsideFolding) {
 			// adjust folding to go up to the last inserted character
@@ -267,7 +267,7 @@ NSString * const BlockeditAttributeValue=@"YES";
 	if (attachmentReplacementStartetIn) {
 		BOOL ignore;
 		NSMutableArray * innerAttachments = [attachmentReplacementStartetIn innerAttachments];
-		NSLog(@"%s doing a recursion for an attachment we started in (%d inner Attachments)",__FUNCTION__,[innerAttachments count]);
+//		NSLog(@"%s doing a recursion for an attachment we started in (%d inner Attachments)",__FUNCTION__,[innerAttachments count]);
 		if ([innerAttachments count] > 0) {
 			[self foldedReplacementRangeForFullTextReplaceCharactersInRange:inRange withString:inString shouldInsertString:&ignore foldingAttachments:innerAttachments];
 		}
