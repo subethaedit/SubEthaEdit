@@ -4451,6 +4451,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (NSDictionary *)styleAttributesForStyleID:(NSString *)aStyleID {
+	if (!aStyleID) {
+		NSLog(@"%s was called with a styleID of nil",__FUNCTION__);
+		return [NSDictionary dictionary];
+	}
     NSDictionary *result=[I_styleCacheDictionary objectForKey:aStyleID];
     if (!result) {
         DocumentMode *documentMode=[self documentMode];

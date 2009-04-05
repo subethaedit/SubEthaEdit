@@ -44,6 +44,20 @@
     [super drawRect:aRect];
 }
 
+- (NSColor *)colorForLineRange:(NSRange)aLineRange inTextStorage:(NSTextStorage *)aTextStorage {
+	int maxDepth = 0;
+	NSArray *highlightingStack = nil;
+	
+	if (aLineRange.length > 0) {
+		NSRange attributeRange = NSMakeRange(aLineRange.location,0);
+		do {
+			highlightingStack = [aTextStorage attribute:kSyntaxHighlightingStackName atIndex:NSMaxRange(attributeRange) longestEffectiveRange:&attributeRange inRange:aLineRange];
+			maxDepth = MAX([highlightingStack count],maxDepth);
+		} while (NSMaxRange(attributeRange) < NSMaxRange(aLineRange));
+	}
+	return [NSColor colorWithCalibratedWhite:1.0 - ((MAX(maxDepth, 1.0) - 1) / MAX_FOLDING_DEPTH) alpha:1.0];
+}
+
 - (void)drawHashMarksAndLabelsInRect:(NSRect)aRect {
     
     static NSDictionary *attributes=nil;
@@ -68,6 +82,7 @@
     point.y+=aRect.origin.y+1.;
     unsigned glyphIndex,characterIndex;
     NSString *lineNumberString;
+    NSRect bounds = [self bounds];
     NSRect boundingRect,previousBoundingRect,lineFragmentRectForLastCharacter;
     NSColor *delimiterLineColor = [NSColor colorWithCalibratedWhite:0.5 alpha:1.0];
     NSColor *triangleColor      = [NSColor colorWithCalibratedWhite:0.2 alpha:1.0];
@@ -84,8 +99,8 @@
 
 	NSRect foldingAreaRect  = NSMakeRect(rightHandAlignment + RIGHT_INSET + 1.0,0,FOLDING_BAR_WIDTH-3.0,0);
 	[delimiterLineColor set];
-	[NSBezierPath strokeLineFromPoint:NSMakePoint(foldingAreaRect.origin.x-1.5,boundingRect.origin.y - visibleRect.origin.y) 
-							  toPoint:NSMakePoint(foldingAreaRect.origin.x-1.5,visibleRect.origin.y + NSHeight(visibleRect))];
+	[NSBezierPath strokeLineFromPoint:NSMakePoint(foldingAreaRect.origin.x-1.5,bounds.origin.y) 
+							  toPoint:NSMakePoint(foldingAreaRect.origin.x-1.5,NSMaxY(bounds))];
 
     if ([textStorage length]) {
     
@@ -127,7 +142,7 @@
 		foldingAreaRect.origin.y = boundingRect.origin.y - visibleRect.origin.y;
         foldingAreaRect.size.height = NSMaxY(lineFragmentRectForLastCharacter) - boundingRect.origin.y;
        	
-       	NSColor *depthColor = [NSColor colorWithCalibratedWhite:1.0 - ((MAX([[textStorage attribute:kSyntaxHighlightingStackName atIndex:lineRange.location effectiveRange:NULL] count], 1.0) - 1) / MAX_FOLDING_DEPTH) alpha:1.0];
+       	NSColor *depthColor = [self colorForLineRange:lineRange inTextStorage:textStorage];
 		[depthColor set];
         NSRectFill(foldingAreaRect);
 
@@ -188,7 +203,7 @@
 			foldingAreaRect.size.height = NSMaxY(lineFragmentRectForLastCharacter) - boundingRect.origin.y;
 
 			if (lineRange.length > 0) {
-				depthColor = [NSColor colorWithCalibratedWhite:1.0 - ((MAX([[textStorage attribute:kSyntaxHighlightingStackName atIndex:lineRange.location effectiveRange:NULL] count], 1.0) - 1) / MAX_FOLDING_DEPTH) alpha:1.0];
+				depthColor = [self colorForLineRange:lineRange inTextStorage:textStorage];;
 			}
 			[depthColor set];
 			NSRectFill(foldingAreaRect);
