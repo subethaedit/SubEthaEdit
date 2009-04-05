@@ -28,6 +28,7 @@ NSString * const kSyntaxHighlightingTypeAttributeName = @"Type";
 NSString * const kSyntaxHighlightingParentModeForSymbolsAttributeName = @"ParentModeForSymbols";
 NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"ParentModeForAutocomplete";
 NSString * const kSyntaxHighlightingFoldableAttributeName = @"Foldable";
+NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
 
 @implementation SyntaxHighlighter
 /*"A Syntax Highlighter"*/
@@ -146,13 +147,25 @@ NSString * const kSyntaxHighlightingFoldableAttributeName = @"Foldable";
             delimiterRange = [delimiterMatch rangeOfMatchedString];
             
             NSRange checkForStartFalsePositiveRange = [theString lineRangeForRange:delimiterRange];
-            OGRegularExpressionMatch * checkMatch = [stateDelimiter matchInString:theString range:checkForStartFalsePositiveRange];
-            if (checkForStartFalsePositiveRange.location>=aRange.location && (!checkMatch || [delimiterMatch indexOfFirstMatchedSubstring]!=[checkMatch indexOfFirstMatchedSubstring])) {
-                currentRange.location++;
-                currentRange.length--;
-                continue;
-            }             
-            
+            if (checkForStartFalsePositiveRange.location>=aRange.location) {
+                OGRegularExpressionMatch * checkMatch;
+                NSEnumerator *checkMatchEnumerator = [[stateDelimiter allMatchesInString:theString range:checkForStartFalsePositiveRange] objectEnumerator];
+                BOOL valid = NO;
+                while ((checkMatch = [checkMatchEnumerator nextObject])) {
+                    if (checkMatch && [delimiterMatch indexOfFirstMatchedSubstring]==[checkMatch indexOfFirstMatchedSubstring]) {
+                        NSRange secondDelimiterRange = [checkMatch rangeOfMatchedString];
+                        if (secondDelimiterRange.location == delimiterRange.location) valid = YES;
+                    }
+
+                }
+                if (!valid) {
+                    currentRange.location++;
+                    currentRange.length--;
+                    continue;
+                }
+                
+            }
+                        
             stateRange = NSMakeRange(currentRange.location, NSMaxRange(delimiterRange) - currentRange.location);
 
             NSString *delimiterName = [delimiterMatch nameOfSubstringAtIndex:[delimiterMatch indexOfFirstMatchedSubstring]];
