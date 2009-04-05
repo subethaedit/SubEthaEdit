@@ -75,7 +75,7 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
 
     // If our dirty range beings with a start delimiter, make sure it is cleared completely to avoid confusing the engine with zombie starts
     if (aRange.location>0) {
-        if ([[aString attribute:kSyntaxHighlightingStateDelimiterName atIndex:aRange.location-1 effectiveRange:nil] isEqualTo:@"Start"]) {
+        if ([aString attribute:kSyntaxHighlightingStateDelimiterName atIndex:aRange.location-1 effectiveRange:nil]) {
             NSRange midwayStartDelimiterRange;
             [aString attribute:kSyntaxHighlightingStateDelimiterName atIndex:aRange.location-1 longestEffectiveRange:&midwayStartDelimiterRange inRange:NSMakeRange(0, [theString length])];
             aRange = NSUnionRange(aRange, midwayStartDelimiterRange);
@@ -221,7 +221,7 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
 				
                 [aString addAttributes:scratchAttributes range:delimiterRange];
             } else { // Found end of current state
-                //NSLog(@"Found and end");
+                //NSLog(@"Found an end: '%@' current range: %@",[[aString string] substringWithRange:delimiterRange], NSStringFromRange(currentRange));
                 nextRange.location = NSMaxRange(stateRange);
                 nextRange.length = currentRange.length - stateRange.length;
                 if ([[currentState objectForKey:@"foldable"] isEqualToString:@"yes"]) [scratchAttributes setObject:@"state" forKey:kSyntaxHighlightingFoldableAttributeName];

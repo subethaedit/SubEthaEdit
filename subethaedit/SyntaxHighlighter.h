@@ -18,6 +18,7 @@ extern NSString * const kSyntaxHighlightingTypeAttributeName;
 extern NSString * const kSyntaxHighlightingParentModeForSymbolsAttributeName;
 extern NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName;
 extern NSString * const kSyntaxHighlightingFoldableAttributeName;
+extern NSString * const kSyntaxHighlightingFoldingDepthAttributeName;
 
 @interface SyntaxHighlighter : NSObject {
     SyntaxDefinition *I_syntaxDefinition;
