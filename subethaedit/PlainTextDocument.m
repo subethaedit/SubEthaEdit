@@ -5309,6 +5309,9 @@ static NSString *S_measurementUnits;
                 if (![highlighter colorizeDirtyRanges:[I_textStorage fullTextStorage] ofDocument:self]) {
                     I_flags.textDidChangeSinceLastSyntaxHighlighting = NO;
                     [self performHighlightSyntax];
+                } else {
+                	// tell the gutter to show stuff
+					[[self plainTextEditors] makeObjectsPerformSelector:@selector(setNeedsDisplayForRuler) withObject:nil];
                 }
             } else {
                 [self performHighlightSyntax];

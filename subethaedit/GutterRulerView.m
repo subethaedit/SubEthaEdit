@@ -8,6 +8,7 @@
 
 #import "GutterRulerView.h"
 #import "SyntaxHighlighter.h"
+#import "FoldableTextStorage.h"
 
 #define FOLDING_BAR_WIDTH 9.
 #define RIGHT_INSET  4.
@@ -58,6 +59,12 @@
 	return [NSColor colorWithCalibratedWhite:1.0 - ((MAX(maxDepth, 1.0) - 1) / MAX_FOLDING_DEPTH) alpha:1.0];
 }
 
+- (NSRect)baseRectForFoldingBar {
+	double ruleThickness = [self ruleThickness];
+	double rightHandAlignment = ruleThickness - FOLDING_BAR_WIDTH - RIGHT_INSET;
+	return NSMakeRect(rightHandAlignment + RIGHT_INSET + 1.0,0,FOLDING_BAR_WIDTH-3.0,0);
+}
+
 - (void)drawHashMarksAndLabelsInRect:(NSRect)aRect {
     
     static NSDictionary *attributes=nil;
@@ -85,7 +92,8 @@
     NSRect bounds = [self bounds];
     NSRect boundingRect,previousBoundingRect,lineFragmentRectForLastCharacter;
     NSColor *delimiterLineColor = [NSColor colorWithCalibratedWhite:0.5 alpha:1.0];
-    NSColor *triangleColor      = [NSColor colorWithCalibratedWhite:0.2 alpha:1.0];
+    NSColor *triangleColor      = [NSColor colorWithCalibratedWhite:0.1 alpha:1.0];
+    NSColor *triangleHighlightColor      = [NSColor selectedControlColor];
 
 	NSRange longestEffectiveAttachmentRange;
     NSRange lineRange;
@@ -97,7 +105,7 @@
 	double ruleThickness = [self ruleThickness];
 	double rightHandAlignment = ruleThickness - FOLDING_BAR_WIDTH - RIGHT_INSET;
 
-	NSRect foldingAreaRect  = NSMakeRect(rightHandAlignment + RIGHT_INSET + 1.0,0,FOLDING_BAR_WIDTH-3.0,0);
+	NSRect foldingAreaRect  = [self baseRectForFoldingBar];
 	[delimiterLineColor set];
 	[NSBezierPath strokeLineFromPoint:NSMakePoint(foldingAreaRect.origin.x-1.5,bounds.origin.y) 
 							  toPoint:NSMakePoint(foldingAreaRect.origin.x-1.5,NSMaxY(bounds))];
@@ -150,7 +158,7 @@
 			[textStorage attribute:NSAttachmentAttributeName atIndex:lineRange.location longestEffectiveRange:&longestEffectiveAttachmentRange inRange:lineRange];
 			if (!NSEqualRanges(lineRange,longestEffectiveAttachmentRange)) {
 				// there is an attachment of some kind in our line. so show it
-				[triangleColor set];
+				[((I_lastMouseDownPoint.y >= boundingRect.origin.y && I_lastMouseDownPoint.y <= NSMaxY(boundingRect)) ? triangleHighlightColor : triangleColor) set];
 				[NSBezierPath fillTriangleInRect:NSMakeRect(foldingAreaRect.origin.x+1, NSMaxY(boundingRect)-visibleRect.origin.y - FOLDING_BAR_WIDTH - (boundingRect.size.height-FOLDING_BAR_WIDTH - 3)/2. ,FOLDING_BAR_WIDTH - 4,FOLDING_BAR_WIDTH - 2) arrowPoint:NSMaxXEdge];
 			}
 		}
@@ -212,7 +220,8 @@
 				[textStorage attribute:NSAttachmentAttributeName atIndex:lineRange.location longestEffectiveRange:&longestEffectiveAttachmentRange inRange:lineRange];
 				if (!NSEqualRanges(lineRange,longestEffectiveAttachmentRange)) {
 					// there is an attachment of some kind in our line. so show it
-					[triangleColor set];
+//					NSLog(@"%s mouseDown:%@ boundingRect:%@",__FUNCTION__,NSStringFromPoint(I_lastMouseDownPoint),NSStringFromRect(boundingRect));
+					[((I_lastMouseDownPoint.y >= boundingRect.origin.y && I_lastMouseDownPoint.y <= NSMaxY(boundingRect)) ? triangleHighlightColor : triangleColor) set];
 					[NSBezierPath fillTriangleInRect:NSMakeRect(foldingAreaRect.origin.x+1, NSMaxY(boundingRect)-visibleRect.origin.y - FOLDING_BAR_WIDTH - (boundingRect.size.height-FOLDING_BAR_WIDTH - 3)/2. ,FOLDING_BAR_WIDTH - 4,FOLDING_BAR_WIDTH - 2) arrowPoint:NSMaxXEdge];
 				}
 			}
@@ -226,5 +235,61 @@
         }
     }
 }
+
+- (void)mouseDown:(NSEvent *)anEvent {
+	// check for click in folding gutter
+	NSPoint point = [self convertPoint:[anEvent locationInWindow] fromView:nil];
+	NSRect baseRect = [self baseRectForFoldingBar];
+	if (point.x >= baseRect.origin.x && point.x <= NSMaxX(baseRect)) {
+		I_lastMouseDownPoint = point;
+		// now get the line - and if a folding is in that line expand the folding
+		NSTextView              *textView=(NSTextView *)[self clientView];
+		FoldableTextStorage  *textStorage=(FoldableTextStorage *)[textView textStorage];
+		NSString                    *text=[textView string];
+		NSScrollView          *scrollView=[textView enclosingScrollView];
+		NSLayoutManager    *layoutManager=[textView layoutManager];
+        unsigned glyphIndex=[layoutManager glyphIndexForPoint:NSMakePoint(0.0,point.y) 
+                                     inTextContainer:[textView textContainer]];
+        unsigned characterIndex=[layoutManager characterIndexForGlyphAtIndex:glyphIndex];
+        NSRect boundingRect  =[layoutManager lineFragmentRectForGlyphAtIndex:glyphIndex 
+                                                       effectiveRange:nil];
+        NSRange lineRange=[text lineRangeForRange:NSMakeRange(characterIndex,0)];
+        NSRange attributeRange = NSMakeRange(lineRange.location,0);
+        id attachment = nil;
+        do {
+			attachment = [textStorage attribute:NSAttachmentAttributeName atIndex:NSMaxRange(attributeRange) longestEffectiveRange:&attributeRange inRange:lineRange];
+		} while (!attachment && NSMaxRange(attributeRange) < NSMaxRange(lineRange));
+
+		if (attachment) {
+			[self setNeedsDisplay:YES];
+			// wait for mouseup and make the action if still inside the area
+			while (1) {
+		        NSEvent *event = [[self window] nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask)];
+				NSPoint innerPoint = [self convertPoint:[event locationInWindow] fromView:nil];
+				BOOL pointWasIn = (innerPoint.x >= baseRect.origin.x && innerPoint.x <= NSMaxX(baseRect) && innerPoint.y >= boundingRect.origin.y && innerPoint.y <= NSMaxY(boundingRect));
+				if ([event type] == NSLeftMouseDragged) {
+					if (pointWasIn && NSEqualPoints(I_lastMouseDownPoint,NSZeroPoint)) {
+						I_lastMouseDownPoint = point;
+						[self setNeedsDisplay:YES];
+					} else if (!pointWasIn && !NSEqualPoints(I_lastMouseDownPoint,NSZeroPoint)) {
+						I_lastMouseDownPoint = NSZeroPoint;
+						[self setNeedsDisplay:YES];
+					}
+				} else if ([event type] == NSLeftMouseUp) {
+					if (pointWasIn) {
+						[textStorage unfoldAttachment:attachment atCharacterIndex:attributeRange.location];
+					}
+					I_lastMouseDownPoint = NSZeroPoint;
+					[self setNeedsDisplay:YES];
+					break;
+				}
+			}
+		}
+	} else {
+		// else call super so the delegate can handle
+		[super mouseDown:anEvent];
+	}
+}
+
 
 @end

@@ -10,7 +10,7 @@
 #import "TextStorage.h"
 
 @interface GutterRulerView : NSRulerView {
-
+	NSPoint I_lastMouseDownPoint;
 }
 
 @end
