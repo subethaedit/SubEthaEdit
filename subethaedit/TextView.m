@@ -373,6 +373,11 @@ static NSMenu *defaultMenu=nil;
 	[ts unfoldAll];
 }
 
+- (IBAction)foldAllTopLevelBlocks:(id)aSender {
+	FoldableTextStorage *ts = (FoldableTextStorage *)[self textStorage];
+	[ts foldAllWithFoldingLevel:1];
+}
+
 - (NSRange)selectionRangeForProposedRange:(NSRange)proposedSelRange granularity:(NSSelectionGranularity)granularity {
     NSEvent *currentEvent=[NSApp currentEvent];
     NSEventType type = [currentEvent type];

@@ -17,6 +17,10 @@ static NSArray *S_nonSyncAttributes = nil;
 NSString * const BlockeditAttributeName =@"Blockedit";
 NSString * const BlockeditAttributeValue=@"YES";
 
+@interface FoldableTextStorage (FoldableTextStoragePrivateAdditions)
+- (void)removeInternalStorageString;
+@end
+
 @implementation FoldableTextStorage
 
 + (void)initialize {
@@ -786,6 +790,53 @@ NSString * const BlockeditAttributeValue=@"YES";
 		} while (iterationRange.location > 0 && [I_sortedFoldedTextAttachments count]);
 	}
 }
+
+- (void)foldAllWithFoldingLevel:(int)aFoldingLevel {
+	if (aFoldingLevel <= 0) return;
+	
+//	NSLog(@"%s %d",__FUNCTION__, aFoldingLevel);
+
+	// iterate from bottom to top, folding everything at that folding level
+	
+	NSNumber *foldingDepth = nil;
+	NSRange currentFoldingRange = NSMakeRange(NSNotFound,0);
+
+	NSRange attributeRange = NSMakeRange([self length],0);
+	if (attributeRange.location == 0) return;
+
+	do {
+		foldingDepth = [self attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:attributeRange.location-1 longestEffectiveRange:&attributeRange inRange:NSMakeRange(0, [self length])];
+//		NSLog(@"%s range:%@ attribute:%@",__FUNCTION__, NSStringFromRange(attributeRange),foldingDepth);
+		if (!foldingDepth || [foldingDepth isKindOfClass:[NSNumber class]]) {
+			int currentDepth = [foldingDepth intValue];
+			if (currentDepth == aFoldingLevel) {
+				if (currentFoldingRange.location == NSNotFound) {
+					currentFoldingRange = attributeRange;
+				} else {
+					currentFoldingRange = NSUnionRange(currentFoldingRange, attributeRange);
+				}
+			} else if (currentDepth > aFoldingLevel) { 
+				// do nothing and take it
+			} else { // current depth < aFoldingLevel
+				if (currentFoldingRange.location != NSNotFound) {
+					// find out if we need to continue with extending the range or stay put and fold
+					if (attributeRange.length == 1 && [self attribute:NSAttachmentAttributeName atIndex:attributeRange.location effectiveRange:NULL]) { 
+						// this is an attachment which we might step over - so do nothing
+					} else {
+						[self foldRange:currentFoldingRange];
+						currentFoldingRange.location = NSNotFound;
+					}
+				}
+			}
+		}
+	} while (attributeRange.location > 0);
+	
+	if (currentFoldingRange.location != NSNotFound) {
+		[self foldRange:currentFoldingRange];
+	}
+	
+}
+
 
 #pragma mark Blockedit
 
