@@ -681,7 +681,7 @@ NSString * const BlockeditAttributeValue=@"YES";
 //	NSLog(@"%s %@",__FUNCTION__,collapsedString);
 	if (!I_internalAttributedString) { // generate it on first fold
 		I_internalAttributedString = [I_fullTextStorage mutableCopy];
-		NSLog(@"%s ------------------------------> generated mutable string storage",__FUNCTION__);
+//		NSLog(@"%s ------------------------------> generated mutable string storage",__FUNCTION__);
 	}
 	[collapsedString addAttribute:NSToolTipAttributeName value:@"stub" range:NSMakeRange(0,[collapsedString length])];
 	[self replaceCharactersInRange:inRange withAttributedString:collapsedString synchronize:NO];
@@ -727,7 +727,7 @@ NSString * const BlockeditAttributeValue=@"YES";
 	[I_internalAttributedString release];
 	I_internalAttributedString = nil;
 	[self edited:NSTextStorageEditedCharacters | NSTextStorageEditedAttributes range:NSMakeRange(0,[I_internalAttributedString length]) changeInLength:0];
-	NSLog(@"%s ------------------------------> killed mutable string storage",__FUNCTION__);
+//	NSLog(@"%s ------------------------------> killed mutable string storage",__FUNCTION__);
 }
 
 - (void)unfoldAttachment:(FoldedTextAttachment *)inAttachment atCharacterIndex:(unsigned)inIndex {
@@ -761,7 +761,7 @@ NSString * const BlockeditAttributeValue=@"YES";
 			[stringToInsert appendAttributedString:[I_fullTextStorage attributedSubstringFromRange:NSMakeRange(currentIndex,NSMaxRange(foldedTextRange) - currentIndex)]];
 		}
 	}
-	NSLog(@"%s unfolding: %@",__FUNCTION__,[self foldedStringRepresentationOfRange:[inAttachment foldedTextRange] foldings:innerAttachments level:1]);
+//	NSLog(@"%s unfolding: %@",__FUNCTION__,[self foldedStringRepresentationOfRange:[inAttachment foldedTextRange] foldings:innerAttachments level:1]);
 	[self replaceCharactersInRange:NSMakeRange(inIndex,1) withAttributedString:stringToInsert synchronize:NO];
 	[I_sortedFoldedTextAttachments removeObject:inAttachment];
 	

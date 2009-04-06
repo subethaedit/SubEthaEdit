@@ -88,3 +88,23 @@ extern NSString * const BlockeditAttributeValue;
 
 @end
 
+
+#pragma mark -
+
+@interface FoldableTextStorage (TextStorageScriptingAdditions)
+
+- (id)insertionPoints;
+
+- (NSRange)rangeRepresentation;
+- (NSNumber *)scriptedLength;
+- (NSNumber *)scriptedStartCharacterIndex;
+- (NSNumber *)scriptedNextCharacterIndex;
+- (NSNumber *)scriptedStartLine;
+- (NSNumber *)scriptedEndLine;
+- (NSString *)scriptedContents;
+- (void)setScriptedContents:(id)string;
+- (NSArray *)scriptedCharacters;
+- (NSArray *)scriptedLines;
+
+@end
+

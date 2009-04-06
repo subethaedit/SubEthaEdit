@@ -8,6 +8,7 @@
 
 #import "MultiPagePrintView.h"
 #import "FoldableTextStorage.h"
+#import "FullTextStorage.h"
 #import "PrintTypesetter.h"
 #import "PrintTextView.h"
 #import "SyntaxHighlighter.h"

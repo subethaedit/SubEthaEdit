@@ -710,7 +710,7 @@
 }
 
 - (void)dentParagraphsInTextView:(NSTextView *)aTextView in:(BOOL)aIndent{
-    if ([(TextStorage *)[aTextView textStorage] hasBlockeditRanges]) {
+    if ([(FoldableTextStorage *)[aTextView textStorage] hasBlockeditRanges]) {
         NSBeep();
     } else {
 
@@ -776,7 +776,7 @@
 }
 
 - (void)tabParagraphsInTextView:(NSTextView *)aTextView de:(BOOL)shouldDetab {
-    if ([(TextStorage *)[aTextView textStorage] hasBlockeditRanges]) {
+    if ([(FoldableTextStorage *)[aTextView textStorage] hasBlockeditRanges]) {
         NSBeep();
     } else {
         NSRange affectedRange=[aTextView selectedRange];
@@ -827,7 +827,7 @@
         [menuItem setState:[self showsInvisibleCharacters]?NSOnState:NSOffState];
         return YES;
     } else if (selector == @selector(blockeditSelection:) || selector==@selector(endBlockedit:)) {
-        TextStorage *textStorage=(TextStorage *)[I_textView textStorage];
+        FoldableTextStorage *textStorage=(FoldableTextStorage *)[I_textView textStorage];
         if ([textStorage hasBlockeditRanges]) {
             [menuItem setTitle:NSLocalizedString(@"MenuBlockeditEnd",@"End Blockedit in edit Menu")];
             [menuItem setKeyEquivalent:@"\e"];
@@ -985,7 +985,7 @@
 
 - (IBAction)blockeditSelection:(id)aSender {
     NSRange selection=[I_textView selectedRange];
-    TextStorage *textStorage=(TextStorage *)[I_textView textStorage];
+    FoldableTextStorage *textStorage=(FoldableTextStorage *)[I_textView textStorage];
     NSRange lineRange=[[textStorage string] lineRangeForRange:selection];
     NSDictionary *blockeditAttributes=[[I_textView delegate] blockeditAttributesForTextView:I_textView];
     [textStorage addAttributes:blockeditAttributes
@@ -995,7 +995,7 @@
 }
 
 - (IBAction)endBlockedit:(id)aSender {
-    TextStorage *textStorage=(TextStorage *)[I_textView textStorage];
+    FoldableTextStorage *textStorage=(FoldableTextStorage *)[I_textView textStorage];
     if ([textStorage hasBlockeditRanges]) {
         [textStorage stopBlockedit];
     }

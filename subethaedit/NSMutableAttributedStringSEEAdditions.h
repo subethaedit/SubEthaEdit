@@ -16,13 +16,17 @@
 - (void)makeLeadingWhitespaceNonBreaking;
 #endif
 
-- (void)removeAttributes:(NSArray *)names range:(NSRange)aRange;
+- (void)removeAttributes:(id)anObjectEnumerable range:(NSRange)aRange;
+
 - (void)setContentByDictionaryRepresentation:(NSDictionary *)aRepresentation;
 
-- (NSDictionary *)attributeDictionaryByAddingStyleAttributesForInsertLocation:(unsigned int)inLocation toDictionary:(NSDictionary *)inBaseStyle;
+- (NSRange)blockChangeTextInRange:(NSRange)aRange replacementString:(NSString *)aReplacementString
+                   paragraphRange:(NSRange)aParagraphRange inTextView:(NSTextView *)aTextView tabWidth:(unsigned)aTabWidth useTabs:(BOOL)aUseTabs;
 
 @end
 
 @interface NSAttributedString (NSAttributedStringSeeAdditions)
+- (NSDictionary *)attributeDictionaryByAddingStyleAttributesForInsertLocation:(unsigned int)inLocation toDictionary:(NSDictionary *)inBaseStyle;
 - (NSDictionary *)dictionaryRepresentationUsingEncoding:(NSStringEncoding)anEncoding;
+- (BOOL)lastLineIsEmpty;
 @end

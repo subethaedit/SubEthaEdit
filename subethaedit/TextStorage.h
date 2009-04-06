@@ -28,8 +28,6 @@ extern NSString * const TextStorageHasMixedLineEndingsDidChange;
     } I_scriptingProperties;
 }
 
-+ (OGRegularExpression *)wrongLineEndingRegex:(LineEnding)aLineEnding;
-
 #pragma mark -
 - (NSString *)positionStringForRange:(NSRange)aRange;
 - (int)lineNumberForLocation:(unsigned)location;
@@ -41,8 +39,6 @@ extern NSString * const TextStorageHasMixedLineEndingsDidChange;
 - (unsigned)numberOfCharacters;
 - (unsigned)numberOfWords;
 
-- (BOOL)lastLineIsEmpty;
-
 - (LineEnding)lineEnding;
 - (void)setLineEnding:(LineEnding)newLineEnding;
 - (void)setShouldWatchLineEndings:(BOOL)aFlag;
@@ -52,35 +48,11 @@ extern NSString * const TextStorageHasMixedLineEndingsDidChange;
 - (void)setEncoding:(unsigned int)anEncoding;
 - (NSArray *)selectionOperationsForRangesUnconvertableToEncoding:(NSStringEncoding)encoding;
 
-- (NSRange)blockChangeTextInRange:(NSRange)aRange replacementString:(NSString *)aReplacementString
-                   paragraphRange:(NSRange)aParagraphRange inTextView:(NSTextView *)aTextView tabWidth:(unsigned)aTabWidth useTabs:(BOOL)aUseTabs;
-
 
 - (NSDictionary *)dictionaryRepresentation;
 - (void)setContentByDictionaryRepresentation:(NSDictionary *)aRepresentation;
 
 - (NSMutableAttributedString *)attributedStringForXHTMLExportWithRange:(NSRange)aRange foregroundColor:(NSColor *)aForegroundColor backgroundColor:(NSColor *)aBackgroundColor;
-
-- (void)removeAttributes:(id)anObjectEnumerable range:(NSRange)aRange;
-
-@end
-
-#pragma mark -
-
-@interface TextStorage (TextStorageScriptingAdditions)
-
-- (id)insertionPoints;
-
-- (NSRange)rangeRepresentation;
-- (NSNumber *)scriptedLength;
-- (NSNumber *)scriptedStartCharacterIndex;
-- (NSNumber *)scriptedNextCharacterIndex;
-- (NSNumber *)scriptedStartLine;
-- (NSNumber *)scriptedEndLine;
-- (NSString *)scriptedContents;
-- (void)setScriptedContents:(id)string;
-- (NSArray *)scriptedCharacters;
-- (NSArray *)scriptedLines;
 
 @end
 

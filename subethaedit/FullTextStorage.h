@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <OgreKit/OgreKit.h>
 #import "AbstractFoldingTextStorage.h"
 
 @class FoldableTextStorage;
@@ -31,6 +32,8 @@
     } I_flags;
 
 }
+
++ (OGRegularExpression *)wrongLineEndingRegex:(LineEnding)aLineEnding;
 
 - (id)initWithFoldableTextStorage:(FoldableTextStorage *)inTextStorage;
 
@@ -62,6 +65,9 @@
 // disables synchronisation until linear attribute changing ends;
 - (void)beginLinearAttributeChanges;
 - (void)endLinearAttributeChanges;
+
+- (NSDictionary *)dictionaryRepresentation;
+- (void)setContentByDictionaryRepresentation:(NSDictionary *)aRepresentation;
 
 #pragma mark -
 

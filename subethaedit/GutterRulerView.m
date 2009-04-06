@@ -239,6 +239,7 @@
 }
 
 - (void)mouseDown:(NSEvent *)anEvent {
+// TODO: only works when scrolled to top - need to adjust
 	// check for click in folding gutter
 	NSPoint point = [self convertPoint:[anEvent locationInWindow] fromView:nil];
 	NSRect baseRect = [self baseRectForFoldingBar];
@@ -248,7 +249,7 @@
 		NSTextView              *textView=(NSTextView *)[self clientView];
 		FoldableTextStorage  *textStorage=(FoldableTextStorage *)[textView textStorage];
 		NSString                    *text=[textView string];
-		NSScrollView          *scrollView=[textView enclosingScrollView];
+//		NSScrollView          *scrollView=[textView enclosingScrollView];
 		NSLayoutManager    *layoutManager=[textView layoutManager];
         unsigned glyphIndex=[layoutManager glyphIndexForPoint:NSMakePoint(0.0,point.y) 
                                      inTextContainer:[textView textContainer]];
