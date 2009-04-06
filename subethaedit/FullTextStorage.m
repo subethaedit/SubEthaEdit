@@ -13,6 +13,10 @@
 #import "EncodingManager.h"
 #import "SyntaxHighlighter.h"
 
+NSString * const TextStorageLineEndingDidChange =
+               @"TextStorageLineEndingDidChange";
+NSString * const TextStorageHasMixedLineEndingsDidChange =
+               @"TextStorageHasMixedLineEndingsDidChange";
 
 static NSString * S_LineEndingLFRegExPart;
 static NSString * S_LineEndingCRRegExPart;

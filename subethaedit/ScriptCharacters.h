@@ -9,13 +9,13 @@
 #import <Cocoa/Cocoa.h>
 #import "ScriptTextBase.h"
 
-@class TextStorage;
+@class FoldableTextStorage;
 
 @interface ScriptCharacters : ScriptTextBase {
     NSRange      I_characterRange;
 }
 
-+ (id)scriptCharactersWithTextStorage:(TextStorage *)aTextStorage characterRange:(NSRange)aCharacterRange;
-- (id)initWithTextStorage:(TextStorage *)aTextStorage characterRange:(NSRange)aCharacterRange;
++ (id)scriptCharactersWithTextStorage:(FoldableTextStorage *)aTextStorage characterRange:(NSRange)aCharacterRange;
+- (id)initWithTextStorage:(FoldableTextStorage *)aTextStorage characterRange:(NSRange)aCharacterRange;
 
 @end

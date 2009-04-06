@@ -82,7 +82,7 @@
     }
 
     NSTextView              *textView=(NSTextView *)[self clientView];
-    TextStorage          *textStorage=(TextStorage *)[textView textStorage];
+    FoldableTextStorage  *textStorage=(FoldableTextStorage *)[textView textStorage];
     NSString                    *text=[textView string];
     NSScrollView          *scrollView=[textView enclosingScrollView];
     NSLayoutManager    *layoutManager=[textView layoutManager];

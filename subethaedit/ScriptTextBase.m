@@ -16,7 +16,7 @@
 
 @implementation ScriptTextBase
 
-- (id)initWithTextStorage:(TextStorage *)aTextStorage {
+- (id)initWithTextStorage:(FoldableTextStorage *)aTextStorage {
     if ((self=[super init])) {
         I_textStorage = [aTextStorage retain];
     }

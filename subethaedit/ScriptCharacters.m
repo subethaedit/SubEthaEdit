@@ -7,17 +7,17 @@
 //
 
 #import "ScriptCharacters.h"
-#import "TextStorage.h"
+#import "FoldableTextStorage.h"
 #import "PlainTextDocument.h"
 
 
 @implementation ScriptCharacters
 
-+ (id)scriptCharactersWithTextStorage:(TextStorage *)aTextStorage characterRange:(NSRange)aCharacterRange {
++ (id)scriptCharactersWithTextStorage:(FoldableTextStorage *)aTextStorage characterRange:(NSRange)aCharacterRange {
     return [[[ScriptCharacters alloc] initWithTextStorage:aTextStorage characterRange:aCharacterRange] autorelease];
 }
 
-- (id)initWithTextStorage:(TextStorage *)aTextStorage characterRange:(NSRange)aCharacterRange
+- (id)initWithTextStorage:(FoldableTextStorage *)aTextStorage characterRange:(NSRange)aCharacterRange
 {
     if ((self = [super initWithTextStorage:aTextStorage])) {
         I_characterRange = aCharacterRange;
@@ -38,7 +38,7 @@
 {
     // NSLog(@"%s", __FUNCTION__);
 
-    NSScriptClassDescription *containerClassDesc = (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[TextStorage class]];
+    NSScriptClassDescription *containerClassDesc = (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[FoldableTextStorage class]];
     NSScriptObjectSpecifier *containerSpecifier = [I_textStorage objectSpecifier];
     
     if (I_characterRange.length > 1) {

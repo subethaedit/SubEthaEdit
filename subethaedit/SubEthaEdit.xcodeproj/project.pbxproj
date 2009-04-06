@@ -245,7 +245,6 @@
 		1428946709575B9700D14688 /* PopUpButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945509575B9700D14688 /* PopUpButtonCell.m */; };
 		1428946809575B9700D14688 /* RadarScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945709575B9700D14688 /* RadarScroller.m */; };
 		1428946909575B9700D14688 /* SplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945909575B9700D14688 /* SplitView.m */; };
-		1428946A09575B9700D14688 /* TextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945B09575B9700D14688 /* TextStorage.m */; };
 		1428946B09575B9700D14688 /* TextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945D09575B9700D14688 /* TextView.m */; };
 		1428946C09575B9700D14688 /* URLDataProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945F09575B9700D14688 /* URLDataProtocol.m */; };
 		1428946D09575B9700D14688 /* WebPreviewWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428946109575B9700D14688 /* WebPreviewWindowController.m */; };
@@ -360,6 +359,7 @@
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
+		F20396F60F8A707700BEB377 /* FullTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D34B0F38756100AD7DE1 /* FullTextStorage.m */; };
 		F2061D590B4C13AF00E6631F /* SmallGrowBoxRight3.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2061D570B4C13AF00E6631F /* SmallGrowBoxRight3.tiff */; };
 		F2061D690B4C152600E6631F /* FirstClickCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061D670B4C152600E6631F /* FirstClickCustomView.m */; };
 		F20948BA0C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = F20948B90C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m */; };
@@ -401,7 +401,6 @@
 		F27B2EE80B52957800679CF2 /* hud_buttonLeft-P.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2EE20B52957800679CF2 /* hud_buttonLeft-P.tiff */; };
 		F27B2EF10B52968E00679CF2 /* HUDButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F27B2EED0B52968E00679CF2 /* HUDButtonCell.m */; };
 		F27B2EF20B52968E00679CF2 /* HUDButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F27B2EEE0B52968E00679CF2 /* HUDButton.m */; };
-		F281D34D0F38756100AD7DE1 /* FullTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D34B0F38756100AD7DE1 /* FullTextStorage.m */; };
 		F281D34E0F38756100AD7DE1 /* FoldableTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D34C0F38756100AD7DE1 /* FoldableTextStorage.m */; };
 		F281D3600F38758600AD7DE1 /* AbstractFoldingTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D35F0F38758600AD7DE1 /* AbstractFoldingTextStorage.m */; };
 		F281D37C0F38775200AD7DE1 /* folded.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F281D37B0F38775200AD7DE1 /* folded.tiff */; };
@@ -1038,8 +1037,6 @@
 		1428945709575B9700D14688 /* RadarScroller.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = RadarScroller.m; sourceTree = "<group>"; };
 		1428945809575B9700D14688 /* SplitView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = SplitView.h; sourceTree = "<group>"; };
 		1428945909575B9700D14688 /* SplitView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = SplitView.m; sourceTree = "<group>"; };
-		1428945A09575B9700D14688 /* TextStorage.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TextStorage.h; sourceTree = "<group>"; };
-		1428945B09575B9700D14688 /* TextStorage.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TextStorage.m; sourceTree = "<group>"; };
 		1428945C09575B9700D14688 /* TextView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TextView.h; sourceTree = "<group>"; };
 		1428945D09575B9700D14688 /* TextView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TextView.m; sourceTree = "<group>"; };
 		1428945E09575B9700D14688 /* URLDataProtocol.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = URLDataProtocol.h; sourceTree = "<group>"; };
@@ -2317,8 +2314,6 @@
 				F281D34B0F38756100AD7DE1 /* FullTextStorage.m */,
 				F281D34A0F38756100AD7DE1 /* FoldableTextStorage.h */,
 				F281D34C0F38756100AD7DE1 /* FoldableTextStorage.m */,
-				1428945A09575B9700D14688 /* TextStorage.h */,
-				1428945B09575B9700D14688 /* TextStorage.m */,
 				1428945C09575B9700D14688 /* TextView.h */,
 				1428945D09575B9700D14688 /* TextView.m */,
 				F281D38F0F3877A900AD7DE1 /* FoldedTextAttachment.h */,
@@ -3145,7 +3140,6 @@
 				1428946709575B9700D14688 /* PopUpButtonCell.m in Sources */,
 				1428946809575B9700D14688 /* RadarScroller.m in Sources */,
 				1428946909575B9700D14688 /* SplitView.m in Sources */,
-				1428946A09575B9700D14688 /* TextStorage.m in Sources */,
 				1428946B09575B9700D14688 /* TextView.m in Sources */,
 				1428946C09575B9700D14688 /* URLDataProtocol.m in Sources */,
 				1428946D09575B9700D14688 /* WebPreviewWindowController.m in Sources */,
@@ -3215,11 +3209,11 @@
 				F24280C60D16CFCC0083AE21 /* GenericSASLProfile.m in Sources */,
 				F298693E0D338B0F0031C9F3 /* ServerManagementProfile.m in Sources */,
 				F2DCD8F20EE432F900F2854F /* FontForwardingTextField.m in Sources */,
-				F281D34D0F38756100AD7DE1 /* FullTextStorage.m in Sources */,
 				F281D34E0F38756100AD7DE1 /* FoldableTextStorage.m in Sources */,
 				F281D3600F38758600AD7DE1 /* AbstractFoldingTextStorage.m in Sources */,
 				F281D3910F3877A900AD7DE1 /* FoldedTextAttachment.m in Sources */,
 				F281D4370F388A0B00AD7DE1 /* FoldingTextAttachmentCell.m in Sources */,
+				F20396F60F8A707700BEB377 /* FullTextStorage.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

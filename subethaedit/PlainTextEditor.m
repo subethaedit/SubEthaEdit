@@ -431,7 +431,7 @@
         NSRange selection=[I_textView selectedRange];
 
         // findLine
-        TextStorage *textStorage=(TextStorage *)[I_textView textStorage];
+        FoldableTextStorage *textStorage=(FoldableTextStorage *)[I_textView textStorage];
         NSString *string=[textStorage positionStringForRange:selection];
         if (selection.location<[textStorage length]) {
             id blockAttribute=[textStorage
@@ -1463,7 +1463,7 @@
 		[aTextView setTypingAttributes:[(TextStorage *)[aTextView textStorage] attributeDictionaryByAddingStyleAttributesForInsertLocation:affectedCharRange.location toDictionary:[(PlainTextDocument *)[self document] typingAttributes]]];
     }
     
-    if ([(TextView *)aTextView isPasting] && ![(TextStorage *)[aTextView textStorage] hasMixedLineEndings]) {
+    if ([(TextView *)aTextView isPasting] && ![(FoldableTextStorage *)[aTextView textStorage] hasMixedLineEndings]) {
         unsigned length = [replacementString length];
         unsigned curPos = 0;
         unsigned startIndex, endIndex, contentsEndIndex;
@@ -1760,7 +1760,7 @@
 
 @implementation PlainTextEditor (PlainTextEditorScriptingAdditions)
 - (id)scriptSelection {
-    return [ScriptTextSelection scriptTextSelectionWithTextStorage:(TextStorage *)[[self textView] textStorage] editor:self];
+    return [ScriptTextSelection scriptTextSelectionWithTextStorage:(FoldableTextStorage *)[[self textView] textStorage] editor:self];
 }
 
 - (void)setScriptSelection:(id)selection {
@@ -1778,7 +1778,7 @@
         insertionPointIndex = MAX(insertionPointIndex,0);
         insertionPointIndex = MIN(insertionPointIndex,length);
         [textView setSelectedRange:NSMakeRange(insertionPointIndex,0)];
-    } else if ([selection isKindOfClass:[ScriptTextBase class]] || [selection isKindOfClass:[TextStorage class]]) {
+    } else if ([selection isKindOfClass:[ScriptTextBase class]] || [selection isKindOfClass:[FoldableTextStorage class]]) {
         NSRange newRange=RangeConfinedToRange([selection rangeRepresentation], NSMakeRange(0,length));
         [textView setSelectedRange:newRange];
     }

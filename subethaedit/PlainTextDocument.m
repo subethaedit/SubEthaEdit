@@ -33,7 +33,6 @@
 #import "SyntaxHighlighter.h"
 #import "SymbolTableEntry.h"
 
-#import "TextStorage.h"
 #import "FoldableTextStorage.h"
 #import "FullTextStorage.h"
 #import "LayoutManager.h"
@@ -237,7 +236,7 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (void)TCM_textStorageLineEndingDidChange:(NSNotification *)aNotification {
-     I_lineEndingString = [NSString lineEndingStringForLineEnding:[(TextStorage *)[self textStorage] lineEnding]];
+     I_lineEndingString = [NSString lineEndingStringForLineEnding:[(FoldableTextStorage *)[self textStorage] lineEnding]];
     [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
 }
 
@@ -1247,11 +1246,11 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (unsigned int)fileEncoding {
-    return [(TextStorage *)[self textStorage] encoding];
+    return [(FoldableTextStorage *)[self textStorage] encoding];
 }
 
 - (void)setFileEncoding:(unsigned int)anEncoding {
-    [(TextStorage *)[self textStorage] setEncoding:anEncoding];
+    [(FoldableTextStorage *)[self textStorage] setEncoding:anEncoding];
     [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
 }
 
@@ -2213,14 +2212,14 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 - (void)exportPanelDidEnd:(NSSavePanel *)aPanel returnCode:(int)aReturnCode contextInfo:(void *)aContextInfo {
     if (aReturnCode==NSOKButton) {
         NSDictionary *htmlOptions=[[[[self documentMode] defaults] objectForKey:DocumentModeExportPreferenceKey] objectForKey:DocumentModeExportHTMLPreferenceKey];
-        TextStorage *textStorage = (TextStorage *)I_textStorage;
+        FoldableTextStorage *textStorage = (FoldableTextStorage *)I_textStorage;
         
         if ([[htmlOptions objectForKey:DocumentModeHTMLExportHighlightSyntaxPreferenceKey] boolValue]) {
             SyntaxHighlighter *highlighter=[I_documentMode syntaxHighlighter];
             if (highlighter)
                 while (![highlighter colorizeDirtyRanges:textStorage ofDocument:self]);
         } else {
-            textStorage = [[TextStorage new] autorelease];
+            textStorage = [[FoldableTextStorage new] autorelease];
             [textStorage setAttributedString:I_textStorage];
             [[I_documentMode syntaxHighlighter] cleanUpTextStorage:textStorage];
             [textStorage  addAttributes:[self plainTextAttributes]
@@ -2668,7 +2667,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     NSArray *loggedOperations = [ls loggedOperations];
     unsigned opCount = [loggedOperations count];
 
-    TextStorage *textStorage=(TextStorage *)[self textStorage];
+    FoldableTextStorage *textStorage=(FoldableTextStorage *)[self textStorage];
     [textStorage setContentByDictionaryRepresentation:[ls initialTextStorageDictionaryRepresentation]];
     NSRange wholeRange=NSMakeRange(0,[textStorage length]);
     [textStorage addAttributes:[self plainTextAttributes] range:wholeRange];
@@ -4275,13 +4274,13 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (LineEnding)lineEnding {
-    return [(TextStorage *)[self textStorage] lineEnding];
+    return [(FoldableTextStorage *)[self textStorage] lineEnding];
 }
 
 // http://developer.apple.com/documentation/Carbon/Conceptual/ATSUI_Concepts/atsui_chap4/chapter_4_section_5.html
 
 - (void)setLineEnding:(LineEnding)newLineEnding {
-    [(TextStorage *)[self textStorage] setLineEnding:newLineEnding];
+    [(FoldableTextStorage *)[self textStorage] setLineEnding:newLineEnding];
     I_lineEndingString = [NSString lineEndingStringForLineEnding:newLineEnding];
     [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
 }
@@ -4334,7 +4333,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
                contextInfo:[contextInfo retain]];
     } else {
-        TextStorage *textStorage=(TextStorage *)[self textStorage];
+        FoldableTextStorage *textStorage=(FoldableTextStorage *)[self textStorage];
         [textStorage beginEditing];
         [textStorage setShouldWatchLineEndings:NO];
 
@@ -4388,7 +4387,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 - (NSRange)rangeOfPrevious:(BOOL)aPrevious changeForRange:(NSRange)aRange {
     NSRange searchRange;
-    TextStorage *textStorage=(TextStorage *)[self textStorage];
+    FoldableTextStorage *textStorage=(FoldableTextStorage *)[self textStorage];
     NSString *userID=nil;
     unsigned position;
     NSRange fullRange=NSMakeRange(0,[textStorage length]);
@@ -5552,7 +5551,7 @@ static NSString *S_measurementUnits;
 
 - (void)setContentByDictionaryRepresentation:(NSDictionary *)aRepresentation {
     I_flags.isRemotelyEditingTextStorage=YES;
-    TextStorage *textStorage=(TextStorage *)[self textStorage];
+    FoldableTextStorage *textStorage=(FoldableTextStorage *)[self textStorage];
     [textStorage setContentByDictionaryRepresentation:[aRepresentation objectForKey:@"TextStorage"]];
     NSRange wholeRange=NSMakeRange(0,[textStorage length]);
     [textStorage addAttributes:[self plainTextAttributes] range:wholeRange];
@@ -5724,7 +5723,7 @@ static NSString *S_measurementUnits;
 
 // these delegate methods return ranges regarding the fullTextStorage, and also return it
 
-- (void)textStorage:(NSTextStorage *)aTextStorage willReplaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString {
+- (void)textStorage:(FullTextStorage *)aTextStorage willReplaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString {
 //    NSLog(@"textStorage:%@ willReplaceCharactersInRange:%@ withString:%@",aTextStorage,NSStringFromRange(aRange),aString);
     if (!I_flags.isRemotelyEditingTextStorage && !I_flags.isReadingFile && !I_flags.isHandlingUndoManually) {
     	FullTextStorage *fullTextStorage = (FullTextStorage *)aTextStorage;
@@ -5742,7 +5741,7 @@ static NSString *S_measurementUnits;
     }
 }
 
-- (void)textStorage:(NSTextStorage *)aTextStorage didReplaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString {
+- (void)textStorage:(FullTextStorage *)aTextStorage didReplaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString {
 //    NSLog(@"textStorage:%@ didReplaceCharactersInRange:%@ withString:%@\n\n%d==%d?",aTextStorage,NSStringFromRange(aRange),aString, [aTextStorage length], [aString length]);
 
 	FullTextStorage *fullTextStorage = (FullTextStorage *)aTextStorage;
@@ -5872,16 +5871,16 @@ static NSString *S_measurementUnits;
                forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
 }
 
-- (NSDictionary *)blockeditAttributesForTextStorage:(TextStorage *)aTextStorage {
+- (NSDictionary *)blockeditAttributesForTextStorage:(FoldableTextStorage *)aTextStorage {
     return [self blockeditAttributes];
 }
 
-- (void)textStorageDidStartBlockedit:(TextStorage *)aTextStorage {
+- (void)textStorageDidStartBlockedit:(FoldableTextStorage *)aTextStorage {
 //	NSLog(@"%s",__FUNCTION__);
     [[self plainTextEditors] makeObjectsPerformSelector:@selector(TCM_updateStatusBar)];
 }
 
-- (void)textStorageDidStopBlockedit:(TextStorage *)aTextStorage {
+- (void)textStorageDidStopBlockedit:(FoldableTextStorage *)aTextStorage {
 //	NSLog(@"%s",__FUNCTION__);
     [[self plainTextEditors] makeObjectsPerformSelector:@selector(TCM_updateStatusBar)];
 }
@@ -6455,8 +6454,8 @@ static NSString *S_measurementUnits;
     [self replaceTextInRange:NSMakeRange(0,[I_textStorage length]) withString:value];
 }
 
-- (TextStorage *)scriptedPlainContents {
-    return (TextStorage *)I_textStorage;
+- (FoldableTextStorage *)scriptedPlainContents {
+    return (FoldableTextStorage *)I_textStorage;
 }
 
 - (void)setScriptedPlainContents:(id)value {

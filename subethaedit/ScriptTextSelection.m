@@ -18,18 +18,18 @@
     I_startCharacterIndex = anIndex;
 }
 
-+ (id)insertionPointWithTextStorage:(TextStorage *)aTextStorage index:(int)anIndex {
++ (id)insertionPointWithTextStorage:(FoldableTextStorage *)aTextStorage index:(int)anIndex {
     ScriptTextSelection *selection=[[[ScriptTextSelection alloc] initWithTextStorage:aTextStorage editor:nil] autorelease];
     [selection setStartIndex:anIndex];
     return selection;
 }
 
-+ (id)scriptTextSelectionWithTextStorage:(TextStorage *)aTextStorage editor:(PlainTextEditor *)anEditor
++ (id)scriptTextSelectionWithTextStorage:(FoldableTextStorage *)aTextStorage editor:(PlainTextEditor *)anEditor
 {
     return [[[ScriptTextSelection alloc] initWithTextStorage:aTextStorage editor:anEditor] autorelease];
 }
 
-- (id)initWithTextStorage:(TextStorage *)aTextStorage editor:(PlainTextEditor *)anEditor {
+- (id)initWithTextStorage:(FoldableTextStorage *)aTextStorage editor:(PlainTextEditor *)anEditor {
     if ((self = [super initWithTextStorage:aTextStorage])) {
         I_editor      = [anEditor retain];
     }

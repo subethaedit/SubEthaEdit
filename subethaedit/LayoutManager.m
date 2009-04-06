@@ -281,7 +281,7 @@ static NSString *S_specialGlyphs[16];
 
 - (void)drawGlyphsForGlyphRange:(NSRange)glyphRange atPoint:(NSPoint)containerOrigin
 {
-    TextStorage *textStorage = (TextStorage *)[self textStorage];
+    FoldableTextStorage *textStorage = (FoldableTextStorage *)[self textStorage];
     BOOL hasMixedLineEndings = [textStorage hasMixedLineEndings];
     LineEnding    lineEnding = [textStorage lineEnding];
     if ([self showsInvisibles] || hasMixedLineEndings) {

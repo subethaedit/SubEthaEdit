@@ -21,7 +21,7 @@ enum {
 
 @class FoldableTextStorage, TCMMMSession, TCMMMOperation, DocumentMode, EncodingPopUpButton, 
        PlainTextWindowController, WebPreviewWindowController,
-       DocumentProxyWindowController, FindAllController, UndoManager, TextOperation, TextStorage, TCMMMLoggingState, FontForwardingTextField;
+       DocumentProxyWindowController, FindAllController, UndoManager, TextOperation, TCMMMLoggingState, FontForwardingTextField;
 
 extern NSString * const PlainTextDocumentSessionWillChangeNotification;
 extern NSString * const PlainTextDocumentSessionDidChangeNotification;
@@ -393,7 +393,7 @@ typedef enum {
 - (AccessOptions)accessOption;
 - (void)setAccessOption:(AccessOptions)option;
 - (NSString *)announcementURL;
-- (TextStorage *)scriptedPlainContents;
+- (FoldableTextStorage *)scriptedPlainContents;
 - (void)setScriptedPlainContents:(id)value;
 - (id)scriptSelection;
 - (void)setScriptSelection:(id)selection;

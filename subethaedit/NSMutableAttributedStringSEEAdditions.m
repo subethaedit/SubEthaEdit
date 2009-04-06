@@ -9,6 +9,8 @@
 #import "NSMutableAttributedStringSEEAdditions.h"
 #ifndef TCM_ISSEED
     #import <OgreKit/OgreKit.h>
+	#import "GeneralPreferences.h"
+	#import "TCMMMUserManager.h"
 #endif
 
 extern NSString const * WrittenByUserIDAttributeName, *ChangedByUserIDAttributeName;
@@ -401,5 +403,104 @@ extern NSString const * WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
     return lineStartIndex == lineEndIndex;
 }
 
+#pragma mark -
+#pragma mark ### XHTML Export ###
+
+
+- (NSMutableAttributedString *)attributedStringForXHTMLExportWithRange:(NSRange)aRange foregroundColor:(NSColor *)aForegroundColor backgroundColor:(NSColor *)aBackgroundColor {
+    NSString *htmlForgreoundColor=[aForegroundColor HTMLString];
+    NSMutableAttributedString *result=[[[NSMutableAttributedString alloc] initWithString:[[self string] substringWithRange:aRange]] autorelease];
+    unsigned int index;
+    NSFontManager *fontManager=[NSFontManager sharedFontManager];
+    
+    index=aRange.location;
+    do {
+        NSRange foundRange;
+        NSFont *font=[self attribute:NSFontAttributeName atIndex:index longestEffectiveRange:&foundRange inRange:aRange];
+        index=NSMaxRange(foundRange);
+        if (font) {
+            unsigned traitMask=[fontManager traitsOfFont:font] & (NSBoldFontMask | NSItalicFontMask);
+            if (traitMask) {
+                foundRange.location=foundRange.location-aRange.location;
+                [result addAttribute:@"FontTraits" 
+                    value:[NSNumber numberWithUnsignedInt:traitMask]
+                    range:foundRange];
+                if (traitMask & NSBoldFontMask) {
+                    [result addAttribute:@"Bold" value:[NSNumber numberWithBool:YES] range:foundRange];
+                }
+                if (traitMask & NSItalicFontMask) {
+                    [result addAttribute:@"Italic" value:[NSNumber numberWithBool:YES] range:foundRange];
+                }
+            }
+        }
+    } while (index<NSMaxRange(aRange));
+
+    index=aRange.location;
+    do {
+        NSRange foundRange;
+        NSNumber *number=[self attribute:NSObliquenessAttributeName atIndex:index longestEffectiveRange:&foundRange inRange:aRange];
+        index=NSMaxRange(foundRange);
+        if (number && [number floatValue] != 0.0) {
+            [result addAttribute:@"Italic" value:[NSNumber numberWithBool:YES] range:foundRange];
+        }
+    } while (index<NSMaxRange(aRange));
+
+    index=aRange.location;
+    do {
+        NSRange foundRange;
+        NSNumber *number=[self attribute:NSStrokeWidthAttributeName atIndex:index longestEffectiveRange:&foundRange inRange:aRange];
+        index=NSMaxRange(foundRange);
+        if (number && [number floatValue] != 0.0) {
+            [result addAttribute:@"Bold" value:[NSNumber numberWithBool:YES] range:foundRange];
+        }
+    } while (index<NSMaxRange(aRange));
+
+    index=aRange.location;
+    do {
+        NSRange foundRange;
+        NSColor *color=[self attribute:NSForegroundColorAttributeName atIndex:index longestEffectiveRange:&foundRange inRange:aRange];
+        index=NSMaxRange(foundRange);
+        if (color) {
+            NSString *xhtmlColor=[color HTMLString];
+            if (![xhtmlColor isEqualToString:htmlForgreoundColor]) {
+                foundRange.location=foundRange.location-aRange.location;
+                [result addAttribute:@"ForegroundColor" 
+                    value:xhtmlColor
+                    range:foundRange];
+            }
+        }
+    } while (index<NSMaxRange(aRange));
+
+    index=aRange.location;
+    do {
+        NSRange foundRange;
+        NSString *author=[self attribute:WrittenByUserIDAttributeName atIndex:index longestEffectiveRange:&foundRange inRange:aRange];
+        index=NSMaxRange(foundRange);
+        if (author) {
+            foundRange.location=foundRange.location-aRange.location;
+            [result addAttribute:@"WrittenBy" value:[[[[TCMMMUserManager sharedInstance] userForUserID:author] name] stringByReplacingEntitiesForUTF8:NO] range:foundRange];
+            [result addAttribute:@"WrittenByUserID" value:author range:foundRange];
+        }
+    } while (index<NSMaxRange(aRange));
+
+    index=aRange.location;
+    do {
+        NSRange foundRange;
+        NSString *author=[self attribute:ChangedByUserIDAttributeName atIndex:index longestEffectiveRange:&foundRange inRange:aRange];
+        index=NSMaxRange(foundRange);
+        if (author) {
+            foundRange.location=foundRange.location-aRange.location;
+            [result addAttribute:@"ChangedBy" value:author range:foundRange];
+            NSColor *changeColor=[[[TCMMMUserManager sharedInstance] userForUserID:author] changeColor];
+            NSColor *userBackgroundColor=[aBackgroundColor blendedColorWithFraction:
+                                [[NSUserDefaults standardUserDefaults] floatForKey:ChangesSaturationPreferenceKey]/100.
+                             ofColor:changeColor];
+            [result addAttribute:@"BackgroundColor" value:[userBackgroundColor HTMLString] range:foundRange];
+            [result addAttribute:@"ChangedByUserID" value:author range:foundRange];
+        }
+    } while (index<NSMaxRange(aRange));
+    
+    return result;
+}
 
 @end

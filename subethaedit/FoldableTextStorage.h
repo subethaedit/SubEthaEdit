@@ -7,17 +7,23 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <OgreKit/OgreKit.h>
+#import "NSMutableAttributedStringSEEAdditions.h"
 
 #import "FoldedTextAttachment.h"
 #import "AbstractFoldingTextStorage.h"
 #import "TextStorage.h"
 
-@class FullTextStorage, TextStorage;
+@class FullTextStorage;
+
+extern NSString * const TextStorageLineEndingDidChange;
+extern NSString * const TextStorageHasMixedLineEndingsDidChange;
+
 
 extern NSString * const BlockeditAttributeName ;
 extern NSString * const BlockeditAttributeValue;
 
-@interface FoldableTextStorage : TextStorage {
+@interface FoldableTextStorage : AbstractFoldingTextStorage {
 	FullTextStorage *I_fullTextStorage;
 	NSMutableArray *I_sortedFoldedTextAttachments;
 	int I_editingCount;
@@ -29,6 +35,17 @@ extern NSString * const BlockeditAttributeValue;
         NSRange didBlockeditRange;
         NSRange didBlockeditLineRange;
     } I_blockedit;
+
+    NSMutableAttributedString *I_internalAttributedString;
+    unsigned I_numberOfWords;
+
+    TextStorage *I_containerTextStorage;
+    struct {
+        int length;
+        int characterOffset;
+        int startLine;
+        int endLine;
+    } I_scriptingProperties;
     
 }
 
@@ -72,6 +89,16 @@ extern NSString * const BlockeditAttributeValue;
 - (NSString *)foldedStringRepresentationOfRange:(NSRange)inRange foldings:(NSArray *)inFoldings level:(int)inLevel;
 - (NSString *)foldedStringRepresentation;
 
+- (LineEnding)lineEnding;
+- (void)setLineEnding:(LineEnding)newLineEnding;
+- (void)setShouldWatchLineEndings:(BOOL)aFlag;
+- (BOOL)hasMixedLineEndings;
+- (void)setHasMixedLineEndings:(BOOL)aFlag;
+- (unsigned int)encoding;
+- (void)setEncoding:(unsigned int)anEncoding;
+- (NSArray *)selectionOperationsForRangesUnconvertableToEncoding:(NSStringEncoding)encoding;
+
+
 @end
 
 @interface NSObject (FoldableTextStorageDelegateAdditions)
@@ -88,6 +115,11 @@ extern NSString * const BlockeditAttributeValue;
 
 @end
 
+@interface FoldableTextStorage (FoldableTextStorageDelegateAdditions)
+- (void)textStorage:(FullTextStorage *)aTextStorage willReplaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString;
+- (void)textStorage:(FullTextStorage *)aTextStorage didReplaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString;
+
+@end
 
 #pragma mark -
 

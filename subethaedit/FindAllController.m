@@ -8,7 +8,7 @@
 
 #import "FindAllController.h"
 #import <OgreKit/OgreKit.h>
-#import "TextStorage.h"
+#import "FoldableTextStorage.h"
 #import "PlainTextDocument.h"
 #import "FindReplaceController.h"
 
@@ -104,7 +104,7 @@
         for (i=0;i<count;i++) {
             OGRegularExpressionMatch *aMatch = [matchArray objectAtIndex:i];
             NSRange matchRange = [aMatch rangeOfMatchedString];
-            TextStorage *textStorage = (TextStorage *)[I_document textStorage];
+            FullTextStorage *textStorage = [(FoldableTextStorage *)[I_document textStorage] fullTextStorage];
             NSNumber *line = [NSNumber numberWithInt:[textStorage lineNumberForLocation:matchRange.location]];
             
             NSRange lineRange = [[textStorage string] lineRangeForRange:matchRange];
