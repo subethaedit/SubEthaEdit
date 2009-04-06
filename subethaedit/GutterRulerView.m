@@ -12,7 +12,7 @@
 
 #define FOLDING_BAR_WIDTH 9.
 #define RIGHT_INSET  4.
-#define MAX_FOLDING_DEPTH 5.
+#define MAX_FOLDING_DEPTH 7.
 
 @interface NSBezierPath (BezierPathGutterRulerViewAdditions)
 + (void)fillTriangleInRect:(NSRect)aRect arrowPoint:(NSRectEdge)anEdge;
@@ -47,16 +47,18 @@
 
 - (NSColor *)colorForLineRange:(NSRange)aLineRange inTextStorage:(NSTextStorage *)aTextStorage {
 	int maxDepth = 0;
-	NSArray *highlightingStack = nil;
+	NSNumber *foldingDepth = nil;
 	
 	if (aLineRange.length > 0) {
 		NSRange attributeRange = NSMakeRange(aLineRange.location,0);
 		do {
-			highlightingStack = [aTextStorage attribute:kSyntaxHighlightingStackName atIndex:NSMaxRange(attributeRange) longestEffectiveRange:&attributeRange inRange:aLineRange];
-			maxDepth = MAX([highlightingStack count],maxDepth);
+			foldingDepth = [aTextStorage attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:NSMaxRange(attributeRange) longestEffectiveRange:&attributeRange inRange:aLineRange];
+			if ([foldingDepth isKindOfClass:[NSNumber class]]) {
+				maxDepth = MAX([foldingDepth intValue],maxDepth);
+			}
 		} while (NSMaxRange(attributeRange) < NSMaxRange(aLineRange));
 	}
-	return [NSColor colorWithCalibratedWhite:1.0 - ((MAX(maxDepth, 1.0) - 1) / MAX_FOLDING_DEPTH) alpha:1.0];
+	return [NSColor colorWithCalibratedWhite:1.0 - ((MAX(maxDepth, 0.0) - 0) / MAX_FOLDING_DEPTH) alpha:1.0];
 }
 
 - (NSRect)baseRectForFoldingBar {
