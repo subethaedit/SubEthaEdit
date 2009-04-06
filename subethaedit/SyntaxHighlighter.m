@@ -480,6 +480,7 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
                 if (linerange.location>=2) { // Extend linerange so matching newlines at the start works correctly.
                     linerange.location = linerange.location - 2;
                     linerange.length = linerange.length + 2;
+                    linerange = [[aTextStorage string] lineRangeForRange:linerange];
                 }
                 if (linerange.length<=2*chunkSize) //Optimization for humongously long lines
                     chunkRange = linerange;
