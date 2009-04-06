@@ -12,6 +12,8 @@
 #import "TextStorage.h"
 #import "EncodingManager.h"
 #import "SyntaxHighlighter.h"
+#import "SelectionOperation.h"
+#import "TCMMMUserManager.h"
 
 NSString * const TextStorageLineEndingDidChange =
                @"TextStorageLineEndingDidChange";
@@ -165,7 +167,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 	if ([delegate respondsToSelector:@selector(textStorage:willReplaceCharactersInRange:withString:)]) {
 		[delegate textStorage:self willReplaceCharactersInRange:aRange withString:aString];
 	}
-	unsigned origLen = [self length];
+//	unsigned origLen = [self length];
 
     [I_internalAttributedString replaceCharactersInRange:aRange withString:aString];
 //    [self edited:NSTextStorageEditedCharacters range:aRange 
@@ -186,7 +188,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     if (inSynchronizeFlag && !I_shouldNotSynchronize) [I_foldableTextStorage fullTextDidReplaceCharactersInRange:aRange withString:aString];
 
 	if ([delegate respondsToSelector:@selector(textStorage:didReplaceCharactersInRange:withString:)]) {
-		[delegate textStorage:(NSTextStorage *)self didReplaceCharactersInRange:aRange withString:aString];
+		[delegate textStorage:self didReplaceCharactersInRange:aRange withString:aString];
 	}
 }
 
@@ -549,6 +551,36 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 		} while (NSMaxRange(attributeRange) < NSMaxRange(I_unionRangeOfLinearAttributeChanges));
 //		NSLog(@"%s aggregated %d changes into %d changes (%2.1f%% reduction) in resulting range: %@",__FUNCTION__,I_linearAttributeChangesCount,aggregatedChangesCount,100.0 - ((((double)aggregatedChangesCount) / I_linearAttributeChangesCount)*100.0),NSStringFromRange(I_unionRangeOfLinearAttributeChanges));
 	}
+}
+
+- (NSArray *)selectionOperationsForRangesUnconvertableToEncoding:(NSStringEncoding)encoding {
+//    NSLog(@"%s beginning",__FUNCTION__);
+    NSMutableArray *array = [NSMutableArray array];
+    NSString *string = [self string];
+    unsigned length = [string length];
+    unsigned i;
+    for (i = 0; i < length; i++) {
+        unichar character = [string characterAtIndex:i];
+        NSString *charString = [[NSString alloc] initWithCharactersNoCopy:&character length:1 freeWhenDone:NO];
+        if (![charString canBeConvertedToEncoding:encoding]) {
+            [array addObject:[SelectionOperation selectionOperationWithRange:NSMakeRange(i, 1) userID:[TCMMMUserManager myUserID]]];
+        }
+        [charString release];
+    }
+    
+    // combine adjacent selection operations
+    int count = [array count];
+    while (--count>0) {
+        NSRange lowerRange  = [[array objectAtIndex:count-1] selectedRange];
+        NSRange higherRange = [[array objectAtIndex:count] selectedRange];
+        if (NSMaxRange(lowerRange) == higherRange.location) {
+            [[array objectAtIndex:count-1] setSelectedRange:NSUnionRange(lowerRange,higherRange)];
+            [array removeObjectAtIndex:count];
+        }
+    }
+    
+//    NSLog(@"%s end",__FUNCTION__);
+    return array;
 }
 
 @end

@@ -109,9 +109,9 @@ extern NSString * const BlockeditAttributeValue;
 
 @interface NSObject (TextStorageBlockeditDelegateAdditions)
 
-- (NSDictionary *)blockeditAttributesForTextStorage:(TextStorage *)aTextStorage;
-- (void)textStorageDidStopBlockedit:(TextStorage *)aTextStorage;
-- (void)textStorageDidStartBlockedit:(TextStorage *)aTextStorage;
+- (NSDictionary *)blockeditAttributesForTextStorage:(FoldableTextStorage *)aTextStorage;
+- (void)textStorageDidStopBlockedit:(FoldableTextStorage *)aTextStorage;
+- (void)textStorageDidStartBlockedit:(FoldableTextStorage *)aTextStorage;
 
 @end
 

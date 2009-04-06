@@ -996,38 +996,6 @@ NSString * const BlockeditAttributeValue=@"YES";
 }
 
 
-- (NSArray *)selectionOperationsForRangesUnconvertableToEncoding:(NSStringEncoding)encoding {
-//    NSLog(@"%s beginning",__FUNCTION__);
-    NSMutableArray *array = [NSMutableArray array];
-    NSString *string = [self string];
-    unsigned length = [string length];
-    unsigned i;
-    for (i = 0; i < length; i++) {
-        unichar character = [string characterAtIndex:i];
-        NSString *charString = [[NSString alloc] initWithCharactersNoCopy:&character length:1 freeWhenDone:NO];
-        if (![charString canBeConvertedToEncoding:encoding]) {
-            [array addObject:[SelectionOperation selectionOperationWithRange:NSMakeRange(i, 1) userID:[TCMMMUserManager myUserID]]];
-        }
-        [charString release];
-    }
-    
-    // combinde adjacent selection operations
-    int count = [array count];
-    while (--count>0) {
-        NSRange lowerRange  = [[array objectAtIndex:count-1] selectedRange];
-        NSRange higherRange = [[array objectAtIndex:count] selectedRange];
-        if (NSMaxRange(lowerRange) == higherRange.location) {
-            [[array objectAtIndex:count-1] setSelectedRange:NSUnionRange(lowerRange,higherRange)];
-            [array removeObjectAtIndex:count];
-        }
-    }
-    
-//    NSLog(@"%s end",__FUNCTION__);
-    return array;
-}
-
-
-
 @end
 
 #pragma mark -
@@ -1098,10 +1066,10 @@ NSString * const BlockeditAttributeValue=@"YES";
     [[self valueInScriptedLinesAtIndex:anIndex] setScriptedContents:@""];
 }
 
-- (NSString *)scriptedContents
+- (NSString *)scriptedContents 
 {
     // NSLog(@"%s", __FUNCTION__);
-    return [self string];
+    return [[self fullTextStorage] string];
 }
 
 - (void)setScriptedContents:(id)value {

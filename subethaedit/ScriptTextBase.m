@@ -72,7 +72,8 @@
 }
 
 - (NSArray *)words {
-    return [[[[NSTextStorage alloc] initWithAttributedString:[I_textStorage attributedSubstringFromRange:[self rangeRepresentation]]] autorelease] words];
+    return [[[[NSTextStorage alloc] initWithAttributedString:
+    	[[I_textStorage fullTextStorage] attributedSubstringFromRange:[I_textStorage fullRangeForFoldedRange:[self rangeRepresentation]]]] autorelease] words];
 }
 
 - (void)setWords:(NSArray *)wordArray {
@@ -111,7 +112,7 @@
 
 - (id)scriptedContents
 {
-    return [[I_textStorage string] substringWithRange:[self rangeRepresentation]];
+    return [[[I_textStorage fullTextStorage] string] substringWithRange:[I_textStorage fullRangeForFoldedRange:[self rangeRepresentation]]];
 }
 
 - (void)setScriptedContents:(id)value {
