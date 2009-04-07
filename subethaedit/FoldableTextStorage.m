@@ -619,9 +619,8 @@ NSString * const BlockeditAttributeValue=@"YES";
 }
 
 - (NSRange)findLine:(int)aLineNumber {
-	// TODO: convert line numbers from fulltextstorage
 	NSRange resultRange = [I_fullTextStorage findLine:aLineNumber];
-	return resultRange;
+	return [self foldedRangeForFullRange:resultRange];
 }
 
 #pragma mark - line endings and encoding
@@ -874,6 +873,44 @@ NSString * const BlockeditAttributeValue=@"YES";
 			}
 		} while (NSMaxRange(attributeRange) < NSMaxRange(wholeRange));
 	}
+}
+
+
+- (int)foldingDepthForLine:(int)aLineNumber {
+	int maxDepth = 0;
+	NSNumber *foldingDepth = nil;
+	NSRange lineRange = [self findLine:aLineNumber];
+	if (lineRange.length > 0) {
+		NSRange attributeRange = NSMakeRange(lineRange.location,0);
+		do {
+			foldingDepth = [self attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:NSMaxRange(attributeRange) longestEffectiveRange:&attributeRange inRange:lineRange];
+			if ([foldingDepth isKindOfClass:[NSNumber class]]) {
+				maxDepth = MAX([foldingDepth intValue],maxDepth);
+			}
+		} while (NSMaxRange(attributeRange) < NSMaxRange(lineRange));
+	}
+	return maxDepth;
+}
+
+- (NSRange)foldingRangeForLine:(int)aLineNumber {
+	// todo return the correct folding range here
+	int desiredFoldingDepth = [self foldingDepthForLine:aLineNumber];
+	NSNumber *foldingDepth = nil;
+	NSRange lineRange = [self findLine:aLineNumber];
+	NSRange attributeRange = NSMakeRange(lineRange.location,0);
+	if (lineRange.length > 0) {
+		do {
+			foldingDepth = [self attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:NSMaxRange(attributeRange) longestEffectiveRange:&attributeRange inRange:lineRange];
+		} while (NSMaxRange(attributeRange) < NSMaxRange(lineRange) && [foldingDepth intValue] != desiredFoldingDepth);
+	}
+
+	NSRange foldingRange = [self fullRangeForFoldedRange:attributeRange];
+	
+	foldingRange = [I_fullTextStorage foldableRangeForCharacterAtIndex:foldingRange.location];
+	foldingRange = [self foldedRangeForFullRange:foldingRange];
+	NSLog(@"%s line:%d attributeRange:%@ foldingRange:%@",__FUNCTION__,aLineNumber, NSStringFromRange(attributeRange), NSStringFromRange(foldingRange));
+
+	return foldingRange;
 }
 
 

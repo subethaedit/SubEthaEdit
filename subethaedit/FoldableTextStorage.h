@@ -64,6 +64,9 @@ extern NSString * const BlockeditAttributeValue;
 - (void)foldAllWithFoldingLevel:(int)aFoldingLevel;
 - (void)foldAllComments;
 
+- (int)foldingDepthForLine:(int)aLineNumber;
+- (NSRange)foldingRangeForLine:(int)aLineNumber;
+
 #pragma mark line numbers
 - (int)lineNumberForLocation:(unsigned)location;
 - (NSString *)positionStringForRange:(NSRange)aRange;

@@ -45,20 +45,9 @@
     [super drawRect:aRect];
 }
 
-- (NSColor *)colorForLineRange:(NSRange)aLineRange inTextStorage:(NSTextStorage *)aTextStorage {
-	int maxDepth = 0;
-	NSNumber *foldingDepth = nil;
-	
-	if (aLineRange.length > 0) {
-		NSRange attributeRange = NSMakeRange(aLineRange.location,0);
-		do {
-			foldingDepth = [aTextStorage attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:NSMaxRange(attributeRange) longestEffectiveRange:&attributeRange inRange:aLineRange];
-			if ([foldingDepth isKindOfClass:[NSNumber class]]) {
-				maxDepth = MAX([foldingDepth intValue],maxDepth);
-			}
-		} while (NSMaxRange(attributeRange) < NSMaxRange(aLineRange));
-	}
-	return [NSColor colorWithCalibratedWhite:1.0 - ((MAX(maxDepth, 0.0) - 0) / MAX_FOLDING_DEPTH) alpha:1.0];
+- (NSColor *)colorForLineNumber:(int)aLineNumber inTextStorage:(FoldableTextStorage *)aTextStorage {
+	int foldingDepth = [aTextStorage foldingDepthForLine:aLineNumber];
+	return [NSColor colorWithCalibratedWhite:1.0 - ((MAX(foldingDepth, 0.0) - 0) / MAX_FOLDING_DEPTH) alpha:1.0];
 }
 
 - (NSRect)baseRectForFoldingBar {
@@ -152,7 +141,7 @@
 		foldingAreaRect.origin.y = boundingRect.origin.y - visibleRect.origin.y;
         foldingAreaRect.size.height = NSMaxY(lineFragmentRectForLastCharacter) - boundingRect.origin.y;
        	
-       	NSColor *depthColor = [self colorForLineRange:lineRange inTextStorage:textStorage];
+       	NSColor *depthColor = [self colorForLineNumber:lineNumber inTextStorage:textStorage];
 		[depthColor set];
         NSRectFill(foldingAreaRect);
 
@@ -213,7 +202,7 @@
 			foldingAreaRect.size.height = NSMaxY(lineFragmentRectForLastCharacter) - boundingRect.origin.y;
 
 			if (lineRange.length > 0) {
-				depthColor = [self colorForLineRange:lineRange inTextStorage:textStorage];;
+				depthColor = [self colorForLineNumber:lineNumber inTextStorage:textStorage];;
 			}
 			[depthColor set];
 			NSRectFill(foldingAreaRect);
@@ -290,6 +279,22 @@
 					I_lastMouseDownPoint = NSZeroPoint;
 					[self setNeedsDisplay:YES];
 					break;
+				}
+			}
+		} else { // no attachment but maybe folding depth - if so show the folding area or even fold if it is a double click
+			unsigned lineNumber=[textStorage lineNumberForLocation:lineRange.location];
+			if ([textStorage foldingDepthForLine:lineNumber] > 0) {
+				NSRange foldingRange = [textStorage foldingRangeForLine:lineNumber];
+				if ([anEvent clickCount] == 1) {
+					// show
+					if ([textView respondsToSelector:@selector(showFindIndicatorForRange:)]) {
+						[textView showFindIndicatorForRange:foldingRange];
+					} else {
+						[textView setSelectedRange:foldingRange];
+					}
+				} else if ([anEvent clickCount] == 2) {
+					// fold
+					[textStorage foldRange:foldingRange];
 				}
 			}
 		}
