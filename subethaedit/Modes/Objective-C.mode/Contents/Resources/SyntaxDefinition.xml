@@ -13,11 +13,24 @@
     <states>
     
         <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="Objective-C" useautocompletefrommode="Objective-C">
-            <import mode="C"/>
+            <import mode="C" state="Base" />
+            <state-link mode="C" state="Characters"/>
+            <state-link mode="C" state="Preprocessor"/>
+            <state-link mode="C" state="DoxyGen Comment"/>
+            <state-link mode="C" state="AutodocComment"/>
+            <state-link mode="C" state="Comment"/>
+            <state-link mode="C" state="SingleComment"/>
+            <state-link mode="C" state="String"/>
 
             <state id="NSString" type="string" color="#760f15" font-weight="normal" font-style="normal" foldable="yes">
                 <begin><string>@"</string></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
+            </state>
+
+            <state id="Block" color="#000" background-color="#fff" font-weight="normal" font-style="normal" type="block" foldable="yes">
+                <begin><regex>{</regex></begin>
+                <end><regex>}</regex></end>
+                <import mode="Objective-C" />
             </state>
 
             <keywords id="Messages" color="#6C0540" casesensitive="yes">

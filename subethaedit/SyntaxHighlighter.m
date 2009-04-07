@@ -108,6 +108,7 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
         }
         
         foldingDepth = [[aString attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:currentRange.location-1 effectiveRange:nil] intValue];
+        newFoldingDepth = foldingDepth;
         
         //NSLog(@"Getting stack at: '%@': %@", [[aString string] substringWithRange:NSMakeRange(currentRange.location-1,1)], stack);
     }

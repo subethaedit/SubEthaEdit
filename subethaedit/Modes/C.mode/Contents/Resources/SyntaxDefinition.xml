@@ -113,11 +113,17 @@
                 <end><regex>[\n\r]</regex></end>
             </state>
             
-            <state id="String" type="string" color="#760f15" font-weight="normal" font-style="normal">
+            <state id="String" type="string" color="#760f15" font-weight="normal" font-style="normal" foldable="yes">
                 <begin><regex>"</regex></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
             </state>
 
+            <state id="Block" color="#000" background-color="#fff" font-weight="normal" font-style="normal" type="block" foldable="yes">
+                <begin><regex>{</regex></begin>
+                <end><regex>}</regex></end>
+                <import mode="C" />
+            </state>
+            
         </default>
 
     </states>
