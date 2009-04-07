@@ -160,7 +160,7 @@
 			[textStorage attribute:NSAttachmentAttributeName atIndex:lineRange.location longestEffectiveRange:&longestEffectiveAttachmentRange inRange:lineRange];
 			if (!NSEqualRanges(lineRange,longestEffectiveAttachmentRange)) {
 				// there is an attachment of some kind in our line. so show it
-				[((I_lastMouseDownPoint.y >= boundingRect.origin.y && I_lastMouseDownPoint.y <= NSMaxY(boundingRect)) ? triangleHighlightColor : triangleColor) set];
+				[((!NSEqualPoints(I_lastMouseDownPoint,NSZeroPoint) && I_lastMouseDownPoint.y >= boundingRect.origin.y && I_lastMouseDownPoint.y <= NSMaxY(boundingRect)) ? triangleHighlightColor : triangleColor) set];
 				[NSBezierPath fillTriangleInRect:NSMakeRect(foldingAreaRect.origin.x+1, NSMaxY(boundingRect)-visibleRect.origin.y - FOLDING_BAR_WIDTH - (boundingRect.size.height-FOLDING_BAR_WIDTH - 3)/2. ,FOLDING_BAR_WIDTH - 4,FOLDING_BAR_WIDTH - 2) arrowPoint:NSMaxXEdge];
 			}
 		}
@@ -223,7 +223,7 @@
 				if (!NSEqualRanges(lineRange,longestEffectiveAttachmentRange)) {
 					// there is an attachment of some kind in our line. so show it
 //					NSLog(@"%s mouseDown:%@ boundingRect:%@",__FUNCTION__,NSStringFromPoint(I_lastMouseDownPoint),NSStringFromRect(boundingRect));
-					[((I_lastMouseDownPoint.y >= boundingRect.origin.y && I_lastMouseDownPoint.y <= NSMaxY(boundingRect)) ? triangleHighlightColor : triangleColor) set];
+					[((!NSEqualPoints(I_lastMouseDownPoint,NSZeroPoint) && I_lastMouseDownPoint.y + visibleRect.origin.y >= boundingRect.origin.y && I_lastMouseDownPoint.y  + visibleRect.origin.y <= NSMaxY(boundingRect)) ? triangleHighlightColor : triangleColor) set];
 					[NSBezierPath fillTriangleInRect:NSMakeRect(foldingAreaRect.origin.x+1, NSMaxY(boundingRect)-visibleRect.origin.y - FOLDING_BAR_WIDTH - (boundingRect.size.height-FOLDING_BAR_WIDTH - 3)/2. ,FOLDING_BAR_WIDTH - 4,FOLDING_BAR_WIDTH - 2) arrowPoint:NSMaxXEdge];
 				}
 			}
@@ -239,7 +239,6 @@
 }
 
 - (void)mouseDown:(NSEvent *)anEvent {
-// TODO: only works when scrolled to top - need to adjust
 	// check for click in folding gutter
 	NSPoint point = [self convertPoint:[anEvent locationInWindow] fromView:nil];
 	NSRect baseRect = [self baseRectForFoldingBar];
@@ -249,15 +248,20 @@
 		NSTextView              *textView=(NSTextView *)[self clientView];
 		FoldableTextStorage  *textStorage=(FoldableTextStorage *)[textView textStorage];
 		NSString                    *text=[textView string];
-//		NSScrollView          *scrollView=[textView enclosingScrollView];
+		NSScrollView          *scrollView=[textView enclosingScrollView];
+		NSRect visibleRect=[scrollView documentVisibleRect];
 		NSLayoutManager    *layoutManager=[textView layoutManager];
-        unsigned glyphIndex=[layoutManager glyphIndexForPoint:NSMakePoint(0.0,point.y) 
+        unsigned glyphIndex=[layoutManager glyphIndexForPoint:NSMakePoint(0.0,point.y + visibleRect.origin.y) 
                                      inTextContainer:[textView textContainer]];
         unsigned characterIndex=[layoutManager characterIndexForGlyphAtIndex:glyphIndex];
         NSRect boundingRect  =[layoutManager lineFragmentRectForGlyphAtIndex:glyphIndex 
                                                        effectiveRange:nil];
         NSRange lineRange=[text lineRangeForRange:NSMakeRange(characterIndex,0)];
         NSRange attributeRange = NSMakeRange(lineRange.location,0);
+
+
+//		NSLog(@"%s bounds:%@ documentVisibleRect:%@",__FUNCTION__,NSStringFromRect([self bounds]),NSStringFromRect(visibleRect));
+
         id attachment = nil;
         do {
 			attachment = [textStorage attribute:NSAttachmentAttributeName atIndex:NSMaxRange(attributeRange) longestEffectiveRange:&attributeRange inRange:lineRange];
@@ -269,7 +273,8 @@
 			while (1) {
 		        NSEvent *event = [[self window] nextEventMatchingMask:(NSLeftMouseDraggedMask | NSLeftMouseUpMask)];
 				NSPoint innerPoint = [self convertPoint:[event locationInWindow] fromView:nil];
-				BOOL pointWasIn = (innerPoint.x >= baseRect.origin.x && innerPoint.x <= NSMaxX(baseRect) && innerPoint.y >= boundingRect.origin.y && innerPoint.y <= NSMaxY(boundingRect));
+				BOOL pointWasIn = (innerPoint.x >= baseRect.origin.x && innerPoint.x <= NSMaxX(baseRect) && 
+								   innerPoint.y + visibleRect.origin.y >= boundingRect.origin.y && innerPoint.y + visibleRect.origin.y <= NSMaxY(boundingRect));
 				if ([event type] == NSLeftMouseDragged) {
 					if (pointWasIn && NSEqualPoints(I_lastMouseDownPoint,NSZeroPoint)) {
 						I_lastMouseDownPoint = point;
