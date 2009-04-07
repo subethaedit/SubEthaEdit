@@ -483,47 +483,38 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     // Search backwards for a start with matching stack, then forwards for an end.
     
     NSMutableAttributedString *string = self;
-    NSString *kindOfFolding = [string attribute:kSyntaxHighlightingFoldableAttributeName atIndex:index effectiveRange:nil];
+    //NSString *kindOfFolding = [string attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:index effectiveRange:nil];
+    NSRange returnRange = NSMakeRange(NSNotFound, 0);
+    int depth = [[string attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:index longestEffectiveRange:&returnRange inRange:NSMakeRange(0, [string length])] intValue];
     
-    if ([kindOfFolding isEqualToString:@"state"]) { // Foldable state from definition
-        unsigned long int startIndex = 0, endIndex = 0;
-        
-        NSRange indexStackRange, startRange, endRange, originalRange;
-        NSArray *stack = [string attribute:kSyntaxHighlightingStackName atIndex:index longestEffectiveRange:&indexStackRange inRange:NSMakeRange(0, [string length])];
-        originalRange = indexStackRange;
-        
-        NSArray *neighborStack = stack;
-        // Look for start
-        while ([neighborStack count]>=[stack count]) {
-            if (indexStackRange.location<=0) return NSMakeRange(NSNotFound, 0); // Not foldable
-            if ([neighborStack count]==[stack count]) startIndex = indexStackRange.location;
-            neighborStack = [string attribute:kSyntaxHighlightingStackName atIndex:indexStackRange.location-1 longestEffectiveRange:&indexStackRange inRange:NSMakeRange(0, indexStackRange.location)];
-        }
-        
-        if ([[string attribute:kSyntaxHighlightingStateDelimiterName atIndex:startIndex effectiveRange:&startRange] isEqualTo:@"Start"]) {
-            // Found a start
-            startIndex = NSMaxRange(startRange);            
-            // Look for an end
-            neighborStack = stack;
-            indexStackRange = originalRange;
-            while ([neighborStack count]>=[stack count]) {
-                if (NSMaxRange(indexStackRange)<=0) break;
-                if ([neighborStack count]==[stack count]) endIndex = NSMaxRange(indexStackRange);
-                
-                if (NSMaxRange(indexStackRange)>=[string length]) break;
-                neighborStack = [string attribute:kSyntaxHighlightingStackName atIndex:indexStackRange.location+1 longestEffectiveRange:&indexStackRange inRange:NSMakeRange(NSMaxRange(indexStackRange), [string length]-NSMaxRange(indexStackRange))];
-            }
-                        
-            if ((endIndex>0)&&[[string attribute:kSyntaxHighlightingStateDelimiterName atIndex:endIndex-1 effectiveRange:&endRange] isEqualTo:@"End"]) {
-                endIndex = endRange.location;
-                return NSMakeRange(startIndex, endIndex-startIndex);
-            }
-            
-            
+    if (depth == 0) return NSMakeRange(NSNotFound, 0); // Not foldable
+    
+    // Check left
+    
+    if (returnRange.location>0) {
+        NSRange nextRange;
+        int leftDepth = [[string attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:returnRange.location-1 longestEffectiveRange:&nextRange inRange:NSMakeRange(0, returnRange.location)] intValue];
+        while (leftDepth>=depth) {
+            returnRange = NSUnionRange(returnRange, nextRange); 
+            if (returnRange.location == 0) break;
+            leftDepth = [[string attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:returnRange.location-1 longestEffectiveRange:&nextRange inRange:NSMakeRange(0, returnRange.location)] intValue];
         }
     }
     
-    return NSMakeRange(NSNotFound, 0); // Not foldable
+
+    // Check right
+    int length = [string length];
+    if (NSMaxRange(returnRange)<length) {
+        NSRange nextRange;
+        int rightDepth = [[string attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:NSMaxRange(returnRange)+1 longestEffectiveRange:&nextRange inRange:NSMakeRange(NSMaxRange(returnRange), length-NSMaxRange(returnRange))] intValue];
+        while (rightDepth>=depth) {
+            returnRange = NSUnionRange(returnRange, nextRange); 
+            if (NSMaxRange(returnRange) == length) break;
+            rightDepth = [[string attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:NSMaxRange(returnRange)+1 longestEffectiveRange:&nextRange inRange:NSMakeRange(NSMaxRange(returnRange), length-NSMaxRange(returnRange))] intValue];
+        }
+    }
+        
+    return returnRange;
 }
 
 - (void)beginLinearAttributeChanges {
