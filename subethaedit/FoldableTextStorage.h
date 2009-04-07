@@ -62,6 +62,7 @@ extern NSString * const BlockeditAttributeValue;
 - (void)unfoldAttachment:(FoldedTextAttachment *)inAttachment atCharacterIndex:(unsigned)inIndex;
 - (void)unfoldAll;
 - (void)foldAllWithFoldingLevel:(int)aFoldingLevel;
+- (void)foldAllComments;
 
 #pragma mark line numbers
 - (int)lineNumberForLocation:(unsigned)location;

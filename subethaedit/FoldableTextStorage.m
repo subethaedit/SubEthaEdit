@@ -671,6 +671,13 @@ NSString * const BlockeditAttributeValue=@"YES";
 
 - (void)foldRange:(NSRange)inRange
 {
+	// first check if range is already a folding
+	if ( inRange.length == 0 || 
+		(inRange.length == 1 && [[self attribute:NSAttachmentAttributeName atIndex:inRange.location effectiveRange:NULL] isKindOfClass:[FoldedTextAttachment class]]) ) {
+		// no fold
+		return;
+	}
+
 	NSRange fullRange = [self fullRangeForFoldedRange:inRange];
 	
 	FoldedTextAttachment *attachment = [[[FoldedTextAttachment alloc] initWithFoldedTextRange:fullRange] autorelease];
@@ -845,6 +852,28 @@ NSString * const BlockeditAttributeValue=@"YES";
 		[self foldRange:currentFoldingRange];
 	}
 	
+}
+
+- (void)foldAllComments {
+	NSRange wholeRange = NSMakeRange(0,[I_fullTextStorage length]);
+	if (wholeRange.length > 0) {
+		NSRange attributeRange = NSMakeRange(0,0);
+		NSString *type = nil;
+		
+		do {
+			type = [I_fullTextStorage attribute:kSyntaxHighlightingTypeAttributeName atIndex:NSMaxRange(attributeRange) longestEffectiveRange:&attributeRange inRange:wholeRange];
+			if ([type isEqualToString:@"comment"]) {
+				// get start and endrange
+				NSRange startDelimiterRange = NSMakeRange(0,0);
+				NSRange endDelimiterRange = NSMakeRange(0,0);
+				[I_fullTextStorage attribute:kSyntaxHighlightingStateDelimiterName atIndex:attributeRange.location longestEffectiveRange:&startDelimiterRange inRange:attributeRange];
+				[I_fullTextStorage attribute:kSyntaxHighlightingStateDelimiterName atIndex:NSMaxRange(attributeRange) - 1 longestEffectiveRange:&endDelimiterRange inRange:attributeRange];
+				NSRange rangeToFold = NSMakeRange(NSMaxRange(startDelimiterRange),endDelimiterRange.location - NSMaxRange(startDelimiterRange));
+				rangeToFold = [self foldedRangeForFullRange:rangeToFold];
+				[self foldRange:rangeToFold];
+			}
+		} while (NSMaxRange(attributeRange) < NSMaxRange(wholeRange));
+	}
 }
 
 

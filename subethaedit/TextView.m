@@ -368,6 +368,11 @@ static NSMenu *defaultMenu=nil;
 	}
 }
 
+- (IBAction)foldAllCommentBlocks:(id)aSender {
+	FoldableTextStorage *ts = (FoldableTextStorage *)[self textStorage];
+	[ts foldAllComments];
+}
+
 - (IBAction)unfoldAllBlocks:(id)aSender {
 	FoldableTextStorage *ts = (FoldableTextStorage *)[self textStorage];
 	[ts unfoldAll];
