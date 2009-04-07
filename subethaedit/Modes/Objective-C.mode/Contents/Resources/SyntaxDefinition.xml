@@ -33,12 +33,18 @@
                 <import mode="Objective-C" />
             </state>
 
-            <keywords id="Messages" color="#6C0540" casesensitive="yes">
-                <regex>[^:]\([^)]*\)\s*([A-Za-z0-9_]+)\s*[{;]</regex>
-                <regex>\)\s*([A-Za-z0-9_]+:)</regex>
-                <regex>\s([A-Za-z0-9_]+:)</regex>
-                <regex>(?&lt;![:\s])\s+([A-Za-z0-9_]+)]</regex>
-            </keywords>
+            <state id="Message" color="#000" background-color="#fff" font-weight="normal" font-style="normal" type="block" foldable="yes">
+                <begin><regex>\[</regex></begin>
+                <end><regex>\]</regex></end>
+                <import mode="Objective-C" />
+                <keywords id="Methods" color="#6C0540" casesensitive="yes">
+                    <regex>[^:]\([^)]*\)\s*([A-Za-z0-9_]+)\s*[{;]</regex>
+                    <regex>\)\s*([A-Za-z0-9_]+:)</regex>
+                    <regex>\s([A-Za-z0-9_]+:)</regex>
+                    <regex>(?&lt;![:\s])\s+([A-Za-z0-9_]+)]</regex>
+                </keywords>
+            </state>
+
             
             <keywords id="Cocoa Classes" color="#400080" background-color="#fff" font-weight="normal" font-style="normal" casesensitive="yes" useforautocomplete="yes">
                 <string>NSAccessibility</string>
