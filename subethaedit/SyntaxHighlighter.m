@@ -223,18 +223,22 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
 				[scratchAttributes setObject:[subState objectForKey:[definition keyForInheritedAutocomplete]] forKey:kSyntaxHighlightingParentModeForAutocompleteAttributeName];
                 if ([[subState objectForKey:@"foldable"] isEqualToString:@"yes"]) [scratchAttributes setObject:@"state" forKey:kSyntaxHighlightingFoldableAttributeName];
 
-                [scratchAttributes setObject:[NSNumber numberWithInt:foldingDepth] forKey:kSyntaxHighlightingFoldingDepthAttributeName];
+                if ([[subState objectForKey:@"foldable"] isEqualToString:@"yes"]) {
+                    newFoldingDepth++;
+                }
+                [scratchAttributes setObject:[NSNumber numberWithInt:newFoldingDepth] forKey:kSyntaxHighlightingFoldingDepthAttributeName];
                 [scratchAttributes setObject:kSyntaxHighlightingIsCorrectAttributeValue forKey:kSyntaxHighlightingIsCorrectAttributeName];
 				
                 [aString addAttributes:scratchAttributes range:delimiterRange];
-                if ([[subState objectForKey:@"foldable"] isEqualToString:@"yes"]) newFoldingDepth = foldingDepth + 1;
 
             } else { // Found end of current state
                 //NSLog(@"Found an end: '%@' current range: %@",[[aString string] substringWithRange:delimiterRange], NSStringFromRange(currentRange));
-                foundEnd = YES;
                 nextRange.location = NSMaxRange(stateRange);
                 nextRange.length = currentRange.length - stateRange.length;
                 [scratchAttributes setObject:@"End" forKey:kSyntaxHighlightingStateDelimiterName];
+                if ([[currentState objectForKey:@"foldable"] isEqualToString:@"yes"]) {
+                    newFoldingDepth = foldingDepth - 1;
+                }
                 [aString addAttributes:scratchAttributes range:delimiterRange];
                 savedStack = [[stack copy] autorelease];
                 [stack removeLastObject]; // Default state doesn't have an end, stack is always > 0
@@ -280,14 +284,6 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
         //NSLog(@"Adding scratchAttributes");
 
         [aString addAttributes:scratchAttributes range:stateRange];
-
-        if (foundEnd) {
-            if ([[currentState objectForKey:@"foldable"] isEqualToString:@"yes"]) {
-                foldingDepth--;
-                newFoldingDepth = foldingDepth;
-                [aString addAttribute:kSyntaxHighlightingFoldingDepthAttributeName value:[NSNumber numberWithInt:foldingDepth] range:delimiterRange];
-            }
-        }
         
         //NSLog(@"Highlighting stuff");
         

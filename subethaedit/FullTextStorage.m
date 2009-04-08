@@ -499,7 +499,6 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
             leftDepth = [[string attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:returnRange.location-1 longestEffectiveRange:&nextRange inRange:NSMakeRange(0, returnRange.location)] intValue];
         }
     }
-    
 
     // Check right
     int length = [string length];
@@ -513,6 +512,16 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
         }
     }
         
+    // Trim start and end
+    if (returnRange.location!=NSNotFound) {
+        NSRange startRange, endRange;
+        [string attribute:kSyntaxHighlightingStateDelimiterName atIndex:returnRange.location longestEffectiveRange:&startRange inRange:returnRange];
+        [string attribute:kSyntaxHighlightingStateDelimiterName atIndex:NSMaxRange(returnRange)-1 longestEffectiveRange:&endRange inRange:returnRange];        
+        returnRange.location = returnRange.location + startRange.length;
+        returnRange.length = returnRange.length - startRange.length - endRange.length;
+    }
+    
+    
     return returnRange;
 }
 
