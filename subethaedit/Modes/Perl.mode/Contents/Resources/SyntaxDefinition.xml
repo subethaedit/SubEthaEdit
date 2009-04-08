@@ -355,6 +355,12 @@
                 <end><regex>(?#see-insert-start-group:heredoc)</regex></end>
             </state>
 
+            <state id="Block" color="#000" background-color="#fff" font-weight="normal" font-style="normal" type="block" foldable="yes">
+                <begin><regex>{</regex></begin>
+                <end><regex>}</regex></end>
+                <import mode="Perl" />
+            </state>
+
         </default>
 
     </states>

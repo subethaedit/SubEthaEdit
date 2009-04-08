@@ -18,7 +18,7 @@
                 <regex>(&amp;#x[A-Fa-f0-9]+;)</regex>
             </keywords>
             
-            <state id="PHP" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="PHP-HTML" useautocompletefrommode="PHP-HTML">
+            <state id="PHP" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="PHP-HTML" useautocompletefrommode="PHP-HTML" foldable="yes">
               <begin><regex>(?:&lt;\?(?i)php)|(?:&lt;\?(?=[\s=]))</regex></begin>
               <end><regex>\?&gt;</regex></end>
               <keywords id="PHP Delimiter" color="#D00" font-weight="bold" useforautocomplete="no">
@@ -3661,7 +3661,7 @@
                 <state-link state="PHP" />
             </state>
 
-            <state id="Inline CSS" color="#000" font-style="italic" usesymbolsfrommode="CSS" useautocompletefrommode="CSS">
+            <state id="Inline CSS" color="#000" font-style="italic" usesymbolsfrommode="CSS" useautocompletefrommode="CSS" foldable="yes">
                 <begin><regex>&lt;(?=(?i)style)</regex></begin>
                 <end><regex>(?i)/style&gt;</regex></end>
                 
@@ -3679,7 +3679,7 @@
                 
                 <state-link state="PHP" />
                 
-                <state id="Inside curly brackets" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
+                <state id="Inside curly brackets" color="#000" background-color="#fff" font-weight="normal" font-style="normal" foldable="yes">
                     <begin><string>{</string></begin>
                     <end><regex>}</regex></end>
                     <import mode="CSS" state="Inside curly brackets" keywords-only="yes"/>
@@ -3733,7 +3733,7 @@
 
             </state>
 
-            <state id="Inline Javascript" color="#000" usesymbolsfrommode="Javascript" useautocompletefrommode="Javascript">
+            <state id="Inline Javascript" color="#000" usesymbolsfrommode="Javascript" useautocompletefrommode="Javascript" foldable="yes">
                 <begin><regex>&lt;(?=(?i)script)</regex></begin>
                 <end><regex>(?i)/script&gt;</regex></end>
     
@@ -3788,6 +3788,12 @@
                     <state-link state="PHP" />
                 </state>
                 
+            <state id="Javascript Block" color="#000" background-color="#fff" font-weight="normal" font-style="normal" type="block" foldable="yes">
+                <begin><regex>{</regex></begin>
+                <end><regex>}</regex></end>
+                <import mode="PHP" state="Inline Javascript"/>
+            </state>
+
             </state>
 
             <state id="Tags" color="#881280" font-style="italic">

@@ -35,7 +35,7 @@
                 
             </state>
 
-            <state id="Inline Javascript" color="#000" usesymbolsfrommode="Javascript" useautocompletefrommode="Javascript">
+            <state id="Inline Javascript" color="#000" usesymbolsfrommode="Javascript" useautocompletefrommode="Javascript" foldable="yes">
                 <begin><regex>&lt;(?=(?i)script)</regex></begin>
                 <end><regex>(?i)/script&gt;</regex></end>
     

@@ -10,7 +10,7 @@
     </head>
     <states>
         <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
-            <state id="Inside curly brackets" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
+            <state id="Inside curly brackets" color="#000" background-color="#fff" font-weight="normal" font-style="normal" foldable="yes">
                 <begin>
                     <string>{</string>
                 </begin>
