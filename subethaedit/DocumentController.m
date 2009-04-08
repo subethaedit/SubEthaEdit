@@ -18,7 +18,6 @@
 #import "NSMenuTCMAdditions.h"
 #import "StylePreferences.h"
 #import "GeneralPreferences.h"
-#import "TextStorage.h"
 #import "FoldableTextStorage.h"
 #import "NSSavePanelTCMAdditions.h"
 #import "MoreSecurity.h"
@@ -1124,7 +1123,7 @@ static NSString *tempFileName() {
                               autorelease];
         }
         if (newFileContent) {
-            TextStorage *textStorage=(TextStorage *)[document textStorage];
+            FoldableTextStorage *textStorage=(FoldableTextStorage *)[document textStorage];
             [textStorage replaceCharactersInRange:NSMakeRange(0,[textStorage length]) withString:newFileContent];
             [document updateChangeCount:NSChangeCleared];
         }

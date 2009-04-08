@@ -11,7 +11,6 @@
 #import "PlainTextDocument.h"
 #import "DocumentMode.h"
 #import "PlainTextEditor.h"
-#import "TextStorage.h"
 #import "FoldableTextStorage.h"
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "TCMMMUserSEEAdditions.h"

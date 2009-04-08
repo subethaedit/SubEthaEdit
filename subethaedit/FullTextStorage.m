@@ -9,7 +9,6 @@
 
 #import "FoldableTextStorage.h"
 #import "FullTextStorage.h"
-#import "TextStorage.h"
 #import "EncodingManager.h"
 #import "SyntaxHighlighter.h"
 #import "SelectionOperation.h"

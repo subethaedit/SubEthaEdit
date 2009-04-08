@@ -13,7 +13,6 @@
 #import "TCMMMUserSEEAdditions.h"
 #import "TCMMMSession.h"
 #import "GeneralPreferences.h"
-#import "TextStorage.h"
 #import "FoldableTextStorage.h"
 #import "SelectionOperation.h"
 
@@ -181,7 +180,7 @@ static NSString *S_specialGlyphs[16];
 - (void)setShowsChangeMarks:(BOOL)showsChangeMarks {
     if (showsChangeMarks != I_flags.showsChangeMarks) {
         I_flags.showsChangeMarks=showsChangeMarks;
-        TextStorage *textStorage = (TextStorage *)[self textStorage];
+        FoldableTextStorage *textStorage = (FoldableTextStorage *)[self textStorage];
         NSRange wholeRange=NSMakeRange(0,[textStorage length]);
         NSRange searchRange;
         unsigned position=wholeRange.location;

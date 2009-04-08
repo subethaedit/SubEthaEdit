@@ -12,7 +12,7 @@
 
 #define FOLDING_BAR_WIDTH 9.
 #define RIGHT_INSET  4.
-#define MAX_FOLDING_DEPTH 7.
+#define MAX_FOLDING_DEPTH 12.
 
 @interface NSBezierPath (BezierPathGutterRulerViewAdditions)
 + (void)fillTriangleInRect:(NSRect)aRect arrowPoint:(NSRectEdge)anEdge;
@@ -287,11 +287,11 @@
 				NSRange foldingRange = [textStorage foldingRangeForLine:lineNumber];
 				if ([anEvent clickCount] == 1) {
 					// show
-					if ([textView respondsToSelector:@selector(showFindIndicatorForRange:)]) {
-						[textView showFindIndicatorForRange:foldingRange];
-					} else {
+//					if ([textView respondsToSelector:@selector(showFindIndicatorForRange:)]) {
+//						[textView showFindIndicatorForRange:foldingRange];
+//					} else {
 						[textView setSelectedRange:foldingRange];
-					}
+//					}
 				} else if ([anEvent clickCount] == 2) {
 					// fold
 					[textStorage foldRange:foldingRange];

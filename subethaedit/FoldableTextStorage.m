@@ -908,7 +908,7 @@ NSString * const BlockeditAttributeValue=@"YES";
 	
 	foldingRange = [I_fullTextStorage foldableRangeForCharacterAtIndex:foldingRange.location];
 	foldingRange = [self foldedRangeForFullRange:foldingRange];
-	NSLog(@"%s line:%d attributeRange:%@ foldingRange:%@",__FUNCTION__,aLineNumber, NSStringFromRange(attributeRange), NSStringFromRange(foldingRange));
+//	NSLog(@"%s line:%d attributeRange:%@ foldingRange:%@",__FUNCTION__,aLineNumber, NSStringFromRange(attributeRange), NSStringFromRange(foldingRange));
 
 	return foldingRange;
 }
@@ -1128,7 +1128,7 @@ NSString * const BlockeditAttributeValue=@"YES";
 }
 
 - (void)removeObjectFromScriptedLinesAtIndex:(unsigned)anIndex {
-    NSLog(@"%s: %d", __FUNCTION__, anIndex);
+//    NSLog(@"%s: %d", __FUNCTION__, anIndex);
     [[self valueInScriptedLinesAtIndex:anIndex] setScriptedContents:@""];
 }
 
@@ -1205,34 +1205,6 @@ NSString * const BlockeditAttributeValue=@"YES";
 
     return propertySpecifier;
 }
-
-/*
-- (void)replaceValueAtIndex:(unsigned)index inPropertyWithKey:(NSString *)key withValue:(id)value
-{
-    if ([key isEqual:@"characters"]) {
-        TextStorage *character = [self valueInCharactersAtIndex:index];
-        TextStorage *textStorage = self;
-        if (I_containerTextStorage)
-            textStorage = I_containerTextStorage;
-        [[textStorage delegate] replaceTextInRange:NSMakeRange([[character scriptedCharacterOffset] intValue] - 1, 1) withString:value];
-    } else if ([key isEqual:@"words"]) {
-        NSArray *words = [self words];
-        if ([words count] > index && [words count] > 0) {
-            TextStorage *word = [words objectAtIndex:index];
-            TextStorage *textStorage = self;
-            if (I_containerTextStorage)
-                textStorage = I_containerTextStorage;
-            [[textStorage delegate] replaceTextInRange:NSMakeRange([[word scriptedCharacterOffset] intValue] - 1, [[word scriptedLength] intValue]) withString:value];
-        }
-    } else if ([key isEqual:@"paragraphs"]) {
-        TextStorage *paragraph = [self valueInParagraphsAtIndex:index];
-        TextStorage *textStorage = self;
-        if (I_containerTextStorage)
-            textStorage = I_containerTextStorage;
-        [[textStorage delegate] replaceTextInRange:NSMakeRange([[paragraph scriptedCharacterOffset] intValue] - 1, [[paragraph scriptedLength] intValue]) withString:value];
-    }
-}
-*/
 
 @end
 

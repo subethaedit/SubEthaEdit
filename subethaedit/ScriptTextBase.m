@@ -10,7 +10,7 @@
 #import "ScriptLine.h"
 #import "ScriptCharacters.h"
 #import "ScriptTextSelection.h"
-#import "TextStorage.h"
+#import "FoldableTextStorage.h"
 #import "PlainTextDocument.h"
 
 

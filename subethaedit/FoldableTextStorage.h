@@ -12,7 +12,6 @@
 
 #import "FoldedTextAttachment.h"
 #import "AbstractFoldingTextStorage.h"
-#import "TextStorage.h"
 
 @class FullTextStorage;
 
@@ -39,7 +38,6 @@ extern NSString * const BlockeditAttributeValue;
     NSMutableAttributedString *I_internalAttributedString;
     unsigned I_numberOfWords;
 
-    TextStorage *I_containerTextStorage;
     struct {
         int length;
         int characterOffset;

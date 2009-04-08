@@ -7,7 +7,7 @@
 //
 
 #import "ScriptTextSelection.h"
-#import "TextStorage.h"
+#import "FoldableTextStorage.h"
 #import "PlainTextDocument.h"
 #import "PlainTextEditor.h"
 

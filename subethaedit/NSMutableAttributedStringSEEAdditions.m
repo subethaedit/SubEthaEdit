@@ -13,7 +13,7 @@
 	#import "TCMMMUserManager.h"
 #endif
 
-extern NSString const * WrittenByUserIDAttributeName, *ChangedByUserIDAttributeName;
+extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeName;
 
 @implementation NSMutableAttributedString (NSMutableAttributedStringSEEAdditions) 
 

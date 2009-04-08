@@ -1914,8 +1914,6 @@ subethaedit/TextFieldCell.h -text
 subethaedit/TextFieldCell.m -text
 subethaedit/TextOperation.h -text
 subethaedit/TextOperation.m -text
-subethaedit/TextStorage.h -text
-subethaedit/TextStorage.m -text
 subethaedit/TextView.h -text
 subethaedit/TextView.m -text
 subethaedit/TexturedButtonCell.h -text

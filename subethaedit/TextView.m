@@ -8,7 +8,6 @@
 
 #import "LayoutManager.h"
 #import "TextView.h"
-#import "TextStorage.h"
 #import "FoldableTextStorage.h"
 #import "FullTextStorage.h"
 #import "PlainTextDocument.h"
@@ -62,7 +61,7 @@ static NSMenu *defaultMenu=nil;
 }
 
 - (PlainTextDocument *)document {
-    return [(TextStorage *)[self textStorage] delegate];
+    return [(FoldableTextStorage *)[self textStorage] delegate];
 }
 
 

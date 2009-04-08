@@ -9,7 +9,7 @@
 #import "TCMMMSession.h"
 #import "WebPreviewWindowController.h"
 #import "PlainTextDocument.h"
-#import "TextStorage.h"
+#import "FoldableTextStorage.h"
 #import "DocumentMode.h"
 #import "BacktracingException.h"
 
@@ -129,7 +129,7 @@ NSScrollView * firstScrollView(NSView *aView) {
     NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:MyURL];
     [request setMainDocumentURL:MyURL];
     NSString *string=[[[self plainTextDocument] textStorage] string];
-    NSStringEncoding encoding = [(TextStorage *)[[self plainTextDocument] textStorage] encoding];
+    NSStringEncoding encoding = [(FoldableTextStorage *)[[self plainTextDocument] textStorage] encoding];
     [request setHTTPBody:[string dataUsingEncoding:encoding]];
     NSString *IANACharSetName=(NSString *)CFStringConvertEncodingToIANACharSetName(
                 CFStringConvertNSStringEncodingToEncoding(encoding));

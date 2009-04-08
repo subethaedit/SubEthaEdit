@@ -15,7 +15,7 @@
 #import "TextOperation.h"
 #import "UserChangeOperation.h"
 #import "TCMMMLogStatisticsDataPoint.h"
-#import "TextStorage.h"
+#import "FoldableTextStorage.h"
 #import "PlainTextDocument.h"
 
 @interface TCMMMLoggingState (TCMMMLoggingStatePrivateAdditions)
