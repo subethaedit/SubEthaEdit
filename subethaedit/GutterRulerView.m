@@ -10,9 +10,29 @@
 #import "SyntaxHighlighter.h"
 #import "FoldableTextStorage.h"
 
-#define FOLDING_BAR_WIDTH 9.
+#define FOLDING_BAR_WIDTH 10.
 #define RIGHT_INSET  4.
 #define MAX_FOLDING_DEPTH 10.
+#define COLOR_FOR_DEPTH(depth) [NSColor colorWithCalibratedWhite:MAX(1.0 - ((MAX((depth), 0.0) - 0) / MAX_FOLDING_DEPTH), 0.2) alpha:1.0]
+
+FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRect) {
+	[COLOR_FOR_DEPTH(aDepth) set];
+	NSRectFill(aRect); 
+
+// a try with steps
+//	[[NSColor whiteColor] set]; 
+//	NSRectFill(aRect); 
+//	NSRect depthInsetRect = aRect;
+//	int stripeWidth = 2;
+//	depthInsetRect.size.width = stripeWidth;
+//	int depth = MAX(1, aDepth - floor(aRect.size.width / stripeWidth));
+//	for (; depth <= aDepth; depth++) {
+//		[COLOR_FOR_DEPTH(depth) set];
+//		NSRectFill(depthInsetRect);
+//		depthInsetRect.origin.x += depthInsetRect.size.width;
+//	}
+}
+
 
 @interface NSBezierPath (BezierPathGutterRulerViewAdditions)
 + (void)fillTriangleInRect:(NSRect)aRect arrowPoint:(NSRectEdge)anEdge;
@@ -43,11 +63,6 @@
 //    NSLog(@"frame:%@",NSStringFromRect([self frame]));
 //    NSLog(@"drawRect:%@",NSStringFromRect(aRect));
     [super drawRect:aRect];
-}
-
-- (NSColor *)colorForLineNumber:(int)aLineNumber inTextStorage:(FoldableTextStorage *)aTextStorage {
-	int foldingDepth = [aTextStorage foldingDepthForLine:aLineNumber];
-	return [NSColor colorWithCalibratedWhite:MAX(1.0 - ((MAX(foldingDepth, 0.0) - 0) / MAX_FOLDING_DEPTH), 0.2) alpha:1.0];
 }
 
 - (NSRect)baseRectForFoldingBar {
@@ -141,9 +156,8 @@
 		foldingAreaRect.origin.y = boundingRect.origin.y - visibleRect.origin.y;
         foldingAreaRect.size.height = NSMaxY(lineFragmentRectForLastCharacter) - boundingRect.origin.y;
        	
-       	NSColor *depthColor = [self colorForLineNumber:lineNumber inTextStorage:textStorage];
-		[depthColor set];
-        NSRectFill(foldingAreaRect);
+       	int foldingDepth = [textStorage foldingDepthForLine:lineNumber];
+       	DrawIndicatorForDepthInRect(foldingDepth, foldingAreaRect);
 
 		if (lineRange.length) {
 			[textStorage attribute:NSAttachmentAttributeName atIndex:lineRange.location longestEffectiveRange:&longestEffectiveAttachmentRange inRange:lineRange];
@@ -202,10 +216,12 @@
 			foldingAreaRect.size.height = NSMaxY(lineFragmentRectForLastCharacter) - boundingRect.origin.y;
 
 			if (lineRange.length > 0) {
-				depthColor = [self colorForLineNumber:lineNumber inTextStorage:textStorage];;
+				foldingDepth = [textStorage foldingDepthForLine:lineNumber];
+		       	DrawIndicatorForDepthInRect(foldingDepth, foldingAreaRect);
+			} else {
+				[[NSColor whiteColor] set];
+				NSRectFill(foldingAreaRect);
 			}
-			[depthColor set];
-			NSRectFill(foldingAreaRect);
 
 			if (lineRange.length) {
 				[textStorage attribute:NSAttachmentAttributeName atIndex:lineRange.location longestEffectiveRange:&longestEffectiveAttachmentRange inRange:lineRange];

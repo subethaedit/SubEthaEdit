@@ -391,7 +391,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 }
 
 - (BOOL)hasMixedLineEndingsInRange:(NSRange)aRange {
-	NSLog(@"%s %@",__FUNCTION__,NSStringFromRange(aRange));
+//	NSLog(@"%s %@",__FUNCTION__,NSStringFromRange(aRange));
     static int limit = 0;
     if (limit==0) limit = [[NSUserDefaults standardUserDefaults] integerForKey:@"ByteLengthToUseForModeRecognitionAndEncodingGuessing"];
     if (aRange.length > limit && limit != -1) aRange.length = limit;
