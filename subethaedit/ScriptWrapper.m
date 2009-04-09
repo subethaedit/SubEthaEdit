@@ -6,11 +6,15 @@
 //  Copyright 2006 TheCodingMonkeys. All rights reserved.
 //
 
+#import <Carbon/Carbon.h>
 #import "ScriptWrapper.h"
 #import "NSAppleScriptTCMAdditions.h"
-#import "AppController.h"
 #import "SESendProc.h"
 #import "SEActiveProc.h"
+
+#ifdef SUBETHAEDIT
+	#import "AppController.h"
+#endif
 
 NSString * const ScriptWrapperDisplayNameSettingsKey     =@"displayname";
 NSString * const ScriptWrapperShortDisplayNameSettingsKey=@"shortdisplayname";
@@ -176,9 +180,11 @@ NSString * const ScriptWrapperDidRunScriptNotification =@"ScriptWrapperDidRunScr
     [[NSNotificationCenter defaultCenter] postNotificationName:ScriptWrapperWillRunScriptNotification object:self];
     NSDictionary *errorDictionary=nil;
     [self executeAndReturnError:&errorDictionary];
+#ifdef SUBETHAEDIT
     if (errorDictionary) {
         [[AppController sharedInstance] reportAppleScriptError:errorDictionary];
     }
+#endif
     [[NSNotificationCenter defaultCenter] postNotificationName:ScriptWrapperDidRunScriptNotification object:self userInfo:errorDictionary];
 }
 

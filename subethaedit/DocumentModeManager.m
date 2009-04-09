@@ -8,8 +8,6 @@
 
 #import "ModeSettings.h"
 #import "DocumentModeManager.h"
-#import "DocumentController.h"
-#import "PlainTextDocument.h"
 #import "GeneralPreferences.h"
 #import "SyntaxStyle.h"
 #import "SyntaxDefinition.h"
@@ -430,15 +428,6 @@ static DocumentModeManager *S_sharedInstance=nil;
     [self TCM_findModes];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"DocumentModeListChanged" object:self];
     
-    // replace the DocumentModes in the documents
-    NSEnumerator      *documents = [[[DocumentController sharedDocumentController] documents] objectEnumerator];
-    PlainTextDocument *document = nil;
-    while ((document=[documents nextObject])) {
-        DocumentMode *oldMode = [document documentMode];
-        DocumentMode *newMode = [self documentModeForIdentifier:[oldMode documentModeIdentifier]];
-        [document setDocumentMode:newMode];
-    }
-
     [self setModePrecedenceArray:[self reloadPrecedences]];
     [self revalidatePrecedences];
 }

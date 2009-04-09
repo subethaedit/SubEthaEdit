@@ -1600,6 +1600,8 @@ subethaedit/PrecedenceRolloverButton.h -text
 subethaedit/PrecedenceRolloverButton.m -text
 subethaedit/PrecedenceRuleCell.h -text
 subethaedit/PrecedenceRuleCell.m -text
+subethaedit/PreferenceKeys.h -text
+subethaedit/PreferenceKeys.m -text
 subethaedit/Preferences.nib/classes.nib -text
 subethaedit/Preferences.nib/info.nib -text
 subethaedit/Preferences.nib/keyedobjects.nib -text
@@ -1783,6 +1785,14 @@ subethaedit/SubEthaEdit.sdef -text
 subethaedit/SubEthaEdit.xcodeproj/project.pbxproj -text
 subethaedit/SubEthaEditHelperTool.m -text
 subethaedit/SubEthaEdit_Prefix.pch -text
+subethaedit/SubEthaPerf/Resources/SEPMainMenu.xib -text
+subethaedit/SubEthaPerf/Resources/SubEthaPerf-Info.plist -text
+subethaedit/SubEthaPerf/SEPAppController.h -text
+subethaedit/SubEthaPerf/SEPAppController.m -text
+subethaedit/SubEthaPerf/SEPLogger.h -text
+subethaedit/SubEthaPerf/SEPLogger.m -text
+subethaedit/SubEthaPerf/SubEthaPerf_Prefix.pch -text
+subethaedit/SubEthaPerf/main.m -text
 subethaedit/SymbolTableEntry.h -text
 subethaedit/SymbolTableEntry.m -text
 subethaedit/SyntaxDefinition.h -text

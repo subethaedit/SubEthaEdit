@@ -154,32 +154,35 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 @implementation PlainTextDocument
 
 + (void)initialize {
-    NSFontManager *fontManager=[NSFontManager sharedFontManager];
-    NSMutableDictionary *attributes=[NSMutableDictionary new];
-    NSMutableParagraphStyle *style=[NSMutableParagraphStyle new];
-    [style setLineBreakMode:NSLineBreakByTruncatingTail];
-    [attributes setObject:style forKey:NSParagraphStyleAttributeName];
-    NSFont *font=[NSFont menuFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]];
-    NSFont *boldFont      =[fontManager convertFont:font toHaveTrait:NSBoldFontMask];
-    NSFont *italicFont    =[fontManager convertFont:font toHaveTrait:NSItalicFontMask];
-    NSFont *boldItalicFont=[fontManager convertFont:boldFont toHaveTrait:NSItalicFontMask];
-    [attributes setObject:font forKey:NSFontAttributeName];
-    plainSymbolAttributes=[attributes copy];
-
-    [attributes setObject:boldFont forKey:NSFontAttributeName];
-    boldSymbolAttributes=[attributes copy];
-
-    [attributes setObject:italicFont forKey:NSFontAttributeName];
-    if ([italicFont isEqualTo:font]) {
-        [attributes setObject:[NSNumber numberWithFloat:.2] forKey:NSObliquenessAttributeName];
-    }
-    italicSymbolAttributes=[attributes copy];
-
-    [attributes setObject:boldItalicFont forKey:NSFontAttributeName];
-    boldItalicSymbolAttributes=[attributes copy];
-
-    [attributes release];
-    [style release];
+	if (self == [PlainTextDocument class]) {
+		NSFontManager *fontManager=[NSFontManager sharedFontManager];
+		NSMutableDictionary *attributes=[NSMutableDictionary new];
+		NSMutableParagraphStyle *style=[NSMutableParagraphStyle new];
+		[style setLineBreakMode:NSLineBreakByTruncatingTail];
+		[attributes setObject:style forKey:NSParagraphStyleAttributeName];
+		NSFont *font=[NSFont menuFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]];
+		NSFont *boldFont      =[fontManager convertFont:font toHaveTrait:NSBoldFontMask];
+		NSFont *italicFont    =[fontManager convertFont:font toHaveTrait:NSItalicFontMask];
+		NSFont *boldItalicFont=[fontManager convertFont:boldFont toHaveTrait:NSItalicFontMask];
+		[attributes setObject:font forKey:NSFontAttributeName];
+		plainSymbolAttributes=[attributes copy];
+	
+		[attributes setObject:boldFont forKey:NSFontAttributeName];
+		boldSymbolAttributes=[attributes copy];
+	
+		[attributes setObject:italicFont forKey:NSFontAttributeName];
+		if ([italicFont isEqualTo:font]) {
+			[attributes setObject:[NSNumber numberWithFloat:.2] forKey:NSObliquenessAttributeName];
+		}
+		italicSymbolAttributes=[attributes copy];
+	
+		[attributes setObject:boldItalicFont forKey:NSFontAttributeName];
+		boldItalicSymbolAttributes=[attributes copy];
+	
+		[attributes release];
+		[style release];
+		
+	}
 }
 
 + (PlainTextDocument *)transientDocument
@@ -287,6 +290,9 @@ static NSString *tempFileName(NSString *origPath) {
     [center addObserver:self selector:@selector(applyEditPreferences:) name:DocumentModeApplyEditPreferencesNotification object:nil];
     [center addObserver:self selector:@selector(scriptWrapperWillRunScriptNotification:) name:ScriptWrapperWillRunScriptNotification object:nil];
     [center addObserver:self selector:@selector(scriptWrapperDidRunScriptNotification:) name:ScriptWrapperDidRunScriptNotification object:nil];
+
+	[center addObserver:self selector:@selector(documentModeListChanged:) 
+	  name:@"DocumentModeListChanged" object:nil];
 
     I_blockeditTextView=nil;
 
@@ -1226,6 +1232,13 @@ static NSString *tempFileName(NSString *origPath) {
         }
         [[NSNotificationCenter defaultCenter] postNotificationName:PlainTextDocumentDidChangeDocumentModeNotification object:self];
     }
+}
+
+- (void)documentModeListChanged:(NSNotification *)aNotification {
+	DocumentMode *oldMode = [self documentMode];
+	DocumentMode *newMode = [[DocumentModeManager sharedInstance] documentModeForIdentifier:[oldMode documentModeIdentifier]];
+	// just set the document mode - if the object hasn't changed the setter takes care of it
+	[self setDocumentMode:newMode];
 }
 
 - (NSMutableDictionary *)printOptions {

@@ -17,9 +17,12 @@
 #import "RegexSymbolParser.h"
 #import "RegexSymbolDefinition.h"
 #import "NSMenuTCMAdditions.h"
-#import "AppController.h"
-#import "ScriptWrapper.h"
 #import <Carbon/Carbon.h>
+#import "ScriptWrapper.h"
+
+#ifdef SUBETHAEDIT
+	#import "AppController.h"
+#endif
 
 NSString * const DocumentModeShowTopStatusBarPreferenceKey     = @"ShowBottomStatusBar";
 NSString * const DocumentModeShowBottomStatusBarPreferenceKey  = @"ShowTopStatusBar";
@@ -225,8 +228,10 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             }
         }
 
-        // ToolbarHandling
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+
+#ifdef SUBETHAEDIT
+        // ToolbarHandling
         NSString *toolbarDefaultKey=[NSString stringWithFormat:@"NSToolbar Configuration %@",[self documentModeIdentifier]];
         if (![defaults objectForKey:toolbarDefaultKey]) {
             NSDictionary *oldDefaultToolbar=[defaults objectForKey:@"NSToolbar Configuration " BASEMODEIDENTIFIER];
@@ -254,10 +259,11 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                 [defaults setObject:newModeToolbar forKey:toolbarDefaultKey];
             }
         }
+#endif
         
         // Preference Handling
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:nil];
-        NSMutableDictionary *dictionary=[[[[NSUserDefaults standardUserDefaults] objectForKey:[self documentModeIdentifier]] mutableCopy] autorelease];
+        NSMutableDictionary *dictionary=[[[defaults objectForKey:[self documentModeIdentifier]] mutableCopy] autorelease];
         if (dictionary) {
             // color is deprecated since 2.1 - so ignore it
             [self setDefaults:dictionary];
