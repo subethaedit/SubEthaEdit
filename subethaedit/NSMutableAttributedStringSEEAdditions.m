@@ -11,6 +11,8 @@
     #import <OgreKit/OgreKit.h>
 	#import "GeneralPreferences.h"
 	#import "TCMMMUserManager.h"
+	#import "TCMMMUser.h"
+	#import "TCMMMUserSEEAdditions.h"
 #endif
 
 extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeName;

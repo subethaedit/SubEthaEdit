@@ -135,7 +135,7 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
 		}
         
         NSRange delimiterRange, stateRange, startRange, nextRange;
-        BOOL foundEnd = NO;
+//        BOOL foundEnd = NO;
         startRange = NSMakeRange(NSNotFound,0);
         // Add start to colorRange to color keywords within
         // But check for starts that contain \n

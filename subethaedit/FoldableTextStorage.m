@@ -905,8 +905,8 @@ NSString * const BlockeditAttributeValue=@"YES";
 	}
 
 	NSRange foldingRange = [self fullRangeForFoldedRange:attributeRange];
-	
 	foldingRange = [I_fullTextStorage foldableRangeForCharacterAtIndex:foldingRange.location];
+	if (foldingRange.location == NSNotFound) return foldingRange;
 	foldingRange = [self foldedRangeForFullRange:foldingRange];
 //	NSLog(@"%s line:%d attributeRange:%@ foldingRange:%@",__FUNCTION__,aLineNumber, NSStringFromRange(attributeRange), NSStringFromRange(foldingRange));
 

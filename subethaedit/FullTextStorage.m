@@ -391,6 +391,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 }
 
 - (BOOL)hasMixedLineEndingsInRange:(NSRange)aRange {
+	NSLog(@"%s %@",__FUNCTION__,NSStringFromRange(aRange));
     static int limit = 0;
     if (limit==0) limit = [[NSUserDefaults standardUserDefaults] integerForKey:@"ByteLengthToUseForModeRecognitionAndEncodingGuessing"];
     if (aRange.length > limit && limit != -1) aRange.length = limit;
@@ -523,6 +524,9 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
         // get the max state stack range for the end
         [string attribute:kSyntaxHighlightingStackName 			atIndex:NSMaxRange(returnRange)-1 longestEffectiveRange:&stateStackRange inRange:returnRange];
         [string attribute:kSyntaxHighlightingStateDelimiterName atIndex:NSMaxRange(returnRange)-1 longestEffectiveRange:&endRange inRange:stateStackRange];
+        
+        // safety check if end and startrange overlap or touch bail
+        if (NSMaxRange(startRange) >= endRange.location) return NSMakeRange(NSNotFound,0);
         
         returnRange = NSMakeRange(NSMaxRange(startRange), endRange.location - NSMaxRange(startRange));
     }

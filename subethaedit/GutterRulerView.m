@@ -285,16 +285,18 @@
 			unsigned lineNumber=[textStorage lineNumberForLocation:lineRange.location];
 			if ([textStorage foldingDepthForLine:lineNumber] > 0) {
 				NSRange foldingRange = [textStorage foldingRangeForLine:lineNumber];
-				if ([anEvent clickCount] == 1) {
-					// show
-//					if ([textView respondsToSelector:@selector(showFindIndicatorForRange:)]) {
-//						[textView showFindIndicatorForRange:foldingRange];
-//					} else {
-						[textView setSelectedRange:foldingRange];
-//					}
-				} else if ([anEvent clickCount] == 2) {
-					// fold
-					[textStorage foldRange:foldingRange];
+				if (foldingRange.location != NSNotFound) {
+					if ([anEvent clickCount] == 1) {
+						// show
+	//					if ([textView respondsToSelector:@selector(showFindIndicatorForRange:)]) {
+	//						[textView showFindIndicatorForRange:foldingRange];
+	//					} else {
+							[textView setSelectedRange:foldingRange];
+	//					}
+					} else if ([anEvent clickCount] == 2) {
+						// fold
+						[textStorage foldRange:foldingRange];
+					}
 				}
 			}
 		}
