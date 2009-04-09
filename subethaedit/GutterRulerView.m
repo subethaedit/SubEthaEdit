@@ -12,7 +12,7 @@
 
 #define FOLDING_BAR_WIDTH 9.
 #define RIGHT_INSET  4.
-#define MAX_FOLDING_DEPTH 12.
+#define MAX_FOLDING_DEPTH 10.
 
 @interface NSBezierPath (BezierPathGutterRulerViewAdditions)
 + (void)fillTriangleInRect:(NSRect)aRect arrowPoint:(NSRectEdge)anEdge;
@@ -47,7 +47,7 @@
 
 - (NSColor *)colorForLineNumber:(int)aLineNumber inTextStorage:(FoldableTextStorage *)aTextStorage {
 	int foldingDepth = [aTextStorage foldingDepthForLine:aLineNumber];
-	return [NSColor colorWithCalibratedWhite:1.0 - ((MAX(foldingDepth, 0.0) - 0) / MAX_FOLDING_DEPTH) alpha:1.0];
+	return [NSColor colorWithCalibratedWhite:MAX(1.0 - ((MAX(foldingDepth, 0.0) - 0) / MAX_FOLDING_DEPTH), 0.2) alpha:1.0];
 }
 
 - (NSRect)baseRectForFoldingBar {

@@ -46,6 +46,8 @@
             <state id="Message" color="#000" background-color="#fff" font-weight="normal" font-style="normal" type="block" foldable="no">
                 <begin><regex>\[</regex></begin>
                 <end><regex>\]</regex></end>
+                <!-- needs to be done again because a bug in import -->
+                <import mode="C" keywords-only="yes" />
                 <import mode="Objective-C" />
                 <keywords id="In Messages" color="#6C0540" casesensitive="yes">
                     <regex>[^:]\([^)]*\)\s*([A-Za-z0-9_]+)\s*[{;]</regex>
