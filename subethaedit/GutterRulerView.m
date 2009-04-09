@@ -300,6 +300,10 @@
 				}
 			}
 		}
+
+		// always clear the mousedown point
+		I_lastMouseDownPoint = NSZeroPoint;
+		[self setNeedsDisplay:YES];
 	} else {
 		// else call super so the delegate can handle
 		[super mouseDown:anEvent];

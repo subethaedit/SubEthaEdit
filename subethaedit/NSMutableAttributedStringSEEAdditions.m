@@ -13,6 +13,7 @@
 	#import "TCMMMUserManager.h"
 	#import "TCMMMUser.h"
 	#import "TCMMMUserSEEAdditions.h"
+	#import "SyntaxHighlighter.h"
 #endif
 
 extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeName;
@@ -394,6 +395,8 @@ extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
 	if (font && [[[resultDictionary objectForKey:NSFontAttributeName] familyName] isEqualToString:[font familyName]]) [resultDictionary setObject:font forKey:NSFontAttributeName];
 	NSColor *foregroundColor = [attributes objectForKey:NSForegroundColorAttributeName];
 	if (foregroundColor) [resultDictionary setObject:foregroundColor forKey:NSForegroundColorAttributeName];
+	NSNumber *foldingDepth = [attributes objectForKey:kSyntaxHighlightingFoldingDepthAttributeName];
+	if (foldingDepth) [resultDictionary setObject:foldingDepth forKey:kSyntaxHighlightingFoldingDepthAttributeName];
 	
 	return resultDictionary;
 }
