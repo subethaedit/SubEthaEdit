@@ -504,21 +504,27 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     int length = [string length];
     if (NSMaxRange(returnRange)<length) {
         NSRange nextRange;
-        int rightDepth = [[string attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:NSMaxRange(returnRange)+1 longestEffectiveRange:&nextRange inRange:NSMakeRange(NSMaxRange(returnRange), length-NSMaxRange(returnRange))] intValue];
+        int rightDepth = [[string attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:NSMaxRange(returnRange) longestEffectiveRange:&nextRange inRange:NSMakeRange(NSMaxRange(returnRange), length-NSMaxRange(returnRange))] intValue];
         while (rightDepth>=depth) {
             returnRange = NSUnionRange(returnRange, nextRange); 
             if (NSMaxRange(returnRange) == length) break;
-            rightDepth = [[string attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:NSMaxRange(returnRange)+1 longestEffectiveRange:&nextRange inRange:NSMakeRange(NSMaxRange(returnRange), length-NSMaxRange(returnRange))] intValue];
+            rightDepth = [[string attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:NSMaxRange(returnRange) longestEffectiveRange:&nextRange inRange:NSMakeRange(NSMaxRange(returnRange), length-NSMaxRange(returnRange))] intValue];
         }
     }
         
     // Trim start and end
     if (returnRange.location!=NSNotFound) {
+    	NSRange stateStackRange;
         NSRange startRange, endRange;
-        [string attribute:kSyntaxHighlightingStateDelimiterName atIndex:returnRange.location longestEffectiveRange:&startRange inRange:returnRange];
-        [string attribute:kSyntaxHighlightingStateDelimiterName atIndex:NSMaxRange(returnRange)-1 longestEffectiveRange:&endRange inRange:returnRange];        
-        returnRange.location = returnRange.location + startRange.length;
-        returnRange.length = returnRange.length - startRange.length - endRange.length;
+        // get the max state stack range for the end
+        [string attribute:kSyntaxHighlightingStackName 			atIndex:returnRange.location longestEffectiveRange:&stateStackRange inRange:returnRange];
+        [string attribute:kSyntaxHighlightingStateDelimiterName atIndex:returnRange.location longestEffectiveRange:&startRange inRange:stateStackRange];
+
+        // get the max state stack range for the end
+        [string attribute:kSyntaxHighlightingStackName 			atIndex:NSMaxRange(returnRange)-1 longestEffectiveRange:&stateStackRange inRange:returnRange];
+        [string attribute:kSyntaxHighlightingStateDelimiterName atIndex:NSMaxRange(returnRange)-1 longestEffectiveRange:&endRange inRange:stateStackRange];
+        
+        returnRange = NSMakeRange(NSMaxRange(startRange), endRange.location - NSMaxRange(startRange));
     }
     
     

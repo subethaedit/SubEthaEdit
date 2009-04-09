@@ -22,7 +22,7 @@
             <state-link mode="C" state="SingleComment"/>
             <state-link mode="C" state="String"/>
 
-            <state id="NSString" type="string" color="#760f15" font-weight="normal" font-style="normal" foldable="yes">
+            <state id="NSString" type="string" color="#760f15" font-weight="normal" font-style="normal" foldable="no">
                 <begin><string>@"</string></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
             </state>
@@ -30,10 +30,20 @@
             <state id="Block" color="#000" background-color="#fff" font-weight="normal" font-style="normal" type="block" foldable="yes">
                 <begin><regex>{</regex></begin>
                 <end><regex>}</regex></end>
+                <import mode="C" keywords-only="yes" />
                 <import mode="Objective-C" />
             </state>
 
-            <state id="Message" color="#000" background-color="#fff" font-weight="normal" font-style="normal" type="block" foldable="yes">
+            <state id="Objective-C-@-clauses" color="#000" background-color="#fff" font-weight="normal" font-style="normal" type="block" foldable="yes">
+                <begin><regex>(?:@implementation|@interface|@protocol)\s+[\w_]+(?:\s*(?:(?:\(\s*[\w_]+\s*\))|:\s*[\w_]+\s*))?</regex></begin>
+                <end><regex>@end</regex></end>
+                <!-- needs to be done again because a bug in import -->
+                <import mode="C" keywords-only="yes" />
+                <import mode="Objective-C" />
+            </state>
+
+
+            <state id="Message" color="#000" background-color="#fff" font-weight="normal" font-style="normal" type="block" foldable="no">
                 <begin><regex>\[</regex></begin>
                 <end><regex>\]</regex></end>
                 <import mode="Objective-C" />
