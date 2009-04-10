@@ -1787,9 +1787,15 @@ subethaedit/SubEthaEditHelperTool.m -text
 subethaedit/SubEthaEdit_Prefix.pch -text
 subethaedit/SubEthaPerf/Resources/SEPMainMenu.xib -text
 subethaedit/SubEthaPerf/Resources/SubEthaPerf-Info.plist -text
+subethaedit/SubEthaPerf/Resources/TestFiles/1uom3yh8tp7o4so4.pkg.css -text
 subethaedit/SubEthaPerf/Resources/TestFiles/Library.php -text
+subethaedit/SubEthaPerf/Resources/TestFiles/PDFPage.java -text
 subethaedit/SubEthaPerf/Resources/TestFiles/PlainTextDocument.m -text
 subethaedit/SubEthaPerf/Resources/TestFiles/SoupDump.html -text
+subethaedit/SubEthaPerf/Resources/TestFiles/SubEthaEdit.sdef -text
+subethaedit/SubEthaPerf/Resources/TestFiles/coda.css -text
+subethaedit/SubEthaPerf/Resources/TestFiles/postgresql_adapter.rb -text
+subethaedit/SubEthaPerf/Resources/TestFiles/prototype.js -text
 subethaedit/SubEthaPerf/Resources/TestFiles/vm_fault.c -text
 subethaedit/SubEthaPerf/SEPAppController.h -text
 subethaedit/SubEthaPerf/SEPAppController.m -text
