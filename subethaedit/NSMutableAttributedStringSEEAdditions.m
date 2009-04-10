@@ -10,13 +10,16 @@
 #ifndef TCM_ISSEED
     #import <OgreKit/OgreKit.h>
 	#import "GeneralPreferences.h"
-	#import "TCMMMUserManager.h"
-	#import "TCMMMUser.h"
-	#import "TCMMMUserSEEAdditions.h"
 	#import "SyntaxHighlighter.h"
 #endif
 
+#ifdef SUBETHAEDIT
+	#import "TCMMMUserManager.h"
+	#import "TCMMMUser.h"
+	#import "TCMMMUserSEEAdditions.h"
 extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeName;
+#endif
+
 
 @implementation NSMutableAttributedString (NSMutableAttributedStringSEEAdditions) 
 
@@ -351,6 +354,7 @@ extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
     [dictionary setObject:[[[self string] copy] autorelease] forKey:@"String"];
     [dictionary setObject:[NSNumber numberWithUnsignedInt:anEncoding] forKey:@"Encoding"];
     NSMutableDictionary *attributeDictionary=[NSMutableDictionary new];
+#ifdef SUBETHAEDIT
     NSEnumerator *attributeNames=[[NSArray arrayWithObjects:WrittenByUserIDAttributeName,ChangedByUserIDAttributeName,nil] objectEnumerator];
     NSString *attributeName;
     NSRange wholeRange=NSMakeRange(0,[self length]);
@@ -375,6 +379,7 @@ extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
             [attributeArray release];
         }
     }
+#endif
     [dictionary setObject:attributeDictionary forKey:@"Attributes"];
     [attributeDictionary release];
     return dictionary;
@@ -476,6 +481,7 @@ extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
         }
     } while (index<NSMaxRange(aRange));
 
+#ifdef SUBETHAEDIT
     index=aRange.location;
     do {
         NSRange foundRange;
@@ -504,6 +510,7 @@ extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
             [result addAttribute:@"ChangedByUserID" value:author range:foundRange];
         }
     } while (index<NSMaxRange(aRange));
+#endif
     
     return result;
 }

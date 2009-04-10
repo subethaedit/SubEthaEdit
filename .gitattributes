@@ -1787,8 +1787,14 @@ subethaedit/SubEthaEditHelperTool.m -text
 subethaedit/SubEthaEdit_Prefix.pch -text
 subethaedit/SubEthaPerf/Resources/SEPMainMenu.xib -text
 subethaedit/SubEthaPerf/Resources/SubEthaPerf-Info.plist -text
+subethaedit/SubEthaPerf/Resources/TestFiles/Library.php -text
+subethaedit/SubEthaPerf/Resources/TestFiles/PlainTextDocument.m -text
+subethaedit/SubEthaPerf/Resources/TestFiles/SoupDump.html -text
+subethaedit/SubEthaPerf/Resources/TestFiles/vm_fault.c -text
 subethaedit/SubEthaPerf/SEPAppController.h -text
 subethaedit/SubEthaPerf/SEPAppController.m -text
+subethaedit/SubEthaPerf/SEPDocument.h -text
+subethaedit/SubEthaPerf/SEPDocument.m -text
 subethaedit/SubEthaPerf/SEPLogger.h -text
 subethaedit/SubEthaPerf/SEPLogger.m -text
 subethaedit/SubEthaPerf/SubEthaPerf_Prefix.pch -text

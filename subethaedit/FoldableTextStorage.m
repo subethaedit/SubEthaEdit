@@ -12,16 +12,17 @@
 #import "SyntaxHighlighter.h"
 #import "EncodingManager.h"
 #import "PlainTextDocument.h"
-#import "PlainTextWindowController.h"
 #import "TCMMMUserManager.h"
 #import "SelectionOperation.h"
 #import "TCMMMUserSEEAdditions.h"
 #import "GeneralPreferences.h"
-#import "ScriptTextSelection.h"
-#import "ScriptLine.h"
-#import "ScriptCharacters.h"
 #import "DocumentMode.h"
 
+#ifdef SUBETHAEDIT
+	#import "ScriptTextSelection.h"
+	#import "ScriptLine.h"
+	#import "ScriptCharacters.h"
+#endif
 
 static NSArray *S_nonSyncAttributes = nil;
 
@@ -1064,6 +1065,8 @@ NSString * const BlockeditAttributeValue=@"YES";
 
 @end
 
+#ifdef SUBETHAEDIT
+
 #pragma mark -
 
 @implementation FoldableTextStorage (TextStorageScriptingAdditions)
@@ -1208,3 +1211,4 @@ NSString * const BlockeditAttributeValue=@"YES";
 
 @end
 
+#endif

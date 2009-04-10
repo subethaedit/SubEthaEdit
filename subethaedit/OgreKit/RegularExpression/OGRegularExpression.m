@@ -306,7 +306,7 @@ static int namedGroupCallback(const unsigned char *name, const unsigned char *na
 		_groupIndexForNameDictionary = [[NSMutableDictionary alloc] initWithCapacity:[self numberOfNames]];
 		r = onig_foreach_name(_regexBuffer, namedGroupCallback, _groupIndexForNameDictionary);	// nameの一覧を得る
 		
-		NSEnumerator	*keyEnumerator = [_groupIndexForNameDictionary keyEnumerator];
+		NSEnumerator	*keyEnumerator = [[_groupIndexForNameDictionary allKeys] objectEnumerator];
 		NSString		*name;
 		NSMutableArray	*array;
 		int 			i, maxGroupIndex = 0;

@@ -170,6 +170,10 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         
         // Sort the autocomplete dictionary
         [[self autocompleteDictionary] sortUsingSelector:@selector(caseInsensitiveCompare:)];
+
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+        
+#ifdef SUBETHAEDIT
         
         // Load scripts
         I_scriptsByFilename = [NSMutableDictionary new];
@@ -228,9 +232,6 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             }
         }
 
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-
-#ifdef SUBETHAEDIT
         // ToolbarHandling
         NSString *toolbarDefaultKey=[NSString stringWithFormat:@"NSToolbar Configuration %@",[self documentModeIdentifier]];
         if (![defaults objectForKey:toolbarDefaultKey]) {

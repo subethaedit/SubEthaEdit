@@ -568,11 +568,18 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     NSString *string = [self string];
     unsigned length = [string length];
     unsigned i;
+    
+    id myUserID = nil;
+    
+#ifdef SUBETHAEDIT
+    myUserID = [TCMMMUserManager myUserID];
+#endif
+    
     for (i = 0; i < length; i++) {
         unichar character = [string characterAtIndex:i];
         NSString *charString = [[NSString alloc] initWithCharactersNoCopy:&character length:1 freeWhenDone:NO];
         if (![charString canBeConvertedToEncoding:encoding]) {
-            [array addObject:[SelectionOperation selectionOperationWithRange:NSMakeRange(i, 1) userID:[TCMMMUserManager myUserID]]];
+            [array addObject:[SelectionOperation selectionOperationWithRange:NSMakeRange(i, 1) userID:myUserID]];
         }
         [charString release];
     }

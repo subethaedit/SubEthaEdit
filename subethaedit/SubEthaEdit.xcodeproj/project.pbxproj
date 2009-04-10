@@ -368,6 +368,8 @@
 		F20948EE0C7B4C7100E78EBA /* UserStatisticsController.m in Sources */ = {isa = PBXBuildFile; fileRef = F20948EB0C7B4C7100E78EBA /* UserStatisticsController.m */; };
 		F209A3C30CB6999700C8A744 /* ConnectionBrowser.nib in Resources */ = {isa = PBXBuildFile; fileRef = F2D12A090BF0B6B000A776CC /* ConnectionBrowser.nib */; };
 		F20E1FAE0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = F20E1FAC0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.m */; };
+		F212908B0F8EC56F0076B6B1 /* NSDictionaryTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891240957457500D14688 /* NSDictionaryTCMAdditions.m */; };
+		F21290980F8EC5870076B6B1 /* NSMutableAttributedStringSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142D18B30BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m */; };
 		F2230A490BE0243100437D55 /* TCMBEEPBencodedMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F2230A460BE0243100437D55 /* TCMBEEPBencodedMessage.m */; };
 		F2230A4A0BE0243100437D55 /* TCMBEEPBencodingProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F2230A480BE0243100437D55 /* TCMBEEPBencodingProfile.m */; };
 		F2280A3F0BEF621700255AAE /* SDDirectoryUserGroupList.m in Sources */ = {isa = PBXBuildFile; fileRef = F2280A300BEF56AB00255AAE /* SDDirectoryUserGroupList.m */; };
@@ -484,7 +486,15 @@
 		F2D86DBA0F8E9B9A00B912A2 /* PreferenceKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D86DB90F8E9B9A00B912A2 /* PreferenceKeys.m */; };
 		F2D86DDD0F8E9CF500B912A2 /* CFTreeTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428911D0957457500D14688 /* CFTreeTCMAdditions.m */; };
 		F2D86E1B0F8EA5DC00B912A2 /* PreferenceKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D86DB90F8E9B9A00B912A2 /* PreferenceKeys.m */; };
+		F2D86E5B0F8EB44100B912A2 /* Modes in Resources */ = {isa = PBXBuildFile; fileRef = 1428904A0957427100D14688 /* Modes */; };
+		F2D86E7B0F8EB57000B912A2 /* TestFiles in Resources */ = {isa = PBXBuildFile; fileRef = F2D86E780F8EB57000B912A2 /* TestFiles */; };
+		F2D86E840F8EB76C00B912A2 /* SEPDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D86E830F8EB76C00B912A2 /* SEPDocument.m */; };
 		F2DCD8F20EE432F900F2854F /* FontForwardingTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = F2DCD8F10EE432F900F2854F /* FontForwardingTextField.m */; };
+		F2DEC3130F8FA17A00ADEE48 /* FullTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D34B0F38756100AD7DE1 /* FullTextStorage.m */; };
+		F2DEC3140F8FA17D00ADEE48 /* FoldableTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D34C0F38756100AD7DE1 /* FoldableTextStorage.m */; };
+		F2DEC3360F8FA6DF00ADEE48 /* AbstractFoldingTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D35F0F38758600AD7DE1 /* AbstractFoldingTextStorage.m */; };
+		F2DEC34A0F8FA71800ADEE48 /* FoldedTextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D3900F3877A900AD7DE1 /* FoldedTextAttachment.m */; };
+		F2DEC34F0F8FA72000ADEE48 /* FoldingTextAttachmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D4360F388A0B00AD7DE1 /* FoldingTextAttachmentCell.m */; };
 		F2F2B5A70CA7F7B80045C189 /* PrecedencePreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2C6E70CA7C7A7003CC5C9 /* PrecedencePreferences.m */; };
 		F2F2B60E0CA811240045C189 /* TCMMMLogStatisticsDataPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F2B60D0CA811240045C189 /* TCMMMLogStatisticsDataPoint.m */; };
 		F2F2B6100CA811240045C189 /* TCMMMLogStatisticsDataPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F2B60D0CA811240045C189 /* TCMMMLogStatisticsDataPoint.m */; };
@@ -708,14 +718,14 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 14F16CEF0971A87300402129 /* OgreKit.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 4DC40BF209150BDB0029A2A6 /* OgreKit (without Find Panel) */;
+			remoteGlobalIDString = 4DC40BF209150BDB0029A2A6;
 			remoteInfo = "OgreKit (without Find Panel)";
 		};
 		F2D86C270F8E7EB100B912A2 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F2A093B40C9EBB42000AD27A /* UniversalDetector.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216 /* UniversalDetector */;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = UniversalDetector;
 		};
 /* End PBXContainerItemProxy section */
@@ -1402,6 +1412,9 @@
 		F2D86CAC0F8E896800B912A2 /* SubEthaPerf_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubEthaPerf_Prefix.pch; sourceTree = "<group>"; };
 		F2D86DB80F8E9B9A00B912A2 /* PreferenceKeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PreferenceKeys.h; sourceTree = "<group>"; };
 		F2D86DB90F8E9B9A00B912A2 /* PreferenceKeys.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PreferenceKeys.m; sourceTree = "<group>"; };
+		F2D86E780F8EB57000B912A2 /* TestFiles */ = {isa = PBXFileReference; lastKnownFileType = folder; name = TestFiles; path = SubEthaPerf/Resources/TestFiles; sourceTree = "<group>"; };
+		F2D86E820F8EB76C00B912A2 /* SEPDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEPDocument.h; sourceTree = "<group>"; };
+		F2D86E830F8EB76C00B912A2 /* SEPDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEPDocument.m; sourceTree = "<group>"; };
 		F2DCD8F00EE432F900F2854F /* FontForwardingTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FontForwardingTextField.h; sourceTree = "<group>"; };
 		F2DCD8F10EE432F900F2854F /* FontForwardingTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FontForwardingTextField.m; sourceTree = "<group>"; };
 		F2EFCBEF0CB656C700AEE298 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/ConnectionBrowser.nib; sourceTree = "<group>"; };
@@ -2426,6 +2439,8 @@
 				F2D86C3B0F8E7FC300B912A2 /* SubEthaPerf-Info.plist */,
 				F2D86C7D0F8E849800B912A2 /* SEPLogger.h */,
 				F2D86C7E0F8E849800B912A2 /* SEPLogger.m */,
+				F2D86E820F8EB76C00B912A2 /* SEPDocument.h */,
+				F2D86E830F8EB76C00B912A2 /* SEPDocument.m */,
 			);
 			path = SubEthaPerf;
 			sourceTree = "<group>";
@@ -2433,6 +2448,7 @@
 		F2D86C5F0F8E817200B912A2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				F2D86E780F8EB57000B912A2 /* TestFiles */,
 				F2D86C2F0F8E7F6A00B912A2 /* SEPMainMenu.xib */,
 			);
 			name = Resources;
@@ -2955,6 +2971,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				F2D86C300F8E7F6A00B912A2 /* SEPMainMenu.xib in Resources */,
+				F2D86E5B0F8EB44100B912A2 /* Modes in Resources */,
+				F2D86E7B0F8EB57000B912A2 /* TestFiles in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3372,6 +3390,14 @@
 				F2D86DB20F8E8B7F00B912A2 /* TCMMMOperation.m in Sources */,
 				F2D86DBA0F8E9B9A00B912A2 /* PreferenceKeys.m in Sources */,
 				F2D86DDD0F8E9CF500B912A2 /* CFTreeTCMAdditions.m in Sources */,
+				F2D86E840F8EB76C00B912A2 /* SEPDocument.m in Sources */,
+				F212908B0F8EC56F0076B6B1 /* NSDictionaryTCMAdditions.m in Sources */,
+				F21290980F8EC5870076B6B1 /* NSMutableAttributedStringSEEAdditions.m in Sources */,
+				F2DEC3130F8FA17A00ADEE48 /* FullTextStorage.m in Sources */,
+				F2DEC3140F8FA17D00ADEE48 /* FoldableTextStorage.m in Sources */,
+				F2DEC3360F8FA6DF00ADEE48 /* AbstractFoldingTextStorage.m in Sources */,
+				F2DEC34A0F8FA71800ADEE48 /* FoldedTextAttachment.m in Sources */,
+				F2DEC34F0F8FA72000ADEE48 /* FoldingTextAttachmentCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -4124,6 +4150,7 @@
 				GCC_PREFIX_HEADER = SubEthaPerf/SubEthaPerf_Prefix.pch;
 				INFOPLIST_FILE = "SubEthaPerf/Resources/SubEthaPerf-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -4132,7 +4159,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = SubEthaPerf;
-				SDKROOT = macosx10.4;
+				SDKROOT = macosx10.5;
 			};
 			name = Debug;
 		};
@@ -4148,6 +4175,7 @@
 				GCC_PREFIX_HEADER = SubEthaPerf/SubEthaPerf_Prefix.pch;
 				INFOPLIST_FILE = "SubEthaPerf/Resources/SubEthaPerf-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
+				MACOSX_DEPLOYMENT_TARGET = 10.5;
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -4156,7 +4184,7 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = SubEthaPerf;
-				SDKROOT = macosx10.4;
+				SDKROOT = macosx10.5;
 				ZERO_LINK = NO;
 			};
 			name = Release;
