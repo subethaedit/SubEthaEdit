@@ -33,6 +33,8 @@
 	BOOL I_symbolAndAutocompleteInheritanceReady;
     NSMutableDictionary *I_levelsForStyleIDs;
     SyntaxStyle *I_defaultSyntaxStyle;
+    NSString *I_charsInToken;
+    NSString *I_charsDelimitingToken;
 }
 
 /*"Initizialisation"*/

@@ -74,6 +74,8 @@
 	[I_defaultSyntaxStyle release];
     [I_autocompleteTokenString release];
     [I_levelsForStyleIDs release];
+    [I_charsInToken release];
+    [I_charsDelimitingToken release];
     [self setTokenSet:nil];
     [self setAutoCompleteTokenSet:nil];
     [super dealloc];
@@ -113,11 +115,16 @@
     NSString *charsDelimitingToken = [[[syntaxDefinitionXML nodesForXPath:@"/syntax/head/charsdelimitingtokens" error:&err] lastObject] stringValue];
     NSCharacterSet *tokenSet = nil; // TODO: what should be the value if neither charsInToken nor charsDelimitingToken?
     
+    I_charsInToken = nil;
+    I_charsDelimitingToken = nil;
+    
     if (charsInToken) {
         tokenSet = [NSCharacterSet characterSetWithCharactersInString:charsInToken];
+        I_charsInToken = [charsInToken copy];
     } else if (charsDelimitingToken) {
         tokenSet = [NSCharacterSet characterSetWithCharactersInString:charsDelimitingToken];
         tokenSet = [tokenSet invertedSet];
+        I_charsDelimitingToken = [charsDelimitingToken copy];
     }
     
     [self setTokenSet:tokenSet];
@@ -269,7 +276,8 @@
         // Add regexes for keyword group
         NSMutableArray *regexes = [NSMutableArray array];
         NSMutableArray *strings = [NSMutableArray array];
-        NSMutableString *combindedKeywordRegexString = [NSMutableString stringWithString:@"("];
+        NSMutableString *combindedRegexRegexString = [NSMutableString stringWithString:@"("];
+        
         [keywordGroupDictionary setObject:regexes forKey:@"RegularExpressions"];
         [keywordGroupDictionary setObject:strings forKey:@"PlainStrings"];
         
@@ -278,10 +286,24 @@
         id regexNode;
         while ((regexNode = [regexEnumerator nextObject])) {
             [regexes addObject:[regexNode stringValue]];
-            [combindedKeywordRegexString appendFormat:@"%@|",[regexNode stringValue]];
+            [combindedRegexRegexString appendFormat:@"%@|",[regexNode stringValue]];
+        }
+        if ([regexNodes count]>0) {
+            [combindedRegexRegexString replaceCharactersInRange:NSMakeRange([combindedRegexRegexString length]-1, 1) withString:@")"];
+            [keywordGroupDictionary setObject:[[[OGRegularExpression alloc] initWithString:combindedRegexRegexString options:OgreFindNotEmptyOption|OgreCaptureGroupOption] autorelease] forKey:@"CompiledRegEx"];            
+        }
+        
+        
+        // Add strings for keyword group
+        NSMutableString *combindedKeywordRegexString = [NSMutableString string];
+        if (I_charsInToken) {
+            [combindedKeywordRegexString appendFormat:@"(?<![%@])(",[I_charsInToken stringByReplacingRegularExpressionOperators]];
+        } else if (I_charsDelimitingToken) {
+            [combindedKeywordRegexString appendFormat:@"(?<=[%@])(",[I_charsDelimitingToken stringByReplacingRegularExpressionOperators]];
+        } else {
+            [combindedKeywordRegexString appendString:@"("]; 
         }
                 
-        // Add strings for keyword group
         BOOL autocomplete = [[keywordGroupDictionary objectForKey:@"useforautocomplete"] isEqualToString:@"yes"];
         NSMutableArray *autocompleteDictionary = [[self mode] autocompleteDictionary];
         NSArray *stringNodes = [keywordGroupNode nodesForXPath:@"./string" error:&err];
@@ -292,9 +314,17 @@
             [combindedKeywordRegexString appendFormat:@"%@|",[[stringNode stringValue] stringByReplacingRegularExpressionOperators]];
             if (autocomplete) [autocompleteDictionary addObject:[stringNode stringValue]];
         }
-        [combindedKeywordRegexString replaceCharactersInRange:NSMakeRange([combindedKeywordRegexString length]-1, 1) withString:@")"];
-        [keywordGroupDictionary setObject:[[[OGRegularExpression alloc] initWithString:combindedKeywordRegexString options:OgreFindNotEmptyOption|OgreCaptureGroupOption] autorelease] forKey:@"CompiledRegEx"];
-
+        if ([stringNodes count]>0) {
+            [combindedKeywordRegexString replaceCharactersInRange:NSMakeRange([combindedKeywordRegexString length]-1, 1) withString:@")"];
+            
+            if (I_charsInToken) {
+                [combindedKeywordRegexString appendFormat:@"(?![%@])",[I_charsInToken stringByReplacingRegularExpressionOperators]];
+            } else if (I_charsDelimitingToken) {
+                [combindedKeywordRegexString appendFormat:@"(?=[%@])",[I_charsDelimitingToken stringByReplacingRegularExpressionOperators]];
+            }        
+            
+            [keywordGroupDictionary setObject:[[[OGRegularExpression alloc] initWithString:combindedKeywordRegexString options:OgreFindNotEmptyOption|OgreCaptureGroupOption] autorelease] forKey:@"CompiledKeywords"];
+        }
     }
     
     if ([name isEqualToString:@"default"]) {        
@@ -405,7 +435,8 @@
         
             while ((keywordGroup = [groupEnumerator nextObject])) {
                 NSString *styleID=[keywordGroup objectForKey:kSyntaxHighlightingStyleIDAttributeName];
-                [newRegExArray addObject:[NSArray arrayWithObjects:[keywordGroup objectForKey:@"CompiledRegEx"], styleID, nil]];
+                if ([keywordGroup objectForKey:@"CompiledRegEx"]) [newRegExArray addObject:[NSArray arrayWithObjects:[keywordGroup objectForKey:@"CompiledRegEx"], styleID, nil]];
+                if ([keywordGroup objectForKey:@"CompiledKeywords"]) [newRegExArray addObject:[NSArray arrayWithObjects:[keywordGroup objectForKey:@"CompiledKeywords"], styleID, nil]];
 
                 // First do the plainstring stuff
                 
