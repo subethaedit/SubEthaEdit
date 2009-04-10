@@ -269,6 +269,7 @@
         // Add regexes for keyword group
         NSMutableArray *regexes = [NSMutableArray array];
         NSMutableArray *strings = [NSMutableArray array];
+        NSMutableString *combindedKeywordRegexString = [NSMutableString stringWithString:@"("];
         [keywordGroupDictionary setObject:regexes forKey:@"RegularExpressions"];
         [keywordGroupDictionary setObject:strings forKey:@"PlainStrings"];
         
@@ -277,6 +278,7 @@
         id regexNode;
         while ((regexNode = [regexEnumerator nextObject])) {
             [regexes addObject:[regexNode stringValue]];
+            [combindedKeywordRegexString appendFormat:@"%@|",[regexNode stringValue]];
         }
                 
         // Add strings for keyword group
@@ -287,9 +289,12 @@
         id stringNode;
         while ((stringNode = [stringEnumerator nextObject])) {
             [strings addObject:[stringNode stringValue]];
+            [combindedKeywordRegexString appendFormat:@"%@|",[[stringNode stringValue] stringByReplacingRegularExpressionOperators]];
             if (autocomplete) [autocompleteDictionary addObject:[stringNode stringValue]];
         }
-        
+        [combindedKeywordRegexString replaceCharactersInRange:NSMakeRange([combindedKeywordRegexString length]-1, 1) withString:@")"];
+        [keywordGroupDictionary setObject:[[[OGRegularExpression alloc] initWithString:combindedKeywordRegexString options:OgreFindNotEmptyOption|OgreCaptureGroupOption] autorelease] forKey:@"CompiledRegEx"];
+
     }
     
     if ([name isEqualToString:@"default"]) {        
@@ -400,44 +405,45 @@
         
             while ((keywordGroup = [groupEnumerator nextObject])) {
                 NSString *styleID=[keywordGroup objectForKey:kSyntaxHighlightingStyleIDAttributeName];
-                
+                [newRegExArray addObject:[NSArray arrayWithObjects:[keywordGroup objectForKey:@"CompiledRegEx"], styleID, nil]];
+
                 // First do the plainstring stuff
                 
-                NSDictionary *keywords;
-                if ((keywords = [keywordGroup objectForKey:@"PlainStrings"])) {
-                    NSEnumerator *keywordEnumerator = [keywords objectEnumerator];
-                    NSString *keyword;
-                    while ((keyword = [keywordEnumerator nextObject])) {
-                        if([[keywordGroup objectForKey:@"casesensitive"] isEqualToString:@"no"]) {
-                            [newPlainIncaseDictionary setObject:styleID forKey:keyword];
-                        } else {
-                            [newPlainCaseDictionary setObject:styleID forKey:keyword];                
-                        }
-                    }
-                }
+//                NSDictionary *keywords;
+//                if ((keywords = [keywordGroup objectForKey:@"PlainStrings"])) {
+//                    NSEnumerator *keywordEnumerator = [keywords objectEnumerator];
+//                    NSString *keyword;
+//                    while ((keyword = [keywordEnumerator nextObject])) {
+//                        if([[keywordGroup objectForKey:@"casesensitive"] isEqualToString:@"no"]) {
+//                            [newPlainIncaseDictionary setObject:styleID forKey:keyword];
+//                        } else {
+//                            [newPlainCaseDictionary setObject:styleID forKey:keyword];                
+//                        }
+//                    }
+//                }
                 // Then do the regex stuff
                 
-                if ((keywords = [keywordGroup objectForKey:@"RegularExpressions"])) {
-                    NSEnumerator *keywordEnumerator = [keywords objectEnumerator];
-                    NSString *keyword;
-                    NSString *aString;
-                    while ((keyword = [keywordEnumerator nextObject])) {
-                        OGRegularExpression *regex;
-                        unsigned regexOptions = OgreFindNotEmptyOption;
-                        if ((aString = [keywordGroup objectForKey:@"casesensitive"])) {       
-                            if (([aString isEqualTo:@"no"])) {
-                                regexOptions = regexOptions|OgreIgnoreCaseOption;
-                            }
-                        }
-                        if ([OGRegularExpression isValidExpressionString:keyword]) {
-                            if ((regex = [[[OGRegularExpression alloc] initWithString:keyword options:regexOptions] autorelease])) {
-                                [newRegExArray addObject:[NSArray arrayWithObjects:regex, styleID, nil]];
-                            }
-                        } else {
-							[self showWarning:NSLocalizedString(@"Regular Expression Error",@"Regular Expression Error Title") withDescription:[NSString stringWithFormat:NSLocalizedString(@"\"%@\" within state \"%@\" is not a valid regular expression. Please check your regular expression in Find Panel's Ruby mode.",@"Syntax Regular Expression Error Informative Text"),keyword, [keywordGroup objectForKey:@"id"]]];
-                        }
-                    }
-                }
+//                if ((keywords = [keywordGroup objectForKey:@"RegularExpressions"])) {
+//                    NSEnumerator *keywordEnumerator = [keywords objectEnumerator];
+//                    NSString *keyword;
+//                    NSString *aString;
+//                    while ((keyword = [keywordEnumerator nextObject])) {
+//                        OGRegularExpression *regex;
+//                        unsigned regexOptions = OgreFindNotEmptyOption;
+//                        if ((aString = [keywordGroup objectForKey:@"casesensitive"])) {       
+//                            if (([aString isEqualTo:@"no"])) {
+//                                regexOptions = regexOptions|OgreIgnoreCaseOption;
+//                            }
+//                        }
+//                        if ([OGRegularExpression isValidExpressionString:keyword]) {
+//                            if ((regex = [[[OGRegularExpression alloc] initWithString:keyword options:regexOptions] autorelease])) {
+//                                [newRegExArray addObject:[NSArray arrayWithObjects:regex, styleID, nil]];
+//                            }
+//                        } else {
+//							[self showWarning:NSLocalizedString(@"Regular Expression Error",@"Regular Expression Error Title") withDescription:[NSString stringWithFormat:NSLocalizedString(@"\"%@\" within state \"%@\" is not a valid regular expression. Please check your regular expression in Find Panel's Ruby mode.",@"Syntax Regular Expression Error Informative Text"),keyword, [keywordGroup objectForKey:@"id"]]];
+//                        }
+//                    }
+//                }
             }
 
 

@@ -289,9 +289,28 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
         
         //NSLog(@"Highlighting stuff");
         
-        [self highlightRegularExpressionsOfAttributedString:aString inRange:colorRange forState:[currentState objectForKey:@"id"]];
-        [self highlightPlainStringsOfAttributedString:aString inRange:colorRange forState:[currentState objectForKey:@"id"]];
+        //[self highlightRegularExpressionsOfAttributedString:aString inRange:colorRange forState:[currentState objectForKey:@"id"]];
+        //[self highlightPlainStringsOfAttributedString:aString inRange:colorRange forState:[currentState objectForKey:@"id"]];
 
+        NSArray *regexArray = [[self syntaxDefinition] regularExpressionsInState:[currentState objectForKey:@"id"]];    
+        
+        OGRegularExpression *aRegex;
+        OGRegularExpressionMatch *aMatch;
+        int i;
+        int count = [regexArray count];
+        
+        for (i=0; i<count; i++) {
+            NSArray *currentRegexStyle = [regexArray objectAtIndex:i];
+            aRegex = [currentRegexStyle objectAtIndex:0];
+            
+            NSDictionary *attributes=[theDocument styleAttributesForStyleID:[currentRegexStyle objectAtIndex:1]];
+            
+            NSEnumerator *matchEnumerator = [[aRegex allMatchesInString:theString range:colorRange] objectEnumerator];
+            while ((aMatch = [matchEnumerator nextObject])) {
+                [aString addAttributes:attributes range:[aMatch rangeOfSubstringAtIndex:1]]; // Only color first group.
+            }
+        }
+        
         //NSLog(@"Finished highlighting for this state %@ '%@'", [currentState objectForKey:@"id"], [[aString string] substringWithRange:colorRange]);
 
         currentRange = nextRange;
