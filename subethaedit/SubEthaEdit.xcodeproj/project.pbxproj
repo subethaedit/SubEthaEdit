@@ -495,6 +495,7 @@
 		F2DEC3360F8FA6DF00ADEE48 /* AbstractFoldingTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D35F0F38758600AD7DE1 /* AbstractFoldingTextStorage.m */; };
 		F2DEC34A0F8FA71800ADEE48 /* FoldedTextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D3900F3877A900AD7DE1 /* FoldedTextAttachment.m */; };
 		F2DEC34F0F8FA72000ADEE48 /* FoldingTextAttachmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D4360F388A0B00AD7DE1 /* FoldingTextAttachmentCell.m */; };
+		F2DEC8820F90005700ADEE48 /* NSStringSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428920B095751CB00D14688 /* NSStringSEEAdditions.m */; };
 		F2F2B5A70CA7F7B80045C189 /* PrecedencePreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2C6E70CA7C7A7003CC5C9 /* PrecedencePreferences.m */; };
 		F2F2B60E0CA811240045C189 /* TCMMMLogStatisticsDataPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F2B60D0CA811240045C189 /* TCMMMLogStatisticsDataPoint.m */; };
 		F2F2B6100CA811240045C189 /* TCMMMLogStatisticsDataPoint.m in Sources */ = {isa = PBXBuildFile; fileRef = F2F2B60D0CA811240045C189 /* TCMMMLogStatisticsDataPoint.m */; };
@@ -3398,6 +3399,7 @@
 				F2DEC3360F8FA6DF00ADEE48 /* AbstractFoldingTextStorage.m in Sources */,
 				F2DEC34A0F8FA71800ADEE48 /* FoldedTextAttachment.m in Sources */,
 				F2DEC34F0F8FA72000ADEE48 /* FoldingTextAttachmentCell.m in Sources */,
+				F2DEC8820F90005700ADEE48 /* NSStringSEEAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
