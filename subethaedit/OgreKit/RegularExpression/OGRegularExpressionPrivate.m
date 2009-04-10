@@ -48,6 +48,8 @@
 	// \‚Ì‘ã‘Ö•¶Žš
 	[_escapeCharacter release];
 	
+    [_cachedPlainString release];
+    
 	[super dealloc];
 }
 

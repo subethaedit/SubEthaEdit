@@ -511,16 +511,35 @@ static int namedGroupCallback(const unsigned char *name, const unsigned char *na
 		range:NSMakeRange(0, [string length])];
 }
 
+#define TCM_OGPLAINSTRINGCACHE
+
 - (OGRegularExpressionMatch*)matchInString:(NSString*)string 
 	options:(unsigned)options 
 	range:(NSRange)searchRange
 {
 	OGRegularExpressionEnumerator	*enumerator;
+    
+#ifdef TCM_OGPLAINSTRINGCACHE
+    int stringHash = [string hash];
+    if (stringHash != _cachedPlainStringHash) {
+        // FIXME Release on dealloc
+        [_cachedPlainString release];
+        _cachedPlainString = [[OGPlainString stringWithString:string] retain];
+        _cachedPlainStringHash = stringHash;
+    }
 	enumerator = [[OGRegularExpressionEnumerator alloc] 
-		initWithOGString:[(OGPlainString *)[OGPlainString stringWithString:string] substringWithRange:searchRange]
-		options:OgreSearchTimeOptionMask(options)
-		range:searchRange
-		regularExpression:self];
+                  initWithOGString:[(OGPlainString *)_cachedPlainString substringWithRange:searchRange]
+                  options:OgreSearchTimeOptionMask(options)
+                  range:searchRange
+                  regularExpression:self];
+#else
+	enumerator = [[OGRegularExpressionEnumerator alloc] 
+                  initWithOGString:[(OGPlainString *)[OGPlainString stringWithString:string] substringWithRange:searchRange]
+                  options:OgreSearchTimeOptionMask(options)
+                  range:searchRange
+                  regularExpression:self];
+#endif
+    
 	OGRegularExpressionMatch* match=[enumerator nextObject];
 	[enumerator release];
 	return match;

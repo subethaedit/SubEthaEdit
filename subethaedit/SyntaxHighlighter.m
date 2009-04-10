@@ -333,6 +333,8 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
     }
 }
 
+// TODO: Get rid of this. See Below.
+
 -(void)highlightPlainStringsOfAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange forState:(NSString *)aState
 {
     int aMaxRange = NSMaxRange(aRange);
@@ -364,6 +366,9 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
     } while (location < aMaxRange);
     
 }
+
+// TODO: Migrate keywords to one precompiled regex
+// Roll this method back into the highlighter loop to avoid duplicating efforts
 
 -(void)highlightRegularExpressionsOfAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange forState:(NSString *)aState
 {
@@ -441,7 +446,7 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
 {
     NSRange textRange=NSMakeRange(0,[aTextStorage length]);
     if (textRange.length == 0) return YES; // special case of empty storage
-    double return_after = 0.2;
+    double return_after = 0.20;
     BOOL returnvalue = NO;
     BOOL returncontrol = NO;
     clock_t start_time = clock();
@@ -495,14 +500,14 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
                 }
 
                 
-                //DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Chunk #%d, Dirty: %@, Chunk: %@", chunks, NSStringFromRange(dirtyRange),NSStringFromRange(chunkRange));
+                //DEBUGLOG(@"SyntaxHighlighterDomain", SimpleLogLevel, @"Chunk #%d, Dirty: %@, Chunk: %@", chunks, NSStringFromRange(dirtyRange),NSStringFromRange(chunkRange));
 
 
                 [self highlightAttributedString:aTextStorage inRange:chunkRange];
                 
                 
                 if ((((double)(clock()-start_time))/CLOCKS_PER_SEC) > return_after) {
-                    DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Coloring took too long, aborting after %f seconds",(((double)(clock()-start_time))/CLOCKS_PER_SEC));
+                    DEBUGLOG(@"SyntaxHighlighterDomain", SimpleLogLevel, @"Coloring took too long, aborting after %f seconds",(((double)(clock()-start_time))/CLOCKS_PER_SEC));
                     returncontrol = YES;
                     break;
                 }
@@ -512,7 +517,7 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
                     dirtyRange.location = NSMaxRange(chunkRange);
                     dirtyRange.length = lastDirty-dirtyRange.location;
                 } else {
-                    DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Finished coloring of dirtyRange after %f seconds",(((double)(clock()-start_time))/CLOCKS_PER_SEC));
+                    DEBUGLOG(@"SyntaxHighlighterDomain", SimpleLogLevel, @"Finished coloring of dirtyRange after %f seconds",(((double)(clock()-start_time))/CLOCKS_PER_SEC));
                     break;
                 }
             }
@@ -526,7 +531,7 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
         }
 
         if (returncontrol) {
-            DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Returning control");
+            DEBUGLOG(@"SyntaxHighlighterDomain", SimpleLogLevel, @"Returning control");
             break;
         }
 

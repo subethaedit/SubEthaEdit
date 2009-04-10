@@ -638,7 +638,7 @@
 		4DC40E5509150CF30029A2A6 /* OgreKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OgreKit.h; path = RegularExpression/OgreKit.h; sourceTree = SOURCE_ROOT; };
 		4DC40E5609150CF30029A2A6 /* OgreKit.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OgreKit.h; path = RegularExpression/OgreKitWithoutFindPanel/OgreKit.h; sourceTree = SOURCE_ROOT; };
 		4DC40E5709150CF30029A2A6 /* OgreKit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OgreKit_Prefix.pch; path = RegularExpression/OgreKit_Prefix.pch; sourceTree = SOURCE_ROOT; };
-		4DC40E5809150CF40029A2A6 /* version.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = version.plist; path = RegularExpression/version.plist; sourceTree = SOURCE_ROOT; };
+		4DC40E5809150CF40029A2A6 /* version.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = version.plist; path = RegularExpression/version.plist; sourceTree = SOURCE_ROOT; };
 		4DC4103F09150D0D0029A2A6 /* OgreTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = OgreTest.h; path = RegularExpressionTest/OgreTest.h; sourceTree = SOURCE_ROOT; };
 		4DC4104009150D0D0029A2A6 /* OgreTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = OgreTest.m; path = RegularExpressionTest/OgreTest.m; sourceTree = SOURCE_ROOT; };
 		4DC4104109150D0E0029A2A6 /* Calc.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Calc.h; path = RegularExpressionTest/Calc.h; sourceTree = SOURCE_ROOT; };
@@ -726,7 +726,7 @@
 		4DF530BB0915221700475575 /* ReplaceWithAttributesTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = ReplaceWithAttributesTest.m; path = ReplaceWithAttributesTest/ReplaceWithAttributesTest.m; sourceTree = "<group>"; };
 		4DF530BC0915221700475575 /* ReplaceWithAttributesTest.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = ReplaceWithAttributesTest.h; path = ReplaceWithAttributesTest/ReplaceWithAttributesTest.h; sourceTree = "<group>"; };
 		4DF530BD0915221700475575 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ReplaceWithAttributesTest/main.m; sourceTree = "<group>"; };
-		4DF530BE0915221700475575 /* ReplaceWithAttributesTest-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; name = "ReplaceWithAttributesTest-Info.plist"; path = "ReplaceWithAttributesTest/ReplaceWithAttributesTest-Info.plist"; sourceTree = "<group>"; };
+		4DF530BE0915221700475575 /* ReplaceWithAttributesTest-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "ReplaceWithAttributesTest-Info.plist"; path = "ReplaceWithAttributesTest/ReplaceWithAttributesTest-Info.plist"; sourceTree = "<group>"; };
 		4DF530CF0915226200475575 /* English */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; name = English; path = ReplaceWithAttributesTest/English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		4DF530D10915226200475575 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = ReplaceWithAttributesTest/English.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		8DC2EF5B0486A6940098B216 /* OgreKit.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = OgreKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -2541,11 +2541,11 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = RegularExpressionTest/OgreTest_Prefix.h;
 				INFOPLIST_FILE = "RegularExpressionTest/OgreTest-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -2576,6 +2576,7 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = RegularExpressionTest/OgreTest_Prefix.h;
 				GCC_VERSION_i386 = 4.0;
@@ -2584,7 +2585,6 @@
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
 				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
-				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -2610,11 +2610,11 @@
 			buildSettings = {
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = RegularExpressionTest/OgreTest_Prefix.h;
 				INFOPLIST_FILE = "RegularExpressionTest/OgreTest-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -2641,11 +2641,11 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = FindPanelTest/OgreFindPanelTest_Prefix.h;
 				INFOPLIST_FILE = "FindPanelTest/FindPanelTest-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -2672,6 +2672,7 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = FindPanelTest/OgreFindPanelTest_Prefix.h;
 				GCC_VERSION_i386 = 4.0;
@@ -2680,7 +2681,6 @@
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
 				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
-				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -2702,11 +2702,11 @@
 			buildSettings = {
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = FindPanelTest/OgreFindPanelTest_Prefix.h;
 				INFOPLIST_FILE = "FindPanelTest/FindPanelTest-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -2729,11 +2729,11 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MyFindPanelExample/MyFindPanelExample_Prefix.h;
 				INFOPLIST_FILE = "MyFindPanelExample/MyFindPanelExample-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -2760,6 +2760,7 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MyFindPanelExample/MyFindPanelExample_Prefix.h;
 				GCC_VERSION_i386 = 4.0;
@@ -2768,7 +2769,6 @@
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
 				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
-				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -2790,11 +2790,11 @@
 			buildSettings = {
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = MyFindPanelExample/MyFindPanelExample_Prefix.h;
 				INFOPLIST_FILE = "MyFindPanelExample/MyFindPanelExample-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -2817,11 +2817,11 @@
 				COPY_PHASE_STRIP = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				INFOPLIST_FILE = "ReplaceWithAttributesTest/ReplaceWithAttributesTest-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -2852,6 +2852,7 @@
 				COPY_PHASE_STRIP = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				GCC_VERSION_i386 = 4.0;
@@ -2860,7 +2861,6 @@
 				INSTALL_PATH = "$(USER_APPS_DIR)";
 				MACOSX_DEPLOYMENT_TARGET_i386 = 10.4;
 				MACOSX_DEPLOYMENT_TARGET_ppc = 10.3;
-				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -2886,11 +2886,11 @@
 			buildSettings = {
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
 				GCC_MODEL_TUNING = G5;
+				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "$(SYSTEM_LIBRARY_DIR)/Frameworks/AppKit.framework/Headers/AppKit.h";
 				INFOPLIST_FILE = "ReplaceWithAttributesTest/ReplaceWithAttributesTest-Info.plist";
 				INSTALL_PATH = "$(USER_APPS_DIR)";
-				OPTIMIZATION_CFLAGS = "-O0";
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = (
 					"-framework",
@@ -2916,7 +2916,7 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				OPTIMIZATION_CFLAGS = "-O0";
+				GCC_OPTIMIZATION_LEVEL = 0;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -2935,7 +2935,7 @@
 			buildSettings = {
 				COPY_PHASE_STRIP = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				OPTIMIZATION_CFLAGS = "-O0";
+				GCC_OPTIMIZATION_LEVEL = 0;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";
@@ -2952,7 +2952,7 @@
 		4DC412C5091519D50029A2A6 /* Default */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				OPTIMIZATION_CFLAGS = "-O0";
+				GCC_OPTIMIZATION_LEVEL = 0;
 				OTHER_CFLAGS = "";
 				OTHER_LDFLAGS = "";
 				OTHER_REZFLAGS = "";

@@ -91,7 +91,7 @@ typedef enum {
 // exception name
 extern NSString	* const OgreException;
 
-@class OGRegularExpressionMatch, OGRegularExpressionEnumerator;
+@class OGRegularExpressionMatch, OGRegularExpressionEnumerator, OGPlainString;
 @protocol OGStringProtocol;
 
 @interface OGRegularExpression : NSObject <NSCopying, NSCoding>
@@ -107,6 +107,9 @@ extern NSString	* const OgreException;
 	NSMutableArray		*_nameForGroupIndexArray;		// (index-1)でnameを引く逆引き辞書(配列)
 														// 構造: /(?<a>a+)(?<b>b+)(?<a>c+)/ => ("a", "b", "a")
 	regex_t				*_regexBuffer;					// 鬼車正規表現構造体
+    
+    OGPlainString       *_cachedPlainString;
+    int                 _cachedPlainStringHash;
 }
 
 /****************************
