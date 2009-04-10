@@ -11,7 +11,7 @@
 #import "SyntaxHighlighter.h"
 
 @interface SEPDocument : NSObject {
-	NSTextStorage *I_textStorage;
+	id textStorage;
 	DocumentMode *I_documentMode;
 
     struct {
@@ -23,10 +23,17 @@
     NSMutableDictionary *I_styleCacheDictionary;
 }
 
+@property (retain) id textStorage;
+
 - (void)setPlainFont:(NSFont *)aFont;
 
 - (id)initWithURL:(NSURL *)inURL;
 
 - (NSTimeInterval)timedHighlightAll;
+
+- (void)changeToFoldableTextStorage;
+- (void)addOneFolding;
+- (void)foldEveryOtherLine;
+
 
 @end

@@ -11,23 +11,27 @@
 #import "SyntaxHighlighter.h"
 #import "DocumentModeManager.h"
 #import "PreferenceKeys.h"
+#import "FoldableTextStorage.h"
+#import "FullTextStorage.h"
 
 
 @implementation SEPDocument
+
+@synthesize textStorage;
 
 - (id)initWithURL:(NSURL *)inURL
 {
 	if ((self = [super init])) {
 		NSDictionary *documentAttributes = nil;
 		NSError *error = nil;
-		I_textStorage = [NSTextStorage new];
-		if ([I_textStorage readFromURL:inURL options:[NSDictionary dictionaryWithObjectsAndKeys:NSPlainTextDocumentType,@"DocumentType",nil] documentAttributes:&documentAttributes error:&error]) {
+		self.textStorage = [NSTextStorage new];
+		if ([textStorage readFromURL:inURL options:[NSDictionary dictionaryWithObjectsAndKeys:NSPlainTextDocumentType,@"DocumentType",nil] documentAttributes:&documentAttributes error:&error]) {
 			[self setPlainFont:[NSFont systemFontOfSize:12]];
 //			[SEPLogger logWithFormat:@"%s Attributes:%@", __FUNCTION__, documentAttributes];
-			I_documentMode = [[DocumentModeManager sharedInstance] documentModeForPath:[inURL path] withContentString:[I_textStorage string]];
+			I_documentMode = [[DocumentModeManager sharedInstance] documentModeForPath:[inURL path] withContentString:[textStorage string]];
 		} else {
 			[SEPLogger logWithFormat:@"%s loading failed with error:%@", __FUNCTION__, error];
-			[I_textStorage release];
+			self.textStorage = nil;
 			[super dealloc];
 			return nil;
 		}
@@ -36,12 +40,45 @@
 	return self;
 }
 
+
+- (void)changeToFoldableTextStorage {
+	id foldableTextStorage = [FoldableTextStorage new];
+	[[foldableTextStorage mutableString] setString:[textStorage string]];
+	self.textStorage = foldableTextStorage;
+}
+
+- (void)addOneFolding {
+	// just fold the last character to create the second textstorage
+	[textStorage foldRange:NSMakeRange([textStorage length]-1,1)];
+}
+
+
+- (void)foldEveryOtherLine {
+	NSString *string = [textStorage string];
+	NSRange lineRange = NSMakeRange([string length]-1,1);
+	
+	int counter = 0;
+	while (lineRange.location > 0) {
+		lineRange = [string lineRangeForRange:NSMakeRange(lineRange.location-1,1)];
+		counter++;
+		if (counter % 2) {
+			[textStorage foldRange:lineRange];
+		}
+	}
+}
+
 - (NSTimeInterval)timedHighlightAll {
 	SyntaxHighlighter *syntaxHighlighter = [I_documentMode syntaxHighlighter];
-	[I_textStorage removeAttribute:kSyntaxHighlightingIsCorrectAttributeName range:NSMakeRange(0,[I_textStorage length])];
+	
+	id textStorageToHighlight = textStorage;
+	if ([textStorageToHighlight isKindOfClass:[FoldableTextStorage class]]) {
+		textStorageToHighlight = [textStorageToHighlight fullTextStorage];
+	}
+	
+	[textStorageToHighlight removeAttribute:kSyntaxHighlightingIsCorrectAttributeName range:NSMakeRange(0,[textStorageToHighlight length])];
 	START_TIMING(highlighting);
 	int numberOfRuns = 1;
-	while (![syntaxHighlighter colorizeDirtyRanges:I_textStorage ofDocument:self]) {
+	while (![syntaxHighlighter colorizeDirtyRanges:textStorageToHighlight ofDocument:self]) {
 		numberOfRuns++;
 	}
 	NSTimeInterval result = END_TIMING(highlighting);
@@ -54,7 +91,7 @@
 }
 
 - (void)dealloc {
-	[I_textStorage release];
+	[textStorage release];
 	[super dealloc];
 }
 

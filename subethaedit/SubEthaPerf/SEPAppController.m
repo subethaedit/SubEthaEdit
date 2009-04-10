@@ -47,7 +47,7 @@
 	
 	
 	if ([[NSUserDefaults standardUserDefaults] boolForKey:@"RunTestsAtStart"]) {
-		[self performSelector:@selector(runTests:) withObject:nil afterDelay:1];
+		[self performSelector:@selector(runTests:) withObject:nil afterDelay:2];
 	}
 }
 
@@ -80,30 +80,58 @@
 	NSMutableArray *timingArray = [NSMutableArray new];
 	NSString *fileName = [aFilePath lastPathComponent];
 	int byteSize = [[[NSFileManager defaultManager] fileAttributesAtPath:aFilePath traverseLink:YES] fileSize];
-	[SEPLogger logWithFormat:
-		[[NSString stringWithFormat:@"-> %@ (%d kb)", fileName, byteSize / 1024]
-			stringByPaddingToLength:40 withString:@" " startingAtIndex:0]];
-	[ibResultsTextView display];
-
-	int i = 0;
-	for (;i<self.numberOfRepeats;i++) {
-		SEPDocument *document = [[SEPDocument alloc] initWithURL:[NSURL fileURLWithPath:aFilePath]];
-		if (document) {
-			NSTimeInterval time = [document timedHighlightAll];
-			[timingArray addObject:[NSNumber numberWithFloat:time]];
-			[document release];
+	
+	int testMode=0;
+	for (testMode=0; testMode<4; testMode++) {
+		[timingArray removeAllObjects];
+		if ((testMode == 0 && !self.testNSTextStorage) ||
+			(testMode == 1 && !self.testFoldableTextStorage) ||
+			(testMode == 2 && !self.testFoldableTextStorageOneFolding) ||
+			(testMode == 3 && !self.testFoldableTextStorageEveryOtherLineFolding)) {
+			continue;
 		}
+		NSString *textStorageType = @"NSTextStorage";
+		switch (testMode) {
+			case 1: textStorageType = @"Foldable"; break;
+			case 2: textStorageType = @"Foldable1Fold"; break;
+			case 3: textStorageType = @"FoldableManyFold"; break;
+		}
+		[SEPLogger logWithFormat:
+			[[NSString stringWithFormat:@"-> %@ (%d kb)", fileName, byteSize / 1024]
+				stringByPaddingToLength:40 withString:@" " startingAtIndex:0]];
+		[SEPLogger logWithFormat:
+			[[NSString stringWithFormat:@"%@ ",textStorageType]
+				stringByPaddingToLength:17 withString:@" " startingAtIndex:0]];
+		[ibResultsTextView display];
+	
+		int i = 0;
+		for (;i<self.numberOfRepeats;i++) {
+			SEPDocument *document = [[SEPDocument alloc] initWithURL:[NSURL fileURLWithPath:aFilePath]];
+			if (document) {
+				if (testMode > 0) {
+					[document changeToFoldableTextStorage];
+					if (testMode == 2) {
+						[document addOneFolding];
+					} else if (testMode == 3) {
+						[document foldEveryOtherLine];
+					}
+				}
+				NSTimeInterval time = [document timedHighlightAll];
+				[timingArray addObject:[NSNumber numberWithFloat:time]];
+				[document release];
+			}
+		}
+		[self reportTimingArray:timingArray forByteLength:byteSize];
+		[SEPLogger logWithFormat:@"\n"];
+		[ibResultsTextView display];
 	}
-	[self reportTimingArray:timingArray forByteLength:byteSize];
-	[SEPLogger logWithFormat:@"\n"];
-	[ibResultsTextView display];
-
+	
 	[timingArray release];
 }
 
 - (void)testFilesAtPath:(NSString *)aFilePath {
 	NSFileManager *fm = [NSFileManager defaultManager];
-	for (NSString *fileName in [fm directoryContentsAtPath:aFilePath]) {
+	for (NSString *fileName in [[fm directoryContentsAtPath:aFilePath] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)]) {
 		NSString *filePath = [aFilePath stringByAppendingPathComponent:fileName];
 			[self testFileAtPath:filePath];
 	}
@@ -113,7 +141,7 @@
 - (void)application:(NSApplication *)anApplication openFiles:(NSArray *)aFilePathArray {
 	[SEPLogger logWithFormat:@"------ opening testfiles (%d times per document) -----\n", self.numberOfRepeats];
 	[anApplication replyToOpenOrPrint:NSApplicationDelegateReplySuccess]; // so finder isn't worried anymore
-	for (NSString *filePath in aFilePathArray) {
+	for (NSString *filePath in [aFilePathArray sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)]) {
 		[self testFileAtPath:filePath];
 	}
 }
