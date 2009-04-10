@@ -30,3 +30,14 @@ static NSMutableArray *loggingArray;
 	[loggingArray addObject:aLogger];
 }
 @end
+
+@implementation NSString (SEPLoggerStringAdditions)
+- (NSString *)stringByLeftPaddingUpToLength:(int)aLength {
+	NSString *result = self;
+	int lengthDifference = aLength - [self length];
+	if (lengthDifference > 0) {
+		result = [[@"" stringByPaddingToLength:lengthDifference withString:@" " startingAtIndex:0] stringByAppendingString:self];
+	}
+	return result;
+}
+@end

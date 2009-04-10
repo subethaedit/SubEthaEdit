@@ -18,7 +18,7 @@
 	BOOL testFoldableTextStorageOneFolding;
 	BOOL testFoldableTextStorageEveryOtherLineFolding;
 	int numberOfRepeats;
-
+	NSFileHandle *logFileHandle;
 }
 
 @property int numberOfRepeats;

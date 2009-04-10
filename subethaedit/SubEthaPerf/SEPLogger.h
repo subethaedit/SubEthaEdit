@@ -20,3 +20,8 @@
 @interface NSObject (SEPLoggerClientAdditions)
 - (void)logString:(NSString *)aString;
 @end
+
+
+@interface NSString (SEPLoggerStringAdditions)
+- (NSString *)stringByLeftPaddingUpToLength:(int)aLength;
+@end

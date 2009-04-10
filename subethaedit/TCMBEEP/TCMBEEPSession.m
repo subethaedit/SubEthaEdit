@@ -289,7 +289,7 @@ static NSString *keychainPassword = nil;
             sequenceNumber++;
             name = [NSString stringWithFormat:@"%@-p%d-s%d", [[NSCalendarDate date] descriptionWithCalendarFormat:@"%Y-%m-%d--%H-%M-%S.%F-"], [[NSProcessInfo processInfo] processIdentifier], sequenceNumber];
             name = [[origPath stringByDeletingLastPathComponent] stringByAppendingPathComponent:name];
-        } while ([[NSFileManager defaultManager] fileExistsAtPath:logDirectory]);
+        } while ([[NSFileManager defaultManager] fileExistsAtPath:name]);
 
         logDirectory = [name retain];
         [[NSFileManager defaultManager] createDirectoryAtPath:logDirectory attributes:nil];    
