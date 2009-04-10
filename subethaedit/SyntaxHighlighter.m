@@ -152,25 +152,27 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
             //NSLog(@"Searching for next delimiter");
             delimiterRange = [delimiterMatch rangeOfMatchedString];
             
-            NSRange checkForStartFalsePositiveRange = [theString lineRangeForRange:delimiterRange];
-            if (checkForStartFalsePositiveRange.location>=aRange.location) {
-                OGRegularExpressionMatch * checkMatch;
-                NSEnumerator *checkMatchEnumerator = [[stateDelimiter allMatchesInString:theString range:checkForStartFalsePositiveRange] objectEnumerator];
-                BOOL valid = NO;
-                while ((checkMatch = [checkMatchEnumerator nextObject])) {
-                    if (checkMatch && [delimiterMatch indexOfFirstMatchedSubstring]==[checkMatch indexOfFirstMatchedSubstring]) {
-                        NSRange secondDelimiterRange = [checkMatch rangeOfMatchedString];
-                        if (secondDelimiterRange.location == delimiterRange.location) valid = YES;
-                    }
-
-                }
-                if (!valid) {
-                    currentRange.location++;
-                    currentRange.length--;
-                    continue;
-                }
-                
-            }
+            // FIXME Caret support introduces endless coloring in SoupDump.html
+            
+//            NSRange checkForStartFalsePositiveRange = [theString lineRangeForRange:delimiterRange];
+//            if (checkForStartFalsePositiveRange.location>=aRange.location) {
+//                OGRegularExpressionMatch * checkMatch;
+//                NSEnumerator *checkMatchEnumerator = [[stateDelimiter allMatchesInString:theString range:checkForStartFalsePositiveRange] objectEnumerator];
+//                BOOL valid = NO;
+//                while ((checkMatch = [checkMatchEnumerator nextObject])) {
+//                    if (checkMatch && [delimiterMatch indexOfFirstMatchedSubstring]==[checkMatch indexOfFirstMatchedSubstring]) {
+//                        NSRange secondDelimiterRange = [checkMatch rangeOfMatchedString];
+//                        if (secondDelimiterRange.location == delimiterRange.location) valid = YES;
+//                    }
+//
+//                }
+//                if (!valid) {
+//                    currentRange.location++;
+//                    currentRange.length--;
+//                    continue;
+//                }
+//                
+//            }
                         
             stateRange = NSMakeRange(currentRange.location, NSMaxRange(delimiterRange) - currentRange.location);
 
@@ -178,7 +180,7 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
             delimiterStateNumber = [[delimiterName substringFromIndex:16] intValue];
             
             if (delimiterStateNumber<4242) { // Found a start within current state
-                //NSLog(@"Found a start: '%@' current range: %@",[[aString string] substringWithRange:delimiterRange], NSStringFromRange(currentRange));
+                NSLog(@"Found a start: '%@' current range: %@",[[aString string] substringWithRange:delimiterRange], NSStringFromRange(currentRange));
 				
                 nextRange.location = NSMaxRange(stateRange);
                 nextRange.length = currentRange.length - stateRange.length;
