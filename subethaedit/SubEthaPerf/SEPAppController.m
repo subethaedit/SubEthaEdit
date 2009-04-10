@@ -111,6 +111,7 @@
 }
 
 - (void)application:(NSApplication *)anApplication openFiles:(NSArray *)aFilePathArray {
+	[SEPLogger logWithFormat:@"------ opening testfiles (%d times per document) -----\n", self.numberOfRepeats];
 	[anApplication replyToOpenOrPrint:NSApplicationDelegateReplySuccess]; // so finder isn't worried anymore
 	for (NSString *filePath in aFilePathArray) {
 		[self testFileAtPath:filePath];
