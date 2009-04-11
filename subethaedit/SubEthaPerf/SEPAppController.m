@@ -70,7 +70,7 @@
 	
 	[SEPLogger logWithFormat:@"||%@ |%@ | +/-%@ ",
 		[[NSString stringWithFormat:@"%03.3fs",average] stringByLeftPaddingUpToLength:8],
-		[[NSString stringWithFormat:@"%03.3fms/kb",average / byteLength * 1024 * 1000] stringByLeftPaddingUpToLength:12],
+		[[NSString stringWithFormat:@"%03.1fkb/s",byteLength / 1024.0 / average] stringByLeftPaddingUpToLength:12],
 		[[NSString stringWithFormat:@"%.1f %%",ninetyFivePercentConfidenceInterval] stringByLeftPaddingUpToLength:8]];
 		
 }
