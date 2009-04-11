@@ -1319,7 +1319,7 @@
 - (void)updateSelectedSymbol {
     PlainTextDocument *document=[self document];
     if ([[document documentMode] hasSymbols]) {
-        int symbolTag = [document selectedSymbolForRange:[I_textView selectedRange]];
+        int symbolTag = [document selectedSymbolForRange:[(FoldableTextStorage *)[[self document] textStorage] fullRangeForFoldedRange:[I_textView selectedRange]]];
         if (symbolTag == -1) {
             [O_symbolPopUpButton selectItemAtIndex:0];
         } else {

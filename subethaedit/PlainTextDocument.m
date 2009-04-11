@@ -719,6 +719,7 @@ static NSString *tempFileName(NSString *origPath) {
         NSTextView *textView=[aMenuItem representedObject];
         NSRange wholeRange=NSMakeRange(0,[[self textStorage] length]);
         symbolRange=RangeConfinedToRange(symbolRange,wholeRange);
+        symbolRange=[I_textStorage foldedRangeForFullRange:symbolRange];
         [textView setSelectedRange:symbolRange];
         [textView scrollRangeToVisible:symbolRange];
         if ([textView respondsToSelector:@selector(showFindIndicatorForRange:)]) {
@@ -4367,6 +4368,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 - (NSRange)rangeOfPrevious:(BOOL)aPrevious symbolForRange:(NSRange)aRange {
     if ([[self documentMode] hasSymbols] && [I_symbolArray count]) {
+    	aRange = [I_textStorage fullRangeForFoldedRange:aRange];
         int position=[self selectedSymbolForRange:aRange];
         if (aPrevious) {
             if (position==-1) return NSMakeRange(NSNotFound,0);
@@ -4377,7 +4379,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 while (position-->0) {
                     SymbolTableEntry *entry=[I_symbolArray objectAtIndex:position];
                     if (![entry isSeparator]) {
-                        return [entry jumpRange];
+                        return [I_textStorage foldedRangeForFullRange:[entry jumpRange]];
                     }
                 }
             }
@@ -4388,7 +4390,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 if (![entry isSeparator]) {
                     NSRange symbolRange=[[I_symbolArray objectAtIndex:position] jumpRange];
                     if (DisjointRanges(aRange,symbolRange) && NSMaxRange(symbolRange)>NSMaxRange(aRange)) {
-                        return symbolRange;
+                        return [I_textStorage foldedRangeForFullRange:symbolRange];
                     }
                 }
                 position++;
