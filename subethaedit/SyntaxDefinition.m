@@ -436,9 +436,14 @@
             while ((keywordGroup = [groupEnumerator nextObject])) {
                 NSString *styleID=[keywordGroup objectForKey:kSyntaxHighlightingStyleIDAttributeName];
                 if ([keywordGroup objectForKey:@"CompiledRegEx"]) [newRegExArray addObject:[NSArray arrayWithObjects:[keywordGroup objectForKey:@"CompiledRegEx"], styleID, nil]];
-                if ([keywordGroup objectForKey:@"CompiledKeywords"]) [newRegExArray addObject:[NSArray arrayWithObjects:[keywordGroup objectForKey:@"CompiledKeywords"], styleID, nil]];
+            }
 
-                // First do the plainstring stuff
+            groupEnumerator = [keywordGroups objectEnumerator];
+            while ((keywordGroup = [groupEnumerator nextObject])) {
+                NSString *styleID=[keywordGroup objectForKey:kSyntaxHighlightingStyleIDAttributeName];
+                if ([keywordGroup objectForKey:@"CompiledKeywords"]) [newRegExArray addObject:[NSArray arrayWithObjects:[keywordGroup objectForKey:@"CompiledKeywords"], styleID, nil]];
+            }
+            // First do the plainstring stuff
                 
 //                NSDictionary *keywords;
 //                if ((keywords = [keywordGroup objectForKey:@"PlainStrings"])) {
@@ -475,7 +480,6 @@
 //                        }
 //                    }
 //                }
-            }
 
 
         } 
