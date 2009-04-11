@@ -35,6 +35,7 @@
     SyntaxStyle *I_defaultSyntaxStyle;
     NSString *I_charsInToken;
     NSString *I_charsDelimitingToken;
+    OGRegularExpression *I_tokenRegex;
 }
 
 /*"Initizialisation"*/

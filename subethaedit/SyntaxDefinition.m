@@ -129,6 +129,14 @@
     
     [self setTokenSet:tokenSet];
 
+    I_tokenRegex = nil;
+    
+    if (I_charsInToken) {
+        I_tokenRegex = [[OGRegularExpression alloc] initWithString:[NSString stringWithFormat:@"[%@]+",[I_charsInToken stringByReplacingRegularExpressionOperators]] options:OgreFindNotEmptyOption|OgreCaptureGroupOption];
+    } else if (I_charsDelimitingToken) {
+        I_tokenRegex = [[OGRegularExpression alloc] initWithString:[NSString stringWithFormat:@"[^%@]+",[I_charsDelimitingToken stringByReplacingRegularExpressionOperators]] options:OgreFindNotEmptyOption|OgreCaptureGroupOption];
+    }        
+        
     NSString *charsInCompletion = [[[syntaxDefinitionXML nodesForXPath:@"/syntax/head/charsincompletion" error:&err] lastObject] stringValue];
 
 
@@ -436,29 +444,33 @@
             while ((keywordGroup = [groupEnumerator nextObject])) {
                 NSString *styleID=[keywordGroup objectForKey:kSyntaxHighlightingStyleIDAttributeName];
                 if ([keywordGroup objectForKey:@"CompiledRegEx"]) [newRegExArray addObject:[NSArray arrayWithObjects:[keywordGroup objectForKey:@"CompiledRegEx"], styleID, nil]];
+                
+                
+                NSDictionary *keywords;
+                if ((keywords = [keywordGroup objectForKey:@"PlainStrings"])) {
+                    NSEnumerator *keywordEnumerator = [keywords objectEnumerator];
+                    NSString *keyword;
+                    while ((keyword = [keywordEnumerator nextObject])) {
+                        if([[keywordGroup objectForKey:@"casesensitive"] isEqualToString:@"no"]) {
+                            [newPlainIncaseDictionary setObject:styleID forKey:keyword];
+                        } else {
+                            [newPlainCaseDictionary setObject:styleID forKey:keyword];                
+                        }
+                    }
+                }
+                
+            
             }
 
-            groupEnumerator = [keywordGroups objectEnumerator];
-            while ((keywordGroup = [groupEnumerator nextObject])) {
-                NSString *styleID=[keywordGroup objectForKey:kSyntaxHighlightingStyleIDAttributeName];
-                if ([keywordGroup objectForKey:@"CompiledKeywords"]) [newRegExArray addObject:[NSArray arrayWithObjects:[keywordGroup objectForKey:@"CompiledKeywords"], styleID, nil]];
-            }
+//            groupEnumerator = [keywordGroups objectEnumerator];
+//            while ((keywordGroup = [groupEnumerator nextObject])) {
+//                NSString *styleID=[keywordGroup objectForKey:kSyntaxHighlightingStyleIDAttributeName];
+//                if ([keywordGroup objectForKey:@"CompiledKeywords"]) [newRegExArray addObject:[NSArray arrayWithObjects:[keywordGroup objectForKey:@"CompiledKeywords"], styleID, nil]];
+//            }
             // First do the plainstring stuff
-                
-//                NSDictionary *keywords;
-//                if ((keywords = [keywordGroup objectForKey:@"PlainStrings"])) {
-//                    NSEnumerator *keywordEnumerator = [keywords objectEnumerator];
-//                    NSString *keyword;
-//                    while ((keyword = [keywordEnumerator nextObject])) {
-//                        if([[keywordGroup objectForKey:@"casesensitive"] isEqualToString:@"no"]) {
-//                            [newPlainIncaseDictionary setObject:styleID forKey:keyword];
-//                        } else {
-//                            [newPlainCaseDictionary setObject:styleID forKey:keyword];                
-//                        }
-//                    }
-//                }
-                // Then do the regex stuff
-                
+//                
+//                // Then do the regex stuff
+//                
 //                if ((keywords = [keywordGroup objectForKey:@"RegularExpressions"])) {
 //                    NSEnumerator *keywordEnumerator = [keywords objectEnumerator];
 //                    NSString *keyword;
@@ -480,7 +492,7 @@
 //                        }
 //                    }
 //                }
-
+//
 
         } 
     }
@@ -510,6 +522,11 @@
 
 - (NSString *)description {
     return [NSString stringWithFormat:@"SyntaxDefinition, Name:%@ , TokenSet:%@, DefaultState: %@, Uses Spelling Dcitionary: %@", [self name], [self tokenSet], [I_defaultState description], I_useSpellingDictionary?@"Yes.":@"No."];
+}
+
+- (OGRegularExpression *)tokenRegex
+{
+    return I_tokenRegex;
 }
 
 - (NSString *)name

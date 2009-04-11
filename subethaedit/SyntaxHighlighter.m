@@ -289,27 +289,8 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
         
         //NSLog(@"Highlighting stuff");
         
-        //[self highlightRegularExpressionsOfAttributedString:aString inRange:colorRange forState:[currentState objectForKey:@"id"]];
-        //[self highlightPlainStringsOfAttributedString:aString inRange:colorRange forState:[currentState objectForKey:@"id"]];
-
-        NSArray *regexArray = [[self syntaxDefinition] regularExpressionsInState:[currentState objectForKey:@"id"]];    
-        
-        OGRegularExpression *aRegex;
-        OGRegularExpressionMatch *aMatch;
-        int i;
-        int count = [regexArray count];
-        
-        for (i=0; i<count; i++) {
-            NSArray *currentRegexStyle = [regexArray objectAtIndex:i];
-            aRegex = [currentRegexStyle objectAtIndex:0];
-            
-            NSDictionary *attributes=[theDocument styleAttributesForStyleID:[currentRegexStyle objectAtIndex:1]];
-            
-            NSEnumerator *matchEnumerator = [[aRegex allMatchesInString:theString range:colorRange] objectEnumerator];
-            while ((aMatch = [matchEnumerator nextObject])) {
-                [aString addAttributes:attributes range:[aMatch rangeOfSubstringAtIndex:1]]; // Only color first group.
-            }
-        }
+        [self highlightRegularExpressionsOfAttributedString:aString inRange:colorRange forState:[currentState objectForKey:@"id"]];
+        [self highlightPlainStringsOfAttributedString:aString inRange:colorRange forState:[currentState objectForKey:@"id"]];
         
         //NSLog(@"Finished highlighting for this state %@ '%@'", [currentState objectForKey:@"id"], [[aString string] substringWithRange:colorRange]);
 
@@ -358,14 +339,32 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
 
 -(void)highlightPlainStringsOfAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange forState:(NSString *)aState
 {
+    NSString *styleID;
+    SyntaxDefinition *definition = [self syntaxDefinition];
+    NSString *theString = [aString string];
+
+    if (![definition hasTokensForState:aState]) return;
+
+    NSEnumerator *matchEnumerator = [[[definition tokenRegex] allMatchesInString:theString range:aRange] objectEnumerator];
+
+    OGRegularExpressionMatch *aMatch;
+    while ((aMatch = [matchEnumerator nextObject])) {
+        if ((styleID = [definition styleForToken:[aMatch matchedString] inState:aState])) {
+            [aString addAttributes:[theDocument styleAttributesForStyleID:styleID] range:[aMatch rangeOfMatchedString]];
+        }
+    }
+}
+
+-(void)oldHighlightPlainStringsOfAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange forState:(NSString *)aState
+{
     int aMaxRange = NSMaxRange(aRange);
     int location;
     NSString *styleID;
     SyntaxDefinition *definition = [self syntaxDefinition];
-
+    
     if (![definition hasTokensForState:aState]) return;
-
-
+    
+    
     NSScanner *scanner = [NSScanner scannerWithString:[aString string]];
     [scanner setCharactersToBeSkipped:[definition invertedTokenSet]];
     [scanner setScanLocation:aRange.location];
@@ -379,7 +378,7 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
                     int tokenlength = [token length];
                     NSRange foundRange = NSMakeRange(location-tokenlength,tokenlength);
                     if (NSMaxRange(foundRange)>aMaxRange) break;
-
+                    
                     [aString addAttributes:[theDocument styleAttributesForStyleID:styleID] range:foundRange];
                 }
             }
