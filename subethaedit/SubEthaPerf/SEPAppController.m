@@ -9,6 +9,7 @@
 #import "SEPLogger.h"
 #import "SEPAppController.h"
 #import "SEPDocument.h"
+#import "DocumentModeManager.h"
 
 
 @implementation SEPAppController
@@ -57,25 +58,65 @@
 	[logFileHandle release];
 }
 
-- (void)reportTimingArray:(NSArray *)anArray forByteLength:(double)byteLength {
-	double average = [[anArray valueForKeyPath:@"@avg.self"] doubleValue];
+- (void)getAverage:(double *)anAverage deviance:(double *)aDeviance ofArray:(NSArray *)anArray {
+	*anAverage = [[anArray valueForKeyPath:@"@avg.self"] doubleValue];
 	double variance = 0.0;
 	for (NSNumber *value in anArray) {
-		variance += pow([value doubleValue] - average,2);
-//		[SEPLogger logWithFormat:@"| %03.3f ",[value doubleValue]];
+		variance += pow([value doubleValue] - *anAverage,2);
 	}
 	variance = variance / [anArray count];
-	double deviance = sqrt(variance);
-	double ninetyFivePercentConfidenceInterval = (deviance * 2) / average * 100.0;
-	
-	[SEPLogger logWithFormat:@"||%@ |%@ | +/-%@ ",
-		[[NSString stringWithFormat:@"%03.3fs",average] stringByLeftPaddingUpToLength:8],
-		[[NSString stringWithFormat:@"%03.1fkb/s",byteLength / 1024.0 / average] stringByLeftPaddingUpToLength:12],
-		[[NSString stringWithFormat:@"%.1f %%",ninetyFivePercentConfidenceInterval] stringByLeftPaddingUpToLength:8]];
-		
+	*aDeviance = sqrt(variance);
 }
 
-- (void)testFileAtPath:(NSString *)aFilePath
+// returns throughput Average
+- (void)reportTotal:(NSArray *)anArray {
+	double average = 0.0;
+	double deviance = 0.0;
+	[self getAverage:&average deviance:&deviance ofArray:anArray];
+	double ninetyFivePercentConfidenceInterval = (deviance * 2) / average * 100.0;
+
+	[SEPLogger logWithFormat:@"----------------------------------------------------------------------\n"];
+	[SEPLogger logWithFormat:@"-- Total (average of mode averages)   || (min:%@ | max:%@) %@ | +/-%@ \n",
+		[NSString stringWithFormat:@"%03.1fkb/s",[[anArray valueForKeyPath:@"@min.self"] doubleValue] / 1024.0],
+		[NSString stringWithFormat:@"%03.1fkb/s",[[anArray valueForKeyPath:@"@max.self"] doubleValue] / 1024.0],
+		[[NSString stringWithFormat:@"%03.1fkb/s",average / 1024.0] stringByLeftPaddingUpToLength:12],
+		[[NSString stringWithFormat:@"%.1f %%",ninetyFivePercentConfidenceInterval] stringByLeftPaddingUpToLength:8]];
+	[SEPLogger logWithFormat:@"----------------------------------------------------------------------\n"];
+}
+
+
+// returns throughput Average
+- (double)reportModeTimingArray:(NSArray *)anArray {
+	double average = 0.0;
+	double deviance = 0.0;
+	[self getAverage:&average deviance:&deviance ofArray:anArray];
+	double ninetyFivePercentConfidenceInterval = (deviance * 2) / average * 100.0;
+
+	[SEPLogger logWithFormat:@"||%@ | +/-%@ ",
+		[[NSString stringWithFormat:@"%03.1fkb/s",average / 1024.0] stringByLeftPaddingUpToLength:12],
+		[[NSString stringWithFormat:@"%.1f %%",ninetyFivePercentConfidenceInterval] stringByLeftPaddingUpToLength:8]];
+
+	return average;
+}
+
+
+// returns throughput
+- (double)reportTimingArray:(NSArray *)anArray forByteLength:(double)byteLength {
+	double average = 0.0;
+	double deviance = 0.0;
+	[self getAverage:&average deviance:&deviance ofArray:anArray];
+
+	double ninetyFivePercentConfidenceInterval = (deviance * 2) / average * 100.0;
+	double throughPut = byteLength / average;
+
+	[SEPLogger logWithFormat:@"||%@ |%@ | +/-%@ ",
+		[[NSString stringWithFormat:@"%03.3fs",average] stringByLeftPaddingUpToLength:8],
+		[[NSString stringWithFormat:@"%03.1fkb/s",throughPut / 1024.0] stringByLeftPaddingUpToLength:12],
+		[[NSString stringWithFormat:@"%.1f %%",ninetyFivePercentConfidenceInterval] stringByLeftPaddingUpToLength:8]];
+	return throughPut;
+}
+
+- (void)testFileAtPath:(NSString *)aFilePath recordThroughPut:(NSMutableDictionary *)aThroughPutDictionary
 {
 	NSMutableArray *timingArray = [NSMutableArray new];
 	NSString *fileName = [aFilePath lastPathComponent];
@@ -105,6 +146,7 @@
 		[ibResultsTextView display];
 	
 		int i = 0;
+		NSString *modeIdentifier = nil;
 		for (;i<self.numberOfRepeats;i++) {
 			SEPDocument *document = [[SEPDocument alloc] initWithURL:[NSURL fileURLWithPath:aFilePath]];
 			if (document) {
@@ -116,12 +158,17 @@
 						[document foldEveryOtherLine];
 					}
 				}
+				modeIdentifier = [[document documentMode] documentModeIdentifier];
 				NSTimeInterval time = [document timedHighlightAll];
 				[timingArray addObject:[NSNumber numberWithFloat:time]];
 				[document release];
 			}
 		}
-		[self reportTimingArray:timingArray forByteLength:byteSize];
+		double throughPut = [self reportTimingArray:timingArray forByteLength:byteSize];
+		if (![aThroughPutDictionary objectForKey:modeIdentifier]) {
+			[aThroughPutDictionary setObject:[NSMutableArray array] forKey:modeIdentifier];
+		}
+		[[aThroughPutDictionary objectForKey:modeIdentifier] addObject:[NSNumber numberWithDouble:throughPut]];
 		[SEPLogger logWithFormat:@"\n"];
 		[ibResultsTextView display];
 	}
@@ -129,21 +176,39 @@
 	[timingArray release];
 }
 
+- (void)testFiles:(NSArray *)aFilePathArray
+{
+	NSMutableDictionary *throughputDictionary = [NSMutableDictionary dictionary];
+	for (NSString *filePath in aFilePathArray) {
+		[self testFileAtPath:filePath recordThroughPut:throughputDictionary];
+	}
+	[SEPLogger logWithFormat:@"--- Breakdown by Mode ---\n"];
+	NSMutableArray *totalArray = [NSMutableArray array];
+	for (NSString *key in [[throughputDictionary allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)]) {
+		DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForIdentifier:key];
+		[SEPLogger logWithFormat:
+			[[NSString stringWithFormat:@"- %@ (%@ v%@)", [mode displayName], [mode documentModeIdentifier], [[[mode bundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]]
+				stringByPaddingToLength:45 withString:@" " startingAtIndex:0]];
+		double average = [self reportModeTimingArray:[throughputDictionary objectForKey:key]];
+		[totalArray addObject:[NSNumber numberWithDouble:average]];
+		[SEPLogger logWithFormat:@"\n"];
+	}
+	[self reportTotal:totalArray];
+}
+
 - (void)testFilesAtPath:(NSString *)aFilePath {
 	NSFileManager *fm = [NSFileManager defaultManager];
+	NSMutableArray *filePathArray = [NSMutableArray array];
 	for (NSString *fileName in [[fm directoryContentsAtPath:aFilePath] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)]) {
-		NSString *filePath = [aFilePath stringByAppendingPathComponent:fileName];
-			[self testFileAtPath:filePath];
+		[filePathArray addObject:[aFilePath stringByAppendingPathComponent:fileName]];
 	}
-	
+	[self testFiles:filePathArray];	
 }
 
 - (void)application:(NSApplication *)anApplication openFiles:(NSArray *)aFilePathArray {
 	[SEPLogger logWithFormat:@"------ opening testfiles (%d times per document) -----\n", self.numberOfRepeats];
 	[anApplication replyToOpenOrPrint:NSApplicationDelegateReplySuccess]; // so finder isn't worried anymore
-	for (NSString *filePath in [aFilePathArray sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)]) {
-		[self testFileAtPath:filePath];
-	}
+	[self testFiles:[aFilePathArray sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)]];
 }
 
 - (IBAction)runTests:(id)aSender {
