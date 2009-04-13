@@ -3383,6 +3383,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             [self setWrapLines:NO];
         }
         [self performSelector:@selector(TCM_validateSize) withObject:nil afterDelay:0.0f];
+
         [textStorage endEditing];
         [self TCM_validateLineEndings];
     } // end of part where the file wasn't SEEText
@@ -3425,6 +3426,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
     [(FullTextStorage *)textStorage setShouldWatchLineEndings:YES];
     I_flags.isReadingFile = NO;
+
+	// do a first round of syntax highlighting
+	[self highlightSyntaxLoop];
 
     return YES;
 }
