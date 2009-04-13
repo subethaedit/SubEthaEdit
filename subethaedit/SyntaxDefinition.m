@@ -598,6 +598,14 @@
 	return [NSString stringWithFormat:@"/%@/useAutocompleteFrom", [self name]];
 }
 
+- (NSString*)getModeNameFromState:(NSString*)aState
+{
+	NSRange aRange = [aState rangeOfString:@"/" options:NSLiteralSearch range:NSMakeRange(1, [aState length] - 1)];
+	NSString *modeName = [aState substringWithRange:NSMakeRange(1, aRange.location - 1)];
+	
+	return modeName;
+}
+
 // Calculate inheritances recursivly
 - (void) calculateSymbolInheritanceForState:(NSMutableDictionary *)state inheritedSymbols:(NSString *)oldSymbols inheritedAutocomplete:(NSString *)oldAutocomplete {
 	NSString *symbols = nil;
@@ -611,7 +619,7 @@
 
     BOOL isLinked = ([state objectForKey:@"hardlink"]!=nil);
     state = [self stateForID:[state objectForKey:@"id"]];
-    BOOL isLocal = [[[[state objectForKey:@"id"] componentsSeparatedByString:@"/"] objectAtIndex:1] isEqualToString:[self name]];
+    BOOL isLocal = [[self getModeNameFromState:[state objectForKey:@"id"]] isEqualToString:[self name]];
     
     if (!(isLocal&&isLinked)) // If it's a local state, then resolve in the non-linked instance.
     {
@@ -642,8 +650,7 @@
 
 - (NSMutableDictionary *)stateForID:(NSString *)aString {
     if (!I_combinedStateRegexReady && !I_combinedStateRegexCalculating) [self getReady];
-	NSArray *components = [aString componentsSeparatedByString:@"/"];
-	NSString *modeName = [components objectAtIndex:1];
+	NSString *modeName = [self getModeNameFromState:aString];
 	
 	if (![modeName isEqualToString:[self name]]) {
 		return [[[[DocumentModeManager sharedInstance] documentModeForName:modeName] syntaxDefinition] stateForID:aString];
@@ -694,8 +701,7 @@
 - (NSString *)styleForToken:(NSString *)aToken inState:(NSString *)aState 
 {
 //	NSLog(@"%s:%d: %@",__PRETTY_FUNCTION__,__LINE__, aState);
-	NSArray *components = [aState componentsSeparatedByString:@"/"];
-	NSString *modeName = [components objectAtIndex:1];
+	NSString *modeName = [self getModeNameFromState:aState];
 	
 	if (![modeName isEqualToString:[self name]]) {
 		return [[[[DocumentModeManager sharedInstance] documentModeForName:modeName] syntaxDefinition] styleForToken:aToken inState:aState];
@@ -715,8 +721,7 @@
 
 - (BOOL) hasTokensForState:(NSString *)aState {
 //	NSLog(@"%s:%d: %@",__PRETTY_FUNCTION__,__LINE__, aState);
-	NSArray *components = [aState componentsSeparatedByString:@"/"];
-	NSString *modeName = [components objectAtIndex:1];
+	NSString *modeName = [self getModeNameFromState:aState];
 	
 	if (![modeName isEqualToString:[self name]]) {
 		return [[[[DocumentModeManager sharedInstance] documentModeForName:modeName] syntaxDefinition] hasTokensForState:aState];
@@ -728,8 +733,7 @@
 - (NSArray *)regularExpressionsInState:(NSString *)aState
 {
 //	NSLog(@"%s:%d: %@",__PRETTY_FUNCTION__,__LINE__, aState);
-	NSArray *components = [aState componentsSeparatedByString:@"/"];
-	NSString *modeName = [components objectAtIndex:1];
+	NSString *modeName = [self getModeNameFromState:aState];
 	
 	if (![modeName isEqualToString:[self name]]) {
 		return [[[[DocumentModeManager sharedInstance] documentModeForName:modeName] syntaxDefinition] regularExpressionsInState:aState];
