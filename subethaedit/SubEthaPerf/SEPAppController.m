@@ -70,7 +70,7 @@
 }
 
 // returns throughput Average
-- (void)reportTotal:(NSArray *)anArray {
+- (void)reportTotal:(NSArray *)anArray referenceArray:(NSArray *)aReferenceArray {
 	double average = 0.0;
 	double deviance = 0.0;
 	[self getAverage:&average deviance:&deviance ofArray:anArray];
@@ -82,6 +82,17 @@
 		[NSString stringWithFormat:@"%03.1fkb/s",[[anArray valueForKeyPath:@"@max.self"] doubleValue] / 1024.0],
 		[[NSString stringWithFormat:@"%03.1fkb/s",average / 1024.0] stringByLeftPaddingUpToLength:12],
 		[[NSString stringWithFormat:@"%.1f %%",ninetyFivePercentConfidenceInterval] stringByLeftPaddingUpToLength:8]];
+	if ([aReferenceArray count]) {
+		double referenceAverage = 0.0;
+		[self getAverage:&referenceAverage deviance:&deviance ofArray:aReferenceArray];
+		double ninetyFivePercentConfidenceInterval = (deviance * 2) / average * 100.0;
+		[SEPLogger logWithFormat:@"-- Reference Total          || (min:%@ | max:%@) %@ | +/-%@ \n",
+			[NSString stringWithFormat:@"%03.1fkb/s",[[aReferenceArray valueForKeyPath:@"@min.self"] doubleValue] / 1024.0],
+			[NSString stringWithFormat:@"%03.1fkb/s",[[aReferenceArray valueForKeyPath:@"@max.self"] doubleValue] / 1024.0],
+			[[NSString stringWithFormat:@"%03.1fkb/s",referenceAverage / 1024.0] stringByLeftPaddingUpToLength:12],
+			[[NSString stringWithFormat:@"%.1f %%",ninetyFivePercentConfidenceInterval] stringByLeftPaddingUpToLength:8]];
+		[SEPLogger logWithFormat:@"-- Change:%@\n",[[NSString stringWithFormat:@"%0.1f%%", (average - referenceAverage) / referenceAverage * 100] stringByLeftPaddingUpToLength:9]];
+	}
 	[SEPLogger logWithFormat:@"----------------------------------------------------------------------\n"];
 }
 
@@ -186,6 +197,7 @@
 	[SEPLogger logWithFormat:@"--- Breakdown by Mode ---\n"];
 	NSDictionary *referenceThroughput = [[NSUserDefaults standardUserDefaults] objectForKey:@"ReferenceThroughput"];
 	NSMutableArray *totalArray = [NSMutableArray array];
+	NSMutableArray *otherTotalArray = [NSMutableArray array];
 	for (NSString *key in [[throughputDictionary allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)]) {
 		DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForIdentifier:key];
 		
@@ -198,12 +210,13 @@
 		if ([referenceThroughput objectForKey:key]) {
 			[SEPLogger logWithFormat:@"     Reference:"];
 			double otherAverage = [self reportModeTimingArray:[referenceThroughput objectForKey:key]];
-			[SEPLogger logWithFormat:@" || Change: %@",[[NSString stringWithFormat:@"%0.1f%%", (average - otherAverage) / otherAverage * 100] stringByLeftPaddingUpToLength:9]];
+			[SEPLogger logWithFormat:@" || Change:%@",[[NSString stringWithFormat:@"%0.1f%%", (average - otherAverage) / otherAverage * 100] stringByLeftPaddingUpToLength:9]];
+			[otherTotalArray addObject:[NSNumber numberWithDouble:otherAverage]];
 		}
 
 		[SEPLogger logWithFormat:@"\n"];
 	}
-	[self reportTotal:totalArray];
+	[self reportTotal:totalArray referenceArray:otherTotalArray];
 }
 
 - (void)testFilesAtPath:(NSString *)aFilePath {
