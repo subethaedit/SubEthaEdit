@@ -76,7 +76,7 @@
 	double ninetyFivePercentConfidenceInterval = (deviance * 2) / average * 100.0;
 
 	[SEPLogger logWithFormat:@"----------------------------------------------------------------------\n"];
-	[SEPLogger logWithFormat:@"-- Total (average of mode averages)   || (min:%@ | max:%@) %@ | +/-%@ \n",
+	[SEPLogger logWithFormat:@"-- Total (avg of mode avgs) || (min:%@ | max:%@) %@ | +/-%@ \n",
 		[NSString stringWithFormat:@"%03.1fkb/s",[[anArray valueForKeyPath:@"@min.self"] doubleValue] / 1024.0],
 		[NSString stringWithFormat:@"%03.1fkb/s",[[anArray valueForKeyPath:@"@max.self"] doubleValue] / 1024.0],
 		[[NSString stringWithFormat:@"%03.1fkb/s",average / 1024.0] stringByLeftPaddingUpToLength:12],
