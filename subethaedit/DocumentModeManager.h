@@ -35,6 +35,7 @@
 @interface DocumentModeManager : NSObject {
     NSMutableDictionary *I_modeBundles;
     NSMutableDictionary *I_documentModesByIdentifier;
+    NSMutableDictionary *I_documentModesByName;
 	NSMutableArray *I_modePrecedenceArray;
 	NSMutableArray      *I_modeIdentifiersTagArray;
 	NSMutableDictionary *I_dependencyQueue;

@@ -453,26 +453,35 @@ static DocumentModeManager *S_sharedInstance=nil;
 }
 
 - (DocumentMode *)documentModeForName:(NSString *)aName {
-    NSString *identifier;
-    if ([aName hasPrefix:@"SEEMode."]) {
-        identifier = aName;
-    } else {
-        identifier = [NSString stringWithFormat:@"SEEMode.%@", aName];
-    }
-    DocumentMode *mode = [self documentModeForIdentifier:identifier];
     
-    if (!mode) {
-        NSEnumerator *keyEnumerator = [[self availableModes] keyEnumerator];
-        NSString *key;
-        while ((key = [keyEnumerator nextObject])) {
-            if ([identifier caseInsensitiveCompare:key] == NSOrderedSame) {
-                mode = [self documentModeForIdentifier:key];
-                break;
-            }
-        }
-    }
+	DocumentMode *mode = [I_documentModesByName objectForKey:aName];
+	
+	if ( !mode )
+	{
+		NSString *identifier = nil;
+		if ([aName hasPrefix:@"SEEMode."]) {
+			identifier = aName;
+		} else {
+			identifier = [NSString stringWithFormat:@"SEEMode.%@", aName];
+		}
+		mode = [self documentModeForIdentifier:identifier];
+		
+		if (!mode) {
+			NSEnumerator *keyEnumerator = [[self availableModes] keyEnumerator];
+			NSString *key;
+			while ((key = [keyEnumerator nextObject])) {
+				if ([identifier caseInsensitiveCompare:key] == NSOrderedSame) {
+					mode = [self documentModeForIdentifier:key];
+					break;
+				}
+			}
+		}
+        
+		if ( mode )
+			[I_documentModesByName setObject:mode forKey:aName];
+	}
     
-    return mode;
+	return mode;
 }
 
 - (DocumentMode *)documentModeForIdentifier:(NSString *)anIdentifier {
