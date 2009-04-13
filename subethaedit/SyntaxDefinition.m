@@ -303,14 +303,14 @@
         
         
         // Add strings for keyword group
-        NSMutableString *combindedKeywordRegexString = [NSMutableString string];
-        if (I_charsInToken) {
-            [combindedKeywordRegexString appendFormat:@"(?<![%@])(",[I_charsInToken stringByReplacingRegularExpressionOperators]];
-        } else if (I_charsDelimitingToken) {
-            [combindedKeywordRegexString appendFormat:@"(?<=[%@])(",[I_charsDelimitingToken stringByReplacingRegularExpressionOperators]];
-        } else {
-            [combindedKeywordRegexString appendString:@"("]; 
-        }
+//        NSMutableString *combindedKeywordRegexString = [NSMutableString string];
+//        if (I_charsInToken) {
+//            [combindedKeywordRegexString appendFormat:@"(?<![%@])(",[I_charsInToken stringByReplacingRegularExpressionOperators]];
+//        } else if (I_charsDelimitingToken) {
+//            [combindedKeywordRegexString appendFormat:@"(?<=[%@])(",[I_charsDelimitingToken stringByReplacingRegularExpressionOperators]];
+//        } else {
+//            [combindedKeywordRegexString appendString:@"("]; 
+//        }
                 
         BOOL autocomplete = [[keywordGroupDictionary objectForKey:@"useforautocomplete"] isEqualToString:@"yes"];
         NSMutableArray *autocompleteDictionary = [[self mode] autocompleteDictionary];
@@ -319,20 +319,20 @@
         id stringNode;
         while ((stringNode = [stringEnumerator nextObject])) {
             [strings addObject:[stringNode stringValue]];
-            [combindedKeywordRegexString appendFormat:@"%@|",[[stringNode stringValue] stringByReplacingRegularExpressionOperators]];
+            //[combindedKeywordRegexString appendFormat:@"%@|",[[stringNode stringValue] stringByReplacingRegularExpressionOperators]];
             if (autocomplete) [autocompleteDictionary addObject:[stringNode stringValue]];
         }
-        if ([stringNodes count]>0) {
-            [combindedKeywordRegexString replaceCharactersInRange:NSMakeRange([combindedKeywordRegexString length]-1, 1) withString:@")"];
-            
-            if (I_charsInToken) {
-                [combindedKeywordRegexString appendFormat:@"(?![%@])",[I_charsInToken stringByReplacingRegularExpressionOperators]];
-            } else if (I_charsDelimitingToken) {
-                [combindedKeywordRegexString appendFormat:@"(?=[%@])",[I_charsDelimitingToken stringByReplacingRegularExpressionOperators]];
-            }        
-            
-            [keywordGroupDictionary setObject:[[[OGRegularExpression alloc] initWithString:combindedKeywordRegexString options:OgreFindNotEmptyOption|OgreCaptureGroupOption] autorelease] forKey:@"CompiledKeywords"];
-        }
+//        if ([stringNodes count]>0) {
+//            [combindedKeywordRegexString replaceCharactersInRange:NSMakeRange([combindedKeywordRegexString length]-1, 1) withString:@")"];
+//            
+//            if (I_charsInToken) {
+//                [combindedKeywordRegexString appendFormat:@"(?![%@])",[I_charsInToken stringByReplacingRegularExpressionOperators]];
+//            } else if (I_charsDelimitingToken) {
+//                [combindedKeywordRegexString appendFormat:@"(?=[%@])",[I_charsDelimitingToken stringByReplacingRegularExpressionOperators]];
+//            }        
+//            
+//            [keywordGroupDictionary setObject:[[[OGRegularExpression alloc] initWithString:combindedKeywordRegexString options:OgreFindNotEmptyOption|OgreCaptureGroupOption] autorelease] forKey:@"CompiledKeywords"];
+//        }
     }
     
     if ([name isEqualToString:@"default"]) {        
