@@ -436,6 +436,7 @@
 		F2BB09FF0CA018CA00258EC7 /* PCRolloverImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2BB09FC0CA018CA00258EC7 /* PCRolloverImageView.m */; };
 		F2BB0A950CA0442A00258EC7 /* HMBlkAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2BB0A900CA043E300258EC7 /* HMBlkAppKit.framework */; };
 		F2BB0AA40CA0443A00258EC7 /* HMBlkAppKit.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F2BB0A900CA043E300258EC7 /* HMBlkAppKit.framework */; };
+		F2C4C2650F93E51D00A3E0B5 /* OgreKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 144E3AA40B6FEE8D001C49C2 /* OgreKit.framework */; };
 		F2C6D3750D6DB131002B401D /* URLIconNotOK.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2C6D3730D6DB131002B401D /* URLIconNotOK.tiff */; };
 		F2C6D3760D6DB131002B401D /* URLIconOK.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2C6D3740D6DB131002B401D /* URLIconOK.tiff */; };
 		F2CA79A50CA04BAC008BEA38 /* HUDStatisticGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CA79A30CA04BAC008BEA38 /* HUDStatisticGraphView.m */; };
@@ -463,7 +464,6 @@
 		F2D5FF520CB26EA800407399 /* ToolbarIconTerminal.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF500CB26EA800407399 /* ToolbarIconTerminal.icns */; };
 		F2D86C2E0F8E7EFA00B912A2 /* SEPAppController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D86C2D0F8E7EFA00B912A2 /* SEPAppController.m */; };
 		F2D86C300F8E7F6A00B912A2 /* SEPMainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2D86C2F0F8E7F6A00B912A2 /* SEPMainMenu.xib */; };
-		F2D86C3D0F8E7FFB00B912A2 /* UniversalDetector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2A093BB0C9EBB42000AD27A /* UniversalDetector.framework */; };
 		F2D86C3E0F8E801400B912A2 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 144E3AA40B6FEE8D001C49C2 /* OgreKit.framework */; };
 		F2D86C510F8E811600B912A2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D86C500F8E811600B912A2 /* main.m */; };
 		F2D86C7F0F8E849800B912A2 /* SEPLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D86C7E0F8E849800B912A2 /* SEPLogger.m */; };
@@ -701,6 +701,13 @@
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = HMBlkAppKit;
 		};
+		F2C4C27D0F93E70600A3E0B5 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 14F16CEF0971A87300402129 /* OgreKit.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 4DC40BF209150BDB0029A2A6;
+			remoteInfo = "OgreKit (without Find Panel)";
+		};
 		F2D22CB20EE9C5DE004B8E33 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F2D22CAE0EE9C5DE004B8E33 /* SeeTextImporter.xcodeproj */;
@@ -714,20 +721,6 @@
 			proxyType = 1;
 			remoteGlobalIDString = 8D57630D048677EA00EA77CD;
 			remoteInfo = SeeTextImporter;
-		};
-		F2D86C250F8E7EA800B912A2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 14F16CEF0971A87300402129 /* OgreKit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 4DC40BF209150BDB0029A2A6;
-			remoteInfo = "OgreKit (without Find Panel)";
-		};
-		F2D86C270F8E7EB100B912A2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F2A093B40C9EBB42000AD27A /* UniversalDetector.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = UniversalDetector;
 		};
 /* End PBXContainerItemProxy section */
 
@@ -770,6 +763,17 @@
 				F2D22CB40EE9C5E3004B8E33 /* SeeTextImporter.mdimporter in Copy Importers */,
 			);
 			name = "Copy Importers";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F2C4C2640F93E51800A3E0B5 /* Copy Frameworks */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 10;
+			files = (
+				F2C4C2650F93E51D00A3E0B5 /* OgreKit.framework in Copy Frameworks */,
+			);
+			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXCopyFilesBuildPhase section */
@@ -1490,7 +1494,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F2D86CDC0F8E8B2600B912A2 /* Carbon.framework in Frameworks */,
-				F2D86C3D0F8E7FFB00B912A2 /* UniversalDetector.framework in Frameworks */,
 				F2D86C3E0F8E801400B912A2 /* OgreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2585,6 +2588,7 @@
 			buildConfigurationList = F2D86C240F8E7E2B00B912A2 /* Build configuration list for PBXNativeTarget "SubEthaPerf" */;
 			buildPhases = (
 				F2D86C1B0F8E7E2A00B912A2 /* Resources */,
+				F2C4C2640F93E51800A3E0B5 /* Copy Frameworks */,
 				F2D86C1C0F8E7E2A00B912A2 /* Sources */,
 				F2D86C1D0F8E7E2A00B912A2 /* Frameworks */,
 				F2D86C670F8E820C00B912A2 /* ShellScript */,
@@ -2592,8 +2596,7 @@
 			buildRules = (
 			);
 			dependencies = (
-				F2D86C260F8E7EA800B912A2 /* PBXTargetDependency */,
-				F2D86C280F8E7EB100B912A2 /* PBXTargetDependency */,
+				F2C4C27E0F93E70600A3E0B5 /* PBXTargetDependency */,
 			);
 			name = SubEthaPerf;
 			productName = SubEthaPerf;
@@ -3461,20 +3464,15 @@
 			name = HMBlkAppKit;
 			targetProxy = F2BB0A930CA0440800258EC7 /* PBXContainerItemProxy */;
 		};
+		F2C4C27E0F93E70600A3E0B5 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = "OgreKit (without Find Panel)";
+			targetProxy = F2C4C27D0F93E70600A3E0B5 /* PBXContainerItemProxy */;
+		};
 		F2D22CB60EE9C5ED004B8E33 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = SeeTextImporter;
 			targetProxy = F2D22CB50EE9C5ED004B8E33 /* PBXContainerItemProxy */;
-		};
-		F2D86C260F8E7EA800B912A2 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "OgreKit (without Find Panel)";
-			targetProxy = F2D86C250F8E7EA800B912A2 /* PBXContainerItemProxy */;
-		};
-		F2D86C280F8E7EB100B912A2 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = UniversalDetector;
-			targetProxy = F2D86C270F8E7EB100B912A2 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 

@@ -1933,22 +1933,32 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
                     localizedName = @"LF";
                     break;
             }
-            NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-            [alert setAlertStyle:NSWarningAlertStyle];
-            [alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"The file has mixed line endings. Do you want to convert all line endings to %@, the most common line ending in the file?", nil), localizedName]];
-            [alert setInformativeText:NSLocalizedString(@"Other applications may not be able to read the file if you don't convert all line endings to the same line ending.", nil)];
-            [alert addButtonWithTitle:[NSString stringWithFormat:NSLocalizedString(@"Convert to %@", nil), localizedName]];
-            [alert addButtonWithTitle:NSLocalizedString(@"Keep Line Endings", nil)];
-            [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
-            [self presentAlert:alert
-                 modalDelegate:self
-                didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
-                   contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
-                                                    @"MixedLineEndingsAlert", @"Alert",
-                                                    [sortedLineEndingStatsKeys objectAtIndex:4], @"LineEnding",
-                                                    nil] retain]];
+            [[I_textStorage fullTextStorage] setHasMixedLineEndings:YES];
+        	[self performSelector:@selector(showLineEndingAlert:) withObject:[NSDictionary dictionaryWithObjectsAndKeys:
+        		localizedName,
+        		@"localizedName",
+        		[NSDictionary dictionaryWithObjectsAndKeys:
+        			@"MixedLineEndingsAlert", @"Alert",
+                    [sortedLineEndingStatsKeys objectAtIndex:4], @"LineEnding",
+                 	nil],
+                @"contextInfo",nil] afterDelay:0.0]; // delay this alert so we can call this method even if we didn't show the window yet
         }
     }
+}
+
+- (void)showLineEndingAlert:(NSDictionary *)anOptionDictionary {
+	NSString *localizedName = [anOptionDictionary objectForKey:@"localizedName"];
+	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+	[alert setAlertStyle:NSWarningAlertStyle];
+	[alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"The file has mixed line endings. Do you want to convert all line endings to %@, the most common line ending in the file?", nil), localizedName]];
+	[alert setInformativeText:NSLocalizedString(@"Other applications may not be able to read the file if you don't convert all line endings to the same line ending.", nil)];
+	[alert addButtonWithTitle:[NSString stringWithFormat:NSLocalizedString(@"Convert to %@", nil), localizedName]];
+	[alert addButtonWithTitle:NSLocalizedString(@"Keep Line Endings", nil)];
+	[[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
+	[self presentAlert:alert
+		 modalDelegate:self
+		didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
+		   contextInfo:[[anOptionDictionary objectForKey:@"contextInfo"] retain]];
 }
 
 - (id)handleShowScriptCommand:(NSScriptCommand *)command {
@@ -1986,7 +1996,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     }
 }
 
-- (void)TCM_validateSizeAndLineEndings {
+- (void)TCM_validateSize {
     if ([I_textStorage length] > [[NSUserDefaults standardUserDefaults] integerForKey:@"StringLengthToStopHighlightingAndWrapping"]) {
         NSAlert *alert = [[[NSAlert alloc] init] autorelease];
         [alert setAlertStyle:NSInformationalAlertStyle];
@@ -1997,14 +2007,11 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
              modalDelegate:self
             didEndSelector:@selector(bigDocumentAlertDidEnd:returnCode:contextInfo:)
                contextInfo:nil];
-    } else {
-        [self TCM_validateLineEndings];
     }
 }
 
 - (void)bigDocumentAlertDidEnd:(NSAlert *)anAlert returnCode:(int)aReturnCode  contextInfo:(void  *)aContextInfo {
     [[anAlert window] orderOut:self];
-    [self TCM_validateLineEndings];
 }
 
 - (NSWindow *)windowForSheet {
@@ -3098,6 +3105,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     }
 
     NSTextStorage *textStorage = [I_textStorage fullTextStorage];
+    [(FullTextStorage *)textStorage setShouldWatchLineEndings:NO];
     BOOL isReverting = ([textStorage length] != 0);
     BOOL wasAutosaved = NO;
     NSAttributedString *undoString = nil;
@@ -3374,9 +3382,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             [self setHighlightsSyntax:NO];
             [self setWrapLines:NO];
         }
-        [self performSelector:@selector(TCM_validateSizeAndLineEndings) withObject:nil afterDelay:0.0f];
-        [textStorage endEditing];     
-
+        [self performSelector:@selector(TCM_validateSize) withObject:nil afterDelay:0.0f];
+        [textStorage endEditing];
+        [self TCM_validateLineEndings];
     } // end of part where the file wasn't SEEText
 
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"fileEncoding: %@", [NSString localizedNameOfStringEncoding:[self fileEncoding]]);
@@ -3415,6 +3423,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         [[[self session] loggingState] handleOperation:[SelectionOperation selectionOperationWithRange:NSMakeRange(0,0) userID:[TCMMMUserManager myUserID]]];
     }
 
+    [(FullTextStorage *)textStorage setShouldWatchLineEndings:YES];
     I_flags.isReadingFile = NO;
 
     return YES;
@@ -5096,7 +5105,7 @@ static NSString *S_measurementUnits;
 #pragma mark -
 
 - (void)alertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-    NSDictionary *alertContext = (NSDictionary *)contextInfo;
+    NSDictionary *alertContext = [(NSDictionary *)contextInfo autorelease];
     NSString *alertIdentifier = [alertContext objectForKey:@"Alert"];
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"alertDidEnd: %@", alertIdentifier);
 
@@ -5172,8 +5181,6 @@ static NSString *S_measurementUnits;
             [textView insertText:replacementString];
         }
     }
-
-    [alertContext autorelease];
 }
 
 - (void)applicationDidBecomeActive:(NSNotification *)aNotification {
