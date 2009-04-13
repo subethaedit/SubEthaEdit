@@ -491,7 +491,7 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
                 if (chunkRange.length > chunkSize) chunkRange.length = chunkSize;
                 else {
                     NSRange newRange = chunkRange;
-                    newRange.length =+ 3; // To stretch to the new line if the dirty range ends with linebreak.
+                    newRange.length += 3; // To stretch to the new line if the dirty range ends with linebreak.
                     if (NSMaxRange(newRange)<=NSMaxRange(textRange)) chunkRange = newRange;
                 }
                 
