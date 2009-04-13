@@ -19,6 +19,7 @@
 	BOOL testFoldableTextStorageEveryOtherLineFolding;
 	int numberOfRepeats;
 	NSFileHandle *logFileHandle;
+	NSMutableDictionary *throughputDictionary;
 }
 
 @property int numberOfRepeats;
@@ -28,5 +29,6 @@
 @property BOOL testFoldableTextStorageEveryOtherLineFolding;
 
 - (IBAction)runTests:(id)aSender;
+- (IBAction)setReference:(id)aSender;
 
 @end

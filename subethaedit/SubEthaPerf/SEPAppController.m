@@ -34,6 +34,7 @@
 }
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
+	throughputDictionary = [NSMutableDictionary new];
 	[self setupLogFile];
 
 	[SEPLogger registerLogger:self];
@@ -92,7 +93,7 @@
 	[self getAverage:&average deviance:&deviance ofArray:anArray];
 	double ninetyFivePercentConfidenceInterval = (deviance * 2) / average * 100.0;
 
-	[SEPLogger logWithFormat:@"||%@ | +/-%@ ",
+	[SEPLogger logWithFormat:@"%@ | +/-%@ ",
 		[[NSString stringWithFormat:@"%03.1fkb/s",average / 1024.0] stringByLeftPaddingUpToLength:12],
 		[[NSString stringWithFormat:@"%.1f %%",ninetyFivePercentConfidenceInterval] stringByLeftPaddingUpToLength:8]];
 
@@ -178,19 +179,28 @@
 
 - (void)testFiles:(NSArray *)aFilePathArray
 {
-	NSMutableDictionary *throughputDictionary = [NSMutableDictionary dictionary];
+	[throughputDictionary removeAllObjects];
 	for (NSString *filePath in aFilePathArray) {
 		[self testFileAtPath:filePath recordThroughPut:throughputDictionary];
 	}
 	[SEPLogger logWithFormat:@"--- Breakdown by Mode ---\n"];
+	NSDictionary *referenceThroughput = [[NSUserDefaults standardUserDefaults] objectForKey:@"ReferenceThroughput"];
 	NSMutableArray *totalArray = [NSMutableArray array];
 	for (NSString *key in [[throughputDictionary allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)]) {
 		DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForIdentifier:key];
+		
 		[SEPLogger logWithFormat:
 			[[NSString stringWithFormat:@"- %@ (%@ v%@)", [mode displayName], [mode documentModeIdentifier], [[[mode bundle] infoDictionary] objectForKey:@"CFBundleShortVersionString"]]
 				stringByPaddingToLength:45 withString:@" " startingAtIndex:0]];
 		double average = [self reportModeTimingArray:[throughputDictionary objectForKey:key]];
 		[totalArray addObject:[NSNumber numberWithDouble:average]];
+
+		if ([referenceThroughput objectForKey:key]) {
+			[SEPLogger logWithFormat:@"     Reference:"];
+			double otherAverage = [self reportModeTimingArray:[referenceThroughput objectForKey:key]];
+			[SEPLogger logWithFormat:@" || Change: %@",[[NSString stringWithFormat:@"%0.1f%%", (average - otherAverage) / otherAverage * 100] stringByLeftPaddingUpToLength:9]];
+		}
+
 		[SEPLogger logWithFormat:@"\n"];
 	}
 	[self reportTotal:totalArray];
@@ -220,6 +230,10 @@
 	[ibProgressIndicator stopAnimation:self];
 }
 
+- (IBAction)setReference:(id)aSender {
+	[[NSUserDefaults standardUserDefaults] setObject:throughputDictionary forKey:@"ReferenceThroughput"];
+	[[NSUserDefaults standardUserDefaults] synchronize];
+}
 
 - (void)logString:(NSString *)aString
 {

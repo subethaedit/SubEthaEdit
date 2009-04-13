@@ -69,7 +69,7 @@
 
 - (NSTimeInterval)timedHighlightAll {
 	SyntaxHighlighter *syntaxHighlighter = [I_documentMode syntaxHighlighter];
-	
+	if (!syntaxHighlighter) NSLog(@"no higlighter");
 	id textStorageToHighlight = textStorage;
 	if ([textStorageToHighlight isKindOfClass:[FoldableTextStorage class]]) {
 		textStorageToHighlight = [textStorageToHighlight fullTextStorage];
