@@ -3144,6 +3144,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             }
         } else {
             fileData = [NSData dataWithContentsOfURL:anURL options:0 error:outError];
+			I_flags.hasUTF8BOM = [fileData startsWithUTF8BOM]; // set the flag here
         }
                 
         DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"Data of size: %d bytes read", [fileData length]);
@@ -3267,7 +3268,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
         if (!success && [fileData startsWithUTF8BOM]) {
             DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"We found a UTF-8 BOM!");
-            I_flags.hasUTF8BOM = YES;
             [options setObject:[NSNumber numberWithUnsignedInt:NSUTF8StringEncoding] forKey:@"CharacterEncoding"];
             success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];
     #ifndef TCM_NO_DEBUG
@@ -3512,7 +3512,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         BOOL useUTF8Encoding = ((I_lastSaveOperation == NSSaveToOperation) && (I_encodingFromLastRunSaveToOperation == NSUTF8StringEncoding)) || ((I_lastSaveOperation != NSSaveToOperation) && ([self fileEncoding] == NSUTF8StringEncoding));
         if ((I_flags.hasUTF8BOM || modeWantsUTF8BOM) && useUTF8Encoding) {
             NSData *data = [[[self textStorage] string] dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:NO];
-            return [[data dataPrefixedWithUTF8BOM] writeToURL:absoluteURL options:0 error:outError];
+            BOOL result = [[data dataPrefixedWithUTF8BOM] writeToURL:absoluteURL options:0 error:outError];
+            if (result) {
+            	// write the xtended attribute for utf-8
+            	[UKXattrMetadataStore setString:@"UTF-8;134217984" forKey:@"com.apple.TextEncoding" atPath:[absoluteURL path] traverseLink:YES];
+            }
+            return result;
         } else {
             // let us write using NSStrings write methods so the encoding is added to the extended attributes
             return [[[(FoldableTextStorage *)[self textStorage] fullTextStorage] string] writeToURL:absoluteURL atomically:NO encoding:[self fileEncoding] error:outError];
