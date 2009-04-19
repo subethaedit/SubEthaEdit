@@ -3143,7 +3143,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 return NO;
             }
         } else {
-            fileData = [NSData dataWithContentsOfURL:anURL options:0 error:outError];
+            fileData = [NSData dataWithContentsOfURL:anURL options:NSMappedRead error:outError];
 			I_flags.hasUTF8BOM = [fileData startsWithUTF8BOM]; // set the flag here
         }
                 

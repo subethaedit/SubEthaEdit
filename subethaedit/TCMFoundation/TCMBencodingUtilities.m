@@ -67,42 +67,84 @@ Dictionaries are encoded as a 'd' followed by a list of alternating keys and the
 
 @end
 
+#define ConversionBufferLength 4096
+
+CFIndex TCM_AppendStringToMutableData(NSString *inString, NSMutableData *inData) {
+	UInt8 buffer[ConversionBufferLength];
+	CFIndex maxBufLen = ConversionBufferLength;
+	CFIndex usedBufLen = 0;
+	CFIndex totalBufLen = 0;
+	CFRange rangeToConvert = CFRangeMake(0,[inString length]);
+	while (rangeToConvert.length > 0) {
+		CFIndex convertedCharacters = CFStringGetBytes(
+			(CFStringRef)inString,
+			rangeToConvert,
+			kCFStringEncodingUTF8,
+			0,
+			true,
+			buffer,
+			maxBufLen,
+			&usedBufLen
+		);
+		if (convertedCharacters == 0) {
+			// something went totally wrong here
+			NSLog(@"%s failed to convert characters",__FUNCTION__);
+			return 0;
+		} else {
+			rangeToConvert.location += convertedCharacters;
+			rangeToConvert.length   -= convertedCharacters;
+			[inData appendBytes:buffer length:usedBufLen];
+			totalBufLen += usedBufLen;
+		}
+	}
+	return totalBufLen;
+}
+
+void TCM_AppendBencodedObjectToData(id inObject, NSMutableData *inData) {
+	NSMutableData *result = inData;
+    if ([inObject isKindOfClass:[TCMMutableBencodedData class]]) {
+        [result appendData:[(TCMMutableBencodedData *)inObject data]];
+    } else if ([inObject isKindOfClass:[NSString class]]) {
+        CFIndex stringByteLength = TCM_AppendStringToMutableData((NSString *)inObject,result);
+		NSString *prefixString = [[NSString alloc] initWithFormat:@"%d:",stringByteLength];
+        NSMutableData *prefixData = [[NSMutableData alloc] init];
+        TCM_AppendStringToMutableData(prefixString,prefixData);
+        [result replaceBytesInRange:NSMakeRange([result length] - stringByteLength,0) withBytes:[prefixData bytes] length:[prefixData length]];
+        [prefixData release];
+        [prefixString release];
+    } else if ([inObject isKindOfClass:[NSData class]]) {
+		NSString *prefixString = [[NSString alloc] initWithFormat:@"%d.",[inObject length]];
+        TCM_AppendStringToMutableData(prefixString,result);
+        [prefixString release];
+        [result appendData:inObject];
+    } else if ([inObject isKindOfClass:[NSDictionary class]]) {
+        [result appendBytes:"d" length:1];
+        NSEnumerator *keys=[inObject keyEnumerator];
+        id key=nil;
+        while ((key=[keys nextObject])) {
+        	TCM_AppendBencodedObjectToData(key,result);
+        	TCM_AppendBencodedObjectToData([inObject objectForKey:key],result);
+        }
+        [result appendBytes:"e" length:1];
+    } else if ([inObject isKindOfClass:[NSArray class]]) {
+        [result appendBytes:"l" length:1];
+        NSEnumerator *objects=[inObject objectEnumerator];
+        id object=nil;
+        while ((object=[objects nextObject])) {
+			TCM_AppendBencodedObjectToData(object,result);
+        }
+        [result appendBytes:"e" length:1];
+    } else if ([inObject isKindOfClass:[NSNumber class]]) {
+        long long number=[inObject longLongValue];
+		NSString *string = [[NSString alloc] initWithFormat:@"i%qie",number];
+        TCM_AppendStringToMutableData(string,result);
+        [string release];
+    }
+}
 
 NSData *TCM_BencodedObject(id aObject) {
     NSMutableData *result=[NSMutableData data];
-    
-    if ([aObject isKindOfClass:[TCMMutableBencodedData class]]) {
-        [result appendData:[(TCMMutableBencodedData *)aObject data]];
-    } else if ([aObject isKindOfClass:[NSString class]]) {
-        NSData *data=[aObject dataUsingEncoding:NSUTF8StringEncoding];
-        [result appendData:[[NSString stringWithFormat:@"%d:",[data length]] dataUsingEncoding:NSUTF8StringEncoding]];
-        [result appendData:data];
-    } else if ([aObject isKindOfClass:[NSData class]]) {
-        [result appendData:[[NSString stringWithFormat:@"%d.",[(NSData *)aObject length]] dataUsingEncoding:NSUTF8StringEncoding]];
-        [result appendData:aObject];
-    } else if ([aObject isKindOfClass:[NSDictionary class]]) {
-        [result appendBytes:"d" length:1];
-        NSEnumerator *keys=[aObject keyEnumerator];
-        id key=nil;
-        while ((key=[keys nextObject])) {
-            [result appendData:TCM_BencodedObject(key)];
-            [result appendData:TCM_BencodedObject([aObject objectForKey:key])];
-        }
-        [result appendBytes:"e" length:1];
-    } else if ([aObject isKindOfClass:[NSArray class]]) {
-        [result appendBytes:"l" length:1];
-        NSEnumerator *objects=[aObject objectEnumerator];
-        id object=nil;
-        while ((object=[objects nextObject])) {
-            [result appendData:TCM_BencodedObject(object)];
-        }
-        [result appendBytes:"e" length:1];
-    } else if ([aObject isKindOfClass:[NSNumber class]]) {
-        long long number=[aObject longLongValue];
-        NSData *longLongData=[[NSString stringWithFormat:@"i%qie",number] dataUsingEncoding:NSUTF8StringEncoding];
-        [result appendData:longLongData];
-    }
-    
+    TCM_AppendBencodedObjectToData(aObject,result);
     return result;
 }
 
