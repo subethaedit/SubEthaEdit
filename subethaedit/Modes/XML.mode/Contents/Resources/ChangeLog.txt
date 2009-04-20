@@ -1,3 +1,7 @@
+Changes with Version 1.5  (SEE 3.5)
+	 *) fixed mode recognition string
+	 *) added code folding
+
 Changes with Version 1.4  (SEE 2.6.4)
    *) fixed the validate scripts to work with unicode and leopard
    *) fixed the validate scripts to work with tabs
