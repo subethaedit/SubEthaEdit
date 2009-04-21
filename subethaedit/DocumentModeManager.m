@@ -534,9 +534,13 @@ static DocumentModeManager *S_sharedInstance=nil;
 - (DocumentMode *)documentModeForPath:(NSString *)path withContentData:(NSData *)content {
     // Convert data to ASCII, we don't know encoding yet at this point
     // FIXME Don't forget to handle UTF16/32
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     unsigned maxLength = [[NSUserDefaults standardUserDefaults] integerForKey:@"ByteLengthToUseForModeRecognitionAndEncodingGuessing"];
-    NSString *contentString = [[[NSString alloc] initWithBytesNoCopy:(void *)[content bytes] length:MIN([content length],maxLength) encoding:NSMacOSRomanStringEncoding freeWhenDone:NO] autorelease];
-    return [self documentModeForPath:path withContentString:contentString];
+    NSString *contentString = [[NSString alloc] initWithBytesNoCopy:(void *)[content bytes] length:MIN([content length],maxLength) encoding:NSMacOSRomanStringEncoding freeWhenDone:NO];
+    DocumentMode *mode = [self documentModeForPath:path withContentString:contentString];
+    [contentString release];
+    [pool release]; // this is save because mode is stored in something persistant and we know it
+    return mode;
 }
 
 - (DocumentMode *)documentModeForPath:(NSString *)path withContentString:(NSString *)contentString {

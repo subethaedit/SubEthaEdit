@@ -20,4 +20,6 @@
 - (void)replaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString synchronize:(BOOL)inSynchronizeFlag;
 - (void)setAttributes:(NSDictionary *)attributes range:(NSRange)aRange synchronize:(BOOL)inSynchronizeFlag;
 
+- (BOOL)readFromData:(NSData *)inData encoding:(NSStringEncoding)anEncoding;
+
 @end

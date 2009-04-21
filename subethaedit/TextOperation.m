@@ -184,7 +184,7 @@
 
 - (void)setReplacementString:(NSString *)aString {
     [I_replacementString autorelease];
-    I_replacementString = [aString copy];
+    I_replacementString = [aString retain];
 }
 
 - (NSString *)replacementString {

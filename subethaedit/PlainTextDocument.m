@@ -3104,8 +3104,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         return NO;
     }
 
-    NSTextStorage *textStorage = [I_textStorage fullTextStorage];
-    [(FullTextStorage *)textStorage setShouldWatchLineEndings:NO];
+    FullTextStorage *textStorage = (FullTextStorage *)[I_textStorage fullTextStorage];
+    [textStorage setShouldWatchLineEndings:NO];
     BOOL isReverting = ([textStorage length] != 0);
     BOOL wasAutosaved = NO;
     NSAttributedString *undoString = nil;
@@ -3228,7 +3228,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         if (encodingWasChosenExplicidly) {
             DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"The user did choose an explicid encoding (via open panel or seetool): %@",CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(encoding)));
             [options setObject:[NSNumber numberWithUnsignedInt:encoding] forKey:@"CharacterEncoding"];
-            success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];
+            success = [textStorage readFromData:fileData encoding:encoding];
         }
 
 //        NSArray *xattrKeys = [UKXattrMetadataStore allKeysAtPath:[anURL path] traverseLink:YES];
@@ -3259,7 +3259,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                     if (xEncoding != NoStringEncoding) {
                         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"We found an encoding in the xattrs! %@",CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(xEncoding)));
                         [options setObject:[NSNumber numberWithUnsignedInt:xEncoding] forKey:@"CharacterEncoding"];
-                        success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];
+                        success = [textStorage readFromData:fileData encoding:xEncoding];
                     }
                     
                 }
@@ -3269,7 +3269,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         if (!success && [fileData startsWithUTF8BOM]) {
             DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"We found a UTF-8 BOM!");
             [options setObject:[NSNumber numberWithUnsignedInt:NSUTF8StringEncoding] forKey:@"CharacterEncoding"];
-            success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];
+            success = [textStorage readFromData:fileData encoding:NSUTF8StringEncoding];
     #ifndef TCM_NO_DEBUG
         [_readFromURLDebugInformation appendFormat:@"-> Found UTF8BOM:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n",success,[options description],[docAttrs description],(success?nil:*outError)];
     #endif
@@ -3280,7 +3280,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"Checking for encoding/charset setting from html/xml/css");
             // checking if we can guess the correct encoding based on the charset inside the doc - check only the first 4k to avoid finding encoding settings in strings later on in the file (my counter example is a php file that writes out an email with html content that has another encoding than my php file - this is an actual example ;) )
             unsigned dataLength = MIN([fileData length],4096);
-            NSString	*fileContent = [[[NSString alloc] initWithBytesNoCopy:(void *)[fileData bytes] length:dataLength encoding:NSMacOSRomanStringEncoding freeWhenDone:NO] autorelease];
+            NSString	*fileContent = [[NSString alloc] initWithBytesNoCopy:(void *)[fileData bytes] length:dataLength encoding:NSMacOSRomanStringEncoding freeWhenDone:NO];
             BOOL		foundEncoding = NO;
             
             if ( [[mode documentModeIdentifier] isEqualToString:@"SEEMode.CSS"] ) {
@@ -3290,10 +3290,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 // check for html charset in all other documents
                 foundEncoding = [fileContent findIANAEncodingUsingExpression:@"<meta.*?charset=(.*?)\"" encoding:&encoding];
             }
+            [fileContent release];
             
             if ( foundEncoding ) {
                 [options setObject:[NSNumber numberWithUnsignedInt:encoding] forKey:NSCharacterEncodingDocumentOption];
-                success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];
+                success = [textStorage readFromData:fileData encoding:encoding];
                 if (success) [[EncodingManager sharedInstance] activateEncoding:encoding];
     #ifndef TCM_NO_DEBUG
         [_readFromURLDebugInformation appendFormat:@"--> 2. Step - reading encoding/charset setting from html/xml/css:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n",success,[options description],[docAttrs description],(success?nil:*outError)];
@@ -3331,7 +3332,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                  !(udEncoding == NSWindowsCP1250StringEncoding && encoding != NoStringEncoding)) {
                 // lookup found something meaningful, so try to use it
                 [options setObject:[NSNumber numberWithUnsignedInt:udEncoding] forKey:NSCharacterEncodingDocumentOption];
-                success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];
+                success = [textStorage readFromData:fileData encoding:udEncoding];
                 if (success) [[EncodingManager sharedInstance] activateEncoding:udEncoding];
     #ifndef TCM_NO_DEBUG
         [_readFromURLDebugInformation appendFormat:@"---> 3. Step - using UniversalDetector:\n success:%d confidence:%1.3f encoding:%@ readWithOptions:%@ docAttributes:%@ error:%@\n",success,confidence,CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(udEncoding)) ,[options description],[docAttrs description],(success?nil:*outError)];
@@ -3343,34 +3344,23 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         if (!success && encoding != NoStringEncoding && encoding < SmallestCustomStringEncoding) {
             DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"Checking with encoding set by mode");
             [options setObject:[NSNumber numberWithUnsignedInt:encoding] forKey:@"CharacterEncoding"];
-            success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];
+            success = [textStorage readFromData:fileData encoding:encoding];
     #ifndef TCM_NO_DEBUG
         [_readFromURLDebugInformation appendFormat:@"-> Mode Encoding Step:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n",success,[options description],[docAttrs description],(success?nil:*outError)];
     #endif
         }
-            
-        if ( !success ) {
-            DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"Checking with system encoding");
-
-            //all guess attempts failed, try system encoding
-            [options removeObjectForKey:NSCharacterEncodingDocumentOption];
-            success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];
-    #ifndef TCM_NO_DEBUG
-        [_readFromURLDebugInformation appendFormat:@"----> 4. Step - using system encoding by not specifying an encoding:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n",success,[options description],[docAttrs description],(success?nil:*outError)];
-    #endif
-        }
-        
+                    
         if ( !success ) {
             DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"Checking with Mac OS Roman as last resort");
             //even system failed, try Mac OS Roman system encoding
             [options setObject:[NSNumber numberWithUnsignedInt:NSMacOSRomanStringEncoding] forKey:NSCharacterEncodingDocumentOption];
-            success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];
+            success = [textStorage readFromData:fileData encoding:NSMacOSRomanStringEncoding];
     #ifndef TCM_NO_DEBUG
         [_readFromURLDebugInformation appendFormat:@"-----> 5. Step - using mac os roman encoding:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n",success,[options description],[docAttrs description],(success?nil:*outError)];
     #endif
         }
     
-        [self setFileEncoding:[[docAttrs objectForKey:@"CharacterEncoding"] unsignedIntValue]];
+        [self setFileEncoding:[[options objectForKey:@"CharacterEncoding"] unsignedIntValue]];
 
 
         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Encoding guessing information summary: %@", _readFromURLDebugInformation);
