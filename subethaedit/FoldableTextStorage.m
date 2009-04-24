@@ -36,7 +36,9 @@ NSString * const BlockeditAttributeValue=@"YES";
 @implementation FoldableTextStorage
 
 + (void)initialize {
-	S_nonSyncAttributes = [[NSArray alloc] initWithObjects:kSyntaxHighlightingIsCorrectAttributeName,BlockeditAttributeName,nil];
+	if (self == [FoldableTextStorage class]) {
+		S_nonSyncAttributes = [[NSArray alloc] initWithObjects:kSyntaxHighlightingIsCorrectAttributeName,BlockeditAttributeName,nil];
+	}
 }
 
 - (id)init {

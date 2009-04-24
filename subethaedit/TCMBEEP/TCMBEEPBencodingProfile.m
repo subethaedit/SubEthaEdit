@@ -15,7 +15,9 @@ static NSMutableDictionary *S_routingDictionary=nil;
 @implementation TCMBEEPBencodingProfile
 
 + (void)initialize {
-    S_routingDictionary = [NSMutableDictionary new];
+	if (self == [TCMBEEPBencodingProfile class]) {
+	    S_routingDictionary = [NSMutableDictionary new];
+	}
 }
 
 + (NSMutableDictionary *)myRoutingDictionary {

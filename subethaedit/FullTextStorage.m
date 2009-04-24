@@ -46,21 +46,23 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 @implementation FullTextStorage
 
 + (void)initialize {
-    static NSString *sUnicodeLSEP=nil;
-    static NSString *sUnicodePSEP=nil;
-    if (sUnicodeLSEP==nil) {
-        unichar seps[2];
-        seps[0]=0x2028;
-        seps[1]=0x2029;
-        sUnicodeLSEP=[[NSString stringWithCharacters:seps   length:1] retain];
-        sUnicodePSEP=[[NSString stringWithCharacters:seps+1 length:1] retain];
-    }
-    S_LineEndingLFRegExPart = @"(?:(?<!\r)\n)";
-    S_LineEndingCRRegExPart = @"(?:\r(?!\n))";
-    S_LineEndingCRLFRegExPart = @"(?:\r\n)";
-    S_LineEndingUnicodeLineSeparatorRegExPart = [[NSString alloc] initWithFormat:@"(?:%@)", sUnicodeLSEP];
-    S_LineEndingUnicodeParagraphSeparatorRegExPart = [[NSString alloc] initWithFormat:@"(?:%@)", sUnicodePSEP];
-    S_AllLineEndingRegexPartsArray = [[NSArray alloc] initWithObjects:S_LineEndingLFRegExPart,S_LineEndingCRRegExPart,S_LineEndingCRLFRegExPart,S_LineEndingUnicodeLineSeparatorRegExPart,S_LineEndingUnicodeParagraphSeparatorRegExPart,nil];
+	if (self == [FullTextStorage class]) {
+		static NSString *sUnicodeLSEP=nil;
+		static NSString *sUnicodePSEP=nil;
+		if (sUnicodeLSEP==nil) {
+			unichar seps[2];
+			seps[0]=0x2028;
+			seps[1]=0x2029;
+			sUnicodeLSEP=[[NSString stringWithCharacters:seps   length:1] retain];
+			sUnicodePSEP=[[NSString stringWithCharacters:seps+1 length:1] retain];
+		}
+		S_LineEndingLFRegExPart = @"(?:(?<!\r)\n)";
+		S_LineEndingCRRegExPart = @"(?:\r(?!\n))";
+		S_LineEndingCRLFRegExPart = @"(?:\r\n)";
+		S_LineEndingUnicodeLineSeparatorRegExPart = [[NSString alloc] initWithFormat:@"(?:%@)", sUnicodeLSEP];
+		S_LineEndingUnicodeParagraphSeparatorRegExPart = [[NSString alloc] initWithFormat:@"(?:%@)", sUnicodePSEP];
+		S_AllLineEndingRegexPartsArray = [[NSArray alloc] initWithObjects:S_LineEndingLFRegExPart,S_LineEndingCRRegExPart,S_LineEndingCRLFRegExPart,S_LineEndingUnicodeLineSeparatorRegExPart,S_LineEndingUnicodeParagraphSeparatorRegExPart,nil];
+	}
 }
 
 + (OGRegularExpression *)wrongLineEndingRegex:(LineEnding)aLineEnding {

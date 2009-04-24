@@ -20,10 +20,12 @@
 
 @implementation TCMMMLogStatisticsEntry
 + (void)initialize {
-    [self setKeys:[NSArray arrayWithObject:@"dateOfLastActivity"] triggerChangeNotificationsForDependentKey:@"operationCount"];
-    [self setKeys:[NSArray arrayWithObject:@"dateOfLastActivity"] triggerChangeNotificationsForDependentKey:@"deletedCharacters"];
-    [self setKeys:[NSArray arrayWithObject:@"dateOfLastActivity"] triggerChangeNotificationsForDependentKey:@"insertedCharacters"];
-    [self setKeys:[NSArray arrayWithObject:@"dateOfLastActivity"] triggerChangeNotificationsForDependentKey:@"selectedCharacters"];
+	if (self == [TCMMMLogStatisticsEntry class]) {
+		[self setKeys:[NSArray arrayWithObject:@"dateOfLastActivity"] triggerChangeNotificationsForDependentKey:@"operationCount"];
+		[self setKeys:[NSArray arrayWithObject:@"dateOfLastActivity"] triggerChangeNotificationsForDependentKey:@"deletedCharacters"];
+		[self setKeys:[NSArray arrayWithObject:@"dateOfLastActivity"] triggerChangeNotificationsForDependentKey:@"insertedCharacters"];
+		[self setKeys:[NSArray arrayWithObject:@"dateOfLastActivity"] triggerChangeNotificationsForDependentKey:@"selectedCharacters"];
+	}
 }
 
 - (id)initWithMMUser:(TCMMMUser *)aUser {

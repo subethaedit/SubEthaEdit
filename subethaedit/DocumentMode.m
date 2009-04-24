@@ -83,58 +83,60 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 @implementation DocumentMode
 
 + (void)initialize {
-    defaultablePreferenceKeys=[NSMutableDictionary new];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
-                                  forKey:DocumentModeHighlightSyntaxPreferenceKey];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
-                                  forKey:DocumentModeShowMatchingBracketsPreferenceKey];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
-                                  forKey:DocumentModeShowInvisibleCharactersPreferenceKey];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
-                                  forKey:DocumentModeWrapLinesPreferenceKey];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
-                                  forKey:DocumentModeIndentWrappedLinesPreferenceKey];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
-                                  forKey:DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
-                                  forKey:DocumentModeShowPageGuidePreferenceKey];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
-                                  forKey:DocumentModePageGuideWidthPreferenceKey];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
-                                  forKey:DocumentModeWrapModePreferenceKey];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
-                                  forKey:DocumentModeShowLineNumbersPreferenceKey];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
-                                  forKey:DocumentModeRowsPreferenceKey];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
-                                  forKey:DocumentModeColumnsPreferenceKey];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
-                                  forKey:DocumentModeForegroundColorPreferenceKey];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
-                                  forKey:DocumentModeBackgroundColorPreferenceKey];
-                                  
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultEditPreferenceKey
-                                  forKey:DocumentModeUseTabsPreferenceKey];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultEditPreferenceKey
-                                  forKey:DocumentModeIndentNewLinesPreferenceKey];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultEditPreferenceKey
-                                  forKey:DocumentModeTabWidthPreferenceKey];
-
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultFilePreferenceKey
-                                  forKey:DocumentModeEncodingPreferenceKey];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultFilePreferenceKey
-                                  forKey:DocumentModeLineEndingPreferenceKey];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultFilePreferenceKey
-                                  forKey:DocumentModeUTF8BOMPreferenceKey];
-
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultFontPreferenceKey
-                                  forKey:DocumentModeFontAttributesPreferenceKey];
-
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultPrintPreferenceKey
-                                  forKey:DocumentModePrintOptionsPreferenceKey];
-
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultStylePreferenceKey
-                                  forKey:DocumentModeBackgroundColorIsDarkPreferenceKey];
+	if (self == [DocumentMode class]) {
+		defaultablePreferenceKeys=[NSMutableDictionary new];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+									  forKey:DocumentModeHighlightSyntaxPreferenceKey];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+									  forKey:DocumentModeShowMatchingBracketsPreferenceKey];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+									  forKey:DocumentModeShowInvisibleCharactersPreferenceKey];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+									  forKey:DocumentModeWrapLinesPreferenceKey];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+									  forKey:DocumentModeIndentWrappedLinesPreferenceKey];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+									  forKey:DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+									  forKey:DocumentModeShowPageGuidePreferenceKey];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+									  forKey:DocumentModePageGuideWidthPreferenceKey];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+									  forKey:DocumentModeWrapModePreferenceKey];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+									  forKey:DocumentModeShowLineNumbersPreferenceKey];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+									  forKey:DocumentModeRowsPreferenceKey];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+									  forKey:DocumentModeColumnsPreferenceKey];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+									  forKey:DocumentModeForegroundColorPreferenceKey];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+									  forKey:DocumentModeBackgroundColorPreferenceKey];
+									  
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultEditPreferenceKey
+									  forKey:DocumentModeUseTabsPreferenceKey];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultEditPreferenceKey
+									  forKey:DocumentModeIndentNewLinesPreferenceKey];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultEditPreferenceKey
+									  forKey:DocumentModeTabWidthPreferenceKey];
+	
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultFilePreferenceKey
+									  forKey:DocumentModeEncodingPreferenceKey];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultFilePreferenceKey
+									  forKey:DocumentModeLineEndingPreferenceKey];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultFilePreferenceKey
+									  forKey:DocumentModeUTF8BOMPreferenceKey];
+	
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultFontPreferenceKey
+									  forKey:DocumentModeFontAttributesPreferenceKey];
+	
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultPrintPreferenceKey
+									  forKey:DocumentModePrintOptionsPreferenceKey];
+	
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultStylePreferenceKey
+									  forKey:DocumentModeBackgroundColorIsDarkPreferenceKey];
+	}
 }
 
 #define SCRIPTMODEMENUTAGBASE 4000

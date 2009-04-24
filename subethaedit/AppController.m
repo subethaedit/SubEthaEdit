@@ -120,38 +120,40 @@ static AppController *sharedInstance = nil;
 @implementation AppController
 
 + (void)initialize {
-    [NSNumberFormatter setDefaultFormatterBehavior:NSNumberFormatterBehavior10_4];
-    [NSURLProtocol registerClass:[URLDataProtocol class]];
-    NSMutableDictionary *defaults = [NSMutableDictionary dictionary];
-    [defaults setObject:[NSNumber numberWithInt:SUBETHAEDIT_DEFAULT_PORT] forKey:DefaultPortNumber];
-    [defaults setObject:[NSNumber numberWithInt:10] forKey:@"NSRecentDocumentsLimit"];
-    [defaults setObject:[NSMutableArray array] forKey:AddressHistory];
-    [defaults setObject:[NSNumber numberWithBool:YES] forKey:@"EnableTLS"];
-    [defaults setObject:[NSNumber numberWithBool:NO] forKey:ProhibitInboundInternetSessions];
-    [defaults setObject:[NSNumber numberWithDouble:60.] forKey:NetworkTimeoutPreferenceKey];
-    [defaults setObject:[NSNumber numberWithDouble:60.] forKey:@"AutoSavingDelay"];
-    [defaults setObject:[NSNumber numberWithBool:YES] forKey:VisibilityPrefKey];
-    [defaults setObject:[NSNumber numberWithBool:YES] forKey:AutoconnectPrefKey];
-    [defaults setObject:[NSNumber numberWithBool:NO] forKey:@"GoIntoBundlesPrefKey"];
-#ifdef TCM_NO_DEBUG
-	[defaults setObject:[NSNumber numberWithBool:NO] forKey:@"EnableBEEPLogging"];
-#endif
-    [defaults setObject:[NSNumber numberWithInt:800*1024] forKey:@"StringLengthToStopHighlightingAndWrapping"];
-    [defaults setObject:[NSNumber numberWithInt:800*1024] forKey:@"StringLengthToStopSymbolRecognition"];
-    [defaults setObject:[NSNumber numberWithInt:4096*1024] forKey:@"ByteLengthToUseForModeRecognitionAndEncodingGuessing"];
-    // fix of SEE-883 - only an issue on tiger...
-    if (floor(NSAppKitVersionNumber) == 824.) {
-        [defaults setObject:[NSNumber numberWithBool:NO] forKey:@"NSUseInsertionPointCache"];
-    }
-    
-    [defaults setObject:[NSNumber numberWithBool:floor(NSAppKitVersionNumber) > 824.] forKey:@"SaveSeeTextPreview"];
-    [defaults setObject:[NSNumber numberWithBool:YES] forKey:ShouldAutomaticallyMapPort];
-    [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
-    
-    [[TCMMMTransformator sharedInstance] registerTransformationTarget:[TextOperation class] selector:@selector(transformTextOperation:serverTextOperation:) forOperationId:[TextOperation operationID] andOperationID:[TextOperation operationID]];
-    [[TCMMMTransformator sharedInstance] registerTransformationTarget:[SelectionOperation class] selector:@selector(transformOperation:serverOperation:) forOperationId:[SelectionOperation operationID] andOperationID:[TextOperation operationID]];
-    [UserChangeOperation class];
-    [TCMMMNoOperation class];
+	if (self == [AppController class]) {
+		[NSNumberFormatter setDefaultFormatterBehavior:NSNumberFormatterBehavior10_4];
+		[NSURLProtocol registerClass:[URLDataProtocol class]];
+		NSMutableDictionary *defaults = [NSMutableDictionary dictionary];
+		[defaults setObject:[NSNumber numberWithInt:SUBETHAEDIT_DEFAULT_PORT] forKey:DefaultPortNumber];
+		[defaults setObject:[NSNumber numberWithInt:10] forKey:@"NSRecentDocumentsLimit"];
+		[defaults setObject:[NSMutableArray array] forKey:AddressHistory];
+		[defaults setObject:[NSNumber numberWithBool:YES] forKey:@"EnableTLS"];
+		[defaults setObject:[NSNumber numberWithBool:NO] forKey:ProhibitInboundInternetSessions];
+		[defaults setObject:[NSNumber numberWithDouble:60.] forKey:NetworkTimeoutPreferenceKey];
+		[defaults setObject:[NSNumber numberWithDouble:60.] forKey:@"AutoSavingDelay"];
+		[defaults setObject:[NSNumber numberWithBool:YES] forKey:VisibilityPrefKey];
+		[defaults setObject:[NSNumber numberWithBool:YES] forKey:AutoconnectPrefKey];
+		[defaults setObject:[NSNumber numberWithBool:NO] forKey:@"GoIntoBundlesPrefKey"];
+	#ifdef TCM_NO_DEBUG
+		[defaults setObject:[NSNumber numberWithBool:NO] forKey:@"EnableBEEPLogging"];
+	#endif
+		[defaults setObject:[NSNumber numberWithInt:800*1024] forKey:@"StringLengthToStopHighlightingAndWrapping"];
+		[defaults setObject:[NSNumber numberWithInt:800*1024] forKey:@"StringLengthToStopSymbolRecognition"];
+		[defaults setObject:[NSNumber numberWithInt:4096*1024] forKey:@"ByteLengthToUseForModeRecognitionAndEncodingGuessing"];
+		// fix of SEE-883 - only an issue on tiger...
+		if (floor(NSAppKitVersionNumber) == 824.) {
+			[defaults setObject:[NSNumber numberWithBool:NO] forKey:@"NSUseInsertionPointCache"];
+		}
+		
+		[defaults setObject:[NSNumber numberWithBool:floor(NSAppKitVersionNumber) > 824.] forKey:@"SaveSeeTextPreview"];
+		[defaults setObject:[NSNumber numberWithBool:YES] forKey:ShouldAutomaticallyMapPort];
+		[[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
+		
+		[[TCMMMTransformator sharedInstance] registerTransformationTarget:[TextOperation class] selector:@selector(transformTextOperation:serverTextOperation:) forOperationId:[TextOperation operationID] andOperationID:[TextOperation operationID]];
+		[[TCMMMTransformator sharedInstance] registerTransformationTarget:[SelectionOperation class] selector:@selector(transformOperation:serverOperation:) forOperationId:[SelectionOperation operationID] andOperationID:[TextOperation operationID]];
+		[UserChangeOperation class];
+		[TCMMMNoOperation class];
+	}
 }
 
 + (AppController *)sharedInstance {

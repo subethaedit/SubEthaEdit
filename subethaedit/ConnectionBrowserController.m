@@ -65,10 +65,12 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 @implementation ConnectionBrowserController
 
 + (void)initialize {
-    S_cancelableEntryPredicate = [[NSPredicate predicateWithFormat:@"isBonjour == NO AND connectionStatus != %@ AND hostStatus != %@",ConnectionStatusNoConnection,@"HostEntryStatusCancelling"] retain];
-    S_reconnectableEntryPredicate = [[NSPredicate predicateWithFormat:@"isBonjour == NO AND connectionStatus == %@ ",ConnectionStatusNoConnection] retain];
-    S_showableSessionPredicate = [[NSPredicate predicateWithFormat:@"clientState != %d",TCMMMSessionClientNoState] retain];
-    S_joinableSessionPredicate = [[NSPredicate predicateWithFormat:@"clientState = %d",TCMMMSessionClientNoState] retain];
+	if (self == [ConnectionBrowserController class]) {
+		S_cancelableEntryPredicate = [[NSPredicate predicateWithFormat:@"isBonjour == NO AND connectionStatus != %@ AND hostStatus != %@",ConnectionStatusNoConnection,@"HostEntryStatusCancelling"] retain];
+		S_reconnectableEntryPredicate = [[NSPredicate predicateWithFormat:@"isBonjour == NO AND connectionStatus == %@ ",ConnectionStatusNoConnection] retain];
+		S_showableSessionPredicate = [[NSPredicate predicateWithFormat:@"clientState != %d",TCMMMSessionClientNoState] retain];
+		S_joinableSessionPredicate = [[NSPredicate predicateWithFormat:@"clientState = %d",TCMMMSessionClientNoState] retain];
+	}
 }
 
 + (ConnectionBrowserController *)sharedInstance {

@@ -38,8 +38,10 @@ static TCMPreferenceController *sharedInstance = nil;
 
 + (void)initialize
 {
-    prefModules = [NSMutableArray new];
-    registeredPrefModules = [NSMutableDictionary new];
+	if (self == [TCMPreferenceController class]) {
+		prefModules = [NSMutableArray new];
+		registeredPrefModules = [NSMutableDictionary new];
+	}
 }
 
 + (void)registerPrefModule:(TCMPreferenceModule *)aModule
