@@ -47,9 +47,9 @@ static NSString *s_updateContext   = @"UpdateContext";
     id document = [O_documentObjectController content];
     if (document) {
         [O_wordCountTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%@ lines, %@ words, %@ characters",@"word count string in statistics controller"), 
-            [NSString stringByAddingThousandSeparatorsToNumber:[document valueForKeyPath:@"textStorage.numberOfLines"]],
-            [NSString stringByAddingThousandSeparatorsToNumber:[document valueForKeyPath:@"textStorage.numberOfWords"]],
-            [NSString stringByAddingThousandSeparatorsToNumber:[document valueForKeyPath:@"textStorage.numberOfCharacters"]]]];
+            [NSString stringByAddingThousandSeparatorsToNumber:[document valueForKeyPath:@"textStorage.fullTextStorage.numberOfLines"]],
+            [NSString stringByAddingThousandSeparatorsToNumber:[document valueForKeyPath:@"textStorage.fullTextStorage.numberOfWords"]],
+            [NSString stringByAddingThousandSeparatorsToNumber:[document valueForKeyPath:@"textStorage.fullTextStorage.numberOfCharacters"]]]];
     } else {
         [O_wordCountTextField setStringValue:@""];
     }
@@ -99,7 +99,7 @@ static NSString *s_updateContext   = @"UpdateContext";
     ];
     [O_statEntryArrayController rearrangeObjects];
     [O_documentObjectController addObserver:self forKeyPath:@"selection" options:0 context:s_updateContext];
-    [O_documentObjectController addObserver:self forKeyPath:@"selection.textStorage.numberOfLines" options:0 context:s_scheduleContext];
+    [O_documentObjectController addObserver:self forKeyPath:@"selection.textStorage.fullTextStorage.numberOfLines" options:0 context:s_scheduleContext];
     [O_graphView bind:@"statisticsEntry" toObject:O_statEntryArrayController withKeyPath:@"selectedObjects" options:0];
     [O_percentageButton setState:NSOnState];
     BOOL relativeMode = [O_percentageButton state]==NSOnState;
