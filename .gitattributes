@@ -1062,6 +1062,11 @@ subethaedit/Modes/SVNLog.mode/Contents/Resources/German.lproj/Localizable.string
 subethaedit/Modes/SVNLog.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/SVNLog.mode/Contents/Resources/RegexSymbols.xml -text
 subethaedit/Modes/SVNLog.mode/Contents/Resources/SyntaxDefinition.xml -text
+subethaedit/Modes/Wiki.mode/Contents/Info.plist -text
+subethaedit/Modes/Wiki.mode/Contents/Resources/AutocompleteAdditions.txt -text
+subethaedit/Modes/Wiki.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
+subethaedit/Modes/Wiki.mode/Contents/Resources/RegexSymbols.xml -text
+subethaedit/Modes/Wiki.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/XML.mode/Contents/Info.plist -text
 subethaedit/Modes/XML.mode/Contents/Resources/ChangeLog.txt -text
 subethaedit/Modes/XML.mode/Contents/Resources/English.lproj/InfoPlist.strings -text

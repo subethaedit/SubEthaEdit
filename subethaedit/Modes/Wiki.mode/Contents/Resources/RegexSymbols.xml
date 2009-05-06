@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "symbol.dtd">
+<symbols>
+
+    <!-- 
+    The <symbol> tag specifies what is being shown in the fuction popup.
+    It features the following attributes, all optional if not noted otherwise:
+        id
+            Has to be a unique string. Has to be specified.
+        image
+            Specify an image includes in the application (no extension) or
+            specify an image in this modes Resources directory (with extension)
+            SubEthaEdit comes with the following images:
+            Symbol#, SymbolC, SymbolE, SymbolF, SymbolF(), SymbolG, SymbolK,
+            SymbolL, SymbolM, SymbolP, SymbolS, SymbolT, SymbolV, SymbolWarn
+        indentation
+            0-15    The level of indentation
+        font-weight
+            normal  Normal font-weight (default)
+            bold    Bold text in popup
+        font-style
+            normal  Normal font-weight (default)
+            italic  Bold text in popup
+            
+        The example shows an symbol name "First example" with the image SymbolM
+        and an indentation of 1.
+    -->    
+    <symbol id="Section" image="SymbolS" indentation="0">
+        
+        <!-- 
+            The regex tag specifies the regular expression that is search for this
+            symbol. It contains a Ruby-flavored regular expression. If groups is
+            specified in the regular expression the first group is used for the
+            find string. Escape unwanted groups with (?:).
+            This tag has to be specified.
+            Tip: Test your expressions with SubEthaEdits "Find All" command.
+            Tip: Case sensitivity can be set to ignore by including (?i) in your
+                 expression.
+        -->
+        
+        <regex>^==([^=]*)==</regex>
+
+    </symbol>
+
+    <symbol id="Subsection" image="SymbolS" indentation="1">
+        <regex>^===([^=]*)===</regex>
+    </symbol>
+    
+    <symbol id="Subsubsection" image="SymbolS" indentation="2">
+        <regex>^====([^=]*)====</regex>
+    </symbol>
+    
+</symbols>

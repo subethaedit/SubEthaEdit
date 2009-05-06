@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "syntax.dtd">
+<syntax>
+    <head>
+        <name>Wiki</name>
+        <charsintokens>
+            <![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]>
+        </charsintokens> 
+    </head>
+
+    <states>
+    
+        <default id="Base" color="#000" inverted-color="#fff">
+ 
+
+        </default>
+
+        <state id="Unordered List" color="#0c0">
+            <begin><regex>^  +\*</regex></begin>
+            <end><regex>\n</regex></end>
+            
+            <keywords id="Link" color="#aaa" font-style="italic" font-weight="normal">
+                <regex>\w+://.*\|</regex>
+            </keywords>
+            
+            <state-link state="External Link" />
+            <state-link state="Bold" />
+            <state-link state="Italic" />
+
+        </state>
+
+        <state id="External Link" color="#00a" font-style="italic" font-weight="bold">
+            <begin><regex>\[\[</regex></begin>
+            <end><regex>\]\]</regex></end>
+            
+            <keywords id="Link" color="#aaa" font-style="italic" font-weight="normal">
+                <regex>\w+://.*\|</regex>
+            </keywords>
+            
+        </state>
+
+        <state id="Bold" color="#000" font-weight="bold">
+            <begin><regex>\*\*</regex></begin>
+            <end><regex>\*\*</regex></end>
+            <state id="Bold Italic" color="#000" font-weight="bold" font-style="italic" >
+                <begin><regex>\/\/</regex></begin>
+                <end><regex>\/\/</regex></end>
+           </state>
+        </state>
+
+        <state id="Italic" color="#000" font-style="italic" >
+            <begin><regex>\/\/</regex></begin>
+            <end><regex>\/\/</regex></end>
+            <state id="Italic Bold" color="#000" font-weight="bold" font-style="italic" >
+                <begin><regex>\*\*</regex></begin>
+                <end><regex>\*\*</regex></end>
+            </state>
+       </state>
+
+
+        <state id="Heading 6" color="#b22" font-weight="bold">
+            <begin><regex>======</regex></begin>
+            <end><regex>======</regex></end>
+        </state>
+
+        <state id="Heading 5" color="#c22" font-weight="bold">
+            <begin><regex>=====</regex></begin>
+            <end><regex>=====</regex></end>
+        </state>
+
+        <state id="Heading 4" color="#d22" font-weight="bold">
+            <begin><regex>====</regex></begin>
+            <end><regex>====</regex></end>
+        </state>
+
+        <state id="Heading 3" color="#e22" font-weight="bold">
+            <begin><regex>===</regex></begin>
+            <end><regex>===</regex></end>
+        </state>
+
+        <state id="Heading 2" color="#f22" font-weight="bold">
+            <begin><regex>==</regex></begin>
+            <end><regex>==</regex></end>
+        </state>
+
+        <state id="Heading 1" color="#f00" font-weight="bold">
+            <begin><regex>=</regex></begin>
+            <end><regex>=</regex></end>
+        </state>
+
+    </states>
+
+</syntax>
