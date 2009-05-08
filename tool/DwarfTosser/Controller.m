@@ -18,6 +18,8 @@
 
 - (NSString *) resolveSymbolsInString:(NSString *)inString 
 {
+    //NSLog(@"%s:%d",__PRETTY_FUNCTION__,__LINE__);
+
     NSMutableString *returnString = [NSMutableString stringWithString:inString];
     OGRegularExpression *regex;
     OGRegularExpressionMatch *match;
@@ -25,11 +27,12 @@
     NSString *architecture = nil;
         
     // 10.4 and 10.5 version parsing
-    regex = [OGRegularExpression regularExpressionWithString:@"^Version:[ \\t]+(.*)"];
+    regex = [OGRegularExpression regularExpressionWithString:@"[\n\r]Version:[ \\t]+(.*)"];
     match = [regex matchInString:inString];
     version = [match lastMatchSubstring];
-    
-    // 10.5 architecure parsing
+	//NSLog(@"%@", version);
+  
+	// 10.5 architecure parsing
     regex = [OGRegularExpression regularExpressionWithString:@"Code Type:[ \\t]+(...)"];
     match = [regex matchInString:inString];
     if ([match count]>0) {
@@ -48,7 +51,7 @@
         }
     }
     
-    regex = [OGRegularExpression regularExpressionWithString:@"\\d+[ \\t]+([\\w.]+)[ \\t]+([0-9a-f]x[0-9a-f]+)[ \\t]+([0-9a-f]x[0-9a-f]+)[ \\t]+\\+[ \\t]+([0-9a-f]+)"];
+    regex = [OGRegularExpression regularExpressionWithString:@"\\d+[ \\t]+([\\w.]+)[ \\t]+([0-9a-f]x[0-9a-f]+)[ \\t]+([0-9a-f]x[0-9a-f]+)[ \\t]+[\\+ \\t][ \\t]+([0-9a-f]+)"];
 
     NSEnumerator *enumerator = [[regex allMatchesInString:inString] reverseObjectEnumerator];
     while ((match = [enumerator nextObject])) {
@@ -57,8 +60,12 @@
         NSString *offset = [match substringAtIndex:3];
         NSString *address = [match substringAtIndex:4];
         NSString *dsymPath = [self dsymPathForName:dsymName andVersion:version];
-        
-        NSScanner *scanner;
+		
+		if (! dsymPath) {  // choosing of dsym file canceled
+			break;
+		}
+
+		NSScanner *scanner;
         unsigned int off = 0;
         scanner = [NSScanner scannerWithString:offset];
         [scanner scanHexInt:&off];
@@ -113,6 +120,7 @@
 
 - (NSString *)dsymPathForName:(NSString *)inName andVersion:(NSString *)inVersion
 {
+    //NSLog(@"foo: %@", inName);
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSMutableDictionary *paths = [NSMutableDictionary dictionaryWithDictionary:[defaults dictionaryForKey:@"CachedDSYMPaths"]];
     NSString *key = [NSString stringWithFormat:@"%@ %@",inName,inVersion];
