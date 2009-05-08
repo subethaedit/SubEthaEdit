@@ -30,7 +30,7 @@
             if (length>0) {
                 NSString *string=[[NSString alloc] 
                                     initWithBytes:bytes 
-                                           length:(unsigned int)length 
+                                           length:(NSUInteger)length 
                                          encoding:NSUTF8StringEncoding];
                 if (string) {
                     [result addObject:string];

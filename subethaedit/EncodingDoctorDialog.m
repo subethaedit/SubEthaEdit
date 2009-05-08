@@ -101,7 +101,7 @@
     }
     [O_foundErrors setContent:newErrors];
 
-    if ([[O_foundErrors arrangedObjects] count]>0) {
+    if ([(NSArray*)[O_foundErrors arrangedObjects] count]>0) {
         [O_foundErrors setSelectionIndex:0];
         [self jumpToSelection:self];
         [[O_tableView window] makeFirstResponder:O_tableView];
@@ -136,7 +136,7 @@
 }
 
 
-- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(int)rowIndex {
+- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(NSInteger)rowIndex {
 	NSRange range = [[[[O_foundErrors arrangedObjects] objectAtIndex:rowIndex] objectForKey:@"selectionOperation"] selectedRange];
 	[I_document selectRangeInBackground:range];
 	return YES;

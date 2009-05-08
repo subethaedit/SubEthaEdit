@@ -98,7 +98,7 @@
     if (aMessage) {
         
         // clean up buffer
-        unsigned int i;
+        NSUInteger i;
         if (I_isServer) {
             for (i = 0; i < [I_messageBuffer count];) {
                 if ([[I_messageBuffer objectAtIndex:i] numberOfServerMessages]

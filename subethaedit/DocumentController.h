@@ -53,7 +53,9 @@
 
 - (NSMenu *)documentMenu;
 
+#if !defined(CODA)
 - (IBAction)alwaysShowTabBar:(id)sender;
+#endif //!defined(CODA)
 
 - (IBAction)goIntoBundles:(id)sender;
 - (IBAction)changeModeInstallationDomain:(id)sender;
@@ -74,6 +76,10 @@
 - (NSString *)modeIdentifierFromLastRunOpenPanel;
 - (BOOL)isDocumentFromLastRunOpenPanel:(NSDocument *)aDocument;
 - (NSDictionary *)propertiesForOpenedFile:(NSString *)fileName;
+
+#if defined(CODA)
+- (void)setDocumentsFromLastRunOpenPanel:(NSArray*)filenames;
+#endif //defined(CODA)
 
 - (BOOL)isOpeningUntitledDocument;
 - (void)setIsOpeningUsingAlternateMenuItem:(BOOL)aFlag;

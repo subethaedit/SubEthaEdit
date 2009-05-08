@@ -8,6 +8,10 @@
 
 #import <AppKit/AppKit.h>
 
+#if defined(CODA)
+@class PlainTextEditor; 
+#endif //defined(CODA)
+
 @interface TextView : NSTextView {
     BOOL I_isDragTarget;
     struct {
@@ -19,8 +23,15 @@
     } I_flags;
     float I_pageGuidePosition;
     NSTimer *I_timer;
+#if defined(CODA)
+	PlainTextEditor* editor;
+#endif //defined(CODA)
 }
 
+#if defined(CODA)
+- (void)setEditor:(PlainTextEditor*)inEditor;
+- (PlainTextEditor*)editor;
+#endif //defined(CODA)
 + (void)setDefaultMenu:(NSMenu *)aMenu;
 - (void)setPageGuidePosition:(float)aPosition;
 - (BOOL)isPasting;

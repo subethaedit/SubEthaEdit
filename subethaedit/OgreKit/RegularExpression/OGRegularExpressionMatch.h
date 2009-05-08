@@ -239,4 +239,4 @@ number of capture history: 2
 @end
 
 // UTF16文字列の長さを得る
-inline unsigned Ogre_UTF16strlen(unichar *const aUTF16string, unichar *const end);
+#define Ogre_UTF16strlen(aUTF16string, end) (ptrdiff_t)(end - aUTF16string)

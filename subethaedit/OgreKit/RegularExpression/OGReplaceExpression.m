@@ -152,7 +152,7 @@ static OGRegularExpression  *gReplaceRegex = nil;
 					cap = [match captureHistory];
 					numberOfHistory = [cap numberOfChildren];
 					for (indexOfHistory = 0; indexOfHistory < numberOfHistory; indexOfHistory++) {
-						unic[indexOfHistory] = (unichar)strtoul([[[cap childAtIndex:indexOfHistory] string] cString], NULL, 16);
+						unic[indexOfHistory] = (unichar)strtoul([[[cap childAtIndex:indexOfHistory] string] UTF8String], NULL, 16);
 					}
 					unic[numberOfHistory] = 0;
 					controlCharacter = [NSString stringWithCharacters:unic length:numberOfHistory];

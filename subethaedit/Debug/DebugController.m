@@ -16,7 +16,9 @@
 #import "DebugSendOperationController.h"
 #import "DebugHistoryController.h"
 #import "TCMMMBEEPSessionManager.h"
+#if !defined(CODA)
 #import <HDCrashReporter/crashReporter.h>
+#endif //!defined(CODA)
 #import "DocumentProxyWindowController.h"
 #import "TCMMillionMonkeys.h"
 #import "TCMMMUserSEEAdditions.h"
@@ -218,7 +220,9 @@ static DebugController * sharedInstance = nil;
 }
 
 - (IBAction)sendCrashReport:(id)sender {
+#if !defined(CODA)
     [HDCrashReporter doCrashSubmitting];
+#endif //!defined(CODA)
 }
 
 - (IBAction)printModePrecedences:(id)aSender {

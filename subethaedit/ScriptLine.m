@@ -31,18 +31,18 @@
 
 - (NSRange)rangeRepresentation
 {
-    unsigned startIndex;
-    unsigned lineEndIndex;
-    unsigned contentsEndIndex;
+    NSUInteger startIndex;
+    NSUInteger lineEndIndex;
+    NSUInteger contentsEndIndex;
     [[I_textStorage string] getLineStart:&startIndex end:&lineEndIndex contentsEnd:&contentsEndIndex forRange:[I_textStorage findLine:I_lineNumber]];
     return NSMakeRange(startIndex, lineEndIndex - startIndex);
 }
 
 - (NSRange)innerRangeRepresentation
 {
-    unsigned startIndex;
-    unsigned lineEndIndex;
-    unsigned contentsEndIndex;
+    NSUInteger startIndex;
+    NSUInteger lineEndIndex;
+    NSUInteger contentsEndIndex;
     [[I_textStorage string] getLineStart:&startIndex end:&lineEndIndex contentsEnd:&contentsEndIndex forRange:[I_textStorage findLine:I_lineNumber]];
     return NSMakeRange(startIndex, contentsEndIndex - startIndex);
 }

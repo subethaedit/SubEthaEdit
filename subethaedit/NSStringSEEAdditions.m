@@ -18,7 +18,7 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
 
     unsigned length = [string length];
     unsigned curPos = 0;
-    unsigned start, end, contentsEnd;
+    NSUInteger start, end, contentsEnd;
 
 
     newEOLLen = [newLineEnding length];
@@ -76,8 +76,8 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
 }
 
 - (NSMutableString *)addBRs {
-    unsigned index=[self length];
-    unsigned startIndex,lineEndIndex,contentsEndIndex;
+    NSUInteger index=[self length];
+    NSUInteger startIndex,lineEndIndex,contentsEndIndex;
     while (index!=0) {
         [self getLineStart:&startIndex end:&lineEndIndex contentsEnd:&contentsEndIndex forRange:NSMakeRange(index-1,0)];
         if (contentsEndIndex!=lineEndIndex) {
@@ -121,6 +121,7 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
     }
 }
 
+#if !defined(CODA)
 - (BOOL)isValidSerial
 {
     // Pirated number (2.1.1): 2QF-PABI-OCM6-KRHH (Blocked by enforcing SEE prefix) (SB)
@@ -214,6 +215,7 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
     
     return result;
 }
+#endif //!defined(CODA)
 
 - (BOOL)isWhiteSpace {
     static unichar s_space=0,s_tab,s_cr,s_nl;
@@ -224,7 +226,7 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
         s_nl=[@"\n" characterAtIndex:0];
     }
 
-    unsigned int i=0;
+   NSUInteger i=0;
     BOOL result=YES;
     for (i=0;i<[self length];i++) {
         unichar character=[self characterAtIndex:i];
@@ -697,7 +699,7 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
     NSRange foundRange;
     NSRange maxRange=NSMakeRange(0,[self length]);
     NSDictionary *attributes;
-    unsigned int index=0;
+    NSUInteger index=0;
     do {
         NSAutoreleasePool *pool=[[NSAutoreleasePool alloc] init];
         attributes=[self attributesAtIndex:index

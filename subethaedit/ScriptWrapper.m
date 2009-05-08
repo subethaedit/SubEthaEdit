@@ -107,8 +107,12 @@ NSString * const ScriptWrapperDidRunScriptNotification =@"ScriptWrapperDidRunScr
 - (NSDictionary *)settingsDictionary {
     if (!I_settingsDictionary) {
         NSDictionary *errorDictionary=nil;
+#if defined(CODA)
+		NSAppleEventDescriptor *ae = [I_appleScript executeAppleEvent:[NSAppleEventDescriptor appleEventToCallSubroutine:@"CodaScriptSettings"] error:&errorDictionary];
+#else
         NSAppleEventDescriptor *ae = [I_appleScript executeAppleEvent:[NSAppleEventDescriptor appleEventToCallSubroutine:@"SeeScriptSettings"] error:&errorDictionary];
-        if (errorDictionary==nil) {
+#endif //defined(CODA)
+		if (errorDictionary==nil) {
             I_settingsDictionary = [[ae dictionaryValue] copy];
         } else {
             I_settingsDictionary = [[NSDictionary alloc] init];

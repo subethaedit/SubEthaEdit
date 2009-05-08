@@ -92,7 +92,7 @@
     return result;
 }
 
-- (unsigned int)countOfScriptedCharacters {
+- (NSUInteger)countOfScriptedCharacters {
     return [self rangeRepresentation].length;
 }
 

@@ -200,7 +200,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 
     NSIndexSet *indexes = [O_browserListView selectedRowIndexes];
     if (indexes) {
-        unsigned int index = [indexes firstIndex];
+        NSUInteger index = [indexes firstIndex];
         while (index != NSNotFound) {
             ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
             ConnectionBrowserEntry *entry = [[I_entriesController arrangedObjects] objectAtIndex:pair.itemIndex];
@@ -463,7 +463,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     NSArray *arrangedObjects = [I_entriesController arrangedObjects];
     
     NSIndexSet *indexes = [O_browserListView selectedRowIndexes];
-    unsigned int index = [indexes firstIndex];
+    NSUInteger index = [indexes firstIndex];
     while (index != NSNotFound) {
         ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
         ConnectionBrowserEntry *entry = [arrangedObjects objectAtIndex:pair.itemIndex];
@@ -589,7 +589,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 }
 
 - (void)selectEntry:(ConnectionBrowserEntry *)anEntry {
-    unsigned int index = [[I_entriesController arrangedObjects] indexOfObject:anEntry];
+    NSUInteger index = [[I_entriesController arrangedObjects] indexOfObject:anEntry];
     if (index == NSNotFound) {
         [O_browserListView deselectAll:self];
     } else {
@@ -686,7 +686,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 - (void)reconnectWithIndexes:(NSIndexSet *)indexes {
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"trying to reconnect");
     NSMutableSet *set = [NSMutableSet set];
-    unsigned int index = [indexes firstIndex];
+    NSUInteger index = [indexes firstIndex];
     while (index != NSNotFound) {
         ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
         if (pair.childIndex == -1) {
@@ -705,7 +705,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"cancel");
     NSMutableSet *set = [NSMutableSet set];
     BOOL abort = NO;
-    unsigned int index = [indexes firstIndex];
+    NSUInteger index = [indexes firstIndex];
     while (index != NSNotFound) {
         ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
         if (pair.childIndex == -1) {
@@ -742,7 +742,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 
 - (void)joinSessionsWithIndexes:(NSIndexSet *)indexes {
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"join");
-    unsigned int index = [indexes firstIndex];
+    NSUInteger index = [indexes firstIndex];
     while (index != NSNotFound) {
         ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
         ConnectionBrowserEntry *entry = [[I_entriesController arrangedObjects] objectAtIndex:pair.itemIndex];
@@ -760,7 +760,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 - (NSIndexSet *)indexSetOfSelectedSessionsFilteredUsingPredicate:(NSPredicate *)aPredicate {
     NSMutableIndexSet *set = [NSMutableIndexSet indexSet];
     NSIndexSet *indexes = [O_browserListView selectedRowIndexes];
-    unsigned int index = [indexes firstIndex];
+    NSUInteger index = [indexes firstIndex];
     while (index != NSNotFound) {
         ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
         if (pair.childIndex != -1) {
@@ -806,7 +806,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 - (NSSet *)selectedEntriesFilteredUsingPredicate:(NSPredicate *)aPredicate {
     NSMutableSet *set = [NSMutableSet set];
     NSIndexSet *indexes = [O_browserListView selectedRowIndexes];
-    unsigned int index = [indexes firstIndex];
+    NSUInteger index = [indexes firstIndex];
     while (index != NSNotFound) {
         ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
         if (pair.childIndex == -1) {
@@ -823,7 +823,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 - (NSIndexSet *)indexSetOfSelectedEntrysFilteredUsingPredicate:(NSPredicate *)aPredicate {
     NSMutableIndexSet *set = [NSMutableIndexSet indexSet];
     NSIndexSet *indexes = [O_browserListView selectedRowIndexes];
-    unsigned int index = [indexes firstIndex];
+    NSUInteger index = [indexes firstIndex];
     while (index != NSNotFound) {
         ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
         if (pair.childIndex == -1) {
@@ -1060,7 +1060,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     NSMutableArray *plist = [NSMutableArray array];
     NSMutableString *vcfString= [NSMutableString string];
     NSURL *reachabilityURL = nil;
-    unsigned int index = [indexes firstIndex];
+    NSUInteger index = [indexes firstIndex];
     TCMMMUser *lastUser=nil;
     while (index != NSNotFound) {
         ItemChildPair pair = [listView itemChildPairAtRow:index];
@@ -1192,15 +1192,15 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 // NSComboBoxDataSource
 //
 
-- (unsigned int)comboBox:(NSComboBox *)comboBox indexOfItemWithStringValue:(NSString *)string {
+- (NSUInteger)comboBox:(NSComboBox *)comboBox indexOfItemWithStringValue:(NSString *)string {
     return [I_comboBoxItems indexOfObject:string];
 }
 
-- (id)comboBox:(NSComboBox *)comboBox objectValueForItemAtIndex:(int)index {
+- (id)comboBox:(NSComboBox *)comboBox objectValueForItemAtIndex:(NSInteger)index {
     return [I_comboBoxItems objectAtIndex:index];
 }
 
-- (int)numberOfItemsInComboBox:(NSComboBox *)comboBox {
+- (NSInteger)numberOfItemsInComboBox:(NSComboBox *)comboBox {
     return [I_comboBoxItems count];
 }
 

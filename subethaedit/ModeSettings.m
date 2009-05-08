@@ -16,7 +16,10 @@
 	I_recognitionExtenstions = [NSMutableArray new];
 	I_recognitionRegexes = [NSMutableArray new];
 	I_recognitionFilenames = [NSMutableArray new];
-	I_recognitionCasesensitveExtenstions = [NSMutableArray new];	
+	I_recognitionCasesensitveExtenstions = [NSMutableArray new];
+#if defined(CODA)
+	I_recognitionVariablePrefixes = [NSMutableSet new];	
+#endif //!defined(CODA)
 }
 
 - (id)initWithFile:(NSString *)aPath {
@@ -66,6 +69,9 @@
     [I_recognitionRegexes release];
     [I_recognitionFilenames release];
     [I_templateFile release];
+#if defined(CODA)
+	[I_recognitionVariablePrefixes release];
+#endif //defined(CODA)
     [super dealloc];
 }
 
@@ -137,6 +143,18 @@
         }
     }    
     
+#if defined(CODA)
+	NSString		*codaCompletionPath = [[aPath stringByDeletingLastPathComponent] stringByAppendingPathComponent:@"CodaCompletion.plist"];
+	NSDictionary	*completionDict = [NSDictionary dictionaryWithContentsOfFile:codaCompletionPath];
+	
+	if ( completionDict )
+	{
+		NSArray *variables = [completionDict objectForKey:@"VariablePrefixes"];
+		
+		if ( variables )
+			[I_recognitionVariablePrefixes addObjectsFromArray:variables];
+	}
+#endif //defined(CODA)
 }
 
 - (NSArray *)recognizedCasesensitveExtensions {
@@ -168,5 +186,11 @@
     return [NSString stringWithFormat:@"Mode Settings:\n Extensions:%@ \n\n Filenames:%@\n\n Regex: %@\n\n Template: %@", [self recognizedExtensions], [self recognizedFilenames], [self recognizedRegexes], [self templateFile]];
 }
 
+#if defined(CODA)
+- (NSSet*)recognizedVariablePrefixes
+{
+	return I_recognitionVariablePrefixes;
+}
+#endif //defined(CODA)
 
 @end

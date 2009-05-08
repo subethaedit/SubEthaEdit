@@ -43,8 +43,8 @@ static NSArray *S_possibleStyleColors;
     if ([[aStyle documentMode] isEqual:[anotherStyle documentMode]]) {
         NSMutableIndexSet *result=[NSMutableIndexSet indexSet];
         NSArray *allKeys=[aStyle allKeys];
-        unsigned int i=0;
-        unsigned int count=[allKeys count];
+        NSUInteger i=0;
+        NSUInteger count=[allKeys count];
         for (i=0;i<count;i++) {
             NSString *styleID=[allKeys objectAtIndex:i];
             if (![SyntaxStyle style:[aStyle styleForKey:styleID] isEqualToStyle:[anotherStyle styleForKey:styleID]]) {
@@ -160,7 +160,7 @@ static NSArray *S_possibleStyleColors;
     int             childCount;
     int             index;
 
-    // Get a count of the top level nodeâ€™s children.
+    // Get a count of the top level nodeÕs children.
     childCount = CFTreeGetChildCount(cfXMLTree);
 
     // Print the data string for each top-level node.

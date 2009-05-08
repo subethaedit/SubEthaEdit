@@ -17,6 +17,10 @@
 #import "UndoManager.h"
 #import "time.h"
 #import "TextOperation.h"
+#import <objc/objc-runtime.h>
+#if defined(CODA)
+#import "TextView.h"
+#endif //defined(CODA)
 
 static FindReplaceController *sharedInstance=nil;
 
@@ -59,7 +63,7 @@ static FindReplaceController *sharedInstance=nil;
 			[O_replaceComboBox setButtonBordered:NO];
             NSWindow *window = [O_replaceComboBox window];
             if ([window respondsToSelector:@selector(setCollectionBehavior:)]) {
-                (void (*)(int))objc_msgSend(window, @selector(setCollectionBehavior:), 2);;
+                ((void (*)(id, SEL, int))objc_msgSend)(window, @selector(setCollectionBehavior:), 2);
             }
 
 		}
@@ -104,7 +108,11 @@ static FindReplaceController *sharedInstance=nil;
 
 - (NSTextView *)textViewToSearchIn {
     id obj = [[NSApp mainWindow] firstResponder];
+#if defined(CODA)
+	return (obj && [obj isKindOfClass:[TextView class]]) ? obj : nil;
+#else
     return (obj && [obj isKindOfClass:[NSTextView class]]) ? obj : nil;
+#endif
 }
 
 - (IBAction)orderFrontTabWidthPanel:(id)aSender {
@@ -962,7 +970,7 @@ static FindReplaceController *sharedInstance=nil;
 #pragma mark -
 #pragma mark ### NSComboBox data source ###
 
-- (int)numberOfItemsInComboBox:(NSComboBox*)aComboBox
+- (NSInteger)numberOfItemsInComboBox:(NSComboBox*)aComboBox
 {
 	if (aComboBox == O_replaceComboBox) {
 		return [I_replaceHistory count];
@@ -970,7 +978,7 @@ static FindReplaceController *sharedInstance=nil;
 	return [I_findHistory count];
 }
 
-- (id)comboBox:(NSComboBox*)aComboBox objectValueForItemAtIndex:(int)index
+- (id)comboBox:(NSComboBox*)aComboBox objectValueForItemAtIndex:(NSInteger)index
 {
 	if (aComboBox == O_replaceComboBox) {
 		return [I_replaceHistory objectAtIndex:index];
@@ -978,7 +986,7 @@ static FindReplaceController *sharedInstance=nil;
 	return [I_findHistory objectAtIndex:index];
 }
 
-- (unsigned)comboBox:(NSComboBox*)aComboBox indexOfItemWithStringValue:(NSString*)string
+- (NSUInteger)comboBox:(NSComboBox*)aComboBox indexOfItemWithStringValue:(NSString*)string
 {
 	if (aComboBox == O_replaceComboBox) {
 		return [I_replaceHistory indexOfObject:string];

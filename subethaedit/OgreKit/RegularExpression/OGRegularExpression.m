@@ -310,6 +310,7 @@ static int namedGroupCallback(const unsigned char *name, const unsigned char *na
 		NSString		*name;
 		NSMutableArray	*array;
 		int 			i, maxGroupIndex = 0;
+		NSMutableDictionary* replacmentDictionary = [[NSMutableDictionary alloc] initWithCapacity:[_groupIndexForNameDictionary count]];
 		while ((name = [keyEnumerator nextObject]) != nil) {
             unsigned int    lengthOfName = [name length];
 			unichar         *UTF16Name = (unichar*)NSZoneMalloc([self zone], sizeof(unichar) * lengthOfName);
@@ -330,10 +331,13 @@ static int namedGroupCallback(const unsigned char *name, const unsigned char *na
 				[array addObject:[NSNumber numberWithUnsignedInt: indexList[i] ]];
 				if (indexList[i] > maxGroupIndex) maxGroupIndex = indexList[i];
 			}
-			[_groupIndexForNameDictionary setObject:array forKey:name];
+			[replacmentDictionary setObject:array forKey:name];
 			[array release];
 		}
-		
+
+		[_groupIndexForNameDictionary addEntriesFromDictionary:replacmentDictionary];
+		[replacmentDictionary release];
+
 		// 逆引き辞書の作成
 		// 例: /(?<a>a+)(?<b>b+)(?<a>c+)/
 		// 構造: ("a", "b", "a")

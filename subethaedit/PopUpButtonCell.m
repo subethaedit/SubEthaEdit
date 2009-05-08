@@ -32,7 +32,7 @@
     return blah;
 }
 
-- (float)titleWidth {
+- (CGFloat)titleWidth {
     NSMenuItem *item=[self selectedItem];
     NSAttributedString *title=[item attributedTitle];
     float width;

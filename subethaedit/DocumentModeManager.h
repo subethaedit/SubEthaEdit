@@ -36,6 +36,12 @@
     NSMutableDictionary *I_modeBundles;
     NSMutableDictionary *I_documentModesByIdentifier;
     NSMutableDictionary *I_documentModesByName;
+
+#if defined(CODA)
+	NSRecursiveLock *I_documentModesByIdentifierLock; // (ifc - experimental locking for thread safety... TCM are putting in a real fix)
+	NSMutableDictionary *I_modeIdentifiersByExtension;
+#endif //defined(CODA)
+
 	NSMutableArray *I_modePrecedenceArray;
 	NSMutableArray      *I_modeIdentifiersTagArray;
 	NSMutableDictionary *I_dependencyQueue;

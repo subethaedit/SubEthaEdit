@@ -8,6 +8,7 @@
 
 #import "PreferenceKeys.h"
 
+#if !defined(CODA)
 NSString * const GeneralViewPreferencesDidChangeNotificiation =
                @"GeneralViewPreferencesDidChangeNotificiation";
 
@@ -24,11 +25,13 @@ NSString * const SelectedMyColorPreferenceKey               = @"SelectedMyColor"
 NSString * const MyNamePreferenceKey                        = @"MyName";
 NSString * const MyAIMPreferenceKey                         = @"MyAIM";
 NSString * const MyEmailPreferenceKey                       = @"MyEmail";
-NSString * const MyImagePreferenceKey                       = @"MyImage";
 NSString * const MyAIMIdentifierPreferenceKey               = @"MyAIMIdentifier";
 NSString * const MyEmailIdentifierPreferenceKey             = @"MyEmailIdentifier";
 NSString * const MyAIMsPreferenceKey                        = @"MyAIMs";
 NSString * const MyEmailsPreferenceKey                      = @"MyEmails";
 NSString * const SynthesiseFontsPreferenceKey               = @"SynthesiseFonts";
+#endif //!defined(CODA)
+
+NSString * const MyImagePreferenceKey                       = @"MyImage";
 NSString * const OpenNewDocumentInTabKey                    = @"OpenNewDocumentInTab";
 NSString * const AlwaysShowTabBarKey                        = @"AlwaysShowTabBar";

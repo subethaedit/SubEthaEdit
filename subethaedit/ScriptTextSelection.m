@@ -113,7 +113,7 @@
     NSRange range=[self rangeRepresentation];
     [[I_textStorage delegate] replaceTextInRange:range withString:value];
     if (I_editor) {
-        [[I_editor textView] setSelectedRange:NSMakeRange(range.location,[value length])];
+        [[I_editor textView] setSelectedRange:NSMakeRange(range.location,[(NSString*)value length])];
     }
 }
 

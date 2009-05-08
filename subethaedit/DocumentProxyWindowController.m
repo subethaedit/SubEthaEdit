@@ -14,6 +14,7 @@
 #import "PlainTextDocument.h"
 #import "PlainTextWindowController.h"
 #import "GeneralPreferences.h"
+#import "NSScreenTCMAdditions.h"
 
 @interface NSWindow (NSWindowNonBlockingAnimationAdditions) 
 - (void)setFrameUsingNonBlockingAnimation:(NSRect)aFrame;

@@ -162,6 +162,9 @@ static NSString *keychainPassword = nil;
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSTaskDidTerminateNotification object:[aNotification object]];
     [[NSNotificationQueue defaultQueue] enqueueNotification:[NSNotification notificationWithName:@"TCMBEEPTempCertificateCreationForSSLDidFinish" object:self] postingStyle:NSPostASAP];
+    
+#warning disabled ssl for now because of iphone beta
+/*    
     SecKeychainItemImport (
         (CFDataRef)[NSData dataWithContentsOfFile:pathToTempKeyAndCert],
         NULL,
@@ -172,7 +175,7 @@ static NSString *keychainPassword = nil;
         kcRef,
         NULL
     );
-
+*/
     // delete temp keychain 
     NSFileManager *fm = [NSFileManager defaultManager];
     [fm removeFileAtPath:pathToTempKeyAndCert handler:nil];

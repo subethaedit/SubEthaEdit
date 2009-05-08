@@ -24,7 +24,7 @@
         default:
         {
             id selection = [self selectedRowIndexes];
-            int index = [selection firstIndex]; 
+            NSUInteger index = [selection firstIndex]; 
 
             do {
                 [string appendString:[[[[[self delegate] arrangedObjects] objectAtIndex:index] objectForKey:@"foundString"] string]];
@@ -48,7 +48,7 @@
 
 //Custom behavior for keys
 - (void)keyDown:(NSEvent *)theEvent {
-    unsigned int characterIndex, characterCount; 
+    NSUInteger characterIndex, characterCount; 
     int selectedRow = [self selectedRow]; 
     NSString *characters = [theEvent charactersIgnoringModifiers]; 
     characterCount = [characters length]; 

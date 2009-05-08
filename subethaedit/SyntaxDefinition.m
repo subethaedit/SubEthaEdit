@@ -727,7 +727,7 @@
 		return [[[[DocumentModeManager sharedInstance] documentModeForName:modeName] syntaxDefinition] hasTokensForState:aState];
 	} 
 	
-    return (([[[I_stylesForToken objectForKey:aState] objectAtIndex:0] count]>0)||([[[I_stylesForToken objectForKey:aState] objectAtIndex:1] count]>0));
+    return (([(NSArray*)[[I_stylesForToken objectForKey:aState] objectAtIndex:0] count]>0)||([(NSArray*)[[I_stylesForToken objectForKey:aState] objectAtIndex:1] count]>0));
 }
 
 - (NSArray *)regularExpressionsInState:(NSString *)aState

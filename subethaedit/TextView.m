@@ -215,7 +215,11 @@ static NSMenu *defaultMenu=nil;
 
 // make sure our document gets the font change
 - (void)changeFont:(id)aSender {
+#if defined(CODA)
+	[[editor document] changeFontInteral:aSender];
+#else
     [[self document] changeFont:aSender];
+#endif //defined(CODA)
 }
 
 
@@ -252,14 +256,24 @@ static NSMenu *defaultMenu=nil;
 - (void)drawRect:(NSRect)aRect {
     [super drawRect:aRect];
     // now paint Cursors if there are any
+#if defined(CODA)
+    PlainTextDocument *document=(PlainTextDocument *)[editor document];
+#else
     PlainTextDocument *document=(PlainTextDocument *)[self document];
+#endif //defined(CODA)
     TCMMMSession *session=[document session];
     NSString *sessionID=[session sessionID];
     NSDictionary *sessionParticipants=[session participants];
     NSEnumerator *participants = [[sessionParticipants objectForKey:@"ReadWrite"] objectEnumerator];
     TCMMMUser *user;
     TCMMMUser *me=[TCMMMUserManager me];
+
     FoldableTextStorage *ts = (FoldableTextStorage *)[self textStorage];
+
+#if defined(CODA)
+	NSSize textOffset = [self textContainerInset]; 
+#endif //defined(CODA)
+
     if (document) {
         while ((user=[participants nextObject])) {
             if (user != me) {
@@ -270,7 +284,7 @@ static NSMenu *defaultMenu=nil;
                         // now we have to paint a caret at position
         //                NSRange selection = NSMakeRange((unsigned)[(NSNumber *)[selection objectAtIndex:0] unsignedIntValue],0);
         
-                        unsigned rectCount;
+                        NSUInteger rectCount;
                         NSRectArray rectArray=[[self layoutManager] 
                                                     rectArrayForCharacterRange:selectionRange 
                                                     withinSelectedCharacterRange:selectionRange 
@@ -279,8 +293,13 @@ static NSMenu *defaultMenu=nil;
                                                 
                         if (rectCount>0) {
                             NSPoint myPoint = rectArray[0].origin;
+#if defined(CODA)
+					        myPoint.x -= (0.5 + textOffset.width); 
+                            myPoint.y += (rectArray[0].size.height - 0.5 + textOffset.height);
+#else
                             myPoint.x -= 0.5;
                             myPoint.y += rectArray[0].size.height - 0.5;
+#endif //defined(CODA)
                             [self drawInsertionPointWithColor:changeColor atPoint:myPoint];
                         }
                     }
@@ -292,9 +311,17 @@ static NSMenu *defaultMenu=nil;
     if (I_isDragTarget) {
         [[[NSColor selectedTextBackgroundColor] colorWithAlphaComponent:0.5] set];
         NSBezierPath *path=[NSBezierPath bezierPathWithRect:NSInsetRect([self bounds],2,2)];
+#if defined(CODA)
+		// need to set-up the clip to over-ride the systems clipping of the text view
+		[NSGraphicsContext saveGraphicsState];
+		[[NSBezierPath bezierPathWithRect:[self visibleRect]] setClip];
+#endif //defined(CODA)
         [path setLineWidth:4.];
         [path setLineJoinStyle:NSRoundLineCapStyle];
         [path stroke];
+#if defined(CODA)
+		[NSGraphicsContext restoreGraphicsState];
+#endif //defined(CODA)
     }
 }
 
@@ -308,7 +335,7 @@ static NSMenu *defaultMenu=nil;
     [[FindReplaceController sharedInstance] performFindPanelAction:sender forTextView:self];
 }
 
--(BOOL)validateMenuItem:(id <NSMenuItem>)menuItem 
+-(BOOL)validateMenuItem:(NSMenuItem*)menuItem 
 {
 
     BOOL returnValue = [super validateMenuItem:menuItem];
@@ -332,6 +359,7 @@ static NSMenu *defaultMenu=nil;
     return menu;
 }
 
+#if defined(CODA)
 - (void)resetCursorRects {
     // disable cursor rects and therefore mouse cursor changing when we have a dark background so the documentcursor is used
     if ([[self insertionPointColor] isDark]) [super resetCursorRects];
@@ -404,6 +432,7 @@ static NSMenu *defaultMenu=nil;
     }
     return [super selectionRangeForProposedRange:proposedSelRange granularity:granularity];
 }
+#endif //defined(CODA)
 
 - (void)setBackgroundColor:(NSColor *)aColor {
     BOOL wasDark = [[self backgroundColor] isDark];
@@ -414,13 +443,17 @@ static NSMenu *defaultMenu=nil;
     [[self enclosingScrollView] setDocumentCursor:isDark?[NSCursor invertedIBeamCursor]:[NSCursor IBeamCursor]];
     if (( wasDark && !isDark) || 
         (!wasDark &&  isDark)) {
+#if !defined(CODA)
         // remove and add from Superview to activiate my cursor rect and deactivate the ones of the TextView
         NSScrollView *sv = [[[self enclosingScrollView] retain] autorelease];
         NSView *superview = [sv superview];
         [sv removeFromSuperview];
         [superview addSubview:sv];
+#endif //!defined(CODA)
     }
+#if !defined(CODA)
     [[self window] invalidateCursorRectsForView:self];
+#endif //!defined(CODA)
 }
 
 - (void)toggleContinuousSpellChecking:(id)sender {
@@ -458,10 +491,12 @@ static NSMenu *defaultMenu=nil;
 
     I_flags.shouldCheckCompleteStart=YES;
     //I_flags.autoCompleteInProgress=YES; // Temporarliy disabled (SEE-874)
-    [super complete:sender];
+#if !defined(CODA)
+    [super complete:sender]; 
+#endif //!defined(CODA)
 }
 
-- (NSArray *)completionsForPartialWordRange:(NSRange)charRange indexOfSelectedItem:(int *)index {
+- (NSArray *)completionsForPartialWordRange:(NSRange)charRange indexOfSelectedItem:(NSInteger *)index {
     NSArray *result=[super completionsForPartialWordRange:charRange indexOfSelectedItem:index];
     if (I_flags.shouldCheckCompleteStart) {
         if ([result count]) {
@@ -484,7 +519,7 @@ static NSMenu *defaultMenu=nil;
 
 #define APPKIT10_3 743
 
-- (void)insertCompletion:(NSString *)word forPartialWordRange:(NSRange)charRange movement:(int)movement isFinal:(BOOL)flag {
+- (void)insertCompletion:(NSString *)word forPartialWordRange:(NSRange)charRange movement:(NSInteger)movement isFinal:(BOOL)flag {
     [super insertCompletion:word forPartialWordRange:charRange movement:movement isFinal:flag];
     if (flag) {
         //NSLog(@"%f",NSAppKitVersionNumber);
@@ -551,7 +586,11 @@ static NSMenu *defaultMenu=nil;
     NSPasteboard *pboard = [sender draggingPasteboard];
     if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
         //NSLog(@"draggingEntered:");
+#if defined(CODA)
+        PlainTextDocument *document=(PlainTextDocument *)[editor document];
+#else
         PlainTextDocument *document=(PlainTextDocument *)[self document];
+#endif
         TCMMMSession *session=[document session];
         if ([session isServer]) {
             [[[self window] drawers] makeObjectsPerformSelector:@selector(open)];
@@ -583,7 +622,11 @@ static NSMenu *defaultMenu=nil;
     NSPasteboard *pboard = [sender draggingPasteboard];
     if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
         //NSLog(@"draggingUpdated:");
+#if defined(CODA)
+        BOOL shouldDrag=[[(PlainTextDocument *)[editor document] session] isServer];
+#else
         BOOL shouldDrag=[[(PlainTextDocument *)[self document] session] isServer];
+#endif //defined(CODA)
         [self setIsDragTarget:shouldDrag];
         if (shouldDrag) {
             return NSDragOperationGeneric;
@@ -611,7 +654,11 @@ static NSMenu *defaultMenu=nil;
     NSPasteboard *pboard = [sender draggingPasteboard];
     if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
         //NSLog(@"prepareForDragOperation:");
+#if defined(CODA)
+        BOOL shouldDrag=[[(PlainTextDocument *)[editor document] session] isServer];
+#else
         BOOL shouldDrag=[[(PlainTextDocument *)[self document] session] isServer];
+#endif //defined(CODA)
         [self setIsDragTarget:shouldDrag];
         return shouldDrag;
     } else if ([[pboard types] containsObject:@"ParticipantDrag"]) {
@@ -637,7 +684,11 @@ static NSMenu *defaultMenu=nil;
     if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
         //NSLog(@"performDragOperation:");
         NSArray *userArray=[pboard propertyListForType:@"PboardTypeTBD"];
+#if defined(CODA)
+        PlainTextDocument *document=(PlainTextDocument *)[editor document];
+#else
         PlainTextDocument *document=(PlainTextDocument *)[self document];
+#endif //defined(CODA)
         TCMMMSession *session=[document session];
         NSEnumerator *userDescriptions=[userArray objectEnumerator];
         NSDictionary *userDescription=nil;
@@ -780,6 +831,9 @@ static NSMenu *defaultMenu=nil;
     NSTextContainer *textContainer = [self textContainer];
     NSPoint point = [self convertPoint:[anEvent locationInWindow] fromView:nil];
     point.x=5;
+#if defined(CODA)
+	point.y -= [self textContainerInset].height; 
+#endif //defined(CODA)
     unsigned glyphIndex,endCharacterIndex,startCharacterIndex;
     glyphIndex=[layoutManager glyphIndexForPoint:point 
                                  inTextContainer:textContainer];
@@ -806,6 +860,9 @@ static NSMenu *defaultMenu=nil;
                 event = autoscrollEvent;           
             case NSLeftMouseDragged:
                 point = [self convertPoint:[event locationInWindow] fromView:nil];
+#if defined(CODA)
+				point.y -= [self textContainerInset].height; 
+#endif //defined(CODA)
                 glyphIndex = [layoutManager glyphIndexForPoint:point
                                                inTextContainer:textContainer];
                 endCharacterIndex = [layoutManager characterIndexForGlyphAtIndex:glyphIndex];
@@ -841,6 +898,9 @@ static NSMenu *defaultMenu=nil;
                     autoscrollEvent = nil;
                 }
             return;
+				
+			default:
+				break;
         }
     }
 }
@@ -884,5 +944,16 @@ static NSMenu *defaultMenu=nil;
     }    
 }
 
+#if defined(CODA)
+- (void)setEditor:(PlainTextEditor*)inEditor
+{
+	editor = inEditor; // XXX - avoid circular retain?
+}
+
+- (PlainTextEditor*)editor
+{
+	return editor;
+}
+#endif //defined(CODA)
 
 @end

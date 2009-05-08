@@ -28,7 +28,7 @@
 
 - (id)reverseTransformedValue:(id)value {
     if (![value isKindOfClass:[NSColor class]]) return nil;
-    float ignore,hue;
+    CGFloat ignore,hue;
     [[(NSColor *)value colorUsingColorSpaceName:NSCalibratedRGBColorSpace] getHue:&hue saturation:&ignore brightness:&ignore alpha:&ignore];
     
     return [NSNumber numberWithFloat:hue*100];

@@ -21,15 +21,15 @@ $(UNIVERSAL_DIR)/$(ONIGURUMA): $(UNIVERSAL_DIR) $(PPC_DIR)/$(ONIG_TARGET) $(INTE
 $(INTEL_DIR)/$(ONIG_TARGET): $(INTEL_DIR)
 	cd $(@D);\
 	CC="$(INTEL_CC)" ./configure $(INTEL_CONFIGURE_FLAGS);\
-	perl -pi -e 's@CFLAGS =@CFLAGS = -isysroot $(INTEL_SDK) -arch i386@' Makefile;\
-	perl -pi -e 's@-dynamiclib@-dynamiclib -arch i386@g' libtool;\
+	perl -pi -e 's@CFLAGS =@CFLAGS = -isysroot $(INTEL_SDK) -arch i386 -arch x86_64@' Makefile;\
+	perl -pi -e 's@-dynamiclib@-dynamiclib -arch i386 -arch x86_64@g' libtool;\
 	make $(@F)
 
 $(PPC_DIR)/$(ONIG_TARGET): $(PPC_DIR)
 	cd $(@D);\
 	CC="$(PPC_CC)" ./configure $(PPC_CONFIGURE_FLAGS);\
-	perl -pi -e 's@CFLAGS =@CFLAGS =@' Makefile;\
-	perl -pi -e 's@-dynamiclib@-dynamiclib -arch ppc@g' libtool;\
+	perl -pi -e 's@CFLAGS =@CFLAGS = -arch ppc -arch ppc64@' Makefile;\
+	perl -pi -e 's@-dynamiclib@-dynamiclib -arch ppc -arch ppc64@g' libtool;\
 	make $(@F)
 
 $(INTEL_DIR):

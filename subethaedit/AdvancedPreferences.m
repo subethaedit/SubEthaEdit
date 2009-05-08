@@ -87,16 +87,19 @@
 
 
 - (void)didSelect {
+#if !defined(CODA)
     BOOL isDir;
     if ([[NSFileManager defaultManager] fileExistsAtPath:SEE_TOOL_PATH isDirectory:&isDir] && !isDir) {
         [O_commandLineToolRemoveButton setEnabled:YES];
     } else {
         [O_commandLineToolRemoveButton setEnabled:NO];
     }
+#endif //!defined(CODA)
 }
 
 #pragma mark -
 
+#if !defined(CODA)
 - (BOOL)installCommandLineTool {
     OSStatus err;
     CFURLRef tool = NULL;
@@ -363,6 +366,7 @@
 		[alert release];
     }
 }
+#endif //!defined(CODA)
 
 - (IBAction)changeDisableScreenFonts:(id)aSender {
     if ([aSender state]==NSOnState) {

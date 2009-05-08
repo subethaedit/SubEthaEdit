@@ -266,16 +266,20 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
 		if ((typeAttributeString=[currentState objectForKey:@"type"]))
 			[scratchAttributes setObject:typeAttributeString forKey:kSyntaxHighlightingTypeAttributeName];
 		
-		[scratchAttributes setObject:[currentState objectForKey:[definition keyForInheritedSymbols]] forKey:kSyntaxHighlightingParentModeForSymbolsAttributeName];
-		[scratchAttributes setObject:[currentState objectForKey:[definition keyForInheritedAutocomplete]] forKey:kSyntaxHighlightingParentModeForAutocompleteAttributeName];
-        if ([[currentState objectForKey:@"foldable"] isEqualToString:@"yes"]) [scratchAttributes setObject:@"state" forKey:kSyntaxHighlightingFoldableAttributeName];
-        
+		id inheritedSymbols = [currentState objectForKey:[definition keyForInheritedSymbols]]; 
+		if ( inheritedSymbols )
+			[scratchAttributes setObject:inheritedSymbols forKey:kSyntaxHighlightingParentModeForSymbolsAttributeName];
+		id inheritedAutocomplete = [currentState objectForKey:[definition keyForInheritedAutocomplete]];
+		if ( inheritedAutocomplete )
+			[scratchAttributes setObject:inheritedAutocomplete forKey:kSyntaxHighlightingParentModeForAutocompleteAttributeName];
+		[scratchAttributes setObject:kSyntaxHighlightingIsCorrectAttributeValue forKey:kSyntaxHighlightingIsCorrectAttributeName];
+
         [scratchAttributes setObject:[NSNumber numberWithInt:foldingDepth] forKey:kSyntaxHighlightingFoldingDepthAttributeName];
         [scratchAttributes setObject:kSyntaxHighlightingIsCorrectAttributeValue forKey:kSyntaxHighlightingIsCorrectAttributeName];
 			
-        //NSLog(@"Calculating color range");
+		 //NSLog(@"Calculating color range");
 
-        NSRange colorRange;
+		NSRange colorRange;
         
         if (startRange.location!=NSNotFound) {
             colorRange = NSUnionRange(startRange,stateRange);
@@ -447,7 +451,7 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
     NSRange wholeRange=NSMakeRange(0,[aTextStorage length]);
     [aTextStorage beginEditing];
     NSRange foundRange;
-    unsigned int position=0;
+    NSUInteger position=0;
     while (position<NSMaxRange(wholeRange)) {
         styleID=[aTextStorage attribute:kSyntaxHighlightingStyleIDAttributeName atIndex:position longestEffectiveRange:&foundRange inRange:wholeRange];
         if (!styleID) styleID=SyntaxStyleBaseIdentifier;
@@ -479,7 +483,7 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
     [aTextStorage beginEditing];
     if ([aTextStorage respondsToSelector:@selector(beginLinearAttributeChanges)]) [(id)aTextStorage beginLinearAttributeChanges];
     
-    unsigned int position;
+    NSUInteger position;
     position=0;
     while (position<NSMaxRange(textRange)) {
         correct=[aTextStorage attribute:kSyntaxHighlightingIsCorrectAttributeName atIndex:position longestEffectiveRange:&dirtyRange inRange:textRange];
@@ -507,7 +511,7 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
                 if (linerange.length<=2*chunkSize) //Optimization for humongously long lines
                     chunkRange = linerange;
                 else {
-                    NSRange nextWhiteSpaceRange = [[aTextStorage string] rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet] options:nil range:NSMakeRange(NSMaxRange(chunkRange), [[aTextStorage string] length] - NSMaxRange(chunkRange))];
+                    NSRange nextWhiteSpaceRange = [[aTextStorage string] rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet] options:0 range:NSMakeRange(NSMaxRange(chunkRange), [[aTextStorage string] length] - NSMaxRange(chunkRange))];
                     NSRange prevWhiteSpaceRange = [[aTextStorage string] rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet] options:NSBackwardsSearch range:NSMakeRange(0, chunkRange.location)];
 
                     if (nextWhiteSpaceRange.location==NSNotFound)
@@ -532,7 +536,7 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
                     break;
                 }
                 
-                unsigned int lastDirty=NSMaxRange(dirtyRange);
+                NSUInteger lastDirty=NSMaxRange(dirtyRange);
                 if (NSMaxRange(chunkRange) < lastDirty) {
                     dirtyRange.location = NSMaxRange(chunkRange);
                     dirtyRange.length = lastDirty-dirtyRange.location;

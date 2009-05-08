@@ -278,7 +278,7 @@ NSScrollView * firstScrollView(NSView *aView) {
     }
 }
 
-- (void)webView:(WebView *)sender mouseDidMoveOverElement:(NSDictionary *)elementInformation modifierFlags:(unsigned int)modifierFlags {
+- (void)webView:(WebView *)sender mouseDidMoveOverElement:(NSDictionary *)elementInformation modifierFlags:(NSUInteger)modifierFlags {
     if ([elementInformation objectForKey:WebElementImageKey] ||
         [elementInformation objectForKey:WebElementLinkURLKey]) {
         // NSLog(@"%@",[elementInformation description]);

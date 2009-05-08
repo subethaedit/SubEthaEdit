@@ -100,8 +100,8 @@ extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
         unichar hardspace=0x00A0;
         hardspaceString=[[NSString stringWithCharacters:&hardspace length:1] retain];
     }
-    unsigned index=[self length];
-    unsigned startIndex,lineEndIndex,contentsEndIndex;
+    NSUInteger index=[self length];
+    NSUInteger startIndex,lineEndIndex,contentsEndIndex;
     while (index!=0) {
         [[self string] getLineStart:&startIndex end:&lineEndIndex contentsEnd:&contentsEndIndex forRange:NSMakeRange(index-1,0)];
         unsigned firstNonWhitespace=startIndex;

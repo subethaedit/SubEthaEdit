@@ -16,6 +16,7 @@ typedef struct {
   float red2, green2, blue2, alpha2;
 } _twoColorsType;
 
+#if !defined(CODA)
 static void _linearColorBlendFunction(void *info, const float *in, float *out)
 {
   _twoColorsType *twoColors = info;
@@ -25,8 +26,9 @@ static void _linearColorBlendFunction(void *info, const float *in, float *out)
   out[2] = (1.0 - *in) * twoColors->blue1 + *in * twoColors->blue2;
   out[3] = (1.0 - *in) * twoColors->alpha1 + *in * twoColors->alpha2;
 }
+#endif //!defined(CODA)
 
-static void _linearBounceColorBlendFunction(void *info, const float *in, float *out)
+static void _linearBounceColorBlendFunction(void *info, const CGFloat *in, CGFloat *out)
 {
   _twoColorsType *twoColors = info;
   float realIn;
@@ -61,7 +63,7 @@ static const CGFunctionCallbacks linearBounceFunctionCallbacks = {0,
             twoColors->red1 = twoColors->green1 = twoColors->blue1 = 1.0;
             twoColors->alpha1 = twoColors->alpha2 = 1.0;
             twoColors->red2 = twoColors->green2 = twoColors->blue2 = 0.89;
-            static const float domainAndRange[8] = {0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0};
+            static const CGFloat domainAndRange[8] = {0.0, 1.0, 0.0, 1.0, 0.0, 1.0, 0.0, 1.0};
             sCandyFunctionRef=CGFunctionCreate(twoColors, 1,
             domainAndRange, 4, domainAndRange, &linearBounceFunctionCallbacks);
             sColorSpace = CGColorSpaceCreateDeviceRGB();

@@ -66,8 +66,8 @@
             while (NSMaxRange(foundRange)<NSMaxRange(lineCharRange)) {
                 value=[textStorage attribute:IDAttributeName atIndex:NSMaxRange(foundRange) longestEffectiveRange:&foundRange inRange:lineCharRange];
                 if (value) {
-                    unsigned rectCount;
-                    unsigned startIndex, lineEndIndex, contentsEndIndex;
+                    NSUInteger rectCount;
+                    NSUInteger startIndex, lineEndIndex, contentsEndIndex;
                     [textStorageString getLineStart:&startIndex end:&lineEndIndex contentsEnd:&contentsEndIndex forRange:foundRange];
                     NSRange glyphRange=[layoutManager glyphRangeForCharacterRange:NSMaxRange(foundRange)==lineEndIndex?NSMakeRange(foundRange.location, contentsEndIndex-foundRange.location):foundRange actualCharacterRange:nil];
                     NSRectArray rects=[layoutManager rectArrayForGlyphRange:glyphRange withinSelectedGlyphRange:glyphRange inTextContainer:textContainer rectCount:&rectCount];

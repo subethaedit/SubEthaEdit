@@ -61,6 +61,9 @@ typedef enum TCMMMSessionClientState {
 - (BOOL)isReceivingContent;
 - (void)validateEditability;
 - (BOOL)handleOperation:(TCMMMOperation *)aOperation;
+#if defined(CODA)
+- (NSString*)displayName; 
+#endif //defined(CODA)
 @end
 
 

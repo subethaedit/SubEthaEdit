@@ -224,7 +224,7 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
 }
 
 #pragma mark -
-#pragma ### Accessors ###
+#pragma mark ### Accessors ###
 
 - (NSString *)description
 {
@@ -510,7 +510,7 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
 - (void)setGroup:(NSString *)aGroup forPendingUsersWithIndexes:(NSIndexSet *)aSet {
     if ([aGroup isEqualToString:@"PoofGroup"]) {
         NSMutableIndexSet *set = [aSet mutableCopy];
-        unsigned index;
+        NSUInteger index;
         while ((index = [set firstIndex]) != NSNotFound) {
             TCMMMUser *user = [I_pendingUsers objectAtIndex:index];
             SessionProfile *profile=[I_profilesByUserID objectForKey:[user userID]];
@@ -525,7 +525,7 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
         [set release];
     } else {
         NSMutableIndexSet *set = [aSet mutableCopy];
-        unsigned index;
+        NSUInteger index;
         while ((index = [set firstIndex]) != NSNotFound) {
             TCMMMUser *user = [I_pendingUsers objectAtIndex:index];
             [I_groupByUserID setObject:aGroup forKey:[user userID]];
@@ -554,7 +554,7 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
     }
     
     NSMutableIndexSet *set = [aSet mutableCopy];
-    unsigned index;
+    NSUInteger index;
     while ((index = [set lastIndex]) != NSNotFound) {
         [I_pendingUsers removeObjectAtIndex:index];
         [set removeIndex:index];
@@ -989,7 +989,9 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
         } else {
             // if no autojoin add user to pending users and notify 
             [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMSessionPendingUsersDidChangeNotification object:self];
+#if !defined(CODA)
             [I_helper playSoundNamed:@"Knock"];
+#endif //!defined(CODA)
         }
     }
 }
@@ -1019,7 +1021,9 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
             [self acceptInvitation];
         } else {
             [self setClientState:TCMMMSessionClientInvitedState];
+#if !defined(CODA)
             [I_helper playSoundNamed:@"Invitation"];
+#endif //!defined(CODA)
         }
         if (!document) {
             [self setWasInvited:YES];
@@ -1311,7 +1315,7 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
 }
 
 #pragma mark -
-#pragma ### State interaction ###
+#pragma mark ### State interaction ###
 
 - (void)profile:(SessionProfile *)aProfile didReceiveUserChangeToReadOnly:(UserChangeOperation *)anOperation {
     //NSLog(@"pre-emtive-didRecieveUserChangeToReadOnly");
