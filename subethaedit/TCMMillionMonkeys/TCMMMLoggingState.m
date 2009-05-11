@@ -84,14 +84,14 @@
             	NSRange affectedCharRange = [innerOperation affectedCharRange];
             	if (affectedCharRange.length > 0 && NSMaxRange(affectedCharRange) <= [initialText length]) {
             		[operation setReplacedAttributedStringDictionaryRepresentation:[[initialText attributedSubstringFromRange:affectedCharRange] dictionaryRepresentation]];
-            		id userID = [innerOperation userID];
-            		NSString *replacementString = [innerOperation replacementString];
-            		NSRange newRange = NSMakeRange(affectedCharRange.location,[replacementString length]);
-					[initialText replaceCharactersInRange:affectedCharRange
-											   withString:replacementString];
-					[initialText addAttribute:WrittenByUserIDAttributeName value:userID range:newRange];
-					[initialText addAttribute:ChangedByUserIDAttributeName value:userID range:newRange];
             	}
+				id userID = [innerOperation userID];
+				NSString *replacementString = [innerOperation replacementString];
+				NSRange newRange = NSMakeRange(affectedCharRange.location,[replacementString length]);
+				[initialText replaceCharactersInRange:affectedCharRange
+										   withString:replacementString];
+				[initialText addAttribute:WrittenByUserIDAttributeName value:userID range:newRange];
+				[initialText addAttribute:ChangedByUserIDAttributeName value:userID range:newRange];
             }
             [self addLoggedOperation:operation];
         }

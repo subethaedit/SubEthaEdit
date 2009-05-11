@@ -2778,6 +2778,34 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     }
 }
 
+- (IBAction)reversePlaybackLoggingState:(id)aSender {
+    TCMMMLoggingState *ls = [[self session] loggingState];
+    NSArray *loggedOperations = [ls loggedOperations];
+    unsigned opCount = [loggedOperations count];
+
+    NSTextView *viewToUpdate = [[[self plainTextEditors] lastObject] textView];
+    [viewToUpdate display];
+    
+    long i = 0;
+	NSMutableAttributedString *attributedStringToInsert = [NSMutableAttributedString new];
+    for (i=opCount-1;i>=0;--i) {
+		TCMMMLoggedOperation *operation = [loggedOperations objectAtIndex:i];
+		id innerOperation = [operation operation];
+		if ([innerOperation isKindOfClass:[TextOperation class]]) {
+			NSRange affectedRange = NSMakeRange([innerOperation affectedCharRange].location,[innerOperation replacementString].length);
+	        if ([operation replacedAttributedStringDictionaryRepresentation]) {
+				[attributedStringToInsert setContentByDictionaryRepresentation:[operation replacedAttributedStringDictionaryRepresentation]];
+	        } else {
+        		[attributedStringToInsert replaceCharactersInRange:NSMakeRange(0,[attributedStringToInsert length]) withString:@""];
+	        }
+	        [I_textStorage replaceCharactersInRange:affectedRange withAttributedString:attributedStringToInsert];
+	        [viewToUpdate scrollRangeToVisible:[innerOperation affectedCharRange]];
+	        [[viewToUpdate enclosingScrollView] display];
+		}
+    }
+    [attributedStringToInsert release];
+}
+
 - (BOOL)isDocumentEdited {
     if (I_flags.isAutosavingForRestart) {
         return YES;
