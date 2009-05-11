@@ -148,40 +148,53 @@ NSData *TCM_BencodedObject(id aObject) {
     return result;
 }
 
+// returns an autoreleased object
 id TCM_BdecodedObjectWithData(NSData *data) {
     unsigned position=0;
-    return TCM_BdecodedObject((uint8_t *)[data bytes],&position,[data length]);
+    return [TCM_CopyBdecodedObject((uint8_t *)[data bytes],&position,[data length]) autorelease];
 }
 
-id TCM_BdecodedObject(uint8_t *aBytes, unsigned *aPosition, unsigned aLength) {
+
+// returns a retained object
+id TCM_CopyBdecodedObject(uint8_t *aBytes, unsigned *aPosition, unsigned aLength) {
     if (aLength==0) return nil;
     id result=nil;
     if (aBytes[*aPosition]=='d') {
-        result=[NSMutableDictionary dictionary];
+		static NSMutableDictionary *S_bencodingDictionaryKeysDictionary = nil; // this is for not creating strings multiple times on load and decode
+		if (!S_bencodingDictionaryKeysDictionary) { S_bencodingDictionaryKeysDictionary = [NSMutableDictionary new]; }
+                
+        result=[NSMutableDictionary new];
         (*aPosition)++;
         while (YES) {
             if (aBytes[*aPosition]=='e') {
                 (*aPosition)++;
                 break;
             } else {
-                id key=TCM_BdecodedObject(aBytes,aPosition,aLength);
-                id value=TCM_BdecodedObject(aBytes,aPosition,aLength);
+                id key=TCM_CopyBdecodedObject(aBytes,aPosition,aLength);
+                id value=TCM_CopyBdecodedObject(aBytes,aPosition,aLength);
                 if (key && value) {
-                    [result setObject:value forKey:key];
+                	NSString *decodedKey = [S_bencodingDictionaryKeysDictionary objectForKey:key];
+                	if (!decodedKey) {
+                		decodedKey = key;
+                		[S_bencodingDictionaryKeysDictionary setObject:key forKey:key];
+                	} else if (decodedKey != key) {
+                		[key release];
+                	}
+                    [result setObject:value forKey:decodedKey];
                 } else { 
                     return nil;
                 }
             }
         }
     } else if (aBytes[*aPosition]=='l') {
-        result=[NSMutableArray array];
+        result=[NSMutableArray new];
         (*aPosition)++;
         while (YES) {
             if (aBytes[*aPosition]=='e') {
                 (*aPosition)++;
                 break;
             } else {
-                id value=TCM_BdecodedObject(aBytes,aPosition,aLength);
+                id value=TCM_CopyBdecodedObject(aBytes,aPosition,aLength);
                 if (value) {
                     [result addObject:value];
                 } else {
@@ -197,11 +210,11 @@ id TCM_BdecodedObject(uint8_t *aBytes, unsigned *aPosition, unsigned aLength) {
         }
         if (aBytes[*aPosition]==':') {
             (*aPosition)++;
-            result=[[[NSString alloc] initWithBytes:&aBytes[*aPosition] length:length encoding:NSUTF8StringEncoding] autorelease];
+            result=[[NSString alloc] initWithBytes:&aBytes[*aPosition] length:length encoding:NSUTF8StringEncoding];
             *aPosition=(*aPosition)+length;
         } else if (aBytes[*aPosition]=='.') {
             (*aPosition)++;
-            result=[[[NSData alloc] initWithBytes:&aBytes[*aPosition] length:length] autorelease];
+            result=[[NSData alloc] initWithBytes:&aBytes[*aPosition] length:length];
             *aPosition=(*aPosition)+length;
         }
     } else if (aBytes[*aPosition]=='i') {
@@ -214,7 +227,7 @@ id TCM_BdecodedObject(uint8_t *aBytes, unsigned *aPosition, unsigned aLength) {
             (*aPosition)++;
         }
         if (aBytes[*aPosition]=='e') {
-            result=[NSNumber numberWithLongLong:number*signum];
+            result=[[NSNumber alloc] initWithLongLong:number*signum];
             (*aPosition)++;
         } else {
             result=nil;

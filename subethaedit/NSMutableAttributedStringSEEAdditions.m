@@ -349,10 +349,9 @@ extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
 
 @implementation NSAttributedString (NSAttributedStringSeeAdditions)
 
-- (NSDictionary *)dictionaryRepresentationUsingEncoding:(NSStringEncoding)anEncoding {
+- (NSMutableDictionary *)mutableDictionaryRepresentation {
     NSMutableDictionary *dictionary=[NSMutableDictionary dictionary];
     [dictionary setObject:[[[self string] copy] autorelease] forKey:@"String"];
-    [dictionary setObject:[NSNumber numberWithUnsignedInt:anEncoding] forKey:@"Encoding"];
     NSMutableDictionary *attributeDictionary=[NSMutableDictionary new];
 #ifdef SUBETHAEDIT
     NSEnumerator *attributeNames=[[NSArray arrayWithObjects:WrittenByUserIDAttributeName,ChangedByUserIDAttributeName,nil] objectEnumerator];
@@ -380,9 +379,21 @@ extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
         }
     }
 #endif
-    [dictionary setObject:attributeDictionary forKey:@"Attributes"];
+	if ([attributeDictionary count]) {
+	    [dictionary setObject:attributeDictionary forKey:@"Attributes"];
+	}
     [attributeDictionary release];
     return dictionary;
+}
+
+- (NSDictionary *)dictionaryRepresentationUsingEncoding:(NSStringEncoding)anEncoding {
+	NSMutableDictionary *mutableRepresentation = (NSMutableDictionary *)[self mutableDictionaryRepresentation];
+	[mutableRepresentation setObject:[NSNumber numberWithUnsignedInt:anEncoding] forKey:@"Encoding"];
+    return mutableRepresentation;
+}
+
+- (NSDictionary *)dictionaryRepresentation {
+	return [self mutableDictionaryRepresentation];
 }
 
 - (NSDictionary *)attributeDictionaryByAddingStyleAttributesForInsertLocation:(unsigned int)inLocation toDictionary:(NSDictionary *)inBaseStyle

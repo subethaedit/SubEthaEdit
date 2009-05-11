@@ -27,6 +27,7 @@
 
 @interface NSAttributedString (NSAttributedStringSeeAdditions)
 - (NSDictionary *)attributeDictionaryByAddingStyleAttributesForInsertLocation:(unsigned int)inLocation toDictionary:(NSDictionary *)inBaseStyle;
+- (NSDictionary *)dictionaryRepresentation;
 - (NSDictionary *)dictionaryRepresentationUsingEncoding:(NSStringEncoding)anEncoding;
 - (BOOL)lastLineIsEmpty;
 - (NSMutableAttributedString *)attributedStringForXHTMLExportWithRange:(NSRange)aRange foregroundColor:(NSColor *)aForegroundColor backgroundColor:(NSColor *)aBackgroundColor;

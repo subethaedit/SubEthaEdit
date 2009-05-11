@@ -2651,7 +2651,6 @@
 			);
 			projectRoot = "";
 			targets = (
-				14251B910BBD5DD300052C84 /* seed */,
 				8D15AC270486D014006FF6A4 /* SubEthaEdit */,
 				142894A90957606F00D14688 /* HelperTool */,
 				142894DD095766EE00D14688 /* see */,
@@ -2659,6 +2658,7 @@
 				5EC638290ABEB71100D3295B /* Unit Tests */,
 				14C431AB0BF34655007D29EB /* World */,
 				F2D86C1E0F8E7E2A00B912A2 /* SubEthaPerf */,
+				14251B910BBD5DD300052C84 /* seed */,
 			);
 		};
 /* End PBXProject section */

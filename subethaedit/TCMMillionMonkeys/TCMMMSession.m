@@ -20,6 +20,7 @@
 #import "SelectionOperation.h"
 #import "UserChangeOperation.h"
 #import "time.h"
+#import "PlainTextDocument.h"
 
 
 #define kProcessingTime 0.5
@@ -119,7 +120,7 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChange:) name:TCMMMUserManagerUserDidChangeNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(coalescedSessionDidChange:) name:TCMMMSessionDidChangeNotification object:self];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(presenceManagerDidReceiveToken:) name:TCMMMPresenceManagerDidReceiveTokenNotification object:[TCMMMPresenceManager sharedInstance]];
-        I_loggingState = [[TCMMMLoggingState alloc] init];
+        [self setLoggingState:[[[TCMMMLoggingState alloc] init] autorelease]];
     }
     return self;
 }
@@ -208,8 +209,21 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
     return I_loggingState;
 }
 - (void)setLoggingState:(TCMMMLoggingState *)aState {
-    [I_loggingState autorelease];
-     I_loggingState = [aState retain];
+	if (aState != I_loggingState) {
+		[I_loggingState setMMSession:nil];
+		[I_loggingState autorelease];
+		 I_loggingState = [aState retain];
+		[I_loggingState setMMSession:self];
+	}
+}
+
+- (void)setLastReplacedAttributedString:(NSAttributedString *)aLastReplacedAttributedString {
+	[I_lastReplacedAttributedString autorelease];
+	I_lastReplacedAttributedString = [aLastReplacedAttributedString copy];
+}
+
+- (NSAttributedString *)lastReplacedAttributedString {
+	return I_lastReplacedAttributedString;
 }
 
 - (void)coalescedSessionDidChange:(NSNotification *)aNotification {
@@ -1057,14 +1071,15 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
         loggingState = [[TCMMMLoggingState alloc] initWithDictionaryRepresentation:loggingStateRep];
     } else {
         loggingState = [[TCMMMLoggingState alloc] init];
-        [loggingState setInitialTextStorageDictionaryRepresentation:[aContent objectForKey:@"TextStorage"]];
-        [loggingState addOperationsForInitialRepresentation];
     }
     
     if (loggingState) {
         [self setLoggingState:[loggingState autorelease]];
     }
     [[self document] session:self didReceiveContent:aContent];
+    if (!loggingStateRep) {
+    	[loggingState addOperationsForAttributedStringState:[[self document] textStorage]];
+    }
 }
 
 - (void)profileDidAckSessionContent:(SessionProfile *)aProfile {

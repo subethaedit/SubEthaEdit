@@ -3070,7 +3070,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     // the elements of the array will be merged into a Dictionary that actually holds the data
     // the purpose of this is so there can be compressed and uncompressed data in it
     // currently 2 types are supported
-    // - a Number - this number indicates the fileformatversion which the saving app new about.
+    // - a Number - this number indicates the fileformatversion which the saving app knew about.
     // - an Array with exactly one entry which is a dictionary with uncompressed content
     // - an Array with exactly 2 entries which is a length followed by an compressed content dictionary
     // - everthing else will be ignored but preserved so we have potential upward compatibility
@@ -3514,7 +3514,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     
     TCMMMUserManager *um = [TCMMMUserManager sharedInstance];
     TCMMMLoggingState *ls = [[self session] loggingState];
-    TCMMMLoggedOperation *lop = NULL;
+    TCMMMLoggedOperation *lop = nil;
     if ([[ls loggedOperations] count]>0) {
         lop = [[ls loggedOperations] objectAtIndex:0];
         NSXMLElement *element = [NSXMLNode elementWithName:@"firstactivity" stringValue:[[lop date] rfc1123Representation]];
@@ -5918,6 +5918,7 @@ static NSString *S_measurementUnits;
 
 - (void)textStorage:(FullTextStorage *)aTextStorage willReplaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString {
 //    NSLog(@"textStorage:%@ willReplaceCharactersInRange:%@ withString:%@",aTextStorage,NSStringFromRange(aRange),aString);
+	[I_session setLastReplacedAttributedString:[aTextStorage attributedSubstringFromRange:aRange]];
     if (!I_flags.isRemotelyEditingTextStorage && !I_flags.isReadingFile && !I_flags.isHandlingUndoManually) {
     	FullTextStorage *fullTextStorage = (FullTextStorage *)aTextStorage;
     
