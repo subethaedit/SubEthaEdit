@@ -110,7 +110,7 @@
 }
 
 - (void)setScriptedContents:(id)value {
-	NSLog(@"%s: %@, %@ %@", __FUNCTION__, value, [[I_textStorage foldableTextStorage] delegate], [I_textStorage class]);
+//	NSLog(@"%s: %@, %@ %@", __FUNCTION__, value, [[I_textStorage foldableTextStorage] delegate], [I_textStorage class]);
     NSRange range=[self rangeRepresentation];
     [[[I_textStorage foldableTextStorage] delegate] replaceTextInRange:range withString:value];
     if (I_editor) {
@@ -120,12 +120,12 @@
 
 - (id)objectSpecifier
 {
-    NSLog(@"%s:", __FUNCTION__);
+//    NSLog(@"%s:", __FUNCTION__);
     NSScriptClassDescription *containerDescription;
     NSScriptObjectSpecifier  *containerSpecifier;
     NSScriptObjectSpecifier  *resultSpecifier;
     if (I_editor) {
-		NSLog(@"%s: had editor", __FUNCTION__);
+//		NSLog(@"%s: had editor", __FUNCTION__);
         containerDescription = (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[NSWindow class]];
         containerSpecifier   = [[[I_editor textView] window] objectSpecifier];
         
@@ -135,7 +135,7 @@
                                                                         key:@"scriptSelection"] autorelease];
         
     } else {
-		NSLog(@"%s: did not have editor", __FUNCTION__);
+//		NSLog(@"%s: did not have editor", __FUNCTION__);
         containerDescription = (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[FoldableTextStorage class]];
         containerSpecifier   = [I_textStorage objectSpecifier];
         

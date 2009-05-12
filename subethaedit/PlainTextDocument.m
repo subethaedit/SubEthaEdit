@@ -6565,9 +6565,11 @@ static NSString *S_measurementUnits;
 
 - (void)handleBeginUndoGroupCommand:(NSScriptCommand *)command {
     [[self documentUndoManager] beginUndoGrouping];
+	[I_textStorage beginEditing];
 }
 
 - (void)handleEndUndoGroupCommand:(NSScriptCommand *)command {
+	[I_textStorage endEditing];
     [[self documentUndoManager] endUndoGrouping];
 }
 
@@ -6592,7 +6594,7 @@ static NSString *S_measurementUnits;
     NSMutableString *mutableString = [aString mutableCopy];
     [mutableString convertLineEndingsToLineEndingString:[self lineEndingString]];
 
-    NSTextStorage *textStorage = [self textStorage];
+    FullTextStorage *textStorage = [(FoldableTextStorage *)[self textStorage] fullTextStorage];
     [textStorage replaceCharactersInRange:aRange withString:mutableString];
     if ([mutableString length] > 0) {
         [textStorage addAttributes:[self typingAttributes] 
@@ -6601,9 +6603,9 @@ static NSString *S_measurementUnits;
     
     [mutableString release];
     
-    if (I_flags.highlightSyntax) {
-        [self highlightSyntaxInRange:NSMakeRange(0, [[I_textStorage fullTextStorage] length])];
-    }
+//    if (I_flags.highlightSyntax) {
+//        [self highlightSyntaxInRange:NSMakeRange(0, [[I_textStorage fullTextStorage] length])];
+//    }
 
 }
 
