@@ -37,6 +37,8 @@
 
 - (id)initWithFoldableTextStorage:(FoldableTextStorage *)inTextStorage;
 
+- (FoldableTextStorage *)foldableTextStorage;
+
 #pragma mark -
 - (NSString *)positionStringForRange:(NSRange)aRange;
 - (int)lineNumberForLocation:(unsigned)location;

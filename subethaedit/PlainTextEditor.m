@@ -1828,7 +1828,7 @@
 
 @implementation PlainTextEditor (PlainTextEditorScriptingAdditions)
 - (id)scriptSelection {
-    return [ScriptTextSelection scriptTextSelectionWithTextStorage:(FoldableTextStorage *)[[self textView] textStorage] editor:self];
+    return [ScriptTextSelection scriptTextSelectionWithTextStorage:[(FoldableTextStorage *)[[self textView] textStorage] fullTextStorage] editor:self];
 }
 
 - (void)setScriptSelection:(id)selection {

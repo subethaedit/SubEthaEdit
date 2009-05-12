@@ -13,11 +13,11 @@
 
 @implementation ScriptCharacters
 
-+ (id)scriptCharactersWithTextStorage:(FoldableTextStorage *)aTextStorage characterRange:(NSRange)aCharacterRange {
++ (id)scriptCharactersWithTextStorage:(FullTextStorage *)aTextStorage characterRange:(NSRange)aCharacterRange {
     return [[[ScriptCharacters alloc] initWithTextStorage:aTextStorage characterRange:aCharacterRange] autorelease];
 }
 
-- (id)initWithTextStorage:(FoldableTextStorage *)aTextStorage characterRange:(NSRange)aCharacterRange
+- (id)initWithTextStorage:(FullTextStorage *)aTextStorage characterRange:(NSRange)aCharacterRange
 {
     if ((self = [super initWithTextStorage:aTextStorage])) {
         I_characterRange = aCharacterRange;

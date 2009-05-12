@@ -125,6 +125,11 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     return self;
 }
 
+- (FoldableTextStorage *)foldableTextStorage {
+	return I_foldableTextStorage;
+}
+
+
 - (void)dealloc {
 
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -600,5 +605,10 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 //    NSLog(@"%s end",__FUNCTION__);
     return array;
 }
+
+- (id)objectSpecifier {
+	return [I_foldableTextStorage objectSpecifier];
+}
+
 
 @end

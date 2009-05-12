@@ -12,11 +12,11 @@
 
 @implementation ScriptLine
 
-+ (id)scriptLineWithTextStorage:(FoldableTextStorage *)aTextStorage lineNumber:(int)aLineNumber {
++ (id)scriptLineWithTextStorage:(FullTextStorage *)aTextStorage lineNumber:(int)aLineNumber {
     return [[[ScriptLine alloc] initWithTextStorage:aTextStorage lineNumber:aLineNumber] autorelease];
 }
 
-- (id)initWithTextStorage:(FoldableTextStorage *)aTextStorage lineNumber:(int)aLineNumber
+- (id)initWithTextStorage:(FullTextStorage *)aTextStorage lineNumber:(int)aLineNumber
 {
     if ((self = [super initWithTextStorage:aTextStorage])) {
         I_lineNumber = aLineNumber;
@@ -49,7 +49,7 @@
 
 - (id)objectSpecifier
 {
-    // NSLog(@"%s", __FUNCTION__);
+    NSLog(@"%s", __FUNCTION__);
     
     NSScriptClassDescription *containerClassDesc = (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[FoldableTextStorage class]];
     NSScriptObjectSpecifier *containerSpecifier = [I_textStorage objectSpecifier];

@@ -15,7 +15,7 @@
     NSRange      I_characterRange;
 }
 
-+ (id)scriptCharactersWithTextStorage:(FoldableTextStorage *)aTextStorage characterRange:(NSRange)aCharacterRange;
-- (id)initWithTextStorage:(FoldableTextStorage *)aTextStorage characterRange:(NSRange)aCharacterRange;
++ (id)scriptCharactersWithTextStorage:(FullTextStorage *)aTextStorage characterRange:(NSRange)aCharacterRange;
+- (id)initWithTextStorage:(FullTextStorage *)aTextStorage characterRange:(NSRange)aCharacterRange;
 
 @end

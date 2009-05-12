@@ -140,8 +140,8 @@ extern NSString * const BlockeditAttributeValue;
 - (NSNumber *)scriptedEndLine;
 - (NSString *)scriptedContents;
 - (void)setScriptedContents:(id)string;
-- (NSArray *)scriptedCharacters;
-- (NSArray *)scriptedLines;
+//- (NSArray *)scriptedCharacters;
+//- (NSArray *)scriptedLines;
 
 @end
 

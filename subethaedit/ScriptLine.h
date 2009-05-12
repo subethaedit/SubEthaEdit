@@ -15,7 +15,7 @@
     int I_lineNumber;
 }
 
-+ (id)scriptLineWithTextStorage:(FoldableTextStorage *)aTextStorage lineNumber:(int)aLineNumber;
-- (id)initWithTextStorage:(FoldableTextStorage *)aTextStorage lineNumber:(int)aLineNumber;
++ (id)scriptLineWithTextStorage:(FullTextStorage *)aTextStorage lineNumber:(int)aLineNumber;
+- (id)initWithTextStorage:(FullTextStorage *)aTextStorage lineNumber:(int)aLineNumber;
 
 @end

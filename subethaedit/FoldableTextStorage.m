@@ -1077,25 +1077,25 @@ NSString * const BlockeditAttributeValue=@"YES";
     return NSMakeRange(0,[self length]);
 }
 
-- (NSArray *)scriptedCharacters {
-    // NSLog(@"%s", __FUNCTION__);
-    NSMutableArray *result=[NSMutableArray array];
-    int length=[self length];
-    int index=0;
-    while (index<length) {
-        [result addObject:[ScriptCharacters scriptCharactersWithTextStorage:self characterRange:NSMakeRange(index++,1)]];
-    }
-    return result;
-}
+//- (NSArray *)scriptedCharacters {
+//    NSLog(@"%s", __FUNCTION__);
+//    NSMutableArray *result=[NSMutableArray array];
+//    int length=[self length];
+//    int index=0;
+//    while (index<length) {
+//        [result addObject:[ScriptCharacters scriptCharactersWithTextStorage:self characterRange:NSMakeRange(index++,1)]];
+//    }
+//    return result;
+//}
 
 - (unsigned int)countOfScriptedCharacters {
-    return [self length];
+    return [[self fullTextStorage] length];
 }
 
-- (id)valueInScriptedCharactersAtIndex:(unsigned)index
+- (id)objectInScriptedCharactersAtIndex:(unsigned)index
 {
-    // NSLog(@"%s: %d", __FUNCTION__, index);
-    return [ScriptCharacters scriptCharactersWithTextStorage:self characterRange:NSMakeRange(index,1)];
+    NSLog(@"%s: %d", __FUNCTION__, index);
+    return [ScriptCharacters scriptCharactersWithTextStorage:[self fullTextStorage] characterRange:NSMakeRange(index,1)];
 }
 
 - (void)insertObject:(id)anObject inScriptedCharactersAtIndex:(unsigned)anIndex {
@@ -1104,28 +1104,32 @@ NSString * const BlockeditAttributeValue=@"YES";
 
 - (void)removeObjectFromScriptedCharactersAtIndex:(unsigned)anIndex {
 //    NSLog(@"%s: %d", __FUNCTION__, anIndex);
-    [[self valueInScriptedCharactersAtIndex:anIndex] setScriptedContents:@""];
+    [[self objectInScriptedCharactersAtIndex:anIndex] setScriptedContents:@""];
 }
 
-- (NSArray *)scriptedLines
-{
-    // NSLog(@"%s", __FUNCTION__);
-    int lineCount = 1;
-    if ([self length]>0) {
-        lineCount = [self lineNumberForLocation:[self length]];
-    }
-    NSMutableArray *lines = [NSMutableArray array];
-    int lineNumber = 1;
-    for (lineNumber=1;lineNumber<=lineCount;lineNumber++) {
-        [lines addObject:[ScriptLine scriptLineWithTextStorage:self lineNumber:lineNumber]];
-    }
-    return lines;
+//- (NSArray *)scriptedLines
+//{
+//    // NSLog(@"%s", __FUNCTION__);
+//    int lineCount = 1;
+//    if ([self length]>0) {
+//        lineCount = [self lineNumberForLocation:[self length]];
+//    }
+//    NSMutableArray *lines = [NSMutableArray array];
+//    int lineNumber = 1;
+//    for (lineNumber=1;lineNumber<=lineCount;lineNumber++) {
+//        [lines addObject:[ScriptLine scriptLineWithTextStorage:self lineNumber:lineNumber]];
+//    }
+//    return lines;
+//}
+
+- (unsigned int)countOfScriptedLines {
+    return [self lineNumberForLocation:[self length]];
 }
 
-- (id)valueInScriptedLinesAtIndex:(unsigned)index
+- (id)objectInScriptedLinesAtIndex:(unsigned)index
 {
     // NSLog(@"%s: %d", __FUNCTION__, index);
-    return [ScriptLine scriptLineWithTextStorage:self lineNumber:index+1];
+    return [ScriptLine scriptLineWithTextStorage:[self fullTextStorage] lineNumber:index+1];
 }
 
 - (void)insertObject:(id)anObject inScriptedLinesAtIndex:(unsigned)anIndex {
@@ -1134,7 +1138,7 @@ NSString * const BlockeditAttributeValue=@"YES";
 
 - (void)removeObjectFromScriptedLinesAtIndex:(unsigned)anIndex {
 //    NSLog(@"%s: %d", __FUNCTION__, anIndex);
-    [[self valueInScriptedLinesAtIndex:anIndex] setScriptedContents:@""];
+    [[self objectInScriptedLinesAtIndex:anIndex] setScriptedContents:@""];
 }
 
 - (NSString *)scriptedContents 
@@ -1148,19 +1152,23 @@ NSString * const BlockeditAttributeValue=@"YES";
     [[self delegate] replaceTextInRange:NSMakeRange(0,[self length]) withString:value];
 }
 
-- (id)insertionPoints
-{
-    NSMutableArray *resultArray=[NSMutableArray new];
-    int index=0;
-    int length=[self length];
-    for (index=0;index<=length;index++) {
-        [resultArray addObject:[ScriptTextSelection insertionPointWithTextStorage:self index:index]];
-    }
-    return resultArray;
+//- (id)insertionPoints
+//{
+//    NSMutableArray *resultArray=[NSMutableArray new];
+//    int index=0;
+//    int length=[self length];
+//    for (index=0;index<=length;index++) {
+//        [resultArray addObject:[ScriptTextSelection insertionPointWithTextStorage:[self fullTextStorage] index:index]];
+//    }
+//    return resultArray;
+//}
+
+- (unsigned int)countOfInsertionPoints {
+	return [[self fullTextStorage] length] + 1;
 }
 
-- (id)valueInInsertionPointsAtIndex:(unsigned)anIndex {
-    return [ScriptTextSelection insertionPointWithTextStorage:self index:anIndex];
+- (id)objectInInsertionPointsAtIndex:(unsigned)anIndex {
+    return [ScriptTextSelection insertionPointWithTextStorage:[self fullTextStorage] index:anIndex];
 }
 
 
