@@ -359,10 +359,32 @@ static NSMenu *defaultMenu=nil;
     return menu;
 }
 
-#if defined(CODA)
 - (void)resetCursorRects {
     // disable cursor rects and therefore mouse cursor changing when we have a dark background so the documentcursor is used
     if ([[self insertionPointColor] isDark]) [super resetCursorRects];
+}
+
+- (NSRange)selectionRangeForProposedRange:(NSRange)proposedSelRange granularity:(NSSelectionGranularity)granularity {
+    NSEvent *currentEvent=[NSApp currentEvent];
+    NSEventType type = [currentEvent type];
+    if (currentEvent && (type==NSLeftMouseDown || type==NSLeftMouseUp)) {
+        int clickCount = [currentEvent clickCount];
+        NSTextStorage *ts = [self textStorage];
+        NSRange wholeRange = NSMakeRange(0,[ts length]);
+        if (clickCount == 3) {
+            NSRange lineRange = [[ts string] lineRangeForRange:proposedSelRange];
+            // select area that belongs to a style
+            unsigned int index = [self characterIndexForPoint:[[self window] convertBaseToScreen:[[NSApp currentEvent] locationInWindow]]];
+            NSRange resultRange = lineRange;
+            if (index != NSNotFound && index < NSMaxRange(wholeRange)) {
+                [ts attribute:kSyntaxHighlightingStyleIDAttributeName atIndex:index longestEffectiveRange:&resultRange inRange:wholeRange];
+                return RangeConfinedToRange(resultRange,lineRange);
+            }
+        } else if (clickCount >= 5) {
+            return wholeRange;
+        }
+    }
+    return [super selectionRangeForProposedRange:proposedSelRange granularity:granularity];
 }
 
 - (IBAction)foldTextSelection:(id)aSender {
@@ -410,29 +432,6 @@ static NSMenu *defaultMenu=nil;
 	[ts foldAllWithFoldingLevel:1];
 }
 
-- (NSRange)selectionRangeForProposedRange:(NSRange)proposedSelRange granularity:(NSSelectionGranularity)granularity {
-    NSEvent *currentEvent=[NSApp currentEvent];
-    NSEventType type = [currentEvent type];
-    if (currentEvent && (type==NSLeftMouseDown || type==NSLeftMouseUp)) {
-        int clickCount = [currentEvent clickCount];
-        NSTextStorage *ts = [self textStorage];
-        NSRange wholeRange = NSMakeRange(0,[ts length]);
-        if (clickCount == 3) {
-            NSRange lineRange = [[ts string] lineRangeForRange:proposedSelRange];
-            // select area that belongs to a style
-            unsigned int index = [self characterIndexForPoint:[[self window] convertBaseToScreen:[[NSApp currentEvent] locationInWindow]]];
-            NSRange resultRange = lineRange;
-            if (index != NSNotFound && index < NSMaxRange(wholeRange)) {
-                [ts attribute:kSyntaxHighlightingStyleIDAttributeName atIndex:index longestEffectiveRange:&resultRange inRange:wholeRange];
-                return RangeConfinedToRange(resultRange,lineRange);
-            }
-        } else if (clickCount >= 5) {
-            return wholeRange;
-        }
-    }
-    return [super selectionRangeForProposedRange:proposedSelRange granularity:granularity];
-}
-#endif //defined(CODA)
 
 - (void)setBackgroundColor:(NSColor *)aColor {
     BOOL wasDark = [[self backgroundColor] isDark];
