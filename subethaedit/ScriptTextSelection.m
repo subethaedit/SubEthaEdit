@@ -45,7 +45,7 @@
 
 - (NSRange)rangeRepresentation {
     if (I_editor) {
-        return [[I_editor textView] selectedRange];
+        return [[I_textStorage foldableTextStorage] fullRangeForFoldedRange:[[I_editor textView] selectedRange]];
     } else {
         return NSMakeRange(I_startCharacterIndex,0);
     }
@@ -53,6 +53,7 @@
 
 - (void)setScriptedStartCharacterIndex:(int)aValue {
     // NSLog(@"%s: %d", __FUNCTION__, aValue);
+	aValue = [[I_textStorage foldableTextStorage] foldedRangeForFullRange:NSMakeRange(aValue,0)].location;
     if (I_editor && aValue > 0) {
         NSTextView *textView = [I_editor textView];
         NSRange range = [textView selectedRange];
@@ -76,6 +77,7 @@
 
 - (void)setScriptedNextCharacterIndex:(int)aValue {
     // NSLog(@"%s: %d", __FUNCTION__, aValue);
+	aValue = [[I_textStorage foldableTextStorage] foldedRangeForFullRange:NSMakeRange(aValue,0)].location;
     if (I_editor && aValue > 0) {
         NSTextView *textView = [I_editor textView];
         NSRange range = [textView selectedRange];
