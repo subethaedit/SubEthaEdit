@@ -794,6 +794,24 @@ NSString * const BlockeditAttributeValue=@"YES";
 	}
 }
 
+- (BOOL)unfoldFoldingForPosition:(unsigned)aPosition {
+	
+	NSRange lineRange = [[self string] lineRangeForRange:NSMakeRange(aPosition,0)];
+	NSRange attributeRange = NSMakeRange(lineRange.location,0);
+	id attachment = nil;
+	do {
+		attachment = [self attribute:NSAttachmentAttributeName atIndex:NSMaxRange(attributeRange) longestEffectiveRange:&attributeRange inRange:lineRange];
+	} while (!attachment && NSMaxRange(attributeRange) < NSMaxRange(lineRange));
+	
+	if (attachment) {
+		// unfold
+		[self unfoldAttachment:attachment atCharacterIndex:attributeRange.location];
+		return YES;
+	}
+	
+	return NO;
+}
+
 - (void)unfoldAll {
 	// iterate and unfold all attachments - do so from bottom to top
 	unsigned int length = [self length];

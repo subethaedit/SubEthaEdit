@@ -59,6 +59,8 @@ extern NSString * const BlockeditAttributeValue;
 - (void)foldRange:(NSRange)inRange;
 - (void)unfoldAttachment:(FoldedTextAttachment *)inAttachment atCharacterIndex:(unsigned)inIndex;
 - (void)unfoldAll;
+// returns YES if a folding was unfolded, NO otherwise
+- (BOOL)unfoldFoldingForPosition:(unsigned)aPosition;
 - (void)foldAllWithFoldingLevel:(int)aFoldingLevel;
 - (void)foldAllComments;
 
@@ -130,7 +132,6 @@ extern NSString * const BlockeditAttributeValue;
 
 @interface FoldableTextStorage (TextStorageScriptingAdditions)
 
-- (id)insertionPoints;
 
 - (NSRange)rangeRepresentation;
 - (NSNumber *)scriptedLength;
@@ -140,6 +141,9 @@ extern NSString * const BlockeditAttributeValue;
 - (NSNumber *)scriptedEndLine;
 - (NSString *)scriptedContents;
 - (void)setScriptedContents:(id)string;
+
+// all done by key value coding for performance reasons
+//- (id)insertionPoints;
 //- (NSArray *)scriptedCharacters;
 //- (NSArray *)scriptedLines;
 

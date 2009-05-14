@@ -417,6 +417,13 @@ static NSMenu *defaultMenu=nil;
 	}
 }
 
+- (IBAction)unfoldCurrentBlock:(id)aSender {
+	FoldableTextStorage *ts = (FoldableTextStorage *)[self textStorage];
+	if (![ts unfoldFoldingForPosition:[self selectedRange].location]) {
+		NSBeep();
+	}
+}
+
 - (IBAction)foldAllCommentBlocks:(id)aSender {
 	FoldableTextStorage *ts = (FoldableTextStorage *)[self textStorage];
 	[ts foldAllComments];

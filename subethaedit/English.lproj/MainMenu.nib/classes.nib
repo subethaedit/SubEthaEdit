@@ -118,6 +118,19 @@
 		<dict>
 			<key>ACTIONS</key>
 			<dict>
+				<key>foldTextSelection</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>TextView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSTextView</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
 				<key>buy</key>
 				<string>id</string>
 				<key>cancel</key>
@@ -152,19 +165,6 @@
 			</dict>
 			<key>SUPERCLASS</key>
 			<string>NSWindowController</string>
-		</dict>
-		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>foldTextSelection</key>
-				<string>id</string>
-			</dict>
-			<key>CLASS</key>
-			<string>TextView</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSTextView</string>
 		</dict>
 		<dict>
 			<key>CLASS</key>
@@ -325,27 +325,11 @@
 		</dict>
 		<dict>
 			<key>CLASS</key>
-			<string>NSDocument</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
 			<string>ParticipantsView</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
 			<key>SUPERCLASS</key>
 			<string>TCMListView</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>NSMenuItem</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
 		</dict>
 		<dict>
 			<key>CLASS</key>
@@ -384,6 +368,14 @@
 			</dict>
 			<key>SUPERCLASS</key>
 			<string>NSImageView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSMenuItem</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
 		</dict>
 		<dict>
 			<key>ACTIONS</key>
@@ -451,17 +443,56 @@
 			<string>NSView</string>
 		</dict>
 		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>clear</key>
+				<string>id</string>
+				<key>connect</key>
+				<string>id</string>
+				<key>login</key>
+				<string>id</string>
+				<key>setVisibilityByMenuItem</key>
+				<string>id</string>
+				<key>toggleFriendcast</key>
+				<string>id</string>
+				<key>toggleProhibitInboundConnections</key>
+				<string>id</string>
+			</dict>
 			<key>CLASS</key>
-			<string>TCMHost</string>
+			<string>ConnectionBrowserController</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
 			<key>OUTLETS</key>
 			<dict>
-				<key>I_delegate</key>
-				<string>id</string>
+				<key>O_actionPullDownButton</key>
+				<string>NSPopUpButton</string>
+				<key>O_addressComboBox</key>
+				<string>NSComboBox</string>
+				<key>O_browserListView</key>
+				<string>TCMMMBrowserListView</string>
+				<key>O_clearButton</key>
+				<string>NSButton</string>
+				<key>O_imageView</key>
+				<string>NSImageView</string>
+				<key>O_loginSheetController</key>
+				<string>LoginSheetController</string>
+				<key>O_myNameTextField</key>
+				<string>NSTextField</string>
+				<key>O_portStatusImageView</key>
+				<string>URLImageView</string>
+				<key>O_portStatusProgressIndicator</key>
+				<string>NSProgressIndicator</string>
+				<key>O_portStatusTextField</key>
+				<string>NSTextField</string>
+				<key>O_scrollView</key>
+				<string>NSScrollView</string>
+				<key>O_statusPopUpButton</key>
+				<string>NSPopUpButton</string>
+				<key>O_toggleFriendcastButton</key>
+				<string>NSButton</string>
 			</dict>
 			<key>SUPERCLASS</key>
-			<string>NSObject</string>
+			<string>NSWindowController</string>
 		</dict>
 		<dict>
 			<key>ACTIONS</key>
@@ -539,59 +570,20 @@
 				<string>NSButton</string>
 			</dict>
 			<key>SUPERCLASS</key>
-			<string>NSDocument</string>
+			<string>TSNodeWrapper</string>
 		</dict>
 		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>clear</key>
-				<string>id</string>
-				<key>connect</key>
-				<string>id</string>
-				<key>login</key>
-				<string>id</string>
-				<key>setVisibilityByMenuItem</key>
-				<string>id</string>
-				<key>toggleFriendcast</key>
-				<string>id</string>
-				<key>toggleProhibitInboundConnections</key>
-				<string>id</string>
-			</dict>
 			<key>CLASS</key>
-			<string>ConnectionBrowserController</string>
+			<string>TCMHost</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
 			<key>OUTLETS</key>
 			<dict>
-				<key>O_actionPullDownButton</key>
-				<string>NSPopUpButton</string>
-				<key>O_addressComboBox</key>
-				<string>NSComboBox</string>
-				<key>O_browserListView</key>
-				<string>TCMMMBrowserListView</string>
-				<key>O_clearButton</key>
-				<string>NSButton</string>
-				<key>O_imageView</key>
-				<string>NSImageView</string>
-				<key>O_loginSheetController</key>
-				<string>LoginSheetController</string>
-				<key>O_myNameTextField</key>
-				<string>NSTextField</string>
-				<key>O_portStatusImageView</key>
-				<string>URLImageView</string>
-				<key>O_portStatusProgressIndicator</key>
-				<string>NSProgressIndicator</string>
-				<key>O_portStatusTextField</key>
-				<string>NSTextField</string>
-				<key>O_scrollView</key>
-				<string>NSScrollView</string>
-				<key>O_statusPopUpButton</key>
-				<string>NSPopUpButton</string>
-				<key>O_toggleFriendcastButton</key>
-				<string>NSButton</string>
+				<key>I_delegate</key>
+				<string>id</string>
 			</dict>
 			<key>SUPERCLASS</key>
-			<string>NSWindowController</string>
+			<string>NSObject</string>
 		</dict>
 		<dict>
 			<key>CLASS</key>
@@ -709,6 +701,8 @@
 				<key>toggleWrap</key>
 				<string>id</string>
 				<key>unfoldAllBlocks</key>
+				<string>id</string>
+				<key>unfoldCurrentBlock</key>
 				<string>id</string>
 			</dict>
 			<key>CLASS</key>
