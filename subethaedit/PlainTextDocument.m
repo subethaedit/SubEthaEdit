@@ -608,7 +608,7 @@ static NSString *tempFileName(NSString *origPath) {
     [I_symbolArray release];
     I_symbolArray=nil;
     if ([mode hasSymbols]) {
-        I_symbolArray = [[mode symbolArrayForTextStorage:[self textStorage]] copy];
+        I_symbolArray = [[mode symbolArrayForTextStorage:[(FoldableTextStorage *)[self textStorage] fullTextStorage]] copy];
 		
 		// If symbolArrayForTextStorage: return nil the document is not yet ready for symbol recognition.
 		if (!I_symbolArray) {
@@ -755,8 +755,8 @@ static NSString *tempFileName(NSString *origPath) {
         NSRange symbolRange=[[I_symbolArray objectAtIndex:[aMenuItem tag]] jumpRange];
         NSTextView *textView=[aMenuItem representedObject];
         NSRange wholeRange=NSMakeRange(0,[[self textStorage] length]);
-        symbolRange=RangeConfinedToRange(symbolRange,wholeRange);
         symbolRange=[I_textStorage foldedRangeForFullRange:symbolRange];
+        symbolRange=RangeConfinedToRange(symbolRange,wholeRange);
         [textView setSelectedRange:symbolRange];
         [textView scrollRangeToVisible:symbolRange];
         if ([textView respondsToSelector:@selector(showFindIndicatorForRange:)]) {

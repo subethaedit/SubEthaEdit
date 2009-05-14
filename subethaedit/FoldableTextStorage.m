@@ -843,7 +843,7 @@ NSString * const BlockeditAttributeValue=@"YES";
 
 	do {
 		foldingDepth = [self attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:attributeRange.location-1 longestEffectiveRange:&attributeRange inRange:NSMakeRange(0, [self length])];
-//		NSLog(@"%s range:%@ attribute:%@",__FUNCTION__, NSStringFromRange(attributeRange),foldingDepth);
+//		NSLog(@"%s range:%@ attribute:%@ currentFoldingRange:%@",__FUNCTION__, NSStringFromRange(attributeRange),foldingDepth,NSStringFromRange(currentFoldingRange));
 		if (!foldingDepth || [foldingDepth isKindOfClass:[NSNumber class]]) {
 			int currentDepth = [foldingDepth intValue];
 			if (currentDepth == aFoldingLevel) {
@@ -860,9 +860,11 @@ NSString * const BlockeditAttributeValue=@"YES";
 					if (attributeRange.length == 1 && [self attribute:NSAttachmentAttributeName atIndex:attributeRange.location effectiveRange:NULL]) { 
 						// this is an attachment which we might step over - so do nothing
 					} else {
-						NSRange foldingRange = [I_fullTextStorage foldableRangeForCharacterAtIndex:currentFoldingRange.location];
+//						NSLog(@"%s looking up folding range for: %@",__FUNCTION__,NSStringFromRange(currentFoldingRange));
+						NSRange foldingRange = [self fullRangeForFoldedRange:currentFoldingRange];
+						foldingRange = [I_fullTextStorage foldableRangeForCharacterAtIndex:foldingRange.location];
 						foldingRange = [self foldedRangeForFullRange:foldingRange];
-
+//						NSLog(@"%s folding followingRange: %@",__FUNCTION__,NSStringFromRange(foldingRange));
 						[self foldRange:foldingRange];
 						currentFoldingRange.location = NSNotFound;
 					}
