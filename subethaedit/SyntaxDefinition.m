@@ -37,7 +37,7 @@
         I_name = [@"Not named" retain];
         [self setMode:aMode];
         everythingOkay = YES;
-        
+        I_foldingTopLevel = 1;
         I_defaultSyntaxStyle = [SyntaxStyle new]; 
         [I_defaultSyntaxStyle setDocumentMode:aMode];               
         // Parse XML File
@@ -114,6 +114,8 @@
     NSString *charsInToken = [[[syntaxDefinitionXML nodesForXPath:@"/syntax/head/charsintokens" error:&err] lastObject] stringValue];
     NSString *charsDelimitingToken = [[[syntaxDefinitionXML nodesForXPath:@"/syntax/head/charsdelimitingtokens" error:&err] lastObject] stringValue];
     NSCharacterSet *tokenSet = nil; // TODO: what should be the value if neither charsInToken nor charsDelimitingToken?
+    
+    NSString *foldingTopLevel = [[syntaxDefinitionXML nodesForXPath:@"/syntax/head/folding@toplevel" error:&err] lastObject];
     
     I_charsInToken = nil;
     I_charsDelimitingToken = nil;
@@ -284,7 +286,7 @@
         // Add regexes for keyword group
         NSMutableArray *regexes = [NSMutableArray array];
         NSMutableArray *strings = [NSMutableArray array];
-        NSMutableString *combindedRegexRegexString = [NSMutableString stringWithString:@"("];
+        NSMutableString *combindedRegexRegexString = [NSMutableString stringWithString:@"(?:"];
         
         [keywordGroupDictionary setObject:regexes forKey:@"RegularExpressions"];
         [keywordGroupDictionary setObject:strings forKey:@"PlainStrings"];
@@ -548,6 +550,10 @@
 - (NSCharacterSet *)tokenSet
 {
     return I_tokenSet;
+}
+
+- (int)foldingTopLevel {
+	return I_foldingTopLevel;
 }
 
 - (NSString *)autocompleteTokenString {

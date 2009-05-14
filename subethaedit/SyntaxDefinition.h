@@ -36,6 +36,7 @@
     NSString *I_charsInToken;
     NSString *I_charsDelimitingToken;
     OGRegularExpression *I_tokenRegex;
+    int I_foldingTopLevel;
 }
 
 /*"Initizialisation"*/
@@ -77,5 +78,8 @@
 - (BOOL)useSpellingDictionary;
 
 - (int)levelForStyleID:(NSString *)aStyleID;
+
+- (int)foldingTopLevel;
+
 @end
 

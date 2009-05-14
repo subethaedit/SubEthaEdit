@@ -413,7 +413,13 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
                 
         NSEnumerator *matchEnumerator = [[aRegex allMatchesInString:theString range:aRange] objectEnumerator];
         while ((aMatch = [matchEnumerator nextObject])) {
-            [aString addAttributes:attributes range:[aMatch rangeOfSubstringAtIndex:2]]; // Only color first group. since we combine all regexes into one for speed this is now the second group
+//        	if ([styleID hasSuffix:@"Methods"]) { // for debugging
+//        		NSLog(@"%s %@ %@",__FUNCTION__,styleID,aMatch);
+//        	}
+        	NSRange matchedRange = [aMatch rangeOfLastMatchSubstring];
+        	if (matchedRange.location != NSNotFound) {
+	            [aString addAttributes:attributes range:matchedRange]; // only color last matched subgroup - it is important that all regex keywords have exactly and only one matching group for this to work
+	        }
         }
     }
 }
