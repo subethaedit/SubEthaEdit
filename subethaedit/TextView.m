@@ -429,7 +429,12 @@ static NSMenu *defaultMenu=nil;
 
 - (IBAction)foldAllTopLevelBlocks:(id)aSender {
 	FoldableTextStorage *ts = (FoldableTextStorage *)[self textStorage];
-	[ts foldAllWithFoldingLevel:1];
+#if defined(CODA)
+    PlainTextDocument *document=(PlainTextDocument *)[editor document];
+#else
+    PlainTextDocument *document=(PlainTextDocument *)[self document];
+#endif //defined(CODA)
+	[ts foldAllWithFoldingLevel:[[[document documentMode] syntaxDefinition] foldingTopLevel]];
 }
 
 

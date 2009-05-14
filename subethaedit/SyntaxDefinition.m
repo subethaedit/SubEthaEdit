@@ -115,7 +115,10 @@
     NSString *charsDelimitingToken = [[[syntaxDefinitionXML nodesForXPath:@"/syntax/head/charsdelimitingtokens" error:&err] lastObject] stringValue];
     NSCharacterSet *tokenSet = nil; // TODO: what should be the value if neither charsInToken nor charsDelimitingToken?
     
-    NSString *foldingTopLevel = [[syntaxDefinitionXML nodesForXPath:@"/syntax/head/folding@toplevel" error:&err] lastObject];
+    NSXMLNode *foldingTopLevel = [[syntaxDefinitionXML nodesForXPath:@"/syntax/head/folding/@toplevel" error:&err] lastObject];
+    if (foldingTopLevel) {
+    	I_foldingTopLevel = [[foldingTopLevel stringValue] intValue];
+    }
     
     I_charsInToken = nil;
     I_charsDelimitingToken = nil;

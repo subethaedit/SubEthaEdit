@@ -842,7 +842,10 @@ NSString * const BlockeditAttributeValue=@"YES";
 					if (attributeRange.length == 1 && [self attribute:NSAttachmentAttributeName atIndex:attributeRange.location effectiveRange:NULL]) { 
 						// this is an attachment which we might step over - so do nothing
 					} else {
-						[self foldRange:currentFoldingRange];
+						NSRange foldingRange = [I_fullTextStorage foldableRangeForCharacterAtIndex:currentFoldingRange.location];
+						foldingRange = [self foldedRangeForFullRange:foldingRange];
+
+						[self foldRange:foldingRange];
 						currentFoldingRange.location = NSNotFound;
 					}
 				}
