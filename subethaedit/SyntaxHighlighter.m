@@ -407,12 +407,13 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
     for (i=0; i<count; i++) {
         NSArray *currentRegexStyle = [regexArray objectAtIndex:i];
         aRegex = [currentRegexStyle objectAtIndex:0];
+        NSString *styleID = [currentRegexStyle objectAtIndex:1];
 
-        NSDictionary *attributes=[theDocument styleAttributesForStyleID:[currentRegexStyle objectAtIndex:1]];
+        NSDictionary *attributes=[theDocument styleAttributesForStyleID:styleID];
                 
         NSEnumerator *matchEnumerator = [[aRegex allMatchesInString:theString range:aRange] objectEnumerator];
         while ((aMatch = [matchEnumerator nextObject])) {
-            [aString addAttributes:attributes range:[aMatch rangeOfSubstringAtIndex:1]]; // Only color first group.
+            [aString addAttributes:attributes range:[aMatch rangeOfSubstringAtIndex:2]]; // Only color first group. since we combine all regexes into one for speed this is now the second group
         }
     }
 }

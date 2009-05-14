@@ -53,6 +53,7 @@
 /*"Accessors"*/
 - (NSString *) keyForInheritedSymbols;
 - (NSString *) keyForInheritedAutocomplete;	
+- (OGRegularExpression *)tokenRegex;
 - (NSString *)name;
 - (void)setName:(NSString *)aString;
 //- (NSArray *)states;
