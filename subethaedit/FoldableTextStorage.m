@@ -879,6 +879,8 @@ NSString * const BlockeditAttributeValue=@"YES";
 	
 }
 
+#define COMMENT_CHARACTER_COUNT_TO_START_FOLDING 80
+
 - (void)foldAllComments {
 	NSRange wholeRange = NSMakeRange(0,[I_fullTextStorage length]);
 	if (wholeRange.length > 0) {
@@ -895,7 +897,18 @@ NSString * const BlockeditAttributeValue=@"YES";
 				[I_fullTextStorage attribute:kSyntaxHighlightingStateDelimiterName atIndex:NSMaxRange(attributeRange) - 1 longestEffectiveRange:&endDelimiterRange inRange:attributeRange];
 				NSRange rangeToFold = NSMakeRange(NSMaxRange(startDelimiterRange),endDelimiterRange.location - NSMaxRange(startDelimiterRange));
 				rangeToFold = [self foldedRangeForFullRange:rangeToFold];
-				[self foldRange:rangeToFold];
+				// check range to Fold for newlines if so fold beginning with the first newline to the end
+				NSString *string = [self string];
+				unsigned start, end, contentsEnd;
+				[string getLineStart:&start end:&end contentsEnd:&contentsEnd forRange:NSMakeRange(rangeToFold.location,0)];
+				if (NSMaxRange(rangeToFold) > end && NSMaxRange(rangeToFold) > contentsEnd) {
+					rangeToFold = NSMakeRange(contentsEnd,NSMaxRange(rangeToFold) - contentsEnd);
+					[self foldRange:rangeToFold];
+				} else if (rangeToFold.length > COMMENT_CHARACTER_COUNT_TO_START_FOLDING + 5) {
+					rangeToFold.location += COMMENT_CHARACTER_COUNT_TO_START_FOLDING;
+					rangeToFold.length   -= COMMENT_CHARACTER_COUNT_TO_START_FOLDING;
+					[self foldRange:rangeToFold];
+				}
 			}
 		} while (NSMaxRange(attributeRange) < NSMaxRange(wholeRange));
 	}

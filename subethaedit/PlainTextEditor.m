@@ -520,8 +520,7 @@
     return result;
 }
 
-- (int)displayedRows
-{
+- (int)displayedRows {
 	int rows = 0;
 	if ([self document]) {
 		NSFont *font=[[self document] fontWithTrait:0];
@@ -598,7 +597,7 @@
     }
 }
 
-- (int)dentLineInTextView:(NSTextView *)aTextView withRange:(NSRange)aLineRange in:(BOOL)aIndent{
+- (int)dentLineInTextView:(NSTextView *)aTextView withRange:(NSRange)aLineRange in:(BOOL)aIndent {
     int changedChars=0;
     static NSCharacterSet *spaceTabSet=nil;
     if (!spaceTabSet) {
@@ -741,7 +740,7 @@
     return changedChars;
 }
 
-- (void)dentParagraphsInTextView:(NSTextView *)aTextView in:(BOOL)aIndent{
+- (void)dentParagraphsInTextView:(NSTextView *)aTextView in:(BOOL)aIndent {
     if ([(FoldableTextStorage *)[aTextView textStorage] hasBlockeditRanges]) {
         NSBeep();
     } else {
@@ -833,8 +832,7 @@
     }
 }
 
-- (void)updateViews
-{
+- (void)updateViews {
     [self TCM_adjustTopStatusBarFrames];
     [self TCM_updateBottomStatusBar];
 }
