@@ -1090,16 +1090,21 @@ NSString * const BlockeditAttributeValue=@"YES";
     NSString *string=[self string];
     while (((colonRange = [string rangeOfString:@":" options:NSLiteralSearch range:result]).location != NSNotFound)) {
         if (index <= colonRange.location) {
-            result.length = colonRange.location-result.location;
+			if (colonRange.location - result.location > 0) { // make sure new length is greater than zero, otherwise hell ensues when automatic url recognition comes along
+				result.length = colonRange.location-result.location;
+			}
             break;
         } else {
             result = NSMakeRange(NSMaxRange(colonRange),NSMaxRange(result)-NSMaxRange(colonRange));
         }
     }
-    // NSLog(@"doubleClickAtIndex:%d returned: %@",index,NSStringFromRange(result));
+//	NSLog(@"doubleClickAtIndex:%d returned: %@",index,NSStringFromRange(result));
     return result;
 }
 
+- (NSArray *)selectionOperationsForRangesUnconvertableToEncoding:(NSStringEncoding)encoding {
+	return [I_fullTextStorage selectionOperationsForRangesUnconvertableToEncoding:encoding];
+}
 
 @end
 
