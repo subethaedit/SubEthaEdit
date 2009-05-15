@@ -39,7 +39,7 @@
     NSArray *selectionOperationArray=[(FoldableTextStorage *)[I_document textStorage] selectionOperationsForRangesUnconvertableToEncoding:I_encoding];
     int i = [selectionOperationArray count];
     [[I_document documentUndoManager] beginUndoGrouping];
-    FoldableTextStorage *textStorage = (FoldableTextStorage *)[I_document textStorage];
+    FullTextStorage *textStorage = [(FoldableTextStorage *)[I_document textStorage] fullTextStorage];
     [textStorage beginEditing];
     NSString *string=[textStorage string];
     NSDictionary *attributes = [I_document typingAttributes];
@@ -63,7 +63,7 @@
     NSArray *selectionOperationArray=[(FoldableTextStorage *)[I_document textStorage] selectionOperationsForRangesUnconvertableToEncoding:I_encoding];
     NSEnumerator *selectionOperations=[selectionOperationArray objectEnumerator];
     SelectionOperation *selectionOperation = nil;
-    FoldableTextStorage *textStorage = (FoldableTextStorage *)[I_document textStorage];
+    FullTextStorage *textStorage = [(FoldableTextStorage *)[I_document textStorage] fullTextStorage];
     NSString *string=[textStorage string];
     NSRange currentLineRange=[string lineRangeForRange:NSMakeRange(0,0)];
     int currentLineNumber = 1;

@@ -544,12 +544,15 @@ static NSAttributedString *S_dragString = nil;
 #pragma mark -
 
 - (void)gotoLine:(unsigned)aLine {
-    NSRange range=[(FoldableTextStorage *)[[self document] textStorage] findLine:aLine];
+    NSRange range=[[(FoldableTextStorage *)[[self document] textStorage] fullTextStorage] findLine:aLine];
     [self selectRange:range];
 }
 
+// selects a range of the fulltextstorage
 - (void)selectRange:(NSRange)aRange {
     NSTextView *aTextView=[[self activePlainTextEditor] textView];
+    FoldableTextStorage *ts = (FoldableTextStorage *)[aTextView textStorage];
+    aRange = [ts foldedRangeForFullRange:aRange];
     NSRange range=RangeConfinedToRange(aRange,NSMakeRange(0,[[aTextView textStorage] length]));
     [aTextView setSelectedRange:range];
     [aTextView scrollRangeToVisible:range];

@@ -754,14 +754,7 @@ static NSString *tempFileName(NSString *origPath) {
     if ([aMenuItem tag]<[I_symbolArray count]) {
         NSRange symbolRange=[[I_symbolArray objectAtIndex:[aMenuItem tag]] jumpRange];
         NSTextView *textView=[aMenuItem representedObject];
-        NSRange wholeRange=NSMakeRange(0,[[self textStorage] length]);
-        symbolRange=[I_textStorage foldedRangeForFullRange:symbolRange];
-        symbolRange=RangeConfinedToRange(symbolRange,wholeRange);
-        [textView setSelectedRange:symbolRange];
-        [textView scrollRangeToVisible:symbolRange];
-        if ([textView respondsToSelector:@selector(showFindIndicatorForRange:)]) {
-            [textView showFindIndicatorForRange:symbolRange];
-        } 
+		[self selectRange:symbolRange];
 
         PlainTextWindowController *controller=(PlainTextWindowController *)[[textView window] windowController];
         NSArray *plainTextEditors=[controller plainTextEditors];
@@ -4845,7 +4838,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [windowController selectRange:aRange];
 	NSTextView *textView = [[windowController activePlainTextEditor] textView];
 	if ([textView respondsToSelector:@selector(showFindIndicatorForRange:)]) {
-		[textView showFindIndicatorForRange:aRange];
+		[textView showFindIndicatorForRange:[textView selectedRange]];
 	} 
     [[windowController window] makeKeyAndOrderFront:self];
 }
@@ -4858,7 +4851,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [windowController selectRange:aRange];
 	NSTextView *textView = [[windowController activePlainTextEditor] textView];
 	if ([textView respondsToSelector:@selector(showFindIndicatorForRange:)]) {
-		[textView showFindIndicatorForRange:aRange];
+		[textView showFindIndicatorForRange:[textView selectedRange]];
 	} 
 }
 
