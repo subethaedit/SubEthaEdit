@@ -1257,6 +1257,17 @@
 }
 
 
+- (void)gotoLine:(unsigned)aLine {
+    NSRange range=[[(FoldableTextStorage *)[I_textView textStorage] fullTextStorage] findLine:aLine];
+    [self selectRangeInBackground:range];
+}
+
+- (void)gotoLineInBackground:(unsigned)aLine {
+    NSRange range=[[(FoldableTextStorage *)[I_textView textStorage] fullTextStorage] findLine:aLine];
+    [self selectRangeInBackground:range];
+}
+
+
 - (void)selectRange:(NSRange)aRange {
 	[[I_textView window] makeKeyAndOrderFront:self];
 	[self selectRangeInBackground:aRange];
@@ -1266,9 +1277,9 @@
 
     FoldableTextStorage *ts = (FoldableTextStorage *)[I_textView textStorage];
     aRange = [ts foldedRangeForFullRange:aRange];
-    NSRange range=RangeConfinedToRange(aRange,NSMakeRange(0,[[I_textView textStorage] length]));
-    [I_textView setSelectedRange:range];
+    NSRange range=RangeConfinedToRange(aRange,NSMakeRange(0,[ts length]));
     [I_textView scrollRangeToVisible:range];
+    [I_textView setSelectedRange:range];
     if (!NSEqualRanges(range,aRange)) NSBeep();
 
 	if ([I_textView respondsToSelector:@selector(showFindIndicatorForRange:)]) {

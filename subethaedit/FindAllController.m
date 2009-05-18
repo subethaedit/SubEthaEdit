@@ -70,7 +70,7 @@
     OGRegularExpression *regex = I_regularExpression;
 
     if (I_document) {
-        NSString *text = [[I_document textStorage] string];
+        NSString *text = [[(FoldableTextStorage *)[I_document textStorage] fullTextStorage] string];
                 
         if ([regex syntax]==OgreSimpleMatchingSyntax) {
             unsigned options = OgreNoneOption;
@@ -159,7 +159,7 @@
 
 - (void)jumpToSelection:(id)sender
 {
-    if(I_document) {
+    if (I_document) {
         if ([[O_resultsController selectedObjects]count]>1) return;
         NSRange range = [[[[O_resultsController selectedObjects] lastObject] objectForKey:@"selectionOperation"] selectedRange];
         if (([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask)) {
@@ -173,7 +173,7 @@
 	if ([[O_resultsController selectedObjects]count]==1) {
         NSRange range = [[[[O_resultsController selectedObjects] lastObject] objectForKey:@"selectionOperation"] selectedRange];
         [I_document selectRangeInBackground:range];
-        [O_findAllPanel makeKeyAndOrderFront:self]; 
+//        [O_findAllPanel makeKeyAndOrderFront:self]; 
     }
 }
 

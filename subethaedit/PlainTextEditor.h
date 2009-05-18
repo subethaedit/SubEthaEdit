@@ -98,6 +98,8 @@
 
 - (void)selectRange:(NSRange)aRange;
 - (void)selectRangeInBackground:(NSRange)aRange;
+- (void)gotoLine:(unsigned)aLine;
+- (void)gotoLineInBackground:(unsigned)aLine;
 
 
 @end

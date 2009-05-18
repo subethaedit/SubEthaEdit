@@ -2193,7 +2193,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                         [self selectRange:NSMakeRange(selectionRange->startRange, selectionRange->endRange - selectionRange->startRange)];
                     } else {
                         DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"gotoLine");
-                        [self gotoLine:selectionRange->lineNum + 1 orderFront:NO];
+                        [self gotoLine:selectionRange->lineNum + 1];
                     }
                 }
 
@@ -4818,16 +4818,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 
 - (void)gotoLine:(unsigned)aLine {
-    [self gotoLine:aLine orderFront:NO];
-}
-
-- (void)gotoLine:(unsigned)aLine orderFront:(BOOL)aFlag {
     PlainTextWindowController *windowController=[self topmostWindowController];
 #if !defined(CODA)	
     [windowController selectTabForDocument:self];
 #endif //!defined(CODA)	
     [windowController gotoLine:aLine];
-    if (aFlag) [[windowController window] makeKeyAndOrderFront:self];
 }
 
 // dispatches to the plaintexteditor eventually

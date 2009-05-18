@@ -329,14 +329,18 @@ static FindReplaceController *sharedInstance=nil;
     [O_findPanel display];
     NSString *findString = [O_findComboBox stringValue];
     NSRange scope = {NSNotFound, 0};
-    NSTextView *target = [self targetToFindIn];
+    id target = [self targetToFindIn];
+	FoldableTextStorage *textStorage = (FoldableTextStorage *)[target textStorage];
+	NSString *text = [[textStorage fullTextStorage] string];
+	NSRange selection = [textStorage fullRangeForFoldedRange:[target selectedRange]];        
+
     if (target) {
-        if ([[O_scopePopup selectedItem] tag]==1) scope = [target selectedRange];
-        else scope = NSMakeRange(0,[[target string] length]);
+        if ([[O_scopePopup selectedItem] tag]==1) scope = selection;
+        else scope = NSMakeRange(0,[text length]);
         
         // Check for replace operation in case it's a read-only file.
         if (([sender tag]==NSFindPanelActionReplace)||([sender tag]==NSFindPanelActionReplaceAndFind)||([sender tag]==NSFindPanelActionReplaceAll)) {
-            PlainTextDocument *document = (PlainTextDocument *)[[[target window] windowController] document];
+            PlainTextDocument *document = [[target editor] document];
             if (document && ![document isFileWritable] && ![document editAnyway]) {
                 // Call sheet
                 NSDictionary *contextInfo = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -409,16 +413,14 @@ static FindReplaceController *sharedInstance=nil;
         else NSBeep();
     } else if ([sender tag]==NSFindPanelActionSetFindString) {
         [self findPanel];
-        NSTextView *target = [self targetToFindIn];
         if (target) {
-            [O_findComboBox setStringValue:[[target string] substringWithRange:[target selectedRange]]];
+            [O_findComboBox setStringValue:[text substringWithRange:selection]];
             [self saveFindStringToPasteboard];
         } else NSBeep();
     } else if ([sender tag]==TCMFindPanelSetReplaceString) {
         [self findPanel];
-        NSTextView *target = [self targetToFindIn];
         if (target) {
-            [O_replaceComboBox setStringValue:[[target string] substringWithRange:[target selectedRange]]];
+            [O_replaceComboBox setStringValue:[text substringWithRange:selection]];
         } else NSBeep();
     } else if ([sender tag]==TCMFindPanelActionFindAll) {
         if ([findString isEqualToString:@""]) {
@@ -431,7 +433,6 @@ static FindReplaceController *sharedInstance=nil;
             NSBeep();
             return;
         }
-        NSTextView *target = [self targetToFindIn];
         if (target) {
             [self addString:findString toHistory:I_findHistory];
             OGRegularExpression *regex = [OGRegularExpression regularExpressionWithString:[O_findComboBox stringValue]
@@ -441,7 +442,7 @@ static FindReplaceController *sharedInstance=nil;
 
             if ([[O_scopePopup selectedItem] tag]!=1) scope = NSMakeRange (NSNotFound, 0);
             FindAllController *findall = [[[FindAllController alloc] initWithRegex:regex andRange:scope] autorelease];
-            [(PlainTextDocument *)[[[target window] windowController] document] addFindAllController:findall];
+            [(PlainTextDocument *)[[target editor] document] addFindAllController:findall];
             if ([self currentOgreSyntax]==OgreSimpleMatchingSyntax) [self saveFindStringToPasteboard];
             [findall findAll:self];
         } else NSBeep();

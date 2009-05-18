@@ -544,8 +544,8 @@ static NSAttributedString *S_dragString = nil;
 #pragma mark -
 
 - (void)gotoLine:(unsigned)aLine {
-    NSRange range=[[(FoldableTextStorage *)[[self document] textStorage] fullTextStorage] findLine:aLine];
-    [self selectRange:range];
+	PlainTextEditor *activeEditor = [self activePlainTextEditor];
+	[activeEditor gotoLine:aLine];
 }
 
 // selects a range of the fulltextstorage
