@@ -950,33 +950,11 @@ static NSAttributedString *S_dragString = nil;
 
 
 - (IBAction)jumpToNextSymbol:(id)aSender {
-    TextView *textView = (TextView *)[[self activePlainTextEditor] textView];
-    NSRange change = [[self document] rangeOfPrevious:NO 
-                                       symbolForRange:NSMakeRange(NSMaxRange([textView selectedRange]),0)];
-    if (change.location == NSNotFound) {
-        NSBeep();
-    } else {
-        [textView setSelectedRange:change];
-        [textView scrollRangeToVisible:change];
-        if ([textView respondsToSelector:@selector(showFindIndicatorForRange:)]) {
-            [textView showFindIndicatorForRange:change];
-        } 
-    }
+    [[self activePlainTextEditor] jumpToNextSymbol:aSender];
 }
 
 - (IBAction)jumpToPreviousSymbol:(id)aSender {
-    TextView *textView = (TextView *)[[self activePlainTextEditor] textView];
-    NSRange change = [[self document] rangeOfPrevious:YES 
-                                       symbolForRange:NSMakeRange([textView selectedRange].location,0)];
-    if (change.location == NSNotFound) {
-        NSBeep();
-    } else {
-        [textView setSelectedRange:change];
-        [textView scrollRangeToVisible:change];
-        if ([textView respondsToSelector:@selector(showFindIndicatorForRange:)]) {
-            [textView showFindIndicatorForRange:change];
-        } 
-    }
+    [[self activePlainTextEditor] jumpToPreviousSymbol:aSender];
 }
 
 
@@ -2307,10 +2285,11 @@ static NSAttributedString *S_dragString = nil;
         while (count--) {
             PlainTextDocument *document = [documents objectAtIndex:count];
 #if defined(CODA)
-			if ([document isDocumentEdited]) {
+			if ([document isDocumentEdited]) 
 #else
-            if ([document isDocumentEdited] && [self selectTabForDocument:document]) {
+            if ([document isDocumentEdited] && [self selectTabForDocument:document]) 
 #endif //defined(CODA)
+			{
                 [document canCloseDocumentWithDelegate:self
                                    shouldCloseSelector:@selector(reviewedDocument:shouldClose:contextInfo:)
                                            contextInfo:(void *)(@selector(reviewChangesAndQuitEnumeration:))];

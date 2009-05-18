@@ -730,6 +730,7 @@ static NSString *tempFileName(NSString *origPath) {
 
 }
 
+// range is in fulltextstorage
 - (int)selectedSymbolForRange:(NSRange)aRange {
 //    if (aRange.length==0) aRange.length=1;
     int count=[I_symbolArray count];
@@ -4504,9 +4505,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [self convertLineEndingsToLineEnding:[aSender tag]];
 }
 
+// ranges are in fulltextstorage
 - (NSRange)rangeOfPrevious:(BOOL)aPrevious symbolForRange:(NSRange)aRange {
     if ([[self documentMode] hasSymbols] && [I_symbolArray count]) {
-    	aRange = [I_textStorage fullRangeForFoldedRange:aRange];
         int position=[self selectedSymbolForRange:aRange];
         if (aPrevious) {
             if (position==-1) return NSMakeRange(NSNotFound,0);
@@ -4517,7 +4518,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 while (position-->0) {
                     SymbolTableEntry *entry=[I_symbolArray objectAtIndex:position];
                     if (![entry isSeparator]) {
-                        return [I_textStorage foldedRangeForFullRange:[entry jumpRange]];
+                        return [entry jumpRange];
                     }
                 }
             }
@@ -4528,7 +4529,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 if (![entry isSeparator]) {
                     NSRange symbolRange=[[I_symbolArray objectAtIndex:position] jumpRange];
                     if (DisjointRanges(aRange,symbolRange) && NSMaxRange(symbolRange)>NSMaxRange(aRange)) {
-                        return [I_textStorage foldedRangeForFullRange:symbolRange];
+                        return symbolRange;
                     }
                 }
                 position++;
@@ -4538,9 +4539,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     return NSMakeRange(NSNotFound,0);
 }
 
+// ranges are in fulltextstorage
 - (NSRange)rangeOfPrevious:(BOOL)aPrevious changeForRange:(NSRange)aRange {
     NSRange searchRange;
-    FoldableTextStorage *textStorage=(FoldableTextStorage *)[self textStorage];
+    FullTextStorage *textStorage=[(FoldableTextStorage *)[self textStorage] fullTextStorage];
     NSString *userID=nil;
     unsigned position;
     NSRange fullRange=NSMakeRange(0,[textStorage length]);

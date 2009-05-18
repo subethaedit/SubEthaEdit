@@ -383,8 +383,12 @@ NSString * const BlockeditAttributeValue=@"YES";
 	return resultRange;
 }
 
-// TODO: think about what exactly shold be returned in the edge cases
 - (NSRange)foldedRangeForFullRange:(NSRange)inRange {
+	return [self foldedRangeForFullRange:inRange expandIfFolded:NO];
+}
+
+// TODO: think about what exactly shold be returned in the edge cases
+- (NSRange)foldedRangeForFullRange:(NSRange)inRange expandIfFolded:(BOOL)aFlag {
 	unsigned index = 0;
 	unsigned count = [I_sortedFoldedTextAttachments count];
 	if (count == 0) return inRange; // quick path - no attachments no range difference
@@ -395,37 +399,60 @@ NSString * const BlockeditAttributeValue=@"YES";
 	while (index < count) {
 		attachment = [I_sortedFoldedTextAttachments objectAtIndex:index++];
 		NSRange attachmentRange = [attachment foldedTextRange];
-		if (NSMaxRange(attachmentRange) <= inRange.location) {
-			resultRange.location -= attachmentRange.length - 1;
-		} else if (attachmentRange.location > NSMaxRange(inRange)) {
+		if (attachmentRange.location > NSMaxRange(inRange)) {
 			break; //finished here
+		} else if (NSMaxRange(attachmentRange) <= inRange.location) {
+			// attachment is before our interesting range - so move location accordingly
+			resultRange.location -= attachmentRange.length - 1;
 		} else if (attachmentRange.location <= inRange.location) {
 			if ( NSMaxRange(attachmentRange) >= NSMaxRange(inRange) ) {
-				// range was completele contained by an attachment
-				resultRange.length = 1;
-				resultRange.location -= (inRange.location - attachmentRange.location);
-			} else { // attachmentRange ends before ending of the attachment
-				// move location to the start of the folding
-				// change length to remove the part inside the folding
-				resultRange.location -= (inRange.location - attachmentRange.location);
-				resultRange.length = NSMaxRange(inRange)-NSMaxRange(attachmentRange) +1;
+				// range was completely contained by an attachment
+				if (aFlag) {
+					goto expand;
+				} else {
+					resultRange.length = 1;
+					resultRange.location -= (inRange.location - attachmentRange.location);
+				}
+			} else { 
+				// attachmentRange ends before ending of the attachment
+				if (aFlag) {
+					goto expand;
+				} else {
+					// move location to the start of the folding
+					// change length to remove the part inside the folding
+					resultRange.location -= (inRange.location - attachmentRange.location);
+					resultRange.length    = NSMaxRange(inRange)-NSMaxRange(attachmentRange) +1;
+				}
 			}
 		} else if (attachmentRange.location <= NSMaxRange(inRange)) {
-			// move the range in front of this attachment
-			if (NSMaxRange(attachmentRange) <= NSMaxRange(inRange)) {
-				// completely contained
-				resultRange.length -= attachmentRange.length -1;
-				// location stays because nothing is inbefore
+			if (aFlag) {
+				goto expand;
 			} else {
-				// attachment is longer
-				resultRange.length -= NSMaxRange(inRange) - attachmentRange.location - 1;
-				break;
+				// move the range in front of this attachment
+				if (NSMaxRange(attachmentRange) <= NSMaxRange(inRange)) {
+					// completely contained
+					resultRange.length -= attachmentRange.length -1;
+					// location stays because nothing is inbefore
+				} else {
+					// attachment is longer
+					resultRange.length -= NSMaxRange(inRange) - attachmentRange.location - 1;
+					break;
+				}
 			}
 		}
+		continue;
+		expand:
+			// expand this attachment
+			[self unfoldAttachment:attachment atCharacterIndex:attachmentRange.location - (inRange.location - resultRange.location)];
+			// then continue
+			count = [I_sortedFoldedTextAttachments count]; index--;
+			continue;
+
 	}
 	
 	return resultRange;
 }
+
 
 
 - (NSMutableAttributedString *)internalMutableAttributedString {

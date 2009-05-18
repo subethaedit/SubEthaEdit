@@ -48,6 +48,7 @@ extern NSString * const BlockeditAttributeValue;
 }
 
 - (NSRange)foldedRangeForFullRange:(NSRange)inRange;
+- (NSRange)foldedRangeForFullRange:(NSRange)inRange expandIfFolded:(BOOL)aFlag;
 - (NSRange)fullRangeForFoldedRange:(NSRange)inRange;
 - (FullTextStorage *)fullTextStorage;
 

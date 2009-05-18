@@ -1231,28 +1231,57 @@
     [self tabParagraphsInTextView:I_textView de:NO];
 }
 
+- (IBAction)jumpToNextSymbol:(id)aSender {
+    TextView *textView = I_textView;
+	PlainTextDocument *document = [self document];
+    NSRange selectedRange = [(FoldableTextStorage *)[document textStorage] fullRangeForFoldedRange:[textView selectedRange]];
+    NSRange change = [document rangeOfPrevious:NO 
+                                symbolForRange:NSMakeRange(NSMaxRange(selectedRange),0)];
+    if (change.location == NSNotFound) {
+        NSBeep();
+    } else {
+		[self selectRange:change];
+    }
+}
+
+- (IBAction)jumpToPreviousSymbol:(id)aSender {
+    TextView *textView = I_textView;
+	PlainTextDocument *document = [self document];
+    NSRange selectedRange = [(FoldableTextStorage *)[document textStorage] fullRangeForFoldedRange:[textView selectedRange]];
+    NSRange change = [[self document] rangeOfPrevious:YES 
+                                       symbolForRange:NSMakeRange(selectedRange.location,0)];
+    if (change.location == NSNotFound) {
+        NSBeep();
+    } else {
+		[self selectRange:change];
+    }
+}
+
+
 - (IBAction)jumpToNextChange:(id)aSender {
     TextView *textView = (TextView *)[self textView];
-    unsigned maxrange=NSMaxRange([textView selectedRange]);
+	PlainTextDocument *document = [self document];
+    NSRange selectedRange = [(FoldableTextStorage *)[document textStorage] fullRangeForFoldedRange:[textView selectedRange]];
+    unsigned maxrange=NSMaxRange(selectedRange);
     NSRange change = [[self document] rangeOfPrevious:NO
                                        changeForRange:NSMakeRange(maxrange>0?maxrange-1:maxrange,0)];
     if (change.location == NSNotFound) {
         NSBeep();
     } else {
-        [textView setSelectedRange:change];
-        [textView scrollRangeToVisible:change];
+		[self selectRange:change];
     }
 }
 
 - (IBAction)jumpToPreviousChange:(id)aSender {
     TextView *textView = (TextView *)[self textView];
+	PlainTextDocument *document = [self document];
+    NSRange selectedRange = [(FoldableTextStorage *)[document textStorage] fullRangeForFoldedRange:[textView selectedRange]];
     NSRange change = [[self document] rangeOfPrevious:YES
-                                       changeForRange:NSMakeRange([textView selectedRange].location,0)];
+                                       changeForRange:NSMakeRange(selectedRange.location,0)];
     if (change.location == NSNotFound) {
         NSBeep();
     } else {
-        [textView setSelectedRange:change];
-        [textView scrollRangeToVisible:change];
+		[self selectRange:change];
     }
 }
 
@@ -1276,7 +1305,7 @@
 - (void)selectRangeInBackground:(NSRange)aRange {
 
     FoldableTextStorage *ts = (FoldableTextStorage *)[I_textView textStorage];
-    aRange = [ts foldedRangeForFullRange:aRange];
+    aRange = [ts foldedRangeForFullRange:aRange expandIfFolded:YES];
     NSRange range=RangeConfinedToRange(aRange,NSMakeRange(0,[ts length]));
     [I_textView scrollRangeToVisible:range];
     [I_textView setSelectedRange:range];

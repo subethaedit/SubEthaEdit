@@ -89,6 +89,9 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 - (void)selectRange:(NSRange)aRange;
 - (void)selectRangeInBackground:(NSRange)aRange;
 
+- (IBAction)jumpToNextSymbol:(id)aSender;
+- (IBAction)jumpToPreviousSymbol:(id)aSender;
+
 - (void)document:(PlainTextDocument *)document isReceivingContent:(BOOL)flag;
 - (void)documentDidLoseConnection:(PlainTextDocument *)document;
 
