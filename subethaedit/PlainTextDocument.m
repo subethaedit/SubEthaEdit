@@ -1752,6 +1752,28 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
         [[DocumentController sharedInstance] addWindowController:controller];
         [controller release];
     }
+    
+	if (I_stateDictionaryFromLoading) {
+		unsigned int characterLength = [[I_stateDictionaryFromLoading objectForKey:@"l"] unsignedIntValue];
+		BOOL sameLength = (characterLength == [[I_textStorage fullTextStorage] length]);
+		if (sameLength){
+			NSLog(@"%s was same Length",__FUNCTION__);
+			NSData *foldingData = [I_stateDictionaryFromLoading objectForKey:@"f"];
+			if (foldingData) {
+				[I_textStorage foldAccordingToDataRepresentation:foldingData];
+			}
+		}
+	
+    	NSDictionary *selectionDict = [I_stateDictionaryFromLoading objectForKey:@"s"];
+    	if (selectionDict) {
+    		NSRange selectionRange = NSMakeRange([[selectionDict objectForKey:@"p"] intValue],[[selectionDict objectForKey:@"l"] intValue]);
+    		[self selectRange:selectionRange];
+    	}
+       	
+    	[I_stateDictionaryFromLoading release];
+    	 I_stateDictionaryFromLoading = nil;
+    }
+
 }
 
 - (void)addWindowController:(NSWindowController *)windowController 
@@ -2096,7 +2118,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 - (void)windowControllerDidLoadNib:(NSWindowController *)aController {
     [super windowControllerDidLoadNib:aController];
     DocumentMode *mode=[self documentMode];
-    [(PlainTextWindowController *)aController setSizeByColumns:[[mode defaultForKey:DocumentModeColumnsPreferenceKey] intValue] rows:[[mode defaultForKey:DocumentModeRowsPreferenceKey] intValue]];
+	[(PlainTextWindowController *)aController setSizeByColumns:[[mode defaultForKey:DocumentModeColumnsPreferenceKey] intValue] rows:[[mode defaultForKey:DocumentModeRowsPreferenceKey] intValue]];
 }
 
 static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
@@ -3512,6 +3534,14 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     }
     if (!isReverting) {
         [[[self session] loggingState] handleOperation:[SelectionOperation selectionOperationWithRange:NSMakeRange(0,0) userID:[TCMMMUserManager myUserID]]];
+        
+        // check extended attributes for state
+		NSData *stateData = [UKXattrMetadataStore dataForKey:@"de.codingmonkeys.seestate" atPath:fileName traverseLink:YES];
+		id stateDictionary = TCM_BdecodedObjectWithData(stateData);
+		NSLog(@"%s %@",__FUNCTION__,stateDictionary);
+		if ([stateDictionary isKindOfClass:[NSDictionary class]]) {
+			I_stateDictionaryFromLoading = [stateDictionary retain];
+		}
     }
 
     [(FullTextStorage *)textStorage setShouldWatchLineEndings:YES];
@@ -3592,6 +3622,31 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     return @"SEETextType";
 }
 
+- (NSData *)stateData {
+	NSMutableDictionary *stateDictionary = [NSMutableDictionary dictionary];
+	PlainTextEditor *activeTextEditor = [self activePlainTextEditor];
+	NSRange selectionRange = [I_textStorage fullRangeForFoldedRange:[[activeTextEditor textView] selectedRange]];
+	[stateDictionary setObject:[NSNumber numberWithUnsignedInt:[[I_textStorage fullTextStorage] length]] forKey:@"l"]; // characterlength
+	[stateDictionary setObject:[NSDictionary dictionaryWithObjectsAndKeys:
+		[NSNumber numberWithUnsignedInt:selectionRange.location],@"p", //position
+		[NSNumber numberWithUnsignedInt:selectionRange.length]  ,@"l", //length
+		nil] forKey:@"s"];
+	
+	NSRect windowFrame = [[[activeTextEditor textView] window] frame];
+	
+	[stateDictionary setObject:[NSDictionary dictionaryWithObjectsAndKeys:
+		[NSNumber numberWithInt:windowFrame.origin.x],@"x", //x
+		[NSNumber numberWithInt:windowFrame.origin.y],@"y", //y
+		[NSNumber numberWithInt:windowFrame.size.width],@"w", //w
+		[NSNumber numberWithInt:windowFrame.size.height],@"h", //h
+		nil] forKey:@"w"]; // window
+	NSData *foldingStateData = [I_textStorage dataRepresentationOfFoldedRangesWithMaxDepth:-1];
+	if (foldingStateData && [foldingStateData length]) {
+		[stateDictionary setObject:foldingStateData forKey:@"f"]; // foldingstatedata
+	}
+	return TCM_BencodedObject(stateDictionary);
+}
+
 - (BOOL)writeToURL:(NSURL *)absoluteURL ofType:(NSString *)inTypeName forSaveOperation:(NSSaveOperationType)saveOperation originalContentsURL:(NSURL *)originalContentsURL error:(NSError **)outError {
 //-timelog    NSDate *startDate = [NSDate date];
 //-timelog    NSLog(@"%s %@ %@ %d %@",__FUNCTION__, absoluteURL, inTypeName, saveOperation,originalContentsURL);
@@ -3600,18 +3655,25 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         BOOL modeWantsUTF8BOM = [[[self documentMode] defaultForKey:DocumentModeUTF8BOMPreferenceKey] boolValue];
         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"modeWantsUTF8BOM: %d, hasUTF8BOM: %d", modeWantsUTF8BOM, I_flags.hasUTF8BOM);
         BOOL useUTF8Encoding = ((I_lastSaveOperation == NSSaveToOperation) && (I_encodingFromLastRunSaveToOperation == NSUTF8StringEncoding)) || ((I_lastSaveOperation != NSSaveToOperation) && ([self fileEncoding] == NSUTF8StringEncoding));
+		BOOL result = NO;
         if ((I_flags.hasUTF8BOM || modeWantsUTF8BOM) && useUTF8Encoding) {
             NSData *data = [[[self textStorage] string] dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:NO];
-            BOOL result = [[data dataPrefixedWithUTF8BOM] writeToURL:absoluteURL options:0 error:outError];
+            result = [[data dataPrefixedWithUTF8BOM] writeToURL:absoluteURL options:0 error:outError];
             if (result) {
             	// write the xtended attribute for utf-8
             	[UKXattrMetadataStore setString:@"UTF-8;134217984" forKey:@"com.apple.TextEncoding" atPath:[absoluteURL path] traverseLink:YES];
             }
-            return result;
         } else {
             // let us write using NSStrings write methods so the encoding is added to the extended attributes
-            return [[[(FoldableTextStorage *)[self textStorage] fullTextStorage] string] writeToURL:absoluteURL atomically:NO encoding:[self fileEncoding] error:outError];
+            result = [[[(FoldableTextStorage *)[self textStorage] fullTextStorage] string] writeToURL:absoluteURL atomically:NO encoding:[self fileEncoding] error:outError];
         }
+        NSData *stateData = [self stateData];
+        if (stateData) {
+			[UKXattrMetadataStore setData:stateData forKey:@"de.codingmonkeys.seestate" atPath:[absoluteURL path] traverseLink:YES];
+		} else {
+			[UKXattrMetadataStore removeDataForKey:@"de.codingmonkeys.seestate" atPath:[absoluteURL path] traverseLink:YES];
+		}
+        return result;
     } else if ([inTypeName isEqualToString:@"SEETextType"]) {
         NSString *packagePath = [absoluteURL path];
         NSFileManager *fm =[NSFileManager defaultManager];
@@ -5543,11 +5605,7 @@ static NSString *S_measurementUnits;
         }
     }
 
-#if defined(CODA)
-	[aState handleOperation:[SelectionOperation selectionOperationWithRange:[[[[self topmostWindowController] activePlainTextEditor] textView] selectedRange] userID:[TCMMMUserManager myUserID]]];
-#else
-    [aState handleOperation:[SelectionOperation selectionOperationWithRange:[[[[self topmostWindowController] activePlainTextEditorForDocument:self] textView] selectedRange] userID:[TCMMMUserManager myUserID]]];
-#endif //defined(CODA)
+    [aState handleOperation:[SelectionOperation selectionOperationWithRange:[[[self activePlainTextEditor] textView] selectedRange] userID:[TCMMMUserManager myUserID]]];
 }
 
 - (void)sessionDidDenyJoinRequest:(TCMMMSession *)aSession {
@@ -5820,6 +5878,16 @@ static NSString *S_measurementUnits;
 }
 
 
+- (PlainTextEditor *)activePlainTextEditor {
+#if defined(CODA)
+	return [[self topmostWindowController] activePlainTextEditor];
+#else
+    return [[self topmostWindowController] activePlainTextEditorForDocument:self];
+#endif //defined(CODA)		
+
+}
+
+
 - (NSArray *)plainTextEditors {
     NSMutableArray *result = [NSMutableArray array];
     NSEnumerator *windowControllers = [[self windowControllers] objectEnumerator];
@@ -5906,7 +5974,7 @@ static NSString *S_measurementUnits;
 
 - (void)undoManagerDidPerformUndoGroupWithLastOperation:(TextOperation *)aOperation {
 	// adjust selection to be after the changed character or if it was more than one character select the whole text
-	NSTextView *textView = [[[self topmostWindowController] activePlainTextEditor] textView];
+	NSTextView *textView = [[self activePlainTextEditor] textView];
 	NSRange rangeToSelect = NSMakeRange([aOperation affectedCharRange].location,[[aOperation replacementString] length]);
 	if ([[self documentUndoManager] isRedoing]) {
 		rangeToSelect.location += rangeToSelect.length;
@@ -6749,12 +6817,12 @@ static NSString *S_measurementUnits;
 
 - (id)scriptSelection {
     if ([self isProxyDocument]) return nil;
-    return [[[self topmostWindowController] activePlainTextEditorForDocument:self] scriptSelection];
+    return [[self activePlainTextEditor] scriptSelection];
 }
 
 - (void)setScriptSelection:(id)aSelection {
     if ([self isProxyDocument]) return;
-    [[[self topmostWindowController] activePlainTextEditorForDocument:self] setScriptSelection:aSelection];
+    [[self activePlainTextEditor] setScriptSelection:aSelection];
 }
 
 - (NSArray *)orderedWindows {
@@ -6795,11 +6863,7 @@ static NSString *S_measurementUnits;
 #ifndef TCM_NO_DEBUG
 
 - (void)createThumbnail:(id)aSender {
-#if defined(CODA)
-	NSTextView *myTextView = [[[self topmostWindowController] activePlainTextEditor] textView];
-#else
-    NSTextView *myTextView = [[[self topmostWindowController] activePlainTextEditorForDocument:self] textView];
-#endif //defined(CODA)		
+    NSTextView *myTextView = [[self activePlainTextEditor] textView];
 	[myTextView setDrawsBackground:NO];
     NSRect rectToCache = [myTextView frame];
     NSBitmapImageRep *rep = [myTextView bitmapImageRepForCachingDisplayInRect:rectToCache];

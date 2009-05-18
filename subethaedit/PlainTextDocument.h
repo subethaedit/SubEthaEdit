@@ -24,7 +24,7 @@ enum {
 
 @class FoldableTextStorage, TCMMMSession, TCMMMOperation, DocumentMode, EncodingPopUpButton, 
        PlainTextWindowController, WebPreviewWindowController,
-       DocumentProxyWindowController, FindAllController, UndoManager, TextOperation, TCMMMLoggingState, FontForwardingTextField;
+       DocumentProxyWindowController, FindAllController, UndoManager, TextOperation, TCMMMLoggingState, FontForwardingTextField, PlainTextEditor;
 
 extern NSString * const PlainTextDocumentSessionWillChangeNotification;
 extern NSString * const PlainTextDocumentSessionDidChangeNotification;
@@ -166,6 +166,8 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
     
     TextOperation *I_currentTextOperation;
     
+    NSDictionary *I_stateDictionaryFromLoading;
+    
     #ifndef TCM_NO_DEBUG
         NSMutableString *_readFromURLDebugInformation;
     #endif
@@ -225,6 +227,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (BOOL)isEditable;
 - (void)validateEditability;
 
+- (PlainTextEditor *)activePlainTextEditor;
 - (NSArray *)plainTextEditors;
 
 - (NSString *)lineEndingString;

@@ -68,6 +68,11 @@
 }
 
 
++(void)				removeDataForKey:(NSString *)key atPath:(NSString *)path traverseLink:(BOOL)travLnk {
+	removexattr([path fileSystemRepresentation], [key UTF8String], (travLnk ? 0 : XATTR_NOFOLLOW));
+}
+
+
 // -----------------------------------------------------------------------------
 //	setObject:forKey:atPath:traverseLink:
 //		Set the xattr with name key to an XML property list representation of

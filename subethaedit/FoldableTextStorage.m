@@ -71,6 +71,74 @@ NSString * const BlockeditAttributeValue=@"YES";
 	return I_fullTextStorage;
 }
 
+
+typedef union {
+	char bytes[8];
+    struct {
+		uint32_t location;
+		uint32_t length;
+    } range;
+} uint32RangeUnion;
+
+
+// compact direct format for saving and network transport
+// just a series of ranges represented by pairs of uint32s (location,length) in network byte order that represent the current folding state
+// this equals to 8bytes for a folding - nesting is implicid 
+// this is from bottom to top, depth first so it can be quickly applied when loaded
+- (void)appendDataRepresentationOfFoldings:(NSArray *)aFoldingAttachmentArray toData:(NSMutableData *)aData depth:(int)aRemainingDepth {
+	if (aRemainingDepth == 0) return; // don't recurse when no additional depth left
+	int recursionDepth = aRemainingDepth - 1;
+	unsigned count = [aFoldingAttachmentArray count];
+	while (count != 0) {
+		count--;
+		FoldedTextAttachment *attachment = [aFoldingAttachmentArray objectAtIndex:count];
+		
+		// recurse if necessary
+		NSArray *innerAttachments = [attachment innerAttachments];
+		if ([innerAttachments count]) {
+			[self appendDataRepresentationOfFoldings:innerAttachments toData:aData depth:recursionDepth];
+		}
+		
+		// add the attachment to the data
+		NSRange foldedRange = [attachment foldedTextRange];
+		
+		uint32RangeUnion rangeUnion;
+		
+		rangeUnion.range.location = foldedRange.location;
+		rangeUnion.range.length   = foldedRange.length;
+		rangeUnion.range.location = CFSwapInt32HostToBig(rangeUnion.range.location);
+		rangeUnion.range.length   = CFSwapInt32HostToBig(rangeUnion.range.length);
+		
+		// store in data
+		[aData appendBytes:rangeUnion.bytes length:8];
+	}
+}
+
+// maxDepth of -1 means endless depth
+// maxDepth of 1 will only encode top level;
+
+- (NSData *)dataRepresentationOfFoldedRangesWithMaxDepth:(int)aMaxDepth {
+	NSMutableData *resultData = [NSMutableData data];
+	[self appendDataRepresentationOfFoldings:I_sortedFoldedTextAttachments toData:resultData depth:aMaxDepth];
+	
+	return resultData;
+}
+
+- (void)foldAccordingToDataRepresentation:(NSData *)aData {
+	[self beginEditing];
+	uint32RangeUnion *rangeUnion;
+	NSInteger length = [aData length];
+	rangeUnion = (uint32RangeUnion *)[aData bytes];
+	for (;length >= 8;length -= 8, rangeUnion++) {
+		rangeUnion->range.location = CFSwapInt32BigToHost(rangeUnion->range.location);
+		rangeUnion->range.length   = CFSwapInt32BigToHost(rangeUnion->range.length);
+		NSRange foldingRange = NSMakeRange(rangeUnion->range.location,rangeUnion->range.length);
+		[self foldRange:[self foldedRangeForFullRange:foldingRange]];
+	}
+	[self endEditing];
+}
+
+
 - (NSString *)foldedStringRepresentationOfRange:(NSRange)inRange foldings:(NSArray *)inFoldings level:(int)inLevel
 {
 	if (inLevel > 10) return @"RECURSION";
@@ -903,7 +971,7 @@ NSString * const BlockeditAttributeValue=@"YES";
 	if (currentFoldingRange.location != NSNotFound) {
 		[self foldRange:currentFoldingRange];
 	}
-	
+	NSData *foldingData = [self dataRepresentationOfFoldedRangesWithMaxDepth:-1];
 }
 
 #define COMMENT_CHARACTER_COUNT_TO_START_FOLDING 80
