@@ -256,11 +256,7 @@ static NSMenu *defaultMenu=nil;
 - (void)drawRect:(NSRect)aRect {
     [super drawRect:aRect];
     // now paint Cursors if there are any
-#if defined(CODA)
     PlainTextDocument *document=(PlainTextDocument *)[editor document];
-#else
-    PlainTextDocument *document=(PlainTextDocument *)[self document];
-#endif //defined(CODA)
     TCMMMSession *session=[document session];
     NSString *sessionID=[session sessionID];
     NSDictionary *sessionParticipants=[session participants];
@@ -436,11 +432,7 @@ static NSMenu *defaultMenu=nil;
 
 - (IBAction)foldAllTopLevelBlocks:(id)aSender {
 	FoldableTextStorage *ts = (FoldableTextStorage *)[self textStorage];
-#if defined(CODA)
     PlainTextDocument *document=(PlainTextDocument *)[editor document];
-#else
-    PlainTextDocument *document=(PlainTextDocument *)[self document];
-#endif //defined(CODA)
 	[ts foldAllWithFoldingLevel:[[[document documentMode] syntaxDefinition] foldingTopLevel]];
 }
 
@@ -597,11 +589,7 @@ static NSMenu *defaultMenu=nil;
     NSPasteboard *pboard = [sender draggingPasteboard];
     if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
         //NSLog(@"draggingEntered:");
-#if defined(CODA)
         PlainTextDocument *document=(PlainTextDocument *)[editor document];
-#else
-        PlainTextDocument *document=(PlainTextDocument *)[self document];
-#endif
         TCMMMSession *session=[document session];
         if ([session isServer]) {
             [[[self window] drawers] makeObjectsPerformSelector:@selector(open)];
@@ -633,11 +621,7 @@ static NSMenu *defaultMenu=nil;
     NSPasteboard *pboard = [sender draggingPasteboard];
     if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
         //NSLog(@"draggingUpdated:");
-#if defined(CODA)
         BOOL shouldDrag=[[(PlainTextDocument *)[editor document] session] isServer];
-#else
-        BOOL shouldDrag=[[(PlainTextDocument *)[self document] session] isServer];
-#endif //defined(CODA)
         [self setIsDragTarget:shouldDrag];
         if (shouldDrag) {
             return NSDragOperationGeneric;
@@ -665,11 +649,7 @@ static NSMenu *defaultMenu=nil;
     NSPasteboard *pboard = [sender draggingPasteboard];
     if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
         //NSLog(@"prepareForDragOperation:");
-#if defined(CODA)
         BOOL shouldDrag=[[(PlainTextDocument *)[editor document] session] isServer];
-#else
-        BOOL shouldDrag=[[(PlainTextDocument *)[self document] session] isServer];
-#endif //defined(CODA)
         [self setIsDragTarget:shouldDrag];
         return shouldDrag;
     } else if ([[pboard types] containsObject:@"ParticipantDrag"]) {
@@ -695,11 +675,7 @@ static NSMenu *defaultMenu=nil;
     if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
         //NSLog(@"performDragOperation:");
         NSArray *userArray=[pboard propertyListForType:@"PboardTypeTBD"];
-#if defined(CODA)
         PlainTextDocument *document=(PlainTextDocument *)[editor document];
-#else
-        PlainTextDocument *document=(PlainTextDocument *)[self document];
-#endif //defined(CODA)
         TCMMMSession *session=[document session];
         NSEnumerator *userDescriptions=[userArray objectEnumerator];
         NSDictionary *userDescription=nil;
@@ -955,7 +931,6 @@ static NSMenu *defaultMenu=nil;
     }    
 }
 
-#if defined(CODA)
 - (void)setEditor:(PlainTextEditor*)inEditor
 {
 	editor = inEditor; // XXX - avoid circular retain?
@@ -965,6 +940,5 @@ static NSMenu *defaultMenu=nil;
 {
 	return editor;
 }
-#endif //defined(CODA)
 
 @end

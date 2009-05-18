@@ -550,13 +550,13 @@ static NSAttributedString *S_dragString = nil;
 
 // selects a range of the fulltextstorage
 - (void)selectRange:(NSRange)aRange {
-    NSTextView *aTextView=[[self activePlainTextEditor] textView];
-    FoldableTextStorage *ts = (FoldableTextStorage *)[aTextView textStorage];
-    aRange = [ts foldedRangeForFullRange:aRange];
-    NSRange range=RangeConfinedToRange(aRange,NSMakeRange(0,[[aTextView textStorage] length]));
-    [aTextView setSelectedRange:range];
-    [aTextView scrollRangeToVisible:range];
-    if (!NSEqualRanges(range,aRange)) NSBeep();
+	PlainTextEditor *activeEditor = [self activePlainTextEditor];
+	[activeEditor selectRange:aRange];
+}
+
+- (void)selectRangeInBackground:(NSRange)aRange {
+	PlainTextEditor *activeEditor = [self activePlainTextEditor];
+	[activeEditor selectRangeInBackground:aRange];
 }
 
 #pragma mark -

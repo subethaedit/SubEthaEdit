@@ -4830,29 +4830,22 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     if (aFlag) [[windowController window] makeKeyAndOrderFront:self];
 }
 
+// dispatches to the plaintexteditor eventually
 - (void)selectRange:(NSRange)aRange {
     PlainTextWindowController *windowController=[self topmostWindowController];
 #if !defined(CODA)	
     [windowController selectTabForDocument:self];
 #endif //!defined(CODA)	
     [windowController selectRange:aRange];
-	NSTextView *textView = [[windowController activePlainTextEditor] textView];
-	if ([textView respondsToSelector:@selector(showFindIndicatorForRange:)]) {
-		[textView showFindIndicatorForRange:[textView selectedRange]];
-	} 
-    [[windowController window] makeKeyAndOrderFront:self];
 }
 
+// dispatches to the plaintexteditor eventually
 - (void)selectRangeInBackground:(NSRange)aRange {
     PlainTextWindowController *windowController=[self topmostWindowController];
 #if !defined(CODA)	
     [windowController selectTabForDocument:self];
 #endif //!defined(CODA)	
-    [windowController selectRange:aRange];
-	NSTextView *textView = [[windowController activePlainTextEditor] textView];
-	if ([textView respondsToSelector:@selector(showFindIndicatorForRange:)]) {
-		[textView showFindIndicatorForRange:[textView selectedRange]];
-	} 
+    [windowController selectRangeInBackground:aRange];
 }
 
 - (void)addFindAllController:(FindAllController *)aController

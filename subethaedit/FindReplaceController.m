@@ -11,6 +11,7 @@
 #import "PlainTextWindowController.h"
 #import "PlainTextDocument.h"
 #import "PlainTextEditor.h"
+#import "TextView.h"
 #import "TCMMMSession.h"
 #import "FoldableTextStorage.h"
 #import "FindAllController.h"
@@ -792,16 +793,13 @@ static FindReplaceController *sharedInstance=nil;
     [self saveStateToPreferences];
 }
 
+// ranges always refer to the fulltextstorage so we need to convert here or use the views editor
 - (void)selectAndHighlightRange:(NSRange)aRange inTarget:(id)aTarget {
-	[aTarget setSelectedRange:aRange];
-	[aTarget scrollRangeToVisible:aRange];
-	[aTarget setNeedsDisplay:YES];
-	if ([aTarget respondsToSelector:@selector(showFindIndicatorForRange:)]) {
-		[aTarget showFindIndicatorForRange:aRange];
-	} 
+	PlainTextEditor *editor = [aTarget editor];
+	[editor selectRangeInBackground:aRange];
 }
 
-- (BOOL) find:(NSString*)findString forward:(BOOL)forward
+- (BOOL)find:(NSString*)findString forward:(BOOL)forward
 {
     BOOL found = NO;
     [self addString:findString toHistory:I_findHistory];
@@ -827,11 +825,15 @@ static FindReplaceController *sharedInstance=nil;
     NSTextView *target = [self targetToFindIn];
     if (target) {
         NSRange scope = {NSNotFound, 0};
-        if ([[O_scopePopup selectedItem] tag]==1) scope = [target selectedRange];
-        else scope = NSMakeRange(0,[[target string] length]);
 
-        NSString *text = [target string];
-        NSRange selection = [target selectedRange];        
+		FoldableTextStorage *textStorage = (FoldableTextStorage *)[target textStorage];
+        NSString *text = [[textStorage fullTextStorage] string];
+        NSRange selection = [textStorage fullRangeForFoldedRange:[target selectedRange]];        
+
+
+        if ([[O_scopePopup selectedItem] tag]==1) scope = selection;
+        else scope = NSMakeRange(0,[text length]);
+
         
         OGRegularExpressionMatch *aMatch = nil;
         NSEnumerator *enumerator;

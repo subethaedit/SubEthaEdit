@@ -96,6 +96,10 @@
 - (IBAction)jumpToNextChange:(id)aSender;
 - (IBAction)jumpToPreviousChange:(id)aSender;
 
+- (void)selectRange:(NSRange)aRange;
+- (void)selectRangeInBackground:(NSRange)aRange;
+
+
 @end
 
 @interface PlainTextEditor (PlainTextEditorScriptingAdditions)

@@ -102,6 +102,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:[I_windowControllerTabContext document] name:NSTextDidChangeNotification object:I_textView];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [I_textView setDelegate:nil];
+	[I_textView setEditor:nil]; // in case our editor outlives us
     [O_editorView setNextResponder:nil];
     [O_editorView release];
     [I_textContainer release];
@@ -184,10 +185,10 @@
 
 #if defined(CODA)
 	I_textView=[[CodeTextView alloc] initWithFrame:frame textContainer:I_textContainer];
-	[(TextView*)I_textView setEditor:self];
 #else
     I_textView=[[TextView alloc] initWithFrame:frame textContainer:I_textContainer];
 #endif //defined(CODA)
+	[(TextView*)I_textView setEditor:self];
     [I_textView setHorizontallyResizable:NO];
     [I_textView setVerticallyResizable:YES];
     [I_textView setAutoresizingMask:NSViewWidthSizable];
@@ -1254,6 +1255,27 @@
         [textView scrollRangeToVisible:change];
     }
 }
+
+
+- (void)selectRange:(NSRange)aRange {
+	[[I_textView window] makeKeyAndOrderFront:self];
+	[self selectRangeInBackground:aRange];
+}
+
+- (void)selectRangeInBackground:(NSRange)aRange {
+
+    FoldableTextStorage *ts = (FoldableTextStorage *)[I_textView textStorage];
+    aRange = [ts foldedRangeForFullRange:aRange];
+    NSRange range=RangeConfinedToRange(aRange,NSMakeRange(0,[[I_textView textStorage] length]));
+    [I_textView setSelectedRange:range];
+    [I_textView scrollRangeToVisible:range];
+    if (!NSEqualRanges(range,aRange)) NSBeep();
+
+	if ([I_textView respondsToSelector:@selector(showFindIndicatorForRange:)]) {
+		[I_textView showFindIndicatorForRange:[I_textView selectedRange]];
+	}
+}
+
 
 - (void)keyDown:(NSEvent *)aEvent {
 //    NSLog(@"aEvent: %@",[aEvent description]);
