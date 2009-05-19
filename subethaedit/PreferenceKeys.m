@@ -35,3 +35,4 @@ NSString * const SynthesiseFontsPreferenceKey               = @"SynthesiseFonts"
 NSString * const MyImagePreferenceKey                       = @"MyImage";
 NSString * const OpenNewDocumentInTabKey                    = @"OpenNewDocumentInTab";
 NSString * const AlwaysShowTabBarKey                        = @"AlwaysShowTabBar";
+NSString * const DontSaveDocumentStateInXattrsKey           = @"DontSaveDocumentStateInXattrs";

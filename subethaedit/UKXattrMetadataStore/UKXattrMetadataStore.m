@@ -69,7 +69,8 @@
 
 
 +(void)				removeDataForKey:(NSString *)key atPath:(NSString *)path traverseLink:(BOOL)travLnk {
-	removexattr([path fileSystemRepresentation], [key UTF8String], (travLnk ? 0 : XATTR_NOFOLLOW));
+	int result = removexattr([path fileSystemRepresentation], [key UTF8String], (travLnk ? 0 : XATTR_NOFOLLOW));
+//	NSLog(@"%s %d %@ %@", __FUNCTION__, result, key, path);
 }
 
 

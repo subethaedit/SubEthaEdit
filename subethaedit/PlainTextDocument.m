@@ -389,10 +389,11 @@ static NSString *tempFileName(NSString *origPath) {
     id controller=nil;
     while ((controller=[controllers nextObject])) {
 #if defined(CODA)
-		if ([controller isKindOfClass:[PlainTextWindowController class]]) {
+		if ([controller isKindOfClass:[PlainTextWindowController class]]) 
 #else
-        if ([controller isKindOfClass:[PlainTextWindowController class]] && ![(PlainTextWindowController *)controller hasManyDocuments]) {
+        if ([controller isKindOfClass:[PlainTextWindowController class]] && ![(PlainTextWindowController *)controller hasManyDocuments]) 
 #endif //defined(CODA)
+		{
             [(PlainTextWindowController *)controller 
                 setSizeByColumns:[[[self documentMode] defaultForKey:DocumentModeColumnsPreferenceKey] intValue] 
                             rows:[[[self documentMode] defaultForKey:DocumentModeRowsPreferenceKey] intValue]];
@@ -1705,10 +1706,11 @@ static NSString *tempFileName(NSString *origPath) {
                 [I_textStorage replaceCharactersInRange:NSMakeRange(0, [I_textStorage length]) withString:reinterpretedString];
                 [reinterpretedString release];
 #if defined(CODA)
-				if (!myIsEdited) {
+				if (!myIsEdited) 
 #else
-                if (!isEdited) {
+                if (!isEdited) 
 #endif //defined(CODA)
+				{
                     [I_textStorage setAttributes:[self plainTextAttributes] range:NSMakeRange(0, [I_textStorage length])];
                 } else {
                     [I_textStorage setAttributes:[self typingAttributes] range:NSMakeRange(0, [I_textStorage length])];
@@ -3668,11 +3670,16 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             result = [[[(FoldableTextStorage *)[self textStorage] fullTextStorage] string] writeToURL:absoluteURL atomically:NO encoding:[self fileEncoding] error:outError];
         }
         NSData *stateData = [self stateData];
-        if (stateData) {
+        if (stateData && ![[NSUserDefaults standardUserDefaults] boolForKey:DontSaveDocumentStateInXattrsKey]) {
 			[UKXattrMetadataStore setData:stateData forKey:@"de.codingmonkeys.seestate" atPath:[absoluteURL path] traverseLink:YES];
 		} else {
-			[UKXattrMetadataStore removeDataForKey:@"de.codingmonkeys.seestate" atPath:[absoluteURL path] traverseLink:YES];
+			// due to the way fspathreplaceobject of carbon core works, we need to remove the xattr from the original file if it exists
+			if (originalContentsURL) {
+				[UKXattrMetadataStore removeDataForKey:@"de.codingmonkeys.seestate" atPath:[originalContentsURL path] traverseLink:YES];
+			}
 		}
+//        NSArray *xattrKeys = [UKXattrMetadataStore allKeysAtPath:[absoluteURL path] traverseLink:YES];
+//        NSLog(@"%s xattrKeys:%@",__FUNCTION__,xattrKeys);
         return result;
     } else if ([inTypeName isEqualToString:@"SEETextType"]) {
         NSString *packagePath = [absoluteURL path];
@@ -6312,10 +6319,11 @@ static NSString *S_measurementUnits;
         
 #if defined(CODA)
 		// This makes it so it will match if you click past the end or beginning of the document
-		if (NSPointInRect(point, glyphRect) || (glyphIndex == 0) || (glyphIndex == ([layoutManager numberOfGlyphs] - 1))) {
+		if (NSPointInRect(point, glyphRect) || (glyphIndex == 0) || (glyphIndex == ([layoutManager numberOfGlyphs] - 1)))
 #else
-		if (NSPointInRect(point, glyphRect)) {	
-#endif //defined(CODA)			
+		if (NSPointInRect(point, glyphRect))	
+#endif //defined(CODA)
+		{			
             // Convert the glyph index to a character index
             NSUInteger charIndex=[layoutManager characterIndexForGlyphAtIndex:glyphIndex];
             NSString *string=[[self textStorage] string];			

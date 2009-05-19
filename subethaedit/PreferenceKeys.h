@@ -37,3 +37,4 @@ extern NSString * const SynthesiseFontsPreferenceKey;
 extern NSString * const MyImagePreferenceKey;
 extern NSString * const OpenNewDocumentInTabKey;
 extern NSString * const AlwaysShowTabBarKey;
+extern NSString * const DontSaveDocumentStateInXattrsKey;
