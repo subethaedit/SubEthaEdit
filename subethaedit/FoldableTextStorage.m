@@ -17,6 +17,7 @@
 #import "TCMMMUserSEEAdditions.h"
 #import "GeneralPreferences.h"
 #import "DocumentMode.h"
+#import "NSMutableAttributedStringSEEAdditions.h"
 
 #ifdef SUBETHAEDIT
 	#import "ScriptTextSelection.h"
@@ -527,6 +528,29 @@ typedef union {
 	return I_internalAttributedString;
 }
 
+#pragma mark -
+#pragma mark serialisation
+
+- (NSDictionary *)dictionaryRepresentation {
+	NSMutableDictionary *mutableRepresentation = (NSMutableDictionary *)[I_fullTextStorage mutableDictionaryRepresentation];
+	[mutableRepresentation setObject:[NSNumber numberWithUnsignedInt:[self encoding]] forKey:@"Encoding"];
+	NSData *foldingData = [self dataRepresentationOfFoldedRangesWithMaxDepth:-1];
+	if (foldingData) {
+		[mutableRepresentation setObject:foldingData forKey:@"FoldingData"];
+	}
+    return mutableRepresentation;
+}
+
+- (void)setContentByDictionaryRepresentation:(NSDictionary *)aRepresentation {
+	[self beginEditing];
+    [I_fullTextStorage setContentByDictionaryRepresentation:aRepresentation];
+	NSData *foldingData = [aRepresentation objectForKey:@"FoldingData"];
+	if (foldingData) {
+		[self foldAccordingToDataRepresentation:foldingData];
+	}
+	[self endEditing];
+}
+
 
 #pragma mark -
 #pragma mark ### Abstract Primitives of NSTextStorage ###
@@ -971,7 +995,6 @@ typedef union {
 	if (currentFoldingRange.location != NSNotFound) {
 		[self foldRange:currentFoldingRange];
 	}
-	NSData *foldingData = [self dataRepresentationOfFoldedRangesWithMaxDepth:-1];
 }
 
 #define COMMENT_CHARACTER_COUNT_TO_START_FOLDING 80

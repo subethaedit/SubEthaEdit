@@ -1759,7 +1759,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 		unsigned int characterLength = [[I_stateDictionaryFromLoading objectForKey:@"l"] unsignedIntValue];
 		BOOL sameLength = (characterLength == [[I_textStorage fullTextStorage] length]);
 		if (sameLength){
-			NSLog(@"%s was same Length",__FUNCTION__);
+//			NSLog(@"%s was same Length",__FUNCTION__);
 			NSData *foldingData = [I_stateDictionaryFromLoading objectForKey:@"f"];
 			if (foldingData) {
 				[I_textStorage foldAccordingToDataRepresentation:foldingData];
@@ -5810,7 +5810,7 @@ static NSString *S_measurementUnits;
 
 - (NSDictionary *)textStorageDictionaryRepresentation
 {
-    return [[(FoldableTextStorage *)[self textStorage] fullTextStorage] dictionaryRepresentation];
+    return [(FoldableTextStorage *)[self textStorage] dictionaryRepresentation];
 }
 
 - (void)setContentByDictionaryRepresentation:(NSDictionary *)aRepresentation {

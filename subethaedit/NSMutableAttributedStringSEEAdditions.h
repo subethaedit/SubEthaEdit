@@ -26,6 +26,7 @@
 @end
 
 @interface NSAttributedString (NSAttributedStringSeeAdditions)
+- (NSMutableDictionary *)mutableDictionaryRepresentation;
 - (NSDictionary *)attributeDictionaryByAddingStyleAttributesForInsertLocation:(unsigned int)inLocation toDictionary:(NSDictionary *)inBaseStyle;
 - (NSDictionary *)dictionaryRepresentation;
 - (NSDictionary *)dictionaryRepresentationUsingEncoding:(NSStringEncoding)anEncoding;
