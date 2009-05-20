@@ -1044,6 +1044,9 @@ static NSString *tempFileName(NSString *origPath) {
     
     [I_currentTextOperation release];
     
+    [I_stateDictionaryFromLoading release];
+     I_stateDictionaryFromLoading = nil;
+    
     [super dealloc];
 }
 
@@ -3540,7 +3543,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         // check extended attributes for state
 		NSData *stateData = [UKXattrMetadataStore dataForKey:@"de.codingmonkeys.seestate" atPath:fileName traverseLink:YES];
 		id stateDictionary = TCM_BdecodedObjectWithData(stateData);
-		NSLog(@"%s %@",__FUNCTION__,stateDictionary);
+//		NSLog(@"%s %@",__FUNCTION__,stateDictionary);
 		if ([stateDictionary isKindOfClass:[NSDictionary class]]) {
 			I_stateDictionaryFromLoading = [stateDictionary retain];
 		}
