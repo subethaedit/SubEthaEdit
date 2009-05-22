@@ -49,15 +49,16 @@
     [super _adjustedCenteredScrollRectToVisible:aRect forceCenter:force];
 }
 
-static NSMenu *defaultMenu=nil;
+static NSMenu *S_defaultMenu=nil;
 
 
 + (NSMenu *)defaultMenu {
-    return defaultMenu;
+    return S_defaultMenu;
 }
 
 + (void)setDefaultMenu:(NSMenu *)aMenu {
-    defaultMenu=[aMenu copy];
+	[S_defaultMenu autorelease];
+    S_defaultMenu=[aMenu copy];
 }
 
 - (PlainTextDocument *)document {

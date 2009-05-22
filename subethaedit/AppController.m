@@ -95,6 +95,10 @@ int const FormatMenuTag = 2000;
 int const FontMenuItemTag = 1;
 int const FileEncodingsMenuItemTag = 2001;
 int const WindowMenuTag = 3000;
+int const ViewMenuTag = 5000;
+int const FoldingSubmenuTag = 4400;
+int const FoldingFoldSelectionMenuTag = 4441;
+int const FoldingFoldCurrentBlockMenuTag = 4442;
 int const GotoTabMenuItemTag = 3042;
 int const ModeMenuTag = 50;
 int const SwitchModeMenuTag = 10;
@@ -989,6 +993,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     NSMenu *mainMenu=[NSApp mainMenu];
     NSMenu *EditMenu=[[mainMenu itemWithTag:EditMenuTag] submenu];
     NSMenu *FormatMenu=[[mainMenu itemWithTag:FormatMenuTag] submenu];
+    NSMenu *FoldingMenu=[[[[mainMenu itemWithTag:ViewMenuTag] submenu] itemWithTag:FoldingSubmenuTag] submenu];
 
     NSMenu *defaultMenu=[[NSMenu new] autorelease];
     [defaultMenu addItem:[[(NSMenuItem *)[EditMenu itemWithTag:CutMenuItemTag] copy] autorelease]];
@@ -998,6 +1003,8 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [defaultMenu addItem:[[(NSMenuItem *)[EditMenu itemWithTag:PasteMenuItemTag] copy] autorelease]];
     [defaultMenu addItem:[NSMenuItem separatorItem]];
     [defaultMenu addItem:[[(NSMenuItem *)[EditMenu itemWithTag:BlockeditMenuItemTag] copy] autorelease]];
+    [defaultMenu addItem:[[(NSMenuItem *)[FoldingMenu itemWithTag:FoldingFoldSelectionMenuTag] copy] autorelease]];
+    [defaultMenu addItem:[[(NSMenuItem *)[FoldingMenu itemWithTag:FoldingFoldCurrentBlockMenuTag] copy] autorelease]];
     NSMenuItem *scriptsSubmenuItem=[[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Scripts",@"Scripts entry for contextual menu") action:nil keyEquivalent:@""] autorelease];
     NSMenu *menu = [[NSMenu new] autorelease];
     [scriptsSubmenuItem setImage:[NSImage imageNamed:@"ScriptMenuItemIcon"]];

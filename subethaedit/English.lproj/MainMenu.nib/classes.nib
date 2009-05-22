@@ -52,6 +52,10 @@
 				<string>id</string>
 				<key>followUser</key>
 				<string>id</string>
+				<key>jumpToNextSymbol</key>
+				<string>id</string>
+				<key>jumpToPreviousSymbol</key>
+				<string>id</string>
 				<key>kickButtonAction</key>
 				<string>id</string>
 				<key>openInSeparateWindow</key>
@@ -118,19 +122,6 @@
 		<dict>
 			<key>ACTIONS</key>
 			<dict>
-				<key>foldTextSelection</key>
-				<string>id</string>
-			</dict>
-			<key>CLASS</key>
-			<string>TextView</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSTextView</string>
-		</dict>
-		<dict>
-			<key>ACTIONS</key>
-			<dict>
 				<key>buy</key>
 				<string>id</string>
 				<key>cancel</key>
@@ -165,6 +156,19 @@
 			</dict>
 			<key>SUPERCLASS</key>
 			<string>NSWindowController</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>foldTextSelection</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>TextView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSTextView</string>
 		</dict>
 		<dict>
 			<key>CLASS</key>
@@ -333,6 +337,27 @@
 		</dict>
 		<dict>
 			<key>CLASS</key>
+			<string>URLImageView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>I_delegate</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSImageView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSMenuItem</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
 			<string>AboutPanelController</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
@@ -357,32 +382,15 @@
 			<string>NSWindowController</string>
 		</dict>
 		<dict>
-			<key>CLASS</key>
-			<string>URLImageView</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>I_delegate</key>
-				<string>id</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSImageView</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>NSMenuItem</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
-		</dict>
-		<dict>
 			<key>ACTIONS</key>
 			<dict>
 				<key>jumpToNextChange</key>
 				<string>id</string>
+				<key>jumpToNextSymbol</key>
+				<string>id</string>
 				<key>jumpToPreviousChange</key>
+				<string>id</string>
+				<key>jumpToPreviousSymbol</key>
 				<string>id</string>
 				<key>toggleShowsChangeMarks</key>
 				<string>id</string>
@@ -441,6 +449,19 @@
 			</dict>
 			<key>SUPERCLASS</key>
 			<string>NSView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>TCMHost</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>I_delegate</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
 		</dict>
 		<dict>
 			<key>ACTIONS</key>
@@ -571,19 +592,6 @@
 			</dict>
 			<key>SUPERCLASS</key>
 			<string>TSNodeWrapper</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>TCMHost</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>I_delegate</key>
-				<string>id</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
 		</dict>
 		<dict>
 			<key>CLASS</key>
