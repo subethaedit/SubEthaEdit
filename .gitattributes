@@ -1945,7 +1945,6 @@ subethaedit/TCMPortMapper/TCMPortMapper.framework/Resources -text
 subethaedit/TCMPortMapper/TCMPortMapper.framework/TCMPortMapper -text
 subethaedit/TCMPortMapper/TCMPortMapper.framework/Versions/A/Headers/TCMPortMapper.h -text
 subethaedit/TCMPortMapper/TCMPortMapper.framework/Versions/A/Resources/Info.plist -text
-subethaedit/TCMPortMapper/TCMPortMapper.framework/Versions/A/Resources/OUItoCompany.plist -text
 subethaedit/TCMPortMapper/TCMPortMapper.framework/Versions/A/TCMPortMapper -text
 subethaedit/TCMPortMapper/TCMPortMapper.framework/Versions/Current -text
 subethaedit/TCMPreferenceController.h -text
