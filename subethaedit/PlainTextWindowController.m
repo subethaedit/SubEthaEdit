@@ -389,6 +389,49 @@ static NSAttributedString *S_dragString = nil;
 #endif //!defined(CODA)
 }
 
+- (void)setWindowFrame:(NSRect)aFrame constrainedToScreen:(NSScreen *)aScreen display:(BOOL)aFlag {
+	if (!aScreen) {
+		// search for a screen that fits most of the frame
+		NSEnumerator *screens = [[NSScreen screens] objectEnumerator];
+		NSScreen *screen = nil;
+		double overlapArea = -1.0;
+		while ((screen = [screens nextObject])) {
+			NSRect intersectionRect = NSIntersectionRect(aFrame, [screen frame]);
+			double thisOverlapArea = intersectionRect.size.width * intersectionRect.size.height;
+			if (thisOverlapArea > overlapArea) {
+				aScreen = screen;
+				overlapArea = thisOverlapArea;
+			}
+		}
+		// only do that when we don't have an associated screen
+		NSRect targetScreenVisibleFrame = [aScreen visibleFrame];
+		if (NSWidth(targetScreenVisibleFrame) < NSWidth(aFrame)) {
+			aFrame.size.width = targetScreenVisibleFrame.size.width;
+		}
+		if (NSMinX(targetScreenVisibleFrame) > NSMinX(aFrame)) {
+			aFrame.origin.x += NSMinX(targetScreenVisibleFrame) - NSMinX(aFrame);
+		}
+		if (NSMaxX(targetScreenVisibleFrame) < NSMaxX(aFrame)) {
+			aFrame.origin.x -= NSMaxX(aFrame) - NSMaxX(targetScreenVisibleFrame);
+		}
+		I_doNotCascade = YES;
+	}
+
+    if (aScreen) {
+        NSRect visibleFrame=[aScreen visibleFrame];
+        if (NSHeight(aFrame)>NSHeight(visibleFrame)) {
+            float heightDiff=aFrame.size.height-visibleFrame.size.height;
+            aFrame.origin.y+=heightDiff;
+            aFrame.size.height-=heightDiff;
+        }
+        if (NSMinY(aFrame)<NSMinY(visibleFrame)) {
+            float positionDiff=NSMinY(visibleFrame)-NSMinY(aFrame);
+            aFrame.origin.y+=positionDiff;
+        }
+    }
+    [[self window] setFrame:aFrame display:YES];
+}
+
 - (void)setSizeByColumns:(int)aColumns rows:(int)aRows {
     NSSize contentSize=[[I_plainTextEditors objectAtIndex:0] desiredSizeForColumns:aColumns rows:aRows];
     contentSize.width  = (int)(contentSize.width + 0.5);
@@ -402,19 +445,8 @@ static NSAttributedString *S_dragString = nil;
     contentRect.size=contentSize;
     NSRect frameRect=[window frameRectForContentRect:contentRect];
     NSScreen *screen=[[self window] screen];
-    if (screen) {
-        NSRect visibleFrame=[screen visibleFrame];
-        if (NSHeight(frameRect)>NSHeight(visibleFrame)) {
-            float heightDiff=frameRect.size.height-visibleFrame.size.height;
-            frameRect.origin.y+=heightDiff;
-            frameRect.size.height-=heightDiff;
-        }
-        if (NSMinY(frameRect)<NSMinY(visibleFrame)) {
-            float positionDiff=NSMinY(visibleFrame)-NSMinY(frameRect);
-            frameRect.origin.y+=positionDiff;
-        }
-    }
-    [[self window] setFrame:frameRect display:YES];
+    [self setWindowFrame:frameRect constrainedToScreen:screen display:YES];
+    
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
@@ -2007,7 +2039,7 @@ static NSAttributedString *S_dragString = nil;
 #endif //!defined(CODA)
 
 - (IBAction)showWindow:(id)aSender {
-    if (![[self window] isVisible]) {
+    if (![[self window] isVisible] && !I_doNotCascade) {
 #if !defined(CODA)		
     	[self cascadeWindow];
 #endif //!defined(CODA)

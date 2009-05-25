@@ -103,7 +103,6 @@ struct SelectionRange
 #pragma options align=reset
 #endif //defined(CODA)
 
-
 static PlainTextDocument *transientDocument = nil;
 static NSRect transientDocumentWindowFrame;
 
@@ -1747,33 +1746,38 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
         }
         shouldOpenInTab = !shouldOpenInTab;
     }
+    PlainTextWindowController *windowController = nil;
     if (shouldOpenInTab) {
-        PlainTextWindowController *controller = [[DocumentController sharedDocumentController] activeWindowController];
-        [self addWindowController:controller];
-        [[(PlainTextWindowController *)controller tabBar] setHideForSingleTab:![[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey]];
+        windowController = [[DocumentController sharedDocumentController] activeWindowController];
+        [self addWindowController:windowController];
+        [[windowController tabBar] setHideForSingleTab:![[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey]];
     } else {
-        PlainTextWindowController *controller = [[PlainTextWindowController alloc] init];
-        [self addWindowController:controller];
-        [[DocumentController sharedInstance] addWindowController:controller];
-        [controller release];
+        windowController = [[PlainTextWindowController alloc] init];
+        [self addWindowController:windowController];
+        [[DocumentController sharedInstance] addWindowController:windowController];
+        [windowController release];
     }
     
 	if (I_stateDictionaryFromLoading) {
-		unsigned int characterLength = [[I_stateDictionaryFromLoading objectForKey:@"l"] unsignedIntValue];
-		BOOL sameLength = (characterLength == [[I_textStorage fullTextStorage] length]);
-		if (sameLength){
-//			NSLog(@"%s was same Length",__FUNCTION__);
-			NSData *foldingData = [I_stateDictionaryFromLoading objectForKey:@"f"];
-			if (foldingData) {
-				[I_textStorage foldAccordingToDataRepresentation:foldingData];
-			}
-		}
 	
     	NSDictionary *selectionDict = [I_stateDictionaryFromLoading objectForKey:@"s"];
-    	if (selectionDict) {
+    	if ([selectionDict isKindOfClass:[NSDictionary class]]) {
     		NSRange selectionRange = NSMakeRange([[selectionDict objectForKey:@"p"] intValue],[[selectionDict objectForKey:@"l"] intValue]);
-    		[self selectRange:selectionRange];
+    		[[self activePlainTextEditor] selectRangeInBackgroundWithoutIndication:selectionRange expandIfFolded:NO];
     	}
+       	
+       	NSDictionary *windowFrameDict = [I_stateDictionaryFromLoading objectForKey:@"p"];
+       	if ([windowFrameDict isKindOfClass:[NSDictionary class]]) {
+       		NSRect windowFrameRect = NSZeroRect;
+       		windowFrameRect.origin.x = [[windowFrameDict objectForKey:@"x"] doubleValue];
+       		windowFrameRect.origin.y = [[windowFrameDict objectForKey:@"y"] doubleValue];
+       		windowFrameRect.size.height = [[windowFrameDict objectForKey:@"h"] doubleValue];
+       		windowFrameRect.size.width  = [[windowFrameDict objectForKey:@"w"] doubleValue];
+       		NSSize minSize = [[windowController window] minSize];
+       		if (windowFrameRect.size.height >= minSize.height && windowFrameRect.size.width >= minSize.width) {
+				[windowController setWindowFrame:windowFrameRect constrainedToScreen:nil display:YES];
+			}
+       	}
        	
     	[I_stateDictionaryFromLoading release];
     	 I_stateDictionaryFromLoading = nil;
@@ -3230,6 +3234,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     FullTextStorage *textStorage = (FullTextStorage *)[I_textStorage fullTextStorage];
     [textStorage setShouldWatchLineEndings:NO];
 
+
     BOOL isReverting = ([textStorage length] != 0);
     BOOL wasAutosaved = NO;
     NSAttributedString *undoString = nil;
@@ -3273,6 +3278,16 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 
         DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"Data of size: %d bytes read", [fileData length]);
 
+		// check extended attributes for state
+		NSData *stateData = [UKXattrMetadataStore dataForKey:@"de.codingmonkeys.seestate" atPath:fileName traverseLink:YES];
+		id stateDictionary = TCM_BdecodedObjectWithData(stateData);
+//		NSLog(@"%s %@",__FUNCTION__,stateDictionary);
+		if ([stateDictionary isKindOfClass:[NSDictionary class]]) {
+			I_stateDictionaryFromLoading = [stateDictionary retain];
+			NSLog(@"%s %@",__FUNCTION__,stateDictionary);
+		}
+	
+
 
     #ifndef TCM_NO_DEBUG
         [_readFromURLDebugInformation appendFormat:@"was Readable:%d didLoadBytesOfData:%d\n",isReadable,fileData?[fileData length]:-1];
@@ -3283,6 +3298,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         // How things should work:
         // - if we are reverting we stay in the mode we are
         // - If the user chose a mode explicidly in the open panel or via the see tool (in aProperties) it is taken
+        // - if a mode is found in the state dictionary, it is used if found
         // - Otherwise automatic mode recognition will take place
         
         DocumentMode *mode = nil;
@@ -3298,6 +3314,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 if (![identifier isEqualToString:AUTOMATICMODEIDENTIFIER]) {
                     mode = [[DocumentModeManager sharedInstance] documentModeForIdentifier:identifier];
                 }
+            } else if ([I_stateDictionaryFromLoading objectForKey:@"m"]) {
+            	mode = [[DocumentModeManager sharedInstance] documentModeForIdentifier:[I_stateDictionaryFromLoading objectForKey:@"m"]];
+            	// if default mode is found, don't use it
+            	if ([mode isBaseMode]) {
+            		mode = nil;
+            	}
             }
         }
 
@@ -3501,8 +3523,53 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
         [self performSelector:@selector(TCM_validateSize) withObject:nil afterDelay:0.0f];
 
+		if (I_stateDictionaryFromLoading) {
+			
+			NSNumber *value = [I_stateDictionaryFromLoading objectForKey:@"g"];
+			if ([value isKindOfClass:[NSNumber class]]) {
+				[self setShowsGutter:[value boolValue]];
+			}
+
+			value = [I_stateDictionaryFromLoading objectForKey:@"w"];
+			if ([value isKindOfClass:[NSNumber class]]) {
+				int wrapValue = [value intValue];
+				[self setWrapLines:wrapValue];
+				if (wrapValue) {
+					[self setWrapMode:wrapValue == 2 ? DocumentModeWrapModeCharacters : 1];
+				}
+			}			
+			
+			NSDictionary *tabSettings = [I_stateDictionaryFromLoading objectForKey:@"t"];
+			if ([tabSettings isKindOfClass:[NSDictionary class]]) {
+				value = [tabSettings objectForKey:@"u"];
+				if ([value isKindOfClass:[NSNumber class]]) {
+					[self setUsesTabs:[value boolValue]];
+				}
+				value = [tabSettings objectForKey:@"w"];
+				if ([value isKindOfClass:[NSNumber class]]) {
+					[self setTabWidth:[value intValue]];
+				}
+			}
+			
+			unsigned int characterLength = [[I_stateDictionaryFromLoading objectForKey:@"l"] unsignedIntValue];
+			BOOL sameLength = (characterLength == [[I_textStorage fullTextStorage] length]);
+			if (sameLength){
+	//			NSLog(@"%s was same Length",__FUNCTION__);
+				NSData *foldingData = [I_stateDictionaryFromLoading objectForKey:@"f"];
+				if (foldingData) {
+					[I_textStorage foldAccordingToDataRepresentation:foldingData];
+				}
+			}
+		}
+
         [textStorage endEditing];
-        [self TCM_validateLineEndings];
+        
+        NSNumber *lineEndingNumber = [I_stateDictionaryFromLoading objectForKey:@"e"];
+        if (lineEndingNumber) {
+        	[self setLineEnding:[lineEndingNumber intValue]];
+        } else {
+	        [self TCM_validateLineEndings];
+	    }
     } // end of part where the file wasn't SEEText
 
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"fileEncoding: %@", [NSString localizedNameOfStringEncoding:[self fileEncoding]]);
@@ -3539,14 +3606,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     }
     if (!isReverting) {
         [[[self session] loggingState] handleOperation:[SelectionOperation selectionOperationWithRange:NSMakeRange(0,0) userID:[TCMMMUserManager myUserID]]];
-        
-        // check extended attributes for state
-		NSData *stateData = [UKXattrMetadataStore dataForKey:@"de.codingmonkeys.seestate" atPath:fileName traverseLink:YES];
-		id stateDictionary = TCM_BdecodedObjectWithData(stateData);
-//		NSLog(@"%s %@",__FUNCTION__,stateDictionary);
-		if ([stateDictionary isKindOfClass:[NSDictionary class]]) {
-			I_stateDictionaryFromLoading = [stateDictionary retain];
-		}
     }
 
     [(FullTextStorage *)textStorage setShouldWatchLineEndings:YES];
@@ -3625,31 +3684,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 - (NSString *)autosavingFileType {
     return @"SEETextType";
-}
-
-- (NSData *)stateData {
-	NSMutableDictionary *stateDictionary = [NSMutableDictionary dictionary];
-	PlainTextEditor *activeTextEditor = [self activePlainTextEditor];
-	NSRange selectionRange = [I_textStorage fullRangeForFoldedRange:[[activeTextEditor textView] selectedRange]];
-	[stateDictionary setObject:[NSNumber numberWithUnsignedInt:[[I_textStorage fullTextStorage] length]] forKey:@"l"]; // characterlength
-	[stateDictionary setObject:[NSDictionary dictionaryWithObjectsAndKeys:
-		[NSNumber numberWithUnsignedInt:selectionRange.location],@"p", //position
-		[NSNumber numberWithUnsignedInt:selectionRange.length]  ,@"l", //length
-		nil] forKey:@"s"];
-	
-	NSRect windowFrame = [[[activeTextEditor textView] window] frame];
-	
-	[stateDictionary setObject:[NSDictionary dictionaryWithObjectsAndKeys:
-		[NSNumber numberWithInt:windowFrame.origin.x],@"x", //x
-		[NSNumber numberWithInt:windowFrame.origin.y],@"y", //y
-		[NSNumber numberWithInt:windowFrame.size.width],@"w", //w
-		[NSNumber numberWithInt:windowFrame.size.height],@"h", //h
-		nil] forKey:@"w"]; // window
-	NSData *foldingStateData = [I_textStorage dataRepresentationOfFoldedRangesWithMaxDepth:-1];
-	if (foldingStateData && [foldingStateData length]) {
-		[stateDictionary setObject:foldingStateData forKey:@"f"]; // foldingstatedata
-	}
-	return TCM_BencodedObject(stateDictionary);
 }
 
 - (BOOL)writeToURL:(NSURL *)absoluteURL ofType:(NSString *)inTypeName forSaveOperation:(NSSaveOperationType)saveOperation originalContentsURL:(NSURL *)originalContentsURL error:(NSError **)outError {
@@ -5770,7 +5804,7 @@ static NSString *S_measurementUnits;
 }
 
 
-
+// this is the data stored in the seetext file format
 - (NSDictionary *)documentState {
     NSMutableDictionary *result = [[self sessionInformation] mutableCopy];
     [result removeObjectForKey:@"FileType"]; // don't save the filetype in a seetext
@@ -5802,6 +5836,85 @@ static NSString *S_measurementUnits;
     if (value) [self setValue:value forKey:@"lineEnding"];
     
 }
+
+// this is the data stored in the extended attributes - which differs from the seetext format data
+// used keys:
+//  p: window position (window Frame as (dict with x,y,w,h))
+//  l: textstorage length (to check if folding data may be applied)
+//  f: foldingData
+//  s: selection (in full text range)
+//  m: document mode identifier
+//  e: line ending
+//  w: wraps lines - 0:no 1:wordwrap 2:characterwrap
+//  t: tabsettings (dict with w:<int> u:0|1)
+//  g: shows gutter
+
+- (NSData *)stateData {
+	NSMutableDictionary *stateDictionary = [NSMutableDictionary dictionary];
+	PlainTextEditor *activeTextEditor = [self activePlainTextEditor];
+	NSRange selectionRange = [I_textStorage fullRangeForFoldedRange:[[activeTextEditor textView] selectedRange]];
+	[stateDictionary setObject:[NSNumber numberWithUnsignedInt:[[I_textStorage fullTextStorage] length]] forKey:@"l"]; // characterlength
+	[stateDictionary setObject:[NSDictionary dictionaryWithObjectsAndKeys:
+		[NSNumber numberWithUnsignedInt:selectionRange.location],@"p", //position
+		[NSNumber numberWithUnsignedInt:selectionRange.length]  ,@"l", //length
+		nil] forKey:@"s"];
+	
+	NSRect windowFrame = [[[activeTextEditor textView] window] frame];
+	
+	[stateDictionary setObject:[NSDictionary dictionaryWithObjectsAndKeys:
+		[NSNumber numberWithInt:windowFrame.origin.x],@"x", //x
+		[NSNumber numberWithInt:windowFrame.origin.y],@"y", //y
+		[NSNumber numberWithInt:windowFrame.size.width],@"w", //w
+		[NSNumber numberWithInt:windowFrame.size.height],@"h", //h
+		nil] forKey:@"p"]; // window
+	
+	DocumentMode *mode = [self documentMode];
+		
+	if (![mode isBaseMode]) {
+		// save the mode if it is not the base mode
+		[stateDictionary setObject:[[self documentMode] documentModeIdentifier] forKey:@"m"];
+	}
+	BOOL documentValue = [self wrapLines];
+	BOOL modeValue = [[mode defaultForKey:DocumentModeWrapLinesPreferenceKey] boolValue];
+	if ((documentValue && !modeValue) || (!documentValue && modeValue)) {
+		NSNumber *wrapSetting = [NSNumber numberWithInt:0];
+		if (documentValue) {
+			wrapSetting = [NSNumber numberWithInt:[self wrapMode]==DocumentModeWrapModeCharacters ? 2 : 1];
+		}
+		[stateDictionary setObject:wrapSetting forKey:@"w"];
+	}
+	
+	documentValue = [activeTextEditor showsGutter];
+	modeValue = [[mode defaultForKey:DocumentModeShowLineNumbersPreferenceKey] boolValue];
+	if ((documentValue && !modeValue) || (!documentValue && modeValue)) {
+		[stateDictionary setObject:[NSNumber numberWithInt:documentValue ? 1 : 0] forKey:@"g"];
+	}
+	
+	documentValue = [self usesTabs];
+	modeValue = [[mode defaultForKey:DocumentModeUseTabsPreferenceKey] boolValue];
+		
+	[stateDictionary setObject:[NSNumber numberWithInt:[self lineEnding]] forKey:@"e"];
+
+	if (((documentValue && !modeValue) || (!documentValue && modeValue)) ||
+		([self tabWidth] != [[mode defaultForKey:DocumentModeTabWidthPreferenceKey] intValue])) {
+		NSDictionary *tabValuesDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+			[NSNumber numberWithInt:documentValue ? 1 : 0],@"u",
+			[NSNumber numberWithInt:[self tabWidth]],@"w",
+		nil];
+		[stateDictionary setObject:tabValuesDictionary forKey:@"t"];
+	}
+	
+	NSData *foldingStateData = [I_textStorage dataRepresentationOfFoldedRangesWithMaxDepth:-1];
+	if (foldingStateData && [foldingStateData length]) {
+		[stateDictionary setObject:foldingStateData forKey:@"f"]; // foldingstatedata
+	}
+	
+	// here we could check our xtended attribute data for length and use less depth with the foldings 
+	NSLog(@"%s %@",__FUNCTION__,stateDictionary);
+	return TCM_BencodedObject(stateDictionary);
+}
+
+
 
 - (void)setFileName:(NSString *)fileName {
     [super setFileName:fileName];

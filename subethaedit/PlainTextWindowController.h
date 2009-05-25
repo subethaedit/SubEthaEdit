@@ -51,7 +51,7 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
         BOOL zoomFix_defaultFrameHadEqualWidth;
     } I_flags;
     NSTimer *I_dialogAnimationTimer;
-    
+    BOOL I_doNotCascade;
     @private
 #if !defined(CODA)	
     NSTabView *I_tabView;
@@ -95,6 +95,7 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 - (void)document:(PlainTextDocument *)document isReceivingContent:(BOOL)flag;
 - (void)documentDidLoseConnection:(PlainTextDocument *)document;
 
+- (void)setWindowFrame:(NSRect)aFrame constrainedToScreen:(NSScreen *)aScreen display:(BOOL)aFlag;
 - (void)setSizeByColumns:(int)aColumns rows:(int)aRows;
 - (void)setShowsBottomStatusBar:(BOOL)aFlag;
 

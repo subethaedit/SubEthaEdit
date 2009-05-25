@@ -1303,19 +1303,20 @@
 }
 
 - (void)selectRangeInBackground:(NSRange)aRange {
-
-    FoldableTextStorage *ts = (FoldableTextStorage *)[I_textView textStorage];
-    aRange = [ts foldedRangeForFullRange:aRange expandIfFolded:YES];
-    NSRange range=RangeConfinedToRange(aRange,NSMakeRange(0,[ts length]));
-    [I_textView scrollRangeToVisible:range];
-    [I_textView setSelectedRange:range];
-    if (!NSEqualRanges(range,aRange)) NSBeep();
-
+	[self selectRangeInBackgroundWithoutIndication:aRange expandIfFolded:YES];
 	if ([I_textView respondsToSelector:@selector(showFindIndicatorForRange:)]) {
 		[I_textView showFindIndicatorForRange:[I_textView selectedRange]];
 	}
 }
 
+- (void)selectRangeInBackgroundWithoutIndication:(NSRange)aRange expandIfFolded:(BOOL)aFlag {
+    FoldableTextStorage *ts = (FoldableTextStorage *)[I_textView textStorage];
+    aRange = [ts foldedRangeForFullRange:aRange expandIfFolded:aFlag];
+    NSRange range=RangeConfinedToRange(aRange,NSMakeRange(0,[ts length]));
+    [I_textView scrollRangeToVisible:range];
+    [I_textView setSelectedRange:range];
+    if (!NSEqualRanges(range,aRange)) NSBeep();
+}
 
 - (void)keyDown:(NSEvent *)aEvent {
 //    NSLog(@"aEvent: %@",[aEvent description]);

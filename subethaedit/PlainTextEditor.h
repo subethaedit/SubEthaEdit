@@ -101,6 +101,7 @@
 
 - (void)selectRange:(NSRange)aRange;
 - (void)selectRangeInBackground:(NSRange)aRange;
+- (void)selectRangeInBackgroundWithoutIndication:(NSRange)aRange expandIfFolded:(BOOL)aFlag;
 - (void)gotoLine:(unsigned)aLine;
 - (void)gotoLineInBackground:(unsigned)aLine;
 

@@ -368,6 +368,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 #pragma mark ### Session Interaction ###
 
 - (NSDictionary *)documentState;
+- (NSData *)stateData;
 - (NSDictionary *)sessionInformation;
 - (void)takeSettingsFromSessionInformation:(NSDictionary *)aSessionInformation;
 - (void)takeSettingsFromDocumentState:(NSDictionary *)aDocumentState;
