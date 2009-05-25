@@ -36,3 +36,10 @@ NSString * const MyImagePreferenceKey                       = @"MyImage";
 NSString * const OpenNewDocumentInTabKey                    = @"OpenNewDocumentInTab";
 NSString * const AlwaysShowTabBarKey                        = @"AlwaysShowTabBar";
 NSString * const DontSaveDocumentStateInXattrsKey           = @"DontSaveDocumentStateInXattrs";
+
+NSString * const DocumentStateSaveAndLoadWindowPositionKey = @"DocumentStateSaveAndLoadWindowPosition" ;
+NSString * const DocumentStateSaveAndLoadTabSettingKey     = @"DocumentStateSaveAndLoadTabSetting"     ;
+NSString * const DocumentStateSaveAndLoadWrapSettingKey    = @"DocumentStateSaveAndLoadWrapSetting"    ;
+NSString * const DocumentStateSaveAndLoadDocumentModeKey   = @"DocumentStateSaveAndLoadDocumentMode"   ;
+NSString * const DocumentStateSaveAndLoadSelectionKey      = @"DocumentStateSaveAndLoadSelection"      ;
+NSString * const DocumentStateSaveAndLoadFoldingStateKey   = @"DocumentStateSaveAndLoadFoldingState"   ;
