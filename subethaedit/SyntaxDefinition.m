@@ -108,8 +108,7 @@
     } 
 
     //Parse Headers
-    
-    [self setName:[[[syntaxDefinitionXML nodesForXPath:@"/syntax/head/name" error:&err] lastObject] stringValue]];
+    [self setName:[[self mode] documentModeIdentifier]];
 
     NSString *charsInToken = [[[syntaxDefinitionXML nodesForXPath:@"/syntax/head/charsintokens" error:&err] lastObject] stringValue];
     NSString *charsDelimitingToken = [[[syntaxDefinitionXML nodesForXPath:@"/syntax/head/charsdelimitingtokens" error:&err] lastObject] stringValue];
