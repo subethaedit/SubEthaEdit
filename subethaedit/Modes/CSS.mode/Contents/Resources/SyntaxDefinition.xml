@@ -599,8 +599,8 @@
                         <regex>(?&lt;![#\d\w])([\d]+[ \t]*(?:px|pt|em|ex|cm|in|mm|pc|%)?)</regex>
                     </keywords>
                     <keywords id="CSS Colors" color="#760f15" font-style="bold" useforautocomplete="yes">
-                        <regex>(#[\da-fA-F]{3})</regex>
                         <regex>(#[\da-fA-F]{6})</regex>
+                        <regex>(#[\da-fA-F]{3})</regex>
                     </keywords>
                     <state-link state="AutodocComment"/>
                     <state-link state="Comment"/>
