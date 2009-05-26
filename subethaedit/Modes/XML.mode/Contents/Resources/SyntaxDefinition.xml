@@ -5,7 +5,7 @@
     <head>
         <name>XML</name> <!-- The definitions title -->
         <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]></charsintokens> <!-- Valid Characters for Variables -->
-        <!-- <charsdelimitingtokens></charsdelimitingtokens> -->
+        <folding toplevel="4" />
     </head>
 
     <states>
@@ -28,34 +28,38 @@
             
         </state>
 
-        <state id="CDATA" color="#f00" font-style="italic">
+        <state id="CDATA" color="#f00" font-style="italic" foldable="yes">
             <begin><regex>&lt;!\s*\[CDATA\s*\[</regex></begin>
             <end><regex>\]\s*\]\s*&gt;</regex></end>
         </state>
         
-        <state id="Doctype" color="#236E25" font-style="italic">
+        <state id="Doctype" color="#236E25" font-style="italic" foldable="yes">
             <begin><regex>&lt;!</regex></begin>
             <end><regex>&gt;</regex></end>
         </state>
 
-        <state id="Escape" color="#236E25" font-style="italic">
+        <state id="Escape" color="#236E25" font-style="italic" foldable="yes">
             <begin><regex>&lt;\?</regex></begin>
             <end><regex>\?&gt;</regex></end>
         </state>
 
-        <state id="Tags" color="#881280" font-style="italic">
-            <begin><regex>&lt;</regex></begin>
-            <end><regex>&gt;</regex></end>
-
-            <state id="Strings in Tags" type="string" color="#1A1AA6" useforautocomplete="no">
-                <begin><regex>"</regex></begin>
-                <end><regex>"</regex></end>
-            </state>
+        <state id="Tag State" color="#000" font-style="normal" foldable="yes">
+            <begin><regex>&lt;[^/?!][^&gt;/]+&gt;</regex></begin>
+            <end><regex>&lt;[/][^&gt;/]+&gt;</regex></end>
+            
+            <keywords id="Tags" color="#881280" font-style="italic" useforautocomplete="no">
+                <regex>(&lt;[^&gt;]+&gt;)</regex>
+            </keywords>
             
             <keywords id="Attributes in Tags" color="#994500" useforautocomplete="no">
-                <regex>([\w-]*)(?=[ \t]*=)</regex>
+                <regex>([\w-]*)(?=[ \t]*=[^&lt;]+&gt;)</regex>
             </keywords>
 
+            <keywords id="Strings in Tags" type="string" color="#1A1AA6" useforautocomplete="no">
+                <regex>("[^"]*")(?=[^&lt;]*&gt;)</regex>
+            </keywords>
+
+            <import mode="XML" />
         </state>
         
         </default>

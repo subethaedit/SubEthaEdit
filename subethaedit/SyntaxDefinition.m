@@ -535,7 +535,11 @@
 
 - (NSString *)name
 {
-    return I_name;
+    NSString *idenifier = [[self mode] documentModeIdentifier];
+    NSRange aRange = [idenifier rangeOfString:@"SEEMode." options:NSLiteralSearch range:NSMakeRange(0, [idenifier length] - 1)];
+	NSString *modeName = [idenifier substringWithRange:NSMakeRange(aRange.length, [idenifier length] - aRange.length)];
+
+    return modeName;
 }
 
 - (void)setName:(NSString *)aString
