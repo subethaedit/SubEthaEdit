@@ -16,11 +16,11 @@
             </keywords>
 
             <keywords id="+++" color="#2b9d00" font-weight="bold" useforautocomplete="no">
-                <regex>^([+]([+]{2})?[^\n\r]*)</regex>
+                <regex>^([+](?:[+]{2})?[^\n\r]*)</regex>
             </keywords>
             
             <keywords id="---" color="#a61a1a" font-weight="bold" useforautocomplete="no">
-                <regex>^([-]([-]{2})?[^\n\r]*)</regex>
+                <regex>^([-](?:[-]{2})?[^\n\r]*)</regex>
             </keywords>
 
             <keywords id="==================" color="#666" useforautocomplete="no">
