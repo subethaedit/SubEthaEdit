@@ -932,6 +932,7 @@ typedef union {
 }
 
 - (void)unfoldAll {
+	[self beginEditing];
 	// iterate and unfold all attachments - do so from bottom to top
 	unsigned int length = [self length];
 	if (length > 0 && [I_sortedFoldedTextAttachments count]) {
@@ -945,11 +946,12 @@ typedef union {
 			}
 		} while (iterationRange.location > 0 && [I_sortedFoldedTextAttachments count]);
 	}
+	[self endEditing];
 }
 
 - (void)foldAllWithFoldingLevel:(int)aFoldingLevel {
 	if (aFoldingLevel <= 0) return;
-	
+	[self beginEditing];
 //	NSLog(@"%s %d",__FUNCTION__, aFoldingLevel);
 
 	// iterate from bottom to top, folding everything at that folding level
@@ -995,11 +997,13 @@ typedef union {
 	if (currentFoldingRange.location != NSNotFound) {
 		[self foldRange:currentFoldingRange];
 	}
+	[self endEditing];
 }
 
 #define COMMENT_CHARACTER_COUNT_TO_START_FOLDING 80
 
 - (void)foldAllComments {
+	[self beginEditing];
 	NSRange wholeRange = NSMakeRange(0,[I_fullTextStorage length]);
 	if (wholeRange.length > 0) {
 		NSRange attributeRange = NSMakeRange(0,0);
@@ -1030,6 +1034,7 @@ typedef union {
 			}
 		} while (NSMaxRange(attributeRange) < NSMaxRange(wholeRange));
 	}
+	[self endEditing];
 }
 
 

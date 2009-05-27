@@ -437,6 +437,14 @@ static NSMenu *S_defaultMenu=nil;
 	[ts foldAllWithFoldingLevel:[[[document documentMode] syntaxDefinition] foldingTopLevel]];
 }
 
+- (IBAction)foldAllBlocksAtTagLevel:(id)aSender {
+	int level = [aSender tag];
+	if (level > 0) {
+		FoldableTextStorage *ts = (FoldableTextStorage *)[self textStorage];
+		[ts foldAllWithFoldingLevel:level];
+	}
+}
+
 
 - (void)setBackgroundColor:(NSColor *)aColor {
     BOOL wasDark = [[self backgroundColor] isDark];

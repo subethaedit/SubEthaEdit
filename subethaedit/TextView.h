@@ -34,6 +34,12 @@
 
 #pragma mark Folding Related Methods
 - (void)scrollFullRangeToVisible:(NSRange)aRange;
+- (IBAction)foldCurrentBlock:(id)aSender;
+- (IBAction)foldTextSelection:(id)aSender;
+- (IBAction)unfoldCurrentBlock:(id)aSender;
+- (IBAction)foldAllCommentBlocks:(id)aSender;
+- (IBAction)foldAllTopLevelBlocks:(id)aSender;
+- (IBAction)foldAllBlocksAtTagLevel:(id)aSender;
 
 @end
 
