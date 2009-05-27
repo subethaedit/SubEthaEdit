@@ -77,7 +77,6 @@
 #import "TSWrapperViewController.h"
 #endif //defined(CODA)
 
-#if defined(CODA)
 #pragma pack(push, 2)
 struct SelectionRange
 {
@@ -89,19 +88,7 @@ struct SelectionRange
     int32_t theDate; // modification date/time
 };
 #pragma pack(pop)
-#else
-#pragma options align=mac68k
-struct SelectionRange
-{
-    short unused1; // 0 (not used)
-    short lineNum; // line to select (<0 to specify range)
-    long startRange; // start of selection range (if line < 0)
-    long endRange; // end of selection range (if line < 0)
-    long unused2; // 0 (not used)
-    long theDate; // modification date/time
-};
-#pragma options align=reset
-#endif //defined(CODA)
+
 
 static PlainTextDocument *transientDocument = nil;
 static NSRect transientDocumentWindowFrame;
@@ -1493,7 +1480,7 @@ static NSString *tempFileName(NSString *origPath) {
 
 - (IBAction)prettyPrintXML:(id)aSender {
     NSError *error=nil;
-    NSXMLDocument *document = [[NSXMLDocument alloc] initWithXMLString:[[self textStorage] string] options:NSXMLNodePreserveEmptyElements error:&error];
+    NSXMLDocument *document = [[NSXMLDocument alloc] initWithXMLString:[[(FoldableTextStorage *)[self textStorage] fullTextStorage] string] options:NSXMLNodePreserveEmptyElements error:&error];
     if (document) {
         NSString *xmlString = [document XMLStringWithOptions:NSXMLNodePrettyPrint|NSXMLNodePreserveEmptyElements];
         [document release];
@@ -6926,7 +6913,7 @@ static NSString *S_measurementUnits;
 }
 
 - (void)setScriptedContents:(id)value {
-    [self replaceTextInRange:NSMakeRange(0,[I_textStorage length]) withString:value];
+    [self replaceTextInRange:NSMakeRange(0,[[I_textStorage fullTextStorage] length]) withString:value];
 }
 
 - (FoldableTextStorage *)scriptedPlainContents {
@@ -6935,7 +6922,7 @@ static NSString *S_measurementUnits;
 
 - (void)setScriptedPlainContents:(id)value {
     if ([value isKindOfClass:[NSString class]]) {
-        [self replaceTextInRange:NSMakeRange(0, [I_textStorage length]) withString:value];
+        [self replaceTextInRange:NSMakeRange(0, [[I_textStorage fullTextStorage] length]) withString:value];
     }
 }
 
