@@ -30,7 +30,7 @@
                 <regex>(&amp;#x[A-Fa-f0-9]+;)</regex>
             </keywords>
 
-        <state id="Comment" type="comment" color="#236E25" font-style="italic">
+        <state id="Comment" type="comment" color="#236E25" font-style="italic"  foldable="yes">
             <begin><regex>&lt;!--</regex></begin>
             <end><regex>--&gt;</regex></end>
             
@@ -45,12 +45,12 @@
             <end><regex>\]\s*\]\s*&gt;</regex></end>
         </state>
         
-        <state id="Doctype" color="#236E25" font-style="italic" foldable="yes">
+        <state id="Doctype" color="#236E25" font-style="italic" foldable="no">
             <begin><regex>&lt;!</regex></begin>
             <end><regex>&gt;</regex></end>
         </state>
 
-        <state id="Escape" color="#236E25" font-style="italic" foldable="yes">
+        <state id="Escape" color="#236E25" font-style="italic" foldable="no">
             <begin><regex>&lt;\?</regex></begin>
             <end><regex>\?&gt;</regex></end>
         </state>
