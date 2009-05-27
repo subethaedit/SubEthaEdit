@@ -1747,14 +1747,6 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     
 	if (I_stateDictionaryFromLoading) {
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-		if ([defaults boolForKey:DocumentStateSaveAndLoadSelectionKey]) {
-			NSDictionary *selectionDict = [I_stateDictionaryFromLoading objectForKey:@"s"];
-			if ([selectionDict isKindOfClass:[NSDictionary class]]) {
-				NSRange selectionRange = NSMakeRange([[selectionDict objectForKey:@"p"] intValue],[[selectionDict objectForKey:@"l"] intValue]);
-				[[self activePlainTextEditor] selectRangeInBackgroundWithoutIndication:selectionRange expandIfFolded:NO];
-			}
-		}
-       	
 		if ([defaults boolForKey:DocumentStateSaveAndLoadWindowPositionKey]) {
 			NSDictionary *windowFrameDict = [I_stateDictionaryFromLoading objectForKey:@"p"];
 			if ([windowFrameDict isKindOfClass:[NSDictionary class]]) {
@@ -1770,6 +1762,14 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 			}
 		}
 		
+		if ([defaults boolForKey:DocumentStateSaveAndLoadSelectionKey]) {
+			NSDictionary *selectionDict = [I_stateDictionaryFromLoading objectForKey:@"s"];
+			if ([selectionDict isKindOfClass:[NSDictionary class]]) {
+				NSRange selectionRange = NSMakeRange([[selectionDict objectForKey:@"p"] intValue],[[selectionDict objectForKey:@"l"] intValue]);
+				[[self activePlainTextEditor] selectRangeInBackgroundWithoutIndication:selectionRange expandIfFolded:NO];
+			}
+		}
+       	
     	[I_stateDictionaryFromLoading release];
     	 I_stateDictionaryFromLoading = nil;
     }
@@ -3175,6 +3175,24 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         I_flags.isSEEText = [[self fileType] isEqualToString:@"SEETextType"];
         if (wasAutosave) *wasAutosave = YES;
     }
+	if (I_stateDictionaryFromLoading) { // was set in takeSettingsFromDocumentState: because of symmetry - is code that also is in the non-seetext part of the calling method
+		
+		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+		if ([defaults boolForKey:DocumentStateSaveAndLoadTabSettingKey]) {
+			NSDictionary *tabSettings = [I_stateDictionaryFromLoading objectForKey:@"t"];
+			if ([tabSettings isKindOfClass:[NSDictionary class]]) {
+				id value = [tabSettings objectForKey:@"u"];
+				if ([value isKindOfClass:[NSNumber class]]) {
+					[self setUsesTabs:[value boolValue]];
+				}
+				value = [tabSettings objectForKey:@"w"];
+				if ([value isKindOfClass:[NSNumber class]]) {
+					[self setTabWidth:[value intValue]];
+				}
+			}
+		}
+	}
+
     return YES;
 }
 
@@ -5803,55 +5821,12 @@ static NSString *S_measurementUnits;
 }
 
 
-// this is the data stored in the seetext file format
-- (NSDictionary *)documentState {
-    NSMutableDictionary *result = [[self sessionInformation] mutableCopy];
-    [result removeObjectForKey:@"FileType"]; // don't save the filetype in a seetext
-    [result setObject:[NSNumber numberWithBool:[self showsChangeMarks]]
-               forKey:HighlightChangesPreferenceKey];
-    [result setObject:[NSNumber numberWithBool:[self showsGutter]]
-               forKey:DocumentModeShowLineNumbersPreferenceKey];
-    [result setObject:[NSNumber numberWithBool:[self showInvisibleCharacters]]
-               forKey:DocumentModeShowInvisibleCharactersPreferenceKey];
-    [result setObject:[NSNumber numberWithBool:[self highlightsSyntax]]
-               forKey:DocumentModeHighlightSyntaxPreferenceKey];
-    
-    return result;
-}
-
-- (void)takeSettingsFromDocumentState:(NSDictionary *)aDocumentState {
-    [self takeSettingsFromSessionInformation:aDocumentState];
-    
-    id value = nil;
-    value = [aDocumentState objectForKey:HighlightChangesPreferenceKey];
-    if (value) [self setValue:value forKey:@"showsChangeMarks"];
-    value = [aDocumentState objectForKey:DocumentModeShowLineNumbersPreferenceKey];
-    if (value) [self setValue:value forKey:@"showsGutter"];
-    value = [aDocumentState objectForKey:DocumentModeShowInvisibleCharactersPreferenceKey];
-    if (value) [self setValue:value forKey:@"showInvisibleCharacters"];
-    value = [aDocumentState objectForKey:DocumentModeHighlightSyntaxPreferenceKey];
-    if (value) [self setValue:value forKey:@"highlightsSyntax"];
-    value = [aDocumentState objectForKey:DocumentModeLineEndingPreferenceKey];
-    if (value) [self setValue:value forKey:@"lineEnding"];
-    
-}
-
-// this is the data stored in the extended attributes - which differs from the seetext format data
-// used keys:
-//  p: window position (window Frame as (dict with x,y,w,h))
-//  l: textstorage length (to check if folding data may be applied)
-//  f: foldingData
-//  s: selection (in full text range)
-//  m: document mode identifier
-//  e: line ending
-//  w: wraps lines - 0:no 1:wordwrap 2:characterwrap
-//  t: tabsettings (dict with w:<int> u:0|1)
-//  g: shows gutter
-
-- (NSData *)stateData {
+- (NSMutableDictionary *)stateDataBaseDictionary {
 	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 	NSMutableDictionary *stateDictionary = [NSMutableDictionary dictionary];
 	PlainTextEditor *activeTextEditor = [self activePlainTextEditor];
+	DocumentMode *mode = [self documentMode];
+
 	NSRange selectionRange = [I_textStorage fullRangeForFoldedRange:[[activeTextEditor textView] selectedRange]];
 	
 	if ([defaults boolForKey:DocumentStateSaveAndLoadSelectionKey]) {
@@ -5872,6 +5847,85 @@ static NSString *S_measurementUnits;
 			[NSNumber numberWithInt:windowFrame.size.height],@"h", //h
 			nil] forKey:@"p"]; // window
 	}
+
+	if ([defaults boolForKey:DocumentStateSaveAndLoadTabSettingKey]) {
+		BOOL documentValue = [self usesTabs];
+		BOOL modeValue = [[mode defaultForKey:DocumentModeUseTabsPreferenceKey] boolValue];
+			
+		[stateDictionary setObject:[NSNumber numberWithInt:[self lineEnding]] forKey:@"e"];
+	
+		if (((documentValue && !modeValue) || (!documentValue && modeValue)) ||
+			([self tabWidth] != [[mode defaultForKey:DocumentModeTabWidthPreferenceKey] intValue])) {
+			NSDictionary *tabValuesDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+				[NSNumber numberWithInt:documentValue ? 1 : 0],@"u",
+				[NSNumber numberWithInt:[self tabWidth]],@"w",
+			nil];
+			[stateDictionary setObject:tabValuesDictionary forKey:@"t"];
+		}
+	}
+
+	return stateDictionary;
+}
+
+// this is the data stored in the seetext file format
+- (NSDictionary *)documentState {
+    NSMutableDictionary *result = [[self sessionInformation] mutableCopy];
+    [result removeObjectForKey:@"FileType"]; // don't save the filetype in a seetext
+    [result setObject:[NSNumber numberWithBool:[self showsChangeMarks]]
+               forKey:HighlightChangesPreferenceKey];
+    [result setObject:[NSNumber numberWithBool:[self showsGutter]]
+               forKey:DocumentModeShowLineNumbersPreferenceKey];
+    [result setObject:[NSNumber numberWithBool:[self showInvisibleCharacters]]
+               forKey:DocumentModeShowInvisibleCharactersPreferenceKey];
+    [result setObject:[NSNumber numberWithBool:[self highlightsSyntax]]
+               forKey:DocumentModeHighlightSyntaxPreferenceKey];
+
+    NSMutableDictionary *stateDictionary = [self stateDataBaseDictionary];
+
+	if ([stateDictionary count]) {
+		[result setObject:stateDictionary forKey:@"stateDataDictionary"];
+	}
+    
+    return result;
+}
+
+- (void)takeSettingsFromDocumentState:(NSDictionary *)aDocumentState {
+    [self takeSettingsFromSessionInformation:aDocumentState];
+    
+    id value = nil;
+    value = [aDocumentState objectForKey:HighlightChangesPreferenceKey];
+    if (value) [self setValue:value forKey:@"showsChangeMarks"];
+    value = [aDocumentState objectForKey:DocumentModeShowLineNumbersPreferenceKey];
+    if (value) [self setValue:value forKey:@"showsGutter"];
+    value = [aDocumentState objectForKey:DocumentModeShowInvisibleCharactersPreferenceKey];
+    if (value) [self setValue:value forKey:@"showInvisibleCharacters"];
+    value = [aDocumentState objectForKey:DocumentModeHighlightSyntaxPreferenceKey];
+    if (value) [self setValue:value forKey:@"highlightsSyntax"];
+    value = [aDocumentState objectForKey:DocumentModeLineEndingPreferenceKey];
+    if (value) [self setValue:value forKey:@"lineEnding"];
+    
+    value = [aDocumentState objectForKey:@"stateDataDictionary"];
+    if ([value isKindOfClass:[NSDictionary class]]) {
+    	I_stateDictionaryFromLoading = [value retain];	
+    }    
+}
+
+// this is the data stored in the extended attributes - which differs from the seetext format data
+// used keys:
+//  p: window position (window Frame as (dict with x,y,w,h))
+//  l: textstorage length (to check if folding data may be applied)
+//  f: foldingData
+//  s: selection (in full text range)
+//  m: document mode identifier
+//  e: line ending
+//  w: wraps lines - 0:no 1:wordwrap 2:characterwrap
+//  t: tabsettings (dict with w:<int> u:0|1)
+//  g: shows gutter
+
+- (NSData *)stateData {
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSMutableDictionary *stateDictionary = [self stateDataBaseDictionary];
+	PlainTextEditor *activeTextEditor = [self activePlainTextEditor];
 		
 	DocumentMode *mode = [self documentMode];
 		
@@ -5902,23 +5956,7 @@ static NSString *S_measurementUnits;
 	if ((documentValue && !modeValue) || (!documentValue && modeValue)) {
 		[stateDictionary setObject:[NSNumber numberWithInt:documentValue ? 1 : 0] forKey:@"g"];
 	}
-	
-	if ([defaults boolForKey:DocumentStateSaveAndLoadTabSettingKey]) {
-		documentValue = [self usesTabs];
-		modeValue = [[mode defaultForKey:DocumentModeUseTabsPreferenceKey] boolValue];
-			
-		[stateDictionary setObject:[NSNumber numberWithInt:[self lineEnding]] forKey:@"e"];
-	
-		if (((documentValue && !modeValue) || (!documentValue && modeValue)) ||
-			([self tabWidth] != [[mode defaultForKey:DocumentModeTabWidthPreferenceKey] intValue])) {
-			NSDictionary *tabValuesDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
-				[NSNumber numberWithInt:documentValue ? 1 : 0],@"u",
-				[NSNumber numberWithInt:[self tabWidth]],@"w",
-			nil];
-			[stateDictionary setObject:tabValuesDictionary forKey:@"t"];
-		}
-	}
-	
+		
 	if ([defaults boolForKey:DocumentStateSaveAndLoadFoldingStateKey]) {
 		[stateDictionary setObject:[NSNumber numberWithUnsignedInt:[[I_textStorage fullTextStorage] length]] forKey:@"l"]; // characterlength
 		NSData *foldingStateData = [I_textStorage dataRepresentationOfFoldedRangesWithMaxDepth:-1];
