@@ -611,8 +611,9 @@
 	NSEnumerator *enumerator = [[state objectForKey:@"states"] objectEnumerator];
     id childState;
     while ((childState = [enumerator nextObject])) {
-        if (![childState objectForKey:@"color"]) {
-            [[self stateForID:[childState objectForKey:@"id"]] setObject:kSyntaxHighlightingStyleIDAttributeName forKey:kSyntaxHighlightingStyleIDAttributeName]; // Inherit color if n/a
+        id realChildState = [self stateForID:[childState objectForKey:@"id"]];
+        if (![realChildState objectForKey:@"color"]) {
+            [realChildState setObject:[state objectForKey:kSyntaxHighlightingStyleIDAttributeName] forKey:kSyntaxHighlightingStyleIDAttributeName]; // Inherit color if n/a
         }
 		if (![childState objectForKey:[self keyForInheritedSymbols]])
 			[self calculateSymbolInheritanceForState:childState inheritedSymbols:symbols inheritedAutocomplete:autocomplete];
