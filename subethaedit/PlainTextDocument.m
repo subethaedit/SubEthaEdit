@@ -1748,16 +1748,18 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 	if (I_stateDictionaryFromLoading) {
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 		if ([defaults boolForKey:DocumentStateSaveAndLoadWindowPositionKey]) {
-			NSDictionary *windowFrameDict = [I_stateDictionaryFromLoading objectForKey:@"p"];
-			if ([windowFrameDict isKindOfClass:[NSDictionary class]]) {
-				NSRect windowFrameRect = NSZeroRect;
-				windowFrameRect.origin.x = [[windowFrameDict objectForKey:@"x"] doubleValue];
-				windowFrameRect.origin.y = [[windowFrameDict objectForKey:@"y"] doubleValue];
-				windowFrameRect.size.height = [[windowFrameDict objectForKey:@"h"] doubleValue];
-				windowFrameRect.size.width  = [[windowFrameDict objectForKey:@"w"] doubleValue];
-				NSSize minSize = [[windowController window] minSize];
-				if (windowFrameRect.size.height >= minSize.height && windowFrameRect.size.width >= minSize.width) {
-					[windowController setWindowFrame:windowFrameRect constrainedToScreen:nil display:YES];
+			if (![windowController hasManyDocuments]) {
+				NSDictionary *windowFrameDict = [I_stateDictionaryFromLoading objectForKey:@"p"];
+				if ([windowFrameDict isKindOfClass:[NSDictionary class]]) {
+					NSRect windowFrameRect = NSZeroRect;
+					windowFrameRect.origin.x = [[windowFrameDict objectForKey:@"x"] doubleValue];
+					windowFrameRect.origin.y = [[windowFrameDict objectForKey:@"y"] doubleValue];
+					windowFrameRect.size.height = [[windowFrameDict objectForKey:@"h"] doubleValue];
+					windowFrameRect.size.width  = [[windowFrameDict objectForKey:@"w"] doubleValue];
+					NSSize minSize = [[windowController window] minSize];
+					if (windowFrameRect.size.height >= minSize.height && windowFrameRect.size.width >= minSize.width) {
+						[windowController setWindowFrame:windowFrameRect constrainedToScreen:nil display:YES];
+					}
 				}
 			}
 		}
