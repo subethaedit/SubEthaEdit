@@ -220,7 +220,7 @@
 				<regex>'.'</regex>
             </keywords>
             
-            <state id="Comment" type="comment" color="#8d8d8d" font-style="italic">
+            <state id="Comment" type="comment" color="#8d8d8d" font-style="italic" foldable="yes">
                 <begin><string>\(\*</string></begin>
                 <end><regex>\*\)</regex></end>
             </state>
@@ -233,6 +233,66 @@
             <state id="String" type="string" color="#000">
                 <begin><string>@?"</string></begin>
                 <end><regex>([^\\]"|^")</regex></end>
+            </state>
+
+            <state id="Tell statement with to" foldable="no">
+                <begin><regex>tell[\t ]+(?=[^\n\r]+to)</regex></begin>
+                <end><regex>to</regex></end>
+                <import mode="AppleScript"/>
+            </state>
+
+            <state id="Tell statement" foldable="yes">
+                <begin><regex>tell[\t ]+[^\n\r]+</regex></begin>
+                <end><regex>^\s*(?&lt;trimmedend&gt;end(?:[ \t]+tell)?)(?=([\n\r]|\Z))</regex></end>
+                <import mode="AppleScript"/>
+            </state>
+
+            <state id="Handler" foldable="yes">
+                <begin><regex>^[ \t]*(?:on) (?&lt;heredoc&gt;\w+)[^\n\r]*</regex></begin>
+                <end><regex>^\s*(?&lt;trimmedend&gt;end(?:[ \t]+(?#see-insert-start-group:heredoc))?)(?=([\n\r]|\Z))</regex></end>
+                <import mode="AppleScript"/>
+            </state>
+        
+            <state id="Repeat Statement" foldable="yes">
+                <begin><regex>^[ \t]*repeat(?:[ \t]+[^\n\r])*</regex></begin>
+                <end><regex>^\s*(?&lt;trimmedend&gt;end(?:[ \t]+repeat)?)(?=([\n\r]|\Z))</regex></end>
+                <import mode="AppleScript"/>
+            </state>
+        
+            <state id="Try Statement" foldable="yes">
+                <begin><regex>^[ \t]*try(?=\s)</regex></begin>
+                <end><regex>^\s*(?&lt;trimmedend&gt;end(?:[ \t]+try)?)(?=([\n\r]|\Z))</regex></end>
+                <import mode="AppleScript"/>
+            </state>
+        
+            <state id="using terms from Statement" foldable="yes">
+                <begin><regex>^[ \t]*using terms from[ \t]+[^\n\r]*</regex></begin>
+                <end><regex>^\s*(?&lt;trimmedend&gt;end(?:[ \t]+using terms from)?)(?=([\n\r]|\Z))</regex></end>
+                <import mode="AppleScript"/>
+            </state>
+        
+            <state id="with timeout Statement" foldable="yes">
+                <begin><regex>^[ \t]*with timeout[ \t]+[^\n\r]*</regex></begin>
+                <end><regex>^\s*(?&lt;trimmedend&gt;end(?:[ \t]+with timeout)?)(?=([\n\r]|\Z))</regex></end>
+                <import mode="AppleScript"/>
+            </state>
+        
+            <state id="with transaction Statement" foldable="yes">
+                <begin><regex>^[ \t]*with transaction(?:[ \t]+[^\n\r])*</regex></begin>
+                <end><regex>^\s*(?&lt;trimmedend&gt;end(?:[ \t]+with transaction)?)(?=([\n\r]|\Z))</regex></end>
+                <import mode="AppleScript"/>
+            </state>
+        
+            <state id="ignoring Statement" foldable="yes">
+                <begin><regex>^[ \t]*ignoring[ \t]+[^\n\r]*</regex></begin>
+                <end><regex>^\s*(?&lt;trimmedend&gt;end(?:[ \t]+ignoring)?)(?=([\n\r]|\Z))</regex></end>
+                <import mode="AppleScript"/>
+            </state>
+        
+            <state id="considering Statement" foldable="yes">
+                <begin><regex>^[ \t]*considering[ \t]+[^\n\r]*</regex></begin>
+                <end><regex>^\s*(?&lt;trimmedend&gt;end(?:[ \t]+considering)?)(?=([\n\r]|\Z))</regex></end>
+                <import mode="AppleScript"/>
             </state>
         
          </default>
