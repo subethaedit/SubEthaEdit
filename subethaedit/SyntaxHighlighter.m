@@ -235,6 +235,10 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
 
             } else { // Found end of current state
                 //NSLog(@"Found an end: '%@' current range: %@",[[aString string] substringWithRange:delimiterRange], NSStringFromRange(currentRange));
+                
+                NSRange matchedEndRange = [delimiterMatch rangeOfSubstringNamed:@"trimmedend"];
+                if (matchedEndRange.location != NSNotFound) delimiterRange = matchedEndRange;
+                
                 nextRange.location = NSMaxRange(stateRange);
                 nextRange.length = currentRange.length - stateRange.length;
                 [scratchAttributes setObject:@"End" forKey:kSyntaxHighlightingStateDelimiterName];
