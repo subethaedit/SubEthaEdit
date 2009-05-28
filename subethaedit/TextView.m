@@ -334,14 +334,29 @@ static NSMenu *S_defaultMenu=nil;
 
 -(BOOL)validateMenuItem:(NSMenuItem*)menuItem 
 {
-
+	SEL action = [menuItem action];
     BOOL returnValue = [super validateMenuItem:menuItem];
     if (!returnValue) {
         if ([menuItem tag]==1001) returnValue=YES;
         if ([menuItem tag]==1002) returnValue=YES;
     }
-    if (returnValue && [menuItem action]==@selector(copyStyled:)) {
+    if (returnValue && action == @selector(copyStyled:)) {
         return [self selectedRange].length>0;
+    }
+    
+    if ( action == @selector(foldAllTopLevelBlocks:) ) {
+	    PlainTextDocument *document=(PlainTextDocument *)[editor document];
+    	[menuItem setTitle:[NSString stringWithFormat:NSLocalizedString(@"Fold All Level %d Blocks","Fold at top level menu entry label"),MAX(1,[[[document documentMode] syntaxDefinition] foldingTopLevel])]];
+    }
+    
+    if ( action == @selector(foldAllTopLevelBlocks:) || 
+         action == @selector(foldAllBlocksAtTagLevel:) || 
+         action == @selector(foldCurrentBlock:) || 
+         action == @selector(foldAllCommentBlocks:)) {
+	    PlainTextDocument *document=(PlainTextDocument *)[editor document];
+	    DocumentMode *mode = [document documentMode];
+    	BOOL hasFoldingInformation = [mode syntaxHighlighter] && [document highlightsSyntax];
+    	returnValue = hasFoldingInformation;
     }
     
     return returnValue;
