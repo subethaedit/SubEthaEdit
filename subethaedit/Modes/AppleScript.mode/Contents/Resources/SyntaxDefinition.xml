@@ -246,15 +246,9 @@
                 <end><regex>^\s*(?&lt;trimmedend&gt;end(?:[ \t]+tell)?)(?=([\n\r]|\Z))</regex></end>
                 <import mode="AppleScript"/>
             </state>
-
-            <state id="Handler" foldable="yes">
-                <begin><regex>^[ \t]*(?:on) (?&lt;heredoc&gt;\w+)[^\n\r]*</regex></begin>
-                <end><regex>^\s*(?&lt;trimmedend&gt;end(?:[ \t]+(?#see-insert-start-group:heredoc))?)(?=([\n\r]|\Z))</regex></end>
-                <import mode="AppleScript"/>
-            </state>
         
             <state id="Repeat Statement" foldable="yes">
-                <begin><regex>^[ \t]*repeat(?:[ \t]+[^\n\r])*</regex></begin>
+                <begin><regex>^[ \t]*repeat(?:[ \t]+[^\n\r]+)?(?=[\n\r])</regex></begin>
                 <end><regex>^\s*(?&lt;trimmedend&gt;end(?:[ \t]+repeat)?)(?=([\n\r]|\Z))</regex></end>
                 <import mode="AppleScript"/>
             </state>
@@ -278,7 +272,7 @@
             </state>
         
             <state id="with transaction Statement" foldable="yes">
-                <begin><regex>^[ \t]*with transaction(?:[ \t]+[^\n\r])*</regex></begin>
+                <begin><regex>^[ \t]*with transaction(?:[ \t]+[^\n\r]+)?(?=[\n\r])</regex></begin>
                 <end><regex>^\s*(?&lt;trimmedend&gt;end(?:[ \t]+with transaction)?)(?=([\n\r]|\Z))</regex></end>
                 <import mode="AppleScript"/>
             </state>
