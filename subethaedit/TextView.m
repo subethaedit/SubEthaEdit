@@ -589,7 +589,7 @@ static NSMenu *S_defaultMenu=nil;
 			textStorage = [textStorage fullTextStorage];
 		}
 		NSMutableAttributedString *mutableString = [[[[self textStorage] attributedSubstringFromRange:[self selectedRange]] mutableCopy] autorelease];
-		NSTextAttachment *foldingIconAttachment = [[[NSTextAttachment alloc] initWithFileWrapper:[[[NSFileWrapper alloc] initWithPath:[[NSBundle mainBundle] pathForResource:@"folded" ofType:@"tiff"]] autorelease]] autorelease];
+		NSTextAttachment *foldingIconAttachment = [[[NSTextAttachment alloc] initWithFileWrapper:[[[NSFileWrapper alloc] initWithPath:[[NSBundle mainBundle] pathForResource:@"FoldingBubbleBig" ofType:@"png"]] autorelease]] autorelease];
 //		[[[foldingIconAttachment attachmentCell] image] setSize:NSMakeSize(19,10)];
 		NSAttributedString *foldingIconString = [NSAttributedString attributedStringWithAttachment:foldingIconAttachment];
 		NSAttributedString *foldingIconReplacementString = [[[NSAttributedString alloc] initWithPath:[[NSBundle mainBundle] pathForResource:@"FoldingBubbleText" ofType:@"rtf"] documentAttributes:nil] autorelease];
