@@ -201,12 +201,13 @@
     if ([[aDictionary objectForKey:@"font-weight"] isEqualTo:@"bold"]) mask = mask | NSBoldFontMask;
     if ([[aDictionary objectForKey:@"font-style"] isEqualTo:@"italic"]) mask = mask | NSItalicFontMask;
     [aDictionary setObject:[NSNumber numberWithUnsignedInt:mask] forKey:@"font-trait"];
+
     
     // Calculate inverted color if not present
     NSColor *invertedColor = [aDictionary objectForKey:@"inverted-color"];
     if (!invertedColor) {
         invertedColor = [[aDictionary objectForKey:@"color"] brightnessInvertedColor];
-        [aDictionary setObject:invertedColor forKey:@"inverted-color"];
+        if (invertedColor) [aDictionary setObject:invertedColor forKey:@"inverted-color"];
     }
     
     // Same for background color and inverted background color
@@ -465,39 +466,6 @@
                 
             
             }
-
-//            groupEnumerator = [keywordGroups objectEnumerator];
-//            while ((keywordGroup = [groupEnumerator nextObject])) {
-//                NSString *styleID=[keywordGroup objectForKey:kSyntaxHighlightingStyleIDAttributeName];
-//                if ([keywordGroup objectForKey:@"CompiledKeywords"]) [newRegExArray addObject:[NSArray arrayWithObjects:[keywordGroup objectForKey:@"CompiledKeywords"], styleID, nil]];
-//            }
-            // First do the plainstring stuff
-//                
-//                // Then do the regex stuff
-//                
-//                if ((keywords = [keywordGroup objectForKey:@"RegularExpressions"])) {
-//                    NSEnumerator *keywordEnumerator = [keywords objectEnumerator];
-//                    NSString *keyword;
-//                    NSString *aString;
-//                    while ((keyword = [keywordEnumerator nextObject])) {
-//                        OGRegularExpression *regex;
-//                        unsigned regexOptions = OgreFindNotEmptyOption;
-//                        if ((aString = [keywordGroup objectForKey:@"casesensitive"])) {       
-//                            if (([aString isEqualTo:@"no"])) {
-//                                regexOptions = regexOptions|OgreIgnoreCaseOption;
-//                            }
-//                        }
-//                        if ([OGRegularExpression isValidExpressionString:keyword]) {
-//                            if ((regex = [[[OGRegularExpression alloc] initWithString:keyword options:regexOptions] autorelease])) {
-//                                [newRegExArray addObject:[NSArray arrayWithObjects:regex, styleID, nil]];
-//                            }
-//                        } else {
-//							[self showWarning:NSLocalizedString(@"Regular Expression Error",@"Regular Expression Error Title") withDescription:[NSString stringWithFormat:NSLocalizedString(@"\"%@\" within state \"%@\" is not a valid regular expression. Please check your regular expression in Find Panel's Ruby mode.",@"Syntax Regular Expression Error Informative Text"),keyword, [keywordGroup objectForKey:@"id"]]];
-//                        }
-//                    }
-//                }
-//
-
         } 
     }
     
@@ -643,6 +611,9 @@
 	NSEnumerator *enumerator = [[state objectForKey:@"states"] objectEnumerator];
     id childState;
     while ((childState = [enumerator nextObject])) {
+        if (![childState objectForKey:@"color"]) {
+            [[self stateForID:[childState objectForKey:@"id"]] setObject:kSyntaxHighlightingStyleIDAttributeName forKey:kSyntaxHighlightingStyleIDAttributeName]; // Inherit color if n/a
+        }
 		if (![childState objectForKey:[self keyForInheritedSymbols]])
 			[self calculateSymbolInheritanceForState:childState inheritedSymbols:symbols inheritedAutocomplete:autocomplete];
     }
@@ -655,7 +626,7 @@
 	if (!I_symbolAndAutocompleteInheritanceReady) {
 		[self calculateSymbolInheritanceForState:[I_allStates objectForKey:[NSString stringWithFormat:@"/%@/%@", [self name], SyntaxStyleBaseIdentifier]] inheritedSymbols:[self name] inheritedAutocomplete:[self name]];
 		I_symbolAndAutocompleteInheritanceReady = YES;
-//		NSLog(@"Defaultstate: Sym:%@, Auto:%@", [[self defaultState] objectForKey:[self keyForInheritedSymbols]],[[self defaultState] objectForKey:[self keyForInheritedAutocomplete]]);
+        //		NSLog(@"Defaultstate: Sym:%@, Auto:%@", [[self defaultState] objectForKey:[self keyForInheritedSymbols]],[[self defaultState] objectForKey:[self keyForInheritedAutocomplete]]);
 	}
 	//NSLog(@"foo: %@", [I_defaultSyntaxStyle allKeys]);
 }
@@ -769,7 +740,7 @@
     NSEnumerator *subStates = [[aState objectForKey:@"states"] objectEnumerator];
     id subState;
     while ((subState = [subStates nextObject])) {
-        if ((![I_defaultSyntaxStyle styleForKey:[subState objectForKey:kSyntaxHighlightingStyleIDAttributeName]])&&(![[aState objectForKey:@"id"] isEqualToString:[subState objectForKey:@"id"]])) [self addStyleIDsFromState:[self stateForID:[subState objectForKey:@"id"]]];
+        if (([aState objectForKey:@"color"]&&![I_defaultSyntaxStyle styleForKey:[subState objectForKey:kSyntaxHighlightingStyleIDAttributeName]])&&(![[aState objectForKey:@"id"] isEqualToString:[subState objectForKey:@"id"]])) [self addStyleIDsFromState:[self stateForID:[subState objectForKey:@"id"]]];
     }
     
 }

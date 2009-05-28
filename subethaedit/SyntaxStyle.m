@@ -71,8 +71,10 @@ static NSArray *S_possibleStyleColors;
         if (object) [styleDictionary setObject:object forKey:key];
     }
 
-    [self addKey:styleID];
-    [self setStyle:styleDictionary forKey:styleID];            
+    if ([styleDictionary objectForKey:@"color"]) {
+        [self addKey:styleID];
+        [self setStyle:styleDictionary forKey:styleID];            
+    }
 }
 
 - (void)takeValuesFromModeSubtree:(CFXMLTreeRef)aModeTree {
