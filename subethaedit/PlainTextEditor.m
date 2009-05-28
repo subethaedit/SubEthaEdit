@@ -941,7 +941,10 @@
         NSColor *backgroundColor=[document documentBackgroundColor];
         NSColor *foregroundColor=[document documentForegroundColor]; 
         TextStorage *textStorage=(TextStorage *)[I_textView textStorage];
-        NSMutableAttributedString *attributedStringForXHTML=[textStorage attributedStringForXHTMLExportWithRange:selectedRange foregroundColor:foregroundColor backgroundColor:backgroundColor];
+        NSMutableAttributedString *attributedSubString = [[[textStorage attributedSubstringFromRange:selectedRange] mutableCopy] autorelease];
+		NSAttributedString *foldingIconReplacementString = [[[NSAttributedString alloc] initWithPath:[[NSBundle mainBundle] pathForResource:@"FoldingBubbleText" ofType:@"rtf"] documentAttributes:nil] autorelease];
+		[attributedSubString replaceAttachmentsWithAttributedString:foldingIconReplacementString];
+        NSMutableAttributedString *attributedStringForXHTML=[attributedSubString attributedStringForXHTMLExportWithRange:NSMakeRange(0,[attributedSubString length]) foregroundColor:foregroundColor backgroundColor:backgroundColor];
         [attributedStringForXHTML detab:YES inRange:NSMakeRange(0,[attributedStringForXHTML length]) tabWidth:[document tabWidth] askingTextView:nil];
         if ([self wrapsLines]) {
             [attributedStringForXHTML makeLeadingWhitespaceNonBreaking]; 
