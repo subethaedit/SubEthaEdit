@@ -2076,6 +2076,9 @@ subethaedit/artwork/DotRed.png -text
 subethaedit/artwork/DotYellow.png -text
 subethaedit/artwork/EditPrefs.tiff -text
 subethaedit/artwork/EmptyButton.tiff -text
+subethaedit/artwork/FoldingBubble.pdf -text svneol=unset#unset
+subethaedit/artwork/FoldingBubbleBig.png -text
+subethaedit/artwork/FoldingBubbleText.rtf -text
 subethaedit/artwork/FriendCast13.png -text
 subethaedit/artwork/FriendCast13None.png -text
 subethaedit/artwork/FriendCast13Off.png -text

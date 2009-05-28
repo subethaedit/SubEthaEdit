@@ -410,6 +410,10 @@
 		F281D4370F388A0B00AD7DE1 /* FoldingTextAttachmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D4360F388A0B00AD7DE1 /* FoldingTextAttachmentCell.m */; };
 		F290D9D80EDB04EF00E643C0 /* TCMPortMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F290D9D70EDB04EF00E643C0 /* TCMPortMapper.framework */; };
 		F290D9DD0EDB04F900E643C0 /* TCMPortMapper.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F290D9D70EDB04EF00E643C0 /* TCMPortMapper.framework */; };
+		F291D17B0FCEB387008BC286 /* FoldingBubble.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F291D17A0FCEB387008BC286 /* FoldingBubble.pdf */; };
+		F291D1810FCEC111008BC286 /* FoldingBubble.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F291D17A0FCEB387008BC286 /* FoldingBubble.pdf */; };
+		F291D1A10FCECD22008BC286 /* FoldingBubbleText.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F291D1A00FCECD22008BC286 /* FoldingBubbleText.rtf */; };
+		F291D1B10FCECF33008BC286 /* FoldingBubbleBig.png in Resources */ = {isa = PBXBuildFile; fileRef = F291D1B00FCECF33008BC286 /* FoldingBubbleBig.png */; };
 		F298693E0D338B0F0031C9F3 /* ServerManagementProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F298693C0D338B0F0031C9F3 /* ServerManagementProfile.m */; };
 		F29869530D338D6C0031C9F3 /* ServerManagementProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F298693C0D338B0F0031C9F3 /* ServerManagementProfile.m */; };
 		F29940600C0C7F3400A53189 /* NSScreenTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F299405E0C0C7F3400A53189 /* NSScreenTCMAdditions.m */; };
@@ -1337,6 +1341,9 @@
 		F28CAAF10CB55B9A0001111D /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/PrecedenceRules.nib; sourceTree = "<group>"; };
 		F28CAAF20CB55BB00001111D /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/UserStatistics.nib; sourceTree = "<group>"; };
 		F290D9D70EDB04EF00E643C0 /* TCMPortMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TCMPortMapper.framework; path = TCMPortMapper/TCMPortMapper.framework; sourceTree = "<group>"; };
+		F291D17A0FCEB387008BC286 /* FoldingBubble.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = FoldingBubble.pdf; path = artwork/FoldingBubble.pdf; sourceTree = "<group>"; };
+		F291D1A00FCECD22008BC286 /* FoldingBubbleText.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = FoldingBubbleText.rtf; path = artwork/FoldingBubbleText.rtf; sourceTree = "<group>"; };
+		F291D1B00FCECF33008BC286 /* FoldingBubbleBig.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FoldingBubbleBig.png; path = artwork/FoldingBubbleBig.png; sourceTree = "<group>"; };
 		F298693C0D338B0F0031C9F3 /* ServerManagementProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerManagementProfile.m; sourceTree = "<group>"; };
 		F298693D0D338B0F0031C9F3 /* ServerManagementProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ServerManagementProfile.h; sourceTree = "<group>"; };
 		F299405E0C0C7F3400A53189 /* NSScreenTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = NSScreenTCMAdditions.m; sourceTree = "<group>"; };
@@ -1555,6 +1562,8 @@
 		14289051095742A100D14688 /* Artwork */ = {
 			isa = PBXGroup;
 			children = (
+				F291D1B00FCECF33008BC286 /* FoldingBubbleBig.png */,
+				F291D17A0FCEB387008BC286 /* FoldingBubble.pdf */,
 				F281D37B0F38775200AD7DE1 /* folded.tiff */,
 				F2C6D3730D6DB131002B401D /* URLIconNotOK.tiff */,
 				F2C6D3740D6DB131002B401D /* URLIconOK.tiff */,
@@ -2252,6 +2261,7 @@
 			children = (
 				14EC6E270A63F2E800B44481 /* ServicesMenu.strings */,
 				14289008095740F200D14688 /* Acknowledgements.txt */,
+				F291D1A00FCECD22008BC286 /* FoldingBubbleText.rtf */,
 				8D15AC360486D014006FF6A4 /* Info.plist */,
 				089C165FFE840EACC02AAC07 /* InfoPlist.strings */,
 				142890120957413900D14688 /* Localizable.strings */,
@@ -2796,6 +2806,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F291D1810FCEC111008BC286 /* FoldingBubble.pdf in Resources */,
 				14448AA40A18964A00F36B34 /* SubEthaEdit.sdef in Resources */,
 				1428900D095740F200D14688 /* Acknowledgements.txt in Resources */,
 				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
@@ -2967,6 +2978,8 @@
 				F2B91DA00D7EEE3400626BBC /* FriendCast13None.png in Resources */,
 				F2B91DBC0D7EF93000626BBC /* FriendcastingConnection.png in Resources */,
 				F281D37C0F38775200AD7DE1 /* folded.tiff in Resources */,
+				F291D1A10FCECD22008BC286 /* FoldingBubbleText.rtf in Resources */,
+				F291D1B10FCECF33008BC286 /* FoldingBubbleBig.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -2977,6 +2990,7 @@
 				F2D86C300F8E7F6A00B912A2 /* SEPMainMenu.xib in Resources */,
 				F2D86E5B0F8EB44100B912A2 /* Modes in Resources */,
 				F2D86E7B0F8EB57000B912A2 /* TestFiles in Resources */,
+				F291D17B0FCEB387008BC286 /* FoldingBubble.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

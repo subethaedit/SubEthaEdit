@@ -23,6 +23,8 @@
 - (NSRange)blockChangeTextInRange:(NSRange)aRange replacementString:(NSString *)aReplacementString
                    paragraphRange:(NSRange)aParagraphRange inTextView:(NSTextView *)aTextView tabWidth:(unsigned)aTabWidth useTabs:(BOOL)aUseTabs;
 
+- (void)replaceAttachmentsWithAttributedString:(NSAttributedString *)aString;
+
 @end
 
 @interface NSAttributedString (NSAttributedStringSeeAdditions)

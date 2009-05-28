@@ -1504,6 +1504,28 @@
 	}
 }
 
+- (NSArray *)textView:(NSTextView *)aTextView writablePasteboardTypesForCell:(id < NSTextAttachmentCell >)cell atIndex:(NSUInteger)charIndex {
+	if ([[cell attachment] isKindOfClass:[FoldedTextAttachment class]]) {
+		return [NSArray arrayWithObject:NSStringPboardType];
+	} else {
+		return nil;
+	}
+}
+
+- (BOOL)textView:(NSTextView *)aTextView writeCell:(id < NSTextAttachmentCell >)cell atIndex:(NSUInteger)charIndex toPasteboard:(NSPasteboard *)pboard type:(NSString *)type {
+	id attachment = [cell attachment];
+	if ([attachment isKindOfClass:[FoldedTextAttachment class]]) {
+		NSLog(@"%s type:%@",__FUNCTION__,type);
+		FoldableTextStorage *ts = (FoldableTextStorage *)[aTextView textStorage];
+		NSString *stringToPaste = [[[ts fullTextStorage] string] substringWithRange:[attachment foldedTextRange]];
+		if (stringToPaste) {
+			[pboard setString:stringToPaste forType:type];
+			return YES;
+		}
+	}
+	return NO;
+}
+
 - (void)textViewContextMenuNeedsUpdate:(NSMenu *)aContextMenu {
     NSMenu *scriptMenu = [[aContextMenu itemWithTag:12345] submenu];
     [scriptMenu removeAllItems];

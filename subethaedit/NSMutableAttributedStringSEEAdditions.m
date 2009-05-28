@@ -343,6 +343,17 @@ extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
     return NSMakeRange(aParagraphRange.location,aParagraphRange.length+lengthChange);
 }
 
+- (void)replaceAttachmentsWithAttributedString:(NSAttributedString *)aString {
+	NSRange searchRange = NSMakeRange(0,[self length]);
+	while (NSMaxRange(searchRange)>1) {
+		NSRange effectiveRange;
+		id attachment = [self attribute:NSAttachmentAttributeName atIndex:NSMaxRange(searchRange)-1 longestEffectiveRange:&effectiveRange inRange:searchRange];
+		if (attachment) {
+			[self replaceCharactersInRange:effectiveRange withAttributedString:aString];	
+		}
+		searchRange.length = effectiveRange.location;
+	}
+}
 
 
 @end

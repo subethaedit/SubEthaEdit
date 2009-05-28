@@ -577,20 +577,51 @@ static NSMenu *S_defaultMenu=nil;
 	NSRange selectedRange = [self selectedRange];
 	if (selectedRange.length == 0) return;
 	
-	id textStorage = [self textStorage];
-	if ([textStorage respondsToSelector:@selector(fullRangeForFoldedRange:)]) {
-		selectedRange = [textStorage fullRangeForFoldedRange:selectedRange];
-		textStorage = [textStorage fullTextStorage];
-	}
 	NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
 	BOOL isRichText = [self isRichText];
 	
-	[pasteboard declareTypes:(isRichText ? [NSArray arrayWithObjects:NSStringPboardType,NSRTFPboardType,nil] : [NSArray arrayWithObjects:NSStringPboardType,nil]) owner:nil];
+	[pasteboard declareTypes:(isRichText ? [NSArray arrayWithObjects:NSRTFDPboardType,NSRTFPboardType,nil] : [NSArray arrayWithObjects:NSStringPboardType,nil]) owner:nil];
 	
-	[pasteboard setString:[[textStorage string] substringWithRange:selectedRange] forType:NSStringPboardType];
 	if (isRichText) {
-		[pasteboard setData:[textStorage RTFFromRange:selectedRange documentAttributes:nil] forType:NSRTFPboardType];
+		id textStorage = [self textStorage];
+		if ([textStorage respondsToSelector:@selector(fullRangeForFoldedRange:)]) {
+			selectedRange = [textStorage fullRangeForFoldedRange:selectedRange];
+			textStorage = [textStorage fullTextStorage];
+		}
+		NSMutableAttributedString *mutableString = [[[[self textStorage] attributedSubstringFromRange:[self selectedRange]] mutableCopy] autorelease];
+		NSTextAttachment *foldingIconAttachment = [[[NSTextAttachment alloc] initWithFileWrapper:[[[NSFileWrapper alloc] initWithPath:[[NSBundle mainBundle] pathForResource:@"folded" ofType:@"tiff"]] autorelease]] autorelease];
+//		[[[foldingIconAttachment attachmentCell] image] setSize:NSMakeSize(19,10)];
+		NSAttributedString *foldingIconString = [NSAttributedString attributedStringWithAttachment:foldingIconAttachment];
+		NSAttributedString *foldingIconReplacementString = [[[NSAttributedString alloc] initWithPath:[[NSBundle mainBundle] pathForResource:@"FoldingBubbleText" ofType:@"rtf"] documentAttributes:nil] autorelease];
+		[mutableString replaceAttachmentsWithAttributedString:foldingIconString];
+		[pasteboard setData:[mutableString RTFDFromRange:NSMakeRange(0,[mutableString length]) documentAttributes:nil] forType:NSRTFDPboardType];
+		[mutableString replaceAttachmentsWithAttributedString:foldingIconReplacementString];
+		[pasteboard setData:[mutableString  RTFFromRange:NSMakeRange(0,[mutableString length]) documentAttributes:nil] forType:NSRTFPboardType];
+	} else {
+		[self writeSelectionToPasteboard:pasteboard type:NSStringPboardType];
 	}
+}
+
+- (NSArray *)writablePasteboardTypes {
+	NSMutableArray *result = [NSArray arrayWithObject:NSStringPboardType];
+	return result;
+}
+
+- (BOOL)writeSelectionToPasteboard:(NSPasteboard *)pasteboard type:(NSString *)type {
+	if ([type isEqualToString:NSStringPboardType]) {
+		NSRange selectedRange = [self selectedRange];
+		if (selectedRange.length == 0) return NO;
+		
+		id textStorage = [self textStorage];
+		if ([textStorage respondsToSelector:@selector(fullRangeForFoldedRange:)]) {
+			selectedRange = [textStorage fullRangeForFoldedRange:selectedRange];
+			textStorage = [textStorage fullTextStorage];
+		}
+		
+		[pasteboard setString:[[textStorage string] substringWithRange:selectedRange] forType:NSStringPboardType];		
+		return YES;
+	}
+	return NO;
 }
 
 #pragma mark Folding Related Methods
