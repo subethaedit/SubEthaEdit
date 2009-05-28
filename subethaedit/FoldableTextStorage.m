@@ -995,7 +995,10 @@ typedef union {
 	} while (attributeRange.location > 0);
 	
 	if (currentFoldingRange.location != NSNotFound) {
-		[self foldRange:currentFoldingRange];
+		NSRange foldingRange = [self fullRangeForFoldedRange:currentFoldingRange];
+		foldingRange = [I_fullTextStorage foldableRangeForCharacterAtIndex:foldingRange.location];
+		foldingRange = [self foldedRangeForFullRange:foldingRange];
+		[self foldRange:foldingRange];
 	}
 	[self endEditing];
 }
