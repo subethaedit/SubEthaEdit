@@ -115,6 +115,12 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 	[delimiterLineColor set];
 	[NSBezierPath strokeLineFromPoint:NSMakePoint(foldingAreaRect.origin.x-1.5,bounds.origin.y) 
 							  toPoint:NSMakePoint(foldingAreaRect.origin.x-1.5,NSMaxY(bounds))];
+	NSRect fullFoldingAreaRect = [self bounds];
+	fullFoldingAreaRect.origin.x = foldingAreaRect.origin.x;
+	fullFoldingAreaRect.size.width = foldingAreaRect.size.width;
+	[[NSColor whiteColor] set];
+	NSRectFill(fullFoldingAreaRect);
+	
 
     if ([textStorage length]) {
     
