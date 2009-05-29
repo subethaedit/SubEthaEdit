@@ -203,9 +203,9 @@
     [I_textView setAllowsUndo:NO];
     [I_textView setSmartInsertDeleteEnabled:NO];
     [I_textView turnOffLigatures:self];
-//	if ([I_textView respondsToSelector:@selector(setAutomaticLinkDetectionEnabled:)]) {
-//		[I_textView setAutomaticLinkDetectionEnabled:YES];
-//	}
+	if ([I_textView respondsToSelector:@selector(setAutomaticLinkDetectionEnabled:)]) {
+		[I_textView setAutomaticLinkDetectionEnabled:YES];
+	}
 
     [I_textView setDelegate:self];
     [I_textContainer setHeightTracksTextView:NO];
