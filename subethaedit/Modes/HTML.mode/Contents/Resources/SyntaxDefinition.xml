@@ -1,61 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE syntax SYSTEM "syntax.dtd">
+
 <syntax>
-
     <head>
-        <name>HTML</name> <!-- The definitions title -->
-        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@"]]></charsintokens> 
-        <charsincompletion><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@</=!>]]></charsincompletion>
-        <xmlfolding>YES</xmlfolding>
+        <name>HTML</name>
+        <!-- The definitions title -->
+        <charsintokens>_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@"</charsintokens>
+        <charsincompletion>_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@&lt;/=!></charsincompletion>
+        <folding toplevel="3" />
     </head>
-
     <states>
-    
-        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal"  usesymbolsfrommode="HTML" useautocompletefrommode="HTML">
-            
-            <import mode="XML" />
-                                                    
-            <state id="Inline CSS" color="#000" font-style="italic" usesymbolsfrommode="CSS" useautocompletefrommode="CSS">
-                <begin><regex>&lt;(?=(?i)style)</regex></begin>
-                <end><regex>(?i)/style&gt;</regex></end>
-                
+        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="HTML" useautocompletefrommode="HTML">
+            <import mode="XML" keywords-only="yes"/>
+            <state-link mode="XML" state="Comment"/>
+            <state-link mode="XML" state="CDATA"/>
+            <state-link mode="XML" state="Doctype"/>
+            <state-link mode="XML" state="Escape"/>
+            <state-link mode="XML" state="Single Tag"/>
+            <state id="Inline CSS" color="#000" font-style="italic" usesymbolsfrommode="CSS" useautocompletefrommode="CSS" foldable="yes">
+                <begin>
+                    <regex>&lt;[ \t]*(?i)style[^>]*></regex>
+                </begin>
+                <end>
+                    <regex>(?i)&lt;[ \t]*/[ \t]*style[ \t]*></regex>
+                </end>
                 <import mode="CSS"/>
-
-                <keywords id="Style Tags"  color="#881280" font-style="italic">
-                    <regex>(\A&lt;\Z)</regex>
-                    <regex>(&lt;(?i)/style[^&gt;]*&gt;)</regex>
-                </keywords>
-
-                <state id="Opening Style Tag" color="#881280" font-style="italic" usesymbolsfrommode="HTML" useautocompletefrommode="HTML">
-                    <begin><regex>\A(?i)style</regex></begin>
-                    <end><regex>&gt;</regex></end>
-        
-                    <import mode="XML" state="Tags" />
-                </state>
-                
+                <import mode="XML" keywords-only="yes"/>
             </state>
-
             <state id="Inline Javascript" color="#000" usesymbolsfrommode="Javascript" useautocompletefrommode="Javascript" foldable="yes">
-                <begin><regex>&lt;(?=(?i)script)</regex></begin>
-                <end><regex>(?i)/script&gt;</regex></end>
-    
-                <import mode="Javascript" />
-
-                <keywords id="Script Tags"  color="#881280" font-style="italic">
-                    <regex>(\A&lt;\Z)</regex>
-                    <regex>(&lt;(?i)/script[^&gt;]*&gt;)</regex>
-                </keywords>
-
-                <state id="Opening Script Tag" color="#881280" font-style="italic" usesymbolsfrommode="HTML" useautocompletefrommode="HTML">
-                    <begin><regex>\A(?i)script</regex></begin>
-                    <end><regex>&gt;</regex></end>
-        
-                    <import mode="XML" state="Tags" />
-                </state>
-                
+                <begin>
+                    <regex>&lt;[ \t]*(?i)script[^>]*></regex>
+                </begin>
+                <end>
+                    <regex>(?i)&lt;[ \t]*/[ \t]*script[ \t]*></regex>
+                </end>
+                <import mode="Javascript"/>
+                <import mode="XML" keywords-only="yes"/>
+            </state>
+            <state id="Tag State" font-style="normal" foldable="yes">
+                <begin>
+                    <regex>(?:&lt;[^/?!][^>]*?[^/]>|&lt;.>)</regex>
+                </begin>
+                <end>
+                    <regex>&lt;[/][^>]*?[^/]></regex>
+                </end>
+                <import mode="XML" keywords-only="yes"/>
+                <import mode="HTML"/>
             </state>
         </default>
-
     </states>
-
 </syntax>
