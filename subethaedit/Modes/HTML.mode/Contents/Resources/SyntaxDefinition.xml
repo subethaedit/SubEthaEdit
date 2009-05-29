@@ -7,7 +7,7 @@
         <!-- The definitions title -->
         <charsintokens>_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@"</charsintokens>
         <charsincompletion>_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@&lt;/=!></charsincompletion>
-        <folding toplevel="3" />
+        <folding toplevel="3"/>
     </head>
     <states>
         <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="HTML" useautocompletefrommode="HTML">
@@ -38,6 +38,7 @@
                 <import mode="XML" keywords-only="yes"/>
             </state>
             <state id="Tag State" font-style="normal" foldable="yes">
+                <!-- Needed here to import HTML specific states -->
                 <begin>
                     <regex>(?:&lt;[^/?!][^>]*?[^/]>|&lt;.>)</regex>
                 </begin>
@@ -45,7 +46,7 @@
                     <regex>&lt;[/][^>]*?[^/]></regex>
                 </end>
                 <import mode="XML" keywords-only="yes"/>
-                <import mode="HTML"/>
+                <import/>
             </state>
         </default>
     </states>
