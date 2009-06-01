@@ -1211,20 +1211,24 @@ typedef union {
 
 
 - (NSRange)doubleClickAtIndex:(unsigned)index {
+//	NSLog(@"atindex:%d",index);
     NSRange result=[super doubleClickAtIndex:index];
     NSRange colonRange;
     NSString *string=[self string];
+    // now that we have a result we separate it using the colons so doubleClick don't selected over colons (especially important for Objective-C methods
+    // we do this by searching the result range for colons and separate 3 cases:
+    
     while (((colonRange = [string rangeOfString:@":" options:NSLiteralSearch range:result]).location != NSNotFound)) {
         if (index <= colonRange.location) {
-			if (colonRange.location - result.location > 0) { // make sure new length is greater than zero, otherwise hell ensues when automatic url recognition comes along
-				result.length = colonRange.location-result.location;
+			if (colonRange.location - result.location > 0) {
+				result.length = MAX(colonRange.location,index+1)-result.location;
 			}
             break;
         } else {
             result = NSMakeRange(NSMaxRange(colonRange),NSMaxRange(result)-NSMaxRange(colonRange));
         }
     }
-//	NSLog(@"doubleClickAtIndex:%d returned: %@",index,NSStringFromRange(result));
+//	NSLog(@"doubleClickAtIndex:%d returned: %@ (%@)",index,NSStringFromRange(result),[string substringWithRange:result]);
     return result;
 }
 
