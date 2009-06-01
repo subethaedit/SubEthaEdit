@@ -12,7 +12,7 @@
     <states>
         <default id="Base" color="#000" background-color="#fff" font-style="normal">
             <keywords id="Tags" color="#881280" font-style="italic" useforautocomplete="no">
-                <regex>(&lt;[/\s]*[^/?!][-_\w]*\s*(?:[-_\w]+=(?:".*?"|'.*?')\s*)*[/\s]*>)</regex>
+                <regex>(&lt;[/\s]*[^/?!][-:_\w]*\s*(?:[-:_\w]+=(?:".*?"|'.*?'|\w+)\s*)*[/\s]*>)</regex>
             </keywords>
             <keywords id="Attributes in Tags" color="#994500" useforautocomplete="no">
                 <regex>([\w-]*)(?=[ \t]*=[^&lt;]+>)</regex>
@@ -62,7 +62,7 @@
             </state>
             <state id="Single Tag" foldable="no">
                 <begin>
-                    <regex>&lt;\s*[^/?!][-_\w]*\s*(?:[-_\w]+=(?'xmlsingletagsstring'["']).*?\k'xmlsingletagsstring'\s*)*/\s*(?=>)</regex>
+                    <regex>&lt;\s*[^/?!][-:_\w]*\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*/\s*(?=>)</regex>
                 </begin>
                 <end>
                     <regex>></regex>
@@ -71,7 +71,7 @@
             </state>
             <state id="Tag State" foldable="yes">
                 <begin>
-                    <regex>&lt;\s*[^/?!][-_\w]*(?:\s*[-_\w]+=(?'xmltagstatestring'["']).*?\k'xmltagstatestring')*\s*></regex>
+                    <regex>&lt;\s*[^/?!][-:_\w]*\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*></regex>
                 </begin>
                 <end>
                     <regex>&lt;\s*/[^>]+></regex>

@@ -41,7 +41,7 @@
             </state>
             <state id="Single Tag" foldable="no">
                 <begin>
-                    <regex>&lt;\s*[^/?!][-_\w]*\s*(?:[-_\w]+=(?'xmlsingletagsstring'["']).*?\k'xmlsingletagsstring'\s*)*/\s*(?=>)</regex>
+                    <regex>&lt;\s*[^/?!][-:_\w]*\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*/\s*(?=>)</regex>
                 </begin>
                 <end>
                     <regex>></regex>
@@ -51,7 +51,7 @@
             </state>
             <state id="Tag State" font-style="normal" foldable="yes">
                 <begin>
-                    <regex>&lt;\s*[^/?!][-_\w]*(?:\s*[-_\w]+=(?'htmltagstatestring'["']).*?\k'htmltagstatestring')*\s*></regex>
+                    <regex>&lt;\s*[^/?!][-:_\w]*\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*></regex>
                 </begin>
                 <end>
                     <regex>&lt;\s*/[^>]+></regex>
