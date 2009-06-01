@@ -12,7 +12,7 @@
     <states>
         <default id="Base" color="#000" background-color="#fff" font-style="normal">
             <keywords id="Tags" color="#881280" font-style="italic" useforautocomplete="no">
-                <regex>(&lt;[^>]+>)</regex>
+                <regex>(&lt;[/\s]*(?:[^/?!][-_\w]*)(?:\s*(?:[-_\w]+)=(?:"[^"]*"|'[^']*')\s*)*[/\s]*>)</regex>
             </keywords>
             <keywords id="Attributes in Tags" color="#994500" useforautocomplete="no">
                 <regex>([\w-]*)(?=[ \t]*=[^&lt;]+>)</regex>
@@ -62,19 +62,19 @@
             </state>
             <state id="Single Tag" foldable="no">
                 <begin>
-                    <regex>&lt;[^/](?=[^>]*/>)</regex>
+                    <regex>&lt;\s*(?'tagname'[^/?!][-_\w]*)(?'attribute'\s*(?'attributename'[-_\w]+)=(?'attributevalue'"[^"]*"|'[^']*')\s*)*\s*/\s*(?=>)</regex>
                 </begin>
                 <end>
-                    <regex>/[ \t]*></regex>
+                    <regex>></regex>
                 </end>
                 <import/>
             </state>
             <state id="Tag State" foldable="yes">
                 <begin>
-                    <regex>(?:&lt;[^/?!][^>]*?[^/]>|&lt;.>)</regex>
+                    <regex>&lt;\s*(?'tagname'[^/?!][-_\w]*)(?'attribute'\s*(?'attributename'[-_\w]+)=(?'attributevalue'"[^"]*"|'[^']*')\s*)*\s*></regex>
                 </begin>
                 <end>
-                    <regex>&lt;[/][^>]*?[^/]></regex>
+                    <regex>&lt;\s*/\s*(?'tagname'[^/?!][-_\w]*)(?'attribute'\s*(?'attributename'[-_\w]+)=(?'attributevalue'"[^"]*"|'[^']*')\s*)*\s*></regex>
                 </end>
                 <import/>
             </state>

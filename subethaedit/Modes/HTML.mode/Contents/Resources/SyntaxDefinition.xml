@@ -40,10 +40,10 @@
             <state id="Tag State" font-style="normal" foldable="yes">
                 <!-- Needed here to import HTML specific states -->
                 <begin>
-                    <regex>(?:&lt;[^/?!][^>]*?[^/]>|&lt;.>)</regex>
+                    <regex>&lt;\s*(?'tagname'[^/?!][-_\w]*)(?'attribute'\s*(?'attributename'[-_\w]+)=(?'attributevalue'"[^"]*"|'[^']*')\s*)*\s*></regex>
                 </begin>
                 <end>
-                    <regex>&lt;[/][^>]*?[^/]></regex>
+                    <regex>&lt;\s*/\s*(?'tagname'[^/?!][-_\w]*)(?'attribute'\s*(?'attributename'[-_\w]+)=(?'attributevalue'"[^"]*"|'[^']*')\s*)*\s*></regex>
                 </end>
                 <import mode="XML" keywords-only="yes"/>
                 <import/>
