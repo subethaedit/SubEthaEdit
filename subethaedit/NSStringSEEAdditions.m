@@ -646,8 +646,17 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
 				{
 					if ( outEncoding )
 					{
-						*outEncoding = CFStringConvertEncodingToNSStringEncoding(cfEncoding);
-						success = YES;
+						NSStringEncoding foundEncoding = CFStringConvertEncodingToNSStringEncoding(cfEncoding);
+						// if we find a utf16 variant then this makes no sense as we found it in a text that was 8bit interpreted so we return no
+						if (foundEncoding != NSUnicodeStringEncoding && 
+							foundEncoding != 0x94000100 && // NSUTF16LittleEndianStringEncoding || 
+							foundEncoding != 0x90000100 && // NSUTF16BigEndianStringEncoding || 
+							foundEncoding != 0x98000100 && // NSUTF32BigEndianStringEncoding || 
+							foundEncoding != 0x9c000100 && // NSUTF32LittleEndianStringEncoding || 
+							foundEncoding != 0x8c000100 ) { //NSUTF32StringEncoding) {
+							*outEncoding = foundEncoding;
+							success = YES;
+						}
 					}
 					else
 					{

@@ -3296,7 +3296,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 //		NSLog(@"%s %@",__FUNCTION__,stateDictionary);
 		if ([stateDictionary isKindOfClass:[NSDictionary class]]) {
 			I_stateDictionaryFromLoading = [stateDictionary retain];
-			NSLog(@"%s %@",__FUNCTION__,stateDictionary);
+//			NSLog(@"%s %@",__FUNCTION__,stateDictionary);
 		}
 	
 
@@ -3455,7 +3455,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 success = [textStorage readFromData:fileData encoding:encoding];
                 if (success) [[EncodingManager sharedInstance] activateEncoding:encoding];
     #ifndef TCM_NO_DEBUG
-        [_readFromURLDebugInformation appendFormat:@"--> 2. Step - reading encoding/charset setting from html/xml/css:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n",success,[options description],[docAttrs description],(success?nil:*outError)];
+        [_readFromURLDebugInformation appendFormat:@"--> 2. Step - reading encoding/charset setting from html/xml/css:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n iana-encoding-name:%@",success,[options description],[docAttrs description],(success?nil:*outError),[(NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(encoding)) autorelease]];
     #endif
             }
         }
@@ -5968,7 +5968,7 @@ static NSString *S_measurementUnits;
 	}
 	
 	// here we could check our xtended attribute data for length and use less depth with the foldings 
-	NSLog(@"%s %@",__FUNCTION__,stateDictionary);
+//	NSLog(@"%s %@",__FUNCTION__,stateDictionary);
 	return TCM_BencodedObject(stateDictionary);
 }
 
