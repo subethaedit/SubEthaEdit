@@ -420,7 +420,7 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
 	            [aString addAttributes:attributes range:matchedRange]; // only color last matched subgroup - it is important that all regex keywords have exactly and only one matching group for this to work
                 if ([attributes objectForKey:NSLinkAttributeName]) {
                     NSURL *theURL = [NSURL URLWithString:[aMatch lastMatchSubstring]];
-                    if (theURL) [aString addAttribute:NSLinkAttributeName value:theURL range:matchedRange];
+                    if (theURL&&[theURL host]) [aString addAttribute:NSLinkAttributeName value:theURL range:matchedRange];
                     else [aString removeAttribute:NSLinkAttributeName range:matchedRange];
                 }
 	        }
