@@ -27,36 +27,19 @@
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
             </state>
 
-            <state id="Block" color="#000" background-color="#fff" font-weight="normal" font-style="normal" type="block" foldable="yes">
-                <begin><regex>{</regex></begin>
+            <state id="Block" type="block" foldable="yes">
+                <begin><regex>(?:^[ \t]*[-+][^(-;]*\([A-Za-z0-9 *_]*\)[A-Za-z0-9_ \t]+)?{</regex></begin>
                 <end><regex>}</regex></end>
                 <import mode="C" keywords-only="yes" />
-                <import mode="Objective-C" />
+                <import />
             </state>
 
-            <state id="Objective-C-@-clauses" color="#000" background-color="#fff" font-weight="normal" font-style="normal" type="block" foldable="yes">
+            <state id="Objective-C @clauses" type="block" foldable="yes">
                 <begin><regex>(?:@implementation|@interface|@protocol)\s+[\w_]+(?:\s*(?:(?:\(\s*[\w_]+\s*\))|:\s*[\w_]+\s*))?</regex></begin>
                 <end><regex>@end</regex></end>
-                <!-- needs to be done again because a bug in import -->
                 <import mode="C" keywords-only="yes" />
-                <import mode="Objective-C" />
+                <import />
             </state>
-
-
-            <!-- does influence folding indication in a imho negative way when editing (dom) (also is very perfomance intensive as it turns out
-            <state id="Message" color="#000" background-color="#fff" font-weight="normal" font-style="normal" type="block" foldable="no">
-                <begin><regex>\[</regex></begin>
-                <end><regex>\]</regex></end>
-                <import mode="C" keywords-only="yes" />
-                <import mode="Objective-C" />
-                <keywords id="In Messages" color="#6C0540" casesensitive="yes">
-                    <regex>[^:]\([^)]*\)\s*([A-Za-z0-9_]+)\s*[{;]</regex>
-                    <regex>\)\s*([A-Za-z0-9_]+:)</regex>
-                    <regex>\s([A-Za-z0-9_]+:)</regex>
-                    <regex>(?&lt;![:\s])\s+([A-Za-z0-9_]+)]</regex>
-                </keywords>
-            </state>
-            -->
 
             <keywords id="Methods" color="#6C0540" casesensitive="yes">
                 <regex>[^:]\([^)]*\)\s*([A-Za-z0-9_]+)\s*[{;]</regex>
@@ -64,7 +47,6 @@
                 <regex>\s([A-Za-z0-9_]+:)</regex>
                 <regex>(?&lt;![:\s])\s+([A-Za-z0-9_]+)]</regex>
             </keywords>
-
             
             <keywords id="Cocoa Classes" color="#400080" background-color="#fff" font-weight="normal" font-style="normal" casesensitive="yes" useforautocomplete="yes">
                 <string>NSAccessibility</string>

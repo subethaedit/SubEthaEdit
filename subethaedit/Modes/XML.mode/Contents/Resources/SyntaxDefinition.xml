@@ -60,7 +60,7 @@
                     <regex>\?></regex>
                 </end>
             </state>
-            <state id="Single Tag" font-style="italic" foldable="no">
+            <state id="Single Tag" foldable="no">
                 <begin>
                     <regex>&lt;[^/](?=[^>]*/>)</regex>
                 </begin>
@@ -69,7 +69,7 @@
                 </end>
                 <import/>
             </state>
-            <state id="Tag State" font-style="normal" foldable="yes">
+            <state id="Tag State" foldable="yes">
                 <begin>
                     <regex>(?:&lt;[^/?!][^>]*?[^/]>|&lt;.>)</regex>
                 </begin>
