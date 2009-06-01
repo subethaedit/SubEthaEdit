@@ -252,6 +252,32 @@
                     <keywords id="CSS Attributes" font-style="italic" color="#9B4400" useforautocomplete="yes" casesensitive="no">
                         <string>inherit</string>
                         <string>none</string>
+                        <string>Geneva</string>
+                        <string>Verdana</string>
+                        <string>Helvetica</string>
+                        <string>Arial</string>
+                        <string>Times</string>
+                        <string>Courier</string>
+                        <string>Monaco</string>
+                        <string>Capitals</string>
+                        <string>Chicago</string>
+                        <string>Charcoal</string>
+                        <string>Gadget</string>
+                        <string>Impact</string>
+                        <string>Palatino</string>
+                        <string>Sand</string>
+                        <string>Skia</string>
+                        <string>System</string>
+                        <string>Tahoma</string>
+                        <string>Techno</string>
+                        <string>Terminal</string>
+                        <string>Textile</string>
+                        <string>fantasy</string>
+                        <string>fixedsys</string>
+                        <string>cursive</string>
+                        <string>monospace</string>
+                        <string>sans-serif</string>
+                        <string>serif</string>
                         <string>hidden</string>
                         <string>dotted</string>
                         <string>dashed</string>
