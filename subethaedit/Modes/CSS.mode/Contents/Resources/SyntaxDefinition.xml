@@ -5,7 +5,7 @@
     <head>
         <name>CSS</name>
         <!-- The definitions title -->
-        <charsintokens>_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@</charsintokens>
+        <charsintokens>_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@</charsintokens>
         <charsincompletion>_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@</charsincompletion>
     </head>
     <states>
