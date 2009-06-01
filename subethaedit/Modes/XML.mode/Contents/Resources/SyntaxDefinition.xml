@@ -71,7 +71,7 @@
             </state>
             <state id="Tag State" foldable="yes">
                 <begin>
-                    <regex>&lt;\s*[^/?!][-_\w]*(?:\s*[-_\w]+=(?'xmltagstatestring'["']).*?\k'xmltagstatestring')*\s*(?=>)</regex>
+                    <regex>&lt;\s*[^/?!][-_\w]*(?:\s*[-_\w]+=(?'xmltagstatestring'["']).*?\k'xmltagstatestring')*\s*></regex>
                 </begin>
                 <end>
                     <regex>&lt;\s*/[^>]+></regex>

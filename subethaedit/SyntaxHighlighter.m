@@ -93,7 +93,7 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
 
 
     // Clean up state attributes in the string we work on now
-	NSArray *attributesToCleanup = [NSArray arrayWithObjects:kSyntaxHighlightingStackName,kSyntaxHighlightingStateDelimiterName,kSyntaxHighlightingTypeAttributeName,kSyntaxHighlightingParentModeForSymbolsAttributeName,kSyntaxHighlightingParentModeForAutocompleteAttributeName,kSyntaxHighlightingIsCorrectAttributeName,kSyntaxHighlightingFoldableAttributeName,kSyntaxHighlightingFoldingDepthAttributeName,nil];
+	NSArray *attributesToCleanup = [NSArray arrayWithObjects:kSyntaxHighlightingStackName,kSyntaxHighlightingStateDelimiterName,kSyntaxHighlightingTypeAttributeName,kSyntaxHighlightingParentModeForSymbolsAttributeName,kSyntaxHighlightingParentModeForAutocompleteAttributeName,kSyntaxHighlightingIsCorrectAttributeName,kSyntaxHighlightingFoldableAttributeName,kSyntaxHighlightingFoldingDepthAttributeName,NSLinkAttributeName,nil];
     [aString removeAttributes:attributesToCleanup range:aRange];
 
     NSMutableDictionary *scratchAttributes = [NSMutableDictionary dictionary];
@@ -412,17 +412,17 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
         NSArray *currentRegexStyle = [regexArray objectAtIndex:i];
         aRegex = [currentRegexStyle objectAtIndex:0];
         NSString *styleID = [currentRegexStyle objectAtIndex:1];
-
-        NSDictionary *attributes=[theDocument styleAttributesForStyleID:styleID];
-                
+        NSDictionary *attributes=[theDocument styleAttributesForStyleID:styleID];                
         NSEnumerator *matchEnumerator = [[aRegex allMatchesInString:theString range:aRange] objectEnumerator];
         while ((aMatch = [matchEnumerator nextObject])) {
-//        	if ([styleID hasSuffix:@"Methods"]) { // for debugging
-//        		NSLog(@"%s %@ %@",__FUNCTION__,styleID,aMatch);
-//        	}
         	NSRange matchedRange = [aMatch rangeOfLastMatchSubstring];
         	if (matchedRange.location != NSNotFound) {
 	            [aString addAttributes:attributes range:matchedRange]; // only color last matched subgroup - it is important that all regex keywords have exactly and only one matching group for this to work
+                if ([attributes objectForKey:NSLinkAttributeName]) {
+                    NSURL *theURL = [NSURL URLWithString:[aMatch lastMatchSubstring]];
+                    if (theURL) [aString addAttribute:NSLinkAttributeName value:theURL range:matchedRange];
+                    else [aString removeAttribute:NSLinkAttributeName range:matchedRange];
+                }
 	        }
         }
     }
@@ -592,7 +592,7 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
 {
     [aTextStorage beginEditing];
     if ([aTextStorage respondsToSelector:@selector(beginLinearAttributeChanges)]) [(id)aTextStorage beginLinearAttributeChanges];
-    [aTextStorage removeAttributes:[NSArray arrayWithObjects:kSyntaxHighlightingIsCorrectAttributeName,kSyntaxHighlightingStackName,kSyntaxHighlightingStateDelimiterName,kSyntaxHighlightingTypeAttributeName,kSyntaxHighlightingParentModeForAutocompleteAttributeName,kSyntaxHighlightingParentModeForSymbolsAttributeName,nil] range:aRange];
+    [aTextStorage removeAttributes:[NSArray arrayWithObjects:kSyntaxHighlightingIsCorrectAttributeName,kSyntaxHighlightingStackName,kSyntaxHighlightingStateDelimiterName,kSyntaxHighlightingTypeAttributeName,kSyntaxHighlightingParentModeForAutocompleteAttributeName,kSyntaxHighlightingParentModeForSymbolsAttributeName,NSLinkAttributeName,nil] range:aRange];
     if ([aTextStorage respondsToSelector:@selector(endLinearAttributeChanges)]) [(id)aTextStorage endLinearAttributeChanges];
     [aTextStorage endEditing];
 }

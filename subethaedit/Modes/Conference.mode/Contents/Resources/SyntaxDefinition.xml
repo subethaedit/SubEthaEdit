@@ -41,7 +41,7 @@
                 <regex>(\*\w+\*)</regex>
             </keywords>
 
-            <keywords id="Emails and URLs" color="#0000ff" inverted-color="#4939ff" casesensitive="no">
+            <keywords id="Emails and URLs" color="#0000ff" inverted-color="#4939ff" casesensitive="no" type="url">
                 <regex>\b([A-Z0-9._%-]+@[A-Z0-9._%-]+\.[A-Z]{2,4})\b</regex>
                 <regex>\b(\S+://[^\s&lt;&gt;]+)</regex>
             </keywords>

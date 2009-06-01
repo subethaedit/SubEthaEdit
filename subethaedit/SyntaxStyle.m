@@ -62,7 +62,7 @@ static NSArray *S_possibleStyleColors;
     NSMutableDictionary *styleDictionary = [NSMutableDictionary dictionary];
     NSMutableArray *possibleKeys = [NSMutableArray array];
     [possibleKeys addObjectsFromArray:S_possibleStyleColors];
-    [possibleKeys addObjectsFromArray:[NSArray arrayWithObjects:@"font-trait",kSyntaxHighlightingStyleIDAttributeName,nil]];
+    [possibleKeys addObjectsFromArray:[NSArray arrayWithObjects:@"font-trait",@"type",kSyntaxHighlightingStyleIDAttributeName,nil]];
     
     NSEnumerator *enumerator = [possibleKeys objectEnumerator];
     id key;

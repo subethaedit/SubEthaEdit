@@ -12,11 +12,13 @@
     <states>
         <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="HTML" useautocompletefrommode="HTML">
             <import mode="XML" keywords-only="yes"/>
+            <keywords id="href links" type="url" color="#1A1AA6" useforautocomplete="no">
+                <regex>\shref\s*=\s*"([^"]*)"(?=[^&lt;]*>)</regex>
+            </keywords>
             <state-link mode="XML" state="Comment"/>
             <state-link mode="XML" state="CDATA"/>
             <state-link mode="XML" state="Doctype"/>
             <state-link mode="XML" state="Escape"/>
-            <state-link mode="XML" state="Single Tag"/>
             <state id="Inline CSS" color="#000" font-style="italic" usesymbolsfrommode="CSS" useautocompletefrommode="CSS" foldable="yes">
                 <begin>
                     <regex>&lt;[ \t]*(?i)style[^>]*></regex>
@@ -37,16 +39,25 @@
                 <import mode="Javascript"/>
                 <import mode="XML" keywords-only="yes"/>
             </state>
-            <state id="Tag State" font-style="normal" foldable="yes">
-                <!-- Needed here to import HTML specific states -->
+            <state id="Single Tag" foldable="no">
                 <begin>
-                    <regex>&lt;\s*[^/?!][-_\w]*(?:\s*[-_\w]+=(?'htmltagstatestring'["']).*?\k'htmltagstatestring')*\s*(?=>)</regex>
+                    <regex>&lt;\s*[^/?!][-_\w]*\s*(?:[-_\w]+=(?'xmlsingletagsstring'["']).*?\k'xmlsingletagsstring'\s*)*/\s*(?=>)</regex>
+                </begin>
+                <end>
+                    <regex>></regex>
+                </end>
+                <import mode="XML" keywords-only="yes"/>
+                <import mode="HTML"/>
+            </state>
+            <state id="Tag State" font-style="normal" foldable="yes">
+                <begin>
+                    <regex>&lt;\s*[^/?!][-_\w]*(?:\s*[-_\w]+=(?'htmltagstatestring'["']).*?\k'htmltagstatestring')*\s*></regex>
                 </begin>
                 <end>
                     <regex>&lt;\s*/[^>]+></regex>
                 </end>
                 <import mode="XML" keywords-only="yes"/>
-                <import/>
+                <import mode="HTML"/>
             </state>
         </default>
     </states>

@@ -4734,7 +4734,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 		NSLog(@"%s was called with a styleID of nil",__FUNCTION__);
 		return [NSDictionary dictionary];
 	}
-    NSDictionary *result=[I_styleCacheDictionary objectForKey:aStyleID];
+    NSMutableDictionary *result=[I_styleCacheDictionary objectForKey:aStyleID];
     if (!result) {
         DocumentMode *documentMode=[self documentMode];
         BOOL darkBackground=[[documentMode defaultForKey:DocumentModeBackgroundColorIsDarkPreferenceKey] boolValue];
@@ -4773,7 +4773,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 #endif //defined(CODA)
 		
         NSColor *foregroundColor=[style objectForKey:darkBackground?@"inverted-color":@"color"];
-        result=[NSDictionary dictionaryWithObjectsAndKeys:font,NSFontAttributeName,
+                
+        result=[NSMutableDictionary dictionaryWithObjectsAndKeys:font,NSFontAttributeName,
             foregroundColor,NSForegroundColorAttributeName,
             aStyleID,@"styleID",
 #if defined(CODA)
@@ -4782,7 +4783,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             [NSNumber numberWithFloat:obliquenessFactor],NSObliquenessAttributeName,
             [NSNumber numberWithFloat:strokeWidth],NSStrokeWidthAttributeName,
             nil];
-			
+        
+        if ([[style objectForKey:@"type"] isEqualToString:@"url"]) [result setObject:@"link" forKey:NSLinkAttributeName];
 			
 		if ( aStyleID && result ) 
 			[I_styleCacheDictionary setObject:result forKey:aStyleID];
