@@ -71,10 +71,10 @@
             </state>
             <state id="Tag State" foldable="yes">
                 <begin>
-                    <regex>&lt;\s*[^/?!][-:_\w]*\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*></regex>
+                    <regex>&lt;\s*(?'xmltagstatename'[^/?!][-:_\w]*)\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*></regex>
                 </begin>
                 <end>
-                    <regex>&lt;\s*/[^>]+></regex>
+                    <regex>&lt;\s*/\s*(?#see-insert-start-group:xmltagstatename)\s*></regex>
                 </end>
                 <import/>
             </state>

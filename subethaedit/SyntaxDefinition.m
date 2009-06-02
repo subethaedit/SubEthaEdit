@@ -262,7 +262,7 @@
                     [stateDictionary setObject:endRegex forKey:@"EndsWithRegex"];
                 [stateDictionary setObject:regexEnd forKey:@"EndsWithRegexString"];
             } else {
-                [self showWarning:NSLocalizedString(@"XML Regex Error",@"XML Regex Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"State '%@' in %@ mode has a begin tag that is not a valid regex",@"Syntax State Malformed Begin Error Informative Text"), [stateDictionary objectForKey:@"id"], [self name]]];
+                [self showWarning:NSLocalizedString(@"XML Regex Error",@"XML Regex Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"State '%@' in %@ mode has a end tag that is not a valid regex",@"Syntax State Malformed Begin Error Informative Text"), [stateDictionary objectForKey:@"id"], [self name]]];
             }
         } else if (stringEnd) {
             [stateDictionary setObject:stringEnd forKey:@"EndsWithPlainString"];
