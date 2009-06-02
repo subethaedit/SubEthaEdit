@@ -24,6 +24,7 @@
                     <string>background-image</string>
                     <string>background-position</string>
                     <string>background-repeat</string>
+                    <string>behavior</string>
                     <string>border-collapse</string>
                     <string>border-spacing</string>
                     <string>border-top-color</string>

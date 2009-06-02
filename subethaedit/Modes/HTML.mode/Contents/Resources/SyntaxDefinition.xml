@@ -13,7 +13,7 @@
         <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="HTML" useautocompletefrommode="HTML">
             <import mode="XML" keywords-only="yes"/>
             <keywords id="href links" type="url" color="#1A1AA6" useforautocomplete="no">
-                <regex>\shref\s*=\s*"([^"]*)"(?=[^&lt;]*>)</regex>
+                <regex>\s(href|src)\s*=\s*"([^"]*)"(?=[^&lt;]*>)</regex>
             </keywords>
             <state-link mode="XML" state="Comment"/>
             <state-link mode="XML" state="CDATA"/>
@@ -28,6 +28,7 @@
                 </end>
                 <import mode="CSS"/>
                 <import mode="XML" keywords-only="yes"/>
+                <import keywords-only="yes"/>
             </state>
             <state id="Inline Javascript" color="#000" usesymbolsfrommode="Javascript" useautocompletefrommode="Javascript" foldable="yes">
                 <begin>
@@ -38,6 +39,7 @@
                 </end>
                 <import mode="Javascript"/>
                 <import mode="XML" keywords-only="yes"/>
+                <import keywords-only="yes"/>
             </state>
             <state id="Single Tag" foldable="no">
                 <begin>
@@ -47,14 +49,14 @@
                     <regex>></regex>
                 </end>
                 <import mode="XML" keywords-only="yes"/>
-                <import mode="HTML"/>
+                <import keywords-only="yes"/>
             </state>
             <state id="Tag State" font-style="normal" foldable="yes">
                 <begin>
-                    <regex>&lt;\s*[^/?!][-:_\w]*\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*></regex>
+                    <regex>&lt;\s*(?'xmltagstatename'[^/?!][-:_\w]*)\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*></regex>
                 </begin>
                 <end>
-                    <regex>&lt;\s*/[^>]+></regex>
+                    <regex>&lt;\s*/\s*(?#see-insert-start-group:xmltagstatename)\s*></regex>
                 </end>
                 <import mode="XML" keywords-only="yes"/>
                 <import mode="HTML"/>
