@@ -33,6 +33,8 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
 @implementation SyntaxHighlighter
 /*"A Syntax Highlighter"*/
 
+static  NSMutableDictionary *S_transientRegexCache = nil;
+
 #pragma mark - 
 #pragma mark - Initizialisation (fizzle televizzle)
 #pragma mark - 
@@ -45,6 +47,7 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
     if (self) {
         [self setSyntaxDefinition:aSyntaxDefinition];
         //NSLog(@"Using onigruma %@",[OGRegularExpression onigurumaVersion]);
+        if (!S_transientRegexCache) S_transientRegexCache = [NSMutableDictionary new];
     }
     DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Initiated new SyntaxHighlighter:%@",[self description]);
     return self;
@@ -129,8 +132,12 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
 		// If using transcendence we have to compile on the fly.
 		if (!stateDelimiter) {
 			NSString *combinedDelimiterString = [[stack lastObject] objectForKey:@"combinedDelimiterString"];
-			if (combinedDelimiterString && [OGRegularExpression isValidExpressionString:combinedDelimiterString]) {
-				stateDelimiter = [[[OGRegularExpression alloc] initWithString:combinedDelimiterString options:OgreFindNotEmptyOption|OgreCaptureGroupOption] autorelease];
+            stateDelimiter = [S_transientRegexCache objectForKey:combinedDelimiterString];
+            if (!stateDelimiter) {
+                if (combinedDelimiterString && [OGRegularExpression isValidExpressionString:combinedDelimiterString]) {
+                    stateDelimiter = [[[OGRegularExpression alloc] initWithString:combinedDelimiterString options:OgreFindNotEmptyOption|OgreCaptureGroupOption] autorelease];
+                    if (stateDelimiter) [S_transientRegexCache setObject:stateDelimiter forKey:combinedDelimiterString];
+                }
 			}
 		}
         
@@ -202,7 +209,9 @@ NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
 					for (i=0;i<count;i++) {
 						NSString *groupName = [captureGroups objectAtIndex:i];
 						NSString *replacement = [[delimiterMatch substringNamed:groupName] stringByReplacingRegularExpressionOperators];
-						if (groupName && replacement) [combinedDelimiterString replaceOccurrencesOfString:[NSString stringWithFormat:@"(?#see-insert-start-group:%@)",groupName] withString:replacement options:0 range:NSMakeRange(0,[combinedDelimiterString length])];
+						if (groupName && replacement) {
+                            [combinedDelimiterString replaceOccurrencesOfString:[NSString stringWithFormat:@"(?#see-insert-start-group:%@)",groupName] withString:replacement options:0 range:NSMakeRange(0,[combinedDelimiterString length])];
+                        }
 					}
 				}
 				
