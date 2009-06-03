@@ -490,8 +490,12 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
             NSString *fileName = [fileNames objectAtIndex:i];
             if ([fileManager fileExistsAtPath:fileName isDirectory:&isDir]) {
                 if (isDir) {
+                	if ([[fileName pathExtension] caseInsensitiveCompare:@"seetext"] == NSOrderedSame) {
+                	   [files addObject:fileName];
+                	} else {
                     //fprintf(stdout, "\"%s\" is a directory.\n", fileName);
                     //fflush(stdout);
+					}
                 } else {
                     [files addObject:fileName];
                 }
