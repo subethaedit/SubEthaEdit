@@ -3455,7 +3455,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 success = [textStorage readFromData:fileData encoding:encoding];
                 if (success) [[EncodingManager sharedInstance] activateEncoding:encoding];
     #ifndef TCM_NO_DEBUG
-        [_readFromURLDebugInformation appendFormat:@"--> 2. Step - reading encoding/charset setting from html/xml/css:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n iana-encoding-name:%@",success,[options description],[docAttrs description],(success?nil:*outError),[(NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(encoding)) autorelease]];
+        [_readFromURLDebugInformation appendFormat:@"--> 2. Step - reading encoding/charset setting from html/xml/css:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n iana-encoding-name:%@",success,[options description],[docAttrs description],(success?nil:*outError),CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(encoding))];
     #endif
             }
         }
