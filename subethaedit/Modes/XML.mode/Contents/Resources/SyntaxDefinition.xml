@@ -12,15 +12,15 @@
     <states>
         <default id="Base" color="#000" background-color="#fff" font-style="normal">
             <keywords id="Tags" color="#881280" font-style="italic" useforautocomplete="no">
-                <regex>(&lt;[/\s]*[^/?!][-:_\w]*\s*(?:[-:_\w]+=(?:".*?"|'.*?'|\w+)\s*)*[/\s]*>)</regex>
+                <regex>(&lt;[/\s]*[^/?!][-:_\w]*\s*(?:[-:_\w]+=(?:".*?"|'.*?'|[\w:]+)\s*)*[/\s]*>)</regex>
             </keywords>
             <keywords id="Attributes in Tags" color="#994500" useforautocomplete="no">
                 <regex>([\w-]*)(?=[ \t]*=[^&lt;]+>)</regex>
             </keywords>
             <keywords id="Strings in Tags" type="string" color="#1A1AA6" useforautocomplete="no">
-                <regex>=[ \t]*("[^"]*")(?=[^&lt;]*>)</regex>
+                <regex>=[ \t]*(".*?"|'.*?')(?=[^&lt;]*>)</regex>
             </keywords>
-            <keywords id="Entities" color="#881280" useforautocomplete="no">
+            <keywords id="Entities" color="#400080" useforautocomplete="no">
                 <regex>(&amp;\w{1,8};)</regex>
                 <regex>(&amp;#[0-9]+;)</regex>
                 <regex>(&amp;#x[A-Fa-f0-9]+;)</regex>

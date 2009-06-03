@@ -17,6 +17,9 @@
                 <end>
                     <regex>}</regex>
                 </end>
+                <keywords id="!important" color="#f00" useforautocomplete="no">
+                    <regex>(!\s*important)</regex>
+                </keywords>
                 <keywords id="CSS Keywords" color="#88134F" font-style="bold" useforautocomplete="yes" casesensitive="no">
                     <string>azimuth</string>
                     <string>background-attachment</string>
@@ -305,15 +308,6 @@
                         <string>bolder</string>
                         <string>lighter</string>
                         <string>light</string>
-                        <string>100</string>
-                        <string>200</string>
-                        <string>300</string>
-                        <string>400</string>
-                        <string>500</string>
-                        <string>600</string>
-                        <string>700</string>
-                        <string>800</string>
-                        <string>900</string>
                         <string>transparent</string>
                         <string>repeat-x</string>
                         <string>repeat-y</string>
@@ -642,7 +636,16 @@
                 <state-link state="Round bracket"/>
             </state>
             
-            <state id="AutodocComment" type="comment" color="#236E25" font-weight="bold" font-style="italic">
+            <state id="Rules" color="#683821" font-weight="bold" font-style="italic">
+                <begin>
+				    <regex>^@[-\w_]+</regex>
+                </begin>
+                <end>
+                    <regex>.(?=[{\n\r])</regex>
+                </end>
+            </state>
+            
+            <state id="AutodocComment" type="comment" color="#236E25" font-weight="bold" font-style="italic" foldable="yes">
                 <begin>
                     <string>/\*"</string>
                 </begin>
@@ -650,7 +653,7 @@
                     <regex>"\*/</regex>
                 </end>
             </state>
-            <state id="Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
+            <state id="Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic" foldable="yes">
                 <begin>
                     <string>/\*</string>
                 </begin>
