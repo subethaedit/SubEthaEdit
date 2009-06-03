@@ -141,6 +141,11 @@ NSScrollView * firstScrollView(NSView *aView) {
 //               baseURL:[NSURL URLWithString:[oBaseUrlTextField stringValue]]];
 }
 
+- (void)windowWillClose:(NSNotification *)aNotification {
+	// when we see our window closing, we empty the contents so no javascript will run in background
+    [[oWebView mainFrame] loadHTMLString:@"" baseURL:nil];
+}
+
 -(IBAction)refreshAndEmptyCache:(id)aSender {
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
     [self reloadWebViewCachingAllowed:NO];
