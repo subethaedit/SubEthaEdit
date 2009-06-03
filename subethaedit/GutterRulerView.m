@@ -10,10 +10,10 @@
 #import "SyntaxHighlighter.h"
 #import "FoldableTextStorage.h"
 
-#define FOLDING_BAR_WIDTH 10.
+#define FOLDING_BAR_WIDTH 11.
 #define RIGHT_INSET  4.
-#define MAX_FOLDING_DEPTH 10.
-#define COLOR_FOR_DEPTH(depth) [NSColor colorWithCalibratedWhite:MAX(1.0 - ((MAX((depth), 0.0) - 0) / MAX_FOLDING_DEPTH), 0.2) alpha:1.0]
+#define MAX_FOLDING_DEPTH 16.
+#define COLOR_FOR_DEPTH(depth) [NSColor colorWithCalibratedWhite:MAX(1.0 - ((MAX((depth), 0.0) - 0) / MAX_FOLDING_DEPTH), 0.0) alpha:1.0]
 
 FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRect) {
 	[COLOR_FOR_DEPTH(aDepth) set];
@@ -35,17 +35,24 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 
 
 @interface NSBezierPath (BezierPathGutterRulerViewAdditions)
++ (NSBezierPath *)trianglePathInRect:(NSRect)aRect arrowPoint:(NSRectEdge)anEdge;
 + (void)fillTriangleInRect:(NSRect)aRect arrowPoint:(NSRectEdge)anEdge;
 @end
 
 @implementation NSBezierPath (BezierPathGutterRulerViewAdditions)
-+ (void)fillTriangleInRect:(NSRect)aRect arrowPoint:(NSRectEdge)anEdge {
-	// ignore edge for the moment
++ (NSBezierPath *)trianglePathInRect:(NSRect)aRect arrowPoint:(NSRectEdge)anEdge {
+	aRect = NSInsetRect(aRect,0.5,0.5);
 	NSBezierPath *path = [NSBezierPath bezierPath];
+	[path setLineWidth:1.0];
+	[path setLineJoinStyle:NSMiterLineJoinStyle];
 	[path moveToPoint:aRect.origin];
 	[path lineToPoint:NSMakePoint(aRect.origin.x,NSMaxY(aRect))];
-	[path lineToPoint:NSMakePoint(NSMaxX(aRect),aRect.origin.y + aRect.size.height / 2.0)];
+	[path lineToPoint:NSMakePoint(NSMaxX(aRect)-1,aRect.origin.y + aRect.size.height / 2.0)];
 	[path closePath];
+	return path;
+}
++ (void)fillTriangleInRect:(NSRect)aRect arrowPoint:(NSRectEdge)anEdge {
+	NSBezierPath *path = [NSBezierPath trianglePathInRect:aRect arrowPoint:anEdge];
 	[path fill];
 }
 @end
@@ -81,7 +88,8 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
         if (!font) font=[NSFont systemFontOfSize:linenumberFontSize];
         attributes=[[NSDictionary dictionaryWithObjectsAndKeys:
                         font,NSFontAttributeName,
-                        [NSColor colorWithCalibratedWhite:0.27 alpha:1.0],NSForegroundColorAttributeName,                        nil] retain];
+                        [NSColor colorWithCalibratedWhite:0.27 alpha:1.0],NSForegroundColorAttributeName,
+                        nil] retain];
         sizeOfZero=[@"0" sizeWithAttributes:attributes];
     }
 
@@ -98,8 +106,10 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
     NSRect bounds = [self bounds];
     NSRect boundingRect,previousBoundingRect,lineFragmentRectForLastCharacter;
     NSColor *delimiterLineColor = [NSColor colorWithCalibratedWhite:0.5 alpha:1.0];
-    NSColor *triangleColor      = [NSColor colorWithCalibratedWhite:0.1 alpha:1.0];
+    NSColor *triangleColor      = [NSColor colorWithCalibratedWhite:1.0 alpha:1.0];
+    NSColor *triangleStrokeColor= [NSColor colorWithCalibratedWhite:0.0 alpha:0.4];
     NSColor *triangleHighlightColor      = [NSColor selectedControlColor];
+    NSColor *triangleHighlightStrokeColor= [NSColor whiteColor];
 
 	NSRange longestEffectiveAttachmentRange;
     NSRange lineRange;
@@ -168,9 +178,13 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 		if (lineRange.length) {
 			[textStorage attribute:NSAttachmentAttributeName atIndex:lineRange.location longestEffectiveRange:&longestEffectiveAttachmentRange inRange:lineRange];
 			if (!NSEqualRanges(lineRange,longestEffectiveAttachmentRange)) {
+				BOOL isHighlighted = (!NSEqualPoints(I_lastMouseDownPoint,NSZeroPoint) && I_lastMouseDownPoint.y >= boundingRect.origin.y && I_lastMouseDownPoint.y <= NSMaxY(boundingRect));
 				// there is an attachment of some kind in our line. so show it
-				[((!NSEqualPoints(I_lastMouseDownPoint,NSZeroPoint) && I_lastMouseDownPoint.y >= boundingRect.origin.y && I_lastMouseDownPoint.y <= NSMaxY(boundingRect)) ? triangleHighlightColor : triangleColor) set];
-				[NSBezierPath fillTriangleInRect:NSMakeRect(foldingAreaRect.origin.x+1, NSMaxY(boundingRect)-visibleRect.origin.y - FOLDING_BAR_WIDTH - (boundingRect.size.height-FOLDING_BAR_WIDTH - 3)/2. ,FOLDING_BAR_WIDTH - 4,FOLDING_BAR_WIDTH - 2) arrowPoint:NSMaxXEdge];
+				NSBezierPath *trianglePath = [NSBezierPath trianglePathInRect:NSMakeRect(foldingAreaRect.origin.x+1, NSMaxY(boundingRect)-visibleRect.origin.y - FOLDING_BAR_WIDTH - (boundingRect.size.height-FOLDING_BAR_WIDTH - 3)/2. ,FOLDING_BAR_WIDTH - 4,FOLDING_BAR_WIDTH - 2) arrowPoint:NSMaxXEdge];
+				[(isHighlighted ? triangleHighlightColor : triangleColor) set];
+				[trianglePath fill];
+				[(isHighlighted ? triangleHighlightStrokeColor : triangleStrokeColor) set];
+				[trianglePath stroke];
 			}
 		}
 
@@ -232,10 +246,15 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 			if (lineRange.length) {
 				[textStorage attribute:NSAttachmentAttributeName atIndex:lineRange.location longestEffectiveRange:&longestEffectiveAttachmentRange inRange:lineRange];
 				if (!NSEqualRanges(lineRange,longestEffectiveAttachmentRange)) {
+					BOOL isHighlighted = (!NSEqualPoints(I_lastMouseDownPoint,NSZeroPoint) && I_lastMouseDownPoint.y + visibleRect.origin.y >= boundingRect.origin.y && I_lastMouseDownPoint.y  + visibleRect.origin.y <= NSMaxY(boundingRect));
 					// there is an attachment of some kind in our line. so show it
 //					NSLog(@"%s mouseDown:%@ boundingRect:%@",__FUNCTION__,NSStringFromPoint(I_lastMouseDownPoint),NSStringFromRect(boundingRect));
-					[((!NSEqualPoints(I_lastMouseDownPoint,NSZeroPoint) && I_lastMouseDownPoint.y + visibleRect.origin.y >= boundingRect.origin.y && I_lastMouseDownPoint.y  + visibleRect.origin.y <= NSMaxY(boundingRect)) ? triangleHighlightColor : triangleColor) set];
-					[NSBezierPath fillTriangleInRect:NSMakeRect(foldingAreaRect.origin.x+1, NSMaxY(boundingRect)-visibleRect.origin.y - FOLDING_BAR_WIDTH - (boundingRect.size.height-FOLDING_BAR_WIDTH - 3)/2. ,FOLDING_BAR_WIDTH - 4,FOLDING_BAR_WIDTH - 2) arrowPoint:NSMaxXEdge];
+					NSBezierPath *trianglePath = [NSBezierPath trianglePathInRect:NSMakeRect(foldingAreaRect.origin.x+1, NSMaxY(boundingRect)-visibleRect.origin.y - FOLDING_BAR_WIDTH - (boundingRect.size.height-FOLDING_BAR_WIDTH - 3)/2. ,FOLDING_BAR_WIDTH - 4,FOLDING_BAR_WIDTH - 2) arrowPoint:NSMaxXEdge];
+					[(isHighlighted ? triangleHighlightColor : triangleColor) set];
+					[trianglePath fill];
+					[(isHighlighted ? triangleHighlightStrokeColor : triangleStrokeColor) set];
+					[trianglePath stroke];
+
 				}
 			}
         }

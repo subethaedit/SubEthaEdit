@@ -1117,6 +1117,8 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 
     if ([[pboard types] containsObject:@"PresentityNames"]) {
         return NSDragOperationGeneric;
+    } else if ([[pboard types] containsObject:@"AIListObjectUniqueIDs"]) {
+    	return NSDragOperationGeneric;
     } else {
         return NSDragOperationNone;
     }
@@ -1128,6 +1130,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 - (BOOL)listView:(TCMListView *)aListView performDragOperation:(id <NSDraggingInfo>)sender{
 //    NSLog(@"%s",__FUNCTION__);
     NSPasteboard *pboard = [sender draggingPasteboard];
+    NSLog(@"%s\n%@",__FUNCTION__,[pboard propertyListForType:@"AIListObjectUniqueIDs"]);
     return [ConnectionBrowserController invitePeopleFromPasteboard:pboard withURL:[self URLForURLImageView:nil]];
 }
 

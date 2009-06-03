@@ -674,6 +674,8 @@
 				<string>id</string>
 				<key>openInSeparateWindow</key>
 				<string>id</string>
+				<key>prettyPrintHTML</key>
+				<string>id</string>
 				<key>prettyPrintXML</key>
 				<string>id</string>
 				<key>refreshWebPreview</key>

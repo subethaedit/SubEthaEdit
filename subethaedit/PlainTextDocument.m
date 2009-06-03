@@ -1478,36 +1478,49 @@ static NSString *tempFileName(NSString *origPath) {
     }
 }
 
+- (void)setContentUsingXMLDocument:(NSXMLDocument *)inDocument {
+	NSString *xmlString = [inDocument XMLStringWithOptions:NSXMLNodePrettyPrint|NSXMLNodePreserveEmptyElements];
+	if ([self tabWidth] != 4 || [self usesTabs]) {
+		OGRegularExpression *spaceMatch = [OGRegularExpression regularExpressionWithString:@"((    )+)<"];
+		NSMutableString *string = [[xmlString mutableCopy] autorelease];
+		NSString *replacementString = [self usesTabs]?@"\t":[@" " stringByPaddingToLength:[self tabWidth] withString:@" " startingAtIndex:0];
+		NSArray *matchArray=[spaceMatch allMatchesInString:xmlString range:NSMakeRange(0,[string length])];
+		NSEnumerator *matches = [matchArray reverseObjectEnumerator];
+		OGRegularExpressionMatch *match = nil;
+		while ((match=[matches nextObject])) {
+			NSRange replacementRange = [match rangeOfSubstringAtIndex:1];
+			int numberOfReplacements = replacementRange.length / 4;
+			while (--numberOfReplacements > 0) {
+				[string replaceCharactersInRange:NSMakeRange(NSMaxRange(replacementRange),0) withString:replacementString];
+			}
+			[string replaceCharactersInRange:replacementRange withString:replacementString];
+		}
+		xmlString = (NSString *)string;
+	}
+	[self performSelector:@selector(setScriptedContents:) withObject:xmlString];
+	// [self clearChangeMarks:aSender];
+}
+
 - (IBAction)prettyPrintXML:(id)aSender {
     NSError *error=nil;
-    NSXMLDocument *document = [[NSXMLDocument alloc] initWithXMLString:[[(FoldableTextStorage *)[self textStorage] fullTextStorage] string] options:NSXMLNodePreserveEmptyElements error:&error];
+    NSXMLDocument *document = [[[NSXMLDocument alloc] initWithXMLString:[[(FoldableTextStorage *)[self textStorage] fullTextStorage] string] options:NSXMLNodePreserveEmptyElements error:&error] autorelease];
     if (document) {
-        NSString *xmlString = [document XMLStringWithOptions:NSXMLNodePrettyPrint|NSXMLNodePreserveEmptyElements];
-        [document release];
-        if ([self tabWidth] != 4 || [self usesTabs]) {
-            OGRegularExpression *spaceMatch = [OGRegularExpression regularExpressionWithString:@"((    )+)<"];
-            NSMutableString *string = [[xmlString mutableCopy] autorelease];
-            NSString *replacementString = [self usesTabs]?@"\t":[@" " stringByPaddingToLength:[self tabWidth] withString:@" " startingAtIndex:0];
-            NSArray *matchArray=[spaceMatch allMatchesInString:xmlString range:NSMakeRange(0,[string length])];
-            NSEnumerator *matches = [matchArray reverseObjectEnumerator];
-            OGRegularExpressionMatch *match = nil;
-            while ((match=[matches nextObject])) {
-                NSRange replacementRange = [match rangeOfSubstringAtIndex:1];
-                int numberOfReplacements = replacementRange.length / 4;
-                while (--numberOfReplacements > 0) {
-                    [string replaceCharactersInRange:NSMakeRange(NSMaxRange(replacementRange),0) withString:replacementString];
-                }
-                [string replaceCharactersInRange:replacementRange withString:replacementString];
-            }
-            xmlString = (NSString *)string;
-        }
-        [self performSelector:@selector(setScriptedContents:) withObject:xmlString];
-        // [self clearChangeMarks:aSender];
+    	[self setContentUsingXMLDocument:document];
     } else {
-        [document release];
         [self presentError:(NSError *)error modalForWindow:[self windowForSheet] delegate:nil didPresentSelector:NULL contextInfo:nil];
     }
 }
+
+- (IBAction)prettyPrintHTML:(id)aSender {
+    NSError *error=nil;
+    NSXMLDocument *document = [[[NSXMLDocument alloc] initWithXMLString:[[(FoldableTextStorage *)[self textStorage] fullTextStorage] string] options:NSXMLDocumentTidyHTML|NSXMLNodePreserveEmptyElements|NSXMLNodePreserveAttributeOrder error:&error] autorelease];
+    if (document) {
+    	[self setContentUsingXMLDocument:document];
+    } else {
+        [self presentError:(NSError *)error modalForWindow:[self windowForSheet] delegate:nil didPresentSelector:NULL contextInfo:nil];
+    }
+}
+
 
 - (IBAction)refreshWebPreview:(id)aSender {
     if (!I_webPreviewWindowController) {

@@ -71,7 +71,7 @@ static NSMutableDictionary *S_childNameAttributes=nil;
 - (id)initWithFrame:(NSRect)frameRect {
     self = [super initWithFrame:frameRect];
     if (self) {
-        [self registerForDraggedTypes:[NSArray arrayWithObjects:@"PresentityNames",nil]];
+        [self registerForDraggedTypes:[NSArray arrayWithObjects:@"PresentityNames",@"AIListObject",@"AIListObjectUniqueIDs",nil]];
         I_dragToItem=-1;
     }
     return self;
