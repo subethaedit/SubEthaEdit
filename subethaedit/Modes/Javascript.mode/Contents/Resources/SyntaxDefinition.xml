@@ -49,12 +49,12 @@
 				<regex>([A-Za-z0-9_]+ *)\(</regex>
             </keywords>
         
-            <state id="AutodocComment" type="comment" color="#236E25" font-weight="bold" font-style="italic">
+            <state id="AutodocComment" type="comment" color="#236E25" font-weight="bold" font-style="italic" foldable="yes">
                 <begin><regex>/\*"</regex></begin>
                 <end><regex>"\*/</regex></end>
             </state>
     
-            <state id="Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
+            <state id="Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic" foldable="yes">
                 <begin><regex>/\*</regex></begin>
                 <end><regex>\*/</regex></end>
             </state>

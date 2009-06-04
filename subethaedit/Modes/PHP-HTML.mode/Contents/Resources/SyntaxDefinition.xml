@@ -3756,7 +3756,7 @@
                     <state-link state="CSSString"/>
                     <state-link state="CSSSingleString"/>
                 </state>
-                <state id="CSSComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
+                <state id="CSSComment" type="comment" color="#236E25" font-weight="normal" font-style="italic" foldable="yes">
                     <begin>
                         <string>/\*</string>
                     </begin>
@@ -3815,7 +3815,7 @@
                     <import state="Tags"/>
                 </state>
                 <state-link state="PHP"/>
-                <state id="JSAutodocComment" type="comment" color="#236E25" font-weight="bold" font-style="italic">
+                <state id="JSAutodocComment" type="comment" color="#236E25" font-weight="bold" font-style="italic" foldable="yes">
                     <begin>
                         <regex>/\*"</regex>
                     </begin>
@@ -3824,7 +3824,7 @@
                     </end>
                     <state-link state="PHP"/>
                 </state>
-                <state id="JSComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
+                <state id="JSComment" type="comment" color="#236E25" font-weight="normal" font-style="italic" foldable="yes">
                     <begin>
                         <regex>/\*</regex>
                     </begin>
@@ -3871,7 +3871,7 @@
                 </state>
                 <state id="Javascript Block" color="#000" background-color="#fff" font-weight="normal" font-style="normal" type="block" foldable="yes">
                     <begin>
-                        <regex>{</regex>
+                        <regex>(?:\s(?:if|else|else\s+if|for|in|while|do|with|try|catch|switch|case|return|function(?:\s+\w+)?)\s*(?:\([^)]*\)\s*)?)?{</regex>
                     </begin>
                     <end>
                         <regex>}</regex>
@@ -3881,10 +3881,10 @@
             </state>
             <state id="Tag State" foldable="yes">
                 <begin>
-                    <regex>(?:&lt;[^/?!][^>]*?[^/]>|&lt;.>)</regex>
+                    <regex>&lt;\s*(?'xmltagstatename'[^/?!][-:_\w]*)\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*></regex>
                 </begin>
                 <end>
-                    <regex>&lt;[/][^>]*?[^/]></regex>
+                    <regex>&lt;\s*/\s*(?#see-insert-start-group:xmltagstatename)\s*></regex>
                 </end>
                 <import mode="XML" keywords-only="yes"/>
                 <import/>
