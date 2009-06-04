@@ -80,7 +80,7 @@
             </state>
 
             <state id="Block" color="#000" background-color="#fff" font-weight="normal" font-style="normal" type="block" foldable="yes">
-                <begin><regex>{</regex></begin>
+                <begin><regex>(?:\s(?:if|else|else\s+if|for|in|while|do|with|try|catch|switch|case|return|function(?:\s+\w+)?)\s*(?:\([^)]*\)\s*)?)?{</regex></begin>
                 <end><regex>}</regex></end>
                 <import mode="Javascript" />
             </state>
