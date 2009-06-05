@@ -98,12 +98,12 @@
                 </keywords>
             </state>
     
-            <state id="AutodocComment" type="comment" color="#236E25" font-weight="bold" font-style="italic">
+            <state id="AutodocComment" type="comment" color="#236E25" font-weight="bold" font-style="italic" foldable="yes">
                 <begin><regex>/\*"</regex></begin>
                 <end><regex>\*/</regex></end>
             </state>
     
-            <state id="Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
+            <state id="Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic" foldable="yes">
                 <begin><regex>/\*</regex></begin>
                 <end><regex>\*/</regex></end>
             </state>
@@ -119,7 +119,7 @@
             </state>
 
             <state id="Block" color="#000" background-color="#fff" font-weight="normal" font-style="normal" type="block" foldable="yes">
-                <begin><regex>{</regex></begin>
+                <begin><regex>(?:(?&lt;=\s)(?:if|else|else\s+if|for|while|do|switch|case)\s*(?:\([^#{]*?\))?)?\s*{</regex></begin>
                 <end><regex>}</regex></end>
                 <import mode="C" />
             </state>
