@@ -23,11 +23,11 @@ NSString * const kSyntaxHighlightingIsCorrectAttributeName  = @"HighlightingIsCo
 NSString * const kSyntaxHighlightingIsCorrectAttributeValue = @"Correct";
 NSString * const kSyntaxHighlightingStackName = @"HighlightingStack";
 NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDelimiter";
+NSString * const kSyntaxHighlightingFoldDelimiterName = @"HighlightingFoldDelimiter";
 NSString * const kSyntaxHighlightingStyleIDAttributeName = @"styleID";
 NSString * const kSyntaxHighlightingTypeAttributeName = @"Type";
 NSString * const kSyntaxHighlightingParentModeForSymbolsAttributeName = @"ParentModeForSymbols";
 NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"ParentModeForAutocomplete";
-NSString * const kSyntaxHighlightingFoldableAttributeName = @"Foldable";
 NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
 
 @implementation SyntaxHighlighter
@@ -96,7 +96,7 @@ static  NSMutableDictionary *S_transientRegexCache = nil;
 
 
     // Clean up state attributes in the string we work on now
-	NSArray *attributesToCleanup = [NSArray arrayWithObjects:kSyntaxHighlightingStackName,kSyntaxHighlightingStateDelimiterName,kSyntaxHighlightingTypeAttributeName,kSyntaxHighlightingParentModeForSymbolsAttributeName,kSyntaxHighlightingParentModeForAutocompleteAttributeName,kSyntaxHighlightingIsCorrectAttributeName,kSyntaxHighlightingFoldableAttributeName,kSyntaxHighlightingFoldingDepthAttributeName,NSLinkAttributeName,nil];
+	NSArray *attributesToCleanup = [NSArray arrayWithObjects:kSyntaxHighlightingStackName,kSyntaxHighlightingStateDelimiterName,kSyntaxHighlightingFoldDelimiterName,kSyntaxHighlightingTypeAttributeName,kSyntaxHighlightingParentModeForSymbolsAttributeName,kSyntaxHighlightingParentModeForAutocompleteAttributeName,kSyntaxHighlightingIsCorrectAttributeName,kSyntaxHighlightingFoldingDepthAttributeName,NSLinkAttributeName,nil];
     [aString removeAttributes:attributesToCleanup range:aRange];
 
     NSMutableDictionary *scratchAttributes = [NSMutableDictionary dictionary];
@@ -232,7 +232,7 @@ static  NSMutableDictionary *S_transientRegexCache = nil;
                 subState = [definition stateForID:[subState objectForKey:@"id"]];
 				[scratchAttributes setObject:[subState objectForKey:[definition keyForInheritedSymbols]] forKey:kSyntaxHighlightingParentModeForSymbolsAttributeName];
 				[scratchAttributes setObject:[subState objectForKey:[definition keyForInheritedAutocomplete]] forKey:kSyntaxHighlightingParentModeForAutocompleteAttributeName];
-                if ([[subState objectForKey:@"foldable"] isEqualToString:@"yes"]) [scratchAttributes setObject:@"state" forKey:kSyntaxHighlightingFoldableAttributeName];
+                if ([[subState objectForKey:@"foldable"] isEqualToString:@"yes"]) [scratchAttributes setObject:@"Start" forKey:kSyntaxHighlightingFoldDelimiterName];
 
                 if ([[subState objectForKey:@"foldable"] isEqualToString:@"yes"]) {
                     newFoldingDepth++;
@@ -252,7 +252,8 @@ static  NSMutableDictionary *S_transientRegexCache = nil;
                 nextRange.length = currentRange.length - stateRange.length;
                 [scratchAttributes setObject:@"End" forKey:kSyntaxHighlightingStateDelimiterName];
                 if ([[currentState objectForKey:@"foldable"] isEqualToString:@"yes"]) {
-                    newFoldingDepth = foldingDepth - 1;
+					[scratchAttributes setObject:@"End" forKey:kSyntaxHighlightingFoldDelimiterName];
+                   newFoldingDepth = foldingDepth - 1;
                 }
                 [aString addAttributes:scratchAttributes range:delimiterRange];
                 savedStack = [[stack copy] autorelease];

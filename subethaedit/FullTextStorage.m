@@ -496,6 +496,9 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     
     if (depth == 0) return NSMakeRange(NSNotFound, 0); // Not foldable
     
+    // new approach: search the next folding start when searching to the left - and if no or end then go on, balh blah 
+    // TODO
+    
     // Check left
     
     if (returnRange.location>0) {
