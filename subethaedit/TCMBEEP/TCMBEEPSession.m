@@ -26,6 +26,7 @@ NSString * const NetworkTimeoutPreferenceKey = @"NetworkTimeout";
 NSString * const kTCMBEEPFrameTrailer = @"END\r\n";
 NSString * const kTCMBEEPManagementProfile = @"http://www.codingmonkeys.de/BEEP/Management.profile";
 NSString * const TCMBEEPTLSProfileURI = @"http://iana.org/beep/TLS";
+NSString * const TCMBEEPTLSAnonGzipProfileURI = @"http://www.codingmonkeys.de/BEEP/TLS/Anon/Bzip";
 NSString * const TCMBEEPSASLProfileURIPrefix = @"http://iana.org/beep/SASL/";
 NSString * const TCMBEEPSASLANONYMOUSProfileURI = @"http://iana.org/beep/SASL/ANONYMOUS";
 NSString * const TCMBEEPSASLPLAINProfileURI = @"http://iana.org/beep/SASL/PLAIN";
@@ -163,8 +164,6 @@ static NSString *keychainPassword = nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSTaskDidTerminateNotification object:[aNotification object]];
     [[NSNotificationQueue defaultQueue] enqueueNotification:[NSNotification notificationWithName:@"TCMBEEPTempCertificateCreationForSSLDidFinish" object:self] postingStyle:NSPostASAP];
     
-#warning disabled ssl for now because of iphone beta
-/*    
     SecKeychainItemImport (
         (CFDataRef)[NSData dataWithContentsOfFile:pathToTempKeyAndCert],
         NULL,
@@ -175,8 +174,8 @@ static NSString *keychainPassword = nil;
         kcRef,
         NULL
     );
-*/
-    // delete temp keychain 
+
+    // delete temp key and cert
     NSFileManager *fm = [NSFileManager defaultManager];
     [fm removeFileAtPath:pathToTempKeyAndCert handler:nil];
     [pathToTempKeyAndCert release];
@@ -210,12 +209,30 @@ static NSString *keychainPassword = nil;
     CFRelease(srchRef);
 }
 
++ (void)setAnonCiphersOnStreamData:(CFDataRef)inSocketDataRef {
+	CFDataRef data = inSocketDataRef;
+	
+	// Extract the SSLContextRef from the CFData
+	SSLContextRef sslContext;
+	CFDataGetBytes(data, CFRangeMake(0, sizeof(SSLContextRef)), (UInt8 *)&sslContext);
+
+	SSLCipherSuite ciphers[] = {TLS_DH_anon_WITH_AES_256_CBC_SHA, TLS_DH_anon_WITH_AES_128_CBC_SHA}; // order does matter - in SL we'll get TLS_ECDH_anon_WITH_AES_256_CBC_SHA as well
+
+	// 	TLS_ECDH_anon_WITH_AES_256_CBC_SHA     =	0xC019, available in snow leopard, but already active here
+
+	OSStatus err = SSLSetEnabledCiphers(sslContext,ciphers,2);
+	printf("set ciphers with error: %d\n",(int)err);
+
+}
+
 - (void)TCM_initHelper
 {
     I_flags.hasSentTLSProceed = NO;
     I_flags.isWaitingForTLSProceed = NO;
     I_flags.isTLSHandshaking = NO;
     I_flags.isTLSEnabled = NO;
+    I_flags.isTLSAnon = NO;
+    I_flags.isGzip = NO;
     CFStreamClientContext context = {0, self, NULL, NULL, NULL};
     CFOptionFlags readFlags =  kCFStreamEventOpenCompleted |
         kCFStreamEventHasBytesAvailable |
@@ -331,10 +348,13 @@ static NSString *keychainPassword = nil;
         I_nextChannelNumber = 0;
         [self TCM_initHelper];
         
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnableTLS"] && 
-            [TCMBEEPSession certArrayRef] && 
-            [(NSArray *)[TCMBEEPSession certArrayRef] count]>0)
-            [self addProfileURIs:[NSArray arrayWithObject:TCMBEEPTLSProfileURI]];
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnableTLS"]) {
+			[self addProfileURIs:[NSArray arrayWithObject:TCMBEEPTLSAnonGzipProfileURI]];
+        	if ([TCMBEEPSession certArrayRef] && 
+            	[(NSArray *)[TCMBEEPSession certArrayRef] count]>0) {
+            	[self addProfileURIs:[NSArray arrayWithObject:TCMBEEPTLSProfileURI]];
+           	}
+        }
     }
     
     return self;
@@ -1051,28 +1071,37 @@ static NSString *keychainPassword = nil;
     Boolean resultReadStream, resultWriteStream;
     
     CFArrayRef certificates = NULL;
-	SecKeychainRef serverKc = nil;
-    certificates = [self TCM_sslCertificatesFromKeychain:"certkc.keychain" encryptOnly:CSSM_FALSE usedKeychain:&serverKc];
-    if (certificates == NULL) DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Didn't find necessary certificates!");
+
+    if (!I_flags.isTLSAnon) {
+		SecKeychainRef serverKc = nil;
+		certificates = [self TCM_sslCertificatesFromKeychain:"certkc.keychain" encryptOnly:CSSM_FALSE usedKeychain:&serverKc];
+		if (certificates == NULL) DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Didn't find necessary certificates!");
+	}
+
     
     CFMutableDictionaryRef settings = CFDictionaryCreateMutable(NULL, 0, &kCFCopyStringDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
     CFDictionaryAddValue(settings, kCFStreamSSLLevel, kCFStreamSocketSecurityLevelTLSv1);
     CFDictionaryAddValue(settings, kCFStreamSSLAllowsExpiredRoots, kCFBooleanTrue);
     CFDictionaryAddValue(settings, kCFStreamSSLAllowsAnyRoot, kCFBooleanTrue);
     CFDictionaryAddValue(settings, kCFStreamSSLIsServer, kCFBooleanTrue);
-    CFDictionaryAddValue(settings, kCFStreamSSLCertificates, certificates);
+    if (!I_flags.isTLSAnon) {
+	    CFDictionaryAddValue(settings, kCFStreamSSLCertificates, certificates);
+	}
 
     resultReadStream = CFReadStreamSetProperty(I_readStream, kCFStreamPropertySSLSettings, settings);
     resultWriteStream = CFWriteStreamSetProperty(I_writeStream, kCFStreamPropertySSLSettings, settings);
     CFRelease(settings);
+
+    if (I_flags.isTLSAnon) {
+		[TCMBEEPSession setAnonCiphersOnStreamData: CFReadStreamCopyProperty(I_readStream,  kCFStreamPropertySocketSSLContext)];
+		[TCMBEEPSession setAnonCiphersOnStreamData:CFWriteStreamCopyProperty(I_writeStream, kCFStreamPropertySocketSSLContext)];
+	}
+
     if (resultReadStream && resultWriteStream) {
         DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"successfully set kCFStreamPropertySSLSettings");
     } else {
         DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"failed to set kCFStreamPropertySSLSettings");
     }
-	//if(serverKc) {
-	//	CFRelease(serverKc);
-	//}
 }
 
 - (void)TCM_writeBytes
@@ -1180,13 +1209,20 @@ static NSString *keychainPassword = nil;
     
     [[NSNotificationCenter defaultCenter] postNotificationName:TCMBEEPSessionDidReceiveGreetingNotification object:self];
     
-    if ([self isInitiator] && [profileURIs containsObject:TCMBEEPTLSProfileURI]) {
+    // check for tuning profiles and initiate tuning
+    if ([self isInitiator] && ([profileURIs containsObject:TCMBEEPTLSProfileURI] || [profileURIs containsObject:TCMBEEPTLSAnonGzipProfileURI])) {
+    	NSString *profileURI = TCMBEEPTLSProfileURI;
+    	if ([profileURIs containsObject:TCMBEEPTLSAnonGzipProfileURI]) {
+    		I_flags.isTLSAnon = YES; // set to anon
+    		I_flags.isGzip = YES;
+    		profileURI = TCMBEEPTLSAnonGzipProfileURI;
+    	}
         NSData *data = [@"<ready />" dataUsingEncoding:NSUTF8StringEncoding];
-        [self startChannelWithProfileURIs:[NSArray arrayWithObject:TCMBEEPTLSProfileURI]
+        [self startChannelWithProfileURIs:[NSArray arrayWithObject:profileURI]
                                   andData:[NSArray arrayWithObject:data]
                                    sender:self];
         I_flags.isWaitingForTLSProceed = YES;
-    } else {
+    } else { // nothing to tune so let us rock
         if ([[self delegate] respondsToSelector:@selector(BEEPSession:didReceiveGreetingWithProfileURIs:)]) {
             [[self delegate] BEEPSession:self didReceiveGreetingWithProfileURIs:profileURIs];
         }
@@ -1272,7 +1308,7 @@ static NSString *keychainPassword = nil;
             [requestArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:profileURI, @"ProfileURI", requestData, @"Data", nil]];
             if (!preferedAnswer)  {
                 NSData *answerData = [NSData data];
-                if ([profileURI isEqualToString:TCMBEEPTLSProfileURI]) {
+                if ([profileURI isEqualToString:TCMBEEPTLSProfileURI] || [profileURI isEqualToString:TCMBEEPTLSAnonGzipProfileURI]) {
                     // parse data for 'ready' element, may have attribute
                     NSString *element, *content;
                     NSDictionary *attributes;
@@ -1291,6 +1327,10 @@ static NSString *keychainPassword = nil;
                             answerData = [@"<proceed />" dataUsingEncoding:NSUTF8StringEncoding];
                             // implicitly close all channels including channel zero, but proceed frame needs to go through
                             I_flags.hasSentTLSProceed = YES;
+                            if ([profileURI isEqualToString:TCMBEEPTLSAnonGzipProfileURI]) {
+                            	I_flags.isTLSAnon = YES;
+                            	I_flags.isGzip = YES;
+                            }
                         }
                                            
                     } else {
@@ -1352,6 +1392,12 @@ static NSString *keychainPassword = nil;
     resultReadStream = CFReadStreamSetProperty(I_readStream, kCFStreamPropertySSLSettings, settings);
     resultWriteStream = CFWriteStreamSetProperty(I_writeStream, kCFStreamPropertySSLSettings, settings);
     CFRelease(settings);
+    
+    if (I_flags.isTLSAnon) {
+		[TCMBEEPSession setAnonCiphersOnStreamData: CFReadStreamCopyProperty(I_readStream,  kCFStreamPropertySocketSSLContext)];
+		[TCMBEEPSession setAnonCiphersOnStreamData:CFWriteStreamCopyProperty(I_writeStream, kCFStreamPropertySocketSSLContext)];
+	}
+    
     if (resultReadStream && resultWriteStream) {
         DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"successfully set kCFStreamPropertySSLSettings");
     } else {
@@ -1372,7 +1418,7 @@ static NSString *keychainPassword = nil;
         if ([delegate respondsToSelector:@selector(BEEPSession:didOpenChannelWithProfile:data:)])
             [delegate BEEPSession:self didOpenChannelWithProfile:[channel profile] data:inData];
     } else {
-        if ([aProfileURI isEqualToString:TCMBEEPTLSProfileURI]) {
+        if ([aProfileURI isEqualToString:TCMBEEPTLSProfileURI] || [aProfileURI isEqualToString:TCMBEEPTLSAnonGzipProfileURI]) {
             // parse associated data for 'error' or 'proceed' elements, 'error' may contain attributes?
             NSString *element, *content;
             NSDictionary *attributes;
@@ -1401,7 +1447,7 @@ static NSString *keychainPassword = nil;
         // sender profile geben
         if ([aSender respondsToSelector:@selector(BEEPSession:didOpenChannelWithProfile:data:)]) {
             [aSender BEEPSession:self didOpenChannelWithProfile:[channel profile] data:inData];
-        } else if (![aProfileURI isEqualToString:TCMBEEPTLSProfileURI]) {
+        } else if (![aProfileURI isEqualToString:TCMBEEPTLSProfileURI] || ![aProfileURI isEqualToString:TCMBEEPTLSAnonGzipProfileURI]) {
             NSLog(@"WARNING: The Object (%@) that requested the channel with ProfileURI:%@ doesn't respond to BEEPSession:didOpenChannelWithProfile:data:",aSender,aProfileURI);
         }
     }
