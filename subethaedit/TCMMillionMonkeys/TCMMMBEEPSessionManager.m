@@ -19,6 +19,7 @@
 #import <TCMPortMapper/TCMPortMapper.h>
 #import "TCMHost.h"
 #import "NSWorkspaceTCMAdditions.h"
+#import "PreferenceKeys.h"
 #import <netdb.h>       // getaddrinfo, struct addrinfo, AI_NUMERICHOST
 
 #ifdef TCM_ISSEED
@@ -177,13 +178,23 @@ static TCMMMBEEPSessionManager *sharedInstance;
     }
 }
 
+- (void)sslGenerationDidFinish:(NSNotification *)aNotification {
+//    NSLog(@"%s %@",__FUNCTION__,aNotification);
+    [[NSNotificationQueue defaultQueue] enqueueNotification:[NSNotification notificationWithName:TCMMMBEEPSessionManagerIsReadyNotification object:self] postingStyle:NSPostASAP];
+}
+
 - (id)init
 {
     self = [super init];
     if (self) {
-        [TCMBEEPSession prepareTemporaryCertificate];
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sslGenerationDidFinish:) name:@"TCMBEEPTempCertificateCreationForSSLDidFinish" object:nil];
-        I_greetingProfiles = [[NSMutableDictionary alloc] initWithObjectsAndKeys:[NSMutableArray array],kTCMMMBEEPSessionManagerDefaultMode,[NSMutableArray array],kTCMMMBEEPSessionManagerTLSMode,nil];
+    	BOOL useTemporaryKeychain = [[NSUserDefaults standardUserDefaults] boolForKey:UseTemporaryKeychainForTLSKey];
+    	if (useTemporaryKeychain) {
+        	[TCMBEEPSession prepareTemporaryCertificate];
+        	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sslGenerationDidFinish:) name:@"TCMBEEPTempCertificateCreationForSSLDidFinish" object:nil];
+        }
+        I_greetingProfiles = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
+        	[NSMutableArray array],kTCMMMBEEPSessionManagerDefaultMode,
+        	[NSMutableArray array],kTCMMMBEEPSessionManagerTLSMode,nil];
         I_handlersForNewProfiles = [NSMutableDictionary new];
         I_sessionInformationByUserID = [NSMutableDictionary new];
         I_pendingSessionProfiles = [NSMutableSet new];
@@ -194,13 +205,12 @@ static TCMMMBEEPSessionManager *sharedInstance;
         I_isProhibitingInboundInternetSessions = flag;
         sharedInstance = self;
         [self registerHandler:[TCMMMPresenceManager sharedInstance] forIncomingProfilesWithProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"];
+
+        if (!useTemporaryKeychain) {
+        	[self performSelector:@selector(sslGenerationDidFinish:) withObject:nil afterDelay:0];
+        }
     }
     return self;
-}
-
-- (void)sslGenerationDidFinish:(NSNotification *)aNotification {
-//    NSLog(@"%s %@",__FUNCTION__,aNotification);
-    [[NSNotificationQueue defaultQueue] enqueueNotification:[NSNotification notificationWithName:TCMMMBEEPSessionManagerIsReadyNotification object:self] postingStyle:NSPostASAP];
 }
 
 - (void)dealloc

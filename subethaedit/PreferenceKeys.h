@@ -38,7 +38,7 @@ extern NSString * const MyImagePreferenceKey;
 extern NSString * const OpenNewDocumentInTabKey;
 extern NSString * const AlwaysShowTabBarKey;
 extern NSString * const DontSaveDocumentStateInXattrsKey;
-
+extern NSString * const UseTemporaryKeychainForTLSKey;
 
 extern NSString * const DocumentStateSaveAndLoadWindowPositionKey;
 extern NSString * const DocumentStateSaveAndLoadTabSettingKey;

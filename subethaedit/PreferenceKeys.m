@@ -32,10 +32,14 @@ NSString * const MyEmailsPreferenceKey                      = @"MyEmails";
 NSString * const SynthesiseFontsPreferenceKey               = @"SynthesiseFonts";
 #endif //!defined(CODA)
 
+
+
 NSString * const MyImagePreferenceKey                       = @"MyImage";
 NSString * const OpenNewDocumentInTabKey                    = @"OpenNewDocumentInTab";
 NSString * const AlwaysShowTabBarKey                        = @"AlwaysShowTabBar";
 NSString * const DontSaveDocumentStateInXattrsKey           = @"DontSaveDocumentStateInXattrs";
+
+NSString * const UseTemporaryKeychainForTLSKey              = @"UseTemporaryKeychainForTLS";
 
 NSString * const DocumentStateSaveAndLoadWindowPositionKey = @"DocumentStateSaveAndLoadWindowPosition" ;
 NSString * const DocumentStateSaveAndLoadTabSettingKey     = @"DocumentStateSaveAndLoadTabSetting"     ;

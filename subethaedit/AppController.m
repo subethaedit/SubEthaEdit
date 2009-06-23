@@ -170,6 +170,7 @@ static AppController *sharedInstance = nil;
 		
 		[defaults setObject:[NSNumber numberWithBool:floor(NSAppKitVersionNumber) > 824.] forKey:@"SaveSeeTextPreview"];
 		[defaults setObject:[NSNumber numberWithBool:YES] forKey:ShouldAutomaticallyMapPort];
+		[defaults setObject:[NSNumber numberWithBool:YES] forKey:UseTemporaryKeychainForTLSKey]; // if keychain bug arrives again, switch this to NO
 		[[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
 		
 		[[TCMMMTransformator sharedInstance] registerTransformationTarget:[TextOperation class] selector:@selector(transformTextOperation:serverTextOperation:) forOperationId:[TextOperation operationID] andOperationID:[TextOperation operationID]];
@@ -638,7 +639,10 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [[TCMMMBEEPSessionManager sharedInstance] stopListening];    
     [[TCMMMPresenceManager sharedInstance] stopRendezvousBrowsing];
 
-    [TCMBEEPSession removeTemporaryKeychain];
+	BOOL useTemporaryKeychain = [[NSUserDefaults standardUserDefaults] boolForKey:UseTemporaryKeychainForTLSKey];
+	if (useTemporaryKeychain) {
+	    [TCMBEEPSession removeTemporaryKeychain];
+	}
 }
 
 - (void)updateApplicationIcon {
