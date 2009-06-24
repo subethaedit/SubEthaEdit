@@ -40,6 +40,7 @@ NSString * const AlwaysShowTabBarKey                        = @"AlwaysShowTabBar
 NSString * const DontSaveDocumentStateInXattrsKey           = @"DontSaveDocumentStateInXattrs";
 
 NSString * const UseTemporaryKeychainForTLSKey              = @"UseTemporaryKeychainForTLS";
+NSString * const EnableTLSKey                               = @"EnableTLS";
 
 NSString * const DocumentStateSaveAndLoadWindowPositionKey = @"DocumentStateSaveAndLoadWindowPosition" ;
 NSString * const DocumentStateSaveAndLoadTabSettingKey     = @"DocumentStateSaveAndLoadTabSetting"     ;

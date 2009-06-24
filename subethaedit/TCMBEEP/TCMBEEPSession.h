@@ -12,7 +12,7 @@ extern NSString * const NetworkTimeoutPreferenceKey;
 extern NSString * const kTCMBEEPFrameTrailer;
 extern NSString * const kTCMBEEPManagementProfile;
 extern NSString * const TCMBEEPTLSProfileURI;
-extern NSString * const TCMBEEPTLSAnonGzipProfileURI;
+extern NSString * const TCMBEEPTLSAnonProfileURI;
 extern NSString * const TCMBEEPSASLProfileURIPrefix;
 extern NSString * const TCMBEEPSASLANONYMOUSProfileURI;
 extern NSString * const TCMBEEPSASLPLAINProfileURI;
@@ -92,7 +92,6 @@ enum {
         BOOL hasSentTLSProceed;
         BOOL isTLSHandshaking;
         BOOL isTLSEnabled;
-        BOOL isGzip;
         BOOL isTLSAnon;
     } I_flags;
     

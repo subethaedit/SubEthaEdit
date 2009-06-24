@@ -141,7 +141,7 @@ static AppController *sharedInstance = nil;
 		[defaults setObject:[NSNumber numberWithInt:SUBETHAEDIT_DEFAULT_PORT] forKey:DefaultPortNumber];
 		[defaults setObject:[NSNumber numberWithInt:10] forKey:@"NSRecentDocumentsLimit"];
 		[defaults setObject:[NSMutableArray array] forKey:AddressHistory];
-		[defaults setObject:[NSNumber numberWithBool:YES] forKey:@"EnableTLS"];
+		[defaults setObject:[NSNumber numberWithBool:NO] forKey:EnableTLSKey];
 		[defaults setObject:[NSNumber numberWithBool:NO] forKey:ProhibitInboundInternetSessions];
 		[defaults setObject:[NSNumber numberWithDouble:60.] forKey:NetworkTimeoutPreferenceKey];
 		[defaults setObject:[NSNumber numberWithDouble:60.] forKey:@"AutoSavingDelay"];
