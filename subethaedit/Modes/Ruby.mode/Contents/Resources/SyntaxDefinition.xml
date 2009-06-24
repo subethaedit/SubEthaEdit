@@ -378,17 +378,17 @@
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
             </state>
 
-            <state id="Heredoc" color="#760f15" inverted-color="#f48700" font-weight="normal" font-style="italic">
+            <state id="Heredoc" color="#760f15" inverted-color="#f48700" font-weight="normal" font-style="italic" foldable="yes">
                 <begin><string>&lt;&lt;(?&lt;heredoc&gt;[A-Za-z][A-Za-z0-9_]*)</string></begin>
                 <end><regex>(?#see-insert-start-group:heredoc)</regex></end>
             </state>
     
-            <state id="Backticks" color="#b80f15" inverted-color="#737373"  font-style="normal" font-weight="normal">
+            <state id="Backticks" color="#b80f15" inverted-color="#737373" font-style="normal" font-weight="normal">
                 <begin><regex>(?&lt;!\$)(?:`)</regex></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)`</regex></end>
             </state>
             
-            <state id="Singleline Comment" type="comment" color="#236e25" inverted-color="#ff4a4a"  font-style="normal" font-weight="normal">
+            <state id="Singleline Comment" type="comment" color="#236e25" inverted-color="#ff4a4a" font-style="normal" font-weight="normal">
                 <begin><regex>#</regex></begin>
                 <end><regex>[\n\r]|(?:.(?=%&gt;))</regex></end>
             </state>
@@ -398,11 +398,17 @@
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)\/</regex></end>
             </state>
             
-            <state id="POD Comments" type="comment" color="#800000" inverted-color="#ff7f7f"  font-style="normal" font-weight="normal">
+            <state id="POD Comments" type="comment" color="#800000" inverted-color="#ff7f7f"  font-style="normal" font-weight="normal" foldable="yes">
                 <begin><regex>(?:^=begin)</regex></begin>
                 <end><regex>^=end</regex></end>
             </state>
 
+<!--             <state id="Block" type="block" foldable="yes">
+                <begin><regex>(?&lt;=\s)(?:class|if|do|def)(?=\s)</regex></begin>
+                <end><regex>(?&lt;=\s)end(?=\s)</regex></end>
+                <import />
+            </state>
+ -->
         </default>
         
     </states>
