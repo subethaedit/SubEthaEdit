@@ -12,6 +12,7 @@
 #import "TCMBEEPManagementProfile.h"
 #import "GenericSASLProfile.h"
 #import <Security/Security.h>
+#import "PreferenceKeys.h"
 
 #import <netinet/tcp.h>
 #import <netinet/in.h>
@@ -77,13 +78,43 @@ static NSString *certKeychainPath = nil;
 static CFArrayRef certArrayRef = NULL;
 static SecKeychainRef kcRef;
 static NSString *pathToTempKeyAndCert = nil;
+static NSString *dhparamKeyPath = nil;
 static NSDate *launchDate;
 static NSString *keychainPassword = nil;
+static NSData *dhparamData = nil;
 
 + (void)removeTemporaryKeychain {
     [[NSFileManager defaultManager] removeFileAtPath:certKeychainPath handler:nil];
 }
 
++ (void)prepareDiffiHellmannParameters {
+    NSString *path = nil;
+    NSArray *userDomainPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+    NSEnumerator *enumerator = [userDomainPaths objectEnumerator];
+    if ((path = [enumerator nextObject])) {
+        NSString *fullPath = [path stringByAppendingPathComponent:[[[[NSBundle mainBundle] bundlePath] lastPathComponent] stringByDeletingPathExtension]];
+        if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:nil]) {
+             [[NSFileManager defaultManager] createDirectoryAtPath:fullPath attributes:nil];
+        }
+        dhparamKeyPath = [[fullPath stringByAppendingPathComponent:[NSString stringWithFormat:@"dhparams-%@.des",[NSString UUIDString]]] retain];
+
+       NSTask *opensslTask = [[[NSTask alloc] init] autorelease];
+        [opensslTask setStandardError:[NSPipe pipe]];
+        [opensslTask setStandardOutput:[NSPipe pipe]];
+        [opensslTask setLaunchPath:@"/usr/bin/openssl"]; 
+        [opensslTask setArguments:[NSArray arrayWithObjects:
+            @"dhparam",
+            @"-outform",
+            @"DER",
+            @"-out",
+            dhparamKeyPath,
+            @"512",
+            nil]];
+//         NSLog(@"%s %@",__FUNCTION__,dhparamKeyPath);
+        [opensslTask launch];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dhparamsTaskDidFinish:) name:NSTaskDidTerminateNotification object:opensslTask];
+	}
+}
 
 + (void)prepareTemporaryCertificate {
     NSString *path;
@@ -162,7 +193,7 @@ static NSString *keychainPassword = nil;
 //    NSLog(@"%s generation of certificate took: %f seconds",__FUNCTION__,[launchDate timeIntervalSinceNow]*-1.);
     
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSTaskDidTerminateNotification object:[aNotification object]];
-    [[NSNotificationQueue defaultQueue] enqueueNotification:[NSNotification notificationWithName:@"TCMBEEPTempCertificateCreationForSSLDidFinish" object:self] postingStyle:NSPostASAP];
+    [[NSNotificationQueue defaultQueue] enqueueNotification:[NSNotification notificationWithName:@"TCMBEEPTempCertificateCreationForSSLDidFinish" object:self] postingStyle:NSPostASAP coalesceMask:NSNotificationNoCoalescing forModes:nil];
     
     SecKeychainItemImport (
         (CFDataRef)[NSData dataWithContentsOfFile:pathToTempKeyAndCert],
@@ -209,7 +240,18 @@ static NSString *keychainPassword = nil;
     CFRelease(srchRef);
 }
 
-+ (void)setAnonCiphersOnStreamData:(CFDataRef)inSocketDataRef {
++ (void)dhparamsTaskDidFinish:(NSNotification *)aNotification {
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSTaskDidTerminateNotification object:[aNotification object]];
+
+//    NSTask *task=[aNotification object];
+//    NSLog(@"%s %@ %@",__FUNCTION__, [[[NSString alloc] initWithData:[[[task standardOutput] fileHandleForReading] readDataToEndOfFile] encoding:NSUTF8StringEncoding] autorelease], [[[NSString alloc] initWithData:[[[task standardError] fileHandleForReading] readDataToEndOfFile] encoding:NSUTF8StringEncoding] autorelease]);
+
+	NSError *error = nil;
+	dhparamData = [[NSData dataWithContentsOfFile:dhparamKeyPath options:0 error:&error] retain];
+    [[NSNotificationQueue defaultQueue] enqueueNotification:[NSNotification notificationWithName:@"TCMBEEPTempCertificateCreationForSSLDidFinish" object:self] postingStyle:NSPostASAP coalesceMask:NSNotificationNoCoalescing forModes:nil];
+}
+
++ (void)setAnonCiphersOnStreamData:(CFDataRef)inSocketDataRef dhParams:(BOOL)aFlag{
 	CFDataRef data = inSocketDataRef;
 	
 	// Extract the SSLContextRef from the CFData
@@ -222,7 +264,10 @@ static NSString *keychainPassword = nil;
 
 	OSStatus err = SSLSetEnabledCiphers(sslContext,ciphers,2);
 //	printf("set ciphers with error: %d\n",(int)err);
-
+    if (aFlag) {
+		err = SSLSetDiffieHellmanParams(sslContext,[dhparamData bytes],[dhparamData length]);
+		printf("SSLSetDiffieHellmanParams with error: %d\n",(int)err);
+	}
 }
 
 - (void)TCM_initHelper
@@ -347,10 +392,14 @@ static NSString *keychainPassword = nil;
         I_nextChannelNumber = 0;
         [self TCM_initHelper];
         
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:@"EnableTLS"]) {
-			[self addProfileURIs:[NSArray arrayWithObject:TCMBEEPTLSAnonProfileURI]];
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:EnableTLSKey]) {
+        	if ([dhparamData length] > 0) {
+//        		NSLog(@"%s added %@",__FUNCTION__,TCMBEEPTLSAnonProfileURI);
+				[self addProfileURIs:[NSArray arrayWithObject:TCMBEEPTLSAnonProfileURI]];
+			}
         	if ([TCMBEEPSession certArrayRef] && 
             	[(NSArray *)[TCMBEEPSession certArrayRef] count]>0) {
+//        		NSLog(@"%s added %@",__FUNCTION__,TCMBEEPTLSProfileURI);
             	[self addProfileURIs:[NSArray arrayWithObject:TCMBEEPTLSProfileURI]];
            	}
         }
@@ -645,6 +694,10 @@ static NSString *keychainPassword = nil;
 
 - (BOOL)isTLSEnabled {
     return I_flags.isTLSEnabled;
+}
+
+- (BOOL)isTLSAnon {
+    return I_flags.isTLSAnon;
 }
 
 - (NSArray *)channels {
@@ -1100,8 +1153,8 @@ static NSString *keychainPassword = nil;
     CFRelease(settings);
 
     if (I_flags.isTLSAnon) {
-		[TCMBEEPSession setAnonCiphersOnStreamData: CFReadStreamCopyProperty(I_readStream,  kCFStreamPropertySocketSSLContext)];
-		[TCMBEEPSession setAnonCiphersOnStreamData:CFWriteStreamCopyProperty(I_writeStream, kCFStreamPropertySocketSSLContext)];
+		[TCMBEEPSession setAnonCiphersOnStreamData: CFReadStreamCopyProperty(I_readStream,  kCFStreamPropertySocketSSLContext) dhParams:YES];
+		[TCMBEEPSession setAnonCiphersOnStreamData:CFWriteStreamCopyProperty(I_writeStream, kCFStreamPropertySocketSSLContext) dhParams:YES];
 	}
 
     if (resultReadStream && resultWriteStream) {
@@ -1399,8 +1452,8 @@ static NSString *keychainPassword = nil;
     CFRelease(settings);
     
     if (I_flags.isTLSAnon) {
-		[TCMBEEPSession setAnonCiphersOnStreamData: CFReadStreamCopyProperty(I_readStream,  kCFStreamPropertySocketSSLContext)];
-		[TCMBEEPSession setAnonCiphersOnStreamData:CFWriteStreamCopyProperty(I_writeStream, kCFStreamPropertySocketSSLContext)];
+		[TCMBEEPSession setAnonCiphersOnStreamData: CFReadStreamCopyProperty(I_readStream,  kCFStreamPropertySocketSSLContext) dhParams:NO];
+		[TCMBEEPSession setAnonCiphersOnStreamData:CFWriteStreamCopyProperty(I_writeStream, kCFStreamPropertySocketSSLContext) dhParams:NO];
 	}
     
     if (resultReadStream && resultWriteStream) {

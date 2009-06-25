@@ -486,7 +486,7 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
     
     if (_BEEPSession) {
         if ([_BEEPSession isTLSEnabled]) {
-            [toolTipArray addObject:NSLocalizedString(@"Connection is 2048-bit SSL encrypted",@"SSL Encryption Connection Tooltip Text Encrypted")];
+            [toolTipArray addObject:[NSString stringWithFormat:NSLocalizedString(@"Connection is TLS/SSL encrypted using %@",@"SSL Encryption Connection Tooltip Text Encrypted"),[_BEEPSession isTLSAnon] ? @"DH" : @"RSA"]];
         } else {
             [toolTipArray addObject:NSLocalizedString(@"Connection is NOT encrypted",@"SSL Encryption Connection Tooltip Text NOT Encrypted")];
         }

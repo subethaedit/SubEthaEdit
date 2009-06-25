@@ -110,6 +110,7 @@ enum {
 
 + (CFArrayRef)certArrayRef;
 + (void)prepareTemporaryCertificate;
++ (void)prepareDiffiHellmannParameters;
 + (void)removeTemporaryKeychain;
 
 /*"Initializers"*/
@@ -155,6 +156,7 @@ enum {
 - (NSData *)addressData;
 - (BOOL)isAuthenticated;
 - (BOOL)isTLSEnabled;
+- (BOOL)isTLSAnon;
 
 - (void)open;
 - (void)terminate;

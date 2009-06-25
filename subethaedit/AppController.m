@@ -141,7 +141,6 @@ static AppController *sharedInstance = nil;
 		[defaults setObject:[NSNumber numberWithInt:SUBETHAEDIT_DEFAULT_PORT] forKey:DefaultPortNumber];
 		[defaults setObject:[NSNumber numberWithInt:10] forKey:@"NSRecentDocumentsLimit"];
 		[defaults setObject:[NSMutableArray array] forKey:AddressHistory];
-		[defaults setObject:[NSNumber numberWithBool:NO] forKey:EnableTLSKey];
 		[defaults setObject:[NSNumber numberWithBool:NO] forKey:ProhibitInboundInternetSessions];
 		[defaults setObject:[NSNumber numberWithDouble:60.] forKey:NetworkTimeoutPreferenceKey];
 		[defaults setObject:[NSNumber numberWithDouble:60.] forKey:@"AutoSavingDelay"];
@@ -170,6 +169,8 @@ static AppController *sharedInstance = nil;
 		
 		[defaults setObject:[NSNumber numberWithBool:floor(NSAppKitVersionNumber) > 824.] forKey:@"SaveSeeTextPreview"];
 		[defaults setObject:[NSNumber numberWithBool:YES] forKey:ShouldAutomaticallyMapPort];
+
+		[defaults setObject:[NSNumber numberWithBool:YES] forKey:EnableTLSKey];
 		[defaults setObject:[NSNumber numberWithBool:YES] forKey:UseTemporaryKeychainForTLSKey]; // if keychain bug arrives again, switch this to NO
 		[[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
 		

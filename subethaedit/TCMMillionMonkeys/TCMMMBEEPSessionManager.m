@@ -179,19 +179,33 @@ static TCMMMBEEPSessionManager *sharedInstance;
 }
 
 - (void)sslGenerationDidFinish:(NSNotification *)aNotification {
+    I_SSLGenerationCount++;
 //    NSLog(@"%s %@",__FUNCTION__,aNotification);
-    [[NSNotificationQueue defaultQueue] enqueueNotification:[NSNotification notificationWithName:TCMMMBEEPSessionManagerIsReadyNotification object:self] postingStyle:NSPostASAP];
+//	NSLog(@"%s count:%d desiredCount:%d",__FUNCTION__,I_SSLGenerationCount,I_SSLGenerationDesiredCount);
+    if (I_SSLGenerationCount >= I_SSLGenerationDesiredCount) {
+		[[NSNotificationQueue defaultQueue] enqueueNotification:[NSNotification notificationWithName:TCMMMBEEPSessionManagerIsReadyNotification object:self] postingStyle:NSPostASAP];
+	}
 }
 
 - (id)init
 {
     self = [super init];
     if (self) {
+    	[AppController sharedInstance]; // making sure the defaults are registered - seem ugly need better way soon
+    	I_SSLGenerationCount = 0;
+    	I_SSLGenerationDesiredCount = 1;
     	BOOL useTemporaryKeychain = [[NSUserDefaults standardUserDefaults] boolForKey:UseTemporaryKeychainForTLSKey];
-    	if (useTemporaryKeychain) {
-        	[TCMBEEPSession prepareTemporaryCertificate];
-        	[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sslGenerationDidFinish:) name:@"TCMBEEPTempCertificateCreationForSSLDidFinish" object:nil];
-        }
+//    	NSLog(@"%s %@? %d",__FUNCTION__,EnableTLSKey,[[NSUserDefaults standardUserDefaults] boolForKey:EnableTLSKey]);
+		if ([[NSUserDefaults standardUserDefaults] boolForKey:EnableTLSKey]) {
+			I_SSLGenerationDesiredCount++;
+			[TCMBEEPSession prepareDiffiHellmannParameters];
+			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sslGenerationDidFinish:) name:@"TCMBEEPTempCertificateCreationForSSLDidFinish" object:nil];
+
+			if (useTemporaryKeychain) {
+				I_SSLGenerationDesiredCount++;
+				[TCMBEEPSession prepareTemporaryCertificate];
+			}
+		}
         I_greetingProfiles = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
         	[NSMutableArray array],kTCMMMBEEPSessionManagerDefaultMode,
         	[NSMutableArray array],kTCMMMBEEPSessionManagerTLSMode,nil];
@@ -206,9 +220,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
         sharedInstance = self;
         [self registerHandler:[TCMMMPresenceManager sharedInstance] forIncomingProfilesWithProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"];
 
-        if (!useTemporaryKeychain) {
-        	[self performSelector:@selector(sslGenerationDidFinish:) withObject:nil afterDelay:0];
-        }
+		[self performSelector:@selector(sslGenerationDidFinish:) withObject:nil afterDelay:0];
     }
     return self;
 }
