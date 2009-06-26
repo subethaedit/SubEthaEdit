@@ -6,9 +6,9 @@ PPC_DIR=ppc
 INTEL_CONFIGURE_FLAGS=--disable-dependency-tracking --host=i686-apple-darwin$(OS_VERSION) --build=i686-apple-darwin$(OS_VERSION)
 PPC_CONFIGURE_FLAGS=--disable-dependency-tracking --host=ppc-apple-darwin$(OS_VERSION) --build=i686-apple-darwin$(OS_VERSION)
 INTEL_SDK=$(SDKROOT)
-INTEL_CC=gcc -isysroot $(SDKROOT)
+INTEL_CC=gcc-4.0 -isysroot $(SDKROOT)
 PPC_SDK=$(SDKROOT)
-PPC_CC=gcc -arch ppc -isysroot $(SDKROOT)
+PPC_CC=gcc-4.0 -arch ppc -isysroot $(SDKROOT)
 ONIG_TARGET=libonig.la
 LIBS_DIR=.libs
 ONIGURUMA=libonig.a
@@ -28,7 +28,7 @@ $(INTEL_DIR)/$(ONIG_TARGET): $(INTEL_DIR)
 $(PPC_DIR)/$(ONIG_TARGET): $(PPC_DIR)
 	cd $(@D);\
 	CC="$(PPC_CC)" ./configure $(PPC_CONFIGURE_FLAGS);\
-	perl -pi -e 's@CFLAGS =@CFLAGS = -arch ppc -arch ppc64@' Makefile;\
+	perl -pi -e 's@CFLAGS =@CFLAGS = -isysroot $(PPC_SDK) -arch ppc -arch ppc64@' Makefile;\
 	perl -pi -e 's@-dynamiclib@-dynamiclib -arch ppc -arch ppc64@g' libtool;\
 	make $(@F)
 

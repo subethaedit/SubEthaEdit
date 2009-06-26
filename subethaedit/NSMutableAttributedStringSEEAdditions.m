@@ -95,7 +95,7 @@ extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
 #ifndef TCM_ISSEED
 - (void)makeLeadingWhitespaceNonBreaking {
     [self beginEditing];
-    NSString *hardspaceString=nil;
+    static NSString *hardspaceString=nil;
     if (hardspaceString==nil) {
         unichar hardspace=0x00A0;
         hardspaceString=[[NSString stringWithCharacters:&hardspace length:1] retain];
