@@ -820,7 +820,7 @@ NSString *ListViewDidChangeSelectionNotification=
 
 - (void)setEmptySpaceString:(NSAttributedString *)aEmptySpaceString {
     [I_emptySpaceString autorelease];
-    I_emptySpaceString = [aEmptySpaceString retain];
+    I_emptySpaceString = [aEmptySpaceString copy];
 }
 
 
