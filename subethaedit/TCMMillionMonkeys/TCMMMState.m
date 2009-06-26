@@ -100,18 +100,18 @@
         // clean up buffer
         NSUInteger i;
         if (I_isServer) {
+			int numberOfServerMessages = [aMessage numberOfServerMessages];
             for (i = 0; i < [I_messageBuffer count];) {
-                if ([[I_messageBuffer objectAtIndex:i] numberOfServerMessages]
-                    < [aMessage numberOfServerMessages]) {
+                if ([[I_messageBuffer objectAtIndex:i] numberOfServerMessages] < numberOfServerMessages) {
                     [I_messageBuffer removeObjectAtIndex:i];
                 } else {
                     i++;
                 }
             }    
         } else {
+			int numberOfClientMessages = [aMessage numberOfClientMessages];
             for (i = 0; i < [I_messageBuffer count];) {
-                if ([[I_messageBuffer objectAtIndex:i] numberOfClientMessages]
-                    < [aMessage numberOfClientMessages]) {
+                if ([[I_messageBuffer objectAtIndex:i] numberOfClientMessages] < numberOfClientMessages) {
                     [I_messageBuffer removeObjectAtIndex:i];
                 } else {
                     i++;
@@ -127,6 +127,7 @@
         if (I_isServer) {
             while ((message = [messages nextObject])) {
                 // transform now
+				DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"server transforming %@ with: %@", aMessage, message);
                 [transformator transformOperation:[aMessage operation] serverOperation:[message operation]];
                 [message incrementNumberOfClientMessages];
             }
