@@ -17,9 +17,6 @@
                 <end>
                     <regex>}</regex>
                 </end>
-                <keywords id="!important" color="#f00" useforautocomplete="no">
-                    <regex>(!\s*important)</regex>
-                </keywords>
                 <keywords id="CSS Keywords" color="#88134F" font-style="bold" useforautocomplete="yes" casesensitive="no">
                     <string>azimuth</string>
                     <string>background-attachment</string>
@@ -253,6 +250,9 @@
                     <end>
                         <regex>(;|.(?=})|[\n\r])</regex>
                     </end>
+                    <keywords id="!important" color="#f00" useforautocomplete="no">
+                        <regex>(!\s*important)</regex>
+                    </keywords>
                     <keywords id="CSS Attributes" font-style="italic" color="#9B4400" useforautocomplete="yes" casesensitive="no">
                         <string>inherit</string>
                         <string>none</string>
