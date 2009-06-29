@@ -3653,6 +3653,7 @@
                         <regex>(?:}|.(?=\?>))</regex>
                     </end>
                     <import mode="XML" keywords-only="yes"/>
+                    <import state="PHP"/>
                     <import/>
                 </state>
                 <import mode="XML" keywords-only="yes"/>
