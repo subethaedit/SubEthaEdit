@@ -266,7 +266,7 @@ static NSData *dhparamData = nil;
 //	printf("set ciphers with error: %d\n",(int)err);
     if (aFlag) {
 		err = SSLSetDiffieHellmanParams(sslContext,[dhparamData bytes],[dhparamData length]);
-		printf("SSLSetDiffieHellmanParams with error: %d\n",(int)err);
+//		printf("SSLSetDiffieHellmanParams with error: %d\n",(int)err);
 	}
 }
 
