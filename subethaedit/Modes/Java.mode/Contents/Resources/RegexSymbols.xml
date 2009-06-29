@@ -8,7 +8,7 @@
     </blocks>
     
     <symbol id="Classes" image="SymbolC" indentation="0" ignoreblocks="yes">
-        <regex>^[ \t]*((?:public|private|protected)?[ \t]*class[^{]+)</regex>
+        <regex>^[ \t]*((?:public|private|protected)?[ \t]*(?:(?:abstract|static|final|synchronized|native|strictfp)[ \t]+)*class[^{]+)</regex>
         <postprocess>
             <find>[\n\r]</find>
             <replace> </replace>
@@ -18,7 +18,7 @@
     </symbol>
 
     <symbol id="Methods" image="SymbolM" indentation="1" ignoreblocks="no">
-        <regex>((?:public|private|protected)[ \t]+(?:(?:abstract|static|final|synchronized|native|strictfp)[ \t]+)*(?:[A-Za-z0-9_\-\.&lt;&gt;]+(?:\[\])?[ \t]+)?[A-Za-z0-9_\-]+[ \t]*\([^\)]*\)[ \t]*(?:\s*throws[ \t]*[A-Za-z0-9_\-, \t\.]+)?)\s*\{</regex>
+        <regex>((?:public|private|protected)[ \t]+(?:(?:abstract|static|final|synchronized|native|strictfp)[ \t]+)*(?:[A-Za-z0-9_\-\.&lt;&gt;]+(?:\[\])?[ \t]+)?[A-Za-z0-9_\-]+[ \t]*(?:\([^\)]*\)[ \t]*)?(?:\s*(throws)[ \t]*[A-Za-z0-9_\-, \t\.]+)?)\s*\{</regex>
         <postprocess>
             <find>\(([^\) ]+(?:[ \t]+\[\])?)[^\)]*\)</find>
             <replace>(\1)</replace>
