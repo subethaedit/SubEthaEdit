@@ -12,12 +12,24 @@
 
 #define FOLDING_BAR_WIDTH 11.
 #define RIGHT_INSET  4.
-#define MAX_FOLDING_DEPTH 16.
+#define MAX_FOLDING_DEPTH (12)
 #define COLOR_FOR_DEPTH(depth) [NSColor colorWithCalibratedWhite:MAX(1.0 - ((MAX((depth), 0.0) - 0) / MAX_FOLDING_DEPTH), 0.0) alpha:1.0]
 
+static NSColor *S_colorForDepth[MAX_FOLDING_DEPTH];
+
 FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRect) {
-	[COLOR_FOR_DEPTH(aDepth) set];
+	[S_colorForDepth[MIN(aDepth,(MAX_FOLDING_DEPTH - 1))] set];
 	NSRectFill(aRect); 
+	if (aDepth >= MAX_FOLDING_DEPTH) {
+		[S_colorForDepth[MAX(MAX_FOLDING_DEPTH - (aDepth - MAX_FOLDING_DEPTH) - 2,0)] set];
+		NSRect rectToFill = NSOffsetRect(NSInsetRect(aRect,2.5,0),2.5,0);
+		NSRectFill(rectToFill);
+//		if (aDepth >= MAX_FOLDING_DEPTH * 2 - 2) {
+//			[S_colorForDepth[MIN(aDepth - MAX_FOLDING_DEPTH * 2 + 2,(MAX_FOLDING_DEPTH - 1))] set];
+//			rectToFill = NSOffsetRect(NSInsetRect(rectToFill,1,0),1,0);
+//			NSRectFill(rectToFill);
+//		} 
+	}
 
 // a try with steps
 //	[[NSColor whiteColor] set]; 
@@ -32,7 +44,6 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 //		depthInsetRect.origin.x += depthInsetRect.size.width;
 //	}
 }
-
 
 @interface NSBezierPath (BezierPathGutterRulerViewAdditions)
 + (NSBezierPath *)trianglePathInRect:(NSRect)aRect arrowPoint:(NSRectEdge)anEdge;
@@ -58,6 +69,17 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 @end
 
 @implementation GutterRulerView
+
++ (void)initialize {
+	if (self == [GutterRulerView class]) {
+		int i = 0;
+		for (i=0;i<MAX_FOLDING_DEPTH;i++) {
+			NSColor *color = nil;
+			color = [NSColor colorWithCalibratedWhite:MAX(1.0 - ((MAX((i+0.5), 0.0) - 0) / (double)MAX_FOLDING_DEPTH), 0.0) alpha:1.0];
+			S_colorForDepth[i]=[color retain];
+		}
+	}
+}
 
 - (id)initWithScrollView:(NSScrollView *)aScrollView 
              orientation:(NSRulerOrientation)orientation {
