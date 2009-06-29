@@ -3876,6 +3876,7 @@
                     <end>
                         <regex>}</regex>
                     </end>
+                    <import mode="Javascript" keywords-only="yes"/>
                     <import mode="PHP-HTML" state="Inline Javascript"/>
                 </state>
             </state>
