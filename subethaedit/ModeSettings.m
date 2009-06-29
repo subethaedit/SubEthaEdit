@@ -116,7 +116,7 @@
         if ([@"extension" isEqualToString:name]) {
 			// Check
 			NSString *caseSensitive = [[entry attributeForName:@"casesensitive"] stringValue];
-			if ([caseSensitive isEqualToString:@"no"]) [I_recognitionCasesensitveExtenstions addObject:value];
+			if ([caseSensitive isEqualToString:@"yes"]) [I_recognitionCasesensitveExtenstions addObject:value];
 			else {
 				BOOL alreadyInThere = NO;
 				NSEnumerator *enumerator = [I_recognitionExtenstions objectEnumerator];
