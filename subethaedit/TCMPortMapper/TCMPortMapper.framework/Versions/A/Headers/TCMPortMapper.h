@@ -92,6 +92,7 @@ typedef enum {
 
 + (TCMPortMapper *)sharedInstance;
 + (NSString *)manufacturerForHardwareAddress:(NSString *)aMACAddress;
++ (NSString *)sizereducableHashOfString:(NSString *)inString;
 
 - (NSSet *)portMappings;
 - (NSMutableSet *)removeMappingQueue;
