@@ -6,7 +6,7 @@
     <extension>htm</extension>
     <extension>xhtml</extension>
     <extension>shtm</extension>
-    <regex>\A&lt;!DOCTYPE HTML</regex>
+    <regex>\A&lt;!DOCTYPE (?i:HTML)</regex>
     <regex>\A&lt;(?i:html)</regex>
   </recognition>
 </settings>
