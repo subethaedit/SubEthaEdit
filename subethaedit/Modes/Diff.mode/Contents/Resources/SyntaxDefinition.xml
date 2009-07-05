@@ -31,7 +31,12 @@
                 <regex>^([@]{2}[^@\n\r]+[@]{2})</regex>
             </keywords>
 
-                        
+            <state id="Block" type="block" foldable="yes">
+                <begin><regex>^(?:[@]{2}[^@\n\r]+[@]{2})</regex></begin>
+                <end><regex>[\r\n](?=(?:[@][@]|Index|$))</regex></end>
+                <import />
+            </state>
+
         </default>
 
     </states>
