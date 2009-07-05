@@ -461,6 +461,30 @@
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)`</regex></end>
             </state>
 
+            <state id="do done Block" type="block" foldable="yes">
+                <begin><regex>(?&lt;=\s)do(?=\s)</regex></begin>
+                <end><regex>(?&lt;=\s)done(?=\s)</regex></end>
+                <import />
+            </state>
+
+            <state id="if then fi Block" type="block" foldable="yes">
+                <begin><regex>(?&lt;=\s)if[^\n\r]*then(?=\s)</regex></begin>
+                <end><regex>(?&lt;=\s)fi(?=\s)</regex></end>
+                <import />
+            </state>
+
+            <state id="Anti Bracket Block" foldable="no">
+                <begin><regex>\${</regex></begin>
+                <end><regex>}</regex></end>
+                <import />
+            </state>
+
+            <state id="Bracket Block" type="block" foldable="yes">
+                <begin><regex>(?:(?&lt;=\s)function[\s\w]+)?{</regex></begin>
+                <end><regex>}</regex></end>
+                <import />
+            </state>
+
         </default>
 
     </states>
