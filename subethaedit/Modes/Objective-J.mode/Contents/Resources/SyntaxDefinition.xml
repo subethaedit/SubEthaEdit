@@ -129,6 +129,7 @@
             </keywords>
             
             <keywords id = "Objective-J Directives" color = "#1A1AA6" useforautocomplete = "yes" font-weight = "bold">
+                <string>@accessors</string>
                 <string>@class</string>
                 <string>@end</string>
                 <string>@implementation</string>
@@ -182,6 +183,8 @@
                 <string>CPCloseCommand</string>
                 <string>CPCoder</string>
                 <string>CPCoding</string>
+                <string>CPCollectionView</string>
+                <string>CPCollectionViewItem</string>
                 <string>CPColor</string>
                 <string>CPColorList</string>
                 <string>CPColorPanel</string>
@@ -2800,7 +2803,7 @@
         </default>
 
         <state id = "Objective-J Imports" color = "#683821" background-color = "none">
-            <begin><regex>^\s*import</regex></begin>
+            <begin><regex>^\s*@import</regex></begin>
             <end><regex>((?&lt;=[^\\])[\n\r])|(^[\n\r])</regex></end>
         </state>
 
