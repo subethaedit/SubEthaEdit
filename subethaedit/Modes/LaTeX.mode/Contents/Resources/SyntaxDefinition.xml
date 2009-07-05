@@ -11,6 +11,7 @@
     
         <default id="Base" color="#000">
             <keywords id="Keywords" color="#881350" useforautocomplete="no">
+                <regex>(\\\w+[\t ]*{[^}]*})</regex>
                 <regex>((((?&lt;!\\)(\\\\)*)|^)\\[\w\d]+)</regex>
                 <regex>(\\\\)</regex>
             </keywords>
@@ -38,6 +39,16 @@
 				<begin><regex>(?&lt;!\\)\$</regex></begin>
 				<end><regex>(?&lt;!\\)\$</regex></end>
 			</state>
+
+            <state id="Block" foldable="yes">
+                <begin>
+                    <regex>\\begin\s*{\s*(?'latexblock'[-:_\w]*)\s*}</regex>
+                </begin>
+                <end>
+                    <regex>\\end\s*{\s*(?#see-insert-start-group:latexblock)\s*}</regex>
+                </end>
+                <import />
+            </state>
         
 		</default>
 
