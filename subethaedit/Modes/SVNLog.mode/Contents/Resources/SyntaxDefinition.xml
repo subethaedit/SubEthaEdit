@@ -1,53 +1,55 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE syntax SYSTEM "syntax.dtd">
+
 <syntax>
-
-  <head>
-    <name>SVNLog</name> <!-- The definitions title -->
-    <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-+@|"]]></charsintokens> 
-  </head>
-  <states>
-    <default id="Base"  color="#000000" inverted-color="#ffffff"  font-style="normal" font-weight="normal" background-color="#f4f7fe" inverted-background-color="#010e23">
-      <state id="Headline" color="#6e8cbe" inverted-color="#4f6da2"  font-style="normal" font-weight="normal">
-        <begin><regex>r[0-9]+ \|</regex></begin>
-        <end><regex>[0-9]+ lines?</regex></end>
-        <keywords id="Pipes" color="#696969" inverted-color="#ffffff"  font-style="normal" font-weight="normal" useforautocomplete="no">
-            <string>|</string>
-        </keywords>
-        <keywords id="User" color="#1444b4" inverted-color="#83c9ff"  font-style="normal" font-weight="bold" useforautocomplete="no">
-          <regex>\| (.+) \| .+ \| .+lines?</regex>
-        </keywords>
-        <keywords id="Revision" color="#001bbb" inverted-color="#83c9ff"  font-style="normal" font-weight="bold" useforautocomplete="no">
-          <regex>(r\d+)</regex>
-        </keywords>
-      </state>
-
-      <state id="Changed Paths" color="#aaaaaa" inverted-color="#929292"  font-style="normal" font-weight="normal">
-        <begin><regex>^Changed paths:\n</regex></begin>
-        <end><regex>^\n</regex></end>
-        <keywords id="Added" color="#549a18" inverted-color="#76b14c"  font-style="italic" font-weight="normal" useforautocomplete="no">
-            <regex>^([ ]{3}A .+)$</regex>
-        </keywords>
-        
-        <keywords id="Modified"  color="#a57e24" inverted-color="#d1ad40"  font-style="italic" font-weight="normal" useforautocomplete="no">
-            <regex>^([ ]{3}M .+)$</regex>
-        </keywords>
-  
-        <keywords id="Deleted" color="#b82314" inverted-color="#e55959"  font-style="italic" font-weight="normal" useforautocomplete="no">
-            <regex>^([ ]{3}D .+)$</regex>
-        </keywords>
-
-        <keywords id="Replaced" color="#c16024" font-style="italic" font-weight="bold" useforautocomplete="no">
-            <regex>^([ ]{3}R .+)$</regex>
-        </keywords>
-      </state>
-
-
-      <keywords id="-----------------"  color="#666666" inverted-color="#999999"  font-style="normal" font-weight="bold" useforautocomplete="no">
-          <regex>^([-]{3,})</regex>
-      </keywords>
-
-                    
-    </default>
-  </states>
+    <head>
+        <name>SVNLog</name>
+        <!-- The definitions title -->
+        <charsintokens>_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-+@|"</charsintokens>
+    </head>
+    <states>
+        <default id="Base" color="#000000" inverted-color="#ffffff" font-style="normal" font-weight="normal" background-color="#f4f7fe" inverted-background-color="#010e23">
+            <state id="Changed Paths" color="#aaaaaa" inverted-color="#929292" font-style="normal" font-weight="normal">
+                <begin>
+                    <regex>^Changed paths:\n</regex>
+                </begin>
+                <end>
+                    <regex>^\n</regex>
+                </end>
+                <keywords id="Added" color="#549a18" inverted-color="#76b14c" font-style="italic" font-weight="normal" useforautocomplete="no">
+                    <regex>^([ ]{3}A .+)$</regex>
+                </keywords>
+                <keywords id="Modified" color="#a57e24" inverted-color="#d1ad40" font-style="italic" font-weight="normal" useforautocomplete="no">
+                    <regex>^([ ]{3}M .+)$</regex>
+                </keywords>
+                <keywords id="Deleted" color="#b82314" inverted-color="#e55959" font-style="italic" font-weight="normal" useforautocomplete="no">
+                    <regex>^([ ]{3}D .+)$</regex>
+                </keywords>
+                <keywords id="Replaced" color="#c16024" font-style="italic" font-weight="bold" useforautocomplete="no">
+                    <regex>^([ ]{3}R .+)$</regex>
+                </keywords>
+            </state>
+            <keywords id="-----------------" color="#666666" inverted-color="#999999" font-style="normal" font-weight="bold" useforautocomplete="no">
+                <regex>^([-]{3,})</regex>
+            </keywords>
+            <state id="Block" type="block" foldable="yes">
+                <begin>
+                    <regex>\-\-\-\-\-[\n\r][^\n\r]+</regex>
+                </begin>
+                <end>
+                    <regex>[\r\n]\-</regex>
+                </end>
+                <keywords id="Pipes" color="#696969" inverted-color="#ffffff" font-style="normal" font-weight="normal" useforautocomplete="no">
+                    <string>|</string>
+                </keywords>
+                <keywords id="User" color="#1444b4" inverted-color="#83c9ff" font-style="normal" font-weight="bold" useforautocomplete="no">
+                    <regex>\| (.+) \| .+ \| .+lines?</regex>
+                </keywords>
+                <keywords id="Revision" color="#001bbb" inverted-color="#83c9ff" font-style="normal" font-weight="bold" useforautocomplete="no">
+                    <regex>(r\d+)</regex>
+                </keywords>
+                <import/>
+            </state>
+        </default>
+    </states>
 </syntax>
