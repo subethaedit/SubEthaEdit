@@ -1018,9 +1018,19 @@ typedef union {
 				// get start and endrange
 				NSRange startDelimiterRange = NSMakeRange(0,0);
 				NSRange endDelimiterRange = NSMakeRange(0,0);
-				[I_fullTextStorage attribute:kSyntaxHighlightingStateDelimiterName atIndex:attributeRange.location longestEffectiveRange:&startDelimiterRange inRange:attributeRange];
-				[I_fullTextStorage attribute:kSyntaxHighlightingStateDelimiterName atIndex:NSMaxRange(attributeRange) - 1 longestEffectiveRange:&endDelimiterRange inRange:attributeRange];
+				NSString *startAttribute = [I_fullTextStorage attribute:kSyntaxHighlightingStateDelimiterName atIndex:attributeRange.location longestEffectiveRange:&startDelimiterRange inRange:attributeRange];
+				NSString *endAttribute = [I_fullTextStorage attribute:kSyntaxHighlightingStateDelimiterName atIndex:NSMaxRange(attributeRange) - 1 longestEffectiveRange:&endDelimiterRange inRange:attributeRange];
+				if (![startAttribute isEqualToString:kSyntaxHighlightingStateDelimiterStartValue] || ![endAttribute isEqualToString:kSyntaxHighlightingStateDelimiterEndValue]) {
+					// nothing to fold so continue
+					continue;
+				}
+
+				if (NSMaxRange(startDelimiterRange) >= endDelimiterRange.location) {
+					// nothing to fold so continue
+					continue;
+				}
 				NSRange rangeToFold = NSMakeRange(NSMaxRange(startDelimiterRange),endDelimiterRange.location - NSMaxRange(startDelimiterRange));
+//				NSLog(@"potential rangetofold: %@",NSStringFromRange(rangeToFold));
 				rangeToFold = [self foldedRangeForFullRange:rangeToFold];
 				// check range to Fold for newlines if so fold beginning with the first newline to the end
 				NSString *string = [self string];

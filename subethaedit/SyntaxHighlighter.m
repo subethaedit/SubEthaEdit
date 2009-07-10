@@ -23,6 +23,8 @@ NSString * const kSyntaxHighlightingIsCorrectAttributeName  = @"HighlightingIsCo
 NSString * const kSyntaxHighlightingIsCorrectAttributeValue = @"Correct";
 NSString * const kSyntaxHighlightingStackName = @"HighlightingStack";
 NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDelimiter";
+NSString * const kSyntaxHighlightingStateDelimiterStartValue = @"Start";
+NSString * const kSyntaxHighlightingStateDelimiterEndValue = @"End";
 NSString * const kSyntaxHighlightingFoldDelimiterName = @"HighlightingFoldDelimiter";
 NSString * const kSyntaxHighlightingStyleIDAttributeName = @"styleID";
 NSString * const kSyntaxHighlightingTypeAttributeName = @"Type";
@@ -106,7 +108,7 @@ static  NSMutableDictionary *S_transientRegexCache = nil;
     int foldingDepth = 0, newFoldingDepth = 0;
     if ((!stack)&&(currentRange.location>0)) {
         stack = [NSMutableArray arrayWithArray:[aString attribute:kSyntaxHighlightingStackName atIndex:currentRange.location-1 effectiveRange:nil]];
-        if ([[aString attribute:kSyntaxHighlightingStateDelimiterName atIndex:currentRange.location-1 effectiveRange:nil] isEqualTo:@"End"]) {
+        if ([[aString attribute:kSyntaxHighlightingStateDelimiterName atIndex:currentRange.location-1 effectiveRange:nil] isEqualTo:kSyntaxHighlightingStateDelimiterEndValue]) {
             [stack removeLastObject];
         }
         
@@ -148,7 +150,7 @@ static  NSMutableDictionary *S_transientRegexCache = nil;
         // But check for starts that contain \n
         NSRange attRange;
         if (currentRange.location>0) 
-        if ((currentRange.location-1>=aRange.location)&&([[aString attribute:kSyntaxHighlightingStateDelimiterName atIndex:currentRange.location-1 longestEffectiveRange:&attRange inRange:aRange] isEqualToString:@"Start"])){
+        if ((currentRange.location-1>=aRange.location)&&([[aString attribute:kSyntaxHighlightingStateDelimiterName atIndex:currentRange.location-1 longestEffectiveRange:&attRange inRange:aRange] isEqualToString:kSyntaxHighlightingStateDelimiterStartValue])){
             NSRange sameStackRange;
             [aString attribute:kSyntaxHighlightingStackName atIndex:currentRange.location-1 longestEffectiveRange:&sameStackRange inRange:aRange];
             startRange = NSIntersectionRange(attRange,sameStackRange);
@@ -224,7 +226,7 @@ static  NSMutableDictionary *S_transientRegexCache = nil;
                 [scratchAttributes removeAllObjects];
                 [scratchAttributes addEntriesFromDictionary:[theDocument styleAttributesForStyleID:[subState objectForKey:kSyntaxHighlightingStyleIDAttributeName]]];
                 [scratchAttributes setObject:[[stack copy] autorelease] forKey:kSyntaxHighlightingStackName];
-                [scratchAttributes setObject:@"Start" forKey:kSyntaxHighlightingStateDelimiterName];
+                [scratchAttributes setObject:kSyntaxHighlightingStateDelimiterStartValue forKey:kSyntaxHighlightingStateDelimiterName];
 				NSString *typeAttributeString;
 				if ((typeAttributeString=[subState objectForKey:@"type"]))
 					[scratchAttributes setObject:typeAttributeString forKey:kSyntaxHighlightingTypeAttributeName];
@@ -232,7 +234,7 @@ static  NSMutableDictionary *S_transientRegexCache = nil;
                 subState = [definition stateForID:[subState objectForKey:@"id"]];
 				[scratchAttributes setObject:[subState objectForKey:[definition keyForInheritedSymbols]] forKey:kSyntaxHighlightingParentModeForSymbolsAttributeName];
 				[scratchAttributes setObject:[subState objectForKey:[definition keyForInheritedAutocomplete]] forKey:kSyntaxHighlightingParentModeForAutocompleteAttributeName];
-                if ([[subState objectForKey:@"foldable"] isEqualToString:@"yes"]) [scratchAttributes setObject:@"Start" forKey:kSyntaxHighlightingFoldDelimiterName];
+                if ([[subState objectForKey:@"foldable"] isEqualToString:@"yes"]) [scratchAttributes setObject:kSyntaxHighlightingStateDelimiterStartValue forKey:kSyntaxHighlightingFoldDelimiterName];
 
                 if ([[subState objectForKey:@"foldable"] isEqualToString:@"yes"]) {
                     newFoldingDepth++;
@@ -250,9 +252,9 @@ static  NSMutableDictionary *S_transientRegexCache = nil;
                 
                 nextRange.location = NSMaxRange(stateRange);
                 nextRange.length = currentRange.length - stateRange.length;
-                [scratchAttributes setObject:@"End" forKey:kSyntaxHighlightingStateDelimiterName];
+                [scratchAttributes setObject:kSyntaxHighlightingStateDelimiterEndValue forKey:kSyntaxHighlightingStateDelimiterName];
                 if ([[currentState objectForKey:@"foldable"] isEqualToString:@"yes"]) {
-					[scratchAttributes setObject:@"End" forKey:kSyntaxHighlightingFoldDelimiterName];
+					[scratchAttributes setObject:kSyntaxHighlightingStateDelimiterEndValue forKey:kSyntaxHighlightingFoldDelimiterName];
                    newFoldingDepth = foldingDepth - 1;
                 }
                 [aString addAttributes:scratchAttributes range:delimiterRange];
@@ -325,8 +327,8 @@ static  NSMutableDictionary *S_transientRegexCache = nil;
     
     if (([aString attribute:kSyntaxHighlightingIsCorrectAttributeName atIndex:nextIndex effectiveRange:nil])) {
         BOOL matchesUp = NO;
-        BOOL leftIsEnd = [[aString attribute:kSyntaxHighlightingStateDelimiterName atIndex:nextIndex-1 effectiveRange:nil] isEqualTo:@"End"];
-        BOOL rightIsStart = [[aString attribute:kSyntaxHighlightingStateDelimiterName atIndex:nextIndex effectiveRange:nil] isEqualTo:@"Start"];
+        BOOL leftIsEnd = [[aString attribute:kSyntaxHighlightingStateDelimiterName atIndex:nextIndex-1 effectiveRange:nil] isEqualTo:kSyntaxHighlightingStateDelimiterEndValue];
+        BOOL rightIsStart = [[aString attribute:kSyntaxHighlightingStateDelimiterName atIndex:nextIndex effectiveRange:nil] isEqualTo:kSyntaxHighlightingStateDelimiterStartValue];
         NSArray *leftStack = [aString attribute:kSyntaxHighlightingStackName atIndex:nextIndex-1 effectiveRange:nil];
         int leftCount = [leftStack count];
         NSArray *rightStack = [aString attribute:kSyntaxHighlightingStackName atIndex:nextIndex effectiveRange:nil];
