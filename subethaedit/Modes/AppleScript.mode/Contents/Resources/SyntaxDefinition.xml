@@ -220,7 +220,7 @@
 				<regex>'.'</regex>
             </keywords>
             
-            <state id="Comment" type="comment" color="#8d8d8d" font-style="italic" foldable="yes">
+            <state id="Comment" type="comment" color="#8d8d8d" font-style="italic">
                 <begin><string>\(\*</string></begin>
                 <end><regex>\*\)</regex></end>
             </state>

@@ -398,7 +398,7 @@
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)\/</regex></end>
             </state>
             
-            <state id="POD Comments" type="comment" color="#800000" inverted-color="#ff7f7f"  font-style="normal" font-weight="normal" foldable="yes">
+            <state id="POD Comments" type="comment" color="#800000" inverted-color="#ff7f7f"  font-style="normal" font-weight="normal">
                 <begin><regex>(?:^=begin)</regex></begin>
                 <end><regex>^=end</regex></end>
             </state>

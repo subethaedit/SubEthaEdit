@@ -1914,7 +1914,7 @@
             </state>
     
             
-            <state id="Comment" color="#236E25" font-weight="normal" font-style="italic" foldable="yes">
+            <state id="Comment" color="#236E25" font-weight="normal" font-style="italic">
                 <begin><regex>/\*</regex></begin>
                 <end><regex>\*/</regex></end>
             </state>

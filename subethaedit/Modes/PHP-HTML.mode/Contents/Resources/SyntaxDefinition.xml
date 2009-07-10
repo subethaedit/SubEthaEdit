@@ -3659,7 +3659,7 @@
                 <import mode="XML" keywords-only="yes"/>
                 <import/>
             </state>
-            <state id="Comment" type="comment" color="#236E25" font-style="italic" foldable="yes">
+            <state id="Comment" type="comment" color="#236E25" font-style="italic">
                 <begin>
                     <regex>&lt;!--</regex>
                 </begin>
@@ -3757,7 +3757,7 @@
                     <state-link state="CSSString"/>
                     <state-link state="CSSSingleString"/>
                 </state>
-                <state id="CSSComment" type="comment" color="#236E25" font-weight="normal" font-style="italic" foldable="yes">
+                <state id="CSSComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
                     <begin>
                         <string>/\*</string>
                     </begin>
@@ -3816,7 +3816,7 @@
                     <import state="Tags"/>
                 </state>
                 <state-link state="PHP"/>
-                <state id="JSAutodocComment" type="comment" color="#236E25" font-weight="bold" font-style="italic" foldable="yes">
+                <state id="JSAutodocComment" type="comment" color="#236E25" font-weight="bold" font-style="italic">
                     <begin>
                         <regex>/\*"</regex>
                     </begin>
@@ -3825,7 +3825,7 @@
                     </end>
                     <state-link state="PHP"/>
                 </state>
-                <state id="JSComment" type="comment" color="#236E25" font-weight="normal" font-style="italic" foldable="yes">
+                <state id="JSComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
                     <begin>
                         <regex>/\*</regex>
                     </begin>

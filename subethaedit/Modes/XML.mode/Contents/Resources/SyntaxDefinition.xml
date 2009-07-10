@@ -25,7 +25,7 @@
                 <regex>(&amp;#[0-9]+;)</regex>
                 <regex>(&amp;#x[A-Fa-f0-9]+;)</regex>
             </keywords>
-            <state id="Comment" type="comment" color="#236E25" font-style="italic" foldable="yes">
+            <state id="Comment" type="comment" color="#236E25" font-style="italic">
                 <begin>
                     <regex>&lt;!--</regex>
                 </begin>

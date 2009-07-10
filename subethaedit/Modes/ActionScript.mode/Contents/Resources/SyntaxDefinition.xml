@@ -1726,12 +1726,12 @@
 				<regex>(^[ 	]*#([^\n\r])*)</regex>
             </keywords>
         
-            <state id="JavadocComment" type="comment" color="#236E25" font-weight="bold" font-style="italic" foldable="yes">
+            <state id="JavadocComment" type="comment" color="#236E25" font-weight="bold" font-style="italic">
                 <begin><regex>/\*\*(?=[\n\r])</regex></begin>
                 <end><regex>\*/</regex></end>
             </state>
     
-            <state id="Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic" foldable="yes">
+            <state id="Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
                 <begin><regex>/\*</regex></begin>
                 <end><regex>\*/</regex></end>
             </state>
