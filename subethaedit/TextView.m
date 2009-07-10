@@ -415,17 +415,31 @@ static NSMenu *S_defaultMenu=nil;
 
 - (IBAction)foldCurrentBlock:(id)aSender {
 	FoldableTextStorage *ts = (FoldableTextStorage *)[self textStorage];
-	NSRange selectedRange = [ts fullRangeForFoldedRange:[self selectedRange]];
-	NSRange fullRangeToFold = [[ts fullTextStorage] foldableRangeForCharacterAtIndex:selectedRange.location]; 
-	if (fullRangeToFold.location != NSNotFound) {
-		NSRange foldableRangeToFold = [ts foldedRangeForFullRange:fullRangeToFold];
-		[ts foldRange:foldableRangeToFold];
+	NSRange mySelectedRange = [self selectedRange];
+	BOOL didFold = NO;
+	
+	NSRange foldableCommentRange = [ts foldableCommentRangeForCharacterAtIndex:mySelectedRange.location];
+	if (foldableCommentRange.location != NSNotFound && foldableCommentRange.length > 0) {
+		[self setSelectedRange:foldableCommentRange];
+		[ts foldRange:foldableCommentRange];
+		didFold = YES;
+	} else {
+		NSRange selectedRange = [ts fullRangeForFoldedRange:mySelectedRange];
+		NSRange fullRangeToFold = [[ts fullTextStorage] foldableRangeForCharacterAtIndex:selectedRange.location]; 
+		if (fullRangeToFold.location != NSNotFound) {
+			NSRange foldableRangeToFold = [ts foldedRangeForFullRange:fullRangeToFold];
+			[ts foldRange:foldableRangeToFold];
+			didFold = YES;
+		} else {
+			NSBeep();
+		}
+	}
+
+	if (didFold) {
 		NSScrollView *scrollView = [self enclosingScrollView];
 		if ([scrollView rulersVisible]) {
 			[[scrollView verticalRulerView] setNeedsDisplay:YES];
 		}
-	} else {
-		NSBeep();
 	}
 }
 

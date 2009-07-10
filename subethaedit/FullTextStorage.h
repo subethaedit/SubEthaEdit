@@ -61,6 +61,8 @@
 //- (void)replaceCharactersInRange:(NSRange)inRange withAttributedString:(NSAttributedString *)inAttributedString;
 - (void)removeAttribute:(NSString *)anAttribute range:(NSRange)aRange synchronize:(BOOL)aSynchronizeFlag;
 - (NSRange)foldableRangeForCharacterAtIndex:(unsigned long int)index;
+// returns longest range of continous comments, even when whitespace is inbetween those comments
+- (NSRange)continuousCommentRangeAtIndex:(unsigned long int)anIndex;
 
 - (void)replaceCharactersInRange:(NSRange)inRange withAttributedString:(NSAttributedString *)inAttributedString synchronize:(BOOL)inSynchronizeFlag;
 

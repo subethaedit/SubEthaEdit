@@ -1005,6 +1005,24 @@ typedef union {
 
 #define COMMENT_CHARACTER_COUNT_TO_START_FOLDING 80
 
+- (NSRange)reducedFoldingRangeForCommentFoldingRange:(NSRange)inCommentRange {
+	// check range to Fold for newlines if so fold beginning with the first newline to the end
+	NSRange rangeToFold = inCommentRange;
+	NSString *string = [self string];
+	unsigned start, end, contentsEnd;
+	[string getLineStart:&start end:&end contentsEnd:&contentsEnd forRange:NSMakeRange(rangeToFold.location,0)];
+	if (NSMaxRange(rangeToFold) > end && NSMaxRange(rangeToFold) > contentsEnd) {
+		rangeToFold = NSMakeRange(contentsEnd,NSMaxRange(rangeToFold) - contentsEnd);
+	} else if (rangeToFold.length > COMMENT_CHARACTER_COUNT_TO_START_FOLDING + 5) {
+		rangeToFold.location += COMMENT_CHARACTER_COUNT_TO_START_FOLDING;
+		rangeToFold.length   -= COMMENT_CHARACTER_COUNT_TO_START_FOLDING;
+	} else {
+		// folding range not long enough so nothing to fold here.
+		rangeToFold = NSMakeRange(NSNotFound,0);
+	}
+	return rangeToFold;
+}
+
 - (void)foldAllComments {
 	[self beginEditing];
 	NSRange wholeRange = NSMakeRange(0,[I_fullTextStorage length]);
@@ -1014,40 +1032,30 @@ typedef union {
 		
 		do {
 			type = [I_fullTextStorage attribute:kSyntaxHighlightingTypeAttributeName atIndex:NSMaxRange(attributeRange) longestEffectiveRange:&attributeRange inRange:wholeRange];
-			if ([type isEqualToString:@"comment"]) {
-				// get start and endrange
-				NSRange startDelimiterRange = NSMakeRange(0,0);
-				NSRange endDelimiterRange = NSMakeRange(0,0);
-				NSString *startAttribute = [I_fullTextStorage attribute:kSyntaxHighlightingStateDelimiterName atIndex:attributeRange.location longestEffectiveRange:&startDelimiterRange inRange:attributeRange];
-				NSString *endAttribute = [I_fullTextStorage attribute:kSyntaxHighlightingStateDelimiterName atIndex:NSMaxRange(attributeRange) - 1 longestEffectiveRange:&endDelimiterRange inRange:attributeRange];
-				if (![startAttribute isEqualToString:kSyntaxHighlightingStateDelimiterStartValue] || ![endAttribute isEqualToString:kSyntaxHighlightingStateDelimiterEndValue]) {
-					// nothing to fold so continue
-					continue;
+			if ([type isEqualToString:kSyntaxHighlightingTypeComment]) {
+				attributeRange = [I_fullTextStorage continuousCommentRangeAtIndex:attributeRange.location];
+//				NSLog(@"%s %@",__FUNCTION__,NSStringFromRange(attributeRange));
+				NSRange continousCommentRange = [self foldedRangeForFullRange:attributeRange];
+				continousCommentRange = [self reducedFoldingRangeForCommentFoldingRange:continousCommentRange];
+				if (continousCommentRange.location != NSNotFound && continousCommentRange.length > 0) {
+					[self foldRange:continousCommentRange];
 				}
-
-				if (NSMaxRange(startDelimiterRange) >= endDelimiterRange.location) {
-					// nothing to fold so continue
-					continue;
-				}
-				NSRange rangeToFold = NSMakeRange(NSMaxRange(startDelimiterRange),endDelimiterRange.location - NSMaxRange(startDelimiterRange));
-//				NSLog(@"potential rangetofold: %@",NSStringFromRange(rangeToFold));
-				rangeToFold = [self foldedRangeForFullRange:rangeToFold];
-				// check range to Fold for newlines if so fold beginning with the first newline to the end
-				NSString *string = [self string];
-				unsigned start, end, contentsEnd;
-				[string getLineStart:&start end:&end contentsEnd:&contentsEnd forRange:NSMakeRange(rangeToFold.location,0)];
-				if (NSMaxRange(rangeToFold) > end && NSMaxRange(rangeToFold) > contentsEnd) {
-					rangeToFold = NSMakeRange(contentsEnd,NSMaxRange(rangeToFold) - contentsEnd);
-					[self foldRange:rangeToFold];
-				} else if (rangeToFold.length > COMMENT_CHARACTER_COUNT_TO_START_FOLDING + 5) {
-					rangeToFold.location += COMMENT_CHARACTER_COUNT_TO_START_FOLDING;
-					rangeToFold.length   -= COMMENT_CHARACTER_COUNT_TO_START_FOLDING;
-					[self foldRange:rangeToFold];
-				}
+				// move ahead
+				type = [I_fullTextStorage attribute:kSyntaxHighlightingTypeAttributeName atIndex:NSMaxRange(attributeRange) longestEffectiveRange:&attributeRange inRange:wholeRange];
 			}
 		} while (NSMaxRange(attributeRange) < NSMaxRange(wholeRange));
 	}
 	[self endEditing];
+}
+
+- (NSRange)foldableCommentRangeForCharacterAtIndex:(unsigned long int)anIndex {
+	NSRange fullRange = [self fullRangeForFoldedRange:NSMakeRange(anIndex,0)];
+	NSRange continousCommentRange = [I_fullTextStorage continuousCommentRangeAtIndex:fullRange.location];
+	if (continousCommentRange.location != NSNotFound) {
+		continousCommentRange = [self foldedRangeForFullRange:continousCommentRange];
+		continousCommentRange = [self reducedFoldingRangeForCommentFoldingRange:continousCommentRange];
+	}
+	return continousCommentRange;
 }
 
 

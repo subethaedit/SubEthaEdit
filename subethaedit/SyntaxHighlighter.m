@@ -32,6 +32,9 @@ NSString * const kSyntaxHighlightingParentModeForSymbolsAttributeName = @"Parent
 NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"ParentModeForAutocomplete";
 NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
 
+NSString * const kSyntaxHighlightingTypeComment = @"comment";
+
+
 @implementation SyntaxHighlighter
 /*"A Syntax Highlighter"*/
 

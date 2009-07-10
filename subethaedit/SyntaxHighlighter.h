@@ -23,6 +23,8 @@ extern NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeNam
 extern NSString * const kSyntaxHighlightingFoldDelimiterName;
 extern NSString * const kSyntaxHighlightingFoldingDepthAttributeName;
 
+extern NSString * const kSyntaxHighlightingTypeComment;
+
 @interface SyntaxHighlighter : NSObject {
     SyntaxDefinition *I_syntaxDefinition;
     NSMutableArray *I_parseStack;

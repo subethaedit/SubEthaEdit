@@ -545,6 +545,74 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     return returnRange;
 }
 
+- (NSRange)continuousCommentRangeAtIndex:(unsigned long int)anIndex {
+    NSMutableAttributedString *textStorage = self;
+
+    NSRange returnRange = NSMakeRange(NSNotFound, 0);
+    NSRange wholeRange = NSMakeRange(0, [textStorage length]);
+    NSString *type = [textStorage attribute:kSyntaxHighlightingTypeAttributeName atIndex:anIndex longestEffectiveRange:&returnRange inRange:wholeRange];
+    
+    if (![type isEqualToString:kSyntaxHighlightingTypeComment]) {
+    	return NSMakeRange(NSNotFound, 0); // Not foldable
+    } else {
+    
+    	NSCharacterSet *invertedWhiteSpaceAndNewlineCharacterSet = [[NSCharacterSet whitespaceAndNewlineCharacterSet] invertedSet];
+		NSString *textStorageString = [textStorage string];
+		
+		int isForwardSearch = 0;
+		for (isForwardSearch = 0; isForwardSearch < 2; isForwardSearch++) {
+			// do this exactly twice, once backward, once forward, and use the same code for recognition
+			
+			// check all ranges in front of the current range
+			NSRange attributeRange = returnRange;
+			while (attributeRange.location > 0 && NSMaxRange(attributeRange) < wholeRange.length) {
+			
+				type = [textStorage attribute:kSyntaxHighlightingTypeAttributeName 
+									atIndex:isForwardSearch ? (NSMaxRange(attributeRange)) : (attributeRange.location - 1)
+									longestEffectiveRange:&attributeRange 
+									inRange:wholeRange];
+				if ([type isEqualToString:kSyntaxHighlightingTypeComment]) {
+					// add the range to the returnRange
+					returnRange = NSUnionRange(attributeRange,returnRange);
+				} else {
+					// check the range for lineRanges since single line comments include the ending
+					NSRange lineRange = [textStorageString lineRangeForRange:NSMakeRange(attributeRange.location,0)];
+					if (NSMaxRange(lineRange) <= NSMaxRange(attributeRange)) {
+						break;
+					}
+				
+					// check the range for non-whitespace characters
+					NSRange nonWhitespaceRange = [textStorageString rangeOfCharacterFromSet:invertedWhiteSpaceAndNewlineCharacterSet options:0 range:attributeRange];
+					if (nonWhitespaceRange.location != NSNotFound) {
+						break; // glue between the comments was no whitespace
+					}
+				}
+			}
+		}
+		
+		// Trim start and end
+		if (returnRange.location!=NSNotFound) {
+			NSRange stateStackRange;
+			NSRange startRange, endRange;
+			// get the max state stack range for the end
+			[textStorage attribute:kSyntaxHighlightingStackName          atIndex:returnRange.location longestEffectiveRange:&stateStackRange inRange:returnRange];
+			[textStorage attribute:kSyntaxHighlightingStateDelimiterName atIndex:returnRange.location longestEffectiveRange:&startRange      inRange:stateStackRange];
+		
+			// get the max state stack range for the end
+			[textStorage attribute:kSyntaxHighlightingStackName          atIndex:NSMaxRange(returnRange)-1 longestEffectiveRange:&stateStackRange inRange:returnRange];
+			[textStorage attribute:kSyntaxHighlightingStateDelimiterName atIndex:NSMaxRange(returnRange)-1 longestEffectiveRange:&endRange        inRange:stateStackRange];
+			
+			// safety check if end and startrange overlap or touch bail
+			if (NSMaxRange(startRange) >= endRange.location) return NSMakeRange(NSNotFound,0);
+			
+			returnRange = NSMakeRange(NSMaxRange(startRange), endRange.location - NSMaxRange(startRange));
+		}
+		
+		return returnRange;
+    }
+}
+
+
 - (void)beginLinearAttributeChanges {
 	I_shouldNotSynchronize++;
 	if (I_linearAttributeChangeState == 0) {
