@@ -950,57 +950,38 @@ typedef union {
 }
 
 - (void)foldAllWithFoldingLevel:(int)aFoldingLevel {
-	if (aFoldingLevel <= 0) return;
-	[self beginEditing];
-//	NSLog(@"%s %d",__FUNCTION__, aFoldingLevel);
+	if (aFoldingLevel <= 0 || [self length] == 0) return;
 
-	// iterate from bottom to top, folding everything at that folding level
+	FoldableTextStorage *textStorage = self;
+	[textStorage beginEditing];
+
+	// go to first location with that folding depth;
 	
-	NSNumber *foldingDepth = nil;
-	NSRange currentFoldingRange = NSMakeRange(NSNotFound,0);
+	NSRange startRange = NSMakeRange(0,0);
+	NSString *stateDelimiter = nil;
+	// search for start delimiters
+	NSRange wholeRange = NSMakeRange(0,[self length]);
 
-	NSRange attributeRange = NSMakeRange([self length],0);
-	if (attributeRange.location == 0) return;
 
-	do {
-		foldingDepth = [self attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:attributeRange.location-1 longestEffectiveRange:&attributeRange inRange:NSMakeRange(0, [self length])];
-//		NSLog(@"%s range:%@ attribute:%@ currentFoldingRange:%@",__FUNCTION__, NSStringFromRange(attributeRange),foldingDepth,NSStringFromRange(currentFoldingRange));
-		if (!foldingDepth || [foldingDepth isKindOfClass:[NSNumber class]]) {
-			int currentDepth = [foldingDepth intValue];
-			if (currentDepth == aFoldingLevel) {
-				if (currentFoldingRange.location == NSNotFound) {
-					currentFoldingRange = attributeRange;
-				} else {
-					currentFoldingRange = NSUnionRange(currentFoldingRange, attributeRange);
-				}
-			} else if (currentDepth > aFoldingLevel) { 
-				// do nothing and take it
-			} else { // current depth < aFoldingLevel
-				if (currentFoldingRange.location != NSNotFound) {
-					// find out if we need to continue with extending the range or stay put and fold
-					if (attributeRange.length == 1 && [self attribute:NSAttachmentAttributeName atIndex:attributeRange.location effectiveRange:NULL]) { 
-						// this is an attachment which we might step over - so do nothing
-					} else {
-//						NSLog(@"%s looking up folding range for: %@",__FUNCTION__,NSStringFromRange(currentFoldingRange));
-						NSRange foldingRange = [self fullRangeForFoldedRange:currentFoldingRange];
-						foldingRange = [I_fullTextStorage foldableRangeForCharacterAtIndex:foldingRange.location];
-						foldingRange = [self foldedRangeForFullRange:foldingRange];
-//						NSLog(@"%s folding followingRange: %@",__FUNCTION__,NSStringFromRange(foldingRange));
-						[self foldRange:foldingRange];
-						currentFoldingRange.location = NSNotFound;
-					}
-				}
-			}
-		}
-	} while (attributeRange.location > 0);
-	
-	if (currentFoldingRange.location != NSNotFound) {
-		NSRange foldingRange = [self fullRangeForFoldedRange:currentFoldingRange];
-		foldingRange = [I_fullTextStorage foldableRangeForCharacterAtIndex:foldingRange.location];
-		foldingRange = [self foldedRangeForFullRange:foldingRange];
-		[self foldRange:foldingRange];
-	}
-	[self endEditing];
+    while (NSMaxRange(startRange) < wholeRange.length) {
+    	// this is folding end search only, not delimiter end search
+    	stateDelimiter = [textStorage attribute:kSyntaxHighlightingFoldDelimiterName atIndex:NSMaxRange(startRange) longestEffectiveRange:&startRange inRange:wholeRange];
+    	if ([stateDelimiter isEqualToString:kSyntaxHighlightingStateDelimiterStartValue]) {
+    		if ([[textStorage attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:startRange.location effectiveRange:NULL] intValue] == aFoldingLevel) {
+				// fetch folding area
+				NSRange rangeForIndex = NSMakeRange(startRange.location,0);
+				rangeForIndex = [textStorage fullRangeForFoldedRange:rangeForIndex];
+				NSRange rangeToFold = [I_fullTextStorage foldableRangeForCharacterAtIndex:rangeForIndex.location];
+				rangeToFold = [textStorage foldedRangeForFullRange:rangeToFold];
+				// fold
+				[textStorage foldRange:rangeToFold];
+				startRange = NSMakeRange(rangeToFold.location,1);
+				wholeRange = NSMakeRange(0,[self length]);
+    		}
+    	}
+    }
+
+	[textStorage endEditing];
 }
 
 #define COMMENT_CHARACTER_COUNT_TO_START_FOLDING 80

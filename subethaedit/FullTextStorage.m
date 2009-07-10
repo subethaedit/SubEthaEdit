@@ -489,57 +489,58 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     // Looks up the range of a folding
     // Search backwards for a start with matching stack, then forwards for an end.
     
-    NSMutableAttributedString *string = self;
+    
+    NSMutableAttributedString *textStorage = self;
+    NSRange wholeRange = NSMakeRange(0,[textStorage length]);
+    if (index >= wholeRange.length) {
+		if (index > 0) {
+	    	index = index - 1;
+	    } else {
+			return NSMakeRange(NSNotFound, 0);
+	    }
+   	}
     //NSString *kindOfFolding = [string attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:index effectiveRange:nil];
     NSRange returnRange = NSMakeRange(NSNotFound, 0);
-    int depth = [[string attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:index longestEffectiveRange:&returnRange inRange:NSMakeRange(0, [string length])] intValue];
+    int depth = [[textStorage attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:index effectiveRange:NULL] intValue];
     
     if (depth == 0) return NSMakeRange(NSNotFound, 0); // Not foldable
-    
-    // new approach: search the next folding start when searching to the left - and if no or end then go on, balh blah 
-    // TODO
-    
-    // Check left
-    
-    if (returnRange.location>0) {
-        NSRange nextRange;
-        int leftDepth = [[string attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:returnRange.location-1 longestEffectiveRange:&nextRange inRange:NSMakeRange(0, returnRange.location)] intValue];
-        while (leftDepth>=depth) {
-            returnRange = NSUnionRange(returnRange, nextRange); 
-            if (returnRange.location == 0) break;
-            leftDepth = [[string attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:returnRange.location-1 longestEffectiveRange:&nextRange inRange:NSMakeRange(0, returnRange.location)] intValue];
-        }
-    }
 
-    // Check right
-    int length = [string length];
-    if (NSMaxRange(returnRange)<length) {
-        NSRange nextRange;
-        int rightDepth = [[string attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:NSMaxRange(returnRange) longestEffectiveRange:&nextRange inRange:NSMakeRange(NSMaxRange(returnRange), length-NSMaxRange(returnRange))] intValue];
-        while (rightDepth>=depth) {
-            returnRange = NSUnionRange(returnRange, nextRange); 
-            if (NSMaxRange(returnRange) == length) break;
-            rightDepth = [[string attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:NSMaxRange(returnRange) longestEffectiveRange:&nextRange inRange:NSMakeRange(NSMaxRange(returnRange), length-NSMaxRange(returnRange))] intValue];
-        }
-    }
-        
-    // Trim start and end
-    if (returnRange.location!=NSNotFound) {
-    	NSRange stateStackRange;
-        NSRange startRange, endRange;
-        // get the max state stack range for the end
-        [string attribute:kSyntaxHighlightingStackName 			atIndex:returnRange.location longestEffectiveRange:&stateStackRange inRange:returnRange];
-        [string attribute:kSyntaxHighlightingStateDelimiterName atIndex:returnRange.location longestEffectiveRange:&startRange inRange:stateStackRange];
+	// new approach: find folding start for this level as range. then find folding end for this level as range. then return the intersection.
 
-        // get the max state stack range for the end
-        [string attribute:kSyntaxHighlightingStackName 			atIndex:NSMaxRange(returnRange)-1 longestEffectiveRange:&stateStackRange inRange:returnRange];
-        [string attribute:kSyntaxHighlightingStateDelimiterName atIndex:NSMaxRange(returnRange)-1 longestEffectiveRange:&endRange inRange:stateStackRange];
-        
-        // safety check if end and startrange overlap or touch bail
-        if (NSMaxRange(startRange) >= endRange.location) return NSMakeRange(NSNotFound,0);
-        
-        returnRange = NSMakeRange(NSMaxRange(startRange), endRange.location - NSMaxRange(startRange));
+
+	// check to the left until we find our corresponding start
+    NSRange startRange = NSMakeRange(index+1,0); // so we start at index with the statesearch
+    NSString *stateDelimiter = nil;
+    while (startRange.location > 0) {
+    	// this is folding start search only, not delimiter start search
+    	stateDelimiter = [textStorage attribute:kSyntaxHighlightingFoldDelimiterName atIndex:startRange.location-1 longestEffectiveRange:&startRange inRange:wholeRange];
+    	if ([stateDelimiter isEqualToString:kSyntaxHighlightingStateDelimiterStartValue]) {
+    		if ([[textStorage attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:startRange.location effectiveRange:NULL] intValue] == depth) {
+    			// we found our start so we are happy and break
+    			break;
+    		}
+    	}
     }
+    // worst case: we found no start so we are now somewhere at the start of the document and very long
+    NSString *beginDelimiter = stateDelimiter;
+    
+    // now that we are happy and have our start, we search our end
+    NSRange endRange = NSMakeRange(index,0);
+    while (NSMaxRange(wholeRange) > NSMaxRange(endRange)) {
+    	// this is folding end search only, not delimiter end search
+    	stateDelimiter = [textStorage attribute:kSyntaxHighlightingFoldDelimiterName atIndex:NSMaxRange(endRange) longestEffectiveRange:&endRange inRange:wholeRange];
+    	if ([stateDelimiter isEqualToString:kSyntaxHighlightingStateDelimiterEndValue]) {
+    		if ([[textStorage attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:endRange.location effectiveRange:NULL] intValue] == depth) {
+    			// we found our end so we are happy and break
+    			break;
+    		}
+    	}
+    }
+    // worst case: we found no end so we are a potentially long range streching out till the end
+    NSString *endDelimiter = stateDelimiter;
+
+	// now we return the differenceRange
+	returnRange = NSMakeRange(NSMaxRange(startRange), endRange.location - NSMaxRange(startRange));
     
     
     return returnRange;
