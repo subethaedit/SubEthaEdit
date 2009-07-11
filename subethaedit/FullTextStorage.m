@@ -511,33 +511,60 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 	// check to the left until we find our corresponding start
     NSRange startRange = NSMakeRange(index+1,0); // so we start at index with the statesearch
     NSString *stateDelimiter = nil;
-    while (startRange.location > 0) {
+    int foundDepth = -1;
+    BOOL continueThisLoop = YES;
+    while (startRange.location > 0 && continueThisLoop) {
     	// this is folding start search only, not delimiter start search
     	stateDelimiter = [textStorage attribute:kSyntaxHighlightingFoldDelimiterName atIndex:startRange.location-1 longestEffectiveRange:&startRange inRange:wholeRange];
     	if ([stateDelimiter isEqualToString:kSyntaxHighlightingStateDelimiterStartValue]) {
-    		if ([[textStorage attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:startRange.location effectiveRange:NULL] intValue] == depth) {
-    			// we found our start so we are happy and break
-    			break;
-    		}
+    		// now check folding depths in that range as it could be that multiple folding starts are next to each other
+    		NSRange depthSubrange = NSMakeRange(NSMaxRange(startRange),0);
+    		while (depthSubrange.location > startRange.location) {
+//    			NSLog(@"%s %@",__FUNCTION__,NSStringFromRange(depthSubrange));
+				foundDepth = [[textStorage attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:depthSubrange.location-1 longestEffectiveRange:&depthSubrange inRange:startRange] intValue];
+//				NSLog(@"%s searching for:%d found:%d with start: %@",__FUNCTION__, depth, foundDepth, [[self string] substringWithRange:depthSubrange]);
+				if (foundDepth == depth) {
+					// we found our start so we are happy and break
+					startRange = depthSubrange;
+					continueThisLoop = NO;
+					break;
+				}
+			}
     	}
     }
     // worst case: we found no start so we are now somewhere at the start of the document and very long
-    NSString *beginDelimiter = stateDelimiter;
+    if (![stateDelimiter isEqualToString:kSyntaxHighlightingStateDelimiterStartValue] || foundDepth != depth) {
+    	// nope - the folding level we were in does not have a start. bad news, because this should not be happening, but at least return an nsnotfound folding range
+    	return NSMakeRange(NSNotFound,0);
+    }
     
     // now that we are happy and have our start, we search our end
     NSRange endRange = NSMakeRange(index,0);
-    while (NSMaxRange(wholeRange) > NSMaxRange(endRange)) {
+    continueThisLoop = YES;
+    while (NSMaxRange(wholeRange) > NSMaxRange(endRange) && continueThisLoop) {
     	// this is folding end search only, not delimiter end search
     	stateDelimiter = [textStorage attribute:kSyntaxHighlightingFoldDelimiterName atIndex:NSMaxRange(endRange) longestEffectiveRange:&endRange inRange:wholeRange];
     	if ([stateDelimiter isEqualToString:kSyntaxHighlightingStateDelimiterEndValue]) {
-    		if ([[textStorage attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:endRange.location effectiveRange:NULL] intValue] == depth) {
-    			// we found our end so we are happy and break
-    			break;
-    		}
+    		// now check folding depths in that range as it could be that multiple folding starts are next to each other
+    		NSRange depthSubrange = NSMakeRange(NSMaxRange(endRange),0);
+    		while (depthSubrange.location > endRange.location) {
+//    			NSLog(@"%s %@",__FUNCTION__,NSStringFromRange(depthSubrange));
+				foundDepth = [[textStorage attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:depthSubrange.location-1 longestEffectiveRange:&depthSubrange inRange:endRange] intValue];
+//				NSLog(@"%s searching for:%d found:%d with start: %@",__FUNCTION__, depth, foundDepth, [[self string] substringWithRange:depthSubrange]);
+				if (foundDepth == depth) {
+					// we found our start so we are happy and break
+					endRange = depthSubrange;
+					continueThisLoop = NO;
+					break;
+				}
+			}
     	}
     }
     // worst case: we found no end so we are a potentially long range streching out till the end
-    NSString *endDelimiter = stateDelimiter;
+    if (![stateDelimiter isEqualToString:kSyntaxHighlightingStateDelimiterEndValue]) {
+		// we haven't found a suitable end - ergo we fold until document end
+		endRange = NSMakeRange(wholeRange.length,0);
+    }
 
 	// now we return the differenceRange
 	returnRange = NSMakeRange(NSMaxRange(startRange), endRange.location - NSMaxRange(startRange));
@@ -551,6 +578,10 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 
     NSRange returnRange = NSMakeRange(NSNotFound, 0);
     NSRange wholeRange = NSMakeRange(0, [textStorage length]);
+    if (anIndex == wholeRange.length) {
+    	if (anIndex == 0) return returnRange;
+    	else anIndex--;
+    }
     NSString *type = [textStorage attribute:kSyntaxHighlightingTypeAttributeName atIndex:anIndex longestEffectiveRange:&returnRange inRange:wholeRange];
     
     if (![type isEqualToString:kSyntaxHighlightingTypeComment]) {

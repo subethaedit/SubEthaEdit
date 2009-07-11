@@ -50,7 +50,7 @@
 						}
 						[controller addObject:dictionary];
 					}
-					if (isFoldableTextStorage) {
+					if (isFoldableTextStorage && NO) {
 						NSMutableDictionary *bonusDictionary = [NSMutableDictionary dictionaryWithObject:@"Foldable Range" forKey:@"attributeName"];
 						// convert location to fulltextstorage before asking
 						selectedRange = [(id)textStorage fullRangeForFoldedRange:selectedRange];
