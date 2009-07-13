@@ -2831,6 +2831,19 @@
             <begin><string>@?"</string></begin>
             <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
         </state>
+
+        <state id="Block" type="block" foldable="yes">
+            <begin><regex>(?:^[ \t]*[-+][^(-;]*\([A-Za-z0-9 *_]*\)[A-Za-z0-9_ \t\n\r]+)?{</regex></begin>
+            <end><regex>}</regex></end>
+            <import />
+        </state>
+
+        <state id="@clauses" type="block" foldable="yes">
+            <begin><regex>(?:@implementation|@interface|@protocol)\s+[\w_]+(?:\s*(?:(?:\(\s*[\w_]+\s*\))|:\s*[\w_]+\s*))?</regex></begin>
+            <end><regex>@end</regex></end>
+            <import />
+        </state>
+
     </states>
 
 </syntax>
