@@ -13,6 +13,7 @@
 @class DocumentModePopUpButton;
 @class DocumentMode;
 @class PlainTextWindowController;
+@class MAAttachedWindow;
 
 @interface DocumentController : NSDocumentController {
     IBOutlet NSView *O_openPanelAccessoryView;
@@ -43,7 +44,7 @@
     
     NSString *I_currentModeFileName;
     NSURL *I_locationForNextOpenPanel;
-    
+        
     @private
     NSMutableArray *I_documentsWithPendingDisplay;
     NSMutableArray *I_windowControllers;

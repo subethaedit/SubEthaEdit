@@ -397,6 +397,8 @@ subethaedit/English.lproj/SubEthaEditHelp/img/see-small.png -text
 subethaedit/English.lproj/SubEthaEditHelp/img/see.png -text
 subethaedit/English.lproj/SubEthaEditHelp/img/vertline2.gif -text
 subethaedit/English.lproj/SystemVersionCheck.strings -text
+subethaedit/English.lproj/URLBubbleWindow.nib/designable.nib -text
+subethaedit/English.lproj/URLBubbleWindow.nib/keyedobjects.nib -text
 subethaedit/English.lproj/UserStatistics.nib/classes.nib -text
 subethaedit/English.lproj/UserStatistics.nib/info.nib -text
 subethaedit/English.lproj/UserStatistics.nib/keyedobjects.nib -text
@@ -652,6 +654,8 @@ subethaedit/LicenseController.h -text
 subethaedit/LicenseController.m -text
 subethaedit/LoginSheetController.h -text
 subethaedit/LoginSheetController.m -text
+subethaedit/MAAttachedWindow.h -text
+subethaedit/MAAttachedWindow.m -text
 subethaedit/ModeSettings.h -text
 subethaedit/ModeSettings.m -text
 subethaedit/Modes/ActionScript.mode/Contents/Info.plist -text
@@ -1971,6 +1975,8 @@ subethaedit/Typesetter.m -text
 subethaedit/UKXattrMetadataStore/UKXattrMetadataStore[!!-~]Readme.txt -text
 subethaedit/UKXattrMetadataStore/UKXattrMetadataStore.h -text
 subethaedit/UKXattrMetadataStore/UKXattrMetadataStore.m -text
+subethaedit/URLBubbleWindow.h -text
+subethaedit/URLBubbleWindow.m -text
 subethaedit/URLDataProtocol.h -text
 subethaedit/URLDataProtocol.m -text
 subethaedit/URLImageView.h -text

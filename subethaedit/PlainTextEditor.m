@@ -38,6 +38,7 @@
 #import "NSMutableAttributedStringSEEAdditions.h"
 #import "FoldableTextStorage.h"
 #import "FoldedTextAttachment.h"
+#import "URLBubbleWindow.h"
 #import <objc/objc-runtime.h>
 
 #if defined(CODA)
@@ -1482,6 +1483,34 @@
 
 #pragma mark -
 #pragma mark ### NSTextView delegate methods ###
+
+- (BOOL)textView:(NSTextView *)aTextView clickedOnLink:(id)link atIndex:(NSUInteger)charIndex {
+	URLBubbleWindow *bubbleWindow = [URLBubbleWindow sharedURLBubbleWindow];
+	NSWindow *window = [aTextView window];
+	[bubbleWindow setURLToOpen:link];
+	
+	// find out position of character:
+	NSLayoutManager *layoutManager = [aTextView layoutManager];
+	NSRange glyphRange = [layoutManager glyphRangeForCharacterRange:NSMakeRange(charIndex,1) actualCharacterRange:NULL];
+	NSTextContainer *container = [aTextView textContainer];
+	NSRect boundingRect = [layoutManager boundingRectForGlyphRange:glyphRange inTextContainer:container];
+	
+	// transform the boundingRect from container coords to actual window coords
+	NSPoint textContainerOrigin = [aTextView textContainerOrigin];
+	boundingRect.origin.x += textContainerOrigin.x;
+	boundingRect.origin.y += textContainerOrigin.y;
+	
+	NSPoint positionPoint = NSMakePoint(NSMidX(boundingRect),NSMinY(boundingRect)); // textviews are always flipped
+	positionPoint = [aTextView convertPoint:positionPoint toView:nil];
+	
+	
+	[bubbleWindow setVisible:NO animated:NO];
+	[bubbleWindow setPosition:positionPoint inWindow:window];
+	[bubbleWindow setVisible:YES animated:YES];
+	return YES;
+}
+
+
 
 - (NSString *)textView:(NSTextView *)inTextView willDisplayToolTip:(NSString *)inTooltip forCharacterAtIndex:(unsigned)inCharacterIndex {
 	FoldableTextStorage *ts = (FoldableTextStorage *)[inTextView textStorage];
