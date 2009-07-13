@@ -12,7 +12,7 @@
         <default id="Base" color="#000">
         
           <state id="EmailAndURLContainerState" containerState="yes">
-            <keywords id="URLs" color="#0000ff" inverted-color="#4939ff" casesensitive="no" type="url" uri-prefix="http://">
+            <keywords id="PrefixlessURLs" color="#0000ff" inverted-color="#4939ff" casesensitive="no" type="url" uri-prefix="http://">
                 <regex>(?i)\b(www\.[A-Z0-9._%-]+\.[A-Z]{2,4})\b</regex>
                 <regex>(?i)\b([A-Z0-9._%-]+\.net)\b</regex>
                 <regex>(?i)\b([A-Z0-9._%-]+\.com)\b</regex>
