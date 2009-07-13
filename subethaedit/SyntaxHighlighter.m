@@ -435,7 +435,8 @@ static  NSMutableDictionary *S_transientRegexCache = nil;
 	            [aString addAttributes:attributes range:matchedRange]; // only color last matched subgroup - it is important that all regex keywords have exactly and only one matching group for this to work
                 if ([attributes objectForKey:NSLinkAttributeName]) {
                     NSURL *theURL = [NSURL URLWithString:[aMatch lastMatchSubstring]];
-                    if (theURL&&[theURL host]) [aString addAttribute:NSLinkAttributeName value:theURL range:matchedRange];
+                    // TODO: prepend the matched string with the uri-prefix attribute of the keyword group
+                    if (theURL && ([theURL host] || ([theURL scheme] && ![[theURL scheme] hasPrefix:@"http"]))) [aString addAttribute:NSLinkAttributeName value:theURL range:matchedRange];
                     else [aString removeAttribute:NSLinkAttributeName range:matchedRange];
                 }
 	        }
