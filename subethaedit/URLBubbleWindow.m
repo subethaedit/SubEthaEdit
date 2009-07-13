@@ -26,7 +26,8 @@ static URLBubbleWindow *S_sharedInstance;
 	
 	if ((self = [self initWithView:O_openURLView 
 					attachedToPoint:NSMakePoint(0,0)])) {
-		[self setBorderWidth:0];
+		[self setBorderWidth:1.0];
+		[self setBorderColor:[NSColor colorWithCalibratedWhite:1.0 alpha:0.60]];
 		[self setViewMargin:0];
 	}
 	return self;
@@ -49,6 +50,13 @@ static URLBubbleWindow *S_sharedInstance;
 - (IBAction)hideWindow:(id)aSender {
 	[self setVisible:NO animated:YES];
 }
+
+- (void)hideIfNecessary {
+	if ([self alphaValue] > 0) {
+		[self setVisible:NO animated:YES];
+	}
+}
+
 
 - (void)setURLToOpen:(NSURL *)inURL {
 	[I_URLToOpen autorelease];

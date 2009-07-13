@@ -35,6 +35,7 @@
 #if !defined(CODA)
 #import <PSMTabBarControl/PSMTabBarControl.h>
 #import <PSMTabBarControl/PSMTabStyle.h>
+#import "URLBubbleWindow.h"
 #endif //!defined(CODA)
 #import <objc/objc-runtime.h>			// for objc_msgSend
 
@@ -2464,6 +2465,9 @@ static NSAttributedString *S_dragString = nil;
 #endif //!defined(CODA)
         return;
     }
+	[[URLBubbleWindow sharedURLBubbleWindow] hideIfNecessary];
+
+    
     BOOL isNew = NO;
     [super setDocument:document];
     // A document has been told that this window controller belongs to it.

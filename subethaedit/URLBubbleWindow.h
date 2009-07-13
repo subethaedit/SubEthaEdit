@@ -21,6 +21,7 @@
 
 - (IBAction)openURLAction:(id)aSender;
 - (IBAction)hideWindow:(id)aSender;
+- (void)hideIfNecessary;
 
 - (void)setURLToOpen:(NSURL *)inURL;
 - (void)setPosition:(NSPoint)inPosition inWindow:(NSWindow *)inWindow;

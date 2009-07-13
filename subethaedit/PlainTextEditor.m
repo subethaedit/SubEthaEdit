@@ -204,6 +204,7 @@
     [I_textView setAllowsUndo:NO];
     [I_textView setSmartInsertDeleteEnabled:NO];
     [I_textView turnOffLigatures:self];
+    [I_textView setLinkTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSCursor pointingHandCursor],NSCursorAttributeName,nil]];
 //	if ([I_textView respondsToSelector:@selector(setAutomaticLinkDetectionEnabled:)]) {
 //		[I_textView setAutomaticLinkDetectionEnabled:YES];
 //	}
@@ -1485,6 +1486,8 @@
 #pragma mark ### NSTextView delegate methods ###
 
 - (BOOL)textView:(NSTextView *)aTextView clickedOnLink:(id)link atIndex:(NSUInteger)charIndex {
+	[aTextView setSelectedRange:NSMakeRange(charIndex,0)];
+
 	URLBubbleWindow *bubbleWindow = [URLBubbleWindow sharedURLBubbleWindow];
 	NSWindow *window = [aTextView window];
 	[bubbleWindow setURLToOpen:link];
@@ -1579,6 +1582,7 @@
 }
 
 - (BOOL)textView:(NSTextView *)aTextView shouldChangeTextInRange:(NSRange)affectedCharRange replacementString:(NSString *)replacementString {
+	[[URLBubbleWindow sharedURLBubbleWindow] hideIfNecessary];
 	if (replacementString == nil) return YES; // only styles are changed
     PlainTextDocument *document = [self document];
     if (![document isRemotelyEditingTextStorage]) {
@@ -1706,12 +1710,14 @@
 }
 
 - (void)contentViewBoundsDidChange:(NSNotification *)aNotification {
+	[[URLBubbleWindow sharedURLBubbleWindow] hideIfNecessary];
 	[self setNeedsDisplayForRuler];
 }
 
 - (NSRange)textView:(NSTextView *)aTextView
            willChangeSelectionFromCharacterRange:(NSRange)aOldSelectedCharRange
                                 toCharacterRange:(NSRange)aNewSelectedCharRange {
+	[[URLBubbleWindow sharedURLBubbleWindow] hideIfNecessary];
     PlainTextDocument *document=(PlainTextDocument *)[self document];
     return [document textView:aTextView
              willChangeSelectionFromCharacterRange:aOldSelectedCharRange
