@@ -3881,7 +3881,23 @@
                     <import mode="PHP-HTML" state="Inline Javascript"/>
                 </state>
             </state>
-            <state id="Tag State" foldable="yes">
+            
+            <state id="Tag with PHP State" foldable="yes">
+                <begin>
+                    <regex>&lt;\s*(?'phptagstatename'[^/?!][-:_\w]*)(?'trimmedstart'[^&lt;>]*&lt;\?[^>]+>[^>]*>)</regex> <!--  Used "trimmedstart regex group, to start searching earlier" -->
+                </begin>
+                <end>
+                    <regex>&lt;\s*/\s*(?#see-insert-start-group:phptagstatename)\s*></regex>
+                </end>
+                <keywords id="Tags with PHP" color="#881280" font-style="italic" useforautocomplete="no">
+                    <regex>(&lt;[^>]*)</regex>
+                    <regex>(\A[^&lt;>]*>)</regex>
+                </keywords>
+                <import mode="XML" keywords-only="yes"/>
+                <import/>
+            </state>
+
+            <state id="Tag State" font-style="normal" foldable="yes">
                 <begin>
                     <regex>&lt;\s*(?'xmltagstatename'[^/?!][-:_\w]*)\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*></regex>
                 </begin>
@@ -3889,8 +3905,10 @@
                     <regex>&lt;\s*/\s*(?#see-insert-start-group:xmltagstatename)\s*></regex>
                 </end>
                 <import mode="XML" keywords-only="yes"/>
-                <import/>
+                <import />
             </state>
+            
+            <import mode="PHP" state="Tags with PHP Container" keywords-only="yes"/>
         </default>
     </states>
 </syntax>

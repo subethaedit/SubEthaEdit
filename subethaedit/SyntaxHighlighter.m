@@ -21,6 +21,8 @@
 
 NSString * const kSyntaxHighlightingIsCorrectAttributeName  = @"HighlightingIsCorrect";
 NSString * const kSyntaxHighlightingIsCorrectAttributeValue = @"Correct";
+NSString * const kSyntaxHighlightingIsTrimmedStartAttributeName = @"HighlightingIsATrimmedStart";
+NSString * const kSyntaxHighlightingIsTrimmedStartAttributeValue = @"Jup";
 NSString * const kSyntaxHighlightingStackName = @"HighlightingStack";
 NSString * const kSyntaxHighlightingStateDelimiterName = @"HighlightingStateDelimiter";
 NSString * const kSyntaxHighlightingStateDelimiterStartValue = @"Start";
@@ -101,7 +103,7 @@ static  NSMutableDictionary *S_transientRegexCache = nil;
 
 
     // Clean up state attributes in the string we work on now
-	NSArray *attributesToCleanup = [NSArray arrayWithObjects:kSyntaxHighlightingStackName,kSyntaxHighlightingStateDelimiterName,kSyntaxHighlightingFoldDelimiterName,kSyntaxHighlightingTypeAttributeName,kSyntaxHighlightingParentModeForSymbolsAttributeName,kSyntaxHighlightingParentModeForAutocompleteAttributeName,kSyntaxHighlightingIsCorrectAttributeName,kSyntaxHighlightingFoldingDepthAttributeName,NSLinkAttributeName,nil];
+	NSArray *attributesToCleanup = [NSArray arrayWithObjects:kSyntaxHighlightingStackName,kSyntaxHighlightingStateDelimiterName,kSyntaxHighlightingFoldDelimiterName,kSyntaxHighlightingTypeAttributeName,kSyntaxHighlightingParentModeForSymbolsAttributeName,kSyntaxHighlightingParentModeForAutocompleteAttributeName,kSyntaxHighlightingIsCorrectAttributeName,kSyntaxHighlightingFoldingDepthAttributeName,NSLinkAttributeName,kSyntaxHighlightingIsTrimmedStartAttributeName,nil];
     [aString removeAttributes:attributesToCleanup range:aRange];
 
     NSMutableDictionary *scratchAttributes = [NSMutableDictionary dictionary];
@@ -191,11 +193,15 @@ static  NSMutableDictionary *S_transientRegexCache = nil;
             NSString *delimiterName = [delimiterMatch nameOfSubstringAtIndex:[delimiterMatch indexOfFirstMatchedSubstring]];
             delimiterStateNumber = [[delimiterName substringFromIndex:16] intValue];
             
+            NSRange startTrimRange = NSMakeRange(NSNotFound, 0);
+            
             if (delimiterStateNumber<4242) { // Found a start within current state
                 //NSLog(@"Found a start: '%@' current range: %@",[[aString string] substringWithRange:delimiterRange], NSStringFromRange(currentRange));
 				
-                nextRange.location = NSMaxRange(stateRange);
-                nextRange.length = currentRange.length - stateRange.length;
+                startTrimRange = [delimiterMatch rangeOfSubstringNamed:@"trimmedstart"];
+
+                nextRange.location = (NSMaxRange(stateRange) - startTrimRange.length);
+                nextRange.length = currentRange.length - stateRange.length + startTrimRange.length;
 
                 //Exclude delimiterRang from stateRange
                 stateRange.length = stateRange.length - delimiterRange.length;
@@ -244,7 +250,7 @@ static  NSMutableDictionary *S_transientRegexCache = nil;
                 }
                 [scratchAttributes setObject:[NSNumber numberWithInt:newFoldingDepth] forKey:kSyntaxHighlightingFoldingDepthAttributeName];
                 [scratchAttributes setObject:kSyntaxHighlightingIsCorrectAttributeValue forKey:kSyntaxHighlightingIsCorrectAttributeName];
-				
+				if (startTrimRange.length>0) [scratchAttributes setObject:kSyntaxHighlightingIsTrimmedStartAttributeValue forKey:kSyntaxHighlightingIsTrimmedStartAttributeName];
                 [aString addAttributes:scratchAttributes range:delimiterRange];
 
             } else { // Found end of current state
@@ -608,7 +614,7 @@ static  NSMutableDictionary *S_transientRegexCache = nil;
 {
     [aTextStorage beginEditing];
     if ([aTextStorage respondsToSelector:@selector(beginLinearAttributeChanges)]) [(id)aTextStorage beginLinearAttributeChanges];
-    [aTextStorage removeAttributes:[NSArray arrayWithObjects:kSyntaxHighlightingIsCorrectAttributeName,kSyntaxHighlightingStackName,kSyntaxHighlightingStateDelimiterName,kSyntaxHighlightingTypeAttributeName,kSyntaxHighlightingParentModeForAutocompleteAttributeName,kSyntaxHighlightingParentModeForSymbolsAttributeName,NSLinkAttributeName,nil] range:aRange];
+    [aTextStorage removeAttributes:[NSArray arrayWithObjects:kSyntaxHighlightingIsCorrectAttributeName,kSyntaxHighlightingStackName,kSyntaxHighlightingStateDelimiterName,kSyntaxHighlightingTypeAttributeName,kSyntaxHighlightingParentModeForAutocompleteAttributeName,kSyntaxHighlightingParentModeForSymbolsAttributeName,NSLinkAttributeName,kSyntaxHighlightingIsTrimmedStartAttributeName,nil] range:aRange];
     if ([aTextStorage respondsToSelector:@selector(endLinearAttributeChanges)]) [(id)aTextStorage endLinearAttributeChanges];
     [aTextStorage endEditing];
 }
