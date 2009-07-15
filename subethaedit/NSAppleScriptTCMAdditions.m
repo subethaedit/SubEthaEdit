@@ -51,7 +51,7 @@
             for (listIndex=1;listIndex<=listCount;listIndex+=2)
             {
                 // NSLog([[listAED descriptorAtIndex:listIndex  ] description]);
-                id key   = [[listAED descriptorAtIndex:listIndex  ] stringValue];
+                id key   = [[[listAED descriptorAtIndex:listIndex  ] stringValue] lowercaseString];
                 id value = [[listAED descriptorAtIndex:listIndex+1] stringValue];
                 
                 if (key && value) {
