@@ -937,14 +937,8 @@ subethaedit/Modes/Objective-J.mode/Contents/Resources/German.lproj/InfoPlist.str
 subethaedit/Modes/Objective-J.mode/Contents/Resources/German.lproj/Localizable.strings -text
 subethaedit/Modes/Objective-J.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/Objective-J.mode/Contents/Resources/RegexSymbols.xml -text
-subethaedit/Modes/Objective-J.mode/Contents/Resources/Scripts/10-InsertNSLogWithFunctionCall.scpt -text
 subethaedit/Modes/Objective-J.mode/Contents/Resources/Scripts/20-InsertCallToSuper.scpt -text
-subethaedit/Modes/Objective-J.mode/Contents/Resources/Scripts/30-OpenCounterpart.scpt -text
-subethaedit/Modes/Objective-J.mode/Contents/Resources/Scripts/40-OpenFileInProject.scpt -text
-subethaedit/Modes/Objective-J.mode/Contents/Resources/Scripts/45-OpenXcodeProject.scpt -text
-subethaedit/Modes/Objective-J.mode/Contents/Resources/Scripts/50-CompileUsingXcode.scpt -text
 subethaedit/Modes/Objective-J.mode/Contents/Resources/Scripts/60-un_comment_lines.scpt -text
-subethaedit/Modes/Objective-J.mode/Contents/Resources/Scripts/Lookup[!!-~]in[!!-~]AppKiDo.scpt -text
 subethaedit/Modes/Objective-J.mode/Contents/Resources/Scripts/shell/insert_super.py -text
 subethaedit/Modes/Objective-J.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/Objective-J.mode/Contents/Resources/ToolbarAppKiDo.png -text
