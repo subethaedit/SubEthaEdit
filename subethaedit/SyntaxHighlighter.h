@@ -11,6 +11,8 @@
 
 extern NSString * const kSyntaxHighlightingIsCorrectAttributeName;
 extern NSString * const kSyntaxHighlightingIsCorrectAttributeValue;
+extern NSString * const kSyntaxHighlightingIsTrimmedStartAttributeName;
+extern NSString * const kSyntaxHighlightingIsTrimmedStartAttributeValue;
 extern NSString * const kSyntaxHighlightingStyleIDAttributeName;
 extern NSString * const kSyntaxHighlightingStackName;
 extern NSString * const kSyntaxHighlightingStateDelimiterName;

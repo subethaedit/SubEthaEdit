@@ -164,7 +164,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 //	NSLog(@"%s %@ %@ %@",__FUNCTION__, NSStringFromRange(aRange), aString, inSynchronizeFlag ? @"YES" : @"NO");
 
 
-    BOOL needsCompleteValidation = NO;
+		BOOL needsCompleteValidation = NO;
     if (I_flags.shouldWatchLineEndings && I_flags.hasMixedLineEndings && aRange.length && [self hasMixedLineEndingsInRange:aRange]) {
         needsCompleteValidation = YES;
     }
@@ -513,6 +513,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     NSString *stateDelimiter = nil;
     int foundDepth = -1;
     BOOL continueThisLoop = YES;
+    BOOL didDoTrimJump = NO;
     while (startRange.location > 0 && continueThisLoop) {
     	// this is folding start search only, not delimiter start search
     	stateDelimiter = [textStorage attribute:kSyntaxHighlightingFoldDelimiterName atIndex:startRange.location-1 longestEffectiveRange:&startRange inRange:wholeRange];
@@ -524,7 +525,17 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 				foundDepth = [[textStorage attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:depthSubrange.location-1 longestEffectiveRange:&depthSubrange inRange:startRange] intValue];
 //				NSLog(@"%s searching for:%d found:%d with start: %@",__FUNCTION__, depth, foundDepth, [[self string] substringWithRange:depthSubrange]);
 				if (foundDepth == depth) {
-					// we found our start so we are happy and break
+					// we found our start so we might be happy and break
+					if (!didDoTrimJump) {
+						NSRange trimmedStartRange = NSMakeRange(NSNotFound,0);
+						id wasTrimmed = [textStorage attribute:kSyntaxHighlightingIsTrimmedStartAttributeName atIndex:startRange.location longestEffectiveRange:&trimmedStartRange inRange:wholeRange];
+						if ((wasTrimmed) && NSMaxRange(trimmedStartRange) > NSMaxRange(startRange)) {
+							// jump to end of trimming and continue search there
+							startRange = NSMakeRange(NSMaxRange(trimmedStartRange),0);
+							didDoTrimJump = YES;
+							break; 
+						}
+					}
 					startRange = depthSubrange;
 					continueThisLoop = NO;
 					break;

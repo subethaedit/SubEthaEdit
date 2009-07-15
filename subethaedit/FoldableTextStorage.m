@@ -571,6 +571,7 @@ typedef union {
 
 	if (I_internalAttributedString) {
 		unsigned origLen = [I_internalAttributedString length];
+//		NSLog(@"%s replaced '%@' with '%@'",__FUNCTION__,[[I_internalAttributedString string] substringWithRange:aRange],aString);
 		[I_internalAttributedString replaceCharactersInRange:aRange withString:aString];
 		
 		if (inSynchronizeFlag) {
