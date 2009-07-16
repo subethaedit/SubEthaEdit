@@ -1310,6 +1310,7 @@
 		F234E4560BE2592300504A7C /* NSWorkspaceTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSWorkspaceTCMAdditions.h; sourceTree = "<group>"; };
 		F234E4570BE2592300504A7C /* NSWorkspaceTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSWorkspaceTCMAdditions.m; sourceTree = "<group>"; };
 		F23905660C7DEA3000E85DF8 /* seetext.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = seetext.icns; path = artwork/seetext.icns; sourceTree = "<group>"; };
+		F23C2F70100F3A0F004530FF /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/URLBubbleWindow.nib; sourceTree = "<group>"; };
 		F2406F0B0C8EE481000DC9FF /* LockTitlebar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LockTitlebar.png; path = artwork/LockTitlebar.png; sourceTree = "<group>"; };
 		F24280C40D16CFCC0083AE21 /* GenericSASLProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GenericSASLProfile.h; sourceTree = "<group>"; };
 		F24280C50D16CFCC0083AE21 /* GenericSASLProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenericSASLProfile.m; sourceTree = "<group>"; };
@@ -3797,6 +3798,7 @@
 			isa = PBXVariantGroup;
 			children = (
 				F2CEAAF5100B46B00036B3F7 /* English */,
+				F23C2F70100F3A0F004530FF /* German */,
 			);
 			name = URLBubbleWindow.nib;
 			sourceTree = "<group>";

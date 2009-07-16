@@ -521,6 +521,8 @@ subethaedit/German.lproj/SubEthaEditHelp/img/see-small.png -text
 subethaedit/German.lproj/SubEthaEditHelp/img/see.png -text
 subethaedit/German.lproj/SubEthaEditHelp/img/vertline2.gif -text
 subethaedit/German.lproj/SystemVersionCheck.strings -text
+subethaedit/German.lproj/URLBubbleWindow.nib/designable.nib -text
+subethaedit/German.lproj/URLBubbleWindow.nib/keyedobjects.nib -text
 subethaedit/German.lproj/UserStatistics.nib/classes.nib -text
 subethaedit/German.lproj/UserStatistics.nib/info.nib -text
 subethaedit/German.lproj/UserStatistics.nib/keyedobjects.nib -text
