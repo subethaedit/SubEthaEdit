@@ -13,7 +13,7 @@
         <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="HTML" useautocompletefrommode="HTML">
             <import mode="XML" keywords-only="yes"/>
             <keywords id="href links" type="url" color="#1A1AA6" useforautocomplete="no">
-                <regex>\s(href|src)\s*=\s*"([^"]*)"(?=[^&lt;]*>)</regex>
+                <regex>\s(?i)(href|src)(?-i)\s*=\s*"([^"]*)"(?=[^&lt;]*>)</regex>
             </keywords>
             <state-link mode="XML" state="Comment"/>
             <state-link mode="XML" state="CDATA"/>
