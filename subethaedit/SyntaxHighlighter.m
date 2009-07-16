@@ -433,6 +433,7 @@ static  NSMutableDictionary *S_transientRegexCache = nil;
         NSArray *currentRegexStyle = [regexArray objectAtIndex:i];
         aRegex = [currentRegexStyle objectAtIndex:0];
         NSString *styleID = [currentRegexStyle objectAtIndex:1];
+        NSDictionary *keywordGroup = [currentRegexStyle objectAtIndex:2]; // should probably be passed in a more verbose and quicker way via an object instead of dictionaries
         NSDictionary *attributes=[theDocument styleAttributesForStyleID:styleID];                
         NSEnumerator *matchEnumerator = [[aRegex allMatchesInString:theString range:aRange] objectEnumerator];
         while ((aMatch = [matchEnumerator nextObject])) {
@@ -440,9 +441,12 @@ static  NSMutableDictionary *S_transientRegexCache = nil;
         	if (matchedRange.location != NSNotFound) {
 	            [aString addAttributes:attributes range:matchedRange]; // only color last matched subgroup - it is important that all regex keywords have exactly and only one matching group for this to work
                 if ([attributes objectForKey:NSLinkAttributeName]) {
-                    NSURL *theURL = [NSURL URLWithString:[aMatch lastMatchSubstring]];
-                    // TODO: prepend the matched string with the uri-prefix attribute of the keyword group
-                    if (theURL && ([theURL host] || ([theURL scheme] && ![[theURL scheme] hasPrefix:@"http"]))) [aString addAttribute:NSLinkAttributeName value:theURL range:matchedRange];
+                	NSString *matchedString = [aMatch lastMatchSubstring];
+                	NSString *linkPrefix = [keywordGroup objectForKey:@"uri-prefix"];
+                	if (linkPrefix) matchedString = [linkPrefix stringByAppendingString:matchedString];
+                    NSURL *theURL = [NSURL URLWithString:matchedString];
+
+                    if (theURL && ([theURL host] || ([[theURL scheme] length] > 0 && ![[theURL scheme] hasPrefix:@"http"]))) [aString addAttribute:NSLinkAttributeName value:theURL range:matchedRange];
                     else [aString removeAttribute:NSLinkAttributeName range:matchedRange];
                 }
 	        }

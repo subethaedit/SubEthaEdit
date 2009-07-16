@@ -448,7 +448,7 @@
         
             while ((keywordGroup = [groupEnumerator nextObject])) {
                 NSString *styleID=[keywordGroup objectForKey:kSyntaxHighlightingStyleIDAttributeName];
-                if ([keywordGroup objectForKey:@"CompiledRegEx"]) [newRegExArray addObject:[NSArray arrayWithObjects:[keywordGroup objectForKey:@"CompiledRegEx"], styleID, nil]];
+                if ([keywordGroup objectForKey:@"CompiledRegEx"]) [newRegExArray addObject:[NSArray arrayWithObjects:[keywordGroup objectForKey:@"CompiledRegEx"], styleID, keywordGroup, nil]];
                 
                 
                 NSDictionary *keywords;

@@ -4796,7 +4796,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             [NSNumber numberWithFloat:obliquenessFactor],NSObliquenessAttributeName,
             [NSNumber numberWithFloat:strokeWidth],NSStrokeWidthAttributeName,
             nil];
-        
+        // this is necessary for the highlighter to actually set the correct link attribute here
         if ([[style objectForKey:@"type"] isEqualToString:@"url"]) [result setObject:@"link" forKey:NSLinkAttributeName];
 			
 		if ( aStyleID && result ) 

@@ -1486,31 +1486,36 @@
 #pragma mark ### NSTextView delegate methods ###
 
 - (BOOL)textView:(NSTextView *)aTextView clickedOnLink:(id)link atIndex:(NSUInteger)charIndex {
-	[aTextView setSelectedRange:NSMakeRange(charIndex,0)];
-
-	URLBubbleWindow *bubbleWindow = [URLBubbleWindow sharedURLBubbleWindow];
-	NSWindow *window = [aTextView window];
-	[bubbleWindow setURLToOpen:link];
+	if ([aTextView selectedRange].length > 0) {
+		// this was a context click and menu selection, instead of a real click, let the system handle that
+		return NO;
+	} else {
+		[aTextView setSelectedRange:NSMakeRange(charIndex,0)];
 	
-	// find out position of character:
-	NSLayoutManager *layoutManager = [aTextView layoutManager];
-	NSRange glyphRange = [layoutManager glyphRangeForCharacterRange:NSMakeRange(charIndex,1) actualCharacterRange:NULL];
-	NSTextContainer *container = [aTextView textContainer];
-	NSRect boundingRect = [layoutManager boundingRectForGlyphRange:glyphRange inTextContainer:container];
-	
-	// transform the boundingRect from container coords to actual window coords
-	NSPoint textContainerOrigin = [aTextView textContainerOrigin];
-	boundingRect.origin.x += textContainerOrigin.x;
-	boundingRect.origin.y += textContainerOrigin.y;
-	
-	NSPoint positionPoint = NSMakePoint(NSMidX(boundingRect),NSMinY(boundingRect)); // textviews are always flipped
-	positionPoint = [aTextView convertPoint:positionPoint toView:nil];
-	
-	
-	[bubbleWindow setVisible:NO animated:NO];
-	[bubbleWindow setPosition:positionPoint inWindow:window];
-	[bubbleWindow setVisible:YES animated:YES];
-	return YES;
+		URLBubbleWindow *bubbleWindow = [URLBubbleWindow sharedURLBubbleWindow];
+		NSWindow *window = [aTextView window];
+		[bubbleWindow setURLToOpen:link];
+		
+		// find out position of character:
+		NSLayoutManager *layoutManager = [aTextView layoutManager];
+		NSRange glyphRange = [layoutManager glyphRangeForCharacterRange:NSMakeRange(charIndex,1) actualCharacterRange:NULL];
+		NSTextContainer *container = [aTextView textContainer];
+		NSRect boundingRect = [layoutManager boundingRectForGlyphRange:glyphRange inTextContainer:container];
+		
+		// transform the boundingRect from container coords to actual window coords
+		NSPoint textContainerOrigin = [aTextView textContainerOrigin];
+		boundingRect.origin.x += textContainerOrigin.x;
+		boundingRect.origin.y += textContainerOrigin.y;
+		
+		NSPoint positionPoint = NSMakePoint(NSMidX(boundingRect),NSMinY(boundingRect)); // textviews are always flipped
+		positionPoint = [aTextView convertPoint:positionPoint toView:nil];
+		
+		
+		[bubbleWindow setVisible:NO animated:NO];
+		[bubbleWindow setPosition:positionPoint inWindow:window];
+		[bubbleWindow setVisible:YES animated:YES];
+		return YES;
+	}
 }
 
 
