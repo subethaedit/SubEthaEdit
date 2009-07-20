@@ -569,7 +569,7 @@ static NSString *tempFileName(NSString *origPath) {
 // this is invalidating textRanges for the fullTextStorage
 - (void)invalidateLayoutForRange:(NSRange)aRange {
     FoldableTextStorage *textStorage=(FoldableTextStorage *)[self textStorage];
-    NSRange wholeRange=NSMakeRange(0,[textStorage length]);
+    NSRange wholeRange=NSMakeRange(0,[[textStorage fullTextStorage] length]);
     if (aRange.length==0) {
         if (aRange.location>0) {
             aRange.location-=1;
@@ -584,7 +584,7 @@ static NSString *tempFileName(NSString *origPath) {
     [I_rangesToInvalidate addObject:[NSValue valueWithRange:aRange]];
     [[NSNotificationQueue defaultQueue]
         enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentInvalidateLayoutNotification object:self]
-               postingStyle:NSPostASAP
+               postingStyle:NSPostWhenIdle
                coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender
                    forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
 }

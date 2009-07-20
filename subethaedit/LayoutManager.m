@@ -216,6 +216,12 @@ static NSString *S_specialGlyphs[17];
 }
 
 
+// - (void)textStorage:(NSTextStorage *)aTextStorage edited:(NSUInteger)mask range:(NSRange)newCharRange changeInLength:(NSInteger)delta invalidatedRange:(NSRange)invalidatedCharRange {
+// 	NSLog(@"%s %@ %d %@",__FUNCTION__,NSStringFromRange(newCharRange),delta,NSStringFromRange(invalidatedCharRange));
+// 	[super textStorage:aTextStorage edited:mask range:newCharRange changeInLength:delta invalidatedRange:invalidatedCharRange];
+// }
+
+
 - (void)drawBackgroundForGlyphRange:(NSRange)aGlyphRange atPoint:(NSPoint)anOrigin {
     NSTextContainer *container = [self textContainerForGlyphAtIndex:aGlyphRange.location effectiveRange:nil];
     NSRange charRange = [self characterRangeForGlyphRange:aGlyphRange actualGlyphRange:nil];

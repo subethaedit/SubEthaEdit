@@ -42,6 +42,12 @@
 
 @implementation TextView
 
+
+// - (void)setNeedsDisplayInRect:(NSRect)aRect avoidAdditionalLayout:(BOOL)needsLayout {
+// 	NSLog(@"%s %@ %@",__FUNCTION__,NSStringFromRect(aRect),needsLayout?@"YES":@"NO");
+// 	[super setNeedsDisplayInRect:aRect avoidAdditionalLayout:NO];
+// }
+
 - (void)_adjustedCenteredScrollRectToVisible:(NSRect)aRect forceCenter:(BOOL)force {
     if (aRect.origin.x == [[self textContainer] lineFragmentPadding]) {
         aRect.origin.x = 0; // fixes the left hand edge moving

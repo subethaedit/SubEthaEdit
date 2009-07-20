@@ -630,14 +630,16 @@ typedef union {
 	[self beginEditing];
 	if (I_internalAttributedString) {
 		unsigned origLen = [I_internalAttributedString length];
-
-		if (inSynchronizeFlag) {
-			[I_fullTextStorage replaceCharactersInRange:[self fullRangeForFoldedRange:inRange] withAttributedString:inAttributedString synchronize:NO];
-		}
+		NSRange fullRange = [self fullRangeForFoldedRange:inRange];
 
 		[I_internalAttributedString replaceCharactersInRange:inRange withAttributedString:inAttributedString];
 		[self edited:NSTextStorageEditedCharacters | NSTextStorageEditedAttributes range:inRange 
 			  changeInLength:[I_internalAttributedString length] - origLen];
+
+		if (inSynchronizeFlag) {
+			[I_fullTextStorage replaceCharactersInRange:fullRange withAttributedString:inAttributedString synchronize:NO];
+		}
+
 	} else { // no foldings - no double data
 //		unsigned origLen = [I_fullTextStorage length];
 		[I_fullTextStorage replaceCharactersInRange:inRange withAttributedString:inAttributedString synchronize:YES];
