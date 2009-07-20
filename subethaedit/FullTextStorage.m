@@ -157,7 +157,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 }
 
 - (void)replaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString synchronize:(BOOL)inSynchronizeFlag {
-
+	[self beginEditing];
 
 //	NSString *foldingBefore = [I_foldableTextStorage foldedStringRepresentation];
 //	NSLog(@"%s before: %@",__FUNCTION__,foldingBefore);
@@ -196,6 +196,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 	if ([delegate respondsToSelector:@selector(textStorage:didReplaceCharactersInRange:withString:)]) {
 		[delegate textStorage:self didReplaceCharactersInRange:aRange withString:aString];
 	}
+	[self endEditing];
 }
 
 - (void)replaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString {

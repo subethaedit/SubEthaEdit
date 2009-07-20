@@ -573,6 +573,8 @@ typedef union {
 		unsigned origLen = [I_internalAttributedString length];
 //		NSLog(@"%s replaced '%@' with '%@'",__FUNCTION__,[[I_internalAttributedString string] substringWithRange:aRange],aString);
 		[I_internalAttributedString replaceCharactersInRange:aRange withString:aString];
+		[self edited:NSTextStorageEditedCharacters | NSTextStorageEditedAttributes range:aRange 
+			  changeInLength:[I_internalAttributedString length] - origLen];
 		
 		if (inSynchronizeFlag) {
 			NSRange fullRange = [self fullRangeForFoldedRange:aRange];
@@ -580,8 +582,6 @@ typedef union {
 			[I_fullTextStorage replaceCharactersInRange:fullRange withString:aString synchronize:NO];
 		}
 
-		[self edited:NSTextStorageEditedCharacters | NSTextStorageEditedAttributes range:aRange 
-			  changeInLength:[I_internalAttributedString length] - origLen];
 	} else {
 //		unsigned origLen = [I_fullTextStorage length];
 		[I_fullTextStorage replaceCharactersInRange:aRange withString:aString synchronize:YES];
@@ -653,6 +653,10 @@ typedef union {
 
 // performance optimization
 - (void)beginEditing {
+//	I_editingCount++;
+//	if (I_editingCount == 1) {
+//		NSLog(@"%s starting editing",__FUNCTION__);
+//	}
 	//if (!I_internalAttributedString) 
 //	[I_fullTextStorage beginEditing];
 	[super beginEditing];
@@ -661,6 +665,10 @@ typedef union {
 - (void)endEditing {
 	//if (!I_internalAttributedString) 
 //	[I_fullTextStorage endEditing];
+//	if (I_editingCount == 1) {
+//		NSLog(@"%s ending editing",__FUNCTION__);
+//	}
+//	I_editingCount--;
 	[super endEditing];
 }
 
