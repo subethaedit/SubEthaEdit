@@ -6232,9 +6232,6 @@ static NSString *S_measurementUnits;
         } else {
             unsigned length=[aTextStorage length];
             NSRange range=NSMakeRange(aRange.location!=0?aRange.location-1:aRange.location,length>=2?2:1);
-            if (length>=NSMaxRange(range)) {
-                [aTextStorage removeAttribute:kSyntaxHighlightingIsCorrectAttributeName range:range];
-            }
             [self highlightSyntaxInRange:range];
         }
     }
@@ -6286,6 +6283,11 @@ static NSString *S_measurementUnits;
     if (didChangeAParticipant) {
         [self TCM_sendPlainTextDocumentParticipantsDataDidChangeNotification];
     }
+
+	if ([aString length] == 0) {
+		// deletion happend and has nasty layout not being done bugs, so let us invalidate some characters after the change
+		[self invalidateLayoutForRange:NSMakeRange(aRange.location,2)];
+	}
 
 // transform SymbolTable if there
     NSEnumerator *entries=[I_symbolArray objectEnumerator];
@@ -6414,7 +6416,8 @@ static NSString *S_measurementUnits;
                     deleteRange.location=affectedRange.location-toDelete;
                     deleteRange.length  =affectedRange.location-deleteRange.location;
                     if ([aTextView shouldChangeTextInRange:deleteRange replacementString:@""]) {
-                        [[aTextView textStorage] replaceCharactersInRange:deleteRange withString:@""];
+                    	NSTextStorage *textStorage = [aTextView textStorage];
+                        [textStorage replaceCharactersInRange:deleteRange withString:@""];
                         [aTextView didChangeText];
                     }
                     return YES;
