@@ -4,7 +4,7 @@
 
     <head>
         <name>bash</name> <!-- The definitions title -->
-        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]></charsintokens> <!-- Valid Characters for Variables -->
+        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@/.]]></charsintokens> <!-- Valid Characters for Variables -->
         <!-- <charsdelimitingtokens></charsdelimitingtokens> -->
     </head>
 
@@ -468,7 +468,7 @@
             </state>
 
             <state id="if then fi Block" type="block" foldable="yes">
-                <begin><regex>(?&lt;=\s)if[^\n\r]*then(?=\s)</regex></begin>
+                <begin><regex>(?&lt;=\s)if[^\n\r]*(?:[\n\r]+\s*)?then(?=\s)</regex></begin>
                 <end><regex>(?&lt;=\s)fi(?=\s)</regex></end>
                 <import />
             </state>
@@ -480,8 +480,8 @@
             </state>
 
             <state id="Bracket Block" type="block" foldable="yes">
-                <begin><regex>(?:(?&lt;=\s)function[\s\w]+)?{</regex></begin>
-                <end><regex>}</regex></end>
+                <begin><regex>(?:(?&lt;=\s)function[\s\w]+)?(?&lt;!\\){</regex></begin>
+                <end><regex>(?&lt;!\\)}</regex></end>
                 <import />
             </state>
 
