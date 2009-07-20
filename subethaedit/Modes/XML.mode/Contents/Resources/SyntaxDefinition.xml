@@ -18,7 +18,7 @@
                 <regex>([\w-]*)(?=[ \t]*=[^&lt;]+>)</regex>
             </keywords>
             <keywords id="Strings in Tags" type="string" color="#1A1AA6" useforautocomplete="no">
-                <regex>=[ \t]*(".*?"|'.*?')(?=[^&lt;]*>)</regex>
+                <regex>=[ \t]*("[^"]*"|'[^']*')(?=[^&lt;]*>)</regex>
             </keywords>
             <keywords id="Entities" color="#400080" useforautocomplete="no">
                 <regex>(&amp;\w{1,8};)</regex>

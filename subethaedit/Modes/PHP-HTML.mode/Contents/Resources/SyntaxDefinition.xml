@@ -3889,12 +3889,17 @@
                 <end>
                     <regex>&lt;\s*/\s*(?#see-insert-start-group:phptagstatename)\s*></regex>
                 </end>
+                <import/>
                 <keywords id="Tags with PHP" color="#881280" font-style="italic" useforautocomplete="no">
                     <regex>(&lt;[^>]*)</regex>
                     <regex>(\A[^&lt;>]*>)</regex>
                 </keywords>
-                <import mode="XML" keywords-only="yes"/>
-                <import/>
+                <keywords id="Attributes in Tags with PHP" color="#994500" useforautocomplete="no">
+                    <regex>([\w-]*)(?=[ \t]*=[^&lt;]+)</regex>
+                </keywords>
+                <keywords id="Strings in Tags with PHP" type="string" color="#1A1AA6" useforautocomplete="no">
+                    <regex>=[ \t]*("[^"]*"|'[^']*')(?=[^&lt;]*)</regex>
+                </keywords>
             </state>
 
             <state id="Tag State" font-style="normal" foldable="yes">
