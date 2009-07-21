@@ -3650,14 +3650,12 @@
                         <regex>{</regex>
                     </begin>
                     <end>
-                        <regex>(?:}|.(?=\?>))</regex>
+                        <regex>(?:}|[^\n\r](?=[\n\r]?\?>))</regex>
                     </end>
                     <import mode="XML" keywords-only="yes"/>
                     <import state="PHP"/>
-                    <import/>
                 </state>
                 <import mode="XML" keywords-only="yes"/>
-                <import/>
             </state>
             <state id="Comment" type="comment" color="#236E25" font-style="italic">
                 <begin>
@@ -3890,7 +3888,6 @@
                 <import />
             </state>
             
-            <import mode="PHP" state="Tags with PHP Container" keywords-only="yes"/>
         </default>
     </states>
 </syntax>
