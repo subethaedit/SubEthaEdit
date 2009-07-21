@@ -3710,24 +3710,12 @@
             </state>
             <state id="Inline CSS" color="#000" font-style="italic" usesymbolsfrommode="CSS" useautocompletefrommode="CSS" foldable="yes">
                 <begin>
-                    <regex>&lt;(?=(?i)style)</regex>
+                    <regex>&lt;(?i)style[^>]*></regex>
                 </begin>
                 <end>
-                    <regex>(?i)/style></regex>
+                    <regex>&lt;(?i)/style[^>]*></regex>
                 </end>
-                <keywords id="Style Tags" color="#881280" font-style="italic">
-                    <regex>(\A&lt;\Z)</regex>
-                    <regex>(&lt;(?i)/style[^>]*>)</regex>
-                </keywords>
-                <state id="Opening Style Tag" color="#881280" font-style="italic" usesymbolsfrommode="HTML" useautocompletefrommode="HTML">
-                    <begin>
-                        <regex>\A(?i)style</regex>
-                    </begin>
-                    <end>
-                        <regex>></regex>
-                    </end>
-                    <import state="Tags"/>
-                </state>
+                <import mode="XML" keywords-only="yes"/>
                 <state-link state="PHP"/>
                 <state id="Inside curly brackets" color="#000" background-color="#fff" font-weight="normal" font-style="normal" foldable="yes">
                     <begin>
@@ -3796,25 +3784,13 @@
             </state>
             <state id="Inline Javascript" color="#000" usesymbolsfrommode="Javascript" useautocompletefrommode="Javascript" foldable="yes">
                 <begin>
-                    <regex>&lt;(?=(?i)script)</regex>
+                    <regex>&lt;(?i)script[^>]*></regex>
                 </begin>
                 <end>
-                    <regex>(?i)/script></regex>
+                    <regex>&lt;(?i)/script[^>]*></regex>
                 </end>
                 <import mode="Javascript" keywords-only="yes"/>
-                <keywords id="Script Tags" color="#881280" font-style="italic">
-                    <regex>(\A&lt;\Z)</regex>
-                    <regex>(&lt;(?i)/script[^>]*>)</regex>
-                </keywords>
-                <state id="Opening Script Tag" color="#881280" font-style="italic" usesymbolsfrommode="HTML" useautocompletefrommode="HTML">
-                    <begin>
-                        <regex>\A(?i)script</regex>
-                    </begin>
-                    <end>
-                        <regex>></regex>
-                    </end>
-                    <import state="Tags"/>
-                </state>
+                <import mode="XML" keywords-only="yes"/>
                 <state-link state="PHP"/>
                 <state id="JSAutodocComment" type="comment" color="#236E25" font-weight="bold" font-style="italic">
                     <begin>
