@@ -261,6 +261,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
                 [scratchAttributes setObject:[NSNumber numberWithInt:newFoldingDepth] forKey:kSyntaxHighlightingFoldingDepthAttributeName];
                 [scratchAttributes setObject:kSyntaxHighlightingIsCorrectAttributeValue forKey:kSyntaxHighlightingIsCorrectAttributeName];
 				if (startTrimRange.length>0) {
+                    [scratchAttributes setObject:kSyntaxHighlightingIsTrimmedStartAttributeValue forKey:kSyntaxHighlightingIsTrimmedStartAttributeName];
                     trimmedStartOnLevel = [stack count];
                 }
 
