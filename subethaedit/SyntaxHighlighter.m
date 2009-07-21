@@ -249,10 +249,11 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 				}
                 
                 unsigned int level = [stack count];
-                if (level==trimmedStartOnLevel+1) { // Was previous start a trimmed one?
+                if ((level==trimmedStartOnLevel+1)||(level==trimmedStartOnLevel)) { // Was previous start a trimmed one?
                     [aString removeAttribute:kSyntaxHighlightingFoldDelimiterName range:delimiterRange];
                 } else if (level>trimmedStartOnLevel+1) {
                     [aString removeAttribute:kSyntaxHighlightingFoldDelimiterName range:stateRange];
+                    [aString removeAttribute:kSyntaxHighlightingFoldDelimiterName range:delimiterRange];
                 }
                 
                 [scratchAttributes removeAllObjects];
