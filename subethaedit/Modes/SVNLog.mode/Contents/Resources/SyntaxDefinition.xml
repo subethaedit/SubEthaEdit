@@ -37,7 +37,7 @@
                     <regex>\-\-\-\-\-[\n\r][^\n\r]+</regex>
                 </begin>
                 <end>
-                    <regex>[\r\n]\-</regex>
+                    <regex>[\r\n]\-\-\-\-\-</regex>
                 </end>
                 <keywords id="Pipes" color="#696969" inverted-color="#ffffff" font-style="normal" font-weight="normal" useforautocomplete="no">
                     <string>|</string>
