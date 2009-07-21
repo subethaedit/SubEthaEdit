@@ -1747,16 +1747,26 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
         shouldOpenInTab = !shouldOpenInTab;
     }
     PlainTextWindowController *windowController = nil;
+	BOOL closeTransient = transientDocument && transientDocument != self
+						  && NSEqualRects(transientDocumentWindowFrame, [[[transientDocument topmostWindowController] window] frame])
+						  && [[[NSUserDefaults standardUserDefaults] objectForKey:OpenDocumentOnStartPreferenceKey] boolValue];
     if (shouldOpenInTab) {
         windowController = [[DocumentController sharedDocumentController] activeWindowController];
         [self addWindowController:windowController];
         [[windowController tabBar] setHideForSingleTab:![[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey]];
+		if (closeTransient && ![self isProxyDocument]) {
+			[transientDocument close];
+			transientDocument = nil;
+		}
+
     } else {
         windowController = [[PlainTextWindowController alloc] init];
         [self addWindowController:windowController];
         [[DocumentController sharedInstance] addWindowController:windowController];
         [windowController release];
     }
+
+
     
 	if (I_stateDictionaryFromLoading) {
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -1772,6 +1782,10 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 					NSSize minSize = [[windowController window] minSize];
 					if (windowFrameRect.size.height >= minSize.height && windowFrameRect.size.width >= minSize.width) {
 						[windowController setWindowFrame:windowFrameRect constrainedToScreen:nil display:YES];
+					}
+					if (!shouldOpenInTab && closeTransient && ![self isProxyDocument]) {
+						[transientDocument close];
+						transientDocument = nil;
 					}
 				}
 			}
@@ -2061,7 +2075,8 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     return nil;
 }
 
-- (void)showWindows {    
+- (void)showWindows {
+	// now the transient window only is closed if now position data was found in the file to load - otherwise it happens in makewindowcontrollers    
     BOOL closeTransient = transientDocument && transientDocument != self
                           && NSEqualRects(transientDocumentWindowFrame, [[[transientDocument topmostWindowController] window] frame])
                           && [[[NSUserDefaults standardUserDefaults] objectForKey:OpenDocumentOnStartPreferenceKey] boolValue];
@@ -5862,7 +5877,7 @@ static NSString *S_measurementUnits;
 			[NSNumber numberWithInt:windowFrame.origin.y],@"y", //y
 			[NSNumber numberWithInt:windowFrame.size.width],@"w", //w
 			[NSNumber numberWithInt:windowFrame.size.height],@"h", //h
-			nil] forKey:@"p"]; // window
+			nil] forKey:@"p"]; // window position
 	}
 
 	if ([defaults boolForKey:DocumentStateSaveAndLoadTabSettingKey]) {
