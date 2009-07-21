@@ -3815,7 +3815,7 @@
                         <regex>//</regex>
                     </begin>
                     <end>
-                        <regex>[\n\r]</regex>
+                        <regex>.(?=[\n\r])</regex>
                     </end>
                     <state-link state="PHP"/>
                 </state>

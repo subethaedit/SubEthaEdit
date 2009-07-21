@@ -266,6 +266,12 @@ static  NSMutableDictionary *S_transientRegexCache = nil;
 					[scratchAttributes setObject:kSyntaxHighlightingStateDelimiterEndValue forKey:kSyntaxHighlightingFoldDelimiterName];
                    newFoldingDepth = foldingDepth - 1;
                 }
+                
+				NSString *typeAttributeString;
+                if ((typeAttributeString=[currentState objectForKey:@"type"]))
+					[scratchAttributes setObject:typeAttributeString forKey:kSyntaxHighlightingTypeAttributeName];
+                else [scratchAttributes removeObjectForKey:kSyntaxHighlightingTypeAttributeName];
+                
                 [aString addAttributes:scratchAttributes range:delimiterRange];
                 savedStack = [[stack copy] autorelease];
                 [stack removeLastObject]; // Default state doesn't have an end, stack is always > 0
