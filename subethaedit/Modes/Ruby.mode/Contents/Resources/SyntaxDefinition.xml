@@ -4,7 +4,7 @@
 
     <head>
         <name>Ruby</name>
-        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@$]]></charsintokens>
+        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@$?]]></charsintokens>
     </head>
     
     <states>
@@ -13,7 +13,7 @@
             <keywords id="Literals" color="#0000cc" inverted-color="#7d9ffa" useforautocomplete="yes">
                 <string>true</string>
                 <string>false</string>
-                <regex>((?&lt;!\.)nil)</regex>
+                <string>nil</string>
             </keywords>
             <keywords id="Attribute Definitions" color="#0000cc" inverted-color="#7d9ffa" useforautocomplete="yes">
                 <string>attr</string>
@@ -27,8 +27,9 @@
                 <string>class</string>
                 <string>def</string>
                 <string>undef</string>
+                <string>extend</string>
             </keywords>
-            <keywords id="Keywords" color="#881350" inverted-color="#7d9ffa" useforautocomplete="yes">
+            <keywords id="Keywords" color="#881350" inverted-color="#7d9ffa" font-weight="bold" useforautocomplete="yes">
                 <string>public</string>
                 <string>private</string>
                 <string>__FILE__</string>
@@ -39,7 +40,6 @@
                 <string>begin</string>
                 <string>break</string>
                 <string>case</string>
-                <string>defined\?</string>
                 <string>do</string>
                 <string>else</string>
                 <string>elsif</string>
@@ -65,7 +65,7 @@
                 <string>while</string>
                 <string>yield</string>
             </keywords>
-            <keywords id="Builtin Functions" color="#881350" inverted-color="#9469f9"  font-style="normal" font-weight="bold" useforautocomplete="yes">
+            <keywords id="Builtin Functions" color="#881350" inverted-color="#9469f9"  font-style="normal" useforautocomplete="yes">
                 <string>abort</string>
                 <string>at_exit</string>
                 <string>autoload</string>
@@ -78,6 +78,7 @@
                 <string>chomp!</string>
                 <string>chop</string>
                 <string>chop!</string>
+                <string>defined?</string>
                 <string>eval</string>
                 <string>exec</string>
                 <string>exit</string>
@@ -367,10 +368,11 @@
                 <begin><regex>"</regex></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
                 <!-- (see line above) This is for the escape codes -->
-                <keywords id="test" color="#669999" inverted-color="#669999"  font-style="normal" font-weight="normal" useforautocomplete="no">
-                    <regex>(#\{[^{]*\})</regex>
-                    <!-- regexp above *needs* the parens around the part to color change -->
-                </keywords>
+                <state id="Interpolation"  color="#669999" inverted-color="#669999"  font-style="normal" font-weight="normal" >
+                <begin><regex>#{</regex></begin>
+                <end><regex>}</regex></end>
+                <import />
+                </state>
             </state>
     
             <state id="String with single quotes" type="string" color="#760f15" inverted-color="#f48700"  font-style="italic" font-weight="normal">
@@ -379,8 +381,33 @@
             </state>
 
             <state id="Heredoc" color="#760f15" inverted-color="#f48700" font-weight="normal" font-style="italic" foldable="yes">
-                <begin><string>&lt;&lt;(?&lt;heredoc&gt;[A-Za-z][A-Za-z0-9_]*)</string></begin>
+                <begin><string>&lt;&lt;\-?(?&lt;heredoc&gt;[A-Za-z][A-Za-z0-9_]*)</string></begin>
                 <end><regex>(?#see-insert-start-group:heredoc)</regex></end>
+                <state-link state="Interpolation"/>
+            </state>
+
+            <state id="Percent Strings" type="string" color="#760f15" inverted-color="#f48700" font-weight="normal" font-style="italic" foldable="yes">
+                <begin><regex>%(?:Q|x)(?'percentstringchar'[^\s\{\[\(])</regex></begin>
+                <end><regex>(?#see-insert-start-group:percentstringchar)</regex></end>
+				<state-link state="Interpolation"/>
+            </state>
+
+            <state id="Percent Strings" type="string" color="#760f15" inverted-color="#f48700" font-weight="normal" font-style="italic" foldable="yes">
+                <begin><regex>%q(?'percentstringchar2'[^\s\{\[\(])</regex></begin>
+                <end><regex>(?#see-insert-start-group:percentstringchar2)</regex></end>
+            </state>
+
+			<!-- these work with all kinds of bracets, {[()]} http://www.zenspider.com/Languages/Ruby/QuickRef.html -->
+            <state id="Percent Strings 2" type="string" color="#760f15" inverted-color="#f48700" font-weight="normal" font-style="italic" foldable="yes">
+                <begin><regex>%{</regex></begin>
+                <end><regex>}</regex></end>
+                <state-link state="Interpolation"/>
+				<state id="Percent Strings 2 Inner" type="string" color="#760f15" inverted-color="#f48700" font-weight="normal" font-style="italic" foldable="no">
+					<begin><regex>{</regex></begin>
+					<end><regex>}</regex></end>
+	                <state-link state="Interpolation"/>
+	                <import state="Percent Strings 2 Inner" />
+				</state>
             </state>
     
             <state id="Backticks" color="#b80f15" inverted-color="#737373" font-style="normal" font-weight="normal">
@@ -404,7 +431,7 @@
             </state>
 
             <state id="Block" type="block" foldable="yes">
-                <begin><regex>(?:^[ \t]*(?:(?:(?:if|unless)[ \t]+[^\r\n]+)|(?:for[ \t]+[^\r\n]+)|(?:case[^\r\n]+))|\b(?:(?:class[ \t]+(?'ruby_ident'(?'ruby_ident_part'[a-zA-Z_][a-zA-Z0-9_]*)(?:\.\g'ruby_ident_part')*)(?:[ \t]+&lt;[ \t]+\g'ruby_ident')?)|(?:module[ \t]+[a-zA-Z_][a-zA-Z0-9_]*)|do|(?:def[ \t]+(?:(?'ruby_operator_methods'&amp;|\||\^|&lt;=>|===|==|=~|>>|>=|>|&lt;=|\+@|\-@|\+|\-|\*\*|\*|/|%|&lt;&lt;|&lt;|~|\[\]|\[\]=)|\g'ruby_ident'\g'ruby_operator_methods'?)(?:[ \t]*\([^\)]+\))?)))</regex></begin>
+                <begin><regex>(?:^[ \t]*(?:(?:(?:if|unless|while|until)[ \t]+[^\r\n]+)|(?:for[ \t]+[^\r\n]+)|(?:case[^\r\n]+))|\b(?:(?:class[ \t]+(?'ruby_ident'(?'ruby_ident_part'[a-zA-Z_][a-zA-Z0-9_]*)(?:\.\g'ruby_ident_part')*)(?:[ \t]+&lt;[ \t]+\g'ruby_ident')?)|(?:module[ \t]+[a-zA-Z_][a-zA-Z0-9_]*)|do|(?:def[ \t]+(?:(?'ruby_operator_methods'&amp;|\||\^|&lt;=>|===|==|=~|>>|>=|>|&lt;=|\+@|\-@|\+|\-|\*\*|\*|/|%|&lt;&lt;|&lt;|~|\[\]|\[\]=)|\g'ruby_ident'\g'ruby_operator_methods'?)(?:[ \t]*\([^\)]+\))?)))</regex></begin>
                 <end><regex>\bend\b</regex></end>
                 <import />
             </state>
@@ -412,6 +439,12 @@
             <state id="BeginBlocks" type="block" foldable="yes">
                 <begin><regex>\bbegin\b</regex></begin>
                 <end><regex>\bend(?:[ \t]+(?:while|if|unless|until))?\b</regex></end>
+                <import />
+            </state>
+
+            <state id="CurlyBlocks" type="block" foldable="yes">
+                <begin><regex>{(?:[ \t]*\|[^\n\r|]+\|)?</regex></begin>
+                <end><regex>}</regex></end>
                 <import />
             </state>
 
