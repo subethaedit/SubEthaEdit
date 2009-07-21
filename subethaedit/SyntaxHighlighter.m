@@ -164,9 +164,21 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
             startRange = NSIntersectionRange(attRange,sameStackRange);
             if (startRange.length == 0) startRange.location = NSNotFound;
         } 
-        
-        
-        if ((delimiterMatch = [stateDelimiter matchInString:theString range:currentRange])) { // Search for a delimiter
+
+        BOOL isBeginningOfLine = YES;
+        if (currentRange.location > 0) {
+        	unichar previousCharacter = [theString characterAtIndex:currentRange.location-1];
+        	switch (previousCharacter) {
+        		case 0x2028:
+        		case 0x2029:
+        		case '\n':
+        		case '\r':
+        			break;
+        		default:
+        			isBeginningOfLine = NO;
+        	}
+        }
+        if ((delimiterMatch = [stateDelimiter matchInString:theString options:isBeginningOfLine?0:OgreNotBOLOption range:currentRange])) { // Search for a delimiter
             //NSLog(@"Searching for next delimiter");
             delimiterRange = [delimiterMatch rangeOfMatchedString];
             
