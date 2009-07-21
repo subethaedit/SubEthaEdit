@@ -529,7 +529,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 					// we found our start so we might be happy and break
 					if (!didDoTrimJump) {
 						NSRange trimmedStartRange = NSMakeRange(NSNotFound,0);
-						id wasTrimmed = [textStorage attribute:kSyntaxHighlightingIsTrimmedStartAttributeName atIndex:startRange.location longestEffectiveRange:&trimmedStartRange inRange:wholeRange];
+						id wasTrimmed = [textStorage attribute:kSyntaxHighlightingIsTrimmedStartAttributeName atIndex:depthSubrange.location longestEffectiveRange:&trimmedStartRange inRange:wholeRange];
 						if ((wasTrimmed) && NSMaxRange(trimmedStartRange) > NSMaxRange(startRange)) {
 							// jump to end of trimming and continue search there
 							startRange = NSMakeRange(NSMaxRange(trimmedStartRange),0);
