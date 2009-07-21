@@ -76,6 +76,9 @@ static  NSMutableDictionary *S_transientRegexCache = nil;
     } while (ready)
 
 "*/
+
+static unsigned int trimmedStartOnLevel = UINT_MAX;
+
 -(void)highlightAttributedString:(NSMutableAttributedString *)aString inRange:(NSRange)aRange 
 {    
     SyntaxDefinition *definition = [self syntaxDefinition];
@@ -162,6 +165,7 @@ static  NSMutableDictionary *S_transientRegexCache = nil;
             if (startRange.length == 0) startRange.location = NSNotFound;
         } 
         
+        
         if ((delimiterMatch = [stateDelimiter matchInString:theString range:currentRange])) { // Search for a delimiter
             //NSLog(@"Searching for next delimiter");
             delimiterRange = [delimiterMatch rangeOfMatchedString];
@@ -194,7 +198,7 @@ static  NSMutableDictionary *S_transientRegexCache = nil;
             delimiterStateNumber = [[delimiterName substringFromIndex:16] intValue];
             
             NSRange startTrimRange = NSMakeRange(NSNotFound, 0);
-            
+
             if (delimiterStateNumber<4242) { // Found a start within current state
                 //NSLog(@"Found a start: '%@' current range: %@",[[aString string] substringWithRange:delimiterRange], NSStringFromRange(currentRange));
 				
@@ -232,6 +236,13 @@ static  NSMutableDictionary *S_transientRegexCache = nil;
 					[stack addObject:[NSDictionary dictionaryWithObjectsAndKeys:[subState objectForKey:@"id"], @"state", nil]];
 				}
                 
+                unsigned int level = [stack count];
+                if (level==trimmedStartOnLevel+1) { // Was previous start a trimmed one?
+                    [aString removeAttribute:kSyntaxHighlightingFoldDelimiterName range:delimiterRange];
+                } else if (level>trimmedStartOnLevel+1) {
+                    [aString removeAttribute:kSyntaxHighlightingFoldDelimiterName range:stateRange];
+                }
+                
                 [scratchAttributes removeAllObjects];
                 [scratchAttributes addEntriesFromDictionary:[theDocument styleAttributesForStyleID:[subState objectForKey:kSyntaxHighlightingStyleIDAttributeName]]];
                 [scratchAttributes setObject:[[stack copy] autorelease] forKey:kSyntaxHighlightingStackName];
@@ -243,22 +254,31 @@ static  NSMutableDictionary *S_transientRegexCache = nil;
                 subState = [definition stateForID:[subState objectForKey:@"id"]];
 				[scratchAttributes setObject:[subState objectForKey:[definition keyForInheritedSymbols]] forKey:kSyntaxHighlightingParentModeForSymbolsAttributeName];
 				[scratchAttributes setObject:[subState objectForKey:[definition keyForInheritedAutocomplete]] forKey:kSyntaxHighlightingParentModeForAutocompleteAttributeName];
-                if ([[subState objectForKey:@"foldable"] isEqualToString:@"yes"]) [scratchAttributes setObject:kSyntaxHighlightingStateDelimiterStartValue forKey:kSyntaxHighlightingFoldDelimiterName];
-
                 if ([[subState objectForKey:@"foldable"] isEqualToString:@"yes"]) {
+                    [scratchAttributes setObject:kSyntaxHighlightingStateDelimiterStartValue forKey:kSyntaxHighlightingFoldDelimiterName];
                     newFoldingDepth++;
                 }
                 [scratchAttributes setObject:[NSNumber numberWithInt:newFoldingDepth] forKey:kSyntaxHighlightingFoldingDepthAttributeName];
                 [scratchAttributes setObject:kSyntaxHighlightingIsCorrectAttributeValue forKey:kSyntaxHighlightingIsCorrectAttributeName];
-				if (startTrimRange.length>0) [scratchAttributes setObject:kSyntaxHighlightingIsTrimmedStartAttributeValue forKey:kSyntaxHighlightingIsTrimmedStartAttributeName];
-                [aString addAttributes:scratchAttributes range:delimiterRange];
+				if (startTrimRange.length>0) {
+                    trimmedStartOnLevel = [stack count];
+                }
 
+                [aString addAttributes:scratchAttributes range:delimiterRange];
+                
             } else { // Found end of current state
                 //NSLog(@"Found an end: '%@' current range: %@",[[aString string] substringWithRange:delimiterRange], NSStringFromRange(currentRange));
                 
                 NSRange matchedEndRange = [delimiterMatch rangeOfSubstringNamed:@"trimmedend"];
                 if (matchedEndRange.location != NSNotFound) delimiterRange = matchedEndRange;
                 
+                unsigned int level = [stack count];
+                if (level>trimmedStartOnLevel) {
+                    [aString removeAttribute:kSyntaxHighlightingFoldDelimiterName range:stateRange];
+                } else {
+                    trimmedStartOnLevel = UINT_MAX;
+                }
+
                 nextRange.location = NSMaxRange(stateRange);
                 nextRange.length = currentRange.length - stateRange.length;
                 [scratchAttributes setObject:kSyntaxHighlightingStateDelimiterEndValue forKey:kSyntaxHighlightingStateDelimiterName];
@@ -319,7 +339,6 @@ static  NSMutableDictionary *S_transientRegexCache = nil;
         }
 
         //NSLog(@"Adding scratchAttributes");
-
         [aString addAttributes:scratchAttributes range:stateRange];
         
         //NSLog(@"Highlighting stuff");

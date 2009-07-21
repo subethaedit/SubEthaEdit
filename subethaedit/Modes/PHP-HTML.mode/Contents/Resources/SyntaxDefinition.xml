@@ -3856,9 +3856,30 @@
                 </state>
             </state>
             
+            <state id="Single Tag with PHP State" foldable="no">
+                <begin>
+                    <regex>&lt;\s*[^/?!][-:_\w]*(?=[^&lt;>]*&lt;\?.+?\?>[^>]*[^>]*/>)</regex>
+                </begin>
+                <end>
+                    <regex>/[ \t]*></regex>
+                </end>
+                <import/>
+                <keywords id="Single Tags with PHP" color="#881280" font-style="italic" useforautocomplete="no">
+                    <regex>(&lt;[^>]*)</regex>
+                    <regex>(\A[^&lt;>]*>)</regex>
+                </keywords>
+                <keywords id="Attributes in Single Tags with PHP" color="#994500" useforautocomplete="no">
+                    <regex>([\w-]*)(?=[ \t]*=[^&lt;]+)</regex>
+                </keywords>
+                <keywords id="Strings in Single Tags with PHP" type="string" color="#1A1AA6" useforautocomplete="no">
+                    <regex>=[ \t]*("[^"]*"|'[^']*')(?=[^&lt;]*)</regex>
+                    <regex>([^"]*")(?=[ \t]*>)</regex>
+                </keywords>
+            </state>
+
             <state id="Tag with PHP State" foldable="yes">
                 <begin>
-                    <regex>&lt;\s*(?'phptagstatename'[^/?!][-:_\w]*)(?'trimmedstart'[^&lt;>]*&lt;\?[^>]+>[^>]*>)</regex> <!--  Used "trimmedstart regex group, to start searching earlier" -->
+                    <regex>&lt;\s*(?'phptagstatename'[^/?!][-:_\w]*)(?'trimmedstart'[^&lt;>]*&lt;\?.+?\?>[^>]*>)</regex> <!--  Used "trimmedstart regex group, to start searching earlier" -->
                 </begin>
                 <end>
                     <regex>&lt;\s*/\s*(?#see-insert-start-group:phptagstatename)\s*></regex>
