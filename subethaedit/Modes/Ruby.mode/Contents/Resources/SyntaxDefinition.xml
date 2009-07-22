@@ -334,14 +334,13 @@
 				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$\+)(?=[^[_A-Za-z0-9]]|$)</regex>
             </keywords>
             <keywords id="Numbers" color="#0000ff" inverted-color="#4afc5b"  font-style="normal" font-weight="normal" useforautocomplete="no">
-            	<!-- Integers that can have a leading +/- and underscores -->
-            	<regex>(?&lt;=[^[_A-Za-z0-9]]|^)([+-]?([0-9]*_)*[0-9]+)(?=[^[_A-Za-z0-9.]]|$)</regex>
-            	<!-- Floating point, NOT sci notation.  The two lines differ so that +,-, and . don't get hilighted as numbers -->
-            	<regex>(?&lt;=[^[_A-Za-z0-9]]|^)([+-]?[0-9]+\.[0-9]*)(?=[^[_A-Za-z0-9]]|$)</regex>
-            	<regex>(?&lt;=[^[_A-Za-z0-9]]|^)([+-]?\.[0-9]+)(?=[^[_A-Za-z0-9]]|$)</regex>
             	<!-- Floating point, sci notation -->
             	<regex>(?&lt;=[^[_A-Za-z0-9]]|^)([+-]?[0-9]+[eE][+-]?[0-9]+)(?=[^[_A-Za-z0-9]]|$)</regex>
-            	<regex>(?&lt;=[^[_A-Za-z0-9]]|^)([+-]?[0-9]*\.[0-9]+[eE][+-]?[0-9]+)(?=[^[_A-Za-z0-9]]|$)</regex>
+            	<regex>(?&lt;=[^[_A-Za-z0-9]]|^)([+-]?[0-9]+\.[0-9]+[eE][+-]?[0-9]+)(?=[^[_A-Za-z0-9]]|$)</regex>
+            	<!-- Floating point, NOT sci notation. -->
+            	<regex>(?&lt;=[^[_A-Za-z0-9]]|^)([+-]?[0-9]+(?:\.[0-9]+)?)(?=[^[_A-Za-z0-9]]|$)</regex>
+            	<!-- Integers that can have a leading +/- and underscores -->
+            	<regex>(?&lt;=[^[_A-Za-z0-9]]|^)([+-]?(?:[0-9]*_)*[0-9]+)(?=[^[_A-Za-z0-9.]]|$)</regex>
 				<!-- Numbers in a different base -->
 				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(0[xX][0-9a-fA-F]+)(?=[^[_A-Za-z0-9]]|$)</regex>
 				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(0[bB][01]+)(?=[^[_A-Za-z0-9]]|$)</regex>
@@ -443,6 +442,14 @@
 				</state>
             </state>
     
+
+			<!-- Execution Coloring -->
+
+            <state id="Backticks" color="#b80f15" inverted-color="#737373" font-style="normal" font-weight="normal">
+                <begin><regex>(?&lt;!\$)(?:`)</regex></begin>
+                <end><regex>(?:(?:(?&lt;!\\)(\\\\)*)|^)`</regex></end>
+            </state>
+            
             <state id="Percent Execution" type="string" color="#b80f15" inverted-color="#737373" font-style="normal" font-weight="normal" foldable="yes">
                 <begin><regex>%x(?'percentexecutionchar'[^\s{\[\(&lt;A-Za-z0-9])</regex></begin>
                 <end><regex>(?#see-insert-start-group:percentexecutionchar)</regex></end>
@@ -472,6 +479,18 @@
                 <begin><regex>%x\[</regex></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)]</regex></end>
 				<import state="Percent Strings [" />
+            </state>
+
+			<!-- Regex coloring >
+            <state id="Regexp" color="#c700c2" inverted-color="#ff38fa"  font-style="normal" font-weight="normal">
+                <begin><regex>(?&lt;!\d)(?:/)(?=[^/\r\n]*/(?:$|[^\d]))</regex></begin>
+                <end><regex>(?:(?:(?&lt;!\\)(\\\\)*)|^)/</regex></end>
+            </state>
+-->
+
+            <state id="Regexp" color="#c700c2" inverted-color="#ff38fa"  font-style="normal" font-weight="normal">
+                <begin><regex>(?x)(?:^|(?&lt;=[=>~(?:\[,|&amp;;]|(?:\s|;)when\s|(?:\s|;)or\s|(?:\s|;)and\s|(?:\s|;)not\s|(?:\s|;|\.)index\s|(?:\s|;|\.)scan\s|(?:\s|;|\.)sub\s|(?:\s|l|\.)sub!\s|(?:\s|;|\.)gsub\s|(?:\s|;|\.)gsub!\s|(?:\s|;|\.)match\s|(?:\s|;)if\s|(?:\s|;)elsif\s|(?:\s|;)while\s|(?:\s|;)unless\s)|(?&lt;=^when\s|^index\s|^scan\s|^sub\s|^gsub\s|^sub!\s|^gsub!\s|^match\s|^if\s|^elsif\s|^while\s|^unless\s))\s*(?:/)(?![*+{}?])</regex></begin>
+                <end><regex>(?:(?:(?&lt;!\\)(\\\\)*)|^)/[eimnosux]*</regex></end>
             </state>
 
             <state id="Percent Regex" color="#c700c2" inverted-color="#ff38fa"  font-style="normal" font-weight="normal">
@@ -505,7 +524,7 @@
 				<import state="Percent Strings [" />
             </state>
 
-
+			<!-- Symbol Coloring -->
             <state id="Percent Symbol"      color="#d6771c" inverted-color="#fac586"  font-style="normal" font-weight="normal">
                 <begin><regex>%s(?'percentsymbolchar'[^\s{\[\(&lt;A-Za-z0-9])</regex></begin>
                 <end><regex>(?#see-insert-start-group:percentsymbolchar)</regex></end>
@@ -537,20 +556,11 @@
 				<import state="Percent Strings [" />
             </state>
 
-            <state id="Backticks" color="#b80f15" inverted-color="#737373" font-style="normal" font-weight="normal">
-                <begin><regex>(?&lt;!\$)(?:`)</regex></begin>
-                <end><regex>(?:(?:(?&lt;!\\)(\\\\)*)|^)`</regex></end>
-            </state>
-            
             <state id="Singleline Comment" type="comment" color="#236e25" inverted-color="#ff4a4a" font-style="normal" font-weight="normal">
                 <begin><regex>#</regex></begin>
                 <end><regex>[\n\r]</regex></end>
             </state>
             
-            <state id="Regexp" color="#c700c2" inverted-color="#ff38fa"  font-style="normal" font-weight="normal">
-                <begin><regex>(?&lt;!\d)(?:/)(?=[^/\r\n]*/(?:$|[^\d]))</regex></begin>
-                <end><regex>(?:(?:(?&lt;!\\)(\\\\)*)|^)/</regex></end>
-            </state>
             
             <state id="POD Comments" type="comment" color="#800000" inverted-color="#ff7f7f"  font-style="normal" font-weight="normal">
                 <begin><regex>(?:^=begin)</regex></begin>
