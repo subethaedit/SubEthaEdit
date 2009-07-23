@@ -16,7 +16,7 @@
             <import mode="XML" keywords-only="yes"/>
             
             <state id="Ruby" color="#000000" inverted-color="#ffffff"  font-style="normal" font-weight="normal" usesymbolsfrommode="Ruby" useautocompletefrommode="Ruby" foldable="yes">
-                <begin><regex>(?:&lt;%=?)</regex></begin>
+                <begin><regex>(?:&lt;%(?!%))|(?:&lt;%=)</regex></begin>
                 <end><regex>(?:[-]?%>)</regex></end>
 
                 <keywords id="ERB Delimiter" color="#d00000" inverted-color="#ff2f2f"  font-style="normal" font-weight="bold" useforautocomplete="no">
@@ -57,12 +57,25 @@
                 <state-link mode="Ruby" state="Percent Array [" />
 				<state id="Singleline Comment" type="comment" color="#236e25" inverted-color="#ff4a4a" font-style="normal" font-weight="normal">
 					<begin><regex>#</regex></begin>
-					<end><regex>[\n\r]|(?:.(?=%>|-%>))</regex></end>
+					<end><regex>(?:.(?=[\n\r]))|(?:.(?=%>|-%>))</regex></end>
 					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 				</state>
 
             </state>
-            
+
+			<state id="RubyOneLineERB" color="#000000" inverted-color="#ffffff"  font-style="normal" font-weight="normal" usesymbolsfrommode="Ruby" useautocompletefrommode="Ruby" foldable="no">
+                <begin><regex>^%</regex></begin>
+                <end><regex>[\n\r]</regex></end>
+
+                <import state="Ruby" />
+                <import mode="Ruby" keywords-only="yes" />
+
+                <keywords id="ERB Delimiter One Line" color="#d00000" inverted-color="#ff2f2f"  font-style="normal" font-weight="bold" useforautocomplete="no">
+                    <regex>(^%)</regex>
+                </keywords>
+
+			</state>
+			
             <state id="Comment" type="comment" color="#236E25" font-style="italic">
                 <begin>
                     <regex>&lt;!--</regex>

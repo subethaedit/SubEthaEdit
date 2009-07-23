@@ -419,7 +419,7 @@
                 <state-link state="Interpolation"/>
 				<state id="UnescapedNormalBracketRecursive" type="string" foldable="no">
 					<begin><regex>(?:(?:(?&lt;!\\)(?:\\\\)*)|^)\(</regex></begin>
-					<end><regex>(?:(?:(?&lt;!\\)(\\\\)*)|^)\(</regex></end>
+					<end><regex>(?:(?:(?&lt;!\\)(\\\\)*)|^)\)</regex></end>
 	                <import state="Percent Strings (" />
 				</state>
             </state>
