@@ -132,7 +132,7 @@
 			   	</keywords>
 
                 <state id="Foldable Block" type="block" foldable="yes">
-                    <begin><string>(?i)(?&lt;!\S)(?'blockstart'if|iterate|loop|while|define_tag|select)[: \t][^;]+;</string></begin>
+                    <begin><string>(?i)(?&lt;!\S)(?'blockstart'if|iterate|loop|while|define_tag|select)[: \t(][^;]+;</string></begin>
                     <end><regex>(?i)/(?#see-insert-start-group:blockstart);</regex></end>
                     <import mode="XML" keywords-only="yes" />
                     <import state="LassoScript Code" />
