@@ -15,14 +15,14 @@
 			<!-- STUDIO - Rewritten, do not replace mode -->
 			<import mode="XML" keywords-only="yes" />
 			
-			<state id="LassoScript 1" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="LassoScript-HTML" useautocompletefrommode="LassoScript-HTML">
+			<state id="LassoScript 1" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="LassoScript-HTML" useautocompletefrommode="LassoScript-HTML"  foldable="yes">
 				<begin><regex>\[</regex></begin>
 				<end><regex>\]</regex></end>
 					<import state="LassoScript Code" />
 					
 			</state>
 		
-			<state id="LassoScript 2" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="LassoScript-HTML" useautocompletefrommode="LassoScript-HTML">
+			<state id="LassoScript 2" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="LassoScript-HTML" useautocompletefrommode="LassoScript-HTML"  foldable="yes">
 				<begin><regex>(?:&lt;\?(?i)lassoscript)</regex></begin>
 				<end><regex>\?&gt;</regex></end>
 					<import state="LassoScript Code" />			
@@ -114,7 +114,7 @@
 					<regex>([\w-]*)(?=[ \t]*=)</regex>
 				</keywords>
 				
-				<state id="LassoScript in Tags" color="#000" background-color="#fff">
+				<state id="LassoScript in Tags" color="#000" background-color="#fff"  foldable="yes">
 					<begin><regex>\[</regex></begin>
 					<end><regex>\]</regex></end>
 						<import state="LassoScript Code" />
@@ -130,6 +130,13 @@
 			   		<regex>(\[)</regex>
 			   		<regex>(\])</regex>
 			   	</keywords>
+
+                <state id="Foldable Block" type="block" foldable="yes">
+                    <begin><string>(?i)(?&lt;!\S)(?'blockstart'if|iterate|loop|while|define_tag|select)[: \t][^;]+;</string></begin>
+                    <end><regex>(?i)/(?#see-insert-start-group:blockstart);</regex></end>
+                    <import mode="XML" keywords-only="yes" />
+                    <import state="LassoScript Code" />
+                </state>
 			
 				<keywords id="Default Lasso Tags" color="#661AA9" background-color="#fff" font-style="normal" casesensitive="no" useforautocomplete="yes">
 					<string>__char</string>
@@ -1224,7 +1231,7 @@
 					<regex>(?&lt;=[^\w\d]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
 				</keywords>
 				<keywords id="Variables" color="#825900" useforautocomplete="no">
-					<regex>([$#]([\w\d])+)</regex>
+					<regex>([$#][\w\d]+)</regex>
 				</keywords>
 				
 				<state id="SingleComment" color="#236E25" font-weight="normal" font-style="italic">
