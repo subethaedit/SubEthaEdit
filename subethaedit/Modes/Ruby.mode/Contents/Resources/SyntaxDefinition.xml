@@ -368,7 +368,7 @@
             <state id="String with double quotes" type="string" color="#760f15" inverted-color="#f28720"  font-style="normal" font-weight="normal">
                 <begin><regex>"</regex></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
-                <!-- (see line above) This is for the escape codes -->
+
                 <state id="Interpolation"  color="#3e5f5e" inverted-color="#669999"  font-style="italic" font-weight="normal" >
                 <begin><regex>#{</regex></begin>
                 <end><regex>}</regex></end>
