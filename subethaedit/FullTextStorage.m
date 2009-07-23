@@ -493,13 +493,13 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     
     NSMutableAttributedString *textStorage = self;
     NSRange wholeRange = NSMakeRange(0,[textStorage length]);
-    if (index >= wholeRange.length) {
-		if (index > 0) {
+    if (index <= wholeRange.length) {
+		if (index == wholeRange.length) {
 	    	index = index - 1;
-	    } else {
-			return NSMakeRange(NSNotFound, 0);
 	    }
-   	}
+   	} else {
+		return NSMakeRange(NSNotFound, 0);
+	}
     //NSString *kindOfFolding = [string attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:index effectiveRange:nil];
     NSRange returnRange = NSMakeRange(NSNotFound, 0);
     int depth = [[textStorage attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:index effectiveRange:NULL] intValue];

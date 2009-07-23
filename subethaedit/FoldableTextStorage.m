@@ -929,9 +929,9 @@ typedef union {
 	NSRange lineRange = [[self string] lineRangeForRange:NSMakeRange(aPosition,0)];
 	NSRange attributeRange = NSMakeRange(lineRange.location,0);
 	id attachment = nil;
-	do {
+	while (!attachment && NSMaxRange(attributeRange) < NSMaxRange(lineRange)) {
 		attachment = [self attribute:NSAttachmentAttributeName atIndex:NSMaxRange(attributeRange) longestEffectiveRange:&attributeRange inRange:lineRange];
-	} while (!attachment && NSMaxRange(attributeRange) < NSMaxRange(lineRange));
+	}
 	
 	if (attachment) {
 		// unfold
