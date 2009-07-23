@@ -396,7 +396,7 @@
             </state>
 
             <state id="Percent Strings" type="string" color="#760f15" inverted-color="#f48700" font-weight="normal" font-style="normal" foldable="yes">
-                <begin><regex>%(?:Q|q)?(?'percentstringchar'[^\s{\[\(&lt;A-Za-z0-9])</regex></begin>
+                <begin><regex>%(?:Q|q)?(?'percentstringchar'[^\s{\[\(&lt;A-Za-z0-9>])</regex></begin>
                 <end><regex>(?#see-insert-start-group:percentstringchar)</regex></end>
 				<state-link state="Interpolation"/>
             </state>

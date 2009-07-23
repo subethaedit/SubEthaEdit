@@ -3886,7 +3886,7 @@
                 </end>
                 <import/>
                 <keywords id="Tags with PHP" color="#881280" font-style="italic" useforautocomplete="no">
-                    <regex>(&lt;[^>]*)</regex>
+                    <regex>(&lt;[^>]*>?)</regex>
                     <regex>(\A[^&lt;>]*>)</regex>
                 </keywords>
                 <keywords id="Attributes in Tags with PHP" color="#994500" useforautocomplete="no">
