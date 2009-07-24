@@ -5,7 +5,7 @@
     <head>
         <name>XML</name>
         <!-- The definitions title -->
-        <charsintokens>_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@</charsintokens>
+        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]></charsintokens>
         <!-- Valid Characters for Variables -->
         <folding toplevel="4"/>
     </head>
