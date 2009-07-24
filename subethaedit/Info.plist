@@ -26,6 +26,7 @@
 				<string>b</string>
 				<string>bf</string>
 				<string>brainfuck</string>
+				<string>builder</string>
 				<string>c</string>
 				<string>cgi</string>
 				<string>c++</string>
@@ -115,7 +116,9 @@
 				<string>rebol</string>
 				<string>rsp</string>
 				<string>rtf</string>
+				<string>rhtml</string>
 				<string>ruby</string>
+				<string>rjs</string>
 				<string>rxp</string>
 				<string>s</string>
 				<string>sgml</string>
