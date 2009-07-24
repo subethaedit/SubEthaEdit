@@ -969,26 +969,38 @@ typedef union {
 	// go to first location with that folding depth;
 	
 	NSRange startRange = NSMakeRange(0,0);
-	NSString *stateDelimiter = nil;
+	NSString *foldingStateDelimiter = nil;
 	// search for start delimiters
 	NSRange wholeRange = NSMakeRange(0,[self length]);
 
 
     while (NSMaxRange(startRange) < wholeRange.length) {
     	// this is folding end search only, not delimiter end search
-    	stateDelimiter = [textStorage attribute:kSyntaxHighlightingFoldDelimiterName atIndex:NSMaxRange(startRange) longestEffectiveRange:&startRange inRange:wholeRange];
-    	if ([stateDelimiter isEqualToString:kSyntaxHighlightingStateDelimiterStartValue]) {
-    		if ([[textStorage attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:startRange.location effectiveRange:NULL] intValue] == aFoldingLevel) {
-				// fetch folding area
-				NSRange rangeForIndex = NSMakeRange(startRange.location,0);
-				rangeForIndex = [textStorage fullRangeForFoldedRange:rangeForIndex];
-				NSRange rangeToFold = [I_fullTextStorage foldableRangeForCharacterAtIndex:rangeForIndex.location];
-				rangeToFold = [textStorage foldedRangeForFullRange:rangeToFold];
-				// fold
-				[textStorage foldRange:rangeToFold];
-				startRange = NSMakeRange(rangeToFold.location,1);
-				wholeRange = NSMakeRange(0,[self length]);
-    		}
+    	foldingStateDelimiter = [textStorage attribute:kSyntaxHighlightingFoldDelimiterName atIndex:NSMaxRange(startRange) longestEffectiveRange:&startRange inRange:wholeRange];
+    	if ([foldingStateDelimiter isEqualToString:kSyntaxHighlightingStateDelimiterStartValue]) {
+    		// now check this potential row of multiple starts for folding depth, begging from the end to the start
+    		NSRange innerRange = NSMakeRange(NSMaxRange(startRange),0);
+    		while (innerRange.location > startRange.location) {
+				id foldingLevel = [textStorage attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:innerRange.location-1 longestEffectiveRange:&innerRange inRange:startRange];
+				if ([foldingLevel intValue] == aFoldingLevel) {
+					// fetch folding area
+					NSRange rangeForIndex = NSMakeRange(innerRange.location,0);
+					rangeForIndex = [textStorage fullRangeForFoldedRange:rangeForIndex];
+					NSRange rangeToFold = [I_fullTextStorage foldableRangeForCharacterAtIndex:rangeForIndex.location];
+					if (rangeToFold.location != NSNotFound) {
+						rangeToFold = [textStorage foldedRangeForFullRange:rangeToFold];
+						
+						// fold
+						[textStorage foldRange:rangeToFold];
+	
+						// adjust whole Range
+						wholeRange = NSMakeRange(0,[self length]);
+						// adjust startRange to continue with the search after the folding
+						startRange = NSMakeRange(rangeToFold.location,1);
+						break; // continue with the outer loop searching for folding state delimiters
+					}
+				}
+			}
     	}
     }
 
