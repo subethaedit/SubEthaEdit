@@ -1481,7 +1481,7 @@ static NSString *tempFileName(NSString *origPath) {
 - (void)setContentUsingXMLDocument:(NSXMLDocument *)inDocument {
 	NSString *xmlString = [inDocument XMLStringWithOptions:NSXMLNodePrettyPrint|NSXMLNodePreserveEmptyElements];
 	if ([self tabWidth] != 4 || [self usesTabs]) {
-		OGRegularExpression *spaceMatch = [OGRegularExpression regularExpressionWithString:@"((    )+)<"];
+		OGRegularExpression *spaceMatch = [OGRegularExpression regularExpressionWithString:@"^((    )+)<"];
 		NSMutableString *string = [[xmlString mutableCopy] autorelease];
 		NSString *replacementString = [self usesTabs]?@"\t":[@" " stringByPaddingToLength:[self tabWidth] withString:@" " startingAtIndex:0];
 		NSArray *matchArray=[spaceMatch allMatchesInString:xmlString range:NSMakeRange(0,[string length])];
@@ -1503,7 +1503,7 @@ static NSString *tempFileName(NSString *origPath) {
 
 - (IBAction)prettyPrintXML:(id)aSender {
     NSError *error=nil;
-    NSXMLDocument *document = [[[NSXMLDocument alloc] initWithXMLString:[[(FoldableTextStorage *)[self textStorage] fullTextStorage] string] options:NSXMLNodePreserveEmptyElements error:&error] autorelease];
+    NSXMLDocument *document = [[[NSXMLDocument alloc] initWithXMLString:[[(FoldableTextStorage *)[self textStorage] fullTextStorage] string] options:NSXMLNodePreserveEmptyElements|NSXMLNodePreserveCDATA error:&error] autorelease];
     if (document) {
     	[self setContentUsingXMLDocument:document];
     } else {
