@@ -1486,7 +1486,8 @@
 #pragma mark ### NSTextView delegate methods ###
 
 - (BOOL)textView:(NSTextView *)aTextView clickedOnLink:(id)link atIndex:(NSUInteger)charIndex {
-	if ([aTextView selectedRange].length > 0) {
+	NSRange selectedRange = [aTextView selectedRange];
+	if (selectedRange.length > 0 && NSLocationInRange(charIndex,selectedRange)) {
 		// this was a context click and menu selection, instead of a real click, let the system handle that
 		return NO;
 	} else {
