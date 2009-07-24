@@ -263,7 +263,7 @@
                     </end>
                     <state-link state="Ruby"/>
                 </state>
-                <state id="Javascript Block" color="#000" background-color="#fff" font-weight="normal" font-style="normal" type="block" foldable="yes">
+                <state id="Javascript Block" type="block" foldable="yes">
                     <begin>
                         <regex>(?:\s(?:if|else|else\s+if|for|in|while|do|with|try|catch|switch|case|return|function(?:\s+\w+)?)\s*(?:\([^)]*\)\s*)?)?{</regex>
                     </begin>
