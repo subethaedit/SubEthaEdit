@@ -240,11 +240,15 @@
 			<state id="Multiline Comment" color="#236E25" type="comment" font-style="italic">
 				<begin><regex>--\[(?'commentbrackets'=*)\[</regex></begin>
 				<end><regex>\](?#see-insert-start-group:commentbrackets)\]</regex></end>
+				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 			</state>
+
 			<state id="Singleline Comment" color="#236E25" type="comment" font-style="italic">
 				<begin><regex>--</regex></begin>
 				<end><regex>[\n\r]</regex></end>
+				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 			</state>
+
 			<!-- lua strings are single line, or have a \ in front of the newline. so we end the string state to mark this when encountering newlines without preceding \ -->
 			<state id="String with single quotes" type="string" color="#994500">
 				<begin><regex>'</regex></begin>
