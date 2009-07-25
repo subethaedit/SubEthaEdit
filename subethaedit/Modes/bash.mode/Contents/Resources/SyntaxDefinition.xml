@@ -439,7 +439,7 @@
             </state>
             
             <state id="String with double quotes" type="string" color="#760f15">
-                <begin><string>"</string></begin>
+                <begin><string>((?&lt;!\\)(\\\\)*)"</string></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
                 <keywords id="Variables in double quoted Strings" color="#C4620A" useforautocomplete="no">
                     <regex>(\$[#@A-Za-z0-9_]+)</regex>
@@ -448,8 +448,8 @@
             </state>
     
             <state id="String with single quotes" type="string" color="#760f15">
-                <begin><string>'</string></begin>
-                <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
+                <begin><string>((?&lt;!\\)(\\\\)*)'</string></begin>
+                <end><regex>'</regex></end>
                 <keywords id="Variables in single quoted Strings" color="#C4620A" useforautocomplete="no">
                     <regex>(\$[#@A-Za-z0-9_]+)</regex>
                     <regex>(\$\{[^\}]*\})</regex>
@@ -457,7 +457,7 @@
             </state>
     
             <state id="Backticks" color="#608">
-                <begin><string>`</string></begin>
+                <begin><string>((?&lt;!\\)(\\\\)*)`</string></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)`</regex></end>
             </state>
 

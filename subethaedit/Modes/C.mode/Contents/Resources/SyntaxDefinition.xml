@@ -114,7 +114,7 @@
             
             <state id="SingleComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
                 <begin><regex>//</regex></begin>
-                <end><regex>[\n\r]</regex></end>
+                <end><regex>(?&lt;!\\)[\n\r]</regex></end>
                 <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
             
