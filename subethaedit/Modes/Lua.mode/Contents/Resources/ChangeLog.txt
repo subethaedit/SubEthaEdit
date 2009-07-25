@@ -1,3 +1,9 @@
+Changes with Version 3.5 (SEE 3.5)
+		*) added folding
+		*) added coloring of hex numbers
+		*) fixed long comments
+		*) added firstline shebang comment coloring
+
 Changes with Version 1.7 (SEE 2.6.4)
     *) fixed the validate scripts to work with unicode and leopard
     *) fixed the validate scripts to work with tabs
