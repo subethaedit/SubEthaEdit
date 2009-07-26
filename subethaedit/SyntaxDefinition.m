@@ -612,7 +612,7 @@
     id childState;
     while ((childState = [enumerator nextObject])) {
         id realChildState = [self stateForID:[childState objectForKey:@"id"]];
-        if (![realChildState objectForKey:@"color"]) {
+        if (![realChildState objectForKey:@"color"] && isLocal) {
             [realChildState setObject:[state objectForKey:kSyntaxHighlightingStyleIDAttributeName] forKey:kSyntaxHighlightingStyleIDAttributeName]; // Inherit color if n/a
         }
 		if (![childState objectForKey:[self keyForInheritedSymbols]])
