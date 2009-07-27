@@ -250,7 +250,7 @@
 	<key>CFBundleIconFile</key>
 	<string>SubEthaEdit.icns</string>
 	<key>CFBundleIdentifier</key>
-	<string>de.codingmonkeys.SubEthaEdit-Folding</string>
+	<string>de.codingmonkeys.SubEthaEdit</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -290,10 +290,12 @@
 	<key>NSServices</key>
 	<array>
 		<dict>
+			<key>NSRequiredContext</key>
+			<dict/>
 			<key>NSMenuItem</key>
 			<dict>
 				<key>default</key>
-				<string>SubEthaEdit/New Window Containing Selection</string>
+				<string>SubEthaEdit/New Document Containing Selection</string>
 			</dict>
 			<key>NSMessage</key>
 			<string>openSelection</string>
@@ -301,6 +303,7 @@
 			<string>SubEthaEdit</string>
 			<key>NSSendTypes</key>
 			<array>
+				<string>public.plain-text</string>
 				<string>NSRTFDPboardType</string>
 				<string>NSRTFPboardType</string>
 				<string>NSStringPboardType</string>
