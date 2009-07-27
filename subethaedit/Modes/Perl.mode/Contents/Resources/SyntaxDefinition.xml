@@ -310,7 +310,7 @@
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)`</regex></end>
             </state>
     
-            <state id="POD style comments" color="#236E25">
+            <state id="POD style comments" type="comment" color="#236E25">
                 <begin><regex>(?&lt;=[\n\r])=(?=\w.*[\n\r])</regex></begin>
                 <end><regex>(?&lt;=\s)=cut[^\n\r]*</regex></end>
             </state>

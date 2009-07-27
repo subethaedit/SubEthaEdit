@@ -232,7 +232,7 @@
             
             <state id="String" type="string" color="#000">
                 <begin><string>@?"</string></begin>
-                <end><regex>([^\\]"|^")</regex></end>
+                <end><regex>((?&lt;!\\)(\\\\)*)"</regex></end>
             </state>
 
             <state id="Tell statement with to" foldable="no">

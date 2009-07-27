@@ -1905,7 +1905,7 @@
                 <end><regex>(\\u[A-Fa-f0-9]{4}')|(\\'')|(.')</regex></end>
             </state>
     
-            <state id="JavadocComment" color="#236E25"  font-style="italic" foldable="yes">
+            <state id="JavadocComment" type="comment" color="#236E25"  font-style="italic">
                 <begin><regex>/\*\*</regex></begin>
                 <end><regex>\*/</regex></end>
                 <keywords id="JavadocTags" color="#236E25" font-weight="bold" useforautocomplete="no">
@@ -1914,12 +1914,12 @@
             </state>
     
             
-            <state id="Comment" color="#236E25" font-weight="normal" font-style="italic">
+            <state id="Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
                 <begin><regex>/\*</regex></begin>
                 <end><regex>\*/</regex></end>
             </state>
             
-            <state id="SingleComment" color="#236E25" font-weight="normal" font-style="italic">
+            <state id="SingleComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
                 <begin><regex>//</regex></begin>
                 <end><regex>[\n\r]</regex></end>
             </state>
@@ -1930,7 +1930,7 @@
             </state>
 
             <state id="Block" foldable="yes">
-                <begin><regex>(?:(?&lt;=\s)(?:if|else|else\s+if|for|while|do|switch|case)\s*(?:\([^#{]*?\))?)?\s*{</regex></begin>
+                <begin><regex>(?:(?&lt;=\s)(?:if|else|else\s+if|for|while|do|switch|case)\s*(?:\([^#{\n\r]*?\))?)?\s*{</regex></begin>
                 <end><regex>}</regex></end>
                 <import />
             </state>
