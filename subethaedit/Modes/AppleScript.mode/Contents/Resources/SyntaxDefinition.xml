@@ -55,32 +55,32 @@
                 <string>contains</string>
                 <string>given</string>
                 <string>with</string>
-                <regex>does not contain</regex>
-                <regex>doesn't contain</regex>
-                <regex>is in</regex>
-                <regex>is contained by</regex>
-                <regex>is not in</regex>
-                <regex>is not contained by</regex>
-                <regex>isn't contained by</regex>
-                <regex>starts? with</regex>
-                <regex>begins? with</regex>
-                <regex>begins? with</regex>
-                <regex>comes before</regex>
-                <regex>is less than</regex>
-                <regex>is not greater than or equal (?:to)?</regex>
-                <regex>is'nt greater than or equal (?:to)?</regex>
-                <regex>less than</regex>
-                <regex>does not comes after</regex>
-                <regex>doesn't comes after</regex>
-                <regex>less than</regex>
-                <regex>less than</regex>
-                <regex>less than</regex>
-                <regex>less than</regex>
-                <regex>less than</regex>
-                <regex>greater than or equal (?:to)?</regex>
-                <regex>is not less than</regex>
-                <regex>isn't less than</regex>
-                <regex>a reference to</regex>
+                <regex>(does not contain)</regex>
+                <regex>(doesn't contain)</regex>
+                <regex>(is in)</regex>
+                <regex>(is contained by)</regex>
+                <regex>(is not in)</regex>
+                <regex>(is not contained by)</regex>
+                <regex>(isn't contained by)</regex>
+                <regex>(starts? with)</regex>
+                <regex>(begins? with)</regex>
+                <regex>(begins? with)</regex>
+                <regex>(comes before)</regex>
+                <regex>(is less than)</regex>
+                <regex>(is not greater than or equal (?:to)?)</regex>
+                <regex>(is'nt greater than or equal (?:to)?)</regex>
+                <regex>(less than)</regex>
+                <regex>(does not comes after)</regex>
+                <regex>(doesn't comes after)</regex>
+                <regex>(less than)</regex>
+                <regex>(less than)</regex>
+                <regex>(less than)</regex>
+                <regex>(less than)</regex>
+                <regex>(less than)</regex>
+                <regex>(greater than or equal (?:to)?)</regex>
+                <regex>(is not less than)</regex>
+                <regex>(isn't less than)</regex>
+                <regex>(a reference to)</regex>
             </keywords>
             <keywords id="Control Statements" color="#0b0bff" font-weight="bold" useforautocomplete="yes">
                 <string>tell</string>
@@ -93,8 +93,8 @@
                 <string>try</string>
                 <string>considering</string>
                 <string>ignoring</string>
-                <regex>with timeout</regex>
-                <regex>with transaction</regex>
+                <regex>(with timeout)</regex>
+                <regex>(with transaction)</regex>
                 <string>end</string>
                 <string>continue</string>
                 <string>then</string>
@@ -123,18 +123,18 @@
                 <string>named</string>
             </keywords>
             <keywords id="Constants" casesensitive="no" color="#0b0bff" useforautocomplete="yes">
-                <regex>application responses</regex>
+                <regex>(application responses)</regex>
                 <string>id</string>
                 <string>case</string>
                 <string>application</string>
-                <regex>current application</regex>
+                <regex>(current application)</regex>
                 <string>diacriticals</string>
                 <string>expansion</string>
                 <string>hyphens</string>
                 <string>punctuation</string>
-                <regex>white space</regex>
-                <regex>all caps</regex>
-                <regex>all lowercase</regex>
+                <regex>(white space)</regex>
+                <regex>(all caps)</regex>
+                <regex>(all lowercase)</regex>
                 <string>bold</string>
                 <string>condensed</string>
                 <string>expanded</string>
@@ -143,7 +143,7 @@
                 <string>outline</string>
                 <string>plain</string>
                 <string>shadow</string>
-                <regex>small caps</regex>
+                <regex>(small caps)</regex>
                 <string>strikethrough</string>
                 <string>subscript</string>
                 <string>superscript</string>
@@ -207,13 +207,13 @@
                 <string>space</string>
                 <string>tab</string>
                 <string>anything</string>
-                <regex>missing value</regex>
+                <regex>(missing value)</regex>
             </keywords>
             <keywords id="Numbers" color="#000" useforautocomplete="no">
                 <regex>([-&amp;+\*\\\(\)])</regex>
 				<regex>[^[A-Za-z]]([0-9]*\.*[0-9]+)[^[A-Za-z]]</regex>
 				<regex>(^[0-9]*\.*[0-9]+)[^[A-Za-z]]</regex>
-				<regex>[^[A-Za-z]]([0-9]*\.*[0-9]+)$</regex>
+				<regex>[^[A-Za-z]]([0-9]*\.*[0-9]+)</regex>
 				<regex>(0x[0-9a-fA-F]+)</regex>
             </keywords>
             <keywords id="Characters" color="#00f" useforautocomplete="no">

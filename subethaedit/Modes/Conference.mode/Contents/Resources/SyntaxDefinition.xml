@@ -46,6 +46,7 @@
             <state id="Tool Tip" color="#076e09" inverted-color="#67dd6a" font-weight="normal" font-style="italic">
                 <begin><regex>{</regex></begin>
                 <end><regex>}</regex></end>
+	            <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
 
         </default>

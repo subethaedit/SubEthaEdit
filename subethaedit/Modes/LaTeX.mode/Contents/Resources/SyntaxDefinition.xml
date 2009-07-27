@@ -12,7 +12,7 @@
         <default id="Base" color="#000">
             <keywords id="Keywords" color="#881350" useforautocomplete="no">
                 <regex>(\\\w+[\t ]*{[^}]*})</regex>
-                <regex>((((?&lt;!\\)(\\\\)*)|^)\\[\w\d]+)</regex>
+                <regex>((((?&lt;!\\)(?:\\\\)*)|^)\\[\w\d]+)</regex>
                 <regex>(\\\\)</regex>
             </keywords>
             
@@ -33,6 +33,7 @@
 			<state id="Singleline Comment" color="#236E25" font-style="italic">
 				<begin><regex>(?&lt;!\\)%</regex></begin>
 				<end><regex>[\n\r]</regex></end>
+                <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 			</state>
 
 			<state id="Inline Math" color="#a00" font-style="italic">

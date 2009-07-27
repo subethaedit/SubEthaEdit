@@ -5,8 +5,8 @@
     <head>
         <name>HTML</name>
         <!-- The definitions title -->
-        <charsintokens>_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@"</charsintokens>
-        <charsincompletion>_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@&lt;/=!></charsincompletion>
+        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@"]]></charsintokens>
+        <charsincompletion><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@&lt;/=!>]]></charsincompletion>
         <folding toplevel="3"/>
     </head>
     <states>

@@ -6,6 +6,7 @@
         <name>Java</name> <!-- The definitions title -->
         <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@.]]></charsintokens> <!-- Valid Characters for Variables -->
         <!-- <charsdelimitingtokens></charsdelimitingtokens> -->
+        <folding toplevel="2" />
     </head>
 
     <states>
@@ -1889,8 +1890,8 @@
                 <string>_PolicyStub</string>
                 <string>_Remote_Stub</string>
             </keywords>
-            <keywords id="Numbers" color="#00f" useforautocomplete="no">
-				<regex>(?&lt;=[^\w\d]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
+            <keywords id="Numbers" color="#00f" inverted-color="#5d56ff" useforautocomplete="no">
+				<regex>(?&lt;![\w\d_])((?:[+-]?(?:(?:[0-9]+\.[0-9]*)|(?:\.[0-9]+))(?:[eE][+\-]?[0-9]+)?[fFlL]?)|(?:(?:(?:[1-9][0-9]*)|0[0-7]*|(?:0[xX][0-9a-fA-F]+))(?:(?:[uU][lL]?)|(?:[lL][uU]?))?))(?![\w\d_])</regex>
             </keywords>
             <keywords id="FunctionRegex" color="#003369" useforautocomplete="no">
 				<regex>([A-Za-z0-9_]+ *)\(</regex>
@@ -1911,22 +1912,25 @@
                 <keywords id="JavadocTags" color="#236E25" font-weight="bold" useforautocomplete="no">
                     <regex>(?&lt;=[^\w\d]|^)(@\w+)</regex>
                 </keywords>
+				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
     
             
             <state id="Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
                 <begin><regex>/\*</regex></begin>
                 <end><regex>\*/</regex></end>
+				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
             
             <state id="SingleComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
                 <begin><regex>//</regex></begin>
                 <end><regex>[\n\r]</regex></end>
+				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
             
-            <state id="Strings" color="#760f15" font-weight="normal" font-style="normal">
+            <state id="Strings" type="string" color="#760f15" font-weight="normal" font-style="normal">
                 <begin><regex>"</regex></begin>
-                <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
+                <end><regex>(?&lt;!\\)(\\\\)*"</regex></end>
             </state>
 
             <state id="Block" foldable="yes">

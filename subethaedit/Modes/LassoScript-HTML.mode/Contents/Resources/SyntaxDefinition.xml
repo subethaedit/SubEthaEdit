@@ -1228,30 +1228,32 @@
 					<regex>(-([a-zA-Z0-9_]+))(?= *=| *,| *\)| *\]| *;)</regex>
 				</keywords>
 				<keywords id="Numbers" color="#00f" useforautocomplete="no">
-					<regex>(?&lt;=[^\w\d]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
+					<regex>(?&lt;![\w\d_])((?:[+-]?(?:(?:[0-9]+\.[0-9]*)|(?:\.[0-9]+))(?:[eE][+\-]?[0-9]+)?[fFlL]?)|(?:(?:(?:[1-9][0-9]*)|0[0-7]*|(?:0[xX][0-9a-fA-F]+))(?:(?:[uU][lL]?)|(?:[lL][uU]?))?))(?![\w\d_])</regex>
 				</keywords>
 				<keywords id="Variables" color="#825900" useforautocomplete="no">
 					<regex>([$#][\w\d]+)</regex>
 				</keywords>
 				
-				<state id="SingleComment" color="#236E25" font-weight="normal" font-style="italic">
+				<state id="SingleComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
 					<begin><regex>(?://)</regex></begin>
 					<end><regex>[\n\r]</regex></end>
+	                <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 				</state>
 				
-				<state id="MultiComment" color="#236E25" font-weight="normal" font-style="italic">
+				<state id="MultiComment" type="comment"  color="#236E25" font-weight="normal" font-style="italic">
 					<begin><regex>/\*</regex></begin>
 					<end><regex>\*/</regex></end>
+	                <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 				</state>
 		
-				<state id="StringDouble" color="#EB7300" font-weight="normal" font-style="normal" usespellchecking="yes">
+				<state id="StringDouble" type="string" color="#EB7300" font-weight="normal" font-style="normal" usespellchecking="yes">
 					<begin><regex>"</regex></begin>
-					<end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
+					<end><regex>(?&lt;!\\)(\\\\)*"</regex></end>
 				</state>
 		
-				<state id="String" color="#EB7300" font-weight="normal" font-style="normal" usespellchecking="yes">
+				<state id="String" type="comment" color="#EB7300" font-weight="normal" font-style="normal" usespellchecking="yes">
 					<begin><regex>'</regex></begin>
-					<end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
+					<end><regex>(?&lt;!\\)(\\\\)*'</regex></end>
 				</state>
 			
 			</state>

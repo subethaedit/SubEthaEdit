@@ -652,6 +652,7 @@
                 <end>
                     <regex>"\*/</regex>
                 </end>
+                <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
             <state id="Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
                 <begin>
@@ -660,6 +661,7 @@
                 <end>
                     <regex>\*/</regex>
                 </end>
+                <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
             <state id="Round bracket" type="string" color="#760f15" font-weight="normal" font-style="normal">
                 <begin>
@@ -674,7 +676,7 @@
                     <string>"</string>
                 </begin>
                 <end>
-                    <regex>(((?&lt;!\\)(\\\\)*)|^)"</regex>
+                    <regex>(?&lt;!\\)(\\\\)*"</regex>
                 </end>
             </state>
             <state id="SingleString" type="string" color="#760f15" font-weight="normal" font-style="normal">
@@ -682,7 +684,7 @@
                     <string>'</string>
                 </begin>
                 <end>
-                    <regex>(((?&lt;!\\)(\\\\)*)|^)'</regex>
+                    <regex>(?&lt;!\\)(\\\\)*'</regex>
                 </end>
             </state>
         </default>

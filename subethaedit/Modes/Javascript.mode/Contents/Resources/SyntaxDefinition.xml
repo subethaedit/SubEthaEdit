@@ -40,7 +40,7 @@
                 <string>default</string>
             </keywords>
             <keywords id="Numbers" color="#00f" inverted-color="#5d56ff" useforautocomplete="no">
-				<regex>(?&lt;![\w\d\.])((?:(?:(?:[0-9]+\.[0-9]*)|(\.[0-9]+))(?:[eE][+\-]?[0-9]+)?[fFlL]?)|(?:(?:(?:[1-9][0-9]*)|0[1-7][0-7]*|(?:0[xX][0-9a-fA-F]+))(?:(?:[uU][lL]?)|(?:[lL][uU]?))?))(?![\w\d\.])</regex>
+				<regex>(?&lt;![\w\d\._])((?:(?:(?:[0-9]+\.[0-9]*)|(\.[0-9]+))(?:[eE][+\-]?[0-9]+)?[fFlL]?)|(?:(?:(?:[1-9][0-9]*)|0[1-7][0-7]*|(?:0[xX][0-9a-fA-F]+))(?:(?:[uU][lL]?)|(?:[lL][uU]?))?))(?![\w\d\._])</regex>
             </keywords>
 
             <keywords id="FunctionRegex" color="#003369" useforautocomplete="no">
@@ -55,11 +55,13 @@
             <state id="Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
                 <begin><regex>/\*</regex></begin>
                 <end><regex>\*/</regex></end>
+                <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
             
             <state id="SingleComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
                 <begin><regex>//</regex></begin>
                 <end><regex>[\n\r]</regex></end>
+                <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
             
             <state id="Regular Expressions" color="#760f15">
@@ -69,12 +71,12 @@
     
             <state id="String" type="string" color="#760f15" font-weight="normal" font-style="normal">
                 <begin><regex>"</regex></begin>
-                <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
+                <end><regex>(?&lt;!\\)(\\\\)*"</regex></end>
             </state>
     
             <state id="SingleString" type="string" color="#760f15" font-weight="normal" font-style="normal">
                 <begin><regex>'</regex></begin>
-                <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
+                <end><regex>(?&lt;!\\)(\\\\)*'</regex></end>
             </state>
 
             <state id="Block" type="block" foldable="yes">
