@@ -1,4 +1,4 @@
-Changes with Version 1.5  (SEE 3.5)
+Changes with Version 3.5  (SEE 3.5)
 	 *) fixed mode recognition string
 	 *) added code folding
 
