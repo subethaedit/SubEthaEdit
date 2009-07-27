@@ -42,10 +42,10 @@
             </state>
 
             <keywords id="Methods" color="#6C0540" casesensitive="yes">
-                <regex>[^:]\([^)]*\)\s*([A-Za-z0-9_]+)\s*[{;]</regex>
-                <regex>\)\s*([A-Za-z0-9_]+:)</regex>
-                <regex>\s([A-Za-z0-9_]+:)</regex>
-                <regex>(?&lt;![:\s])\s+([A-Za-z0-9_]+)]</regex>
+                <regex>[^:]\([^)]*\)\s*([A-Za-z_][A-Za-z0-9_]*)\s*[{;]</regex>
+                <regex>\)\s*([A-Za-z_][A-Za-z0-9_]*:)</regex>
+                <regex>\s([A-Za-z_][A-Za-z0-9_]+*:)</regex>
+                <regex>(?&lt;![:\s])\s+([A-Za-z_][A-Za-z0-9_]*)]</regex>
             </keywords>
             
             <keywords id="Cocoa Classes" color="#400080" background-color="#fff" font-weight="normal" font-style="normal" casesensitive="yes" useforautocomplete="yes">
