@@ -295,7 +295,7 @@
 			<key>NSMenuItem</key>
 			<dict>
 				<key>default</key>
-				<string>SubEthaEdit/New Document Containing Selection</string>
+				<string>Make New SubEthaEdit Document</string>
 			</dict>
 			<key>NSMessage</key>
 			<string>openSelection</string>
