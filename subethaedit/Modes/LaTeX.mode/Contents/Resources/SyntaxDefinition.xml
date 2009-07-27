@@ -12,7 +12,7 @@
         <default id="Base" color="#000">
             <keywords id="Keywords" color="#881350" useforautocomplete="no">
                 <regex>(\\\w+[\t ]*{[^}]*})</regex>
-                <regex>((((?&lt;!\\)(?:\\\\)*)|^)\\[\w\d]+)</regex>
+                <regex>((?:(?:(?&lt;!\\)(?:\\\\)*)|^)\\[\w\d]+)</regex>
                 <regex>(\\\\)</regex>
             </keywords>
             
@@ -27,7 +27,7 @@
             </keywords>
 
             <keywords id="Functions" color="#408" useforautocomplete="no">
-                <regex>((\[[\w\d,\. ]*\])?({[^}]*(?=})[^{]*})+)</regex>
+                <regex>((?:\[[\w\d,\. ]*\])?(?:{[^}]*(?=})[^{]*})+)</regex>
             </keywords>
         
 			<state id="Singleline Comment" color="#236E25" font-style="italic">
