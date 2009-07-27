@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleGetInfoString</key>
-	<string>1.0, Copyright TheCodingMonkeys 2009</string>
+	<string>3.5, Copyright TheCodingMonkeys 2009</string>
 	<key>CFBundleIdentifier</key>
 	<string>SEEMode.Wiki</string>
 	<key>CFBundleInfoDictionaryVersion</key>
@@ -13,9 +13,9 @@
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>1.0</string>
+	<string>3.5</string>
 	<key>CFBundleVersion</key>
-	<string>1.0</string>
+	<string>3.5</string>
 	<key>TCMModeExtensions</key>
 	<array>
 		<string>wiki</string>
