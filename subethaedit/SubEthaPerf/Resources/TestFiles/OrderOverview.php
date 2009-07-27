@@ -112,6 +112,8 @@ function formatAsMoney(mnt) {
                        mnt + '0' : ''+mnt);
 }
 
+// comment? http://www.heise.de warum? nur für den kick für den augenblick?
+
 function floatInMoney(myFloat) {
   return formatAsMoney(myFloat).replace('.',',');
 }
@@ -322,11 +324,13 @@ h4 {
         <td><div align="center"></div></td>
       </tr>
 <?php
+	// www.heise.de 
       echo content_tag('tr', content_tag('td', '', array('colspan'=>9, 'id' => 'article_detail_'.$Article->articlenumber(), 'class'=>'article_detail_placeholder')), array_merge(($isAlternate ? array('class'=>'alternate') : array()), array('style'=>'display:none;')));
 
     }
 ?>
     </table>
+    <!-- import http://www.heise.de heise.de dom@codingmonkeys.org -->
     <table width="100%" border="0" cellspacing="0" cellpadding="4">
       <tr class="alternate">
         <td width="142" height="10" >&nbsp;</td>

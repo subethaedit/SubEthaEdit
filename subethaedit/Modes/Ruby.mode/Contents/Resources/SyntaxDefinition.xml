@@ -384,13 +384,13 @@
 
 			<!-- actually heredocs start in the next line, so a way to recolor everything from start to end of line again in normal colors would be good. -->
             <state id="Heredoc" color="#760f15" inverted-color="#f48700" font-weight="normal" font-style="normal" foldable="yes">
-                <begin><string>(?:(?&lt;=[=\s+*])|^)&lt;&lt;(?:(?'heredoc'[_A-Za-z][A-Za-z0-9_]*)|(?:'\g'heredoc'')|(?:"\g'heredoc'"))</string></begin>
+                <begin><string>(?:(?&lt;=[=\s+*\({\[])|^)&lt;&lt;(?:(?'heredoc'[_A-Za-z][A-Za-z0-9_]*)|(?:'\g'heredoc'')|(?:"\g'heredoc'"))</string></begin>
                 <end><regex>^(?#see-insert-start-group:heredoc)</regex></end>
                 <state-link state="Interpolation"/>
             </state>
 
             <state id="Heredoc Indented End" color="#760f15" inverted-color="#f48700" font-weight="normal" font-style="normal" foldable="yes">
-                <begin><string>(?:(?&lt;=[=\s+*])|^)&lt;&lt;\-?(?:(?'heredocindented'[_A-Za-z][A-Za-z0-9_]*)|(?:'\g'heredocindented'')|(?:"\g'heredocindented'"))</string></begin>
+                <begin><string>(?:(?&lt;=[=\s+*\({\[])|^)&lt;&lt;\-?(?:(?'heredocindented'[_A-Za-z][A-Za-z0-9_]*)|(?:'\g'heredocindented'')|(?:"\g'heredocindented'"))</string></begin>
                 <end><regex>^[ \t]*(?#see-insert-start-group:heredocindented)</regex></end>
                 <state-link state="Interpolation"/>
             </state>
@@ -493,7 +493,7 @@
 -->
 
             <state id="Regexp" color="#c700c2" inverted-color="#ff38fa"  font-style="normal" font-weight="normal">
-                <begin><regex>(?x)(?:^|(?&lt;=[=>~(:\[,\|&amp;;]|(?:\s|;)when\s|(?:\s|;)or\s|(?:\s|;)and\s|(?:\s|;)not\s|(?:\s|;|\.)index\s|(?:\s|;|\.)scan\s|(?:\s|;|\.)sub\s|(?:\s|l|\.)sub!\s|(?:\s|;|\.)gsub\s|(?:\s|;|\.)gsub!\s|(?:\s|;|\.)match\s|(?:\s|;)if\s|(?:\s|;)elsif\s|(?:\s|;)while\s|(?:\s|;)unless\s)|(?&lt;=^when\s|^index\s|^scan\s|^sub\s|^gsub\s|^sub!\s|^gsub!\s|^match\s|^if\s|^elsif\s|^while\s|^unless\s))\s*(?:/)(?![*+{}?\n\r])|(?&lt;!\d)(?:/)(?=[^/\r\n]*/(?:$|[^\d]))</regex></begin>
+                <begin><regex>(?x)(?:^|(?&lt;=[=>~(:\[,\|&amp;;]|(?:\s|;)when\s|(?:\s|;)or\s|(?:\s|;)and\s|(?:\s|;)not\s|(?:\s|;|\.)index\s|(?:\s|;|\.)scan\s|(?:\s|;|\.)sub\s|(?:\s|l|\.)sub!\s|(?:\s|;|\.)gsub\s|(?:\s|;|\.)gsub!\s|(?:\s|;|\.)match\s|(?:\s|;)if\s|(?:\s|;)elsif\s|(?:\s|;)while\s|(?:\s|;)unless\s)|(?&lt;=^when\s|^index\s|^scan\s|^sub\s|^gsub\s|^sub!\s|^gsub!\s|^match\s|^if\s|^elsif\s|^while\s|^unless\s))\s*(?:/)(?![*+{}?\n\r])|(?&lt;!\d)(?:/)[^"'](?=[^/\r\n]*/(?:$|[^\d]))</regex></begin>
                 <end><regex>(?:(?:(?&lt;!\\)(\\\\)*)|^)/[eimnosux]*</regex></end>
                 <state-link state="Interpolation"/>
             </state>
@@ -606,7 +606,7 @@
             </state>
 
             <state id="Block" type="block" foldable="yes">
-                <begin><regex>(?:(?:^|=)[ \t]*(?:(?:(?:if|unless|while|until)[ \t]+)|(?:(?:for|case)[ \t]+\g'ruby_ident'[ \t]?)|(?:case))|\b(?:(?:class(?:(?:[ \t]+(?'ruby_ident'(?'ruby_ident_part'[a-zA-Z_][a-zA-Z0-9_]*)(?:(?:\.|::)\g'ruby_ident_part')*)(?:[ \t]+&lt;[ \t]+\g'ruby_ident')?)|(?:[ \t]*&lt;&lt;)))|(?:module[ \t]+[a-zA-Z_][a-zA-Z0-9_]*)|\bdo\b(?:[ \t]*\|[^\n\r|]+\|)?|(?:def[ \t]+(?:(?'ruby_operator_methods'&amp;|\||\^|&lt;=>|===|==|=~|>>|\?|\!|>=|>|&lt;=|\+@|\-@|\+|\-|\*\*|\*|/|%|&lt;&lt;|&lt;|~|\[\]|\[\]=)|\g'ruby_ident'\g'ruby_operator_methods'?))))</regex></begin>
+				<begin><regex>(?:(?:^|=)[ \t]*(?:(?:(?:if|unless|while|until)[ \t]+)|(?:case[ \t]+\g'ruby_ident'[ \t]?)|(?:for[ \t]+\g'ruby_ident'[ \t]+in(?:[^\n\r]+do)?)|(?:case))|\b(?:(?:class(?:(?:[ \t]+(?'ruby_ident'(?'ruby_ident_part'[a-zA-Z_][a-zA-Z0-9_]*)(?:(?:\.|::)\g'ruby_ident_part')*)(?:[ \t]+&lt;[ \t]+\g'ruby_ident')?)|(?:[ \t]*&lt;&lt;)))|(?:module[ \t]+[a-zA-Z_][a-zA-Z0-9_]*)|\bdo\b(?:[ \t]*\|[^\n\r|]+\|)?|(?:def[ \t]+(?:(?'ruby_operator_methods'&amp;|\||\^|&lt;=>|===|==|=~|>>|\?|\!|>=|>|&lt;=|\+@|\-@|\+|\-|\*\*|\*|/|%|&lt;&lt;|&lt;|~|\[\]|\[\]=)|\g'ruby_ident'\g'ruby_operator_methods'?))))</regex></begin>
                 <end><regex>\bend\b</regex></end>
                 <import />
             </state>
