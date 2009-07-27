@@ -350,7 +350,7 @@
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
             </state>
 
-            <state id="Heredoc" color="#760f15" font-weight="normal" font-style="normal">
+            <state id="Heredoc" color="#760f15" type="string" font-weight="normal" font-style="normal" foldable="yes">
                 <begin><string>&lt;&lt;["']*(?&lt;heredoc&gt;.*?)["']*;</string></begin>
                 <end><regex>(?#see-insert-start-group:heredoc)</regex></end>
             </state>
