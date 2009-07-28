@@ -172,6 +172,8 @@ static AppController *sharedInstance = nil;
 
 		[defaults setObject:[NSNumber numberWithBool:YES] forKey:EnableTLSKey];
 		[defaults setObject:[NSNumber numberWithBool:YES] forKey:UseTemporaryKeychainForTLSKey]; // if keychain bug arrives again, switch this to NO
+		
+		[defaults setObject:[NSNumber numberWithBool:(floor(NSAppKitVersionNumber) > 824 /*NSAppKitVersionNumber10_4*/)] forKey:EnableAnonTLSKey];
 		[[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
 		
 		[[TCMMMTransformator sharedInstance] registerTransformationTarget:[TextOperation class] selector:@selector(transformTextOperation:serverTextOperation:) forOperationId:[TextOperation operationID] andOperationID:[TextOperation operationID]];

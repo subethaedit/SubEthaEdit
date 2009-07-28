@@ -393,9 +393,11 @@ static NSData *dhparamData = nil;
         [self TCM_initHelper];
         
         if ([[NSUserDefaults standardUserDefaults] boolForKey:EnableTLSKey]) {
-        	if ([dhparamData length] > 0) {
-//        		NSLog(@"%s added %@",__FUNCTION__,TCMBEEPTLSAnonProfileURI);
-				[self addProfileURIs:[NSArray arrayWithObject:TCMBEEPTLSAnonProfileURI]];
+        	if ([[NSUserDefaults standardUserDefaults] boolForKey:EnableAnonTLSKey]) {
+				if ([dhparamData length] > 0) {
+	//        		NSLog(@"%s added %@",__FUNCTION__,TCMBEEPTLSAnonProfileURI);
+					[self addProfileURIs:[NSArray arrayWithObject:TCMBEEPTLSAnonProfileURI]];
+				}
 			}
         	if ([TCMBEEPSession certArrayRef] && 
             	[(NSArray *)[TCMBEEPSession certArrayRef] count]>0) {
@@ -1270,9 +1272,12 @@ static NSData *dhparamData = nil;
     [[NSNotificationCenter defaultCenter] postNotificationName:TCMBEEPSessionDidReceiveGreetingNotification object:self];
     
     // check for tuning profiles and initiate tuning
-    if ([self isInitiator] && ([profileURIs containsObject:TCMBEEPTLSProfileURI] || [profileURIs containsObject:TCMBEEPTLSAnonProfileURI])) {
+    if ([self isInitiator] && ( [profileURIs containsObject:TCMBEEPTLSProfileURI] || 
+    						   ([profileURIs containsObject:TCMBEEPTLSAnonProfileURI] && 
+    						    [[NSUserDefaults standardUserDefaults] boolForKey:EnableAnonTLSKey]))) {
     	NSString *profileURI = TCMBEEPTLSProfileURI;
-    	if ([profileURIs containsObject:TCMBEEPTLSAnonProfileURI]) {
+    	if ([profileURIs containsObject:TCMBEEPTLSAnonProfileURI] && 
+    						    [[NSUserDefaults standardUserDefaults] boolForKey:EnableAnonTLSKey]) {
     		I_flags.isTLSAnon = YES; // set to anon
     		profileURI = TCMBEEPTLSAnonProfileURI;
     	}
@@ -1367,7 +1372,9 @@ static NSData *dhparamData = nil;
             [requestArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:profileURI, @"ProfileURI", requestData, @"Data", nil]];
             if (!preferedAnswer)  {
                 NSData *answerData = [NSData data];
-                if ([profileURI isEqualToString:TCMBEEPTLSProfileURI] || [profileURI isEqualToString:TCMBEEPTLSAnonProfileURI]) {
+                if ([profileURI isEqualToString:TCMBEEPTLSProfileURI] || 
+                	([profileURI isEqualToString:TCMBEEPTLSAnonProfileURI] && 
+                	[[NSUserDefaults standardUserDefaults] boolForKey:EnableAnonTLSKey])) {
                     // parse data for 'ready' element, may have attribute
                     NSString *element, *content;
                     NSDictionary *attributes;
@@ -1386,7 +1393,8 @@ static NSData *dhparamData = nil;
                             answerData = [@"<proceed />" dataUsingEncoding:NSUTF8StringEncoding];
                             // implicitly close all channels including channel zero, but proceed frame needs to go through
                             I_flags.hasSentTLSProceed = YES;
-                            if ([profileURI isEqualToString:TCMBEEPTLSAnonProfileURI]) {
+                            if ([profileURI isEqualToString:TCMBEEPTLSAnonProfileURI] && 
+                                [[NSUserDefaults standardUserDefaults] boolForKey:EnableAnonTLSKey]) {
                             	I_flags.isTLSAnon = YES;
                             }
                         }
