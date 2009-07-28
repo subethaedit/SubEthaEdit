@@ -1513,7 +1513,7 @@ static NSString *tempFileName(NSString *origPath) {
 
 - (IBAction)prettyPrintHTML:(id)aSender {
     NSError *error=nil;
-    NSXMLDocument *document = [[[NSXMLDocument alloc] initWithXMLString:[[(FoldableTextStorage *)[self textStorage] fullTextStorage] string] options:NSXMLDocumentTidyHTML|NSXMLNodePreserveEmptyElements|NSXMLNodePreserveAttributeOrder error:&error] autorelease];
+    NSXMLDocument *document = [[[NSXMLDocument alloc] initWithXMLString:[[(FoldableTextStorage *)[self textStorage] fullTextStorage] string] options:NSXMLDocumentTidyHTML|NSXMLNodePreserveEmptyElements|NSXMLNodePreserveAttributeOrder|NSXMLNodePreserveEntities error:&error] autorelease];
     if (document) {
     	[self setContentUsingXMLDocument:document];
     } else {
