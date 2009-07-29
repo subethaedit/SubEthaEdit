@@ -431,28 +431,45 @@ static NSMenu *S_defaultMenu=nil;
 }
 
 - (IBAction)foldCurrentBlock:(id)aSender {
-	FoldableTextStorage *ts = (FoldableTextStorage *)[self textStorage];
+	FoldableTextStorage *textStorage = (FoldableTextStorage *)[self textStorage];
 	NSRange mySelectedRange = [self selectedRange];
-	BOOL didFold = NO;
 	
-	NSRange foldableCommentRange = [ts foldableCommentRangeForCharacterAtIndex:mySelectedRange.location];
+	NSRange foldedRange = NSMakeRange(NSNotFound,0);
+	
+	NSRange foldableCommentRange = [textStorage foldableCommentRangeForCharacterAtIndex:mySelectedRange.location];
 	if (foldableCommentRange.location != NSNotFound && foldableCommentRange.length > 0) {
-		[self setSelectedRange:foldableCommentRange];
-		[ts foldRange:foldableCommentRange];
-		didFold = YES;
+		foldedRange = foldableCommentRange;
+		[textStorage foldRange:foldedRange];
 	} else {
-		NSRange selectedRange = [ts fullRangeForFoldedRange:mySelectedRange];
-		NSRange fullRangeToFold = [[ts fullTextStorage] foldableRangeForCharacterAtIndex:selectedRange.location]; 
+		NSRange selectedRange = [textStorage fullRangeForFoldedRange:mySelectedRange];
+		NSRange fullRangeToFold = [[textStorage fullTextStorage] foldableRangeForCharacterAtIndex:selectedRange.location]; 
 		if (fullRangeToFold.location != NSNotFound) {
-			NSRange foldableRangeToFold = [ts foldedRangeForFullRange:fullRangeToFold];
-			[ts foldRange:foldableRangeToFold];
-			didFold = YES;
+			NSRange foldableRangeToFold = [textStorage foldedRangeForFullRange:fullRangeToFold];
+			foldedRange = foldableRangeToFold;
+			[textStorage foldRange:foldedRange];
 		} else {
 			NSBeep();
 		}
 	}
 
-	if (didFold) {
+	if (foldedRange.location != NSNotFound) { // some folding happenend
+		// select the first character in front of the start of the current folding if possible
+		NSRange rangeToSelect = NSMakeRange(0,0);
+		if (foldedRange.location > 0) {
+			NSRange startRange = NSMakeRange(foldedRange.location-1,0);
+			id startAttribute = [textStorage attribute:kSyntaxHighlightingFoldDelimiterName atIndex:startRange.location longestEffectiveRange:&startRange inRange:NSMakeRange(0,foldedRange.location)];
+			if ([startAttribute isEqualToString:kSyntaxHighlightingStateDelimiterStartValue]) {
+				NSRange startWithSameDepthRange = NSMakeRange(NSMaxRange(startRange)-1,0);
+				/*id depthValue =*/ [textStorage attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:startWithSameDepthRange.location longestEffectiveRange:&startWithSameDepthRange inRange:startRange];
+				rangeToSelect.location = startWithSameDepthRange.location;
+				if (rangeToSelect.location > [[textStorage string] lineRangeForRange:rangeToSelect].location) {
+					rangeToSelect.location -= 1;
+				}
+				[self setSelectedRange:rangeToSelect];
+				[self scrollRangeToVisible:rangeToSelect];
+			}
+		}
+
 		NSScrollView *scrollView = [self enclosingScrollView];
 		if ([scrollView rulersVisible]) {
 			[[scrollView verticalRulerView] setNeedsDisplay:YES];
