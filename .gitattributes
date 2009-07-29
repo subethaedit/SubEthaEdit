@@ -711,7 +711,7 @@ subethaedit/Modes/C.mode/Contents/Resources/Scripts/60-un_comment_lines.scpt -te
 subethaedit/Modes/C.mode/Contents/Resources/SyntaxDefinition.xml -text
 subethaedit/Modes/C.mode/Contents/Resources/ToolbarCounterpart.png -text
 subethaedit/Modes/CFML.mode/Contents/Info.plist -text
-subethaedit/Modes/CFML.mode/Contents/Resources/English.lproj/Localizable.strings -text
+subethaedit/Modes/CFML.mode/Contents/Resources/English.lproj/Localizable.strings -text svneol=unset#unset
 subethaedit/Modes/CFML.mode/Contents/Resources/German.lproj/Localizable.strings -text
 subethaedit/Modes/CFML.mode/Contents/Resources/ModeSettings.xml -text
 subethaedit/Modes/CFML.mode/Contents/Resources/RegexSymbols.xml -text
