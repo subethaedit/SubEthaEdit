@@ -19,14 +19,6 @@
 		</dict>
 		<dict>
 			<key>CLASS</key>
-			<string>EncodingPopUpButton</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSPopUpButton</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
 			<string>TCMMMBrowserListView</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
@@ -40,6 +32,14 @@
 			<string>ObjC</string>
 			<key>SUPERCLASS</key>
 			<string>NSWindowController</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>EncodingPopUpButton</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSPopUpButton</string>
 		</dict>
 		<dict>
 			<key>ACTIONS</key>
@@ -122,6 +122,29 @@
 		<dict>
 			<key>ACTIONS</key>
 			<dict>
+				<key>foldAllBlocksAtTagLevel</key>
+				<string>id</string>
+				<key>foldAllCommentBlocks</key>
+				<string>id</string>
+				<key>foldAllTopLevelBlocks</key>
+				<string>id</string>
+				<key>foldCurrentBlock</key>
+				<string>id</string>
+				<key>foldTextSelection</key>
+				<string>id</string>
+				<key>unfoldCurrentBlock</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>TextView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSTextView</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
 				<key>buy</key>
 				<string>id</string>
 				<key>cancel</key>
@@ -156,29 +179,6 @@
 			</dict>
 			<key>SUPERCLASS</key>
 			<string>NSWindowController</string>
-		</dict>
-		<dict>
-			<key>ACTIONS</key>
-			<dict>
-				<key>foldAllBlocksAtTagLevel</key>
-				<string>id</string>
-				<key>foldAllCommentBlocks</key>
-				<string>id</string>
-				<key>foldAllTopLevelBlocks</key>
-				<string>id</string>
-				<key>foldCurrentBlock</key>
-				<string>id</string>
-				<key>foldTextSelection</key>
-				<string>id</string>
-				<key>unfoldCurrentBlock</key>
-				<string>id</string>
-			</dict>
-			<key>CLASS</key>
-			<string>TextView</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSTextView</string>
 		</dict>
 		<dict>
 			<key>CLASS</key>
@@ -347,27 +347,6 @@
 		</dict>
 		<dict>
 			<key>CLASS</key>
-			<string>NSMenuItem</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>SUPERCLASS</key>
-			<string>NSObject</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
-			<string>URLImageView</string>
-			<key>LANGUAGE</key>
-			<string>ObjC</string>
-			<key>OUTLETS</key>
-			<dict>
-				<key>I_delegate</key>
-				<string>id</string>
-			</dict>
-			<key>SUPERCLASS</key>
-			<string>NSImageView</string>
-		</dict>
-		<dict>
-			<key>CLASS</key>
 			<string>AboutPanelController</string>
 			<key>LANGUAGE</key>
 			<string>ObjC</string>
@@ -390,6 +369,27 @@
 			</dict>
 			<key>SUPERCLASS</key>
 			<string>NSWindowController</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>URLImageView</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>I_delegate</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSImageView</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSMenuItem</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
 		</dict>
 		<dict>
 			<key>ACTIONS</key>
@@ -647,6 +647,8 @@
 				<key>entab</key>
 				<string>id</string>
 				<key>exportDocument</key>
+				<string>id</string>
+				<key>foldAllBlocksAtCurrentLevel</key>
 				<string>id</string>
 				<key>jumpToNextChange</key>
 				<string>id</string>

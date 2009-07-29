@@ -358,7 +358,8 @@ static NSMenu *S_defaultMenu=nil;
     if ( action == @selector(foldAllTopLevelBlocks:) || 
          action == @selector(foldAllBlocksAtTagLevel:) || 
          action == @selector(foldCurrentBlock:) || 
-         action == @selector(foldAllCommentBlocks:)) {
+         action == @selector(foldAllCommentBlocks:) ||
+         action == @selector(foldAllBlocksAtCurrentLevel:) ) {
 	    PlainTextDocument *document=(PlainTextDocument *)[editor document];
 	    DocumentMode *mode = [document documentMode];
     	BOOL hasFoldingInformation = [mode syntaxHighlighter] && [document highlightsSyntax];
@@ -403,6 +404,16 @@ static NSMenu *S_defaultMenu=nil;
         }
     }
     return [super selectionRangeForProposedRange:proposedSelRange granularity:granularity];
+}
+
+- (void)selectFullRangeAppropriateAfterFolding:(NSRange)aFullRange {
+	// first get foldedRange:
+	FoldableTextStorage *textStorage = (FoldableTextStorage *)[self textStorage];
+	NSRange foldedRange = [textStorage foldedRangeForFullRange:aFullRange];
+
+	// then select and scroll to
+	[self setSelectedRange:foldedRange];
+	[self scrollRangeToVisible:foldedRange];
 }
 
 - (IBAction)foldTextSelection:(id)aSender {
@@ -450,33 +461,72 @@ static NSMenu *S_defaultMenu=nil;
 }
 
 - (IBAction)unfoldCurrentBlock:(id)aSender {
-	FoldableTextStorage *ts = (FoldableTextStorage *)[self textStorage];
-	if (![ts unfoldFoldingForPosition:[self selectedRange].location]) {
+	NSRange selectedRange = [self selectedRange];
+	FoldableTextStorage *textStorage = (FoldableTextStorage *)[self textStorage];
+	NSRange fullRangeOfSelection = [textStorage fullRangeForFoldedRange:selectedRange];
+
+	if (![textStorage unfoldFoldingForPosition:selectedRange.location]) {
 		NSBeep();
+	} else {
+		[self selectFullRangeAppropriateAfterFolding:fullRangeOfSelection];
 	}
 }
 
 - (IBAction)foldAllCommentBlocks:(id)aSender {
-	FoldableTextStorage *ts = (FoldableTextStorage *)[self textStorage];
-	[ts foldAllComments];
+	NSRange selectedRange = [self selectedRange];
+	FoldableTextStorage *textStorage = (FoldableTextStorage *)[self textStorage];
+	NSRange fullRangeOfSelection = [textStorage fullRangeForFoldedRange:selectedRange];
+
+	[textStorage foldAllComments];
+
+	[self selectFullRangeAppropriateAfterFolding:fullRangeOfSelection];
 }
 
 - (IBAction)unfoldAllBlocks:(id)aSender {
-	FoldableTextStorage *ts = (FoldableTextStorage *)[self textStorage];
-	[ts unfoldAll];
+	NSRange selectedRange = [self selectedRange];
+	FoldableTextStorage *textStorage = (FoldableTextStorage *)[self textStorage];
+	NSRange fullRangeOfSelection = [textStorage fullRangeForFoldedRange:selectedRange];
+
+	[textStorage unfoldAll];
+
+	[self selectFullRangeAppropriateAfterFolding:fullRangeOfSelection];
 }
 
 - (IBAction)foldAllTopLevelBlocks:(id)aSender {
-	FoldableTextStorage *ts = (FoldableTextStorage *)[self textStorage];
+	NSRange selectedRange = [self selectedRange];
+	FoldableTextStorage *textStorage = (FoldableTextStorage *)[self textStorage];
+	NSRange fullRangeOfSelection = [textStorage fullRangeForFoldedRange:selectedRange];
     PlainTextDocument *document=(PlainTextDocument *)[editor document];
-	[ts foldAllWithFoldingLevel:[[[document documentMode] syntaxDefinition] foldingTopLevel]];
+	[textStorage foldAllWithFoldingLevel:[[[document documentMode] syntaxDefinition] foldingTopLevel]];
+	[self selectFullRangeAppropriateAfterFolding:fullRangeOfSelection];
 }
 
 - (IBAction)foldAllBlocksAtTagLevel:(id)aSender {
 	int level = [aSender tag];
 	if (level > 0) {
-		FoldableTextStorage *ts = (FoldableTextStorage *)[self textStorage];
-		[ts foldAllWithFoldingLevel:level];
+		NSRange selectedRange = [self selectedRange];
+		FoldableTextStorage *textStorage = (FoldableTextStorage *)[self textStorage];
+		NSRange fullRangeOfSelection = [textStorage fullRangeForFoldedRange:selectedRange];
+		[textStorage foldAllWithFoldingLevel:level];
+		[self selectFullRangeAppropriateAfterFolding:fullRangeOfSelection];
+	}
+}
+
+- (IBAction)foldAllBlocksAtCurrentLevel:(id)aSender {
+	NSRange selectedRange = [self selectedRange];
+	FoldableTextStorage *textStorage = (FoldableTextStorage *)[self textStorage];
+	NSRange fullRangeOfSelection = [textStorage fullRangeForFoldedRange:selectedRange];
+
+	unsigned int location = selectedRange.location;
+	unsigned int length = [textStorage length];
+	if (length > 0) {
+		if (location >= length) {
+			location--;
+		}
+		int currentLevel = [[textStorage attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:location effectiveRange:NULL] intValue];
+		[textStorage foldAllWithFoldingLevel:currentLevel];
+
+		[self selectFullRangeAppropriateAfterFolding:fullRangeOfSelection];
 	}
 }
 
