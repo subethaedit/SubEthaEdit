@@ -306,7 +306,7 @@
                 <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
             
-            <state id="String with triple double quotes" type="string" color="#760f15">
+            <state id="String with triple double quotes" type="string" color="#760f15" foldable="yes">
                 <begin><regex>"""</regex></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)"""</regex></end>
             </state>
@@ -326,11 +326,22 @@
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
             </state>
     
-    
             <state id="Backticks" color="#760f15">
                 <begin><regex>`</regex></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)`</regex></end>
             </state>
+
+			<state id="Class Blocks" foldable="yes">
+				<begin><regex>^class[^:]+\:</regex></begin>
+				<end><regex>(?:\r?\n|\r)(?=(?:\r?\n|\r)(?:\r?\n|\r)\S|(?:\r?\n|\r)\S|\S)</regex></end>
+				<import />
+			</state>
+
+			<state id="Def Blocks" foldable="yes">
+				<begin><regex>^(?'defstartingwhitespace'[ \t]*)def[^:]+\:</regex></begin>
+				<end><regex>(?:\r?\n|\r)(?=(?:\r?\n|\r)(?:\r?\n|\r)(?#see-insert-start-group:defstartingwhitespace)\S|(?:\r?\n|\r)(?#see-insert-start-group:defstartingwhitespace)\S|(?#see-insert-start-group:defstartingwhitespace)\S|(?:\r?\n|\r)(?:\r?\n|\r)\S|(?:\r?\n|\r)\S|\S)</regex></end>
+				<import />
+			</state>
 
         </default>
 
