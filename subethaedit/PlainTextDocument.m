@@ -4467,6 +4467,19 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 #pragma mark -
 
+- (BOOL)hasMarkedTexts {
+	NSEnumerator *plainTextEditors = [[self plainTextEditors] objectEnumerator];
+	PlainTextEditor *editor = nil;
+	while ((editor = [plainTextEditors nextObject])) {
+		if ([[editor textView] hasMarkedText]) {
+//			[[editor textView] unmarkText];
+			return YES;
+		}
+	}
+	return NO;
+}
+
+
 
 - (BOOL)validateMenuItem:(NSMenuItem *)anItem {
     SEL selector=[anItem action];
@@ -4530,11 +4543,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                          NSLocalizedString(@"Announce All",@"Menu/Toolbar Title for announcing all Documents")];
         return YES;
     } else if (selector == @selector(saveDocument:)) {
-        return ![self isProxyDocument];
+        return ![self isProxyDocument] && ![self hasMarkedTexts];
     } else if (selector == @selector(saveDocumentAs:)) {
-        return ![self isProxyDocument];
+        return ![self isProxyDocument] && ![self hasMarkedTexts];
     } else if (selector == @selector(saveDocumentTo:)) {
-        return ![self isProxyDocument];
+        return ![self isProxyDocument] && ![self hasMarkedTexts];
     } else if (selector == @selector(printDocument:)) {
         return ![self isProxyDocument];
     } else if (selector == @selector(runPageLayout:)) {
@@ -4557,6 +4570,26 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
     return [super validateMenuItem:anItem];
 }
+
+- (IBAction)saveDocumentAs:(id)aSender {
+	if (![self hasMarkedTexts]) {
+		[super saveDocumentAs:aSender];
+	}
+}
+
+- (IBAction)saveDocument:(id)aSender {
+	if (![self hasMarkedTexts]) {
+		[super saveDocument:aSender];
+	}
+}
+
+- (IBAction)saveDocumentTo:(id)aSender {
+	if (![self hasMarkedTexts]) {
+		[super saveDocumentTo:aSender];
+	}
+}
+
+
 
 - (BOOL)validateToolbarItem:(NSToolbarItem *)toolbarItem {
     NSString *itemIdentifier = [toolbarItem itemIdentifier];
