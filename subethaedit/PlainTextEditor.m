@@ -1617,7 +1617,7 @@
         return NO;
     }
 
-    if (![replacementString canBeConvertedToEncoding:[document fileEncoding]] && (![aTextView hasMarkedText] || [aTextView _isUnmarking])) {
+    if (![replacementString canBeConvertedToEncoding:[document fileEncoding]] && ![aTextView hasMarkedText]) {
         TCMMMSession *session=[document session];
         if ([session isServer] && [session participantCount]<=1) {
             NSMutableDictionary *contextInfo = [[NSMutableDictionary alloc] init];
@@ -1645,6 +1645,7 @@
     } else {
 		[aTextView setTypingAttributes:[(TextStorage *)[aTextView textStorage] attributeDictionaryByAddingStyleAttributesForInsertLocation:affectedCharRange.location toDictionary:[(PlainTextDocument *)[self document] typingAttributes]]];
     }
+	[aTextView setTypingAttributes:[(TextStorage *)[aTextView textStorage] attributeDictionaryByAddingStyleAttributesForInsertLocation:affectedCharRange.location toDictionary:[(PlainTextDocument *)[self document] typingAttributes]]];
     
     if ([(TextView *)aTextView isPasting] && ![(FoldableTextStorage *)[aTextView textStorage] hasMixedLineEndings]) {
         NSUInteger length = [replacementString length];
@@ -1875,11 +1876,21 @@
     [completions addObjectsFromArray:[[dictionaryOfResultStrings allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)]];
 	
 	// Check if we should use a different mode than the default mode here.
-	NSString *modeForAutocomplete = [[textView textStorage] attribute:kSyntaxHighlightingParentModeForAutocompleteAttributeName atIndex:charRange.location effectiveRange:NULL];
+
+	DocumentMode *theMode = documentMode;
 	
-	DocumentMode *theMode;
-	if (modeForAutocomplete) theMode = [[DocumentModeManager sharedInstance] documentModeForName:modeForAutocomplete];
-	else theMode = documentMode;
+	unsigned int characterIndex = charRange.location;
+	unsigned int stringLength = [textString length];
+	if ( characterIndex < stringLength || 
+		 (characterIndex == stringLength && characterIndex > 0) ) {
+		if (characterIndex == stringLength) {
+			characterIndex--;
+		}
+		NSString *modeForAutocomplete = [[textView textStorage] attribute:kSyntaxHighlightingParentModeForAutocompleteAttributeName atIndex:characterIndex effectiveRange:NULL];
+		if (modeForAutocomplete) {
+			theMode = [[DocumentModeManager sharedInstance] documentModeForName:modeForAutocomplete];
+		}
+	}
 	
     // Get autocompletions from mode responsible for the insert location.
     NSArray *completionSource = [theMode autocompleteDictionary];

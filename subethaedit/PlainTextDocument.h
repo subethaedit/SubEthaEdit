@@ -132,6 +132,9 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
         
     NSDictionary *I_blockeditAttributes;
     NSTextView   *I_blockeditTextView;
+
+	NSString *I_lastTextShouldChangeReplacementString;
+	NSRange   I_lastTextShouldChangeReplacementRange;
     
     NSArray *I_symbolArray;
     NSMenu *I_symbolPopUpMenu;
@@ -344,6 +347,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (BOOL)shouldChangeExtensionOnModeChange;
 - (void)resizeAccordingToDocumentMode;
 
+- (BOOL)didPauseBecauseOfMarkedText;
 
 #pragma mark -
 #pragma mark ### Syntax Highlighting ###

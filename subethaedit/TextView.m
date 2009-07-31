@@ -71,6 +71,13 @@ static NSMenu *S_defaultMenu=nil;
     return [(FoldableTextStorage *)[self textStorage] delegate];
 }
 
+- (void)unmarkText {
+	I_flags.isUnmarkingText = YES;
+	NSLog(@"%s",__FUNCTION__);
+	[super unmarkText];
+	I_flags.isUnmarkingText = NO;
+}
+
 
 - (void)setPageGuidePosition:(float)aPosition {
     I_pageGuidePosition = aPosition;
@@ -925,12 +932,21 @@ static NSMenu *S_defaultMenu=nil;
 - (NSRange)rangeForUserCompletion {
     NSRange result=[super rangeForUserCompletion];
     NSString *string=[[self textStorage] string];
+	DocumentMode *theMode = [[self document] documentMode];
 	
-	NSString *modeForAutocomplete = [[self textStorage] attribute:kSyntaxHighlightingParentModeForAutocompleteAttributeName atIndex:result.location effectiveRange:NULL];
+	unsigned int characterIndex = result.location;
+	unsigned int stringLength = [string length];
+	if ( characterIndex < stringLength || 
+		 (characterIndex == stringLength && characterIndex > 0) ) {
+		if (characterIndex == stringLength) {
+			characterIndex--;
+		}
+		NSString *modeForAutocomplete = [[self textStorage] attribute:kSyntaxHighlightingParentModeForAutocompleteAttributeName atIndex:characterIndex effectiveRange:NULL];
+		if (modeForAutocomplete) {
+			theMode = [[DocumentModeManager sharedInstance] documentModeForName:modeForAutocomplete];
+		}
+	}
 	
-	DocumentMode *theMode;
-	if (modeForAutocomplete) theMode = [[DocumentModeManager sharedInstance] documentModeForName:modeForAutocomplete];
-	else theMode = [[self document] documentMode];
 	
     NSCharacterSet *tokenSet = [[[theMode syntaxHighlighter] syntaxDefinition] autoCompleteTokenSet];
 

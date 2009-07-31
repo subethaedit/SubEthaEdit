@@ -1033,6 +1033,9 @@ static NSString *tempFileName(NSString *origPath) {
     [I_stateDictionaryFromLoading release];
      I_stateDictionaryFromLoading = nil;
     
+    [I_lastTextShouldChangeReplacementString release];
+     I_lastTextShouldChangeReplacementString = nil;
+    
     [super dealloc];
 }
 
@@ -6596,13 +6599,26 @@ static NSString *S_measurementUnits;
     }
 }
 
+- (BOOL)didPauseBecauseOfMarkedText {
+	return I_flags.isRemotelyEditingTextStorage;
+}
+
+
 - (BOOL)textView:(NSTextView *)aTextView shouldChangeTextInRange:(NSRange)aAffectedCharRange replacementString:(NSString *)aReplacementString {
     FoldableTextStorage *textStorage=(FoldableTextStorage *)[aTextView textStorage];
     if ([aTextView hasMarkedText] && !I_flags.didPauseBecauseOfMarkedText) {
         //NSLog(@"paused because of marked...");
         I_flags.didPauseBecauseOfMarkedText=YES;
         [[self session] pauseProcessing];
+//        [[self documentUndoManager] beginUndoGrouping];
+//		NSLog(@"%s beginning marked text undo group",__FUNCTION__);
+
     }
+
+	// record this change for possible later use
+	 I_lastTextShouldChangeReplacementRange = aAffectedCharRange;
+	[I_lastTextShouldChangeReplacementString release];
+	 I_lastTextShouldChangeReplacementString = [aReplacementString copy];
 
     UndoManager *undoManager=[self documentUndoManager];
     if ([textStorage hasBlockeditRanges] && ![textStorage isBlockediting] &&
@@ -6680,15 +6696,58 @@ static NSString *S_measurementUnits;
 
 - (void)textDidChange:(NSNotification *)aNotification {
     NSTextView *textView=[aNotification object];
+    FoldableTextStorage *textStorage = (FoldableTextStorage *) [textView textStorage];
+    BOOL cancelBlockEdit = NO;
+
     if (I_flags.didPauseBecauseOfMarkedText && textView && ![textView hasMarkedText]) {
         //NSLog(@"started because of marked... in did change");
         I_flags.didPauseBecauseOfMarkedText=NO;
+
+		
+		// check change for conformance
+		if ((![I_lastTextShouldChangeReplacementString canBeConvertedToEncoding:[self fileEncoding]])) {
+//			NSLog(@"%s %@ %@",__FUNCTION__,NSStringFromRange(I_lastTextShouldChangeReplacementRange),I_lastTextShouldChangeReplacementString);
+			cancelBlockEdit = YES;
+			
+			// undo last change
+			[textStorage replaceCharactersInRange:NSMakeRange(I_lastTextShouldChangeReplacementRange.location,[I_lastTextShouldChangeReplacementString length]) withString:@""];
+			
+			NSLog(@"%s %@",__FUNCTION__,textStorage);
+			
+			// show sheet
+			TCMMMSession *session=[self session];
+			if ([session isServer] && [session participantCount]<=1) {
+				NSMutableDictionary *contextInfo = [[NSMutableDictionary alloc] init];
+				[contextInfo setObject:@"ShouldPromoteAlert" forKey:@"Alert"];
+				[contextInfo setObject:textView forKey:@"TextView"];
+				[contextInfo setObject:[[I_lastTextShouldChangeReplacementString copy] autorelease] forKey:@"ReplacementString"];
+				[contextInfo autorelease];
+		
+				NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+				[alert setAlertStyle:NSWarningAlertStyle];
+				[alert setMessageText:NSLocalizedString(@"You are trying to insert characters that cannot be handled by the file's current encoding. Do you want to cancel the change?", nil)];
+				[alert setInformativeText:[NSLocalizedString(@"You are no longer restricted by the file's current encoding if you promote to a Unicode encoding.", nil) stringByAppendingString:[NSString stringWithFormat:@"\n%@ ->\n%@",I_lastTextShouldChangeReplacementString,[NSString stringWithData:[I_lastTextShouldChangeReplacementString dataUsingEncoding:[self fileEncoding] allowLossyConversion:YES] encoding:[self fileEncoding]]]]];
+				[alert addButtonWithTitle:NSLocalizedString(@"Insert", nil)];
+				[alert addButtonWithTitle:NSLocalizedString(@"Promote to UTF8", nil)];
+				[alert addButtonWithTitle:NSLocalizedString(@"Promote to Unicode", nil)];
+				[[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
+				[alert beginSheetModalForWindow:[textView window]
+								  modalDelegate:self
+								 didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
+									contextInfo:[contextInfo retain]];
+			} else {
+				NSBeep();
+			}
+		}
+//		NSLog(@"%s ending marked text undo group",__FUNCTION__);
+//		[[self documentUndoManager] endUndoGrouping];
+
+
         [[self session] startProcessing];
 //        DEBUGLOG(@"MillionMonkeysDomain",AlwaysLogLevel,@"start");
     }
 
 
-    FoldableTextStorage *textStorage = (FoldableTextStorage *) [textView textStorage];
     // take care for blockedit
 
     if (![textStorage didBlockedit]) {
@@ -6698,7 +6757,7 @@ static NSString *S_measurementUnits;
         }
     }
     
-    if ([textStorage didBlockedit] && ![textStorage isBlockediting] && ![textView hasMarkedText]) {
+    if ([textStorage didBlockedit] && ![textStorage isBlockediting] && ![textView hasMarkedText] && !cancelBlockEdit) {
         [textStorage beginEditing];
         NSRange lineRange=[textStorage didBlockeditLineRange];
         NSRange selectedRange=[textView selectedRange];
