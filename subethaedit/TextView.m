@@ -71,13 +71,6 @@ static NSMenu *S_defaultMenu=nil;
     return [(FoldableTextStorage *)[self textStorage] delegate];
 }
 
-- (void)unmarkText {
-	I_flags.isUnmarkingText = YES;
-	NSLog(@"%s",__FUNCTION__);
-	[super unmarkText];
-	I_flags.isUnmarkingText = NO;
-}
-
 
 - (void)setPageGuidePosition:(float)aPosition {
     I_pageGuidePosition = aPosition;
