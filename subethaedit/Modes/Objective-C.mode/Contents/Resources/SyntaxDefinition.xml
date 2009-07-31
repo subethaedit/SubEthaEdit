@@ -1026,16 +1026,7 @@
                 <string>auto</string>
             </keywords>
             <keywords id="Memory Management" color="#f00" font-weight="bold" font-style="normal" useforautocomplete="yes">
-                <string>new</string>
-                <string>alloc</string>
-                <string>allocWithZone</string>
-                <string>release</string>
-                <string>autorelease</string>
-                <string>copy</string>
-                <string>copyWithZone</string>
-                <string>mutableCopy</string>
-                <string>mutableCopyWithZone</string>
-                <string>retain</string>
+                <regex>(?&lt;![\w:_])(new|allocWithZone:|alloc|autorelease|copyWithZone:|copy|mutableCopyWithZone:|mutableCopy|retain|release)(?![\w:_])</regex>
             </keywords>
             <keywords id="Cocoa Functions" color="#400080" font-weight="normal" font-style="italic" useforautocomplete="yes">
                 <string>NSDrawThreePartImage</string>
