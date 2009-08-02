@@ -360,7 +360,7 @@
             </state>
 
             <state id="Block" color="#000" background-color="#fff" font-weight="normal" font-style="normal" type="block" foldable="yes">
-                <begin><regex>(?:(?&lt;=\s)(?:if|else|else\s+if|for|while|do|switch|case)\s*(?:\([^#{\n\r]*?\))?)?\s*{</regex></begin>
+                <begin><regex>(?:(?&lt;=\s)(?'trimmedstart'(?:if|else|else\s+if|for|while|do|switch|case)\s*(?:\([^#{\n\r]*?\))?)?\s*{)(?=.)</regex></begin>
                 <end><regex>}</regex></end>
                 <import mode="Perl" />
             </state>
