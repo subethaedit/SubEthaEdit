@@ -38,16 +38,24 @@
                  expression.
         -->
         
-        <regex>^==([^=]*)==</regex>
+        <regex>^======([^=]+)======</regex>
 
     </symbol>
 
     <symbol id="Subsection" image="SymbolS" indentation="1">
-        <regex>^===([^=]*)===</regex>
+        <regex>^=====([^=]+)=====</regex>
     </symbol>
     
     <symbol id="Subsubsection" image="SymbolS" indentation="2">
-        <regex>^====([^=]*)====</regex>
+        <regex>^====([^=]+)====</regex>
+    </symbol>
+
+    <symbol id="Subsubsection" image="SymbolS" indentation="3">
+        <regex>^===([^=]+)===</regex>
+    </symbol>
+
+    <symbol id="Subsubsection" image="SymbolS" indentation="4">
+        <regex>^==([^=]+)==</regex>
     </symbol>
     
 </symbols>

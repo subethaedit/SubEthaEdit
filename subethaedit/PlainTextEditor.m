@@ -1556,7 +1556,7 @@
 - (BOOL)textView:(NSTextView *)aTextView writeCell:(id < NSTextAttachmentCell >)cell atIndex:(NSUInteger)charIndex toPasteboard:(NSPasteboard *)pboard type:(NSString *)type {
 	id attachment = [cell attachment];
 	if ([attachment isKindOfClass:[FoldedTextAttachment class]]) {
-		NSLog(@"%s type:%@",__FUNCTION__,type);
+//		NSLog(@"%s type:%@",__FUNCTION__,type);
 		FoldableTextStorage *ts = (FoldableTextStorage *)[aTextView textStorage];
 		NSString *stringToPaste = [[[ts fullTextStorage] string] substringWithRange:[attachment foldedTextRange]];
 		if (stringToPaste) {
