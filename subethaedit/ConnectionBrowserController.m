@@ -1131,7 +1131,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 - (BOOL)listView:(TCMListView *)aListView performDragOperation:(id <NSDraggingInfo>)sender{
 //    NSLog(@"%s",__FUNCTION__);
     NSPasteboard *pboard = [sender draggingPasteboard];
-    NSLog(@"%s\n%@",__FUNCTION__,[pboard propertyListForType:@"AIListObjectUniqueIDs"]);
+//    NSLog(@"%s\n%@",__FUNCTION__,[pboard propertyListForType:@"AIListObjectUniqueIDs"]);
     return [ConnectionBrowserController invitePeopleFromPasteboard:pboard withURL:[self URLForURLImageView:nil]];
 }
 
