@@ -37,7 +37,7 @@
 	
 			<state id="External Link" color="#00a" font-weight="normal">
 				<begin><regex>\[(?=\[)</regex></begin>
-				<end><regex>(?&lt;=\])\]</regex></end>
+				<end><regex>\]\]</regex></end>
 					<state id="URL Portion">
 						<begin><regex>\[</regex></begin>
 						<end><regex>(?:.(?=\]\]|\|))</regex></end>
