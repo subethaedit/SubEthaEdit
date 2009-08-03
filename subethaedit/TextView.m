@@ -744,7 +744,8 @@ static NSMenu *S_defaultMenu=nil;
             [self setIsDragTarget:YES];
             return NSDragOperationGeneric;
         }
-    } else if ([[pboard types] containsObject:@"PresentityNames"]) {
+    } else if ([[pboard types] containsObject:@"PresentityNames"] ||
+			   [[pboard types] containsObject:@"IMHandleNames"]) {
         BOOL shouldDrag=[[(PlainTextDocument *)[self document] session] isServer];
         if (shouldDrag) {
             [self setIsDragTarget:YES];
@@ -774,7 +775,8 @@ static NSMenu *S_defaultMenu=nil;
             [self setIsDragTarget:YES];
             return NSDragOperationGeneric;
         }
-    } else if ([[pboard types] containsObject:@"PresentityNames"]) {
+    } else if ([[pboard types] containsObject:@"PresentityNames"] ||
+			   [[pboard types] containsObject:@"IMHandleNames"]) {
         // perform this by selector to not create dependency on TCMPortMapper
         BOOL shouldDrag=[[(PlainTextDocument *)[self document] session] isServer];
         if (shouldDrag) {
@@ -799,7 +801,8 @@ static NSMenu *S_defaultMenu=nil;
             [[[sender draggingSource] window] windowController]==[[self window]  windowController]) {
             return YES;
         }
-    } else if ([[pboard types] containsObject:@"PresentityNames"]) {
+    } else if ([[pboard types] containsObject:@"PresentityNames"] ||
+			   [[pboard types] containsObject:@"IMHandleNames"]) {
         BOOL shouldDrag=[[(PlainTextDocument *)[self document] session] isServer];
         [self setIsDragTarget:YES];
         if (shouldDrag) {
@@ -839,7 +842,8 @@ static NSMenu *S_defaultMenu=nil;
             [self setIsDragTarget:NO];
             return YES;
         }
-    } else if ([[pboard types] containsObject:@"PresentityNames"]) {
+    } else if ([[pboard types] containsObject:@"PresentityNames"] ||
+			   [[pboard types] containsObject:@"IMHandleNames"]) {
         BOOL shouldDrag=[[(PlainTextDocument *)[self document] session] isServer];
         [self setIsDragTarget:YES];
         if (shouldDrag) {
@@ -868,6 +872,7 @@ static NSMenu *S_defaultMenu=nil;
     [dragTypes addObject:@"PboardTypeTBD"];
     [dragTypes addObject:@"ParticipantDrag"];
     [dragTypes addObject:@"PresentityNames"];
+    [dragTypes addObject:@"IMHandleNames"];
     return [dragTypes autorelease];
 }
 

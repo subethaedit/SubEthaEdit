@@ -1115,7 +1115,8 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 - (NSDragOperation)listView:(TCMListView *)aListView validateDrag:(id <NSDraggingInfo>)sender {
     NSPasteboard *pboard = [sender draggingPasteboard];
 
-    if ([[pboard types] containsObject:@"PresentityNames"]) {
+    if ([[pboard types] containsObject:@"PresentityNames"] ||
+		[[pboard types] containsObject:@"IMHandleNames"]) {
         return NSDragOperationGeneric;
     } else if ([[pboard types] containsObject:@"AIListObjectUniqueIDs"]) {
     	return NSDragOperationGeneric;
@@ -1151,8 +1152,9 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 
 + (BOOL)invitePeopleFromPasteboard:(NSPasteboard *)aPasteboard intoDocument:(PlainTextDocument *)aDocument group:(NSString *)aGroup {
     BOOL success = NO;
-    if ([[aPasteboard types] containsObject:@"PresentityNames"]) {
-        NSArray *presentityNames=[aPasteboard propertyListForType:@"PresentityNames"]; 
+    if ([[aPasteboard types] containsObject:@"PresentityNames"] ||
+		[[aPasteboard types] containsObject:@"IMHandleNames"]) {
+        NSArray *presentityNames=[[aPasteboard types] containsObject:@"PresentityNames"] ? [aPasteboard propertyListForType:@"PresentityNames"] : [aPasteboard propertyListForType:@"IMHandleNames"]; 
         int i=0;
         for (i=0;i<[presentityNames count];i+=4) {
             [self sendInvitationToServiceWithID:[presentityNames objectAtIndex:i] buddy:[presentityNames objectAtIndex:i+1] url:[aDocument documentURLForGroup:aGroup]];
@@ -1165,8 +1167,9 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 
 + (BOOL)invitePeopleFromPasteboard:(NSPasteboard *)aPasteboard withURL:(NSURL *)aDocumentURL{
     BOOL success = NO;
-    if ([[aPasteboard types] containsObject:@"PresentityNames"]) {
-        NSArray *presentityNames=[aPasteboard propertyListForType:@"PresentityNames"]; 
+    if ([[aPasteboard types] containsObject:@"PresentityNames"] ||
+		[[aPasteboard types] containsObject:@"IMHandleNames"]) {
+        NSArray *presentityNames=[[aPasteboard types] containsObject:@"PresentityNames"] ? [aPasteboard propertyListForType:@"PresentityNames"] : [aPasteboard propertyListForType:@"IMHandleNames"]; 
         int i=0;
         for (i=0;i<[presentityNames count];i+=4) {
             [self sendInvitationToServiceWithID:[presentityNames objectAtIndex:i] buddy:[presentityNames objectAtIndex:i+1] url:aDocumentURL];

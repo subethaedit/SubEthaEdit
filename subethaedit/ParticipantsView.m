@@ -51,7 +51,7 @@
 - (id)initWithFrame:(NSRect)frameRect {
     self = [super initWithFrame:frameRect];
     if (self) {
-        [self registerForDraggedTypes:[NSArray arrayWithObjects:@"PboardTypeTBD",@"ParticipantDrag",@"PresentityNames",nil]];
+        [self registerForDraggedTypes:[NSArray arrayWithObjects:@"PboardTypeTBD",@"ParticipantDrag",@"PresentityNames",@"IMHandleNames",nil]];
         I_dragToItem=-1;
     }
     return self;
@@ -254,7 +254,8 @@
             }
             [self highlightItemForDrag:-1];
             return NSDragOperationPrivate;
-        } else if ([[pboard types] containsObject:@"PresentityNames"]) {
+        } else if ([[pboard types] containsObject:@"PresentityNames"] ||
+				   [[pboard types] containsObject:@"IMHandleNames"]) {
             NSPoint draggingLocation=[self convertPoint:[sender draggingLocation] fromView:nil];
             int itemIndex=[self targetItemForDragPoint:draggingLocation];
             if (itemIndex<2) {
@@ -317,7 +318,8 @@
         }
         [self highlightItemForDrag:-1];
         return result;
-    } else if ([[pboard types] containsObject:@"PresentityNames"]) {
+    } else if ([[pboard types] containsObject:@"PresentityNames"] ||
+			   [[pboard types] containsObject:@"IMHandleNames"]) {
         if ([[(PlainTextDocument *)[self document] session] isServer]) {
             [ConnectionBrowserController invitePeopleFromPasteboard:pboard intoDocument:[self document] group:I_dragToItem==0?@"ReadWrite":@"ReadOnly"];
             [self highlightItemForDrag:-1];
