@@ -243,7 +243,7 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleGetInfoString</key>
-	<string>SubEthaEdit 3.5b, Copyright © 2003-2009, TheCodingMonkeys</string>
+	<string>SubEthaEdit 3.5, Copyright © 2003-2009, TheCodingMonkeys</string>
 	<key>CFBundleHelpBookFolder</key>
 	<string>SubEthaEditHelp</string>
 	<key>CFBundleHelpBookName</key>
@@ -259,7 +259,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>3.5b</string>
+	<string>3.5</string>
 	<key>CFBundleSignature</key>
 	<string>Hdra</string>
 	<key>CFBundleURLTypes</key>
@@ -337,7 +337,7 @@ BeYykN+b2qAi1yS2y8bpYY66g2pv5VL/Mw/piR46gD9P8mSFI6iFaqu2LnbD1esx
 NpVfZko6DqvJJcLklZ8=
 -----END PUBLIC KEY-----</string>
 	<key>TCMBundledSeeToolVersion</key>
-	<string>1.1</string>
+	<string>1.2.1</string>
 	<key>TCMMinimumSeeToolVersion</key>
 	<string>1.0</string>
 	<key>UTExportedTypeDeclarations</key>
