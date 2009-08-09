@@ -4,7 +4,7 @@ SubEthaEdit 3.5
 
 Additions/New Features:
 - Code Folding - SubEthaEdit now supports code folding in all the shipping 
-  modes. Even without mode support you have the ability to fold arbitary 
+  modes. Even without mode support you have the ability to fold arbitrary 
   selections to gain some clarity in more complicated documents.
 - Document state persistence using Xtended Attributes - SubEthaEdit now saves 
   document state (mode, folding state, window position, selection and more) for 
@@ -17,10 +17,11 @@ Changes:
 - Improved the speed of Applescript based text changes in documents (e.g. the 
   commment/uncomment script in the c-modes)
 - Reduced the cases where SubEthaEdit's port mapping triggers a bug in the 
-  mDNSResponder causing it to produce a high cpu load.
-- Almost all modes have been overhauled to support code folding
+  mDNSResponder causing it to produce a high cpu load when used with Airport 
+  Base Stations.
+- Almost all modes have been overhauled to support code folding.
 - Updated the seetext file format to be more efficient and support the new 
-  folding state data
+  folding state data.
 - Added another TLS/SSL encryption mode that does not need the keychain anymore 
   and is now default.
 - Improved performance when using web preview and javascript intensive code 
@@ -34,9 +35,11 @@ Fixes:
   for mode writers.
 - Fixed a crash where right clicking on an URL could lead to a endless 
   beachball.
-- Fixed minor issues with the encoding recognition and conversion
+- Fixed minor issues with the encoding recognition and conversion.
 - Fixed minor issues to make SubEthaEdit work well with the upcoming Mac OS X 
   Snow Leopard.
+- Fixed minor issues that occurred when adding characters that do not exist in 
+  the current encoding.
 
 
 SubEthaEdit 3.2.1
