@@ -5,13 +5,13 @@ SubEthaEdit 3.5
 Additions/New Features:
 - Code Folding - SubEthaEdit now supports code folding in all the shipping 
   modes. Even without mode support you have the ability to fold arbitrary 
-  selections to gain some clarity in more complicated documents.
+  selections to gain clarity in more complicated documents.
 - Document state persistence using Xtended Attributes - SubEthaEdit now saves 
   document state (mode, folding state, window position, selection and more) for 
-  plain text files using an filesystem extended attribute.
-- Clickable URLs - when the mode has URL recognition then URLs now are directly 
-  clickable without interfering with the editing.
-- New Menu item for "Tidy and Pretty Print HTML"
+  plain text files using a extended filesystem attribute.
+- Clickable URLs - if the mode has URL recognition, URLs can now be opened with 
+  a direct click in a fashion that does not interfere with editing.
+- New "Tidy and Pretty Print HTML" feature
 
 Changes:
 - Improved the speed of Applescript based text changes in documents (e.g. the 
@@ -19,27 +19,27 @@ Changes:
 - Reduced the cases where SubEthaEdit's port mapping triggers a bug in the 
   mDNSResponder causing it to produce a high cpu load when used with Airport 
   Base Stations.
-- Almost all modes have been overhauled to support code folding.
+- All shipped modes have been reengineered to support code folding.
 - Updated the seetext file format to be more efficient and support the new 
   folding state data.
-- Added another TLS/SSL encryption mode that does not need the keychain anymore 
-  and is now default.
-- Improved performance when using web preview and javascript intensive code 
-  when web preview is closed again.
+- Added additional TLS/SSL encryption mode that does not need the temporary 
+  keychains anymore and is now default.
+- Improved performance when using web preview with extensive javascript code 
+  after web preview is closed again.
 
 Fixes:
-- Improved network protocol stability.
-- Improved memory consumption when opening big files (>50 MB).
+- Made network protocol more robust.
+- Improved memory consumption when opening big files.
 - Fixed crashes that could occur when opening files > 300 MB.
-- Fixed ambiguity in mode definition syntax names which lead to strange effects 
-  for mode writers.
-- Fixed a crash where right clicking on an URL could lead to a endless 
-  beachball.
+- Fixed an issue in mode definition syntax names which could lead to symbols 
+  not being displayed after initially showing up.
+- Fixed a crash where context clicking on an URL could lead to an application 
+  hang.
 - Fixed minor issues with the encoding recognition and conversion.
 - Fixed minor issues to make SubEthaEdit work well with the upcoming Mac OS X 
   Snow Leopard.
-- Fixed minor issues that occurred when adding characters that do not exist in 
-  the current encoding.
+- Fixed minor issues that occurred when inserting characters that do not exist 
+  in the current encoding.
 
 
 SubEthaEdit 3.2.1

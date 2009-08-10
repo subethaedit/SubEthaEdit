@@ -7,50 +7,47 @@ Neue Funktionen:
   Möglichkeit Code-Blöcke auszublenden. Es besteht auch die Möglichkeit eine 
   beliebige Auswahl an Text auszublenden.
 - Der Dokumentstatus (Ausblendungszustand, Auswahl, Fensterposition, Modus, 
-  etc.) wird jetzt auch bei reinen Text Dateien in einem Xtended Attribut im 
-  Dateisystem gespeichert und davon geladen.
-- Anklickbare Links - in den Modes die Link-Erkennung unterstützen sind Links 
-  klickbar ohne den Editierfluss zu behindern.
-- Neuer Menüeintrag "HTML aufräumen und reformatieren"
+  etc.) wird jetzt auch bei reinen Textdateien in einem Xtended Attribute im 
+  Dateisystem gespeichert und geladen.
+- Anklickbare Links - in den Modi mit Link-Erkennung fsind Links klickbar ohne 
+  den Editierfluss zu behindern.
+- Neue "HTML aufräumen und reformatieren" Funktion
 
 Veränderugen:
-- Es wurde die Geschwindigkeit der Applescript basierten Text manipulationen 
+- Es wurde die Geschwindigkeit der Applescript basierten Textmanipulationen 
   verbessert. (Betrifft z.B. die Ein-/Auskommentieren Funktion der 
   C-basierenden Modi)
 - Ein Problem in mDNSResponder von Apple kann unter Umständen zu exzessivem 
-  Schreiben von Logdateien führen. SubEthaEdit 3.5 reduziert die Häufigkeit 
-  dieses Problems weiter. Falls es dennoch auftritt, kann es durch Ein- und 
-  Ausschalten der Port Weiterleitung in den erweiterten Einstellungen behoben 
-  werden.
+  Schreiben von Logdateien führen. SubEthaEdit 3.5 reduziert die Häufigkeit des 
+  Auftretens dieses Problems weiter. Falls es dennoch auftritt, kann es durch 
+  Ein- und Ausschalten der Port Weiterleitung in den erweiterten Einstellungen 
+  behoben werden.
 - Nahezu alle Modi wurden massiv überarbeitet, unter anderem um Code Folding zu 
   bieten.
 - Das seetext Format wurde überarbeitet um effizienter zu sein und das neue 
   Code Folding zu unterstützen, ist aber kompatibel geblieben.
-- Es wurde eine neue Art TLS/SSL Verschlüsselung hinzugefügt, welche nicht mehr 
-  die Keychain benötigt. Diese ist jetzt Standard und wird in zukünftigen 
-  Version alleinig verwendet werden.
-- Es wurde die Geschwindigkeit beim Arbeiten mit der Web Vorschau verbessert, 
-  indem diese geleert wird wenn das Fenster geschlossen wird. Bisher liefen 
-  dabei noch etwaige JavaScripte im Hintergrund weiter, was zu einem 
-  Geschwindgkeitseinbruch führen konnte.
+- Es wurde eine neue Art TLS/SSL Verschlüsselung hinzugefügt, welche den 
+  Schlüsselbund nicht mehr benötigt. Diese ist jetzt Standard und wird in 
+  zukünftigen Version alleinig verwendet werden.
+- Es wurde die Geschwindigkeit beim Arbeiten mit der Web Vorschau mit 
+  Javascript intensivem Code verbessert. Insbesondere nach dem Schliessen der 
+  Vorschau.
 
 Korrekturen:
-- Die Stabilität des Netzwerk Protokolls wurde verbessert.
-- Der Arbeitsspeicherverbrauch bei großen Dateien wurde reduziert. (interessant 
-  bei Dateien >50 MB).
+- Die Robustheit des Netzwerk Protokolls wurde verbessert.
+- Der Arbeitsspeicherverbrauch bei großen Dateien wurde reduziert.
 - Abstürze wurden behoben, die bei Dateigrößen jenseits von 300 MB auftreten 
   konnten.
-- Es wurde in Problem behoben, bei welchem unterschiedliche Modus Namen im 
-  selben Modus zu seltsamen Auswirkungen führten. Besonders wichtig für 
-  Modus-Autoren.
+- Es wurde ein Problem mit dem Verarbeiten von Modi behoben, das dazu führen 
+  konnte das Symbole plötzlich nicht mehr anzeigt wurden.
 - Es wurde ein Problem behoben, bei dem ein Rechtsklick auf einen Link dazu 
   führen konnte, dass SubEthaEdit nicht mehr reagiert.
 - Es wurden kleinere Probleme mit der Erkennung und Konvertierung von 
-  Enkodierungen behoben.
+  Dateikodierungen behoben.
 - Es wurden kleinere Probleme behoben, so dass SubEthaEdit gut unter Mac OS X 
-  10.6 Snow Leopard läuft.
+  Snow Leopard läuft.
 - Es wurde ein Problem behoben, welches auftrat wenn man Zeichen einfügte, die 
-  nicht in der aktuellen Zeichenkodierung dargestellt werden können.
+  nicht in der aktuellen Dateikodierung dargestellt werden können.
 
 
 SubEthaEdit 3.2.1
