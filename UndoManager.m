@@ -22,7 +22,7 @@ NSString * const UndoManagerWillCloseUndoGroupNotification = @"UndoManagerWillCl
 NSString * const UndoManagerWillRedoChangeNotification = @"UndoManagerWillRedoChangeNotification";
 NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoChangeNotification";
 
-
+#if !defined(CODA) // moved interface to header
 @interface UndoGroup : NSObject 
 {
     UndoGroup *_parent;
@@ -39,6 +39,7 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
 - (void)setActionName:(NSString *)newName;
 
 @end
+#endif //!defined(CODA)
 
 #pragma mark -
 

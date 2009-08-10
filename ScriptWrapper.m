@@ -6,11 +6,15 @@
 //  Copyright 2006 TheCodingMonkeys. All rights reserved.
 //
 
+#import <Carbon/Carbon.h>
 #import "ScriptWrapper.h"
 #import "NSAppleScriptTCMAdditions.h"
-#import "AppController.h"
 #import "SESendProc.h"
 #import "SEActiveProc.h"
+
+#ifdef SUBETHAEDIT
+	#import "AppController.h"
+#endif
 
 NSString * const ScriptWrapperDisplayNameSettingsKey     =@"displayname";
 NSString * const ScriptWrapperShortDisplayNameSettingsKey=@"shortdisplayname";
@@ -103,8 +107,12 @@ NSString * const ScriptWrapperDidRunScriptNotification =@"ScriptWrapperDidRunScr
 - (NSDictionary *)settingsDictionary {
     if (!I_settingsDictionary) {
         NSDictionary *errorDictionary=nil;
+#if defined(CODA)
+		NSAppleEventDescriptor *ae = [I_appleScript executeAppleEvent:[NSAppleEventDescriptor appleEventToCallSubroutine:@"CodaScriptSettings"] error:&errorDictionary];
+#else
         NSAppleEventDescriptor *ae = [I_appleScript executeAppleEvent:[NSAppleEventDescriptor appleEventToCallSubroutine:@"SeeScriptSettings"] error:&errorDictionary];
-        if (errorDictionary==nil) {
+#endif //defined(CODA)
+		if (errorDictionary==nil) {
             I_settingsDictionary = [[ae dictionaryValue] copy];
         } else {
             I_settingsDictionary = [[NSDictionary alloc] init];
@@ -176,9 +184,11 @@ NSString * const ScriptWrapperDidRunScriptNotification =@"ScriptWrapperDidRunScr
     [[NSNotificationCenter defaultCenter] postNotificationName:ScriptWrapperWillRunScriptNotification object:self];
     NSDictionary *errorDictionary=nil;
     [self executeAndReturnError:&errorDictionary];
+#ifdef SUBETHAEDIT
     if (errorDictionary) {
         [[AppController sharedInstance] reportAppleScriptError:errorDictionary];
     }
+#endif
     [[NSNotificationCenter defaultCenter] postNotificationName:ScriptWrapperDidRunScriptNotification object:self userInfo:errorDictionary];
 }
 

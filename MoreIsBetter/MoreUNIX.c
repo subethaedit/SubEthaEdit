@@ -130,102 +130,6 @@ extern "C" {
 
 /////////////////////////////////////////////////////////////////
 
-static int NSGetExecutablePathOnTenOneAndEarlierOnly(char *execPath, size_t *execPathSize)
-{
-    int  	err = 0;
-    char 	**cursor;
-    char 	*possiblyRelativePath;
-    char 	absolutePath[MAXPATHLEN];
-    size_t 	absolutePathSize;
-    
-    assert(execPath != NULL);
-    assert(execPathSize != NULL);
-    
-    cursor = (char **) (*(_NSGetArgv()) + *(_NSGetArgc()));
-    
-    // There should be a NULL after the argv array.
-    // If not, error out.
-    
-    if (*cursor != 0) {
-        err = -1;
-	}
-    
-    if (err == 0) {
-        // Skip past the NULL after the argv array.
-        
-        cursor += 1;
-        
-        // Now, skip over the entire kernel-supplied environment, 
-        // which is an array of char * terminated by a NULL.
-        
-        while (*cursor != 0) {
-            cursor += 1;
-        }
-        
-        // Skip over the NULL terminating the environment.  Actually, 
-        // there can be multiple NULLs if the program has called 
-        // unsetenv, so we skip along until we find a the next non-NULL.
-        
-        while (*cursor == 0) {
-            cursor += 1;
-        }
-
-        // Now we have the path that was passed to exec 
-        // (not the argv[0] path, but the path that the kernel 
-        // actually executed).
-        
-        possiblyRelativePath = *cursor;
-
-        // Convert the possibly relative path to an absolute 
-        // path.  We use realpath for expedience, although 
-        // the real implementation of _NSGetExecutablePath
-        // uses getcwd and can return a path with symbolic links 
-        // etc in it.
-        
-        if (realpath(possiblyRelativePath, absolutePath) == NULL) {
-            err = errno;
-		}
-    }
-    
-    // Now copy the path out into the client's buffer, returning 
-    // an error if the buffer isn't big enough.
-    
-    if (err == 0) {
-        absolutePathSize = (strlen(absolutePath) + 1);
-        
-        if (absolutePathSize <= *execPathSize) {
-            strcpy(execPath, absolutePath);
-        } else {
-            err = -1;
-        }
-        
-        *execPathSize = absolutePathSize;
-    }
-
-    return err;
-}
-
-typedef int (*NSGetExecutablePathProcPtr)(char *buf, uint32_t *bufsize);
-
-extern int MoreGetExecutablePath(char *execPath, uint32_t *execPathSize)
-{
-	return _NSGetExecutablePath(execPath, execPathSize);
-	// It looks like the code above is legacy anyway when deploying to 10.2 and above.
-	// I got rid of it to avoid deprecation warnings under Leopard
-	
-/*	
-    if (NSIsSymbolNameDefined("__NSGetExecutablePath")) {
-        return ((NSGetExecutablePathProcPtr) NSAddressOfSymbol(NSLookupAndBindSymbol("__NSGetExecutablePath")))(execPath, execPathSize);
-    } else {
-        // The function _NSGetExecutablePath() is new in Mac OS X 10.2, 
-        // so use this custom version when running on 10.1.x and earlier.
-        return NSGetExecutablePathOnTenOneAndEarlierOnly(execPath, execPathSize);
-    }
-*/
-}
-
-/////////////////////////////////////////////////////////////////
-
 extern int MoreUNIXRead( int fd,       void *buf, size_t bufSize, size_t *bytesRead   )
 	// See comment in header.
 {
@@ -289,7 +193,11 @@ extern int MoreUNIXWrite(int fd, const void *buf, size_t bufSize, size_t *bytesW
 	// lets you disable SIGPIPE easily.
 	
 	#if !defined(MORE_UNIX_WRITE_CHECK_SIGPIPE)
-		#define MORE_UNIX_WRITE_CHECK_SIGPIPE 1
+		#if defined(CODA)
+			#define MORE_UNIX_WRITE_CHECK_SIGPIPE 0
+		#else
+			#define MORE_UNIX_WRITE_CHECK_SIGPIPE 1
+		#endif //defined(CODA)
 	#endif
 	#if MORE_DEBUG && MORE_UNIX_WRITE_CHECK_SIGPIPE
 		{

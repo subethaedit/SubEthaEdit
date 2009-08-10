@@ -31,7 +31,7 @@ typedef struct _ItemChildPair {
     NSPasteboard *I_currentDragPasteboard;
     
     // Selection
-    int I_selectedRow;
+    NSInteger I_selectedRow;
     NSMutableIndexSet *I_selectedRows;
     
     // indices

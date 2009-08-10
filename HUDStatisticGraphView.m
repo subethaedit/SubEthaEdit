@@ -26,7 +26,9 @@
 }
 
 + (void)initialize {
-    [self exposeBinding:@"statisticsEntry"];
+	if (self == [HUDStatisticGraphView class]) {
+	    [self exposeBinding:@"statisticsEntry"];
+	}
 }
 
 - (NSArray *)exposedBindings {

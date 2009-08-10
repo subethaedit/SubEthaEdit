@@ -12,7 +12,9 @@
 @implementation SelectionOperation
 
 + (void)initialize {
-    [TCMMMOperation registerClass:self forOperationType:[self operationID]];
+	if (self == [SelectionOperation class]) {
+	    [TCMMMOperation registerClass:self forOperationType:[self operationID]];
+	}
 }
 
 + (SelectionOperation *)selectionOperationWithRange:(NSRange)aRange userID:(NSString *)aUserID {

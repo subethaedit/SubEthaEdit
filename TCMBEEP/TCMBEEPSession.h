@@ -12,6 +12,7 @@ extern NSString * const NetworkTimeoutPreferenceKey;
 extern NSString * const kTCMBEEPFrameTrailer;
 extern NSString * const kTCMBEEPManagementProfile;
 extern NSString * const TCMBEEPTLSProfileURI;
+extern NSString * const TCMBEEPTLSAnonProfileURI;
 extern NSString * const TCMBEEPSASLProfileURIPrefix;
 extern NSString * const TCMBEEPSASLANONYMOUSProfileURI;
 extern NSString * const TCMBEEPSASLPLAINProfileURI;
@@ -22,6 +23,9 @@ extern NSString * const TCMBEEPSessionDidReceiveGreetingNotification;
 extern NSString * const TCMBEEPSessionDidEndNotification;
 
 extern NSString * const TCMBEEPSessionAuthenticationInformationDidChangeNotification;
+
+const extern CFStringRef kCFStreamPropertySocketSSLContext; // not really public but available
+
 
 typedef enum {
    TCMBEEPSessionStatusNotOpen = 0,
@@ -88,6 +92,7 @@ enum {
         BOOL hasSentTLSProceed;
         BOOL isTLSHandshaking;
         BOOL isTLSEnabled;
+        BOOL isTLSAnon;
     } I_flags;
     
     TCMBEEPSessionStatus I_sessionStatus;
@@ -105,6 +110,7 @@ enum {
 
 + (CFArrayRef)certArrayRef;
 + (void)prepareTemporaryCertificate;
++ (void)prepareDiffiHellmannParameters;
 + (void)removeTemporaryKeychain;
 
 /*"Initializers"*/
@@ -150,6 +156,7 @@ enum {
 - (NSData *)addressData;
 - (BOOL)isAuthenticated;
 - (BOOL)isTLSEnabled;
+- (BOOL)isTLSAnon;
 
 - (void)open;
 - (void)terminate;

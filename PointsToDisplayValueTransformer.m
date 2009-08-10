@@ -14,7 +14,9 @@
 static BOOL S_isCm;
 
 + (void)initialize {
+	if (self == [PointsToDisplayValueTransformer class]) {
     S_isCm=[[[NSUserDefaults standardUserDefaults] stringForKey:@"AppleMeasurementUnits"] isEqualToString:@"Centimeters"];
+   }
 }
 
 + (Class)transformedValueClass {

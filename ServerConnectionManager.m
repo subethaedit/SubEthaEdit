@@ -15,7 +15,7 @@ static ServerConnectionManager *S_sharedInstance = nil;
 @implementation ServerConnectionManager
 
 + (id)sharedInstance {
-    if (!S_sharedInstance) [[ServerConnectionManager alloc] init];
+    if (!S_sharedInstance) S_sharedInstance = [[ServerConnectionManager alloc] init];
     return S_sharedInstance;
 }
 

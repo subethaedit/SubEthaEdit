@@ -91,6 +91,7 @@ First checked in. A module containing security helpers.
 
 #include <unistd.h>
 #include <fcntl.h>
+#include <mach-o/dyld.h>
 #include <sys/time.h>
 #include <sys/resource.h>
 #include <sys/stat.h>
@@ -147,7 +148,7 @@ extern int MoreSecSetPrivilegedEUID(void)
 #pragma mark ***** MoreSecDestroyInheritedEnvironment
 
 static int GetPathToSelf(char **pathToSelfPtr)
-	// A simple wrapper around MoreGetExecutablePath which returns 
+	// A simple wrapper around _NSGetExecutablePath which returns 
 	// the path in a memory block that you must free.
 {
 	int 		err;
@@ -160,7 +161,7 @@ static int GetPathToSelf(char **pathToSelfPtr)
 	*pathToSelfPtr = &junkChar;
 	
 	pathSize = 0;
-	err = MoreGetExecutablePath(*pathToSelfPtr, &pathSize);
+	err = _NSGetExecutablePath(*pathToSelfPtr, &pathSize);
 	if (pathSize == 0) {
 		assert(err != 0);
 		if (err != 0) {
@@ -177,7 +178,7 @@ static int GetPathToSelf(char **pathToSelfPtr)
 		}
 
 		if (err == 0) {
-			err = MoreGetExecutablePath(*pathToSelfPtr, &pathSize);
+			err = _NSGetExecutablePath(*pathToSelfPtr, &pathSize);
 		}
 		
 		if (err != 0) {
@@ -1538,7 +1539,11 @@ static OSStatus FSSetCatalogInfoIDs(const FSRef *ref,
     
     err = FSSetCatalogInfo(ref, whichInfo, catalogInfo);
     if ( (err == noErr) && (whichInfo & kFSCatInfoPermissions) ) {
+#if defined(__LP64__)
+		permInfo = &(catalogInfo->permissions);
+#else
         permInfo = (const FSPermissionInfo *) catalogInfo->permissions;
+#endif //defined(__LP64__)
         uid = (uid_t) permInfo->userID;
         gid = (gid_t) permInfo->groupID;
         if (uid != -1 || gid != -1 ) {
@@ -1602,7 +1607,11 @@ extern OSStatus MoreSecIsFolderIgnoringOwnership(const FSRef *folder, Boolean *i
 		if (err == noErr) {
 			FSPermissionInfo *permInfo;
 			
+#if defined(__LP64__)
+			permInfo = &(info.permissions);
+#else
 	        permInfo = (FSPermissionInfo *) info.permissions;
+#endif //defined(__LP64__)
 
 			// If the FGID is not "unknown", then we already know that the volume 
 			// is not ignoring ownership.  Otherwise we have to test.

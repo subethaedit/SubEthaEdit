@@ -38,37 +38,40 @@
 
 - (NSData *)handshakePayloadWithUserID:(NSString *)aUserID {
     NSMutableData *payload = [NSMutableData data];
-    [payload appendData:[@"GRT" dataUsingEncoding:NSASCIIStringEncoding]];
+	if ( aUserID ) {
+ 	   [payload appendData:[@"GRT" dataUsingEncoding:NSASCIIStringEncoding]];
     
-    NSMutableDictionary *dict = [NSMutableDictionary dictionary];
-    [dict setObject:aUserID forKey:@"uid"];
-    [dict setObject:@"200" forKey:@"vers"];
-    NSString *bundleName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
-    NSString *shortVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
-    NSString *bundleVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
-    [dict setObject:[NSString stringWithFormat:@"%@/%@ (%@)",bundleName,shortVersion,bundleVersion] forKey:@"uag"];
+    	NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+	    [dict setObject:aUserID forKey:@"uid"];
+	    [dict setObject:@"200" forKey:@"vers"];
+	    NSString *bundleName = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleName"];
+	    NSString *shortVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleShortVersionString"];
+	    NSString *bundleVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
+	    [dict setObject:[NSString stringWithFormat:@"%@/%@ (%@)",bundleName,shortVersion,bundleVersion] forKey:@"uag"];
 
-    if ([[[[self session] userInfo] objectForKey:@"isRendezvous"] boolValue]) {
-        [dict setObject:@"vous" forKey:@"rendez"];
-    } else {
-        NSString *URLString = [[[self session] userInfo] objectForKey:@"URLString"];
-        if (URLString) {
-            [dict setObject:URLString forKey:@"url"];
-        }    
-    }
+	    if ([[[[self session] userInfo] objectForKey:@"isRendezvous"] boolValue]) {
+	        [dict setObject:@"vous" forKey:@"rendez"];
+	    } else {
+	        NSString *URLString = [[[self session] userInfo] objectForKey:@"URLString"];
+	        if (URLString) {
+	            [dict setObject:URLString forKey:@"url"];
+	        }    
+	    }
     
-    if ([[[[self session] userInfo] objectForKey:@"isAutoConnect"] boolValue]) {
-        [dict setObject:[NSNumber numberWithBool:YES] forKey:@"isauto"];
-    }
+    	if ([[[[self session] userInfo] objectForKey:@"isAutoConnect"] boolValue]) {
+        	[dict setObject:[NSNumber numberWithBool:YES] forKey:@"isauto"];
+	    }
     
-    [payload appendData:TCM_BencodedObject(dict)];
+    	[payload appendData:TCM_BencodedObject(dict)];
+	}
     
     return payload;
 }
 
 - (void)shakeHandsWithUserID:(NSString *)aUserID
 {
-    [[self channel] sendMSGMessageWithPayload:[self handshakePayloadWithUserID:aUserID]];
+	if ( aUserID )
+	    [[self channel] sendMSGMessageWithPayload:[self handshakePayloadWithUserID:aUserID]];
 }
 
 - (void)processBEEPMessage:(TCMBEEPMessage *)aMessage

@@ -1,0 +1,235 @@
+------------------------------------------------------------------------
+r2960 | map | 2009-04-08 12:28:23 -0700 (Wed, 08 Apr 2009) | 2 lines
+Changed paths:
+   M /trunk/subethaedit/Modes/CSS.mode/Contents/Resources/SyntaxDefinition.xml
+   M /trunk/subethaedit/Modes/HTML.mode/Contents/Resources/SyntaxDefinition.xml
+   M /trunk/subethaedit/Modes/Javascript.mode/Contents/Resources/SyntaxDefinition.xml
+   M /trunk/subethaedit/Modes/Objective-C.mode/Contents/Resources/SyntaxDefinition.xml
+   M /trunk/subethaedit/Modes/PHP-HTML.mode/Contents/Resources/SyntaxDefinition.xml
+   M /trunk/subethaedit/Modes/Perl.mode/Contents/Resources/SyntaxDefinition.xml
+
+Modes fixes and work in progress.
+
+------------------------------------------------------------------------
+r2961 | dom | 2009-04-08 19:40:54 -0700 (Wed, 08 Apr 2009) | 2 lines
+Changed paths:
+   M /trunk/subethaedit/FoldingTextAttachmentCell.m
+   M /trunk/subethaedit/FullTextStorage.m
+   M /trunk/subethaedit/Modes/Objective-C.mode/Contents/Resources/SyntaxDefinition.xml
+
+  - made objc mode to my liking and fixed a bug in the folding range code
+
+------------------------------------------------------------------------
+r2962 | dom | 2009-04-09 09:27:24 -0700 (Thu, 09 Apr 2009) | 4 lines
+Changed paths:
+   M /trunk/subethaedit/FoldableTextStorage.m
+   M /trunk/subethaedit/FullTextStorage.m
+   M /trunk/subethaedit/GutterRulerView.m
+   M /trunk/subethaedit/NSMutableAttributedStringSEEAdditions.m
+   M /trunk/subethaedit/SyntaxHighlighter.m
+
+  - removed some warnings
+  - made foldingRange lookup more robust against inconsistent state
+  - made depending calls check for NSNotFound so they don't crash
+
+------------------------------------------------------------------------
+r2963 | dom | 2009-04-09 09:37:20 -0700 (Thu, 09 Apr 2009) | 3 lines
+Changed paths:
+   M /trunk/subethaedit/GutterRulerView.m
+   M /trunk/subethaedit/NSMutableAttributedStringSEEAdditions.m
+
+  - fixed stale clicks in the syntax highlighter
+  - fixed white flickering of the folding gutter on insertion of new lines
+
+------------------------------------------------------------------------
+r2964 | dom | 2009-04-09 09:48:22 -0700 (Thu, 09 Apr 2009) | 3 lines
+Changed paths:
+   M /trunk/subethaedit/GutterRulerView.m
+   M /trunk/subethaedit/Modes/Objective-C.mode/Contents/Resources/SyntaxDefinition.xml
+
+  - adjusted the gutter coloring a little to be more contrasty and stop before reaching total black
+  - put the temporary fix into the syntaxdefinition for the keyword import problem
+
+------------------------------------------------------------------------
+r2965 | dom | 2009-04-09 11:18:15 -0700 (Thu, 09 Apr 2009) | 2 lines
+Changed paths:
+   M /trunk/subethaedit/FullTextStorage.m
+   M /trunk/subethaedit/GutterRulerView.m
+
+  - played with the gutter a little more - but only left the stuff in as comments because not looking tooo good...
+
+------------------------------------------------------------------------
+r2966 | dom | 2009-04-09 15:36:51 -0700 (Thu, 09 Apr 2009) | 4 lines
+Changed paths:
+   M /trunk/subethaedit/DocumentMode.m
+   M /trunk/subethaedit/DocumentModeManager.m
+   M /trunk/subethaedit/GeneralPreferences.h
+   M /trunk/subethaedit/GeneralPreferences.m
+   M /trunk/subethaedit/PlainTextDocument.m
+   A /trunk/subethaedit/PreferenceKeys.h
+   A /trunk/subethaedit/PreferenceKeys.m
+   M /trunk/subethaedit/ScriptWrapper.m
+   M /trunk/subethaedit/SubEthaEdit.xcodeproj/project.pbxproj
+   A /trunk/subethaedit/SubEthaPerf
+   A /trunk/subethaedit/SubEthaPerf/Resources
+   A /trunk/subethaedit/SubEthaPerf/Resources/SEPMainMenu.xib
+   A /trunk/subethaedit/SubEthaPerf/Resources/SubEthaPerf-Info.plist
+   A /trunk/subethaedit/SubEthaPerf/SEPAppController.h
+   A /trunk/subethaedit/SubEthaPerf/SEPAppController.m
+   A /trunk/subethaedit/SubEthaPerf/SEPLogger.h
+   A /trunk/subethaedit/SubEthaPerf/SEPLogger.m
+   A /trunk/subethaedit/SubEthaPerf/SubEthaPerf_Prefix.pch
+   A /trunk/subethaedit/SubEthaPerf/main.m
+
+  - created basic SubEthaPerf project to measure the performance of the syntax highlighter - currently compiles but does nothing
+  - removed some silly dependencies during the process of making it compile
+  - added SUBETHAEDIT define to use for stuff that only SubEthaEdit is using and creates dependencies
+
+------------------------------------------------------------------------
+r2967 | map | 2009-04-10 08:48:47 -0700 (Fri, 10 Apr 2009) | 1 line
+Changed paths:
+   M /trunk/subethaedit/OgreKit/OgreKit.xcodeproj/project.pbxproj
+   M /trunk/subethaedit/OgreKit/RegularExpression/OGRegularExpression.h
+   M /trunk/subethaedit/OgreKit/RegularExpression/OGRegularExpression.m
+   M /trunk/subethaedit/OgreKit/RegularExpression/OGRegularExpressionPrivate.m
+   M /trunk/subethaedit/SyntaxHighlighter.m
+
+Minor optimiziation for syntax highlighting by caching OGPlainString.
+------------------------------------------------------------------------
+r2968 | dom | 2009-04-10 10:18:46 -0700 (Fri, 10 Apr 2009) | 2 lines
+Changed paths:
+   M /trunk/subethaedit/DocumentMode.m
+   M /trunk/subethaedit/FoldableTextStorage.h
+   M /trunk/subethaedit/FoldableTextStorage.m
+   M /trunk/subethaedit/FullTextStorage.m
+   M /trunk/subethaedit/NSMutableAttributedStringSEEAdditions.m
+   M /trunk/subethaedit/OgreKit/RegularExpression/OGRegularExpression.m
+   M /trunk/subethaedit/SubEthaEdit.xcodeproj/project.pbxproj
+   M /trunk/subethaedit/SubEthaPerf/Resources/SEPMainMenu.xib
+   A /trunk/subethaedit/SubEthaPerf/Resources/TestFiles
+   A /trunk/subethaedit/SubEthaPerf/Resources/TestFiles/Library.php
+   A /trunk/subethaedit/SubEthaPerf/Resources/TestFiles/PlainTextDocument.m (from /trunk/subethaedit/PlainTextDocument.m:2966)
+   A /trunk/subethaedit/SubEthaPerf/Resources/TestFiles/SoupDump.html
+   A /trunk/subethaedit/SubEthaPerf/Resources/TestFiles/vm_fault.c
+   M /trunk/subethaedit/SubEthaPerf/SEPAppController.h
+   M /trunk/subethaedit/SubEthaPerf/SEPAppController.m
+   A /trunk/subethaedit/SubEthaPerf/SEPDocument.h
+   A /trunk/subethaedit/SubEthaPerf/SEPDocument.m
+   M /trunk/subethaedit/SubEthaPerf/SubEthaPerf_Prefix.pch
+
+  - brought subethaeditperf to the point of usefulness
+
+------------------------------------------------------------------------
+r2969 | map | 2009-04-10 11:36:26 -0700 (Fri, 10 Apr 2009) | 1 line
+Changed paths:
+   M /trunk/subethaedit/SyntaxHighlighter.m
+
+Disabling caret support momentarily to avoid endless coloring issue with SoupDump.html
+------------------------------------------------------------------------
+r2970 | map | 2009-04-10 11:42:22 -0700 (Fri, 10 Apr 2009) | 1 line
+Changed paths:
+   M /trunk/subethaedit/SyntaxHighlighter.m
+
+removing stray NSLog
+------------------------------------------------------------------------
+r2971 | dom | 2009-04-10 11:44:12 -0700 (Fri, 10 Apr 2009) | 6 lines
+Changed paths:
+   M /trunk/subethaedit/SubEthaPerf/Resources/SEPMainMenu.xib
+   M /trunk/subethaedit/SubEthaPerf/Resources/SubEthaPerf-Info.plist
+   M /trunk/subethaedit/SubEthaPerf/SEPAppController.h
+   M /trunk/subethaedit/SubEthaPerf/SEPAppController.m
+   M /trunk/subethaedit/SubEthaPerf/SEPLogger.h
+   M /trunk/subethaedit/SubEthaPerf/SEPLogger.m
+   M /trunk/subethaedit/TCMBEEP/TCMBEEPSession.m
+
+  - now with file logging into ~/Library/Logs/SubEthaPerf as well
+  - added some process and host info 
+  - added version
+  - files now can be openend by dragging onto the dock icon
+  - formatted the output a little better
+
+------------------------------------------------------------------------
+r2972 | dom | 2009-04-10 11:47:31 -0700 (Fri, 10 Apr 2009) | 3 lines
+Changed paths:
+   M /trunk/subethaedit/SubEthaPerf/SEPAppController.m
+
+  - added a log when opening files
+ 
+
+------------------------------------------------------------------------
+r2973 | dom | 2009-04-10 13:46:26 -0700 (Fri, 10 Apr 2009) | 2 lines
+Changed paths:
+   A /trunk/subethaedit/SubEthaPerf/Resources/TestFiles/1uom3yh8tp7o4so4.pkg.css
+   A /trunk/subethaedit/SubEthaPerf/Resources/TestFiles/PDFPage.java
+   A /trunk/subethaedit/SubEthaPerf/Resources/TestFiles/SubEthaEdit.sdef
+   A /trunk/subethaedit/SubEthaPerf/Resources/TestFiles/coda.css
+   A /trunk/subethaedit/SubEthaPerf/Resources/TestFiles/postgresql_adapter.rb
+   A /trunk/subethaedit/SubEthaPerf/Resources/TestFiles/prototype.js
+
+  - added more test files
+
+------------------------------------------------------------------------
+r2974 | dom | 2009-04-10 14:45:33 -0700 (Fri, 10 Apr 2009) | 2 lines
+Changed paths:
+   M /trunk/subethaedit/Modes/Objective-C.mode/Contents/Resources/SyntaxDefinition.xml
+   M /trunk/subethaedit/SubEthaPerf/Resources/SEPMainMenu.xib
+   M /trunk/subethaedit/SubEthaPerf/SEPAppController.m
+   M /trunk/subethaedit/SubEthaPerf/SEPDocument.h
+   M /trunk/subethaedit/SubEthaPerf/SEPDocument.m
+
+  - now added testing of folding textstorage as well - looks good so far
+
+------------------------------------------------------------------------
+r2975 | map | 2009-04-10 15:28:35 -0700 (Fri, 10 Apr 2009) | 1 line
+Changed paths:
+   M /trunk/subethaedit/SyntaxDefinition.m
+   M /trunk/subethaedit/SyntaxHighlighter.m
+
+Precomiling keywords as one regex per state.
+------------------------------------------------------------------------
+r2976 | dom | 2009-04-10 15:51:18 -0700 (Fri, 10 Apr 2009) | 2 lines
+Changed paths:
+   M /trunk/subethaedit/SubEthaEdit.xcodeproj/project.pbxproj
+
+  - added the stringadditions to the perf project so it compiles
+
+------------------------------------------------------------------------
+r2977 | map | 2009-04-10 16:31:28 -0700 (Fri, 10 Apr 2009) | 1 line
+Changed paths:
+   M /trunk/subethaedit/NSStringSEEAdditions.m
+   M /trunk/subethaedit/SyntaxDefinition.h
+   M /trunk/subethaedit/SyntaxDefinition.m
+
+Fixing tokenize behaviour for compiled keywords
+------------------------------------------------------------------------
+r2978 | map | 2009-04-10 17:04:21 -0700 (Fri, 10 Apr 2009) | 1 line
+Changed paths:
+   M /trunk/subethaedit/SyntaxDefinition.m
+
+Fixing ordering behaviour of keywords and regexes
+------------------------------------------------------------------------
+r2979 | dom | 2009-04-10 17:25:56 -0700 (Fri, 10 Apr 2009) | 2 lines
+Changed paths:
+   M /trunk/subethaedit/PlainTextDocument.m
+   M /trunk/subethaedit/PlainTextEditor.m
+
+  - fixed SEE-3609: folding related issues with function popup - still oddities left when changing stuff while folding
+
+------------------------------------------------------------------------
+r2980 | dom | 2009-04-10 18:38:15 -0700 (Fri, 10 Apr 2009) | 3 lines
+Changed paths:
+   M /trunk/subethaedit/NSStringSEEAdditions.m
+   M /trunk/subethaedit/SubEthaPerf/SEPAppController.m
+
+  - changed measurement unit
+  - fixed issue with ranges
+
+------------------------------------------------------------------------
+r2981 | map | 2009-04-10 18:43:43 -0700 (Fri, 10 Apr 2009) | 1 line
+Changed paths:
+   M /trunk/subethaedit/SyntaxDefinition.h
+   M /trunk/subethaedit/SyntaxDefinition.m
+   M /trunk/subethaedit/SyntaxHighlighter.m
+
+Using alternate scanning and tokenizing based on regex for performance evaluation
+------------------------------------------------------------------------

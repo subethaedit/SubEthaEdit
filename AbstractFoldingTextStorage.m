@@ -23,6 +23,19 @@
 	return nil;
 }
 
+- (BOOL)readFromData:(NSData *)inData encoding:(NSStringEncoding)anEncoding {
+	// try to create the NSString that we take our contents from
+	NSString *contentString = [[NSString alloc] initWithBytesNoCopy:(void *)[inData bytes] length:[inData length] encoding:anEncoding freeWhenDone:NO];
+	if (contentString) {
+		[self replaceCharactersInRange:NSMakeRange(0,[self length]) withString:contentString];
+		[contentString release];
+		return YES;
+	} else {
+		return NO;
+	}
+}
+
+
 // methods for having data in them in the gdb stacktraces
 
 //- (NSDictionary *)attributesAtIndex:(NSUInteger)index longestEffectiveRange:(NSRangePointer)aRange inRange:(NSRange)rangeLimit {

@@ -9,13 +9,13 @@
 #import <Cocoa/Cocoa.h>
 #import "ScriptTextBase.h"
 
-@class TextStorage;
+@class FoldableTextStorage;
 
 @interface ScriptLine : ScriptTextBase {
     int I_lineNumber;
 }
 
-+ (id)scriptLineWithTextStorage:(TextStorage *)aTextStorage lineNumber:(int)aLineNumber;
-- (id)initWithTextStorage:(TextStorage *)aTextStorage lineNumber:(int)aLineNumber;
++ (id)scriptLineWithTextStorage:(FullTextStorage *)aTextStorage lineNumber:(int)aLineNumber;
+- (id)initWithTextStorage:(FullTextStorage *)aTextStorage lineNumber:(int)aLineNumber;
 
 @end

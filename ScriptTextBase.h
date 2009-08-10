@@ -7,13 +7,15 @@
 //
 
 #import <Cocoa/Cocoa.h>
-@class TextStorage;
+#import "FoldableTextStorage.h"
+#import "FullTextStorage.h"
+@class FullTextStorage;
 
 @interface ScriptTextBase : NSObject {
-    TextStorage *I_textStorage;
+    FullTextStorage *I_textStorage;
 }
 
-- (id)initWithTextStorage:(TextStorage *)aTextStorage;
+- (id)initWithTextStorage:(FullTextStorage *)aTextStorage;
 - (NSRange)rangeRepresentation;
 - (int)scriptedLength;
 - (int)scriptedStartCharacterIndex;
@@ -21,6 +23,6 @@
 - (int)scriptedStartLine;
 - (int)scriptedEndLine;
 - (NSArray *)scriptedLines;
-- (NSArray *)scriptedCharacters;
+//- (NSArray *)scriptedCharacters;
 
 @end

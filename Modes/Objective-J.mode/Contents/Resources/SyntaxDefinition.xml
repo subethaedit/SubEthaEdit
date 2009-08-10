@@ -7,15 +7,15 @@
         <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]></charsintokens> <!-- Valid Characters for Variables -->
         <!-- <charsdelimitingtokens></charsdelimitingtokens> -->
         <charsincompletion><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@]]></charsincompletion> 
-
+        <folding toplevel="2" />
     </head>
 
     <states>
     
         <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
             
-            <keywords id = "Numbers" color = "#00f" useforautocomplete = "no">
-                <regex>(?&lt;=[^\w\d]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
+            <keywords id="Numbers" color="#00f" inverted-color="#5d56ff" useforautocomplete="no">
+				<regex>(?&lt;![\w\d\._])((?:(?:(?:[0-9]+\.[0-9]*)|(\.[0-9]+))(?:[eE][+\-]?[0-9]+)?[fFlL]?)|(?:(?:(?:[1-9][0-9]*)|0[1-7][0-7]*|(?:0[xX][0-9a-fA-F]+))(?:(?:[uU][lL]?)|(?:[lL][uU]?))?))(?![\w\d\._])</regex>
             </keywords>
             
             <keywords id = "Function Calls" color = "#003369" useforautocomplete = "no">
@@ -129,6 +129,7 @@
             </keywords>
             
             <keywords id = "Objective-J Directives" color = "#1A1AA6" useforautocomplete = "yes" font-weight = "bold">
+                <string>@accessors</string>
                 <string>@class</string>
                 <string>@end</string>
                 <string>@implementation</string>
@@ -182,6 +183,8 @@
                 <string>CPCloseCommand</string>
                 <string>CPCoder</string>
                 <string>CPCoding</string>
+                <string>CPCollectionView</string>
+                <string>CPCollectionViewItem</string>
                 <string>CPColor</string>
                 <string>CPColorList</string>
                 <string>CPColorPanel</string>
@@ -2800,7 +2803,7 @@
         </default>
 
         <state id = "Objective-J Imports" color = "#683821" background-color = "none">
-            <begin><regex>^\s*import</regex></begin>
+            <begin><regex>^\s*@import</regex></begin>
             <end><regex>((?&lt;=[^\\])[\n\r])|(^[\n\r])</regex></end>
         </state>
 
@@ -2809,25 +2812,41 @@
             <end><regex>(\\'')|(.')</regex></end>
         </state>
 
-        <state id="Autodoc Comment" color="#236E25" background-color="none" font-weight="bold" font-style="italic">
+        <state id="Autodoc Comment" type="comment" color="#236E25" background-color="none" font-weight="bold" font-style="italic">
             <begin><regex>/\*"</regex></begin>
             <end><regex>"\*/</regex></end>
+			<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
         </state>
 
-        <state id="Comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
+        <state id="Comment" type="comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
             <begin><regex>/\*</regex></begin>
             <end><regex>\*/</regex></end>
+			<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
         </state>
         
-        <state id="Single Line Comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
+        <state id="Single Line Comment"  type="comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
             <begin><regex>//</regex></begin>
             <end><regex>[\n\r]</regex></end>
+			<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
         </state>
         
-        <state id="String" color="#760f15" background-color="none" font-weight="normal" font-style="normal">
+        <state id="String" color="#760f15" type="string" background-color="none" font-weight="normal" font-style="normal">
             <begin><string>@?"</string></begin>
-            <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
+            <end><regex>(?&lt;!\\)(\\\\)*"</regex></end>
         </state>
+
+        <state id="Block" type="block" foldable="yes">
+            <begin><regex>(?:^[ \t]*[-+][^(-;]*\([A-Za-z0-9 *_]*\)[A-Za-z0-9_ \t\n\r]+)?{</regex></begin>
+            <end><regex>}</regex></end>
+            <import />
+        </state>
+
+        <state id="@clauses" type="block" foldable="yes">
+            <begin><regex>(?:@implementation|@interface|@protocol)\s+[\w_]+(?:\s*(?:(?:\(\s*[\w_]+\s*\))|:\s*[\w_]+\s*))?</regex></begin>
+            <end><regex>@end</regex></end>
+            <import />
+        </state>
+
     </states>
 
 </syntax>

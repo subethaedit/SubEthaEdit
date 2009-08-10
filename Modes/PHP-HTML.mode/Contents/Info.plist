@@ -1,23 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
 <dict>
-  <key>CFBundleIdentifier</key>
-  <string>SEEMode.PHP-HTML</string>
-  <key>CFBundleName</key>
-  <string>PHP-HTML</string>
-    <key>NSHumanReadableCopyright</key>
-  <string>© 2004-2007 TheCodingMonkeys
+	<key>CFBundleIdentifier</key>
+	<string>SEEMode.PHP-HTML</string>
+	<key>CFBundleName</key>
+	<string>PHP-HTML</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>© 2009 TheCodingMonkeys
   http://www.codingmonkeys.de</string>
-    <key>CFBundleShortVersionString</key>
-  <string>1.9</string>
-  <key>CFBundleVersion</key>
-  <string>1.9</string>
-    <key>CFBundleGetInfoString</key>
-  <string>1.9, Copyright TheCodingMonkeys 2004-2007</string>
-  <key>CFBundlePackageType</key>
-  <string>BNDL</string>
-  <key>CFBundleInfoDictionaryVersion</key>
-  <string>6.0</string>
+	<key>CFBundleShortVersionString</key>
+	<string>3.5</string>
+	<key>CFBundleVersion</key>
+	<string>3.5</string>
+	<key>CFBundleGetInfoString</key>
+	<string>3.5, Copyright TheCodingMonkeys 2009</string>
+	<key>CFBundlePackageType</key>
+	<string>BNDL</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
 </dict>
 </plist>

@@ -98,7 +98,11 @@ NSString *ListViewDidChangeSelectionNotification=
     if ((scrollView=[self enclosingScrollView])) {
         [[NSNotificationCenter defaultCenter] 
             addObserver:self selector:@selector(enclosingScrollViewFrameDidChange:) 
+#if defined(CODA)
+			name:NSViewFrameDidChangeNotification object:[scrollView contentView]];
+#else
             name:NSViewFrameDidChangeNotification object:scrollView];
+#endif //defined(CODA)
     }
     [self resizeToFit];
 }
@@ -119,7 +123,7 @@ NSString *ListViewDidChangeSelectionNotification=
     float childRowHeight  =[myClass childRowHeight];
     float itemRowGapHeight=[myClass itemRowGapHeight];
     const NSRect *rects;
-    int count;
+    NSInteger count;
     [self getRectsBeingDrawn:&rects count:&count];
     while (count-->0) {
         NSRect smallRect=rects[count];
@@ -296,7 +300,7 @@ NSString *ListViewDidChangeSelectionNotification=
 }
 
 - (void)deselectAll:(id)aSender {
-    unsigned int index;
+    NSUInteger index;
     for (index=[I_selectedRows lastIndex];index!=NSNotFound;index=[I_selectedRows lastIndex]) {
         [self deselectRow:index];
     }
@@ -348,8 +352,8 @@ NSString *ListViewDidChangeSelectionNotification=
 }
 
 - (void)shiftClickSelectoToRow:(int)aRow {
-    int lesserIndex=[I_selectedRows indexLessThanOrEqualToIndex:aRow];
-    int greaterIndex=[I_selectedRows indexGreaterThanOrEqualToIndex:aRow];
+    NSInteger lesserIndex=[I_selectedRows indexLessThanOrEqualToIndex:aRow];
+    NSInteger greaterIndex=[I_selectedRows indexGreaterThanOrEqualToIndex:aRow];
     NSIndexSet *set=nil;
     if (lesserIndex==NSNotFound && greaterIndex==NSNotFound) {
         [self selectRow:aRow byExtendingSelection:YES];
@@ -554,7 +558,7 @@ NSString *ListViewDidChangeSelectionNotification=
 #pragma mark ### Dragging Source/Destination ###
 
 // Dragging Source
-- (unsigned int)draggingSourceOperationMaskForLocal:(BOOL)isLocal {
+- (NSDragOperation)draggingSourceOperationMaskForLocal:(BOOL)isLocal {
     //NSLog(@"draggingSourceOperationMaskForLocal: %@", isLocal ? @"YES" : @"NO");
     return NSDragOperationGeneric;
 }
@@ -816,7 +820,7 @@ NSString *ListViewDidChangeSelectionNotification=
 
 - (void)setEmptySpaceString:(NSAttributedString *)aEmptySpaceString {
     [I_emptySpaceString autorelease];
-    I_emptySpaceString = [aEmptySpaceString retain];
+    I_emptySpaceString = [aEmptySpaceString copy];
 }
 
 

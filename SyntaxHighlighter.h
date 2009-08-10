@@ -11,12 +11,21 @@
 
 extern NSString * const kSyntaxHighlightingIsCorrectAttributeName;
 extern NSString * const kSyntaxHighlightingIsCorrectAttributeValue;
+extern NSString * const kSyntaxHighlightingIsTrimmedStartAttributeName;
+extern NSString * const kSyntaxHighlightingIsTrimmedStartAttributeValue;
 extern NSString * const kSyntaxHighlightingStyleIDAttributeName;
 extern NSString * const kSyntaxHighlightingStackName;
 extern NSString * const kSyntaxHighlightingStateDelimiterName;
+extern NSString * const kSyntaxHighlightingStateDelimiterStartValue;
+extern NSString * const kSyntaxHighlightingStateDelimiterEndValue;
+extern NSString * const kSyntaxHighlightingFoldDelimiterName;
 extern NSString * const kSyntaxHighlightingTypeAttributeName;
 extern NSString * const kSyntaxHighlightingParentModeForSymbolsAttributeName;
 extern NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName;
+extern NSString * const kSyntaxHighlightingFoldDelimiterName;
+extern NSString * const kSyntaxHighlightingFoldingDepthAttributeName;
+
+extern NSString * const kSyntaxHighlightingTypeComment;
 
 @interface SyntaxHighlighter : NSObject {
     SyntaxDefinition *I_syntaxDefinition;

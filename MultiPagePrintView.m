@@ -8,6 +8,7 @@
 
 #import "MultiPagePrintView.h"
 #import "FoldableTextStorage.h"
+#import "FullTextStorage.h"
 #import "PrintTypesetter.h"
 #import "PrintTextView.h"
 #import "SyntaxHighlighter.h"
@@ -295,10 +296,11 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
         [paragraphStyle release];
         [self setHeaderAttributes:headerAttributes];
 
-        NSString *date=[NSString stringWithFormat:NSLocalizedString(@"PrintDate: %@",@"Date Information in Print Header"),
-                    [[NSCalendarDate calendarDate] 
-                            descriptionWithCalendarFormat:[standardUserDefaults objectForKey:NSDateFormatString] 
-                            locale:(id)standardUserDefaults] ];
+		NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init]  autorelease];
+		[dateFormatter setDateStyle:NSDateFormatterFullStyle];
+		[dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+        NSString *date=[NSString stringWithFormat:NSLocalizedString(@"PrintDate: %@",@"Date Information in Print Header"), [dateFormatter stringFromDate:[NSDate date]]];
+
         NSString *filenameString = [[printDictionary objectForKey:@"SEEPageHeaderFullPath"] boolValue]?[I_document fileName]:[self printJobTitle];
         if ([[printDictionary objectForKey:@"SEEPageHeaderFilename"] boolValue] &&
             [[printDictionary objectForKey:@"SEEPageHeaderCurrentDate"] boolValue]) {
@@ -481,7 +483,7 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
         // Create correct tabstops for tab users
         float tabstopPosition = tabStart;
         NSFont *font=[I_textStorage attribute:NSFontAttributeName atIndex:0 effectiveRange:nil];
-        float charWidth = [font widthOfString:@" "];
+		CGFloat charWidth = [@" " sizeWithAttributes:[NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName]].width;
         if (charWidth<=0) {
             charWidth=[font maximumAdvancement].width;
         }
@@ -527,7 +529,7 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
             NSString *string = [I_textStorage string];
             NSFont *font=usedFont;
             int tabWidth=[I_document tabWidth];
-            float characterWidth=[font widthOfString:@" "];
+			CGFloat characterWidth = [@" " sizeWithAttributes:[NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName]].width;
             int indentWrappedCharacterAmount = [[[I_document documentMode] defaultForKey:DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey] intValue];
 //            NSLog(@"%s indenting with %d characters",__FUNCTION__,indentWrappedCharacterAmount);
             // look at all the lines and fix the indention
@@ -606,7 +608,7 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
         }
 
         // ensure last line has a linebreak, for annotations to be typeset correctly
-        unsigned startIndex, lineEndIndex, contentsEndIndex;
+        NSUInteger startIndex, lineEndIndex, contentsEndIndex;
         [[I_textStorage string] getLineStart:&startIndex end:&lineEndIndex contentsEnd:&contentsEndIndex forRange:NSMakeRange([I_textStorage length]-1,0)];
         if (contentsEndIndex==lineEndIndex) {
             [I_textStorage replaceCharactersInRange:NSMakeRange([I_textStorage length],0) withString:@"\n"];
@@ -960,7 +962,7 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
 //    NSFrameRect(NSMakeRect(rect.origin.x+[[printDictionary objectForKey:NSPrintLeftMargin] floatValue],rect.origin.y+[[printDictionary objectForKey:NSPrintTopMargin] floatValue],I_textContainerSize.width,I_textContainerSize.height));
 }
 
-- (NSRect)rectForPage:(int)page {
+- (NSRect)rectForPage:(NSInteger)page {
     NSRect result=NSMakeRect(0.,I_pageSize.height*(page-1),
                              I_pageSize.width,I_pageSize.height);
     // NSLog(@"rectForPage %d: %@",page,NSStringFromRect(result));

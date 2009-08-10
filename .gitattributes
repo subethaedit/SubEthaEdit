@@ -202,6 +202,8 @@ English.lproj/SubEthaEditHelp/img/see-small.png -text
 English.lproj/SubEthaEditHelp/img/see.png -text
 English.lproj/SubEthaEditHelp/img/vertline2.gif -text
 English.lproj/SystemVersionCheck.strings -text
+English.lproj/URLBubbleWindow.nib/designable.nib -text
+English.lproj/URLBubbleWindow.nib/keyedobjects.nib -text
 English.lproj/UserStatistics.nib/classes.nib -text
 English.lproj/UserStatistics.nib/info.nib -text
 English.lproj/UserStatistics.nib/keyedobjects.nib -text
@@ -324,6 +326,8 @@ German.lproj/SubEthaEditHelp/img/see-small.png -text
 German.lproj/SubEthaEditHelp/img/see.png -text
 German.lproj/SubEthaEditHelp/img/vertline2.gif -text
 German.lproj/SystemVersionCheck.strings -text
+German.lproj/URLBubbleWindow.nib/designable.nib -text
+German.lproj/URLBubbleWindow.nib/keyedobjects.nib -text
 German.lproj/UserStatistics.nib/classes.nib -text
 German.lproj/UserStatistics.nib/info.nib -text
 German.lproj/UserStatistics.nib/keyedobjects.nib -text
@@ -457,6 +461,8 @@ HTMLExport/Base.html -text
 /LicenseController.m -text
 /LoginSheetController.h -text
 /LoginSheetController.m -text
+/MAAttachedWindow.h -text
+/MAAttachedWindow.m -text
 /ModeSettings.h -text
 /ModeSettings.m -text
 Modes/ActionScript.mode/Contents/Info.plist -text
@@ -510,8 +516,8 @@ Modes/C.mode/Contents/Resources/Scripts/60-un_comment_lines.scpt -text
 Modes/C.mode/Contents/Resources/SyntaxDefinition.xml -text
 Modes/C.mode/Contents/Resources/ToolbarCounterpart.png -text
 Modes/CFML.mode/Contents/Info.plist -text
-Modes/CFML.mode/Contents/Resources/English.lproj/Localizable.strings -text
-Modes/CFML.mode/Contents/Resources/German.lproj/Localizable.strings -text
+Modes/CFML.mode/Contents/Resources/English.lproj/Localizable.strings -text svneol=unset#unset
+Modes/CFML.mode/Contents/Resources/German.lproj/Localizable.strings -text svneol=unset#unset
 Modes/CFML.mode/Contents/Resources/ModeSettings.xml -text
 Modes/CFML.mode/Contents/Resources/RegexSymbols.xml -text
 Modes/CFML.mode/Contents/Resources/Scripts/Add[!!-~]Link.scpt -text
@@ -738,14 +744,8 @@ Modes/Objective-J.mode/Contents/Resources/German.lproj/InfoPlist.strings -text
 Modes/Objective-J.mode/Contents/Resources/German.lproj/Localizable.strings -text
 Modes/Objective-J.mode/Contents/Resources/ModeSettings.xml -text
 Modes/Objective-J.mode/Contents/Resources/RegexSymbols.xml -text
-Modes/Objective-J.mode/Contents/Resources/Scripts/10-InsertNSLogWithFunctionCall.scpt -text
 Modes/Objective-J.mode/Contents/Resources/Scripts/20-InsertCallToSuper.scpt -text
-Modes/Objective-J.mode/Contents/Resources/Scripts/30-OpenCounterpart.scpt -text
-Modes/Objective-J.mode/Contents/Resources/Scripts/40-OpenFileInProject.scpt -text
-Modes/Objective-J.mode/Contents/Resources/Scripts/45-OpenXcodeProject.scpt -text
-Modes/Objective-J.mode/Contents/Resources/Scripts/50-CompileUsingXcode.scpt -text
 Modes/Objective-J.mode/Contents/Resources/Scripts/60-un_comment_lines.scpt -text
-Modes/Objective-J.mode/Contents/Resources/Scripts/Lookup[!!-~]in[!!-~]AppKiDo.scpt -text
 Modes/Objective-J.mode/Contents/Resources/Scripts/shell/insert_super.py -text
 Modes/Objective-J.mode/Contents/Resources/SyntaxDefinition.xml -text
 Modes/Objective-J.mode/Contents/Resources/ToolbarAppKiDo.png -text
@@ -867,6 +867,13 @@ Modes/SVNLog.mode/Contents/Resources/German.lproj/Localizable.strings -text
 Modes/SVNLog.mode/Contents/Resources/ModeSettings.xml -text
 Modes/SVNLog.mode/Contents/Resources/RegexSymbols.xml -text
 Modes/SVNLog.mode/Contents/Resources/SyntaxDefinition.xml -text
+Modes/Wiki.mode/Contents/Info.plist -text
+Modes/Wiki.mode/Contents/Resources/AutocompleteAdditions.txt -text
+Modes/Wiki.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
+Modes/Wiki.mode/Contents/Resources/English.lproj/Localizable.strings -text
+Modes/Wiki.mode/Contents/Resources/ModeSettings.xml -text
+Modes/Wiki.mode/Contents/Resources/RegexSymbols.xml -text
+Modes/Wiki.mode/Contents/Resources/SyntaxDefinition.xml -text
 Modes/XML.mode/Contents/Info.plist -text
 Modes/XML.mode/Contents/Resources/ChangeLog.txt -text
 Modes/XML.mode/Contents/Resources/English.lproj/InfoPlist.strings -text
@@ -1405,6 +1412,8 @@ Panic/TCMMMUser-AddressBook.m -text
 /PrecedenceRolloverButton.m -text
 /PrecedenceRuleCell.h -text
 /PrecedenceRuleCell.m -text
+/PreferenceKeys.h -text
+/PreferenceKeys.m -text
 Preferences.nib/classes.nib -text
 Preferences.nib/info.nib -text
 Preferences.nib/keyedobjects.nib -text
@@ -1588,6 +1597,45 @@ Sparkle/Sparkle.framework/Versions/Current -text
 SubEthaEdit.xcodeproj/project.pbxproj -text
 /SubEthaEditHelperTool.m -text
 /SubEthaEdit_Prefix.pch -text
+SubEthaPerf/Resources/SEPMainMenu.xib -text
+SubEthaPerf/Resources/SubEthaPerf-Info.plist -text
+SubEthaPerf/Resources/TestFiles/1uom3yh8tp7o4so4.pkg.css -text
+SubEthaPerf/Resources/TestFiles/Arguments.py -text
+SubEthaPerf/Resources/TestFiles/Eudora.applescript -text
+SubEthaPerf/Resources/TestFiles/LibTiffDelphi.pas -text
+SubEthaPerf/Resources/TestFiles/Library.php -text
+SubEthaPerf/Resources/TestFiles/OrderOverview.php -text
+SubEthaPerf/Resources/TestFiles/PDFPage.java -text
+SubEthaPerf/Resources/TestFiles/PlainTextDocument.m -text
+SubEthaPerf/Resources/TestFiles/SEEProtocol.notes -text
+SubEthaPerf/Resources/TestFiles/SoupDump.html -text
+SubEthaPerf/Resources/TestFiles/SubEthaEdit.sdef -text
+SubEthaPerf/Resources/TestFiles/WebdavServlet.java -text
+SubEthaPerf/Resources/TestFiles/_form.html.erb -text
+SubEthaPerf/Resources/TestFiles/bugmonkey.sql -text
+SubEthaPerf/Resources/TestFiles/build.xml -text
+SubEthaPerf/Resources/TestFiles/campfire.rb -text
+SubEthaPerf/Resources/TestFiles/check_pool.sh -text
+SubEthaPerf/Resources/TestFiles/cocoon-index-all.html -text
+SubEthaPerf/Resources/TestFiles/coda.css -text
+SubEthaPerf/Resources/TestFiles/httpproxy-1.5.3.pl -text
+SubEthaPerf/Resources/TestFiles/index.cfm -text
+SubEthaPerf/Resources/TestFiles/manual.tex -text
+SubEthaPerf/Resources/TestFiles/nsHTMLEditRules.cpp -text
+SubEthaPerf/Resources/TestFiles/postgresql_adapter.rb -text
+SubEthaPerf/Resources/TestFiles/prototype.js -text
+SubEthaPerf/Resources/TestFiles/rc.lua -text
+SubEthaPerf/Resources/TestFiles/seediff.patch -text
+SubEthaPerf/Resources/TestFiles/svnlog.log -text
+SubEthaPerf/Resources/TestFiles/vm_fault.c -text
+SubEthaPerf/SEPAppController.h -text
+SubEthaPerf/SEPAppController.m -text
+SubEthaPerf/SEPDocument.h -text
+SubEthaPerf/SEPDocument.m -text
+SubEthaPerf/SEPLogger.h -text
+SubEthaPerf/SEPLogger.m -text
+SubEthaPerf/SubEthaPerf_Prefix.pch -text
+SubEthaPerf/main.m -text
 /SymbolTableEntry.h -text
 /SymbolTableEntry.m -text
 /SyntaxDefinition.h -text
@@ -1704,7 +1752,6 @@ TCMPortMapper/TCMPortMapper.framework/Resources -text
 TCMPortMapper/TCMPortMapper.framework/TCMPortMapper -text
 TCMPortMapper/TCMPortMapper.framework/Versions/A/Headers/TCMPortMapper.h -text
 TCMPortMapper/TCMPortMapper.framework/Versions/A/Resources/Info.plist -text
-TCMPortMapper/TCMPortMapper.framework/Versions/A/Resources/OUItoCompany.plist -text
 TCMPortMapper/TCMPortMapper.framework/Versions/A/TCMPortMapper -text
 TCMPortMapper/TCMPortMapper.framework/Versions/Current -text
 /TCMPreferenceController.h -text
@@ -1719,8 +1766,6 @@ Tests/DataTests.m -text
 /TextFieldCell.m -text
 /TextOperation.h -text
 /TextOperation.m -text
-/TextStorage.h -text
-/TextStorage.m -text
 /TextView.h -text
 /TextView.m -text
 /TexturedButtonCell.h -text
@@ -1733,6 +1778,8 @@ Tests/DataTests.m -text
 UKXattrMetadataStore/UKXattrMetadataStore[!!-~]Readme.txt -text
 UKXattrMetadataStore/UKXattrMetadataStore.h -text
 UKXattrMetadataStore/UKXattrMetadataStore.m -text
+/URLBubbleWindow.h -text
+/URLBubbleWindow.m -text
 /URLDataProtocol.h -text
 /URLDataProtocol.m -text
 /URLImageView.h -text
@@ -1838,6 +1885,9 @@ artwork/DotRed.png -text
 artwork/DotYellow.png -text
 artwork/EditPrefs.tiff -text
 artwork/EmptyButton.tiff -text
+artwork/FoldingBubble.pdf -text svneol=unset#unset
+artwork/FoldingBubbleBig.png -text
+artwork/FoldingBubbleText.rtf -text
 artwork/FriendCast13.png -text
 artwork/FriendCast13None.png -text
 artwork/FriendCast13Off.png -text

@@ -39,6 +39,9 @@ extern NSString * const kTCMMMBEEPSessionManagerTLSMode;
     BOOL I_isProhibitingInboundInternetSessions;
     NSMutableDictionary *I_handlersForNewProfiles;
     NSMutableDictionary *I_greetingProfiles;
+    
+    int I_SSLGenerationCount;
+    int I_SSLGenerationDesiredCount;
 }
 
 + (TCMMMBEEPSessionManager *)sharedInstance;

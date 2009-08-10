@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+    <recognition>
+        <extension>wiki</extension>
+        <extension>dokuwiki</extension>
+        <regex>^[=]{3,6}[^=\n\r]+[=]{3,6}</regex>
+    </recognition>
+</settings>

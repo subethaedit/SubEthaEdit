@@ -7,10 +7,10 @@
 //
 
 #import <AppKit/AppKit.h>
-#import "TextStorage.h"
+#import "FoldableTextStorage.h"
 
 @interface GutterRulerView : NSRulerView {
-
+	NSPoint I_lastMouseDownPoint;
 }
 
 @end

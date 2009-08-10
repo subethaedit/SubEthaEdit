@@ -2,6 +2,7 @@
 <settings>
     <recognition>
 	   <extension>rhtml</extension>
+	   <extension>erb</extension>
     </recognition>
 </settings>
 

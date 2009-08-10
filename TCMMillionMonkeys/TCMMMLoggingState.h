@@ -7,9 +7,11 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "TCMMMSession.h"
 #import "TCMMMState.h"
 #import "TCMMMLogStatisticsEntry.h"
 
+@class TCMMMSession;
 
 @interface TCMMMLoggingState : TCMMMState {
     NSMutableArray *I_loggedOperations;
@@ -23,7 +25,7 @@
     unsigned long insertedCharacters;
     unsigned long selectedCharacters;
     NSMutableArray *I_statisticsData;
-    
+    TCMMMSession *I_MMSession;
 }
 
 - (id)initWithDictionaryRepresentation:(NSDictionary *)aDictionary;
@@ -34,13 +36,23 @@
 - (NSArray *)statisticsArray;
 - (TCMMMLogStatisticsEntry *)statisicsEntryForUserID:(NSString *)aUserID;
 - (NSArray *)loggedOperations;
-- (void)setInitialTextStorageDictionaryRepresentation:(NSDictionary *)aInitialRepresentation;
-- (NSDictionary *)initialTextStorageDictionaryRepresentation;
+
+- (void)addOperationsForAttributedStringState:(NSAttributedString *)anAttributedString;
+
+
 - (unsigned long)operationCount;
 - (unsigned long)deletedCharacters;
 - (unsigned long)insertedCharacters;
 - (unsigned long)selectedCharacters;
 - (NSArray *)statisticsData;
-- (void)addOperationsForInitialRepresentation;
+
+- (void)setMMSession:(TCMMMSession *)aSession;
+- (TCMMMSession *)MMSession;
+
+
+// depricated - if encountered should be converted on receiving
+- (void)setInitialTextStorageDictionaryRepresentation:(NSDictionary *)aInitialRepresentation;
+- (NSDictionary *)initialTextStorageDictionaryRepresentation;
+
 
 @end

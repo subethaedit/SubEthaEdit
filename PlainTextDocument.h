@@ -7,6 +7,9 @@
 //
 
 
+#if defined(CODA)
+#import "../document/TSNodeWrapper.h"
+#endif //defined(CODA)
 #import <Cocoa/Cocoa.h>
 #import <Security/Security.h>
 #import "EncodingManager.h"
@@ -21,7 +24,7 @@ enum {
 
 @class FoldableTextStorage, TCMMMSession, TCMMMOperation, DocumentMode, EncodingPopUpButton, 
        PlainTextWindowController, WebPreviewWindowController,
-       DocumentProxyWindowController, FindAllController, UndoManager, TextOperation, TextStorage, TCMMMLoggingState, FontForwardingTextField;
+       DocumentProxyWindowController, FindAllController, UndoManager, TextOperation, TCMMMLoggingState, FontForwardingTextField, PlainTextEditor;
 
 extern NSString * const PlainTextDocumentSessionWillChangeNotification;
 extern NSString * const PlainTextDocumentSessionDidChangeNotification;
@@ -39,7 +42,11 @@ extern NSString * const WrittenByUserIDAttributeName;
 extern NSString * const ChangedByUserIDAttributeName;
 extern NSString * const PlainTextDocumentDidSaveNotification;
 
+#if defined(CODA)
+@interface PlainTextDocument : TSNodeWrapper <SEEDocument>
+#else
 @interface PlainTextDocument : NSDocument <SEEDocument>
+#endif //defined(CODA)
 {
     TCMMMSession *I_session;
     struct {
@@ -120,11 +127,14 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
         int numberOfBrackets;
         unichar *closingBracketsArray;
         unichar *openingBracketsArray;
-        unsigned matchingBracketPosition;
+        NSUInteger matchingBracketPosition;
     } I_bracketMatching;
         
     NSDictionary *I_blockeditAttributes;
     NSTextView   *I_blockeditTextView;
+
+	NSString *I_lastTextShouldChangeReplacementString;
+	NSRange   I_lastTextShouldChangeReplacementRange;
     
     NSArray *I_symbolArray;
     NSMenu *I_symbolPopUpMenu;
@@ -159,6 +169,8 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
     
     TextOperation *I_currentTextOperation;
     
+    NSDictionary *I_stateDictionaryFromLoading;
+    
     #ifndef TCM_NO_DEBUG
         NSMutableString *_readFromURLDebugInformation;
     #endif
@@ -172,6 +184,10 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 
 - (void)setPreservedDataFromSEETextFile:(NSArray *)aPreservedData;
 - (NSArray *)preservedDataFromSEETextFile;
+
+#if defined(CODA)
+- (void)changeFontInteral:(id)aSender;
+#endif //defined(CODA)
 
 - (id)initWithSession:(TCMMMSession *)aSession;
 
@@ -214,6 +230,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (BOOL)isEditable;
 - (void)validateEditability;
 
+- (PlainTextEditor *)activePlainTextEditor;
 - (NSArray *)plainTextEditors;
 
 - (NSString *)lineEndingString;
@@ -231,9 +248,9 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (NSColor *)documentForegroundColor;
 - (void)setDocumentForegroundColor:(NSColor *)aColor;
 
-- (unsigned int)fileEncoding;
-- (void)setFileEncoding:(unsigned int)anEncoding;
-- (void)setFileEncodingUndoable:(unsigned int)anEncoding;
+- (NSUInteger)fileEncoding;
+- (void)setFileEncoding:(NSUInteger)anEncoding;
+- (void)setFileEncodingUndoable:(NSUInteger)anEncoding;
 - (void)setAttributedStringUndoable:(NSAttributedString *)aString;
 - (NSDictionary *)fileAttributes;
 - (void)setFileAttributes:(NSDictionary *)attributes;
@@ -253,7 +270,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 
 - (PlainTextWindowController *)topmostWindowController;
 - (void)gotoLine:(unsigned)aLine;
-- (void)gotoLine:(unsigned)aLine orderFront:(BOOL)aFlag;
+//- (void)gotoLine:(unsigned)aLine orderFront:(BOOL)aFlag;
 - (void)selectRange:(NSRange)aRange;
 - (void)selectRangeInBackground:(NSRange)aRange;
 - (void)handleOpenDocumentEvent;
@@ -330,6 +347,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (BOOL)shouldChangeExtensionOnModeChange;
 - (void)resizeAccordingToDocumentMode;
 
+- (BOOL)didPauseBecauseOfMarkedText;
 
 #pragma mark -
 #pragma mark ### Syntax Highlighting ###
@@ -354,6 +372,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 #pragma mark ### Session Interaction ###
 
 - (NSDictionary *)documentState;
+- (NSData *)stateData;
 - (NSDictionary *)sessionInformation;
 - (void)takeSettingsFromSessionInformation:(NSDictionary *)aSessionInformation;
 - (void)takeSettingsFromDocumentState:(NSDictionary *)aDocumentState;
@@ -393,7 +412,7 @@ typedef enum {
 - (AccessOptions)accessOption;
 - (void)setAccessOption:(AccessOptions)option;
 - (NSString *)announcementURL;
-- (TextStorage *)scriptedPlainContents;
+- (FoldableTextStorage *)scriptedPlainContents;
 - (void)setScriptedPlainContents:(id)value;
 - (id)scriptSelection;
 - (void)setScriptSelection:(id)selection;

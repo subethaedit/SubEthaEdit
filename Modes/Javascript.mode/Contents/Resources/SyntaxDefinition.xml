@@ -11,7 +11,7 @@
     <states>
     
         <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
-            <keywords id="Keywords" color="#881350" useforautocomplete="yes">
+            <keywords id="Keywords" color="#881350" useforautocomplete="yes" font-weight="bold">
                 <string>if</string>
                 <string>else</string>
                 <string>for</string>
@@ -39,12 +39,10 @@
                 <string>const</string>
                 <string>default</string>
             </keywords>
-            <keywords id="Numbers" color="#00f" useforautocomplete="no">
-				<regex>(?&lt;=[^\w\d]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
+            <keywords id="Numbers" color="#00f" inverted-color="#5d56ff" useforautocomplete="no">
+				<regex>(?&lt;![\w\d\._])((?:(?:(?:[0-9]+\.[0-9]*)|(\.[0-9]+))(?:[eE][+\-]?[0-9]+)?[fFlL]?)|(?:(?:(?:[1-9][0-9]*)|0[1-7][0-7]*|(?:0[xX][0-9a-fA-F]+))(?:(?:[uU][lL]?)|(?:[lL][uU]?))?))(?![\w\d\._])</regex>
             </keywords>
-            <keywords id="Characters" color="#00f" useforautocomplete="no">
-				<regex>('.')</regex>
-            </keywords>
+
             <keywords id="FunctionRegex" color="#003369" useforautocomplete="no">
 				<regex>([A-Za-z0-9_]+ *)\(</regex>
             </keywords>
@@ -57,11 +55,13 @@
             <state id="Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
                 <begin><regex>/\*</regex></begin>
                 <end><regex>\*/</regex></end>
+                <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
             
             <state id="SingleComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
                 <begin><regex>//</regex></begin>
                 <end><regex>[\n\r]</regex></end>
+                <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
             
             <state id="Regular Expressions" color="#760f15">
@@ -71,13 +71,20 @@
     
             <state id="String" type="string" color="#760f15" font-weight="normal" font-style="normal">
                 <begin><regex>"</regex></begin>
-                <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
+                <end><regex>(?&lt;!\\)(\\\\)*"</regex></end>
             </state>
     
             <state id="SingleString" type="string" color="#760f15" font-weight="normal" font-style="normal">
                 <begin><regex>'</regex></begin>
-                <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
+                <end><regex>(?&lt;!\\)(\\\\)*'</regex></end>
             </state>
+
+            <state id="Block" type="block" foldable="yes">
+                <begin><regex>(?:\s(?:if|else|else\s+if|for|in|while|do|with|try|catch|switch|case|return|function(?:\s+\w+)?)\s*(?:\([^)]*\)\s*)?)?{</regex></begin>
+                <end><regex>}</regex></end>
+                <import mode="Javascript" />
+            </state>
+
         </default>
 
     </states>

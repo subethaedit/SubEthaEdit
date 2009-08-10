@@ -1,4 +1,47 @@
 
+SubEthaEdit 3.5
+===============
+
+Additions/New Features:
+- Code Folding - SubEthaEdit now supports code folding in all the shipping 
+  modes. Even without mode support you have the ability to fold arbitrary 
+  selections to gain clarity in more complicated documents.
+- Document state persistence using Xtended Attributes - SubEthaEdit now saves 
+  document state (mode, folding state, window position, selection and more) for 
+  plain text files using a extended filesystem attribute.
+- Clickable URLs - if the mode has URL recognition, URLs can now be opened with 
+  a direct click in a fashion that does not interfere with editing.
+- New "Tidy and Pretty Print HTML" feature
+
+Changes:
+- Improved the speed of Applescript based text changes in documents (e.g. the 
+  commment/uncomment script in the c-modes)
+- Reduced the cases where SubEthaEdit's port mapping triggers a bug in the 
+  mDNSResponder causing it to produce a high cpu load when used with Airport 
+  Base Stations.
+- All shipped modes have been reengineered to support code folding.
+- Updated the seetext file format to be more efficient and support the new 
+  folding state data.
+- Added additional TLS/SSL encryption mode that does not need the temporary 
+  keychains anymore and is now default.
+- Improved performance when using web preview with extensive javascript code 
+  after web preview is closed again.
+
+Fixes:
+- Made network protocol more robust.
+- Improved memory consumption when opening big files.
+- Fixed crashes that could occur when opening files > 300 MB.
+- Fixed an issue in mode definition syntax names which could lead to symbols 
+  not being displayed after initially showing up.
+- Fixed a crash where context clicking on an URL could lead to an application 
+  hang.
+- Fixed minor issues with the encoding recognition and conversion.
+- Fixed minor issues to make SubEthaEdit work well with the upcoming Mac OS X 
+  Snow Leopard.
+- Fixed minor issues that occurred when inserting characters that do not exist 
+  in the current encoding.
+
+
 SubEthaEdit 3.2.1
 =================
 
@@ -63,7 +106,7 @@ Additions/New Features:
 
 Changes:
 - The overall look of the Connection Browser has been greatly improved. SSL 
-  connections now are default, a non SSL connection is showen via a crossed out 
+  connections now are default, a non SSL connection is shown via a crossed out 
   lock.
 - You can drag and drop other people from the Connection Browser into a text 
   field (e.g. iChat) to copy their reachability see:// URL.
@@ -191,7 +234,7 @@ SubEthaEdit 3.0
 ===============
 
 Additions/New Features:
-- All connections are 2048-bit SSL encrypted if possible.
+- All connections are TLS/SSL encrypted if possible.
 - Persistent file format that stores collaboration metadata and history with 
   QuickLook support.
 - Collaboration metadata is preserved where possible.

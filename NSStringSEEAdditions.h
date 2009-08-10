@@ -26,8 +26,10 @@ typedef enum _LineEnding {
 @interface NSString (NSStringSEEAdditions)
 
 + (NSString *)lineEndingStringForLineEnding:(LineEnding)aLineEnding;
+#if !defined(CODA)
 - (BOOL)isValidSerial;
 - (long)base36Value;
+#endif //!defined(CODA)
 
 - (BOOL)isWhiteSpace;
 - (unsigned)detabbedLengthForRange:(NSRange)aRange tabWidth:(int)aTabWidth;

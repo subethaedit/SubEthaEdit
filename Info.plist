@@ -26,6 +26,7 @@
 				<string>b</string>
 				<string>bf</string>
 				<string>brainfuck</string>
+				<string>builder</string>
 				<string>c</string>
 				<string>cgi</string>
 				<string>c++</string>
@@ -48,6 +49,7 @@
 				<string>dxf</string>
 				<string>enc</string>
 				<string>eps</string>
+				<string>erl</string>
 				<string>err</string>
 				<string>f</string>
 				<string>f90</string>
@@ -115,7 +117,9 @@
 				<string>rebol</string>
 				<string>rsp</string>
 				<string>rtf</string>
+				<string>rhtml</string>
 				<string>ruby</string>
+				<string>rjs</string>
 				<string>rxp</string>
 				<string>s</string>
 				<string>sgml</string>
@@ -239,7 +243,7 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleGetInfoString</key>
-	<string>SubEthaEdit 3.2.1, Copyright © 2003-2008, TheCodingMonkeys</string>
+	<string>SubEthaEdit 3.5, Copyright © 2003-2009, TheCodingMonkeys</string>
 	<key>CFBundleHelpBookFolder</key>
 	<string>SubEthaEditHelp</string>
 	<key>CFBundleHelpBookName</key>
@@ -247,7 +251,7 @@
 	<key>CFBundleIconFile</key>
 	<string>SubEthaEdit.icns</string>
 	<key>CFBundleIdentifier</key>
-	<string>de.codingmonkeys.SubEthaEdit-Folding</string>
+	<string>de.codingmonkeys.SubEthaEdit</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -255,7 +259,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>3.2.1</string>
+	<string>3.5</string>
 	<key>CFBundleSignature</key>
 	<string>Hdra</string>
 	<key>CFBundleURLTypes</key>
@@ -279,7 +283,7 @@
 	<key>NSAppleScriptEnabled</key>
 	<string>YES</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2003-2008, TheCodingMonkeys</string>
+	<string>Copyright © 2003-2009, TheCodingMonkeys</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
@@ -287,10 +291,12 @@
 	<key>NSServices</key>
 	<array>
 		<dict>
+			<key>NSRequiredContext</key>
+			<dict/>
 			<key>NSMenuItem</key>
 			<dict>
 				<key>default</key>
-				<string>SubEthaEdit/New Window Containing Selection</string>
+				<string>Make New SubEthaEdit Document</string>
 			</dict>
 			<key>NSMessage</key>
 			<string>openSelection</string>
@@ -298,6 +304,7 @@
 			<string>SubEthaEdit</string>
 			<key>NSSendTypes</key>
 			<array>
+				<string>public.plain-text</string>
 				<string>NSRTFDPboardType</string>
 				<string>NSRTFPboardType</string>
 				<string>NSStringPboardType</string>
@@ -330,7 +337,7 @@ BeYykN+b2qAi1yS2y8bpYY66g2pv5VL/Mw/piR46gD9P8mSFI6iFaqu2LnbD1esx
 NpVfZko6DqvJJcLklZ8=
 -----END PUBLIC KEY-----</string>
 	<key>TCMBundledSeeToolVersion</key>
-	<string>1.1</string>
+	<string>1.2.1</string>
 	<key>TCMMinimumSeeToolVersion</key>
 	<string>1.0</string>
 	<key>UTExportedTypeDeclarations</key>

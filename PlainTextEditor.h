@@ -81,6 +81,8 @@
 
 - (void)scrollToUserWithID:(NSString *)aUserID;
 
+- (void)setNeedsDisplayForRuler;
+
 - (void)updateViews;
 
 - (void)storePosition;
@@ -91,8 +93,18 @@
 - (IBAction)toggleWrap:(id)aSender;
 - (IBAction)toggleShowsChangeMarks:(id)aSender;
 
+- (IBAction)jumpToNextSymbol:(id)aSender;
+- (IBAction)jumpToPreviousSymbol:(id)aSender;
+
 - (IBAction)jumpToNextChange:(id)aSender;
 - (IBAction)jumpToPreviousChange:(id)aSender;
+
+- (void)selectRange:(NSRange)aRange;
+- (void)selectRangeInBackground:(NSRange)aRange;
+- (void)selectRangeInBackgroundWithoutIndication:(NSRange)aRange expandIfFolded:(BOOL)aFlag;
+- (void)gotoLine:(unsigned)aLine;
+- (void)gotoLineInBackground:(unsigned)aLine;
+
 
 @end
 

@@ -1,6 +1,5 @@
-Original version based on the PHP-HTML mode originally developed by CodingMonkeys.
-Everything has been reworked in some way, but credit to them for the original
-structure.
+Changes with Version 3.5  (SEE 3.5)
+	 *) added code folding
 
 Changes with Version 2.0.1
 	*) Includes Lasso Professional 8.5.3 and 8.5.4 tags

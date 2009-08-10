@@ -88,9 +88,9 @@
                                  [styleBox frame].origin.y) toView:nil];
         screenOrigin = [[styleBox window] convertBaseToScreen:baseOrigin];
 
-        NSRect windowRect=NSMakeRect(screenOrigin.x,screenOrigin.y,
-                                     [styleBox frame].size.width,[styleBox frame].size.height);
-        windowRect=NSInsetRect(windowRect,-2,-2);
+//        NSRect windowRect=NSMakeRect(screenOrigin.x,screenOrigin.y,
+//                                     [styleBox frame].size.width,[styleBox frame].size.height);
+//        windowRect=NSInsetRect(windowRect,-2,-2);
     
         OverlayView *view=[[[OverlayView alloc] initWithFrame:[styleBox frame]] autorelease];
         [view setDelegate:self];
@@ -506,11 +506,11 @@
 
 #pragma mark -
 #pragma mark TableView DataSource
-- (int)numberOfRowsInTableView:(NSTableView *)aTableView {
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView {
     return [[I_currentSyntaxStyle allKeys] count];
 }
 
-- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(int)aRow {
+- (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)aRow {
     BOOL darkBackground = ![[aTableColumn identifier]isEqualToString:@"light"];
     BOOL useDefault=[[[O_modePopUpButton selectedMode] defaultForKey:DocumentModeUseDefaultStylePreferenceKey] boolValue];
     NSString *key=[[I_currentSyntaxStyle allKeys] objectAtIndex:aRow];
@@ -555,7 +555,7 @@
 
 #pragma mark TableView Delegate
 
-- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(int)rowIndex {
+- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(NSInteger)rowIndex {
     BOOL useDefault=[[[O_modePopUpButton selectedMode] defaultForKey:DocumentModeUseDefaultStylePreferenceKey] boolValue];
     if (rowIndex==0 && useDefault) {
         return NO;
