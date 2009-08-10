@@ -50,9 +50,9 @@
 
         NSMutableIndexSet *rows = [[[self selectedRowIndexes] mutableCopy] autorelease];
     
-        int index;
-        int fromindex = -42;
-        int lastindex = -42;
+        NSInteger index;
+        NSInteger fromindex = -42;
+        NSInteger lastindex = -42;
         
         while ((index = [rows firstIndex]) != NSNotFound) {
             [rows removeIndex:[rows firstIndex]];
@@ -91,7 +91,7 @@
     [self setNeedsDisplay:YES];
 }
 
-- (void)deselectRow:(int)rowIndex {
+- (void)deselectRow:(NSInteger)rowIndex {
     [super deselectRow:rowIndex];
     [self setNeedsDisplay:YES];
 }

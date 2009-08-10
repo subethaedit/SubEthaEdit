@@ -158,6 +158,13 @@
                 <begin><regex>'</regex></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
             </state>
+
+            <state id="begin end Block" type="block" foldable="yes">
+                <begin><regex>(?&lt;=\s)(?:begin|case|record)(?=\s)</regex></begin>
+                <end><regex>(?&lt;=\s)end(?=[\s;])</regex></end>
+                <import />
+            </state>
+
         </default>
     </states>
 

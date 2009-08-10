@@ -258,9 +258,11 @@
                 <string>warn</string>
                 <string>write</string>
             </keywords>
-            <keywords id="Numbers" color="#00f" useforautocomplete="no">
-				<regex>(?&lt;=[^\w\d]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
+
+            <keywords id="Numbers" color="#00f" inverted-color="#5d56ff" useforautocomplete="no">
+				<regex>(?&lt;![\w\d_])((?:[+-]?(?:(?:[0-9]+\.[0-9]*)|(?:\.[0-9]+))(?:[eE][+\-]?[0-9]+)?[fFlL]?)|(?:(?:(?:[1-9][0-9]*)|0[0-7]*|(?:0[xX][0-9a-fA-F]+))(?:(?:[uU][lL]?)|(?:[lL][uU]?))?))(?![\w\d_])</regex>
             </keywords>
+
             <keywords id="Hexadecimal Characters" color="#00f" useforautocomplete="no">
 				<regex>(\\x[0-9a-fA-F]{2,4}|\\x\{[0-9a-fA-F]{2,4}\})</regex>
             </keywords>
@@ -310,9 +312,10 @@
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)`</regex></end>
             </state>
     
-            <state id="POD style comments" color="#236E25">
+            <state id="POD style comments" type="comment" color="#236E25">
                 <begin><regex>(?&lt;=[\n\r])=(?=\w.*[\n\r])</regex></begin>
                 <end><regex>(?&lt;=\s)=cut[^\n\r]*</regex></end>
+                <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
     
             <state id="Regular Expressions" color="#760f15">
@@ -338,6 +341,7 @@
             <state id="Singleline Comment" type="comment" color="#236E25" font-style="italic">
                 <begin><regex>(?&lt;!\$)#</regex></begin>
                 <end><regex>[\n\r]</regex></end>
+                <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
             
             <state id="String with double quotes" type="string" color="#760f15">
@@ -350,9 +354,15 @@
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
             </state>
 
-            <state id="Heredoc" color="#760f15" font-weight="normal" font-style="normal">
+            <state id="Heredoc" color="#760f15" type="string" font-weight="normal" font-style="normal" foldable="yes">
                 <begin><string>&lt;&lt;["']*(?&lt;heredoc&gt;.*?)["']*;</string></begin>
                 <end><regex>(?#see-insert-start-group:heredoc)</regex></end>
+            </state>
+
+            <state id="Block" color="#000" background-color="#fff" font-weight="normal" font-style="normal" type="block" foldable="yes">
+                <begin><regex>(?:(?&lt;=\s)(?'trimmedstart'(?:if|else|else\s+if|for|while|do|switch|case)\s*(?:\([^#{\n\r]*?\))?)?\s*{)(?=.)</regex></begin>
+                <end><regex>}</regex></end>
+                <import mode="Perl" />
             </state>
 
         </default>

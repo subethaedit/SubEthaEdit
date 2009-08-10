@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "syntax.dtd">
+<syntax>
+    <head>
+        <name>Wiki</name>
+        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]></charsintokens> 
+    </head>
+
+    <states>
+    
+        <default id="Base" color="#000" inverted-color="#fff">
+
+			<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+
+			<state id="Bold" color="#000" font-weight="bold">
+				<begin><regex>\*\*</regex></begin>
+				<end><regex>\*\*</regex></end>
+				<state id="Bold Italic" color="#000" font-weight="bold" font-style="italic" >
+					<begin><regex>\/\/</regex></begin>
+					<end><regex>\/\/</regex></end>
+			   </state>
+			</state>
+	
+			<state id="Italic" color="#000" font-style="italic" >
+				<begin><regex>\/\/</regex></begin>
+				<end><regex>(?&lt;!p:|s:)\/\/|[\r\n]</regex></end>
+				<state id="Italic Bold" color="#000" font-weight="bold" font-style="italic" >
+					<begin><regex>\*\*</regex></begin>
+					<end><regex>\*\*</regex></end>
+				</state>
+		   </state>
+
+			<keywords id="Horizontal Line" color="#000" font-weight="bold">
+				<regex>^(----[-]*)</regex>
+			</keywords>
+
+	
+			<state id="External Link" color="#00a" font-weight="normal">
+				<begin><regex>\[(?=\[)</regex></begin>
+				<end><regex>\]\]</regex></end>
+					<state id="URL Portion">
+						<begin><regex>\[</regex></begin>
+						<end><regex>(?:.(?=\]\]|\|))</regex></end>
+						<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+					</state>
+			</state>
+
+			<state id="Unordered List" color="#683821">
+				<begin><regex>^  +\*</regex></begin>
+				<end><regex>[\r\n]</regex></end>
+				
+				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+				
+				<state-link state="External Link" />
+				<state-link state="Bold" />
+				<state-link state="Italic" />
+			</state>
+
+			<state id="Ordered List" color="#7a4022">
+				<begin><regex>^  +\-</regex></begin>
+				<end><regex>[\r\n]</regex></end>
+				
+				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+				
+				<state-link state="External Link" />
+				<state-link state="Bold" />
+				<state-link state="Italic" />
+	
+			</state>
+
+			<state id="Quoted Odd Levels" color="#7b1e20">
+				<begin><regex>^>(?:>>)*?(?!>)</regex></begin>
+				<end><regex>[\r\n]</regex></end>
+				<import />
+			</state>
+
+			<state id="Quoted Even Levels" color="#1b5414">
+				<begin><regex>^(?:>>)+(?!>)</regex></begin>
+				<end><regex>[\r\n]</regex></end>
+				<import />
+			</state>
+
+	
+			<state id="Footnotes" color="#236e25">
+				<begin><regex>\((?=\()</regex></begin>
+				<end><regex>(?&lt;=\))\)</regex></end>
+			</state>
+	
+	
+	
+			<state id="Headline Level 1" color="#881350" font-weight="bold">
+				<begin><regex>^======</regex></begin>
+				<end><regex>======</regex></end>
+			</state>
+	
+			<state id="Headline Level 2" color="#970058" font-weight="bold">
+				<begin><regex>^=====</regex></begin>
+				<end><regex>=====</regex></end>
+			</state>
+	
+			<state id="Headline Level 3" color="#a70062" font-weight="bold">
+				<begin><regex>^====</regex></begin>
+				<end><regex>====</regex></end>
+			</state>
+	
+			<state id="Headline Level 4" color="#b20068" font-weight="bold">
+				<begin><regex>^===</regex></begin>
+				<end><regex>===</regex></end>
+			</state>
+	
+			<state id="Headline Level 5" color="#be006f" font-weight="bold">
+				<begin><regex>^==</regex></begin>
+				<end><regex>==</regex></end>
+			</state>
+
+			<state id="Indented Verbatim" color="#4b4b4b">
+				<begin><regex>^  (?![\*\-])</regex></begin>
+				<end><regex>(?:\r?(?:\n|\r))</regex></end>
+			</state>
+
+			<state id="Code Verbatim" color="#4b4b4b" foldable="yes">
+				<begin><regex>&lt;code[^>]*></regex></begin>
+				<end><regex>&lt;/code></regex></end>
+			</state>
+
+			<state id="File Verbatim" color="#4b4b4b" font-weight="bold" foldable="yes">
+				<begin><regex>&lt;file[^>]*></regex></begin>
+				<end><regex>&lt;/file></regex></end>
+			</state>
+
+			<state id="nowiki" color="#4b4b4b" font-weight="bold" foldable="yes">
+				<begin><regex>&lt;nowiki[^>]*></regex></begin>
+				<end><regex>&lt;/nowiki></regex></end>
+			</state>
+
+			<state id="nowiki %%" color="#4b4b4b" font-weight="bold" foldable="yes">
+				<begin><regex>%%</regex></begin>
+				<end><regex>%%</regex></end>
+			</state>
+
+	
+	
+        </default>
+    </states>
+
+</syntax>

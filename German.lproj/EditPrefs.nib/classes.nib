@@ -1,65 +1,160 @@
-{
-    IBClasses = (
-        {CLASS = DocumentModeManager; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {CLASS = DocumentModeMenu; LANGUAGE = ObjC; SUPERCLASS = NSMenu; }, 
-        {
-            CLASS = DocumentModePopUpButton; 
-            LANGUAGE = ObjC; 
-            SUPERCLASS = NSPopUpButton; 
-        }, 
-        {
-            ACTIONS = {applyToOpenDocuments = id; changeMode = id; validateDefaultsState = id; }; 
-            CLASS = EditPreferences; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                "O_editController" = NSObjectController; 
-                "O_editDefaultButton" = NSButton; 
-                "O_encodingPopUpButton" = EncodingPopUpButton; 
-                "O_fileController" = NSObjectController; 
-                "O_fileDefaultButton" = NSButton; 
-                "O_highlightSyntaxButton" = NSButton; 
-                "O_indentNewLinesButton" = NSButton; 
-                "O_matchingBracketTypesTextField" = NSTextField; 
-                "O_modeController" = NSObjectController; 
-                "O_modePopUpButton" = DocumentModePopUpButton; 
-                "O_showLineNumbersButton" = NSButton; 
-                "O_showMatchingBracketsButton" = NSButton; 
-                "O_tabWidthTextField" = NSTextField; 
-                "O_usesTabsButton" = NSButton; 
-                "O_viewController" = NSObjectController; 
-                "O_viewDefaultButton" = NSButton; 
-                "O_wrapLinesButton" = NSButton; 
-            }; 
-            SUPERCLASS = TCMPreferenceModule; 
-        }, 
-        {
-            ACTIONS = {
-                clearAll = id; 
-                encodingListChanged = id; 
-                revertToDefault = id; 
-                selectAll = id; 
-                selectedEncoding = id; 
-                showPanel = id; 
-            }; 
-            CLASS = EncodingManager; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                encodingAccessory = NSView; 
-                encodingMatrix = NSMatrix; 
-                encodingPopupButton = EncodingPopUpButton; 
-                ignoreRichTextButton = NSButton; 
-            }; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {CLASS = EncodingMenu; LANGUAGE = ObjC; SUPERCLASS = NSMenu; }, 
-        {CLASS = EncodingPopUpButton; LANGUAGE = ObjC; SUPERCLASS = NSPopUpButton; }, 
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {
-            CLASS = TCMPreferenceModule; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {"O_window" = NSWindow; }; 
-            SUPERCLASS = NSObject; 
-        }
-    ); 
-    IBVersion = 1; 
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBClasses</key>
+	<array>
+		<dict>
+			<key>CLASS</key>
+			<string>EncodingPopUpButton</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSPopUpButton</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSApplication</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>TCMPreferenceModule</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>O_window</key>
+				<string>NSWindow</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSMenu</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>hostDidResolveAddress</key>
+				<string>TCMHost</string>
+				<key>hostDidResolveName</key>
+				<string>TCMHost</string>
+			</dict>
+			<key>CLASS</key>
+			<string>NSObject</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSWindow</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>DocumentModePopUpButton</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSPopUpButton</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSMenuItem</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>TCMHost</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>I_delegate</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>applyToOpenDocuments</key>
+				<string>id</string>
+				<key>changeMode</key>
+				<string>id</string>
+				<key>validateDefaultsState</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>EditPreferences</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>O_editController</key>
+				<string>NSObjectController</string>
+				<key>O_editDefaultButton</key>
+				<string>NSButton</string>
+				<key>O_encodingPopUpButton</key>
+				<string>EncodingPopUpButton</string>
+				<key>O_fileController</key>
+				<string>NSObjectController</string>
+				<key>O_fileDefaultButton</key>
+				<string>NSButton</string>
+				<key>O_highlightSyntaxButton</key>
+				<string>NSButton</string>
+				<key>O_indentNewLinesButton</key>
+				<string>NSButton</string>
+				<key>O_matchingBracketTypesTextField</key>
+				<string>NSTextField</string>
+				<key>O_modeController</key>
+				<string>NSObjectController</string>
+				<key>O_modePopUpButton</key>
+				<string>DocumentModePopUpButton</string>
+				<key>O_showLineNumbersButton</key>
+				<string>NSButton</string>
+				<key>O_showMatchingBracketsButton</key>
+				<string>NSButton</string>
+				<key>O_tabWidthTextField</key>
+				<string>NSTextField</string>
+				<key>O_usesTabsButton</key>
+				<string>NSButton</string>
+				<key>O_viewController</key>
+				<string>NSObjectController</string>
+				<key>O_viewDefaultButton</key>
+				<string>NSButton</string>
+				<key>O_wrapLinesButton</key>
+				<string>NSButton</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>TCMPreferenceModule</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+	</array>
+	<key>IBVersion</key>
+	<string>1</string>
+</dict>
+</plist>

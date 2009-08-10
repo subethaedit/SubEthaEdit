@@ -10,7 +10,7 @@
     <states>
     
         <default id="Base" color="#408000" font-weight="normal" font-style="normal">
-            <keywords id="Commands" color="#0b0bff" useforautocomplete="yes">
+            <keywords id="Commands" color="#0b0bff" inverted-color="#4939ff" useforautocomplete="yes">
                 <string>close</string>
                 <string>copy</string>
                 <string>count</string>
@@ -29,7 +29,7 @@
                 <string>run</string>
                 <string>save</string>
             </keywords>
-            <keywords id="Variable Assigments" color="#0b0bff" font-weight="bold" useforautocomplete="yes">
+            <keywords id="Variable Assigments" color="#0b0bff" inverted-color="#4939ff" font-weight="bold" useforautocomplete="yes">
                 <string>set</string>
                 <string>copy</string>
                 <string>global</string>
@@ -37,7 +37,7 @@
                 <string>property</string>
                 <string>prop</string>
             </keywords>
-            <keywords id="Operators" color="#0b0bff" font-weight="bold" useforautocomplete="yes">
+            <keywords id="Operators" color="#0b0bff" inverted-color="#4939ff" font-weight="bold" useforautocomplete="yes">
                 <string>my</string>
                 <string>on</string>
                 <string>of</string>
@@ -55,34 +55,34 @@
                 <string>contains</string>
                 <string>given</string>
                 <string>with</string>
-                <regex>does not contain</regex>
-                <regex>doesn't contain</regex>
-                <regex>is in</regex>
-                <regex>is contained by</regex>
-                <regex>is not in</regex>
-                <regex>is not contained by</regex>
-                <regex>isn't contained by</regex>
-                <regex>starts? with</regex>
-                <regex>begins? with</regex>
-                <regex>begins? with</regex>
-                <regex>comes before</regex>
-                <regex>is less than</regex>
-                <regex>is not greater than or equal (?:to)?</regex>
-                <regex>is'nt greater than or equal (?:to)?</regex>
-                <regex>less than</regex>
-                <regex>does not comes after</regex>
-                <regex>doesn't comes after</regex>
-                <regex>less than</regex>
-                <regex>less than</regex>
-                <regex>less than</regex>
-                <regex>less than</regex>
-                <regex>less than</regex>
-                <regex>greater than or equal (?:to)?</regex>
-                <regex>is not less than</regex>
-                <regex>isn't less than</regex>
-                <regex>a reference to</regex>
+                <regex>(does not contain)</regex>
+                <regex>(doesn't contain)</regex>
+                <regex>(is in)</regex>
+                <regex>(is contained by)</regex>
+                <regex>(is not in)</regex>
+                <regex>(is not contained by)</regex>
+                <regex>(isn't contained by)</regex>
+                <regex>(starts? with)</regex>
+                <regex>(begins? with)</regex>
+                <regex>(begins? with)</regex>
+                <regex>(comes before)</regex>
+                <regex>(is less than)</regex>
+                <regex>(is not greater than or equal (?:to)?)</regex>
+                <regex>(is'nt greater than or equal (?:to)?)</regex>
+                <regex>(less than)</regex>
+                <regex>(does not comes after)</regex>
+                <regex>(doesn't comes after)</regex>
+                <regex>(less than)</regex>
+                <regex>(less than)</regex>
+                <regex>(less than)</regex>
+                <regex>(less than)</regex>
+                <regex>(less than)</regex>
+                <regex>(greater than or equal (?:to)?)</regex>
+                <regex>(is not less than)</regex>
+                <regex>(isn't less than)</regex>
+                <regex>(a reference to)</regex>
             </keywords>
-            <keywords id="Control Statements" color="#0b0bff" font-weight="bold" useforautocomplete="yes">
+            <keywords id="Control Statements" color="#0b0bff" inverted-color="#4939ff" font-weight="bold" useforautocomplete="yes">
                 <string>tell</string>
                 <string>if</string>
                 <string>else</string>
@@ -93,13 +93,13 @@
                 <string>try</string>
                 <string>considering</string>
                 <string>ignoring</string>
-                <regex>with timeout</regex>
-                <regex>with transaction</regex>
+                <regex>(with timeout)</regex>
+                <regex>(with transaction)</regex>
                 <string>end</string>
                 <string>continue</string>
                 <string>then</string>
             </keywords>
-            <keywords id="References" color="#0b0bff" font-weight="bold" useforautocomplete="yes">
+            <keywords id="References" color="#0b0bff" inverted-color="#4939ff" font-weight="bold" useforautocomplete="yes">
                 <string>some</string>
                 <string>every</string>
                 <string>whose</string>
@@ -122,19 +122,19 @@
                 <string>middle</string>
                 <string>named</string>
             </keywords>
-            <keywords id="Constants" casesensitive="no" color="#0b0bff" useforautocomplete="yes">
-                <regex>application responses</regex>
+            <keywords id="Constants" casesensitive="no" color="#0b0bff" inverted-color="#4939ff" useforautocomplete="yes">
+                <regex>(application responses)</regex>
                 <string>id</string>
                 <string>case</string>
                 <string>application</string>
-                <regex>current application</regex>
+                <regex>(current application)</regex>
                 <string>diacriticals</string>
                 <string>expansion</string>
                 <string>hyphens</string>
                 <string>punctuation</string>
-                <regex>white space</regex>
-                <regex>all caps</regex>
-                <regex>all lowercase</regex>
+                <regex>(white space)</regex>
+                <regex>(all caps)</regex>
+                <regex>(all lowercase)</regex>
                 <string>bold</string>
                 <string>condensed</string>
                 <string>expanded</string>
@@ -143,7 +143,7 @@
                 <string>outline</string>
                 <string>plain</string>
                 <string>shadow</string>
-                <regex>small caps</regex>
+                <regex>(small caps)</regex>
                 <string>strikethrough</string>
                 <string>subscript</string>
                 <string>superscript</string>
@@ -197,7 +197,7 @@
                 <string>days</string>
                 <string>weeks</string>
             </keywords>
-            <keywords id="Predefined Variables" casesensitive="no" color="#0b0bff" useforautocomplete="yes">
+            <keywords id="Predefined Variables" casesensitive="no" color="#0b0bff" inverted-color="#4939ff" useforautocomplete="yes">
                 <string>it</string>
                 <string>me</string>
                 <string>version</string>
@@ -207,16 +207,16 @@
                 <string>space</string>
                 <string>tab</string>
                 <string>anything</string>
-                <regex>missing value</regex>
+                <regex>(missing value)</regex>
             </keywords>
             <keywords id="Numbers" color="#000" useforautocomplete="no">
                 <regex>([-&amp;+\*\\\(\)])</regex>
 				<regex>[^[A-Za-z]]([0-9]*\.*[0-9]+)[^[A-Za-z]]</regex>
 				<regex>(^[0-9]*\.*[0-9]+)[^[A-Za-z]]</regex>
-				<regex>[^[A-Za-z]]([0-9]*\.*[0-9]+)$</regex>
+				<regex>[^[A-Za-z]]([0-9]*\.*[0-9]+)</regex>
 				<regex>(0x[0-9a-fA-F]+)</regex>
             </keywords>
-            <keywords id="Characters" color="#00f" useforautocomplete="no">
+            <keywords id="Characters" color="#00f" inverted-color="#4939ff" useforautocomplete="no">
 				<regex>'.'</regex>
             </keywords>
             
@@ -232,7 +232,61 @@
             
             <state id="String" type="string" color="#000">
                 <begin><string>@?"</string></begin>
-                <end><regex>([^\\]"|^")</regex></end>
+                <end><regex>((?&lt;!\\)(\\\\)*)"</regex></end>
+            </state>
+
+            <state id="Tell statement with to" foldable="no">
+                <begin><regex>tell[\t ]+(?=[^\n\r]+to)</regex></begin>
+                <end><regex>to</regex></end>
+                <import mode="AppleScript"/>
+            </state>
+
+            <state id="Tell statement" foldable="yes">
+                <begin><regex>tell[\t ]+[^\n\r]+</regex></begin>
+                <end><regex>^\s*(?&lt;trimmedend&gt;end(?:[ \t]+tell)?)(?=([\n\r]|\Z))</regex></end>
+                <import mode="AppleScript"/>
+            </state>
+        
+            <state id="Repeat Statement" foldable="yes">
+                <begin><regex>^[ \t]*repeat(?:[ \t]+[^\n\r]+)?(?=[\n\r])</regex></begin>
+                <end><regex>^\s*(?&lt;trimmedend&gt;end(?:[ \t]+repeat)?)(?=([\n\r]|\Z))</regex></end>
+                <import mode="AppleScript"/>
+            </state>
+        
+            <state id="Try Statement" foldable="yes">
+                <begin><regex>^[ \t]*try(?=\s)</regex></begin>
+                <end><regex>^\s*(?&lt;trimmedend&gt;end(?:[ \t]+try)?)(?=([\n\r]|\Z))</regex></end>
+                <import mode="AppleScript"/>
+            </state>
+        
+            <state id="using terms from Statement" foldable="yes">
+                <begin><regex>^[ \t]*using terms from[ \t]+[^\n\r]*</regex></begin>
+                <end><regex>^\s*(?&lt;trimmedend&gt;end(?:[ \t]+using terms from)?)(?=([\n\r]|\Z))</regex></end>
+                <import mode="AppleScript"/>
+            </state>
+        
+            <state id="with timeout Statement" foldable="yes">
+                <begin><regex>^[ \t]*with timeout[ \t]+[^\n\r]*</regex></begin>
+                <end><regex>^\s*(?&lt;trimmedend&gt;end(?:[ \t]+with timeout)?)(?=([\n\r]|\Z))</regex></end>
+                <import mode="AppleScript"/>
+            </state>
+        
+            <state id="with transaction Statement" foldable="yes">
+                <begin><regex>^[ \t]*with transaction(?:[ \t]+[^\n\r]+)?(?=[\n\r])</regex></begin>
+                <end><regex>^\s*(?&lt;trimmedend&gt;end(?:[ \t]+with transaction)?)(?=([\n\r]|\Z))</regex></end>
+                <import mode="AppleScript"/>
+            </state>
+        
+            <state id="ignoring Statement" foldable="yes">
+                <begin><regex>^[ \t]*ignoring[ \t]+[^\n\r]*</regex></begin>
+                <end><regex>^\s*(?&lt;trimmedend&gt;end(?:[ \t]+ignoring)?)(?=([\n\r]|\Z))</regex></end>
+                <import mode="AppleScript"/>
+            </state>
+        
+            <state id="considering Statement" foldable="yes">
+                <begin><regex>^[ \t]*considering[ \t]+[^\n\r]*</regex></begin>
+                <end><regex>^\s*(?&lt;trimmedend&gt;end(?:[ \t]+considering)?)(?=([\n\r]|\Z))</regex></end>
+                <import mode="AppleScript"/>
             </state>
         
          </default>

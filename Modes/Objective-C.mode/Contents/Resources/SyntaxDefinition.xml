@@ -1,32 +1,60 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE syntax SYSTEM "syntax.dtd">
+
 <syntax>
-
     <head>
-        <name>Objective-C</name> <!-- The definitions title -->
-        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]></charsintokens> <!-- Valid Characters for Variables -->
+        <name>Objective-C</name>
+        <!-- The definitions title -->
+        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]></charsintokens>
+        <!-- Valid Characters for Variables -->
         <!-- <charsdelimitingtokens></charsdelimitingtokens> -->
-        <charsincompletion><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@]]></charsincompletion> 
-
+        <charsincompletion><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@]]></charsincompletion>
+        <folding toplevel="2"/>
     </head>
-
     <states>
-    
         <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="Objective-C" useautocompletefrommode="Objective-C">
-            <import mode="C"/>
-
-            <state id="NSString" type="string" color="#760f15" font-weight="normal" font-style="normal">
-                <begin><string>@"</string></begin>
-                <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
+            <import mode="C" keywords-only="yes"/>
+            <state-link mode="C" state="Characters"/>
+            <state-link mode="C" state="Preprocessor"/>
+            <state-link mode="C" state="DoxyGen Comment"/>
+            <state-link mode="C" state="AutodocComment"/>
+            <state-link mode="C" state="Comment"/>
+            <state-link mode="C" state="SingleComment"/>
+            <state-link mode="C" state="String"/>
+            <state id="NSString" type="string" color="#760f15" font-weight="normal" font-style="normal" foldable="no">
+                <begin>
+                    <string>@"</string>
+                </begin>
+                <end>
+                    <regex>(((?&lt;!\\)(\\\\)*)|^)"</regex>
+                </end>
             </state>
-
-            <keywords id="Messages" color="#6C0540" casesensitive="yes">
-                <regex>[^:]\([^)]*\)\s*([A-Za-z0-9_]+)\s*[{;]</regex>
-                <regex>\)\s*([A-Za-z0-9_]+:)</regex>
-                <regex>\s([A-Za-z0-9_]+:)</regex>
-                <regex>(?&lt;![:\s])\s+([A-Za-z0-9_]+)]</regex>
+            <state id="Block" type="block" foldable="yes">
+                <begin>
+                    <regex>(?:^[ \t]*[-+][^(-;]*\([A-Za-z0-9 *_]*\)[A-Za-z0-9_ \t\n\r]+)?{</regex>
+                </begin>
+                <end>
+                    <regex>}</regex>
+                </end>
+                <import mode="C" keywords-only="yes"/>
+                <import/>
+            </state>
+            <state id="Objective-C @clauses" type="block" foldable="yes">
+                <begin>
+                    <regex>(?:@implementation|@interface|@protocol)\s+[\w_]+(?:\s*(?:(?:\(\s*[\w_]+\s*\))|:\s*[\w_]+\s*))?</regex>
+                </begin>
+                <end>
+                    <regex>@end</regex>
+                </end>
+                <import mode="C" keywords-only="yes"/>
+                <import/>
+            </state>
+            <keywords id="Methods" color="#6C0540" casesensitive="yes">
+                <regex>[^:]\([^)]*\)\s*([A-Za-z_][A-Za-z0-9_]*)\s*[{;]</regex>
+                <regex>\)\s*([A-Za-z_][A-Za-z0-9_]*:)</regex>
+                <regex>\s([A-Za-z_][A-Za-z0-9_]+*:)</regex>
+                <regex>(?&lt;![:\s])\s+([A-Za-z_][A-Za-z0-9_]*)]</regex>
             </keywords>
-            
             <keywords id="Cocoa Classes" color="#400080" background-color="#fff" font-weight="normal" font-style="normal" casesensitive="yes" useforautocomplete="yes">
                 <string>NSAccessibility</string>
                 <string>NSActionCell</string>
@@ -296,7 +324,6 @@
                 <string>NSWindowController</string>
                 <string>NSWindowScripting</string>
                 <string>NSWorkspace</string>
-
                 <string>NSError</string>
                 <string>NSCachedURLResponse</string>
                 <string>NSHTTPCookie</string>
@@ -409,10 +436,9 @@
                 <string>WebDocumentSearching</string>
                 <string>WebOpenPanelResultListener</string>
                 <string>WebPolicyDecisionListener</string>
-                <string>WebUIDelegate</string>                
+                <string>WebUIDelegate</string>
                 <string>WebDocumentText</string>
                 <string>WebDocumentView</string>
-
                 <string>ABAddressBook</string>
                 <string>ABGroup</string>
                 <string>ABMultiValue</string>
@@ -518,12 +544,10 @@
                 <string>WebResource</string>
                 <string>WebScriptObject</string>
                 <string>WebUndefined</string>
-
                 <string>WebPlugInViewFactory</string>
                 <string>CIImageProvider</string>
                 <string>CIPlugInRegistration</string>
                 <string>ISyncFiltering</string>
-                
                 <string>AMShellScriptAction</string>
                 <string>ASKPluginObject</string>
                 <string>AUGenericView</string>
@@ -957,7 +981,73 @@
                 <string>UIView</string>
                 <string>UIViewController</string>
                 <string>UIWebView</string>
-                <string>UIWindow</string>                
+                <string>UIWindow</string>
+                <string>AVAudioRecorder</string>
+                <string>AVAudioSession</string>
+                <string>NSAtomicStore</string>
+                <string>NSAtomicStoreCacheNode</string>
+                <string>NSAttributeDescription</string>
+                <string>NSEntityDescription</string>
+                <string>NSEntityMapping</string>
+                <string>NSEntityMigrationPolicy</string>
+                <string>NSExpressionDescription</string>
+                <string>NSFetchRequest</string>
+                <string>NSFetchRequestExpression</string>
+                <string>NSFetchedPropertyDescription</string>
+                <string>NSFetchedResultsController</string>
+                <string>NSManagedObject</string>
+                <string>NSManagedObjectContext</string>
+                <string>NSManagedObjectID</string>
+                <string>NSManagedObjectModel</string>
+                <string>NSMappingModel</string>
+                <string>NSMigrationManager</string>
+                <string>NSPersistentStore</string>
+                <string>NSPersistentStoreCoordinator</string>
+                <string>NSPropertyDescription</string>
+                <string>NSPropertyMapping</string>
+                <string>NSRelationshipDescription</string>
+                <string>EASession</string>
+                <string>EAAccessoryManager</string>
+                <string>EAAccessory</string>
+                <string>NSComparisonPredicate</string>
+                <string>NSCompoundPredicate</string>
+                <string>NSExpression</string>
+                <string>NSPredicate</string>
+                <string>NSUndoManager</string>
+                <string>NSValueTransformer</string>
+                <string>GKPeerPickerController</string>
+                <string>GKSession</string>
+                <string>GKSessionError</string>
+                <string>GKVoiceChatClient</string>
+                <string>GKVoiceChatService</string>
+                <string>MKAnnotation</string>
+                <string>MKAnnotationView</string>
+                <string>MKMapView</string>
+                <string>MKPinAnnotationView</string>
+                <string>MKPlacemark</string>
+                <string>MKReverseGeocoder</string>
+                <string>MKUserLocation</string>
+                <string>MPMediaItem</string>
+                <string>MPMediaItemCollection</string>
+                <string>MPMediaLibrary</string>
+                <string>MPMediaPickerController</string>
+                <string>MPMediaPlaylist</string>
+                <string>MPMediaPredicate</string>
+                <string>MPMediaPropertyPredicate</string>
+                <string>MPMediaQuery</string>
+                <string>MPMusicPlayerController</string>
+                <string>MFMailComposeViewController</string>
+                <string>SKMutablePayment</string>
+                <string>SKPaymentQueue</string>
+                <string>SKPayment</string>
+                <string>SKPaymentTransactionObserver</string>
+                <string>SKPaymentTransaction</string>
+                <string>SKProduct</string>
+                <string>SKProductsRequest</string>
+                <string>SKProductsResponse</string>
+                <string>SKRequest</string>
+                <string>UIAccessibilityElement</string>
+                <string>UISearchDisplayController</string>
             </keywords>
             <keywords id="Objective-C Keywords" color="#881350" useforautocomplete="yes" font-weight="bold">
                 <string>@class</string>
@@ -1005,16 +1095,7 @@
                 <string>auto</string>
             </keywords>
             <keywords id="Memory Management" color="#f00" font-weight="bold" font-style="normal" useforautocomplete="yes">
-                <string>new</string>
-                <string>alloc</string>
-                <string>allocWithZone</string>
-                <string>release</string>
-                <string>autorelease</string>
-                <string>copy</string>
-                <string>copyWithZone</string>
-                <string>mutableCopy</string>
-                <string>mutableCopyWithZone</string>
-                <string>retain</string>
+                <regex>(?&lt;![\w:_])(new|allocWithZone:|alloc|autorelease|copyWithZone:|copy|mutableCopyWithZone:|mutableCopy|retain|release)(?![\w:_])</regex>
             </keywords>
             <keywords id="Cocoa Functions" color="#400080" font-weight="normal" font-style="italic" useforautocomplete="yes">
                 <string>NSDrawThreePartImage</string>
@@ -1182,7 +1263,6 @@
                 <string>MIN</string>
                 <string>MAX</string>
                 <string>ABS</string>
-
                 <string>NSAccessibilityRaiseBadArgumentException</string>
                 <string>NSGlyphInfoAtIndex</string>
                 <string>NSDisableScreenUpdates</string>
@@ -1244,7 +1324,6 @@
                 <string>NSDecimalAdd</string>
                 <string>NSDecimalNormalize</string>
                 <string>NSDecimalSubtract</string>
-
                 <string>ABLocalizedPropertyOrLabel</string>
                 <string>NSAccessibilityActionDescription</string>
                 <string>NSAccessibilityRoleDescription</string>
@@ -1287,6 +1366,113 @@
                 <string>UIImagePNGRepresentation</string>
                 <string>UIImageJPEGRepresentation</string>
                 <string>UIImageWriteToSavedPhotosAlbum</string>
+                <string>AudioComponentInstanceCanDo</string>
+                <string>AudioComponentRegister</string>
+                <string>CFStringTokenizerAdvanceToNextToken</string>
+                <string>CFStringTokenizerCopyBestStringLanguage</string>
+                <string>CFStringTokenizerCopyCurrentTokenAttribute</string>
+                <string>CFStringTokenizerCreate</string>
+                <string>CFStringTokenizerGetCurrentSubTokens</string>
+                <string>CFStringTokenizerGetCurrentTokenRange</string>
+                <string>CFStringTokenizerGetTypeID</string>
+                <string>CFStringTokenizerGoToTokenAtIndex</string>
+                <string>CFStringTokenizerSetString</string>
+                <string>MKCoordinateRegionMake</string>
+                <string>MKCoordinateRegionMakeWithDistance</string>
+                <string>MKCoordinateSpanMake</string>
+                <string>UIAccessibilityPostNotification</string>
+                <string>UTTypeConformsTo</string>
+                <string>UTTypeCopyDeclaration</string>
+                <string>UTTypeCopyDeclaringBundleURL</string>
+                <string>UTTypeCopyDescription</string>
+                <string>UTTypeCopyPreferredTagWithClass</string>
+                <string>UTTypeCreateAllIdentifiersForTag</string>
+                <string>UTTypeCreatePreferredIdentifierForTag</string>
+                <string>UTTypeEqual</string>
+                <string>glAttachShader</string>
+                <string>glBindAttribLocation</string>
+                <string>glBindFramebuffer</string>
+                <string>glBindRenderbuffer</string>
+                <string>glBlendColor</string>
+                <string>glBlendEquation</string>
+                <string>glBlendEquationSeparate</string>
+                <string>glBlendFuncSeparate</string>
+                <string>glCheckFramebufferStatus</string>
+                <string>glCompileShader</string>
+                <string>glCreateProgram</string>
+                <string>glCreateShader</string>
+                <string>glDeleteFramebuffers</string>
+                <string>glDeleteProgram</string>
+                <string>glDeleteRenderbuffers</string>
+                <string>glDeleteShader</string>
+                <string>glDetachShader</string>
+                <string>glDisableVertexAttribArray</string>
+                <string>glEnableVertexAttribArray</string>
+                <string>glFramebufferRenderbuffer</string>
+                <string>glFramebufferTexture2D</string>
+                <string>glGenFramebuffers</string>
+                <string>glGenRenderbuffers</string>
+                <string>glGenerateMipmap</string>
+                <string>glGetActiveAttrib</string>
+                <string>glGetActiveUniform</string>
+                <string>glGetAttachedShaders</string>
+                <string>glGetAttribLocation</string>
+                <string>glGetFramebufferAttachmentParameteriv</string>
+                <string>glGetProgramInfoLog</string>
+                <string>glGetProgramiv</string>
+                <string>glGetRenderbufferParameteriv</string>
+                <string>glGetShaderInfoLog</string>
+                <string>glGetShaderPrecisionFormat</string>
+                <string>glGetShaderSource</string>
+                <string>glGetShaderiv</string>
+                <string>glGetUniformLocation</string>
+                <string>glGetUniformfv</string>
+                <string>glGetUniformiv</string>
+                <string>glGetVertexAttribPointerv</string>
+                <string>glGetVertexAttribfv</string>
+                <string>glGetVertexAttribiv</string>
+                <string>glIsFramebuffer</string>
+                <string>glIsProgram</string>
+                <string>glIsRenderbuffer</string>
+                <string>glIsShader</string>
+                <string>glLinkProgram</string>
+                <string>glReleaseShaderCompiler</string>
+                <string>glRenderbufferStorage</string>
+                <string>glShaderBinary</string>
+                <string>glShaderSource</string>
+                <string>glStencilFuncSeparate</string>
+                <string>glStencilMaskSeparate</string>
+                <string>glStencilOpSeparate</string>
+                <string>glUniform1f</string>
+                <string>glUniform1fv</string>
+                <string>glUniform1i</string>
+                <string>glUniform1iv</string>
+                <string>glUniform2f</string>
+                <string>glUniform2fv</string>
+                <string>glUniform2i</string>
+                <string>glUniform2iv</string>
+                <string>glUniform3f</string>
+                <string>glUniform3fv</string>
+                <string>glUniform3i</string>
+                <string>glUniform3iv</string>
+                <string>glUniform4f</string>
+                <string>glUniform4fv</string>
+                <string>glUniform4i</string>
+                <string>glUniform4iv</string>
+                <string>glUniformMatrix2fv</string>
+                <string>glUniformMatrix3fv</string>
+                <string>glUniformMatrix4fv</string>
+                <string>glUseProgram</string>
+                <string>glValidateProgram</string>
+                <string>glVertexAttrib1f</string>
+                <string>glVertexAttrib1fv</string>
+                <string>glVertexAttrib2f</string>
+                <string>glVertexAttrib2fv</string>
+                <string>glVertexAttrib3f</string>
+                <string>glVertexAttrib3fv</string>
+                <string>glVertexAttrib4f</string>
+                <string>glVertexAttrib4fv</string>
+                <string>glVertexAttribPointer</string>
             </keywords>
             <keywords id="Cocoa Types" color="#400080" font-weight="normal" font-style="italic" useforautocomplete="yes">
                 <string>NSAffineTransformStruct</string>
@@ -1690,7 +1876,7 @@
                 <string>NSDockWindowLevel</string>
                 <string>NSModalPanelWindowLevel</string>
                 <string>NSPopUpMenuWindowLevel</string>
-                <string>NSScreenSaverWindowLevel</string>               
+                <string>NSScreenSaverWindowLevel</string>
                 <string>NSDecimalNoScale</string>
                 <string>NSMaximumStringLength</string>
                 <string>NSNotAnIntMapKey</string>
@@ -6345,9 +6531,899 @@
                 <string>UIWindowLevelAlert</string>
                 <string>UIWindowLevelNormal</string>
                 <string>UIWindowLevelStatusBar</string>
+                <string>COREDATA_EXTERN</string>
+                <string>COREDATA_PRIVATE_EXTERN</string>
+                <string>EAGL_MAJOR_VERSION</string>
+                <string>EAGL_MINOR_VERSION</string>
+                <string>EA_EXTERN</string>
+                <string>EA_EXTERN_CLASS</string>
+                <string>GK_EXTERN</string>
+                <string>GK_EXTERN_CLASS</string>
+                <string>GL_ACTIVE_ATTRIBUTES</string>
+                <string>GL_ACTIVE_ATTRIBUTE_MAX_LENGTH</string>
+                <string>GL_ACTIVE_UNIFORMS</string>
+                <string>GL_ACTIVE_UNIFORM_MAX_LENGTH</string>
+                <string>GL_APIENTRYP</string>
+                <string>GL_APPLE_texture_2D_limited_npot</string>
+                <string>GL_ATTACHED_SHADERS</string>
+                <string>GL_BLEND_COLOR</string>
+                <string>GL_BLEND_DST_ALPHA</string>
+                <string>GL_BLEND_DST_RGB</string>
+                <string>GL_BLEND_EQUATION</string>
+                <string>GL_BLEND_EQUATION_ALPHA</string>
+                <string>GL_BLEND_EQUATION_RGB</string>
+                <string>GL_BLEND_SRC_ALPHA</string>
+                <string>GL_BLEND_SRC_RGB</string>
+                <string>GL_BOOL</string>
+                <string>GL_BOOL_VEC2</string>
+                <string>GL_BOOL_VEC3</string>
+                <string>GL_BOOL_VEC4</string>
+                <string>GL_COLOR_ATTACHMENT0</string>
+                <string>GL_COMPILE_STATUS</string>
+                <string>GL_CONSTANT_ALPHA</string>
+                <string>GL_CONSTANT_COLOR</string>
+                <string>GL_CURRENT_PROGRAM</string>
+                <string>GL_CURRENT_VERTEX_ATTRIB</string>
+                <string>GL_DECR_WRAP</string>
+                <string>GL_DELETE_STATUS</string>
+                <string>GL_DEPTH24_STENCIL8_OES</string>
+                <string>GL_DEPTH_ATTACHMENT</string>
+                <string>GL_DEPTH_COMPONENT</string>
+                <string>GL_DEPTH_COMPONENT16</string>
+                <string>GL_DEPTH_STENCIL_OES</string>
+                <string>GL_ES_VERSION_2_0</string>
+                <string>GL_FLOAT_MAT2</string>
+                <string>GL_FLOAT_MAT3</string>
+                <string>GL_FLOAT_MAT4</string>
+                <string>GL_FLOAT_VEC2</string>
+                <string>GL_FLOAT_VEC3</string>
+                <string>GL_FLOAT_VEC4</string>
+                <string>GL_FRAGMENT_SHADER</string>
+                <string>GL_FRAGMENT_SHADER_DERIVATIVE_HINT_OES</string>
+                <string>GL_FRAMEBUFFER</string>
+                <string>GL_FRAMEBUFFER_ATTACHMENT_OBJECT_NAME</string>
+                <string>GL_FRAMEBUFFER_ATTACHMENT_OBJECT_TYPE</string>
+                <string>GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_CUBE_MAP_FACE</string>
+                <string>GL_FRAMEBUFFER_ATTACHMENT_TEXTURE_LEVEL</string>
+                <string>GL_FRAMEBUFFER_BINDING</string>
+                <string>GL_FRAMEBUFFER_COMPLETE</string>
+                <string>GL_FRAMEBUFFER_INCOMPLETE_ATTACHMENT</string>
+                <string>GL_FRAMEBUFFER_INCOMPLETE_DIMENSIONS</string>
+                <string>GL_FRAMEBUFFER_INCOMPLETE_MISSING_ATTACHMENT</string>
+                <string>GL_FRAMEBUFFER_UNSUPPORTED</string>
+                <string>GL_FUNC_ADD</string>
+                <string>GL_FUNC_REVERSE_SUBTRACT</string>
+                <string>GL_FUNC_SUBTRACT</string>
+                <string>GL_HIGH_FLOAT</string>
+                <string>GL_HIGH_INT</string>
+                <string>GL_IMPLEMENTATION_COLOR_READ_FORMAT</string>
+                <string>GL_IMPLEMENTATION_COLOR_READ_TYPE</string>
+                <string>GL_INCR_WRAP</string>
+                <string>GL_INFO_LOG_LENGTH</string>
+                <string>GL_INT</string>
+                <string>GL_INT_VEC2</string>
+                <string>GL_INT_VEC3</string>
+                <string>GL_INT_VEC4</string>
+                <string>GL_INVALID_FRAMEBUFFER_OPERATION</string>
+                <string>GL_LINK_STATUS</string>
+                <string>GL_LOW_FLOAT</string>
+                <string>GL_LOW_INT</string>
+                <string>GL_MAX_COMBINED_TEXTURE_IMAGE_UNITS</string>
+                <string>GL_MAX_CUBE_MAP_TEXTURE_SIZE</string>
+                <string>GL_MAX_FRAGMENT_UNIFORM_VECTORS</string>
+                <string>GL_MAX_RENDERBUFFER_SIZE</string>
+                <string>GL_MAX_TEXTURE_IMAGE_UNITS</string>
+                <string>GL_MAX_VARYING_VECTORS</string>
+                <string>GL_MAX_VERTEX_ATTRIBS</string>
+                <string>GL_MAX_VERTEX_TEXTURE_IMAGE_UNITS</string>
+                <string>GL_MAX_VERTEX_UNIFORM_VECTORS</string>
+                <string>GL_MEDIUM_FLOAT</string>
+                <string>GL_MEDIUM_INT</string>
+                <string>GL_MIRRORED_REPEAT</string>
+                <string>GL_NONE</string>
+                <string>GL_NUM_SHADER_BINARY_FORMATS</string>
+                <string>GL_OES_packed_depth_stencil</string>
+                <string>GL_OES_standard_derivatives</string>
+                <string>GL_OES_stencil8</string>
+                <string>GL_ONE_MINUS_CONSTANT_ALPHA</string>
+                <string>GL_ONE_MINUS_CONSTANT_COLOR</string>
+                <string>GL_RENDERBUFFER</string>
+                <string>GL_RENDERBUFFER_ALPHA_SIZE</string>
+                <string>GL_RENDERBUFFER_BINDING</string>
+                <string>GL_RENDERBUFFER_BLUE_SIZE</string>
+                <string>GL_RENDERBUFFER_DEPTH_SIZE</string>
+                <string>GL_RENDERBUFFER_GREEN_SIZE</string>
+                <string>GL_RENDERBUFFER_HEIGHT</string>
+                <string>GL_RENDERBUFFER_INTERNAL_FORMAT</string>
+                <string>GL_RENDERBUFFER_RED_SIZE</string>
+                <string>GL_RENDERBUFFER_STENCIL_SIZE</string>
+                <string>GL_RENDERBUFFER_WIDTH</string>
+                <string>GL_RGB565</string>
+                <string>GL_RGB5_A1</string>
+                <string>GL_RGBA4</string>
+                <string>GL_SAMPLER_2D</string>
+                <string>GL_SAMPLER_CUBE</string>
+                <string>GL_SHADER_BINARY_FORMATS</string>
+                <string>GL_SHADER_COMPILER</string>
+                <string>GL_SHADER_SOURCE_LENGTH</string>
+                <string>GL_SHADER_TYPE</string>
+                <string>GL_SHADING_LANGUAGE_VERSION</string>
+                <string>GL_STENCIL_ATTACHMENT</string>
+                <string>GL_STENCIL_BACK_FAIL</string>
+                <string>GL_STENCIL_BACK_FUNC</string>
+                <string>GL_STENCIL_BACK_PASS_DEPTH_FAIL</string>
+                <string>GL_STENCIL_BACK_PASS_DEPTH_PASS</string>
+                <string>GL_STENCIL_BACK_REF</string>
+                <string>GL_STENCIL_BACK_VALUE_MASK</string>
+                <string>GL_STENCIL_BACK_WRITEMASK</string>
+                <string>GL_STENCIL_INDEX</string>
+                <string>GL_STENCIL_INDEX8</string>
+                <string>GL_STENCIL_INDEX8_OES</string>
+                <string>GL_STREAM_DRAW</string>
+                <string>GL_TEXTURE_BINDING_CUBE_MAP</string>
+                <string>GL_TEXTURE_CUBE_MAP</string>
+                <string>GL_TEXTURE_CUBE_MAP_NEGATIVE_X</string>
+                <string>GL_TEXTURE_CUBE_MAP_NEGATIVE_Y</string>
+                <string>GL_TEXTURE_CUBE_MAP_NEGATIVE_Z</string>
+                <string>GL_TEXTURE_CUBE_MAP_POSITIVE_X</string>
+                <string>GL_TEXTURE_CUBE_MAP_POSITIVE_Y</string>
+                <string>GL_TEXTURE_CUBE_MAP_POSITIVE_Z</string>
+                <string>GL_UNSIGNED_INT</string>
+                <string>GL_UNSIGNED_INT_24_8_OES</string>
+                <string>GL_VALIDATE_STATUS</string>
+                <string>GL_VERTEX_ATTRIB_ARRAY_BUFFER_BINDING</string>
+                <string>GL_VERTEX_ATTRIB_ARRAY_ENABLED</string>
+                <string>GL_VERTEX_ATTRIB_ARRAY_NORMALIZED</string>
+                <string>GL_VERTEX_ATTRIB_ARRAY_POINTER</string>
+                <string>GL_VERTEX_ATTRIB_ARRAY_SIZE</string>
+                <string>GL_VERTEX_ATTRIB_ARRAY_STRIDE</string>
+                <string>GL_VERTEX_ATTRIB_ARRAY_TYPE</string>
+                <string>GL_VERTEX_SHADER</string>
+                <string>NSCoreDataVersionNumber10_4</string>
+                <string>NSCoreDataVersionNumber10_4_3</string>
+                <string>NSCoreDataVersionNumber10_5</string>
+                <string>NSCoreDataVersionNumber10_5_3</string>
+                <string>NSFoundationVersionNumber_iPhoneOS_2_2</string>
+                <string>NS_NONATOMIC_IPHONEONLY</string>
+                <string>SK_EXTERN</string>
+                <string>SK_EXTERN_CLASS</string>
+                <string>UITableViewCellStateEditingMask</string>
+                <string>kABPropertyInvalidID</string>
+                <string>kAudioOutputUnitPlugInInterfaceUUID</string>
+                <string>kAudioUnitPlugInInterfaceUUID</string>
+                <string>kCFCoreFoundationVersionNumber_iPhoneOS_2_2</string>
+                <string>kSCNetworkConnectionSelectionOptionOnDemandHostName</string>
+                <string>kSCNetworkConnectionSelectionOptionOnDemandRetry</string>
+                <string>kABPersonPhoneIPhoneLabel</string>
+                <string>kAUVoiceIOProperty_BypassVoiceProcessing</string>
+                <string>kAUVoiceIOProperty_DuckNonVoiceAudio</string>
+                <string>kAUVoiceIOProperty_VoiceProcessingEnableAGC</string>
+                <string>kAppleHardwareAudioCodecManufacturer</string>
+                <string>kAppleSoftwareAudioCodecManufacturer</string>
+                <string>kAudioDecoderComponentType</string>
+                <string>kAudioEncoderComponentType</string>
+                <string>kAudioFormatAES3</string>
+                <string>kAudioFormatDVIIntelIMA</string>
+                <string>kAudioFormatMicrosoftGSM</string>
+                <string>kAudioFormatProperty_HardwareCodecCapabilities</string>
+                <string>kAudioQueueErr_CodecNotFound</string>
+                <string>kAudioQueueErr_EnqueueDuringReset</string>
+                <string>kAudioQueueErr_InvalidCodecAccess</string>
+                <string>kAudioQueueErr_QueueInvalidated</string>
+                <string>kAudioQueueHardwareCodecPolicy_Default</string>
+                <string>kAudioQueueHardwareCodecPolicy_PreferHardware</string>
+                <string>kAudioQueueHardwareCodecPolicy_PreferSoftware</string>
+                <string>kAudioQueueHardwareCodecPolicy_UseHardwareOnly</string>
+                <string>kAudioQueueHardwareCodecPolicy_UseSoftwareOnly</string>
+                <string>kAudioQueueParam_Pitch</string>
+                <string>kAudioQueueParam_PlayRate</string>
+                <string>kAudioQueueProperty_EnableTimePitch</string>
+                <string>kAudioQueueProperty_HardwareCodecPolicy</string>
+                <string>kAudioQueueProperty_TimePitchAlgorithm</string>
+                <string>kAudioQueueProperty_TimePitchBypass</string>
+                <string>kAudioQueueTimePitchAlgorithm_Spectral</string>
+                <string>kAudioQueueTimePitchAlgorithm_TimeDomain</string>
+                <string>kAudioServicesNoHardwareError</string>
+                <string>kAudioSessionProperty_OtherMixableAudioShouldDuck</string>
+                <string>kAudioSessionProperty_OverrideCategoryMixWithOthers</string>
+                <string>kAudioSessionProperty_ServerDied</string>
+                <string>kAudioUnitSubType_VoiceProcessingIO</string>
+                <string>kCAFillRuleEvenOdd</string>
+                <string>kCAFillRuleNonZero</string>
+                <string>kCAFilterTrilinear</string>
+                <string>kCAGradientLayerAxial</string>
+                <string>kCALineCapButt</string>
+                <string>kCALineCapRound</string>
+                <string>kCALineCapSquare</string>
+                <string>kCALineJoinBevel</string>
+                <string>kCALineJoinMiter</string>
+                <string>kCALineJoinRound</string>
+                <string>kCAMediaTimingFunctionDefault</string>
+                <string>kCATransactionAnimationTimingFunction</string>
+                <string>kCAValueFunctionRotateX</string>
+                <string>kCAValueFunctionRotateY</string>
+                <string>kCAValueFunctionRotateZ</string>
+                <string>kCAValueFunctionScale</string>
+                <string>kCAValueFunctionScaleX</string>
+                <string>kCAValueFunctionScaleY</string>
+                <string>kCAValueFunctionScaleZ</string>
+                <string>kCAValueFunctionTranslate</string>
+                <string>kCAValueFunctionTranslateX</string>
+                <string>kCAValueFunctionTranslateY</string>
+                <string>kCAValueFunctionTranslateZ</string>
+                <string>kCFErrorHTTPSProxyConnectionFailure</string>
+                <string>kCFErrorPACFileAuth</string>
+                <string>kCFHTTPCookieCannotParseCookieFile</string>
+                <string>kCFProxyAutoConfigurationHTTPResponseKey</string>
+                <string>kCFStringTokenizerAttributeLanguage</string>
+                <string>kCFStringTokenizerAttributeLatinTranscription</string>
+                <string>kCFStringTokenizerTokenHasDerivedSubTokensMask</string>
+                <string>kCFStringTokenizerTokenHasHasNumbersMask</string>
+                <string>kCFStringTokenizerTokenHasNonLettersMask</string>
+                <string>kCFStringTokenizerTokenHasSubTokensMask</string>
+                <string>kCFStringTokenizerTokenIsCJWordMask</string>
+                <string>kCFStringTokenizerTokenNone</string>
+                <string>kCFStringTokenizerTokenNormal</string>
+                <string>kCFStringTokenizerUnitLineBreak</string>
+                <string>kCFStringTokenizerUnitParagraph</string>
+                <string>kCFStringTokenizerUnitSentence</string>
+                <string>kCFStringTokenizerUnitWord</string>
+                <string>kCFStringTokenizerUnitWordBoundary</string>
+                <string>kCFURLErrorBadServerResponse</string>
+                <string>kCFURLErrorBadURL</string>
+                <string>kCFURLErrorCallIsActive</string>
+                <string>kCFURLErrorCancelled</string>
+                <string>kCFURLErrorCannotCloseFile</string>
+                <string>kCFURLErrorCannotConnectToHost</string>
+                <string>kCFURLErrorCannotCreateFile</string>
+                <string>kCFURLErrorCannotDecodeContentData</string>
+                <string>kCFURLErrorCannotDecodeRawData</string>
+                <string>kCFURLErrorCannotFindHost</string>
+                <string>kCFURLErrorCannotLoadFromNetwork</string>
+                <string>kCFURLErrorCannotMoveFile</string>
+                <string>kCFURLErrorCannotOpenFile</string>
+                <string>kCFURLErrorCannotParseResponse</string>
+                <string>kCFURLErrorCannotRemoveFile</string>
+                <string>kCFURLErrorCannotWriteToFile</string>
+                <string>kCFURLErrorClientCertificateRejected</string>
+                <string>kCFURLErrorClientCertificateRequired</string>
+                <string>kCFURLErrorDNSLookupFailed</string>
+                <string>kCFURLErrorDataLengthExceedsMaximum</string>
+                <string>kCFURLErrorDataNotAllowed</string>
+                <string>kCFURLErrorDownloadDecodingFailedMidStream</string>
+                <string>kCFURLErrorDownloadDecodingFailedToComplete</string>
+                <string>kCFURLErrorFailingURLErrorKey</string>
+                <string>kCFURLErrorFailingURLStringErrorKey</string>
+                <string>kCFURLErrorFileDoesNotExist</string>
+                <string>kCFURLErrorFileIsDirectory</string>
+                <string>kCFURLErrorHTTPTooManyRedirects</string>
+                <string>kCFURLErrorInternationalRoamingOff</string>
+                <string>kCFURLErrorNetworkConnectionLost</string>
+                <string>kCFURLErrorNoPermissionsToReadFile</string>
+                <string>kCFURLErrorNotConnectedToInternet</string>
+                <string>kCFURLErrorRedirectToNonExistentLocation</string>
+                <string>kCFURLErrorRequestBodyStreamExhausted</string>
+                <string>kCFURLErrorResourceUnavailable</string>
+                <string>kCFURLErrorSecureConnectionFailed</string>
+                <string>kCFURLErrorServerCertificateHasBadDate</string>
+                <string>kCFURLErrorServerCertificateHasUnknownRoot</string>
+                <string>kCFURLErrorServerCertificateNotYetValid</string>
+                <string>kCFURLErrorServerCertificateUntrusted</string>
+                <string>kCFURLErrorTimedOut</string>
+                <string>kCFURLErrorUnknown</string>
+                <string>kCFURLErrorUnsupportedURL</string>
+                <string>kCFURLErrorUserAuthenticationRequired</string>
+                <string>kCFURLErrorUserCancelledAuthentication</string>
+                <string>kCFURLErrorZeroByteResource</string>
+                <string>kCLErrorHeadingFailure</string>
+                <string>kCLErrorNetwork</string>
+                <string>kCLHeadingFilterNone</string>
+                <string>kEAGLRenderingAPIOpenGLES2</string>
+                <string>kSCNetworkReachabilityFlagsConnectionOnDemand</string>
+                <string>kSCNetworkReachabilityFlagsConnectionOnTraffic</string>
+                <string>kSCValNetIPSecXAuthPasswordEncryptionPrompt</string>
+                <string>kSCValNetIPv4ConfigMethodAutomatic</string>
+                <string>kSecAttrAccessGroup</string>
+                <string>kUTExportedTypeDeclarationsKey</string>
+                <string>kUTImportedTypeDeclarationsKey</string>
+                <string>kUTTagClassFilenameExtension</string>
+                <string>kUTTagClassMIMEType</string>
+                <string>kUTTypeAliasFile</string>
+                <string>kUTTypeAliasRecord</string>
+                <string>kUTTypeAppleICNS</string>
+                <string>kUTTypeAppleProtectedMPEG4Audio</string>
+                <string>kUTTypeApplication</string>
+                <string>kUTTypeApplicationBundle</string>
+                <string>kUTTypeApplicationFile</string>
+                <string>kUTTypeArchive</string>
+                <string>kUTTypeAudio</string>
+                <string>kUTTypeAudiovisualContent</string>
+                <string>kUTTypeBMP</string>
+                <string>kUTTypeBundle</string>
+                <string>kUTTypeCHeader</string>
+                <string>kUTTypeCPlusPlusHeader</string>
+                <string>kUTTypeCPlusPlusSource</string>
+                <string>kUTTypeCSource</string>
+                <string>kUTTypeCompositeContent</string>
+                <string>kUTTypeConformsToKey</string>
+                <string>kUTTypeContact</string>
+                <string>kUTTypeContent</string>
+                <string>kUTTypeData</string>
+                <string>kUTTypeDescriptionKey</string>
+                <string>kUTTypeDirectory</string>
+                <string>kUTTypeDiskImage</string>
+                <string>kUTTypeFileURL</string>
+                <string>kUTTypeFlatRTFD</string>
+                <string>kUTTypeFolder</string>
+                <string>kUTTypeFramework</string>
+                <string>kUTTypeGIF</string>
+                <string>kUTTypeHTML</string>
+                <string>kUTTypeICO</string>
+                <string>kUTTypeIconFileKey</string>
+                <string>kUTTypeIdentifierKey</string>
+                <string>kUTTypeImage</string>
+                <string>kUTTypeInkText</string>
+                <string>kUTTypeItem</string>
+                <string>kUTTypeJPEG</string>
+                <string>kUTTypeJPEG2000</string>
+                <string>kUTTypeJavaSource</string>
+                <string>kUTTypeMP3</string>
+                <string>kUTTypeMPEG</string>
+                <string>kUTTypeMPEG4</string>
+                <string>kUTTypeMPEG4Audio</string>
+                <string>kUTTypeMessage</string>
+                <string>kUTTypeMountPoint</string>
+                <string>kUTTypeMovie</string>
+                <string>kUTTypeObjectiveCPlusPlusSource</string>
+                <string>kUTTypeObjectiveCSource</string>
+                <string>kUTTypePDF</string>
+                <string>kUTTypePICT</string>
+                <string>kUTTypePNG</string>
+                <string>kUTTypePackage</string>
+                <string>kUTTypePlainText</string>
+                <string>kUTTypeQuickTimeImage</string>
+                <string>kUTTypeQuickTimeMovie</string>
+                <string>kUTTypeRTF</string>
+                <string>kUTTypeRTFD</string>
+                <string>kUTTypeReferenceURLKey</string>
+                <string>kUTTypeResolvable</string>
+                <string>kUTTypeSourceCode</string>
+                <string>kUTTypeSymLink</string>
+                <string>kUTTypeTIFF</string>
+                <string>kUTTypeTXNTextAndMultimediaData</string>
+                <string>kUTTypeTagSpecificationKey</string>
+                <string>kUTTypeText</string>
+                <string>kUTTypeURL</string>
+                <string>kUTTypeUTF16ExternalPlainText</string>
+                <string>kUTTypeUTF16PlainText</string>
+                <string>kUTTypeUTF8PlainText</string>
+                <string>kUTTypeVCard</string>
+                <string>kUTTypeVersionKey</string>
+                <string>kUTTypeVideo</string>
+                <string>kUTTypeVolume</string>
+                <string>kUTTypeWebArchive</string>
+                <string>kUTTypeXML</string>
+                <string>AUHostVersionIdentifier</string>
+                <string>AUNumVersion</string>
+                <string>AVAudioQuality</string>
+                <string>AVAudioQualityHigh</string>
+                <string>AVAudioQualityLow</string>
+                <string>AVAudioQualityMax</string>
+                <string>AVAudioQualityMedium</string>
+                <string>AVAudioQualityMin</string>
+                <string>AVAudioRecorderDelegate</string>
+                <string>AVAudioSessionCategoryAmbient</string>
+                <string>AVAudioSessionCategoryPlayAndRecord</string>
+                <string>AVAudioSessionCategoryPlayback</string>
+                <string>AVAudioSessionCategoryRecord</string>
+                <string>AVAudioSessionCategorySoloAmbient</string>
+                <string>AVAudioSessionDelegate</string>
+                <string>AVEncoderAudioQualityKey</string>
+                <string>AVEncoderBitDepthHintKey</string>
+                <string>AVEncoderBitRateKey</string>
+                <string>AVFormatIDKey</string>
+                <string>AVLinearPCMBitDepthKey</string>
+                <string>AVLinearPCMIsBigEndianKey</string>
+                <string>AVLinearPCMIsFloatKey</string>
+                <string>AVNumberOfChannelsKey</string>
+                <string>AVSampleRateConverterAudioQualityKey</string>
+                <string>AVSampleRateKey</string>
+                <string>AudioComponentPlugInInterface</string>
+                <string>AudioOutputUnitPlugInInterface</string>
+                <string>AudioQueueInputCallbackBlock</string>
+                <string>AudioQueueOutputCallbackBlock</string>
+                <string>AudioUnitPlugInInterface</string>
+                <string>CAGradientLayer</string>
+                <string>CAReplicatorLayer</string>
+                <string>CAShapeLayer</string>
+                <string>CATransformLayer</string>
+                <string>CAValueFunction</string>
+                <string>CFStringTokenizerRef</string>
+                <string>CFStringTokenizerTokenType</string>
+                <string>CLHeading</string>
+                <string>CLHeadingComponentValue</string>
+                <string>EAAccessoryDelegate</string>
+                <string>EAAccessoryDidConnectNotification</string>
+                <string>EAAccessoryDidDisconnectNotification</string>
+                <string>EAAccessoryKey</string>
+                <string>EAAccessoryManager</string>
+                <string>EAConnectionIDNone</string>
+                <string>GKPeerConnectionState</string>
+                <string>GKPeerPickerConnectionType</string>
+                <string>GKPeerPickerConnectionTypeNearby</string>
+                <string>GKPeerPickerConnectionTypeOnline</string>
+                <string>GKPeerPickerController</string>
+                <string>GKPeerPickerControllerDelegate</string>
+                <string>GKPeerStateAvailable</string>
+                <string>GKPeerStateConnected</string>
+                <string>GKPeerStateConnecting</string>
+                <string>GKPeerStateDisconnected</string>
+                <string>GKPeerStateUnavailable</string>
+                <string>GKSendDataMode</string>
+                <string>GKSendDataReliable</string>
+                <string>GKSendDataUnreliable</string>
+                <string>GKSessionCancelledError</string>
+                <string>GKSessionCannotEnableError</string>
+                <string>GKSessionConnectionClosedError</string>
+                <string>GKSessionConnectionFailedError</string>
+                <string>GKSessionConnectivityError</string>
+                <string>GKSessionDataTooBigError</string>
+                <string>GKSessionDeclinedError</string>
+                <string>GKSessionDelegate</string>
+                <string>GKSessionError</string>
+                <string>GKSessionErrorDomain</string>
+                <string>GKSessionInProgressError</string>
+                <string>GKSessionInternalError</string>
+                <string>GKSessionInvalidParameterError</string>
+                <string>GKSessionMode</string>
+                <string>GKSessionModeClient</string>
+                <string>GKSessionModePeer</string>
+                <string>GKSessionModeServer</string>
+                <string>GKSessionNotConnectedError</string>
+                <string>GKSessionPeerNotFoundError</string>
+                <string>GKSessionSystemError</string>
+                <string>GKSessionTimedOutError</string>
+                <string>GKSessionTransportError</string>
+                <string>GKSessionUnknownError</string>
+                <string>GKVoiceChatServiceAudioUnavailableError</string>
+                <string>GKVoiceChatServiceClientMissingRequiredMethodsError</string>
+                <string>GKVoiceChatServiceError</string>
+                <string>GKVoiceChatServiceErrorDomain</string>
+                <string>GKVoiceChatServiceInternalError</string>
+                <string>GKVoiceChatServiceInvalidCallIDError</string>
+                <string>GKVoiceChatServiceInvalidParameterError</string>
+                <string>GKVoiceChatServiceMethodCurrentlyInvalidError</string>
+                <string>GKVoiceChatServiceNetworkConfigurationError</string>
+                <string>GKVoiceChatServiceNoRemotePacketsError</string>
+                <string>GKVoiceChatServiceOutOfMemoryError</string>
+                <string>GKVoiceChatServiceRemoteParticipantBusyError</string>
+                <string>GKVoiceChatServiceRemoteParticipantCancelledError</string>
+                <string>GKVoiceChatServiceRemoteParticipantDeclinedInviteError</string>
+                <string>GKVoiceChatServiceRemoteParticipantHangupError</string>
+                <string>GKVoiceChatServiceRemoteParticipantResponseInvalidError</string>
+                <string>GKVoiceChatServiceUnableToConnectError</string>
+                <string>GKVoiceChatServiceUninitializedClientError</string>
+                <string>GKVoiceChatServiceUnsupportedRemoteVersionError</string>
+                <string>MFMailComposeErrorCode</string>
+                <string>MFMailComposeErrorCodeSaveFailed</string>
+                <string>MFMailComposeErrorCodeSendFailed</string>
+                <string>MFMailComposeErrorDomain</string>
+                <string>MFMailComposeResult</string>
+                <string>MFMailComposeResultCancelled</string>
+                <string>MFMailComposeResultFailed</string>
+                <string>MFMailComposeResultSaved</string>
+                <string>MFMailComposeResultSent</string>
+                <string>MFMailComposeViewControllerDelegate</string>
+                <string>MKAnnotationCalloutInfoDidChangeNotification</string>
+                <string>MKCoordinateRegion</string>
+                <string>MKCoordinateSpan</string>
+                <string>MKErrorCode</string>
+                <string>MKErrorDomain</string>
+                <string>MKErrorLoadingThrottled</string>
+                <string>MKErrorPlacemarkNotFound</string>
+                <string>MKErrorServerFailure</string>
+                <string>MKErrorUnknown</string>
+                <string>MKMapType</string>
+                <string>MKMapTypeHybrid</string>
+                <string>MKMapTypeSatellite</string>
+                <string>MKMapTypeStandard</string>
+                <string>MKMapViewDelegate</string>
+                <string>MKPinAnnotationColor</string>
+                <string>MKPinAnnotationColorGreen</string>
+                <string>MKPinAnnotationColorPurple</string>
+                <string>MKPinAnnotationColorRed</string>
+                <string>MKPinAnnotationView</string>
+                <string>MKReverseGeocoder</string>
+                <string>MKReverseGeocoderDelegate</string>
+                <string>MPMediaGrouping</string>
+                <string>MPMediaGroupingAlbum</string>
+                <string>MPMediaGroupingAlbumArtist</string>
+                <string>MPMediaGroupingArtist</string>
+                <string>MPMediaGroupingComposer</string>
+                <string>MPMediaGroupingGenre</string>
+                <string>MPMediaGroupingPlaylist</string>
+                <string>MPMediaGroupingPodcastTitle</string>
+                <string>MPMediaGroupingTitle</string>
+                <string>MPMediaItemArtwork</string>
+                <string>MPMediaItemCollection</string>
+                <string>MPMediaItemPropertyAlbumArtist</string>
+                <string>MPMediaItemPropertyAlbumTitle</string>
+                <string>MPMediaItemPropertyAlbumTrackCount</string>
+                <string>MPMediaItemPropertyAlbumTrackNumber</string>
+                <string>MPMediaItemPropertyArtist</string>
+                <string>MPMediaItemPropertyArtwork</string>
+                <string>MPMediaItemPropertyComposer</string>
+                <string>MPMediaItemPropertyDiscCount</string>
+                <string>MPMediaItemPropertyDiscNumber</string>
+                <string>MPMediaItemPropertyGenre</string>
+                <string>MPMediaItemPropertyIsCompilation</string>
+                <string>MPMediaItemPropertyLastPlayedDate</string>
+                <string>MPMediaItemPropertyLyrics</string>
+                <string>MPMediaItemPropertyMediaType</string>
+                <string>MPMediaItemPropertyPersistentID</string>
+                <string>MPMediaItemPropertyPlayCount</string>
+                <string>MPMediaItemPropertyPlaybackDuration</string>
+                <string>MPMediaItemPropertyPodcastTitle</string>
+                <string>MPMediaItemPropertyRating</string>
+                <string>MPMediaItemPropertySkipCount</string>
+                <string>MPMediaItemPropertyTitle</string>
+                <string>MPMediaLibraryDidChangeNotification</string>
+                <string>MPMediaPickerController</string>
+                <string>MPMediaPickerControllerDelegate</string>
+                <string>MPMediaPlaylistAttribute</string>
+                <string>MPMediaPlaylistAttributeGenius</string>
+                <string>MPMediaPlaylistAttributeNone</string>
+                <string>MPMediaPlaylistAttributeOnTheGo</string>
+                <string>MPMediaPlaylistAttributeSmart</string>
+                <string>MPMediaPlaylistPropertyName</string>
+                <string>MPMediaPlaylistPropertyPersistentID</string>
+                <string>MPMediaPlaylistPropertyPlaylistAttributes</string>
+                <string>MPMediaPlaylistPropertySeedItems</string>
+                <string>MPMediaPredicateComparison</string>
+                <string>MPMediaPredicateComparisonContains</string>
+                <string>MPMediaPredicateComparisonEqualTo</string>
+                <string>MPMediaPropertyPredicate</string>
+                <string>MPMediaType</string>
+                <string>MPMediaTypeAny</string>
+                <string>MPMediaTypeAnyAudio</string>
+                <string>MPMediaTypeAudioBook</string>
+                <string>MPMediaTypeMusic</string>
+                <string>MPMediaTypePodcast</string>
+                <string>MPMusicPlaybackState</string>
+                <string>MPMusicPlaybackStateInterrupted</string>
+                <string>MPMusicPlaybackStatePaused</string>
+                <string>MPMusicPlaybackStatePlaying</string>
+                <string>MPMusicPlaybackStateSeekingBackward</string>
+                <string>MPMusicPlaybackStateSeekingForward</string>
+                <string>MPMusicPlaybackStateStopped</string>
+                <string>MPMusicPlayerControllerNowPlayingItemDidChangeNotification</string>
+                <string>MPMusicPlayerControllerPlaybackStateDidChangeNotification</string>
+                <string>MPMusicPlayerControllerVolumeDidChangeNotification</string>
+                <string>MPMusicRepeatMode</string>
+                <string>MPMusicRepeatModeAll</string>
+                <string>MPMusicRepeatModeDefault</string>
+                <string>MPMusicRepeatModeNone</string>
+                <string>MPMusicRepeatModeOne</string>
+                <string>MPMusicShuffleMode</string>
+                <string>MPMusicShuffleModeAlbums</string>
+                <string>MPMusicShuffleModeDefault</string>
+                <string>MPMusicShuffleModeOff</string>
+                <string>MPMusicShuffleModeSongs</string>
+                <string>NSAddEntityMappingType</string>
+                <string>NSAddedPersistentStoresKey</string>
+                <string>NSAffectedObjectsErrorKey</string>
+                <string>NSAffectedStoresErrorKey</string>
+                <string>NSAggregateExpressionType</string>
+                <string>NSAllPredicateModifier</string>
+                <string>NSAndPredicateType</string>
+                <string>NSAnyPredicateModifier</string>
+                <string>NSAtomicStore</string>
+                <string>NSAtomicStoreCacheNode</string>
+                <string>NSAttributeDescription</string>
+                <string>NSAttributeType</string>
+                <string>NSBeginsWithPredicateOperatorType</string>
+                <string>NSBetweenPredicateOperatorType</string>
+                <string>NSBinaryDataAttributeType</string>
+                <string>NSBinaryStoreType</string>
+                <string>NSBooleanAttributeType</string>
+                <string>NSCascadeDeleteRule</string>
+                <string>NSCaseInsensitivePredicateOption</string>
+                <string>NSComparisonPredicate</string>
+                <string>NSComparisonPredicateModifier</string>
+                <string>NSCompoundPredicate</string>
+                <string>NSCompoundPredicateType</string>
+                <string>NSConstantValueExpressionType</string>
+                <string>NSContainsPredicateOperatorType</string>
+                <string>NSCopyEntityMappingType</string>
+                <string>NSCoreDataError</string>
+                <string>NSCoreDataVersionNumber</string>
+                <string>NSCustomEntityMappingType</string>
+                <string>NSCustomSelectorPredicateOperatorType</string>
+                <string>NSDateAttributeType</string>
+                <string>NSDecimalAttributeType</string>
+                <string>NSDeleteRule</string>
+                <string>NSDeletedObjectsKey</string>
+                <string>NSDenyDeleteRule</string>
+                <string>NSDetailedErrorsKey</string>
+                <string>NSDiacriticInsensitivePredicateOption</string>
+                <string>NSDictionaryResultType</string>
+                <string>NSDirectPredicateModifier</string>
+                <string>NSDoubleAttributeType</string>
+                <string>NSEndsWithPredicateOperatorType</string>
+                <string>NSEntityDescription</string>
+                <string>NSEntityMapping</string>
+                <string>NSEntityMappingType</string>
+                <string>NSEntityMigrationPolicy</string>
+                <string>NSEntityMigrationPolicyError</string>
+                <string>NSEqualToPredicateOperatorType</string>
+                <string>NSErrorMergePolicy</string>
+                <string>NSEvaluatedObjectExpressionType</string>
+                <string>NSExpression</string>
+                <string>NSExpressionDescription</string>
+                <string>NSExpressionType</string>
+                <string>NSExternalRecordImportError</string>
+                <string>NSFetchRequest</string>
+                <string>NSFetchRequestExpression</string>
+                <string>NSFetchRequestExpressionType</string>
+                <string>NSFetchRequestResultType</string>
+                <string>NSFetchedPropertyDescription</string>
+                <string>NSFetchedResultsController</string>
+                <string>NSFetchedResultsSectionInfo</string>
+                <string>NSFloatAttributeType</string>
+                <string>NSFunctionExpressionType</string>
+                <string>NSGreaterThanOrEqualToPredicateOperatorType</string>
+                <string>NSGreaterThanPredicateOperatorType</string>
+                <string>NSIgnorePersistentStoreVersioningOption</string>
+                <string>NSInMemoryStoreType</string>
+                <string>NSInPredicateOperatorType</string>
+                <string>NSInferMappingModelAutomaticallyOption</string>
+                <string>NSInferredMappingModelError</string>
+                <string>NSInsertedObjectsKey</string>
+                <string>NSInteger16AttributeType</string>
+                <string>NSInteger32AttributeType</string>
+                <string>NSInteger64AttributeType</string>
+                <string>NSIntersectSetExpressionType</string>
+                <string>NSInvalidatedAllObjectsKey</string>
+                <string>NSInvalidatedObjectsKey</string>
+                <string>NSIsNilTransformerName</string>
+                <string>NSIsNotNilTransformerName</string>
+                <string>NSKeyPathExpressionType</string>
+                <string>NSKeyedUnarchiveFromDataTransformerName</string>
+                <string>NSLessThanOrEqualToPredicateOperatorType</string>
+                <string>NSLessThanPredicateOperatorType</string>
+                <string>NSLikePredicateOperatorType</string>
+                <string>NSManagedObject</string>
+                <string>NSManagedObjectContext</string>
+                <string>NSManagedObjectContextDidSaveNotification</string>
+                <string>NSManagedObjectContextLockingError</string>
+                <string>NSManagedObjectContextObjectsDidChangeNotification</string>
+                <string>NSManagedObjectContextWillSaveNotification</string>
+                <string>NSManagedObjectExternalRelationshipError</string>
+                <string>NSManagedObjectID</string>
+                <string>NSManagedObjectIDResultType</string>
+                <string>NSManagedObjectMergeError</string>
+                <string>NSManagedObjectModel</string>
+                <string>NSManagedObjectReferentialIntegrityError</string>
+                <string>NSManagedObjectResultType</string>
+                <string>NSManagedObjectValidationError</string>
+                <string>NSMappingModel</string>
+                <string>NSMatchesPredicateOperatorType</string>
+                <string>NSMergeByPropertyObjectTrumpMergePolicy</string>
+                <string>NSMergeByPropertyStoreTrumpMergePolicy</string>
+                <string>NSMigratePersistentStoresAutomaticallyOption</string>
+                <string>NSMigrationCancelledError</string>
+                <string>NSMigrationDestinationObjectKey</string>
+                <string>NSMigrationEntityMappingKey</string>
+                <string>NSMigrationEntityPolicyKey</string>
+                <string>NSMigrationError</string>
+                <string>NSMigrationManager</string>
+                <string>NSMigrationManagerDestinationStoreError</string>
+                <string>NSMigrationManagerKey</string>
+                <string>NSMigrationManagerSourceStoreError</string>
+                <string>NSMigrationMissingMappingModelError</string>
+                <string>NSMigrationMissingSourceModelError</string>
+                <string>NSMigrationPropertyMappingKey</string>
+                <string>NSMigrationSourceObjectKey</string>
+                <string>NSMinusSetExpressionType</string>
+                <string>NSNegateBooleanTransformerName</string>
+                <string>NSNoActionDeleteRule</string>
+                <string>NSNotEqualToPredicateOperatorType</string>
+                <string>NSNotPredicateType</string>
+                <string>NSNullifyDeleteRule</string>
+                <string>NSObjectIDAttributeType</string>
+                <string>NSOrPredicateType</string>
+                <string>NSOverwriteMergePolicy</string>
+                <string>NSPersistentStore</string>
+                <string>NSPersistentStoreCoordinator</string>
+                <string>NSPersistentStoreCoordinatorLockingError</string>
+                <string>NSPersistentStoreCoordinatorStoresDidChangeNotification</string>
+                <string>NSPersistentStoreCoordinatorWillRemoveStoreNotification</string>
+                <string>NSPersistentStoreIncompatibleSchemaError</string>
+                <string>NSPersistentStoreIncompatibleVersionHashError</string>
+                <string>NSPersistentStoreIncompleteSaveError</string>
+                <string>NSPersistentStoreInvalidTypeError</string>
+                <string>NSPersistentStoreOSCompatibility</string>
+                <string>NSPersistentStoreOpenError</string>
+                <string>NSPersistentStoreOperationError</string>
+                <string>NSPersistentStoreSaveError</string>
+                <string>NSPersistentStoreTimeoutError</string>
+                <string>NSPersistentStoreTimeoutOption</string>
+                <string>NSPersistentStoreTypeMismatchError</string>
+                <string>NSPredicate</string>
+                <string>NSPredicateOperatorType</string>
+                <string>NSPropertyDescription</string>
+                <string>NSPropertyMapping</string>
+                <string>NSReadOnlyPersistentStoreOption</string>
+                <string>NSRefreshedObjectsKey</string>
+                <string>NSRelationshipDescription</string>
+                <string>NSRemoveEntityMappingType</string>
+                <string>NSRemovedPersistentStoresKey</string>
+                <string>NSRollbackMergePolicy</string>
+                <string>NSSQLiteAnalyzeOption</string>
+                <string>NSSQLiteError</string>
+                <string>NSSQLiteErrorDomain</string>
+                <string>NSSQLiteManualVacuumOption</string>
+                <string>NSSQLitePragmasOption</string>
+                <string>NSSQLiteStoreType</string>
+                <string>NSSnapshotEventMergePolicy</string>
+                <string>NSSnapshotEventRefresh</string>
+                <string>NSSnapshotEventRollback</string>
+                <string>NSSnapshotEventType</string>
+                <string>NSSnapshotEventUndoDeletion</string>
+                <string>NSSnapshotEventUndoInsertion</string>
+                <string>NSSnapshotEventUndoUpdate</string>
+                <string>NSStoreModelVersionHashesKey</string>
+                <string>NSStoreModelVersionIdentifiersKey</string>
+                <string>NSStoreTypeKey</string>
+                <string>NSStoreUUIDKey</string>
+                <string>NSStringAttributeType</string>
+                <string>NSSubqueryExpressionType</string>
+                <string>NSTransformEntityMappingType</string>
+                <string>NSTransformableAttributeType</string>
+                <string>NSURLAuthenticationMethodClientCertificate</string>
+                <string>NSURLAuthenticationMethodServerTrust</string>
+                <string>NSURLErrorCallIsActive</string>
+                <string>NSURLErrorDataNotAllowed</string>
+                <string>NSURLErrorFailingURLPeerTrustErrorKey</string>
+                <string>NSURLErrorInternationalRoamingOff</string>
+                <string>NSURLErrorRequestBodyStreamExhausted</string>
+                <string>NSUUIDChangedPersistentStoresKey</string>
+                <string>NSUnarchiveFromDataTransformerName</string>
+                <string>NSUndefinedAttributeType</string>
+                <string>NSUndefinedEntityMappingType</string>
+                <string>NSUndoCloseGroupingRunLoopOrdering</string>
+                <string>NSUndoManager</string>
+                <string>NSUndoManagerCheckpointNotification</string>
+                <string>NSUndoManagerDidOpenUndoGroupNotification</string>
+                <string>NSUndoManagerDidRedoChangeNotification</string>
+                <string>NSUndoManagerDidUndoChangeNotification</string>
+                <string>NSUndoManagerWillCloseUndoGroupNotification</string>
+                <string>NSUndoManagerWillRedoChangeNotification</string>
+                <string>NSUndoManagerWillUndoChangeNotification</string>
+                <string>NSUnionSetExpressionType</string>
+                <string>NSUpdatedObjectsKey</string>
+                <string>NSValidationDateTooLateError</string>
+                <string>NSValidationDateTooSoonError</string>
+                <string>NSValidationInvalidDateError</string>
+                <string>NSValidationKeyErrorKey</string>
+                <string>NSValidationMissingMandatoryPropertyError</string>
+                <string>NSValidationMultipleErrorsError</string>
+                <string>NSValidationNumberTooLargeError</string>
+                <string>NSValidationNumberTooSmallError</string>
+                <string>NSValidationObjectErrorKey</string>
+                <string>NSValidationPredicateErrorKey</string>
+                <string>NSValidationRelationshipDeniedDeleteError</string>
+                <string>NSValidationRelationshipExceedsMaximumCountError</string>
+                <string>NSValidationRelationshipLacksMinimumCountError</string>
+                <string>NSValidationStringPatternMatchingError</string>
+                <string>NSValidationStringTooLongError</string>
+                <string>NSValidationStringTooShortError</string>
+                <string>NSValidationValueErrorKey</string>
+                <string>NSValueTransformer</string>
+                <string>NSVariableExpressionType</string>
+                <string>SKErrorClientInvalid</string>
+                <string>SKErrorDomain</string>
+                <string>SKErrorPaymentCancelled</string>
+                <string>SKErrorPaymentInvalid</string>
+                <string>SKErrorPaymentNotAllowed</string>
+                <string>SKErrorUnknown</string>
+                <string>SKMutablePayment</string>
+                <string>SKPaymentTransactionState</string>
+                <string>SKPaymentTransactionStateFailed</string>
+                <string>SKPaymentTransactionStatePurchased</string>
+                <string>SKPaymentTransactionStatePurchasing</string>
+                <string>SKPaymentTransactionStateRestored</string>
+                <string>SKProductsRequestDelegate</string>
+                <string>SKRequestDelegate</string>
+                <string>UIAccessibilityLayoutChangedNotification</string>
+                <string>UIAccessibilityNotifications</string>
+                <string>UIAccessibilityScreenChangedNotification</string>
+                <string>UIAccessibilityTraitButton</string>
+                <string>UIAccessibilityTraitImage</string>
+                <string>UIAccessibilityTraitKeyboardKey</string>
+                <string>UIAccessibilityTraitLink</string>
+                <string>UIAccessibilityTraitNone</string>
+                <string>UIAccessibilityTraitNotEnabled</string>
+                <string>UIAccessibilityTraitPlaysSound</string>
+                <string>UIAccessibilityTraitSearchField</string>
+                <string>UIAccessibilityTraitSelected</string>
+                <string>UIAccessibilityTraitStaticText</string>
+                <string>UIAccessibilityTraitSummaryElement</string>
+                <string>UIAccessibilityTraitUpdatesFrequently</string>
+                <string>UIAccessibilityTraits</string>
+                <string>UIApplicationLaunchOptionsRemoteNotificationKey</string>
+                <string>UIApplicationLaunchOptionsSourceApplicationKey</string>
+                <string>UIApplicationLaunchOptionsURLKey</string>
+                <string>UIBarButtonSystemItemRedo</string>
+                <string>UIBarButtonSystemItemUndo</string>
+                <string>UIBarStyleBlack</string>
+                <string>UIDataDetectorTypeAll</string>
+                <string>UIDataDetectorTypeLink</string>
+                <string>UIDataDetectorTypeNone</string>
+                <string>UIDataDetectorTypePhoneNumber</string>
+                <string>UIDataDetectorTypes</string>
+                <string>UIDeviceBatteryLevelDidChangeNotification</string>
+                <string>UIDeviceBatteryState</string>
+                <string>UIDeviceBatteryStateCharging</string>
+                <string>UIDeviceBatteryStateDidChangeNotification</string>
+                <string>UIDeviceBatteryStateFull</string>
+                <string>UIDeviceBatteryStateUnknown</string>
+                <string>UIDeviceBatteryStateUnplugged</string>
+                <string>UIDeviceProximityStateDidChangeNotification</string>
+                <string>UIEventSubtype</string>
+                <string>UIEventSubtypeMotionShake</string>
+                <string>UIEventSubtypeNone</string>
+                <string>UIEventType</string>
+                <string>UIEventTypeMotion</string>
+                <string>UIEventTypeTouches</string>
+                <string>UIImagePickerControllerEditedImage</string>
+                <string>UIImagePickerControllerMediaType</string>
+                <string>UIImagePickerControllerMediaURL</string>
+                <string>UIKeyboardAnimationCurveUserInfoKey</string>
+                <string>UIKeyboardAnimationDurationUserInfoKey</string>
+                <string>UILocalizedIndexedCollation</string>
+                <string>UIMenuController</string>
+                <string>UIMenuControllerDidHideMenuNotification</string>
+                <string>UIMenuControllerDidShowMenuNotification</string>
+                <string>UIMenuControllerMenuFrameDidChangeNotification</string>
+                <string>UIMenuControllerWillHideMenuNotification</string>
+                <string>UIMenuControllerWillShowMenuNotification</string>
+                <string>UIModalTransitionStyle</string>
+                <string>UIModalTransitionStyleCoverVertical</string>
+                <string>UIModalTransitionStyleCrossDissolve</string>
+                <string>UIModalTransitionStyleFlipHorizontal</string>
+                <string>UINibExternalObjects</string>
+                <string>UIPasteboard</string>
+                <string>UIPasteboardChangedNotification</string>
+                <string>UIPasteboardChangedTypesAddedKey</string>
+                <string>UIPasteboardChangedTypesRemovedKey</string>
+                <string>UIPasteboardNameFind</string>
+                <string>UIPasteboardNameGeneral</string>
+                <string>UIPasteboardRemovedNotification</string>
+                <string>UIPasteboardTypeListColor</string>
+                <string>UIPasteboardTypeListImage</string>
+                <string>UIPasteboardTypeListString</string>
+                <string>UIPasteboardTypeListURL</string>
+                <string>UIRemoteNotificationType</string>
+                <string>UIRemoteNotificationTypeAlert</string>
+                <string>UIRemoteNotificationTypeBadge</string>
+                <string>UIRemoteNotificationTypeNone</string>
+                <string>UIRemoteNotificationTypeSound</string>
+                <string>UIScrollViewDecelerationRateFast</string>
+                <string>UIScrollViewDecelerationRateNormal</string>
+                <string>UISearchDisplayDelegate</string>
+                <string>UITableViewCellStateDefaultMask</string>
+                <string>UITableViewCellStateMask</string>
+                <string>UITableViewCellStateShowingDeleteConfirmationMask</string>
+                <string>UITableViewCellStateShowingEditControlMask</string>
+                <string>UITableViewCellStyle</string>
+                <string>UITableViewCellStyleDefault</string>
+                <string>UITableViewCellStyleSubtitle</string>
+                <string>UITableViewCellStyleValue1</string>
+                <string>UITableViewCellStyleValue2</string>
+                <string>UITableViewIndexSearch</string>
+                <string>UITableViewRowAnimationNone</string>
             </keywords>
         </default>
-
     </states>
-
 </syntax>

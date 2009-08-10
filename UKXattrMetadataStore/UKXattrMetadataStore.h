@@ -50,6 +50,9 @@
 +(NSMutableData*)	dataForKey: (NSString*)key atPath: (NSString*)path
 						traverseLink:(BOOL)travLnk;
 
+// remove data
++(void)				removeDataForKey:(NSString *)key atPath:(NSString *)path traverseLink:(BOOL)travLnk;
+
 // Store objects: (Only can get/set plist-type objects for now)â
 +(void)				setObject: (id)obj forKey: (NSString*)key atPath: (NSString*)path
 						traverseLink:(BOOL)travLnk;

@@ -8,7 +8,7 @@
 
 #import "EncodingDoctorDialog.h"
 #import "SelectionOperation.h"
-#import "TextStorage.h"
+#import "FoldableTextStorage.h"
 #import "PlainTextDocument.h"
 #import "PlainTextWindowController.h"
 
@@ -36,10 +36,10 @@
 
 - (IBAction)convertLossy:(id)aSender {
     [O_foundErrors setContent:[NSMutableArray array]];
-    NSArray *selectionOperationArray=[(TextStorage *)[I_document textStorage] selectionOperationsForRangesUnconvertableToEncoding:I_encoding];
+    NSArray *selectionOperationArray=[(FoldableTextStorage *)[I_document textStorage] selectionOperationsForRangesUnconvertableToEncoding:I_encoding];
     int i = [selectionOperationArray count];
     [[I_document documentUndoManager] beginUndoGrouping];
-    TextStorage *textStorage = (TextStorage *)[I_document textStorage];
+    FullTextStorage *textStorage = [(FoldableTextStorage *)[I_document textStorage] fullTextStorage];
     [textStorage beginEditing];
     NSString *string=[textStorage string];
     NSDictionary *attributes = [I_document typingAttributes];
@@ -60,10 +60,10 @@
 - (IBAction)rerunCheckAndConvert:(id)aSender {
     [O_foundErrors setContent:[NSMutableArray array]];
     NSMutableArray *newErrors=[NSMutableArray array];
-    NSArray *selectionOperationArray=[(TextStorage *)[I_document textStorage] selectionOperationsForRangesUnconvertableToEncoding:I_encoding];
+    NSArray *selectionOperationArray=[(FoldableTextStorage *)[I_document textStorage] selectionOperationsForRangesUnconvertableToEncoding:I_encoding];
     NSEnumerator *selectionOperations=[selectionOperationArray objectEnumerator];
     SelectionOperation *selectionOperation = nil;
-    TextStorage *textStorage = (TextStorage *)[I_document textStorage];
+    FullTextStorage *textStorage = [(FoldableTextStorage *)[I_document textStorage] fullTextStorage];
     NSString *string=[textStorage string];
     NSRange currentLineRange=[string lineRangeForRange:NSMakeRange(0,0)];
     int currentLineNumber = 1;
@@ -101,7 +101,7 @@
     }
     [O_foundErrors setContent:newErrors];
 
-    if ([[O_foundErrors arrangedObjects] count]>0) {
+    if ([(NSArray*)[O_foundErrors arrangedObjects] count]>0) {
         [O_foundErrors setSelectionIndex:0];
         [self jumpToSelection:self];
         [[O_tableView window] makeFirstResponder:O_tableView];
@@ -136,7 +136,7 @@
 }
 
 
-- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(int)rowIndex {
+- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(NSInteger)rowIndex {
 	NSRange range = [[[[O_foundErrors arrangedObjects] objectAtIndex:rowIndex] objectForKey:@"selectionOperation"] selectedRange];
 	[I_document selectRangeInBackground:range];
 	return YES;

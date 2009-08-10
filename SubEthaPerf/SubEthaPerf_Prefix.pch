@@ -1,0 +1,14 @@
+//
+// Prefix header for all source files of the 'SubEthaPerf' target in the 'SubEthaEdit' project
+//
+
+#ifdef __OBJC__
+    #import <Cocoa/Cocoa.h>
+    #import "TCMFoundation.h"
+    #import "NSStringSEEAdditions.h"
+#endif
+
+
+#define START_TIMING(cause) clock_t ___start_time_##cause = clock()
+#define END_TIMING(cause)   (((double)(clock()-___start_time_##cause))/CLOCKS_PER_SEC)
+

@@ -33,6 +33,10 @@
 	BOOL I_symbolAndAutocompleteInheritanceReady;
     NSMutableDictionary *I_levelsForStyleIDs;
     SyntaxStyle *I_defaultSyntaxStyle;
+    NSString *I_charsInToken;
+    NSString *I_charsDelimitingToken;
+    OGRegularExpression *I_tokenRegex;
+    int I_foldingTopLevel;
 }
 
 /*"Initizialisation"*/
@@ -50,6 +54,7 @@
 /*"Accessors"*/
 - (NSString *) keyForInheritedSymbols;
 - (NSString *) keyForInheritedAutocomplete;	
+- (OGRegularExpression *)tokenRegex;
 - (NSString *)name;
 - (void)setName:(NSString *)aString;
 //- (NSArray *)states;
@@ -73,5 +78,8 @@
 - (BOOL)useSpellingDictionary;
 
 - (int)levelForStyleID:(NSString *)aStyleID;
+
+- (int)foldingTopLevel;
+
 @end
 

@@ -13,9 +13,11 @@
 #import "TCMMMUserSEEAdditions.h"
 #import "TCMMMSession.h"
 #import "GeneralPreferences.h"
-#import "TextStorage.h"
 #import "FoldableTextStorage.h"
 #import "SelectionOperation.h"
+#if defined(CODA)
+#import "TextView.h"
+#endif //defined(CODA)
 
 enum {
     u_false=0,
@@ -27,6 +29,7 @@ enum {
     u_2192,
     u_21ab,
     u_21cb,
+	u_25A1, //WHITE SQUARE, &squ
     u_2761,
     u_fffd,
     u_00b6_red,
@@ -36,26 +39,29 @@ enum {
     u_2761_red
 };
 
-static NSString *S_specialGlyphs[16];
+static NSString *S_specialGlyphs[17];
 
 @implementation LayoutManager
 
 + (void)initialize {
-    S_specialGlyphs[u_00b6]=[[NSString alloc] initWithFormat:@"%C",0x00b6];
-    S_specialGlyphs[u_00b6_red]=[[NSString alloc] initWithFormat:@"%C",0x00b6];
-    S_specialGlyphs[u_2014]=[[NSString alloc] initWithFormat:@"%C",0x2014];
-    S_specialGlyphs[u_2014_red]=[[NSString alloc] initWithFormat:@"%C",0x2014];
-    S_specialGlyphs[u_2024]=[[NSString alloc] initWithFormat:@"%C",0x2024];
-    S_specialGlyphs[u_2038]=[[NSString alloc] initWithFormat:@"%C",0x2038];
-    S_specialGlyphs[u_204b]=[[NSString alloc] initWithFormat:@"%C",0x204b];
-    S_specialGlyphs[u_204b_red]=[[NSString alloc] initWithFormat:@"%C",0x204b];
-    S_specialGlyphs[u_2192]=[[NSString alloc] initWithFormat:@"%C",0x2192];
-    S_specialGlyphs[u_21ab]=[[NSString alloc] initWithFormat:@"%C",0x21ab];
-    S_specialGlyphs[u_21ab_red]=[[NSString alloc] initWithFormat:@"%C",0x21ab];
-    S_specialGlyphs[u_21cb]=[[NSString alloc] initWithFormat:@"%C",0x21cb];
-    S_specialGlyphs[u_2761]=[[NSString alloc] initWithFormat:@"%C",0x2761];
-    S_specialGlyphs[u_2761_red]=[[NSString alloc] initWithFormat:@"%C",0x2761];
-    S_specialGlyphs[u_fffd]=[[NSString alloc] initWithFormat:@"%C",0xfffd];
+	if (self == [LayoutManager class]) {
+		S_specialGlyphs[u_00b6]=[[NSString alloc] initWithFormat:@"%C",0x00b6];
+		S_specialGlyphs[u_00b6_red]=[[NSString alloc] initWithFormat:@"%C",0x00b6];
+		S_specialGlyphs[u_2014]=[[NSString alloc] initWithFormat:@"%C",0x2014];
+		S_specialGlyphs[u_2014_red]=[[NSString alloc] initWithFormat:@"%C",0x2014];
+		S_specialGlyphs[u_2024]=[[NSString alloc] initWithFormat:@"%C",0x2024];
+		S_specialGlyphs[u_2038]=[[NSString alloc] initWithFormat:@"%C",0x2038];
+		S_specialGlyphs[u_204b]=[[NSString alloc] initWithFormat:@"%C",0x204b];
+		S_specialGlyphs[u_204b_red]=[[NSString alloc] initWithFormat:@"%C",0x204b];
+		S_specialGlyphs[u_2192]=[[NSString alloc] initWithFormat:@"%C",0x2192];
+		S_specialGlyphs[u_21ab]=[[NSString alloc] initWithFormat:@"%C",0x21ab];
+		S_specialGlyphs[u_21ab_red]=[[NSString alloc] initWithFormat:@"%C",0x21ab];
+		S_specialGlyphs[u_21cb]=[[NSString alloc] initWithFormat:@"%C",0x21cb];
+		S_specialGlyphs[u_2761]=[[NSString alloc] initWithFormat:@"%C",0x2761];
+		S_specialGlyphs[u_2761_red]=[[NSString alloc] initWithFormat:@"%C",0x2761];
+		S_specialGlyphs[u_fffd]=[[NSString alloc] initWithFormat:@"%C",0xfffd];
+	}
+	S_specialGlyphs[u_25A1]=[[NSString alloc] initWithFormat:@"%C",0x25A1]; //WHITE SQUARE, &squ
 }
 
 - (id)init {
@@ -79,10 +85,13 @@ static NSString *S_specialGlyphs[16];
 - (void)dealloc {
     [I_invisiblesLayoutManager release];
     [I_invisiblesTextStorage release];
+#if defined(CODA)
+	[I_invisibleCharacterColor release];
+#endif //defined(CODA)	
     [super dealloc];
 }
 
-- (void)drawBorderedMarksWithColor:(NSColor *)aColor atRects:(NSRectArray)aRectArray rectCount:(unsigned int)rectCount {
+- (void)drawBorderedMarksWithColor:(NSColor *)aColor atRects:(NSRectArray)aRectArray rectCount:(NSUInteger)rectCount {
 
     if (rectCount == 0) return;
     NSBezierPath *markPath = [NSBezierPath new];
@@ -181,7 +190,7 @@ static NSString *S_specialGlyphs[16];
 - (void)setShowsChangeMarks:(BOOL)showsChangeMarks {
     if (showsChangeMarks != I_flags.showsChangeMarks) {
         I_flags.showsChangeMarks=showsChangeMarks;
-        TextStorage *textStorage = (TextStorage *)[self textStorage];
+        FoldableTextStorage *textStorage = (FoldableTextStorage *)[self textStorage];
         NSRange wholeRange=NSMakeRange(0,[textStorage length]);
         NSRange searchRange;
         unsigned position=wholeRange.location;
@@ -207,6 +216,12 @@ static NSString *S_specialGlyphs[16];
 }
 
 
+// - (void)textStorage:(NSTextStorage *)aTextStorage edited:(NSUInteger)mask range:(NSRange)newCharRange changeInLength:(NSInteger)delta invalidatedRange:(NSRange)invalidatedCharRange {
+// 	NSLog(@"%s %@ %d %@",__FUNCTION__,NSStringFromRange(newCharRange),delta,NSStringFromRange(invalidatedCharRange));
+// 	[super textStorage:aTextStorage edited:mask range:newCharRange changeInLength:delta invalidatedRange:invalidatedCharRange];
+// }
+
+
 - (void)drawBackgroundForGlyphRange:(NSRange)aGlyphRange atPoint:(NSPoint)anOrigin {
     NSTextContainer *container = [self textContainerForGlyphAtIndex:aGlyphRange.location effectiveRange:nil];
     NSRange charRange = [self characterRangeForGlyphRange:aGlyphRange actualGlyphRange:nil];
@@ -215,7 +230,7 @@ static NSString *S_specialGlyphs[16];
     if (I_flags.showsChangeMarks) {
         NSTextStorage *textStorage = [self textStorage];
         NSString *textStorageString=[textStorage string];
-        unsigned int position = charRange.location;
+        NSUInteger position = charRange.location;
         NSRange attributeRange;
         while (position < NSMaxRange(charRange)) {
             NSString *userID=[textStorage attribute:ChangedByUserIDAttributeName atIndex:position longestEffectiveRange:&attributeRange inRange:charRange];
@@ -226,14 +241,14 @@ static NSString *S_specialGlyphs[16];
                                  ofColor:changeColor];
                 [userBackgroundColor set];
                 
-                unsigned startIndex, lineEndIndex, contentsEndIndex;
-                unsigned innerPosition = attributeRange.location;
+                NSUInteger startIndex, lineEndIndex, contentsEndIndex;
+                NSUInteger innerPosition = attributeRange.location;
                 while (innerPosition < NSMaxRange(attributeRange)) {
                     [textStorageString getLineStart:&startIndex end:&lineEndIndex contentsEnd:&contentsEndIndex forRange:NSMakeRange(innerPosition,0)];
                     innerPosition=lineEndIndex;
                     if (startIndex<attributeRange.location) startIndex=attributeRange.location;
                     if (contentsEndIndex>NSMaxRange(attributeRange)) contentsEndIndex=NSMaxRange(attributeRange);
-                    unsigned rectCount;
+                    NSUInteger rectCount;
                     NSRectArray rectArray = [self rectArrayForCharacterRange:NSMakeRange(startIndex,contentsEndIndex-startIndex) withinSelectedCharacterRange:NSMakeRange(NSNotFound,0) inTextContainer:container rectCount:&rectCount];
                     if (!NSEqualPoints(containerOrigin,NSZeroPoint)) {
                         unsigned rectIndex = rectCount;
@@ -249,7 +264,11 @@ static NSString *S_specialGlyphs[16];
     }
 
     // selections and carets
+#if defined(CODA)
+	PlainTextDocument *document = (PlainTextDocument *)[[(TextView*)[container textView] editor] document];
+#else
     PlainTextDocument *document = (PlainTextDocument *)[[[[container textView] window] windowController] document];
+#endif //defined(CODA)
     TCMMMSession *session=[document session];
     NSString *sessionID=[session sessionID];
     NSDictionary *sessionParticipants=[session participants];
@@ -266,8 +285,15 @@ static NSString *S_specialGlyphs[16];
                 NSColor *selectionColor=[backgroundColor blendedColorWithFraction:
                                     [[NSUserDefaults standardUserDefaults] floatForKey:SelectionSaturationPreferenceKey]/100.
                                  ofColor:changeColor];
-                unsigned rectCount;
+                NSUInteger rectCount;
                 NSRectArray selectionRectArray = [self rectArrayForCharacterRange:selectionRange withinSelectedCharacterRange:selectionRange inTextContainer:container rectCount:&rectCount];
+#if defined(CODA)
+				for ( int i=0; i < rectCount; i++ )
+				{
+					selectionRectArray[i].origin.x += anOrigin.x;
+					selectionRectArray[i].origin.y += anOrigin.y;
+				}
+#endif //defined(CODA)
                 [self drawBorderedMarksWithColor:selectionColor atRects:selectionRectArray rectCount:rectCount];
             }
         }
@@ -281,7 +307,7 @@ static NSString *S_specialGlyphs[16];
 
 - (void)drawGlyphsForGlyphRange:(NSRange)glyphRange atPoint:(NSPoint)containerOrigin
 {
-    TextStorage *textStorage = (TextStorage *)[self textStorage];
+    FoldableTextStorage *textStorage = (FoldableTextStorage *)[self textStorage];
     BOOL hasMixedLineEndings = [textStorage hasMixedLineEndings];
     LineEnding    lineEnding = [textStorage lineEnding];
     if ([self showsInvisibles] || hasMixedLineEndings) {
@@ -324,6 +350,8 @@ static NSString *S_specialGlyphs[16];
                         draw = u_2038;
                     } else if (c == 0x0c) {	// page break
                         draw = u_21cb; // leftwards harpoon over rightwards harpoon
+                    } else if ( c == 0x3000 ) {  // JPN full width spaces
+						draw = u_25A1;
                     } else if (c < 0x20 || (0x007f <= c && c <= 0x009f) || [[NSCharacterSet illegalCharacterSet] characterIsMember: c]) {	// some other mystery control character
                         draw = u_fffd; // replacement character for controls that don't belong there
                     } else {
@@ -355,7 +383,12 @@ static NSString *S_specialGlyphs[16];
                     // where is that one?
                     if (!attributes) {
                         attributes = [[[self textStorage] attributesAtIndex:i effectiveRange:NULL] mutableCopy];
+#if defined(CODA)
+						if (  I_invisibleCharacterColor != nil )
+							[attributes setObject:I_invisibleCharacterColor forKey:NSForegroundColorAttributeName];
+#else
                         [attributes setObject:[NSColor grayColor] forKey:NSForegroundColorAttributeName];
+#endif //defined(CODA)
                         [I_invisiblesTextStorage addAttributes:attributes range:NSMakeRange(0,[I_invisiblesTextStorage length])];
                         [attributes setObject:[NSColor redColor] forKey:NSForegroundColorAttributeName];
                         [I_invisiblesTextStorage addAttributes:attributes range:NSMakeRange([I_invisiblesTextStorage length]-6,6)];
@@ -398,3 +431,23 @@ static NSString *S_specialGlyphs[16];
 
 
 @end
+
+#if defined(CODA)
+@implementation LayoutManager (studio)
+
+- (void)setInvisibleCharacterColor:(NSColor*)aColor
+{
+	// forcing a redraw is the responsibility of the caller
+	
+	[I_invisibleCharacterColor autorelease];
+	I_invisibleCharacterColor = [aColor retain];
+}
+
+
+- (NSColor*)invisibleCharacterColor
+{
+	return I_invisibleCharacterColor;
+}
+
+@end
+#endif //defined(CODA)

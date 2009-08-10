@@ -17,9 +17,12 @@
 #import "RegexSymbolParser.h"
 #import "RegexSymbolDefinition.h"
 #import "NSMenuTCMAdditions.h"
-#import "AppController.h"
-#import "ScriptWrapper.h"
 #import <Carbon/Carbon.h>
+#import "ScriptWrapper.h"
+
+#ifdef SUBETHAEDIT
+	#import "AppController.h"
+#endif
 
 NSString * const DocumentModeShowTopStatusBarPreferenceKey     = @"ShowBottomStatusBar";
 NSString * const DocumentModeShowBottomStatusBarPreferenceKey  = @"ShowTopStatusBar";
@@ -80,58 +83,60 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 @implementation DocumentMode
 
 + (void)initialize {
-    defaultablePreferenceKeys=[NSMutableDictionary new];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
-                                  forKey:DocumentModeHighlightSyntaxPreferenceKey];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
-                                  forKey:DocumentModeShowMatchingBracketsPreferenceKey];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
-                                  forKey:DocumentModeShowInvisibleCharactersPreferenceKey];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
-                                  forKey:DocumentModeWrapLinesPreferenceKey];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
-                                  forKey:DocumentModeIndentWrappedLinesPreferenceKey];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
-                                  forKey:DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
-                                  forKey:DocumentModeShowPageGuidePreferenceKey];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
-                                  forKey:DocumentModePageGuideWidthPreferenceKey];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
-                                  forKey:DocumentModeWrapModePreferenceKey];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
-                                  forKey:DocumentModeShowLineNumbersPreferenceKey];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
-                                  forKey:DocumentModeRowsPreferenceKey];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
-                                  forKey:DocumentModeColumnsPreferenceKey];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
-                                  forKey:DocumentModeForegroundColorPreferenceKey];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
-                                  forKey:DocumentModeBackgroundColorPreferenceKey];
-                                  
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultEditPreferenceKey
-                                  forKey:DocumentModeUseTabsPreferenceKey];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultEditPreferenceKey
-                                  forKey:DocumentModeIndentNewLinesPreferenceKey];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultEditPreferenceKey
-                                  forKey:DocumentModeTabWidthPreferenceKey];
-
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultFilePreferenceKey
-                                  forKey:DocumentModeEncodingPreferenceKey];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultFilePreferenceKey
-                                  forKey:DocumentModeLineEndingPreferenceKey];
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultFilePreferenceKey
-                                  forKey:DocumentModeUTF8BOMPreferenceKey];
-
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultFontPreferenceKey
-                                  forKey:DocumentModeFontAttributesPreferenceKey];
-
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultPrintPreferenceKey
-                                  forKey:DocumentModePrintOptionsPreferenceKey];
-
-    [defaultablePreferenceKeys setObject:DocumentModeUseDefaultStylePreferenceKey
-                                  forKey:DocumentModeBackgroundColorIsDarkPreferenceKey];
+	if (self == [DocumentMode class]) {
+		defaultablePreferenceKeys=[NSMutableDictionary new];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+									  forKey:DocumentModeHighlightSyntaxPreferenceKey];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+									  forKey:DocumentModeShowMatchingBracketsPreferenceKey];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+									  forKey:DocumentModeShowInvisibleCharactersPreferenceKey];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+									  forKey:DocumentModeWrapLinesPreferenceKey];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+									  forKey:DocumentModeIndentWrappedLinesPreferenceKey];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+									  forKey:DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+									  forKey:DocumentModeShowPageGuidePreferenceKey];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+									  forKey:DocumentModePageGuideWidthPreferenceKey];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+									  forKey:DocumentModeWrapModePreferenceKey];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+									  forKey:DocumentModeShowLineNumbersPreferenceKey];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+									  forKey:DocumentModeRowsPreferenceKey];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+									  forKey:DocumentModeColumnsPreferenceKey];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+									  forKey:DocumentModeForegroundColorPreferenceKey];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultViewPreferenceKey
+									  forKey:DocumentModeBackgroundColorPreferenceKey];
+									  
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultEditPreferenceKey
+									  forKey:DocumentModeUseTabsPreferenceKey];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultEditPreferenceKey
+									  forKey:DocumentModeIndentNewLinesPreferenceKey];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultEditPreferenceKey
+									  forKey:DocumentModeTabWidthPreferenceKey];
+	
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultFilePreferenceKey
+									  forKey:DocumentModeEncodingPreferenceKey];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultFilePreferenceKey
+									  forKey:DocumentModeLineEndingPreferenceKey];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultFilePreferenceKey
+									  forKey:DocumentModeUTF8BOMPreferenceKey];
+	
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultFontPreferenceKey
+									  forKey:DocumentModeFontAttributesPreferenceKey];
+	
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultPrintPreferenceKey
+									  forKey:DocumentModePrintOptionsPreferenceKey];
+	
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultStylePreferenceKey
+									  forKey:DocumentModeBackgroundColorIsDarkPreferenceKey];
+	}
 }
 
 #define SCRIPTMODEMENUTAGBASE 4000
@@ -167,7 +172,13 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         
         // Sort the autocomplete dictionary
         [[self autocompleteDictionary] sortUsingSelector:@selector(caseInsensitiveCompare:)];
+
+        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         
+#ifdef SUBETHAEDIT
+
+#if !defined(CODA)
+
         // Load scripts
         I_scriptsByFilename = [NSMutableDictionary new];
         NSString *scriptFolder = [[aBundle resourcePath] stringByAppendingPathComponent:@"Scripts"];
@@ -187,7 +198,8 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         
         [I_scriptOrderArray release];
          I_scriptOrderArray = [[[I_scriptsByFilename allKeys] sortedArrayUsingSelector:@selector(compare:)] retain];
-        
+#endif //!defined(CODA)        
+
         NSArray *searchLocations = [NSArray arrayWithObjects:I_bundle,[NSBundle mainBundle],nil];
         I_menuItemArray = [NSMutableArray new];
         I_contextMenuItemArray = [NSMutableArray new];
@@ -226,7 +238,6 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         }
 
         // ToolbarHandling
-        NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSString *toolbarDefaultKey=[NSString stringWithFormat:@"NSToolbar Configuration %@",[self documentModeIdentifier]];
         if (![defaults objectForKey:toolbarDefaultKey]) {
             NSDictionary *oldDefaultToolbar=[defaults objectForKey:@"NSToolbar Configuration " BASEMODEIDENTIFIER];
@@ -254,26 +265,37 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                 [defaults setObject:newModeToolbar forKey:toolbarDefaultKey];
             }
         }
+#endif
         
         // Preference Handling
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(applicationWillTerminate:) name:NSApplicationWillTerminateNotification object:nil];
-        NSMutableDictionary *dictionary=[[[[NSUserDefaults standardUserDefaults] objectForKey:[self documentModeIdentifier]] mutableCopy] autorelease];
+        NSMutableDictionary *dictionary=[[[defaults objectForKey:[self documentModeIdentifier]] mutableCopy] autorelease];
         if (dictionary) {
             // color is deprecated since 2.1 - so ignore it
             [self setDefaults:dictionary];
             NSNumber *encodingNumber = [dictionary objectForKey:DocumentModeEncodingPreferenceKey];
             if (encodingNumber) {
                 NSStringEncoding encoding = [encodingNumber unsignedIntValue];
-                [[EncodingManager sharedInstance] registerEncoding:encoding];
+                if ( encoding != NoStringEncoding ) 
+					[[EncodingManager sharedInstance] registerEncoding:encoding];
             }
         } else {
             I_defaults = [NSMutableDictionary new];
             [I_defaults setObject:[NSNumber numberWithInt:4] forKey:DocumentModeTabWidthPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithInt:80] forKey:DocumentModeColumnsPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithInt:80] forKey:DocumentModePageGuideWidthPreferenceKey];
+#if defined(CODA)
+			[I_defaults setObject:[NSNumber numberWithInt:4] forKey:DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey];
+#else
             [I_defaults setObject:[NSNumber numberWithInt:0] forKey:DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey];
+#endif //defined(CODA)
             [I_defaults setObject:[NSNumber numberWithInt:40] forKey:DocumentModeRowsPreferenceKey];
+#if defined(CODA)
+			NSFont* font = [NSFont fontWithName:@"Panic Sans" size:11.0f];
+			if ( font == nil ) { font = [NSFont userFixedPitchFontOfSize:0.0]; }
+#else
             NSFont *font=[NSFont userFixedPitchFontOfSize:0.0];
+#endif //defined(CODA)
             NSMutableDictionary *dict=[NSMutableDictionary dictionary];
             [dict setObject:[font fontName] 
                      forKey:NSFontNameAttribute];
@@ -287,7 +309,11 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             [I_defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentModeShowMatchingBracketsPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentModeWrapLinesPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentModeIndentNewLinesPreferenceKey];
+#if defined(CODA)
+			[I_defaults setObject:[NSNumber numberWithBool:YES]  forKey:DocumentModeUseTabsPreferenceKey];
+#else
             [I_defaults setObject:[NSNumber numberWithBool:NO]  forKey:DocumentModeUseTabsPreferenceKey];
+#endif //defined(CODA)
             [I_defaults setObject:[NSNumber numberWithUnsignedInt:DocumentModeWrapModeWords] forKey:DocumentModeWrapModePreferenceKey];
             [I_defaults setObject:[NSNumber numberWithInt:LineEndingLF] forKey:DocumentModeLineEndingPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithBool:NO] forKey:DocumentModeUTF8BOMPreferenceKey];
@@ -385,7 +411,11 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             [I_defaults setObject:[NSNumber numberWithInt:80] forKey:DocumentModePageGuideWidthPreferenceKey];
         }
         if (![I_defaults objectForKey:DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey]) {
+#if defined(CODA)
+			[I_defaults setObject:[NSNumber numberWithInt:4] forKey:DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey];
+#else
             [I_defaults setObject:[NSNumber numberWithInt:0] forKey:DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey];
+#endif //defined(CODA)
         }
 
                 NSMutableDictionary *printDictionary=[I_defaults objectForKey:DocumentModePrintOptionsPreferenceKey];
@@ -585,6 +615,12 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                 [[style styleForKey:SyntaxStyleBaseIdentifier] setObject:color forKey:isDark?@"inverted-color":@"color"];
             }
         }
+
+#if defined(CODA)
+		NSString *useSpellChecking = [[I_defaultSyntaxStyle styleForKey:SyntaxStyleBaseIdentifier] objectForKey:@"usespellchecking"];
+		if ( useSpellChecking )
+			[[style styleForKey:SyntaxStyleBaseIdentifier] setObject:useSpellChecking forKey:@"usespellchecking"];
+#endif //defined(CODA)
 
         [self setSyntaxStyle:style];
         [style release];

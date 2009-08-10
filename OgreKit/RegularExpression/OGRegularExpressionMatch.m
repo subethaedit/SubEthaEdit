@@ -40,11 +40,6 @@ static NSString	* const OgreIndexOfMatchKey        = @"OgreMatchIndexOfMatch";
 static NSString	* const OgreCaptureHistoryKey      = @"OgreMatchCaptureHistory";
 
 
-inline unsigned Ogre_UTF16strlen(unichar *const aUTF16string, unichar *const end)
-{
-	return end - aUTF16string;
-}
-
 static NSArray *Ogre_arrayWithOnigRegion(OnigRegion *region)
 {
 	if (region == NULL) return nil;

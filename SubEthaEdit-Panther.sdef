@@ -140,7 +140,7 @@
 
         <class name="plain text" plural="plain text" code="cTXT"
             description="A plain text object.">
-            <cocoa class="TextStorage"/>
+            <cocoa class="FoldableTextStorage"/>
             <element type="insertion point">
                 <cocoa key="insertionPoints"/>
             </element>

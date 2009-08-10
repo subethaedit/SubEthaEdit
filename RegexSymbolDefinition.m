@@ -187,8 +187,24 @@ extern NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree);
 
                 NSString *theString = extractStringWithEntitiesFromTree(xmlTree);
                 if ([OGRegularExpression isValidExpressionString:theString]) {
+#if defined(CODA)
+					NSString* regexString = nil;
+					OGRegularExpression* curRegex = [I_currentSymbol objectForKey:@"regex"];
+					
+					if ( curRegex != nil )
+					{
+						NSString* curString = [curRegex expressionString];
+						regexString = [curString stringByAppendingFormat:@"|(?:%@)", theString];
+					}
+					else
+						regexString = [NSString stringWithFormat:@"(?:%@)", theString];
+					
+					OGRegularExpression *aRegex = [[[OGRegularExpression alloc] initWithString:regexString options:OgreFindNotEmptyOption] autorelease];
+                    [I_currentSymbol setObject:aRegex forKey:@"regex"];
+#else	
                     OGRegularExpression *aRegex = [[[OGRegularExpression alloc] initWithString:theString options:OgreFindNotEmptyOption] autorelease];
                     [I_currentSymbol setObject:aRegex forKey:@"regex"];
+#endif // defined(CODA)
                 } else {
                     NSLog(@"ERROR: %@ is not a valid Regex.", theString);
                     NSAlert *alert = [[[NSAlert alloc] init] autorelease];

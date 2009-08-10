@@ -8,7 +8,6 @@
 
 #import "LayoutManager.h"
 #import "TextView.h"
-#import "TextStorage.h"
 #import "FoldableTextStorage.h"
 #import "FullTextStorage.h"
 #import "PlainTextDocument.h"
@@ -43,6 +42,12 @@
 
 @implementation TextView
 
+
+// - (void)setNeedsDisplayInRect:(NSRect)aRect avoidAdditionalLayout:(BOOL)needsLayout {
+// 	NSLog(@"%s %@ %@",__FUNCTION__,NSStringFromRect(aRect),needsLayout?@"YES":@"NO");
+// 	[super setNeedsDisplayInRect:aRect avoidAdditionalLayout:NO];
+// }
+
 - (void)_adjustedCenteredScrollRectToVisible:(NSRect)aRect forceCenter:(BOOL)force {
     if (aRect.origin.x == [[self textContainer] lineFragmentPadding]) {
         aRect.origin.x = 0; // fixes the left hand edge moving
@@ -50,19 +55,20 @@
     [super _adjustedCenteredScrollRectToVisible:aRect forceCenter:force];
 }
 
-static NSMenu *defaultMenu=nil;
+static NSMenu *S_defaultMenu=nil;
 
 
 + (NSMenu *)defaultMenu {
-    return defaultMenu;
+    return S_defaultMenu;
 }
 
 + (void)setDefaultMenu:(NSMenu *)aMenu {
-    defaultMenu=[aMenu copy];
+	[S_defaultMenu autorelease];
+    S_defaultMenu=[aMenu copy];
 }
 
 - (PlainTextDocument *)document {
-    return [(TextStorage *)[self textStorage] delegate];
+    return [(FoldableTextStorage *)[self textStorage] delegate];
 }
 
 
@@ -89,7 +95,7 @@ static NSMenu *defaultMenu=nil;
     unsigned glyphIndex,characterIndex,beginIndex;
 
     LayoutManager *layoutManager=(LayoutManager *)[self layoutManager];
-    TextStorage *textStorage=(TextStorage *)[self textStorage];
+    FoldableTextStorage *textStorage=(FoldableTextStorage *)[self textStorage];
     if ([textStorage length]==0) return;
     NSString *string = [self string];
 
@@ -216,7 +222,11 @@ static NSMenu *defaultMenu=nil;
 
 // make sure our document gets the font change
 - (void)changeFont:(id)aSender {
+#if defined(CODA)
+	[[editor document] changeFontInteral:aSender];
+#else
     [[self document] changeFont:aSender];
+#endif //defined(CODA)
 }
 
 
@@ -253,14 +263,20 @@ static NSMenu *defaultMenu=nil;
 - (void)drawRect:(NSRect)aRect {
     [super drawRect:aRect];
     // now paint Cursors if there are any
-    PlainTextDocument *document=(PlainTextDocument *)[self document];
+    PlainTextDocument *document=(PlainTextDocument *)[editor document];
     TCMMMSession *session=[document session];
     NSString *sessionID=[session sessionID];
     NSDictionary *sessionParticipants=[session participants];
     NSEnumerator *participants = [[sessionParticipants objectForKey:@"ReadWrite"] objectEnumerator];
     TCMMMUser *user;
     TCMMMUser *me=[TCMMMUserManager me];
+
     FoldableTextStorage *ts = (FoldableTextStorage *)[self textStorage];
+
+#if defined(CODA)
+	NSSize textOffset = [self textContainerInset]; 
+#endif //defined(CODA)
+
     if (document) {
         while ((user=[participants nextObject])) {
             if (user != me) {
@@ -271,7 +287,7 @@ static NSMenu *defaultMenu=nil;
                         // now we have to paint a caret at position
         //                NSRange selection = NSMakeRange((unsigned)[(NSNumber *)[selection objectAtIndex:0] unsignedIntValue],0);
         
-                        unsigned rectCount;
+                        NSUInteger rectCount;
                         NSRectArray rectArray=[[self layoutManager] 
                                                     rectArrayForCharacterRange:selectionRange 
                                                     withinSelectedCharacterRange:selectionRange 
@@ -280,8 +296,13 @@ static NSMenu *defaultMenu=nil;
                                                 
                         if (rectCount>0) {
                             NSPoint myPoint = rectArray[0].origin;
+#if defined(CODA)
+					        myPoint.x -= (0.5 + textOffset.width); 
+                            myPoint.y += (rectArray[0].size.height - 0.5 + textOffset.height);
+#else
                             myPoint.x -= 0.5;
                             myPoint.y += rectArray[0].size.height - 0.5;
+#endif //defined(CODA)
                             [self drawInsertionPointWithColor:changeColor atPoint:myPoint];
                         }
                     }
@@ -293,9 +314,17 @@ static NSMenu *defaultMenu=nil;
     if (I_isDragTarget) {
         [[[NSColor selectedTextBackgroundColor] colorWithAlphaComponent:0.5] set];
         NSBezierPath *path=[NSBezierPath bezierPathWithRect:NSInsetRect([self bounds],2,2)];
+#if defined(CODA)
+		// need to set-up the clip to over-ride the systems clipping of the text view
+		[NSGraphicsContext saveGraphicsState];
+		[[NSBezierPath bezierPathWithRect:[self visibleRect]] setClip];
+#endif //defined(CODA)
         [path setLineWidth:4.];
         [path setLineJoinStyle:NSRoundLineCapStyle];
         [path stroke];
+#if defined(CODA)
+		[NSGraphicsContext restoreGraphicsState];
+#endif //defined(CODA)
     }
 }
 
@@ -309,16 +338,32 @@ static NSMenu *defaultMenu=nil;
     [[FindReplaceController sharedInstance] performFindPanelAction:sender forTextView:self];
 }
 
--(BOOL)validateMenuItem:(id <NSMenuItem>)menuItem 
+-(BOOL)validateMenuItem:(NSMenuItem*)menuItem 
 {
-
+	SEL action = [menuItem action];
     BOOL returnValue = [super validateMenuItem:menuItem];
     if (!returnValue) {
         if ([menuItem tag]==1001) returnValue=YES;
         if ([menuItem tag]==1002) returnValue=YES;
     }
-    if (returnValue && [menuItem action]==@selector(copyStyled:)) {
+    if (returnValue && action == @selector(copyStyled:)) {
         return [self selectedRange].length>0;
+    }
+    
+    if ( action == @selector(foldAllTopLevelBlocks:) ) {
+	    PlainTextDocument *document=(PlainTextDocument *)[editor document];
+    	[menuItem setTitle:[NSString stringWithFormat:NSLocalizedString(@"Fold All Level %d Blocks","Fold at top level menu entry label"),MAX(1,[[[document documentMode] syntaxDefinition] foldingTopLevel])]];
+    }
+    
+    if ( action == @selector(foldAllTopLevelBlocks:) || 
+         action == @selector(foldAllBlocksAtTagLevel:) || 
+         action == @selector(foldCurrentBlock:) || 
+         action == @selector(foldAllCommentBlocks:) ||
+         action == @selector(foldAllBlocksAtCurrentLevel:) ) {
+	    PlainTextDocument *document=(PlainTextDocument *)[editor document];
+	    DocumentMode *mode = [document documentMode];
+    	BOOL hasFoldingInformation = [mode syntaxHighlighter] && [document highlightsSyntax];
+    	returnValue = hasFoldingInformation;
     }
     
     return returnValue;
@@ -337,21 +382,6 @@ static NSMenu *defaultMenu=nil;
     // disable cursor rects and therefore mouse cursor changing when we have a dark background so the documentcursor is used
     if ([[self insertionPointColor] isDark]) [super resetCursorRects];
 }
-
-- (IBAction)foldTextSelection:(id)aSender {
-	NSRange selectedRange = [self selectedRange];
-	if (selectedRange.length > 0) {
-		FoldableTextStorage *ts = (FoldableTextStorage *)[self textStorage];
-		[ts foldRange:selectedRange];
-		NSScrollView *scrollView = [self enclosingScrollView];
-		if ([scrollView rulersVisible]) {
-			[[scrollView verticalRulerView] setNeedsDisplay:YES];
-		}
-	} else {
-		NSBeep();
-	}
-}
-
 
 - (NSRange)selectionRangeForProposedRange:(NSRange)proposedSelRange granularity:(NSSelectionGranularity)granularity {
     NSEvent *currentEvent=[NSApp currentEvent];
@@ -376,6 +406,148 @@ static NSMenu *defaultMenu=nil;
     return [super selectionRangeForProposedRange:proposedSelRange granularity:granularity];
 }
 
+- (void)selectFullRangeAppropriateAfterFolding:(NSRange)aFullRange {
+	// first get foldedRange:
+	FoldableTextStorage *textStorage = (FoldableTextStorage *)[self textStorage];
+	NSRange foldedRange = [textStorage foldedRangeForFullRange:aFullRange];
+
+	// then select and scroll to
+	[self setSelectedRange:foldedRange];
+	[self scrollRangeToVisible:foldedRange];
+}
+
+- (IBAction)foldTextSelection:(id)aSender {
+	NSRange selectedRange = [self selectedRange];
+	if (selectedRange.length > 0) {
+		FoldableTextStorage *ts = (FoldableTextStorage *)[self textStorage];
+		[ts foldRange:selectedRange];
+		NSScrollView *scrollView = [self enclosingScrollView];
+		if ([scrollView rulersVisible]) {
+			[[scrollView verticalRulerView] setNeedsDisplay:YES];
+		}
+	} else {
+		NSBeep();
+	}
+}
+
+- (IBAction)foldCurrentBlock:(id)aSender {
+	FoldableTextStorage *textStorage = (FoldableTextStorage *)[self textStorage];
+	NSRange mySelectedRange = [self selectedRange];
+	
+	NSRange foldedRange = NSMakeRange(NSNotFound,0);
+	
+	NSRange foldableCommentRange = [textStorage foldableCommentRangeForCharacterAtIndex:mySelectedRange.location];
+	if (foldableCommentRange.location != NSNotFound && foldableCommentRange.length > 0) {
+		foldedRange = foldableCommentRange;
+		[textStorage foldRange:foldedRange];
+	} else {
+		NSRange selectedRange = [textStorage fullRangeForFoldedRange:mySelectedRange];
+		NSRange fullRangeToFold = [[textStorage fullTextStorage] foldableRangeForCharacterAtIndex:selectedRange.location]; 
+		if (fullRangeToFold.location != NSNotFound) {
+			NSRange foldableRangeToFold = [textStorage foldedRangeForFullRange:fullRangeToFold];
+			foldedRange = foldableRangeToFold;
+			[textStorage foldRange:foldedRange];
+		} else {
+			NSBeep();
+		}
+	}
+
+	if (foldedRange.location != NSNotFound) { // some folding happenend
+		// select the first character in front of the start of the current folding if possible
+		NSRange rangeToSelect = NSMakeRange(0,0);
+		if (foldedRange.location > 0) {
+			NSRange startRange = NSMakeRange(foldedRange.location-1,0);
+			id startAttribute = [textStorage attribute:kSyntaxHighlightingFoldDelimiterName atIndex:startRange.location longestEffectiveRange:&startRange inRange:NSMakeRange(0,foldedRange.location)];
+			if ([startAttribute isEqualToString:kSyntaxHighlightingStateDelimiterStartValue]) {
+				NSRange startWithSameDepthRange = NSMakeRange(NSMaxRange(startRange)-1,0);
+				/*id depthValue =*/ [textStorage attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:startWithSameDepthRange.location longestEffectiveRange:&startWithSameDepthRange inRange:startRange];
+				rangeToSelect.location = startWithSameDepthRange.location;
+				if (rangeToSelect.location > [[textStorage string] lineRangeForRange:rangeToSelect].location) {
+					rangeToSelect.location -= 1;
+				}
+				[self setSelectedRange:rangeToSelect];
+				[self scrollRangeToVisible:rangeToSelect];
+			}
+		}
+
+		NSScrollView *scrollView = [self enclosingScrollView];
+		if ([scrollView rulersVisible]) {
+			[[scrollView verticalRulerView] setNeedsDisplay:YES];
+		}
+	}
+}
+
+- (IBAction)unfoldCurrentBlock:(id)aSender {
+	NSRange selectedRange = [self selectedRange];
+	FoldableTextStorage *textStorage = (FoldableTextStorage *)[self textStorage];
+	NSRange fullRangeOfSelection = [textStorage fullRangeForFoldedRange:selectedRange];
+
+	if (![textStorage unfoldFoldingForPosition:selectedRange.location]) {
+		NSBeep();
+	} else {
+		[self selectFullRangeAppropriateAfterFolding:fullRangeOfSelection];
+	}
+}
+
+- (IBAction)foldAllCommentBlocks:(id)aSender {
+	NSRange selectedRange = [self selectedRange];
+	FoldableTextStorage *textStorage = (FoldableTextStorage *)[self textStorage];
+	NSRange fullRangeOfSelection = [textStorage fullRangeForFoldedRange:selectedRange];
+
+	[textStorage foldAllComments];
+
+	[self selectFullRangeAppropriateAfterFolding:fullRangeOfSelection];
+}
+
+- (IBAction)unfoldAllBlocks:(id)aSender {
+	NSRange selectedRange = [self selectedRange];
+	FoldableTextStorage *textStorage = (FoldableTextStorage *)[self textStorage];
+	NSRange fullRangeOfSelection = [textStorage fullRangeForFoldedRange:selectedRange];
+
+	[textStorage unfoldAll];
+
+	[self selectFullRangeAppropriateAfterFolding:fullRangeOfSelection];
+}
+
+- (IBAction)foldAllTopLevelBlocks:(id)aSender {
+	NSRange selectedRange = [self selectedRange];
+	FoldableTextStorage *textStorage = (FoldableTextStorage *)[self textStorage];
+	NSRange fullRangeOfSelection = [textStorage fullRangeForFoldedRange:selectedRange];
+    PlainTextDocument *document=(PlainTextDocument *)[editor document];
+	[textStorage foldAllWithFoldingLevel:[[[document documentMode] syntaxDefinition] foldingTopLevel]];
+	[self selectFullRangeAppropriateAfterFolding:fullRangeOfSelection];
+}
+
+- (IBAction)foldAllBlocksAtTagLevel:(id)aSender {
+	int level = [aSender tag];
+	if (level > 0) {
+		NSRange selectedRange = [self selectedRange];
+		FoldableTextStorage *textStorage = (FoldableTextStorage *)[self textStorage];
+		NSRange fullRangeOfSelection = [textStorage fullRangeForFoldedRange:selectedRange];
+		[textStorage foldAllWithFoldingLevel:level];
+		[self selectFullRangeAppropriateAfterFolding:fullRangeOfSelection];
+	}
+}
+
+- (IBAction)foldAllBlocksAtCurrentLevel:(id)aSender {
+	NSRange selectedRange = [self selectedRange];
+	FoldableTextStorage *textStorage = (FoldableTextStorage *)[self textStorage];
+	NSRange fullRangeOfSelection = [textStorage fullRangeForFoldedRange:selectedRange];
+
+	unsigned int location = selectedRange.location;
+	unsigned int length = [textStorage length];
+	if (length > 0) {
+		if (location >= length) {
+			location--;
+		}
+		int currentLevel = [[textStorage attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:location effectiveRange:NULL] intValue];
+		[textStorage foldAllWithFoldingLevel:currentLevel];
+
+		[self selectFullRangeAppropriateAfterFolding:fullRangeOfSelection];
+	}
+}
+
+
 - (void)setBackgroundColor:(NSColor *)aColor {
     BOOL wasDark = [[self backgroundColor] isDark];
     BOOL isDark = [aColor isDark];
@@ -385,13 +557,17 @@ static NSMenu *defaultMenu=nil;
     [[self enclosingScrollView] setDocumentCursor:isDark?[NSCursor invertedIBeamCursor]:[NSCursor IBeamCursor]];
     if (( wasDark && !isDark) || 
         (!wasDark &&  isDark)) {
+#if !defined(CODA)
         // remove and add from Superview to activiate my cursor rect and deactivate the ones of the TextView
         NSScrollView *sv = [[[self enclosingScrollView] retain] autorelease];
         NSView *superview = [sv superview];
         [sv removeFromSuperview];
         [superview addSubview:sv];
+#endif //!defined(CODA)
     }
+#if !defined(CODA)
     [[self window] invalidateCursorRectsForView:self];
+#endif //!defined(CODA)
 }
 
 - (void)toggleContinuousSpellChecking:(id)sender {
@@ -402,7 +578,7 @@ static NSMenu *defaultMenu=nil;
 }
 
 - (void)complete:(id)sender {
-    TextStorage *textStorage=(TextStorage *)[self textStorage];
+    FoldableTextStorage *textStorage=(FoldableTextStorage *)[self textStorage];
     if ([textStorage hasBlockeditRanges]) {
         NSEvent *event=[NSApp currentEvent];
         // 53 is the escape key
@@ -429,10 +605,12 @@ static NSMenu *defaultMenu=nil;
 
     I_flags.shouldCheckCompleteStart=YES;
     //I_flags.autoCompleteInProgress=YES; // Temporarliy disabled (SEE-874)
-    [super complete:sender];
+#if !defined(CODA)
+    [super complete:sender]; 
+#endif //!defined(CODA)
 }
 
-- (NSArray *)completionsForPartialWordRange:(NSRange)charRange indexOfSelectedItem:(int *)index {
+- (NSArray *)completionsForPartialWordRange:(NSRange)charRange indexOfSelectedItem:(NSInteger *)index {
     NSArray *result=[super completionsForPartialWordRange:charRange indexOfSelectedItem:index];
     if (I_flags.shouldCheckCompleteStart) {
         if ([result count]) {
@@ -455,7 +633,7 @@ static NSMenu *defaultMenu=nil;
 
 #define APPKIT10_3 743
 
-- (void)insertCompletion:(NSString *)word forPartialWordRange:(NSRange)charRange movement:(int)movement isFinal:(BOOL)flag {
+- (void)insertCompletion:(NSString *)word forPartialWordRange:(NSRange)charRange movement:(NSInteger)movement isFinal:(BOOL)flag {
     [super insertCompletion:word forPartialWordRange:charRange movement:movement isFinal:flag];
     if (flag) {
         //NSLog(@"%f",NSAppKitVersionNumber);
@@ -482,6 +660,57 @@ static NSMenu *defaultMenu=nil;
     [self setRichText:NO];
 }
 
+- (IBAction)copy:(id)aSender {
+	NSRange selectedRange = [self selectedRange];
+	if (selectedRange.length == 0) return;
+	
+	NSPasteboard *pasteboard = [NSPasteboard generalPasteboard];
+	BOOL isRichText = [self isRichText];
+	
+	[pasteboard declareTypes:(isRichText ? [NSArray arrayWithObjects:NSRTFDPboardType,NSRTFPboardType,nil] : [NSArray arrayWithObjects:NSStringPboardType,nil]) owner:nil];
+	
+	if (isRichText) {
+		id textStorage = [self textStorage];
+		if ([textStorage respondsToSelector:@selector(fullRangeForFoldedRange:)]) {
+			selectedRange = [textStorage fullRangeForFoldedRange:selectedRange];
+			textStorage = [textStorage fullTextStorage];
+		}
+		NSMutableAttributedString *mutableString = [[[[self textStorage] attributedSubstringFromRange:[self selectedRange]] mutableCopy] autorelease];
+		NSTextAttachment *foldingIconAttachment = [[[NSTextAttachment alloc] initWithFileWrapper:[[[NSFileWrapper alloc] initWithPath:[[NSBundle mainBundle] pathForResource:@"FoldingBubbleBig" ofType:@"png"]] autorelease]] autorelease];
+//		[[[foldingIconAttachment attachmentCell] image] setSize:NSMakeSize(19,10)];
+		NSAttributedString *foldingIconString = [NSAttributedString attributedStringWithAttachment:foldingIconAttachment];
+		NSAttributedString *foldingIconReplacementString = [[[NSAttributedString alloc] initWithPath:[[NSBundle mainBundle] pathForResource:@"FoldingBubbleText" ofType:@"rtf"] documentAttributes:nil] autorelease];
+		[mutableString replaceAttachmentsWithAttributedString:foldingIconString];
+		[pasteboard setData:[mutableString RTFDFromRange:NSMakeRange(0,[mutableString length]) documentAttributes:nil] forType:NSRTFDPboardType];
+		[mutableString replaceAttachmentsWithAttributedString:foldingIconReplacementString];
+		[pasteboard setData:[mutableString  RTFFromRange:NSMakeRange(0,[mutableString length]) documentAttributes:nil] forType:NSRTFPboardType];
+	} else {
+		[self writeSelectionToPasteboard:pasteboard type:NSStringPboardType];
+	}
+}
+
+- (NSArray *)writablePasteboardTypes {
+	NSMutableArray *result = [NSArray arrayWithObject:NSStringPboardType];
+	return result;
+}
+
+- (BOOL)writeSelectionToPasteboard:(NSPasteboard *)pasteboard type:(NSString *)type {
+	if ([type isEqualToString:NSStringPboardType]) {
+		NSRange selectedRange = [self selectedRange];
+		if (selectedRange.length == 0) return NO;
+		
+		id textStorage = [self textStorage];
+		if ([textStorage respondsToSelector:@selector(fullRangeForFoldedRange:)]) {
+			selectedRange = [textStorage fullRangeForFoldedRange:selectedRange];
+			textStorage = [textStorage fullTextStorage];
+		}
+		
+		[pasteboard setString:[[textStorage string] substringWithRange:selectedRange] forType:NSStringPboardType];		
+		return YES;
+	}
+	return NO;
+}
+
 #pragma mark Folding Related Methods
 - (void)scrollFullRangeToVisible:(NSRange)aRange {
 	[self scrollRangeToVisible:[(FoldableTextStorage *)[self textStorage] foldedRangeForFullRange:aRange]];
@@ -502,7 +731,7 @@ static NSMenu *defaultMenu=nil;
     NSPasteboard *pboard = [sender draggingPasteboard];
     if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
         //NSLog(@"draggingEntered:");
-        PlainTextDocument *document=(PlainTextDocument *)[self document];
+        PlainTextDocument *document=(PlainTextDocument *)[editor document];
         TCMMMSession *session=[document session];
         if ([session isServer]) {
             [[[self window] drawers] makeObjectsPerformSelector:@selector(open)];
@@ -515,7 +744,8 @@ static NSMenu *defaultMenu=nil;
             [self setIsDragTarget:YES];
             return NSDragOperationGeneric;
         }
-    } else if ([[pboard types] containsObject:@"PresentityNames"]) {
+    } else if ([[pboard types] containsObject:@"PresentityNames"] ||
+			   [[pboard types] containsObject:@"IMHandleNames"]) {
         BOOL shouldDrag=[[(PlainTextDocument *)[self document] session] isServer];
         if (shouldDrag) {
             [self setIsDragTarget:YES];
@@ -534,7 +764,7 @@ static NSMenu *defaultMenu=nil;
     NSPasteboard *pboard = [sender draggingPasteboard];
     if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
         //NSLog(@"draggingUpdated:");
-        BOOL shouldDrag=[[(PlainTextDocument *)[self document] session] isServer];
+        BOOL shouldDrag=[[(PlainTextDocument *)[editor document] session] isServer];
         [self setIsDragTarget:shouldDrag];
         if (shouldDrag) {
             return NSDragOperationGeneric;
@@ -545,7 +775,8 @@ static NSMenu *defaultMenu=nil;
             [self setIsDragTarget:YES];
             return NSDragOperationGeneric;
         }
-    } else if ([[pboard types] containsObject:@"PresentityNames"]) {
+    } else if ([[pboard types] containsObject:@"PresentityNames"] ||
+			   [[pboard types] containsObject:@"IMHandleNames"]) {
         // perform this by selector to not create dependency on TCMPortMapper
         BOOL shouldDrag=[[(PlainTextDocument *)[self document] session] isServer];
         if (shouldDrag) {
@@ -562,7 +793,7 @@ static NSMenu *defaultMenu=nil;
     NSPasteboard *pboard = [sender draggingPasteboard];
     if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
         //NSLog(@"prepareForDragOperation:");
-        BOOL shouldDrag=[[(PlainTextDocument *)[self document] session] isServer];
+        BOOL shouldDrag=[[(PlainTextDocument *)[editor document] session] isServer];
         [self setIsDragTarget:shouldDrag];
         return shouldDrag;
     } else if ([[pboard types] containsObject:@"ParticipantDrag"]) {
@@ -570,7 +801,8 @@ static NSMenu *defaultMenu=nil;
             [[[sender draggingSource] window] windowController]==[[self window]  windowController]) {
             return YES;
         }
-    } else if ([[pboard types] containsObject:@"PresentityNames"]) {
+    } else if ([[pboard types] containsObject:@"PresentityNames"] ||
+			   [[pboard types] containsObject:@"IMHandleNames"]) {
         BOOL shouldDrag=[[(PlainTextDocument *)[self document] session] isServer];
         [self setIsDragTarget:YES];
         if (shouldDrag) {
@@ -588,7 +820,7 @@ static NSMenu *defaultMenu=nil;
     if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
         //NSLog(@"performDragOperation:");
         NSArray *userArray=[pboard propertyListForType:@"PboardTypeTBD"];
-        PlainTextDocument *document=(PlainTextDocument *)[self document];
+        PlainTextDocument *document=(PlainTextDocument *)[editor document];
         TCMMMSession *session=[document session];
         NSEnumerator *userDescriptions=[userArray objectEnumerator];
         NSDictionary *userDescription=nil;
@@ -610,7 +842,8 @@ static NSMenu *defaultMenu=nil;
             [self setIsDragTarget:NO];
             return YES;
         }
-    } else if ([[pboard types] containsObject:@"PresentityNames"]) {
+    } else if ([[pboard types] containsObject:@"PresentityNames"] ||
+			   [[pboard types] containsObject:@"IMHandleNames"]) {
         BOOL shouldDrag=[[(PlainTextDocument *)[self document] session] isServer];
         [self setIsDragTarget:YES];
         if (shouldDrag) {
@@ -639,6 +872,7 @@ static NSMenu *defaultMenu=nil;
     [dragTypes addObject:@"PboardTypeTBD"];
     [dragTypes addObject:@"ParticipantDrag"];
     [dragTypes addObject:@"PresentityNames"];
+    [dragTypes addObject:@"IMHandleNames"];
     return [dragTypes autorelease];
 }
 
@@ -696,12 +930,21 @@ static NSMenu *defaultMenu=nil;
 - (NSRange)rangeForUserCompletion {
     NSRange result=[super rangeForUserCompletion];
     NSString *string=[[self textStorage] string];
+	DocumentMode *theMode = [[self document] documentMode];
 	
-	NSString *modeForAutocomplete = [[self textStorage] attribute:kSyntaxHighlightingParentModeForAutocompleteAttributeName atIndex:result.location effectiveRange:NULL];
+	unsigned int characterIndex = result.location;
+	unsigned int stringLength = [string length];
+	if ( characterIndex < stringLength || 
+		 (characterIndex == stringLength && characterIndex > 0) ) {
+		if (characterIndex == stringLength) {
+			characterIndex--;
+		}
+		NSString *modeForAutocomplete = [[self textStorage] attribute:kSyntaxHighlightingParentModeForAutocompleteAttributeName atIndex:characterIndex effectiveRange:NULL];
+		if (modeForAutocomplete) {
+			theMode = [[DocumentModeManager sharedInstance] documentModeForName:modeForAutocomplete];
+		}
+	}
 	
-	DocumentMode *theMode;
-	if (modeForAutocomplete) theMode = [[DocumentModeManager sharedInstance] documentModeForName:modeForAutocomplete];
-	else theMode = [[self document] documentMode];
 	
     NSCharacterSet *tokenSet = [[[theMode syntaxHighlighter] syntaxDefinition] autoCompleteTokenSet];
 
@@ -731,6 +974,9 @@ static NSMenu *defaultMenu=nil;
     NSTextContainer *textContainer = [self textContainer];
     NSPoint point = [self convertPoint:[anEvent locationInWindow] fromView:nil];
     point.x=5;
+#if defined(CODA)
+	point.y -= [self textContainerInset].height; 
+#endif //defined(CODA)
     unsigned glyphIndex,endCharacterIndex,startCharacterIndex;
     glyphIndex=[layoutManager glyphIndexForPoint:point 
                                  inTextContainer:textContainer];
@@ -757,6 +1003,9 @@ static NSMenu *defaultMenu=nil;
                 event = autoscrollEvent;           
             case NSLeftMouseDragged:
                 point = [self convertPoint:[event locationInWindow] fromView:nil];
+#if defined(CODA)
+				point.y -= [self textContainerInset].height; 
+#endif //defined(CODA)
                 glyphIndex = [layoutManager glyphIndexForPoint:point
                                                inTextContainer:textContainer];
                 endCharacterIndex = [layoutManager characterIndexForGlyphAtIndex:glyphIndex];
@@ -792,6 +1041,9 @@ static NSMenu *defaultMenu=nil;
                     autoscrollEvent = nil;
                 }
             return;
+				
+			default:
+				break;
         }
     }
 }
@@ -835,5 +1087,14 @@ static NSMenu *defaultMenu=nil;
     }    
 }
 
+- (void)setEditor:(PlainTextEditor*)inEditor
+{
+	editor = inEditor; // XXX - avoid circular retain?
+}
+
+- (PlainTextEditor*)editor
+{
+	return editor;
+}
 
 @end

@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import <OgreKit/OgreKit.h>
 #import "AbstractFoldingTextStorage.h"
 
 @class FoldableTextStorage;
@@ -32,7 +33,11 @@
 
 }
 
++ (OGRegularExpression *)wrongLineEndingRegex:(LineEnding)aLineEnding;
+
 - (id)initWithFoldableTextStorage:(FoldableTextStorage *)inTextStorage;
+
+- (FoldableTextStorage *)foldableTextStorage;
 
 #pragma mark -
 - (NSString *)positionStringForRange:(NSRange)aRange;
@@ -55,10 +60,23 @@
 //- (void)replaceCharactersInRange:(NSRange)inRange withAttributedString:(NSAttributedString *)inAttributedString synchronize:(BOOL)inSynchronizeFlag;
 //- (void)replaceCharactersInRange:(NSRange)inRange withAttributedString:(NSAttributedString *)inAttributedString;
 - (void)removeAttribute:(NSString *)anAttribute range:(NSRange)aRange synchronize:(BOOL)aSynchronizeFlag;
+- (NSRange)foldableRangeForCharacterAtIndex:(unsigned long int)index;
+// returns longest range of continous comments, even when whitespace is inbetween those comments
+- (NSRange)continuousCommentRangeAtIndex:(unsigned long int)anIndex;
+
+- (void)replaceCharactersInRange:(NSRange)inRange withAttributedString:(NSAttributedString *)inAttributedString synchronize:(BOOL)inSynchronizeFlag;
 
 // disables synchronisation until linear attribute changing ends;
 - (void)beginLinearAttributeChanges;
 - (void)endLinearAttributeChanges;
+
+- (NSDictionary *)dictionaryRepresentation;
+- (void)setContentByDictionaryRepresentation:(NSDictionary *)aRepresentation;
+
+- (unsigned)numberOfLines;
+- (unsigned)numberOfCharacters;
+- (unsigned)numberOfWords;
+
 
 #pragma mark -
 

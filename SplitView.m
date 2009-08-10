@@ -28,7 +28,7 @@
     I_dividerThickness = aDividerThickness;
 }
 
-- (float)dividerThickness {
+- (CGFloat)dividerThickness {
     return I_dividerThickness<0. ? [super dividerThickness] : I_dividerThickness;
 }
 

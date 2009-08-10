@@ -306,10 +306,11 @@ static int namedGroupCallback(const unsigned char *name, const unsigned char *na
 		_groupIndexForNameDictionary = [[NSMutableDictionary alloc] initWithCapacity:[self numberOfNames]];
 		r = onig_foreach_name(_regexBuffer, namedGroupCallback, _groupIndexForNameDictionary);	// nameの一覧を得る
 		
-		NSEnumerator	*keyEnumerator = [_groupIndexForNameDictionary keyEnumerator];
+		NSEnumerator	*keyEnumerator = [[_groupIndexForNameDictionary allKeys] objectEnumerator];
 		NSString		*name;
 		NSMutableArray	*array;
 		int 			i, maxGroupIndex = 0;
+		NSMutableDictionary* replacmentDictionary = [[NSMutableDictionary alloc] initWithCapacity:[_groupIndexForNameDictionary count]];
 		while ((name = [keyEnumerator nextObject]) != nil) {
             unsigned int    lengthOfName = [name length];
 			unichar         *UTF16Name = (unichar*)NSZoneMalloc([self zone], sizeof(unichar) * lengthOfName);
@@ -330,10 +331,13 @@ static int namedGroupCallback(const unsigned char *name, const unsigned char *na
 				[array addObject:[NSNumber numberWithUnsignedInt: indexList[i] ]];
 				if (indexList[i] > maxGroupIndex) maxGroupIndex = indexList[i];
 			}
-			[_groupIndexForNameDictionary setObject:array forKey:name];
+			[replacmentDictionary setObject:array forKey:name];
 			[array release];
 		}
-		
+
+		[_groupIndexForNameDictionary addEntriesFromDictionary:replacmentDictionary];
+		[replacmentDictionary release];
+
 		// 逆引き辞書の作成
 		// 例: /(?<a>a+)(?<b>b+)(?<a>c+)/
 		// 構造: ("a", "b", "a")
@@ -511,16 +515,35 @@ static int namedGroupCallback(const unsigned char *name, const unsigned char *na
 		range:NSMakeRange(0, [string length])];
 }
 
+#define TCM_OGPLAINSTRINGCACHE
+
 - (OGRegularExpressionMatch*)matchInString:(NSString*)string 
 	options:(unsigned)options 
 	range:(NSRange)searchRange
 {
 	OGRegularExpressionEnumerator	*enumerator;
+    
+#ifdef TCM_OGPLAINSTRINGCACHE
+    int stringHash = [string hash];
+    if (stringHash != _cachedPlainStringHash) {
+        // FIXME Release on dealloc
+        [_cachedPlainString release];
+        _cachedPlainString = [[OGPlainString stringWithString:string] retain];
+        _cachedPlainStringHash = stringHash;
+    }
 	enumerator = [[OGRegularExpressionEnumerator alloc] 
-		initWithOGString:[(OGPlainString *)[OGPlainString stringWithString:string] substringWithRange:searchRange]
-		options:OgreSearchTimeOptionMask(options)
-		range:searchRange
-		regularExpression:self];
+                  initWithOGString:[(OGPlainString *)_cachedPlainString substringWithRange:searchRange]
+                  options:OgreSearchTimeOptionMask(options)
+                  range:searchRange
+                  regularExpression:self];
+#else
+	enumerator = [[OGRegularExpressionEnumerator alloc] 
+                  initWithOGString:[(OGPlainString *)[OGPlainString stringWithString:string] substringWithRange:searchRange]
+                  options:OgreSearchTimeOptionMask(options)
+                  range:searchRange
+                  regularExpression:self];
+#endif
+    
 	OGRegularExpressionMatch* match=[enumerator nextObject];
 	[enumerator release];
 	return match;

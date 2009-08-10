@@ -61,6 +61,9 @@ typedef enum TCMMMSessionClientState {
 - (BOOL)isReceivingContent;
 - (void)validateEditability;
 - (BOOL)handleOperation:(TCMMMOperation *)aOperation;
+#if defined(CODA)
+- (NSString*)displayName; 
+#endif //defined(CODA)
 @end
 
 
@@ -104,6 +107,7 @@ typedef enum TCMMMSessionClientState {
     } I_flags;
     unsigned int I_sessionContentLength;
     unsigned int I_receivedContentLength;
+    NSAttributedString *I_lastReplacedAttributedString;
 }
 
 + (TCMMMSession *)sessionWithBencodedSession:(NSData *)aData;
@@ -185,6 +189,8 @@ typedef enum TCMMMSessionClientState {
 
 - (TCMMMLoggingState *)loggingState;
 - (void)setLoggingState:(TCMMMLoggingState *)aState;
+- (void)setLastReplacedAttributedString:(NSAttributedString *)aLastReplacedAttributedString;
+- (NSAttributedString *)lastReplacedAttributedString;
 
 - (NSDictionary *)contributersAsDictionaryRepresentation;
 

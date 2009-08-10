@@ -22,55 +22,56 @@ static NSMutableDictionary *S_itemStatusAttributes=nil;
 static NSMutableDictionary *S_childNameAttributes=nil;
 
 + (void)initialize {
-    static NSMutableParagraphStyle *mNoWrapParagraphStyle = nil;
-    static NSMutableParagraphStyle *mNoWrapTruncateRightParagraphStyle = nil;
-    if (!mNoWrapParagraphStyle) {
-        mNoWrapParagraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-        [mNoWrapParagraphStyle setLineBreakMode:NSLineBreakByTruncatingMiddle];
-        if ([mNoWrapParagraphStyle respondsToSelector:@selector(setTighteningFactorForTruncation:)]) {
-            [mNoWrapParagraphStyle setTighteningFactorForTruncation:0.15];
-        }
-    }
-    if (!mNoWrapTruncateRightParagraphStyle) {
-        mNoWrapTruncateRightParagraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
-        [mNoWrapTruncateRightParagraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
-        if ([mNoWrapTruncateRightParagraphStyle respondsToSelector:@selector(setTighteningFactorForTruncation:)]) {
-            [mNoWrapTruncateRightParagraphStyle setTighteningFactorForTruncation:0.15];
-        }
-    }
-    if (!S_itemNameAttributes) {
-        S_itemNameAttributes = [[NSMutableDictionary dictionaryWithObjectsAndKeys:
-            [NSFont boldSystemFontOfSize:[NSFont systemFontSize]],NSFontAttributeName,
-            mNoWrapParagraphStyle,NSParagraphStyleAttributeName,
-            nil] retain];
-    }
-    if (!S_itemUserNameAttributes) {
-        S_itemUserNameAttributes = [[NSMutableDictionary dictionaryWithObjectsAndKeys:
-            [NSFont boldSystemFontOfSize:[NSFont systemFontSize]+4.],NSFontAttributeName,
-            mNoWrapParagraphStyle,NSParagraphStyleAttributeName,
-            nil] retain];
-    }
-    if (!S_itemStatusAttributes) {
-        S_itemStatusAttributes = [[NSMutableDictionary dictionaryWithObjectsAndKeys:
-			   [NSFont systemFontOfSize:[NSFont smallSystemFontSize]],NSFontAttributeName,
-			   [NSColor colorWithCalibratedWhite:0.5 alpha:1.0],NSForegroundColorAttributeName,
-                mNoWrapTruncateRightParagraphStyle,NSParagraphStyleAttributeName,
-            nil] retain];
-
-    } 
-    if (!S_childNameAttributes) {
-        S_childNameAttributes = [[NSMutableDictionary dictionaryWithObjectsAndKeys:
-            [NSFont systemFontOfSize:[NSFont smallSystemFontSize]],NSFontAttributeName,
-            mNoWrapParagraphStyle,NSParagraphStyleAttributeName,
-            nil] retain];
-    }
-    
+	if (self == [TCMMMBrowserListView class]) {
+		static NSMutableParagraphStyle *mNoWrapParagraphStyle = nil;
+		static NSMutableParagraphStyle *mNoWrapTruncateRightParagraphStyle = nil;
+		if (!mNoWrapParagraphStyle) {
+			mNoWrapParagraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+			[mNoWrapParagraphStyle setLineBreakMode:NSLineBreakByTruncatingMiddle];
+			if ([mNoWrapParagraphStyle respondsToSelector:@selector(setTighteningFactorForTruncation:)]) {
+				[mNoWrapParagraphStyle setTighteningFactorForTruncation:0.15];
+			}
+		}
+		if (!mNoWrapTruncateRightParagraphStyle) {
+			mNoWrapTruncateRightParagraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+			[mNoWrapTruncateRightParagraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
+			if ([mNoWrapTruncateRightParagraphStyle respondsToSelector:@selector(setTighteningFactorForTruncation:)]) {
+				[mNoWrapTruncateRightParagraphStyle setTighteningFactorForTruncation:0.15];
+			}
+		}
+		if (!S_itemNameAttributes) {
+			S_itemNameAttributes = [[NSMutableDictionary dictionaryWithObjectsAndKeys:
+				[NSFont boldSystemFontOfSize:[NSFont systemFontSize]],NSFontAttributeName,
+				mNoWrapParagraphStyle,NSParagraphStyleAttributeName,
+				nil] retain];
+		}
+		if (!S_itemUserNameAttributes) {
+			S_itemUserNameAttributes = [[NSMutableDictionary dictionaryWithObjectsAndKeys:
+				[NSFont boldSystemFontOfSize:[NSFont systemFontSize]+4.],NSFontAttributeName,
+				mNoWrapParagraphStyle,NSParagraphStyleAttributeName,
+				nil] retain];
+		}
+		if (!S_itemStatusAttributes) {
+			S_itemStatusAttributes = [[NSMutableDictionary dictionaryWithObjectsAndKeys:
+				   [NSFont systemFontOfSize:[NSFont smallSystemFontSize]],NSFontAttributeName,
+				   [NSColor colorWithCalibratedWhite:0.5 alpha:1.0],NSForegroundColorAttributeName,
+					mNoWrapTruncateRightParagraphStyle,NSParagraphStyleAttributeName,
+				nil] retain];
+	
+		} 
+		if (!S_childNameAttributes) {
+			S_childNameAttributes = [[NSMutableDictionary dictionaryWithObjectsAndKeys:
+				[NSFont systemFontOfSize:[NSFont smallSystemFontSize]],NSFontAttributeName,
+				mNoWrapParagraphStyle,NSParagraphStyleAttributeName,
+				nil] retain];
+		}
+	}    
 }
 
 - (id)initWithFrame:(NSRect)frameRect {
     self = [super initWithFrame:frameRect];
     if (self) {
-        [self registerForDraggedTypes:[NSArray arrayWithObjects:@"PresentityNames",nil]];
+        [self registerForDraggedTypes:[NSArray arrayWithObjects:@"PresentityNames",@"IMHandleNames",@"AIListObject",@"AIListObjectUniqueIDs",nil]];
         I_dragToItem=-1;
     }
     return self;

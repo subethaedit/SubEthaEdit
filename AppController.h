@@ -37,6 +37,10 @@ extern int const SwitchModeMenuTag;
 extern int const HighlightSyntaxMenuTag;
 extern int const ScriptMenuTag;
 
+#if defined(CODA)
+@class AboutController;
+#endif //defined(CODA)
+
 extern NSString * const GlobalScriptsDidReloadNotification;
 
 @interface AppController : NSObject {
@@ -48,7 +52,9 @@ extern NSString * const GlobalScriptsDidReloadNotification;
     NSMutableArray      *I_toolbarItemIdentifiers;
     NSMutableArray      *I_defaultToolbarItemIdentifiers;
     NSMutableArray      *I_contextMenuItemArray;
-    
+#if defined(CODA)
+    AboutController		*aboutController; 
+#endif //defined(CODA)
     IBOutlet NSTextView *O_licenseTextView;
     IBOutlet NSWindow *O_licenseWindow;
 }
@@ -75,7 +81,9 @@ extern NSString * const GlobalScriptsDidReloadNotification;
 - (IBAction)gotoDocumentation:(id)sender;
 - (IBAction)reportBug:(id)sender;
 - (IBAction)provideFeedback:(id)sender;
+#if !defined(CODA)
 - (IBAction)showUserStatisticsWindow:(id)aSender;
+#endif //!defined(CODA)
 
 - (NSArray *)contextMenuItemArray;
 

@@ -8,7 +8,7 @@
 
 #import "Toolbar.h"
 
-static S_shouldNotNotifyOtherToolbars=0;
+static int S_shouldNotNotifyOtherToolbars=0;
 
 @implementation Toolbar
 
