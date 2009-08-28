@@ -7075,7 +7075,7 @@ static NSString *S_measurementUnits;
 
 - (NSString *)scriptedContents
 {
-    return [I_textStorage string];
+    return [[I_textStorage fullTextStorage] string];
 }
 
 - (void)setScriptedContents:(id)value {
@@ -7083,7 +7083,7 @@ static NSString *S_measurementUnits;
 }
 
 - (FoldableTextStorage *)scriptedPlainContents {
-    return (FoldableTextStorage *)I_textStorage;
+    return I_textStorage;
 }
 
 - (void)setScriptedPlainContents:(id)value {
