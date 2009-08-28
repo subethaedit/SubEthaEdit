@@ -1153,9 +1153,18 @@ static NSString *tempFileName() {
     }
 }
 
-- (IBAction)newDocument:(id)sender
+- (IBAction)newDocument:(id)aSender
 {
-    [self newDocumentWithModeMenuItem:[sender representedObject]];
+    [self newDocumentWithModeMenuItem:[aSender representedObject]];
+}
+
+- (IBAction)newDocumentWithModeMenuItemFromDock:(id)aSender {
+	[self newDocumentWithModeMenuItem:aSender];
+	[NSApp activateIgnoringOtherApps:YES];
+}
+
+- (IBAction)newDocumentFromDock:(id)aSender {
+	[self newDocumentWithModeMenuItemFromDock:[aSender representedObject]];
 }
 
 - (IBAction)newAlternateDocument:(id)sender
