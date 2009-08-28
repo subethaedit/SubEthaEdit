@@ -5,7 +5,7 @@
     <head>
         <name>SVNLog</name>
         <!-- The definitions title -->
-        <charsintokens>_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-+@|"</charsintokens>
+        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-+@|"]]></charsintokens>
     </head>
     <states>
         <default id="Base" color="#000000" inverted-color="#ffffff" font-style="normal" font-weight="normal" background-color="#f4f7fe" inverted-background-color="#010e23">
