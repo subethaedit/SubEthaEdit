@@ -1035,7 +1035,7 @@ static NSString *tempFileName(NSString *origPath) {
     
     [I_lastTextShouldChangeReplacementString release];
      I_lastTextShouldChangeReplacementString = nil;
-    NSLog(@"%s",__FUNCTION__);
+//    NSLog(@"%s",__FUNCTION__);
     [super dealloc];
 }
 
@@ -6652,7 +6652,17 @@ static NSString *S_measurementUnits;
 //		NSLog(@"%s beginning marked text undo group",__FUNCTION__);
 
     }
-
+	
+	if ([textStorage length] == 0 && I_flags.shouldChangeExtensionOnModeChange && [(TextView *)aTextView isPasting]) {
+//		NSLog(@"%s now we check",__FUNCTION__);
+		DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForPath:@"" withContentString:aReplacementString];
+		
+		if (![mode isBaseMode]) {
+			[self setDocumentMode:mode];
+		}
+		I_flags.shouldSelectModeOnSave=NO;
+	}
+	
 	// record this change for possible later use
 	 I_lastTextShouldChangeReplacementRange = aAffectedCharRange;
 	[I_lastTextShouldChangeReplacementString release];
