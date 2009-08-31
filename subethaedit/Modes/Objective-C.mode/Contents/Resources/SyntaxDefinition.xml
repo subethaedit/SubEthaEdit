@@ -1048,6 +1048,25 @@
                 <string>SKRequest</string>
                 <string>UIAccessibilityElement</string>
                 <string>UISearchDisplayController</string>
+                <string>CAAnimation</string>
+                <string>CAAnimationGroup</string>
+                <string>CALayerArray</string>
+                <string>CABasicAnimation</string>
+                <string>CAEAGLLayer</string>
+                <string>CAGradientLayer</string>
+                <string>CAKeyframeAnimation</string>
+                <string>CALayer</string>
+                <string>CAMediaTimingFunction</string>
+                <string>CAPropertyAnimation</string>
+                <string>CAReplicatorLayer</string>
+                <string>CAScrollLayer</string>
+                <string>CAShapeLayer</string>
+                <string>CATiledLayer</string>
+                <string>CATransaction</string>
+                <string>CATransformLayer</string>
+                <string>CATransformLayer</string>
+                <string>CATransition</string>
+                <string>CAValueFunction</string>
             </keywords>
             <keywords id="Objective-C Keywords" color="#881350" useforautocomplete="yes" font-weight="bold">
                 <string>@class</string>
@@ -1910,8 +1929,14 @@
                 <string>CGRectEdge</string>
                 <string>CGTextDrawingMode</string>
                 <string>CGTextEncoding</string>
+                <string>NSStringFromCGAffineTransform</string>
+                <string>NSStringFromCGPoint</string>
+                <string>NSStringFromCGRect</string>
+                <string>NSStringFromCGSize</string>
+                <string>NSStringFromUIEdgeInsets</string>
             </keywords>
             <keywords id="Cocoa Types" color="#400080" font-weight="normal" font-style="italic" useforautocomplete="yes">
+                <string>CAAction</string>
                 <string>NSAffineTransformStruct</string>
                 <string>NSApplicationTerminateReply</string>
                 <string>NSBackingStoreType</string>
@@ -2276,6 +2301,31 @@
                 <string>CGRectZero</string>
                 <string>CGSize</string>
                 <string>CGSizeZero</string>
+                <string>CGColorRef</string>
+                <string>CGColorSpaceRef</string>
+                <string>CGContextRef</string>
+                <string>CGDataConsumerRef</string>
+                <string>CGDataProviderRef</string>
+                <string>CGFontRef</string>
+                <string>CGFunctionRef</string>
+                <string>CGGradientRef</string>
+                <string>CGImageRef</string>
+                <string>CGLayerRef</string>
+                <string>CGMutablePathRef</string>
+                <string>CGPDFArrayRef</string>
+                <string>CGPDFContentStreamRef</string>
+                <string>CGPDFDictionaryRef</string>
+                <string>CGPDFDocumentRef</string>
+                <string>CGPDFObjectRef</string>
+                <string>CGPDFOperatorTableRef</string>
+                <string>CGPDFPageRef</string>
+                <string>CGPDFScannerRef</string>
+                <string>CGPDFStreamRef</string>
+                <string>CGPDFStreamRefs</string>
+                <string>CGPDFStringRef</string>
+                <string>CGPathRef</string>
+                <string>CGPatternRef</string>
+                <string>CGShadingRef</string>
             </keywords>
             <keywords id="Cocoa Constants" color="#400080" font-weight="normal" font-style="italic" useforautocomplete="yes">
                 <string>NSAppKitVersionNumber10_0</string>
@@ -8103,6 +8153,95 @@
                 <string>CGRectMinYEdge</string>
                 <string>CGTextDrawingMode</string>
                 <string>CGTextEncoding</string>
+                <string>kCAAnimationDiscrete</string>
+                <string>kCAAnimationLinear</string>
+                <string>kCAAnimationPaced</string>
+                <string>kCAAnimationRotateAuto</string>
+                <string>kCAAnimationRotateAutoReverse</string>
+                <string>kCAFillModeBackwards</string>
+                <string>kCAFillModeBoth</string>
+                <string>kCAFillModeForwards</string>
+                <string>kCAFillModeFrozen</string>
+                <string>kCAFillModeRemoved</string>
+                <string>kCAFillRuleEvenOdd</string>
+                <string>kCAFillRuleNonZero</string>
+                <string>kCAFilterLinear</string>
+                <string>kCAFilterNearest</string>
+                <string>kCAFilterTrilinear</string>
+                <string>kCAGradientLayerAxial</string>
+                <string>kCAGravityBottom</string>
+                <string>kCAGravityBottomLeft</string>
+                <string>kCAGravityBottomRight</string>
+                <string>kCAGravityCenter</string>
+                <string>kCAGravityLeft</string>
+                <string>kCAGravityResize</string>
+                <string>kCAGravityResizeAspect</string>
+                <string>kCAGravityResizeAspectFill</string>
+                <string>kCAGravityRight</string>
+                <string>kCAGravityTop</string>
+                <string>kCAGravityTopLeft</string>
+                <string>kCAGravityTopRight</string>
+                <string>kCALayerBottomEdge</string>
+                <string>kCALayerLeftEdge</string>
+                <string>kCALayerRightEdge</string>
+                <string>kCALayerTopEdge</string>
+                <string>kCALineCapButt</string>
+                <string>kCALineCapRound</string>
+                <string>kCALineCapSquare</string>
+                <string>kCALineJoinBevel</string>
+                <string>kCALineJoinMiter</string>
+                <string>kCALineJoinRound</string>
+                <string>kCAMediaTimingFunctionDefault</string>
+                <string>kCAMediaTimingFunctionEaseIn</string>
+                <string>kCAMediaTimingFunctionEaseInEaseOut</string>
+                <string>kCAMediaTimingFunctionEaseOut</string>
+                <string>kCAMediaTimingFunctionLinear</string>
+                <string>kCAOnOrderIn</string>
+                <string>kCAOnOrderOut</string>
+                <string>kCAScrollBoth</string>
+                <string>kCAScrollHorizontally</string>
+                <string>kCAScrollNone</string>
+                <string>kCAScrollVertically</string>
+                <string>kCATransactionAnimationDuration</string>
+                <string>kCATransactionAnimationTimingFunction</string>
+                <string>kCATransactionDisableActions</string>
+                <string>kCATransition</string>
+                <string>kCATransitionFade</string>
+                <string>kCATransitionFromBottom</string>
+                <string>kCATransitionFromLeft</string>
+                <string>kCATransitionFromRight</string>
+                <string>kCATransitionFromTop</string>
+                <string>kCATransitionMoveIn</string>
+                <string>kCATransitionPush</string>
+                <string>kCATransitionReveal</string>
+                <string>kCAValueFunctionRotateX</string>
+                <string>kCAValueFunctionRotateY</string>
+                <string>kCAValueFunctionRotateZ</string>
+                <string>kCAValueFunctionScale</string>
+                <string>kCAValueFunctionScaleX</string>
+                <string>kCAValueFunctionScaleY</string>
+                <string>kCAValueFunctionScaleZ</string>
+                <string>kCAValueFunctionTranslate</string>
+                <string>kCAValueFunctionTranslateX</string>
+                <string>kCAValueFunctionTranslateY</string>
+                <string>kCAValueFunctionTranslateZ</string>
+                <string>CACurrentMediaTime</string>
+                <string>CAEdgeAntialiasingMask</string>
+                <string>CATransform3D</string>
+                <string>CATransform3DConcat</string>
+                <string>CATransform3DEqualToTransform</string>
+                <string>CATransform3DGetAffineTransform</string>
+                <string>CATransform3DIdentity</string>
+                <string>CATransform3DInvert</string>
+                <string>CATransform3DIsAffine</string>
+                <string>CATransform3DIsIdentity</string>
+                <string>CATransform3DMakeAffineTransform</string>
+                <string>CATransform3DMakeRotation</string>
+                <string>CATransform3DMakeScale</string>
+                <string>CATransform3DMakeTranslation</string>
+                <string>CATransform3DRotate</string>
+                <string>CATransform3DScale</string>
+                <string>CATransform3DTranslate</string>
             </keywords>
         </default>
     </states>
