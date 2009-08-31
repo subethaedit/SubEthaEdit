@@ -1035,7 +1035,7 @@ static NSString *tempFileName(NSString *origPath) {
     
     [I_lastTextShouldChangeReplacementString release];
      I_lastTextShouldChangeReplacementString = nil;
-    
+    NSLog(@"%s",__FUNCTION__);
     [super dealloc];
 }
 
@@ -1826,6 +1826,10 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     if ([[self windowControllers] count] != 0) {
         // if doing always, we delay the dealloc method ad inifitum on quit
         [self TCM_sendPlainTextDocumentDidChangeDisplayNameNotification];
+    } else {
+    	// let us release our undo manager to break that retain cycle caused by the invocations retaining us
+    	[I_undoManager release];
+    	I_undoManager = nil;
     }
 }
 
