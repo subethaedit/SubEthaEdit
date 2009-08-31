@@ -3652,7 +3652,6 @@
                     <end>
                         <regex>(?:}|[^\n\r](?=[\n\r]?\?>))</regex>
                     </end>
-                    <import mode="XML" keywords-only="yes"/>
                     <import state="PHP"/>
                 </state>
             </state>
