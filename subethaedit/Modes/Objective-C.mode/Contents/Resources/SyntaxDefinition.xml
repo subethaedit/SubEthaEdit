@@ -1492,6 +1492,8 @@
                 <string>glVertexAttrib4f</string>
                 <string>glVertexAttrib4fv</string>
                 <string>glVertexAttribPointer</string>
+                <string>CFRetain</string>
+                <string>CFRelease</string>
                 <string>CGAffineTransformConcat</string>
                 <string>CGAffineTransformEqualToTransform</string>
                 <string>CGAffineTransformInvert</string>
@@ -2310,6 +2312,7 @@
                 <string>CGFunctionRef</string>
                 <string>CGGradientRef</string>
                 <string>CGImageRef</string>
+                <string>CGImageSourceRef</string>
                 <string>CGLayerRef</string>
                 <string>CGMutablePathRef</string>
                 <string>CGPDFArrayRef</string>
@@ -5088,6 +5091,8 @@
                 <string>kCAClockTimebase_AudioDevice</string>
                 <string>kCAClockTimebase_AudioOutputUnit</string>
                 <string>kCAClockTimebase_HostTime</string>
+                <string>kCFBooleanFalse</string>
+                <string>kCFBooleanTrue</string>
                 <string>kCFCopyStringDictionaryKeyCallBacks</string>
                 <string>kCFCopyStringSetCallBacks</string>
                 <string>kCFStringBinaryHeapCallBacks</string>
