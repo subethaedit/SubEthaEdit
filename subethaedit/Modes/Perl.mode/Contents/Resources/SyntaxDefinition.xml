@@ -346,16 +346,16 @@
             
             <state id="String with double quotes" type="string" color="#760f15">
                 <begin><regex>(?&lt;!\$|\\)(?:\\\\)*"</regex></begin>
-                <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)"</regex></end>
             </state>
     
             <state id="String with single quotes" type="string" color="#760f15">
                 <begin><regex>(?&lt;!\$|\\)(?:\\\\)*'</regex></begin>
-                <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)'</regex></end>
             </state>
 
             <state id="Heredoc" color="#760f15" type="string" font-weight="normal" font-style="normal" foldable="yes">
-                <begin><string>&lt;&lt;["']*(?&lt;heredoc&gt;.*?)["']*;</string></begin>
+                <begin><string>&lt;&lt;[ \t]*["']*(?&lt;heredoc&gt;.*?)["']*;</string></begin>
                 <end><regex>(?#see-insert-start-group:heredoc)</regex></end>
             </state>
 
