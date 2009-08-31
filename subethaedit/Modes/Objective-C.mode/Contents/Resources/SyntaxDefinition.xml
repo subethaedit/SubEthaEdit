@@ -2244,7 +2244,6 @@
                 <string>NSWindowSharingReadWrite</string>
                 <string>NSWindowSharingType</string>
                 <string>CGAffineTransform</string>
-                <string>CGAffineTransformIdentity</string>
                 <string>CGDataConsumerCallbacks</string>
                 <string>CGDataProviderCallbacks</string>
                 <string>CGDataProviderDirectAccessCallbacks</string>
@@ -6190,6 +6189,7 @@
                 <string>NSSystemTimeZoneDidChangeNotification</string>
                 <string>NSKeyedUnarchiveFromDataTransformerName</string>
                 <string>NSMakeCollectable</string>
+                <string>CGAffineTransformIdentity</string>
                 <string>CFArrayRetainCallBack</string>
                 <string>CFBagRetainCallBack</string>
                 <string>CFBundleCopyExecutableArchitectures</string>
