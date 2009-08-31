@@ -1241,8 +1241,8 @@ typedef union {
     NSString *string=[self string];
     // now that we have a result we separate it using the colons so doubleClick don't selected over colons (especially important for Objective-C methods
     // we do this by searching the result range for colons and separate 3 cases:
-    
-    while (((colonRange = [string rangeOfString:@":" options:NSLiteralSearch range:result]).location != NSNotFound)) {
+    NSCharacterSet *characterSet = [NSCharacterSet characterSetWithCharactersInString:@":."];
+    while (((colonRange = [string rangeOfCharacterFromSet:characterSet options:NSLiteralSearch range:result]).location != NSNotFound)) {
         if (index <= colonRange.location) {
 			if (colonRange.location - result.location > 0) {
 				result.length = MAX(colonRange.location,index+1)-result.location;
