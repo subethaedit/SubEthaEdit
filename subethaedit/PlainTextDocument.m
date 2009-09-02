@@ -742,18 +742,11 @@ static NSString *tempFileName(NSString *origPath) {
 - (IBAction)chooseGotoSymbolMenuItem:(NSMenuItem *)aMenuItem {
     if ([aMenuItem tag]<[I_symbolArray count]) {
         NSRange symbolRange=[[I_symbolArray objectAtIndex:[aMenuItem tag]] jumpRange];
-        NSTextView *textView=[aMenuItem representedObject];
-		[self selectRange:symbolRange];
-
-        PlainTextWindowController *controller=(PlainTextWindowController *)[[textView window] windowController];
-        NSArray *plainTextEditors=[controller plainTextEditors];
-        int i=0;
-        for (i=0;i<[plainTextEditors count]; i++) {
-            if ([[plainTextEditors objectAtIndex:i] textView]==textView) {
-                [[plainTextEditors objectAtIndex:i] setFollowUserID:nil];
-                break;
-            }
-        }
+        TextView *textView=[aMenuItem representedObject];
+        PlainTextEditor *editor = [textView editor];
+		[editor selectRange:symbolRange];
+		[editor setFollowUserID:nil];
+		
     } else {
         NSBeep();
     }
