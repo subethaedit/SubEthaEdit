@@ -62,7 +62,12 @@
 
 - (DocumentMode *)selectedMode {
     DocumentModeManager *manager=[DocumentModeManager sharedInstance];
-    return [manager documentModeForIdentifier:[manager documentModeIdentifierForTag:[[self selectedItem] tag]]];
+    DocumentMode *mode = [manager documentModeForIdentifier:[manager documentModeIdentifierForTag:[[self selectedItem] tag]]];
+    if (!mode) {
+        mode = [DocumentModeManager baseMode];
+        [self setSelectedMode:mode];
+    }
+    return mode;
 }
 
 - (void)setSelectedMode:(DocumentMode *)aMode {

@@ -282,12 +282,14 @@
 
 - (IBAction)changeMode:(id)aSender {
     DocumentMode *newMode=[aSender selectedMode];
+    if (newMode) {
     [O_modeController setContent:newMode];
     I_currentSyntaxStyle=[newMode syntaxStyle];
     [O_stylesTableView reloadData];
     [O_stylesTableView selectRow:0 byExtendingSelection:NO];
     [self validateDefaultsState:aSender];
     [self updateInspector];
+    }
 }
 
 - (IBAction)changeLightBackgroundColor:(id)aSender {
@@ -512,7 +514,7 @@
 
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)aRow {
     BOOL darkBackground = ![[aTableColumn identifier]isEqualToString:@"light"];
-    BOOL useDefault=[[[O_modePopUpButton selectedMode] defaultForKey:DocumentModeUseDefaultStylePreferenceKey] boolValue];
+    BOOL useDefault=[[[O_modeController content] defaultForKey:DocumentModeUseDefaultStylePreferenceKey] boolValue];
     NSString *key=[[I_currentSyntaxStyle allKeys] objectAtIndex:aRow];
     NSDictionary *style=[(useDefault && aRow==0)?([[DocumentModeManager baseMode] syntaxStyle]):I_currentSyntaxStyle styleForKey:key];
     NSString *localizedString=[I_currentSyntaxStyle localizedStringForKey:key];
