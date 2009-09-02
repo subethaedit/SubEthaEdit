@@ -1289,7 +1289,7 @@ typedef union {
 
 - (id)objectInScriptedCharactersAtIndex:(unsigned)index
 {
-    NSLog(@"%s: %d", __FUNCTION__, index);
+//    NSLog(@"%s: %d", __FUNCTION__, index);
     return [ScriptCharacters scriptCharactersWithTextStorage:[self fullTextStorage] characterRange:NSMakeRange(index,1)];
 }
 

@@ -373,6 +373,7 @@ static NSString *tempFileName() {
             }
             BOOL hasSheet = [[windowController window] attachedSheet] ? YES : NO;
             int isMainWindow = ([[windowController window] isMainWindow] || [[windowController window] isKeyWindow]) ? 1 : NO;
+//            NSLog(@"%s %@ was main window: %d %d",__FUNCTION__, windowController, isMainWindow, withShortcuts);
             int documentPosition = 0;
             while ((document = [documents nextObject])) {
                 [prototypeMenuItem setTarget:windowController];
@@ -380,7 +381,8 @@ static NSString *tempFileName() {
                 [prototypeMenuItem setRepresentedObject:[NSNumber numberWithInt:documentPosition]];
                 [prototypeMenuItem setEnabled:!hasSheet];
                 if (withShortcuts) {
-                    if (isMainWindow && isMainWindow <= 10) {
+                    if (isMainWindow && isMainWindow < 10) {
+//						NSLog(@"added shortcut");
                         [prototypeMenuItem setKeyEquivalent:[NSString stringWithFormat:@"%d",isMainWindow%10]];
                         [prototypeMenuItem setKeyEquivalentModifierMask:NSCommandKeyMask];
                         isMainWindow++;
@@ -390,6 +392,7 @@ static NSString *tempFileName() {
                 }
                 NSMenuItem *itemToAdd = [[prototypeMenuItem copy] autorelease];
                 [aMenu addItem:itemToAdd];
+//				NSLog(@"%@",itemToAdd);
                 [itemToAdd setMark:[document isDocumentEdited]?kBulletCharCode:noMark];
                 documentPosition++;
             }
