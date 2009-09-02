@@ -143,9 +143,12 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 #define SEEENGINEVERSION 3.5
 
 + (BOOL)canParseModeVersionOfBundle:(NSBundle *)aBundle {
-    NSDictionary *infoPlist = [[ModeSettings alloc] initWithPlist:[aBundle bundlePath]];
-    double requiredEngineVersion = [[infoPlist objectForKey:@"SEEMinimumEngineVersion"] doubleValue];
-    [infoPlist release];
+    CFURLRef url = CFURLCreateWithFileSystemPath(NULL, (CFStringRef) [aBundle bundlePath], kCFURLPOSIXPathStyle, 1);
+    CFDictionaryRef infodict = CFBundleCopyInfoDictionaryInDirectory(url);
+    NSDictionary *infoDictionary = (NSDictionary *) infodict;    
+    double requiredEngineVersion = [[infoDictionary objectForKey:@"SEEMinimumEngineVersion"] doubleValue];
+    CFRelease(url);
+    CFRelease(infodict);
     return (requiredEngineVersion<=SEEENGINEVERSION);
 }
 
