@@ -1119,6 +1119,8 @@ subethaedit/NSColorTCMAdditions.m -text
 subethaedit/NSCoreSuite.sdef -text
 subethaedit/NSCursorSEEAdditions.h -text
 subethaedit/NSCursorSEEAdditions.m -text
+subethaedit/NSErrorTCMAdditions.h -text
+subethaedit/NSErrorTCMAdditions.m -text
 subethaedit/NSImageTCMAdditions.h -text
 subethaedit/NSImageTCMAdditions.m -text
 subethaedit/NSMenuTCMAdditions.h -text

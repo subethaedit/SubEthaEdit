@@ -31,6 +31,7 @@
 #import "NSSavePanelTCMAdditions.h"
 #import "EncodingDoctorDialog.h"
 #import "NSMutableAttributedStringSEEAdditions.h"
+#import "NSErrorTCMAdditions.h"
 #import "FontForwardingTextField.h"
 
 #import "DocumentModeManager.h"
@@ -4303,7 +4304,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             }
         }
         
-        if ( !hasBeenWritten && (error && [error code] == NSFileWriteNoPermissionError) ) {
+        if ( !hasBeenWritten && ((error && [error TCM_relatesToErrorCode:NSFileWriteNoPermissionError inDomain:nil])||(error && [error TCM_relatesToErrorCode:13 inDomain:NSPOSIXErrorDomain])) ) {
             if (outError) *outError = nil; // clear outerror because we already showed it
             BOOL isDirWritable = [fileManager isWritableFileAtPath:[fullDocumentPath stringByDeletingLastPathComponent]];
             BOOL isFileDeletable = [fileManager isDeletableFileAtPath:fullDocumentPath];
