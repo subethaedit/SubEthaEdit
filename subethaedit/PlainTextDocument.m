@@ -5625,7 +5625,10 @@ static NSString *S_measurementUnits;
         if (newMode) {
             [self setDocumentMode:newMode];
             I_flags.shouldSelectModeOnSave=NO;
+        } else {
+            [[self plainTextEditors] makeObjectsPerformSelector:@selector(TCM_updateBottomStatusBar)];
         }
+
     }
 }
 
