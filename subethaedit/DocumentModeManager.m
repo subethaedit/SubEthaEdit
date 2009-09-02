@@ -522,7 +522,7 @@ static DocumentModeManager *S_sharedInstance=nil;
                 while ((import = [linkEnumerator nextObject])) {
                     [self documentModeForName:import];
                 }
-            }
+            } else return nil;
             [self resolveAllDependenciesForMode:mode];
         }
 #if defined(CODA)

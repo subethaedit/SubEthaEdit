@@ -5622,8 +5622,10 @@ static NSString *S_measurementUnits;
     NSString *identifier=[modeManager documentModeIdentifierForTag:[aSender tag]];
     if (identifier) {
         DocumentMode *newMode=[modeManager documentModeForIdentifier:identifier];
-        [self setDocumentMode:newMode];
-        I_flags.shouldSelectModeOnSave=NO;
+        if (newMode) {
+            [self setDocumentMode:newMode];
+            I_flags.shouldSelectModeOnSave=NO;
+        }
     }
 }
 
