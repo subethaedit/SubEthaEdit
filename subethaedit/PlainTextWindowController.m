@@ -603,6 +603,7 @@ static NSAttributedString *S_dragString = nil;
     
     [tabViewItem retain];
     [document retain];
+    [document setKeepUndoManagerOnZeroWindowControllers:YES];
     [document removeWindowController:self];
     [self removeObjectFromDocumentsAtIndex:documentIndex];
     [I_tabView removeTabViewItem:tabViewItem];
@@ -632,6 +633,7 @@ static NSAttributedString *S_dragString = nil;
     [[DocumentController sharedInstance] addWindowController:windowController];
     [windowController insertObject:document inDocumentsAtIndex:[[windowController documents] count]];
     [document addWindowController:windowController];
+    [document setKeepUndoManagerOnZeroWindowControllers:NO];
     [[windowController tabView] addTabViewItem:tabViewItem];
     [[windowController tabView] selectTabViewItem:tabViewItem];
 
@@ -2119,6 +2121,7 @@ static NSAttributedString *S_dragString = nil;
         
         [tabViewItem retain];
         [document retain];
+	    [document setKeepUndoManagerOnZeroWindowControllers:YES];
         [document removeWindowController:self];
         [self removeObjectFromDocumentsAtIndex:documentIndex];
         [I_tabView removeTabViewItem:tabViewItem];
@@ -2132,6 +2135,7 @@ static NSAttributedString *S_dragString = nil;
         }
 
         [tabViewItem release];
+	    [document setKeepUndoManagerOnZeroWindowControllers:NO];
         [document release];
         if ([O_participantsDrawer state] == NSDrawerOpenState) {
             [windowController openParticipantsDrawer:self];
@@ -2835,6 +2839,7 @@ float ToolbarHeightForWindow(NSWindow *window)
         id document = [[tabViewItem identifier] document];
         NSUInteger documentIndex = [[self documents] indexOfObject:document];
         [document retain];
+	    [document setKeepUndoManagerOnZeroWindowControllers:YES];
         [document removeWindowController:self];
         [self removeObjectFromDocumentsAtIndex:documentIndex];
         
@@ -2847,6 +2852,7 @@ float ToolbarHeightForWindow(NSWindow *window)
         
         [windowController insertObject:document inDocumentsAtIndex:[[windowController documents] count]];
         [document addWindowController:windowController];
+	    [document setKeepUndoManagerOnZeroWindowControllers:NO];
 
         [document release];
         [[[tabViewItem identifier] dialogSplitView] setDelegate:windowController];

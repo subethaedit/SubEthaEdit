@@ -1811,6 +1811,14 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     PlainTextDocumentIgnoreRemoveWindowController = NO;
 }
 
+- (void)setKeepUndoManagerOnZeroWindowControllers:(BOOL)aFlag {
+	I_flags.keepUndoManagerOnZeroWindowControllers = aFlag;
+}
+- (BOOL)keepUndoManagerOnZeroWindowControllers {
+	return I_flags.keepUndoManagerOnZeroWindowControllers;
+}
+
+
 - (void)removeWindowController:(NSWindowController *)windowController
 {
     if (!PlainTextDocumentIgnoreRemoveWindowController) {
@@ -1820,7 +1828,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     if ([[self windowControllers] count] != 0) {
         // if doing always, we delay the dealloc method ad inifitum on quit
         [self TCM_sendPlainTextDocumentDidChangeDisplayNameNotification];
-    } else {
+    } else if (!I_flags.keepUndoManagerOnZeroWindowControllers) {
     	// let us release our undo manager to break that retain cycle caused by the invocations retaining us
     	[I_undoManager release];
     	I_undoManager = nil;
