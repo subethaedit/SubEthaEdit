@@ -1,4 +1,49 @@
 
+SubEthaEdit 3.5.1
+=================
+
+Neue Funktionen:
+- Die Modus Erkennungsregeln greifen nun auch beim Einfügen von Text in ein 
+  leeres Dokument.
+- Der Objective-C Modus wurde um CoreGraphic, CoreAnimation und einige 
+  CoreFoundation Klassen und Funktionen erweitert.
+
+Veränderugen:
+- Für zukünftige Kompatibilitäts-Checks wurde der Eintrag 
+  SEEMinimumEngineVersion zur Info.plist der Syntax Modi hinzugefügt.
+
+Korrekturen:
+- Abstürze im Zusammenhang mit Code Folding wurden behoben.
+- Es wurde in Problem behoben, bei dem authentifiziertes Speichern in Snow 
+  Leopard nicht mehr funktionierte.
+- Es wurde ein Problem mit Snow Leopard behoben, bei dem Wörter welche durch 
+  Punkten getrennt waren, als ein langes Wort ausgewählt wurden.
+- Es wurde ein Problem mit dem Symbol-Pop-Up behoben, welches das entsprechende 
+  Symbol bei Aktivierung im falschen Fensterteil anzeigte.
+- Es wurde ein Problem im PHP-HTML Modus behoben, welches zu inkonsistenter 
+  Einfärbung von Instanz-Variablen führte.
+- Es wurde ein Problem behoben, welches ein Dokument beim Schliessen nicht aus 
+  dem Speicher entfernte und somit auch Kollaborateure nach Schliessen des 
+  Dokuments weiterarbeiten ließ.
+- Es wurde ein Problem im Ruby Modus behoben, welches dazu führte dass Code 
+  Folding z.b. if(a==b) nicht als ausblendbar erkannte.
+- Es wurde ein Problem im Perl Modus behoben, welches HEREDOC mit Leerzeichen 
+  nicht richtig erkannte und somit falsch einfärbte.
+- Es wurde ein Problem im Perl Modus behoben, welches dazu führte das Code 
+  Folding teilweise nicht funktionierte.
+- Es wurde ein Problem behoben, bei dem SubEthaEdit nicht in den Vordergrund 
+  gebracht wurde, wenn ein neues Dokument über das Dock-Menü erstellt wurde.
+- Es wurde ein Problem mit Modus Erkennungsregeln behoben, bei welchem 
+  ungültige reguläre Ausdrücke interne Fehler erzeugten, die dazu führten dass 
+  z.b. Speichern unmöglich wurde.
+- Es wurde ein Problem behoben, welches bei ausgeblendeten Blöcken für 
+  AppleScript den falschen Textinhalt zurücklieferte. Dies führte dazu dass 
+  einige der "Check Syntax" Funktionen fehlschlugen.
+- Es wurden einige kleine Probleme im Javascript Modus behoben, welche unter 
+  anderem 0 nicht einfärbten.
+- Es wurde die Link-Erkennung im Wiki Modus verbessert.
+
+
 SubEthaEdit 3.5
 ===============
 
@@ -9,7 +54,7 @@ Neue Funktionen:
 - Der Dokumentstatus (Ausblendungszustand, Auswahl, Fensterposition, Modus, 
   etc.) wird jetzt auch bei reinen Textdateien in einem Xtended Attribute im 
   Dateisystem gespeichert und geladen.
-- Anklickbare Links - in den Modi mit Link-Erkennung fsind Links klickbar ohne 
+- Anklickbare Links - in den Modi mit Link-Erkennung sind Links klickbar ohne 
   den Editierfluss zu behindern.
 - Neue "HTML aufräumen und reformatieren" Funktion
 

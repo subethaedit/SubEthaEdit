@@ -4,47 +4,108 @@
 
     <head>
         <name>Javascript</name> <!-- The definitions title -->
-        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]></charsintokens> <!-- Valid Characters for Variables -->
+        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@$]]></charsintokens> <!-- Valid Characters for Variables -->
         <!-- <charsdelimitingtokens></charsdelimitingtokens> -->
     </head>
 
     <states>
     
-        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
+       <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
+
+            <keywords id="Objects" color="#881350" useforautocomplete="yes" font-weight="bold">
+                <string>Object</string>
+                <string>Function</string>
+                <string>String</string>
+                <string>Array</string>
+                <string>Boolean</string>
+                <string>Number</string>
+                <string>Date</string>
+                <string>Math</string>
+                <string>RegExp</string>
+                <string>Error</string>
+                <string>EvalError</string>
+                <string>RangeError</string>
+                <string>ReferenceError</string>
+                <string>SyntaxError</string>
+                <string>TypeError</string>
+                <string>URIError</string>
+                <string></string>
+            </keywords>
+
             <keywords id="Keywords" color="#881350" useforautocomplete="yes" font-weight="bold">
-                <string>if</string>
-                <string>else</string>
-                <string>for</string>
-                <string>in</string>
-                <string>while</string>
-                <string>do</string>
-                <string>continue</string>
                 <string>break</string>
-                <string>with</string>
-                <string>try</string>
-                <string>catch</string>
-                <string>switch</string>
                 <string>case</string>
-                <string>new</string>
-                <string>var</string>
-                <string>function</string>
-                <string>return</string>
-                <string>this</string>
+                <string>catch</string>
+                <string>const</string>
+                <string>continue</string>
+                <string>debugger</string>
+                <string>default</string>
                 <string>delete</string>
+                <string>do</string>
+                <string>else</string>
+                <string>extends</string>
+                <string>final</string>
+                <string>finally</string>
+                <string>for</string>
+                <string>function</string>
+                <string>goto</string>
+                <string>if</string>
+                <string>implements</string>
+                <string>import</string>
+                <string>in</string>
+                <string>instanceof</string>
+                <string>interface</string>
+                <string>native</string>
+                <string>new</string>
+                <string>package</string>
+                <string>protected</string>
+                <string>public</string>
+                <string>return</string>
+                <string>static</string>
+                <string>super</string>
+                <string>switch</string>
+                <string>synchronized</string>
+                <string>this</string>
+                <string>throw</string>
+                <string>transient</string>
+                <string>try</string>
+                <string>typeof</string>
+                <string>var</string>
+                <string>volatile</string>
+                <string>while</string>
+                <string>with</string>
+                
+            </keywords>
+
+            <keywords id="Types" color="#881350" useforautocomplete="yes" font-style="italic">
+                <string>boolean</string>
+                <string>byte</string>
+                <string>char</string>
+                <string>class</string>
+                <string>double</string>
+                <string>enum</string>
+                <string>float</string>
+                <string>int</string>
+                <string>long</string>
+                <string>short</string>
+                <string>void</string>
+            </keywords>
+
+            <keywords id="Numbers" color="#00f" inverted-color="#5d56ff" useforautocomplete="no">
+				<regex>(?&lt;![\w\d\._])((?:(?:(?:[0-9]+\.[0-9]*)|(\.[0-9]+))(?:[eE][+\-]?[0-9]+)?[fFlL]?)|(?:(?:(?:[1-9][0-9]*)|0(?:[1-7][0-7]*)?|(?:0[xX][0-9a-fA-F]+))(?:(?:[uU][lL]?)|(?:[lL][uU]?))?))(?![\w\d\._])</regex>
+            </keywords>
+
+            <keywords id="Number Literals" color="#00f" inverted-color="#5d56ff" font-weight="bold" useforautocomplete="YES">
                 <string>true</string>
                 <string>false</string>
-                <string>void</string>
-                <string>throw</string>
-                <string>typeof</string>
-                <string>const</string>
-                <string>default</string>
-            </keywords>
-            <keywords id="Numbers" color="#00f" inverted-color="#5d56ff" useforautocomplete="no">
-				<regex>(?&lt;![\w\d\._])((?:(?:(?:[0-9]+\.[0-9]*)|(\.[0-9]+))(?:[eE][+\-]?[0-9]+)?[fFlL]?)|(?:(?:(?:[1-9][0-9]*)|0[1-7][0-7]*|(?:0[xX][0-9a-fA-F]+))(?:(?:[uU][lL]?)|(?:[lL][uU]?))?))(?![\w\d\._])</regex>
+                <string>null</string>
+                <string>NaN</string>
+                <string>infinity</string>
+                <string>undefined</string>
             </keywords>
 
             <keywords id="FunctionRegex" color="#003369" useforautocomplete="no">
-				<regex>([A-Za-z0-9_]+ *)\(</regex>
+				<regex>([\$A-Za-z0-9_]+[ \t]*)\(</regex>
             </keywords>
         
             <state id="AutodocComment" type="comment" color="#236E25" font-weight="bold" font-style="italic">
@@ -80,7 +141,7 @@
             </state>
 
             <state id="Block" type="block" foldable="yes">
-                <begin><regex>(?:\s(?:if|else|else\s+if|for|in|while|do|with|try|catch|switch|case|return|function(?:\s+\w+)?)\s*(?:\([^)]*\)\s*)?)?{</regex></begin>
+                <begin><regex>{</regex></begin>
                 <end><regex>}</regex></end>
                 <import mode="Javascript" />
             </state>

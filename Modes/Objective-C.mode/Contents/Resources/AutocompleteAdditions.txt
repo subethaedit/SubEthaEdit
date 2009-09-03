@@ -18920,8 +18920,10 @@ actionDidFail
 actionDidSucceed
 actionForControlCharacterAtIndex:
 actionForKey:
+actionForKey: 
 actionForKeyPath:
 actionForLayer: forKey:
+actionForLayer: forKey: 
 actionMonitorWithResource: action:
 actionMonitorWithResource: action: parameters:
 actionMonitors
@@ -18964,6 +18966,7 @@ addAlarms:
 addAllowedUUID:
 addAllowedUUIDArray:
 addAnimation: forKey:
+addAnimation: forKey: 
 addAnnotation:
 addAnnotations:
 addApplicationParameterHeader: length:
@@ -19082,6 +19085,7 @@ addSizeBit
 addSpeechDictionary:
 addSubgroup:
 addSublayer:
+addSublayer: 
 addSubresource:
 addSubview:
 addSubview: 
@@ -19299,6 +19303,7 @@ animate:
 animateOneFrame
 animates
 animatesDrop
+animation
 animation: didReachProgressMark:
 animation: valueForProgress:
 animationBlockingMode
@@ -19306,16 +19311,20 @@ animationCurve
 animationDelay
 animationDidEnd:
 animationDidStart:
+animationDidStart: 
 animationDidStop:
 animationDidStop: finished:
+animationDidStop: finished: 
 animationDuration
 animationForKey:
+animationForKey: 
 animationKeys
 animationResizeTime:
 animationShouldStart:
 animationTimeInterval
 animationTimingFunction
 animationWithKeyPath:
+animationWithKeyPath: 
 animations
 animator
 annotation
@@ -19860,6 +19869,7 @@ becomeFirstResponder
 becomeKeyWindow
 becomeMainWindow
 becomesKeyOnlyIfNeeded
+begin
 beginAnimations: context: 
 beginAuthentication:
 beginCustomizingItems: 
@@ -21313,6 +21323,7 @@ commands
 comment
 commentURL
 commentWithStringValue:
+commit
 commitAnimations
 commitComposition
 commitEditing
@@ -21484,6 +21495,7 @@ containsObjectWithName: forParent:
 containsPasteboardTypes:
 containsPasteboardTypes:inItemSet:
 containsPoint:
+containsPoint: 
 containsValue:
 containsValueForKey:
 contended
@@ -21596,11 +21608,13 @@ convertImagePointToViewPoint:
 convertImageRectToViewRect:
 convertOldFactor: newFactor:
 convertPoint: fromLayer:
+convertPoint: fromLayer: 
 convertPoint: fromPage:
 convertPoint: fromView:
 convertPoint: fromView: 
 convertPoint: fromWindow: 
 convertPoint: toLayer:
+convertPoint: toLayer: 
 convertPoint: toPage:
 convertPoint: toView:
 convertPoint: toView: 
@@ -21609,11 +21623,13 @@ convertPoint:toCoordinateFromView:
 convertPointFromBase:
 convertPointToBase:
 convertRect: fromLayer:
+convertRect: fromLayer: 
 convertRect: fromPage:
 convertRect: fromView:
 convertRect: fromView: 
 convertRect: fromWindow: 
 convertRect: toLayer:
+convertRect: toLayer: 
 convertRect: toPage:
 convertRect: toView:
 convertRect: toView: 
@@ -21628,7 +21644,9 @@ convertSize: toView:
 convertSizeFromBase:
 convertSizeToBase:
 convertTime: fromLayer:
+convertTime: fromLayer: 
 convertTime: toLayer:
+convertTime: toLayer: 
 convertViewPointToImagePoint:
 convertViewRectToImageRect:
 convertWeight: ofFont:
@@ -22398,6 +22416,7 @@ decompressorComponentType
 deepestScreen
 default
 defaultActionForKey:
+defaultActionForKey: 
 defaultActionForKeyPath:
 defaultAnimationForKey:
 defaultAttachmentScaling
@@ -22469,6 +22488,7 @@ defaultType
 defaultTypesetterBehavior
 defaultValue
 defaultValueForKey:
+defaultValueForKey: 
 defaultView
 defaultVirtualMachine
 defaultVoice
@@ -22757,6 +22777,7 @@ didChange: valuesAtIndexes: forKey:
 didChangeArrangementCriteria
 didChangeText
 didChangeValueForKey:
+didChangeValueForKey: 
 didChangeValueForKey: withSetMutation: usingObjects:
 didChangeValueForKey:withSetMutation:usingObjects:
 didCommandBySelector: client:
@@ -22885,6 +22906,7 @@ displayIfNeededIgnoringOpacity
 displayIfNeededInRect:
 displayIfNeededInRectIgnoringOpacity:
 displayLayer:
+displayLayer: 
 displayMode
 displayName
 displayNameAtPath:
@@ -23341,6 +23363,7 @@ drawInBezierPath: angle:
 drawInBezierPath: relativeCenterPosition:
 drawInCGLContext: pixelFormat:
 drawInContext:
+drawInContext: 
 drawInRect:
 drawInRect: 
 drawInRect: angle:
@@ -23359,6 +23382,7 @@ drawKnob:
 drawKnobSlotInRect: highlight:
 drawLabel: inRect:
 drawLayer: inContext:
+drawLayer: inContext: 
 drawMarkersInRect:
 drawObject:
 drawPackedGlyphs: atPoint:
@@ -24506,6 +24530,7 @@ fTrash
 fVNumber
 face
 faceBit
+fadeDuration
 failWithError:
 failWithException:
 failureAction
@@ -24769,6 +24794,7 @@ floatZoomGrowProc
 floatZoomProc
 floatingPointException
 floorl
+flush
 flushBuffer
 flushBufferedKeyEvents
 flushCachedData
@@ -25018,7 +25044,9 @@ fullScreenHideCursor
 fullScreenPreflightSize
 function
 functionWithControlPoints:
+functionWithControlPoints: : : : 
 functionWithName:
+functionWithName: 
 function_table_entry
 gState
 gWorldsNotSameDepthAndSizeErr
@@ -26121,6 +26149,7 @@ getComputedStyle:
 getComputedStyle: pseudoElement:
 getConnectionHandle
 getControlPointAtIndex: values:
+getControlPointAtIndex: values: 
 getController
 getCounterValue
 getCurrentMedium
@@ -27925,6 +27954,7 @@ historyItemLimit
 hitMsg
 hitPart
 hitTest:
+hitTest: 
 hitTest: withEvent: 
 hitTestForEvent: inRect: ofView:
 hmBalloonAborted
@@ -28451,6 +28481,7 @@ initWithContentsOfURL: options:
 initWithContentsOfURL: options: error:
 initWithContentsOfURL: usedEncoding: error:
 initWithControlPoints: : : :
+initWithControlPoints: : : : 
 initWithCoordinate:
 initWithCoordinate:addressDictionary:
 initWithCustomView: 
@@ -28569,6 +28600,7 @@ initWithKeyPointerFunctions: valuePointerFunctions: capacity:
 initWithKind:
 initWithKind: options:
 initWithLanguage: encoding:
+initWithLayer: 
 initWithLeftExpression: rightExpression: customSelector:
 initWithLeftExpression: rightExpression: modifier: type: options:
 initWithLeftExpression:rightExpression:customSelector:
@@ -28877,8 +28909,11 @@ insertSegmentWithImage:  atIndex: animated:
 insertSegmentWithTitle: atIndex: animated: 
 insertString: atIndex:
 insertSublayer: above:
+insertSublayer: above: 
 insertSublayer: atIndex:
+insertSublayer: atIndex: 
 insertSublayer: below:
+insertSublayer: below: 
 insertSubview: aboveSubview: 
 insertSubview: atIndex: 
 insertSubview: belowSubview: 
@@ -48465,6 +48500,7 @@ launchFlags
 launchPath
 launchedApplications
 launchedTaskWithLaunchPath: arguments:
+layer
 layerClass
 layerWithMovie:
 layerWithSession:
@@ -48490,6 +48526,7 @@ layoutRectForTextBlock: glyphRange:
 layoutRectFromFrame:
 layoutSublayers
 layoutSublayersOfLayer:
+layoutSublayersOfLayer: 
 layoutSubviews
 layoutTab
 ldexpl
@@ -49256,6 +49293,7 @@ mode
 modelByMergingModels:
 modelByMergingModels: forStoreMetadata:
 modelByMergingModels:forStoreMetadata:
+modelLayer
 modelNumber
 modelUniqueID
 modemInstalledBit
@@ -49482,6 +49520,7 @@ nearbyintl
 needClearScrapErr
 needsDisplay
 needsDisplayForKey:
+needsDisplayForKey: 
 needsLayout
 needsPanelToBecomeKey
 needsSizing
@@ -50864,6 +50903,7 @@ prependTransform:
 presentError:
 presentError: modalForWindow: delegate: didPresentSelector: contextInfo:
 presentModalViewController: animated: 
+presentationLayer
 presentationTime
 preservesAspectRatio
 preservesContentDuringLiveResize
@@ -51413,6 +51453,7 @@ removeAllPoints
 removeAllSegments
 removeAllToolTips
 removeAnimationForKey:
+removeAnimationForKey: 
 removeAnimationsForKey:
 removeAnnotation:
 removeAnnotations:
@@ -51563,6 +51604,7 @@ renamingIdentifier
 render: toBitmap: rowBytes:
 renderAtTime: arguments:
 renderInContext:
+renderInContext: 
 renderIntoOpenGLBuffer: onScreen: forTime:
 renderIntoPixelBuffer: forTime:
 renderToBuffer: withBytesPerRow: pixelFormat: forBounds:
@@ -51603,6 +51645,7 @@ replaceSelectionWithNode:
 replaceSelectionWithSelectionFromMovie:
 replaceSelectionWithText:
 replaceSublayer: with:
+replaceSublayer: with: 
 replaceSubview: with:
 replaceTextContainer:
 replaceTextStorage:
@@ -51893,6 +51936,7 @@ rules
 run
 run:
 runActionForKey: object:
+runActionForKey: object: 
 runAsynchronouslyWithInput:
 runCustomizationPalette:
 runInNewThread
@@ -52125,16 +52169,20 @@ scrollLineUp:
 scrollPageDown:
 scrollPageUp:
 scrollPoint:
+scrollPoint: 
 scrollRangeToVisible:
 scrollRangeToVisible: 
 scrollRect: by:
 scrollRectToVisible:
+scrollRectToVisible: 
 scrollRectToVisible: animated: 
 scrollRowToVisible:
 scrollSelectionToVisible:
 scrollToNearestSelectedRowAtScrollPosition: animated: 
 scrollToPoint:
+scrollToPoint: 
 scrollToRect:
+scrollToRect: 
 scrollToRowAtIndexPath: atScrollPosition: animated: 
 scrollViaScroller:
 scrollView
@@ -52691,6 +52739,7 @@ setActive:animated:
 setActive:error:
 setAffectedStores:
 setAffineTransform:
+setAffineTransform: 
 setAlertStyle:
 setAlign:
 setAlignment:
@@ -52755,6 +52804,7 @@ setAnimationRepeatCount:
 setAnimationStartDate: 
 setAnimationTimeInterval:
 setAnimationTimingFunction:
+setAnimationTimingFunction: 
 setAnimationTransition: forView: cache: 
 setAnimationWillStartSelector: 
 setAnimations:
@@ -53148,6 +53198,7 @@ setDirectParameter:
 setDirection:
 setDirectory:
 setDisableActions:
+setDisableActions: 
 setDisabled:
 setDiskCapacity:
 setDismissesAutomatically:
@@ -54323,6 +54374,7 @@ setValue: animated:
 setValue: forHTTPHeaderField:
 setValue: forInputKey:
 setValue: forKey:
+setValue: forKey: 
 setValue: forKeyPath:
 setValue: forOutputKey:
 setValue: forProperty:
@@ -59130,6 +59182,7 @@ valueForDimension:
 valueForHTTPHeaderField:
 valueForInputKey:
 valueForKey:
+valueForKey: 
 valueForKey: expandEnvironmentVariables:
 valueForKeyPath:
 valueForOutputKey:
@@ -59152,6 +59205,7 @@ valueType
 valueTypeForDimension:
 valueWithBytes: objCType:
 valueWithCATransform3D:
+valueWithCATransform3D: 
 valueWithCGAffineTransform: 
 valueWithCGPoint: 
 valueWithCGRect: 
@@ -59778,6 +59832,7 @@ willAnimateSecondHalfOfRotationFromInterfaceOrientation: duration:
 willChange: valuesAtIndexes: forKey:
 willChangePPDOptionKeyValue: ppdChoice:
 willChangeValueForKey:
+willChangeValueForKey: 
 willChangeValueForKey: withSetMutation: usingObjects:
 willChangeValueForKey:withSetMutation:usingObjects:
 willEditChild: inWindowController:

@@ -9,14 +9,16 @@
     <key>NSHumanReadableCopyright</key>
 	<string>TheCodingMonkeys - based on Jeff Reinecke's improvements over the original Mode</string>
     <key>CFBundleShortVersionString</key>
-	<string>3.5</string>
+	<string>3.5.1</string>
 	<key>CFBundleVersion</key>
-	<string>3.5</string>
+	<string>3.5.1</string>
     <key>CFBundleGetInfoString</key>
-	<string>3.5</string>
+	<string>3.5.1</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>SEEMinimumEngineVersion</key>
+	<string>3.5</string>
 </dict>
 </plist>

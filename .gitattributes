@@ -924,6 +924,8 @@ MoreIsBetter/MoreUNIX.h -text
 /NSCoreSuite.sdef -text
 /NSCursorSEEAdditions.h -text
 /NSCursorSEEAdditions.m -text
+/NSErrorTCMAdditions.h -text
+/NSErrorTCMAdditions.m -text
 /NSImageTCMAdditions.h -text
 /NSImageTCMAdditions.m -text
 /NSMenuTCMAdditions.h -text

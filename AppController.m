@@ -738,8 +738,8 @@ static OSStatus AuthorizationRightSetWithWorkaround(
         [dockMenu addItem:item];
         [item setSubmenu:menu];
         [item setTarget:[DocumentController sharedDocumentController]];
-        [item setAction:@selector(newDocument:)];
-        [menu configureWithAction:@selector(newDocumentWithModeMenuItem:) alternateDisplay:NO];
+        [item setAction:@selector(newDocumentFromDock:)];
+        [menu configureWithAction:@selector(newDocumentWithModeMenuItemFromDock:) alternateDisplay:NO];
         item=[[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Open File...",@"Open File Dock Menu Item") action:@selector(openDocument:) keyEquivalent:@""] autorelease];
         [dockMenu addItem:item];
         item = [[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"All Tabs",@"all tabs Dock Menu Item") action:NULL keyEquivalent:@""] autorelease];
