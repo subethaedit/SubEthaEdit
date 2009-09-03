@@ -10,14 +10,16 @@
 	<string>© 2009 TheCodingMonkeys
 http://www.codingmonkeys.de</string>
 	<key>CFBundleShortVersionString</key>
-	<string>3.5</string>
+	<string>3.5.1</string>
 	<key>CFBundleVersion</key>
-	<string>3.5</string>
+	<string>3.5.1</string>
 	<key>CFBundleGetInfoString</key>
-	<string>3.5, Copyright TheCodingMonkeys 2009</string>
+	<string>3.5.1, Copyright TheCodingMonkeys 2009</string>
 	<key>CFBundlePackageType</key>
 	<string>BNDL</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<key>SEEMinimumEngineVersion</key>
+	<string>3.5</string>
 </dict>
 </plist>

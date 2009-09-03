@@ -5,8 +5,8 @@
     <head>
         <name>PHP-HTML</name>
         <!-- The definitions title -->
-        <charsintokens>_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@$"</charsintokens>
-        <charsincompletion>_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@$&lt;/=>!</charsincompletion>
+        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@$"]]></charsintokens>
+        <charsincompletion><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@$&lt;/=>!]]></charsincompletion>
     </head>
     <states>
         <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="HTML" useautocompletefrommode="HTML">
@@ -3593,7 +3593,7 @@
                     <string>__clone</string>
                     <string>__autoload</string>
                 </keywords>
-                <keywords id="PHP Numbers" color="#00f" useforautocomplete="no">
+                <keywords id="PHP Numbers" color="#00f" inverted-color="#5d56ff" useforautocomplete="no">
                     <regex>(?&lt;=[^\w\d]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
                 </keywords>
                 <keywords id="FunctionRegex" color="#003369" useforautocomplete="no">
@@ -3652,10 +3652,8 @@
                     <end>
                         <regex>(?:}|[^\n\r](?=[\n\r]?\?>))</regex>
                     </end>
-                    <import mode="XML" keywords-only="yes"/>
                     <import state="PHP"/>
                 </state>
-                <import mode="XML" keywords-only="yes"/>
             </state>
             <state id="Comment" type="comment" color="#236E25" font-style="italic">
                 <begin>
