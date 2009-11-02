@@ -31,6 +31,7 @@ NSString * const DocumentModeUTF8BOMPreferenceKey              = @"UTF8BOM";
 NSString * const DocumentModeFontAttributesPreferenceKey       = @"FontAttributes";
 NSString * const DocumentModeHighlightSyntaxPreferenceKey      = @"HighlightSyntax";
 NSString * const DocumentModeIndentNewLinesPreferenceKey       = @"IndentNewLines";
+NSString * const DocumentModeTabKeyReplacesSelectionPreferenceKey  = @"TabKeyReplacesSelection";
 NSString * const DocumentModeLineEndingPreferenceKey           = @"LineEnding";
 NSString * const DocumentModeShowLineNumbersPreferenceKey      = @"ShowLineNumbers";
 NSString * const DocumentModeShowMatchingBracketsPreferenceKey = @"ShowMatchingBrackets";

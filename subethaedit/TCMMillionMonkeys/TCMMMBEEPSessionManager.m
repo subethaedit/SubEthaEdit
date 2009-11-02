@@ -861,7 +861,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
     } else if ([[[aProfile session] userInfo] objectForKey:@"isAutoConnect"]) {
         // check if we already have a valid session to that user
         if ([self sessionForUserID:aUserID]) {
-            NSLog(@"%s already got session",__FUNCTION__);
+//            NSLog(@"%s already got session",__FUNCTION__);
             return nil;
         } else {
             return [TCMMMUserManager myUserID];

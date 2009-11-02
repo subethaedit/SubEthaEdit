@@ -6439,6 +6439,7 @@ static NSString *S_measurementUnits;
 
 - (BOOL)textView:(NSTextView *)aTextView doCommandBySelector:(SEL)aSelector {
 //    NSLog(@"TextDocument textView doCommandBySelector:%@",NSStringFromSelector(aSelector));
+	BOOL tabKeyReplaces = [[[self documentMode] defaultForKey:DocumentModeTabKeyReplacesSelectionPreferenceKey] boolValue];
     NSRange affectedRange=[aTextView rangeForUserTextChange];
     NSRange selectedRange=[aTextView selectedRange];
     if (aSelector==@selector(cancel:)) {
@@ -6507,11 +6508,11 @@ static NSString *S_measurementUnits;
             }
             return YES;
 
-        } else if (aSelector==@selector(insertBacktab:) && selectedRange.length > 0) {
+        } else if (aSelector==@selector(insertBacktab:) && !tabKeyReplaces && selectedRange.length > 0) {
         	PlainTextEditor *editor = [(TextView *)aTextView editor];
         	[editor shiftLeft:self];
         	return YES;
-        }  else if (aSelector==@selector(insertTab:) && selectedRange.length > 0) {
+        }  else if (aSelector==@selector(insertTab:)    && !tabKeyReplaces && selectedRange.length > 0) {
         	PlainTextEditor *editor = [(TextView *)aTextView editor];
         	[editor shiftRight:self];
         	return YES;
