@@ -389,49 +389,60 @@ static DocumentModeManager *S_sharedInstance=nil;
 }
 
 
-- (void)TCM_findModes {
-    NSString *file;
-    NSString *path;
+- (void)TCM_findModes { 
+    NSString *file; 
+    NSString *path; 
     
-    //create Directories
-    NSArray *userDomainPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-    NSEnumerator *enumerator = [userDomainPaths objectEnumerator];
-    while ((path = [enumerator nextObject])) {
-        NSString *fullPath = [path stringByAppendingPathComponent:MODEPATHCOMPONENT];
-        if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:nil]) {
-            [[NSFileManager defaultManager] createDirectoryAtPath:[fullPath stringByDeletingLastPathComponent] attributes:nil];
-            [[NSFileManager defaultManager] createDirectoryAtPath:fullPath attributes:nil];
-        }
-    }
-
-        
-    NSMutableArray *allPaths = [NSMutableArray array];
-    NSArray *allDomainsPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, YES);
-    enumerator = [allDomainsPaths objectEnumerator];
-    while ((path = [enumerator nextObject])) {
-        [allPaths addObject:[path stringByAppendingPathComponent:MODEPATHCOMPONENT]];
-    }
+    //create Directories 
+    NSArray *userDomainPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES); 
+    NSEnumerator *enumerator = [userDomainPaths objectEnumerator]; 
+    while ((path = [enumerator nextObject])) { 
+        NSString *fullPath = [path stringByAppendingPathComponent:MODEPATHCOMPONENT]; 
+        if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:nil]) { 
+            [[NSFileManager defaultManager] createDirectoryAtPath:[fullPath stringByDeletingLastPathComponent] attributes:nil]; 
+            [[NSFileManager defaultManager] createDirectoryAtPath:fullPath attributes:nil]; 
+        } 
+    } 
     
-    [allPaths addObject:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Modes/"]];
     
-    enumerator = [allPaths reverseObjectEnumerator];
-    while ((path = [enumerator nextObject])) {
-        NSEnumerator *dirEnumerator = [[[NSFileManager defaultManager] directoryContentsAtPath:path] objectEnumerator];
-        while ((file = [dirEnumerator nextObject])) {
-            if ([[file pathExtension] isEqualToString:@"mode"]) {
-                NSBundle *bundle = [NSBundle bundleWithPath:[path stringByAppendingPathComponent:file]];
-                if (bundle && [bundle bundleIdentifier]) {
-                    [I_modeBundles setObject:bundle forKey:[bundle bundleIdentifier]];
-                    if (![I_modeIdentifiersTagArray containsObject:[bundle bundleIdentifier]]) {
-                        [I_modeIdentifiersTagArray addObject:[bundle bundleIdentifier]];                    
-                    }
-                }
-            }
-            
-        }
-    }
-
-}
+    NSMutableArray *allPaths = [NSMutableArray array]; 
+    NSArray *allDomainsPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, YES); 
+    enumerator = [allDomainsPaths objectEnumerator]; 
+    while ((path = [enumerator nextObject])) { 
+        [allPaths addObject:[path stringByAppendingPathComponent:MODEPATHCOMPONENT]]; 
+    } 
+    
+    [allPaths addObject:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Modes/"]]; 
+    
+    enumerator = [allPaths reverseObjectEnumerator]; 
+    while ((path = [enumerator nextObject])) { 
+        NSEnumerator *dirEnumerator = [[[NSFileManager defaultManager] directoryContentsAtPath:path] objectEnumerator]; 
+        while ((file = [dirEnumerator nextObject])) { 
+            if ([[file pathExtension] isEqualToString:@"mode"]) { 
+                NSBundle *bundle = [NSBundle bundleWithPath:[path stringByAppendingPathComponent:file]]; 
+                if (bundle && [bundle bundleIdentifier]) 
+                { 
+                    if (![DocumentMode canParseModeVersionOfBundle:bundle]) 
+                    { 
+                        NSAlert *alert = [[[NSAlert alloc] init] autorelease]; 
+                        [alert setAlertStyle:NSWarningAlertStyle]; 
+                        [alert setMessageText:NSLocalizedString(@"Mode not compatible",@"Mode requires newer engine title")]; 
+                        [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"The mode '%@' was written for a newer version of SubEthaEngine and cannot be used with this application.", @"Mode requires newer engine Informative Text"), [bundle bundleIdentifier]]]; 
+                        [alert addButtonWithTitle:@"OK"]; 
+                        [alert performSelector:@selector(runModal) withObject:nil afterDelay:0]; // delay, as we don't want to block the init call, otherwise we keep receiving init messages 
+                    } 
+                    else 
+                    { 
+                        [I_modeBundles setObject:bundle forKey:[bundle bundleIdentifier]]; 
+                        if (![I_modeIdentifiersTagArray containsObject:[bundle bundleIdentifier]]) { 
+                            [I_modeIdentifiersTagArray addObject:[bundle bundleIdentifier]];                    
+                        } 
+                    } 
+                } 
+            } 
+        } 
+    } 
+} 
 
 - (IBAction)reloadDocumentModes:(id)aSender {
 #if defined(CODA)

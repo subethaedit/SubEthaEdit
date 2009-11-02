@@ -89,6 +89,8 @@ extern NSString * const DocumentModeApplyStylePreferencesNotification;
     NSMutableDictionary *I_styleIDTransitionDictionary;
 }
 
++ (BOOL)canParseModeVersionOfBundle:(NSBundle *)aBundle;
+
 - (id)initWithBundle:(NSBundle *)aBundle;
 
 - (NSDictionary *)styleIDTransitionDictionary;
