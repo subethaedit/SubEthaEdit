@@ -1138,6 +1138,7 @@ static NSString *tempFileName(NSString *origPath) {
 
 - (void)fillScriptsIntoContextMenu:(NSMenu *)aMenu {
     NSArray *itemArray = [[self documentMode] contextMenuItemArray];
+    BOOL addSeparator = NO;
     if ([itemArray count]) {
         NSEnumerator *menuItems=[itemArray objectEnumerator];
         NSMenuItem   *menuItem = nil;
@@ -1145,9 +1146,13 @@ static NSString *tempFileName(NSString *origPath) {
             NSMenuItem *item=[menuItem autoreleasedCopy];
             [aMenu addItem:item];
         }
+        addSeparator = YES;
     }
     itemArray = [[AppController sharedInstance] contextMenuItemArray];
     if ([itemArray count]) {
+    	if (addSeparator) {
+    		[aMenu addItem:[NSMenuItem separatorItem]];
+    	}
         NSEnumerator *menuItems=[itemArray objectEnumerator];
         NSMenuItem   *menuItem = nil;
         while ((menuItem=[menuItems nextObject])) {
