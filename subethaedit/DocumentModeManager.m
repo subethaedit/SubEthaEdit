@@ -388,6 +388,23 @@ static DocumentModeManager *S_sharedInstance=nil;
     [[NSUserDefaults standardUserDefaults] setObject:[self modePrecedenceArray] forKey:@"ModePrecedences"];
 }
 
+- (void)showIncompatibleModeErrorForBundle:(NSBundle *)aBundle
+{
+    NSAlert *alert = [[[NSAlert alloc] init] autorelease]; 
+    [alert setAlertStyle:NSWarningAlertStyle]; 
+    [alert setMessageText:NSLocalizedString(@"Mode not compatible",@"Mode requires newer engine title")]; 
+    [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"The mode '%@' was written for a newer version of SubEthaEngine and cannot be used with this application.", @"Mode requires newer engine Informative Text"), [aBundle bundleIdentifier]]]; 
+    [alert addButtonWithTitle:@"OK"]; 
+    [alert addButtonWithTitle:NSLocalizedString(@"Reveal in Finder",@"Reveal in Finder - menu entry")]; 
+    [alert setDelegate:self];
+    
+    int returnCode = [alert runModal]; 
+    
+    if (returnCode == NSAlertSecondButtonReturn) {
+        // Show mode in Finder
+        [[NSWorkspace sharedWorkspace] selectFile:[aBundle bundlePath] inFileViewerRootedAtPath:nil];
+    }
+}
 
 - (void)TCM_findModes { 
     NSString *file; 
@@ -424,12 +441,7 @@ static DocumentModeManager *S_sharedInstance=nil;
                 { 
                     if (![DocumentMode canParseModeVersionOfBundle:bundle]) 
                     { 
-                        NSAlert *alert = [[[NSAlert alloc] init] autorelease]; 
-                        [alert setAlertStyle:NSWarningAlertStyle]; 
-                        [alert setMessageText:NSLocalizedString(@"Mode not compatible",@"Mode requires newer engine title")]; 
-                        [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"The mode '%@' was written for a newer version of SubEthaEngine and cannot be used with this application.", @"Mode requires newer engine Informative Text"), [bundle bundleIdentifier]]]; 
-                        [alert addButtonWithTitle:@"OK"]; 
-                        [alert performSelector:@selector(runModal) withObject:nil afterDelay:0]; // delay, as we don't want to block the init call, otherwise we keep receiving init messages 
+                        [self performSelector:@selector(showIncompatibleModeErrorForBundle:) withObject:bundle afterDelay:0]; // delay, as we don't want to block the init call, otherwise we keep receiving init messages 
                     } 
                     else 
                     { 
