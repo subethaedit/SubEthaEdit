@@ -93,6 +93,10 @@
 - (IBAction)toggleWrap:(id)aSender;
 - (IBAction)toggleShowsChangeMarks:(id)aSender;
 
+- (IBAction)shiftRight:(id)aSender;
+- (IBAction)shiftLeft:(id)aSender;
+- (IBAction)detab:(id)aSender;
+
 - (IBAction)jumpToNextSymbol:(id)aSender;
 - (IBAction)jumpToPreviousSymbol:(id)aSender;
 

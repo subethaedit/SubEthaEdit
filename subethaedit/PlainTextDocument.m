@@ -6507,6 +6507,14 @@ static NSString *S_measurementUnits;
             }
             return YES;
 
+        } else if (aSelector==@selector(insertBacktab:) && selectedRange.length > 0) {
+        	PlainTextEditor *editor = [(TextView *)aTextView editor];
+        	[editor shiftLeft:self];
+        	return YES;
+        }  else if (aSelector==@selector(insertTab:) && selectedRange.length > 0) {
+        	PlainTextEditor *editor = [(TextView *)aTextView editor];
+        	[editor shiftRight:self];
+        	return YES;
         } else if (aSelector==@selector(insertTab:) && !I_flags.usesTabs) {
             // when we have a tab we have to find the last linebreak
             NSRange lineRange=[[[self textStorage] string] lineRangeForRange:affectedRange];
