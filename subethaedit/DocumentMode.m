@@ -47,6 +47,16 @@ NSString * const DocumentModeWrapModePreferenceKey             = @"WrapMode";
 NSString * const DocumentModeRowsPreferenceKey                 = @"Rows";
 NSString * const DocumentModeColumnsPreferenceKey              = @"Columns";
 NSString * const DocumentModeSpellCheckingPreferenceKey        = @"CheckSpelling";
+
+// snow leopard additions
+NSString * const DocumentModeGrammarCheckingPreferenceKey             = @"CheckGrammar";
+NSString * const DocumentModeAutomaticLinkDetectionPreferenceKey      = @"AutomaticLinkDetection";
+NSString * const DocumentModeAutomaticDashSubstitutionPreferenceKey   = @"AutomaticDashSubstitution";
+NSString * const DocumentModeAutomaticQuoteSubstitutionPreferenceKey  = @"AutomaticQuoteSubstitution";
+NSString * const DocumentModeAutomaticTextReplacementPreferenceKey    = @"AutomaticTextReplacement";
+NSString * const DocumentModeAutomaticSpellingCorrectionPreferenceKey = @"AutomaticSpellingCorrection";
+
+
 NSString * const DocumentModeUseDefaultViewPreferenceKey       = @"UseDefaultView";
 NSString * const DocumentModeUseDefaultEditPreferenceKey       = @"UseDefaultEdit";
 NSString * const DocumentModeUseDefaultFilePreferenceKey       = @"UseDefaultFile";

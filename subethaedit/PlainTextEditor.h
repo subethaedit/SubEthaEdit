@@ -110,6 +110,10 @@
 - (void)gotoLineInBackground:(unsigned)aLine;
 
 
+// funnel point for all our internal pointers for additional text checking
+- (void)scheduleTextCheckingForRange:(NSRange)aRange;
+
+
 @end
 
 @interface PlainTextEditor (PlainTextEditorScriptingAdditions)

@@ -1669,7 +1669,7 @@ static NSString *tempFileName(NSString *origPath) {
         if (returnCode == NSAlertThirdButtonReturn) { // Reinterpret
             DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Trying to reinterpret file encoding");
             [[alert window] orderOut:self];
-            NSData *stringData = [[I_textStorage fullTextStorage] dataUsingEncoding:[self fileEncoding]];
+            NSData *stringData = [[[I_textStorage fullTextStorage] string] dataUsingEncoding:[self fileEncoding]];
             if ([self fileEncoding] == NSUTF8StringEncoding) {
                 BOOL modeWantsUTF8BOM = [[[self documentMode] defaultForKey:DocumentModeUTF8BOMPreferenceKey] boolValue];
                 if (I_flags.hasUTF8BOM || modeWantsUTF8BOM) {
@@ -3416,7 +3416,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             encoding = [[mode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
         }
         
-        NSDictionary *docAttrs = nil;
+//        NSDictionary *docAttrs = nil;
         NSMutableDictionary *options = [NSMutableDictionary dictionary];
         [options setObject:NSPlainTextDocumentType forKey:@"DocumentType"];
         
@@ -5449,6 +5449,32 @@ static NSString *S_measurementUnits;
         [[[self documentMode] defaults] setObject:[NSNumber numberWithBool:aFlag] forKey:DocumentModeSpellCheckingPreferenceKey];
     }
 }
+
+- (void)takeSpellCheckingSettingsFromEditor:(PlainTextEditor *)anEditor {
+	TextView *textView = (TextView *)[anEditor textView];
+	NSMutableDictionary *modeDefaults = [[self documentMode] defaults];
+	[modeDefaults setObject:[NSNumber numberWithBool:[textView isContinuousSpellCheckingEnabled]] forKey:DocumentModeSpellCheckingPreferenceKey];
+	
+	NSDictionary *attributeForDefaultKeyDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+		DocumentModeGrammarCheckingPreferenceKey,@"isGrammarCheckingEnabled",
+		DocumentModeAutomaticLinkDetectionPreferenceKey,@"isAutomaticLinkDetectionEnabled",
+		DocumentModeAutomaticDashSubstitutionPreferenceKey,@"isAutomaticDashSubstitutionEnabled",
+		DocumentModeAutomaticQuoteSubstitutionPreferenceKey,@"isAutomaticQuoteSubstitutionEnabled",
+		DocumentModeAutomaticTextReplacementPreferenceKey,@"isAutomaticTextReplacementEnabled",
+		DocumentModeAutomaticSpellingCorrectionPreferenceKey,@"isAutomaticSpellingCorrectionEnabled",
+		nil];
+	NSEnumerator *keyEnumerator = [attributeForDefaultKeyDictionary keyEnumerator];
+	NSString *attributeString = nil;
+	while ((attributeString = [keyEnumerator nextObject])) {
+		NSString *defaultKey = [attributeForDefaultKeyDictionary objectForKey:attributeString];
+		if ([textView respondsToSelector:NSSelectorFromString(attributeString)]) {
+			[modeDefaults setObject:[textView valueForKey:attributeString] forKey:defaultKey];
+//			NSLog(@"%s set %@ for %@ now %@",__FUNCTION__,attributeString, defaultKey, [textView valueForKey:attributeString]);
+		}
+	}
+//	NSLog(@"%s %@",__FUNCTION__,modeDefaults);
+}
+
 
 - (BOOL)isReceivingContent {
     return I_flags.isReceivingContent;

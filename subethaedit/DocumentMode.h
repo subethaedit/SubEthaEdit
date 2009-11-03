@@ -35,7 +35,19 @@ extern NSString * const DocumentModeShowInvisibleCharactersPreferenceKey;
 extern NSString * const DocumentModeWrapModePreferenceKey               ;
 extern NSString * const DocumentModeColumnsPreferenceKey                ;
 extern NSString * const DocumentModeRowsPreferenceKey                   ;
+
 extern NSString * const DocumentModeSpellCheckingPreferenceKey          ;
+
+// snow leopard additions
+extern NSString * const DocumentModeGrammarCheckingPreferenceKey             ;
+extern NSString * const DocumentModeAutomaticLinkDetectionPreferenceKey      ;
+extern NSString * const DocumentModeAutomaticDashSubstitutionPreferenceKey   ;
+extern NSString * const DocumentModeAutomaticQuoteSubstitutionPreferenceKey  ;
+extern NSString * const DocumentModeAutomaticTextReplacementPreferenceKey    ;
+extern NSString * const DocumentModeAutomaticSpellingCorrectionPreferenceKey ;
+
+
+
 extern NSString * const DocumentModePrintOptionsPreferenceKey           ;
 
 extern NSString * const DocumentModeBackgroundColorIsDarkPreferenceKey  ;
