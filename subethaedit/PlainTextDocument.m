@@ -1650,7 +1650,7 @@ static NSString *tempFileName(NSString *origPath) {
         if (returnCode == NSAlertFirstButtonReturn) { // convert
             DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Trying to convert file encoding");
             [[alert window] orderOut:self];
-            if (![[I_textStorage string] canBeConvertedToEncoding:encoding]) {
+            if (![[[I_textStorage fullTextStorage] string] canBeConvertedToEncoding:encoding]) {
                 [[self topmostWindowController] setDocumentDialog:[[[EncodingDoctorDialog alloc] initWithEncoding:encoding] autorelease]];
             
                 // didn't work so update bottom status bar to previous state
@@ -1669,7 +1669,7 @@ static NSString *tempFileName(NSString *origPath) {
         if (returnCode == NSAlertThirdButtonReturn) { // Reinterpret
             DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Trying to reinterpret file encoding");
             [[alert window] orderOut:self];
-            NSData *stringData = [[I_textStorage string] dataUsingEncoding:[self fileEncoding]];
+            NSData *stringData = [[I_textStorage fullTextStorage] dataUsingEncoding:[self fileEncoding]];
             if ([self fileEncoding] == NSUTF8StringEncoding) {
                 BOOL modeWantsUTF8BOM = [[[self documentMode] defaultForKey:DocumentModeUTF8BOMPreferenceKey] boolValue];
                 if (I_flags.hasUTF8BOM || modeWantsUTF8BOM) {
@@ -2739,7 +2739,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         NSMutableArray *lossyEncodings = [NSMutableArray array];
         NSUInteger i;
         for (i = 0; i < [encodings count]; i++) {
-            if (![[I_textStorage string] canBeConvertedToEncoding:[[encodings objectAtIndex:i] unsignedIntValue]]) {
+            if (![[[I_textStorage fullTextStorage] string] canBeConvertedToEncoding:[[encodings objectAtIndex:i] unsignedIntValue]]) {
                 [lossyEncodings addObject:[encodings objectAtIndex:i]];
             }
         }
@@ -2969,10 +2969,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         if (I_lastSaveOperation == NSSaveToOperation) {
             DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Save a copy using encoding: %@", [NSString localizedNameOfStringEncoding:I_encodingFromLastRunSaveToOperation]);
             [[EncodingManager sharedInstance] unregisterEncoding:I_encodingFromLastRunSaveToOperation];
-            data = [[I_textStorage string] dataUsingEncoding:I_encodingFromLastRunSaveToOperation allowLossyConversion:YES];
+            data = [[[I_textStorage fullTextStorage] string] dataUsingEncoding:I_encodingFromLastRunSaveToOperation allowLossyConversion:YES];
         } else {
             DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Save using encoding: %@", [NSString localizedNameOfStringEncoding:[self fileEncoding]]);
-            data = [[I_textStorage string] dataUsingEncoding:[self fileEncoding] allowLossyConversion:YES];
+            data = [[[I_textStorage fullTextStorage] string] dataUsingEncoding:[self fileEncoding] allowLossyConversion:YES];
         }
         
         BOOL modeWantsUTF8BOM = [[[self documentMode] defaultForKey:DocumentModeUTF8BOMPreferenceKey] boolValue];
@@ -7036,7 +7036,7 @@ static NSString *S_measurementUnits;
     CFStringEncoding cfEncoding = CFStringConvertIANACharSetNameToEncoding((CFStringRef)name);
     if (cfEncoding != kCFStringEncodingInvalidId) {
         NSStringEncoding encoding = CFStringConvertEncodingToNSStringEncoding(cfEncoding);
-        if ([[I_textStorage string] canBeConvertedToEncoding:encoding]) {
+        if ([[[I_textStorage fullTextStorage] string] canBeConvertedToEncoding:encoding]) {
             [self setFileEncoding:encoding];
             [self updateChangeCount:NSChangeDone];             
         } else {
