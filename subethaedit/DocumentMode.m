@@ -332,7 +332,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             [dict setObject:[NSNumber numberWithFloat:[font pointSize]] 
                      forKey:NSFontSizeAttribute];
             [I_defaults setObject:dict forKey:DocumentModeFontAttributesPreferenceKey];
-            [I_defaults setObject:[NSNumber numberWithUnsignedInt:NoStringEncoding] forKey:DocumentModeEncodingPreferenceKey];
+            [I_defaults setObject:[NSNumber numberWithUnsignedInt:NSUTF8StringEncoding] forKey:DocumentModeEncodingPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentModeHighlightSyntaxPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithBool:NO]  forKey:DocumentModeShowLineNumbersPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithBool:NO]  forKey:DocumentModeShowInvisibleCharactersPreferenceKey];
