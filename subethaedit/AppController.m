@@ -1040,7 +1040,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [defaultMenu addItem:[[(NSMenuItem *)[EditMenu itemWithTag:TransformationsMenuItemTag] copy] autorelease]];
     [defaultMenu addItem:[[(NSMenuItem *)[EditMenu itemWithTag:SubstitutionsMenuItemTag] copy] autorelease]];
     [defaultMenu addItem:[[(NSMenuItem *)[EditMenu itemWithTag:SpeechMenuItemTag] copy] autorelease]];
-    NSLog(@"%s default menu:%@",__FUNCTION__,defaultMenu);
+//    NSLog(@"%s default menu:%@",__FUNCTION__,defaultMenu);
     [TextView setDefaultMenu:defaultMenu];
 }
 
