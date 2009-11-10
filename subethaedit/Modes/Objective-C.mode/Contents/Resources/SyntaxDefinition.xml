@@ -1067,6 +1067,14 @@
                 <string>CATransformLayer</string>
                 <string>CATransition</string>
                 <string>CAValueFunction</string>
+                <string>ABNewPersonViewController</string>
+                <string>ABPeoplePickerNavigationController</string>
+                <string>ABPersonViewController</string>
+                <string>ABUnknownPersonViewController</string>
+                <string>ABNewPersonViewControllerDelegate</string>
+                <string>ABPeoplePickerNavigationControllerDelegate</string>
+                <string>ABPersonViewControllerDelegate</string>
+                <string>ABUnknownPersonViewControllerDelegate</string>
             </keywords>
             <keywords id="Objective-C Keywords" color="#881350" useforautocomplete="yes" font-weight="bold">
                 <string>@class</string>
@@ -1936,6 +1944,102 @@
                 <string>NSStringFromCGRect</string>
                 <string>NSStringFromCGSize</string>
                 <string>NSStringFromUIEdgeInsets</string>
+                <string>ABAddPropertiesAndTypes</string>
+                <string>ABAddRecord</string>
+                <string>ABAddressBookAddRecord</string>
+                <string>ABAddressBookCopyArrayOfAllGroups</string>
+                <string>ABAddressBookCopyArrayOfAllPeople</string>
+                <string>ABAddressBookCopyLocalizedLabel</string>
+                <string>ABAddressBookCopyPeopleWithName</string>
+                <string>ABAddressBookGetGroupCount</string>
+                <string>ABAddressBookGetGroupWithRecordID</string>
+                <string>ABAddressBookGetPersonCount</string>
+                <string>ABAddressBookGetPersonWithRecordID</string>
+                <string>ABAddressBookHasUnsavedChanges</string>
+                <string>ABAddressBookRegisterExternalChangeCallback</string>
+                <string>ABAddressBookRemoveRecord</string>
+                <string>ABAddressBookSave</string>
+                <string>ABAddressBookUnregisterExternalChangeCallback</string>
+                <string>ABBeginLoadingImageDataForClient</string>
+                <string>ABCancelLoadingImageDataForTag</string>
+                <string>ABCopyArrayOfAllGroups</string>
+                <string>ABCopyArrayOfAllPeople</string>
+                <string>ABCopyArrayOfMatchingRecords</string>
+                <string>ABCopyArrayOfPropertiesForRecordType</string>
+                <string>ABCopyLocalizedPropertyOrLabel</string>
+                <string>ABCopyRecordForUniqueId</string>
+                <string>ABGetMe</string>
+                <string>ABGetSharedAddressBook</string>
+                <string>ABGroupAddGroup</string>
+                <string>ABGroupAddMember</string>
+                <string>ABGroupCopyArrayOfAllMembers</string>
+                <string>ABGroupCopyArrayOfAllMembersWithSortOrdering</string>
+                <string>ABGroupCopyArrayOfAllSubgroups</string>
+                <string>ABGroupCopyDistributionIdentifier</string>
+                <string>ABGroupCopyParentGroups</string>
+                <string>ABGroupCreate</string>
+                <string>ABGroupCreateSearchElement</string>
+                <string>ABGroupRemoveGroup</string>
+                <string>ABGroupRemoveMember</string>
+                <string>ABGroupSetDistributionIdentifier</string>
+                <string>ABHasUnsavedChanges</string>
+                <string>ABMultiValueAdd</string>
+                <string>ABMultiValueAddValueAndLabel</string>
+                <string>ABMultiValueCopyArrayOfAllValues</string>
+                <string>ABMultiValueCopyIdentifierAtIndex</string>
+                <string>ABMultiValueCopyLabelAtIndex</string>
+                <string>ABMultiValueCopyPrimaryIdentifier</string>
+                <string>ABMultiValueCopyValueAtIndex</string>
+                <string>ABMultiValueCount</string>
+                <string>ABMultiValueCreate</string>
+                <string>ABMultiValueCreateCopy</string>
+                <string>ABMultiValueCreateMutable</string>
+                <string>ABMultiValueCreateMutableCopy</string>
+                <string>ABMultiValueGetCount</string>
+                <string>ABMultiValueGetFirstIndexOfValue</string>
+                <string>ABMultiValueGetIdentifierAtIndex</string>
+                <string>ABMultiValueGetIndexForIdentifier</string>
+                <string>ABMultiValueGetPropertyType</string>
+                <string>ABMultiValueIndexForIdentifier</string>
+                <string>ABMultiValueInsert</string>
+                <string>ABMultiValueInsertValueAndLabelAtIndex</string>
+                <string>ABMultiValuePropertyType</string>
+                <string>ABMultiValueRemove</string>
+                <string>ABMultiValueRemoveValueAndLabelAtIndex</string>
+                <string>ABMultiValueReplaceLabel</string>
+                <string>ABMultiValueReplaceLabelAtIndex</string>
+                <string>ABMultiValueReplaceValue</string>
+                <string>ABMultiValueReplaceValueAtIndex</string>
+                <string>ABMultiValueSetPrimaryIdentifier</string>
+                <string>ABPersonComparePeopleByName</string>
+                <string>ABPersonCopyImageData</string>
+                <string>ABPersonCopyLocalizedPropertyName</string>
+                <string>ABPersonCopyParentGroups</string>
+                <string>ABPersonCopyVCardRepresentation</string>
+                <string>ABPersonCreate</string>
+                <string>ABPersonCreateSearchElement</string>
+                <string>ABPersonCreateWithVCardRepresentation</string>
+                <string>ABPersonGetCompositeNameFormat</string>
+                <string>ABPersonGetSortOrdering</string>
+                <string>ABPersonGetTypeOfProperty</string>
+                <string>ABPersonHasImageData</string>
+                <string>ABPersonRemoveImageData</string>
+                <string>ABPersonSetImageData</string>
+                <string>ABRecordCopyCompositeName</string>
+                <string>ABRecordCopyRecordType</string>
+                <string>ABRecordCopyUniqueId</string>
+                <string>ABRecordCopyValue</string>
+                <string>ABRecordGetRecordID</string>
+                <string>ABRecordGetRecordType</string>
+                <string>ABRecordRemoveValue</string>
+                <string>ABRecordSetValue</string>
+                <string>ABRemoveProperties</string>
+                <string>ABRemoveRecord</string>
+                <string>ABSave</string>
+                <string>ABSearchElementCreateWithConjunction</string>
+                <string>ABSearchElementMatchesRecord</string>
+                <string>ABSetMe</string>
+                <string>ABTypeOfProperty</string>
             </keywords>
             <keywords id="Cocoa Types" color="#400080" font-weight="normal" font-style="italic" useforautocomplete="yes">
                 <string>CAAction</string>
