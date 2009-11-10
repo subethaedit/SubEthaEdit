@@ -2040,6 +2040,7 @@
                 <string>ABSearchElementMatchesRecord</string>
                 <string>ABSetMe</string>
                 <string>ABTypeOfProperty</string>
+                <string>ABCreateStringWithAddressDictionary</string>
             </keywords>
             <keywords id="Cocoa Types" color="#400080" font-weight="normal" font-style="italic" useforautocomplete="yes">
                 <string>CAAction</string>
