@@ -20667,6 +20667,9 @@ checkSpaceForParts
 checkSpelling:
 checkSpellingOfString: startingAt:
 checkSpellingOfString: startingAt: language: wrap: inSpellDocumentWithTag: wordCount:
+checkTextInDocument:
+checkTextInRange: types: options:
+checkTextInSelection:
 check_string
 check_tasklevel0
 check_tasklevel0_string
@@ -23725,6 +23728,7 @@ enableUpdates
 enabled
 enabledEntityNames
 enabledRemoteNotificationTypes
+enabledTextCheckingTypes
 enclosingMenuItem
 enclosingScrollView
 enclosure: downloadStateDidChange:
@@ -27781,6 +27785,7 @@ handlePrintScriptCommand:
 handleQueryWithUnboundKey:
 handleSaveScriptCommand:
 handleTakeValue: forUnboundKey:
+handleTextCheckingResults: forRange: types: options: orthography: wordCount:
 handlerCGrafPortOnly
 handlerCanClip
 handlerCanHandleComplexMatrix
@@ -29102,8 +29107,12 @@ isAnyApplicationSpeaking
 isAtEnd
 isAttached
 isAutodisplay
+isAutomaticDashSubstitutionEnabled:
+isAutomaticDataDetectionEnabled:
 isAutomaticLinkDetectionEnabled
 isAutomaticQuoteSubstitutionEnabled
+isAutomaticSpellingCorrectionEnabled:
+isAutomaticTextReplacementEnabled:
 isAutoscroll
 isBackButtonVisible
 isBaseFont
@@ -50029,6 +50038,7 @@ orderFrontSpacingPanel:
 orderFrontStandardAboutPanel:
 orderFrontStandardAboutPanelWithOptions:
 orderFrontStylesPanel:
+orderFrontSubstitutionsPanel:
 orderFrontTablePanel:
 orderOut:
 orderWindow: relativeTo:
@@ -52862,8 +52872,12 @@ setAutoScales:
 setAutodisplay:
 setAutoenablesItems:
 setAutohidesScrollers:
+setAutomaticDashSubstitutionEnabled:
+setAutomaticDataDetectionEnabled:
 setAutomaticLinkDetectionEnabled:
 setAutomaticQuoteSubstitutionEnabled:
+setAutomaticSpellingCorrectionEnabled:
+setAutomaticTextReplacementEnabled:
 setAutomaticallyPreparesContent:
 setAutomaticallyRearrangesObjects:
 setAutorecalculatesKeyViewLoop:
@@ -53251,6 +53265,7 @@ setEnabled:
 setEnabled: forEntityNames:
 setEnabled: forSegment:
 setEnabled: forSegmentAtIndex: 
+setEnabledTextCheckingTypes:
 setEnctype:
 setEnd:
 setEnd: offset:
@@ -56513,8 +56528,12 @@ togChar12HourBit
 togCharZCycleBit
 togDelta12HourBit
 toggle:
+toggleAutomaticDashSubstitution:
+toggleAutomaticDataDetection:
 toggleAutomaticLinkDetection:
 toggleAutomaticQuoteSubstitution:
+toggleAutomaticSpellingCorrection:
+toggleAutomaticTextReplacement:
 toggleBadChar
 toggleBadDelta
 toggleBadField
