@@ -88,7 +88,13 @@
         else 
             scope = NSMakeRange(0,[text length]);
         
-        NSArray *matchArray = [regex allMatchesInString:text options:[regex options] range:scope];
+        NSArray *matchArray = nil;
+        
+        @try{
+            matchArray = [regex allMatchesInString:text options:[regex options] range:scope];
+        } @catch (NSException *exception) {
+            NSBeep();
+        }
         
         int i;
         int count = [matchArray count];
