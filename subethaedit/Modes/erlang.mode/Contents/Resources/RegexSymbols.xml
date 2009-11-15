@@ -11,6 +11,8 @@
             <replace></replace>
             <find>\{[^}]*\}</find>
             <replace></replace>
+            <find>^([^(]+)\(\s*\)</find>
+            <replace>\1/0</replace>
             <find>(?=\()[^,]*</find>
             <replace>,</replace>
             <find>,[^,]*\).*</find>
