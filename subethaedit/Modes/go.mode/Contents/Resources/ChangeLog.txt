@@ -1,0 +1,2 @@
+Changes with Version 3.5.2  (SEE 3.5.2)
+	 *) initial go version
