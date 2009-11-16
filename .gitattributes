@@ -2775,6 +2775,7 @@ tool/dsa-signing/dsa_priv.pem -text
 tool/dsa-signing/dsa_pub.pem -text
 tool/dsa-signing/sign -text
 tool/filterClasses.sh -text
+tool/parseotp.pl -text
 tool/seeflyopts/Edit[!!-~]in[!!-~]SubEthaEdit.xcodeproj/project.pbxproj -text
 tool/seeflyopts/resources/English.lproj/InfoPlist.strings -text
 tool/seeflyopts/resources/English.lproj/ODBEditInProgressSheet.nib/classes.nib -text
