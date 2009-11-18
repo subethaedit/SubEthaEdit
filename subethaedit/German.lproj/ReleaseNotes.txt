@@ -1,4 +1,40 @@
 
+SubEthaEdit 3.5.2
+=================
+
+Neue Funktionen:
+- Erlang Modus hinzugefügt
+- Go Modus hinzugefügt
+- Die Tabulator Taste kann bei einer Auswahl jetzt auch zum Ein- und Ausrücken 
+  verwendet werden. Diese Option ist standardmäßig an und kann pro Mode 
+  eingestellt werden.
+- Der Objective-C wurde um fehlende Funktionen und Properties der iPhone-SDK 
+  Klassen erweitert.
+- Die Textersetzungen von Snow Leopard werden jetzt unterstützt.
+
+Veränderugen:
+- Der Umgang mit Modi die eine neuere SubEthaEngine benötigen, wurde 
+  verbessert.
+- Standard-Kodierung für neue Installationen auf UTF-8 geändert.
+
+Korrekturen:
+- Ein Problem mit Snow Leopard wurde behoben, welches bei automatischer 
+  Rechtschreibprüfung zu seltsamen Verhalten führte.
+- Ein Problem mit der Web-Vorschau wurde behoben, welches ausgeblendete Blöcke 
+  nicht darstellte.
+- Ein Problem mit der Web-Vorschau wurde behoben, welches bei manchen Basis 
+  URLs das update der gesamten Vorschau verhinderte.
+- Ein Problem mit manchen erweiterten Regulären Ausdrücken wurde behoben, 
+  welches dazu führte dass im Suchen und Ersetzen Fenster fälschlicherweise 
+  Aktivität angezeigt wurde.
+- Ein Problem mit Kodierungs-Konvertierung und Code Folding wurde behoben, 
+  welches nicht existente Fehler zeigte.
+- Ein Problem wurde behoben, durch welches Links mit nicht-ASCII-Zeichen nicht 
+  korrekt erkannt wurden.
+- Ein Problem wurde behoben, welches dazu führte, dass das Script Untermenü im 
+  Kontext-Menü fehlte.
+
+
 SubEthaEdit 3.5.1
 =================
 

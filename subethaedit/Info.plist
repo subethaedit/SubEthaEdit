@@ -58,8 +58,10 @@
 				<string>fs</string>
 				<string>fscript</string>
 				<string>gcc</string>
+				<string>go</string>
 				<string>h</string>
 				<string>hpgl</string>
+				<string>hrl</string>
 				<string>htm</string>
 				<string>HTM</string>
 				<string>html</string>
