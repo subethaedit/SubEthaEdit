@@ -461,6 +461,10 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
                 	NSString *matchedString = [aMatch lastMatchSubstring];
                 	NSString *linkPrefix = [keywordGroup objectForKey:@"uri-prefix"];
                 	if (linkPrefix) matchedString = [linkPrefix stringByAppendingString:matchedString];
+                	
+                	// escape non-ASCII characters that are not yet escaped
+                	matchedString = [(NSString *)CFURLCreateStringByAddingPercentEscapes(NULL,(CFStringRef)matchedString, (CFStringRef) @"%&?=#", NULL, kCFStringEncodingUTF8) autorelease];
+                	
                     NSURL *theURL = [NSURL URLWithString:matchedString];
 
                     if (theURL && ([theURL host] || ([[theURL scheme] length] > 0 && ![[theURL scheme] hasPrefix:@"http"]))) [aString addAttribute:NSLinkAttributeName value:theURL range:matchedRange];
