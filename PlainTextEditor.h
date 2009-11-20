@@ -93,6 +93,10 @@
 - (IBAction)toggleWrap:(id)aSender;
 - (IBAction)toggleShowsChangeMarks:(id)aSender;
 
+- (IBAction)shiftRight:(id)aSender;
+- (IBAction)shiftLeft:(id)aSender;
+- (IBAction)detab:(id)aSender;
+
 - (IBAction)jumpToNextSymbol:(id)aSender;
 - (IBAction)jumpToPreviousSymbol:(id)aSender;
 
@@ -104,6 +108,10 @@
 - (void)selectRangeInBackgroundWithoutIndication:(NSRange)aRange expandIfFolded:(BOOL)aFlag;
 - (void)gotoLine:(unsigned)aLine;
 - (void)gotoLineInBackground:(unsigned)aLine;
+
+
+// funnel point for all our internal pointers for additional text checking
+- (void)scheduleTextCheckingForRange:(NSRange)aRange;
 
 
 @end

@@ -366,6 +366,15 @@ static NSMenu *S_defaultMenu=nil;
     	returnValue = hasFoldingInformation;
     }
     
+    if (action == @selector(toggleGrammarChecking:) ||
+        action == @selector(toggleAutomaticSpellingCorrection:) ||
+        action == @selector(toggleAutomaticLinkDetection:) ||
+        action == @selector(toggleAutomaticDashSubstitution:) ||
+        action == @selector(toggleAutomaticQuoteSubstitution:) ||
+        action == @selector(toggleAutomaticTextReplacement:)) {
+        returnValue = [NSTextView instancesRespondToSelector:action];
+    }
+    
     return returnValue;
 }
 
@@ -572,6 +581,49 @@ static NSMenu *S_defaultMenu=nil;
 
 - (void)toggleContinuousSpellChecking:(id)sender {
     [super toggleContinuousSpellChecking:sender];
+    if ([[self delegate] respondsToSelector:@selector(textViewDidChangeSpellCheckingSetting:)]) {
+        [[self delegate] textViewDidChangeSpellCheckingSetting:self];
+    }
+}
+
+- (void)toggleGrammarChecking:(id)sender {
+	[super toggleGrammarChecking:sender];
+    if ([[self delegate] respondsToSelector:@selector(textViewDidChangeSpellCheckingSetting:)]) {
+        [[self delegate] textViewDidChangeSpellCheckingSetting:self];
+    }
+}
+
+- (void)toggleAutomaticSpellingCorrection:(id)sender {
+	[super toggleAutomaticSpellingCorrection:sender];
+    if ([[self delegate] respondsToSelector:@selector(textViewDidChangeSpellCheckingSetting:)]) {
+        [[self delegate] textViewDidChangeSpellCheckingSetting:self];
+    }
+}
+
+
+- (void)toggleAutomaticLinkDetection:(id)sender {
+	[super toggleAutomaticLinkDetection:sender];
+    if ([[self delegate] respondsToSelector:@selector(textViewDidChangeSpellCheckingSetting:)]) {
+        [[self delegate] textViewDidChangeSpellCheckingSetting:self];
+    }
+}
+
+- (void)toggleAutomaticDashSubstitution:(id)sender {
+	[super toggleAutomaticDashSubstitution:sender];
+    if ([[self delegate] respondsToSelector:@selector(textViewDidChangeSpellCheckingSetting:)]) {
+        [[self delegate] textViewDidChangeSpellCheckingSetting:self];
+    }
+}
+
+- (void)toggleAutomaticQuoteSubstitution:(id)sender {
+	[super toggleAutomaticQuoteSubstitution:sender];
+    if ([[self delegate] respondsToSelector:@selector(textViewDidChangeSpellCheckingSetting:)]) {
+        [[self delegate] textViewDidChangeSpellCheckingSetting:self];
+    }
+}
+
+- (void)toggleAutomaticTextReplacement:(id)sender {
+	[super toggleAutomaticTextReplacement:sender];
     if ([[self delegate] respondsToSelector:@selector(textViewDidChangeSpellCheckingSetting:)]) {
         [[self delegate] textViewDidChangeSpellCheckingSetting:self];
     }

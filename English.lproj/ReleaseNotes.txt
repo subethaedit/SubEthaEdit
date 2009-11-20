@@ -1,4 +1,37 @@
 
+SubEthaEdit 3.5.2
+=================
+
+Additions/New Features:
+- Added Erlang mode
+- Added Go mode
+- Added per mode option for the Tab key to indent and outdent when something is 
+  selected. Defaults to on.
+- Improved the Objective-C mode by adding Cocoa Touch properties and minor 
+  missing functions to the autocompletion.
+- Enabled support for Snow Leopard's text substitutions.
+
+Changes:
+- Improved handling of modes which require a higher SubEthaEngine for future 
+  compatiblity.
+- Switched out-of-the-box default encoding to UTF-8.
+
+Fixes:
+- Fixed an issue with Snow Leopard which caused continuous spell checking to 
+  behave strangely.
+- Fixed an issue with the live Web Preview where folded text did not appear in 
+  the preview.
+- Fixed an issue with the live Web Preview where some base URLs would prevent 
+  the preview from updating.
+- Fixed an issue with extended regex mode in which the find progress indicator 
+  would not stop for certain expressions.
+- Fixed issues with folding and encoding conversion.
+- Fixed an issue which caused URLs containing non-ascii characters not to be 
+  recognized correctly.
+- Fixed an issue that caused the script menu to be missing from the context 
+  menu.
+
+
 SubEthaEdit 3.5.1
 =================
 

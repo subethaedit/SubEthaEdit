@@ -345,6 +345,8 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (void)setEditAnyway:(BOOL)aFlag;
 - (BOOL)isContinuousSpellCheckingEnabled;
 - (void)setContinuousSpellCheckingEnabled:(BOOL)aFlag;
+- (void)takeSpellCheckingSettingsFromEditor:(PlainTextEditor *)anEditor;
+
 - (BOOL)isReceivingContent;
 - (void)setShouldSelectModeOnSave:(BOOL)aFlag;
 - (BOOL)shouldSelectModeOnSave;
