@@ -1,7 +1,0 @@
-//
-// Prefix header for all source files of the 'SubEthaHighlighter' target in the 'SubEthaHighlighter' project
-//
-
-#ifdef __OBJC__
-    #import <Cocoa/Cocoa.h>
-#endif

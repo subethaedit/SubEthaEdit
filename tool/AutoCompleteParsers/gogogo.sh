@@ -1,1 +1,0 @@
-sh listcarbonheaders.sh | awk '{print "cat \"" $0 "\" | perl parseCarbonHeaders.pl"}'

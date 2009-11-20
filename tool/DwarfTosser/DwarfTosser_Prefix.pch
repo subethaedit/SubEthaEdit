@@ -1,7 +1,0 @@
-//
-// Prefix header for all source files of the 'DwarfTosser' target in the 'DwarfTosser' project
-//
-
-#ifdef __OBJC__
-    #import <Cocoa/Cocoa.h>
-#endif

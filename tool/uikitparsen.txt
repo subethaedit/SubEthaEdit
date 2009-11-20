@@ -1,8 +1,0 @@
-cat UI* | grep '@interface' | perl -pe 's/.*interface //;s/\W.*//' | sort | uniq | see
-cat UI* | grep '^[-+]' | perl -pe 's/;.*//g;s/\(.*?\)//g;s/:\w+ ?/: /g;s/^[+-] //g;' | sort | uniq | see
-cat UI* | grep "UI" | grep -v '@interface' | grep -v "#import" | grep -v "@class" | grep -v "^[+-]" | grep -v '^//' | grep -v 'Internal' | perl -pe 's/\/\/.*//g;' | grep -v '@property' | grep -v 'UI\w+ +\*' | perl -pe 's/ /\n/g;' | grep UI | perl -pe 's/;//g;' | sort | uniq |see
-
-
-cat CGAll.txt | perl -pe 's/ /\n/g;' | sort | uniq | egrep "^CG" | grep "(" | perl -pe 's/\(.*$//g;' | sort | uniq | perl -pe 's/^(.*)$/<string>\1<\/string>/g;' | see
-
-[fhtagn:/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS3.0.sdk/System/Library/Frameworks/UIKit.framework/Headers] % cat UI* | grep '@property' | perl -pe 's/;.*/;/g;' | perl -pe 's/ __.*;/;/g;' | perl -pe 's/.* \*?//g;' | perl -pe 's/;//g;' | sort | uniq | perl -pe 's/^(.*)$/<string>\1<\/string>/g;'

@@ -1,7 +1,0 @@
-//
-// Prefix header for all source files of the 'TCMXMLParser' target in the 'TCMXMLParser' project.
-//
-
-#ifdef __OBJC__
-    #import <Foundation/Foundation.h>
-#endif
