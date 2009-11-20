@@ -56,6 +56,7 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
     [oWebView setFrameLoadDelegate:nil];
     [oWebView setUIDelegate:nil];
     [oWebView setResourceLoadDelegate:nil];
+    [oWebView setPolicyDelegate:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[self window] orderOut:self];
     [super dealloc];
@@ -124,12 +125,31 @@ NSScrollView * firstScrollView(NSView *aView) {
         _documentVisibleRect=[scrollView documentVisibleRect];
         _hasSavedVisibleRect=YES;
     }
-    NSURL *MyURL=[NSURL URLWithString:[oBaseUrlTextField stringValue]];
-    if ([[MyURL absoluteString] length]==0 || MyURL==nil) MyURL=[NSURL URLWithString:@"http://localhost/"];
-    NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:MyURL];
-    [request setMainDocumentURL:MyURL];
-    NSString *string=[[[self plainTextDocument] textStorage] string];
-    NSStringEncoding encoding = [(FoldableTextStorage *)[[self plainTextDocument] textStorage] encoding];
+    
+    NSURL *baseURL=[NSURL URLWithString:@"http://localhost/"];
+    NSString *potentialURLString = [oBaseUrlTextField stringValue];
+    if ([potentialURLString length] > 0) {
+    	NSURL *tryURL = [NSURL URLWithString:potentialURLString];
+//    	NSLog(@"%s %@ %@",__FUNCTION__,[tryURL debugDescription],[tryURL standardizedURL]);
+    	if ([[tryURL host] length] > 0 || [[tryURL scheme] isEqualToString:@"file"]) {
+    		baseURL = tryURL;
+    	} else if ([potentialURLString characterAtIndex:0] == '/') {
+    		tryURL = [NSURL URLWithString:[@"file://" stringByAppendingString:potentialURLString]];
+    		baseURL = tryURL;
+    	} else {
+    		tryURL = [NSURL URLWithString:[@"http://" stringByAppendingString:potentialURLString]];
+    		baseURL = tryURL;
+    		[oBaseUrlTextField setStringValue:[tryURL absoluteString]];
+    	}
+    }
+
+//	NSLog(@"%s using URL: %@",__FUNCTION__,baseURL);
+    NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:baseURL];
+    [request setMainDocumentURL:baseURL];
+    
+    FoldableTextStorage *textStorage = (FoldableTextStorage *)[[self plainTextDocument] textStorage];
+    NSString *string=[[textStorage fullTextStorage] string];
+    NSStringEncoding encoding = [textStorage encoding];
     [request setHTTPBody:[string dataUsingEncoding:encoding]];
     NSString *IANACharSetName=(NSString *)CFStringConvertEncodingToIANACharSetName(
                 CFStringConvertNSStringEncodingToEncoding(encoding));
@@ -182,6 +202,8 @@ NSScrollView * firstScrollView(NSView *aView) {
     [oWebView setFrameLoadDelegate:self];
     [oWebView setUIDelegate:self];
     [oWebView setResourceLoadDelegate:self];
+	[oWebView setPolicyDelegate:self];
+
     [oWebView setPreferencesIdentifier:@"WebPreviewPreferences"];
     WebPreferences *prefs = [oWebView preferences];
     [prefs setLoadsImagesAutomatically:YES];
@@ -261,6 +283,9 @@ NSScrollView * firstScrollView(NSView *aView) {
     return request;
 }
 
+- (void)webView:(WebView *)webView decidePolicyForMIMEType:(NSString *)type request:(NSURLRequest *)request frame:(WebFrame *)frame decisionListener:(id < WebPolicyDecisionListener >)listener {
+	[listener use];
+}
 
 #pragma mark -
 #pragma mark ### FrameLoadDelegate ###

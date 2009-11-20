@@ -20,6 +20,7 @@ extern NSString * const DocumentModeUTF8BOMPreferenceKey                ;
 extern NSString * const DocumentModeFontAttributesPreferenceKey         ;
 extern NSString * const DocumentModeHighlightSyntaxPreferenceKey        ;
 extern NSString * const DocumentModeIndentNewLinesPreferenceKey         ;
+extern NSString * const DocumentModeTabKeyReplacesSelectionPreferenceKey;
 extern NSString * const DocumentModeLineEndingPreferenceKey             ;
 extern NSString * const DocumentModeShowLineNumbersPreferenceKey        ;
 extern NSString * const DocumentModeShowMatchingBracketsPreferenceKey   ;
@@ -34,7 +35,19 @@ extern NSString * const DocumentModeShowInvisibleCharactersPreferenceKey;
 extern NSString * const DocumentModeWrapModePreferenceKey               ;
 extern NSString * const DocumentModeColumnsPreferenceKey                ;
 extern NSString * const DocumentModeRowsPreferenceKey                   ;
+
 extern NSString * const DocumentModeSpellCheckingPreferenceKey          ;
+
+// snow leopard additions
+extern NSString * const DocumentModeGrammarCheckingPreferenceKey             ;
+extern NSString * const DocumentModeAutomaticLinkDetectionPreferenceKey      ;
+extern NSString * const DocumentModeAutomaticDashSubstitutionPreferenceKey   ;
+extern NSString * const DocumentModeAutomaticQuoteSubstitutionPreferenceKey  ;
+extern NSString * const DocumentModeAutomaticTextReplacementPreferenceKey    ;
+extern NSString * const DocumentModeAutomaticSpellingCorrectionPreferenceKey ;
+
+
+
 extern NSString * const DocumentModePrintOptionsPreferenceKey           ;
 
 extern NSString * const DocumentModeBackgroundColorIsDarkPreferenceKey  ;
@@ -88,6 +101,8 @@ extern NSString * const DocumentModeApplyStylePreferencesNotification;
     NSMutableArray *I_defaultToolbarItemIdentifiers;
     NSMutableDictionary *I_styleIDTransitionDictionary;
 }
+
++ (BOOL)canParseModeVersionOfBundle:(NSBundle *)aBundle;
 
 - (id)initWithBundle:(NSBundle *)aBundle;
 

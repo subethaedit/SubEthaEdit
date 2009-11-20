@@ -387,6 +387,27 @@
 		[self setShowsTopStatusBar:[document showsTopStatusBar]];
 		[I_textView setEditable:[document isEditable]];
 		[I_textView setContinuousSpellCheckingEnabled:[document isContinuousSpellCheckingEnabled]];
+		
+		DocumentMode *documentMode = [document documentMode];
+		NSDictionary *attributeForDefaultKeyDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+			DocumentModeGrammarCheckingPreferenceKey,            @"setGrammarCheckingEnabled:",
+			DocumentModeAutomaticLinkDetectionPreferenceKey,     @"setAutomaticLinkDetectionEnabled:",
+			DocumentModeAutomaticDashSubstitutionPreferenceKey,  @"setAutomaticDashSubstitutionEnabled:",
+			DocumentModeAutomaticQuoteSubstitutionPreferenceKey, @"setAutomaticQuoteSubstitutionEnabled:",
+			DocumentModeAutomaticTextReplacementPreferenceKey,   @"setAutomaticTextReplacementEnabled:",
+			DocumentModeAutomaticSpellingCorrectionPreferenceKey,@"setAutomaticSpellingCorrectionEnabled:",
+			nil];
+		NSEnumerator *keyEnumerator = [attributeForDefaultKeyDictionary keyEnumerator];
+		NSString *attributeString = nil;
+		while ((attributeString = [keyEnumerator nextObject])) {
+			NSString *defaultKey = [attributeForDefaultKeyDictionary objectForKey:attributeString];
+			SEL attributeSetter = NSSelectorFromString(attributeString);
+			if ([I_textView respondsToSelector:attributeSetter]) {
+				objc_msgSend(I_textView,attributeSetter,[[documentMode defaultForKey:defaultKey] boolValue]);
+//				NSLog(@"%s set %@ for %@ now %@",__FUNCTION__,attributeString, defaultKey, [documentMode defaultForKey:defaultKey]);
+			}
+		}
+
     }
     [self updateSymbolPopUpSorted:NO];
     [self TCM_updateStatusBar];
@@ -1580,6 +1601,16 @@
 }
 
 - (BOOL)textView:(NSTextView *)aTextView doCommandBySelector:(SEL)aSelector {
+//	NSLog(@"%s %@",__FUNCTION__,NSStringFromSelector(aSelector));
+	if (aSelector == @selector(insertBacktab:) ||
+		aSelector == @selector(insertTab:) ||
+		aSelector == @selector(insertNewline:) ||
+		aSelector == @selector(insertLineBreak:) ||
+		aSelector == @selector(insertParagraphSeparator:) ||
+		aSelector == @selector(insertTabIgnoringFieldEditor:) ||
+		aSelector == @selector(insertNewlineIgnoringFieldEditor:)) {
+		[self scheduleTextCheckingForRange:[[[aTextView textStorage] string] lineRangeForRange:[aTextView selectedRange]]];
+	}
     PlainTextDocument *document=(PlainTextDocument *)[self document];
     if (![document isRemotelyEditingTextStorage]) {
         [self setFollowUserID:nil];
@@ -1702,7 +1733,24 @@
         }
     }
 
-    return [document textView:aTextView shouldChangeTextInRange:affectedCharRange replacementString:replacementString];
+	BOOL result = [document textView:aTextView shouldChangeTextInRange:affectedCharRange replacementString:replacementString];
+	if (result) { // fix for textview not doing autocorrection - uses internal methods as savely as possible - #beware
+		if (affectedCharRange.length == 0 &&
+			[replacementString length] == 1) {
+			unichar character = [replacementString characterAtIndex:0];
+			if (character == ' ' || character == 0x00a0 || character == '\t') {
+				[self scheduleTextCheckingForRange:[[[aTextView textStorage] string] lineRangeForRange:affectedCharRange]];
+			}
+		}
+	}
+    return result;
+}
+
+- (void)scheduleTextCheckingForRange:(NSRange)aRange {
+	SEL selector = @selector(_scheduleTextCheckingForRange:);
+	if ([I_textView respondsToSelector:selector]) {
+		objc_msgSend(I_textView,selector,aRange);
+	}
 }
 
 - (void)setNeedsDisplayForRuler {
@@ -1745,7 +1793,7 @@
 }
 
 - (void)textViewDidChangeSpellCheckingSetting:(TextView *)aTextView {
-    [[self document] setContinuousSpellCheckingEnabled:[aTextView isContinuousSpellCheckingEnabled]];
+    [[self document] takeSpellCheckingSettingsFromEditor:self];
 }
 
 - (void)textView:(NSTextView *)aTextView mouseDidGoDown:(NSEvent *)aEvent {

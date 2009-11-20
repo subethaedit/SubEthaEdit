@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "symbol.dtd">
+<symbols>
+
+    <symbol id="functions" image="SymbolF()" indentation="1">
+        
+        <regex>^(\w+\(.*?*\))\s*-></regex>
+                
+        <postprocess>
+            <find>\s*when.*</find>
+            <replace></replace>
+            <find>\{[^}]*\}</find>
+            <replace></replace>
+            <find>^([^(]+)\(\s*\)</find>
+            <replace>\1/0</replace>
+            <find>(?=\()[^,]*</find>
+            <replace>,</replace>
+            <find>,[^,]*\).*</find>
+            <replace>,</replace>
+            <find>,[^,]+,</find>
+            <replace>,,</replace>
+            <find>,[^,]+,</find>
+            <replace>,,</replace>
+            <find>,[^,]+,</find>
+            <replace>,,</replace>
+            <find>,[^,]+,</find>
+            <replace>,,</replace>
+            <find>,[^,]+,</find>
+            <replace>,,</replace>
+            <find>,[^,]+,</find>
+            <replace>,,</replace>
+            <find>,[^,]+,</find>
+            <replace>,,</replace>
+            <find>,[^,]+,</find>
+            <replace>,,</replace>
+
+            <find>,[^,]+,.+</find>
+            <replace>,,,,,,,,,,,,,,,,</replace>
+
+
+			<find>,,,,,,,,,,+</find>
+            <replace>/lots</replace>
+			<find>,,,,,,,,,,</find>
+            <replace>/10</replace>
+			<find>,,,,,,,,,</find>
+            <replace>/9</replace>
+			<find>,,,,,,,,</find>
+            <replace>/8</replace>
+			<find>,,,,,,,</find>
+            <replace>/7</replace>
+			<find>,,,,,,</find>
+            <replace>/6</replace>
+			<find>,,,,,</find>
+            <replace>/5</replace>
+			<find>,,,,</find>
+            <replace>/4</replace>
+			<find>,,,</find>
+            <replace>/3</replace>
+			<find>,,</find>
+            <replace>/2</replace>
+			<find>,</find>
+            <replace>/1</replace>
+        </postprocess>
+    </symbol>
+    
+</symbols>

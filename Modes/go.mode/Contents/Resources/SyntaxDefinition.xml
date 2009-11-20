@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<!DOCTYPE syntax SYSTEM "syntax.dtd">
+
+<syntax>
+  <head>
+    <name>go</name>
+    <!-- The definitions title -->
+    <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]></charsintokens>
+    <!-- Valid Characters for Variables -->
+    <!-- <charsdelimitingtokens></charsdelimitingtokens> -->
+  </head>
+  <states>
+    <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
+      <keywords id="go Keywords" color="#881350" font-weight="bold" useforautocomplete="yes">
+        <string>break</string>
+        <string>case</string>
+        <string>chan</string>
+        <string>const</string>
+        <string>continue</string>
+        <string>default</string>
+        <string>defer</string>
+        <string>else</string>
+        <string>fallthrough</string>
+        <string>false</string>
+        <string>for</string>
+        <string>func</string>
+        <string>go</string>
+        <string>goto</string>
+        <string>if</string>
+        <string>import</string>
+        <string>interface</string>
+        <string>map</string>
+        <string>nil</string>
+        <string>package</string>
+        <string>range</string>
+        <string>return</string>
+        <string>select</string>
+        <string>struct</string>
+        <string>switch</string>
+        <string>true</string>
+        <string>type</string>
+        <string>var</string>
+        <string>iota</string>
+      </keywords>
+      <keywords id="go types" color="#881350" font-weight="normal" useforautocomplete="yes">
+        <string>uint8</string>
+        <string>uint16</string>
+        <string>uint32</string>
+        <string>uint64</string>
+        <string>int8</string>
+        <string>int16</string>
+        <string>int32</string>
+        <string>int64</string>
+        <string>float32</string>
+        <string>float64</string>
+        <string>byte</string>
+        <string>uint</string>
+        <string>int</string>
+        <string>float</string>
+        <string>uintptr</string>
+        <string>string</string>
+        <string>bool</string>
+      </keywords>
+      <keywords id="builtin functions" color="#881350" font-weight="normal" font-style="normal" casesensitive="yes" useforautocomplete="yes">
+        <string>len</string>
+        <string>cap</string>
+        <string>new</string>
+        <string>make</string>
+        <string>close</string>
+        <string>closed</string>
+        <string>print</string>
+        <string>println</string>
+        <string>panic</string>
+        <string>panicln</string>
+        <string>Alignof</string>
+        <string>Offsetof</string>
+        <string>Sizeof</string>
+        <string>Reflect</string>
+        <string>Typeof</string>
+        <string>Unreflect</string>
+      </keywords>
+      <keywords id="standard packages" color="#400080" font-weight="normal" font-style="normal" casesensitive="yes" useforautocomplete="yes">
+        <string>adler32</string>
+        <string>aes</string>
+        <string>ascii85</string>
+        <string>asn1</string>
+        <string>ast</string>
+        <string>base64</string>
+        <string>big</string>
+        <string>bignum</string>
+        <string>binary</string>
+        <string>block</string>
+        <string>bufio</string>
+        <string>bytes</string>
+        <string>crc32</string>
+        <string>datafmt</string>
+        <string>doc</string>
+        <string>dwarf</string>
+        <string>ebnf</string>
+        <string>elf</string>
+        <string>eval</string>
+        <string>exec</string>
+        <string>expvar</string>
+        <string>flag</string>
+        <string>flate</string>
+        <string>fmt</string>
+        <string>git85</string>
+        <string>gob</string>
+        <string>gosym</string>
+        <string>gzip</string>
+        <string>hash</string>
+        <string>heap</string>
+        <string>hex</string>
+        <string>hmac</string>
+        <string>http</string>
+        <string>image</string>
+        <string>io</string>
+        <string>iotest</string>
+        <string>iterable</string>
+        <string>json</string>
+        <string>list</string>
+        <string>log</string>
+        <string>macho</string>
+        <string>malloc</string>
+        <string>math</string>
+        <string>md5</string>
+        <string>net</string>
+        <string>once</string>
+        <string>os</string>
+        <string>parser</string>
+        <string>patch</string>
+        <string>path</string>
+        <string>pem</string>
+        <string>png</string>
+        <string>printer</string>
+        <string>proc</string>
+        <string>quick</string>
+        <string>rand</string>
+        <string>rc4</string>
+        <string>reflect</string>
+        <string>regexp</string>
+        <string>ring</string>
+        <string>rpc</string>
+        <string>rsa</string>
+        <string>runtime</string>
+        <string>scanner</string>
+        <string>script</string>
+        <string>sha1</string>
+        <string>sort</string>
+        <string>stdio</string>
+        <string>strconv</string>
+        <string>strings</string>
+        <string>subtle</string>
+        <string>sync</string>
+        <string>syscall</string>
+        <string>tabwriter</string>
+        <string>tar</string>
+        <string>template</string>
+        <string>testing</string>
+        <string>time</string>
+        <string>tls</string>
+        <string>token</string>
+        <string>unicode</string>
+        <string>unsafe</string>
+        <string>utf8</string>
+        <string>vector</string>
+        <string>x509</string>
+        <string>xml</string>
+        <string>zlib</string>
+      </keywords>
+      <keywords id="Numbers" color="#00f" inverted-color="#5d56ff" useforautocomplete="no">
+        <regex>(?&lt;![\w\d_])((?:[+-]?(?:(?:[0-9]+\.[0-9]*)|(?:\.[0-9]+))(?:[eE][+\-]?[0-9]+)?[fFlL]?)|(?:(?:(?:[1-9][0-9]*)|0[0-7]*|(?:0[xX][0-9a-fA-F]+))(?:(?:[uU][lL]?)|(?:[lL][uU]?))?))(?![\w\d_])</regex>
+      </keywords>
+      <keywords id="FunctionRegex" color="#003369" useforautocomplete="no">
+        <regex>([A-Za-z0-9_]+ *)\(</regex>
+      </keywords>
+      <state id="Characters" color="#00f" font-weight="normal" font-style="normal">
+        <begin>
+          <regex>'</regex>
+        </begin>
+        <end>
+          <regex>((?&lt;!\\)(\\\\)*)(?:'|.(?=[\n\r]))</regex>
+        </end>
+      </state>
+      <state id="Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
+        <begin>
+          <regex>/\*</regex>
+        </begin>
+        <end>
+          <regex>\*/</regex>
+        </end>
+        <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+      </state>
+      <state id="SingleComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
+        <begin>
+          <regex>//</regex>
+        </begin>
+        <end>
+          <regex>(?&lt;!\\)[\n\r]</regex>
+        </end>
+        <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+      </state>
+      <state id="String" type="string" color="#760f15" font-weight="normal" font-style="normal" foldable="no">
+        <begin>
+          <regex>"</regex>
+        </begin>
+        <end>
+          <regex>((?&lt;!\\)(\\\\)*)"</regex>
+        </end>
+      </state>
+      <state id="Raw String" type="string" color="#760f15" font-weight="normal" font-style="normal" foldable="no">
+        <begin>
+          <regex>`</regex>
+        </begin>
+        <end>
+          <regex>`</regex>
+        </end>
+      </state>
+      <state id="Block" type="block" foldable="yes">
+        <begin>
+          <regex>{</regex>
+        </begin>
+        <end>
+          <regex>}</regex>
+        </end>
+        <import/>
+      </state>
+    </default>
+  </states>
+</syntax>
