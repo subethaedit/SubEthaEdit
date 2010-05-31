@@ -1,4 +1,47 @@
 
+SubEthaEdit 3.0.2
+=================
+
+Veränderugen:
+- Es konnte ein seltsames Verhalten der Suchen und Ersetzen funktion aufgrund 
+  der "Finde längsten Treffer" Option beobachtet werden. Beginnend mit 3.0 
+  wurde wird durch diese Option nur noch der längste Treffer zurückgegeben. Die 
+  Option wurde umbennant in "Nur längster Treffer" um dies zu verdeutlichen, 
+  und standardmäßig ausgeschalten.
+- Die Optionen "Zeilenkontext" und "Negiere Zeilenkontext" wurden ebenso wie 
+  die Optionen "Finde Gruppen" und "Ingoriere Gruppen" aufgrund aktueller 
+  veränderungen im OgreKit und Oniguruma zusammengefügt.
+- Die Arbeitsgeschwindigkeit für große Dokumente unter Leopard wurde erhöht. 
+
+Korrekturen:
+- Ein Absturz beim abermaligen Speichern eines Dokumentes, bei dem der erste 
+  Speicher-Versuch abgebrochen wurde, wurde behoben.
+- Ein Absturz beim Beenden, wenn das Programm nicht im Vordergrund war, wurde 
+  behoben.
+- Ein Absturz beim Erzeugen einer Dokumenten-URL auf einer Maschine ohne Namen 
+  wurde behoben.
+- Ein Absturz beim Schliessen eines Dokuments während eines aktiven Suchen und 
+  Ersetzen wurde behoben.
+- Ein Absturz beim Ändern der Kodierungsliste nach dem Umordnen und Schliessen 
+  von Tabs wurde behoben. 
+- Ein Geschwindigkeitsproblem beim automatischen Erstellen einer 
+  Sicherheitskopie auf G4 Rechnern wurde behoben.
+- Ein Problem bei der Darstellung von Zeilennummern beim langsamen Scrollen 
+  wurde behoben.
+- Ein Problem beim Drucken von Dokumenten mit der Einstellung "Umgebrochene 
+  Zeilen einrücken" wurde behoben.
+- Ein Problem beim Erkennen von Zeichensätzen das Windows Latin 2 Kodierungen 
+  bevorzugte wurde behoben.
+- Ein Problem bei Erzeugen von IPv6 Dokumenten URLs wurde behoben.
+- Ein Problem mit Link Local IPv6 Dokumenten URLs wurde behoben.
+- Ein Problem das im Suchen Dialog beide Bereiche selektiert hat wurde behoben.
+- Ein Problem mit regulären Ausdrücken Javascript wurde behoben.
+- Ein Problem beim Erkennen von LaTeX Symbolen wurde behoben.
+- Ein Problem beim Erkennen von C++ inline member functions wurde behoben.
+- Ein Problem beim Erkennen von Klammern in Kommentaren und Zeichenketten im 
+  PHP Modus wurde behoben.
+
+
 SubEthaEdit 3.0.1
 =================
 

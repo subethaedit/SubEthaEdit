@@ -364,7 +364,7 @@ static PSMTabDragAssistant *sharedDragAssistant = nil;
 		//temporarily disable the delegate in order to move the tab to a different index
 		id tempDelegate = [tabView delegate];
 		[tabView setDelegate:nil];
-		[item retain];
+		[[item retain] autorelease];
 		[tabView removeTabViewItem:item];
 		[tabView insertTabViewItem:item atIndex:index];
 		if (reselect) {

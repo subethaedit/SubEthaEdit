@@ -28,6 +28,7 @@
     if ((self=[super initAsServer:NO])) {
         [self setIsSendingNoOps:NO];
         I_loggedOperations = [NSMutableArray new];
+        I_bencodedLoggedOperations = [[TCMMutableBencodedData alloc] initWithObject:I_loggedOperations];
         I_participantIDs   = [NSMutableSet new];
         I_statisticsArray  = [NSMutableArray new];
         I_statisticsEntryByUserID = [NSMutableDictionary new];
@@ -103,20 +104,14 @@
             [leaveOperations addObject:[op dictionaryRepresentation]];
         }
     }
-    [dictRep setObject:[[dictRep objectForKey:@"ops"] arrayByAddingObjectsFromArray:leaveOperations] forKey:@"ops"];
+    [dictRep setObject:[[dictRep objectForKey:@"ops"] mutableBencodedDataByAppendingObjectsFromArrayToBencodedArray:leaveOperations] forKey:@"ops"];
     return dictRep;
 }
 
 
 - (NSDictionary *)dictionaryRepresentation {
     NSMutableDictionary *dictRep = [NSMutableDictionary dictionary];
-    NSMutableArray *operationReps = [NSMutableArray array];
-    NSEnumerator *operations = [I_loggedOperations objectEnumerator];
-    TCMMMLoggedOperation *operation = nil;
-    while ((operation=[operations nextObject])) {
-        [operationReps addObject:[operation dictionaryRepresentation]];
-    }
-    [dictRep setObject:operationReps forKey:@"ops"];
+    [dictRep setObject:I_bencodedLoggedOperations forKey:@"ops"];
     if (I_initialTextStorageDictionaryRepresentation) {
         // NSLog(@"%s save initial text:%@",__FUNCTION__,I_initialTextStorageDictionaryRepresentation);
         [dictRep setObject:I_initialTextStorageDictionaryRepresentation forKey:@"initialtext"];
@@ -128,6 +123,7 @@
     [I_statisticsEntryByUserID release];
     [I_statisticsArray release];
     [I_loggedOperations release];
+    [I_bencodedLoggedOperations release];
     [I_participantIDs release];
     [I_statisticsData release];
     [I_initialTextStorageDictionaryRepresentation release];
@@ -150,6 +146,7 @@
 }
 
 - (void)addLoggedOperation:(TCMMMLoggedOperation *)anOperation {
+    [I_bencodedLoggedOperations appendObjectToBencodedArray:[anOperation dictionaryRepresentation]];
     [I_loggedOperations addObject:anOperation];
     NSString *userID = [[anOperation operation] userID];
     if (userID) {
@@ -230,12 +227,12 @@
 
 - (void)setInitialTextStorageDictionaryRepresentation:(NSDictionary *)aInitialRepresentation {
     [I_initialTextStorageDictionaryRepresentation autorelease];
-     I_initialTextStorageDictionaryRepresentation = [aInitialRepresentation copy];
+     I_initialTextStorageDictionaryRepresentation = [[TCMMutableBencodedData alloc] initWithObject:aInitialRepresentation];
 }
 
 - (void)addOperationsForInitialRepresentation {
     TextStorage *ts = [TextStorage new];
-    [ts setContentByDictionaryRepresentation:I_initialTextStorageDictionaryRepresentation];
+    [ts setContentByDictionaryRepresentation:[self initialTextStorageDictionaryRepresentation]];
     NSRange wholeRange = NSMakeRange(0,[ts length]);
     NSMutableSet *userSet=[NSMutableSet set];
     if (wholeRange.length) {
@@ -254,7 +251,7 @@
 }
 
 - (NSDictionary *)initialTextStorageDictionaryRepresentation {
-    return I_initialTextStorageDictionaryRepresentation;
+    return [I_initialTextStorageDictionaryRepresentation decodedObject];
 }
 
 

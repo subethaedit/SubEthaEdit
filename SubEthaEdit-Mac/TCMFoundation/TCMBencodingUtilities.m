@@ -19,11 +19,61 @@ Dictionaries are encoded as a 'd' followed by a list of alternating keys and the
 
 #import "TCMBencodingUtilities.h"
 
+@implementation TCMMutableBencodedData
+- (id)initWithObject:(id)anObject {
+    return [self initWithData:TCM_BencodedObject(anObject)];
+}
+
+- (id)initWithData:(NSData *)aData {
+    if ((self=[super init])) {
+        if (!aData) { aData = [NSData data]; };
+        I_mutableData = [aData mutableCopy];
+    }
+    return self;
+}
+
+- (void)dealloc {
+    [I_mutableData release];
+    [super dealloc];
+}
+
+- (NSData*)data {
+    return (NSData *)I_mutableData;
+}
+
+- (void)appendObjectToBencodedArray:(id)anObject {
+    NSData *objectData = TCM_BencodedObject(anObject);
+    if (objectData) {
+        [I_mutableData replaceBytesInRange:NSMakeRange([I_mutableData length]-1,0) withBytes:[objectData bytes] length:[objectData length]];
+    }
+}
+
+- (void)appendObjectsFromArrayToBencodedArray:(NSArray *)anArray {
+    NSData *objectData = TCM_BencodedObject(anArray);
+    if (objectData) {
+        [I_mutableData replaceBytesInRange:NSMakeRange([I_mutableData length]-1,0) withBytes:[objectData bytes]+1 length:[objectData length]-2];
+    }
+}
+
+- (id)mutableBencodedDataByAppendingObjectsFromArrayToBencodedArray:(NSArray *)anArray {
+    TCMMutableBencodedData *result = [[[TCMMutableBencodedData alloc] initWithData:[self data]] autorelease];
+    [result appendObjectsFromArrayToBencodedArray:anArray];
+    return result;
+}
+
+- (id)decodedObject {
+    return TCM_BdecodedObjectWithData([self data]);
+}
+
+@end
+
 
 NSData *TCM_BencodedObject(id aObject) {
     NSMutableData *result=[NSMutableData data];
     
-    if ([aObject isKindOfClass:[NSString class]]) {
+    if ([aObject isKindOfClass:[TCMMutableBencodedData class]]) {
+        [result appendData:[(TCMMutableBencodedData *)aObject data]];
+    } else if ([aObject isKindOfClass:[NSString class]]) {
         NSData *data=[aObject dataUsingEncoding:NSUTF8StringEncoding];
         [result appendData:[[NSString stringWithFormat:@"%d:",[data length]] dataUsingEncoding:NSUTF8StringEncoding]];
         [result appendData:data];

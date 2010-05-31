@@ -56,9 +56,40 @@
             SUPERCLASS = NSObject;
         },
                 {
-            CLASS = OgreAFPCComboBox;
+            CLASS = NSApplication;
             LANGUAGE = ObjC;
-            SUPERCLASS = NSComboBox;
+            SUPERCLASS = NSResponder;
+        },
+                {
+            CLASS = NSMenu;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSObject;
+        },
+                {
+            CLASS = NSMenuItem;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSObject;
+        },
+                {
+            ACTIONS =             {
+                hostDidResolveAddress = TCMHost;
+                hostDidResolveName = TCMHost;
+            };
+            CLASS = NSObject;
+            LANGUAGE = ObjC;
+        },
+                {
+            CLASS = NSWindow;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSResponder;
+        },
+                {
+            CLASS = TCMHost;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                "I_delegate" = id;
+            };
+            SUPERCLASS = NSObject;
         }
     );
     IBVersion = 1;

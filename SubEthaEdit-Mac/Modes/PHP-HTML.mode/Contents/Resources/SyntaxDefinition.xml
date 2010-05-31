@@ -3606,17 +3606,17 @@
                       <regex>(\$([\w\d])+)</regex>
                   </keywords>
 
-                  <state id="PHP Comment" color="#236E25" font-weight="normal" font-style="italic">
+                  <state id="PHP Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
                       <begin><regex>/\*</regex></begin>
                       <end><regex>\*/</regex></end>
                   </state>
                   
-                  <state id="PHP SingleComment" color="#236E25" font-weight="normal" font-style="italic">
+                  <state id="PHP SingleComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
                       <begin><regex>(?://)|#</regex></begin>
                       <end><regex>(?:[\n\r])|.?(?=\?&gt;)</regex></end>
                   </state>
                   
-                  <state id="PHP String" color="#EB7300" font-weight="normal" font-style="normal">
+                  <state id="PHP String" type="string" color="#EB7300" font-weight="normal" font-style="normal">
                       <begin><regex>"</regex></begin>
                       <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
                       <keywords id="Variables" color="#825900" useforautocomplete="no">
@@ -3625,12 +3625,12 @@
           
                   </state>
           
-                  <state id="PHP String2" color="#EB7300" font-weight="normal" font-style="normal">
+                  <state id="PHP String2" type="string" color="#EB7300" font-weight="normal" font-style="normal">
                       <begin><regex>'</regex></begin>
                       <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
                   </state>
 
-                  <state id="PHP Heredoc" color="#EB7300"  font-weight="normal" font-style="normal">
+                  <state id="PHP Heredoc" type="string" color="#EB7300"  font-weight="normal" font-style="normal">
                     <begin><string>&lt;&lt;&lt;(?&lt;heredoc&gt;[A-Za-z][A-Za-z0-9_]*)</string></begin>
                     <end><regex>(?#see-insert-start-group:heredoc)</regex></end>
                   </state>

@@ -1,3 +1,7 @@
+Changes with Version 1.6 (SEE 3.0.2)
+
+    *) Added recognition of inline RegExes
+
 Changes with Version 1.5 (SEE 2.6)
 
     *) Fixes a false positive in Javascript.mode where RegEx state responded to divisions

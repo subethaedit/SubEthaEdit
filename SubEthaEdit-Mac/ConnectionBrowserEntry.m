@@ -38,6 +38,17 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
     NSString *schemePrefix = [NSString stringWithFormat:@"%@://", @"see"];
     NSString *lowercaseAddress = [anAddress lowercaseString];
     if (![lowercaseAddress hasPrefix:schemePrefix]) {
+        // check if the address is an ipv6 address
+        NSCharacterSet *ipv6set = [NSCharacterSet characterSetWithCharactersInString:@"1234567890abcdef:"];
+        NSScanner *ipv6scanner = [NSScanner scannerWithString:anAddress];
+        NSString *scannedString = nil;
+        if ([ipv6scanner scanCharactersFromSet:ipv6set intoString:&scannedString]) {
+            if ([scannedString length] == [anAddress length]) {
+                anAddress = [NSString stringWithFormat:@"[%@]",scannedString];
+            } else if ([anAddress length] > [scannedString length]+1 && [anAddress characterAtIndex:[scannedString length]] == '%') {
+                anAddress = [NSString stringWithFormat:@"[%@%%25%@]",scannedString,[anAddress substringFromIndex:[scannedString length]+1]];
+            }
+        }
         NSString *addressWithPrefix = [schemePrefix stringByAppendingString:anAddress];
         URLString = addressWithPrefix;
     } else {
@@ -85,17 +96,16 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
             freeaddrinfo(result);
         } else {
             DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"Neither IPv4 nor IPv6 address");
+            return [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@:%d", [anURL scheme], hostAddress,port]];;
         }
         if (portString) {
             free(portString);
         }
         
         NSString *URLString = nil;
-        if (isIPv6Address) {
-            URLString = [NSString stringWithFormat:@"%@://[%@]:%d", [anURL scheme], hostAddress, port];
-        } else {
-            URLString = [NSString stringWithFormat:@"%@://%@:%d", [anURL scheme], hostAddress, port];
-        }
+        NSMutableString *percentEscapedString = [[[NSString stringWithAddressData:addressData] mutableCopy] autorelease];
+        [percentEscapedString replaceOccurrencesOfString:@"%" withString:@"%25" options:0 range:NSMakeRange(0,[percentEscapedString length])];
+        URLString = [NSString stringWithFormat:@"%@://%@", [anURL scheme], percentEscapedString];
         resultURL = [NSURL URLWithString:URLString];
         
         if ([[anURL path] length] > 0 && ![[anURL path] isEqualToString:@"/"]) {
