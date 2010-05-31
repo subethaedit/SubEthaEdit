@@ -1,4 +1,50 @@
 
+SubEthaEdit 3.1
+===============
+
+Neue Funktionen:
+- Automatische Port Weiterleitung - SubEthaEdit leitet jetzt Ports automatisch 
+  weiter falls Sie sich hinter einem NAT befinden. Damit besteht jetzt auch in 
+  diesem Fall volle Internet Erreichbarkeit.
+- iChat Einladungen - iChat Kontakte können nun über Dokumenten oder dem 
+  Verbindungen Fenster fallengelassen werden um sie zur Zusammenarbeit 
+  einzuladen. (Benötigt Mac OS X 10.5)
+- Friendcasting - wenn Sie Friendcasting aktivieren wird sich SubEthaEdit 
+  automatisch mit den Freunden Ihrer Freunde verbinden. In einem typischen 
+  Firmen-/Gruppen-Setup reicht jetzt ein einziger öffentlich erreichbares 
+  SubEthaEdit um jeden mit jedem zu verbinden.
+
+Veränderugen:
+- Das Verbindungen Fenster wurde weitgehend überarbeitet. Unter anderem wird 
+  jetzt von SSL Verbindungen ausgegangen und nur der Fall angezeigt bei dem die 
+  Verbindung nicht verschlüsselt ist.
+- Einträge aus dem Verbindungen Fenster können nun in Text-Eingabefelder 
+  genzogen werden um die die entsprechende see://-Verbindungs-URL einzufügen.
+- Der C++ Modus und dessen Symbolerkennung wurden verbessert.
+- Der Latex Modus wurde verbessert.
+
+Korrekturen:
+- Ein Problem mit dem Menü für nicht mehr angezeigte Tabs wurde behoben, 
+  welches diese nitch korrekt markierte.
+- Ein Problem wurde behoben, welches bei einer Einladung und einem 
+  gleichzeitigen Verbindungsversuch nicht automatisch zu einer funktionierend 
+  Verbindung führte.
+- Ein Problem mit see:// URLs wurde behoben, welches verursachte dass kein 
+  Verbindungsaufbau zu dem adressierten Dokument eingeleitet wurde, falls 
+  bereits eine allgemeine Verbindung bestand.
+- Ein Problem mit der Anzeige von Versionierungskonflikten in der Symbolanzeige 
+  wurde behoben.
+- Ein Problem mit Bonjour und Back to my Mac wurde behoben, welches teilweise 
+  lokale Verbindungen verhinderte.
+- Ein Problem wurde behoben, welches dazu führte dass die Schreibposition nicht 
+  stabil blieb wenn jemand den Text über der aktuellen Einfügemarke verändert 
+  hat.
+- Ein Problem wurde behoben, welches dazu führte dass die Schreibposition nicht 
+  stabil blieb falls man mit mehreren Ansichten des gleichen Textes arbeitete.
+- Ein Problem mit "Alles suchen" wurde behoben, welches dazu führte dass eine 
+  Textstelle sehr oft hervorgehoben wurde, falls es viele Suchergebnisse gab.
+
+
 SubEthaEdit 3.0.3
 =================
 

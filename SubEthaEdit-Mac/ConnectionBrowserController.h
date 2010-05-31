@@ -9,9 +9,9 @@
 #import <AppKit/AppKit.h>
 
 #import "LoginSheetController.h"
+#import "URLImageView.h"
 
-@class TCMMMBrowserListView, ConnectionBrowserEntry, LoginSheetController;
-
+@class TCMMMBrowserListView, ConnectionBrowserEntry, LoginSheetController,PlainTextDocument;
 
 @interface ConnectionBrowserController : NSWindowController
 {
@@ -22,8 +22,13 @@
     IBOutlet NSComboBox *O_addressComboBox;
     IBOutlet NSPopUpButton *O_actionPullDownButton;
     IBOutlet NSPopUpButton *O_statusPopUpButton;
+    IBOutlet NSButton   *O_toggleFriendcastButton;
     IBOutlet NSButton   *O_clearButton;
     IBOutlet LoginSheetController *O_loginSheetController;
+
+    IBOutlet URLImageView *O_portStatusImageView;
+    IBOutlet NSProgressIndicator *O_portStatusProgressIndicator;
+    IBOutlet NSTextField *O_portStatusTextField;
 
     NSMutableArray *I_comboBoxItems;
     NSArrayController *I_entriesController;
@@ -32,6 +37,8 @@
 }
 
 + (ConnectionBrowserController *)sharedInstance;
++ (BOOL)invitePeopleFromPasteboard:(NSPasteboard *)aPasteboard withURL:(NSURL *)aURL;
++ (BOOL)invitePeopleFromPasteboard:(NSPasteboard *)aPasteboard intoDocument:(PlainTextDocument *)aDocument group:(NSString *)aGroup;
 
 - (NSMutableArray *)comboBoxItems;
 - (void)setComboBoxItems:(NSMutableArray *)anArray;
@@ -40,6 +47,7 @@
 - (IBAction)connect:(id)aSender;
 - (IBAction)setVisibilityByMenuItem:(id)aSender;
 - (IBAction)toggleProhibitInboundConnections:(id)aSender;
+- (IBAction)toggleFriendcast:(id)aSender;
 - (IBAction)clear:(id)aSender;
 
 - (void)connectToAddress:(NSString *)address;

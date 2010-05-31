@@ -11,12 +11,14 @@
 @class TCMMMStatusProfile, TCMHost, TCMMMSession, TCMRendezvousBrowser;
 
 extern NSString * const VisibilityPrefKey;
+extern NSString * const AutoconnectPrefKey;
 
 extern NSString * const TCMMMPresenceManagerUserVisibilityDidChangeNotification;
 extern NSString * const TCMMMPresenceManagerUserRendezvousStatusDidChangeNotification;
 extern NSString * const TCMMMPresenceManagerUserSessionsDidChangeNotification;
 extern NSString * const TCMMMPresenceManagerAnnouncedSessionsDidChangeNotification;
 extern NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification;
+extern NSString * const TCMMMPresenceManagerDidReceiveTokenNotification;
 
 @interface TCMMMPresenceManager : NSObject
 {
@@ -25,6 +27,7 @@ extern NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotifica
     NSMutableSet        *I_statusProfilesInServerRole;
     NSMutableDictionary *I_announcedSessions;
     
+    NSMutableDictionary *I_autoAcceptInviteSessions;
     NSMutableDictionary *I_registeredSessions;
     struct {
         BOOL isVisible;
@@ -38,15 +41,21 @@ extern NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotifica
 
 + (TCMMMPresenceManager *)sharedInstance;
 
+- (void)setShouldAutoAcceptInviteToSessionID:(NSString *)SessionID;
+// this call also removes the autoacceptflag
+- (BOOL)shouldAutoAcceptInviteToSessionID:(NSString *)aSessionID;
+
 - (TCMMMStatusProfile *)statusProfileForUserID:(NSString *)aUserID;
 - (void)stopRendezvousBrowsing;
 - (void)startRendezvousBrowsing;
 - (BOOL)isVisible;
 - (void)setVisible:(BOOL)aFlag;
+- (void)setShouldAutoconnect:(BOOL)aFlag forUserID:(NSString *)aUserID;
 
 - (NSDictionary *)announcedSessions;
 - (void)announceSession:(TCMMMSession *)aSession;
 - (void)concealSession:(TCMMMSession *)aSession;
+- (NSString *)reachabilityURLStringOfUserID:(NSString *)aUserID;
 - (NSMutableDictionary *)statusOfUserID:(NSString *)aUserID;
 - (TCMMMSession *)sessionForSessionID:(NSString *)aSessionID;
 - (void)propagateChangeOfMyself;

@@ -155,6 +155,8 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
     
     AuthorizationRef I_authRef;
     
+    TextOperation *I_currentTextOperation;
+    
     #ifndef TCM_NO_DEBUG
         NSMutableString *_readFromURLDebugInformation;
     #endif
@@ -268,6 +270,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (int)selectedSymbolForRange:(NSRange)aRange;
 
 - (NSURL *)documentURL;
+- (NSURL *)documentURLForGroup:(NSString *)aGroup;
 
 - (UndoManager *)documentUndoManager;
 

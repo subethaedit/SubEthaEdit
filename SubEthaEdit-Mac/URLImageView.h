@@ -8,10 +8,17 @@
 
 #import <AppKit/AppKit.h>
 
-
 @interface URLImageView : NSImageView {
-    IBOutlet id O_windowController;
     NSTrackingRectTag I_trackingRectTag;
+    id I_delegate;
 }
 
+- (void)setDelegate:(id)aDelegate;
+- (id)delegate;
+
 @end
+
+@interface NSObject (URLImageViewDelegateAdditions)
+- (NSURL*)URLForURLImageView:(URLImageView *)anImageView;
+@end
+

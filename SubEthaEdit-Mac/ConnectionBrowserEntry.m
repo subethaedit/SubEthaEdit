@@ -33,102 +33,54 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
 
 @implementation ConnectionBrowserEntry
 
-+ (NSURL *)urlForAddress:(NSString *)anAddress {
-    NSString *URLString = nil;
-    NSString *schemePrefix = [NSString stringWithFormat:@"%@://", @"see"];
-    NSString *lowercaseAddress = [anAddress lowercaseString];
-    if (![lowercaseAddress hasPrefix:schemePrefix]) {
-        // check if the address is an ipv6 address
-        NSCharacterSet *ipv6set = [NSCharacterSet characterSetWithCharactersInString:@"1234567890abcdef:"];
-        NSScanner *ipv6scanner = [NSScanner scannerWithString:anAddress];
-        NSString *scannedString = nil;
-        if ([ipv6scanner scanCharactersFromSet:ipv6set intoString:&scannedString]) {
-            if ([scannedString length] == [anAddress length]) {
-                anAddress = [NSString stringWithFormat:@"[%@]",scannedString];
-            } else if ([anAddress length] > [scannedString length]+1 && [anAddress characterAtIndex:[scannedString length]] == '%') {
-                anAddress = [NSString stringWithFormat:@"[%@%%25%@]",scannedString,[anAddress substringFromIndex:[scannedString length]+1]];
-            }
-        }
-        NSString *addressWithPrefix = [schemePrefix stringByAppendingString:anAddress];
-        URLString = addressWithPrefix;
-    } else {
-        URLString = anAddress;
-    }
-    
-    NSURL *url = [NSURL URLWithString:URLString];
-    return url;
-}
-
-+ (NSURL *)reducedURL:(NSURL *)anURL addressData:(NSData **)anAddressData documentRequest:(NSURL **)aRequest {
-    NSURL *resultURL = nil;
-    if (anURL != nil && [anURL host] != nil) {
-        UInt16 port;
-        if ([anURL port] != nil) {
-            port = [[anURL port] unsignedShortValue];
-        } else {
-            port = SUBETHAEDIT_DEFAULT_PORT;
-        }
-        
-        NSData *addressData = nil;
-        NSString *hostAddress = [anURL host];
-
-        const char *ipAddress = [hostAddress UTF8String];
-        struct addrinfo hints;
-        struct addrinfo *result = NULL;
-        BOOL isIPv6Address = NO;
-
-        memset(&hints, 0, sizeof(hints));
-        hints.ai_flags    = AI_NUMERICHOST;
-        hints.ai_family   = PF_UNSPEC;
-        hints.ai_socktype = SOCK_STREAM;
-        hints.ai_protocol = 0;
-        
-        char *portString = NULL;
-        int err = asprintf(&portString, "%d", port);
-        NSAssert(err != -1, @"Failed to convert given port from int to char*");
-
-        err = getaddrinfo(ipAddress, portString, &hints, &result);
-        if (err == 0) {
-            addressData = [NSData dataWithBytes:(UInt8 *)result->ai_addr length:result->ai_addrlen];
-            isIPv6Address = result->ai_family == PF_INET6;
-            DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"getaddrinfo succeeded with addr: %@", [NSString stringWithAddressData:addressData]);
-            if (anAddressData) *anAddressData = addressData;
-            freeaddrinfo(result);
-        } else {
-            DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"Neither IPv4 nor IPv6 address");
-            return [NSURL URLWithString:[NSString stringWithFormat:@"%@://%@:%d", [anURL scheme], hostAddress,port]];;
-        }
-        if (portString) {
-            free(portString);
-        }
-        
-        NSString *URLString = nil;
-        NSMutableString *percentEscapedString = [[[NSString stringWithAddressData:addressData] mutableCopy] autorelease];
-        [percentEscapedString replaceOccurrencesOfString:@"%" withString:@"%25" options:0 range:NSMakeRange(0,[percentEscapedString length])];
-        URLString = [NSString stringWithFormat:@"%@://%@", [anURL scheme], percentEscapedString];
-        resultURL = [NSURL URLWithString:URLString];
-        
-        if ([[anURL path] length] > 0 && ![[anURL path] isEqualToString:@"/"]) {
-            if (aRequest) *aRequest = anURL;
-        }
-        
-    } else {
-        DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"Invalid URI");
-    }
-    return resultURL;
-}
 
 - (void)sendStatusDidChangeNotification {
     [[NSNotificationCenter defaultCenter] postNotificationName:ConnectionBrowserEntryStatusDidChangeNotification object:self];
 }
 
+- (void)initHelper {
+    _isDisclosed = YES;
+}
+
+- (void)checkURLForToken:(NSURL *)anURL {
+    NSString *urlQuery = [anURL query];
+    NSString *query;
+    if (urlQuery != nil) {
+        query = (NSString *)CFURLCreateStringByReplacingPercentEscapes(kCFAllocatorDefault, (CFStringRef)urlQuery, CFSTR(""));
+        [query autorelease];
+        NSArray *components = [query componentsSeparatedByString:@"&"];
+        NSEnumerator *enumerator = [components objectEnumerator];
+        NSString *token = nil;
+        NSString *sessionID = nil;
+        NSString *item;
+        while ((item = [enumerator nextObject])) {
+            NSArray *keyValue = [item componentsSeparatedByString:@"="];
+            if ([keyValue count] == 2) {
+                if ([[keyValue objectAtIndex:0] isEqualToString:@"token"]) {
+                    token = [keyValue objectAtIndex:1];
+                    if (token) {
+                        [_tokensToSend addObject:token];
+                    }
+                } else if ([[keyValue objectAtIndex:0] isEqualToString:@"sessionID"]) {
+                    sessionID = [keyValue objectAtIndex:1];
+                }
+            }
+        }
+        if (sessionID && token) {
+            [[TCMMMPresenceManager sharedInstance] setShouldAutoAcceptInviteToSessionID:sessionID];
+        }
+    }
+}
+
 - (id)initWithURL:(NSURL *)anURL {
     if ((self=[super init])) {
+        [self initHelper];
         _hostStatus = HostEntryStatusSessionAtEnd;
         _pendingDocumentRequests = [NSMutableArray new];
+        _tokensToSend = [NSMutableArray new];
         NSURL *documentRequest = nil;
         NSData *addressData = nil;
-        _URL = [[ConnectionBrowserEntry reducedURL:anURL addressData:&addressData documentRequest:&documentRequest] retain];
+        _URL = [[TCMMMBEEPSessionManager reducedURL:anURL addressData:&addressData documentRequest:&documentRequest] retain];
         if (!_URL) {
             [_pendingDocumentRequests release];
             [super dealloc];
@@ -136,6 +88,7 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
         }
         if (documentRequest) {
             [_pendingDocumentRequests addObject:documentRequest];
+            [self checkURLForToken:documentRequest];
         }
         NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[_URL absoluteString] forKey:@"URLString"];
         if (addressData) {
@@ -152,6 +105,7 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
 
 - (id)initWithBEEPSession:(TCMBEEPSession *)aSession {
     if ((self=[super init])) {
+        [self initHelper];
         _creationDate = [NSDate new];
         _BEEPSession = aSession;
         _hostStatus = HostEntryStatusSessionOpen;
@@ -163,6 +117,8 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
 - (void)reloadAnnouncedSessions {
     [_announcedSessions autorelease];
      _announcedSessions = [[[[TCMMMPresenceManager sharedInstance] statusOfUserID:[self userID]] objectForKey:@"OrderedSessions"] copy];
+    // check if we need to connect to any of them
+    [self checkDocumentRequests];
 }
 
 - (void)dealloc {
@@ -171,6 +127,7 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [_host release];
     [_pendingDocumentRequests release];
+    [_tokensToSend release];
     [_URL release];
     [super dealloc];
 }
@@ -182,9 +139,12 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
 - (BOOL)handleURL:(NSURL *)anURL {
     if (_URL) {
         NSURL *request=nil;
-        NSURL *reducedURL = [ConnectionBrowserEntry reducedURL:anURL addressData:nil documentRequest:&request];
+        NSURL *reducedURL = [TCMMMBEEPSessionManager reducedURL:anURL addressData:nil documentRequest:&request];
         if ([_URL isEqualTo:reducedURL]) {
-            if (request) [_pendingDocumentRequests addObject:request];
+            if (request) {
+                [_pendingDocumentRequests addObject:request];
+                [self checkURLForToken:anURL];
+            }
             return YES;
         }
     }
@@ -194,11 +154,14 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
 - (BOOL)handleSession:(TCMBEEPSession *)aSession {
     if (_URL && !_BEEPSession) {
         if ([[[aSession userInfo] objectForKey:@"URLString"] isEqualToString:[_URL absoluteString]]) {
-            if (_hostStatus==HostEntryStatusCancelling ||  _hostStatus==HostEntryStatusCancelled) {
+            if ( (_hostStatus==HostEntryStatusCancelling ||  _hostStatus==HostEntryStatusCancelled) && ![[aSession userInfo] objectForKey:@"isAutoConnect"]) {
                 _hostStatus = HostEntryStatusCancelled;
             } else {
                 _BEEPSession = aSession;
                 _hostStatus = HostEntryStatusSessionOpen;
+                if (![[aSession userInfo] objectForKey:@"isAutoConnect"]) {
+                    [[TCMMMPresenceManager sharedInstance] setShouldAutoconnect:YES forUserID:[self userID]];
+                }
             }
             [self reloadAnnouncedSessions];
             return YES;
@@ -223,16 +186,21 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
 
 - (id)itemObjectValueForTag:(int)aTag {
     TCMMMUser *user = [self user];
-    if (aTag == TCMMMBrowserItemStatusImageTag) {
+    if (aTag == TCMMMBrowserItemImageInFrontOfNameTag) {
         if ([self isBonjour]) {
             return [NSImage imageNamed:@"Bonjour13"];
+        } else  if ([[_BEEPSession userInfo] objectForKey:@"isAutoConnect"]) {
+            return [NSImage imageNamed:@"FriendcastingConnection"];
         } else {
             return [NSImage imageNamed:@"Internet13"];
         }
     }
+    if (aTag == TCMMMBrowserItemIsDisclosedTag) {
+        return [NSNumber numberWithBool:_isDisclosed];
+    }
     BOOL showUser = [self isVisible] && (_hostStatus == HostEntryStatusSessionOpen) && user;
-    if (aTag == TCMMMBrowserItemStatus2ImageTag) {
-        if ([_BEEPSession isTLSEnabled]) {
+    if (aTag == TCMMMBrowserItemStatusImageOverlayTag) {
+        if (_BEEPSession && ![_BEEPSession isTLSEnabled]) {
             return [NSImage imageNamed:@"ssllock18"];
         } else {
             return nil;
@@ -248,28 +216,75 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
                 return [NSImage imageNamed:@"UnknownPerson32"];
             }
         }
-    } else if (aTag == TCMMMBrowserItemImageNextToNameTag) {
-        if (showUser) {
-            return [user colorImage];
+//    } else if (aTag == TCMMMBrowserItemImageNextToNameTag) {
+//        if ([[_BEEPSession availableSASLProfileURIs] count]) {
+//            if ([_BEEPSession authenticationInformation]) {
+//                return [NSImage imageNamed:@"LoginButtonIn"];
+//            } else {
+//                return [NSImage imageNamed:@"LoginButton"];
+//            }
+//        } else {
+//            if (showUser) {
+//                return [user colorImage];
+//            } else {
+//                return nil;
+//            }
+//        }
+    }  else if (aTag == TCMMMBrowserItemStatusImageTag) {
+        NSDictionary *status = [[TCMMMPresenceManager sharedInstance] statusOfUserID:[user userID]];
+        if ([[status objectForKey:@"hasFriendCast"] boolValue] && showUser) {
+            if ([[status objectForKey:@"shouldAutoConnect"] boolValue] && 
+                [[NSUserDefaults standardUserDefaults] boolForKey:AutoconnectPrefKey]) {
+                return [NSImage imageNamed:@"FriendCast13"]; 
+            } else {
+                return [NSImage imageNamed:@"FriendCast13Off"]; 
+            }
         } else {
-            return nil;
+            return [NSImage imageNamed:@"FriendCast13None"];
         }
-        return showUser?[user colorImage]:nil;
+
     } else 
     if (aTag == TCMMMBrowserItemNameTag) {
         if (showUser) {
             return [user name];
         } else {
-            if (_URL) {
+            if (user) {
+                return NSLocalizedString(@"Invisible User",@"User name for invisible users in Connection Browser");
+            } else if (_URL) {
                 return [_URL absoluteString];
             } else {
                 return [NSString stringWithFormat:NSLocalizedString(@"Inbound Connection from %@", @"Inbound Connection ToolTip With Address"), [NSString stringWithAddressData:[_BEEPSession peerAddressData]]];
             }
         }
     } else
+//  if (aTag == TCMMMBrowserItemUserNameTag) {
+//      if (showUser) {
+//          return [user name];
+//      }
+//  } else
     if (aTag == TCMMMBrowserItemStatusTag) {
-        if (showUser) {
-            return [NSString stringWithFormat:NSLocalizedString(@"%d Document(s)",@"Status string showing the number of documents in Rendezvous and Internet browser"), [[self announcedSessions] count]];
+        if (showUser || ([self connectionStatus] == ConnectionStatusConnected)) {
+            NSString *reachabilityURLString = [[TCMMMPresenceManager sharedInstance] reachabilityURLStringOfUserID:[user userID]];
+            if ([self isBonjour]) {
+                return @"Bonjour";
+            } else if (_URL) {
+                return [_URL absoluteString];
+            } else if (reachabilityURLString) {
+                return reachabilityURLString;
+            } else if ([[_BEEPSession userInfo] objectForKey:@"isAutoConnect"]) {
+                return NSLocalizedString(@"Friend of a Friend",@"Connection browser subtitle for friendcasting connections");
+            } else {
+                return NSLocalizedString(@"Internet connection",@"Connection browser subtitle for internet connections");
+            }
+
+            NSString *documentString = NSLocalizedString(@"None announced",@"Status string showing the number of documents when none are announced");
+            unsigned int count = [[self announcedSessions] count];
+            if (count == 1) {
+                documentString = NSLocalizedString(@"1 Document",@"Status string showing the number of documents when one is announced");
+            } else if (count > 1) {
+                documentString = [NSString stringWithFormat:NSLocalizedString(@"%d Documents",@"Status string showing the number of documents The browser when there are multiple documents announced"), count];
+            }
+            return documentString;
         } else {
             // (void)NSLocalizedString(@"HostEntryStatusResolving", @"Resolving");
             // (void)NSLocalizedString(@"HostEntryStatusResolveFailed", @"Could not resolve");
@@ -320,6 +335,8 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
                 case TCMMMSessionAccessReadWriteState:
                     return [NSImage imageNamed:@"StatusReadWrite"];
             }            
+        } else if (aTag == TCMMMBrowserChildInsetTag) {
+            return [NSNumber numberWithInt:0];
         }
     }
     return nil;
@@ -349,6 +366,14 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
     return [[[[TCMMMPresenceManager sharedInstance] statusOfUserID:[self userID]] objectForKey:@"isVisible"] boolValue];
 }
 
+- (void)toggleDisclosure {
+    _isDisclosed = !_isDisclosed;
+}
+
+- (BOOL)isDisclosed {
+    return _isDisclosed;
+}
+
 - (NSString *)hostStatus {
     return _hostStatus; // only the constants are allowed here so == does work
 }
@@ -372,7 +397,7 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
 }
 
 - (void)checkDocumentRequests {
-    if (_BEEPSession) {
+    if (_BEEPSession && _pendingDocumentRequests && [[self announcedSessions] count]) {
         int count = [_pendingDocumentRequests count];
         while (count-- > 0) {
             NSURL *url = [_pendingDocumentRequests objectAtIndex:count];
@@ -384,6 +409,15 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
                     [_pendingDocumentRequests removeObjectAtIndex:count];
                     break;
                 }
+            }
+        }
+    }
+    TCMMMStatusProfile *statusProfile = [[TCMMMPresenceManager sharedInstance] statusProfileForUserID:[self userID]];
+    if (statusProfile && [_tokensToSend count] && _BEEPSession && _pendingDocumentRequests) {
+        int count = [_tokensToSend count];
+        while (count-- > 0) {
+            if ([statusProfile sendToken:[_tokensToSend objectAtIndex:count]]) {
+                [_tokensToSend removeObjectAtIndex:count];
             }
         }
     }
@@ -433,6 +467,7 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
     TCMMMUser *user = [self user];
     if (user && [self isVisible]) {
         [toolTipArray addObject:[user name]];
+
         if ([[[user properties] objectForKey:@"AIM"] length] > 0)
             [toolTipArray addObject:[NSString stringWithFormat:@"AIM: %@",[[user properties] objectForKey:@"AIM"]]];
         if ([[[user properties] objectForKey:@"Email"] length] > 0)
@@ -449,7 +484,21 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
         [toolTipArray addObject:addressDataString];
     }
     
-    if (isInbound) {
+    if (_BEEPSession) {
+        if ([_BEEPSession isTLSEnabled]) {
+            [toolTipArray addObject:NSLocalizedString(@"Connection is 2048-bit SSL encrypted",@"SSL Encryption Connection Tooltip Text Encrypted")];
+        } else {
+            [toolTipArray addObject:NSLocalizedString(@"Connection is NOT encrypted",@"SSL Encryption Connection Tooltip Text NOT Encrypted")];
+        }
+    }
+    
+    if ([[_BEEPSession userInfo] objectForKey:@"isAutoConnect"]) {
+        if (isInbound) {
+            [toolTipArray addObject:NSLocalizedString(@"Inbound Friendcast Connection", @"Inbound Friendcast Connection ToolTip")];
+        } else {
+            [toolTipArray addObject:NSLocalizedString(@"Friendcast Connection", @"Friendcast Connection ToolTip")];
+        }
+    } else if (isInbound) {
         [toolTipArray addObject:NSLocalizedString(@"Inbound Connection", @"Inbound Connection ToolTip")];
     }
     

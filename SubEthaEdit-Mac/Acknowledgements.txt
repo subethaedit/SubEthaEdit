@@ -6,6 +6,7 @@ SubEthaEdit uses the following 3rd party frameworks:
 - PSMTabBarControl  http://opensource.bleepsoft.com/index.php/Main/PSMTabBarControl
 - UniversalDetector http://perian.org/#explore
 - HMBlkAppKit       http://shiira.jp/
+- TCMPortMapper     http://www.codingmonkeys.de/portmap
 
 Thanks a lot to all creators and contributers of these frameworks. 
 Following are the licenses of these frameworks:

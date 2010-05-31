@@ -231,7 +231,7 @@
 }
 
 - (void)addOperationsForInitialRepresentation {
-    TextStorage *ts = [TextStorage new];
+    NSMutableAttributedString *ts = [NSMutableAttributedString new];
     [ts setContentByDictionaryRepresentation:[self initialTextStorageDictionaryRepresentation]];
     NSRange wholeRange = NSMakeRange(0,[ts length]);
     NSMutableSet *userSet=[NSMutableSet set];

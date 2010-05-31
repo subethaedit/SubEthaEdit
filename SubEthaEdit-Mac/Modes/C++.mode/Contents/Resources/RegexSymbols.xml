@@ -20,7 +20,19 @@
     </symbol>
 
     <symbol id="C++ Methods" image="SymbolM" indentation="1" ignoreblocks="yes">
-        <regex>(?&lt;=[\n\r]|^)[ \t]*(?:[\w0-9_*]+(?:::[\w0-9_]+)?\s+){0,3}[\w0-9_]+::[\w0-9_]+[ \t]*\([\]\[\w0-9_,\s*&amp;&lt;&gt;/]*\)(?=\s*\{)</regex>
+        <regex>(?&lt;=[\n\r]|^)[ \t]*(?:template[\t ]*&lt;[^&gt;]*&gt;[\t\r\n ]*)?(?:[\w0-9_*]+(?:::[\w0-9_]+)?\s+){0,3}[\w0-9_]+::[\w0-9_]+[ \t]*\([^)]*\)(?:\s*const)?(?=\s*\{)</regex>
+        <postprocess>
+            <find>\([^\)]*\)</find>
+            <replace>()</replace>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+
+    <symbol id="C++ Templates" image="SymbolM" indentation="1" ignoreblocks="yes">
+        <regex>(?&lt;=[\n\r]|^)[ \t]*(?:template[\t ]*&lt;[^&gt;]*&gt;[\t\r\n ]*)(?:(?:[\w&lt;&gt;0-9_*]+(?:::[\w&lt;&gt;0-9_]+)*\s?)+)[^{]*</regex>
         <postprocess>
             <find>\([^\)]*\)</find>
             <replace>()</replace>
@@ -32,7 +44,7 @@
     </symbol>
 
     <symbol id="C++ Classes" image="SymbolC" indentation="1" ignoreblocks="yes">
-        <regex>(?&lt;=[\n\r]|^)[ \t]*(?:template[\t ]*&lt;[^&gt;]*&gt;[\t\r\n ]*)?class[\t ]([\w0-9_]*)(?:[\t ]*:[\t ]*[\w0-9_]+[\t ][\w0-9_&lt;&gt;]+)?(?=\s*\{)</regex>
+        <regex>(?&lt;=[\n\r]|^)[ \t]*(?:template[\t ]*&lt;[^&gt;]*&gt;[\t\r\n ]*)?class[\t ]([\w0-9_]*)(?:[\t ]*:[\t ]*[\w0-9_]+[\t ][\w0-9_&lt;&gt;]+)?(?:const)?(?=\s*\{)</regex>
     </symbol>
 
     <symbol id="C++ Inline Member Functions" image="SymbolF" indentation="1" ignoreblocks="yes">
@@ -58,7 +70,7 @@
     </symbol>
 
     <symbol id="CVS/SVN conflict" font-weight="bold" image="SymbolWarn" indentation="0" ignoreblocks="no">
-        <regex>^&lt;&lt;&lt;&lt;&lt;&lt;&lt;[^=]*======[^&gt;]*&gt;&gt;&gt;&gt;&gt;&gt;&gt;</regex>
+        <regex>^&lt;&lt;&lt;&lt;&lt;&lt;&lt;([\n\r]|.)*?======([\n\r]|.)*?&gt;&gt;&gt;&gt;&gt;&gt;&gt;</regex>
         <postprocess>
             <find>.*</find>
             <replace>Versioning conflict!</replace>

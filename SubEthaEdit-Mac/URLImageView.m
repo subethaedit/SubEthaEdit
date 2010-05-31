@@ -53,46 +53,58 @@
     return NSDragOperationGeneric;
 }
 
+- (void)setDelegate:(id)aDelegate {
+    I_delegate = aDelegate;
+}
+- (id)delegate {
+    return I_delegate;
+}
+
+- (NSURL *)URLFromDelegate {
+    id delegate = [self delegate];
+    if ([delegate respondsToSelector:@selector(URLForURLImageView:)]) {
+        return [delegate URLForURLImageView:self];
+    } else {
+        return nil;
+    }
+}
+
 - (void)mouseDown:(NSEvent *)event
 {
-    PlainTextDocument *document = [O_windowController document];
-    if (![[document session] isServer]) {
-        return;
+    NSURL *url = [self URLFromDelegate];
+    if (url) {
+        
+        NSImage *urlImage = [self image];
+        NSPasteboard *pboard = [NSPasteboard pasteboardWithName:NSDragPboard];
+        
+        NSArray *pbTypes = [NSArray arrayWithObjects:NSStringPboardType, NSURLPboardType, @"CorePasteboardFlavorType 0x75726C20", @"CorePasteboardFlavorType 0x75726C6E", nil];
+        [pboard declareTypes:pbTypes owner:self];
+        
+        const char *dataUTF8=[[url absoluteString] UTF8String];
+        [pboard setData:[NSData dataWithBytes:dataUTF8 length:strlen(dataUTF8)] forType:@"CorePasteboardFlavorType 0x75726C20"];
+        [pboard setData:[NSData dataWithBytes:dataUTF8 length:strlen(dataUTF8)] forType:@"CorePasteboardFlavorType 0x75726C6E"];
+        [pboard setString:[url absoluteString] forType:NSStringPboardType];
+        [url writeToPasteboard:pboard];
+        
+        [NSApp preventWindowOrdering];
+        
+        NSPoint at = [self bounds].origin;
+        at.x += 0;
+        at.y += 0;
+        [urlImage setSize:[self bounds].size];
+        [self dragImage:urlImage
+                     at:at
+                 offset:NSMakeSize(0,0)
+                  event:event
+             pasteboard:pboard
+                 source:self
+              slideBack:YES];
     }
-    
-    NSImage *urlImage = [NSImage imageNamed:@"URLIcon"];
-    NSPasteboard *pboard = [NSPasteboard pasteboardWithName:NSDragPboard];
-    
-    NSURL *url = [document documentURL];
-    NSArray *pbTypes = [NSArray arrayWithObjects:NSStringPboardType, NSURLPboardType, @"CorePasteboardFlavorType 0x75726C20", @"CorePasteboardFlavorType 0x75726C6E", nil];
-    [pboard declareTypes:pbTypes owner:self];
-    
-    const char *dataUTF8=[[url absoluteString] UTF8String];
-    [pboard setData:[NSData dataWithBytes:dataUTF8 length:strlen(dataUTF8)] forType:@"CorePasteboardFlavorType 0x75726C20"];
-    dataUTF8 = [[document displayName] UTF8String];
-    [pboard setData:[NSData dataWithBytes:dataUTF8 length:strlen(dataUTF8)] forType:@"CorePasteboardFlavorType 0x75726C6E"];
-    [pboard setString:[url absoluteString] forType:NSStringPboardType];
-    [url writeToPasteboard:pboard];
-    
-    [NSApp preventWindowOrdering];
-    
-    NSPoint at = [self bounds].origin;
-    at.x += 2;
-    at.y += 2;
-    
-    [self dragImage:urlImage
-                 at:at
-             offset:NSMakeSize(0, 0)
-              event:event
-         pasteboard:pboard
-             source:self
-          slideBack:YES];
 }
 
 - (void)mouseEntered:(NSEvent *)event
 {
-    PlainTextDocument *document = [O_windowController document];
-    NSURL *url = [document documentURL];
+    NSURL *url = [self URLFromDelegate];
     [self setToolTip:[url absoluteString]];
 }
 

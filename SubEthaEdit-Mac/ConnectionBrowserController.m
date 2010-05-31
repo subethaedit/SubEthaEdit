@@ -21,8 +21,11 @@
 #import "NSWorkspaceTCMAdditions.h"
 #import "ServerConnectionManager.h"
 #import "ConnectionBrowserEntry.h"
+#import "PlainTextDocument.h"
+#import <AddressBook/AddressBook.h>
 
 #import <netdb.h>       // getaddrinfo, struct addrinfo, AI_NUMERICHOST
+#import <TCMPortMapper/TCMPortMapper.h>
 
 
 #define kMaxNumberOfItems 10
@@ -36,7 +39,8 @@ enum {
     BrowserContextMenuTagReconnect,
     BrowserContextMenuTagLogIn,
     BrowserContextMenuTagManageFiles,
-    BrowserContextMenuTagClear
+    BrowserContextMenuTagClear,
+    BrowserContextMenuTagPeerExchange
 };
 
 @interface ConnectionBrowserController (InternetBrowserControllerPrivateAdditions)
@@ -116,9 +120,15 @@ static NSPredicate *S_joinableSessionPredicate = nil;
         
         [I_contextMenu addItem:[NSMenuItem separatorItem]];
 
+        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuFriendcast", @"Log In entry for Browser context Peer Exchange") action:@selector(togglePeerExchange:) keyEquivalent:@""];
+        [item setTarget:self];
+        [item setTag:BrowserContextMenuTagPeerExchange];
+
 //        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuLogIn", @"Log In entry for Browser context menu") action:@selector(login:) keyEquivalent:@""];
 //        [item setTarget:self];
 //        [item setTag:BrowserContextMenuTagLogIn];
+//
+//
 //
 //
 //        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuManageFiles", @"Manage files entry for Browser context menu") action:@selector(openServerConnection:) keyEquivalent:@""];
@@ -131,7 +141,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChangeVisibility:) name:TCMMMPresenceManagerUserVisibilityDidChangeNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChangeAnnouncedDocuments:) name:TCMMMPresenceManagerUserSessionsDidChangeNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(connectionEntryDidChange:) name:ConnectionBrowserEntryStatusDidChangeNotification object:nil];
-    
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(connectionEntryDidChange:) name:TCMBEEPSessionAuthenticationInformationDidChangeNotification object:nil];    
         NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
         TCMMMBEEPSessionManager *manager = [TCMMMBEEPSessionManager sharedInstance];
         [defaultCenter addObserver:self 
@@ -155,6 +165,23 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     [super dealloc];
 }
 
+- (void) validateButtons {
+    NSSet *entries = [self selectedEntriesFilteredUsingPredicate:[NSPredicate predicateWithValue:YES]];
+    NSDictionary *status = [[TCMMMPresenceManager sharedInstance] statusOfUserID:[[entries anyObject] userID]];
+    if ([entries count] == 1 && 
+        [[NSUserDefaults standardUserDefaults] boolForKey:AutoconnectPrefKey] &&
+        [[status objectForKey:@"hasFriendCast"] boolValue] &&
+        [[entries anyObject] isVisible]) {
+        ConnectionBrowserEntry *entry = [entries anyObject];
+        NSMutableDictionary *status = [[TCMMMPresenceManager sharedInstance] statusOfUserID:[[entry user] userID]];
+        [O_toggleFriendcastButton setEnabled:[[status objectForKey:@"hasFriendCast"] boolValue]];
+        [O_toggleFriendcastButton setState:[[status objectForKey:@"shouldAutoConnect"] boolValue]?NSOnState:NSOffState];
+    } else {
+        [O_toggleFriendcastButton setState:NSOffState];
+        [O_toggleFriendcastButton setEnabled:NO];
+    }
+}
+
 // on application launch (mainmenu.nib)
 - (void)awakeFromNib {
     sharedInstance = self;
@@ -176,7 +203,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
             ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
             ConnectionBrowserEntry *entry = [[I_entriesController arrangedObjects] objectAtIndex:pair.itemIndex];
             if (pair.childIndex == -1) {
-                [[selectedObjects objectForKey:@"Entries"]addObject:entry];
+                [[selectedObjects objectForKey:@"Entries"] addObject:entry];
             } else {
                 NSMutableSet *set = [[selectedObjects objectForKey:@"SessionsByEntry"] objectForKey:[entry creationDate]];
                 if (!set) {
@@ -198,11 +225,13 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     int index = 0;
     for (i = 0; i<[arrangedObjects count];i++) {
         ConnectionBrowserEntry *entry = [arrangedObjects objectAtIndex:i];
-        if ([[selectedObjects objectForKey:@"Entries"] containsObject:entry]) [indexes addIndex:index];
+        if ([[selectedObjects objectForKey:@"Entries"] containsObject:entry]) {
+            [indexes addIndex:index];
+        }
         index +=1;
         NSArray *announcedSessions = [entry announcedSessions];
         NSSet *selectedSessions = [[selectedObjects objectForKey:@"SessionsByEntry"] objectForKey:[entry creationDate]];
-        if (selectedSessions) {
+        if (selectedSessions && [entry isDisclosed]) {
             int j = 0;
             for (j=0;j<[announcedSessions count];j++) {
                 if ([selectedSessions containsObject:[announcedSessions objectAtIndex:j]]) {
@@ -210,7 +239,8 @@ static NSPredicate *S_joinableSessionPredicate = nil;
                 }
             }
         }
-        index += [announcedSessions count];
+        if ([entry isDisclosed]) index += [announcedSessions count];
+
     }
     [O_browserListView selectRowIndexes:indexes byExtendingSelection:NO];
     if (selectedObjects) [I_storedSelections removeLastObject];
@@ -226,6 +256,29 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     [O_imageView setImage:myImage];
 }
 
+- (void)portMapperDidStartWork:(NSNotification *)aNotification {
+    [O_portStatusProgressIndicator startAnimation:self];
+    [O_portStatusImageView setHidden:YES];
+    [O_portStatusTextField setStringValue:NSLocalizedString(@"Checking port status...",@"Status of port mapping while trying")];
+}
+
+- (void)portMapperDidFinishWork:(NSNotification *)aNotification {
+    [O_portStatusProgressIndicator stopAnimation:self];
+
+    TCMPortMapper *pm = [TCMPortMapper sharedInstance];
+    // since we only have one mapping this is fine
+    TCMPortMapping *mapping = [[pm portMappings] anyObject];
+    if ([mapping mappingStatus]==TCMPortMappingStatusMapped) {
+        [O_portStatusImageView setImage:[NSImage imageNamed:@"URLIconOK"]];
+        [O_portStatusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"see://%@:%d",@"Connection Browser URL display"), [pm externalIPAddress],[mapping externalPort]]];
+    } else {
+        [O_portStatusImageView setImage:[NSImage imageNamed:@"URLIconNotOK"]];
+        [O_portStatusTextField setStringValue:NSLocalizedString(@"No public mapping.",@"Connection Browser Display when not reachable")];
+    }
+    [O_portStatusImageView setHidden:NO];
+}
+
+
 - (void)windowDidLoad {
     [[self window] setFrameAutosaveName:@"InternetBrowser"];
     [self TCM_synchronizeMyNameAndPicture];
@@ -239,7 +292,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     [O_browserListView setDelegate:self];
     [O_browserListView setTarget:self];
     [O_browserListView setAction:@selector(actionTriggered:)];
-    [O_browserListView setDoubleAction:@selector(joinSession:)];
+    [O_browserListView setDoubleAction:@selector(doubleAction:)];
     [O_scrollView setHasVerticalScroller:YES];
     [[O_scrollView verticalScroller] setControlSize:NSSmallControlSize];
     [O_scrollView setDocumentView:O_browserListView];
@@ -317,7 +370,54 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     if ([[self comboBoxItems] count] > 0) {
         [O_addressComboBox setObjectValue:[[self comboBoxItems] objectAtIndex:0]];
     }
+    
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(validateButtons) name:ListViewDidChangeSelectionNotification object:O_browserListView];
+
+    [self validateButtons];
+    // Port Mappings
+    TCMPortMapper *pm = [TCMPortMapper sharedInstance];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(portMapperDidStartWork:) name:TCMPortMapperDidStartWorkNotification object:pm];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(portMapperDidFinishWork:) name:TCMPortMapperDidFinishWorkNotification object:pm];
+    [O_portStatusImageView setDelegate:self];
+    if ([pm isAtWork]) {
+        [self portMapperDidStartWork:nil];
+    } else {
+        [self portMapperDidFinishWork:nil];
+    }
+    
+	[[NSUserDefaultsController sharedUserDefaultsController] addObserver:self forKeyPath:[@"values." stringByAppendingString:AutoconnectPrefKey] options:0 context:nil];
+	
+	
+	NSMutableParagraphStyle *paragraphStyle = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
+    [paragraphStyle setAlignment:NSCenterTextAlignment];
+    [paragraphStyle setFirstLineHeadIndent:30.];
+    [paragraphStyle setHeadIndent:30.];
+    [paragraphStyle setTailIndent:-30.];
+    if (floor(NSAppKitVersionNumber) > 824.) {
+		[O_browserListView setEmptySpaceString:[[[NSAttributedString alloc] initWithString:NSLocalizedString(@"Drag your\niChat Buddies here\nto invite them.",@"Drag target string in Connection Browser") attributes:[NSDictionary dictionaryWithObjectsAndKeys:
+		   paragraphStyle,NSParagraphStyleAttributeName,
+		   [NSFont systemFontOfSize:12.],NSFontAttributeName,
+		   [NSColor colorWithCalibratedWhite:0.7 alpha:1.0],NSForegroundColorAttributeName,
+		nil]] autorelease]];
+	}
 }
+
+- (void)observeValueForKeyPath:(NSString *)aKeyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+	[O_browserListView setNeedsDisplay:YES];
+	[self validateButtons];
+}
+
+
+- (NSURL*)URLForURLImageView:(URLImageView *)anImageView {
+    TCMPortMapper *pm = [TCMPortMapper sharedInstance];
+    NSString *URLString = [NSString stringWithFormat:@"see://%@:%d", [pm localIPAddress],[[TCMMMBEEPSessionManager sharedInstance] listeningPort]];
+    TCMPortMapping *mapping = [[pm portMappings] anyObject];
+    if ([mapping mappingStatus]==TCMPortMappingStatusMapped) {
+        URLString = [NSString stringWithFormat:@"see://%@:%d", [pm externalIPAddress],[mapping externalPort]];
+    }
+    return [NSURL URLWithString:URLString];
+}
+
 
 - (void)sessionClientStateDidChange:(NSNotification *)aNotificaiton {
     [O_browserListView setNeedsDisplay:YES];
@@ -336,6 +436,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     SEL selector = [menuItem action];
     if (selector == @selector(join:) ||
         selector == @selector(login:) ||
+        selector == @selector(togglePeerExchange:) ||
         selector == @selector(show:) ||
         selector == @selector(reconnect:) ||
         selector == @selector(clear:) ||
@@ -401,7 +502,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     [item setEnabled:NO];
 
     item = [menu itemWithTag:BrowserContextMenuTagLogIn];
-    [item setEnabled:NO];
+    [item setEnabled:YES];
     
     if ([entries count] > 0) {
 
@@ -426,6 +527,17 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 //        NSLog(@"reconnectableEntries: %@",reconnectableEntries);
         item = [menu itemWithTag:BrowserContextMenuTagReconnect];
         [item setEnabled:([reconnectableEntries count] > 0)];
+        
+        item = [menu itemWithTag:BrowserContextMenuTagPeerExchange];
+        if ([entries count] == 1 && [users count] == 1 && [[NSUserDefaults standardUserDefaults] boolForKey:AutoconnectPrefKey] && [[[[TCMMMPresenceManager sharedInstance] statusOfUserID:[[users lastObject] userID]] objectForKey:@"hasFriendCast"] boolValue]) {
+            [item setEnabled:YES];
+            TCMMMUser *user = [users lastObject];
+            NSMutableDictionary *status = [[TCMMMPresenceManager sharedInstance] statusOfUserID:[user userID]];
+            [item setState:[[status objectForKey:@"shouldAutoConnect"] boolValue]?NSOnState:NSOffState];
+        } else {
+            [item setState:NSOffState];
+            [item setEnabled:NO];
+        }
     }
 }
 
@@ -437,7 +549,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     
     [self showWindow:nil];
     
-    NSURL *url = [ConnectionBrowserEntry urlForAddress:address];
+    NSURL *url = [TCMMMBEEPSessionManager urlForAddress:address];
     
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"scheme: %@\nhost: %@\nport: %@\npath: %@\nparameterString: %@\nquery: %@", [url scheme], [url host],  [url port], [url path], [url parameterString], [url query]);
     
@@ -536,7 +648,8 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 #pragma mark ### IBActions ###
 
 - (IBAction)login:(id)aSender {
-    NSSet *entries = [self selectedEntriesFilteredUsingPredicate:[NSPredicate predicateWithFormat:@"BEEPSession.authenticationClient.availableAuthenticationMechanisms.@count > 0"]];
+    NSSet *entries = [self selectedEntriesFilteredUsingPredicate:[NSPredicate predicateWithValue:YES]];
+    // predicateWithFormat:@"BEEPSession.authenticationClient.availableAuthenticationMechanisms.@count > 0"]];
     ConnectionBrowserEntry *entry = [entries anyObject];
     if (entry) {
         [O_loginSheetController setBEEPSession:[entry BEEPSession]];
@@ -667,6 +780,27 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     [self joinSessionsWithIndexes:[self indexSetOfSelectedSessionsFilteredUsingPredicate:S_showableSessionPredicate]];
 }
 
+- (IBAction)togglePeerExchange:(id)aSender {
+    NSIndexSet *indexes = [O_browserListView selectedRowIndexes];
+    if ([indexes count] == 1) {
+        unsigned int index = [indexes firstIndex];
+        ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
+        ConnectionBrowserEntry *entry = [[I_entriesController arrangedObjects] objectAtIndex:pair.itemIndex];
+        TCMMMUser *user = [entry user];
+        if (user) {
+            BOOL newValue = ![[[[TCMMMPresenceManager sharedInstance] statusOfUserID:[user userID]] objectForKey:@"shouldAutoConnect"] boolValue];
+            [[TCMMMPresenceManager sharedInstance] setShouldAutoconnect:newValue forUserID:[user userID]];
+            [O_browserListView setNeedsDisplay:YES];
+        }
+    }
+    [self validateButtons];
+}
+
+- (IBAction)toggleFriendcast:(id)aSender {
+    [self togglePeerExchange:aSender];
+}
+
+
 - (NSSet *)selectedEntriesFilteredUsingPredicate:(NSPredicate *)aPredicate {
     NSMutableSet *set = [NSMutableSet set];
     NSIndexSet *indexes = [O_browserListView selectedRowIndexes];
@@ -740,6 +874,19 @@ static NSPredicate *S_joinableSessionPredicate = nil;
         [self joinSessionsWithIndexes:[NSIndexSet indexSetWithIndex:row]];
     }
 }
+
+- (IBAction)doubleAction:(id)aSender {
+    int row = [aSender clickedRow];
+    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"joinSession in row: %d", row);
+    
+    ItemChildPair pair = [aSender itemChildPairAtRow:row];
+    if (pair.childIndex != -1) {
+        [self joinSessionsWithIndexes:[NSIndexSet indexSetWithIndex:row]];
+    } else {
+        [self togglePeerExchange:aSender];
+    }
+}
+
 
 #pragma mark -
 #pragma mark ### Entry lifetime management ###
@@ -841,13 +988,44 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     return I_contextMenu;
 }
 
+- (BOOL)listView:(TCMListView *)aListView performActionForClickAtPoint:(NSPoint)aPoint atItemChildPair:(ItemChildPair)aPair {
+//    NSLog(@"%s %@ %d %d",__FUNCTION__,NSStringFromPoint(aPoint),aPair.itemIndex,aPair.childIndex);
+    if (aPair.childIndex == -1) {
+        if (aPair.itemIndex>=0 && aPair.itemIndex<[[I_entriesController arrangedObjects] count]) {
+//            if (NSPointInRect(aPoint,NSMakeRect(62,25,9,9))) {
+//                [self storeSelection];
+//                ConnectionBrowserEntry *entry=[[I_entriesController arrangedObjects] objectAtIndex:aPair.itemIndex];
+//                [entry toggleDisclosure];
+//                [aListView reloadData];
+//                [self restoreSelection];
+//                return YES;
+//            } 
+//            else 
+            if (NSPointInRect(aPoint,[(TCMMMBrowserListView *)aListView frameForTag:TCMMMBrowserItemStatusImageTag atChildIndex:aPair.childIndex ofItemAtIndex:aPair.itemIndex])) { 
+                [aListView selectRow:[aListView rowForItem:aPair.itemIndex child:aPair.childIndex] byExtendingSelection:NO];
+                [self toggleFriendcast:self];
+                return YES;
+            }
+
+//            else if (NSPointInRect(aPoint,[(TCMMMBrowserListView *)aListView frameForTag:TCMMMBrowserItemImageNextToNameTag atChildIndex:aPair.childIndex ofItemAtIndex:aPair.itemIndex])) { 
+//                [aListView selectRow:[aListView rowForItem:aPair.itemIndex child:aPair.childIndex] byExtendingSelection:NO];
+//                [self login:self];
+//                return YES;
+//            }
+
+        }
+    }
+    return NO;
+}
+
+
 - (int)listView:(TCMListView *)aListView numberOfEntriesOfItemAtIndex:(int)anItemIndex {
     if (anItemIndex==-1) {
         return [[I_entriesController arrangedObjects] count];
     } else {
         if (anItemIndex>=0 && anItemIndex<[[I_entriesController arrangedObjects] count]) {
             ConnectionBrowserEntry *entry=[[I_entriesController arrangedObjects] objectAtIndex:anItemIndex];
-            return [[entry announcedSessions] count];
+            return [entry isDisclosed]?[[entry announcedSessions] count]:0;
         }
         return 0;
     }
@@ -879,7 +1057,9 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     BOOL allowDrag = YES;
     NSMutableArray *plist = [NSMutableArray array];
     NSMutableString *vcfString= [NSMutableString string];
+    NSURL *reachabilityURL = nil;
     unsigned int index = [indexes firstIndex];
+    TCMMMUser *lastUser=nil;
     while (index != NSNotFound) {
         ItemChildPair pair = [listView itemChildPairAtRow:index];
         if (pair.childIndex != -1) {
@@ -902,16 +1082,26 @@ static NSPredicate *S_joinableSessionPredicate = nil;
             [plist addObject:entry];
             [entry release];
         }
+        if ([browserEntry user]) {
+            lastUser = [browserEntry user];
+            NSString *reachabilityURLString = [[TCMMMPresenceManager sharedInstance] reachabilityURLStringOfUserID:[browserEntry userID]];
+            if (reachabilityURLString) {
+                reachabilityURL = [NSURL URLWithString:reachabilityURLString];
+            } else if ([browserEntry URL]) {
+                reachabilityURL = [browserEntry URL];
+            }
+        }
         index = [indexes indexGreaterThanIndex:index];
     }
     
     if (allowDrag) {
-        [pboard declareTypes:[NSArray arrayWithObjects:@"PboardTypeTBD", NSVCardPboardType,NSCreateFileContentsPboardType(@"vcf"), nil] owner:nil];
+        [pboard declareTypes:[NSArray arrayWithObjects:@"PboardTypeTBD", NSVCardPboardType,NSCreateFileContentsPboardType(@"vcf"),NSCreateFilenamePboardType(@"vcf"),reachabilityURL?NSURLPboardType:nil, nil] owner:nil];
         [pboard setPropertyList:plist forType:@"PboardTypeTBD"];
         [pboard setData:[vcfString dataUsingEncoding:NSUnicodeStringEncoding] forType:NSVCardPboardType];
         [pboard setData:[vcfString dataUsingEncoding:NSUnicodeStringEncoding] forType:NSCreateFileContentsPboardType(@"vcf")];
+        [pboard setString:[[lastUser name] stringByAppendingPathExtension:@".vcf"] forType:NSCreateFilenamePboardType(@"vcf")];
+        [reachabilityURL writeToPasteboard:pboard];
     }
-    
     return allowDrag;
 }
 
@@ -919,6 +1109,69 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     [O_browserListView reloadData];
     [self TCM_validateClearButton];
 }
+
+- (NSDragOperation)listView:(TCMListView *)aListView validateDrag:(id <NSDraggingInfo>)sender {
+    NSPasteboard *pboard = [sender draggingPasteboard];
+
+    if ([[pboard types] containsObject:@"PresentityNames"]) {
+        return NSDragOperationGeneric;
+    } else {
+        return NSDragOperationNone;
+    }
+}
+- (BOOL)listView:(TCMListView *)aListView prepareForDragOperation:(id <NSDraggingInfo>)sender {
+//    NSLog(@"%s",__FUNCTION__);
+    return YES;
+}
+- (BOOL)listView:(TCMListView *)aListView performDragOperation:(id <NSDraggingInfo>)sender{
+//    NSLog(@"%s",__FUNCTION__);
+    NSPasteboard *pboard = [sender draggingPasteboard];
+    return [ConnectionBrowserController invitePeopleFromPasteboard:pboard withURL:[self URLForURLImageView:nil]];
+}
+
++ (NSString *)quoteEscapedStringWithString:(NSString *)aString {
+    NSMutableString *string = [[aString mutableCopy] autorelease];
+    [string replaceOccurrencesOfString:@"\"" withString:@"\\\"" options:NSLiteralSearch range:NSMakeRange(0,[aString length])];
+    return (NSString *)string;
+}
+
++ (void)sendInvitationToServiceWithID:(NSString *)aServiceID buddy:(NSString *)aBuddy url:(NSURL *)anURL {
+    // format is service id, id in that service, onlinestatus (0=offline),groupname
+    NSString *message = [NSString stringWithFormat:NSLocalizedString(@"Please join me in SubEthaEdit:\n%@\n\n(You can download SubEthaEdit from http://www.codingmonkeys.de/subethaedit )",@"iChat invitation String with Placeholder for actual URL"),[anURL absoluteString]];
+    NSString *applescriptString = [NSString stringWithFormat:@"tell application \"iChat\" to send \"%@\" to buddy id \"%@:%@\"",[self quoteEscapedStringWithString:message],aServiceID,aBuddy];
+    NSAppleScript *script = [[[NSAppleScript alloc] initWithSource:applescriptString] autorelease];
+    // need to delay the sending so we don't try to send while in the dragging event
+    [script performSelector:@selector(executeAndReturnError:) withObject:nil afterDelay:0.1];
+}
+
++ (BOOL)invitePeopleFromPasteboard:(NSPasteboard *)aPasteboard intoDocument:(PlainTextDocument *)aDocument group:(NSString *)aGroup {
+    BOOL success = NO;
+    if ([[aPasteboard types] containsObject:@"PresentityNames"]) {
+        NSArray *presentityNames=[aPasteboard propertyListForType:@"PresentityNames"]; 
+        int i=0;
+        for (i=0;i<[presentityNames count];i+=4) {
+            [self sendInvitationToServiceWithID:[presentityNames objectAtIndex:i] buddy:[presentityNames objectAtIndex:i+1] url:[aDocument documentURLForGroup:aGroup]];
+        }
+        success = YES;
+    }
+
+    return success;
+}
+
++ (BOOL)invitePeopleFromPasteboard:(NSPasteboard *)aPasteboard withURL:(NSURL *)aDocumentURL{
+    BOOL success = NO;
+    if ([[aPasteboard types] containsObject:@"PresentityNames"]) {
+        NSArray *presentityNames=[aPasteboard propertyListForType:@"PresentityNames"]; 
+        int i=0;
+        for (i=0;i<[presentityNames count];i+=4) {
+            [self sendInvitationToServiceWithID:[presentityNames objectAtIndex:i] buddy:[presentityNames objectAtIndex:i+1] url:aDocumentURL];
+        }
+        success = YES;
+    }
+
+    return success;
+}
+
 
 #pragma mark -
 #pragma mark ### combo box data source methods ###

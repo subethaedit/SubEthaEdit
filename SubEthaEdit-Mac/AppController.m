@@ -10,6 +10,7 @@
 #import <Security/Security.h>
 #import <Carbon/Carbon.h>
 #import <HDCrashReporter/crashReporter.h>
+#import <TCMPortMapper/TCMPortMapper.h>
 
 #import "TCMBEEP.h"
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
@@ -21,6 +22,7 @@
 #import "PlainTextDocument.h"
 #import "UndoManager.h"
 #import "LicenseController.h"
+#import "GenericSASLProfile.h"
 
 #import "AdvancedPreferences.h"
 #import "EditPreferences.h"
@@ -31,7 +33,7 @@
 
 #import "HandshakeProfile.h"
 #import "SessionProfile.h"
-#import "FileManagementProfile.h"
+#import "ServerManagementProfile.h"
 #import "DocumentModeManager.h"
 #import "DocumentController.h"
 #import "PlainTextEditor.h"
@@ -40,7 +42,6 @@
 #import "UserChangeOperation.h"
 #import "EncodingManager.h"
 #import "TextView.h"
-#import "LockWindow.h"
 
 #import "URLDataProtocol.h"
 
@@ -58,8 +59,6 @@
 #import "BacktracingException.h"
 
 #import "UserStatisticsController.h"
-
-#import "LockWindow.h"
 
 #ifndef TCM_NO_DEBUG
 #import "Debug/DebugPreferences.h"
@@ -132,6 +131,7 @@ static AppController *sharedInstance = nil;
     [defaults setObject:[NSNumber numberWithDouble:60.] forKey:NetworkTimeoutPreferenceKey];
     [defaults setObject:[NSNumber numberWithDouble:60.] forKey:@"AutoSavingDelay"];
     [defaults setObject:[NSNumber numberWithBool:YES] forKey:VisibilityPrefKey];
+    [defaults setObject:[NSNumber numberWithBool:YES] forKey:AutoconnectPrefKey];
     [defaults setObject:[NSNumber numberWithBool:NO] forKey:@"GoIntoBundlesPrefKey"];
 #ifdef TCM_NO_DEBUG
 	[defaults setObject:[NSNumber numberWithBool:NO] forKey:@"EnableBEEPLogging"];
@@ -145,7 +145,7 @@ static AppController *sharedInstance = nil;
     }
     
     [defaults setObject:[NSNumber numberWithBool:floor(NSAppKitVersionNumber) > 824.] forKey:@"SaveSeeTextPreview"];
-    
+    [defaults setObject:[NSNumber numberWithBool:YES] forKey:ShouldAutomaticallyMapPort];
     [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
     
     [[TCMMMTransformator sharedInstance] registerTransformationTarget:[TextOperation class] selector:@selector(transformTextOperation:serverTextOperation:) forOperationId:[TextOperation operationID] andOperationID:[TextOperation operationID]];
@@ -376,6 +376,8 @@ static AppController *sharedInstance = nil;
     
     [self registerTransformers];
     [self addMe];
+    [[TCMPortMapper sharedInstance] hashUserID:[TCMMMUserManager myUserID]];
+
     [BacktracingException install];
     [self setupFileEncodingsSubmenu];
     [self setupDocumentModeSubmenu];
@@ -561,16 +563,20 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [TCMBEEPChannel setClass:[HandshakeProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake"];    
     [TCMBEEPChannel setClass:[TCMMMStatusProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"];
     [TCMBEEPChannel setClass:[SessionProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"];
-    [TCMBEEPChannel setClass:[FileManagementProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SeedFileManagement"];
-
+    [TCMBEEPChannel setClass:[ServerManagementProfile class] forProfileURI:@"http://www.codingmonkeys.de/BEEP/SeedManagement"];
+    [TCMBEEPChannel setClass:[GenericSASLProfile class] forProfileURI:TCMBEEPSASLPLAINProfileURI];
     // set up listening for is ready notificaiton
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sessionManagerIsReady:) name:TCMMMBEEPSessionManagerIsReadyNotification object:nil];
 
     // set up default greetings
     TCMMMBEEPSessionManager *sm = [TCMMMBEEPSessionManager sharedInstance];
     [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake" forGreetingInMode:kTCMMMBEEPSessionManagerDefaultMode];
-    [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus" forGreetingInMode:kTCMMMBEEPSessionManagerDefaultMode];
-    [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession" forGreetingInMode:kTCMMMBEEPSessionManagerDefaultMode];
+    [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"          forGreetingInMode:kTCMMMBEEPSessionManagerDefaultMode];
+    [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"   forGreetingInMode:kTCMMMBEEPSessionManagerDefaultMode];
+
+    [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake" forGreetingInMode:kTCMMMBEEPSessionManagerTLSMode];
+    [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"          forGreetingInMode:kTCMMMBEEPSessionManagerTLSMode];
+    [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"   forGreetingInMode:kTCMMMBEEPSessionManagerTLSMode];
 
     [[TCMMMPresenceManager sharedInstance] startRendezvousBrowsing];
 
@@ -596,8 +602,9 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     // reset dock icon to normal
     [NSApp setApplicationIconImage:[NSImage imageNamed:@"NSApplicationIcon"]];
 
+    [[TCMPortMapper sharedInstance] stopBlocking];
+    [[TCMMMPresenceManager sharedInstance] setVisible:NO]; // will validate so listening so has to be before stopping listening
     [[TCMMMBEEPSessionManager sharedInstance] stopListening];    
-    [[TCMMMPresenceManager sharedInstance] setVisible:NO];
     [[TCMMMPresenceManager sharedInstance] stopRendezvousBrowsing];
 
     [TCMBEEPSession removeTemporaryKeychain];

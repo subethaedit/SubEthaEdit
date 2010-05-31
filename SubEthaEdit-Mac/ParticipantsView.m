@@ -13,6 +13,7 @@
 #import "TCMMMUserManager.h"
 #import "TCMMMUser.h"
 #import "TCMMMBEEPSessionManager.h"
+#import "ConnectionBrowserController.h"
 
 @interface ParticipantsView (ParticipantsViewPrivateAdditions)
 @end
@@ -32,7 +33,7 @@
     return 38.;
 }
 + (float)itemRowGapHeight {
-    return 11.;
+    return 42.;
 }
 
 - (void)setWindowController:(NSWindowController *)aWindowController {
@@ -50,7 +51,7 @@
 - (id)initWithFrame:(NSRect)frameRect {
     self = [super initWithFrame:frameRect];
     if (self) {
-        [self registerForDraggedTypes:[NSArray arrayWithObjects:@"PboardTypeTBD",@"ParticipantDrag",nil]];
+        [self registerForDraggedTypes:[NSArray arrayWithObjects:@"PboardTypeTBD",@"ParticipantDrag",@"PresentityNames",nil]];
         I_dragToItem=-1;
     }
     return self;
@@ -60,13 +61,21 @@
     Class myClass=[self class];
     float childRowHeight  =[myClass childRowHeight];
 
+    static NSMutableParagraphStyle *mNoWrapParagraphStyle = nil;
     static NSMutableDictionary *mNameAttributes=nil;
     static NSMutableDictionary *mStatusAttributes=nil;
-    if (!mNameAttributes) {
-        mNameAttributes = [[NSMutableDictionary dictionaryWithObject:
-            [NSFont boldSystemFontOfSize:[NSFont systemFontSize]] forKey:NSFontAttributeName] retain];
-    }
-    if (!mStatusAttributes) {
+    if (!mNoWrapParagraphStyle) {
+        mNoWrapParagraphStyle = [[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+        [mNoWrapParagraphStyle setLineBreakMode:NSLineBreakByTruncatingMiddle];
+        if ([mNoWrapParagraphStyle respondsToSelector:@selector(setTighteningFactorForTruncation:)]) {
+            [mNoWrapParagraphStyle setTighteningFactorForTruncation:0.15];
+        }
+        
+        mNameAttributes = [[NSMutableDictionary dictionaryWithObjectsAndKeys:
+                [NSFont boldSystemFontOfSize:[NSFont systemFontSize]],NSFontAttributeName,
+                mNoWrapParagraphStyle,NSParagraphStyleAttributeName,
+            nil] retain];
+
         mStatusAttributes = [[NSMutableDictionary dictionaryWithObject:
 			   [NSFont systemFontOfSize:[NSFont smallSystemFontSize]] forKey:NSFontAttributeName] retain];
     } 
@@ -88,7 +97,7 @@
     
     NSImage *image=[dataSource listView:self objectValueForTag:ParticipantsChildImageTag atChildIndex:aChildIndex ofItemAtIndex:aItemIndex];
     if (image) {
-        [image compositeToPoint:NSMakePoint(4,32+3) 
+        [image compositeToPoint:NSMakePoint(4+(32.-[image size].width),32+3) 
                       operation:NSCompositeSourceOver];
     }
     
@@ -96,10 +105,11 @@
     
     NSString *string=[dataSource listView:self objectValueForTag:ParticipantsChildNameTag atChildIndex:aChildIndex ofItemAtIndex:aItemIndex];
     [[NSColor blackColor] set];
+    NSRect nameRect = NSMakeRect(nameXOrigin,2.,NSWidth(childRect)-nameXOrigin,16.);
     if (string) {
-        [string drawAtPoint:NSMakePoint(nameXOrigin,1.)
-                withAttributes:mNameAttributes];
+        [string drawInRect:nameRect withAttributes:mNameAttributes];
     }
+
     NSSize nameSize=[string sizeWithAttributes:mNameAttributes];
     image=[dataSource listView:self objectValueForTag:ParticipantsChildImageNextToNameTag atChildIndex:aChildIndex ofItemAtIndex:aItemIndex];
     if (image) {
@@ -110,7 +120,7 @@
     
     NSAttributedString *attributedString=[dataSource listView:self objectValueForTag:ParticipantsChildStatusTag atChildIndex:aChildIndex ofItemAtIndex:aItemIndex];
     if (attributedString) {
-        [attributedString drawAtPoint:NSMakePoint(32.+11,20.)];
+        [attributedString drawAtPoint:NSMakePoint(nameXOrigin,20.)];
     }
 }
 
@@ -175,7 +185,9 @@
 - (NSRect)highlightRectForItem:(int)itemIndex {
     NSRect itemRect=[self rectForItem:I_dragToItem child:-1];
     float height=1.;
-    if (itemIndex != [self numberOfItems]-1) {
+    if (itemIndex == NSNotFound) {
+        return [[[self enclosingScrollView] contentView] documentVisibleRect];
+    } else if (itemIndex != [self numberOfItems]-1) {
         NSRect nextItemRect=[self rectForItem:I_dragToItem+1 child:-1];
         height=nextItemRect.origin.y-NSMaxY(itemRect)-1;
     } else {
@@ -187,7 +199,10 @@
 }
 
 - (void)highlightItemForDrag:(int)itemIndex {
-    if (itemIndex==-1) {
+    if (itemIndex==NSNotFound) {
+        I_dragToItem=itemIndex;
+        [self setNeedsDisplay:YES];
+    } else if (itemIndex==-1) {
         if (I_dragToItem!=-1) {
             [self setNeedsDisplayInRect:[self highlightRectForItem:I_dragToItem]];
         }
@@ -239,6 +254,13 @@
             }
             [self highlightItemForDrag:-1];
             return NSDragOperationPrivate;
+        } else if ([[pboard types] containsObject:@"PresentityNames"]) {
+            NSPoint draggingLocation=[self convertPoint:[sender draggingLocation] fromView:nil];
+            int itemIndex=[self targetItemForDragPoint:draggingLocation];
+            if (itemIndex<2) {
+                [self highlightItemForDrag:itemIndex];
+                return NSDragOperationGeneric;
+            }
         }
     }
     [self highlightItemForDrag:-1];
@@ -258,17 +280,8 @@
 }
 
 - (BOOL)prepareForDragOperation:(id <NSDraggingInfo>)sender {
-    NSPasteboard *pboard = [sender draggingPasteboard];
-    BOOL result=NO;
-    if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
-        TCMMMSession *session=[[self document] session];
-        //NSLog(@"prepareForDragOperation:");
-        result = [session isServer];
-    } else if ([[pboard types] containsObject:@"ParticipantDrag"]) {
-        TCMMMSession *session=[[self document] session];
-        //NSLog(@"prepareForDragOperation:");
-        result = [session isServer];
-    }
+//    NSPasteboard *pboard = [sender draggingPasteboard];
+    BOOL result=([self validateDrag:sender] != NSDragOperationNone);
     if (!result) {
         [self highlightItemForDrag:-1];
     }
@@ -304,6 +317,12 @@
         }
         [self highlightItemForDrag:-1];
         return result;
+    } else if ([[pboard types] containsObject:@"PresentityNames"]) {
+        if ([[(PlainTextDocument *)[self document] session] isServer]) {
+            [ConnectionBrowserController invitePeopleFromPasteboard:pboard intoDocument:[self document] group:I_dragToItem==0?@"ReadWrite":@"ReadOnly"];
+            [self highlightItemForDrag:-1];
+            return YES;
+        }
     }
     [self highlightItemForDrag:-1];
     return NO;

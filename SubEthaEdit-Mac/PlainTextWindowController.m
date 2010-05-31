@@ -33,7 +33,6 @@
 #import <PSMTabBarControl/PSMTabBarControl.h>
 #import <PSMTabBarControl/PSMTabStyle.h>
 #import <objc/objc-runtime.h>			// for objc_msgSend
-#import "LockWindow.h"
 
 
 NSString * const PlainTextWindowToolbarIdentifier = 
@@ -83,6 +82,7 @@ enum {
     ParticipantContextMenuTagKickDeny
 };
 
+static NSAttributedString *S_dragString = nil;
 
 @interface PlainTextWindowController (PlainTextWindowControllerPrivateAdditions)
 
@@ -128,8 +128,26 @@ enum {
         [I_contextMenu setDelegate:self];
         
         [self setShouldCascadeWindows:NO];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateForPortMapStatus) name:TCMPortMapperDidFinishWorkNotification object:[TCMPortMapper sharedInstance]];
     }
     return self;
+}
+
+- (void)updateForPortMapStatus {
+    BOOL isAnnounced = [(PlainTextDocument *)[self document] isAnnounced];
+    BOOL isServer = [[(PlainTextDocument *)[self document] session] isServer];
+    if (isAnnounced) {
+        BOOL portMapped = ([[[[TCMPortMapper sharedInstance] portMappings] anyObject] mappingStatus] == TCMPortMappingStatusMapped);
+        [O_URLImageView setImage:[NSImage imageNamed:(portMapped?@"URLIconOK":@"URLIconNotOK")]];
+        NSString *URLString = [[[[[self document] documentURL] absoluteString] componentsSeparatedByString:@"?"] objectAtIndex:0];
+        [O_URLTextField setObjectValue:URLString];
+    } else if (isServer) {
+        [O_URLImageView setImage:[NSImage imageNamed:@"Conceal"]];
+        [O_URLTextField setObjectValue:NSLocalizedString(@"Document not announced.\nNo Document URL.",@"Text for document URL field when not announced")];
+    } else {
+        [O_URLImageView setImage:[NSImage imageNamed:@"URLIconNotOK"]];
+        [O_URLTextField setObjectValue:NSLocalizedString(@"Not your Document.\nNo Document URL.",@"Text for document URL field when not your document")];
+    }
 }
 
 - (void)dealloc {
@@ -242,7 +260,42 @@ enum {
     BOOL shouldHideTabBar = [[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey];
     [I_tabBar setHideForSingleTab:!shouldHideTabBar];
     [I_tabBar hideTabBar:!shouldHideTabBar animate:NO];
+//    [I_tabBar setCellOptimumWidth:160];
+//    [I_tabBar setCellMinWidth:120];
+
+	NSMutableParagraphStyle *paragraphStyle = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
+    [paragraphStyle setAlignment:NSCenterTextAlignment];
+    [paragraphStyle setFirstLineHeadIndent:30.];
+    [paragraphStyle setHeadIndent:30.];
+    [paragraphStyle setTailIndent:-30.];
+    
+    if (floor(NSAppKitVersionNumber) > 824.) {
+		if (!S_dragString) {
+			S_dragString = 
+			[[NSAttributedString alloc] initWithString:NSLocalizedString(@"Drag your\nFriends\nfrom the\niChat Buddy List\nor\nConnection Browser\nto a category\nor the text\nto invite them.",@"Drag target string in Participants Drawer") 
+				attributes:[NSDictionary dictionaryWithObjectsAndKeys:
+							   paragraphStyle,NSParagraphStyleAttributeName,
+							   [NSFont systemFontOfSize:12.],NSFontAttributeName,
+							   [NSColor colorWithCalibratedWhite:0.7 alpha:1.0],NSForegroundColorAttributeName,
+							nil]];
+		}
+	}
+	[O_participantsView setEmptySpaceString:S_dragString];
+
+
+    [O_URLImageView setDelegate:self];
+    [self updateForPortMapStatus];
 }
+
+- (NSURL*)URLForURLImageView:(URLImageView *)anImageView {
+    BOOL isAnnounced = [(PlainTextDocument *)[self document] isAnnounced];
+    BOOL isServer = [[(PlainTextDocument *)[self document] session] isServer];
+    if (!isAnnounced && isServer) {
+        return nil;
+    }
+    return [[self document] documentURL];
+}
+
 
 - (void)takeSettingsFromDocument {
     [self setShowsBottomStatusBar:[(PlainTextDocument *)[self document] showsBottomStatusBar]];
@@ -643,11 +696,12 @@ enum {
 - (void)validateUpperDrawer {
     TCMMMSession *session = [(PlainTextDocument *)[self document] session];
     BOOL isServer=[session isServer];
-    [O_URLImageView setHidden:![(PlainTextDocument *)[self document] isAnnounced]];
     [O_pendingUsersAccessPopUpButton setEnabled:isServer];
     TCMMMSessionAccessState state = [session accessState];
     int index = [O_pendingUsersAccessPopUpButton indexOfItemWithTag:state];
     [O_pendingUsersAccessPopUpButton selectItemAtIndex:index];
+    [self updateForPortMapStatus];
+	[O_participantsView setEmptySpaceString:[session isServer]?S_dragString:nil];
 }
 
 - (void)validateButtons {
@@ -1201,6 +1255,7 @@ enum {
 
 - (void)synchronizeWindowTitleWithDocumentName {
     [super synchronizeWindowTitleWithDocumentName];
+    [self updateForPortMapStatus];
     [self updateLock];
 }
 
@@ -2357,36 +2412,36 @@ enum {
     NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
 
     [center removeObserver:self 
-                                                    name:PlainTextDocumentSessionWillChangeNotification
-                                                  object:[self document]];
+                      name:PlainTextDocumentSessionWillChangeNotification
+                    object:[self document]];
 
     [center removeObserver:self 
-                                                    name:PlainTextDocumentSessionDidChangeNotification
-                                                  object:[self document]];
-                                                  
+                      name:PlainTextDocumentSessionDidChangeNotification
+                    object:[self document]];
+                    
     [center removeObserver:self 
-                                                    name:PlainTextDocumentParticipantsDataDidChangeNotification
-                                                  object:[self document]];
+                      name:PlainTextDocumentParticipantsDataDidChangeNotification
+                    object:[self document]];
 
     [center removeObserver:self 
-                                                    name:TCMMMSessionParticipantsDidChangeNotification
-                                                  object:[(PlainTextDocument *)[self document] session]];
-                                                  
-    [center removeObserver:self 
-                                                   name:TCMMMSessionPendingUsersDidChangeNotification 
-                                                 object:[(PlainTextDocument *)[self document] session]];
+                      name:TCMMMSessionParticipantsDidChangeNotification
+                    object:[(PlainTextDocument *)[self document] session]];
 
     [center removeObserver:self 
-                                                    name:TCMMMSessionDidChangeNotification 
-                                                  object:[(PlainTextDocument *)[self document] session]];
-                                               
-    [center removeObserver:self 
-                                                    name:PlainTextDocumentDidChangeDisplayNameNotification 
-                                                  object:[self document]];
+                      name:TCMMMSessionPendingUsersDidChangeNotification 
+                    object:[(PlainTextDocument *)[self document] session]];
 
     [center removeObserver:self 
-                                                    name:PlainTextDocumentDidChangeDocumentModeNotification 
-                                                  object:[self document]];        
+                      name:TCMMMSessionDidChangeNotification 
+                    object:[(PlainTextDocument *)[self document] session]];
+
+    [center removeObserver:self 
+                      name:PlainTextDocumentDidChangeDisplayNameNotification 
+                    object:[self document]];
+
+    [center removeObserver:self 
+                      name:PlainTextDocumentDidChangeDocumentModeNotification 
+                    object:[self document]];        
                                                    
     [super setDocument:document];
     
@@ -2451,7 +2506,7 @@ enum {
                                                  selector:@selector(adjustToolbarToDocumentMode)
                                                      name:PlainTextDocumentDidChangeDocumentModeNotification 
                                                    object:[self document]];
-        [center postNotificationName:@"PlainTextWindowControllerDocumentDidChangeNotification" object:self];     
+        [center postNotificationName:@"PlainTextWindowControllerDocumentDidChangeNotification" object:self];
     }
 }
 
@@ -2706,16 +2761,17 @@ float ToolbarHeightForWindow(NSWindow *window)
 
 - (BOOL)tabView:(NSTabView *)aTabView validateOverflowMenuItem:(NSMenuItem *)menuItem forTabViewItem:(NSTabViewItem *)tabViewItem
 {
+    int offset = floor(NSAppKitVersionNumber)>824 ? 1 : 0 ;//NSAppKitVersionNumber10_4 - need an offset for leopard
     PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
     PlainTextDocument *document = [tabContext document];
     if ([document isDocumentEdited]) {
-        SetItemMark(_NSGetCarbonMenu([menuItem menu]), [[menuItem menu] indexOfItem:menuItem], kBulletCharCode);
+        SetItemMark(_NSGetCarbonMenu([menuItem menu]), [[menuItem menu] indexOfItem:menuItem]+offset, kBulletCharCode);
     } else {
-        SetItemMark(_NSGetCarbonMenu([menuItem menu]), [[menuItem menu] indexOfItem:menuItem], noMark);
+        SetItemMark(_NSGetCarbonMenu([menuItem menu]), [[menuItem menu] indexOfItem:menuItem]+offset, noMark);
     }
 
     if ([I_tabView selectedTabViewItem] == tabViewItem)
-        SetItemMark(_NSGetCarbonMenu([menuItem menu]), [[menuItem menu] indexOfItem:menuItem], checkMark);
+        SetItemMark(_NSGetCarbonMenu([menuItem menu]), [[menuItem menu] indexOfItem:menuItem]+offset, checkMark);
         
     return YES;
 }
