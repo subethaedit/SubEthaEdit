@@ -530,7 +530,9 @@ static NSString *tempFileName(NSString *origPath) {
 
 - (BOOL)TCM_validTypeForBracketAtIndex:(unsigned)index {
 //	NSLog(@"Index %d = %@",index, ((![[[self textStorage] attribute:kSyntaxHighlightingTypeAttributeName atIndex:index effectiveRange:nil] isEqualToString:@"comment"])&&(![[[self textStorage] attribute:kSyntaxHighlightingTypeAttributeName atIndex:index effectiveRange:nil] isEqualToString:@"string"]))?@"YES":@"NO");
-	return ((![[[self textStorage] attribute:kSyntaxHighlightingTypeAttributeName atIndex:index effectiveRange:nil] isEqualToString:@"comment"])&&(![[[self textStorage] attribute:kSyntaxHighlightingTypeAttributeName atIndex:index effectiveRange:nil] isEqualToString:@"string"]));
+	id attributeValue = [[self textStorage] attribute:kSyntaxHighlightingTypeAttributeName atIndex:index effectiveRange:nil];
+	return ((![attributeValue isEqualToString:@"comment"]) &&
+		    (![attributeValue isEqualToString:@"string"]));
 }
 
 - (BOOL)TCM_charIsBracket:(unichar)aPossibleBracket {

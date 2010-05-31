@@ -5,5 +5,6 @@
     <extension>erl</extension>
     <extension>hrl</extension>
     <regex>^-module\([^\)]+\)\.</regex>
+    <regex>^-record\([^\)]+\)\.</regex>
   </recognition>
 </settings>

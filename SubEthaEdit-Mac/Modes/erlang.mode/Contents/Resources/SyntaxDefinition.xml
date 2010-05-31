@@ -4,18 +4,23 @@
 <syntax>
 	<head>
 		<name>Erlang</name>
-		<charsintokens><![CDATA[_-0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@>:]]></charsintokens>
+		<charsintokens><![CDATA[_-0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@:]]></charsintokens>
+        <folding toplevel="1" />
 	</head>
 	<states>
 		<default id="Base" color="#000" inverted-color="#fff">
 			<keywords id="Atoms" color="#974319">
 				<regex>\b([a-z][a-zA-Z0-9@_]*)\b</regex>
 			</keywords>
+			<keywords id="Records" font-weight="bold" color="#974319">
+				<regex>(#[a-z][a-zA-Z0-9@_]*)\b</regex>
+				<regex>-record\s*\(([a-zA-Z0-9@_]*)\b</regex>
+			</keywords>
 			<keywords id="Variables" color="#3d1f0f" font-weight="bold">
 				<regex>\b([A-Z][a-zA-Z0-9@_]*)\b</regex>
 			</keywords>
 			<keywords id="Numbers" color="#00f" inverted-color="#5d56ff" useforautocomplete="no">
-				<regex>(?&lt;![\w\d_])((?:[+-]?(?:(?:[0-9]+\.[0-9]*)|(?:\.[0-9]+))(?:[eE][+\-]?[0-9]+)?[fFlL]?)|(?:(?:(?:[1-9][0-9]*)|0[0-7]*|(?:0[xX][0-9a-fA-F]+))(?:(?:[uU][lL]?)|(?:[lL][uU]?))?))(?![\w\d_])</regex>
+				<regex>(?&lt;![\w\d_])((?:0*(?:(?:[0-9]#[0-9]+)|(?:[1-3][0-9]#[0-9a-zA-Z]+)))|(?:(?:(?:[0-9]+\.[0-9]+))(?:[eE][+\-]?[0-9]+)?)|[0-9]+)(?![\w\d_])</regex>
 			</keywords>
 			<keywords id="Keywords" color="#6C0540" casesensitive="yes" useforautocomplete="yes">
 				<string>after</string>
@@ -27,14 +32,20 @@
 				<string>end</string>
 				<string>fun</string>
 				<string>if</string>
+				<string>orelse</string>
+				<string>andalso</string>
 				<string>let</string>
 				<string>of</string>
 				<string>query</string>
 				<string>receive</string>
 				<string>when</string>
 			</keywords>
-			<keywords id="Separators" color="#FF0000" casesensitive="no" useforautocomplete="yes">
-				<regex>\s(->)</regex>
+			<keywords id="Separators" color="#FF0000" font-weight="bold" casesensitive="no" useforautocomplete="no">
+				<regex>(->)</regex>
+			</keywords>
+			<keywords id="List Comprehensions" color="#400080" font-weight="bold" casesensitive="no" useforautocomplete="no">
+				<regex>(&lt;\-)</regex>
+				<regex>(\|\|)</regex>
 			</keywords>
 			<keywords id="Built-in Functions" color="#400080" font-weight="bold" font-style="italic">
 				<string>abs</string>
@@ -153,7 +164,7 @@
 				<regex>(-compile)\(</regex>
 				<regex>(-define)\(</regex>
 				<regex>(-else)\(</regex>
-				<regex>(-endif)\(</regex>
+				<regex>(-endif)</regex>
 				<regex>(-export)\(</regex>
 				<regex>(-file)\(</regex>
 				<regex>(-ifdef)\(</regex>
@@ -266,6 +277,14 @@
 				<regex>[\n\r]</regex>
 			</end>
 		</state>
+		<state id="Character Literal" color="#650c41">
+			<begin>
+				<regex>\$</regex>
+			</begin>
+			<end>
+				<regex>\\?.</regex>
+			</end>
+		</state>
 		<state id="String" color="#760f15">
 			<begin>
 				<regex>"</regex>
@@ -274,5 +293,29 @@
 				<regex>(?&lt;!\\)(\\\\)*"</regex>
 			</end>
 		</state>
+		<state id="Quoted Atoms" color="#974319">
+			<begin>
+				<regex>'</regex>
+			</begin>
+			<end>
+				<regex>(?&lt;!\\)(\\\\)*'</regex>
+			</end>
+		</state>
+		
+		<state id="Block" type="block" foldable="yes">
+			<begin><regex>(?:\-\>)</regex></begin>
+			<end><regex>(?:(?:(?:\;)|(?:\.))(?!\S))|(?:\s*(?=end\b))</regex></end>
+			<import />
+		</state>
+
+		<state id="End Block" type="block" foldable="yes">
+			<begin><regex>(?:\b(?:(?:of)|(?:if)|(?:begin))\b)</regex></begin>
+			<end><regex>(?:\bend\b)</regex></end>
+			<import />
+		</state>
+
+
+
+		
 	</states>
 </syntax>
