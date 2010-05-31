@@ -1,4 +1,20 @@
 
+SubEthaEdit 3.2.1
+=================
+
+Changes:
+- Implemented a partial work-around for an issue of Apple's mDNSResponder in 
+  conjunction with Airport Base Stations that causes excessive logging. If it 
+  still happens, turning automatic port mapping off and on again resolves the 
+  issue.
+
+Fixes:
+- Fixed an issue where CJK font fallbacks could cause the rest of the document 
+  to be displayed in a wrong font.
+- Fixed an issue that caused the Apple Scripts of the Latex Mode not to be 
+  included correctly.
+
+
 SubEthaEdit 3.2
 ===============
 
