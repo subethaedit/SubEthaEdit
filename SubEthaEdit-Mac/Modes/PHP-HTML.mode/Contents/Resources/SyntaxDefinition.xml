@@ -19,11 +19,11 @@
             </keywords>
             
             <state id="PHP" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="PHP-HTML" useautocompletefrommode="PHP-HTML">
-              <begin><regex>(?:&lt;\?(?i)php)|(?:&lt;\?(?=[\s]))</regex></begin>
+              <begin><regex>(?:&lt;\?(?i)php)|(?:&lt;\?(?=[\s=]))</regex></begin>
               <end><regex>\?&gt;</regex></end>
               <keywords id="PHP Delimiter" color="#D00" font-weight="bold" useforautocomplete="no">
                 <regex>(&lt;\?(?i)php\d?)</regex>
-                <regex>(&lt;\?)(?![\S])</regex>
+                <regex>(&lt;\?=?)(?![\S])</regex>
                 <regex>(\?&gt;)</regex>
               </keywords>
 

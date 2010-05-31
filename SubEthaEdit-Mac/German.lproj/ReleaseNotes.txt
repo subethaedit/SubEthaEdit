@@ -1,4 +1,20 @@
 
+SubEthaEdit 3.0.1
+=================
+
+Veränderugen:
+- Die Zeit welche SubEthaEdit zum Starten benötigt wurde verringert.
+
+Korrekturen:
+- Ein Fehler wurde behoben durch das SubEthaEdit beim Start bei fehlenden 
+  Developer Tools mehrfach nach dem Ort von Xcode fragte.
+- Ein Fehler wurde behoben durch den der Titel des Dokumentes im Tab sowie im 
+  Statistik Fenster nicht aktualisiert wurde, falls der Gastgeber diesen 
+  änderte.
+- Ein Fehler im PHP-HTML Modus wurde behoben, der <?= nicht als Start von PHP 
+  erkannt hat, sondern als einen XML Prolog.
+
+
 SubEthaEdit 3.0
 ===============
 

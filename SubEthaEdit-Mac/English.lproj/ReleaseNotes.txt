@@ -1,4 +1,20 @@
 
+SubEthaEdit 3.0.1
+=================
+
+Changes:
+- Startup time has been improved.
+
+Fixes:
+- Fixed an issue where SubEthaEdit asked for Xcode on start if the Developer 
+  Tools are not installed on the machine SubEthaEdit is running on.
+- Fixed an issue where the document title in a tab and the document title 
+  displayed in the statistics windows did not update if the host changed the 
+  title of the doucment.
+- Fixed an issue in PHP-HTML mode where <?= wasn't recognized as start of PHP 
+  but was colored as an xml prologue.
+
+
 SubEthaEdit 3.0
 ===============
 

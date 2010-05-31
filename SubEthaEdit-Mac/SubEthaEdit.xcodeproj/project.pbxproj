@@ -1100,7 +1100,7 @@
 		145047510997758600D18142 /* German */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = German; path = German.lproj/ReleaseNotes.txt; sourceTree = "<group>"; };
 		145842370BDFBC3000EB6D15 /* SDDocumentManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = SDDocumentManager.h; path = seed/SDDocumentManager.h; sourceTree = "<group>"; };
 		145842380BDFBC3000EB6D15 /* SDDocumentManager.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = SDDocumentManager.m; path = seed/SDDocumentManager.m; sourceTree = "<group>"; };
-		1463256A0BA0C71400A88D4F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = Info.plist; path = seed/Info.plist; sourceTree = "<group>"; };
+		1463256A0BA0C71400A88D4F /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; name = Info.plist; path = seed/Info.plist; sourceTree = "<group>"; };
 		1468BA8F097D91BC006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		1468BA90097D91D1006F5936 /* German */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/Localizable.strings; sourceTree = "<group>"; };
 		1468BA92097D91FF006F5936 /* German */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = German; path = German.lproj/AboutPanel.nib; sourceTree = "<group>"; };
@@ -1216,7 +1216,7 @@
 		5EB51AF70A177CF500AE2E17 /* InvisibleCharactersHide.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = InvisibleCharactersHide.png; path = artwork/InvisibleCharactersHide.png; sourceTree = "<group>"; };
 		5EB51B260A179E9B00AE2E17 /* ToolbarIconRun.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ToolbarIconRun.tiff; path = artwork/ToolbarIconRun.tiff; sourceTree = "<group>"; };
 		5EC6382A0ABEB71100D3295B /* Unit Tests.octest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Unit Tests.octest"; sourceTree = BUILT_PRODUCTS_DIR; };
-		5EC6382B0ABEB71100D3295B /* Unit Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Unit Tests-Info.plist"; sourceTree = "<group>"; };
+		5EC6382B0ABEB71100D3295B /* Unit Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "Unit Tests-Info.plist"; sourceTree = "<group>"; };
 		5EC638340ABEB88B00D3295B /* DataTests.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DataTests.h; path = Tests/DataTests.h; sourceTree = "<group>"; };
 		5EC638350ABEB88B00D3295B /* DataTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DataTests.m; path = Tests/DataTests.m; sourceTree = "<group>"; };
 		5EDD2FFD0A08D71D0036E63A /* ScriptTextSelection.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ScriptTextSelection.h; sourceTree = "<group>"; };
@@ -1292,7 +1292,7 @@
 		F2989FFE0CCB9ED900C4DB8B /* SeeTextImporter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SeeTextImporter.xcodeproj; path = SeeTextImporter/SeeTextImporter.xcodeproj; sourceTree = "<group>"; };
 		F299405E0C0C7F3400A53189 /* NSScreenTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = NSScreenTCMAdditions.m; sourceTree = "<group>"; };
 		F299405F0C0C7F3400A53189 /* NSScreenTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = NSScreenTCMAdditions.h; sourceTree = "<group>"; };
-		F29940780C0C806600A53189 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; name = Info.plist; path = see/Info.plist; sourceTree = "<group>"; };
+		F29940780C0C806600A53189 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; name = Info.plist; path = see/Info.plist; sourceTree = "<group>"; };
 		F29AD8660CA3391B0097D04E /* Bonjour13.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Bonjour13.png; path = artwork/Bonjour13.png; sourceTree = "<group>"; };
 		F2A0934D0C9EA923000AD27A /* DocumentSharedMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentSharedMethods.h; sourceTree = "<group>"; };
 		F2A0934E0C9EA923000AD27A /* DocumentSharedMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentSharedMethods.m; sourceTree = "<group>"; };
@@ -2473,7 +2473,6 @@
 		2A37F4A9FDCFA73011CA2CEA /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = C05733CB08A9546B00998B17 /* Build configuration list for PBXProject "SubEthaEdit" */;
-			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			knownRegions = (
 				English,
