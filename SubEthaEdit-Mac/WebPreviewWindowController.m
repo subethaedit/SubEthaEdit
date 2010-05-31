@@ -9,7 +9,7 @@
 #import "TCMMMSession.h"
 #import "WebPreviewWindowController.h"
 #import "PlainTextDocument.h"
-#import "TextStorage.h"
+#import "FoldableTextStorage.h"
 #import "DocumentMode.h"
 #import "BacktracingException.h"
 
@@ -129,7 +129,7 @@ NSScrollView * firstScrollView(NSView *aView) {
     NSMutableURLRequest *request=[NSMutableURLRequest requestWithURL:MyURL];
     [request setMainDocumentURL:MyURL];
     NSString *string=[[[self plainTextDocument] textStorage] string];
-    NSStringEncoding encoding = [(TextStorage *)[[self plainTextDocument] textStorage] encoding];
+    NSStringEncoding encoding = [(FoldableTextStorage *)[[self plainTextDocument] textStorage] encoding];
     [request setHTTPBody:[string dataUsingEncoding:encoding]];
     NSString *IANACharSetName=(NSString *)CFStringConvertEncodingToIANACharSetName(
                 CFStringConvertNSStringEncodingToEncoding(encoding));
@@ -139,6 +139,11 @@ NSScrollView * firstScrollView(NSView *aView) {
 //    [[oWebView mainFrame]
 //        loadHTMLString:[[[self plainTextDocument] textStorage] string]
 //               baseURL:[NSURL URLWithString:[oBaseUrlTextField stringValue]]];
+}
+
+- (void)windowWillClose:(NSNotification *)aNotification {
+	// when we see our window closing, we empty the contents so no javascript will run in background
+    [[oWebView mainFrame] loadHTMLString:@"" baseURL:nil];
 }
 
 -(IBAction)refreshAndEmptyCache:(id)aSender {
@@ -278,7 +283,7 @@ NSScrollView * firstScrollView(NSView *aView) {
     }
 }
 
-- (void)webView:(WebView *)sender mouseDidMoveOverElement:(NSDictionary *)elementInformation modifierFlags:(unsigned int)modifierFlags {
+- (void)webView:(WebView *)sender mouseDidMoveOverElement:(NSDictionary *)elementInformation modifierFlags:(NSUInteger)modifierFlags {
     if ([elementInformation objectForKey:WebElementImageKey] ||
         [elementInformation objectForKey:WebElementLinkURLKey]) {
         // NSLog(@"%@",[elementInformation description]);

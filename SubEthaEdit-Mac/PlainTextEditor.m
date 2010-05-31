@@ -36,7 +36,15 @@
 #import "ScriptTextSelection.h"
 #import "NSMenuTCMAdditions.h"
 #import "NSMutableAttributedStringSEEAdditions.h"
+#import "FoldableTextStorage.h"
+#import "FoldedTextAttachment.h"
+#import "URLBubbleWindow.h"
+#import <objc/objc-runtime.h>
 
+#if defined(CODA)
+#import "CodeTextView.h"
+#import "StudioGutterRulerView.h"
+#endif //defined(CODA)
 
 @interface NSTextView (PrivateAdditions)
 - (BOOL)_isUnmarking;
@@ -95,6 +103,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:[I_windowControllerTabContext document] name:NSTextDidChangeNotification object:I_textView];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [I_textView setDelegate:nil];
+	[I_textView setEditor:nil]; // in case our editor outlives us
     [O_editorView setNextResponder:nil];
     [O_editorView release];
     [I_textContainer release];
@@ -109,8 +118,8 @@
     NSLayoutManager *layoutManager = [I_textView layoutManager];
     if ([layoutManager respondsToSelector:@selector(setAllowsNonContiguousLayout:)]) {
         int participantCount = [[[self document] session] participantCount];
-        (void (
-        *)(BOOL))objc_msgSend(layoutManager, @selector(setAllowsNonContiguousLayout:), (participantCount==1));
+        ((void (
+		 *)(id, SEL, BOOL))objc_msgSend)(layoutManager, @selector(setAllowsNonContiguousLayout:), (participantCount==1));
     }
 }
 
@@ -175,7 +184,12 @@
 
     I_textContainer =  [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(frame.size.width,FLT_MAX)];
 
+#if defined(CODA)
+	I_textView=[[CodeTextView alloc] initWithFrame:frame textContainer:I_textContainer];
+#else
     I_textView=[[TextView alloc] initWithFrame:frame textContainer:I_textContainer];
+#endif //defined(CODA)
+	[(TextView*)I_textView setEditor:self];
     [I_textView setHorizontallyResizable:NO];
     [I_textView setVerticallyResizable:YES];
     [I_textView setAutoresizingMask:NSViewWidthSizable];
@@ -190,6 +204,7 @@
     [I_textView setAllowsUndo:NO];
     [I_textView setSmartInsertDeleteEnabled:NO];
     [I_textView turnOffLigatures:self];
+    [I_textView setLinkTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSCursor pointingHandCursor],NSCursorAttributeName,nil]];
 //	if ([I_textView respondsToSelector:@selector(setAutomaticLinkDetectionEnabled:)]) {
 //		[I_textView setAutomaticLinkDetectionEnabled:YES];
 //	}
@@ -199,9 +214,16 @@
     [I_textContainer setWidthTracksTextView:YES];
     [layoutManager addTextContainer:I_textContainer];
 
+#if defined(CODA)
+    [O_scrollView setVerticalRulerView:[[[StudioGutterRulerView alloc] initWithScrollView:O_scrollView orientation:NSVerticalRuler] autorelease]];
+#else	
     [O_scrollView setVerticalRulerView:[[[GutterRulerView alloc] initWithScrollView:O_scrollView orientation:NSVerticalRuler] autorelease]];
+#endif //defined(CODA)	
     [O_scrollView setHasVerticalRuler:YES];
-    [[O_scrollView verticalRulerView] setRuleThickness:32.];
+
+#if !defined(CODA)	
+	[[O_scrollView verticalRulerView] setRuleThickness:42.];
+#endif //!defined(CODA)
 
     [O_scrollView setDocumentView:I_textView];
     [I_textView release];
@@ -362,13 +384,13 @@
         [self setShowsInvisibleCharacters:[document showInvisibleCharacters]];
         [self setWrapsLines: [document wrapLines]];
         [self setShowsGutter:[document showsGutter]];
+		[self setShowsTopStatusBar:[document showsTopStatusBar]];
+		[I_textView setEditable:[document isEditable]];
+		[I_textView setContinuousSpellCheckingEnabled:[document isContinuousSpellCheckingEnabled]];
     }
     [self updateSymbolPopUpSorted:NO];
-    [self setShowsTopStatusBar:[document showsTopStatusBar]];
     [self TCM_updateStatusBar];
     [self TCM_updateBottomStatusBar];
-    [I_textView setEditable:[document isEditable]];
-    [I_textView setContinuousSpellCheckingEnabled:[document isContinuousSpellCheckingEnabled]];
     [self adjustDisplayOfPageGuide];
 }
 
@@ -430,7 +452,7 @@
         NSRange selection=[I_textView selectedRange];
 
         // findLine
-        TextStorage *textStorage=(TextStorage *)[I_textView textStorage];
+        FoldableTextStorage *textStorage=(FoldableTextStorage *)[I_textView textStorage];
         NSString *string=[textStorage positionStringForRange:selection];
         if (selection.location<[textStorage length]) {
             id blockAttribute=[textStorage
@@ -482,31 +504,44 @@
 
 - (float)pageGuidePositionForColumns:(int)aColumns {
     NSFont *font=[[self document] fontWithTrait:0];
-    float characterWidth=[font widthOfString:@"n"];
+	CGFloat characterWidth = [@"n" sizeWithAttributes:[NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName]].width; 
+	
     return aColumns * characterWidth + [[I_textView textContainer] lineFragmentPadding]+[I_textView textContainerInset].width;
 }
 
 - (NSSize)desiredSizeForColumns:(int)aColumns rows:(int)aRows {
     NSSize result;
     NSFont *font=[[self document] fontWithTrait:0];
-    float characterWidth=[font widthOfString:@"n"];
+	CGFloat characterWidth = [@"n" sizeWithAttributes:[NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName]].width; 
+
     result.width = characterWidth*aColumns + [[I_textView textContainer] lineFragmentPadding]*2 + [I_textView textContainerInset].width*2 + ([O_editorView bounds].size.width - [[I_textView enclosingScrollView] contentSize].width);
-    result.height = [font defaultLineHeightForFont]*aRows +
+	
+    result.height = [[I_textContainer layoutManager] defaultLineHeightForFont:font]*aRows +
                     [I_textView textContainerInset].height * 2 +
                     ([O_editorView bounds].size.height - [[I_textView enclosingScrollView] contentSize].height);
+		
     return result;
 }
 
 - (int)displayedRows {
-    NSFont *font=[[self document] fontWithTrait:0];
-    return (int)(([[I_textView enclosingScrollView] contentSize].height-[I_textView textContainerInset].height*2)/[font defaultLineHeightForFont]);
+	int rows = 0;
+	if ([self document]) {
+		NSFont *font=[[self document] fontWithTrait:0];
+		rows = (int)(([[I_textView enclosingScrollView] contentSize].height-[I_textView textContainerInset].height*2)/[[I_textView layoutManager] defaultLineHeightForFont:font]);
+	}
+	
+	return rows;
 }
 
 - (int)displayedColumns {
-    PlainTextDocument *document=[self document];
-    NSFont *font=[document fontWithTrait:0];
-    float characterWidth=[font widthOfString:@"n"];
-    return (int)(([I_textView bounds].size.width-[I_textView textContainerInset].width*2-[[I_textView textContainer] lineFragmentPadding]*2)/characterWidth);
+	int columns = 0;
+	if ([self document]) {
+		NSFont *font=[[self document] fontWithTrait:0];
+		CGFloat characterWidth = [@"n" sizeWithAttributes:[NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName]].width; 
+		columns = (int)(([I_textView bounds].size.width-[I_textView textContainerInset].width*2-[[I_textView textContainer] lineFragmentPadding]*2)/characterWidth);
+	}
+
+	return columns;
 }
 
 - (void)TCM_updateBottomStatusBar {
@@ -565,7 +600,7 @@
     }
 }
 
-- (int)dentLineInTextView:(NSTextView *)aTextView withRange:(NSRange)aLineRange in:(BOOL)aIndent{
+- (int)dentLineInTextView:(NSTextView *)aTextView withRange:(NSRange)aLineRange in:(BOOL)aIndent {
     int changedChars=0;
     static NSCharacterSet *spaceTabSet=nil;
     if (!spaceTabSet) {
@@ -708,8 +743,8 @@
     return changedChars;
 }
 
-- (void)dentParagraphsInTextView:(NSTextView *)aTextView in:(BOOL)aIndent{
-    if ([(TextStorage *)[aTextView textStorage] hasBlockeditRanges]) {
+- (void)dentParagraphsInTextView:(NSTextView *)aTextView in:(BOOL)aIndent {
+    if ([(FoldableTextStorage *)[aTextView textStorage] hasBlockeditRanges]) {
         NSBeep();
     } else {
 
@@ -775,7 +810,7 @@
 }
 
 - (void)tabParagraphsInTextView:(NSTextView *)aTextView de:(BOOL)shouldDetab {
-    if ([(TextStorage *)[aTextView textStorage] hasBlockeditRanges]) {
+    if ([(FoldableTextStorage *)[aTextView textStorage] hasBlockeditRanges]) {
         NSBeep();
     } else {
         NSRange affectedRange=[aTextView selectedRange];
@@ -800,8 +835,7 @@
     }
 }
 
-- (void)updateViews
-{
+- (void)updateViews {
     [self TCM_adjustTopStatusBarFrames];
     [self TCM_updateBottomStatusBar];
 }
@@ -826,18 +860,36 @@
         [menuItem setState:[self showsInvisibleCharacters]?NSOnState:NSOffState];
         return YES;
     } else if (selector == @selector(blockeditSelection:) || selector==@selector(endBlockedit:)) {
-        TextStorage *textStorage=(TextStorage *)[I_textView textStorage];
+        FoldableTextStorage *textStorage=(FoldableTextStorage *)[I_textView textStorage];
         if ([textStorage hasBlockeditRanges]) {
-            [menuItem setTitle:NSLocalizedString(@"MenuBlockeditEnd",@"End Blockedit in edit Menu")];
+            [menuItem setTitle:NSLocalizedString(@"MenuBlockeditEnd",@"End Blockedit in edit Menu")];            
+#if defined(CODA)			
+			if ( ![[[menuItem menu] title] isEqualToString:@"CodaEditorContextualMenu"] ) 
+			{
+				[menuItem setKeyEquivalent:@"\e"];
+				[menuItem setKeyEquivalentModifierMask:0];
+            }
+			[menuItem setAction:@selector(endBlockedit:)];
+#else
             [menuItem setKeyEquivalent:@"\e"];
             [menuItem setAction:@selector(endBlockedit:)];
             [menuItem setKeyEquivalentModifierMask:0];
+#endif //defined(CODA)			
             return YES;
         }
         [menuItem setTitle:NSLocalizedString(@"MenuBlockeditSelection",@"Blockedit Selection in edit Menu")];
+#if defined(CODA)			       
+		if ( ![[[menuItem menu] title] isEqualToString:@"CodaEditorContextualMenu"] ) 
+		{
+			[menuItem setKeyEquivalent:@"B"];        
+			[menuItem setKeyEquivalentModifierMask:NSCommandKeyMask|NSShiftKeyMask];
+		}		
+		[menuItem setAction:@selector(blockeditSelection:)];
+#else		
         [menuItem setKeyEquivalent:@"B"];
         [menuItem setAction:@selector(blockeditSelection:)];
         [menuItem setKeyEquivalentModifierMask:NSCommandKeyMask|NSShiftKeyMask];
+#endif //defined(CODA)
         return YES;
     } else if (selector==@selector(copyAsXHTML:)) {
         return ([I_textView selectedRange].length>0);
@@ -891,7 +943,10 @@
         NSColor *backgroundColor=[document documentBackgroundColor];
         NSColor *foregroundColor=[document documentForegroundColor]; 
         TextStorage *textStorage=(TextStorage *)[I_textView textStorage];
-        NSMutableAttributedString *attributedStringForXHTML=[textStorage attributedStringForXHTMLExportWithRange:selectedRange foregroundColor:foregroundColor backgroundColor:backgroundColor];
+        NSMutableAttributedString *attributedSubString = [[[textStorage attributedSubstringFromRange:selectedRange] mutableCopy] autorelease];
+		NSAttributedString *foldingIconReplacementString = [[[NSAttributedString alloc] initWithPath:[[NSBundle mainBundle] pathForResource:@"FoldingBubbleText" ofType:@"rtf"] documentAttributes:nil] autorelease];
+		[attributedSubString replaceAttachmentsWithAttributedString:foldingIconReplacementString];
+        NSMutableAttributedString *attributedStringForXHTML=[attributedSubString attributedStringForXHTMLExportWithRange:NSMakeRange(0,[attributedSubString length]) foregroundColor:foregroundColor backgroundColor:backgroundColor];
         [attributedStringForXHTML detab:YES inRange:NSMakeRange(0,[attributedStringForXHTML length]) tabWidth:[document tabWidth] askingTextView:nil];
         if ([self wrapsLines]) {
             [attributedStringForXHTML makeLeadingWhitespaceNonBreaking]; 
@@ -984,7 +1039,7 @@
 
 - (IBAction)blockeditSelection:(id)aSender {
     NSRange selection=[I_textView selectedRange];
-    TextStorage *textStorage=(TextStorage *)[I_textView textStorage];
+    FoldableTextStorage *textStorage=(FoldableTextStorage *)[I_textView textStorage];
     NSRange lineRange=[[textStorage string] lineRangeForRange:selection];
     NSDictionary *blockeditAttributes=[[I_textView delegate] blockeditAttributesForTextView:I_textView];
     [textStorage addAttributes:blockeditAttributes
@@ -994,7 +1049,7 @@
 }
 
 - (IBAction)endBlockedit:(id)aSender {
-    TextStorage *textStorage=(TextStorage *)[I_textView textStorage];
+    FoldableTextStorage *textStorage=(FoldableTextStorage *)[I_textView textStorage];
     if ([textStorage hasBlockeditRanges]) {
         [textStorage stopBlockedit];
     }
@@ -1061,9 +1116,13 @@
         [I_textContainer setContainerSize:NSMakeSize(NSWidth([I_textView frame])-2.0*[I_textView textContainerInset].width,FLT_MAX)];
         [I_textView setNeedsDisplay:YES];
     }
-    
-    // fixes cursor position after layout change
+	
+	// fixes cursor position after layout change
+#if defined(CODA)
+	[I_textView updateInsertionPointStateAndRestartTimer:YES];
+#else
 //    [I_textView updateInsertionPointStateAndRestartTimer:YES];
+#endif //defined(CODA)
     
     [[self document] setWrapLines:[self wrapsLines]];
     [self TCM_updateBottomStatusBar];
@@ -1177,29 +1236,91 @@
     [self tabParagraphsInTextView:I_textView de:NO];
 }
 
+- (IBAction)jumpToNextSymbol:(id)aSender {
+    TextView *textView = I_textView;
+	PlainTextDocument *document = [self document];
+    NSRange selectedRange = [(FoldableTextStorage *)[document textStorage] fullRangeForFoldedRange:[textView selectedRange]];
+    NSRange change = [document rangeOfPrevious:NO 
+                                symbolForRange:NSMakeRange(NSMaxRange(selectedRange),0)];
+    if (change.location == NSNotFound) {
+        NSBeep();
+    } else {
+		[self selectRange:change];
+    }
+}
+
+- (IBAction)jumpToPreviousSymbol:(id)aSender {
+    TextView *textView = I_textView;
+	PlainTextDocument *document = [self document];
+    NSRange selectedRange = [(FoldableTextStorage *)[document textStorage] fullRangeForFoldedRange:[textView selectedRange]];
+    NSRange change = [[self document] rangeOfPrevious:YES 
+                                       symbolForRange:NSMakeRange(selectedRange.location,0)];
+    if (change.location == NSNotFound) {
+        NSBeep();
+    } else {
+		[self selectRange:change];
+    }
+}
+
+
 - (IBAction)jumpToNextChange:(id)aSender {
     TextView *textView = (TextView *)[self textView];
-    unsigned maxrange=NSMaxRange([textView selectedRange]);
+	PlainTextDocument *document = [self document];
+    NSRange selectedRange = [(FoldableTextStorage *)[document textStorage] fullRangeForFoldedRange:[textView selectedRange]];
+    unsigned maxrange=NSMaxRange(selectedRange);
     NSRange change = [[self document] rangeOfPrevious:NO
                                        changeForRange:NSMakeRange(maxrange>0?maxrange-1:maxrange,0)];
     if (change.location == NSNotFound) {
         NSBeep();
     } else {
-        [textView setSelectedRange:change];
-        [textView scrollRangeToVisible:change];
+		[self selectRange:change];
     }
 }
 
 - (IBAction)jumpToPreviousChange:(id)aSender {
     TextView *textView = (TextView *)[self textView];
+	PlainTextDocument *document = [self document];
+    NSRange selectedRange = [(FoldableTextStorage *)[document textStorage] fullRangeForFoldedRange:[textView selectedRange]];
     NSRange change = [[self document] rangeOfPrevious:YES
-                                       changeForRange:NSMakeRange([textView selectedRange].location,0)];
+                                       changeForRange:NSMakeRange(selectedRange.location,0)];
     if (change.location == NSNotFound) {
         NSBeep();
     } else {
-        [textView setSelectedRange:change];
-        [textView scrollRangeToVisible:change];
+		[self selectRange:change];
     }
+}
+
+
+- (void)gotoLine:(unsigned)aLine {
+    NSRange range=[[(FoldableTextStorage *)[I_textView textStorage] fullTextStorage] findLine:aLine];
+    [self selectRangeInBackground:range];
+}
+
+- (void)gotoLineInBackground:(unsigned)aLine {
+    NSRange range=[[(FoldableTextStorage *)[I_textView textStorage] fullTextStorage] findLine:aLine];
+    [self selectRangeInBackground:range];
+}
+
+
+- (void)selectRange:(NSRange)aRange {
+	[[I_textView window] makeKeyAndOrderFront:self];
+	[self selectRangeInBackground:aRange];
+}
+
+- (void)selectRangeInBackground:(NSRange)aRange {
+	[self selectRangeInBackgroundWithoutIndication:aRange expandIfFolded:YES];
+	if ([I_textView respondsToSelector:@selector(showFindIndicatorForRange:)]) {
+		[I_textView showFindIndicatorForRange:[I_textView selectedRange]];
+	}
+}
+
+- (void)selectRangeInBackgroundWithoutIndication:(NSRange)aRange expandIfFolded:(BOOL)aFlag {
+    FoldableTextStorage *ts = (FoldableTextStorage *)[I_textView textStorage];
+    aRange = [ts foldedRangeForFullRange:aRange expandIfFolded:aFlag];
+    NSRange range=RangeConfinedToRange(aRange,NSMakeRange(0,[ts length]));
+    [I_textView scrollRangeToVisible:range];
+    [I_textView setSelectedRange:range];
+    if (!NSEqualRanges(range,aRange)) NSBeep();
 }
 
 - (void)keyDown:(NSEvent *)aEvent {
@@ -1225,7 +1346,11 @@
             NSEnumerator *menuItems = [[[s_cell menu] itemArray] objectEnumerator];
             NSMenuItem   *menuItem  = nil;
             PlainTextWindowController *wc = [[I_textView window] windowController];
+#if defined(CODA)
+			NSArray* orderedDocuments=[wc documents];
+#else
             NSArray *orderedDocuments=[wc orderedDocuments];
+#endif //defined(CODA)
             PlainTextDocument *myDocument = [self document];
             while ((menuItem=[menuItems nextObject])) {
                 if ([menuItem target]==wc && 
@@ -1318,7 +1443,7 @@
 - (void)updateSelectedSymbol {
     PlainTextDocument *document=[self document];
     if ([[document documentMode] hasSymbols]) {
-        int symbolTag = [document selectedSymbolForRange:[I_textView selectedRange]];
+        int symbolTag = [document selectedSymbolForRange:[(FoldableTextStorage *)[[self document] textStorage] fullRangeForFoldedRange:[I_textView selectedRange]]];
         if (symbolTag == -1) {
             [O_symbolPopUpButton selectItemAtIndex:0];
         } else {
@@ -1360,6 +1485,88 @@
 #pragma mark -
 #pragma mark ### NSTextView delegate methods ###
 
+- (BOOL)textView:(NSTextView *)aTextView clickedOnLink:(id)link atIndex:(NSUInteger)charIndex {
+	NSRange selectedRange = [aTextView selectedRange];
+	if (selectedRange.length > 0 && NSLocationInRange(charIndex,selectedRange)) {
+		// this was a context click and menu selection, instead of a real click, let the system handle that
+		return NO;
+	} else {
+		[aTextView setSelectedRange:NSMakeRange(charIndex,0)];
+	
+		URLBubbleWindow *bubbleWindow = [URLBubbleWindow sharedURLBubbleWindow];
+		NSWindow *window = [aTextView window];
+		[bubbleWindow setURLToOpen:link];
+		
+		// find out position of character:
+		NSLayoutManager *layoutManager = [aTextView layoutManager];
+		NSRange glyphRange = [layoutManager glyphRangeForCharacterRange:NSMakeRange(charIndex,1) actualCharacterRange:NULL];
+		NSTextContainer *container = [aTextView textContainer];
+		NSRect boundingRect = [layoutManager boundingRectForGlyphRange:glyphRange inTextContainer:container];
+		
+		// transform the boundingRect from container coords to actual window coords
+		NSPoint textContainerOrigin = [aTextView textContainerOrigin];
+		boundingRect.origin.x += textContainerOrigin.x;
+		boundingRect.origin.y += textContainerOrigin.y;
+		
+		NSPoint positionPoint = NSMakePoint(NSMidX(boundingRect),NSMinY(boundingRect)); // textviews are always flipped
+		positionPoint = [aTextView convertPoint:positionPoint toView:nil];
+		
+		
+		[bubbleWindow setVisible:NO animated:NO];
+		[bubbleWindow setPosition:positionPoint inWindow:window];
+		[bubbleWindow setVisible:YES animated:YES];
+		return YES;
+	}
+}
+
+
+
+- (NSString *)textView:(NSTextView *)inTextView willDisplayToolTip:(NSString *)inTooltip forCharacterAtIndex:(unsigned)inCharacterIndex {
+	FoldableTextStorage *ts = (FoldableTextStorage *)[inTextView textStorage];
+	id attachment = [ts attribute:NSAttachmentAttributeName atIndex:inCharacterIndex effectiveRange:NULL];
+	if (attachment) {
+		NSHelpManager *hm = [NSHelpManager sharedHelpManager];
+		NSAttributedString *helpString = [ts attributedStringOfFolding:attachment];
+		NSLog(@"%s helpString",__FUNCTION__);
+		[hm setContextHelp:helpString forObject:attachment];
+		[hm showContextHelpForObject:attachment locationHint:[NSEvent mouseLocation]];
+		[hm removeContextHelpForObject:attachment];
+		return nil;
+//		return [ts foldedStringRepresentationOfRange:[attachment foldedTextRange] foldings:[attachment innerAttachments] level:1];
+	} else {
+		return inTooltip;
+	}
+}
+
+- (void)textView:(NSTextView *)view doubleClickedOnCell:(id <NSTextAttachmentCell>)cell inRect:(NSRect)rect atIndex:(unsigned)inIndex {
+	if ([[cell attachment] isKindOfClass:[FoldedTextAttachment class]])
+	{
+		[(FoldableTextStorage *)[view textStorage] unfoldAttachment:(FoldedTextAttachment *)[cell attachment] atCharacterIndex:inIndex];
+	}
+}
+
+- (NSArray *)textView:(NSTextView *)aTextView writablePasteboardTypesForCell:(id < NSTextAttachmentCell >)cell atIndex:(NSUInteger)charIndex {
+	if ([[cell attachment] isKindOfClass:[FoldedTextAttachment class]]) {
+		return [NSArray arrayWithObject:NSStringPboardType];
+	} else {
+		return nil;
+	}
+}
+
+- (BOOL)textView:(NSTextView *)aTextView writeCell:(id < NSTextAttachmentCell >)cell atIndex:(NSUInteger)charIndex toPasteboard:(NSPasteboard *)pboard type:(NSString *)type {
+	id attachment = [cell attachment];
+	if ([attachment isKindOfClass:[FoldedTextAttachment class]]) {
+//		NSLog(@"%s type:%@",__FUNCTION__,type);
+		FoldableTextStorage *ts = (FoldableTextStorage *)[aTextView textStorage];
+		NSString *stringToPaste = [[[ts fullTextStorage] string] substringWithRange:[attachment foldedTextRange]];
+		if (stringToPaste) {
+			[pboard setString:stringToPaste forType:type];
+			return YES;
+		}
+	}
+	return NO;
+}
+
 - (void)textViewContextMenuNeedsUpdate:(NSMenu *)aContextMenu {
     NSMenu *scriptMenu = [[aContextMenu itemWithTag:12345] submenu];
     [scriptMenu removeAllItems];
@@ -1381,6 +1588,7 @@
 }
 
 - (BOOL)textView:(NSTextView *)aTextView shouldChangeTextInRange:(NSRange)affectedCharRange replacementString:(NSString *)replacementString {
+	[[URLBubbleWindow sharedURLBubbleWindow] hideIfNecessary];
 	if (replacementString == nil) return YES; // only styles are changed
     PlainTextDocument *document = [self document];
     if (![document isRemotelyEditingTextStorage]) {
@@ -1409,7 +1617,7 @@
         return NO;
     }
 
-    if (![replacementString canBeConvertedToEncoding:[document fileEncoding]] && (![aTextView hasMarkedText] || [aTextView _isUnmarking])) {
+    if (![replacementString canBeConvertedToEncoding:[document fileEncoding]] && ![aTextView hasMarkedText]) {
         TCMMMSession *session=[document session];
         if ([session isServer] && [session participantCount]<=1) {
             NSMutableDictionary *contextInfo = [[NSMutableDictionary alloc] init];
@@ -1437,13 +1645,14 @@
     } else {
 		[aTextView setTypingAttributes:[(TextStorage *)[aTextView textStorage] attributeDictionaryByAddingStyleAttributesForInsertLocation:affectedCharRange.location toDictionary:[(PlainTextDocument *)[self document] typingAttributes]]];
     }
+	[aTextView setTypingAttributes:[(TextStorage *)[aTextView textStorage] attributeDictionaryByAddingStyleAttributesForInsertLocation:affectedCharRange.location toDictionary:[(PlainTextDocument *)[self document] typingAttributes]]];
     
-    if ([(TextView *)aTextView isPasting] && ![(TextStorage *)[aTextView textStorage] hasMixedLineEndings]) {
-        unsigned length = [replacementString length];
-        unsigned curPos = 0;
-        unsigned startIndex, endIndex, contentsEndIndex;
+    if ([(TextView *)aTextView isPasting] && ![(FoldableTextStorage *)[aTextView textStorage] hasMixedLineEndings]) {
+        NSUInteger length = [replacementString length];
+        NSUInteger curPos = 0;
+        NSUInteger startIndex, endIndex, contentsEndIndex;
         NSString *lineEndingString = [document lineEndingString];
-        unsigned lineEndingStringLength = [lineEndingString length];
+        NSUInteger lineEndingStringLength = [lineEndingString length];
         unichar *lineEndingBuffer = NSZoneMalloc(NULL, sizeof(unichar) * lineEndingStringLength);
         [lineEndingString getCharacters:lineEndingBuffer];
         BOOL isLineEndingValid = YES;
@@ -1465,6 +1674,12 @@
         NSZoneFree(NSZoneFromPointer(lineEndingBuffer), lineEndingBuffer);
         
         if (!isLineEndingValid) {
+#if defined(CODA)
+			NSMutableString *mutableString = [[NSMutableString alloc] initWithString:replacementString];
+			[mutableString convertLineEndingsToLineEndingString:[document lineEndingString]];
+			[aTextView insertText:mutableString];
+			[mutableString release];
+#else			
             NSMutableDictionary *contextInfo = [[NSMutableDictionary alloc] init];
             [contextInfo setObject:@"PasteWrongLineEndingsAlert" forKey:@"Alert"];
             [contextInfo setObject:aTextView forKey:@"TextView"];
@@ -1482,6 +1697,7 @@
                               modalDelegate:document
                              didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
                                 contextInfo:[contextInfo retain]];
+#endif //defined(CODA)			
             return NO;
         }
     }
@@ -1489,21 +1705,26 @@
     return [document textView:aTextView shouldChangeTextInRange:affectedCharRange replacementString:replacementString];
 }
 
-- (void)textDidChange:(NSNotification *)aNotification {
+- (void)setNeedsDisplayForRuler {
     if ([O_scrollView rulersVisible]) {
-        [[O_scrollView verticalRulerView] setNeedsDisplay:YES];
+		NSRulerView *ruler = [O_scrollView verticalRulerView];
+        [ruler setNeedsDisplayInRect:[ruler visibleRect]];
     }
 }
 
+- (void)textDidChange:(NSNotification *)aNotification {
+	[self setNeedsDisplayForRuler];
+}
+
 - (void)contentViewBoundsDidChange:(NSNotification *)aNotification {
-    if ([O_scrollView rulersVisible]) {
-        [[O_scrollView verticalRulerView] setNeedsDisplay:YES];
-    }
+	[[URLBubbleWindow sharedURLBubbleWindow] hideIfNecessary];
+	[self setNeedsDisplayForRuler];
 }
 
 - (NSRange)textView:(NSTextView *)aTextView
            willChangeSelectionFromCharacterRange:(NSRange)aOldSelectedCharRange
                                 toCharacterRange:(NSRange)aNewSelectedCharRange {
+	[[URLBubbleWindow sharedURLBubbleWindow] hideIfNecessary];
     PlainTextDocument *document=(PlainTextDocument *)[self document];
     return [document textView:aTextView
              willChangeSelectionFromCharacterRange:aOldSelectedCharRange
@@ -1543,7 +1764,7 @@
         NSDictionary *sessionProperties=[user propertiesForSessionID:[[[self document] session] sessionID]];
         SelectionOperation *selectionOperation=[sessionProperties objectForKey:@"SelectionOperation"];
         if (selectionOperation) {
-            [I_textView scrollRangeToVisible:[selectionOperation selectedRange]];
+            [I_textView scrollFullRangeToVisible:[selectionOperation selectedRange]];
         }
     }
 }
@@ -1594,7 +1815,7 @@
 
     SelectionOperation *selectionOperation=[[aUser propertiesForSessionID:sessionID] objectForKey:@"SelectionOperation"];
     if (selectionOperation) {
-        unsigned rectCount;
+        NSUInteger rectCount;
         NSRange range=[selectionOperation selectedRange];
         NSLayoutManager *layoutManager = [I_textView layoutManager];
         if (layoutManager) {
@@ -1632,6 +1853,7 @@
 #pragma mark -
 #pragma mark ### Auto completion ###
 
+#if !defined(CODA)
 - (NSArray *)textView:(NSTextView *)textView completions:(NSArray *)words forPartialWordRange:(NSRange)charRange indexOfSelectedItem:(int *)index {
     NSString *partialWord, *completionEntry;
     NSMutableArray *completions = [NSMutableArray array];
@@ -1654,11 +1876,21 @@
     [completions addObjectsFromArray:[[dictionaryOfResultStrings allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)]];
 	
 	// Check if we should use a different mode than the default mode here.
-	NSString *modeForAutocomplete = [[textView textStorage] attribute:kSyntaxHighlightingParentModeForAutocompleteAttributeName atIndex:charRange.location effectiveRange:NULL];
+
+	DocumentMode *theMode = documentMode;
 	
-	DocumentMode *theMode;
-	if (modeForAutocomplete) theMode = [[DocumentModeManager sharedInstance] documentModeForName:modeForAutocomplete];
-	else theMode = documentMode;
+	unsigned int characterIndex = charRange.location;
+	unsigned int stringLength = [textString length];
+	if ( characterIndex < stringLength || 
+		 (characterIndex == stringLength && characterIndex > 0) ) {
+		if (characterIndex == stringLength) {
+			characterIndex--;
+		}
+		NSString *modeForAutocomplete = [[textView textStorage] attribute:kSyntaxHighlightingParentModeForAutocompleteAttributeName atIndex:characterIndex effectiveRange:NULL];
+		if (modeForAutocomplete) {
+			theMode = [[DocumentModeManager sharedInstance] documentModeForName:modeForAutocomplete];
+		}
+	}
 	
     // Get autocompletions from mode responsible for the insert location.
     NSArray *completionSource = [theMode autocompleteDictionary];
@@ -1727,20 +1959,21 @@
     [document updateChangeCount:NSChangeDone];
 
 }
+#endif //!defined(CODA)
 
 @end
 
 
 @implementation PlainTextEditor (PlainTextEditorScriptingAdditions)
 - (id)scriptSelection {
-    return [ScriptTextSelection scriptTextSelectionWithTextStorage:(TextStorage *)[[self textView] textStorage] editor:self];
+    return [ScriptTextSelection scriptTextSelectionWithTextStorage:[(FoldableTextStorage *)[[self textView] textStorage] fullTextStorage] editor:self];
 }
 
 - (void)setScriptSelection:(id)selection {
     //NSLog(@"%s %@",__FUNCTION__,[selection debugDescription]);
     NSTextView *textView = [self textView];
     unsigned length = [[textView textStorage] length];
-    if ([selection isKindOfClass:[NSArray class]] && [selection count] == 2) {
+    if ([selection isKindOfClass:[NSArray class]] && [(NSArray*)selection count] == 2) {
         int startIndex = [[selection objectAtIndex:0] intValue];
         int endIndex = [[selection objectAtIndex:1] intValue];
         
@@ -1751,7 +1984,7 @@
         insertionPointIndex = MAX(insertionPointIndex,0);
         insertionPointIndex = MIN(insertionPointIndex,length);
         [textView setSelectedRange:NSMakeRange(insertionPointIndex,0)];
-    } else if ([selection isKindOfClass:[ScriptTextBase class]] || [selection isKindOfClass:[TextStorage class]]) {
+    } else if ([selection isKindOfClass:[ScriptTextBase class]] || [selection isKindOfClass:[FoldableTextStorage class]]) {
         NSRange newRange=RangeConfinedToRange([selection rangeRepresentation], NSMakeRange(0,length));
         [textView setSelectedRange:newRange];
     }

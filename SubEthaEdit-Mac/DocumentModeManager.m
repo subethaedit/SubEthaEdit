@@ -8,15 +8,16 @@
 
 #import "ModeSettings.h"
 #import "DocumentModeManager.h"
-#import "DocumentController.h"
-#import "PlainTextDocument.h"
 #import "GeneralPreferences.h"
 #import "SyntaxStyle.h"
 #import "SyntaxDefinition.h"
 #import <OgreKit/OgreKit.h>
 
-
+#if defined(CODA)
+#define MODEPATHCOMPONENT @"Application Support/Coda/Modes/"
+#else
 #define MODEPATHCOMPONENT @"Application Support/SubEthaEdit/Modes/"
+#endif //defined(CODA)
 
 @interface DocumentModeManager (DocumentModeManagerPrivateAdditions)
 - (void)TCM_findModes;
@@ -144,6 +145,10 @@ static DocumentModeManager *S_sharedInstance=nil;
         if (self) {
             I_modeBundles=[NSMutableDictionary new];
             I_documentModesByIdentifier =[NSMutableDictionary new];
+#if defined(CODA)
+			I_documentModesByIdentifierLock = [NSRecursiveLock new]; // ifc - experimental locking... awaiting real fix from TCM
+            I_modeIdentifiersByExtension=[NSMutableDictionary new];
+#endif //defined(CODA)
             I_modeIdentifiersTagArray   =[NSMutableArray new];
             [I_modeIdentifiersTagArray addObject:@"-"];
             [I_modeIdentifiersTagArray addObject:AUTOMATICMODEIDENTIFIER];
@@ -162,6 +167,10 @@ static DocumentModeManager *S_sharedInstance=nil;
 - (void)dealloc {
     [I_modeBundles release];
     [I_documentModesByIdentifier release];
+#if defined(CODA)
+	[I_documentModesByIdentifierLock release]; // ifc - experimental locking... awaiting real fix from TCM
+    [I_modeIdentifiersByExtension release];
+#endif //defined(CODA)
     [super dealloc];
 }
 
@@ -237,17 +246,17 @@ static DocumentModeManager *S_sharedInstance=nil;
         }
     } else {
         // Default internal order
-        modeOrder = [NSMutableArray arrayWithObjects:@"SEEMode.PHP-HTML", @"SEEMode.ERB", @"SEEMode.Ruby", @"SEEMode.bash", @"SEEMode.Objective-C", @"SEEMode.C++", @"SEEMode.C", @"SEEMode.Diff", @"SEEMode.HTML", @"SEEMode.CSS", @"SEEMode.Javascript", @"SEEMode.XML", @"SEEMode.Perl", @"SEEMode.Pascal", @"SEEMode.Lua", @"SEEMode.AppleScript", @"SEEMode.ActionScript", @"SEEMode.LaTeX", @"SEEMode.Java", @"SEEMode.Python", @"SEEMode.SQL", @"SEEMode.Conference", @"SEEMode.LassoScript-HTML", @"SEEMode.Coldfusion", nil]; 
+        modeOrder = [NSMutableArray arrayWithObjects:@"SEEMode.PHP-HTML", @"SEEMode.ERB", @"SEEMode.Ruby", @"SEEMode.bash", @"SEEMode.Objective-C", @"SEEMode.C++", @"SEEMode.C", @"SEEMode.Diff", @"SEEMode.HTML", @"SEEMode.CSS", @"SEEMode.Javascript", @"SEEMode.SDEF",@"SEEMode.XML", @"SEEMode.Perl", @"SEEMode.Pascal", @"SEEMode.Lua", @"SEEMode.AppleScript", @"SEEMode.ActionScript", @"SEEMode.LaTeX", @"SEEMode.Java", @"SEEMode.Python", @"SEEMode.SQL", @"SEEMode.Conference", @"SEEMode.LassoScript-HTML", @"SEEMode.Coldfusion", nil]; 
     }
     
-    int i;
+    NSInteger i;
     for(i=0;i<[modeOrder count];i++) {
         [precendenceArray addObject:[NSMutableDictionary dictionary]];
     }
 
     NSEnumerator *enumerator = [I_modeBundles objectEnumerator];
     NSBundle *bundle;
-    while (bundle = [enumerator nextObject]) {
+    while ((bundle = [enumerator nextObject]) != nil) {
         
         ModeSettings *modeSettings = [[ModeSettings alloc] initWithFile:[bundle pathForResource:@"ModeSettings" ofType:@"xml"]];
 		if (!modeSettings) { // Fall back to info.plist
@@ -362,7 +371,7 @@ static DocumentModeManager *S_sharedInstance=nil;
         }
     }
     
-	for (i=[precendenceArray count]-1;i--;i>=0) {
+	for (i=[precendenceArray count]-1;i>=0;i--) {
 		if (![[precendenceArray objectAtIndex:i] objectForKey:@"Identifier"]) [precendenceArray removeObjectAtIndex:i];
 	}
 	
@@ -420,6 +429,9 @@ static DocumentModeManager *S_sharedInstance=nil;
 }
 
 - (IBAction)reloadDocumentModes:(id)aSender {
+#if defined(CODA)
+	[I_documentModesByIdentifierLock lock]; // ifc - experimental
+#endif //defined(CODA)
     // write all preferences
     [[I_documentModesByIdentifier allValues] makeObjectsPerformSelector:@selector(writeDefaults)];
     [[NSUserDefaults standardUserDefaults] setObject:[self modePrecedenceArray] forKey:@"ModePrecedences"];
@@ -427,24 +439,21 @@ static DocumentModeManager *S_sharedInstance=nil;
     // reload all modes
     [I_modeBundles                removeAllObjects];
     [I_documentModesByIdentifier  removeAllObjects];
+#if defined(CODA)
+	[I_modeIdentifiersByExtension removeAllObjects];
+#endif //defined(CODA)
     [self TCM_findModes];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"DocumentModeListChanged" object:self];
     
-    // replace the DocumentModes in the documents
-    NSEnumerator      *documents = [[[DocumentController sharedDocumentController] documents] objectEnumerator];
-    PlainTextDocument *document = nil;
-    while ((document=[documents nextObject])) {
-        DocumentMode *oldMode = [document documentMode];
-        DocumentMode *newMode = [self documentModeForIdentifier:[oldMode documentModeIdentifier]];
-        [document setDocumentMode:newMode];
-    }
-
     [self setModePrecedenceArray:[self reloadPrecedences]];
     [self revalidatePrecedences];
+#if defined(CODA)
+	[I_documentModesByIdentifierLock unlock]; // ifc - experimental
+#endif //defined(CODA)
 }
 
 - (void)resolveAllDependenciesForMode:(DocumentMode *)aMode {
-    if (aMode) {
+    if (aMode && [aMode syntaxDefinition]) {
         I_dependencyQueue = [NSMutableDictionary new];
         [I_dependencyQueue setObject:@"queued" forKey:[[aMode syntaxDefinition] name]];
         NSEnumerator *enumerator = [[[[aMode syntaxDefinition] importedModes] allKeys] objectEnumerator];
@@ -464,29 +473,41 @@ static DocumentModeManager *S_sharedInstance=nil;
 }
 
 - (DocumentMode *)documentModeForName:(NSString *)aName {
-    NSString *identifier;
-    if ([aName hasPrefix:@"SEEMode."]) {
-        identifier = aName;
-    } else {
-        identifier = [NSString stringWithFormat:@"SEEMode.%@", aName];
-    }
-    DocumentMode *mode = [self documentModeForIdentifier:identifier];
     
-    if (!mode) {
-        NSEnumerator *keyEnumerator = [[self availableModes] keyEnumerator];
-        NSString *key;
-        while ((key = [keyEnumerator nextObject])) {
-            if ([identifier caseInsensitiveCompare:key] == NSOrderedSame) {
-                mode = [self documentModeForIdentifier:key];
-                break;
-            }
-        }
-    }
+	DocumentMode *mode = [I_documentModesByName objectForKey:aName];
+	
+	if ( !mode )
+	{
+		NSString *identifier = nil;
+		if ([aName hasPrefix:@"SEEMode."]) {
+			identifier = aName;
+		} else {
+			identifier = [NSString stringWithFormat:@"SEEMode.%@", aName];
+		}
+		mode = [self documentModeForIdentifier:identifier];
+		
+		if (!mode) {
+			NSEnumerator *keyEnumerator = [[self availableModes] keyEnumerator];
+			NSString *key;
+			while ((key = [keyEnumerator nextObject])) {
+				if ([identifier caseInsensitiveCompare:key] == NSOrderedSame) {
+					mode = [self documentModeForIdentifier:key];
+					break;
+				}
+			}
+		}
+        
+		if ( mode )
+			[I_documentModesByName setObject:mode forKey:aName];
+	}
     
-    return mode;
+	return mode;
 }
 
 - (DocumentMode *)documentModeForIdentifier:(NSString *)anIdentifier {
+#if defined(CODA)
+	[I_documentModesByIdentifierLock lock]; // ifc - experimental
+#endif //defined(CODA)
     NSBundle *bundle=[I_modeBundles objectForKey:anIdentifier];
     if (bundle) {
         DocumentMode *mode=[I_documentModesByIdentifier objectForKey:anIdentifier];
@@ -504,8 +525,14 @@ static DocumentModeManager *S_sharedInstance=nil;
             }
             [self resolveAllDependenciesForMode:mode];
         }
+#if defined(CODA)
+			[I_documentModesByIdentifierLock unlock]; // ifc - experimental
+#endif //defined(CODA)
         return mode;
     } else {
+#if defined(CODA)
+			[I_documentModesByIdentifierLock unlock]; // ifc - experimental
+#endif //defined(CODA)
         return nil;
     }
 }
@@ -536,15 +563,35 @@ static DocumentModeManager *S_sharedInstance=nil;
 - (DocumentMode *)documentModeForPath:(NSString *)path withContentData:(NSData *)content {
     // Convert data to ASCII, we don't know encoding yet at this point
     // FIXME Don't forget to handle UTF16/32
+    NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
     unsigned maxLength = [[NSUserDefaults standardUserDefaults] integerForKey:@"ByteLengthToUseForModeRecognitionAndEncodingGuessing"];
-    NSString *contentString = [[[NSString alloc] initWithBytesNoCopy:(void *)[content bytes] length:MIN([content length],maxLength) encoding:NSMacOSRomanStringEncoding freeWhenDone:NO] autorelease];
-    return [self documentModeForPath:path withContentString:contentString];
+    NSString *contentString = [[NSString alloc] initWithBytesNoCopy:(void *)[content bytes] length:MIN([content length],maxLength) encoding:NSMacOSRomanStringEncoding freeWhenDone:NO];
+    DocumentMode *mode = [self documentModeForPath:path withContentString:contentString];
+    [contentString release];
+    [pool release]; // this is save because mode is stored in something persistant and we know it
+    return mode;
 }
 
 - (DocumentMode *)documentModeForPath:(NSString *)path withContentString:(NSString *)contentString {
     NSString *filename = [path lastPathComponent];
     NSString *extension = [path pathExtension];
-            
+#if defined(CODA)        
+// need to loop over keys like this for bug #10694
+	NSArray		*allKeys = [I_modeIdentifiersByExtension allKeys];
+	int			i, count = [allKeys count];
+	NSString	*identifier = nil;
+	NSString	*curKey = nil;
+	
+	for ( i = 0; i < count && (identifier == nil); i++ )
+	{
+		curKey = [allKeys objectAtIndex:i];
+		if ( [[filename lowercaseString] hasSuffix:[curKey lowercaseString]] )
+			identifier = [I_modeIdentifiersByExtension objectForKey:curKey];
+    }
+	
+	if ( identifier ) 
+        return [self documentModeForIdentifier:identifier];
+#endif //defined(CODA)
     NSEnumerator *modeEnumerator = [[self modePrecedenceArray] objectEnumerator];
     NSMutableDictionary *mode;
     while ((mode = [modeEnumerator nextObject])) {

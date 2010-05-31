@@ -1,286 +1,287 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE syntax SYSTEM "syntax.dtd">
+
 <syntax>
-
-    <head>
-        <name>Lua</name>
-        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ]]></charsintokens>
-    </head>
-
-    <states>
-    
-        <default id="Base" color="#000">
-            <keywords id="Literals" color="#00f" useforautocomplete="yes">
+	<head>
+		<name>Lua</name>
+		<charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ]]></charsintokens>
+	</head>
+	<states>
+		<default id="Base" color="#000">
+			<keywords id="Literals" color="#00f" inverted-color="#7d9ffa" useforautocomplete="yes">
 				<string>true</string>
 				<string>false</string>
 				<string>nil</string>
-            </keywords>
-            <keywords id="Keywords" color="#881350" font-weight="bold" useforautocomplete="yes">
-                <string>and</string>
-                <string>break</string>
-                <string>do</string> 
-                <string>end</string>
-                <string>else</string>
-                <string>elseif</string>
-                <string>for</string>
-                <string>function</string>
-                <string>global</string>
-                <string>if</string>
-                <string>in</string>
-                <string>local</string>
-                <string>not</string>
-                <string>or</string>
-                <string>repeat</string>
-                <string>return</string>
-                <string>then</string>
-                <string>until</string>
-                <string>while</string>
-            </keywords>
-            <keywords id="Basic Functions" color="#400080" useforautocomplete="yes">
-                <string>assert</string>
-                <string>collectgarbage</string>
-                <string>dofile</string>
-                <string>error</string>
-                <string>gcinfo</string>
-                <string>getglobals</string>
-                <string>getmetatable</string>
-                <string>getmode</string>
-                <string>ipairs</string>
-                <string>loadfile</string>
-                <string>loadstring</string>
-                <string>newproxy</string>
-                <string>next</string>
-                <string>pairs</string>
-                <string>pcall</string>
-                <string>print</string>
-                <string>rawget</string>
-                <string>rawset</string>
-                <string>require</string>
-                <string>setglobals</string>
-                <string>setmetatable</string>
-                <string>setmode</string>
-                <string>tonumber</string>
-                <string>tostring</string>
-                <string>type</string>
-                <string>unpack</string>
-                <string>xpcall</string>
-            </keywords>
-            <keywords id="Libraries" color="#400080" useforautocomplete="yes">
-                <string>bit</string>
-                <string>coroutine</string>
-                <string>debug</string>
-                <string>io</string>
-                <string>math</string>
-                <string>os</string>
-                <string>string</string>
-                <string>table</string>
-                <string>posix</string>
-                <string>md5</string>
-            </keywords>
-            <keywords id="Library Functions" color="#400080" useforautocomplete="yes">
-                <string>and</string>
-                <string>or</string>
-                <string>xor</string>
-                <string>not</string>
-                <string>shiftl</string>
-                <string>shiftr</string>
-                <string>shiftar</string>
-                <string>mod</string>
-            
-                <string>create</string>
-                <string>yield</string>
-            
-                <string>debug</string>
-                <string>gethook</string>
-                <string>getinfo</string>
-                <string>getlocal</string>
-                <string>sethook</string>
-                <string>setlocal</string>
-                <string>traceback</string>
-            
-                <string>close</string>
-                <string>flush</string>
-                <string>input</string>
-                <string>open</string>
-                <string>output</string>
-                <string>popen</string>
-                <string>read</string>
-                <string>stderr</string>
-                <string>stdin</string>
-                <string>stdout</string>
-                <string>tmpfile</string>
-                <string>write</string>
-            
-                <string>close</string>
-                <string>flush</string>
-                <string>read</string>
-                <string>seek</string>
-                <string>write</string>
-            
-                <string>abs</string>
-                <string>acos</string>
-                <string>asin</string>
-                <string>atan</string>
-                <string>atan2</string>
-                <string>ceil</string>
-                <string>cos</string>
-                <string>deg</string>
-                <string>exp</string>
-                <string>floor</string>
-                <string>frexp</string>
-                <string>ldexp</string>
-                <string>log</string>
-                <string>log10</string>
-                <string>max</string>
-                <string>min</string>
-                <string>mod</string>
-                <string>pi</string>
-                <string>pow</string>
-                <string>rad</string>
-                <string>random</string>
-                <string>randomseed</string>
-                <string>sin</string>
-                <string>sqrt</string>
-                <string>tan</string>
-            
-                <string>clock</string>
-                <string>date</string>
-                <string>difftime</string>
-                <string>execute</string>
-                <string>exit</string>
-                <string>getenv</string>
-                <string>remove</string>
-                <string>rename</string>
-                <string>setlocale</string>
-                <string>time</string>
-                <string>tmpname</string>
-            
-                <string>byte</string>
-                <string>char</string>
-                <string>find</string>
-                <string>format</string>
-                <string>gfind</string>
-                <string>gsub</string>
-                <string>len</string>
-                <string>lower</string>
-                <string>rep</string>
-                <string>sub</string>
-                <string>upper</string>
-            
-                <string>concat</string>
-                <string>foreach</string>
-                <string>foreachi</string>
-                <string>getn</string>
-                <string>insert</string>
-                <string>remove</string>
-                <string>setn</string>
-                <string>sort</string>
-            
-                <string>access</string>
-                <string>chdir</string>
-                <string>chmod</string>
-                <string>chown</string>
-                <string>ctermid</string>
-                <string>dir</string>
-                <string>errno</string>
-                <string>exec</string>
-                <string>files</string>
-                <string>fork</string>
-                <string>getcwd</string>
-                <string>getenv</string>
-                <string>getgroup</string>
-                <string>getlogin</string>
-                <string>getpasswd</string>
-                <string>getprocessid</string>
-                <string>kill</string>
-                <string>link</string>
-                <string>mkdir</string>
-                <string>mkfifo</string>
-                <string>pathconf</string>
-                <string>putenv</string>
-                <string>readlink</string>
-                <string>rmdir</string>
-                <string>setenv</string>
-                <string>setgid</string>
-                <string>setuid</string>
-                <string>sleep</string>
-                <string>stat</string>
-                <string>symlink</string>
-                <string>sysconf</string>
-                <string>times</string>
-                <string>ttyname</string>
-                <string>umask</string>
-                <string>uname</string>
-                <string>unlink</string>
-                <string>unsetenv</string>
-                <string>utime</string>
-                <string>version</string>
-                <string>wait</string>
-            
-                <string>hash</string>
-                <string>crypt</string>
-                <string>decrypt</string>
-            </keywords>
-            <keywords id="MetaTableKeywords" color="#881350" useforautocomplete="yes">
-                <string>__add</string>
-                <string>__concat</string>
-                <string>__div</string>
-                <string>__eq</string>
-                <string>__gc</string>
-                <string>__index</string>
-                <string>__le</string>
-                <string>__lt</string>
-                <string>__metatable</string>
-                <string>__mode</string>
-                <string>__mul</string>
-                <string>__newindex</string>
-                <string>__pow</string>
-                <string>__sub</string>
-                <string>__tostring</string>
-                <string>__unm</string>
-            </keywords>
+			</keywords>
+			<keywords id="Keywords" color="#881350" font-weight="bold" useforautocomplete="yes">
+				<string>and</string>
+				<string>break</string>
+				<string>do</string>
+				<string>end</string>
+				<string>else</string>
+				<string>elseif</string>
+				<string>for</string>
+				<string>function</string>
+				<string>global</string>
+				<string>if</string>
+				<string>in</string>
+				<string>local</string>
+				<string>not</string>
+				<string>or</string>
+				<string>repeat</string>
+				<string>return</string>
+				<string>then</string>
+				<string>until</string>
+				<string>while</string>
+			</keywords>
+			<keywords id="Basic Functions" color="#400080" font-weight="bold" useforautocomplete="yes">
+				<string>assert</string>
+				<string>collectgarbage</string>
+				<string>dofile</string>
+				<string>error</string>
+				<string>gcinfo</string>
+				<string>getglobals</string>
+				<string>getmetatable</string>
+				<string>getmode</string>
+				<string>ipairs</string>
+				<string>loadfile</string>
+				<string>loadstring</string>
+				<string>newproxy</string>
+				<string>next</string>
+				<string>pairs</string>
+				<string>pcall</string>
+				<string>print</string>
+				<string>rawget</string>
+				<string>rawset</string>
+				<string>require</string>
+				<string>setglobals</string>
+				<string>setmetatable</string>
+				<string>setmode</string>
+				<string>tonumber</string>
+				<string>tostring</string>
+				<string>type</string>
+				<string>unpack</string>
+				<string>xpcall</string>
+			</keywords>
+			<keywords id="Libraries" color="#400080" font-weight="bold" useforautocomplete="yes">
+				<string>bit</string>
+				<string>coroutine</string>
+				<string>debug</string>
+				<string>io</string>
+				<string>math</string>
+				<string>os</string>
+				<string>string</string>
+				<string>table</string>
+				<string>posix</string>
+				<string>md5</string>
+			</keywords>
+			<keywords id="Library Functions" color="#400080" useforautocomplete="yes">
+				<string>and</string>
+				<string>or</string>
+				<string>xor</string>
+				<string>not</string>
+				<string>shiftl</string>
+				<string>shiftr</string>
+				<string>shiftar</string>
+				<string>mod</string>
+				<string>create</string>
+				<string>yield</string>
+				<string>debug</string>
+				<string>gethook</string>
+				<string>getinfo</string>
+				<string>getlocal</string>
+				<string>sethook</string>
+				<string>setlocal</string>
+				<string>traceback</string>
+				<string>close</string>
+				<string>flush</string>
+				<string>input</string>
+				<string>open</string>
+				<string>output</string>
+				<string>popen</string>
+				<string>read</string>
+				<string>stderr</string>
+				<string>stdin</string>
+				<string>stdout</string>
+				<string>tmpfile</string>
+				<string>write</string>
+				<string>close</string>
+				<string>flush</string>
+				<string>read</string>
+				<string>seek</string>
+				<string>write</string>
+				<string>abs</string>
+				<string>acos</string>
+				<string>asin</string>
+				<string>atan</string>
+				<string>atan2</string>
+				<string>ceil</string>
+				<string>cos</string>
+				<string>deg</string>
+				<string>exp</string>
+				<string>floor</string>
+				<string>frexp</string>
+				<string>ldexp</string>
+				<string>log</string>
+				<string>log10</string>
+				<string>max</string>
+				<string>min</string>
+				<string>mod</string>
+				<string>pi</string>
+				<string>pow</string>
+				<string>rad</string>
+				<string>random</string>
+				<string>randomseed</string>
+				<string>sin</string>
+				<string>sqrt</string>
+				<string>tan</string>
+				<string>clock</string>
+				<string>date</string>
+				<string>difftime</string>
+				<string>execute</string>
+				<string>exit</string>
+				<string>getenv</string>
+				<string>remove</string>
+				<string>rename</string>
+				<string>setlocale</string>
+				<string>time</string>
+				<string>tmpname</string>
+				<string>byte</string>
+				<string>char</string>
+				<string>find</string>
+				<string>format</string>
+				<string>gfind</string>
+				<string>gsub</string>
+				<string>len</string>
+				<string>lower</string>
+				<string>rep</string>
+				<string>sub</string>
+				<string>upper</string>
+				<string>concat</string>
+				<string>foreach</string>
+				<string>foreachi</string>
+				<string>getn</string>
+				<string>insert</string>
+				<string>remove</string>
+				<string>setn</string>
+				<string>sort</string>
+				<string>access</string>
+				<string>chdir</string>
+				<string>chmod</string>
+				<string>chown</string>
+				<string>ctermid</string>
+				<string>dir</string>
+				<string>errno</string>
+				<string>exec</string>
+				<string>files</string>
+				<string>fork</string>
+				<string>getcwd</string>
+				<string>getenv</string>
+				<string>getgroup</string>
+				<string>getlogin</string>
+				<string>getpasswd</string>
+				<string>getprocessid</string>
+				<string>kill</string>
+				<string>link</string>
+				<string>mkdir</string>
+				<string>mkfifo</string>
+				<string>pathconf</string>
+				<string>putenv</string>
+				<string>readlink</string>
+				<string>rmdir</string>
+				<string>setenv</string>
+				<string>setgid</string>
+				<string>setuid</string>
+				<string>sleep</string>
+				<string>stat</string>
+				<string>symlink</string>
+				<string>sysconf</string>
+				<string>times</string>
+				<string>ttyname</string>
+				<string>umask</string>
+				<string>uname</string>
+				<string>unlink</string>
+				<string>unsetenv</string>
+				<string>utime</string>
+				<string>version</string>
+				<string>wait</string>
+				<string>hash</string>
+				<string>crypt</string>
+				<string>decrypt</string>
+			</keywords>
+			<keywords id="MetaTableKeywords" color="#881350" useforautocomplete="yes">
+				<string>__add</string>
+				<string>__concat</string>
+				<string>__div</string>
+				<string>__eq</string>
+				<string>__gc</string>
+				<string>__index</string>
+				<string>__le</string>
+				<string>__lt</string>
+				<string>__metatable</string>
+				<string>__mode</string>
+				<string>__mul</string>
+				<string>__newindex</string>
+				<string>__pow</string>
+				<string>__sub</string>
+				<string>__tostring</string>
+				<string>__unm</string>
+			</keywords>
+			<keywords id="Numbers" color="#00f" inverted-color="#7d9ffa" useforautocomplete="no">
+				<regex>(?&lt;![A-Za-z0-9])((?:(?:(?:[0-9]+\.[0-9]*)|(?:\.[0-9]+))(?:[eE][+\-]?[0-9]+)?)|(?:[0-9]*)|(?:0x\h+))(?![A-Za-z0-9])</regex>
+			</keywords>
+			
+			<!-- only is for shebangs, since \A does not work reliably we add some necessary shebang lua actually ignores the first line if it starts with # - no way to do this here though -->
+			<state id="Firstline Unix Comment" color="#236E25" type="comment" font-style="italic">
+				<begin><regex>\A#!/</regex></begin>
+				<end><regex>[\n\r]</regex></end>
+			</state>
 
-            <keywords id="Numbers" color="#00f" useforautocomplete="no">
-				<regex>(?&lt;=[^[A-Za-z0-9]]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?)|([0-9]*))(?=[^[A-Za-z0-9]]|$)</regex>
-            </keywords>
-                                
-            <state id="User Functions" color="#a94200" font-style="italic">
-                <begin><regex>(?&lt;=function)[ \t]+[\w\d_\.:]+[ \t]*\(</regex></begin>
-                <end><regex>\)</regex></end>
-            </state>
-            
-            <state id="Multiline Comment" color="#236E25" font-style="italic">
-                <begin><regex>--\[\[</regex></begin>
-                <end><regex>\]\]</regex></end>
-            </state>
-            
-            <state id="Singleline Comment" color="#236E25" font-style="italic">
-                <begin><regex>--</regex></begin>
-                <end><regex>[\n\r]</regex></end>
-            </state>
-            
-            <state id="Multiline String" color="#994500" font-style="italic">
-                <begin><regex>\[\[</regex></begin>
-                <end><regex>\]\]</regex></end>
-            </state>
-    
-            <state id="String with single quotes" color="#994500">
-                <begin><regex>'</regex></begin>
-                <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
-            </state>
-    
-            <state id="String" color="#994500" font-weight="normal" font-style="normal">
-                <begin><string>"</string></begin>
-                <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
-            </state>
-            
-            <state id="Long bracket string" color="#994500" font-weight="normal" font-style="normal">
-                <begin><string>\[(?&lt;brackets&gt;=+)\[</string></begin>
-                <end><regex>\](?#see-insert-start-group:brackets)\]</regex></end>
-            </state>
-            
-        </default>
+			<state id="Multiline Comment" color="#236E25" type="comment" font-style="italic">
+				<begin><regex>--\[(?'commentbrackets'=*)\[</regex></begin>
+				<end><regex>\](?#see-insert-start-group:commentbrackets)\]</regex></end>
+				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+			</state>
 
-    </states>
+			<state id="Singleline Comment" color="#236E25" type="comment" font-style="italic">
+				<begin><regex>--</regex></begin>
+				<end><regex>[\n\r]</regex></end>
+				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+			</state>
 
+			<!-- lua strings are single line, or have a \ in front of the newline. so we end the string state to mark this when encountering newlines without preceding \ -->
+			<state id="String with single quotes" type="string" color="#994500">
+				<begin><regex>'</regex></begin>
+				<end><regex>(?&lt;!\\)(?:\\\\)*(?:'|\n)</regex></end>
+			</state>
+			<state id="String" color="#994500" type="string" font-weight="normal" font-style="normal">
+				<begin><string>"</string></begin>
+				<end><regex>(?&lt;!\\)(?:\\\\)*(?:"|\n)</regex></end>
+			</state>
+			<state id="Long bracket string" color="#994500" foldable="yes" font-weight="normal" font-style="normal">
+				<begin><string>\[(?'stringbrackets'=*)\[</string></begin>
+				<end><regex>\](?#see-insert-start-group:stringbrackets)\]</regex></end>
+			</state>
+
+			<state id="do-then-end blocks" foldable="yes" type="block">
+				<begin><string>\b(?:(?:(?:else|do|then)\b)|(?:function(?:[ \t]+(?'funcname'(?'varname'[\p{Alpha}_][\p{Alnum}_]*)(?:\.\g'varname')*(?::\g'varname')?))?\b))</string></begin>
+				<end><regex>\b(?:end|elseif)\b|(\s(?=else\s))</regex></end>
+				<import />
+			</state>
+
+			<state id="repeat-until blocks" foldable="yes" type="block">
+				<begin><string>\brepeat\b</string></begin>
+				<end><regex>\buntil\b</regex></end>
+				<import />
+			</state>
+
+			<!-- don't show empty tables -->
+			<state id="tables" foldable="yes">
+				<begin><string>{(?!})</string></begin>
+				<end><regex>}</regex></end>
+				<import />
+			</state>
+
+		</default>
+	</states>
 </syntax>

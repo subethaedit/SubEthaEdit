@@ -14,66 +14,41 @@
 #import "AppController.h"
 #import <AddressBook/AddressBook.h>
 
-NSString * const GeneralViewPreferencesDidChangeNotificiation =
-               @"GeneralViewPreferencesDidChangeNotificiation";
-
-NSString * const MyColorHuePreferenceKey                    = @"MyColorHue";
-NSString * const CustomMyColorHuePreferenceKey              = @"CustomMyColorHue";
-NSString * const SelectionSaturationPreferenceKey           = @"MySelectionSaturation";
-NSString * const ChangesSaturationPreferenceKey             = @"MyChangesSaturation";
-NSString * const HighlightChangesPreferenceKey              = @"HighlightChanges";
-NSString * const HighlightChangesAlonePreferenceKey         = @"HighlightChangesAlone";
-NSString * const OpenDocumentOnStartPreferenceKey           = @"OpenDocumentOnStart";
-NSString * const ModeForNewDocumentsPreferenceKey           = @"ModeForNewDocuments";
-NSString * const AdditionalShownPathComponentsPreferenceKey = @"AdditionalShownPathComponents";
-NSString * const SelectedMyColorPreferenceKey               = @"SelectedMyColor";
-NSString * const MyNamePreferenceKey                        = @"MyName";
-NSString * const MyAIMPreferenceKey                         = @"MyAIM";
-NSString * const MyEmailPreferenceKey                       = @"MyEmail";
-NSString * const MyImagePreferenceKey                       = @"MyImage";
-NSString * const MyAIMIdentifierPreferenceKey               = @"MyAIMIdentifier";
-NSString * const MyEmailIdentifierPreferenceKey             = @"MyEmailIdentifier";
-NSString * const MyAIMsPreferenceKey                        = @"MyAIMs";
-NSString * const MyEmailsPreferenceKey                      = @"MyEmails";
-NSString * const SynthesiseFontsPreferenceKey               = @"SynthesiseFonts";
-NSString * const OpenNewDocumentInTabKey                    = @"OpenNewDocumentInTab";
-NSString * const AlwaysShowTabBarKey                        = @"AlwaysShowTabBar";
-
-
 @implementation GeneralPreferences
 
 + (void)initialize {
-    NSMutableDictionary *defaultDict = [NSMutableDictionary dictionary];
-    
-    [defaultDict setObject:[NSNumber numberWithFloat:25.0]
-                    forKey:ChangesSaturationPreferenceKey];
-    [defaultDict setObject:[NSNumber numberWithFloat:45.0]
-                    forKey:SelectionSaturationPreferenceKey];
-    [defaultDict setObject:[NSNumber numberWithFloat:0.0]
-                    forKey:CustomMyColorHuePreferenceKey];
-    [defaultDict setObject:[NSNumber numberWithFloat:50.0]
-                    forKey:MyColorHuePreferenceKey];
-    [defaultDict setObject:[NSArray array]
-                    forKey:MyAIMsPreferenceKey];
-    [defaultDict setObject:[NSArray array]
-                    forKey:MyEmailsPreferenceKey];
-    [defaultDict setObject:[NSNumber numberWithBool:YES]
-                    forKey:OpenDocumentOnStartPreferenceKey];
-    [defaultDict setObject:[NSNumber numberWithInt:0]
-                    forKey:AdditionalShownPathComponentsPreferenceKey];
-    [defaultDict setObject:[NSNumber numberWithBool:YES]
-                    forKey:HighlightChangesPreferenceKey];
-    [defaultDict setObject:[NSNumber numberWithBool:NO]
-                    forKey:HighlightChangesAlonePreferenceKey];
-    [defaultDict setObject:[NSNumber numberWithBool:NO]
-                    forKey:OpenNewDocumentInTabKey];
-    [defaultDict setObject:[NSNumber numberWithBool:YES]
-                    forKey:AlwaysShowTabBarKey];
-    [defaultDict setObject:BASEMODEIDENTIFIER
-                    forKey:ModeForNewDocumentsPreferenceKey];
-    
-    [[NSUserDefaults standardUserDefaults] registerDefaults:defaultDict];
-    
+	if (self == [GeneralPreferences class]) {
+		NSMutableDictionary *defaultDict = [NSMutableDictionary dictionary];
+		
+		[defaultDict setObject:[NSNumber numberWithFloat:25.0]
+						forKey:ChangesSaturationPreferenceKey];
+		[defaultDict setObject:[NSNumber numberWithFloat:45.0]
+						forKey:SelectionSaturationPreferenceKey];
+		[defaultDict setObject:[NSNumber numberWithFloat:0.0]
+						forKey:CustomMyColorHuePreferenceKey];
+		[defaultDict setObject:[NSNumber numberWithFloat:50.0]
+						forKey:MyColorHuePreferenceKey];
+		[defaultDict setObject:[NSArray array]
+						forKey:MyAIMsPreferenceKey];
+		[defaultDict setObject:[NSArray array]
+						forKey:MyEmailsPreferenceKey];
+		[defaultDict setObject:[NSNumber numberWithBool:YES]
+						forKey:OpenDocumentOnStartPreferenceKey];
+		[defaultDict setObject:[NSNumber numberWithInt:0]
+						forKey:AdditionalShownPathComponentsPreferenceKey];
+		[defaultDict setObject:[NSNumber numberWithBool:YES]
+						forKey:HighlightChangesPreferenceKey];
+		[defaultDict setObject:[NSNumber numberWithBool:NO]
+						forKey:HighlightChangesAlonePreferenceKey];
+		[defaultDict setObject:[NSNumber numberWithBool:NO]
+						forKey:OpenNewDocumentInTabKey];
+		[defaultDict setObject:[NSNumber numberWithBool:YES]
+						forKey:AlwaysShowTabBarKey];
+		[defaultDict setObject:BASEMODEIDENTIFIER
+						forKey:ModeForNewDocumentsPreferenceKey];
+		
+		[[NSUserDefaults standardUserDefaults] registerDefaults:defaultDict];
+	}    
 }
 
 #define COLORMENUIMAGEWIDTH 20.
@@ -110,7 +85,7 @@ NSString * const AlwaysShowTabBarKey                        = @"AlwaysShowTabBar
         [O_emailComboBox addItemWithObjectValue:[emails valueAtIndex:index]];
     }
     ABMultiValue *aims=[meCard valueForProperty:kABAIMInstantProperty];
-    index=0;
+
     count=[aims count];
     for (index=0;index<count;index++) {
         [O_aimComboBox addItemWithObjectValue:[aims valueAtIndex:index]];

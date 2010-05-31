@@ -12,7 +12,9 @@
 @implementation UserChangeOperation
 
 + (void)initialize {
-    [TCMMMOperation registerClass:self forOperationType:[self operationID]];
+	if (self == [UserChangeOperation class]) {
+	    [TCMMMOperation registerClass:self forOperationType:[self operationID]];
+	}
 }
 
 + (UserChangeOperation *)userChangeOperationWithType:(int)aType userID:(NSString *)aUserID newGroup:(NSString *)aGroup {

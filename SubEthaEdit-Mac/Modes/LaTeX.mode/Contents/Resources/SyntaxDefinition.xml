@@ -11,7 +11,8 @@
     
         <default id="Base" color="#000">
             <keywords id="Keywords" color="#881350" useforautocomplete="no">
-                <regex>((((?&lt;!\\)(\\\\)*)|^)\\[\w\d]+)</regex>
+                <regex>(\\\w+[\t ]*{[^}]*})</regex>
+                <regex>((?:(?:(?&lt;!\\)(?:\\\\)*)|^)\\[\w\d]+)</regex>
                 <regex>(\\\\)</regex>
             </keywords>
             
@@ -26,18 +27,29 @@
             </keywords>
 
             <keywords id="Functions" color="#408" useforautocomplete="no">
-                <regex>((\[[\w\d,\. ]*\])?({[^}]*(?=})[^{]*})+)</regex>
+                <regex>((?:\[[\w\d,\. ]*\])?(?:{[^}]*(?=})[^{]*})+)</regex>
             </keywords>
         
 			<state id="Singleline Comment" color="#236E25" font-style="italic">
 				<begin><regex>(?&lt;!\\)%</regex></begin>
 				<end><regex>[\n\r]</regex></end>
+                <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 			</state>
 
 			<state id="Inline Math" color="#a00" font-style="italic">
 				<begin><regex>(?&lt;!\\)\$</regex></begin>
 				<end><regex>(?&lt;!\\)\$</regex></end>
 			</state>
+
+            <state id="Block" foldable="yes">
+                <begin>
+                    <regex>\\begin\s*{\s*(?'latexblock'[-:_\w]*)\s*}</regex>
+                </begin>
+                <end>
+                    <regex>\\end\s*{\s*(?#see-insert-start-group:latexblock)\s*}</regex>
+                </end>
+                <import />
+            </state>
         
 		</default>
 

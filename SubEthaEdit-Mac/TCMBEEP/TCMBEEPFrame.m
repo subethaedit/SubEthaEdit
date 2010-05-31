@@ -101,7 +101,9 @@
         } else {
             error = YES;
         }
-        
+        if (I_length < 0 || I_length > 2147483647) {
+			error = YES;
+		}
         if (error) {
             [super dealloc];
             self = nil;

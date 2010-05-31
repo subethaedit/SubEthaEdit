@@ -15,8 +15,9 @@
 #import "TextOperation.h"
 #import "UserChangeOperation.h"
 #import "TCMMMLogStatisticsDataPoint.h"
-#import "TextStorage.h"
+#import "FoldableTextStorage.h"
 #import "PlainTextDocument.h"
+#import "NSMutableAttributedStringSEEAdditions.h"
 
 @interface TCMMMLoggingState (TCMMMLoggingStatePrivateAdditions)
 - (void)addLoggedOperation:(TCMMMLoggedOperation *)anOperation;
@@ -41,7 +42,7 @@
     if ((self=[self init])) {
         NSEnumerator *operationReps = [[aDictionary objectForKey:@"ops"] objectEnumerator];
         NSDictionary *operationRep =nil;
-        NSMutableArray *loggedOperations = [NSMutableArray new];
+        NSMutableArray *loggedOperations = [NSMutableArray array];
         while ((operationRep = [operationReps nextObject])) {
             id operation = [[[TCMMMLoggedOperation alloc] initWithDictionaryRepresentation:operationRep] autorelease];
             if (operation) {
@@ -53,7 +54,7 @@
             }
         }
     
-        // check if times are correct if not move all operations backwards
+        // check if times are plausible if not move all operations backwards
         NSDate *referenceDate = [[loggedOperations lastObject] date];
         NSTimeInterval timeDifference = 0.0;
         if (referenceDate) {
@@ -63,6 +64,14 @@
             }
         }
         
+		// check if we have an initial text representation - if we have take it in and add the reverse operations to the textoperations
+		// this is to support loading of old seetext information that was based on that
+		NSMutableAttributedString *initialText = nil;
+        if ([aDictionary objectForKey:@"initialtext"]) {
+        	initialText = [NSMutableAttributedString new];
+        	[initialText setContentByDictionaryRepresentation:[aDictionary objectForKey:@"initialtext"]];
+        }
+
         int i=0;
         int count = [loggedOperations count];
         for (i=0;i<count;i++) {
@@ -70,11 +79,24 @@
             if (timeDifference < 0) {
                 [operation setDate:[[operation date] addTimeInterval:timeDifference]];
             }
+            id innerOperation = [operation operation];
+            if (initialText && [innerOperation isKindOfClass:[TextOperation class]]) {
+            	NSRange affectedCharRange = [innerOperation affectedCharRange];
+            	if (affectedCharRange.length > 0 && NSMaxRange(affectedCharRange) <= [initialText length]) {
+            		[operation setReplacedAttributedStringDictionaryRepresentation:[[initialText attributedSubstringFromRange:affectedCharRange] dictionaryRepresentation]];
+            	}
+				id userID = [innerOperation userID];
+				NSString *replacementString = [innerOperation replacementString];
+				NSRange newRange = NSMakeRange(affectedCharRange.location,[replacementString length]);
+				[initialText replaceCharactersInRange:affectedCharRange
+										   withString:replacementString];
+				[initialText addAttribute:WrittenByUserIDAttributeName value:userID range:newRange];
+				[initialText addAttribute:ChangedByUserIDAttributeName value:userID range:newRange];
+            }
             [self addLoggedOperation:operation];
         }
-        
-        if ([aDictionary objectForKey:@"initialtext"]) {
-            [self setInitialTextStorageDictionaryRepresentation:[aDictionary objectForKey:@"initialtext"]];
+        if (initialText) {
+        	[initialText release];
         }
     }
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel,@"imported %d operations, the last one being:%@ statistics are:%@",[I_loggedOperations count],[I_loggedOperations lastObject],I_statisticsArray);
@@ -140,6 +162,9 @@
         id userID = [anOperation userID];
         if (userID) {
             [I_participantIDs addObject:userID];
+        }
+        if ([[anOperation operationID] isEqualToString:[TextOperation operationID]]) {
+        	[operation setReplacedAttributedStringDictionaryRepresentation:[[I_MMSession lastReplacedAttributedString] dictionaryRepresentation]];
         }
         [self addLoggedOperation:operation];
     }
@@ -225,34 +250,43 @@
 }
 
 
-- (void)setInitialTextStorageDictionaryRepresentation:(NSDictionary *)aInitialRepresentation {
-    [I_initialTextStorageDictionaryRepresentation autorelease];
-     I_initialTextStorageDictionaryRepresentation = [[TCMMutableBencodedData alloc] initWithObject:aInitialRepresentation];
-}
-
-- (void)addOperationsForInitialRepresentation {
-    NSMutableAttributedString *ts = [NSMutableAttributedString new];
-    [ts setContentByDictionaryRepresentation:[self initialTextStorageDictionaryRepresentation]];
-    NSRange wholeRange = NSMakeRange(0,[ts length]);
+- (void)addOperationsForAttributedStringState:(NSAttributedString *)anAttributedString {
+    NSRange wholeRange = NSMakeRange(0,[anAttributedString length]);
     NSMutableSet *userSet=[NSMutableSet set];
     if (wholeRange.length) {
         NSRange searchRange=NSMakeRange(0,0);
         while (NSMaxRange(searchRange)<wholeRange.length) {
-            id value=[ts attribute:WrittenByUserIDAttributeName atIndex:NSMaxRange(searchRange) 
+            id value=[anAttributedString attribute:WrittenByUserIDAttributeName atIndex:NSMaxRange(searchRange) 
                    longestEffectiveRange:&searchRange inRange:wholeRange];
             if (value) {
-                [self handleOperation:[TextOperation textOperationWithAffectedCharRange:searchRange replacementString:[[ts string] substringWithRange:searchRange] userID:value]];
+                [self handleOperation:[TextOperation textOperationWithAffectedCharRange:searchRange replacementString:[[anAttributedString string] substringWithRange:searchRange] userID:value]];
                 [userSet addObject:value];
             }
         }
         [self makeAllParticipantsLeave]; // so they don't appear as inside the document when they aren't
     }
-    [ts release];
+}
+
+
+- (void)setMMSession:(TCMMMSession *)aSession {
+	I_MMSession = aSession;
+}
+- (TCMMMSession *)MMSession {
+	return I_MMSession;
+}
+
+
+
+// deprecated
+- (void)setInitialTextStorageDictionaryRepresentation:(NSDictionary *)aInitialRepresentation {
+    [I_initialTextStorageDictionaryRepresentation autorelease];
+     I_initialTextStorageDictionaryRepresentation = [[TCMMutableBencodedData alloc] initWithObject:aInitialRepresentation];
 }
 
 - (NSDictionary *)initialTextStorageDictionaryRepresentation {
     return [I_initialTextStorageDictionaryRepresentation decodedObject];
 }
+
 
 
 @end

@@ -4,7 +4,8 @@
 
     <head>
         <name>Ruby</name>
-        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@$]]></charsintokens>
+        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@$?:]]></charsintokens>
+        <folding toplevel="2" />
     </head>
     
     <states>
@@ -13,9 +14,9 @@
             <keywords id="Literals" color="#0000cc" inverted-color="#7d9ffa" useforautocomplete="yes">
                 <string>true</string>
                 <string>false</string>
-                <regex>((?&lt;!\.)nil)</regex>
+                <string>nil</string>
             </keywords>
-            <keywords id="Attribute Definitions" color="#0000cc" inverted-color="#7d9ffa" useforautocomplete="yes">
+            <keywords id="Attribute Definitions" color="#514bcf" inverted-color="#7d9ffa" useforautocomplete="yes">
                 <string>attr</string>
                 <string>attr_reader</string>
                 <string>attr_writer</string>
@@ -27,10 +28,12 @@
                 <string>class</string>
                 <string>def</string>
                 <string>undef</string>
+                <string>extend</string>
             </keywords>
-            <keywords id="Keywords" color="#881350" inverted-color="#7d9ffa" useforautocomplete="yes">
+            <keywords id="Keywords" color="#881350" inverted-color="#7d9ffa" font-weight="bold" useforautocomplete="yes">
                 <string>public</string>
                 <string>private</string>
+                <string>protected</string>
                 <string>__FILE__</string>
                 <string>__LINE__</string>
                 <string>BEGIN</string>
@@ -39,7 +42,6 @@
                 <string>begin</string>
                 <string>break</string>
                 <string>case</string>
-                <string>defined\?</string>
                 <string>do</string>
                 <string>else</string>
                 <string>elsif</string>
@@ -65,7 +67,7 @@
                 <string>while</string>
                 <string>yield</string>
             </keywords>
-            <keywords id="Builtin Functions" color="#881350" inverted-color="#9469f9"  font-style="normal" font-weight="bold" useforautocomplete="yes">
+            <keywords id="Builtin Functions" color="#881350" inverted-color="#9469f9"  font-style="normal" useforautocomplete="yes">
                 <string>abort</string>
                 <string>at_exit</string>
                 <string>autoload</string>
@@ -78,6 +80,7 @@
                 <string>chomp!</string>
                 <string>chop</string>
                 <string>chop!</string>
+                <string>defined?</string>
                 <string>eval</string>
                 <string>exec</string>
                 <string>exit</string>
@@ -333,14 +336,13 @@
 				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$\+)(?=[^[_A-Za-z0-9]]|$)</regex>
             </keywords>
             <keywords id="Numbers" color="#0000ff" inverted-color="#4afc5b"  font-style="normal" font-weight="normal" useforautocomplete="no">
-            	<!-- Integers that can have a leading +/- and underscores -->
-            	<regex>(?&lt;=[^[_A-Za-z0-9]]|^)([+-]?([0-9]*_)*[0-9]+)(?=[^[_A-Za-z0-9.]]|$)</regex>
-            	<!-- Floating point, NOT sci notation.  The two lines differ so that +,-, and . don't get hilighted as numbers -->
-            	<regex>(?&lt;=[^[_A-Za-z0-9]]|^)([+-]?[0-9]+\.[0-9]*)(?=[^[_A-Za-z0-9]]|$)</regex>
-            	<regex>(?&lt;=[^[_A-Za-z0-9]]|^)([+-]?\.[0-9]+)(?=[^[_A-Za-z0-9]]|$)</regex>
             	<!-- Floating point, sci notation -->
             	<regex>(?&lt;=[^[_A-Za-z0-9]]|^)([+-]?[0-9]+[eE][+-]?[0-9]+)(?=[^[_A-Za-z0-9]]|$)</regex>
-            	<regex>(?&lt;=[^[_A-Za-z0-9]]|^)([+-]?[0-9]*\.[0-9]+[eE][+-]?[0-9]+)(?=[^[_A-Za-z0-9]]|$)</regex>
+            	<regex>(?&lt;=[^[_A-Za-z0-9]]|^)([+-]?[0-9]+\.[0-9]+[eE][+-]?[0-9]+)(?=[^[_A-Za-z0-9]]|$)</regex>
+            	<!-- Floating point, NOT sci notation. -->
+            	<regex>(?&lt;=[^[_A-Za-z0-9]]|^)([+-]?[0-9]+(?:\.[0-9]+)?)(?=[^[_A-Za-z0-9]]|$)</regex>
+            	<!-- Integers that can have a leading +/- and underscores -->
+            	<regex>(?&lt;=[^[_A-Za-z0-9]]|^)([+-]?(?:[0-9]*_)*[0-9]+)(?=[^[_A-Za-z0-9.]]|$)</regex>
 				<!-- Numbers in a different base -->
 				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(0[xX][0-9a-fA-F]+)(?=[^[_A-Za-z0-9]]|$)</regex>
 				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(0[bB][01]+)(?=[^[_A-Za-z0-9]]|$)</regex>
@@ -348,60 +350,281 @@
 				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\?(\\)?[!-~])(?=[^[-_A-Za-z0-9]]|$)</regex>
 			</keywords>
 			<keywords id="Symbols" color="#d6771c" inverted-color="#fac586"  font-style="normal" font-weight="normal" useforautocomplete="no">
-                <regex>(?&lt;!:)(:[A-Za-z_][A-Za-z_0-9]*)</regex>
+                <regex>(?&lt;!:)(:(?:(?:@@|@|\$)?[A-Za-z_][A-Za-z_0-9]*[\?!=]?|\[\]=?))</regex>
 			</keywords>
             <keywords id="Instance Variables" color="#c94b16" inverted-color="#6699cc"  font-style="normal" font-weight="normal" useforautocomplete="no">
-            	<regex>(?&lt;=[^[_A-Za-z0-9@]]|^)(@[A-Za-z0-9_]+)(?=[^[_A-Za-z0-9]]|$)</regex>
+            	<regex>(?&lt;=[^[_A-Za-z0-9@:]]|^)(@[A-Za-z0-9_]+)(?=[^[_A-Za-z0-9]]|$)</regex>
             </keywords>
             <keywords id="Class Variables" color="#008c8c" inverted-color="#73ffff"  font-style="normal" font-weight="normal" useforautocomplete="no">
-            	<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(@@[A-Za-z0-9_]+)(?=[^[_A-Za-z0-9]]|$)</regex>
+            	<regex>(?&lt;=[^[_A-Za-z0-9:]]|^)(@@[A-Za-z0-9_]+)(?=[^[_A-Za-z0-9]]|$)</regex>
             </keywords>
             <keywords id="Global Variables" color="#8a578f" inverted-color="#a370a8"  font-style="normal" font-weight="normal" useforautocomplete="no">
-            	<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$[A-Za-z0-9_]+)(?=[^[_A-Za-z0-9]]|$)</regex>
+            	<regex>(?&lt;=[^[_A-Za-z0-9:]]|^)(\$[A-Za-z0-9_]+)(?=[^[_A-Za-z0-9]]|$)</regex>
             </keywords>
-            <keywords id="Hexadecimal Characters" color="#00f" useforautocomplete="no">
+            <keywords id="Hexadecimal Characters" color="#00f" inverted-color="#4267d7" useforautocomplete="no">
 				<regex>(\\x[0-9a-fA-F]{2,4}|\\x\{[0-9a-fA-F]{2,4}\})</regex>
             </keywords>
         
-            <state id="String with double quotes" type="string" color="#760f15" inverted-color="#f28720"  font-style="italic" font-weight="normal">
+            <state id="String with double quotes" type="string" color="#760f15" inverted-color="#f28720"  font-style="normal" font-weight="normal">
                 <begin><regex>"</regex></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
-                <!-- (see line above) This is for the escape codes -->
-                <keywords id="test" color="#669999" inverted-color="#669999"  font-style="normal" font-weight="normal" useforautocomplete="no">
-                    <regex>(#\{[^{]*\})</regex>
-                    <!-- regexp above *needs* the parens around the part to color change -->
-                </keywords>
+
+                <state id="Interpolation"  color="#3e5f5e" inverted-color="#669999"  font-style="italic" font-weight="normal" >
+                <begin><regex>#{</regex></begin>
+                <end><regex>}</regex></end>
+                <import />
+                </state>
             </state>
     
-            <state id="String with single quotes" type="string" color="#760f15" inverted-color="#f48700"  font-style="italic" font-weight="normal">
+            <state id="String with single quotes" type="string" color="#760f15" inverted-color="#f48700"  font-style="normal" font-weight="normal">
                 <begin><regex>(?&lt;!\$)(?:')</regex></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
             </state>
 
-            <state id="Heredoc" color="#760f15" inverted-color="#f48700" font-weight="normal" font-style="italic">
-                <begin><string>&lt;&lt;(?&lt;heredoc&gt;[A-Za-z][A-Za-z0-9_]*)</string></begin>
-                <end><regex>(?#see-insert-start-group:heredoc)</regex></end>
+
+			<!-- actually heredocs start in the next line, so a way to recolor everything from start to end of line again in normal colors would be good. -->
+            <state id="Heredoc" color="#760f15" inverted-color="#f48700" font-weight="normal" font-style="normal" foldable="yes">
+                <begin><string>(?:(?&lt;=[=\s+*\({\[])|^)&lt;&lt;(?:(?'heredoc'[_A-Za-z][A-Za-z0-9_]*)|(?:'\g'heredoc'')|(?:"\g'heredoc'"))</string></begin>
+                <end><regex>^(?#see-insert-start-group:heredoc)</regex></end>
+                <state-link state="Interpolation"/>
+            </state>
+
+            <state id="Heredoc Indented End" color="#760f15" inverted-color="#f48700" font-weight="normal" font-style="normal" foldable="yes">
+                <begin><string>(?:(?&lt;=[=\s+*\({\[])|^)&lt;&lt;\-?(?:(?'heredocindented'[_A-Za-z][A-Za-z0-9_]*)|(?:'\g'heredocindented'')|(?:"\g'heredocindented'"))</string></begin>
+                <end><regex>^[ \t]*(?#see-insert-start-group:heredocindented)</regex></end>
+                <state-link state="Interpolation"/>
+            </state>
+
+            <state id="Percent Strings" type="string" color="#760f15" inverted-color="#f48700" font-weight="normal" font-style="normal" foldable="yes">
+                <begin><regex>%(?:Q|q)?(?'percentstringchar'[^\s{\[\(&lt;A-Za-z0-9>])</regex></begin>
+                <end><regex>(?#see-insert-start-group:percentstringchar)</regex></end>
+				<state-link state="Interpolation"/>
+            </state>
+
+			<!-- these work with all kinds of bracets, {[(<>)]} http://www.zenspider.com/Languages/Ruby/QuickRef.html -->
+            <state id="Percent Strings {" type="string" color="#760f15" inverted-color="#f48700" font-weight="normal" font-style="normal" foldable="yes">
+                <begin><regex>%[Qq]?{</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)}</regex></end>
+                <state-link state="Interpolation"/>
+				<state id="UnescapedCurlyBracketRecursive" type="string" foldable="no">
+					<begin><regex>(?:(?:(?&lt;!\\)(?:\\\\)*)|^){</regex></begin>
+					<end><regex>(?:(?:(?&lt;!\\)(\\\\)*)|^)}</regex></end>
+	                <import state="Percent Strings {" />
+				</state>
+            </state>
+
+            <state id="Percent Strings (" type="string" color="#760f15" inverted-color="#f48700" font-weight="normal" font-style="normal" foldable="yes">
+                <begin><regex>%[Qq]?\(</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)\)</regex></end>
+                <state-link state="Interpolation"/>
+				<state id="UnescapedNormalBracketRecursive" type="string" foldable="no">
+					<begin><regex>(?:(?:(?&lt;!\\)(?:\\\\)*)|^)\(</regex></begin>
+					<end><regex>(?:(?:(?&lt;!\\)(\\\\)*)|^)\)</regex></end>
+	                <import state="Percent Strings (" />
+				</state>
+            </state>
+
+            <state id="Percent Strings &lt;" type="string" color="#760f15" inverted-color="#f48700" font-weight="normal" font-style="normal" foldable="yes">
+                <begin><regex>%[Qq]?&lt;</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)></regex></end>
+                <state-link state="Interpolation"/>
+				<state id="UnescapedAngelBracketRecursive" type="string" foldable="no">
+					<begin><regex>(?:(?:(?&lt;!\\)(?:\\\\)*)|^)&lt;</regex></begin>
+					<end><regex>(?:(?:(?&lt;!\\)(\\\\)*)|^)></regex></end>
+	                <import state="Percent Strings &lt;" />
+				</state>
+            </state>
+
+            <state id="Percent Strings [" type="string" color="#760f15" inverted-color="#f48700" font-weight="normal" font-style="normal" foldable="yes">
+                <begin><regex>%[Qq]?\[</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)]</regex></end>
+                <state-link state="Interpolation"/>
+				<state id="UnescapedSquareBracketRecursive" type="string" foldable="no">
+					<begin><regex>(?:(?:(?&lt;!\\)(?:\\\\)*)|^)\[</regex></begin>
+					<end><regex>(?:(?:(?&lt;!\\)(\\\\)*)|^)\]</regex></end>
+	                <import state="Percent Strings [" />
+				</state>
             </state>
     
-            <state id="Backticks" color="#b80f15" inverted-color="#737373"  font-style="normal" font-weight="normal">
+
+			<!-- Execution Coloring -->
+
+            <state id="Backticks" color="#b80f15" inverted-color="#737373" font-style="normal" font-weight="normal">
                 <begin><regex>(?&lt;!\$)(?:`)</regex></begin>
-                <end><regex>(((?&lt;!\\)(\\\\)*)|^)`</regex></end>
+                <end><regex>(?:(?:(?&lt;!\\)(\\\\)*)|^)`</regex></end>
             </state>
             
-            <state id="Singleline Comment" type="comment" color="#236e25" inverted-color="#ff4a4a"  font-style="normal" font-weight="normal">
-                <begin><regex>#</regex></begin>
-                <end><regex>[\n\r]|(?:.(?=%&gt;))</regex></end>
+            <state id="Percent Execution" type="string" color="#b80f15" inverted-color="#737373" font-style="normal" font-weight="normal" foldable="yes">
+                <begin><regex>%x(?'percentexecutionchar'[^\s{\[\(&lt;A-Za-z0-9])</regex></begin>
+                <end><regex>(?#see-insert-start-group:percentexecutionchar)</regex></end>
+				<state-link state="Interpolation"/>
             </state>
-            
+
+			<!-- these work with all kinds of bracets, {[(<>)]} http://www.zenspider.com/Languages/Ruby/QuickRef.html -->
+            <state id="Percent Execution {" type="string" color="#b80f15" inverted-color="#737373" font-style="normal" font-weight="normal" foldable="yes">
+                <begin><regex>%x{</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)}</regex></end>
+				<import state="Percent Strings {" />
+            </state>
+
+            <state id="Percent Execution (" type="string" color="#b80f15" inverted-color="#737373" font-style="normal" font-weight="normal" foldable="yes">
+                <begin><regex>%x\(</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)\)</regex></end>
+				<import state="Percent Strings (" />
+            </state>
+
+            <state id="Percent Execution &lt;" type="string" color="#b80f15" inverted-color="#737373" font-style="normal" font-weight="normal" foldable="yes">
+                <begin><regex>%x&lt;</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)></regex></end>
+				<import state="Percent Strings &lt;" />
+            </state>
+
+            <state id="Percent Execution [" type="string" color="#b80f15" inverted-color="#737373" font-style="normal" font-weight="normal" foldable="yes">
+                <begin><regex>%x\[</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)]</regex></end>
+				<import state="Percent Strings [" />
+            </state>
+
+			<!-- Regex coloring >
             <state id="Regexp" color="#c700c2" inverted-color="#ff38fa"  font-style="normal" font-weight="normal">
-                <begin><regex>(?:\/)(?=[^/\r\n]*\/)</regex></begin>
-                <end><regex>(((?&lt;!\\)(\\\\)*)|^)\/</regex></end>
+                <begin><regex>(?&lt;!\d)(?:/)(?=[^/\r\n]*/(?:$|[^\d]))</regex></begin>
+                <end><regex>(?:(?:(?&lt;!\\)(\\\\)*)|^)/</regex></end>
             </state>
+-->
+
+            <state id="Regexp" color="#c700c2" inverted-color="#ff38fa"  font-style="normal" font-weight="normal">
+                <begin><regex>(?x)(?:^|(?&lt;=[=>~(:\[,\|&amp;;]|(?:\s|;)when\s|(?:\s|;)or\s|(?:\s|;)and\s|(?:\s|;)not\s|(?:\s|;|\.)index\s|(?:\s|;|\.)scan\s|(?:\s|;|\.)sub\s|(?:\s|l|\.)sub!\s|(?:\s|;|\.)gsub\s|(?:\s|;|\.)gsub!\s|(?:\s|;|\.)match\s|(?:\s|;)if\s|(?:\s|;)elsif\s|(?:\s|;)while\s|(?:\s|;)unless\s)|(?&lt;=^when\s|^index\s|^scan\s|^sub\s|^gsub\s|^sub!\s|^gsub!\s|^match\s|^if\s|^elsif\s|^while\s|^unless\s))\s*(?:/)(?![*+{}?\n\r])|(?&lt;!\d)(?:/)[^"'](?=[^/\r\n]*/(?:$|[^\d]))</regex></begin>
+                <end><regex>(?:(?:(?&lt;!\\)(\\\\)*)|^)/[eimnosux]*</regex></end>
+                <state-link state="Interpolation"/>
+            </state>
+
+            <state id="Percent Regex" color="#c700c2" inverted-color="#ff38fa"  font-style="normal" font-weight="normal">
+                <begin><regex>%r(?'percentregularchar'[^\s{\[\(&lt;A-Za-z0-9])</regex></begin>
+                <end><regex>(?#see-insert-start-group:percentregularchar)</regex></end>
+				<state-link state="Interpolation"/>
+            </state>
+
+			<!-- these work with all kinds of bracets, {[(<>)]} http://www.zenspider.com/Languages/Ruby/QuickRef.html -->
+            <state id="Percent Regex {" color="#c700c2" inverted-color="#ff38fa"  font-style="normal" font-weight="normal">
+                <begin><regex>%r{</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)}</regex></end>
+				<import state="Percent Strings {" />
+            </state>
+
+            <state id="Percent Regex (" color="#c700c2" inverted-color="#ff38fa"  font-style="normal" font-weight="normal">
+                <begin><regex>%r\(</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)\)</regex></end>
+				<import state="Percent Strings (" />
+            </state>
+
+            <state id="Percent Regex &lt;" color="#c700c2" inverted-color="#ff38fa"  font-style="normal" font-weight="normal">
+                <begin><regex>%r&lt;</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)></regex></end>
+				<import state="Percent Strings &lt;" />
+            </state>
+
+            <state id="Percent Regex [" color="#c700c2" inverted-color="#ff38fa"  font-style="normal" font-weight="normal">
+                <begin><regex>%r\[</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)]</regex></end>
+				<import state="Percent Strings [" />
+            </state>
+
+			<!-- Symbol Coloring -->
+            <state id="Percent Symbol"      color="#d6771c" inverted-color="#fac586"  font-style="normal" font-weight="normal">
+                <begin><regex>%s(?'percentsymbolchar'[^\s{\[\(&lt;A-Za-z0-9])</regex></begin>
+                <end><regex>(?#see-insert-start-group:percentsymbolchar)</regex></end>
+				<state-link state="Interpolation"/>
+            </state>
+
+			<!-- these work with all kinds of bracets, {[(<>)]} http://www.zenspider.com/Languages/Ruby/QuickRef.html -->
+            <state id="Percent Symbol {"    color="#d6771c" inverted-color="#fac586"  font-style="normal" font-weight="normal">
+                <begin><regex>%s{</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)}</regex></end>
+				<import state="Percent Strings {" />
+            </state>
+
+            <state id="Percent Symbol ("    color="#d6771c" inverted-color="#fac586"  font-style="normal" font-weight="normal">
+                <begin><regex>%s\(</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)\)</regex></end>
+				<import state="Percent Strings (" />
+            </state>
+
+            <state id="Percent Symbol &lt;" color="#d6771c" inverted-color="#fac586"  font-style="normal" font-weight="normal">
+                <begin><regex>%s&lt;</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)></regex></end>
+				<import state="Percent Strings &lt;" />
+            </state>
+
+            <state id="Percent Symbol ["    color="#d6771c" inverted-color="#fac586"  font-style="normal" font-weight="normal">
+                <begin><regex>%s\[</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)]</regex></end>
+				<import state="Percent Strings [" />
+            </state>
+
+			<!-- W array Coloring -->
+            <state id="Percent Array"      color="#760f15" inverted-color="#f48700"  font-style="normal" font-weight="normal">
+                <begin><regex>%[wW](?'percentarraychar'[^\s{\[\(&lt;A-Za-z0-9])</regex></begin>
+                <end><regex>(?#see-insert-start-group:percentarraychar)</regex></end>
+				<state-link state="Interpolation"/>
+            </state>
+
+			<!-- these work with all kinds of bracets, {[(<>)]} http://www.zenspider.com/Languages/Ruby/QuickRef.html -->
+            <state id="Percent Array {"    color="#760f15" inverted-color="#f48700"  font-style="normal" font-weight="normal">
+                <begin><regex>%[wW]{</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)}</regex></end>
+				<import state="Percent Strings {" />
+            </state>
+
+            <state id="Percent Array ("    color="#760f15" inverted-color="#f48700"  font-style="normal" font-weight="normal">
+                <begin><regex>%[wW]\(</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)\)</regex></end>
+				<import state="Percent Strings (" />
+            </state>
+
+            <state id="Percent Array &lt;" color="#760f15" inverted-color="#f48700"  font-style="normal" font-weight="normal">
+                <begin><regex>%[wW]&lt;</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)></regex></end>
+				<import state="Percent Strings &lt;" />
+            </state>
+
+            <state id="Percent Array ["    color="#760f15" inverted-color="#f48700"  font-style="normal" font-weight="normal">
+                <begin><regex>%[wW]\[</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)]</regex></end>
+				<import state="Percent Strings [" />
+            </state>
+
+            <state id="Singleline Comment" type="comment" color="#236e25" inverted-color="#ff4a4a" font-style="normal" font-weight="normal">
+                <begin><regex>#</regex></begin>
+                <end><regex>[\n\r]</regex></end>
+	            <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+            </state>
+            
             
             <state id="POD Comments" type="comment" color="#800000" inverted-color="#ff7f7f"  font-style="normal" font-weight="normal">
                 <begin><regex>(?:^=begin)</regex></begin>
                 <end><regex>^=end</regex></end>
             </state>
+
+            <state id="Block" type="block" foldable="yes">
+				<begin><regex>(?:(?:^|=)[ \t]*(?:(?:(?:if|unless|while|until)[ \t]+)|(?:case[ \t]+\g'ruby_ident'[ \t]?)|(?:for[ \t]+\g'ruby_ident'[ \t]+in(?:[^\n\r]+do)?)|(?:case))|\b(?:(?:class(?:(?:[ \t]+(?'ruby_ident'(?'ruby_ident_part'[a-zA-Z_][a-zA-Z0-9_]*)(?:(?:\.|::)\g'ruby_ident_part')*)(?:[ \t]+&lt;[ \t]+\g'ruby_ident')?)|(?:[ \t]*&lt;&lt;)))|(?:module[ \t]+[a-zA-Z_][a-zA-Z0-9_]*)|\bdo\b(?:[ \t]*\|[^\n\r|]+\|)?|(?:def[ \t]+(?:(?'ruby_operator_methods'&amp;|\||\^|&lt;=>|===|==|=~|>>|\?|\!|>=|>|&lt;=|\+@|\-@|\+|\-|\*\*|\*|/|%|&lt;&lt;|&lt;|~|\[\]|\[\]=)|\g'ruby_ident'\g'ruby_operator_methods'?))))</regex></begin>
+                <end><regex>\bend\b</regex></end>
+                <import />
+            </state>
+
+            <state id="BeginBlocks" type="block" foldable="yes">
+                <begin><regex>\bbegin\b</regex></begin>
+                <end><regex>\bend(?:[ \t]+(?:while|if|unless|until))?\b</regex></end>
+                <import />
+            </state>
+
+			<!-- this should not match normal hash literals. most commonly used in || {} in rails -->
+
+            <state id="CurlyBlocks" type="block" foldable="yes">
+                <begin><regex>{(?:[ \t]*\|[^\n\r|]+\|)?</regex></begin>
+                <end><regex>}</regex></end>
+                <import />
+            </state>
+
 
         </default>
         

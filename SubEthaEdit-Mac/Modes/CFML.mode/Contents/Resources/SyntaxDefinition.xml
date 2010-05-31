@@ -12,13 +12,13 @@
     
         <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal"  usesymbolsfrommode="CFML" useautocompletefrommode="CFML" usespellchecking="yes">
              
-            <state id="Inline CFML Script" color="#000" background-color="#fff" useforautocomplete="no" usesymbolsfrommode="CFML" useautocompletefrommode="CFML">
-				<begin><regex>&lt;(?=(?i)cfscript)</regex></begin>
-				<end><regex>/(?i)cfscript&gt;</regex></end>
+            <state id="Inline CFML Script" color="#000" background-color="#fff" useforautocomplete="no" usesymbolsfrommode="CFML" useautocompletefrommode="CFML" foldable="yes">
+				<begin><regex>&lt;(?i)cfscript&gt;</regex></begin>
+				<end><regex>&lt;/(?i)cfscript&gt;</regex></end>
 				
 				<keywords id="CFML Script Tags" color="#b80f15" font-style="normal">
                     <regex>(\A&lt;\Z)</regex>
-                    <regex>(&lt;/(?i)cfscript[^&gt;]*&gt;)</regex>
+                    <regex>(&lt;/?(?i)cfscript[^&gt;]*&gt;)</regex>
                 </keywords>
 
                 <state id="Opening CFML Script Tag" color="#b80f15" font-style="normal">
@@ -41,9 +41,8 @@
 				<import state="CFML Code" />
 										
 			</state>
-
-                 
-             <state id="Inline CSS" color="#000" font-style="normal" usesymbolsfrommode="CSS" useautocompletefrommode="CSS">
+        
+            <state id="Inline CSS" color="#000" font-style="normal" usesymbolsfrommode="CSS" useautocompletefrommode="CSS">
                 <begin><regex>&lt;(?=(?i)style)</regex></begin>
                 <end><regex>/(?i)style&gt;</regex></end>
      
@@ -83,7 +82,7 @@
                 
             </state>
 
-			<state id="CFML Comment" color="#727272" background-color="none" font-weight="normal" font-style="italic">
+			<state id="CFML Comment" color="#727272" background-color="none" font-weight="normal" type="comment" font-style="italic">
 				<begin><regex>&lt;!---</regex></begin>
 				<end><regex>[^&gt;]*---&gt;</regex></end>			
 			</state>
@@ -94,9 +93,9 @@
 			<state-link state="Doctype" mode="XML" />
 			<state-link state="Escape" mode="XML" />
 			        							
-			<state id="CFML Query" color="#000" background-color="#fff" font-style="normal" usesymbolsfrommode="SQL" useautocompletefrommode="SQL">
-				<begin><regex>&lt;(?=(?i)cfquery\s.*&gt;)</regex></begin>
-				<end><regex>/(?i)cfquery&gt;</regex></end>
+			<state id="CFML Query" color="#000" background-color="#fff" font-style="normal" usesymbolsfrommode="SQL" useautocompletefrommode="SQL" foldable="yes">
+				<begin><regex>&lt;(?i)cfquery\s.*&gt;</regex></begin>
+				<end><regex>&lt;/(?i)cfquery&gt;</regex></end>
 				
 				<keywords id="Query Tags" color="#991418" font-style="normal">
                     <regex>(\A&lt;\Z)</regex>
@@ -114,7 +113,7 @@
                     <begin><regex>&lt;(?=(?i)cfqueryparam)</regex></begin>
                     <end><regex>&gt;</regex></end>
 						
-						<import state="CFML Tags" />
+                    <import state="CFML Tags" />
                 </state>
 				
 				
@@ -203,17 +202,24 @@
 					<import state="CFML Strings" />
 				</state>
 				
+                <state id="Block" type="block" foldable="yes">
+                    <begin><regex>(?:(?&lt;=\s)(?:if|else|else\s+if|for|while|do|switch|case)\s*(?:\([^#{\n\r]*?\))?)?\s*{</regex></begin>
+                    <end><regex>}</regex></end>
+                    <import state="CFML Code"/>
+                </state>
+
+				
 				<keywords id="Output Variables in CFML Code" color="#825900" useforautocomplete="no">
 					<regex>(#[^&lt;&gt;#]+#)</regex>
 				</keywords>
 				
 				<keywords id="Scope and Tag Variables" color="#673820" useforautocomplete="no">
-					<regex>((?i)(session\.|application\.|request\.|request\.session\.|client\.|server\.|server\.coldfusion\.|form\.|cfcatch\.|cfdirectory\.|cferror\.|cffile\.|cfftp\.|cfhtp\.|cfindex\.|cfldap\.|cfpop\.|cfquery\.|cfregistry\.|cfsearch\.|cfstoredproc\.|cgi\.|url\.|cookie\.|arguments\.|cfevent\.)([\w\d])+(\[([\w\d"'])+\])?)</regex>
+					<regex>((?i)(?:session\.|application\.|request\.|request\.session\.|client\.|server\.|server\.coldfusion\.|form\.|cfcatch\.|cfdirectory\.|cferror\.|cffile\.|cfftp\.|cfhtp\.|cfindex\.|cfldap\.|cfpop\.|cfquery\.|cfregistry\.|cfsearch\.|cfstoredproc\.|cgi\.|url\.|cookie\.|arguments\.|cfevent\.)(?:[\w\d])+(?:\[([\w\d"'])+\])?)</regex>
 				</keywords>
 
 	
 				<keywords id="Numbers" color="#00f" useforautocomplete="no">
-					<regex>(?&lt;=[^\w\d]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
+					<regex>(?&lt;=[^\w\d]|^)((?:(?:(?:[0-9]+\.[0-9]*)|(?:\.[0-9]+))(?:[eE][+\-]?[0-9]+)?[fFlL]?)|(?:(?:(?:[1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(?:(?:[uU][lL]?)|(?:[lL][uU]?))?))(?=[^\w\d]|$)</regex>
 				</keywords>
 				
 				<keywords id="Keywords" color="#881350" font-style="normal" casesensitive="no" useforautocomplete="yes">

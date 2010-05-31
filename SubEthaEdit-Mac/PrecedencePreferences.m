@@ -72,12 +72,12 @@
 	[[ruleViewController view] setHidden:YES];
 	int i;
 	for (i=0;i<[[o_rulesController arrangedObjects] count];i++){
-		if ((int)[[o_rulesController arrangedObjects] objectAtIndex:i] == (int)[sender rule]) {
+		if ((intptr_t)[[o_rulesController arrangedObjects] objectAtIndex:i] == (intptr_t)[sender rule]) {
 			[o_rulesController removeObjectAtArrangedObjectIndex:i];
 			break;
 		}
 	}
-	NSString *key = [NSString stringWithFormat:@"%d", (int)[sender rule]];
+	NSString *key = [NSString stringWithFormat:@"%d", (intptr_t)[sender rule]];
 	[ruleViews removeObjectForKey:key];
 	[[DocumentModeManager sharedInstance] revalidatePrecedences];
 //	[o_rulesTableView setNeedsDisplay:YES];
@@ -87,12 +87,12 @@
 
 @implementation PrecedencePreferences (TableViewDelegation)
 
-- (void) tableView:(NSTableView *) tableView willDisplayCell:(id) cell forTableColumn:(NSTableColumn *) tableColumn row:(int) row {
+- (void) tableView:(NSTableView *) tableView willDisplayCell:(id) cell forTableColumn:(NSTableColumn *) tableColumn row:(NSInteger) row {
 	if (tableView != o_rulesTableView) return;
 	NSMutableDictionary *rule = [[o_rulesController arrangedObjects] objectAtIndex:row];
 	//NSLog(@"%s %@ %d",__FUNCTION__, rule, (int)rule);
 	
-	NSString *key = [NSString stringWithFormat:@"%d", (int)rule];
+	NSString *key = [NSString stringWithFormat:@"%d", (intptr_t)rule];
 	//NSLog(@"rule requested: %@", rule);
 	RuleViewController *ruleViewController = [ruleViews objectForKey:key];
 	if (!ruleViewController) {
@@ -134,7 +134,7 @@
     }
 }
 
-- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(int)rowIndex {
+- (BOOL)tableView:(NSTableView *)aTableView shouldSelectRow:(NSInteger)rowIndex {
 	if (aTableView == o_rulesTableView) return NO;
 	return YES;
 }

@@ -8,6 +8,8 @@
 
 #import <AppKit/AppKit.h>
 
+@class PlainTextEditor; 
+
 @interface TextView : NSTextView {
     BOOL I_isDragTarget;
     struct {
@@ -19,11 +21,25 @@
     } I_flags;
     float I_pageGuidePosition;
     NSTimer *I_timer;
+	PlainTextEditor* editor;
 }
 
+- (void)setEditor:(PlainTextEditor*)inEditor;
+- (PlainTextEditor*)editor;
 + (void)setDefaultMenu:(NSMenu *)aMenu;
 - (void)setPageGuidePosition:(float)aPosition;
 - (BOOL)isPasting;
+
+- (IBAction)foldTextSelection:(id)aSender;
+
+#pragma mark Folding Related Methods
+- (void)scrollFullRangeToVisible:(NSRange)aRange;
+- (IBAction)foldCurrentBlock:(id)aSender;
+- (IBAction)foldTextSelection:(id)aSender;
+- (IBAction)unfoldCurrentBlock:(id)aSender;
+- (IBAction)foldAllCommentBlocks:(id)aSender;
+- (IBAction)foldAllTopLevelBlocks:(id)aSender;
+- (IBAction)foldAllBlocksAtTagLevel:(id)aSender;
 
 @end
 

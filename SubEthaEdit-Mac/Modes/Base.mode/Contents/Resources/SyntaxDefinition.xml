@@ -10,6 +10,24 @@
     <states>
     
         <default id="Base" color="#000">
+        
+          <state id="EmailAndURLContainerState" containerState="yes">
+            <keywords id="PrefixlessURLs" color="#0000ff" inverted-color="#4939ff" casesensitive="no" type="url" uri-prefix="http://">
+                <regex>(?i)\b(www\.[A-Z0-9._%-]+\.[A-Z]{2,4})\b</regex>
+                <regex>(?i)\b([A-Z0-9._%-]+\.net)\b</regex>
+                <regex>(?i)\b([A-Z0-9._%-]+\.com)\b</regex>
+            </keywords>
+
+            <keywords id="Emails" color="#0000ff" inverted-color="#4939ff" casesensitive="no" type="url" uri-prefix="mailto:">
+                <regex>(?i)\b([A-Z0-9._%-]+@[A-Z0-9._%-]+\.[A-Z]{2,4})\b</regex>
+            </keywords>            
+
+            <keywords id="URLs" color="#0000ff" inverted-color="#4939ff" casesensitive="no" type="url">
+                <regex>\b([a-zA-Z]+://[\-a-zA-Z0-9+&amp;@#/%?=~_|$!:,.;]*[\-a-zA-Z0-9+&amp;@#/%=~_])</regex>
+                <regex>(?i)\b(mailto:[A-Z0-9._%-]+@[A-Z0-9._%-]+\.[A-Z]{2,4})\b</regex>
+            </keywords>            
+
+          </state>
 
         </default>
         

@@ -44,7 +44,7 @@
 - (void)setKeyEquivalentBySettingsString:(NSString *)aKeyEquivalentSettingsString {
     if ([aKeyEquivalentSettingsString length]<=0) return;
     [self setKeyEquivalent:[aKeyEquivalentSettingsString substringFromIndex:[aKeyEquivalentSettingsString length]-1]];
-    unsigned int keyEquivalentModifierMask = NSCommandKeyMask;
+    NSUInteger keyEquivalentModifierMask = NSCommandKeyMask;
     if ([aKeyEquivalentSettingsString rangeOfString:@"^"].location != NSNotFound) {
         keyEquivalentModifierMask |= NSControlKeyMask;
     }

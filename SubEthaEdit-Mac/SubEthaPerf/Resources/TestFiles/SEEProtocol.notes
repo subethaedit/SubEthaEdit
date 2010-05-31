@@ -1,0 +1,471 @@
+SUBETHAEDIT PROTOCOL SPECIFICATION:
+
+
+
+BEEP SESSION CREATION
+
+1. BEEP session creation
+
+1.1 Using Rendezvous
+
+A Rendezvous browser object browses the local subnet for the given service "_hydra._tcp.". When a found service is resolved its TXT record is parsed to retrieve the user identifier hosting the service. If the user identifier is not currently kown a TCP connection in the context of a BEEP session is made to this service.
+Both peers greet each other with following profiles:
+
+http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake
+http://www.codingmonkeys.de/BEEP/TCMMMStatus
+http://www.codingmonkeys.de/BEEP/SubEthaEditSession
+
+1.2 The http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake Profile
+
+After the greeting has been exchanged the initiator of the session starts a channel with the "Handshake" profile. This has to be the first openend channel and it has to be opened by the initiator. In all other cases the BEEPSession is terminated.
+
+C: MSG 0 1 . 52 135
+C: Content-Type: application/beep+xml
+C:
+C: <start number='1'>
+C:   <profile uri='http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake' />
+C: </start>
+C: END
+S: RPY 0 1 . 221 105
+S: Content-Type:application/beep+xml
+S:
+S: <profile uri='http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake' />
+S: END
+
+
+C: MSG 1 0 . 0 99
+C: GRTd3:url31:see://www.codingmonkeys.de:69423:uid36:DDC5EF9E-A818-11D8-BF7B-00039398A6244:vers3:200e
+C: END
+S: RPY 1 0 . 0 87
+S: GRTd3:url19:212.204.60.78:614023:uid36:BE9A8BE8-A68A-11D8-99DE-003065D098644:vers3:200e
+S: END
+C: MSG 1 1 . 99 3
+C: ACK
+C: END
+S: RPY 1 1 . 87 0
+S: 
+S: END
+
+
+C: MSG 0 3 . 624 69
+C: Content-Type: application/beep+xml
+C: 
+C: <close number='1' code='200' />
+C: END
+S: RPY 0 3 . 598 44
+S: Content-Type: application/beep+xml
+S: 
+S: <ok />
+S: END
+
+When the channel is open the client sends a handshake message to the server. The server checks the GRT message, if it complies with the protocol, it sends back an corresponding handshake. Now the client checks the GRT, if it complies, an ACK is sent. And since we're in BEEP, there has to be an RPY to every MSG so an empty RPY is sent by the server.
+If at any of the two decides the GRT is not sufficient, the BEEPSession is terminated. After the ACK is received by the Server, the basic handshake is over, and other channels can be opened. The purpose for the Handshake channel is served, therefore the client closes the channel after recieving the empty RPY to its ACK.
+
+The Content of the MSG and RPY is a "GRT" greeting, containing the following bencoded dictionary:
+ uid  => the UserID of the sender, must be the String representation
+ vers => the protocol version as string , currently "200" and savely ignored
+ If rendezvous:
+    rendez => vous
+ if internet connection:
+    url => the see://url the user entered or doubleclicked
+
+1.3 A valid SubEthaEdit handshaked BEEPSession, what now?
+
+After a valid SubEthaEdit handshaked BEEPSession is established, both sides may open a status channel. The status channels are directed. The initiator(=client) of a status channel is the one who wants to know the status of the other. 
+
+1.4 The http://www.codingmonkeys.de/BEEP/TCMMMStatus channels
+
+Possible MSGs:
+- STAVIS
+- STAINV
+- USRCHG
+- USRREQ
+- DOCANN
+- DOCCON
+
+Possible RPYs:
+- USRFUL
+
+The Server sends a USRCHG MSG on connect to tell the Client his identity as well as the information the client needs to determine if he has the most recent userdata of the Servers user. Additionally the Server sents either a STAVIS or STAINV Message to indicate his visibility. 
+After that the server sends DOCANN MSGs for each document that is announced.
+
+The Client in the main part listens to what the server has to say. After receiving a USRCHG Msg he can send a USRREQ MSG to get the most recent USER Data from the Server. Note: The server only may send the user under which he is running throught this method. If the UserID of the returned user does not euqal the UserID sent on connection start in the Handshake Channel, the connection is terminated.
+
+Both parties are allowed to close the channel any time they see fit. however - the client will try to open another STATUS Channel if he has none. 
+
+
+1.5 A http://www.codingmonkeys.de/BEEP/SubEthaEditSession channel
+
+SUBETHAEDIT SESSION PROFILE
+
+1. Session Exchanges
+
+1.2 Joining a session
+
+When a client (C) decides to join a session hosted on a server (S), it starts a channel with the session profile which will be accepted by the server.
+
+C: MSG 0 1 . 52 135
+C: Content-Type: application/beep+xml
+C:
+C: <start number='3'>
+C:   <profile uri='http://www.codingmonkeys.de/BEEP/SubEthaEditSession' />
+C: </start>
+C: END
+S: RPY 0 1 . 221 105
+S: Content-Type:application/beep+xml
+S:
+S: <profile uri='http://www.codingmonkeys.de/BEEP/SubEthaEditSession' />
+S: END
+
+After successful channel creation the clients sends a join request to the server which will be acknowledged with an empty reply. This allows the server to asynchronously decide wether to accept or deny the join request.
+
+Content of JONJON: 
+{ "UserNotification" = { 
+        "Name" = "Martin Ott"; 
+        "UserID" = "B5E8CFF7-68A8-11D8-BAC5-000A95A55D58";
+        "ChangeCount" = 1023399;
+    };
+  "SessionID" = "95809D1A-6CF2-11D8-9341-000A95A55D58"; 
+};
+
+C: MSG 3 0 . 0 168
+C: JONJONd16:UserNotificationd4:Name10:Martin Ott6:UserID36:B5E8CFF7-68A8-11D8-BAC5-000A95A55D5811:ChangeCounti1023399ee9:SessionID36:95809D1A-6CF2-11D8-9341-000A95A55D58eEND
+S: RPY 3 0 . 0 0
+S: END
+
+When the server needs more information about the user who requests the join the server may ask the client for more information.
+
+Commmand: USRREQ (MSG Server->Client)
+Content: nothing
+Reply:   USRFUL (RPY)
+Content: userDictionary of Client
+
+The server accepts a join request by sending following command which will be acknowledged with an empty reply from the client.
+
+S: MSG 3 1 . 0 9
+S: JONACKEND
+C: RPY 3 1 . 168 0
+C: END
+
+After accepting the session the server send the session information to the client. The client replys to this information with a list of "users" on which more information is needed or with an empty reply.
+
+Content of SESINF:
+{ "Contributors = (
+                    { "Name" = "Martin Ott"; 
+                    "UserID" = "B5E8CFF7-68A8-11D8-BAC5-000A95A55D58";
+                    "ChangeCount" = 1023399; },
+                    ...
+                  );
+  "ParticipantRepresentation" = {
+            "Read-Only" = (
+                    { "User" = { "Name" = "Martin Ott"; 
+                               "UserID" = "B5E8CFF7-68A8-11D8-BAC5-000A95A55D58";
+                               "ChangeCount" = 1023399; };
+                      "SessionProperties" = {};
+                    }
+                    ...
+                )
+        }
+};
+
+S: MSG 3 2 . 9 XXX
+S: SESINFd12:Contributorsld4:Name10:Martin Ott6:UserID36:B5E8CFF7-68A8-11D8-BAC5-000A95A55D5811:ChangeCounti1023399eee25:ParticipantRepresentationdXXXeeEND
+C: RPY 3 2 . 168 97
+C: USRREQl4:Name10:Martin Ott6:UserID36:B5E8CFF7-68A8-11D8-BAC5-000A95A55D5811:ChangeCounti1023399eeEND
+
+When the client requested detailed information on a list of users the server answers the request with a message for each requested user. The client acknowledges the messages with an empty reply.
+
+Content of USRFUL:
+{ "Name" = "Martin Ott"; 
+  "UserID" = "B5E8CFF7-68A8-11D8-BAC5-000A95A55D58";
+  "ImageAsPNG" = <NSData ...>;
+  "ChangeCount" = 1023399;
+}
+
+S: MSG 3 3 . X XXX
+S: USRFULd4:Name10:Martin Ott6:UserID36:B5E8CFF7-68A8-11D8-BAC5-000A95A55D5812:ImageAsPNGX.XXXXX11:ChangeCounti1023399eeEND
+C: RPY 3 3 . 265
+C: END
+
+
+
+Command: SESCON (MSG Server->Client)
+Content: DictionaryRepresentation of Document
+Reply: RPY 0
+
+
+
+
+
+< MSG 0 4 . 693 133
+< Content-Type: application/beep+xml
+< 
+< <start number='5'><profile uri='http://www.codingmonkeys.de/BEEP/SubEthaEditSession' /></start>
+< END
+> RPY 0 4 . 642 107
+> Content-Type: application/beep+xml
+> 
+> <profile uri='http://www.codingmonkeys.de/BEEP/SubEthaEditSession' />
+> END
+< MSG 5 0 . 0 142
+< JONJONd16:UserNotificationd3:cnti134154271e4:name14:Dominik Wagner3:uID16.›≈Ôû®ÿø{ ìò¶$e9:SessionID36:4CB0147C-A225-11D9-8520-003065D09864e
+< END
+> MSG 5 0 . 0 6
+> JONACK
+> END
+< RPY 5 0 . 142 0
+< 
+< END
+> MSG 5 1 . 6 703
+> SESINFd13:ContentLengthi1779e12:Participantsd9:ReadWriteld4:Userd3:cnti133994505e4:name16:TheCodingMonkeys3:uID16.æöãË¶äÿôﬁ 0e–òde17:SessionPropertiesdeed4:Userd3:cnti134154271e4:name14:Dominik Wagner3:uID16.›≈Ôû®ÿø{ ìò¶$e17:SessionPropertiesdeeee12:Contributorsld3:cnti133974852e4:name7:patriot3:uID16.6çx¶†%Ÿàh 
+ïñ3ed3:cnti134137288e4:name5:JorgK3:uID16.w•”ãAŸÅ˘ ì∆Ïed3:cnti134027777e4:name11:Ivan Pavlov3:uID16.i≠±ÓoŸ™˛ ìpDed3:cnti134000554e4:name15:charles  stuart3:uID16.aÜπ¢3Ÿø 
+ï~ú∆ed3:cnti134117803e4:name14:Peter McLarnan3:uID16.°‡å¢·Ÿäˇ 
+ïŒºÿee26:DocumentSessionInformationd7:UseTabsi0e12:DocumentMode12:SEEMode.Base10:LineEndingi1e8:TabWidthi4e9:WrapLinesi1e8:WrapModei0eee
+> END
+< RPY 5 1 . 142 313
+< USRREQld3:uID16.6çx¶†%Ÿàh 
+ïñ34:name7:patriot3:cnti133974852eed3:uID16.w•”ãAŸÅ˘ ì∆Ï4:name5:JorgK3:cnti134137288eed3:uID16.i≠±ÓoŸ™˛ ìpD4:name11:Ivan Pavlov3:cnti134027777eed3:uID16.aÜπ¢3Ÿø 
+ï~ú∆4:name15:charles  stuart3:cnti134000554eed3:uID16.°‡å¢·Ÿäˇ 
+ïŒºÿ4:name14:Peter McLarnan3:cnti134117803eee
+< END
+> RPY 5 0 . 709 0
+> 
+> END
+> MSG 5 2 * 709 946
+> USRFULd3:cnti133974852e3:huei63e3:uID16.6çx¶†%Ÿàh 
+ïñ34:name7:patriot4:mail20:rocko@netproducer.at3:PNG4937.âPNG
+> 3:AIM15:rockomarjanovice
+> END
+< RPY 5 2 . 455 0
+< 
+< END
+> MSG 5 3 * 5780 208
+> USRFULd3:cnti134137288e3:huei30e3:uID16.w•”ãAŸÅ˘ ì∆Ï4:name5:JorgK4:mail23:kirberg@immunbio.mpg.de3:PNG2791.âPNG
+> 3:AIM7:sciencee
+> END
+< RPY 5 3 . 455 0
+< 
+< END
+> MSG 5 4 * 8697 129
+> USRFULd3:cnti134027777e3:huei18e3:uID16.i≠±ÓoŸ™˛ ìpD4:name11:Ivan Pavlov4:mail17:ipavlov@gmail.com3:PNG4714.âPNG
+> 3:AIM8:40782592e
+> END
+< RPY 5 4 . 455 0
+< 
+< END
+> MSG 5 5 * 13539 17
+> USRFULd3:cnti1340
+> END
+> MSG 5 5 * 13556 946
+> 00554e3:huei30e3:uID16.aÜπ¢3Ÿø 
+ï~ú∆4:name15:charles  stuart4:mail12:cs@enure.net3:PNG8874.âPNG
+> 3:AIM11:richysmilese
+> END
+< RPY 5 5 . 455 0
+< 
+< END
+> MSG 5 6 * 22544 472
+> USRFULd3:cnti134117803e3:huei50e3:uID16.°‡å¢·Ÿäˇ 
+ïŒºÿ4:name14:Peter McLarnan4:mail21:peterm@cs.earlham.edu3:PNG7350.âPNG
+> 3:AIM14:TheRealCroiklee
+> END
+< RPY 5 6 . 455 0
+< 
+< END
+> MSG 5 7 * 30036 548
+> SESCONd11:TextStoraged6:String148:a fresh start....
+ja
+
+kljhljk 
+ lk 
+ lkjlkj 
+ 
+ l ll
+ zelena tikva - Ivan Pavlov - ever been in Basel?
+ hmmm
+ this is neat
+ but too few that use ?
+ 8:Encodingi30e10:Attributesd15:ChangedByUserIDld3:val36:DDC5EF9E-A818-11D8-BF7B-00039398A6243:loci0e3:leni17eed3:val36:368D78A6-A025-11D9-8868-000A959633083:loci17e3:leni3eed3:val36:77A504D3-8B41-11D9-81F9-000D93C61BEC3:loci20e3:leni1eed3:val36:368D78A6-A025-11D9-8868-000A959633083:loci21e3:leni1eed3:val36:61860FB9-A233-11D9-BF03-000A957E9CC63:loci22e3:leni30eed3:
+> END
+> MSG 5 7 * 30584 946
+> val36:69ADB1EE-156F-11D9-AAFE-0003931770443:loci52e3:leni14eed3:val36:77A504D3-8B41-11D9-81F9-000D93C61BEC3:loci66e3:leni36eed3:val36:69ADB1EE-156F-11D9-AAFE-0003931770443:loci102e3:leni2eed3:val36:A11AE08C-A2E1-11D9-8AFF-000A95CEBCD83:loci104e3:leni2eed3:val36:77A504D3-8B41-11D9-81F9-000D93C61BEC3:loci106e3:leni2eed3:val36:A11AE08C-A2E1-11D9-8AFF-000A95CEBCD83:loci108e3:leni16eed3:val36:77A504D3-8B41-11D9-81F9-000D93C61BEC3:loci124e3:leni24eee15:WrittenByUserIDld3:val36:DDC5EF9E-A818-11D8-BF7B-00039398A6243:loci0e3:leni17eed3:val36:368D78A6-A025-11D9-8868-000A959633083:loci17e3:leni3eed3:val36:77A504D3-8B41-11D9-81F9-000D93C61BEC3:loci20e3:leni1eed3:val36:368D78A6-A025-11D9-8868-000A959633083:loci21e3:leni1eed3:val36:61860FB9-A233-11D9-BF03-000A957E9CC63:loci22e3:leni30eed3:val36:69ADB1EE-156F-11D9-AAFE-0003931770443:loci52e3:leni14eed3:val36:77A504D3-8B41-11D9-81F9-000D93C61BEC3:loci66e3:leni36eed3:val36:69ADB1EE-156F-11D9-AAFE-00
+> END
+> MSG 5 7 . 31530 291
+> 03931770443:loci102e3:leni2eed3:val36:A11AE08C-A2E1-11D9-8AFF-000A95CEBCD83:loci104e3:leni2eed3:val36:77A504D3-8B41-11D9-81F9-000D93C61BEC3:loci106e3:leni2eed3:val36:A11AE08C-A2E1-11D9-8AFF-000A95CEBCD83:loci108e3:leni16eed3:val36:77A504D3-8B41-11D9-81F9-000D93C61BEC3:loci124e3:leni24eeeeee
+> END
+< RPY 5 7 . 455 0
+< 
+< END
+> MSG 5 8 . 31821 77
+> DOCMSGd2:opd2:ot3:sel3:leni0e3:uid16.æöãË¶äÿôﬁ 0e–òd3:loci0ee2:#Ci0e2:#Si0ee
+> END
+< RPY 5 8 . 455 0
+< 
+< END
+< MSG 5 1 . 455 76
+< DOCMSGd2:opd2:ot3:usr3:grp0:3:uid16.›≈Ôû®ÿø{ ìò¶$3:typi1ee2:#Ci0e2:#Si1ee
+< END
+> RPY 5 1 . 31898 0
+> 
+> END
+< MSG 0 7 . 1028 69
+< Content-Type: application/beep+xml
+< 
+< <close number='5' code='200' />
+< END
+> RPY 0 7 . 900 44
+> Content-Type: application/beep+xml
+> 
+> <ok />
+> END
+
+}
+
+------
+FULL EXAMPLE
+A example using subethaedit 2.1.1 to connect to see://www.codingmonkeys.de
+
+[2005-04-02 19:04:39 +0200] 212.204.60.78:6942
+... initial BEEP Handshake
+< RPY 0 0 . 0 263
+< Content-Type: application/beep+xml
+< 
+< <greeting><profile uri="http://www.codingmonkeys.de/BEEP/SubEthaEditSession" /><profile uri="http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake" /><profile uri="http://www.codingmonkeys.de/BEEP/TCMMMStatus" /></greeting>
+< 
+< END
+
+> RPY 0 0 . 0 263
+> Content-Type: application/beep+xml
+> 
+> <greeting><profile uri="http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake" /><profile uri="http://www.codingmonkeys.de/BEEP/TCMMMStatus" /><profile uri="http://www.codingmonkeys.de/BEEP/SubEthaEditSession" /></greeting>
+> 
+> END
+
+... the initiator starts the handshake channel
+< MSG 0 1 . 263 135
+< Content-Type: application/beep+xml
+< 
+< <start number='1'><profile uri='http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake' /></start>
+< END
+... which is acknowdledged
+> RPY 0 1 . 263 109
+> Content-Type: application/beep+xml
+> 
+> <profile uri='http://www.codingmonkeys.de/BEEP/SubEthaEditHandshake' />
+> END
+
+... the intiator sends the GRT
+< MSG 1 0 . 0 99
+< GRTd3:url31:see://www.codingmonkeys.de:69423:uid36:DDC5EF9E-A818-11D8-BF7B-00039398A6244:vers3:200e
+< END
+... the counterpart replys with a GRT if it understands
+> RPY 1 0 . 0 87
+> GRTd3:url19:212.204.60.78:614023:uid36:BE9A8BE8-A68A-11D8-99DE-003065D098644:vers3:200e
+> END
+... the initiator acks this answer
+< MSG 1 1 . 99 3
+< ACK
+< END
+... the counterpart opens a status channel
+< MSG 0 2 . 398 126
+< Content-Type: application/beep+xml
+< 
+< <start number='3'><profile uri='http://www.codingmonkeys.de/BEEP/TCMMMStatus' /></start>
+< END
+... the intiator does the same
+> MSG 0 1 . 372 126
+> Content-Type: application/beep+xml
+> 
+> <start number='2'><profile uri='http://www.codingmonkeys.de/BEEP/TCMMMStatus' /></start>
+> END
+... and this channel gets acknowledged
+< RPY 0 1 . 524 100
+< Content-Type: application/beep+xml
+< 
+< <profile uri='http://www.codingmonkeys.de/BEEP/TCMMMStatus' />
+< END
+.. intiator sends USRCHG over the status channel to announce his state
+< MSG 2 0 . 0 71
+< USRCHGd3:cnti134154271e4:name14:Dominik Wagner3:uID16.›≈Ôû®ÿø{ ìò¶$e
+< END
+}... initiator sends his status, STAINV means invisible
+< MSG 2 1 . 71 6
+< STAINV
+< END
+... counterpart acknowledges the ACK of the greeting with an empty RPY
+> RPY 1 1 . 87 0
+> 
+> END
+... intitiator closes the greeting channel
+< MSG 0 3 . 624 69
+< Content-Type: application/beep+xml
+< 
+< <close number='1' code='200' />
+< END
+... counterpart accepts the request for a status channel 
+> RPY 0 2 . 498 100
+> Content-Type: application/beep+xml
+> 
+> <profile uri='http://www.codingmonkeys.de/BEEP/TCMMMStatus' />
+> END
+... counterpart sends a USRCHG 
+> MSG 3 0 . 0 73
+> USRCHGd3:cnti133994505e4:name16:TheCodingMonkeys3:uID16.æöãË¶äÿôﬁ 0e–òde
+> END
+... the initiator does not have the user, or an older version, so he requests it
+< MSG 3 0 . 0 6
+< USRREQ
+< END
+... initiator ACKS the USRCHG with an empty RPY
+< RPY 3 0 . 6 0
+< 
+< END
+... counterpart changes his status to visible
+> MSG 3 1 . 73 6
+> STAVIS
+> END
+... this is acknowledged by an empty RPY the initiator
+< RPY 3 1 . 6 0
+< 
+< END
+... counterpart announces 2 documents document, which is acknowledges by an empty RPY each
+> MSG 3 2 . 79 76
+> DOCANNd4:name4:chat3:sID16.L∞|¢%ŸÖ  0e–òd3:hID16.æöãË¶äÿôﬁ 0e–òd3:acci2ee
+> END
+< RPY 3 2 . 6 0
+< 
+< END
+> MSG 3 3 . 155 80
+> DOCANNd4:name8:untitled3:sID16.OVµ{¢%ŸÖ  0e–òd3:hID16.æöãË¶äÿôﬁ 0e–òd3:acci2ee
+> END
+< RPY 3 3 . 6 0
+< 
+< END
+}... initiator receives a User Request and replys with a USRFUL message containing the full user
+> MSG 2 0 . 0 6
+> USRREQ
+> END
+< RPY 2 0 * 77 946
+< USRFULd3:cnti134154271e3:huei22e3:uID16.›≈Ôû®ÿø{ ìò¶$4:name14:Dominik Wagner4:mail20:dom@codingmonkeys.de3:PNG7950.âPNG
+< 
+   }... at this point there would be too much binary data
+
+-------------------------------------------------------------------------------
+NOTES ON / KEY TO THIS TEMPLATE:
+HEADLINES
+    ... have to be CAPITALISED and stand alone in a line to be recognized
+    This differentiates from the text that follows
+A _variable_ that you can change will be surrounded by _underscores_
+    Spaces in variables are also replaced with _under_scores_
+    This allows people to select the whole _variable_ with a simple double-click
+A {tool-tip} is lower case and surrounded by {curly brackets / parentheses}
+    These supply helpful contextual information.
+References should be added as [1] [2] and so forth.
+An *emphasis* can be put on a word by adding *stars* around it
+
+
+-------------------------------------------------------------------------------
+DISCLAIMER:
+Copyright shared between all the participants unless otherwise stated...
+Generic conference template copyright by Tom Coates, tom@plasticbag.org
+Additions and Conference.mode by Dominik Wagner, dom@codingmonkeys.de

@@ -9,8 +9,14 @@
 #import <AddressBook/AddressBook.h>
 #import <Security/Security.h>
 #import <Carbon/Carbon.h>
+#if !defined(CODA)
 #import <HDCrashReporter/crashReporter.h>
+#endif //!defined(CODA)
 #import <TCMPortMapper/TCMPortMapper.h>
+
+#if defined(CODA)
+#import "AboutController.h"
+#endif //defined(CODA)
 
 #import "TCMBEEP.h"
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
@@ -21,7 +27,9 @@
 #import "ConnectionBrowserController.h"
 #import "PlainTextDocument.h"
 #import "UndoManager.h"
+#if !defined(CODA)
 #import "LicenseController.h"
+#endif //!defined(CODA)
 #import "GenericSASLProfile.h"
 
 #import "AdvancedPreferences.h"
@@ -58,7 +66,9 @@
 
 #import "BacktracingException.h"
 
+#if !defined(CODA)
 #import "UserStatisticsController.h"
+#endif //!defined(CODA)
 
 #ifndef TCM_NO_DEBUG
 #import "Debug/DebugPreferences.h"
@@ -85,6 +95,11 @@ int const FormatMenuTag = 2000;
 int const FontMenuItemTag = 1;
 int const FileEncodingsMenuItemTag = 2001;
 int const WindowMenuTag = 3000;
+int const ViewMenuTag = 5000;
+int const FoldingSubmenuTag = 4400;
+int const FoldingFoldSelectionMenuTag = 4441;
+int const FoldingFoldCurrentBlockMenuTag = 4442;
+int const FoldingFoldAllCurrentBlockMenuTag = 4443;
 int const GotoTabMenuItemTag = 3042;
 int const ModeMenuTag = 50;
 int const SwitchModeMenuTag = 10;
@@ -120,38 +135,53 @@ static AppController *sharedInstance = nil;
 @implementation AppController
 
 + (void)initialize {
-    [NSNumberFormatter setDefaultFormatterBehavior:NSNumberFormatterBehavior10_4];
-    [NSURLProtocol registerClass:[URLDataProtocol class]];
-    NSMutableDictionary *defaults = [NSMutableDictionary dictionary];
-    [defaults setObject:[NSNumber numberWithInt:SUBETHAEDIT_DEFAULT_PORT] forKey:DefaultPortNumber];
-    [defaults setObject:[NSNumber numberWithInt:10] forKey:@"NSRecentDocumentsLimit"];
-    [defaults setObject:[NSMutableArray array] forKey:AddressHistory];
-    [defaults setObject:[NSNumber numberWithBool:YES] forKey:@"EnableTLS"];
-    [defaults setObject:[NSNumber numberWithBool:NO] forKey:ProhibitInboundInternetSessions];
-    [defaults setObject:[NSNumber numberWithDouble:60.] forKey:NetworkTimeoutPreferenceKey];
-    [defaults setObject:[NSNumber numberWithDouble:60.] forKey:@"AutoSavingDelay"];
-    [defaults setObject:[NSNumber numberWithBool:YES] forKey:VisibilityPrefKey];
-    [defaults setObject:[NSNumber numberWithBool:YES] forKey:AutoconnectPrefKey];
-    [defaults setObject:[NSNumber numberWithBool:NO] forKey:@"GoIntoBundlesPrefKey"];
-#ifdef TCM_NO_DEBUG
-	[defaults setObject:[NSNumber numberWithBool:NO] forKey:@"EnableBEEPLogging"];
-#endif
-    [defaults setObject:[NSNumber numberWithInt:800*1024] forKey:@"StringLengthToStopHighlightingAndWrapping"];
-    [defaults setObject:[NSNumber numberWithInt:800*1024] forKey:@"StringLengthToStopSymbolRecognition"];
-    [defaults setObject:[NSNumber numberWithInt:4096*1024] forKey:@"ByteLengthToUseForModeRecognitionAndEncodingGuessing"];
-    // fix of SEE-883 - only an issue on tiger...
-    if (floor(NSAppKitVersionNumber) == 824.) {
-        [defaults setObject:[NSNumber numberWithBool:NO] forKey:@"NSUseInsertionPointCache"];
-    }
-    
-    [defaults setObject:[NSNumber numberWithBool:floor(NSAppKitVersionNumber) > 824.] forKey:@"SaveSeeTextPreview"];
-    [defaults setObject:[NSNumber numberWithBool:YES] forKey:ShouldAutomaticallyMapPort];
-    [[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
-    
-    [[TCMMMTransformator sharedInstance] registerTransformationTarget:[TextOperation class] selector:@selector(transformTextOperation:serverTextOperation:) forOperationId:[TextOperation operationID] andOperationID:[TextOperation operationID]];
-    [[TCMMMTransformator sharedInstance] registerTransformationTarget:[SelectionOperation class] selector:@selector(transformOperation:serverOperation:) forOperationId:[SelectionOperation operationID] andOperationID:[TextOperation operationID]];
-    [UserChangeOperation class];
-    [TCMMMNoOperation class];
+	if (self == [AppController class]) {
+		[NSNumberFormatter setDefaultFormatterBehavior:NSNumberFormatterBehavior10_4];
+		[NSURLProtocol registerClass:[URLDataProtocol class]];
+		NSMutableDictionary *defaults = [NSMutableDictionary dictionary];
+		[defaults setObject:[NSNumber numberWithInt:SUBETHAEDIT_DEFAULT_PORT] forKey:DefaultPortNumber];
+		[defaults setObject:[NSNumber numberWithInt:10] forKey:@"NSRecentDocumentsLimit"];
+		[defaults setObject:[NSMutableArray array] forKey:AddressHistory];
+		[defaults setObject:[NSNumber numberWithBool:NO] forKey:ProhibitInboundInternetSessions];
+		[defaults setObject:[NSNumber numberWithDouble:60.] forKey:NetworkTimeoutPreferenceKey];
+		[defaults setObject:[NSNumber numberWithDouble:60.] forKey:@"AutoSavingDelay"];
+		[defaults setObject:[NSNumber numberWithBool:YES] forKey:VisibilityPrefKey];
+		[defaults setObject:[NSNumber numberWithBool:YES] forKey:AutoconnectPrefKey];
+		[defaults setObject:[NSNumber numberWithBool:NO] forKey:@"GoIntoBundlesPrefKey"];
+	#ifdef TCM_NO_DEBUG
+		[defaults setObject:[NSNumber numberWithBool:NO] forKey:@"EnableBEEPLogging"];
+	#endif
+		[defaults setObject:[NSNumber numberWithInt:800*1024] forKey:@"StringLengthToStopHighlightingAndWrapping"];
+		[defaults setObject:[NSNumber numberWithInt:800*1024] forKey:@"StringLengthToStopSymbolRecognition"];
+		[defaults setObject:[NSNumber numberWithInt:4096*1024] forKey:@"ByteLengthToUseForModeRecognitionAndEncodingGuessing"];
+		// fix of SEE-883 - only an issue on tiger...
+		if (floor(NSAppKitVersionNumber) == 824.) {
+			[defaults setObject:[NSNumber numberWithBool:NO] forKey:@"NSUseInsertionPointCache"];
+		}
+		
+		//
+		[defaults setObject:[NSNumber numberWithBool:YES] forKey:VisibilityPrefKey];
+		[defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentStateSaveAndLoadWindowPositionKey];
+		[defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentStateSaveAndLoadTabSettingKey 	  ];
+		[defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentStateSaveAndLoadWrapSettingKey   ];
+		[defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentStateSaveAndLoadDocumentModeKey  ];
+		[defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentStateSaveAndLoadSelectionKey 	  ];
+		[defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentStateSaveAndLoadFoldingStateKey  ];
+		
+		[defaults setObject:[NSNumber numberWithBool:floor(NSAppKitVersionNumber) > 824.] forKey:@"SaveSeeTextPreview"];
+		[defaults setObject:[NSNumber numberWithBool:YES] forKey:ShouldAutomaticallyMapPort];
+
+		[defaults setObject:[NSNumber numberWithBool:YES] forKey:EnableTLSKey];
+		[defaults setObject:[NSNumber numberWithBool:YES] forKey:UseTemporaryKeychainForTLSKey]; // if keychain bug arrives again, switch this to NO
+		
+		[defaults setObject:[NSNumber numberWithBool:(floor(NSAppKitVersionNumber) > 824 /*NSAppKitVersionNumber10_4*/)] forKey:EnableAnonTLSKey];
+		[[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
+		
+		[[TCMMMTransformator sharedInstance] registerTransformationTarget:[TextOperation class] selector:@selector(transformTextOperation:serverTextOperation:) forOperationId:[TextOperation operationID] andOperationID:[TextOperation operationID]];
+		[[TCMMMTransformator sharedInstance] registerTransformationTarget:[SelectionOperation class] selector:@selector(transformOperation:serverOperation:) forOperationId:[SelectionOperation operationID] andOperationID:[TextOperation operationID]];
+		[UserChangeOperation class];
+		[TCMMMNoOperation class];
+	}
 }
 
 + (AppController *)sharedInstance {
@@ -300,11 +330,15 @@ static AppController *sharedInstance = nil;
         } @catch (NSException *exception) {
         }
     }
-    
+
+#if defined(CODA)
+	myImage=[[NSImage imageNamed:@"genericPerson"] copy];
+#else
     if (!myImage) {
         myImage=[[NSImage imageNamed:@"DefaultPerson"] retain];
     }
-    
+#endif //defined(CODA)
+
     if (!myEmail) myEmail=@"";
     if (!myAIM)   myAIM  =@"";
     
@@ -518,6 +552,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     }
 }
 
+#if !defined(CODA)
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // this is actually after the opening of the first untitled document window!
 
@@ -592,6 +627,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
         [HDCrashReporter doCrashSubmitting];
     }
 }
+#endif //!defined(CODA)
 
 - (void)sessionManagerIsReady:(NSNotification *)aNotification {
     [[TCMMMBEEPSessionManager sharedInstance] listen];
@@ -607,7 +643,10 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [[TCMMMBEEPSessionManager sharedInstance] stopListening];    
     [[TCMMMPresenceManager sharedInstance] stopRendezvousBrowsing];
 
-    [TCMBEEPSession removeTemporaryKeychain];
+	BOOL useTemporaryKeychain = [[NSUserDefaults standardUserDefaults] boolForKey:UseTemporaryKeychainForTLSKey];
+	if (useTemporaryKeychain) {
+	    [TCMBEEPSession removeTemporaryKeychain];
+	}
 }
 
 - (void)updateApplicationIcon {
@@ -971,6 +1010,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     NSMenu *mainMenu=[NSApp mainMenu];
     NSMenu *EditMenu=[[mainMenu itemWithTag:EditMenuTag] submenu];
     NSMenu *FormatMenu=[[mainMenu itemWithTag:FormatMenuTag] submenu];
+    NSMenu *FoldingMenu=[[[[mainMenu itemWithTag:ViewMenuTag] submenu] itemWithTag:FoldingSubmenuTag] submenu];
 
     NSMenu *defaultMenu=[[NSMenu new] autorelease];
     [defaultMenu addItem:[[(NSMenuItem *)[EditMenu itemWithTag:CutMenuItemTag] copy] autorelease]];
@@ -980,6 +1020,9 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [defaultMenu addItem:[[(NSMenuItem *)[EditMenu itemWithTag:PasteMenuItemTag] copy] autorelease]];
     [defaultMenu addItem:[NSMenuItem separatorItem]];
     [defaultMenu addItem:[[(NSMenuItem *)[EditMenu itemWithTag:BlockeditMenuItemTag] copy] autorelease]];
+    [defaultMenu addItem:[[(NSMenuItem *)[FoldingMenu itemWithTag:FoldingFoldSelectionMenuTag] copy] autorelease]];
+    [defaultMenu addItem:[[(NSMenuItem *)[FoldingMenu itemWithTag:FoldingFoldCurrentBlockMenuTag] copy] autorelease]];
+    [defaultMenu addItem:[[(NSMenuItem *)[FoldingMenu itemWithTag:FoldingFoldAllCurrentBlockMenuTag] copy] autorelease]];
     NSMenuItem *scriptsSubmenuItem=[[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Scripts",@"Scripts entry for contextual menu") action:nil keyEquivalent:@""] autorelease];
     NSMenu *menu = [[NSMenu new] autorelease];
     [scriptsSubmenuItem setImage:[NSImage imageNamed:@"ScriptMenuItemIcon"]];
@@ -1005,6 +1048,24 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [menu update];
     return NO;
 }
+
+#if defined(CODA)
+- (void)showAboutBox:(id)sender
+{
+	// Create the AboutController if it doesn't already exist
+
+	if ( !aboutController )
+		aboutController = [[AboutController alloc] init];
+
+	// Show window if it is hidden, or vice-versa
+
+	if ( ![[aboutController window] isVisible] )
+		[aboutController showWindow:self];
+	else
+		[[aboutController window] makeKeyAndOrderFront:self];
+}
+#endif //defined(CODA)
+
 #pragma mark ### IBActions ###
 
 - (IBAction)undo:(id)aSender {
@@ -1028,13 +1089,16 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 }
 
 - (IBAction)enterSerialNumber:(id)sender {
+#if !defined(CODA)
     [[LicenseController sharedInstance] showWindow:self];
+#endif //!defined(CODA)
 }
 
 - (IBAction)reloadDocumentModes:(id)aSender {
     [[DocumentModeManager sharedInstance] reloadDocumentModes:aSender];
 }
 
+#if !defined(CODA)
 - (IBAction)showUserStatisticsWindow:(id)aSender {
     static UserStatisticsController *uc = nil;
     if (!uc) uc = [UserStatisticsController new];
@@ -1044,6 +1108,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
         [[uc window] performClose:self];
     }
 }
+#endif //!defined(CODA)
 
 
 #pragma mark -
@@ -1085,9 +1150,12 @@ static OSStatus AuthorizationRightSetWithWorkaround(
         if (title == nil) title = NSLocalizedString(@"&Redo", nil);
         [menuItem setTitle:title];
         return [undoManager canRedo];
-    } else if (selector == @selector(enterSerialNumber:) || selector == @selector(purchaseSubEthaEdit:)) {
+    } 
+#if !defined(CODA)
+	else if (selector == @selector(enterSerialNumber:) || selector == @selector(purchaseSubEthaEdit:)) {
         return [LicenseController shouldRun];
     }
+#endif //!defined(CODA)	
     return YES;
 }
 

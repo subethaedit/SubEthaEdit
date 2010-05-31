@@ -31,7 +31,8 @@
         I_date = [[NSCalendarDate alloc] initWithTimeIntervalSinceReferenceDate:[[aDictionary objectForKey:@"t"] doubleValue]/100.];
         I_op = [[TCMMMOperation operationWithDictionaryRepresentation:[aDictionary objectForKey:@"op"]] retain];
         I_index = [[aDictionary objectForKey:@"i"] longLongValue];
-        NSAssert(I_op,@"operation was nill");
+        I_replacedAttributedStringDictionaryRepresentation = [[aDictionary objectForKey:@"rstr"] retain];
+        NSAssert(I_op,@"operation was nil");
         //NSLog(@"message: %@",[self description]);
     }
     return self;
@@ -43,12 +44,28 @@
                        forKey:@"op"];
     [representation setObject:[NSNumber numberWithDouble:[I_date timeIntervalSinceReferenceDate]*100.] forKey:@"t"];
     [representation setObject:[NSNumber numberWithLongLong:I_index] forKey:@"i"];
+    if (I_replacedAttributedStringDictionaryRepresentation) {
+    	[representation setObject:I_replacedAttributedStringDictionaryRepresentation forKey:@"rstr"];
+    }
     return representation;
 }
 
 - (TCMMMOperation *)operation {
     return I_op;
 }
+
+- (void)setReplacedAttributedStringDictionaryRepresentation:(NSDictionary *)aReplacedAttributedStringDictionaryRepresentation {
+	if ([[aReplacedAttributedStringDictionaryRepresentation objectForKey:@"String"] length] == 0) {
+		aReplacedAttributedStringDictionaryRepresentation = nil;
+	}
+	[I_replacedAttributedStringDictionaryRepresentation autorelease];
+	 I_replacedAttributedStringDictionaryRepresentation = [aReplacedAttributedStringDictionaryRepresentation retain];
+}
+
+- (NSDictionary *)replacedAttributedStringDictionaryRepresentation {
+	return I_replacedAttributedStringDictionaryRepresentation;
+}
+
 
 - (void)setDate:(NSCalendarDate *)aDate {
     [I_date autorelease];
@@ -74,6 +91,8 @@
      I_op = nil;
     [I_date release];
      I_date = nil;
+    [I_replacedAttributedStringDictionaryRepresentation release];
+     I_replacedAttributedStringDictionaryRepresentation = nil;
     [super dealloc];
 }
 

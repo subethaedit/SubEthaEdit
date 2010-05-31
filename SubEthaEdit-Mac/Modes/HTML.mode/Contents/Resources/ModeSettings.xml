@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <settings>
-    <recognition>
-	   <extension>html</extension>
-	   <extension>shtml</extension>
-	   <extension>htm</extension>
-	   <extension>xhtml</extension>
-	   <extension>shtm</extension>
-    </recognition>
+  <recognition>
+    <extension>html</extension>
+    <extension>shtml</extension>
+    <extension>htm</extension>
+    <extension>xhtml</extension>
+    <extension>shtm</extension>
+    <regex>\A&lt;!DOCTYPE (?i:HTML)</regex>
+    <regex>\A&lt;(?i:html)</regex>
+  </recognition>
 </settings>
-
-

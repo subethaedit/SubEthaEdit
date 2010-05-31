@@ -14,11 +14,15 @@
     TCMMMOperation *I_op;
     NSCalendarDate *I_date;
     long long I_index;
+	NSDictionary *I_replacedAttributedStringDictionaryRepresentation;
 }
 
 + (id)loggedOperationWithOperation:(TCMMMOperation *)anOperation index:(long long)anIndex;
 - (id)initWithOperation:(TCMMMOperation *)anOperation index:(long long)anIndex;
 - (id)initWithDictionaryRepresentation:(NSDictionary *)aRepresentation;
+
+- (void)setReplacedAttributedStringDictionaryRepresentation:(NSDictionary *)aReplacedAttributedStringDictionaryRepresentation;
+- (NSDictionary *)replacedAttributedStringDictionaryRepresentation;
 
 - (NSDictionary *)dictionaryRepresentation;
 - (void)setDate:(NSCalendarDate *)aDate;

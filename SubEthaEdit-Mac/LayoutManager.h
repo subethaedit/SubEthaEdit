@@ -16,6 +16,9 @@
     } I_flags;
     NSLayoutManager *I_invisiblesLayoutManager;
     NSTextStorage *I_invisiblesTextStorage;
+#if defined(CODA)
+	NSColor *I_invisibleCharacterColor;
+#endif //defined(CODA)
 }
 
 - (BOOL)showsChangeMarks;
@@ -26,3 +29,10 @@
 - (void)removeTemporaryAttributes:(id)anObjectEnumerable forCharacterRange:(NSRange)aRange;
 
 @end
+
+#if defined(CODA)
+@interface LayoutManager (Coda)
+- (void)setInvisibleCharacterColor:(NSColor*)aColor;
+- (NSColor*)invisibleCharacterColor;
+@end
+#endif //defined(CODA)

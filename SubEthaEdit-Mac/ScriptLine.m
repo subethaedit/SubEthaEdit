@@ -7,16 +7,16 @@
 //
 
 #import "ScriptLine.h"
-#import "TextStorage.h"
+#import "FoldableTextStorage.h"
 #import "PlainTextDocument.h"
 
 @implementation ScriptLine
 
-+ (id)scriptLineWithTextStorage:(TextStorage *)aTextStorage lineNumber:(int)aLineNumber {
++ (id)scriptLineWithTextStorage:(FullTextStorage *)aTextStorage lineNumber:(int)aLineNumber {
     return [[[ScriptLine alloc] initWithTextStorage:aTextStorage lineNumber:aLineNumber] autorelease];
 }
 
-- (id)initWithTextStorage:(TextStorage *)aTextStorage lineNumber:(int)aLineNumber
+- (id)initWithTextStorage:(FullTextStorage *)aTextStorage lineNumber:(int)aLineNumber
 {
     if ((self = [super initWithTextStorage:aTextStorage])) {
         I_lineNumber = aLineNumber;
@@ -31,27 +31,27 @@
 
 - (NSRange)rangeRepresentation
 {
-    unsigned startIndex;
-    unsigned lineEndIndex;
-    unsigned contentsEndIndex;
+    NSUInteger startIndex;
+    NSUInteger lineEndIndex;
+    NSUInteger contentsEndIndex;
     [[I_textStorage string] getLineStart:&startIndex end:&lineEndIndex contentsEnd:&contentsEndIndex forRange:[I_textStorage findLine:I_lineNumber]];
     return NSMakeRange(startIndex, lineEndIndex - startIndex);
 }
 
 - (NSRange)innerRangeRepresentation
 {
-    unsigned startIndex;
-    unsigned lineEndIndex;
-    unsigned contentsEndIndex;
+    NSUInteger startIndex;
+    NSUInteger lineEndIndex;
+    NSUInteger contentsEndIndex;
     [[I_textStorage string] getLineStart:&startIndex end:&lineEndIndex contentsEnd:&contentsEndIndex forRange:[I_textStorage findLine:I_lineNumber]];
     return NSMakeRange(startIndex, contentsEndIndex - startIndex);
 }
 
 - (id)objectSpecifier
 {
-    // NSLog(@"%s", __FUNCTION__);
+    NSLog(@"%s", __FUNCTION__);
     
-    NSScriptClassDescription *containerClassDesc = (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[TextStorage class]];
+    NSScriptClassDescription *containerClassDesc = (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[FoldableTextStorage class]];
     NSScriptObjectSpecifier *containerSpecifier = [I_textStorage objectSpecifier];
 
     NSIndexSpecifier *indexSpecifier = 

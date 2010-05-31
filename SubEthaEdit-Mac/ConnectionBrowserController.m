@@ -65,10 +65,12 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 @implementation ConnectionBrowserController
 
 + (void)initialize {
-    S_cancelableEntryPredicate = [[NSPredicate predicateWithFormat:@"isBonjour == NO AND connectionStatus != %@ AND hostStatus != %@",ConnectionStatusNoConnection,@"HostEntryStatusCancelling"] retain];
-    S_reconnectableEntryPredicate = [[NSPredicate predicateWithFormat:@"isBonjour == NO AND connectionStatus == %@ ",ConnectionStatusNoConnection] retain];
-    S_showableSessionPredicate = [[NSPredicate predicateWithFormat:@"clientState != %d",TCMMMSessionClientNoState] retain];
-    S_joinableSessionPredicate = [[NSPredicate predicateWithFormat:@"clientState = %d",TCMMMSessionClientNoState] retain];
+	if (self == [ConnectionBrowserController class]) {
+		S_cancelableEntryPredicate = [[NSPredicate predicateWithFormat:@"isBonjour == NO AND connectionStatus != %@ AND hostStatus != %@",ConnectionStatusNoConnection,@"HostEntryStatusCancelling"] retain];
+		S_reconnectableEntryPredicate = [[NSPredicate predicateWithFormat:@"isBonjour == NO AND connectionStatus == %@ ",ConnectionStatusNoConnection] retain];
+		S_showableSessionPredicate = [[NSPredicate predicateWithFormat:@"clientState != %d",TCMMMSessionClientNoState] retain];
+		S_joinableSessionPredicate = [[NSPredicate predicateWithFormat:@"clientState = %d",TCMMMSessionClientNoState] retain];
+	}
 }
 
 + (ConnectionBrowserController *)sharedInstance {
@@ -198,7 +200,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 
     NSIndexSet *indexes = [O_browserListView selectedRowIndexes];
     if (indexes) {
-        unsigned int index = [indexes firstIndex];
+        NSUInteger index = [indexes firstIndex];
         while (index != NSNotFound) {
             ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
             ConnectionBrowserEntry *entry = [[I_entriesController arrangedObjects] objectAtIndex:pair.itemIndex];
@@ -345,7 +347,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     NSEnumerator *menuItems = [[oldMenu itemArray] objectEnumerator];
     NSMenuItem *item=nil;
     while ((item = [menuItems nextObject])) {
-        [menu addItem:[item copy]];
+        [menu addItem:[[item copy] autorelease]];
     }
     [oldMenu release];
     [O_statusPopUpButton setCell:cell];
@@ -461,7 +463,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     NSArray *arrangedObjects = [I_entriesController arrangedObjects];
     
     NSIndexSet *indexes = [O_browserListView selectedRowIndexes];
-    unsigned int index = [indexes firstIndex];
+    NSUInteger index = [indexes firstIndex];
     while (index != NSNotFound) {
         ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
         ConnectionBrowserEntry *entry = [arrangedObjects objectAtIndex:pair.itemIndex];
@@ -587,7 +589,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 }
 
 - (void)selectEntry:(ConnectionBrowserEntry *)anEntry {
-    unsigned int index = [[I_entriesController arrangedObjects] indexOfObject:anEntry];
+    NSUInteger index = [[I_entriesController arrangedObjects] indexOfObject:anEntry];
     if (index == NSNotFound) {
         [O_browserListView deselectAll:self];
     } else {
@@ -684,7 +686,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 - (void)reconnectWithIndexes:(NSIndexSet *)indexes {
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"trying to reconnect");
     NSMutableSet *set = [NSMutableSet set];
-    unsigned int index = [indexes firstIndex];
+    NSUInteger index = [indexes firstIndex];
     while (index != NSNotFound) {
         ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
         if (pair.childIndex == -1) {
@@ -703,7 +705,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"cancel");
     NSMutableSet *set = [NSMutableSet set];
     BOOL abort = NO;
-    unsigned int index = [indexes firstIndex];
+    NSUInteger index = [indexes firstIndex];
     while (index != NSNotFound) {
         ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
         if (pair.childIndex == -1) {
@@ -740,7 +742,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 
 - (void)joinSessionsWithIndexes:(NSIndexSet *)indexes {
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"join");
-    unsigned int index = [indexes firstIndex];
+    NSUInteger index = [indexes firstIndex];
     while (index != NSNotFound) {
         ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
         ConnectionBrowserEntry *entry = [[I_entriesController arrangedObjects] objectAtIndex:pair.itemIndex];
@@ -758,7 +760,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 - (NSIndexSet *)indexSetOfSelectedSessionsFilteredUsingPredicate:(NSPredicate *)aPredicate {
     NSMutableIndexSet *set = [NSMutableIndexSet indexSet];
     NSIndexSet *indexes = [O_browserListView selectedRowIndexes];
-    unsigned int index = [indexes firstIndex];
+    NSUInteger index = [indexes firstIndex];
     while (index != NSNotFound) {
         ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
         if (pair.childIndex != -1) {
@@ -804,7 +806,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 - (NSSet *)selectedEntriesFilteredUsingPredicate:(NSPredicate *)aPredicate {
     NSMutableSet *set = [NSMutableSet set];
     NSIndexSet *indexes = [O_browserListView selectedRowIndexes];
-    unsigned int index = [indexes firstIndex];
+    NSUInteger index = [indexes firstIndex];
     while (index != NSNotFound) {
         ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
         if (pair.childIndex == -1) {
@@ -821,7 +823,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 - (NSIndexSet *)indexSetOfSelectedEntrysFilteredUsingPredicate:(NSPredicate *)aPredicate {
     NSMutableIndexSet *set = [NSMutableIndexSet indexSet];
     NSIndexSet *indexes = [O_browserListView selectedRowIndexes];
-    unsigned int index = [indexes firstIndex];
+    NSUInteger index = [indexes firstIndex];
     while (index != NSNotFound) {
         ItemChildPair pair = [O_browserListView itemChildPairAtRow:index];
         if (pair.childIndex == -1) {
@@ -1058,7 +1060,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     NSMutableArray *plist = [NSMutableArray array];
     NSMutableString *vcfString= [NSMutableString string];
     NSURL *reachabilityURL = nil;
-    unsigned int index = [indexes firstIndex];
+    NSUInteger index = [indexes firstIndex];
     TCMMMUser *lastUser=nil;
     while (index != NSNotFound) {
         ItemChildPair pair = [listView itemChildPairAtRow:index];
@@ -1113,8 +1115,11 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 - (NSDragOperation)listView:(TCMListView *)aListView validateDrag:(id <NSDraggingInfo>)sender {
     NSPasteboard *pboard = [sender draggingPasteboard];
 
-    if ([[pboard types] containsObject:@"PresentityNames"]) {
+    if ([[pboard types] containsObject:@"PresentityNames"] ||
+		[[pboard types] containsObject:@"IMHandleNames"]) {
         return NSDragOperationGeneric;
+    } else if ([[pboard types] containsObject:@"AIListObjectUniqueIDs"]) {
+    	return NSDragOperationGeneric;
     } else {
         return NSDragOperationNone;
     }
@@ -1126,6 +1131,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 - (BOOL)listView:(TCMListView *)aListView performDragOperation:(id <NSDraggingInfo>)sender{
 //    NSLog(@"%s",__FUNCTION__);
     NSPasteboard *pboard = [sender draggingPasteboard];
+//    NSLog(@"%s\n%@",__FUNCTION__,[pboard propertyListForType:@"AIListObjectUniqueIDs"]);
     return [ConnectionBrowserController invitePeopleFromPasteboard:pboard withURL:[self URLForURLImageView:nil]];
 }
 
@@ -1146,8 +1152,9 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 
 + (BOOL)invitePeopleFromPasteboard:(NSPasteboard *)aPasteboard intoDocument:(PlainTextDocument *)aDocument group:(NSString *)aGroup {
     BOOL success = NO;
-    if ([[aPasteboard types] containsObject:@"PresentityNames"]) {
-        NSArray *presentityNames=[aPasteboard propertyListForType:@"PresentityNames"]; 
+    if ([[aPasteboard types] containsObject:@"PresentityNames"] ||
+		[[aPasteboard types] containsObject:@"IMHandleNames"]) {
+        NSArray *presentityNames=[[aPasteboard types] containsObject:@"PresentityNames"] ? [aPasteboard propertyListForType:@"PresentityNames"] : [aPasteboard propertyListForType:@"IMHandleNames"]; 
         int i=0;
         for (i=0;i<[presentityNames count];i+=4) {
             [self sendInvitationToServiceWithID:[presentityNames objectAtIndex:i] buddy:[presentityNames objectAtIndex:i+1] url:[aDocument documentURLForGroup:aGroup]];
@@ -1160,8 +1167,9 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 
 + (BOOL)invitePeopleFromPasteboard:(NSPasteboard *)aPasteboard withURL:(NSURL *)aDocumentURL{
     BOOL success = NO;
-    if ([[aPasteboard types] containsObject:@"PresentityNames"]) {
-        NSArray *presentityNames=[aPasteboard propertyListForType:@"PresentityNames"]; 
+    if ([[aPasteboard types] containsObject:@"PresentityNames"] ||
+		[[aPasteboard types] containsObject:@"IMHandleNames"]) {
+        NSArray *presentityNames=[[aPasteboard types] containsObject:@"PresentityNames"] ? [aPasteboard propertyListForType:@"PresentityNames"] : [aPasteboard propertyListForType:@"IMHandleNames"]; 
         int i=0;
         for (i=0;i<[presentityNames count];i+=4) {
             [self sendInvitationToServiceWithID:[presentityNames objectAtIndex:i] buddy:[presentityNames objectAtIndex:i+1] url:aDocumentURL];
@@ -1190,15 +1198,15 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 // NSComboBoxDataSource
 //
 
-- (unsigned int)comboBox:(NSComboBox *)comboBox indexOfItemWithStringValue:(NSString *)string {
+- (NSUInteger)comboBox:(NSComboBox *)comboBox indexOfItemWithStringValue:(NSString *)string {
     return [I_comboBoxItems indexOfObject:string];
 }
 
-- (id)comboBox:(NSComboBox *)comboBox objectValueForItemAtIndex:(int)index {
+- (id)comboBox:(NSComboBox *)comboBox objectValueForItemAtIndex:(NSInteger)index {
     return [I_comboBoxItems objectAtIndex:index];
 }
 
-- (int)numberOfItemsInComboBox:(NSComboBox *)comboBox {
+- (NSInteger)numberOfItemsInComboBox:(NSComboBox *)comboBox {
     return [I_comboBoxItems count];
 }
 

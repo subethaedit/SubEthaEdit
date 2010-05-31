@@ -4,5 +4,6 @@
         <extension>diff</extension>
         <extension>patch</extension>
         <regex>Index:[^\n]*\n={67}</regex>
+        <regex>^@@ [-+\d,]+ [-+\d,]+ @@</regex>
     </recognition>
 </settings>

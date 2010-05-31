@@ -12,27 +12,29 @@
 @implementation ServerManagementProfile
 
 + (void)initialize {
-    [self registerSelector:@selector(replyToFILLST:) forMessageType:@"MSG" 
-                            messageString:@"FILLST" channelRole:TCMBEEPChannelRoleResponder];
-    [self registerSelector:@selector(acceptFILLST:) forMessageType:@"RPY" 
-                           messageString:@"FILLST" channelRole:TCMBEEPChannelRoleInitiator];
-    [self registerSelector:@selector(replyToFILNEW:) forMessageType:@"MSG" 
-                            messageString:@"FILNEW" channelRole:TCMBEEPChannelRoleResponder];
-    [self registerSelector:@selector(acceptFILACK:) forMessageType:@"RPY" 
-                           messageString:@"FILACK" channelRole:TCMBEEPChannelRoleInitiator];
-    [self registerSelector:@selector(replyToATTSET:) forMessageType:@"MSG" 
-                            messageString:@"ATTSET" channelRole:TCMBEEPChannelRoleResponder];
-    [self registerSelector:@selector(acceptSETACKFAI:) forMessageType:@"RPY" 
-                           messageString:@"SETACK" channelRole:TCMBEEPChannelRoleInitiator];
-    [self registerSelector:@selector(acceptSETACKFAI:) forMessageType:@"ERR" 
-                           messageString:@"SETFAI" channelRole:TCMBEEPChannelRoleInitiator];
-
-
-    [self registerSelector:@selector(replyToFILUPD:) forMessageType:@"MSG" 
-                            messageString:@"FILUPD" channelRole:TCMBEEPChannelRoleInitiator];
-    [self registerSelector:@selector(acceptUPDACK:) forMessageType:@"RPY" 
-                           messageString:@"UPDACK" channelRole:TCMBEEPChannelRoleResponder];
-//    NSLog(@"%s %@",__FUNCTION__,[self performSelector:@selector(myRoutingDictionary)]);
+	if (self == [ServerManagementProfile class]) {
+		[self registerSelector:@selector(replyToFILLST:) forMessageType:@"MSG" 
+								messageString:@"FILLST" channelRole:TCMBEEPChannelRoleResponder];
+		[self registerSelector:@selector(acceptFILLST:) forMessageType:@"RPY" 
+							   messageString:@"FILLST" channelRole:TCMBEEPChannelRoleInitiator];
+		[self registerSelector:@selector(replyToFILNEW:) forMessageType:@"MSG" 
+								messageString:@"FILNEW" channelRole:TCMBEEPChannelRoleResponder];
+		[self registerSelector:@selector(acceptFILACK:) forMessageType:@"RPY" 
+							   messageString:@"FILACK" channelRole:TCMBEEPChannelRoleInitiator];
+		[self registerSelector:@selector(replyToATTSET:) forMessageType:@"MSG" 
+								messageString:@"ATTSET" channelRole:TCMBEEPChannelRoleResponder];
+		[self registerSelector:@selector(acceptSETACKFAI:) forMessageType:@"RPY" 
+							   messageString:@"SETACK" channelRole:TCMBEEPChannelRoleInitiator];
+		[self registerSelector:@selector(acceptSETACKFAI:) forMessageType:@"ERR" 
+							   messageString:@"SETFAI" channelRole:TCMBEEPChannelRoleInitiator];
+	
+	
+		[self registerSelector:@selector(replyToFILUPD:) forMessageType:@"MSG" 
+								messageString:@"FILUPD" channelRole:TCMBEEPChannelRoleInitiator];
+		[self registerSelector:@selector(acceptUPDACK:) forMessageType:@"RPY" 
+							   messageString:@"UPDACK" channelRole:TCMBEEPChannelRoleResponder];
+	//    NSLog(@"%s %@",__FUNCTION__,[self performSelector:@selector(myRoutingDictionary)]);
+	}
 }
 
 - (id)initWithChannel:(TCMBEEPChannel *)aChannel {

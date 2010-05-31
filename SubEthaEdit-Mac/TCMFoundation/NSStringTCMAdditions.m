@@ -59,8 +59,6 @@
 {
     CFUUIDRef myUUID = CFUUIDCreate(NULL);
     CFStringRef myUUIDString = CFUUIDCreateString(NULL, myUUID);
-    [(NSString *)myUUIDString retain];
-    CFRelease(myUUIDString);
     CFRelease(myUUID);
     
     return [(NSString *)myUUIDString autorelease];
