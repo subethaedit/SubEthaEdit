@@ -62,7 +62,12 @@
 
 - (DocumentMode *)selectedMode {
     DocumentModeManager *manager=[DocumentModeManager sharedInstance];
-    return [manager documentModeForIdentifier:[manager documentModeIdentifierForTag:[[self selectedItem] tag]]];
+    DocumentMode *mode = [manager documentModeForIdentifier:[manager documentModeIdentifierForTag:[[self selectedItem] tag]]];
+    if (!mode) {
+        mode = [DocumentModeManager baseMode];
+        [self setSelectedMode:mode];
+    }
+    return mode;
 }
 
 - (void)setSelectedMode:(DocumentMode *)aMode {
@@ -522,7 +527,7 @@ static DocumentModeManager *S_sharedInstance=nil;
                 while ((import = [linkEnumerator nextObject])) {
                     [self documentModeForName:import];
                 }
-            }
+            } else return nil;
             [self resolveAllDependenciesForMode:mode];
         }
 #if defined(CODA)
@@ -612,13 +617,21 @@ static DocumentModeManager *S_sharedInstance=nil;
                 if ([ruleString isEqualToString:filename]) return [self documentModeForIdentifier:[mode objectForKey:@"Identifier"]];
             }  
             if (ruleType == 2 && contentString) {
-                BOOL didMatch = NO;
-                OGRegularExpressionMatch *match;
-                OGRegularExpression *regex =
-                    [[[OGRegularExpression alloc] initWithString:ruleString options:OgreFindNotEmptyOption|OgreMultilineOption] autorelease];
-                match = [regex matchInString:contentString];
-                didMatch = [match count]>0;
-                if (didMatch) return [self documentModeForIdentifier:[mode objectForKey:@"Identifier"]];
+                if ([OGRegularExpression isValidExpressionString:ruleString]) {
+                    BOOL didMatch = NO;
+                    OGRegularExpressionMatch *match;
+                    OGRegularExpression *regex = [[[OGRegularExpression alloc] initWithString:ruleString options:OgreFindNotEmptyOption|OgreMultilineOption] autorelease];
+                    match = [regex matchInString:contentString];
+                    didMatch = [match count]>0;
+                    if (didMatch) return [self documentModeForIdentifier:[mode objectForKey:@"Identifier"]];
+                } else {
+                    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+                    [alert setAlertStyle:NSWarningAlertStyle];
+                    [alert setMessageText:NSLocalizedString(@"Trigger not a regular expression",@"Trigger not a regular expression Title")];
+                    [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"The trigger '%@' of the mode '%@' is not a valid regular expression and was ignored.", @"Trigger not a regular expression Informative Text"), ruleString, [mode objectForKey:@"Identifier"]]];
+                    [alert addButtonWithTitle:@"OK"];
+                    [alert runModal];
+                }
             }
         }
         

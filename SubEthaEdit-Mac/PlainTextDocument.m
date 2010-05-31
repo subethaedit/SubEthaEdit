@@ -31,6 +31,7 @@
 #import "NSSavePanelTCMAdditions.h"
 #import "EncodingDoctorDialog.h"
 #import "NSMutableAttributedStringSEEAdditions.h"
+#import "NSErrorTCMAdditions.h"
 #import "FontForwardingTextField.h"
 
 #import "DocumentModeManager.h"
@@ -741,18 +742,11 @@ static NSString *tempFileName(NSString *origPath) {
 - (IBAction)chooseGotoSymbolMenuItem:(NSMenuItem *)aMenuItem {
     if ([aMenuItem tag]<[I_symbolArray count]) {
         NSRange symbolRange=[[I_symbolArray objectAtIndex:[aMenuItem tag]] jumpRange];
-        NSTextView *textView=[aMenuItem representedObject];
-		[self selectRange:symbolRange];
-
-        PlainTextWindowController *controller=(PlainTextWindowController *)[[textView window] windowController];
-        NSArray *plainTextEditors=[controller plainTextEditors];
-        int i=0;
-        for (i=0;i<[plainTextEditors count]; i++) {
-            if ([[plainTextEditors objectAtIndex:i] textView]==textView) {
-                [[plainTextEditors objectAtIndex:i] setFollowUserID:nil];
-                break;
-            }
-        }
+        TextView *textView=[aMenuItem representedObject];
+        PlainTextEditor *editor = [textView editor];
+		[editor selectRange:symbolRange];
+		[editor setFollowUserID:nil];
+		
     } else {
         NSBeep();
     }
@@ -1035,7 +1029,7 @@ static NSString *tempFileName(NSString *origPath) {
     
     [I_lastTextShouldChangeReplacementString release];
      I_lastTextShouldChangeReplacementString = nil;
-    
+//    NSLog(@"%s",__FUNCTION__);
     [super dealloc];
 }
 
@@ -1817,6 +1811,14 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     PlainTextDocumentIgnoreRemoveWindowController = NO;
 }
 
+- (void)setKeepUndoManagerOnZeroWindowControllers:(BOOL)aFlag {
+	I_flags.keepUndoManagerOnZeroWindowControllers = aFlag;
+}
+- (BOOL)keepUndoManagerOnZeroWindowControllers {
+	return I_flags.keepUndoManagerOnZeroWindowControllers;
+}
+
+
 - (void)removeWindowController:(NSWindowController *)windowController
 {
     if (!PlainTextDocumentIgnoreRemoveWindowController) {
@@ -1826,6 +1828,10 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     if ([[self windowControllers] count] != 0) {
         // if doing always, we delay the dealloc method ad inifitum on quit
         [self TCM_sendPlainTextDocumentDidChangeDisplayNameNotification];
+    } else if (!I_flags.keepUndoManagerOnZeroWindowControllers) {
+    	// let us release our undo manager to break that retain cycle caused by the invocations retaining us
+    	[I_undoManager release];
+    	I_undoManager = nil;
     }
 }
 
@@ -4299,7 +4305,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             }
         }
         
-        if ( !hasBeenWritten && (error && [error code] == NSFileWriteNoPermissionError) ) {
+        if ( !hasBeenWritten && ((error && [error TCM_relatesToErrorCode:NSFileWriteNoPermissionError inDomain:nil])||(error && [error TCM_relatesToErrorCode:13 inDomain:NSPOSIXErrorDomain])) ) {
             if (outError) *outError = nil; // clear outerror because we already showed it
             BOOL isDirWritable = [fileManager isWritableFileAtPath:[fullDocumentPath stringByDeletingLastPathComponent]];
             BOOL isFileDeletable = [fileManager isDeletableFileAtPath:fullDocumentPath];
@@ -5618,8 +5624,13 @@ static NSString *S_measurementUnits;
     NSString *identifier=[modeManager documentModeIdentifierForTag:[aSender tag]];
     if (identifier) {
         DocumentMode *newMode=[modeManager documentModeForIdentifier:identifier];
-        [self setDocumentMode:newMode];
-        I_flags.shouldSelectModeOnSave=NO;
+        if (newMode) {
+            [self setDocumentMode:newMode];
+            I_flags.shouldSelectModeOnSave=NO;
+        } else {
+            [[self plainTextEditors] makeObjectsPerformSelector:@selector(TCM_updateBottomStatusBar)];
+        }
+
     }
 }
 
@@ -6648,7 +6659,17 @@ static NSString *S_measurementUnits;
 //		NSLog(@"%s beginning marked text undo group",__FUNCTION__);
 
     }
-
+	
+	if ([textStorage length] == 0 && I_flags.shouldChangeExtensionOnModeChange && [(TextView *)aTextView isPasting]) {
+//		NSLog(@"%s now we check",__FUNCTION__);
+		DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForPath:@"" withContentString:aReplacementString];
+		
+		if (![mode isBaseMode]) {
+			[self setDocumentMode:mode];
+		}
+		I_flags.shouldSelectModeOnSave=NO;
+	}
+	
 	// record this change for possible later use
 	 I_lastTextShouldChangeReplacementRange = aAffectedCharRange;
 	[I_lastTextShouldChangeReplacementString release];
@@ -7075,7 +7096,7 @@ static NSString *S_measurementUnits;
 
 - (NSString *)scriptedContents
 {
-    return [I_textStorage string];
+    return [[I_textStorage fullTextStorage] string];
 }
 
 - (void)setScriptedContents:(id)value {
@@ -7083,7 +7104,7 @@ static NSString *S_measurementUnits;
 }
 
 - (FoldableTextStorage *)scriptedPlainContents {
-    return (FoldableTextStorage *)I_textStorage;
+    return I_textStorage;
 }
 
 - (void)setScriptedPlainContents:(id)value {

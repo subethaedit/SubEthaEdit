@@ -312,6 +312,7 @@
 		31D2C7060CA7CA08003CC5C9 /* PrecedenceRules.nib in Resources */ = {isa = PBXBuildFile; fileRef = 31D2C6D30CA7C78C003CC5C9 /* PrecedenceRules.nib */; };
 		31D5F8680AA301E80088DB18 /* HDCrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31D5F8590AA2FB760088DB18 /* HDCrashReporter.framework */; };
 		31D5FB230AA309200088DB18 /* HDCrashReporter.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 31D5F8590AA2FB760088DB18 /* HDCrashReporter.framework */; };
+		31FFC93D104E97A000E08256 /* NSErrorTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */; };
 		5E0F01C30AB573A100A5DE33 /* DialogBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F01C10AB573A100A5DE33 /* DialogBackgroundView.m */; };
 		5E0F6AE70A039283003D2813 /* SESendProc.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F6AE30A039283003D2813 /* SESendProc.m */; };
 		5E0F6AE80A039283003D2813 /* SEActiveProc.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F6AE40A039283003D2813 /* SEActiveProc.m */; };
@@ -1215,6 +1216,8 @@
 		31D2C6E80CA7C7A7003CC5C9 /* PrecedencePreferences.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PrecedencePreferences.h; sourceTree = "<group>"; };
 		31D2C6EB0CA7C7DE003CC5C9 /* PrecedencePrefs.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = PrecedencePrefs.tif; path = artwork/PrecedencePrefs.tif; sourceTree = "<group>"; };
 		31D5F8510AA2FB760088DB18 /* CrashReporter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CrashReporter.xcodeproj; path = CrashReporter/CrashReporter.xcodeproj; sourceTree = "<group>"; };
+		31FFC93B104E97A000E08256 /* NSErrorTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSErrorTCMAdditions.h; sourceTree = "<group>"; };
+		31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSErrorTCMAdditions.m; sourceTree = "<group>"; };
 		32DBCF750370BD2300C91783 /* SubEthaEdit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubEthaEdit_Prefix.pch; sourceTree = "<group>"; };
 		5E0F01C10AB573A100A5DE33 /* DialogBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DialogBackgroundView.m; sourceTree = "<group>"; };
 		5E0F01C20AB573A100A5DE33 /* DialogBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DialogBackgroundView.h; sourceTree = "<group>"; };
@@ -1826,6 +1829,8 @@
 				F2BB09FC0CA018CA00258EC7 /* PCRolloverImageView.m */,
 				F26B7D840CA3F7680039C8A1 /* NSBezierPathTCMAdditions.h */,
 				F26B7D850CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m */,
+				31FFC93B104E97A000E08256 /* NSErrorTCMAdditions.h */,
+				31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */,
 			);
 			name = Additions;
 			sourceTree = "<group>";
@@ -3398,6 +3403,7 @@
 				F2D86E1B0F8EA5DC00B912A2 /* PreferenceKeys.m in Sources */,
 				F2CEAAA7100B3A350036B3F7 /* MAAttachedWindow.m in Sources */,
 				F2CEAAF1100B46150036B3F7 /* URLBubbleWindow.m in Sources */,
+				31FFC93D104E97A000E08256 /* NSErrorTCMAdditions.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

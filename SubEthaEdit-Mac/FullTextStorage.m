@@ -551,7 +551,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     }
     
     // now that we are happy and have our start, we search our end
-    NSRange endRange = NSMakeRange(index,0);
+    NSRange endRange = NSMakeRange(NSMaxRange(startRange),0);
     continueThisLoop = YES;
     while (NSMaxRange(wholeRange) > NSMaxRange(endRange) && continueThisLoop) {
     	// this is folding end search only, not delimiter end search

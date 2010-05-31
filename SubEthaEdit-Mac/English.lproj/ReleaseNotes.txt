@@ -1,4 +1,49 @@
 
+SubEthaEdit 3.5.1
+=================
+
+Additions/New Features:
+- Added CoreGraphic, CoreAnimation and some CoreFoundation classes and 
+  functions to the Objective-C Mode.
+- Added mode recognition on paste into an empty and new document, e.g. now SEE 
+  switches to HTML mode if you paste an HTML page into an empty document.
+
+Changes:
+- Added SEEMinimumEngineVersion to Info.plist of Modes for future compatibilty 
+  checking.
+
+Fixes:
+- Fixed a crash issue with folding in certain situations.
+- Fixed an issue with Snow Leopard where authenticated saving did not work 
+  properly.
+- Fixed an issue with double click selection on Snow Leopard where words 
+  separated with a dot were selected as whole instead of separately.
+- Fixed an issue with the symbol pop-up and split views where the selection 
+  could happen in the wrong text view.
+- Fixed an issue with the PHP-HTML mode where inconsistent highlighting of 
+  member variables could occur.
+- Fixed memory leak on close that could cause the host of a document not to 
+  leave the document.
+- Fixed an issue with Ruby mode where folding did not work for spaceless if 
+  constructs, e.g. if(a==b)
+- Fixed an issue with Perl mode where HEREDOC did not highlight correctly if a 
+  space was used after the initial <<
+- Fixed an issue with Perl mode that did disable folding for some cases
+- Fixed an issue where SubEthaEdit did not activate when using the new file 
+  dock menu entries.
+- Fixed an issue with mode triggers where an invalid regular expression in a 
+  'content matches' trigger could cause exceptions resulting in problems on 
+  save.
+- Fixed an issue with code folding where AppleScript access of the contents 
+  property would not return folded text. This caused e.g. "check syntax" mode 
+  scripts to fail.
+- Fixed an issue with javascript mode where 0 wasn't colored and added basic 
+  javascript objects.
+- Fixed a regression in various C-Style modes where strings in conditions were 
+  not highlighted.
+- Improved URL recognition behavior of the Wiki mode.
+
+
 SubEthaEdit 3.5
 ===============
 

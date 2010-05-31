@@ -883,6 +883,7 @@ typedef union {
 	// first stop blockedit if there
 	if ([self hasBlockeditRanges]) [self stopBlockedit];
 
+	[inAttachment retain];
 	NSMutableAttributedString *stringToInsert = nil;
 	NSArray *innerAttachments = [inAttachment innerAttachments];
 	NSRange foldedTextRange = [inAttachment foldedTextRange];
@@ -913,6 +914,7 @@ typedef union {
 //	NSLog(@"%s unfolding: %@",__FUNCTION__,[self foldedStringRepresentationOfRange:[inAttachment foldedTextRange] foldings:innerAttachments level:1]);
 	[self replaceCharactersInRange:NSMakeRange(inIndex,1) withAttributedString:stringToInsert synchronize:NO];
 	[I_sortedFoldedTextAttachments removeObject:inAttachment];
+	[inAttachment release]; // saveguarding against crash in SEE-3929
 	
 	if ([I_sortedFoldedTextAttachments count] == 0) {
 		[self removeInternalStorageString];
@@ -1239,8 +1241,8 @@ typedef union {
     NSString *string=[self string];
     // now that we have a result we separate it using the colons so doubleClick don't selected over colons (especially important for Objective-C methods
     // we do this by searching the result range for colons and separate 3 cases:
-    
-    while (((colonRange = [string rangeOfString:@":" options:NSLiteralSearch range:result]).location != NSNotFound)) {
+    NSCharacterSet *characterSet = [NSCharacterSet characterSetWithCharactersInString:@":."];
+    while (((colonRange = [string rangeOfCharacterFromSet:characterSet options:NSLiteralSearch range:result]).location != NSNotFound)) {
         if (index <= colonRange.location) {
 			if (colonRange.location - result.location > 0) {
 				result.length = MAX(colonRange.location,index+1)-result.location;
@@ -1287,7 +1289,7 @@ typedef union {
 
 - (id)objectInScriptedCharactersAtIndex:(unsigned)index
 {
-    NSLog(@"%s: %d", __FUNCTION__, index);
+//    NSLog(@"%s: %d", __FUNCTION__, index);
     return [ScriptCharacters scriptCharactersWithTextStorage:[self fullTextStorage] characterRange:NSMakeRange(index,1)];
 }
 

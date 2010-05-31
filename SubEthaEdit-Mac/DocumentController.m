@@ -373,6 +373,7 @@ static NSString *tempFileName() {
             }
             BOOL hasSheet = [[windowController window] attachedSheet] ? YES : NO;
             int isMainWindow = ([[windowController window] isMainWindow] || [[windowController window] isKeyWindow]) ? 1 : NO;
+//            NSLog(@"%s %@ was main window: %d %d",__FUNCTION__, windowController, isMainWindow, withShortcuts);
             int documentPosition = 0;
             while ((document = [documents nextObject])) {
                 [prototypeMenuItem setTarget:windowController];
@@ -380,7 +381,8 @@ static NSString *tempFileName() {
                 [prototypeMenuItem setRepresentedObject:[NSNumber numberWithInt:documentPosition]];
                 [prototypeMenuItem setEnabled:!hasSheet];
                 if (withShortcuts) {
-                    if (isMainWindow && isMainWindow <= 10) {
+                    if (isMainWindow && isMainWindow < 10) {
+//						NSLog(@"added shortcut");
                         [prototypeMenuItem setKeyEquivalent:[NSString stringWithFormat:@"%d",isMainWindow%10]];
                         [prototypeMenuItem setKeyEquivalentModifierMask:NSCommandKeyMask];
                         isMainWindow++;
@@ -390,6 +392,7 @@ static NSString *tempFileName() {
                 }
                 NSMenuItem *itemToAdd = [[prototypeMenuItem copy] autorelease];
                 [aMenu addItem:itemToAdd];
+//				NSLog(@"%@",itemToAdd);
                 [itemToAdd setMark:[document isDocumentEdited]?kBulletCharCode:noMark];
                 documentPosition++;
             }
@@ -1129,8 +1132,9 @@ static NSString *tempFileName() {
     DocumentModeManager *modeManager=[DocumentModeManager sharedInstance];
     NSString *identifier=[modeManager documentModeIdentifierForTag:[aSender tag]];
     if (identifier) {
-        PlainTextDocument *document = (PlainTextDocument *)[self openUntitledDocumentOfType:@"PlainTextType" display:NO];
         DocumentMode *newMode=[modeManager documentModeForIdentifier:identifier];
+        if (!newMode) return;
+        PlainTextDocument *document = (PlainTextDocument *)[self openUntitledDocumentOfType:@"PlainTextType" display:NO];
         [document setDocumentMode:newMode];
         [document resizeAccordingToDocumentMode];
         [document showWindows];
@@ -1153,9 +1157,18 @@ static NSString *tempFileName() {
     }
 }
 
-- (IBAction)newDocument:(id)sender
+- (IBAction)newDocument:(id)aSender
 {
-    [self newDocumentWithModeMenuItem:[sender representedObject]];
+    [self newDocumentWithModeMenuItem:[aSender representedObject]];
+}
+
+- (IBAction)newDocumentWithModeMenuItemFromDock:(id)aSender {
+	[self newDocumentWithModeMenuItem:aSender];
+	[NSApp activateIgnoringOtherApps:YES];
+}
+
+- (IBAction)newDocumentFromDock:(id)aSender {
+	[self newDocumentWithModeMenuItemFromDock:[aSender representedObject]];
 }
 
 - (IBAction)newAlternateDocument:(id)sender

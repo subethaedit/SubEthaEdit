@@ -30,6 +30,9 @@
 				</state>
 		   </state>
 
+
+      <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+
 			<keywords id="Horizontal Line" color="#000" font-weight="bold">
 				<regex>^(----[-]*)</regex>
 			</keywords>
@@ -37,10 +40,10 @@
 	
 			<state id="External Link" color="#00a" font-weight="normal">
 				<begin><regex>\[(?=\[)</regex></begin>
-				<end><regex>\]\]</regex></end>
+				<end><regex>\]\]|[\r\n]</regex></end>
 					<state id="URL Portion">
 						<begin><regex>\[</regex></begin>
-						<end><regex>(?:.(?=\]\]|\|))</regex></end>
+						<end><regex>(?:.(?=\]\]|\|)|[\r\n])</regex></end>
 						<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 					</state>
 			</state>
