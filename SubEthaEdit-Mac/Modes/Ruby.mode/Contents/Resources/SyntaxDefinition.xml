@@ -29,6 +29,8 @@
                 <string>undef</string>
             </keywords>
             <keywords id="Keywords" color="#881350" inverted-color="#7d9ffa" useforautocomplete="yes">
+                <string>public</string>
+                <string>private</string>
                 <string>__FILE__</string>
                 <string>__LINE__</string>
                 <string>BEGIN</string>

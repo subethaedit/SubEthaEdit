@@ -20,7 +20,7 @@
     </symbol>
 
     <symbol id="C++ Methods" image="SymbolM" indentation="1" ignoreblocks="yes">
-        <regex>(?&lt;=[\n\r]|^)(?:[\w0-9_*]+\s+){0,3}[\w0-9_]+::[\w0-9_]+[ \t]*\([\]\[\w0-9_,\s*&amp;&lt;&gt;/]*\)(?=\s*\{)</regex>
+        <regex>(?&lt;=[\n\r]|^)[ \t]*(?:[\w0-9_*]+(?:::[\w0-9_]+)?\s+){0,3}[\w0-9_]+::[\w0-9_]+[ \t]*\([\]\[\w0-9_,\s*&amp;&lt;&gt;/]*\)(?=\s*\{)</regex>
         <postprocess>
             <find>\([^\)]*\)</find>
             <replace>()</replace>
@@ -32,11 +32,11 @@
     </symbol>
 
     <symbol id="C++ Classes" image="SymbolC" indentation="1" ignoreblocks="yes">
-        <regex>(?&lt;=[\n\r]|^)(?:template[\t ]*&lt;[^&gt;]*&gt;[\t\r\n ]*)?class[\t ]([\w0-9_]*)(?:[\t ]*:[\t ]*[\w0-9_]+[\t ][\w0-9_&lt;&gt;]+)?(?=\s*\{)</regex>
+        <regex>(?&lt;=[\n\r]|^)[ \t]*(?:template[\t ]*&lt;[^&gt;]*&gt;[\t\r\n ]*)?class[\t ]([\w0-9_]*)(?:[\t ]*:[\t ]*[\w0-9_]+[\t ][\w0-9_&lt;&gt;]+)?(?=\s*\{)</regex>
     </symbol>
 
     <symbol id="C++ Inline Member Functions" image="SymbolF" indentation="1" ignoreblocks="yes">
-        <regex>(?&lt;=[\n\r]|^)(?:template[\t ]*&lt;[^&gt;]*&gt;[\t\r\n ]*)?inline[\t ]([\w0-9_]*[\t ][\w0-9_&gt;&lt;:]*\([^)]*\))[^{]*(?=\s*\{)</regex>
+        <regex>(?&lt;=[\n\r]|^)[ \t]*(?:template[\t ]*&lt;[^&gt;]*&gt;[\t\r\n ]*)?inline[\t ]([\w0-9_]*[\t ][\w0-9_&gt;&lt;:]*\([^)]*\))[^{]*(?=\s*\{)</regex>
         <postprocess>
             <find>\([^\)]*\)</find>
             <replace>()</replace>

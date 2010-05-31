@@ -76,7 +76,7 @@
 -(void)parseXMLFile:(NSString *)aPath {
 
     NSError *err=nil;
-    NSXMLDocument *modeSettingsXML = [[NSXMLDocument alloc] initWithData:[NSData dataWithContentsOfFile:aPath] options:nil error:&err];
+    NSXMLDocument *modeSettingsXML = [[NSXMLDocument alloc] initWithData:[NSData dataWithContentsOfFile:aPath] options:0 error:&err];
 
     if (err) {
         NSLog(@"Error while loading '%@': %@", aPath, [err localizedDescription]);

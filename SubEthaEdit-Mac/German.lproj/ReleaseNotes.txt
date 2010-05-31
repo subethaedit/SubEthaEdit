@@ -1,4 +1,43 @@
 
+SubEthaEdit 3.0.3
+=================
+
+Veränderugen:
+- Ein Mausklick mit gedrückter Umschalttaste auf eine Zeilnenummer erweitert 
+  jetzt die Selektion entsprechend.
+- Der Objective-C Modus wurde um fehlende Methoden, Funktionen und Konstanten 
+  ergänzt.
+- WebKit spezifische CSS Attribute wurden allen Modi die CSS einfärben 
+  hinzugefügt.
+- "//" Kommentare werden in allen Modi die CSS einfärben jetzt nicht mehr 
+  unterstüzt um die Standardkonformität zu wahren.
+- Die Teilnehmen-Animation wurde auf 10.5 flüssiger gemacht.
+
+Korrekturen:
+- Ein Absturz beim Beenden unter 10.4.x wurde behoben, welcher auftrat wenn das 
+  Programm nicht im Vordergrund war und der "Änderungen speichern" Dialog 
+  benutzt wurde.
+- Ein Problem mit Spaces wurde behoben, durch welches alle SubEthaEdit Fenster 
+  auf einen Space gezogen wurden.
+- Ein Problem mit Spaces wurde behoben, bei dem das "Suchen" Fenster auf einem 
+  anderen Space sein konnte wie das Dokument in dem gesucht wurde.
+- Ein Problem wurde behoben, welches die Web-Vorschau auch im "Beim Speichern" 
+  Modus alle 60 Sekunden aktualisierte.
+- Ein Problem wurde behoben, welches verhinderte dass die Einstellung für 
+  Klicken in Rollbalken: "Anzeigen dieser Stelle" in SubEthaEdit funktionierte.
+- Ein Problem in der Widerrufen/Wiederholen Funktion wurde behoben, welches 
+  nach einem Benutzen des Menüpunktes "Ablage->Zurück zur letzten Version" 
+  auftrat.
+- Ein Problem mit der Widerrufen/Wiederholen Funktion auf Leopard wurde 
+  behoben, welches ein Dokument fälschlicherweise als verändert anzeigte.
+- Ein Problem im C++-Modus wurde behoben, bei dem Funktionen mit Klassen-Typen 
+  als Rückgabewert nicht erkannt wurden.
+- Ein Problem im C++-Modus wurde behoben, bei dem manchen eingerückten 
+  Funktionen nicht erkannt wurden.
+- Ein Problem im C-Modus wurde behoben, bei dem Kommentare in 
+  #define-Anweisungen nicht eingefärbt wurden.
+
+
 SubEthaEdit 3.0.2
 =================
 

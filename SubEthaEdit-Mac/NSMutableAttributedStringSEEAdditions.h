@@ -17,6 +17,9 @@
 #endif
 
 - (void)removeAttributes:(NSArray *)names range:(NSRange)aRange;
-- (NSDictionary *)dictionaryRepresentationUsingEncoding:(NSStringEncoding)anEncoding;
 
+@end
+
+@interface NSAttributedString (NSAttributedStringSeeAdditions)
+- (NSDictionary *)dictionaryRepresentationUsingEncoding:(NSStringEncoding)anEncoding;
 @end

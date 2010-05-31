@@ -54,7 +54,7 @@
 		
 		<!-- CFML -->
 		<state id="CFML" color="#000000" inverted-color="#FFFFFF">
-			<begin><regex>&lt;[/]?cf</regex></begin>
+            <begin><regex>&lt;[/]?[cC][fF]</regex></begin>
 			<end><regex>[^&gt;]*&gt;</regex></end>
 			
 			<keywords id="Tags" color="#C0180D" casesensitive="no" useforautocomplete="no">
@@ -388,6 +388,154 @@
 			<end><regex>(?:/style&gt;)|(?:/&gt;)</regex></end>
 
 			<keywords id="CSS Attributes" font-style="normal" color="#9B4400" useforautocomplete="yes">
+				<!--webkit additions -->
+				<string>checkbox</string>
+				<string>radio</string>
+				<string>push-button</string>
+				<string>square-button</string>
+				<string>button</string>
+				<string>button-bevel</string>
+				<string>listbox</string>
+				<string>listitem</string>
+				<string>menulist</string>
+				<string>menulist-button</string>
+				<string>menulist-text</string>
+				<string>menulist-textfield</string>
+				<string>scrollbarbutton-up</string>
+				<string>scrollbarbutton-down</string>
+				<string>scrollbarbutton-left</string>
+				<string>scrollbarbutton-right</string>
+				<string>scrollbartrack-horizontal</string>
+				<string>scrollbartrack-horizontal</string>
+				<string>scrollbartrack-vertical</string>
+				<string>scrollbarthumb-horizontal</string>
+				<string>scrollbarthumb-vertical</string>
+				<string>scrollbargripper-horizontal</string>
+				<string>scrollbargripper-vertical</string>
+				<string>slider-horizontal</string>
+				<string>slider-vertical</string>
+				<string>sliderthumb-horizontal</string>
+				<string>sliderthumb-vertical</string>
+				<string>caret</string>
+				<string>searchfield</string>
+				<string>searchfield-decoration</string>
+				<string>searchfield-results-decoration</string>
+				<string>searchfield-results-button</string>
+				<string>searchfield-cancel-button</string>
+				<string>textfield</string>
+				<string>textarea</string>
+				<string>copy</string>
+				<string>source-over</string>
+				<string>source-in</string>
+				<string>source-out</string>
+				<string>source-atop</string>
+				<string>destination-over</string>
+				<string>destination-in</string>
+				<string>destination-out</string>
+				<string>destination-atop</string>
+				<string>xor</string>
+				<string>plus-darker</string>
+				<string>plus-lighter</string>
+				<string>lines</string>
+				<string>after-white-space</string>
+				<string>discard</string>
+				<string>space</string>
+				<string>logical</string>
+				<string>visual</string>
+				<string>element</string>
+				<string>read-only</string>
+				<string>read-write</string>
+				<string>read-write-plaintext-only</string>
+				<string>ignore</string>
+				<string>-webkit-mini-control</string>
+				<string>-webkit-small-control</string>
+				<string>-webkit-control</string>
+				<string>-webkit-xxx-large</string>
+				<string>-webkit-body</string>
+				<string>-webkit-link</string>
+				<string>-webkit-activelink</string>
+				<string>-webkit-focus-ring-color</string>
+				<string>-webkit-text</string>
+				<string>-webkit-baseline-vertical-align</string>
+				<string>-webkit-auto</string>
+				<string>-webkit-left</string>
+				<string>-webkit-right</string>
+				<string>-webkit-center</string>
+				<string>-webkit-box</string>
+				<string>-webkit-inline-box</string>
+				<string>-webkit-marquee</string>
+				<string>-webkit-nowrap</string>
+				<string>ahead</string>
+				<string>backwards</string>
+				<string>down</string>
+				<string>forwards</string>
+				<string>reverse</string>
+				<string>up</string>
+				<string>infinite</string>
+				<string>activeborder</string>
+				<string>activecaption</string>
+				<string>appworkspace</string>
+				<string>buttonface</string>
+				<string>buttonhighlight</string>
+				<string>buttonshadow</string>
+				<string>buttontext</string>
+				<string>captiontext</string>
+				<string>graytext</string>
+				<string>infinite</string>
+				<string>infinite</string>
+				<string>grey</string>
+				<string>highlight</string>
+				<string>highlighttext</string>
+				<string>inactiveborder</string>
+				<string>inactivecaption</string>
+				<string>inactivecaptiontext</string>
+				<string>infobackground</string>
+				<string>infotext</string>
+				<string>match</string>
+				<string>menu</string>
+				<string>menutext</string>
+				<string>scrollbar</string>
+				<string>threeddarkshadow</string>
+				<string>threedface</string>
+				<string>threedhighlight</string>
+				<string>threedlightshadow</string>
+				<string>threedshadow</string>
+				<string>window</string>
+				<string>windowframe</string>
+				<string>windowtext</string>
+				<string>border-box</string>
+				<string>content-box</string>
+				<string>inline-block</string>
+				<string>table-caption</string>
+				<string>intrinsic</string>
+				<string>min-intrinsic</string>
+				<string>-webkit-baseline-middle</string>
+				<string>hidden</string>
+				<string>overlay</string>
+				<string>fast</string>
+				<string>slow</string>
+				<string>alternate</string>
+				<string>slide</string>
+				<string>alias</string>
+				<string>all-scroll</string>
+				<string>cell</string>
+				<string>col-resize</string>
+				<string>context-menu</string>
+				<string>crosshair</string>
+				<string>ew-reize</string>
+				<string>nesw-resize</string>
+				<string>no-drop</string>
+				<string>not-allowed</string>
+				<string>ns-resize</string>
+				<string>nwse-resize</string>
+				<string>progress</string>
+				<string>row-resize</string>
+				<string>vertical-text</string>
+				<string>-webkit-zoom-in</string>
+				<string>-webkit-zoom-out</string>
+				<string>stretch</string>
+				<string>start</string>
+				<string>end</string>
 				<string>inherit</string>
 				<string>none</string>
 				<string>hidden</string>
@@ -587,6 +735,73 @@
 			</keywords>
 
 			<keywords id="CSS Keywords" color="#88134F" font-style="normal" useforautocomplete="yes">
+
+		<string>-webkit-appearance</string>
+               <string>-webkit-background-clip</string>
+               <string>-webkit-background-composite</string>
+               <string>-webkit-background-origin</string>
+               <string>-webkit-background-size</string>
+               <string>-webkit-binding</string>
+               <string>-webkit-border-bottom-left-radius</string>
+               <string>-webkit-border-bottom-right-radius</string>
+               <string>-webkit-border-fit</string>
+               <string>-webkit-border-horizontal-spacing</string>
+               <string>-webkit-border-image</string>
+               <string>-webkit-border-radius</string>
+               <string>-webkit-border-top-left-radius</string>
+               <string>-webkit-border-top-right-radius</string>
+               <string>-webkit-border-vertical-spacing</string>
+               <string>-webkit-box-align</string>
+               <string>-webkit-box-direction</string>
+               <string>-webkit-box-flex</string>
+               <string>-webkit-box-flex-group</string>
+               <string>-webkit-box-lines</string>
+               <string>-webkit-box-ordinal-group</string>
+               <string>-webkit-box-orient</string>
+               <string>-webkit-box-pack</string>
+               <string>-webkit-box-shadow</string>
+               <string>-webkit-box-sizing</string>
+               <string>-webkit-column-break-after</string>
+               <string>-webkit-column-break-before</string>
+               <string>-webkit-column-break-inside</string>
+               <string>-webkit-column-count</string>
+               <string>-webkit-column-gap</string>
+               <string>-webkit-column-rule</string>
+               <string>-webkit-column-rule-color</string>
+               <string>-webkit-column-rule-style</string>
+               <string>-webkit-column-rule-width</string>
+               <string>-webkit-column-width</string>
+               <string>-webkit-columns</string>
+               <string>-webkit-dashboard-region</string>
+               <string>-webkit-font-size-delta</string>
+               <string>-webkit-highlight</string>
+               <string>-webkit-line-break</string>
+               <string>-webkit-line-clamp</string>
+               <string>-webkit-margin-bottom-collapse</string>
+               <string>-webkit-margin-collapse</string>
+               <string>-webkit-margin-start</string>
+               <string>-webkit-margin-top-collapse</string>
+               <string>-webkit-marquee</string>
+               <string>-webkit-marquee-direction</string>
+               <string>-webkit-marquee-increment</string>
+               <string>-webkit-marquee-repetition</string>
+               <string>-webkit-marquee-speed</string>
+               <string>-webkit-marquee-style</string>
+               <string>-webkit-match-nearest-mail-blockquote-color</string>
+               <string>-webkit-nbsp-mode</string>
+               <string>-webkit-padding-start</string>
+               <string>-webkit-rtl-ordering</string>
+               <string>-webkit-text-decorations-in-effect</string>
+               <string>-webkit-text-fill-color</string>
+               <string>-webkit-text-security</string>
+               <string>-webkit-text-size-adjust</string>
+               <string>-webkit-text-stroke</string>
+               <string>-webkit-text-stroke-color</string>
+               <string>-webkit-text-stroke-width</string>
+               <string>-webkit-user-drag</string>
+               <string>-webkit-user-modify</string>
+               <string>-webkit-user-select</string>
+               <string>-webkit-user-modify</string>
 				<string>azimuth</string>
 				<string>background-attachment</string>
 				<string>background-color</string>
