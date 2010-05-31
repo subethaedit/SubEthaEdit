@@ -28,6 +28,7 @@
 				<string>after</string>
 				<string>case</string>
 				<string>catch</string>
+				<string>try</string>
 				<string>cond</string>
 				<string>end</string>
 				<string>fun</string>
@@ -304,7 +305,7 @@
 		
 		<state id="Block" type="block" foldable="yes">
 			<begin><regex>(?:\-\>)</regex></begin>
-			<end><regex>(?:(?:(?:\;)|(?:\.))(?!\S))|(?:\s*(?=end\b))</regex></end>
+			<end><regex>(?:(?:(?:\;)|(?:\.))(?!\S))|(?:\s*(?=end\b))|(?:\s*(?=catch\b))</regex></end>
 			<import />
 		</state>
 
