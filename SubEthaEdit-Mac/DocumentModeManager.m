@@ -144,9 +144,6 @@ static DocumentModeManager *S_sharedInstance=nil;
         if (self) {
             I_modeBundles=[NSMutableDictionary new];
             I_documentModesByIdentifier =[NSMutableDictionary new];
-            I_modeIdentifiersByExtension=[NSMutableDictionary new];
-            I_modeIdentifiersByFilename =[NSMutableDictionary new];
-            I_modeIdentifiersByRegex    =[NSMutableDictionary new];
             I_modeIdentifiersTagArray   =[NSMutableArray new];
             [I_modeIdentifiersTagArray addObject:@"-"];
             [I_modeIdentifiersTagArray addObject:AUTOMATICMODEIDENTIFIER];
@@ -165,9 +162,6 @@ static DocumentModeManager *S_sharedInstance=nil;
 - (void)dealloc {
     [I_modeBundles release];
     [I_documentModesByIdentifier release];
-    [I_modeIdentifiersByExtension release];
-    [I_modeIdentifiersByFilename release];
-    [I_modeIdentifiersByRegex release];
     [super dealloc];
 }
 
@@ -433,9 +427,6 @@ static DocumentModeManager *S_sharedInstance=nil;
     // reload all modes
     [I_modeBundles                removeAllObjects];
     [I_documentModesByIdentifier  removeAllObjects];
-    [I_modeIdentifiersByExtension removeAllObjects];
-    [I_modeIdentifiersByFilename removeAllObjects];
-    [I_modeIdentifiersByRegex removeAllObjects];
     [self TCM_findModes];
     [[NSNotificationCenter defaultCenter] postNotificationName:@"DocumentModeListChanged" object:self];
     
@@ -452,18 +443,20 @@ static DocumentModeManager *S_sharedInstance=nil;
     [self revalidatePrecedences];
 }
 
-- (void) resolveAllDependenciesForMode:(DocumentMode *) aMode {
-    I_dependencyQueue = [NSMutableDictionary new];
-    [I_dependencyQueue setObject:@"queued" forKey:[[aMode syntaxDefinition] name]];
-    NSEnumerator *enumerator = [[[[aMode syntaxDefinition] importedModes] allKeys] objectEnumerator];
-    id modeName;
-    while ((modeName = [enumerator nextObject])) {
-        if (![I_dependencyQueue objectForKey:modeName]) {
-            [self documentModeForIdentifier:modeName];
-            [I_dependencyQueue setObject:@"queued" forKey:modeName];
+- (void)resolveAllDependenciesForMode:(DocumentMode *)aMode {
+    if (aMode) {
+        I_dependencyQueue = [NSMutableDictionary new];
+        [I_dependencyQueue setObject:@"queued" forKey:[[aMode syntaxDefinition] name]];
+        NSEnumerator *enumerator = [[[[aMode syntaxDefinition] importedModes] allKeys] objectEnumerator];
+        id modeName;
+        while ((modeName = [enumerator nextObject])) {
+            if (![I_dependencyQueue objectForKey:modeName]) {
+                [self documentModeForIdentifier:modeName];
+                [I_dependencyQueue setObject:@"queued" forKey:modeName];
+            }
         }
+        [I_dependencyQueue release];
     }
-    [I_dependencyQueue release];
 }
 
 - (NSString *)description {

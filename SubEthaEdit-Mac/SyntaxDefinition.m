@@ -10,6 +10,7 @@
 #import "SyntaxDefinition.h"
 #import "NSColorTCMAdditions.h"
 #import "TCMFoundation.h"
+#import "SyntaxHighlighter.h"
 
 
 @implementation SyntaxDefinition
@@ -203,7 +204,7 @@
     NSString *stateID = [NSString stringWithFormat:@"/%@/%@", [self name], [aDictionary objectForKey:@"id"]];
     if (stateID) {
         [aDictionary setObject:stateID forKey:@"id"];
-        [aDictionary setObject:stateID forKey:@"styleID"];
+        [aDictionary setObject:stateID forKey:kSyntaxHighlightingStyleIDAttributeName];
     }
 }
 
@@ -214,36 +215,42 @@
     
     [self addAttributes:[stateNode attributes] toDictionary:stateDictionary];
 
-    // Parse and prepare begin/end
-    NSString *regexBegin = [[[stateNode nodesForXPath:@"./begin/regex" error:&err] lastObject] stringValue];
-    NSString *stringBegin = [[[stateNode nodesForXPath:@"./begin/string" error:&err] lastObject] stringValue];
-    NSString *regexEnd = [[[stateNode nodesForXPath:@"./end/regex" error:&err] lastObject] stringValue];
-    NSString *stringEnd = [[[stateNode nodesForXPath:@"./end/string" error:&err] lastObject] stringValue];
+    BOOL isContainerState = [[[stateNode attributeForName:@"containerState"] stringValue] isEqualToString:@"yes"];
 
-    if (regexBegin) {
-        // Begins get compiled later en-block, so just store a string now.
-        [stateDictionary setObject:regexBegin forKey:@"BeginsWithRegexString"];
-    } else if (stringBegin) {
-        [stateDictionary setObject:stringBegin forKey:@"BeginsWithPlainString"];
+    if (isContainerState) {
+        [stateDictionary setObject:@"yes" forKey:@"containerState"];
     } else {
-		if (![name isEqualToString:@"default"])
-		[self showWarning:NSLocalizedString(@"XML Structure Error",@"XML Structure Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"State '%@' in %@ mode has no begin tag",@"Syntax State No Begin Error Informative Text"), [stateDictionary objectForKey:@"id"], [self name]]];
-    }
-
-    if (regexEnd) {
-        OGRegularExpression *endRegex;
-        if ([OGRegularExpression isValidExpressionString:regexEnd]) {
-            if ((endRegex = [[[OGRegularExpression alloc] initWithString:regexEnd options:OgreFindNotEmptyOption] autorelease]))
-                [stateDictionary setObject:endRegex forKey:@"EndsWithRegex"];
-                [stateDictionary setObject:regexEnd forKey:@"EndsWithRegexString"];
+        // Parse and prepare begin/end
+        NSString *regexBegin = [[[stateNode nodesForXPath:@"./begin/regex" error:&err] lastObject] stringValue];
+        NSString *stringBegin = [[[stateNode nodesForXPath:@"./begin/string" error:&err] lastObject] stringValue];
+        NSString *regexEnd = [[[stateNode nodesForXPath:@"./end/regex" error:&err] lastObject] stringValue];
+        NSString *stringEnd = [[[stateNode nodesForXPath:@"./end/string" error:&err] lastObject] stringValue];
+        
+        if (regexBegin) {
+            // Begins get compiled later en-block, so just store a string now.
+            [stateDictionary setObject:regexBegin forKey:@"BeginsWithRegexString"];
+        } else if (stringBegin) {
+            [stateDictionary setObject:stringBegin forKey:@"BeginsWithPlainString"];
         } else {
-			[self showWarning:NSLocalizedString(@"XML Regex Error",@"XML Regex Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"State '%@' in %@ mode has a begin tag that is not a valid regex",@"Syntax State Malformed Begin Error Informative Text"), [stateDictionary objectForKey:@"id"], [self name]]];
+            if (![name isEqualToString:@"default"])
+                [self showWarning:NSLocalizedString(@"XML Structure Error",@"XML Structure Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"State '%@' in %@ mode has no begin tag",@"Syntax State No Begin Error Informative Text"), [stateDictionary objectForKey:@"id"], [self name]]];
         }
-    } else if (stringEnd) {
-        [stateDictionary setObject:stringEnd forKey:@"EndsWithPlainString"];
-    } else {
-		if (![name isEqualToString:@"default"])
-		[self showWarning:NSLocalizedString(@"XML Structure Error",@"XML Structure Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"State '%@' in %@ mode has no end tag",@"Syntax State No End Error Informative Text"), [stateDictionary objectForKey:@"id"], [self name]]];
+        
+        if (regexEnd) {
+            OGRegularExpression *endRegex;
+            if ([OGRegularExpression isValidExpressionString:regexEnd]) {
+                if ((endRegex = [[[OGRegularExpression alloc] initWithString:regexEnd options:OgreFindNotEmptyOption] autorelease]))
+                    [stateDictionary setObject:endRegex forKey:@"EndsWithRegex"];
+                [stateDictionary setObject:regexEnd forKey:@"EndsWithRegexString"];
+            } else {
+                [self showWarning:NSLocalizedString(@"XML Regex Error",@"XML Regex Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"State '%@' in %@ mode has a begin tag that is not a valid regex",@"Syntax State Malformed Begin Error Informative Text"), [stateDictionary objectForKey:@"id"], [self name]]];
+            }
+        } else if (stringEnd) {
+            [stateDictionary setObject:stringEnd forKey:@"EndsWithPlainString"];
+        } else {
+            if (![name isEqualToString:@"default"])
+                [self showWarning:NSLocalizedString(@"XML Structure Error",@"XML Structure Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"State '%@' in %@ mode has no end tag",@"Syntax State No End Error Informative Text"), [stateDictionary objectForKey:@"id"], [self name]]];
+        }
     }
 
     // Add keywords
@@ -288,82 +295,76 @@
     
     if ([name isEqualToString:@"default"]) {        
         [stateDictionary setObject:[NSString stringWithFormat:@"/%@/%@", [self name], SyntaxStyleBaseIdentifier] forKey:@"id"];
-        [stateDictionary setObject:SyntaxStyleBaseIdentifier forKey:@"styleID"];
+        [stateDictionary setObject:SyntaxStyleBaseIdentifier forKey:kSyntaxHighlightingStyleIDAttributeName];
         [I_defaultState addEntriesFromDictionary:stateDictionary];
     } else {
         if (![aState objectForKey:@"states"]) [aState setObject:[NSMutableArray array] forKey:@"states"];
         [[aState objectForKey:@"states"] addObject:stateDictionary];
     }
 
-    //Recursive descent into sub-states
-    
-    NSArray *subStates = [stateNode nodesForXPath:@"./state" error:&err];
-    if ([subStates count]>0) {
-        [stateDictionary setObject:[NSMutableArray array] forKey:@"states"];
-        NSEnumerator *subStateEnumerator = [subStates objectEnumerator];
-        id subState;
-        while ((subState = [subStateEnumerator nextObject])) {
-            [self parseState:subState addToState:stateDictionary];           
-        }
-    }
-	
-	NSString *symbolsFromMode = [[stateNode attributeForName:@"usesymbolsfrommode"] stringValue];
+    // Set symbols and autocomplete hints
+
+    NSString *symbolsFromMode = [[stateNode attributeForName:@"usesymbolsfrommode"] stringValue];
 	if (symbolsFromMode) [stateDictionary setObject:symbolsFromMode forKey:@"switchtosymbolsfrommode"];
 	
 	NSString *autocompleteFromMode = [[stateNode attributeForName:@"useautocompletefrommode"] stringValue];
 	if (autocompleteFromMode) [stateDictionary setObject:symbolsFromMode forKey:@"switchtoautocompletefrommode"];
-	
-	//Weak-link to imported states, for later copying
     
-    NSArray *importedStates = [stateNode nodesForXPath:@"./import" error:&err];
-    if ([importedStates count]>0) {
+    // Get all nodes and preserve order
+    NSArray *allStateNodes = [stateNode nodesForXPath:@"./state | ./import | ./state-link" error:&err];
+    NSEnumerator *allStateNodesEnumerator = [allStateNodes objectEnumerator];
+    id nextState;
+    while ((nextState = [allStateNodesEnumerator nextObject])) {
+        NSString *nodeName = [nextState name];
         if (![stateDictionary objectForKey:@"states"]) [stateDictionary setObject:[NSMutableArray array] forKey:@"states"];
+     
+        if ([nodeName isEqualToString:@"state"]) {  //Recursive descent into sub-states
+            [self parseState:nextState addToState:stateDictionary];           
+        } 
+        else if ([nodeName isEqualToString:@"import"]) //Weak-link to imported states, for later copying
+        {  
+            NSMutableDictionary *weaklinks = [stateDictionary objectForKey:@"imports"];
+            if (!weaklinks) {
+                weaklinks = [NSMutableDictionary dictionary];
+                [stateDictionary setObject:weaklinks forKey:@"imports"];
+                
+            }
 
-        NSMutableDictionary *weaklinks = [NSMutableDictionary dictionary];
-        [stateDictionary setObject:weaklinks forKey:@"imports"];
-        NSEnumerator *importedStateEnumerator = [importedStates objectEnumerator];
-        NSXMLElement *import;
-        while ((import = [importedStateEnumerator nextObject])) {
             NSString *importMode, *importState;
-            importMode = [[import attributeForName:@"mode"] stringValue];
-			if (!importMode) importMode = [self name];
-				
-			importState = [[import attributeForName:@"state"] stringValue];
-			if (!importState) importState = SyntaxStyleBaseIdentifier;
-						
-			NSString *importName = [NSString stringWithFormat:@"/%@/%@", importMode, importState];
-							
-			[I_importedModes setObject:@"import" forKey:importMode];
-			[weaklinks setObject:import forKey:importName];
-        }
-    }
+            importMode = [[nextState attributeForName:@"mode"] stringValue];
+            if (!importMode) importMode = [self name];
+            
+            importState = [[nextState attributeForName:@"state"] stringValue];
+            if (!importState) importState = SyntaxStyleBaseIdentifier;
+            
+            NSString *importName = [NSString stringWithFormat:@"/%@/%@", importMode, importState];
+            
+            [I_importedModes setObject:@"import" forKey:importMode];
+            [weaklinks setObject:nextState forKey:importName];
+            
+        } 
+        else if ([nodeName isEqualToString:@"state-link"]) 	// Hard-link state-links
+        {
+            NSMutableArray *hardlinks = [stateDictionary objectForKey:@"links"];
+            if (!hardlinks) {
+                hardlinks = [NSMutableArray array];
+                [stateDictionary setObject:hardlinks forKey:@"links"];
+            }
 
-	// Hard-link state-links
-    NSArray *linkedStates = [stateNode nodesForXPath:@"./state-link" error:&err];
-    if ([linkedStates count]>0) {
-        if (![stateDictionary objectForKey:@"states"]) [stateDictionary setObject:[NSMutableArray array] forKey:@"states"];
-        NSMutableArray *hardlinks = [NSMutableArray array];
-        [stateDictionary setObject:hardlinks forKey:@"links"];
-        NSEnumerator *linkedStateEnumerator = [linkedStates objectEnumerator];
-        NSXMLElement *link;
-
-        while ((link = [linkedStateEnumerator nextObject])) {
             NSString *linkMode, *linkState;
-            linkMode = [[link attributeForName:@"mode"] stringValue];
-			if (!linkMode) linkMode = [self name];
-			
-			linkState = [[link attributeForName:@"state"] stringValue];
-			
-			if (linkState) {
-				NSString *linkName = [NSString stringWithFormat:@"/%@/%@", linkMode, linkState];
-				[hardlinks addObject:linkName];
-				[I_importedModes setObject:@"import" forKey:linkMode];
-				[[stateDictionary objectForKey:@"states"] addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:linkName, @"id", @"yes", @"hardlink", [stateDictionary objectForKey:@"id"], @"parentState", nil]];
-			}
-			
-		}
-	}
-	
+            linkMode = [[nextState attributeForName:@"mode"] stringValue];
+            if (!linkMode) linkMode = [self name];
+            
+            linkState = [[nextState attributeForName:@"state"] stringValue];
+            
+            if (linkState) {
+                NSString *linkName = [NSString stringWithFormat:@"/%@/%@", linkMode, linkState];
+                [hardlinks addObject:linkName];
+                [I_importedModes setObject:@"import" forKey:linkMode];
+                [[stateDictionary objectForKey:@"states"] addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:linkName, @"id", @"yes", @"hardlink", [stateDictionary objectForKey:@"id"], @"parentState", nil]];
+            }
+        }        
+    }
 	
     // Put the stuff into the dictionary
 
@@ -399,7 +400,7 @@
             [I_stylesForRegex setObject:newRegExArray forKey:[state objectForKey:@"id"]];
         
             while ((keywordGroup = [groupEnumerator nextObject])) {
-                NSString *styleID=[keywordGroup objectForKey:@"styleID"];
+                NSString *styleID=[keywordGroup objectForKey:kSyntaxHighlightingStyleIDAttributeName];
                 
                 // First do the plainstring stuff
                 
@@ -542,17 +543,26 @@
 
 // Calculate inheritances recursivly
 - (void) calculateSymbolInheritanceForState:(NSMutableDictionary *)state inheritedSymbols:(NSString *)oldSymbols inheritedAutocomplete:(NSString *)oldAutocomplete {
-	NSString *symbols = oldSymbols;
-	NSString *autocomplete = oldAutocomplete;
+	NSString *symbols = nil;
+	NSString *autocomplete = nil;
 	
-	if ([state objectForKey:@"switchtosymbolsfrommode"]) symbols = [state objectForKey:@"switchtosymbolsfrommode"];
-	if ([state objectForKey:@"switchtoautocompletefrommode"]) autocomplete = [state objectForKey:@"switchtoautocompletefrommode"];
+	if ([state objectForKey:@"switchtosymbolsfrommode"]) symbols = [[[state objectForKey:@"switchtosymbolsfrommode"] copy] autorelease];
+    else symbols = [[oldSymbols copy] autorelease];
+	if ([state objectForKey:@"switchtoautocompletefrommode"]) autocomplete = [[[state objectForKey:@"switchtoautocompletefrommode"] copy] autorelease];
+    else autocomplete = [[oldAutocomplete copy] autorelease];
+    
 
-	[state setObject:symbols forKey:[self keyForInheritedSymbols]];
-	[state setObject:autocomplete forKey:[self keyForInheritedAutocomplete]];
-	
-	//NSLog(@"%@ calculated %@, Sym:%@, Auto:%@", [self name], [state objectForKey:@"id"], [state objectForKey:[self keyForInheritedSymbols]],[state objectForKey:[self keyForInheritedAutocomplete]]);
-	
+    BOOL isLinked = ([state objectForKey:@"hardlink"]!=nil);
+    state = [self stateForID:[state objectForKey:@"id"]];
+    BOOL isLocal = [[[[state objectForKey:@"id"] componentsSeparatedByString:@"/"] objectAtIndex:1] isEqualToString:[self name]];
+    
+    if (!(isLocal&&isLinked)) // If it's a local state, then resolve in the non-linked instance.
+    {
+        if (![state objectForKey:[self keyForInheritedSymbols]]) [state setObject:symbols forKey:[self keyForInheritedSymbols]];
+        if (![state objectForKey:[self keyForInheritedAutocomplete]]) [state setObject:autocomplete forKey:[self keyForInheritedAutocomplete]];
+        //NSLog(@"%@ calculated %@, Sym:%@, Auto:%@", [self name], [state objectForKey:@"id"], [state objectForKey:[self keyForInheritedSymbols]],[state objectForKey:[self keyForInheritedAutocomplete]]);	
+    } 
+        
 	NSEnumerator *enumerator = [[state objectForKey:@"states"] objectEnumerator];
     id childState;
     while ((childState = [enumerator nextObject])) {
@@ -573,7 +583,7 @@
 	//NSLog(@"foo: %@", [I_defaultSyntaxStyle allKeys]);
 }
 
-- (NSDictionary *)stateForID:(NSString *)aString {
+- (NSMutableDictionary *)stateForID:(NSString *)aString {
     if (!I_combinedStateRegexReady && !I_combinedStateRegexCalculating) [self getReady];
 	NSArray *components = [aString componentsSeparatedByString:@"/"];
 	NSString *modeName = [components objectAtIndex:1];
@@ -589,11 +599,11 @@
 - (int)levelForStyleID:(NSString *)aStyleID currentLevel:(int)aLevel maxLevel:(int)aMaxLevel inState:(NSDictionary *)aState {
     if (aMaxLevel == aLevel) return aLevel;
     aState = [self stateForID:[aState objectForKey:@"id"]];
-    if ([[aState objectForKey:@"styleID"] isEqualToString:aStyleID]) return aLevel;
+    if ([[aState objectForKey:kSyntaxHighlightingStyleIDAttributeName] isEqualToString:aStyleID]) return aLevel;
     NSEnumerator *keywordGroups = [[aState objectForKey:@"KeywordGroups"] objectEnumerator];
     NSDictionary *keywordGroup = nil;
     while ((keywordGroup=[keywordGroups nextObject])) {
-        if ([[keywordGroup objectForKey:@"styleID"] isEqualToString:aStyleID]) {
+        if ([[keywordGroup objectForKey:kSyntaxHighlightingStyleIDAttributeName] isEqualToString:aStyleID]) {
             return aLevel;
         }
     }
@@ -601,7 +611,7 @@
     NSDictionary *subState = nil;
     if (!subStates) return aLevel;
     while ((subState=[subStates nextObject])) {
-        if ([[subState objectForKey:@"styleID"] isEqualToString:aStyleID]) return aLevel;
+        if ([[subState objectForKey:kSyntaxHighlightingStyleIDAttributeName] isEqualToString:aStyleID]) return aLevel;
     }
 
     int result = aMaxLevel;
@@ -675,7 +685,7 @@
 
 - (void)addStyleIDsFromState:(NSDictionary *)aState {
 	aState = [self stateForID:[aState objectForKey:@"id"]]; // Refetch state to be sure to get the orignal and not a weak-link zombie
-	if (![aState objectForKey:@"styleID"]) return;
+	if (![aState objectForKey:kSyntaxHighlightingStyleIDAttributeName]) return;
     [I_defaultSyntaxStyle takeValuesFromDictionary:aState];
     NSEnumerator *keywords = [[aState objectForKey:@"KeywordGroups"] objectEnumerator];
     id keyword;
@@ -686,7 +696,7 @@
     NSEnumerator *subStates = [[aState objectForKey:@"states"] objectEnumerator];
     id subState;
     while ((subState = [subStates nextObject])) {
-        if ((![I_defaultSyntaxStyle styleForKey:[subState objectForKey:@"styleID"]])&&(![[aState objectForKey:@"id"] isEqualToString:[subState objectForKey:@"id"]])) [self addStyleIDsFromState:[self stateForID:[subState objectForKey:@"id"]]];
+        if ((![I_defaultSyntaxStyle styleForKey:[subState objectForKey:kSyntaxHighlightingStyleIDAttributeName]])&&(![[aState objectForKey:@"id"] isEqualToString:[subState objectForKey:@"id"]])) [self addStyleIDsFromState:[self stateForID:[subState objectForKey:@"id"]]];
     }
     
 }
@@ -746,10 +756,12 @@
 					[aDictionary setObject:[linkedState objectForKey:@"EndsWithRegexString"] forKey:@"EndsWithRegexString"];
 				if ([linkedState objectForKey:@"EndsWithPlainString"])
 					[aDictionary setObject:[linkedState objectForKey:@"EndsWithPlainString"] forKey:@"EndsWithPlainString"];
-				if ([linkedState objectForKey:@"styleID"])
-					[aDictionary setObject:[linkedState objectForKey:@"styleID"] forKey:@"styleID"];
+				if ([linkedState objectForKey:kSyntaxHighlightingStyleIDAttributeName])
+					[aDictionary setObject:[linkedState objectForKey:kSyntaxHighlightingStyleIDAttributeName] forKey:kSyntaxHighlightingStyleIDAttributeName];
 				if ([linkedState objectForKey:@"type"])
 					[aDictionary setObject:[linkedState objectForKey:@"type"] forKey:@"type"];
+                if ([linkedState objectForKey:@"containerState"])
+					[aDictionary setObject:[linkedState objectForKey:@"containerState"] forKey:@"containerState"];
             }
 		}
 		
@@ -766,6 +778,8 @@
             [testForGroups release];
         } else if ((beginString = [aDictionary objectForKey:@"BeginsWithPlainString"])) {
             DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found plain string state start:%@",beginString);
+        } else if ([aDictionary objectForKey:@"containerState"]) {
+            DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found a container state");
         } else {
 			[self showWarning:NSLocalizedString(@"XML Structure Error",@"XML Structure Error Title") withDescription:[NSString stringWithFormat:NSLocalizedString(@"<state> \"%@\" has no <begin>. This confuses me. Please check your syntax definition.",@"Syntax XML Structure Error Informative Text"),[aDictionary objectForKey:@"id"]]];
         }

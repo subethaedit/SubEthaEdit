@@ -1,4 +1,38 @@
 
+SubEthaEdit 3.2
+===============
+
+Neue Funktionen:
+- Objective-J Modus hinzugefügt
+- Die Symbol-Erkennung erkennt jetzt optional auch Symbole in Kommentaren.
+
+Veränderugen:
+- Die Geschwindigkeit der Syntaxeinfärbung wurde optimiert
+- Die Geschwindigkeit der Syntaxeinfärbung für Dokumente mit sehr, sehr langen 
+  Zeilen wurde massiv verbessert.
+- Sparkle wurde aktualisiert.
+- PHP Modus wurde verbessert.
+- Perl Modus wurde verbessert.
+- CSS Modus wurde verbessert.
+- Javascript Modus wurde verbessert.
+- Lassoscript Modus wurde verbessert.
+- Cold Fusion Modus wurde verbessert.
+- Objective-C Modus wurde verbessert (jetzt mit UIKit).
+
+Korrekturen:
+- Ein Problem mit der Automatischen Port Weiterleitung wurde behoben, welches 
+  mit manchen Routern auftrat. Ebenso wurden weitere Router unterstützt. Mehr 
+  Details hierzu kann in den Versionsinformationen der Port Map Application 
+  (http://www.codingmonkeys.de/portmap/) in Erfahrung gebracht werden..
+- Die Farbe des Mauszeigers ist nun auch unter Leopard weiß, wenn ein dunkler 
+  Hintergrund verwendet wird.
+- Mehrere Fehler die unter Umständen zu Abstürzen führen konnten, wurden 
+  behoben.
+- Fehler des Syntax Parsers im Zusammenhang mit Symbolen und der 
+  Autovervollständigung wurden behoben.
+- Verschiedene kleine Fehlerkorrekturen.
+
+
 SubEthaEdit 3.1
 ===============
 

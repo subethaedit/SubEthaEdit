@@ -1,76 +1,169 @@
-{
-    IBClasses = (
-        {
-            CLASS = Document; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {encodingAccessory = id; encodingPopupButton = id; ignoreRichTextButton = id; }; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {CLASS = DocumentModeMenu; LANGUAGE = ObjC; SUPERCLASS = NSMenu; }, 
-        {
-            CLASS = DocumentModePopUpButton; 
-            LANGUAGE = ObjC; 
-            SUPERCLASS = NSPopUpButton; 
-        }, 
-        {
-            ACTIONS = {
-                clearAll = id; 
-                encodingListChanged = id; 
-                revertToDefault = id; 
-                selectAll = id; 
-                selectedEncoding = id; 
-                showPanel = id; 
-            }; 
-            CLASS = EncodingManager; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                encodingAccessory = NSView; 
-                encodingMatrix = NSMatrix; 
-                encodingPopupButton = EncodingPopUpButton; 
-                ignoreRichTextButton = NSButton; 
-            }; 
-            SUPERCLASS = NSObject; 
-        }, 
-        {CLASS = EncodingMenu; LANGUAGE = ObjC; SUPERCLASS = NSMenu; }, 
-        {CLASS = EncodingPopUpButton; LANGUAGE = ObjC; SUPERCLASS = NSPopUpButton; }, 
-        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
-        {CLASS = NSTextView; LANGUAGE = ObjC; SUPERCLASS = NSText; }, 
-        {
-            ACTIONS = {
-                cancelExport = id; 
-                changeFontViaPanel = id; 
-                chooseLineEndings = id; 
-                clearChangeMarks = id; 
-                continueExport = id; 
-                convertLineEndings = id; 
-                exportDocument = id; 
-                goIntoBundles = id; 
-                newView = id; 
-                selectFileFormat = id; 
-                showHiddenFiles = id; 
-                showWebPreview = id; 
-                toggleIsAnnounced = id; 
-                toggleSyntaxHighlighting = id; 
-            }; 
-            CLASS = PlainTextDocument; 
-            LANGUAGE = ObjC; 
-            OUTLETS = {
-                "O_encodingPopUpButton" = EncodingPopUpButton; 
-                "O_exportSheet" = NSWindow; 
-                "O_exportSheetController" = NSObjectController; 
-                "O_goIntoBundlesCheckbox" = NSButton; 
-                "O_goIntoBundlesCheckbox2" = NSButton; 
-                "O_printOptionController" = NSObjectController; 
-                "O_printOptionView" = NSView; 
-                "O_savePanelAccessoryFileFormatMatrix" = NSMatrix; 
-                "O_savePanelAccessoryFileFormatMatrix2" = NSMatrix; 
-                "O_savePanelAccessoryView" = NSView; 
-                "O_savePanelAccessoryView2" = NSView; 
-                "O_showHiddenFilesCheckbox" = NSButton; 
-                "O_showHiddenFilesCheckbox2" = NSButton; 
-            }; 
-            SUPERCLASS = NSDocument; 
-        }
-    ); 
-    IBVersion = 1; 
-}
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IBClasses</key>
+	<array>
+		<dict>
+			<key>CLASS</key>
+			<string>EncodingPopUpButton</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSPopUpButton</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSApplication</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSMenu</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>hostDidResolveAddress</key>
+				<string>TCMHost</string>
+				<key>hostDidResolveName</key>
+				<string>TCMHost</string>
+			</dict>
+			<key>CLASS</key>
+			<string>NSObject</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSWindow</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSResponder</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSDocument</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>NSMenuItem</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>TCMHost</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>I_delegate</key>
+				<string>id</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+		<dict>
+			<key>ACTIONS</key>
+			<dict>
+				<key>cancelExport</key>
+				<string>id</string>
+				<key>changeFontViaPanel</key>
+				<string>id</string>
+				<key>changePendingUsersAccess</key>
+				<string>id</string>
+				<key>changePendingUsersAccessOnAllDocuments</key>
+				<string>id</string>
+				<key>chooseLineEndings</key>
+				<string>id</string>
+				<key>clearChangeMarks</key>
+				<string>id</string>
+				<key>continueExport</key>
+				<string>id</string>
+				<key>convertLineEndings</key>
+				<string>id</string>
+				<key>exportDocument</key>
+				<string>id</string>
+				<key>goIntoBundles</key>
+				<string>id</string>
+				<key>newView</key>
+				<string>id</string>
+				<key>restoreChangeMarks</key>
+				<string>id</string>
+				<key>selectFileFormat</key>
+				<string>id</string>
+				<key>showHiddenFiles</key>
+				<string>id</string>
+				<key>showWebPreview</key>
+				<string>id</string>
+				<key>toggleIsAnnounced</key>
+				<string>id</string>
+				<key>toggleIsAnnouncedOnAllDocuments</key>
+				<string>id</string>
+				<key>toggleSyntaxHighlighting</key>
+				<string>id</string>
+			</dict>
+			<key>CLASS</key>
+			<string>PlainTextDocument</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>OUTLETS</key>
+			<dict>
+				<key>O_encodingPopUpButton</key>
+				<string>EncodingPopUpButton</string>
+				<key>O_exportSheet</key>
+				<string>NSWindow</string>
+				<key>O_exportSheetController</key>
+				<string>NSObjectController</string>
+				<key>O_goIntoBundlesCheckbox</key>
+				<string>NSButton</string>
+				<key>O_goIntoBundlesCheckbox2</key>
+				<string>NSButton</string>
+				<key>O_printOptionController</key>
+				<string>NSObjectController</string>
+				<key>O_printOptionView</key>
+				<string>NSView</string>
+				<key>O_savePanelAccessoryFileFormatMatrix</key>
+				<string>NSMatrix</string>
+				<key>O_savePanelAccessoryFileFormatMatrix2</key>
+				<string>NSMatrix</string>
+				<key>O_savePanelAccessoryView</key>
+				<string>NSView</string>
+				<key>O_savePanelAccessoryView2</key>
+				<string>NSView</string>
+				<key>O_showHiddenFilesCheckbox</key>
+				<string>NSButton</string>
+				<key>O_showHiddenFilesCheckbox2</key>
+				<string>NSButton</string>
+			</dict>
+			<key>SUPERCLASS</key>
+			<string>NSDocument</string>
+		</dict>
+		<dict>
+			<key>CLASS</key>
+			<string>FirstResponder</string>
+			<key>LANGUAGE</key>
+			<string>ObjC</string>
+			<key>SUPERCLASS</key>
+			<string>NSObject</string>
+		</dict>
+	</array>
+	<key>IBVersion</key>
+	<string>1</string>
+</dict>
+</plist>

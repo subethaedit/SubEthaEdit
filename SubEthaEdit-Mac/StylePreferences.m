@@ -14,6 +14,7 @@
 #import "TextFieldCell.h"
 #import "GeneralPreferences.h"
 #import "OverlayView.h"
+#import "SyntaxHighlighter.h"
 
 @implementation StylePreferences
 
@@ -91,7 +92,7 @@
                                      [styleBox frame].size.width,[styleBox frame].size.height);
         windowRect=NSInsetRect(windowRect,-2,-2);
     
-        OverlayView *view=[[OverlayView alloc] initWithFrame:[styleBox frame]];
+        OverlayView *view=[[[OverlayView alloc] initWithFrame:[styleBox frame]] autorelease];
         [view setDelegate:self];
         [view setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
         [styleBox addSubview:view positioned:NSWindowBelow relativeTo:nil];
@@ -455,7 +456,7 @@
     NSEnumerator *selectedStyles=[self selectedStylesEnumerator];
     SyntaxStyle *defaultStyle=[[O_modePopUpButton selectedMode] defaultSyntaxStyle];
     while ((style=[selectedStyles nextObject])) {
-        [style addEntriesFromDictionary:[defaultStyle styleForKey:[style objectForKey:@"styleID"]]];
+        [style addEntriesFromDictionary:[defaultStyle styleForKey:[style objectForKey:kSyntaxHighlightingStyleIDAttributeName]]];
     }
     [O_stylesTableView reloadData];
     [self updateInspector];
