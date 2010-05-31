@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+    <recognition>
+        <extension>py</extension>
+        <extension>pw</extension>
+        <extension>pyw</extension>
+        <extension>python</extension>
+        <regex>\A#!/usr/bin/(env )?python</regex>
+    </recognition>
+</settings>

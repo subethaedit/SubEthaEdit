@@ -1,0 +1,67 @@
+DESCRIPTION
+
+The seed file management profile allows remote file management of a seed server.  clients can connect to the server to:
+- list files
+- show file attributes
+- change file attributes
+- open files
+- create files
+- close files
+- save files
+- delete files
+- get informend when files change
+
+
+This Profile is directional - only the client can connect to the server.
+
+--------------------------------------------------------------------------------
+DATA TYPES
+
+FILE REPRESENTATION:
+a file Representation is a dictionary
+{ FilePath = "foo.txt", (relative to document root)
+  FileID   = a UUID represented as STRING,
+  ChangeCount = a number that will increase with every change made on the file (excluding file size and edits inside the file),
+  IsAnnounced = BOOL as int if file is Announced,
+  AccessState = 0 == locked, 1 == read only, 2 == read/write,
+  Encoding = IANA Charset Name
+}
+
+--------------------------------------------------------------------------------
+MESSAGES SENT BY THE CLIENT
+
+FILLST: List files
+after this is received regular FILUPD messages will be sent by the server
+the server then replies with a 
+>FILLST: Directory Contents RPY which contains an Array of file Representations
+
+ATTSET: FileID, Attributes with new values
+When changing the FilePath, if the document exists as real file on the server the file is moved to the new path
+the server then replies with a
+>SETACK: which contains a file Representation with the most recent state of the file
+>SETFAI: 
+
+FILNEW: string with partial filepath, encoding, mode
+>NEWACK or
+>NEWFAI
+
+FILSAV: FileID - saves the file
+>SAVACK or
+>SAVFAI
+
+FILREM: FileID - removes the file (also from disk if it was saved / from disk)
+>REMACK
+>REMFAI
+
+ATTGET: get file attributes (doesn't seem to be needed if FILLST and FILUPD work...)
+attached data: a dictionary where the key FileID holds the FileID of the requested File
+the server then replies with a
+>FILREP: which contains a file Representation with the most recent state of the file
+
+--------------------------------------------------------------------------------
+MESSAGES SENT BY THE SERVER
+
+FILUPD: dictionary with "<FILEID>" => File Representation entries that are sent out when files update. on deletion a <FILEID> => "removed" entry is present.
+>UPDACK: empty
+
+

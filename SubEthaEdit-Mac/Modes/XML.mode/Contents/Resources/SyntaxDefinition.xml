@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "syntax.dtd">
+<syntax>
+
+    <head>
+        <name>XML</name> <!-- The definitions title -->
+        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]></charsintokens> <!-- Valid Characters for Variables -->
+        <!-- <charsdelimitingtokens></charsdelimitingtokens> -->
+    </head>
+
+    <states>
+    
+        <default id="Base" color="#000" background-color="#fff" font-style="normal">
+        
+            <keywords id="Entities" color="#881280" useforautocomplete="no">
+                <regex>(&amp;\w{1,8};)</regex>
+                <regex>(&amp;#[0-9]+;)</regex>
+                <regex>(&amp;#x[A-Fa-f0-9]+;)</regex>
+            </keywords>
+
+        <state id="Comment" type="comment" color="#236E25" font-style="italic">
+            <begin><regex>&lt;!--</regex></begin>
+            <end><regex>--&gt;</regex></end>
+            
+            <keywords id="SGML Double Dash" color="#f00" font-weight="bold" useforautocomplete="no">
+                <regex>(?&lt;!\!)(--)(?!&gt;)</regex>
+            </keywords>
+            
+        </state>
+
+        <state id="CDATA" color="#f00" font-style="italic">
+            <begin><regex>&lt;!\s*\[CDATA\s*\[</regex></begin>
+            <end><regex>\]\s*\]\s*&gt;</regex></end>
+        </state>
+        
+        <state id="Doctype" color="#236E25" font-style="italic">
+            <begin><regex>&lt;!</regex></begin>
+            <end><regex>&gt;</regex></end>
+        </state>
+
+        <state id="Escape" color="#236E25" font-style="italic">
+            <begin><regex>&lt;\?</regex></begin>
+            <end><regex>\?&gt;</regex></end>
+        </state>
+
+        <state id="Tags" color="#881280" font-style="italic">
+            <begin><regex>&lt;</regex></begin>
+            <end><regex>&gt;</regex></end>
+
+            <state id="Strings in Tags" type="string" color="#1A1AA6" useforautocomplete="no">
+                <begin><regex>"</regex></begin>
+                <end><regex>"</regex></end>
+            </state>
+            
+            <keywords id="Attributes in Tags" color="#994500" useforautocomplete="no">
+                <regex>([\w-]*)(?=[ \t]*=)</regex>
+            </keywords>
+
+        </state>
+        
+        </default>
+
+    </states>
+
+</syntax>

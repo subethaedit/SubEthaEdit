@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+    <recognition>
+        <extension>rb</extension>
+        <extension>ruby</extension>
+        <extension>rbx</extension>
+        <extension>rxml</extension>
+        <filename>Rakefile</filename>
+        <regex>\A#!/usr/bin/(env )?ruby</regex>
+    </recognition>
+</settings>

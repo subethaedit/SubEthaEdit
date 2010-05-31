@@ -1,0 +1,20 @@
+-->
+<!--
+<!-- -->
+</DOCTYPE>
+<dictionary title="Terminology">
+<suite
+<value-type
+<enumeration
+<property
+<cocoa key=""/>
+<record-type
+<command
+<parameter
+<class
+name=""
+code=""
+description=""
+hidden="yes"
+type=""
+direct-parameter

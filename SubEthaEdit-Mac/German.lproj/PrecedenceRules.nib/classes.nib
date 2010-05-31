@@ -1,0 +1,59 @@
+{
+    IBClasses =     (
+                {
+            CLASS = NSApplication;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSResponder;
+        },
+                {
+            CLASS = NSMenu;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSObject;
+        },
+                {
+            CLASS = NSMenuItem;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSObject;
+        },
+                {
+            ACTIONS =             {
+                hostDidResolveAddress = TCMHost;
+                hostDidResolveName = TCMHost;
+            };
+            CLASS = NSObject;
+            LANGUAGE = ObjC;
+        },
+                {
+            CLASS = PrecedenceRolloverButton;
+            LANGUAGE = ObjC;
+            SUPERCLASS = NSButton;
+        },
+                {
+            ACTIONS =             {
+                removeRule = id;
+                valuesChanged = id;
+            };
+            CLASS = RuleViewController;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                enabledCheckbox = NSButton;
+                preferenceController = id;
+                removeButton = NSButton;
+                stringTextfield = NSTextField;
+                typePopup = NSPopUpButton;
+                view = NSView;
+                warningImageView = NSImageView;
+            };
+            SUPERCLASS = NSObject;
+        },
+                {
+            CLASS = TCMHost;
+            LANGUAGE = ObjC;
+            OUTLETS =             {
+                "I_delegate" = id;
+            };
+            SUPERCLASS = NSObject;
+        }
+    );
+    IBVersion = 1;
+}

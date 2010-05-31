@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+    <template>notes_template.notes</template>
+    <recognition>
+        <extension>notes</extension>
+    </recognition>
+</settings>

@@ -1,0 +1,47 @@
+{
+    IBClasses = (
+        {CLASS = BorderedTextField; LANGUAGE = ObjC; SUPERCLASS = NSTextField; }, 
+        {CLASS = CandyBarView; LANGUAGE = ObjC; SUPERCLASS = NSView; }, 
+        {
+            ACTIONS = {toggleWrapMode = id; }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = NSObject; LANGUAGE = ObjC; }, 
+        {
+            ACTIONS = {
+                jumpToNextChange = id; 
+                jumpToPreviousChange = id; 
+                positionClick = id; 
+                toggleShowsChangeMarks = id; 
+                toggleWrap = id; 
+            }; 
+            CLASS = PlainTextEditor; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "O_bottomStatusBarView" = NSView; 
+                "O_editorView" = NSView; 
+                "O_encodingPopUpButton" = PopUpButton; 
+                "O_lineEndingPopUpButton" = PopUpButton; 
+                "O_modePopUpButton" = PopUpButton; 
+                "O_positionTextField" = NSTextField; 
+                "O_scrollView" = NSScrollView; 
+                "O_symbolPopUpButton" = PopUpButton; 
+                "O_tabStatusPopUpButton" = PopUpButton; 
+                "O_topStatusBarView" = NSView; 
+                "O_waitPipeStatusImageView" = NSImageView; 
+                "O_windowWidthTextField" = NSTextField; 
+                "O_writtenByTextField" = NSTextField; 
+            }; 
+            SUPERCLASS = NSResponder; 
+        }, 
+        {
+            CLASS = PopUpButton; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"I_delegate" = id; }; 
+            SUPERCLASS = NSPopUpButton; 
+        }
+    ); 
+    IBVersion = 1; 
+}

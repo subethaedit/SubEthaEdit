@@ -1,0 +1,253 @@
+{
+    IBClasses = (
+        {
+            CLASS = AboutPanelController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {
+                additionalModes = id; 
+                enterSerialNumber = id; 
+                gotoDocumentation = id; 
+                provideFeedback = id; 
+                purchaseSubEthaEdit = id; 
+                redo = id; 
+                reloadDocumentModes = id; 
+                reportBug = id; 
+                showAcknowledgements = id; 
+                showLicense = id; 
+                showRegExHelp = id; 
+                showReleaseNotes = id; 
+                showUserStatisticsWindow = id; 
+                undo = id; 
+                visitWebsite = id; 
+            }; 
+            CLASS = AppController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"O_licenseTextView" = NSTextView; "O_licenseWindow" = NSWindow; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {
+                clear = id; 
+                connect = id; 
+                setVisibilityByMenuItem = id; 
+                toggleProhibitInboundConnections = id; 
+            }; 
+            CLASS = ConnectionBrowserController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "O_actionPullDownButton" = NSPopUpButton; 
+                "O_addressComboBox" = NSComboBox; 
+                "O_browserListView" = TCMMMBrowserListView; 
+                "O_clearButton" = NSButton; 
+                "O_imageView" = NSImageView; 
+                "O_myNameTextField" = NSTextField; 
+                "O_scrollView" = NSScrollView; 
+                "O_statusPopUpButton" = NSPopUpButton; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {
+                alwaysShowTabBar = id; 
+                cancelModeInstallation = id; 
+                changeModeInstallationDomain = id; 
+                goIntoBundles = id; 
+                installMode = id; 
+                menuValidationNoneAction = id; 
+                openAlternateDocument = id; 
+                openNormalDocument = id; 
+                showHiddenFiles = id; 
+            }; 
+            CLASS = DocumentController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "O_encodingPopUpButton" = EncodingPopUpButton; 
+                "O_goIntoBundlesCheckbox" = NSButton; 
+                "O_modeInstallerDomainMatrix" = NSMatrix; 
+                "O_modeInstallerInformativeTextField" = NSTextField; 
+                "O_modeInstallerMessageTextField" = NSTextField; 
+                "O_modeInstallerPanel" = NSPanel; 
+                "O_modePopUpButton" = DocumentModePopUpButton; 
+                "O_openPanelAccessoryView" = NSView; 
+                "O_showHiddenFilesCheckbox" = NSButton; 
+            }; 
+            SUPERCLASS = NSDocumentController; 
+        }, 
+        {
+            ACTIONS = {
+                chooseTabWidth = id; 
+                findNextAndOrderOut = id; 
+                gotoLine = id; 
+                gotoLineAndClosePanel = id; 
+                orderFrontFindPanel = id; 
+                orderFrontGotoPanel = id; 
+                orderFrontTabWidthPanel = id; 
+                performFindPanelAction = id; 
+                updateRegexDrawer = id; 
+            }; 
+            CLASS = FindReplaceController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "O_findComboBox" = NSComboBox; 
+                "O_findPanel" = NSPanel; 
+                "O_gotoLineTextField" = NSTextField; 
+                "O_gotoPanel" = NSPanel; 
+                "O_ignoreCaseCheckbox" = NSButton; 
+                "O_progressIndicator" = NSProgressIndicator; 
+                "O_regexCaptureGroupsCheckbox" = NSButton; 
+                "O_regexCheckbox" = NSButton; 
+                "O_regexDontCaptureCheckbox" = NSButton; 
+                "O_regexDrawer" = NSDrawer; 
+                "O_regexEscapeCharacter" = NSButton; 
+                "O_regexExtendedCheckbox" = NSButton; 
+                "O_regexFindLongestCheckbox" = NSButton; 
+                "O_regexIgnoreEmptyCheckbox" = NSButton; 
+                "O_regexMultilineCheckbox" = NSButton; 
+                "O_regexNegateSinglelineCheckbox" = NSButton; 
+                "O_regexOptionsView" = NSView; 
+                "O_regexSinglelineCheckbox" = NSButton; 
+                "O_regexSyntaxPopup" = NSPopUpButton; 
+                "O_replaceComboBox" = NSComboBox; 
+                "O_scopePopup" = NSPopUpButton; 
+                "O_statusTextField" = NSTextField; 
+                "O_tabWidthPanel" = NSPanel; 
+                "O_tabWidthTextField" = NSTextField; 
+                "O_wrapAroundCheckbox" = NSButton; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {
+                alwaysShowTabBar = id; 
+                blockeditSelection = id; 
+                changePendingUsersAccess = id; 
+                changePendingUsersAccessOnAllDocuments = id; 
+                changeTabWidth = id; 
+                chooseLineEndings = id; 
+                clearChangeMarks = id; 
+                closeAllDocuments = id; 
+                closeTab = id; 
+                convertLineEndings = id; 
+                copyAsXHTML = id; 
+                copyDocumentURL = id; 
+                copyStyled = id; 
+                detab = id; 
+                endBlockedit = id; 
+                entab = id; 
+                exportDocument = id; 
+                jumpToNextChange = id; 
+                jumpToNextSymbol = id; 
+                jumpToPreviousChange = id; 
+                jumpToPreviousSymbol = id; 
+                mergeAllWindows = id; 
+                newAlternateDocument = id; 
+                newView = id; 
+                openInSeparateWindow = id; 
+                prettyPrintXML = id; 
+                refreshWebPreview = id; 
+                restoreChangeMarks = id; 
+                selectNextTab = id; 
+                selectPreviousTab = id; 
+                selectWrapMode = id; 
+                shiftLeft = id; 
+                shiftRight = id; 
+                showWebPreview = id; 
+                toggleBottomStatusBar = id; 
+                toggleCharacterWrapping = id; 
+                toggleIndentNewLines = id; 
+                toggleIsAnnounced = id; 
+                toggleIsAnnouncedOnAllDocuments = id; 
+                toggleLineNumbers = id; 
+                toggleParticipantsDrawer = id; 
+                toggleShowInvisibles = id; 
+                toggleShowsChangeMarks = id; 
+                toggleSplitView = id; 
+                toggleSyntaxHighlighting = id; 
+                toggleTopStatusBar = id; 
+                toggleUsesTabs = id; 
+                toggleWrap = id; 
+            }; 
+            CLASS = FirstResponder; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {buy = id; cancel = id; ok = id; }; 
+            CLASS = LicenseController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "O_OKButton" = NSButton; 
+                "O_buyButton" = NSButton; 
+                "O_cancelButton" = NSButton; 
+                "O_descriptionField" = NSTextField; 
+                "O_licenseeNameField" = NSTextField; 
+                "O_licenseeOrganizationField" = NSTextField; 
+                "O_purchaseHintField" = NSTextField; 
+                "O_serialNumberField" = NSTextField; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {
+                changePendingUsersAccess = id; 
+                closeParticipantsDrawer = id; 
+                kickButtonAction = id; 
+                openInSeparateWindow = id; 
+                openParticipantsDrawer = id; 
+                readOnlyButtonAction = id; 
+                readWriteButtonAction = id; 
+                toggleLineNumbers = id; 
+                toggleTabBar = id; 
+            }; 
+            CLASS = PlainTextWindowController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "I_documentDialog" = id; 
+                "O_URLImageView" = NSImageView; 
+                "O_actionPullDown" = NSPopUpButton; 
+                "O_kickButton" = NSButton; 
+                "O_participantsDrawer" = NSDrawer; 
+                "O_participantsScrollView" = NSScrollView; 
+                "O_participantsView" = ParticipantsView; 
+                "O_pendingUsersAccessPopUpButton" = NSPopUpButton; 
+                "O_progressIndicator" = NSProgressIndicator; 
+                "O_readOnlyButton" = NSButton; 
+                "O_readWriteButton" = NSButton; 
+                "O_receivingContentView" = NSView; 
+                "O_receivingStatusTextField" = NSTextField; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            ACTIONS = {checkForUpdates = id; }; 
+            CLASS = SUUpdater; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {
+            ACTIONS = {agreeLicense = id; continueDone = id; disagreeLicense = id; goBack = id; }; 
+            CLASS = SetupController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "O_continueButton" = NSButton; 
+                "O_doneTabItem" = NSTabViewItem; 
+                "O_goBackButton" = NSButton; 
+                "O_licenseConfirmationSheet" = NSWindow; 
+                "O_licenseTabItem" = NSTabViewItem; 
+                "O_purchaseTabItem" = NSTabViewItem; 
+                "O_tabView" = NSTabView; 
+                "O_welcomeTabItem" = NSTabViewItem; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            CLASS = TCMPreferenceController; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSWindowController; 
+        }
+    ); 
+    IBVersion = 1; 
+}

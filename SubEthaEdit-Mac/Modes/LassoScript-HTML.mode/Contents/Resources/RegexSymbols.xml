@@ -1,0 +1,234 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "symbol.dtd">
+<symbols>
+    <blocks>
+        <beginregex>{</beginregex>
+        <endregex>}</endregex>
+    </blocks>
+
+    <symbol id="Lasso Custom Tags" font-weight="normal" font-style="normal" image="SymbolF()" indentation="0" ignoreblocks="yes">
+        <regex>^\ *\[?[Dd]efine_[Tt]ag\s*[(:]\s*['"](.*?)['"]</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+
+    <symbol id="Lasso Custom Tags" font-weight="normal" font-style="normal" image="SymbolF()" indentation="1" ignoreblocks="yes">
+        <regex>^\t\[?[Dd]efine_[Tt]ag\s*[(:]\s*['"](.*?)['"]</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+
+    <symbol id="Lasso Custom Tags" font-weight="normal" font-style="normal" image="SymbolF()" indentation="2" ignoreblocks="yes">
+        <regex>^\t{2}\[?[Dd]efine_[Tt]ag\s*[(:]\s*['"](.*?)['"]</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+
+    <symbol id="Lasso Custom Tags" font-weight="normal" font-style="normal" image="SymbolF()" indentation="3" ignoreblocks="yes">
+        <regex>^\t{3}\[?[Dd]efine_[Tt]ag\s*[(:]\s*['"](.*?)['"]</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+
+    <symbol id="Lasso Custom Tags" font-weight="normal" font-style="normal" image="SymbolF()" indentation="4" ignoreblocks="yes">
+        <regex>^\t{4}\[?[Dd]efine_[Tt]ag\s*[(:]\s*['"](.*?)['"]</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+
+    <symbol id="Lasso Custom Tags" font-weight="normal" font-style="normal" image="SymbolF()" indentation="5" ignoreblocks="yes">
+        <regex>^\t{5}\[?[Dd]efine_[Tt]ag\s*[(:]\s*['"](.*?)['"]</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+
+    <symbol id="Lasso Custom Tags" font-weight="normal" font-style="normal" image="SymbolF()" indentation="6" ignoreblocks="yes">
+        <regex>^\t{6}\[?[Dd]efine_[Tt]ag\s*[(:]\s*['"](.*?)['"]</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+
+    <symbol id="Lasso Custom Tags" font-weight="normal" font-style="normal" image="SymbolF()" indentation="7" ignoreblocks="yes">
+        <regex>^\t{7}\[?[Dd]efine_[Tt]ag\s*[(:]\s*['"](.*?)['"]</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+
+    <symbol id="Lasso Custom Tags" font-weight="normal" font-style="normal" image="SymbolF()" indentation="8" ignoreblocks="yes">
+        <regex>^\t{8}\[?[Dd]efine_[Tt]ag\s*[(:]\s*['"](.*?)['"]</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+
+    <symbol id="Lasso Custom Tags" font-weight="normal" font-style="normal" image="SymbolF()" indentation="9" ignoreblocks="yes">
+        <regex>^\t{9}\[?[Dd]efine_[Tt]ag\s*[(:]\s*['"](.*?)['"]</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+
+    <symbol id="Lasso Custom Tags" font-weight="normal" font-style="normal" image="SymbolF()" indentation="10" ignoreblocks="yes">
+        <regex>^\t{10}\[?[Dd]efine_[Tt]ag\s*[(:]\s*['"](.*?)['"]</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+
+    <symbol id="Lasso Custom Types" font-weight="normal" font-style="normal" image="SymbolC" indentation="0" ignoreblocks="yes">
+        <regex>^\ *\[?[Dd]efine_[Tt]ype\s*[(:]\s*['"](.*?)['"]</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+
+    <symbol id="Lasso Custom Types" font-weight="normal" font-style="normal" image="SymbolC" indentation="1" ignoreblocks="yes">
+        <regex>^\t\[?[Dd]efine_[Tt]ype\s*[(:]\s*['"](.*?)['"]</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+
+    <symbol id="Lasso Custom Types" font-weight="normal" font-style="normal" image="SymbolC" indentation="2" ignoreblocks="yes">
+        <regex>^\t{2}\[?[Dd]efine_[Tt]ype\s*[(:]\s*['"](.*?)['"]</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+
+    <symbol id="Lasso Custom Types" font-weight="normal" font-style="normal" image="SymbolC" indentation="3" ignoreblocks="yes">
+        <regex>^\t{3}\[?[Dd]efine_[Tt]ype\s*[(:]\s*['"](.*?)['"]</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+
+    <symbol id="Lasso Custom Types" font-weight="normal" font-style="normal" image="SymbolC" indentation="4" ignoreblocks="yes">
+        <regex>^\t{4}\[?[Dd]efine_[Tt]ype\s*[(:]\s*['"](.*?)['"]</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+
+    <symbol id="Lasso Custom Types" font-weight="normal" font-style="normal" image="SymbolC" indentation="5" ignoreblocks="yes">
+        <regex>^\t{5}\[?[Dd]efine_[Tt]ype\s*[(:]\s*['"](.*?)['"]</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+
+    <symbol id="Lasso Custom Types" font-weight="normal" font-style="normal" image="SymbolC" indentation="6" ignoreblocks="yes">
+        <regex>^\t{6}\[?[Dd]efine_[Tt]ype\s*[(:]\s*['"](.*?)['"]</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+
+    <symbol id="Lasso Custom Types" font-weight="normal" font-style="normal" image="SymbolC" indentation="7" ignoreblocks="yes">
+        <regex>^\t{7}\[?[Dd]efine_[Tt]ype\s*[(:]\s*['"](.*?)['"]</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+
+    <symbol id="Lasso Custom Types" font-weight="normal" font-style="normal" image="SymbolC" indentation="8" ignoreblocks="yes">
+        <regex>^\t{8}\[?[Dd]efine_[Tt]ype\s*[(:]\s*['"](.*?)['"]</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+
+    <symbol id="Lasso Custom Types" font-weight="normal" font-style="normal" image="SymbolC" indentation="9" ignoreblocks="yes">
+        <regex>^\t{9}\[?[Dd]efine_[Tt]ype\s*[(:]\s*['"](.*?)['"]</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+
+    <symbol id="Lasso Custom Types" font-weight="normal" font-style="normal" image="SymbolC" indentation="10" ignoreblocks="yes">
+        <regex>^\t{10}\[?[Dd]efine_[Tt]ype\s*[(:]\s*['"](.*?)['"]</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+
+    <symbol id="Comment Marks" font-weight="normal" indentation="0" ignoreblocks="yes">
+        <regex>//- mark[\t ]*(?:-(?=[\n\r]))?([^\n\r]*)</regex>
+    </symbol>
+
+
+</symbols>

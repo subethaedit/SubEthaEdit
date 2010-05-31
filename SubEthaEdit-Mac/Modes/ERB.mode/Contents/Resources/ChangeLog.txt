@@ -1,0 +1,4 @@
+Changes with Version 1.0 (SEE 2.7)
+
+    *) took ERB mode out of Ruby Mode to include imports
+

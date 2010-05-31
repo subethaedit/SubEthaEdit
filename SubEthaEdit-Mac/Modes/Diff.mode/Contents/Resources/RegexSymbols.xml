@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "symbol.dtd">
+<symbols>
+
+    <symbol id="Index" font-weight="bold" font-style="normal" indentation="0" ignoreblocks="yes" image="SymbolID">
+        <regex>(?&lt;=[\n\r]|^)\+\+\+ \s*([^\n\r]+)</regex>
+    </symbol>
+    <symbol id="Date" font-weight="normal" font-style="italic" indentation="2" ignoreblocks="yes">
+        <regex>(?&lt;=[\n\r]|^)(@@\s*[^\n\r]+)</regex>
+    </symbol>
+
+</symbols>

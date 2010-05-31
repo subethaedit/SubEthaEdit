@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple Computer//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleIdentifier</key>
+	<string>SEEMode.Ruby</string>
+	<key>CFBundleName</key>
+	<string>Ruby</string>
+    <key>NSHumanReadableCopyright</key>
+	<string>© 2004 Jeff Reinecke
+http://www.paploo.net/~paploo
+Based on the original Coding Monkey's code</string>
+    <key>CFBundleShortVersionString</key>
+	<string>3.0</string>
+	<key>CFBundleVersion</key>
+	<string>3.0</string>
+    <key>CFBundleGetInfoString</key>
+	<string>3.0, Copyright Jeff Reinecke 2004, based on the original Ruby mode by The Coding Monkeys.</string>
+	<key>CFBundlePackageType</key>
+	<string>BNDL</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+</dict>
+</plist>

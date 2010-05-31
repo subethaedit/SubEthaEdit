@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "symbol.dtd">
+<symbols>
+
+    <blocks>
+        <beginregex>{</beginregex>
+        <endregex>}</endregex>
+    </blocks>
+    
+    <symbol id="Chapter" image="SymbolC" indentation="0" ignoreblocks="yes">
+        <regex>\\chapter[^{]*{([^}]*(?=})[^{]*)}</regex>
+    </symbol>
+
+    <symbol id="Section" image="SymbolS" indentation="1" ignoreblocks="yes">
+        <regex>\\section[^{]*{([^}]*(?=})[^{]*)}</regex>
+    </symbol>
+
+    <symbol id="SubSection" image="SymbolS" indentation="2" ignoreblocks="yes">
+        <regex>\\subsection[^{]*{([^}]*(?=})[^{]*)}</regex>
+    </symbol>
+
+    <symbol id="SubSubSection" image="SymbolS" indentation="3" ignoreblocks="yes">
+        <regex>\\subsubsection[^{]*{([^}]*(?=})[^{]*)}</regex>
+    </symbol>
+
+    <symbol id="Paragraph" image="SymbolP" indentation="4" ignoreblocks="yes">
+        <regex>\\paragraph[^{]*{([^}]*(?=})[^{]*)}</regex>
+    </symbol>
+
+    <symbol id="SubParagraph" image="SymbolP" indentation="5" ignoreblocks="yes">
+        <regex>\\subparagraph[^{]*{([^}]*(?=})[^{]*)}</regex>
+    </symbol>
+
+
+
+    <symbol id="CVS/SVN conflict" font-weight="bold" image="SymbolWarn" indentation="0" ignoreblocks="no">
+        <regex>^&lt;&lt;&lt;&lt;&lt;&lt;&lt;[^=]*======[^&gt;]*&gt;&gt;&gt;&gt;&gt;&gt;&gt;</regex>
+        <postprocess>
+            <find>.*</find>
+            <replace>Versioning conflict!</replace>
+        </postprocess>
+    </symbol>
+
+</symbols>

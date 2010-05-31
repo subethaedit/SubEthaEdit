@@ -1,0 +1,11 @@
+/* State and Keywordgroupnames */
+"Revision" = "r1234";
+"Added" = "A /Neue/Dateien";
+"Deleted" = "D /Entfernte/Dateien";
+"Replaced" = "R /Ersetzte/Dateien";
+"Modified" = "M /Geänderte/Dateien";
+"-----------------" = "--- Separator";
+"Pipes" = "| Pipes";
+"User" = "Benutzer";
+"Headline" = "r123 | Überschrift | ...";
+"Changed Paths" = "Changed Paths:";

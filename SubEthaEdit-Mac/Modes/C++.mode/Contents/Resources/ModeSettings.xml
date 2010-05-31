@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+    <recognition>
+	   <extension>cpp</extension>
+	   <extension>c++</extension>
+	   <extension>cp</extension>
+	   <extension>cxx</extension>
+	   <extension>hxx</extension>
+	   <extension>hpp</extension>
+	   <extension casesensitive="yes">C</extension>
+	   <extension>cc</extension>
+       <extension>h</extension>
+    </recognition>
+</settings>

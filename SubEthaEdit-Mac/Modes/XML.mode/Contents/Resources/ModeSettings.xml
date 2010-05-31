@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+    <recognition>
+        <extension>xml</extension>
+        <extension>xslt</extension>
+        <extension>xsl</extension>
+        <extension>xsd</extension>
+        <extension>plist</extension>
+        <extension>rss</extension>
+        <extension>rdf</extension>
+        <extension>seestyle</extension>
+        <extension>scriptSuite</extension>
+        <extension>scriptTerminology</extension>
+        <regex>\A#&lt;\?xml</regex>
+    </recognition>
+</settings>

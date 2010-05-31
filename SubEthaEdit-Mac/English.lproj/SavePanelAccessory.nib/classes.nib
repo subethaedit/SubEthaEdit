@@ -1,0 +1,76 @@
+{
+    IBClasses = (
+        {
+            CLASS = Document; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {encodingAccessory = id; encodingPopupButton = id; ignoreRichTextButton = id; }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = DocumentModeMenu; LANGUAGE = ObjC; SUPERCLASS = NSMenu; }, 
+        {
+            CLASS = DocumentModePopUpButton; 
+            LANGUAGE = ObjC; 
+            SUPERCLASS = NSPopUpButton; 
+        }, 
+        {
+            ACTIONS = {
+                clearAll = id; 
+                encodingListChanged = id; 
+                revertToDefault = id; 
+                selectAll = id; 
+                selectedEncoding = id; 
+                showPanel = id; 
+            }; 
+            CLASS = EncodingManager; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                encodingAccessory = NSView; 
+                encodingMatrix = NSMatrix; 
+                encodingPopupButton = EncodingPopUpButton; 
+                ignoreRichTextButton = NSButton; 
+            }; 
+            SUPERCLASS = NSObject; 
+        }, 
+        {CLASS = EncodingMenu; LANGUAGE = ObjC; SUPERCLASS = NSMenu; }, 
+        {CLASS = EncodingPopUpButton; LANGUAGE = ObjC; SUPERCLASS = NSPopUpButton; }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }, 
+        {CLASS = NSTextView; LANGUAGE = ObjC; SUPERCLASS = NSText; }, 
+        {
+            ACTIONS = {
+                cancelExport = id; 
+                changeFontViaPanel = id; 
+                chooseLineEndings = id; 
+                clearChangeMarks = id; 
+                continueExport = id; 
+                convertLineEndings = id; 
+                exportDocument = id; 
+                goIntoBundles = id; 
+                newView = id; 
+                selectFileFormat = id; 
+                showHiddenFiles = id; 
+                showWebPreview = id; 
+                toggleIsAnnounced = id; 
+                toggleSyntaxHighlighting = id; 
+            }; 
+            CLASS = PlainTextDocument; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "O_encodingPopUpButton" = EncodingPopUpButton; 
+                "O_exportSheet" = NSWindow; 
+                "O_exportSheetController" = NSObjectController; 
+                "O_goIntoBundlesCheckbox" = NSButton; 
+                "O_goIntoBundlesCheckbox2" = NSButton; 
+                "O_printOptionController" = NSObjectController; 
+                "O_printOptionView" = NSView; 
+                "O_savePanelAccessoryFileFormatMatrix" = NSMatrix; 
+                "O_savePanelAccessoryFileFormatMatrix2" = NSMatrix; 
+                "O_savePanelAccessoryView" = NSView; 
+                "O_savePanelAccessoryView2" = NSView; 
+                "O_showHiddenFilesCheckbox" = NSButton; 
+                "O_showHiddenFilesCheckbox2" = NSButton; 
+            }; 
+            SUPERCLASS = NSDocument; 
+        }
+    ); 
+    IBVersion = 1; 
+}

@@ -1,0 +1,21 @@
+{
+    IBClasses = (
+        {
+            CLASS = DebugPresenceController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {"O_allUsersController" = NSArrayController; }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {
+            CLASS = DebugUserController; 
+            LANGUAGE = ObjC; 
+            OUTLETS = {
+                "O_allUsersController" = NSArrayController; 
+                "O_userManagerController" = NSObjectController; 
+            }; 
+            SUPERCLASS = NSWindowController; 
+        }, 
+        {CLASS = FirstResponder; LANGUAGE = ObjC; SUPERCLASS = NSObject; }
+    ); 
+    IBVersion = 1; 
+}
