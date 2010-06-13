@@ -4,5 +4,6 @@
         <extension>js</extension>
         <extension>javascript</extension>
         <extension>jsx</extension>
+        <extension>json</extension>
     </recognition>
 </settings>
