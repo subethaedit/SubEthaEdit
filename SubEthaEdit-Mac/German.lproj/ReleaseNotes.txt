@@ -1,4 +1,21 @@
 
+SubEthaEdit 3.5.3
+=================
+
+Veränderugen:
+- Verschiedene neue HTML5-verwandte CSS Schlüsselwörter hinzugefügt..
+- Der Erlang Modus wurde substantiell verbessert und erweitert.
+- Verschiedene kleine Verbesserungen an den HTML, Javascript, CSS und Obj-C 
+  Modi.
+
+Korrekturen:
+- Probleme mit der live Web-Vorschau und Safari 5.0 wurden behoben.
+- Ein Problem mit dem Javascript Modus wurde behoben, welcher zu 
+  Falscheinfärbungen führte.
+- Ein Problem mit dem LassoScript Modus wurde behoben, welcher zu 
+  Falscheinfärbungen führte.
+
+
 SubEthaEdit 3.5.2
 =================
 
