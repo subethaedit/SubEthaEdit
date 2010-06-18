@@ -277,7 +277,9 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>REVISION</string>
+	<string>TCM_REVISION</string>
+	<key>TCMRevisionHash</key>
+	<string>TCM_REVISION_HASH</string>
 	<key>LSEnvironment</key>
 	<dict>
 		<key>MinimumSystemVersion</key>

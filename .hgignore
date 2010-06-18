@@ -27,6 +27,10 @@ syntax: glob
 
 *.orig
 
+# userdata
+*xcuserdata*
+*xcworkspace*
+
 # temporary products
 SubEthaEdit-Mac/OgreKit/RegularExpression/oniguruma/*
 SubEthaEdit-Mac/NSCoreSuite.scriptSuite
