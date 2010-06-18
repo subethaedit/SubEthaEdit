@@ -11,6 +11,7 @@ version_hash, version_revision = %x[cd #{ENV['SOURCE_ROOT']}; unset MACOSX_DEPLO
 # this created a string with <rev>:<revisionhash>
 
 # special see treat : add 4000 to the revision to also upgrade from old ones
+version_revision = (version_revision.to_i + 4000).to_s + /[^\d]+/.match(version_revision).to_s
 
 
 #convert already preprocessed plist from binary format
