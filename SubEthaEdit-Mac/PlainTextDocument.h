@@ -428,6 +428,10 @@ typedef enum {
 - (NSString *)mode;
 - (void)setMode:(NSString *)identifier;
 
+- (NSRange)textView:(NSTextView *)aTextView
+           willChangeSelectionFromCharacterRange:(NSRange)aOldSelectedCharRange
+                                toCharacterRange:(NSRange)aNewSelectedCharRange;
+
 @end
 
 @interface NSTextView (NSTextViewLeopardInterfaceAdditions)
