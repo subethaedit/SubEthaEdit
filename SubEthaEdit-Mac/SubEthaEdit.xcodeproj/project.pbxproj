@@ -643,19 +643,19 @@
 			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
 			remoteInfo = HDCrashReporter;
 		};
-		31D5F85C0AA301C10088DB18 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 31D5F8510AA2FB760088DB18 /* CrashReporter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = HDCrashReporter;
-		};
 		5EC638300ABEB78000D3295B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
 			remoteInfo = SubEthaEdit;
+		};
+		F23CE7F711CDE23900A64D10 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 31D5F8510AA2FB760088DB18 /* CrashReporter.xcodeproj */;
+			proxyType = 1;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216 /* HDCrashReporter */;
+			remoteInfo = HDCrashReporter;
 		};
 		F2A093BA0C9EBB42000AD27A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -2563,10 +2563,10 @@
 				142894C20957611D00D14688 /* PBXTargetDependency */,
 				142894FC0957685A00D14688 /* PBXTargetDependency */,
 				144E3AD10B6FEEC1001C49C2 /* PBXTargetDependency */,
-				31D5F85D0AA301C10088DB18 /* PBXTargetDependency */,
 				141F4EA90AE42641001B73D2 /* PBXTargetDependency */,
 				F2A099430C9EBC39000AD27A /* PBXTargetDependency */,
 				F2D22CB60EE9C5ED004B8E33 /* PBXTargetDependency */,
+				F23CE7F811CDE23900A64D10 /* PBXTargetDependency */,
 			);
 			name = SubEthaEdit;
 			productInstallPath = "$(HOME)/Applications";
@@ -3424,15 +3424,15 @@
 			target = 8D15AC270486D014006FF6A4 /* SubEthaEdit */;
 			targetProxy = 14C431AE0BF3465A007D29EB /* PBXContainerItemProxy */;
 		};
-		31D5F85D0AA301C10088DB18 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = HDCrashReporter;
-			targetProxy = 31D5F85C0AA301C10088DB18 /* PBXContainerItemProxy */;
-		};
 		5EC638310ABEB78000D3295B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8D15AC270486D014006FF6A4 /* SubEthaEdit */;
 			targetProxy = 5EC638300ABEB78000D3295B /* PBXContainerItemProxy */;
+		};
+		F23CE7F811CDE23900A64D10 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			name = HDCrashReporter;
+			targetProxy = F23CE7F711CDE23900A64D10 /* PBXContainerItemProxy */;
 		};
 		F2A099430C9EBC39000AD27A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -4118,6 +4118,7 @@
 				PREBINDING = NO;
 				SDKROOT = macosx10.6;
 				STRIP_INSTALLED_PRODUCT = YES;
+				VALID_ARCHS = "i386 x86_64";
 			};
 			name = Release;
 		};
