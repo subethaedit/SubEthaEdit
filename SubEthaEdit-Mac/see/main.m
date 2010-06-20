@@ -477,7 +477,7 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
         [fdout closeFile];
         
         if (length == 0) {
-            (void)[[NSFileManager defaultManager] removeFileAtPath:stdinFileName handler:nil];
+            (void)[[NSFileManager defaultManager] removeItemAtPath:stdinFileName error:nil];
         } else {
             stdinFileName = fileName;
         }
@@ -540,13 +540,13 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
                 }
             }
             [fdin closeFile];
-            (void)[[NSFileManager defaultManager] removeFileAtPath:path handler:nil];
+            (void)[[NSFileManager defaultManager] removeItemAtPath:path error:nil];
         }
     }
     
     
     if (stdinFileName) {
-        (void)[[NSFileManager defaultManager] removeFileAtPath:stdinFileName handler:nil];
+        (void)[[NSFileManager defaultManager] removeItemAtPath:stdinFileName error:nil];
     }
 }
 
