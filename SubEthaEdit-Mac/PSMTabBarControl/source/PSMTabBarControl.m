@@ -1317,8 +1317,8 @@
 		unsigned numberOfItems = [overflowMenu numberOfItems];
 		equal = [_overflowPopUpButton menu] && [[_overflowPopUpButton menu] numberOfItems ] == numberOfItems;
 		for (i = 0; equal && i < numberOfItems; i++) {
-			id <NSMenuItem> currentItem = [[_overflowPopUpButton menu] itemAtIndex:i];
-			id <NSMenuItem>     newItem = [overflowMenu itemAtIndex:i];
+			id currentItem = [[_overflowPopUpButton menu] itemAtIndex:i];
+			id     newItem = [overflowMenu itemAtIndex:i];
 			if (([newItem state] != [currentItem state]) ||
 					([[newItem title] compare:[currentItem title]] != NSOrderedSame) ||
 					([newItem image] != [currentItem image])) {
@@ -1509,7 +1509,7 @@
 }
 
 // NSDraggingSource
-- (unsigned int)draggingSourceOperationMaskForLocal:(BOOL)isLocal
+- (NSDragOperation)draggingSourceOperationMaskForLocal:(BOOL)isLocal
 {
     return (isLocal ? NSDragOperationMove : NSDragOperationNone);
 }
@@ -1765,7 +1765,7 @@
 #pragma mark -
 #pragma mark Menu Validation
 
-- (BOOL)validateMenuItem:(id <NSMenuItem>)sender
+- (BOOL)validateMenuItem:(id)sender
 {
 	return [[self delegate] respondsToSelector:@selector(tabView:validateOverflowMenuItem:forTabViewItem:)] ?
 		[[self delegate] tabView:[self tabView] validateOverflowMenuItem:sender forTabViewItem:[sender representedObject]] : YES;
@@ -1952,9 +1952,9 @@
 		if ([[[cell representedObject] identifier] respondsToSelector:@selector(isProcessing)]) {
 			NSMutableDictionary *bindingOptions = [NSMutableDictionary dictionary];
 			[bindingOptions setObject:NSNegateBooleanTransformerName forKey:@"NSValueTransformerName"];
-			[[cell indicator] bind:@"animate" toObject:[item identifier] withKeyPath:@"isProcessing" options:nil];
+			[[cell indicator] bind:@"animate" toObject:[item identifier] withKeyPath:@"isProcessing" options:0];
 			[[cell indicator] bind:@"hidden" toObject:[item identifier] withKeyPath:@"isProcessing" options:bindingOptions];
-			[[item identifier] addObserver:cell forKeyPath:@"isProcessing" options:nil context:nil];
+			[[item identifier] addObserver:cell forKeyPath:@"isProcessing" options:0 context:nil];
         }
     }
     
@@ -1965,7 +1965,7 @@
 			NSMutableDictionary *bindingOptions = [NSMutableDictionary dictionary];
 			[bindingOptions setObject:NSIsNotNilTransformerName forKey:@"NSValueTransformerName"];
 			[cell bind:@"hasIcon" toObject:[item identifier] withKeyPath:@"icon" options:bindingOptions];
-			[[item identifier] addObserver:cell forKeyPath:@"icon" options:nil context:nil];
+			[[item identifier] addObserver:cell forKeyPath:@"icon" options:0 context:nil];
         }
     }
     
@@ -1973,24 +1973,24 @@
     [cell setCount:0];
     if ([item identifier] != nil) {
 		if ([[[cell representedObject] identifier] respondsToSelector:@selector(objectCount)]) {
-			[cell bind:@"count" toObject:[item identifier] withKeyPath:@"objectCount" options:nil];
-			[[item identifier] addObserver:cell forKeyPath:@"objectCount" options:nil context:nil];
+			[cell bind:@"count" toObject:[item identifier] withKeyPath:@"objectCount" options:0];
+			[[item identifier] addObserver:cell forKeyPath:@"objectCount" options:0 context:nil];
 		}
     }
     
     [cell setIsEdited:NO];
     if ([item identifier] != nil) {
 		if ([[[cell representedObject] identifier] respondsToSelector:@selector(isEdited)]) {
-			[cell bind:@"isEdited" toObject:[item identifier] withKeyPath:@"isEdited" options:nil];
-			[[item identifier] addObserver:cell forKeyPath:@"isEdited" options:nil context:nil];
+			[cell bind:@"isEdited" toObject:[item identifier] withKeyPath:@"isEdited" options:0];
+			[[item identifier] addObserver:cell forKeyPath:@"isEdited" options:0 context:nil];
 		}
     }
     
     // watch for changes in the identifier
-    [item addObserver:self forKeyPath:@"identifier" options:nil context:nil];
+    [item addObserver:self forKeyPath:@"identifier" options:0 context:nil];
 	
     // bind my string value to the label on the represented tab
-    [cell bind:@"title" toObject:item withKeyPath:@"label" options:nil];
+    [cell bind:@"title" toObject:item withKeyPath:@"label" options:0];
 }
 
 - (NSMutableArray *)representedTabViewItems

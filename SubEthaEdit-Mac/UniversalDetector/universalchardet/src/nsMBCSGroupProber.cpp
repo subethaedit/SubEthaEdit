@@ -41,7 +41,7 @@
 #include "nsMBCSGroupProber.h"
 
 #ifdef DEBUG_chardet
-char *ProberName[] = 
+const char *ProberName[] = 
 {
   "UTF8",
   "SJIS",

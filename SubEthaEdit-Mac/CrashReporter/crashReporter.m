@@ -66,7 +66,7 @@ extern void aslresponse_free(aslresponse a) __attribute__((weak_import));
 			while ((crashLogFile = [crashLogFiles nextObject])) {
 				if ([[crashLogFile lastPathComponent] hasPrefix:bundleName]) {
 					crashLogFile = [crashReportLogPath stringByAppendingPathComponent:crashLogFile];
-					NSDate *crashLogFileDate = [[[NSFileManager defaultManager] fileAttributesAtPath:crashLogFile traverseLink: YES] fileModificationDate];
+					NSDate *crashLogFileDate = [[[NSFileManager defaultManager] attributesOfItemAtPath:crashLogFile error:nil] fileModificationDate];
 					crashLogModificationDate = [crashLogModificationDate laterDate:crashLogFileDate];
 				}
 			}
@@ -75,7 +75,7 @@ extern void aslresponse_free(aslresponse a) __attribute__((weak_import));
             
             NSString *crashLogPath = [[[libraryDirectories objectAtIndex: 0 ] stringByAppendingPathComponent:[NSString stringWithFormat:@"Logs/CrashReporter/%@.crash.log", bundleName]] stringByExpandingTildeInPath];
             
-            crashLogModificationDate = [[[NSFileManager defaultManager] fileAttributesAtPath: crashLogPath traverseLink: YES] fileModificationDate];            
+            crashLogModificationDate = [[[NSFileManager defaultManager] attributesOfItemAtPath:crashLogPath error:nil] fileModificationDate];            
         }
 
 		if (lastCrashDate && crashLogModificationDate && ([crashLogModificationDate compare: lastCrashDate] == NSOrderedDescending)) {
@@ -111,8 +111,8 @@ extern void aslresponse_free(aslresponse a) __attribute__((weak_import));
 	
 	NSMutableString *macosxVersion = [NSMutableString stringWithString:[[NSProcessInfo processInfo] operatingSystemVersionString]];
 	
-	[macosxVersion replaceOccurrencesOfString:@"Version " withString:@"" options:nil range:NSMakeRange(0, [macosxVersion length])];
-	[macosxVersion replaceOccurrencesOfString:@"Build " withString:@"" options:nil range:NSMakeRange(0, [macosxVersion length])];
+	[macosxVersion replaceOccurrencesOfString:@"Version " withString:@"" options:0 range:NSMakeRange(0, [macosxVersion length])];
+	[macosxVersion replaceOccurrencesOfString:@"Build "   withString:@"" options:0 range:NSMakeRange(0, [macosxVersion length])];
 	
 	NSString *title = [NSString stringWithFormat:@"Crash in %@ of [%@] on %@ (%@)",[match substringNamed:@"method"], [match substringNamed:@"place"], macosxVersion, arch];
 	
@@ -150,7 +150,7 @@ extern void aslresponse_free(aslresponse a) __attribute__((weak_import));
 			while ((crashLogFile = [crashLogFiles nextObject])) {
 				if ([[crashLogFile lastPathComponent] hasPrefix:bundleName]) {
 					crashLogFile = [crashReportLogPath stringByAppendingPathComponent:crashLogFile];
-					NSDate *crashLogFileDate = [[[NSFileManager defaultManager] fileAttributesAtPath:crashLogFile traverseLink: YES] fileModificationDate];
+					NSDate *crashLogFileDate = [[[NSFileManager defaultManager] attributesOfItemAtPath:crashLogFile error:nil] fileModificationDate];
 					if ( [crashLogFileDate isGreaterThan:crashLogModificationDate]) {
 						crashLogModificationDate = crashLogFileDate;
 						crashLogPath = crashLogFile;
@@ -158,7 +158,7 @@ extern void aslresponse_free(aslresponse a) __attribute__((weak_import));
 				}
 			}
 			
-			lastCrash = [NSString stringWithContentsOfFile:crashLogPath];
+			lastCrash = [NSString stringWithContentsOfFile:crashLogPath encoding:NSUTF8StringEncoding error:nil];
             
             NSMutableArray *consoleStrings = [NSMutableArray array];
             aslmsg q, m;
@@ -202,7 +202,7 @@ extern void aslresponse_free(aslresponse a) __attribute__((weak_import));
         } else {
             // User is using Tiger or earlier
             
-			NSString *crashLogs = [NSString stringWithContentsOfFile: crashLogPath];
+			NSString *crashLogs = [NSString stringWithContentsOfFile: crashLogPath encoding:NSUTF8StringEncoding error:nil];
 			lastCrash = [[crashLogs componentsSeparatedByString: @"**********\n\n"] lastObject];
             
             NSString *consolelogPath;
@@ -212,7 +212,7 @@ extern void aslresponse_free(aslresponse a) __attribute__((weak_import));
                 consolelogPath = [NSString stringWithFormat:@"/Library/Logs/Console/%@/console.log", [NSNumber numberWithUnsignedInt:getuid()]];
             }
             
-            NSString *console = [NSString stringWithContentsOfFile: consolelogPath];
+            NSString *console = [NSString stringWithContentsOfFile: consolelogPath encoding:NSUTF8StringEncoding error:nil];
             NSEnumerator *theEnum = [[console componentsSeparatedByString: @"\n"] objectEnumerator];
             NSString* currentObject;
             NSMutableArray *consoleStrings = [NSMutableArray array];

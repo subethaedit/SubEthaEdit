@@ -360,7 +360,7 @@
     if ([(id <PSMTabStyle>)[_controlView style] isKindOfClass:[PSMPFTabStyle class]]) {
         return [(id <PSMTabStyle>)[_controlView style] dragImageForCell:self];
     } else {
-        NSRect cellFrame = [(id <PSMTabStyle>)[_controlView style] dragRectForTabCell:self orientation:[_controlView orientation]];
+        NSRect cellFrame = [(id <PSMTabStyle>)[_controlView style] dragRectForTabCell:self orientation:[(PSMTabBarControl *)_controlView orientation]];
         //NSRect cellFrame = [self frame];
         
         [_controlView lockFocus];

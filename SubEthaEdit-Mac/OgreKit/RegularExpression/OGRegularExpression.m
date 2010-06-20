@@ -1489,7 +1489,7 @@ static int namedGroupCallback(const unsigned char *name, const unsigned char *na
 // onigurumaのバージョン文字列を返す
 + (NSString*)onigurumaVersion
 {
-	return [NSString stringWithCString:onig_version()];
+	return [NSString stringWithUTF8String:onig_version()];
 }
 
 

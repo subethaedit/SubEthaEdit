@@ -654,7 +654,7 @@
 			isa = PBXContainerItemProxy;
 			containerPortal = 31D5F8510AA2FB760088DB18 /* CrashReporter.xcodeproj */;
 			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216 /* HDCrashReporter */;
+			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = HDCrashReporter;
 		};
 		F2A093BA0C9EBB42000AD27A /* PBXContainerItemProxy */ = {
