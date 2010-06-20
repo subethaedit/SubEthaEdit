@@ -295,7 +295,7 @@ static AppController *sharedInstance = nil;
         NSString *identifier=[defaults stringForKey:MyAIMIdentifierPreferenceKey];
         if (identifier) {
             ABMultiValue *aims=[meCard valueForProperty:kABAIMInstantProperty];
-            int index=[aims indexForIdentifier:identifier];
+            NSUInteger index=[aims indexForIdentifier:identifier];
             if (index!=NSNotFound) {
                 if (![myAIM isEqualToString:[aims valueAtIndex:index]]) {
                     myAIM=[aims valueAtIndex:index];
@@ -307,7 +307,7 @@ static AppController *sharedInstance = nil;
         identifier=[defaults stringForKey:MyEmailIdentifierPreferenceKey];
         if (identifier) {
             ABMultiValue *emails=[meCard valueForProperty:kABEmailProperty];
-            int index=[emails indexForIdentifier:identifier];
+            NSUInteger index=[emails indexForIdentifier:identifier];
             if (index!=NSNotFound) {
                 if (![myEmail isEqualToString:[emails valueAtIndex:index]]) {
                     myEmail=[emails valueAtIndex:index];
@@ -414,7 +414,7 @@ static AppController *sharedInstance = nil;
     [self addMe];
     [[TCMPortMapper sharedInstance] hashUserID:[TCMMMUserManager myUserID]];
 
-    [BacktracingException install];
+//    [BacktracingException install];
     [self setupFileEncodingsSubmenu];
     [self setupDocumentModeSubmenu];
     [self setupScriptMenu];

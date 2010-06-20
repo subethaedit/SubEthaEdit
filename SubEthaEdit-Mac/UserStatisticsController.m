@@ -11,32 +11,7 @@
 #import "TCMMMLogStatisticsEntry.h"
 #import "TCMMMUser.h"
 
-#import <HMBlkAppKit/HMBlkAppKit.h>
 
-@interface HMBlkPanel (MBlkPanelSEEAdditions)
-+ (NSColor*)highlighedCellColor;
-- (BOOL)canBecomeMainWindow;
-@end
-
-@implementation HMBlkPanel (MBlkPanelSEEAdditions)
-+ (NSColor*)highlighedCellColor
-{
-    static NSColor* _highlightCellColor = nil;
-    if (!_highlightCellColor) {
-        _highlightCellColor = [[NSColor colorWithCalibratedWhite:0.15f alpha:0.8f] retain];
-    }
-    
-    return _highlightCellColor;
-}
-- (BOOL)canBecomeMainWindow {
-    return NO;
-}
-- (BOOL)canBecomeKeyWindow {
-    return YES;
-}
-
-
-@end
 
 static NSString *s_scheduleContext = @"ScheduleContext";
 static NSString *s_updateContext   = @"UpdateContext";

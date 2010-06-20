@@ -268,7 +268,6 @@
 		14289BD709581C3000D14688 /* FindReplace.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14289BD109581C3000D14688 /* FindReplace.nib */; };
 		14289BDE09581CAC00D14688 /* FindAll.nib in Resources */ = {isa = PBXBuildFile; fileRef = 14289BD809581CAC00D14688 /* FindAll.nib */; };
 		1428F4AB0BDE3B6600411CA6 /* BacktracingException.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428F4AA0BDE3B6600411CA6 /* BacktracingException.m */; };
-		1428F4AE0BDE3B7200411CA6 /* BacktracingException.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428F4AA0BDE3B6600411CA6 /* BacktracingException.m */; };
 		1428F4B40BDE3B8A00411CA6 /* DebugSendOperationController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428F4B20BDE3B8A00411CA6 /* DebugSendOperationController.m */; };
 		142D18B50BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142D18B30BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m */; };
 		142D1B9C0BAEE04900B9EF1C /* TCMMMUserManagerKitAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142D1B9A0BAEE04900B9EF1C /* TCMMMUserManagerKitAdditions.m */; };
@@ -439,8 +438,6 @@
 		F2BB09F90CA018B600258EC7 /* NSImage-States.m in Sources */ = {isa = PBXBuildFile; fileRef = F2BB09F40CA018B100258EC7 /* NSImage-States.m */; };
 		F2BB09FA0CA018BC00258EC7 /* NSImage-Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = F2BB09EF0CA0189900258EC7 /* NSImage-Additions.m */; };
 		F2BB09FF0CA018CA00258EC7 /* PCRolloverImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2BB09FC0CA018CA00258EC7 /* PCRolloverImageView.m */; };
-		F2BB0A950CA0442A00258EC7 /* HMBlkAppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2BB0A900CA043E300258EC7 /* HMBlkAppKit.framework */; };
-		F2BB0AA40CA0443A00258EC7 /* HMBlkAppKit.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F2BB0A900CA043E300258EC7 /* HMBlkAppKit.framework */; };
 		F2C4C2650F93E51D00A3E0B5 /* OgreKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 144E3AA40B6FEE8D001C49C2 /* OgreKit.framework */; };
 		F2C6D3750D6DB131002B401D /* URLIconNotOK.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2C6D3730D6DB131002B401D /* URLIconNotOK.tiff */; };
 		F2C6D3760D6DB131002B401D /* URLIconOK.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2C6D3740D6DB131002B401D /* URLIconOK.tiff */; };
@@ -688,27 +685,6 @@
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = UniversalDetector;
 		};
-		F2BB0A8F0CA043E300258EC7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F2BB0A8A0CA043E200258EC7 /* HMBlkAppKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
-			remoteInfo = HMBlkAppKit;
-		};
-		F2BB0A910CA043E300258EC7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F2BB0A8A0CA043E200258EC7 /* HMBlkAppKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 0B6BCA930BB237EF0014D0BF;
-			remoteInfo = TestApp;
-		};
-		F2BB0A930CA0440800258EC7 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F2BB0A8A0CA043E200258EC7 /* HMBlkAppKit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = HMBlkAppKit;
-		};
 		F2C4C27D0F93E70600A3E0B5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 14F16CEF0971A87300402129 /* OgreKit.xcodeproj */;
@@ -751,7 +727,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F2BB0AA40CA0443A00258EC7 /* HMBlkAppKit.framework in Copy Files (Frameworks) */,
 				F2A0997A0C9EE015000AD27A /* UniversalDetector.framework in Copy Files (Frameworks) */,
 				144E3AD30B6FEEDF001C49C2 /* OgreKit.framework in Copy Files (Frameworks) */,
 				31D5FB230AA309200088DB18 /* HDCrashReporter.framework in Copy Files (Frameworks) */,
@@ -1387,7 +1362,6 @@
 		F2BB09F50CA018B100258EC7 /* NSImage-States.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = "NSImage-States.h"; path = "Panic/NSImage-States.h"; sourceTree = "<group>"; };
 		F2BB09FB0CA018CA00258EC7 /* PCRolloverImageView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PCRolloverImageView.h; path = Panic/PCRolloverImageView.h; sourceTree = "<group>"; };
 		F2BB09FC0CA018CA00258EC7 /* PCRolloverImageView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PCRolloverImageView.m; path = Panic/PCRolloverImageView.m; sourceTree = "<group>"; };
-		F2BB0A8A0CA043E200258EC7 /* HMBlkAppKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = HMBlkAppKit.xcodeproj; path = HMBlkAppKit1.1/HMBlkAppKit.xcodeproj; sourceTree = "<group>"; };
 		F2C6D3730D6DB131002B401D /* URLIconNotOK.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = URLIconNotOK.tiff; path = artwork/URLIconNotOK.tiff; sourceTree = "<group>"; };
 		F2C6D3740D6DB131002B401D /* URLIconOK.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = URLIconOK.tiff; path = artwork/URLIconOK.tiff; sourceTree = "<group>"; };
 		F2CA79A20CA04BAC008BEA38 /* HUDStatisticGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HUDStatisticGraphView.h; sourceTree = "<group>"; };
@@ -1493,7 +1467,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				31AE9D380EE85D8900370087 /* Sparkle.framework in Frameworks */,
-				F2BB0A950CA0442A00258EC7 /* HMBlkAppKit.framework in Frameworks */,
 				F2A099500C9EBC5B000AD27A /* UniversalDetector.framework in Frameworks */,
 				144E3AD20B6FEED6001C49C2 /* OgreKit.framework in Frameworks */,
 				141F4F120AE42BC7001B73D2 /* PSMTabBarControl.framework in Frameworks */,
@@ -2206,7 +2179,6 @@
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				F2D86C150F8E7DA200B912A2 /* SubEthaPerf */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
-				F2BB0A8A0CA043E200258EC7 /* HMBlkAppKit.xcodeproj */,
 				31D5F8510AA2FB760088DB18 /* CrashReporter.xcodeproj */,
 				141F4E970AE42602001B73D2 /* PSMTabBarControl.xcodeproj */,
 				14F16CEF0971A87300402129 /* OgreKit.xcodeproj */,
@@ -2444,15 +2416,6 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
-		F2BB0A8B0CA043E200258EC7 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				F2BB0A900CA043E300258EC7 /* HMBlkAppKit.framework */,
-				F2BB0A920CA043E300258EC7 /* TestApp.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		F2D22CAF0EE9C5DE004B8E33 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -2603,7 +2566,6 @@
 				31D5F85D0AA301C10088DB18 /* PBXTargetDependency */,
 				141F4EA90AE42641001B73D2 /* PBXTargetDependency */,
 				F2A099430C9EBC39000AD27A /* PBXTargetDependency */,
-				F2BB0A940CA0440800258EC7 /* PBXTargetDependency */,
 				F2D22CB60EE9C5ED004B8E33 /* PBXTargetDependency */,
 			);
 			name = SubEthaEdit;
@@ -2656,10 +2618,6 @@
 				{
 					ProductGroup = 31D5F8520AA2FB760088DB18 /* Products */;
 					ProjectRef = 31D5F8510AA2FB760088DB18 /* CrashReporter.xcodeproj */;
-				},
-				{
-					ProductGroup = F2BB0A8B0CA043E200258EC7 /* Products */;
-					ProjectRef = F2BB0A8A0CA043E200258EC7 /* HMBlkAppKit.xcodeproj */;
 				},
 				{
 					ProductGroup = 144E3A970B6FEE8D001C49C2 /* Products */;
@@ -2782,20 +2740,6 @@
 			fileType = archive.ar;
 			path = libuniversaldetector.a;
 			remoteRef = F2A093BE0C9EBB42000AD27A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		F2BB0A900CA043E300258EC7 /* HMBlkAppKit.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = HMBlkAppKit.framework;
-			remoteRef = F2BB0A8F0CA043E300258EC7 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		F2BB0A920CA043E300258EC7 /* TestApp.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = TestApp.app;
-			remoteRef = F2BB0A910CA043E300258EC7 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		F2D22CB30EE9C5DE004B8E33 /* SeeTextImporter.mdimporter */ = {
@@ -3358,7 +3302,6 @@
 				142D18B50BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m in Sources */,
 				142D1B9C0BAEE04900B9EF1C /* TCMMMUserManagerKitAdditions.m in Sources */,
 				141958B10BB951C400CB4AA4 /* TCMMMSessionAppKitHelper.m in Sources */,
-				1428F4AE0BDE3B7200411CA6 /* BacktracingException.m in Sources */,
 				1428F4B40BDE3B8A00411CA6 /* DebugSendOperationController.m in Sources */,
 				14584B2F0BE0C6E000EB6D15 /* TCMBEEPBencodedMessage.m in Sources */,
 				14584B300BE0C6E300EB6D15 /* TCMBEEPBencodingProfile.m in Sources */,
@@ -3495,11 +3438,6 @@
 			isa = PBXTargetDependency;
 			name = UniversalDetector;
 			targetProxy = F2A099420C9EBC39000AD27A /* PBXContainerItemProxy */;
-		};
-		F2BB0A940CA0440800258EC7 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = HMBlkAppKit;
-			targetProxy = F2BB0A930CA0440800258EC7 /* PBXContainerItemProxy */;
 		};
 		F2C4C27E0F93E70600A3E0B5 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
@@ -4109,10 +4047,7 @@
 		C05733C908A9546B00998B17 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
-				ARCHS = (
-					ppc,
-					i386,
-				);
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
 				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)";
 				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = YES;
@@ -4125,6 +4060,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = SubEthaEdit_Prefix.pch;
 				GCC_USE_GCC3_PFE_SUPPORT = YES;
+				GCC_VERSION = com.apple.compilers.llvmgcc42;
 				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-C";
 				INFOPLIST_PREPROCESS = YES;
@@ -4151,6 +4087,7 @@
 		C05733CC08A9546B00998B17 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ARCHS = "$(NATIVE_ARCH_ACTUAL)";
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
 				GCC_VERSION = com.apple.compilers.llvmgcc42;

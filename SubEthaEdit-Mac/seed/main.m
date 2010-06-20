@@ -52,7 +52,7 @@ int main(int argc, const char *argv[])
     
     endRunLoop = NO;
         
-    [BacktracingException install];
+//    [BacktracingException install];
     [[NSRunLoop currentRunLoop] addPort:[NSPort port] forMode:NSDefaultRunLoopMode];
 
     [[TCMMMTransformator sharedInstance] registerTransformationTarget:[TextOperation class] selector:@selector(transformTextOperation:serverTextOperation:) forOperationId:[TextOperation operationID] andOperationID:[TextOperation operationID]];

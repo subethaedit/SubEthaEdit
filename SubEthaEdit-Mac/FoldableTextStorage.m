@@ -1210,7 +1210,7 @@ typedef union {
     if ([[[[self delegate] documentMode] defaultForKey:DocumentModeIndentWrappedLinesPreferenceKey] boolValue]) {
         NSFont *font=[[self delegate] fontWithTrait:0];
         int tabWidth=[[self delegate] tabWidth];
-        float characterWidth=[font widthOfString:@" "];
+        float characterWidth=[@" " sizeWithAttributes:[NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName]].width;
         int indentWrappedCharacterAmount = [[[[self delegate] documentMode] defaultForKey:DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey] intValue];
         // look at all the lines and fixe the indention
         NSRange myRange = NSMakeRange(aRange.location,0);

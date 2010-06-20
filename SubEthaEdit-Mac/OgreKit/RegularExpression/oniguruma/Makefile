@@ -6,17 +6,17 @@ PPC_DIR=ppc
 INTEL_CONFIGURE_FLAGS=--disable-dependency-tracking --host=i686-apple-darwin$(OS_VERSION) --build=i686-apple-darwin$(OS_VERSION)
 PPC_CONFIGURE_FLAGS=--disable-dependency-tracking --host=ppc-apple-darwin$(OS_VERSION) --build=i686-apple-darwin$(OS_VERSION)
 INTEL_SDK=$(SDKROOT)
-INTEL_CC=gcc-4.0 -isysroot $(SDKROOT)
+INTEL_CC=gcc -isysroot $(SDKROOT)
 PPC_SDK=$(SDKROOT)
-PPC_CC=gcc-4.0 -arch ppc -isysroot $(SDKROOT)
+PPC_CC=gcc -arch ppc -isysroot $(SDKROOT)
 ONIG_TARGET=libonig.la
 LIBS_DIR=.libs
 ONIGURUMA=libonig.a
 
 all: $(UNIVERSAL_DIR)/$(ONIGURUMA)
 
-$(UNIVERSAL_DIR)/$(ONIGURUMA): $(UNIVERSAL_DIR) $(PPC_DIR)/$(ONIG_TARGET) $(INTEL_DIR)/$(ONIG_TARGET)
-	lipo -create $(INTEL_DIR)/$(LIBS_DIR)/$(@F) $(PPC_DIR)/$(LIBS_DIR)/$(@F) -output $(UNIVERSAL_DIR)/$(@F)
+$(UNIVERSAL_DIR)/$(ONIGURUMA): $(UNIVERSAL_DIR) $(INTEL_DIR)/$(ONIG_TARGET)
+	lipo -create $(INTEL_DIR)/$(LIBS_DIR)/$(@F) -output $(UNIVERSAL_DIR)/$(@F)
 
 $(INTEL_DIR)/$(ONIG_TARGET): $(INTEL_DIR)
 	cd $(@D);\
