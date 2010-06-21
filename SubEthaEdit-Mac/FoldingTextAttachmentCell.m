@@ -40,7 +40,7 @@ layoutManager {
 }
 
 
-- (BOOL)wantsToTrackMouseForEvent:(NSEvent *)theEvent inRect:(NSRect)cellFrame ofView:(NSView *)controlView atCharacterIndex:(unsigned)charIndex {
+- (BOOL)wantsToTrackMouseForEvent:(NSEvent *)theEvent inRect:(NSRect)cellFrame ofView:(NSView *)controlView atCharacterIndex:(NSUInteger)charIndex {
 //	NSLog(@"%s %@ %@ %@ %d",__FUNCTION__,theEvent, NSStringFromRect(cellFrame), controlView, charIndex);
 	return YES;
 }
