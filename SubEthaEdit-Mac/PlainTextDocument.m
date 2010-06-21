@@ -2786,7 +2786,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 - (IBAction)selectFileFormat:(id)aSender {
     NSSavePanel *panel = (NSSavePanel *)[aSender window];
-    NSString *seeTextExtension = [self fileNameExtensionForType:@"SEETextType" saveOperation:NSSaveOperation];
+    NSString *seeTextExtension = [self fileNameExtensionForType:@"de.codingmonkeys.subethaedit.seetext" saveOperation:NSSaveOperation];
     if ([[aSender selectedCell] tag]==1) {
         [panel setRequiredFileType:seeTextExtension];
     } else {
@@ -2955,7 +2955,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
          }
     }
     if ([aType isEqualToString:@"SEETextType"]) {
-        NSString *seeTextExtension = [self fileNameExtensionForType:aType saveOperation:NSSaveOperation];
+        NSString *seeTextExtension = [self fileNameExtensionForType:@"de.codingmonkeys.subethaedit.seetext" saveOperation:NSSaveOperation];
         if (![[[anAbsoluteURL path] pathExtension] isEqualToString:seeTextExtension]) {
             anAbsoluteURL = [NSURL fileURLWithPath:[[anAbsoluteURL path] stringByAppendingPathExtension:seeTextExtension]];
         }
