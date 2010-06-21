@@ -301,7 +301,7 @@ static NSMutableDictionary *S_childNameAttributes=nil;
     return NSMakeRect(itemRect.origin.x,NSMaxY(itemRect),itemRect.size.width,height);
 }
 
-- (void)highlightItemForDrag:(int)itemIndex {
+- (void)highlightItemForDrag:(NSInteger)itemIndex {
     if (itemIndex!=I_dragToItem) {
         I_dragToItem=itemIndex;
         [self setNeedsDisplay:YES];

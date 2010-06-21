@@ -560,7 +560,7 @@ typedef union {
     return [attributedString string];
 }
 
-- (NSDictionary *)attributesAtIndex:(unsigned)aIndex 
+- (NSDictionary *)attributesAtIndex:(NSUInteger)aIndex 
                      effectiveRange:(NSRangePointer)aRange {
 	if ([self length]==0) return nil;
 	NSAttributedString *attributedString = I_internalAttributedString ? I_internalAttributedString : I_fullTextStorage;
@@ -1015,7 +1015,7 @@ typedef union {
 	// check range to Fold for newlines if so fold beginning with the first newline to the end
 	NSRange rangeToFold = inCommentRange;
 	NSString *string = [self string];
-	unsigned start, end, contentsEnd;
+	NSUInteger start, end, contentsEnd;
 	[string getLineStart:&start end:&end contentsEnd:&contentsEnd forRange:NSMakeRange(rangeToFold.location,0)];
 	if (NSMaxRange(rangeToFold) > end && NSMaxRange(rangeToFold) > contentsEnd) {
 		rangeToFold = NSMakeRange(contentsEnd,NSMaxRange(rangeToFold) - contentsEnd);
@@ -1234,7 +1234,7 @@ typedef union {
 }
 
 
-- (NSRange)doubleClickAtIndex:(unsigned)index {
+- (NSRange)doubleClickAtIndex:(NSUInteger)index {
 //	NSLog(@"atindex:%d",index);
     NSRange result=[super doubleClickAtIndex:index];
     NSRange colonRange;

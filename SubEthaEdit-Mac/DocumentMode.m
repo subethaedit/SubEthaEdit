@@ -196,7 +196,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         // Add autocomplete additions
         NSString *autocompleteAdditionsPath = [aBundle pathForResource:@"AutocompleteAdditions" ofType:@"txt"];
         if (autocompleteAdditionsPath) {
-            NSString *autocompleteAdditions = [NSString stringWithContentsOfFile:autocompleteAdditionsPath];
+            NSString *autocompleteAdditions = [NSString stringWithContentsOfFile:autocompleteAdditionsPath encoding:NSUTF8StringEncoding error:nil];
             [[self autocompleteDictionary] addObjectsFromArray:[autocompleteAdditions componentsSeparatedByString:@"\n"]];
         }
         

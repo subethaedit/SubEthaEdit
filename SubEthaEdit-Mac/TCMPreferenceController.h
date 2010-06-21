@@ -12,7 +12,7 @@
 @class TCMPreferenceModule;
 
 
-@interface TCMPreferenceController : NSWindowController
+@interface TCMPreferenceController : NSWindowController <NSToolbarDelegate>
 {
     NSMutableArray *I_toolbarItemIdentifiers;
     NSToolbar *I_toolbar;

@@ -416,8 +416,8 @@ static DocumentModeManager *S_sharedInstance=nil;
     while ((path = [enumerator nextObject])) { 
         NSString *fullPath = [path stringByAppendingPathComponent:MODEPATHCOMPONENT]; 
         if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:nil]) { 
-            [[NSFileManager defaultManager] createDirectoryAtPath:[fullPath stringByDeletingLastPathComponent] attributes:nil]; 
-            [[NSFileManager defaultManager] createDirectoryAtPath:fullPath attributes:nil]; 
+            [[NSFileManager defaultManager] createDirectoryAtPath:[fullPath stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:nil]; 
+            [[NSFileManager defaultManager] createDirectoryAtPath:fullPath withIntermediateDirectories:YES attributes:nil error:nil]; 
         } 
     } 
     
@@ -433,7 +433,7 @@ static DocumentModeManager *S_sharedInstance=nil;
     
     enumerator = [allPaths reverseObjectEnumerator]; 
     while ((path = [enumerator nextObject])) { 
-        NSEnumerator *dirEnumerator = [[[NSFileManager defaultManager] directoryContentsAtPath:path] objectEnumerator]; 
+        NSEnumerator *dirEnumerator = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil] objectEnumerator]; 
         while ((file = [dirEnumerator nextObject])) { 
             if ([[file pathExtension] isEqualToString:@"mode"]) { 
                 NSBundle *bundle = [NSBundle bundleWithPath:[path stringByAppendingPathComponent:file]]; 

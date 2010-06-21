@@ -16,7 +16,7 @@ extern NSString * const LicenseeNamePrefKey;
 extern NSString * const LicenseeOrganizationPrefKey;
 
 
-@interface LicenseController : NSWindowController {
+@interface LicenseController : NSWindowController <NSTextFieldDelegate> {
     IBOutlet NSTextField *O_licenseeNameField;
     IBOutlet NSTextField *O_licenseeOrganizationField;
     IBOutlet NSTextField *O_serialNumberField;

@@ -301,7 +301,7 @@ static NSMutableDictionary *S_nameAttributes,*S_contactAttributes,*S_contactLabe
 		[dateFormatter setTimeStyle:NSDateFormatterNoStyle];
         NSString *date=[NSString stringWithFormat:NSLocalizedString(@"PrintDate: %@",@"Date Information in Print Header"), [dateFormatter stringFromDate:[NSDate date]]];
 
-        NSString *filenameString = [[printDictionary objectForKey:@"SEEPageHeaderFullPath"] boolValue]?[I_document fileName]:[self printJobTitle];
+        NSString *filenameString = [[printDictionary objectForKey:@"SEEPageHeaderFullPath"] boolValue]?[[I_document fileURL] path]:[self printJobTitle];
         if ([[printDictionary objectForKey:@"SEEPageHeaderFilename"] boolValue] &&
             [[printDictionary objectForKey:@"SEEPageHeaderCurrentDate"] boolValue]) {
             [self setHeaderFormatString:[NSString stringWithFormat:@"%1$@\n%3$@\t%2$@",filenameString,@"%1$@",date]];

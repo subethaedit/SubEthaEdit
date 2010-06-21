@@ -83,8 +83,10 @@ static NSDate *launchDate;
 static NSString *keychainPassword = nil;
 static NSData *dhparamData = nil;
 
+// TODO: remove all the temporary keychain for TLS stuff!
+
 + (void)removeTemporaryKeychain {
-    [[NSFileManager defaultManager] removeFileAtPath:certKeychainPath handler:nil];
+    [[NSFileManager defaultManager] removeItemAtPath:certKeychainPath error:nil];
 }
 
 + (void)prepareDiffiHellmannParameters {
@@ -1551,7 +1553,7 @@ static NSData *dhparamData = nil;
     [channel closed];
     [channel cleanup];
     
-    int indexOfChannel = [I_channels indexOfObject:channel];
+    NSUInteger indexOfChannel = [I_channels indexOfObject:channel];
     if (indexOfChannel!=NSNotFound) {
         [self removeObjectFromChannelsAtIndex:indexOfChannel];
     

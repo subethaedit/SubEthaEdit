@@ -20,7 +20,7 @@ extern NSString * const TCMMMPresenceManagerAnnouncedSessionsDidChangeNotificati
 extern NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification;
 extern NSString * const TCMMMPresenceManagerDidReceiveTokenNotification;
 
-@interface TCMMMPresenceManager : NSObject
+@interface TCMMMPresenceManager : NSObject <NSNetServiceDelegate>
 {
     NSNetService *I_netService;
     NSMutableDictionary *I_statusOfUserIDs;

@@ -1218,11 +1218,7 @@ static NSString *tempFileName() {
 
 #pragma mark -
 
-#if defined(CODA)
 #pragma pack(push, 2)
-#else
-#pragma options align=mac68k
-#endif //defined(CODA)
 struct ModificationInfo
 {
     FSSpec theFile; // identifies the file
@@ -1234,11 +1230,7 @@ struct ModificationInfo
     short saved; // set this to zero when replying
 #endif //defined(CODA)
 };
-#if defined(CODA)
 #pragma pack(pop)
-#else
-#pragma options align=reset
-#endif //defined(CODA)
 
 - (void)handleAppleEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"handleAppleEvent: %@, withReplyEvent: %@", [event description], [replyEvent description]);
@@ -1251,9 +1243,8 @@ struct ModificationInfo
         NSDocument *document;
         while ((document = [enumerator nextObject])) {
             if ([document isDocumentEdited]) {
-                NSString *name = [document fileName];
-                if (name != nil) {
-                    NSURL *fileURL = [NSURL fileURLWithPath:name];
+				NSURL *fileURL = [document fileURL];
+                if (fileURL != nil) {
                     FSRef fileRef;
                     CFURLGetFSRef((CFURLRef)fileURL, &fileRef);
                     FSSpec fsSpec;

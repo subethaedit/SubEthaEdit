@@ -22,25 +22,6 @@ NSString * const UndoManagerWillCloseUndoGroupNotification = @"UndoManagerWillCl
 NSString * const UndoManagerWillRedoChangeNotification = @"UndoManagerWillRedoChangeNotification";
 NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoChangeNotification";
 
-#if !defined(CODA) // moved interface to header
-@interface UndoGroup : NSObject 
-{
-    UndoGroup *_parent;
-    NSMutableArray *_actions;
-    NSString *_actionName;
-}
-
-- (NSMutableArray *)actions;
-- (NSString *)actionName;
-- (void)addAction:(id)action;
-- (id)lastAction;
-- (id)initWithParent:(UndoGroup *)parent;
-- (UndoGroup *)parent;
-- (void)setActionName:(NSString *)newName;
-
-@end
-#endif //!defined(CODA)
-
 #pragma mark -
 
 @implementation UndoGroup

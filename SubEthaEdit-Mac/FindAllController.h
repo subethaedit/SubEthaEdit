@@ -11,7 +11,7 @@
 #import "PlainTextDocument.h"
 #import "SelectionOperation.h"
 
-@interface FindAllController : NSWindowController {
+@interface FindAllController : NSWindowController <NSWindowDelegate,NSTableViewDelegate> {
     IBOutlet NSPanel *O_findAllPanel;
     IBOutlet NSArrayController *O_resultsController;
     IBOutlet NSTextField *O_findResultsTextField;

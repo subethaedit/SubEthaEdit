@@ -278,7 +278,7 @@ NSString *ListViewDidChangeSelectionNotification=
 #pragma mark ### Selection Handling ###
 
 - (void)TCM_setNeedsDisplayForIndexes:(NSIndexSet *)indexes {
-    unsigned int indexBuffer[40];
+    NSUInteger indexBuffer[40];
     int indexCount;
     NSRange range=NSMakeRange([indexes firstIndex],[indexes lastIndex]-[indexes firstIndex]+1);
     while (YES) {

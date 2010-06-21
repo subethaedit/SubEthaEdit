@@ -240,7 +240,7 @@
         [[self channel] sendMessage:[message autorelease]];
         DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"juhuhh... sent accept: %@",message);
         // find the correct data
-        unsigned index = [profileURIs indexOfObject:[reply objectForKey:@"ProfileURI"]];
+        NSUInteger index = [profileURIs indexOfObject:[reply objectForKey:@"ProfileURI"]];
         NSData *recievedData = index==NSNotFound?[NSData data]:[dataArray objectAtIndex:index];
         [[self delegate] initiateChannelWithNumber:channelNumber profileURI:[reply objectForKey:@"ProfileURI"] data:recievedData asInitiator:NO];
     } else {
@@ -340,7 +340,7 @@
     if (i < [contentData length]) {
         contentData = [NSData dataWithBytesNoCopy:&bytes[i+4] length:[contentData length]-i-4 freeWhenDone:NO];
     }
-    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, [NSString stringWithCString:[[aMessage payload] bytes] length:[[aMessage payload] length]]);
+    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"%@", [[[NSString alloc] initWithBytes:[[aMessage payload] bytes] length:[[aMessage payload] length] encoding:NSISOLatin1StringEncoding] autorelease]);
     // Parse XML
     CFXMLTreeRef contentTree = NULL;
     NSDictionary *errorDict;

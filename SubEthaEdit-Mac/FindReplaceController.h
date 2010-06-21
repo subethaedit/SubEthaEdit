@@ -23,7 +23,7 @@ typedef enum {
 - (void)_setKeyViewRedirectionDisabled:(BOOL)aBool;
 @end
 
-@interface FindReplaceController : NSObject {
+@interface FindReplaceController : NSObject <NSWindowDelegate> {
     IBOutlet NSPanel *O_findPanel;
     IBOutlet NSPanel *O_gotoPanel;
     IBOutlet NSPanel *O_tabWidthPanel;

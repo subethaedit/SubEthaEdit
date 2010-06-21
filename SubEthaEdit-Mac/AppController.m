@@ -889,7 +889,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     while ((path = [enumerator nextObject])) {
         NSString *fullPath = [path stringByAppendingPathComponent:SCRIPTPATHCOMPONENT];
         if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:nil]) {
-            [[NSFileManager defaultManager] createDirectoryAtPath:fullPath attributes:nil];
+            [[NSFileManager defaultManager] createDirectoryAtPath:fullPath withIntermediateDirectories:YES attributes:nil error:nil];
         }
     }
 
@@ -907,7 +907,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 
     enumerator = [allPaths reverseObjectEnumerator];
     while ((path = [enumerator nextObject])) {
-        NSEnumerator *dirEnumerator = [[[NSFileManager defaultManager] directoryContentsAtPath:path] objectEnumerator];
+        NSEnumerator *dirEnumerator = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil] objectEnumerator];
         while ((file = [dirEnumerator nextObject])) {
             // skip hidden files and directory entries
             if (![file hasPrefix:@"."]) {
@@ -1078,7 +1078,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     if (document) {
         [document undo:aSender];
     } else {
-        NSUndoManager *undoManager=[[[NSApp mainWindow] delegate] undoManager];
+        NSUndoManager *undoManager=[(id)[[NSApp mainWindow] delegate] undoManager];
         [undoManager undo];
     }
 }
@@ -1088,7 +1088,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     if (document) {
         [document redo:aSender];
     } else {
-        NSUndoManager *undoManager=[[[NSApp mainWindow] delegate] undoManager];
+        NSUndoManager *undoManager=[(id)[[NSApp mainWindow] delegate] undoManager];
         [undoManager redo];
     }
 }
@@ -1142,7 +1142,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     if (currentDocument) {
         undoManager = [currentDocument documentUndoManager];
     } else {
-        undoManager = [[[NSApp mainWindow] delegate] undoManager];
+        undoManager = [(id)[[NSApp mainWindow] delegate] undoManager];
     }
     
     if (selector == @selector(undo:)) {

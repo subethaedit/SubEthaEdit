@@ -152,7 +152,7 @@ NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 
 - (int)rowsAboveRow:(int)row inIndexSet:(NSIndexSet *)indexSet
 {
-    unsigned currentIndex = [indexSet firstIndex];
+    NSUInteger currentIndex = [indexSet firstIndex];
     int i = 0;
     while (currentIndex != NSNotFound)
     {

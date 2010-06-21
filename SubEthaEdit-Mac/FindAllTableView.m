@@ -27,7 +27,7 @@
             NSUInteger index = [selection firstIndex]; 
 
             do {
-                [string appendString:[[[[[self delegate] arrangedObjects] objectAtIndex:index] objectForKey:@"foundString"] string]];
+                [string appendString:[[[[(id)[self delegate] arrangedObjects] objectAtIndex:index] objectForKey:@"foundString"] string]];
             } while ((index = [selection indexGreaterThanIndex: index]) != NSNotFound);
         }
     }

@@ -19,8 +19,6 @@ extern NSString * const UndoManagerWillUndoChangeNotification;
 
 @class TCMMMOperation, PlainTextDocument, UndoGroup;
 
-#if defined(CODA)
-// need interface in header
 @interface UndoGroup : NSObject 
 {
     UndoGroup *_parent;
@@ -35,7 +33,6 @@ extern NSString * const UndoManagerWillUndoChangeNotification;
 - (void)setActionName:(NSString *)newName;
 
 @end
-#endif //defined(CODA)
 
 @interface UndoManager : NSObject {
     PlainTextDocument *_document;
@@ -43,8 +40,8 @@ extern NSString * const UndoManagerWillUndoChangeNotification;
     NSMutableArray *_undoStack;
     NSMutableArray *_redoStack;
     
-    id _undoGroup;
-    id _redoGroup;
+    UndoGroup *_undoGroup;
+    UndoGroup *_redoGroup;
     id _preparedInvocationTarget;
     
     struct {

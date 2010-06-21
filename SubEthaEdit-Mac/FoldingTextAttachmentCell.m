@@ -29,7 +29,7 @@ static NSImage *s_foldingImage = nil;
 }
 
 - (void)drawWithFrame:(NSRect)cellFrame inView:(NSView *)controlView  
-characterIndex:(unsigned)charIndex layoutManager:(NSLayoutManager *) 
+characterIndex:(NSUInteger)charIndex layoutManager:(NSLayoutManager *) 
 layoutManager {
 //    [[NSColor redColor] set];
 //    NSLog(@"cell frame %@", NSStringFromRect(cellFrame));

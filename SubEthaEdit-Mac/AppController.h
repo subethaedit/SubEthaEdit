@@ -43,7 +43,7 @@ extern int const ScriptMenuTag;
 
 extern NSString * const GlobalScriptsDidReloadNotification;
 
-@interface AppController : NSObject {
+@interface AppController : NSObject <NSToolbarDelegate,NSMenuDelegate> {
     BOOL I_lastShouldOpenUntitledFile;
     NSMutableDictionary *I_scriptsByFilename;
     NSMutableDictionary *I_scriptSettingsByFilename;

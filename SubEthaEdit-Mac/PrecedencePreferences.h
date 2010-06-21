@@ -10,7 +10,7 @@
 #import "TCMPreferenceModule.h"
 
 
-@interface PrecedencePreferences : TCMPreferenceModule {
+@interface PrecedencePreferences : TCMPreferenceModule <NSTableViewDelegate> {
 	IBOutlet NSTableView *o_rulesTableView;
 	IBOutlet NSArrayController *o_modesController;
 	IBOutlet NSArrayController *o_rulesController;

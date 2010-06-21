@@ -152,7 +152,7 @@
 
 - (NSEnumerator *)selectedStylesEnumerator {
     NSMutableArray *styleArray=[NSMutableArray array];
-    unsigned int indexBuffer[BUFFERSIZE];
+    NSUInteger indexBuffer[BUFFERSIZE];
     NSArray *allKeys=[I_currentSyntaxStyle allKeys];
     NSIndexSet *selectedRows=[O_stylesTableView selectedRowIndexes];
     NSRange range=NSMakeRange(0,NSNotFound);
@@ -172,7 +172,7 @@
 
 - (void)updateInspector {
     int bold=UNITITIALIZED, italic=UNITITIALIZED, manyColors=NO,manyInvertedColors=NO,revertable=NO;
-    unsigned int indexBuffer[BUFFERSIZE];
+    NSUInteger indexBuffer[BUFFERSIZE];
     NSColor *color=nil,*invertedColor=nil;
     NSArray *allKeys=[I_currentSyntaxStyle allKeys];
     NSIndexSet *selectedRows=[O_stylesTableView selectedRowIndexes];
@@ -286,7 +286,7 @@
     [O_modeController setContent:newMode];
     I_currentSyntaxStyle=[newMode syntaxStyle];
     [O_stylesTableView reloadData];
-    [O_stylesTableView selectRow:0 byExtendingSelection:NO];
+    [O_stylesTableView selectRowIndexes:[NSIndexSet indexSetWithIndex:0] byExtendingSelection:NO];
     [self validateDefaultsState:aSender];
     [self updateInspector];
     }
@@ -411,7 +411,7 @@
         }
         [I_undoManager endUndoGrouping];
     } else if (aReturnCode == NSAlertThirdButtonReturn) {
-        [[DocumentController sharedInstance] openDocumentWithContentsOfFile:[dictionary objectForKey:@"filename"] display:YES];
+        [[DocumentController sharedInstance] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[dictionary objectForKey:@"filename"]] display:YES error:nil];
     }
 }
 

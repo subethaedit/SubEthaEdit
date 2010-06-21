@@ -605,9 +605,9 @@ static FindReplaceController *sharedInstance=nil;
             
             if (I_replaceAllReplaced==0) {
                 if ([[O_scopePopup selectedItem] tag]==1) {
-                    [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Not found in selection.",@"Find string not found in selection")]];
+                    [O_statusTextField setStringValue:NSLocalizedString(@"Not found in selection.",@"Find string not found in selection")];
                 } else {
-                    [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Not found.",@"Find string not found")]];
+                    [O_statusTextField setStringValue:NSLocalizedString(@"Not found.",@"Find string not found")];
                 }
                 NSBeep();
             } else {
@@ -677,9 +677,9 @@ static FindReplaceController *sharedInstance=nil;
         
         if (I_replaceAllReplaced==0) {
             if ([[O_scopePopup selectedItem] tag]==1) {
-                [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Not found in selection.",@"Find string not found in selection")]];
+                [O_statusTextField setStringValue:NSLocalizedString(@"Not found in selection.",@"Find string not found in selection")];
             } else {
-                [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Not found.",@"Find string not found")]];
+                [O_statusTextField setStringValue:NSLocalizedString(@"Not found.",@"Find string not found")];
             }
             NSBeep();
         } else {
@@ -966,9 +966,9 @@ static FindReplaceController *sharedInstance=nil;
     [O_progressIndicator stopAnimation:nil];
     if (!found){
         if ([[O_scopePopup selectedItem] tag]==1) {
-            [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Not found in selection.",@"Find string not found in selection")]];
+            [O_statusTextField setStringValue:NSLocalizedString(@"Not found in selection.",@"Find string not found in selection")];
         } else {
-            [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Not found.",@"Find string not found")]];
+            [O_statusTextField setStringValue:NSLocalizedString(@"Not found.",@"Find string not found")];
         }
         [O_statusTextField setHidden:NO];
     }

@@ -30,9 +30,9 @@ enum {
 };
 
 @interface TCMMMBrowserListView : TCMListView {
-    int I_dragToItem;
+    NSInteger I_dragToItem;
 }
-- (void)highlightItemForDrag:(int)itemIndex; // NSNotFound highlights all for drag
+- (void)highlightItemForDrag:(NSInteger)itemIndex; // NSNotFound highlights all for drag
 - (NSRect)frameForTag:(int)aTag atChildIndex:(int)aChildIndex ofItemAtIndex:(int)anItemIndex;
 
 @end

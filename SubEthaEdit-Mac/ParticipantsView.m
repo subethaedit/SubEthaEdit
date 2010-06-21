@@ -57,7 +57,7 @@
     return self;
 }
 
-- (void)drawChildWithIndex:(int)aChildIndex ofItemAtIndex:(int)aItemIndex drawBackground:(BOOL)aDrawBackground {
+- (void)drawChildWithIndex:(NSInteger)aChildIndex ofItemAtIndex:(NSInteger)aItemIndex drawBackground:(BOOL)aDrawBackground {
     Class myClass=[self class];
     float childRowHeight  =[myClass childRowHeight];
 
@@ -124,7 +124,7 @@
     }
 }
 
-- (void)drawItemAtIndex:(int)aItemIndex drawBackground:(BOOL)aDrawBackground {
+- (void)drawItemAtIndex:(NSInteger)aItemIndex drawBackground:(BOOL)aDrawBackground {
     Class myClass=[self class];
     float itemRowHeight   =[myClass itemRowHeight];
     static NSMutableDictionary *mNameAttributes=nil;
@@ -182,7 +182,7 @@
     }
 }
 
-- (NSRect)highlightRectForItem:(int)itemIndex {
+- (NSRect)highlightRectForItem:(NSInteger)itemIndex {
     NSRect itemRect=[self rectForItem:I_dragToItem child:-1];
     float height=1.;
     if (itemIndex == NSNotFound) {
@@ -198,7 +198,7 @@
     return NSMakeRect(itemRect.origin.x,NSMaxY(itemRect),itemRect.size.width,height);
 }
 
-- (void)highlightItemForDrag:(int)itemIndex {
+- (void)highlightItemForDrag:(NSInteger)itemIndex {
     if (itemIndex==NSNotFound) {
         I_dragToItem=itemIndex;
         [self setNeedsDisplay:YES];

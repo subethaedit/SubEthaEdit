@@ -337,7 +337,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
         [[sessionInformation objectForKey:@"InboundSessions"] makeObjectsPerformSelector:@selector(terminate)];
         [[sessionInformation objectForKey:@"OutboundSessions"] makeObjectsPerformSelector:@selector(terminate)]; 
         [[sessionInformation objectForKey:@"OutgoingRendezvousSessions"] makeObjectsPerformSelector:@selector(terminate)];
-        [[sessionInformation objectForKey:@"RendezvousSession"] terminate];
+        [(TCMBEEPSession *)[sessionInformation objectForKey:@"RendezvousSession"] terminate];
     }
     [I_pendingSessions makeObjectsPerformSelector:@selector(terminate)];
     [I_pendingSessions removeAllObjects];

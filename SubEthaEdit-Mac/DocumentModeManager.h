@@ -32,7 +32,7 @@
 - (void)configureWithAction:(SEL)aSelector alternateDisplay:(BOOL)aFlag;
 @end
 
-@interface DocumentModeManager : NSObject {
+@interface DocumentModeManager : NSObject <NSAlertDelegate> {
     NSMutableDictionary *I_modeBundles;
     NSMutableDictionary *I_documentModesByIdentifier;
     NSMutableDictionary *I_documentModesByName;

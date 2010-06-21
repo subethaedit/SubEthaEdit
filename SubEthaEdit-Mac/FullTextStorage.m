@@ -150,7 +150,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     return [I_internalAttributedString string];
 }
 
-- (NSDictionary *)attributesAtIndex:(unsigned)aIndex 
+- (NSDictionary *)attributesAtIndex:(NSUInteger)aIndex 
                      effectiveRange:(NSRangePointer)aRange {
 	if ([self length]==0) return nil;
     return [I_internalAttributedString attributesAtIndex:aIndex effectiveRange:aRange];

@@ -113,7 +113,7 @@ void TCM_AppendBencodedObjectToData(id inObject, NSMutableData *inData) {
         [prefixData release];
         [prefixString release];
     } else if ([inObject isKindOfClass:[NSData class]]) {
-		NSString *prefixString = [[NSString alloc] initWithFormat:@"%d.",[inObject length]];
+		NSString *prefixString = [[NSString alloc] initWithFormat:@"%d.",[(NSData *)inObject length]];
         TCM_AppendStringToMutableData(prefixString,result);
         [prefixString release];
         [result appendData:inObject];
