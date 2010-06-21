@@ -468,9 +468,9 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
     if (user && [self isVisible]) {
         [toolTipArray addObject:[user name]];
 
-        if ([[[user properties] objectForKey:@"AIM"] length] > 0)
+        if ([(NSString *)[[user properties] objectForKey:@"AIM"] length] > 0)
             [toolTipArray addObject:[NSString stringWithFormat:@"AIM: %@",[[user properties] objectForKey:@"AIM"]]];
-        if ([[[user properties] objectForKey:@"Email"] length] > 0)
+        if ([(NSString *)[[user properties] objectForKey:@"Email"] length] > 0)
             [toolTipArray addObject:[NSString stringWithFormat:@"Email: %@",[[user properties] objectForKey:@"Email"]]];
     }
     

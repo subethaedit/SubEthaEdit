@@ -24,7 +24,7 @@ extern NSString * const InternetToolbarItemIdentifier;
 extern NSString * const ToggleChangeMarksToolbarItemIdentifier;
 extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 
-@interface PlainTextWindowController : NSWindowController {
+@interface PlainTextWindowController : NSWindowController <NSSplitViewDelegate,NSMenuDelegate,NSToolbarDelegate> {
 
     // Participants drawer views
     IBOutlet NSDrawer            *O_participantsDrawer;

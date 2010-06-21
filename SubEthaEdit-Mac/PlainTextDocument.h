@@ -43,9 +43,9 @@ extern NSString * const ChangedByUserIDAttributeName;
 extern NSString * const PlainTextDocumentDidSaveNotification;
 
 #if defined(CODA)
-@interface PlainTextDocument : TSNodeWrapper <SEEDocument>
+@interface PlainTextDocument : TSNodeWrapper <SEEDocument,  NSTextViewDelegate, NSTextStorageDelegate, NSOpenSavePanelDelegate>
 #else
-@interface PlainTextDocument : NSDocument <SEEDocument>
+@interface PlainTextDocument : NSDocument <SEEDocument, NSTextViewDelegate, NSTextStorageDelegate, NSOpenSavePanelDelegate>
 #endif //defined(CODA)
 {
     TCMMMSession *I_session;
@@ -428,9 +428,9 @@ typedef enum {
 - (NSString *)mode;
 - (void)setMode:(NSString *)identifier;
 
-- (NSRange)textView:(NSTextView *)aTextView
-           willChangeSelectionFromCharacterRange:(NSRange)aOldSelectedCharRange
-                                toCharacterRange:(NSRange)aNewSelectedCharRange;
+//- (NSRange)textView:(NSTextView *)aTextView
+//           willChangeSelectionFromCharacterRange:(NSRange)aOldSelectedCharRange
+//                                toCharacterRange:(NSRange)aNewSelectedCharRange;
 
 @end
 

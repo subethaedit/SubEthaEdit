@@ -55,7 +55,7 @@
 }
 
 - (void)setReplacedAttributedStringDictionaryRepresentation:(NSDictionary *)aReplacedAttributedStringDictionaryRepresentation {
-	if ([[aReplacedAttributedStringDictionaryRepresentation objectForKey:@"String"] length] == 0) {
+	if ([(NSString *)[aReplacedAttributedStringDictionaryRepresentation objectForKey:@"String"] length] == 0) {
 		aReplacedAttributedStringDictionaryRepresentation = nil;
 	}
 	[I_replacedAttributedStringDictionaryRepresentation autorelease];

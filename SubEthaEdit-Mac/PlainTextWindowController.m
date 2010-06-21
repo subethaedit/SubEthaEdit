@@ -1670,7 +1670,7 @@ static NSAttributedString *S_dragString = nil;
 #pragma mark -
 #pragma mark ### ParticipantsView data source methods ###
 
-- (int)listView:(TCMListView *)aListView numberOfEntriesOfItemAtIndex:(int)anItemIndex {
+- (NSInteger)listView:(TCMListView *)aListView numberOfEntriesOfItemAtIndex:(NSInteger)anItemIndex {
     if (anItemIndex==-1) {
         if ([[[(PlainTextDocument *)[self document] session] pendingUsers] count] >0) {
             return 3;
@@ -1694,7 +1694,7 @@ static NSAttributedString *S_dragString = nil;
     }
 }
 
-- (id)listView:(TCMListView *)aListView objectValueForTag:(int)aTag atChildIndex:(int)aChildIndex ofItemAtIndex:(int)anItemIndex {
+- (id)listView:(TCMListView *)aListView objectValueForTag:(NSInteger)aTag atChildIndex:(NSInteger)aChildIndex ofItemAtIndex:(NSInteger)anItemIndex {
     if (aChildIndex == -1) {
         static NSImage *statusReadWrite=nil;
         static NSImage *statusReadOnly=nil;
@@ -1782,7 +1782,7 @@ static NSAttributedString *S_dragString = nil;
     [self validateButtons];
 }
 
--(NSMenu *)contextMenuForListView:(TCMListView *)aListView clickedAtRow:(int)aRow {
+-(NSMenu *)contextMenuForListView:(TCMListView *)aListView clickedAtRow:(NSInteger)aRow {
     ItemChildPair pair=[O_participantsView itemChildPairAtRow:aRow];
     if (pair.childIndex!=-1) {
         return I_contextMenu;
@@ -1790,7 +1790,7 @@ static NSAttributedString *S_dragString = nil;
     return nil;
 }
 
-- (NSString *)listView:(TCMListView *)aListView toolTipStringAtChildIndex:(int)aChildIndex ofItemAtIndex:(int)anItemIndex {
+- (NSString *)listView:(TCMListView *)aListView toolTipStringAtChildIndex:(NSInteger)aChildIndex ofItemAtIndex:(NSInteger)anItemIndex {
     if (aChildIndex!=-1) {
         PlainTextDocument *document=(PlainTextDocument *)[self document];
         TCMMMSession *session=[document session];
@@ -2770,12 +2770,13 @@ static NSAttributedString *S_dragString = nil;
 	
 	[viewImage unlockFocus];
 	
-	if ([[aTabView delegate] orientation] == PSMTabBarHorizontalOrientation) {
-		offset->width = [(id <PSMTabStyle>)[[aTabView delegate] style] leftMarginForTabBarControl];
+	PSMTabBarControl *tabItem = (PSMTabBarControl *)[aTabView delegate];
+	if ([tabItem orientation] == PSMTabBarHorizontalOrientation) {
+		offset->width = [(id <PSMTabStyle>)[tabItem style] leftMarginForTabBarControl];
 		offset->height = 22;
 	} else {
 		offset->width = 0;
-		offset->height = 22 + [(id <PSMTabStyle>)[[aTabView delegate] style] leftMarginForTabBarControl];
+		offset->height = 22 + [(id <PSMTabStyle>)[tabItem style] leftMarginForTabBarControl];
 	}
 	*styleMask = NSBorderlessWindowMask; //NSTitledWindowMask;
 	

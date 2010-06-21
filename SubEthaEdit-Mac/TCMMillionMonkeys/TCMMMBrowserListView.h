@@ -33,7 +33,7 @@ enum {
     NSInteger I_dragToItem;
 }
 - (void)highlightItemForDrag:(NSInteger)itemIndex; // NSNotFound highlights all for drag
-- (NSRect)frameForTag:(int)aTag atChildIndex:(int)aChildIndex ofItemAtIndex:(int)anItemIndex;
+- (NSRect)frameForTag:(NSInteger)aTag atChildIndex:(NSInteger)aChildIndex ofItemAtIndex:(NSInteger)anItemIndex;
 
 @end
 

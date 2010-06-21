@@ -42,6 +42,9 @@
 
 @implementation TextView
 
+- (id)delegate {
+	return (id)super.delegate;
+}
 
 // - (void)setNeedsDisplayInRect:(NSRect)aRect avoidAdditionalLayout:(BOOL)needsLayout {
 // 	NSLog(@"%s %@ %@",__FUNCTION__,NSStringFromRect(aRect),needsLayout?@"YES":@"NO");
@@ -68,7 +71,7 @@ static NSMenu *S_defaultMenu=nil;
 }
 
 - (PlainTextDocument *)document {
-    return [(FoldableTextStorage *)[self textStorage] delegate];
+    return (PlainTextDocument *)[(FoldableTextStorage *)[self textStorage] delegate];
 }
 
 
@@ -402,7 +405,7 @@ static NSMenu *S_defaultMenu=nil;
         if (clickCount == 3) {
             NSRange lineRange = [[ts string] lineRangeForRange:proposedSelRange];
             // select area that belongs to a style
-            unsigned int index = [self characterIndexForPoint:[[self window] convertBaseToScreen:[[NSApp currentEvent] locationInWindow]]];
+            NSUInteger index = [self characterIndexForPoint:[[self window] convertBaseToScreen:[[NSApp currentEvent] locationInWindow]]];
             NSRange resultRange = lineRange;
             if (index != NSNotFound && index < NSMaxRange(wholeRange)) {
                 [ts attribute:kSyntaxHighlightingStyleIDAttributeName atIndex:index longestEffectiveRange:&resultRange inRange:wholeRange];

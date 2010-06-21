@@ -165,11 +165,12 @@
             
             if (![fileName isEqualToString:destination]) {
                 if (domain == kUserDomain) {
+					// TODO: check errors here and present alert which is currently in fileManager:shouldProceedAfterError:
                     NSFileManager *fileManager = [NSFileManager defaultManager];
                     if ([fileManager fileExistsAtPath:destination]) {
-                        (void)[fileManager removeFileAtPath:destination handler:self];
+                        (void)[fileManager removeItemAtPath:destination error:nil];
                     }
-                    success = [fileManager copyPath:fileName toPath:destination handler:self];
+                    success = [fileManager copyItemAtPath:fileName toPath:destination error:nil];
                 } else {
                     OSStatus err;
                     CFURLRef tool = NULL;
@@ -259,7 +260,7 @@
                     }
 
 
-                    CFQRelease(tool);
+                    CFRelease(tool);
                     if (auth != NULL) {
                         (void)AuthorizationFree(auth, kAuthorizationFlagDestroyRights);
                     }
@@ -557,7 +558,7 @@ static NSString *tempFileName() {
 }
 
 - (BOOL)isDocumentFromLastRunOpenPanel:(NSDocument *)aDocument {
-    NSInteger index = [I_fileNamesFromLastRunOpenPanel indexOfObject:[aDocument fileName]];
+    NSInteger index = [I_fileNamesFromLastRunOpenPanel indexOfObject:[[aDocument fileURL] path]];
     if (index == NSNotFound) {
         return NO;
     }
@@ -569,6 +570,8 @@ static NSString *tempFileName() {
     return [I_propertiesForOpenedFiles objectForKey:fileName];
 }
 
+
+// TODO: this will not happen anymore since the handler API is depricated
 - (BOOL)fileManager:(NSFileManager *)manager shouldProceedAfterError:(NSDictionary *)errorInfo {
     NSAlert *alert = [[NSAlert alloc] init];
     [alert setAlertStyle:NSWarningAlertStyle];
@@ -661,14 +664,14 @@ static NSString *tempFileName() {
     }
 }
 
-- (id)openUntitledDocumentOfType:(NSString *)docType display:(BOOL)display {
+- (id)openUntitledDocumentAndDisplay:(BOOL)displayDocument error:(NSError **)outError {
     NSAppleEventDescriptor *eventDesc = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
     if ([eventDesc eventClass] == 'Hdra' && [eventDesc eventID] == 'See ') {
         I_isOpeningUntitledDocument = NO;
     } else {
         I_isOpeningUntitledDocument = YES;
     }
-    NSDocument *document = [super openUntitledDocumentOfType:docType display:display];
+    NSDocument *document = [super openUntitledDocumentAndDisplay:displayDocument error:outError];
     I_isOpeningUntitledDocument = NO;
     return document;
 }
@@ -859,7 +862,7 @@ static NSString *tempFileName() {
     NSString *filename;
     while ((filename = [enumerator nextObject])) {
         [I_propertiesForOpenedFiles setObject:properties forKey:filename];
-        BOOL shouldClose = ([self documentForFileName:filename] == nil);
+        BOOL shouldClose = ([self documentForURL:[NSURL fileURLWithPath:filename]] == nil);
         NSError *error=nil;
         PlainTextDocument *document = [self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:filename] display:YES error:&error];
         NSLog(@"%@",error);

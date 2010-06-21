@@ -986,7 +986,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 #pragma mark -
 #pragma mark ### list view methods ###
 
-- (NSMenu *)contextMenuForListView:(TCMListView *)listView clickedAtRow:(int)row {
+- (NSMenu *)contextMenuForListView:(TCMListView *)listView clickedAtRow:(NSInteger)row {
     return I_contextMenu;
 }
 
@@ -1021,7 +1021,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 }
 
 
-- (int)listView:(TCMListView *)aListView numberOfEntriesOfItemAtIndex:(int)anItemIndex {
+- (NSInteger)listView:(TCMListView *)aListView numberOfEntriesOfItemAtIndex:(NSInteger)anItemIndex {
     if (anItemIndex==-1) {
         return [[I_entriesController arrangedObjects] count];
     } else {
@@ -1033,7 +1033,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     }
 }
 
-- (id)listView:(TCMListView *)aListView objectValueForTag:(int)aTag atChildIndex:(int)aChildIndex ofItemAtIndex:(int)anItemIndex {
+- (id)listView:(TCMListView *)aListView objectValueForTag:(NSInteger)aTag atChildIndex:(NSInteger)aChildIndex ofItemAtIndex:(NSInteger)anItemIndex {
     
     if (anItemIndex >= 0 && anItemIndex < [[I_entriesController arrangedObjects] count]) {
         ConnectionBrowserEntry *entry = [[I_entriesController arrangedObjects] objectAtIndex:anItemIndex];
@@ -1046,7 +1046,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     return nil;
 }
 
-- (NSString *)listView:(TCMListView *)aListView toolTipStringAtChildIndex:(int)anIndex ofItemAtIndex:(int)anItemIndex {
+- (NSString *)listView:(TCMListView *)aListView toolTipStringAtChildIndex:(NSInteger)anIndex ofItemAtIndex:(NSInteger)anItemIndex {
     if (anItemIndex>=0 && anItemIndex<[[I_entriesController arrangedObjects] count]) {
         ConnectionBrowserEntry *entry=[[I_entriesController arrangedObjects] objectAtIndex:anItemIndex];
         return [entry toolTipString];

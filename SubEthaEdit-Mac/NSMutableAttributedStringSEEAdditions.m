@@ -190,7 +190,7 @@ extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
     aReplacementRange.location+=aLineRange.location;
     // don't touch newlines
     {
-        unsigned lineEnd,contentsEnd;
+        NSUInteger lineEnd,contentsEnd;
         [[textStorage string]  getLineStart:nil 
                                         end:&lineEnd 
                                 contentsEnd:&contentsEnd 
@@ -430,7 +430,7 @@ extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
 
 
 - (BOOL)lastLineIsEmpty {
-    unsigned lineStartIndex, lineEndIndex;
+    NSUInteger lineStartIndex, lineEndIndex;
     [[self string] getLineStart:&lineStartIndex end:&lineEndIndex contentsEnd:NULL forRange:NSMakeRange([self length],0)];
     return lineStartIndex == lineEndIndex;
 }

@@ -13,7 +13,7 @@
 
 @class TCMMMBrowserListView, ConnectionBrowserEntry, LoginSheetController,PlainTextDocument;
 
-@interface ConnectionBrowserController : NSWindowController
+@interface ConnectionBrowserController : NSWindowController <NSMenuDelegate,NSComboBoxDataSource>
 {
     IBOutlet NSScrollView *O_scrollView;
     IBOutlet TCMMMBrowserListView  *O_browserListView;

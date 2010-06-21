@@ -1059,7 +1059,7 @@ static NSString *tempFileName(NSString *origPath) {
 						contextInfo:contextInfo];
 #else
     NSArray *orderedWindows = [NSApp orderedWindows];
-    unsigned minIndex = NSNotFound;
+    NSUInteger minIndex = NSNotFound;
     NSEnumerator *enumerator = [[self windowControllers] objectEnumerator];
     PlainTextWindowController *windowController;
     while ((windowController = [enumerator nextObject])) {
@@ -1621,7 +1621,7 @@ static NSString *tempFileName(NSString *origPath) {
 
     NSStringEncoding encoding = [aSender tag];
 
-    DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, [NSString localizedNameOfStringEncoding:encoding]);
+    DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"%@",[NSString localizedNameOfStringEncoding:encoding]);
 
     if ([self fileEncoding] != encoding) {
 
@@ -2415,7 +2415,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             imageDirectory=[[htmlFile stringByDeletingLastPathComponent] stringByAppendingPathComponent:imageDirectoryPrefix];
             BOOL isDir = NO;
             if (([fileManager fileExistsAtPath:imageDirectory isDirectory:&isDir] && isDir) ||
-                 [fileManager createDirectoryAtPath:imageDirectory attributes:nil]) {
+                 [fileManager createDirectoryAtPath:imageDirectory withIntermediateDirectories:YES attributes:nil error:nil]) {
                 imageDirectoryPrefix = [imageDirectoryPrefix stringByAppendingString:@"/"];
             } else {
                 imageDirectory = [htmlFile stringByDeletingLastPathComponent];
@@ -2440,7 +2440,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                                         encoding:NSUTF8StringEncoding] autorelease];
         NSString *styleSheetBase=[[[NSString alloc] initWithData:[NSData dataWithContentsOfFile:[templateDirectory stringByAppendingPathComponent:@"Base.css"]] 
                                         encoding:NSUTF8StringEncoding] autorelease];
-        NSMutableString *styleSheet=[NSMutableString stringWithFormat:styleSheetBase];
+        NSMutableString *styleSheet=[NSMutableString stringWithString:styleSheetBase];
         
         NSValueTransformer *hueTrans=[NSValueTransformer valueTransformerForName:@"HueToColor"];
     
@@ -2694,7 +2694,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 - (void)setTemporarySavePanel:(NSSavePanel *)aPanel {
 	if (aPanel != I_savePanel) {
-		if (I_savePanel && [I_savePanel delegate] == self) {
+		if (I_savePanel && [I_savePanel delegate] == (id)self) {
 			[I_savePanel setDelegate:nil];
 		}
 		[I_savePanel autorelease];
@@ -2786,7 +2786,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 - (IBAction)selectFileFormat:(id)aSender {
     NSSavePanel *panel = (NSSavePanel *)[aSender window];
-    NSString *seeTextExtension = [[[DocumentController sharedInstance] fileExtensionsFromType:@"SEETextType"] lastObject];
+    NSString *seeTextExtension = [[[DocumentController sharedInstance] fileNameExtensionForType:@"SEETextType" saveOperation:NSSaveOperation] lastObject];
     if ([[aSender selectedCell] tag]==1) {
         [panel setRequiredFileType:seeTextExtension];
     } else {
@@ -2955,7 +2955,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
          }
     }
     if ([aType isEqualToString:@"SEETextType"]) {
-        NSString *seeTextExtension = [[[DocumentController sharedInstance] fileExtensionsFromType:aType] lastObject];
+        NSString *seeTextExtension = [[[DocumentController sharedInstance] fileNameExtensionForType:aType saveOperation:NSSaveOperation] lastObject];
         if (![[[anAbsoluteURL path] pathExtension] isEqualToString:seeTextExtension]) {
             anAbsoluteURL = [NSURL fileURLWithPath:[[anAbsoluteURL path] stringByAppendingPathExtension:seeTextExtension]];
         }
@@ -3637,7 +3637,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"fileEncoding: %@", [NSString localizedNameOfStringEncoding:[self fileEncoding]]);
 
     [self setKeepDocumentVersion:NO];
-    NSDictionary *fattrs = [[NSFileManager defaultManager] fileAttributesAtPath:fileName traverseLink:YES];
+    NSDictionary *fattrs = [[NSFileManager defaultManager] attributesOfItemAtPath:fileName error:nil];
     [self setFileAttributes:fattrs];
     BOOL isWritable = [[NSFileManager defaultManager] isWritableFileAtPath:fileName] || wasAutosaved;
     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"isWritable: %@", isWritable ? @"YES" : @"NO");
@@ -3788,7 +3788,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
             // mark it as package
             NSString *contentsPath = [packagePath stringByAppendingPathComponent:@"Contents"];
-            success = [fm createDirectoryAtPath:contentsPath attributes:nil];
+            success = [fm createDirectoryAtPath:contentsPath withIntermediateDirectories:YES attributes:nil error:nil];
             if (success) success = [[@"????????" dataUsingEncoding:NSUTF8StringEncoding] writeToURL:[NSURL fileURLWithPath:[contentsPath stringByAppendingPathComponent:@"PkgInfo"]] options:0 error:outError];
             
             NSMutableData *data=[NSMutableData dataWithData:[@"SEEText" dataUsingEncoding:NSASCIIStringEncoding allowLossyConversion:NO]];
@@ -3853,7 +3853,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             
             if (saveOperation != NSAutosaveOperation) {
                 NSString *quicklookPath = [packagePath stringByAppendingPathComponent:@"QuickLook"];
-                if (success) success = [fm createDirectoryAtPath:quicklookPath attributes:nil];
+                if (success) success = [fm createDirectoryAtPath:quicklookPath withIntermediateDirectories:YES attributes:nil error:nil];
                 if (success) {
                     NSURL *thumbnailURL = [NSURL fileURLWithPath:[quicklookPath stringByAppendingPathComponent:@"Thumbnail.jpg"]];
                     NSData *jpegData = [[self thumbnailBitmapRepresentation] representationUsingType:NSJPEGFileType properties:[NSDictionary dictionaryWithObjectsAndKeys:[NSNumber numberWithFloat:0.90],NSImageCompressionFactor,nil]];
@@ -3884,7 +3884,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                         [printDict setObject:[NSNumber numberWithBool:YES]  forKey:@"SEEPageHeaderCurrentDate"];
                         [printDict setObject:[NSNumber numberWithFloat:8.0] forKey:@"SEEResizeDocumentFontTo"];
                         NSPrintOperation *op = [NSPrintOperation printOperationWithView:printView printInfo:printInfo];
-                        [op setShowPanels:NO];
+                        [op setShowsPrintPanel:NO];
                         [self runModalPrintOperation:op
                                             delegate:nil
                                       didRunSelector:NULL
@@ -3913,10 +3913,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                                 if ([fm fileExistsAtPath:sourcePath]) {
                                     // make sure target directory exists (important for autosave)
                                     if (![fm fileExistsAtPath:[targetPath stringByDeletingLastPathComponent]]) {
-                                        [fm createDirectoryAtPath:[targetPath stringByDeletingLastPathComponent] attributes:nil];
+                                        [fm createDirectoryAtPath:[targetPath stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:nil];
                                     }
                                     // copy the file afterwards
-                                    [fm copyPath:sourcePath toPath:targetPath handler:nil];
+                                    [fm copyItemAtPath:sourcePath toPath:targetPath error:nil];
                                 }
                             }
                         }
@@ -3930,7 +3930,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             if (success) {
                 return YES;
             } else {
-                [fm removeFileAtPath:packagePath handler:nil];
+                [fm removeItemAtPath:packagePath error:nil];
                 if (outError && !*outError) {
                     return [[NSData data] writeToURL:[NSURL fileURLWithPath:@"/asdfaoinefqwef/asdofinasdfpoie/aspdoifnaspdfo/asdofinapsodifn"] options:0 error:outError];
                 } else {
@@ -4089,7 +4089,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     
     if (err == noErr) {
         NSFileManager *fileManager = [NSFileManager defaultManager];
-        NSDictionary *fileAttributes = [fileManager fileAttributesAtPath:fullDocumentPath traverseLink:YES];
+        NSDictionary *fileAttributes = [fileManager attributesOfItemAtPath:fullDocumentPath error:NO];
         NSUInteger fileReferenceCount = [[fileAttributes objectForKey:NSFileReferenceCount] unsignedLongValue];
         if (fileReferenceCount > 1) {
         
@@ -4286,7 +4286,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"Failed to write using writeSafelyToURL: %@",*outError);
         
         NSFileManager *fileManager = [NSFileManager defaultManager];
-        NSDictionary *fileAttributes = [fileManager fileAttributesAtPath:fullDocumentPath traverseLink:YES];
+        NSDictionary *fileAttributes = [fileManager attributesOfItemAtPath:fullDocumentPath error:nil];
         NSUInteger fileReferenceCount = [[fileAttributes objectForKey:NSFileReferenceCount] unsignedLongValue];
         BOOL isFileWritable = [fileManager isWritableFileAtPath:fullDocumentPath];
         if (fileReferenceCount > 1 && isFileWritable) {            
@@ -4334,12 +4334,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                     NSString *tempFilePath = tempFileName(fullDocumentPath);
                     hasBeenWritten = [self writeToURL:[NSURL fileURLWithPath:tempFilePath] ofType:docType forSaveOperation:saveOperationType originalContentsURL:nil error:outError];
                     if (hasBeenWritten) {
-                        BOOL result = [fileManager removeFileAtPath:fullDocumentPath handler:nil];
+                        BOOL result = [fileManager removeItemAtPath:fullDocumentPath error:nil];
                         if (result) {
-                            hasBeenWritten = [fileManager movePath:tempFilePath toPath:fullDocumentPath handler:nil];
+                            hasBeenWritten = [fileManager moveItemAtPath:tempFilePath toPath:fullDocumentPath error:nil];
                             if (hasBeenWritten) {
-                                NSDictionary *fattrs = [self fileAttributesToWriteToFile:fullDocumentPath ofType:docType saveOperation:saveOperationType];
-                                (void)[fileManager changeFileAttributes:fattrs atPath:fullDocumentPath];
+                                NSDictionary *fattrs = [self fileAttributesToWriteToURL:[NSURL fileURLWithPath:fullDocumentPath] ofType:docType forSaveOperation:saveOperationType originalContentsURL:nil error:nil];
+                                [fileManager setAttributes:fattrs ofItemAtPath:fullDocumentPath error:nil];
                             } else {
                                 NSAlert *newAlert = [[[NSAlert alloc] init] autorelease];
                                 [newAlert setAlertStyle:NSWarningAlertStyle];
@@ -4354,7 +4354,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 									*outError = nil; 
                             }
                         } else {
-                            (void)[fileManager removeFileAtPath:tempFilePath handler:nil];
+                            (void)[fileManager removeItemAtPath:tempFilePath error:nil];
                             NSAlert *newAlert = [[[NSAlert alloc] init] autorelease];
                             [newAlert setAlertStyle:NSWarningAlertStyle];
                             [newAlert setMessageText:NSLocalizedString(@"Save", nil)];
@@ -4396,7 +4396,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     }
     
     if (saveOperationType != NSSaveToOperation && saveOperationType != NSAutosaveOperation) {
-        NSDictionary *fattrs = [[NSFileManager defaultManager] fileAttributesAtPath:fullDocumentPath traverseLink:YES];
+        NSDictionary *fattrs = [[NSFileManager defaultManager] attributesOfItemAtPath:fullDocumentPath error:NULL];
         [self setFileAttributes:fattrs];
         [self setIsFileWritable:hasBeenWritten];
     }
@@ -4413,10 +4413,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (BOOL)TCM_validateDocument {
-    NSString *fileName = [self fileName];
+    NSString *fileName = [[self fileURL] path];
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Validate document: %@", fileName);
 
-    NSDictionary *fattrs = [[NSFileManager defaultManager] fileAttributesAtPath:fileName traverseLink:YES];
+    NSDictionary *fattrs = [[NSFileManager defaultManager] attributesOfItemAtPath:fileName error:nil];
     if ([[fattrs fileModificationDate] compare:[[self fileAttributes] fileModificationDate]] != NSOrderedSame) {
         DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Document has been changed externally");
         if ([self keepDocumentVersion]) {
@@ -5201,7 +5201,7 @@ static NSString *S_measurementUnits;
 
     // Construct the print operation and setup Print panel
     NSPrintOperation *op = [NSPrintOperation printOperationWithView:printView printInfo:[self printInfo]];
-    [op setShowPanels:showPanels];
+    [op setShowsPrintPanel:showPanels];
 
     if (showPanels) {
         // Add accessory view, if needed

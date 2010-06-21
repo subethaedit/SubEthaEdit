@@ -15,6 +15,9 @@
 
 @class FullTextStorage;
 
+@protocol FoldableTextStorageDelegate;
+@protocol TextStorageBlockeditDelegate;
+
 extern NSString * const TextStorageLineEndingDidChange;
 extern NSString * const TextStorageHasMixedLineEndingsDidChange;
 
@@ -46,6 +49,8 @@ extern NSString * const BlockeditAttributeValue;
     } I_scriptingProperties;
     
 }
+
+- (id <TextStorageBlockeditDelegate,FoldableTextStorageDelegate>)delegate;
 
 - (NSRange)foldedRangeForFullRange:(NSRange)inRange;
 - (NSRange)foldedRangeForFullRange:(NSRange)inRange expandIfFolded:(BOOL)aFlag;
@@ -111,13 +116,13 @@ extern NSString * const BlockeditAttributeValue;
 
 @end
 
-@interface NSObject (FoldableTextStorageDelegateAdditions)
+@protocol FoldableTextStorageDelegate
 
 - (void)textStorageDidChangeNumberOfTopLevelFoldings:(FoldableTextStorage *)aTextStorage;
 
 @end
 
-@interface NSObject (TextStorageBlockeditDelegateAdditions)
+@protocol TextStorageBlockeditDelegate
 
 - (NSDictionary *)blockeditAttributesForTextStorage:(FoldableTextStorage *)aTextStorage;
 - (void)textStorageDidStopBlockedit:(FoldableTextStorage *)aTextStorage;

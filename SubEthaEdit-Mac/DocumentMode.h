@@ -83,7 +83,7 @@ extern NSString * const DocumentModeApplyStylePreferencesNotification;
 @class RegexSymbolParser;
 @class SyntaxStyle;
 
-@interface DocumentMode : NSObject {
+@interface DocumentMode : NSObject <NSToolbarDelegate> {
     NSBundle *I_bundle;
     ModeSettings *I_modeSettings;
     SyntaxDefinition *I_syntaxDefinition;

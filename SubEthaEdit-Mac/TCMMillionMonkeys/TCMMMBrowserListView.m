@@ -94,7 +94,7 @@ static NSMutableDictionary *S_childNameAttributes=nil;
 #define CHILDBASEINSET 32.
 #define CHILDVINSET    -1.
 
-- (void)drawChildWithIndex:(int)aChildIndex ofItemAtIndex:(int)aItemIndex drawBackground:(BOOL)aDrawBackground{
+- (void)drawChildWithIndex:(NSInteger)aChildIndex ofItemAtIndex:(NSInteger)aItemIndex drawBackground:(BOOL)aDrawBackground{
 
     Class myClass=[self class];
     float childRowHeight  =[myClass childRowHeight];
@@ -143,7 +143,7 @@ static NSMutableDictionary *S_childNameAttributes=nil;
     }
 }
 
-- (NSRect)frameForTag:(int)aTag atChildIndex:(int)aChildIndex ofItemAtIndex:(int)anItemIndex {
+- (NSRect)frameForTag:(NSInteger)aTag atChildIndex:(NSInteger)aChildIndex ofItemAtIndex:(NSInteger)anItemIndex {
     if (aTag == TCMMMBrowserItemStatusImageTag) {
         return NSMakeRect(32.+9.,32+1.-13,16.,16.);
 
@@ -158,8 +158,8 @@ static NSMutableDictionary *S_childNameAttributes=nil;
 //        NSSize nameSize=[string sizeWithAttributes:S_itemNameAttributes];
 //        NSImage *image=[dataSource listView:self objectValueForTag:TCMMMBrowserItemImageNextToNameTag atChildIndex:-1 ofItemAtIndex:anItemIndex];
 //        if (image) {
-//            NSRect result = NSMakeRect(nameXOrigin+(int)nameSize.width+6.,
-//                              (int)(1.+nameSize.height)-(nameSize.height - [image size].height)/3.,
+//            NSRect result = NSMakeRect(nameXOrigin+(NSInteger)nameSize.width+6.,
+//                              (NSInteger)(1.+nameSize.height)-(nameSize.height - [image size].height)/3.,
 //                              [image size].width+1,
 //                              [image size].height);
 //            result.origin.x+=result.size.width+6;
@@ -173,7 +173,7 @@ static NSMutableDictionary *S_childNameAttributes=nil;
     return NSZeroRect;
 }
 
-- (void)drawItemAtIndex:(int)aIndex drawBackground:(BOOL)aDrawBackground{
+- (void)drawItemAtIndex:(NSInteger)aIndex drawBackground:(BOOL)aDrawBackground{
 
     Class myClass=[self class];
     float itemRowHeight   =[myClass itemRowHeight];
@@ -198,7 +198,7 @@ static NSMutableDictionary *S_childNameAttributes=nil;
     if (actionImage) {
         [NSGraphicsContext saveGraphicsState];
         NSSize actionSize=[actionImage size];
-        [actionImage compositeToPoint:NSMakePoint(itemRect.size.width-actionImagePadding-actionSize.width,(int)(itemRowHeight-(itemRowHeight-actionSize.height)/2.))
+        [actionImage compositeToPoint:NSMakePoint(itemRect.size.width-actionImagePadding-actionSize.width,(NSInteger)(itemRowHeight-(itemRowHeight-actionSize.height)/2.))
                      operation:NSCompositeSourceOver];
         itemRect.size.width-=actionImagePadding+actionSize.width+actionImagePadding;
         NSRectClip(itemRect);
@@ -241,7 +241,7 @@ static NSMutableDictionary *S_childNameAttributes=nil;
     // this one is right aligned now - and probably soon unused
     if (image) {
         [image compositeToPoint:NSMakePoint(NSMaxX(itemRect)-imageWidth-2.,
-                                            (int)(1.+nameSize.height)-(nameSize.height - [image size].height)/3.) 
+                                            (NSInteger)(1.+nameSize.height)-(nameSize.height - [image size].height)/3.) 
                       operation:NSCompositeSourceOver];
     }
 
@@ -287,7 +287,7 @@ static NSMutableDictionary *S_childNameAttributes=nil;
 
 #pragma mark === Drag & Drop ===
 
-- (NSRect)highlightRectForItem:(int)itemIndex {
+- (NSRect)highlightRectForItem:(NSInteger)itemIndex {
     NSRect itemRect=[self rectForItem:I_dragToItem child:-1];
     float height=1.;
     if (itemIndex != [self numberOfItems]-1) {

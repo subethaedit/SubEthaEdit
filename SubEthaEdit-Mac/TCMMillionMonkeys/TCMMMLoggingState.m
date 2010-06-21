@@ -77,7 +77,7 @@
         for (i=0;i<count;i++) {
             TCMMMLoggedOperation *operation = [loggedOperations objectAtIndex:i];
             if (timeDifference < 0) {
-                [operation setDate:[[operation date] addTimeInterval:timeDifference]];
+                [operation setDate:[[operation date] dateByAddingTimeInterval:timeDifference]];
             }
             id innerOperation = [operation operation];
             if (initialText && [innerOperation isKindOfClass:[TextOperation class]]) {

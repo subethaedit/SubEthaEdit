@@ -15,7 +15,7 @@ NSString *ListViewDidChangeSelectionNotification=
 
 - (void)TCM_rebuildIndices;
 
-- (int)indexOfRowAtPoint:(NSPoint)aPoint;
+- (NSInteger)indexOfRowAtPoint:(NSPoint)aPoint;
 
 @end
 
@@ -107,11 +107,11 @@ NSString *ListViewDidChangeSelectionNotification=
     [self resizeToFit];
 }
 
-- (void)drawChildWithIndex:(int)aChildIndex ofItemAtIndex:(int)aItemIndex drawBackground:(BOOL)aDrawBackground{
+- (void)drawChildWithIndex:(NSInteger)aChildIndex ofItemAtIndex:(NSInteger)aItemIndex drawBackground:(BOOL)aDrawBackground{
     // have to be implemented in subclasses
 }
 
-- (void)drawItemAtIndex:(int)aItemIndex drawBackground:(BOOL)aDrawBackground{
+- (void)drawItemAtIndex:(NSInteger)aItemIndex drawBackground:(BOOL)aDrawBackground{
     // have to be implemented in subclasses
 }
 
@@ -195,7 +195,7 @@ NSString *ListViewDidChangeSelectionNotification=
     }
 }
 
-- (NSRect)rectForItem:(int)anItemIndex child:(int)aChildIndex
+- (NSRect)rectForItem:(NSInteger)anItemIndex child:(NSInteger)aChildIndex
 {
     Class myClass=[self class];
     float itemRowHeight   =[myClass itemRowHeight];
@@ -219,13 +219,13 @@ NSString *ListViewDidChangeSelectionNotification=
     return result;
 }
 
-- (NSRect)rectForRow:(int)aRow {
+- (NSRect)rectForRow:(NSInteger)aRow {
     if (I_indicesNeedRebuilding) [self TCM_rebuildIndices];
     return [self rectForItem:I_indexItemChildPairAtRow[aRow].itemIndex
                        child:I_indexItemChildPairAtRow[aRow].childIndex];
 }
 
-- (int)indexOfRowAtPoint:(NSPoint)aPoint {
+- (NSInteger)indexOfRowAtPoint:(NSPoint)aPoint {
 
     Class myClass=[self class];
     float itemRowHeight   =[myClass itemRowHeight];
@@ -240,7 +240,7 @@ NSString *ListViewDidChangeSelectionNotification=
         return - 1;
     }
 
-    int searchPosition=(int)(aPoint.y/I_indexMaxHeight)*I_indexNumberOfItems;
+    int searchPosition=(NSInteger)(aPoint.y/I_indexMaxHeight)*I_indexNumberOfItems;
     NSRange testRange=I_indexYRangesForItem[searchPosition];
     if (aPoint.y < testRange.location) {
         while (aPoint.y < testRange.location) {
@@ -256,19 +256,19 @@ NSString *ListViewDidChangeSelectionNotification=
     
     int baseRow=I_indexRowAtItem[searchPosition];
     if (aPoint.y>testRange.location+itemRowHeight) {
-        baseRow+=(int)((aPoint.y-testRange.location-itemRowHeight-1)/childRowHeight)+1;
+        baseRow+=(NSInteger)((aPoint.y-testRange.location-itemRowHeight-1)/childRowHeight)+1;
     }
     
     return baseRow;
 }
 
-- (ItemChildPair)itemChildPairAtRow:(int)aIndex {
+- (ItemChildPair)itemChildPairAtRow:(NSInteger)aIndex {
     if (I_indicesNeedRebuilding) [self TCM_rebuildIndices];
     NSParameterAssert(aIndex>=0 && aIndex<I_indexNumberOfRows);
     return I_indexItemChildPairAtRow[aIndex];
 }
 
-- (int)rowForItem:(int)anItemIndex child:(int)aChildIndex {
+- (NSInteger)rowForItem:(NSInteger)anItemIndex child:(NSInteger)aChildIndex {
     if (I_indicesNeedRebuilding) [self TCM_rebuildIndices];
     NSParameterAssert(anItemIndex>=0 && anItemIndex<I_indexNumberOfItems);
     return I_indexRowAtItem[anItemIndex]+(aChildIndex==-1?0:aChildIndex+1);
@@ -291,7 +291,7 @@ NSString *ListViewDidChangeSelectionNotification=
     }
 }
 
-- (int)selectedRow {
+- (NSInteger)selectedRow {
     return I_selectedRow;
 }
 
@@ -318,7 +318,7 @@ NSString *ListViewDidChangeSelectionNotification=
     [set release];
 }
 
-- (void)deselectRow:(int)aRow {
+- (void)deselectRow:(NSInteger)aRow {
     if ([I_selectedRows containsIndex:aRow]) {
         [I_selectedRows removeIndex:aRow];
         [self TCM_sendListViewDidChangeSelectionNotification];
@@ -347,11 +347,11 @@ NSString *ListViewDidChangeSelectionNotification=
     }
 }
 
-- (int)numberOfSelectedRows {
+- (NSInteger)numberOfSelectedRows {
     return [I_selectedRows count];
 }
 
-- (void)shiftClickSelectoToRow:(int)aRow {
+- (void)shiftClickSelectoToRow:(NSInteger)aRow {
     NSInteger lesserIndex=[I_selectedRows indexLessThanOrEqualToIndex:aRow];
     NSInteger greaterIndex=[I_selectedRows indexGreaterThanOrEqualToIndex:aRow];
     NSIndexSet *set=nil;
@@ -371,7 +371,7 @@ NSString *ListViewDidChangeSelectionNotification=
     if (set) [self selectRowIndexes:set byExtendingSelection:YES];
 }
 
-- (void)selectRow:(int)aRow byExtendingSelection:(BOOL)shouldExtend {
+- (void)selectRow:(NSInteger)aRow byExtendingSelection:(BOOL)shouldExtend {
     
     if (!shouldExtend) {
         [self TCM_setNeedsDisplayForIndexes:I_selectedRows];
@@ -477,7 +477,7 @@ NSString *ListViewDidChangeSelectionNotification=
                     NSSize size=[actionImage size];
                     float actionImagePadding=[[self class] actionImagePadding];
                     if (point.x>=bounds.size.width-actionImagePadding-size.width && point.x<=bounds.size.width-actionImagePadding) {
-                        float actionImageInset=(int)((itemRect.size.height-size.height)/2.);
+                        float actionImageInset=(NSInteger)((itemRect.size.height-size.height)/2.);
                         if (point.y>=itemRect.origin.y+actionImageInset && point.y<=itemRect.origin.y+itemRect.size.height-actionImageInset) {
                             causedAction=YES;
                             I_actionRow = I_clickedRow;
@@ -518,17 +518,17 @@ NSString *ListViewDidChangeSelectionNotification=
     //NSLog(@"indexOfRow: %d", I_clickedRow);
 }
 
-- (int)numberOfItems {
+- (NSInteger)numberOfItems {
     if (I_indicesNeedRebuilding) [self TCM_rebuildIndices];
     return I_indexNumberOfItems;
 }
 
-- (int)numberOfChildrenOfItemAtIndex:(int)aIndex {
+- (NSInteger)numberOfChildrenOfItemAtIndex:(NSInteger)aIndex {
     if (I_indicesNeedRebuilding) [self TCM_rebuildIndices];
     return I_indexNumberOfChildren[aIndex]; 
 }
 
-- (int)numberOfRows {
+- (NSInteger)numberOfRows {
     if (I_indicesNeedRebuilding) [self TCM_rebuildIndices];
     return I_indexNumberOfRows; 
 }
@@ -540,7 +540,7 @@ NSString *ListViewDidChangeSelectionNotification=
     [self setNeedsDisplay:YES];
 }
 
-- (void)setNeedsDisplayForItem:(int)aItemIndex {
+- (void)setNeedsDisplayForItem:(NSInteger)aItemIndex {
     if (I_indicesNeedRebuilding) [self TCM_rebuildIndices];
     NSRect rect=[self bounds];
     NSRange heightRange=I_indexYRangesForItem[aItemIndex];
@@ -549,7 +549,7 @@ NSString *ListViewDidChangeSelectionNotification=
     [self setNeedsDisplayInRect:rect];
 }
 
-- (void)setNeedsDisplayForItem:(int)aItemIndex child:(int)aChildIndex {
+- (void)setNeedsDisplayForItem:(NSInteger)aItemIndex child:(NSInteger)aChildIndex {
     [self setNeedsDisplayInRect:[self rectForItem:aItemIndex child:aChildIndex]];
 }
 
@@ -578,7 +578,7 @@ NSString *ListViewDidChangeSelectionNotification=
     return NO;
 }
 
-- (NSImage *)dragImageSelectedRect:(NSRect *)aRect forChild:(int)aChildIndex ofItem:(int)anItemIndex {
+- (NSImage *)dragImageSelectedRect:(NSRect *)aRect forChild:(NSInteger)aChildIndex ofItem:(NSInteger)anItemIndex {
     Class myClass=[self class];
     float itemRowHeight   =[myClass itemRowHeight];
     float childRowHeight  =[myClass childRowHeight];
@@ -709,8 +709,8 @@ NSString *ListViewDidChangeSelectionNotification=
         free(I_indexItemChildPairAtRow);
     }
     
-    I_indexNumberOfChildren = (int *)malloc(sizeof(int)*I_indexNumberOfItems);
-    I_indexRowAtItem        = (int *)malloc(sizeof(int)*I_indexNumberOfItems);
+    I_indexNumberOfChildren = (int *)malloc(sizeof(NSInteger)*I_indexNumberOfItems);
+    I_indexRowAtItem        = (int *)malloc(sizeof(NSInteger)*I_indexNumberOfItems);
     I_indexYRangesForItem   = (NSRange *)malloc(sizeof(NSRange)*I_indexNumberOfItems);
     int itemIndex;
     int row=0;
@@ -770,11 +770,11 @@ NSString *ListViewDidChangeSelectionNotification=
 #pragma mark -
 #pragma mark ### Accessors ###
 
-- (int)clickedRow {
+- (NSInteger)clickedRow {
     return I_clickedRow;
 }
 
-- (int)actionRow {
+- (NSInteger)actionRow {
     return I_actionRow;
 }
 

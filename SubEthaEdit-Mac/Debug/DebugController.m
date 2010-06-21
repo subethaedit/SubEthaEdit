@@ -222,8 +222,9 @@ static DebugController * sharedInstance = nil;
 }
 
 - (IBAction)crash:(id)sender {
-    NSLog((NSString *)"crash here"); // This is supposed to crash, don't fix.
+    NSLog(@"%@",(NSString *)"crash here"); // This is supposed to crash, don't fix.
 }
+
 
 - (IBAction)sendCrashReport:(id)sender {
 #if !defined(CODA)

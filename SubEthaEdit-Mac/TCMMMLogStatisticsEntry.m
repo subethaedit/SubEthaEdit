@@ -19,13 +19,15 @@
 @end
 
 @implementation TCMMMLogStatisticsEntry
-+ (void)initialize {
-	if (self == [TCMMMLogStatisticsEntry class]) {
-		[self setKeys:[NSArray arrayWithObject:@"dateOfLastActivity"] triggerChangeNotificationsForDependentKey:@"operationCount"];
-		[self setKeys:[NSArray arrayWithObject:@"dateOfLastActivity"] triggerChangeNotificationsForDependentKey:@"deletedCharacters"];
-		[self setKeys:[NSArray arrayWithObject:@"dateOfLastActivity"] triggerChangeNotificationsForDependentKey:@"insertedCharacters"];
-		[self setKeys:[NSArray arrayWithObject:@"dateOfLastActivity"] triggerChangeNotificationsForDependentKey:@"selectedCharacters"];
+
++ (NSSet *)keyPathsForValuesAffectingValueForKey:(NSString *)aKey {
+	NSSet *result = [super keyPathsForValuesAffectingValueForKey:aKey];
+	static NSSet *S_dateAffectingSet = nil;
+	if (!S_dateAffectingSet) S_dateAffectingSet = [[NSSet alloc] initWithObjects:@"operationCount",@"deletedCharacters",@"insertedCharacters",@"selectedCharacters",nil];
+	if ([S_dateAffectingSet containsObject:aKey]) {
+		result = [result setByAddingObject:@"dateOfLastActivity"];
 	}
+	return result;
 }
 
 - (id)initWithMMUser:(TCMMMUser *)aUser {

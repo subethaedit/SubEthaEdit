@@ -13,7 +13,7 @@
 
 @class PlainTextWindowControllerTabContext,PlainTextDocument,PopUpButton,RadarScroller,TCMMMUser, TextView;
 
-@interface PlainTextEditor : NSResponder {
+@interface PlainTextEditor : NSResponder <NSTextViewDelegate> {
     IBOutlet NSImageView *O_waitPipeStatusImageView;
     IBOutlet NSTextField *O_positionTextField;
     IBOutlet PopUpButton *O_tabStatusPopUpButton;

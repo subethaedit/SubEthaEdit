@@ -68,6 +68,10 @@ NSString * const BlockeditAttributeValue=@"YES";
 }
 
 
+- (id <TextStorageBlockeditDelegate,FoldableTextStorageDelegate>)delegate {
+	return (id <TextStorageBlockeditDelegate,FoldableTextStorageDelegate>)super.delegate;
+}
+
 - (FullTextStorage *)fullTextStorage {
 	return I_fullTextStorage;
 }
@@ -1207,11 +1211,12 @@ typedef union {
         position=NSMaxRange(blockeditRange);
     }
     
-    if ([[[[self delegate] documentMode] defaultForKey:DocumentModeIndentWrappedLinesPreferenceKey] boolValue]) {
-        NSFont *font=[[self delegate] fontWithTrait:0];
-        int tabWidth=[[self delegate] tabWidth];
+	id myDelegate = (id)self.delegate;
+    if ([[[myDelegate documentMode] defaultForKey:DocumentModeIndentWrappedLinesPreferenceKey] boolValue]) {
+        NSFont *font=[myDelegate fontWithTrait:0];
+        int tabWidth=[myDelegate tabWidth];
         float characterWidth=[@" " sizeWithAttributes:[NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName]].width;
-        int indentWrappedCharacterAmount = [[[[self delegate] documentMode] defaultForKey:DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey] intValue];
+        int indentWrappedCharacterAmount = [[[myDelegate documentMode] defaultForKey:DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey] intValue];
         // look at all the lines and fixe the indention
         NSRange myRange = NSMakeRange(aRange.location,0);
         do {
@@ -1344,7 +1349,7 @@ typedef union {
 
 - (void)setScriptedContents:(id)value {
     // NSLog(@"%s: %d", __FUNCTION__, value);
-    [[self delegate] replaceTextInRange:NSMakeRange(0,[self length]) withString:value];
+    [(id)[self delegate] replaceTextInRange:NSMakeRange(0,[self length]) withString:value];
 }
 
 //- (id)insertionPoints
@@ -1405,7 +1410,7 @@ typedef union {
     NSScriptClassDescription *containerClassDesc = 
         (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[PlainTextDocument class]];
     
-    NSScriptObjectSpecifier *containerSpecifier = [[self delegate] objectSpecifier];
+    NSScriptObjectSpecifier *containerSpecifier = [(id)[self delegate] objectSpecifier];
     NSPropertySpecifier *propertySpecifier = 
         [[[NSPropertySpecifier alloc] initWithContainerClassDescription:containerClassDesc
                                                      containerSpecifier:containerSpecifier

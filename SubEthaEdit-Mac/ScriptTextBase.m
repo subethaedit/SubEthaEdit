@@ -116,7 +116,7 @@
 
 - (void)setScriptedContents:(id)value {
     // NSLog(@"%s: %@", __FUNCTION__, value);
-    [[[I_textStorage foldableTextStorage] delegate] replaceTextInRange:[self rangeRepresentation] withString:value];
+    [(id)[[I_textStorage foldableTextStorage] delegate] replaceTextInRange:[self rangeRepresentation] withString:value];
 }
 
 //- (id)insertionPoints

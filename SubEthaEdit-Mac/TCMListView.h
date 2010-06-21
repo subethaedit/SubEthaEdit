@@ -52,12 +52,12 @@ typedef struct _ItemChildPair {
 + (float)actionImagePadding;
 + (NSColor *)alternateRowColor;
 
-- (void)drawChildWithIndex:(int)aChildIndex ofItemAtIndex:(int)aItemIndex drawBackground:(BOOL)aDrawBackground;
-- (void)drawItemAtIndex:(int)aItemIndex drawBackground:(BOOL)aDrawBackground;
+- (void)drawChildWithIndex:(NSInteger)aChildIndex ofItemAtIndex:(NSInteger)aItemIndex drawBackground:(BOOL)aDrawBackground;
+- (void)drawItemAtIndex:(NSInteger)aItemIndex drawBackground:(BOOL)aDrawBackground;
 
-- (int)indexOfRowAtPoint:(NSPoint)aPoint;
-- (NSRect)rectForItem:(int)anItemIndex child:(int)aChildIndex;
-- (NSRect)rectForRow:(int)aRow;
+- (NSInteger)indexOfRowAtPoint:(NSPoint)aPoint;
+- (NSRect)rectForItem:(NSInteger)anItemIndex child:(NSInteger)aChildIndex;
+- (NSRect)rectForRow:(NSInteger)aRow;
 
 
 - (void)setDataSource:(id)aDataSource;
@@ -67,31 +67,31 @@ typedef struct _ItemChildPair {
 - (void)setTarget:(id)aTarget;
 - (void)setAction:(SEL)anAction;
 - (void)setDoubleAction:(SEL)anAction;
-- (int)clickedRow;
-- (int)actionRow;
-- (ItemChildPair)itemChildPairAtRow:(int)aIndex;
-- (int)rowForItem:(int)anItemIndex child:(int)aChildIndex;
+- (NSInteger)clickedRow;
+- (NSInteger)actionRow;
+- (ItemChildPair)itemChildPairAtRow:(NSInteger)aIndex;
+- (NSInteger)rowForItem:(NSInteger)anItemIndex child:(NSInteger)aChildIndex;
 
-- (void)setNeedsDisplayForItem:(int)aItemIndex;
-- (void)setNeedsDisplayForItem:(int)aItemIndex child:(int)aChildIndex;
+- (void)setNeedsDisplayForItem:(NSInteger)aItemIndex;
+- (void)setNeedsDisplayForItem:(NSInteger)aItemIndex child:(NSInteger)aChildIndex;
 
 - (void)reloadData;
-- (int)numberOfItems;
-- (int)numberOfChildrenOfItemAtIndex:(int)aIndex;
+- (NSInteger)numberOfItems;
+- (NSInteger)numberOfChildrenOfItemAtIndex:(NSInteger)aIndex;
 - (void)noteEnclosingScrollView;
 - (void)resizeToFit;
 - (NSPasteboard *)currentDraggingPasteboard;
-- (int)numberOfRows;
+- (NSInteger)numberOfRows;
 
 - (void)setEmptySpaceString:(NSAttributedString *)aEmptySpaceString;
 
 /*"Selection Handling"*/
-- (int)selectedRow;
+- (NSInteger)selectedRow;
 - (NSIndexSet *)selectedRowIndexes;
 - (void)deselectAll:(id)aSender;
-- (void)deselectRow:(int)aRow;
-- (int)numberOfSelectedRows;
-- (void)selectRow:(int)aRow byExtendingSelection:(BOOL)extend;
+- (void)deselectRow:(NSInteger)aRow;
+- (NSInteger)numberOfSelectedRows;
+- (void)selectRow:(NSInteger)aRow byExtendingSelection:(BOOL)extend;
 - (void)selectRowIndexes:(NSIndexSet *)indexes byExtendingSelection:(BOOL)extend;
 - (void)reduceSelectionToChildren;
 
@@ -99,15 +99,15 @@ typedef struct _ItemChildPair {
 
 
 @interface NSObject(ListViewDataSourceAdditions)
-- (int)listView:(TCMListView *)aListView numberOfEntriesOfItemAtIndex:(int)anItemIndex;
-- (id) listView:(TCMListView *)aListView objectValueForTag:(int)aTag atChildIndex:(int)anIndex ofItemAtIndex:(int)anItemIndex;
-- (NSString *)listView:(TCMListView *)aListView toolTipStringAtChildIndex:(int)anIndex ofItemAtIndex:(int)anItemIndex;
+- (NSInteger)listView:(TCMListView *)aListView numberOfEntriesOfItemAtIndex:(NSInteger)anItemIndex;
+- (id) listView:(TCMListView *)aListView objectValueForTag:(NSInteger)aTag atChildIndex:(NSInteger)anIndex ofItemAtIndex:(NSInteger)anItemIndex;
+- (NSString *)listView:(TCMListView *)aListView toolTipStringAtChildIndex:(NSInteger)anIndex ofItemAtIndex:(NSInteger)anItemIndex;
 - (BOOL)listView:(TCMListView *)listView writeRows:(NSIndexSet *)indexes toPasteboard:(NSPasteboard *)pboard;
 @end
 
 
 @interface NSObject (ListViewDelegateAdditions)
 - (void)participantsViewDidChangeSelection:(TCMListView *)alistView;
-- (NSMenu *)contextMenuForListView:(TCMListView *)aListView clickedAtRow:(int)aRow;
+- (NSMenu *)contextMenuForListView:(TCMListView *)aListView clickedAtRow:(NSInteger)aRow;
 - (BOOL)listView:(TCMListView *)aListView performActionForClickAtPoint:(NSPoint)aPoint atItemChildPair:(ItemChildPair)aPair;
 @end

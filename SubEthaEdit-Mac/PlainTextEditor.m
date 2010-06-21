@@ -1431,7 +1431,7 @@
     NSPoint point = visibleRect.origin;
     point.y += 1.;
     NSLayoutManager *layoutManager = [I_textView layoutManager];
-    TextStorage *textStorage = (TextStorage *)[I_textView textStorage];
+    NSTextStorage *textStorage = [I_textView textStorage];
     if ([textStorage length]) {
         unsigned glyphIndex=[layoutManager glyphIndexForPoint:point 
                                          inTextContainer:[I_textView textContainer]];
@@ -1542,7 +1542,7 @@
 
 
 
-- (NSString *)textView:(NSTextView *)inTextView willDisplayToolTip:(NSString *)inTooltip forCharacterAtIndex:(unsigned)inCharacterIndex {
+- (NSString *)textView:(NSTextView *)inTextView willDisplayToolTip:(NSString *)inTooltip forCharacterAtIndex:(NSUInteger)inCharacterIndex {
 	FoldableTextStorage *ts = (FoldableTextStorage *)[inTextView textStorage];
 	id attachment = [ts attribute:NSAttachmentAttributeName atIndex:inCharacterIndex effectiveRange:NULL];
 	if (attachment) {
@@ -1559,7 +1559,7 @@
 	}
 }
 
-- (void)textView:(NSTextView *)view doubleClickedOnCell:(id <NSTextAttachmentCell>)cell inRect:(NSRect)rect atIndex:(unsigned)inIndex {
+- (void)textView:(NSTextView *)view doubleClickedOnCell:(id <NSTextAttachmentCell>)cell inRect:(NSRect)rect atIndex:(NSUInteger)inIndex {
 	if ([[cell attachment] isKindOfClass:[FoldedTextAttachment class]])
 	{
 		[(FoldableTextStorage *)[view textStorage] unfoldAttachment:(FoldedTextAttachment *)[cell attachment] atCharacterIndex:inIndex];
@@ -1902,7 +1902,7 @@
 #pragma mark ### Auto completion ###
 
 #if !defined(CODA)
-- (NSArray *)textView:(NSTextView *)textView completions:(NSArray *)words forPartialWordRange:(NSRange)charRange indexOfSelectedItem:(int *)index {
+- (NSArray *)textView:(NSTextView *)textView completions:(NSArray *)words forPartialWordRange:(NSRange)charRange indexOfSelectedItem:(NSInteger *)index {
     NSString *partialWord, *completionEntry;
     NSMutableArray *completions = [NSMutableArray array];
     unsigned i, count;

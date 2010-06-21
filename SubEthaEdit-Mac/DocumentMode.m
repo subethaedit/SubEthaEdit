@@ -213,7 +213,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         I_scriptsByFilename = [NSMutableDictionary new];
         NSString *scriptFolder = [[aBundle resourcePath] stringByAppendingPathComponent:@"Scripts"];
         NSFileManager *fm = [NSFileManager defaultManager];
-        NSEnumerator *filenames = [[fm directoryContentsAtPath:scriptFolder] objectEnumerator];
+        NSEnumerator *filenames = [[fm contentsOfDirectoryAtPath:scriptFolder error:nil] objectEnumerator];
         NSString     *filename  = nil;
         while ((filename=[filenames nextObject])) {
             // skip hidden files and directory entries

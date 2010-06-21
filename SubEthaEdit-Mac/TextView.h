@@ -24,6 +24,8 @@
 	PlainTextEditor* editor;
 }
 
+- (id)delegate;
+
 - (void)setEditor:(PlainTextEditor*)inEditor;
 - (PlainTextEditor*)editor;
 + (void)setDefaultMenu:(NSMenu *)aMenu;
