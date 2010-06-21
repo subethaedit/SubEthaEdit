@@ -2786,7 +2786,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 - (IBAction)selectFileFormat:(id)aSender {
     NSSavePanel *panel = (NSSavePanel *)[aSender window];
-    NSString *seeTextExtension = [[[DocumentController sharedInstance] fileNameExtensionForType:@"SEETextType" saveOperation:NSSaveOperation] lastObject];
+    NSString *seeTextExtension = [self fileNameExtensionForType:@"SEETextType" saveOperation:NSSaveOperation];
     if ([[aSender selectedCell] tag]==1) {
         [panel setRequiredFileType:seeTextExtension];
     } else {
@@ -2955,7 +2955,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
          }
     }
     if ([aType isEqualToString:@"SEETextType"]) {
-        NSString *seeTextExtension = [[[DocumentController sharedInstance] fileNameExtensionForType:aType saveOperation:NSSaveOperation] lastObject];
+        NSString *seeTextExtension = [self fileNameExtensionForType:aType saveOperation:NSSaveOperation];
         if (![[[anAbsoluteURL path] pathExtension] isEqualToString:seeTextExtension]) {
             anAbsoluteURL = [NSURL fileURLWithPath:[[anAbsoluteURL path] stringByAppendingPathExtension:seeTextExtension]];
         }
@@ -6661,7 +6661,7 @@ static NSString *S_measurementUnits;
 			}
 #else			
             if ([self TCM_charIsBracket:[string characterAtIndex:charIndex]] && [self TCM_validTypeForBracketAtIndex:charIndex]) {
-                unsigned matchingPosition=[self TCM_positionOfMatchingBracketToPosition:charIndex];
+                NSUInteger matchingPosition=[self TCM_positionOfMatchingBracketToPosition:charIndex];
                 if (matchingPosition!=NSNotFound) {
                    aNewSelectedCharRange = NSUnionRange(NSMakeRange(charIndex,1),
                                                         NSMakeRange(matchingPosition,1));

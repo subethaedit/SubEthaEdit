@@ -138,7 +138,7 @@ NSString * const ScriptWrapperDidRunScriptNotification =@"ScriptWrapperDidRunScr
                 NSString *imagePath = [searchLocation pathForImageResource:imageName];
                 if (imagePath) toolbarImage = [[[NSImage alloc] initWithContentsOfFile:imagePath] autorelease];
             } else if ([searchLocation isKindOfClass:[NSString class]]) {
-                NSArray *directoryContents=[[NSFileManager defaultManager] directoryContentsAtPath:searchLocation];
+                NSArray *directoryContents=[[NSFileManager defaultManager] contentsOfDirectoryAtPath:searchLocation error:nil];
                 NSEnumerator *filenames=[directoryContents objectEnumerator];
                 NSString     *filename=nil;
                 while ((filename=[filenames nextObject])) {

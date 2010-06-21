@@ -1137,7 +1137,7 @@ static NSString *tempFileName() {
     if (identifier) {
         DocumentMode *newMode=[modeManager documentModeForIdentifier:identifier];
         if (!newMode) return;
-        PlainTextDocument *document = (PlainTextDocument *)[self openUntitledDocumentOfType:@"PlainTextType" display:NO];
+        PlainTextDocument *document = (PlainTextDocument *)[self openUntitledDocumentAndDisplay:NO error:nil];
         [document setDocumentMode:newMode];
         [document resizeAccordingToDocumentMode];
         [document showWindows];
@@ -1549,7 +1549,7 @@ struct ModificationInfo
 	[[[[wrapper plainTextEditors] objectAtIndex:0] textView] readSelectionFromPasteboard:pboard];
 	NSTextStorage *ts = [wrapper textStorage];
 #else
-    PlainTextDocument *document = (PlainTextDocument *)[self openUntitledDocumentOfType:@"PlainTextType" display:YES];
+    PlainTextDocument *document = (PlainTextDocument *)[self openUntitledDocumentAndDisplay:YES error:nil];
     [[[[document plainTextEditors] objectAtIndex:0] textView] readSelectionFromPasteboard:pboard];
     // Workaround for when only RTF is on the drag pasteboard (e.g. when dragging text from safari on the SubEthaEditApplicationIcon)
     NSTextStorage *ts = [document textStorage];
