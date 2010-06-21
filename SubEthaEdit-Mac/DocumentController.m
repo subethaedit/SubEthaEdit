@@ -1137,7 +1137,7 @@ static NSString *tempFileName() {
     if (identifier) {
         DocumentMode *newMode=[modeManager documentModeForIdentifier:identifier];
         if (!newMode) return;
-        PlainTextDocument *document = (PlainTextDocument *)[self openUntitledDocumentAndDisplay:NO error:nil];
+        PlainTextDocument *document = (PlainTextDocument *)[self openUntitledDocumentAndDisplay:YES error:nil];
         [document setDocumentMode:newMode];
         [document resizeAccordingToDocumentMode];
         [document showWindows];
