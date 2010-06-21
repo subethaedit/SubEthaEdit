@@ -110,7 +110,7 @@
     [[tabView selectedTabViewItem] setLabel:[sender stringValue]];
 }
 
-- (BOOL)validateMenuItem:(id <NSMenuItem>)menuItem
+- (BOOL)validateMenuItem:(id)menuItem
 {
     if([menuItem action] == @selector(closeTab:)){
         if(![tabBar canCloseOnlyTab] && ([tabView numberOfTabViewItems] <= 1)){
@@ -357,18 +357,18 @@
 	[transform scaleXBy:1.0 yBy:-1.0];
 	[transform concat];
 	tabFrame.origin.y = -tabFrame.origin.y - tabFrame.size.height;
-	[(id <PSMTabStyle>)[[aTabView delegate] style] drawBackgroundInRect:tabFrame];
+	[(id <PSMTabStyle>)[(PSMTabBarControl *)[aTabView delegate] style] drawBackgroundInRect:tabFrame];
 	[transform invert];
 	[transform concat];
 	
 	[viewImage unlockFocus];
 	
-	if ([[aTabView delegate] orientation] == PSMTabBarHorizontalOrientation) {
-		offset->width = [(id <PSMTabStyle>)[[aTabView delegate] style] leftMarginForTabBarControl];
+	if ([(PSMTabBarControl *)[aTabView delegate] orientation] == PSMTabBarHorizontalOrientation) {
+		offset->width = [(id <PSMTabStyle>)[(PSMTabBarControl *)[aTabView delegate] style] leftMarginForTabBarControl];
 		offset->height = 22;
 	} else {
 		offset->width = 0;
-		offset->height = 22 + [(id <PSMTabStyle>)[[aTabView delegate] style] leftMarginForTabBarControl];
+		offset->height = 22 + [(id <PSMTabStyle>)[(PSMTabBarControl *)[aTabView delegate] style] leftMarginForTabBarControl];
 	}
 	*styleMask = NSTitledWindowMask | NSTexturedBackgroundWindowMask;
 	
@@ -381,7 +381,7 @@
 	
 	//create a new window controller with no tab items
 	WindowController *controller = [[WindowController alloc] initWithWindowNibName:@"Window"];
-	id <PSMTabStyle> style = (id <PSMTabStyle>)[[aTabView delegate] style];
+	id <PSMTabStyle> style = (id <PSMTabStyle>)[(PSMTabBarControl *)[aTabView delegate] style];
 	
 	NSRect windowFrame = [[controller window] frame];
 	point.y += windowFrame.size.height - [[[controller window] contentView] frame].size.height;

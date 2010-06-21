@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 @class PSMTabBarControl;
 
-@interface WindowController : NSWindowController {
+@interface WindowController : NSWindowController <NSToolbarDelegate> {
     IBOutlet    NSTabView           *tabView;
     IBOutlet    NSTextField         *tabField;
     IBOutlet    NSDrawer            *drawer;

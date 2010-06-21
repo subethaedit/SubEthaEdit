@@ -11,19 +11,19 @@
 
 @implementation NSBezierPath (AMShading)
 
-static void linearShadedColor(void *info, const float *in, float *out)
+static void linearShadedColor(void *info, const CGFloat *in, CGFloat *out)
 {
-	float *colors = info;
+	CGFloat *colors = info;
 	*out++ = colors[0] + *in * colors[8];
 	*out++ = colors[1] + *in * colors[9];
 	*out++ = colors[2] + *in * colors[10];
 	*out++ = colors[3] + *in * colors[11];
 }
 
-static void bilinearShadedColor(void *info, const float *in, float *out)
+static void bilinearShadedColor(void *info, const CGFloat *in, CGFloat *out)
 {
-	float *colors = info;
-	float factor = (*in)*2.0;
+	CGFloat *colors = info;
+	CGFloat factor = (*in)*2.0;
 	if (*in > 0.5) {
 		factor = 2-factor;
 	}
@@ -94,14 +94,14 @@ static void bilinearShadedColor(void *info, const float *in, float *out)
 	CGColorSpaceRelease(colorspace);
 	 */
 
-	static const CGFunctionCallbacks callbacks = {0, &linearShadedColor, NULL};
+	const CGFunctionCallbacks callbacks = {0, &linearShadedColor, NULL};
 	
 	[self customHorizontalFillWithCallbacks:callbacks firstColor:startColor secondColor:endColor];
 };
 
 - (void)bilinearGradientFillWithOuterColor:(NSColor *)outerColor innerColor:(NSColor *)innerColor
 {
-	static const CGFunctionCallbacks callbacks = {0, &bilinearShadedColor, NULL};
+	const CGFunctionCallbacks callbacks = {0, &bilinearShadedColor, NULL};
 
 	[self customHorizontalFillWithCallbacks:callbacks firstColor:innerColor secondColor:outerColor];
 }
@@ -113,7 +113,7 @@ static void bilinearShadedColor(void *info, const float *in, float *out)
 	CGPoint startPoint = {0, 0};
 	CGPoint endPoint = {0, 0};
 	CGFunctionRef function;
-	float colors[12]; // pointer to color values
+	CGFloat colors[12]; // pointer to color values
 	
 	// get my context
 	CGContextRef currentContext = (CGContextRef)[[NSGraphicsContext currentContext] graphicsPort];
@@ -141,8 +141,8 @@ static void bilinearShadedColor(void *info, const float *in, float *out)
 	// draw gradient
 	colorspace = CGColorSpaceCreateDeviceRGB();
 	size_t components = 1 + CGColorSpaceGetNumberOfComponents(colorspace);
-	static const float  domain[2] = {0.0, 1.0};
-	static const float  range[10] = {0, 1, 0, 1, 0, 1, 0, 1, 0, 1};
+	static CGFloat  domain[2] = {0.0, 1.0};
+	static CGFloat  range[10] = {0, 1, 0, 1, 0, 1, 0, 1, 0, 1};
 	//static const CGFunctionCallbacks callbacks = {0, &bilinearShadedColor, NULL};
 	
 	// Create a CGFunctionRef that describes a function taking 1 input and kChannelsPerColor outputs.
