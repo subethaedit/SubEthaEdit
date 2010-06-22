@@ -7,6 +7,7 @@
 //
 
 #import "NSMenuTCMAdditions.h"
+#import <dlfcn.h>
 
 @implementation NSMenu (NSMenuTCMAdditions)
 - (void)removeAllItems {
@@ -32,8 +33,23 @@
     return [[self title] caseInsensitiveCompare:[aMenuItem title]];
 }
 
+#define kUnresolvedSymbolAddress (void*)(~(uintptr_t)0)
+#if defined(__LP64__)
+static void (*SetItemMark)(MenuRef, MenuItemIndex, CharParameter) = kUnresolvedSymbolAddress;
+#endif
+
 - (void)setMark:(int)aMark {
-    SetItemMark(_NSGetCarbonMenu([self menu]), [[self menu] indexOfItem:self] + 1, aMark);
+#if defined(__LP64__)
+	if (SetItemMark == kUnresolvedSymbolAddress) {
+		void* handle = dlopen("/System/Library/Frameworks/Carbon.framework/Versions/A/Frameworks/HIToolbox.framework/Versions/A/HIToolbox", (RTLD_LAZY | RTLD_LOCAL | RTLD_FIRST));
+		if (handle != NULL) {
+			SetItemMark = (__typeof__(SetItemMark))dlsym(handle, "SetItemMark");
+		}
+	}
+#endif
+	if (SetItemMark != NULL && _NSGetCarbonMenu != NULL) {
+		SetItemMark(_NSGetCarbonMenu([self menu]), [[self menu] indexOfItem:self] + 1, aMark);
+	}
 }
 
 

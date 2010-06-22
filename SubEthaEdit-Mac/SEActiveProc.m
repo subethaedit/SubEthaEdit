@@ -116,13 +116,15 @@ OSAError ActiveProc(long refCon)
 		_component = component;
 		
 		// Save the old active proc
-		OSAError error = OSAGetActiveProc(component, &_oldActiveProc, &_oldRefCon);
+		//OSAError error = 
+		OSAGetActiveProc(component, &_oldActiveProc, &_oldRefCon);
 
 		// Create the new one and set it
 		_activeProc = NewOSAActiveUPP((OSAActiveProcPtr)&ActiveProc);
 		if (_activeProc)
 		{
-			error = OSASetActiveProc(_component, _activeProc, 0L);
+			//error = 
+			OSASetActiveProc(_component, _activeProc, 0L);
 		}
 	}
 

@@ -335,9 +335,11 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
         
         //NSLog(@"Highlighting stuff");
         
-        [self highlightRegularExpressionsOfAttributedString:aString inRange:colorRange forState:[currentState objectForKey:@"id"]];
-        [self highlightPlainStringsOfAttributedString:aString inRange:colorRange forState:[currentState objectForKey:@"id"]];
-        
+		if ( theDocument != nil && colorRange.length > 0 ) {
+			[self highlightRegularExpressionsOfAttributedString:aString inRange:colorRange forState:[currentState objectForKey:@"id"]];
+			[self highlightPlainStringsOfAttributedString:aString inRange:colorRange forState:[currentState objectForKey:@"id"]];
+		}
+
         //NSLog(@"Finished highlighting for this state %@ '%@'", [currentState objectForKey:@"id"], [[aString string] substringWithRange:colorRange]);
 
         currentRange = nextRange;
@@ -625,6 +627,8 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
     
     if ([aTextStorage respondsToSelector:@selector(endLinearAttributeChanges)]) [(id)aTextStorage endLinearAttributeChanges];
     [aTextStorage endEditing];
+    
+    theDocument = nil; //Fixes a crasher accessing zombies
     
     return returnvalue;
 }

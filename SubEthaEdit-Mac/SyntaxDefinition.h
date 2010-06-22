@@ -35,6 +35,10 @@
     SyntaxStyle *I_defaultSyntaxStyle;
     NSString *I_charsInToken;
     NSString *I_charsDelimitingToken;
+#if defined(CODA)
+	NSString *I_keyForInheritedSymbols;
+	NSString *I_keyForInheritedAutocomplete;
+#endif //defined(CODA)
     OGRegularExpression *I_tokenRegex;
     int I_foldingTopLevel;
 }

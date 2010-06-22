@@ -67,7 +67,6 @@
 #import "NSMenuTCMAdditions.h"
 
 #import "TCMMMLoggingState.h"
-#import "BacktracingException.h"
 
 #import "UKXattrMetadataStore.h"
 
@@ -437,7 +436,8 @@ static NSString *tempFileName(NSString *origPath) {
                 if (appleEvent != nil) {
                     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Sending apple event");
                     AppleEvent reply;
-                    err = AESendMessage ([appleEvent aeDesc], &reply, kAENoReply, kAEDefaultTimeout);
+                    //err = 
+                    AESendMessage ([appleEvent aeDesc], &reply, kAENoReply, kAEDefaultTimeout);
                 }
             }
         }
@@ -487,7 +487,8 @@ static NSString *tempFileName(NSString *origPath) {
                 if (appleEvent != nil) {
                     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Sending apple event");
                     AppleEvent reply;
-                    err = AESendMessage ([appleEvent aeDesc], &reply, kAENoReply, kAEDefaultTimeout);
+                    //err = 
+                    AESendMessage ([appleEvent aeDesc], &reply, kAENoReply, kAEDefaultTimeout);
                 }
             }
         }
@@ -3570,6 +3571,14 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Encoding guessing information summary: %@", _readFromURLDebugInformation);
         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Read successful? %@", success ? @"YES" : @"NO");
 
+#if defined(CODA)
+		//have to do this before setdocumentmode to avoid layout when calling setContinuousSpellCheckingEnabled: 
+		[textStorage endEditing]; 
+		
+		if ( mode == nil )
+			mode = [DocumentModeManager baseMode];
+#endif
+
         [self setDocumentMode:mode];
         if ([I_textStorage length] > [defaults integerForKey:@"StringLengthToStopHighlightingAndWrapping"]) {
             [self setHighlightsSyntax:NO];
@@ -3624,7 +3633,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 			}
 		}
 
+#if !defined(CODA)
         [textStorage endEditing];
+#endif
         
         NSNumber *lineEndingNumber = [I_stateDictionaryFromLoading objectForKey:@"e"];
         if (lineEndingNumber) {
@@ -3643,11 +3654,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"isWritable: %@", isWritable ? @"YES" : @"NO");
     [self setIsFileWritable:isWritable];
 
-
+/*
     NSUInteger wholeLength = [I_textStorage length];
     [I_textStorage addAttributes:[self plainTextAttributes]
                            range:NSMakeRange(0, wholeLength)];
-
+*/
     [self updateChangeCount:NSChangeCleared];
     
     if (isReverting) {
@@ -4690,6 +4701,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     } else {
         FoldableTextStorage *textStorage=(FoldableTextStorage *)[self textStorage];
         [textStorage beginEditing];
+#if defined(CODA)
+		//don't want the highlighter to run as we open the document
+		[self setDocumentMode:nil];
+#endif //defined (CODA)
         [textStorage setShouldWatchLineEndings:NO];
 
         [self setLineEnding:lineEnding];
@@ -5129,7 +5144,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         int count = [pathComponents count];
         if (count==1) return [pathComponents lastObject];
         NSMutableString *result = [NSMutableString string];
-        int i = count;
+        int i;
         int pathComponentsToShow = [[NSUserDefaults standardUserDefaults] integerForKey:AdditionalShownPathComponentsPreferenceKey] + 1;
         for (i = count-1; i >= 1 && i > count-pathComponentsToShow-1; i--) {
             if (i != count-1) {
@@ -6497,7 +6512,7 @@ static NSString *S_measurementUnits;
                             break;
                         }
                     }
-                    position=lineRange.location;
+                    //position=lineRange.location;
                     //NSLog(@"last linebreak, firstcharacter=%d,%d",position,firstCharacter);
                     if (firstCharacter==affectedRange.location
                         || affectedRange.location==lineRange.location

@@ -9,7 +9,6 @@
 #import <Cocoa/Cocoa.h>
 
 
-#if !defined(CODA)
 extern NSString * const GeneralViewPreferencesDidChangeNotificiation;
 
 
@@ -32,7 +31,6 @@ extern NSString * const MyNamesPreferenceKey;
 extern NSString * const MyAIMsPreferenceKey;
 extern NSString * const MyEmailsPreferenceKey;
 extern NSString * const SynthesiseFontsPreferenceKey;
-#endif //!defined(CODA)
 
 extern NSString * const MyImagePreferenceKey;
 extern NSString * const OpenNewDocumentInTabKey;

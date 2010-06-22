@@ -8,7 +8,6 @@
 
 #import "PreferenceKeys.h"
 
-#if !defined(CODA)
 NSString * const GeneralViewPreferencesDidChangeNotificiation =
                @"GeneralViewPreferencesDidChangeNotificiation";
 
@@ -30,7 +29,6 @@ NSString * const MyEmailIdentifierPreferenceKey             = @"MyEmailIdentifie
 NSString * const MyAIMsPreferenceKey                        = @"MyAIMs";
 NSString * const MyEmailsPreferenceKey                      = @"MyEmails";
 NSString * const SynthesiseFontsPreferenceKey               = @"SynthesiseFonts";
-#endif //!defined(CODA)
 
 
 

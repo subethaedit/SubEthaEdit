@@ -111,7 +111,7 @@ NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 {
 	
     NSArray		*objects = [self arrangedObjects];
-	NSUInteger	   index = [indexSet lastIndex];
+	int			index = [indexSet lastIndex];
 	
     int			aboveInsertIndexCount = 0;
     id			object;
@@ -150,10 +150,10 @@ NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 }
 
 
-- (int)rowsAboveRow:(int)row inIndexSet:(NSIndexSet *)indexSet
+- (NSInteger)rowsAboveRow:(NSInteger)row inIndexSet:(NSIndexSet *)indexSet
 {
     NSUInteger currentIndex = [indexSet firstIndex];
-    int i = 0;
+    NSInteger i = 0;
     while (currentIndex != NSNotFound)
     {
 		if (currentIndex < row) { i++; }
@@ -162,11 +162,11 @@ NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
     return i;
 }
 
-- (int)numberOfRowsInTableView:(NSTableView *)tableView {
+- (NSUInteger)numberOfRowsInTableView:(NSTableView *)tableView {
 	return 0;
 }
 
-- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(int)row {
+- (id)tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
 	return nil;
 }
 

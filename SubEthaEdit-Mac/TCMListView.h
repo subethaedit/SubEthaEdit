@@ -13,8 +13,8 @@ extern NSString *ListViewDidChangeSelectionNotification;
 #define TCMListViewActionButtonImageTag 9999
 
 typedef struct _ItemChildPair {
-    int itemIndex;
-    int childIndex;
+    NSInteger itemIndex;
+    NSInteger childIndex;
 } ItemChildPair;
 
 
@@ -23,11 +23,11 @@ typedef struct _ItemChildPair {
     NSButtonCell *I_disclosureCell;
     id I_dataSource;
     id I_delegate;
-    int I_clickedRow;
+    NSInteger I_clickedRow;
     id I_target;
     SEL I_action;
     SEL I_doubleAction;
-    int I_actionRow;
+    NSInteger I_actionRow;
     NSPasteboard *I_currentDragPasteboard;
     
     // Selection
@@ -36,20 +36,20 @@ typedef struct _ItemChildPair {
     
     // indices
     BOOL I_indicesNeedRebuilding;
-    int  I_indexNumberOfItems;
-    int *I_indexNumberOfChildren;
-    int *I_indexRowAtItem;
+    NSInteger  I_indexNumberOfItems;
+    NSInteger *I_indexNumberOfChildren;
+    NSInteger *I_indexRowAtItem;
     ItemChildPair *I_indexItemChildPairAtRow;
-    float I_indexMaxHeight;
+    CGFloat I_indexMaxHeight;
     NSRange *I_indexYRangesForItem;
-    int I_indexNumberOfRows;
+    NSInteger I_indexNumberOfRows;
     NSAttributedString *I_emptySpaceString;
 }
 
-+ (float)itemRowHeight;
-+ (float)childRowHeight;
-+ (float)itemRowGapHeight;
-+ (float)actionImagePadding;
++ (CGFloat)itemRowHeight;
++ (CGFloat)childRowHeight;
++ (CGFloat)itemRowGapHeight;
++ (CGFloat)actionImagePadding;
 + (NSColor *)alternateRowColor;
 
 - (void)drawChildWithIndex:(NSInteger)aChildIndex ofItemAtIndex:(NSInteger)aItemIndex drawBackground:(BOOL)aDrawBackground;

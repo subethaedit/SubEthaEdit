@@ -571,11 +571,25 @@
 }
 
 - (NSString *) keyForInheritedSymbols {
+#if defined(CODA)
+	if ( !I_keyForInheritedSymbols )
+		I_keyForInheritedSymbols = [[NSString alloc] initWithFormat:@"/%@/useSymbolsFrom", [self name]];
+	
+	return I_keyForInheritedSymbols;
+#else
 	return [NSString stringWithFormat:@"/%@/useSymbolsFrom", [self name]];
+#endif //defined(CODA)
 }
 
 - (NSString *) keyForInheritedAutocomplete {
+#if defined(CODA)
+	if ( !I_keyForInheritedAutocomplete )
+		I_keyForInheritedAutocomplete = [[NSString alloc] initWithFormat:@"/%@/useAutocompleteFrom", [self name]];
+	
+	return I_keyForInheritedAutocomplete;
+#else
 	return [NSString stringWithFormat:@"/%@/useAutocompleteFrom", [self name]];
+#endif //defined(CODA)
 }
 
 - (NSString*)getModeNameFromState:(NSString*)aState
@@ -753,13 +767,21 @@
 		NSEnumerator *enumerator = [[aState objectForKey:@"imports"] keyEnumerator];
 		id importName;
 		while ((importName = [enumerator nextObject])) {
-			NSArray *components = [importName componentsSeparatedByString:@"/"];
+#if defined(CODA)
+			NSString *modeName = [self getModeNameFromState:importName]; 
+#else
+ 			NSArray *components = [importName componentsSeparatedByString:@"/"];
+#endif //defined(CODA)
 			BOOL keywordsOnly = NO;
 			
 			NSXMLElement *importNode = [[aState objectForKey:@"imports"] objectForKey:importName];
 			if ([[[importNode attributeForName:@"keywords-only"]stringValue] isEqualToString:@"yes"]) keywordsOnly = YES;
 			
+#if defined(CODA)
+			SyntaxDefinition *linkedDefinition = [[[DocumentModeManager sharedInstance] documentModeForName:modeName] syntaxDefinition]; 
+#else
 			SyntaxDefinition *linkedDefinition = [[[DocumentModeManager sharedInstance] documentModeForName:[components objectAtIndex:1]] syntaxDefinition];
+#endif //defined(CODA)
 			NSDictionary *linkedState = [linkedDefinition stateForID:importName];
 
 
@@ -787,9 +809,14 @@
         NSString *beginString;
 		if ([aDictionary objectForKey:@"hardlink"]) {
             NSString *linkedName = [aDictionary objectForKey:@"id"];
+#if defined(CODA)
+			NSString *modeName = [self getModeNameFromState:linkedName]; 
+            SyntaxDefinition *linkedDefinition = [[[DocumentModeManager sharedInstance] documentModeForName:modeName] syntaxDefinition];
+#else
             NSArray *components = [linkedName componentsSeparatedByString:@"/"];
 			
             SyntaxDefinition *linkedDefinition = [[[DocumentModeManager sharedInstance] documentModeForName:[components objectAtIndex:1]] syntaxDefinition];
+#endif //defined(CODA)            
             NSDictionary *linkedState = [linkedDefinition stateForID:linkedName];
 			
             if (linkedState) {
