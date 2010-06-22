@@ -34,7 +34,7 @@
         I_importedModes = [NSMutableDictionary new];
         I_useSpellingDictionary = NO;
         I_allStates = [NSMutableDictionary new];
-        I_name = [@"Not named" retain];
+        I_name = nil;
         [self setMode:aMode];
         everythingOkay = YES;
         I_foldingTopLevel = 1;
@@ -506,17 +506,23 @@
 
 - (NSString *)name
 {
-    NSString *idenifier = [[self mode] documentModeIdentifier];
+	if (I_name) return I_name;
+    
+	NSString *idenifier = [[self mode] documentModeIdentifier];
     NSRange aRange = [idenifier rangeOfString:@"SEEMode." options:NSLiteralSearch range:NSMakeRange(0, [idenifier length] - 1)];
 	NSString *modeName = [idenifier substringWithRange:NSMakeRange(aRange.length, [idenifier length] - aRange.length)];
 
+	if (!I_name) I_name = [modeName copy];
+	
     return modeName;
 }
 
 - (void)setName:(NSString *)aString
 {
     [I_name autorelease];
-     I_name = [aString copy];
+    NSRange aRange = [aString rangeOfString:@"SEEMode." options:NSLiteralSearch range:NSMakeRange(0, [aString length] - 1)];
+	NSString *modeName = [aString substringWithRange:NSMakeRange(aRange.length, [aString length] - aRange.length)];
+     I_name = [modeName copy];
 }
 
 - (NSMutableDictionary *)defaultState
