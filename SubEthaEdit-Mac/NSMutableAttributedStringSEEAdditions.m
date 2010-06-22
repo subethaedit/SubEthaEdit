@@ -132,12 +132,10 @@ extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
 
 - (void)removeAttributes:(id)anObjectEnumerable range:(NSRange)aRange {
 	[self beginEditing];
-    NSEnumerator *attributeNames=[anObjectEnumerable objectEnumerator];
     id attributeName=nil;
-    while ((attributeName=[attributeNames nextObject])) {
-        [self removeAttribute:attributeName
-                        range:aRange];
-    }
+	for (attributeName in anObjectEnumerable) {
+        [self removeAttribute:attributeName range:aRange];
+	}
 	[self endEditing];
 }
 

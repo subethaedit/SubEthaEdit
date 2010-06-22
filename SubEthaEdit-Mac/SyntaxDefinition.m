@@ -41,7 +41,8 @@
         I_defaultSyntaxStyle = [SyntaxStyle new]; 
         [I_defaultSyntaxStyle setDocumentMode:aMode];               
         // Parse XML File
-        ^{[self parseXMLFile:aPath];}();
+		
+		[self parseXMLFile:aPath];
         
         // Setup stuff <-> style dictionaries
         I_stylesForToken = [NSMutableDictionary new];
@@ -52,6 +53,8 @@
 		I_cacheStylesCalculating = NO;
 		I_symbolAndAutocompleteInheritanceReady=NO;
 		I_levelsForStyleIDs = [NSMutableDictionary new];
+		I_keyForInheritedSymbols = nil;
+		I_keyForInheritedAutocomplete = nil;
 	}
     
 //    NSLog([self description]);
@@ -571,11 +574,13 @@
 }
 
 - (NSString *) keyForInheritedSymbols {
-	return [NSString stringWithFormat:@"/%@/useSymbolsFrom", [self name]];
+	if (!I_keyForInheritedSymbols) I_keyForInheritedSymbols = [NSString stringWithFormat:@"/%@/useSymbolsFrom", [self name]];
+	return I_keyForInheritedSymbols;
 }
 
 - (NSString *) keyForInheritedAutocomplete {
-	return [NSString stringWithFormat:@"/%@/useAutocompleteFrom", [self name]];
+	if (!I_keyForInheritedAutocomplete) I_keyForInheritedAutocomplete = [NSString stringWithFormat:@"/%@/useAutocompleteFrom", [self name]];
+	return I_keyForInheritedAutocomplete;
 }
 
 - (NSString*)getModeNameFromState:(NSString*)aState

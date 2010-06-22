@@ -341,7 +341,10 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 //		__block SyntaxHighlighter *blockSelf = self;
 
 		// highlight regexes
-		^ {
+		//dispatch_queue_t syntaxHighlightingQueue;
+		
+		^{
+			NSString *theString = [aString string];
 			NSArray *regexArray = [definition regularExpressionsInState:currentStateID];    
 			
 			OGRegularExpression *aRegex;
@@ -610,9 +613,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
                 
                 //DEBUGLOG(@"SyntaxHighlighterDomain", SimpleLogLevel, @"Chunk #%d, Dirty: %@, Chunk: %@", chunks, NSStringFromRange(dirtyRange),NSStringFromRange(chunkRange));
 				
-				^ {
                 [self highlightAttributedString:aTextStorage inRange:chunkRange];
-                }();
                 
                 if ((((double)(clock()-start_time))/CLOCKS_PER_SEC) > return_after) {
                     DEBUGLOG(@"SyntaxHighlighterDomain", SimpleLogLevel, @"Coloring took too long, aborting after %f seconds",(((double)(clock()-start_time))/CLOCKS_PER_SEC));

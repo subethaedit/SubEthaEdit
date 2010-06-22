@@ -35,6 +35,8 @@
     SyntaxStyle *I_defaultSyntaxStyle;
     NSString *I_charsInToken;
     NSString *I_charsDelimitingToken;
+	NSString *I_keyForInheritedSymbols;
+	NSString *I_keyForInheritedAutocomplete;
     OGRegularExpression *I_tokenRegex;
     int I_foldingTopLevel;
 }
