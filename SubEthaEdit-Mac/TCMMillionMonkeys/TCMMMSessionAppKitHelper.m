@@ -14,7 +14,7 @@
 
 - (void)playSoundNamed:(NSString *)name
 {
-    [[NSSound soundNamed:name] play];
+    [(NSSound *)[NSSound soundNamed:name] play];
 }
 
 - (void)playBeep

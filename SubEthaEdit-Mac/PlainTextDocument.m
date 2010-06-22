@@ -1818,6 +1818,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     [super addWindowController:windowController];
     PlainTextDocumentIgnoreRemoveWindowController = NO;
 }
+#endif //!defined(CODA)
 
 - (void)setKeepUndoManagerOnZeroWindowControllers:(BOOL)aFlag {
 	I_flags.keepUndoManagerOnZeroWindowControllers = aFlag;
@@ -1826,7 +1827,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 	return I_flags.keepUndoManagerOnZeroWindowControllers;
 }
 
-
+#if !defined(CODA)
 - (void)removeWindowController:(NSWindowController *)windowController
 {
     if (!PlainTextDocumentIgnoreRemoveWindowController) {
