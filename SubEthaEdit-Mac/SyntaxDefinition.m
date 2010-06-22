@@ -41,7 +41,7 @@
         I_defaultSyntaxStyle = [SyntaxStyle new]; 
         [I_defaultSyntaxStyle setDocumentMode:aMode];               
         // Parse XML File
-        [self parseXMLFile:aPath];
+        ^{[self parseXMLFile:aPath];}();
         
         // Setup stuff <-> style dictionaries
         I_stylesForToken = [NSMutableDictionary new];

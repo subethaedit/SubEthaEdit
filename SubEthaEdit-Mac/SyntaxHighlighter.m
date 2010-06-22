@@ -334,10 +334,66 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
         [aString addAttributes:scratchAttributes range:stateRange];
         
         //NSLog(@"Highlighting stuff");
-        
-        [self highlightRegularExpressionsOfAttributedString:aString inRange:colorRange forState:[currentState objectForKey:@"id"]];
-        [self highlightPlainStringsOfAttributedString:aString inRange:colorRange forState:[currentState objectForKey:@"id"]];
-        
+        NSString *currentStateID = [currentState objectForKey:@"id"];
+        //[self highlightRegularExpressionsOfAttributedString:aString inRange:colorRange forState:[currentState objectForKey:@"id"]];
+        //[self highlightPlainStringsOfAttributedString:aString inRange:colorRange forState:[currentState objectForKey:@"id"]];
+
+//		__block SyntaxHighlighter *blockSelf = self;
+
+		// highlight regexes
+		^ {
+			NSArray *regexArray = [definition regularExpressionsInState:currentStateID];    
+			
+			OGRegularExpression *aRegex;
+			OGRegularExpressionMatch *aMatch;
+			int i;
+			int count = [regexArray count];
+			
+			for (i=0; i<count; i++) {
+				NSArray *currentRegexStyle = [regexArray objectAtIndex:i];
+				aRegex = [currentRegexStyle objectAtIndex:0];
+				NSString *styleID = [currentRegexStyle objectAtIndex:1];
+				NSDictionary *keywordGroup = [currentRegexStyle objectAtIndex:2]; // should probably be passed in a more verbose and quicker way via an object instead of dictionaries
+				NSDictionary *attributes=[theDocument styleAttributesForStyleID:styleID];                
+				NSEnumerator *matchEnumerator = [[aRegex allMatchesInString:theString range:colorRange] objectEnumerator];
+				while ((aMatch = [matchEnumerator nextObject])) {
+					NSRange matchedRange = [aMatch rangeOfLastMatchSubstring];
+					if (matchedRange.location != NSNotFound) {
+						[aString addAttributes:attributes range:matchedRange]; // only color last matched subgroup - it is important that all regex keywords have exactly and only one matching group for this to work
+						if ([attributes objectForKey:NSLinkAttributeName]) {
+							NSString *matchedString = [aMatch lastMatchSubstring];
+							NSString *linkPrefix = [keywordGroup objectForKey:@"uri-prefix"];
+							if (linkPrefix) matchedString = [linkPrefix stringByAppendingString:matchedString];
+							
+							// escape non-ASCII characters that are not yet escaped
+							matchedString = [(NSString *)CFURLCreateStringByAddingPercentEscapes(NULL,(CFStringRef)matchedString, (CFStringRef) @"%&?=#", NULL, kCFStringEncodingUTF8) autorelease];
+							
+							NSURL *theURL = [NSURL URLWithString:matchedString];
+							
+							if (theURL && ([theURL host] || ([[theURL scheme] length] > 0 && ![[theURL scheme] hasPrefix:@"http"]))) [aString addAttribute:NSLinkAttributeName value:theURL range:matchedRange];
+							else [aString removeAttribute:NSLinkAttributeName range:matchedRange];
+						}
+					}
+				}
+			}
+		}();
+		
+		// highlight plain strings
+		^ {
+			if (![definition hasTokensForState:currentStateID]) return;
+			
+			NSEnumerator *matchEnumerator = [[[definition tokenRegex] allMatchesInString:theString range:colorRange] objectEnumerator];
+			
+			OGRegularExpressionMatch *aMatch;
+		    NSString *styleID;
+			while ((aMatch = [matchEnumerator nextObject])) {
+				if ((styleID = [definition styleForToken:[aMatch matchedString] inState:currentStateID])) {
+					[aString addAttributes:[theDocument styleAttributesForStyleID:styleID] range:[aMatch rangeOfMatchedString]];
+				}
+			}				
+		}();
+
+
         //NSLog(@"Finished highlighting for this state %@ '%@'", [currentState objectForKey:@"id"], [[aString string] substringWithRange:colorRange]);
 
         currentRange = nextRange;
@@ -381,6 +437,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
     }
 }
 
+
 // TODO: Get rid of this. See Below.
 
 -(void)highlightPlainStringsOfAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange forState:(NSString *)aState
@@ -401,40 +458,9 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
     }
 }
 
--(void)oldHighlightPlainStringsOfAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange forState:(NSString *)aState
-{
-    int aMaxRange = NSMaxRange(aRange);
-    int location;
-    NSString *styleID;
-    SyntaxDefinition *definition = [self syntaxDefinition];
-    
-    if (![definition hasTokensForState:aState]) return;
-    
-    
-    NSScanner *scanner = [NSScanner scannerWithString:[aString string]];
-    [scanner setCharactersToBeSkipped:[definition invertedTokenSet]];
-    [scanner setScanLocation:aRange.location];
-    do {
-        NSString *token = nil;
-        if ([scanner scanCharactersFromSet:[definition tokenSet] intoString:&token]) {
-            location = [scanner scanLocation];
-            if (token) {
-                //DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found Token: %@ in State %d",token, aState);
-                if ((styleID = [definition styleForToken:token inState:aState])) {
-                    int tokenlength = [token length];
-                    NSRange foundRange = NSMakeRange(location-tokenlength,tokenlength);
-                    if (NSMaxRange(foundRange)>aMaxRange) break;
-                    
-                    [aString addAttributes:[theDocument styleAttributesForStyleID:styleID] range:foundRange];
-                }
-            }
-        } else break;
-    } while (location < aMaxRange);
-    
-}
 
 // TODO: Migrate keywords to one precompiled regex
-// Roll this method back into the highlighter loop to avoid duplicating efforts
+// Roll this method back into one block to avoid duplicating efforts
 
 -(void)highlightRegularExpressionsOfAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange forState:(NSString *)aState
 {
@@ -583,10 +609,10 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 
                 
                 //DEBUGLOG(@"SyntaxHighlighterDomain", SimpleLogLevel, @"Chunk #%d, Dirty: %@, Chunk: %@", chunks, NSStringFromRange(dirtyRange),NSStringFromRange(chunkRange));
-
-
+				
+				^ {
                 [self highlightAttributedString:aTextStorage inRange:chunkRange];
-                
+                }();
                 
                 if ((((double)(clock()-start_time))/CLOCKS_PER_SEC) > return_after) {
                     DEBUGLOG(@"SyntaxHighlighterDomain", SimpleLogLevel, @"Coloring took too long, aborting after %f seconds",(((double)(clock()-start_time))/CLOCKS_PER_SEC));
