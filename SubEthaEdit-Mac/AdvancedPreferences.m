@@ -366,7 +366,6 @@
 		[alert release];
     }
 }
-#endif //!defined(CODA)
 
 - (IBAction)changeDisableScreenFonts:(id)aSender {
     if ([aSender state]==NSOnState) {
@@ -381,5 +380,7 @@
     // trigger update
     [[[DocumentController sharedInstance] documents] makeObjectsPerformSelector:@selector(applyStylePreferences)];
 }
+#endif //!defined(CODA)
+
 
 @end

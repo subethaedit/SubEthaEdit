@@ -296,7 +296,7 @@ NSScrollView * firstScrollView(NSView *aView) {
     if ([aFrame isEqualTo:[oWebView mainFrame]]) {
         NSScrollView *scrollView=firstScrollView(oWebView);
         if (scrollView && _hasSavedVisibleRect) {
-            [[scrollView documentView] scrollRectToVisible:_documentVisibleRect];
+            [(NSView *)[scrollView documentView] scrollRectToVisible:_documentVisibleRect];
             _hasSavedVisibleRect=NO;
         }
     }

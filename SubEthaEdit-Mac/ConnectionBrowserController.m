@@ -868,7 +868,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 }
 
 - (IBAction)joinSession:(id)aSender {
-    int row = [aSender clickedRow];
+    NSInteger row = [aSender clickedRow];
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"joinSession in row: %d", row);
     
     ItemChildPair pair = [aSender itemChildPairAtRow:row];
@@ -878,7 +878,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 }
 
 - (IBAction)doubleAction:(id)aSender {
-    int row = [aSender clickedRow];
+    NSInteger row = [aSender clickedRow];
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"joinSession in row: %d", row);
     
     ItemChildPair pair = [aSender itemChildPairAtRow:row];
@@ -1155,7 +1155,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     if ([[aPasteboard types] containsObject:@"PresentityNames"] ||
 		[[aPasteboard types] containsObject:@"IMHandleNames"]) {
         NSArray *presentityNames=[[aPasteboard types] containsObject:@"PresentityNames"] ? [aPasteboard propertyListForType:@"PresentityNames"] : [aPasteboard propertyListForType:@"IMHandleNames"]; 
-        int i=0;
+        NSUInteger i=0;
         for (i=0;i<[presentityNames count];i+=4) {
             [self sendInvitationToServiceWithID:[presentityNames objectAtIndex:i] buddy:[presentityNames objectAtIndex:i+1] url:[aDocument documentURLForGroup:aGroup]];
         }
@@ -1170,7 +1170,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     if ([[aPasteboard types] containsObject:@"PresentityNames"] ||
 		[[aPasteboard types] containsObject:@"IMHandleNames"]) {
         NSArray *presentityNames=[[aPasteboard types] containsObject:@"PresentityNames"] ? [aPasteboard propertyListForType:@"PresentityNames"] : [aPasteboard propertyListForType:@"IMHandleNames"]; 
-        int i=0;
+        NSUInteger i=0;
         for (i=0;i<[presentityNames count];i+=4) {
             [self sendInvitationToServiceWithID:[presentityNames objectAtIndex:i] buddy:[presentityNames objectAtIndex:i+1] url:aDocumentURL];
         }

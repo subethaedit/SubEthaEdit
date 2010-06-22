@@ -82,11 +82,12 @@
 
 - (void)didSelect {
     if (!I_overlayWindow) {
-        NSPoint baseOrigin, screenOrigin;
+        NSPoint baseOrigin;
         NSView *styleBox=[O_defaultStyleButton superview];
         baseOrigin = [styleBox convertPoint:NSMakePoint([styleBox frame].origin.x,
                                  [styleBox frame].origin.y) toView:nil];
-        screenOrigin = [[styleBox window] convertBaseToScreen:baseOrigin];
+        //NSPoint screenOrigin = 
+        [[styleBox window] convertBaseToScreen:baseOrigin];
 
 //        NSRect windowRect=NSMakeRect(screenOrigin.x,screenOrigin.y,
 //                                     [styleBox frame].size.width,[styleBox frame].size.height);
@@ -156,9 +157,9 @@
     NSArray *allKeys=[I_currentSyntaxStyle allKeys];
     NSIndexSet *selectedRows=[O_stylesTableView selectedRowIndexes];
     NSRange range=NSMakeRange(0,NSNotFound);
-    int count;
+    NSInteger count;
     while ((count=[selectedRows getIndexes:indexBuffer maxCount:BUFFERSIZE inIndexRange:&range])) {
-        int i=0;
+        NSInteger i=0;
         for (i=0;i<count;i++) {
             [styleArray addObject:[I_currentSyntaxStyle styleForKey:[allKeys objectAtIndex:indexBuffer[i]]]];
         }
@@ -178,9 +179,9 @@
     NSIndexSet *selectedRows=[O_stylesTableView selectedRowIndexes];
     NSRange range=NSMakeRange(0,NSNotFound);
     SyntaxStyle *defaultStyle=[[I_currentSyntaxStyle documentMode] defaultSyntaxStyle];
-    int count;
+    NSInteger count;
     while ((count=[selectedRows getIndexes:indexBuffer maxCount:BUFFERSIZE inIndexRange:&range])) {
-        int i=0;
+        NSInteger i=0;
         for (i=0;i<count;i++) {
             unsigned int index=indexBuffer[i];
             NSString *key=[allKeys objectAtIndex:index];

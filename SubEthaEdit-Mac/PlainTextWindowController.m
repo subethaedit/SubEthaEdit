@@ -421,22 +421,22 @@ static NSAttributedString *S_dragString = nil;
     if (aScreen) {
         NSRect visibleFrame=[aScreen visibleFrame];
         if (NSHeight(aFrame)>NSHeight(visibleFrame)) {
-            float heightDiff=aFrame.size.height-visibleFrame.size.height;
+            CGFloat heightDiff=aFrame.size.height-visibleFrame.size.height;
             aFrame.origin.y+=heightDiff;
             aFrame.size.height-=heightDiff;
         }
         if (NSMinY(aFrame)<NSMinY(visibleFrame)) {
-            float positionDiff=NSMinY(visibleFrame)-NSMinY(aFrame);
+            CGFloat positionDiff=NSMinY(visibleFrame)-NSMinY(aFrame);
             aFrame.origin.y+=positionDiff;
         }
     }
     [[self window] setFrame:aFrame display:YES];
 }
 
-- (void)setSizeByColumns:(int)aColumns rows:(int)aRows {
+- (void)setSizeByColumns:(NSInteger)aColumns rows:(NSInteger)aRows {
     NSSize contentSize=[[I_plainTextEditors objectAtIndex:0] desiredSizeForColumns:aColumns rows:aRows];
-    contentSize.width  = (int)(contentSize.width + 0.5);
-    contentSize.height = (int)(contentSize.height + 0.5);
+    contentSize.width  = (NSInteger)(contentSize.width + 0.5);
+    contentSize.height = (NSInteger)(contentSize.height + 0.5);
     NSWindow *window=[self window];
     NSSize minSize=[window contentMinSize];
     NSRect contentRect=[window contentRectForFrameRect:[window frame]];
@@ -619,12 +619,12 @@ static NSAttributedString *S_dragString = nil;
     if (screen) {
         NSRect visibleFrame = [screen visibleFrame];
         if (NSHeight(frame) > NSHeight(visibleFrame)) {
-            float heightDiff = frame.size.height - visibleFrame.size.height;
+            CGFloat heightDiff = frame.size.height - visibleFrame.size.height;
             frame.origin.y += heightDiff;
             frame.size.height -= heightDiff;
         }
         if (NSMinY(frame) < NSMinY(visibleFrame)) {
-            float positionDiff = NSMinY(visibleFrame) - NSMinY(frame);
+            CGFloat positionDiff = NSMinY(visibleFrame) - NSMinY(frame);
             frame.origin.y += positionDiff;
         }
     }
@@ -684,8 +684,8 @@ static NSAttributedString *S_dragString = nil;
     [O_participantsDrawer toggle:sender];
 }
 
-- (int)buttonStateForSelectedRows:(NSIndexSet *)selectedRows {
-    int buttonState=0;
+- (NSInteger)buttonStateForSelectedRows:(NSIndexSet *)selectedRows {
+    NSInteger buttonState=0;
     TCMMMSession *session=[(PlainTextDocument *)[self document] session];
     if ([session isServer] && [selectedRows count]>0) {
         buttonState = KickButtonStateMask;
@@ -745,7 +745,7 @@ static NSAttributedString *S_dragString = nil;
     }
     
     if (buttonState & FollowUserStateMask) {
-        int selectedRow=[O_participantsView selectedRow];
+        NSInteger selectedRow=[O_participantsView selectedRow];
         ItemChildPair pair=[O_participantsView itemChildPairAtRow:selectedRow];
         if (pair.childIndex!=-1) {
             if (pair.itemIndex!=2) {
@@ -776,7 +776,7 @@ static NSAttributedString *S_dragString = nil;
 }
 
 - (void)validateButtons {
-    int state=[self buttonStateForSelectedRows:[O_participantsView selectedRowIndexes]];
+    NSInteger state=[self buttonStateForSelectedRows:[O_participantsView selectedRowIndexes]];
     [O_kickButton setEnabled:(state & KickButtonStateMask)];
     [O_readOnlyButton setEnabled:(state & ReadOnlyButtonStateMask)];
     [O_readWriteButton setEnabled:(state & ReadWriteButtonStateMask)];
@@ -904,7 +904,7 @@ static NSAttributedString *S_dragString = nil;
 }
 
 - (IBAction)toggleFollowUser:(id)aSender {
-    int state=[self buttonStateForSelectedRows:[O_participantsView selectedRowIndexes]];
+    NSInteger state=[self buttonStateForSelectedRows:[O_participantsView selectedRowIndexes]];
     if ((state & FollowUserValueStateMask)) {
         [[self activePlainTextEditor] setFollowUserID:nil];
     } else {
@@ -972,7 +972,7 @@ static NSAttributedString *S_dragString = nil;
 }
 
 - (void)setShowsGutter:(BOOL)aFlag {
-    int i;
+    NSInteger i;
     for (i=0;i<[I_plainTextEditors count];i++) {
         [[I_plainTextEditors objectAtIndex:i] setShowsGutter:aFlag];
     }
@@ -1170,7 +1170,7 @@ static NSAttributedString *S_dragString = nil;
     NSToolbar *toolbar=[[self window] toolbar];
     NSArray *itemArray=[toolbar items];
     NSArray *allowedIdentifiers=[self toolbarAllowedItemIdentifiers:toolbar];
-    int i = [itemArray count];
+    NSInteger i = [itemArray count];
     for (--i;i>=0;i--) {
         if (![allowedIdentifiers containsObject:[[itemArray objectAtIndex:i] itemIdentifier]]) {
             [toolbar removeItemAtIndex:i];
@@ -1352,7 +1352,7 @@ static NSAttributedString *S_dragString = nil;
         }
     }
     
-    int requests;
+    NSUInteger requests;
     if ((requests=[[[(PlainTextDocument *)[self document] session] pendingUsers] count])>0) {
         displayName=[displayName stringByAppendingFormat:@" (%@)", [NSString stringWithFormat:NSLocalizedString(@"%d pending", @"Pending Users Display in Menu Title Bar"), requests]];
     }
@@ -1382,15 +1382,15 @@ static NSAttributedString *S_dragString = nil;
 #define SPLITMINHEIGHTDIALOG 95.
 
 -(void)splitView:(NSSplitView *)aSplitView resizeSubviewsWithOldSize:(NSSize)oldSize {
-    float splitminheight = (aSplitView==I_dialogSplitView) ? SPLITMINHEIGHTDIALOG : SPLITMINHEIGHTTEXT;
+    CGFloat splitminheight = (aSplitView==I_dialogSplitView) ? SPLITMINHEIGHTDIALOG : SPLITMINHEIGHTTEXT;
     if (aSplitView != I_dialogSplitView) {
         NSRect frame=[aSplitView bounds];
         NSArray *subviews=[aSplitView subviews];
         NSRect frametop=[[subviews objectAtIndex:0] frame];
         NSRect framebottom=[[subviews objectAtIndex:1] frame];
-        float newHeight1=frame.size.height-[aSplitView dividerThickness];
-        float topratio=frametop.size.height/(oldSize.height-[aSplitView dividerThickness]);
-        frametop.size.height=(float)((int)(newHeight1*topratio));
+        CGFloat newHeight1=frame.size.height-[aSplitView dividerThickness];
+        CGFloat topratio=frametop.size.height/(oldSize.height-[aSplitView dividerThickness]);
+        frametop.size.height=(CGFloat)((int)(newHeight1*topratio));
         if (frametop.size.height<splitminheight) {
             frametop.size.height=splitminheight;
         } else if (newHeight1-frametop.size.height<splitminheight) {
@@ -1427,8 +1427,8 @@ static NSAttributedString *S_dragString = nil;
 - (CGFloat)splitView:(NSSplitView *)aSplitView constrainSplitPosition:(CGFloat)proposedPosition 
        ofSubviewAt:(NSInteger)offset {
 
-    float height=[aSplitView frame].size.height;
-    float minHeight=(aSplitView==I_dialogSplitView) ? SPLITMINHEIGHTDIALOG : SPLITMINHEIGHTTEXT;;
+    CGFloat height=[aSplitView frame].size.height;
+    CGFloat minHeight=(aSplitView==I_dialogSplitView) ? SPLITMINHEIGHTDIALOG : SPLITMINHEIGHTTEXT;;
     if (proposedPosition<minHeight) {
         return minHeight;
     } else if (proposedPosition+minHeight+[aSplitView dividerThickness]>height) {
@@ -1448,7 +1448,7 @@ static NSAttributedString *S_dragString = nil;
                                         timeIntervalSinceDate:[[aTimer userInfo] objectForKey:@"start"]];
     NSTimeInterval timeSinceStart   = [[[aTimer userInfo] objectForKey:@"start"] timeIntervalSinceNow] * -1.;
 //    NSLog(@"sinceStart: %f, timeInterval: %f, %@ %@",timeSinceStart,timeInterval,[[aTimer userInfo] objectForKey:@"stop"],[[aTimer userInfo] objectForKey:@"start"]);
-    float factor = timeSinceStart / timeInterval;
+    CGFloat factor = timeSinceStart / timeInterval;
     if (factor > 1.) factor = 1.;
     if (![[info objectForKey:@"type"] isEqualToString:@"BlindDown"]) {
         factor = 1.-factor;
@@ -1459,8 +1459,8 @@ static NSAttributedString *S_dragString = nil;
     
     NSView *dialogView = [[I_dialogSplitView subviews] objectAtIndex:0];
     NSRect targetFrame = [dialogView frame];
-    float newHeight = (int)(factor * [[info objectForKey:@"targetHeight"] floatValue]);
-    float difference = newHeight - targetFrame.size.height;
+    CGFloat newHeight = (int)(factor * [[info objectForKey:@"targetHeight"] floatValue]);
+    CGFloat difference = newHeight - targetFrame.size.height;
     targetFrame.size.height = newHeight;
     [dialogView setFrame:targetFrame];
     NSView *contentView = [[I_dialogSplitView subviews] objectAtIndex:1];
@@ -1537,7 +1537,7 @@ static NSAttributedString *S_dragString = nil;
             [I_dialogSplitView addSubview:dialogView];
             mainFrame.size.width = [I_dialogSplitView frame].size.width;
             [dialogView setFrame:mainFrame];
-            float targetHeight = mainFrame.size.height;
+            CGFloat targetHeight = mainFrame.size.height;
             [dialogView resizeSubviewsWithOldSize:mainFrame.size];
             mainFrame.size.height = 0;
             [dialogView setAutoresizesSubviews:NO];
@@ -1730,7 +1730,7 @@ static NSAttributedString *S_dragString = nil;
         NSDictionary *invitedUsers=[session invitedUsers];
         NSString *status=nil;
         TCMMMUser *user=nil;
-        int participantCount=0;
+        NSInteger participantCount=0;
         if (anItemIndex==0 || anItemIndex==1) {
             NSString *group=(anItemIndex==0)?@"ReadWrite":@"ReadOnly";
             participantCount=[(NSArray*)[participants objectForKey:group] count];
@@ -1852,7 +1852,7 @@ static NSAttributedString *S_dragString = nil;
     [aListView reduceSelectionToChildren];
     selectedRows = [aListView selectedRowIndexes];
     if ([selectedRows count]>0) {
-        int state = [self buttonStateForSelectedRows:selectedRows];
+        NSInteger state = [self buttonStateForSelectedRows:selectedRows];
         NSDictionary *plist=[NSDictionary dictionaryWithObjectsAndKeys:
             [NSNumber numberWithBool:(state & KickButtonStateMask)],@"Kick",
             [NSNumber numberWithBool:(state & ReadOnlyButtonStateMask)],@"ReadOnly",
@@ -1862,7 +1862,7 @@ static NSAttributedString *S_dragString = nil;
         NSMutableString *vcfString=[NSMutableString string];
         NSMutableIndexSet *selection=[selectedRows mutableCopy];
         while ([selection count]>0) {
-            int row=[selection firstIndex];
+            NSUInteger row=[selection firstIndex];
             ItemChildPair pair=[O_participantsView itemChildPairAtRow:row];
             TCMMMUser *user=nil;
             if (pair.childIndex!=-1) {
@@ -1898,7 +1898,7 @@ static NSAttributedString *S_dragString = nil;
 #pragma mark ### menu validation ###
 
 -(void)menuNeedsUpdate:(NSMenu *)menu {
-    int state = [self buttonStateForSelectedRows:[O_participantsView selectedRowIndexes]];
+    NSInteger state = [self buttonStateForSelectedRows:[O_participantsView selectedRowIndexes]];
     NSMutableSet *userset=[NSMutableSet set];
     NSMutableIndexSet *selectedRows=[[[O_participantsView selectedRowIndexes] mutableCopy] autorelease];
     int row;
@@ -1991,7 +1991,7 @@ static NSAttributedString *S_dragString = nil;
 - (void)windowDidBecomeKey:(NSNotification *)aNotification
 {
     NSMenu *fileMenu = [[[NSApp mainMenu] itemWithTag:FileMenuTag] submenu];
-    int index = [fileMenu indexOfItemWithTarget:nil andAction:@selector(closeTab:)];
+    NSInteger index = [fileMenu indexOfItemWithTarget:nil andAction:@selector(closeTab:)];
     if (index) {
         NSMenuItem *item = [fileMenu itemAtIndex:index];
         [item setKeyEquivalent:@"w"];
@@ -2013,7 +2013,7 @@ static NSAttributedString *S_dragString = nil;
 - (void)windowDidResignKey:(NSNotification *)aNotification
 {
     NSMenu *fileMenu = [[[NSApp mainMenu] itemWithTag:FileMenuTag] submenu];
-    int index = [fileMenu indexOfItemWithTarget:nil andAction:@selector(closeTab:)];
+    NSInteger index = [fileMenu indexOfItemWithTarget:nil andAction:@selector(closeTab:)];
     if (index) {
         NSMenuItem *item = [fileMenu itemAtIndex:index];
         [item setKeyEquivalent:@""];
@@ -2329,7 +2329,7 @@ static NSAttributedString *S_dragString = nil;
 			{
                 [document canCloseDocumentWithDelegate:self
                                    shouldCloseSelector:@selector(reviewedDocument:shouldClose:contextInfo:)
-                                           contextInfo:(void *)(@selector(reviewChangesAndQuitEnumeration:))];
+                                           contextInfo:@selector(reviewChangesAndQuitEnumeration:)];
                 return;
             }
         }
@@ -2469,7 +2469,9 @@ static NSAttributedString *S_dragString = nil;
 #endif //!defined(CODA)
         return;
     }
+#if !defined(CODA)
 	[[URLBubbleWindow sharedURLBubbleWindow] hideIfNecessary];
+#endif //!defined(CODA)
 
     
     BOOL isNew = NO;
@@ -2784,10 +2786,10 @@ static NSAttributedString *S_dragString = nil;
 }
 #endif //!defined(CODA)
 
-float ToolbarHeightForWindow(NSWindow *window)
+CGFloat ToolbarHeightForWindow(NSWindow *window)
 {
     NSToolbar *toolbar;
-    float toolbarHeight = 0.0;
+    CGFloat toolbarHeight = 0.0;
     NSRect windowFrame;
  
     toolbar = [window toolbar];

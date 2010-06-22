@@ -177,8 +177,6 @@
                     AuthorizationRef auth = NULL;
                     NSDictionary *request = nil;
                     NSDictionary *response = nil;
-                    BOOL result = NO;
-
 
                     err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &auth);
                     if (err == noErr) {
@@ -249,7 +247,6 @@
 
                         err = MoreSecGetErrorFromResponse((CFDictionaryRef)response);
                         if (err == noErr) {
-                            result = YES;
                             success = YES;
                         }
                     }
@@ -1060,7 +1057,7 @@ static NSString *tempFileName() {
         NSDocument *document = [self openUntitledDocumentOfType:@"PlainTextType" display:YES];
         if (document) {
             if (shouldSwitchOpening) {
-                shouldSwitchOpening = NO;
+//                shouldSwitchOpening = NO;
                 [[NSUserDefaults standardUserDefaults] setBool:YES forKey:OpenNewDocumentInTabKey];
             }
             [(PlainTextDocument *)document setIsWaiting:(shouldWait || isPipingOut)];
@@ -1447,7 +1444,7 @@ struct ModificationInfo
 {
 	NSString *filePath = [aURL path];
 	
-	if ( ![filePath isChildOfPath:[[NSString tempFolder] normalizePath]] )
+	if ( ![filePath pc_isChildOfPath:[[[NSFileManager defaultManager] pc_chewableItemsFolderCreate:NO] pc_stringByNormalizingPath]] )
 		[super noteNewRecentDocumentURL:aURL];
 }
 #endif //defined(CODA)

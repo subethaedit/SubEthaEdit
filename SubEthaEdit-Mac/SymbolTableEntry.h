@@ -47,5 +47,6 @@
 - (BOOL)isSeparator;
 #if defined(CODA)
 @property (readwrite, retain) NSString* documentModeIdentifier;
+@property (readwrite, retain) NSArray* substrings;
 #endif //defined(CODA)
 @end

@@ -13,6 +13,7 @@
 
 #if defined(CODA)
 @synthesize documentModeIdentifier = I_documentModeIdentifier;
+@synthesize substrings = I_substrings;
 #endif //defined(CODA)
 
 - (void)setIsSeparator:(BOOL)aFlag {
@@ -54,7 +55,8 @@
     [I_image release];
     [I_type release];
 #if defined(CODA)
-	[I_documentModeIdentifier release];  
+	[I_documentModeIdentifier release];
+	[I_substrings release];  
 #endif //defined(CODA)
     [super dealloc];
 }

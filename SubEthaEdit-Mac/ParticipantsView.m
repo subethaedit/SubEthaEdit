@@ -23,16 +23,16 @@
 @implementation ParticipantsView
 
 // override this in sublcasses
-+ (float)firstRowOffset {
++ (CGFloat)firstRowOffset {
     return 1.;
 }
-+ (float)itemRowHeight {
++ (CGFloat)itemRowHeight {
     return 22.;
 }
-+ (float)childRowHeight {
++ (CGFloat)childRowHeight {
     return 38.;
 }
-+ (float)itemRowGapHeight {
++ (CGFloat)itemRowGapHeight {
     return 42.;
 }
 
@@ -59,7 +59,7 @@
 
 - (void)drawChildWithIndex:(NSInteger)aChildIndex ofItemAtIndex:(NSInteger)aItemIndex drawBackground:(BOOL)aDrawBackground {
     Class myClass=[self class];
-    float childRowHeight  =[myClass childRowHeight];
+    CGFloat childRowHeight  =[myClass childRowHeight];
 
     static NSMutableParagraphStyle *mNoWrapParagraphStyle = nil;
     static NSMutableDictionary *mNameAttributes=nil;
@@ -101,7 +101,7 @@
                       operation:NSCompositeSourceOver];
     }
     
-    float nameXOrigin = 32.+11.;
+    CGFloat nameXOrigin = 32.+11.;
     
     NSString *string=[dataSource listView:self objectValueForTag:ParticipantsChildNameTag atChildIndex:aChildIndex ofItemAtIndex:aItemIndex];
     [[NSColor blackColor] set];
@@ -126,7 +126,7 @@
 
 - (void)drawItemAtIndex:(NSInteger)aItemIndex drawBackground:(BOOL)aDrawBackground {
     Class myClass=[self class];
-    float itemRowHeight   =[myClass itemRowHeight];
+    CGFloat itemRowHeight   =[myClass itemRowHeight];
     static NSMutableDictionary *mNameAttributes=nil;
     if (!mNameAttributes) {
         mNameAttributes = [[NSMutableDictionary dictionaryWithObject:
@@ -174,7 +174,7 @@
             NSDictionary *plist=[pboard propertyListForType:@"ParticipantDrag"];
             if ([[plist objectForKey:@"Kick"] boolValue]) {
                 NSSize imageSize=[anImage size];
-                float poofSize=(imageSize.width+imageSize.height)/2.;
+                CGFloat poofSize=(imageSize.width+imageSize.height)/2.;
                 NSShowAnimationEffect(NSAnimationEffectPoof,NSMakePoint(aPoint.x+imageSize.width/2.,aPoint.y+imageSize.height/2.),NSMakeSize(poofSize,poofSize),nil,NULL,NULL);
                 [(PlainTextWindowController *)[self windowController] kickButtonAction:self];
             }
@@ -184,7 +184,7 @@
 
 - (NSRect)highlightRectForItem:(NSInteger)itemIndex {
     NSRect itemRect=[self rectForItem:I_dragToItem child:-1];
-    float height=1.;
+    CGFloat height=1.;
     if (itemIndex == NSNotFound) {
         return [[[self enclosingScrollView] contentView] documentVisibleRect];
     } else if (itemIndex != [self numberOfItems]-1) {

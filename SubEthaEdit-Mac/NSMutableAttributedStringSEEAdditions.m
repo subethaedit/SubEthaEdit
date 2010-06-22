@@ -180,8 +180,8 @@ extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
 
 - (int)blockChangeTextInRange:(NSRange)aRange replacementString:(NSString *)aReplacementString
            lineRange:(NSRange)aLineRange inTextView:(NSTextView *)aTextView tabWidth:(unsigned)aTabWidth useTabs:(BOOL)aUseTabs{
-    int lengthChange=0;
-    int tabWidth=aTabWidth;
+    NSInteger lengthChange=0;
+    NSInteger tabWidth=aTabWidth;
     NSMutableAttributedString *textStorage=self;
     NSRange aReplacementRange=aRange;
     NSString *string=[textStorage string];

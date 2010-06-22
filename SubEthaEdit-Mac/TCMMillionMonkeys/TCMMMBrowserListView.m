@@ -78,16 +78,16 @@ static NSMutableDictionary *S_childNameAttributes=nil;
 }
 
 
-+ (float)itemRowHeight {
++ (CGFloat)itemRowHeight {
     return 38.;
 }
-+ (float)childRowHeight {
++ (CGFloat)childRowHeight {
     return 20.;
 }
-+ (float)itemRowGapHeight {
++ (CGFloat)itemRowGapHeight {
     return 0.;
 }
-+ (float)actionImagePadding {
++ (CGFloat)actionImagePadding {
     return 4.;
 }
 
@@ -97,7 +97,7 @@ static NSMutableDictionary *S_childNameAttributes=nil;
 - (void)drawChildWithIndex:(NSInteger)aChildIndex ofItemAtIndex:(NSInteger)aItemIndex drawBackground:(BOOL)aDrawBackground{
 
     Class myClass=[self class];
-    float childRowHeight  =[myClass childRowHeight];
+    CGFloat childRowHeight  =[myClass childRowHeight];
     NSRect bounds=[self bounds];
     NSRect childRect=NSMakeRect(0, 0,bounds.size.width, childRowHeight);
     if (aDrawBackground) {
@@ -123,7 +123,7 @@ static NSMutableDictionary *S_childNameAttributes=nil;
     image=[dataSource listView:self objectValueForTag:TCMMMBrowserChildIconImageTag atChildIndex:aChildIndex ofItemAtIndex:aItemIndex];
     if (image) {
         NSNumber *number=[dataSource listView:self objectValueForTag:TCMMMBrowserChildClientStatusTag atChildIndex:aChildIndex ofItemAtIndex:aItemIndex];
-        float fraction=1.0;
+        CGFloat fraction=1.0;
         if (number) {
             int status=[number intValue];
             if (status==0) fraction=.5;
@@ -136,7 +136,7 @@ static NSMutableDictionary *S_childNameAttributes=nil;
     NSString *string=[dataSource listView:self objectValueForTag:TCMMMBrowserChildNameTag atChildIndex:aChildIndex ofItemAtIndex:aItemIndex];
     [[NSColor blackColor] set];
     if (string) {
-        float stringPositionX = CHILDBASEINSET+9+inset*16.+16.+5.;
+        CGFloat stringPositionX = CHILDBASEINSET+9+inset*16.+16.+5.;
         [string drawInRect:NSMakeRect(stringPositionX,3.+CHILDVINSET,NSWidth(bounds)-stringPositionX,16.) withAttributes:S_childNameAttributes];
 //        [string drawAtPoint:NSMakePoint(32.+9+16.+3.,4.)
 //               withAttributes:S_childNameAttributes];
@@ -148,7 +148,7 @@ static NSMutableDictionary *S_childNameAttributes=nil;
         return NSMakeRect(32.+9.,32+1.-13,16.,16.);
 
 //        id dataSource = [self dataSource];
-//        float nameXOrigin = 32.+11.;
+//        CGFloat nameXOrigin = 32.+11.;
 //        NSImage *browserStatus2Image = [dataSource listView:self objectValueForTag:TCMMMBrowserItemStatusImageOverlayTag atChildIndex:-1 ofItemAtIndex:anItemIndex];
 //        if (browserStatus2Image) {
 //            nameXOrigin += [browserStatus2Image size].width+2.;
@@ -176,8 +176,8 @@ static NSMutableDictionary *S_childNameAttributes=nil;
 - (void)drawItemAtIndex:(NSInteger)aIndex drawBackground:(BOOL)aDrawBackground{
 
     Class myClass=[self class];
-    float itemRowHeight   =[myClass itemRowHeight];
-    float actionImagePadding =[myClass actionImagePadding];
+    CGFloat itemRowHeight   =[myClass itemRowHeight];
+    CGFloat actionImagePadding =[myClass actionImagePadding];
 
     NSRect bounds=[self bounds];
     NSRect itemRect=NSMakeRect(0, 0,bounds.size.width, itemRowHeight);
@@ -218,7 +218,7 @@ static NSMutableDictionary *S_childNameAttributes=nil;
     }
 
     
-    float nameXOrigin = 32.+11.;
+    CGFloat nameXOrigin = 32.+11.;
     NSImage *browserStatus2Image = [dataSource listView:self objectValueForTag:TCMMMBrowserItemImageInFrontOfNameTag atChildIndex:-1 ofItemAtIndex:aIndex];
     if (browserStatus2Image) {
         [browserStatus2Image compositeToPoint:NSMakePoint(nameXOrigin-2,16.+3.) 
@@ -228,7 +228,7 @@ static NSMutableDictionary *S_childNameAttributes=nil;
     nameXOrigin += 16.+3.;
     
     image=[dataSource listView:self objectValueForTag:TCMMMBrowserItemImageNextToNameTag atChildIndex:-1 ofItemAtIndex:aIndex];
-    float imageWidth = [image size].width;
+    CGFloat imageWidth = [image size].width;
 
     NSString *string=[dataSource listView:self objectValueForTag:TCMMMBrowserItemNameTag atChildIndex:-1 ofItemAtIndex:aIndex];
     [[NSColor blackColor] set];
@@ -259,7 +259,7 @@ static NSMutableDictionary *S_childNameAttributes=nil;
     
     
     NSImage *browserStatusImage = [dataSource listView:self objectValueForTag:TCMMMBrowserItemStatusImageTag atChildIndex:-1 ofItemAtIndex:aIndex];
-//    float additionalSpace = 21.;
+//    CGFloat additionalSpace = 21.;
     if (browserStatusImage) {
         [browserStatusImage compositeToPoint:NSMakePoint(32.+9.,32+1.) 
                                    operation:NSCompositeSourceOver];
@@ -289,7 +289,7 @@ static NSMutableDictionary *S_childNameAttributes=nil;
 
 - (NSRect)highlightRectForItem:(NSInteger)itemIndex {
     NSRect itemRect=[self rectForItem:I_dragToItem child:-1];
-    float height=1.;
+    CGFloat height=1.;
     if (itemIndex != [self numberOfItems]-1) {
         NSRect nextItemRect=[self rectForItem:I_dragToItem+1 child:-1];
         height=nextItemRect.origin.y-NSMaxY(itemRect)-1;

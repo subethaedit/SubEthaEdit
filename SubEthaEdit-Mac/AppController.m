@@ -64,8 +64,6 @@
 #import "SESendProc.h"
 #import "SEActiveProc.h"
 
-#import "BacktracingException.h"
-
 #if !defined(CODA)
 #import "UserStatisticsController.h"
 #endif //!defined(CODA)
@@ -544,7 +542,9 @@ static OSStatus AuthorizationRightSetWithWorkaround(
                     
             if (err != noErr) {
                 DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Could not create default right (%ld)", err);
+#if SPF_DEAD_CODE
                 err = noErr;
+#endif
             }
         }
     }

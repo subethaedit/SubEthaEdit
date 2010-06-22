@@ -25,20 +25,20 @@ NSString *ListViewDidChangeSelectionNotification=
 
 
 // override this in sublcasses
-+ (float)firstRowOffset {
++ (CGFloat)firstRowOffset {
     return 0.;
 }
 
-+ (float)itemRowHeight {
++ (CGFloat)itemRowHeight {
     return 22.;
 }
-+ (float)childRowHeight {
++ (CGFloat)childRowHeight {
     return 38.;
 }
-+ (float)itemRowGapHeight {
++ (CGFloat)itemRowGapHeight {
     return 22.;
 }
-+ (float)actionImagePadding {
++ (CGFloat)actionImagePadding {
     return 4.;
 }
 
@@ -119,9 +119,9 @@ NSString *ListViewDidChangeSelectionNotification=
 {
     if (I_indicesNeedRebuilding) [self TCM_rebuildIndices];
     Class myClass=[self class];
-    float itemRowHeight   =[myClass itemRowHeight];
-    float childRowHeight  =[myClass childRowHeight];
-    float itemRowGapHeight=[myClass itemRowGapHeight];
+    CGFloat itemRowHeight   =[myClass itemRowHeight];
+    CGFloat childRowHeight  =[myClass childRowHeight];
+    CGFloat itemRowGapHeight=[myClass itemRowGapHeight];
     const NSRect *rects;
     NSInteger count;
     [self getRectsBeingDrawn:&rects count:&count];
@@ -134,12 +134,12 @@ NSString *ListViewDidChangeSelectionNotification=
                                               smallRect.size.width, NSMaxY(smallRect)-I_indexMaxHeight);
             NSRectFill(remainingRect);
             NSRect visibleRect = [self visibleRect];
-            float difference = I_indexMaxHeight-visibleRect.origin.y+itemRowGapHeight;
+            CGFloat difference = I_indexMaxHeight-visibleRect.origin.y+itemRowGapHeight;
             visibleRect.size.height -= difference;
             visibleRect.origin.y    += difference;
             NSSize textSize = [I_emptySpaceString size];
             if (textSize.height < visibleRect.size.height) {
-                float deplacement = (visibleRect.size.height - textSize.height)/2.;
+                CGFloat deplacement = (visibleRect.size.height - textSize.height)/2.;
                 if (deplacement > 0) {
                     visibleRect.origin.y += deplacement;
                     visibleRect.size.height -= deplacement;
@@ -148,9 +148,9 @@ NSString *ListViewDidChangeSelectionNotification=
             }
         }
     
-        int startRow = [self indexOfRowAtPoint:smallRect.origin];
+        NSInteger startRow = [self indexOfRowAtPoint:smallRect.origin];
         if (startRow!=-1 && startRow < I_indexNumberOfRows) {
-            int endRow   = [self indexOfRowAtPoint:NSMakePoint(1.,NSMaxY(smallRect))];
+            NSInteger endRow   = [self indexOfRowAtPoint:NSMakePoint(1.,NSMaxY(smallRect))];
             if (endRow==-1) endRow=I_indexNumberOfRows-1;
         
             [NSGraphicsContext saveGraphicsState];
@@ -198,8 +198,8 @@ NSString *ListViewDidChangeSelectionNotification=
 - (NSRect)rectForItem:(NSInteger)anItemIndex child:(NSInteger)aChildIndex
 {
     Class myClass=[self class];
-    float itemRowHeight   =[myClass itemRowHeight];
-    float childRowHeight  =[myClass childRowHeight];
+    CGFloat itemRowHeight   =[myClass itemRowHeight];
+    CGFloat childRowHeight  =[myClass childRowHeight];
 
     if (I_indicesNeedRebuilding) [self TCM_rebuildIndices];
 
@@ -228,8 +228,8 @@ NSString *ListViewDidChangeSelectionNotification=
 - (NSInteger)indexOfRowAtPoint:(NSPoint)aPoint {
 
     Class myClass=[self class];
-    float itemRowHeight   =[myClass itemRowHeight];
-    float childRowHeight  =[myClass childRowHeight];
+    CGFloat itemRowHeight   =[myClass itemRowHeight];
+    CGFloat childRowHeight  =[myClass childRowHeight];
 
     aPoint.y += [myClass firstRowOffset];
 
@@ -240,7 +240,7 @@ NSString *ListViewDidChangeSelectionNotification=
         return - 1;
     }
 
-    int searchPosition=(NSInteger)(aPoint.y/I_indexMaxHeight)*I_indexNumberOfItems;
+    NSInteger searchPosition=(NSInteger)(aPoint.y/I_indexMaxHeight)*I_indexNumberOfItems;
     NSRange testRange=I_indexYRangesForItem[searchPosition];
     if (aPoint.y < testRange.location) {
         while (aPoint.y < testRange.location) {
@@ -254,7 +254,7 @@ NSString *ListViewDidChangeSelectionNotification=
         }
     }
     
-    int baseRow=I_indexRowAtItem[searchPosition];
+    NSInteger baseRow=I_indexRowAtItem[searchPosition];
     if (aPoint.y>testRange.location+itemRowHeight) {
         baseRow+=(NSInteger)((aPoint.y-testRange.location-itemRowHeight-1)/childRowHeight)+1;
     }
@@ -279,11 +279,11 @@ NSString *ListViewDidChangeSelectionNotification=
 
 - (void)TCM_setNeedsDisplayForIndexes:(NSIndexSet *)indexes {
     NSUInteger indexBuffer[40];
-    int indexCount;
+    NSInteger indexCount;
     NSRange range=NSMakeRange([indexes firstIndex],[indexes lastIndex]-[indexes firstIndex]+1);
     while (YES) {
         indexCount=[indexes getIndexes:indexBuffer maxCount:40 inIndexRange:&range];
-        int i;
+        NSInteger i;
         for (i=0;i<indexCount;i++) {
             [self setNeedsDisplayInRect:[self rectForRow:indexBuffer[i]]];
         }
@@ -309,7 +309,7 @@ NSString *ListViewDidChangeSelectionNotification=
 - (void)reduceSelectionToChildren {
     NSMutableIndexSet *set=[I_selectedRows mutableCopy];
     while ([set count]) {
-        int index=[set lastIndex];
+        NSInteger index=[set lastIndex];
         if (I_indexItemChildPairAtRow[index].childIndex==-1) {
             [self deselectRow:index];
         }
@@ -333,7 +333,7 @@ NSString *ListViewDidChangeSelectionNotification=
 }
 
 - (void)validateSelection {
-    int numberOfRows=[self numberOfRows];
+    NSInteger numberOfRows=[self numberOfRows];
     if ([I_selectedRows count]>0 && [I_selectedRows lastIndex]>=numberOfRows) {
         [I_selectedRows removeIndex:[I_selectedRows lastIndex]];
         while ([I_selectedRows count]>0 && [I_selectedRows lastIndex]>=numberOfRows) {
@@ -475,9 +475,9 @@ NSString *ListViewDidChangeSelectionNotification=
                     NSRect itemRect=[self rectForItem:pair.itemIndex child:pair.childIndex];
                     NSRect bounds=[self bounds];
                     NSSize size=[actionImage size];
-                    float actionImagePadding=[[self class] actionImagePadding];
+                    CGFloat actionImagePadding=[[self class] actionImagePadding];
                     if (point.x>=bounds.size.width-actionImagePadding-size.width && point.x<=bounds.size.width-actionImagePadding) {
-                        float actionImageInset=(NSInteger)((itemRect.size.height-size.height)/2.);
+                        CGFloat actionImageInset=(NSInteger)((itemRect.size.height-size.height)/2.);
                         if (point.y>=itemRect.origin.y+actionImageInset && point.y<=itemRect.origin.y+itemRect.size.height-actionImageInset) {
                             causedAction=YES;
                             I_actionRow = I_clickedRow;
@@ -580,18 +580,18 @@ NSString *ListViewDidChangeSelectionNotification=
 
 - (NSImage *)dragImageSelectedRect:(NSRect *)aRect forChild:(NSInteger)aChildIndex ofItem:(NSInteger)anItemIndex {
     Class myClass=[self class];
-    float itemRowHeight   =[myClass itemRowHeight];
-    float childRowHeight  =[myClass childRowHeight];
+    CGFloat itemRowHeight   =[myClass itemRowHeight];
+    CGFloat childRowHeight  =[myClass childRowHeight];
 
     NSMutableIndexSet *rows=[[self selectedRowIndexes] mutableCopy];
-    int rowIndex=-1;
+    NSInteger rowIndex=-1;
     NSMutableArray *itemChildPairs=[NSMutableArray array];
     NSSize imageSize=[self bounds].size;
     imageSize.height=0;
     while ([rows count]) {
         rowIndex=[rows firstIndex];
         ItemChildPair pair=[self itemChildPairAtRow:rowIndex];
-        float heightOfRow=pair.childIndex==-1?itemRowHeight:childRowHeight;
+        CGFloat heightOfRow=pair.childIndex==-1?itemRowHeight:childRowHeight;
         if (pair.itemIndex==anItemIndex && pair.childIndex==aChildIndex && aRect!=NULL) {
             *aRect=NSMakeRect(0,imageSize.height,imageSize.width,heightOfRow);
         }
@@ -667,7 +667,7 @@ NSString *ListViewDidChangeSelectionNotification=
     NSRect frame=[[scrollView contentView] frame];
     if (scrollView) {
         if (I_indicesNeedRebuilding) [self TCM_rebuildIndices];
-        float desiredHeight=I_indexMaxHeight;
+        CGFloat desiredHeight=I_indexMaxHeight;
         if (frame.size.height<desiredHeight) {
             frame.size.height=desiredHeight;
         }
@@ -694,9 +694,9 @@ NSString *ListViewDidChangeSelectionNotification=
     [self removeAllToolTips];
 
     Class myClass=[self class];
-    float itemRowHeight   =[myClass itemRowHeight];
-    float childRowHeight  =[myClass childRowHeight];
-    float itemRowGapHeight=[myClass itemRowGapHeight];
+    CGFloat itemRowHeight   =[myClass itemRowHeight];
+    CGFloat childRowHeight  =[myClass childRowHeight];
+    CGFloat itemRowGapHeight=[myClass itemRowGapHeight];
 
     id dataSource=[self dataSource];
     
@@ -709,21 +709,21 @@ NSString *ListViewDidChangeSelectionNotification=
         free(I_indexItemChildPairAtRow);
     }
     
-    I_indexNumberOfChildren = (int *)malloc(sizeof(NSInteger)*I_indexNumberOfItems);
-    I_indexRowAtItem        = (int *)malloc(sizeof(NSInteger)*I_indexNumberOfItems);
+    I_indexNumberOfChildren = (NSInteger *)malloc(sizeof(NSInteger)*I_indexNumberOfItems);
+    I_indexRowAtItem        = (NSInteger *)malloc(sizeof(NSInteger)*I_indexNumberOfItems);
     I_indexYRangesForItem   = (NSRange *)malloc(sizeof(NSRange)*I_indexNumberOfItems);
-    int itemIndex;
-    int row=0;
-    float yPosition=0;
+    NSInteger itemIndex;
+    NSInteger row=0;
+    CGFloat yPosition=0;
     for (itemIndex=0;itemIndex<I_indexNumberOfItems;itemIndex++) {
-        int numberOfChildren=[dataSource listView:self numberOfEntriesOfItemAtIndex:itemIndex];
+        NSInteger numberOfChildren=[dataSource listView:self numberOfEntriesOfItemAtIndex:itemIndex];
         I_indexNumberOfChildren[itemIndex]=numberOfChildren;
         I_indexRowAtItem[itemIndex]=row;
         NSRange yRange=NSMakeRange(yPosition,itemRowHeight+numberOfChildren*childRowHeight);
         I_indexYRangesForItem[itemIndex]=yRange;
         yPosition=NSMaxRange(yRange);
         [self addToolTipRect:NSMakeRect(0,yRange.location,FLT_MAX,itemRowHeight) owner:self userData:nil];
-        int childIndex=0;
+        NSInteger childIndex=0;
         for (childIndex=0;childIndex<numberOfChildren;childIndex++) {
             [self addToolTipRect:NSMakeRect(0,yRange.location+itemRowHeight+childIndex*childRowHeight,FLT_MAX,childRowHeight) owner:self userData:nil];
         }
@@ -746,7 +746,7 @@ NSString *ListViewDidChangeSelectionNotification=
 }
 
 - (NSString *)view:(NSView *)view stringForToolTip:(NSToolTipTag)tag point:(NSPoint)point userData:(void *)userData {
-    int index=[self indexOfRowAtPoint:point];
+    NSInteger index=[self indexOfRowAtPoint:point];
     if (index!=-1) {
         ItemChildPair pair=[self itemChildPairAtRow:index];
         id dataSource=[self dataSource];

@@ -38,12 +38,15 @@
 #import "NSMutableAttributedStringSEEAdditions.h"
 #import "FoldableTextStorage.h"
 #import "FoldedTextAttachment.h"
-#import "URLBubbleWindow.h"
 #import <objc/objc-runtime.h>
+
+#if !defined(CODA)
+#import "URLBubbleWindow.h"
+#endif //!defined(CODA)
 
 #if defined(CODA)
 #import "CodeTextView.h"
-#import "StudioGutterRulerView.h"
+#import "CodaGutterRulerView.h"
 #endif //defined(CODA)
 
 @interface NSTextView (PrivateAdditions)
@@ -215,7 +218,7 @@
     [layoutManager addTextContainer:I_textContainer];
 
 #if defined(CODA)
-    [O_scrollView setVerticalRulerView:[[[StudioGutterRulerView alloc] initWithScrollView:O_scrollView orientation:NSVerticalRuler] autorelease]];
+    [O_scrollView setVerticalRulerView:[[[CodaGutterRulerView alloc] initWithScrollView:O_scrollView orientation:NSVerticalRuler] autorelease]];
 #else	
     [O_scrollView setVerticalRulerView:[[[GutterRulerView alloc] initWithScrollView:O_scrollView orientation:NSVerticalRuler] autorelease]];
 #endif //defined(CODA)	
@@ -963,7 +966,7 @@
         PlainTextDocument *document=[self document];
         NSColor *backgroundColor=[document documentBackgroundColor];
         NSColor *foregroundColor=[document documentForegroundColor]; 
-        TextStorage *textStorage=(TextStorage *)[I_textView textStorage];
+        NSTextStorage *textStorage=[I_textView textStorage];
         NSMutableAttributedString *attributedSubString = [[[textStorage attributedSubstringFromRange:selectedRange] mutableCopy] autorelease];
 		NSAttributedString *foldingIconReplacementString = [[[NSAttributedString alloc] initWithPath:[[NSBundle mainBundle] pathForResource:@"FoldingBubbleText" ofType:@"rtf"] documentAttributes:nil] autorelease];
 		[attributedSubString replaceAttachmentsWithAttributedString:foldingIconReplacementString];
@@ -1514,6 +1517,7 @@
 	} else {
 		[aTextView setSelectedRange:NSMakeRange(charIndex,0)];
 	
+#if !defined(CODA)
 		URLBubbleWindow *bubbleWindow = [URLBubbleWindow sharedURLBubbleWindow];
 		NSWindow *window = [aTextView window];
 		[bubbleWindow setURLToOpen:link];
@@ -1536,6 +1540,7 @@
 		[bubbleWindow setVisible:NO animated:NO];
 		[bubbleWindow setPosition:positionPoint inWindow:window];
 		[bubbleWindow setVisible:YES animated:YES];
+#endif //!defined (CODA)
 		return YES;
 	}
 }
@@ -1619,7 +1624,10 @@
 }
 
 - (BOOL)textView:(NSTextView *)aTextView shouldChangeTextInRange:(NSRange)affectedCharRange replacementString:(NSString *)replacementString {
+#if !defined(CODA)
 	[[URLBubbleWindow sharedURLBubbleWindow] hideIfNecessary];
+#endif //!defined(CODA)
+
 	if (replacementString == nil) return YES; // only styles are changed
     PlainTextDocument *document = [self document];
     if (![document isRemotelyEditingTextStorage]) {
@@ -1674,9 +1682,9 @@
         }
         return NO;
     } else {
-		[aTextView setTypingAttributes:[(TextStorage *)[aTextView textStorage] attributeDictionaryByAddingStyleAttributesForInsertLocation:affectedCharRange.location toDictionary:[(PlainTextDocument *)[self document] typingAttributes]]];
+		[aTextView setTypingAttributes:[(FoldableTextStorage *)[aTextView textStorage] attributeDictionaryByAddingStyleAttributesForInsertLocation:affectedCharRange.location toDictionary:[(PlainTextDocument *)[self document] typingAttributes]]];
     }
-	[aTextView setTypingAttributes:[(TextStorage *)[aTextView textStorage] attributeDictionaryByAddingStyleAttributesForInsertLocation:affectedCharRange.location toDictionary:[(PlainTextDocument *)[self document] typingAttributes]]];
+	[aTextView setTypingAttributes:[(FoldableTextStorage *)[aTextView textStorage] attributeDictionaryByAddingStyleAttributesForInsertLocation:affectedCharRange.location toDictionary:[(PlainTextDocument *)[self document] typingAttributes]]];
     
     if ([(TextView *)aTextView isPasting] && ![(FoldableTextStorage *)[aTextView textStorage] hasMixedLineEndings]) {
         NSUInteger length = [replacementString length];
@@ -1765,14 +1773,18 @@
 }
 
 - (void)contentViewBoundsDidChange:(NSNotification *)aNotification {
+#if !defined(CODA)
 	[[URLBubbleWindow sharedURLBubbleWindow] hideIfNecessary];
+#endif // !defined(CODA)
 	[self setNeedsDisplayForRuler];
 }
 
 - (NSRange)textView:(NSTextView *)aTextView
            willChangeSelectionFromCharacterRange:(NSRange)aOldSelectedCharRange
                                 toCharacterRange:(NSRange)aNewSelectedCharRange {
+#if !defined(CODA)
 	[[URLBubbleWindow sharedURLBubbleWindow] hideIfNecessary];
+#endif // !defined(CODA)
     PlainTextDocument *document=(PlainTextDocument *)[self document];
     return [document textView:aTextView
              willChangeSelectionFromCharacterRange:aOldSelectedCharRange

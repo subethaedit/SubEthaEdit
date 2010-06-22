@@ -399,7 +399,7 @@ static NSMenu *S_defaultMenu=nil;
     NSEvent *currentEvent=[NSApp currentEvent];
     NSEventType type = [currentEvent type];
     if (currentEvent && (type==NSLeftMouseDown || type==NSLeftMouseUp)) {
-        int clickCount = [currentEvent clickCount];
+        NSInteger clickCount = [currentEvent clickCount];
         NSTextStorage *ts = [self textStorage];
         NSRange wholeRange = NSMakeRange(0,[ts length]);
         if (clickCount == 3) {

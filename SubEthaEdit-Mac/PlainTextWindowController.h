@@ -96,7 +96,7 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 - (void)documentDidLoseConnection:(PlainTextDocument *)document;
 
 - (void)setWindowFrame:(NSRect)aFrame constrainedToScreen:(NSScreen *)aScreen display:(BOOL)aFlag;
-- (void)setSizeByColumns:(int)aColumns rows:(int)aRows;
+- (void)setSizeByColumns:(NSInteger)aColumns rows:(NSInteger)aRows;
 - (void)setShowsBottomStatusBar:(BOOL)aFlag;
 
 - (BOOL)showsGutter;
