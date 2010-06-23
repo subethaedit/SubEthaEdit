@@ -115,9 +115,8 @@
 
 - (void)profile:(ServerManagementProfile *)aProfile didReceiveFileList:(NSArray *)aContentArray {
     
-    NSEnumerator *fileDicts = [aContentArray objectEnumerator];
     NSDictionary *fileDict = nil;
-    while ((fileDict = [fileDicts nextObject])) {
+    for (fileDict in aContentArray) {
         [self addFileDict:fileDict];
     }
 }

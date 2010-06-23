@@ -356,10 +356,9 @@ static NSString *tempFileName() {
             [[NSMenuItem alloc] initWithTitle:@""
                                        action:@selector(showDocumentAtIndex:)
                                 keyEquivalent:@""];
-        NSEnumerator *windowControllers = [I_windowControllers objectEnumerator];
         PlainTextWindowController *windowController = nil;
         BOOL firstWC = YES;
-        while ((windowController=[windowControllers nextObject])) {
+        for (windowController in I_windowControllers) {
 #if defined(CODA)
 			NSEnumerator      *documents = [[windowController documents] objectEnumerator];
 #else
@@ -512,9 +511,8 @@ static NSString *tempFileName() {
     NSArray *URLsFromRunningOpenPanel = [super URLsFromRunningOpenPanel];
     NSMutableArray *URLs = [NSMutableArray array];
     [I_fileNamesFromLastRunOpenPanel removeAllObjects];
-    NSEnumerator *enumerator = [URLsFromRunningOpenPanel objectEnumerator];
     NSURL *URL;
-    while ((URL = [enumerator nextObject])) {
+    for (URL in URLsFromRunningOpenPanel) {
         if ([URL isFileURL]) {
             NSString *fileName = [URL path];
             BOOL isDir = NO;
@@ -776,9 +774,8 @@ static NSString *tempFileName() {
         [files addObject:[directParameter path]];
     }
     
-    enumerator = [files objectEnumerator];
     NSString *filename;
-    while ((filename = [enumerator nextObject])) {
+    for (filename in files) {
         BOOL isDir = NO;
         BOOL isFilePackage = [[NSWorkspace sharedWorkspace] isFilePackageAtPath:filename];
         NSString *extension = [filename pathExtension];
@@ -855,9 +852,8 @@ static NSString *tempFileName() {
         [files addObject:[directParameter path]];
     }
     
-    enumerator = [files objectEnumerator];
     NSString *filename;
-    while ((filename = [enumerator nextObject])) {
+    for (filename in files) {
         [I_propertiesForOpenedFiles setObject:properties forKey:filename];
         BOOL shouldClose = ([self documentForURL:[NSURL fileURLWithPath:filename]] == nil);
         NSError *error=nil;
@@ -951,9 +947,8 @@ static NSString *tempFileName() {
         [files addObject:[argument path]];
     }
 
-    enumerator = [files objectEnumerator];
     NSString *fileName;
-    while ((fileName = [enumerator nextObject])) {
+    for (fileName in files) {
         [I_propertiesForOpenedFiles setObject:properties forKey:fileName];
         NSError *error=nil;
         NSDocument *document = [self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:fileName] display:YES error:&error];
@@ -997,8 +992,7 @@ static NSString *tempFileName() {
     }
     
     NSString *documentModeIdentifierArgument = [properties objectForKey:@"mode"];
-    enumerator = [newFiles objectEnumerator];
-    while ((fileName = [enumerator nextObject])) {
+    for (fileName in newFiles) {
         NSDocument *document = [self openUntitledDocumentOfType:@"PlainTextType" display:YES];
         if (document) {
             if (shouldSwitchOpening) {
@@ -1239,9 +1233,8 @@ struct ModificationInfo
     if ([event eventClass] == kKAHL && [event eventID] == kMOD) {
         NSAppleEventDescriptor *listDesc = [NSAppleEventDescriptor listDescriptor];
         NSArray *documents = [self documents];
-        NSEnumerator *enumerator = [documents objectEnumerator];
         NSDocument *document;
-        while ((document = [enumerator nextObject])) {
+        for (document in documents) {
             if ([document isDocumentEdited]) {
 				NSURL *fileURL = [document fileURL];
                 if (fileURL != nil) {
@@ -1301,9 +1294,8 @@ struct ModificationInfo
         };
     } else if (selector == @selector(mergeAllWindows:)) {
         BOOL hasSheet = NO;
-        NSEnumerator *enumerator = [I_windowControllers objectEnumerator];
         PlainTextWindowController *controller;
-        while ((controller = [enumerator nextObject])) {
+        for (controller in I_windowControllers) {
             if ([[controller window] attachedSheet] != nil) {
                 hasSheet = YES;
                 break;
@@ -1338,9 +1330,8 @@ struct ModificationInfo
     BOOL flag = ([sender state] == NSOnState) ? NO : YES;
     [[NSUserDefaults standardUserDefaults] setBool:flag forKey:AlwaysShowTabBarKey];
     
-    NSEnumerator *enumerator = [I_windowControllers objectEnumerator];
     PlainTextWindowController *windowController;
-    while ((windowController = [enumerator nextObject])) {
+    for (windowController in I_windowControllers) {
         PSMTabBarControl *tabBar = [windowController tabBar];
         if (![windowController hasManyDocuments]) {
             [tabBar setHideForSingleTab:!flag];
@@ -1454,9 +1445,8 @@ struct ModificationInfo
     // Iterate over unsaved documents, preserve closeAllContext to invoke it after the last document
     
     NSArray *windows = [[[NSApp orderedWindows] copy] autorelease];
-    NSEnumerator *winEnum = [windows objectEnumerator];
     NSWindow *window;
-    while ((window = [winEnum nextObject])) {
+    for (window in windows) {
         NSWindowController *controller = [window windowController];
         if ([controller isKindOfClass:[PlainTextWindowController class]]) {
             NSArray *documents = [(PlainTextWindowController *)controller documents];

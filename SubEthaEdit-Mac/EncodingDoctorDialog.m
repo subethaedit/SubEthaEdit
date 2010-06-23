@@ -61,14 +61,13 @@
     [O_foundErrors setContent:[NSMutableArray array]];
     NSMutableArray *newErrors=[NSMutableArray array];
     NSArray *selectionOperationArray=[(FoldableTextStorage *)[I_document textStorage] selectionOperationsForRangesUnconvertableToEncoding:I_encoding];
-    NSEnumerator *selectionOperations=[selectionOperationArray objectEnumerator];
     SelectionOperation *selectionOperation = nil;
     FullTextStorage *textStorage = [(FoldableTextStorage *)[I_document textStorage] fullTextStorage];
     NSString *string=[textStorage string];
     NSRange currentLineRange=[string lineRangeForRange:NSMakeRange(0,0)];
     int currentLineNumber = 1;
     NSColor *highlightColor = [[NSColor yellowColor] highlightWithLevel:0.5];
-    while ((selectionOperation=[selectionOperations nextObject])) {
+    for (selectionOperation in selectionOperationArray) {
         NSMutableDictionary *dictionary=[NSMutableDictionary dictionaryWithObject:selectionOperation forKey:@"selectionOperation"];
         NSRange errorRange=[selectionOperation selectedRange];
         NSRange lineRange = [string lineRangeForRange:errorRange];

@@ -240,9 +240,8 @@ static DocumentModeManager *S_sharedInstance=nil;
     if (oldPrecedenceArray) {
         //Recover order
         modeOrder = [NSMutableArray array];
-        NSEnumerator *oldModes = [oldPrecedenceArray objectEnumerator];
         id oldMode;
-        while ((oldMode = [oldModes nextObject])) {
+        for (oldMode in oldPrecedenceArray) {
             if ([oldMode respondsToSelector:@selector(objectForKey:)]) {
                 if ([oldMode objectForKey:@"Identifier"]) {
                     [modeOrder addObject:[oldMode objectForKey:@"Identifier"]];
@@ -413,7 +412,7 @@ static DocumentModeManager *S_sharedInstance=nil;
     //create Directories 
     NSArray *userDomainPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES); 
     NSEnumerator *enumerator = [userDomainPaths objectEnumerator]; 
-    while ((path = [enumerator nextObject])) { 
+    for (path in userDomainPaths) { 
         NSString *fullPath = [path stringByAppendingPathComponent:MODEPATHCOMPONENT]; 
         if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:nil]) { 
             [[NSFileManager defaultManager] createDirectoryAtPath:[fullPath stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:nil]; 
@@ -424,8 +423,7 @@ static DocumentModeManager *S_sharedInstance=nil;
     
     NSMutableArray *allPaths = [NSMutableArray array]; 
     NSArray *allDomainsPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, YES); 
-    enumerator = [allDomainsPaths objectEnumerator]; 
-    while ((path = [enumerator nextObject])) { 
+    for (path in allDomainsPaths) { 
         [allPaths addObject:[path stringByAppendingPathComponent:MODEPATHCOMPONENT]]; 
     } 
     

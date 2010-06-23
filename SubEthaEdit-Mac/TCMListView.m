@@ -611,9 +611,8 @@ NSString *ListViewDidChangeSelectionNotification=
     [itemStep translateXBy:0 yBy:itemRowHeight];
     NSAffineTransform *childStep=[NSAffineTransform transform];
     [childStep translateXBy:0 yBy:childRowHeight];
-    NSEnumerator *pairValues=[itemChildPairs objectEnumerator];
     NSValue *value=nil;
-    while ((value=[pairValues nextObject])) {
+    for (value in itemChildPairs) {
         ItemChildPair pair;
         [value getValue:&pair];
         if (pair.childIndex==-1) {

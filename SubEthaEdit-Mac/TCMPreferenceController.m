@@ -73,9 +73,8 @@ static TCMPreferenceController *sharedInstance = nil;
 
 - (void)windowWillLoad
 {
-    NSEnumerator *modules = [prefModules objectEnumerator];
     TCMPreferenceModule *module;
-    while ((module = [modules nextObject])) {
+    for (module in prefModules) {
         NSString *itemIdent = [module identifier];
         [I_toolbarItemIdentifiers addObject:itemIdent];    
     }

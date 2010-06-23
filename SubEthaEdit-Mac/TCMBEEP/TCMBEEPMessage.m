@@ -45,8 +45,7 @@
             [self setMessageNumber:[frame messageNumber]];
             [self setAnswerNumber:[frame answerNumber]];
             I_payload = [NSMutableData new];
-            NSEnumerator *frames = [aQueue objectEnumerator];
-            while ((frame = [frames nextObject])) {
+            for (frame in aQueue) {
                 [I_payload appendData:[frame payload]];
             }
         }

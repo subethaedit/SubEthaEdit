@@ -171,9 +171,8 @@ static TCMMMBEEPSessionManager *sharedInstance;
 
 - (void)logRetainCounts
 {
-    NSEnumerator *sessions = [I_sessions objectEnumerator];
     TCMBEEPSession *session = nil;
-    while ((session = [sessions nextObject])) {
+    for (session in I_sessions) {
         NSLog(@"Session: %@, %@, retainCount: %d", [session description], NSStringFromClass([session class]), [session retainCount]);
     }
 }
@@ -355,9 +354,8 @@ static TCMMMBEEPSessionManager *sharedInstance;
     [[NSUserDefaults standardUserDefaults] synchronize];
     [self validateListener];
 
-    NSEnumerator *sessions = [I_sessions objectEnumerator];
     TCMBEEPSession *session = nil;
-    while ((session = [sessions nextObject])) {
+    for (session in I_sessions) {
         [session setIsProhibitingInboundInternetSessions:flag];
     }
 }
@@ -486,9 +484,8 @@ static TCMMMBEEPSessionManager *sharedInstance;
     
     NSDictionary *info = [self sessionInformationForUserID:aUserID];
     NSArray *outboundSessions = [info objectForKey:@"OutboundSessions"];
-    NSEnumerator *outboundSessionEnumerator = [outboundSessions objectEnumerator];
     TCMBEEPSession *session = nil;
-    while ((session = [outboundSessionEnumerator nextObject])) {
+    for (session in outboundSessions) {
         if ([session sessionStatus] == TCMBEEPSessionStatusOpen) {
             if (aURLString && [[[session userInfo] objectForKey:@"URLString"] isEqualToString:aURLString]) {
                 return session;
@@ -499,8 +496,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
     }
 
     NSArray *inboundSessions = [info objectForKey:@"InboundSessions"];
-    NSEnumerator *inboundSessionEnumerator = [inboundSessions objectEnumerator];
-    while ((session = [inboundSessionEnumerator nextObject])) {
+    for (session in inboundSessions) {
         if ([session sessionStatus] == TCMBEEPSessionStatusOpen) {
             if (aURLString && [[[session userInfo] objectForKey:@"URLString"] isEqualToString:aURLString]) {
                 return session;
@@ -525,9 +521,8 @@ static TCMMMBEEPSessionManager *sharedInstance;
     
     NSDictionary *info = [self sessionInformationForUserID:aUserID];
     NSArray *outboundSessions = [info objectForKey:@"OutboundSessions"];
-    NSEnumerator *outboundSessionEnumerator = [outboundSessions objectEnumerator];
     TCMBEEPSession *session = nil;
-    while ((session = [outboundSessionEnumerator nextObject])) {
+    for (session in outboundSessions) {
         if ([session sessionStatus] == TCMBEEPSessionStatusOpen) {
             if ([[session peerAddressData] isEqualTo:anAddressData]) {
                 return session;
@@ -538,8 +533,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
     }
 
     NSArray *inboundSessions = [info objectForKey:@"InboundSessions"];
-    NSEnumerator *inboundSessionEnumerator = [inboundSessions objectEnumerator];
-    while ((session = [inboundSessionEnumerator nextObject])) {
+    for (session in inboundSessions) {
         if ([session sessionStatus] == TCMBEEPSessionStatusOpen) {
             if ([[session peerAddressData] isEqualTo:anAddressData]) {
                 return session;

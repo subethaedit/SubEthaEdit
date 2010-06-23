@@ -1174,9 +1174,8 @@ typedef union {
         id value=[self attribute:BlockeditAttributeName atIndex:position 
                        longestEffectiveRange:&range inRange:wholeRange];
         if (value) {
-            int i=0;
-            for (i=0;i<[attributeNameArray count];i++) {
-                [self removeAttribute:[attributeNameArray objectAtIndex:i]
+            for (id loopItem in attributeNameArray) {
+                [self removeAttribute:loopItem
                                 range:range];
             }
         }

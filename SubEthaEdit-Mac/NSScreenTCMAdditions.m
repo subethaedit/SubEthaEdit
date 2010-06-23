@@ -20,10 +20,7 @@
 
 + (NSScreen *)screenContainingPoint:(NSPoint)aPoint {
     NSArray *screens = [NSScreen screens];
-    int count = [screens count];
-    int i=0;
-    for (i=0;i<count;i++) {
-        NSScreen *screen = [screens objectAtIndex:i];
+    for (NSScreen *screen in screens) {
         if (NSPointInRect(aPoint,[screen frame])) {
             return screen;
         }

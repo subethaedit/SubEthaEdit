@@ -62,9 +62,8 @@
         [payloadString appendFormat:@" localize=\"%@\"", aLocalizeString];
     }
     [payloadString appendString:@">"];
-    NSEnumerator *profileURIs = [anArray objectEnumerator];
     NSString *profileURI = nil;
-    while ((profileURI = [profileURIs nextObject])) {
+    for (profileURI in anArray) {
         [payloadString appendFormat:@"<profile uri=\"%@\" />", profileURI];
     }
     [payloadString appendString:@"</greeting>\r\n"];

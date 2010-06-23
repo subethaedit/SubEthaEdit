@@ -72,10 +72,7 @@
         	[initialText setContentByDictionaryRepresentation:[aDictionary objectForKey:@"initialtext"]];
         }
 
-        int i=0;
-        int count = [loggedOperations count];
-        for (i=0;i<count;i++) {
-            TCMMMLoggedOperation *operation = [loggedOperations objectAtIndex:i];
+        for (TCMMMLoggedOperation *operation in loggedOperations) {
             if (timeDifference < 0) {
                 [operation setDate:[[operation date] dateByAddingTimeInterval:timeDifference]];
             }

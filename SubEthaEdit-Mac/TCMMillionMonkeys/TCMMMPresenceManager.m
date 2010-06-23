@@ -94,10 +94,9 @@ NSString * const TCMMMPresenceManagerDidReceiveTokenNotification=
 
 - (void)observeValueForKeyPath:(NSString *)aKeyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
     // send new friendcasting status
-    NSEnumerator *profiles = [I_statusProfilesInServerRole objectEnumerator];
     TCMMMStatusProfile *profile = nil;
     BOOL hasFriendCast = [[object valueForKeyPath:aKeyPath] boolValue];
-    while ((profile = [profiles nextObject])) {
+    for (profile in I_statusProfilesInServerRole) {
         [profile sendIsFriendcasting:hasFriendCast];
         if (hasFriendCast) {
             // also send the current friendcast information
@@ -124,8 +123,7 @@ NSString * const TCMMMPresenceManagerDidReceiveTokenNotification=
     [I_browser stopSearch];
     [I_browser release];
     NSString *userID=nil;
-    NSEnumerator *userIDs=[I_foundUserIDs objectEnumerator];
-    while ((userID=[userIDs nextObject])) {
+    for (userID in I_foundUserIDs) {
         NSMutableDictionary *status=[self statusOfUserID:userID];
         [[status objectForKey:@"NetServices"] removeAllObjects];
     }
@@ -186,9 +184,8 @@ NSString * const TCMMMPresenceManagerDidReceiveTokenNotification=
     I_flags.isVisible = aFlag;
     [self TCM_validateServiceAnnouncement];
     [self broadcastMyReachability];
-    NSEnumerator *profiles=[I_statusProfilesInServerRole objectEnumerator];
     TCMMMStatusProfile *profile=nil;
-    while ((profile=[profiles nextObject])) {
+    for (profile in I_statusProfilesInServerRole) {
         [profile sendVisibility:aFlag];
     }
     [[TCMMMBEEPSessionManager sharedInstance] validateListener];
@@ -272,9 +269,8 @@ NSString * const TCMMMPresenceManagerDidReceiveTokenNotification=
 }
 
 - (void)propagateChangeOfMyself {
-    NSEnumerator *profiles=[I_statusProfilesInServerRole objectEnumerator];
     TCMMMStatusProfile *profile=nil;
-    while ((profile=[profiles nextObject])) {
+    for (profile in I_statusProfilesInServerRole) {
         [profile sendUserDidChangeNotification:[TCMMMUserManager me]];
     }
 }
@@ -372,9 +368,8 @@ NSString * const TCMMMPresenceManagerDidReceiveTokenNotification=
 - (void)broadcastMyReachability {
     NSString *reachabilityString = [self myReachabilityURLString];
     NSString *userID = [TCMMMUserManager myUserID];
-    NSEnumerator *profiles=[I_statusProfilesInServerRole objectEnumerator];
     TCMMMStatusProfile *profile=nil;
-    while ((profile=[profiles nextObject])) {
+    for (profile in I_statusProfilesInServerRole) {
         [profile sendReachabilityURLString:reachabilityString forUserID:userID];
     }
 }
@@ -456,9 +451,8 @@ NSString * const TCMMMPresenceManagerDidReceiveTokenNotification=
         } else {
             [sessionUserInfo setObject:anURLString forKey:@"ReachabilityURL"];
             // we got new personal information - so propagate this information to all others
-            NSEnumerator *profiles = [I_statusProfilesInServerRole objectEnumerator];
             TCMMMStatusProfile *profile = nil;
-            while ((profile = [profiles nextObject])) {
+            for (profile in I_statusProfilesInServerRole) {
                 if (![[[[profile session] userInfo] objectForKey:@"peerUserID"] isEqualToString:aUserID]) {
                     [profile sendReachabilityURLString:anURLString forUserID:aUserID];
                 }
@@ -688,9 +682,8 @@ NSString * const TCMMMPresenceManagerDidReceiveTokenNotification=
 }
 
 - (void)resolveUnconnectedFoundNetServices:(NSTimer *)aTimer {
-    NSEnumerator *userIDs = [I_foundUserIDs objectEnumerator];
     NSString *userID = nil;
-    while ((userID=[userIDs nextObject])) {
+    for (userID in I_foundUserIDs) {
         NSMutableDictionary *status=[self statusOfUserID:userID];
         if (![[status objectForKey:@"Status"] isEqualToString:@"GotStatus"]) {
             NSEnumerator *netServices = [[status objectForKey:@"NetServices"] objectEnumerator];

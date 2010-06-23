@@ -295,9 +295,8 @@
         NSArray *userArray=[pboard propertyListForType:@"PboardTypeTBD"];
         PlainTextDocument *document=[self document];
         TCMMMSession *session=[document session];
-        NSEnumerator *userDescriptions=[userArray objectEnumerator];
         NSDictionary *userDescription=nil;
-        while ((userDescription=[userDescriptions nextObject])) {
+        for (userDescription in userArray) {
             TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:[userDescription objectForKey:@"UserID"]];
             if (user) {
                 TCMBEEPSession *BEEPSession=[[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:[user userID] peerAddressData:[userDescription objectForKey:@"PeerAddressData"]];

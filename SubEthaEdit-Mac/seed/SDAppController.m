@@ -72,9 +72,8 @@ BOOL endRunLoop = NO;
 
 - (void)autosaveTimerFired:(NSTimer *)timer
 {
-    NSEnumerator *enumerator = [_documents objectEnumerator];
     SDDocument *document;
-    while ((document = [enumerator nextObject])) {
+    for (document in _documents) {
         NSURL *fileURL = [document fileURL];
         if (fileURL) {
             NSLog(@"save document: %@", fileURL);

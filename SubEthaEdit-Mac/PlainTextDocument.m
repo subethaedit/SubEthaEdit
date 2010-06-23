@@ -556,10 +556,9 @@ static NSString *tempFileName(NSString *origPath) {
 - (void)executeInvalidateLayout:(NSNotification *)aNotification {
     FoldableTextStorage *textStorage=(FoldableTextStorage *)[self textStorage];
     NSRange wholeRange=NSMakeRange(0,[textStorage length]);
-    NSEnumerator *rangeValues=[I_rangesToInvalidate objectEnumerator];
     NSValue *rangeValue=nil;
     [textStorage beginEditing];
-    while ((rangeValue=[rangeValues nextObject])) {
+    for (rangeValue in I_rangesToInvalidate) {
     	NSRange changeRange=[textStorage foldedRangeForFullRange:[rangeValue rangeValue]];
         changeRange=NSIntersectionRange(wholeRange,changeRange);
         if (changeRange.length!=0) {
@@ -613,7 +612,6 @@ static NSString *tempFileName(NSString *origPath) {
         [I_symbolPopUpMenuSorted release];
         I_symbolPopUpMenuSorted = [NSMenu new];
 
-        NSEnumerator *symbolTableEntries=[I_symbolArray objectEnumerator];
         NSMenuItem *prototypeMenuItem=[[NSMenuItem alloc] initWithTitle:@""
                                                                  action:@selector(chooseGotoSymbolMenuItem:)
                                                           keyEquivalent:@""];
@@ -623,7 +621,7 @@ static NSString *tempFileName(NSString *origPath) {
         SymbolTableEntry *entry;
         int i=0;
         NSMenuItem *menuItem;
-        while ((entry=[symbolTableEntries nextObject])) {
+        for (entry in I_symbolArray) {
             if ([entry isSeparator]) {
                 [I_symbolPopUpMenu addItem:[NSMenuItem separatorItem]];
             } else {
@@ -658,8 +656,7 @@ static NSString *tempFileName(NSString *origPath) {
         [prototypeMenuItem release];
 
         [itemsToSort sortUsingSelector:@selector(compareAlphabetically:)];
-        NSEnumerator *menuItems=[itemsToSort objectEnumerator];
-        while ((menuItem=[menuItems nextObject])) {
+        for (menuItem in itemsToSort) {
             [I_symbolPopUpMenuSorted addItem:menuItem];
         }
 				
@@ -1143,9 +1140,8 @@ static NSString *tempFileName(NSString *origPath) {
     NSArray *itemArray = [[self documentMode] contextMenuItemArray];
     BOOL addSeparator = NO;
     if ([itemArray count]) {
-        NSEnumerator *menuItems=[itemArray objectEnumerator];
         NSMenuItem   *menuItem = nil;
-        while ((menuItem=[menuItems nextObject])) {
+        for (menuItem in itemArray) {
             NSMenuItem *item=[menuItem autoreleasedCopy];
             [aMenu addItem:item];
         }
@@ -1156,9 +1152,8 @@ static NSString *tempFileName(NSString *origPath) {
     	if (addSeparator) {
     		[aMenu addItem:[NSMenuItem separatorItem]];
     	}
-        NSEnumerator *menuItems=[itemArray objectEnumerator];
         NSMenuItem   *menuItem = nil;
-        while ((menuItem=[menuItems nextObject])) {
+        for (menuItem in itemArray) {
             NSMenuItem *item=[menuItem autoreleasedCopy];
             [aMenu addItem:item];
         }
@@ -1177,10 +1172,9 @@ static NSString *tempFileName(NSString *origPath) {
     NSArray *itemArray = [[self documentMode] scriptMenuItemArray];
     if ([itemArray count]) {
         [modeMenu addItem:[NSMenuItem separatorItem]];
-        NSEnumerator *menuItems=[itemArray objectEnumerator];
         NSMenuItem   *menuItem = nil;
         NSImage *scriptMenuItemIcon=[NSImage imageNamed:@"ScriptMenuItemIcon"];
-        while ((menuItem=[menuItems nextObject])) {
+        for (menuItem in itemArray) {
             NSMenuItem *item=[menuItem autoreleasedCopy];
             [item setImage:scriptMenuItemIcon];
             [modeMenu addItem:item];
@@ -1913,10 +1907,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 {
     // The window controller are going to get -close messages of their own when we invoke [super close]. If one of them is a multidocument window controller tell it who the -close message is coming from.
     NSArray *windowControllers = [self windowControllers];
-    unsigned int windowControllerCount = [windowControllers count];
-    unsigned int index;
-    for (index = 0; index < windowControllerCount; index++) {
-        NSWindowController *windowController = [windowControllers objectAtIndex:index];
+    for (NSWindowController *windowController in windowControllers) {
         [(PlainTextWindowController *)windowController documentWillClose:self];
     }
     
@@ -2548,9 +2539,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                     contributorForegroundColor=[NSString stringWithFormat:@" style=\"color:%@;\"",[[self documentForegroundColor] HTMLString]];
                 }
                 [legend appendFormat:@"<tr><th colspan=\"%d\">%@</th></tr>\n",tableSpan,NSLocalizedString(@"Contributors",@"Title for Contributors in Export and Print")];
-                NSEnumerator *contributorDictionaryEnumerator=[contributorDictionaries objectEnumerator];
                 NSDictionary *contributorDict=nil;
-                while ((contributorDict=[contributorDictionaryEnumerator nextObject])) {
+                for (contributorDict in contributorDictionaries) {
                     NSString *name=[[contributorDict valueForKeyPath:@"User.name"] stringByReplacingEntitiesForUTF8:YES];
                     NSString *shortID=[contributorDict valueForKeyPath:@"ShortID"];
                     NSString *aim=[[contributorDict valueForKeyPath:@"User.properties.AIM"] stringByReplacingEntitiesForUTF8:YES];
@@ -2577,10 +2567,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             }
             if ([lurkerDictionaries count] && [[htmlOptions objectForKey:DocumentModeHTMLExportShowVisitorsPreferenceKey] boolValue]) {
                 [legend appendFormat:@"<tr><th colspan=\"%d\">%@</th></tr>\n",tableSpan,NSLocalizedString(@"Visitors",@"Title for Visitors in Export and Print")];
-                NSEnumerator *lurkers=[lurkerDictionaries objectEnumerator];
                 NSDictionary *lurker=nil;
                 int alternateFlag=0;
-                while ((lurker=[lurkers nextObject])) {
+                for (lurker in lurkerDictionaries) {
                     NSString *name   =[[lurker valueForKeyPath:@"User.name"] stringByReplacingEntitiesForUTF8:YES];
                     NSString *shortID= [lurker valueForKeyPath:@"ShortID"];
                     NSString *aim    =[[lurker valueForKeyPath:@"User.properties.AIM"] stringByReplacingEntitiesForUTF8:YES];
@@ -2741,10 +2730,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     if (I_lastSaveOperation == NSSaveToOperation) {
         NSArray *encodings = [[EncodingManager sharedInstance] enabledEncodings];
         NSMutableArray *lossyEncodings = [NSMutableArray array];
-        NSUInteger i;
-        for (i = 0; i < [encodings count]; i++) {
-            if (![[[I_textStorage fullTextStorage] string] canBeConvertedToEncoding:[[encodings objectAtIndex:i] unsignedIntValue]]) {
-                [lossyEncodings addObject:[encodings objectAtIndex:i]];
+        for (id loopItem in encodings) {
+            if (![[[I_textStorage fullTextStorage] string] canBeConvertedToEncoding:[loopItem unsignedIntValue]]) {
+                [lossyEncodings addObject:loopItem];
             }
         }
         [[EncodingManager sharedInstance] registerEncoding:[self fileEncoding]];
@@ -2824,7 +2812,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 - (IBAction)playbackLoggingState:(id)aSender {
     TCMMMLoggingState *ls = [[self session] loggingState];
     NSArray *loggedOperations = [ls loggedOperations];
-    unsigned opCount = [loggedOperations count];
 
     FoldableTextStorage *textStorage=(FoldableTextStorage *)[self textStorage];
     [textStorage setContentByDictionaryRepresentation:[ls initialTextStorageDictionaryRepresentation]];
@@ -2835,9 +2822,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     NSView *viewToUpdate = [[[self plainTextEditors] lastObject] editorView];
     [viewToUpdate display];
     
-    unsigned i = 0;
-    for (i=0;i<opCount;i++) {
-        [self handleOperation:[[loggedOperations objectAtIndex:i] operation]];
+    for (id loopItem in loggedOperations) {
+        [self handleOperation:[loopItem operation]];
         [viewToUpdate display];
     }
 }
@@ -3734,9 +3720,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     
     NSXMLElement *contributorsElement = [NSXMLNode elementWithName:@"contributors"];
     [rootElement addChild:contributorsElement];
-    NSEnumerator *contributors = [contributorArray objectEnumerator];
     NSDictionary *contributorEntry = nil;
-    while ((contributorEntry = [contributors nextObject])) {
+    for (contributorEntry in contributorArray) {
         NSXMLElement *element = [NSXMLNode elementWithName:@"contributor"];
         TCMMMUser *contributor = [contributorEntry objectForKey:@"user"];
         [element addAttribute:[NSXMLNode attributeWithName:@"name" stringValue:[contributor name]]];
@@ -4008,12 +3993,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     // Use the first associated HFS type code, if any exist.
     documentTypes = [infoPlist objectForKey:@"CFBundleDocumentTypes"];
     if (documentTypes) {
-        int i, count = [documentTypes count];
 
-        for(i = 0; i < count; i++) {
-            NSString *type = [[documentTypes objectAtIndex:i] objectForKey:@"CFBundleTypeName"];
+        for(id loopItem in documentTypes) {
+            NSString *type = [loopItem objectForKey:@"CFBundleTypeName"];
             if (type && [type isEqualToString:documentTypeName]) {
-                NSArray *typeCodeStrings = [[documentTypes objectAtIndex:i] objectForKey:@"CFBundleTypeOSTypes"];
+                NSArray *typeCodeStrings = [loopItem objectForKey:@"CFBundleTypeOSTypes"];
                 if (typeCodeStrings) {
                     NSString *firstTypeCodeString = [typeCodeStrings objectAtIndex:0];
                     if (firstTypeCodeString) {
@@ -6226,9 +6210,8 @@ static NSString *S_measurementUnits;
         I_flags.isRemotelyEditingTextStorage=![[aOperation userID] isEqualToString:[TCMMMUserManager myUserID]];
         NSMutableArray   *oldSelections=[NSMutableArray array];
         if (I_flags.isRemotelyEditingTextStorage) {
-            NSEnumerator *editorEnumerator=[editors objectEnumerator];
             PlainTextEditor *editor=nil;
-            while ((editor=[editorEnumerator nextObject])) {
+            for (editor in editors) {
                 [oldSelections addObject:[SelectionOperation selectionOperationWithRange:[[editor textView] selectedRange] userID:@"doesn't matter"]];
                 [editor storePosition];
             }
@@ -6401,9 +6384,8 @@ static NSString *S_measurementUnits;
 	}
 
 // transform SymbolTable if there
-    NSEnumerator *entries=[I_symbolArray objectEnumerator];
     SymbolTableEntry *entry=nil;
-    while ((entry=[entries nextObject])) {
+    for (entry in I_symbolArray) {
         if (![entry isSeparator]) {
             [transformator transformOperation:[entry jumpRangeSelectionOperation] serverOperation:textOp];
             [transformator transformOperation:[entry rangeSelectionOperation] serverOperation:textOp];
@@ -6412,9 +6394,8 @@ static NSString *S_measurementUnits;
 
 
 // transform FindAllTables if there
-    NSEnumerator *findAllWindows = [I_findAllControllers objectEnumerator];
     FindAllController *findAllWindow = nil;
-    while ((findAllWindow = [findAllWindows nextObject])) {
+    for (findAllWindow in I_findAllControllers) {
         NSEnumerator *operations = [[findAllWindow arrangedObjects] objectEnumerator];
         NSDictionary *dictionary = nil;
         while ((dictionary = [operations nextObject])) {

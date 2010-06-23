@@ -820,9 +820,8 @@ static NSAttributedString *S_dragString = nil;
             [session setGroup:@"PoofGroup" forParticipantsWithUserIDs:userIDsToKick];
         }
         if ([userIDsToCancelInvitation count]>0) {
-            NSEnumerator *userIDs=[userIDsToCancelInvitation objectEnumerator];
             NSString *userID=nil;
-            while ((userID=[userIDs nextObject])) {
+            for (userID in userIDsToCancelInvitation) {
                 [session cancelInvitationForUserWithID:userID];
             }
         }
@@ -972,9 +971,8 @@ static NSAttributedString *S_dragString = nil;
 }
 
 - (void)setShowsGutter:(BOOL)aFlag {
-    NSInteger i;
-    for (i=0;i<[I_plainTextEditors count];i++) {
-        [[I_plainTextEditors objectAtIndex:i] setShowsGutter:aFlag];
+    for (id loopItem in I_plainTextEditors) {
+        [loopItem setShowsGutter:aFlag];
     }
     [[self document] setShowsGutter:aFlag];
 }
@@ -2112,9 +2110,8 @@ static NSAttributedString *S_dragString = nil;
 
 - (void)moveAllTabsToWindowController:(PlainTextWindowController *)windowController
 {
-    NSEnumerator *enumerator = [I_documents objectEnumerator];
     PlainTextDocument *document;
-    while ((document = [enumerator nextObject]))
+    for (document in I_documents)
     {
         NSUInteger documentIndex = [[self documents] indexOfObject:document];
         NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];

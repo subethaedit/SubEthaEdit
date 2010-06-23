@@ -167,9 +167,8 @@
     // For old-style, non-recursive modes
     NSArray *oldStyleStates = [syntaxDefinitionXML nodesForXPath:@"/syntax/states/state" error:&err];
     if ([oldStyleStates count]>0) {
-        NSEnumerator *oldStyleStatesEnumerator = [oldStyleStates objectEnumerator];
         NSXMLElement *oldStyleState;
-        while ((oldStyleState = [oldStyleStatesEnumerator nextObject])) {
+        for (oldStyleState in oldStyleStates) {
             [self parseState:oldStyleState addToState:I_defaultState];
         }
         [I_allStates setObject:I_defaultState forKey:[I_defaultState objectForKey:@"id"]]; // Reread default mode
@@ -178,9 +177,8 @@
 }
 
 - (void)addAttributes:(NSArray *)attributes toDictionary:(NSMutableDictionary *)aDictionary {
-    NSEnumerator *attributeEnumerator = [attributes objectEnumerator];
     NSXMLNode *attribute;
-    while ((attribute = [attributeEnumerator nextObject])) {
+    for (attribute in attributes) {
         NSString *attributeName = [attribute name];
         id attributeValue = [attribute stringValue];
         
@@ -281,9 +279,8 @@
     
     NSArray *keywordGroupsNodes = [stateNode nodesForXPath:@"./keywords" error:&err];
     
-    NSEnumerator *keywordGroupEnumerator = [keywordGroupsNodes objectEnumerator];
     id keywordGroupNode;
-    while ((keywordGroupNode = [keywordGroupEnumerator nextObject])) {
+    for (keywordGroupNode in keywordGroupsNodes) {
         NSMutableDictionary *keywordGroupDictionary = [NSMutableDictionary dictionary];
         [self addAttributes:[keywordGroupNode attributes] toDictionary:keywordGroupDictionary];
         NSString *keywordGroupName = [keywordGroupDictionary objectForKey:@"id"];
@@ -362,9 +359,8 @@
     
     // Get all nodes and preserve order
     NSArray *allStateNodes = [stateNode nodesForXPath:@"./state | ./import | ./state-link" error:&err];
-    NSEnumerator *allStateNodesEnumerator = [allStateNodes objectEnumerator];
     id nextState;
-    while ((nextState = [allStateNodesEnumerator nextObject])) {
+    for (nextState in allStateNodes) {
         NSString *nodeName = [nextState name];
         if (![stateDictionary objectForKey:@"states"]) [stateDictionary setObject:[NSMutableArray array] forKey:@"states"];
      

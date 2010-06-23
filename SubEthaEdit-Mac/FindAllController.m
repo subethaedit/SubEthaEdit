@@ -96,7 +96,6 @@
             NSBeep();
         }
         
-        int i;
         int count = [matchArray count];
         NSTableColumn* stringCol = [[O_resultsTableView tableColumns] objectAtIndex:1];
         int longestCol = 150;
@@ -107,8 +106,7 @@
                 
         [O_findResultsTextField setStringValue:[NSString stringWithFormat:@"%@ (%@)",statusString,scopeString]];
         
-        for (i=0;i<count;i++) {
-            OGRegularExpressionMatch *aMatch = [matchArray objectAtIndex:i];
+        for (OGRegularExpressionMatch *aMatch in matchArray) {
             NSRange matchRange = [aMatch rangeOfMatchedString];
             FullTextStorage *textStorage = [(FoldableTextStorage *)[I_document textStorage] fullTextStorage];
             NSNumber *line = [NSNumber numberWithInt:[textStorage lineNumberForLocation:matchRange.location]];

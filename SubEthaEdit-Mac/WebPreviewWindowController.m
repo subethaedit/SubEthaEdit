@@ -92,10 +92,8 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
 }
 
 void logSubViews(NSArray *aSubviewsArray) {
-    unsigned i;
     if (aSubviewsArray) NSLog(@"---");
-    for (i=0;i<[aSubviewsArray count];i++) {
-        NSView *subview=[aSubviewsArray objectAtIndex:i];
+    for (NSView *subview in aSubviewsArray) {
         NSLog(@"%@",[subview description]);
         logSubViews([subview subviews]);
     }
@@ -327,9 +325,7 @@ NSScrollView * firstScrollView(NSView *aView) {
 
 - (NSArray *)webView:(WebView *)sender contextMenuItemsForElement:(NSDictionary *)element defaultMenuItems:(NSArray *)defaultMenuItems {
     NSMutableArray *returnArray = [NSMutableArray array];
-    int i;
-    for (i=0;i<[defaultMenuItems count];i++) {
-        NSMenuItem *defaultItem=[defaultMenuItems objectAtIndex:i];
+    for (NSMenuItem *defaultItem in defaultMenuItems) {
         int tag=[defaultItem tag];
         if (tag == WebMenuItemTagOpenLinkInNewWindow) {
             NSMenuItem *item=[[defaultItem copy] autorelease];

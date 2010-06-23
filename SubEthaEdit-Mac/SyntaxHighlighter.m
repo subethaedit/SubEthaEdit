@@ -209,10 +209,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 				NSMutableString *combinedDelimiterString = nil;
 				if (captureGroups) {
 					combinedDelimiterString = [[[subState objectForKey:@"Combined Delimiter String"] mutableCopy] autorelease];
-					int i;
-					int count = [captureGroups count];
-					for (i=0;i<count;i++) {
-						NSString *groupName = [captureGroups objectAtIndex:i];
+					for (NSString *groupName in captureGroups) {
 						NSString *replacement = [[delimiterMatch substringNamed:groupName] stringByReplacingRegularExpressionOperators];
 						if (groupName && replacement) {
                             [combinedDelimiterString replaceOccurrencesOfString:[NSString stringWithFormat:@"(?#see-insert-start-group:%@)",groupName] withString:replacement options:0 range:NSMakeRange(0,[combinedDelimiterString length])];
@@ -352,11 +349,8 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 			
 			OGRegularExpression *aRegex;
 			OGRegularExpressionMatch *aMatch;
-			int i;
-			int count = [regexArray count];
 			
-			for (i=0; i<count; i++) {
-				NSArray *currentRegexStyle = [regexArray objectAtIndex:i];
+			for (NSArray *currentRegexStyle in regexArray) {
 				aRegex = [currentRegexStyle objectAtIndex:0];
 				NSString *styleID = [currentRegexStyle objectAtIndex:1];
 				NSDictionary *keywordGroup = [currentRegexStyle objectAtIndex:2]; // should probably be passed in a more verbose and quicker way via an object instead of dictionaries
@@ -476,11 +470,8 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
     OGRegularExpression *aRegex;
     OGRegularExpressionMatch *aMatch;
     NSString *theString = [aString string];
-    int i;
-    int count = [regexArray count];
     
-    for (i=0; i<count; i++) {
-        NSArray *currentRegexStyle = [regexArray objectAtIndex:i];
+    for (NSArray *currentRegexStyle in regexArray) {
         aRegex = [currentRegexStyle objectAtIndex:0];
         NSString *styleID = [currentRegexStyle objectAtIndex:1];
         NSDictionary *keywordGroup = [currentRegexStyle objectAtIndex:2]; // should probably be passed in a more verbose and quicker way via an object instead of dictionaries

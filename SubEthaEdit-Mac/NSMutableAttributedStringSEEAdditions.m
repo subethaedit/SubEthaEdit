@@ -37,10 +37,7 @@ extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
     
     if (shouldDetab) {
         NSArray *matches=[tabExpression allMatchesInString:[self string] range:aRange];
-        int i=0;
-        int count=[matches count];
-        for (i=0;i<count;i++) {
-            OGRegularExpressionMatch *match=[matches objectAtIndex:i];
+        for (OGRegularExpressionMatch *match in matches) {
             NSRange matchRange=[match rangeOfMatchedString];
             matchRange.location+=changeInLength;
             NSRange lineRange=[[self string] lineRangeForRange:matchRange];

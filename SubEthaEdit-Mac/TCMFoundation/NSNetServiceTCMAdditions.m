@@ -45,9 +45,8 @@
 - (NSDictionary *)TXTRecordDictionary {
     NSMutableDictionary *result=[NSMutableDictionary dictionary];
     NSArray *pairsArray=[self TXTRecordArray];
-    NSEnumerator *pairs=[pairsArray objectEnumerator];
     NSString *pair;
-    while ((pair = [pairs nextObject])) {
+    for (pair in pairsArray) {
         NSRange foundRange=[pair rangeOfString:@"="];
         if (foundRange.location!=NSNotFound) {
             NSString *key = [[pair substringToIndex:foundRange.location] lowercaseString];
@@ -67,9 +66,8 @@
 - (void)setTXTRecordByArray:(NSArray *)anArray {
     DEBUGLOG(@"RendezvousLogDomain",AllLogLevel,@"should set array: \n%@",anArray);
 	NSMutableData *data=[NSMutableData data];
-	NSEnumerator *recordStrings=[anArray objectEnumerator];
 	NSString *string=nil;
-	while ((string=[recordStrings nextObject])) {
+	for (string in anArray) {
 		NSData *stringData=[string UTF8DataWithMaximumLength:255];
 		if ([stringData length]>0) {
 			unsigned char length=(unsigned char)[stringData length];

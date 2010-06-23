@@ -45,10 +45,7 @@
     
     // check if the top window is on the same screen, if not, cascading from the top window
     NSArray *orderedWindows = [NSApp orderedWindows];
-    int count = [orderedWindows count];
-    int i = 0;
-    for (i=0;i<count;i++) {
-        NSWindow *window = [orderedWindows objectAtIndex:i];
+    for (NSWindow *window in orderedWindows) {
         if ([window isKindOfClass:[PlainTextWindow class]]) {
             if ([window screen] != screen) {
                 screen = [window screen];

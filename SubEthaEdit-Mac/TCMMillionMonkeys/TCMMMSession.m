@@ -403,8 +403,7 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
     while ((state = [states nextObject])) {
         [state handleOperation:anOperation];
     }
-    states=[I_statesWithRemainingMessages objectEnumerator];
-    while ((state=[states nextObject])) {
+    for (state in I_statesWithRemainingMessages) {
         [state handleOperation:anOperation];
     }
     [I_loggingState handleOperation:anOperation];
@@ -446,12 +445,11 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
 
 - (void)setGroup:(NSString *)aGroup forParticipantsWithUserIDs:(NSArray *)aUserIDs {
     if ([aGroup isEqualToString:@"PoofGroup"] || [aGroup isEqualToString:@"CloseGroup"]) {
-        NSEnumerator *userIDs=[aUserIDs objectEnumerator];
         NSString *userID;
         TCMMMUser *user;
         TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
         NSString *sessionID=[self sessionID];
-        while ((userID=[userIDs nextObject])) {
+        for (userID in aUserIDs) {
             user = [userManager userForUserID:userID];
             NSString *group=[I_groupByUserID objectForKey:userID];
             if (group) {
@@ -481,12 +479,11 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
         if (![I_participants objectForKey:aGroup]) {
             [I_participants setObject:[NSMutableArray array] forKey:aGroup];
         }
-        NSEnumerator *userIDs=[aUserIDs objectEnumerator];
         NSString *userID;
         TCMMMUser *user;
         TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
         NSString *sessionID=[self sessionID];
-        while ((userID=[userIDs nextObject])) {
+        for (userID in aUserIDs) {
             NSString *oldGroup=[[[I_groupByUserID objectForKey:userID] retain] autorelease];
             if (![oldGroup isEqualToString:aGroup]) {
                 user=[userManager userForUserID:userID];
@@ -757,9 +754,8 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
         query = (NSString *)CFURLCreateStringByReplacingPercentEscapes(kCFAllocatorDefault, (CFStringRef)urlQuery, CFSTR(""));
         [query autorelease];
         NSArray *components = [query componentsSeparatedByString:@"&"];
-        NSEnumerator *enumerator = [components objectEnumerator];
         NSString *item;
-        while ((item = [enumerator nextObject])) {
+        for (item in components) {
             NSArray *keyValue = [item componentsSeparatedByString:@"="];
             if ([keyValue count] == 2) {
                 if ([[keyValue objectAtIndex:0] isEqualToString:@"sessionID"]) {
@@ -808,9 +804,8 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
 
 - (NSDictionary *)contributersAsDictionaryRepresentation {
     NSMutableDictionary *contributorsByID=[NSMutableDictionary dictionary];
-    NSEnumerator *contributors = [I_contributors objectEnumerator];
     TCMMMUser *contributor=nil;
-    while ((contributor=[contributors nextObject])) {
+    for (contributor in I_contributors) {
         NSString *contributorID=[contributor userID];
         [contributorsByID setObject:[contributor dictionaryRepresentation] forKey:contributorID];
     }
@@ -831,10 +826,9 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
 {
     NSMutableDictionary *sessionInformation=[NSMutableDictionary dictionary];
     NSMutableArray *contributorNotifications=[NSMutableArray array];
-    NSEnumerator *contributors = [I_contributors objectEnumerator];
     NSSet *userIDsOfContributors = [[self document] allUserIDs];
     TCMMMUser *contributor=nil;
-    while ((contributor=[contributors nextObject])) {
+    for (contributor in I_contributors) {
         NSString *contributorID=[contributor userID];
         if (![contributorID isEqualToString:userID] &&
             [userIDsOfContributors containsObject:contributorID]) {
@@ -1187,11 +1181,10 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
     
     NSArray *contributors=[sessionInfo objectForKey:@"Contributors"];
     NSMutableArray *result=[NSMutableArray array];
-    NSEnumerator *users=[contributors objectEnumerator];
     NSDictionary *userNotification;
     TCMMMUser *user=nil;
     TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
-    while ((userNotification=[users nextObject])) {
+    for (userNotification in contributors) {
         user=[TCMMMUser userWithNotification:userNotification];
         if (user) {
             if ([userManager sender:profile shouldRequestUser:user]) {
@@ -1216,10 +1209,9 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
 - (void)profile:(SessionProfile *)aProfile didReceiveUserRequests:(NSArray *)aUserRequestArray
 {
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"profile:didReceiveUserRequests:");
-    NSEnumerator *userRequests=[aUserRequestArray objectEnumerator]; 
     TCMMMUser *user=nil;
     TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
-    while ((user=[userRequests nextObject])) {
+    for (user in aUserRequestArray) {
         [aProfile sendUser:[userManager userForUserID:[user userID]]];
     }
     NSString *peerUserID = [[[aProfile session] userInfo] objectForKey:@"peerUserID"];

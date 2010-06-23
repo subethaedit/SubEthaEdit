@@ -886,7 +886,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     //create Directories
     NSArray *userDomainPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
     NSEnumerator *enumerator = [userDomainPaths objectEnumerator];
-    while ((path = [enumerator nextObject])) {
+    for (path in userDomainPaths) {
         NSString *fullPath = [path stringByAppendingPathComponent:SCRIPTPATHCOMPONENT];
         if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:nil]) {
             [[NSFileManager defaultManager] createDirectoryAtPath:fullPath withIntermediateDirectories:YES attributes:nil error:nil];
@@ -896,8 +896,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     // collect all directories
     NSMutableArray *allPaths = [NSMutableArray array];
     NSArray *allDomainsPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, YES);
-    enumerator = [allDomainsPaths objectEnumerator];
-    while ((path = [enumerator nextObject])) {
+    for (path in allDomainsPaths) {
         [allPaths addObject:[path stringByAppendingPathComponent:SCRIPTPATHCOMPONENT]];
     }
     
@@ -922,10 +921,8 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [I_scriptOrderArray release];
      I_scriptOrderArray = [[[I_scriptsByFilename allKeys] sortedArrayUsingSelector:@selector(compare:)] retain];
         
-    int i=0;
-    for (i=0;i<[I_scriptOrderArray count];i++) {
-        NSString *filename = [I_scriptOrderArray objectAtIndex:i];
-        ScriptWrapper *script=[I_scriptsByFilename objectForKey:[I_scriptOrderArray objectAtIndex:i]];
+    for (NSString *filename in I_scriptOrderArray) {
+        ScriptWrapper *script=[I_scriptsByFilename objectForKey:filename];
         NSDictionary *settingsDictionary = [script settingsDictionary];
         NSString *displayName = filename;
         if (settingsDictionary && [settingsDictionary objectForKey:ScriptWrapperDisplayNameSettingsKey]) {
@@ -985,9 +982,8 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 - (IBAction)showScriptFolder:(id)aSender {
     //create Directories
     NSArray *userDomainPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-    NSEnumerator *enumerator = [userDomainPaths objectEnumerator];
     NSString *path = nil;
-    while ((path = [enumerator nextObject])) {
+    for (path in userDomainPaths) {
         NSString *fullPath = [path stringByAppendingPathComponent:SCRIPTPATHCOMPONENT];
         [[NSWorkspace sharedWorkspace] openURL:[NSURL fileURLWithPath:fullPath]];
         return;

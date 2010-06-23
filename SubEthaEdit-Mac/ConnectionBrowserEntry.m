@@ -49,11 +49,10 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
         query = (NSString *)CFURLCreateStringByReplacingPercentEscapes(kCFAllocatorDefault, (CFStringRef)urlQuery, CFSTR(""));
         [query autorelease];
         NSArray *components = [query componentsSeparatedByString:@"&"];
-        NSEnumerator *enumerator = [components objectEnumerator];
         NSString *token = nil;
         NSString *sessionID = nil;
         NSString *item;
-        while ((item = [enumerator nextObject])) {
+        for (item in components) {
             NSArray *keyValue = [item componentsSeparatedByString:@"="];
             if ([keyValue count] == 2) {
                 if ([[keyValue objectAtIndex:0] isEqualToString:@"token"]) {

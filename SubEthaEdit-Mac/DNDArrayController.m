@@ -140,9 +140,8 @@ NSString *MovedRowsType = @"MOVED_ROWS_TYPE";
 - (NSIndexSet *)indexSetFromRows:(NSArray *)rows
 {
     NSMutableIndexSet *indexSet = [NSMutableIndexSet indexSet];
-    NSEnumerator *rowEnumerator = [rows objectEnumerator];
     NSNumber *idx;
-    while (idx = [rowEnumerator nextObject])
+    for (idx in rows)
     {
 		[indexSet addIndex:[idx intValue]];
     }

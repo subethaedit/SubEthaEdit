@@ -58,9 +58,8 @@
 
 - (void)setContentHasBeenExchanged:(BOOL)aFlag {
     if (aFlag==YES) {
-        NSEnumerator *datas=[I_outgoingMMMessageQueue objectEnumerator];
         NSData *data=nil;
-        while ((data=[datas nextObject])) {
+        for (data in I_outgoingMMMessageQueue) {
             [[self channel] sendMSGMessageWithPayload:data];
         }
         [I_outgoingMMMessageQueue removeAllObjects];
@@ -389,9 +388,8 @@
 
             NSArray *neededUserNotifications=TCM_BdecodedObjectWithData([[aMessage payload] subdataWithRange:NSMakeRange(6,[[aMessage payload] length]-6)]);
             NSMutableArray *neededUsers=[NSMutableArray array];
-            NSEnumerator *notifications=[neededUserNotifications objectEnumerator];
             NSDictionary *notificationDict=nil;
-            while ((notificationDict = [notifications nextObject])) {
+            for (notificationDict in neededUserNotifications) {
                 // backwards compatibility
                 if ([notificationDict objectForKey:@"uID"]) {
                     TCMMMUser *user=[TCMMMUser userWithNotification:notificationDict];

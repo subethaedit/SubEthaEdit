@@ -223,10 +223,8 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     NSDictionary *selectedObjects = [I_storedSelections lastObject];
     NSMutableIndexSet *indexes = [NSMutableIndexSet indexSet];
     NSArray *arrangedObjects = [I_entriesController arrangedObjects];
-    int i = 0;
     int index = 0;
-    for (i = 0; i<[arrangedObjects count];i++) {
-        ConnectionBrowserEntry *entry = [arrangedObjects objectAtIndex:i];
+    for (ConnectionBrowserEntry *entry in arrangedObjects) {
         if ([[selectedObjects objectForKey:@"Entries"] containsObject:entry]) {
             [indexes addIndex:index];
         }
@@ -613,9 +611,8 @@ static NSPredicate *S_joinableSessionPredicate = nil;
     if (returnCode == NSAlertFirstButtonReturn) {
         DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"abort connection");
         NSSet *set = [alertContext objectForKey:@"items"];
-        NSEnumerator *enumerator = [set objectEnumerator];
         ConnectionBrowserEntry *entry=nil;
-        while ((entry = [enumerator nextObject])) {
+        for (entry in set) {
             [entry cancel];
         }
     }

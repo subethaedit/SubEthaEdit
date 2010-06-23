@@ -178,9 +178,8 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
             } else {
                 UndoGroup *parent = [[(UndoGroup *)_redoGroup parent] retain];
                 NSArray *actions = [_redoGroup actions];
-                unsigned i;
-                for (i = 0; i < [actions count]; i++) {
-                    [parent addAction:[actions objectAtIndex:i]];
+                for (id loopItem1 in actions) {
+                    [parent addAction:loopItem1];
                 }
                 [_redoGroup release];
                 _redoGroup = parent;
@@ -200,9 +199,8 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
             } else {
                 UndoGroup *parent = [[(UndoGroup *)_undoGroup parent] retain];
                 NSArray *actions = [_undoGroup actions];
-                unsigned i;
-                for (i = 0; i < [actions count]; i++) {
-                    [parent addAction:[actions objectAtIndex:i]];
+                for (id loopItem in actions) {
+                    [parent addAction:loopItem];
                 }
                 [_undoGroup release];
                 _undoGroup = parent;

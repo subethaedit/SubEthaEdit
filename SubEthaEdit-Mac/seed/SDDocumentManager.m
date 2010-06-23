@@ -177,9 +177,8 @@ static SDDocumentManager *S_sharedInstance=nil;
     NSMutableDictionary *stateDict = [NSMutableDictionary dictionary];
     NSMutableArray *documentStates = [NSMutableArray array];
     [stateDict setObject:documentStates forKey:@"documentStates"];
-    NSEnumerator *documents = [_documents objectEnumerator];
     SDDocument *document = nil;
-    while ((document = [documents nextObject])) {
+    for (document in _documents) {
         [documentStates addObject:[document dictionaryRepresentation]];
     }
     [stateDict writeToFile:[self stateFilePath] atomically:YES];
@@ -208,9 +207,8 @@ static SDDocumentManager *S_sharedInstance=nil;
 - (void)sendFileUpdates {
     _flags.hasScheduledFileUpdate = NO;
     NSMutableDictionary *fileUpdateDictionary = [NSMutableDictionary dictionary];
-    NSEnumerator *fileIDs = [_documentIDsWithPendingChanges objectEnumerator];
     NSString *fileID = nil;
-    while ((fileID=[fileIDs nextObject])) {
+    for (fileID in _documentIDsWithPendingChanges) {
         SDDocument *document = [_availableDocumentsByID objectForKey:fileID];
         if (document) {
             [fileUpdateDictionary setObject:[document dictionaryRepresentation] forKey:fileID];
@@ -220,9 +218,8 @@ static SDDocumentManager *S_sharedInstance=nil;
     }
     [_documentIDsWithPendingChanges removeAllObjects];
     
-    NSEnumerator *profiles = [_fileManagementProfiles objectEnumerator];
     ServerManagementProfile *profile = nil;
-    while ((profile = [profiles nextObject])) {
+    for (profile in _fileManagementProfiles) {
         if ([profile didSendFILLST]) {
             [profile sendFileUpdates:fileUpdateDictionary];
         }

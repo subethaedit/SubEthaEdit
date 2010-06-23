@@ -107,9 +107,8 @@
         return;
     } 
 
-    NSEnumerator *enumerator = [recognitionEntries objectEnumerator];
     id entry;
-    while ((entry = [enumerator nextObject])) {
+    for (entry in recognitionEntries) {
         NSString *name = [entry name];
         NSString *value = [entry stringValue];
         

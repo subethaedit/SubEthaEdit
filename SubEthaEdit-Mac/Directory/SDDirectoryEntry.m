@@ -90,9 +90,8 @@
     if ([_groups containsObject:aGroup]) {
         return YES;
     } else {
-        NSEnumerator *groups = [_groups objectEnumerator];
         SDDirectoryEntry *group = nil;
-        while ((group=[groups nextObject])) {
+        for (group in _groups) {
             if ([group isMemberOfGroup:aGroup]) {
                 return YES;
             }

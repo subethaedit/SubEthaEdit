@@ -1984,9 +1984,8 @@
     
 	// add the originally suggested words if spelling dictionary should be used
     if ([[documentMode syntaxDefinition] useSpellingDictionary]) {
-        NSEnumerator *enumerator = [words objectEnumerator];
         id word;
-        while (word = [enumerator nextObject]) {
+        for (word in words) {
             if ([dictionaryOfResultStrings objectForKey:word]==nil)
                 [completions addObject:word];
                 [dictionaryOfResultStrings setObject:@"YES" forKey:word];

@@ -23,8 +23,7 @@ static NSArray *S_possibleStyleColors;
 
 + (BOOL)style:(NSDictionary *)aStyle isEqualToStyle:(NSDictionary *)anotherStyle {
     NSString *colorKey=nil;
-    NSEnumerator *colorKeys=[S_possibleStyleColors objectEnumerator];
-    while ((colorKey=[colorKeys nextObject])) {
+    for (colorKey in S_possibleStyleColors) {
         NSColor *color=[aStyle objectForKey:colorKey];
         if (color) {
             if (![[color HTMLString] isEqualToString:[[anotherStyle objectForKey:colorKey] HTMLString]]) {
@@ -64,9 +63,8 @@ static NSArray *S_possibleStyleColors;
     [possibleKeys addObjectsFromArray:S_possibleStyleColors];
     [possibleKeys addObjectsFromArray:[NSArray arrayWithObjects:@"font-trait",@"type",kSyntaxHighlightingStyleIDAttributeName,nil]];
     
-    NSEnumerator *enumerator = [possibleKeys objectEnumerator];
     id key;
-    while ((key = [enumerator nextObject])) {
+    for (key in possibleKeys) {
         id object = [aDictionary objectForKey:key];
         if (object) [styleDictionary setObject:object forKey:key];
     }
@@ -364,9 +362,8 @@ static NSArray *S_possibleStyleColors;
 - (NSString *)xmlRepresentation {
     NSMutableString *result=[NSMutableString string];
     NSString *key=nil;
-    NSEnumerator *keys=[I_keyArray objectEnumerator];
     int later=0;
-    while ((key=[keys nextObject])) {
+    for (key in I_keyArray) {
         NSDictionary *style=[I_styleDictionary objectForKey:key];
         NSFontTraitMask traits=[[style objectForKey:@"font-trait"] unsignedIntValue];
         if (later++) {
@@ -395,8 +392,7 @@ static NSArray *S_possibleStyleColors;
 - (NSString *)description {
     NSMutableString *result=[NSMutableString string];
     NSString *key=nil;
-    NSEnumerator *keys=[I_keyArray objectEnumerator];
-    while ((key=[keys nextObject])) {
+    for (key in I_keyArray) {
         [result appendFormat:@"%@ (%@): %@\n",[self localizedStringForKey:key],key,[[I_styleDictionary objectForKey:key] description]];
     }
     return [NSString stringWithFormat:@"SyntaxStyle: \n%@",[self xmlFileRepresentation]];

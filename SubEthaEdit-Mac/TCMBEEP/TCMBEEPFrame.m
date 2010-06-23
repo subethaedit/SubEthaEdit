@@ -141,10 +141,9 @@
     [data appendData:[header dataUsingEncoding:NSASCIIStringEncoding]];
     NSString *payloadString = [[[NSString alloc] initWithData:I_payload encoding:NSMacOSRomanStringEncoding] autorelease];
     NSArray *components = [payloadString componentsSeparatedByString:@"\r\n"];
-    int i;
-    for (i = 0; i < [components count]; i++) {
+    for (id loopItem in components) {
         [data appendData:[prefix dataUsingEncoding:NSASCIIStringEncoding]];
-        [data appendData:[[components objectAtIndex:i] dataUsingEncoding:NSMacOSRomanStringEncoding]];
+        [data appendData:[loopItem dataUsingEncoding:NSMacOSRomanStringEncoding]];
         [data appendData:[@"\r\n" dataUsingEncoding:NSASCIIStringEncoding]];
     }
     [data appendData:[[NSString stringWithFormat:@"%@END\r\n", prefix] dataUsingEncoding:NSASCIIStringEncoding]];
