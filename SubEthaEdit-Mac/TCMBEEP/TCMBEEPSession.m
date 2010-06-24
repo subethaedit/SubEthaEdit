@@ -74,20 +74,11 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
     static NSString *logDirectory = nil;
 #endif
 
-static NSString *certKeychainPath = nil;
 static CFArrayRef certArrayRef = NULL;
 static SecKeychainRef kcRef;
-static NSString *pathToTempKeyAndCert = nil;
 static NSString *dhparamKeyPath = nil;
-static NSDate *launchDate;
 static NSString *keychainPassword = nil;
 static NSData *dhparamData = nil;
-
-// TODO: remove all the temporary keychain for TLS stuff!
-
-+ (void)removeTemporaryKeychain {
-    [[NSFileManager defaultManager] removeItemAtPath:certKeychainPath error:nil];
-}
 
 + (void)prepareDiffiHellmannParameters {
     NSString *path = nil;
@@ -96,7 +87,7 @@ static NSData *dhparamData = nil;
     if ((path = [enumerator nextObject])) {
         NSString *fullPath = [path stringByAppendingPathComponent:[[[[NSBundle mainBundle] bundlePath] lastPathComponent] stringByDeletingPathExtension]];
         if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:nil]) {
-             [[NSFileManager defaultManager] createDirectoryAtPath:fullPath attributes:nil];
+             [[NSFileManager defaultManager] createDirectoryAtPath:fullPath withIntermediateDirectories:YES attributes:nil error:nil];
         }
         dhparamKeyPath = [[fullPath stringByAppendingPathComponent:[NSString stringWithFormat:@"dhparams-%@.des",[NSString UUIDString]]] retain];
 
@@ -116,130 +107,6 @@ static NSData *dhparamData = nil;
         [opensslTask launch];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(dhparamsTaskDidFinish:) name:NSTaskDidTerminateNotification object:opensslTask];
 	}
-}
-
-+ (void)prepareTemporaryCertificate {
-    NSString *path;
-    
-    //create Directories
-    NSArray *userDomainPaths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
-    NSEnumerator *enumerator = [userDomainPaths objectEnumerator];
-    if ((path = [enumerator nextObject])) {
-        NSString *fullPath = [path stringByAppendingPathComponent:[[[[NSBundle mainBundle] bundlePath] lastPathComponent] stringByDeletingPathExtension]];
-        if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:nil]) {
-             [[NSFileManager defaultManager] createDirectoryAtPath:fullPath attributes:nil];
-        }
-        certKeychainPath = [[fullPath stringByAppendingPathComponent:[NSString stringWithFormat:@"seetempcerts-%@.keychain",[NSString UUIDString]]] retain];
-        
-        // we don't want to add this keychain in the default searchlist so we get the list
-        CFArrayRef searchList;
-        SecKeychainCopySearchList(&searchList);
-        
-        keychainPassword = [[NSString UUIDString] retain];
-        // generate the temporary keychain
-        OSStatus status = SecKeychainCreate (
-           [certKeychainPath UTF8String],
-           [keychainPassword length],
-           [keychainPassword UTF8String],
-           FALSE,
-           NULL,
-           &kcRef
-        );
-        SecKeychainSettings newKeychainSettings =
-                      { SEC_KEYCHAIN_SETTINGS_VERS1, FALSE, FALSE, INT_MAX };
-        SecKeychainSetSettings(kcRef, &newKeychainSettings);
-//        NSLog(@"%s status:%d keychain:%@",__FUNCTION__,status,kcRef);
-        
-        // remove from Search list
-        status=SecKeychainSetSearchList (searchList);
-//        NSLog(@"%s status:%d, list:%@",__FUNCTION__,status,searchList);
-        CFRelease(searchList);
-        searchList = NULL;
-
-        // generate identity
-
-        pathToTempKeyAndCert = [[certKeychainPath stringByAppendingPathExtension:@"cert"] retain];
-        NSTask *opensslTask = [[[NSTask alloc] init] autorelease];
-        [opensslTask setStandardError:[NSPipe pipe]];
-        [opensslTask setStandardOutput:[NSPipe pipe]];
-        [opensslTask setLaunchPath:@"/usr/bin/openssl"]; 
-        [opensslTask setArguments:[NSArray arrayWithObjects:
-            @"req",
-            @"-new",
-            @"-x509",
-            @"-newkey",
-            @"rsa:2048",
-            @"-keyout",
-            pathToTempKeyAndCert,
-            @"-out",
-            pathToTempKeyAndCert,
-            @"-text",
-            @"-days",
-            @"365",
-            @"-nodes",
-            @"-batch",
-            nil]];
-        [opensslTask launch];
-        launchDate = [NSDate new];    
-        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(openSSLTaskDidTerminate:) name:NSTaskDidTerminateNotification object:opensslTask];
-    }
-}
-
-+ (CFArrayRef)certArrayRef {
-    return certArrayRef;
-}
-
-+ (void)openSSLTaskDidTerminate:(NSNotification *)aNotification {
-//    NSTask *task=[aNotification object];
-//    NSLog(@"%s %@ %@",__FUNCTION__, [[[NSString alloc] initWithData:[[[task standardOutput] fileHandleForReading] readDataToEndOfFile] encoding:NSUTF8StringEncoding] autorelease], [[[NSString alloc] initWithData:[[[task standardError] fileHandleForReading] readDataToEndOfFile] encoding:NSUTF8StringEncoding] autorelease]);
-//    NSLog(@"%s generation of certificate took: %f seconds",__FUNCTION__,[launchDate timeIntervalSinceNow]*-1.);
-    
-    [[NSNotificationCenter defaultCenter] removeObserver:self name:NSTaskDidTerminateNotification object:[aNotification object]];
-    [[NSNotificationQueue defaultQueue] enqueueNotification:[NSNotification notificationWithName:@"TCMBEEPTempCertificateCreationForSSLDidFinish" object:self] postingStyle:NSPostASAP coalesceMask:NSNotificationNoCoalescing forModes:nil];
-    
-    SecKeychainItemImport (
-        (CFDataRef)[NSData dataWithContentsOfFile:pathToTempKeyAndCert],
-        NULL,
-        kSecFormatUnknown,
-        kSecItemTypeUnknown,
-        0,
-        NULL,
-        kcRef,
-        NULL
-    );
-
-    // delete temp key and cert
-    NSFileManager *fm = [NSFileManager defaultManager];
-    [fm removeFileAtPath:pathToTempKeyAndCert handler:nil];
-    [pathToTempKeyAndCert release];
-    pathToTempKeyAndCert = nil;
-    
-    OSStatus ortn;
-    SecIdentitySearchRef srchRef = nil;
-    ortn = SecIdentitySearchCreate(kcRef,CSSM_KEYUSE_SIGN,&srchRef);
-    if (ortn) {
-        printf("SecIdentitySearchCreate returned %d.\n", (int)ortn);
-        printf("Cannot find signing key in temporary keychain. Aborting.\n");
-        return;
-    }
-    SecIdentityRef identity = nil;
-    ortn = SecIdentitySearchCopyNext(srchRef, &identity);
-    if(ortn) {
-        printf("SecIdentitySearchCopyNext returned %d.\n", (int)ortn);
-        printf("Cannot find signing key in temporary keychain. Aborting.\n");
-        return;
-    }
-    if(CFGetTypeID(identity) != SecIdentityGetTypeID()) {
-        printf("SecIdentitySearchCopyNext CFTypeID failure!\n");
-        return;
-    }
-
-    certArrayRef = CFArrayCreate(NULL,(const void **)&identity,1,NULL);
-        
-    if(certArrayRef == nil) {
-        printf("CFArrayCreate error\n");
-    }
-    CFRelease(srchRef);
 }
 
 + (void)dhparamsTaskDidFinish:(NSNotification *)aNotification {
@@ -344,9 +211,9 @@ static NSData *dhparamData = nil;
     if (!logDirectory) {
         NSString *appName = [[[[NSBundle mainBundle] bundlePath] lastPathComponent] stringByDeletingPathExtension];
         NSString *appDir = [[@"~/Library/Logs/" stringByExpandingTildeInPath] stringByAppendingPathComponent:appName];
-        [[NSFileManager defaultManager] createDirectoryAtPath:appDir attributes:nil];
+        [[NSFileManager defaultManager] createDirectoryAtPath:appDir withIntermediateDirectories:YES attributes:nil error:NO];
         NSString *beepDir = [appDir stringByAppendingPathComponent:@"TCMBEEP"];
-        [[NSFileManager defaultManager] createDirectoryAtPath:beepDir attributes:nil];
+        [[NSFileManager defaultManager] createDirectoryAtPath:beepDir withIntermediateDirectories:YES attributes:nil error:NO];
         NSString *origPath = [beepDir stringByAppendingPathComponent:@"Session"];
         
         static int sequenceNumber = 0;
@@ -358,7 +225,7 @@ static NSData *dhparamData = nil;
         } while ([[NSFileManager defaultManager] fileExistsAtPath:name]);
 
         logDirectory = [name retain];
-        [[NSFileManager defaultManager] createDirectoryAtPath:logDirectory attributes:nil];    
+        [[NSFileManager defaultManager] createDirectoryAtPath:logDirectory withIntermediateDirectories:YES attributes:nil error:NO];    
     }
     
     int fileNumber = numberOfLogs++;
@@ -401,11 +268,6 @@ static NSData *dhparamData = nil;
 					[self addProfileURIs:[NSArray arrayWithObject:TCMBEEPTLSAnonProfileURI]];
 				}
 			}
-        	if ([TCMBEEPSession certArrayRef] && 
-            	[(NSArray *)[TCMBEEPSession certArrayRef] count]>0) {
-//        		NSLog(@"%s added %@",__FUNCTION__,TCMBEEPTLSProfileURI);
-            	[self addProfileURIs:[NSArray arrayWithObject:TCMBEEPTLSProfileURI]];
-           	}
         }
     }
     
@@ -1133,24 +995,12 @@ static NSData *dhparamData = nil;
     
     
     Boolean resultReadStream, resultWriteStream;
-    
-    CFArrayRef certificates = NULL;
-
-    if (!I_flags.isTLSAnon) {
-		SecKeychainRef serverKc = nil;
-		certificates = [self TCM_sslCertificatesFromKeychain:"certkc.keychain" encryptOnly:CSSM_FALSE usedKeychain:&serverKc];
-		if (certificates == NULL) DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Didn't find necessary certificates!");
-	}
-
-    
+        
     CFMutableDictionaryRef settings = CFDictionaryCreateMutable(NULL, 0, &kCFCopyStringDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
     CFDictionaryAddValue(settings, kCFStreamSSLLevel, kCFStreamSocketSecurityLevelTLSv1);
     CFDictionaryAddValue(settings, kCFStreamSSLAllowsExpiredRoots, kCFBooleanTrue);
     CFDictionaryAddValue(settings, kCFStreamSSLAllowsAnyRoot, kCFBooleanTrue);
     CFDictionaryAddValue(settings, kCFStreamSSLIsServer, kCFBooleanTrue);
-    if (!I_flags.isTLSAnon) {
-	    CFDictionaryAddValue(settings, kCFStreamSSLCertificates, certificates);
-	}
 
     resultReadStream = CFReadStreamSetProperty(I_readStream, kCFStreamPropertySSLSettings, settings);
     resultWriteStream = CFWriteStreamSetProperty(I_writeStream, kCFStreamPropertySSLSettings, settings);

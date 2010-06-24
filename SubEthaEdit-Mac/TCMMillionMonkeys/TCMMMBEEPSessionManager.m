@@ -193,17 +193,11 @@ static TCMMMBEEPSessionManager *sharedInstance;
     	[AppController sharedInstance]; // making sure the defaults are registered - seem ugly need better way soon
     	I_SSLGenerationCount = 0;
     	I_SSLGenerationDesiredCount = 1;
-    	BOOL useTemporaryKeychain = [[NSUserDefaults standardUserDefaults] boolForKey:UseTemporaryKeychainForTLSKey];
 //    	NSLog(@"%s %@? %d",__FUNCTION__,EnableTLSKey,[[NSUserDefaults standardUserDefaults] boolForKey:EnableTLSKey]);
 		if ([[NSUserDefaults standardUserDefaults] boolForKey:EnableTLSKey]) {
 			I_SSLGenerationDesiredCount++;
 			[TCMBEEPSession prepareDiffiHellmannParameters];
 			[[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sslGenerationDidFinish:) name:@"TCMBEEPTempCertificateCreationForSSLDidFinish" object:nil];
-
-			if (useTemporaryKeychain) {
-				I_SSLGenerationDesiredCount++;
-				[TCMBEEPSession prepareTemporaryCertificate];
-			}
 		}
         I_greetingProfiles = [[NSMutableDictionary alloc] initWithObjectsAndKeys:
         	[NSMutableArray array],kTCMMMBEEPSessionManagerDefaultMode,

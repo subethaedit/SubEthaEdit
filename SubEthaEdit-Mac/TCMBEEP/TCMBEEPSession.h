@@ -108,10 +108,7 @@ enum {
 #endif
 }
 
-+ (CFArrayRef)certArrayRef;
-+ (void)prepareTemporaryCertificate;
 + (void)prepareDiffiHellmannParameters;
-+ (void)removeTemporaryKeychain;
 
 /*"Initializers"*/
 - (id)initWithSocket:(CFSocketNativeHandle)aSocketHandle addressData:(NSData *)aData;

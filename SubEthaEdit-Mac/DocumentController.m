@@ -993,7 +993,7 @@ static NSString *tempFileName() {
     
     NSString *documentModeIdentifierArgument = [properties objectForKey:@"mode"];
     for (fileName in newFiles) {
-        NSDocument *document = [self openUntitledDocumentOfType:@"PlainTextType" display:YES];
+        NSDocument *document = [self openUntitledDocumentAndDisplay:YES error:nil];
         if (document) {
             if (shouldSwitchOpening) {
                 shouldSwitchOpening = NO;
@@ -1048,7 +1048,7 @@ static NSString *tempFileName() {
     if (standardInputFile) {
         NSString *pipeTitle = [[command evaluatedArguments] objectForKey:@"PipeTitle"];
     
-        NSDocument *document = [self openUntitledDocumentOfType:@"PlainTextType" display:YES];
+        NSDocument *document = [self openUntitledDocumentAndDisplay:YES error:nil];
         if (document) {
             if (shouldSwitchOpening) {
 //                shouldSwitchOpening = NO;

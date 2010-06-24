@@ -172,9 +172,9 @@ static AppController *sharedInstance = nil;
 		[defaults setObject:[NSNumber numberWithBool:YES] forKey:ShouldAutomaticallyMapPort];
 
 		[defaults setObject:[NSNumber numberWithBool:YES] forKey:EnableTLSKey];
-		[defaults setObject:[NSNumber numberWithBool:YES] forKey:UseTemporaryKeychainForTLSKey]; // if keychain bug arrives again, switch this to NO
+		[defaults setObject:[NSNumber numberWithBool:NO] forKey:UseTemporaryKeychainForTLSKey]; // no more temporary keychain in 10.6 and up builds
 		
-		[defaults setObject:[NSNumber numberWithBool:(floor(NSAppKitVersionNumber) > 824 /*NSAppKitVersionNumber10_4*/)] forKey:EnableAnonTLSKey];
+		[defaults setObject:[NSNumber numberWithBool:YES] forKey:EnableAnonTLSKey];
 		[[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
 		
 		[[TCMMMTransformator sharedInstance] registerTransformationTarget:[TextOperation class] selector:@selector(transformTextOperation:serverTextOperation:) forOperationId:[TextOperation operationID] andOperationID:[TextOperation operationID]];
@@ -644,11 +644,6 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [[TCMMMPresenceManager sharedInstance] setVisible:NO]; // will validate so listening so has to be before stopping listening
     [[TCMMMBEEPSessionManager sharedInstance] stopListening];    
     [[TCMMMPresenceManager sharedInstance] stopRendezvousBrowsing];
-
-	BOOL useTemporaryKeychain = [[NSUserDefaults standardUserDefaults] boolForKey:UseTemporaryKeychainForTLSKey];
-	if (useTemporaryKeychain) {
-	    [TCMBEEPSession removeTemporaryKeychain];
-	}
 }
 
 - (void)updateApplicationIcon {

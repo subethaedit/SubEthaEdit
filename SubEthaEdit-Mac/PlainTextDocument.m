@@ -407,7 +407,7 @@ static NSString *tempFileName(NSString *origPath) {
     if ([self ODBParameters] == nil || [[self ODBParameters] count] == 0)
         return;
 
-    NSString *name = [self fileName];
+    NSString *name = [[self fileURL] path];
     if (name == nil || [name length] == 0)
         return;
 
@@ -451,7 +451,7 @@ static NSString *tempFileName(NSString *origPath) {
     if ([self ODBParameters] == nil || [[self ODBParameters] count] == 0)
         return;
 
-    NSString *fileName = [self fileName];
+    NSString *fileName = [[self fileURL] path];
     if (fileName == nil || [fileName length] == 0)
         return;
 
@@ -2242,7 +2242,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"alias: %@", [aliasDesc description]);
             NSURL *fileURL = (NSURL *)CFURLFromAEDescAlias([aliasDesc aeDesc]);
             NSString *filePath = [[fileURL path] stringByStandardizingPath];
-            if ([filePath isEqualToString:[[self fileName] stringByStandardizingPath]]) {
+            if ([filePath isEqualToString:[[[self fileURL] path] stringByStandardizingPath]]) {
 
                 // selection may be included in Xcode event
                 NSAppleEventDescriptor *selectionDesc = [[eventDesc paramDescriptorForKeyword:keyAEPosition] coerceToDescriptorType:typeChar];
@@ -2723,7 +2723,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [self setTemporarySavePanel:savePanel];
     [savePanel setDelegate:self];
 
-    if (![self fileName] && [self directoryForSavePanel]) {
+    if (![self fileURL] && [self directoryForSavePanel]) {
         [savePanel setDirectory:[self directoryForSavePanel]];
     }
 
@@ -2887,7 +2887,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     if (URLToDelete) {
         NSFileManager *fm = [NSFileManager defaultManager];
         if ([fm fileExistsAtPath:[URLToDelete path]]) {
-            [fm removeFileAtPath:[URLToDelete path] handler:nil];
+            [fm removeItemAtPath:[URLToDelete path] error:nil];
         }
     }
 }
@@ -2989,7 +2989,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [[self plainTextEditors] makeObjectsPerformSelector:@selector(pushSelectedRanges)];
     BOOL success = [super revertToContentsOfURL:anURL ofType:type error:outError];
     if (success) {
-        [self setFileName:[anURL path]];
+        [self setFileURL:anURL];
     }
     [[self plainTextEditors] makeObjectsPerformSelector:@selector(popSelectedRanges)];
     return success;
@@ -3293,7 +3293,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             I_flags.isReadingFile = NO;
             return result;
         }
-        if (wasAutosaved) fileName = [self fileName];
+        if (wasAutosaved) fileName = self.fileURL.path;
     } else {
     
         BOOL isDocumentFromOpenPanel = [(DocumentController *)[NSDocumentController sharedDocumentController] isDocumentFromLastRunOpenPanel:self];
@@ -3780,7 +3780,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     } else if ([inTypeName isEqualToString:@"SEETextType"]) {
         NSString *packagePath = [absoluteURL path];
         NSFileManager *fm =[NSFileManager defaultManager];
-        if ([fm createDirectoryAtPath:packagePath attributes:nil]) {
+        if ([fm createDirectoryAtPath:packagePath withIntermediateDirectories:YES attributes:nil error:nil]) {
             BOOL success = YES;
 
             // mark it as package
@@ -3956,7 +3956,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"fileAttributesToWriteToURL: %@ previousURL:%@", absoluteURL,absoluteOriginalContentsURL);
     
     // Preserve HFS Type and Creator code
-    if ([self fileName] && [self fileType]) {
+    if ([self fileURL] && [self fileType]) {
         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Preserve HFS Type and Creator Code");
         NSMutableDictionary *newAttributes = [[[super
         fileAttributesToWriteToURL:absoluteURL ofType:documentTypeName forSaveOperation:saveOperationType originalContentsURL:absoluteOriginalContentsURL error:outError] mutableCopy] autorelease];
@@ -4378,7 +4378,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             [self TCM_sendODBModifiedEvent];
             [self setKeepDocumentVersion:NO];
         } else if (saveOperationType == NSSaveAsOperation) {
-            if ([fullDocumentPath isEqualToString:[self fileName]]) {
+            if ([fullDocumentPath isEqualToString:self.fileURL.path]) {
                 [self TCM_sendODBModifiedEvent];
             } else {
                 [self setODBParameters:nil];
@@ -5072,7 +5072,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         address = [NSMutableString stringWithFormat:@"see://%@:%d", [pm externalIPAddress],[mapping externalPort]];
     }
     
-    NSString *title = [[self fileName] lastPathComponent];
+    NSString *title = [self.fileURL.path lastPathComponent];
     if (title == nil) {
         title = [self displayName];
     }
@@ -5119,8 +5119,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 - (NSString *)preparedDisplayName {
     NSArray *pathComponents = nil;
-    if ([self fileName]) {
-        pathComponents = [[self fileName] pathComponents];
+    if ([self fileURL]) {
+        pathComponents = [self.fileURL.path pathComponents];
     } else if ([self temporaryDisplayName]) {
         pathComponents = [[self temporaryDisplayName] pathComponents];
     } 
@@ -5147,7 +5147,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (NSString *)displayName {
-    if ([self temporaryDisplayName] && ![self fileName]) {
+    if ([self temporaryDisplayName] && ![self fileURL]) {
         return [[self temporaryDisplayName] lastPathComponent];
     }
     
@@ -5162,10 +5162,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 #if !defined(CODA)
 - (void)setDisplayName:(NSString *)aDisplayName {
-    if (![self fileName]) {
+    if (![self fileURL]) {
         [self setTemporaryDisplayName:aDisplayName];
     } else {
-        [self setFileName:[[[self fileName] stringByDeletingLastPathComponent] stringByAppendingPathComponent:aDisplayName]];
+        [self setFileURL:[NSURL fileURLWithPath:[[self.fileURL.path stringByDeletingLastPathComponent] stringByAppendingPathComponent:aDisplayName]]];
     }
 }
 #endif //!defined(CODA)
@@ -5579,8 +5579,8 @@ static NSString *S_measurementUnits;
 }
 
 - (void)applicationDidBecomeActive:(NSNotification *)aNotification {
-    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"applicationDidBecomeActive: %@", [self fileName]);
-    if (![self fileName]) {
+    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"applicationDidBecomeActive: %@", [self fileURL]);
+    if (![self fileURL]) {
         return;
     }
 
@@ -6083,9 +6083,8 @@ static NSString *S_measurementUnits;
 }
 
 
-
-- (void)setFileName:(NSString *)fileName {
-    [super setFileName:fileName];
+- (void)setFileURL:(NSURL *)aFileURL {
+    [super setFileURL:aFileURL];
     TCMMMSession *session=[self session];
     if ([session isServer]) {
         [session setFilename:[self preparedDisplayName]];
