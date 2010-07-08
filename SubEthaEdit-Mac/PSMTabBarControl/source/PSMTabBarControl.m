@@ -1806,19 +1806,17 @@
 {
     NSArray *tabItems = [tabView tabViewItems];
     // go through cells, remove any whose representedObjects are not in [tabView tabViewItems]
-    NSEnumerator *e = [_cells objectEnumerator];
-    PSMTabBarCell *cell;
-    while ( (cell = [e nextObject]) ) {
-		//remove the observer binding
+	
+	for (PSMTabBarCell *cell in [[_cells copy] autorelease]) {
         if (![tabItems containsObject:[cell representedObject]]) {
 			if ([[self delegate] respondsToSelector:@selector(tabView:didCloseTabViewItem:)]) {
 				[[self delegate] tabView:aTabView didCloseTabViewItem:[cell representedObject]];
 			}
-			
+			//remove the observer binding			
             [self removeTabForCell:cell];
         }
-    }
-    
+	}
+	    
     // go through tab view items, add cell for any not present
     NSMutableArray *cellItems = [self representedTabViewItems];
     NSEnumerator *ex = [tabItems objectEnumerator];
