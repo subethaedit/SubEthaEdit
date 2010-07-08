@@ -69,10 +69,26 @@ static NSArray *S_possibleStyleColors;
         if (object) [styleDictionary setObject:object forKey:key];
     }
 
+	if ([aDictionary objectForKey:@"text-decoration"]) {
+		if ([[aDictionary objectForKey:@"text-decoration"] isEqualToString:@"line-through"]) {
+			[styleDictionary setObject:[NSNumber numberWithInteger:(NSUnderlineStyleSingle|NSUnderlinePatternSolid)] forKey:NSStrikethroughStyleAttributeName];
+		}
+		if ([[aDictionary objectForKey:@"text-decoration"] isEqualToString:@"underline"]) {
+			[styleDictionary setObject:[NSNumber numberWithInteger:(NSUnderlineStyleSingle|NSUnderlinePatternSolid)] forKey:NSUnderlineStyleAttributeName];
+		}
+		if ([[aDictionary objectForKey:@"text-decoration"] isEqualToString:@"dotted"]) {
+			[styleDictionary setObject:[NSNumber numberWithInteger:(NSUnderlineStyleSingle|NSUnderlinePatternDot)] forKey:NSUnderlineStyleAttributeName];
+		}
+	}
+	
+	
     if ([styleDictionary objectForKey:@"color"]) {
         [self addKey:styleID];
         [self setStyle:styleDictionary forKey:styleID];            
     }
+
+	
+
 }
 
 - (void)takeValuesFromModeSubtree:(CFXMLTreeRef)aModeTree {

@@ -336,10 +336,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
         //[self highlightRegularExpressionsOfAttributedString:aString inRange:colorRange forState:[currentState objectForKey:@"id"]];
         //[self highlightPlainStringsOfAttributedString:aString inRange:colorRange forState:[currentState objectForKey:@"id"]];
 
-//		__block SyntaxHighlighter *blockSelf = self;
-
 		// highlight regexes
-		//dispatch_queue_t syntaxHighlightingQueue;
 		
 		^{
 			NSString *theString = [aString string];

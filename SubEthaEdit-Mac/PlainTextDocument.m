@@ -4866,6 +4866,13 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 			[result setObject:backgroundColor forKey:NSBackgroundColorAttributeName];
 		}
         
+		if ([style objectForKey:NSStrikethroughStyleAttributeName])
+			[result setObject:[style objectForKey:NSStrikethroughStyleAttributeName] forKey:NSStrikethroughStyleAttributeName];
+		
+		if ([style objectForKey:NSUnderlineStyleAttributeName])
+			[result setObject:[style objectForKey:NSUnderlineStyleAttributeName] forKey:NSUnderlineStyleAttributeName];
+		
+		
 		// this is necessary for the highlighter to actually set the correct link attribute here
         if ([[style objectForKey:@"type"] isEqualToString:@"url"]) [result setObject:@"link" forKey:NSLinkAttributeName];
 			
