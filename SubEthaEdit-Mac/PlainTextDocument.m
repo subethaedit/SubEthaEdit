@@ -4852,7 +4852,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         NSColor *foregroundColor=[style objectForKey:darkBackground?@"inverted-color":@"color"];
                 
         result=[NSMutableDictionary dictionaryWithObjectsAndKeys:font,NSFontAttributeName,
-            foregroundColor,NSForegroundColorAttributeName,
+				foregroundColor,NSForegroundColorAttributeName,
             aStyleID,@"styleID",
 #if defined(CODA)
 			useSpellChecking, @"usespellchecking",
@@ -4860,7 +4860,13 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             [NSNumber numberWithFloat:obliquenessFactor],NSObliquenessAttributeName,
             [NSNumber numberWithFloat:strokeWidth],NSStrokeWidthAttributeName,
             nil];
-        // this is necessary for the highlighter to actually set the correct link attribute here
+
+		NSColor *backgroundColor=[style objectForKey:darkBackground?@"inverted-background-color":@"background-color"];
+		if (backgroundColor) {
+			[result setObject:backgroundColor forKey:NSBackgroundColorAttributeName];
+		}
+        
+		// this is necessary for the highlighter to actually set the correct link attribute here
         if ([[style objectForKey:@"type"] isEqualToString:@"url"]) [result setObject:@"link" forKey:NSLinkAttributeName];
 			
 		if ( aStyleID && result ) 

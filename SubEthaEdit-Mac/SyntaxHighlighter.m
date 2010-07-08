@@ -332,8 +332,6 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
         
         //NSLog(@"Highlighting stuff");
 		if ( theDocument != nil && colorRange.length > 0 ) {
-			[self highlightRegularExpressionsOfAttributedString:aString inRange:colorRange forState:[currentState objectForKey:@"id"]];
-			[self highlightPlainStringsOfAttributedString:aString inRange:colorRange forState:[currentState objectForKey:@"id"]];
         NSString *currentStateID = [currentState objectForKey:@"id"];
         //[self highlightRegularExpressionsOfAttributedString:aString inRange:colorRange forState:[currentState objectForKey:@"id"]];
         //[self highlightPlainStringsOfAttributedString:aString inRange:colorRange forState:[currentState objectForKey:@"id"]];
@@ -379,6 +377,8 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 		}();
 		
 		// highlight plain strings
+		// TODO: Migrate keywords to one precompiled regex and put into block above.
+
 		^ {
 			if (![definition hasTokensForState:currentStateID]) return;
 			
@@ -439,65 +439,6 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 }
 
 
-// TODO: Get rid of this. See Below.
-
--(void)highlightPlainStringsOfAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange forState:(NSString *)aState
-{
-    NSString *styleID;
-    SyntaxDefinition *definition = [self syntaxDefinition];
-    NSString *theString = [aString string];
-
-    if (![definition hasTokensForState:aState]) return;
-
-    NSEnumerator *matchEnumerator = [[[definition tokenRegex] allMatchesInString:theString range:aRange] objectEnumerator];
-
-    OGRegularExpressionMatch *aMatch;
-    while ((aMatch = [matchEnumerator nextObject])) {
-        if ((styleID = [definition styleForToken:[aMatch matchedString] inState:aState])) {
-            [aString addAttributes:[theDocument styleAttributesForStyleID:styleID] range:[aMatch rangeOfMatchedString]];
-        }
-    }
-}
-
-
-// TODO: Migrate keywords to one precompiled regex
-// Roll this method back into one block to avoid duplicating efforts
-
--(void)highlightRegularExpressionsOfAttributedString:(NSMutableAttributedString*)aString inRange:(NSRange)aRange forState:(NSString *)aState
-{
-    NSArray *regexArray = [[self syntaxDefinition] regularExpressionsInState:aState];    
-    
-    OGRegularExpression *aRegex;
-    OGRegularExpressionMatch *aMatch;
-    NSString *theString = [aString string];
-    
-    for (NSArray *currentRegexStyle in regexArray) {
-        aRegex = [currentRegexStyle objectAtIndex:0];
-        NSString *styleID = [currentRegexStyle objectAtIndex:1];
-        NSDictionary *keywordGroup = [currentRegexStyle objectAtIndex:2]; // should probably be passed in a more verbose and quicker way via an object instead of dictionaries
-        NSDictionary *attributes=[theDocument styleAttributesForStyleID:styleID];                
-        NSEnumerator *matchEnumerator = [[aRegex allMatchesInString:theString range:aRange] objectEnumerator];
-        while ((aMatch = [matchEnumerator nextObject])) {
-        	NSRange matchedRange = [aMatch rangeOfLastMatchSubstring];
-        	if (matchedRange.location != NSNotFound) {
-	            [aString addAttributes:attributes range:matchedRange]; // only color last matched subgroup - it is important that all regex keywords have exactly and only one matching group for this to work
-                if ([attributes objectForKey:NSLinkAttributeName]) {
-                	NSString *matchedString = [aMatch lastMatchSubstring];
-                	NSString *linkPrefix = [keywordGroup objectForKey:@"uri-prefix"];
-                	if (linkPrefix) matchedString = [linkPrefix stringByAppendingString:matchedString];
-                	
-                	// escape non-ASCII characters that are not yet escaped
-                	matchedString = [(NSString *)CFURLCreateStringByAddingPercentEscapes(NULL,(CFStringRef)matchedString, (CFStringRef) @"%&?=#", NULL, kCFStringEncodingUTF8) autorelease];
-                	
-                    NSURL *theURL = [NSURL URLWithString:matchedString];
-
-                    if (theURL && ([theURL host] || ([[theURL scheme] length] > 0 && ![[theURL scheme] hasPrefix:@"http"]))) [aString addAttribute:NSLinkAttributeName value:theURL range:matchedRange];
-                    else [aString removeAttribute:NSLinkAttributeName range:matchedRange];
-                }
-	        }
-        }
-    }
-}
 
 #pragma mark - 
 #pragma mark - Accessors
