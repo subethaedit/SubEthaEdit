@@ -12,7 +12,7 @@
     
        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
 
-            <keywords id="Objects" color="#881350" useforautocomplete="yes" font-weight="bold">
+            <keywords id="Objects" color="#881350" useforautocomplete="yes" font-weight="bold" scope="support.class">
                 <string>Object</string>
                 <string>Function</string>
                 <string>String</string>
@@ -32,7 +32,7 @@
                 <string></string>
             </keywords>
 
-            <keywords id="Keywords" color="#881350" useforautocomplete="yes" font-weight="bold">
+            <keywords id="Keywords" color="#881350" useforautocomplete="yes" font-weight="bold" scope="keyword.control">
                 <string>break</string>
                 <string>case</string>
                 <string>catch</string>
@@ -77,7 +77,7 @@
                 
             </keywords>
 
-            <keywords id="Types" color="#881350" useforautocomplete="yes" font-style="italic">
+            <keywords id="Types" color="#881350" useforautocomplete="yes" font-style="italic" scope="constant.language">
                 <string>boolean</string>
                 <string>byte</string>
                 <string>char</string>
@@ -91,11 +91,11 @@
                 <string>void</string>
             </keywords>
 
-            <keywords id="Numbers" color="#00f" inverted-color="#5d56ff" useforautocomplete="no">
+            <keywords id="Numbers" color="#00f" inverted-color="#5d56ff" useforautocomplete="no" scope="constant.numeric">
 				<regex>(?&lt;![\w\d\._])((?:(?:(?:[0-9]+\.[0-9]*)|(\.[0-9]+))(?:[eE][+\-]?[0-9]+)?[fFlL]?)|(?:(?:(?:[1-9][0-9]*)|0(?:[1-7][0-7]*)?|(?:0[xX][0-9a-fA-F]+))(?:(?:[uU][lL]?)|(?:[lL][uU]?))?))(?![\w\d\._])</regex>
             </keywords>
 
-            <keywords id="Number Literals" color="#00f" inverted-color="#5d56ff" font-weight="bold" useforautocomplete="YES">
+            <keywords id="Number Literals" color="#00f" inverted-color="#5d56ff" font-weight="bold" useforautocomplete="YES" scope="constant.language.literals">
                 <string>true</string>
                 <string>false</string>
                 <string>null</string>
@@ -104,43 +104,43 @@
                 <string>undefined</string>
             </keywords>
 
-            <keywords id="FunctionRegex" color="#003369" useforautocomplete="no">
+            <keywords id="FunctionRegex" color="#003369" useforautocomplete="no" scope="entity.name.function">
 				<regex>([\$A-Za-z0-9_]+[ \t]*)\(</regex>
             </keywords>
         
-            <state id="AutodocComment" type="comment" color="#236E25" font-weight="bold" font-style="italic">
+            <state id="AutodocComment" type="comment" color="#236E25" font-weight="bold" font-style="italic" scope="comment.block.documentation">
                 <begin><regex>/\*"</regex></begin>
                 <end><regex>"\*/</regex></end>
             </state>
     
-            <state id="Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
+            <state id="Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic" scope="comment.block">
                 <begin><regex>/\*</regex></begin>
                 <end><regex>\*/</regex></end>
                 <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
             
-            <state id="SingleComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
+            <state id="SingleComment" type="comment" color="#236E25" font-weight="normal" font-style="italic" scope="comment.line.double-slash">
                 <begin><regex>//</regex></begin>
                 <end><regex>[\n\r]</regex></end>
                 <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
             
-            <state id="Regular Expressions" color="#760f15">
+            <state id="Regular Expressions" color="#760f15" scope="string.regexp">
                 <begin><regex>(?&lt;![&lt;/])/.*?[^\\](?=/[^\n\r]*(?:;|\)|,|[\n\r]))</regex></begin>
                 <end><regex>/[cgimosx]*</regex></end>
             </state>
     
-            <state id="String" type="string" color="#760f15" font-weight="normal" font-style="normal">
+            <state id="String" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="string.quoted.double">
                 <begin><regex>"</regex></begin>
                 <end><regex>(?&lt;!\\)(\\\\)*"</regex></end>
             </state>
     
-            <state id="SingleString" type="string" color="#760f15" font-weight="normal" font-style="normal">
+            <state id="SingleString" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="string.quoted.single">
                 <begin><regex>'</regex></begin>
                 <end><regex>(?&lt;!\\)(\\\\)*'</regex></end>
             </state>
 
-            <state id="Block" type="block" foldable="yes" color="#000" background-color="#fff">
+            <state id="Block" type="block" foldable="yes" color="#000" background-color="#fff" scope="meta.block.curly">
                 <begin><regex>{</regex></begin>
                 <end><regex>}</regex></end>
                 <import mode="Javascript" />

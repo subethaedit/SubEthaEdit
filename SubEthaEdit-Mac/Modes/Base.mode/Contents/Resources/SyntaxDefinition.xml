@@ -12,17 +12,17 @@
         <default id="Base" color="#000">
         
           <state id="EmailAndURLContainerState" containerState="yes">
-            <keywords id="PrefixlessURLs" color="#0000ff" inverted-color="#4939ff" casesensitive="no" type="url" uri-prefix="http://">
+            <keywords id="PrefixlessURLs" color="#0000ff" inverted-color="#4939ff" casesensitive="no" type="url" uri-prefix="http://" scope="meta.link">
                 <regex>(?i)\b(www\.[A-Z0-9._%-]+\.[A-Z]{2,4})\b</regex>
                 <regex>(?i)\b([A-Z0-9._%-]+\.net)\b</regex>
                 <regex>(?i)\b([A-Z0-9._%-]+\.com)\b</regex>
             </keywords>
 
-            <keywords id="Emails" color="#0000ff" inverted-color="#4939ff" casesensitive="no" type="url" uri-prefix="mailto:">
+            <keywords id="Emails" color="#0000ff" inverted-color="#4939ff" casesensitive="no" type="url" uri-prefix="mailto:" scope="meta.link.email">
                 <regex>(?i)\b([A-Z0-9._%-]+@[A-Z0-9._%-]+\.[A-Z]{2,4})\b</regex>
             </keywords>            
 
-            <keywords id="URLs" color="#0000ff" inverted-color="#4939ff" casesensitive="no" type="url">
+            <keywords id="URLs" color="#0000ff" inverted-color="#4939ff" casesensitive="no" type="url" scope="meta.link">
                 <regex>\b([a-zA-Z0-9]+://(?:\p{Alnum}|\p{Punct}|[-\+&amp;@#/%=~_|$!:,.;])*(?:\?\S+)?[^})\]\s\.,])</regex>
                 <regex>(?i)\b(mailto:(?:\p{Alnum}|\p{Punct}|[._%-])+@(?:\p{Alnum}|\p{Punct}|[._%-])+\.[A-Z]{2,4})\b</regex>
             </keywords>            

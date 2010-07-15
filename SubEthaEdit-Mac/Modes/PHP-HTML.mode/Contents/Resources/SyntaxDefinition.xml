@@ -11,20 +11,20 @@
     <states>
         <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="HTML" useautocompletefrommode="HTML">
             <import mode="XML" keywords-only="yes"/>
-            <state id="PHP" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="PHP-HTML" useautocompletefrommode="PHP-HTML" foldable="yes">
+            <state id="PHP" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="PHP-HTML" useautocompletefrommode="PHP-HTML" foldable="yes" scope="meta.block">
                 <begin>
                     <regex>(?:&lt;\?(?i)php)|(?:&lt;\?(?=[\s=]))</regex>
                 </begin>
                 <end>
                     <regex>\?></regex>
                 </end>
-                <keywords id="PHP Delimiter" color="#D00" font-weight="bold" useforautocomplete="no">
+                <keywords id="PHP Delimiter" color="#D00" font-weight="bold" useforautocomplete="no" scope="meta.tag.phpstart">
                     <regex>(&lt;\?(?i)php\d?)</regex>
                     <regex>(&lt;\?)(?![\S])</regex>
                     <regex>(&lt;\?=)</regex>
                     <regex>(\?>)</regex>
                 </keywords>
-                <keywords id="PHP4 Functions" color="#661AA9" background-color="#fff" font-style="normal" casesensitive="no" useforautocomplete="yes">
+                <keywords id="PHP4 Functions" color="#661AA9" background-color="#fff" font-style="normal" casesensitive="no" useforautocomplete="yes" scope="entity.name.function.php4">
                     <string>_</string>
                     <string>abs</string>
                     <string>accept_connect</string>
@@ -3511,7 +3511,7 @@
                     <string>zzip_read</string>
                     <string>zzip_readdir</string>
                 </keywords>
-                <keywords id="PHP Keywords" color="#881350" font-weight="bold" useforautocomplete="yes">
+                <keywords id="PHP Keywords" color="#881350" font-weight="bold" useforautocomplete="yes" scope="keyword">
                     <string>global</string>
                     <string>print</string>
                     <string>and</string>
@@ -3581,7 +3581,7 @@
                     <string>die</string>
                     <string>exit</string>
                 </keywords>
-                <keywords id="PHP Magic Methods" color="#661AA9" font-weight="bold" useforautocomplete="yes">
+                <keywords id="PHP Magic Methods" color="#661AA9" font-weight="bold" useforautocomplete="yes" scope="constant.language.magicmethods">
                     <string>__construct</string>
                     <string>__destruct</string>
                     <string>__call</string>
@@ -3593,16 +3593,16 @@
                     <string>__clone</string>
                     <string>__autoload</string>
                 </keywords>
-                <keywords id="PHP Numbers" color="#00f" inverted-color="#5d56ff" useforautocomplete="no">
+                <keywords id="PHP Numbers" color="#00f" inverted-color="#5d56ff" useforautocomplete="no" scope="constant.numeric">
                     <regex>(?&lt;=[^\w\d]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
                 </keywords>
-                <keywords id="FunctionRegex" color="#003369" useforautocomplete="no">
+                <keywords id="FunctionRegex" color="#003369" useforautocomplete="no"scope="entity.name.function">
                     <regex>([A-Za-z0-9_]+ *)\(</regex>
                 </keywords>
-                <keywords id="PHP Variables" color="#825900" useforautocomplete="no">
+                <keywords id="PHP Variables" color="#825900" useforautocomplete="no" scope="variable.other">
                     <regex>(\$(?:[\w\d])+)</regex>
                 </keywords>
-                <state id="PHP Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
+                <state id="PHP Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic" scope="comment.block">
                     <begin>
                         <regex>/\*</regex>
                     </begin>
@@ -3610,7 +3610,7 @@
                         <regex>\*/</regex>
                     </end>
                 </state>
-                <state id="PHP SingleComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
+                <state id="PHP SingleComment" type="comment" color="#236E25" font-weight="normal" font-style="italic" scope="comment.line.double-slash">
                     <begin>
                         <regex>(?://)|#</regex>
                     </begin>
@@ -3618,7 +3618,7 @@
                         <regex>(?:[\n\r])|.?(?=\?>)</regex>
                     </end>
                 </state>
-                <state id="PHP String" type="string" color="#EB7300" font-weight="normal" font-style="normal">
+                <state id="PHP String" type="string" color="#EB7300" font-weight="normal" font-style="normal" scope="string.quoted.double">
                     <begin>
                         <regex>"</regex>
                     </begin>
@@ -3629,7 +3629,7 @@
                         <regex>(\$(?:[\w\d])+)</regex>
                     </keywords>
                 </state>
-                <state id="PHP String2" type="string" color="#EB7300" font-weight="normal" font-style="normal">
+                <state id="PHP String2" type="string" color="#EB7300" font-weight="normal" font-style="normal" scope="string.quoted.single">
                     <begin>
                         <regex>'</regex>
                     </begin>
@@ -3637,7 +3637,7 @@
                         <regex>(((?&lt;!\\)(\\\\)*)|^)'</regex>
                     </end>
                 </state>
-                <state id="PHP Heredoc" type="string" color="#EB7300" font-weight="normal" font-style="normal">
+                <state id="PHP Heredoc" type="string" color="#EB7300" font-weight="normal" font-style="normal" scope="string.unquoted.here-doc">
                     <begin>
                         <string>&lt;&lt;&lt;(?&lt;heredoc>[A-Za-z][A-Za-z0-9_]*)</string>
                     </begin>
@@ -3645,7 +3645,7 @@
                         <regex>(?#see-insert-start-group:heredoc)</regex>
                     </end>
                 </state>
-                <state id="PHP Block" type="block" foldable="yes">
+                <state id="PHP Block" type="block" foldable="yes" scope="meta.block.curly">
                     <begin>
                         <regex>{</regex>
                     </begin>
@@ -3655,19 +3655,19 @@
                     <import state="PHP"/>
                 </state>
             </state>
-            <state id="Comment" type="comment" color="#236E25" font-style="italic">
+            <state id="Comment" type="comment" color="#236E25" font-style="italic" scope="comment.block">
                 <begin>
                     <regex>&lt;!--</regex>
                 </begin>
                 <end>
                     <regex>--></regex>
                 </end>
-                <keywords id="SGML Double Dash" color="#f00" font-weight="bold" useforautocomplete="no">
+                <keywords id="SGML Double Dash" color="#f00" font-weight="bold" useforautocomplete="no" scope="invalid.illegal.sgml">
                     <regex>(?&lt;!\!)(--)(?!>)</regex>
                 </keywords>
                 <state-link state="PHP"/>
             </state>
-            <state id="CDATA" color="#f00" font-style="italic" foldable="yes">
+            <state id="CDATA" color="#f00" font-style="italic" foldable="yes" scope="string.unquoted.cdata">
                 <begin>
                     <regex>&lt;!\s*\[CDATA\s*\[</regex>
                 </begin>
@@ -3676,7 +3676,7 @@
                 </end>
                 <state-link state="PHP"/>
             </state>
-            <state id="Doctype" color="#236E25" font-style="italic">
+            <state id="Doctype" color="#236E25" font-style="italic" scope="meta.tag.sgml.doctype">
                 <begin>
                     <regex>&lt;!</regex>
                 </begin>
@@ -3685,7 +3685,7 @@
                 </end>
                 <state-link state="PHP"/>
             </state>
-            <state id="Escape" color="#236E25" font-style="italic">
+            <state id="Escape" color="#236E25" font-style="italic" scope="meta.tag.preprocessor">
                 <begin>
                     <regex>&lt;\?</regex>
                 </begin>
@@ -3694,7 +3694,7 @@
                 </end>
                 <state-link state="PHP"/>
             </state>
-            <state id="Single Tag" foldable="no">
+            <state id="Single Tag" foldable="no" scope="meta.block.tag.no-content">
                 <begin>
                     <regex>&lt;[^/](?=[^>]*/>)</regex>
                 </begin>
@@ -3704,7 +3704,7 @@
                 <import mode="XML" keywords-only="yes"/>
                 <import/>
             </state>
-            <state id="Inline CSS" color="#000" font-style="italic" usesymbolsfrommode="CSS" useautocompletefrommode="CSS" foldable="yes">
+            <state id="Inline CSS" color="#000" font-style="italic" usesymbolsfrommode="CSS" useautocompletefrommode="CSS" foldable="yes" scope="meta.block.css">
                 <begin>
                     <regex>&lt;(?i)style[^>]*></regex>
                 </begin>
@@ -3713,7 +3713,7 @@
                 </end>
                 <import mode="XML" keywords-only="yes"/>
                 <state-link state="PHP"/>
-                <state id="Inside curly brackets" color="#000" background-color="#fff" font-weight="normal" font-style="normal" foldable="yes">
+                <state id="Inside curly brackets" color="#000" background-color="#fff" font-weight="normal" font-style="normal" foldable="yes" scope="meta.block.css.curly">
                     <begin>
                         <string>{</string>
                     </begin>
@@ -3722,7 +3722,7 @@
                     </end>
                     <import mode="CSS" state="Inside curly brackets" keywords-only="yes"/>
                     <state-link state="PHP"/>
-                    <state id="Attribute state" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
+                    <state id="Attribute state" color="#000" background-color="#fff" font-weight="normal" font-style="normal" scope="meta.block.attribute.css">
                         <begin>
                             <string>:</string>
                         </begin>
@@ -3741,7 +3741,7 @@
                     <state-link state="CSSString"/>
                     <state-link state="CSSSingleString"/>
                 </state>
-                <state id="CSSComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
+                <state id="CSSComment" type="comment" color="#236E25" font-weight="normal" font-style="italic" scope="comment.block.css">
                     <begin>
                         <string>/\*</string>
                     </begin>
@@ -3750,7 +3750,7 @@
                     </end>
                     <state-link state="PHP"/>
                 </state>
-                <state id="CSSRound bracket" type="string" color="#760f15" font-weight="normal" font-style="normal">
+                <state id="CSSRound bracket" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="string.quoted.parentheses.css">
                     <begin>
                         <string>\(</string>
                     </begin>
@@ -3759,7 +3759,7 @@
                     </end>
                     <state-link state="PHP"/>
                 </state>
-                <state id="CSSString" type="string" color="#760f15" font-weight="normal" font-style="normal">
+                <state id="CSSString" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="string.quoted.double.css">
                     <begin>
                         <string>"</string>
                     </begin>
@@ -3768,7 +3768,7 @@
                     </end>
                     <state-link state="PHP"/>
                 </state>
-                <state id="CSSSingleString" type="string" color="#760f15" font-weight="normal" font-style="normal">
+                <state id="CSSSingleString" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="string.quoted.single.css">
                     <begin>
                         <string>'</string>
                     </begin>
@@ -3778,7 +3778,7 @@
                     <state-link state="PHP"/>
                 </state>
             </state>
-            <state id="Inline Javascript" color="#000" usesymbolsfrommode="Javascript" useautocompletefrommode="Javascript" foldable="yes">
+            <state id="Inline Javascript" color="#000" usesymbolsfrommode="Javascript" useautocompletefrommode="Javascript" foldable="yes" scope="meta.block.js">
                 <begin>
                     <regex>&lt;(?i)script[^>]*></regex>
                 </begin>
@@ -3788,7 +3788,7 @@
                 <import mode="Javascript" keywords-only="yes"/>
                 <import mode="XML" keywords-only="yes"/>
                 <state-link state="PHP"/>
-                <state id="JSAutodocComment" type="comment" color="#236E25" font-weight="bold" font-style="italic">
+                <state id="JSAutodocComment" type="comment" color="#236E25" font-weight="bold" font-style="italic" scope="comment.block.documentation.js">
                     <begin>
                         <regex>/\*"</regex>
                     </begin>
@@ -3797,7 +3797,7 @@
                     </end>
                     <state-link state="PHP"/>
                 </state>
-                <state id="JSComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
+                <state id="JSComment" type="comment" color="#236E25" font-weight="normal" font-style="italic" scope="comment.block.js">
                     <begin>
                         <regex>/\*</regex>
                     </begin>
@@ -3806,7 +3806,7 @@
                     </end>
                     <state-link state="PHP"/>
                 </state>
-                <state id="JSSingleComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
+                <state id="JSSingleComment" type="comment" color="#236E25" font-weight="normal" font-style="italic" scope="comment.line.double-slash.js">
                     <begin>
                         <regex>//</regex>
                     </begin>
@@ -3815,7 +3815,7 @@
                     </end>
                     <state-link state="PHP"/>
                 </state>
-                <state id="JSRegEx" color="#760f15">
+                <state id="JSRegEx" color="#760f15" scope="string.regexp.js">
                     <begin>
                         <regex>(?&lt;!&lt;)/.*?[^\\](?=/[^\n\r]*(?:;|\)))</regex>
                     </begin>
@@ -3824,7 +3824,7 @@
                     </end>
                     <state-link state="PHP"/>
                 </state>
-                <state id="JSString" type="string" color="#760f15" font-weight="normal" font-style="normal">
+                <state id="JSString" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="string.quoted.double.js">
                     <begin>
                         <regex>"</regex>
                     </begin>
@@ -3833,7 +3833,7 @@
                     </end>
                     <state-link state="PHP"/>
                 </state>
-                <state id="JSSingleString" type="string" color="#760f15" font-weight="normal" font-style="normal">
+                <state id="JSSingleString" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="string.quoted.single.js">
                     <begin>
                         <regex>'</regex>
                     </begin>
@@ -3842,7 +3842,7 @@
                     </end>
                     <state-link state="PHP"/>
                 </state>
-                <state id="Javascript Block" color="#000" background-color="#fff" font-weight="normal" font-style="normal" type="block" foldable="yes">
+                <state id="Javascript Block" color="#000" background-color="#fff" font-weight="normal" font-style="normal" type="block" foldable="yes" scope="meta.block.js">
                     <begin>
                         <regex>(?:\s(?:if|else|else\s+if|for|in|while|do|with|try|catch|switch|case|return|function(?:\s+\w+)?)\s*(?:\([^)]*\)\s*)?)?{</regex>
                     </begin>
@@ -3854,7 +3854,7 @@
                 </state>
             </state>
             
-            <state id="Single Tag with PHP State" foldable="no">
+            <state id="Single Tag with PHP State" foldable="no" scope="meta.block.tag.php.no-content">
                 <begin>
                     <regex>&lt;\s*[^/?!][-:_\w]*(?=[^&lt;>]*&lt;\?.+?\?>[^>]*[^>]*/>)</regex>
                 </begin>
@@ -3862,20 +3862,20 @@
                     <regex>/[ \t]*></regex>
                 </end>
                 <import/>
-                <keywords id="Single Tags with PHP" color="#881280" font-style="italic" useforautocomplete="no">
+                <keywords id="Single Tags with PHP" color="#881280" font-style="italic" useforautocomplete="no" scope="meta.tag.php.no-content">
                     <regex>(&lt;[^>]*)</regex>
                     <regex>(\A[^&lt;>]*>)</regex>
                 </keywords>
-                <keywords id="Attributes in Single Tags with PHP" color="#994500" useforautocomplete="no">
+                <keywords id="Attributes in Single Tags with PHP" color="#994500" useforautocomplete="no" scope="entity.other.attribute-name.php.no-content">
                     <regex>([\w-]*)(?=[ \t]*=[^&lt;]+)</regex>
                 </keywords>
-                <keywords id="Strings in Single Tags with PHP" type="string" color="#1A1AA6" useforautocomplete="no">
+                <keywords id="Strings in Single Tags with PHP" type="string" color="#1A1AA6" useforautocomplete="no" scope="string.quoted.attribute-value.php.no-content">
                     <regex>=[ \t]*("[^"]*"|'[^']*')(?=[^&lt;]*)</regex>
                     <regex>([^"]*")(?=[ \t]*>)</regex>
                 </keywords>
             </state>
 
-            <state id="Tag with PHP State" foldable="yes">
+            <state id="Tag with PHP State" foldable="yes" scope="meta.block.tag.php">
                 <begin>
                     <regex>&lt;\s*(?'phptagstatename'[^/?!][-:_\w]*)(?'trimmedstart'[^&lt;>]*&lt;\?.+?\?>[^>]*>)</regex> <!--  Used "trimmedstart regex group, to start searching earlier" -->
                 </begin>
@@ -3883,20 +3883,20 @@
                     <regex>&lt;\s*/\s*(?#see-insert-start-group:phptagstatename)\s*></regex>
                 </end>
                 <import/>
-                <keywords id="Tags with PHP" color="#881280" font-style="italic" useforautocomplete="no">
+                <keywords id="Tags with PHP" color="#881280" font-style="italic" useforautocomplete="no" scope="meta.tag.php">
                     <regex>(&lt;[^>]*>?)</regex>
                     <regex>(\A[^&lt;>]*>)</regex>
                 </keywords>
-                <keywords id="Attributes in Tags with PHP" color="#994500" useforautocomplete="no">
+                <keywords id="Attributes in Tags with PHP" color="#994500" useforautocomplete="no" scope="entity.other.attribute-name.php">
                     <regex>([\w-]*)(?=[ \t]*=[^&lt;]+)</regex>
                 </keywords>
-                <keywords id="Strings in Tags with PHP" type="string" color="#1A1AA6" useforautocomplete="no">
+                <keywords id="Strings in Tags with PHP" type="string" color="#1A1AA6" useforautocomplete="no"  scope="string.quoted.attribute-value.php">
                     <regex>=[ \t]*("[^"]*"|'[^']*')(?=[^&lt;]*)</regex>
                     <regex>([^"]*")(?=[ \t]*>)</regex>
                 </keywords>
             </state>
 
-            <state id="Tag State" font-style="normal" foldable="yes">
+            <state id="Tag State" font-style="normal" foldable="yes" scope="meta.tag">
                 <begin>
                     <regex>&lt;\s*(?'xmltagstatename'[^/?!][-:_\w]*)\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*></regex>
                 </begin>

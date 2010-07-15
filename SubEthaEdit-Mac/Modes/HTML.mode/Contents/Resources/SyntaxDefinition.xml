@@ -12,7 +12,7 @@
     <states>
         <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="HTML" useautocompletefrommode="HTML">
             <import mode="XML" keywords-only="yes"/>
-            <keywords id="href links" type="url" color="#1A1AA6" useforautocomplete="no">
+            <keywords id="href links" type="url" color="#1A1AA6" useforautocomplete="no" scope="meta.link">
                 <regex>\s(?i)(href|src)(?-i)\s*=\s*"([^"]*)"(?=[^&lt;]*>)</regex>
             </keywords>
             <state-link mode="XML" state="Comment"/>
@@ -41,7 +41,7 @@
                 <import mode="XML" keywords-only="yes"/>
                 <import keywords-only="yes"/>
             </state>
-            <state id="Single Tag" foldable="no">
+            <state id="Single Tag" foldable="no" scope="meta.tag.no-content">
                 <begin>
                     <regex>&lt;\s*[^/?!][-:_\w]*\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*/\s*(?=>)</regex>
                 </begin>
@@ -51,7 +51,7 @@
                 <import mode="XML" keywords-only="yes"/>
                 <import keywords-only="yes"/>
             </state>
-            <state id="Tag State" font-style="normal" foldable="yes">
+            <state id="Tag State" font-style="normal" foldable="yes" scope="meta.tag">
                 <begin>
                     <regex>&lt;\s*(?'xmltagstatename'[^/?!][-:_\w]*)\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*></regex>
                 </begin>

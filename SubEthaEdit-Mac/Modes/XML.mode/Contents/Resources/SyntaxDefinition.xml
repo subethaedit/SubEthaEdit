@@ -11,29 +11,32 @@
     </head>
     <states>
         <default id="Base" color="#000" background-color="#fff" font-style="normal">
-            <keywords id="Tags" color="#881280" font-style="italic" useforautocomplete="no">
+            <keywords id="Bad Ampersand" color="#f00" font-weight="bold" useforautocomplete="no" scope="invalid.illegal.bad-ampersand">
+                <regex>(&)</regex>
+            </keywords>
+           <keywords id="Tags" color="#881280" font-style="italic" useforautocomplete="no" scope="meta.tag">
                 <regex>(&lt;[/\s]*[^/?!][-:_\w]*\s*(?:[-:_\w]+[ \t]*=[ \t]*(?:".*?"|'.*?'|[\w:]+)\s*)*[/\s]*>)</regex>
             </keywords>
-            <keywords id="Attributes in Tags" color="#994500" useforautocomplete="no">
+            <keywords id="Attributes in Tags" color="#994500" useforautocomplete="no" scope="entity.other.attribute-name">
                 <regex>([\w-]*)(?=[ \t]*=[^&lt;]+>)</regex>
             </keywords>
-            <keywords id="Strings in Tags" type="string" color="#1A1AA6" useforautocomplete="no">
+            <keywords id="Strings in Tags" type="string" color="#1A1AA6" useforautocomplete="no" scope="string.quoted.attribute-value">
                 <regex>=[ \t]*("[^"]*"|'[^']*')(?=[^&lt;]*>)</regex>
             </keywords>
-            <keywords id="Entities" color="#400080" useforautocomplete="no">
+            <keywords id="Entities" color="#400080" useforautocomplete="no" scope="constant.character.entity">
                 <regex>(&amp;\w{1,8};)</regex>
                 <regex>(&amp;#\d+;)</regex>
                 <regex>(&amp;#x\h+;)</regex>
             </keywords>
-            <state id="Comment" type="comment" color="#236E25" font-style="italic">
+            <state id="Comment" type="comment" color="#236E25" font-style="italic" scope="comment.block">
                 <begin><regex>&lt;!--</regex></begin>
                 <end><regex>--></regex></end>
-                <keywords id="SGML Double Dash" color="#f00" font-weight="bold" useforautocomplete="no">
+                <keywords id="SGML Double Dash" color="#f00" font-weight="bold" useforautocomplete="no" scope="invalid.illegal.sgml">
                     <regex>(?&lt;!\!)(--)(?!>)</regex>
                 </keywords>
 				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
-            <state id="CDATA" color="#f00" font-style="italic" foldable="yes">
+            <state id="CDATA" color="#f00" font-style="italic" foldable="yes" scope="string.unquoted.cdata">
                 <begin>
                     <regex>&lt;!\s*\[CDATA\s*\[</regex>
                 </begin>
@@ -41,7 +44,7 @@
                     <regex>\]\s*\]\s*></regex>
                 </end>
             </state>
-            <state id="Doctype" color="#236E25" font-style="italic" foldable="no">
+            <state id="Doctype" color="#236E25" font-style="italic" foldable="no" scope="meta.tag.sgml.doctype">
                 <begin>
                     <regex>&lt;!</regex>
                 </begin>
@@ -49,7 +52,7 @@
                     <regex>></regex>
                 </end>
             </state>
-            <state id="Escape" color="#236E25" font-style="italic" foldable="no">
+            <state id="Escape" color="#236E25" font-style="italic" foldable="no" scope="meta.tag.preprocessor">
                 <begin>
                     <regex>&lt;\?</regex>
                 </begin>
@@ -57,7 +60,7 @@
                     <regex>\?></regex>
                 </end>
             </state>
-            <state id="Single Tag" foldable="no">
+            <state id="Single Tag" foldable="no" scope="meta.tag.no-content">
                 <begin>
                     <regex>&lt;\s*[^/?!][-:_\w]*\s*(?:[-:_\w]+\s*=\s*(?:"[^"]*"|'[^']*'|\w+)\s*)*/\s*(?=>)</regex>
                 </begin>
@@ -66,7 +69,7 @@
                 </end>
                 <import/>
             </state>
-            <state id="Tag State" foldable="yes">
+            <state id="Tag State" foldable="yes" scope="meta.tag">
                 <begin>
                     <regex>&lt;\s*(?'xmltagstatename'[^/?!][-:_\w]*)\s*(?:[-:_\w]+[ \t]*=[ \t]*(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*></regex>
                 </begin>

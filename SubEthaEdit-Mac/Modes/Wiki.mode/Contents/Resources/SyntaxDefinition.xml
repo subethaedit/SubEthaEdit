@@ -12,10 +12,10 @@
 
 			<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 
-			<state id="Bold" color="#000" font-weight="bold">
+			<state id="Bold" color="#000" font-weight="bold" scope="markup.bold">
 				<begin><regex>\*\*</regex></begin>
 				<end><regex>\*\*</regex></end>
-				<state id="Bold Italic" color="#000" font-weight="bold" font-style="italic" >
+				<state id="Bold Italic" color="#000" font-weight="bold" font-style="italic" scope="markup.bold.italic">
 					<begin><regex>\/\/</regex></begin>
 					<end><regex>\/\/</regex></end>
 			   </state>
@@ -24,7 +24,7 @@
 			<state id="Italic" color="#000" font-style="italic" >
 				<begin><regex>\/\/</regex></begin>
 				<end><regex>(?&lt;!p:|s:)\/\/|[\r\n]</regex></end>
-				<state id="Italic Bold" color="#000" font-weight="bold" font-style="italic" >
+				<state id="Italic Bold" color="#000" font-weight="bold" font-style="italic" scope="markup.italic">
 					<begin><regex>\*\*</regex></begin>
 					<end><regex>\*\*</regex></end>
 				</state>
@@ -33,12 +33,12 @@
 
       <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 
-			<keywords id="Horizontal Line" color="#000" font-weight="bold">
+			<keywords id="Horizontal Line" color="#000" font-weight="bold" scope="markup.other.line">
 				<regex>^(----[-]*)</regex>
 			</keywords>
 
 	
-			<state id="External Link" color="#00a" font-weight="normal">
+			<state id="External Link" color="#00a" font-weight="normal" scope="meta.link">
 				<begin><regex>\[(?=\[)</regex></begin>
 				<end><regex>\]\]|[\r\n]</regex></end>
 					<state id="URL Portion">
@@ -48,7 +48,7 @@
 					</state>
 			</state>
 
-			<state id="Unordered List" color="#683821">
+			<state id="Unordered List" color="#683821" scope="markup.list.unnumbered">
 				<begin><regex>^  +\*</regex></begin>
 				<end><regex>[\r\n]</regex></end>
 				
@@ -59,7 +59,7 @@
 				<state-link state="Italic" />
 			</state>
 
-			<state id="Ordered List" color="#7a4022">
+			<state id="Ordered List" color="#7a4022" scope="markup.list.numbered">
 				<begin><regex>^  +\-</regex></begin>
 				<end><regex>[\r\n]</regex></end>
 				
@@ -71,72 +71,72 @@
 	
 			</state>
 
-			<state id="Quoted Odd Levels" color="#7b1e20">
+			<state id="Quoted Odd Levels" color="#7b1e20" scope="markup.quote.odd">
 				<begin><regex>^>(?:>>)*?(?!>)</regex></begin>
 				<end><regex>[\r\n]</regex></end>
 				<import />
 			</state>
 
-			<state id="Quoted Even Levels" color="#1b5414">
+			<state id="Quoted Even Levels" color="#1b5414" scope="markup.quote.even">
 				<begin><regex>^(?:>>)+(?!>)</regex></begin>
 				<end><regex>[\r\n]</regex></end>
 				<import />
 			</state>
 
 	
-			<state id="Footnotes" color="#236e25">
+			<state id="Footnotes" color="#236e25" scope="markup.other.footnote">
 				<begin><regex>\((?=\()</regex></begin>
 				<end><regex>(?&lt;=\))\)</regex></end>
 			</state>
 	
 	
 	
-			<state id="Headline Level 1" color="#881350" font-weight="bold">
+			<state id="Headline Level 1" color="#881350" font-weight="bold" scope="markup.heading.1">
 				<begin><regex>^======</regex></begin>
 				<end><regex>======</regex></end>
 			</state>
 	
-			<state id="Headline Level 2" color="#970058" font-weight="bold">
+			<state id="Headline Level 2" color="#970058" font-weight="bold" scope="markup.heading.2">
 				<begin><regex>^=====</regex></begin>
 				<end><regex>=====</regex></end>
 			</state>
 	
-			<state id="Headline Level 3" color="#a70062" font-weight="bold">
+			<state id="Headline Level 3" color="#a70062" font-weight="bold" scope="markup.heading.3">
 				<begin><regex>^====</regex></begin>
 				<end><regex>====</regex></end>
 			</state>
 	
-			<state id="Headline Level 4" color="#b20068" font-weight="bold">
+			<state id="Headline Level 4" color="#b20068" font-weight="bold" scope="markup.heading.4">
 				<begin><regex>^===</regex></begin>
 				<end><regex>===</regex></end>
 			</state>
 	
-			<state id="Headline Level 5" color="#be006f" font-weight="bold">
+			<state id="Headline Level 5" color="#be006f" font-weight="bold" scope="markup.heading.5">
 				<begin><regex>^==</regex></begin>
 				<end><regex>==</regex></end>
 			</state>
 
-			<state id="Indented Verbatim" color="#4b4b4b">
+			<state id="Indented Verbatim" color="#4b4b4b" scope="markup.raw.indented">
 				<begin><regex>^  (?![\*\-])</regex></begin>
 				<end><regex>(?:\r?(?:\n|\r))</regex></end>
 			</state>
 
-			<state id="Code Verbatim" color="#4b4b4b" foldable="yes">
+			<state id="Code Verbatim" color="#4b4b4b" foldable="yes" scope="markup.raw.code">
 				<begin><regex>&lt;code[^>]*></regex></begin>
 				<end><regex>&lt;/code></regex></end>
 			</state>
 
-			<state id="File Verbatim" color="#4b4b4b" font-weight="bold" foldable="yes">
+			<state id="File Verbatim" color="#4b4b4b" font-weight="bold" foldable="yes" scope="markup.raw.file">
 				<begin><regex>&lt;file[^>]*></regex></begin>
 				<end><regex>&lt;/file></regex></end>
 			</state>
 
-			<state id="nowiki" color="#4b4b4b" font-weight="bold" foldable="yes">
+			<state id="nowiki" color="#4b4b4b" font-weight="bold" foldable="yes" scope="meta.preprocessor.nowiki">
 				<begin><regex>&lt;nowiki[^>]*></regex></begin>
 				<end><regex>&lt;/nowiki></regex></end>
 			</state>
 
-			<state id="nowiki %%" color="#4b4b4b" font-weight="bold" foldable="yes">
+			<state id="nowiki %%" color="#4b4b4b" font-weight="bold" foldable="yes" scope="meta.preprocessor.nowiki">
 				<begin><regex>%%</regex></begin>
 				<end><regex>%%</regex></end>
 			</state>
