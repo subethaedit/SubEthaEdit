@@ -80,6 +80,11 @@ static NSArray *S_possibleStyleColors;
 			[styleDictionary setObject:[NSNumber numberWithInteger:(NSUnderlineStyleSingle|NSUnderlinePatternDot)] forKey:NSUnderlineStyleAttributeName];
 		}
 	}
+
+	if ([aDictionary objectForKey:@"scope"]) {
+		[styleDictionary setObject:[aDictionary objectForKey:@"scope"] forKey:@"scope"];
+	}
+	
 	
 	
     if ([styleDictionary objectForKey:@"color"]) {

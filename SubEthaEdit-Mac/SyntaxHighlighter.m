@@ -30,6 +30,7 @@ NSString * const kSyntaxHighlightingStateDelimiterEndValue = @"End";
 NSString * const kSyntaxHighlightingFoldDelimiterName = @"HighlightingFoldDelimiter";
 NSString * const kSyntaxHighlightingStyleIDAttributeName = @"styleID";
 NSString * const kSyntaxHighlightingTypeAttributeName = @"Type";
+NSString * const kSyntaxHighlightingScopenameAttributeName = @"scope";
 NSString * const kSyntaxHighlightingParentModeForSymbolsAttributeName = @"ParentModeForSymbols";
 NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"ParentModeForAutocomplete";
 NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
@@ -106,7 +107,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 
 
     // Clean up state attributes in the string we work on now
-	NSArray *attributesToCleanup = [NSArray arrayWithObjects:kSyntaxHighlightingStackName,kSyntaxHighlightingStateDelimiterName,kSyntaxHighlightingFoldDelimiterName,kSyntaxHighlightingTypeAttributeName,kSyntaxHighlightingParentModeForSymbolsAttributeName,kSyntaxHighlightingParentModeForAutocompleteAttributeName,kSyntaxHighlightingIsCorrectAttributeName,kSyntaxHighlightingFoldingDepthAttributeName,NSLinkAttributeName,kSyntaxHighlightingIsTrimmedStartAttributeName,nil];
+	NSArray *attributesToCleanup = [NSArray arrayWithObjects:kSyntaxHighlightingStackName,kSyntaxHighlightingStateDelimiterName,kSyntaxHighlightingFoldDelimiterName,kSyntaxHighlightingScopenameAttributeName,kSyntaxHighlightingTypeAttributeName,kSyntaxHighlightingParentModeForSymbolsAttributeName,kSyntaxHighlightingParentModeForAutocompleteAttributeName,kSyntaxHighlightingIsCorrectAttributeName,kSyntaxHighlightingFoldingDepthAttributeName,NSLinkAttributeName,kSyntaxHighlightingIsTrimmedStartAttributeName,nil];
     [aString removeAttributes:attributesToCleanup range:aRange];
 
     NSMutableDictionary *scratchAttributes = [NSMutableDictionary dictionary];
@@ -238,6 +239,8 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 				NSString *typeAttributeString;
 				if ((typeAttributeString=[subState objectForKey:@"type"]))
 					[scratchAttributes setObject:typeAttributeString forKey:kSyntaxHighlightingTypeAttributeName];
+				if ((typeAttributeString=[subState objectForKey:@"scope"]))
+					[scratchAttributes setObject:typeAttributeString forKey:kSyntaxHighlightingScopenameAttributeName];
 				                
                 subState = [definition stateForID:[subState objectForKey:@"id"]];
 				[scratchAttributes setObject:[subState objectForKey:[definition keyForInheritedSymbols]] forKey:kSyntaxHighlightingParentModeForSymbolsAttributeName];
@@ -280,6 +283,9 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
                 if ((typeAttributeString=[currentState objectForKey:@"type"]))
 					[scratchAttributes setObject:typeAttributeString forKey:kSyntaxHighlightingTypeAttributeName];
                 else [scratchAttributes removeObjectForKey:kSyntaxHighlightingTypeAttributeName];
+                if ((typeAttributeString=[currentState objectForKey:@"scope"]))
+					[scratchAttributes setObject:typeAttributeString forKey:kSyntaxHighlightingScopenameAttributeName];
+                else [scratchAttributes removeObjectForKey:kSyntaxHighlightingScopenameAttributeName];
                 
                 [aString addAttributes:scratchAttributes range:delimiterRange];
                 savedStack = [[stack copy] autorelease];
@@ -305,6 +311,9 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 		NSString *typeAttributeString;
 		if ((typeAttributeString=[currentState objectForKey:@"type"]))
 			[scratchAttributes setObject:typeAttributeString forKey:kSyntaxHighlightingTypeAttributeName];
+		
+		if ((typeAttributeString=[currentState objectForKey:@"scope"]))
+			[scratchAttributes setObject:typeAttributeString forKey:kSyntaxHighlightingScopenameAttributeName];
 		
 		id inheritedSymbols = [currentState objectForKey:[definition keyForInheritedSymbols]]; 
 		if ( inheritedSymbols )
@@ -601,7 +610,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 {
     [aTextStorage beginEditing];
     if ([aTextStorage respondsToSelector:@selector(beginLinearAttributeChanges)]) [(id)aTextStorage beginLinearAttributeChanges];
-    [aTextStorage removeAttributes:[NSArray arrayWithObjects:kSyntaxHighlightingIsCorrectAttributeName,kSyntaxHighlightingStackName,kSyntaxHighlightingStateDelimiterName,kSyntaxHighlightingTypeAttributeName,kSyntaxHighlightingParentModeForAutocompleteAttributeName,kSyntaxHighlightingParentModeForSymbolsAttributeName,NSLinkAttributeName,kSyntaxHighlightingIsTrimmedStartAttributeName,nil] range:aRange];
+    [aTextStorage removeAttributes:[NSArray arrayWithObjects:kSyntaxHighlightingIsCorrectAttributeName,kSyntaxHighlightingStackName,kSyntaxHighlightingStateDelimiterName,kSyntaxHighlightingScopenameAttributeName,kSyntaxHighlightingTypeAttributeName,kSyntaxHighlightingParentModeForAutocompleteAttributeName,kSyntaxHighlightingParentModeForSymbolsAttributeName,NSLinkAttributeName,kSyntaxHighlightingIsTrimmedStartAttributeName,nil] range:aRange];
     if ([aTextStorage respondsToSelector:@selector(endLinearAttributeChanges)]) [(id)aTextStorage endLinearAttributeChanges];
     [aTextStorage endEditing];
 }

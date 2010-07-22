@@ -12,7 +12,7 @@
     <states>
         <default id="Base" color="#000" background-color="#fff" font-style="normal">
             <keywords id="Bad Ampersand" color="#f00" font-weight="bold" useforautocomplete="no" scope="invalid.illegal.bad-ampersand">
-                <regex>(&)</regex>
+                <regex>(&amp;)</regex>
             </keywords>
            <keywords id="Tags" color="#881280" font-style="italic" useforautocomplete="no" scope="meta.tag">
                 <regex>(&lt;[/\s]*[^/?!][-:_\w]*\s*(?:[-:_\w]+[ \t]*=[ \t]*(?:".*?"|'.*?'|[\w:]+)\s*)*[/\s]*>)</regex>
@@ -60,7 +60,7 @@
                     <regex>\?></regex>
                 </end>
             </state>
-            <state id="Single Tag" foldable="no" scope="meta.tag.no-content">
+            <state id="Single Tag" foldable="no" scope="meta.tag.state.no-content">
                 <begin>
                     <regex>&lt;\s*[^/?!][-:_\w]*\s*(?:[-:_\w]+\s*=\s*(?:"[^"]*"|'[^']*'|\w+)\s*)*/\s*(?=>)</regex>
                 </begin>
@@ -69,7 +69,7 @@
                 </end>
                 <import/>
             </state>
-            <state id="Tag State" foldable="yes" scope="meta.tag">
+            <state id="Tag State" foldable="yes" scope="meta.tag.state">
                 <begin>
                     <regex>&lt;\s*(?'xmltagstatename'[^/?!][-:_\w]*)\s*(?:[-:_\w]+[ \t]*=[ \t]*(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*></regex>
                 </begin>

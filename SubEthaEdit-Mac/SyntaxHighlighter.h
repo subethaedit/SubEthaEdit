@@ -20,6 +20,7 @@ extern NSString * const kSyntaxHighlightingStateDelimiterStartValue;
 extern NSString * const kSyntaxHighlightingStateDelimiterEndValue;
 extern NSString * const kSyntaxHighlightingFoldDelimiterName;
 extern NSString * const kSyntaxHighlightingTypeAttributeName;
+extern NSString * const kSyntaxHighlightingScopenameAttributeName;
 extern NSString * const kSyntaxHighlightingParentModeForSymbolsAttributeName;
 extern NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName;
 extern NSString * const kSyntaxHighlightingFoldDelimiterName;

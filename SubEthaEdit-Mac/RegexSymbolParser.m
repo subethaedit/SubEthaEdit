@@ -105,7 +105,8 @@ static NSString* PostProcessMatch(NSString* string, NSArray* postprocess);
 #endif // defined(CODA)
 			if ( jumprange.location < [aTextStorage length] )
 			{
-				BOOL isComment = [[aTextStorage attribute:kSyntaxHighlightingTypeAttributeName atIndex:jumprange.location effectiveRange:nil] isEqualToString:kSyntaxHighlightingTypeComment];
+				BOOL isComment = [[aTextStorage attribute:kSyntaxHighlightingScopenameAttributeName atIndex:jumprange.location effectiveRange:nil] hasPrefix:@"comment"];
+				if (!isComment) isComment = [[aTextStorage attribute:kSyntaxHighlightingTypeAttributeName atIndex:jumprange.location effectiveRange:nil] isEqualToString:kSyntaxHighlightingTypeComment];
 				BOOL showInComments = [[symbol objectForKey:@"show-in-comments"] isEqualToString:@"yes"];
 				if (!isComment||showInComments) {
 					

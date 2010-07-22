@@ -825,6 +825,8 @@
 					[aDictionary setObject:[linkedState objectForKey:kSyntaxHighlightingStyleIDAttributeName] forKey:kSyntaxHighlightingStyleIDAttributeName];
 				if ([linkedState objectForKey:@"type"])
 					[aDictionary setObject:[linkedState objectForKey:@"type"] forKey:@"type"];
+				if ([linkedState objectForKey:@"scope"])
+					[aDictionary setObject:[linkedState objectForKey:@"scope"] forKey:@"scope"];
                 if ([linkedState objectForKey:@"containerState"])
 					[aDictionary setObject:[linkedState objectForKey:@"containerState"] forKey:@"containerState"];
             }
