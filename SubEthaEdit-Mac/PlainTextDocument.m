@@ -4872,8 +4872,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 		if ([style objectForKey:NSUnderlineStyleAttributeName])
 			[result setObject:[style objectForKey:NSUnderlineStyleAttributeName] forKey:NSUnderlineStyleAttributeName];
 		
-		if ([style objectForKey:@"scope"])
+		if ([style objectForKey:@"scope"]) {
 			[result setObject:[style objectForKey:@"scope"] forKey:kSyntaxHighlightingScopenameAttributeName];
+		}
 		
 		
 		// this is necessary for the highlighter to actually set the correct link attribute here

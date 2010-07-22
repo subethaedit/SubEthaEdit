@@ -221,6 +221,10 @@
         [aDictionary setObject:[backgroundColor brightnessInvertedColor] forKey:@"inverted-background-color"];
     }
     
+    if ([aDictionary objectForKey:@"scope"]) {
+        [aDictionary setObject:[NSString stringWithFormat:@"%@.%@", [aDictionary objectForKey:@"scope"], [[self name] lowercaseString]] forKey:@"scope"];
+    }
+    
     NSString *stateID = [NSString stringWithFormat:@"/%@/%@", [self name], [aDictionary objectForKey:@"id"]];
     if (stateID) {
         [aDictionary setObject:stateID forKey:@"id"];
