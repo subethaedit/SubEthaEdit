@@ -11,211 +11,49 @@
 			<string key="NS.object.0">788</string>
 		</object>
 		<array class="NSMutableArray" key="IBDocument.EditedObjectIDs">
+			<integer value="26"/>
 			<integer value="6"/>
+			<integer value="29"/>
 		</array>
 		<array key="IBDocument.PluginDependencies">
 			<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 		</array>
 		<dictionary class="NSMutableDictionary" key="IBDocument.Metadata"/>
-		<array class="NSMutableArray" key="IBDocument.RootObjects" id="600442970">
-			<object class="NSCustomObject" id="648578312">
-				<string key="NSClassName">UserStatisticsController</string>
+		<array class="NSMutableArray" key="IBDocument.RootObjects" id="762469677">
+			<object class="NSCustomObject" id="573415418">
+				<string key="NSClassName">DocumentProxyWindowController</string>
 			</object>
-			<object class="NSCustomObject" id="670854563">
+			<object class="NSCustomObject" id="576872349">
 				<string key="NSClassName">FirstResponder</string>
 			</object>
-			<object class="NSCustomObject" id="1024537875">
+			<object class="NSCustomObject" id="1009628981">
 				<string key="NSClassName">NSApplication</string>
 			</object>
-			<object class="NSWindowTemplate" id="757304460">
-				<int key="NSWindowStyleMask">8351</int>
+			<object class="NSWindowTemplate" id="971698656">
+				<int key="NSWindowStyleMask">8223</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{478, 351}, {262, 412}}</string>
-				<int key="NSWTFlags">-260571136</int>
-				<string key="NSWindowTitle">User Statistics</string>
+				<string key="NSWindowRect">{{72, 674}, {353, 111}}</string>
+				<int key="NSWTFlags">1886912512</int>
+				<string key="NSWindowTitle">&lt;do not localize&gt;</string>
 				<string key="NSWindowClass">NSPanel</string>
 				<object class="NSMutableString" key="NSViewClass">
 					<characters key="NS.bytes">View</characters>
 				</object>
 				<string key="NSWindowContentMaxSize">{1.79769e+308, 1.79769e+308}</string>
-				<string key="NSWindowContentMinSize">{240, 350}</string>
-				<object class="NSView" key="NSWindowView" id="564232792">
+				<string key="NSWindowContentMinSize">{264, 100}</string>
+				<object class="NSView" key="NSWindowView" id="226970130">
 					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<array class="NSMutableArray" key="NSSubviews">
-						<object class="NSScrollView" id="744181924">
-							<reference key="NSNextResponder" ref="564232792"/>
-							<int key="NSvFlags">274</int>
-							<array class="NSMutableArray" key="NSSubviews">
-								<object class="NSClipView" id="173161124">
-									<reference key="NSNextResponder" ref="744181924"/>
-									<int key="NSvFlags">2304</int>
-									<array class="NSMutableArray" key="NSSubviews">
-										<object class="NSTableView" id="513066779">
-											<reference key="NSNextResponder" ref="173161124"/>
-											<int key="NSvFlags">256</int>
-											<string key="NSFrameSize">{233, 160}</string>
-											<reference key="NSSuperview" ref="173161124"/>
-											<bool key="NSEnabled">YES</bool>
-											<object class="_NSCornerView" key="NSCornerView">
-												<nil key="NSNextResponder"/>
-												<int key="NSvFlags">256</int>
-												<string key="NSFrame">{{370, 0}, {16, 17}}</string>
-											</object>
-											<array class="NSMutableArray" key="NSTableColumns">
-												<object class="NSTableColumn" id="175337326">
-													<string key="NSIdentifier">entries</string>
-													<double key="NSWidth">230</double>
-													<double key="NSMinWidth">40</double>
-													<double key="NSMaxWidth">100000000</double>
-													<object class="NSTableHeaderCell" key="NSHeaderCell">
-														<int key="NSCellFlags">75628096</int>
-														<int key="NSCellFlags2">2048</int>
-														<string key="NSContents">Entries</string>
-														<object class="NSFont" key="NSSupport">
-															<string key="NSName">LucidaGrande</string>
-															<double key="NSSize">11</double>
-															<int key="NSfFlags">3100</int>
-														</object>
-														<object class="NSColor" key="NSBackgroundColor">
-															<int key="NSColorSpace">3</int>
-															<bytes key="NSWhite">MC4zMzMzMzI5OQA</bytes>
-														</object>
-														<object class="NSColor" key="NSTextColor">
-															<int key="NSColorSpace">6</int>
-															<string key="NSCatalogName">System</string>
-															<string key="NSColorName">headerTextColor</string>
-															<object class="NSColor" key="NSColor">
-																<int key="NSColorSpace">3</int>
-																<bytes key="NSWhite">MAA</bytes>
-															</object>
-														</object>
-													</object>
-													<object class="NSImageCell" key="NSDataCell" id="70320652">
-														<int key="NSCellFlags">130560</int>
-														<int key="NSCellFlags2">33554432</int>
-														<int key="NSAlign">0</int>
-														<int key="NSScale">0</int>
-														<int key="NSStyle">0</int>
-														<bool key="NSAnimates">YES</bool>
-													</object>
-													<int key="NSResizingMask">3</int>
-													<bool key="NSIsResizeable">YES</bool>
-													<bool key="NSIsEditable">YES</bool>
-													<reference key="NSTableView" ref="513066779"/>
-												</object>
-											</array>
-											<double key="NSIntercellSpacingWidth">3</double>
-											<double key="NSIntercellSpacingHeight">2</double>
-											<object class="NSColor" key="NSBackgroundColor">
-												<int key="NSColorSpace">3</int>
-												<bytes key="NSWhite">MQA</bytes>
-											</object>
-											<object class="NSColor" key="NSGridColor" id="501525615">
-												<int key="NSColorSpace">3</int>
-												<bytes key="NSWhite">MC44MDAwMDAwMSAwLjUAA</bytes>
-											</object>
-											<double key="NSRowHeight">64</double>
-											<int key="NSTvFlags">316669952</int>
-											<reference key="NSDelegate"/>
-											<reference key="NSDataSource"/>
-											<int key="NSColumnAutoresizingStyle">4</int>
-											<int key="NSDraggingSourceMaskForLocal">15</int>
-											<int key="NSDraggingSourceMaskForNonLocal">0</int>
-											<bool key="NSAllowsTypeSelect">YES</bool>
-											<int key="NSTableViewDraggingDestinationStyle">0</int>
-										</object>
-									</array>
-									<string key="NSFrame">{{1, 1}, {231, 160}}</string>
-									<reference key="NSSuperview" ref="744181924"/>
-									<reference key="NSNextKeyView" ref="513066779"/>
-									<reference key="NSDocView" ref="513066779"/>
-									<reference key="NSBGColor" ref="501525615"/>
-									<int key="NScvFlags">4</int>
-								</object>
-								<object class="NSScroller" id="30322772">
-									<reference key="NSNextResponder" ref="744181924"/>
-									<int key="NSvFlags">256</int>
-									<string key="NSFrame">{{232, 1}, {15, 160}}</string>
-									<reference key="NSSuperview" ref="744181924"/>
-									<reference key="NSTarget" ref="744181924"/>
-									<string key="NSAction">_doScroller:</string>
-									<double key="NSPercent">0.24242424964904785</double>
-								</object>
-								<object class="NSScroller" id="638191362">
-									<reference key="NSNextResponder" ref="744181924"/>
-									<int key="NSvFlags">-2147483392</int>
-									<string key="NSFrame">{{-100, -100}, {369, 15}}</string>
-									<reference key="NSSuperview" ref="744181924"/>
-									<bool key="NSEnabled">YES</bool>
-									<int key="NSsFlags">1</int>
-									<reference key="NSTarget" ref="744181924"/>
-									<string key="NSAction">_doScroller:</string>
-									<double key="NSPercent">0.9609375</double>
-								</object>
-							</array>
-							<string key="NSFrame">{{7, 187}, {248, 162}}</string>
-							<reference key="NSSuperview" ref="564232792"/>
-							<reference key="NSNextKeyView" ref="173161124"/>
-							<int key="NSsFlags">146</int>
-							<reference key="NSVScroller" ref="30322772"/>
-							<reference key="NSHScroller" ref="638191362"/>
-							<reference key="NSContentView" ref="173161124"/>
-							<bytes key="NSScrollAmts">AAAAAAAAAABChAAAQoQAAA</bytes>
+						<object class="NSCustomView" id="614294686">
+							<reference key="NSNextResponder" ref="226970130"/>
+							<int key="NSvFlags">290</int>
+							<string key="NSFrame">{{7, 9}, {340, 31}}</string>
+							<reference key="NSSuperview" ref="226970130"/>
+							<string key="NSClassName">NSView</string>
 						</object>
-						<object class="NSTextField" id="938493126">
-							<reference key="NSNextResponder" ref="564232792"/>
-							<int key="NSvFlags">266</int>
-							<string key="NSFrame">{{57, 386}, {193, 17}}</string>
-							<reference key="NSSuperview" ref="564232792"/>
-							<bool key="NSEnabled">YES</bool>
-							<object class="NSTextFieldCell" key="NSCell" id="775221925">
-								<int key="NSCellFlags">67239488</int>
-								<int key="NSCellFlags2">272632320</int>
-								<string key="NSContents">&lt;&lt; do not localize &gt;&gt;</string>
-								<object class="NSFont" key="NSSupport" id="340528377">
-									<string key="NSName">LucidaGrande</string>
-									<double key="NSSize">13</double>
-									<int key="NSfFlags">1044</int>
-								</object>
-								<reference key="NSControlView" ref="938493126"/>
-								<object class="NSColor" key="NSBackgroundColor" id="669280130">
-									<int key="NSColorSpace">6</int>
-									<string key="NSCatalogName">System</string>
-									<string key="NSColorName">controlColor</string>
-									<object class="NSColor" key="NSColor">
-										<int key="NSColorSpace">3</int>
-										<bytes key="NSWhite">MC42NjY2NjY2NjY3AA</bytes>
-									</object>
-								</object>
-								<object class="NSColor" key="NSTextColor" id="239638353">
-									<int key="NSColorSpace">1</int>
-									<bytes key="NSRGB">MSAxIDEAA</bytes>
-								</object>
-							</object>
-						</object>
-						<object class="NSTextField" id="927047048">
-							<reference key="NSNextResponder" ref="564232792"/>
-							<int key="NSvFlags">266</int>
-							<string key="NSFrame">{{57, 350}, {194, 34}}</string>
-							<reference key="NSSuperview" ref="564232792"/>
-							<bool key="NSEnabled">YES</bool>
-							<object class="NSTextFieldCell" key="NSCell" id="370475130">
-								<int key="NSCellFlags">67239424</int>
-								<int key="NSCellFlags2">272629760</int>
-								<string key="NSContents">&lt;&lt; do not localize &gt;&gt;</string>
-								<object class="NSFont" key="NSSupport">
-									<string key="NSName">LucidaGrande</string>
-									<double key="NSSize">10</double>
-									<int key="NSfFlags">2843</int>
-								</object>
-								<reference key="NSControlView" ref="927047048"/>
-								<reference key="NSBackgroundColor" ref="669280130"/>
-								<reference key="NSTextColor" ref="239638353"/>
-							</object>
-						</object>
-						<object class="NSImageView" id="685371669">
-							<reference key="NSNextResponder" ref="564232792"/>
+						<object class="NSImageView" id="340359675">
+							<reference key="NSNextResponder" ref="226970130"/>
 							<int key="NSvFlags">268</int>
 							<set class="NSMutableSet" key="NSDragTypes">
 								<string>Apple PDF pasteboard type</string>
@@ -225,10 +63,69 @@
 								<string>NeXT Encapsulated PostScript v1.2 pasteboard type</string>
 								<string>NeXT TIFF v4.0 pasteboard type</string>
 							</set>
-							<string key="NSFrame">{{10, 357}, {48, 48}}</string>
-							<reference key="NSSuperview" ref="564232792"/>
+							<string key="NSFrame">{{15, 42}, {64, 64}}</string>
+							<reference key="NSSuperview" ref="226970130"/>
 							<bool key="NSEnabled">YES</bool>
-							<object class="NSImageCell" key="NSCell" id="280356951">
+							<object class="NSImageCell" key="NSCell" id="464324790">
+								<int key="NSCellFlags">130560</int>
+								<int key="NSCellFlags2">33554432</int>
+								<object class="NSCustomResource" key="NSContents">
+									<string key="NSClassName">NSImage</string>
+									<string key="NSResourceName">SubEthaEdit</string>
+								</object>
+								<int key="NSAlign">0</int>
+								<int key="NSScale">0</int>
+								<int key="NSStyle">0</int>
+								<bool key="NSAnimates">NO</bool>
+							</object>
+							<bool key="NSEditable">YES</bool>
+						</object>
+						<object class="NSTextField" id="1046966766">
+							<reference key="NSNextResponder" ref="226970130"/>
+							<int key="NSvFlags">266</int>
+							<string key="NSFrame">{{85, 87}, {215, 19}}</string>
+							<reference key="NSSuperview" ref="226970130"/>
+							<bool key="NSEnabled">YES</bool>
+							<object class="NSTextFieldCell" key="NSCell" id="475285300">
+								<int key="NSCellFlags">67239488</int>
+								<int key="NSCellFlags2">4196864</int>
+								<string key="NSContents">&lt;do not localize&gt;</string>
+								<object class="NSFont" key="NSSupport">
+									<string key="NSName">LucidaGrande-Bold</string>
+									<double key="NSSize">13</double>
+									<int key="NSfFlags">2072</int>
+								</object>
+								<reference key="NSControlView" ref="1046966766"/>
+								<object class="NSColor" key="NSBackgroundColor" id="906540395">
+									<int key="NSColorSpace">6</int>
+									<string key="NSCatalogName">System</string>
+									<string key="NSColorName">controlColor</string>
+									<object class="NSColor" key="NSColor">
+										<int key="NSColorSpace">3</int>
+										<bytes key="NSWhite">MC42NjY2NjY2NjY3AA</bytes>
+									</object>
+								</object>
+								<object class="NSColor" key="NSTextColor" id="834770087">
+									<int key="NSColorSpace">1</int>
+									<bytes key="NSRGB">MSAxIDEAA</bytes>
+								</object>
+							</object>
+						</object>
+						<object class="NSImageView" id="392930858">
+							<reference key="NSNextResponder" ref="226970130"/>
+							<int key="NSvFlags">268</int>
+							<set class="NSMutableSet" key="NSDragTypes">
+								<string>Apple PDF pasteboard type</string>
+								<string>Apple PICT pasteboard type</string>
+								<string>Apple PNG pasteboard type</string>
+								<string>NSFilenamesPboardType</string>
+								<string>NeXT Encapsulated PostScript v1.2 pasteboard type</string>
+								<string>NeXT TIFF v4.0 pasteboard type</string>
+							</set>
+							<string key="NSFrame">{{82, 48}, {32, 32}}</string>
+							<reference key="NSSuperview" ref="226970130"/>
+							<bool key="NSEnabled">YES</bool>
+							<object class="NSImageCell" key="NSCell" id="963778350">
 								<int key="NSCellFlags">130560</int>
 								<int key="NSCellFlags2">33554432</int>
 								<object class="NSCustomResource" key="NSContents">
@@ -242,106 +139,121 @@
 							</object>
 							<bool key="NSEditable">YES</bool>
 						</object>
-						<object class="NSTextField" id="224911809">
-							<reference key="NSNextResponder" ref="564232792"/>
-							<int key="NSvFlags">290</int>
-							<string key="NSFrame">{{12, 167}, {242, 17}}</string>
-							<reference key="NSSuperview" ref="564232792"/>
+						<object class="NSTextField" id="1039726381">
+							<reference key="NSNextResponder" ref="226970130"/>
+							<int key="NSvFlags">266</int>
+							<string key="NSFrame">{{119, 50}, {223, 29}}</string>
+							<reference key="NSSuperview" ref="226970130"/>
 							<bool key="NSEnabled">YES</bool>
-							<object class="NSTextFieldCell" key="NSCell" id="687558598">
+							<object class="NSTextFieldCell" key="NSCell" id="801766556">
 								<int key="NSCellFlags">67239424</int>
-								<int key="NSCellFlags2">272629760</int>
-								<string key="NSContents">Details for User Foo</string>
-								<reference key="NSSupport" ref="340528377"/>
-								<reference key="NSControlView" ref="224911809"/>
-								<reference key="NSBackgroundColor" ref="669280130"/>
-								<reference key="NSTextColor" ref="239638353"/>
-							</object>
-						</object>
-						<object class="NSCustomView" id="250272639">
-							<reference key="NSNextResponder" ref="564232792"/>
-							<int key="NSvFlags">290</int>
-							<string key="NSFrame">{{8, 13}, {246, 151}}</string>
-							<reference key="NSSuperview" ref="564232792"/>
-							<string key="NSClassName">HUDStatisticGraphView</string>
-							<string key="NSExtension">NSView</string>
-						</object>
-						<object class="NSButton" id="538230523">
-							<reference key="NSNextResponder" ref="564232792"/>
-							<int key="NSvFlags">289</int>
-							<string key="NSFrame">{{236, 166}, {15, 19}}</string>
-							<reference key="NSSuperview" ref="564232792"/>
-							<bool key="NSEnabled">YES</bool>
-							<object class="NSButtonCell" key="NSCell" id="934704924">
-								<int key="NSCellFlags">67239424</int>
-								<int key="NSCellFlags2">134217728</int>
-								<string key="NSContents"/>
-								<reference key="NSSupport" ref="340528377"/>
-								<reference key="NSControlView" ref="538230523"/>
-								<int key="NSButtonFlags">-935051009</int>
-								<int key="NSButtonFlags2">6</int>
-								<object class="NSCustomResource" key="NSNormalImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">HUDRelative-1</string>
+								<int key="NSCellFlags2">4325888</int>
+								<string key="NSContents">&lt;Untitled Document.txt&gt;</string>
+								<object class="NSFont" key="NSSupport" id="26">
+									<string key="NSName">LucidaGrande</string>
+									<double key="NSSize">11</double>
+									<int key="NSfFlags">3100</int>
 								</object>
-								<object class="NSCustomResource" key="NSAlternateImage">
-									<string key="NSClassName">NSImage</string>
-									<string key="NSResourceName">HUDRelative-2</string>
-								</object>
-								<string key="NSAlternateContents"/>
-								<object class="NSMutableString" key="NSKeyEquivalent">
-									<characters key="NS.bytes"/>
-								</object>
-								<int key="NSPeriodicDelay">200</int>
-								<int key="NSPeriodicInterval">25</int>
+								<reference key="NSControlView" ref="1039726381"/>
+								<reference key="NSBackgroundColor" ref="906540395"/>
+								<reference key="NSTextColor" ref="834770087"/>
 							</object>
 						</object>
 					</array>
-					<string key="NSFrameSize">{262, 412}</string>
+					<string key="NSFrameSize">{353, 111}</string>
 					<reference key="NSSuperview"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {1440, 878}}</string>
-				<string key="NSMinSize">{240, 369}</string>
+				<string key="NSMinSize">{264, 119}</string>
 				<string key="NSMaxSize">{1.79769e+308, 1.79769e+308}</string>
 			</object>
-			<object class="NSArrayController" id="417352533">
-				<array class="NSMutableArray" key="NSDeclaredKeys">
-					<string>user.image32</string>
-					<string>operationCount</string>
-					<string>insertedCharacters</string>
-					<string>deletedCharacters</string>
-					<string>selectedCharacters</string>
-					<string>dateOfLastActivity</string>
-					<string>user.name</string>
+			<object class="NSCustomView" id="317206360">
+				<reference key="NSNextResponder"/>
+				<int key="NSvFlags">290</int>
+				<array class="NSMutableArray" key="NSSubviews">
+					<object class="NSTextField" id="840312465">
+						<reference key="NSNextResponder" ref="317206360"/>
+						<int key="NSvFlags">258</int>
+						<string key="NSFrame">{{17, 7}, {306, 17}}</string>
+						<reference key="NSSuperview" ref="317206360"/>
+						<bool key="NSEnabled">YES</bool>
+						<object class="NSTextFieldCell" key="NSCell" id="592556107">
+							<int key="NSCellFlags">67239424</int>
+							<int key="NSCellFlags2">138412032</int>
+							<string key="NSContents">&lt;do not localize&gt;</string>
+							<object class="NSFont" key="NSSupport">
+								<string key="NSName">LucidaGrande</string>
+								<double key="NSSize">13</double>
+								<int key="NSfFlags">1044</int>
+							</object>
+							<reference key="NSControlView" ref="840312465"/>
+							<reference key="NSBackgroundColor" ref="906540395"/>
+							<reference key="NSTextColor" ref="834770087"/>
+						</object>
+					</object>
 				</array>
-				<object class="_NSManagedProxy" key="_NSManagedProxy"/>
-				<bool key="NSAvoidsEmptySelection">YES</bool>
-				<bool key="NSPreservesSelection">YES</bool>
-				<bool key="NSFilterRestrictsInsertion">YES</bool>
-				<bool key="NSClearsFilterPredicateOnInsertion">YES</bool>
+				<string key="NSFrameSize">{340, 31}</string>
+				<reference key="NSSuperview"/>
+				<string key="NSClassName">FirstClickCustomView</string>
+				<string key="NSExtension">NSView</string>
 			</object>
-			<object class="NSObjectController" id="848496415">
-				<array class="NSMutableArray" key="NSDeclaredKeys">
-					<string>statisticsArray</string>
+			<object class="NSCustomView" id="38376052">
+				<reference key="NSNextResponder"/>
+				<int key="NSvFlags">290</int>
+				<array class="NSMutableArray" key="NSSubviews">
+					<object class="NSButton" id="705615419">
+						<reference key="NSNextResponder" ref="38376052"/>
+						<int key="NSvFlags">289</int>
+						<string key="NSFrame">{{233, 0}, {87, 28}}</string>
+						<reference key="NSSuperview" ref="38376052"/>
+						<bool key="NSEnabled">YES</bool>
+						<object class="NSButtonCell" key="NSCell" id="1072711361">
+							<int key="NSCellFlags">67239424</int>
+							<int key="NSCellFlags2">134348800</int>
+							<string key="NSContents">Accept</string>
+							<reference key="NSSupport" ref="26"/>
+							<reference key="NSControlView" ref="705615419"/>
+							<int key="NSButtonFlags">-2038284033</int>
+							<int key="NSButtonFlags2">1</int>
+							<object class="NSFont" key="NSAlternateImage" id="658456929">
+								<string key="NSName">LucidaGrande</string>
+								<double key="NSSize">11</double>
+								<int key="NSfFlags">16</int>
+							</object>
+							<string key="NSAlternateContents"/>
+							<string type="base64-UTF8" key="NSKeyEquivalent">DQ</string>
+							<int key="NSPeriodicDelay">200</int>
+							<int key="NSPeriodicInterval">25</int>
+						</object>
+					</object>
+					<object class="NSButton" id="943177025">
+						<reference key="NSNextResponder" ref="38376052"/>
+						<int key="NSvFlags">289</int>
+						<string key="NSFrame">{{138, 0}, {88, 28}}</string>
+						<reference key="NSSuperview" ref="38376052"/>
+						<bool key="NSEnabled">YES</bool>
+						<object class="NSButtonCell" key="NSCell" id="645961675">
+							<int key="NSCellFlags">67239424</int>
+							<int key="NSCellFlags2">134348800</int>
+							<string key="NSContents">Decline</string>
+							<reference key="NSSupport" ref="26"/>
+							<reference key="NSControlView" ref="943177025"/>
+							<int key="NSButtonFlags">-2038284033</int>
+							<int key="NSButtonFlags2">1</int>
+							<reference key="NSAlternateImage" ref="658456929"/>
+							<string key="NSAlternateContents"/>
+							<object class="NSMutableString" key="NSKeyEquivalent">
+								<characters key="NS.bytes"/>
+							</object>
+							<int key="NSPeriodicDelay">200</int>
+							<int key="NSPeriodicInterval">25</int>
+						</object>
+					</object>
 				</array>
-				<bool key="NSEditable">YES</bool>
-				<object class="_NSManagedProxy" key="_NSManagedProxy"/>
-			</object>
-			<object class="NSObjectController" id="995758560">
-				<array class="NSMutableArray" key="NSDeclaredKeys">
-					<string>session.loggingState</string>
-					<string>fileName</string>
-					<string>displayName</string>
-					<string>textstorage.numberOfLines</string>
-					<string>textstorage.numberOfWords</string>
-					<string>textstorage.numberOfCharacters</string>
-					<string>textStorage.numberOfLines</string>
-					<string>textStorage.numberOfWords</string>
-					<string>textStorage.numberOfCharacters</string>
-					<string>documentIcon</string>
-				</array>
-				<bool key="NSEditable">YES</bool>
-				<object class="_NSManagedProxy" key="_NSManagedProxy"/>
+				<string key="NSFrameSize">{340, 31}</string>
+				<reference key="NSSuperview"/>
+				<string key="NSClassName">FirstClickCustomView</string>
+				<string key="NSExtension">NSView</string>
 			</object>
 		</array>
 		<object class="IBObjectContainer" key="IBDocument.Objects">
@@ -349,210 +261,114 @@
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">window</string>
-						<reference key="source" ref="648578312"/>
-						<reference key="destination" ref="757304460"/>
+						<reference key="source" ref="573415418"/>
+						<reference key="destination" ref="971698656"/>
 					</object>
 					<int key="connectionID">17</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">delegate</string>
-						<reference key="source" ref="757304460"/>
-						<reference key="destination" ref="648578312"/>
+						<reference key="source" ref="971698656"/>
+						<reference key="destination" ref="573415418"/>
 					</object>
 					<int key="connectionID">18</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: arrangedObjects</string>
-						<reference key="source" ref="175337326"/>
-						<reference key="destination" ref="417352533"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="175337326"/>
-							<reference key="NSDestination" ref="417352533"/>
-							<string key="NSLabel">value: arrangedObjects</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">arrangedObjects</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">36</int>
-				</object>
-				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">O_userTableView</string>
-						<reference key="source" ref="648578312"/>
-						<reference key="destination" ref="513066779"/>
+						<string key="label">O_userImageView</string>
+						<reference key="source" ref="573415418"/>
+						<reference key="destination" ref="340359675"/>
 					</object>
-					<int key="connectionID">37</int>
+					<int key="connectionID">19</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
 						<string key="label">O_documentImageView</string>
-						<reference key="source" ref="648578312"/>
-						<reference key="destination" ref="685371669"/>
+						<reference key="source" ref="573415418"/>
+						<reference key="destination" ref="392930858"/>
+					</object>
+					<int key="connectionID">20</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">O_userNameTextField</string>
+						<reference key="source" ref="573415418"/>
+						<reference key="destination" ref="1046966766"/>
+					</object>
+					<int key="connectionID">21</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">O_documentTitleTextField</string>
+						<reference key="source" ref="573415418"/>
+						<reference key="destination" ref="1039726381"/>
+					</object>
+					<int key="connectionID">22</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">O_statusBarTextField</string>
+						<reference key="source" ref="573415418"/>
+						<reference key="destination" ref="840312465"/>
+					</object>
+					<int key="connectionID">31</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">O_bottomStatusView</string>
+						<reference key="source" ref="573415418"/>
+						<reference key="destination" ref="317206360"/>
+					</object>
+					<int key="connectionID">37</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">acceptAction:</string>
+						<reference key="source" ref="573415418"/>
+						<reference key="destination" ref="705615419"/>
 					</object>
 					<int key="connectionID">38</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">O_documentNameTextField</string>
-						<reference key="source" ref="648578312"/>
-						<reference key="destination" ref="938493126"/>
+						<string key="label">O_bottomCustomView</string>
+						<reference key="source" ref="573415418"/>
+						<reference key="destination" ref="614294686"/>
 					</object>
 					<int key="connectionID">39</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">O_wordCountTextField</string>
-						<reference key="source" ref="648578312"/>
-						<reference key="destination" ref="927047048"/>
+						<string key="label">O_bottomDecisionView</string>
+						<reference key="source" ref="573415418"/>
+						<reference key="destination" ref="38376052"/>
 					</object>
 					<int key="connectionID">40</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">O_graphView</string>
-						<reference key="source" ref="648578312"/>
-						<reference key="destination" ref="250272639"/>
+					<object class="IBActionConnection" key="connection">
+						<string key="label">performClose:</string>
+						<reference key="source" ref="971698656"/>
+						<reference key="destination" ref="943177025"/>
 					</object>
 					<int key="connectionID">41</int>
 				</object>
 				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">contentArray: selection.statisticsArray</string>
-						<reference key="source" ref="417352533"/>
-						<reference key="destination" ref="848496415"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="417352533"/>
-							<reference key="NSDestination" ref="848496415"/>
-							<string key="NSLabel">contentArray: selection.statisticsArray</string>
-							<string key="NSBinding">contentArray</string>
-							<string key="NSKeyPath">selection.statisticsArray</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">O_declineButton</string>
+						<reference key="source" ref="573415418"/>
+						<reference key="destination" ref="943177025"/>
 					</object>
-					<int key="connectionID">46</int>
+					<int key="connectionID">44</int>
 				</object>
 				<object class="IBConnectionRecord">
 					<object class="IBOutletConnection" key="connection">
-						<string key="label">O_statEntryArrayController</string>
-						<reference key="source" ref="648578312"/>
-						<reference key="destination" ref="417352533"/>
+						<string key="label">O_acceptButton</string>
+						<reference key="source" ref="573415418"/>
+						<reference key="destination" ref="705615419"/>
 					</object>
-					<int key="connectionID">47</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">O_loggingStateObjectController</string>
-						<reference key="source" ref="648578312"/>
-						<reference key="destination" ref="848496415"/>
-					</object>
-					<int key="connectionID">48</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">contentObject: selection.session.loggingState</string>
-						<reference key="source" ref="848496415"/>
-						<reference key="destination" ref="995758560"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="848496415"/>
-							<reference key="NSDestination" ref="995758560"/>
-							<string key="NSLabel">contentObject: selection.session.loggingState</string>
-							<string key="NSBinding">contentObject</string>
-							<string key="NSKeyPath">selection.session.loggingState</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">53</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">displayPatternValue1: selection.user.name</string>
-						<reference key="source" ref="224911809"/>
-						<reference key="destination" ref="417352533"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="224911809"/>
-							<reference key="NSDestination" ref="417352533"/>
-							<string key="NSLabel">displayPatternValue1: selection.user.name</string>
-							<string key="NSBinding">displayPatternValue1</string>
-							<string key="NSKeyPath">selection.user.name</string>
-							<dictionary key="NSOptions">
-								<string key="NSDisplayPattern">Details for %{value1}@</string>
-								<string key="NSNoSelectionPlaceholder">none</string>
-							</dictionary>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">64</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: selection.documentIcon</string>
-						<reference key="source" ref="685371669"/>
-						<reference key="destination" ref="995758560"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="685371669"/>
-							<reference key="NSDestination" ref="995758560"/>
-							<string key="NSLabel">value: selection.documentIcon</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">selection.documentIcon</string>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">94</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">O_percentageButton</string>
-						<reference key="source" ref="648578312"/>
-						<reference key="destination" ref="538230523"/>
-					</object>
-					<int key="connectionID">96</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBActionConnection" key="connection">
-						<string key="label">togglePercentage:</string>
-						<reference key="source" ref="648578312"/>
-						<reference key="destination" ref="538230523"/>
-					</object>
-					<int key="connectionID">97</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">O_documentObjectController</string>
-						<reference key="source" ref="648578312"/>
-						<reference key="destination" ref="995758560"/>
-					</object>
-					<int key="connectionID">98</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBOutletConnection" key="connection">
-						<string key="label">delegate</string>
-						<reference key="source" ref="513066779"/>
-						<reference key="destination" ref="648578312"/>
-					</object>
-					<int key="connectionID">134</int>
-				</object>
-				<object class="IBConnectionRecord">
-					<object class="IBBindingConnection" key="connection">
-						<string key="label">value: selection.displayName</string>
-						<reference key="source" ref="938493126"/>
-						<reference key="destination" ref="995758560"/>
-						<object class="NSNibBindingConnector" key="connector">
-							<reference key="NSSource" ref="938493126"/>
-							<reference key="NSDestination" ref="995758560"/>
-							<string key="NSLabel">value: selection.displayName</string>
-							<string key="NSBinding">value</string>
-							<string key="NSKeyPath">selection.displayName</string>
-							<object class="NSDictionary" key="NSOptions">
-								<string key="NS.key.0">NSNoSelectionPlaceholder</string>
-								<string key="NS.object.0">No Active Document</string>
-							</object>
-							<int key="NSNibBindingConnectorVersion">2</int>
-						</object>
-					</object>
-					<int key="connectionID">135</int>
+					<int key="connectionID">45</int>
 				</object>
 			</array>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -560,301 +376,327 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">0</int>
 						<array key="object" id="0"/>
-						<reference key="children" ref="600442970"/>
+						<reference key="children" ref="762469677"/>
 						<nil key="parent"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">-2</int>
-						<reference key="object" ref="648578312"/>
+						<reference key="object" ref="573415418"/>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">File's Owner</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">-1</int>
-						<reference key="object" ref="670854563"/>
+						<reference key="object" ref="576872349"/>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">First Responder</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">5</int>
-						<reference key="object" ref="757304460"/>
+						<reference key="object" ref="971698656"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="564232792"/>
+							<reference ref="226970130"/>
 						</array>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">Window</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">6</int>
-						<reference key="object" ref="564232792"/>
+						<reference key="object" ref="226970130"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="744181924"/>
-							<reference ref="938493126"/>
-							<reference ref="927047048"/>
-							<reference ref="685371669"/>
-							<reference ref="224911809"/>
-							<reference ref="250272639"/>
-							<reference ref="538230523"/>
+							<reference ref="340359675"/>
+							<reference ref="1046966766"/>
+							<reference ref="392930858"/>
+							<reference ref="1039726381"/>
+							<reference ref="614294686"/>
 						</array>
-						<reference key="parent" ref="757304460"/>
+						<reference key="parent" ref="971698656"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">7</int>
-						<reference key="object" ref="744181924"/>
+						<reference key="object" ref="340359675"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="513066779"/>
-							<reference ref="30322772"/>
-							<reference ref="638191362"/>
+							<reference ref="464324790"/>
 						</array>
-						<reference key="parent" ref="564232792"/>
+						<reference key="parent" ref="226970130"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">8</int>
-						<reference key="object" ref="513066779"/>
+						<reference key="object" ref="1046966766"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="175337326"/>
+							<reference ref="475285300"/>
 						</array>
-						<reference key="parent" ref="744181924"/>
+						<reference key="parent" ref="226970130"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">9</int>
+						<reference key="object" ref="392930858"/>
+						<array class="NSMutableArray" key="children">
+							<reference ref="963778350"/>
+						</array>
+						<reference key="parent" ref="226970130"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">10</int>
-						<reference key="object" ref="175337326"/>
+						<reference key="object" ref="1039726381"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="70320652"/>
+							<reference ref="801766556"/>
 						</array>
-						<reference key="parent" ref="513066779"/>
+						<reference key="parent" ref="226970130"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">21</int>
-						<reference key="object" ref="70320652"/>
-						<reference key="parent" ref="175337326"/>
+						<int key="objectID">27</int>
+						<reference key="object" ref="614294686"/>
+						<reference key="parent" ref="226970130"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">29</int>
-						<reference key="object" ref="938493126"/>
+						<int key="objectID">26</int>
+						<reference key="object" ref="317206360"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="775221925"/>
+							<reference ref="840312465"/>
 						</array>
-						<reference key="parent" ref="564232792"/>
+						<reference key="parent" ref="0"/>
+						<string key="objectName">StatusView</string>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">30</int>
-						<reference key="object" ref="927047048"/>
+						<reference key="object" ref="840312465"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="370475130"/>
+							<reference ref="592556107"/>
 						</array>
-						<reference key="parent" ref="564232792"/>
+						<reference key="parent" ref="317206360"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">31</int>
-						<reference key="object" ref="685371669"/>
+						<int key="objectID">29</int>
+						<reference key="object" ref="38376052"/>
 						<array class="NSMutableArray" key="children">
-							<reference ref="280356951"/>
+							<reference ref="705615419"/>
+							<reference ref="943177025"/>
 						</array>
-						<reference key="parent" ref="564232792"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">34</int>
-						<reference key="object" ref="224911809"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="687558598"/>
-						</array>
-						<reference key="parent" ref="564232792"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">35</int>
-						<reference key="object" ref="250272639"/>
-						<reference key="parent" ref="564232792"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">95</int>
-						<reference key="object" ref="538230523"/>
-						<array class="NSMutableArray" key="children">
-							<reference ref="934704924"/>
-						</array>
-						<reference key="parent" ref="564232792"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">14</int>
-						<reference key="object" ref="417352533"/>
 						<reference key="parent" ref="0"/>
+						<string key="objectName">DecisionView</string>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">42</int>
-						<reference key="object" ref="848496415"/>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">LoggingStateObjectController</string>
+						<int key="objectID">32</int>
+						<reference key="object" ref="705615419"/>
+						<array class="NSMutableArray" key="children">
+							<reference ref="1072711361"/>
+						</array>
+						<reference key="parent" ref="38376052"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">33</int>
+						<reference key="object" ref="943177025"/>
+						<array class="NSMutableArray" key="children">
+							<reference ref="645961675"/>
+						</array>
+						<reference key="parent" ref="38376052"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">49</int>
+						<reference key="object" ref="464324790"/>
+						<reference key="parent" ref="340359675"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">50</int>
-						<reference key="object" ref="995758560"/>
-						<reference key="parent" ref="0"/>
-						<string key="objectName">DocumentObjectController</string>
+						<reference key="object" ref="475285300"/>
+						<reference key="parent" ref="1046966766"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">137</int>
-						<reference key="object" ref="775221925"/>
-						<reference key="parent" ref="938493126"/>
+						<int key="objectID">51</int>
+						<reference key="object" ref="963778350"/>
+						<reference key="parent" ref="392930858"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">138</int>
-						<reference key="object" ref="370475130"/>
-						<reference key="parent" ref="927047048"/>
+						<int key="objectID">52</int>
+						<reference key="object" ref="801766556"/>
+						<reference key="parent" ref="1039726381"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">139</int>
-						<reference key="object" ref="280356951"/>
-						<reference key="parent" ref="685371669"/>
+						<int key="objectID">53</int>
+						<reference key="object" ref="592556107"/>
+						<reference key="parent" ref="840312465"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">140</int>
-						<reference key="object" ref="687558598"/>
-						<reference key="parent" ref="224911809"/>
+						<int key="objectID">54</int>
+						<reference key="object" ref="1072711361"/>
+						<reference key="parent" ref="705615419"/>
 					</object>
 					<object class="IBObjectRecord">
-						<int key="objectID">141</int>
-						<reference key="object" ref="934704924"/>
-						<reference key="parent" ref="538230523"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">142</int>
-						<reference key="object" ref="30322772"/>
-						<reference key="parent" ref="744181924"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">143</int>
-						<reference key="object" ref="638191362"/>
-						<reference key="parent" ref="744181924"/>
+						<int key="objectID">55</int>
+						<reference key="object" ref="645961675"/>
+						<reference key="parent" ref="943177025"/>
 					</object>
 					<object class="IBObjectRecord">
 						<int key="objectID">-3</int>
-						<reference key="object" ref="1024537875"/>
+						<reference key="object" ref="1009628981"/>
 						<reference key="parent" ref="0"/>
 						<string key="objectName">Application</string>
 					</object>
 				</array>
 			</object>
 			<dictionary class="NSMutableDictionary" key="flattenedProperties">
-				<string key="-3.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<string key="10.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="YES" key="10.ImportedFromIB2"/>
-				<string key="137.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="138.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="139.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="14.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="14.ImportedFromIB2"/>
-				<string key="140.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="141.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="142.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="142.IBShouldRemoveOnLegacySave"/>
-				<string key="143.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="143.IBShouldRemoveOnLegacySave"/>
-				<string key="21.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="21.ImportedFromIB2"/>
+				<string key="26.IBEditorWindowLastContentRect">{{0, 1514}, {340, 31}}</string>
+				<string key="26.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<boolean value="YES" key="26.ImportedFromIB2"/>
+				<string key="27.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<boolean value="YES" key="27.ImportedFromIB2"/>
+				<string key="29.IBEditorWindowLastContentRect">{{21, 1491}, {340, 31}}</string>
 				<string key="29.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="YES" key="29.ImportedFromIB2"/>
 				<string key="30.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="YES" key="30.ImportedFromIB2"/>
-				<string key="31.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="31.ImportedFromIB2"/>
-				<string key="34.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="34.ImportedFromIB2"/>
-				<object class="NSMutableDictionary" key="35.IBAttributePlaceholdersKey">
-					<string key="NS.key.0">ToolTip</string>
-					<object class="IBToolTipAttribute" key="NS.object.0">
-						<string key="name">ToolTip</string>
-						<reference key="object" ref="250272639"/>
-						<string key="toolTip">Click to change time scale</string>
-					</object>
-				</object>
-				<string key="35.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="35.ImportedFromIB2"/>
-				<string key="42.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="42.ImportedFromIB2"/>
-				<string key="5.IBEditorWindowLastContentRect">{{0, 422}, {262, 412}}</string>
+				<string key="32.CustomClassName">HUDButton</string>
+				<string key="32.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<boolean value="YES" key="32.ImportedFromIB2"/>
+				<string key="33.CustomClassName">HUDButton</string>
+				<string key="33.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<boolean value="YES" key="33.ImportedFromIB2"/>
+				<string key="5.IBEditorWindowLastContentRect">{{47, 1304}, {353, 111}}</string>
 				<string key="5.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<string key="5.IBWindowTemplateEditedContentRect">{{0, 422}, {262, 412}}</string>
+				<string key="5.IBWindowTemplateEditedContentRect">{{47, 1304}, {353, 111}}</string>
 				<boolean value="YES" key="5.ImportedFromIB2"/>
 				<boolean value="YES" key="5.windowTemplate.hasMinSize"/>
-				<string key="5.windowTemplate.minSize">{240, 350}</string>
-				<string key="50.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="50.ImportedFromIB2"/>
+				<string key="5.windowTemplate.minSize">{264, 100}</string>
 				<string key="6.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="YES" key="6.ImportedFromIB2"/>
-				<string key="7.CustomClassName">BGHUDScrollView</string>
 				<string key="7.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="YES" key="7.ImportedFromIB2"/>
-				<string key="8.CustomClassName">HMBlkTableView</string>
 				<string key="8.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
 				<boolean value="YES" key="8.ImportedFromIB2"/>
-				<object class="NSMutableDictionary" key="95.IBAttributePlaceholdersKey">
-					<string key="NS.key.0">ToolTip</string>
-					<object class="IBToolTipAttribute" key="NS.object.0">
-						<string key="name">ToolTip</string>
-						<reference key="object" ref="538230523"/>
-						<string key="toolTip">Switch between absolute and relative values</string>
-					</object>
-				</object>
-				<string key="95.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
-				<boolean value="YES" key="95.ImportedFromIB2"/>
+				<string key="9.IBPluginDependency">com.apple.InterfaceBuilder.CocoaPlugin</string>
+				<boolean value="YES" key="9.ImportedFromIB2"/>
 			</dictionary>
 			<dictionary class="NSMutableDictionary" key="unlocalizedProperties"/>
 			<nil key="activeLocalization"/>
 			<dictionary class="NSMutableDictionary" key="localizations"/>
 			<nil key="sourceID"/>
-			<int key="maxID">143</int>
+			<int key="maxID">55</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<array class="NSMutableArray" key="referencedPartialClassDescriptions">
 				<object class="IBPartialClassDescription">
-					<string key="className">FirstResponder</string>
-					<string key="superclassName">NSObject</string>
+					<string key="className">DocumentProxyWindowController</string>
+					<string key="superclassName">NSWindowController</string>
 					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">:</string>
+						<string key="NS.key.0">acceptAction:</string>
 						<string key="NS.object.0">id</string>
 					</object>
 					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">:</string>
+						<string key="NS.key.0">acceptAction:</string>
 						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">:</string>
+							<string key="name">acceptAction:</string>
 							<string key="candidateClassName">id</string>
 						</object>
 					</object>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBUserSource</string>
-						<string key="minorKey"/>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">HMBlkTableView</string>
-					<string key="superclassName">NSTableView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBUserSource</string>
-						<string key="minorKey"/>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">HUDStatisticGraphView</string>
-					<string key="superclassName">NSView</string>
-					<object class="NSMutableDictionary" key="outlets">
-						<string key="NS.key.0">statisticsEntryContainer</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<string key="NS.key.0">statisticsEntryContainer</string>
-						<object class="IBToOneOutletInfo" key="NS.object.0">
-							<string key="name">statisticsEntryContainer</string>
-							<string key="candidateClassName">id</string>
+					<dictionary class="NSMutableDictionary" key="outlets">
+						<string key="O_acceptButton">NSButton</string>
+						<string key="O_bottomCustomView">NSView</string>
+						<string key="O_bottomDecisionView">NSView</string>
+						<string key="O_bottomStatusView">NSView</string>
+						<string key="O_containerView">NSView</string>
+						<string key="O_declineButton">NSButton</string>
+						<string key="O_documentImageView">NSImageView</string>
+						<string key="O_documentTitleTextField">NSTextField</string>
+						<string key="O_statusBarTextField">NSTextField</string>
+						<string key="O_userImageView">NSImageView</string>
+						<string key="O_userNameTextField">NSTextField</string>
+					</dictionary>
+					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
+						<object class="IBToOneOutletInfo" key="O_acceptButton">
+							<string key="name">O_acceptButton</string>
+							<string key="candidateClassName">NSButton</string>
 						</object>
-					</object>
+						<object class="IBToOneOutletInfo" key="O_bottomCustomView">
+							<string key="name">O_bottomCustomView</string>
+							<string key="candidateClassName">NSView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="O_bottomDecisionView">
+							<string key="name">O_bottomDecisionView</string>
+							<string key="candidateClassName">NSView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="O_bottomStatusView">
+							<string key="name">O_bottomStatusView</string>
+							<string key="candidateClassName">NSView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="O_containerView">
+							<string key="name">O_containerView</string>
+							<string key="candidateClassName">NSView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="O_declineButton">
+							<string key="name">O_declineButton</string>
+							<string key="candidateClassName">NSButton</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="O_documentImageView">
+							<string key="name">O_documentImageView</string>
+							<string key="candidateClassName">NSImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="O_documentTitleTextField">
+							<string key="name">O_documentTitleTextField</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="O_statusBarTextField">
+							<string key="name">O_statusBarTextField</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="O_userImageView">
+							<string key="name">O_userImageView</string>
+							<string key="candidateClassName">NSImageView</string>
+						</object>
+						<object class="IBToOneOutletInfo" key="O_userNameTextField">
+							<string key="name">O_userNameTextField</string>
+							<string key="candidateClassName">NSTextField</string>
+						</object>
+					</dictionary>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">HUDStatisticGraphView.h</string>
+						<string key="minorKey">DocumentProxyWindowController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">HUDStatisticGraphView</string>
+					<string key="className">DocumentProxyWindowController</string>
+					<string key="superclassName">NSWindowController</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBUserSource</string>
+						<string key="minorKey"/>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">FirstClickCustomView</string>
 					<string key="superclassName">NSView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">FirstClickCustomView.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">FirstClickCustomView</string>
+					<string key="superclassName">NSView</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBUserSource</string>
+						<string key="minorKey"/>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">FirstResponder</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBUserSource</string>
+						<string key="minorKey"/>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">HUDButton</string>
+					<string key="superclassName">NSButton</string>
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
+						<string key="majorKey">IBProjectSource</string>
+						<string key="minorKey">HUDButton.h</string>
+					</object>
+				</object>
+				<object class="IBPartialClassDescription">
+					<string key="className">HUDButton</string>
+					<string key="superclassName">NSButton</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBUserSource</string>
 						<string key="minorKey"/>
@@ -865,22 +707,6 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">NSApplicationTCMAdditions.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSApplication</string>
-					<string key="superclassName">NSResponder</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBUserSource</string>
-						<string key="minorKey"/>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSCell</string>
-					<string key="superclassName">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBUserSource</string>
-						<string key="minorKey"/>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -997,7 +823,7 @@
 							<string key="candidateClassName">TCMHost</string>
 						</object>
 					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="860718722">
+					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="225937669">
 						<string key="majorKey">IBProjectSource</string>
 						<string key="minorKey">TCMHost.h</string>
 					</object>
@@ -1045,29 +871,6 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBUserSource</string>
-						<string key="minorKey"/>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSScroller</string>
-					<string key="superclassName">NSControl</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBUserSource</string>
-						<string key="minorKey"/>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSTableView</string>
-					<string key="superclassName">NSControl</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBUserSource</string>
-						<string key="minorKey"/>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
 					<string key="className">NSWindow</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBProjectSource</string>
@@ -1095,83 +898,7 @@
 							<string key="candidateClassName">id</string>
 						</object>
 					</object>
-					<reference key="sourceIdentifier" ref="860718722"/>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">UserStatisticsController</string>
-					<string key="superclassName">NSWindowController</string>
-					<object class="NSMutableDictionary" key="actions">
-						<string key="NS.key.0">togglePercentage:</string>
-						<string key="NS.object.0">id</string>
-					</object>
-					<object class="NSMutableDictionary" key="actionInfosByName">
-						<string key="NS.key.0">togglePercentage:</string>
-						<object class="IBActionInfo" key="NS.object.0">
-							<string key="name">togglePercentage:</string>
-							<string key="candidateClassName">id</string>
-						</object>
-					</object>
-					<dictionary class="NSMutableDictionary" key="outlets">
-						<string key="O_documentImageView">NSImageView</string>
-						<string key="O_documentNameTextField">NSTextField</string>
-						<string key="O_documentObjectController">NSObjectController</string>
-						<string key="O_graphView">HUDStatisticGraphView</string>
-						<string key="O_loggingStateObjectController">NSObjectController</string>
-						<string key="O_percentageButton">NSButton</string>
-						<string key="O_statEntryArrayController">NSArrayController</string>
-						<string key="O_userTableView">NSTableView</string>
-						<string key="O_wordCountTextField">NSTextField</string>
-					</dictionary>
-					<dictionary class="NSMutableDictionary" key="toOneOutletInfosByName">
-						<object class="IBToOneOutletInfo" key="O_documentImageView">
-							<string key="name">O_documentImageView</string>
-							<string key="candidateClassName">NSImageView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="O_documentNameTextField">
-							<string key="name">O_documentNameTextField</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="O_documentObjectController">
-							<string key="name">O_documentObjectController</string>
-							<string key="candidateClassName">NSObjectController</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="O_graphView">
-							<string key="name">O_graphView</string>
-							<string key="candidateClassName">HUDStatisticGraphView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="O_loggingStateObjectController">
-							<string key="name">O_loggingStateObjectController</string>
-							<string key="candidateClassName">NSObjectController</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="O_percentageButton">
-							<string key="name">O_percentageButton</string>
-							<string key="candidateClassName">NSButton</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="O_statEntryArrayController">
-							<string key="name">O_statEntryArrayController</string>
-							<string key="candidateClassName">NSArrayController</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="O_userTableView">
-							<string key="name">O_userTableView</string>
-							<string key="candidateClassName">NSTableView</string>
-						</object>
-						<object class="IBToOneOutletInfo" key="O_wordCountTextField">
-							<string key="name">O_wordCountTextField</string>
-							<string key="candidateClassName">NSTextField</string>
-						</object>
-					</dictionary>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBProjectSource</string>
-						<string key="minorKey">UserStatisticsController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">UserStatisticsController</string>
-					<string key="superclassName">NSWindowController</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBUserSource</string>
-						<string key="minorKey"/>
-					</object>
+					<reference key="sourceIdentifier" ref="225937669"/>
 				</object>
 			</array>
 			<array class="NSMutableArray" key="referencedPartialClassDescriptionsV3.2+">
@@ -1186,21 +913,21 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">NSApplication</string>
 					<string key="superclassName">NSResponder</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="374027880">
+					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="619184618">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">AppKit.framework/Headers/NSApplication.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">NSApplication</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="877030378">
+					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="975611539">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">AppKit.framework/Headers/NSApplicationScripting.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">NSApplication</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="288500514">
+					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="58734241">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">AppKit.framework/Headers/NSColorPanel.h</string>
 					</object>
@@ -1224,14 +951,6 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">AppKit.framework/Headers/NSUserInterfaceItemSearching.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSArrayController</string>
-					<string key="superclassName">NSObjectController</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">AppKit.framework/Headers/NSArrayController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -1261,17 +980,9 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">NSControl</string>
 					<string key="superclassName">NSView</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="404349653">
+					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="380212881">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">AppKit.framework/Headers/NSControl.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSController</string>
-					<string key="superclassName">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">AppKit.framework/Headers/NSController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
@@ -1301,7 +1012,7 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">NSMenu</string>
 					<string key="superclassName">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="441479915">
+					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="830649882">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">AppKit.framework/Headers/NSMenu.h</string>
 					</object>
@@ -1322,19 +1033,19 @@
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">NSObject</string>
-					<reference key="sourceIdentifier" ref="374027880"/>
+					<reference key="sourceIdentifier" ref="619184618"/>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">NSObject</string>
-					<reference key="sourceIdentifier" ref="877030378"/>
+					<reference key="sourceIdentifier" ref="975611539"/>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">NSObject</string>
-					<reference key="sourceIdentifier" ref="288500514"/>
+					<reference key="sourceIdentifier" ref="58734241"/>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">NSObject</string>
-					<reference key="sourceIdentifier" ref="404349653"/>
+					<reference key="sourceIdentifier" ref="380212881"/>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">NSObject</string>
@@ -1373,7 +1084,7 @@
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">NSObject</string>
-					<reference key="sourceIdentifier" ref="441479915"/>
+					<reference key="sourceIdentifier" ref="830649882"/>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">NSObject</string>
@@ -1405,7 +1116,7 @@
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="153249818">
+					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">AppKit.framework/Headers/NSTableView.h</string>
 					</object>
@@ -1419,7 +1130,7 @@
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="257652878">
+					<object class="IBClassDescriptionSource" key="sourceIdentifier" id="952019997">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">AppKit.framework/Headers/NSView.h</string>
 					</object>
@@ -1649,14 +1360,6 @@
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
-					<string key="className">NSObjectController</string>
-					<string key="superclassName">NSController</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">AppKit.framework/Headers/NSObjectController.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
 					<string key="className">NSPanel</string>
 					<string key="superclassName">NSWindow</string>
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
@@ -1678,27 +1381,6 @@
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">AppKit.framework/Headers/NSResponder.h</string>
 					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSScroller</string>
-					<string key="superclassName">NSControl</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">AppKit.framework/Headers/NSScroller.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSTableColumn</string>
-					<string key="superclassName">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">AppKit.framework/Headers/NSTableColumn.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSTableView</string>
-					<string key="superclassName">NSControl</string>
-					<reference key="sourceIdentifier" ref="153249818"/>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">NSTextField</string>
@@ -1740,7 +1422,7 @@
 				<object class="IBPartialClassDescription">
 					<string key="className">NSView</string>
 					<string key="superclassName">NSResponder</string>
-					<reference key="sourceIdentifier" ref="257652878"/>
+					<reference key="sourceIdentifier" ref="952019997"/>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">NSWindow</string>
@@ -1799,8 +1481,7 @@
 		<string key="IBDocument.LastKnownRelativeProjectPath">../SubEthaEdit.xcodeproj</string>
 		<int key="IBDocument.defaultPropertyAccessControl">3</int>
 		<dictionary class="NSMutableDictionary" key="IBDocument.LastKnownImageSizes">
-			<string key="HUDRelative-1">{14, 15}</string>
-			<string key="HUDRelative-2">{14, 15}</string>
+			<string key="SubEthaEdit">{512, 512}</string>
 			<string key="SubEthaEditFiles">{512, 512}</string>
 		</dictionary>
 	</data>
