@@ -10,7 +10,7 @@ modified = hash[-1] == ?+
 rev = rev.to_i + amount_to_add_to_rev
 rev = rev.to_s + "+" if modified
 
-new_version = rev + ":" + hash
+new_version = rev.to_s + ":" + hash
 
 #convert already preprocessed plist from binary format
 plist_file = "#{ENV['BUILT_PRODUCTS_DIR']}/#{ENV['INFOPLIST_PATH']}"

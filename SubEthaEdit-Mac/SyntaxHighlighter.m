@@ -80,7 +80,7 @@ static  NSMutableDictionary *S_transientRegexCache = nil;
 
 static unsigned int trimmedStartOnLevel = UINT_MAX;
 
--(void)highlightAttributedString:(NSMutableAttributedString *)aString inRange:(NSRange)aRange 
+-(void)highlightAttributedString:(NSMutableAttributedString *)aString inRange:(NSRange)aRange ofDocument:(id)theDocument
 {    
     SyntaxDefinition *definition = [self syntaxDefinition];
     if (!definition) NSLog(@"ERROR: No defintion for highlighter.");
@@ -141,6 +141,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 
         stateDelimiter = [currentState objectForKey:@"Combined Delimiter Regex"];
 		// If using transcendence we have to compile on the fly.
+	@synchronized ([SyntaxHighlighter class]) {
 		if (!stateDelimiter) {
 			NSString *combinedDelimiterString = [[stack lastObject] objectForKey:@"combinedDelimiterString"];
             stateDelimiter = [S_transientRegexCache objectForKey:combinedDelimiterString];
@@ -151,6 +152,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
                 }
 			}
 		}
+	}
         
         NSRange delimiterRange, stateRange, startRange, nextRange;
 //        BOOL foundEnd = NO;
@@ -405,7 +407,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 
         currentRange = nextRange;
         foldingDepth = newFoldingDepth;
-        [syntaxPool release];
+        [syntaxPool drain];
     } while (currentRange.length>0);
     
     // Check if the string after the area we just colored matches up
@@ -508,7 +510,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
     NSRange chunkRange;
     id correct;
     
-    theDocument = sender;
+    id theDocument = sender;
     [aTextStorage beginEditing];
     if ([aTextStorage respondsToSelector:@selector(beginLinearAttributeChanges)]) [(id)aTextStorage beginLinearAttributeChanges];
     
@@ -555,7 +557,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
                 
                 //DEBUGLOG(@"SyntaxHighlighterDomain", SimpleLogLevel, @"Chunk #%d, Dirty: %@, Chunk: %@", chunks, NSStringFromRange(dirtyRange),NSStringFromRange(chunkRange));
 				
-                [self highlightAttributedString:aTextStorage inRange:chunkRange];
+                [self highlightAttributedString:aTextStorage inRange:chunkRange ofDocument:theDocument];
                 
                 if ((((double)(clock()-start_time))/CLOCKS_PER_SEC) > return_after) {
                     DEBUGLOG(@"SyntaxHighlighterDomain", SimpleLogLevel, @"Coloring took too long, aborting after %f seconds",(((double)(clock()-start_time))/CLOCKS_PER_SEC));

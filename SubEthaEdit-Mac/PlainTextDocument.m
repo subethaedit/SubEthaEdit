@@ -196,6 +196,10 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 	}
 }
 
++ (BOOL)canConcurrentlyReadDocumentsOfType:(NSString *)aTypeName {
+	return YES;
+}
+
 + (PlainTextDocument *)transientDocument
 {
     return transientDocument;
@@ -1161,27 +1165,31 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (void)adjustModeMenu {
-    NSMenu *modeMenu=[[[NSApp mainMenu] itemWithTag:ModeMenuTag] submenu];
-    // remove all items that don't belong here anymore
-    int index = [modeMenu indexOfItemWithTag:HighlightSyntaxMenuTag];
-    index+=1; 
-    while (index < [modeMenu numberOfItems]) {
-        [modeMenu removeItemAtIndex:index];
-    }
-    // check if mode has items
-    NSArray *itemArray = [[self documentMode] scriptMenuItemArray];
-    if ([itemArray count]) {
-        [modeMenu addItem:[NSMenuItem separatorItem]];
-        NSMenuItem   *menuItem = nil;
-        NSImage *scriptMenuItemIcon=[NSImage imageNamed:@"ScriptMenuItemIcon"];
-        for (menuItem in itemArray) {
-            NSMenuItem *item=[menuItem autoreleasedCopy];
-            [item setImage:scriptMenuItemIcon];
-            [modeMenu addItem:item];
-            [item setKeyEquivalent:[menuItem keyEquivalent]];
-            [item setKeyEquivalentModifierMask:[menuItem keyEquivalentModifierMask]];
-        }
-    }
+	if (![NSThread isMainThread]) {
+		[self performSelectorOnMainThread:@selector(adjustModeMenu) withObject:nil waitUntilDone:NO];
+	} else {
+		NSMenu *modeMenu=[[[NSApp mainMenu] itemWithTag:ModeMenuTag] submenu];
+		// remove all items that don't belong here anymore
+		int index = [modeMenu indexOfItemWithTag:HighlightSyntaxMenuTag];
+		index+=1; 
+		while (index < [modeMenu numberOfItems]) {
+			[modeMenu removeItemAtIndex:index];
+		}
+		// check if mode has items
+		NSArray *itemArray = [[self documentMode] scriptMenuItemArray];
+		if ([itemArray count]) {
+			[modeMenu addItem:[NSMenuItem separatorItem]];
+			NSMenuItem   *menuItem = nil;
+			NSImage *scriptMenuItemIcon=[NSImage imageNamed:@"ScriptMenuItemIcon"];
+			for (menuItem in itemArray) {
+				NSMenuItem *item=[menuItem autoreleasedCopy];
+				[item setImage:scriptMenuItemIcon];
+				[modeMenu addItem:item];
+				[item setKeyEquivalent:[menuItem keyEquivalent]];
+				[item setKeyEquivalentModifierMask:[menuItem keyEquivalentModifierMask]];
+			}
+		}
+	}
 }
 
 
