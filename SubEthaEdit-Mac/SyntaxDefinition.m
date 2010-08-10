@@ -632,6 +632,7 @@
 }
 
 - (void) getReady {
+	@synchronized(self) {
     if (!I_combinedStateRegexReady && !I_combinedStateRegexCalculating) [self calculateCombinedStateRegexes];
 	[self addStyleIDsFromState:[self defaultState]];
     if (!I_cacheStylesReady && !I_cacheStylesCalculating) [self cacheStyles];
@@ -641,6 +642,7 @@
         //		NSLog(@"Defaultstate: Sym:%@, Auto:%@", [[self defaultState] objectForKey:[self keyForInheritedSymbols]],[[self defaultState] objectForKey:[self keyForInheritedAutocomplete]]);
 	}
 	//NSLog(@"foo: %@", [I_defaultSyntaxStyle allKeys]);
+	}
 }
 
 - (NSMutableDictionary *)stateForID:(NSString *)aString {

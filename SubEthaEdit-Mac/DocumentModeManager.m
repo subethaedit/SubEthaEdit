@@ -150,8 +150,8 @@ static DocumentModeManager *S_sharedInstance=nil;
         if (self) {
             I_modeBundles=[NSMutableDictionary new];
             I_documentModesByIdentifier =[NSMutableDictionary new];
-#if defined(CODA)
 			I_documentModesByIdentifierLock = [NSRecursiveLock new]; // ifc - experimental locking... awaiting real fix from TCM
+#if defined(CODA)
             I_modeIdentifiersByExtension=[NSMutableDictionary new];
 #endif //defined(CODA)
             I_modeIdentifiersTagArray   =[NSMutableArray new];
@@ -172,8 +172,8 @@ static DocumentModeManager *S_sharedInstance=nil;
 - (void)dealloc {
     [I_modeBundles release];
     [I_documentModesByIdentifier release];
-#if defined(CODA)
 	[I_documentModesByIdentifierLock release]; // ifc - experimental locking... awaiting real fix from TCM
+#if defined(CODA)
     [I_modeIdentifiersByExtension release];
 #endif //defined(CODA)
     [super dealloc];
@@ -531,9 +531,8 @@ static DocumentModeManager *S_sharedInstance=nil;
 }
 
 - (DocumentMode *)documentModeForIdentifier:(NSString *)anIdentifier {
-#if defined(CODA)
 	[I_documentModesByIdentifierLock lock]; // ifc - experimental
-#endif //defined(CODA)
+
     NSBundle *bundle=[I_modeBundles objectForKey:anIdentifier];
     if (bundle) {
         DocumentMode *mode=[I_documentModesByIdentifier objectForKey:anIdentifier];
@@ -551,14 +550,11 @@ static DocumentModeManager *S_sharedInstance=nil;
             } else return nil;
             [self resolveAllDependenciesForMode:mode];
         }
-#if defined(CODA)
-			[I_documentModesByIdentifierLock unlock]; // ifc - experimental
-#endif //defined(CODA)
+
+		[I_documentModesByIdentifierLock unlock]; // ifc - experimental
         return mode;
     } else {
-#if defined(CODA)
-			[I_documentModesByIdentifierLock unlock]; // ifc - experimental
-#endif //defined(CODA)
+		[I_documentModesByIdentifierLock unlock]; // ifc - experimental
         return nil;
     }
 }
