@@ -3596,7 +3596,7 @@
                 <keywords id="PHP Numbers" color="#00f" inverted-color="#5d56ff" useforautocomplete="no" scope="constant.numeric">
                     <regex>(?&lt;=[^\w\d]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
                 </keywords>
-                <keywords id="FunctionRegex" color="#003369" useforautocomplete="no"scope="entity.name.function">
+                <keywords id="FunctionRegex" color="#003369" useforautocomplete="no" scope="entity.name.function">
                     <regex>([A-Za-z0-9_]+ *)\(</regex>
                 </keywords>
                 <keywords id="PHP Variables" color="#825900" useforautocomplete="no" scope="variable.other">
