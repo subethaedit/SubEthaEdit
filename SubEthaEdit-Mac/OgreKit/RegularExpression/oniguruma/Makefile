@@ -1,4 +1,4 @@
-ONIGURUMA_VERSION=onig-5.9.2
+ONIGURUMA_VERSION=onig-5.9.2-mt
 OS_VERSION=$(shell uname -r)
 UNIVERSAL_DIR=universal
 INTEL_DIR=intel

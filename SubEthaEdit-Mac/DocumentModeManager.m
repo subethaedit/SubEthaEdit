@@ -531,6 +531,10 @@ static DocumentModeManager *S_sharedInstance=nil;
 }
 
 - (DocumentMode *)documentModeForIdentifier:(NSString *)anIdentifier {
+    
+    // test - perform on main thread if we are not it first, so it gets loaded if necessary
+//    if (![NSThread isMainThread]) {[self performSelectorOnMainThread:@selector(documentModeForIdentifier:) withObject:anIdentifier waitUntilDone:YES];}
+    
 	[I_documentModesByIdentifierLock lock]; // ifc - experimental
 
     NSBundle *bundle=[I_modeBundles objectForKey:anIdentifier];

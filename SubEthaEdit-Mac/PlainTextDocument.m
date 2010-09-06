@@ -5743,8 +5743,12 @@ static NSString *S_measurementUnits;
                 delay = 0.3;
             }
         }
-        [self performSelector:@selector(highlightSyntaxLoop) withObject:nil afterDelay:delay];
-        I_flags.isPerformingSyntaxHighlighting=YES;
+        if ([NSThread isMainThread]) {
+	        [self performSelector:@selector(highlightSyntaxLoop) withObject:nil afterDelay:delay];
+			I_flags.isPerformingSyntaxHighlighting=YES;
+		} else {
+			[self performSelectorOnMainThread:@selector(performHighlightSyntax) withObject:nil waitUntilDone:NO];
+		}
     }
 }
 
