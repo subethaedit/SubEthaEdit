@@ -56,6 +56,7 @@ static  NSMutableDictionary *S_transientRegexCache = nil;
         [self setSyntaxDefinition:aSyntaxDefinition];
         //NSLog(@"Using onigruma %@",[OGRegularExpression onigurumaVersion]);
         if (!S_transientRegexCache) S_transientRegexCache = [NSMutableDictionary new];
+		I_stringLock = [NSLock new];
     }
     DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Initiated new SyntaxHighlighter:%@",[self description]);
     return self;
@@ -108,7 +109,11 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 
     // Clean up state attributes in the string we work on now
 	NSArray *attributesToCleanup = [NSArray arrayWithObjects:kSyntaxHighlightingStackName,kSyntaxHighlightingStateDelimiterName,kSyntaxHighlightingFoldDelimiterName,kSyntaxHighlightingScopenameAttributeName,kSyntaxHighlightingTypeAttributeName,kSyntaxHighlightingParentModeForSymbolsAttributeName,kSyntaxHighlightingParentModeForAutocompleteAttributeName,kSyntaxHighlightingIsCorrectAttributeName,kSyntaxHighlightingFoldingDepthAttributeName,NSLinkAttributeName,kSyntaxHighlightingIsTrimmedStartAttributeName,nil];
-    [aString removeAttributes:attributesToCleanup range:aRange];
+	@synchronized ([SyntaxHighlighter class]) {
+		[I_stringLock lock];
+		[aString removeAttributes:attributesToCleanup range:aRange];
+		[I_stringLock unlock];
+	}
 
     NSMutableDictionary *scratchAttributes = [NSMutableDictionary dictionary];
 
@@ -227,11 +232,16 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 				}
                 
                 unsigned int level = [stack count];
+				
                 if ((level==trimmedStartOnLevel+1)||(level==trimmedStartOnLevel)) { // Was previous start a trimmed one?
+					[I_stringLock lock];
+					[aString removeAttribute:kSyntaxHighlightingFoldDelimiterName range:delimiterRange];
+					[I_stringLock unlock];
+				} else if (level>trimmedStartOnLevel+1) {
+					[I_stringLock lock];
+					[aString removeAttribute:kSyntaxHighlightingFoldDelimiterName range:stateRange];
                     [aString removeAttribute:kSyntaxHighlightingFoldDelimiterName range:delimiterRange];
-                } else if (level>trimmedStartOnLevel+1) {
-                    [aString removeAttribute:kSyntaxHighlightingFoldDelimiterName range:stateRange];
-                    [aString removeAttribute:kSyntaxHighlightingFoldDelimiterName range:delimiterRange];
+					[I_stringLock unlock];
                 }
                 
                 [scratchAttributes removeAllObjects];
@@ -258,8 +268,10 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
                     trimmedStartOnLevel = [stack count];
                 }
 
+				[I_stringLock lock];
                 [aString addAttributes:scratchAttributes range:delimiterRange];
-                
+				[I_stringLock unlock];
+
             } else { // Found end of current state
                 //NSLog(@"Found an end: '%@' current range: %@",[[aString string] substringWithRange:delimiterRange], NSStringFromRange(currentRange));
                 
@@ -268,7 +280,9 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
                 
                 unsigned int level = [stack count];
                 if (level>trimmedStartOnLevel) {
+					[I_stringLock lock];
                     [aString removeAttribute:kSyntaxHighlightingFoldDelimiterName range:stateRange];
+					[I_stringLock unlock];
                 } else {
                     trimmedStartOnLevel = UINT_MAX;
                 }
@@ -288,8 +302,9 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
                 if ((typeAttributeString=[currentState objectForKey:@"scope"]))
 					[scratchAttributes setObject:typeAttributeString forKey:kSyntaxHighlightingScopenameAttributeName];
                 else [scratchAttributes removeObjectForKey:kSyntaxHighlightingScopenameAttributeName];
-                
+				[I_stringLock lock];
                 [aString addAttributes:scratchAttributes range:delimiterRange];
+				[I_stringLock unlock];
                 savedStack = [[stack copy] autorelease];
                 [stack removeLastObject]; // Default state doesn't have an end, stack is always > 0
             }
@@ -339,7 +354,9 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
         }
 
         //NSLog(@"Adding scratchAttributes");
+		[I_stringLock lock];
         [aString addAttributes:scratchAttributes range:stateRange];
+		[I_stringLock unlock];
         
         //NSLog(@"Highlighting stuff");
 		if ( theDocument != nil && colorRange.length > 0 ) {
@@ -365,7 +382,10 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 				while ((aMatch = [matchEnumerator nextObject])) {
 					NSRange matchedRange = [aMatch rangeOfLastMatchSubstring];
 					if (matchedRange.location != NSNotFound) {
+						[I_stringLock lock];
 						[aString addAttributes:attributes range:matchedRange]; // only color last matched subgroup - it is important that all regex keywords have exactly and only one matching group for this to work
+						[I_stringLock unlock];
+
 						if ([attributes objectForKey:NSLinkAttributeName]) {
 							NSString *matchedString = [aMatch lastMatchSubstring];
 							NSString *linkPrefix = [keywordGroup objectForKey:@"uri-prefix"];
@@ -375,9 +395,11 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 							matchedString = [(NSString *)CFURLCreateStringByAddingPercentEscapes(NULL,(CFStringRef)matchedString, (CFStringRef) @"%&?=#", NULL, kCFStringEncodingUTF8) autorelease];
 							
 							NSURL *theURL = [NSURL URLWithString:matchedString];
-							
+							[I_stringLock lock];
 							if (theURL && ([theURL host] || ([[theURL scheme] length] > 0 && ![[theURL scheme] hasPrefix:@"http"]))) [aString addAttribute:NSLinkAttributeName value:theURL range:matchedRange];
 							else [aString removeAttribute:NSLinkAttributeName range:matchedRange];
+							[I_stringLock unlock];
+
 						}
 					}
 				}
@@ -387,6 +409,13 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 		// highlight plain strings
 		// TODO: Migrate keywords to one precompiled regex and put into block above.
 
+//			dispatch_queue_t syntaxQueue;
+//			syntaxQueue = dispatch_queue_create("de.codingmonkeys.SubEthaEdit.SyntaxQueue", NULL);
+//			dispatch_queue_t mainQueue;
+//			mainQueue = dispatch_get_main_queue();
+//
+//			
+//        dispatch_async(mainQueue, 
 		^ {
 			if (![definition hasTokensForState:currentStateID]) return;
 			
@@ -396,7 +425,11 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 		    NSString *styleID;
 			while ((aMatch = [matchEnumerator nextObject])) {
 				if ((styleID = [definition styleForToken:[aMatch matchedString] inState:currentStateID])) {
-					[aString addAttributes:[theDocument styleAttributesForStyleID:styleID] range:[aMatch rangeOfMatchedString]];
+//					dispatch_async(mainQueue, ^{
+						[I_stringLock lock];
+						[aString addAttributes:[theDocument styleAttributesForStyleID:styleID] range:[aMatch rangeOfMatchedString]];
+						[I_stringLock unlock];
+//					});
 				}
 			}				
 		}();
@@ -441,8 +474,11 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 
         if (!matchesUp) {
 			NSRange doesNotMatchRange = NSMakeRange(nextIndex,MIN(makeDirty,[theString length]-nextIndex));
+			[I_stringLock lock];
 			[aString removeAttributes:attributesToCleanup range:doesNotMatchRange];
-        }
+			[I_stringLock unlock];
+        
+		}
     }
 }
 
@@ -480,6 +516,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 - (void)updateStylesInTextStorage:(NSTextStorage *)aTextStorage ofDocument:(id)aSender {
     NSString *styleID;
     NSRange wholeRange=NSMakeRange(0,[aTextStorage length]);
+	[I_stringLock lock];
     [aTextStorage beginEditing];
     NSRange foundRange;
     NSUInteger position=0;
@@ -492,6 +529,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
         position=NSMaxRange(foundRange);
     }
     [aTextStorage endEditing];
+	[I_stringLock unlock];
 }
 
 /*"Colorizes at least one chunk of the TextStorage, returns NO if there is still work to do
@@ -511,13 +549,19 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
     id correct;
     
     id theDocument = sender;
+
+	[I_stringLock lock];    
     [aTextStorage beginEditing];
     if ([aTextStorage respondsToSelector:@selector(beginLinearAttributeChanges)]) [(id)aTextStorage beginLinearAttributeChanges];
+	[I_stringLock unlock];    
+
     
     NSUInteger position;
     position=0;
     while (position<NSMaxRange(textRange)) {
-        correct=[aTextStorage attribute:kSyntaxHighlightingIsCorrectAttributeName atIndex:position longestEffectiveRange:&dirtyRange inRange:textRange];
+		[I_stringLock lock];
+		correct=[aTextStorage attribute:kSyntaxHighlightingIsCorrectAttributeName atIndex:position longestEffectiveRange:&dirtyRange inRange:textRange];
+		[I_stringLock unlock];
         if (!correct) {
 //        	NSLog(@"%s found a dirty range: %@",__FUNCTION__,NSStringFromRange(dirtyRange));
             while (YES) {
@@ -556,9 +600,10 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 
                 
                 //DEBUGLOG(@"SyntaxHighlighterDomain", SimpleLogLevel, @"Chunk #%d, Dirty: %@, Chunk: %@", chunks, NSStringFromRange(dirtyRange),NSStringFromRange(chunkRange));
+								
+				[self highlightAttributedString:aTextStorage inRange:chunkRange ofDocument:theDocument];
 				
-                [self highlightAttributedString:aTextStorage inRange:chunkRange ofDocument:theDocument];
-                
+								   
                 if ((((double)(clock()-start_time))/CLOCKS_PER_SEC) > return_after) {
                     DEBUGLOG(@"SyntaxHighlighterDomain", SimpleLogLevel, @"Coloring took too long, aborting after %f seconds",(((double)(clock()-start_time))/CLOCKS_PER_SEC));
                     returncontrol = YES;
@@ -593,10 +638,12 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
         textRange.location=position;
         textRange.length  =textRange.length-position;
     }
-    
+
+	[I_stringLock lock];    
     if ([aTextStorage respondsToSelector:@selector(endLinearAttributeChanges)]) [(id)aTextStorage endLinearAttributeChanges];
     [aTextStorage endEditing];
-    
+	[I_stringLock unlock];
+
     theDocument = nil; //Fixes a crasher accessing zombies
     
     return returnvalue;
@@ -611,11 +658,27 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 - (void)cleanUpTextStorage:(NSTextStorage *)aTextStorage inRange:(NSRange)aRange
 {
     [aTextStorage beginEditing];
+	[I_stringLock lock];
     if ([aTextStorage respondsToSelector:@selector(beginLinearAttributeChanges)]) [(id)aTextStorage beginLinearAttributeChanges];
     [aTextStorage removeAttributes:[NSArray arrayWithObjects:kSyntaxHighlightingIsCorrectAttributeName,kSyntaxHighlightingStackName,kSyntaxHighlightingStateDelimiterName,kSyntaxHighlightingScopenameAttributeName,kSyntaxHighlightingTypeAttributeName,kSyntaxHighlightingParentModeForAutocompleteAttributeName,kSyntaxHighlightingParentModeForSymbolsAttributeName,NSLinkAttributeName,kSyntaxHighlightingIsTrimmedStartAttributeName,nil] range:aRange];
     if ([aTextStorage respondsToSelector:@selector(endLinearAttributeChanges)]) [(id)aTextStorage endLinearAttributeChanges];
+	[I_stringLock unlock];
     [aTextStorage endEditing];
 }
 
 
 @end
+
+
+
+
+/*
+ 
+Ideas:
+ 
+- separted parsing from coloring.
+- data structure to represent stacks of ranges
+- color only visible code
+ 
+ 
+ */

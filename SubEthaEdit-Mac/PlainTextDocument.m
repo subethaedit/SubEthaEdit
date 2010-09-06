@@ -5753,6 +5753,12 @@ static NSString *S_measurementUnits;
 }
 
 - (void)highlightSyntaxLoop {
+	dispatch_queue_t syntaxQueue;
+	syntaxQueue = dispatch_queue_create("de.codingmonkeys.SubEthaEdit.SyntaxQueue", NULL);
+	dispatch_queue_t mainQueue;
+	mainQueue = dispatch_get_main_queue();
+
+	dispatch_async(mainQueue, ^{
     I_flags.isPerformingSyntaxHighlighting=NO;
     if (I_flags.highlightSyntax) {
         SyntaxHighlighter *highlighter=[I_documentMode syntaxHighlighter];
@@ -5771,6 +5777,7 @@ static NSString *S_measurementUnits;
         }
     }
 	[self triggerUpdateSymbolTableTimer];
+	});
 }
 
 #pragma mark -

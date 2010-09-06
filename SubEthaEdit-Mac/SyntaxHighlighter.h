@@ -31,6 +31,7 @@ extern NSString * const kSyntaxHighlightingTypeComment;
 @interface SyntaxHighlighter : NSObject {
     SyntaxDefinition *I_syntaxDefinition;
     NSMutableArray *I_parseStack;
+	NSLock *I_stringLock;
 }
 
 /*"Initizialisation"*/
