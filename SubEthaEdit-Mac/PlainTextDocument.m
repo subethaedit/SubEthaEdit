@@ -4814,6 +4814,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [[self plainTextEditors] makeObjectsPerformSelector:@selector(adjustDisplayOfPageGuide)];
 }
 
+
 - (NSDictionary *)styleAttributesForStyleID:(NSString *)aStyleID {
 	if (!aStyleID) {
 		NSLog(@"%s was called with a styleID of nil",__FUNCTION__);
@@ -4839,6 +4840,16 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 			spellingStyle = style;
 #endif //defined(CODA)
         }
+		
+		if (![style objectForKey:@"color"]) {
+			// This is a style without color, so fall back to scope color.
+			style = [I_styleCacheDictionary objectForKey:[style objectForKey:@"scope"]];
+			if (!style) style = [[documentMode syntaxStyle] styleForScope:[style objectForKey:@"scope"]];
+#if defined(CODA)
+			spellingStyle = style;
+#endif //defined(CODA)
+		}
+		
         NSFontTraitMask traits=[[style objectForKey:@"font-trait"] unsignedIntValue];
         NSFont *font=[self fontWithTrait:traits];
         BOOL synthesise=[[NSUserDefaults standardUserDefaults] boolForKey:SynthesiseFontsPreferenceKey];

@@ -327,6 +327,15 @@ static NSArray *S_possibleStyleColors;
     }
 }
 
+- (NSMutableDictionary *)styleForScope:(NSString *)aScope {
+    return [NSMutableDictionary dictionaryWithObjectsAndKeys:
+            [NSColor redColor],@"color",[NSColor redColor],@"inverted-color",
+            [NSColor whiteColor],@"background-color",[NSColor blackColor],@"inverted-background-color",
+            [NSNumber numberWithUnsignedInt:0],@"font-trait",
+            aScope,@"scope",
+            aScope,kSyntaxHighlightingStyleIDAttributeName,nil];
+#warning currently scope style is hardcoded, until there's UI
+}
 
 - (NSMutableDictionary *)styleForKey:(NSString *)aKey {
     return [I_styleDictionary objectForKey:aKey];
