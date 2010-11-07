@@ -376,6 +376,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
         //[self highlightPlainStringsOfAttributedString:aString inRange:colorRange forState:[currentState objectForKey:@"id"]];
 
 		// highlight regexes
+		// and keywords
 		
 		^{
 			NSString *theString = [aString string];
@@ -388,7 +389,9 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 				aRegex = [currentRegexStyle objectAtIndex:0];
 				NSString *styleID = [currentRegexStyle objectAtIndex:1];
 				NSDictionary *keywordGroup = [currentRegexStyle objectAtIndex:2]; // should probably be passed in a more verbose and quicker way via an object instead of dictionaries
-				NSDictionary *attributes=[theDocument styleAttributesForStyleID:styleID];                
+				NSDictionary *attributes=[theDocument styleAttributesForScope:[keywordGroup objectForKey:kSyntaxHighlightingScopenameAttributeName]];                
+				//NSDictionary *attributes=[theDocument styleAttributesForStyleID:styleID];  
+				//NSLog(@"scan %@",[keywordGroup objectForKey:@"id"]);
 				NSEnumerator *matchEnumerator = [[aRegex allMatchesInString:theString range:colorRange] objectEnumerator];
 				while ((aMatch = [matchEnumerator nextObject])) {
 					NSRange matchedRange = [aMatch rangeOfLastMatchSubstring];
@@ -427,7 +430,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 //
 //			
 //        dispatch_async(mainQueue, 
-		^ {
+/*		^ {
 			if (![definition hasTokensForState:currentStateID]) return;
 			
 			NSEnumerator *matchEnumerator = [[[definition tokenRegex] allMatchesInString:theString range:colorRange] objectEnumerator];
@@ -445,7 +448,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 			}				
 		}();
 
-
+*/
 		}
         //NSLog(@"Finished highlighting for this state %@ '%@'", [currentState objectForKey:@"id"], [[aString string] substringWithRange:colorRange]);
 

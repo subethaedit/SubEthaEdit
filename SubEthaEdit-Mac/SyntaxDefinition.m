@@ -315,14 +315,14 @@
         
         
         // Add strings for keyword group
-//        NSMutableString *combindedKeywordRegexString = [NSMutableString string];
-//        if (I_charsInToken) {
-//            [combindedKeywordRegexString appendFormat:@"(?<![%@])(",[I_charsInToken stringByReplacingRegularExpressionOperators]];
-//        } else if (I_charsDelimitingToken) {
-//            [combindedKeywordRegexString appendFormat:@"(?<=[%@])(",[I_charsDelimitingToken stringByReplacingRegularExpressionOperators]];
-//        } else {
-//            [combindedKeywordRegexString appendString:@"("]; 
-//        }
+        NSMutableString *combindedKeywordRegexString = [NSMutableString string];
+        if (I_charsInToken) {
+            [combindedKeywordRegexString appendFormat:@"(?<![%@])(",[I_charsInToken stringByReplacingRegularExpressionOperators]];
+        } else if (I_charsDelimitingToken) {
+            [combindedKeywordRegexString appendFormat:@"(?<=[%@])(",[I_charsDelimitingToken stringByReplacingRegularExpressionOperators]];
+        } else {
+            [combindedKeywordRegexString appendString:@"("]; 
+        }
                 
         BOOL autocomplete = [[keywordGroupDictionary objectForKey:@"useforautocomplete"] isEqualToString:@"yes"];
         NSMutableArray *autocompleteDictionary = [[self mode] autocompleteDictionary];
@@ -331,20 +331,20 @@
         id stringNode;
         while ((stringNode = [stringEnumerator nextObject])) {
             [strings addObject:[stringNode stringValue]];
-            //[combindedKeywordRegexString appendFormat:@"%@|",[[stringNode stringValue] stringByReplacingRegularExpressionOperators]];
+            [combindedKeywordRegexString appendFormat:@"%@|",[[stringNode stringValue] stringByReplacingRegularExpressionOperators]];
             if (autocomplete) [autocompleteDictionary addObject:[stringNode stringValue]];
         }
-//        if ([stringNodes count]>0) {
-//            [combindedKeywordRegexString replaceCharactersInRange:NSMakeRange([combindedKeywordRegexString length]-1, 1) withString:@")"];
-//            
-//            if (I_charsInToken) {
-//                [combindedKeywordRegexString appendFormat:@"(?![%@])",[I_charsInToken stringByReplacingRegularExpressionOperators]];
-//            } else if (I_charsDelimitingToken) {
-//                [combindedKeywordRegexString appendFormat:@"(?=[%@])",[I_charsDelimitingToken stringByReplacingRegularExpressionOperators]];
-//            }        
-//            
-//            [keywordGroupDictionary setObject:[[[OGRegularExpression alloc] initWithString:combindedKeywordRegexString options:OgreFindNotEmptyOption|OgreCaptureGroupOption] autorelease] forKey:@"CompiledKeywords"];
-//        }
+        if ([stringNodes count]>0) {
+            [combindedKeywordRegexString replaceCharactersInRange:NSMakeRange([combindedKeywordRegexString length]-1, 1) withString:@")"];
+            
+            if (I_charsInToken) {
+                [combindedKeywordRegexString appendFormat:@"(?![%@])",[I_charsInToken stringByReplacingRegularExpressionOperators]];
+            } else if (I_charsDelimitingToken) {
+                [combindedKeywordRegexString appendFormat:@"(?=[%@])",[I_charsDelimitingToken stringByReplacingRegularExpressionOperators]];
+            }        
+            
+            [keywordGroupDictionary setObject:[[[OGRegularExpression alloc] initWithString:combindedKeywordRegexString options:OgreFindNotEmptyOption|OgreCaptureGroupOption] autorelease] forKey:@"CompiledKeywords"];
+        }
     }
     
     if ([name isEqualToString:@"default"]) {        
@@ -455,20 +455,7 @@
             while ((keywordGroup = [groupEnumerator nextObject])) {
                 NSString *styleID=[keywordGroup objectForKey:kSyntaxHighlightingStyleIDAttributeName];
                 if ([keywordGroup objectForKey:@"CompiledRegEx"]) [newRegExArray addObject:[NSArray arrayWithObjects:[keywordGroup objectForKey:@"CompiledRegEx"], styleID, keywordGroup, nil]];
-                
-                
-                NSDictionary *keywords;
-                if ((keywords = [keywordGroup objectForKey:@"PlainStrings"])) {
-                    NSEnumerator *keywordEnumerator = [keywords objectEnumerator];
-                    NSString *keyword;
-                    while ((keyword = [keywordEnumerator nextObject])) {
-                        if([[keywordGroup objectForKey:@"casesensitive"] isEqualToString:@"no"]) {
-                            [newPlainIncaseDictionary setObject:styleID forKey:keyword];
-                        } else {
-                            [newPlainCaseDictionary setObject:styleID forKey:keyword];                
-                        }
-                    }
-                }
+				if ([[keywordGroup objectForKey:@"PlainStrings"]count]>0) [newRegExArray addObject:[NSArray arrayWithObjects:[keywordGroup objectForKey:@"CompiledKeywords"], styleID, keywordGroup, nil]];
                 
             
             }
@@ -786,6 +773,8 @@
 				if ([keyword objectForKey:styleKey]) [stateStyles setObject:[keyword objectForKey:styleKey] forKey:styleKey];
 			}
 			[scopeStyleDictionary setObject:stateStyles forKey:[keyword objectForKey:@"scope"]];
+		} else {
+			NSLog(@"DEBUG: Missing scope for %@", [keyword objectForKey:@"id"]);
 		}
 		
         [I_defaultSyntaxStyle takeValuesFromDictionary:keyword];

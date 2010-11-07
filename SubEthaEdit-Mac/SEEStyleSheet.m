@@ -34,7 +34,7 @@
 		
 		
 		
-		NSLog(@"foo %@",scopeStyleDictionary);
+		//NSLog(@"foo %@",scopeStyleDictionary);
 	}
 	return self;
 }
