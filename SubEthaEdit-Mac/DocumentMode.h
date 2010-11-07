@@ -82,6 +82,7 @@ extern NSString * const DocumentModeApplyStylePreferencesNotification;
 @class SyntaxDefinition;
 @class RegexSymbolParser;
 @class SyntaxStyle;
+@class SEEStyleSheet;
 
 @interface DocumentMode : NSObject <NSToolbarDelegate> {
     NSBundle *I_bundle;
@@ -92,6 +93,7 @@ extern NSString * const DocumentModeApplyStylePreferencesNotification;
     NSMutableArray *I_autocompleteDictionary;
     NSMutableDictionary *I_defaults;
     SyntaxStyle *I_syntaxStyle,*I_defaultSyntaxStyle;
+	SEEStyleSheet *I_styleSheet;
     NSMutableDictionary *I_scriptsByFilename;
     NSMutableArray *I_menuItemArray;
     NSMutableArray *I_contextMenuItemArray;

@@ -299,6 +299,9 @@
 		3134F7DE0CB13A2E00F8C116 /* Precedence_RemoveRollover.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3134F7DD0CB13A2E00F8C116 /* Precedence_RemoveRollover.tiff */; };
 		316A0D2A0C68A47100720268 /* DebugAttributeInspectorController.m in Sources */ = {isa = PBXBuildFile; fileRef = 316A0D280C68A47100720268 /* DebugAttributeInspectorController.m */; };
 		316A0D2B0C68A47100720268 /* DebugAttributesInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = 316A0D290C68A47100720268 /* DebugAttributesInspector.nib */; };
+		3170E46112846C670096089C /* SEEStyleSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 3170E46012846C670096089C /* SEEStyleSheet.m */; };
+		3170E4D4128715F20096089C /* SEEStyleSheet.h in Sources */ = {isa = PBXBuildFile; fileRef = 3170E45F12846C670096089C /* SEEStyleSheet.h */; };
+		3170E4D5128715F20096089C /* SEEStyleSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 3170E46012846C670096089C /* SEEStyleSheet.m */; };
 		3188F6800CAD13E0009E4C0B /* DNDArrayController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3188F6780CAD1218009E4C0B /* DNDArrayController.m */; };
 		319AAE3B0CB0165800ACDAB4 /* Precedence_Add.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 319AAE190CB015B300ACDAB4 /* Precedence_Add.tiff */; };
 		319AAE3C0CB0165800ACDAB4 /* Precedence_AddPressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 319AAE1A0CB015B300ACDAB4 /* Precedence_AddPressed.tiff */; };
@@ -1176,6 +1179,8 @@
 		316A0D270C68A47100720268 /* DebugAttributeInspectorController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DebugAttributeInspectorController.h; path = Debug/DebugAttributeInspectorController.h; sourceTree = "<group>"; };
 		316A0D280C68A47100720268 /* DebugAttributeInspectorController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = DebugAttributeInspectorController.m; path = Debug/DebugAttributeInspectorController.m; sourceTree = "<group>"; };
 		316A0D290C68A47100720268 /* DebugAttributesInspector.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = DebugAttributesInspector.nib; path = Debug/DebugAttributesInspector.nib; sourceTree = "<group>"; };
+		3170E45F12846C670096089C /* SEEStyleSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEStyleSheet.h; sourceTree = "<group>"; };
+		3170E46012846C670096089C /* SEEStyleSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEStyleSheet.m; sourceTree = "<group>"; };
 		3188F6780CAD1218009E4C0B /* DNDArrayController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DNDArrayController.m; sourceTree = "<group>"; };
 		3188F6790CAD1218009E4C0B /* DNDArrayController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DNDArrayController.h; sourceTree = "<group>"; };
 		319AAE190CB015B300ACDAB4 /* Precedence_Add.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Precedence_Add.tiff; path = artwork/Precedence_Add.tiff; sourceTree = "<group>"; };
@@ -1957,6 +1962,8 @@
 				142893C20957594500D14688 /* SyntaxHighlighter.m */,
 				142893C30957594500D14688 /* SyntaxStyle.h */,
 				142893C40957594500D14688 /* SyntaxStyle.m */,
+				3170E45F12846C670096089C /* SEEStyleSheet.h */,
+				3170E46012846C670096089C /* SEEStyleSheet.m */,
 			);
 			name = Mode;
 			sourceTree = "<group>";
@@ -3348,6 +3355,7 @@
 				F2CEAAA7100B3A350036B3F7 /* MAAttachedWindow.m in Sources */,
 				F2CEAAF1100B46150036B3F7 /* URLBubbleWindow.m in Sources */,
 				31FFC93D104E97A000E08256 /* NSErrorTCMAdditions.m in Sources */,
+				3170E46112846C670096089C /* SEEStyleSheet.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3355,6 +3363,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3170E4D4128715F20096089C /* SEEStyleSheet.h in Sources */,
+				3170E4D5128715F20096089C /* SEEStyleSheet.m in Sources */,
 				F2D86C2E0F8E7EFA00B912A2 /* SEPAppController.m in Sources */,
 				F2D86C510F8E811600B912A2 /* main.m in Sources */,
 				F2D86C7F0F8E849800B912A2 /* SEPLogger.m in Sources */,

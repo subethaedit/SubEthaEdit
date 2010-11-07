@@ -11,6 +11,7 @@
 #import "ModeSettings.h"
 #import "SyntaxHighlighter.h"
 #import "SyntaxDefinition.h"
+#import "SEEStyleSheet.h"
 #import "SyntaxStyle.h"
 #import "EncodingManager.h"
 #import "SymbolTableEntry.h"
@@ -602,6 +603,13 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         }
     }
     return [defaultDefaults objectForKey:aKey];
+}
+
+- (SyntaxStyle *)styleSheet {
+    if (!I_styleSheet) {
+		I_styleSheet = [[SEEStyleSheet alloc] initWithDefinition:[self syntaxDefinition]];
+    }
+    return I_styleSheet;
 }
 
 - (SyntaxStyle *)syntaxStyle {

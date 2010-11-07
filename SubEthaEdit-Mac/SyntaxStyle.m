@@ -157,6 +157,7 @@ static NSArray *S_possibleStyleColors;
     return result;
 }
 
+// SEEStyle import helper method
 + (NSArray *)syntaxStylesWithXMLFile:(NSString *)aPath {
     NSMutableArray *result=[NSMutableArray array];
     CFXMLTreeRef cfXMLTree;

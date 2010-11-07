@@ -20,6 +20,7 @@
 #pragma mark - Initizialisation
 #pragma mark - 
 
+@synthesize scopeStyleDictionary;
 
 /*"Initiates the Syntax Definition with an XML file"*/
 - (id)initWithFile:(NSString *)aPath forMode:(DocumentMode *)aMode {
@@ -55,6 +56,7 @@
 		I_levelsForStyleIDs = [NSMutableDictionary new];
 		I_keyForInheritedSymbols = nil;
 		I_keyForInheritedAutocomplete = nil;
+		scopeStyleDictionary = [NSMutableDictionary new];
 	}
     
 //    NSLog([self description]);
@@ -68,6 +70,7 @@
 }
 
 - (void)dealloc {
+	scopeStyleDictionary = nil;
     [I_name release];
     [I_allStates release];
     [I_defaultState release];
@@ -633,15 +636,20 @@
 
 - (void) getReady {
 	@synchronized(self) {
-    if (!I_combinedStateRegexReady && !I_combinedStateRegexCalculating) [self calculateCombinedStateRegexes];
-	[self addStyleIDsFromState:[self defaultState]];
-    if (!I_cacheStylesReady && !I_cacheStylesCalculating) [self cacheStyles];
+    if (!I_combinedStateRegexReady && !I_combinedStateRegexCalculating) 
+		[self calculateCombinedStateRegexes];
+	if (!I_cacheStylesReady && !I_cacheStylesCalculating) {
+		//Moved addStyles in here, which should speed up type-and-color performance significantly.
+		[self addStyleIDsFromState:[self defaultState]];
+		NSLog(@"foo: %@", scopeStyleDictionary);
+		[self cacheStyles];
+	}
 	if (!I_symbolAndAutocompleteInheritanceReady) {
 		[self calculateSymbolInheritanceForState:[I_allStates objectForKey:[NSString stringWithFormat:@"/%@/%@", [self name], SyntaxStyleBaseIdentifier]] inheritedSymbols:[self name] inheritedAutocomplete:[self name]];
 		I_symbolAndAutocompleteInheritanceReady = YES;
         //		NSLog(@"Defaultstate: Sym:%@, Auto:%@", [[self defaultState] objectForKey:[self keyForInheritedSymbols]],[[self defaultState] objectForKey:[self keyForInheritedAutocomplete]]);
 	}
-	//NSLog(@"foo: %@", [I_defaultSyntaxStyle allKeys]);
+		//NSLog(@"foo: %@", [I_defaultSyntaxStyle allKeys]);
 	}
 }
 
@@ -744,10 +752,32 @@
 - (void)addStyleIDsFromState:(NSDictionary *)aState {
 	aState = [self stateForID:[aState objectForKey:@"id"]]; // Refetch state to be sure to get the orignal and not a weak-link zombie
 	if (![aState objectForKey:kSyntaxHighlightingStyleIDAttributeName]) return;
-    [I_defaultSyntaxStyle takeValuesFromDictionary:aState];
+
+	NSArray *styleKeyArray = [NSArray arrayWithObjects:@"color",@"inverted-color",@"background-color",@"inverted-background-color",@"font-trait",nil];
+	NSMutableDictionary *stateStyles;
+	
+	if ([aState objectForKey:@"scope"]) {
+		stateStyles = [NSMutableDictionary dictionary];
+		for (NSString *styleKey in styleKeyArray) {
+			if ([aState objectForKey:styleKey]) [stateStyles setObject:[aState objectForKey:styleKey] forKey:styleKey];
+		}
+		[scopeStyleDictionary setObject:stateStyles forKey:[aState objectForKey:@"scope"]];
+	}
+	
+	[I_defaultSyntaxStyle takeValuesFromDictionary:aState];
     NSEnumerator *keywords = [[aState objectForKey:@"KeywordGroups"] objectEnumerator];
     id keyword;
     while ((keyword = [keywords nextObject])) {
+		
+		if ([keyword objectForKey:@"scope"]) {
+#warning FIXME keywords should define a scope for unified scope-style lookup
+			stateStyles = [NSMutableDictionary dictionary];
+			for (NSString *styleKey in styleKeyArray) {
+				if ([keyword objectForKey:styleKey]) [stateStyles setObject:[keyword objectForKey:styleKey] forKey:styleKey];
+			}
+			[scopeStyleDictionary setObject:stateStyles forKey:[keyword objectForKey:@"scope"]];
+		}
+		
         [I_defaultSyntaxStyle takeValuesFromDictionary:keyword];
     }
     

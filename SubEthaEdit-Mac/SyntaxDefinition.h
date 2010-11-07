@@ -24,6 +24,7 @@
     NSMutableDictionary *I_stylesForToken;   /*"Chached plainstrings"*/
     NSMutableDictionary *I_stylesForRegex;   /*"Chached regexs"*/
     NSMutableDictionary *I_importedModes;   /*"Chached regexs"*/
+    NSMutableDictionary *I_scopeStyleDictionary;   
     BOOL everythingOkay;
     BOOL I_useSpellingDictionary;
     BOOL I_combinedStateRegexReady;
@@ -40,6 +41,8 @@
     OGRegularExpression *I_tokenRegex;
     int I_foldingTopLevel;
 }
+
+@property (nonatomic, retain) NSMutableDictionary * scopeStyleDictionary;
 
 /*"Initizialisation"*/
 - (id)initWithFile:(NSString *)aPath forMode:(DocumentMode *)aMode;
