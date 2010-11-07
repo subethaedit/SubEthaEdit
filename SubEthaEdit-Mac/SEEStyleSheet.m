@@ -31,6 +31,9 @@
 		scopeCache = [NSMutableDictionary new];
 		[aDefinition getReady];
 		[scopeStyleDictionary addEntriesFromDictionary:[aDefinition scopeStyleDictionary]];
+		
+		
+		
 		NSLog(@"foo %@",scopeStyleDictionary);
 	}
 	return self;
@@ -41,6 +44,7 @@
 	scopeStyleDictionary = nil;
 	[super dealloc];
 }
+
 
 
 - (void) importStyleSheetAtPath:(NSURL *)aPath;

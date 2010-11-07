@@ -12,7 +12,7 @@
         <folding toplevel="2"/>
     </head>
     <states>
-        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="Objective-C" useautocompletefrommode="Objective-C">
+        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="Objective-C" useautocompletefrommode="Objective-C" scope="meta.default">
             <import mode="C" keywords-only="yes"/>
             <state-link mode="C" state="Characters"/>
             <state-link mode="C" state="Preprocessor"/>
@@ -21,7 +21,7 @@
             <state-link mode="C" state="Comment"/>
             <state-link mode="C" state="SingleComment"/>
             <state-link mode="C" state="String"/>
-            <state id="NSString" type="string" color="#760f15" font-weight="normal" font-style="normal" foldable="no">
+            <state id="NSString" type="string" color="#760f15" font-weight="normal" font-style="normal" foldable="no" scope="string.quoted.double.openstep">
                 <begin>
                     <string>@"</string>
                 </begin>

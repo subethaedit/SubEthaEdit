@@ -641,7 +641,17 @@
 	if (!I_cacheStylesReady && !I_cacheStylesCalculating) {
 		//Moved addStyles in here, which should speed up type-and-color performance significantly.
 		[self addStyleIDsFromState:[self defaultState]];
-		NSLog(@"foo: %@", scopeStyleDictionary);
+
+		NSArray *styleKeyArray = [NSArray arrayWithObjects:@"color",@"inverted-color",@"background-color",@"inverted-background-color",@"font-trait",nil];
+		NSMutableDictionary *stateStyles;
+		[I_defaultState setObject:@"meta.default" forKey:@"scope"];
+		stateStyles = [NSMutableDictionary dictionary];
+		for (NSString *styleKey in styleKeyArray) {
+			if ([I_defaultState objectForKey:styleKey]) [stateStyles setObject:[I_defaultState objectForKey:styleKey] forKey:styleKey];
+		}
+		[scopeStyleDictionary setObject:stateStyles forKey:[I_defaultState objectForKey:@"scope"]];
+		
+		
 		[self cacheStyles];
 	}
 	if (!I_symbolAndAutocompleteInheritanceReady) {

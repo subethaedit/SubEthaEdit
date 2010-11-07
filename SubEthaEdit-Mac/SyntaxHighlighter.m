@@ -323,8 +323,19 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 
         //NSLog(@"Building scratch attributes");
         [scratchAttributes removeAllObjects];
-        [scratchAttributes addEntriesFromDictionary:[theDocument styleAttributesForStyleID:[currentState objectForKey:kSyntaxHighlightingStyleIDAttributeName]]];
-        [scratchAttributes setObject:savedStack forKey:kSyntaxHighlightingStackName];
+        //[scratchAttributes addEntriesFromDictionary:[theDocument styleAttributesForStyleID:[currentState objectForKey:kSyntaxHighlightingStyleIDAttributeName]]];
+        NSString *scope = [currentState objectForKey:@"scope"];
+		if(scope){
+			[scratchAttributes addEntriesFromDictionary:[theDocument styleAttributesForScope:scope]];
+#warning FIXME default should have scope name by himself
+		} else {
+			//if ([[currentState objectForKey:kSyntaxHighlightingStyleIDAttributeName] isEqualToString:@"_Default"]) [scratchAttributes addEntriesFromDictionary:[theDocument styleAttributesForScope:@"meta.default"]];
+			//else NSLog(@"%@",[currentState objectForKey:kSyntaxHighlightingStyleIDAttributeName]);
+		}
+ 		
+		//NSLog(@"%@ = %@", scope, scratchAttributes);
+		
+		[scratchAttributes setObject:savedStack forKey:kSyntaxHighlightingStackName];
 		NSString *typeAttributeString;
 		if ((typeAttributeString=[currentState objectForKey:@"type"]))
 			[scratchAttributes setObject:typeAttributeString forKey:kSyntaxHighlightingTypeAttributeName];

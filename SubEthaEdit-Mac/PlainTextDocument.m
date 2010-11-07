@@ -4815,6 +4815,70 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 
+- (NSDictionary *)styleAttributesForScope:(NSString *)aScope {
+	
+	if (!aScope) {
+		NSLog(@"%s was called with a aScope of nil",__FUNCTION__);
+		return [NSDictionary dictionary];
+	}
+	
+	if (!aScope) {
+		NSLog(@"%s was called with a styleID of nil",__FUNCTION__);
+		return [NSDictionary dictionary];
+	}
+    NSMutableDictionary *result=[I_styleCacheDictionary objectForKey:aScope];
+    if (!result) {
+        DocumentMode *documentMode=[self documentMode];
+        BOOL darkBackground=[[documentMode defaultForKey:DocumentModeBackgroundColorIsDarkPreferenceKey] boolValue];
+        NSDictionary *style=[[documentMode styleSheet] styleAttributesForScope:aScope];
+				
+        NSFontTraitMask traits=[[style objectForKey:@"font-trait"] unsignedIntValue];
+        NSFont *font=[self fontWithTrait:traits];
+        BOOL synthesise=[[NSUserDefaults standardUserDefaults] boolForKey:SynthesiseFontsPreferenceKey];
+        float obliquenessFactor=0.;
+        if (synthesise && (traits & NSItalicFontMask) && !([[NSFontManager sharedFontManager] traitsOfFont:font] & NSItalicFontMask)) {
+            obliquenessFactor=.2;
+        }
+        float strokeWidth=.0;
+        if (synthesise && (traits & NSBoldFontMask) && !([[NSFontManager sharedFontManager] traitsOfFont:font] & NSBoldFontMask)) {
+            strokeWidth=darkBackground?-9.:-3.;
+        }
+		
+        NSColor *foregroundColor=[style objectForKey:darkBackground?@"inverted-color":@"color"];
+		
+        result=[NSMutableDictionary dictionaryWithObjectsAndKeys:font,NSFontAttributeName,
+				foregroundColor,NSForegroundColorAttributeName,
+				[NSNumber numberWithFloat:obliquenessFactor],NSObliquenessAttributeName,
+				[NSNumber numberWithFloat:strokeWidth],NSStrokeWidthAttributeName,
+				nil];
+		
+		NSColor *backgroundColor=[style objectForKey:darkBackground?@"inverted-background-color":@"background-color"];
+		if (backgroundColor) {
+			[result setObject:backgroundColor forKey:NSBackgroundColorAttributeName];
+		}
+        
+		if ([style objectForKey:NSStrikethroughStyleAttributeName])
+			[result setObject:[style objectForKey:NSStrikethroughStyleAttributeName] forKey:NSStrikethroughStyleAttributeName];
+		
+		if ([style objectForKey:NSUnderlineStyleAttributeName])
+			[result setObject:[style objectForKey:NSUnderlineStyleAttributeName] forKey:NSUnderlineStyleAttributeName];
+		
+		if ([style objectForKey:@"scope"]) {
+			[result setObject:[style objectForKey:@"scope"] forKey:kSyntaxHighlightingScopenameAttributeName];
+		}
+		
+		
+		// this is necessary for the highlighter to actually set the correct link attribute here
+        if ([[style objectForKey:@"type"] isEqualToString:@"url"]) [result setObject:@"link" forKey:NSLinkAttributeName];
+		
+		if ( aScope && result ) 
+			[I_styleCacheDictionary setObject:result forKey:aScope];
+    }
+    return result;
+	
+}
+
+
 - (NSDictionary *)styleAttributesForStyleID:(NSString *)aStyleID {
 	if (!aStyleID) {
 		NSLog(@"%s was called with a styleID of nil",__FUNCTION__);

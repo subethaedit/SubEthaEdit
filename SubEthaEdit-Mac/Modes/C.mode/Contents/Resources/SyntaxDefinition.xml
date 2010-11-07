@@ -77,7 +77,7 @@
                 <end><regex>(\\'')|(.')</regex></end>
             </state>
     
-            <state id="Preprocessor" color="#683821">
+            <state id="Preprocessor" color="#683821" scope="meta.tag.preprocessor">
                 <begin><regex>#</regex></begin>
                 <end><regex>(?&lt;![\\])[\n\r]</regex></end>
                 <keywords id="Numbers" color="#00f" useforautocomplete="no">
