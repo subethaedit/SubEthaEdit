@@ -93,7 +93,7 @@
 - (void) exportStyleSheetToPath:(NSURL *)aPath;
 {
 	NSMutableString *exportString = [NSMutableString string];
-	for (NSString *scope in [scopeStyleDictionary allKeys]) {
+	for (NSString *scope in [[scopeStyleDictionary allKeys]sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)]) {
 		[exportString appendString:[NSString stringWithFormat:@"%@ {\n", scope]];
 		
 		for(NSString *attribute in [[[scopeStyleDictionary objectForKey:scope] allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)]) {

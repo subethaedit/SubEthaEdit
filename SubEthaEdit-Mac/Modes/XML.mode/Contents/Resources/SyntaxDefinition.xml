@@ -8,35 +8,36 @@
         <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]></charsintokens>
         <!-- Valid Characters for Variables -->
         <folding toplevel="4"/>
+        <stylesheet>TagBased</stylesheet>
     </head>
     <states>
-        <default id="Base" color="#000" background-color="#fff" font-style="normal">
-            <keywords id="Bad Ampersand" color="#f00" font-weight="bold" useforautocomplete="no" scope="invalid.illegal.bad-ampersand">
+        <default id="Base">
+            <keywords id="Bad Ampersand" useforautocomplete="no" scope="invalid.illegal.bad-ampersand">
                 <regex>(&amp;)</regex>
             </keywords>
-           <keywords id="Tags" color="#881280" font-style="italic" useforautocomplete="no" scope="meta.tag">
+           <keywords id="Tags" useforautocomplete="no" scope="meta.tag">
                 <regex>(&lt;[/\s]*[^/?!][-:_\w]*\s*(?:[-:_\w]+[ \t]*=[ \t]*(?:".*?"|'.*?'|[\w:]+)\s*)*[/\s]*>)</regex>
             </keywords>
-            <keywords id="Attributes in Tags" color="#994500" useforautocomplete="no" scope="entity.other.attribute-name">
+            <keywords id="Attributes in Tags" useforautocomplete="no" scope="entity.other.attribute-name">
                 <regex>([\w-]*)(?=[ \t]*=[^&lt;]+>)</regex>
             </keywords>
-            <keywords id="Strings in Tags" type="string" color="#1A1AA6" useforautocomplete="no" scope="string.quoted.attribute-value">
+            <keywords id="Strings in Tags" type="string" useforautocomplete="no" scope="string.quoted.attribute-value">
                 <regex>=[ \t]*("[^"]*"|'[^']*')(?=[^&lt;]*>)</regex>
             </keywords>
-            <keywords id="Entities" color="#400080" useforautocomplete="no" scope="constant.character.entity">
+            <keywords id="Entities" useforautocomplete="no" scope="constant.character.entity">
                 <regex>(&amp;\w{1,8};)</regex>
                 <regex>(&amp;#\d+;)</regex>
                 <regex>(&amp;#x\h+;)</regex>
             </keywords>
-            <state id="Comment" type="comment" color="#236E25" font-style="italic" scope="comment.block">
+            <state id="Comment" type="comment" scope="comment.block">
                 <begin><regex>&lt;!--</regex></begin>
                 <end><regex>--></regex></end>
-                <keywords id="SGML Double Dash" color="#f00" font-weight="bold" useforautocomplete="no" scope="invalid.illegal.sgml">
+                <keywords id="SGML Double Dash" useforautocomplete="no" scope="invalid.illegal.sgml">
                     <regex>(?&lt;!\!)(--)(?!>)</regex>
                 </keywords>
 				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
-            <state id="CDATA" color="#f00" font-style="italic" foldable="yes" scope="string.unquoted.cdata">
+            <state id="CDATA" foldable="yes" scope="string.unquoted.cdata">
                 <begin>
                     <regex>&lt;!\s*\[CDATA\s*\[</regex>
                 </begin>
@@ -44,7 +45,7 @@
                     <regex>\]\s*\]\s*></regex>
                 </end>
             </state>
-            <state id="Doctype" color="#236E25" font-style="italic" foldable="no" scope="meta.tag.sgml.doctype">
+            <state id="Doctype" foldable="no" scope="meta.tag.sgml.doctype">
                 <begin>
                     <regex>&lt;!</regex>
                 </begin>
@@ -52,7 +53,7 @@
                     <regex>></regex>
                 </end>
             </state>
-            <state id="Escape" color="#236E25" font-style="italic" foldable="no" scope="meta.tag.preprocessor">
+            <state id="Escape" foldable="no" scope="meta.tag.preprocessor">
                 <begin>
                     <regex>&lt;\?</regex>
                 </begin>

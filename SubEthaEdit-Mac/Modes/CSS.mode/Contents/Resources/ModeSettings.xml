@@ -2,5 +2,6 @@
 <settings>
     <recognition>
         <extension>css</extension>
+        <extension>sss</extension>
     </recognition>
 </settings>
