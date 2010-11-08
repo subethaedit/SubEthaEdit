@@ -455,7 +455,7 @@
             while ((keywordGroup = [groupEnumerator nextObject])) {
                 NSString *styleID=[keywordGroup objectForKey:kSyntaxHighlightingStyleIDAttributeName];
                 if ([keywordGroup objectForKey:@"CompiledRegEx"]) [newRegExArray addObject:[NSArray arrayWithObjects:[keywordGroup objectForKey:@"CompiledRegEx"], styleID, keywordGroup, nil]];
-				if ([[keywordGroup objectForKey:@"PlainStrings"]count]>0) [newRegExArray addObject:[NSArray arrayWithObjects:[keywordGroup objectForKey:@"CompiledKeywords"], styleID, keywordGroup, nil]];
+				if ([(NSArray*)[keywordGroup objectForKey:@"PlainStrings"] count]>0) [newRegExArray addObject:[NSArray arrayWithObjects:[keywordGroup objectForKey:@"CompiledKeywords"], styleID, keywordGroup, nil]];
                 
             
             }

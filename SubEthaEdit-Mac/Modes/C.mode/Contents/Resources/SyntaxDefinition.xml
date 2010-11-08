@@ -11,6 +11,11 @@
     <states>
     
         <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
+
+            <keywords id="FunctionRegex" color="#003369" useforautocomplete="no" scope="entity.name.function">
+				<regex>([A-Za-z0-9_]+ *)\(</regex>
+            </keywords>
+
             <keywords id="C Keywords" color="#881350" font-weight="bold" useforautocomplete="yes" scope="keyword">
 				<string>break</string>
 				<string>case</string>
@@ -68,9 +73,6 @@
 				<regex>(?&lt;![\w\d_])((?:[+-]?(?:(?:[0-9]+\.[0-9]*)|(?:\.[0-9]+))(?:[eE][+\-]?[0-9]+)?[fFlL]?)|(?:(?:(?:[1-9][0-9]*)|0[0-7]*|(?:0[xX][0-9a-fA-F]+))(?:(?:[uU][lL]?)|(?:[lL][uU]?))?))(?![\w\d_])</regex>
             </keywords>
             
-            <keywords id="FunctionRegex" color="#003369" useforautocomplete="no" scope="entity.name.function">
-				<regex>([A-Za-z0-9_]+ *)\(</regex>
-            </keywords>
 
             <state id="Characters" color="#00f" font-weight="normal" font-style="normal" scope="constant.character.entity">
                 <begin><regex>'(?=\\?.')</regex></begin>
