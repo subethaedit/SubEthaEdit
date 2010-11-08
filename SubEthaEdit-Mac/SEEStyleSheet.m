@@ -29,12 +29,14 @@
 
 		scopeStyleDictionary = [NSMutableDictionary new];
 		scopeCache = [NSMutableDictionary new];
-		[aDefinition getReady];
-		[scopeStyleDictionary addEntriesFromDictionary:[aDefinition scopeStyleDictionary]];
-		
+		if (aDefinition) {
+			[aDefinition getReady];
+			[scopeStyleDictionary addEntriesFromDictionary:[aDefinition scopeStyleDictionary]];
+		}		
 //		NSLog(@"scopes: %@", scopeStyleDictionary);
 //		NSLog(@"inherit: %@", [self styleAttributesForScope:@"meta.block.directives.objective-c"]);
-
+		//		[self exportStyleSheetToPath:[[[NSURL alloc]initFileURLWithPath:@"/Users/pittenau/Desktop/test.seestylesheet"] autorelease]];
+//		[self importStyleSheetAtPath:[[[NSURL alloc]initFileURLWithPath:@"/Users/pittenau/Desktop/test.seestylesheet"] autorelease]];
 		
 	}
 	return self;
@@ -47,15 +49,61 @@
 }
 
 
-
 - (void) importStyleSheetAtPath:(NSURL *)aPath;
 {
+	NSError *err;
+	NSString *importString = [NSString stringWithContentsOfURL:aPath encoding:NSUTF8StringEncoding error:&err];
+	
+	NSArray *scopeStrings = [importString componentsSeparatedByString:@"}"];
+	
+	for (NSString *scopeString in scopeStrings) {
+	
+		NSArray *scopeAndAttributes = [scopeString componentsSeparatedByString:@"{"];
+		if ([scopeAndAttributes count] !=2) continue;
+		NSString *scope = [[scopeAndAttributes objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+		NSArray *attributes = [[scopeAndAttributes objectAtIndex:1] componentsSeparatedByString:@";"];
+		NSMutableDictionary *scopeDictionary = [NSMutableDictionary dictionary];
+		for (NSString *attribute in attributes) {
+			NSArray *keysAndValues = [attribute componentsSeparatedByString:@":"];
+			if ([keysAndValues count] !=2) continue;
+			NSString *key = [[keysAndValues objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+			id value = [[keysAndValues objectAtIndex:1] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+			if ([key rangeOfString:@"color"].location != NSNotFound) {
+				value = [NSColor colorForHTMLString:value];
+			}
+			if ([key isEqualToString:@"font-trait"]) {
+				value = [NSNumber numberWithInt:[value intValue]];
+			}
+			
+			[scopeDictionary setObject:value forKey:key];
+		}
+
+		if (scope && [scopeDictionary count]>0)
+		[scopeStyleDictionary setObject:scopeDictionary forKey:scope];
+	
+	}
 	
 }
 
 - (void) exportStyleSheetToPath:(NSURL *)aPath;
 {
+	NSMutableString *exportString = [NSMutableString string];
+	for (NSString *scope in [scopeStyleDictionary allKeys]) {
+		[exportString appendString:[NSString stringWithFormat:@"%@ {\n", scope]];
+		
+		for(NSString *attribute in [[scopeStyleDictionary objectForKey:scope] allKeys]) {
+			id value = [[scopeStyleDictionary objectForKey:scope] objectForKey:attribute];
+			if ([value isKindOfClass:[NSColor class]]) value = [(NSColor*)value HTMLString];
+			[exportString appendString:[NSString stringWithFormat:@"   %@:%@;\n", attribute, value]];
+		}
+		
+		[exportString appendString:@"}\n\n"];
+		
+	}
 	
+	NSError *err;
+	if (aPath) [exportString writeToURL:aPath atomically:YES encoding:NSUTF8StringEncoding error:&err];
+	else NSLog(@"%@",exportString);
 }
 
 - (NSDictionary *)styleAttributesForScope:(NSString *)aScope {
