@@ -245,7 +245,12 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
                 }
                 
                 [scratchAttributes removeAllObjects];
-                [scratchAttributes addEntriesFromDictionary:[theDocument styleAttributesForStyleID:[subState objectForKey:kSyntaxHighlightingStyleIDAttributeName]]];
+                //[scratchAttributes addEntriesFromDictionary:[theDocument styleAttributesForStyleID:[subState objectForKey:kSyntaxHighlightingStyleIDAttributeName]]];
+				NSString *scope = [subState objectForKey:kSyntaxHighlightingScopenameAttributeName];
+				if(scope){
+					[scratchAttributes addEntriesFromDictionary:[theDocument styleAttributesForScope:scope]];
+				} 
+					
                 [scratchAttributes setObject:[[stack copy] autorelease] forKey:kSyntaxHighlightingStackName];
                 [scratchAttributes setObject:kSyntaxHighlightingStateDelimiterStartValue forKey:kSyntaxHighlightingStateDelimiterName];
 				NSString *typeAttributeString;

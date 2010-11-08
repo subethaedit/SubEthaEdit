@@ -42,6 +42,7 @@
         I_defaultSyntaxStyle = [SyntaxStyle new]; 
         [I_defaultSyntaxStyle setDocumentMode:aMode];               
         // Parse XML File
+		scopeStyleDictionary = [NSMutableDictionary new];
 		
 		[self parseXMLFile:aPath];
         
@@ -56,7 +57,6 @@
 		I_levelsForStyleIDs = [NSMutableDictionary new];
 		I_keyForInheritedSymbols = nil;
 		I_keyForInheritedAutocomplete = nil;
-		scopeStyleDictionary = [NSMutableDictionary new];
 	}
     
 //    NSLog([self description]);
@@ -157,6 +157,17 @@
 
     I_useSpellingDictionary = [[[[syntaxDefinitionXML nodesForXPath:@"/syntax/head/autocompleteoptions/@use-spelling-dictionary" error:&err] lastObject] stringValue] isEqualTo:@"yes"];    
 
+	
+	// Parse inline scopes
+	
+	NSArray *scopeNodes = [syntaxDefinitionXML nodesForXPath:@"/syntax/head/scopes/scope" error:&err];
+	for (id scopeNode in scopeNodes) {
+		NSMutableDictionary *scopeAttributes = [NSMutableDictionary dictionary];
+		[self addAttributes:[scopeNode attributes] toDictionary:scopeAttributes];
+		NSLog(@"inline scope %@",scopeAttributes);
+		if ([scopeAttributes objectForKey:@"scopeid"])
+			[scopeStyleDictionary setObject:scopeAttributes forKey:[scopeAttributes objectForKey:@"scopeid"]];
+	}
     
     // Parse states
     NSXMLElement *defaultStateNode = [[syntaxDefinitionXML nodesForXPath:@"/syntax/states/default" error:&err] lastObject];

@@ -59,29 +59,39 @@
 }
 
 - (NSDictionary *)styleAttributesForScope:(NSString *)aScope {
-
+	
 	NSDictionary *computedStyle = [scopeCache objectForKey:aScope];
 	
 	
 	if (!computedStyle) {
 		// Search for optimal style
-		
+		NSLog(@"Asked for %@", aScope);
 		// First try full matching
-		if (!(computedStyle = [scopeStyleDictionary objectForKey:aScope])) {
-		
-			
-			
+		if (!(computedStyle = [scopeStyleDictionary objectForKey:aScope])||[computedStyle objectForKey:@"inherit"]) {
+			NSString *newScope = [NSString stringWithString:aScope];
+			while([newScope rangeOfString:@"."].location != NSNotFound) {
+				newScope = [newScope stringByDeletingPathExtension];
+				NSLog(@"Looking for %@", newScope);
+				if (computedStyle = [scopeStyleDictionary objectForKey:newScope]) {
+					aScope = newScope;
+					break;
+				}
+			}
 		}
 		
 		// last, fall back to inheritence
-		while ([computedStyle objectForKey:@"inherit"]) {
-			if ([aScope isEqualToString:[computedStyle objectForKey:@"inherit"]]) {
-				NSLog(@"WARNING: Endless inheritance for %@", aScope);
-				break;
+		if ([computedStyle objectForKey:@"inherit"]) {
+			while ([computedStyle objectForKey:@"inherit"]) {
+				if ([aScope isEqualToString:[computedStyle objectForKey:@"inherit"]]) {
+					NSLog(@"WARNING: Endless inheritance for %@", aScope);
+					break;
+				}
+				aScope = [computedStyle objectForKey:@"inherit"];
+				computedStyle = [scopeStyleDictionary objectForKey:aScope];
 			}
-			aScope = [computedStyle objectForKey:@"inherit"];
-			computedStyle = [scopeStyleDictionary objectForKey:aScope];
-		}
+		} 
+		
+		if (!computedStyle) return nil;
 
 		[scopeCache setObject:computedStyle forKey:aScope];
 	}

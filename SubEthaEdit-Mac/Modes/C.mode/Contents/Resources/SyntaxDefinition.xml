@@ -6,6 +6,10 @@
         <name>C</name> <!-- The definitions title -->
         <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]></charsintokens> <!-- Valid Characters for Variables -->
         <!-- <charsdelimitingtokens></charsdelimitingtokens> -->
+		<scopes>
+			<scope scopeid="comment" title="All Comments" color="#236E25" font-weight="normal" font-style="italic" />
+		</scopes>
+		
     </head>
 
     <states>
@@ -108,13 +112,13 @@
                 <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
     
-            <state id="Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic" scope="comment.block">
+            <state id="Comment" type="comment" scope="comment.block">
                 <begin><regex>/\*</regex></begin>
                 <end><regex>\*/</regex></end>
                 <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
            </state>
             
-            <state id="SingleComment" type="comment" color="#236E25" font-weight="normal" font-style="italic" scope="comment.line.double-slash">
+            <state id="SingleComment" type="comment" scope="comment.line.double-slash">
                 <begin><regex>//</regex></begin>
                 <end><regex>(?&lt;!\\)[\n\r]</regex></end>
                 <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
