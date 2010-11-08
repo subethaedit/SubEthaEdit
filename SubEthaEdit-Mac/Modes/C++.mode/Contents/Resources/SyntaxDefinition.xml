@@ -5,12 +5,12 @@
     <head>
         <name>C++</name> <!-- The definitions title -->
         <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]></charsintokens> <!-- Valid Characters for Variables -->
-        <!-- <charsdelimitingtokens></charsdelimitingtokens> -->
+		<stylesheet>C</stylesheet>
     </head>
 
     <states>
     
-        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
+        <default id="Base">
             <import mode="C" keywords-only="yes" />
             <state-link mode="C" state="Characters"/>
             <state-link mode="C" state="Preprocessor"/>
@@ -20,7 +20,7 @@
             <state-link mode="C" state="SingleComment"/>
             <state-link mode="C" state="String"/>
 
-            <keywords id="C++ Keywords" color="#881350" useforautocomplete="yes" scope="keyword.operator">
+            <keywords id="C++ Keywords" useforautocomplete="yes" scope="keyword.operator">
                 <string>bool</string>
                 <string>class</string>
                 <string>false</string>
@@ -81,7 +81,7 @@
                 <string>FALSE</string>
             </keywords>
     
-            <state id="Block" type="block" foldable="yes">
+            <state id="Block" type="block" foldable="yes" scope="meta.block">
                 <begin><regex>{</regex></begin>
                 <end><regex>}</regex></end>
                 <import mode="C" keywords-only="yes" />

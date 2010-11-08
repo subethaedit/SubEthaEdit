@@ -40,7 +40,7 @@
 		}		
 //		NSLog(@"scopes: %@", scopeStyleDictionary);
 //		NSLog(@"inherit: %@", [self styleAttributesForScope:@"meta.block.directives.objective-c"]);
-//		[self exportStyleSheetToPath:[[[NSURL alloc]initFileURLWithPath:@"/Users/pittenau/Desktop/test.seestylesheet"] autorelease]];
+		[self exportStyleSheetToPath:[[[NSURL alloc]initFileURLWithPath:[NSString stringWithFormat:@"/Users/pittenau/Desktop/%@.seestylesheet",[aDefinition name]]] autorelease]];
 //		[self importStyleSheetAtPath:[[[NSURL alloc]initFileURLWithPath:@"/Users/pittenau/Desktop/test.seestylesheet"] autorelease]];
 		
 	}
@@ -96,7 +96,7 @@
 	for (NSString *scope in [scopeStyleDictionary allKeys]) {
 		[exportString appendString:[NSString stringWithFormat:@"%@ {\n", scope]];
 		
-		for(NSString *attribute in [[scopeStyleDictionary objectForKey:scope] allKeys]) {
+		for(NSString *attribute in [[[scopeStyleDictionary objectForKey:scope] allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)]) {
 			id value = [[scopeStyleDictionary objectForKey:scope] objectForKey:attribute];
 			if ([value isKindOfClass:[NSColor class]]) value = [(NSColor*)value HTMLString];
 			[exportString appendString:[NSString stringWithFormat:@"   %@:%@;\n", attribute, value]];
