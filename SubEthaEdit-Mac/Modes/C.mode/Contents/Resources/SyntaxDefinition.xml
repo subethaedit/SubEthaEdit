@@ -6,22 +6,18 @@
         <name>C</name> <!-- The definitions title -->
         <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]></charsintokens> <!-- Valid Characters for Variables -->
         <!-- <charsdelimitingtokens></charsdelimitingtokens> -->
-		<scopes>
-			<scope scopeid="comment" title="All Comments" color="#236E25" font-weight="normal" font-style="italic" />
-		</scopes>
-		
 		<stylesheet>C</stylesheet>
     </head>
 
     <states>
     
-        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
+        <default id="Base">
 
-            <keywords id="FunctionRegex" color="#003369" useforautocomplete="no" scope="entity.name.function">
+            <keywords id="FunctionRegex" useforautocomplete="no" scope="entity.name.function">
 				<regex>([A-Za-z0-9_]+ *)\(</regex>
             </keywords>
 
-            <keywords id="C Keywords" color="#881350" font-weight="bold" useforautocomplete="yes" scope="keyword">
+            <keywords id="C Keywords" useforautocomplete="yes" scope="keyword">
 				<string>break</string>
 				<string>case</string>
 				<string>continue</string>
@@ -74,40 +70,40 @@
                 <string>NSInteger</string>
             </keywords>
             
-            <keywords id="Numbers" color="#00f" inverted-color="#5d56ff" useforautocomplete="no" scope="constant.numeric">
+            <keywords id="Numbers" inverted-useforautocomplete="no" scope="constant.numeric">
 				<regex>(?&lt;![\w\d_])((?:[+-]?(?:(?:[0-9]+\.[0-9]*)|(?:\.[0-9]+))(?:[eE][+\-]?[0-9]+)?[fFlL]?)|(?:(?:(?:[1-9][0-9]*)|0[0-7]*|(?:0[xX][0-9a-fA-F]+))(?:(?:[uU][lL]?)|(?:[lL][uU]?))?))(?![\w\d_])</regex>
             </keywords>
             
 
-            <state id="Characters" color="#00f" font-weight="normal" font-style="normal" scope="constant.character.entity">
+            <state id="Characters" scope="constant.character.entity">
                 <begin><regex>'(?=\\?.')</regex></begin>
                 <end><regex>(\\'')|(.')</regex></end>
             </state>
     
-            <state id="Preprocessor" color="#683821" scope="meta.tag.preprocessor">
+            <state id="Preprocessor" scope="meta.tag.preprocessor">
                 <begin><regex>#</regex></begin>
                 <end><regex>(?&lt;![\\])[\n\r]</regex></end>
-                <keywords id="Numbers" color="#00f" useforautocomplete="no" scope="constant.numeric.preprocessor">
+                <keywords id="Numbers" useforautocomplete="no" scope="constant.numeric.preprocessor">
                     <regex>(?&lt;=[^\w\d]|^)(([+-]?(([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
                 </keywords>
                 <state-link state="Comment" />
-                <state id="SingleComment in Preprocessor" type="comment" color="#236E25" font-weight="normal" font-style="italic" scope="comment.line.double-slash">
+                <state id="SingleComment in Preprocessor" type="comment" scope="comment.line.double-slash">
                     <begin><regex>//</regex></begin>
                     <end><regex>.(?=[\n\r])</regex></end>
                     <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
                 </state>
             </state>
     
-            <state id="DoxyGen Comment" type="comment" color="#236E25"  font-style="italic" scope="comment.block.documentation">
+            <state id="DoxyGen Comment" type="comment"  scope="comment.block.documentation">
                 <begin><regex>/\*[\*\!]</regex></begin>
                 <end><regex>\*/</regex></end>
-                <keywords id="DoxyGen Tags" color="#236E25" font-weight="bold" useforautocomplete="no"  scope="comment.block.documentation.tag">
+                <keywords id="DoxyGen Tags" useforautocomplete="no"  scope="comment.block.documentation.tag">
                     <regex>(?&lt;=[^\w\d]|^)([@\\]\w+)</regex>
                 </keywords>
                 <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
     
-            <state id="AutodocComment" type="comment" color="#236E25" font-weight="bold" font-style="italic" scope="comment.block.documentation">
+            <state id="AutodocComment" type="comment" scope="comment.block.documentation">
                 <begin><regex>/\*"</regex></begin>
                 <end><regex>\*/</regex></end>
                 <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
@@ -125,7 +121,7 @@
                 <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
             
-            <state id="String" type="string" color="#760f15" font-weight="normal" font-style="normal" foldable="no" scope="string.quoted.double">
+            <state id="String" type="string" foldable="no" scope="string.quoted.double">
                 <begin><regex>"</regex></begin>
                 <end><regex>((?&lt;!\\)(\\\\)*)"</regex></end>
             </state>

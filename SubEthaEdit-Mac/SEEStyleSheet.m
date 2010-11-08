@@ -31,11 +31,10 @@
 		scopeCache = [NSMutableDictionary new];
 		if (aDefinition) {
 			[aDefinition getReady];
-			//[scopeStyleDictionary addEntriesFromDictionary:[aDefinition scopeStyleDictionary]];
+			[scopeStyleDictionary addEntriesFromDictionary:[aDefinition scopeStyleDictionary]];
 			NSArray *styleSheets = [aDefinition linkedStyleSheets];
 			
 			for (NSString *sheet in styleSheets) {
-				NSLog(@"Sheet %@.sss found at %@",sheet, [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:[NSString stringWithFormat:@"Modes/Styles/%@.sss",sheet]]);
 				[self importStyleSheetAtPath:[[[NSURL alloc] initFileURLWithPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:[NSString stringWithFormat:@"Modes/Styles/%@.sss",sheet]]] autorelease]];
 			}
 		}		
@@ -59,9 +58,7 @@
 {
 	NSError *err;
 	NSString *importString = [NSString stringWithContentsOfURL:aPath encoding:NSUTF8StringEncoding error:&err];
-	
-	NSLog(@"%@",importString);
-	
+		
 	NSArray *scopeStrings = [importString componentsSeparatedByString:@"}"];
 	
 	for (NSString *scopeString in scopeStrings) {
@@ -116,26 +113,32 @@
 
 - (NSDictionary *)styleAttributesForScope:(NSString *)aScope {
 	
+	//Delete language specific part
+	
 	NSDictionary *computedStyle = [scopeCache objectForKey:aScope];
 	
 	
 	if (!computedStyle) {
+		NSString *newScope = [NSString stringWithString:aScope];
+		newScope = [newScope stringByDeletingPathExtension];
 		// Search for optimal style
-		// NSLog(@"Asked for %@", aScope);
+//		 NSLog(@"Asked for %@", aScope);
 		// First try full matching
-		if (!(computedStyle = [scopeStyleDictionary objectForKey:aScope])||[computedStyle objectForKey:@"inherit"]) {
-			NSString *newScope = [NSString stringWithString:aScope];
+		if (!(computedStyle = [scopeStyleDictionary objectForKey:newScope])||[computedStyle objectForKey:@"inherit"]) {
 			while([newScope rangeOfString:@"."].location != NSNotFound) {
 				newScope = [newScope stringByDeletingPathExtension];
-				//NSLog(@"Looking for %@", newScope);
+//				NSLog(@"Looking for %@", newScope);
 				if (computedStyle = [scopeStyleDictionary objectForKey:newScope]) {
-					aScope = newScope;
-					break;
+					[scopeCache setObject:computedStyle forKey:aScope];
+//					NSLog(@"Returned %@", newScope);
+					return computedStyle;
 				}
 			}
 		}
 		
-		// last, fall back to inheritence
+		// last, fall back to inheritence and language specifics
+		
+		if (!computedStyle) computedStyle = [scopeStyleDictionary objectForKey:aScope];
 		if ([computedStyle objectForKey:@"inherit"]) {
 			while ([computedStyle objectForKey:@"inherit"]) {
 				if ([aScope isEqualToString:[computedStyle objectForKey:@"inherit"]]) {
@@ -148,7 +151,7 @@
 		} 
 		
 		if (!computedStyle) return nil;
-
+//		NSLog(@"Returned %@", aScope);
 		[scopeCache setObject:computedStyle forKey:aScope];
 	}
 	
