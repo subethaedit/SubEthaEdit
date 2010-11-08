@@ -20,7 +20,7 @@
 #pragma mark - Initizialisation
 #pragma mark - 
 
-@synthesize scopeStyleDictionary;
+@synthesize scopeStyleDictionary, linkedStyleSheets;
 
 /*"Initiates the Syntax Definition with an XML file"*/
 - (id)initWithFile:(NSString *)aPath forMode:(DocumentMode *)aMode {
@@ -43,6 +43,7 @@
         [I_defaultSyntaxStyle setDocumentMode:aMode];               
         // Parse XML File
 		scopeStyleDictionary = [NSMutableDictionary new];
+		linkedStyleSheets = [NSMutableArray new];
 		
 		[self parseXMLFile:aPath];
         
@@ -71,7 +72,8 @@
 
 - (void)dealloc {
 	scopeStyleDictionary = nil;
-    [I_name release];
+    linkedStyleSheets = nil;
+	[I_name release];
     [I_allStates release];
     [I_defaultState release];
     [I_importedModes release];
@@ -167,7 +169,15 @@
 		if ([scopeAttributes objectForKey:@"scopeid"])
 			[scopeStyleDictionary setObject:scopeAttributes forKey:[scopeAttributes objectForKey:@"scopeid"]];
 	}
-    
+
+	// Parse linked sheets
+
+	NSArray *sheetNodes = [syntaxDefinitionXML nodesForXPath:@"/syntax/head/stylesheet" error:&err];
+	for (id sheetNode in sheetNodes) {
+		[linkedStyleSheets addObject:[sheetNode stringValue]];
+	}
+	
+	
     // Parse states
     NSXMLElement *defaultStateNode = [[syntaxDefinitionXML nodesForXPath:@"/syntax/states/default" error:&err] lastObject];
 	

@@ -10,6 +10,7 @@
 			<scope scopeid="comment" title="All Comments" color="#236E25" font-weight="normal" font-style="italic" />
 		</scopes>
 		
+		<stylesheet>C</stylesheet>
     </head>
 
     <states>

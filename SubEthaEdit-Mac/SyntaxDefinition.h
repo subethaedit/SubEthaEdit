@@ -24,7 +24,8 @@
     NSMutableDictionary *I_stylesForToken;   /*"Chached plainstrings"*/
     NSMutableDictionary *I_stylesForRegex;   /*"Chached regexs"*/
     NSMutableDictionary *I_importedModes;   /*"Chached regexs"*/
-    NSMutableDictionary *I_scopeStyleDictionary;   
+    NSMutableDictionary *I_scopeStyleDictionary;
+	NSMutableArray *I_linkedStyleSheets;
     BOOL everythingOkay;
     BOOL I_useSpellingDictionary;
     BOOL I_combinedStateRegexReady;
@@ -43,6 +44,7 @@
 }
 
 @property (nonatomic, retain) NSMutableDictionary * scopeStyleDictionary;
+@property (nonatomic, retain) NSMutableArray * linkedStyleSheets;
 
 /*"Initizialisation"*/
 - (id)initWithFile:(NSString *)aPath forMode:(DocumentMode *)aMode;

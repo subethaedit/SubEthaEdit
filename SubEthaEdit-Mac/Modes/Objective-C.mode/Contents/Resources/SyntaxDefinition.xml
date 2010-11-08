@@ -10,12 +10,10 @@
         <!-- <charsdelimitingtokens></charsdelimitingtokens> -->
         <charsincompletion><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@]]></charsincompletion>
         <folding toplevel="2"/>
-		<scopes>
-			<scope scopeid="comment" title="All Comments" color="#236E25" font-weight="normal" font-style="italic" />
-		</scopes>
+		<stylesheet>C</stylesheet>
     </head>
     <states>
-        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="Objective-C" useautocompletefrommode="Objective-C" scope="meta.default">
+        <default id="Base" usesymbolsfrommode="Objective-C" useautocompletefrommode="Objective-C" scope="meta.default">
             <import mode="C" keywords-only="yes"/>
             <state-link mode="C" state="Characters"/>
             <state-link mode="C" state="Preprocessor"/>
@@ -24,7 +22,7 @@
             <state-link mode="C" state="Comment"/>
             <state-link mode="C" state="SingleComment"/>
             <state-link mode="C" state="String"/>
-            <state id="NSString" type="string" color="#760f15" font-weight="normal" font-style="normal" foldable="no" scope="string.quoted.double.openstep">
+            <state id="NSString" type="string" foldable="no" scope="string.quoted.double.openstep">
                 <begin>
                     <string>@"</string>
                 </begin>
@@ -52,13 +50,13 @@
                 <import mode="C" keywords-only="yes"/>
                 <import/>
             </state>
-            <keywords id="Methods" color="#6C0540" casesensitive="yes" scope="entity.name.function">
+            <keywords id="Methods" casesensitive="yes" scope="entity.name.function">
                 <regex>[^:]\([^)]*\)\s*([A-Za-z_][A-Za-z0-9_]*)\s*[{;]</regex>
                 <regex>\)\s*([A-Za-z_][A-Za-z0-9_]*:)</regex>
                 <regex>\s([A-Za-z_][A-Za-z0-9_]+*:)</regex>
                 <regex>(?&lt;![:\s])\s+([A-Za-z_][A-Za-z0-9_]*)]</regex>
             </keywords>
-            <keywords id="Cocoa Classes" color="#400080" background-color="#fff" font-weight="normal" font-style="normal" casesensitive="yes" useforautocomplete="yes" scope="entity.name.type.classes.cocoa">
+            <keywords id="Cocoa Classes" background-casesensitive="yes" useforautocomplete="yes" scope="entity.name.type.classes.cocoa">
                 <string>ABActionDelegate</string>
                 <string>ABAddressBook</string>
                 <string>ABGroup</string>
@@ -1037,7 +1035,7 @@
                 <string>XGResource</string>
                 <string>XGTwoWayRandomAuthenticator</string>
             </keywords>
-            <keywords id="Objective-C Keywords" color="#881350" useforautocomplete="yes" font-weight="bold"  scope="keyword.objective-c">
+            <keywords id="Objective-C Keywords" useforautocomplete="yes"  scope="keyword.objective-c">
                 <string>@catch</string>
                 <string>@class</string>
                 <string>@defs</string>
@@ -1082,10 +1080,10 @@
                 <string>setter</string>
                 <string>super</string>
             </keywords>
-            <keywords id="Memory Management" color="#f00" font-weight="bold" font-style="normal" useforautocomplete="yes" scope="meta.important.memorymanagement">
+            <keywords id="Memory Management" useforautocomplete="yes" scope="meta.important.memorymanagement">
                 <regex>(?&lt;![\w:_])(new|allocWithZone:|alloc|autorelease|copyWithZone:|copy|mutableCopyWithZone:|mutableCopy|retain|release)(?![\w:_])</regex>
             </keywords>
-            <keywords id="Cocoa Functions" color="#400080" font-weight="normal" font-style="italic" useforautocomplete="yes" scope="entity.name.function.cocoa">
+            <keywords id="Cocoa Functions" useforautocomplete="yes" scope="entity.name.function.cocoa">
                 <string>ABAddPropertiesAndTypes</string>
                 <string>ABAddRecord</string>
                 <string>ABAddressBookAddRecord</string>
@@ -2002,7 +2000,7 @@
                 <string>glVertexAttrib4fv</string>
                 <string>glVertexAttribPointer</string>
             </keywords>
-            <keywords id="Cocoa Types" color="#400080" font-weight="normal" font-style="italic" useforautocomplete="yes" scope="constant.language.types.cocoa">
+            <keywords id="Cocoa Types" useforautocomplete="yes" scope="constant.language.types.cocoa">
                 <string>CAAction</string>
                 <string>CFAllocatorRef</string>
                 <string>CFArrayRef</string>
@@ -2435,7 +2433,7 @@
                 <string>NSZeroSize</string>
                 <string>NSZone</string>
             </keywords>
-            <keywords id="Cocoa Constants" color="#400080" font-weight="normal" font-style="italic" useforautocomplete="yes" scope="constant.language.cocoa">
+            <keywords id="Cocoa Constants" useforautocomplete="yes" scope="constant.language.cocoa">
                 <string>AUHostVersionIdentifier</string>
                 <string>AUNumVersion</string>
                 <string>AVAudioQuality</string>

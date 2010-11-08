@@ -31,11 +31,17 @@
 		scopeCache = [NSMutableDictionary new];
 		if (aDefinition) {
 			[aDefinition getReady];
-			[scopeStyleDictionary addEntriesFromDictionary:[aDefinition scopeStyleDictionary]];
+			//[scopeStyleDictionary addEntriesFromDictionary:[aDefinition scopeStyleDictionary]];
+			NSArray *styleSheets = [aDefinition linkedStyleSheets];
+			
+			for (NSString *sheet in styleSheets) {
+				NSLog(@"Sheet %@.sss found at %@",sheet, [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:[NSString stringWithFormat:@"Modes/Styles/%@.sss",sheet]]);
+				[self importStyleSheetAtPath:[[[NSURL alloc] initFileURLWithPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:[NSString stringWithFormat:@"Modes/Styles/%@.sss",sheet]]] autorelease]];
+			}
 		}		
 //		NSLog(@"scopes: %@", scopeStyleDictionary);
 //		NSLog(@"inherit: %@", [self styleAttributesForScope:@"meta.block.directives.objective-c"]);
-		//		[self exportStyleSheetToPath:[[[NSURL alloc]initFileURLWithPath:@"/Users/pittenau/Desktop/test.seestylesheet"] autorelease]];
+//		[self exportStyleSheetToPath:[[[NSURL alloc]initFileURLWithPath:@"/Users/pittenau/Desktop/test.seestylesheet"] autorelease]];
 //		[self importStyleSheetAtPath:[[[NSURL alloc]initFileURLWithPath:@"/Users/pittenau/Desktop/test.seestylesheet"] autorelease]];
 		
 	}
@@ -53,6 +59,8 @@
 {
 	NSError *err;
 	NSString *importString = [NSString stringWithContentsOfURL:aPath encoding:NSUTF8StringEncoding error:&err];
+	
+	NSLog(@"%@",importString);
 	
 	NSArray *scopeStrings = [importString componentsSeparatedByString:@"}"];
 	
