@@ -32,9 +32,10 @@
 		[aDefinition getReady];
 		[scopeStyleDictionary addEntriesFromDictionary:[aDefinition scopeStyleDictionary]];
 		
+//		NSLog(@"scopes: %@", scopeStyleDictionary);
+//		NSLog(@"inherit: %@", [self styleAttributesForScope:@"meta.block.directives.objective-c"]);
+
 		
-		
-		//NSLog(@"foo %@",scopeStyleDictionary);
 	}
 	return self;
 }
@@ -60,6 +61,8 @@
 - (NSDictionary *)styleAttributesForScope:(NSString *)aScope {
 
 	NSDictionary *computedStyle = [scopeCache objectForKey:aScope];
+	
+	
 	if (!computedStyle) {
 		// Search for optimal style
 		
@@ -70,7 +73,16 @@
 			
 		}
 		
-		
+		// last, fall back to inheritence
+		while ([computedStyle objectForKey:@"inherit"]) {
+			if ([aScope isEqualToString:[computedStyle objectForKey:@"inherit"]]) {
+				NSLog(@"WARNING: Endless inheritance for %@", aScope);
+				break;
+			}
+			aScope = [computedStyle objectForKey:@"inherit"];
+			computedStyle = [scopeStyleDictionary objectForKey:aScope];
+		}
+
 		[scopeCache setObject:computedStyle forKey:aScope];
 	}
 	

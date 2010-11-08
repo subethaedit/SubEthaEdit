@@ -349,6 +349,7 @@
     
     if ([name isEqualToString:@"default"]) {        
         [stateDictionary setObject:[NSString stringWithFormat:@"/%@/%@", [self name], SyntaxStyleBaseIdentifier] forKey:@"id"];
+		[stateDictionary setObject:[NSString stringWithFormat:@"%meta.default.%@", [[self name] lowercaseString]] forKey:@"scope"];
         [stateDictionary setObject:SyntaxStyleBaseIdentifier forKey:kSyntaxHighlightingStyleIDAttributeName];
         [I_defaultState addEntriesFromDictionary:stateDictionary];
     } else {
@@ -615,6 +616,14 @@
         id realChildState = [self stateForID:[childState objectForKey:@"id"]];
         if (![realChildState objectForKey:@"color"] && isLocal) {
             [realChildState setObject:[state objectForKey:kSyntaxHighlightingStyleIDAttributeName] forKey:kSyntaxHighlightingStyleIDAttributeName]; // Inherit color if n/a
+#warning handle failure for backwards comp.
+			//if(![state objectForKey:@"scope"]) NSLog(@"OIUDOINDAO %@",[state objectForKey:@"id"]);
+			//if(![realChildState objectForKey:@"scope"]) NSLog(@"UDIOBOIDN %@",[realChildState objectForKey:@"id"]);
+			NSString *currentScope = [state objectForKey:@"scope"];
+			NSString *childScope = [realChildState objectForKey:@"scope"];
+			if (currentScope && childScope && ![currentScope isEqualToString:childScope]) {
+				[scopeStyleDictionary setObject:[NSDictionary dictionaryWithObject:currentScope forKey:@"inherit"] forKey:childScope];
+			}
         }
 		if (![childState objectForKey:[self keyForInheritedSymbols]])
 			[self calculateSymbolInheritanceForState:childState inheritedSymbols:symbols inheritedAutocomplete:autocomplete];
@@ -628,17 +637,6 @@
 	if (!I_cacheStylesReady && !I_cacheStylesCalculating) {
 		//Moved addStyles in here, which should speed up type-and-color performance significantly.
 		[self addStyleIDsFromState:[self defaultState]];
-
-		NSArray *styleKeyArray = [NSArray arrayWithObjects:@"color",@"inverted-color",@"background-color",@"inverted-background-color",@"font-trait",nil];
-		NSMutableDictionary *stateStyles;
-		[I_defaultState setObject:@"meta.default" forKey:@"scope"];
-		stateStyles = [NSMutableDictionary dictionary];
-		for (NSString *styleKey in styleKeyArray) {
-			if ([I_defaultState objectForKey:styleKey]) [stateStyles setObject:[I_defaultState objectForKey:styleKey] forKey:styleKey];
-		}
-		[scopeStyleDictionary setObject:stateStyles forKey:[I_defaultState objectForKey:@"scope"]];
-		
-		
 		[self cacheStyles];
 	}
 	if (!I_symbolAndAutocompleteInheritanceReady) {
@@ -767,7 +765,6 @@
     while ((keyword = [keywords nextObject])) {
 		
 		if ([keyword objectForKey:@"scope"]) {
-#warning FIXME keywords should define a scope for unified scope-style lookup
 			stateStyles = [NSMutableDictionary dictionary];
 			for (NSString *styleKey in styleKeyArray) {
 				if ([keyword objectForKey:styleKey]) [stateStyles setObject:[keyword objectForKey:styleKey] forKey:styleKey];

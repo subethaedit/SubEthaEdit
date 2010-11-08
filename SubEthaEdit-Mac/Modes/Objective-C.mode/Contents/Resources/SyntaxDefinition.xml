@@ -29,7 +29,7 @@
                     <regex>(((?&lt;!\\)(\\\\)*)|^)"</regex>
                 </end>
             </state>
-            <state id="Block" type="block" foldable="yes">
+            <state id="Block" type="block" foldable="yes" scope="meta.block">
                 <begin>
                     <regex>(?:^[ \t]*[-+][^(-;]*\([A-Za-z0-9 *_]*\)[A-Za-z0-9_ \t\n\r]+)?{</regex>
                 </begin>
@@ -39,7 +39,7 @@
                 <import mode="C" keywords-only="yes"/>
                 <import/>
             </state>
-            <state id="Objective-C @clauses" type="block" foldable="yes">
+            <state id="Objective-C @clauses" type="block" foldable="yes" scope="meta.block.directives">
                 <begin>
                     <regex>(?:@implementation|@interface|@protocol)\s+[\w_]+(?:\s*(?:(?:\(\s*[\w_]+\s*\))|:\s*[\w_]+\s*))?</regex>
                 </begin>

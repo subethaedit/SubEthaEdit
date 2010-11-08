@@ -11,7 +11,7 @@
     
         <default id="Base" color="#000">
         
-          <state id="EmailAndURLContainerState" containerState="yes">
+          <state id="EmailAndURLContainerState" containerState="yes" scope="meta.link">
             <keywords id="PrefixlessURLs" color="#0000ff" inverted-color="#4939ff" casesensitive="no" type="url" uri-prefix="http://" scope="meta.link">
                 <regex>(?i)\b(www\.[A-Z0-9._%-]+\.[A-Z]{2,4})\b</regex>
                 <regex>(?i)\b([A-Z0-9._%-]+\.net)\b</regex>

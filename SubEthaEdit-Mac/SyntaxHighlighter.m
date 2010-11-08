@@ -106,7 +106,6 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
     OGRegularExpression *stateDelimiter;
     OGRegularExpressionMatch *delimiterMatch;
 
-
     // Clean up state attributes in the string we work on now
 	NSArray *attributesToCleanup = [NSArray arrayWithObjects:kSyntaxHighlightingStackName,kSyntaxHighlightingStateDelimiterName,kSyntaxHighlightingFoldDelimiterName,kSyntaxHighlightingScopenameAttributeName,kSyntaxHighlightingTypeAttributeName,kSyntaxHighlightingParentModeForSymbolsAttributeName,kSyntaxHighlightingParentModeForAutocompleteAttributeName,kSyntaxHighlightingIsCorrectAttributeName,kSyntaxHighlightingFoldingDepthAttributeName,NSLinkAttributeName,kSyntaxHighlightingIsTrimmedStartAttributeName,nil];
 	@synchronized ([SyntaxHighlighter class]) {
@@ -141,6 +140,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
                     
         //NSLog(@"Stack at start: %@", stack);
         currentState = [definition stateForID:[[stack lastObject] objectForKey:@"state"]];
+		if (![currentState objectForKey:@"scope"]) NSLog(@"State lookup fail for scope for %@",[currentState objectForKey:@"id"]);
         
         // Identify the next block of homogenous state
 
@@ -330,7 +330,8 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 #warning FIXME default should have scope name by himself
 		} else {
 			//if ([[currentState objectForKey:kSyntaxHighlightingStyleIDAttributeName] isEqualToString:@"_Default"]) [scratchAttributes addEntriesFromDictionary:[theDocument styleAttributesForScope:@"meta.default"]];
-			//else NSLog(@"%@",[currentState objectForKey:kSyntaxHighlightingStyleIDAttributeName]);
+			//else 
+			NSLog(@"No scope for state %@",[currentState objectForKey:kSyntaxHighlightingStyleIDAttributeName]);
 		}
  		
 		//NSLog(@"%@ = %@", scope, scratchAttributes);
