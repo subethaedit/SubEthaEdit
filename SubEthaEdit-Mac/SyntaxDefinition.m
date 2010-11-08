@@ -164,7 +164,6 @@
 	for (id scopeNode in scopeNodes) {
 		NSMutableDictionary *scopeAttributes = [NSMutableDictionary dictionary];
 		[self addAttributes:[scopeNode attributes] toDictionary:scopeAttributes];
-		NSLog(@"inline scope %@",scopeAttributes);
 		if ([scopeAttributes objectForKey:@"scopeid"])
 			[scopeStyleDictionary setObject:scopeAttributes forKey:[scopeAttributes objectForKey:@"scopeid"]];
 	}

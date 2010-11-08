@@ -113,13 +113,13 @@
 	
 	if (!computedStyle) {
 		// Search for optimal style
-		NSLog(@"Asked for %@", aScope);
+		// NSLog(@"Asked for %@", aScope);
 		// First try full matching
 		if (!(computedStyle = [scopeStyleDictionary objectForKey:aScope])||[computedStyle objectForKey:@"inherit"]) {
 			NSString *newScope = [NSString stringWithString:aScope];
 			while([newScope rangeOfString:@"."].location != NSNotFound) {
 				newScope = [newScope stringByDeletingPathExtension];
-				NSLog(@"Looking for %@", newScope);
+				//NSLog(@"Looking for %@", newScope);
 				if (computedStyle = [scopeStyleDictionary objectForKey:newScope]) {
 					aScope = newScope;
 					break;
