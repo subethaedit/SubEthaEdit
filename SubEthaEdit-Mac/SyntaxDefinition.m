@@ -246,7 +246,10 @@
     
     if ([aDictionary objectForKey:@"scope"]) {
         [aDictionary setObject:[NSString stringWithFormat:@"%@.%@", [aDictionary objectForKey:@"scope"], [[self name] lowercaseString]] forKey:@"scope"];
-    }
+    } else {
+        [aDictionary setObject:[NSString stringWithFormat:@"meta.unknown.%@.%@", [aDictionary objectForKey:@"id"], [[self name] lowercaseString]] forKey:@"scope"];
+		NSLog(@"DEBUG: No scope specified, assuming %@", [NSString stringWithFormat:@"meta.unknown.%@.%@", [[aDictionary objectForKey:@"id"] lowercaseString], [[self name] lowercaseString]]);
+	}
     
     NSString *stateID = [NSString stringWithFormat:@"/%@/%@", [self name], [aDictionary objectForKey:@"id"]];
     if (stateID) {

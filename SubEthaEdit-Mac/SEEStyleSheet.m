@@ -42,7 +42,6 @@
 //		NSLog(@"inherit: %@", [self styleAttributesForScope:@"meta.block.directives.objective-c"]);
 #warning autoexport still active
 		[self exportStyleSheetToPath:[[[NSURL alloc]initFileURLWithPath:[NSString stringWithFormat:@"/tmp/%@.sss",[aDefinition name]]] autorelease]];
-//		[self importStyleSheetAtPath:[[[NSURL alloc]initFileURLWithPath:@"/Users/pittenau/Desktop/test.seestylesheet"] autorelease]];
 		
 	}
 	return self;
@@ -88,7 +87,9 @@
 		[scopeStyleDictionary setObject:scopeDictionary forKey:scope];
 	
 	}
-	
+	//Clear Cache
+	scopeCache = [NSMutableDictionary new];
+
 }
 
 - (void) exportStyleSheetToPath:(NSURL *)aPath;
