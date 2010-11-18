@@ -10,7 +10,7 @@
 
     <states>
     
-        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
+        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" scope="meta.default">
         
             <keywords id="Variables" color="#881280" inverted-color="#ed77e5" useforautocomplete="no">
                 <regex>\b(_[\w_]+(?=_)_)\b</regex>

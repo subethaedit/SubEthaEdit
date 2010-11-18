@@ -11,7 +11,7 @@
         <stylesheet>TagBased</stylesheet>
     </head>
     <states>
-        <default id="Base">
+        <default id="Base" scope="meta.default">
             <keywords id="Bad Ampersand" useforautocomplete="no" scope="invalid.illegal.bad-ampersand">
                 <regex>(&amp;)</regex>
             </keywords>

@@ -9,7 +9,7 @@
 
     <states>
     
-        <default id="Base" color="#000">
+        <default id="Base" color="#000" scope="meta.default">
             <keywords id="Keywords" color="#881350" useforautocomplete="yes">
                 <string>if</string>
                 <string>unless</string>

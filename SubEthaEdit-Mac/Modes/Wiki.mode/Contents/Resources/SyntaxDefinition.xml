@@ -8,7 +8,7 @@
 
     <states>
     
-        <default id="Base" color="#000" inverted-color="#fff">
+        <default id="Base" color="#000" inverted-color="#fff" scope="meta.default">
 
 			<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 

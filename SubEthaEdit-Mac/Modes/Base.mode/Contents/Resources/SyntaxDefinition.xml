@@ -9,7 +9,7 @@
 
     <states>
     
-        <default id="Base" color="#000">
+        <default id="Base" color="#000" scope="meta.default">
         
           <state id="EmailAndURLContainerState" containerState="yes" scope="meta.link">
             <keywords id="PrefixlessURLs" color="#0000ff" inverted-color="#4939ff" casesensitive="no" type="url" uri-prefix="http://" scope="meta.link">

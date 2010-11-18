@@ -10,7 +10,7 @@
 
     <states>
     
-       <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
+       <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" scope="meta.default">
 
             <keywords id="Objects" color="#881350" useforautocomplete="yes" font-weight="bold" scope="support.class">
                 <string>Object</string>

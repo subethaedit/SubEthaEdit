@@ -10,7 +10,7 @@
 
 	<states>
 
-		<default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="HTML" useautocompletefrommode="HTML" usespellchecking="yes">
+		<default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="HTML" useautocompletefrommode="HTML" usespellchecking="yes" scope="meta.default">
 		                 
 			<!-- STUDIO - Rewritten, do not replace mode -->
 			<import mode="XML" keywords-only="yes" />

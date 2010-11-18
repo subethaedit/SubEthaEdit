@@ -11,7 +11,7 @@
 
     <states>
     
-        <default id="Base">
+        <default id="Base" scope="meta.default">
 
             <keywords id="FunctionRegex" useforautocomplete="no" scope="entity.name.function">
 				<regex>([A-Za-z0-9_]+ *)\(</regex>

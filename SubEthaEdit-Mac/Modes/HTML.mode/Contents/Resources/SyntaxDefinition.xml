@@ -11,7 +11,7 @@
         <stylesheet>TagBased</stylesheet>
     </head>
     <states>
-        <default id="Base" usesymbolsfrommode="HTML" useautocompletefrommode="HTML">
+        <default id="Base" usesymbolsfrommode="HTML" useautocompletefrommode="HTML" scope="meta.default">
             <import mode="XML" keywords-only="yes"/>
             <keywords id="href links" type="url" color="#1A1AA6" useforautocomplete="no" scope="meta.link">
                 <regex>\s(?i)(href|src)(?-i)\s*=\s*"([^"]*)"(?=[^&lt;]*>)</regex>

@@ -10,7 +10,7 @@
 
     <states>
     
-        <default id="Base">
+        <default id="Base" scope="meta.default">
             <import mode="C" keywords-only="yes" />
             <state-link mode="C" state="Characters"/>
             <state-link mode="C" state="Preprocessor"/>

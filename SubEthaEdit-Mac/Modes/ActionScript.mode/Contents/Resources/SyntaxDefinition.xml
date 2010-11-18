@@ -10,7 +10,7 @@
 
     <states>
     
-        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
+        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" scope="meta.default">
         	
         	<keywords id="Classes" color="#CC4C00" useforautocomplete="yes">
 				<string>Accessibility</string>
