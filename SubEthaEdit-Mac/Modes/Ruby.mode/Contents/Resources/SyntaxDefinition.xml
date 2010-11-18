@@ -10,7 +10,7 @@
     
     <states>
     
-        <default id="Base" color="#000">
+        <default id="Base" color="#000" scope="meta.default">
             <keywords id="Literals" color="#0000cc" inverted-color="#7d9ffa" useforautocomplete="yes" scope="constant.language">
                 <string>true</string>
                 <string>false</string>

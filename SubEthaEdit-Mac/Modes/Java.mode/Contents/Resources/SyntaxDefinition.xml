@@ -11,7 +11,7 @@
 
     <states>
     
-        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="Java" useautocompletefrommode="Java">
+        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="Java" useautocompletefrommode="Java" scope="meta.default">
             <keywords id="Keywords" color="#881350" useforautocomplete="yes">
                 <string>abstract</string>
                 <string>break</string>

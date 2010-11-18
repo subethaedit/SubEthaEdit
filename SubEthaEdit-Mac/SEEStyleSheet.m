@@ -58,6 +58,9 @@
 {
 	NSError *err;
 	NSString *importString = [NSString stringWithContentsOfURL:aPath encoding:NSUTF8StringEncoding error:&err];
+	
+	importString = [[[[OGRegularExpression alloc] initWithString:@"\\/\\/[^\\n]+" options:OgreFindNotEmptyOption] autorelease] replaceAllMatchesInString:importString withString:@"" options:OgreNoneOption];
+	importString = [[[[OGRegularExpression alloc] initWithString:@"\\/\\*.*?\\*\\/" options:OgreFindNotEmptyOption|OgreMultilineOption] autorelease] replaceAllMatchesInString:importString withString:@"" options:OgreNoneOption];	
 		
 	NSArray *scopeStrings = [importString componentsSeparatedByString:@"}"];
 	

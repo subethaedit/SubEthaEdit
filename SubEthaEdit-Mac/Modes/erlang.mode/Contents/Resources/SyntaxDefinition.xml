@@ -8,7 +8,7 @@
         <folding toplevel="1" />
 	</head>
 	<states>
-		<default id="Base" color="#000" inverted-color="#fff">
+		<default id="Base" color="#000" inverted-color="#fff" scope="meta.default">
 			<keywords id="Atoms" color="#974319">
 				<regex>\b([a-z][a-zA-Z0-9@_]*)\b</regex>
 			</keywords>

@@ -9,7 +9,7 @@
 
     <states>
     
-        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal">
+        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" scope="meta.default">
         
             <keywords id="Index" color="#8f6d00" inverted-color="#c09100" font-weight="bold" useforautocomplete="no">
                 <regex>^(Index: )</regex>

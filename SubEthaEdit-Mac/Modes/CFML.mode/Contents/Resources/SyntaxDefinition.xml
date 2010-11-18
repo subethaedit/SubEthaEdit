@@ -10,7 +10,7 @@
 
     <states>
     
-        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal"  usesymbolsfrommode="CFML" useautocompletefrommode="CFML" usespellchecking="yes">
+        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal"  usesymbolsfrommode="CFML" useautocompletefrommode="CFML" usespellchecking="yes" scope="meta.default">
              
             <state id="Inline CFML Script" color="#000" background-color="#fff" useforautocomplete="no" usesymbolsfrommode="CFML" useautocompletefrommode="CFML" foldable="yes">
 				<begin><regex>&lt;(?i)cfscript&gt;</regex></begin>

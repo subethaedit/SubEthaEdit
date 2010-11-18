@@ -9,7 +9,7 @@
 
     <states>
     
-        <default id="Base" color="#408000" font-weight="normal" font-style="normal">
+        <default id="Base" color="#408000" font-weight="normal" font-style="normal" scope="meta.default">
             <keywords id="Commands" color="#0b0bff" inverted-color="#4939ff" useforautocomplete="yes">
                 <string>close</string>
                 <string>copy</string>

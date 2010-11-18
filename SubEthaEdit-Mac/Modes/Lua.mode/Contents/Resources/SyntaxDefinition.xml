@@ -7,7 +7,7 @@
 		<charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ]]></charsintokens>
 	</head>
 	<states>
-		<default id="Base" color="#000">
+		<default id="Base" color="#000" scope="meta.default">
 			<keywords id="Literals" color="#00f" inverted-color="#7d9ffa" useforautocomplete="yes">
 				<string>true</string>
 				<string>false</string>
