@@ -605,7 +605,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     return [defaultDefaults objectForKey:aKey];
 }
 
-- (SyntaxStyle *)styleSheet {
+- (SEEStyleSheet *)styleSheet {
     if (!I_styleSheet) {
 		I_styleSheet = [[SEEStyleSheet alloc] initWithDefinition:[self syntaxDefinition]];
     }

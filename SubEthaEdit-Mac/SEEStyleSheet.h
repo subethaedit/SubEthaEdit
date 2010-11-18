@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
+@class SyntaxDefinition;
 
 @interface SEEStyleSheet : NSObject {
 	NSMutableDictionary * I_ScopeStyleDictionary;
@@ -18,7 +19,10 @@
 @property (nonatomic, retain) NSMutableDictionary * scopeCache;
 
 
+- (SEEStyleSheet*)initWithDefinition:(SyntaxDefinition*)aDefinition; 
 - (NSDictionary *)styleAttributesForScope:(NSString *)aScope;
+- (void) importStyleSheetAtPath:(NSURL *)aPath;
+- (void) exportStyleSheetToPath:(NSURL *)aPath;
 
 
 

@@ -23,7 +23,8 @@
 @synthesize scopeStyleDictionary;
 @synthesize scopeCache;
 
-- (SEEStyleSheet*)initWithDefinition:(SyntaxDefinition*)aDefinition {
+- (SEEStyleSheet*)initWithDefinition:(SyntaxDefinition*)aDefinition; 
+{
     self=[super init];
     if (self) {
 
