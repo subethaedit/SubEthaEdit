@@ -181,6 +181,7 @@ NSString * const ScriptWrapperDidRunScriptNotification =@"ScriptWrapperDidRunScr
 
 - (void)_delayedExecute
 {
+	NSAutoreleasePool *pool = [NSAutoreleasePool new];
     [[NSNotificationCenter defaultCenter] postNotificationName:ScriptWrapperWillRunScriptNotification object:self];
     NSDictionary *errorDictionary=nil;
     [self executeAndReturnError:&errorDictionary];
@@ -190,6 +191,7 @@ NSString * const ScriptWrapperDidRunScriptNotification =@"ScriptWrapperDidRunScr
     }
 #endif
     [[NSNotificationCenter defaultCenter] postNotificationName:ScriptWrapperDidRunScriptNotification object:self userInfo:errorDictionary];
+	[pool drain];
 }
 
 - (void)performScriptAction:(id)aSender {
@@ -198,7 +200,7 @@ NSString * const ScriptWrapperDidRunScriptNotification =@"ScriptWrapperDidRunScr
          (GetCurrentKeyModifiers() & optionKey)) ) {
         [self revealSource];
     } else {
-        [self performSelector:@selector(_delayedExecute) withObject:nil afterDelay:0.0];
+        [self performSelectorInBackground:@selector(_delayedExecute) withObject:nil];
     }
 
 }
