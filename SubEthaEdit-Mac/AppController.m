@@ -960,9 +960,10 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 }
 
 - (void)reportAppleScriptError:(NSDictionary *)anErrorDictionary {
+	NSLog(@"%s %@",__FUNCTION__, anErrorDictionary);
     NSAlert *newAlert = [[[NSAlert alloc] init] autorelease];
     [newAlert setAlertStyle:NSCriticalAlertStyle];
-    [newAlert setMessageText:[anErrorDictionary objectForKey:@"NSAppleScriptErrorBriefMessage"]];
+    [newAlert setMessageText:[anErrorDictionary objectForKey:@"NSAppleScriptErrorBriefMessage"] ? [anErrorDictionary objectForKey:@"NSAppleScriptErrorBriefMessage"] : @"Unknown AppleScript Error"];
     [newAlert setInformativeText:[NSString stringWithFormat:@"%@ (%d)", [anErrorDictionary objectForKey:@"NSAppleScriptErrorMessage"], [[anErrorDictionary objectForKey:@"NSAppleScriptErrorNumber"] intValue]]];
     [newAlert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
     NSWindow *alertWindow=nil;
