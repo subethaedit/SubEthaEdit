@@ -408,7 +408,7 @@ static NSMenu *S_defaultMenu=nil;
             NSUInteger index = [self characterIndexForPoint:[[self window] convertBaseToScreen:[[NSApp currentEvent] locationInWindow]]];
             NSRange resultRange = lineRange;
             if (index != NSNotFound && index < NSMaxRange(wholeRange)) {
-                [ts attribute:kSyntaxHighlightingStyleIDAttributeName atIndex:index longestEffectiveRange:&resultRange inRange:wholeRange];
+                [ts attribute:kSyntaxHighlightingScopenameAttributeName atIndex:index longestEffectiveRange:&resultRange inRange:wholeRange];
                 return RangeConfinedToRange(resultRange,lineRange);
             }
         } else if (clickCount >= 5) {
