@@ -725,5 +725,38 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 	return [I_foldableTextStorage objectSpecifier];
 }
 
+- (NSUInteger)minFoldingDepthInRange:(NSRange)aRange {
+	NSUInteger foldingDepth = NSUIntegerMax;
+	NSRange effectiveRange = NSMakeRange(aRange.location,0);
+	while (effectiveRange.location < NSMaxRange(aRange)) {
+		NSNumber *thisFoldingDepth = [self attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:effectiveRange.location  longestEffectiveRange:&effectiveRange inRange:aRange];
+		if (thisFoldingDepth) {
+			foldingDepth = MIN(foldingDepth, [thisFoldingDepth unsignedIntegerValue]);
+		}
+		effectiveRange.location = NSMaxRange(effectiveRange);
+	}
+	return foldingDepth == NSUIntegerMax ? 0 : foldingDepth;
+}
+
+- (void)reindentLine:(NSRange)aLineRange usingTabStringPerLevel:(NSString *)aTabString {
+	NSUInteger minFoldingDepth = [self minFoldingDepthInRange:aLineRange];
+	NSRange whitespaceRange = [[self string] rangeOfLeadingWhitespaceStartingAt:aLineRange.location];
+	NSString *replacementString = [@"" stringByPaddingToLength:[aTabString length] * minFoldingDepth withString:aTabString startingAtIndex:0];
+	[self replaceCharactersInRange:whitespaceRange withString:replacementString];
+}
+
+- (void)reindentRange:(NSRange)aRange usingTabStringPerLevel:(NSString *)aTabString {
+	NSRange completeRange = [[self string] lineRangeForRange:aRange];
+	
+	[self beginEditing];
+
+	NSRange lineRange = NSMakeRange(NSMaxRange(completeRange),0);
+	while (lineRange.location > completeRange.location) {
+		lineRange = [[self string] lineRangeForRange:NSMakeRange(lineRange.location - 1,0)];
+		[self reindentLine:lineRange usingTabStringPerLevel:aTabString];
+	}
+	
+	[self endEditing];
+}
 
 @end

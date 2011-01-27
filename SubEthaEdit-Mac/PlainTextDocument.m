@@ -4664,6 +4664,17 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [self setLineEndingUndoable:[aSender tag]];
 }
 
+- (IBAction)reindentSelection:(id)aSender {
+	FullTextStorage *fullTextStorage = [I_textStorage fullTextStorage];
+	PlainTextEditor *activeTextEditor = [self activePlainTextEditor];
+	NSRange selectionRange = [I_textStorage fullRangeForFoldedRange:[[activeTextEditor textView] selectedRange]];
+	
+	NSString *tabString = [self usesTabs] ? @"\t" : [@"" stringByPaddingToLength:[self tabWidth] withString:@" " startingAtIndex:0];
+    [[self documentUndoManager] beginUndoGrouping];
+	[fullTextStorage reindentRange:selectionRange usingTabStringPerLevel:tabString];
+    [[self documentUndoManager] endUndoGrouping];
+}
+
 - (void)convertLineEndingsToLineEnding:(LineEnding)lineEnding {
 
     if (![self isFileWritable] && ![self editAnyway]) {

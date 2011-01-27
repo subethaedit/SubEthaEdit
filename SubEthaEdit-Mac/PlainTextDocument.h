@@ -283,6 +283,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (void)convertLineEndingsToLineEnding:(LineEnding)lineEnding;
 - (IBAction)convertLineEndings:(id)aSender;
 - (IBAction)chooseLineEndings:(id)aSender;
+- (IBAction)reindentSelection:(id)aSender;
 
 - (NSRange)rangeOfPrevious:(BOOL)aPrevious symbolForRange:(NSRange)aRange;
 - (NSRange)rangeOfPrevious:(BOOL)aPrevious changeForRange:(NSRange)aRange;

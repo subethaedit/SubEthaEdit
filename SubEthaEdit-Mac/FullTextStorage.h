@@ -56,6 +56,8 @@
 - (void)setEncoding:(unsigned int)anEncoding;
 - (NSArray *)selectionOperationsForRangesUnconvertableToEncoding:(NSStringEncoding)encoding;
 
+- (void)reindentRange:(NSRange)aRange usingTabStringPerLevel:(NSString *)aTabString;
+
 #pragma mark -
 //- (void)replaceCharactersInRange:(NSRange)inRange withAttributedString:(NSAttributedString *)inAttributedString synchronize:(BOOL)inSynchronizeFlag;
 //- (void)replaceCharactersInRange:(NSRange)inRange withAttributedString:(NSAttributedString *)inAttributedString;
