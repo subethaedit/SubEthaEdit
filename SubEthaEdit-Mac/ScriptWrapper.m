@@ -9,7 +9,7 @@
 #import <Carbon/Carbon.h>
 #import "ScriptWrapper.h"
 #import "NSAppleScriptTCMAdditions.h"
-#import "SESendProc.h"
+// #import "SESendProc.h"
 #import "SEActiveProc.h"
 
 #ifdef SUBETHAEDIT

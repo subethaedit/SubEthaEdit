@@ -13,6 +13,10 @@
 #import "SyntaxHighlighter.h"
 
 
+@interface SyntaxDefinition (PrivateAdditions)
+- (void)addAttributes:(NSArray *)attributes toDictionary:(NSMutableDictionary *)aDictionary;
+@end
+
 @implementation SyntaxDefinition
 /*"A Syntax Definition"*/
 

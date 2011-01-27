@@ -36,7 +36,9 @@
 				controller = isFoldableTextStorage ? O_foldingTextStorageAttributesContentController : O_attributesContentController;
 				[controller setContent:[NSMutableArray array]];
 				NSRange selectedRange = [textView selectedRange];
-				if (!isFoldableTextStorage) selectedRange = [(id)firstTextStorage fullRangeForFoldedRange:selectedRange];
+				if (!isFoldableTextStorage && [firstTextStorage respondsToSelector:@selector(fullRangeForFoldedRange:)]) {
+					selectedRange = [(id)firstTextStorage fullRangeForFoldedRange:selectedRange];
+				}
 				NSRange wholeRange = NSMakeRange(0,[textStorage length]);
 				if (selectedRange.location < NSMaxRange(wholeRange)) {
 					NSDictionary *attributes = [textStorage attributesAtIndex:selectedRange.location effectiveRange:NULL];

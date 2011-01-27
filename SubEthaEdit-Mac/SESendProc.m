@@ -66,6 +66,7 @@ SUCH DAMAGE.
 */
 
 #import "SESendProc.h"
+#import <Carbon/Carbon.h>
 
 static AEIdleUPP _SEIdleProc = NULL;
 static AEFilterUPP _SEFilterProc = NULL;

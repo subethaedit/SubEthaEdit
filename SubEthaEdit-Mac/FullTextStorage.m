@@ -729,9 +729,12 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 	NSUInteger foldingDepth = NSUIntegerMax;
 	NSRange effectiveRange = NSMakeRange(aRange.location,0);
 	while (effectiveRange.location < NSMaxRange(aRange)) {
-		NSNumber *thisFoldingDepth = [self attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:effectiveRange.location  longestEffectiveRange:&effectiveRange inRange:aRange];
-		if (thisFoldingDepth) {
-			foldingDepth = MIN(foldingDepth, [thisFoldingDepth unsignedIntegerValue]);
+		NSString *foldingDelimiter = [self attribute:kSyntaxHighlightingFoldDelimiterName atIndex:effectiveRange.location  longestEffectiveRange:&effectiveRange inRange:aRange];
+		
+		// extract folding depth
+		NSNumber *thisFoldingDepth = [self attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:effectiveRange.location effectiveRange:NULL];
+		if (thisFoldingDepth) {			
+			foldingDepth = MIN(foldingDepth, [thisFoldingDepth unsignedIntegerValue] - (foldingDelimiter != nil ? 1 : 0));
 		}
 		effectiveRange.location = NSMaxRange(effectiveRange);
 	}

@@ -228,7 +228,7 @@ static OSStatus AquireRight(AuthorizationRef auth, CFStringRef path)
     err = AuthorizationCopyRights(auth, &rights, kAuthorizationEmptyEnvironment, kAuthFlags, NULL);
 
     #if MORE_DEBUG
-        fprintf(stderr, "MoreSecurityTest: HelperTool: ACR returned %ld\n", err);
+        fprintf(stderr, "MoreSecurityTest: HelperTool: ACR returned %d\n", err);
     #endif
     
     return err;
