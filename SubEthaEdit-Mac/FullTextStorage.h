@@ -56,6 +56,7 @@
 - (void)setEncoding:(unsigned int)anEncoding;
 - (NSArray *)selectionOperationsForRangesUnconvertableToEncoding:(NSStringEncoding)encoding;
 
+- (BOOL)nextLineNeedsIndentation:(NSRange)aLineRange;
 - (void)reindentRange:(NSRange)aRange usingTabStringPerLevel:(NSString *)aTabString;
 
 #pragma mark -

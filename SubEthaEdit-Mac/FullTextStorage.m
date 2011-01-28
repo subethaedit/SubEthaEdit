@@ -725,6 +725,22 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 	return [I_foldableTextStorage objectSpecifier];
 }
 
+- (BOOL)nextLineNeedsIndentation:(NSRange)aLineRange {
+	// check from the end to the range to the beginning if we find a folding start. if so return yes. otherwise return no;
+	BOOL result = NO;
+	NSRange effectiveRange = NSMakeRange(NSMaxRange(aLineRange)-1,0);
+	NSString *foldingDelimiter = nil;
+	while (effectiveRange.location > aLineRange.location) {
+		foldingDelimiter = [self attribute:kSyntaxHighlightingFoldDelimiterName atIndex:effectiveRange.location longestEffectiveRange:&effectiveRange inRange:aLineRange];
+		if (foldingDelimiter) {
+			if ([foldingDelimiter isEqualToString:kSyntaxHighlightingStateDelimiterStartValue]) result = YES;
+			break;
+		}
+		effectiveRange.location -= 1; // iterate backwards
+	}
+	return result;
+}
+
 - (NSUInteger)minFoldingDepthInRange:(NSRange)aRange {
 	NSUInteger foldingDepth = NSUIntegerMax;
 	NSRange effectiveRange = NSMakeRange(aRange.location,0);
