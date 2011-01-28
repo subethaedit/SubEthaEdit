@@ -33,6 +33,7 @@ NSString * const DocumentModeFontAttributesPreferenceKey       = @"FontAttribute
 NSString * const DocumentModeHighlightSyntaxPreferenceKey      = @"HighlightSyntax";
 NSString * const DocumentModeIndentNewLinesPreferenceKey       = @"IndentNewLines";
 NSString * const DocumentModeTabKeyReplacesSelectionPreferenceKey  = @"TabKeyReplacesSelection";
+NSString * const DocumentModeTabKeyMovesToIndentPreferenceKey  = @"TabKeyMovesToIndent";
 NSString * const DocumentModeLineEndingPreferenceKey           = @"LineEnding";
 NSString * const DocumentModeShowLineNumbersPreferenceKey      = @"ShowLineNumbers";
 NSString * const DocumentModeShowMatchingBracketsPreferenceKey = @"ShowMatchingBrackets";
@@ -132,6 +133,10 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 									  forKey:DocumentModeIndentNewLinesPreferenceKey];
 		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultEditPreferenceKey
 									  forKey:DocumentModeTabWidthPreferenceKey];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultEditPreferenceKey
+									  forKey:DocumentModeTabKeyMovesToIndentPreferenceKey];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultEditPreferenceKey
+									  forKey:DocumentModeTabKeyReplacesSelectionPreferenceKey];
 	
 		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultFilePreferenceKey
 									  forKey:DocumentModeEncodingPreferenceKey];
@@ -448,6 +453,12 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             [I_defaults setObject:[NSNumber numberWithInt:0] forKey:DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey];
 #endif //defined(CODA)
         }
+
+		if (![I_defaults objectForKey:DocumentModeTabKeyMovesToIndentPreferenceKey]) {
+			[I_defaults setObject:[NSNumber numberWithBool:YES]
+						   forKey:DocumentModeTabKeyMovesToIndentPreferenceKey];
+		}
+
 
                 NSMutableDictionary *printDictionary=[I_defaults objectForKey:DocumentModePrintOptionsPreferenceKey];
         if (printDictionary) [I_defaults setObject:[[printDictionary mutableCopy] autorelease] forKey:DocumentModePrintOptionsPreferenceKey];

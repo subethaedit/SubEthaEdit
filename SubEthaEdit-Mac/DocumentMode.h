@@ -21,6 +21,7 @@ extern NSString * const DocumentModeFontAttributesPreferenceKey         ;
 extern NSString * const DocumentModeHighlightSyntaxPreferenceKey        ;
 extern NSString * const DocumentModeIndentNewLinesPreferenceKey         ;
 extern NSString * const DocumentModeTabKeyReplacesSelectionPreferenceKey;
+extern NSString * const DocumentModeTabKeyMovesToIndentPreferenceKey    ;
 extern NSString * const DocumentModeLineEndingPreferenceKey             ;
 extern NSString * const DocumentModeShowLineNumbersPreferenceKey        ;
 extern NSString * const DocumentModeShowMatchingBracketsPreferenceKey   ;

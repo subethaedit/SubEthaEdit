@@ -6668,13 +6668,56 @@ static NSString *S_measurementUnits;
         	PlainTextEditor *editor = [(TextView *)aTextView editor];
         	[editor shiftRight:self];
         	return YES;
-        } else if (aSelector==@selector(insertTab:) && !I_flags.usesTabs) {
-            // when we have a tab we have to find the last linebreak
-            NSRange lineRange=[[[self textStorage] string] lineRangeForRange:affectedRange];
-            NSString *replacementString=[@" " stringByPaddingToLength:I_tabWidth-((affectedRange.location-lineRange.location)%I_tabWidth)
-                                                           withString:@" " startingAtIndex:0];
-            [aTextView insertText:replacementString];
-            return YES;
+        } else if (aSelector==@selector(insertTab:)) {
+			BOOL tabKeyMovesToIndent  = [[[self documentMode] defaultForKey:DocumentModeTabKeyMovesToIndentPreferenceKey] boolValue];
+			NSLog(@"%s tabkeymovestoindent:%d",__FUNCTION__,tabKeyMovesToIndent);
+        	if (tabKeyMovesToIndent && selectedRange.length == 0) {
+        		NSString *string = [[self textStorage] string]; // this is the string including the foldings
+        		NSRange currentLineRange = [string lineRangeForRange:selectedRange];
+        		if (currentLineRange.location > 0) { // do nothing special if we are in the first line
+	        		NSRange rangeToReplace = [string rangeOfLeadingWhitespaceStartingAt:currentLineRange.location];
+					NSRange rangeToReplaceWith = NSMakeRange(NSNotFound,0);
+					
+					NSInteger location = currentLineRange.location;
+					while (location != 0) {
+						NSUInteger startIndex, lineEndIndex, contentsEndIndex;
+						[string getLineStart:&startIndex end:&lineEndIndex contentsEnd:&contentsEndIndex forRange:NSMakeRange(location-1,0)];
+						NSRange whiteSpaceRange = [string rangeOfLeadingWhitespaceStartingAt:startIndex];
+						if (NSMaxRange(whiteSpaceRange) < contentsEndIndex) {
+							// found it, this is a line with content
+							rangeToReplaceWith = whiteSpaceRange;
+							break;
+						} else {
+							location = startIndex;
+						}
+					}
+					
+					if (rangeToReplaceWith.location != NSNotFound) {
+						int tabWidth = [self tabWidth];
+						if ([string detabbedLengthForRange:rangeToReplace     tabWidth:tabWidth] < 
+							[string detabbedLengthForRange:rangeToReplaceWith tabWidth:tabWidth] &&
+							NSLocationInRange(selectedRange.location,NSMakeRange(rangeToReplace.location,rangeToReplace.length+1))) {
+							// sanity is checked, we need to indent!
+							NSString *replacementString = [string substringWithRange:rangeToReplaceWith];
+							if ([aTextView shouldChangeTextInRange:rangeToReplace replacementString:replacementString]) {
+								NSTextStorage *textStorage = [aTextView textStorage];
+								[textStorage replaceCharactersInRange:rangeToReplace withString:replacementString];
+								[aTextView didChangeText];
+							}
+							return YES;
+						}
+					}
+        		}
+        	}
+        	if (!I_flags.usesTabs) {
+				// when we have a tab we have to find the last linebreak
+				NSRange lineRange=[[[self textStorage] string] lineRangeForRange:affectedRange];
+				NSString *replacementString=[@" " stringByPaddingToLength:I_tabWidth-((affectedRange.location-lineRange.location)%I_tabWidth)
+															   withString:@" " startingAtIndex:0];
+				[aTextView insertText:replacementString];
+				return YES;
+			}
+			return NO; // do the default behaviour
         } else if ((aSelector==@selector(moveLeft:)    || aSelector==@selector(moveRight:) || 
                     aSelector==@selector(moveForward:) || aSelector==@selector(moveBackward:)) &&
                     I_flags.showMatchingBrackets) {
