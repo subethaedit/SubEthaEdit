@@ -6670,14 +6670,14 @@ static NSString *S_measurementUnits;
         	return YES;
         } else if (aSelector==@selector(insertTab:)) {
 			BOOL tabKeyMovesToIndent  = [[[self documentMode] defaultForKey:DocumentModeTabKeyMovesToIndentPreferenceKey] boolValue];
-			NSLog(@"%s tabkeymovestoindent:%d",__FUNCTION__,tabKeyMovesToIndent);
+
         	if (tabKeyMovesToIndent && selectedRange.length == 0) {
         		NSString *string = [[self textStorage] string]; // this is the string including the foldings
         		NSRange currentLineRange = [string lineRangeForRange:selectedRange];
         		if (currentLineRange.location > 0) { // do nothing special if we are in the first line
 	        		NSRange rangeToReplace = [string rangeOfLeadingWhitespaceStartingAt:currentLineRange.location];
 					NSRange rangeToReplaceWith = NSMakeRange(NSNotFound,0);
-					
+					BOOL indentOneStepFurther = NO;
 					NSInteger location = currentLineRange.location;
 					while (location != 0) {
 						NSUInteger startIndex, lineEndIndex, contentsEndIndex;
@@ -6686,6 +6686,11 @@ static NSString *S_measurementUnits;
 						if (NSMaxRange(whiteSpaceRange) < contentsEndIndex) {
 							// found it, this is a line with content
 							rangeToReplaceWith = whiteSpaceRange;
+							// TODO: if we find a folding start at the end of that line we want to indent one step further
+							NSString *foldingDelimiter = [[self textStorage] attribute:kSyntaxHighlightingFoldDelimiterName atIndex:contentsEndIndex == startIndex ? contentsEndIndex : contentsEndIndex-1 effectiveRange:NULL];
+							if ([foldingDelimiter isEqualToString:kSyntaxHighlightingStateDelimiterStartValue]) {
+								indentOneStepFurther = YES;
+							}
 							break;
 						} else {
 							location = startIndex;
@@ -6699,6 +6704,7 @@ static NSString *S_measurementUnits;
 							NSLocationInRange(selectedRange.location,NSMakeRange(rangeToReplace.location,rangeToReplace.length+1))) {
 							// sanity is checked, we need to indent!
 							NSString *replacementString = [string substringWithRange:rangeToReplaceWith];
+							if (indentOneStepFurther) replacementString = [replacementString stringByAppendingString:I_flags.usesTabs ? @"\t" : [@" " stringByPaddingToLength:I_tabWidth withString:@" " startingAtIndex:0]];
 							if ([aTextView shouldChangeTextInRange:rangeToReplace replacementString:replacementString]) {
 								NSTextStorage *textStorage = [aTextView textStorage];
 								[textStorage replaceCharactersInRange:rangeToReplace withString:replacementString];
