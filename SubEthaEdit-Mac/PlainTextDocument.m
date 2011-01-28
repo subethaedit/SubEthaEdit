@@ -73,8 +73,8 @@
 #import <UniversalDetector/UniversalDetector.h>
 
 #if defined(CODA)
-#import "TSDocument.h"
-#import "TSWrapperViewController.h"
+#import "CodaDocument.h"
+#import "NodeDocumentViewController.h"
 #endif //defined(CODA)
 
 #pragma pack(push, 2)
@@ -4231,7 +4231,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     // Create the request dictionary for exchanging file contents
 
     if (err == noErr) {
-        NSMutableDictionary *attrs = [[[self fileAttributesToWriteToFile:fullDocumentPath ofType:docType saveOperation:saveOperationType] mutableCopy] autorelease];
+        NSMutableDictionary *attrs = [[[self fileAttributesToWriteToURL:[NSURL fileURLWithPath:fullDocumentPath] ofType:docType forSaveOperation:saveOperationType originalContentsURL:[self fileURL] error:nil] mutableCopy] autorelease];
         if (![attrs objectForKey:NSFilePosixPermissions]) {
             [attrs setObject:[NSNumber numberWithUnsignedShort:S_IRUSR | S_IWUSR | S_IRGRP | S_IROTH] forKey:NSFilePosixPermissions];
         }
@@ -6651,10 +6651,11 @@ static NSString *S_measurementUnits;
                 if (NSMaxRange(indentRange)>affectedRange.location) {
                     indentRange.length-=NSMaxRange(indentRange)-affectedRange.location;
                 }
-                if (indentRange.length) {
+                BOOL needsIndent = [[foldableTextStorage fullTextStorage] nextLineNeedsIndentation:[foldableTextStorage fullRangeForFoldedRange:NSMakeRange(indentRange.location,affectedRange.location - indentRange.location)]];
+                if (indentRange.length || needsIndent) {
                     indentString=[string substringWithRange:indentRange];
 					// if we find a folding start prior in that line we need to indent further
-					if ([[foldableTextStorage fullTextStorage] nextLineNeedsIndentation:[foldableTextStorage fullRangeForFoldedRange:NSMakeRange(indentRange.location,affectedRange.location - indentRange.location)]]) {
+					if (needsIndent) {
 
 						// check if the range after the effected range is a end of a folding, then we push it to the next line, one indentation less
 						if (NSMaxRange(affectedRange) < [[self textStorage] length]) {
@@ -6823,7 +6824,7 @@ static NSString *S_measurementUnits;
 				{
 					positionToMatch = charIndex;
 				}
-				else
+				else if ( clickedChar == 32 ) // only select ahead if you clicked on a space #15023
 				{
 					if ( (charIndex > 0) && [self TCM_charIsBracket:[string characterAtIndex:(charIndex - 1)]] )
 					{

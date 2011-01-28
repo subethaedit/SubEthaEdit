@@ -8,7 +8,7 @@
 
 
 #if defined(CODA)
-#import "../document/TSNodeWrapper.h"
+#import "../document/NodeDocument.h"
 #endif //defined(CODA)
 #import <Cocoa/Cocoa.h>
 #import <Security/Security.h>
@@ -43,7 +43,7 @@ extern NSString * const ChangedByUserIDAttributeName;
 extern NSString * const PlainTextDocumentDidSaveNotification;
 
 #if defined(CODA)
-@interface PlainTextDocument : TSNodeWrapper <SEEDocument,  NSTextViewDelegate, NSTextStorageDelegate, NSOpenSavePanelDelegate>
+@interface PlainTextDocument : NodeDocument <SEEDocument,  NSTextViewDelegate, NSTextStorageDelegate, NSOpenSavePanelDelegate>
 #else
 @interface PlainTextDocument : NSDocument <SEEDocument, NSTextViewDelegate, NSTextStorageDelegate, NSOpenSavePanelDelegate>
 #endif //defined(CODA)

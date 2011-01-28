@@ -24,7 +24,8 @@
 #pragma mark - Initizialisation
 #pragma mark - 
 
-@synthesize scopeStyleDictionary, linkedStyleSheets;
+@synthesize scopeStyleDictionary = I_scopeStyleDictionary;
+@synthesize linkedStyleSheets = I_linkedStyleSheets;
 
 /*"Initiates the Syntax Definition with an XML file"*/
 - (id)initWithFile:(NSString *)aPath forMode:(DocumentMode *)aMode {
@@ -46,8 +47,8 @@
         I_defaultSyntaxStyle = [SyntaxStyle new]; 
         [I_defaultSyntaxStyle setDocumentMode:aMode];               
         // Parse XML File
-		scopeStyleDictionary = [NSMutableDictionary new];
-		linkedStyleSheets = [NSMutableArray new];
+		self.scopeStyleDictionary = [NSMutableDictionary dictionary];
+		self.linkedStyleSheets = [NSMutableArray array];
 		
 		[self parseXMLFile:aPath];
         
@@ -75,8 +76,8 @@
 }
 
 - (void)dealloc {
-	scopeStyleDictionary = nil;
-    linkedStyleSheets = nil;
+	self.scopeStyleDictionary = nil;
+    self.linkedStyleSheets = nil;
 	[I_name release];
     [I_allStates release];
     [I_defaultState release];
@@ -171,14 +172,14 @@
 		NSMutableDictionary *scopeAttributes = [NSMutableDictionary dictionary];
 		[self addAttributes:[scopeNode attributes] toDictionary:scopeAttributes];
 		if ([scopeAttributes objectForKey:@"scopeid"])
-			[scopeStyleDictionary setObject:scopeAttributes forKey:[scopeAttributes objectForKey:@"scopeid"]];
+			[self.scopeStyleDictionary setObject:scopeAttributes forKey:[scopeAttributes objectForKey:@"scopeid"]];
 	}
 
 	// Parse linked sheets
 
 	NSArray *sheetNodes = [syntaxDefinitionXML nodesForXPath:@"/syntax/head/stylesheet" error:&err];
 	for (id sheetNode in sheetNodes) {
-		[linkedStyleSheets addObject:[sheetNode stringValue]];
+		[self.linkedStyleSheets addObject:[sheetNode stringValue]];
 	}
 	
 	
@@ -649,7 +650,7 @@
 			NSString *currentScope = [state objectForKey:@"scope"];
 			NSString *childScope = [realChildState objectForKey:@"scope"];
 			if (currentScope && childScope && ![currentScope isEqualToString:childScope]) {
-				[scopeStyleDictionary setObject:[NSDictionary dictionaryWithObject:currentScope forKey:@"inherit"] forKey:childScope];
+				[self.scopeStyleDictionary setObject:[NSDictionary dictionaryWithObject:currentScope forKey:@"inherit"] forKey:childScope];
 			}
         }
 		if (![childState objectForKey:[self keyForInheritedSymbols]])
@@ -783,7 +784,7 @@
 		for (NSString *styleKey in styleKeyArray) {
 			if ([aState objectForKey:styleKey]) [stateStyles setObject:[aState objectForKey:styleKey] forKey:styleKey];
 		}
-		[scopeStyleDictionary setObject:stateStyles forKey:[aState objectForKey:@"scope"]];
+		[self.scopeStyleDictionary setObject:stateStyles forKey:[aState objectForKey:@"scope"]];
 	}
 	
 	[I_defaultSyntaxStyle takeValuesFromDictionary:aState];
@@ -796,7 +797,7 @@
 			for (NSString *styleKey in styleKeyArray) {
 				if ([keyword objectForKey:styleKey]) [stateStyles setObject:[keyword objectForKey:styleKey] forKey:styleKey];
 			}
-			[scopeStyleDictionary setObject:stateStyles forKey:[keyword objectForKey:@"scope"]];
+			[self.scopeStyleDictionary setObject:stateStyles forKey:[keyword objectForKey:@"scope"]];
 		} else {
 			NSLog(@"DEBUG: Missing scope for %@", [keyword objectForKey:@"id"]);
 		}
