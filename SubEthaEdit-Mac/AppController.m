@@ -175,6 +175,7 @@ static AppController *sharedInstance = nil;
 		[defaults setObject:[NSNumber numberWithBool:NO] forKey:UseTemporaryKeychainForTLSKey]; // no more temporary keychain in 10.6 and up builds
 		
 		[defaults setObject:[NSNumber numberWithBool:YES] forKey:EnableAnonTLSKey];
+		[defaults setObject:[NSNumber numberWithBool:YES] forKey:@"WebKitDeveloperExtras"];
 		[[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
 		
 		[[TCMMMTransformator sharedInstance] registerTransformationTarget:[TextOperation class] selector:@selector(transformTextOperation:serverTextOperation:) forOperationId:[TextOperation operationID] andOperationID:[TextOperation operationID]];

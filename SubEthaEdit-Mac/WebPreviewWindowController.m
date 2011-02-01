@@ -334,9 +334,10 @@ NSScrollView * firstScrollView(NSView *aView) {
             [item setTarget:nil];
             [item setRepresentedObject:element];
             [returnArray addObject:item];
-        } else if (tag == WebMenuItemTagCopyLinkToClipboard ||
-                   tag == WebMenuItemTagCopyImageToClipboard ||
-                   tag == WebMenuItemTagCopy) {
+        } else if (tag == WebMenuItemTagDownloadImageToDisk ||
+        		   tag == WebMenuItemTagDownloadLinkToDisk) {
+        	// don't add
+        } else {
             [returnArray addObject:defaultItem];
         }
     }
