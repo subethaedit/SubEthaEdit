@@ -174,6 +174,7 @@ static AppController *sharedInstance = nil;
 		[defaults setObject:[NSNumber numberWithBool:YES] forKey:ShouldAutomaticallyMapPort];
 
 		[defaults setObject:[NSNumber numberWithBool:YES] forKey:EnableTLSKey];
+		[defaults setObject:[NSNumber numberWithBool:YES] forKey:@"WebKitDeveloperExtras"];
 		[defaults setObject:[NSNumber numberWithBool:YES] forKey:UseTemporaryKeychainForTLSKey]; // if keychain bug arrives again, switch this to NO
 		
 		[defaults setObject:[NSNumber numberWithBool:(floor(NSAppKitVersionNumber) > 824 /*NSAppKitVersionNumber10_4*/)] forKey:EnableAnonTLSKey];
