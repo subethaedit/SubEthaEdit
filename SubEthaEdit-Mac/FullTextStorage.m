@@ -728,7 +728,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 - (BOOL)nextLineNeedsIndentation:(NSRange)aLineRange {
 	// check from the end to the range to the beginning if we find a folding start. if so return yes. otherwise return no;
 	BOOL result = NO;
-	NSRange effectiveRange = NSMakeRange(NSMaxRange(aLineRange)-1,0);
+	NSRange effectiveRange = NSMakeRange(NSMaxRange(aLineRange) > 0 ? NSMaxRange(aLineRange) - 1 : 0,0);
 	NSString *foldingDelimiter = nil;
 	while (effectiveRange.location > aLineRange.location) {
 		foldingDelimiter = [self attribute:kSyntaxHighlightingFoldDelimiterName atIndex:effectiveRange.location longestEffectiveRange:&effectiveRange inRange:aLineRange];
@@ -736,7 +736,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 			if ([foldingDelimiter isEqualToString:kSyntaxHighlightingStateDelimiterStartValue]) result = YES;
 			break;
 		}
-		effectiveRange.location -= 1; // iterate backwards
+		if (effectiveRange.location > 0) effectiveRange.location -= 1; // iterate backwards
 	}
 	return result;
 }
