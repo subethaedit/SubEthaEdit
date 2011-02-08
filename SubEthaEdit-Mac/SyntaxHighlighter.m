@@ -132,7 +132,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
     }
     
     // No State yet? Use the default.
-    if (!stack) stack = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:[defaultState objectForKey:@"id"], @"state", nil], nil];
+    if (!stack) stack = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:[defaultState objectForKey:@"id"], @"state", [NSNumber numberWithInt:0], @"indent-level", nil], nil];
     
     do {
 
@@ -225,10 +225,12 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 					}
 				}
 				
+				NSNumber *indentLevel = [subState objectForKey:@"indent"]?[NSNumber numberWithInt:[[[stack lastObject] objectForKey:@"indent-level"] intValue]+1]:[[stack lastObject] objectForKey:@"indent-level"];
+				
 				if (combinedDelimiterString) {
-					[stack addObject:[NSDictionary dictionaryWithObjectsAndKeys:[subState objectForKey:@"id"], @"state", combinedDelimiterString, @"combinedDelimiterString", nil]];
+					[stack addObject:[NSDictionary dictionaryWithObjectsAndKeys:[subState objectForKey:@"id"], @"state", indentLevel, @"indent-level", combinedDelimiterString, @"combinedDelimiterString", nil]];
 				} else {
-					[stack addObject:[NSDictionary dictionaryWithObjectsAndKeys:[subState objectForKey:@"id"], @"state", nil]];
+					[stack addObject:[NSDictionary dictionaryWithObjectsAndKeys:[subState objectForKey:@"id"], @"state", indentLevel, @"indent-level", nil]];
 				}
                 
                 unsigned int level = [stack count];
@@ -272,6 +274,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
                     [scratchAttributes setObject:kSyntaxHighlightingIsTrimmedStartAttributeValue forKey:kSyntaxHighlightingIsTrimmedStartAttributeName];
                     trimmedStartOnLevel = [stack count];
                 }
+				[scratchAttributes setObject:[[stack lastObject] objectForKey:@"indent-level"] forKey:@"indent-level"];
 
 				[I_stringLock lock];
                 [aString addAttributes:scratchAttributes range:delimiterRange];
@@ -307,6 +310,8 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
                 if ((typeAttributeString=[currentState objectForKey:@"scope"]))
 					[scratchAttributes setObject:typeAttributeString forKey:kSyntaxHighlightingScopenameAttributeName];
                 else [scratchAttributes removeObjectForKey:kSyntaxHighlightingScopenameAttributeName];
+				[scratchAttributes setObject:[[savedStack lastObject] objectForKey:@"indent-level"] forKey:@"indent-level"];
+
 				[I_stringLock lock];
                 [aString addAttributes:scratchAttributes range:delimiterRange];
 				[I_stringLock unlock];
@@ -338,8 +343,6 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 			//else 
 			NSLog(@"No scope for state %@",[currentState objectForKey:kSyntaxHighlightingStyleIDAttributeName]);
 		}
- 		
-		//NSLog(@"%@ = %@", scope, scratchAttributes);
 		
 		[scratchAttributes setObject:savedStack forKey:kSyntaxHighlightingStackName];
 		NSString *typeAttributeString;
@@ -348,6 +351,9 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 		
 		if ((typeAttributeString=[currentState objectForKey:@"scope"]))
 			[scratchAttributes setObject:typeAttributeString forKey:kSyntaxHighlightingScopenameAttributeName];
+		
+		[scratchAttributes setObject:[[savedStack lastObject] objectForKey:@"indent-level"] forKey:@"indent-level"];
+		
 		
 		id inheritedSymbols = [currentState objectForKey:[definition keyForInheritedSymbols]]; 
 		if ( inheritedSymbols )
@@ -393,7 +399,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 			
 			for (NSArray *currentRegexStyle in regexArray) {
 				aRegex = [currentRegexStyle objectAtIndex:0];
-				NSString *styleID = [currentRegexStyle objectAtIndex:1];
+				//NSString *styleID = [currentRegexStyle objectAtIndex:1];
 				NSDictionary *keywordGroup = [currentRegexStyle objectAtIndex:2]; // should probably be passed in a more verbose and quicker way via an object instead of dictionaries
 				NSDictionary *attributes=[theDocument styleAttributesForScope:[keywordGroup objectForKey:kSyntaxHighlightingScopenameAttributeName]];                
 				//NSDictionary *attributes=[theDocument styleAttributesForStyleID:styleID];  

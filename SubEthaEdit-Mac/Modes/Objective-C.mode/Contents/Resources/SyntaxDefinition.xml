@@ -30,7 +30,7 @@
                     <regex>(((?&lt;!\\)(\\\\)*)|^)"</regex>
                 </end>
             </state>
-            <state id="Block" type="block" foldable="yes" scope="meta.block">
+            <state id="Block" type="block" foldable="yes" scope="meta.block" indent="yes">
                 <begin>
                     <regex>(?:^[ \t]*[-+][^(-;]*\([A-Za-z0-9 *_]*\)[A-Za-z0-9_ \t\n\r]+)?{</regex>
                 </begin>
