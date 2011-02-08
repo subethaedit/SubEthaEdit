@@ -319,7 +319,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
                 if ((typeAttributeString=[currentState objectForKey:@"scope"]))
 					[scratchAttributes setObject:typeAttributeString forKey:kSyntaxHighlightingScopenameAttributeName];
                 else [scratchAttributes removeObjectForKey:kSyntaxHighlightingScopenameAttributeName];
-				[scratchAttributes setObject:[[savedStack lastObject] objectForKey:kSyntaxHighlightingIndentLevelName] forKey:kSyntaxHighlightingIndentLevelName];
+				if ([savedStack lastObject]) [scratchAttributes setObject:[[savedStack lastObject] objectForKey:kSyntaxHighlightingIndentLevelName] forKey:kSyntaxHighlightingIndentLevelName];
 
 				[I_stringLock lock];
                 [aString addAttributes:scratchAttributes range:delimiterRange];
