@@ -257,7 +257,11 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 				if(scope){
 					[scratchAttributes addEntriesFromDictionary:[theDocument styleAttributesForScope:scope]];
 				} 
-					
+
+				if ([subState objectForKey:@"AutoendReplacementString"]) {
+					[scratchAttributes setObject:[[OGReplaceExpression replaceExpressionWithString:[subState objectForKey:@"AutoendReplacementString"]] replaceMatchedStringOf:delimiterMatch] forKey:kSyntaxHighlightingAutocompleteEndName];
+				}
+				
                 [scratchAttributes setObject:[[stack copy] autorelease] forKey:kSyntaxHighlightingStackName];
                 [scratchAttributes setObject:kSyntaxHighlightingStateDelimiterStartValue forKey:kSyntaxHighlightingStateDelimiterName];
 				NSString *typeAttributeString;
@@ -281,9 +285,6 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
                 }
 				[scratchAttributes setObject:[[stack lastObject] objectForKey:kSyntaxHighlightingIndentLevelName] forKey:kSyntaxHighlightingIndentLevelName];
 
-				if ([subState objectForKey:@"AutoendReplacementRegex"]) {
-					[scratchAttributes setObject:[[subState objectForKey:@"AutoendReplacementRegex"] replaceMatchedStringOf:delimiterMatch] forKey:kSyntaxHighlightingAutocompleteEndName];
-				}
 				
 				[I_stringLock lock];
                 [aString addAttributes:scratchAttributes range:delimiterRange];

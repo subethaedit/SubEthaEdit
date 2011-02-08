@@ -899,12 +899,6 @@
             }
 		}
 		
-		NSString *autoendString;
-        if ((autoendString = [aDictionary objectForKey:@"AutoendReplacementString"])) {
-			OGReplaceExpression *autoendReplaceRegex = [OGReplaceExpression replaceExpressionWithString:autoendString];
-			[aState setObject:autoendReplaceRegex forKey:@"AutoendReplacementRegex"];
-		}
-		
         if ((beginString = [aDictionary objectForKey:@"BeginsWithRegexString"])) {
             DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found regex string state start:%@",beginString);
             // Warn if begin contains unnamed group
