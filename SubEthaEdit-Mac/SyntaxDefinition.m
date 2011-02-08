@@ -481,12 +481,14 @@
             [I_stylesForToken setObject:newPlainArray forKey:[state objectForKey:@"id"]];
             [I_stylesForRegex setObject:newRegExArray forKey:[state objectForKey:@"id"]];
         
+			int sortedInsertPoint = 0;
             while ((keywordGroup = [groupEnumerator nextObject])) {
                 NSString *styleID=[keywordGroup objectForKey:kSyntaxHighlightingStyleIDAttributeName];
-                if ([keywordGroup objectForKey:@"CompiledRegEx"]) [newRegExArray addObject:[NSArray arrayWithObjects:[keywordGroup objectForKey:@"CompiledRegEx"], styleID, keywordGroup, nil]];
+                if ([keywordGroup objectForKey:@"CompiledRegEx"]) {
+					[newRegExArray insertObject:[NSArray arrayWithObjects:[keywordGroup objectForKey:@"CompiledRegEx"], styleID, keywordGroup, nil] atIndex:sortedInsertPoint];
+					sortedInsertPoint++;	
+				}
 				if ([(NSArray*)[keywordGroup objectForKey:@"PlainStrings"] count]>0) [newRegExArray addObject:[NSArray arrayWithObjects:[keywordGroup objectForKey:@"CompiledKeywords"], styleID, keywordGroup, nil]];
-                
-            
             }
         } 
     }

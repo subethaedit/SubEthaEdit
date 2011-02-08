@@ -436,25 +436,27 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 //
 //			
 //        dispatch_async(mainQueue, 
-/*		^ {
-			if (![definition hasTokensForState:currentStateID]) return;
-			
-			NSEnumerator *matchEnumerator = [[[definition tokenRegex] allMatchesInString:theString range:colorRange] objectEnumerator];
-			
-			OGRegularExpressionMatch *aMatch;
-		    NSString *styleID;
-			while ((aMatch = [matchEnumerator nextObject])) {
-				if ((styleID = [definition styleForToken:[aMatch matchedString] inState:currentStateID])) {
-//					dispatch_async(mainQueue, ^{
-						[I_stringLock lock];
-						[aString addAttributes:[theDocument styleAttributesForStyleID:styleID] range:[aMatch rangeOfMatchedString]];
-						[I_stringLock unlock];
-//					});
-				}
-			}				
-		}();
+//		^ {
+//			NSLog(@"tokens for %@: %@", currentStateID, [definition hasTokensForState:currentStateID]?@"YES":@"NO");
+//			if (![definition hasTokensForState:currentStateID]) return;
+//			
+//			NSEnumerator *matchEnumerator = [[[definition tokenRegex] allMatchesInString:theString range:colorRange] objectEnumerator];
+//			
+//			OGRegularExpressionMatch *aMatch;
+//		    NSString *styleID;
+//			while ((aMatch = [matchEnumerator nextObject])) {
+//				NSLog(@"foo %@", aMatch);
+//				if ((styleID = [definition styleForToken:[aMatch matchedString] inState:currentStateID])) {
+////					dispatch_async(mainQueue, ^{
+//						[I_stringLock lock];
+//						[aString addAttributes:[theDocument styleAttributesForStyleID:styleID] range:[aMatch rangeOfMatchedString]];
+//						[I_stringLock unlock];
+////					});
+//				}
+//			}				
+//		}();
 
-*/
+
 		}
         //NSLog(@"Finished highlighting for this state %@ '%@'", [currentState objectForKey:@"id"], [[aString string] substringWithRange:colorRange]);
 
