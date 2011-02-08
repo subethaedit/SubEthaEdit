@@ -25,6 +25,8 @@ extern NSString * const kSyntaxHighlightingParentModeForSymbolsAttributeName;
 extern NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName;
 extern NSString * const kSyntaxHighlightingFoldDelimiterName;
 extern NSString * const kSyntaxHighlightingFoldingDepthAttributeName;
+extern NSString * const kSyntaxHighlightingAutocompleteEndName;
+extern NSString * const kSyntaxHighlightingIndentLevelName;
 
 extern NSString * const kSyntaxHighlightingTypeComment;
 

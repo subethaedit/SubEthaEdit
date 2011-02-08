@@ -34,6 +34,10 @@ NSString * const kSyntaxHighlightingScopenameAttributeName = @"scope";
 NSString * const kSyntaxHighlightingParentModeForSymbolsAttributeName = @"ParentModeForSymbols";
 NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"ParentModeForAutocomplete";
 NSString * const kSyntaxHighlightingFoldingDepthAttributeName = @"FoldingDepth";
+NSString * const kSyntaxHighlightingAutocompleteEndName = @"AutocompleteEnd";
+NSString * const kSyntaxHighlightingIndentLevelName = @"IndentLevel";
+
+
 
 NSString * const kSyntaxHighlightingTypeComment = @"comment";
 
@@ -132,7 +136,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
     }
     
     // No State yet? Use the default.
-    if (!stack) stack = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:[defaultState objectForKey:@"id"], @"state", [NSNumber numberWithInt:0], @"indent-level", nil], nil];
+    if (!stack) stack = [NSMutableArray arrayWithObjects:[NSDictionary dictionaryWithObjectsAndKeys:[defaultState objectForKey:@"id"], @"state", [NSNumber numberWithInt:0], kSyntaxHighlightingIndentLevelName, nil], nil];
     
     do {
 
@@ -225,12 +229,13 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 					}
 				}
 				
-				NSNumber *indentLevel = [subState objectForKey:@"indent"]?[NSNumber numberWithInt:[[[stack lastObject] objectForKey:@"indent-level"] intValue]+1]:[[stack lastObject] objectForKey:@"indent-level"];
+				
+				NSNumber *indentLevel = [subState objectForKey:@"indent"]?[NSNumber numberWithInt:[[[stack lastObject] objectForKey:kSyntaxHighlightingIndentLevelName] intValue]+1]:[[stack lastObject] objectForKey:kSyntaxHighlightingIndentLevelName];
 				
 				if (combinedDelimiterString) {
-					[stack addObject:[NSDictionary dictionaryWithObjectsAndKeys:[subState objectForKey:@"id"], @"state", indentLevel, @"indent-level", combinedDelimiterString, @"combinedDelimiterString", nil]];
+					[stack addObject:[NSDictionary dictionaryWithObjectsAndKeys:[subState objectForKey:@"id"], @"state", indentLevel, kSyntaxHighlightingIndentLevelName, combinedDelimiterString, @"combinedDelimiterString", nil]];
 				} else {
-					[stack addObject:[NSDictionary dictionaryWithObjectsAndKeys:[subState objectForKey:@"id"], @"state", indentLevel, @"indent-level", nil]];
+					[stack addObject:[NSDictionary dictionaryWithObjectsAndKeys:[subState objectForKey:@"id"], @"state", indentLevel, kSyntaxHighlightingIndentLevelName, nil]];
 				}
                 
                 unsigned int level = [stack count];
@@ -274,8 +279,12 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
                     [scratchAttributes setObject:kSyntaxHighlightingIsTrimmedStartAttributeValue forKey:kSyntaxHighlightingIsTrimmedStartAttributeName];
                     trimmedStartOnLevel = [stack count];
                 }
-				[scratchAttributes setObject:[[stack lastObject] objectForKey:@"indent-level"] forKey:@"indent-level"];
+				[scratchAttributes setObject:[[stack lastObject] objectForKey:kSyntaxHighlightingIndentLevelName] forKey:kSyntaxHighlightingIndentLevelName];
 
+				if ([subState objectForKey:@"AutoendReplacementRegex"]) {
+					[scratchAttributes setObject:[[subState objectForKey:@"AutoendReplacementRegex"] replaceMatchedStringOf:delimiterMatch] forKey:kSyntaxHighlightingAutocompleteEndName];
+				}
+				
 				[I_stringLock lock];
                 [aString addAttributes:scratchAttributes range:delimiterRange];
 				[I_stringLock unlock];
@@ -310,7 +319,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
                 if ((typeAttributeString=[currentState objectForKey:@"scope"]))
 					[scratchAttributes setObject:typeAttributeString forKey:kSyntaxHighlightingScopenameAttributeName];
                 else [scratchAttributes removeObjectForKey:kSyntaxHighlightingScopenameAttributeName];
-				[scratchAttributes setObject:[[savedStack lastObject] objectForKey:@"indent-level"] forKey:@"indent-level"];
+				[scratchAttributes setObject:[[savedStack lastObject] objectForKey:kSyntaxHighlightingIndentLevelName] forKey:kSyntaxHighlightingIndentLevelName];
 
 				[I_stringLock lock];
                 [aString addAttributes:scratchAttributes range:delimiterRange];
@@ -352,7 +361,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 		if ((typeAttributeString=[currentState objectForKey:@"scope"]))
 			[scratchAttributes setObject:typeAttributeString forKey:kSyntaxHighlightingScopenameAttributeName];
 		
-		[scratchAttributes setObject:[[savedStack lastObject] objectForKey:@"indent-level"] forKey:@"indent-level"];
+		[scratchAttributes setObject:[[savedStack lastObject] objectForKey:kSyntaxHighlightingIndentLevelName] forKey:kSyntaxHighlightingIndentLevelName];
 		
 		
 		id inheritedSymbols = [currentState objectForKey:[definition keyForInheritedSymbols]]; 

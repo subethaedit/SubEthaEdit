@@ -73,6 +73,7 @@
             <state id="Tag State" foldable="yes" scope="meta.tag.state">
                 <begin>
                     <regex>&lt;\s*(?'xmltagstatename'[^/?!][-:_\w]*)\s*(?:[-:_\w]+[ \t]*=[ \t]*(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*></regex>
+					<autoend>&lt;/\g&lt;xmltagstatename>></autoend>
                 </begin>
                 <end>
                     <regex>&lt;\s*/\s*(?#see-insert-start-group:xmltagstatename)\s*></regex>

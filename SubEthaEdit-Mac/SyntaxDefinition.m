@@ -280,7 +280,10 @@
         NSString *stringBegin = [[[stateNode nodesForXPath:@"./begin/string" error:&err] lastObject] stringValue];
         NSString *regexEnd = [[[stateNode nodesForXPath:@"./end/regex" error:&err] lastObject] stringValue];
         NSString *stringEnd = [[[stateNode nodesForXPath:@"./end/string" error:&err] lastObject] stringValue];
-        
+
+		NSString *autoendBegin = [[[stateNode nodesForXPath:@"./begin/autoend" error:&err] lastObject] stringValue];
+		if (autoendBegin) [stateDictionary setObject:autoendBegin forKey:@"AutoendReplacementString"];
+		
         if (regexBegin) {
             // Begins get compiled later en-block, so just store a string now.
             [stateDictionary setObject:regexBegin forKey:@"BeginsWithRegexString"];
@@ -875,6 +878,8 @@
             NSDictionary *linkedState = [linkedDefinition stateForID:linkedName];
 			
             if (linkedState) {
+				if ([linkedState objectForKey:@"AutoendReplacementString"])
+					[aDictionary setObject:[linkedState objectForKey:@"AutoendReplacementString"] forKey:@"AutoendReplacementString"];
 				if ([linkedState objectForKey:@"BeginsWithRegexString"])
 					[aDictionary setObject:[linkedState objectForKey:@"BeginsWithRegexString"] forKey:@"BeginsWithRegexString"];
 				if ([linkedState objectForKey:@"BeginsWithPlainString"])
@@ -894,6 +899,11 @@
             }
 		}
 		
+		NSString *autoendString;
+        if ((autoendString = [aDictionary objectForKey:@"AutoendReplacementString"])) {
+			OGReplaceExpression *autoendReplaceRegex = [OGReplaceExpression replaceExpressionWithString:autoendString];
+			[aState setObject:autoendReplaceRegex forKey:@"AutoendReplacementRegex"];
+		}
 		
         if ((beginString = [aDictionary objectForKey:@"BeginsWithRegexString"])) {
             DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Found regex string state start:%@",beginString);
