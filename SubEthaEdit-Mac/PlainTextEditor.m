@@ -2043,7 +2043,14 @@
 			NSRange matchRange = [autoend rangeOfString:partialWord];
 			if (matchRange.location != NSNotFound) {
 				// TODO: check text to the left of string as well
-				[completions insertObject:[autoend substringFromIndex:matchRange.location] atIndex:0];
+				BOOL shouldAdd = YES;
+				if (matchRange.location > 0) {
+					shouldAdd = NO;
+					if (fullCharRange.location > matchRange.location && [[[fts string] substringWithRange:NSMakeRange(fullCharRange.location - matchRange.location, matchRange.location)] isEqualToString:[autoend substringToIndex:matchRange.location]]) {
+						shouldAdd = YES;
+					}
+				}
+				if (shouldAdd) [completions insertObject:[autoend substringFromIndex:matchRange.location] atIndex:0];
 			}
 		}
 	}
