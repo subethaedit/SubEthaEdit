@@ -6,7 +6,7 @@
         <name>HTML</name>
         <!-- The definitions title -->
         <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@"]]></charsintokens>
-        <charsincompletion><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@&lt;/=!>]]></charsincompletion>
+        <charsincompletion><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@/=!]]></charsincompletion>
         <folding toplevel="3"/>
         <stylesheet>TagBased</stylesheet>
     </head>

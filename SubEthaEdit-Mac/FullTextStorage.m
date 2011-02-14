@@ -725,35 +725,42 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 	return [I_foldableTextStorage objectSpecifier];
 }
 
-- (NSString *)autoendForIndex:(NSUInteger)aLocation {
-	if (aLocation == 0) return nil; // guard against a location at start
-	
-	NSUInteger location = aLocation - 1;
-	NSArray *referenceStack = [self attribute:kSyntaxHighlightingStackName atIndex:location effectiveRange:nil];
-	if (!referenceStack) return nil; // no syntax highlighting information - abort
-	if ([[self attribute:kSyntaxHighlightingStateDelimiterName atIndex:location  effectiveRange:nil] isEqual:kSyntaxHighlightingStateDelimiterEndValue]) {
-		if ([referenceStack count] == 1) return nil; // outside of scope
-		referenceStack = [referenceStack objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,[referenceStack count]-1)]];
-	}
-	
-	
-	// search for starts left of us, check their stack, if it matches extract the autoend if there
-	NSRange effectiveRange = NSMakeRange(aLocation,0);
-	NSRange maxRange = NSMakeRange(0, aLocation);
-	while (effectiveRange.location > 0) {
-		NSString *stateDelimiter = [self attribute:kSyntaxHighlightingStateDelimiterName atIndex:effectiveRange.location-1  longestEffectiveRange:&effectiveRange inRange:maxRange];
-		if ([stateDelimiter isEqualToString:kSyntaxHighlightingStateDelimiterStartValue]) {
-			NSArray *stack = [self attribute:kSyntaxHighlightingStackName atIndex:effectiveRange.location effectiveRange:nil];
-			if ([stack count] < [referenceStack count]) {
-				NSLog(@"%s why did this happen? stack grew smaller but we didn't find our match. it should not!",__FUNCTION__);
-				break; // weird one, but gone
-			} else if ([stack isEqual:referenceStack]) {
-				NSLog(@"%s found something",__FUNCTION__);
-				return [self attribute:kSyntaxHighlightingAutocompleteEndName atIndex:effectiveRange.location effectiveRange:nil];
+// returns NSNotFound,0 if not found
+- (NSRange)startRangeForStateAndIndex:(NSUInteger)aLocation {
+	NSRange result = NSMakeRange(NSNotFound,0);
+
+	if (aLocation != 0) {
+		NSUInteger location = aLocation - 1;
+		NSArray *referenceStack = [self attribute:kSyntaxHighlightingStackName atIndex:location effectiveRange:nil];
+		if (!referenceStack) return result; // no syntax highlighting information - abort
+		
+		if ([[self attribute:kSyntaxHighlightingStateDelimiterName atIndex:location  effectiveRange:nil] isEqual:kSyntaxHighlightingStateDelimiterEndValue]) {
+			if ([referenceStack count] == 1) return result; // outside of scope
+			referenceStack = [referenceStack objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,[referenceStack count]-1)]];
+		}
+		
+		// search for starts left of us, check their stack, if it matches extract the autoend if there
+		NSRange effectiveRange = NSMakeRange(aLocation,0);
+		NSRange maxRange = NSMakeRange(0, aLocation);
+		while (effectiveRange.location > 0) {
+			NSString *stateDelimiter = [self attribute:kSyntaxHighlightingStateDelimiterName atIndex:effectiveRange.location-1  longestEffectiveRange:&effectiveRange inRange:maxRange];
+			if ([stateDelimiter isEqualToString:kSyntaxHighlightingStateDelimiterStartValue]) {
+				NSArray *stack = [self attribute:kSyntaxHighlightingStackName atIndex:effectiveRange.location effectiveRange:nil];
+				if ([stack isEqual:referenceStack]) {
+					return effectiveRange;
+				}
 			}
 		}
 	}
-	
+	return result;
+}
+
+
+- (NSString *)autoendForIndex:(NSUInteger)aLocation {
+	NSRange startRange = [self startRangeForStateAndIndex:aLocation];
+	if (startRange.location != NSNotFound) {
+		return [self attribute:kSyntaxHighlightingAutocompleteEndName atIndex:startRange.location effectiveRange:nil];
+	}
 	return nil;
 }
 

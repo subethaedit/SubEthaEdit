@@ -1264,10 +1264,33 @@
     TextView *textView = I_textView;
     NSRange selectedRange = [(FoldableTextStorage *)[I_textView textStorage] fullRangeForFoldedRange:[textView selectedRange]];
 	
-	NSString *autoend = [[(TextStorage *)I_textView.textStorage fullTextStorage] autoendForIndex:selectedRange.location];
-	if (autoend) {
-		//TODO: check if leading is whitespaceonly. ifso, outdent to intentlevel of start
-		[I_textView insertText:autoend];
+	FullTextStorage *fullTextStorage = [(FoldableTextStorage *)[I_textView textStorage] fullTextStorage];
+	NSRange startRange = [fullTextStorage startRangeForStateAndIndex:selectedRange.location];
+	if (startRange.location != NSNotFound) {
+		NSString *autoend = [fullTextStorage attribute:kSyntaxHighlightingAutocompleteEndName atIndex:startRange.location effectiveRange:nil];
+		if (autoend) {
+			//TODO: check if leading is whitespaceonly. ifso, outdent to intentlevel of start
+			NSString *textstorageString = [fullTextStorage string];
+			NSRange targetLineRange = [textstorageString lineRangeForRange:selectedRange];
+			NSRange whitespaceRange = [textstorageString rangeOfLeadingWhitespaceStartingAt:targetLineRange.location];
+			if (NSMaxRange(whitespaceRange)>= selectedRange.location) {
+				// we have leading whitespace indeed
+				NSLog(@"%s got whitespace!",__FUNCTION__);
+				// get Leading whitespace from start
+				NSRange startLineRange = [textstorageString lineRangeForRange:startRange];
+				NSRange startWhitespaceRange = [textstorageString rangeOfLeadingWhitespaceStartingAt:startLineRange.location];
+				if (startWhitespaceRange.length > 0) {
+					autoend = [[textstorageString substringWithRange:startWhitespaceRange] stringByAppendingString:autoend];
+				}
+				[self selectRange:NSUnionRange(whitespaceRange,selectedRange)];
+				NSLog(@"%s inserting ||%@||",__FUNCTION__,autoend);
+				[I_textView insertText:autoend];
+			} else {
+				[I_textView insertText:autoend];
+			}
+		} else {
+			NSBeep();
+		}
 	} else {
 		NSBeep();
 	}
@@ -2009,6 +2032,23 @@
     //DEBUGLOG(@"SyntaxHighlighterDomain", DetailedLogLevel, @"Finished autocomplete");
     [dictionaryOfResultStrings release];
     [otherDictionaryOfResultStrings release];
+
+    FullTextStorage *fts = [(FoldableTextStorage *)[I_textView textStorage] fullTextStorage];
+    NSRange fullCharRange = [(FoldableTextStorage *)[I_textView textStorage] fullRangeForFoldedRange:charRange];
+	NSString *autoend = [fts autoendForIndex:fullCharRange.location];
+	if (autoend) {
+		if (charRange.length == 0) {
+			[completions insertObject:autoend atIndex:0];
+		} else {
+			NSRange matchRange = [autoend rangeOfString:partialWord];
+			if (matchRange.location != NSNotFound) {
+				// TODO: check text to the left of string as well
+				[completions insertObject:[autoend substringFromIndex:matchRange.location] atIndex:0];
+			}
+		}
+	}
+	
+	FullTextStorage *fullTextStorage = [(FoldableTextStorage *)[I_textView textStorage] fullTextStorage];
 
     return completions;
 }

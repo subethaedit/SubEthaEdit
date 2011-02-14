@@ -58,6 +58,7 @@
 
 - (BOOL)nextLineNeedsIndentation:(NSRange)aLineRange;
 - (void)reindentRange:(NSRange)aRange usingTabStringPerLevel:(NSString *)aTabString;
+- (NSRange)startRangeForStateAndIndex:(NSUInteger)aLocation;
 - (NSString *)autoendForIndex:(NSUInteger)aLocation;
 
 #pragma mark -
