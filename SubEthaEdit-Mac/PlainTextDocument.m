@@ -1688,7 +1688,7 @@ static NSString *tempFileName(NSString *origPath) {
                     I_flags.hasUTF8BOM = YES;
                 }
             }
-            NSString *reinterpretedString = [[NSString alloc] initWithData:stringData encoding:encoding];
+            NSString *reinterpretedString = [[[NSString alloc] initWithData:stringData encoding:encoding] autorelease];
             if (!reinterpretedString || ([reinterpretedString length] == 0 && [I_textStorage length] > 0)) {
                 NSAlert *newAlert = [[[NSAlert alloc] init] autorelease];
                 [newAlert setAlertStyle:NSWarningAlertStyle];
@@ -1713,7 +1713,6 @@ static NSString *tempFileName(NSString *origPath) {
                 [I_textStorage replaceCharactersInRange:NSMakeRange(0, [I_textStorage length]) withString:@""];
                 [self setFileEncodingUndoable:encoding];
                 [I_textStorage replaceCharactersInRange:NSMakeRange(0, [I_textStorage length]) withString:reinterpretedString];
-                [reinterpretedString release];
 #if defined(CODA)
 				if (!myIsEdited) 
 #else
@@ -4917,7 +4916,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 		if (![style objectForKey:@"color"]) {
 			// This is a style without color, so fall back to scope color.
 			style = [I_styleCacheDictionary objectForKey:[style objectForKey:@"scope"]];
-			if (!style) style = [[documentMode syntaxStyle] styleForScope:[style objectForKey:@"scope"]];
+			//if (!style) style = [[documentMode syntaxStyle] styleForScope:[style objectForKey:@"scope"]]; // FIXME: if no style then no style objectforkey scope
 #if defined(CODA)
 			spellingStyle = style;
 #endif //defined(CODA)
@@ -5314,7 +5313,7 @@ static NSString *S_measurementUnits;
 
     if (showPanels) {
         // Add accessory view, if needed
-        [op setAccessoryView:O_printOptionView];
+        //[op setAccessoryView:O_printOptionView];
         [O_printOptionController setContent:[self printOptions]];
     }
     I_printOperationIsRunning=YES;

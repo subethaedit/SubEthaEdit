@@ -649,7 +649,7 @@
         id realChildState = [self stateForID:[childState objectForKey:@"id"]];
         if (![realChildState objectForKey:@"color"] && isLocal) {
             [realChildState setObject:[state objectForKey:kSyntaxHighlightingStyleIDAttributeName] forKey:kSyntaxHighlightingStyleIDAttributeName]; // Inherit color if n/a
-#warning handle failure for backwards comp.
+// FIXME handle failure for backwards comp.
 			//if(![state objectForKey:@"scope"]) NSLog(@"OIUDOINDAO %@",[state objectForKey:@"id"]);
 			//if(![realChildState objectForKey:@"scope"]) NSLog(@"UDIOBOIDN %@",[realChildState objectForKey:@"id"]);
 			NSString *currentScope = [state objectForKey:@"scope"];

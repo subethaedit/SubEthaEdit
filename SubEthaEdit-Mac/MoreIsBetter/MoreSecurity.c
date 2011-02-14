@@ -1716,7 +1716,7 @@ static OSStatus CheckHelperTool(CFURLRef templateTool, CFURLRef tool, Boolean *l
 				&& ((toolStat.st_mode & kRequiredHelperToolMask) == kRequiredHelperToolPerms) 
 				&& (toolStat.st_size  == templateToolStat.st_size)
 				&& (toolStamp.tv_sec  == templateToolStamp.tv_sec) 
-				&& (toolStamp.tv_usec == toolStamp.tv_usec);
+				&& (toolStamp.tv_usec == templateToolStamp.tv_usec);
 		err = noErr;
 	}
 	

@@ -335,7 +335,7 @@ static NSArray *S_possibleStyleColors;
             [NSNumber numberWithUnsignedInt:0],@"font-trait",
             aScope,@"scope",
             aScope,kSyntaxHighlightingStyleIDAttributeName,nil];
-#warning currently scope style is hardcoded, until there's UI
+// FIXME currently scope style is hardcoded, until there's UI
 }
 
 - (NSMutableDictionary *)styleForKey:(NSString *)aKey {
