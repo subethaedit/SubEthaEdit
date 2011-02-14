@@ -97,6 +97,9 @@
 - (IBAction)shiftLeft:(id)aSender;
 - (IBAction)detab:(id)aSender;
 
+- (IBAction)insertStateClose:(id)aSender;
+- (IBAction)entab:(id)aSender;
+
 - (IBAction)jumpToNextSymbol:(id)aSender;
 - (IBAction)jumpToPreviousSymbol:(id)aSender;
 

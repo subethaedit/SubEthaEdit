@@ -4226,6 +4226,9 @@
                 <string>NSIntMapKeyCallBacks</string>
                 <string>NSIntMapValueCallBacks</string>
                 <string>NSIntType</string>
+                <string>NSUIntegerMax</string>
+                <string>NSIntegerMin</string>
+                <string>NSIntegerMax</string>
                 <string>NSInteger16AttributeType</string>
                 <string>NSInteger32AttributeType</string>
                 <string>NSInteger64AttributeType</string>

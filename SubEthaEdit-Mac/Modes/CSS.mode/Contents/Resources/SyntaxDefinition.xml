@@ -10,9 +10,10 @@
     </head>
     <states>
         <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" scope="meta.default">
-            <state id="Inside curly brackets" color="#000" background-color="#fff" font-weight="normal" font-style="normal" foldable="yes" scope="meta.block.curly">
+            <state id="Inside curly brackets" color="#000" background-color="#fff" font-weight="normal" font-style="normal" foldable="yes" indent="yes" scope="meta.block.curly">
                 <begin>
                     <string>{</string>
+                    <autoend>}</autoend>
                 </begin>
                 <end>
                     <regex>}</regex>
@@ -601,6 +602,7 @@
             <state id="AutodocComment" type="comment" color="#236E25" font-weight="bold" font-style="italic" scope="comment.block.documentation">
                 <begin>
                     <string>/\*"</string>
+                    <autoend>"\*/</autoend>
                 </begin>
                 <end>
                     <regex>"\*/</regex>
@@ -610,6 +612,7 @@
             <state id="Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic" scope="comment.block" >
                 <begin>
                     <string>/\*</string>
+                    <autoend>\*/</autoend>
                 </begin>
                 <end>
                     <regex>\*/</regex>

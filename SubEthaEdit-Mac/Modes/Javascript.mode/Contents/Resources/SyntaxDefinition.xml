@@ -114,7 +114,7 @@
             </state>
     
             <state id="Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic" scope="comment.block">
-                <begin><regex>/\*</regex></begin>
+                <begin><regex>/\*</regex><autoend>\*/</autoend></begin>
                 <end><regex>\*/</regex></end>
                 <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
@@ -140,8 +140,8 @@
                 <end><regex>(?&lt;!\\)(\\\\)*'</regex></end>
             </state>
 
-            <state id="Block" type="block" foldable="yes" color="#000" background-color="#fff" scope="meta.block.curly">
-                <begin><regex>{</regex></begin>
+            <state id="Block" type="block" foldable="yes" indent="yes" color="#000" background-color="#fff" scope="meta.block.curly">
+                <begin><regex>{</regex><autoend>}</autoend></begin>
                 <end><regex>}</regex></end>
                 <import mode="Javascript" />
             </state>

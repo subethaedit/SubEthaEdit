@@ -1033,6 +1033,15 @@
 									<reference key="NSOnImage" ref="1060103336"/>
 									<reference key="NSMixedImage" ref="232944990"/>
 								</object>
+								<object class="NSMenuItem" id="305460541">
+									<reference key="NSMenu" ref="385826953"/>
+									<string key="NSTitle">Insert State Close</string>
+									<string key="NSKeyEquiv">.</string>
+									<int key="NSKeyEquivModMask">1572864</int>
+									<int key="NSMnemonicLoc">2147483647</int>
+									<reference key="NSOnImage" ref="1060103336"/>
+									<reference key="NSMixedImage" ref="232944990"/>
+								</object>
 								<object class="NSMenuItem" id="922261671">
 									<reference key="NSMenu" ref="385826953"/>
 									<bool key="NSIsDisabled">YES</bool>
@@ -2680,7 +2689,7 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 				<string key="NSWindowContentMaxSize">{1.79769e+308, 1.79769e+308}</string>
 				<string key="NSWindowContentMinSize">{387, 107}</string>
 				<object class="NSView" key="NSWindowView" id="454323713">
-					<reference key="NSNextResponder"/>
+					<nil key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
 					<object class="NSMutableArray" key="NSSubviews">
 						<bool key="EncodedWithXMLCoder">YES</bool>
@@ -2699,7 +2708,6 @@ AAMAAAABAAEAAAFTAAMAAAAEAAAFwgAAAAAACAAIAAgACAABAAEAAQABA</bytes>
 											<int key="NSvFlags">2322</int>
 											<string key="NSFrameSize">{372, 1158}</string>
 											<reference key="NSSuperview" ref="396762537"/>
-											<reference key="NSWindow"/>
 											<object class="NSTextContainer" key="NSTextContainer" id="819354531">
 												<object class="NSLayoutManager" key="NSLayoutManager">
 													<object class="NSTextStorage" key="NSTextStorage">
@@ -3142,12 +3150,11 @@ RgoQC7ECCggLRQoQC0MKEgtvCggLAgoBDA</bytes>
 									<string key="NSFrameSize">{372, 480}</string>
 									<string key="NSBounds">{{0, 198}, {372, 480}}</string>
 									<reference key="NSSuperview" ref="934597479"/>
-									<reference key="NSWindow"/>
 									<reference key="NSNextKeyView" ref="242237545"/>
 									<reference key="NSDocView" ref="242237545"/>
 									<reference key="NSBGColor" ref="426076220"/>
 									<object class="NSCursor" key="NSCursor">
-										<string key="NSHotSpot">{4, 4}</string>
+										<string key="NSHotSpot">{1, -1}</string>
 										<int key="NSCursorType">0</int>
 									</object>
 									<int key="NScvFlags">4</int>
@@ -3157,7 +3164,6 @@ RgoQC7ECCggLRQoQC0MKEgtvCggLAgoBDA</bytes>
 									<int key="NSvFlags">256</int>
 									<string key="NSFrame">{{372, 0}, {15, 465}}</string>
 									<reference key="NSSuperview" ref="934597479"/>
-									<reference key="NSWindow"/>
 									<bool key="NSEnabled">YES</bool>
 									<reference key="NSTarget" ref="934597479"/>
 									<string key="NSAction">_doScroller:</string>
@@ -3169,7 +3175,6 @@ RgoQC7ECCggLRQoQC0MKEgtvCggLAgoBDA</bytes>
 									<int key="NSvFlags">-2147483392</int>
 									<string key="NSFrame">{{-100, -100}, {87, 18}}</string>
 									<reference key="NSSuperview" ref="934597479"/>
-									<reference key="NSWindow"/>
 									<int key="NSsFlags">1</int>
 									<reference key="NSTarget" ref="934597479"/>
 									<string key="NSAction">_doScroller:</string>
@@ -3179,7 +3184,6 @@ RgoQC7ECCggLRQoQC0MKEgtvCggLAgoBDA</bytes>
 							</object>
 							<string key="NSFrameSize">{387, 480}</string>
 							<reference key="NSSuperview" ref="454323713"/>
-							<reference key="NSWindow"/>
 							<reference key="NSNextKeyView" ref="396762537"/>
 							<int key="NSsFlags">80</int>
 							<reference key="NSVScroller" ref="417174773"/>
@@ -3189,8 +3193,6 @@ RgoQC7ECCggLRQoQC0MKEgtvCggLAgoBDA</bytes>
 						</object>
 					</object>
 					<string key="NSFrameSize">{387, 480}</string>
-					<reference key="NSSuperview"/>
-					<reference key="NSWindow"/>
 				</object>
 				<string key="NSScreenRect">{{0, 0}, {2560, 1578}}</string>
 				<string key="NSMinSize">{387, 129}</string>
@@ -4558,6 +4560,14 @@ RgoQC7ECCggLRQoQC0MKEgtvCggLAgoBDA</bytes>
 					</object>
 					<int key="connectionID">1207</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">insertStateClose:</string>
+						<reference key="source" ref="271214213"/>
+						<reference key="destination" ref="305460541"/>
+					</object>
+					<int key="connectionID">1210</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -5838,6 +5848,7 @@ RgoQC7ECCggLRQoQC0MKEgtvCggLAgoBDA</bytes>
 							<reference ref="45981988"/>
 							<reference ref="330909179"/>
 							<reference ref="28641349"/>
+							<reference ref="305460541"/>
 						</object>
 						<reference key="parent" ref="374496023"/>
 					</object>
@@ -6446,6 +6457,11 @@ RgoQC7ECCggLRQoQC0MKEgtvCggLAgoBDA</bytes>
 						<reference key="object" ref="28641349"/>
 						<reference key="parent" ref="385826953"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">1208</int>
+						<reference key="object" ref="305460541"/>
+						<reference key="parent" ref="385826953"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -6505,6 +6521,8 @@ RgoQC7ECCggLRQoQC0MKEgtvCggLAgoBDA</bytes>
 					<string>112.IBPluginDependency</string>
 					<string>112.ImportedFromIB2</string>
 					<string>1206.IBPluginDependency</string>
+					<string>1208.IBPluginDependency</string>
+					<string>1208.ImportedFromIB2</string>
 					<string>124.IBPluginDependency</string>
 					<string>124.ImportedFromIB2</string>
 					<string>125.IBPluginDependency</string>
@@ -7124,6 +7142,8 @@ RgoQC7ECCggLRQoQC0MKEgtvCggLAgoBDA</bytes>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<boolean value="YES"/>
 					<boolean value="YES"/>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -7163,7 +7183,7 @@ RgoQC7ECCggLRQoQC0MKEgtvCggLAgoBDA</bytes>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
-					<string>{{202, 1201}, {252, 313}}</string>
+					<string>{{202, 1181}, {266, 333}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -7597,7 +7617,7 @@ RgoQC7ECCggLRQoQC0MKEgtvCggLAgoBDA</bytes>
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">1207</int>
+			<int key="maxID">1210</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -8726,6 +8746,7 @@ RgoQC7ECCggLRQoQC0MKEgtvCggLAgoBDA</bytes>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">FirstResponder</string>
+					<string key="superclassName">NSObject</string>
 					<object class="NSMutableDictionary" key="actions">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
@@ -8753,6 +8774,7 @@ RgoQC7ECCggLRQoQC0MKEgtvCggLAgoBDA</bytes>
 							<string>foldAllTopLevelBlocks:</string>
 							<string>foldCurrentBlock:</string>
 							<string>foldTextSelection:</string>
+							<string>insertStateClose:</string>
 							<string>jumpToNextChange:</string>
 							<string>jumpToNextSymbol:</string>
 							<string>jumpToPreviousChange:</string>
@@ -8849,6 +8871,7 @@ RgoQC7ECCggLRQoQC0MKEgtvCggLAgoBDA</bytes>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
+							<string>id</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="actionInfosByName">
@@ -8878,6 +8901,7 @@ RgoQC7ECCggLRQoQC0MKEgtvCggLAgoBDA</bytes>
 							<string>foldAllTopLevelBlocks:</string>
 							<string>foldCurrentBlock:</string>
 							<string>foldTextSelection:</string>
+							<string>insertStateClose:</string>
 							<string>jumpToNextChange:</string>
 							<string>jumpToNextSymbol:</string>
 							<string>jumpToPreviousChange:</string>
@@ -9006,6 +9030,10 @@ RgoQC7ECCggLRQoQC0MKEgtvCggLAgoBDA</bytes>
 							</object>
 							<object class="IBActionInfo">
 								<string key="name">foldTextSelection:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">insertStateClose:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
@@ -9760,7 +9788,7 @@ RgoQC7ECCggLRQoQC0MKEgtvCggLAgoBDA</bytes>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">PlainTextDocument</string>
-					<string key="superclassName">TSNodeWrapper</string>
+					<string key="superclassName">NodeDocument</string>
 					<object class="NSMutableDictionary" key="actions">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
@@ -9916,7 +9944,7 @@ RgoQC7ECCggLRQoQC0MKEgtvCggLAgoBDA</bytes>
 				</object>
 				<object class="IBPartialClassDescription">
 					<string key="className">PlainTextDocument</string>
-					<string key="superclassName">TSNodeWrapper</string>
+					<string key="superclassName">NodeDocument</string>
 					<object class="NSMutableDictionary" key="outlets">
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
@@ -10046,6 +10074,8 @@ RgoQC7ECCggLRQoQC0MKEgtvCggLAgoBDA</bytes>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>detab:</string>
+							<string>entab:</string>
+							<string>insertStateClose:</string>
 							<string>jumpToNextChange:</string>
 							<string>jumpToNextSymbol:</string>
 							<string>jumpToPreviousChange:</string>
@@ -10057,6 +10087,8 @@ RgoQC7ECCggLRQoQC0MKEgtvCggLAgoBDA</bytes>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -10073,6 +10105,8 @@ RgoQC7ECCggLRQoQC0MKEgtvCggLAgoBDA</bytes>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>detab:</string>
+							<string>entab:</string>
+							<string>insertStateClose:</string>
 							<string>jumpToNextChange:</string>
 							<string>jumpToNextSymbol:</string>
 							<string>jumpToPreviousChange:</string>
@@ -10086,6 +10120,14 @@ RgoQC7ECCggLRQoQC0MKEgtvCggLAgoBDA</bytes>
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<object class="IBActionInfo">
 								<string key="name">detab:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">entab:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">insertStateClose:</string>
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">

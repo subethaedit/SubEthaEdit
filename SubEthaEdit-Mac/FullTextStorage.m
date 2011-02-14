@@ -725,6 +725,39 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 	return [I_foldableTextStorage objectSpecifier];
 }
 
+- (NSString *)autoendForIndex:(NSUInteger)aLocation {
+	if (aLocation == 0) return nil; // guard against a location at start
+	
+	NSUInteger location = aLocation - 1;
+	NSArray *referenceStack = [self attribute:kSyntaxHighlightingStackName atIndex:location effectiveRange:nil];
+	if (!referenceStack) return nil; // no syntax highlighting information - abort
+	if ([[self attribute:kSyntaxHighlightingStateDelimiterName atIndex:location  effectiveRange:nil] isEqual:kSyntaxHighlightingStateDelimiterEndValue]) {
+		if ([referenceStack count] == 1) return nil; // outside of scope
+		referenceStack = [referenceStack objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,[referenceStack count]-1)]];
+	}
+	
+	
+	// search for starts left of us, check their stack, if it matches extract the autoend if there
+	NSRange effectiveRange = NSMakeRange(aLocation,0);
+	NSRange maxRange = NSMakeRange(0, aLocation);
+	while (effectiveRange.location > 0) {
+		NSString *stateDelimiter = [self attribute:kSyntaxHighlightingStateDelimiterName atIndex:effectiveRange.location-1  longestEffectiveRange:&effectiveRange inRange:maxRange];
+		if ([stateDelimiter isEqualToString:kSyntaxHighlightingStateDelimiterStartValue]) {
+			NSArray *stack = [self attribute:kSyntaxHighlightingStackName atIndex:effectiveRange.location effectiveRange:nil];
+			if ([stack count] < [referenceStack count]) {
+				NSLog(@"%s why did this happen? stack grew smaller but we didn't find our match. it should not!",__FUNCTION__);
+				break; // weird one, but gone
+			} else if ([stack isEqual:referenceStack]) {
+				NSLog(@"%s found something",__FUNCTION__);
+				return [self attribute:kSyntaxHighlightingAutocompleteEndName atIndex:effectiveRange.location effectiveRange:nil];
+			}
+		}
+	}
+	
+	return nil;
+}
+
+
 - (BOOL)nextLineNeedsIndentation:(NSRange)aLineRange {
 	// check from the end to the range to the beginning if we find a folding start. if so return yes. otherwise return no;
 	BOOL result = NO;
@@ -741,6 +774,24 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 	return result;
 }
 
+- (NSUInteger)minIndentLevelInRange:(NSRange)aRange {
+	NSUInteger maxIndentLevel = NSUIntegerMax;
+	NSRange effectiveRange = NSMakeRange(aRange.location,0);
+	while (effectiveRange.location < NSMaxRange(aRange)) {
+		NSString *foldingDelimiter = [self attribute:kSyntaxHighlightingFoldDelimiterName atIndex:effectiveRange.location  longestEffectiveRange:&effectiveRange inRange:aRange];
+		
+		// extract folding depth
+		NSNumber *thisIndentLevel = [self attribute:kSyntaxHighlightingIndentLevelName atIndex:effectiveRange.location effectiveRange:NULL];
+		if (thisIndentLevel) {			
+			maxIndentLevel = MIN(maxIndentLevel, [thisIndentLevel unsignedIntegerValue] - (foldingDelimiter != nil ? 1 : 0));
+		}
+		effectiveRange.location = NSMaxRange(effectiveRange);
+	}
+	return maxIndentLevel == NSUIntegerMax ? 0 : maxIndentLevel;
+	
+}
+
+// currently unused
 - (NSUInteger)minFoldingDepthInRange:(NSRange)aRange {
 	NSUInteger foldingDepth = NSUIntegerMax;
 	NSRange effectiveRange = NSMakeRange(aRange.location,0);
@@ -758,7 +809,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 }
 
 - (void)reindentLine:(NSRange)aLineRange usingTabStringPerLevel:(NSString *)aTabString {
-	NSUInteger minFoldingDepth = [self minFoldingDepthInRange:aLineRange];
+	NSUInteger minFoldingDepth = [self minIndentLevelInRange:aLineRange];
 	NSRange whitespaceRange = [[self string] rangeOfLeadingWhitespaceStartingAt:aLineRange.location];
 	NSString *replacementString = [@"" stringByPaddingToLength:[aTabString length] * minFoldingDepth withString:aTabString startingAtIndex:0];
 	[self replaceCharactersInRange:whitespaceRange withString:replacementString];

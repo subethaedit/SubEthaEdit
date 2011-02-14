@@ -20,9 +20,10 @@
             <state-link mode="XML" state="CDATA"/>
             <state-link mode="XML" state="Doctype"/>
             <state-link mode="XML" state="Escape"/>
-            <state id="Inline CSS" color="#000" font-style="italic" usesymbolsfrommode="CSS" useautocompletefrommode="CSS" foldable="yes" scope="meta.block.css">
+            <state id="Inline CSS" color="#000" font-style="italic" usesymbolsfrommode="CSS" useautocompletefrommode="CSS" foldable="yes" indent="yes" scope="meta.block.css">
                 <begin>
                     <regex>&lt;[ \t]*(?i)style[^>]*></regex>
+                    <autoend>&lt;/style></autoend>
                 </begin>
                 <end>
                     <regex>(?i)&lt;[ \t]*/[ \t]*style[ \t]*></regex>
@@ -31,9 +32,10 @@
                 <import mode="XML" keywords-only="yes"/>
                 <import keywords-only="yes"/>
             </state>
-            <state id="Inline Javascript" color="#000" usesymbolsfrommode="Javascript" useautocompletefrommode="Javascript" foldable="yes" scope="meta.block.js">
+            <state id="Inline Javascript" color="#000" usesymbolsfrommode="Javascript" useautocompletefrommode="Javascript" foldable="yes" indent="yes" scope="meta.block.js">
                 <begin>
                     <regex>&lt;[ \t]*(?i)script[^>]*></regex>
+                    <autoend>&lt;/script></autoend>
                 </begin>
                 <end>
                     <regex>(?i)&lt;[ \t]*/[ \t]*script[ \t]*></regex>
@@ -52,9 +54,10 @@
                 <import mode="XML" keywords-only="yes"/>
                 <import keywords-only="yes"/>
             </state>
-            <state id="Tag State" font-style="normal" foldable="yes" scope="meta.tag.state">
+            <state id="Tag State" font-style="normal" foldable="yes" indent="yes" scope="meta.tag.state">
                 <begin>
                     <regex>&lt;\s*(?'xmltagstatename'[^/?!][-:_\w]*)\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*></regex>
+					<autoend>&lt;/\g&lt;xmltagstatename>></autoend>
                 </begin>
                 <end>
                     <regex>&lt;\s*/\s*(?#see-insert-start-group:xmltagstatename)\s*></regex>

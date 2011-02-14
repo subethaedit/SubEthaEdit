@@ -1260,6 +1260,20 @@
     [self tabParagraphsInTextView:I_textView de:NO];
 }
 
+- (IBAction)insertStateClose:(id)aSender {
+    TextView *textView = I_textView;
+    NSRange selectedRange = [(FoldableTextStorage *)[I_textView textStorage] fullRangeForFoldedRange:[textView selectedRange]];
+	
+	NSString *autoend = [[(TextStorage *)I_textView.textStorage fullTextStorage] autoendForIndex:selectedRange.location];
+	if (autoend) {
+		//TODO: check if leading is whitespaceonly. ifso, outdent to intentlevel of start
+		[I_textView insertText:autoend];
+	} else {
+		NSBeep();
+	}
+}
+
+
 - (IBAction)jumpToNextSymbol:(id)aSender {
     TextView *textView = I_textView;
 	PlainTextDocument *document = [self document];
