@@ -5162,10 +5162,16 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 #if !defined(CODA)
 - (void)setDisplayName:(NSString *)aDisplayName {
-    if (![self fileName]) {
-        [self setTemporaryDisplayName:aDisplayName];
-    } else {
-        [self setFileName:[[[self fileName] stringByDeletingLastPathComponent] stringByAppendingPathComponent:aDisplayName]];
+    if (!I_flags.isSettingFileURL) {
+        if (![self fileURL]) {
+            [self setTemporaryDisplayName:aDisplayName];
+        } else {
+            [self setFileName:[[[self fileName] stringByDeletingLastPathComponent] stringByAppendingPathComponent:aDisplayName]];
+        }
+    }
+    if ([[super class] instancesRespondToSelector:@selector(setDisplayName:)]) {
+        NSLog(@"%s oh look, super supports us!",__FUNCTION__);
+        [super setDisplayName:aDisplayName];
     }
 }
 #endif //!defined(CODA)
@@ -6085,11 +6091,14 @@ static NSString *S_measurementUnits;
 
 
 - (void)setFileName:(NSString *)fileName {
+    // will move into setFileURL later on…
+    I_flags.isSettingFileURL = YES;
     [super setFileName:fileName];
     TCMMMSession *session=[self session];
     if ([session isServer]) {
         [session setFilename:[self preparedDisplayName]];
     }
+    I_flags.isSettingFileURL = NO;
 }
 
 - (NSDictionary *)textStorageDictionaryRepresentation
