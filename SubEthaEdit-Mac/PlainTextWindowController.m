@@ -2057,17 +2057,20 @@ static NSAttributedString *S_dragString = nil;
         iconFrame.origin.x =NSMinX(toolbarButtonFrame) - iconFrame.size.width - 3.;
         iconFrame.origin.y =NSMaxY(toolbarButtonFrame) - iconFrame.size.height + 1.;
 
-        I_lockImageView = [[NSImageView alloc] initWithFrame:iconFrame];
-        [I_lockImageView setEditable:NO];
-        [I_lockImageView setImageFrameStyle:NSImageFrameNone];
-        [I_lockImageView setImageScaling:NSScaleNone];
-        [I_lockImageView setImageAlignment:NSImageAlignCenter];
-        [I_lockImageView setAutoresizingMask:NSViewMinXMargin | NSViewMinYMargin];
-        [superview addSubview:I_lockImageView];
-        [I_lockImageView release];
-        [I_lockImageView setImage:lockImage];
-        [I_lockImageView setToolTip:NSLocalizedString(@"All participants of this document are connected using secure connections",@"Tooltip for ssl lock at top of the window")];
-    }
+        if (superview) {
+            
+            I_lockImageView = [[NSImageView alloc] initWithFrame:iconFrame];
+            [I_lockImageView setEditable:NO];
+            [I_lockImageView setImageFrameStyle:NSImageFrameNone];
+            [I_lockImageView setImageScaling:NSScaleNone];
+            [I_lockImageView setImageAlignment:NSImageAlignCenter];
+            [I_lockImageView setAutoresizingMask:NSViewMinXMargin | NSViewMinYMargin];
+            [superview addSubview:I_lockImageView];
+            [I_lockImageView release];
+            [I_lockImageView setImage:lockImage];
+            [I_lockImageView setToolTip:NSLocalizedString(@"All participants of this document are connected using secure connections",@"Tooltip for ssl lock at top of the window")];
+        }
+        }
     [self updateLock];
 
 }
