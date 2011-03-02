@@ -653,7 +653,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 
 		SEEStyleSheet *styleSheet = [self styleSheet];
 		NSColor *highlightColor = styleSheet?[[styleSheet styleAttributesForScope:@"meta.highlight.currentline"] objectForKey:@"color"]:[NSColor yellowColor];
-		[I_defaults setObject:highlightColor forKey:DocumentModeCurrentLineHighlightColorPreferenceKey];
+		[I_defaults setObject:[[NSValueTransformer valueTransformerForName:NSUnarchiveFromDataTransformerName] reverseTransformedValue:highlightColor] forKey:DocumentModeCurrentLineHighlightColorPreferenceKey];
 		
         if (![I_defaults objectForKey:DocumentModeBackgroundColorIsDarkPreferenceKey]) {
             [I_defaults setObject:[NSNumber numberWithBool:NO] forKey:DocumentModeBackgroundColorIsDarkPreferenceKey];
