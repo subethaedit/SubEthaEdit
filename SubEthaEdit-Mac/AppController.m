@@ -36,6 +36,7 @@
 #import "EditPreferences.h"
 #import "GeneralPreferences.h"
 #import "StylePreferences.h"
+#import "StyleSheetPreferences.h"
 #import "PrintPreferences.h"
 #import "PrecedencePreferences.h"
 
@@ -425,6 +426,7 @@ static AppController *sharedInstance = nil;
     EditPreferences *editPrefs = [[EditPreferences new] autorelease];
     [TCMPreferenceController registerPrefModule:editPrefs];
     [TCMPreferenceController registerPrefModule:[[StylePreferences new] autorelease]];
+    [TCMPreferenceController registerPrefModule:[[StyleSheetPreferences new] autorelease]];
     [TCMPreferenceController registerPrefModule:[[PrecedencePreferences new] autorelease]];
     [TCMPreferenceController registerPrefModule:[[PrintPreferences new] autorelease]];
     [TCMPreferenceController registerPrefModule:[[AdvancedPreferences new] autorelease]];
