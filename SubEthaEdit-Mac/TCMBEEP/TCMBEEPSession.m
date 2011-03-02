@@ -1238,7 +1238,7 @@ static NSData *dhparamData = nil;
                         if (version && ![version isEqualToString:@"1"]) {
                             shouldProceed = NO;
                             answerData = [@"<error code='501'>version attribute poorly formed in &lt;ready&gt; element</error>" dataUsingEncoding:NSUTF8StringEncoding];
-//                            #warning Opened TLS channel but there is no TLS
+//                            FIXME Opened TLS channel but there is no TLS
                         }
                         
                         if (shouldProceed) {
@@ -1347,7 +1347,7 @@ static NSData *dhparamData = nil;
                     [self TCM_startTLSHandshake];
                 } else if ([element isEqualToString:@"error"]) {
                     DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Received error: %@ (%@)", [attributes objectForKey:@"code"], content);
-//                    #warning Opened TLS channel but there is no TLS
+//                    FIXME Opened TLS channel but there is no TLS
                 }
             } else {
                 // Terminate session?

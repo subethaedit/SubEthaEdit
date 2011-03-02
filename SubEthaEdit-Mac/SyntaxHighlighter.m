@@ -354,7 +354,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
         NSString *scope = [currentState objectForKey:@"scope"];
 		if(scope){
 			[scratchAttributes addEntriesFromDictionary:[theDocument styleAttributesForScope:scope]];
-#warning FIXME default should have scope name by himself
+// FIXME default should have scope name by himself
 		} else {
 			//if ([[currentState objectForKey:kSyntaxHighlightingStyleIDAttributeName] isEqualToString:@"_Default"]) [scratchAttributes addEntriesFromDictionary:[theDocument styleAttributesForScope:@"meta.default"]];
 			//else 

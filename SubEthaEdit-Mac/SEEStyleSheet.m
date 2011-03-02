@@ -41,7 +41,7 @@
 		}		
 //		NSLog(@"scopes: %@", scopeStyleDictionary);
 //		NSLog(@"inherit: %@", [self styleAttributesForScope:@"meta.block.directives.objective-c"]);
-#warning autoexport still active
+// FIXME autoexport still active
 		[self exportStyleSheetToPath:[[[NSURL alloc]initFileURLWithPath:[NSString stringWithFormat:@"/tmp/%@.sss",[aDefinition name]]] autorelease]];
 		
 	}

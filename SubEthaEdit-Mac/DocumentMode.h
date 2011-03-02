@@ -131,6 +131,7 @@ extern NSString * const DocumentModeApplyStylePreferencesNotification;
 - (SyntaxStyle *)syntaxStyle;
 - (void)setSyntaxStyle:(SyntaxStyle *)aStyle;
 - (SyntaxStyle *)defaultSyntaxStyle;
+- (SEEStyleSheet *)styleSheet;
 
 - (NSArray *)scriptMenuItemArray;
 - (NSArray *)contextMenuItemArray;

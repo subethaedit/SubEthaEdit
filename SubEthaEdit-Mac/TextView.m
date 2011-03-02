@@ -1001,7 +1001,7 @@ static NSMenu *S_defaultMenu=nil;
 	
 	
     NSCharacterSet *tokenSet = [[[theMode syntaxHighlighter] syntaxDefinition] autoCompleteTokenSet];
-
+	if (!tokenSet) tokenSet = [[[theMode syntaxHighlighter] syntaxDefinition] tokenSet];
     if (tokenSet) {
         result = [self selectedRange]; // Start with a fresh range
         while (YES) {
@@ -1013,7 +1013,7 @@ static NSMenu *S_defaultMenu=nil;
         }
     }
     
-    //NSLog(@"rangeForUserCompletion: %@",NSStringFromRange(result));
+    NSLog(@"rangeForUserCompletion: %@ - %@ - %@",NSStringFromRange(result), [theMode documentModeIdentifier], tokenSet);
     return result;
 }
 

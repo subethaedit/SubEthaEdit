@@ -1688,7 +1688,7 @@ static NSString *tempFileName(NSString *origPath) {
                     I_flags.hasUTF8BOM = YES;
                 }
             }
-            NSString *reinterpretedString = [[NSString alloc] initWithData:stringData encoding:encoding];
+            NSString *reinterpretedString = [[[NSString alloc] initWithData:stringData encoding:encoding] autorelease];
             if (!reinterpretedString || ([reinterpretedString length] == 0 && [I_textStorage length] > 0)) {
                 NSAlert *newAlert = [[[NSAlert alloc] init] autorelease];
                 [newAlert setAlertStyle:NSWarningAlertStyle];
@@ -1713,7 +1713,6 @@ static NSString *tempFileName(NSString *origPath) {
                 [I_textStorage replaceCharactersInRange:NSMakeRange(0, [I_textStorage length]) withString:@""];
                 [self setFileEncodingUndoable:encoding];
                 [I_textStorage replaceCharactersInRange:NSMakeRange(0, [I_textStorage length]) withString:reinterpretedString];
-                [reinterpretedString release];
 #if defined(CODA)
 				if (!myIsEdited) 
 #else
@@ -4833,10 +4832,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 		return [NSDictionary dictionary];
 	}
 	
-	if (!aScope) {
-		NSLog(@"%s was called with a styleID of nil",__FUNCTION__);
-		return [NSDictionary dictionary];
-	}
     NSMutableDictionary *result=[I_styleCacheDictionary objectForKey:aScope];
     if (!result) {
         DocumentMode *documentMode=[self documentMode];
@@ -4921,7 +4916,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 		if (![style objectForKey:@"color"]) {
 			// This is a style without color, so fall back to scope color.
 			style = [I_styleCacheDictionary objectForKey:[style objectForKey:@"scope"]];
-			if (!style) style = [[documentMode syntaxStyle] styleForScope:[style objectForKey:@"scope"]];
+			//if (!style) style = [[documentMode syntaxStyle] styleForScope:[style objectForKey:@"scope"]]; // FIXME: if no style then no style objectforkey scope
 #if defined(CODA)
 			spellingStyle = style;
 #endif //defined(CODA)
@@ -5275,10 +5270,16 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 #if !defined(CODA)
 - (void)setDisplayName:(NSString *)aDisplayName {
-    if (![self fileURL]) {
-        [self setTemporaryDisplayName:aDisplayName];
-    } else {
-        [self setFileURL:[NSURL fileURLWithPath:[[self.fileURL.path stringByDeletingLastPathComponent] stringByAppendingPathComponent:aDisplayName]]];
+    if (!I_flags.isSettingFileURL) {
+        if (![self fileURL]) {
+            [self setTemporaryDisplayName:aDisplayName];
+        } else {
+            [self setFileURL:[NSURL fileURLWithPath:[[self.fileURL.path stringByDeletingLastPathComponent] stringByAppendingPathComponent:aDisplayName]]];
+        }
+    }
+    if ([[super class] instancesRespondToSelector:@selector(setDisplayName:)]) {
+        NSLog(@"%s oh look, super supports us!",__FUNCTION__);
+        [super setDisplayName:aDisplayName];
     }
 }
 #endif //!defined(CODA)
@@ -5318,7 +5319,7 @@ static NSString *S_measurementUnits;
 
     if (showPanels) {
         // Add accessory view, if needed
-        [op setAccessoryView:O_printOptionView];
+        //[op setAccessoryView:O_printOptionView];
         [O_printOptionController setContent:[self printOptions]];
     }
     I_printOperationIsRunning=YES;
@@ -6208,11 +6209,13 @@ static NSString *S_measurementUnits;
 
 
 - (void)setFileURL:(NSURL *)aFileURL {
+    I_flags.isSettingFileURL = YES;
     [super setFileURL:aFileURL];
     TCMMMSession *session=[self session];
     if ([session isServer]) {
         [session setFilename:[self preparedDisplayName]];
     }
+    I_flags.isSettingFileURL = NO;
 }
 
 - (NSDictionary *)textStorageDictionaryRepresentation

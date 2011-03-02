@@ -30,7 +30,7 @@
                 <regex>(&amp;#x\h+;)</regex>
             </keywords>
             <state id="Comment" type="comment" scope="comment.block">
-                <begin><regex>&lt;!--</regex></begin>
+                <begin><regex>&lt;!--</regex><autoend>--></autoend></begin>
                 <end><regex>--></regex></end>
                 <keywords id="SGML Double Dash" useforautocomplete="no" scope="invalid.illegal.sgml">
                     <regex>(?&lt;!\!)(--)(?!>)</regex>
@@ -40,6 +40,7 @@
             <state id="CDATA" foldable="yes" scope="string.unquoted.cdata">
                 <begin>
                     <regex>&lt;!\s*\[CDATA\s*\[</regex>
+                    <autoend>\]\]></autoend>
                 </begin>
                 <end>
                     <regex>\]\s*\]\s*></regex>
@@ -70,7 +71,7 @@
                 </end>
                 <import/>
             </state>
-            <state id="Tag State" foldable="yes" scope="meta.tag.state">
+            <state id="Tag State" foldable="yes" indent="yes" scope="meta.tag.state">
                 <begin>
                     <regex>&lt;\s*(?'xmltagstatename'[^/?!][-:_\w]*)\s*(?:[-:_\w]+[ \t]*=[ \t]*(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*></regex>
 					<autoend>&lt;/\g&lt;xmltagstatename>></autoend>

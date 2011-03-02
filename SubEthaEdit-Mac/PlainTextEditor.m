@@ -240,9 +240,11 @@
     [I_textView setDefaultParagraphStyle:[document defaultParagraphStyle]];
 
 
+#if !defined(CODA)	
     [[NSNotificationCenter defaultCenter] addObserver:document selector:@selector(textViewDidChangeSelection:) name:NSTextViewDidChangeSelectionNotification object:I_textView];
     [[NSNotificationCenter defaultCenter] addObserver:document selector:@selector(textDidChange:) name:NSTextDidChangeNotification object:I_textView];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textDidChange:) name:PlainTextDocumentDidChangeTextStorageNotification object:document];
+#endif //defined(CODA)	
     NSView *view=[[NSView alloc] initWithFrame:[O_editorView frame]];
     [view setAutoresizesSubviews:YES];
     [view setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
@@ -1260,6 +1262,43 @@
     [self tabParagraphsInTextView:I_textView de:NO];
 }
 
+- (IBAction)insertStateClose:(id)aSender {
+    TextView *textView = I_textView;
+    NSRange selectedRange = [(FoldableTextStorage *)[I_textView textStorage] fullRangeForFoldedRange:[textView selectedRange]];
+	
+	FullTextStorage *fullTextStorage = [(FoldableTextStorage *)[I_textView textStorage] fullTextStorage];
+	NSRange startRange = [fullTextStorage startRangeForStateAndIndex:selectedRange.location];
+	if (startRange.location != NSNotFound) {
+		NSString *autoend = [fullTextStorage attribute:kSyntaxHighlightingAutocompleteEndName atIndex:startRange.location effectiveRange:nil];
+		if (autoend) {
+			//TODO: check if leading is whitespaceonly. ifso, outdent to intentlevel of start
+			NSString *textstorageString = [fullTextStorage string];
+			NSRange targetLineRange = [textstorageString lineRangeForRange:selectedRange];
+			NSRange whitespaceRange = [textstorageString rangeOfLeadingWhitespaceStartingAt:targetLineRange.location];
+			if (NSMaxRange(whitespaceRange)>= selectedRange.location) {
+				// we have leading whitespace indeed
+				NSLog(@"%s got whitespace!",__FUNCTION__);
+				// get Leading whitespace from start
+				NSRange startLineRange = [textstorageString lineRangeForRange:startRange];
+				NSRange startWhitespaceRange = [textstorageString rangeOfLeadingWhitespaceStartingAt:startLineRange.location];
+				if (startWhitespaceRange.length > 0) {
+					autoend = [[textstorageString substringWithRange:startWhitespaceRange] stringByAppendingString:autoend];
+				}
+				[self selectRange:NSUnionRange(whitespaceRange,selectedRange)];
+				NSLog(@"%s inserting ||%@||",__FUNCTION__,autoend);
+				[I_textView insertText:autoend];
+			} else {
+				[I_textView insertText:autoend];
+			}
+		} else {
+			NSBeep();
+		}
+	} else {
+		NSBeep();
+	}
+}
+
+
 - (IBAction)jumpToNextSymbol:(id)aSender {
     TextView *textView = I_textView;
 	PlainTextDocument *document = [self document];
@@ -1996,6 +2035,28 @@
     [dictionaryOfResultStrings release];
     [otherDictionaryOfResultStrings release];
 
+    FullTextStorage *fts = [(FoldableTextStorage *)[I_textView textStorage] fullTextStorage];
+    NSRange fullCharRange = [(FoldableTextStorage *)[I_textView textStorage] fullRangeForFoldedRange:charRange];
+	NSString *autoend = [fts autoendForIndex:fullCharRange.location];
+	if (autoend) {
+		if (charRange.length == 0) {
+			[completions insertObject:autoend atIndex:0];
+		} else {
+			NSRange matchRange = [autoend rangeOfString:partialWord];
+			if (matchRange.location != NSNotFound) {
+				// TODO: check text to the left of string as well
+				BOOL shouldAdd = YES;
+				if (matchRange.location > 0) {
+					shouldAdd = NO;
+					if (fullCharRange.location > matchRange.location && [[[fts string] substringWithRange:NSMakeRange(fullCharRange.location - matchRange.location, matchRange.location)] isEqualToString:[autoend substringToIndex:matchRange.location]]) {
+						shouldAdd = YES;
+					}
+				}
+				if (shouldAdd) [completions insertObject:[autoend substringFromIndex:matchRange.location] atIndex:0];
+			}
+		}
+	}
+	
     return completions;
 }
 

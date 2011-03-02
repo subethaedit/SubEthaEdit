@@ -371,6 +371,7 @@
     }
     if (!xmlTree || !node || CFXMLNodeGetTypeCode(node) != kCFXMLNodeTypeElement) {
         [[self session] terminate];
+		CFRelease(contentTree);
         return;
     }
 
