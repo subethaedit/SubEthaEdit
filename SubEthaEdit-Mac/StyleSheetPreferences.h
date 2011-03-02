@@ -8,6 +8,7 @@
 
 #import <Foundation/Foundation.h>
 #import "TCMPreferenceModule.h"
+#import "SEEStyleSheet.h"
 
 @class DocumentModePopUpButton;
 @class SyntaxStyle;
@@ -23,7 +24,7 @@
                          *O_backgroundColorWell,*O_invertedBackgroundColorWell;
 
     IBOutlet NSTextField *O_fontLabel;
-    
+    SEEStyleSheet *I_currentStyleSheet;
     NSUndoManager *I_undoManager;
 }
 

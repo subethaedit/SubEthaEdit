@@ -11,19 +11,24 @@
 @class SyntaxDefinition;
 
 @interface SEEStyleSheet : NSObject {
-	NSMutableDictionary * I_ScopeStyleDictionary;
-	NSMutableDictionary * I_scopeCache;
+	NSMutableDictionary *I_scopeStyleDictionary;
+	NSMutableDictionary *I_scopeCache;
+	NSArray *I_allScopes;
 }
 
-@property (nonatomic, retain) NSMutableDictionary * scopeStyleDictionary;
-@property (nonatomic, retain) NSMutableDictionary * scopeCache;
+@property (nonatomic, retain) NSMutableDictionary *scopeStyleDictionary;
+@property (nonatomic, retain) NSMutableDictionary *scopeCache;
+@property (nonatomic, retain, readonly) NSArray *allScopes;
 
++ (NSDictionary *)textAttributesForStyleAttributes:(NSDictionary *)styleAttributes font:(NSFont *)font;
 
-- (SEEStyleSheet*)initWithDefinition:(SyntaxDefinition*)aDefinition; 
+- (id)initWithDefinition:(SyntaxDefinition *)aDefinition; 
 - (NSDictionary *)styleAttributesForScope:(NSString *)aScope;
-- (void) importStyleSheetAtPath:(NSURL *)aPath;
-- (void) exportStyleSheetToPath:(NSURL *)aPath;
+- (void)importStyleSheetAtPath:(NSURL *)aPath;
+- (void)exportStyleSheetToPath:(NSURL *)aPath;
 
+- (void)setStyleAttributes:(NSDictionary *)aStyleAttributeDictionary forScope:(NSString *)aScopeString;
+- (NSDictionary *)styleAttributesForExactScope:(NSString *)anExactScopeString;
 
 
 @end

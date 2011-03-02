@@ -16,21 +16,30 @@
 #import "SyntaxHighlighter.h"
 
 @interface StyleSheetPreferences ()
+@property (nonatomic, retain) SEEStyleSheet *currentStyleSheet;
 - (void)updateFontLabel;
+- (void)takeFontFromMode:(DocumentMode *)aMode;
 @end
 
 @implementation StyleSheetPreferences
+
+@synthesize currentStyleSheet;
 
 - (id) init {
     self = [super init];
     if (self) {
         I_undoManager=[NSUndoManager new];
+        SEEStyleSheet *styleSheet = [[SEEStyleSheet new] autorelease];
+        [styleSheet importStyleSheetAtPath:[[NSBundle mainBundle] URLForResource:@"Default" withExtension:@"sss" subdirectory:@"Modes/Styles"]];
+        self.currentStyleSheet = styleSheet;
+        NSLog(@"%s %@",__FUNCTION__,styleSheet.allScopes);
     }
     return self;
 }
 
 - (void)dealloc {
     [I_undoManager release];
+    self.currentStyleSheet = nil;
     [super dealloc];
 }
 
@@ -55,8 +64,8 @@
     width-=[O_stylesTableView intercellSpacing].width*3;
     float width2=width/2.;
     NSArray *columns=[O_stylesTableView tableColumns];
-    [[columns objectAtIndex:0] setWidth:width2];
-    [[columns objectAtIndex:1] setWidth:width2];
+    [[columns objectAtIndex:0] setWidth:width];
+//    [[columns objectAtIndex:1] setWidth:width2];
 }
 
 - (void)mainViewDidLoad {
@@ -66,7 +75,6 @@
     
     // Set tableview to non highlighting cells
     [[[O_stylesTableView tableColumns] objectAtIndex:0] setDataCell:[[TextFieldCell new] autorelease]];
-    [[[O_stylesTableView tableColumns] objectAtIndex:1] setDataCell:[[TextFieldCell new] autorelease]];
     
     [[O_stylesTableView enclosingScrollView] setPostsFrameChangedNotifications:YES];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(adjustTableViewColumns:) name:NSViewFrameDidChangeNotification object:[O_stylesTableView enclosingScrollView]];
@@ -388,14 +396,24 @@
     return I_baseFont;
 }
 
+- (NSDictionary *)textAttributesForScope:(NSString *)aScopeString {
+	NSDictionary *computedStyle = [self.currentStyleSheet styleAttributesForScope:aScopeString];
+	NSFont *font = [self baseFont];
+	return [SEEStyleSheet textAttributesForStyleAttributes:computedStyle font:font];
+}
+
 #pragma mark -
 #pragma mark TableView DataSource
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView {
-    return 0;
-    //[[I_currentSyntaxStyle allKeys] count];
+    return [self.currentStyleSheet.allScopes count];
 }
 
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)aRow {
+	NSString *scopeString = [self.currentStyleSheet.allScopes objectAtIndex:aRow];
+	NSDictionary *textAttributes = [self textAttributesForScope:scopeString];
+	return [[[NSAttributedString alloc] initWithString:scopeString attributes:textAttributes] autorelease];
+
+	return ;
 //    BOOL darkBackground = ![[aTableColumn identifier]isEqualToString:@"light"];
 //    BOOL useDefault=[[[O_modeController content] defaultForKey:DocumentModeUseDefaultStylePreferenceKey] boolValue];
 //    NSString *key=[[I_currentSyntaxStyle allKeys] objectAtIndex:aRow];
