@@ -70,6 +70,7 @@ NSString * const DocumentModeUseDefaultStylePreferenceKey      = @"UseDefaultSty
 NSString * const DocumentModeSyntaxStylePreferenceKey          = @"SyntaxStyle";
 
 NSString * const DocumentModeBackgroundColorIsDarkPreferenceKey= @"BackgroundColorIsDark"  ;
+NSString * const DocumentModeCurrentLineHighlightColorPreferenceKey = @"CurrentLineHighlightColor"  ;
 // depricated
 NSString * const DocumentModeForegroundColorPreferenceKey      = @"ForegroundColor"  ;
 NSString * const DocumentModeBackgroundColorPreferenceKey      = @"BackgroundColor"  ;
@@ -153,6 +154,10 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 	
 		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultStylePreferenceKey
 									  forKey:DocumentModeBackgroundColorIsDarkPreferenceKey];
+
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultStylePreferenceKey
+									  forKey:DocumentModeCurrentLineHighlightColorPreferenceKey];
+		
 	}
 }
 
@@ -646,6 +651,10 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             [style takeStylesFromDefaultsDictionary:syntaxStyleDictionary];
         }        
 
+		SEEStyleSheet *styleSheet = [self styleSheet];
+		NSColor *highlightColor = styleSheet?[[styleSheet styleAttributesForScope:@"meta.highlight.currentline"] objectForKey:@"color"]:[NSColor yellowColor];
+		[I_defaults setObject:highlightColor forKey:DocumentModeCurrentLineHighlightColorPreferenceKey];
+		
         if (![I_defaults objectForKey:DocumentModeBackgroundColorIsDarkPreferenceKey]) {
             [I_defaults setObject:[NSNumber numberWithBool:NO] forKey:DocumentModeBackgroundColorIsDarkPreferenceKey];
             if ([self isBaseMode] && [I_defaults objectForKey:DocumentModeBackgroundColorPreferenceKey]) {
