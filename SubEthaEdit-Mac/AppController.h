@@ -38,7 +38,7 @@ extern int const HighlightSyntaxMenuTag;
 extern int const ScriptMenuTag;
 
 #if defined(CODA)
-@class AboutController;
+@class PCAboutController;
 #endif //defined(CODA)
 
 extern NSString * const GlobalScriptsDidReloadNotification;
@@ -53,7 +53,7 @@ extern NSString * const GlobalScriptsDidReloadNotification;
     NSMutableArray      *I_defaultToolbarItemIdentifiers;
     NSMutableArray      *I_contextMenuItemArray;
 #if defined(CODA)
-    AboutController		*aboutController; 
+    PCAboutController	*iAboutController; 
 #endif //defined(CODA)
     IBOutlet NSTextView *O_licenseTextView;
     IBOutlet NSWindow *O_licenseWindow;

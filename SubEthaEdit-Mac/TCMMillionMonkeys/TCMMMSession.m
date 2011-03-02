@@ -1339,7 +1339,7 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
 
 - (void)handleUserChangeOperation:(UserChangeOperation *)anOperation fromState:(TCMMMState *)aState {
     if ([anOperation type]==UserChangeTypeJoin) {
-        NSString *group=[anOperation newGroup];
+        NSString *group=[anOperation theNewGroup];
         NSString *userID=[anOperation userID];
         TCMMMUser *userNotification=[anOperation user];
         TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
@@ -1366,7 +1366,7 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
                 // remove all Users
                 [self cleanupParticipants];
                 // detach document
-                if ([[anOperation newGroup] isEqualTo:@"PoofGroup"]) {
+                if ([[anOperation theNewGroup] isEqualTo:@"PoofGroup"]) {
                     [[self document] sessionDidReceiveKick:self];
                 } else {
                     [[self document] sessionDidReceiveClose:self];
@@ -1374,7 +1374,7 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
                 [self setClientState:TCMMMSessionClientNoState];
             }
         } else if ([userID isEqualToString:[self hostID]] && ![self isServer]) {
-            if ([[anOperation newGroup] isEqualTo:@"PoofGroup"]) {
+            if ([[anOperation theNewGroup] isEqualTo:@"PoofGroup"]) {
                 [[self document] sessionDidLoseConnection:self];
             } else {
                 [[self document] sessionDidReceiveClose:self];
@@ -1395,14 +1395,14 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
         [self TCM_sendParticipantsDidChangeNotification];
     } else if ([anOperation type]==UserChangeTypeGroupChange) {
         NSString *userID=[anOperation userID];
-        [self setGroup:[anOperation newGroup] forParticipantsWithUserIDs:[NSArray arrayWithObject:userID]];
+        [self setGroup:[anOperation theNewGroup] forParticipantsWithUserIDs:[NSArray arrayWithObject:userID]];
         TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
         if ([userID isEqualToString:[userManager myUserID]]) {
             if ([self isServer]) {
                 DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Can't change my group in my document, pah!");
             } else {
                 //NSLog(@"normal self change:%@",[anOperation description]);
-                if ([[anOperation newGroup] isEqualTo:@"ReadOnly"]) {
+                if ([[anOperation theNewGroup] isEqualTo:@"ReadOnly"]) {
                     //NSLog(@"normal self change to read only");
 
                     [[aState retain] autorelease];

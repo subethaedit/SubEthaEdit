@@ -391,16 +391,23 @@ static int ResetAllTimers(void)
     timerclear(&disable.it_value);
     
     err = setitimer(ITIMER_REAL,    &disable, NULL);
+
     if (err == -1) {
         err = errno;
+		return err;
     }
+
     err = setitimer(ITIMER_VIRTUAL, &disable, NULL);
+
     if (err == -1) {
         err = errno;
+		return err;
     }
+
     err = setitimer(ITIMER_PROF,    &disable, NULL);
     if (err == -1) {
         err = errno;
+		return err;
     }
     return err;
 }
@@ -1404,7 +1411,9 @@ extern int MoreSecHelperToolMain(int fdIn, int fdOut, AuthorizationRef auth, Mor
 	assert(argv    != NULL);
 	assert(argv[0] != NULL);
 
+#if SPF_DEAD_CODE            
 	err        = 0;
+#endif
 	pathToSelf = NULL;
 
 	// Note whether we're privileged, and then switch the EUID to the RUID 
@@ -1865,7 +1874,11 @@ static CFURLRef CreateURLToValidHelperToolInFolder(
 	
 	err = CopyHelperToolURL(domain, folder, subFolderName, toolName, false, &result);
 	if (err == noErr) {
+#if SPF_DEAD_CODE            
 		err = CheckHelperTool(templateTool, result, &found);
+#else
+		CheckHelperTool(templateTool, result, &found);
+#endif
 	}
 	if (!found) {
 		CFQRelease(result);
@@ -2170,7 +2183,9 @@ extern OSStatus MoreSecExecuteRequestInHelperTool(CFURLRef helperTool, Authoriza
 	if (fdChild != -1) {
 		junk = close(fdChild);
 		assert(junk == 0);
+#if SPF_DEAD_CODE            
 		fdChild = -1;
+#endif
 	}
 	if (err == noErr) {	
 		err = EXXXToOSStatus( MoreUNIXWrite(fdParent, &extAuth, sizeof(extAuth), NULL) );
@@ -2206,7 +2221,9 @@ extern OSStatus MoreSecExecuteRequestInHelperTool(CFURLRef helperTool, Authoriza
 		junk = close(fdParent);
 		junk = MoreUNIXErrno(junk);
 		assert(junk == 0);
+#if SPF_DEAD_CODE            
 		fdParent = -1;
+#endif
 	}
 
 	// If we started a child, we have to reap it, always, regardless of 

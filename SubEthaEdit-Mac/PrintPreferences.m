@@ -170,7 +170,7 @@ static NSString *S_measurementUnits;
                  forKey:NSFontNameAttribute];
         [dict setObject:[NSNumber numberWithFloat:[newFont pointSize]] 
                  forKey:NSFontSizeAttribute];
-        [[O_printOptionController content] setValue:dict forKeyPath:@"SEEFontAttributes"];
+        [[O_printOptionController content] setValue:dict forKeyPath:PROPERTY(SEEFontAttributes)];
     }
 }
 

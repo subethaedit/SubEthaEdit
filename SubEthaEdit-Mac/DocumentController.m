@@ -33,10 +33,10 @@
 
 #import "BacktracingException.h"
 #if defined(CODA)
-#import "TSDocument.h"
-#import "TSDocumentWindowController.h"
-#import "TSPlainTextWrapper.h"
-#import "TSSplitController.h"
+#import "CodaDocument.h"
+#import "CodaWindowController.h"
+#import "PlainTextNodeDocument.h"
+#import "SplitController.h"
 #import "MoreCFQ.h" // prevent compiler warning
 #import <FTPKit/FTPKit.h> // for string category
 #endif //defined(CODA)
@@ -1349,13 +1349,13 @@ struct ModificationInfo
 #endif //!defined(CODA)
 
 - (IBAction)goIntoBundles:(id)sender {
-    BOOL flag = ((NSButton*)[sender state] == NSOffState) ? NO : YES;
+    BOOL flag = ([(NSButton*)sender state] == NSOffState) ? NO : YES;
     [I_openPanel setTreatsFilePackagesAsDirectories:flag];
     [[NSUserDefaults standardUserDefaults] setBool:flag forKey:@"GoIntoBundlesPrefKey"];
 }
 
 - (IBAction)showHiddenFiles:(id)sender {
-    BOOL flag = ((NSButton*)[sender state] == NSOffState) ? NO : YES;
+    BOOL flag = ([(NSButton*)sender state] == NSOffState) ? NO : YES;
     if ([I_openPanel canShowHiddenFiles]) {
         [I_openPanel setInternalShowsHiddenFiles:flag];
     }
@@ -1524,18 +1524,17 @@ struct ModificationInfo
 
 - (void)openSelection:(NSPasteboard *)pboard userData:(NSString *)data error:(NSString **)error {
 #if defined(CODA)
-	TSDocument			*document = [TSDocument frontmostDocument];
-	TSPlainTextWrapper	*wrapper = nil;
+	CodaDocument			*document = [CodaDocument frontmostDocument];
+	PlainTextNodeDocument	*wrapper = nil;
 	if ( !document ) 
 	{
-		document = (TSDocument *)[self openUntitledDocumentOfType:@"PlainTextType" display:YES];
-		wrapper = (TSPlainTextWrapper*)[[[document selectedSplitController] viewController] wrapper];
+		document = (CodaDocument *)[self openUntitledDocumentOfType:@"PlainTextType" display:YES];
+		wrapper = (PlainTextNodeDocument*)[document nodeDocument];
 	}
 	else
 	{
-		TSDocumentWindowController *wc = [document windowController];
-		TSTabController *tc = [wc addTabInBackground:NO];
-		wrapper = (TSPlainTextWrapper*)[[[tc selectedSplitController] viewController] wrapper];
+		[[document windowController] newTab:self];
+		wrapper = (PlainTextNodeDocument*)[document nodeDocument];
 	}
 	[[[[wrapper plainTextEditors] objectAtIndex:0] textView] readSelectionFromPasteboard:pboard];
 	NSTextStorage *ts = [wrapper textStorage];

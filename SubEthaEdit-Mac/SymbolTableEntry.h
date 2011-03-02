@@ -21,6 +21,7 @@
     BOOL I_isSeparator;
 #if defined(CODA)
 	NSString* I_documentModeIdentifier; 
+	NSArray* I_substrings; 
 #endif //defined(CODA)
 }
 
