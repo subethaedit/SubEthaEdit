@@ -380,6 +380,8 @@
     PlainTextDocument *document=[self document];
     if (document) {
         [[self textView] setBackgroundColor:[document documentBackgroundColor]];
+		NSColor *invisibleCharacterColor = [[document styleAttributesForScope:@"constant.character.invisible"] objectForKey:NSForegroundColorAttributeName];
+		[(LayoutManager*)[[self textView] layoutManager] setInvisibleCharacterColor:invisibleCharacterColor?invisibleCharacterColor:[NSColor grayColor]];
     }
 }
 

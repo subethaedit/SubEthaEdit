@@ -72,6 +72,8 @@ static NSString *S_specialGlyphs[17];
         [I_invisiblesLayoutManager addTextContainer:[[NSTextContainer new] autorelease]];
         [I_invisiblesTextStorage addLayoutManager:I_invisiblesLayoutManager];
     
+		[self setInvisibleCharacterColor:[NSColor grayColor]];
+		
         NSMutableString *string = [I_invisiblesTextStorage mutableString];
         [string appendString:@"0"]; // just for offset
         int i=0;
@@ -85,9 +87,7 @@ static NSString *S_specialGlyphs[17];
 - (void)dealloc {
     [I_invisiblesLayoutManager release];
     [I_invisiblesTextStorage release];
-#if defined(CODA)
 	[I_invisibleCharacterColor release];
-#endif //defined(CODA)	
     [super dealloc];
 }
 
@@ -383,12 +383,8 @@ static NSString *S_specialGlyphs[17];
                     // where is that one?
                     if (!attributes) {
                         attributes = [[[self textStorage] attributesAtIndex:i effectiveRange:NULL] mutableCopy];
-#if defined(CODA)
 						if (  I_invisibleCharacterColor != nil )
 							[attributes setObject:I_invisibleCharacterColor forKey:NSForegroundColorAttributeName];
-#else
-                        [attributes setObject:[NSColor grayColor] forKey:NSForegroundColorAttributeName];
-#endif //defined(CODA)
                         [I_invisiblesTextStorage addAttributes:attributes range:NSMakeRange(0,[I_invisiblesTextStorage length])];
                         [attributes setObject:[NSColor redColor] forKey:NSForegroundColorAttributeName];
                         [I_invisiblesTextStorage addAttributes:attributes range:NSMakeRange([I_invisiblesTextStorage length]-6,6)];
@@ -429,12 +425,6 @@ static NSString *S_specialGlyphs[17];
     }
 }
 
-
-@end
-
-#if defined(CODA)
-@implementation LayoutManager (studio)
-
 - (void)setInvisibleCharacterColor:(NSColor*)aColor
 {
 	// forcing a redraw is the responsibility of the caller
@@ -450,4 +440,3 @@ static NSString *S_specialGlyphs[17];
 }
 
 @end
-#endif //defined(CODA)

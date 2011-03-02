@@ -4871,7 +4871,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 		
 		if (!aScope) {
 			aScope = [style objectForKey:kSyntaxHighlightingScopenameAttributeName];
-			NSLog(@"New scope: %@", aScope);
+			//NSLog(@"New scope: %@", aScope);
 		}
 		[result setObject:aScope forKey:kSyntaxHighlightingScopenameAttributeName];
 		
