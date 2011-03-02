@@ -91,7 +91,8 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
     if (!definition) NSLog(@"ERROR: No defintion for highlighter.");
 	[definition getReady]; // Make sure everything is setup 
     NSString *theString = [aString string];
-
+	NSUInteger documentEnd = [theString length];
+	
     // If our dirty range beings with a start delimiter, make sure it is cleared completely to avoid confusing the engine with zombie starts
     if (aRange.location>0) {
         if ([aString attribute:kSyntaxHighlightingStateDelimiterName atIndex:aRange.location-1 effectiveRange:nil]) {
@@ -181,8 +182,8 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
         if (currentRange.location > 0) {
         	unichar previousCharacter = [theString characterAtIndex:currentRange.location-1];
         	switch (previousCharacter) {
-        		case 0x2028:
-        		case 0x2029:
+        		case 0x2028: //LSEP
+        		case 0x2029: //PSEP
         		case '\n':
         		case '\r':
         			break;
@@ -289,6 +290,13 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 				[I_stringLock lock];
                 [aString addAttributes:scratchAttributes range:delimiterRange];
 				[I_stringLock unlock];
+				
+				// In case we are at the end of the document we want to color the start now,
+				// not on first state chunk, hence we're skipping ahead in the state machine
+				if (documentEnd == NSMaxRange(delimiterRange)) {
+					currentState = subState;
+					startRange = delimiterRange;
+				}
 
             } else { // Found end of current state
                 //NSLog(@"Found an end: '%@' current range: %@",[[aString string] substringWithRange:delimiterRange], NSStringFromRange(currentRange));
@@ -333,7 +341,6 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
         
         } else {  // No end found in chunk, so mark the whole chunk
             //DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"State %@ does not end in chunk",[currentState objectForKey:@"id"]);
-            //NSLog(@"Nothing interesting here.");
             stateRange = NSMakeRange(currentRange.location, NSMaxRange(aRange) - currentRange.location);
             nextRange = NSMakeRange(NSNotFound,0);
 			savedStack = [[stack copy] autorelease];
