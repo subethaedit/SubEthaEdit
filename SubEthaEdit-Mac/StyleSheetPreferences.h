@@ -19,10 +19,15 @@
 
     NSFont *I_baseFont;
 
-    IBOutlet NSButton *O_boldButton, *O_italicButton, *O_underlineButton;
-    IBOutlet NSColorWell *O_colorWell, *O_invertedColorWell, 
-                         *O_backgroundColorWell,*O_invertedBackgroundColorWell;
+    IBOutlet NSButton *O_boldButton, *O_italicButton, *O_underlineButton, *O_strikethroughButton;
+    IBOutlet NSColorWell *O_colorWell, 
+                         *O_backgroundColorWell;
 
+    IBOutlet NSButton *O_inheritBoldButton, *O_inheritItalicButton, *O_inheritUnderlineButton, *O_inheritStrikethroughButton, *O_inheritColorWell, *O_inheritBackgroundColorWell;
+
+
+    IBOutlet NSTextView *O_sheetSnippetTextView;
+    
     IBOutlet NSTextField *O_fontLabel;
     SEEStyleSheet *I_currentStyleSheet;
     NSUndoManager *I_undoManager;
@@ -31,8 +36,11 @@
 - (IBAction)changeFontTraitItalic:(id)aSender;
 - (IBAction)changeFontTraitBold:(id)aSender;
 - (IBAction)changeFontTraitUnderline:(id)aSender;
+- (IBAction)changeFontTraitStrikethrough:(id)aSender;
 - (IBAction)changeBackgroundColor:(id)aSender;
 - (IBAction)changeForegroundColor:(id)aSender;
+
+- (IBAction)takeInheritanceState:(id)aSender;
 
 - (IBAction)changeFontViaPanel:(id)sender;
 

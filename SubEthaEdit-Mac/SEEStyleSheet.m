@@ -16,6 +16,20 @@
  
  */
 
+NSString * const SEEStyleSheetFontStyleKey			 = @"font-style";
+NSString * const SEEStyleSheetFontWeightKey			 = @"font-weight";
+NSString * const SEEStyleSheetFontUnderlineKey		 = @"font-underline";
+NSString * const SEEStyleSheetFontStrikeThroughKey	 = @"font-strike-through";
+NSString * const SEEStyleSheetFontForegroundColorKey = @"color";
+NSString * const SEEStyleSheetFontBackgroundColorKey = @"background-color";
+NSString * const SEEStyleSheetValueNormal            = @"normal";
+NSString * const SEEStyleSheetValueNone              = @"none";
+NSString * const SEEStyleSheetValueBold              = @"bold";
+NSString * const SEEStyleSheetValueUnderline         = @"underline";
+NSString * const SEEStyleSheetValueItalic            = @"italic";
+NSString * const SEEStyleSheetValueStrikeThrough     = @"strike-through";
+
+
 @interface SEEStyleSheet ()
 @property (nonatomic, retain, readwrite) NSArray *allScopes;
 @end
@@ -25,16 +39,16 @@
 
 + (NSDictionary *)textAttributesForStyleAttributes:(NSDictionary *)aStyleAttributeDictionary font:(NSFont *)aFont {
 	
-	NSLog(@"%s %@",__FUNCTION__,aStyleAttributeDictionary);
+//	NSLog(@"%s %@",__FUNCTION__,aStyleAttributeDictionary);
 	
 //	check darkness of background for use in strokewidth bold synthesizing later on
-	NSColor *backgroundColor=[aStyleAttributeDictionary objectForKey:@"background-color"];
+	NSColor *backgroundColor=[aStyleAttributeDictionary objectForKey:SEEStyleSheetFontBackgroundColorKey];
 	BOOL darkBackground = [backgroundColor isDark];
 	
 //	generate the font we'd like
 	NSFontTraitMask traits = 0;
-	if ([[aStyleAttributeDictionary objectForKey:@"font-style"] isEqualToString:@"italic"]) traits = traits | NSItalicFontMask;
-	if ([[aStyleAttributeDictionary objectForKey:@"font-weight"] isEqualToString:@"bold"])  traits = traits | NSBoldFontMask;
+	if ([[aStyleAttributeDictionary objectForKey:SEEStyleSheetFontStyleKey] isEqualToString:SEEStyleSheetValueItalic]) traits = traits | NSItalicFontMask;
+	if ([[aStyleAttributeDictionary objectForKey:SEEStyleSheetFontWeightKey] isEqualToString:SEEStyleSheetValueBold])  traits = traits | NSBoldFontMask;
 	NSFont *font=[[NSFontManager sharedFontManager] convertFont:aFont toHaveTrait:traits];
 	
 //	synthesise it if needed (e.g. bold and italic can be created artificially)
@@ -49,7 +63,7 @@
 	}
 
 
-	NSColor *foregroundColor = [aStyleAttributeDictionary objectForKey:@"color"];
+	NSColor *foregroundColor = [aStyleAttributeDictionary objectForKey:SEEStyleSheetFontForegroundColorKey];
 	
 	NSMutableDictionary *result=[NSMutableDictionary dictionaryWithObjectsAndKeys:font,NSFontAttributeName,
 			foregroundColor,NSForegroundColorAttributeName,
@@ -61,10 +75,10 @@
 		[result setObject:backgroundColor forKey:NSBackgroundColorAttributeName];
 	}
 	
-	if ([[aStyleAttributeDictionary objectForKey:@"font-strike-through"] isEqualToString:@"strike-through"])
+	if ([[aStyleAttributeDictionary objectForKey:SEEStyleSheetFontStrikeThroughKey] isEqualToString:SEEStyleSheetValueStrikeThrough])
 		[result setObject:[NSNumber numberWithInteger:NSUnderlineStyleSingle] forKey:NSStrikethroughStyleAttributeName];
 	
-	if ([[aStyleAttributeDictionary objectForKey:@"font-underline"] isEqualToString:@"underline"])
+	if ([[aStyleAttributeDictionary objectForKey:SEEStyleSheetFontUnderlineKey] isEqualToString:SEEStyleSheetValueUnderline])
 		[result setObject:[NSNumber numberWithInteger:NSUnderlineStyleSingle] forKey:NSUnderlineStyleAttributeName];
 
 	return result;
@@ -132,9 +146,10 @@
 			if ([keysAndValues count] !=2) continue;
 			NSString *key = [[keysAndValues objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
 			id value = [[keysAndValues objectAtIndex:1] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-			if ([key rangeOfString:@"color"].location != NSNotFound) {
+			if ([key rangeOfString:SEEStyleSheetFontForegroundColorKey].location != NSNotFound) {
 				value = [NSColor colorForHTMLString:value];
 			}
+			// deprecated
 			if ([key isEqualToString:@"font-trait"]) {
 				value = [NSNumber numberWithInt:[value intValue]];
 			}
@@ -151,20 +166,22 @@
 
 }
 
-- (void) exportStyleSheetToPath:(NSURL *)aPath{
+- (NSString *)styleSheetSnippetForScope:(NSString *)aScope {
+	NSMutableArray *attributes = [NSMutableArray array];
+	NSDictionary *style = [self styleAttributesForExactScope:aScope];
+	for (NSString *attribute in [[style allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)]) {
+			id value = [style objectForKey:attribute];
+			if ([value isKindOfClass:[NSColor class]]) value = [(NSColor*)value HTMLString];
+			[attributes addObject:[NSString stringWithFormat:@"%@:%@;", attribute, value]];
+	}
+	return [NSString stringWithFormat:@"%@ {\n  %@\n}\n\n", aScope, [attributes componentsJoinedByString:@"\n  "]];
+}
+
+- (void)exportStyleSheetToPath:(NSURL *)aPath{
 	
 	NSMutableString *exportString = [NSMutableString string];
 	for (NSString *scope in self.allScopes) {
-		[exportString appendString:[NSString stringWithFormat:@"%@ {\n", scope]];
-		
-		for(NSString *attribute in [[[self.scopeStyleDictionary objectForKey:scope] allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)]) {
-			id value = [[self.scopeStyleDictionary objectForKey:scope] objectForKey:attribute];
-			if ([value isKindOfClass:[NSColor class]]) value = [(NSColor*)value HTMLString];
-			[exportString appendString:[NSString stringWithFormat:@"   %@:%@;\n", attribute, value]];
-		}
-		
-		[exportString appendString:@"}\n\n"];
-		
+		[exportString appendString:[self styleSheetSnippetForScope:scope]];
 	}
 	
 	NSError *err;
@@ -183,12 +200,12 @@
 
 //	Start with a base style
 		NSMutableDictionary *styleResult = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-			[NSColor colorWithCalibratedWhite:0.0 alpha:1.0],@"color",
-			[NSColor colorWithCalibratedWhite:1.0 alpha:1.0],@"background-color",
-			@"normal",@"font-weight",
-			@"normal",@"font-style",
-			@"none",@"font-underline",
-			@"none",@"font-strike-through",
+			[NSColor colorWithCalibratedWhite:0.0 alpha:1.0],SEEStyleSheetFontForegroundColorKey,
+			[NSColor colorWithCalibratedWhite:1.0 alpha:1.0],SEEStyleSheetFontBackgroundColorKey,
+			@"normal",SEEStyleSheetFontWeightKey,
+			@"normal",SEEStyleSheetFontStyleKey,
+			@"none",SEEStyleSheetFontUnderlineKey,
+			@"none",SEEStyleSheetFontStrikeThroughKey,
 			nil];
 
 //	Use the meta.default to augment the baseline
