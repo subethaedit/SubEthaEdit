@@ -14,10 +14,6 @@
 #endif //!defined(CODA)
 #import <TCMPortMapper/TCMPortMapper.h>
 
-#if defined(CODA)
-#import "AboutController.h"
-#endif //defined(CODA)
-
 #import "TCMBEEP.h"
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "TCMMMUserSEEAdditions.h"
@@ -176,7 +172,11 @@ static AppController *sharedInstance = nil;
 		[defaults setObject:[NSNumber numberWithBool:NO] forKey:UseTemporaryKeychainForTLSKey]; // no more temporary keychain in 10.6 and up builds
 		
 		[defaults setObject:[NSNumber numberWithBool:YES] forKey:EnableAnonTLSKey];
-		[defaults setObject:[NSNumber numberWithBool:YES] forKey:@"WebKitDeveloperExtras"];
+		
+		NSDictionary* sequelProDefaults = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PreferenceDefaults" ofType:@"plist"]];
+		
+		[defaults addEntriesFromDictionary:sequelProDefaults];
+		
 		[[NSUserDefaults standardUserDefaults] registerDefaults:defaults];
 		
 		[[TCMMMTransformator sharedInstance] registerTransformationTarget:[TextOperation class] selector:@selector(transformTextOperation:serverTextOperation:) forOperationId:[TextOperation operationID] andOperationID:[TextOperation operationID]];
@@ -395,7 +395,7 @@ static AppController *sharedInstance = nil;
     [image setName:@"ssllock18"];
     
     
-    //#warning "Termination has to be removed before release!"
+    // FIXME "Termination has to be removed before release!"
     //if ([[NSDate dateWithString:@"2007-02-21 12:00:00 +0000"] timeIntervalSinceNow] < 0) {
     //    [NSApp terminate:self];
     //    return;
@@ -963,7 +963,6 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 }
 
 - (void)reportAppleScriptError:(NSDictionary *)anErrorDictionary {
-	NSLog(@"%s %@",__FUNCTION__, anErrorDictionary);
     NSAlert *newAlert = [[[NSAlert alloc] init] autorelease];
     [newAlert setAlertStyle:NSCriticalAlertStyle];
     [newAlert setMessageText:[anErrorDictionary objectForKey:@"NSAppleScriptErrorBriefMessage"] ? [anErrorDictionary objectForKey:@"NSAppleScriptErrorBriefMessage"] : @"Unknown AppleScript Error"];
@@ -1054,15 +1053,15 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 {
 	// Create the AboutController if it doesn't already exist
 
-	if ( !aboutController )
-		aboutController = [[AboutController alloc] init];
+	if ( !iAboutController )
+		iAboutController = [[PCAboutController alloc] initWithWindowNibName:@"AboutBox"];
 
 	// Show window if it is hidden, or vice-versa
 
-	if ( ![[aboutController window] isVisible] )
-		[aboutController showWindow:self];
+	if ( ![[iAboutController window] isVisible] )
+		[iAboutController showWindow:self];
 	else
-		[[aboutController window] makeKeyAndOrderFront:self];
+		[[iAboutController window] makeKeyAndOrderFront:self];
 }
 #endif //defined(CODA)
 

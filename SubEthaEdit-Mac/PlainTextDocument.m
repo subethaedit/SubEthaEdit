@@ -4835,7 +4835,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     NSMutableDictionary *result=[I_styleCacheDictionary objectForKey:aScope];
     if (!result) {
         DocumentMode *documentMode=[self documentMode];
-        BOOL darkBackground=[[documentMode defaultForKey:DocumentModeBackgroundColorIsDarkPreferenceKey] boolValue];
+
         SEEStyleSheet *styleSheet = [documentMode styleSheet];
         result = [SEEStyleSheet textAttributesForStyleAttributes:[styleSheet styleAttributesForScope:aScope] font:I_fonts.plainFont];
 
@@ -5327,7 +5327,7 @@ static NSString *S_measurementUnits;
                  forKey:NSFontNameAttribute];
         [dict setObject:[NSNumber numberWithFloat:[newFont pointSize]] 
                  forKey:NSFontSizeAttribute];
-        [[O_printOptionController content] setValue:dict forKeyPath:@"SEEFontAttributes"];
+        [[O_printOptionController content] setValue:dict forKeyPath:PROPERTY(SEEFontAttributes)];
     } else {
         [self setPlainFont:newFont];
     }

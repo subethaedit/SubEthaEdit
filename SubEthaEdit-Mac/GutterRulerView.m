@@ -45,11 +45,6 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 //	}
 }
 
-@interface NSBezierPath (BezierPathGutterRulerViewAdditions)
-+ (NSBezierPath *)trianglePathInRect:(NSRect)aRect arrowPoint:(NSRectEdge)anEdge;
-+ (void)fillTriangleInRect:(NSRect)aRect arrowPoint:(NSRectEdge)anEdge;
-@end
-
 @implementation NSBezierPath (BezierPathGutterRulerViewAdditions)
 + (NSBezierPath *)trianglePathInRect:(NSRect)aRect arrowPoint:(NSRectEdge)anEdge {
 	aRect = NSInsetRect(aRect,0.5,0.5);

@@ -28,9 +28,9 @@
 #if !defined(CODA)
 - (IBAction)commandLineToolInstall:(id)sender;
 - (IBAction)commandLineToolRemove:(id)sender;
-#endif //!defined(CODA)
 - (IBAction)changeDisableScreenFonts:(id)aSender;
 - (IBAction)changeSynthesiseFonts:(id)aSender;
+#endif //!defined(CODA)
 - (IBAction)changeAutomaticallyMapPorts:(id)aSender;
 
 @end

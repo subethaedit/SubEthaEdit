@@ -504,7 +504,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     NSRange returnRange = NSMakeRange(NSNotFound, 0);
     int depth = [[textStorage attribute:kSyntaxHighlightingFoldingDepthAttributeName atIndex:index effectiveRange:NULL] intValue];
     
-    if (depth == 0) return NSMakeRange(NSNotFound, 0); // Not foldable
+    if (depth == 0) return returnRange; // Not foldable
 
 	// new approach: find folding start for this level as range. then find folding end for this level as range. then return the intersection.
 

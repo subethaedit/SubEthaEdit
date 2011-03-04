@@ -45,7 +45,7 @@ static NSString* PostProcessMatch(NSString* string, NSArray* postprocess);
 - (void)setSyntaxDefinition:(RegexSymbolDefinition *)aSymbolDefinition
 {
     [I_symbolDefinition autorelease];
-     I_symbolDefinition = [aSymbolDefinition retain];
+	I_symbolDefinition = [aSymbolDefinition retain];
 }
 
 - (NSArray *)symbolsForTextStorage:(NSTextStorage *)aTextStorage {
@@ -53,7 +53,7 @@ static NSString* PostProcessMatch(NSString* string, NSArray* postprocess);
 	NSRange currentRange = NSMakeRange(0,0);
 	NSRange fullRange = NSMakeRange(0, [aTextStorage length]);
 	if (NSMaxRange(fullRange)>[[NSUserDefaults standardUserDefaults] integerForKey:@"StringLengthToStopSymbolRecognition"]) {
-	   return nil;
+		return nil;
 	}
 	// Iterate through blocks of stuff, using the different Parsers
 	while (NSMaxRange(currentRange)<NSMaxRange(fullRange)) {
@@ -63,7 +63,7 @@ static NSString* PostProcessMatch(NSString* string, NSArray* postprocess);
 		RegexSymbolParser *symbolParser;
 		if (modeForSymbols) symbolParser = [[[DocumentModeManager sharedInstance] documentModeForName:modeForSymbols] symbolParser];
 		else symbolParser = self;
-			
+		
 		//NSLog(@"Found %@ within %@. Using parser %@.", modeForSymbols, NSStringFromRange(effectiveRange), symbolParser);
 		
 		[returnArray addObjectsFromArray:[symbolParser symbolsForTextStorage:aTextStorage inRange:effectiveRange]];
@@ -78,9 +78,9 @@ static NSString* PostProcessMatch(NSString* string, NSArray* postprocess);
 {
     RegexSymbolDefinition *definition = [self symbolDefinition];
     NSMutableArray *returnArray =[NSMutableArray array];
-
+	
     //clock_t start_time = clock();
-
+	
     NSArray *symbols = [definition symbols];
     
 	for (NSDictionary *symbol in symbols) {
@@ -173,7 +173,7 @@ static NSString* PostProcessMatch(NSString* string, NSArray* postprocess);
 					aSymbolTableEntry.substrings = substrings;
 					aSymbolTableEntry.documentModeIdentifier = [[I_symbolDefinition mode] documentModeIdentifier];
 #endif //defined(CODA)
-
+					
 					
 					if ([name isEqualToString:@""]) {
 						[aSymbolTableEntry setIsSeparator:YES];
@@ -186,7 +186,7 @@ static NSString* PostProcessMatch(NSString* string, NSArray* postprocess);
     }
     //NSLog(@"time for symbols: %f",(((double)(clock()-start_time))/CLOCKS_PER_SEC));
     return returnArray;
-//    return [returnArray sortedArrayUsingSelector:@selector(sortByRange:)];
+	//    return [returnArray sortedArrayUsingSelector:@selector(sortByRange:)];
 }
 
 @end
