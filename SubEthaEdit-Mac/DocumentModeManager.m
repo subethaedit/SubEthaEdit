@@ -15,12 +15,15 @@
 
 #if defined(CODA)
 #define MODEPATHCOMPONENT @"Application Support/Coda/Modes/"
+#define STYLEPATHCOMPONENT @"Application Support/Coda/Styles/"
 #else
 #define MODEPATHCOMPONENT @"Application Support/SubEthaEdit/Modes/"
+#define STYLEPATHCOMPONENT @"Application Support/SubEthaEdit/Styles/"
 #endif //defined(CODA)
 
 @interface DocumentModeManager (DocumentModeManagerPrivateAdditions)
 - (void)TCM_findModes;
+- (void)TCM_findStyles;
 - (NSMutableArray *)reloadPrecedences;
 - (void)setupMenu:(NSMenu *)aMenu action:(SEL)aSelector alternateDisplay:(BOOL)aFlag;
 - (void)setupPopUp:(DocumentModePopUpButton *)aPopUp selectedModeIdentifier:(NSString *)aModeIdentifier automaticMode:(BOOL)hasAutomaticMode;
@@ -149,7 +152,12 @@ static DocumentModeManager *S_sharedInstance=nil;
         self = [super init];
         if (self) {
             I_modeBundles=[NSMutableDictionary new];
+            
+            I_styleSheetPathsByName = [NSMutableDictionary new];
+            I_styleSheetsByName     = [NSMutableDictionary new];
+            
             I_documentModesByIdentifier =[NSMutableDictionary new];
+            I_documentModesByName       = [NSMutableDictionary new];
 			I_documentModesByIdentifierLock = [NSRecursiveLock new]; // ifc - experimental locking... awaiting real fix from TCM
 #if defined(CODA)
             I_modeIdentifiersByExtension=[NSMutableDictionary new];
@@ -158,6 +166,7 @@ static DocumentModeManager *S_sharedInstance=nil;
             [I_modeIdentifiersTagArray addObject:@"-"];
             [I_modeIdentifiersTagArray addObject:AUTOMATICMODEIDENTIFIER];
             [I_modeIdentifiersTagArray addObject:BASEMODEIDENTIFIER];
+            [self TCM_findStyles];
             [self TCM_findModes];
             [self setModePrecedenceArray:[self reloadPrecedences]];
             [self revalidatePrecedences];
@@ -171,6 +180,9 @@ static DocumentModeManager *S_sharedInstance=nil;
 
 - (void)dealloc {
     [I_modeBundles release];
+    [I_styleSheetPathsByName release];
+    [I_styleSheetsByName release];
+    [I_documentModesByName release];
     [I_documentModesByIdentifier release];
 	[I_documentModesByIdentifierLock release]; // ifc - experimental locking... awaiting real fix from TCM
 #if defined(CODA)
@@ -406,8 +418,8 @@ static DocumentModeManager *S_sharedInstance=nil;
 }
 
 - (void)TCM_findModes { 
-    NSString *file; 
-    NSString *path; 
+    NSString *file = nil; 
+    NSString *path = nil; 
     
     //create Directories 
     NSArray *userDomainPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES); 
@@ -454,10 +466,64 @@ static DocumentModeManager *S_sharedInstance=nil;
     } 
 } 
 
+- (void)TCM_findStyles { 
+    NSString *file = nil; 
+    NSString *path = nil; 
+    
+    //create Directories 
+    NSArray *userDomainPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES); 
+    NSEnumerator *enumerator = [userDomainPaths objectEnumerator]; 
+    for (path in userDomainPaths) { 
+        NSString *fullPath = [path stringByAppendingPathComponent:STYLEPATHCOMPONENT]; 
+        if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:nil]) { 
+            [[NSFileManager defaultManager] createDirectoryAtPath:fullPath withIntermediateDirectories:YES attributes:nil error:nil]; 
+        } 
+    } 
+    
+    
+    NSMutableArray *allPaths = [NSMutableArray array]; 
+    NSArray *allDomainsPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, YES); 
+    for (path in allDomainsPaths) { 
+        [allPaths addObject:[path stringByAppendingPathComponent:STYLEPATHCOMPONENT]]; 
+    } 
+    
+    [allPaths addObject:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Modes/Styles/"]]; 
+    
+    enumerator = [allPaths reverseObjectEnumerator]; 
+    while ((path = [enumerator nextObject])) { 
+        NSEnumerator *dirEnumerator = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil] objectEnumerator]; 
+        while ((file = [dirEnumerator nextObject])) { 
+            if ([[file pathExtension] isEqualToString:@"sss"]) { 
+	            [I_styleSheetPathsByName setObject:[path stringByAppendingPathComponent:file] forKey:[file stringByDeletingPathExtension]];
+            } 
+        } 
+    }
+    NSLog(@"%s %@",__FUNCTION__, I_styleSheetPathsByName);
+} 
+
+- (SEEStyleSheet *)styleSheetForName:(NSString *)aStyleSheetName {
+	SEEStyleSheet *result = [I_styleSheetsByName objectForKey:aStyleSheetName];
+	if (!result) {
+		NSString *path = [I_styleSheetPathsByName objectForKey:aStyleSheetName];
+		if (path) {
+			result = [[SEEStyleSheet new] autorelease];
+			result.styleSheetName = aStyleSheetName;
+			[result importStyleSheetAtPath:[NSURL fileURLWithPath:path]];
+			[I_styleSheetsByName setObject:result forKey:aStyleSheetName];
+		}
+	}
+	return result;
+}
+
+- (NSArray *)allStyleSheetNames {
+	return [[I_styleSheetPathsByName allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+}
+
+
 - (IBAction)reloadDocumentModes:(id)aSender {
-#if defined(CODA)
+
 	[I_documentModesByIdentifierLock lock]; // ifc - experimental
-#endif //defined(CODA)
+
     // write all preferences
     [[I_documentModesByIdentifier allValues] makeObjectsPerformSelector:@selector(writeDefaults)];
     [[NSUserDefaults standardUserDefaults] setObject:[self modePrecedenceArray] forKey:@"ModePrecedences"];
@@ -473,9 +539,9 @@ static DocumentModeManager *S_sharedInstance=nil;
     
     [self setModePrecedenceArray:[self reloadPrecedences]];
     [self revalidatePrecedences];
-#if defined(CODA)
+
 	[I_documentModesByIdentifierLock unlock]; // ifc - experimental
-#endif //defined(CODA)
+
 }
 
 - (void)resolveAllDependenciesForMode:(DocumentMode *)aMode {

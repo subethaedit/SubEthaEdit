@@ -25,12 +25,12 @@
 
 @synthesize currentStyleSheet;
 
-- (id) init {
+- (id)init {
     self = [super init];
     if (self) {
         I_undoManager=[NSUndoManager new];
         SEEStyleSheet *styleSheet = [[SEEStyleSheet new] autorelease];
-        [styleSheet importStyleSheetAtPath:[[NSBundle mainBundle] URLForResource:@"Default" withExtension:@"sss" subdirectory:@"Modes/Styles"]];
+//        [styleSheet importStyleSheetAtPath:[[NSBundle mainBundle] URLForResource:@"Default" withExtension:@"sss" subdirectory:@"Modes/Styles"]];
         self.currentStyleSheet = styleSheet;
         NSLog(@"%s %@",__FUNCTION__,styleSheet.allScopes);
     }
@@ -67,10 +67,18 @@
 //    [[columns objectAtIndex:1] setWidth:width2];
 }
 
+- (void)switchToStyleSheetName:(NSString *)aStyleSheetName {
+	self.currentStyleSheet = [[DocumentModeManager sharedInstance] styleSheetForName:aStyleSheetName];
+	[O_stylesTableView reloadData];
+	[self updateInspector];
+}
+
 - (void)mainViewDidLoad {
 	[self takeFontFromMode:[DocumentModeManager baseMode]];
 
-    // Initialize user interface elements to reflect current preference settings
+	[O_styleSheetPopUpButton removeAllItems];
+	[O_styleSheetPopUpButton addItemsWithTitles:[[DocumentModeManager sharedInstance] allStyleSheetNames]];
+	[self switchToStyleSheetName:[O_styleSheetPopUpButton itemTitleAtIndex:0]];
     
     // Set tableview to non highlighting cells
     [[[O_stylesTableView tableColumns] objectAtIndex:0] setDataCell:[[TextFieldCell new] autorelease]];
@@ -92,6 +100,11 @@
     [self adjustTableViewColumns:nil];
     [O_stylesTableView setLightBackgroundColor:[NSColor whiteColor]];
     [O_stylesTableView setDarkBackgroundColor:[NSColor whiteColor]];
+}
+
+- (void)changeStyleSheet:(id)aSender {
+	NSString *styleSheetName = [[O_styleSheetPopUpButton selectedItem] title];
+	[self switchToStyleSheetName:styleSheetName];
 }
 
 - (void)didSelect {
@@ -177,7 +190,7 @@
 			[inheritButton setState:inherit ? NSOnState : NSOffState];
 			NSString *value = [computedStyleAttributes objectForKey:key];
 			BOOL isSet = value && ![value isEqualToString:SEEStyleSheetValueNone] && ![value isEqualToString:SEEStyleSheetValueNormal];
-			NSLog(@"%s %@ -> %d",__FUNCTION__, value, isSet);
+//			NSLog(@"%s %@ -> %d",__FUNCTION__, value, isSet);
 			[actualButton setState:isSet ? NSOnState : NSOffState];
 			[actualButton setEnabled:!inherit];
 		}

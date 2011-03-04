@@ -25,6 +25,8 @@
 
     IBOutlet NSButton *O_inheritBoldButton, *O_inheritItalicButton, *O_inheritUnderlineButton, *O_inheritStrikethroughButton, *O_inheritColorWell, *O_inheritBackgroundColorWell;
 
+    IBOutlet NSPopUpButton *O_styleSheetPopUpButton;
+
 
     IBOutlet NSTextView *O_sheetSnippetTextView;
     
@@ -32,6 +34,8 @@
     SEEStyleSheet *I_currentStyleSheet;
     NSUndoManager *I_undoManager;
 }
+
+- (IBAction)changeStyleSheet:(id)aSender;
 
 - (IBAction)changeFontTraitItalic:(id)aSender;
 - (IBAction)changeFontTraitBold:(id)aSender;

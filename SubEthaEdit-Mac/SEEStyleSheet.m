@@ -89,6 +89,8 @@ NSString * const SEEStyleSheetValueStrikeThrough     = @"strike-through";
 @synthesize scopeStyleDictionary = I_scopeStyleDictionary;
 @synthesize scopeCache = I_scopeCache;
 @synthesize allScopes = I_allScopes;
+@synthesize styleSheetName = I_styleSheetName;
+
 
 - (id)init {
 	if ((self = [super init])) {

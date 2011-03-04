@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "DocumentMode.h"
+#import "SEEStyleSheet.h"
 
 #define BASEMODEIDENTIFIER @"SEEMode.Base"
 #define AUTOMATICMODEIDENTIFIER @"SEEMode.Automatic"
@@ -45,6 +46,10 @@
 	NSMutableArray *I_modePrecedenceArray;
 	NSMutableArray      *I_modeIdentifiersTagArray;
 	NSMutableDictionary *I_dependencyQueue;
+	
+	// style sheet management
+	NSMutableDictionary *I_styleSheetPathsByName;
+	NSMutableDictionary *I_styleSheetsByName;
 }
 
 + (DocumentModeManager *)sharedInstance;
@@ -63,6 +68,9 @@
 - (NSDictionary *)availableModes;
 - (NSMutableArray *)reloadPrecedences;
 - (void)revalidatePrecedences;
+
+- (SEEStyleSheet *)styleSheetForName:(NSString *)aStyleSheetName;
+- (NSArray *)allStyleSheetNames;
 
 - (IBAction)reloadDocumentModes:(id)aSender;
 

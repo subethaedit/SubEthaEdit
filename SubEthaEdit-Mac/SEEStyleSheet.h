@@ -28,11 +28,14 @@ NSString * const SEEStyleSheetValueStrikeThrough;
 	NSMutableDictionary *I_scopeStyleDictionary;
 	NSMutableDictionary *I_scopeCache;
 	NSArray *I_allScopes;
+	NSString *I_styleSheetName;
 }
 
 @property (nonatomic, retain) NSMutableDictionary *scopeStyleDictionary;
 @property (nonatomic, retain) NSMutableDictionary *scopeCache;
 @property (nonatomic, retain, readonly) NSArray *allScopes;
+@property (nonatomic, copy) NSString *styleSheetName; // defined as the file base name without the extension
+
 
 + (NSDictionary *)textAttributesForStyleAttributes:(NSDictionary *)styleAttributes font:(NSFont *)font;
 

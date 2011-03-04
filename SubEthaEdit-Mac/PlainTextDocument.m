@@ -4836,49 +4836,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     if (!result) {
         DocumentMode *documentMode=[self documentMode];
         BOOL darkBackground=[[documentMode defaultForKey:DocumentModeBackgroundColorIsDarkPreferenceKey] boolValue];
-        NSDictionary *style=[[documentMode styleSheet] styleAttributesForScope:aScope];
-				
-        NSFontTraitMask traits=[[style objectForKey:@"font-trait"] unsignedIntValue];
-        NSFont *font=[self fontWithTrait:traits];
-        BOOL synthesise=[[NSUserDefaults standardUserDefaults] boolForKey:SynthesiseFontsPreferenceKey];
-        float obliquenessFactor=0.;
-        if (synthesise && (traits & NSItalicFontMask) && !([[NSFontManager sharedFontManager] traitsOfFont:font] & NSItalicFontMask)) {
-            obliquenessFactor=.2;
-        }
-        float strokeWidth=.0;
-        if (synthesise && (traits & NSBoldFontMask) && !([[NSFontManager sharedFontManager] traitsOfFont:font] & NSBoldFontMask)) {
-            strokeWidth=darkBackground?-9.:-3.;
-        }
-		
-        NSColor *foregroundColor=[style objectForKey:darkBackground?@"inverted-color":@"color"];
-		
-        result=[NSMutableDictionary dictionaryWithObjectsAndKeys:font,NSFontAttributeName,
-				foregroundColor,NSForegroundColorAttributeName,
-				[NSNumber numberWithFloat:obliquenessFactor],NSObliquenessAttributeName,
-				[NSNumber numberWithFloat:strokeWidth],NSStrokeWidthAttributeName,
-				nil];
-		
-		NSColor *backgroundColor=[style objectForKey:darkBackground?@"inverted-background-color":@"background-color"];
-		if (backgroundColor) {
-			[result setObject:backgroundColor forKey:NSBackgroundColorAttributeName];
-		}
-        
-		if ([style objectForKey:NSStrikethroughStyleAttributeName])
-			[result setObject:[style objectForKey:NSStrikethroughStyleAttributeName] forKey:NSStrikethroughStyleAttributeName];
-		
-		if ([style objectForKey:NSUnderlineStyleAttributeName])
-			[result setObject:[style objectForKey:NSUnderlineStyleAttributeName] forKey:NSUnderlineStyleAttributeName];
-		
-		if (!aScope) {
-			aScope = [style objectForKey:kSyntaxHighlightingScopenameAttributeName];
-			NSLog(@"New scope: %@", aScope);
-		}
-		[result setObject:aScope forKey:kSyntaxHighlightingScopenameAttributeName];
-		
-		
-		// this is necessary for the highlighter to actually set the correct link attribute here
-        if ([[style objectForKey:@"type"] isEqualToString:@"url"]) [result setObject:@"link" forKey:NSLinkAttributeName];
-		
+        SEEStyleSheet *styleSheet = [documentMode styleSheet];
+        result = [SEEStyleSheet textAttributesForStyleAttributes:[styleSheet styleAttributesForScope:aScope] font:I_fonts.plainFont];
+
 		if ( aScope && result ) 
 			[I_styleCacheDictionary setObject:result forKey:aScope];
     }

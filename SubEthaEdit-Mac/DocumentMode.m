@@ -618,7 +618,13 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 
 - (SEEStyleSheet *)styleSheet {
     if (!I_styleSheet) {
-		I_styleSheet = [[SEEStyleSheet alloc] initWithDefinition:[self syntaxDefinition]];
+	    
+	    NSString *sheetName = [self defaultForKey:@"StyleSheet"];
+	    if (!sheetName) {
+		    sheetName = [[[self syntaxDefinition] linkedStyleSheets] objectAtIndex:0];
+		}
+	    
+		I_styleSheet = [[[DocumentModeManager sharedInstance] styleSheetForName:sheetName] retain];
     }
     return I_styleSheet;
 }
