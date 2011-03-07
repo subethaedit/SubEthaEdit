@@ -19,6 +19,7 @@
 @property (nonatomic, retain) SEEStyleSheet *currentStyleSheet;
 - (void)updateFontLabel;
 - (void)takeFontFromMode:(DocumentMode *)aMode;
+- (void)updateForChangedStyles;
 @end
 
 @implementation StyleSheetPreferences
@@ -60,17 +61,17 @@
 }
 
 - (void)adjustTableViewColumns:(NSNotification *)aNotification {
-    float width=[[[O_stylesTableView enclosingScrollView] contentView] frame].size.width;
-    width-=[O_stylesTableView intercellSpacing].width;
+    CGFloat width=[[[O_stylesTableView enclosingScrollView] contentView] frame].size.width;
+    width-=[O_stylesTableView intercellSpacing].width * 3;
+    CGFloat width2 = width/2;
     NSArray *columns=[O_stylesTableView tableColumns];
-    [[columns objectAtIndex:0] setWidth:width];
-//    [[columns objectAtIndex:1] setWidth:width2];
+    [[columns objectAtIndex:0] setWidth:width2];
+    [[columns objectAtIndex:1] setWidth:width2];
 }
 
 - (void)switchToStyleSheetName:(NSString *)aStyleSheetName {
 	self.currentStyleSheet = [[DocumentModeManager sharedInstance] styleSheetForName:aStyleSheetName];
-	[O_stylesTableView reloadData];
-	[self updateInspector];
+	[self updateForChangedStyles];
 }
 
 - (void)mainViewDidLoad {
@@ -81,7 +82,9 @@
 	[self switchToStyleSheetName:[O_styleSheetPopUpButton itemTitleAtIndex:0]];
     
     // Set tableview to non highlighting cells
-    [[[O_stylesTableView tableColumns] objectAtIndex:0] setDataCell:[[TextFieldCell new] autorelease]];
+    for (NSTableColumn *column in [O_stylesTableView tableColumns]) {
+		[column setDataCell:[[TextFieldCell new] autorelease]];
+	}
     
     [[O_stylesTableView enclosingScrollView] setPostsFrameChangedNotifications:YES];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(adjustTableViewColumns:) name:NSViewFrameDidChangeNotification object:[O_stylesTableView enclosingScrollView]];
@@ -98,8 +101,7 @@
     [O_strikethroughButton setAttributedTitle:[string autorelease]];
     
     [self adjustTableViewColumns:nil];
-    [O_stylesTableView setLightBackgroundColor:[NSColor whiteColor]];
-    [O_stylesTableView setDarkBackgroundColor:[NSColor whiteColor]];
+    [self updateForChangedStyles];
 }
 
 - (void)changeStyleSheet:(id)aSender {
@@ -122,12 +124,10 @@
 }
 
 - (void)updateBackgroundColor {
-//    NSDictionary *baseStyle=[[[O_styleController content] syntaxStyle] styleForKey:SyntaxStyleBaseIdentifier];
-//    [O_backgroundColorWell         setColor:[baseStyle objectForKey:@"background-color"]         ];
-//    [O_invertedBackgroundColorWell setColor:[baseStyle objectForKey:@"inverted-background-color"]]; 
-//    [O_stylesTableView setLightBackgroundColor:[baseStyle objectForKey:@"background-color"]];
-//    [O_stylesTableView setDarkBackgroundColor: [baseStyle objectForKey:@"inverted-background-color"]];
-//    [O_stylesTableView reloadData];
+	NSColor *backgroundColor = [[self.currentStyleSheet styleAttributesForScope:@"meta.default"] objectForKey:SEEStyleSheetFontBackgroundColorKey];
+	if (!backgroundColor) backgroundColor = [NSColor whiteColor];
+    [O_stylesTableView setLightBackgroundColor:backgroundColor];
+    [O_stylesTableView setDarkBackgroundColor: backgroundColor];
 }
 
 - (void)takeFontFromMode:(DocumentMode *)aMode {
@@ -244,10 +244,15 @@
 		}
 		NSLog(@"%s %@",__FUNCTION__, directStyleAttributes);
 		[self.currentStyleSheet setStyleAttributes:directStyleAttributes forScope:scopeString];
-		[O_stylesTableView reloadData];
-		[self updateInspector];
+		[self updateForChangedStyles];
 	}
 	
+}
+
+- (void)updateForChangedStyles {
+	[O_stylesTableView reloadData];
+	[self updateBackgroundColor];
+	[self updateInspector];
 }
 
 - (IBAction)changeForegroundColor:(id)aSender {
@@ -258,8 +263,7 @@
 		[directStyleAttributes setObject:[aSender color] forKey:SEEStyleSheetFontForegroundColorKey];
 		NSLog(@"%s %@",__FUNCTION__, directStyleAttributes);
 		[self.currentStyleSheet setStyleAttributes:directStyleAttributes forScope:scopeString];
-		[O_stylesTableView reloadData];
-		[self updateInspector];
+		[self updateForChangedStyles];
 	}
 }
 
@@ -271,8 +275,7 @@
 		[directStyleAttributes setObject:[aSender color] forKey:SEEStyleSheetFontBackgroundColorKey];
 		NSLog(@"%s %@",__FUNCTION__, directStyleAttributes);
 		[self.currentStyleSheet setStyleAttributes:directStyleAttributes forScope:scopeString];
-		[O_stylesTableView reloadData];
-		[self updateInspector];
+		[self updateForChangedStyles];
 	}
 }
 
@@ -284,8 +287,7 @@
 		[directStyleAttributes setObject:[aButton state] == NSOnState ? aYesValue : aNoValue forKey:aKey];
 		NSLog(@"%s %@",__FUNCTION__, directStyleAttributes);
 		[self.currentStyleSheet setStyleAttributes:directStyleAttributes forScope:scopeString];
-		[O_stylesTableView reloadData];
-		[self updateInspector];
+		[self updateForChangedStyles];
 	}
 }
 
@@ -542,7 +544,7 @@
 	NSFont *newFont = [fontManager convertFont:[NSFont userFixedPitchFontOfSize:0.0]]; // could be any font here
 	[self setBaseFont:[[NSFontManager sharedFontManager] convertFont:newFont toSize:11.0]];
 	[self updateFontLabel];
-	[O_stylesTableView reloadData];
+	[self updateForChangedStyles];
 }
 
 - (void)setBaseFont:(NSFont *)aFont {
@@ -567,9 +569,39 @@
 }
 
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)aRow {
+	static NSDictionary *examplePlist = nil;
+	if (!examplePlist) {
+		DocumentMode *objcMode = [[DocumentModeManager sharedInstance] documentModeForIdentifier:@"SEEMode.Objective-C"];
+		NSURL *scopeExamplesURL = [[objcMode bundle] URLForResource:@"ScopeExamples" withExtension:@"plist"];
+		if (scopeExamplesURL) {
+			examplePlist = [[NSDictionary alloc] initWithContentsOfURL:scopeExamplesURL];
+		}
+	}
+	
+	
 	NSString *scopeString = [self.currentStyleSheet.allScopes objectAtIndex:aRow];
 	NSDictionary *textAttributes = [self textAttributesForScope:scopeString];
-	return [[[NSAttributedString alloc] initWithString:scopeString attributes:textAttributes] autorelease];
+	if ([[aTableColumn identifier] isEqualToString:@"scope"]) {
+		return [[[NSAttributedString alloc] initWithString:scopeString attributes:textAttributes] autorelease];
+	} else {
+		NSString *exampleString = @" - no example -";
+		while (scopeString.length > 0) {
+			NSString *exampleStringCandidate = [examplePlist objectForKey:scopeString];
+			if (exampleStringCandidate) {
+				exampleString = exampleStringCandidate;
+				break;
+			} else {
+				NSRange range = [scopeString rangeOfString:@"." options:NSBackwardsSearch];
+				if (range.location != NSNotFound) {
+					scopeString = [scopeString substringToIndex:range.location];
+					//NSLog(@"%s trying %@",__FUNCTION__,scopeString);
+				} else {
+					break;
+				}
+			}
+		}
+		return [[[NSAttributedString alloc] initWithString:exampleString attributes:textAttributes] autorelease];
+	}
 }
 
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification {
