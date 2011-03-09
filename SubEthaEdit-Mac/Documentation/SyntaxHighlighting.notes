@@ -5,8 +5,8 @@ SEE 3.5.X
 - All Style information is defined in the SyntaxDefinition.xml
 - States and Keywords have style attributes (color, inverted-color, font-weight, font-style)
 - Background color is document wide and either dark or bright
-- Styles have implicit hierachical inheritance, e.g. a computed style of a keyword takes the style attributes of this keyword group, all not defined attributes are taken from the state it lives in. The same is true for states, not defined style-attributes in a state take the setting from the state they are contained in
-- due to the hierachical structure of States and Keywords, each style can be computed in advance and be cached
+- Styles have implicit hierarchical inheritance, e.g. a computed style of a keyword takes the style attributes of this keyword group, all not defined attributes are taken from the state it lives in. The same is true for states, not defined style-attributes in a state take the setting from the state they are contained in
+- due to the hierarchical structure of States and Keywords, each style can be computed in advance and be cached
 
 SEE WITH STYLES
 =============

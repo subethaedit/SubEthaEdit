@@ -41,6 +41,9 @@
 	NSString *I_keyForInheritedAutocomplete;
     OGRegularExpression *I_tokenRegex;
     int I_foldingTopLevel;
+    
+    NSMutableArray *I_allScopesArray;
+    NSMutableArray *I_allLanguageContextsArray;
 }
 
 @property (nonatomic, retain) NSMutableDictionary * scopeStyleDictionary;
@@ -54,11 +57,13 @@
 - (void)parseState:(NSXMLElement *)stateNode addToState:(NSMutableDictionary *)aState;
 
 /*"Caching and Precalculation"*/
--(void)cacheStyles;
--(void) getReady;
+- (void)cacheStyles;
+- (void)getReady;
 - (void)addStyleIDsFromState:(NSDictionary *)aState;
 
 /*"Accessors"*/
+- (NSArray *)allScopes;
+- (NSArray *)allLanguageContexts;
 - (NSString *) keyForInheritedSymbols;
 - (NSString *) keyForInheritedAutocomplete;	
 - (OGRegularExpression *)tokenRegex;

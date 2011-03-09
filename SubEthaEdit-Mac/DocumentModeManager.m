@@ -131,6 +131,10 @@ static DocumentModeManager *S_sharedInstance=nil;
     return [[DocumentModeManager sharedInstance] baseMode];
 }
 
++ (NSString *)defaultStyleSheetName {
+	return @"Default Code Bright";
+}
+
 + (NSString *)xmlFileRepresentationOfAllStyles {
     DocumentModeManager *modeManager=[DocumentModeManager sharedInstance];
     NSMutableString *result=[NSMutableString string];
@@ -629,6 +633,11 @@ static DocumentModeManager *S_sharedInstance=nil;
         return nil;
     }
 }
+
+- (NSArray *)allLoadedDocumentModes {
+	return [I_documentModesByIdentifier allValues];
+}
+
 
 - (DocumentMode *)baseMode {
     return [self documentModeForIdentifier:BASEMODEIDENTIFIER];

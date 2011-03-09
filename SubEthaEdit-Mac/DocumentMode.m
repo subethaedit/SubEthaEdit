@@ -68,6 +68,9 @@ NSString * const DocumentModePrintOptionsPreferenceKey         = @"PrintOptions"
 NSString * const DocumentModeUseDefaultPrintPreferenceKey      = @"UseDefaultPrint";
 NSString * const DocumentModeUseDefaultStylePreferenceKey      = @"UseDefaultStyle";
 NSString * const DocumentModeSyntaxStylePreferenceKey          = @"SyntaxStyle";
+NSString * const DocumentModeUseDefaultStyleSheetPreferenceKey = @"UseDefaultStyleSheet";
+NSString * const DocumentModeStyleSheetsPreferenceKey          = @"StyleSheets";
+NSString * const DocumentModeStyleSheetsDefaultLanguageContextKey = @"DocumentModeStyleSheetDefaultLanguageContext";
 
 NSString * const DocumentModeBackgroundColorIsDarkPreferenceKey= @"BackgroundColorIsDark"  ;
 NSString * const DocumentModeCurrentLineHighlightColorPreferenceKey = @"CurrentLineHighlightColor"  ;
@@ -157,6 +160,11 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 
 		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultStylePreferenceKey
 									  forKey:DocumentModeCurrentLineHighlightColorPreferenceKey];
+
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultStyleSheetPreferenceKey
+									  forKey:DocumentModeStyleSheetsPreferenceKey];
+		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultStyleSheetPreferenceKey
+									  forKey:DocumentModeStyleSheetsPreferenceKey];
 		
 	}
 }
@@ -213,6 +221,13 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         
         // Sort the autocomplete dictionary
         [[self autocompleteDictionary] sortUsingSelector:@selector(caseInsensitiveCompare:)];
+
+
+		NSURL *scopeExamplesURL = [I_bundle URLForResource:@"ScopeExamples" withExtension:@"plist"];
+		if (scopeExamplesURL) {
+			I_scopeExamples = [[NSDictionary alloc] initWithContentsOfURL:scopeExamplesURL];
+		}
+
 
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         
@@ -378,6 +393,8 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                                forKey:DocumentModeUseDefaultPrintPreferenceKey];
                 [I_defaults setObject:[NSNumber numberWithBool:YES] 
                                forKey:DocumentModeUseDefaultStylePreferenceKey];
+                [I_defaults setObject:[NSNumber numberWithBool:YES] 
+                               forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];
             }
         }
 
@@ -464,6 +481,16 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 						   forKey:DocumentModeTabKeyMovesToIndentPreferenceKey];
 		}
 
+		// populate stylesheet prefs if not there already
+		if (![I_defaults objectForKey:DocumentModeUseDefaultStyleSheetPreferenceKey]) {
+			[I_defaults setObject:[NSNumber numberWithBool:YES] 
+                           forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];
+        }
+        if (![I_defaults objectForKey:DocumentModeStyleSheetsPreferenceKey]) {
+	    	[I_defaults setObject:[NSDictionary dictionaryWithObjectsAndKeys:[DocumentModeManager defaultStyleSheetName],DocumentModeStyleSheetsDefaultLanguageContextKey,nil]
+	    				   forKey:DocumentModeStyleSheetsPreferenceKey];
+	    }
+
 
                 NSMutableDictionary *printDictionary=[I_defaults objectForKey:DocumentModePrintOptionsPreferenceKey];
         if (printDictionary) [I_defaults setObject:[[printDictionary mutableCopy] autorelease] forKey:DocumentModePrintOptionsPreferenceKey];
@@ -519,6 +546,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     [I_syntaxStyle release];
     [I_defaultSyntaxStyle release];
     [I_modeSettings release];
+    [I_scopeExamples release];
     [super dealloc];
 }
 
@@ -593,6 +621,9 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     return returnArray;
 }
 
+- (NSDictionary *)scopeExamples {
+	return I_scopeExamples;
+}
 
 - (NSMutableDictionary *)defaults {
     return I_defaults;
@@ -621,23 +652,47 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     return [defaultDefaults objectForKey:aKey];
 }
 
-- (SEEStyleSheet *)styleSheet {
-    if (!I_styleSheet) {
-	    
-	    NSString *sheetName = [self defaultForKey:@"StyleSheet"];
-	    if (!sheetName) {
-		    NSArray *linkedSheets = [[self syntaxDefinition] linkedStyleSheets];
-		    if (linkedSheets.count > 0) {
-			    sheetName = [linkedSheets objectAtIndex:0];
-			} else {
-				sheetName = @"Default Code Bright";
+- (SEEStyleSheet *)styleSheetForLanguageContext:(NSString *)aLanguageContext {
+	if (!I_styleSheetsByContext) {
+		// lazy load
+		NSDictionary *styleSheetNamesByLanguageContext = [self defaultForKey:DocumentModeStyleSheetsPreferenceKey];
+		NSMutableDictionary *styleSheets = [NSMutableDictionary dictionary];
+		DocumentModeManager *modeManager = [DocumentModeManager sharedInstance];
+		for (NSString *languageContext in styleSheetNamesByLanguageContext) {
+			NSString *sheetName = [styleSheetNamesByLanguageContext objectForKey:languageContext];
+			SEEStyleSheet *sheet = [modeManager styleSheetForName:sheetName];
+			[styleSheets setObject:sheet forKey:languageContext];
+		}
+		if (![styleSheets objectForKey:DocumentModeStyleSheetsDefaultLanguageContextKey]) {
+			SEEStyleSheet *sheet = [modeManager styleSheetForName:[DocumentModeManager defaultStyleSheetName]];
+			if (sheet) {
+				[styleSheets setObject:sheet forKey:DocumentModeStyleSheetsDefaultLanguageContextKey];
 			}
 		}
-	    
-		I_styleSheet = [[[DocumentModeManager sharedInstance] styleSheetForName:sheetName] retain];
-    }
-    return I_styleSheet;
+		I_styleSheetsByContext = [styleSheets mutableCopy];
+	}
+	
+	SEEStyleSheet *result = [I_styleSheetsByContext objectForKey:aLanguageContext];
+	if (!result) {
+		result = [I_styleSheetsByContext objectForKey:self.scriptedName];
+		if (result) [I_styleSheetsByContext setObject:result forKey:aLanguageContext];
+	}
+	if (!result) {
+		result = [I_styleSheetsByContext objectForKey:DocumentModeStyleSheetsDefaultLanguageContextKey];
+	}
+	return result;
 }
+
+- (NSDictionary *)styleSheetNamesByLanguageContext {
+	return [I_defaults objectForKey:DocumentModeStyleSheetsPreferenceKey]; // return the mode specific value
+}
+
+- (void)setStyleSheetNamesByLanguageContext:(NSDictionary *)aStyleSheetDictionary {
+	[I_defaults setObject:aStyleSheetDictionary forKey:DocumentModeStyleSheetsPreferenceKey];
+	[I_styleSheetsByContext autorelease];
+	 I_styleSheetsByContext = nil;
+}
+
 
 - (SyntaxStyle *)syntaxStyle {
     if (!I_syntaxStyle) {
@@ -662,7 +717,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             [style takeStylesFromDefaultsDictionary:syntaxStyleDictionary];
         }        
 
-		SEEStyleSheet *styleSheet = [self styleSheet];
+		SEEStyleSheet *styleSheet = [self styleSheetForLanguageContext:nil];
 		NSColor *highlightColor = styleSheet?[[styleSheet styleAttributesForScope:@"meta.highlight.currentline"] objectForKey:@"color"]:[NSColor yellowColor];
 		[I_defaults setObject:[[NSValueTransformer valueTransformerForName:NSUnarchiveFromDataTransformerName] reverseTransformedValue:highlightColor] forKey:DocumentModeCurrentLineHighlightColorPreferenceKey];
 		

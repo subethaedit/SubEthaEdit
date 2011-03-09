@@ -55,6 +55,7 @@
 + (DocumentModeManager *)sharedInstance;
 + (DocumentMode *)baseMode;
 + (NSString *)xmlFileRepresentationOfAllStyles;
++ (NSString *)defaultStyleSheetName;
 
 - (DocumentMode *)baseMode;
 - (DocumentMode *)modeForNewDocuments;
@@ -62,6 +63,7 @@
 - (DocumentMode *)documentModeForPath:(NSString *)path withContentData:(NSData *)content;
 - (DocumentMode *)documentModeForPath:(NSString *)path withContentString:(NSString *)contentString;
 - (DocumentMode *)documentModeForName:(NSString *)aName;
+- (NSArray *)allLoadedDocumentModes;
 - (NSString *)documentModeIdentifierForTag:(int)aTag;
 - (BOOL)documentModeAvailableModeIdentifier:(NSString *)anIdentifier;
 - (int)tagForDocumentModeIdentifier:(NSString *)anIdentifier;

@@ -4825,18 +4825,20 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 
-- (NSDictionary *)styleAttributesForScope:(NSString *)aScope {
+- (NSDictionary *)styleAttributesForScope:(NSString *)aScope languageContext:(NSString *)aLangaugeContext {
+
+	NSLog(@"%s %@ %@",__FUNCTION__,aScope, aLangaugeContext);
 	
 	if (!aScope) {
 		NSLog(@"%s was called with a aScope of nil",__FUNCTION__);
 		return [NSDictionary dictionary];
 	}
 	
-    NSMutableDictionary *result=[I_styleCacheDictionary objectForKey:aScope];
+    NSDictionary *result=[I_styleCacheDictionary objectForKey:aScope];
     if (!result) {
         DocumentMode *documentMode=[self documentMode];
 
-        SEEStyleSheet *styleSheet = [documentMode styleSheet];
+        SEEStyleSheet *styleSheet = [documentMode styleSheetForLanguageContext:aLangaugeContext];
         result = [SEEStyleSheet textAttributesForStyleAttributes:[styleSheet styleAttributesForScope:aScope] font:I_fonts.plainFont];
 
 		if ( aScope && result ) 

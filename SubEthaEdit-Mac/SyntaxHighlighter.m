@@ -255,8 +255,8 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
                 [scratchAttributes removeAllObjects];
                 //[scratchAttributes addEntriesFromDictionary:[theDocument styleAttributesForStyleID:[subState objectForKey:kSyntaxHighlightingStyleIDAttributeName]]];
 				NSString *scope = [subState objectForKey:kSyntaxHighlightingScopenameAttributeName];
-				if(scope){
-					[scratchAttributes addEntriesFromDictionary:[theDocument styleAttributesForScope:scope]];
+				if (scope){
+					[scratchAttributes addEntriesFromDictionary:[theDocument styleAttributesForScope:scope languageContext:[subState objectForKey:[definition keyForInheritedAutocomplete]]]];
 				} 
 
 				if ([subState objectForKey:@"AutoendReplacementString"]) {
@@ -353,7 +353,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
         //[scratchAttributes addEntriesFromDictionary:[theDocument styleAttributesForStyleID:[currentState objectForKey:kSyntaxHighlightingStyleIDAttributeName]]];
         NSString *scope = [currentState objectForKey:@"scope"];
 		if(scope){
-			[scratchAttributes addEntriesFromDictionary:[theDocument styleAttributesForScope:scope]];
+			[scratchAttributes addEntriesFromDictionary:[theDocument styleAttributesForScope:scope languageContext:[currentState objectForKey:[definition keyForInheritedAutocomplete]]]];
 // FIXME default should have scope name by himself
 		} else {
 			//if ([[currentState objectForKey:kSyntaxHighlightingStyleIDAttributeName] isEqualToString:@"_Default"]) [scratchAttributes addEntriesFromDictionary:[theDocument styleAttributesForScope:@"meta.default"]];
@@ -418,7 +418,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 				aRegex = [currentRegexStyle objectAtIndex:0];
 				//NSString *styleID = [currentRegexStyle objectAtIndex:1];
 				NSDictionary *keywordGroup = [currentRegexStyle objectAtIndex:2]; // should probably be passed in a more verbose and quicker way via an object instead of dictionaries
-				NSDictionary *attributes=[theDocument styleAttributesForScope:[keywordGroup objectForKey:kSyntaxHighlightingScopenameAttributeName]];                
+				NSDictionary *attributes=[theDocument styleAttributesForScope:[keywordGroup objectForKey:kSyntaxHighlightingScopenameAttributeName] languageContext:[currentState objectForKey:[definition keyForInheritedAutocomplete]]];                
 				//NSDictionary *attributes=[theDocument styleAttributesForStyleID:styleID];  
 				//NSLog(@"scan %@",[keywordGroup objectForKey:@"id"]);
 				NSEnumerator *matchEnumerator = [[aRegex allMatchesInString:theString range:colorRange] objectEnumerator];

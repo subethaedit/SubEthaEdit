@@ -62,7 +62,7 @@
 
 - (void)adjustTableViewColumns:(NSNotification *)aNotification {
     CGFloat width=[[[O_stylesTableView enclosingScrollView] contentView] frame].size.width;
-    width-=[O_stylesTableView intercellSpacing].width * 3;
+    width-=[O_stylesTableView intercellSpacing].width * 2;
     CGFloat width2 = width/2;
     NSArray *columns=[O_stylesTableView tableColumns];
     [[columns objectAtIndex:0] setWidth:width2];
@@ -102,6 +102,7 @@
     
     [self adjustTableViewColumns:nil];
     [self updateForChangedStyles];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentModeListChanged:) name:@"DocumentModeListChanged" object:nil];
 }
 
 - (void)changeStyleSheet:(id)aSender {
@@ -254,6 +255,28 @@
 	[self updateBackgroundColor];
 	[self updateInspector];
 }
+
+
+- (IBAction)changeMode:(id)aSender {
+    DocumentMode *newMode=[aSender selectedMode];
+    if (newMode) {
+		[O_modeController setContent:newMode];
+
+		NSDictionary *fontAttributes=[newMode defaultForKey:DocumentModeFontAttributesPreferenceKey];
+		NSFont *newFont=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:12.0];
+		if (!newFont) newFont=[NSFont userFixedPitchFontOfSize:12.0];
+		[self setBaseFont:newFont];
+		[O_stylesTableView reloadData];
+		NSLog(@"%s scopes:%@ \n contexts:%@",__FUNCTION__, [newMode.syntaxDefinition allScopes], [newMode.syntaxDefinition allLanguageContexts]);
+    }
+}
+
+- (IBAction)applyToOpenDocuments:(id)aSender {
+	for (DocumentMode *mode in [[DocumentModeManager sharedInstance] allLoadedDocumentModes]) {
+	    [[NSNotificationCenter defaultCenter] postNotificationName:DocumentModeApplyStylePreferencesNotification object:mode];
+	}
+}
+
 
 - (IBAction)changeForegroundColor:(id)aSender {
 	NSInteger selectedRow = [O_stylesTableView selectedRow];
@@ -524,6 +547,13 @@
 //    [[[NSFontManager sharedFontManager] fontPanel:NO] orderOut:self];
 //}
 //
+
+- (void)documentModeListChanged:(NSNotification *)aNotification {
+    [self performSelector:@selector(changeMode:) withObject:O_modePopUpButton afterDelay:.2];
+}
+
+
+
 - (IBAction)changeFontViaPanel:(id)sender {
 
     NSFont *newFont = [self baseFont];
@@ -559,7 +589,14 @@
 - (NSDictionary *)textAttributesForScope:(NSString *)aScopeString {
 	NSDictionary *computedStyle = [self.currentStyleSheet styleAttributesForScope:aScopeString];
 	NSFont *font = [self baseFont];
-	return [SEEStyleSheet textAttributesForStyleAttributes:computedStyle font:font];
+	NSMutableDictionary *result = [[[SEEStyleSheet textAttributesForStyleAttributes:computedStyle font:font] mutableCopy] autorelease];
+    static NSMutableParagraphStyle *s_paragraphStyle=nil;
+    if (!s_paragraphStyle) {
+        s_paragraphStyle=[[NSParagraphStyle defaultParagraphStyle] mutableCopy];
+        [s_paragraphStyle setLineBreakMode:NSLineBreakByTruncatingTail];
+    }
+	[result setObject:s_paragraphStyle forKey:NSParagraphStyleAttributeName];
+	return result;
 }
 
 #pragma mark -
@@ -569,14 +606,6 @@
 }
 
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)aRow {
-	static NSDictionary *examplePlist = nil;
-	if (!examplePlist) {
-		DocumentMode *objcMode = [[DocumentModeManager sharedInstance] documentModeForIdentifier:@"SEEMode.Objective-C"];
-		NSURL *scopeExamplesURL = [[objcMode bundle] URLForResource:@"ScopeExamples" withExtension:@"plist"];
-		if (scopeExamplesURL) {
-			examplePlist = [[NSDictionary alloc] initWithContentsOfURL:scopeExamplesURL];
-		}
-	}
 	
 	
 	NSString *scopeString = [self.currentStyleSheet.allScopes objectAtIndex:aRow];
@@ -585,6 +614,7 @@
 		return [[[NSAttributedString alloc] initWithString:scopeString attributes:textAttributes] autorelease];
 	} else {
 		NSString *exampleString = @" - no example -";
+		NSDictionary *examplePlist = [[O_modeController content] scopeExamples];
 		while (scopeString.length > 0) {
 			NSString *exampleStringCandidate = [examplePlist objectForKey:scopeString];
 			if (exampleStringCandidate) {

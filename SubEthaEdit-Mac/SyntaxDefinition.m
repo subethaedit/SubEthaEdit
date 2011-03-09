@@ -50,6 +50,9 @@
 		self.scopeStyleDictionary = [NSMutableDictionary dictionary];
 		self.linkedStyleSheets = [NSMutableArray array];
 		
+		I_allScopesArray = [[NSMutableArray alloc] initWithObject:@"meta.default"];
+		I_allLanguageContextsArray = [[NSMutableArray alloc] initWithObject:[aMode scriptedName]];
+		
 		[self parseXMLFile:aPath];
         
         // Setup stuff <-> style dictionaries
@@ -76,6 +79,8 @@
 }
 
 - (void)dealloc {
+	[I_allScopesArray release];
+	[I_allLanguageContextsArray release];
 	self.scopeStyleDictionary = nil;
     self.linkedStyleSheets = nil;
 	[I_name release];
@@ -394,7 +399,13 @@
 	if (symbolsFromMode) [stateDictionary setObject:symbolsFromMode forKey:@"switchtosymbolsfrommode"];
 	
 	NSString *autocompleteFromMode = [[stateNode attributeForName:@"useautocompletefrommode"] stringValue];
-	if (autocompleteFromMode) [stateDictionary setObject:symbolsFromMode forKey:@"switchtoautocompletefrommode"];
+	if (autocompleteFromMode) {
+		[stateDictionary setObject:symbolsFromMode forKey:@"switchtoautocompletefrommode"];
+		if (![I_allLanguageContextsArray containsObject:autocompleteFromMode]) {
+			[I_allLanguageContextsArray addObject:autocompleteFromMode];
+			NSLog(@"%s added %@ -> %@",__FUNCTION__, autocompleteFromMode, I_allLanguageContextsArray);
+		}
+	}
     
     // Get all nodes and preserve order
     NSArray *allStateNodes = [stateNode nodesForXPath:@"./state | ./import | ./state-link" error:&err];
@@ -460,6 +471,12 @@
 #pragma mark - 
 #pragma mark - Caching and precalculating
 #pragma mark - 
+
+- (void)registerScope:(NSString *)aScope {
+	if (aScope && ![I_allScopesArray containsObject:aScope]) {
+		[I_allScopesArray addObject:aScope];
+	}
+}
 
 /*"calls addStylesForKeywordGroups: for defaultState and states"*/
 -(void)cacheStyles
@@ -665,21 +682,32 @@
 
 - (void) getReady {
 	@synchronized(self) {
-    if (!I_combinedStateRegexReady && !I_combinedStateRegexCalculating) 
-		[self calculateCombinedStateRegexes];
-	if (!I_cacheStylesReady && !I_cacheStylesCalculating) {
-		//Moved addStyles in here, which should speed up type-and-color performance significantly.
-		[self addStyleIDsFromState:[self defaultState]];
-		[self cacheStyles];
-	}
-	if (!I_symbolAndAutocompleteInheritanceReady) {
-		[self calculateSymbolInheritanceForState:[I_allStates objectForKey:[NSString stringWithFormat:@"/%@/%@", [self name], SyntaxStyleBaseIdentifier]] inheritedSymbols:[self name] inheritedAutocomplete:[self name]];
-		I_symbolAndAutocompleteInheritanceReady = YES;
-        //		NSLog(@"Defaultstate: Sym:%@, Auto:%@", [[self defaultState] objectForKey:[self keyForInheritedSymbols]],[[self defaultState] objectForKey:[self keyForInheritedAutocomplete]]);
-	}
-		//NSLog(@"foo: %@", [I_defaultSyntaxStyle allKeys]);
+		if (!I_combinedStateRegexReady && !I_combinedStateRegexCalculating) 
+			[self calculateCombinedStateRegexes];
+		if (!I_cacheStylesReady && !I_cacheStylesCalculating) {
+			//Moved addStyles in here, which should speed up type-and-color performance significantly.
+			[self addStyleIDsFromState:[self defaultState]];
+			[self cacheStyles];
+		}
+		if (!I_symbolAndAutocompleteInheritanceReady) {
+			[self calculateSymbolInheritanceForState:[I_allStates objectForKey:[NSString stringWithFormat:@"/%@/%@", [self name], SyntaxStyleBaseIdentifier]] inheritedSymbols:[self name] inheritedAutocomplete:[self name]];
+			I_symbolAndAutocompleteInheritanceReady = YES;
+			//		NSLog(@"Defaultstate: Sym:%@, Auto:%@", [[self defaultState] objectForKey:[self keyForInheritedSymbols]],[[self defaultState] objectForKey:[self keyForInheritedAutocomplete]]);
+		}
+			//NSLog(@"foo: %@", [I_defaultSyntaxStyle allKeys]);
 	}
 }
+
+- (NSArray *)allScopes {
+	if (!I_combinedStateRegexReady) [self getReady];
+	return I_allScopesArray;
+}
+
+- (NSArray *)allLanguageContexts {
+	if (!I_combinedStateRegexReady) [self getReady];
+	return I_allLanguageContextsArray;
+}
+
 
 - (NSMutableDictionary *)stateForID:(NSString *)aString {
     if (!I_combinedStateRegexReady && !I_combinedStateRegexCalculating) [self getReady];

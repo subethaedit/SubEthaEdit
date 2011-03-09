@@ -59,5 +59,5 @@ extern NSString * const kSyntaxHighlightingTypeComment;
 
 @interface NSObject (SyntaxHighlighterDocument) 
 - (NSDictionary *)styleAttributesForStyleID:(NSString *)aStyleID; // Old School
-- (NSDictionary *)styleAttributesForScope:(NSString *)aScope; // Scope based
+- (NSDictionary *)styleAttributesForScope:(NSString *)aScope languageContext:(NSString *)aLanguageContext; // Scope based
 @end

@@ -77,6 +77,10 @@ extern NSString * const DocumentModeUseDefaultFilePreferenceKey;
 extern NSString * const DocumentModeApplyEditPreferencesNotification;
 extern NSString * const DocumentModeApplyStylePreferencesNotification;
 
+extern NSString * const DocumentModeUseDefaultStyleSheetPreferenceKey;
+extern NSString * const DocumentModeStyleSheetsPreferenceKey         ;
+extern NSString * const DocumentModeStyleSheetsDefaultLanguageContextKey;
+
 
 @class ModeSettings;
 @class SyntaxHighlighter;
@@ -103,11 +107,15 @@ extern NSString * const DocumentModeApplyStylePreferencesNotification;
     NSMutableArray *I_toolbarItemIdentifiers;
     NSMutableArray *I_defaultToolbarItemIdentifiers;
     NSMutableDictionary *I_styleIDTransitionDictionary;
+    NSDictionary *I_scopeExamples;
+    NSMutableDictionary *I_styleSheetsByContext;
 }
 
 + (BOOL)canParseModeVersionOfBundle:(NSBundle *)aBundle;
 
 - (id)initWithBundle:(NSBundle *)aBundle;
+
+- (NSDictionary *)scopeExamples;
 
 - (NSDictionary *)styleIDTransitionDictionary;
 - (ModeSettings *)modeSettings;
@@ -131,10 +139,14 @@ extern NSString * const DocumentModeApplyStylePreferencesNotification;
 - (SyntaxStyle *)syntaxStyle;
 - (void)setSyntaxStyle:(SyntaxStyle *)aStyle;
 - (SyntaxStyle *)defaultSyntaxStyle;
-- (SEEStyleSheet *)styleSheet;
+- (SEEStyleSheet *)styleSheetForLanguageContext:(NSString *)aLanguageContext;
+- (NSDictionary *)styleSheetNamesByLanguageContext;
+- (void)setStyleSheetNamesByLanguageContext:(NSDictionary *)aStyleSheetDictionary;
 
 - (NSArray *)scriptMenuItemArray;
 - (NSArray *)contextMenuItemArray;
+
+- (NSString *)scriptedName;
 
 - (BOOL)isBaseMode;
 @end

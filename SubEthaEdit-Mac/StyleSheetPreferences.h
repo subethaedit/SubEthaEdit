@@ -16,6 +16,8 @@
 
 @interface StyleSheetPreferences : TCMPreferenceModule {
     IBOutlet TableView *O_stylesTableView;
+    IBOutlet DocumentModePopUpButton *O_modePopUpButton;
+    IBOutlet NSObjectController *O_modeController;
 
     NSFont *I_baseFont;
 
@@ -36,6 +38,11 @@
 }
 
 - (IBAction)changeStyleSheet:(id)aSender;
+
+- (IBAction)changeMode:(id)aSender;
+
+- (IBAction)applyToOpenDocuments:(id)aSender;
+
 
 - (IBAction)changeFontTraitItalic:(id)aSender;
 - (IBAction)changeFontTraitBold:(id)aSender;
