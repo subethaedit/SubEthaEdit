@@ -126,7 +126,9 @@
 	DocumentMode *currentMode = [O_modeController content];
 	NSString *styleSheetName = [[O_styleSheetCustomPopUpButton selectedItem] title];
 	[[currentMode defaults] setObject:[NSNumber numberWithBool:NO] forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];
-	[currentMode setStyleSheetNamesByLanguageContext:[NSDictionary dictionaryWithObjectsAndKeys:styleSheetName,DocumentModeStyleSheetsDefaultLanguageContextKey,nil]];
+	SEEStyleSheetSettings *styleSheetSettings = [currentMode styleSheetSettings];	
+	styleSheetSettings.singleStyleSheetName = styleSheetName;
+	styleSheetSettings.usesMultipleStyleSheets = NO;
 }
 
 
@@ -188,10 +190,10 @@
 	if ([[aTableColumn identifier] isEqualToString:@"languageContext"]) {
 		return languageContext;
 	} else {
-		NSDictionary *styleDict = [[O_modeController content] styleSheetNamesByLanguageContext];
-		NSString *styleSheetName = [styleDict objectForKey:[languageContexts objectAtIndex:aRow]];
+		SEEStyleSheetSettings *styleSheetSettings = [[O_modeController content] styleSheetSettings];
+		NSString *styleSheetName = [styleSheetSettings styleSheetNameForLanguageContext:[languageContexts objectAtIndex:aRow]];
 		if (!styleSheetName) {
-			styleSheetName = [styleDict objectForKey:DocumentModeStyleSheetsDefaultLanguageContextKey];
+			styleSheetName = [styleSheetSettings singleStyleSheetName];
 		}
 		return [NSNumber numberWithInteger:[[aTableColumn dataCell] indexOfItemWithTitle:styleSheetName]];
 	}
@@ -208,10 +210,8 @@
 	NSString *languageContext = [languageContexts objectAtIndex:rowIndex];
 	NSString *styleSheetName = [[[aTableColumn dataCell] itemTitles] objectAtIndex:[anObject integerValue]];
 	DocumentMode *currentMode = [O_modeController content];
-	NSMutableDictionary *styleSheetNamesByLanguageContext = [[currentMode styleSheetNamesByLanguageContext] mutableCopy];
-	[styleSheetNamesByLanguageContext setObject:styleSheetName forKey:languageContext];
-	[currentMode setStyleSheetNamesByLanguageContext:styleSheetNamesByLanguageContext];
-	[styleSheetNamesByLanguageContext release];
+	SEEStyleSheetSettings *styleSheetSettings = [currentMode styleSheetSettings];
+	[styleSheetSettings setStyleSheetName:styleSheetName forLanguageContext:languageContext];
 	NSLog(@"%s %@",__FUNCTION__, styleSheetName);
 }
 

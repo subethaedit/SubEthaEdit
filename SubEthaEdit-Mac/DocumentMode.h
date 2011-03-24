@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "SEEStyleSheetSettings.h"
 
 enum {
     DocumentModeWrapModeWords = 0,
@@ -88,6 +89,7 @@ extern NSString * const DocumentModeStyleSheetsDefaultLanguageContextKey;
 @class RegexSymbolParser;
 @class SyntaxStyle;
 @class SEEStyleSheet;
+@class SEEStyleSheetSettings;
 
 @interface DocumentMode : NSObject <NSToolbarDelegate> {
     NSBundle *I_bundle;
@@ -108,7 +110,7 @@ extern NSString * const DocumentModeStyleSheetsDefaultLanguageContextKey;
     NSMutableArray *I_defaultToolbarItemIdentifiers;
     NSMutableDictionary *I_styleIDTransitionDictionary;
     NSDictionary *I_scopeExamples;
-    NSMutableDictionary *I_styleSheetsByContext;
+    SEEStyleSheetSettings *I_styleSheetSettings;
 }
 
 + (BOOL)canParseModeVersionOfBundle:(NSBundle *)aBundle;
@@ -138,10 +140,9 @@ extern NSString * const DocumentModeStyleSheetsDefaultLanguageContextKey;
 - (id)defaultForKey:(NSString *)aKey;
 - (SyntaxStyle *)syntaxStyle;
 - (void)setSyntaxStyle:(SyntaxStyle *)aStyle;
+- (SEEStyleSheetSettings *)styleSheetSettings;
 - (SyntaxStyle *)defaultSyntaxStyle;
 - (SEEStyleSheet *)styleSheetForLanguageContext:(NSString *)aLanguageContext;
-- (NSDictionary *)styleSheetNamesByLanguageContext;
-- (void)setStyleSheetNamesByLanguageContext:(NSDictionary *)aStyleSheetDictionary;
 
 - (NSArray *)scriptMenuItemArray;
 - (NSArray *)contextMenuItemArray;

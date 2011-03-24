@@ -461,6 +461,7 @@
 		F2D2CDB30D73043D000E3812 /* FriendCast16.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D2CDAF0D73043D000E3812 /* FriendCast16.png */; };
 		F2D2CDCB0D730C3C000E3812 /* FriendCast13.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D2CDC90D730C3C000E3812 /* FriendCast13.png */; };
 		F2D2CDCC0D730C3C000E3812 /* FriendCast13Off.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D2CDCA0D730C3C000E3812 /* FriendCast13Off.png */; };
+		F2D56993133B880900CEC841 /* SEEStyleSheetSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D56992133B880900CEC841 /* SEEStyleSheetSettings.m */; };
 		F2D5FF380CB2660100407399 /* Announce.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF370CB2660100407399 /* Announce.icns */; };
 		F2D5FF3A0CB2661000407399 /* DefaultPerson.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF390CB2661000407399 /* DefaultPerson.icns */; };
 		F2D5FF3C0CB2661900407399 /* GeneralPrefs.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF3B0CB2661900407399 /* GeneralPrefs.icns */; };
@@ -1400,6 +1401,8 @@
 		F2D2CDB10D73043D000E3812 /* FriendCastBlack.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = FriendCastBlack.tiff; path = artwork/FriendCastBlack.tiff; sourceTree = "<group>"; };
 		F2D2CDC90D730C3C000E3812 /* FriendCast13.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FriendCast13.png; path = artwork/FriendCast13.png; sourceTree = "<group>"; };
 		F2D2CDCA0D730C3C000E3812 /* FriendCast13Off.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FriendCast13Off.png; path = artwork/FriendCast13Off.png; sourceTree = "<group>"; };
+		F2D56991133B880900CEC841 /* SEEStyleSheetSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEStyleSheetSettings.h; sourceTree = "<group>"; };
+		F2D56992133B880900CEC841 /* SEEStyleSheetSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEStyleSheetSettings.m; sourceTree = "<group>"; };
 		F2D5FF370CB2660100407399 /* Announce.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Announce.icns; path = artwork/Announce.icns; sourceTree = "<group>"; };
 		F2D5FF390CB2661000407399 /* DefaultPerson.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = DefaultPerson.icns; path = artwork/DefaultPerson.icns; sourceTree = "<group>"; };
 		F2D5FF3B0CB2661900407399 /* GeneralPrefs.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = GeneralPrefs.icns; path = artwork/GeneralPrefs.icns; sourceTree = "<group>"; };
@@ -1952,6 +1955,8 @@
 		1428924C0957526E00D14688 /* Mode */ = {
 			isa = PBXGroup;
 			children = (
+				F2D56991133B880900CEC841 /* SEEStyleSheetSettings.h */,
+				F2D56992133B880900CEC841 /* SEEStyleSheetSettings.m */,
 				142893B50957594500D14688 /* DocumentMode.h */,
 				142893B60957594500D14688 /* DocumentMode.m */,
 				142893B70957594500D14688 /* DocumentModeManager.h */,
@@ -3370,6 +3375,7 @@
 				31FFC93D104E97A000E08256 /* NSErrorTCMAdditions.m in Sources */,
 				3170E46112846C670096089C /* SEEStyleSheet.m in Sources */,
 				F280ABC4131E6ED50091D145 /* StyleSheetPreferences.m in Sources */,
+				F2D56993133B880900CEC841 /* SEEStyleSheetSettings.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

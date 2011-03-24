@@ -162,10 +162,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 									  forKey:DocumentModeCurrentLineHighlightColorPreferenceKey];
 
 		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultStyleSheetPreferenceKey
-									  forKey:DocumentModeStyleSheetsPreferenceKey];
-		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultStyleSheetPreferenceKey
-									  forKey:DocumentModeStyleSheetsPreferenceKey];
-		
+									  forKey:DocumentModeStyleSheetsPreferenceKey];		
 	}
 }
 
@@ -547,6 +544,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     [I_defaultSyntaxStyle release];
     [I_modeSettings release];
     [I_scopeExamples release];
+    [I_styleSheetSettings release];
     [super dealloc];
 }
 
@@ -652,48 +650,21 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     return [defaultDefaults objectForKey:aKey];
 }
 
+- (SEEStyleSheetSettings *)styleSheetSettings {
+	if (!I_styleSheetSettings) {
+		I_styleSheetSettings = [[SEEStyleSheetSettings alloc] initWithDocumentMode:self];
+	}
+	return I_styleSheetSettings;
+}
+
+
 - (SEEStyleSheet *)styleSheetForLanguageContext:(NSString *)aLanguageContext {
-	if (!I_styleSheetsByContext) {
-		// lazy load
-		NSDictionary *styleSheetNamesByLanguageContext = [self defaultForKey:DocumentModeStyleSheetsPreferenceKey];
-		NSMutableDictionary *styleSheets = [NSMutableDictionary dictionary];
-		DocumentModeManager *modeManager = [DocumentModeManager sharedInstance];
-		for (NSString *languageContext in styleSheetNamesByLanguageContext) {
-			NSString *sheetName = [styleSheetNamesByLanguageContext objectForKey:languageContext];
-			SEEStyleSheet *sheet = [modeManager styleSheetForName:sheetName];
-			[styleSheets setObject:sheet forKey:languageContext];
-		}
-		if (![styleSheets objectForKey:DocumentModeStyleSheetsDefaultLanguageContextKey]) {
-			SEEStyleSheet *sheet = [modeManager styleSheetForName:[DocumentModeManager defaultStyleSheetName]];
-			if (sheet) {
-				[styleSheets setObject:sheet forKey:DocumentModeStyleSheetsDefaultLanguageContextKey];
-			}
-		}
-		I_styleSheetsByContext = [styleSheets mutableCopy];
-	}
-	
-	SEEStyleSheet *result = [I_styleSheetsByContext objectForKey:aLanguageContext];
-	if (!result) {
-		result = [I_styleSheetsByContext objectForKey:self.scriptedName];
-		if (result) [I_styleSheetsByContext setObject:result forKey:aLanguageContext];
-	}
-	if (!result) {
-		result = [I_styleSheetsByContext objectForKey:DocumentModeStyleSheetsDefaultLanguageContextKey];
-	}
-	return result;
-}
-
-- (NSDictionary *)styleSheetNamesByLanguageContext {
-	return [I_defaults objectForKey:DocumentModeStyleSheetsPreferenceKey]; // return the mode specific value
-}
-
-- (void)setStyleSheetNamesByLanguageContext:(NSDictionary *)aStyleSheetDictionary {
-	[I_defaults setObject:aStyleSheetDictionary forKey:DocumentModeStyleSheetsPreferenceKey];
-	[I_styleSheetsByContext autorelease];
-	 I_styleSheetsByContext = nil;
+	SEEStyleSheetSettings *styleSheetSettings = [self styleSheetSettings];
+	return [styleSheetSettings styleSheetForLanguageContext:aLanguageContext];
 }
 
 
+// Depricated - only for backwars compatibilty
 - (SyntaxStyle *)syntaxStyle {
     if (!I_syntaxStyle) {
         [self defaultSyntaxStyle];
@@ -701,11 +672,14 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     return I_syntaxStyle;
 }
 
+
+// Depricated - only for backwars compatibilty
 - (void)setSyntaxStyle:(SyntaxStyle *)aStyle {
     [I_syntaxStyle autorelease];
     I_syntaxStyle=[aStyle retain];
 }
 
+// Depricated - only for backwars compatibilty
 - (SyntaxStyle *)defaultSyntaxStyle {
     if (!I_defaultSyntaxStyle) {
         I_defaultSyntaxStyle = [self syntaxHighlighter]?[[[self syntaxHighlighter] defaultSyntaxStyle] copy]:[SyntaxStyle new];
