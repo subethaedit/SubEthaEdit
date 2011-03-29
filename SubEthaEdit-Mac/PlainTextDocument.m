@@ -355,13 +355,8 @@ static NSString *tempFileName(NSString *origPath) {
 
 - (void)applyStylePreferences {
     [self takeStyleSettingsFromDocumentMode];
-    SyntaxHighlighter *highlighter=[[self documentMode] syntaxHighlighter];
-    if (I_flags.highlightSyntax && highlighter) {
-        [highlighter updateStylesInTextStorage:[self textStorage] ofDocument:self];
-    } else {
-        [I_textStorage addAttributes:[self plainTextAttributes]
-                       range:NSMakeRange(0,[I_textStorage length])];
-    }
+	[I_textStorage addAttributes:[self plainTextAttributes]
+				   range:NSMakeRange(0,[I_textStorage length])];
 }
 
 - (void)applyStylePreferences:(NSNotification *)aNotification {
@@ -4812,8 +4807,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [I_styleCacheDictionary autorelease];
     I_styleCacheDictionary = [NSMutableDictionary new];
     BOOL useDefaultStyle=[[[self documentMode] defaultForKey:DocumentModeUseDefaultStylePreferenceKey] boolValue];
-    BOOL darkBackground=[[[self documentMode] defaultForKey:DocumentModeBackgroundColorIsDarkPreferenceKey] boolValue];
-    NSDictionary *syntaxStyle=[useDefaultStyle?[[DocumentModeManager baseMode] syntaxStyle]:[[self documentMode] syntaxStyle] styleForKey:SyntaxStyleBaseIdentifier];
+//    BOOL darkBackground=[[[self documentMode] defaultForKey:DocumentModeBackgroundColorIsDarkPreferenceKey] boolValue];
+//    NSDictionary *syntaxStyle=[useDefaultStyle?[[DocumentModeManager baseMode] syntaxStyle]:[[self documentMode] syntaxStyle] styleForKey:SyntaxStyleBaseIdentifier];
     SEEStyleSheetSettings *styleSheetSettings = [[self documentMode] styleSheetSettings];
     [self setDocumentBackgroundColor:[styleSheetSettings documentBackgroundColor]];
     [self setDocumentForegroundColor:[styleSheetSettings documentForegroundColor]];
@@ -5805,12 +5800,6 @@ static NSString *S_measurementUnits;
 }
 
 - (void)highlightSyntaxLoop {
-	dispatch_queue_t syntaxQueue;
-	syntaxQueue = dispatch_queue_create("de.codingmonkeys.SubEthaEdit.SyntaxQueue", NULL);
-	dispatch_queue_t mainQueue;
-	mainQueue = dispatch_get_main_queue();
-
-	dispatch_async(mainQueue, ^{
     I_flags.isPerformingSyntaxHighlighting=NO;
     if (I_flags.highlightSyntax) {
         SyntaxHighlighter *highlighter=[I_documentMode syntaxHighlighter];
@@ -5829,7 +5818,6 @@ static NSString *S_measurementUnits;
         }
     }
 	[self triggerUpdateSymbolTableTimer];
-	});
 }
 
 #pragma mark -

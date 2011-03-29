@@ -544,6 +544,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     [I_defaultSyntaxStyle release];
     [I_modeSettings release];
     [I_scopeExamples release];
+    [I_syntaxExampleString autorelease];
     [I_styleSheetSettings release];
     [super dealloc];
 }
@@ -826,5 +827,20 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     }
     return identifier;
 }
+
+
+- (NSString *)syntaxExampleString {
+	if (!I_syntaxExampleString) {
+		NSURL *exampleURL = [I_bundle URLForResource:@"ExampleSyntax" withExtension:@"txt"];
+		if (exampleURL) {
+			I_syntaxExampleString = [[NSString alloc] initWithContentsOfURL:exampleURL encoding:NSUTF8StringEncoding error:NULL];
+		}
+		if (!I_syntaxExampleString && ![self isBaseMode]) {
+			I_syntaxExampleString = [[[DocumentModeManager baseMode] syntaxExampleString] copy];
+		}
+	}
+	return I_syntaxExampleString;
+}
+
 
 @end

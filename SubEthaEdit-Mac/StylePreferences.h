@@ -28,6 +28,7 @@
     NSFont *I_baseFont;
 
     NSUndoManager *I_undoManager;
+    IBOutlet NSTextView *O_syntaxSampleTextView;
 }
 
 - (IBAction)changeMode:(id)aSender;

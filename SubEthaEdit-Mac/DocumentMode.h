@@ -110,6 +110,7 @@ extern NSString * const DocumentModeStyleSheetsDefaultLanguageContextKey;
     NSMutableArray *I_defaultToolbarItemIdentifiers;
     NSMutableDictionary *I_styleIDTransitionDictionary;
     NSDictionary *I_scopeExamples;
+    NSString *I_syntaxExampleString;
     SEEStyleSheetSettings *I_styleSheetSettings;
 }
 
@@ -148,6 +149,8 @@ extern NSString * const DocumentModeStyleSheetsDefaultLanguageContextKey;
 - (NSArray *)contextMenuItemArray;
 
 - (NSString *)scriptedName;
+
+- (NSString *)syntaxExampleString;
 
 - (BOOL)isBaseMode;
 @end

@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="388"/>
+			<integer value="477"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -617,7 +617,7 @@
 																		<object class="NSTextView" id="812682279">
 																			<reference key="NSNextResponder" ref="790662625"/>
 																			<int key="NSvFlags">2322</int>
-																			<string key="NSFrame">{{0, 57}, {454, 26}}</string>
+																			<string key="NSFrameSize">{454, 26}</string>
 																			<reference key="NSSuperview" ref="790662625"/>
 																			<object class="NSTextContainer" key="NSTextContainer" id="1026849896">
 																				<object class="NSLayoutManager" key="NSLayoutManager">
@@ -1209,6 +1209,14 @@
 						<reference key="destination" ref="263712223"/>
 					</object>
 					<int key="connectionID">529</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">O_syntaxSampleTextView</string>
+						<reference key="source" ref="538189364"/>
+						<reference key="destination" ref="812682279"/>
+					</object>
+					<int key="connectionID">530</int>
 				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
@@ -1838,7 +1846,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">529</int>
+			<int key="maxID">530</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2161,6 +2169,7 @@
 							<string>O_styleSheetCustomPopUpButton</string>
 							<string>O_styleSheetCustomRadioButton</string>
 							<string>O_styleSheetDefaultRadioButton</string>
+							<string>O_syntaxSampleTextView</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -2173,6 +2182,7 @@
 							<string>NSPopUpButton</string>
 							<string>NSButton</string>
 							<string>NSButton</string>
+							<string>NSTextView</string>
 						</object>
 					</object>
 					<object class="NSMutableDictionary" key="toOneOutletInfosByName">
@@ -2188,6 +2198,7 @@
 							<string>O_styleSheetCustomPopUpButton</string>
 							<string>O_styleSheetCustomRadioButton</string>
 							<string>O_styleSheetDefaultRadioButton</string>
+							<string>O_syntaxSampleTextView</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
@@ -2226,6 +2237,10 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">O_styleSheetDefaultRadioButton</string>
 								<string key="candidateClassName">NSButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">O_syntaxSampleTextView</string>
+								<string key="candidateClassName">NSTextView</string>
 							</object>
 						</object>
 					</object>

@@ -429,7 +429,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 						[aString addAttributes:attributes range:matchedRange]; // only color last matched subgroup - it is important that all regex keywords have exactly and only one matching group for this to work
 						[I_stringLock unlock];
 
-						if ([attributes objectForKey:NSLinkAttributeName]) {
+						if ([[keywordGroup objectForKey:@"type"] isEqualToString:@"url"]) {
 							NSString *matchedString = [aMatch lastMatchSubstring];
 							NSString *linkPrefix = [keywordGroup objectForKey:@"uri-prefix"];
 							if (linkPrefix) matchedString = [linkPrefix stringByAppendingString:matchedString];
@@ -558,6 +558,8 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 #pragma mark - Document Interaction
 #pragma mark - 
 
+
+// TODO: update for scopes - probably very broken now
 - (void)updateStylesInTextStorage:(NSTextStorage *)aTextStorage ofDocument:(id)aSender {
     NSString *styleID;
     NSRange wholeRange=NSMakeRange(0,[aTextStorage length]);

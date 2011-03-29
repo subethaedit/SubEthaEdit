@@ -16,6 +16,12 @@
 #import "OverlayView.h"
 #import "SyntaxHighlighter.h"
 
+@interface StylePreferences ()
+
+- (void)highlightSyntax;
+
+@end
+
 @implementation StylePreferences
 
 - (id) init {
@@ -146,6 +152,8 @@
 		[O_styleSheetCustomPopUpButton selectItemWithTitle:customStyleSheetName];
 		[O_customStylesForLanguageContextsTableView reloadData];
 		[self validateDefaultsState:aSender];
+		[[[O_syntaxSampleTextView textStorage] mutableString] setString:[newMode syntaxExampleString]];
+		[self highlightSyntax];
 	}
 }
 
@@ -177,6 +185,7 @@
 
 
 - (IBAction)applyToOpenDocuments:(id)aSender {
+	[self highlightSyntax];
     [[NSNotificationCenter defaultCenter] postNotificationName:DocumentModeApplyStylePreferencesNotification object:[O_modeController content]];
 }
 
@@ -221,6 +230,34 @@
 
 - (NSArray *)languageContexts {
 	return [[[O_modeController content] syntaxDefinition] allLanguageContexts];
+}
+
+#pragma mark -
+#pragma mark syntax highlighting callbacks
+
+- (NSDictionary *)styleAttributesForScope:(NSString *)aScope languageContext:(NSString *)aLanguageContext {
+	DocumentMode *currentMode = [O_modeController content];
+	SEEStyleSheet *styleSheet = [currentMode styleSheetForLanguageContext:aLanguageContext];
+	return [SEEStyleSheet textAttributesForStyleAttributes:[styleSheet styleAttributesForScope:aScope] font:I_baseFont];
+}
+
+- (void)highlightSyntax {
+	DocumentMode *currentMode = [O_modeController content];
+	SEEStyleSheetSettings *settings = [currentMode styleSheetSettings];
+	[O_syntaxSampleTextView setBackgroundColor:settings.documentBackgroundColor];
+	SyntaxHighlighter *highlighter = [currentMode syntaxHighlighter];
+	NSTextStorage *textStorage = [O_syntaxSampleTextView textStorage];
+	if (highlighter) {
+		[highlighter cleanUpTextStorage:textStorage];
+		while (![highlighter colorizeDirtyRanges:textStorage ofDocument:self]) {
+			// go on until finished
+		}
+	} else {
+		SEEStyleSheet *styleSheet = [currentMode styleSheetForLanguageContext:currentMode.scriptedName];
+		NSDictionary *attributes = [SEEStyleSheet textAttributesForStyleAttributes:[styleSheet styleAttributesForScope:SEEStyleSheetMetaDefaultScopeName] font:I_baseFont];
+		[textStorage setAttributes:attributes range:NSMakeRange(0,textStorage.length)];
+		NSLog(@"%s no highlighter",__FUNCTION__);
+	}
 }
 
 #pragma mark -
