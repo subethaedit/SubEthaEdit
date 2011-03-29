@@ -35,7 +35,10 @@
 - (IBAction)validateDefaultsState:(id)aSender;
 - (IBAction)changeDefaultState:(id)aSender;
 
+- (IBAction)styleRadioButtonAction:(id)aSender;
+
 - (IBAction)changeCustomStyleSheet:(id)aSender;
+- (IBAction)changeFontViaPanel:(id)sender;
 
 - (IBAction)applyToOpenDocuments:(id)aSender;
 

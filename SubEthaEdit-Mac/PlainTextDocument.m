@@ -4827,7 +4827,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 - (NSDictionary *)styleAttributesForScope:(NSString *)aScope languageContext:(NSString *)aLangaugeContext {
 
-	NSLog(@"%s %@ %@",__FUNCTION__,aScope, aLangaugeContext);
+//	NSLog(@"%s %@ %@",__FUNCTION__,aScope, aLangaugeContext);
 	
 	if (!aScope) {
 		NSLog(@"%s was called with a aScope of nil",__FUNCTION__);
@@ -5239,9 +5239,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             [self setFileURL:[NSURL fileURLWithPath:[[self.fileURL.path stringByDeletingLastPathComponent] stringByAppendingPathComponent:aDisplayName]]];
         }
     }
-    if ([[super class] instancesRespondToSelector:@selector(setDisplayName:)]) {
+    if ([[super class] instancesRespondToSelector:_cmd]) { // _cmd is always the current selector
         NSLog(@"%s oh look, super supports us!",__FUNCTION__);
-        [super setDisplayName:aDisplayName];
+        [(id)super setDisplayName:aDisplayName];
     }
 }
 #endif //!defined(CODA)

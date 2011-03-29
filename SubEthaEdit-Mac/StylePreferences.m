@@ -47,7 +47,7 @@
     return @"StylePrefs";
 }
 
-- (void)updateStyleSheetlists {
+- (void)updateStyleSheetLists {
 	[O_styleSheetCustomPopUpButton removeAllItems];
 	[O_styleSheetCustomPopUpButton addItemsWithTitles:[[DocumentModeManager sharedInstance] allStyleSheetNames]];
 	NSPopUpButtonCell *styleSheetButtonCell = [[O_customStylesForLanguageContextsTableView tableColumnWithIdentifier:@"styleSheet"] dataCell];
@@ -67,11 +67,36 @@
     [self performSelector:@selector(changeMode:) withObject:O_modePopUpButton afterDelay:.2];
 }
 
+- (void)takeFontFromMode:(DocumentMode *)aMode {
+    NSDictionary *fontAttributes = [aMode defaultForKey:DocumentModeFontAttributesPreferenceKey];
+    NSLog(@"%s %@",__FUNCTION__, fontAttributes);
+    NSFont *font=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:11.];
+    if (!font) font=[NSFont userFixedPitchFontOfSize:11.];
+    [self setBaseFont:font];
+}
+
 - (IBAction)validateDefaultsState:(id)aSender {
+	[O_styleSheetDefaultRadioButton   setState:NSOffState];
+	[O_styleSheetCustomRadioButton    setState:NSOffState];
+	[O_styleSheetCustomForLanguageContextsRadioButton setState:NSOffState];
+
+	DocumentMode *currentMode = [O_modeController content];
+	if ([[[currentMode defaults] objectForKey:DocumentModeUseDefaultStyleSheetPreferenceKey] boolValue]) {
+		[O_styleSheetDefaultRadioButton   setState:NSOnState];
+	} else {
+		SEEStyleSheetSettings *styleSheetSettings = [currentMode styleSheetSettings];
+		if (styleSheetSettings.usesMultipleStyleSheets) {
+			[O_styleSheetCustomForLanguageContextsRadioButton setState:NSOnState];
+		} else {
+			[O_styleSheetCustomRadioButton   setState:NSOnState];
+		}
+	}
+
+
 //    BOOL useDefault=[[[O_modePopUpButton selectedMode] defaultForKey:DocumentModeUseDefaultStylePreferenceKey] boolValue];
-//    DocumentMode *baseMode=[[DocumentModeManager sharedInstance] baseMode];
-//    DocumentMode *selectedMode=[O_modePopUpButton selectedMode];
-//    [O_fontController setContent:([O_fontDefaultButton state]==NSOnState)?baseMode:selectedMode];
+    DocumentMode *baseMode=[[DocumentModeManager sharedInstance] baseMode];
+    DocumentMode *selectedMode=[O_modePopUpButton selectedMode];
+    [O_fontController setContent:([O_fontDefaultButton state]==NSOnState)?baseMode:selectedMode];
 //    [O_styleController setContent:useDefault?baseMode:selectedMode];
 //    [O_defaultStyleButton setHidden:[[I_currentSyntaxStyle documentMode] isBaseMode]];
 //    if (O_defaultStyleButton !=aSender) {
@@ -86,7 +111,7 @@
 //    NSDictionary *baseStyle=[[[O_styleController content] syntaxStyle] styleForKey:SyntaxStyleBaseIdentifier];
 //    [O_backgroundColorWell         setColor:[baseStyle objectForKey:@"background-color"]         ];
 //    [O_invertedBackgroundColorWell setColor:[baseStyle objectForKey:@"inverted-background-color"]]; 
-//    [self takeFontFromMode:selectedMode];
+    [self takeFontFromMode:selectedMode];
 //    [self updateBackgroundColor];
 //    [O_lightBackgroundButton       setEnabled:!useDefault];
 //    [O_darkBackgroundButton        setEnabled:!useDefault];
@@ -116,11 +141,30 @@
 	DocumentMode *newMode=[aSender selectedMode];
 	if (newMode) {
 		[O_modeController setContent:newMode];
-		[self updateStyleSheetlists];
+		[self updateStyleSheetLists];
+		NSString *customStyleSheetName = [[newMode styleSheetSettings] singleStyleSheetName];
+		[O_styleSheetCustomPopUpButton selectItemWithTitle:customStyleSheetName];
 		[O_customStylesForLanguageContextsTableView reloadData];
 		[self validateDefaultsState:aSender];
 	}
 }
+
+- (IBAction)styleRadioButtonAction:(id)aSender {
+	DocumentMode *currentMode = [O_modeController content];
+	if (aSender == O_styleSheetDefaultRadioButton) {
+		[[currentMode defaults] setObject:[NSNumber numberWithBool:YES] forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];
+	} else {
+		[[currentMode defaults] setObject:[NSNumber numberWithBool:NO] forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];
+		SEEStyleSheetSettings *styleSheetSettings = [currentMode styleSheetSettings];
+		if (aSender == O_styleSheetCustomRadioButton) {
+			styleSheetSettings.usesMultipleStyleSheets = NO;
+		} else {
+			styleSheetSettings.usesMultipleStyleSheets = YES;
+		}
+	}
+    [self validateDefaultsState:aSender];
+}
+
 
 - (IBAction)changeCustomStyleSheet:(id)aSender {
 	DocumentMode *currentMode = [O_modeController content];
@@ -153,6 +197,7 @@
 }
 
 - (void)changeFont:(id)fontManager {
+	NSLog(@"%s",__FUNCTION__);
     if ([O_fontDefaultButton state] != NSOnState) {
         NSFont *newFont = [fontManager convertFont:[NSFont userFixedPitchFontOfSize:0.0]]; // could be any font here
         NSMutableDictionary *dict=[NSMutableDictionary dictionary];

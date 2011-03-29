@@ -29,4 +29,6 @@
 - (SEEStyleSheet *)styleSheetForLanguageContext:(NSString *)aLanguageContext;
 - (void)setStyleSheetName:(NSString *)aStyleSheetName forLanguageContext:(NSString *)aLanguageContext;
 - (NSString *)styleSheetNameForLanguageContext:(NSString *)aLanguageContext;
+- (void)pushSettingsToModeDefaults;
+
 @end

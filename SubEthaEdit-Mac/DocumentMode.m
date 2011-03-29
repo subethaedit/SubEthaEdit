@@ -731,15 +731,9 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 }
 
 - (void)writeDefaults {
+    [[self styleSheetSettings] pushSettingsToModeDefaults];
     NSMutableDictionary *defaults=[[self defaults] mutableCopy];
-//    NSValueTransformer *transformer=[NSValueTransformer valueTransformerForName:NSUnarchiveFromDataTransformerName];
-//    NSData *data=[transformer reverseTransformedValue:[defaults objectForKey:DocumentModeForegroundColorPreferenceKey]];
-//    if (!data) data=[transformer reverseTransformedValue:[NSColor blackColor]];
-//    [defaults setObject:data forKey:DocumentModeForegroundColorPreferenceKey];
-//    data=[transformer reverseTransformedValue:[defaults objectForKey:DocumentModeBackgroundColorPreferenceKey]];
-//    if (!data) data=[transformer reverseTransformedValue:[NSColor whiteColor]];
-//    [defaults setObject:data forKey:DocumentModeBackgroundColorPreferenceKey];
-    [defaults setObject:[[self syntaxStyle] defaultsDictionary] forKey:DocumentModeSyntaxStylePreferenceKey];
+//    [defaults setObject:[[self syntaxStyle] defaultsDictionary] forKey:DocumentModeSyntaxStylePreferenceKey]; no more syntaxStyle writing
     [[NSUserDefaults standardUserDefaults] setObject:defaults forKey:[[self bundle] bundleIdentifier]];
     [defaults release];
 }
