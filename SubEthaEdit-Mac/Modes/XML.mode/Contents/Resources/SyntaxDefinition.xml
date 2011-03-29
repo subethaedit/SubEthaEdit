@@ -8,7 +8,6 @@
         <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]></charsintokens>
         <!-- Valid Characters for Variables -->
         <folding toplevel="4"/>
-        <stylesheet>TagBased</stylesheet>
     </head>
     <states>
         <default id="Base" scope="meta.default">

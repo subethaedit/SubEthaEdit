@@ -7,7 +7,6 @@
         <!-- The definitions title -->
         <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@$"]]></charsintokens>
         <charsincompletion><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@$&lt;/=>!]]></charsincompletion>
-        <stylesheet>TagBased</stylesheet>
     </head>
     <states>
         <default id="Base" usesymbolsfrommode="HTML" useautocompletefrommode="HTML" scope="meta.default">

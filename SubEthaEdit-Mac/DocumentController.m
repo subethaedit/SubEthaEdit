@@ -787,16 +787,17 @@ static NSString *tempFileName() {
             [self openModeFile:filename];
         } else if ([[NSFileManager defaultManager] fileExistsAtPath:filename isDirectory:&isDir] && isDir && !isFilePackage) {
             [self openDirectory:filename];
-        } else if ([[filename pathExtension] isEqualToString:@"seestyle"]) {
-            TCMPreferenceController *prefController = [TCMPreferenceController sharedInstance];
-            [prefController showWindow:self];
-            BOOL result = [prefController selectPreferenceModuleWithIdentifier:@"de.codingmonkeys.subethaedit.preferences.style"];
-            if (result) {
-                TCMPreferenceModule *prefModule = [prefController preferenceModuleWithIdentifier:@"de.codingmonkeys.subethaedit.preferences.style"];
-                if (prefModule) {
-                    [(StylePreferences *)prefModule importStyleFile:filename];
-                }
-            }
+// currently disable special seestyle open handling
+//        } else if ([[filename pathExtension] isEqualToString:@"seestyle"]) {
+//            TCMPreferenceController *prefController = [TCMPreferenceController sharedInstance];
+//            [prefController showWindow:self];
+//            BOOL result = [prefController selectPreferenceModuleWithIdentifier:@"de.codingmonkeys.subethaedit.preferences.style"];
+//            if (result) {
+//                TCMPreferenceModule *prefModule = [prefController preferenceModuleWithIdentifier:@"de.codingmonkeys.subethaedit.preferences.style"];
+//                if (prefModule) {
+//                    [(StylePreferences *)prefModule importStyleFile:filename];
+//                }
+//            }
         } else {
             NSError *error = nil;
             [I_propertiesForOpenedFiles setObject:properties forKey:filename];

@@ -5,7 +5,6 @@
         <name>Default</name> <!-- The definitions title -->
         <autocompleteoptions use-spelling-dictionary="yes" />
         <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]></charsintokens> <!-- Valid Characters for Variables -->
-		<stylesheet>Base</stylesheet>
     </head>
 
     <states>

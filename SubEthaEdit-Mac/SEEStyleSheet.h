@@ -23,6 +23,7 @@ NSString * const SEEStyleSheetValueBold         ;
 NSString * const SEEStyleSheetValueUnderline    ;
 NSString * const SEEStyleSheetValueItalic       ;
 NSString * const SEEStyleSheetValueStrikeThrough;
+NSString * const SEEStyleSheetMetaDefaultScopeName;
 
 @interface SEEStyleSheet : NSObject {
 	NSMutableDictionary *I_scopeStyleDictionary;
@@ -35,7 +36,8 @@ NSString * const SEEStyleSheetValueStrikeThrough;
 @property (nonatomic, retain) NSMutableDictionary *scopeCache;
 @property (nonatomic, retain, readonly) NSArray *allScopes;
 @property (nonatomic, copy) NSString *styleSheetName; // defined as the file base name without the extension
-
+@property (nonatomic, readonly) NSColor *documentBackgroundColor;
+@property (nonatomic, readonly) NSColor *documentForegroundColor;
 
 + (NSDictionary *)textAttributesForStyleAttributes:(NSDictionary *)styleAttributes font:(NSFont *)font;
 

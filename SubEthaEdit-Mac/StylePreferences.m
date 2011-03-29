@@ -69,7 +69,7 @@
 
 - (void)takeFontFromMode:(DocumentMode *)aMode {
     NSDictionary *fontAttributes = [aMode defaultForKey:DocumentModeFontAttributesPreferenceKey];
-    NSLog(@"%s %@",__FUNCTION__, fontAttributes);
+//    NSLog(@"%s %@",__FUNCTION__, fontAttributes);
     NSFont *font=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:11.];
     if (!font) font=[NSFont userFixedPitchFontOfSize:11.];
     [self setBaseFont:font];
@@ -197,7 +197,7 @@
 }
 
 - (void)changeFont:(id)fontManager {
-	NSLog(@"%s",__FUNCTION__);
+//	NSLog(@"%s",__FUNCTION__);
     if ([O_fontDefaultButton state] != NSOnState) {
         NSFont *newFont = [fontManager convertFont:[NSFont userFixedPitchFontOfSize:0.0]]; // could be any font here
         NSMutableDictionary *dict=[NSMutableDictionary dictionary];

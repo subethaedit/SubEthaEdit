@@ -31,4 +31,7 @@
 - (NSString *)styleSheetNameForLanguageContext:(NSString *)aLanguageContext;
 - (void)pushSettingsToModeDefaults;
 
+- (NSColor *)documentForegroundColor;
+- (NSColor *)documentBackgroundColor;
+
 @end

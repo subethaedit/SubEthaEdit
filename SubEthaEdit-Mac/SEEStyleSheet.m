@@ -29,6 +29,8 @@ NSString * const SEEStyleSheetValueUnderline         = @"underline";
 NSString * const SEEStyleSheetValueItalic            = @"italic";
 NSString * const SEEStyleSheetValueStrikeThrough     = @"strike-through";
 
+NSString * const SEEStyleSheetMetaDefaultScopeName   = @"meta.default";
+
 
 @interface SEEStyleSheet ()
 @property (nonatomic, retain, readwrite) NSArray *allScopes;
@@ -191,31 +193,33 @@ NSString * const SEEStyleSheetValueStrikeThrough     = @"strike-through";
 	else NSLog(@"%@",exportString);
 }
 
+- (NSMutableDictionary *)metaDefaultStyleWithDefaults {
+	NSMutableDictionary *styleResult = [NSMutableDictionary dictionaryWithObjectsAndKeys:
+		[NSColor colorWithCalibratedWhite:0.0 alpha:1.0],SEEStyleSheetFontForegroundColorKey,
+		[NSColor colorWithCalibratedWhite:1.0 alpha:1.0],SEEStyleSheetFontBackgroundColorKey,
+		@"normal",SEEStyleSheetFontWeightKey,
+		@"normal",SEEStyleSheetFontStyleKey,
+		@"none",SEEStyleSheetFontUnderlineKey,
+		@"none",SEEStyleSheetFontStrikeThroughKey,
+		nil];
+		NSDictionary *metaDefaultDictionary = [I_scopeStyleDictionary objectForKey:SEEStyleSheetMetaDefaultScopeName];
+		if (metaDefaultDictionary) {
+			// might want to exclude other things here
+			[styleResult addEntriesFromDictionary:metaDefaultDictionary];
+		}
+	return styleResult;
+}
+
 - (NSDictionary *)styleAttributesForScope:(NSString *)aScope {
 	
 	//Delete language specific part
 	
 	NSDictionary *computedStyle = [I_scopeCache objectForKey:aScope];
 	
-	
 	if (!computedStyle) {
 
 //	Start with a base style
-		NSMutableDictionary *styleResult = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-			[NSColor colorWithCalibratedWhite:0.0 alpha:1.0],SEEStyleSheetFontForegroundColorKey,
-			[NSColor colorWithCalibratedWhite:1.0 alpha:1.0],SEEStyleSheetFontBackgroundColorKey,
-			@"normal",SEEStyleSheetFontWeightKey,
-			@"normal",SEEStyleSheetFontStyleKey,
-			@"none",SEEStyleSheetFontUnderlineKey,
-			@"none",SEEStyleSheetFontStrikeThroughKey,
-			nil];
-
-//	Use the meta.default to augment the baseline
-		NSDictionary *metaDefaultDictionary = [I_scopeStyleDictionary objectForKey:@"meta.default"];
-		if (metaDefaultDictionary) {
-			// might want to exclude other things here
-			[styleResult addEntriesFromDictionary:metaDefaultDictionary];
-		}
+		NSMutableDictionary *styleResult = [self metaDefaultStyleWithDefaults];
 		
 //	check all our possible ancestors and incorporate them
 		NSArray *components = [aScope componentsSeparatedByString:@"."];
@@ -291,6 +295,16 @@ NSString * const SEEStyleSheetValueStrikeThrough     = @"strike-through";
 		I_allScopes = [[[self.scopeStyleDictionary allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] copy];
 	}
 	return I_allScopes;
+}
+
+
+// convenience accesors for special values
+- (NSColor *)documentBackgroundColor {
+	return [[self styleAttributesForScope:SEEStyleSheetMetaDefaultScopeName] objectForKey:SEEStyleSheetFontBackgroundColorKey];
+}
+
+- (NSColor *)documentForegroundColor {
+	return [[self styleAttributesForScope:SEEStyleSheetMetaDefaultScopeName] objectForKey:SEEStyleSheetFontForegroundColorKey];
 }
 
 

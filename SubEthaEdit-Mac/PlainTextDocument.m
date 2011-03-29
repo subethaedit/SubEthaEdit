@@ -4814,8 +4814,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     BOOL useDefaultStyle=[[[self documentMode] defaultForKey:DocumentModeUseDefaultStylePreferenceKey] boolValue];
     BOOL darkBackground=[[[self documentMode] defaultForKey:DocumentModeBackgroundColorIsDarkPreferenceKey] boolValue];
     NSDictionary *syntaxStyle=[useDefaultStyle?[[DocumentModeManager baseMode] syntaxStyle]:[[self documentMode] syntaxStyle] styleForKey:SyntaxStyleBaseIdentifier];
-    [self setDocumentBackgroundColor:[syntaxStyle objectForKey:darkBackground?@"inverted-background-color":@"background-color"]];
-    [self setDocumentForegroundColor:[syntaxStyle objectForKey:darkBackground?@"inverted-color":@"color"]];
+    SEEStyleSheetSettings *styleSheetSettings = [[self documentMode] styleSheetSettings];
+    [self setDocumentBackgroundColor:[styleSheetSettings documentBackgroundColor]];
+    [self setDocumentForegroundColor:[styleSheetSettings documentForegroundColor]];
     [I_fonts.plainFont autorelease];
     I_fonts.plainFont = [aFont copy];
     [self TCM_styleFonts];
@@ -4953,7 +4954,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 - (NSDictionary *)plainTextAttributes {
     if (!I_plainTextAttributes) {
         NSMutableDictionary *attributes=[NSMutableDictionary new];
-        [attributes addEntriesFromDictionary:[self styleAttributesForStyleID:SyntaxStyleBaseIdentifier]];
+        [attributes addEntriesFromDictionary:[self styleAttributesForScope:SEEStyleSheetMetaDefaultScopeName languageContext:self.documentMode.scriptedName]];
         [attributes setObject:[NSNumber numberWithInt:0]
                        forKey:NSLigatureAttributeName];
         [attributes setObject:[self defaultParagraphStyle]

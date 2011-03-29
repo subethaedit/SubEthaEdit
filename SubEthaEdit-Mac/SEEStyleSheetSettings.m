@@ -76,6 +76,20 @@ NSString * const SEEStyleSheetSettingsUsesMultipleStyleSheetsKey = @"usesMultipl
 	return result;
 }
 
+- (SEEStyleSheet *)topLevelStyleSheet {
+	return [self styleSheetForLanguageContext:[self.documentMode scriptedName]];
+}
+
+- (NSColor *)documentForegroundColor {
+	SEEStyleSheet *topLevelStyleSheet = [self topLevelStyleSheet];
+	return topLevelStyleSheet.documentForegroundColor;
+}
+
+- (NSColor *)documentBackgroundColor {
+	SEEStyleSheet *topLevelStyleSheet = [self topLevelStyleSheet];
+	return topLevelStyleSheet.documentBackgroundColor;
+}
+
 - (void)setStyleSheetName:(NSString *)aStyleSheetName forLanguageContext:(NSString *)aLanguageContext {
 	[I_styleSheetNamesByLanguageContext setObject:aStyleSheetName forKey:aLanguageContext];
 }

@@ -818,6 +818,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     return [[self bundle] resourcePath];
 }
 
+// document mode identifier without the leading SEEMode.
 - (NSString *)scriptedName {
     NSString *identifier = [self documentModeIdentifier];
     if ([identifier hasPrefix:@"SEEMode."] && [identifier length] > 8) {
