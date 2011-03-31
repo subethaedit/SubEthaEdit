@@ -19,8 +19,10 @@
 @interface StylePreferences ()
 
 - (void)highlightSyntax;
+- (void)selectMode:(DocumentMode *)aDocumentMode;
 
 @end
+
 
 @implementation StylePreferences
 
@@ -143,17 +145,44 @@
 #pragma mark -
 #pragma mark IBActions
 
+- (void)selectMode:(DocumentMode *)aDocumentMode {
+	[O_modeController setContent:aDocumentMode];
+	[O_modePopUpButton setSelectedMode:aDocumentMode];
+	[self updateStyleSheetLists];
+	NSString *customStyleSheetName = [[aDocumentMode styleSheetSettings] singleStyleSheetName];
+	[O_styleSheetCustomPopUpButton selectItemWithTitle:customStyleSheetName];
+	[O_customStylesForLanguageContextsTableView reloadData];
+	[O_styleSheetDefaultRadioButton setHidden:[aDocumentMode isBaseMode]];
+	// TODO: resze the style settings box
+	CGFloat heightChange = 0;
+	BOOL shouldShow = ([[[aDocumentMode syntaxDefinition] allLanguageContexts] count] > 1);
+	if (shouldShow && [O_customStyleSheetsContainerView isHidden]) {
+		[O_customStyleSheetsContainerView setHidden:NO ];
+		heightChange =  [O_customStyleSheetsContainerView frame].size.height;
+	} else if (!shouldShow && ![O_customStyleSheetsContainerView isHidden]) {
+		[O_customStyleSheetsContainerView setHidden:YES];
+		heightChange = -[O_customStyleSheetsContainerView frame].size.height;
+	}
+	if (heightChange != 0) {
+		NSBox *styleBox   = O_styleContainerBox;
+		NSBox *previewBox = O_previewContainerBox;
+		NSRect boxFrame = [styleBox frame];
+		NSRect previewBoxFrame = [previewBox frame];
+		boxFrame.size.height += heightChange;
+		boxFrame.origin.y -= heightChange;
+		previewBoxFrame.size.height -= heightChange;
+		[styleBox setFrame:boxFrame];
+		[previewBox setFrame:previewBoxFrame];
+	}
+	[self validateDefaultsState:nil];
+	[[[O_syntaxSampleTextView textStorage] mutableString] setString:[aDocumentMode syntaxExampleString]];
+	[self highlightSyntax];
+}
+
 - (IBAction)changeMode:(id)aSender {
 	DocumentMode *newMode=[aSender selectedMode];
 	if (newMode) {
-		[O_modeController setContent:newMode];
-		[self updateStyleSheetLists];
-		NSString *customStyleSheetName = [[newMode styleSheetSettings] singleStyleSheetName];
-		[O_styleSheetCustomPopUpButton selectItemWithTitle:customStyleSheetName];
-		[O_customStylesForLanguageContextsTableView reloadData];
-		[self validateDefaultsState:aSender];
-		[[[O_syntaxSampleTextView textStorage] mutableString] setString:[newMode syntaxExampleString]];
-		[self highlightSyntax];
+		[self selectMode:newMode];
 	}
 }
 
@@ -171,6 +200,7 @@
 		}
 	}
     [self validateDefaultsState:aSender];
+	[self highlightSyntax];
 }
 
 
@@ -181,6 +211,8 @@
 	SEEStyleSheetSettings *styleSheetSettings = [currentMode styleSheetSettings];	
 	styleSheetSettings.singleStyleSheetName = styleSheetName;
 	styleSheetSettings.usesMultipleStyleSheets = NO;
+    [self validateDefaultsState:aSender];
+	[self highlightSyntax];
 }
 
 
@@ -294,9 +326,22 @@
 	DocumentMode *currentMode = [O_modeController content];
 	SEEStyleSheetSettings *styleSheetSettings = [currentMode styleSheetSettings];
 	[styleSheetSettings setStyleSheetName:styleSheetName forLanguageContext:languageContext];
-	NSLog(@"%s %@",__FUNCTION__, styleSheetName);
+	[[currentMode defaults] setObject:[NSNumber numberWithBool:NO] forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];
+	styleSheetSettings.usesMultipleStyleSheets = YES;
+	[self highlightSyntax];
 }
 
+#pragma mark Pref Module methods
+
+- (void)didSelect {
+	PlainTextDocument *frontmostDocument = [[DocumentController sharedInstance] frontmostPlainTextDocument];
+	if (frontmostDocument) {
+		[self selectMode:[frontmostDocument documentMode]];
+	} else {
+		[self highlightSyntax];
+	}
+	[super didSelect];
+}
 
 #pragma mark TableView Delegate
 

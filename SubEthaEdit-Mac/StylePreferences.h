@@ -22,6 +22,10 @@
     IBOutlet NSButton *O_styleSheetCustomRadioButton;
     IBOutlet NSButton *O_styleSheetCustomForLanguageContextsRadioButton;
     IBOutlet NSPopUpButton *O_styleSheetCustomPopUpButton;
+    IBOutlet NSView *O_customStyleSheetsContainerView;
+    
+    IBOutlet NSBox *O_styleContainerBox;
+    IBOutlet NSBox *O_previewContainerBox;
     
     IBOutlet NSTableView *O_customStylesForLanguageContextsTableView;
 

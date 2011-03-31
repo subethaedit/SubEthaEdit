@@ -22,7 +22,7 @@ static NSMutableArray *prefModules;
 - (NSView *)emptyContentView;
 - (void)setEmptyContentView:(NSView *)aView;
 - (void)selectPrefPaneWithIdentifier:(NSString *)anIdentifier;
-
+- (id)selectedModule;
 @end
 
 #pragma mark -
@@ -115,6 +115,20 @@ static TCMPreferenceController *sharedInstance = nil;
         [self selectPrefPaneWithIdentifier:identifier];
         [module didSelect];
     }
+    [[self window] setDelegate:self];
+}
+
+
+// update on show of window
+- (void)windowWillClose:(NSNotification *)aNotification {
+	didShow = NO;
+}
+
+- (void)windowDidBecomeMain:(NSNotification *)anotification {
+	if (!didShow) {
+		didShow = YES;
+		[[self selectedModule] didSelect];
+	}
 }
 
 - (void)selectPrefPaneWithIdentifier:(NSString *)anIdentifier

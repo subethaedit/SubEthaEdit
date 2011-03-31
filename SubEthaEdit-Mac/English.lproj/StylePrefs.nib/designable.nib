@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="477"/>
+			<integer value="8"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -1218,6 +1218,30 @@
 					</object>
 					<int key="connectionID">530</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">O_customStyleSheetsContainerView</string>
+						<reference key="source" ref="538189364"/>
+						<reference key="destination" ref="269009301"/>
+					</object>
+					<int key="connectionID">531</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">O_styleContainerBox</string>
+						<reference key="source" ref="538189364"/>
+						<reference key="destination" ref="265112529"/>
+					</object>
+					<int key="connectionID">532</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">O_previewContainerBox</string>
+						<reference key="source" ref="538189364"/>
+						<reference key="destination" ref="969611866"/>
+					</object>
+					<int key="connectionID">533</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -1846,7 +1870,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">530</int>
+			<int key="maxID">533</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2160,11 +2184,14 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>O_customStyleSheetsContainerView</string>
 							<string>O_customStylesForLanguageContextsTableView</string>
 							<string>O_fontController</string>
 							<string>O_fontDefaultButton</string>
 							<string>O_modeController</string>
 							<string>O_modePopUpButton</string>
+							<string>O_previewContainerBox</string>
+							<string>O_styleContainerBox</string>
 							<string>O_styleSheetCustomForLanguageContextsRadioButton</string>
 							<string>O_styleSheetCustomPopUpButton</string>
 							<string>O_styleSheetCustomRadioButton</string>
@@ -2173,11 +2200,14 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>NSView</string>
 							<string>NSTableView</string>
 							<string>NSObjectController</string>
 							<string>NSButton</string>
 							<string>NSObjectController</string>
 							<string>DocumentModePopUpButton</string>
+							<string>NSBox</string>
+							<string>NSBox</string>
 							<string>NSButton</string>
 							<string>NSPopUpButton</string>
 							<string>NSButton</string>
@@ -2189,11 +2219,14 @@
 						<bool key="EncodedWithXMLCoder">YES</bool>
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>O_customStyleSheetsContainerView</string>
 							<string>O_customStylesForLanguageContextsTableView</string>
 							<string>O_fontController</string>
 							<string>O_fontDefaultButton</string>
 							<string>O_modeController</string>
 							<string>O_modePopUpButton</string>
+							<string>O_previewContainerBox</string>
+							<string>O_styleContainerBox</string>
 							<string>O_styleSheetCustomForLanguageContextsRadioButton</string>
 							<string>O_styleSheetCustomPopUpButton</string>
 							<string>O_styleSheetCustomRadioButton</string>
@@ -2202,6 +2235,10 @@
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<object class="IBToOneOutletInfo">
+								<string key="name">O_customStyleSheetsContainerView</string>
+								<string key="candidateClassName">NSView</string>
+							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">O_customStylesForLanguageContextsTableView</string>
 								<string key="candidateClassName">NSTableView</string>
@@ -2221,6 +2258,14 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">O_modePopUpButton</string>
 								<string key="candidateClassName">DocumentModePopUpButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">O_previewContainerBox</string>
+								<string key="candidateClassName">NSBox</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">O_styleContainerBox</string>
+								<string key="candidateClassName">NSBox</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">O_styleSheetCustomForLanguageContextsRadioButton</string>

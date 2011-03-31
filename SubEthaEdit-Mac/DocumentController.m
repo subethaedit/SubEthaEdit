@@ -582,7 +582,16 @@ static NSString *tempFileName() {
     return YES;
 }
 
-
+- (PlainTextDocument *)frontmostPlainTextDocument {
+    NSWindow *window = nil;
+    for (window in [NSApp orderedWindows]) {
+        NSWindowController *controller = [window windowController];
+        if ([controller isKindOfClass:[PlainTextWindowController class]]) {
+	        return [[(PlainTextWindowController *)controller activePlainTextEditor] document];
+        }
+    }
+    return nil;
+}
 
 - (PlainTextWindowController *)activeWindowController {
     int count = [I_windowControllers count];

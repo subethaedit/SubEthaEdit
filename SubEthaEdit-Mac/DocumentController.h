@@ -14,6 +14,7 @@
 @class DocumentMode;
 @class PlainTextWindowController;
 @class MAAttachedWindow;
+@class PlainTextDocument;
 
 @interface DocumentController : NSDocumentController {
     IBOutlet NSView *O_openPanelAccessoryView;
@@ -77,6 +78,8 @@
 - (NSString *)modeIdentifierFromLastRunOpenPanel;
 - (BOOL)isDocumentFromLastRunOpenPanel:(NSDocument *)aDocument;
 - (NSDictionary *)propertiesForOpenedFile:(NSString *)fileName;
+
+- (PlainTextDocument *)frontmostPlainTextDocument;
 
 #if defined(CODA)
 - (void)setDocumentsFromLastRunOpenPanel:(NSArray*)filenames;
