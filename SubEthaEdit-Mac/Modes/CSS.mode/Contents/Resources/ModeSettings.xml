@@ -3,5 +3,7 @@
     <recognition>
         <extension>css</extension>
         <extension>sss</extension>
+        <regex>@media</regex>
+        <regex>text-align:</regex>
     </recognition>
 </settings>

@@ -21,6 +21,7 @@
 - (void)takeFontFromMode:(DocumentMode *)aMode;
 - (void)selectMode:(DocumentMode *)aMode;
 - (void)updateForChangedStyles;
+- (NSArray *)scopesArray;
 @end
 
 @implementation StyleSheetPreferences
@@ -66,14 +67,15 @@
 - (void)adjustTableViewColumns:(NSNotification *)aNotification {
     CGFloat width=[[[O_stylesTableView enclosingScrollView] contentView] frame].size.width;
     width-=[O_stylesTableView intercellSpacing].width * 2;
-    CGFloat width2 = width/2;
+    CGFloat width2 = MIN(300,width/2);
     NSArray *columns=[O_stylesTableView tableColumns];
     [[columns objectAtIndex:0] setWidth:width2];
-    [[columns objectAtIndex:1] setWidth:width2];
+    [[columns objectAtIndex:1] setWidth:width-width2];
 }
 
 - (void)switchToStyleSheetName:(NSString *)aStyleSheetName {
 	self.currentStyleSheet = [[DocumentModeManager sharedInstance] styleSheetForName:aStyleSheetName];
+	[self.currentStyleSheet setScopeExamples:[[O_modeController content] scopeExamples]];
 	[self updateForChangedStyles];
 }
 
@@ -180,7 +182,7 @@
 - (void)updateInspector {
 	NSInteger selectedRow = [O_stylesTableView selectedRow];
 	if (selectedRow != -1) {
-		NSString *scopeString = [self.currentStyleSheet.allScopes objectAtIndex:selectedRow];
+		NSString *scopeString = [[self scopesArray] objectAtIndex:selectedRow];
 		
 		[O_scopeComboBox setStringValue:scopeString];
 		
@@ -229,11 +231,16 @@
 	[self updateScopeButtons];
 }
 
+- (IBAction)toggleMatchingScopes:(id)aSender {
+	[O_stylesTableView reloadData];
+}
+
+
 - (IBAction)takeInheritanceState:(id)aSender {
 	NSInteger selectedRow = [O_stylesTableView selectedRow];
 	if (selectedRow != -1) {
 		NSLog(@"%s %d",__FUNCTION__, [aSender state]);
-		NSString *scopeString = [self.currentStyleSheet.allScopes objectAtIndex:selectedRow];
+		NSString *scopeString = [[self scopesArray] objectAtIndex:selectedRow];
 		NSDictionary *computedStyleAttributes = [self.currentStyleSheet      styleAttributesForScope:scopeString];
 		NSMutableDictionary *directStyleAttributes   = [[[self.currentStyleSheet styleAttributesForExactScope:scopeString] mutableCopy] autorelease];
 		for (NSArray *triple in [NSArray arrayWithObjects:
@@ -273,11 +280,14 @@
 - (void)selectMode:(DocumentMode *)aDocumentMode {
 	[O_modeController setContent:aDocumentMode];
 	[O_modePopUpButton setSelectedMode:aDocumentMode];
+	[self.currentStyleSheet setScopeExamples:[aDocumentMode scopeExamples]];
 
 	NSDictionary *fontAttributes=[aDocumentMode defaultForKey:DocumentModeFontAttributesPreferenceKey];
 	NSFont *newFont=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:12.0];
 	if (!newFont) newFont=[NSFont userFixedPitchFontOfSize:12.0];
 	[self setBaseFont:newFont];
+
+
 	[O_stylesTableView reloadData];
 	[O_scopeComboBox reloadData];
 	NSLog(@"%s scopes:%@ \n contexts:%@",__FUNCTION__, [aDocumentMode.syntaxDefinition allScopes], [aDocumentMode.syntaxDefinition allLanguageContexts]);
@@ -300,7 +310,7 @@
 - (IBAction)changeForegroundColor:(id)aSender {
 	NSInteger selectedRow = [O_stylesTableView selectedRow];
 	if (selectedRow != -1) {
-		NSString *scopeString = [self.currentStyleSheet.allScopes objectAtIndex:selectedRow];
+		NSString *scopeString = [[self scopesArray] objectAtIndex:selectedRow];
 		NSMutableDictionary *directStyleAttributes   = [[[self.currentStyleSheet styleAttributesForExactScope:scopeString] mutableCopy] autorelease];
 		[directStyleAttributes setObject:[aSender color] forKey:SEEStyleSheetFontForegroundColorKey];
 		NSLog(@"%s %@",__FUNCTION__, directStyleAttributes);
@@ -312,7 +322,7 @@
 - (IBAction)changeBackgroundColor:(id)aSender {
 	NSInteger selectedRow = [O_stylesTableView selectedRow];
 	if (selectedRow != -1) {
-		NSString *scopeString = [self.currentStyleSheet.allScopes objectAtIndex:selectedRow];
+		NSString *scopeString = [[self scopesArray] objectAtIndex:selectedRow];
 		NSMutableDictionary *directStyleAttributes   = [[[self.currentStyleSheet styleAttributesForExactScope:scopeString] mutableCopy] autorelease];
 		[directStyleAttributes setObject:[aSender color] forKey:SEEStyleSheetFontBackgroundColorKey];
 		NSLog(@"%s %@",__FUNCTION__, directStyleAttributes);
@@ -324,7 +334,7 @@
 - (void)changeTraitByButton:(NSButton *)aButton key:(NSString *)aKey yesValue:(id)aYesValue noValue:(id)aNoValue {
 	NSInteger selectedRow = [O_stylesTableView selectedRow];
 	if (selectedRow != -1) {
-		NSString *scopeString = [self.currentStyleSheet.allScopes objectAtIndex:selectedRow];
+		NSString *scopeString = [[self scopesArray] objectAtIndex:selectedRow];
 		NSMutableDictionary *directStyleAttributes   = [[[self.currentStyleSheet styleAttributesForExactScope:scopeString] mutableCopy] autorelease];
 		[directStyleAttributes setObject:[aButton state] == NSOnState ? aYesValue : aNoValue forKey:aKey];
 		NSLog(@"%s %@",__FUNCTION__, directStyleAttributes);
@@ -599,7 +609,7 @@
 - (IBAction)addScope:(id)aSender {
 	NSString *scopeString = [O_scopeComboBox stringValue];
 	BOOL scopeExists = ([self.currentStyleSheet styleAttributesForExactScope:scopeString] != nil);
-	NSString *selectedScopeString = [self.currentStyleSheet.allScopes objectAtIndex:[O_stylesTableView selectedRow]];
+	NSString *selectedScopeString = [[self scopesArray] objectAtIndex:[O_stylesTableView selectedRow]];
 
 	if (!scopeExists) {
 		[self.currentStyleSheet setStyleAttributes:[self.currentStyleSheet styleAttributesForExactScope:selectedScopeString] forScope:scopeString];
@@ -656,7 +666,7 @@
 - (IBAction)copy:aSender {
 	NSInteger selectedRow = [O_stylesTableView selectedRow];
 	if (selectedRow != -1) {
-		NSString *scopeString = [self.currentStyleSheet.allScopes objectAtIndex:selectedRow];
+		NSString *scopeString = [[self scopesArray] objectAtIndex:selectedRow];
 		self.copiedStyle = [self.currentStyleSheet styleAttributesForExactScope:scopeString];
 	}
 }
@@ -665,7 +675,7 @@
 	if (self.copiedStyle) {
 		NSInteger selectedRow = [O_stylesTableView selectedRow];
 		if (selectedRow != -1) {
-			NSString *scopeString = [self.currentStyleSheet.allScopes objectAtIndex:selectedRow];
+			NSString *scopeString = [[self scopesArray] objectAtIndex:selectedRow];
 			[self.currentStyleSheet setStyleAttributes:self.copiedStyle forScope:scopeString];
 			[self updateInspector];
 			[O_stylesTableView reloadData];
@@ -684,6 +694,15 @@
 	[self updateScopeButtons];
 }
 
+- (void)comboBoxSelectionDidChange:(NSNotification *)aNotification {
+	[self updateScopeButtons];
+}
+
+- (void)comboBoxWillDismiss:(NSNotification *)aNotification {
+	[self updateScopeButtons];
+}
+
+
 - (NSInteger)numberOfItemsInComboBox:(NSComboBox *)aComboBox {
 //	NSLog(@"%s %@",__FUNCTION__,[[O_modeController content] availableScopes]);
 	return [[[O_modeController content] availableScopes] count];
@@ -696,35 +715,24 @@
 
 #pragma mark -
 #pragma mark TableView DataSource
+
+- (NSArray *)scopesArray {
+	return (O_showOnlyMatchingScopesButton.state == NSOnState) ? self.currentStyleSheet.allScopesWithExamples : self.currentStyleSheet.allScopes;
+}
+
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView {
-    return [self.currentStyleSheet.allScopes count];
+    return [[self scopesArray] count];
 }
 
 - (id)tableView:(NSTableView *)aTableView objectValueForTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)aRow {
 	
 	
-	NSString *scopeString = [self.currentStyleSheet.allScopes objectAtIndex:aRow];
+	NSString *scopeString = [[self scopesArray] objectAtIndex:aRow];
 	NSDictionary *textAttributes = [self textAttributesForScope:scopeString];
 	if ([[aTableColumn identifier] isEqualToString:@"scope"]) {
 		return [[[NSAttributedString alloc] initWithString:scopeString attributes:textAttributes] autorelease];
 	} else {
-		NSString *exampleString = @" - no example -";
-		NSDictionary *examplePlist = [[O_modeController content] scopeExamples];
-		while (scopeString.length > 0) {
-			NSString *exampleStringCandidate = [examplePlist objectForKey:scopeString];
-			if (exampleStringCandidate) {
-				exampleString = exampleStringCandidate;
-				break;
-			} else {
-				NSRange range = [scopeString rangeOfString:@"." options:NSBackwardsSearch];
-				if (range.location != NSNotFound) {
-					scopeString = [scopeString substringToIndex:range.location];
-					//NSLog(@"%s trying %@",__FUNCTION__,scopeString);
-				} else {
-					break;
-				}
-			}
-		}
+		NSString *exampleString = [self.currentStyleSheet exampleForScope:scopeString];
 		return [[[NSAttributedString alloc] initWithString:exampleString attributes:textAttributes] autorelease];
 	}
 }

@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>keyword.property-key.css</key>
+	<string>padding margin font display width height border</string>
+	<key>keyword.other.important</key>
+	<string>important</string>
+	<key>support.constant.property-value.css</key>
+	<string>bold linear block none no-repeat monospace pointer</string>
+	<key>constant.numeric.css</key>
+	<string>1.4em 5px 17pt 100% 30deg</string>
+	<key>constant.other.color.rgb-value.css</key>
+	<string>#fff #0000a1 #cbafde</string>
+	<key>keyword.control.at-rule.media</key>
+	<string>@import @media</string>
+	<key>comment.block.documentation.css</key>
+	<string>/*&quot; Autodoc Comment &quot;*/</string>
+	<key>comment.block.css</key>
+	<string>/* Comment */</string>
+	<key>string.quoted.parentheses.css</key>
+	<string>(lorem ipsum)</string>
+	<key>string.quoted.double.css</key>
+	<string>&quot;lorem ipsum&quot;</string>
+	<key>string.quoted.single.css</key>
+	<string>&apos;lorem ipsum&apos;</string>
+</dict>
+</plist>

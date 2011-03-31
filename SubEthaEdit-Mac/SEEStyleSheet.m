@@ -93,6 +93,7 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 
 
 @synthesize scopeStyleDictionary = I_scopeStyleDictionary;
+@synthesize scopeExamples = I_scopeExamples;
 @synthesize scopeCache = I_scopeCache;
 @synthesize allScopes = I_allScopes;
 @synthesize styleSheetName = I_styleSheetName;
@@ -102,6 +103,7 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 	if ((self = [super init])) {
 		I_scopeStyleDictionary = [NSMutableDictionary new];
 		I_scopeCache = [NSMutableDictionary new];
+		I_scopeExampleCache = [NSMutableDictionary new];
 	}
 	return self;
 }
@@ -110,6 +112,8 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 	self.scopeCache = nil;
 	self.scopeStyleDictionary = nil;
 	[I_scopeStyleDictionaryPersistentState release];
+	[I_allScopesWithExamples release];
+	I_allScopesWithExamples = nil;
 	[super dealloc];
 }
 
@@ -266,7 +270,10 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 
 - (void)clearCache {
 	[I_scopeCache removeAllObjects]; //invalidate caching
+	[I_scopeExampleCache removeAllObjects];
 	self.allScopes = nil;
+	[I_allScopesWithExamples release];
+	I_allScopesWithExamples = nil;
 }
 
 - (void)removeStyleAttributesForScope:(NSString *)aScopeString {
@@ -274,10 +281,53 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 	[self clearCache];
 }
 
+- (void)setScopeExamples:(NSDictionary *)aDictionary {
+	[I_scopeExamples autorelease];
+	I_scopeExamples = [aDictionary copy];
+	[self clearCache];
+}
 
 - (void)setStyleAttributes:(NSDictionary *)aStyleAttributeDictionary forScope:(NSString *)aScopeString {
 	[self.scopeStyleDictionary setObject:aStyleAttributeDictionary forKey:aScopeString];
 	[self clearCache];
+}
+
+- (void)computeScopeExamples {
+	NSMutableDictionary *examples = [self.scopeExamples mutableCopy];
+	
+	NSArray *longestFirstScopes = [[self.scopeStyleDictionary allKeys] sortedArrayUsingComparator:^(id obj1, id obj2){ 
+		NSUInteger length1 = [(NSString *)obj1 length]; NSUInteger length2 = [(NSString *)obj2 length];
+		return (NSComparisonResult)(length1 == length2 ? NSOrderedSame : (length1>length2 ? NSOrderedAscending : NSOrderedDescending));
+	}];
+//	NSLog(@"%s longestFirstScopes: %@",__FUNCTION__, longestFirstScopes);
+	
+	NSMutableArray *exampleCollector = [NSMutableArray array];
+	for (NSString *scope in longestFirstScopes) {
+		for (NSString *exampleScopeKey in [examples allKeys]) {
+			if ([exampleScopeKey hasPrefix:scope]) {
+				[exampleCollector addObject:[examples objectForKey:exampleScopeKey]];
+				[examples removeObjectForKey:exampleScopeKey];
+			}
+		}
+		if (exampleCollector.count) {
+			[I_scopeExampleCache setObject:[exampleCollector componentsJoinedByString:@" "] forKey:scope];
+			[exampleCollector removeAllObjects];
+		}
+	}
+	
+	if (!I_allScopesWithExamples) {
+		I_allScopesWithExamples = [[[[I_scopeExampleCache allKeys] arrayByAddingObject:SEEStyleSheetMetaDefaultScopeName] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] copy];
+	}
+	[examples release];
+}
+
+- (NSString *)exampleForScope:(NSString *)aScope {
+	if ([I_scopeExampleCache count] == 0 && [I_scopeExamples count] > 0) {
+		[self computeScopeExamples];
+	}
+	NSString *result = [I_scopeExampleCache objectForKey:aScope];
+	if (!result) result = @" - no example -";
+	return result;
 }
 
 - (NSDictionary *)styleAttributesForExactScope:(NSString *)anExactScopeString {
@@ -291,6 +341,12 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 	return I_allScopes;
 }
 
+- (NSArray *)allScopesWithExamples {
+	if (!I_allScopesWithExamples) {
+		[self computeScopeExamples];
+	}
+	return I_allScopesWithExamples;
+}
 
 // convenience accesors for special values
 - (NSColor *)documentBackgroundColor {

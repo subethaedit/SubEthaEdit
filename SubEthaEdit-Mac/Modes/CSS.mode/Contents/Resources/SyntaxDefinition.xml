@@ -18,7 +18,7 @@
                 <end>
                     <regex>}</regex>
                 </end>
-                <keywords id="CSS Keywords" color="#88134F" font-style="bold" useforautocomplete="yes" casesensitive="no" scope="keyword">
+                <keywords id="CSS Keywords" color="#88134F" font-style="bold" useforautocomplete="yes" casesensitive="no" scope="keyword.property-key.css">
                     <regex>(?&lt;![\d\w])(?i)(_background)</regex>
                     <regex>(?&lt;![\d\w])(?i)(_filter)</regex>
                     <regex>(?&lt;![\d\w])(?i)(-webkit(?:-\w+)+)</regex>
@@ -172,7 +172,7 @@
                     <keywords id="!important" color="#f00" useforautocomplete="no" scope="keyword.other.important">
                         <regex>(!\s*important)</regex>
                     </keywords>
-                    <keywords id="CSS Attributes" font-style="italic" color="#9B4400" useforautocomplete="yes" casesensitive="no" scope="support.constant.property-value">
+                    <keywords id="CSS Attributes" font-style="italic" color="#9B4400" useforautocomplete="yes" casesensitive="no" scope="support.constant.property-value.css">
                     	<regex>(?i)(-webkit(?:-\w+)+)</regex>
                     	<regex>(?i)(-moz(?:-\w+)+)</regex>
                     	<string>ease-in-out</string>
@@ -411,6 +411,7 @@
                         <string>olive</string>
                         <string>opacity</string>
                         <string>open-quote</string>
+						<string>optimizeLegibility</string>
                         <string>outset</string>
                         <string>outside</string>
                         <string>overlay</string>
@@ -571,7 +572,7 @@
                         <string>xx-small</string>
                         <string>yellow</string>
                     </keywords>
-                    <keywords id="CSS Digits" color="#00f" inverted-color="#5d56ff" font-style="bold" useforautocomplete="yes" scope="constant.numeric">
+                    <keywords id="CSS Digits" color="#00f" inverted-color="#5d56ff" font-style="bold" useforautocomplete="yes" scope="constant.numeric.css">
                         <regex>(?&lt;![#\d\w-])(-?[\d]+[ \t]*(?:px|pt|em|ex|cm|in|mm|pc|s|ms|Hz|kHz|%|deg|rad|grad|turn)?)</regex>
                     </keywords>
                     <keywords id="CSS Colors" color="#760f15" font-style="bold" useforautocomplete="yes" scope="constant.other.color.rgb-value">
@@ -609,7 +610,7 @@
                 </end>
                 <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
-            <state id="Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic" scope="comment.block" >
+            <state id="Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic" scope="comment.block.css" >
                 <begin>
                     <string>/\*</string>
                     <autoend>\*/</autoend>
@@ -619,7 +620,7 @@
                 </end>
                 <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
-            <state id="Round bracket" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="string.quoted.parentheses">
+            <state id="Round bracket" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="string.quoted.parentheses.css">
                 <begin>
                     <string>\(</string>
                 </begin>
@@ -627,7 +628,7 @@
                     <regex>\)</regex>
                 </end>
             </state>
-            <state id="String" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="string.quoted.double">
+            <state id="String" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="string.quoted.double.css">
                 <begin>
                     <string>"</string>
                 </begin>
@@ -635,7 +636,7 @@
                     <regex>(?&lt;!\\)(\\\\)*"</regex>
                 </end>
             </state>
-            <state id="SingleString" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="string.quoted.single">
+            <state id="SingleString" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="string.quoted.single.css">
                 <begin>
                     <string>'</string>
                 </begin>

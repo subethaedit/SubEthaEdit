@@ -34,14 +34,20 @@ NSString * const SEEStyleSheetFileExtension;
 	NSMutableDictionary *I_scopeCache;
 	NSArray *I_allScopes;
 	NSString *I_styleSheetName;
+	NSDictionary *I_scopeExamples;
+	NSMutableDictionary *I_scopeExampleCache;
+	NSArray *I_allScopesWithExamples;
 }
 
 @property (nonatomic, retain) NSMutableDictionary *scopeStyleDictionary;
 @property (nonatomic, retain) NSMutableDictionary *scopeCache;
 @property (nonatomic, retain, readonly) NSArray *allScopes;
+@property (nonatomic, retain, readonly) NSArray *allScopesWithExamples;
 @property (nonatomic, copy) NSString *styleSheetName; // defined as the file base name without the extension
 @property (nonatomic, readonly) NSColor *documentBackgroundColor;
 @property (nonatomic, readonly) NSColor *documentForegroundColor;
+@property (nonatomic, copy) NSDictionary *scopeExamples;
+
 
 + (NSDictionary *)textAttributesForStyleAttributes:(NSDictionary *)styleAttributes font:(NSFont *)font;
 
@@ -53,6 +59,8 @@ NSString * const SEEStyleSheetFileExtension;
 - (void)setStyleAttributes:(NSDictionary *)aStyleAttributeDictionary forScope:(NSString *)aScopeString;
 - (void)removeStyleAttributesForScope:(NSString *)aScopeString;
 - (NSDictionary *)styleAttributesForExactScope:(NSString *)anExactScopeString;
+
+- (NSString *)exampleForScope:(NSString *)aScopeString;
 
 - (BOOL)hasChanges;
 - (void)markCurrentStateAsPersistent;

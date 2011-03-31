@@ -41,6 +41,8 @@
     IBOutlet NSButton *O_addScopeButton;
     IBOutlet NSButton *O_removeScopeButton;
     
+    IBOutlet NSButton *O_showOnlyMatchingScopesButton;
+    
     IBOutlet NSComboBox *O_scopeComboBox;
     
     IBOutlet NSTextField *O_fontLabel;
@@ -79,5 +81,7 @@
 
 - (IBAction)removeScope:(id)aSender;
 - (IBAction)addScope:(id)aSender;
+
+- (IBAction)toggleMatchingScopes:(id)aSender;
 
 @end

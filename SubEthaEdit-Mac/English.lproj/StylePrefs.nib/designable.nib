@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="8"/>
+			<integer value="385"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -311,7 +311,7 @@
 																<object class="NSButton" id="1044333729">
 																	<reference key="NSNextResponder" ref="269009301"/>
 																	<int key="NSvFlags">268</int>
-																	<string key="NSFrame">{{6, 141}, {447, 18}}</string>
+																	<string key="NSFrame">{{6, 147}, {447, 18}}</string>
 																	<reference key="NSSuperview" ref="269009301"/>
 																	<int key="NSTag">3</int>
 																	<bool key="NSEnabled">YES</bool>
@@ -501,7 +501,7 @@
 																			<double key="NSPercent">0.99773755656108598</double>
 																		</object>
 																	</object>
-																	<string key="NSFrame">{{25, 6}, {426, 129}}</string>
+																	<string key="NSFrame">{{25, 12}, {426, 129}}</string>
 																	<reference key="NSSuperview" ref="269009301"/>
 																	<reference key="NSNextKeyView" ref="240537612"/>
 																	<int key="NSsFlags">562</int>
@@ -511,7 +511,7 @@
 																	<bytes key="NSScrollAmts">QSAAAEEgAABBmAAAQZgAAA</bytes>
 																</object>
 															</object>
-															<string key="NSFrame">{{9, 6}, {461, 163}}</string>
+															<string key="NSFrame">{{9, 1}, {461, 169}}</string>
 															<reference key="NSSuperview" ref="1066015339"/>
 															<string key="NSClassName">NSView</string>
 														</object>
@@ -617,7 +617,7 @@
 																		<object class="NSTextView" id="812682279">
 																			<reference key="NSNextResponder" ref="790662625"/>
 																			<int key="NSvFlags">2322</int>
-																			<string key="NSFrameSize">{454, 26}</string>
+																			<string key="NSFrameSize">{459, 31}</string>
 																			<reference key="NSSuperview" ref="790662625"/>
 																			<object class="NSTextContainer" key="NSTextContainer" id="1026849896">
 																				<object class="NSLayoutManager" key="NSLayoutManager">
@@ -635,7 +635,7 @@
 																					<nil key="NSDelegate"/>
 																				</object>
 																				<reference key="NSTextView" ref="812682279"/>
-																				<double key="NSWidth">454</double>
+																				<double key="NSWidth">459</double>
 																				<int key="NSTCFlags">1</int>
 																			</object>
 																			<object class="NSTextViewSharedData" key="NSSharedData">
@@ -696,7 +696,7 @@
 																			<nil key="NSDelegate"/>
 																		</object>
 																	</object>
-																	<string key="NSFrame">{{1, 1}, {454, 222}}</string>
+																	<string key="NSFrame">{{1, 1}, {459, 227}}</string>
 																	<reference key="NSSuperview" ref="840250629"/>
 																	<reference key="NSNextKeyView" ref="812682279"/>
 																	<reference key="NSDocView" ref="812682279"/>
@@ -728,7 +728,7 @@
 																	<double key="NSPercent">0.94565218687057495</double>
 																</object>
 															</object>
-															<string key="NSFrame">{{8, 13}, {456, 224}}</string>
+															<string key="NSFrame">{{8, 9}, {461, 229}}</string>
 															<reference key="NSSuperview" ref="511465546"/>
 															<reference key="NSNextKeyView" ref="790662625"/>
 															<int key="NSsFlags">530</int>
@@ -737,11 +737,11 @@
 															<reference key="NSContentView" ref="790662625"/>
 														</object>
 													</object>
-													<string key="NSFrame">{{2, 2}, {475, 247}}</string>
+													<string key="NSFrame">{{2, 2}, {477, 247}}</string>
 													<reference key="NSSuperview" ref="969611866"/>
 												</object>
 											</object>
-											<string key="NSFrame">{{16, 53}, {479, 264}}</string>
+											<string key="NSFrame">{{16, 53}, {481, 264}}</string>
 											<reference key="NSSuperview" ref="197260395"/>
 											<string key="NSOffsets">{0, 0}</string>
 											<object class="NSTextFieldCell" key="NSTitleCell">
@@ -1837,7 +1837,7 @@
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<object class="NSAffineTransform">
-						<bytes key="NSTransformStruct">Ab+AAABB2AAAA</bytes>
+						<bytes key="NSTransformStruct">AUEQAABAwAAAA</bytes>
 					</object>
 					<string>{{63, 790}, {551, 686}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
