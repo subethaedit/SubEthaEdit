@@ -37,6 +37,7 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 
 @interface SEEStyleSheet ()
 @property (nonatomic, retain, readwrite) NSArray *allScopes;
+- (void)clearCache;
 @end
 
 @implementation SEEStyleSheet
@@ -150,8 +151,7 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 	
 	}
 	//Clear Cache
-	[self.scopeCache removeAllObjects];
-
+	[self clearCache];
 }
 
 - (NSString *)styleSheetSnippetForScope:(NSString *)aScope {
@@ -264,10 +264,20 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 	return computedStyle;
 }
 
-- (void)setStyleAttributes:(NSDictionary *)aStyleAttributeDictionary forScope:(NSString *)aScopeString {
-	[self.scopeStyleDictionary setObject:aStyleAttributeDictionary forKey:aScopeString];
+- (void)clearCache {
 	[I_scopeCache removeAllObjects]; //invalidate caching
 	self.allScopes = nil;
+}
+
+- (void)removeStyleAttributesForScope:(NSString *)aScopeString {
+	[self.scopeStyleDictionary removeObjectForKey:aScopeString];
+	[self clearCache];
+}
+
+
+- (void)setStyleAttributes:(NSDictionary *)aStyleAttributeDictionary forScope:(NSString *)aScopeString {
+	[self.scopeStyleDictionary setObject:aStyleAttributeDictionary forKey:aScopeString];
+	[self clearCache];
 }
 
 - (NSDictionary *)styleAttributesForExactScope:(NSString *)anExactScopeString {
@@ -300,6 +310,10 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 	 I_scopeStyleDictionaryPersistentState = [I_scopeStyleDictionary copy];
 }
 
+- (void)revertToPersistentState {
+	self.scopeStyleDictionary = [I_scopeStyleDictionaryPersistentState mutableCopy];
+	[self clearCache];
+}
 
 @end
 

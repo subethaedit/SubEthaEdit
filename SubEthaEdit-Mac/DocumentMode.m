@@ -223,6 +223,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 		NSURL *scopeExamplesURL = [I_bundle URLForResource:@"ScopeExamples" withExtension:@"plist"];
 		if (scopeExamplesURL) {
 			I_scopeExamples = [[NSDictionary alloc] initWithContentsOfURL:scopeExamplesURL];
+			I_availableScopes = [[[I_scopeExamples allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)] retain];
 		}
 
 
@@ -544,6 +545,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     [I_defaultSyntaxStyle release];
     [I_modeSettings release];
     [I_scopeExamples release];
+    [I_availableScopes release];
     [I_syntaxExampleString autorelease];
     [I_styleSheetSettings release];
     [super dealloc];
@@ -622,6 +624,10 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 
 - (NSDictionary *)scopeExamples {
 	return I_scopeExamples;
+}
+
+- (NSArray *)availableScopes {
+	return I_availableScopes;
 }
 
 - (NSMutableDictionary *)defaults {

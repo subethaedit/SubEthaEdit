@@ -482,7 +482,6 @@ static DocumentModeManager *S_sharedInstance=nil;
             [[NSFileManager defaultManager] createDirectoryAtPath:fullPath withIntermediateDirectories:YES attributes:nil error:nil]; 
         } 
     }
-    NSLog(@"%s fullPath:%@ styleSheetName:%@",__FUNCTION__, fullPath, aStyleSheetName);
     return [[fullPath stringByAppendingPathComponent:aStyleSheetName] stringByAppendingPathExtension:SEEStyleSheetFileExtension];
     
 }
@@ -544,6 +543,7 @@ static DocumentModeManager *S_sharedInstance=nil;
 	NSString *newPath = [self pathForWritingStyleSheetWithName:[aStyleSheet styleSheetName]];
 	[aStyleSheet exportStyleSheetToPath:[NSURL fileURLWithPath:newPath]];
 	[I_styleSheetPathsByName setObject:newPath forKey:[aStyleSheet styleSheetName]];
+	[aStyleSheet markCurrentStateAsPersistent];
 }
 
 - (void)revealStyleSheetInFinder:(SEEStyleSheet *)aStyleSheet {

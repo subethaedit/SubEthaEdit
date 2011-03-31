@@ -26,6 +26,7 @@
 @implementation StyleSheetPreferences
 
 @synthesize currentStyleSheet;
+@synthesize copiedStyle;
 
 - (id)init {
     self = [super init];
@@ -41,6 +42,7 @@
 
 - (void)dealloc {
     [I_undoManager release];
+    [copiedStyle release];
     self.currentStyleSheet = nil;
     [super dealloc];
 }
@@ -168,10 +170,20 @@
 #define UNITITIALIZED -5
 #define MANY  -4
 
+- (void)updateScopeButtons {
+	BOOL scopeExists = ([self.currentStyleSheet styleAttributesForExactScope:[O_scopeComboBox stringValue]] != nil);
+	
+	[O_addScopeButton    setEnabled:!scopeExists];
+	[O_removeScopeButton setEnabled:scopeExists];
+}
+
 - (void)updateInspector {
 	NSInteger selectedRow = [O_stylesTableView selectedRow];
 	if (selectedRow != -1) {
 		NSString *scopeString = [self.currentStyleSheet.allScopes objectAtIndex:selectedRow];
+		
+		[O_scopeComboBox setStringValue:scopeString];
+		
 		NSDictionary *computedStyleAttributes = [self.currentStyleSheet      styleAttributesForScope:scopeString];
 		NSDictionary *directStyleAttributes   = [self.currentStyleSheet styleAttributesForExactScope:scopeString];
 		
@@ -211,7 +223,10 @@
 		[ts setAttributedString:[[[NSAttributedString alloc] initWithString:snippet attributes:[NSDictionary dictionaryWithObject:[NSFont userFixedPitchFontOfSize:11.] forKey:NSFontNameAttribute]] autorelease]];
 		
 	}
-	[O_saveStyleSheetButton setEnabled:[self.currentStyleSheet hasChanges]];
+	BOOL hasChanges = [self.currentStyleSheet hasChanges];
+	[O_saveStyleSheetButton   setEnabled:hasChanges];
+	[O_revertStyleSheetButton setEnabled:hasChanges];
+	[self updateScopeButtons];
 }
 
 - (IBAction)takeInheritanceState:(id)aSender {
@@ -264,6 +279,7 @@
 	if (!newFont) newFont=[NSFont userFixedPitchFontOfSize:12.0];
 	[self setBaseFont:newFont];
 	[O_stylesTableView reloadData];
+	[O_scopeComboBox reloadData];
 	NSLog(@"%s scopes:%@ \n contexts:%@",__FUNCTION__, [aDocumentMode.syntaxDefinition allScopes], [aDocumentMode.syntaxDefinition allLanguageContexts]);
 }
 
@@ -338,6 +354,13 @@
 	[[DocumentModeManager sharedInstance] saveStyleSheet:self.currentStyleSheet];
 	[self updateInspector];
 }
+
+- (IBAction)revertStyleSheet:(id)aSender {
+	[self.currentStyleSheet revertToPersistentState];
+	[self updateInspector];
+	[O_stylesTableView reloadData];
+}
+
 
 - (IBAction)revealStyleSheetInFinder:(id)aSender {
 	[[DocumentModeManager sharedInstance] revealStyleSheetInFinder:self.currentStyleSheet];
@@ -564,6 +587,25 @@
     [self performSelector:@selector(changeMode:) withObject:O_modePopUpButton afterDelay:.2];
 }
 
+- (IBAction)removeScope:(id)aSender {
+	NSString *scopeString = [O_scopeComboBox stringValue];
+	BOOL scopeExists = ([self.currentStyleSheet styleAttributesForExactScope:scopeString] != nil);
+
+	if (scopeExists) {
+		[self.currentStyleSheet removeStyleAttributesForScope:scopeString];
+		[self updateForChangedStyles];
+	}
+}
+- (IBAction)addScope:(id)aSender {
+	NSString *scopeString = [O_scopeComboBox stringValue];
+	BOOL scopeExists = ([self.currentStyleSheet styleAttributesForExactScope:scopeString] != nil);
+	NSString *selectedScopeString = [self.currentStyleSheet.allScopes objectAtIndex:[O_stylesTableView selectedRow]];
+
+	if (!scopeExists) {
+		[self.currentStyleSheet setStyleAttributes:[self.currentStyleSheet styleAttributesForExactScope:selectedScopeString] forScope:scopeString];
+		[self updateForChangedStyles];
+	}
+}
 
 
 - (IBAction)changeFontViaPanel:(id)sender {
@@ -609,6 +651,47 @@
     }
 	[result setObject:s_paragraphStyle forKey:NSParagraphStyleAttributeName];
 	return result;
+}
+
+- (IBAction)copy:aSender {
+	NSInteger selectedRow = [O_stylesTableView selectedRow];
+	if (selectedRow != -1) {
+		NSString *scopeString = [self.currentStyleSheet.allScopes objectAtIndex:selectedRow];
+		self.copiedStyle = [self.currentStyleSheet styleAttributesForExactScope:scopeString];
+	}
+}
+
+- (IBAction)paste:aSender {
+	if (self.copiedStyle) {
+		NSInteger selectedRow = [O_stylesTableView selectedRow];
+		if (selectedRow != -1) {
+			NSString *scopeString = [self.currentStyleSheet.allScopes objectAtIndex:selectedRow];
+			[self.currentStyleSheet setStyleAttributes:self.copiedStyle forScope:scopeString];
+			[self updateInspector];
+			[O_stylesTableView reloadData];
+		}
+	}
+}
+
+
+#pragma mark -
+
+- (void)controlTextDidChange:(NSNotification *)aNotification {
+	[self updateScopeButtons];
+}
+
+- (void)comboBoxSelectionIsChanging:(NSNotification *)aNotification {
+	[self updateScopeButtons];
+}
+
+- (NSInteger)numberOfItemsInComboBox:(NSComboBox *)aComboBox {
+//	NSLog(@"%s %@",__FUNCTION__,[[O_modeController content] availableScopes]);
+	return [[[O_modeController content] availableScopes] count];
+}
+
+- (id)comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(NSInteger)index {
+//	NSLog(@"%s",__FUNCTION__);
+	return [[[O_modeController content] availableScopes] objectAtIndex:index];
 }
 
 #pragma mark -

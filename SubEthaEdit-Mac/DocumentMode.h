@@ -110,6 +110,7 @@ extern NSString * const DocumentModeStyleSheetsDefaultLanguageContextKey;
     NSMutableArray *I_defaultToolbarItemIdentifiers;
     NSMutableDictionary *I_styleIDTransitionDictionary;
     NSDictionary *I_scopeExamples;
+    NSArray *I_availableScopes;
     NSString *I_syntaxExampleString;
     SEEStyleSheetSettings *I_styleSheetSettings;
 }
@@ -119,6 +120,7 @@ extern NSString * const DocumentModeStyleSheetsDefaultLanguageContextKey;
 - (id)initWithBundle:(NSBundle *)aBundle;
 
 - (NSDictionary *)scopeExamples;
+- (NSArray *)availableScopes;
 
 - (NSDictionary *)styleIDTransitionDictionary;
 - (ModeSettings *)modeSettings;

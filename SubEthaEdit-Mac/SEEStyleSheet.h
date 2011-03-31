@@ -51,9 +51,11 @@ NSString * const SEEStyleSheetFileExtension;
 - (void)exportStyleSheetToPath:(NSURL *)aPath;
 
 - (void)setStyleAttributes:(NSDictionary *)aStyleAttributeDictionary forScope:(NSString *)aScopeString;
+- (void)removeStyleAttributesForScope:(NSString *)aScopeString;
 - (NSDictionary *)styleAttributesForExactScope:(NSString *)anExactScopeString;
 
 - (BOOL)hasChanges;
 - (void)markCurrentStateAsPersistent;
+- (void)revertToPersistentState;
 
 @end

@@ -14,7 +14,7 @@
 @class SyntaxStyle;
 @class TableView;
 
-@interface StyleSheetPreferences : TCMPreferenceModule {
+@interface StyleSheetPreferences : TCMPreferenceModule <NSComboBoxDataSource, NSComboBoxDelegate, NSTextFieldDelegate>{
     IBOutlet TableView *O_stylesTableView;
     IBOutlet DocumentModePopUpButton *O_modePopUpButton;
     IBOutlet NSObjectController *O_modeController;
@@ -33,12 +33,24 @@
     IBOutlet NSTextView *O_sheetSnippetTextView;
     
     IBOutlet NSButton *O_saveStyleSheetButton;
+    IBOutlet NSButton *O_revertStyleSheetButton;
     IBOutlet NSButton *O_revealInFinderButton;
+    
+    IBOutlet NSButton *O_duplicateStyleSheetButton;
+    
+    IBOutlet NSButton *O_addScopeButton;
+    IBOutlet NSButton *O_removeScopeButton;
+    
+    IBOutlet NSComboBox *O_scopeComboBox;
     
     IBOutlet NSTextField *O_fontLabel;
     SEEStyleSheet *I_currentStyleSheet;
     NSUndoManager *I_undoManager;
+    
+    id copiedStyle;
 }
+
+@property (nonatomic, copy) id copiedStyle;
 
 - (IBAction)changeStyleSheet:(id)aSender;
 
@@ -63,5 +75,9 @@
 
 - (IBAction)saveStyleSheet:(id)aSender;
 - (IBAction)revealStyleSheetInFinder:(id)aSender;
+- (IBAction)revertStyleSheet:(id)aSender;
+
+- (IBAction)removeScope:(id)aSender;
+- (IBAction)addScope:(id)aSender;
 
 @end
