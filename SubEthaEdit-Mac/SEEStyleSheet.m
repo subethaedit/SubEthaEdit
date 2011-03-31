@@ -12,7 +12,9 @@
 /*
  
  Every mode can has multiple style sheets encapsulating 
- scope/style pairs.
+ scope/style pairs. A Style sheet represents a color scheme.
+ The user can set one Style Sheet per Language Scope in a Mode.
+ Which currently is identical with the useautocompletefrom of a state.
  
  */
 
@@ -31,6 +33,7 @@ NSString * const SEEStyleSheetValueStrikeThrough     = @"strike-through";
 
 NSString * const SEEStyleSheetMetaDefaultScopeName   = @"meta.default";
 
+NSString * const SEEStyleSheetFileExtension = @"sss";
 
 @interface SEEStyleSheet ()
 @property (nonatomic, retain, readwrite) NSArray *allScopes;
@@ -102,29 +105,10 @@ NSString * const SEEStyleSheetMetaDefaultScopeName   = @"meta.default";
 	return self;
 }
 
-- (id)initWithDefinition:(SyntaxDefinition*)aDefinition {
-    if ((self = [self init])) {
-		if (aDefinition) {
-			[aDefinition getReady];
-			[self.scopeStyleDictionary addEntriesFromDictionary:[aDefinition scopeStyleDictionary]];
-			NSArray *styleSheets = [aDefinition linkedStyleSheets];
-			
-			for (NSString *sheet in styleSheets) {
-				[self importStyleSheetAtPath:[[[NSURL alloc] initFileURLWithPath:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:[NSString stringWithFormat:@"Modes/Styles/%@.sss",sheet]]] autorelease]];
-			}
-		}		
-//		NSLog(@"scopes: %@", scopeStyleDictionary);
-//		NSLog(@"inherit: %@", [self styleAttributesForScope:@"meta.block.directives.objective-c"]);
-// FIXME autoexport still active
-		[self exportStyleSheetToPath:[[[NSURL alloc]initFileURLWithPath:[NSString stringWithFormat:@"/tmp/%@.sss",[aDefinition name]]] autorelease]];
-		
-	}
-	return self;
-}
-
 - (void)dealloc {
 	self.scopeCache = nil;
 	self.scopeStyleDictionary = nil;
+	[I_scopeStyleDictionaryPersistentState release];
 	[super dealloc];
 }
 
@@ -305,6 +289,15 @@ NSString * const SEEStyleSheetMetaDefaultScopeName   = @"meta.default";
 
 - (NSColor *)documentForegroundColor {
 	return [[self styleAttributesForScope:SEEStyleSheetMetaDefaultScopeName] objectForKey:SEEStyleSheetFontForegroundColorKey];
+}
+
+- (BOOL)hasChanges {
+	return ![I_scopeStyleDictionary isEqual:I_scopeStyleDictionaryPersistentState];
+}
+
+- (void)markCurrentStateAsPersistent {
+	[I_scopeStyleDictionaryPersistentState release];
+	 I_scopeStyleDictionaryPersistentState = [I_scopeStyleDictionary copy];
 }
 
 

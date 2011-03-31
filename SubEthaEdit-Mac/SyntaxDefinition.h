@@ -64,6 +64,7 @@
 /*"Accessors"*/
 - (NSArray *)allScopes;
 - (NSArray *)allLanguageContexts;
+- (NSString *)mainLanguageContext;
 - (NSString *) keyForInheritedSymbols;
 - (NSString *) keyForInheritedAutocomplete;	
 - (OGRegularExpression *)tokenRegex;

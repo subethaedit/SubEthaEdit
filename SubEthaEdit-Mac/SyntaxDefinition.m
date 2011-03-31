@@ -11,7 +11,10 @@
 #import "NSColorTCMAdditions.h"
 #import "TCMFoundation.h"
 #import "SyntaxHighlighter.h"
+#import "SEEStyleSheet.h"
 
+static NSString * const StateDictionarySwitchToAutocompleteFromModeKey = @"switchtoautocompletefrommode";
+static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useautocompletefrommode";
 
 @interface SyntaxDefinition (PrivateAdditions)
 - (void)addAttributes:(NSArray *)attributes toDictionary:(NSMutableDictionary *)aDictionary;
@@ -50,7 +53,7 @@
 		self.scopeStyleDictionary = [NSMutableDictionary dictionary];
 		self.linkedStyleSheets = [NSMutableArray array];
 		
-		I_allScopesArray = [[NSMutableArray alloc] initWithObject:@"meta.default"];
+		I_allScopesArray = [[NSMutableArray alloc] initWithObject:SEEStyleSheetMetaDefaultScopeName];
 		I_allLanguageContextsArray = [[NSMutableArray alloc] initWithObject:[aMode scriptedName]];
 		
 		[self parseXMLFile:aPath];
@@ -385,7 +388,7 @@
     
     if ([name isEqualToString:@"default"]) {        
         [stateDictionary setObject:[NSString stringWithFormat:@"/%@/%@", [self name], SyntaxStyleBaseIdentifier] forKey:@"id"];
-		[stateDictionary setObject:[NSString stringWithFormat:@"%meta.default.%@", [[self name] lowercaseString]] forKey:@"scope"];
+		[stateDictionary setObject:[NSString stringWithFormat:@"%@.%@", SEEStyleSheetMetaDefaultScopeName, [[self name] lowercaseString]] forKey:@"scope"];
         [stateDictionary setObject:SyntaxStyleBaseIdentifier forKey:kSyntaxHighlightingStyleIDAttributeName];
         [I_defaultState addEntriesFromDictionary:stateDictionary];
     } else {
@@ -400,7 +403,7 @@
 	
 	NSString *autocompleteFromMode = [[stateNode attributeForName:@"useautocompletefrommode"] stringValue];
 	if (autocompleteFromMode) {
-		[stateDictionary setObject:symbolsFromMode forKey:@"switchtoautocompletefrommode"];
+		[stateDictionary setObject:symbolsFromMode forKey:StateDictionarySwitchToAutocompleteFromModeKey];
 		if (![I_allLanguageContextsArray containsObject:autocompleteFromMode]) {
 			[I_allLanguageContextsArray addObject:autocompleteFromMode];
 			NSLog(@"%s added %@ -> %@",__FUNCTION__, autocompleteFromMode, I_allLanguageContextsArray);
@@ -645,7 +648,7 @@
 	
 	if ([state objectForKey:@"switchtosymbolsfrommode"]) symbols = [[[state objectForKey:@"switchtosymbolsfrommode"] copy] autorelease];
     else symbols = [[oldSymbols copy] autorelease];
-	if ([state objectForKey:@"switchtoautocompletefrommode"]) autocomplete = [[[state objectForKey:@"switchtoautocompletefrommode"] copy] autorelease];
+	if ([state objectForKey:StateDictionarySwitchToAutocompleteFromModeKey]) autocomplete = [[[state objectForKey:StateDictionarySwitchToAutocompleteFromModeKey] copy] autorelease];
     else autocomplete = [[oldAutocomplete copy] autorelease];
     
 
@@ -701,6 +704,14 @@
 - (NSArray *)allScopes {
 	if (!I_combinedStateRegexReady) [self getReady];
 	return I_allScopesArray;
+}
+
+- (NSString *)mainLanguageContext {
+	if (!I_combinedStateRegexReady) [self getReady];
+	NSString *result = [I_defaultState objectForKey:StateDictionaryUseAutocompleteFromModeKey]; // use the language scope from the default state (so that the outermost state is the main language context, not the mode name. Important for modes like PHP-HTML
+	if (!result) result = [I_mode scriptedName]; // fallback to mode name if no language scope is given
+//	NSLog(@"%s %@ %@",__FUNCTION__, result, I_defaultState);
+	return result;
 }
 
 - (NSArray *)allLanguageContexts {

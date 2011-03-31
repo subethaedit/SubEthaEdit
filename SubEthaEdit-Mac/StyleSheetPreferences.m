@@ -19,6 +19,7 @@
 @property (nonatomic, retain) SEEStyleSheet *currentStyleSheet;
 - (void)updateFontLabel;
 - (void)takeFontFromMode:(DocumentMode *)aMode;
+- (void)selectMode:(DocumentMode *)aMode;
 - (void)updateForChangedStyles;
 @end
 
@@ -111,21 +112,17 @@
 }
 
 - (void)didSelect {
-//	NSPoint baseOrigin;
-//	NSView *styleBox=[O_defaultStyleButton superview];
-//	baseOrigin = [styleBox convertPoint:NSMakePoint([styleBox frame].origin.x,
-//							 [styleBox frame].origin.y) toView:nil];
-//	//NSPoint screenOrigin = 
-//	[[styleBox window] convertBaseToScreen:baseOrigin];
-//
-////        NSRect windowRect=NSMakeRect(screenOrigin.x,screenOrigin.y,
-////                                     [styleBox frame].size.width,[styleBox frame].size.height);
-////        windowRect=NSInsetRect(windowRect,-2,-2);
-//
+	PlainTextDocument *frontmostDocument = [[DocumentController sharedInstance] frontmostPlainTextDocument];
+	if (frontmostDocument) {
+		[self selectMode:[frontmostDocument documentMode]];
+		// TODO: select a stylesheet from the mode's stylesheet settings (if not already the case)
+	}
+	[super didSelect];
 }
 
+
 - (void)updateBackgroundColor {
-	NSColor *backgroundColor = [[self.currentStyleSheet styleAttributesForScope:@"meta.default"] objectForKey:SEEStyleSheetFontBackgroundColorKey];
+	NSColor *backgroundColor = [[self.currentStyleSheet styleAttributesForScope:SEEStyleSheetMetaDefaultScopeName] objectForKey:SEEStyleSheetFontBackgroundColorKey];
 	if (!backgroundColor) backgroundColor = [NSColor whiteColor];
     [O_stylesTableView setLightBackgroundColor:backgroundColor];
     [O_stylesTableView setDarkBackgroundColor: backgroundColor];
@@ -214,6 +211,7 @@
 		[ts setAttributedString:[[[NSAttributedString alloc] initWithString:snippet attributes:[NSDictionary dictionaryWithObject:[NSFont userFixedPitchFontOfSize:11.] forKey:NSFontNameAttribute]] autorelease]];
 		
 	}
+	[O_saveStyleSheetButton setEnabled:[self.currentStyleSheet hasChanges]];
 }
 
 - (IBAction)takeInheritanceState:(id)aSender {
@@ -257,17 +255,22 @@
 }
 
 
+- (void)selectMode:(DocumentMode *)aDocumentMode {
+	[O_modeController setContent:aDocumentMode];
+	[O_modePopUpButton setSelectedMode:aDocumentMode];
+
+	NSDictionary *fontAttributes=[aDocumentMode defaultForKey:DocumentModeFontAttributesPreferenceKey];
+	NSFont *newFont=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:12.0];
+	if (!newFont) newFont=[NSFont userFixedPitchFontOfSize:12.0];
+	[self setBaseFont:newFont];
+	[O_stylesTableView reloadData];
+	NSLog(@"%s scopes:%@ \n contexts:%@",__FUNCTION__, [aDocumentMode.syntaxDefinition allScopes], [aDocumentMode.syntaxDefinition allLanguageContexts]);
+}
+
 - (IBAction)changeMode:(id)aSender {
     DocumentMode *newMode=[aSender selectedMode];
     if (newMode) {
-		[O_modeController setContent:newMode];
-
-		NSDictionary *fontAttributes=[newMode defaultForKey:DocumentModeFontAttributesPreferenceKey];
-		NSFont *newFont=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:12.0];
-		if (!newFont) newFont=[NSFont userFixedPitchFontOfSize:12.0];
-		[self setBaseFont:newFont];
-		[O_stylesTableView reloadData];
-		NSLog(@"%s scopes:%@ \n contexts:%@",__FUNCTION__, [newMode.syntaxDefinition allScopes], [newMode.syntaxDefinition allLanguageContexts]);
+	    [self selectMode:newMode];
     }
 }
 
@@ -330,6 +333,15 @@
 	[self changeTraitByButton:aSender key:SEEStyleSheetFontStrikeThroughKey yesValue:SEEStyleSheetValueStrikeThrough noValue:SEEStyleSheetValueNone];
 }
 
+
+- (IBAction)saveStyleSheet:(id)aSender {
+	[[DocumentModeManager sharedInstance] saveStyleSheet:self.currentStyleSheet];
+	[self updateInspector];
+}
+
+- (IBAction)revealStyleSheetInFinder:(id)aSender {
+	[[DocumentModeManager sharedInstance] revealStyleSheetInFinder:self.currentStyleSheet];
+}
 
 
 

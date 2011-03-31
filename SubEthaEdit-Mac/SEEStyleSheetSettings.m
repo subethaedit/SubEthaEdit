@@ -17,6 +17,7 @@ NSString * const SEEStyleSheetSettingsUsesMultipleStyleSheetsKey = @"usesMultipl
 
 #import "SEEStyleSheetSettings.h"
 #import "DocumentModeManager.h"
+#import "SyntaxDefinition.h"
 
 @implementation SEEStyleSheetSettings
 
@@ -77,7 +78,7 @@ NSString * const SEEStyleSheetSettingsUsesMultipleStyleSheetsKey = @"usesMultipl
 }
 
 - (SEEStyleSheet *)topLevelStyleSheet {
-	return [self styleSheetForLanguageContext:[self.documentMode scriptedName]];
+	return [self styleSheetForLanguageContext:self.documentMode.syntaxDefinition.mainLanguageContext];
 }
 
 - (NSColor *)documentForegroundColor {

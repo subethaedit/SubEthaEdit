@@ -29,6 +29,7 @@
 - (void)setupPopUp:(DocumentModePopUpButton *)aPopUp selectedModeIdentifier:(NSString *)aModeIdentifier automaticMode:(BOOL)hasAutomaticMode;
 - (NSMutableArray *)modePrecedenceArray;
 - (void)setModePrecedenceArray:(NSMutableArray *)anArray;
+- (NSString *)pathForWritingStyleSheetWithName:(NSString *)aStyleSheetName;
 @end
 
 @implementation DocumentModePopUpButton
@@ -470,13 +471,28 @@ static DocumentModeManager *S_sharedInstance=nil;
     } 
 } 
 
+- (NSString *)pathForWritingStyleSheetWithName:(NSString *)aStyleSheetName {
+	NSString *fullPath = nil;
+
+    //create Directory if necessary 
+    NSArray *userDomainPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory,NSUserDomainMask, YES); 
+    for (NSString *path in userDomainPaths) { 
+        fullPath = [path stringByAppendingPathComponent:STYLEPATHCOMPONENT]; 
+        if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:nil]) { 
+            [[NSFileManager defaultManager] createDirectoryAtPath:fullPath withIntermediateDirectories:YES attributes:nil error:nil]; 
+        } 
+    }
+    NSLog(@"%s fullPath:%@ styleSheetName:%@",__FUNCTION__, fullPath, aStyleSheetName);
+    return [[fullPath stringByAppendingPathComponent:aStyleSheetName] stringByAppendingPathExtension:SEEStyleSheetFileExtension];
+    
+}
+
 - (void)TCM_findStyles { 
     NSString *file = nil; 
     NSString *path = nil; 
     
     //create Directories 
     NSArray *userDomainPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES); 
-    NSEnumerator *enumerator = [userDomainPaths objectEnumerator]; 
     for (path in userDomainPaths) { 
         NSString *fullPath = [path stringByAppendingPathComponent:STYLEPATHCOMPONENT]; 
         if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:nil]) { 
@@ -493,11 +509,11 @@ static DocumentModeManager *S_sharedInstance=nil;
     
     [allPaths addObject:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Modes/Styles/"]]; 
     
-    enumerator = [allPaths reverseObjectEnumerator]; 
+    NSEnumerator *enumerator = [allPaths reverseObjectEnumerator]; 
     while ((path = [enumerator nextObject])) { 
         NSEnumerator *dirEnumerator = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil] objectEnumerator]; 
         while ((file = [dirEnumerator nextObject])) { 
-            if ([[file pathExtension] isEqualToString:@"sss"]) { 
+            if ([[file pathExtension] isEqualToString:SEEStyleSheetFileExtension]) { 
 	            [I_styleSheetPathsByName setObject:[path stringByAppendingPathComponent:file] forKey:[file stringByDeletingPathExtension]];
             } 
         } 
@@ -513,6 +529,7 @@ static DocumentModeManager *S_sharedInstance=nil;
 			result = [[SEEStyleSheet new] autorelease];
 			result.styleSheetName = aStyleSheetName;
 			[result importStyleSheetAtPath:[NSURL fileURLWithPath:path]];
+			[result markCurrentStateAsPersistent];
 			[I_styleSheetsByName setObject:result forKey:aStyleSheetName];
 		}
 	}
@@ -523,6 +540,15 @@ static DocumentModeManager *S_sharedInstance=nil;
 	return [[I_styleSheetPathsByName allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
 }
 
+- (void)saveStyleSheet:(SEEStyleSheet *)aStyleSheet {
+	NSString *newPath = [self pathForWritingStyleSheetWithName:[aStyleSheet styleSheetName]];
+	[aStyleSheet exportStyleSheetToPath:[NSURL fileURLWithPath:newPath]];
+	[I_styleSheetPathsByName setObject:newPath forKey:[aStyleSheet styleSheetName]];
+}
+
+- (void)revealStyleSheetInFinder:(SEEStyleSheet *)aStyleSheet {
+	[[NSWorkspace sharedWorkspace] selectFile:[I_styleSheetPathsByName objectForKey:[aStyleSheet styleSheetName]] inFileViewerRootedAtPath:nil];
+}
 
 - (IBAction)reloadDocumentModes:(id)aSender {
 

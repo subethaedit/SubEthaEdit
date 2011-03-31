@@ -4806,7 +4806,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 - (void)setPlainFont:(NSFont *)aFont {
     [I_styleCacheDictionary autorelease];
     I_styleCacheDictionary = [NSMutableDictionary new];
-    BOOL useDefaultStyle=[[[self documentMode] defaultForKey:DocumentModeUseDefaultStylePreferenceKey] boolValue];
+//    BOOL useDefaultStyle=[[[self documentMode] defaultForKey:DocumentModeUseDefaultStylePreferenceKey] boolValue];
 //    BOOL darkBackground=[[[self documentMode] defaultForKey:DocumentModeBackgroundColorIsDarkPreferenceKey] boolValue];
 //    NSDictionary *syntaxStyle=[useDefaultStyle?[[DocumentModeManager baseMode] syntaxStyle]:[[self documentMode] syntaxStyle] styleForKey:SyntaxStyleBaseIdentifier];
     SEEStyleSheetSettings *styleSheetSettings = [[self documentMode] styleSheetSettings];

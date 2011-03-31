@@ -2,10 +2,10 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1060</int>
-		<string key="IBDocument.SystemVersion">10J567</string>
+		<string key="IBDocument.SystemVersion">10J869</string>
 		<string key="IBDocument.InterfaceBuilderVersion">851</string>
 		<string key="IBDocument.AppKitVersion">1038.35</string>
-		<string key="IBDocument.HIToolboxVersion">462.00</string>
+		<string key="IBDocument.HIToolboxVersion">461.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
 			<string key="NS.object.0">851</string>
@@ -449,7 +449,7 @@
 										<object class="NSTableView" id="535159483">
 											<reference key="NSNextResponder" ref="406600044"/>
 											<int key="NSvFlags">256</int>
-											<string key="NSFrameSize">{443, 352}</string>
+											<string key="NSFrameSize">{443, 363}</string>
 											<reference key="NSSuperview" ref="406600044"/>
 											<bool key="NSEnabled">YES</bool>
 											<object class="_NSCornerView" key="NSCornerView">
@@ -499,7 +499,7 @@
 												</object>
 												<object class="NSTableColumn" id="443868241">
 													<string key="NSIdentifier">example</string>
-													<double key="NSWidth">64</double>
+													<double key="NSWidth">217</double>
 													<double key="NSMinWidth">10</double>
 													<double key="NSMaxWidth">3.4028234663852886e+38</double>
 													<object class="NSTableHeaderCell" key="NSHeaderCell">
@@ -558,7 +558,7 @@
 											<int key="NSTableViewDraggingDestinationStyle">0</int>
 										</object>
 									</object>
-									<string key="NSFrame">{{1, 1}, {443, 352}}</string>
+									<string key="NSFrame">{{1, 1}, {443, 363}}</string>
 									<reference key="NSSuperview" ref="945504704"/>
 									<reference key="NSNextKeyView" ref="535159483"/>
 									<reference key="NSDocView" ref="535159483"/>
@@ -568,7 +568,7 @@
 								<object class="NSScroller" id="425011569">
 									<reference key="NSNextResponder" ref="945504704"/>
 									<int key="NSvFlags">256</int>
-									<string key="NSFrame">{{444, 1}, {15, 352}}</string>
+									<string key="NSFrame">{{444, 1}, {15, 363}}</string>
 									<reference key="NSSuperview" ref="945504704"/>
 									<reference key="NSTarget" ref="945504704"/>
 									<string key="NSAction">_doScroller:</string>
@@ -585,7 +585,7 @@
 									<double key="NSPercent">0.99047619104385376</double>
 								</object>
 							</object>
-							<string key="NSFrame">{{20, 243}, {460, 354}}</string>
+							<string key="NSFrame">{{20, 232}, {460, 365}}</string>
 							<reference key="NSSuperview" ref="610453801"/>
 							<reference key="NSNextKeyView" ref="406600044"/>
 							<int key="NSsFlags">18</int>
@@ -738,7 +738,7 @@
 													<string>public.url</string>
 												</object>
 											</object>
-											<string key="NSFrameSize">{221, 166}</string>
+											<string key="NSFrameSize">{221, 100}</string>
 											<reference key="NSSuperview" ref="831130783"/>
 											<object class="NSTextContainer" key="NSTextContainer" id="953313413">
 												<object class="NSLayoutManager" key="NSLayoutManager">
@@ -833,11 +833,11 @@
 											</object>
 											<int key="NSTVFlags">6</int>
 											<string key="NSMaxSize">{463, 1e+07}</string>
-											<string key="NSMinize">{213, 133}</string>
+											<string key="NSMinize">{213, 100}</string>
 											<nil key="NSDelegate"/>
 										</object>
 									</object>
-									<string key="NSFrame">{{1, 1}, {221, 191}}</string>
+									<string key="NSFrame">{{1, 1}, {221, 158}}</string>
 									<reference key="NSSuperview" ref="158285181"/>
 									<reference key="NSNextKeyView" ref="1023392928"/>
 									<reference key="NSDocView" ref="1023392928"/>
@@ -851,7 +851,7 @@
 								<object class="NSScroller" id="1040912004">
 									<reference key="NSNextResponder" ref="158285181"/>
 									<int key="NSvFlags">256</int>
-									<string key="NSFrame">{{222, 1}, {15, 191}}</string>
+									<string key="NSFrame">{{222, 1}, {15, 158}}</string>
 									<reference key="NSSuperview" ref="158285181"/>
 									<reference key="NSTarget" ref="158285181"/>
 									<string key="NSAction">_doScroller:</string>
@@ -870,7 +870,7 @@
 									<double key="NSPercent">0.94565218687057495</double>
 								</object>
 							</object>
-							<string key="NSFrame">{{20, 18}, {238, 193}}</string>
+							<string key="NSFrame">{{20, 51}, {238, 160}}</string>
 							<reference key="NSSuperview" ref="610453801"/>
 							<reference key="NSNextKeyView" ref="831130783"/>
 							<int key="NSsFlags">18</int>
@@ -973,6 +973,48 @@
 								<object class="NSMutableString" key="NSKeyEquivalent">
 									<characters key="NS.bytes"/>
 								</object>
+								<int key="NSPeriodicDelay">200</int>
+								<int key="NSPeriodicInterval">25</int>
+							</object>
+						</object>
+						<object class="NSButton" id="952230754">
+							<reference key="NSNextResponder" ref="610453801"/>
+							<int key="NSvFlags">289</int>
+							<string key="NSFrame">{{181, 10}, {91, 32}}</string>
+							<reference key="NSSuperview" ref="610453801"/>
+							<bool key="NSEnabled">YES</bool>
+							<object class="NSButtonCell" key="NSCell" id="915828468">
+								<int key="NSCellFlags">67239424</int>
+								<int key="NSCellFlags2">134217728</int>
+								<string key="NSContents">Save</string>
+								<reference key="NSSupport" ref="930751932"/>
+								<reference key="NSControlView" ref="952230754"/>
+								<int key="NSButtonFlags">-2038284033</int>
+								<int key="NSButtonFlags2">1</int>
+								<reference key="NSAlternateImage" ref="930751932"/>
+								<string key="NSAlternateContents"/>
+								<string type="base64-UTF8" key="NSKeyEquivalent">DQ</string>
+								<int key="NSPeriodicDelay">200</int>
+								<int key="NSPeriodicInterval">25</int>
+							</object>
+						</object>
+						<object class="NSButton" id="1011585503">
+							<reference key="NSNextResponder" ref="610453801"/>
+							<int key="NSvFlags">292</int>
+							<string key="NSFrame">{{14, 10}, {133, 32}}</string>
+							<reference key="NSSuperview" ref="610453801"/>
+							<bool key="NSEnabled">YES</bool>
+							<object class="NSButtonCell" key="NSCell" id="286251485">
+								<int key="NSCellFlags">67239424</int>
+								<int key="NSCellFlags2">134217728</int>
+								<string key="NSContents">Show in Finder</string>
+								<reference key="NSSupport" ref="930751932"/>
+								<reference key="NSControlView" ref="1011585503"/>
+								<int key="NSButtonFlags">-2038284033</int>
+								<int key="NSButtonFlags2">1</int>
+								<reference key="NSAlternateImage" ref="930751932"/>
+								<string key="NSAlternateContents"/>
+								<string key="NSKeyEquivalent"/>
 								<int key="NSPeriodicDelay">200</int>
 								<int key="NSPeriodicInterval">25</int>
 							</object>
@@ -1302,6 +1344,38 @@
 					</object>
 					<int key="connectionID">529</int>
 				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">O_saveStyleSheetButton</string>
+						<reference key="source" ref="783536620"/>
+						<reference key="destination" ref="952230754"/>
+					</object>
+					<int key="connectionID">536</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBOutletConnection" key="connection">
+						<string key="label">O_revealInFinderButton</string>
+						<reference key="source" ref="783536620"/>
+						<reference key="destination" ref="1011585503"/>
+					</object>
+					<int key="connectionID">537</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">saveStyleSheet:</string>
+						<reference key="source" ref="783536620"/>
+						<reference key="destination" ref="952230754"/>
+					</object>
+					<int key="connectionID">538</int>
+				</object>
+				<object class="IBConnectionRecord">
+					<object class="IBActionConnection" key="connection">
+						<string key="label">revealStyleSheetInFinder:</string>
+						<reference key="source" ref="783536620"/>
+						<reference key="destination" ref="1011585503"/>
+					</object>
+					<int key="connectionID">539</int>
+				</object>
 			</object>
 			<object class="IBMutableOrderedSet" key="objectRecords">
 				<object class="NSArray" key="orderedObjects">
@@ -1349,6 +1423,8 @@
 							<reference ref="158285181"/>
 							<reference ref="968481145"/>
 							<reference ref="148974757"/>
+							<reference ref="952230754"/>
+							<reference ref="1011585503"/>
 						</object>
 						<reference key="parent" ref="992055453"/>
 					</object>
@@ -1794,6 +1870,34 @@
 						<reference key="object" ref="729166660"/>
 						<reference key="parent" ref="148974757"/>
 					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">530</int>
+						<reference key="object" ref="952230754"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="915828468"/>
+						</object>
+						<reference key="parent" ref="610453801"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">531</int>
+						<reference key="object" ref="915828468"/>
+						<reference key="parent" ref="952230754"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">533</int>
+						<reference key="object" ref="1011585503"/>
+						<object class="NSMutableArray" key="children">
+							<bool key="EncodedWithXMLCoder">YES</bool>
+							<reference ref="286251485"/>
+						</object>
+						<reference key="parent" ref="610453801"/>
+					</object>
+					<object class="IBObjectRecord">
+						<int key="objectID">534</int>
+						<reference key="object" ref="286251485"/>
+						<reference key="parent" ref="1011585503"/>
+					</object>
 				</object>
 			</object>
 			<object class="NSMutableDictionary" key="flattenedProperties">
@@ -1896,6 +2000,12 @@
 					<string>526.IBPluginDependency</string>
 					<string>526.IBViewBoundsToFrameTransform</string>
 					<string>526.ImportedFromIB2</string>
+					<string>530.IBPluginDependency</string>
+					<string>530.IBViewBoundsToFrameTransform</string>
+					<string>530.ImportedFromIB2</string>
+					<string>533.IBPluginDependency</string>
+					<string>533.IBViewBoundsToFrameTransform</string>
+					<string>533.ImportedFromIB2</string>
 					<string>6.IBEditorWindowLastContentRect</string>
 					<string>6.IBPluginDependency</string>
 					<string>6.IBWindowTemplateEditedContentRect</string>
@@ -2044,7 +2154,17 @@
 					<boolean value="YES"/>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<object class="NSAffineTransform">
-						<bytes key="NSTransformStruct">P4AAAL+AAABDVwAAwfgAAA</bytes>
+						<bytes key="NSTransformStruct">P4AAAL+AAABDiAAAwiAAAA</bytes>
+					</object>
+					<boolean value="YES"/>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<object class="NSAffineTransform">
+						<bytes key="NSTransformStruct">P4AAAL+AAABDAwAAwigAAA</bytes>
+					</object>
+					<boolean value="YES"/>
+					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<object class="NSAffineTransform">
+						<bytes key="NSTransformStruct">P4AAAL+AAAAAAAAAwigAAA</bytes>
 					</object>
 					<boolean value="YES"/>
 					<string>{{280, 610}, {500, 664}}</string>
@@ -2071,7 +2191,7 @@
 				</object>
 			</object>
 			<nil key="sourceID"/>
-			<int key="maxID">529</int>
+			<int key="maxID">539</int>
 		</object>
 		<object class="IBClassDescriber" key="IBDocument.Classes">
 			<object class="NSMutableArray" key="referencedPartialClassDescriptions">
@@ -2320,10 +2440,14 @@
 							<string>changeForegroundColor:</string>
 							<string>changeMode:</string>
 							<string>changeStyleSheet:</string>
+							<string>revealStyleSheetInFinder:</string>
+							<string>saveStyleSheet:</string>
 							<string>takeInheritanceState:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
+							<string>id</string>
+							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -2351,6 +2475,8 @@
 							<string>changeForegroundColor:</string>
 							<string>changeMode:</string>
 							<string>changeStyleSheet:</string>
+							<string>revealStyleSheetInFinder:</string>
+							<string>saveStyleSheet:</string>
 							<string>takeInheritanceState:</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
@@ -2396,6 +2522,14 @@
 								<string key="candidateClassName">id</string>
 							</object>
 							<object class="IBActionInfo">
+								<string key="name">revealStyleSheetInFinder:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
+								<string key="name">saveStyleSheet:</string>
+								<string key="candidateClassName">id</string>
+							</object>
+							<object class="IBActionInfo">
 								<string key="name">takeInheritanceState:</string>
 								<string key="candidateClassName">id</string>
 							</object>
@@ -2418,6 +2552,8 @@
 							<string>O_italicButton</string>
 							<string>O_modeController</string>
 							<string>O_modePopUpButton</string>
+							<string>O_revealInFinderButton</string>
+							<string>O_saveStyleSheetButton</string>
 							<string>O_sheetSnippetTextView</string>
 							<string>O_strikethroughButton</string>
 							<string>O_styleSheetPopUpButton</string>
@@ -2439,6 +2575,8 @@
 							<string>NSButton</string>
 							<string>NSObjectController</string>
 							<string>DocumentModePopUpButton</string>
+							<string>NSButton</string>
+							<string>NSButton</string>
 							<string>NSTextView</string>
 							<string>NSButton</string>
 							<string>NSPopUpButton</string>
@@ -2463,6 +2601,8 @@
 							<string>O_italicButton</string>
 							<string>O_modeController</string>
 							<string>O_modePopUpButton</string>
+							<string>O_revealInFinderButton</string>
+							<string>O_saveStyleSheetButton</string>
 							<string>O_sheetSnippetTextView</string>
 							<string>O_strikethroughButton</string>
 							<string>O_styleSheetPopUpButton</string>
@@ -2522,6 +2662,14 @@
 							<object class="IBToOneOutletInfo">
 								<string key="name">O_modePopUpButton</string>
 								<string key="candidateClassName">DocumentModePopUpButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">O_revealInFinderButton</string>
+								<string key="candidateClassName">NSButton</string>
+							</object>
+							<object class="IBToOneOutletInfo">
+								<string key="name">O_saveStyleSheetButton</string>
+								<string key="candidateClassName">NSButton</string>
 							</object>
 							<object class="IBToOneOutletInfo">
 								<string key="name">O_sheetSnippetTextView</string>

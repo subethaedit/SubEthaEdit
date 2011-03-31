@@ -32,6 +32,9 @@
 
     IBOutlet NSTextView *O_sheetSnippetTextView;
     
+    IBOutlet NSButton *O_saveStyleSheetButton;
+    IBOutlet NSButton *O_revealInFinderButton;
+    
     IBOutlet NSTextField *O_fontLabel;
     SEEStyleSheet *I_currentStyleSheet;
     NSUndoManager *I_undoManager;
@@ -57,5 +60,8 @@
 
 - (void)setBaseFont:(NSFont *)aFont;
 - (NSFont *)baseFont;
+
+- (IBAction)saveStyleSheet:(id)aSender;
+- (IBAction)revealStyleSheetInFinder:(id)aSender;
 
 @end

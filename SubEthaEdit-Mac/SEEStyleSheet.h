@@ -25,8 +25,12 @@ NSString * const SEEStyleSheetValueItalic       ;
 NSString * const SEEStyleSheetValueStrikeThrough;
 NSString * const SEEStyleSheetMetaDefaultScopeName;
 
+NSString * const SEEStyleSheetFileExtension;
+
+
 @interface SEEStyleSheet : NSObject {
 	NSMutableDictionary *I_scopeStyleDictionary;
+	NSDictionary *I_scopeStyleDictionaryPersistentState;
 	NSMutableDictionary *I_scopeCache;
 	NSArray *I_allScopes;
 	NSString *I_styleSheetName;
@@ -41,7 +45,6 @@ NSString * const SEEStyleSheetMetaDefaultScopeName;
 
 + (NSDictionary *)textAttributesForStyleAttributes:(NSDictionary *)styleAttributes font:(NSFont *)font;
 
-- (id)initWithDefinition:(SyntaxDefinition *)aDefinition; 
 - (NSDictionary *)styleAttributesForScope:(NSString *)aScope;
 - (void)importStyleSheetAtPath:(NSURL *)aPath;
 - (NSString *)styleSheetSnippetForScope:(NSString *)aScope;
@@ -50,5 +53,7 @@ NSString * const SEEStyleSheetMetaDefaultScopeName;
 - (void)setStyleAttributes:(NSDictionary *)aStyleAttributeDictionary forScope:(NSString *)aScopeString;
 - (NSDictionary *)styleAttributesForExactScope:(NSString *)anExactScopeString;
 
+- (BOOL)hasChanges;
+- (void)markCurrentStateAsPersistent;
 
 @end

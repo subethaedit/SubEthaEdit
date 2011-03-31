@@ -350,6 +350,23 @@ NpVfZko6DqvJJcLklZ8=
 		<dict>
 			<key>UTTypeConformsTo</key>
 			<array>
+				<string>public.xml</string>
+			</array>
+			<key>UTTypeDescription</key>
+			<string>SubEthaEdit Syntax Style Sheet</string>
+			<key>UTTypeIconFile</key>
+			<string>style.icns</string>
+			<key>UTTypeIdentifier</key>
+			<string>de.codingmonkeys.subethaedit.syntaxstylesheet</string>
+			<key>UTTypeTagSpecification</key>
+			<dict>
+				<key>public.filename-extension</key>
+				<string>sss</string>
+			</dict>
+		</dict>
+		<dict>
+			<key>UTTypeConformsTo</key>
+			<array>
 				<string>com.apple.package</string>
 			</array>
 			<key>UTTypeDescription</key>

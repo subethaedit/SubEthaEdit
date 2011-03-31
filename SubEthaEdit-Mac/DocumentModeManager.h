@@ -73,6 +73,8 @@
 
 - (SEEStyleSheet *)styleSheetForName:(NSString *)aStyleSheetName;
 - (NSArray *)allStyleSheetNames;
+- (void)saveStyleSheet:(SEEStyleSheet *)aStyleSheet;
+- (void)revealStyleSheetInFinder:(SEEStyleSheet *)aStyleSheet;
 
 - (IBAction)reloadDocumentModes:(id)aSender;
 
