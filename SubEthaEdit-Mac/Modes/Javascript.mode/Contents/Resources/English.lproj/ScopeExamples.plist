@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>keyword.control.js</key>
+	<string>if else class new do while</string>
+	<key>support.class.standard.js</key>
+	<string>Object String Array Math</string>
+	<key>keyword.type.js</key>
+	<string>byte float char void double</string>
+	<key>constant.language.literal.js</key>
+	<string>NaN Infinity true false</string>
+	<key>entity.name.function.js</key>
+	<string>my_function_call()</string>
+	<key>constant.numeric.js</key>
+	<string>0 15 0x4a 0713 3.14</string>
+	<key>comment.block.documentation.js</key>
+	<string>/*&quot; Autodoc Comment &quot;*/</string>
+	<key>comment.block.js</key>
+	<string>/* Comment */</string>
+	<key>comment.line.double-slash.js</key>
+	<string>// Comment</string>
+	<key>string.regex.js</key>
+	<string>/foo/bar/</string>
+	<key>string.quoted.double.js</key>
+	<string>&quot;lorem ipsum&quot;</string>
+	<key>string.quoted.single.js</key>
+	<string>&apos;lorem ipsum&apos;</string>
+	<key>meta.link.email</key>
+	<string>monkeys@codingmonkeys.de</string>
+	<key>meta.link</key>
+	<string>http://apple.com</string>
+</dict>
+</plist>

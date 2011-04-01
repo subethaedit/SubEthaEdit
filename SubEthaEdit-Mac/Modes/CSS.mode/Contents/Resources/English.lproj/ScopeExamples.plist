@@ -24,5 +24,9 @@
 	<string>&quot;lorem ipsum&quot;</string>
 	<key>string.quoted.single.css</key>
 	<string>&apos;lorem ipsum&apos;</string>
+	<key>meta.link</key>
+	<string>http://apple.com</string>
+	<key>meta.link.email</key>
+	<string>monkeys@codingmonkeys.de</string>
 </dict>
 </plist>
