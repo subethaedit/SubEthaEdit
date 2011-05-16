@@ -8,16 +8,22 @@
 
 #import "NSSavePanelTCMAdditions.h"
 
+#ifndef NSAppKitVersionNumber10_6
+    #define NSAppKitVersionNumber10_6 1038
+#endif
 
 @implementation NSSavePanel (NSSavePanelTCMAdditions)
 
 - (BOOL)canShowHiddenFiles {
-    if ([self respondsToSelector:@selector(_navView)]) {
-        id navView = [self _navView];
-        if ([navView respondsToSelector:@selector(setShowsHiddenFiles:)]) {
-            return YES;
+    if (floor(NSAppKitVersionNumber) <= NSAppKitVersionNumber10_6) { 
+        if ([self respondsToSelector:@selector(_navView)]) {
+            id navView = [self _navView];
+            if ([navView respondsToSelector:@selector(setShowsHiddenFiles:)]) {
+                return YES;
+            }
         }
     }
+    
     
     return NO;
 }
