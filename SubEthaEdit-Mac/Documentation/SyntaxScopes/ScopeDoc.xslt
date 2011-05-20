@@ -31,7 +31,7 @@
     }
     h2,h3,h4,h5,h6 {
       padding:0;
-      margin:6px 0px 2px 0px;
+      margin:10px 0px 2px 0px;
       font-weight: normal;
     }
     tt, p.code, code {
@@ -62,14 +62,30 @@
       margin: 4px 4px 0px 12px;
     }
     div.examples {
-      float:right;
       text-align:right;
       background:#fff;
       margin:0px;
-      padding:4px 10px;
+      padding:0px 0px;
     }
     div.examples > tt {
-      display:block;
+      display:inline;
+      padding: 0px 2px 0px 10px;
+    }
+    span.language {
+    	font-size:9px;
+    	-webkit-border-radius: 6px;
+      	-webkit-box-shadow: 0px 0px 2px #000;
+      	background-color:#aab;
+      	color: white;
+      	font-weight:bold;
+      	padding: 1px 2px;
+    }
+    table {
+    	width: 100%;
+    }
+    tr, td {
+    	margin:0;
+    	padding:0;
     }
   </style>
 			</head>
@@ -100,18 +116,22 @@
 				<xsl:for-each select="scope_group">
 					<div class="syntax_scope">
 						<div class="syntax_scope_name">
+							<table>
 							<xsl:for-each select="scope">
+							<tr><td><tt>
+									<xsl:value-of select="@name"/>
+								</tt></td><td>
 							<div class="examples">
 								<xsl:for-each select="example">
 									<tt>
 										<xsl:value-of select="."/>
-									</tt>
+									</tt><span class="language"><xsl:value-of select="@lang"/></span>
 								</xsl:for-each>
 							</div>
-								<tt>
-									<xsl:value-of select="@name"/>
-								</tt>
+							</td></tr>
+								
 							</xsl:for-each>
+							</table>
 						</div>
 						<p class="syntax_scope_description">
 							<xsl:value-of select="description"/>
