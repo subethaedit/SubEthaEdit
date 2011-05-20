@@ -13,20 +13,82 @@
 		<title>Programming Languages (c, js, php, ruby)</title>
 		<description>Scopes present in Programming languages</description>
 		<scope_group>
-			<scope name="comment"><example></example></scope>
+			<scope name="comment"></scope>
 			<scope name="comment.line"><example lang="c">// comment</example><example lang="sh"># comment</example></scope>
 			<scope name="comment.line.double-slash"><example lang="c">// comment</example></scope>
+			<scope name="comment.block"><example lang="js">/* Comment */</example></scope>
+			<scope name="comment.block.documentation"><example lang="js">/*&quot; Comment &quot;*/</example></scope>
 			<description>All sorts of comments</description>
+		</scope_group>
+		<scope_group>
+			<scope name="keyword"></scope>
+			<scope name="keyword.control"><example lang="js">if</example> <example lang="js">else</example> <example lang="js">class</example> <example lang="js">new</example> <example lang="js">do</example> <example lang="js">while</example></scope>
+			<scope name="keyword.type"><example lang="js">byte</example> <example lang="js">float</example> <example lang="js">char</example> <example lang="js">void</example> <example lang="js">double</example></scope>
+			<description>Keywords</description>
+		</scope_group>
+		<scope_group>
+			<scope name="entity"></scope>
+			<scope name="entity.name.function"><example lang="js">my_function_call()</example></scope>
+			<description>Function names and calls</description>
+		</scope_group>
+		<scope_group>
+			<scope name="constant"></scope>
+			<scope name="constant.numeric"><example lang="js">0</example> <example lang="css">15</example> <example lang="css">0x4a</example> <example lang="css">0713</example> <example lang="css">3.14</example></scope>
+			<scope name="constant.language.literal"><example lang="js">NaN</example> <example lang="js">Infinity</example> <example lang="js">true</example> <example lang="js">false</example></scope>
+			<description>Constants and Literals</description>
+		</scope_group>
+		<scope_group>
+			<scope name="string"></scope>
+			<scope name="string.quoted.single"><example lang="js">'single'</example></scope>
+			<scope name="string.quoted.double"><example lang="js">"double"</example></scope>
+			<scope name="string.quoted.double.nsstring"><example lang="js">@"NSString"</example></scope>
+			<description>Strings</description>
+		</scope_group>
+		<scope_group>
+			<scope name="support"></scope>
+			<scope name="support.class.standard"></scope>
+			<description>Standard Framework keywords</description>
 		</scope_group>
 	</scope_area>
 	<scope_area>
-		<title>Programming Languages (c, js, php, ruby)</title>
-		<description>Scopes present in Programming languages</description>
+		<title>Document Description Languages</title>
+		<description>Scopes present HTML, css, and other Non-Programming Langauge</description>
 		<scope_group>
-			<scope name="keyword"><example></example></scope>
-			<scope name="keyword.control"><example lang="c">if</example><example lang="c">return</example><example lang="c">while</example></scope>
-			<scope name="keyword.type"><example lang="c">char</example><example lang="c">int</example></scope>
-			<description>Language Keywords</description>
+			<scope name="keyword"></scope>
+			<scope name="keyword.property-key"><example lang="css">padding</example> <example lang="css">margin</example> <example lang="css">font</example> <example lang="css">display</example> <example lang="css">width</example> <example lang="css">height</example> <example lang="css">border</example></scope>
+			<scope name="keyword.other.important"><example lang="css">important</example></scope>
+			<description>Keywords</description>
+		</scope_group>
+		<scope_group>
+			<scope name="constant"></scope>
+			<scope name="constant.character.entity"></scope>
+			<description>constants</description>
+		</scope_group>
+		<scope_group>
+			<scope name="entity.other.attribute-name"></scope>
+			<scope name="constant.character.entity"></scope>
+			<scope name="string.quoted.attribute-value"></scope>
+			<description>constants</description>
+		</scope_group>
+		<scope_group>
+			<scope name="comment"></scope>
+			<scope name="comment.block"><example lang="xml">&lt;!-- --></example></scope>
+			<scope name="comment.block.documentation"><example lang="js">/*&quot; Comment &quot;*/</example></scope>
+			<description>All sorts of comments</description>
+		</scope_group>
+		<scope_group>
+			<scope name="string"></scope>
+			<scope name="string.unquoted.cdata"></scope>
+			<description>Strings</description>
+		</scope_group>
+		<scope_group>
+			<scope name="comment"></scope>
+			<scope name="meta.tag.preprocessor"></scope>
+			<scope name="meta.tag.preprocessor"></scope>
+			<scope name="meta.tag.state"></scope>
+			<scope name="meta.tag.state.no-content"></scope>
+			<scope name="meta.tag.sgml.doctype"></scope>
+			<description>tags and stuff</description>
 		</scope_group>
 	</scope_area>
 </document>
