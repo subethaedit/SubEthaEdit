@@ -697,12 +697,12 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 			I_symbolAndAutocompleteInheritanceReady = YES;
 			//		NSLog(@"Defaultstate: Sym:%@, Auto:%@", [[self defaultState] objectForKey:[self keyForInheritedSymbols]],[[self defaultState] objectForKey:[self keyForInheritedAutocomplete]]);
 		}
-		NSArray *allScopes = [self.scopeStyleDictionary.allKeys sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
-		NSLog(@"%s all scopes?: \n%@",__FUNCTION__, allScopes);
+//		NSArray *allScopes = [self.scopeStyleDictionary.allKeys sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+//		NSLog(@"%s all scopes?: \n%@",__FUNCTION__, allScopes);
 			//NSLog(@"foo: %@", [I_defaultSyntaxStyle allKeys]);
-		NSMutableArray *reducedScopes = [NSMutableArray array];
-		[allScopes enumerateObjectsUsingBlock:^(id object, NSUInteger idx, BOOL *stop) { [reducedScopes addObject:[object stringByDeletingPathExtension]];}];
-		NSLog(@"all scopes user visible: %@", reducedScopes);
+//		NSMutableArray *reducedScopes = [NSMutableArray array];
+//		[allScopes enumerateObjectsUsingBlock:^(id object, NSUInteger idx, BOOL *stop) { [reducedScopes addObject:[object stringByDeletingPathExtension]];}];
+//		NSLog(@"all scopes user visible: %@", reducedScopes);
 	}
 }
 

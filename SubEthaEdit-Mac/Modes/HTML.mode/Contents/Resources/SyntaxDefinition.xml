@@ -44,7 +44,7 @@
                 <import mode="XML" keywords-only="yes"/>
                 <import keywords-only="yes"/>
             </state>
-            <state id="Single Tag" foldable="no" scope="meta.tag.no-content">
+            <state id="Single Tag" foldable="no" scope="markup.tag">
                 <begin>
                     <regex>&lt;\s*[^/?!][-:_\w]*\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*/\s*(?=>)</regex>
                 </begin>
@@ -54,7 +54,7 @@
                 <import mode="XML" keywords-only="yes"/>
                 <import keywords-only="yes"/>
             </state>
-            <state id="Tag State" font-style="normal" foldable="yes" indent="yes" scope="meta.tag.state">
+            <state id="Tag State" font-style="normal" foldable="yes" indent="yes" scope="markup.tag">
                 <begin>
                     <regex>&lt;\s*(?'xmltagstatename'[^/?!][-:_\w]*)\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*></regex>
 					<autoend>&lt;/\g&lt;xmltagstatename>></autoend>

@@ -368,7 +368,8 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 		}
 		
 		[scratchAttributes setObject:savedStack forKey:kSyntaxHighlightingStackName];
-		NSString *typeAttributeString;
+
+		NSString *typeAttributeString=nil;
 		if ((typeAttributeString=[currentState objectForKey:@"type"]))
 			[scratchAttributes setObject:typeAttributeString forKey:kSyntaxHighlightingTypeAttributeName];
 		
@@ -424,7 +425,8 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 				aRegex = [currentRegexStyle objectAtIndex:0];
 				//NSString *styleID = [currentRegexStyle objectAtIndex:1];
 				NSDictionary *keywordGroup = [currentRegexStyle objectAtIndex:2]; // should probably be passed in a more verbose and quicker way via an object instead of dictionaries
-				NSDictionary *attributes=[theDocument styleAttributesForScope:[keywordGroup objectForKey:kSyntaxHighlightingScopenameAttributeName] languageContext:[currentState objectForKey:[definition keyForInheritedAutocomplete]]];                
+				NSString *scope = [keywordGroup objectForKey:kSyntaxHighlightingScopenameAttributeName];
+				NSDictionary *attributes=[theDocument styleAttributesForScope:scope languageContext:[currentState objectForKey:[definition keyForInheritedAutocomplete]]];                
 				//NSDictionary *attributes=[theDocument styleAttributesForStyleID:styleID];  
 				//NSLog(@"scan %@",[keywordGroup objectForKey:@"id"]);
 				NSEnumerator *matchEnumerator = [[aRegex allMatchesInString:theString range:colorRange] objectEnumerator];
@@ -433,6 +435,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 					if (matchedRange.location != NSNotFound) {
 //						[I_stringLock lock];
 						[aString addAttributes:attributes range:matchedRange]; // only color last matched subgroup - it is important that all regex keywords have exactly and only one matching group for this to work
+						[aString addAttribute:kSyntaxHighlightingScopenameAttributeName value:scope range:matchedRange];
 //						[I_stringLock unlock];
 
 						if ([[keywordGroup objectForKey:@"type"] isEqualToString:@"url"]) {
