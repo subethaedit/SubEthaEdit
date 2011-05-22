@@ -2,11 +2,15 @@
 
 XSLTPROC=/usr/bin/xsltproc
 
-LANGUAGES=xml/ScopeExamples.plist
+LANGUAGES=xml/ScopeExamples.plist css/ScopeExamples.plist
+SCOPEDOC=SEEScopeDoc.html
 
 all: doc examples
 
-doc: SEEScopeDoc.html
+doc: $(SCOPEDOC)
+
+clean: 
+	rm $(LANGUAGES) $(SCOPEDOC)
 
 examples: $(LANGUAGES)
 

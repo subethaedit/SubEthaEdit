@@ -44,7 +44,7 @@
 		</scope_group>
 		<scope_group>
 			<scope name="constant"></scope>
-			<scope name="constant.numeric"><example lang="js">0</example> <example lang="css">15</example> <example lang="css">0x4a</example> <example lang="css">0713</example> <example lang="css">3.14</example></scope>
+			<scope name="constant.numeric"><example lang="js">0</example> <example lang="c">15</example> <example lang="c">0x4a</example> <example lang="c">0713</example> <example lang="c">3.14</example></scope>
 			<scope name="constant.language.literal"><example lang="js">NaN</example> <example lang="js">Infinity</example> <example lang="js">true</example> <example lang="js">false</example></scope>
 			<description>Constants and Literals</description>
 		</scope_group>
@@ -63,12 +63,23 @@
 	</scope_area>
 	<scope_area>
 		<title>Document Description Languages</title>
-		<description>Scopes present HTML, css, and other Non-Programming Language</description>
+		<description>Scopes that represent HTML, css, and other non-programming languages</description>
 		<scope_group>
-			<scope name="keyword"></scope>
-			<scope name="keyword.property-key"><example lang="css">padding</example> <example lang="css">margin</example> <example lang="css">font</example> <example lang="css">display</example> <example lang="css">width</example> <example lang="css">height</example> <example lang="css">border</example></scope>
-			<scope name="keyword.other.important"><example lang="css">important</example></scope>
-			<description>Keywords</description>
+			<scope name="meta.important"><example lang="css">important</example></scope>
+			<scope name="style.comment.block"><example lang="css">/* Comment */</example></scope>
+			<scope name="style.comment.block.documentation"><example lang="css">/** Documentation Comment **/</example></scope>
+			<scope name="style.property.name"><example lang="css">padding</example> <example lang="css">margin</example> <example lang="css">font</example> <example lang="css">display</example> <example lang="css">width</example> <example lang="css">height</example> <example lang="css">border</example></scope>
+			<scope name="style.value"></scope>
+			<scope name="style.value.string"></scope>
+			<scope name="style.value.string.parantheses"><example lang="css">(lorem ipsum)</example></scope>
+			<scope name="style.value.string.single"><example lang="css">'lorem ipsum'</example></scope>
+			<scope name="style.value.string.double"><example lang="css">"lorem ipsum"</example></scope>
+			<scope name="style.value.color.rgb-value"><example lang="css">#fff</example><example lang="css">#0000a1</example><example lang="css">#cbafde</example></scope>
+			<scope name="style.value.numeric"><example lang="css">1.4em</example><example lang="css">5px</example><example lang="css">17pt</example><example lang="css">100%</example><example lang="css">30deg</example></scope>
+			<scope name="style.value.keyword"><example lang="css">bold</example><example lang="css">linear</example><example lang="css">block</example><example lang="css">none</example><example lang="css">no-repeat</example><example lang="css">monospace</example><example lang="css">pointer</example></scope>
+			<scope name="style.at-rule"><example lang="css">@import</example><example lang="css">@media</example></scope>
+
+			<description>Style</description>
 		</scope_group>
 		<scope_group>
 			<scope name="markup.constant.entity"><example lang="xml">&amp;lt;</example><example lang="xml">&amp;#160;</example><example lang="xml">&amp;#x2014;</example></scope>

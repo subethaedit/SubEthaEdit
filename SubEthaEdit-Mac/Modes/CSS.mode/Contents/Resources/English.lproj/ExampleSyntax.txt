@@ -16,7 +16,7 @@
     margin: -5em 1em 1em;
     padding: 10px;
     width: 99px
-  }
+  } /* comments! */
 }
 @media print {
   body {

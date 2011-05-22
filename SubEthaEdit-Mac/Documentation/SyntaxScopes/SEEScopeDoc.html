@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/2000/REC-xhtml1-20000126/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8" /><title>SubEthaEdit Syntax Scope Style Guide</title><style type="text/css">
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <title>SubEthaEdit Syntax Scope Style Guide</title>
+    <style type="text/css">
     body {
     background: #999;
     font: 14px "Helvetica Neue",Helvetica,"Arial Unicode MS",Arial,sans-serif;
@@ -82,4 +86,736 @@
     	margin:0;
     	padding:0;
     }
-  </style></head><body><h1>SubEthaEdit Syntax Scope Style Guide</h1><div id="content"><h2>Overview</h2><p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eleifend ipsum ac tortor condimentum posuere. Donec in rhoncus metus. Nullam mollis mollis ante vel pharetra. Duis quis ipsum velit. Fusce commodo consectetur felis, vitae sagittis orci convallis id. Quisque suscipit faucibus justo ut egestas. Maecenas sed lorem elit, nec faucibus velit.</p><p>Ut convallis, risus in gravida eleifend, urna sapien ultricies tellus, eget congue dui ante vitae est. Maecenas luctus tincidunt eros, vel aliquet dui semper sed. In hendrerit facilisis ipsum, eget bibendum purus blandit at. Suspendisse eu urna ut mauris pretium accumsan eu id urna. Maecenas a dolor hendrerit turpis posuere fermentum id eget enim. Donec justo sapien, dictum at consectetur a, posuere sed diam. Nullam a cursus est. Nullam risus orci, commodo id interdum malesuada, dapibus eu metus.</p><h2>Scope Areas</h2><div class="syntax_scope_area"><h3>General</h3><p>Scopes that may affect all sorts of texts</p><div class="syntax_scope"><div class="syntax_scope_name"><table><tr><td><tt>meta.default</tt></td><td><div class="examples"></div></td></tr></table></div><p class="syntax_scope_description">Default fallback scope. All scopes fallback on the defaults of this scope. The meta.default scope of the top-level Language Context also defines the base background and foreground color of the document.</p></div><div class="syntax_scope"><div class="syntax_scope_name"><table><tr><td><tt>meta.highlight.currentline</tt></td><td><div class="examples"></div></td></tr></table></div><p class="syntax_scope_description">style information that can be used to highlight the current line</p></div><div class="syntax_scope"><div class="syntax_scope_name"><table><tr><td><tt>meta.invisible.character</tt></td><td><div class="examples"></div></td></tr></table></div><p class="syntax_scope_description">Style for inivisble characters if shown (currently only the foreground color is used)</p></div><div class="syntax_scope"><div class="syntax_scope_name"><table><tr><td><tt>meta.link</tt></td><td><div class="examples"><tt>http://apple.com</tt><span class="language"></span><tt>www.panic.com</tt><span class="language"></span></div></td></tr><tr><td><tt>meta.link.email</tt></td><td><div class="examples"><tt>steve@apple.com</tt><span class="language"></span></div></td></tr></table></div><p class="syntax_scope_description"></p></div></div><div class="syntax_scope_area"><h3>Programming Languages (c, js, php, ruby)</h3><p>Scopes present in Programming languages.</p><div class="syntax_scope"><div class="syntax_scope_name"><table><tr><td><tt>comment</tt></td><td><div class="examples"></div></td></tr><tr><td><tt>comment.line</tt></td><td><div class="examples"><tt>// comment</tt><span class="language">c</span><tt># comment</tt><span class="language">sh</span></div></td></tr><tr><td><tt>comment.block</tt></td><td><div class="examples"><tt>/* Comment */</tt><span class="language">js</span></div></td></tr><tr><td><tt>comment.block.documentation</tt></td><td><div class="examples"><tt>/*" Autodoc Comment "*/</tt><span class="language">js</span><tt>/** Doxygen Comment **/</tt><span class="language">c</span></div></td></tr></table></div><p class="syntax_scope_description">All sorts of comments</p></div><div class="syntax_scope"><div class="syntax_scope_name"><table><tr><td><tt>keyword</tt></td><td><div class="examples"></div></td></tr><tr><td><tt>keyword.control</tt></td><td><div class="examples"><tt>if</tt><span class="language">js</span><tt>else</tt><span class="language">js</span><tt>class</tt><span class="language">js</span><tt>new</tt><span class="language">js</span><tt>do</tt><span class="language">js</span><tt>while</tt><span class="language">js</span></div></td></tr><tr><td><tt>keyword.type</tt></td><td><div class="examples"><tt>byte</tt><span class="language">js</span><tt>float</tt><span class="language">js</span><tt>char</tt><span class="language">js</span><tt>void</tt><span class="language">js</span><tt>double</tt><span class="language">js</span></div></td></tr></table></div><p class="syntax_scope_description">Language Keywords</p></div><div class="syntax_scope"><div class="syntax_scope_name"><table><tr><td><tt>entity</tt></td><td><div class="examples"></div></td></tr><tr><td><tt>entity.name.function</tt></td><td><div class="examples"><tt>my_function_call()</tt><span class="language">js</span></div></td></tr></table></div><p class="syntax_scope_description">language constructs like function calls, method calls, </p></div><div class="syntax_scope"><div class="syntax_scope_name"><table><tr><td><tt>constant</tt></td><td><div class="examples"></div></td></tr><tr><td><tt>constant.numeric</tt></td><td><div class="examples"><tt>0</tt><span class="language">js</span><tt>15</tt><span class="language">css</span><tt>0x4a</tt><span class="language">css</span><tt>0713</tt><span class="language">css</span><tt>3.14</tt><span class="language">css</span></div></td></tr><tr><td><tt>constant.language.literal</tt></td><td><div class="examples"><tt>NaN</tt><span class="language">js</span><tt>Infinity</tt><span class="language">js</span><tt>true</tt><span class="language">js</span><tt>false</tt><span class="language">js</span></div></td></tr></table></div><p class="syntax_scope_description">Constants and Literals</p></div><div class="syntax_scope"><div class="syntax_scope_name"><table><tr><td><tt>string</tt></td><td><div class="examples"></div></td></tr><tr><td><tt>string.quoted.single</tt></td><td><div class="examples"><tt>'single'</tt><span class="language">js</span></div></td></tr><tr><td><tt>string.quoted.double</tt></td><td><div class="examples"><tt>"double"</tt><span class="language">js</span></div></td></tr><tr><td><tt>string.quoted.double.nsstring</tt></td><td><div class="examples"><tt>@"NSString"</tt><span class="language">objective-c</span></div></td></tr></table></div><p class="syntax_scope_description">Strings</p></div><div class="syntax_scope"><div class="syntax_scope_name"><table><tr><td><tt>support</tt></td><td><div class="examples"></div></td></tr><tr><td><tt>support.class.standard</tt></td><td><div class="examples"></div></td></tr></table></div><p class="syntax_scope_description">Standard Framework keywords</p></div></div><div class="syntax_scope_area"><h3>Document Description Languages</h3><p>Scopes present HTML, css, and other Non-Programming Language</p><div class="syntax_scope"><div class="syntax_scope_name"><table><tr><td><tt>keyword</tt></td><td><div class="examples"></div></td></tr><tr><td><tt>keyword.property-key</tt></td><td><div class="examples"><tt>padding</tt><span class="language">css</span><tt>margin</tt><span class="language">css</span><tt>font</tt><span class="language">css</span><tt>display</tt><span class="language">css</span><tt>width</tt><span class="language">css</span><tt>height</tt><span class="language">css</span><tt>border</tt><span class="language">css</span></div></td></tr><tr><td><tt>keyword.other.important</tt></td><td><div class="examples"><tt>important</tt><span class="language">css</span></div></td></tr></table></div><p class="syntax_scope_description">Keywords</p></div><div class="syntax_scope"><div class="syntax_scope_name"><table><tr><td><tt>markup.constant.entity</tt></td><td><div class="examples"><tt>&amp;lt;</tt><span class="language">xml</span><tt>&amp;#160;</tt><span class="language">xml</span><tt>&amp;#x2014;</tt><span class="language">xml</span></div></td></tr></table></div><p class="syntax_scope_description">constants</p></div><div class="syntax_scope"><div class="syntax_scope_name"><table><tr><td><tt>meta.invalid</tt></td><td><div class="examples"></div></td></tr><tr><td><tt>meta.invalid.sgmlcomment</tt></td><td><div class="examples"><tt>--</tt><span class="language">xml</span></div></td></tr><tr><td><tt>meta.invalid.ampersand</tt></td><td><div class="examples"><tt>&amp;</tt><span class="language">xml</span></div></td></tr></table></div><p class="syntax_scope_description">Bad SGML comments, bad Escaping, etc.</p></div><div class="syntax_scope"><div class="syntax_scope_name"><table><tr><td><tt>markup.comment</tt></td><td><div class="examples"><tt>&lt;!-- SGML Comment --&gt;</tt><span class="language">xml</span></div></td></tr><tr><td><tt>markup.inline.cdata</tt></td><td><div class="examples"><tt>&lt;![CDATA[&lt;inline&gt;Data&lt;/inline&gt;]]&gt;</tt><span class="language">xml</span></div></td></tr><tr><td><tt>markup.processing</tt></td><td><div class="examples"><tt>&lt;?xml version='1.0' encoding='utf-8'?&gt;</tt><span class="language">xml</span></div></td></tr><tr><td><tt>markup.tag</tt></td><td><div class="examples"><tt>&lt;document&gt;</tt><span class="language">xml</span><tt>&lt;br/&gt;</tt><span class="language">xml</span></div></td></tr><tr><td><tt>markup.tag.attribute.name</tt></td><td><div class="examples"><tt>href</tt><span class="language">xml</span><tt>id</tt><span class="language">xml</span><tt>class</tt><span class="language">xml</span></div></td></tr><tr><td><tt>markup.tag.attribute.value</tt></td><td><div class="examples"></div></td></tr><tr><td><tt>markup.tag.attribute.value.string</tt></td><td><div class="examples"><tt>"left"</tt><span class="language">xml</span><tt>"utf-8"</tt><span class="language">xml</span></div></td></tr><tr><td><tt>markup.declaration</tt></td><td><div class="examples"><tt>&lt;!DOCTYPE &gt;</tt><span class="language">xml</span><tt>&lt;!ENTITY &gt;</tt><span class="language">xml</span></div></td></tr><tr><td><tt>markup.declaration.string.double</tt></td><td><div class="examples"><tt>"spec.dtd"</tt><span class="language">xml</span></div></td></tr><tr><td><tt>markup.declaration.string.single</tt></td><td><div class="examples"><tt>'&lt;'</tt><span class="language">xml</span></div></td></tr><tr><td><tt>markup.processing.attribute.value.string</tt></td><td><div class="examples"><tt>"utf-8"</tt><span class="language">xml</span><tt>'no'</tt><span class="language">xml</span></div></td></tr></table></div><p class="syntax_scope_description">markup </p></div></div></div></body></html>
+  </style>
+  </head>
+  <body>
+    <h1>SubEthaEdit Syntax Scope Style Guide</h1>
+    <div id="content">
+      <h2>Overview</h2>
+      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eleifend ipsum ac tortor condimentum posuere. Donec in rhoncus metus. Nullam mollis mollis ante vel pharetra. Duis quis ipsum velit. Fusce commodo consectetur felis, vitae sagittis orci convallis id. Quisque suscipit faucibus justo ut egestas. Maecenas sed lorem elit, nec faucibus velit.</p>
+      <p>Ut convallis, risus in gravida eleifend, urna sapien ultricies tellus, eget congue dui ante vitae est. Maecenas luctus tincidunt eros, vel aliquet dui semper sed. In hendrerit facilisis ipsum, eget bibendum purus blandit at. Suspendisse eu urna ut mauris pretium accumsan eu id urna. Maecenas a dolor hendrerit turpis posuere fermentum id eget enim. Donec justo sapien, dictum at consectetur a, posuere sed diam. Nullam a cursus est. Nullam risus orci, commodo id interdum malesuada, dapibus eu metus.</p>
+      <h2>Scope Areas</h2>
+      <div class="syntax_scope_area">
+        <h3>General</h3>
+        <p>Scopes that may affect all sorts of texts</p>
+        <div class="syntax_scope">
+          <div class="syntax_scope_name">
+            <table>
+              <tr>
+                <td>
+                  <tt>meta.default</tt>
+                </td>
+                <td>
+                  <div class="examples"></div>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p class="syntax_scope_description">Default fallback scope. All scopes fallback on the defaults of this scope. The meta.default scope of the top-level Language Context also defines the base background and foreground color of the document.</p>
+        </div>
+        <div class="syntax_scope">
+          <div class="syntax_scope_name">
+            <table>
+              <tr>
+                <td>
+                  <tt>meta.highlight.currentline</tt>
+                </td>
+                <td>
+                  <div class="examples"></div>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p class="syntax_scope_description">style information that can be used to highlight the current line</p>
+        </div>
+        <div class="syntax_scope">
+          <div class="syntax_scope_name">
+            <table>
+              <tr>
+                <td>
+                  <tt>meta.invisible.character</tt>
+                </td>
+                <td>
+                  <div class="examples"></div>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p class="syntax_scope_description">Style for inivisble characters if shown (currently only the foreground color is used)</p>
+        </div>
+        <div class="syntax_scope">
+          <div class="syntax_scope_name">
+            <table>
+              <tr>
+                <td>
+                  <tt>meta.link</tt>
+                </td>
+                <td>
+                  <div class="examples">
+                    <tt>http://apple.com</tt>
+                    <span class="language"></span>
+                    <tt>www.panic.com</tt>
+                    <span class="language"></span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>meta.link.email</tt>
+                </td>
+                <td>
+                  <div class="examples">
+                    <tt>steve@apple.com</tt>
+                    <span class="language"></span>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p class="syntax_scope_description"></p>
+        </div>
+      </div>
+      <div class="syntax_scope_area">
+        <h3>Programming Languages (c, js, php, ruby)</h3>
+        <p>Scopes present in Programming languages.</p>
+        <div class="syntax_scope">
+          <div class="syntax_scope_name">
+            <table>
+              <tr>
+                <td>
+                  <tt>comment</tt>
+                </td>
+                <td>
+                  <div class="examples"></div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>comment.line</tt>
+                </td>
+                <td>
+                  <div class="examples">
+                    <tt>// comment</tt>
+                    <span class="language">c</span>
+                    <tt># comment</tt>
+                    <span class="language">sh</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>comment.block</tt>
+                </td>
+                <td>
+                  <div class="examples">
+                    <tt>/* Comment */</tt>
+                    <span class="language">js</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>comment.block.documentation</tt>
+                </td>
+                <td>
+                  <div class="examples">
+                    <tt>/*" Autodoc Comment "*/</tt>
+                    <span class="language">js</span>
+                    <tt>/** Doxygen Comment **/</tt>
+                    <span class="language">c</span>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p class="syntax_scope_description">All sorts of comments</p>
+        </div>
+        <div class="syntax_scope">
+          <div class="syntax_scope_name">
+            <table>
+              <tr>
+                <td>
+                  <tt>keyword</tt>
+                </td>
+                <td>
+                  <div class="examples"></div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>keyword.control</tt>
+                </td>
+                <td>
+                  <div class="examples">
+                    <tt>if</tt>
+                    <span class="language">js</span>
+                    <tt>else</tt>
+                    <span class="language">js</span>
+                    <tt>class</tt>
+                    <span class="language">js</span>
+                    <tt>new</tt>
+                    <span class="language">js</span>
+                    <tt>do</tt>
+                    <span class="language">js</span>
+                    <tt>while</tt>
+                    <span class="language">js</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>keyword.type</tt>
+                </td>
+                <td>
+                  <div class="examples">
+                    <tt>byte</tt>
+                    <span class="language">js</span>
+                    <tt>float</tt>
+                    <span class="language">js</span>
+                    <tt>char</tt>
+                    <span class="language">js</span>
+                    <tt>void</tt>
+                    <span class="language">js</span>
+                    <tt>double</tt>
+                    <span class="language">js</span>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p class="syntax_scope_description">Language Keywords</p>
+        </div>
+        <div class="syntax_scope">
+          <div class="syntax_scope_name">
+            <table>
+              <tr>
+                <td>
+                  <tt>entity</tt>
+                </td>
+                <td>
+                  <div class="examples"></div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>entity.name.function</tt>
+                </td>
+                <td>
+                  <div class="examples">
+                    <tt>my_function_call()</tt>
+                    <span class="language">js</span>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p class="syntax_scope_description">language constructs like function calls, method calls, </p>
+        </div>
+        <div class="syntax_scope">
+          <div class="syntax_scope_name">
+            <table>
+              <tr>
+                <td>
+                  <tt>constant</tt>
+                </td>
+                <td>
+                  <div class="examples"></div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>constant.numeric</tt>
+                </td>
+                <td>
+                  <div class="examples">
+                    <tt>0</tt>
+                    <span class="language">js</span>
+                    <tt>15</tt>
+                    <span class="language">c</span>
+                    <tt>0x4a</tt>
+                    <span class="language">c</span>
+                    <tt>0713</tt>
+                    <span class="language">c</span>
+                    <tt>3.14</tt>
+                    <span class="language">c</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>constant.language.literal</tt>
+                </td>
+                <td>
+                  <div class="examples">
+                    <tt>NaN</tt>
+                    <span class="language">js</span>
+                    <tt>Infinity</tt>
+                    <span class="language">js</span>
+                    <tt>true</tt>
+                    <span class="language">js</span>
+                    <tt>false</tt>
+                    <span class="language">js</span>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p class="syntax_scope_description">Constants and Literals</p>
+        </div>
+        <div class="syntax_scope">
+          <div class="syntax_scope_name">
+            <table>
+              <tr>
+                <td>
+                  <tt>string</tt>
+                </td>
+                <td>
+                  <div class="examples"></div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>string.quoted.single</tt>
+                </td>
+                <td>
+                  <div class="examples">
+                    <tt>'single'</tt>
+                    <span class="language">js</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>string.quoted.double</tt>
+                </td>
+                <td>
+                  <div class="examples">
+                    <tt>"double"</tt>
+                    <span class="language">js</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>string.quoted.double.nsstring</tt>
+                </td>
+                <td>
+                  <div class="examples">
+                    <tt>@"NSString"</tt>
+                    <span class="language">objective-c</span>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p class="syntax_scope_description">Strings</p>
+        </div>
+        <div class="syntax_scope">
+          <div class="syntax_scope_name">
+            <table>
+              <tr>
+                <td>
+                  <tt>support</tt>
+                </td>
+                <td>
+                  <div class="examples"></div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>support.class.standard</tt>
+                </td>
+                <td>
+                  <div class="examples"></div>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p class="syntax_scope_description">Standard Framework keywords</p>
+        </div>
+      </div>
+      <div class="syntax_scope_area">
+        <h3>Document Description Languages</h3>
+        <p>Scopes that represent HTML, css, and other non-programming languages</p>
+        <div class="syntax_scope">
+          <div class="syntax_scope_name">
+            <table>
+              <tr>
+                <td>
+                  <tt>meta.important</tt>
+                </td>
+                <td>
+                  <div class="examples">
+                    <tt>important</tt>
+                    <span class="language">css</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>style.comment.block</tt>
+                </td>
+                <td>
+                  <div class="examples">
+                    <tt>/* Comment */</tt>
+                    <span class="language">css</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>style.comment.block.documentation</tt>
+                </td>
+                <td>
+                  <div class="examples">
+                    <tt>/** Documentation Comment **/</tt>
+                    <span class="language">css</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>style.property.name</tt>
+                </td>
+                <td>
+                  <div class="examples">
+                    <tt>padding</tt>
+                    <span class="language">css</span>
+                    <tt>margin</tt>
+                    <span class="language">css</span>
+                    <tt>font</tt>
+                    <span class="language">css</span>
+                    <tt>display</tt>
+                    <span class="language">css</span>
+                    <tt>width</tt>
+                    <span class="language">css</span>
+                    <tt>height</tt>
+                    <span class="language">css</span>
+                    <tt>border</tt>
+                    <span class="language">css</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>style.value</tt>
+                </td>
+                <td>
+                  <div class="examples"></div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>style.value.string</tt>
+                </td>
+                <td>
+                  <div class="examples"></div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>style.value.string.parantheses</tt>
+                </td>
+                <td>
+                  <div class="examples">
+                    <tt>(lorem ipsum)</tt>
+                    <span class="language">css</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>style.value.string.single</tt>
+                </td>
+                <td>
+                  <div class="examples">
+                    <tt>'lorem ipsum'</tt>
+                    <span class="language">css</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>style.value.string.double</tt>
+                </td>
+                <td>
+                  <div class="examples">
+                    <tt>"lorem ipsum"</tt>
+                    <span class="language">css</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>style.value.color.rgb-value</tt>
+                </td>
+                <td>
+                  <div class="examples">
+                    <tt>#fff</tt>
+                    <span class="language">css</span>
+                    <tt>#0000a1</tt>
+                    <span class="language">css</span>
+                    <tt>#cbafde</tt>
+                    <span class="language">css</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>style.value.numeric</tt>
+                </td>
+                <td>
+                  <div class="examples">
+                    <tt>1.4em</tt>
+                    <span class="language">css</span>
+                    <tt>5px</tt>
+                    <span class="language">css</span>
+                    <tt>17pt</tt>
+                    <span class="language">css</span>
+                    <tt>100%</tt>
+                    <span class="language">css</span>
+                    <tt>30deg</tt>
+                    <span class="language">css</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>style.value.keyword</tt>
+                </td>
+                <td>
+                  <div class="examples">
+                    <tt>bold</tt>
+                    <span class="language">css</span>
+                    <tt>linear</tt>
+                    <span class="language">css</span>
+                    <tt>block</tt>
+                    <span class="language">css</span>
+                    <tt>none</tt>
+                    <span class="language">css</span>
+                    <tt>no-repeat</tt>
+                    <span class="language">css</span>
+                    <tt>monospace</tt>
+                    <span class="language">css</span>
+                    <tt>pointer</tt>
+                    <span class="language">css</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>style.at-rule</tt>
+                </td>
+                <td>
+                  <div class="examples">
+                    <tt>@import</tt>
+                    <span class="language">css</span>
+                    <tt>@media</tt>
+                    <span class="language">css</span>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p class="syntax_scope_description">Style</p>
+        </div>
+        <div class="syntax_scope">
+          <div class="syntax_scope_name">
+            <table>
+              <tr>
+                <td>
+                  <tt>markup.constant.entity</tt>
+                </td>
+                <td>
+                  <div class="examples">
+                    <tt>&amp;lt;</tt>
+                    <span class="language">xml</span>
+                    <tt>&amp;#160;</tt>
+                    <span class="language">xml</span>
+                    <tt>&amp;#x2014;</tt>
+                    <span class="language">xml</span>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p class="syntax_scope_description">constants</p>
+        </div>
+        <div class="syntax_scope">
+          <div class="syntax_scope_name">
+            <table>
+              <tr>
+                <td>
+                  <tt>meta.invalid</tt>
+                </td>
+                <td>
+                  <div class="examples"></div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>meta.invalid.sgmlcomment</tt>
+                </td>
+                <td>
+                  <div class="examples">
+                    <tt>--</tt>
+                    <span class="language">xml</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>meta.invalid.ampersand</tt>
+                </td>
+                <td>
+                  <div class="examples">
+                    <tt>&amp;</tt>
+                    <span class="language">xml</span>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p class="syntax_scope_description">Bad SGML comments, bad Escaping, etc.</p>
+        </div>
+        <div class="syntax_scope">
+          <div class="syntax_scope_name">
+            <table>
+              <tr>
+                <td>
+                  <tt>markup.comment</tt>
+                </td>
+                <td>
+                  <div class="examples">
+                    <tt>&lt;!-- SGML Comment --&gt;</tt>
+                    <span class="language">xml</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>markup.inline.cdata</tt>
+                </td>
+                <td>
+                  <div class="examples">
+                    <tt>&lt;![CDATA[&lt;inline&gt;Data&lt;/inline&gt;]]&gt;</tt>
+                    <span class="language">xml</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>markup.processing</tt>
+                </td>
+                <td>
+                  <div class="examples">
+                    <tt>&lt;?xml version='1.0' encoding='utf-8'?&gt;</tt>
+                    <span class="language">xml</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>markup.tag</tt>
+                </td>
+                <td>
+                  <div class="examples">
+                    <tt>&lt;document&gt;</tt>
+                    <span class="language">xml</span>
+                    <tt>&lt;br/&gt;</tt>
+                    <span class="language">xml</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>markup.tag.attribute.name</tt>
+                </td>
+                <td>
+                  <div class="examples">
+                    <tt>href</tt>
+                    <span class="language">xml</span>
+                    <tt>id</tt>
+                    <span class="language">xml</span>
+                    <tt>class</tt>
+                    <span class="language">xml</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>markup.tag.attribute.value</tt>
+                </td>
+                <td>
+                  <div class="examples"></div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>markup.tag.attribute.value.string</tt>
+                </td>
+                <td>
+                  <div class="examples">
+                    <tt>"left"</tt>
+                    <span class="language">xml</span>
+                    <tt>"utf-8"</tt>
+                    <span class="language">xml</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>markup.declaration</tt>
+                </td>
+                <td>
+                  <div class="examples">
+                    <tt>&lt;!DOCTYPE &gt;</tt>
+                    <span class="language">xml</span>
+                    <tt>&lt;!ENTITY &gt;</tt>
+                    <span class="language">xml</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>markup.declaration.string.double</tt>
+                </td>
+                <td>
+                  <div class="examples">
+                    <tt>"spec.dtd"</tt>
+                    <span class="language">xml</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>markup.declaration.string.single</tt>
+                </td>
+                <td>
+                  <div class="examples">
+                    <tt>'&lt;'</tt>
+                    <span class="language">xml</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>markup.processing.attribute.value.string</tt>
+                </td>
+                <td>
+                  <div class="examples">
+                    <tt>"utf-8"</tt>
+                    <span class="language">xml</span>
+                    <tt>'no'</tt>
+                    <span class="language">xml</span>
+                  </div>
+                </td>
+              </tr>
+            </table>
+          </div>
+          <p class="syntax_scope_description">markup </p>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

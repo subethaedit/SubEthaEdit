@@ -18,7 +18,7 @@
                 <end>
                     <regex>}</regex>
                 </end>
-                <keywords id="CSS Keywords" color="#88134F" font-style="bold" useforautocomplete="yes" casesensitive="no" scope="keyword.property-key.css">
+                <keywords id="CSS Keywords" color="#88134F" font-style="bold" useforautocomplete="yes" casesensitive="no" scope="style.property.name">
                     <regex>(?&lt;![\d\w])(?i)(_background)</regex>
                     <regex>(?&lt;![\d\w])(?i)(_filter)</regex>
                     <regex>(?&lt;![\d\w])(?i)(-webkit(?:-\w+)+)</regex>
@@ -169,10 +169,10 @@
                     <end>
                         <regex>(;|.(?=})|[\n\r])</regex>
                     </end>
-                    <keywords id="!important" color="#f00" useforautocomplete="no" scope="keyword.other.important">
+                    <keywords id="!important" color="#f00" useforautocomplete="no" scope="meta.important">
                         <regex>(!\s*important)</regex>
                     </keywords>
-                    <keywords id="CSS Attributes" font-style="italic" color="#9B4400" useforautocomplete="yes" casesensitive="no" scope="support.constant.property-value.css">
+                    <keywords id="CSS Attributes" font-style="italic" color="#9B4400" useforautocomplete="yes" casesensitive="no" scope="style.value.keyword">
                     	<regex>(?i)(-webkit(?:-\w+)+)</regex>
                     	<regex>(?i)(-moz(?:-\w+)+)</regex>
                     	<string>ease-in-out</string>
@@ -572,10 +572,10 @@
                         <string>xx-small</string>
                         <string>yellow</string>
                     </keywords>
-                    <keywords id="CSS Digits" color="#00f" inverted-color="#5d56ff" font-style="bold" useforautocomplete="yes" scope="constant.numeric.css">
+                    <keywords id="CSS Digits" color="#00f" inverted-color="#5d56ff" font-style="bold" useforautocomplete="yes" scope="style.value.numeric">
                         <regex>(?&lt;![#\d\w-])(-?[\d]+[ \t]*(?:px|pt|em|ex|cm|in|mm|pc|s|ms|Hz|kHz|%|deg|rad|grad|turn)?)</regex>
                     </keywords>
-                    <keywords id="CSS Colors" color="#760f15" font-style="bold" useforautocomplete="yes" scope="constant.other.color.rgb-value">
+                    <keywords id="CSS Colors" color="#760f15" font-style="bold" useforautocomplete="yes" scope="style.value.color.rgb-value">
                         <regex>(#[\da-fA-F]{3,6})</regex>
                     </keywords>
                     <state-link state="AutodocComment"/>
@@ -591,7 +591,7 @@
                 <state-link state="Round bracket"/>
             </state>
             
-            <state id="Rules" color="#683821" font-weight="bold" font-style="italic" scope="keyword.control.at-rule.media">
+            <state id="Rules" color="#683821" font-weight="bold" font-style="italic" scope="style.at-rule">
                 <begin>
 				    <regex>^@[-\w_]+</regex>
                 </begin>
@@ -600,7 +600,7 @@
                 </end>
             </state>
             
-            <state id="AutodocComment" type="comment" color="#236E25" font-weight="bold" font-style="italic" scope="comment.block.documentation">
+            <state id="AutodocComment" type="comment" color="#236E25" font-weight="bold" font-style="italic" scope="style.comment.block.documentation">
                 <begin>
                     <string>/\*"</string>
                     <autoend>"\*/</autoend>
@@ -610,7 +610,7 @@
                 </end>
                 <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
-            <state id="Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic" scope="comment.block.css" >
+            <state id="Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic" scope="style.comment.block">
                 <begin>
                     <string>/\*</string>
                     <autoend>\*/</autoend>
@@ -620,7 +620,7 @@
                 </end>
                 <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
-            <state id="Round bracket" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="string.quoted.parentheses.css">
+            <state id="Round bracket" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="style.value.string.parantheses">
                 <begin>
                     <string>\(</string>
                 </begin>
@@ -628,7 +628,7 @@
                     <regex>\)</regex>
                 </end>
             </state>
-            <state id="String" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="string.quoted.double.css">
+            <state id="String" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="style.value.string.double">
                 <begin>
                     <string>"</string>
                 </begin>
@@ -636,7 +636,7 @@
                     <regex>(?&lt;!\\)(\\\\)*"</regex>
                 </end>
             </state>
-            <state id="SingleString" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="string.quoted.single.css">
+            <state id="SingleString" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="style.value.string.single">
                 <begin>
                     <string>'</string>
                 </begin>

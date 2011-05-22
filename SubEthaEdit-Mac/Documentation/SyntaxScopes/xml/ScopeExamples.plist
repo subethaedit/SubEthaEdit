@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist xmlns="http://www.w3.org/1999/xhtml" version="1.0">
+<plist version="1.0">
   <dict>
     <key>markup.constant.entity</key>
     <string>&amp;lt; &amp;#160; &amp;#x2014;</string>
