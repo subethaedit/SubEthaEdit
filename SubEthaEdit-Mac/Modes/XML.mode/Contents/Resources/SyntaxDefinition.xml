@@ -23,7 +23,7 @@
             <keywords id="Strings in Tags" type="string" useforautocomplete="no" scope="markup.tag.attribute.value.string">
                 <regex>=[ \t]*("[^"]*"|'[^']*')(?=[^&lt;]*>)</regex>
             </keywords>
-            <keywords id="Entities" useforautocomplete="no" scope="constant.character.entity">
+            <keywords id="Entities" useforautocomplete="no" scope="markup.constant.entity">
                 <regex>(&amp;#\d+;)</regex>
                 <regex>(&amp;#x\h+;)</regex>
                 <regex>(&amp;[\w\d\.\-]+;)</regex>

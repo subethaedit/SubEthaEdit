@@ -63,7 +63,7 @@
 	</scope_area>
 	<scope_area>
 		<title>Document Description Languages</title>
-		<description>Scopes present HTML, css, and other Non-Programming Langauge</description>
+		<description>Scopes present HTML, css, and other Non-Programming Language</description>
 		<scope_group>
 			<scope name="keyword"></scope>
 			<scope name="keyword.property-key"><example lang="css">padding</example> <example lang="css">margin</example> <example lang="css">font</example> <example lang="css">display</example> <example lang="css">width</example> <example lang="css">height</example> <example lang="css">border</example></scope>
@@ -71,26 +71,28 @@
 			<description>Keywords</description>
 		</scope_group>
 		<scope_group>
-			<scope name="constant.character.entity"></scope>
+			<scope name="markup.constant.entity"><example lang="xml">&amp;lt;</example><example lang="xml">&amp;#160;</example><example lang="xml">&amp;#x2014;</example></scope>
 			<description>constants</description>
 		</scope_group>
 		<scope_group>
 			<scope name="meta.invalid"></scope>
-			<scope name="meta.invalid.sgmlcomment"></scope>
-			<scope name="meta.invalid.ampersand"></scope>
+			<scope name="meta.invalid.sgmlcomment"><example lang="xml">--</example></scope>
+			<scope name="meta.invalid.ampersand"><example lang="xml">&amp;</example></scope>
 			<description>Bad SGML comments, bad Escaping, etc.</description>
 		</scope_group>
 		<scope_group>
-			<scope name="markup.comment"></scope>
-			<scope name="markup.constant.entity"></scope>
-			<scope name="markup.inline.cdata"></scope>
-			<scope name="markup.processing"></scope>
-			<scope name="markup.tag"></scope>
-			<scope name="markup.tag.attribute.name"></scope>
+			<scope name="markup.comment"><example lang="xml">&lt;-- SGML Comment --></example></scope>
+			<scope name="markup.inline.cdata"><example lang="xml">&lt;[CDATA[&lt;inline>Data&lt;/inline>]]&gt;</example></scope>
+			<scope name="markup.processing"><example lang="xml">&lt;?xml version='1.0' encoding='utf-8'?></example></scope>
+			<scope name="markup.tag"><example lang="xml">&lt;document></example><example lang="xml">&lt;br/></example></scope>
+			<scope name="markup.tag.attribute.name"><example lang="xml">href</example><example lang="xml">id</example><example lang="xml">class</example></scope>
 			<scope name="markup.tag.attribute.value"></scope>
-			<scope name="markup.tag.attribute.value.string"></scope>
-			<scope name="markup.declaration"></scope>
-			<description>tags and stuff</description>
+			<scope name="markup.tag.attribute.value.string"><example lang="xml">"left"</example><example lang="xml">"utf-8"</example></scope>
+			<scope name="markup.declaration"><example lang="xml">&lt;!DOCTYPE ></example><example lang="xml">&lt;!ENTITY ></example></scope>
+			<scope name="markup.declaration.string.double"><example lang="xml">"spec.dtd"</example></scope>
+			<scope name="markup.declaration.string.single"><example lang="xml">'&lt;'</example></scope>
+			<scope name="markup.processing.attribute.value.string"><example lang="xml">"utf-8"</example><example lang="xml">'no'</example></scope>
+			<description>markup </description>
 		</scope_group>
 	</scope_area>
 </document>
