@@ -620,7 +620,7 @@
                 </end>
                 <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
-            <state id="Round bracket" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="style.value.string.parantheses">
+            <state id="Round bracket" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="style.value.string.parentheses">
                 <begin>
                     <string>\(</string>
                 </begin>

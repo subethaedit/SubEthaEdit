@@ -83,27 +83,27 @@
 			<description>Style</description>
 		</scope_group>
 		<scope_group>
-			<scope name="markup.constant.entity"><example lang="xml">&amp;lt;</example><example lang="xml">&amp;#160;</example><example lang="xml">&amp;#x2014;</example></scope>
+			<scope name="markup.constant.entity"><example lang="xml html">&amp;lt;</example><example lang="xml html">&amp;#160;</example><example lang="xml html">&amp;#x2014;</example></scope>
 			<description>constants</description>
 		</scope_group>
 		<scope_group>
 			<scope name="meta.invalid"></scope>
-			<scope name="meta.invalid.sgmlcomment"><example lang="xml">--</example></scope>
-			<scope name="meta.invalid.ampersand"><example lang="xml">&amp;</example></scope>
+			<scope name="meta.invalid.sgmlcomment"><example lang="xml html">--</example></scope>
+			<scope name="meta.invalid.ampersand"><example lang="xml html">&amp;</example></scope>
 			<description>Bad SGML comments, bad Escaping, etc.</description>
 		</scope_group>
 		<scope_group>
-			<scope name="markup.comment"><example lang="xml">&lt;!-- SGML Comment --></example></scope>
-			<scope name="markup.inline.cdata"><example lang="xml">&lt;![CDATA[&lt;inline>Data&lt;/inline>]]&gt;</example></scope>
-			<scope name="markup.processing"><example lang="xml">&lt;?xml version='1.0' encoding='utf-8'?></example></scope>
-			<scope name="markup.tag"><example lang="xml">&lt;document></example><example lang="xml">&lt;br/></example></scope>
-			<scope name="markup.tag.attribute.name"><example lang="xml">href</example><example lang="xml">id</example><example lang="xml">class</example></scope>
+			<scope name="markup.comment"><example lang="xml html">&lt;!-- SGML Comment --></example></scope>
+			<scope name="markup.inline.cdata"><example lang="xml html">&lt;![CDATA[&lt;inline>Data&lt;/inline>]]&gt;</example></scope>
+			<scope name="markup.processing"><example lang="xml html">&lt;?xml html version='1.0' encoding='utf-8'?></example></scope>
+			<scope name="markup.tag"><example lang="xml html">&lt;document></example><example lang="xml html">&lt;br/></example></scope>
+			<scope name="markup.tag.attribute.name"><example lang="xml html">href</example><example lang="xml html">id</example><example lang="xml html">class</example></scope>
 			<scope name="markup.tag.attribute.value"></scope>
-			<scope name="markup.tag.attribute.value.string"><example lang="xml">"left"</example><example lang="xml">"utf-8"</example></scope>
-			<scope name="markup.declaration"><example lang="xml">&lt;!DOCTYPE ></example><example lang="xml">&lt;!ENTITY ></example></scope>
-			<scope name="markup.declaration.string.double"><example lang="xml">"spec.dtd"</example></scope>
-			<scope name="markup.declaration.string.single"><example lang="xml">'&lt;'</example></scope>
-			<scope name="markup.processing.attribute.value.string"><example lang="xml">"utf-8"</example><example lang="xml">'no'</example></scope>
+			<scope name="markup.tag.attribute.value.string"><example lang="xml html">"left"</example><example lang="xml html">"utf-8"</example></scope>
+			<scope name="markup.declaration"><example lang="xml html">&lt;!DOCTYPE ></example><example lang="xml html">&lt;!ENTITY ></example></scope>
+			<scope name="markup.declaration.string.double"><example lang="xml html">"spec.dtd"</example></scope>
+			<scope name="markup.declaration.string.single"><example lang="xml html">'&lt;'</example></scope>
+			<scope name="markup.processing.attribute.value.string"><example lang="xml html">"utf-8"</example><example lang="xml html">'no'</example></scope>
 			<description>markup </description>
 		</scope_group>
 	</scope_area>

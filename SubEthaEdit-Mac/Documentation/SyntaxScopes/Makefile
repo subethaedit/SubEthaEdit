@@ -2,7 +2,7 @@
 
 XSLTPROC=/usr/bin/xsltproc
 
-LANGUAGES=xml/ScopeExamples.plist css/ScopeExamples.plist js/ScopeExamples.plist
+LANGUAGES=xml/ScopeExamples.plist css/ScopeExamples.plist js/ScopeExamples.plist html/ScopeExamples.plist
 SCOPEDOC=SEEScopeDoc.html
 
 all: doc examples
