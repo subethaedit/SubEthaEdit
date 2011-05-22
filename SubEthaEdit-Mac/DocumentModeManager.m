@@ -566,12 +566,13 @@ static DocumentModeManager *S_sharedInstance=nil;
 	[I_modeIdentifiersByExtension removeAllObjects];
 #endif //defined(CODA)
     [self TCM_findModes];
+	[I_documentModesByIdentifierLock unlock]; // ifc - experimental
+
     [[NSNotificationCenter defaultCenter] postNotificationName:@"DocumentModeListChanged" object:self];
     
     [self setModePrecedenceArray:[self reloadPrecedences]];
     [self revalidatePrecedences];
 
-	[I_documentModesByIdentifierLock unlock]; // ifc - experimental
 
 }
 
