@@ -2,15 +2,25 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
   <dict>
+    <key>meta.default</key>
+    <string>Default Text</string>
+    <key>meta.highlight.currentline</key>
+    <string>-</string>
+    <key>meta.invisible.character</key>
+    <string>¶ .</string>
+    <key>meta.link</key>
+    <string>http://apple.com www.panic.com</string>
+    <key>meta.link.email</key>
+    <string>steve@apple.com</string>
     <key>meta.important</key>
-    <string>important</string>
+    <string>!important</string>
     <key>style.comment.block</key>
     <string>/* Comment */</string>
     <key>style.comment.block.documentation</key>
     <string>/** Documentation Comment **/</string>
     <key>style.property.name</key>
     <string>padding margin font display width height border</string>
-    <key>style.value.string.parantheses</key>
+    <key>style.value.string.parentheses</key>
     <string>(lorem ipsum)</string>
     <key>style.value.string.single</key>
     <string>'lorem ipsum'</string>

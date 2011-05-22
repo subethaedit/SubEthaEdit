@@ -8,10 +8,10 @@
 <dict>
 <!--	<key>keyword.control.js</key>
 	<string>if else class new do while</string>-->
-	<xsl:for-each select="//scope[example/@lang = $lang]">
+	<xsl:for-each select="//scope[contains(example/@lang,$lang)]">
 	<key><xsl:value-of select="@name"/></key>
 	<string>
-		<xsl:for-each select="example[@lang = $lang]">
+		<xsl:for-each select="example[contains(@lang,$lang)]">
 			<xsl:choose>
 				<xsl:when test="position() = 1">
 					<xsl:value-of select="."/>

@@ -2,6 +2,16 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
   <dict>
+    <key>meta.default</key>
+    <string>Default Text</string>
+    <key>meta.highlight.currentline</key>
+    <string>-</string>
+    <key>meta.invisible.character</key>
+    <string>¶ .</string>
+    <key>meta.link</key>
+    <string>http://apple.com www.panic.com</string>
+    <key>meta.link.email</key>
+    <string>steve@apple.com</string>
     <key>markup.constant.entity</key>
     <string>&amp;lt; &amp;#160; &amp;#x2014;</string>
     <key>meta.invalid.sgmlcomment</key>

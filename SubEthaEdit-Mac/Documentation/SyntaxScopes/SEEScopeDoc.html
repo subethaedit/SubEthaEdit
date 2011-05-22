@@ -106,7 +106,10 @@
                   <tt>meta.default</tt>
                 </td>
                 <td>
-                  <div class="examples"></div>
+                  <div class="examples">
+                    <tt>Default Text</tt>
+                    <span class="language">js css html xml</span>
+                  </div>
                 </td>
               </tr>
             </table>
@@ -121,7 +124,10 @@
                   <tt>meta.highlight.currentline</tt>
                 </td>
                 <td>
-                  <div class="examples"></div>
+                  <div class="examples">
+                    <tt>-</tt>
+                    <span class="language">js css html xml</span>
+                  </div>
                 </td>
               </tr>
             </table>
@@ -136,7 +142,12 @@
                   <tt>meta.invisible.character</tt>
                 </td>
                 <td>
-                  <div class="examples"></div>
+                  <div class="examples">
+                    <tt>¶</tt>
+                    <span class="language">js css html xml</span>
+                    <tt>.</tt>
+                    <span class="language">js css html xml</span>
+                  </div>
                 </td>
               </tr>
             </table>
@@ -153,9 +164,9 @@
                 <td>
                   <div class="examples">
                     <tt>http://apple.com</tt>
-                    <span class="language"></span>
+                    <span class="language">js css html xml</span>
                     <tt>www.panic.com</tt>
-                    <span class="language"></span>
+                    <span class="language">js css html xml</span>
                   </div>
                 </td>
               </tr>
@@ -166,7 +177,7 @@
                 <td>
                   <div class="examples">
                     <tt>steve@apple.com</tt>
-                    <span class="language"></span>
+                    <span class="language">js css html xml</span>
                   </div>
                 </td>
               </tr>
@@ -177,7 +188,7 @@
       </div>
       <div class="syntax_scope_area">
         <h3>Programming Languages (c, js, php, ruby)</h3>
-        <p>Scopes present in Programming languages.</p>
+        <p>Scopes present in programming languages.</p>
         <div class="syntax_scope">
           <div class="syntax_scope_name">
             <table>
@@ -196,7 +207,7 @@
                 <td>
                   <div class="examples">
                     <tt>// comment</tt>
-                    <span class="language">c</span>
+                    <span class="language">js c</span>
                     <tt># comment</tt>
                     <span class="language">sh</span>
                   </div>
@@ -290,7 +301,7 @@
             <table>
               <tr>
                 <td>
-                  <tt>entity</tt>
+                  <tt>language</tt>
                 </td>
                 <td>
                   <div class="examples"></div>
@@ -298,7 +309,7 @@
               </tr>
               <tr>
                 <td>
-                  <tt>entity.name.function</tt>
+                  <tt>language.function</tt>
                 </td>
                 <td>
                   <div class="examples">
@@ -309,7 +320,7 @@
               </tr>
             </table>
           </div>
-          <p class="syntax_scope_description">language constructs like function calls, method calls, </p>
+          <p class="syntax_scope_description">language constructs like function calls, method calls, etc</p>
         </div>
         <div class="syntax_scope">
           <div class="syntax_scope_name">
@@ -331,19 +342,19 @@
                     <tt>0</tt>
                     <span class="language">js</span>
                     <tt>15</tt>
-                    <span class="language">c</span>
+                    <span class="language">js</span>
                     <tt>0x4a</tt>
-                    <span class="language">c</span>
+                    <span class="language">js</span>
                     <tt>0713</tt>
-                    <span class="language">c</span>
+                    <span class="language">js</span>
                     <tt>3.14</tt>
-                    <span class="language">c</span>
+                    <span class="language">js</span>
                   </div>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <tt>constant.language.literal</tt>
+                  <tt>constant.numeric.keyword</tt>
                 </td>
                 <td>
                   <div class="examples">
@@ -375,33 +386,44 @@
               </tr>
               <tr>
                 <td>
-                  <tt>string.quoted.single</tt>
+                  <tt>string.single</tt>
                 </td>
                 <td>
                   <div class="examples">
-                    <tt>'single'</tt>
+                    <tt>'lorem ipsum'</tt>
                     <span class="language">js</span>
                   </div>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <tt>string.quoted.double</tt>
+                  <tt>string.double</tt>
                 </td>
                 <td>
                   <div class="examples">
-                    <tt>"double"</tt>
+                    <tt>"lorem ipsum"</tt>
                     <span class="language">js</span>
                   </div>
                 </td>
               </tr>
               <tr>
                 <td>
-                  <tt>string.quoted.double.nsstring</tt>
+                  <tt>string.regex</tt>
                 </td>
                 <td>
                   <div class="examples">
-                    <tt>@"NSString"</tt>
+                    <tt>/foo/bar/</tt>
+                    <span class="language">js</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>string.double.nsstring</tt>
+                </td>
+                <td>
+                  <div class="examples">
+                    <tt>@"NSIpsum"</tt>
                     <span class="language">objective-c</span>
                   </div>
                 </td>
@@ -426,12 +448,21 @@
                   <tt>support.class.standard</tt>
                 </td>
                 <td>
-                  <div class="examples"></div>
+                  <div class="examples">
+                    <tt>Object</tt>
+                    <span class="language">js</span>
+                    <tt>String</tt>
+                    <span class="language">js</span>
+                    <tt>Array</tt>
+                    <span class="language">js</span>
+                    <tt>Math</tt>
+                    <span class="language">js</span>
+                  </div>
                 </td>
               </tr>
             </table>
           </div>
-          <p class="syntax_scope_description">Standard Framework keywords</p>
+          <p class="syntax_scope_description">Standard Framework keywords/classnames/constants</p>
         </div>
       </div>
       <div class="syntax_scope_area">
@@ -446,7 +477,7 @@
                 </td>
                 <td>
                   <div class="examples">
-                    <tt>important</tt>
+                    <tt>!important</tt>
                     <span class="language">css</span>
                   </div>
                 </td>
@@ -514,7 +545,7 @@
               </tr>
               <tr>
                 <td>
-                  <tt>style.value.string.parantheses</tt>
+                  <tt>style.value.string.parentheses</tt>
                 </td>
                 <td>
                   <div class="examples">
