@@ -81,8 +81,8 @@
 			<description>Bad SGML comments, bad Escaping, etc.</description>
 		</scope_group>
 		<scope_group>
-			<scope name="markup.comment"><example lang="xml">&lt;-- SGML Comment --></example></scope>
-			<scope name="markup.inline.cdata"><example lang="xml">&lt;[CDATA[&lt;inline>Data&lt;/inline>]]&gt;</example></scope>
+			<scope name="markup.comment"><example lang="xml">&lt;!-- SGML Comment --></example></scope>
+			<scope name="markup.inline.cdata"><example lang="xml">&lt;![CDATA[&lt;inline>Data&lt;/inline>]]&gt;</example></scope>
 			<scope name="markup.processing"><example lang="xml">&lt;?xml version='1.0' encoding='utf-8'?></example></scope>
 			<scope name="markup.tag"><example lang="xml">&lt;document></example><example lang="xml">&lt;br/></example></scope>
 			<scope name="markup.tag.attribute.name"><example lang="xml">href</example><example lang="xml">id</example><example lang="xml">class</example></scope>
