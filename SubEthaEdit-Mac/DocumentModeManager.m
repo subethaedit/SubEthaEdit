@@ -552,11 +552,12 @@ static DocumentModeManager *S_sharedInstance=nil;
 
 - (IBAction)reloadDocumentModes:(id)aSender {
 
-	[I_documentModesByIdentifierLock lock]; // ifc - experimental
-
     // write all preferences
     [[I_documentModesByIdentifier allValues] makeObjectsPerformSelector:@selector(writeDefaults)];
     [[NSUserDefaults standardUserDefaults] setObject:[self modePrecedenceArray] forKey:@"ModePrecedences"];
+
+	// must be here otherwise we might deadlock
+	[I_documentModesByIdentifierLock lock]; // ifc - experimental
     
     // reload all modes
     [I_modeBundles                removeAllObjects];

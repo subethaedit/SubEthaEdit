@@ -77,15 +77,16 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 			[NSNumber numberWithFloat:strokeWidth],NSStrokeWidthAttributeName,
 			nil];
 	
+	// this may have inheritance issues
 	if (backgroundColor) {
 		[result setObject:backgroundColor forKey:NSBackgroundColorAttributeName];
 	}
+
+	NSNumber *strikeThroughStyle = [[aStyleAttributeDictionary objectForKey:SEEStyleSheetFontStrikeThroughKey] isEqualToString:SEEStyleSheetValueStrikeThrough] ? [NSNumber numberWithInteger:NSUnderlineStyleSingle] : [NSNumber numberWithInteger:0];
+	[result setObject:strikeThroughStyle forKey:NSStrikethroughStyleAttributeName];
 	
-	if ([[aStyleAttributeDictionary objectForKey:SEEStyleSheetFontStrikeThroughKey] isEqualToString:SEEStyleSheetValueStrikeThrough])
-		[result setObject:[NSNumber numberWithInteger:NSUnderlineStyleSingle] forKey:NSStrikethroughStyleAttributeName];
-	
-	if ([[aStyleAttributeDictionary objectForKey:SEEStyleSheetFontUnderlineKey] isEqualToString:SEEStyleSheetValueUnderline])
-		[result setObject:[NSNumber numberWithInteger:NSUnderlineStyleSingle] forKey:NSUnderlineStyleAttributeName];
+	NSNumber *underlineStyle = [[aStyleAttributeDictionary objectForKey:SEEStyleSheetFontUnderlineKey] isEqualToString:SEEStyleSheetValueUnderline] ? [NSNumber numberWithInteger:NSUnderlineStyleSingle] : [NSNumber numberWithInteger:0];
+	[result setObject:underlineStyle forKey:NSUnderlineStyleAttributeName];
 
 	return result;
 	
