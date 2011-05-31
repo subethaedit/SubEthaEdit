@@ -582,13 +582,11 @@
                     <state-link state="Comment"/>
                     <state-link state="String"/>
                     <state-link state="SingleString"/>
-                    <state-link state="Round bracket"/>
                 </state>
                 <state-link state="AutodocComment"/>
                 <state-link state="Comment"/>
                 <state-link state="String"/>
                 <state-link state="SingleString"/>
-                <state-link state="Round bracket"/>
             </state>
             
             <state id="Rules" color="#683821" font-weight="bold" font-style="italic" scope="style.at-rule">
@@ -619,14 +617,6 @@
                     <regex>\*/</regex>
                 </end>
                 <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
-            </state>
-            <state id="Round bracket" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="style.value.string.parentheses">
-                <begin>
-                    <string>\(</string>
-                </begin>
-                <end>
-                    <regex>\)</regex>
-                </end>
             </state>
             <state id="String" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="style.value.string.double">
                 <begin>

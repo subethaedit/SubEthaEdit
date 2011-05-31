@@ -1,0 +1,25 @@
+{
+	comment = "// code comment";
+	"comment.block" = "/* code block comment */";
+	keyword = "code keywords";
+	"keyword.type" = "code type keywords";
+	"language.function" = "code_functions()";
+	constant = "code constants";
+	string = "\"code strings\"";
+	"string.regex" = "/code regex/";
+	support = "code libraries";
+	"meta.important" = "!important";
+	"style.comment" = "/* CSS comment */";
+	"style.property.name" = "CSS properties";
+	"style.value" = "CSS Values";
+	"style.value.string" = "\"CSS strings\"";
+	"style.value.color.rgb-value" = "CSS colors #fff";
+	"style.at-rule" = "CSS @import @media";
+	"markup.constant.entity" = "HTML &entities; &lt;";
+	"meta.invalid" = "HTML invalid";
+	"markup.comment" = "<!-- SGML Comment -->";
+	"markup.inline.cdata" = "<![CDATA[<inline>Data</inline>]]>";
+	"markup.processing" = "<?xml html version='1.0' processing instructions ?>";
+	"markup.tag.attribute.value" = "\"HTML Attribute Values\"";
+	"markup.declaration" = "<!DOCTYPE >";
+}

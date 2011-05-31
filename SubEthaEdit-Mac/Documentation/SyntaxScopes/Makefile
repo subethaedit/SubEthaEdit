@@ -2,7 +2,7 @@
 
 XSLTPROC=/usr/bin/xsltproc
 
-LANGUAGES=xml/ScopeExamples.plist css/ScopeExamples.plist js/ScopeExamples.plist html/ScopeExamples.plist
+LANGUAGES=xml/ScopeExamples.plist css/ScopeExamples.plist js/ScopeExamples.plist html/ScopeExamples.plist coda/ScopeExamples.plist
 SCOPEDOC=SEEScopeDoc.html
 
 all: doc examples
@@ -14,7 +14,7 @@ clean:
 
 examples: $(LANGUAGES)
 
-%.html: ScopeDoc.xml
+%.html: ScopeDoc.xml ScopeDoc.xslt
 	$(XSLTPROC) ScopeDoc.xslt ScopeDoc.xml > $*.html
 	
 %/ScopeExamples.plist: ScopeDoc.xml ScopeExamples.plist.xslt

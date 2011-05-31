@@ -133,7 +133,7 @@ static DocumentModeManager *S_sharedInstance=nil;
 }
 
 + (NSString *)defaultStyleSheetName {
-	return @"Default Code Bright";
+	return @"Bright Dom";
 }
 
 + (NSString *)xmlFileRepresentationOfAllStyles {

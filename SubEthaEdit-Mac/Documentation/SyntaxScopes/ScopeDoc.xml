@@ -25,39 +25,39 @@
 		<title>Programming Languages (c, js, php, ruby)</title>
 		<description>Scopes present in programming languages.</description>
 		<scope_group>
-			<scope name="comment"></scope>
+			<scope name="comment"><example lang="coda">// code comment</example></scope>
 			<scope name="comment.line"><example lang="js c">// comment</example><example lang="sh"># comment</example></scope>
-			<scope name="comment.block"><example lang="js">/* Comment */</example></scope>
+			<scope name="comment.block"><example lang="coda">/* code block comment */</example><example lang="js">/* Comment */</example></scope>
 			<scope name="comment.block.documentation"><example lang="js">/*&quot; Autodoc Comment &quot;*/</example><example lang="c">/** Doxygen Comment **/</example></scope>
 			<description>All sorts of comments</description>
 		</scope_group>
 		<scope_group>
-			<scope name="keyword"></scope>
+			<scope name="keyword"><example lang="coda">code keywords</example></scope>
 			<scope name="keyword.control"><example lang="js">if</example> <example lang="js">else</example> <example lang="js">class</example> <example lang="js">new</example> <example lang="js">do</example> <example lang="js">while</example></scope>
-			<scope name="keyword.type"><example lang="js">byte</example> <example lang="js">float</example> <example lang="js">char</example> <example lang="js">void</example> <example lang="js">double</example></scope>
+			<scope name="keyword.type"><example lang="coda">code type keywords</example><example lang="js">byte</example> <example lang="js">float</example> <example lang="js">char</example> <example lang="js">void</example> <example lang="js">double</example></scope>
 			<description>Language Keywords</description>
 		</scope_group>
 		<scope_group>
 			<scope name="language"></scope>
-			<scope name="language.function"><example lang="js">my_function_call()</example></scope>
+			<scope name="language.function"><example lang="coda">code_functions()</example><example lang="js">my_function_call()</example></scope>
 			<description>language constructs like function calls, method calls, etc</description>
 		</scope_group>
 		<scope_group>
-			<scope name="constant"></scope>
+			<scope name="constant"><example lang="coda">code constants</example></scope>
 			<scope name="constant.numeric"><example lang="js">0</example> <example lang="js">15</example><example lang="js">0x4a</example> <example lang="js">0713</example> <example lang="js">3.14</example></scope>
 			<scope name="constant.numeric.keyword"><example lang="js">NaN</example> <example lang="js">Infinity</example> <example lang="js">true</example> <example lang="js">false</example></scope>
 			<description>Constants and Literals</description>
 		</scope_group>
 		<scope_group>
-			<scope name="string"></scope>
+			<scope name="string"><example lang="coda">"code strings"</example></scope>
 			<scope name="string.single"><example lang="js">'lorem ipsum'</example></scope>
 			<scope name="string.double"><example lang="js">"lorem ipsum"</example></scope>
-			<scope name="string.regex"><example lang="js">/foo/bar/</example></scope>
+			<scope name="string.regex"><example lang="coda">/code regex/</example><example lang="js">/foo/bar/</example></scope>
 			<scope name="string.double.nsstring"><example lang="objective-c">@"NSIpsum"</example></scope>
 			<description>Strings</description>
 		</scope_group>
 		<scope_group>
-			<scope name="support"></scope>
+			<scope name="support"><example lang="coda">code libraries</example></scope>
 			<scope name="support.class.standard"><example lang="js">Object</example><example lang="js">String</example><example lang="js">Array</example><example lang="js">Math</example></scope>
 			<description>Standard Framework keywords/classnames/constants</description>
 		</scope_group>
@@ -66,41 +66,41 @@
 		<title>Document Description Languages</title>
 		<description>Scopes that represent HTML, css, and other non-programming languages</description>
 		<scope_group>
-			<scope name="meta.important"><example lang="css">!important</example></scope>
+			<scope name="meta.important"><example lang="coda">!important</example><example lang="css">!important</example></scope>
+			<scope name="style.comment"><example lang="coda">/* CSS comment */</example></scope>
 			<scope name="style.comment.block"><example lang="css">/* Comment */</example></scope>
 			<scope name="style.comment.block.documentation"><example lang="css">/** Documentation Comment **/</example></scope>
-			<scope name="style.property.name"><example lang="css">padding</example> <example lang="css">margin</example> <example lang="css">font</example> <example lang="css">display</example> <example lang="css">width</example> <example lang="css">height</example> <example lang="css">border</example></scope>
-			<scope name="style.value"></scope>
-			<scope name="style.value.string"></scope>
-			<scope name="style.value.string.parentheses"><example lang="css">(lorem ipsum)</example></scope>
+			<scope name="style.property.name"><example lang="coda">CSS properties</example><example lang="css">padding</example> <example lang="css">margin</example> <example lang="css">font</example> <example lang="css">display</example> <example lang="css">width</example> <example lang="css">height</example> <example lang="css">border</example></scope>
+			<scope name="style.value"><example lang="coda">CSS Values</example></scope>
+			<scope name="style.value.string"><example lang="coda">"CSS strings"</example></scope>
 			<scope name="style.value.string.single"><example lang="css">'lorem ipsum'</example></scope>
 			<scope name="style.value.string.double"><example lang="css">"lorem ipsum"</example></scope>
-			<scope name="style.value.color.rgb-value"><example lang="css">#fff</example><example lang="css">#0000a1</example><example lang="css">#cbafde</example></scope>
+			<scope name="style.value.color.rgb-value"><example lang="coda">CSS colors #fff</example><example lang="css">#fff</example><example lang="css">#0000a1</example><example lang="css">#cbafde</example></scope>
 			<scope name="style.value.numeric"><example lang="css">1.4em</example><example lang="css">5px</example><example lang="css">17pt</example><example lang="css">100%</example><example lang="css">30deg</example></scope>
 			<scope name="style.value.keyword"><example lang="css">bold</example><example lang="css">linear</example><example lang="css">block</example><example lang="css">none</example><example lang="css">no-repeat</example><example lang="css">monospace</example><example lang="css">pointer</example></scope>
-			<scope name="style.at-rule"><example lang="css">@import</example><example lang="css">@media</example></scope>
+			<scope name="style.at-rule"><example lang="coda">CSS @import @media</example><example lang="css">@import</example><example lang="css">@media</example></scope>
 
 			<description>Style</description>
 		</scope_group>
 		<scope_group>
-			<scope name="markup.constant.entity"><example lang="xml html">&amp;lt;</example><example lang="xml html">&amp;#160;</example><example lang="xml html">&amp;#x2014;</example></scope>
+			<scope name="markup.constant.entity"><example lang="coda">HTML &amp;entities; &amp;lt;</example><example lang="xml html">&amp;lt;</example><example lang="xml html">&amp;#160;</example><example lang="xml html">&amp;#x2014;</example></scope>
 			<description>constants</description>
 		</scope_group>
 		<scope_group>
-			<scope name="meta.invalid"></scope>
+			<scope name="meta.invalid"><example lang="coda">HTML invalid</example></scope>
 			<scope name="meta.invalid.sgmlcomment"><example lang="xml html">--</example></scope>
 			<scope name="meta.invalid.ampersand"><example lang="xml html">&amp;</example></scope>
 			<description>Bad SGML comments, bad Escaping, etc.</description>
 		</scope_group>
 		<scope_group>
-			<scope name="markup.comment"><example lang="xml html">&lt;!-- SGML Comment --></example></scope>
-			<scope name="markup.inline.cdata"><example lang="xml html">&lt;![CDATA[&lt;inline>Data&lt;/inline>]]&gt;</example></scope>
-			<scope name="markup.processing"><example lang="xml html">&lt;?xml html version='1.0' encoding='utf-8'?></example></scope>
+			<scope name="markup.comment"><example lang="xml html coda">&lt;!-- SGML Comment --></example></scope>
+			<scope name="markup.inline.cdata"><example lang="xml html coda">&lt;![CDATA[&lt;inline>Data&lt;/inline>]]&gt;</example></scope>
+			<scope name="markup.processing"><example lang="coda">&lt;?xml html version='1.0' processing instructions ?></example><example lang="xml html">&lt;?xml html version='1.0' encoding='utf-8'?></example></scope>
 			<scope name="markup.tag"><example lang="xml html">&lt;document></example><example lang="xml html">&lt;br/></example></scope>
 			<scope name="markup.tag.attribute.name"><example lang="xml html">href</example><example lang="xml html">id</example><example lang="xml html">class</example></scope>
-			<scope name="markup.tag.attribute.value"></scope>
+			<scope name="markup.tag.attribute.value"><example lang="coda">"HTML Attribute Values"</example></scope>
 			<scope name="markup.tag.attribute.value.string"><example lang="xml html">"left"</example><example lang="xml html">"utf-8"</example></scope>
-			<scope name="markup.declaration"><example lang="xml html">&lt;!DOCTYPE ></example><example lang="xml html">&lt;!ENTITY ></example></scope>
+			<scope name="markup.declaration"><example lang="coda">&lt;!DOCTYPE ></example><example lang="xml html">&lt;!DOCTYPE ></example><example lang="xml html">&lt;!ENTITY ></example></scope>
 			<scope name="markup.declaration.string.double"><example lang="xml html">"spec.dtd"</example></scope>
 			<scope name="markup.declaration.string.single"><example lang="xml html">'&lt;'</example></scope>
 			<scope name="markup.processing.attribute.value.string"><example lang="xml html">"utf-8"</example><example lang="xml html">'no'</example></scope>

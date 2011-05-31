@@ -92,8 +92,21 @@
     <h1>SubEthaEdit Syntax Scope Style Guide</h1>
     <div id="content">
       <h2>Overview</h2>
-      <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eleifend ipsum ac tortor condimentum posuere. Donec in rhoncus metus. Nullam mollis mollis ante vel pharetra. Duis quis ipsum velit. Fusce commodo consectetur felis, vitae sagittis orci convallis id. Quisque suscipit faucibus justo ut egestas. Maecenas sed lorem elit, nec faucibus velit.</p>
-      <p>Ut convallis, risus in gravida eleifend, urna sapien ultricies tellus, eget congue dui ante vitae est. Maecenas luctus tincidunt eros, vel aliquet dui semper sed. In hendrerit facilisis ipsum, eget bibendum purus blandit at. Suspendisse eu urna ut mauris pretium accumsan eu id urna. Maecenas a dolor hendrerit turpis posuere fermentum id eget enim. Donec justo sapien, dictum at consectetur a, posuere sed diam. Nullam a cursus est. Nullam risus orci, commodo id interdum malesuada, dapibus eu metus.</p>
+      <ul>
+        <li>Syntax Highlighting is defined using hierachical Syntax Scopes</li>
+        <li>Styles are assigned to Syntax Scopes in a Style Sheet File (e.g. "Bright Dom.sss") that has similiar syntax to an CSS file</li>
+        <li>However, the .sss files do not support selectors, they are just a list of scope -&gt; style assignments. E.g. <pre style="display:block; background:#fff; font-size:0.8em; margin:0 auto 0 0; padding:2px 10px; width: 300px;">style.value.numeric {
+  background-color:#ffffff;
+  color:#0000ff;
+  font-strike-through:strike-through;
+  font-style:normal;
+  font-underline:underline;
+  font-weight:normal;
+}</pre></li>
+        <li>Scope matching is done using simple prefix matching. E.g.: if <tt>style</tt> is defined in a Style sheet, then <tt>style.value.numeric</tt> will use this style unless a more specific scope (e.g. <tt>style.value</tt>) is defined</li>
+        <li>If a Style does not specify all attributes, it inherits from the next less specific style. In the end all Styles inherit from <tt>meta.default</tt></li>
+        <li>Style sheets should represent a complete color scheme, providing at least all high level scopes</li>
+      </ul>
       <h2>Scope Areas</h2>
       <div class="syntax_scope_area">
         <h3>General</h3>
@@ -197,7 +210,10 @@
                   <tt>comment</tt>
                 </td>
                 <td>
-                  <div class="examples"></div>
+                  <div class="examples">
+                    <tt>// code comment</tt>
+                    <span class="language">coda</span>
+                  </div>
                 </td>
               </tr>
               <tr>
@@ -219,6 +235,8 @@
                 </td>
                 <td>
                   <div class="examples">
+                    <tt>/* code block comment */</tt>
+                    <span class="language">coda</span>
                     <tt>/* Comment */</tt>
                     <span class="language">js</span>
                   </div>
@@ -249,7 +267,10 @@
                   <tt>keyword</tt>
                 </td>
                 <td>
-                  <div class="examples"></div>
+                  <div class="examples">
+                    <tt>code keywords</tt>
+                    <span class="language">coda</span>
+                  </div>
                 </td>
               </tr>
               <tr>
@@ -279,6 +300,8 @@
                 </td>
                 <td>
                   <div class="examples">
+                    <tt>code type keywords</tt>
+                    <span class="language">coda</span>
                     <tt>byte</tt>
                     <span class="language">js</span>
                     <tt>float</tt>
@@ -313,6 +336,8 @@
                 </td>
                 <td>
                   <div class="examples">
+                    <tt>code_functions()</tt>
+                    <span class="language">coda</span>
                     <tt>my_function_call()</tt>
                     <span class="language">js</span>
                   </div>
@@ -330,7 +355,10 @@
                   <tt>constant</tt>
                 </td>
                 <td>
-                  <div class="examples"></div>
+                  <div class="examples">
+                    <tt>code constants</tt>
+                    <span class="language">coda</span>
+                  </div>
                 </td>
               </tr>
               <tr>
@@ -381,7 +409,10 @@
                   <tt>string</tt>
                 </td>
                 <td>
-                  <div class="examples"></div>
+                  <div class="examples">
+                    <tt>"code strings"</tt>
+                    <span class="language">coda</span>
+                  </div>
                 </td>
               </tr>
               <tr>
@@ -412,6 +443,8 @@
                 </td>
                 <td>
                   <div class="examples">
+                    <tt>/code regex/</tt>
+                    <span class="language">coda</span>
                     <tt>/foo/bar/</tt>
                     <span class="language">js</span>
                   </div>
@@ -440,7 +473,10 @@
                   <tt>support</tt>
                 </td>
                 <td>
-                  <div class="examples"></div>
+                  <div class="examples">
+                    <tt>code libraries</tt>
+                    <span class="language">coda</span>
+                  </div>
                 </td>
               </tr>
               <tr>
@@ -478,7 +514,20 @@
                 <td>
                   <div class="examples">
                     <tt>!important</tt>
+                    <span class="language">coda</span>
+                    <tt>!important</tt>
                     <span class="language">css</span>
+                  </div>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                  <tt>style.comment</tt>
+                </td>
+                <td>
+                  <div class="examples">
+                    <tt>/* CSS comment */</tt>
+                    <span class="language">coda</span>
                   </div>
                 </td>
               </tr>
@@ -510,6 +559,8 @@
                 </td>
                 <td>
                   <div class="examples">
+                    <tt>CSS properties</tt>
+                    <span class="language">coda</span>
                     <tt>padding</tt>
                     <span class="language">css</span>
                     <tt>margin</tt>
@@ -532,7 +583,10 @@
                   <tt>style.value</tt>
                 </td>
                 <td>
-                  <div class="examples"></div>
+                  <div class="examples">
+                    <tt>CSS Values</tt>
+                    <span class="language">coda</span>
+                  </div>
                 </td>
               </tr>
               <tr>
@@ -540,17 +594,9 @@
                   <tt>style.value.string</tt>
                 </td>
                 <td>
-                  <div class="examples"></div>
-                </td>
-              </tr>
-              <tr>
-                <td>
-                  <tt>style.value.string.parentheses</tt>
-                </td>
-                <td>
                   <div class="examples">
-                    <tt>(lorem ipsum)</tt>
-                    <span class="language">css</span>
+                    <tt>"CSS strings"</tt>
+                    <span class="language">coda</span>
                   </div>
                 </td>
               </tr>
@@ -582,6 +628,8 @@
                 </td>
                 <td>
                   <div class="examples">
+                    <tt>CSS colors #fff</tt>
+                    <span class="language">coda</span>
                     <tt>#fff</tt>
                     <span class="language">css</span>
                     <tt>#0000a1</tt>
@@ -639,6 +687,8 @@
                 </td>
                 <td>
                   <div class="examples">
+                    <tt>CSS @import @media</tt>
+                    <span class="language">coda</span>
                     <tt>@import</tt>
                     <span class="language">css</span>
                     <tt>@media</tt>
@@ -659,6 +709,8 @@
                 </td>
                 <td>
                   <div class="examples">
+                    <tt>HTML &amp;entities; &amp;lt;</tt>
+                    <span class="language">coda</span>
                     <tt>&amp;lt;</tt>
                     <span class="language">xml html</span>
                     <tt>&amp;#160;</tt>
@@ -680,7 +732,10 @@
                   <tt>meta.invalid</tt>
                 </td>
                 <td>
-                  <div class="examples"></div>
+                  <div class="examples">
+                    <tt>HTML invalid</tt>
+                    <span class="language">coda</span>
+                  </div>
                 </td>
               </tr>
               <tr>
@@ -719,7 +774,7 @@
                 <td>
                   <div class="examples">
                     <tt>&lt;!-- SGML Comment --&gt;</tt>
-                    <span class="language">xml html</span>
+                    <span class="language">xml html coda</span>
                   </div>
                 </td>
               </tr>
@@ -730,7 +785,7 @@
                 <td>
                   <div class="examples">
                     <tt>&lt;![CDATA[&lt;inline&gt;Data&lt;/inline&gt;]]&gt;</tt>
-                    <span class="language">xml html</span>
+                    <span class="language">xml html coda</span>
                   </div>
                 </td>
               </tr>
@@ -740,6 +795,8 @@
                 </td>
                 <td>
                   <div class="examples">
+                    <tt>&lt;?xml html version='1.0' processing instructions ?&gt;</tt>
+                    <span class="language">coda</span>
                     <tt>&lt;?xml html version='1.0' encoding='utf-8'?&gt;</tt>
                     <span class="language">xml html</span>
                   </div>
@@ -778,7 +835,10 @@
                   <tt>markup.tag.attribute.value</tt>
                 </td>
                 <td>
-                  <div class="examples"></div>
+                  <div class="examples">
+                    <tt>"HTML Attribute Values"</tt>
+                    <span class="language">coda</span>
+                  </div>
                 </td>
               </tr>
               <tr>
@@ -800,6 +860,8 @@
                 </td>
                 <td>
                   <div class="examples">
+                    <tt>&lt;!DOCTYPE &gt;</tt>
+                    <span class="language">coda</span>
                     <tt>&lt;!DOCTYPE &gt;</tt>
                     <span class="language">xml html</span>
                     <tt>&lt;!ENTITY &gt;</tt>

@@ -93,8 +93,20 @@
 				<h1>SubEthaEdit Syntax Scope Style Guide</h1>
 				<div id="content">
 					<h2>Overview</h2>
-					<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam eleifend ipsum ac tortor condimentum posuere. Donec in rhoncus metus. Nullam mollis mollis ante vel pharetra. Duis quis ipsum velit. Fusce commodo consectetur felis, vitae sagittis orci convallis id. Quisque suscipit faucibus justo ut egestas. Maecenas sed lorem elit, nec faucibus velit.</p>
-					<p>Ut convallis, risus in gravida eleifend, urna sapien ultricies tellus, eget congue dui ante vitae est. Maecenas luctus tincidunt eros, vel aliquet dui semper sed. In hendrerit facilisis ipsum, eget bibendum purus blandit at. Suspendisse eu urna ut mauris pretium accumsan eu id urna. Maecenas a dolor hendrerit turpis posuere fermentum id eget enim. Donec justo sapien, dictum at consectetur a, posuere sed diam. Nullam a cursus est. Nullam risus orci, commodo id interdum malesuada, dapibus eu metus.</p>
+					<ul><li>Syntax Highlighting is defined using hierachical Syntax Scopes</li>
+					   <li>Styles are assigned to Syntax Scopes in a Style Sheet File (e.g. "Bright Dom.sss") that has similiar syntax to an CSS file</li>
+					   <li>However, the .sss files do not support selectors, they are just a list of scope -> style assignments. E.g. <pre style="display:block; background:#fff; font-size:0.8em; margin:0 auto 0 0; padding:2px 10px; width: 300px;">style.value.numeric {
+  background-color:#ffffff;
+  color:#0000ff;
+  font-strike-through:strike-through;
+  font-style:normal;
+  font-underline:underline;
+  font-weight:normal;
+}</pre></li>
+          <li>Scope matching is done using simple prefix matching. E.g.: if <tt>style</tt> is defined in a Style sheet, then <tt>style.value.numeric</tt> will use this style unless a more specific scope (e.g. <tt>style.value</tt>) is defined</li>
+          <li>If a Style does not specify all attributes, it inherits from the next less specific style. In the end all Styles inherit from <tt>meta.default</tt></li>
+          <li>Style sheets should represent a complete color scheme, providing at least all high level scopes</li>
+					</ul>
 					<h2>Scope Areas</h2>
 					<xsl:call-template name="scope_areas"/>
 				</div>
