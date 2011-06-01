@@ -14,6 +14,14 @@ static int S_shouldNotNotifyOtherToolbars=0;
 
 - (id)initWithIdentifier:(NSString *)anIdentifier {
     if ((self=[super initWithIdentifier:anIdentifier])) {
+    	NSDictionary *prefs = [[NSUserDefaults standardUserDefaults] objectForKey:[NSString stringWithFormat:@"NSToolbar Configuration %@", anIdentifier]];
+    	if (prefs) {
+    		[self setDisplayMode:[[prefs objectForKey:@"TB Display Mode"] intValue]];
+    		[self setSizeMode:[[prefs objectForKey:@"TB Icon Size Mode"] intValue]];
+    	} else {
+    		[self setDisplayMode:NSToolbarDisplayModeIconOnly];
+    		[self setSizeMode:NSToolbarSizeModeSmall];
+    	}
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(sizeModeDidChange:) name:@"ToolbarSizeModeDidChangeNotification" object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(displayModeDidChange:) name:@"ToolbarDisplayModeDidChangeNotification" object:nil];
     }

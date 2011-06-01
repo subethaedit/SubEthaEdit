@@ -342,6 +342,10 @@
     // trigger the notfications for the first time
     [self sessionDidChange:nil];
     [self participantsDidChange:nil];
+    
+    // initial wrapping fix for lion
+    [self toggleWrap:self];
+    [self toggleWrap:self];
 }
 
 - (void)pushSelectedRanges {

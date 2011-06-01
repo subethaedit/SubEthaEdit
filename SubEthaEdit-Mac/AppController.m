@@ -162,6 +162,7 @@ static AppController *sharedInstance = nil;
 		}
 		
 		//
+		[defaults setObject:[NSNumber numberWithBool:YES] forKey:@"DontSubmitAndRequestHistory"];
 		[defaults setObject:[NSNumber numberWithBool:YES] forKey:VisibilityPrefKey];
 		[defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentStateSaveAndLoadWindowPositionKey];
 		[defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentStateSaveAndLoadTabSettingKey 	  ];

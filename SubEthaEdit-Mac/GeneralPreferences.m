@@ -42,7 +42,7 @@
 						forKey:HighlightChangesAlonePreferenceKey];
 		[defaultDict setObject:[NSNumber numberWithBool:NO]
 						forKey:OpenNewDocumentInTabKey];
-		[defaultDict setObject:[NSNumber numberWithBool:YES]
+		[defaultDict setObject:[NSNumber numberWithBool:NO]
 						forKey:AlwaysShowTabBarKey];
 		[defaultDict setObject:BASEMODEIDENTIFIER
 						forKey:ModeForNewDocumentsPreferenceKey];
