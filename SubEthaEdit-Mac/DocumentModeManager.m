@@ -17,8 +17,8 @@
 #define MODEPATHCOMPONENT @"Application Support/Coda/Modes/"
 #define STYLEPATHCOMPONENT @"Application Support/Coda/Styles/"
 #else
-#define MODEPATHCOMPONENT @"Application Support/SubEthaEdit/Modes/"
-#define STYLEPATHCOMPONENT @"Application Support/SubEthaEdit/Styles/"
+#define MODEPATHCOMPONENT @"Application Support/SubEthaEditDebug/Modes/"
+#define STYLEPATHCOMPONENT @"Application Support/SubEthaEditDebug/Styles/"
 #endif //defined(CODA)
 
 @interface DocumentModeManager (DocumentModeManagerPrivateAdditions)

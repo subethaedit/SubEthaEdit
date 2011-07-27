@@ -1,3 +1,6 @@
+Changes with Version 4.0 (SEE 4.0)
+   *) updated for syntax scopes
+
 Changes with Version 3.5  (SEE 3.5.1)
 	 *) fixed issues with wonky coloring of class member variables
 	 *) made default color of numbers on dark background brighter

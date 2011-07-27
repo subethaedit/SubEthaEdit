@@ -40,6 +40,7 @@
 		<scope_group>
 			<scope name="language"></scope>
 			<scope name="language.function"><example lang="coda">code_functions()</example><example lang="js">my_function_call()</example></scope>
+			<scope name="language.variable"><example lang="php">$my_var</example></scope>
 			<description>language constructs like function calls, method calls, etc</description>
 		</scope_group>
 		<scope_group>
@@ -53,11 +54,14 @@
 			<scope name="string.single"><example lang="js">'lorem ipsum'</example></scope>
 			<scope name="string.double"><example lang="js">"lorem ipsum"</example></scope>
 			<scope name="string.regex"><example lang="coda">/code regex/</example><example lang="js">/foo/bar/</example></scope>
+			<scope name="string.here-doc"><example lang="php">&lt;&lt;&lt;EOT  something direct EOT;</example></scope>
 			<scope name="string.double.nsstring"><example lang="objective-c">@"NSIpsum"</example></scope>
 			<description>Strings</description>
 		</scope_group>
 		<scope_group>
 			<scope name="support"><example lang="coda">code libraries</example></scope>
+			<scope name="support.function"><example lang="php">htmlentities</example><example lang="php">array_splice</example></scope>
+			<scope name="support.method.special"><example lang="php">__construct</example><example lang="php">__clone</example></scope>
 			<scope name="support.class.standard"><example lang="js">Object</example><example lang="js">String</example><example lang="js">Array</example><example lang="js">Math</example></scope>
 			<description>Standard Framework keywords/classnames/constants</description>
 		</scope_group>
@@ -96,6 +100,7 @@
 			<scope name="markup.comment"><example lang="xml html coda">&lt;!-- SGML Comment --></example></scope>
 			<scope name="markup.inline.cdata"><example lang="xml html coda">&lt;![CDATA[&lt;inline>Data&lt;/inline>]]&gt;</example></scope>
 			<scope name="markup.processing"><example lang="coda">&lt;?xml html version='1.0' processing instructions ?></example><example lang="xml html">&lt;?xml html version='1.0' encoding='utf-8'?></example></scope>
+			<scope name="markup.processing.languageswitch"><example lang="php">&lt;?php</example><example lang="php">?></example></scope>
 			<scope name="markup.tag"><example lang="xml html">&lt;document></example><example lang="xml html">&lt;br/></example></scope>
 			<scope name="markup.tag.attribute.name"><example lang="xml html">href</example><example lang="xml html">id</example><example lang="xml html">class</example></scope>
 			<scope name="markup.tag.attribute.value"><example lang="coda">"HTML Attribute Values"</example></scope>
