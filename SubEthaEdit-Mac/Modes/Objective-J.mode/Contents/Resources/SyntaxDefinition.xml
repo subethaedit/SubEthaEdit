@@ -14,15 +14,15 @@
     
         <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" scope="meta.default">
             
-            <keywords id="Numbers" color="#00f" inverted-color="#5d56ff" useforautocomplete="no">
-				<regex>(?&lt;![\w\d\._])((?:(?:(?:[0-9]+\.[0-9]*)|(\.[0-9]+))(?:[eE][+\-]?[0-9]+)?[fFlL]?)|(?:(?:(?:[1-9][0-9]*)|0[1-7][0-7]*|(?:0[xX][0-9a-fA-F]+))(?:(?:[uU][lL]?)|(?:[lL][uU]?))?))(?![\w\d\._])</regex>
+            <keywords id = "Numbers" color = "#00f" useforautocomplete = "no" scope="constant.numeric">
+                <regex>(?&lt;=[^\w\d]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
             </keywords>
             
-            <keywords id = "Function Calls" color = "#003369" useforautocomplete = "no">
+            <keywords id = "Function Calls" color = "#003369" useforautocomplete = "no" scope="language.function">
                 <regex>([A-Za-z0-9_]+ *)\(</regex>
             </keywords>
             
-            <keywords id = "JavaScript Reserved For Future Use Keywords" color = "#606000" useforautocomplete = "no">
+            <keywords id = "JavaScript Reserved For Future Use Keywords" color = "#606000" useforautocomplete = "no" scope="keyword.reserved">
                 <string>class</string>
                 <string>const</string>
                 <string>enum</string>
@@ -70,7 +70,7 @@
                 <string>volatile</string>
             </keywords>
             
-            <keywords id = "JavaScript Keywords" color = "#1A1AA6" useforautocomplete = "yes">
+            <keywords id = "JavaScript Keywords" color = "#1A1AA6" useforautocomplete = "yes" scope="keyword.javascript">
                 <string>__proto__</string>
                 <string>break</string>
                 <string>case</string>
@@ -102,7 +102,7 @@
                 <string>with</string>
             </keywords>
             
-            <keywords id = "Objective-J Keywords" color = "#751150" useforautocomplete = "yes">
+            <keywords id = "Objective-J Keywords" color = "#751150" useforautocomplete = "yes" scope="keyword.obj">
                 <string>id</string>
                 <string>NULL</string>
                 <string>nil</string>
@@ -114,6 +114,7 @@
                 <string>NO</string>
                 <string>IBAction</string>
                 <string>IBOutlet</string>
+                <string>@outlet</string>
                 <string>int</string>
                 <string>long</string>
                 <string>float</string>
@@ -128,7 +129,7 @@
                 <string>short</string>
             </keywords>
             
-            <keywords id = "Objective-J Directives" color = "#1A1AA6" useforautocomplete = "yes" font-weight = "bold">
+            <keywords id = "Objective-J Directives" color = "#1A1AA6" useforautocomplete = "yes" scope="language.directive">
                 <string>@accessors</string>
                 <string>@class</string>
                 <string>@end</string>
@@ -143,7 +144,7 @@
                 <string>@selector</string>
             </keywords>
             
-            <keywords id = "Objective-J Selector" color = "#003369" casesensitive = "yes">
+            <keywords id = "Objective-J Selector" color = "#003369" casesensitive = "yes" scope="language.selector">
                 <regex>[^:]\([^)]*\)[   ]*([A-Za-z0-9_]+)[  ]*[{;]</regex>
                 <regex>\)[  ]*([A-Za-z0-9_]+:)</regex>
                 <regex>([A-Za-z0-9_]+:)</regex>
@@ -151,9 +152,9 @@
                 <regex>[\-\+][  ]*\([A-Za-z0-9_]+\)[  ]*([A-Za-z0-9_]+)</regex>
             </keywords>
             
-            <keywords id = "Cappuccino Classes" color = "#751150" background-color = "#fff" font-weight = "normal" font-style = "normal" casesensitive = "yes" useforautocomplete = "yes">
+            <keywords id = "Cappuccino Classes" color = "#751150" background-color = "#fff" font-weight = "normal" font-style = "normal" casesensitive = "yes" useforautocomplete = "yes" scope="support.class.standard">
                 <string>CPAccessibility</string>
-                <string>CPActionCell</string>
+                <!-- <string>CPActionCell</string> -->
                 <string>CPAffineTransform</string>
                 <string>CPAppleEventDescriptor</string>
                 <string>CPAppleEventManager</string>
@@ -168,13 +169,13 @@
                 <string>CPBitmapImageRep</string>
                 <string>CPBox</string>
                 <string>CPBrowser</string>
-                <string>CPBrowserCell</string>
+                <!-- <string>CPBrowserCell</string> -->
                 <string>CPBundle</string>
                 <string>CPButton</string>
-                <string>CPButtonCell</string>
+                <!-- <string>CPButtonCell</string> -->
                 <string>CPCachedImageRep</string>
                 <string>CPCalendarDate</string>
-                <string>CPCell</string>
+                <!-- <string>CPCell</string> -->
                 <string>CPChangeSpelling</string>
                 <string>CPCharacterSet</string>
                 <string>CPClassDescription</string>
@@ -193,8 +194,8 @@
                 <string>CPColorPickingDefault</string>
                 <string>CPColorWell</string>
                 <string>CPComboBox</string>
-                <string>CPComboBoxCell</string>
-                <string>CPComboBoxCellDataSource</string>
+                <!-- <string>CPComboBoxCell</string> -->
+                <!-- <string>CPComboBoxCellDataSource</string> -->
                 <string>CPComboBoxDataSource</string>
                 <string>CPComparisonMethods</string>
                 <string>CPConditionLock</string>
@@ -238,7 +239,7 @@
                 <string>CPFontManager</string>
                 <string>CPFontPanel</string>
                 <string>CPForm</string>
-                <string>CPFormCell</string>
+                <!-- <string>CPFormCell</string> -->
                 <string>CPFormatter</string>
                 <string>CPGetCommand</string>
                 <string>CPGlyphInfo</string>
@@ -246,7 +247,7 @@
                 <string>CPHelpManager</string>
                 <string>CPHost</string>
                 <string>CPIgnoreMisspelledWords</string>
-                <string>CPImageCell</string>
+                <!-- <string>CPImageCell</string> -->
                 <string>CPImageRep</string>
                 <string>CPImageView</string>
                 <string>CPIndexSpecifier</string>
@@ -268,7 +269,7 @@
                 <string>CPMatrix</string>
                 <string>CPMenu</string>
                 <string>CPMenuItem</string>
-                <string>CPMenuItemCell</string>
+                <!-- <string>CPMenuItemCell</string> -->
                 <string>CPMenuValidation</string>
                 <string>CPMenuView</string>
                 <string>CPMessagePort</string>
@@ -316,7 +317,7 @@
                 <string>CPPasteboard</string>
                 <string>CPPipe</string>
                 <string>CPPopUpButton</string>
-                <string>CPPopUpButtonCell</string>
+                <!-- <string>CPPopUpButtonCell</string> -->
                 <string>CPPort</string>
                 <string>CPPortCoder</string>
                 <string>CPPortMessage</string>
@@ -359,14 +360,14 @@
                 <string>CPScrollView</string>
                 <string>CPScroller</string>
                 <string>CPSecureTextField</string>
-                <string>CPSecureTextFieldCell</string>
+                <!-- <string>CPSecureTextFieldCell</string> -->
                 <string>CPSerializer</string>
                 <string>CPServicesRequests</string>
                 <string>CPSet</string>
                 <string>CPSetCommand</string>
                 <string>CPSimpleHorizontalTypesetter</string>
                 <string>CPSlider</string>
-                <string>CPSliderCell</string>
+                <!-- <string>CPSliderCell</string> -->
                 <string>CPSocketPort</string>
                 <string>CPSocketPortNameServer</string>
                 <string>CPSound</string>
@@ -377,22 +378,22 @@
                 <string>CPStatusBar</string>
                 <string>CPStatusItem</string>
                 <string>CPStepper</string>
-                <string>CPStepperCell</string>
+                <!-- <string>CPStepperCell</string> -->
                 <string>CPString</string>
                 <string>CPTabView</string>
                 <string>CPTabViewItem</string>
                 <string>CPTableColumn</string>
                 <string>CPTableDataSource</string>
-                <string>CPTableHeaderCell</string>
+                <!-- <string>CPTableHeaderCell</string> -->
                 <string>CPTableHeaderView</string>
                 <string>CPTableView</string>
                 <string>CPTask</string>
                 <string>CPText</string>
                 <string>CPTextAttachment</string>
-                <string>CPTextAttachmentCell</string>
+                <!-- <string>CPTextAttachmentCell</string> -->
                 <string>CPTextContainer</string>
                 <string>CPTextField</string>
-                <string>CPTextFieldCell</string>
+                <!-- <string>CPTextFieldCell</string> -->
                 <string>CPTextInput</string>
                 <string>CPTextStorage</string>
                 <string>CPTextStorageScripting</string>
@@ -535,14 +536,14 @@
                 <string>CPColorSpace</string>
                 <string>CPController</string>
                 <string>CPDatePicker</string>
-                <string>CPDatePickerCell</string>
+                <!-- <string>CPDatePickerCell</string> -->
                 <string>CPEntityDescription</string>
                 <string>CPFetchRequest</string>
                 <string>CPFetchedPropertyDescription</string>
                 <string>CPFontDescriptor</string>
                 <string>CPGlyphGenerator</string>
                 <string>CPLevelIndicator</string>
-                <string>CPLevelIndicatorCell</string>
+                <!-- <string>CPLevelIndicatorCell</string> -->
                 <string>CPManagedObject</string>
                 <string>CPManagedObjectContext</string>
                 <string>CPManagedObjectID</string>
@@ -555,8 +556,8 @@
                 <string>CPPropertyDescription</string>
                 <string>CPRelationshipDescription</string>
                 <string>CPSearchField</string>
-                <string>CPSearchFieldCell</string>
-                <string>CPSegmentedCell</string>
+                <!-- <string>CPSearchFieldCell</string> -->
+                <!-- <string>CPSegmentedCell</string> -->
                 <string>CPSegmentedControl</string>
                 <string>CPShadow</string>
                 <string>CPSpeechRecognizer</string>
@@ -566,7 +567,7 @@
                 <string>CPTextTable</string>
                 <string>CPTextTableBlock</string>
                 <string>CPTokenField</string>
-                <string>CPTokenFieldCell</string>
+                <!-- <string>CPTokenFieldCell</string> -->
                 <string>CPTreeController</string>
                 <string>CPUserDefaultsController</string>
                 <string>CPViewAnimation</string>
@@ -600,7 +601,7 @@
                 <string>CPXMLNode</string>
             </keywords>
                         
-            <keywords id = "Cappuccino Types" color = "#400080" font-weight = "normal" font-style = "italic" useforautocomplete = "yes">
+            <keywords id = "Cappuccino Types" color = "#400080" font-weight = "normal" font-style = "italic" useforautocomplete = "yes" scope="keyword.type">
                 <string>CPAffineTransformStruct</string>
                 <string>CPApplicationTerminateReply</string>
                 <string>CPBackingStoreType</string>
@@ -610,10 +611,10 @@
                 <string>CPBorderType</string>
                 <string>CPBoxType</string>
                 <string>CPButtonType</string>
-                <string>CPCellAttribute</string>
-                <string>CPCellImagePosition</string>
-                <string>CPCellState</string>
-                <string>CPCellType</string>
+                <!-- <string>CPCellAttribute</string> -->
+                <!-- <string>CPCellImagePosition</string> -->
+                <!-- <string>CPCellState</string> -->
+                <!-- <string>CPCellType</string> -->
                 <string>CPCharacterCollection</string>
                 <string>CPControlSize</string>
                 <string>CPControlTint</string>
@@ -739,7 +740,7 @@
                 <string>CPCompositingOperation</string>
             </keywords>
             
-            <keywords id = "Cappuccino Constants" color = "#400080" font-weight = "normal" font-style = "italic" useforautocomplete = "yes">
+            <keywords id = "Cappuccino Constants" color = "#400080" font-weight = "normal" font-style = "italic" useforautocomplete = "yes" scope="keyword.constant">
                 <string>CPDecimalMaxSize</string>
                 <string>CPDecimalNoScale</string>
                 <string>CPMaximumStringLength</string>
@@ -1271,28 +1272,28 @@
                 <string>CPCarriageReturnCharacter</string>
                 <string>CPCascadeDeleteRule</string>
                 <string>CPCaseInsensitiveSearch</string>
-                <string>CPCellAllowsMixedState</string>
-                <string>CPCellChangesContents</string>
-                <string>CPCellDisabled</string>
-                <string>CPCellEditable</string>
-                <string>CPCellHasImageHorizontal</string>
-                <string>CPCellHasImageOnLeftOrBottom</string>
-                <string>CPCellHasOverlappingImage</string>
-                <string>CPCellHighlighted</string>
-                <string>CPCellIsBordered</string>
-                <string>CPCellIsInsetButton</string>
-                <string>CPCellLightsByBackground</string>
-                <string>CPCellLightsByContents</string>
-                <string>CPCellLightsByGray</string>
+                <!-- <string>CPCellAllowsMixedState</string> -->
+                <!-- <string>CPCellChangesContents</string> -->
+                <!-- <string>CPCellDisabled</string> -->
+                <!-- <string>CPCellEditable</string> -->
+                <!-- <string>CPCellHasImageHorizontal</string> -->
+                <!-- <string>CPCellHasImageOnLeftOrBottom</string> -->
+                <!-- <string>CPCellHasOverlappingImage</string> -->
+                <!-- <string>CPCellHighlighted</string> -->
+                <!-- <string>CPCellIsBordered</string> -->
+                <!-- <string>CPCellIsInsetButton</string> -->
+                <!-- <string>CPCellLightsByBackground</string> -->
+                <!-- <string>CPCellLightsByContents</string> -->
+                <!-- <string>CPCellLightsByGray</string> -->
                 <string>CPCenterTabStopType</string>
                 <string>CPCenterTextAlignment</string>
                 <string>CPChangeAutosaved</string>
-                <string>CPChangeBackgroundCell</string>
-                <string>CPChangeBackgroundCellMask</string>
+                <!-- <string>CPChangeBackgroundCell</string> -->
+                <!-- <string>CPChangeBackgroundCellMask</string> -->
                 <string>CPChangeCleared</string>
                 <string>CPChangeDone</string>
-                <string>CPChangeGrayCell</string>
-                <string>CPChangeGrayCellMask</string>
+                <!-- <string>CPChangeGrayCell</string> -->
+                <!-- <string>CPChangeGrayCellMask</string> -->
                 <string>CPChangeReadOtherContents</string>
                 <string>CPChangeUndone</string>
                 <string>CPCharacterShapeAttributeName</string>
@@ -1344,7 +1345,7 @@
                 <string>CPConstantValueExpressionType</string>
                 <string>CPContainerSpecifierError</string>
                 <string>CPContainsComparison</string>
-                <string>CPContentsCellMask</string>
+                <!-- <string>CPContentsCellMask</string> -->
                 <string>CPContextHelpModeDidActivateNotification</string>
                 <string>CPContextHelpModeDidDeactivateNotification</string>
                 <string>CPContinuousCapacityLevelIndicatorStyle</string>
@@ -1656,7 +1657,7 @@
                 <string>CPImageCacheDefault</string>
                 <string>CPImageCacheException</string>
                 <string>CPImageCacheNever</string>
-                <string>CPImageCellType</string>
+                <!-- <string>CPImageCellType</string> -->
                 <string>CPImageColorSyncProfileData</string>
                 <string>CPImageCompressionFactor</string>
                 <string>CPImageCompressionMethod</string>
@@ -1865,7 +1866,7 @@
                 <string>CPNibTopLevelObjects</string>
                 <string>CPNoActionDeleteRule</string>
                 <string>CPNoBorder</string>
-                <string>CPNoCellMask</string>
+                <!-- <string>CPNoCellMask</string> -->
                 <string>CPNoFontChangeAction</string>
                 <string>CPNoImage</string>
                 <string>CPNoInterfaceStyle</string>
@@ -1901,7 +1902,7 @@
                 <string>CPNotificationSuspensionBehaviorDeliverImmediately</string>
                 <string>CPNotificationSuspensionBehaviorDrop</string>
                 <string>CPNotificationSuspensionBehaviorHold</string>
-                <string>CPNullCellType</string>
+                <!-- <string>CPNullCellType</string> -->
                 <string>CPNullGlyph</string>
                 <string>CPNullifyDeleteRule</string>
                 <string>CPNumberFormatterBehavior10_0</string>
@@ -2086,7 +2087,7 @@
                 <string>CPPointerToStructHashCallBacks</string>
                 <string>CPPopUpArrowAtBottom</string>
                 <string>CPPopUpArrowAtCenter</string>
-                <string>CPPopUpButtonCellWillPopUpNotification</string>
+<!--                <string>CPPopUpButtonCellWillPopUpNotification</string> -->
                 <string>CPPopUpButtonWillPopUpNotification</string>
                 <string>CPPopUpNoArrow</string>
                 <string>CPPortraitOrientation</string>
@@ -2172,8 +2173,8 @@
                 <string>CPPropertyListOpenStepFormat</string>
                 <string>CPPropertyListXMLFormat</string>
                 <string>CPProprietaryStringEncoding</string>
-                <string>CPPushInCell</string>
-                <string>CPPushInCellMask</string>
+<!--                <string>CPPushInCell</string>
+                <string>CPPushInCellMask</string> -->
                 <string>CPPushOnPushOffButton</string>
                 <string>CPQTMovieLoopingBackAndForthPlayback</string>
                 <string>CPQTMovieLoopingPlayback</string>
@@ -2381,7 +2382,7 @@
                 <string>CPTextBlockPercentageValueType</string>
                 <string>CPTextBlockTopAlignment</string>
                 <string>CPTextBlockWidth</string>
-                <string>CPTextCellType</string>
+<!--                <string>CPTextCellType</string> -->
                 <string>CPTextDidBeginEditingNotification</string>
                 <string>CPTextDidChangeNotification</string>
                 <string>CPTextDidEndEditingNotification</string>
@@ -2802,37 +2803,37 @@
             
         </default>
 
-        <state id = "Objective-J Imports" color = "#683821" background-color = "none">
-            <begin><regex>^\s*@import</regex></begin>
+        <state id = "Objective-J Imports" color = "#683821" background-color = "none" scope="language.import">
+            <begin><regex>^\s*import</regex></begin>
             <end><regex>((?&lt;=[^\\])[\n\r])|(^[\n\r])</regex></end>
         </state>
 
-        <state id = "Characters" color = "#00f" background-color = "none" font-weight = "normal" font-style = "normal">
+        <state id = "Characters" color = "#00f" background-color = "none" font-weight = "normal" font-style = "normal" scope="string.single.characters">
             <begin><regex>'(?=\\?.')</regex></begin>
             <end><regex>(\\'')|(.')</regex></end>
         </state>
 
-        <state id="Autodoc Comment" type="comment" color="#236E25" background-color="none" font-weight="bold" font-style="italic">
+        <state id="Autodoc Comment" type="comment" color="#236E25" background-color="none" font-style="italic" scope="comment.block.documentation"> <!-- STUDIO added types below -->
             <begin><regex>/\*"</regex></begin>
             <end><regex>"\*/</regex></end>
 			<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
         </state>
 
-        <state id="Comment" type="comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
+        <state id="Comment" type="comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic" scope="comment.block">
             <begin><regex>/\*</regex></begin>
             <end><regex>\*/</regex></end>
 			<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
         </state>
         
-        <state id="Single Line Comment"  type="comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic">
+        <state id="Single Line Comment" type="comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic" scope="comment.line">
             <begin><regex>//</regex></begin>
             <end><regex>[\n\r]</regex></end>
 			<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
         </state>
         
-        <state id="String" color="#760f15" type="string" background-color="none" font-weight="normal" font-style="normal">
+        <state id="String" type="string" color="#760f15" background-color="none" font-weight="normal" font-style="normal" usespellchecking="yes" scope="string">
             <begin><string>@?"</string></begin>
-            <end><regex>(?&lt;!\\)(\\\\)*"</regex></end>
+            <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
         </state>
 
         <state id="Block" type="block" foldable="yes">
@@ -2846,6 +2847,7 @@
             <end><regex>@end</regex></end>
             <import />
         </state>
+
 
     </states>
 
