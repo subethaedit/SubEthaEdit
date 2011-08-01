@@ -26,9 +26,10 @@
 		<description>Scopes present in programming languages.</description>
 		<scope_group>
 			<scope name="comment"><example lang="coda">// code comment</example></scope>
-			<scope name="comment.line"><example lang="js c">// comment</example><example lang="sh"># comment</example></scope>
+			<scope name="comment.line"><example lang="js c java">// comment</example><example lang="sh"># comment</example></scope>
 			<scope name="comment.block"><example lang="coda">/* code block comment */</example><example lang="js">/* Comment */</example></scope>
-			<scope name="comment.block.documentation"><example lang="js">/*&quot; Autodoc Comment &quot;*/</example><example lang="c">/** Doxygen Comment **/</example></scope>
+			<scope name="comment.block.documentation"><example lang="js">/*&quot; Autodoc Comment &quot;*/</example><example lang="c java">/** Doxygen Comment **/</example></scope>
+			<scope name="comment.block.documentation.tags"><example lang="java">/** @return **/</example></scope>
 			<description>All sorts of comments</description>
 		</scope_group>
 		<scope_group>
@@ -45,7 +46,8 @@
 		</scope_group>
 		<scope_group>
 			<scope name="constant"><example lang="coda">code constants</example></scope>
-			<scope name="constant.numeric"><example lang="js">0</example> <example lang="js">15</example><example lang="js">0x4a</example> <example lang="js">0713</example> <example lang="js">3.14</example></scope>
+			<scope name="constant.numeric"><example lang="js java c">0</example> <example lang="js java c">15</example><example lang="js java c">0x4a</example> <example lang="js">0713</example> <example lang="js java c">3.14</example></scope>
+			<scope name="constant.numeric.character"><example lang="java c">'c'</example></scope>
 			<scope name="constant.numeric.keyword"><example lang="js">NaN</example> <example lang="js">Infinity</example> <example lang="js">true</example> <example lang="js">false</example></scope>
 			<description>Constants and Literals</description>
 		</scope_group>
