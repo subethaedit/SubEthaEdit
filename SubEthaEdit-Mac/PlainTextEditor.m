@@ -1704,6 +1704,7 @@
             [contextInfo setObject:@"ShouldPromoteAlert" forKey:@"Alert"];
             [contextInfo setObject:aTextView forKey:@"TextView"];
             [contextInfo setObject:[[replacementString copy] autorelease] forKey:@"ReplacementString"];
+			[contextInfo setObject:[NSValue valueWithRange:affectedCharRange] forKey:@"AffectedCharRange"];
             [contextInfo autorelease];
 
             NSAlert *alert = [[[NSAlert alloc] init] autorelease];

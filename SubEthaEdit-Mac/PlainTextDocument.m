@@ -5236,8 +5236,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         }
     }
     if ([[super class] instancesRespondToSelector:_cmd]) { // _cmd is always the current selector
-        NSLog(@"%s oh look, super supports us!",__FUNCTION__);
-        [(id)super setDisplayName:aDisplayName];
+//        NSLog(@"%s oh look, super supports us!",__FUNCTION__);
+        [super setDisplayName:aDisplayName];
     }
 }
 #endif //!defined(CODA)
@@ -5579,15 +5579,25 @@ static NSString *S_measurementUnits;
     if ([alertIdentifier isEqualToString:@"ShouldPromoteAlert"]) {
         NSTextView *textView = [alertContext objectForKey:@"TextView"];
         NSString *replacementString = [alertContext objectForKey:@"ReplacementString"];
+		NSRange affectedRange = [[alertContext objectForKey:@"AffectedCharRange"] rangeValue];
         if (returnCode == NSAlertThirdButtonReturn) {
             [self setFileEncodingUndoable:NSUnicodeStringEncoding];
-            if (replacementString) [textView insertText:replacementString];
+            if (replacementString) {
+				[textView setSelectedRange:affectedRange];
+				[textView insertText:replacementString];
+			}
         } else if (returnCode == NSAlertSecondButtonReturn) {
             [self setFileEncodingUndoable:NSUTF8StringEncoding];
-            if (replacementString) [textView insertText:replacementString];
+            if (replacementString) {
+				[textView setSelectedRange:affectedRange];
+				[textView insertText:replacementString];
+			}
         } else if (returnCode == NSAlertFirstButtonReturn) {
             NSData *lossyData = [replacementString dataUsingEncoding:[self fileEncoding] allowLossyConversion:YES];
-            if (lossyData) [textView insertText:[NSString stringWithData:lossyData encoding:[self fileEncoding]]];
+            if (lossyData) {
+				[textView setSelectedRange:affectedRange];
+				[textView insertText:[NSString stringWithData:lossyData encoding:[self fileEncoding]]];
+			}
         }
     } else if ([alertIdentifier isEqualToString:@"DocumentChangedExternallyAlert"]) {
         if (returnCode == NSAlertFirstButtonReturn) {
