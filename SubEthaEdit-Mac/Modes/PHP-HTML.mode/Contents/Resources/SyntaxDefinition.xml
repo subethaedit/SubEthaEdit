@@ -3721,16 +3721,6 @@
 				</state>
                    <state-link state="PHP"/>
             </state>
-	         <state id="Single Tag" foldable="no" scope="markup.tag">
-                <begin>
-                    <regex>&lt;\s*[^/?!][-:_\w]*\s*(?:[-:_\w]+\s*=\s*(?:"[^"]*"|'[^']*'|\w+)\s*)*/\s*(?=>)</regex>
-                </begin>
-                <end>
-                    <regex>></regex>
-                </end>
-                <import/>
-            </state>
-
             <state id="Inline CSS" color="#000" font-style="italic" usesymbolsfrommode="CSS" useautocompletefrommode="CSS" foldable="yes" indent="yes" scope="meta.block.css">
                 <begin>
                     <regex>&lt;[ \t]*(?i)style[^>]*></regex>
@@ -3892,7 +3882,7 @@
                     <regex>/[ \t]*></regex>
                 </end>
                 <import/>
-                <keywords id="Single Tags with PHP" color="#881280" font-style="italic" useforautocomplete="no" scope="meta.default">
+                <keywords id="Single Tags with PHP" color="#881280" font-style="italic" useforautocomplete="no" scope="markup.tag">
                     <regex>(&lt;[^>]*)</regex>
                     <regex>(\A[^&lt;>]*>)</regex>
                 </keywords>
@@ -3913,7 +3903,7 @@
                     <regex>&lt;\s*/\s*(?#see-insert-start-group:phptagstatename)\s*></regex>
                 </end>
                 <import/>
-                <keywords id="Tags with PHP" color="#881280" font-style="italic" useforautocomplete="no" scope="meta.default">
+                <keywords id="Tags with PHP" color="#881280" font-style="italic" useforautocomplete="no" scope="markup.tag">
                     <regex>(&lt;[^>]*>?)</regex>
                     <regex>(\A[^&lt;>]*>)</regex>
                 </keywords>
