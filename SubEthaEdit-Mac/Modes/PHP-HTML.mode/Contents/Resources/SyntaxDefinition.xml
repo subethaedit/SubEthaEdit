@@ -3843,7 +3843,7 @@
 				
 				<state id="JSSingleComment" type="comment" color="#236E25" font-weight="normal" font-style="italic" scope="comment.line.double-slash.js">
 					<begin><regex>//</regex></begin>
-					<end><regex>[\n\r]</regex></end>
+					<end><regex>[\n\r]|&lt;(?i)/script\s*></regex></end>
 					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
                     <state-link state="PHP"/>
 				</state>
