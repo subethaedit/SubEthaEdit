@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "settings.dtd">
+<settings>
+    <recognition>
+        <extension>jsp</extension>
+        <extension>sqljsp</extension>
+        <extension>JSP</extension>
+        <extension>SQLJSP</extension>
+    </recognition>
+</settings>
