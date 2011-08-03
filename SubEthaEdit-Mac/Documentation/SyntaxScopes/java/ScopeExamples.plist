@@ -4,6 +4,8 @@
   <dict>
     <key>comment.line</key>
     <string>// comment</string>
+    <key>comment.block.documentation</key>
+    <string>/** Doxygen Comment **/</string>
     <key>comment.block.documentation.tags</key>
     <string>/** @return **/</string>
     <key>constant.numeric</key>

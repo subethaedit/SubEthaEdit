@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>meta.block.interpolation</key>
+    <string>#{some code or variable}</string>
+    <key>comment.line</key>
+    <string># comment</string>
+    <key>comment.block.documentation</key>
+    <string>=begin =end</string>
+    <key>keyword.function</key>
+    <string>puts scan defined?</string>
+    <key>keyword.class</key>
+    <string>Array DateTime Hash</string>
+    <key>keyword.control</key>
+    <string>if class do while begin</string>
+    <key>keyword.type</key>
+    <string>public</string>
+    <key>language.variable.instance</key>
+    <string>@my_var</string>
+    <key>language.variable.class</key>
+    <string>@@my_var</string>
+    <key>language.variable.global.builtin</key>
+    <string>$stdin $@ STDERR</string>
+    <key>constant.numeric</key>
+    <string>0 0x4a 0713 1.2e-3 0b01011</string>
+    <key>constant.numeric.character</key>
+    <string>?\n ?d \x4a</string>
+    <key>constant.numeric.keyword</key>
+    <string>true false nil</string>
+    <key>string.single</key>
+    <string>'lorem ipsum'</string>
+    <key>string.here-doc</key>
+    <string>&gt;&gt;"html_end"</string>
+    <key>string.here-doc.indented</key>
+    <string>&gt;&gt;-HEREDOC</string>
+    <key>string.regex</key>
+    <string>%r([^ a-zA-Z0-9_.-]+) /([^ a-zA-Z0-9_.-]+)/n</string>
+    <key>string.exec</key>
+    <string>`ls -l` %x{ls -l}</string>
+    <key>string.symbol</key>
+    <string>:my_symbol! :my_symbol! %s|my_symbol!| :&lt;:my_symbol&gt;</string>
+    <key>support.accessor</key>
+    <string>attr_reader</string>
+  </dict>
+</plist>

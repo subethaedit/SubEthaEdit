@@ -14,10 +14,16 @@
     <string>steve@apple.com</string>
     <key>comment.line</key>
     <string>// comment</string>
+    <key>comment.block</key>
+    <string>/* Comment */</string>
     <key>comment.block.documentation</key>
     <string>/*" Autodoc Comment "*/</string>
     <key>keyword.control</key>
     <string>if else class new do while</string>
+    <key>keyword.type</key>
+    <string>byte float char void double</string>
+    <key>language.function</key>
+    <string>my_function_call()</string>
     <key>constant.numeric</key>
     <string>0 15 0x4a 0713 3.14</string>
     <key>constant.numeric.keyword</key>
@@ -26,6 +32,10 @@
     <string>'lorem ipsum'</string>
     <key>string.double</key>
     <string>"lorem ipsum"</string>
+    <key>string.regex</key>
+    <string>/([^ a-zA-Z0-9_.-]+)/n</string>
+    <key>string.exec</key>
+    <string>%x{ls -l}</string>
     <key>support.class.standard</key>
     <string>Object String Array Math</string>
   </dict>

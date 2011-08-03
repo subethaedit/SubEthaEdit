@@ -12,6 +12,8 @@
     <string>http://apple.com www.panic.com</string>
     <key>meta.link.email</key>
     <string>steve@apple.com</string>
+    <key>markup.constant.entity</key>
+    <string>&amp;lt; &amp;#160; &amp;#x2014;</string>
     <key>meta.invalid.sgmlcomment</key>
     <string>--</string>
     <key>meta.invalid.ampersand</key>
@@ -20,12 +22,16 @@
     <string>&lt;!-- SGML Comment --&gt;</string>
     <key>markup.inline.cdata</key>
     <string>&lt;![CDATA[&lt;inline&gt;Data&lt;/inline&gt;]]&gt;</string>
+    <key>markup.processing</key>
+    <string>&lt;?xml html version='1.0' encoding='utf-8'?&gt;</string>
     <key>markup.tag</key>
     <string>&lt;document&gt; &lt;br/&gt;</string>
     <key>markup.tag.attribute.name</key>
     <string>href id class</string>
     <key>markup.tag.attribute.value.string</key>
     <string>"left" "utf-8"</string>
+    <key>markup.declaration</key>
+    <string>&lt;!DOCTYPE &gt; &lt;!ENTITY &gt;</string>
     <key>markup.declaration.string.double</key>
     <string>"spec.dtd"</string>
     <key>markup.declaration.string.single</key>

@@ -38,6 +38,13 @@ Numbers
 .123
 .1e-3
 
+# character constants
+?a
+?\n
+?d
+?\r
+\xff
+\x1234
 
 
 kind = case year #hi there
@@ -581,7 +588,7 @@ str = "\\\\"
 :@abc
 :@@abc
 :$abc
-
+:'hallo'
 
 %s|symbšaspoi#{@@foobar+@asdf}3p2804nasdofnt|
 %s{symbšaspoi3p2804nasdofnt}
