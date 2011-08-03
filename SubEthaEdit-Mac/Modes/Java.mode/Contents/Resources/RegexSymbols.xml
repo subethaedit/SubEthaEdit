@@ -36,5 +36,10 @@
             <replace>Versioning conflict!</replace>
         </postprocess>
     </symbol>
+    
+    <!-- CODA -->
+    <symbol id="Pragma marks" font-weight="normal" font-style="normal" image="SymbolMark" indentation="0" ignoreblocks="no" show-in-comments="yes">
+        <regex>// !([^\n\r]+)</regex>
+    </symbol>
 
 </symbols>
