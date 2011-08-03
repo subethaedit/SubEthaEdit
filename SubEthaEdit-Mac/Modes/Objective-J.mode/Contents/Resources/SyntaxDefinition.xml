@@ -22,7 +22,7 @@
                 <regex>([A-Za-z0-9_]+ *)\(</regex>
             </keywords>
             
-            <keywords id = "JavaScript Reserved For Future Use Keywords" color = "#606000" useforautocomplete = "no" scope="keyword.reserved">
+            <keywords id = "JavaScript Reserved For Future Use Keywords" color = "#606000" useforautocomplete = "no" scope="keyword.type">
                 <string>class</string>
                 <string>const</string>
                 <string>enum</string>
@@ -70,7 +70,7 @@
                 <string>volatile</string>
             </keywords>
             
-            <keywords id = "JavaScript Keywords" color = "#1A1AA6" useforautocomplete = "yes" scope="keyword.javascript">
+            <keywords id = "JavaScript Keywords" color = "#1A1AA6" useforautocomplete = "yes" scope="keyword.control.js">
                 <string>__proto__</string>
                 <string>break</string>
                 <string>case</string>
@@ -88,7 +88,6 @@
                 <string>in</string>
                 <string>instanceof</string>
                 <string>new</string>
-                <string>null</string>
                 <string>prototype</string>
                 <string>return</string>
                 <string>switch</string>
@@ -102,19 +101,13 @@
                 <string>with</string>
             </keywords>
             
-            <keywords id = "Objective-J Keywords" color = "#751150" useforautocomplete = "yes" scope="keyword.obj">
+            <keywords id = "Objective-J Keywords" color = "#751150" useforautocomplete = "yes" scope="keyword.type.objj">
                 <string>id</string>
-                <string>NULL</string>
-                <string>nil</string>
-                <string>Nil</string>
                 <string>void</string>
                 <string>self</string>
                 <string>super</string>
-                <string>YES</string>
-                <string>NO</string>
                 <string>IBAction</string>
                 <string>IBOutlet</string>
-                <string>@outlet</string>
                 <string>int</string>
                 <string>long</string>
                 <string>float</string>
@@ -128,8 +121,19 @@
                 <string>Class</string>
                 <string>short</string>
             </keywords>
+
+            <keywords id = "Objective-J Named Constants" color = "#751150" useforautocomplete = "yes" scope="constant.numeric">
+                <string>null</string>
+                <string>NULL</string>
+                <string>nil</string>
+                <string>Nil</string>
+                <string>YES</string>
+                <string>NO</string>
+                <string>NaN</string>
+            </keywords>
+
             
-            <keywords id = "Objective-J Directives" color = "#1A1AA6" useforautocomplete = "yes" scope="language.directive">
+            <keywords id = "Objective-J Directives" color = "#1A1AA6" useforautocomplete = "yes" scope="keyword.directive.objj">
                 <string>@accessors</string>
                 <string>@class</string>
                 <string>@end</string>
@@ -139,20 +143,22 @@
                 <string>@protected</string>
                 <string>@protocol</string>
                 <string>@public</string>
+                <string>@outlet</string>
+                <string>@import</string>
                 <string>@defs</string>
                 <string>@encode</string>
                 <string>@selector</string>
             </keywords>
             
-            <keywords id = "Objective-J Selector" color = "#003369" casesensitive = "yes" scope="language.selector">
+<!--             <keywords id = "Objective-J Selector" color = "#003369" casesensitive = "yes" scope="language.method">
                 <regex>[^:]\([^)]*\)[   ]*([A-Za-z0-9_]+)[  ]*[{;]</regex>
                 <regex>\)[  ]*([A-Za-z0-9_]+:)</regex>
                 <regex>([A-Za-z0-9_]+:)</regex>
                 <regex>([A-Za-z0-9_]+)]</regex>
                 <regex>[\-\+][  ]*\([A-Za-z0-9_]+\)[  ]*([A-Za-z0-9_]+)</regex>
             </keywords>
-            
-            <keywords id = "Cappuccino Classes" color = "#751150" background-color = "#fff" font-weight = "normal" font-style = "normal" casesensitive = "yes" useforautocomplete = "yes" scope="support.class.standard">
+ -->            
+            <keywords id = "Cappuccino Classes" color = "#751150" background-color = "#fff" font-weight = "normal" font-style = "normal" casesensitive = "yes" useforautocomplete = "yes" scope="support.class.standard.objj">
                 <string>CPAccessibility</string>
                 <!-- <string>CPActionCell</string> -->
                 <string>CPAffineTransform</string>
@@ -601,7 +607,7 @@
                 <string>CPXMLNode</string>
             </keywords>
                         
-            <keywords id = "Cappuccino Types" color = "#400080" font-weight = "normal" font-style = "italic" useforautocomplete = "yes" scope="keyword.type">
+            <keywords id = "Cappuccino Types" color = "#400080" font-weight = "normal" font-style = "italic" useforautocomplete = "yes" scope="support.class.standard.obj">
                 <string>CPAffineTransformStruct</string>
                 <string>CPApplicationTerminateReply</string>
                 <string>CPBackingStoreType</string>
@@ -740,7 +746,7 @@
                 <string>CPCompositingOperation</string>
             </keywords>
             
-            <keywords id = "Cappuccino Constants" color = "#400080" font-weight = "normal" font-style = "italic" useforautocomplete = "yes" scope="keyword.constant">
+            <keywords id = "Cappuccino Constants" color = "#400080" font-weight = "normal" font-style = "italic" useforautocomplete = "yes" scope="support.constant.objj">
                 <string>CPDecimalMaxSize</string>
                 <string>CPDecimalNoScale</string>
                 <string>CPMaximumStringLength</string>
@@ -2803,12 +2809,17 @@
             
         </default>
 
-        <state id = "Objective-J Imports" color = "#683821" background-color = "none" scope="language.import">
-            <begin><regex>^\s*import</regex></begin>
+        <state id = "Objective-J Imports" color = "#683821" background-color = "none" scope="meta.default">
+            <begin><regex>^\s*@?import</regex></begin>
             <end><regex>((?&lt;=[^\\])[\n\r])|(^[\n\r])</regex></end>
+            <import />
+            <state id="Objective-J Import Angle Strings" scope="string.angle">
+            <begin><regex>&lt;</regex><autoend>></autoend></begin>
+            <end><regex>></regex></end>
+            </state>
         </state>
 
-        <state id = "Characters" color = "#00f" background-color = "none" font-weight = "normal" font-style = "normal" scope="string.single.characters">
+        <state id = "Characters" color = "#00f" background-color = "none" font-weight = "normal" font-style = "normal" scope="constat.numeric.character">
             <begin><regex>'(?=\\?.')</regex></begin>
             <end><regex>(\\'')|(.')</regex></end>
         </state>
@@ -2831,18 +2842,18 @@
 			<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
         </state>
         
-        <state id="String" type="string" color="#760f15" background-color="none" font-weight="normal" font-style="normal" usespellchecking="yes" scope="string">
+        <state id="String" type="string" color="#760f15" background-color="none" font-weight="normal" font-style="normal" usespellchecking="yes" scope="string.double.nsstring.objj">
             <begin><string>@?"</string></begin>
             <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
         </state>
 
-        <state id="Block" type="block" foldable="yes">
+        <state id="Block" type="block" foldable="yes" scope="meta.block">
             <begin><regex>(?:^[ \t]*[-+][^(-;]*\([A-Za-z0-9 *_]*\)[A-Za-z0-9_ \t\n\r]+)?{</regex></begin>
             <end><regex>}</regex></end>
             <import />
         </state>
 
-        <state id="@clauses" type="block" foldable="yes">
+        <state id="@clauses" type="block" foldable="yes" scope="meta.block">
             <begin><regex>(?:@implementation|@interface|@protocol)\s+[\w_]+(?:\s*(?:(?:\(\s*[\w_]+\s*\))|:\s*[\w_]+\s*))?</regex></begin>
             <end><regex>@end</regex></end>
             <import />
