@@ -36,18 +36,20 @@
 			<scope name="keyword"><example lang="coda">code keywords</example></scope>
 			<scope name="keyword.control"><example lang="js">if</example> <example lang="js">else</example> <example lang="js">class</example> <example lang="js">new</example> <example lang="js">do</example> <example lang="js">while</example></scope>
 			<scope name="keyword.type"><example lang="coda">code type keywords</example><example lang="js">byte</example> <example lang="js">float</example> <example lang="js">char</example> <example lang="js">void</example> <example lang="js">double</example></scope>
+			<scope name="keyword.directive"><example lang="obj-c obj-j">@implementation</example></scope>
 			<description>Language Keywords</description>
 		</scope_group>
 		<scope_group>
 			<scope name="language"></scope>
 			<scope name="language.function"><example lang="coda">code_functions()</example><example lang="js">my_function_call()</example></scope>
+			<scope name="language.method"><example lang="obj-c obj-j">[Some selector:with:you:know:]</example></scope>
 			<scope name="language.variable"><example lang="php">$my_var</example></scope>
 			<description>language constructs like function calls, method calls, etc</description>
 		</scope_group>
 		<scope_group>
 			<scope name="constant"><example lang="coda">code constants</example></scope>
 			<scope name="constant.numeric"><example lang="js java c">0</example> <example lang="js java c">15</example><example lang="js java c">0x4a</example> <example lang="js">0713</example> <example lang="js java c">3.14</example></scope>
-			<scope name="constant.numeric.character"><example lang="java c">'c'</example></scope>
+			<scope name="constant.numeric.character"><example lang="java c obj-c">'c'</example></scope>
 			<scope name="constant.numeric.keyword"><example lang="js">NaN</example> <example lang="js">Infinity</example> <example lang="js">true</example> <example lang="js">false</example></scope>
 			<description>Constants and Literals</description>
 		</scope_group>

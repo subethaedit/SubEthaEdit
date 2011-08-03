@@ -99,13 +99,13 @@
                 <string>var</string>
                 <string>while</string>
                 <string>with</string>
+                <string>self</string>
+                <string>super</string>
             </keywords>
             
             <keywords id = "Objective-J Keywords" color = "#751150" useforautocomplete = "yes" scope="keyword.type.objj">
                 <string>id</string>
                 <string>void</string>
-                <string>self</string>
-                <string>super</string>
                 <string>IBAction</string>
                 <string>IBOutlet</string>
                 <string>int</string>
@@ -2819,7 +2819,7 @@
             </state>
         </state>
 
-        <state id = "Characters" color = "#00f" background-color = "none" font-weight = "normal" font-style = "normal" scope="constat.numeric.character">
+        <state id = "Characters" color = "#00f" background-color = "none" font-weight = "normal" font-style = "normal" scope="constant.numeric.character">
             <begin><regex>'(?=\\?.')</regex></begin>
             <end><regex>(\\'')|(.')</regex></end>
         </state>
