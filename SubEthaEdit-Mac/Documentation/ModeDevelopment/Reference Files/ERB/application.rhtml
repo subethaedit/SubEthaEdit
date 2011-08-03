@@ -1,0 +1,85 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+<% # Include TinyMCE before other JS to avoid problems -%>
+<%= include_tiny_mce_if_needed %>
+<%= stylesheet_link_tag 'theme' %>
+<%= javascript_include_tag 'application' %>
+
+<link rel="alternate" type="application/rss+xml" title="RSS Feed" href="/browse/view_rss" />
+
+<title><%= h @meta_title %></title>
+<meta name="keywords" content="<%= h(truncate(@meta_keywords, 100)) %>" />
+<meta name="description" content="<%= h(truncate(@meta_desc, 255)) %>">
+
+</head>
+<body> 
+
+
+<table align=center ><tr><td>
+ <table cellpadding=0 cellspacing=0 align=center width="100%">
+  <tr>
+    <td>
+     <div style="background:url(/images/top.png);width:840px;height:115px;vertical-align:bottom;background-repeat:no-repeat;">
+      <div class="title_box">
+        <div class="blog_title"><%= link_to  @site_title, {:action => "index", :controller => "browse"}, :class=> "title_link" %></div>
+        <div class="blog_description"><%= truncate(@site_desc, 100) %></div>
+      </div>
+
+     </div>
+    </td>
+  </tr>
+  <tr>
+   <td>
+    <div style="width:827px;padding-left:30px;;background:url(/images/middle.png);background-repeat:repeat-y;">
+	<!-- Begin main body div and td-->
+
+
+
+
+	<table width="100%" align="center" >
+	 <tr>
+	  <td style="width:75%;" align=center valign=top>
+	   <div class="blog_bg_top"></div> 	
+	   <div class="blog_bg_middle">
+     	    <div style="color: green"><%= flash[:notice] %></div>
+	    <%= yield  %>
+	   </div>
+	   <div class="blog_bg_bottom"> </div>
+	
+	   <div align=center>
+	    <%= link_to image_tag("powered_by_amethyst.png", :border => 0 ), "http://www.hulihanapplications.com/projects_amethyst.php" %>
+	   </div>
+	
+	  </td>
+	  <td style="width:25%" valign=top align=left>
+	   <%# Right Menu %> 
+           <div class="normal_right_menu">
+   	    <%= render :partial => "browse/right_menu" %>
+           </div>
+	
+	  </td>
+	 </tr>
+	</table>
+
+<!-- End main body div and td-->
+    </div>
+   </td>
+  </tr>
+
+  <tr>
+   <td>
+    <div style="background:url(/images/bottom.png);width:840px;height:115px;"></div> 
+   </td>
+  </tr>
+ </table>
+</td></tr></table>
+<div class = "bottom_box" align=center id="bottom_box">
+ This site is best displayed in FireFox 1.5+, IE 7+, and Opera 9+
+</div>
+</body>
+
+</html>
+<!-- End Main Table --> 
+
+
