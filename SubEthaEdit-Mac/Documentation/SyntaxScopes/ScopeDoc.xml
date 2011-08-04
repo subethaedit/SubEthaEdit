@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- <?xml-stylesheet href="ScopeDoc.xslt" type="text/xml"?> -->
+<?xml-stylesheet href="ScopeDoc.xslt" type="text/xml"?>
 <document>
 	<scope_area>
 		<title>General</title>
