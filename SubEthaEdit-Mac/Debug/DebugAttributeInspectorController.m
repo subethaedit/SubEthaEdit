@@ -48,6 +48,7 @@
 						NSMutableDictionary *dictionary = [NSMutableDictionary dictionaryWithObject:key forKey:@"attributeName"];
 						NSString *value = [[attributes objectForKey:key] description];
 						if (value) {
+							value = [[value stringByReplacingOccurrencesOfString:@"\n" withString:@""] stringByReplacingOccurrencesOfString:@"  " withString:@""];
 							[dictionary setObject:value forKey:@"contentValue"];
 						}
 						[controller addObject:dictionary];
