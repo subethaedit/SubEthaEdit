@@ -107,7 +107,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 #pragma mark - 
 
 -(void) showWarning:(NSString *)title withDescription:(NSString *)description {
-	NSLog(@"ERROR: %@: ",title, description);
+	NSLog(@"ERROR: %@: %@",title, description);
 	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
 	[alert setAlertStyle:NSWarningAlertStyle];
 	[alert setMessageText:title];
@@ -426,7 +426,6 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
             if (!weaklinks) {
                 weaklinks = [NSMutableDictionary dictionary];
                 [stateDictionary setObject:weaklinks forKey:@"imports"];
-                
             }
 
             NSString *importMode, *importState;
@@ -486,15 +485,15 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 {
 	I_cacheStylesCalculating = YES;
     NSMutableDictionary *state;
-    NSMutableDictionary *keywordGroups;
     
+	NSMutableArray *keywordGroups = [NSMutableArray new];
     NSEnumerator *statesEnumerator = [I_allStates objectEnumerator];
     while ((state = [statesEnumerator nextObject])) {
-        if ((keywordGroups = [state objectForKey:@"KeywordGroups"])) {
+		[keywordGroups removeAllObjects];
+		[keywordGroups addObjectsFromArray:[state objectForKey:@"KeywordGroups"]];
+		[keywordGroups addObjectsFromArray:[state objectForKey:@"ImportedKeywordGroups"]];
+        if (keywordGroups.count > 0) {
 
-            NSEnumerator *groupEnumerator = [keywordGroups objectEnumerator];
-            NSDictionary *keywordGroup;
-            
             NSMutableDictionary *newPlainCaseDictionary = [NSMutableDictionary dictionary];
             NSMutableDictionary *newPlainIncaseDictionary = [NSMutableDictionary caseInsensitiveDictionary];
             NSMutableArray *newPlainArray = [NSMutableArray array];
@@ -505,7 +504,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
             [I_stylesForRegex setObject:newRegExArray forKey:[state objectForKey:@"id"]];
         
 			int sortedInsertPoint = 0;
-            while ((keywordGroup = [groupEnumerator nextObject])) {
+            for (NSDictionary *keywordGroup in keywordGroups) {
                 NSString *styleID=[keywordGroup objectForKey:kSyntaxHighlightingStyleIDAttributeName];
                 if ([keywordGroup objectForKey:@"CompiledRegEx"]) {
 					[newRegExArray insertObject:[NSArray arrayWithObjects:[keywordGroup objectForKey:@"CompiledRegEx"], styleID, keywordGroup, nil] atIndex:sortedInsertPoint];
@@ -513,8 +512,9 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 				}
 				if ([(NSArray*)[keywordGroup objectForKey:@"PlainStrings"] count]>0) [newRegExArray addObject:[NSArray arrayWithObjects:[keywordGroup objectForKey:@"CompiledKeywords"], styleID, keywordGroup, nil]];
             }
-        } 
+        }
     }
+	[keywordGroups release];
     
     DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Finished caching plainstrings:%@",[I_stylesForToken description]);
     DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Finished caching regular expressions:%@",[I_stylesForRegex description]);
@@ -539,8 +539,41 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
     return I_importedModes;
 }
 
+- (void)addState:(NSString *)aStateID toString:(NSMutableString *)aString indentLevel:(NSUInteger)anIndentLevel visitedStates:(NSMutableSet *)aStateSet {
+	if (anIndentLevel > 10) return; // safeguard for endless loops
+	NSDictionary *state = [self stateForID:aStateID];
+	anIndentLevel += 2;
+	NSString *indentString = [@"" stringByPaddingToLength:anIndentLevel withString:@" " startingAtIndex:0];
+	if (![aStateSet containsObject:state]) {
+		[aStateSet addObject:state];
+		[aString appendFormat:@"%@+%@ (%@)\n",[indentString substringToIndex:indentString.length-2], [state objectForKey:@"id"], [state objectForKey:@"scope"]];
+		for (NSDictionary *keywordGroupDict in [state objectForKey:@"KeywordGroups"]) {
+			[aString appendFormat:@"%@-%@ (%@)\n",indentString, [keywordGroupDict objectForKey:@"id"], [keywordGroupDict objectForKey:@"scope"]];
+		}
+		for (NSDictionary *keywordGroupDict in [state objectForKey:@"ImportedKeywordGroups"]) {
+			[aString appendFormat:@"%@i-%@ (%@)\n",indentString, [keywordGroupDict objectForKey:@"id"], [keywordGroupDict objectForKey:@"scope"]];
+		}
+		for (id substate in [state objectForKey:@"states"]) {
+			if ([substate isKindOfClass:[NSDictionary class]]) {
+				substate = [substate objectForKey:@"id"];
+				[self addState:substate toString:aString indentLevel:anIndentLevel visitedStates:aStateSet];
+			} else {
+				NSLog(@"substate was string: %@", substate);
+			}
+		}
+	} else {
+		[aString appendFormat:@"%@+%@ (%@) (repeated…)\n",[indentString substringToIndex:indentString.length-2], [state objectForKey:@"id"], [state objectForKey:@"scope"]];
+	}
+}
+
+- (NSString *)debugStatesAndKeywordGroups {
+	NSMutableString *result = [NSMutableString string];
+	[self addState:[I_defaultState objectForKey:@"id"] toString:result indentLevel:0 visitedStates:[NSMutableSet set]];
+	return result;
+}
+
 - (NSString *)description {
-    return [NSString stringWithFormat:@"SyntaxDefinition, Name:%@ , TokenSet:%@, DefaultState: %@, Uses Spelling Dcitionary: %@", [self name], [self tokenSet], [I_defaultState description], I_useSpellingDictionary?@"Yes.":@"No."];
+    return [NSString stringWithFormat:@"SyntaxDefinition, Name:%@ , TokenSet:%@, DefaultState: %@, Uses Spelling Dictionary: %@", [self name], [self tokenSet], [I_defaultState description], I_useSpellingDictionary?@"Yes.":@"No."];
 }
 
 - (OGRegularExpression *)tokenRegex
@@ -685,17 +718,22 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 
 - (void)getReady {
 	@synchronized(self) {
-		if (!I_combinedStateRegexReady && !I_combinedStateRegexCalculating) 
+		BOOL wasntReady = NO;
+		if (!I_combinedStateRegexReady && !I_combinedStateRegexCalculating) {
 			[self calculateCombinedStateRegexes];
+			wasntReady = YES;
+		}
 		if (!I_cacheStylesReady && !I_cacheStylesCalculating) {
 			//Moved addStyles in here, which should speed up type-and-color performance significantly.
 			[self addStyleIDsFromState:[self defaultState]];
 			[self cacheStyles];
+			wasntReady = YES;
 		}
 		if (!I_symbolAndAutocompleteInheritanceReady) {
 			[self calculateSymbolInheritanceForState:[I_allStates objectForKey:[NSString stringWithFormat:@"/%@/%@", [self name], SyntaxStyleBaseIdentifier]] inheritedSymbols:[self name] inheritedAutocomplete:[self name]];
 			I_symbolAndAutocompleteInheritanceReady = YES;
 			//		NSLog(@"Defaultstate: Sym:%@, Auto:%@", [[self defaultState] objectForKey:[self keyForInheritedSymbols]],[[self defaultState] objectForKey:[self keyForInheritedAutocomplete]]);
+			wasntReady = YES;
 		}
 //		NSArray *allScopes = [self.scopeStyleDictionary.allKeys sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
 //		NSLog(@"%s all scopes?: \n%@",__FUNCTION__, allScopes);
@@ -703,6 +741,9 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 //		NSMutableArray *reducedScopes = [NSMutableArray array];
 //		[allScopes enumerateObjectsUsingBlock:^(id object, NSUInteger idx, BOOL *stop) { [reducedScopes addObject:[object stringByDeletingPathExtension]];}];
 //		NSLog(@"all scopes user visible: %@", reducedScopes);
+
+
+		if (wasntReady) NSLog(@"%s\n%@",__FUNCTION__, [self debugStatesAndKeywordGroups]); // For Debugging purposes
 	}
 }
 
@@ -741,9 +782,12 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
     if (aMaxLevel == aLevel) return aLevel;
     aState = [self stateForID:[aState objectForKey:@"id"]];
     if ([[aState objectForKey:kSyntaxHighlightingStyleIDAttributeName] isEqualToString:aStyleID]) return aLevel;
-    NSEnumerator *keywordGroups = [[aState objectForKey:@"KeywordGroups"] objectEnumerator];
-    NSDictionary *keywordGroup = nil;
-    while ((keywordGroup=[keywordGroups nextObject])) {
+    for (NSDictionary *keywordGroup in [aState objectForKey:@"KeywordGroups"]) {
+        if ([[keywordGroup objectForKey:kSyntaxHighlightingStyleIDAttributeName] isEqualToString:aStyleID]) {
+            return aLevel;
+        }
+    }
+    for (NSDictionary *keywordGroup in [aState objectForKey:@"ImportedKeywordGroups"]) {
         if ([[keywordGroup objectForKey:kSyntaxHighlightingStyleIDAttributeName] isEqualToString:aStyleID]) {
             return aLevel;
         }
@@ -816,8 +860,8 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 		return [[[[DocumentModeManager sharedInstance] documentModeForName:modeName] syntaxDefinition] regularExpressionsInState:aState];
 	} 
 
-    NSArray *aRegexDictionary;
-    if ((aRegexDictionary = [I_stylesForRegex objectForKey:aState])) return aRegexDictionary;
+    NSArray *aRegexArray;
+    if ((aRegexArray = [I_stylesForRegex objectForKey:aState])) return aRegexArray;
     else return nil;
 }
 
@@ -837,22 +881,24 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 	}
 	
 	[I_defaultSyntaxStyle takeValuesFromDictionary:aState];
-    NSEnumerator *keywords = [[aState objectForKey:@"KeywordGroups"] objectEnumerator];
-    id keyword;
-    while ((keyword = [keywords nextObject])) {
+	NSMutableArray *keywordGroups = [NSMutableArray new];
+	[keywordGroups addObjectsFromArray:[aState objectForKey:@"KeywordGroups"]];
+	[keywordGroups addObjectsFromArray:[aState objectForKey:@"ImportedKeywordGroups"]];
+    for (NSDictionary *keywordGroup in keywordGroups) {
 		
-		if ([keyword objectForKey:@"scope"]) {
+		if ([keywordGroup objectForKey:@"scope"]) {
 			stateStyles = [NSMutableDictionary dictionary];
 			for (NSString *styleKey in styleKeyArray) {
-				if ([keyword objectForKey:styleKey]) [stateStyles setObject:[keyword objectForKey:styleKey] forKey:styleKey];
+				if ([keywordGroup objectForKey:styleKey]) [stateStyles setObject:[keywordGroup objectForKey:styleKey] forKey:styleKey];
 			}
-			[self.scopeStyleDictionary setObject:stateStyles forKey:[keyword objectForKey:@"scope"]];
+			[self.scopeStyleDictionary setObject:stateStyles forKey:[keywordGroup objectForKey:@"scope"]];
 		} else {
-			NSLog(@"DEBUG: Missing scope for %@", [keyword objectForKey:@"id"]);
+			NSLog(@"DEBUG: Missing scope for %@", [keywordGroup objectForKey:@"id"]);
 		}
 		
-        [I_defaultSyntaxStyle takeValuesFromDictionary:keyword];
+        [I_defaultSyntaxStyle takeValuesFromDictionary:keywordGroup];
     }
+	[keywordGroups release];
     
     NSEnumerator *subStates = [[aState objectForKey:@"states"] objectEnumerator];
     id subState;
@@ -869,32 +915,23 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 		NSEnumerator *enumerator = [[aState objectForKey:@"imports"] keyEnumerator];
 		id importName;
 		while ((importName = [enumerator nextObject])) {
-#if defined(CODA)
 			NSString *modeName = [self getModeNameFromState:importName]; 
-#else
- 			NSArray *components = [importName componentsSeparatedByString:@"/"];
-#endif //defined(CODA)
 			BOOL keywordsOnly = NO;
 			
 			NSXMLElement *importNode = [[aState objectForKey:@"imports"] objectForKey:importName];
-			if ([[[importNode attributeForName:@"keywords-only"]stringValue] isEqualToString:@"yes"]) keywordsOnly = YES;
+			if ([[[importNode attributeForName:@"keywords-only"] stringValue] isEqualToString:@"yes"]) keywordsOnly = YES;
 			
-#if defined(CODA)
 			SyntaxDefinition *linkedDefinition = [[[DocumentModeManager sharedInstance] documentModeForName:modeName] syntaxDefinition]; 
-#else
-			SyntaxDefinition *linkedDefinition = [[[DocumentModeManager sharedInstance] documentModeForName:[components objectAtIndex:1]] syntaxDefinition];
-#endif //defined(CODA)
 			NSDictionary *linkedState = [linkedDefinition stateForID:importName];
-
 
 			if (linkedState) {
 				if (!keywordsOnly) {
 					if (![aState objectForKey:@"states"]) [aState setObject:[NSMutableArray array] forKey:@"states"];
 					[[aState objectForKey:@"states"] addObjectsFromArray:[linkedState objectForKey:@"states"]];
 				}
-				
-				if (![aState objectForKey:@"KeywordGroups"]) [aState setObject:[NSMutableArray array] forKey:@"KeywordGroups"];
-				[[aState objectForKey:@"KeywordGroups"] addObjectsFromArray:[linkedState objectForKey:@"KeywordGroups"]];			
+				// import does not import imported keyword groups. so we need to collect them in a different array otherwise some keywords cascade in importing, others don't depending on the kind of mode we are in.
+				if (![aState objectForKey:@"ImportedKeywordGroups"]) [aState setObject:[NSMutableArray array] forKey:@"ImportedKeywordGroups"];
+				[[aState objectForKey:@"ImportedKeywordGroups"] addObjectsFromArray:[linkedState objectForKey:@"KeywordGroups"]];			
 			}
 		}
 	} 
@@ -911,14 +948,9 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
         NSString *beginString;
 		if ([aDictionary objectForKey:@"hardlink"]) {
             NSString *linkedName = [aDictionary objectForKey:@"id"];
-#if defined(CODA)
+
 			NSString *modeName = [self getModeNameFromState:linkedName]; 
             SyntaxDefinition *linkedDefinition = [[[DocumentModeManager sharedInstance] documentModeForName:modeName] syntaxDefinition];
-#else
-            NSArray *components = [linkedName componentsSeparatedByString:@"/"];
-			
-            SyntaxDefinition *linkedDefinition = [[[DocumentModeManager sharedInstance] documentModeForName:[components objectAtIndex:1]] syntaxDefinition];
-#endif //defined(CODA)            
             NSDictionary *linkedState = [linkedDefinition stateForID:linkedName];
 			
             if (linkedState) {
