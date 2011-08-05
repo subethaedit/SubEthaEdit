@@ -276,13 +276,13 @@
 
             <state id="Single Tag with JSP State" foldable="no">
                 <begin>
-                    <regex>&lt;\s*[^/?!][-:_\w]*(?=[^&lt;>]*&lt;\?.+?\?>[^>]*[^>]*/>)</regex>
+                    <regex>&lt;\s*[^/?!][-:_\w]*(?=[^&lt;>]*&lt;%.+%>[^>]*[^>]*/>)</regex>
                 </begin>
                 <end>
                     <regex>/[ \t]*></regex>
                 </end>
                 <import/>
-                <keywords id="Single Tags with JSP" color="#881280" font-style="italic" useforautocomplete="no">
+                <keywords id="Single Tags with JSP" color="#881280" font-style="italic" useforautocomplete="no" scope="markup.tag">
                     <regex>(&lt;[^>]*)</regex>
                     <regex>(\A[^&lt;>]*>)</regex>
                 </keywords>
@@ -297,10 +297,11 @@
 
             <state id="Tag with JSP State" foldable="yes" scope="meta.block.tag.erb.no-content">
                 <begin>
-                    <regex>&lt;\s*(?'erbtagstatename'[^/?!][-:_\w]*)(?'trimmedstart'[^&lt;>]*&lt;%.+?%>[^>]*>)</regex> <!--  Used "trimmedstart regex group, to start searching earlier" -->
+                    <regex>&lt;\s*(?'jsptagstatename'[^/?!][-:_\w]*)(?'trimmedstart'[^&lt;>]*&lt;%.+%>[^>]*>)</regex> <!--  Used "trimmedstart regex group, to start searching earlier" -->
+					<autoend>&lt;/\g&lt;jsptagstatename>></autoend>
                 </begin>
                 <end>
-                    <regex>&lt;\s*/\s*(?#see-insert-start-group:erbtagstatename)\s*></regex>
+                    <regex>&lt;\s*/\s*(?#see-insert-start-group:jsptagstatename)\s*></regex>
                 </end>
                 <import/>
                 <keywords id="Tags with JSP" color="#881280" font-style="italic" useforautocomplete="no" scope="meta.default">
@@ -316,7 +317,7 @@
                 </keywords>
             </state>
 
-            <state id="Tag State" font-style="normal" foldable="yes" indent="yes" scope="meta.default">
+            <state id="Tag State JSP" font-style="normal" foldable="yes" indent="yes" scope="meta.default">
                 <begin>
                     <regex>&lt;\s*(?'xmltagstatename'[^/?!][-:_\w]*)\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*></regex>
 					<autoend>&lt;/\g&lt;xmltagstatename>></autoend>
