@@ -52,6 +52,12 @@
 							[dictionary setObject:value forKey:@"contentValue"];
 						}
 						[controller addObject:dictionary];
+						if ([key isEqualToString:@"HighlightingStack"]) {
+							NSMutableDictionary *dict = [NSMutableDictionary dictionary];
+							[dict setObject:@"StateStack" forKey:@"attributeName"];
+							[dict setObject:[[[attributes objectForKey:key] valueForKeyPath:@"state"] componentsJoinedByString:@" | "] forKey:@"contentValue"];
+							[controller addObject:dict];
+						}
 					}
 					if (isFoldableTextStorage) {
 						NSMutableDictionary *bonusDictionary = [NSMutableDictionary dictionaryWithObject:@"Foldable Range" forKey:@"attributeName"];
