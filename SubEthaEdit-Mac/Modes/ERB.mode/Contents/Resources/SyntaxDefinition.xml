@@ -320,13 +320,13 @@
 
             <state id="Single Tag with Ruby State" foldable="no" scope="meta.default">
                 <begin>
-                    <regex>&lt;\s*[^/?!][-:_\w]*(?=[^&lt;>]*&lt;\?.+?\?>[^>]*[^>]*/>)</regex>
+                    <regex>&lt;\s*[^/?!][-:_\w]*(?=[^&lt;>]*&lt;%.+%>[^>]*[^>]*/>)</regex>
                 </begin>
                 <end>
                     <regex>/[ \t]*></regex>
                 </end>
                 <import/>
-                <keywords id="Single Tags with Ruby" color="#881280" font-style="italic" useforautocomplete="no">
+                <keywords id="Single Tags with Ruby" color="#881280" font-style="italic" useforautocomplete="no" scope="markup.tag">
                     <regex>(&lt;[^>]*)</regex>
                     <regex>(\A[^&lt;>]*>)</regex>
                 </keywords>
@@ -339,9 +339,10 @@
                 </keywords>
             </state>
 
-            <state id="Tag with Ruby State" foldable="yes" scope="meta.block.tag.erb.no-content">
+            <state id="Tag with Ruby State" foldable="yes" scope="meta.block.tag.erb">
                 <begin>
-                    <regex>&lt;\s*(?'erbtagstatename'[^/?!][-:_\w]*)(?'trimmedstart'[^&lt;>]*&lt;%.+?%>[^>]*>)</regex> <!--  Used "trimmedstart regex group, to start searching earlier" -->
+                    <regex>&lt;\s*(?'erbtagstatename'[^/?!][-:_\w]*)(?'trimmedstart'[^&lt;>]*&lt;%.+%>[^>]*>)</regex> <!--  Used "trimmedstart regex group, to start searching earlier" -->
+					<autoend>&lt;/\g&lt;erbtagstatename>></autoend>
                 </begin>
                 <end>
                     <regex>&lt;\s*/\s*(?#see-insert-start-group:erbtagstatename)\s*></regex>
@@ -360,7 +361,7 @@
                 </keywords>
             </state>
 
-            <state id="Tag State" font-style="normal" foldable="yes" indent="yes" scope="meta.default">
+            <state id="Tag State Ruby" font-style="normal" foldable="yes" indent="yes" scope="meta.default">
                 <begin>
                     <regex>&lt;\s*(?'xmltagstatename'[^/?!][-:_\w]*)\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*></regex>
 					<autoend>&lt;/\g&lt;xmltagstatename>></autoend>

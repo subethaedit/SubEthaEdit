@@ -4,7 +4,7 @@
 *}
 {include file="xml.tpl"}
 
-<body>
+<body someattribute="{$sometag}">
 
 <script language="JavaScript" type="text/javascript" src="javascript/lookup.js"></script>
 
