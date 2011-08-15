@@ -304,7 +304,7 @@
                     <regex>&lt;\s*/\s*(?#see-insert-start-group:jsptagstatename)\s*></regex>
                 </end>
                 <import/>
-                <keywords id="Tags with JSP" color="#881280" font-style="italic" useforautocomplete="no" scope="meta.default">
+                <keywords id="Tags with JSP" color="#881280" font-style="italic" useforautocomplete="no" scope="markup.tag">
                     <regex>(&lt;[^>]*>?)</regex>
                     <regex>(\A[^&lt;>]*>)</regex>
                 </keywords>
