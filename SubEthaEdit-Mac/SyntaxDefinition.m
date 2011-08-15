@@ -412,8 +412,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
     
     // Get all nodes and preserve order
     NSArray *allStateNodes = [stateNode nodesForXPath:@"./state | ./import | ./state-link" error:&err];
-    id nextState;
-    for (nextState in allStateNodes) {
+    for (id nextState in allStateNodes) {
         NSString *nodeName = [nextState name];
         if (![stateDictionary objectForKey:@"states"]) [stateDictionary setObject:[NSMutableArray array] forKey:@"states"];
      
@@ -422,9 +421,9 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
         } 
         else if ([nodeName isEqualToString:@"import"]) //Weak-link to imported states, for later copying
         {  
-            NSMutableDictionary *weaklinks = [stateDictionary objectForKey:@"imports"];
+            NSMutableArray *weaklinks = [stateDictionary objectForKey:@"imports"];
             if (!weaklinks) {
-                weaklinks = [NSMutableDictionary dictionary];
+                weaklinks = [NSMutableArray array];
                 [stateDictionary setObject:weaklinks forKey:@"imports"];
             }
 
@@ -438,7 +437,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
             NSString *importName = [NSString stringWithFormat:@"/%@/%@", importMode, importState];
             
             [I_importedModes setObject:@"import" forKey:importMode];
-            [weaklinks setObject:nextState forKey:importName];
+            [weaklinks addObject:[NSDictionary dictionaryWithObjectsAndKeys:nextState,@"importNode",importName,@"importName",nil]];
             
         } 
         else if ([nodeName isEqualToString:@"state-link"]) 	// Hard-link state-links
@@ -490,8 +489,8 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
     NSEnumerator *statesEnumerator = [I_allStates objectEnumerator];
     while ((state = [statesEnumerator nextObject])) {
 		[keywordGroups removeAllObjects];
-		[keywordGroups addObjectsFromArray:[state objectForKey:@"KeywordGroups"]];
 		[keywordGroups addObjectsFromArray:[state objectForKey:@"ImportedKeywordGroups"]];
+		[keywordGroups addObjectsFromArray:[state objectForKey:@"KeywordGroups"]];
         if (keywordGroups.count > 0) {
 
             NSMutableDictionary *newPlainCaseDictionary = [NSMutableDictionary dictionary];
@@ -676,9 +675,11 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 
 // Calculate inheritances recursivly
 - (void) calculateSymbolInheritanceForState:(NSMutableDictionary *)state inheritedSymbols:(NSString *)oldSymbols inheritedAutocomplete:(NSString *)oldAutocomplete {
+	static int counter = 0;
 	NSString *symbols = nil;
 	NSString *autocomplete = nil;
 	
+	counter ++;
 	if ([state objectForKey:@"switchtosymbolsfrommode"]) symbols = [[[state objectForKey:@"switchtosymbolsfrommode"] copy] autorelease];
     else symbols = [[oldSymbols copy] autorelease];
 	if ([state objectForKey:StateDictionarySwitchToAutocompleteFromModeKey]) autocomplete = [[[state objectForKey:StateDictionarySwitchToAutocompleteFromModeKey] copy] autorelease];
@@ -711,9 +712,13 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 				[self.scopeStyleDictionary setObject:[NSDictionary dictionaryWithObject:currentScope forKey:@"inherit"] forKey:childScope];
 			}
         }
+		if (counter > 20) { 
+			NSLog(@"%s counter %d", __FUNCTION__, counter);
+		}
 		if (![childState objectForKey:[self keyForInheritedSymbols]])
 			[self calculateSymbolInheritanceForState:childState inheritedSymbols:symbols inheritedAutocomplete:autocomplete];
     }
+	counter--;
 }
 
 - (void)getReady {
@@ -911,15 +916,11 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 - (void)setCombinedStateRegexForState:(NSMutableDictionary *)aState
 { 
 	if ([aState objectForKey:@"imports"]) {
-		
-		NSEnumerator *enumerator = [[aState objectForKey:@"imports"] keyEnumerator];
-		id importName;
-		while ((importName = [enumerator nextObject])) {
+		for (NSDictionary *import in [aState objectForKey:@"imports"]) {
+			NSString *importName = [import objectForKey:@"importName"];
+			NSXMLElement *importNode = [import objectForKey:@"importNode"];
+			BOOL keywordsOnly = [[[importNode attributeForName:@"keywords-only"] stringValue] isEqualToString:@"yes"];
 			NSString *modeName = [self getModeNameFromState:importName]; 
-			BOOL keywordsOnly = NO;
-			
-			NSXMLElement *importNode = [[aState objectForKey:@"imports"] objectForKey:importName];
-			if ([[[importNode attributeForName:@"keywords-only"] stringValue] isEqualToString:@"yes"]) keywordsOnly = YES;
 			
 			SyntaxDefinition *linkedDefinition = [[[DocumentModeManager sharedInstance] documentModeForName:modeName] syntaxDefinition]; 
 			NSDictionary *linkedState = [linkedDefinition stateForID:importName];
