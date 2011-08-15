@@ -382,7 +382,10 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
                 [combindedKeywordRegexString appendFormat:@"(?=[%@])",[I_charsDelimitingToken stringByReplacingRegularExpressionOperators]];
             }        
             
-            [keywordGroupDictionary setObject:[[[OGRegularExpression alloc] initWithString:combindedKeywordRegexString options:OgreFindNotEmptyOption|OgreCaptureGroupOption] autorelease] forKey:@"CompiledKeywords"];
+            BOOL caseInsensitiveKeywordGroup = [[keywordGroupDictionary objectForKey:@"casesensitive"] isEqualToString:@"no"];
+            unsigned keywordGroupSettings = caseInsensitiveKeywordGroup?OgreFindNotEmptyOption|OgreCaptureGroupOption|OgreIgnoreCaseOption:OgreFindNotEmptyOption|OgreCaptureGroupOption;
+            
+            [keywordGroupDictionary setObject:[[[OGRegularExpression alloc] initWithString:combindedKeywordRegexString options:keywordGroupSettings] autorelease] forKey:@"CompiledKeywords"];
         }
     }
     
