@@ -12,9 +12,10 @@
     
     	<!-- STUDIO - rewritten for 1.6, do not replace. -->
         <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="HTML" useautocompletefrommode="HTML" usespellchecking="yes">
+			<import mode="XML" keywords-only="yes"/>
 			
 			<state id="Inline VBScript" color="#000" background-color="#fff" usesymbolsfrommode="ASP-HTML" useautocompletefrommode="ASP-HTML" scope="meta.default">
-				<begin><regex>&lt;(?=(?i)script[^>]+?(?i)vbscript|server[^>]*[>])</regex><autoend>&lt;/script></autoend></begin>
+				<begin><regex>&lt;(?=(?i:script[^>]+?vbscript[^>]*[>]))</regex><autoend>&lt;/script></autoend></begin>
 				<end><regex>(?i)/script></regex></end>
 	
 				<import state="ASP-VBScript" />
@@ -345,7 +346,7 @@
 				</state>
 
 				<state id="VBBlocksIf" foldable="yes" scope="meta.block">
-					<begin><regex>\b(?i)if[^\n\r]+?then(?=\s*?[\n\r#'])</regex><autoend>End If></autoend></begin>
+					<begin><regex>\b(?i)if[^\n\r]+?then(?=\s*?[\n\r#%'])</regex><autoend>End If></autoend></begin>
 					<end><regex>(?i)([.\s](?=else)|(?:end if))|(?:[.\s](?=\s*(%>|-%>)))</regex></end>
 					<import state="ASP-VBScript" />
 				</state>
@@ -357,13 +358,13 @@
 				</state>
 
 				<state id="VBBlocksFor" foldable="yes" scope="meta.block">
-					<begin><regex>\b(?i:for\b[^\n\r]+?\b(?:in|to)\b[^\n\r#']+?)(?=\s*?[\n\r#'])</regex><autoend>Next</autoend></begin>
+					<begin><regex>\b(?i:for\b[^\n\r]+?\b(?:in|to)\b[^\n\r#']+?)(?=\s*?[\n\r#%'])</regex><autoend>Next</autoend></begin>
 					<end><regex>(?i)(?:next)|(?:[.\s](?=\s*(%>|-%>)))</regex></end>
 					<import state="ASP-VBScript" />
 				</state>
 
 				<state id="VBBlocksSelect" foldable="yes" scope="meta.block">
-					<begin><regex>\b(?i:select case\b[^\n\r#']+?)(?=\s*?[\n\r#'])</regex><autoend>End Select</autoend></begin>
+					<begin><regex>\b(?i:select case\b[^\n\r#']+?)(?=\s*?[\n\r#%'])</regex><autoend>End Select</autoend></begin>
 					<end><regex>(?i)(?:end select)|(?:[.\s](?=\s*(%>|-%>)))</regex></end>
 					<import state="ASP-VBScript" />
 				</state>
