@@ -323,72 +323,94 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
     NSMutableArray *keywordGroups = [NSMutableArray array];
     [stateDictionary setObject:keywordGroups forKey:@"KeywordGroups"];
     
-    NSArray *keywordGroupsNodes = [stateNode nodesForXPath:@"./keywords" error:&err];
+    NSArray *keywordGroupsNodes = [stateNode nodesForXPath:@"./keywords | ./import" error:&err];
     
-    id keywordGroupNode;
-    for (keywordGroupNode in keywordGroupsNodes) {
-        NSMutableDictionary *keywordGroupDictionary = [NSMutableDictionary dictionary];
-        [self addAttributes:[keywordGroupNode attributes] toDictionary:keywordGroupDictionary];
-        NSString *keywordGroupName = [keywordGroupDictionary objectForKey:@"id"];
-        if (keywordGroupName) [keywordGroups addObject:keywordGroupDictionary];
-        
-        // Add regexes for keyword group
-        NSMutableArray *regexes = [NSMutableArray array];
-        NSMutableArray *strings = [NSMutableArray array];
-        NSMutableString *combinedRegexRegexString = [NSMutableString stringWithString:@"(?:"];
-        
-        [keywordGroupDictionary setObject:regexes forKey:@"RegularExpressions"];
-        [keywordGroupDictionary setObject:strings forKey:@"PlainStrings"];
-        
-        NSArray *regexNodes = [keywordGroupNode nodesForXPath:@"./regex" error:&err];
-        NSEnumerator *regexEnumerator = [regexNodes objectEnumerator];
-        id regexNode;
-        while ((regexNode = [regexEnumerator nextObject])) {
-            [regexes addObject:[regexNode stringValue]];
-            [combinedRegexRegexString appendFormat:@"%@|",[regexNode stringValue]];
-        }
-        if ([regexNodes count]>0) {
-            [combinedRegexRegexString replaceCharactersInRange:NSMakeRange([combinedRegexRegexString length]-1, 1) withString:@")"];
-            [keywordGroupDictionary setObject:[[[OGRegularExpression alloc] initWithString:combinedRegexRegexString options:OgreFindNotEmptyOption|OgreCaptureGroupOption] autorelease] forKey:@"CompiledRegEx"];            
-        }
-        
-        
-        // Add strings for keyword group
-        NSMutableString *combinedKeywordRegexString = [NSMutableString string];
-        if (I_charsInToken) {
-            [combinedKeywordRegexString appendFormat:@"(?<![%@])(",[I_charsInToken stringByReplacingRegularExpressionOperators]];
-        } else if (I_charsDelimitingToken) {
-            [combinedKeywordRegexString appendFormat:@"(?<=[%@])(",[I_charsDelimitingToken stringByReplacingRegularExpressionOperators]];
-        } else {
-            [combinedKeywordRegexString appendString:@"("]; 
-        }
-                
-        BOOL autocomplete = [[keywordGroupDictionary objectForKey:@"useforautocomplete"] isEqualToString:@"yes"];
-        NSMutableArray *autocompleteDictionary = [[self mode] autocompleteDictionary];
-        NSArray *stringNodes = [keywordGroupNode nodesForXPath:@"./string" error:&err];
-        NSEnumerator *stringEnumerator = [stringNodes objectEnumerator];
-        id stringNode;
-        while ((stringNode = [stringEnumerator nextObject])) {
-            [strings addObject:[stringNode stringValue]];
-            [combinedKeywordRegexString appendFormat:@"%@|",[[stringNode stringValue] stringByReplacingRegularExpressionOperators]];
-            if (autocomplete) [autocompleteDictionary addObject:[stringNode stringValue]];
-        }
-        if ([stringNodes count]>0) {
-            [combinedKeywordRegexString replaceCharactersInRange:NSMakeRange([combinedKeywordRegexString length]-1, 1) withString:@")"];
+    for (id xmlNode in keywordGroupsNodes) {
+        NSString *nodeName = [xmlNode name];
+		if ([nodeName isEqualToString:@"import"]) //Weak-link to imported states, for later copying
+        {  
+            NSMutableArray *weaklinks = [stateDictionary objectForKey:@"imports"];
+            if (!weaklinks) {
+                weaklinks = [NSMutableArray array];
+                [stateDictionary setObject:weaklinks forKey:@"imports"];
+            }
+			
+            NSString *importMode, *importState;
+            importMode = [[xmlNode attributeForName:@"mode"] stringValue];
+            if (!importMode) importMode = [self name];
             
-            if (I_charsInToken) {
-                [combinedKeywordRegexString appendFormat:@"(?![%@])",[I_charsInToken stringByReplacingRegularExpressionOperators]];
-            } else if (I_charsDelimitingToken) {
-                [combinedKeywordRegexString appendFormat:@"(?=[%@])",[I_charsDelimitingToken stringByReplacingRegularExpressionOperators]];
-            }        
+            importState = [[xmlNode attributeForName:@"state"] stringValue];
+            if (!importState) importState = SyntaxStyleBaseIdentifier;
             
-            BOOL caseInsensitiveKeywordGroup = [[keywordGroupDictionary objectForKey:@"casesensitive"] isEqualToString:@"no"];
-            unsigned keywordGroupSettings = OgreFindNotEmptyOption|OgreCaptureGroupOption;
-			if (caseInsensitiveKeywordGroup) keywordGroupSettings |= OgreIgnoreCaseOption;
+            NSString *importName = [NSString stringWithFormat:@"/%@/%@", importMode, importState];
             
-            [keywordGroupDictionary setObject:[[[OGRegularExpression alloc] initWithString:combinedKeywordRegexString options:keywordGroupSettings] autorelease] forKey:@"CompiledKeywords"];
-        }
-    }
+            [I_importedModes setObject:@"import" forKey:importMode];
+            [weaklinks addObject:[NSDictionary dictionaryWithObjectsAndKeys:xmlNode,@"importNode",importName,@"importName",[NSNumber numberWithUnsignedInteger:keywordGroups.count],@"importPosition",nil]];            
+        } 
+        else if ([nodeName isEqualToString:@"keywords"]) {
+			NSMutableDictionary *keywordGroupDictionary = [NSMutableDictionary dictionary];
+			[self addAttributes:[xmlNode attributes] toDictionary:keywordGroupDictionary];
+			NSString *keywordGroupName = [keywordGroupDictionary objectForKey:@"id"];
+			if (keywordGroupName) [keywordGroups addObject:keywordGroupDictionary];
+			
+			// Add regexes for keyword group
+			NSMutableArray *regexes = [NSMutableArray array];
+			NSMutableArray *strings = [NSMutableArray array];
+			NSMutableString *combinedRegexRegexString = [NSMutableString stringWithString:@"(?:"];
+			
+			[keywordGroupDictionary setObject:regexes forKey:@"RegularExpressions"];
+			[keywordGroupDictionary setObject:strings forKey:@"PlainStrings"];
+			
+			NSArray *regexNodes = [xmlNode nodesForXPath:@"./regex" error:&err];
+			NSEnumerator *regexEnumerator = [regexNodes objectEnumerator];
+			id regexNode;
+			while ((regexNode = [regexEnumerator nextObject])) {
+				[regexes addObject:[regexNode stringValue]];
+				[combinedRegexRegexString appendFormat:@"%@|",[regexNode stringValue]];
+			}
+			if ([regexNodes count]>0) {
+				[combinedRegexRegexString replaceCharactersInRange:NSMakeRange([combinedRegexRegexString length]-1, 1) withString:@")"];
+				[keywordGroupDictionary setObject:[[[OGRegularExpression alloc] initWithString:combinedRegexRegexString options:OgreFindNotEmptyOption|OgreCaptureGroupOption] autorelease] forKey:@"CompiledRegEx"];            
+			}
+			
+			
+			// Add strings for keyword group
+			NSMutableString *combinedKeywordRegexString = [NSMutableString string];
+			if (I_charsInToken) {
+				[combinedKeywordRegexString appendFormat:@"(?<![%@])(",[I_charsInToken stringByReplacingRegularExpressionOperators]];
+			} else if (I_charsDelimitingToken) {
+				[combinedKeywordRegexString appendFormat:@"(?<=[%@])(",[I_charsDelimitingToken stringByReplacingRegularExpressionOperators]];
+			} else {
+				[combinedKeywordRegexString appendString:@"("]; 
+			}
+					
+			BOOL autocomplete = [[keywordGroupDictionary objectForKey:@"useforautocomplete"] isEqualToString:@"yes"];
+			NSMutableArray *autocompleteDictionary = [[self mode] autocompleteDictionary];
+			NSArray *stringNodes = [xmlNode nodesForXPath:@"./string" error:&err];
+			NSEnumerator *stringEnumerator = [stringNodes objectEnumerator];
+			id stringNode;
+			while ((stringNode = [stringEnumerator nextObject])) {
+				[strings addObject:[stringNode stringValue]];
+				[combinedKeywordRegexString appendFormat:@"%@|",[[stringNode stringValue] stringByReplacingRegularExpressionOperators]];
+				if (autocomplete) [autocompleteDictionary addObject:[stringNode stringValue]];
+			}
+			if ([stringNodes count]>0) {
+				[combinedKeywordRegexString replaceCharactersInRange:NSMakeRange([combinedKeywordRegexString length]-1, 1) withString:@")"];
+				
+				if (I_charsInToken) {
+					[combinedKeywordRegexString appendFormat:@"(?![%@])",[I_charsInToken stringByReplacingRegularExpressionOperators]];
+				} else if (I_charsDelimitingToken) {
+					[combinedKeywordRegexString appendFormat:@"(?=[%@])",[I_charsDelimitingToken stringByReplacingRegularExpressionOperators]];
+				}        
+				
+				BOOL caseInsensitiveKeywordGroup = [[keywordGroupDictionary objectForKey:@"casesensitive"] isEqualToString:@"no"];
+				unsigned keywordGroupSettings = OgreFindNotEmptyOption|OgreCaptureGroupOption;
+				if (caseInsensitiveKeywordGroup) keywordGroupSettings |= OgreIgnoreCaseOption;
+				
+				[keywordGroupDictionary setObject:[[[OGRegularExpression alloc] initWithString:combinedKeywordRegexString options:keywordGroupSettings] autorelease] forKey:@"CompiledKeywords"];
+			}
+		}
+	}
     
     if ([name isEqualToString:@"default"]) {        
         [stateDictionary setObject:[NSString stringWithFormat:@"/%@/%@", [self name], SyntaxStyleBaseIdentifier] forKey:@"id"];
@@ -415,34 +437,13 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 	}
     
     // Get all nodes and preserve order
-    NSArray *allStateNodes = [stateNode nodesForXPath:@"./state | ./import | ./state-link" error:&err];
+    NSArray *allStateNodes = [stateNode nodesForXPath:@"./state | ./state-link" error:&err];
     for (id nextState in allStateNodes) {
         NSString *nodeName = [nextState name];
         if (![stateDictionary objectForKey:@"states"]) [stateDictionary setObject:[NSMutableArray array] forKey:@"states"];
      
         if ([nodeName isEqualToString:@"state"]) {  //Recursive descent into sub-states
             [self parseState:nextState addToState:stateDictionary];           
-        } 
-        else if ([nodeName isEqualToString:@"import"]) //Weak-link to imported states, for later copying
-        {  
-            NSMutableArray *weaklinks = [stateDictionary objectForKey:@"imports"];
-            if (!weaklinks) {
-                weaklinks = [NSMutableArray array];
-                [stateDictionary setObject:weaklinks forKey:@"imports"];
-            }
-
-            NSString *importMode, *importState;
-            importMode = [[nextState attributeForName:@"mode"] stringValue];
-            if (!importMode) importMode = [self name];
-            
-            importState = [[nextState attributeForName:@"state"] stringValue];
-            if (!importState) importState = SyntaxStyleBaseIdentifier;
-            
-            NSString *importName = [NSString stringWithFormat:@"/%@/%@", importMode, importState];
-            
-            [I_importedModes setObject:@"import" forKey:importMode];
-            [weaklinks addObject:[NSDictionary dictionaryWithObjectsAndKeys:nextState,@"importNode",importName,@"importName",nil]];
-            
         } 
         else if ([nodeName isEqualToString:@"state-link"]) 	// Hard-link state-links
         {
@@ -495,7 +496,17 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 		[keywordGroups removeAllObjects];
 		[keywordGroups addObjectsFromArray:[state objectForKey:@"ImportedKeywordGroups"]];
 		[keywordGroups addObjectsFromArray:[state objectForKey:@"KeywordGroups"]];
-        if (keywordGroups.count > 0) {
+		// fill the keywords in in reverse order at the import position so the final array has the correct order.
+		for (NSDictionary *importDict in [[state objectForKey:@"ImportedKeywordGroups"] reverseObjectEnumerator]) {
+			NSUInteger importPosition = [[importDict objectForKey:@"importPosition"] unsignedIntegerValue];
+			NSArray *keywordGroupsToImport = [importDict objectForKey:@"keywordGroups"];
+			for (id keywordGroup in [keywordGroupsToImport reverseObjectEnumerator]) {
+				[keywordGroups insertObject:keywordGroup atIndex:importPosition];
+			}
+		}
+
+        
+		if (keywordGroups.count > 0) {
 
             NSMutableDictionary *newPlainCaseDictionary = [NSMutableDictionary dictionary];
             NSMutableDictionary *newPlainIncaseDictionary = [NSMutableDictionary caseInsensitiveDictionary];
@@ -553,8 +564,11 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 		for (NSDictionary *keywordGroupDict in [state objectForKey:@"KeywordGroups"]) {
 			[aString appendFormat:@"%@-%@ (%@)\n",indentString, [keywordGroupDict objectForKey:@"id"], [keywordGroupDict objectForKey:@"scope"]];
 		}
-		for (NSDictionary *keywordGroupDict in [state objectForKey:@"ImportedKeywordGroups"]) {
-			[aString appendFormat:@"%@i-%@ (%@)\n",indentString, [keywordGroupDict objectForKey:@"id"], [keywordGroupDict objectForKey:@"scope"]];
+		for (NSDictionary *keywordGroupToImport in [state objectForKey:@"ImportedKeywordGroups"]) {
+			NSUInteger importPosition = [[keywordGroupToImport objectForKey:@"importPosition"] unsignedIntegerValue];
+			for (NSDictionary *keywordGroupDict in [keywordGroupToImport objectForKey:@"keywordGroups"]) {
+				[aString appendFormat:@"%@i-%d-%@ (%@)\n",indentString, importPosition, [keywordGroupDict objectForKey:@"id"], [keywordGroupDict objectForKey:@"scope"]];
+			}
 		}
 		for (id substate in [state objectForKey:@"states"]) {
 			if ([substate isKindOfClass:[NSDictionary class]]) {
@@ -796,11 +810,13 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
             return aLevel;
         }
     }
-    for (NSDictionary *keywordGroup in [aState objectForKey:@"ImportedKeywordGroups"]) {
-        if ([[keywordGroup objectForKey:kSyntaxHighlightingStyleIDAttributeName] isEqualToString:aStyleID]) {
-            return aLevel;
-        }
-    }
+	for (NSDictionary *keywordGroupToImport in [aState objectForKey:@"ImportedKeywordGroups"]) {
+		for (NSDictionary *keywordGroup in [keywordGroupToImport objectForKey:@"keywordGroups"]) {
+			if ([[keywordGroup objectForKey:kSyntaxHighlightingStyleIDAttributeName] isEqualToString:aStyleID]) {
+				return aLevel;
+			}
+		}
+	}
     NSEnumerator *subStates = [[aState objectForKey:@"states"] objectEnumerator];
     NSDictionary *subState = nil;
     if (!subStates) return aLevel;
@@ -892,7 +908,11 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 	[I_defaultSyntaxStyle takeValuesFromDictionary:aState];
 	NSMutableArray *keywordGroups = [NSMutableArray new];
 	[keywordGroups addObjectsFromArray:[aState objectForKey:@"KeywordGroups"]];
-	[keywordGroups addObjectsFromArray:[aState objectForKey:@"ImportedKeywordGroups"]];
+	for (NSDictionary *keywordGroupToImport in [aState objectForKey:@"ImportedKeywordGroups"]) {
+		for (NSDictionary *keywordGroup in [keywordGroupToImport objectForKey:@"keywordGroups"]) {
+			[keywordGroups addObject:keywordGroup];
+		}
+	}
     for (NSDictionary *keywordGroup in keywordGroups) {
 		
 		if ([keywordGroup objectForKey:@"scope"]) {
@@ -936,7 +956,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 				}
 				// import does not import imported keyword groups. so we need to collect them in a different array otherwise some keywords cascade in importing, others don't depending on the kind of mode we are in.
 				if (![aState objectForKey:@"ImportedKeywordGroups"]) [aState setObject:[NSMutableArray array] forKey:@"ImportedKeywordGroups"];
-				[[aState objectForKey:@"ImportedKeywordGroups"] addObjectsFromArray:[linkedState objectForKey:@"KeywordGroups"]];			
+				[[aState objectForKey:@"ImportedKeywordGroups"] addObject:[NSDictionary dictionaryWithObjectsAndKeys:[linkedState objectForKey:@"KeywordGroups"],@"keywordGroups", [import objectForKey:@"importPosition"], @"importPosition",nil]];			
 			}
 		}
 	} 
