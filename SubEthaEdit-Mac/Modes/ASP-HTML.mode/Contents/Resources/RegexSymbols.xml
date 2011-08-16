@@ -1,0 +1,124 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "symbol.dtd">
+<symbols>
+    <blocks>
+        <beginregex>{</beginregex>
+        <endregex>}</endregex>
+    </blocks>
+
+    <symbol id="ASP functions" font-weight="normal" font-style="normal" image="SymbolF()" indentation="0" ignoreblocks="no">
+        <regex>^[\s]*(?i)((function|sub)\s.*)$</regex>
+        <postprocess>
+			<find>\b(?i)(function)\s\b</find>
+			<replace></replace>
+			<find>\b(?i)(sub)\s\b</find>
+			<replace></replace>
+			<find>[\n\r]</find>
+			<replace> </replace>
+			<find>[ \t]+</find>
+			<replace> </replace>
+		</postprocess>
+    </symbol>
+
+	<symbol id="ASP Class" font-weight="normal" font-style="normal" image="SymbolC" indentation="0" ignoreblocks="no">
+		<regex>^\s*(?i)class\s+(\w*).*$</regex>
+		<postprocess>
+			<find>(.*)</find>
+			<replace>\1</replace>
+			<find>[\n\r]</find>
+			<replace> </replace>
+			<find>[ \t]+</find>
+			<replace> </replace>
+		</postprocess>
+	</symbol>
+
+	<symbol id="ASP Class Function" font-weight="normal" font-style="normal" image="SymbolF()" indentation="2" ignoreblocks="no">
+		<regex>^[\s]*((?i)(Public|Private)[\s]*(?i)((function|sub)\s.*))$</regex>
+		<postprocess>
+			<find>\b(?i)(public|private)\s\b</find>
+			<replace></replace>
+			<find>\b(?i)(public)\s\b</find>
+			<replace></replace>
+			<find>\b(?i)(function)\s\b</find>
+			<replace></replace>
+			<find>\b(?i)(sub)\s\b</find>
+			<replace></replace>
+			<find>[\n\r]</find>
+			<replace> </replace>
+			<find>[ \t]+</find>
+			<replace> </replace>
+		</postprocess>
+	</symbol>
+	
+	<symbol id="ASP Class Property" font-weight="normal" font-style="normal" image="SymbolP" indentation="2" ignoreblocks="no">
+		<regex>^\s*((?i)(Public|Private)\s*(?i)property\s*(?i)((get|set).*))$</regex>
+		<postprocess>
+			<find>\b(?i)(public|private)\s\b</find>
+			<replace></replace>
+			<find>\b(?i)(property)\s\b</find>
+			<replace></replace>
+			<find>\b(?i)(function)\s\b</find>
+			<replace></replace>
+			<find>\b(?i)(sub)\s\b</find>
+			<replace></replace>
+			<find>[\n\r]</find>
+			<replace> </replace>
+			<find>[ \t]+</find>
+			<replace> </replace>
+		</postprocess>
+	</symbol>
+
+    <symbol id="Include: " font-weight="normal" font-style="normal" image="Symbol#" indentation="0" ignoreblocks="no">
+		<regex>^\s*&lt;!--\s*(?i)#include\s+[^"']+=(.*)--&gt;</regex>
+		<postprocess>
+			<find>(.*)</find>
+			<replace>\1</replace>
+			<find>[\n\r]</find>
+			<replace> </replace>
+			<find>[ \t]+</find>
+			<replace> </replace>
+			<find>'</find>
+			<replace></replace>
+			<find>"</find>
+			<replace></replace>
+		</postprocess>
+	</symbol>
+
+	<symbol id="Todo" font-weight="normal" indentation="0" image="SymbolWarn" ignoreblocks="yes" show-in-comments="yes">
+		<regex>^\s*'\s*(?i)todo:(?:-(?=[\n\r]))?([^\n\r]*)</regex>
+		<postprocess>
+			<find>(.*)</find>
+			<replace>Todo: \1</replace>
+			<find>[ \t]+</find>
+			<replace> </replace>
+		</postprocess>
+	</symbol>
+
+    <symbol id="Comment Marks" font-weight="normal" indentation="0" image="SymbolMark" ignoreblocks="yes" show-in-comments="yes">
+        <regex>'''[\t ]*(?:-(?=[\n\r]))?([^\n\r]*)</regex>
+    </symbol>
+	
+	<symbol id="Comment Marks 2" font-weight="bold" indentation="0" image="SymbolMark" ignoreblocks="yes" show-in-comments="yes">
+		<regex>^\s*'![\t ]*(?:-(?=[\n\r]))?([^\n\r]*)</regex>
+		<postprocess>
+			<find>[ \t]+</find>
+			<replace> </replace>
+			<find>(.*)</find>
+			<replace>\1</replace>
+		</postprocess>
+	</symbol>
+	
+    <symbol id="Temporarily Removed" font-style="italic" indentation="0" image="SymbolWarn" ignoreblocks="no">
+        <regex>^('//.*[\r\n])*</regex>
+          <postprocess>
+            <find>.*</find>
+            <replace>Disabled Code</replace>       
+          </postprocess>
+    </symbol>
+    
+     <!-- CODA -->
+    <symbol id="Pragma marks" font-weight="normal" font-style="normal" image="SymbolMark" indentation="0" ignoreblocks="no" show-in-comments="yes">
+        <regex>&lt;!--\s*!.*--&gt;</regex>
+    </symbol>
+
+</symbols>

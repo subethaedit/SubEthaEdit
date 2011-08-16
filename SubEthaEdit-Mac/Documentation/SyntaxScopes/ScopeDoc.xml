@@ -44,6 +44,7 @@
 		</scope_group>
 		<scope_group>
 			<scope name="language"></scope>
+			<scope name="language.preprocessor"><example lang="c">#include</example></scope>
 			<scope name="language.function"><example lang="coda">code_functions()</example><example lang="js">my_function_call()</example></scope>
 			<scope name="language.method"><example lang="obj-c obj-j">[Some selector:with:you:know:]</example></scope>
 			<scope name="language.variable"><example lang="php">$my_var</example></scope>

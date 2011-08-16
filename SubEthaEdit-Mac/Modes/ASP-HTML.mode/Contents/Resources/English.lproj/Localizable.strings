@@ -1,0 +1,72 @@
+/* State and Keywordgroupnames */
+"ASP Functions" = "ASP Functions";
+"Keywords" = "Keywords";
+"Magic Methods" = "Magic Methods";
+"Numbers" = "Numbers";
+"FunctionRegex" = "Function Calls";
+"ASP Delimiter" = "<%asp Delimiter>";
+"SingleComment" = "'Comment";
+"Comment" = "/* Comment */";
+"SingleComment2" = "// Comment";
+"String" = "\"Strings\"";
+"String2" = "'Strings'";
+"HTML Tags" = "HTML Tags";
+"ASP Tags" = "ASP Tags";
+"Attributes in Tags" = "Attributes in Tags";
+"Strings" = "\"Strings\"";
+"Entities" = "Entities";
+"ASP Include" = "<!-- #include -->";
+"HTMLComment" = "<!-- comment -->";
+"Attributes in HTML Tags" = "Attributes in Tags";
+"Strings in HTML Tags" = "\"Strings in Tags\"";
+"Strings in HTML Tags 2" = "'Strings in Tags'";
+"ASP in Strings" = "ASP in Strings";
+"HTML Comment Tag" = "<!-- Comment Tags -->";
+"Inline ASP" = "Inline ASP";
+"Inline VBScript" = "Inline VBScript";
+"ASP/VBScript Code" = "ASP/VBScript Code";
+"ASP in Tags" = "ASP in Tags";
+
+/* State and Keywordgroupnames */
+"/XML/Tags" = "Tags";
+"/XML/Strings in Tags" = "\"Strings in Tags\"";
+"/XML/Single Strings in Tags" = "'Strings in Tags'";
+"/XML/Attributes in Tags" = "Attributes in Tags";
+"/XML/Entities" = "Entities";
+"/XML/Comment" = "<!-- Comment -->";
+"/XML/CDATA" = "<![CDATA[...]]>";
+"/XML/Doctype" = "<!Declaration>";
+"/XML/Escape" = "<?Prologue?>";
+"/XML/SGML Double Dash" = "Invalid SGML Comment Warning";
+
+"Inline CSS" = "Inline CSS";
+"Inline Javascript" = "Inline Javascript";
+"Style Tags" = "Style Tags";
+"Opening Style Tag" = "Opening Style Tag";
+"Script Tags" = "Script Tags";
+"Opening Script Tag" = "Opening Script Tag";
+
+"/CSS/CSS Attributes" = "CSS Attributes";
+"/CSS/CSS Keywords" = "CSS Keywords";
+"/CSS/CSS Digits" = "CSS Digits";
+"/CSS/CSS Colors" = "CSS Colors";
+"/CSS/AutodocComment" = "/*\" CSS Comment \"*/";
+"/CSS/Comment" = "/* CSS Comment */";
+"/CSS/SingleComment" = "// CSS Comment";
+"/CSS/String" = "\"CSS Strings\"";
+"/CSS/Inside curly brackets" = "{CSS inside curly brackets}";
+"/CSS/Round bracket" = "(CSS inside parentheses)";
+"/CSS/SingleString" = "'CSS Strings'";
+"/CSS/Attribute state" = "CSS Attribute state";
+
+"/Javascript/Keywords" = "Javascript Keywords";
+"/Javascript/Numbers" = "Javascript Numbers";
+"/Javascript/Characters" = "Javascript Characters";
+"/Javascript/FunctionRegex" = "Javascript Function Calls";
+"/Javascript/AutodocComment" = "/*\" Javascript Comment \"*/";
+"/Javascript/Comment" = "/* Javascript Comment */";
+"/Javascript/SingleComment" = "// Javascript Comment";
+"/Javascript/String" = "\"Javascript Strings\"";
+"/Javascript/SingleString" = "'Javascript Strings'";
+"/Javascript/Regular Expressions" = "Javascript Regular Expressions";
+"/Javascript/Escaped Characters" = "Javascript Escaped Characters";
