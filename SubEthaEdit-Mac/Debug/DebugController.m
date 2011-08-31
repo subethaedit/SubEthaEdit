@@ -156,7 +156,8 @@ static DebugController * sharedInstance = nil;
         [blahItem release];
 
 
-        blahItem = [[NSMenuItem alloc] initWithTitle:@"Show Attribute Inspector..." action:@selector(showAttributeInspector:) keyEquivalent:@""];
+        blahItem = [[NSMenuItem alloc] initWithTitle:@"Show Attribute Inspector..." action:@selector(showAttributeInspector:) keyEquivalent:@"a"];
+		[blahItem setKeyEquivalentModifierMask:NSAlternateKeyMask | NSControlKeyMask];
         [blahItem setTarget:self];
         [menu addItem:blahItem];
         [blahItem release];

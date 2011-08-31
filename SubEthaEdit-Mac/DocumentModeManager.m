@@ -562,6 +562,7 @@ static DocumentModeManager *S_sharedInstance=nil;
     // reload all modes
     [I_modeBundles                removeAllObjects];
     [I_documentModesByIdentifier  removeAllObjects];
+	[I_documentModesByName		  removeAllObjects];
 #if defined(CODA)
 	[I_modeIdentifiersByExtension removeAllObjects];
 #endif //defined(CODA)

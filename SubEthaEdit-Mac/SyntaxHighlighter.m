@@ -437,7 +437,7 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 //						[I_stringLock lock];
 						[aString addAttributes:attributes range:matchedRange]; // only color last matched subgroup - it is important that all regex keywords have exactly and only one matching group for this to work
 						[aString addAttribute:kSyntaxHighlightingScopenameAttributeName value:scope range:matchedRange];
-//						[aString addAttribute:[NSString stringWithFormat:@"%02d-%@",styleCount,[keywordGroup objectForKey:@"id"]] value:scope range:matchedRange]; // For Debugging only
+						[aString addAttribute:[NSString stringWithFormat:@"%02d-%@-%@",styleCount,currentStateID,[keywordGroup objectForKey:@"id"]] value:scope range:matchedRange]; // For Debugging only
 //						[I_stringLock unlock];
 
 						if ([[keywordGroup objectForKey:@"type"] isEqualToString:@"url"]) {
