@@ -1,0 +1,13 @@
+/* Last modified 3/21/09 */
+/* Stylesheet specific to Galleria pages */
+/* Keep this separate due to specific quirks of this css */
+*{margin:0;padding:0}
+.galleria{list-style:none;width:200px}
+.galleria li{display:block;width:80px;height:80px;overflow:hidden;float:left;margin:0 10px 10px 0}
+.galleria li a{display:none}
+.galleria li div{position:absolute;display:none;top:0;left:180px}
+.galleria li div img{cursor:pointer}
+.galleria li.active div img,.galleria li.active div{display:block}
+.galleria li img.thumb{cursor:pointer;top:auto;left:auto;display:block;width:auto;height:auto}
+.galleria li .caption{display:block;padding-top:.5em}
+* html .galleria li div span{width:400px} /* MSIE bug */

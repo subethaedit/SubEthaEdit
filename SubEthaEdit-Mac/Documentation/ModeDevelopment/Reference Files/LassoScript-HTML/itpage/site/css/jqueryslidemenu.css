@@ -1,0 +1,110 @@
+/* Last modified 8/21/09 by ECL for itPage distribution */
+/* This stylesheet controls the look of the jQuery slidemenu (dropdown) */
+/* Feel free to change this at will */
+
+.jqueryslidemenu {
+/* font: bold 13px Verdana; */
+font: bold 12px Verdana;
+/* Option 1 - Black background */
+/* background: black; */
+/* Option 2 - Grey background */
+background: #353535;
+/* width: 930px; */
+/* width: 1060px; */
+width: 100%;
+	position: absolute;
+	display: inline;
+	top: 0;
+	right: 10%;
+	left: 0; }
+
+.jqueryslidemenu ul{
+margin: 0;
+padding: 0;
+list-style-type: none; }
+
+/* Top level list items */
+.jqueryslidemenu ul li{
+/* OPTIONAL ADD WIDTH */
+/* If Width is undefined, it will just use the width of the link + padding */
+/* width: 202px; */
+position: relative;
+display: inline;
+float: left;
+text-align: center; }
+
+/* Top level menu link items style */
+.jqueryslidemenu ul li a{
+/* Throws Validation error */
+/*	font: 16px; */
+display: block;
+/* background of tabs (default state) */
+/* Option 1 - Black background */
+/* background: black; */
+/* Option 2 - Grey background */
+background: #353535;
+color: white;
+padding: 8px 10px;
+/* border-right: 1px solid grey; */
+text-decoration: none; }
+
+* html .jqueryslidemenu ul li a{ /*IE6 hack to get sub menu links to behave correctly*/
+display: inline-block; }
+
+.jqueryslidemenu ul li a:link, .jqueryslidemenu ul li a:visited{
+color: white; }
+
+/* tab link background during hover state*/
+.jqueryslidemenu ul li a:hover{
+/* Option 1 - Background grey, link white */
+/* background: #6B006A; color: white; */
+/* Option 2 - White background, black type
+/* background: white; color: black; */
+/* Option 3 - Background pastel green, black type */
+/* background: #d7e399; color: black; */
+/* Option 4 - Background gold, red type (that would be the itPage theme, eh? )*/
+background: #ffcc00; color: #ff0000;
+}
+	
+/* 1st sub level menu */
+.jqueryslidemenu ul li ul{
+position: absolute;
+left: 0;
+display: block;
+visibility: hidden; }
+
+/* Sub level menu list items (undo style from Top level List Items) */
+.jqueryslidemenu ul li ul li{
+display: list-item;
+float: none; }
+
+/* All subsequent sub menu levels vertical offset after 1st level sub menu */
+.jqueryslidemenu ul li ul li ul{
+top: 0; }
+
+/* Sub level menu links style */
+.jqueryslidemenu ul li ul li a{
+font: normal 12px Verdana;
+width: 190px; /*width of sub menus*/
+padding: 5px;
+margin: 0;
+border-top-width: 0;
+border-bottom: 1px solid white;
+/* text-decoration: underline; */
+}
+
+/* .jqueryslidemenuz  */
+.jqueryslidemenu ul li ul li a:hover{ /*sub menus hover style*/
+/* Option 1 - Black background, white link */
+/* background: black; color: white; */
+/* Option 2 - Grey background, white link */
+/* background: #353535; color: white; */
+/* Option 3 - Lighter gray background, white link */
+background: #999999; color: white;
+text-decoration: underline; }
+
+/* Classes applied to down and right arrow images */
+.downarrowclass{ position: relative;
+/*	top: 6px; */
+	left: 7px; }
+.rightarrowclass{ position: absolute; top: 6px; right: 5px; }

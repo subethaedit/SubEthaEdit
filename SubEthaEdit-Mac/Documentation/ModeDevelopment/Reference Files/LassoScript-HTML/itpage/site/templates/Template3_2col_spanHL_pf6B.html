@@ -1,0 +1,60 @@
+<?Lassoscript 
+// Last modified: 8/22/09 by ECL
+
+// CHANGE NOTES
+// 8/22/09
+// First implementation
+
+?><!-- Template3_2col_spanHL_pf6B.html -->
+<body>
+	[If: (Var:'ThisFile') != '']<script type="text/javascript" src="/site/js/flashembed.min.js"></script>
+	<script>
+		flashembed("VideoPlaceholder", 
+		{
+			src:'[$svLibsPath]FlowPlayerLight.swf',
+			width: [$VideoWidth],
+			height: [$VideoHeight]
+		},
+		{config: {   
+			autoPlay: false,
+			autoBuffering: true,
+			controlBarBackgroundColor:'#999999',
+			controlBarGloss:'high',
+			showFullScreenButton: false,
+			initialScale: 'scale',
+			loop: false,
+[NoProcess]
+			menuItems: [true, true, true, true, false, false, false],
+[/NoProcess]
+			videoFile: 'http://[$svDomain][$svMediaPath][$ThisFile]'
+		}} 
+	);
+	</script>
+	[Else]<!-- No Flash Media Called -->[/If]
+[OutputDropdownHTML]
+<br>
+<br>
+<br>
+<table width="100%" class="ContentPanel">
+	<tr>
+		<td colspan="2" valign="top">
+[OutputHeadline]
+		</td>
+	</tr>
+	<tr>
+		<td width="450" valign="top">
+[OutputImageMed]
+[OutputImageCaption]
+[OutputSubhead]
+[OutputAuthor]
+[OutputText1]
+		</td>
+		<td valign="top">
+[OutputText2]
+		</td>
+	</tr>
+</table>
+[OutputPortfolio: -Columns='6']
+[OutputFooter]
+</body>
+</html>
