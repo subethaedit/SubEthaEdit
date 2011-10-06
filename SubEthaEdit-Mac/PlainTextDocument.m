@@ -4836,7 +4836,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
         SEEStyleSheet *styleSheet = [documentMode styleSheetForLanguageContext:aLangaugeContext];
         result = [SEEStyleSheet textAttributesForStyleAttributes:[styleSheet styleAttributesForScope:aScope] font:I_fonts.plainFont];
-
+        
 		if ( aScope && result ) 
 			[I_styleCacheDictionary setObject:result forKey:aScope];
     }

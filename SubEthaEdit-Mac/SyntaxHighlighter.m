@@ -278,6 +278,10 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
 					[scratchAttributes setObject:typeAttributeString forKey:kSyntaxHighlightingScopenameAttributeName];
 				                
                 subState = [definition stateForID:[subState objectForKey:@"id"]];
+                if ([subState objectForKey:@"usespellchecking"]) {
+                    [scratchAttributes setObject:[subState objectForKey:@"usespellchecking"] forKey:@"usespellchecking"];
+                }
+                //NSLog(@"usespellchecking: %@", [subState objectForKey:@"usespellchecking"]);
 				[scratchAttributes setObject:[subState objectForKey:[definition keyForInheritedSymbols]] forKey:kSyntaxHighlightingParentModeForSymbolsAttributeName];
 				[scratchAttributes setObject:[subState objectForKey:[definition keyForInheritedAutocomplete]] forKey:kSyntaxHighlightingParentModeForAutocompleteAttributeName];
                 if ([[subState objectForKey:@"foldable"] isEqualToString:@"yes"]) {
@@ -336,6 +340,10 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
                 else [scratchAttributes removeObjectForKey:kSyntaxHighlightingScopenameAttributeName];
 				if ([savedStack lastObject]) [scratchAttributes setObject:[[savedStack lastObject] objectForKey:kSyntaxHighlightingIndentLevelName] forKey:kSyntaxHighlightingIndentLevelName];
 
+                if ([currentState objectForKey:@"usespellchecking"]) {
+                    [scratchAttributes setObject:[currentState objectForKey:@"usespellchecking"] forKey:@"usespellchecking"];
+                }
+                                
 //				[I_stringLock lock];
                 [aString addAttributes:scratchAttributes range:delimiterRange];
 //				[I_stringLock unlock];
@@ -390,7 +398,11 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
         [scratchAttributes setObject:[NSNumber numberWithInt:foldingDepth] forKey:kSyntaxHighlightingFoldingDepthAttributeName];
         [scratchAttributes setObject:kSyntaxHighlightingIsCorrectAttributeValue forKey:kSyntaxHighlightingIsCorrectAttributeName];
 			
-		 //NSLog(@"Calculating color range");
+        if ([currentState objectForKey:@"usespellchecking"]) {
+            [scratchAttributes setObject:[currentState objectForKey:@"usespellchecking"] forKey:@"usespellchecking"];
+        }
+
+        //NSLog(@"Calculating color range");
 
 		NSRange colorRange;
         

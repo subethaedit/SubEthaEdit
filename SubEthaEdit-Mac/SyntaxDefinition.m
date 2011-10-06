@@ -411,7 +411,14 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 			}
 		}
 	}
-    
+
+    NSString *useSpellChecking = [[stateNode attributeForName:@"usespellchecking"] stringValue];
+	if ([[useSpellChecking lowercaseString] isEqualToString:@"yes"]) {
+        [stateDictionary setObject:@"yes" forKey:@"usespellchecking"];
+    } else {
+        [stateDictionary setObject:@"no" forKey:@"usespellchecking"];
+    }
+
     if ([name isEqualToString:@"default"]) {        
         [stateDictionary setObject:[NSString stringWithFormat:@"/%@/%@", [self name], SyntaxStyleBaseIdentifier] forKey:@"id"];
 		[stateDictionary setObject:[NSString stringWithFormat:@"%@.%@", SEEStyleSheetMetaDefaultScopeName, [[self name] lowercaseString]] forKey:@"scope"];
@@ -435,7 +442,8 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 			NSLog(@"%s added %@ -> %@",__FUNCTION__, autocompleteFromMode, I_allLanguageContextsArray);
 		}
 	}
-    
+
+
     // Get all nodes and preserve order
     NSArray *allStateNodes = [stateNode nodesForXPath:@"./state | ./state-link" error:&err];
     for (id nextState in allStateNodes) {

@@ -10,7 +10,7 @@
         <folding toplevel="4"/>
     </head>
     <states>
-        <default id="Base" scope="meta.default">
+        <default id="Base" scope="meta.default" usespellchecking="yes">
             <keywords id="Bad Ampersand" useforautocomplete="no" scope="meta.invalid.ampersand">
                 <regex>(&amp;)</regex>
             </keywords>
