@@ -439,7 +439,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 		[stateDictionary setObject:symbolsFromMode forKey:StateDictionarySwitchToAutocompleteFromModeKey];
 		if (![I_allLanguageContextsArray containsObject:autocompleteFromMode]) {
 			[I_allLanguageContextsArray addObject:autocompleteFromMode];
-			NSLog(@"%s added %@ -> %@",__FUNCTION__, autocompleteFromMode, I_allLanguageContextsArray);
+			//NSLog(@"%s added %@ -> %@",__FUNCTION__, autocompleteFromMode, I_allLanguageContextsArray);
 		}
 	}
 
@@ -587,7 +587,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 			}
 		}
 	} else {
-		[aString appendFormat:@"%@+%@ (%@) (repeated…)\n",[indentString substringToIndex:indentString.length-2], [state objectForKey:@"id"], [state objectForKey:@"scope"]];
+		[aString appendFormat:@"%@+%@ (%@) (repeated)\n",[indentString substringToIndex:indentString.length-2], [state objectForKey:@"id"], [state objectForKey:@"scope"]];
 	}
 }
 
@@ -774,7 +774,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 //		NSLog(@"all scopes user visible: %@", reducedScopes);
 
 
-		if (wasntReady) NSLog(@"%s\n%@",__FUNCTION__, [self debugStatesAndKeywordGroups]); // For Debugging purposes
+		//if (wasntReady) NSLog(@"%s\n%@",__FUNCTION__, [self debugStatesAndKeywordGroups]); // For Debugging purposes
 	}
 }
 
