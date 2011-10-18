@@ -739,7 +739,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 			}
         }
 		if (counter > 20) { 
-			NSLog(@"%s counter %d", __FUNCTION__, counter);
+			//NSLog(@"%s counter %d", __FUNCTION__, counter);
 		}
 		if (![childState objectForKey:[self keyForInheritedSymbols]])
 			[self calculateSymbolInheritanceForState:childState inheritedSymbols:symbols inheritedAutocomplete:autocomplete];

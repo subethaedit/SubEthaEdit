@@ -15,141 +15,10 @@
 			<!-- STUDIO - Rewritten, do not replace mode -->
 			<import mode="XML" keywords-only="yes" />
 			
-			<state id="LassoScript 1" usesymbolsfrommode="LassoScript-HTML" useautocompletefrommode="LassoScript-HTML"  foldable="yes" scope="meta.block">
-				<begin><regex>\[</regex></begin>
-				<end><regex>\]</regex></end>
-					<import state="LassoScript Code" />
-					
-			</state>
-		
-			<state id="LassoScript 2" usesymbolsfrommode="LassoScript-HTML" useautocompletefrommode="LassoScript-HTML"  foldable="yes" scope="meta.block">
-				<begin><regex>(?:&lt;\?(?i)lassoscript)</regex></begin>
-				<end><regex>\?&gt;</regex></end>
-					<import state="LassoScript Code" />			
-			</state>
 			 
-			<state id="Inline CSS" usesymbolsfrommode="CSS" useautocompletefrommode="CSS" scope="meta.block.css">
-				<begin><regex>&lt;(?=(?i)style)</regex></begin>
-				<end><regex>/(?i)style&gt;</regex></end>
-				
-				<import mode="CSS"/>
-
-				<keywords id="HTML Comment Tag" scope="markup.comment">
-					<regex>(&lt;!--)</regex>
-					<regex>(--&gt;)</regex>
-				</keywords>
-	
-				<keywords id="Style Tags" scope="markup.tag">
-					<regex>(\A&lt;\Z)</regex>
-					<regex>(&lt;/(?i)style[^&gt;]*&gt;)</regex>
-				</keywords>
-
-				<state id="Opening Style Tag" usesymbolsfrommode="HTML" useautocompletefrommode="HTML" scope="markup.tag">
-					<begin><regex>\A(?i)style</regex></begin>
-					<end><regex>&gt;</regex></end>
-		
-					<import mode="XML" state="Tags" />
-				</state>			
-			</state>
-
-			<state id="Inline Javascript" usesymbolsfrommode="Javascript" useautocompletefrommode="Javascript" foldable="yes" scope="meta.block.js">
-				<begin>
-					<regex>&lt;(?i)script[^>]*></regex><autoend>&lt;/script></autoend>
-				</begin>
-				<end>
-					<regex>&lt;(?i)/script[^>]*></regex>
-				</end>
-				<import mode="Javascript" keywords-only="yes"/>
-				<import mode="XML" keywords-only="yes"/>
-
-				<state id="JSAutodocComment" type="comment" scope="comment.block.documentation.js">
-					<begin><regex>/\*"</regex></begin>
-					<end><regex>"\*/</regex></end>
-				</state>
-
-				<state id="JSComment" type="comment" scope="comment.block.js">
-					<begin><regex>/\*</regex><autoend>\*/</autoend></begin>
-					<end><regex>\*/</regex></end>
-					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
-				</state>
-
-				<state id="JSSingleComment" type="comment" scope="comment.line.double-slash.js">
-					<begin><regex>//</regex></begin>
-					<end><regex>[\n\r]|&lt;(?i)/script\s*></regex></end>
-					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
-				</state>
-
-				<state id="JSRegular Expressions" type="string" scope="string.regexp.js">
-					<begin><regex>(?&lt;![&lt;/])/.*?[^\\](?=/[^\n\r]*(?:;|\)|,|[\n\r]))</regex></begin>
-					<end><regex>/[cgimosx]*</regex></end>
-				</state>
-
-				<state id="JSString" type="string" scope="string.double.js">
-					<begin><regex>"</regex></begin>
-					<end><regex>(?&lt;!\\)(\\\\)*"</regex></end>
-				</state>
-
-				<state id="JSSingleString" type="string" scope="string.single.js">
-					<begin><regex>'</regex></begin>
-					<end><regex>(?&lt;!\\)(\\\\)*'</regex></end>
-				</state>
-
-				<state id="JSBlock" type="block" foldable="yes" indent="yes" scope="meta.block.curly.js">
-					<begin><regex>{</regex><autoend>}</autoend></begin>
-					<end><regex>}</regex></end>
-					<import mode="Javascript" keywords-only="yes"/>
-				</state>
-			</state>            
-			
-			<state-link state="Comment" mode="XML" />				
-			<state-link state="CDATA" mode="XML" />
-			<state-link state="Doctype" mode="XML" />
-			<state-link state="Escape" mode="XML" />
-			
-			<state id="Tags" scope="markup.tag">
-				<begin><regex>&lt;</regex></begin>
-				<end><regex>&gt;</regex></end>
-			
-				<state id="Strings in Tags" type="string" useforautocomplete="no" scope="string.double">
-					<begin><regex>"</regex></begin>
-					<end><regex>"</regex></end>
-					
-					<keywords id="LassoScript Block in Strings" scope="markup.processing">
-						<regex>(&lt;\?(?i)lassoscript)</regex>
-						<regex>(\?&gt;)</regex>
-						<regex>(\[)</regex>
-						<regex>(\])</regex>
-					</keywords>	
-					
-					<keywords id="LassoScript Variables in Strings" useforautocomplete="no" scope="language.variable">
-            <regex>(\$(?:[\w\d])+)</regex>
-					</keywords>
-													
-				</state>
-				
-				<state id="Strings in Tags 2" type="string" useforautocomplete="no" scope="string.single">
-					<begin><regex>'</regex></begin>
-					<end><regex>'</regex></end>
-					
-					<import state="Strings in Tags" />
-					
-				</state>
-
-				<keywords id="Tag Attributes" useforautocomplete="no" scope="markup.tag.attribute.name">
-					<regex>([\w-]*)(?=[ \t]*=)</regex>
-				</keywords>
-				
-				<state id="LassoScript in Tags"  foldable="yes" scope="meta.default">
-					<begin><regex>\[</regex></begin>
-					<end><regex>\]</regex></end>
-						<import state="LassoScript Code" />
-				</state>
-				
-			</state>
-		
 			<state id="LassoScript Code" containerState="yes" usesymbolsfrommode="LassoScript-HTML" useautocompletefrommode="LassoScript-HTML" scope="meta.deafult">
 				
-				<keywords id="LassoScript Block" useforautocomplete="no" scope="markup.processing">
+				<keywords id="LassoScript Block" useforautocomplete="no" scope="markup.processing.languageswitch">
 			   		<regex>(&lt;\?(?i)lassoscript)</regex>
 			   		<regex>(\?&gt;)</regex>
 			   		<regex>(\[)</regex>
@@ -1257,33 +1126,317 @@
 				<keywords id="Numbers" useforautocomplete="no" scope="constant.numeric">
 					<regex>(?&lt;![\w\d_])((?:[+-]?(?:(?:[0-9]+\.[0-9]*)|(?:\.[0-9]+))(?:[eE][+\-]?[0-9]+)?[fFlL]?)|(?:(?:(?:[1-9][0-9]*)|0[0-7]*|(?:0[xX][0-9a-fA-F]+))(?:(?:[uU][lL]?)|(?:[lL][uU]?))?))(?![\w\d_])</regex>
 				</keywords>
-				<keywords id="Variables" useforautocomplete="no" scope="language.function">
+				<keywords id="Lasso Variables" useforautocomplete="no" scope="language.variable">
 					<regex>([$#][\w\d]+)</regex>
 				</keywords>
 				
-				<state id="SingleComment" type="comment" scope="comment.line">
+				<state id="Lasso SingleComment" type="comment" scope="comment.line">
 					<begin><regex>(?://)</regex></begin>
 					<end><regex>[\n\r]</regex></end>
 					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 				</state>
 				
-				<state id="MultiComment" type="comment" scope="comment.block">
+				<state id="Lasso MultiComment" type="comment" scope="comment.block">
 					<begin><regex>/\*</regex></begin>
 					<end><regex>\*/</regex></end>
 	                <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 				</state>
 		
-				<state id="StringDouble" type="string" usespellchecking="yes" scope="string.double">
+				<state id="Lasso StringDouble" type="string" usespellchecking="yes" scope="string.double">
 					<begin><regex>"</regex></begin>
 					<end><regex>(?&lt;!\\)(\\\\)*"</regex></end>
 				</state>
 		
-				<state id="String" type="comment" usespellchecking="yes" scope="string.single">
+				<state id="Lasso String" type="comment" usespellchecking="yes" scope="string.single">
 					<begin><regex>'</regex></begin>
 					<end><regex>(?&lt;!\\)(\\\\)*'</regex></end>
 				</state>
 			
 			</state>
+			
+			<state id="LassoScript 1" usesymbolsfrommode="LassoScript-HTML" useautocompletefrommode="LassoScript-HTML"  foldable="NO" scope="meta.block">
+				<begin><regex>\[</regex></begin>
+				<end><regex>\]</regex></end>
+					<import state="LassoScript Code" />
+			</state>
+		
+			<state id="LassoScript 2" usesymbolsfrommode="LassoScript-HTML" useautocompletefrommode="LassoScript-HTML"  foldable="yes" scope="meta.block">
+				<begin><regex>(?:&lt;\?(?i)lassoscript)</regex></begin>
+				<end><regex>\?&gt;</regex></end>
+					<import state="LassoScript Code" />			
+			</state>
+			
+			<!--  This is the "we do a complete HTML mode and import Lasso everywhere" section -->
+			<state id="Comment" type="comment" scope="markup.comment">
+				<begin><regex>&lt;!--</regex><autoend>--></autoend></begin>
+				<end><regex>--></regex></end>
+				<keywords id="SGML Double Dash" useforautocomplete="no" scope="meta.invalid.sgmlcomment">
+					<regex>(?&lt;!\!)(--)(?!>)</regex>
+				</keywords>
+				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+				<state-link state="LassoScript 1"/><state-link state="LassoScript 2"/>
+			</state>
+			<state id="CDATA" foldable="yes" scope="markup.inline.cdata">
+				<begin>
+					<regex>&lt;!\s*\[CDATA\s*\[</regex>
+					<autoend>\]\]></autoend>
+				</begin>
+				<end>
+					<regex>\]\s*\]\s*></regex>
+				</end>
+				<state-link state="LassoScript 1"/><state-link state="LassoScript 2"/>
+			</state>
+			<state id="Doctype" foldable="no" scope="markup.declaration">
+				<begin>
+					<regex>&lt;!</regex><autoend>></autoend>
+				</begin>
+				<end>
+					<regex>></regex>
+				</end>
+				<state id="String" type="string" scope="markup.declaration.string.double">
+					<begin><regex>"</regex></begin>
+					<end><regex>"</regex></end>
+					<state-link state="LassoScript 1"/><state-link state="LassoScript 2"/>
+				</state>
+				<state id="SingleString" type="string" scope="markup.declaration.string.single">
+					<begin><regex>'</regex></begin>
+					<end><regex>'</regex></end>
+					<state-link state="LassoScript 1"/><state-link state="LassoScript 2"/>
+				</state>
+				<state id="Doctype Block" type="block" foldable="yes" indent="yes" scope="meta.block.square">
+					<begin><regex>\[</regex><autoend>\]</autoend></begin>
+					<end><regex>]</regex></end>
+					<import />
+				</state>
+				<state-link state="LassoScript 1"/><state-link state="LassoScript 2"/>
+			</state>
+			<state id="Escape" foldable="no" scope="markup.processing">
+				<begin>
+					<regex>&lt;\?</regex><autoend>\?></autoend>
+				</begin>
+				<end>
+					<regex>\?></regex>
+				</end>
+				<state id="ProcessingString" type="string" scope="markup.processing.attribute.value.string">
+					<begin><regex>"</regex></begin>
+					<end><regex>"</regex></end>
+					<state-link state="LassoScript 1"/><state-link state="LassoScript 2"/>
+				</state>
+				<state id="ProcessingSingleString" type="string" scope="markup.processing.attribute.value.string">
+					<begin><regex>'</regex></begin>
+					<end><regex>'</regex></end>
+					<state-link state="LassoScript 1"/><state-link state="LassoScript 2"/>
+				</state>
+				<state-link state="LassoScript 1"/><state-link state="LassoScript 2"/>
+			</state>
+			<state id="Inline CSS" usesymbolsfrommode="CSS" useautocompletefrommode="CSS" foldable="yes" indent="yes" scope="meta.block.css">
+				<begin>
+					<regex>&lt;[ \t]*(?i)style[^>]*></regex>
+					<autoend>&lt;/style></autoend>
+				</begin>
+				<end>
+					<regex>(?i)&lt;[ \t]*/[ \t]*style[ \t]*></regex>
+				</end>
+				<state-link state="LassoScript 1"/><state-link state="LassoScript 2"/>
+
+				<import mode="CSS"/>
+				<state id="CSSInside curly brackets" foldable="yes" indent="yes" scope="meta.block.curly">
+					<begin>
+						<string>{</string>
+						<autoend>}</autoend>
+					</begin>
+					<end>
+						<regex>}</regex>
+					</end>
+					<import mode="CSS" state="Inside curly brackets" keywords-only="yes"/>
+					<state id="CSS Attribute state" scope="meta.block.attribute">
+						<begin>
+							<string>:</string>
+						</begin>
+						<end>
+							<regex>(;|.(?=})|[\n\r])</regex>
+						</end>
+						<import mode="CSS" state="Attribute state" keywords-only="yes"/>
+						<state-link state="LassoScript 1"/><state-link state="LassoScript 2"/>
+						<state-link state="CSSAutodocComment"/>
+						<state-link state="CSSComment"/>
+						<state-link state="CSSString"/>
+						<state-link state="CSSSingleString"/>
+					</state>
+					<state-link state="CSSAutodocComment"/>
+					<state-link state="CSSComment"/>
+					<state-link state="CSSString"/>
+					<state-link state="CSSSingleString"/>
+					<state-link state="LassoScript 1"/><state-link state="LassoScript 2"/>
+				</state>
+
+				<import keywords-only="yes"/>
+
+				<state id="CSSRules" scope="style.at-rule">
+					<begin>
+						<regex>^@[-\w_]+</regex>
+					</begin>
+					<end>
+						<regex>.(?=[{\n\r])</regex>
+					</end>
+				</state>
+
+				<state id="CSSAutodocComment" type="comment" scope="style.comment.block.documentation">
+					<begin>
+						<string>/\*"</string>
+						<autoend>"\*/</autoend>
+					</begin>
+					<end>
+						<regex>"\*/</regex>
+					</end>
+					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+					<state-link state="LassoScript 1"/><state-link state="LassoScript 2"/>
+				</state>
+				<state id="CSSComment" type="comment" scope="style.comment.block">
+					<begin>
+						<string>/\*</string>
+						<autoend>\*/</autoend>
+					</begin>
+					<end>
+						<regex>\*/</regex>
+					</end>
+					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+					<state-link state="LassoScript 1"/><state-link state="LassoScript 2"/>
+				</state>
+				<state id="CSSString" type="string" scope="style.value.string.double">
+					<begin>
+						<string>"</string>
+					</begin>
+					<end>
+						<regex>(?&lt;!\\)(\\\\)*"</regex>
+					</end>
+					<state-link state="LassoScript 1"/><state-link state="LassoScript 2"/>
+				</state>
+				<state id="CSSSingleString" type="string" scope="style.value.string.single">
+					<begin>
+						<string>'</string>
+					</begin>
+					<end>
+						<regex>(?&lt;!\\)(\\\\)*'</regex>
+					</end>
+					<state-link state="LassoScript 1"/><state-link state="LassoScript 2"/>
+				</state>
+
+			</state>
+
+
+			<state id="Inline Javascript" usesymbolsfrommode="Javascript" useautocompletefrommode="Javascript" foldable="yes" scope="meta.block.js">
+				<begin>
+					<regex>&lt;(?i)script[^>]*></regex><autoend>&lt;/script></autoend>
+				</begin>
+				<end>
+					<regex>&lt;(?i)/script[^>]*></regex>
+				</end>
+				<import mode="Javascript" keywords-only="yes"/>
+				<import mode="XML" keywords-only="yes"/>
+				<state-link state="LassoScript 1"/><state-link state="LassoScript 2"/>
+
+				<state id="JSAutodocComment" type="comment" scope="comment.block.documentation.js">
+					<begin><regex>/\*"</regex></begin>
+					<end><regex>"\*/</regex></end>
+					<state-link state="LassoScript 1"/><state-link state="LassoScript 2"/>
+				</state>
+
+				<state id="JSComment" type="comment" scope="comment.block.js">
+					<begin><regex>/\*</regex><autoend>\*/</autoend></begin>
+					<end><regex>\*/</regex></end>
+					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+					<state-link state="LassoScript 1"/><state-link state="LassoScript 2"/>
+				</state>
+
+				<state id="JSSingleComment" type="comment" scope="comment.line.double-slash.js">
+					<begin><regex>//</regex></begin>
+					<end><regex>[\n\r]|.(?=&lt;(?i)/script\s*>)</regex></end>
+					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+					<state-link state="LassoScript 1"/><state-link state="LassoScript 2"/>
+				</state>
+
+				<state id="JSRegular Expressions" type="string" scope="string.regexp.js">
+					<begin><regex>(?&lt;![&lt;/])/.*?[^\\](?=/[^\n\r]*(?:;|\)|,|[\n\r]))</regex></begin>
+					<end><regex>/[cgimosx]*</regex></end>
+					<state-link state="LassoScript 1"/><state-link state="LassoScript 2"/>
+				</state>
+
+				<state id="JSString" type="string" scope="string.double.js">
+					<begin><regex>"</regex></begin>
+					<end><regex>(?&lt;!\\)(\\\\)*"</regex></end>
+					<state-link state="LassoScript 1"/><state-link state="LassoScript 2"/>
+				</state>
+
+				<state id="JSSingleString" type="string" scope="string.single.js">
+					<begin><regex>'</regex></begin>
+					<end><regex>(?&lt;!\\)(\\\\)*'</regex></end>
+					<state-link state="LassoScript 1"/><state-link state="LassoScript 2"/>
+				</state>
+
+				<state id="JSBlock" type="block" foldable="yes" indent="yes" scope="meta.block.curly.js">
+					<begin><regex>{</regex><autoend>}</autoend></begin>
+					<end><regex>}</regex></end>
+					<import mode="Javascript" keywords-only="yes"/>
+					<import state="Inline Javascript"/>
+				</state>
+			</state>
+
+			<state id="Single Tag with Lasso State" foldable="no" scope="meta.default">
+				<begin>
+					<regex>&lt;\s*[^/?!][-:_\w]*(?=[^&lt;>]*&lt;%.+%>[^>]*[^>]*/>)</regex>
+				</begin>
+				<end>
+					<regex>/[ \t]*></regex>
+				</end>
+				<import/>
+				<keywords id="Single Tags with Lasso" useforautocomplete="no" scope="markup.tag">
+					<regex>(&lt;[^>]*)</regex>
+					<regex>(\A[^&lt;>]*>)</regex>
+				</keywords>
+				<keywords id="Attributes in Single Tags with Lasso" useforautocomplete="no"  scope="markup.tag.attribute.name">
+					<regex>([\w-]*)(?=[ \t]*=[^&lt;]+)</regex>
+				</keywords>
+				<keywords id="Strings in Single Tags with Lasso" type="string" useforautocomplete="no" scope="markup.tag.attribute.value.string">
+					<regex>=[ \t]*("[^"]*"|'[^']*')(?=[^&lt;]*)</regex>
+					<regex>([^"]*")(?=[ \t]*>)</regex>
+				</keywords>
+			</state>
+
+			<state id="Tag with Lasso State" foldable="yes" scope="meta.block.tag.erb">
+				<begin>
+					<regex>&lt;\s*(?'erbtagstatename'[^/?!][-:_\w]*)(?'trimmedstart'[^&lt;>]*&lt;%.+%>[^>]*>)</regex> <!--  Used "trimmedstart regex group, to start searching earlier" -->
+					<autoend>&lt;/\g&lt;erbtagstatename>></autoend>
+				</begin>
+				<end>
+					<regex>&lt;\s*/\s*(?#see-insert-start-group:erbtagstatename)\s*></regex>
+				</end>
+				<import/>
+				<keywords id="Tags with Lasso" useforautocomplete="no" scope="markup.tag">
+					<regex>(&lt;[^>]*>?)</regex>
+					<regex>(\A[^&lt;>]*>)</regex>
+				</keywords>
+				<keywords id="Attributes in Tags with Lasso" useforautocomplete="no" scope="markup.tag.attribute.name">
+					<regex>([\w-]*)(?=[ \t]*=[^&lt;]+)</regex>
+				</keywords>
+				<keywords id="Strings in Tags with Lasso" type="string" useforautocomplete="no" scope="markup.tag.attribute.value.string">
+					<regex>=[ \t]*("[^"]*"|'[^']*')(?=[^&lt;]*)</regex>
+					<regex>([^"]*")(?=[ \t]*>)</regex>
+				</keywords>
+			</state>
+
+			<state id="Tag State Lasso" foldable="yes" indent="yes" scope="meta.default">
+				<begin>
+					<regex>&lt;\s*(?'xmltagstatename'[^/?!][-:_\w]*)\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*></regex>
+					<autoend>&lt;/\g&lt;xmltagstatename>></autoend>
+				</begin>
+				<end>
+					<regex>&lt;\s*/\s*(?#see-insert-start-group:xmltagstatename)\s*></regex>
+				</end>
+				<import mode="XML" keywords-only="yes"/>
+				<import />
+			</state>
+
 			             
 		</default>
 
