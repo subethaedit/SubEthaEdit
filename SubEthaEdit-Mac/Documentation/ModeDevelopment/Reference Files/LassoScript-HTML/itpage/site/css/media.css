@@ -1,0 +1,118 @@
+/* Last modified 9/26/08 by ECL, Landmann InterActive
+/* NOTES */
+/* This style sheet is called by the media player page */
+/* It is only used in Admin pages */
+
+/* CHANGE NOTES */
+/* 9/26/08 First implementation */
+body {
+	background: #F0F0F0;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	margin-top: 0; }
+h1 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 16px;
+	font-weight: bold;
+	color: #003399; }
+h2 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 14px;
+	font-weight: bold; }
+p {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px; }
+.text_12_black	{
+	color: #000;
+	line-height: 14pt;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	font-style: normal; }
+
+/* -------------------------------------- */
+/* ErrorBoxPos Messages */
+/* -------------------------------------- */
+/* Used for Positive Messages */
+#ErrorBoxHeadPos {
+	margin: 10px 0 0 0;
+	padding: 5px;
+	text-align: left;
+	background-color: #00CC00;
+	width: 500px; }
+#ErrorBoxHeadPos div.ErrorHeadPos  {
+	font-size: 11px;
+	font-weight: bold;
+	color: #FFF;
+	line-height: 130%; }
+#ErrorBoxMessagePos {
+	margin: 0 0 10px 0;
+	padding: 5px;
+	text-align: left;
+	background-color: #ffc;
+	width: 500px;
+	border: 1px dotted black; }
+#ErrorBoxMessagePos div.ErrorMessagePos  {
+	font-size: 11px;
+	line-height: 130%; }
+/* Used for Tooltips */
+#ErrorBoxMessagePosFullWidth {
+	margin: 0;
+	padding: 5px;
+	text-align: left;
+	background-color: #ffc;
+	border: 1px dotted black; }
+
+/* -------------------------------------- */
+/* ErrorBoxNeg Messages */
+/* -------------------------------------- */
+/* Used for Negative Messages */
+#ErrorBoxHeadNeg {
+	margin: 10px 0 0 0;
+	padding: 5px;
+	text-align: left;
+	background-color: #FF0000;
+	width: 500px; }
+#ErrorBoxHeadNeg div.ErrorHeadNeg  {
+	font-size: 11px;
+	font-weight: bold;
+	color: #FFF;
+	line-height: 130%; }
+#ErrorBoxMessageNeg {
+	margin: 0;
+	padding: 5px;
+	text-align: left;
+	background-color: #ffc;
+	width: 500px;
+	border: 1px dotted black; }
+#ErrorBoxMessageNeg div.ErrorMessageNeg  {
+	font-size: 11px;
+	line-height: 130%; }
+
+/* -------------------------------------- */
+/* Miscellaneous ------------------------ */
+/* -------------------------------------- */
+/* Used in the navpanel or throughout to have a very light character */
+.ghost {
+	color: #BBB; 
+	margin: 0;
+	padding: 0;
+	margin-bottom: 6px; }
+
+img { border-style: none; }
+
+/* For Debugging */
+.debug {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	margin: 12px;
+	text-align: left;
+	background-color: #f6ffca; }
+.debugCT {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	margin: 12px;
+	text-align: left;
+	background-color: #ccff99; }
+
+
+

@@ -1,0 +1,601 @@
+/* Last modified 7/10/09 by ECL, Landmann InterActive
+/* NOTES */
+/* This style sheet is called by public-facing pages, and NOT admin pages */
+/* Uses Nifty round-cornered boxes */
+/* Designer-modifiable areas that are OK to change are noted */
+/* 1/15/09 Added Story feature */
+/* 6/22/08 Added Gallery feature */
+/* ---------------------------------------------- */
+/* Standard Tags - Used throughout - OK to change */
+/* ---------------------------------------------- */
+body { background: #000;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	line-height: 140%;
+	margin: 30px 30px 0 30px; }
+h1	{ font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 20px;
+	margin-bottom: 5px; }
+h2	{ font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 17px; }
+h3	{ font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	line-height: 14pt;
+	border-bottom: 1px dotted silver;
+	}
+h4	{ font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 13px; }
+hr	{ color: #CCC;
+	height: 2px;
+	line-height: 100%;
+	width: 95%; }
+p {	font-size: 11px;
+	color: #FFF;
+	line-height: 150%;
+	text-align: left; }
+b	{ font-weight: bold; }
+img { border-style: none; }
+table { border-style: none; }
+td 	{ font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	color: #FFF; }
+u	{ text-decoration: underline; }
+
+ul	{font-size: 11px;
+	color: #FFF;
+	line-height: 170%;
+	text-align: left; 
+	margin: 10px 0 0 30px; }
+
+/* Standard Links */
+a:link, a:visited, a:hover { text-decoration: underline;
+	color: #FFFF99; }
+
+/* ---------------------------------------- */
+/* Classes - Used throughout - OK to change */
+/* ---------------------------------------- */
+.border { background: #000;
+	border-left: 1px solid #FFF; }
+.containeryellow { background-color: #FF9;
+	padding: 10px 10px 10px 20px; }
+/* .contentpanel { font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	color: #FFF;
+	background-color: #FFF; } */
+/* -------------------------------------- */
+/* Forms - OK to Change                   */
+/* -------------------------------------- */
+form { 
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	margin-top: 0;
+	margin-bottom: 0;
+	background: #e9ffaa;
+	color: #FFF; }
+checkbox, input, radio, select, textarea {
+	font-family: Verdana, Arial, sans-serif;
+	font-size: 11px;
+	vertical-align: bottom;
+	margin-top: 3px;
+	margin-bottom: 5px;
+	margin-left: 3px;
+	background: #FFF;
+	color: #FFF; }
+.formlabel	{
+	background: #DDD;
+	margin: 0;
+	padding: 5px 10px 5px;
+	color: #FFF;
+	line-height: 1.3;
+	font-size: 11px;
+	vertical-align: bottom;}
+.formlabelbold	{
+	margin: 0;
+	padding: 5px 10px 5px;
+	color: #FFF;
+	line-height: 1.3;
+	font-size: 11px;
+	font-weight: bold;
+	vertical-align: bottom; }
+
+/* -------------------------------------- */
+/* Left Col - OK to change                */
+/* -------------------------------------- */
+.LeftCol { background: #FFF;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	line-height: 120%;
+	color: #FFF; }
+.leftnavcontainer {
+	width: 161px;
+	padding: 0 0 5px 0; }
+hr.leftnav {
+	color: #fcff91;
+	height: 2px;
+	width: 95%; }
+/* Left column links */
+a.LeftColLink:link, a.LeftColLink:visited {
+	color: #300;
+	text-align: right;
+	text-indent: 10px;
+	text-decoration: none;	
+	background-color: transparent; }
+a.LeftColLink:hover {
+	color: #300;
+	text-align: right;
+	text-indent: 10px;
+	text-decoration: none; }
+
+/* -------------------------------------- */
+/* Right Col - OK to change               */
+/* -------------------------------------- */
+.RightCol {	background: #DCDCDC;
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	line-height: 120%;
+	color: #FFF; }
+/* Right column links */
+a.RightColLink:link, a.RightColLink:visited {
+	text-align: left;
+	text-indent: 11px;
+	text-decoration: none;	
+	background-color: transparent;
+	font-weight: bold;
+	color: #FFF; }
+a.RightColLink:hover	{	
+	text-align: left;
+	text-indent: 11px;
+	text-decoration: none;	
+	background-color: transparent;
+	font-weight: bold;
+	color: #FFF; }
+
+/* -------------------------------------- */
+/* Main Content Panel - OK to change      */
+/* -------------------------------------- */
+/* Content Panel */
+.ContentPanel {
+	font-size: 11px;
+	text-align: left;
+	background-color: #333;
+	font-weight: normal;
+	color: #FFF;
+	padding: 10px 30px 5px 20px; }
+.ContentPanelHead {
+	font-size: 16px;
+	text-align: left;
+	font-weight: bold;
+	color: yellow;
+/*	width: 700px; */
+	padding: 0 5px 5px 0; }
+.ContentPanelSubhead {
+	font-size: 12px;
+	text-align: left;
+	font-weight: bold;
+	color: #FFF;
+/*	width: 700px; */
+	padding: 0 5px 5px 0; }
+.ContentPanelAuthor {
+	font-size: 11px;
+	text-align: left;
+	color: #FFF;
+	padding: 5px 5px 2px 130px;
+	font-style: italic; }
+.ContentPanelCaption {
+	font: italic 13px Georgia, "Times New Roman", Times, serif;
+	text-align: left;
+	color: #FFF;
+	padding: 5px 5px 15px 0; }
+.ContentPanelDate {
+	font-size: 10px;
+	text-align: left;
+	font-weight: normal;
+	color: gray;
+/*	width: 700px; */
+	padding: 0 5px 5px 0; }
+.ContentPanelImage {
+	padding: 0 30px 5px 0;
+	vertical-align: top;
+}
+
+/* Content Panel Links */
+a.ContentPanel:link, a.ContentPanel:visited {
+	font-size: 11px;
+	text-align: center;
+	text-decoration: underline;
+	background-color: transparent;
+	font-weight: normal;
+	color: #FFF;
+	padding: 0 5px 5px 10px; }
+a.ContentPanel:hover {
+	font-size: 11px;
+	text-align: center;
+	text-decoration: underline;
+	background-color: transparent;
+	font-weight: normal;
+	color: #FFF; }
+/* -------------------------------------- */
+/* Portfolios - OK to change              */
+/* -------------------------------------- */
+.PortfolioImage {
+	border-style: none; 
+	text-align: center;
+	font-size: 10px;
+	background-color: transparent;
+	font-weight: normal;
+	padding: 0 5px 5px 5px; }
+.PortfolioTitle {
+	text-align: center;
+	font-size: 10px;
+	background-color: transparent;
+	font-weight: bold;
+	padding: 0 5px 5px 5px; }
+.PortfolioCaption {
+	text-align: center;
+	font-size: 10px;
+	background-color: transparent;
+	font-weight: normal;
+	padding: 0 5px 5px 5px; }
+
+/* -------------------------------------- */
+/* Galleries - OK to change               */
+/* -------------------------------------- */
+/* .GalleryContainer {text-align:left;width:700px;margin:30px auto; padding:30px; background:#333} */
+/* .GalleryContainer p {margin-top:1.6em;} */
+.GalleryContainer {
+	text-align: left;
+	width: 700px;
+	margin: 30px auto;
+	padding: 30px;
+	background: #444; }
+.GalleryNavContainer {padding-top: 15px;
+	clear: both;
+	font: 80% 'helvetica neue',sans-serif;
+	letter-spacing: 3px;
+	text-transform: uppercase;
+	text-align: center; }
+.GalleryGroupText {
+	font-size: 11px;
+	text-align: left;
+	width: 700px;
+	margin: 20px 30px 20px 30px;
+	padding: 18px;
+	background: #330; }
+/* .caption{ font-style:italic;color:#887;} */
+.caption{ font-style:normal;color:#BCC9C1;}
+.gallery_final {width:702px;margin:0 auto;}
+.gallery_final li {width:68px;height:50px;border:3px double #111;margin: 0 2px;background:#000;}
+.gallery_final li div {left:240px}
+.gallery_final li div .caption {font:italic 0.7em/1.4 georgia,serif;}
+/* #main_image {margin:0 auto 60px auto;height:438px;width:700px;background:black;} */
+#main_image {margin:0 auto 60px auto;height:600px;width:800px;background:black;}
+
+#main_image img {margin-bottom:10px;}
+a.GalleryNav:link, a.GalleryNav:hover, a.GalleryNav:visited {
+	text-decoration: none;
+	color: yellow;
+	text-align: center; }
+
+/* -------------------------------------- */
+/* Testimonials - OK to change            */
+/* -------------------------------------- */
+.TestimonialContainer {
+	text-align: left;
+	font-size: 10px;
+	background-color: #F0F0F0;
+	padding: 5px 5px 5px 10px; }
+.Testimonial {
+	text-align: left;
+	font-size: 10px;
+	background-color: transparent;
+	font-weight: normal;
+	padding: 5px 5px 5px 5px; }
+/* -------------------------------------- */
+/* Stories - OK to change                 */
+/* -------------------------------------- */
+.StoryContainer {
+	text-align: left;
+	font-size: 10px;
+	background-color: #F0F0F0;
+	padding: 5px 5px 5px 10px; }
+.StoryImage {
+	padding: 5px 15px 0 15px;
+	background-color: transparent; }
+.StoryHead {
+	font: normal 18px Georgia, "Times New Roman", Times, serif;
+	text-align: left;
+	background-color: #dadabf;
+	padding: 5px 5px 0 5px; }
+.StoryName {
+	font: italic bold 12px Georgia, "Times New Roman", Times, serif;
+	text-align: left;
+	background-color: transparent;
+	padding: 5px 5px 0 5px; }
+.StoryContent {
+	font: normal 12px Georgia, "Times New Roman", Times, serif;
+	text-align: left;
+	background-color: transparent;
+	font-weight: normal;
+	padding: 0 5px 5px 5px; }
+/* -------------------------------------- */
+/* ErrorBoxPos Messages */
+/* -------------------------------------- */
+/* Used for Positive Messages */
+#ErrorBoxHeadPos {
+	margin: 10px 0 0 0;
+	padding: 5px;
+	text-align: left;
+	background-color: #00CC00;
+	width: 500px; }
+#ErrorBoxHeadPos div.ErrorHeadPos  {
+	font-size: 11px;
+	font-weight: bold;
+	color: #FFF;
+	line-height: 130%; }
+#ErrorBoxMessagePos {
+	margin: 0;
+	padding: 5px 5px 5px 5px;
+	text-align: left;
+	background-color: #ffc;
+	width: 500px;
+	border: 1px dotted black; }
+#ErrorBoxMessagePos div.ErrorMessagePos  {
+	font-size: 11px;
+	line-height: 130%; }
+/* Used for Tooltips */
+#ErrorBoxMessagePosFullWidth {
+	margin: 0;
+	padding: 5px;
+	text-align: left;
+	background-color: #ffc;
+	border: 1px dotted black; }
+
+/* -------------------------------------- */
+/* ErrorBoxNeg Messages */
+/* -------------------------------------- */
+/* Used for Negative Messages */
+#ErrorBoxHeadNeg {
+	margin: 10px 0 0 0;
+	padding: 5px;
+	text-align: left;
+	background-color: #FF0000;
+	width: 500px;
+	border-bottom: 1px dotted black;
+	border-left: 1px dotted #F00;
+	border-right: 1px dotted #F00; }
+#ErrorBoxHeadNeg div.ErrorHeadNeg  {
+	font-size: 12px;
+	font-weight: bold;
+	color: #FFF;
+	line-height: 130%; }
+#ErrorBoxMessageNeg {
+	margin: 0;
+	padding: 5px;
+	text-align: left;
+	background-color: #ffc;
+	width: 500px;
+	border: 1px dotted black; }
+#ErrorBoxMessageNeg div.ErrorMessageNeg  {
+	font-size: 11px;
+	line-height: 130%; }
+
+/* -------------------------------------- */
+/* Miscellaneous ------------------------ */
+/* -------------------------------------- */
+/* Display On/Off - Used for ToggleDisplay */
+.DisplayOn { display:block; }
+.DisplayOff { display:none; }
+.ghost {
+	color: #BBBBBB; 
+	margin: 0;
+	padding: 0;
+	margin-bottom: 6px; }
+
+img { border-style: none; }
+
+/* For Debugging */
+.debug {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #000; 
+	margin: 12px;
+	text-align: left;
+	background-color: #f6ffca; }
+.debugCT {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 10px;
+	color: #000; 
+	margin: 12px;
+	text-align: left;
+	background-color: #ccff99; }
+
+/* -------------------------------------- */
+/* Miscellaneous - OK to Change           */
+/* -------------------------------------- */
+.footer {
+	font-family: Verdana, Arial, sans-serif; 
+	color: #808080; 
+	margin: 10px 0 20px 0;
+	font-size: 10px;
+	padding: 4px;
+	text-align: center;
+	background: #000; }
+/* Footer links */
+a.FooterLink:link, a.FooterLink:visited, a.FooterLink:active {
+	font-size: 10px;
+	color: #808080;
+	font-weight: normal;
+	text-decoration: underline; }
+a.FooterLink:hover {
+	font-size: 10px;
+	color: #808080;
+	font-weight: normal;
+	text-decoration: underline; }
+
+/* -------------------------------------- */
+/* Heirarchy - OK to Change               */
+/* -------------------------------------- */
+/* Used to display the heirachy tree */
+/* Defining up to 10 levels of indent. Indent0 is for the root nodes */
+/* The "on" is used for the navbar category head that is the **current** page */
+/* Background color is different */
+.indent0on {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	line-height: 120%;
+	font-weight: bold;
+	color: #300;
+	text-align: right;
+	background-color: #FFC;
+/*	width: 150px; */
+	padding-top: 8px;
+	padding-bottom: 8px;
+	padding-right: 5px; }
+/* "off" is used for navbar category heads NOT current page */
+.indent0off {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	line-height: 120%;
+	font-weight: bold;
+	color: #300;
+	text-align: right;
+	text-decoration: none;	
+	background-color: transparent;
+/*	width: 150px; */
+	padding: 10px 5px 10px 0; }
+.indent0 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 12px;
+	line-height: 120%;
+	font-weight: normal;
+	color: #300;
+	text-align: left;
+	text-decoration: none;	
+/*	width: 150px;*/
+	padding-left: 7px;
+	padding-right: 5px;
+	display: block; 
+	margin-bottom: 0; }
+.indent1 {
+	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-size: 11px;
+	line-height: 120%;
+	font-weight: normal;
+	color: #FFF;
+	text-align: left;
+	text-decoration: none;	
+	background-color: transparent;
+/*	width: 150px; */
+	margin-left: 15px;
+	display: block;
+	padding-right: 5px;
+	margin-bottom: 0; }
+/* for link found in indent */
+/* Make link font size match indent0 */
+a.indent0:link, a.indent0:visited, a.indent0:active
+ { margin-top: 5px;
+	font-size: 11px;
+	color: #300;
+	text-decoration: none; }
+
+a.indent1:link, a.indent1:visited, a.indent1:active
+ { margin-top: 5px;
+	font-size: 11px;
+	line-height: 120%;
+	color: #300;
+	text-decoration: none; }
+
+/* Make link font size match indent0 */
+a.indent0:hover, a.indent1:hover
+ { margin-top: 5px;
+	color: #300;
+	text-decoration: underline; }
+
+/* Special class for the link for the current page */
+.linkcurrentpage {
+	font-style: italic; }
+
+/* -------------------------------------- */
+/* Quicksearch - OK to Change             */
+/* -------------------------------------- */
+/* Used on Quicksearch results pages */
+.quicksearch {
+	padding: 5px 0 5px 5px;
+	background: #FFF;}
+.QSContainerHead {
+	background-color: #e9ffaa;
+	padding: 10px 10px 10px 10px; }
+.QSContainerResults {
+	padding: 10px 10px 10px 10px; }
+.QSSearchedForHead {
+	text-decoration: none;
+	font-size: 12px;
+	text-align: left;
+	font-weight: bold;
+	color: #000;
+	padding: 10px 10px 0 10px; }
+.QSSearchedFor {
+	text-decoration: none;
+	font-size: 12px;
+	text-align: left;
+	font-weight: normal;
+	color: red;
+	padding: 10px 10px 0 10px; }
+.QSFoundCount {
+	text-decoration: none;
+	font-size: 11px;
+	text-align: left;
+	font-weight: normal;
+	color: #000;
+	padding: 10px 10px 0 10px; }
+.QSHead {
+	text-decoration: none;
+	font-size: 11px;
+	text-align: left;
+	font-weight: normal;
+	color: #300;
+	padding: 0 10px 0 10px;
+ 	font-stretch: condensed; }
+.QSAuthor {
+	text-decoration: none;
+	font-size: 11px;
+	text-align: left;
+	color: #000;
+	padding: 0 10px 0 10px;
+	font-style: italic; }
+.QSDate {
+	text-decoration: none;
+	font-size: 10px;
+	text-align: left;
+	font-weight: normal;
+	color: #666;
+	padding: 0 10px 0 10px; }
+.QSText1 {
+	text-decoration: none;
+	font-size: 11px;
+	text-align: left;
+	font-weight: normal;
+	color: #000;
+	padding: 0 10px 0 10px; }
+.QSText2 {
+	text-decoration: none;
+	font-size: 11px;
+	text-align: left;
+	font-weight: normal;
+	color: #000;
+	padding: 5px 10px 0 10px; }
+/* for link found in Quicksearch */
+a.QSLink:link, a.QSLink:visited, a.QSLink:active {
+	font-size: 11px;
+	margin-top: 5px;
+	color: #000;
+	text-decoration: none;
+	font-weight: bold;
+	padding: 0 10px 0 10px; }
+a.QSLink:hover {
+	font-size: 11px;
+	margin-top: 5px;
+	color: #300;
+	text-decoration: underline;
+	font-weight: bold;
+	padding: 0 10px 0 10px; }

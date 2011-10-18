@@ -1,0 +1,50 @@
+<!-- Template 1kbGrid12.html -->
+<body>
+[If: (Var:'ThisFile') != '']	<script type="text/javascript" src="/site/js/flashembed.min.js"></script>
+	<script>
+		flashembed("VideoPlaceholder", 
+		{
+			src:'[$svLibsPath]FlowPlayerLight.swf',
+			width: [$VideoWidth],
+			height: [$VideoHeight]
+		},
+		{config: {   
+			autoPlay: false,
+			autoBuffering: true,
+			controlBarBackgroundColor:'#999999',
+			controlBarGloss:'high',
+			showFullScreenButton: false,
+			initialScale: 'scale',
+			loop: false,
+[NoProcess]
+			menuItems: [true, true, true, true, false, false, false],
+[/NoProcess]
+			videoFile: 'http://[$svDomain][$svMediaPath][$ThisFile]'
+		}} 
+	);
+	</script>
+[Else]<!-- No Flash Media Called -->[/If]
+<!-- START QuickSearch Form -->
+<div class="quicksearch">
+	<form action="/detail.lasso">
+		<input type="hidden" name="SearchType" value="QS">
+		<input type="text" name="QuickSearchFor" value="" class="QSInput"> 
+		<input type="image" src="/site/images/button_search.gif" alt="Search Buttton" name="Action" value="QuickSearch" class="button">
+	</form>
+</div>
+<!-- END QuickSearch Form -->
+<img src="[$svImagesPath]Banner3.jpg" width="940" height="180" style="margin-left:20px;" alt="banner"><br>
+[OutputDropdownHTML]
+<br>
+<br>
+<div class="row">
+	<div class="column grid_12">
+		<div class="ContentPanelContainer">
+[OutputMainContent]
+[OutputSecondContent]
+		</div>
+	</div>
+</div>
+[OutputFooter]
+</body>
+</html>
