@@ -16,14 +16,15 @@
 			<import mode="XML" keywords-only="yes" />
 			
 			 
-			<state id="LassoScript Code" containerState="yes" usesymbolsfrommode="LassoScript-HTML" useautocompletefrommode="LassoScript-HTML" scope="meta.deafult">
+			<state id="LassoScript Code" containerState="yes" usesymbolsfrommode="LassoScript-HTML" useautocompletefrommode="LassoScript-HTML" scope="meta.default">
 				
-				<keywords id="LassoScript Block" useforautocomplete="no" scope="markup.processing.languageswitch">
+				<keywords id="LassoScript Language Switch" useforautocomplete="no" scope="markup.processing.languageswitch">
 			   		<regex>(&lt;\?(?i)lassoscript)</regex>
 			   		<regex>(\?&gt;)</regex>
 			   		<regex>(\[)</regex>
 			   		<regex>(\])</regex>
 			   	</keywords>
+			   	
 
 <!--             
                 This does not work for pure Lasso files. FIXME
@@ -34,7 +35,7 @@
                     <import state="LassoScript Code" />
                 </state>
  -->			
-				<keywords id="Default Lasso Tags" casesensitive="no" useforautocomplete="yes" scope="support.function">
+				<keywords id="Default Lasso Tags" casesensitive="no" useforautocomplete="yes" scope="keyword">
 					<string>__char</string>
 					<string>__sync_timestamp__</string>
 					<string>_admin_addgroup</string>
@@ -601,7 +602,6 @@
 					<string>include_once</string>
 					<string>include_raw</string>
 					<string>include_url</string>
-					<string>inline</string>
 					<string>java</string>
 					<string>java_bean</string>
 					<string>keycolumn_name</string>
@@ -1082,21 +1082,72 @@
 					<string>asasync</string>
 					<string>define_tag</string>
 					<string>define_type</string>
-					<string>else</string>
 					<string>encode_set</string>
 					<string>false</string>
 					<string>handle_error</string>
 					<string>handle</string>
+					<string>params</string>
+					<string>true</string>
+					<string>fail</string>
+					<string>fail_if</string>
+				</keywords>
+				<keywords id="Lasso Control keywords" casesensitive="no" useforautocomplete="yes" scope="keyword.control">
+					<string>while</string>
+					<string>else</string>
 					<string>if</string>
 					<string>iterate</string>
 					<string>loop_count</string>
 					<string>loop</string>
-					<string>params</string>
-					<string>protect</string>
-					<string>true</string>
-					<string>while</string>
-					<string>fail</string>
-					<string>fail_if</string>
+					<string>inline</string>
+					<string>loop</string>                
+				</keywords>
+				<keywords id="Lasso Container keywords" casesensitive="no" useforautocomplete="yes" scope="keyword.container">
+					<string>cache</string>               
+					<string>database_names</string>      
+					<string>database_schemanames</string>
+					<string>database_tablenames</string> 
+					<string>debug</string>
+					<string>define_tag</string>          
+					<string>define_type</string>         
+					<string>email_batch</string>         
+					<string>encode_set</string>          
+					<string>records</string>             
+					<string>html_comment</string>        
+					<string>handle</string>              
+					<string>handle_error</string>        
+					<string>header</string>              
+					<string>inline</string>              
+					<string>iterate</string>             
+					<string>ljax_target</string>         
+					<string>link</string>                
+					<string>link_currentaction</string>  
+					<string>link_currentgroup</string>   
+					<string>link_currentrecord</string>  
+					<string>link_detail</string>         
+					<string>link_firstgroup</string>     
+					<string>link_firstrecord</string>    
+					<string>link_lastgroup</string>      
+					<string>link_lastrecord</string>     
+					<string>link_nextgroup</string>      
+					<string>link_nextrecord</string>     
+					<string>link_prevgroup</string>      
+					<string>link_prevrecord</string>     
+					<string>log</string>                 
+					<string>namespace_using</string>     
+					<string>noprocess</string>           
+					<string>output_none</string>         
+					<string>portal</string>              
+					<string>private</string>             
+					<string>protect</string>             
+					<string>referrer</string>            
+					<string>repeating</string>           
+					<string>resultset</string>           
+					<string>search_arguments</string>    
+					<string>select</string>              
+					<string>sort_arguments</string>      
+					<string>thread_atomic</string>       
+					<string>value_list</string>          
+					<string>while</string>               
 				</keywords>
 				<keywords id="Default Lasso Types" casesensitive="no" useforautocomplete="yes" scope="keyword.type">
 					<string>array</string>
@@ -1132,7 +1183,7 @@
 				
 				<state id="Lasso SingleComment" type="comment" scope="comment.line">
 					<begin><regex>(?://)</regex></begin>
-					<end><regex>[\n\r]</regex></end>
+					<end><regex>.(?=[\n\r])</regex></end>
 					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 				</state>
 				
@@ -1163,7 +1214,19 @@
 			<state id="LassoScript 2" usesymbolsfrommode="LassoScript-HTML" useautocompletefrommode="LassoScript-HTML"  foldable="yes" scope="meta.block">
 				<begin><regex>(?:&lt;\?(?i)lassoscript)</regex></begin>
 				<end><regex>\?&gt;</regex></end>
-					<import state="LassoScript Code" />			
+			   	<state id="LassoScript If Block" type="block" foldable="yes" scope="meta.block.if">
+					<begin><regex>(?&lt;![\[/])\b(?:(?i)if|else)\b:?(?=[^;]*;)</regex><autoend>/If;</autoend></begin>
+					<end><regex>(?:(?i)(?:/if)|([^e](?=\belse\b)))</regex></end>
+					<import state="LassoScript 2" />
+					<import state="LassoScript Code" />
+			   	</state>
+			   	<state id="LassoScript Container Block" type="block" foldable="yes" scope="meta.block.if">
+					<begin><regex>(?:(?&lt;![\[/])\b(?'lassoblockstart'(?i)cache|debug|database_names|database_schemanames|database_tablenames|define_tag|define_type|email_batch|encode_set|records|html_comment|handle|handle_error|header|if|inline|iterate|ljax_target|link|link_currentaction|link_currentgroup|link_currentrecord|link_detail|link_firstgroup|link_firstrecord|link_lastgroup|link_lastrecord|link_nextgroup|link_nextrecord|link_prevgroup|link_prevrecord|log|loop|namespace_using|noprocess|output_none|portal|private|protect|referrer|repeating|resultset|search_arguments|select|sort_arguments|thread_atomic|value_list|while)\b:?(?=[^;]*;))</regex><autoend>/\g&lt;lassoblockstart>;</autoend></begin>
+					<end><regex>(?:(?i)(?:/(?#see-insert-start-group:lassoblockstart)))</regex></end>
+					<import state="LassoScript 2" />
+					<import state="LassoScript Code" />
+			   	</state>
+				<import state="LassoScript Code" />			
 			</state>
 			
 			<!--  This is the "we do a complete HTML mode and import Lasso everywhere" section -->
