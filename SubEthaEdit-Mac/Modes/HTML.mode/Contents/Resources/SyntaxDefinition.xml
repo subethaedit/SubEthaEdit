@@ -12,14 +12,14 @@
     <states>
         <default id="Base" usesymbolsfrommode="HTML" useautocompletefrommode="HTML" scope="meta.default">
             <import mode="XML" keywords-only="yes"/>
-            <keywords id="href links" type="url" color="#1A1AA6" useforautocomplete="no" scope="meta.link">
+            <keywords id="href links" type="url" useforautocomplete="no" scope="meta.link">
                 <regex>\s(?i)(href|src)(?-i)\s*=\s*"([^"]*)"(?=[^&lt;]*>)</regex>
             </keywords>
             <state-link mode="XML" state="Comment"/>
             <state-link mode="XML" state="CDATA"/>
             <state-link mode="XML" state="Doctype"/>
             <state-link mode="XML" state="Escape"/>
-            <state id="Inline CSS" color="#000" font-style="italic" usesymbolsfrommode="CSS" useautocompletefrommode="CSS" foldable="yes" indent="yes" scope="meta.block.css">
+            <state id="Inline CSS" usesymbolsfrommode="CSS" useautocompletefrommode="CSS" foldable="yes" indent="yes" scope="meta.block.css">
                 <begin>
                     <regex>&lt;[ \t]*(?i)style[^>]*></regex>
                     <autoend>&lt;/style></autoend>
@@ -31,7 +31,7 @@
                 <import mode="XML" keywords-only="yes"/>
                 <import keywords-only="yes"/>
             </state>
-            <state id="Inline Javascript" color="#000" usesymbolsfrommode="Javascript" useautocompletefrommode="Javascript" foldable="yes" indent="yes" scope="meta.block.js">
+            <state id="Inline Javascript" usesymbolsfrommode="Javascript" useautocompletefrommode="Javascript" foldable="yes" indent="yes" scope="meta.block.js">
                 <begin>
                     <regex>&lt;[ \t]*(?i)script[^>]*></regex>
                     <autoend>&lt;/script></autoend>
@@ -53,7 +53,7 @@
                 <import mode="XML" keywords-only="yes"/>
                 <import keywords-only="yes"/>
             </state>
-            <state id="Tag State" font-style="normal" foldable="yes" indent="yes" scope="meta.default">
+            <state id="Tag State" foldable="yes" indent="yes" scope="meta.default">
                 <begin>
                     <regex>&lt;\s*(?'xmltagstatename'[^/?!][-:_\w]*)\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*></regex>
 					<autoend>&lt;/\g&lt;xmltagstatename>></autoend>

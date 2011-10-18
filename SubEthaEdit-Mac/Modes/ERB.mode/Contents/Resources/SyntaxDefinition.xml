@@ -2,62 +2,62 @@
 <!DOCTYPE syntax SYSTEM "syntax.dtd">
 <syntax>
 
-    <head>
-        <name>ERB</name> <!-- The definitions title -->
-        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@":]]></charsintokens> 
-        <charsincompletion><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@</="!]]></charsincompletion> 
-        <folding toplevel="3" />
-    </head>
+	<head>
+		<name>ERB</name> <!-- The definitions title -->
+		<charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@":]]></charsintokens> 
+		<charsincompletion><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@</="!]]></charsincompletion> 
+		<folding toplevel="3" />
+	</head>
 
-    <states>
-    
-        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="HTML" useautocompletefrommode="HTML" scope="meta.default">
+	<states>
 
-            <import mode="XML" keywords-only="yes"/>
-            
-            <state id="Ruby" color="#000000" inverted-color="#ffffff"  font-style="normal" font-weight="normal" usesymbolsfrommode="Ruby" useautocompletefrommode="Ruby" foldable="yes" scope="meta.default">
-                <begin><regex>(?:&lt;%(?!%))|(?:&lt;%=)</regex></begin>
-                <end><regex>(?:[-]?%>)</regex></end>
+		<default id="Base" usesymbolsfrommode="HTML" useautocompletefrommode="HTML" scope="meta.default">
 
-                <keywords id="ERB Delimiter" color="#d00000" inverted-color="#ff2f2f"  font-style="normal" font-weight="bold" useforautocomplete="no" scope="markup.processing.languageswitch">
-                    <regex>(-?%>)</regex>
-                    <regex>(&lt;%=?)</regex>
-                </keywords>
+			<import mode="XML" keywords-only="yes"/>
 
-                <import mode="Ruby" keywords-only="yes" />
+			<state id="Ruby"  usesymbolsfrommode="Ruby" useautocompletefrommode="Ruby" foldable="yes" scope="meta.default">
+				<begin><regex>(?:&lt;%(?!%))|(?:&lt;%=)</regex></begin>
+				<end><regex>(?:[-]?%>)</regex></end>
 
-                <state-link mode="Ruby" state="String with double quotes" />
-                <state-link mode="Ruby" state="String with single quotes" />
-                <state-link mode="Ruby" state="Heredoc" />
-                <state-link mode="Ruby" state="Heredoc Indented End" />
-                <state-link mode="Ruby" state="Percent Strings" />
-                <state-link mode="Ruby" state="Percent Strings {" />
-                <state-link mode="Ruby" state="Percent Strings (" />
-                <state-link mode="Ruby" state="Percent Strings &lt;" />
-                <state-link mode="Ruby" state="Percent Strings [" />
-                <state-link mode="Ruby" state="Backticks" />
-                <state-link mode="Ruby" state="Percent Execution" />
-                <state-link mode="Ruby" state="Percent Execution {" />
-                <state-link mode="Ruby" state="Percent Execution (" />
-                <state-link mode="Ruby" state="Percent Execution &lt;" />
-                <state-link mode="Ruby" state="Percent Execution [" />
-                <state-link mode="Ruby" state="Regexp" />
-                <state-link mode="Ruby" state="Percent Regex" />
-                <state-link mode="Ruby" state="Percent Regex {" />
-                <state-link mode="Ruby" state="Percent Regex (" />
-                <state-link mode="Ruby" state="Percent Regex &lt;" />
-                <state-link mode="Ruby" state="Percent Regex [" />
-                <state-link mode="Ruby" state="Percent Symbol" />
-                <state-link mode="Ruby" state="Percent Symbol {" />
-                <state-link mode="Ruby" state="Percent Symbol (" />
-                <state-link mode="Ruby" state="Percent Symbol &lt;" />
-                <state-link mode="Ruby" state="Percent Symbol [" />
-                <state-link mode="Ruby" state="Percent Array" />
-                <state-link mode="Ruby" state="Percent Array {" />
-                <state-link mode="Ruby" state="Percent Array (" />
-                <state-link mode="Ruby" state="Percent Array &lt;" />
-                <state-link mode="Ruby" state="Percent Array [" />
-				<state id="Singleline Comment" type="comment" color="#236e25" inverted-color="#ff4a4a" font-style="normal" font-weight="normal" scope="comment.line.double-slash">
+				<keywords id="ERB Delimiter"  useforautocomplete="no" scope="markup.processing.languageswitch">
+					<regex>(-?%>)</regex>
+					<regex>(&lt;%=?)</regex>
+				</keywords>
+
+				<import mode="Ruby" keywords-only="yes" />
+
+				<state-link mode="Ruby" state="String with double quotes" />
+				<state-link mode="Ruby" state="String with single quotes" />
+				<state-link mode="Ruby" state="Heredoc" />
+				<state-link mode="Ruby" state="Heredoc Indented End" />
+				<state-link mode="Ruby" state="Percent Strings" />
+				<state-link mode="Ruby" state="Percent Strings {" />
+				<state-link mode="Ruby" state="Percent Strings (" />
+				<state-link mode="Ruby" state="Percent Strings &lt;" />
+				<state-link mode="Ruby" state="Percent Strings [" />
+				<state-link mode="Ruby" state="Backticks" />
+				<state-link mode="Ruby" state="Percent Execution" />
+				<state-link mode="Ruby" state="Percent Execution {" />
+				<state-link mode="Ruby" state="Percent Execution (" />
+				<state-link mode="Ruby" state="Percent Execution &lt;" />
+				<state-link mode="Ruby" state="Percent Execution [" />
+				<state-link mode="Ruby" state="Regexp" />
+				<state-link mode="Ruby" state="Percent Regex" />
+				<state-link mode="Ruby" state="Percent Regex {" />
+				<state-link mode="Ruby" state="Percent Regex (" />
+				<state-link mode="Ruby" state="Percent Regex &lt;" />
+				<state-link mode="Ruby" state="Percent Regex [" />
+				<state-link mode="Ruby" state="Percent Symbol" />
+				<state-link mode="Ruby" state="Percent Symbol {" />
+				<state-link mode="Ruby" state="Percent Symbol (" />
+				<state-link mode="Ruby" state="Percent Symbol &lt;" />
+				<state-link mode="Ruby" state="Percent Symbol [" />
+				<state-link mode="Ruby" state="Percent Array" />
+				<state-link mode="Ruby" state="Percent Array {" />
+				<state-link mode="Ruby" state="Percent Array (" />
+				<state-link mode="Ruby" state="Percent Array &lt;" />
+				<state-link mode="Ruby" state="Percent Array [" />
+				<state id="Singleline Comment" type="comment" scope="comment.line.double-slash">
 					<begin><regex>#</regex></begin>
 					<end><regex>(?:.(?=[\n\r]))|(?:.(?=%>|-%>))</regex></end>
 					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
@@ -67,42 +67,42 @@
 					<begin><regex>(?:(?:^|=)[ \t]*(?:(?:(?:if|unless|while|until)(?:[ \t]+|(?=\()))|(?:case[ \t]+\g'ruby_ident'[ \t]?)|(?:for[ \t]+\g'ruby_ident'[ \t]+in(?:[^\n\r]+do)?)|(?:case))|\b(?:(?:class(?:(?:[ \t]+(?'ruby_ident'(?'ruby_ident_part'[a-zA-Z_][a-zA-Z0-9_]*)(?:(?:\.|::)\g'ruby_ident_part')*)(?:[ \t]+&lt;[ \t]+\g'ruby_ident')?)|(?:[ \t]*&lt;&lt;)))|(?:module[ \t]+[a-zA-Z_][a-zA-Z0-9_]*)|\bdo\b(?:[ \t]*\|[^\n\r|]+\|)?|(?:def[ \t]+(?:(?'ruby_operator_methods'&amp;|\||\^|&lt;=>|===|==|=~|>>|\?|\!|>=|>|&lt;=|\+@|\-@|\+|\-|\*\*|\*|/|%|&lt;&lt;|&lt;|~|\[\]|\[\]=)|\g'ruby_ident'\g'ruby_operator_methods'?))))</regex></begin>
 					<end><regex>\bend\b|(?:.(?=%>|-%>))</regex></end>
 					<import state="Ruby "/>
-	                <import mode="Ruby" keywords-only="yes" />
+					<import mode="Ruby" keywords-only="yes" />
 				</state>
-	
+
 				<state id="BeginBlocks" type="block" foldable="yes" scope="meta.block.begin">
 					<begin><regex>\bbegin\b</regex></begin>
 					<end><regex>\bend(?:[ \t]+(?:while|if|unless|until))?\b|(?:.(?=%>|-%>))</regex></end>
 					<import state="Ruby "/>
-	                <import mode="Ruby" keywords-only="yes" />
+					<import mode="Ruby" keywords-only="yes" />
 				</state>
-	
+
 				<!-- this should not match normal hash literals. most commonly used in || {} in rails -->
-	
+
 				<state id="CurlyBlocks" type="block" foldable="yes" scope="meta.block.curly">
 					<begin><regex>{(?:[ \t]*\|[^\n\r|]+\|)?</regex></begin>
 					<end><regex>}|(?:.(?=%>|-%>))</regex></end>
 					<import state="Ruby "/>
-	                <import mode="Ruby" keywords-only="yes" />
+					<import mode="Ruby" keywords-only="yes" />
 				</state>
 
 
-            </state>
+			</state>
 
-			<state id="RubyOneLineERB" color="#000000" inverted-color="#ffffff"  font-style="normal" font-weight="normal" usesymbolsfrommode="Ruby" useautocompletefrommode="Ruby" foldable="no" scope="comment.line">
-                <begin><regex>^%</regex></begin>
-                <end><regex>[\n\r]</regex></end>
+			<state id="RubyOneLineERB"  usesymbolsfrommode="Ruby" useautocompletefrommode="Ruby" foldable="no" scope="comment.line">
+				<begin><regex>^%</regex></begin>
+				<end><regex>[\n\r]</regex></end>
 
-                <import state="Ruby" />
-                <import mode="Ruby" keywords-only="yes" />
+				<import state="Ruby" />
+				<import mode="Ruby" keywords-only="yes" />
 
-                <keywords id="ERB Delimiter One Line" color="#d00000" inverted-color="#ff2f2f"  font-style="normal" font-weight="bold" useforautocomplete="no" scope="meta.tag.erbstart">
-                    <regex>(^%)</regex>
-                </keywords>
+				<keywords id="ERB Delimiter One Line"  useforautocomplete="no" scope="meta.tag.erbstart">
+					<regex>(^%)</regex>
+				</keywords>
 
 			</state>
-			
-            <!--  This is the "we do a complete HTML mode and import Ruby everywhere" section -->
+
+			<!--  This is the "we do a complete HTML mode and import Ruby everywhere" section -->
 			<state id="Comment" type="comment" scope="markup.comment">
 				<begin><regex>&lt;!--</regex><autoend>--></autoend></begin>
 				<end><regex>--></regex></end>
@@ -111,7 +111,7 @@
 				</keywords>
 				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 				<state-link state="Ruby"/>
-            </state>
+			</state>
 			<state id="CDATA" foldable="yes" scope="markup.inline.cdata">
 				<begin>
 					<regex>&lt;!\s*\[CDATA\s*\[</regex>
@@ -120,63 +120,63 @@
 				<end>
 					<regex>\]\s*\]\s*></regex>
 				</end>
-                <state-link state="Ruby"/>
-            </state>
-			 <state id="Doctype" foldable="no" scope="markup.declaration">
-                <begin>
-                    <regex>&lt;!</regex><autoend>></autoend>
-                </begin>
-                <end>
-                    <regex>></regex>
-                </end>
-				<state id="String" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="markup.declaration.string.double">
+				<state-link state="Ruby"/>
+			</state>
+			<state id="Doctype" foldable="no" scope="markup.declaration">
+				<begin>
+					<regex>&lt;!</regex><autoend>></autoend>
+				</begin>
+				<end>
+					<regex>></regex>
+				</end>
+				<state id="String" type="string" scope="markup.declaration.string.double">
 					<begin><regex>"</regex></begin>
 					<end><regex>"</regex></end>
 					<state-link state="Ruby"/>
 				</state>
-				<state id="SingleString" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="markup.declaration.string.single">
+				<state id="SingleString" type="string" scope="markup.declaration.string.single">
 					<begin><regex>'</regex></begin>
 					<end><regex>'</regex></end>
 					<state-link state="Ruby"/>
 				</state>
-				<state id="Doctype Block" type="block" foldable="yes" indent="yes" color="#000" background-color="#fff" scope="meta.block.square">
+				<state id="Doctype Block" type="block" foldable="yes" indent="yes" scope="meta.block.square">
 					<begin><regex>\[</regex><autoend>\]</autoend></begin>
 					<end><regex>]</regex></end>
 					<import />
 				</state>
-			   <state-link state="Ruby"/>
-            </state>
-         <state id="Escape" foldable="no" scope="markup.processing">
-                <begin>
-                    <regex>&lt;\?</regex><autoend>\?></autoend>
-                </begin>
-                <end>
-                    <regex>\?></regex>
-                </end>
-				<state id="ProcessingString" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="markup.processing.attribute.value.string">
+				<state-link state="Ruby"/>
+			</state>
+			<state id="Escape" foldable="no" scope="markup.processing">
+				<begin>
+					<regex>&lt;\?</regex><autoend>\?></autoend>
+				</begin>
+				<end>
+					<regex>\?></regex>
+				</end>
+				<state id="ProcessingString" type="string" scope="markup.processing.attribute.value.string">
 					<begin><regex>"</regex></begin>
 					<end><regex>"</regex></end>
-                   <state-link state="Ruby"/>
+					<state-link state="Ruby"/>
 				</state>
-				<state id="ProcessingSingleString" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="markup.processing.attribute.value.string">
+				<state id="ProcessingSingleString" type="string" scope="markup.processing.attribute.value.string">
 					<begin><regex>'</regex></begin>
 					<end><regex>'</regex></end>
-                   <state-link state="Ruby"/>
+					<state-link state="Ruby"/>
 				</state>
-                   <state-link state="Ruby"/>
-            </state>
-            <state id="Inline CSS" color="#000" font-style="italic" usesymbolsfrommode="CSS" useautocompletefrommode="CSS" foldable="yes" indent="yes" scope="meta.block.css">
-                <begin>
-                    <regex>&lt;[ \t]*(?i)style[^>]*></regex>
-                    <autoend>&lt;/style></autoend>
-                </begin>
-                <end>
-                    <regex>(?i)&lt;[ \t]*/[ \t]*style[ \t]*></regex>
-                </end>
-                <state-link state="Ruby"/>
+				<state-link state="Ruby"/>
+			</state>
+			<state id="Inline CSS" usesymbolsfrommode="CSS" useautocompletefrommode="CSS" foldable="yes" indent="yes" scope="meta.block.css">
+				<begin>
+					<regex>&lt;[ \t]*(?i)style[^>]*></regex>
+					<autoend>&lt;/style></autoend>
+				</begin>
+				<end>
+					<regex>(?i)&lt;[ \t]*/[ \t]*style[ \t]*></regex>
+				</end>
+				<state-link state="Ruby"/>
 
-                <import mode="CSS"/>
-				<state id="CSSInside curly brackets" color="#000" background-color="#fff" font-weight="normal" font-style="normal" foldable="yes" indent="yes" scope="meta.block.curly">
+				<import mode="CSS"/>
+				<state id="CSSInside curly brackets" foldable="yes" indent="yes" scope="meta.block.curly">
 					<begin>
 						<string>{</string>
 						<autoend>}</autoend>
@@ -184,15 +184,15 @@
 					<end>
 						<regex>}</regex>
 					</end>
-						<import mode="CSS" state="Inside curly brackets" keywords-only="yes"/>
-					<state id="CSS Attribute state" color="#000" background-color="#fff" font-weight="normal" font-style="normal" scope="meta.block.attribute">
+					<import mode="CSS" state="Inside curly brackets" keywords-only="yes"/>
+					<state id="CSS Attribute state" scope="meta.block.attribute">
 						<begin>
 							<string>:</string>
 						</begin>
 						<end>
 							<regex>(;|.(?=})|[\n\r])</regex>
 						</end>
-					   <import mode="CSS" state="Attribute state" keywords-only="yes"/>
+						<import mode="CSS" state="Attribute state" keywords-only="yes"/>
 						<state-link state="Ruby"/>
 						<state-link state="CSSAutodocComment"/>
 						<state-link state="CSSComment"/>
@@ -206,9 +206,9 @@
 					<state-link state="Ruby"/>
 				</state>
 
-                <import keywords-only="yes"/>
+				<import keywords-only="yes"/>
 
-				<state id="CSSRules" color="#683821" font-weight="bold" font-style="italic" scope="style.at-rule">
+				<state id="CSSRules" scope="style.at-rule">
 					<begin>
 						<regex>^@[-\w_]+</regex>
 					</begin>
@@ -216,8 +216,8 @@
 						<regex>.(?=[{\n\r])</regex>
 					</end>
 				</state>
-				
-				<state id="CSSAutodocComment" type="comment" color="#236E25" font-weight="bold" font-style="italic" scope="style.comment.block.documentation">
+
+				<state id="CSSAutodocComment" type="comment" scope="style.comment.block.documentation">
 					<begin>
 						<string>/\*"</string>
 						<autoend>"\*/</autoend>
@@ -228,7 +228,7 @@
 					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 					<state-link state="Ruby"/>
 				</state>
-				<state id="CSSComment" type="comment" color="#236E25" font-weight="normal" font-style="italic" scope="style.comment.block">
+				<state id="CSSComment" type="comment" scope="style.comment.block">
 					<begin>
 						<string>/\*</string>
 						<autoend>\*/</autoend>
@@ -239,7 +239,7 @@
 					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 					<state-link state="Ruby"/>
 				</state>
-				<state id="CSSString" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="style.value.string.double">
+				<state id="CSSString" type="string" scope="style.value.string.double">
 					<begin>
 						<string>"</string>
 					</begin>
@@ -248,7 +248,7 @@
 					</end>
 					<state-link state="Ruby"/>
 				</state>
-				<state id="CSSSingleString" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="style.value.string.single">
+				<state id="CSSSingleString" type="string" scope="style.value.string.single">
 					<begin>
 						<string>'</string>
 					</begin>
@@ -258,121 +258,121 @@
 					<state-link state="Ruby"/>
 				</state>
 
-            </state>
+			</state>
 
 
-            <state id="Inline Javascript" color="#000" usesymbolsfrommode="Javascript" useautocompletefrommode="Javascript" foldable="yes" scope="meta.block.js">
-                <begin>
-                    <regex>&lt;(?i)script[^>]*></regex><autoend>&lt;/script></autoend>
-                </begin>
-                <end>
-                    <regex>&lt;(?i)/script[^>]*></regex>
-                </end>
-                <import mode="Javascript" keywords-only="yes"/>
-                <import mode="XML" keywords-only="yes"/>
-                <state-link state="Ruby"/>
+			<state id="Inline Javascript" usesymbolsfrommode="Javascript" useautocompletefrommode="Javascript" foldable="yes" scope="meta.block.js">
+				<begin>
+					<regex>&lt;(?i)script[^>]*></regex><autoend>&lt;/script></autoend>
+				</begin>
+				<end>
+					<regex>&lt;(?i)/script[^>]*></regex>
+				</end>
+				<import mode="Javascript" keywords-only="yes"/>
+				<import mode="XML" keywords-only="yes"/>
+				<state-link state="Ruby"/>
 
-				<state id="JSAutodocComment" type="comment" color="#236E25" font-weight="bold" font-style="italic" scope="comment.block.documentation.js">
+				<state id="JSAutodocComment" type="comment" scope="comment.block.documentation.js">
 					<begin><regex>/\*"</regex></begin>
 					<end><regex>"\*/</regex></end>
-                    <state-link state="Ruby"/>
+					<state-link state="Ruby"/>
 				</state>
-		
-				<state id="JSComment" type="comment" color="#236E25" font-weight="normal" font-style="italic" scope="comment.block.js">
+
+				<state id="JSComment" type="comment" scope="comment.block.js">
 					<begin><regex>/\*</regex><autoend>\*/</autoend></begin>
 					<end><regex>\*/</regex></end>
 					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
-                    <state-link state="Ruby"/>
+					<state-link state="Ruby"/>
 				</state>
-				
-				<state id="JSSingleComment" type="comment" color="#236E25" font-weight="normal" font-style="italic" scope="comment.line.double-slash.js">
+
+				<state id="JSSingleComment" type="comment" scope="comment.line.double-slash.js">
 					<begin><regex>//</regex></begin>
 					<end><regex>[\n\r]|.(?=&lt;(?i)/script\s*>)</regex></end>
 					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
-                    <state-link state="Ruby"/>
+					<state-link state="Ruby"/>
 				</state>
-				
-				<state id="JSRegular Expressions" type="string" color="#760f15" scope="string.regexp.js">
+
+				<state id="JSRegular Expressions" type="string" scope="string.regexp.js">
 					<begin><regex>(?&lt;![&lt;/])/.*?[^\\](?=/[^\n\r]*(?:;|\)|,|[\n\r]))</regex></begin>
 					<end><regex>/[cgimosx]*</regex></end>
-                    <state-link state="Ruby"/>
+					<state-link state="Ruby"/>
 				</state>
-		
-				<state id="JSString" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="string.double.js">
+
+				<state id="JSString" type="string" scope="string.double.js">
 					<begin><regex>"</regex></begin>
 					<end><regex>(?&lt;!\\)(\\\\)*"</regex></end>
-                    <state-link state="Ruby"/>
+					<state-link state="Ruby"/>
 				</state>
-		
-				<state id="JSSingleString" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="string.single.js">
+
+				<state id="JSSingleString" type="string" scope="string.single.js">
 					<begin><regex>'</regex></begin>
 					<end><regex>(?&lt;!\\)(\\\\)*'</regex></end>
-                    <state-link state="Ruby"/>
+					<state-link state="Ruby"/>
 				</state>
-	
-				<state id="JSBlock" type="block" foldable="yes" indent="yes" color="#000" background-color="#fff" scope="meta.block.curly.js">
+
+				<state id="JSBlock" type="block" foldable="yes" indent="yes" scope="meta.block.curly.js">
 					<begin><regex>{</regex><autoend>}</autoend></begin>
 					<end><regex>}</regex></end>
-                    <import mode="Javascript" keywords-only="yes"/>
-                    <import mode="ERB" state="Inline Javascript"/>
+					<import mode="Javascript" keywords-only="yes"/>
+					<import mode="ERB" state="Inline Javascript"/>
 				</state>
 			</state>
 
-            <state id="Single Tag with Ruby State" foldable="no" scope="meta.default">
-                <begin>
-                    <regex>&lt;\s*[^/?!][-:_\w]*(?=[^&lt;>]*&lt;%.+%>[^>]*[^>]*/>)</regex>
-                </begin>
-                <end>
-                    <regex>/[ \t]*></regex>
-                </end>
-                <import/>
-                <keywords id="Single Tags with Ruby" color="#881280" font-style="italic" useforautocomplete="no" scope="markup.tag">
-                    <regex>(&lt;[^>]*)</regex>
-                    <regex>(\A[^&lt;>]*>)</regex>
-                </keywords>
-                <keywords id="Attributes in Single Tags with Ruby" color="#994500" useforautocomplete="no"  scope="markup.tag.attribute.name">
-                    <regex>([\w-]*)(?=[ \t]*=[^&lt;]+)</regex>
-                </keywords>
-                <keywords id="Strings in Single Tags with Ruby" type="string" color="#1A1AA6" useforautocomplete="no" scope="markup.tag.attribute.value.string">
-                    <regex>=[ \t]*("[^"]*"|'[^']*')(?=[^&lt;]*)</regex>
-                    <regex>([^"]*")(?=[ \t]*>)</regex>
-                </keywords>
-            </state>
+			<state id="Single Tag with Ruby State" foldable="no" scope="meta.default">
+				<begin>
+					<regex>&lt;\s*[^/?!][-:_\w]*(?=[^&lt;>]*&lt;%.+%>[^>]*[^>]*/>)</regex>
+				</begin>
+				<end>
+					<regex>/[ \t]*></regex>
+				</end>
+				<import/>
+				<keywords id="Single Tags with Ruby" useforautocomplete="no" scope="markup.tag">
+					<regex>(&lt;[^>]*)</regex>
+					<regex>(\A[^&lt;>]*>)</regex>
+				</keywords>
+				<keywords id="Attributes in Single Tags with Ruby" useforautocomplete="no"  scope="markup.tag.attribute.name">
+					<regex>([\w-]*)(?=[ \t]*=[^&lt;]+)</regex>
+				</keywords>
+				<keywords id="Strings in Single Tags with Ruby" type="string" useforautocomplete="no" scope="markup.tag.attribute.value.string">
+					<regex>=[ \t]*("[^"]*"|'[^']*')(?=[^&lt;]*)</regex>
+					<regex>([^"]*")(?=[ \t]*>)</regex>
+				</keywords>
+			</state>
 
-            <state id="Tag with Ruby State" foldable="yes" scope="meta.block.tag.erb">
-                <begin>
-                    <regex>&lt;\s*(?'erbtagstatename'[^/?!][-:_\w]*)(?'trimmedstart'[^&lt;>]*&lt;%.+%>[^>]*>)</regex> <!--  Used "trimmedstart regex group, to start searching earlier" -->
+			<state id="Tag with Ruby State" foldable="yes" scope="meta.block.tag.erb">
+				<begin>
+					<regex>&lt;\s*(?'erbtagstatename'[^/?!][-:_\w]*)(?'trimmedstart'[^&lt;>]*&lt;%.+%>[^>]*>)</regex> <!--  Used "trimmedstart regex group, to start searching earlier" -->
 					<autoend>&lt;/\g&lt;erbtagstatename>></autoend>
-                </begin>
-                <end>
-                    <regex>&lt;\s*/\s*(?#see-insert-start-group:erbtagstatename)\s*></regex>
-                </end>
-                <import/>
-                <keywords id="Tags with Ruby" color="#881280" font-style="italic" useforautocomplete="no" scope="markup.tag">
-                    <regex>(&lt;[^>]*>?)</regex>
-                    <regex>(\A[^&lt;>]*>)</regex>
-                </keywords>
-                <keywords id="Attributes in Tags with Ruby" color="#994500" useforautocomplete="no" scope="markup.tag.attribute.name">
-                    <regex>([\w-]*)(?=[ \t]*=[^&lt;]+)</regex>
-                </keywords>
-                <keywords id="Strings in Tags with Ruby" type="string" color="#1A1AA6" useforautocomplete="no" scope="markup.tag.attribute.value.string">
-                    <regex>=[ \t]*("[^"]*"|'[^']*')(?=[^&lt;]*)</regex>
-                    <regex>([^"]*")(?=[ \t]*>)</regex>
-                </keywords>
-            </state>
+				</begin>
+				<end>
+					<regex>&lt;\s*/\s*(?#see-insert-start-group:erbtagstatename)\s*></regex>
+				</end>
+				<import/>
+				<keywords id="Tags with Ruby" useforautocomplete="no" scope="markup.tag">
+					<regex>(&lt;[^>]*>?)</regex>
+					<regex>(\A[^&lt;>]*>)</regex>
+				</keywords>
+				<keywords id="Attributes in Tags with Ruby" useforautocomplete="no" scope="markup.tag.attribute.name">
+					<regex>([\w-]*)(?=[ \t]*=[^&lt;]+)</regex>
+				</keywords>
+				<keywords id="Strings in Tags with Ruby" type="string" useforautocomplete="no" scope="markup.tag.attribute.value.string">
+					<regex>=[ \t]*("[^"]*"|'[^']*')(?=[^&lt;]*)</regex>
+					<regex>([^"]*")(?=[ \t]*>)</regex>
+				</keywords>
+			</state>
 
-            <state id="Tag State Ruby" font-style="normal" foldable="yes" indent="yes" scope="meta.default">
-                <begin>
-                    <regex>&lt;\s*(?'xmltagstatename'[^/?!][-:_\w]*)\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*></regex>
+			<state id="Tag State Ruby" foldable="yes" indent="yes" scope="meta.default">
+				<begin>
+					<regex>&lt;\s*(?'xmltagstatename'[^/?!][-:_\w]*)\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*></regex>
 					<autoend>&lt;/\g&lt;xmltagstatename>></autoend>
-                </begin>
-                <end>
-                    <regex>&lt;\s*/\s*(?#see-insert-start-group:xmltagstatename)\s*></regex>
-                </end>
-	            <import mode="XML" keywords-only="yes"/>
-                <import />
-            </state>
+				</begin>
+				<end>
+					<regex>&lt;\s*/\s*(?#see-insert-start-group:xmltagstatename)\s*></regex>
+				</end>
+				<import mode="XML" keywords-only="yes"/>
+				<import />
+			</state>
 		</default>
-    </states>
+	</states>
 
 </syntax>

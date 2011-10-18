@@ -10,6 +10,7 @@
         <!-- <charsdelimitingtokens></charsdelimitingtokens> -->
         <charsincompletion><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@]]></charsincompletion>
         <folding toplevel="2"/>
+		<stylesheet>C</stylesheet>
     </head>
     <states>
         <default id="Base" usesymbolsfrommode="Objective-C" useautocompletefrommode="Objective-C" scope="meta.default">

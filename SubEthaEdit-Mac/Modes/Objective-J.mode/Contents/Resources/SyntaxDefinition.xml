@@ -12,17 +12,17 @@
 
     <states>
     
-        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" scope="meta.default">
+        <default id="Base" font-weight="normal" font-style="normal" scope="meta.default">
             
-            <keywords id = "Numbers" color = "#00f" useforautocomplete = "no" scope="constant.numeric">
+            <keywords id="Numbers" useforautocomplete="no" scope="constant.numeric">
                 <regex>(?&lt;=[^\w\d]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
             </keywords>
             
-            <keywords id = "Function Calls" color = "#003369" useforautocomplete = "no" scope="language.function">
+            <keywords id="Function Calls" useforautocomplete="no" scope="language.function">
                 <regex>([A-Za-z0-9_]+ *)\(</regex>
             </keywords>
             
-            <keywords id = "JavaScript Reserved For Future Use Keywords" color = "#606000" useforautocomplete = "no" scope="keyword.type">
+            <keywords id="JavaScript Reserved For Future Use Keywords" useforautocomplete="no" scope="keyword.type">
                 <string>class</string>
                 <string>const</string>
                 <string>enum</string>
@@ -70,7 +70,7 @@
                 <string>volatile</string>
             </keywords>
             
-            <keywords id = "JavaScript Keywords" color = "#1A1AA6" useforautocomplete = "yes" scope="keyword.control.js">
+            <keywords id="JavaScript Keywords" useforautocomplete="yes" scope="keyword.control.js">
                 <string>__proto__</string>
                 <string>break</string>
                 <string>case</string>
@@ -103,7 +103,7 @@
                 <string>super</string>
             </keywords>
             
-            <keywords id = "Objective-J Keywords" color = "#751150" useforautocomplete = "yes" scope="keyword.type.objj">
+            <keywords id="Objective-J Keywords" useforautocomplete="yes" scope="keyword.type.objj">
                 <string>id</string>
                 <string>void</string>
                 <string>IBAction</string>
@@ -122,7 +122,7 @@
                 <string>short</string>
             </keywords>
 
-            <keywords id = "Objective-J Named Constants" color = "#751150" useforautocomplete = "yes" scope="constant.numeric">
+            <keywords id="Objective-J Named Constants" useforautocomplete="yes" scope="constant.numeric.keyword">
                 <string>null</string>
                 <string>NULL</string>
                 <string>nil</string>
@@ -132,8 +132,7 @@
                 <string>NaN</string>
             </keywords>
 
-            
-            <keywords id = "Objective-J Directives" color = "#1A1AA6" useforautocomplete = "yes" scope="keyword.directive.objj">
+            <keywords id="Objective-J Directives" useforautocomplete="yes" scope="keyword.directive.objj">
                 <string>@accessors</string>
                 <string>@class</string>
                 <string>@end</string>
@@ -150,15 +149,15 @@
                 <string>@selector</string>
             </keywords>
             
-<!--             <keywords id = "Objective-J Selector" color = "#003369" casesensitive = "yes" scope="language.method">
+            <keywords id="Objective-J Selector" casesensitive="yes" scope="language.function">
                 <regex>[^:]\([^)]*\)[   ]*([A-Za-z0-9_]+)[  ]*[{;]</regex>
                 <regex>\)[  ]*([A-Za-z0-9_]+:)</regex>
                 <regex>([A-Za-z0-9_]+:)</regex>
                 <regex>([A-Za-z0-9_]+)]</regex>
                 <regex>[\-\+][  ]*\([A-Za-z0-9_]+\)[  ]*([A-Za-z0-9_]+)</regex>
             </keywords>
- -->            
-            <keywords id = "Cappuccino Classes" color = "#751150" background-color = "#fff" font-weight = "normal" font-style = "normal" casesensitive = "yes" useforautocomplete = "yes" scope="support.class.standard.objj">
+            
+            <keywords id="Cappuccino Classes" casesensitive="yes" useforautocomplete="yes" scope="support.class.standard.objj">
                 <string>CPAccessibility</string>
                 <!-- <string>CPActionCell</string> -->
                 <string>CPAffineTransform</string>
@@ -607,7 +606,7 @@
                 <string>CPXMLNode</string>
             </keywords>
                         
-            <keywords id = "Cappuccino Types" color = "#400080" font-weight = "normal" font-style = "italic" useforautocomplete = "yes" scope="support.class.standard.obj">
+            <keywords id="Cappuccino Types" useforautocomplete="yes" scope="support.class.standard.obj">
                 <string>CPAffineTransformStruct</string>
                 <string>CPApplicationTerminateReply</string>
                 <string>CPBackingStoreType</string>
@@ -746,7 +745,7 @@
                 <string>CPCompositingOperation</string>
             </keywords>
             
-            <keywords id = "Cappuccino Constants" color = "#400080" font-weight = "normal" font-style = "italic" useforautocomplete = "yes" scope="support.constant.objj">
+            <keywords id="Cappuccino Constants" useforautocomplete="yes" scope="support.constant.objj">
                 <string>CPDecimalMaxSize</string>
                 <string>CPDecimalNoScale</string>
                 <string>CPMaximumStringLength</string>
@@ -2809,7 +2808,7 @@
             
         </default>
 
-        <state id = "Objective-J Imports" color = "#683821" background-color = "none" scope="meta.default">
+        <state id="Objective-J Imports" background-color="none" scope="meta.default">
             <begin><regex>^\s*@?import</regex></begin>
             <end><regex>((?&lt;=[^\\])[\n\r])|(^[\n\r])</regex></end>
             <import />
@@ -2819,30 +2818,30 @@
             </state>
         </state>
 
-        <state id = "Characters" color = "#00f" background-color = "none" font-weight = "normal" font-style = "normal" scope="constant.numeric.character">
+        <state id="Characters" background-color="none" scope="constant.numeric.character">
             <begin><regex>'(?=\\?.')</regex></begin>
             <end><regex>(\\'')|(.')</regex></end>
         </state>
 
-        <state id="Autodoc Comment" type="comment" color="#236E25" background-color="none" font-style="italic" scope="comment.block.documentation"> <!-- STUDIO added types below -->
+        <state id="Autodoc Comment" type="comment" background-color="none" font-style="italic" scope="comment.block.documentation"> <!-- STUDIO added types below -->
             <begin><regex>/\*"</regex></begin>
             <end><regex>"\*/</regex></end>
 			<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
         </state>
 
-        <state id="Comment" type="comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic" scope="comment.block">
+        <state id="Comment" type="comment" background-color="none" font-weight="normal" font-style="italic" scope="comment.block">
             <begin><regex>/\*</regex></begin>
             <end><regex>\*/</regex></end>
 			<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
         </state>
         
-        <state id="Single Line Comment" type="comment" color="#236E25" background-color="none" font-weight="normal" font-style="italic" scope="comment.line">
+        <state id="Single Line Comment" type="comment" background-color="none" font-weight="normal" font-style="italic" scope="comment.line">
             <begin><regex>//</regex></begin>
             <end><regex>[\n\r]</regex></end>
 			<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
         </state>
         
-        <state id="String" type="string" color="#760f15" background-color="none" font-weight="normal" font-style="normal" usespellchecking="yes" scope="string.double.nsstring.objj">
+        <state id="String" type="string" background-color="none" font-weight="normal" font-style="normal" usespellchecking="yes" scope="string.double.nsstring.objj">
             <begin><string>@?"</string></begin>
             <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
         </state>

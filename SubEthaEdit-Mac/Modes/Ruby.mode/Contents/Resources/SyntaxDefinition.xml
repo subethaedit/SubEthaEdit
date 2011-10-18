@@ -10,8 +10,8 @@
     
     <states>
     
-        <default id="Base" color="#000" scope="meta.default">
-            <keywords id="Literals" color="#0000cc" inverted-color="#7d9ffa" useforautocomplete="yes" scope="constant.numeric.keyword">
+        <default id="Base" scope="meta.default">
+            <keywords id="Literals" useforautocomplete="yes" scope="constant.numeric.keyword">
                 <string>true</string>
                 <string>false</string>
                 <string>nil</string>
@@ -19,13 +19,13 @@
 				<string>FALSE</string>
 				<string>NIL</string>
             </keywords>
-            <keywords id="Attribute Definitions" color="#514bcf" inverted-color="#7d9ffa" useforautocomplete="yes" scope="support.accessor">
+            <keywords id="Attribute Definitions" useforautocomplete="yes" scope="support.accessor">
                 <string>attr</string>
                 <string>attr_reader</string>
                 <string>attr_writer</string>
                 <string>attr_accessor</string>
             </keywords>
-            <keywords id="Definitions" color="#881350" inverted-color="#7d9ffa" font-weight="bold" useforautocomplete="yes" scope="keyword.type">
+            <keywords id="Definitions"  useforautocomplete="yes" scope="keyword.type">
                 <string>alias</string>
                 <string>undef</string>
                 <string>extend</string>
@@ -33,7 +33,7 @@
                 <string>private</string>
                 <string>protected</string>
             </keywords>
-            <keywords id="Keywords" color="#881350" inverted-color="#7d9ffa" font-weight="bold" useforautocomplete="yes" scope="keyword.control">
+            <keywords id="Keywords"  useforautocomplete="yes" scope="keyword.control">
                 <string>module</string>
                 <string>class</string>
                 <string>def</string>
@@ -70,7 +70,7 @@
                 <string>while</string>
                 <string>yield</string>
             </keywords>
-            <keywords id="Builtin Functions" color="#881350" inverted-color="#9469f9"  font-style="normal" useforautocomplete="yes" scope="keyword.function">
+            <keywords id="Builtin Functions"   useforautocomplete="yes" scope="keyword.function">
                 <string>abort</string>
                 <string>at_exit</string>
                 <string>autoload</string>
@@ -130,7 +130,7 @@
                 <string>trap</string>
                 <string>untrace_var</string>
             </keywords>
-            <keywords id="Builtin Classes" color="#881350" inverted-color="#9469f9"  font-style="normal" font-weight="bold" useforautocomplete="yes" scope="keyword.class">
+            <keywords id="Builtin Classes"    useforautocomplete="yes" scope="keyword.class">
                 <string>Abbrev</string>
                 <string>ArgumentError</string>
                 <string>Array</string>
@@ -280,7 +280,7 @@
                 <string>ZStream</string>
                 <string>fatal</string>
             </keywords>
-            <keywords id="Builtin Globals" color="#a1617a" inverted-color="#9e5e77"  font-style="normal" font-weight="normal" useforautocomplete="yes"  scope="language.variable.global.builtin">
+            <keywords id="Builtin Globals"    useforautocomplete="yes"  scope="language.variable.global.builtin">
             	<!--Ones with chars not defined as variable parse chars won't work-->
             	<!--Need a clever way around this as adding them makes things not parse right everywhere else-->
             	<string>$!</string>
@@ -335,7 +335,10 @@
 				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$')(?=[^[_A-Za-z0-9]]|$)</regex>
 				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$\+)(?=[^[_A-Za-z0-9]]|$)</regex>
             </keywords>
-            <keywords id="Numbers" color="#0000ff" inverted-color="#4afc5b"  font-style="normal" font-weight="normal" useforautocomplete="no" scope="constant.numeric">
+            <keywords id="Operators" useforautocomplete="no" scope="language.operator">
+							<regex>([\+\-\*\\\=\|\!&lt;&gt;\/\%&amp;\^\~\@\.\?:])</regex>
+            </keywords>
+            <keywords id="Numbers"    useforautocomplete="no" scope="constant.numeric">
             	<!-- Floating point, sci notation -->
             	<regex>(?&lt;=[^[_A-Za-z0-9]]|^)([+-]?[0-9]+[eE][+-]?[0-9]+)(?=[^[_A-Za-z0-9]]|$)</regex>
             	<regex>(?&lt;=[^[_A-Za-z0-9]]|^)([+-]?[0-9]+\.[0-9]+[eE][+-]?[0-9]+)(?=[^[_A-Za-z0-9]]|$)</regex>
@@ -347,63 +350,63 @@
 				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(0[xX][0-9a-fA-F]+)(?=[^[_A-Za-z0-9]]|$)</regex>
 				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(0[bB][01]+)(?=[^[_A-Za-z0-9]]|$)</regex>
 			</keywords>
-            <keywords id="Character Constants" color="#0000ff" inverted-color="#4afc5b"  font-style="normal" font-weight="normal" useforautocomplete="no" scope="constant.numeric.character">
+            <keywords id="Character Constants"    useforautocomplete="no" scope="constant.numeric.character">
 				<!-- Numbers generated by looking at character constants, like ?d and ?\n -->
 				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\?(?:\\)?[!-~])(?=[^[-_A-Za-z0-9]]|$)</regex>
 				<!-- hex characters -->
 				<regex>(\\x[0-9a-fA-F]{2,4}|\\x\{[0-9a-fA-F]{2,4}\})</regex>
 			</keywords>
-			<keywords id="Symbols" color="#d6771c" inverted-color="#fac586"  font-style="normal" font-weight="normal" useforautocomplete="no" scope="string.symbol">
+			<keywords id="Symbols"    useforautocomplete="no" scope="string.symbol">
                 <regex>(?&lt;!:)(:(?:(?:@@|@|\$)?[A-Za-z_][A-Za-z_0-9]*[\?!=]?|\[\]=?))</regex>
 			</keywords>
-            <keywords id="Instance Variables" color="#c94b16" inverted-color="#6699cc"  font-style="normal" font-weight="normal" useforautocomplete="no" scope="language.variable.instance">
+            <keywords id="Instance Variables"    useforautocomplete="no" scope="language.variable.instance">
             	<regex>(?&lt;=[^[_A-Za-z0-9@:]]|^)(@[A-Za-z0-9_]+)(?=[^[_A-Za-z0-9]]|$)</regex>
             </keywords>
-            <keywords id="Class Variables" color="#008c8c" inverted-color="#73ffff"  font-style="normal" font-weight="normal" useforautocomplete="no" scope="language.variable.class">
+            <keywords id="Class Variables"    useforautocomplete="no" scope="language.variable.class">
             	<regex>(?&lt;=[^[_A-Za-z0-9:]]|^)(@@[A-Za-z0-9_]+)(?=[^[_A-Za-z0-9]]|$)</regex>
             </keywords>
-            <keywords id="Global Variables" color="#8a578f" inverted-color="#a370a8"  font-style="normal" font-weight="normal" useforautocomplete="no" scope="language.variable.global">
+            <keywords id="Global Variables"    useforautocomplete="no" scope="language.variable.global">
             	<regex>(?&lt;=[^[_A-Za-z0-9:]]|^)(\$[A-Za-z0-9_]+)(?=[^[_A-Za-z0-9]]|$)</regex>
             </keywords>
         
-            <state id="String with double quotes" type="string" color="#760f15" inverted-color="#f28720"  font-style="normal" font-weight="normal" scope="string.double">
+            <state id="String with double quotes" type="string"    scope="string.double">
                 <begin><regex>"</regex></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
 
-                <state id="Interpolation"  color="#3e5f5e" inverted-color="#669999"  font-style="italic" font-weight="normal" scope="meta.block.interpolation">
+                <state id="Interpolation"     scope="meta.block.interpolation">
                 <begin><regex>#{</regex></begin>
                 <end><regex>}</regex></end>
                 <import />
                 </state>
             </state>
     
-            <state id="String with single quotes" type="string" color="#760f15" inverted-color="#f48700"  font-style="normal" font-weight="normal" scope="string.single">
+            <state id="String with single quotes" type="string"    scope="string.single">
                 <begin><regex>(?&lt;!\$)(?:')</regex></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
             </state>
 
 
 			<!-- actually heredocs start in the next line, so a way to recolor everything from start to end of line again in normal colors would be good. -->
-            <state id="Heredoc" color="#760f15" inverted-color="#f48700" font-weight="normal" font-style="normal" foldable="yes" scope="string.here-doc">
+            <state id="Heredoc"   foldable="yes" scope="string.here-doc">
                 <begin><string>(?:(?&lt;=[=\s+*\({\[])|^)&lt;&lt;(?:(?'heredoc'[_A-Za-z][A-Za-z0-9_]*)|(?:'\g'heredoc'')|(?:"\g'heredoc'"))</string></begin>
                 <end><regex>^(?#see-insert-start-group:heredoc)</regex></end>
                 <state-link state="Interpolation"/>
             </state>
 
-            <state id="Heredoc Indented End" color="#760f15" inverted-color="#f48700" font-weight="normal" font-style="normal" foldable="yes" scope="string.here-doc.intended">
+            <state id="Heredoc Indented End"   foldable="yes" scope="string.here-doc.intended">
                 <begin><string>(?:(?&lt;=[=\s+*\({\[])|^)&lt;&lt;\-?(?:(?'heredocindented'[_A-Za-z][A-Za-z0-9_]*)|(?:'\g'heredocindented'')|(?:"\g'heredocindented'"))</string></begin>
                 <end><regex>^[ \t]*(?#see-insert-start-group:heredocindented)</regex></end>
                 <state-link state="Interpolation"/>
             </state>
 
-            <state id="Percent Strings" type="string" color="#760f15" inverted-color="#f48700" font-weight="normal" font-style="normal" foldable="yes" scope="string.percentage">
+            <state id="Percent Strings" type="string"   foldable="yes" scope="string.percentage">
                 <begin><regex>%(?:Q|q)?(?'percentstringchar'[^\s{\[\(&lt;A-Za-z0-9>])</regex></begin>
                 <end><regex>(?#see-insert-start-group:percentstringchar)</regex></end>
 				<state-link state="Interpolation"/>
             </state>
 
 			<!-- these work with all kinds of brackets, {[(<>)]} http://www.zenspider.com/Languages/Ruby/QuickRef.html -->
-            <state id="Percent Strings {" type="string" color="#760f15" inverted-color="#f48700" font-weight="normal" font-style="normal" foldable="yes" scope="string.percentage.curly">
+            <state id="Percent Strings {" type="string"   foldable="yes" scope="string.percentage.curly">
                 <begin><regex>%[Qq]?{</regex></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)}</regex></end>
                 <state-link state="Interpolation"/>
@@ -414,7 +417,7 @@
 				</state>
             </state>
 
-            <state id="Percent Strings (" type="string" color="#760f15" inverted-color="#f48700" font-weight="normal" font-style="normal" foldable="yes" scope="string.percentage.parentheses">
+            <state id="Percent Strings (" type="string"   foldable="yes" scope="string.percentage.parentheses">
                 <begin><regex>%[Qq]?\(</regex></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)\)</regex></end>
                 <state-link state="Interpolation"/>
@@ -425,7 +428,7 @@
 				</state>
             </state>
 
-            <state id="Percent Strings &lt;" type="string" color="#760f15" inverted-color="#f48700" font-weight="normal" font-style="normal" foldable="yes" scope="string.percentage.angle">
+            <state id="Percent Strings &lt;" type="string"   foldable="yes" scope="string.percentage.angle">
                 <begin><regex>%[Qq]?&lt;</regex></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)></regex></end>
                 <state-link state="Interpolation"/>
@@ -436,7 +439,7 @@
 				</state>
             </state>
 
-            <state id="Percent Strings [" type="string" color="#760f15" inverted-color="#f48700" font-weight="normal" font-style="normal" foldable="yes" scope="string.percentage.bracket">
+            <state id="Percent Strings [" type="string"   foldable="yes" scope="string.percentage.bracket">
                 <begin><regex>%[Qq]?\[</regex></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)]</regex></end>
                 <state-link state="Interpolation"/>
@@ -450,150 +453,150 @@
 
 			<!-- Execution Coloring -->
 
-            <state id="Backticks" color="#b80f15" inverted-color="#737373" font-style="normal" font-weight="normal" scope="string.exec.backticks">
+            <state id="Backticks"   scope="string.exec.backticks">
                 <begin><regex>(?&lt;!\$)(?:`)</regex></begin>
                 <end><regex>(?:(?:(?&lt;!\\)(\\\\)*)|^)`</regex></end>
             </state>
             
-            <state id="Percent Execution" type="string" color="#b80f15" inverted-color="#737373" font-style="normal" font-weight="normal" foldable="yes" scope="string.exec.percentx">
+            <state id="Percent Execution" type="string"   foldable="yes" scope="string.exec.percentx">
                 <begin><regex>%x(?'percentexecutionchar'[^\s{\[\(&lt;A-Za-z0-9])</regex></begin>
                 <end><regex>(?#see-insert-start-group:percentexecutionchar)</regex></end>
 				<state-link state="Interpolation"/>
             </state>
 
 			<!-- these work with all kinds of bracets, {[(<>)]} http://www.zenspider.com/Languages/Ruby/QuickRef.html -->
-            <state id="Percent Execution {" type="string" color="#b80f15" inverted-color="#737373" font-style="normal" font-weight="normal" foldable="yes" scope="string.exec.percentx.curly">
+            <state id="Percent Execution {" type="string"   foldable="yes" scope="string.exec.percentx.curly">
                 <begin><regex>%x{</regex></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)}</regex></end>
 				<import state="Percent Strings {" />
             </state>
 
-            <state id="Percent Execution (" type="string" color="#b80f15" inverted-color="#737373" font-style="normal" font-weight="normal" foldable="yes" scope="string.exec.percentx.parentheses">
+            <state id="Percent Execution (" type="string"   foldable="yes" scope="string.exec.percentx.parentheses">
                 <begin><regex>%x\(</regex></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)\)</regex></end>
 				<import state="Percent Strings (" />
             </state>
 
-            <state id="Percent Execution &lt;" type="string" color="#b80f15" inverted-color="#737373" font-style="normal" font-weight="normal" foldable="yes" scope="string.exec.percentx.angle">
+            <state id="Percent Execution &lt;" type="string"   foldable="yes" scope="string.exec.percentx.angle">
                 <begin><regex>%x&lt;</regex></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)></regex></end>
 				<import state="Percent Strings &lt;" />
             </state>
 
-            <state id="Percent Execution [" type="string" color="#b80f15" inverted-color="#737373" font-style="normal" font-weight="normal" foldable="yes" scope="string.exec.percentx.bracket">
+            <state id="Percent Execution [" type="string"   foldable="yes" scope="string.exec.percentx.bracket">
                 <begin><regex>%x\[</regex></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)]</regex></end>
 				<import state="Percent Strings [" />
             </state>
 
-            <state id="Regexp" color="#c700c2" inverted-color="#ff38fa"  font-style="normal" font-weight="normal" scope="string.regex">
+            <state id="Regexp"    scope="string.regex">
                 <begin><regex>(?x)(?:^|(?&lt;=[=>~(:\[,\|&amp;;]|(?:\s|;)when\s|(?:\s|;)or\s|(?:\s|;)and\s|(?:\s|;)not\s|(?:\s|;|\.)index\s|(?:\s|;|\.)scan\s|(?:\s|;|\.)sub\s|(?:\s|l|\.)sub!\s|(?:\s|;|\.)gsub\s|(?:\s|;|\.)gsub!\s|(?:\s|;|\.)match\s|(?:\s|;)if\s|(?:\s|;)elsif\s|(?:\s|;)while\s|(?:\s|;)unless\s)|(?&lt;=^when\s|^index\s|^scan\s|^sub\s|^gsub\s|^sub!\s|^gsub!\s|^match\s|^if\s|^elsif\s|^while\s|^unless\s))\s*(?:/)(?![*+{}?\n\r])|(?&lt;!\d)(?:/)[^"'](?=[^/\r\n]*/(?:$|[^\d]))</regex></begin>
                 <end><regex>(?:(?:(?&lt;!\\)(\\\\)*)|^)/[eimnosux]*</regex></end>
                 <state-link state="Interpolation"/>
             </state>
 
-            <state id="Percent Regex" color="#c700c2" inverted-color="#ff38fa"  font-style="normal" font-weight="normal" scope="string.regex.percentage">
+            <state id="Percent Regex"    scope="string.regex.percentage">
                 <begin><regex>%r(?'percentregularchar'[^\s{\[\(&lt;A-Za-z0-9])</regex></begin>
                 <end><regex>(?#see-insert-start-group:percentregularchar)</regex></end>
 				<state-link state="Interpolation"/>
             </state>
 
 			<!-- these work with all kinds of bracets, {[(<>)]} http://www.zenspider.com/Languages/Ruby/QuickRef.html -->
-            <state id="Percent Regex {" color="#c700c2" inverted-color="#ff38fa"  font-style="normal" font-weight="normal" scope="string.regex.percentage.curly">
+            <state id="Percent Regex {"    scope="string.regex.percentage.curly">
                 <begin><regex>%r{</regex></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)}</regex></end>
 				<import state="Percent Strings {" />
             </state>
 
-            <state id="Percent Regex (" color="#c700c2" inverted-color="#ff38fa"  font-style="normal" font-weight="normal" scope="string.regex.percentage.parentheses">
+            <state id="Percent Regex ("    scope="string.regex.percentage.parentheses">
                 <begin><regex>%r\(</regex></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)\)</regex></end>
 				<import state="Percent Strings (" />
             </state>
 
-            <state id="Percent Regex &lt;" color="#c700c2" inverted-color="#ff38fa"  font-style="normal" font-weight="normal" scope="string.regex.percentage.angle">
+            <state id="Percent Regex &lt;"    scope="string.regex.percentage.angle">
                 <begin><regex>%r&lt;</regex></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)></regex></end>
 				<import state="Percent Strings &lt;" />
             </state>
 
-            <state id="Percent Regex [" color="#c700c2" inverted-color="#ff38fa"  font-style="normal" font-weight="normal" scope="string.regex.percentage.bracket">
+            <state id="Percent Regex ["    scope="string.regex.percentage.bracket">
                 <begin><regex>%r\[</regex></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)]</regex></end>
 				<import state="Percent Strings [" />
             </state>
 
 			<!-- Symbol Coloring -->
-            <state id="Percent Symbol" color="#d6771c" inverted-color="#fac586"  font-style="normal" font-weight="normal" scope="string.symbol.percent">
+            <state id="Percent Symbol"    scope="string.symbol.percent">
                 <begin><regex>%s(?'percentsymbolchar'[^\s{\[\(&lt;A-Za-z0-9])</regex></begin>
                 <end><regex>(?#see-insert-start-group:percentsymbolchar)</regex></end>
 				<state-link state="Interpolation"/>
             </state>
 
 			<!-- these work with all kinds of bracets, {[(<>)]} http://www.zenspider.com/Languages/Ruby/QuickRef.html -->
-            <state id="Percent Symbol {"    color="#d6771c" inverted-color="#fac586"  font-style="normal" font-weight="normal" scope="string.symbol.percent.curly">
+            <state id="Percent Symbol {"       scope="string.symbol.percent.curly">
                 <begin><regex>%s{</regex></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)}</regex></end>
 				<import state="Percent Strings {" />
             </state>
 
-            <state id="Percent Symbol ("    color="#d6771c" inverted-color="#fac586"  font-style="normal" font-weight="normal" scope="string.symbol.percent.parentheses">
+            <state id="Percent Symbol ("       scope="string.symbol.percent.parentheses">
                 <begin><regex>%s\(</regex></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)\)</regex></end>
 				<import state="Percent Strings (" />
             </state>
 
-            <state id="Percent Symbol &lt;" color="#d6771c" inverted-color="#fac586"  font-style="normal" font-weight="normal" scope="string.symbol.percent.angle">
+            <state id="Percent Symbol &lt;"    scope="string.symbol.percent.angle">
                 <begin><regex>%s&lt;</regex></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)></regex></end>
 				<import state="Percent Strings &lt;" />
             </state>
 
-            <state id="Percent Symbol ["    color="#d6771c" inverted-color="#fac586"  font-style="normal" font-weight="normal" scope="string.symbol.percent.bracket">
+            <state id="Percent Symbol ["       scope="string.symbol.percent.bracket">
                 <begin><regex>%s\[</regex></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)]</regex></end>
 				<import state="Percent Strings [" />
             </state>
 
 			<!-- W array Coloring -->
-            <state id="Percent Array"      color="#760f15" inverted-color="#f48700"  font-style="normal" font-weight="normal" scope="string.array.percent">
+            <state id="Percent Array"         scope="string.array.percent">
                 <begin><regex>%[wW](?'percentarraychar'[^\s{\[\(&lt;A-Za-z0-9])</regex></begin>
                 <end><regex>(?#see-insert-start-group:percentarraychar)</regex></end>
 				<state-link state="Interpolation"/>
             </state>
 
 			<!-- these work with all kinds of bracets, {[(<>)]} http://www.zenspider.com/Languages/Ruby/QuickRef.html -->
-            <state id="Percent Array {"    color="#760f15" inverted-color="#f48700"  font-style="normal" font-weight="normal" scope="string.array.percent.curly">
+            <state id="Percent Array {"       scope="string.array.percent.curly">
                 <begin><regex>%[wW]{</regex></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)}</regex></end>
 				<import state="Percent Strings {" />
             </state>
 
-            <state id="Percent Array ("    color="#760f15" inverted-color="#f48700"  font-style="normal" font-weight="normal" scope="string.array.percent.parentheses">
+            <state id="Percent Array ("       scope="string.array.percent.parentheses">
                 <begin><regex>%[wW]\(</regex></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)\)</regex></end>
 				<import state="Percent Strings (" />
             </state>
 
-            <state id="Percent Array &lt;" color="#760f15" inverted-color="#f48700"  font-style="normal" font-weight="normal" scope="string.array.percent.angle">
+            <state id="Percent Array &lt;"    scope="string.array.percent.angle">
                 <begin><regex>%[wW]&lt;</regex></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)></regex></end>
 				<import state="Percent Strings &lt;" />
             </state>
 
-            <state id="Percent Array ["    color="#760f15" inverted-color="#f48700"  font-style="normal" font-weight="normal" scope="string.array.percent.bracket">
+            <state id="Percent Array ["       scope="string.array.percent.bracket">
                 <begin><regex>%[wW]\[</regex></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)]</regex></end>
 				<import state="Percent Strings [" />
             </state>
 
-            <state id="Singleline Comment" type="comment" color="#236e25" inverted-color="#ff4a4a" font-style="normal" font-weight="normal" scope="comment.line">
+            <state id="Singleline Comment" type="comment"   scope="comment.line">
                 <begin><regex>#</regex></begin>
                 <end><regex>[\n\r]</regex></end>
 	            <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
             
-            <state id="POD Comments" type="comment" color="#800000" inverted-color="#ff7f7f"  font-style="normal" font-weight="normal" scope="comment.block.documentation">
+            <state id="POD Comments" type="comment"    scope="comment.block.documentation">
                 <begin><regex>(?:^=begin)</regex></begin>
                 <end><regex>^=end</regex></end>
             </state>

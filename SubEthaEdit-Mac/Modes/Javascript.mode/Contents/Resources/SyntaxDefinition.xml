@@ -10,9 +10,9 @@
 
     <states>
     
-       <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" scope="meta.default">
+       <default id="Base" scope="meta.default">
 
-            <keywords id="Objects" color="#881350" useforautocomplete="yes" font-weight="bold" scope="support.class.standard.js">
+            <keywords id="Objects" useforautocomplete="yes" scope="support.class.standard.js">
                 <string>Object</string>
                 <string>Function</string>
                 <string>String</string>
@@ -31,7 +31,7 @@
                 <string>URIError</string>
             </keywords>
 
-            <keywords id="Keywords" color="#881350" useforautocomplete="yes" font-weight="bold" scope="keyword.control.js">
+            <keywords id="Keywords" useforautocomplete="yes" scope="keyword.control.js">
                 <string>break</string>
                 <string>case</string>
                 <string>catch</string>
@@ -76,7 +76,7 @@
                 
             </keywords>
 
-            <keywords id="Types" color="#881350" useforautocomplete="yes" font-style="italic" scope="keyword.type.js">
+            <keywords id="Types" useforautocomplete="yes" scope="keyword.type.js">
                 <string>boolean</string>
                 <string>byte</string>
                 <string>char</string>
@@ -90,11 +90,15 @@
                 <string>void</string>
             </keywords>
 
-            <keywords id="Numbers" color="#00f" inverted-color="#5d56ff" useforautocomplete="no" scope="constant.numeric.js">
+            <keywords id="Operators" useforautocomplete="no" scope="language.operator">
+							<regex>([\+\-\*\/\=\!\&lt;\&gt;\%])</regex>
+            </keywords>
+
+            <keywords id="Numbers" inverted-color="#5d56ff" useforautocomplete="no" scope="constant.numeric.js">
 				<regex>(?&lt;![\w\d\._])((?:(?:(?:[0-9]+\.[0-9]*)|(\.[0-9]+))(?:[eE][+\-]?[0-9]+)?[fFlL]?)|(?:(?:(?:[1-9][0-9]*)|0(?:[1-7][0-7]*)?|(?:0[xX][0-9a-fA-F]+))(?:(?:[uU][lL]?)|(?:[lL][uU]?))?))(?![\w\d\._])</regex>
             </keywords>
 
-            <keywords id="Number Literals" color="#00f" inverted-color="#5d56ff" font-weight="bold" useforautocomplete="YES" scope="constant.numeric.keyword.js">
+            <keywords id="Number Literals" inverted-color="#5d56ff" useforautocomplete="YES" scope="constant.numeric.keyword.js">
                 <string>true</string>
                 <string>false</string>
                 <string>null</string>
@@ -103,43 +107,43 @@
                 <string>undefined</string>
             </keywords>
 
-            <keywords id="FunctionRegex" color="#003369" useforautocomplete="no" scope="language.function.js">
+            <keywords id="FunctionRegex" useforautocomplete="no" scope="language.function.js">
 				<regex>([\$A-Za-z0-9_]+[ \t]*)\(</regex>
             </keywords>
         
-            <state id="AutodocComment" type="comment" color="#236E25" font-weight="bold" font-style="italic" scope="comment.block.documentation.js">
+            <state id="AutodocComment" type="comment" scope="comment.block.documentation.js">
                 <begin><regex>/\*"</regex></begin>
                 <end><regex>"\*/</regex></end>
             </state>
     
-            <state id="Comment" type="comment" color="#236E25" font-weight="normal" font-style="italic" scope="comment.block.js">
+            <state id="Comment" type="comment" scope="comment.block.js">
                 <begin><regex>/\*</regex><autoend>\*/</autoend></begin>
                 <end><regex>\*/</regex></end>
                 <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
             
-            <state id="SingleComment" type="comment" color="#236E25" font-weight="normal" font-style="italic" scope="comment.line.double-slash.js">
+            <state id="SingleComment" type="comment" scope="comment.line.double-slash.js">
                 <begin><regex>//</regex></begin>
                 <end><regex>[\n\r]</regex></end>
                 <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
             
-            <state id="Regular Expressions" type="string" color="#760f15" scope="string.regexp.js">
+            <state id="Regular Expressions" type="string" scope="string.regex.js">
                 <begin><regex>(?&lt;![&lt;/])/.*?[^\\](?=/[^\n\r]*(?:;|\)|,|[\n\r]))</regex></begin>
                 <end><regex>/[cgimosx]*</regex></end>
             </state>
     
-            <state id="String" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="string.double.js">
+            <state id="String" type="string" scope="string.double.js">
                 <begin><regex>"</regex></begin>
                 <end><regex>(?&lt;!\\)(\\\\)*"</regex></end>
             </state>
     
-            <state id="SingleString" type="string" color="#760f15" font-weight="normal" font-style="normal" scope="string.single.js">
+            <state id="SingleString" type="string" scope="string.single.js">
                 <begin><regex>'</regex></begin>
                 <end><regex>(?&lt;!\\)(\\\\)*'</regex></end>
             </state>
 
-            <state id="Block" type="block" foldable="yes" indent="yes" color="#000" background-color="#fff" scope="meta.block.curly">
+            <state id="Block" type="block" foldable="yes" indent="yes" scope="meta.block.curly">
                 <begin><regex>{</regex><autoend>}</autoend></begin>
                 <end><regex>}</regex></end>
                 <import mode="Javascript" />
