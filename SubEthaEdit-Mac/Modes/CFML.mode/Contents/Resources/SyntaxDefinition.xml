@@ -102,17 +102,6 @@
 
 			</state>
 
-			<state id="CFML Tags" scope="markup.tag">
-				<begin><regex>&lt;(?=(?i)/?cf)</regex></begin>
-				<end><regex>&gt;</regex></end>
-
-				<import state="CFML Code" />
-
-				<keywords id="CFML Attributes in Tags" useforautocomplete="no" scope="markup.tag.attribute.name">
-					<regex>([\w-]*)(?=[ \t]*=)</regex>
-				</keywords>
-
-			</state>
 
 
 <state id="CFML Code" useforautocomplete="no" containerState="yes" usesymbolsfrommode="CFML" useautocompletefrommode="CFML" scope="meta.default">
@@ -122,25 +111,23 @@
 		<regex>([A-Za-z0-9_]+ *)\(</regex>
 	</keywords>
 
-	<state id="CFML Strings" type="string" useforautocomplete="no" scope="string.double">
+	<state id="CFML Double Strings" type="string" useforautocomplete="no" scope="string.double">
 		<begin><regex>"</regex></begin>
 		<end><regex>"</regex></end>
-        
         <import state="CFML Output Variables State" keywords-only="yes" />
-
 	</state>
 
-	<state id="CFML Strings 2" type="string" useforautocomplete="no" usespellchecking="yes" scope="string.single">
+	<state id="CFML Single Strings" type="string" useforautocomplete="no" usespellchecking="yes" scope="string.single">
 		<begin><regex>'</regex></begin>
 		<end><regex>'</regex></end>
-
-		<import state="CFML Strings" />
+        <import state="CFML Output Variables State" keywords-only="yes" />
 	</state>
 
 	<state id="Block" type="block" foldable="yes" scope="meta.block.curly">
 		<begin><regex>(?:(?&lt;=\s)(?:if|else|else\s+if|for|while|do|switch|case)\s*(?:\([^#{\n\r]*?\))?)?\s*{</regex></begin>
 		<end><regex>}</regex></end>
-		<import state="CFML Code"/>
+		<import state="CFML Code" />
+        <import state="CFML Output Variables State" keywords-only="yes" />
 	</state>
 
 	<keywords id="Control Keywords" useforautocomplete="yes" scope="keyword.control">
@@ -799,6 +786,60 @@
 					<import mode="Javascript" keywords-only="yes"/>
 					<import mode="ERB" state="Inline Javascript"/>
 				</state>
+			</state>
+
+			<state id="CFML Tags With Content" foldable="yes" scope="meta default">
+				<begin>
+					<regex>&lt;\s*(?'cfmlcontenttag'(?i)cf(?:function|invoke|loop|component)\b[-:_\w]*)\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*></regex>
+					<autoend>&lt;/\g&lt;cfmlcontenttag>></autoend>
+				</begin>
+				<end>
+					<regex>&lt;\s*/\s*(?#see-insert-start-group:cfmlcontenttag)\s*></regex>
+				</end>
+				<import mode="XML" keywords-only="yes"/>
+				<import />
+				<import state="CFML Output Variables State" keywords-only="yes" />
+			</state>
+
+			<state id="CFML If Tags" foldable="yes" scope="meta.default">
+				<begin>
+					<regex>&lt;(?=\s*(?'cfmliftag'(?i)cf(?:if)[-:_\w]*)\s*(?:.*)*\s*>)</regex>
+					<autoend>&lt;/\g&lt;cfmliftag>></autoend>
+				</begin>
+				<end>
+					<regex>&lt;\s*/\s*(?#see-insert-start-group:cfmliftag)\s*></regex>
+				</end>
+				<state id="CFML Code in Tags" scope="meta.default">
+					<begin><regex>cfif</regex></begin>
+					<end><regex>></regex></end>
+					<keywords id="tag coloring in if tags" scope="markup.tag">
+						<regex>(>)</regex>
+						<regex>(cfif)</regex>
+						<regex>(&lt;)(?=cfif)</regex>
+					</keywords>
+					<import state="CFML Code"/>
+				</state>
+					<keywords id="opening tag coloring" scope="markup.tag">
+						<regex>(>)</regex>
+						<regex>(cfif)</regex>
+						<regex>(&lt;)</regex>
+					</keywords>
+				<import mode="XML" keywords-only="yes"/>
+				<import />
+				<import state="CFML Output Variables State" keywords-only="yes" />
+			</state>
+
+
+			<state id="CFML Tags" scope="markup.tag">
+				<begin><regex>&lt;(?=(?i)cf)</regex></begin>
+				<end><regex>&gt;</regex></end>
+
+				<import state="CFML Code" />
+		        <import state="CFML Output Variables State" keywords-only="yes" />
+
+				<keywords id="CFML Attributes in Tags" useforautocomplete="no" scope="markup.tag.attribute.name">
+					<regex>([\w-]*)(?=[ \t]*=)</regex>
+				</keywords>
 			</state>
 
 			<state id="Single Tag with CFML State" foldable="no" scope="meta.default">
