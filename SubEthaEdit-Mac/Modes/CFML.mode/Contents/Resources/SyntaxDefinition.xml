@@ -6,6 +6,7 @@
 		<name>CFML</name> <!-- The definitions title -->
 		<charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@"]]></charsintokens> 
 		<charsincompletion><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@</=!>]]></charsincompletion> 
+		<folding toplevel="3" />
 	</head>
 
 	<states>
@@ -13,10 +14,6 @@
 		<default id="Base"  usesymbolsfrommode="CFML" useautocompletefrommode="CFML" usespellchecking="yes" scope="meta.default">
 
 			<import mode="XML" keywords-only="yes"/>
-			<state-link state="Comment" mode="XML" />
-			<state-link state="CDATA" mode="XML" />
-			<state-link state="Doctype" mode="XML" />
-			<state-link state="Escape" mode="XML" />
 
 			<state id="Inline CFML Script" useforautocomplete="no" usesymbolsfrommode="CFML" useautocompletefrommode="CFML" foldable="yes" scope="meta.default">
 				<begin><regex>&lt;(?i)cfscript&gt;</regex></begin>
@@ -48,47 +45,7 @@
 
 			</state>
 
-			<state id="Inline CSS" usesymbolsfrommode="CSS" useautocompletefrommode="CSS" scope="meta.block.css">
-				<begin><regex>&lt;(?=(?i)style)</regex></begin>
-				<end><regex>/(?i)style&gt;</regex></end>
-
-				<import mode="CSS"/>
-
-				<keywords id="Style Tags" >
-					<regex>(\A&lt;\Z)</regex>
-					<regex>(&lt;/(?i)style[^&gt;]*&gt;)</regex>
-				</keywords>
-
-				<state id="Opening Style Tag" usesymbolsfrommode="CFML" useautocompletefrommode="CFML">
-					<begin><regex>\A(?i)style</regex></begin>
-					<end><regex>&gt;</regex></end>
-
-					<import mode="XML" state="Tags" />
-				</state>
-
-			</state>
-
-			<state id="Inline Javascript" usesymbolsfrommode="Javascript" useautocompletefrommode="Javascript" scope="meta.block.js">
-				<begin><regex>&lt;(?=(?i)script.*?javascript.*&gt;)</regex></begin>
-				<end><regex>/(?i)script&gt;</regex></end>
-
-				<import mode="Javascript" />
-
-				<keywords id="Script Tags" >
-					<regex>(\A&lt;\Z)</regex>
-					<regex>(&lt;/(?i)script[^&gt;]*&gt;)</regex>
-				</keywords>
-
-				<state id="Opening Script Tag" usesymbolsfrommode="CFML" useautocompletefrommode="CFML">
-					<begin><regex>\A(?i)script</regex></begin>
-					<end><regex>&gt;</regex></end>
-
-					<import mode="XML" state="Tags" />
-				</state>
-
-			</state>
-
-			<state id="CFML Comment" background-color="none" type="markup.comment">
+			<state id="CFML Comment" background-color="none" type="comment" scope="markup.comment">
 				<begin><regex>&lt;!---</regex></begin>
 				<end><regex>[^&gt;]*---&gt;</regex></end>			
 			</state>
@@ -158,46 +115,6 @@
 			</state>
 
 
-			<state id="HTML Tags" usesymbolsfrommode="CFML" useautocompletefrommode="CFML" scope="markup.tag">
-				<begin><regex>&lt;</regex></begin>
-				<end><regex>&gt;</regex></end>
-
-				<state id="Strings in HTML Tags" type="string" useforautocomplete="no" usespellchecking="yes" scope="string.double">
-					<begin><regex>"</regex></begin>
-					<end><regex>"</regex></end>
-
-					<keywords id="Output Variables in HTML Strings" useforautocomplete="no" usespellchecking="yes" scope="string">
-						<!-- CODA <regex>(#[^&lt;&gt;#]+#)</regex> -->
-						<regex>(#[^&lt;&gt;\{\(#]+#)</regex>
-					</keywords>
-				</state>
-
-				<state id="Strings in HTML Tags 2" type="string" useforautocomplete="no" usespellchecking="yes" scope="string.single">
-					<begin><regex>'</regex></begin>
-					<end><regex>'</regex></end>
-
-					<import state="Strings in HTML Tags" />
-				</state>
-
-				<state id="CFML Tags in HTML Tags" scope="meta.default">
-					<begin><regex>&lt;(?=(?i)/?cf)</regex></begin>
-					<end><regex>&gt;</regex></end>
-
-					<import state="CFML Tags" />
-
-				</state>
-
-				<keywords id="Output Variables in HTML Tags" useforautocomplete="no" scope="string">
-					<!-- CODA <regex>(#[^&lt;&gt;#]+#)</regex> -->
-					<regex>(#[^&lt;&gt;\{\(#]+#)</regex>
-				</keywords>
-
-				<keywords id="Attributes in HTML Tags" useforautocomplete="no" scope="markup.tag.attribute.name">
-					<regex>([\w-]*)(?=[ \t]*=)</regex>
-				</keywords>
-			</state>
-
-
 <state id="CFML Code" useforautocomplete="no" containerState="yes" usesymbolsfrommode="CFML" useautocompletefrommode="CFML" scope="meta.default">
 
 	<keywords id="Generic Functions" useforautocomplete="no" scope="language.function">
@@ -208,11 +125,8 @@
 	<state id="CFML Strings" type="string" useforautocomplete="no" scope="string.double">
 		<begin><regex>"</regex></begin>
 		<end><regex>"</regex></end>
-
-		<keywords id="Output Variables in Strings" useforautocomplete="no" scope="string">
-			<!-- CODA <regex>(#[^&lt;&gt;#]+#)</regex> -->
-			<regex>(#[^&lt;&gt;\{\(#]+#)</regex>
-		</keywords>
+        
+        <import state="CFML Output Variables State" keywords-only="yes" />
 
 	</state>
 
@@ -245,18 +159,16 @@
 		<string>switch</string>
 		<string>try</string>
 		<string>while</string>
+		<string>function</string>
 	</keywords>
 
-	<keywords id="Output Variables in CFML Code" useforautocomplete="no" scope="string">
-		<!-- CODA <regex>(#[^&lt;&gt;#]+#)</regex> -->
-		<regex>(#[^&lt;&gt;\{\(#]+#)</regex>
-	</keywords>
+<import state="CFML Output Variables State" keywords-only="yes" />
 
 	<keywords id="Scope and Tag Variables" useforautocomplete="no" scope="keyword">
 		<regex>((?i)(?:session\.|application\.|request\.|request\.session\.|client\.|server\.|server\.coldfusion\.|form\.|cfcatch\.|cfdirectory\.|cferror\.|cffile\.|cfftp\.|cfhtp\.|cfindex\.|cfldap\.|cfpop\.|cfquery\.|cfregistry\.|cfsearch\.|cfstoredproc\.|cgi\.|url\.|cookie\.|arguments\.|cfevent\.)(?:[\w\d])+(?:\[([\w\d"'])+\])?)</regex>
 	</keywords>
 
-	<keywords id="Numbers" useforautocomplete="no" scope="constant.nunmeric">
+	<keywords id="Numbers" useforautocomplete="no" scope="constant.numeric">
 		<regex>(?&lt;=[^\w\d]|^)((?:(?:(?:[0-9]+\.[0-9]*)|(?:\.[0-9]+))(?:[eE][+\-]?[0-9]+)?[fFlL]?)|(?:(?:(?:[1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(?:(?:[uU][lL]?)|(?:[lL][uU]?))?))(?=[^\w\d]|$)</regex>
 	</keywords>
 
@@ -688,10 +600,243 @@
 
 </state>
 
-<keywords id="Output Variables" useforautocomplete="no" scope="string">
+<import state="CFML Output Variables State" keywords-only="yes" />
+<state id="CFML Output Variables State" containerState="yes">
+<keywords id="Output Variables" useforautocomplete="no" scope="language.variable">
 	<!-- CODA <regex>(#[^&lt;&gt;#]+#)</regex> -->
-	<regex>(#[^&lt;&gt;\{\(#]+#)</regex>
+	<regex>(?&lt;!#)(#[^&lt;>{#]+#)(?!#)</regex>
 </keywords>
+</state>
+			<!--  This is the "we do a complete HTML mode" section -->
+			<state id="Comment" type="comment" scope="markup.comment">
+				<begin><regex>&lt;!--</regex><autoend>--></autoend></begin>
+				<end><regex>--></regex></end>
+				<keywords id="SGML Double Dash" useforautocomplete="no" scope="meta.invalid.sgmlcomment">
+					<regex>(?&lt;!\!)(--)(?!>)</regex>
+				</keywords>
+				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+			</state>
+			<state id="CDATA" foldable="yes" scope="markup.inline.cdata">
+				<begin>
+					<regex>&lt;!\s*\[CDATA\s*\[</regex>
+					<autoend>\]\]></autoend>
+				</begin>
+				<end>
+					<regex>\]\s*\]\s*></regex>
+				</end>
+			</state>
+			<state id="Doctype" foldable="no" scope="markup.declaration">
+				<begin>
+					<regex>&lt;!</regex><autoend>></autoend>
+				</begin>
+				<end>
+					<regex>></regex>
+				</end>
+				<state id="String" type="string" scope="markup.declaration.string.double">
+					<begin><regex>"</regex></begin>
+					<end><regex>"</regex></end>
+				</state>
+				<state id="SingleString" type="string" scope="markup.declaration.string.single">
+					<begin><regex>'</regex></begin>
+					<end><regex>'</regex></end>
+				</state>
+				<state id="Doctype Block" type="block" foldable="yes" indent="yes" scope="meta.block.square">
+					<begin><regex>\[</regex><autoend>\]</autoend></begin>
+					<end><regex>]</regex></end>
+					<import />
+				</state>
+			</state>
+			<state id="Escape" foldable="no" scope="markup.processing">
+				<begin>
+					<regex>&lt;\?</regex><autoend>\?></autoend>
+				</begin>
+				<end>
+					<regex>\?></regex>
+				</end>
+				<state id="ProcessingString" type="string" scope="markup.processing.attribute.value.string">
+					<begin><regex>"</regex></begin>
+					<end><regex>"</regex></end>
+				</state>
+				<state id="ProcessingSingleString" type="string" scope="markup.processing.attribute.value.string">
+					<begin><regex>'</regex></begin>
+					<end><regex>'</regex></end>
+				</state>
+			</state>
+			<state id="Inline CSS" usesymbolsfrommode="CSS" useautocompletefrommode="CSS" foldable="yes" indent="yes" scope="meta.block.css">
+				<begin>
+					<regex>&lt;[ \t]*(?i)style[^>]*></regex>
+					<autoend>&lt;/style></autoend>
+				</begin>
+				<end>
+					<regex>(?i)&lt;[ \t]*/[ \t]*style[ \t]*></regex>
+				</end>
+
+				<import mode="CSS"/>
+				<state id="CSSInside curly brackets" foldable="yes" indent="yes" scope="meta.block.curly">
+					<begin>
+						<string>{</string>
+						<autoend>}</autoend>
+					</begin>
+					<end>
+						<regex>}</regex>
+					</end>
+					<import mode="CSS" state="Inside curly brackets" keywords-only="yes"/>
+					<state id="CSS Attribute state" scope="meta.block.attribute">
+						<begin>
+							<string>:</string>
+						</begin>
+						<end>
+							<regex>(;|.(?=})|[\n\r])</regex>
+						</end>
+						<import mode="CSS" state="Attribute state" keywords-only="yes"/>
+						<state-link state="CSSAutodocComment"/>
+						<state-link state="CSSComment"/>
+						<state-link state="CSSString"/>
+						<state-link state="CSSSingleString"/>
+					</state>
+					<state-link state="CSSAutodocComment"/>
+					<state-link state="CSSComment"/>
+					<state-link state="CSSString"/>
+					<state-link state="CSSSingleString"/>
+				</state>
+
+				<import keywords-only="yes"/>
+
+				<state id="CSSRules" scope="style.at-rule">
+					<begin>
+						<regex>^@[-\w_]+</regex>
+					</begin>
+					<end>
+						<regex>.(?=[{\n\r])</regex>
+					</end>
+				</state>
+
+				<state id="CSSAutodocComment" type="comment" scope="style.comment.block.documentation">
+					<begin>
+						<string>/\*"</string>
+						<autoend>"\*/</autoend>
+					</begin>
+					<end>
+						<regex>"\*/</regex>
+					</end>
+					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+				</state>
+				<state id="CSSComment" type="comment" scope="style.comment.block">
+					<begin>
+						<string>/\*</string>
+						<autoend>\*/</autoend>
+					</begin>
+					<end>
+						<regex>\*/</regex>
+					</end>
+					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+				</state>
+				<state id="CSSString" type="string" scope="style.value.string.double">
+					<begin>
+						<string>"</string>
+					</begin>
+					<end>
+						<regex>(?&lt;!\\)(\\\\)*"</regex>
+					</end>
+				</state>
+				<state id="CSSSingleString" type="string" scope="style.value.string.single">
+					<begin>
+						<string>'</string>
+					</begin>
+					<end>
+						<regex>(?&lt;!\\)(\\\\)*'</regex>
+					</end>
+				</state>
+
+			</state>
+
+
+			<state id="Inline Javascript" usesymbolsfrommode="Javascript" useautocompletefrommode="Javascript" foldable="yes" scope="meta.block.js">
+				<begin>
+					<regex>&lt;(?i)script[^>]*></regex><autoend>&lt;/script></autoend>
+				</begin>
+				<end>
+					<regex>&lt;(?i)/script[^>]*></regex>
+				</end>
+				<import mode="Javascript" keywords-only="yes"/>
+				<import mode="XML" keywords-only="yes"/>
+
+				<state id="JSAutodocComment" type="comment" scope="comment.block.documentation.js">
+					<begin><regex>/\*"</regex></begin>
+					<end><regex>"\*/</regex></end>
+				</state>
+
+				<state id="JSComment" type="comment" scope="comment.block.js">
+					<begin><regex>/\*</regex><autoend>\*/</autoend></begin>
+					<end><regex>\*/</regex></end>
+					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+				</state>
+
+				<state id="JSSingleComment" type="comment" scope="comment.line.double-slash.js">
+					<begin><regex>//</regex></begin>
+					<end><regex>[\n\r]|.(?=&lt;(?i)/script\s*>)</regex></end>
+					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+				</state>
+
+				<state id="JSRegular Expressions" type="string" scope="string.regexp.js">
+					<begin><regex>(?&lt;![&lt;/])/.*?[^\\](?=/[^\n\r]*(?:;|\)|,|[\n\r]))</regex></begin>
+					<end><regex>/[cgimosx]*</regex></end>
+				</state>
+
+				<state id="JSString" type="string" scope="string.double.js">
+					<begin><regex>"</regex></begin>
+					<end><regex>(?&lt;!\\)(\\\\)*"</regex></end>
+				</state>
+
+				<state id="JSSingleString" type="string" scope="string.single.js">
+					<begin><regex>'</regex></begin>
+					<end><regex>(?&lt;!\\)(\\\\)*'</regex></end>
+				</state>
+
+				<state id="JSBlock" type="block" foldable="yes" indent="yes" scope="meta.block.curly.js">
+					<begin><regex>{</regex><autoend>}</autoend></begin>
+					<end><regex>}</regex></end>
+					<import mode="Javascript" keywords-only="yes"/>
+					<import mode="ERB" state="Inline Javascript"/>
+				</state>
+			</state>
+
+			<state id="Single Tag with CFML State" foldable="no" scope="meta.default">
+				<begin>
+					<regex>&lt;\s*[^/?!][-:_\w]*(?=[^&lt;>]*&lt;%.+%>[^>]*[^>]*/>)</regex>
+				</begin>
+				<end>
+					<regex>/[ \t]*></regex>
+				</end>
+				<import/>
+				<import state="CFML Output Variables State" keywords-only="yes" />
+				<keywords id="Single Tags with CFML" useforautocomplete="no" scope="markup.tag">
+					<regex>(&lt;[^>]*)</regex>
+					<regex>(\A[^&lt;>]*>)</regex>
+				</keywords>
+				<keywords id="Attributes in Single Tags with CFML" useforautocomplete="no"  scope="markup.tag.attribute.name">
+					<regex>([\w-]*)(?=[ \t]*=[^&lt;]+)</regex>
+				</keywords>
+				<keywords id="Strings in Single Tags with CFML" type="string" useforautocomplete="no" scope="markup.tag.attribute.value.string">
+					<regex>=[ \t]*("[^"]*"|'[^']*')(?=[^&lt;]*)</regex>
+					<regex>([^"]*")(?=[ \t]*>)</regex>
+				</keywords>
+			</state>
+
+			<state id="Tag State CFML" foldable="yes" indent="yes" scope="meta.default">
+				<begin>
+					<regex>&lt;\s*(?'xmltagstatename'[^/?!][-:_\w]*)\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*></regex>
+					<autoend>&lt;/\g&lt;xmltagstatename>></autoend>
+				</begin>
+				<end>
+					<regex>&lt;\s*/\s*(?#see-insert-start-group:xmltagstatename)\s*></regex>
+				</end>
+				<import mode="XML" keywords-only="yes"/>
+				<import />
+				<import state="CFML Output Variables State" keywords-only="yes" />
+
+			</state>
+
 
 </default>
 
