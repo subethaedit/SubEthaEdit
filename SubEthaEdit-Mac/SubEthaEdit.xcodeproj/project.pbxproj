@@ -315,6 +315,22 @@
 		31D5F8680AA301E80088DB18 /* HDCrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31D5F8590AA2FB760088DB18 /* HDCrashReporter.framework */; };
 		31D5FB230AA309200088DB18 /* HDCrashReporter.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 31D5F8590AA2FB760088DB18 /* HDCrashReporter.framework */; };
 		31FFC93D104E97A000E08256 /* NSErrorTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */; };
+		31FFD7EC144C0CB4005398DC /* SEEAutocompleter.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFD7EB144C0CB4005398DC /* SEEAutocompleter.m */; };
+		31FFD84B144C1A89005398DC /* AvlTree+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFD82A144C1A89005398DC /* AvlTree+Private.m */; };
+		31FFD84C144C1A89005398DC /* AvlTree.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFD82C144C1A89005398DC /* AvlTree.m */; };
+		31FFD84D144C1A89005398DC /* common.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFD82E144C1A89005398DC /* common.m */; };
+		31FFD84E144C1A89005398DC /* EntryEnumerator+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFD831144C1A89005398DC /* EntryEnumerator+Private.m */; };
+		31FFD84F144C1A89005398DC /* EntryEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFD833144C1A89005398DC /* EntryEnumerator.m */; };
+		31FFD850144C1A89005398DC /* KeyEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFD835144C1A89005398DC /* KeyEnumerator.m */; };
+		31FFD851144C1A89005398DC /* ObjectEnumerator.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFD837144C1A89005398DC /* ObjectEnumerator.m */; };
+		31FFD852144C1A89005398DC /* Node.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFD839144C1A89005398DC /* Node.m */; };
+		31FFD853144C1A89005398DC /* NSString+Base64.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFD83B144C1A89005398DC /* NSString+Base64.m */; };
+		31FFD854144C1A89005398DC /* NSString+Indent.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFD83D144C1A89005398DC /* NSString+Indent.m */; };
+		31FFD855144C1A89005398DC /* PropertyListReader.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFD840144C1A89005398DC /* PropertyListReader.m */; };
+		31FFD856144C1A89005398DC /* PropertyListWriter.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFD842144C1A89005398DC /* PropertyListWriter.m */; };
+		31FFD857144C1A89005398DC /* SortedDictionary+Private.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFD844144C1A89005398DC /* SortedDictionary+Private.m */; };
+		31FFD858144C1A89005398DC /* MutableSortedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFD847144C1A89005398DC /* MutableSortedDictionary.m */; };
+		31FFD859144C1A89005398DC /* SortedDictionary.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFD849144C1A89005398DC /* SortedDictionary.m */; };
 		5E0F01C30AB573A100A5DE33 /* DialogBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F01C10AB573A100A5DE33 /* DialogBackgroundView.m */; };
 		5E0F6AE80A039283003D2813 /* SEActiveProc.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F6AE40A039283003D2813 /* SEActiveProc.m */; };
 		5E18F62B09A8A43A00A96A6C /* InvitationBadge3.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E18F62909A8A43A00A96A6C /* InvitationBadge3.tiff */; };
@@ -1202,6 +1218,39 @@
 		31D5F8510AA2FB760088DB18 /* CrashReporter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CrashReporter.xcodeproj; path = CrashReporter/CrashReporter.xcodeproj; sourceTree = "<group>"; };
 		31FFC93B104E97A000E08256 /* NSErrorTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSErrorTCMAdditions.h; sourceTree = "<group>"; };
 		31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSErrorTCMAdditions.m; sourceTree = "<group>"; };
+		31FFD7EA144C0CB4005398DC /* SEEAutocompleter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEAutocompleter.h; sourceTree = "<group>"; };
+		31FFD7EB144C0CB4005398DC /* SEEAutocompleter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEAutocompleter.m; sourceTree = "<group>"; };
+		31FFD829144C1A89005398DC /* AvlTree+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "AvlTree+Private.h"; sourceTree = "<group>"; };
+		31FFD82A144C1A89005398DC /* AvlTree+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "AvlTree+Private.m"; sourceTree = "<group>"; };
+		31FFD82B144C1A89005398DC /* AvlTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AvlTree.h; sourceTree = "<group>"; };
+		31FFD82C144C1A89005398DC /* AvlTree.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AvlTree.m; sourceTree = "<group>"; };
+		31FFD82D144C1A89005398DC /* common.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = common.h; sourceTree = "<group>"; };
+		31FFD82E144C1A89005398DC /* common.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = common.m; sourceTree = "<group>"; };
+		31FFD830144C1A89005398DC /* EntryEnumerator+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "EntryEnumerator+Private.h"; sourceTree = "<group>"; };
+		31FFD831144C1A89005398DC /* EntryEnumerator+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "EntryEnumerator+Private.m"; sourceTree = "<group>"; };
+		31FFD832144C1A89005398DC /* EntryEnumerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = EntryEnumerator.h; sourceTree = "<group>"; };
+		31FFD833144C1A89005398DC /* EntryEnumerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = EntryEnumerator.m; sourceTree = "<group>"; };
+		31FFD834144C1A89005398DC /* KeyEnumerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = KeyEnumerator.h; sourceTree = "<group>"; };
+		31FFD835144C1A89005398DC /* KeyEnumerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = KeyEnumerator.m; sourceTree = "<group>"; };
+		31FFD836144C1A89005398DC /* ObjectEnumerator.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ObjectEnumerator.h; sourceTree = "<group>"; };
+		31FFD837144C1A89005398DC /* ObjectEnumerator.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ObjectEnumerator.m; sourceTree = "<group>"; };
+		31FFD838144C1A89005398DC /* Node.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Node.h; sourceTree = "<group>"; };
+		31FFD839144C1A89005398DC /* Node.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Node.m; sourceTree = "<group>"; };
+		31FFD83A144C1A89005398DC /* NSString+Base64.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Base64.h"; sourceTree = "<group>"; };
+		31FFD83B144C1A89005398DC /* NSString+Base64.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Base64.m"; sourceTree = "<group>"; };
+		31FFD83C144C1A89005398DC /* NSString+Indent.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Indent.h"; sourceTree = "<group>"; };
+		31FFD83D144C1A89005398DC /* NSString+Indent.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Indent.m"; sourceTree = "<group>"; };
+		31FFD83F144C1A89005398DC /* PropertyListReader.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyListReader.h; sourceTree = "<group>"; };
+		31FFD840144C1A89005398DC /* PropertyListReader.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyListReader.m; sourceTree = "<group>"; };
+		31FFD841144C1A89005398DC /* PropertyListWriter.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PropertyListWriter.h; sourceTree = "<group>"; };
+		31FFD842144C1A89005398DC /* PropertyListWriter.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PropertyListWriter.m; sourceTree = "<group>"; };
+		31FFD843144C1A89005398DC /* SortedDictionary+Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "SortedDictionary+Private.h"; sourceTree = "<group>"; };
+		31FFD844144C1A89005398DC /* SortedDictionary+Private.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "SortedDictionary+Private.m"; sourceTree = "<group>"; };
+		31FFD846144C1A89005398DC /* MutableSortedDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MutableSortedDictionary.h; sourceTree = "<group>"; };
+		31FFD847144C1A89005398DC /* MutableSortedDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MutableSortedDictionary.m; sourceTree = "<group>"; };
+		31FFD848144C1A89005398DC /* SortedDictionary.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SortedDictionary.h; sourceTree = "<group>"; };
+		31FFD849144C1A89005398DC /* SortedDictionary.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SortedDictionary.m; sourceTree = "<group>"; };
+		31FFD84A144C1A89005398DC /* SortedDictionaryEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SortedDictionaryEntry.h; sourceTree = "<group>"; };
 		32DBCF750370BD2300C91783 /* SubEthaEdit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubEthaEdit_Prefix.pch; sourceTree = "<group>"; };
 		5E0F01C10AB573A100A5DE33 /* DialogBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DialogBackgroundView.m; sourceTree = "<group>"; };
 		5E0F01C20AB573A100A5DE33 /* DialogBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = DialogBackgroundView.h; sourceTree = "<group>"; };
@@ -1977,6 +2026,7 @@
 				142893C40957594500D14688 /* SyntaxStyle.m */,
 				3170E45F12846C670096089C /* SEEStyleSheet.h */,
 				3170E46012846C670096089C /* SEEStyleSheet.m */,
+				31FFD7ED144C18BC005398DC /* Autocompletion */,
 			);
 			name = Mode;
 			sourceTree = "<group>";
@@ -2333,6 +2383,86 @@
 				31D5F8590AA2FB760088DB18 /* HDCrashReporter.framework */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		31FFD7ED144C18BC005398DC /* Autocompletion */ = {
+			isa = PBXGroup;
+			children = (
+				31FFD827144C1A89005398DC /* SortedDictionary */,
+				31FFD7EA144C0CB4005398DC /* SEEAutocompleter.h */,
+				31FFD7EB144C0CB4005398DC /* SEEAutocompleter.m */,
+			);
+			name = Autocompletion;
+			sourceTree = "<group>";
+		};
+		31FFD827144C1A89005398DC /* SortedDictionary */ = {
+			isa = PBXGroup;
+			children = (
+				31FFD828144C1A89005398DC /* Internal */,
+				31FFD845144C1A89005398DC /* Public */,
+			);
+			path = SortedDictionary;
+			sourceTree = "<group>";
+		};
+		31FFD828144C1A89005398DC /* Internal */ = {
+			isa = PBXGroup;
+			children = (
+				31FFD829144C1A89005398DC /* AvlTree+Private.h */,
+				31FFD82A144C1A89005398DC /* AvlTree+Private.m */,
+				31FFD82B144C1A89005398DC /* AvlTree.h */,
+				31FFD82C144C1A89005398DC /* AvlTree.m */,
+				31FFD82D144C1A89005398DC /* common.h */,
+				31FFD82E144C1A89005398DC /* common.m */,
+				31FFD82F144C1A89005398DC /* Enumerators */,
+				31FFD838144C1A89005398DC /* Node.h */,
+				31FFD839144C1A89005398DC /* Node.m */,
+				31FFD83A144C1A89005398DC /* NSString+Base64.h */,
+				31FFD83B144C1A89005398DC /* NSString+Base64.m */,
+				31FFD83C144C1A89005398DC /* NSString+Indent.h */,
+				31FFD83D144C1A89005398DC /* NSString+Indent.m */,
+				31FFD83E144C1A89005398DC /* Serialization */,
+				31FFD843144C1A89005398DC /* SortedDictionary+Private.h */,
+				31FFD844144C1A89005398DC /* SortedDictionary+Private.m */,
+			);
+			path = Internal;
+			sourceTree = "<group>";
+		};
+		31FFD82F144C1A89005398DC /* Enumerators */ = {
+			isa = PBXGroup;
+			children = (
+				31FFD830144C1A89005398DC /* EntryEnumerator+Private.h */,
+				31FFD831144C1A89005398DC /* EntryEnumerator+Private.m */,
+				31FFD832144C1A89005398DC /* EntryEnumerator.h */,
+				31FFD833144C1A89005398DC /* EntryEnumerator.m */,
+				31FFD834144C1A89005398DC /* KeyEnumerator.h */,
+				31FFD835144C1A89005398DC /* KeyEnumerator.m */,
+				31FFD836144C1A89005398DC /* ObjectEnumerator.h */,
+				31FFD837144C1A89005398DC /* ObjectEnumerator.m */,
+			);
+			path = Enumerators;
+			sourceTree = "<group>";
+		};
+		31FFD83E144C1A89005398DC /* Serialization */ = {
+			isa = PBXGroup;
+			children = (
+				31FFD83F144C1A89005398DC /* PropertyListReader.h */,
+				31FFD840144C1A89005398DC /* PropertyListReader.m */,
+				31FFD841144C1A89005398DC /* PropertyListWriter.h */,
+				31FFD842144C1A89005398DC /* PropertyListWriter.m */,
+			);
+			path = Serialization;
+			sourceTree = "<group>";
+		};
+		31FFD845144C1A89005398DC /* Public */ = {
+			isa = PBXGroup;
+			children = (
+				31FFD846144C1A89005398DC /* MutableSortedDictionary.h */,
+				31FFD847144C1A89005398DC /* MutableSortedDictionary.m */,
+				31FFD848144C1A89005398DC /* SortedDictionary.h */,
+				31FFD849144C1A89005398DC /* SortedDictionary.m */,
+				31FFD84A144C1A89005398DC /* SortedDictionaryEntry.h */,
+			);
+			path = Public;
 			sourceTree = "<group>";
 		};
 		5E754EA60AB5649C00C5119E /* Dialogs */ = {
@@ -3376,6 +3506,22 @@
 				3170E46112846C670096089C /* SEEStyleSheet.m in Sources */,
 				F280ABC4131E6ED50091D145 /* StyleSheetPreferences.m in Sources */,
 				F2D56993133B880900CEC841 /* SEEStyleSheetSettings.m in Sources */,
+				31FFD7EC144C0CB4005398DC /* SEEAutocompleter.m in Sources */,
+				31FFD84B144C1A89005398DC /* AvlTree+Private.m in Sources */,
+				31FFD84C144C1A89005398DC /* AvlTree.m in Sources */,
+				31FFD84D144C1A89005398DC /* common.m in Sources */,
+				31FFD84E144C1A89005398DC /* EntryEnumerator+Private.m in Sources */,
+				31FFD84F144C1A89005398DC /* EntryEnumerator.m in Sources */,
+				31FFD850144C1A89005398DC /* KeyEnumerator.m in Sources */,
+				31FFD851144C1A89005398DC /* ObjectEnumerator.m in Sources */,
+				31FFD852144C1A89005398DC /* Node.m in Sources */,
+				31FFD853144C1A89005398DC /* NSString+Base64.m in Sources */,
+				31FFD854144C1A89005398DC /* NSString+Indent.m in Sources */,
+				31FFD855144C1A89005398DC /* PropertyListReader.m in Sources */,
+				31FFD856144C1A89005398DC /* PropertyListWriter.m in Sources */,
+				31FFD857144C1A89005398DC /* SortedDictionary+Private.m in Sources */,
+				31FFD858144C1A89005398DC /* MutableSortedDictionary.m in Sources */,
+				31FFD859144C1A89005398DC /* SortedDictionary.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
