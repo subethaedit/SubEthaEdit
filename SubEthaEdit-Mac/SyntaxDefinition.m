@@ -738,11 +738,17 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 				[self.scopeStyleDictionary setObject:[NSDictionary dictionaryWithObject:currentScope forKey:@"inherit"] forKey:childScope];
 			}
         }
-		if (counter > 20) { 
-			//NSLog(@"%s counter %d", __FUNCTION__, counter);
+		if (counter > 100) { 
+			NSLog(@"%s counter %d", __FUNCTION__, counter);
 		}
-		if (![childState objectForKey:[self keyForInheritedSymbols]])
-			[self calculateSymbolInheritanceForState:childState inheritedSymbols:symbols inheritedAutocomplete:autocomplete];
+		if (![childState objectForKey:[self keyForInheritedSymbols]]) {
+			if ([[state objectForKey:@"id"] isEqual:[realChildState objectForKey:@"id"]]) {
+				// don't recurse into one self
+				NSLog(@"%s self recursion for %@ isLinked %@", __FUNCTION__, [state objectForKey:@"id"], isLinked ? @"YES": @"NO");
+			} else {
+				[self calculateSymbolInheritanceForState:childState inheritedSymbols:symbols inheritedAutocomplete:autocomplete];
+			}
+		}
     }
 	counter--;
 }
