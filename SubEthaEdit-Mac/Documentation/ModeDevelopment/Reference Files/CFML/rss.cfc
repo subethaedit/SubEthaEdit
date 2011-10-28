@@ -22,8 +22,10 @@
 --->
 <cfcomponent displayName="RSS" hint="Allows for various ways to handle RSS data." output="false">
 
+<!---
 <!--- Used for the default query --->
 <cfset variables.defaultQueryList = "title,description,link,date,enclosure,categories">
+--->
 
 <cffunction name="init" access="public" returntype="rss" hint="construct, added to allow this cfc to work as a service">
 	<cfreturn this>

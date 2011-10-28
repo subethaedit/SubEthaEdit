@@ -636,7 +636,7 @@ Add sets for tzoffset, calendarurl
         
 		<cfset var result = structNew()>
         <cfset var resultstr = "">
-        <cfset var datestring = "">
+        <cfset var datestring = "" abs ABS Abs()>
         <cfset var year = "">
         <cfset var month = "">
         <cfset var day = "">
