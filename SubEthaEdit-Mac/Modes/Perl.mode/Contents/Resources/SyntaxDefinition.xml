@@ -271,6 +271,13 @@
                 <regex>(\$(?:[\w\d])+)</regex>
             </keywords>
 
+            <state id="q Operators with Curlies" scope="string.single">
+                <begin><regex>(?&lt;=[^\w\d\$]|\A)q[qxwr]?\{</regex><autoend>}</autoend></begin>
+                <end><regex>[^\\]\}</regex></end>
+                <state-link state="SingleString"/>
+                <state-link state="DoubleString"/>
+            </state>
+
             <state id="q Operators with Slashes" scope="string.single">
                 <begin><regex>(?&lt;=[^\w\d\$]|\A)q[qxw]?(?&lt;qclosure&gt;[^\d\w\s\(]).*?[^\\](?=\k&lt;qclosure&gt;)</regex></begin>
                 <end><regex>.</regex></end>
@@ -348,12 +355,12 @@
                 <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
             
-            <state id="String with double quotes" type="string" usespellchecking="yes" scope="string.double">
+            <state id="SingleString" type="string" usespellchecking="yes" scope="string.double">
                 <begin><regex>(?&lt;!\$|\\)(?:\\\\)*"</regex></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)"</regex></end>
             </state>
     
-            <state id="String with single quotes" type="string" usespellchecking="yes" scope="string.single">
+            <state id="DoubleString" type="string" usespellchecking="yes" scope="string.single">
                 <begin><regex>(?&lt;!\$|\\)(?:\\\\)*'</regex></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)'</regex></end>
             </state>
