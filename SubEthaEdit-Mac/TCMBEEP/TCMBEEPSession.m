@@ -1007,8 +1007,12 @@ static NSData *dhparamData = nil;
     CFRelease(settings);
 
     if (I_flags.isTLSAnon) {
-		[TCMBEEPSession setAnonCiphersOnStreamData: CFReadStreamCopyProperty(I_readStream,  kCFStreamPropertySocketSSLContext) dhParams:YES];
-		[TCMBEEPSession setAnonCiphersOnStreamData:CFWriteStreamCopyProperty(I_writeStream, kCFStreamPropertySocketSSLContext) dhParams:YES];
+        CFDataRef readStreamData = CFReadStreamCopyProperty(I_readStream,  kCFStreamPropertySocketSSLContext);
+        CFDataRef writeStreamData = CFWriteStreamCopyProperty(I_writeStream, kCFStreamPropertySocketSSLContext);
+		[TCMBEEPSession setAnonCiphersOnStreamData: readStreamData dhParams:YES];
+		[TCMBEEPSession setAnonCiphersOnStreamData: writeStreamData dhParams:YES];
+        CFRelease(readStreamData);
+        CFRelease(writeStreamData);
 	}
 
     if (resultReadStream && resultWriteStream) {
@@ -1312,8 +1316,12 @@ static NSData *dhparamData = nil;
     CFRelease(settings);
     
     if (I_flags.isTLSAnon) {
-		[TCMBEEPSession setAnonCiphersOnStreamData: CFReadStreamCopyProperty(I_readStream,  kCFStreamPropertySocketSSLContext) dhParams:NO];
-		[TCMBEEPSession setAnonCiphersOnStreamData:CFWriteStreamCopyProperty(I_writeStream, kCFStreamPropertySocketSSLContext) dhParams:NO];
+        CFDataRef readStreamData = CFReadStreamCopyProperty(I_readStream,  kCFStreamPropertySocketSSLContext);
+        CFDataRef writeStreamData = CFWriteStreamCopyProperty(I_writeStream, kCFStreamPropertySocketSSLContext);
+		[TCMBEEPSession setAnonCiphersOnStreamData: readStreamData dhParams:NO];
+		[TCMBEEPSession setAnonCiphersOnStreamData: writeStreamData dhParams:NO];
+        CFRelease(readStreamData);
+        CFRelease(writeStreamData);
 	}
     
     if (resultReadStream && resultWriteStream) {
