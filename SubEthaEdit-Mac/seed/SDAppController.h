@@ -20,6 +20,8 @@ extern NSString * const DemonWillTerminateNotification;
     NSTimer *_autosaveTimer;
 }
 
++ (id)sharedInstance;
+
 - (void)readConfig:(NSString *)configPath;
 
 

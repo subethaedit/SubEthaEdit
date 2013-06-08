@@ -22,6 +22,8 @@ extern NSString * const TCMBEEPSASLGSSAPIProfileURI;
 extern NSString * const TCMBEEPSessionDidReceiveGreetingNotification;
 extern NSString * const TCMBEEPSessionDidEndNotification;
 
+extern NSString * const TCMBEEPSessionAuthenticationInformationDidChangeNotification;
+
 typedef enum {
    TCMBEEPSessionStatusNotOpen = 0,
    TCMBEEPSessionStatusOpening,
@@ -60,10 +62,14 @@ enum {
     int I_maximumFrameSize;
     
     id I_delegate;
+    id I_authenticationInformation;
+    id I_authenticationDelegate;
     
     NSData *I_peerAddressData;
     
+    NSMutableArray *I_TLSProfileURIs;
     NSMutableArray *I_profileURIs;
+    NSMutableArray *I_saslProfileURIs;
     NSArray *I_peerProfileURIs;
     
     NSString *I_featuresAttribute;
@@ -113,9 +119,14 @@ enum {
 /*"Accessors"*/
 - (void)setDelegate:(id)aDelegate;
 - (id)delegate;
+- (void)setAuthenticationDelegate:(id)aDelegate;
+- (id)authenticationDelegate;
+- (void)setAuthenticationInformation:(id)anInformation;
+- (id)authenticationInformation;
 - (void)setUserInfo:(NSMutableDictionary *)aUserInfo;
 - (NSMutableDictionary *)userInfo;
 - (void)addProfileURIs:(NSArray *)anArray;
+- (void)addTLSProfileURIs:(NSArray *)anArray;
 - (void)setProfileURIs:(NSArray *)anArray;
 - (NSArray *)profileURIs;
 - (void)setPeerProfileURIs:(NSArray *)anArray;
@@ -151,8 +162,17 @@ enum {
 - (void)closeRequestedForChannelWithNumber:(int32_t)aChannelNumber;
 - (void)acceptCloseRequestForChannelWithNumber:(int32_t)aChannelNumber;
 
+#pragma mark Authentication
+- (NSArray *)availableSASLProfileURIs;
+- (void)startAuthenticationWithUserName:(NSString *)aUserName password:(NSString *)aPassword profileURI:(NSString *)aProfileURI;
+
 @end
 
+@interface NSObject (TCMBEEPAuthenticationDelegateAdditions) 
+// provides an information Object representing the authenticated entitiy, if the credentials are valid. nil otherwise.
+// for the PLAIN mechanism the credentials are in form "username" and "password"
+- (id)authenticationInformationForCredentials:(NSDictionary *)credentials error:(NSError **)error;
+@end
 
 @interface NSObject (TCMBEEPSessionDelegateAdditions)
 

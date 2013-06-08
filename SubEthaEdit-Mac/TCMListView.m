@@ -126,7 +126,22 @@ NSString *ListViewDidChangeSelectionNotification=
 
         if (NSMaxY(smallRect)>=I_indexMaxHeight) {
             [[NSColor whiteColor] set];
-            NSRectFill(NSMakeRect(smallRect.origin.x,I_indexMaxHeight,smallRect.size.width, NSMaxY(smallRect)-I_indexMaxHeight));
+            NSRect remainingRect = NSMakeRect(smallRect.origin.x,I_indexMaxHeight,
+                                              smallRect.size.width, NSMaxY(smallRect)-I_indexMaxHeight);
+            NSRectFill(remainingRect);
+            NSRect visibleRect = [self visibleRect];
+            float difference = I_indexMaxHeight-visibleRect.origin.y+itemRowGapHeight;
+            visibleRect.size.height -= difference;
+            visibleRect.origin.y    += difference;
+            NSSize textSize = [I_emptySpaceString size];
+            if (textSize.height < visibleRect.size.height) {
+                float deplacement = (visibleRect.size.height - textSize.height)/2.;
+                if (deplacement > 0) {
+                    visibleRect.origin.y += deplacement;
+                    visibleRect.size.height -= deplacement;
+                }
+                [I_emptySpaceString drawInRect:visibleRect];
+            }
         }
     
         int startRow = [self indexOfRowAtPoint:smallRect.origin];
@@ -442,24 +457,33 @@ NSString *ListViewDidChangeSelectionNotification=
     I_clickedRow = [self indexOfRowAtPoint:point];
     if (I_clickedRow != -1) {
         ItemChildPair pair=[self itemChildPairAtRow:I_clickedRow];
+        NSRect rect = [self rectForItem:pair.itemIndex child:pair.childIndex];
+        NSPoint rowPoint = point; rowPoint.y -= rect.origin.y;
         BOOL causedAction=NO;
-        if (pair.childIndex==-1) {
-            NSImage *actionImage=[[self dataSource] listView:self objectValueForTag:TCMListViewActionButtonImageTag atChildIndex:-1 ofItemAtIndex:pair.itemIndex];
-            if (actionImage) {
-                NSRect itemRect=[self rectForItem:pair.itemIndex child:pair.childIndex];
-                NSRect bounds=[self bounds];
-                NSSize size=[actionImage size];
-                float actionImagePadding=[[self class] actionImagePadding];
-                if (point.x>=bounds.size.width-actionImagePadding-size.width && point.x<=bounds.size.width-actionImagePadding) {
-                    float actionImageInset=(int)((itemRect.size.height-size.height)/2.);
-                    if (point.y>=itemRect.origin.y+actionImageInset && point.y<=itemRect.origin.y+itemRect.size.height-actionImageInset) {
-                        causedAction=YES;
-                        I_actionRow = I_clickedRow;
-                        if (I_target && [I_target respondsToSelector:I_action]) {
-                            [I_target performSelector:I_action withObject:self];
+        if (!willBeADrag && 
+            [[self delegate] respondsToSelector:@selector(listView:performActionForClickAtPoint:atItemChildPair:)] &&
+            [[self delegate] listView:self performActionForClickAtPoint:rowPoint atItemChildPair:pair]) {
+            causedAction = YES;
+        } else {
+            if (pair.childIndex==-1) {
+                NSImage *actionImage=[[self dataSource] listView:self objectValueForTag:TCMListViewActionButtonImageTag atChildIndex:-1 ofItemAtIndex:pair.itemIndex];
+                if (actionImage) {
+                    NSRect itemRect=[self rectForItem:pair.itemIndex child:pair.childIndex];
+                    NSRect bounds=[self bounds];
+                    NSSize size=[actionImage size];
+                    float actionImagePadding=[[self class] actionImagePadding];
+                    if (point.x>=bounds.size.width-actionImagePadding-size.width && point.x<=bounds.size.width-actionImagePadding) {
+                        float actionImageInset=(int)((itemRect.size.height-size.height)/2.);
+                        if (point.y>=itemRect.origin.y+actionImageInset && point.y<=itemRect.origin.y+itemRect.size.height-actionImageInset) {
+                            causedAction=YES;
+                            I_actionRow = I_clickedRow;
+                            if (I_target && [I_target respondsToSelector:I_action]) {
+                                [I_target performSelector:I_action withObject:self];
+                            }
                         }
                     }
                 }
+                
             }
         }
         if (!causedAction) {
@@ -789,5 +813,11 @@ NSString *ListViewDidChangeSelectionNotification=
 {
     I_doubleAction = anAction;
 }
+
+- (void)setEmptySpaceString:(NSAttributedString *)aEmptySpaceString {
+    [I_emptySpaceString autorelease];
+    I_emptySpaceString = [aEmptySpaceString retain];
+}
+
 
 @end

@@ -8,7 +8,7 @@
 
 #import "ServerConnectionWindowController.h"
 #import "ServerConnectionManager.h"
-#import "FileManagementProfile.h"
+#import "ServerManagementProfile.h"
 #import "NSWorkspaceTCMAdditions.h"
 #import "TCMMMSession.h"
 
@@ -84,7 +84,7 @@
 #pragma mark ### Profile Interaction ###
 
 - (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didOpenChannelWithProfile:(TCMBEEPProfile *)aProfile data:(NSData *)inData {
-    _profile = (FileManagementProfile *)aProfile;
+    _profile = (ServerManagementProfile *)aProfile;
     [[_profile retain] setDelegate:self];
     [_profile askForFileList];
 }
@@ -113,7 +113,7 @@
     }
 }
 
-- (void)profile:(FileManagementProfile *)aProfile didReceiveFileList:(NSArray *)aContentArray {
+- (void)profile:(ServerManagementProfile *)aProfile didReceiveFileList:(NSArray *)aContentArray {
     
     NSEnumerator *fileDicts = [aContentArray objectEnumerator];
     NSDictionary *fileDict = nil;
@@ -132,7 +132,7 @@
     ];
 }
 
-- (void)profile:(FileManagementProfile *)aProfile didAckNewDocument:(NSDictionary *)aDocumentDictionary {
+- (void)profile:(ServerManagementProfile *)aProfile didAckNewDocument:(NSDictionary *)aDocumentDictionary {
     [self updateFileDict:aDocumentDictionary];
 }
 
@@ -144,7 +144,7 @@
     NSLog(@"%s %@ %@",__FUNCTION__,aProfile,anError);
 }
 
-- (void)profile:(FileManagementProfile *)aProfile didReceiveFileUpdates:(NSDictionary *)aFileUpdateDictionary {
+- (void)profile:(ServerManagementProfile *)aProfile didReceiveFileUpdates:(NSDictionary *)aFileUpdateDictionary {
     NSEnumerator *fileIDs = [aFileUpdateDictionary keyEnumerator];
     NSString *fileID=nil;
     while ((fileID=[fileIDs nextObject])) {
@@ -157,7 +157,7 @@
     }
 }
 
-- (void)profile:(FileManagementProfile *)aProfile didAcceptSetResponse:(NSDictionary *)aDocumentDictionary wasFailure:(BOOL)aFailure {
+- (void)profile:(ServerManagementProfile *)aProfile didAcceptSetResponse:(NSDictionary *)aDocumentDictionary wasFailure:(BOOL)aFailure {
     [self updateFileDict:aDocumentDictionary];
 }
 

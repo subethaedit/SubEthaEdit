@@ -428,7 +428,8 @@ static DocumentModeManager *S_sharedInstance=nil;
 - (IBAction)reloadDocumentModes:(id)aSender {
     // write all preferences
     [[I_documentModesByIdentifier allValues] makeObjectsPerformSelector:@selector(writeDefaults)];
-
+    [[NSUserDefaults standardUserDefaults] setObject:[self modePrecedenceArray] forKey:@"ModePrecedences"];
+    
     // reload all modes
     [I_modeBundles                removeAllObjects];
     [I_documentModesByIdentifier  removeAllObjects];
@@ -508,8 +509,8 @@ static DocumentModeManager *S_sharedInstance=nil;
                     [self documentModeForName:import];
                 }
             }
+            [self resolveAllDependenciesForMode:mode];
         }
-        [self resolveAllDependenciesForMode:mode];
         return mode;
     } else {
         return nil;

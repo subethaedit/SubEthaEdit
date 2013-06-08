@@ -19,6 +19,7 @@
 #import "TCMMMUser.h"
 #import "TCMMMUserSEEAdditions.h"
 #import "TCMMMSession.h"
+#import "TCMMMTransformator.h";
 #import "ButtonScrollView.h"
 #import "PopUpButton.h"
 #import "PopUpButtonCell.h"
@@ -35,6 +36,7 @@
 #import "ScriptTextSelection.h"
 #import "NSMenuTCMAdditions.h"
 #import "NSMutableAttributedStringSEEAdditions.h"
+
 
 @interface NSTextView (PrivateAdditions)
 - (BOOL)_isUnmarking;
@@ -99,7 +101,29 @@
     [I_radarScroller release];
     [I_followUserID release];
     [I_storedSelectedRanges release];
+    [I_storedPosition release];
     [super dealloc];
+}
+
+- (void)participantsDidChange:(NSNotification *)aNotification {
+    NSLayoutManager *layoutManager = [I_textView layoutManager];
+    if ([layoutManager respondsToSelector:@selector(setAllowsNonContiguousLayout:)]) {
+        int participantCount = [[[self document] session] participantCount];
+        (void (
+        *)(BOOL))objc_msgSend(layoutManager, @selector(setAllowsNonContiguousLayout:), (participantCount==1));
+    }
+}
+
+- (void)sessionWillChange:(NSNotification *)aNotification {
+    PlainTextDocument *document=[self document];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:TCMMMSessionParticipantsDidChangeNotification object:[document session]];
+}
+
+- (void)sessionDidChange:(NSNotification *)aNotification {
+    [[NSNotificationCenter defaultCenter] addObserver:self 
+                                             selector:@selector(participantsDidChange:)
+                                                 name:TCMMMSessionParticipantsDidChangeNotification 
+                                               object:[[self document] session]];
 }
 
 - (void)awakeFromNib {
@@ -117,9 +141,15 @@
         [[NSNotificationCenter defaultCenter]
                 addObserver:self selector:@selector(plainTextDocumentDidChangeSymbols:)
                 name:PlainTextDocumentDidChangeSymbolsNotification object:document];
-    [[NSNotificationCenter defaultCenter]
+        [[NSNotificationCenter defaultCenter]
                 addObserver:self selector:@selector(plainTextDocumentUserDidChangeSelection:)
                 name:PlainTextDocumentUserDidChangeSelectionNotification object:document];
+        [[NSNotificationCenter defaultCenter]
+                addObserver:self selector:@selector(sessionWillChange:)
+                name:PlainTextDocumentSessionWillChangeNotification object:document];
+        [[NSNotificationCenter defaultCenter]
+                addObserver:self selector:@selector(sessionDidChange:)
+                name:PlainTextDocumentSessionDidChangeNotification object:document];
     }
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TCM_updateBottomStatusBar) name:@"AfterEncodingsListChanged" object:nil];
 
@@ -141,10 +171,6 @@
 
 
     LayoutManager *layoutManager=[LayoutManager new];
-    if ([layoutManager respondsToSelector:@selector(setAllowsNonContiguousLayout:)]) {
-        (void (
-        *)(BOOL))objc_msgSend(layoutManager, @selector(setAllowsNonContiguousLayout:), YES);;
-    }
     [[document textStorage] addLayoutManager:layoutManager];
 
     I_textContainer =  [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(frame.size.width,FLT_MAX)];
@@ -291,6 +317,9 @@
     [self TCM_updateStatusBar];
     [self TCM_updateBottomStatusBar];
 
+    // trigger the notfications for the first time
+    [self sessionDidChange:nil];
+    [self participantsDidChange:nil];
 }
 
 - (void)pushSelectedRanges {
@@ -1244,6 +1273,42 @@
     
     [super keyDown:aEvent];
 }
+
+
+#pragma mark ### position fixes for remote editing ###
+- (void)storePosition {
+    // idea: get the character index of the character in the upper left of the window, store that, and for restore apply the operation and scroll that character back to the upper left line
+    NSRect visibleRect = [O_scrollView documentVisibleRect];
+    NSPoint point = visibleRect.origin;
+    point.y += 1.;
+    NSLayoutManager *layoutManager = [I_textView layoutManager];
+    TextStorage *textStorage = (TextStorage *)[I_textView textStorage];
+    if ([textStorage length]) {
+        unsigned glyphIndex=[layoutManager glyphIndexForPoint:point 
+                                         inTextContainer:[I_textView textContainer]];
+        unsigned characterIndex=[layoutManager characterIndexForGlyphAtIndex:glyphIndex];
+        [I_storedPosition release];
+        I_storedPosition = [[SelectionOperation selectionOperationWithRange:NSMakeRange(characterIndex,0) userID:@"doesn't matter"] retain];
+    }
+}
+
+- (void)restorePositionAfterOperation:(TCMMMOperation *)aOperation {
+    if (I_storedPosition && [[I_textView string] length]) {
+        NSLayoutManager *layoutManager = [I_textView layoutManager];
+        TCMMMTransformator *transformator=[TCMMMTransformator sharedInstance];
+        [transformator transformOperation:I_storedPosition serverOperation:aOperation];
+        unsigned glyphIndex = [layoutManager glyphRangeForCharacterRange:[I_storedPosition selectedRange] actualCharacterRange:NULL].location;
+        NSRect boundingRect  =[layoutManager lineFragmentRectForGlyphAtIndex:glyphIndex 
+                                                           effectiveRange:nil];
+        NSRect visibleRect = [O_scrollView documentVisibleRect];
+        if (visibleRect.origin.y != boundingRect.origin.y) {
+            visibleRect.origin.y = boundingRect.origin.y;
+            [I_textView scrollRectToVisible:visibleRect];
+            [[O_scrollView verticalRulerView] setNeedsDisplay:YES];
+        }
+    }
+}
+
 
 #pragma mark -
 #pragma mark ### PopUpButton delegate methods ###

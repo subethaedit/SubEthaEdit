@@ -30,25 +30,28 @@ static NSMutableDictionary *profileURIToClassMapping;
 
 @implementation TCMBEEPChannel
 
-+ (void)initialize
-{
-    profileURIToClassMapping = [NSMutableDictionary new];
-    [self setClass:[TCMBEEPManagementProfile class] forProfileURI:kTCMBEEPManagementProfile];
-    [self setClass:[TCMBEEPProfile class] forProfileURI:TCMBEEPTLSProfileURI];
-//    [self setClass:[TCMBEEPSASLProfile class] forProfileURI:TCMBEEPSASLANONYMOUSProfileURI];
-//    [self setClass:[TCMBEEPSASLProfile class] forProfileURI:TCMBEEPSASLPLAINProfileURI];
-//    [self setClass:[TCMBEEPSASLProfile class] forProfileURI:TCMBEEPSASLCRAMMD5ProfileURI];
-//    [self setClass:[TCMBEEPSASLProfile class] forProfileURI:TCMBEEPSASLDIGESTMD5ProfileURI];
-//    [self setClass:[TCMBEEPSASLProfile class] forProfileURI:TCMBEEPSASLGSSAPIProfileURI];
++ (void)ensureExistanceOfMapping {
+    if (!profileURIToClassMapping) {
+        profileURIToClassMapping = [NSMutableDictionary new];
+        [self setClass:[TCMBEEPManagementProfile class] forProfileURI:kTCMBEEPManagementProfile];
+        [self setClass:[TCMBEEPProfile class] forProfileURI:TCMBEEPTLSProfileURI];
+    //    [self setClass:[TCMBEEPSASLProfile class] forProfileURI:TCMBEEPSASLANONYMOUSProfileURI];
+    //    [self setClass:[TCMBEEPSASLProfile class] forProfileURI:TCMBEEPSASLPLAINProfileURI];
+    //    [self setClass:[TCMBEEPSASLProfile class] forProfileURI:TCMBEEPSASLCRAMMD5ProfileURI];
+    //    [self setClass:[TCMBEEPSASLProfile class] forProfileURI:TCMBEEPSASLDIGESTMD5ProfileURI];
+    //    [self setClass:[TCMBEEPSASLProfile class] forProfileURI:TCMBEEPSASLGSSAPIProfileURI];
+    }
 }
 
 + (NSDictionary *)profileURIToClassMapping
 {
+    if (!profileURIToClassMapping) [self ensureExistanceOfMapping];
     return profileURIToClassMapping;
 }
 
 + (void)setClass:(Class)aClass forProfileURI:(NSString *)aProfileURI
 {
+    if (!profileURIToClassMapping) [self ensureExistanceOfMapping];
     [profileURIToClassMapping setObject:aClass forKey:aProfileURI];
 }
 
@@ -377,7 +380,7 @@ static NSMutableDictionary *profileURIToClassMapping;
             if ([aFrame isNUL]) {
                 // FEHLER?
                 if ([I_answerReadQueues count] > 0) {
-                    // FEHLER! bei NUL müssen alle Antworten abgeschlossen sein...
+                    // FEHLER! bei NUL m√ºssen alle Antworten abgeschlossen sein...
                 }
             }
             if ([aFrame isERR]) {

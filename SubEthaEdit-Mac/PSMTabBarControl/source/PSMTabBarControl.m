@@ -1314,9 +1314,11 @@
 		// If they're equal, we don't want to update the menu since this happens several times per second
 		// while the user is visiting the menu. But reading it is fine.
 		BOOL equal = YES;
-		equal = [_overflowPopUpButton menu] && [[_overflowPopUpButton menu] numberOfItems ] == [overflowMenu numberOfItems];
-		for (i = 0; equal && i < [overflowMenu numberOfItems]; i++) {
-			id <NSMenuItem> currentItem = [[_overflowPopUpButton menu] itemAtIndex:i], newItem = [overflowMenu itemAtIndex:i];
+		unsigned numberOfItems = [overflowMenu numberOfItems];
+		equal = [_overflowPopUpButton menu] && [[_overflowPopUpButton menu] numberOfItems ] == numberOfItems;
+		for (i = 0; equal && i < numberOfItems; i++) {
+			id <NSMenuItem> currentItem = [[_overflowPopUpButton menu] itemAtIndex:i];
+			id <NSMenuItem>     newItem = [overflowMenu itemAtIndex:i];
 			if (([newItem state] != [currentItem state]) ||
 					([[newItem title] compare:[currentItem title]] != NSOrderedSame) ||
 					([newItem image] != [currentItem image])) {

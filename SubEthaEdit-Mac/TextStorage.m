@@ -749,44 +749,11 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 }
 
 - (void)setContentByDictionaryRepresentation:(NSDictionary *)aRepresentation {
-    [self beginEditing];
-    NSString *string=[aRepresentation objectForKey:@"String"];
-    if (string && [string isKindOfClass:[NSString class]]) {
-        [self replaceCharactersInRange:NSMakeRange(0,[self length]) withString:@""];
-        [self replaceCharactersInRange:NSMakeRange(0,[self length]) withString:string];
-        NSRange wholeRange=NSMakeRange(0,[self length]);
-        NSNumber *encoding=[aRepresentation objectForKey:@"Encoding"];
-        if (encoding && [encoding isKindOfClass:[NSNumber class]]) {
-            [self setEncoding:[encoding unsignedIntValue]];
-        }
-        NSDictionary *attributes=[aRepresentation objectForKey:@"Attributes"];
-        if (attributes && [attributes isKindOfClass:[NSDictionary class]]) {
-            NSEnumerator *attributeNames=[attributes keyEnumerator];
-            NSString *attributeName=nil;
-            while ((attributeName=[attributeNames nextObject])) {
-                NSArray *attributeArray=[attributes objectForKey:attributeName];
-                if ([attributeArray isKindOfClass:[NSArray class]]) {
-                    NSEnumerator *attributeRuns=[attributeArray objectEnumerator];
-                    NSDictionary *attributeRun=nil;
-                    while ((attributeRun=[attributeRuns nextObject])) {
-                        id value=[attributeRun objectForKey:@"val"];
-                        NSNumber *location=[attributeRun objectForKey:@"loc"];
-                        NSNumber *length=[attributeRun objectForKey:@"len"];
-                        if (location && length && value && 
-                            [location isKindOfClass:[NSNumber class]] &&
-                            [length   isKindOfClass:[NSNumber class]]) {
-                            NSRange attributeRange=NSMakeRange([location unsignedIntValue],[length unsignedIntValue]);
-                            attributeRange=NSIntersectionRange(attributeRange,wholeRange);
-                            if (attributeRange.length>0) {
-                                [self addAttribute:attributeName value:value range:attributeRange];
-                            }
-                        }
-                    }
-                }
-            }
-        }
+    [super setContentByDictionaryRepresentation:aRepresentation];
+    NSNumber *encoding=[aRepresentation objectForKey:@"Encoding"];
+    if (encoding && [encoding isKindOfClass:[NSNumber class]]) {
+        [self setEncoding:[encoding unsignedIntValue]];
     }
-    [self endEditing];
 }
 
 

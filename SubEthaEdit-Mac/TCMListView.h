@@ -43,6 +43,7 @@ typedef struct _ItemChildPair {
     float I_indexMaxHeight;
     NSRange *I_indexYRangesForItem;
     int I_indexNumberOfRows;
+    NSAttributedString *I_emptySpaceString;
 }
 
 + (float)itemRowHeight;
@@ -82,6 +83,8 @@ typedef struct _ItemChildPair {
 - (NSPasteboard *)currentDraggingPasteboard;
 - (int)numberOfRows;
 
+- (void)setEmptySpaceString:(NSAttributedString *)aEmptySpaceString;
+
 /*"Selection Handling"*/
 - (int)selectedRow;
 - (NSIndexSet *)selectedRowIndexes;
@@ -106,4 +109,5 @@ typedef struct _ItemChildPair {
 @interface NSObject (ListViewDelegateAdditions)
 - (void)participantsViewDidChangeSelection:(TCMListView *)alistView;
 - (NSMenu *)contextMenuForListView:(TCMListView *)aListView clickedAtRow:(int)aRow;
+- (BOOL)listView:(TCMListView *)aListView performActionForClickAtPoint:(NSPoint)aPoint atItemChildPair:(ItemChildPair)aPair;
 @end

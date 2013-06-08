@@ -7,6 +7,8 @@
 //
 
 #import <AppKit/AppKit.h>
+#import "TCMMMOperation.h"
+#import "SelectionOperation.h"
 #import "PlainTextWindowControllerTabContext.h"
 
 @class PlainTextWindowControllerTabContext,PlainTextDocument,PopUpButton,RadarScroller,TCMMMUser;
@@ -38,6 +40,7 @@
         BOOL symbolPopUpIsSorted;
         BOOL pausedProcessing;
     } I_flags;
+    SelectionOperation *I_storedPosition;
 }
 
 - (id)initWithWindowControllerTabContext:(PlainTextWindowControllerTabContext *)aWindowControllerTabContext splitButton:(BOOL)aFlag;
@@ -79,6 +82,9 @@
 - (void)scrollToUserWithID:(NSString *)aUserID;
 
 - (void)updateViews;
+
+- (void)storePosition;
+- (void)restorePositionAfterOperation:(TCMMMOperation *)aOperation;
 
 #pragma mark -
 #pragma mark ### Actions ###

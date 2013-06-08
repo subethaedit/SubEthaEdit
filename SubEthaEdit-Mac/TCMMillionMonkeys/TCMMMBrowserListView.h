@@ -12,19 +12,33 @@
 enum {
     TCMMMBrowserItemImageTag,
     TCMMMBrowserItemNameTag,
+    TCMMMBrowserItemUserNameTag,
     TCMMMBrowserItemImageNextToNameTag,
+    TCMMMBrowserItemImageInFrontOfNameTag,
     TCMMMBrowserItemStatusTag,
     TCMMMBrowserItemActionImageTag = TCMListViewActionButtonImageTag,
     TCMMMBrowserItemStatusImageTag,
-    TCMMMBrowserItemStatus2ImageTag,
+    TCMMMBrowserItemStatusImageOverlayTag,
+    TCMMMBrowserItemIsDisclosedTag,
+    TCMMMBrowserChildIsDisclosedTag,
     TCMMMBrowserChildIconImageTag,
     TCMMMBrowserChildNameTag,
     TCMMMBrowserChildStatusImageTag,
     TCMMMBrowserChildActionImageTag,
-    TCMMMBrowserChildClientStatusTag
+    TCMMMBrowserChildClientStatusTag,
+    TCMMMBrowserChildInsetTag
 };
 
-@interface TCMMMBrowserListView : TCMListView
-{
+@interface TCMMMBrowserListView : TCMListView {
+    int I_dragToItem;
 }
+- (void)highlightItemForDrag:(int)itemIndex; // NSNotFound highlights all for drag
+- (NSRect)frameForTag:(int)aTag atChildIndex:(int)aChildIndex ofItemAtIndex:(int)anItemIndex;
+
+@end
+
+@interface NSObject (TCMMMBrowserListViewDelegateAdditions)
+- (NSDragOperation)listView:(TCMListView *)aListView validateDrag:(id <NSDraggingInfo>)sender;
+- (BOOL)listView:(TCMListView *)aListView performDragOperation:(id <NSDraggingInfo>)sender;
+- (BOOL)listView:(TCMListView *)aListView prepareForDragOperation:(id <NSDraggingInfo>)sender;
 @end

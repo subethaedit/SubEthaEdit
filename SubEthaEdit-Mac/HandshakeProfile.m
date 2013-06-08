@@ -57,6 +57,10 @@
         }    
     }
     
+    if ([[[[self session] userInfo] objectForKey:@"isAutoConnect"] boolValue]) {
+        [dict setObject:[NSNumber numberWithBool:YES] forKey:@"isauto"];
+    }
+    
     [payload appendData:TCM_BencodedObject(dict)];
     
     return payload;
@@ -84,6 +88,9 @@
             DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Handshake greeting was: %@", [dict descriptionInStringsFileFormat]);
             if ([[self remoteInfos] objectForKey:@"rendez"]) {
                 [[[self session] userInfo] setObject:[NSNumber numberWithBool:YES] forKey:@"isRendezvous"];
+            }
+            if ([[self remoteInfos] objectForKey:@"isauto"]) {
+                [[[self session] userInfo] setObject:[NSNumber numberWithBool:YES] forKey:@"isAutoConnect"];
             }
             if ([[self remoteInfos] objectForKey:@"url"]) {
                 [[[self session] userInfo] setObject:[NSString stringWithAddressData:[[self session] peerAddressData]] forKey:@"URLString"];
@@ -128,7 +135,7 @@
                 shouldAck = [[self delegate] profile:self shouldAckHandshakeWithUserID:[[self remoteInfos] objectForKey:@"uid"]];
             }
             if (shouldAck) {
-                NSMutableData *payload = [NSMutableData dataWithData:[[NSString stringWithFormat:@"ACK"] dataUsingEncoding:NSUTF8StringEncoding]];
+                NSMutableData *payload = [NSMutableData dataWithData:[@"ACK" dataUsingEncoding:NSUTF8StringEncoding]];
                 TCMBEEPMessage *message = [[TCMBEEPMessage alloc] initWithTypeString:@"MSG" messageNumber:[[self channel] nextMessageNumber] payload:payload];
                 [[self channel] sendMessage:[message autorelease]];
                 [[self delegate] profile:self didAckHandshakeWithUserID:[[self remoteInfos] objectForKey:@"uid"]];            
