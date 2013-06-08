@@ -874,13 +874,26 @@ static FindReplaceController *sharedInstance=nil;
 
             } else {
                 NSRange findRange;
-                if ([[O_scopePopup selectedItem] tag]==1) 
+                unsigned searchTimeOptions = 0;
+                if ([[O_scopePopup selectedItem] tag]==1) { // selection scope
                     findRange = scope;
-                else 
+                } else { 
                     findRange = NSMakeRange(NSMaxRange(selection), [text length] - NSMaxRange(selection));
-
+                    if (findRange.location > 0) {
+                    	unichar previousCharacter = [text characterAtIndex:findRange.location - 1];
+						switch (previousCharacter) { // check if previous character is a newline characte
+							case 0x2028:
+							case 0x2029:
+							case '\n':
+							case '\r':
+								break;
+							default:
+								searchTimeOptions |= OgreNotBOLOption;
+						}
+                    }
+				}
                 @try{
-                    enumerator=[regex matchEnumeratorInString:text options:[self currentOgreOptions] range:findRange];
+                    enumerator=[regex matchEnumeratorInString:text options:searchTimeOptions range:findRange];
                 } @catch (NSException *exception) { NSBeep(); }
 
                 aMatch = [enumerator nextObject];

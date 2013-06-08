@@ -131,13 +131,15 @@
 			   		<regex>(\])</regex>
 			   	</keywords>
 
+<!--             
+                This does not work for pure Lasso files. FIXME
                 <state id="Foldable Block" type="block" foldable="yes">
                     <begin><string>(?i)(?&lt;!\S)(?'blockstart'if|iterate|loop|while|define_tag|select)[: \t(][^;]+;</string></begin>
                     <end><regex>(?i)/(?#see-insert-start-group:blockstart);</regex></end>
                     <import mode="XML" keywords-only="yes" />
                     <import state="LassoScript Code" />
                 </state>
-			
+ -->			
 				<keywords id="Default Lasso Tags" color="#661AA9" background-color="#fff" font-style="normal" casesensitive="no" useforautocomplete="yes">
 					<string>__char</string>
 					<string>__sync_timestamp__</string>

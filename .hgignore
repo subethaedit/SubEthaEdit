@@ -26,3 +26,17 @@ syntax: glob
 *.lineform/Icon*
 
 *.orig
+
+# userdata
+*xcuserdata*
+*xcworkspace*
+
+# temporary products
+SubEthaEdit-Mac/OgreKit/RegularExpression/oniguruma/*
+SubEthaEdit-Mac/NSCoreSuite.scriptSuite
+SubEthaEdit-Mac/NSCoreSuite.scriptTerminology
+SubEthaEdit-Mac/SubEthaEdit-PantherScripting.r
+SubEthaEdit-Mac/SubEthaEditSuite.scriptSuite
+SubEthaEdit-Mac/SubEthaEditSuite.scriptTerminology
+SubEthaEdit-Mac/TCMTextSuite.scriptSuite
+SubEthaEdit-Mac/TCMTextSuite.scriptTerminology

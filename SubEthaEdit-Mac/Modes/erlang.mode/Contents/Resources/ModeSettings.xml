@@ -4,6 +4,8 @@
   <recognition>
     <extension>erl</extension>
     <extension>hrl</extension>
+    <extension>escript</extension>
     <regex>^-module\([^\)]+\)\.</regex>
+    <regex>^-record\([^\)]+\)\.</regex>
   </recognition>
 </settings>

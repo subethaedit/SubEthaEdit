@@ -92,6 +92,7 @@
 				<string>mx</string>
 				<string>mxo</string>
 				<string>mysql</string>
+				<string>notes</string>
 				<string>njs</string>
 				<string>p</string>
 				<string>ps</string>
@@ -245,7 +246,7 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleGetInfoString</key>
-	<string>SubEthaEdit 3.5.2, Copyright © 2003-2009, TheCodingMonkeys</string>
+	<string>SubEthaEdit 3.5.3, © 2003-2010 TheCodingMonkeys</string>
 	<key>CFBundleHelpBookFolder</key>
 	<string>SubEthaEditHelp</string>
 	<key>CFBundleHelpBookName</key>
@@ -261,7 +262,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>3.5.2</string>
+	<string>3.5.3</string>
 	<key>CFBundleSignature</key>
 	<string>Hdra</string>
 	<key>CFBundleURLTypes</key>
@@ -276,7 +277,9 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>REVISION</string>
+	<string>TCM_REVISION</string>
+	<key>TCMRevisionHash</key>
+	<string>TCM_REVISION_HASH</string>
 	<key>LSEnvironment</key>
 	<dict>
 		<key>MinimumSystemVersion</key>
@@ -285,7 +288,7 @@
 	<key>NSAppleScriptEnabled</key>
 	<string>YES</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>Copyright © 2003-2009, TheCodingMonkeys</string>
+	<string>© 2003-2010 TheCodingMonkeys</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>

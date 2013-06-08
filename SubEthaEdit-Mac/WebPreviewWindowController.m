@@ -153,12 +153,7 @@ NSScrollView * firstScrollView(NSView *aView) {
     [request setHTTPBody:[string dataUsingEncoding:encoding]];
     NSString *IANACharSetName=(NSString *)CFStringConvertEncodingToIANACharSetName(
                 CFStringConvertNSStringEncodingToEncoding(encoding));
-    [request setValue:IANACharSetName forHTTPHeaderField:@"LocalContentAndThisIsTheEncoding"];
-    [request setCachePolicy:aFlag?NSURLRequestUseProtocolCachePolicy:NSURLRequestReloadIgnoringCacheData];
-    [[oWebView mainFrame] loadRequest:request];
-//    [[oWebView mainFrame]
-//        loadHTMLString:[[[self plainTextDocument] textStorage] string]
-//               baseURL:[NSURL URLWithString:[oBaseUrlTextField stringValue]]];
+    [[oWebView mainFrame] loadData:[string dataUsingEncoding:encoding] MIMEType:@"text/html" textEncodingName:IANACharSetName baseURL:baseURL];
 }
 
 - (void)windowWillClose:(NSNotification *)aNotification {
