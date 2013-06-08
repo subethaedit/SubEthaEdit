@@ -215,11 +215,13 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (void)TCM_sendPlainTextDocumentDidChangeDisplayNameNotification {
+    [self willChangeValueForKey:@"displayName"];
     [[NSNotificationQueue defaultQueue]
     enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentDidChangeDisplayNameNotification object:self]
            postingStyle:NSPostWhenIdle
            coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender
                forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
+    [self didChangeValueForKey:@"displayName"];
 }
 
 - (void)TCM_sendPlainTextDocumentDidChangeEditStatusNotification {
@@ -901,9 +903,18 @@ static NSString *tempFileName(NSString *origPath) {
         I_flags.isRemotelyEditingTextStorage=NO;
         [aSession setDocument:self];
         [self setShowsChangeMarks:[[NSUserDefaults standardUserDefaults] boolForKey:HighlightChangesPreferenceKey]];
+        [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateTempDisplayName:) name:TCMMMSessionDidChangeNotification object:aSession];
         [self TCM_initHelper];
     }
     return self;
+}
+
+- (void)updateTempDisplayName:(NSNotification *)aNotification {
+    if ([self temporaryDisplayName]) {
+        [self willChangeValueForKey:@"displayName"];
+        [self setTemporaryDisplayName:[[aNotification object] filename]];
+        [self didChangeValueForKey:@"displayName"];
+    }
 }
 
 - (void)dealloc
