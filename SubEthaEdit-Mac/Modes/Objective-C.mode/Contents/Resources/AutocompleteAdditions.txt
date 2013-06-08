@@ -1,4 +1,8 @@
-setCollectionBehavior:
+@catch
+@finally
+@synchronized 
+@throw 
+@try
 AAPNotCreatedErr
 AAPNotFoundErr
 ACCESSOR_CALLS_ARE_FUNCTIONS
@@ -1043,8 +1047,11 @@ CGL_MACRO_RENDERER
 CGL_VERSION_1_0
 CGL_VERSION_1_1
 CGPoint
+CGPointValue
 CGRect
+CGRectValue
 CGSize
+CGSizeValue
 CHAN_BIT
 CHAN_MASK
 CIContext
@@ -3048,6 +3055,7 @@ CantDecompress
 CaptureComponent
 CatMove
 CatPositionRec
+Category
 CautionAlert
 ChangeControlPropertyAttributes
 ChangeDragBehaviors
@@ -3079,6 +3087,7 @@ CheckWriteProtection
 ChooseMovieClock
 ChunkHeader
 ChunkOffsetAtom
+Class
 CleanApertureImageDescriptionExtension
 ClearCurrentScrap
 ClearIntlResourceCache
@@ -3462,6 +3471,7 @@ DEFINE_API_C
 DEFINE_API_C_STDCALL
 DEFINE_API_STDCALL
 DEFINE_ONE_SHOT_HANDLER_GETTER
+DEPRECATED_ATTRIBUTE
 DHCPClientPreferencesCopyApplicationOptions
 DHCPClientPreferencesSetApplicationOptions
 DHCPInfoGetLeaseStartTime
@@ -9716,6 +9726,7 @@ IMAGECODEC_STRCAT
 IMAGETRANSCODER_GLOBALS
 IMAGETRANSCODER_GLUE
 IMAGETRANSCODER_STRCAT
+IMP
 INET_IP
 INET_TCP
 INET_UDP
@@ -10886,6 +10897,7 @@ Itl5Record
 ItlbExtRecord
 ItlbRecord
 ItlcRecord
+Ivar
 KBGetLayoutType
 KCAddAppleSharePassword
 KCAddCallback
@@ -11151,6 +11163,14 @@ MACE3to1Name
 MACE6Type
 MACE6snthID
 MACE6to1Name
+MAC_OS_X_VERSION_10_0
+MAC_OS_X_VERSION_10_1
+MAC_OS_X_VERSION_10_2
+MAC_OS_X_VERSION_10_3
+MAC_OS_X_VERSION_10_4
+MAC_OS_X_VERSION_10_5
+MAC_OS_X_VERSION_MAX_ALLOWED
+MAC_OS_X_VERSION_MIN_REQUIRED
 MAXPRESSURE
 MAX_ATTRIBUTE_VALUE_KIND
 MCActivate
@@ -12056,6 +12076,7 @@ MenuSelect
 MenuTrackingData
 MergeDictionaryIntoDictionary
 MergeDictionaryIntoProvider
+Method
 Microseconds
 MinimumProcessorSpeed
 MixedModeStateRecord
@@ -13028,6 +13049,7 @@ NextCAFRegion
 NextCFragResourceExtensionPtr
 NextCFragResourceMemberPtr
 NextCFragResourceSearchQualifier
+Nil
 NoLooping
 NoneName
 NoneType
@@ -14254,6 +14276,7 @@ ProcessIsContextualMenuClient
 ProcessSerialNumber
 ProgressTrackInfo
 PromiseHFSFlavor
+Property
 PropertyAtomAID
 PtInDSequenceData
 PtInMovie
@@ -15511,6 +15534,7 @@ SEC_KEY_IMPORT_EXPORT_PARAMS_VERSION
 SEC_OPT_ID
 SEC_OPT_OUTAUTHENTICATION
 SEC_OPT_PASSWORD
+SEL
 SENDZERO
 SEND_CUE_SHEET
 SEND_DVD_STRUCTURE
@@ -17769,12 +17793,14 @@ UCTypeSelectWouldResetBuffer
 UDP_CHECKSUM
 UDP_RX_ICMP
 UIDelegate
+UIEdgeInsetsValue
 UInt16
 UInt32
 UInt64
 UInt64ToLongDouble
 UInt64ToSInt64
 UInt64ToUnsignedWide
+UNAVAILABLE_ATTRIBUTECGAffineTransformValue
 UNIVERSAL_INTERFACES_VERSION
 UNORDERED
 URI
@@ -18827,6 +18853,7 @@ accMenu
 accPaste
 accRun
 accUndo
+accelerometer: didAccelerate: 
 accept
 acceptCharset
 acceptConnectionInBackgroundAndNotify
@@ -18887,6 +18914,11 @@ actionMonitorWithResource: action:
 actionMonitorWithResource: action: parameters:
 actionMonitors
 actionProperty
+actionSheet: clickedButtonAtIndex: 
+actionSheet: didDismissWithButtonIndex: 
+actionSheet: willDismissWithButtonIndex: 
+actionSheetCancel: 
+actionsForTarget: forControlEvent: 
 activMask
 activate
 activate:
@@ -18929,6 +18961,7 @@ addAuthorizationResponseHeader: length:
 addBezierPath:
 addBodyHeader: length: endOfBody:
 addButtonWithTitle:
+addButtonWithTitle: 
 addByteSequenceHeader: length:
 addCacheNodes:
 addChapters: withAttributes: error:
@@ -19033,12 +19066,14 @@ addSubgroup:
 addSublayer:
 addSubresource:
 addSubview:
+addSubview: 
 addSubview: positioned: relativeTo:
 addSuiteNamed:
 addSymbolicLinkWithDestination: preferredFilename:
 addTabStop:
 addTabViewItem:
 addTableColumn:
+addTarget: action: forControlEvents: 
 addTargetHeader: length:
 addTemporaryAttribute: value: forCharacterRange:
 addTemporaryAttributes: forCharacterRange:
@@ -19137,6 +19172,10 @@ afpVolLocked
 alarm
 alertShowHelp:
 alertStyle
+alertView: clickedButtonAtIndex: 
+alertView: didDismissWithButtonIndex: 
+alertView: willDismissWithButtonIndex: 
+alertViewCancel: 
 alertWithError:
 alertWithMessageText: defaultButton: alternateButton: otherButton: informativeTextWithFormat:
 aliases
@@ -19153,6 +19192,7 @@ allCollectionAttributes
 allCompositions
 allConnections
 allConnectors
+allControlEvents
 allCredentials
 allFrameworks
 allHTTPHeaderFields
@@ -19161,6 +19201,8 @@ allKeys
 allKeysForObject:
 allObjects
 allServices
+allTargets
+allTouches
 allValues
 alloc
 allocWithZone:
@@ -19314,6 +19356,9 @@ applelabel
 applets
 application:
 application: delegateHandlesKey:
+application: didChangeStatusBarFrame: 
+application: didChangeStatusBarOrientation: 
+application: handleOpenURL: 
 application: openFile:
 application: openFileWithoutUI:
 application: openFiles:
@@ -19321,12 +19366,17 @@ application: openTempFile:
 application: printFile:
 application: printFiles:
 application: printFiles: withSettings: showPrintPanels:
+application: willChangeStatusBarFrame: 
+application: willChangeStatusBarOrientation: duration: 
 application: willPresentError:
 applicationClient
 applicationDidBecomeActive:
+applicationDidBecomeActive: 
 applicationDidChangeScreenParameters:
 applicationDidFinishLaunching:
+applicationDidFinishLaunching: 
 applicationDidHide:
+applicationDidReceiveMemoryWarning: 
 applicationDidResignActive:
 applicationDidUnhide:
 applicationDidUpdate:
@@ -19342,11 +19392,14 @@ applicationShouldHandleReopen: hasVisibleWindows:
 applicationShouldOpenUntitledFile:
 applicationShouldTerminate:
 applicationShouldTerminateAfterLastWindowClosed:
+applicationSignificantTimeChange: 
 applicationWillBecomeActive:
 applicationWillFinishLaunching:
 applicationWillHide:
 applicationWillResignActive:
+applicationWillResignActive: 
 applicationWillTerminate:
+applicationWillTerminate: 
 applicationWillUnhide:
 applicationWillUpdate:
 appliesImmediately
@@ -19365,6 +19418,7 @@ archiver: willReplaceObject: withObject:
 archiverData
 archiverDidFinish:
 archiverWillFinish:
+areAnimationsEnabled
 areCursorRectsEnabled
 arePlugInsEnabled
 areStepButtonsVisible
@@ -19670,10 +19724,13 @@ backgroundColor
 backgroundColors
 backgroundFilters
 backgroundImage
+backgroundImageForState: 
 backgroundLayoutEnabled
 backgroundLoadDidFailWithReason:
 backgroundPosition
+backgroundRectForBounds: 
 backgroundRepeat
+backgroundStyle  
 backingLocation
 backingStoreType
 backingType
@@ -19751,7 +19808,9 @@ becomeFirstResponder
 becomeKeyWindow
 becomeMainWindow
 becomesKeyOnlyIfNeeded
+beginAnimations: context: 
 beginAuthentication:
+beginCustomizingItems: 
 beginDocument
 beginEditing
 beginEntityMapping: manager: error:
@@ -19759,7 +19818,9 @@ beginFindString: withOptions:
 beginFindStrings: withOptions:
 beginForDirectory: file: types: modelessDelegate: didEndSelector: contextInfo:
 beginFrameAtTime: timeStamp:
+beginGeneratingDeviceOrientationNotifications
 beginGrouping
+beginIgnoringInteractionEvents
 beginImagePickerSheetForWindow: withDelegate: didEndSelector: contextInfo:
 beginImagePickerWithDelegate: didEndSelector: contextInfo:
 beginLineWithGlyphAtIndex:
@@ -19792,7 +19853,9 @@ beginSheetModalForWindow:
 beginSheetModalForWindow: modalDelegate: didEndSelector: contextInfo:
 beginSheetWithOptions: modalForWindow: modalDelegate: didEndSelector: contextInfo:
 beginSheetWithPrintInfo: modalForWindow: delegate: didEndSelector: contextInfo:
+beginTrackingWithTouch: withEvent: 
 beginUndoGrouping
+beginUpdates
 beginWithOptions: modelessDelegate: didEndSelector: contextInfo:
 behavior
 bestCompressionCodec
@@ -19831,6 +19894,7 @@ bm34Cursor
 bm38Cursor
 body
 boldSystemFontOfSize:
+boldSystemFontOfSize: 
 boolForKey:
 boolValue
 booleanForKey: inTable:
@@ -19848,6 +19912,7 @@ borderLeftColor
 borderLeftStyle
 borderLeftWidth
 borderRect
+borderRectForBounds: 
 borderRight
 borderRightColor
 borderRightStyle
@@ -19885,6 +19950,7 @@ breakRecd
 breakUndoCoalescing
 breveMark
 brightnessComponent
+bringSubviewToFront: 
 brownColor
 browseDevices: options:
 browseDevicesAsSheetForWindow:
@@ -19946,11 +20012,14 @@ burnProgressPanelDidFinish:
 burnProgressPanelWillBegin:
 burnSpeed:
 button
+buttonFontSize
 buttonMask
 buttonMsg
 buttonNumber
 buttonPressed:
+buttonTitleAtIndex: 
 buttonToolTip
+buttonWithType: 
 buttons
 bytes
 bytesPerPlane
@@ -20136,6 +20205,7 @@ canBeCompressedUsing:
 canBeConvertedToEncoding:
 canBeDisabled
 canBeVisibleOnAllSpaces
+canBecomeFirstResponder
 canBecomeKeyView
 canBecomeKeyWindow
 canBecomeMainWindow
@@ -20196,6 +20266,7 @@ canRedo
 canRemove
 canRemoveAllRows
 canRenderWithCGLContext:_ctx
+canResignFirstResponder
 canResumeDownloadDecodedWithEncodingMIMEType:
 canRun
 canSelectHiddenExtension
@@ -20233,6 +20304,7 @@ cancelPreviousPerformRequestsWithTarget:
 cancelPreviousPerformRequestsWithTarget: selector: object:
 cancelSyncing
 cancelTracking
+cancelTrackingWithEvent: 
 cancelUserAttentionRequest:
 cancelable
 candidateSelected:
@@ -20299,6 +20371,7 @@ cellAttribute:
 cellBackgroundColor
 cellBaselineOffset
 cellClass
+cellForRowAtIndexPath: 
 cellFrameAtRow: column:
 cellFrameForTextContainer: proposedLineFragment: glyphPosition: characterIndex:
 cellIndex
@@ -20671,6 +20744,34 @@ classNameForClass:
 classNamed:
 classNamesForCodes
 classOfDevice
+class_addIvar  
+class_addMethod  
+class_addProtocol  
+class_conformsToProtocol  
+class_copyIvarList  
+class_copyMethodList  
+class_copyPropertyList  
+class_copyProtocolList  
+class_createInstance  
+class_getClassMethod  
+class_getClassVariable  
+class_getInstanceMethod  
+class_getInstanceSize  
+class_getInstanceVariable  
+class_getIvarLayout  
+class_getMethodImplementation  
+class_getMethodImplementation_stret  
+class_getName  
+class_getProperty  
+class_getSuperclass  
+class_getVersion  
+class_getWeakIvarLayout  
+class_isMetaClass  
+class_respondsToSelector  
+class_setIvarLayout  
+class_setSuperclass  
+class_setVersion  
+class_setWeakIvarLayout  
 classq_
 claswp_
 clasyf_
@@ -20693,6 +20794,7 @@ clear:
 clearAllowedUUIDs
 clearAttributesCache
 clearBuffer
+clearButtonRectForBounds: 
 clearCaches
 clearColor
 clearCurrentContext
@@ -21078,7 +21180,9 @@ colorUsingColorSpace:
 colorUsingColorSpaceName:
 colorUsingColorSpaceName: device:
 colorWithAlphaComponent:
+colorWithAlphaComponent: 
 colorWithCGColor:
+colorWithCGColor: 
 colorWithCIColor:
 colorWithCalibratedHue: saturation: brightness: alpha:
 colorWithCalibratedRed: green: blue: alpha:
@@ -21089,11 +21193,15 @@ colorWithDeviceCyan: magenta: yellow: black: alpha:
 colorWithDeviceHue: saturation: brightness: alpha:
 colorWithDeviceRed: green: blue: alpha:
 colorWithDeviceWhite: alpha:
+colorWithHue: saturation: brightness: alpha: 
 colorWithKey:
 colorWithPatternImage:
+colorWithPatternImage: 
 colorWithRed: green: blue:
 colorWithRed: green: blue: alpha:
+colorWithRed: green: blue: alpha: 
 colorWithString:
+colorWithWhite: alpha: 
 colorizeByMappingGray: toColor: blackMapping: whiteMapping:
 colorsRequestedErr
 cols
@@ -21129,6 +21237,7 @@ commands
 comment
 commentURL
 commentWithStringValue:
+commitAnimations
 commitComposition
 commitEditing
 commitEditingWithDelegate: didCommitSelector: contextInfo:
@@ -21297,7 +21406,9 @@ contentFilters
 contentFrame
 contentMaxSize
 contentMinSize
+contentOffsetForSegmentAtIndex: 
 contentRect
+contentRectForBounds: 
 contentRectForFrameRect:
 contentRectForFrameRect: styleMask:
 contentResizeIncrements
@@ -21324,6 +21435,7 @@ continueAfterFailure
 continueCmd
 continueSpeaking
 continueTracking: at: inView:
+continueTrackingWithTouch: withEvent: 
 continueWithoutCredentialForAuthenticationChallenge:
 control: didFailToFormatString: errorDescription:
 control: didFailToValidatePartialString: errorDescription:
@@ -21387,17 +21499,25 @@ convertOldFactor: newFactor:
 convertPoint: fromLayer:
 convertPoint: fromPage:
 convertPoint: fromView:
+convertPoint: fromView: 
+convertPoint: fromWindow: 
 convertPoint: toLayer:
 convertPoint: toPage:
 convertPoint: toView:
+convertPoint: toView: 
+convertPoint: toWindow: 
 convertPointFromBase:
 convertPointToBase:
 convertRect: fromLayer:
 convertRect: fromPage:
 convertRect: fromView:
+convertRect: fromView: 
+convertRect: fromWindow: 
 convertRect: toLayer:
 convertRect: toPage:
 convertRect: toView:
+convertRect: toView: 
+convertRect: toWindow: 
 convertRectFromBase:
 convertRectToBase:
 convertScreenToBase:
@@ -21866,6 +21986,7 @@ currentCurLang
 currentCursor
 currentDefLang
 currentDestination
+currentDevice
 currentDirectory
 currentDirectoryPath
 currentDiskUsage
@@ -21939,6 +22060,7 @@ dVMImmuneMask
 dWritEnable
 dWritEnableMask
 darkGrayColor
+darkTextColor
 dashPattern
 data
 data1
@@ -22115,6 +22237,10 @@ decodeArrayOfObjCType: count: at:
 decodeBoolForKey:
 decodeBytesForKey: returnedLength:
 decodeBytesWithReturnedLength:
+decodeCGAffineTransformForKey: 
+decodeCGPointForKey: 
+decodeCGRectForKey: 
+decodeCGSizeForKey: 
 decodeClassName: asClassName:
 decodeDataObject
 decodeDoubleForKey:
@@ -22139,6 +22265,7 @@ decodeSMPTETimeForKey:
 decodeSize
 decodeSizeForKey:
 decodeTime
+decodeUIEdgeInsetsForKey: 
 decodeValueOfObjCType: at:
 decodeValuesOfObjCTypes:
 decomposableCharacterSet
@@ -22250,8 +22377,10 @@ deleteObject:
 deleteObjects:
 deleteRecordWithIdentifier:
 deleteRow:
+deleteRowsAtIndexPaths: withRowAnimation: 
 deleteRule
 deleteRule:
+deleteSections: withRowAnimation: 
 deleteSegment:
 deleteSelection
 deleteTFoot
@@ -22280,6 +22409,7 @@ depositViewResourceFromPasteboard: onObject: atPoint:
 depth
 depthLimit
 dequeueNotificationsMatching: coalesceMask:
+dequeueReusableCellWithIdentifier: 
 descendantNodeAtIndexPath:
 descender
 description
@@ -22310,6 +22440,7 @@ deselectItemAtIndex:
 deselectMsg
 deselectRecord:
 deselectRow:
+deselectRowAtIndexPath: animated: 
 deselectSelectedCell
 deserializeAlignedBytesLengthAtCursor:
 deserializeBytes: length: atCursor:
@@ -22486,7 +22617,9 @@ dictionaryWithValuesForKeys:
 didAccessValueForKey:
 didActivate
 didAddSubview:
+didAddSubview: 
 didAddToPersistentStoreCoordinator:
+didAnimateFirstHalfOfRotationToInterfaceOrientation: 
 didChange: valuesAtIndexes: forKey:
 didChangeArrangementCriteria
 didChangeText
@@ -22500,7 +22633,13 @@ didFinishRunningWithError:
 didLoadBytes: loadComplete:
 didLoadMainNib
 didMatchString:
+didMoveToSuperview
+didMoveToWindow
 didOpen
+didPresentActionSheet: 
+didPresentAlertView: 
+didReceiveMemoryWarning
+didRotateFromInterfaceOrientation: 
 didSave
 didSelect
 didTurnIntoFault
@@ -22587,7 +22726,9 @@ diskCapacity
 diskEvt
 diskMask
 disk_blk0
+dismissModalViewControllerAnimated: 
 dismissPopUp
+dismissWithClickedButtonIndex: animated: 
 dismissesAutomatically
 dispCntl
 dispatch
@@ -23019,9 +23160,16 @@ draggingUpdated:
 drain
 draw
 drawArrow: highlight:
+drawAsPatternInRect: 
 drawAtPoint:
+drawAtPoint: 
+drawAtPoint: blendMode: alpha: 
+drawAtPoint: forWidth: withFont: fontSize: lineBreakMode: baselineAdjustment: 
+drawAtPoint: forWidth: withFont: lineBreakMode: 
+drawAtPoint: forWidth: withFont: minFontSize: actualFontSize: lineBreakMode: baselineAdjustment: 
 drawAtPoint: fromRect: operation: fraction:
 drawAtPoint: withAttributes:
+drawAtPoint: withFont: 
 drawBackgroundForBlock: withFrame: inView: characterRange: layoutManager:
 drawBackgroundForGlyphRange: atPoint:
 drawBackgroundInClipRect:
@@ -23051,10 +23199,15 @@ drawInBezierPath: relativeCenterPosition:
 drawInCGLContext: pixelFormat:
 drawInContext:
 drawInRect:
+drawInRect: 
 drawInRect: angle:
+drawInRect: blendMode: alpha: 
 drawInRect: fromRect: operation: fraction:
 drawInRect: relativeCenterPosition:
 drawInRect: withAttributes:
+drawInRect: withFont: 
+drawInRect: withFont: lineBreakMode: 
+drawInRect: withFont: lineBreakMode: alignment: 
 drawInsertionPointInRect: color: turnedOn:
 drawInteriorWithFrame: inView:
 drawKeyEquivalentWithFrame: inView:
@@ -23070,7 +23223,9 @@ drawPage:
 drawPageBorderWithSize:
 drawPagePost:
 drawParts
+drawPlaceholderInRect: 
 drawRect:
+drawRect: 
 drawRepresentation: inRect:
 drawRow: clipRect:
 drawSegment: inFrame: withView:
@@ -23082,6 +23237,7 @@ drawStateImageWithFrame: inView:
 drawStatusBarBackgroundInRect: withHighlight:
 drawStrikethroughForGlyphRange: strikethroughType: baselineOffset: lineFragmentRect: lineFragmentGlyphRange: containerOrigin:
 drawSwatchInRect:
+drawTextInRect: 
 drawThumbOutline
 drawTitle: withFrame: inView:
 drawTitleOfColumn: inRect:
@@ -23331,6 +23487,7 @@ eWSUnknownType
 earlierDate:
 echosBullets
 edge
+editButtonItem
 editColumn: row: withEvent: select:
 editInAddressBook:
 editSelf: in:
@@ -23345,6 +23502,7 @@ editedRange
 editedRow
 editingDelegate
 editingNotAllowed
+editingRectForBounds: 
 editingStringForObjectValue:
 editionMgrInitErr
 editor: didCloseForObject:
@@ -23405,6 +23563,10 @@ encodeBycopyObject:
 encodeByrefObject:
 encodeBytes: length:
 encodeBytes: length: forKey:
+encodeCGAffineTransform: forKey: 
+encodeCGPoint: forKey: 
+encodeCGRect: forKey: 
+encodeCGSize: forKey: 
 encodeClassName: intoClassName:
 encodeConditionalObject:
 encodeConditionalObject: forKey:
@@ -23430,6 +23592,7 @@ encodeRootObject:
 encodeSMPTETime: forKey:
 encodeSize:
 encodeSize: forKey:
+encodeUIEdgeInsets: forKey: 
 encodeValueOfObjCType: at:
 encodeValuesOfObjCTypes:
 encodeWithCoder:
@@ -23437,13 +23600,17 @@ encoding
 encodingScheme
 enctype
 endContainer
+endCustomizingAnimated: 
 endDocument
 endEditing
 endEditing:
+endEditing: 
 endEditingFor:
 endEntityMapping: manager: error:
 endFrame
+endGeneratingDeviceOrientationNotifications
 endGrouping
+endIgnoringInteractionEvents
 endInstanceCreationForEntityMapping: manager: error:
 endLineStyle
 endLineWithGlyphRange:
@@ -23460,7 +23627,9 @@ endSheet: returnCode:
 endSpecifier
 endSubelementIdentifier
 endSubelementIndex
+endTrackingWithTouch: withEvent: 
 endUndoGrouping
+endUpdates
 engineRef
 enqueueNotification: postingStyle:
 enqueueNotification: postingStyle: coalesceMask: forModes:
@@ -24077,6 +24246,7 @@ exceptions
 excessCollsns
 exchangeObjectAtIndex: withObjectAtIndex:
 exchangePageAtIndex: withPageAtIndex:
+exchangeSubviewAtIndex: withSubviewAtIndex: 
 excludedKeys
 excludedMemoryException
 executableArchitectures
@@ -24182,6 +24352,7 @@ failureReason
 failureResponse
 false32b
 familyName
+familyNames
 fantasyFontFamily
 fastestEncoding
 fatalDateTime
@@ -24389,6 +24560,7 @@ fixedFontFamily
 fixesAttributesLazily
 flLigature
 flagsChanged:
+flashScrollIndicators
 flatness
 flatten
 flattenActiveTracksOnly
@@ -24461,6 +24633,7 @@ fontManager: willIncludeFont:
 fontMenu:
 fontName
 fontNamed: hasTraits:
+fontNamesForFamilyName: 
 fontNotDeclared
 fontNotOutlineErr
 fontPanel:
@@ -24479,6 +24652,8 @@ fontWithDescriptor: textTransform:
 fontWithFamily: traits: weight: size:
 fontWithName: matrix:
 fontWithName: size:
+fontWithName: size: 
+fontWithSize: 
 forceDither
 forceReadBit
 forceReadMask
@@ -27360,6 +27535,7 @@ grids
 groupDoubleAction
 groupIdentityWithPosixGID: authority:
 groupName
+groupTableViewBackgroundColor
 groupedResults
 groupingAttributes
 groupingLevel
@@ -27469,6 +27645,7 @@ hasSubmenu
 hasSucceeded
 hasSuffix:
 hasTestCaseSignature
+hasText
 hasThousandSeparators
 hasTitleBar
 hasUnappliedChanges
@@ -27561,6 +27738,7 @@ historyItemLimit
 hitMsg
 hitPart
 hitTest:
+hitTest: withEvent: 
 hitTestForEvent: inRect: ofView:
 hmBalloonAborted
 hmCloseViewActive
@@ -27739,18 +27917,24 @@ imageDidNotDraw: inRect:
 imageDimsWhenDisabled
 imageFileTypes
 imageForSegment:
+imageForSegmentAtIndex: 
+imageForState: 
 imageForViewer
 imageFrameStyle
 imageInterpolation
 imageNameForStatus:
 imageNamed:
+imageNamed: 
 imageOrigin
 imagePasteboardTypes
 imagePath
 imagePicker
+imagePickerController: didFinishPickingImage: editingInfo: 
+imagePickerControllerDidCancel: 
 imagePosition
 imageProperties
 imageRectForBounds:
+imageRectForContentRect: 
 imageRectForPaper:
 imageRectInRuler
 imageRepClassForData:
@@ -27784,15 +27968,18 @@ imageVersion
 imageWidth
 imageWithBitmapData: bytesPerRow:
 imageWithCGImage:
+imageWithCGImage: 
 imageWithCGImage: options:
 imageWithCGLayer:
 imageWithCGLayer: options:
 imageWithCVImageBuffer:
 imageWithCVImageBuffer: options:
 imageWithColor:
+imageWithContentsOfFile: 
 imageWithContentsOfURL:
 imageWithContentsOfURL: options:
 imageWithData:
+imageWithData: 
 imageWithData: options:
 imageWithImageProvider: size:
 imageWithTexture: size:
@@ -27874,8 +28061,14 @@ indexOfTabViewItemWithIdentifier:
 indexOfTickMarkAtPoint:
 indexPathByAddingIndex:
 indexPathByRemovingLastIndex
+indexPathForCell: 
+indexPathForRow: inSection: 
+indexPathForRowAtPoint: 
+indexPathForSelectedRow
 indexPathWithIndex:
 indexPathWithIndexes: length:
+indexPathsForRowsInRect: 
+indexPathsForVisibleRows
 indexSet
 indexSetWithIndex:
 indexSetWithIndexesInRange:
@@ -27925,8 +28118,8 @@ initMACE6
 initMono
 initMonthlyRecurrenceWithInterval:
 initMonthlyRecurrenceWithInterval: end:
-initMonthlyRecurrenceWithInterval: forDaysOfTheMonth: end:
 initMonthlyRecurrenceWithInterval: forDayOfTheWeek: forWeekOfTheMonth: end:
+initMonthlyRecurrenceWithInterval: forDaysOfTheMonth: end:
 initMouseEvent:
 initMouseEvent: canBubble: cancelable: view: detail: screenX: screenY: clientX: clientY: ctrlKey: altKey: shiftKey: metaKey: button: relatedTarget:
 initMsg
@@ -27961,6 +28154,7 @@ initWeeklyRecurrenceWithInterval:
 initWeeklyRecurrenceWithInterval: end:
 initWeeklyRecurrenceWithInterval: forDaysOfTheWeek: end:
 initWithAEDescNoCopy:
+initWithActivityIndicatorStyle: 
 initWithAddressBook:
 initWithArray:
 initWithArray: copyItems:
@@ -27971,6 +28165,7 @@ initWithAttributes: error:
 initWithAudioUnit:
 initWithAudioUnit: displayFlags:
 initWithAuthenticationChallenge: sender:
+initWithBarButtonSystemItem: target: action: 
 initWithBitmapData: bytesPerRow: size:
 initWithBitmapDataPlanes: pixelsWide: pixelsHigh: bitsPerSample: samplesPerPixel: hasAlpha: isPlanar: colorSpaceName: bitmapFormat: bytesPerRow: bitsPerPixel:
 initWithBitmapDataPlanes: pixelsWide: pixelsHigh: bitsPerSample: samplesPerPixel: hasAlpha: isPlanar: colorSpaceName: bytesPerRow: bitsPerPixel:
@@ -27987,8 +28182,10 @@ initWithBytesNoCopy: length:
 initWithBytesNoCopy: length: encoding: freeWhenDone:
 initWithBytesNoCopy: length: freeWhenDone:
 initWithCGColor:
+initWithCGColor: 
 initWithCGColorSpace:
 initWithCGImage:
+initWithCGImage: 
 initWithCGImage: options:
 initWithCGLContext: pixelFormat: colorSpace: composition:
 initWithCGLayer:
@@ -28036,6 +28233,7 @@ initWithContentRect: styleMask: backing: defer:
 initWithContentRect: styleMask: backing: defer: screen:
 initWithContentSize: preferredEdge:
 initWithContentsOfFile:
+initWithContentsOfFile: 
 initWithContentsOfFile: byReference:
 initWithContentsOfFile: encoding: error:
 initWithContentsOfFile: ofType:
@@ -28053,7 +28251,9 @@ initWithContentsOfURL: options:
 initWithContentsOfURL: options: error:
 initWithContentsOfURL: usedEncoding: error:
 initWithControlPoints: : : :
+initWithCustomView: 
 initWithData:
+initWithData: 
 initWithData: MIMEType:
 initWithData: URL: MIMEType: textEncodingName: frameName:
 initWithData: encoding:
@@ -28108,6 +28308,7 @@ initWithFormat: locale:
 initWithFormat: locale: arguments:
 initWithFormat: shareContext:
 initWithFrame:
+initWithFrame: 
 initWithFrame: filter:
 initWithFrame: frameName: groupName:
 initWithFrame: isPreview:
@@ -28116,6 +28317,8 @@ initWithFrame: mode: cellClass: numberOfRows: numberOfColumns:
 initWithFrame: mode: prototype: numberOfRows: numberOfColumns:
 initWithFrame: pixelFormat:
 initWithFrame: pullsDown:
+initWithFrame: reuseIdentifier: 
+initWithFrame: style: 
 initWithFrame: textContainer:
 initWithFrames:
 initWithHTML: baseURL: documentAttributes:
@@ -28124,6 +28327,7 @@ initWithHTML: options: documentAttributes:
 initWithHTMLString:
 initWithHost: port: protocol: realm: authenticationMethod:
 initWithHostname: portnumber:
+initWithHue: saturation: brightness: alpha: 
 initWithICCProfileData:
 initWithID: attributeElement:
 initWithID: attributeElementValue:
@@ -28131,10 +28335,12 @@ initWithIconHandle:
 initWithIconRef:
 initWithIdentifier:
 initWithImage:
+initWithImage: 
 initWithImage: foregroundColorHint: backgroundColorHint: hotSpot:
 initWithImage: hotSpot:
 initWithImage: keysAndValues:key0
 initWithImage: options:
+initWithImage: style: target: action: 
 initWithImageProperties:
 initWithImageProvider: size:
 initWithIncomingDevice:
@@ -28147,6 +28353,7 @@ initWithInt:
 initWithInteger:
 initWithInvocation:
 initWithItemIdentifier:
+initWithItems: 
 initWithKey: ascending:
 initWithKey: ascending: selector:
 initWithKeyOptions: valueOptions: capacity:
@@ -28190,6 +28397,7 @@ initWithNativeHandle: closeOnDealloc:
 initWithNetService:
 initWithNibName:
 initWithNibName: bundle:
+initWithNibName: bundle: 
 initWithNibNamed: bundle:
 initWithNotificationCenter:
 initWithOBEXSession:
@@ -28213,6 +28421,7 @@ initWithPasteboard:
 initWithPasteboard: error:
 initWithPath:
 initWithPath: documentAttributes:
+initWithPatternImage: 
 initWithPersistentStoreCoordinator: configurationName: URL: options:
 initWithPickerMask: colorPanel:
 initWithPlainTextString:
@@ -28221,6 +28430,7 @@ initWithPointerFunctions:
 initWithPointerFunctions: capacity:
 initWithPosition: objectSpecifier:
 initWithProducer:
+initWithProgressViewStyle: 
 initWithProperties:
 initWithProtectionSpace: proposedCredential: previousFailureCount: failureResponse: error: sender:
 initWithProtocolFamily: socketType: protocol: address:
@@ -28236,6 +28446,7 @@ initWithReceivePort: sendPort:
 initWithReceivePort: sendPort: components:
 initWithRect:
 initWithRect: options: owner: userInfo:
+initWithRed: green: blue: alpha: 
 initWithReferenceToData:
 initWithReferenceToData: name: MIMEType:
 initWithReferenceToFile:
@@ -28250,6 +28461,7 @@ initWithResponse: data:
 initWithResponse: data: userInfo: storagePolicy:
 initWithResumeData: delegate: path:
 initWithRootElement:
+initWithRootViewController: 
 initWithRoundingMode: scale: raiseOnExactness: raiseOnOverflow: raiseOnUnderflow: raiseOnDivideByZero:
 initWithRubyObject:
 initWithRubyScriptCString:
@@ -28280,9 +28492,11 @@ initWithString: calendarFormat:
 initWithString: calendarFormat: locale:
 initWithString: locale:
 initWithString: relativeToURL:
+initWithStyle: 
 initWithSuiteName: className: dictionary:
 initWithSuiteName: commandName: dictionary:
 initWithTCPPort:
+initWithTabBarSystemItem: tag: 
 initWithTable: startingRow: rowSpan: startingColumn: columnSpan:
 initWithTarget: connection:
 initWithTarget: protocol:
@@ -28295,7 +28509,12 @@ initWithTimeInterval: sinceDate:
 initWithTimeIntervalSinceNow:
 initWithTimeIntervalSinceReferenceDate:
 initWithTitle:
+initWithTitle: 
 initWithTitle: action: keyEquivalent:
+initWithTitle: delegate: cancelButtonTitle: destructiveButtonTitle: otherButtonTitles: , ...
+initWithTitle: image: tag: 
+initWithTitle: message: delegate: cancelButtonTitle: otherButtonTitles: , ...
+initWithTitle: style: target: action: 
 initWithTransform:
 initWithType: error:
 initWithType: location:
@@ -28326,6 +28545,7 @@ initWithValues: count:
 initWithVendor:
 initWithViewAnimations:
 initWithVoice:
+initWithWhite: alpha: 
 initWithWindow:
 initWithWindow: rect:
 initWithWindowNibName:
@@ -28342,8 +28562,8 @@ initWithXMLString: options: error:
 initWithYear: month: day: hour: minute: second: timeZone:
 initYearlyRecurrenceWithInterval:
 initYearlyRecurrenceWithInterval: end:
-initYearlyRecurrenceWithInterval: forMonthsOfTheYear: end:
 initYearlyRecurrenceWithInterval: forDayOfTheWeek: forWeekOfTheMonth: forMonthsOfTheYear: end:
+initYearlyRecurrenceWithInterval: forMonthsOfTheYear: end:
 initialFirstResponder
 initialKeyView
 initialRequest
@@ -28418,16 +28638,23 @@ insertPointer: atIndex:
 insertRow:
 insertRow: withCells:
 insertRowAtIndex: withType: asSubrowOfRow: animate:
+insertRowsAtIndexPaths: withRowAnimation: 
 insertRule:
 insertRule: index:
+insertSections: withRowAnimation: 
 insertSegmentOfMovie: fromRange: scaledToRange:
 insertSegmentOfMovie: timeRange: atTime:
 insertSegmentOfTrack: fromRange: scaledToRange:
 insertSegmentOfTrack: timeRange: atTime:
+insertSegmentWithImage:  atIndex: animated: 
+insertSegmentWithTitle: atIndex: animated: 
 insertString: atIndex:
 insertSublayer: above:
 insertSublayer: atIndex:
 insertSublayer: below:
+insertSubview: aboveSubview: 
+insertSubview: atIndex: 
+insertSubview: belowSubview: 
 insertTab:
 insertTabIgnoringFieldEditor:
 insertTabViewItem: atIndex:
@@ -28493,6 +28720,7 @@ interest
 interfaceStyle
 interfaceVersion
 interfaces
+interiorBackgroundStyle
 interiorColor
 internalComponentErr
 internalQuickTimeError
@@ -28636,6 +28864,7 @@ isCopyingOperation
 isCountOnlyRequest
 isCurrent
 isCustomButtonVisible
+isCustomizing
 isDataRetained
 isDaylightSavingTime
 isDaylightSavingTimeForDate:
@@ -28644,6 +28873,7 @@ isDeletableFileAtPath:
 isDeleted
 isDescendantOf:
 isDescendantOfProject:
+isDescendantOfView: 
 isDeviceConnected
 isDirectory
 isDisplayedWhenStopped
@@ -28656,6 +28886,7 @@ isEmpty
 isEnabled
 isEnabledForEntityName:
 isEnabledForSegment:
+isEnabledForSegmentAtIndex: 
 isEncrypted
 isEnteringProximity
 isEntryAcceptable:
@@ -28717,6 +28948,7 @@ isHorizontallyResizable
 isHostCacheEnabled
 isHotSpotButtonVisible
 isIdling
+isIgnoringInteractionEvents
 isInFullScreenMode
 isInUseByAnotherApplication
 isIncoming
@@ -28816,6 +29048,7 @@ isSetOnMouseEntered
 isSetOnMouseExited
 isSheet
 isSimpleRectangularTextContainer
+isSourceTypeAvailable: 
 isSpeaking
 isStandalone
 isStarted
@@ -28867,6 +29100,7 @@ isl_data
 isnormal
 italic
 italicAngle
+italicSystemFontOfSize: 
 item:
 itemAdded:
 itemArray
@@ -28906,6 +29140,9 @@ iuUnTokenTable
 iuWhiteSpaceList
 iuWordSelectTable
 iuWordWrapTable
+ivar_getName  
+ivar_getOffset  
+ivar_getTypeEncoding  
 izmax1_
 javaFrame
 javaFrameClassName
@@ -29010,6 +29247,7 @@ kABCreationDateProperty
 kABDatabaseChangedExternallyNotification
 kABDatabaseChangedNotification
 kABDefaultNameOrdering
+kABDeletedRecords
 kABDepartmentProperty
 kABEmailHomeLabel
 kABEmailProperty
@@ -29019,11 +29257,13 @@ kABFirstNameFirst
 kABFirstNamePhoneticProperty
 kABFirstNameProperty
 kABFriendLabel
+kABGroupNameProperty
 kABHomeLabel
 kABHomePageProperty
 kABICQHomeLabel
 kABICQInstantProperty
 kABICQWorkLabel
+kABInsertedRecords
 kABJabberHomeLabel
 kABJabberInstantProperty
 kABJabberWorkLabel
@@ -29068,6 +29308,7 @@ kABSuffixProperty
 kABTitleProperty
 kABUIDProperty
 kABURLsProperty
+kABUpdatedRecords
 kABWorkLabel
 kABYahooHomeLabel
 kABYahooInstantProperty
@@ -41433,7 +41674,7 @@ kPublicThemeFontCount
 kPushTransitionType
 kQCPlugInExecutionModeConsumer: The plug-in always executes assuming its "Enable" input is true.
 kQCPlugInExecutionModeProcessor: The plug-in executes whenever its inputs change or if the time change .
-kQCPlugInExecutionModeProvider: The plug-in executes on demandÑthat isnever data is requested of it at most once per frame.
+kQCPlugInExecutionModeProvider: The plug-in executes on demandâ€”that isnever data is requested of it at most once per frame.
 kQCPlugInTimeModeIdle: The plug-in does depend on time implicitely and needs the system to execute it periodically .
 kQCPlugInTimeModeNone: The plug-in does not depend on time at all .
 kQCPlugInTimeModeTimeBase: The plug-in does depend on time explicitely and has a timebase defined by the system .
@@ -47983,6 +48224,7 @@ launchFlags
 launchPath
 launchedApplications
 launchedTaskWithLaunchPath: arguments:
+layerClass
 layerWithMovie:
 layerWithSession:
 layout
@@ -48007,6 +48249,7 @@ layoutRectForTextBlock: glyphRange:
 layoutRectFromFrame:
 layoutSublayers
 layoutSublayersOfLayer:
+layoutSubviews
 layoutTab
 ldexpl
 ldtox80
@@ -48022,6 +48265,7 @@ leftMargin
 leftOverBlockSize
 leftOverChars
 leftSingGuillemet
+leftViewRectForBounds: 
 length
 lengthOfBytesUsingEncoding:
 letterCharacterSet
@@ -48037,6 +48281,7 @@ libraryNibNames
 licenseAgreed
 licenseAgreedLanguage
 lightGrayColor
+lightTextColor
 limitDateForMode:
 limitReachedErr
 lineBoxRects
@@ -48090,20 +48335,24 @@ loadColumnZero
 loadComposition:
 loadCompositionFromFile:
 loadData: MIMEType: textEncodingName: baseURL:
+loadData: MIMEType: textEncodingName: baseURL: 
 loadDataRepresentation: ofType:
 loadFileWrapperRepresentation: ofType:
 loadForwardTrackEdits
 loadFromURL: error:
 loadHTMLString: baseURL:
+loadHTMLString: baseURL: 
 loadInBackground
 loadInForeground
 loadMainView
 loadNibFile: externalNameTable: withZone:
 loadNibNamed: owner:
+loadNibNamed: owner: options: 
 loadNonExecutablePlugIns
 loadPlugIn: allowNonExecutable:
 loadPlugInAtPath:
 loadRequest:
+loadRequest: 
 loadResourceDataNotifyingClient: usingCache:
 loadSuiteWithDictionary: fromBundle:
 loadSuitesFromBundle:
@@ -48159,6 +48408,7 @@ localizesFormat
 location
 locationForGlyphAtIndex:
 locationForSubmenu:
+locationInView: 
 locationInWindow
 locationOfPrintRect:
 lock
@@ -48285,6 +48535,7 @@ makeDocumentWithContentsOfURL: ofType:
 makeDocumentWithContentsOfURL: ofType: error:
 makeFirstResponder:
 makeKeyAndOrderFront:
+makeKeyAndVisible
 makeKeyWindow
 makeMainWindow
 makeNewConnection: sender:
@@ -48327,6 +48578,12 @@ mappingModel
 mappingModelFromBundles: forSourceModel: destinationModel:
 mappingType
 mappings
+marg_free  
+marg_getRef  
+marg_getValue  
+marg_list
+marg_malloc  
+marg_setValue  
 margin
 marginBottom
 marginHeight
@@ -48399,6 +48656,8 @@ maximumRecordedDuration
 maximumRecordedFileSize
 maximumSignificantDigits 
 maximumSizeForCellSize: knobPosition:
+maximumTrackImageForState: 
+maximumValueImageRectForBounds: 
 mcActionActivate
 mcActionAddActionNotification
 mcActionAdjustCursor
@@ -48631,6 +48890,16 @@ methodReturnLength
 methodReturnType
 methodSignature
 methodSignatureForSelector:
+method_copyArgumentType  
+method_copyReturnType  
+method_exchangeImplementations  
+method_getArgumentType  
+method_getImplementation  
+method_getName  
+method_getNumberOfArguments  
+method_getReturnType  
+method_getTypeEncoding  
+method_setImplementation  
 methods
 midiDupIDErr
 midiInvalidCmdErr
@@ -48680,6 +48949,8 @@ minimumRangeOfUnit:
 minimumSignificantDigits 
 minimumSize
 minimumSizeForCellSize: knobPosition:
+minimumTrackImageForState: 
+minimumValueImageRectForBounds: 
 miniwindowImage
 miniwindowTitle
 minorVersion
@@ -48907,6 +49178,12 @@ namespaceWithName: stringValue:
 namespaces
 nativeHandle
 natural_t
+navigationBar: didPopItem: 
+navigationBar: didPushItem: 
+navigationBar: shouldPopItem: 
+navigationBar: shouldPushItem: 
+navigationController: didShowViewController: animated: 
+navigationController: willShowViewController: animated: 
 nbpBuffOvr
 nbpConfDiff
 nbpDuplicate
@@ -49208,6 +49485,7 @@ numberOfColorComponents
 numberOfColorStops
 numberOfColumns
 numberOfComponents
+numberOfComponentsInPickerView: 
 numberOfGlyphs
 numberOfGroupsInImageBrowser:
 numberOfItems
@@ -49218,8 +49496,12 @@ numberOfItemsInMenu:
 numberOfMajorTickMarks
 numberOfPlanes
 numberOfRows
+numberOfRowsInComponent: 
+numberOfRowsInSection: 
 numberOfRowsInTableView:
 numberOfSamples
+numberOfSections
+numberOfSectionsInTableView: 
 numberOfSelectedColumns
 numberOfSelectedRows
 numberOfSlideshowItems
@@ -49246,6 +49528,33 @@ numberWithUnsignedLongLong:
 numberWithUnsignedShort:
 numtostring
 objCType
+objc_allocateClassPair  
+objc_cache
+objc_copyProtocolList  
+objc_duplicateClass  
+objc_getClass  
+objc_getClassList  
+objc_getFutureClass  
+objc_getMetaClass  
+objc_getProtocol  
+objc_getRequiredClass  
+objc_lookUpClass  
+objc_method_list
+objc_msgSend
+objc_msgSend  
+objc_msgSendSuper
+objc_msgSendSuper  
+objc_msgSendSuper_stret
+objc_msgSendSuper_stret  
+objc_msgSend_fpret  
+objc_msgSend_stret
+objc_msgSend_stret  
+objc_object
+objc_property_t
+objc_protocol_list
+objc_registerClassPair  
+objc_setFutureClass  
+objc_super
 object
 objectAtIndex:
 objectBeingTested
@@ -49275,6 +49584,16 @@ objectValues
 objectWithID:
 objectWithName:
 objectZone
+object_copy  
+object_dispose  
+object_getClass  
+object_getClassName  
+object_getIndexedIvars  
+object_getInstanceVariable  
+object_getIvar  
+object_setClass  
+object_setInstanceVariable  
+object_setIvar  
 objects
 objectsAtIndexes:
 objectsByEvaluatingSpecifier
@@ -49342,6 +49661,7 @@ openTempFile:
 openTransportConnection:
 openTray
 openURL:
+openURL: 
 openURLs: withAppBundleIdentifier: options: additionalEventParamDescriptor: launchIdentifiers:
 openUntitledDocumentAndDisplay: error:
 openUntitledDocumentOfType: display:
@@ -49955,6 +50275,12 @@ pickedPaperSize:
 pickedUnits:
 pickerCantLive
 pickerResourceError
+pickerView: didSelectRow: inComponent: 
+pickerView: numberOfRowsInComponent: 
+pickerView: rowHeightForComponent: 
+pickerView: titleForRow: forComponent: 
+pickerView: viewForRow: forComponent: reusingView: 
+pickerView: widthForComponent: 
 pictInfoIDErr
 pictInfoVerbErr
 pictInfoVersionErr
@@ -49973,6 +50299,7 @@ pixelsHigh
 pixelsWide
 placeView:
 placeholderAttributedString
+placeholderRectForBounds: 
 placeholderString
 plainDBox
 platform68k
@@ -50046,6 +50373,7 @@ pmWakeupTimerChangedMask
 pnotComponentNeedsNoCache
 pnotComponentWantsEvents
 point
+pointInside: withEvent: 
 pointSize
 pointValue
 pointerArrayWithOptions:
@@ -50066,10 +50394,14 @@ policyDelegate
 poolCountHighWaterMark
 poolCountHighWaterResolution
 pop
+popNavigationItemAnimated: 
+popToRootViewControllerAnimated: 
+popToViewController: animated: 
 popUpContextMenu: withEvent: forView:
 popUpContextMenu: withEvent: forView: withFont:
 popUpRecentsMenuForView: withDelegate: didEndSelector: contextInfo:
 popUpStatusItemMenu:
+popViewControllerAnimated: 
 popupFixedWidth
 popupMenuProc
 popupTitleBold
@@ -50182,6 +50514,7 @@ prepareContent
 prepareFileForBurn:
 prepareFileForVerification:
 prepareForDragOperation:
+prepareForReuse
 prepareGState
 prepareOpenGL
 preparePageLayout:
@@ -50195,6 +50528,7 @@ preparedCellAtColumn: row:
 prependTransform:
 presentError:
 presentError: modalForWindow: delegate: didPresentSelector: contextInfo:
+presentModalViewController: animated: 
 presentationTime
 preservesAspectRatio
 preservesContentDuringLiveResize
@@ -50208,6 +50542,7 @@ previewBounds
 previousEnabled
 previousFailureCount
 previousKeyView
+previousLocationInView: 
 previousNode
 previousSibling
 previousValidKeyView
@@ -50301,6 +50636,8 @@ propertyNotSupportedByNodeErr
 propertyType
 propertyWithClass: code:
 propertyWithCode:
+property_getAttributes 
+property_getName  
 proposedCredential
 protectionSpace
 protocol
@@ -50308,6 +50645,11 @@ protocolCheckerWithTarget: protocol:
 protocolErr
 protocolFamily
 protocolSpecificInformation
+protocol_copyClassMethodDescriptionList  
+protocol_copyInstanceMethodDescriptionList  
+protocol_copyOptionalClassMethodDescriptionList  
+protocol_copyOptionalInstanceMethodDescriptionList  
+protocol_copyPropertyList  
 protocols
 prototype
 provideImageData: bytesPerRow:
@@ -50331,6 +50673,8 @@ push
 pushButProc
 pushChange:
 pushChangesFromRecord: withIdentifier:
+pushNavigationItem: animated: 
+pushViewController: animated: 
 putCell: atRow: column:
 putObjects: onPasteboard: forOwner:
 q_link
@@ -50559,10 +50903,14 @@ rect
 rectArrayForCharacterRange: withinSelectedCharacterRange: inTextContainer: rectCount:
 rectArrayForGlyphRange: withinSelectedGlyphRange: inTextContainer: rectCount:
 rectForBlock: layoutAtPoint: inRect: textContainer: characterRange:
+rectForFooterInSection: 
+rectForHeaderInSection: 
 rectForKey: inTable:
 rectForLayoutAtPoint: inRect: textContainer: characterRange:
 rectForPage:
 rectForPart:
+rectForRowAtIndexPath: 
+rectForSection: 
 rectOfColumn:
 rectOfItemAtIndex:
 rectOfPathComponentCell: withFrame: inView:
@@ -50666,7 +51014,9 @@ releaseMediaReservation
 releaseRenderedTexture: forCGLContext:_ctx
 reload
 reload:
+reloadAllComponents
 reloadColumn:
+reloadComponent: 
 reloadCriteria
 reloadData
 reloadDefaultFontFamilies
@@ -50697,6 +51047,7 @@ removeAllIndexes
 removeAllItems
 removeAllObjects
 removeAllPoints
+removeAllSegments
 removeAllToolTips
 removeAnimationForKey:
 removeAnimationsForKey:
@@ -50814,6 +51165,7 @@ removeRowAtIndex:
 removeRowsAtIndexes: includeSubrows:
 removeRunLoop:
 removeSavedColumnsWithAutosaveName:
+removeSegmentAtIndex: animated: 
 removeSelectedObjects:
 removeSelectionIndexPaths:
 removeSelectionIndexes:
@@ -50823,6 +51175,7 @@ removeSuiteNamed:
 removeTabStop:
 removeTabViewItem:
 removeTableColumn:
+removeTarget: action: forControlEvents: 
 removeTask: error:
 removeTemporaryAttribute: forCharacterRange:
 removeTextContainerAtIndex:
@@ -51084,6 +51437,7 @@ rightOptionKeyBit
 rightShiftKey
 rightShiftKeyBit
 rightSingGuillemet
+rightViewRectForBounds: 
 ringDetectBit
 ringDetectMask
 ringMark
@@ -51108,6 +51462,8 @@ rootProxyForConnectionWithRegisteredName: host: usingNameServer:
 rotateByAngle:
 rotateByDegrees:
 rotateByRadians:
+rotatingFooterView
+rotatingHeaderView
 rotation
 roundingBehavior
 roundingIncrement
@@ -51123,6 +51479,7 @@ rowForDisplayValue:
 rowForItem:
 rowHeight
 rowIndex
+rowSizeForComponent: 
 rowSizeForPage:
 rowSpan
 rowTemplates
@@ -51387,14 +51744,27 @@ scrollPageDown:
 scrollPageUp:
 scrollPoint:
 scrollRangeToVisible:
+scrollRangeToVisible: 
 scrollRect: by:
 scrollRectToVisible:
+scrollRectToVisible: animated: 
 scrollRowToVisible:
 scrollSelectionToVisible:
+scrollToNearestSelectedRowAtScrollPosition: animated: 
 scrollToPoint:
 scrollToRect:
+scrollToRowAtIndexPath: atScrollPosition: animated: 
 scrollViaScroller:
 scrollView
+scrollViewDidEndDecelerating: 
+scrollViewDidEndDragging: willDecelerate: 
+scrollViewDidEndScrollingAnimation: 
+scrollViewDidEndZooming: withView: atScale: 
+scrollViewDidScroll: 
+scrollViewDidScrollToTop: 
+scrollViewShouldScrollToTop: 
+scrollViewWillBeginDecelerating: 
+scrollViewWillBeginDragging: 
 scrollWheel:
 scrollerWidth
 scrollerWidthForControlSize:
@@ -51578,6 +51948,14 @@ sdmPriInitErr
 sdmSRTInitErr
 sdpQueryComplete: status:
 seNoDB
+searchBar: textDidChange: 
+searchBarBookmarkButtonClicked: 
+searchBarCancelButtonClicked: searchBar
+searchBarSearchButtonClicked: 
+searchBarShouldBeginEditing: 
+searchBarShouldEndEditing: 
+searchBarTextDidBeginEditing: 
+searchBarTextDidEndEditing: 
 searchButtonCell
 searchButtonRectForBounds:
 searchElementForConjunction: children:
@@ -51610,6 +51988,7 @@ secondsFromGMT
 secondsFromGMTForDate:
 sectNFErr
 section
+sectionIndexTitlesForTableView: 
 sectionRowIndex
 sectors
 seekErr
@@ -51617,6 +51996,10 @@ seekToEndOfFile
 seekToFileOffset:
 segmentCount
 segmentStyle
+sel_getName  
+sel_getUid  
+sel_isEqual  
+sel_registerName  
 select
 selectAll
 selectAll:
@@ -51658,6 +52041,8 @@ selectPreviousTabViewItem:
 selectRecord: byExtendingSelection:
 selectRow: byExtendingSelection:
 selectRow: inColumn:
+selectRow: inComponent: animated: 
+selectRowAtIndexPath: animated: scrollPosition: 
 selectRowIndexes: byExtendingSelection:
 selectRowIndexes: inColumn:
 selectSegmentWithTag:
@@ -51703,6 +52088,7 @@ selectedRecords
 selectedRow
 selectedRowEnumerator
 selectedRowInColumn:
+selectedRowInComponent: 
 selectedRowIndexes
 selectedRowIndexesInColumn:
 selectedSegment
@@ -51749,8 +52135,11 @@ self
 sendAction
 sendAction: to:
 sendAction: to: forAllCells:
+sendAction: to: forEvent: 
 sendAction: to: from:
+sendAction: to: from: forEvent: 
 sendActionOn:
+sendActionsForControlEvents: 
 sendBeforeDate:
 sendBeforeDate: components: from: reserved:
 sendBeforeDate: msgid: components: from: reserved:
@@ -51760,6 +52149,7 @@ sendData:
 sendDataToTransport:
 sendDoubleAction
 sendEvent:
+sendEvent: 
 sendEvent: id: parameters:
 sendFile:
 sendL2CAPEchoRequest: length:
@@ -51768,6 +52158,7 @@ sendPacket
 sendPort
 sendRFCOMMData: length:
 sendRemoteLineStatus:
+sendSubviewToBack: 
 sendSynchronousRequest: returningResponse: error:
 sender
 sendsActionOnArrowKeys
@@ -51918,11 +52309,23 @@ setAltersStateOfSelectedItem:
 setAlwaysShowsDecimalSeparator:
 setAlwaysUsesMultipleValuesMarker:
 setAnimates:
+setAnimationBeginsFromCurrentState: 
 setAnimationBlockingMode:
 setAnimationCurve:
+setAnimationCurve: 
 setAnimationDelay:
+setAnimationDelay: 
+setAnimationDelegate: 
+setAnimationDidStopSelector: 
+setAnimationDuration: 
+setAnimationRepeatAutoreverses: 
+setAnimationRepeatCount: 
+setAnimationStartDate: 
 setAnimationTimeInterval:
+setAnimationTransition: forView: cache: 
+setAnimationWillStartSelector: 
 setAnimations:
+setAnimationsEnabled: 
 setApertureModeDimensions: forMode:
 setAppendable:
 setAppleMenu:
@@ -52009,9 +52412,11 @@ setBackgroundColor:
 setBackgroundColors:
 setBackgroundFilters:
 setBackgroundImage:
+setBackgroundImage: forState: 
 setBackgroundLayoutEnabled:
 setBackgroundPosition:
 setBackgroundRepeat:
+setBackgroundStyle:
 setBackingType:
 setBadgeLabel:
 setBannerText:
@@ -52134,6 +52539,7 @@ setCodeBase:
 setCodeType:
 setColSpan:
 setCollapsesBorders:
+setCollectionBehavior:
 setColor:
 setColor: atX: y:
 setColor: forKey:
@@ -52171,6 +52577,8 @@ setContentEditable:
 setContentFilters:
 setContentMaxSize:
 setContentMinSize:
+setContentOffset: animated: 
+setContentOffset: forSegmentAtIndex: 
 setContentResizeIncrements:
 setContentResizingMask:
 setContentSize:
@@ -52239,6 +52647,7 @@ setDataRef:
 setDataRefType:
 setDataRetained:
 setDataSource:
+setDate: animated: 
 setDateFormat:
 setDatePickerElements:
 setDatePickerMode:
@@ -52343,12 +52752,14 @@ setDynamicDepthLimit:
 setEchosBullets:
 setEditable:
 setEditableTrust:
+setEditing: animated: 
 setEditingDelegate:
 setElevation:
 setEmptyCells:
 setEnabled:
 setEnabled: forEntityNames:
 setEnabled: forSegment:
+setEnabled: forSegmentAtIndex: 
 setEnctype:
 setEnd:
 setEnd: offset:
@@ -52512,6 +52923,7 @@ setHeightTracksTextView:
 setHelpAnchor:
 setHidden:
 setHiddenUntilMouseMoves:
+setHidesBackButton: animated: 
 setHidesEmptyCells:
 setHidesOnDeactivate:
 setHighlightMode:
@@ -52556,6 +52968,8 @@ setIgnoresMultiClick:
 setImage:
 setImage: dirtyRect:
 setImage: forSegment:
+setImage: forSegmentAtIndex: 
+setImage: forState: 
 setImageAlignment:
 setImageData:
 setImageDimsWhenDisabled:
@@ -52619,6 +53033,7 @@ setIsVisible:
 setIsZoomed:
 setItemHeight:
 setItemPrototype:
+setItems: animated: 
 setJavaEnabled:
 setJavaFrameClassName:
 setJavaScriptCanOpenWindowsAutomatically:
@@ -52656,6 +53071,7 @@ setLeadingOffset:
 setLeaf:
 setLeafKeyPath:
 setLeft:
+setLeftBarButtonItem: animated: 
 setLeftMargin:
 setLength:
 setLenient:
@@ -52755,6 +53171,7 @@ setMaximumRecents:
 setMaximumRecordedDuration:
 setMaximumRecordedFileSize:
 setMaximumSignificantDigits: 
+setMaximumTrackImage: forState: 
 setMe:
 setMeasurementUnits:
 setMedia:
@@ -52799,6 +53216,7 @@ setMinimumIntegerDigits:
 setMinimumLineHeight:
 setMinimumLogicalFontSize:
 setMinimumSignificantDigits: 
+setMinimumTrackImage: forState: 
 setMiniwindowImage:
 setMiniwindowTitle:
 setMinusSign:
@@ -52829,11 +53247,14 @@ setNameFieldLabel:
 setNamedItem:
 setNamedItemNS:
 setNamespaces:
+setNavigationBarHidden: animated: 
 setNeedsDisplay
 setNeedsDisplay:
 setNeedsDisplayForItemAtIndex:
 setNeedsDisplayInRect:
+setNeedsDisplayInRect: 
 setNeedsDisplayInRect: avoidAdditionalLayout:
+setNeedsLayout
 setNeedsLayout:
 setNeedsSizing:
 setNegativeFormat:
@@ -52878,6 +53299,7 @@ setObservationInfo:
 setOffScreen: width: height: rowbytes:
 setOffStateImage:
 setOffset:
+setOn: animated: 
 setOnMouseEntered:
 setOnMouseExited:
 setOnStateImage:
@@ -53074,6 +53496,7 @@ setRev:
 setRichText:
 setRichness:
 setRight:
+setRightBarButtonItem: animated: 
 setRightMargin:
 setRootElement:
 setRootObject:
@@ -53120,6 +53543,7 @@ setSegmentCount:
 setSegmentStyle:
 setSelectable:
 setSelected:
+setSelected: animated: 
 setSelected: forSegment:
 setSelectedAttributes: isMultiple:
 setSelectedComposition:
@@ -53254,6 +53678,9 @@ setStartSubelementIdentifier:
 setStartSubelementIndex:
 setState:
 setState: atRow: column:
+setStatusBarHidden: animated: 
+setStatusBarOrientation: animated: 
+setStatusBarStyle: animated: 
 setStepButtonsVisible:
 setStoresFastSyncDetailsAtURL: forPersistentStore:
 setStress:
@@ -53324,6 +53751,7 @@ setTextView:
 setTextureImageToPixelBuffer: colorBuffer:
 setThousandSeparator:
 setThreadPriority:
+setThumbImage: forState: 
 setThumbnailSize:
 setTickMarkPosition:
 setTighteningFactorForTruncation:
@@ -53333,13 +53761,17 @@ setTimeZone:
 setTimeout:
 setTimeoutInterval:
 setTitle:
+setTitle: forSegmentAtIndex: 
+setTitle: forState: 
 setTitle: ofColumn:
 setTitleAlignment:
 setTitleBaseWritingDirection:
 setTitleCell:
 setTitleColor:
+setTitleColor: forState: 
 setTitleFont:
 setTitlePosition:
+setTitleShadowColor: forState: 
 setTitleWidth:
 setTitleWithMnemonic:
 setTitleWithRepresentedFilename:
@@ -53413,6 +53845,7 @@ setVLink:
 setValidateSize:
 setValidationPredicates: withValidationWarnings:
 setValue:
+setValue: animated: 
 setValue: forHTTPHeaderField:
 setValue: forInputKey:
 setValue: forKey:
@@ -53458,6 +53891,7 @@ setVideoOptimizationOptions:
 setVideoPreviewConnection:
 setView:
 setViewAnimations:
+setViewControllers: animated: 
 setViewsNeedDisplay:
 setVisibility:
 setVisibilityPriority:
@@ -53483,6 +53917,7 @@ setWhiteSpace:
 setWidows:
 setWidth:
 setWidth: forSegment:
+setWidth: forSegmentAtIndex: 
 setWidth: ofColumn:
 setWidth: type: forLayer:
 setWidth: type: forLayer: edge:
@@ -53670,6 +54105,7 @@ shadowWithLevel:
 shape
 shapeWithRect:
 sharedAVManager
+sharedAccelerometer
 sharedAddressBook
 sharedAppleEventManager
 sharedApplication
@@ -53728,6 +54164,7 @@ shouldAntiAlias
 shouldAntialias
 shouldApplyRecord: withRecordIdentifier:
 shouldArchiveValueForKey:
+shouldAutorotateToInterfaceOrientation: 
 shouldBeTreatedAsInkEvent:
 shouldBreakLineByHyphenatingBeforeCharacterAtIndex:
 shouldBreakLineByWordBeforeCharacterAtIndex:
@@ -53768,14 +54205,18 @@ shouldResolveExternalEntities
 shouldRunSavePanelWithAccessoryView
 shouldSynchronizeWithClientsOfType:
 shouldUnselect
+show
 showAnnotation:
 showAttachmentCell: inRect: characterIndex:
 showContextHelp:
 showContextHelpForObject: locationHint:
 showController: adjustingSize:
 showFindIndicatorForRange:
+showFromTabBar: 
+showFromToolbar: 
 showGuessPanel:
 showHelp:
+showInView: 
 showPackedGlyphs: length: glyphRange: atPoint: font: color: printingAdjustment:
 showPanels
 showPools
@@ -53945,16 +54386,23 @@ sizeBit
 sizeCmd
 sizeForKey: inTable:
 sizeForMagnification:
+sizeForNumberOfPages: 
 sizeForPaperName:
 sizeInspectorClassName
 sizeLastColumnToFit
 sizeMode
 sizeOfLabel:
 sizeOfTypesetterGlyphInfo
+sizeThatFits: 
 sizeToCells
 sizeToFit
 sizeValue
 sizeWithAttributes:
+sizeWithFont: 
+sizeWithFont: constrainedToSize: 
+sizeWithFont: constrainedToSize: lineBreakMode: 
+sizeWithFont: forWidth: lineBreakMode: 
+sizeWithFont: minFontSize: actualFontSize: forWidth: lineBreakMode: 
 sizeof
 skipDescendents
 sktClosedErr
@@ -54628,6 +55076,7 @@ standby
 start
 start 
 start:
+startAnimating
 startAnimation
 startAnimation:
 startAsynchronousSync:
@@ -54690,6 +55139,7 @@ stgsy2_
 stgsyl_
 stop
 stop:
+stopAnimating
 stopAnimation
 stopAnimation:
 stopBurn:
@@ -54734,6 +55184,7 @@ streamStatus
 streamingNodeNotReadyErr
 streamtab
 stress
+stretchableImageWithLeftCapWidth: topCapHeight: 
 strevc_
 strexc_
 strfdinsert
@@ -54749,6 +55200,7 @@ stringByAppendingString:
 stringByDeletingLastPathComponent
 stringByDeletingPathExtension
 stringByEvaluatingJavaScriptFromString:
+stringByEvaluatingJavaScriptFromString: 
 stringByExpandingTildeInPath
 stringByFoldingWithOptions: locale:
 stringByPaddingToLength: withString: startingAtIndex:
@@ -54939,6 +55391,7 @@ systemCurLang
 systemDefLang
 systemDefaultPortNameServer
 systemFontOfSize:
+systemFontOfSize: 
 systemFontSize
 systemFontSizeForControlSize:
 systemID
@@ -54959,6 +55412,13 @@ t_kpalive
 t_linger
 taDstDocNeedsResourceFork
 taDstIsAppTranslation
+tabBar: didBeginCustomizingItems: 
+tabBar: didEndCustomizingItems: changed: 
+tabBar: didSelectItem: 
+tabBar: willBeginCustomizingItems: 
+tabBar: willEndCustomizingItems: changed: 
+tabBarController: didEndCustomizingViewControllers: changed: 
+tabBarController: didSelectViewController: 
 tabIndex
 tabKeyTraversesCells
 tabState
@@ -54980,28 +55440,53 @@ tableColumns
 tableLayout
 tableView
 tableView: acceptDrop: row: dropOperation:
+tableView: accessoryButtonTappedForRowWithIndexPath: 
+tableView: accessoryTypeForRowWithIndexPath: 
+tableView: canEditRowAtIndexPath: 
+tableView: canMoveRowAtIndexPath: 
+tableView: cellForRowAtIndexPath: 
+tableView: commitEditingStyle: forRowAtIndexPath: 
 tableView: dataCellForTableColumn: row:
 tableView: didClickTableColumn:
 tableView: didDragTableColumn:
+tableView: didEndEditingRowAtIndexPath: 
+tableView: didSelectRowAtIndexPath: 
+tableView: editingStyleForRowAtIndexPath: 
+tableView: heightForFooterInSection: 
+tableView: heightForHeaderInSection: 
+tableView: heightForRowAtIndexPath: 
 tableView: heightOfRow:
+tableView: indentationLevelForRowAtIndexPath: 
 tableView: isGroupRow:
 tableView: mouseDownInHeaderOfTableColumn:
+tableView: moveRowAtIndexPath: toIndexPath: 
 tableView: namesOfPromisedFilesDroppedAtDestination: forDraggedRowsWithIndexes:
 tableView: nextTypeSelectMatchFromRow: toRow: forString:
+tableView: numberOfRowsInSection: 
 tableView: objectValueForTableColumn: row:
+tableView: sectionForSectionIndexTitle: atIndex: 
 tableView: selectionIndexesForProposedSelection:
 tableView: setObjectValue: forTableColumn: row:
 tableView: shouldEditTableColumn: row:
+tableView: shouldIndentWhileEditingRowAtIndexPath: 
 tableView: shouldSelectRow:
 tableView: shouldSelectTableColumn:
 tableView: shouldShowCellExpansionForTableColumn: row:
 tableView: shouldTrackCell: forTableColumn: row:
 tableView: shouldTypeSelectForEvent: withCurrentSearchString:
 tableView: sortDescriptorsDidChange:
+tableView: targetIndexPathForMoveFromRowAtIndexPath: toProposedIndexPath: 
+tableView: titleForFooterInSection: 
+tableView: titleForHeaderInSection: 
 tableView: toolTipForCell: rect: tableColumn: row: mouseLocation:
 tableView: typeSelectStringForTableColumn: row:
 tableView: validateDrop: proposedRow: proposedDropOperation:
+tableView: viewForFooterInSection: 
+tableView: viewForHeaderInSection: 
+tableView: willBeginEditingRowAtIndexPath: 
+tableView: willDisplayCell: forRowAtIndexPath: 
 tableView: willDisplayCell: forTableColumn: row:
+tableView: willSelectRowAtIndexPath: 
 tableView: writeRows: toPasteboard:
 tableView: writeRowsWithIndexes: toPasteboard:
 tableViewColumnDidMove:
@@ -55220,6 +55705,13 @@ textDidBeginEditing:
 textDidChange:
 textDidEndEditing:
 textEncodingName
+textField: shouldChangeCharactersInRange: replacementString: 
+textFieldDidBeginEditing: 
+textFieldDidEndEditing: 
+textFieldShouldBeginEditing: 
+textFieldShouldClear: 
+textFieldShouldEndEditing: 
+textFieldShouldReturn: 
 textFileTypes
 textIndent
 textLists
@@ -55235,6 +55727,8 @@ textParserNoSuchTokenFoundErr
 textParserObjectNotFoundErr
 textParserParamErr
 textPasteboardTypes
+textRectForBounds: 
+textRectForBounds: limitedToNumberOfLines: 
 textShadow
 textShouldBeginEditing:
 textShouldEndEditing:
@@ -55261,6 +55755,7 @@ textView: doubleClickedOnCell: inRect: atIndex:
 textView: draggedCell: inRect: event:
 textView: draggedCell: inRect: event: atIndex:
 textView: shouldChangeTextInRange: replacementString:
+textView: shouldChangeTextInRange: replacementText: 
 textView: shouldChangeTextInRanges: replacementStrings:
 textView: shouldChangeTypingAttributes: toAttributes:
 textView: shouldSetSpellingState: range:
@@ -55269,9 +55764,15 @@ textView: willChangeSelectionFromCharacterRanges: toCharacterRanges:
 textView: willDisplayToolTip: forCharacterAtIndex:
 textView: writablePasteboardTypesForCell: atIndex:
 textView: writeCell: atIndex: toPasteboard: type: 
+textViewDidBeginEditing: 
+textViewDidChange: 
 textViewDidChangeSelection:
+textViewDidChangeSelection: 
 textViewDidChangeTypingAttributes:
+textViewDidEndEditing: 
 textViewForBeginningOfSelection
+textViewShouldBeginEditing: 
+textViewShouldEndEditing: 
 textWithStringValue:
 textureColorSpace
 textureFlipped
@@ -55306,6 +55807,8 @@ threeToOne
 threeToOnePacketSize
 throwException:
 thumbCntl
+thumbImageForState: 
+thumbRectForBounds: trackRect: value: 
 thumbnailSize
 thumbnailWithMaximumSize:
 tickMarkPosition
@@ -55422,8 +55925,11 @@ titleBarFontOfSize:
 titleBaseWritingDirection
 titleCell
 titleColor
+titleColorForState: 
 titleFont
 titleForPerson: identifier:
+titleForSegmentAtIndex: 
+titleForState: 
 titleFrameOfColumn:
 titleHeight
 titleOfColumn:
@@ -55431,6 +55937,8 @@ titleOfSelectedItem
 titlePosition
 titleRect
 titleRectForBounds:
+titleRectForContentRect: 
+titleShadowColorForState: 
 titleWidth
 titleWidth:
 tk0BadErr
@@ -55615,6 +56123,14 @@ totalDuration
 totalFailureCount
 totalLoadCmd
 touch
+touchesBegan: withEvent: 
+touchesCancelled: withEvent: 
+touchesEnded: withEvent: 
+touchesForView: 
+touchesForWindow: 
+touchesMoved: withEvent: 
+touchesShouldBegin: withEvent: inContentView: 
+touchesShouldCancelInContentView: 
 traceException
 trace_ids
 track
@@ -55631,6 +56147,7 @@ trackMouse: inRect: ofView: atCharacterIndex: untilMouseUp:
 trackMouse: inRect: ofView: untilMouseUp:
 trackNotInMovie
 trackRect
+trackRectForBounds: 
 trackScrollButtons:
 trackUsageInMovie
 trackUsageInPoster
@@ -55965,6 +56482,7 @@ updateCellInside:
 updateChangeCount:
 updateComposition
 updateCurGlyphOffset
+updateCurrentPageDisplay
 updateDragTypeRegistration
 updateEvt
 updateFontPanel
@@ -58103,6 +58621,10 @@ valueType
 valueTypeForDimension:
 valueWithBytes: objCType:
 valueWithCATransform3D:
+valueWithCGAffineTransform: 
+valueWithCGPoint: 
+valueWithCGRect: 
+valueWithCGSize: 
 valueWithLKTransform:
 valueWithName: inPropertyWithKey:
 valueWithNonretainedObject:
@@ -58114,6 +58636,7 @@ valueWithRange:
 valueWithRect:
 valueWithSMPTETime:
 valueWithSize:
+valueWithUIEdgeInsets: 
 valueWithUniqueID: inPropertyWithKey:
 valueWraps
 values
@@ -58394,18 +58917,26 @@ view: stringForToolTip: point: userData:
 view: willDisplayImage:
 viewAnimations
 viewBoundsChanged:
+viewDidAppear: 
+viewDidDisappear: 
 viewDidEndLiveResize
 viewDidHide
+viewDidLoad
 viewDidMoveToHostWindow
 viewDidMoveToSuperview
 viewDidMoveToWindow
 viewDidUnhide
+viewFlipsideBackgroundColor
+viewForRow: forComponent: 
 viewForType:
 viewForUIConfiguration: excludedKeys:
+viewForZoomingInScrollView: 
 viewFrameChanged:
 viewNibName
 viewResourcePasteboardTypes
 viewSizeChanged:
+viewWillAppear: 
+viewWillDisappear: 
 viewWillDraw
 viewWillMoveToHostWindow:
 viewWillMoveToSuperview:
@@ -58413,6 +58944,7 @@ viewWillMoveToWindow:
 viewWillStartLiveResize
 viewWithFrame: filter:
 viewWithTag:
+viewWithTag: 
 viewsNeedDisplay
 vipowf
 virtualFileWithName: data:
@@ -58420,6 +58952,7 @@ virtualFileWithName: dataProducer:
 virtualFolderWithName:
 visibility
 visibilityPriority
+visibleCells
 visibleFrame
 visibleItems
 visiblePages
@@ -58594,6 +59127,7 @@ webView: decidePolicyForNewWindowAction:
 webView: didCancelClientRedirectForFrame:
 webView: didChangeLocationWithinPageForFrame:
 webView: didCommitLoadForFrame:
+webView: didFailLoadWithError: 
 webView: didFailLoadWithError: forFrame:
 webView: didFailProvisionalLoadWithError: forFrame:
 webView: didFinishLoadForFrame:
@@ -58641,6 +59175,7 @@ webView: shouldEndEditingInDOMRange:
 webView: shouldInsertNode: replacingDOMRange: givenAction:
 webView: shouldInsertText: replacingDOMRange: givenAction:
 webView: shouldPerformAction: fromSender:
+webView: shouldStartLoadWithRequest: navigationType: 
 webView: unableToImplementPolicyWithError: frame:
 webView: validateUserInterfaceItem: defaultValidation:
 webView: willCloseFrame:
@@ -58656,6 +59191,8 @@ webViewDidChange:
 webViewDidChangeSelection:
 webViewDidChangeTypingStyle:
 webViewDidEndEditing:
+webViewDidFinishLoad: 
+webViewDidStartLoad: 
 webViewFirstResponder:
 webViewFocus:
 webViewFooterHeight:
@@ -58686,12 +59223,15 @@ width
 widthAdjustLimit
 widthForLayer: edge:
 widthForSegment:
+widthForSegmentAtIndex: 
 widthOfColumn:
 widthOfString:
 widthTracksTextView
 widthValueTypeForLayer: edge:
 willAccessValueForKey:
 willActivateWithUser:
+willAnimateFirstHalfOfRotationToInterfaceOrientation: duration: 
+willAnimateSecondHalfOfRotationFromInterfaceOrientation: duration: 
 willChange: valuesAtIndexes: forKey:
 willChangePPDOptionKeyValue: ppdChoice:
 willChangeValueForKey:
@@ -58701,10 +59241,16 @@ willEnterPane:
 willExitPane:
 willFinishRunning
 willLoadMainNib
+willMoveToSuperview: 
+willMoveToWindow: 
+willPresentActionSheet: 
+willPresentAlertView: 
 willPresentError:
 willRemoveCacheNodes:
 willRemoveFromPersistentStoreCoordinator:
 willRemoveSubview:
+willRemoveSubview: 
+willRotateToInterfaceOrientation: duration: 
 willSave
 willSelect
 willSetLineFragmentRect: forGlyphRange: usedRect:
@@ -59223,125 +59769,3 @@ zunmrz_
 zunmtr_
 zupgtr_
 zupmtr_
-kABDeletedRecords
-kABGroupNameProperty
-kABInsertedRecords
-kABUpdatedRecords
-@try
-@catch
-@finally
-@throw 
-@synchronized 
-class_getName  
-class_getSuperclass  
-class_setSuperclass  
-class_isMetaClass  
-class_getInstanceSize  
-class_getInstanceVariable  
-class_getClassVariable  
-class_addIvar  
-class_copyIvarList  
-class_getIvarLayout  
-class_setIvarLayout  
-class_getWeakIvarLayout  
-class_setWeakIvarLayout  
-class_getProperty  
-class_copyPropertyList  
-class_addMethod  
-class_getInstanceMethod  
-class_getClassMethod  
-class_copyMethodList  
-class_getMethodImplementation  
-class_getMethodImplementation_stret  
-class_respondsToSelector  
-class_addProtocol  
-class_conformsToProtocol  
-class_copyProtocolList  
-class_getVersion  
-class_setVersion  
-objc_getFutureClass  
-objc_setFutureClass  
-objc_allocateClassPair  
-objc_registerClassPair  
-objc_duplicateClass  
-class_createInstance  
-object_copy  
-object_dispose  
-object_setInstanceVariable  
-object_getInstanceVariable  
-object_getIndexedIvars  
-object_getIvar  
-object_setIvar  
-object_getClassName  
-object_getClass  
-object_setClass  
-objc_getClassList  
-objc_lookUpClass  
-objc_getClass  
-objc_getRequiredClass  
-objc_getMetaClass  
-ivar_getName  
-ivar_getTypeEncoding  
-ivar_getOffset  
-objc_msgSend
-objc_msgSend_stret
-objc_msgSendSuper
-objc_msgSendSuper_stret
-objc_msgSend  
-objc_msgSend_fpret  
-objc_msgSend_stret  
-objc_msgSendSuper  
-objc_msgSendSuper_stret  
-marg_malloc  
-marg_free  
-marg_getRef  
-marg_getValue  
-marg_setValue  
-method_getName  
-method_getImplementation  
-method_getTypeEncoding  
-method_copyReturnType  
-method_copyArgumentType  
-method_getReturnType  
-method_getNumberOfArguments  
-method_getArgumentType  
-method_setImplementation  
-method_exchangeImplementations  
-sel_getName  
-sel_registerName  
-sel_getUid  
-sel_isEqual  
-objc_getProtocol  
-objc_copyProtocolList  
-protocol_copyInstanceMethodDescriptionList  
-protocol_copyClassMethodDescriptionList  
-protocol_copyOptionalInstanceMethodDescriptionList  
-protocol_copyOptionalClassMethodDescriptionList  
-protocol_copyPropertyList  
-property_getName  
-property_getAttributes 
-Class
-Method
-Ivar
-Category
-objc_property_t
-Property
-IMP
-marg_list
-SEL
-objc_method_list
-objc_cache
-objc_protocol_list
-objc_object
-objc_super
-Nil
-MAC_OS_X_VERSION_10_0
-MAC_OS_X_VERSION_10_1
-MAC_OS_X_VERSION_10_2
-MAC_OS_X_VERSION_10_3
-MAC_OS_X_VERSION_10_4
-MAC_OS_X_VERSION_10_5
-MAC_OS_X_VERSION_MIN_REQUIRED
-MAC_OS_X_VERSION_MAX_ALLOWED
-DEPRECATED_ATTRIBUTE
-UNAVAILABLE_ATTRIBUTE

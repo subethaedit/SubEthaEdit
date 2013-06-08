@@ -142,6 +142,8 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         I_autocompleteDictionary = [NSMutableArray new];
         I_bundle = [aBundle retain];
 
+		I_styleIDTransitionDictionary = [[NSDictionary alloc] initWithContentsOfFile:[aBundle pathForResource:@"StyleIDTransition" ofType:@"plist"]];
+
         I_modeSettings = [[ModeSettings alloc] initWithFile:[aBundle pathForResource:@"ModeSettings" ofType:@"xml"]];
 		if (!I_modeSettings) { // Fall back to info.plist
 			I_modeSettings = [[ModeSettings alloc] initWithPlist:[aBundle bundlePath]];
@@ -422,6 +424,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+    [I_styleIDTransitionDictionary release];
     [I_menuItemArray release];
     [I_contextMenuItemArray release];
     [I_scriptOrderArray release];
@@ -457,6 +460,11 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 - (NSArray *)recognizedExtensions {
 	return [I_modeSettings recognizedExtensions];
 }
+
+- (NSDictionary *)styleIDTransitionDictionary {
+	return I_styleIDTransitionDictionary;
+}
+
 
 - (ModeSettings *)modeSettings {
     return I_modeSettings;

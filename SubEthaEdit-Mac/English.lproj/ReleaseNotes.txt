@@ -1,4 +1,37 @@
 
+SubEthaEdit 3.2
+===============
+
+Additions/New Features:
+- Added Objective-J Mode
+- Improved Symbol recognition by adding the possibility to recognize symbols in 
+  comments.
+
+Changes:
+- Improved syntax highlighting performance
+- Drastically improved syntax highlighting speed for documents that contain 
+  extremely long lines.
+- Updated Sparkle to the latest version.
+- Improved PHP mode.
+- Improved Perl mode.
+- Improved CSS mode.
+- Improved Javascript mode.
+- Improved Lassoscript mode.
+- Improved Cold Fusion mode.
+- Improved Objective-C mode (now includes UIKit).
+
+Fixes:
+- Fixed an issue with certain routers and port mapping by updating to the 
+  lastest version of TCMPortMapper. For more details look into release notes 
+  inside the Port Map Application (http://www.codingmonkeys.de/portmap/).
+- Fixed an issue with the mouse insertion cursor being to dark when working 
+  with dark backgrounds on leopard.
+- Fixed some crashes that occurred in very specific situations.
+- Fixed multiple issues with syntax parsing relating to symbols and 
+  autocompletion.
+- Fixed various small issues.
+
+
 SubEthaEdit 3.1
 ===============
 

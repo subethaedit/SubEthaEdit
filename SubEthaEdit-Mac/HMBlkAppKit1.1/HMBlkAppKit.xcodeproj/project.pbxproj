@@ -122,7 +122,7 @@
 		0867D69BFE84028FC02AAC07 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		0867D6A5FE840307C02AAC07 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		089C1667FE841158C02AAC07 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/InfoPlist.strings; sourceTree = "<group>"; };
-		0B6BC9E20BB236390014D0BF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
+		0B6BC9E20BB236390014D0BF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0B6BC9E40BB236390014D0BF /* HMAppKitEx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HMAppKitEx.h; sourceTree = "<group>"; };
 		0B6BC9E50BB236390014D0BF /* HMAppKitEx.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HMAppKitEx.m; sourceTree = "<group>"; };
 		0B6BC9E60BB236390014D0BF /* HMBlkBox.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HMBlkBox.h; sourceTree = "<group>"; };
@@ -199,8 +199,8 @@
 		0B6BCA2E0BB236390014D0BF /* blkSegmentSelectedR.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = blkSegmentSelectedR.tiff; sourceTree = "<group>"; };
 		0B6BCA300BB236390014D0BF /* HMFoundationEx.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HMFoundationEx.h; sourceTree = "<group>"; };
 		0B6BCA310BB236390014D0BF /* HMFoundationEx.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HMFoundationEx.m; sourceTree = "<group>"; };
-		0B6BCA930BB237EF0014D0BF /* TestApp.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = TestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		0B6BCAA40BB2383C0014D0BF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.xml; path = Info.plist; sourceTree = "<group>"; };
+		0B6BCA930BB237EF0014D0BF /* TestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		0B6BCAA40BB2383C0014D0BF /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0B6BCAB50BB238ED0014D0BF /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		0B6BCAB90BB239500014D0BF /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = InfoPlist.strings; sourceTree = "<group>"; };
 		0B6BCABB0BB239500014D0BF /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = MainMenu.nib; sourceTree = "<group>"; };
@@ -500,10 +500,12 @@
 		0867D690FE84028FC02AAC07 /* Project object */ = {
 			isa = PBXProject;
 			buildConfigurationList = 1DEB91B108733DA50010E9CD /* Build configuration list for PBXProject "HMBlkAppKit" */;
+			compatibilityVersion = "Xcode 2.4";
 			hasScannedForEncodings = 1;
 			mainGroup = 0867D691FE84028FC02AAC07 /* HMBlkAppKit */;
 			productRefGroup = 034768DFFF38A50411DB9C8B /* Products */;
 			projectDirPath = "";
+			projectRoot = "";
 			targets = (
 				8DC2EF4F0486A6940098B216 /* HMBlkAppKit */,
 				0B6BCA920BB237EF0014D0BF /* TestApp */,

@@ -26,6 +26,7 @@
 #import "NSSavePanelTCMAdditions.h"
 #import "EncodingDoctorDialog.h"
 #import "NSMutableAttributedStringSEEAdditions.h"
+#import "FontForwardingTextField.h"
 
 #import "DocumentModeManager.h"
 #import "DocumentMode.h"
@@ -960,7 +961,8 @@ static NSString *tempFileName(NSString *origPath) {
     [I_session release];
     [I_plainTextAttributes release];
     [I_typingAttributes release];
-    [I_blockeditAttributes release];
+	[I_adjustedTypingAttributes autorelease];
+	[I_blockeditAttributes release];
     [I_fonts.plainFont release];
     [I_fonts.boldFont release];
     [I_fonts.italicFont release];
@@ -3968,9 +3970,16 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (BOOL)writeSafelyToURL:(NSURL*)anAbsoluteURL ofType:(NSString *)docType forSaveOperation:(NSSaveOperationType)saveOperationType error:(NSError **)outError {
+    
     NSString *fullDocumentPath = [anAbsoluteURL path];
     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"writeSavelyToURL: %@", anAbsoluteURL);
-    BOOL hasBeenWritten = [super writeSafelyToURL:anAbsoluteURL ofType:docType forSaveOperation:saveOperationType error:outError];
+    
+    NSError *error = nil;
+    BOOL hasBeenWritten = [super writeSafelyToURL:anAbsoluteURL ofType:docType forSaveOperation:saveOperationType error:&error];
+    if (outError) {
+        *outError = error;
+    }
+    
     if (!hasBeenWritten) {
         DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"Failed to write using writeSafelyToURL: %@",*outError);
         
@@ -4000,7 +4009,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             }
         }
         
-        if (!hasBeenWritten) {
+        if ( !hasBeenWritten && (error && [error code] == NSFileWriteNoPermissionError) ) {
+            if (outError) *outError = nil; // clear outerror because we already showed it
             BOOL isDirWritable = [fileManager isWritableFileAtPath:[fullDocumentPath stringByDeletingLastPathComponent]];
             BOOL isFileDeletable = [fileManager isDeletableFileAtPath:fullDocumentPath];
             if (isDirWritable && isFileDeletable) {
@@ -4082,7 +4092,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     if (saveOperationType != NSSaveToOperation && saveOperationType != NSAutosaveOperation) {
         NSDictionary *fattrs = [[NSFileManager defaultManager] fileAttributesAtPath:fullDocumentPath traverseLink:YES];
         [self setFileAttributes:fattrs];
-        [self setIsFileWritable:[[NSFileManager defaultManager] isWritableFileAtPath:fullDocumentPath] || hasBeenWritten];
+        [self setIsFileWritable:hasBeenWritten];
     }
 
     if (hasBeenWritten) {
@@ -4567,6 +4577,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
      I_plainTextAttributes=nil;
     [I_typingAttributes release];
      I_typingAttributes=nil;
+    [I_adjustedTypingAttributes autorelease];
+     I_adjustedTypingAttributes=nil;
     [I_styleCacheDictionary removeAllObjects];
     [[NSNotificationQueue defaultQueue]
         enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentDefaultParagraphStyleDidChangeNotification object:self]
@@ -4580,6 +4592,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
      I_plainTextAttributes=nil;
     [I_typingAttributes release];
      I_typingAttributes=nil;
+    [I_adjustedTypingAttributes autorelease];
+     I_adjustedTypingAttributes=nil;
     [I_blockeditAttributes release];
      I_blockeditAttributes=nil;
     [I_styleCacheDictionary removeAllObjects];
@@ -4788,6 +4802,7 @@ static NSString *S_measurementUnits;
         for (i=996;i<1000;i++) {
             [[O_printOptionView viewWithTag:i] setStringValue:labelText];
         }
+		[O_printOptionTextField setFontDelegate:self];
     }
 
     // Construct the print operation and setup Print panel
@@ -4818,7 +4833,7 @@ static NSString *S_measurementUnits;
 }
 
 - (IBAction)changeFontViaPanel:(id)sender {
-    NSDictionary *fontAttributes=[[O_printOptionController content] valueForKeyPath:@"dictionary.SEEFontAttributes"];
+    NSDictionary *fontAttributes=[[O_printOptionController content] valueForKeyPath:@"SEEFontAttributes"];
     NSFont *newFont=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
     if (!newFont) newFont=[NSFont userFixedPitchFontOfSize:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
     
@@ -4826,6 +4841,9 @@ static NSString *S_measurementUnits;
         setSelectedFont:newFont 
              isMultiple:NO];
     [[NSFontManager sharedFontManager] orderFrontFontPanel:self];
+	
+	[[sender window] makeFirstResponder:O_printOptionTextField];
+
 }
 
 - (void)changeFont:(id)aSender {
@@ -5604,7 +5622,7 @@ static NSString *S_measurementUnits;
 - (BOOL)handleOperation:(TCMMMOperation *)aOperation {
     if ([[aOperation operationID] isEqualToString:[TextOperation operationID]]) {
         TextOperation *operation=(TextOperation *)aOperation;
-        NSTextStorage *textStorage=[self textStorage];
+        TextStorage *textStorage=(TextStorage *)[self textStorage];
     
         // check validity of operation
         if (NSMaxRange([operation affectedCharRange])>[textStorage length]) {
@@ -5634,7 +5652,7 @@ static NSString *S_measurementUnits;
                             range:newRange];
         [textStorage addAttribute:ChangedByUserIDAttributeName value:[operation userID]
                             range:newRange];
-        [textStorage addAttributes:[self plainTextAttributes] range:newRange];
+        [textStorage addAttributes:[textStorage attributeDictionaryByAddingStyleAttributesForInsertLocation:newRange.location toDictionary:[self plainTextAttributes]] range:newRange];
         [textStorage endEditing];
 
 

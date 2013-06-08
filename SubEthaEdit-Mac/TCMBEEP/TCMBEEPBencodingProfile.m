@@ -38,7 +38,7 @@ static NSMutableDictionary *S_routingDictionary=nil;
             if (!aMessageType) aMessageType = @"FallBack";
             NSMutableDictionary *messageRoutingTable = [roleRoutingTable objectForKey:aMessageString];
             if (!messageRoutingTable) {
-                messageRoutingTable = [NSMutableDictionary new];
+                messageRoutingTable = [NSMutableDictionary dictionary];
                 [roleRoutingTable setObject:messageRoutingTable forKey:aMessageString];
             }
             [messageRoutingTable setObject:[NSValue valueWithBytes:&aSelector objCType:@encode(SEL)]

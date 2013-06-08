@@ -258,7 +258,7 @@ static unsigned long local_preprocessForDecode( const unsigned char *inBytes, un
 
 - (NSData*)uncompressedDataOfLength:(unsigned)aLength {
     unsigned long length=aLength;
-    NSMutableData *result = [[NSMutableData alloc] initWithLength:aLength];
+    NSMutableData *result = [[[NSMutableData alloc] initWithLength:aLength] autorelease];
     int zResult = uncompress([result mutableBytes],&length,[self bytes],[self length]);
     if (zResult == Z_OK) {
         return result;

@@ -348,7 +348,7 @@ static NSMenu *defaultMenu=nil;
             unsigned int index = [self characterIndexForPoint:[[self window] convertBaseToScreen:[[NSApp currentEvent] locationInWindow]]];
             NSRange resultRange = lineRange;
             if (index != NSNotFound && index < NSMaxRange(wholeRange)) {
-                [ts attribute:@"styleID" atIndex:index longestEffectiveRange:&resultRange inRange:wholeRange];
+                [ts attribute:kSyntaxHighlightingStyleIDAttributeName atIndex:index longestEffectiveRange:&resultRange inRange:wholeRange];
                 return RangeConfinedToRange(resultRange,lineRange);
             }
         } else if (clickCount >= 5) {
@@ -770,6 +770,36 @@ static NSMenu *defaultMenu=nil;
             return;
         }
     }
+}
+
+- (void)cursorUpdate:(NSEvent *)anEvent
+{
+    // ugly
+    if ( [NSCursor currentCursor] == [NSCursor IBeamCursor] && 
+         [[self backgroundColor] isDark]) {
+
+        [[NSCursor invertedIBeamCursor] set];
+
+    } else if ([NSCursor currentCursor] != [NSCursor invertedIBeamCursor] &&
+               [super respondsToSelector:@selector(cursorUpdate:)] && !I_flags.isDoingUglyHack) {
+		I_flags.isDoingUglyHack = YES;
+		[super performSelector:@selector(cursorUpdate:) withObject:anEvent];
+		I_flags.isDoingUglyHack = NO;
+	}
+}
+
+- (void)mouseMoved:(NSEvent *)anEvent
+{
+	// ugly
+    if ( [NSCursor currentCursor] == [NSCursor IBeamCursor] &&
+         [[self backgroundColor] isDark] )  {
+
+        [[NSCursor invertedIBeamCursor] set];
+
+	} else if ([NSCursor currentCursor] != [NSCursor invertedIBeamCursor] &&
+	           [super respondsToSelector:@selector(mouseMoved:)]) {
+		[super mouseMoved:anEvent];
+	}
 }
 
 // needs the textview to be delegate to the ruler
