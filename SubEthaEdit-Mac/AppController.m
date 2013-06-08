@@ -127,6 +127,7 @@ static AppController *sharedInstance = nil;
     [defaults setObject:[NSNumber numberWithBool:YES] forKey:@"EnableTLS"];
     [defaults setObject:[NSNumber numberWithBool:NO] forKey:ProhibitInboundInternetSessions];
     [defaults setObject:[NSNumber numberWithDouble:60.] forKey:NetworkTimeoutPreferenceKey];
+    [defaults setObject:[NSNumber numberWithDouble:60.] forKey:@"AutoSavingDelay"];
     [defaults setObject:[NSNumber numberWithBool:YES] forKey:VisibilityPrefKey];
     [defaults setObject:[NSNumber numberWithBool:NO] forKey:@"GoIntoBundlesPrefKey"];
 #ifdef TCM_NO_DEBUG
@@ -148,8 +149,6 @@ static AppController *sharedInstance = nil;
     [[TCMMMTransformator sharedInstance] registerTransformationTarget:[SelectionOperation class] selector:@selector(transformOperation:serverOperation:) forOperationId:[SelectionOperation operationID] andOperationID:[TextOperation operationID]];
     [UserChangeOperation class];
     [TCMMMNoOperation class];
-    
-    [BacktracingException install];
 }
 
 + (AppController *)sharedInstance {
@@ -295,8 +294,7 @@ static AppController *sharedInstance = nil;
                 myImage=[[NSImage alloc] initWithData:imageData];
                 [myImage setCacheMode:NSImageCacheNever];
             }
-        } @catch (id exception) {
-        
+        } @catch (NSException *exception) {
         }
     }
     
@@ -375,6 +373,7 @@ static AppController *sharedInstance = nil;
     
     [self registerTransformers];
     [self addMe];
+    [BacktracingException install];
     [self setupFileEncodingsSubmenu];
     [self setupDocumentModeSubmenu];
     [self setupScriptMenu];
@@ -403,7 +402,7 @@ static AppController *sharedInstance = nil;
                                                                                                                 
     [self setupTextViewContextMenu];
     [NSApp setServicesProvider:[DocumentController sharedDocumentController]];
-    [[DocumentController sharedDocumentController] setAutosavingDelay:60.];
+    [[DocumentController sharedDocumentController] setAutosavingDelay:[[NSUserDefaults standardUserDefaults] floatForKey:@"AutoSavingDelay"]];
 }
 
 static OSStatus AuthorizationRightSetWithWorkaround(

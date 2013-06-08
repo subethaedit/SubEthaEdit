@@ -35,6 +35,16 @@
         <regex>(?&lt;=[\n\r]|^)(?:template[\t ]*&lt;[^&gt;]*&gt;[\t\r\n ]*)?class[\t ]([\w0-9_]*)(?:[\t ]*:[\t ]*[\w0-9_]+[\t ][\w0-9_&lt;&gt;]+)?(?=\s*\{)</regex>
     </symbol>
 
+    <symbol id="C++ Inline Member Functions" image="SymbolF" indentation="1" ignoreblocks="yes">
+        <regex>(?&lt;=[\n\r]|^)(?:template[\t ]*&lt;[^&gt;]*&gt;[\t\r\n ]*)?inline[\t ]([\w0-9_]*[\t ][\w0-9_&gt;&lt;:]*\([^)]*\))[^{]*(?=\s*\{)</regex>
+        <postprocess>
+            <find>\([^\)]*\)</find>
+            <replace>()</replace>
+            <find>[\n\r]</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+
     <symbol id="Pragma Marks" font-weight="bold" indentation="0" ignoreblocks="yes">
         <regex>(#pragma mark[	 -]*[^\n]*)\n</regex>
         <postprocess>

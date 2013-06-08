@@ -187,6 +187,7 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 
 - (void)setFileType:(NSString *)aString {
     [self willChangeValueForKey:@"documentIcon"];
+    I_flags.isSEEText = [@"SEETextType" isEqualToString:aString];
     [super setFileType:aString];
     [self didChangeValueForKey:@"documentIcon"];
 }
@@ -710,6 +711,10 @@ static NSString *tempFileName(NSString *origPath) {
         symbolRange=RangeConfinedToRange(symbolRange,wholeRange);
         [textView setSelectedRange:symbolRange];
         [textView scrollRangeToVisible:symbolRange];
+        if ([textView respondsToSelector:@selector(showFindIndicatorForRange:)]) {
+            [textView showFindIndicatorForRange:symbolRange];
+        } 
+
         PlainTextWindowController *controller=(PlainTextWindowController *)[[textView window] windowController];
         NSArray *plainTextEditors=[controller plainTextEditors];
         int i=0;
@@ -986,7 +991,8 @@ static NSString *tempFileName(NSString *origPath) {
     [I_documentForegroundColor release];
     [I_printOptions autorelease];
     [I_scheduledAlertDictionary release];
-
+	
+	[self setTemporarySavePanel:nil];
     free(I_bracketMatching.openingBracketsArray);
     free(I_bracketMatching.closingBracketsArray);
     [super dealloc];
@@ -2520,9 +2526,27 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     
     return filename;
 }
+
+- (void)setTemporarySavePanel:(NSSavePanel *)aPanel {
+	if (aPanel != I_savePanel) {
+		if (I_savePanel && [I_savePanel delegate] == self) {
+			[I_savePanel setDelegate:nil];
+		}
+		[I_savePanel autorelease];
+		 I_savePanel = [aPanel retain];
+	}
+}
+
+- (void) _savePanelWasPresented:(id)aPanel withResult:(int)aResult inContext:(void*) aContext; {
+	[I_savePanel setDelegate:nil];
+	if (aResult == NSCancelButton) {	
+		[self setTemporarySavePanel:nil];
+	}
+	[super _savePanelWasPresented:aPanel withResult:aResult inContext:aContext];
+}
     
 - (BOOL)prepareSavePanel:(NSSavePanel *)savePanel {
-
+	
     if (![NSBundle loadNibNamed:@"SavePanelAccessory" owner:self])  {
         NSLog(@"Failed to load SavePanelAccessory.nib");
         return NO;
@@ -2540,7 +2564,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [savePanel performSelector:@selector(setExtensionHidden:) withObject:nil afterDelay:0.0];
     [savePanel setCanSelectHiddenExtension:NO];
 
-    I_savePanel = savePanel;
+    [self setTemporarySavePanel:savePanel];
     [savePanel setDelegate:self];
 
     if (![self fileName] && [self directoryForSavePanel]) {
@@ -2700,11 +2724,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (void)saveToURL:(NSURL *)anAbsoluteURL ofType:(NSString *)aType forSaveOperation:(NSSaveOperationType)saveOperation delegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)aContextInfo {
-     BOOL didShowPanel=NO;
-     if (saveOperation != NSAutosaveOperation) {
+    BOOL didShowPanel=NO;
+    if (saveOperation != NSAutosaveOperation) {
         didShowPanel = (I_savePanel)?YES:NO;
-        [I_savePanel setDelegate:nil];
-        I_savePanel = nil;
+		[self setTemporarySavePanel:nil];
     }
     
     if (anAbsoluteURL) {
@@ -3009,6 +3032,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (BOOL)TCM_readFromURL:(NSURL *)anURL ofType:(NSString *)docType properties:(NSDictionary *)aProperties error:(NSError **)outError {
+	if (outError) {*outError = nil;}
+	if (!anURL) {
+		return NO;
+	}
     NSString *fileName = [anURL path];
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"readFromURL:%@ ofType:%@ properties: %@", anURL, docType, aProperties);
 
@@ -3264,8 +3291,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     #ifndef TCM_NO_DEBUG
         [_readFromURLDebugInformation appendFormat:@"UniversalDetector:\n confidence:%1.3f encoding:%@\n",confidence,CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(udEncoding))];
     #endif
-            if ( udEncoding > 0 && confidence > 0.0 ) {
-                // lookup found something, use it
+            // if the encoder detected NSWindowsCP1250StringEncoding then it's probably not very relevant because most files that are not koi8r or some other main different beast come out as NSWindowsCP1250StringEncoding
+            // so what we do here is to use the encoding set by the mode - if it was set
+            if ( udEncoding > 0 && confidence > 0.0 && 
+                 !(udEncoding == NSWindowsCP1250StringEncoding && encoding != NoStringEncoding)) {
+                // lookup found something meaningful, so try to use it
                 [options setObject:[NSNumber numberWithUnsignedInt:udEncoding] forKey:NSCharacterEncodingDocumentOption];
                 success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];
                 if (success) [[EncodingManager sharedInstance] activateEncoding:udEncoding];
@@ -3429,6 +3459,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (BOOL)writeToURL:(NSURL *)absoluteURL ofType:(NSString *)inTypeName forSaveOperation:(NSSaveOperationType)saveOperation originalContentsURL:(NSURL *)originalContentsURL error:(NSError **)outError {
+//-timelog    NSDate *startDate = [NSDate date];
+//-timelog    NSLog(@"%s %@ %@ %d %@",__FUNCTION__, absoluteURL, inTypeName, saveOperation,originalContentsURL);
     DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"write to:%@ type:%@ saveOperation:%d originalURL:%@", absoluteURL, inTypeName, saveOperation,originalContentsURL);
     if ([inTypeName isEqualToString:@"PlainTextType"]) {
         BOOL modeWantsUTF8BOM = [[[self documentMode] defaultForKey:DocumentModeUTF8BOMPreferenceKey] boolValue];
@@ -3459,16 +3491,23 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             NSMutableDictionary *compressedDict = [NSMutableDictionary dictionary];
             NSMutableDictionary *directDict = [NSMutableDictionary dictionary];
             // collect users - uncompressed because compressing pngs again doesn't help...
+//-timelog            NSDate *intermediateDate = [NSDate date];
             [directDict setObject:[[self session] contributersAsDictionaryRepresentation] forKey:@"Contributors"];
+//-timelog            NSLog(@"%s conributors entry creating took: %fs",__FUNCTION__,[intermediateDate timeIntervalSinceNow]*-1.);
             // get text storage and document settings
+//-timelog            intermediateDate = [NSDate date];
             NSMutableDictionary *textStorageRep = [[[self textStorageDictionaryRepresentation] mutableCopy] autorelease];
             [textStorageRep removeObjectForKey:@"String"];
             [compressedDict setObject:textStorageRep forKey:@"TextStorage"];
+//-timelog            NSLog(@"%s textstorage entry creating took: %fs",__FUNCTION__,[intermediateDate timeIntervalSinceNow]*-1.);
+//-timelog            intermediateDate = [NSDate date];
             if ([[self session] loggingState]) {
                 [compressedDict setObject:[[[self session] loggingState] dictionaryRepresentationForSaving] forKey:@"LoggingState"];
             }
+//-timelog            NSLog(@"%s loggingState dictionary entry creating took: %fs",__FUNCTION__,[intermediateDate timeIntervalSinceNow]*-1.);
             [compressedDict setObject:[self documentState] forKey:@"DocumentState"];
             if (saveOperation == NSAutosaveOperation) {
+//				NSLog(@"%s write to:%@ type:%@ saveOperation:%d originalURL:%@",__FUNCTION__, absoluteURL, inTypeName, saveOperation,originalContentsURL);
                 NSDictionary *dictionary = [NSDictionary dictionaryWithObjectsAndKeys:
                     [self fileType],@"fileType",
                     [NSNumber numberWithBool:[super isDocumentEdited]],@"hadChanges",
@@ -3477,19 +3516,28 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             }
     
             // add direct and compressed data to the top level array
+//-timelog            intermediateDate = [NSDate date];
             [dataArray addObject:[NSArray arrayWithObject:directDict]];
-            NSArray *compressedArray = [TCM_BencodedObject(compressedDict) arrayOfCompressedDataWithLevel:Z_DEFAULT_COMPRESSION];
+//-timelog            NSDate *tempDate = [NSDate date];
+            NSData *bencodedDataToBeCompressed = TCM_BencodedObject(compressedDict);
+//-timelog            NSLog(@"generating bencodedDataToBeCompressed took %fs",[tempDate timeIntervalSinceNow]*-1.);
+//-timelog            tempDate = [NSDate date];
+            NSArray *compressedArray = [bencodedDataToBeCompressed arrayOfCompressedDataWithLevel:Z_DEFAULT_COMPRESSION];
             if (!compressedArray) {
                 if (outError) {
                     *outError = [NSError errorWithDomain:@"ZLIBDomain" code:-5 userInfo:nil];
                 }
                 return NO;
             }
+//-timelog            NSLog(@"compressing the array took %fs",[tempDate timeIntervalSinceNow]*-1.);
             [dataArray addObject:compressedArray];
             if ([self preservedDataFromSEETextFile]) {
                 [dataArray addObjectsFromArray:[self preservedDataFromSEETextFile]];
             }
+//-timelog            tempDate = [NSDate date];
             [data appendData:TCM_BencodedObject(dataArray)];
+//-timelog            NSLog(@"bencoding the final dictionary took %fs",[tempDate timeIntervalSinceNow]*-1.);
+//-timelog            NSLog(@"%s bencoding and compressing took: %fs",__FUNCTION__,[intermediateDate timeIntervalSinceNow]*-1.);
             
             if (success) success = [data writeToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"collaborationdata.bencoded"]] options:0 error:outError];
             if (success) success = [[[self textStorage] string] writeToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"plain.txt"]] atomically:NO encoding:[self fileEncoding] error:outError];
@@ -3567,6 +3615,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                     }
                 }
             }
+
+//-timelog            NSLog(@"%s Save took: %fs",__FUNCTION__, -1.*[startDate timeIntervalSinceNow]);
+
             
             if (success) {
                 return YES;
@@ -4587,6 +4638,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     while ((hostAddress = [enumerator nextObject])) {
         if ([hostAddress hasPrefix:@"::1"] ||
             [hostAddress hasPrefix:@"fe80"] ||
+            [hostAddress hasPrefix:@"fd"] ||
             [hostAddress hasPrefix:@"127.0.0.1"] ||
             [hostAddress hasPrefix:@"10."] ||
             [hostAddress hasPrefix:@"192.168."] ||
@@ -4616,8 +4668,23 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     
     if (hostAddress == nil) {
         CFStringRef localHostName = SCDynamicStoreCopyLocalHostName(NULL);
-        hostAddress = [NSString stringWithFormat:@"%@.local", (NSString *)localHostName];
-        CFRelease(localHostName);
+        if (localHostName) {
+            hostAddress = [NSString stringWithFormat:@"%@.local", (NSString *)localHostName];
+            CFRelease(localHostName); // CFRelease(NULL) is not a good idea and crashes
+        } else {
+            hostAddress = @"hasnoaddress.local";
+        }
+    } else {
+        NSCharacterSet *ipv6set = [NSCharacterSet characterSetWithCharactersInString:@"1234567890abcdef:"];
+        NSScanner *ipv6scanner = [NSScanner scannerWithString:hostAddress];
+        NSString *scannedString = nil;
+        if ([ipv6scanner scanCharactersFromSet:ipv6set intoString:&scannedString]) {
+            if ([scannedString length] == [hostAddress length]) {
+                hostAddress = [NSString stringWithFormat:@"[%@]",scannedString];
+            } else if ([hostAddress length] > [scannedString length]+1 && [hostAddress characterAtIndex:[scannedString length]] == '%') {
+                hostAddress = [NSString stringWithFormat:@"[%@%%25%@]",scannedString,[hostAddress substringFromIndex:[scannedString length]+1]];
+            }
+        }
     }
 
     [address appendFormat:@"//%@", hostAddress];

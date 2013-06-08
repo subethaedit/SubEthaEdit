@@ -161,6 +161,8 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 
 + (PlainTextDocument *)transientDocument;
 
+- (void)setTemporarySavePanel:(NSSavePanel *)aPanel;
+
 - (NSImage *)documentIcon;
 
 - (void)setPreservedDataFromSEETextFile:(NSArray *)aPreservedData;
@@ -397,6 +399,10 @@ typedef enum {
 
 @interface NSTextView (NSTextViewLeopardInterfaceAdditions)
 - (void)showFindIndicatorForRange:(NSRange)aRange;
+@end
+
+@interface NSDocument (NSDocumentPrivateAdditions) 
+- (void) _savePanelWasPresented:(id)aPanel withResult:(int)aResult inContext:(void*)aContext;
 @end
 
 #import "DocumentSharedMethods.h"

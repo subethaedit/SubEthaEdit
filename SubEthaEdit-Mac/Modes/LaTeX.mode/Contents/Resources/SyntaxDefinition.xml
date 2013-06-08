@@ -3,7 +3,7 @@
 <syntax>
 
     <head>
-        <name>TeX</name>
+        <name>LaTeX</name>
         <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]></charsintokens>
     </head>
 
