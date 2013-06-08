@@ -344,7 +344,7 @@ static int encodingCompare(const void *firstPtr, const void *secondPtr) {
     if (encodings == nil) {
         NSMutableArray *encs = [[[NSUserDefaults standardUserDefaults] arrayForKey:@"Encodings"] mutableCopy];
         if (encs == nil) {
-            NSStringEncoding defaultEncoding = [NSString defaultCStringEncoding];
+            NSStringEncoding defaultEncoding = NSUTF8StringEncoding;
             NSStringEncoding encoding;
             BOOL hasDefault = NO;
             int cnt = 0;

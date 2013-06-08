@@ -1138,6 +1138,7 @@ static NSString *tempFileName(NSString *origPath) {
 
 - (void)fillScriptsIntoContextMenu:(NSMenu *)aMenu {
     NSArray *itemArray = [[self documentMode] contextMenuItemArray];
+    BOOL addSeparator = NO;
     if ([itemArray count]) {
         NSEnumerator *menuItems=[itemArray objectEnumerator];
         NSMenuItem   *menuItem = nil;
@@ -1145,9 +1146,13 @@ static NSString *tempFileName(NSString *origPath) {
             NSMenuItem *item=[menuItem autoreleasedCopy];
             [aMenu addItem:item];
         }
+        addSeparator = YES;
     }
     itemArray = [[AppController sharedInstance] contextMenuItemArray];
     if ([itemArray count]) {
+    	if (addSeparator) {
+    		[aMenu addItem:[NSMenuItem separatorItem]];
+    	}
         NSEnumerator *menuItems=[itemArray objectEnumerator];
         NSMenuItem   *menuItem = nil;
         while ((menuItem=[menuItems nextObject])) {
@@ -1645,7 +1650,7 @@ static NSString *tempFileName(NSString *origPath) {
         if (returnCode == NSAlertFirstButtonReturn) { // convert
             DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Trying to convert file encoding");
             [[alert window] orderOut:self];
-            if (![[I_textStorage string] canBeConvertedToEncoding:encoding]) {
+            if (![[[I_textStorage fullTextStorage] string] canBeConvertedToEncoding:encoding]) {
                 [[self topmostWindowController] setDocumentDialog:[[[EncodingDoctorDialog alloc] initWithEncoding:encoding] autorelease]];
             
                 // didn't work so update bottom status bar to previous state
@@ -1664,7 +1669,7 @@ static NSString *tempFileName(NSString *origPath) {
         if (returnCode == NSAlertThirdButtonReturn) { // Reinterpret
             DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Trying to reinterpret file encoding");
             [[alert window] orderOut:self];
-            NSData *stringData = [[I_textStorage string] dataUsingEncoding:[self fileEncoding]];
+            NSData *stringData = [[[I_textStorage fullTextStorage] string] dataUsingEncoding:[self fileEncoding]];
             if ([self fileEncoding] == NSUTF8StringEncoding) {
                 BOOL modeWantsUTF8BOM = [[[self documentMode] defaultForKey:DocumentModeUTF8BOMPreferenceKey] boolValue];
                 if (I_flags.hasUTF8BOM || modeWantsUTF8BOM) {
@@ -2734,7 +2739,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         NSMutableArray *lossyEncodings = [NSMutableArray array];
         NSUInteger i;
         for (i = 0; i < [encodings count]; i++) {
-            if (![[I_textStorage string] canBeConvertedToEncoding:[[encodings objectAtIndex:i] unsignedIntValue]]) {
+            if (![[[I_textStorage fullTextStorage] string] canBeConvertedToEncoding:[[encodings objectAtIndex:i] unsignedIntValue]]) {
                 [lossyEncodings addObject:[encodings objectAtIndex:i]];
             }
         }
@@ -2964,10 +2969,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         if (I_lastSaveOperation == NSSaveToOperation) {
             DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Save a copy using encoding: %@", [NSString localizedNameOfStringEncoding:I_encodingFromLastRunSaveToOperation]);
             [[EncodingManager sharedInstance] unregisterEncoding:I_encodingFromLastRunSaveToOperation];
-            data = [[I_textStorage string] dataUsingEncoding:I_encodingFromLastRunSaveToOperation allowLossyConversion:YES];
+            data = [[[I_textStorage fullTextStorage] string] dataUsingEncoding:I_encodingFromLastRunSaveToOperation allowLossyConversion:YES];
         } else {
             DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Save using encoding: %@", [NSString localizedNameOfStringEncoding:[self fileEncoding]]);
-            data = [[I_textStorage string] dataUsingEncoding:[self fileEncoding] allowLossyConversion:YES];
+            data = [[[I_textStorage fullTextStorage] string] dataUsingEncoding:[self fileEncoding] allowLossyConversion:YES];
         }
         
         BOOL modeWantsUTF8BOM = [[[self documentMode] defaultForKey:DocumentModeUTF8BOMPreferenceKey] boolValue];
@@ -3411,7 +3416,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             encoding = [[mode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
         }
         
-        NSDictionary *docAttrs = nil;
+//        NSDictionary *docAttrs = nil;
         NSMutableDictionary *options = [NSMutableDictionary dictionary];
         [options setObject:NSPlainTextDocumentType forKey:@"DocumentType"];
         
@@ -3466,7 +3471,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             [options setObject:[NSNumber numberWithUnsignedInt:NSUTF8StringEncoding] forKey:@"CharacterEncoding"];
             success = [textStorage readFromData:fileData encoding:NSUTF8StringEncoding];
     #ifndef TCM_NO_DEBUG
-        [_readFromURLDebugInformation appendFormat:@"-> Found UTF8BOM:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n",success,[options description],[docAttrs description],(success?nil:*outError)];
+        [_readFromURLDebugInformation appendFormat:@"-> Found UTF8BOM:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n",success,[options description],nil,(success?nil:*outError)];
     #endif
         }
         
@@ -3492,7 +3497,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 success = [textStorage readFromData:fileData encoding:encoding];
                 if (success) [[EncodingManager sharedInstance] activateEncoding:encoding];
     #ifndef TCM_NO_DEBUG
-        [_readFromURLDebugInformation appendFormat:@"--> 2. Step - reading encoding/charset setting from html/xml/css:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n iana-encoding-name:%@",success,[options description],[docAttrs description],(success?nil:*outError),CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(encoding))];
+        [_readFromURLDebugInformation appendFormat:@"--> 2. Step - reading encoding/charset setting from html/xml/css:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n iana-encoding-name:%@",success,[options description],nil,(success?nil:*outError),CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(encoding))];
     #endif
             }
         }
@@ -3530,7 +3535,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 success = [textStorage readFromData:fileData encoding:udEncoding];
                 if (success) [[EncodingManager sharedInstance] activateEncoding:udEncoding];
     #ifndef TCM_NO_DEBUG
-        [_readFromURLDebugInformation appendFormat:@"---> 3. Step - using UniversalDetector:\n success:%d confidence:%1.3f encoding:%@ readWithOptions:%@ docAttributes:%@ error:%@\n",success,confidence,CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(udEncoding)) ,[options description],[docAttrs description],(success?nil:*outError)];
+        [_readFromURLDebugInformation appendFormat:@"---> 3. Step - using UniversalDetector:\n success:%d confidence:%1.3f encoding:%@ readWithOptions:%@ docAttributes:%@ error:%@\n",success,confidence,CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(udEncoding)) ,[options description],nil,(success?nil:*outError)];
     #endif
             }
         }
@@ -3541,7 +3546,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             [options setObject:[NSNumber numberWithUnsignedInt:encoding] forKey:@"CharacterEncoding"];
             success = [textStorage readFromData:fileData encoding:encoding];
     #ifndef TCM_NO_DEBUG
-        [_readFromURLDebugInformation appendFormat:@"-> Mode Encoding Step:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n",success,[options description],[docAttrs description],(success?nil:*outError)];
+        [_readFromURLDebugInformation appendFormat:@"-> Mode Encoding Step:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n",success,[options description],nil,(success?nil:*outError)];
     #endif
         }
                     
@@ -3551,7 +3556,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             [options setObject:[NSNumber numberWithUnsignedInt:NSMacOSRomanStringEncoding] forKey:NSCharacterEncodingDocumentOption];
             success = [textStorage readFromData:fileData encoding:NSMacOSRomanStringEncoding];
     #ifndef TCM_NO_DEBUG
-        [_readFromURLDebugInformation appendFormat:@"-----> 5. Step - using mac os roman encoding:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n",success,[options description],[docAttrs description],(success?nil:*outError)];
+        [_readFromURLDebugInformation appendFormat:@"-----> 5. Step - using mac os roman encoding:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n",success,[options description],nil,(success?nil:*outError)];
     #endif
         }
     
@@ -3562,7 +3567,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Encoding guessing information summary: %@", _readFromURLDebugInformation);
         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Read successful? %@", success ? @"YES" : @"NO");
-        DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"documentAttributes: %@", [docAttrs description]);
 
         [self setDocumentMode:mode];
         if ([I_textStorage length] > [defaults integerForKey:@"StringLengthToStopHighlightingAndWrapping"]) {
@@ -5445,6 +5449,32 @@ static NSString *S_measurementUnits;
     }
 }
 
+- (void)takeSpellCheckingSettingsFromEditor:(PlainTextEditor *)anEditor {
+	TextView *textView = (TextView *)[anEditor textView];
+	NSMutableDictionary *modeDefaults = [[self documentMode] defaults];
+	[modeDefaults setObject:[NSNumber numberWithBool:[textView isContinuousSpellCheckingEnabled]] forKey:DocumentModeSpellCheckingPreferenceKey];
+	
+	NSDictionary *attributeForDefaultKeyDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+		DocumentModeGrammarCheckingPreferenceKey,@"isGrammarCheckingEnabled",
+		DocumentModeAutomaticLinkDetectionPreferenceKey,@"isAutomaticLinkDetectionEnabled",
+		DocumentModeAutomaticDashSubstitutionPreferenceKey,@"isAutomaticDashSubstitutionEnabled",
+		DocumentModeAutomaticQuoteSubstitutionPreferenceKey,@"isAutomaticQuoteSubstitutionEnabled",
+		DocumentModeAutomaticTextReplacementPreferenceKey,@"isAutomaticTextReplacementEnabled",
+		DocumentModeAutomaticSpellingCorrectionPreferenceKey,@"isAutomaticSpellingCorrectionEnabled",
+		nil];
+	NSEnumerator *keyEnumerator = [attributeForDefaultKeyDictionary keyEnumerator];
+	NSString *attributeString = nil;
+	while ((attributeString = [keyEnumerator nextObject])) {
+		NSString *defaultKey = [attributeForDefaultKeyDictionary objectForKey:attributeString];
+		if ([textView respondsToSelector:NSSelectorFromString(attributeString)]) {
+			[modeDefaults setObject:[textView valueForKey:attributeString] forKey:defaultKey];
+//			NSLog(@"%s set %@ for %@ now %@",__FUNCTION__,attributeString, defaultKey, [textView valueForKey:attributeString]);
+		}
+	}
+//	NSLog(@"%s %@",__FUNCTION__,modeDefaults);
+}
+
+
 - (BOOL)isReceivingContent {
     return I_flags.isReceivingContent;
 }
@@ -6439,6 +6469,7 @@ static NSString *S_measurementUnits;
 
 - (BOOL)textView:(NSTextView *)aTextView doCommandBySelector:(SEL)aSelector {
 //    NSLog(@"TextDocument textView doCommandBySelector:%@",NSStringFromSelector(aSelector));
+	BOOL tabKeyReplaces = [[[self documentMode] defaultForKey:DocumentModeTabKeyReplacesSelectionPreferenceKey] boolValue];
     NSRange affectedRange=[aTextView rangeForUserTextChange];
     NSRange selectedRange=[aTextView selectedRange];
     if (aSelector==@selector(cancel:)) {
@@ -6507,6 +6538,14 @@ static NSString *S_measurementUnits;
             }
             return YES;
 
+        } else if (aSelector==@selector(insertBacktab:) && !tabKeyReplaces && selectedRange.length > 0) {
+        	PlainTextEditor *editor = [(TextView *)aTextView editor];
+        	[editor shiftLeft:self];
+        	return YES;
+        }  else if (aSelector==@selector(insertTab:)    && !tabKeyReplaces && selectedRange.length > 0) {
+        	PlainTextEditor *editor = [(TextView *)aTextView editor];
+        	[editor shiftRight:self];
+        	return YES;
         } else if (aSelector==@selector(insertTab:) && !I_flags.usesTabs) {
             // when we have a tab we have to find the last linebreak
             NSRange lineRange=[[[self textStorage] string] lineRangeForRange:affectedRange];
@@ -7022,7 +7061,7 @@ static NSString *S_measurementUnits;
     CFStringEncoding cfEncoding = CFStringConvertIANACharSetNameToEncoding((CFStringRef)name);
     if (cfEncoding != kCFStringEncodingInvalidId) {
         NSStringEncoding encoding = CFStringConvertEncodingToNSStringEncoding(cfEncoding);
-        if ([[I_textStorage string] canBeConvertedToEncoding:encoding]) {
+        if ([[[I_textStorage fullTextStorage] string] canBeConvertedToEncoding:encoding]) {
             [self setFileEncoding:encoding];
             [self updateChangeCount:NSChangeDone];             
         } else {

@@ -91,6 +91,8 @@ int const PasteMenuItemTag = 3;
 int const BlockeditMenuItemTag = 4;
 int const SpellingMenuItemTag = 10;
 int const SpeechMenuItemTag = 11;
+int const SubstitutionsMenuItemTag = 12;
+int const TransformationsMenuItemTag = 13;
 int const FormatMenuTag = 2000;
 int const FontMenuItemTag = 1;
 int const FileEncodingsMenuItemTag = 2001;
@@ -1023,19 +1025,22 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [defaultMenu addItem:[[(NSMenuItem *)[FoldingMenu itemWithTag:FoldingFoldSelectionMenuTag] copy] autorelease]];
     [defaultMenu addItem:[[(NSMenuItem *)[FoldingMenu itemWithTag:FoldingFoldCurrentBlockMenuTag] copy] autorelease]];
     [defaultMenu addItem:[[(NSMenuItem *)[FoldingMenu itemWithTag:FoldingFoldAllCurrentBlockMenuTag] copy] autorelease]];
+    [defaultMenu addItem:[NSMenuItem separatorItem]];
     NSMenuItem *scriptsSubmenuItem=[[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Scripts",@"Scripts entry for contextual menu") action:nil keyEquivalent:@""] autorelease];
     NSMenu *menu = [[NSMenu new] autorelease];
     [scriptsSubmenuItem setImage:[NSImage imageNamed:@"ScriptMenuItemIcon"]];
     [scriptsSubmenuItem setTag:12345];
+    [menu addItem:[[[NSMenuItem alloc] initWithTitle:@"DummyEntry" action:nil keyEquivalent:@""] autorelease]];
     [scriptsSubmenuItem setSubmenu:menu];
     [defaultMenu addItem:scriptsSubmenuItem];
-    [menu setDelegate:self];
-    [menu addItem:[NSMenuItem separatorItem]];
+
     [defaultMenu addItem:[NSMenuItem separatorItem]];
     [defaultMenu addItem:[[(NSMenuItem *)[EditMenu itemWithTag:SpellingMenuItemTag] copy] autorelease]];
     [defaultMenu addItem:[[(NSMenuItem *)[FormatMenu itemWithTag:FontMenuItemTag] copy] autorelease]];
+    [defaultMenu addItem:[[(NSMenuItem *)[EditMenu itemWithTag:SubstitutionsMenuItemTag] copy] autorelease]];
+    [defaultMenu addItem:[[(NSMenuItem *)[EditMenu itemWithTag:TransformationsMenuItemTag] copy] autorelease]];
     [defaultMenu addItem:[[(NSMenuItem *)[EditMenu itemWithTag:SpeechMenuItemTag] copy] autorelease]];
-    
+//    NSLog(@"%s default menu:%@",__FUNCTION__,defaultMenu);
     [TextView setDefaultMenu:defaultMenu];
 }
 

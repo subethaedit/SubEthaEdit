@@ -58,8 +58,10 @@
 				<string>fs</string>
 				<string>fscript</string>
 				<string>gcc</string>
+				<string>go</string>
 				<string>h</string>
 				<string>hpgl</string>
+				<string>hrl</string>
 				<string>htm</string>
 				<string>HTM</string>
 				<string>html</string>
@@ -243,7 +245,7 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleGetInfoString</key>
-	<string>SubEthaEdit 3.5.1, Copyright © 2003-2009, TheCodingMonkeys</string>
+	<string>SubEthaEdit 3.5.2, Copyright © 2003-2009, TheCodingMonkeys</string>
 	<key>CFBundleHelpBookFolder</key>
 	<string>SubEthaEditHelp</string>
 	<key>CFBundleHelpBookName</key>
@@ -259,7 +261,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>3.5.1</string>
+	<string>3.5.2</string>
 	<key>CFBundleSignature</key>
 	<string>Hdra</string>
 	<key>CFBundleURLTypes</key>

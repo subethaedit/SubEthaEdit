@@ -435,16 +435,20 @@ static FindReplaceController *sharedInstance=nil;
         }
         if (target) {
             [self addString:findString toHistory:I_findHistory];
-            OGRegularExpression *regex = [OGRegularExpression regularExpressionWithString:[O_findComboBox stringValue]
+            OGRegularExpression *regex = nil;
+            @try{
+            regex = [OGRegularExpression regularExpressionWithString:[O_findComboBox stringValue]
                                          options:[self currentOgreOptions]
                                          syntax:[self currentOgreSyntax]
                                          escapeCharacter:[self currentOgreEscapeCharacter]];
-
-            if ([[O_scopePopup selectedItem] tag]!=1) scope = NSMakeRange (NSNotFound, 0);
-            FindAllController *findall = [[[FindAllController alloc] initWithRegex:regex andRange:scope] autorelease];
-            [(PlainTextDocument *)[[target editor] document] addFindAllController:findall];
-            if ([self currentOgreSyntax]==OgreSimpleMatchingSyntax) [self saveFindStringToPasteboard];
-            [findall findAll:self];
+            } @catch (NSException *exception) { NSBeep(); }
+            if (regex){
+                if ([[O_scopePopup selectedItem] tag]!=1) scope = NSMakeRange (NSNotFound, 0);
+                FindAllController *findall = [[[FindAllController alloc] initWithRegex:regex andRange:scope] autorelease];
+                [(PlainTextDocument *)[[target editor] document] addFindAllController:findall];
+                if ([self currentOgreSyntax]==OgreSimpleMatchingSyntax) [self saveFindStringToPasteboard];
+                [findall findAll:self];
+            }
         } else NSBeep();
     }
     
@@ -487,10 +491,13 @@ static FindReplaceController *sharedInstance=nil;
             selection.length = 0;
         } else {
             // This might not work for lookahead etc.
-            OGRegularExpression *regex = [OGRegularExpression regularExpressionWithString:findString
+            OGRegularExpression *regex = nil;
+            @try{
+            regex = [OGRegularExpression regularExpressionWithString:findString
                                             options:[self currentOgreOptions]
                                             syntax:[self currentOgreSyntax]
                                             escapeCharacter:[self currentOgreEscapeCharacter]];
+            } @catch (NSException *exception) {NSBeep();}
             OGRegularExpressionMatch * aMatch = [regex matchInString:text options:[self currentOgreOptions] range:selection];
             if (aMatch != nil) {
                 [[aDocument documentUndoManager] beginUndoGrouping];
@@ -751,7 +758,7 @@ static FindReplaceController *sharedInstance=nil;
                 return;
             }
                 
-
+            @try{
             OGRegularExpression *regex = [OGRegularExpression regularExpressionWithString:findString
                                      options:[self currentOgreOptions]
                                      syntax:[self currentOgreSyntax]
@@ -777,6 +784,10 @@ static FindReplaceController *sharedInstance=nil;
             
                         
             [self replaceAFewMatches];
+            } @catch (NSException *exception) {
+                NSBeep();
+            }
+
             
         }
     }
@@ -817,11 +828,14 @@ static FindReplaceController *sharedInstance=nil;
         return NO;
     }
     
-    OGRegularExpression *regex;
+    
+    OGRegularExpression *regex = nil;
+    @try{
     regex = [OGRegularExpression regularExpressionWithString:findString
                                  options:[self currentOgreOptions]
                                  syntax:[self currentOgreSyntax]
                                  escapeCharacter:[self currentOgreEscapeCharacter]];
+    } @catch (NSException *exception) { NSBeep(); }
 
     NSTextView *target = [self targetToFindIn];
     if (target) {
@@ -865,14 +879,20 @@ static FindReplaceController *sharedInstance=nil;
                 else 
                     findRange = NSMakeRange(NSMaxRange(selection), [text length] - NSMaxRange(selection));
 
-                enumerator=[regex matchEnumeratorInString:text options:[self currentOgreOptions] range:findRange];
+                @try{
+                    enumerator=[regex matchEnumeratorInString:text options:[self currentOgreOptions] range:findRange];
+                } @catch (NSException *exception) { NSBeep(); }
+
                 aMatch = [enumerator nextObject];
                 if (aMatch != nil) {
                     found = YES;
                     NSRange foundRange = [aMatch rangeOfMatchedString];
 					[self selectAndHighlightRange:foundRange inTarget:target];
                 } else if (([O_wrapAroundCheckbox state] == NSOnState)&&([[O_scopePopup selectedItem] tag]!=1)){
+                    @try{
                     enumerator = [regex matchEnumeratorInString:text options:[self currentOgreOptions] range:NSMakeRange(0,NSMaxRange(selection))];
+                    } @catch (NSException *exception) { NSBeep(); }
+
                     aMatch = [enumerator nextObject];
                     if (aMatch != nil) {
                         found = YES;
@@ -905,8 +925,11 @@ static FindReplaceController *sharedInstance=nil;
                     findRange = scope;
                 else 
                     findRange = NSMakeRange(0, selection.location);
+                NSArray *matchArray = nil;
+                    @try{
+                        matchArray = [regex allMatchesInString:text options:[self currentOgreOptions] range:findRange];
+                    } @catch (NSException *exception) { NSBeep(); }
 
-                NSArray *matchArray = [regex allMatchesInString:text options:[self currentOgreOptions] range:findRange];
                 if ([matchArray count] > 0) aMatch = [matchArray objectAtIndex:([matchArray count] - 1)];
                 if (aMatch != nil) {
                     found = YES;

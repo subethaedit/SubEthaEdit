@@ -1,3 +1,8 @@
+/*	@function	CFURLCreatePropertiesForKeysFromBookmarkData
+/*	@function	CFURLCreatePropertyForKeyFromBookmarkData
+/*!	@function	CFURLCreateBookmarkDataFromAliasRecord
+/*!	@function	CFURLWriteBookmarkDataToFile
+/*!	@function 	CFURLCreateBookmarkDataFromFile
 @catch
 @finally
 @synchronized 
@@ -866,8 +871,113 @@ CE_NCT_SMIME_CA
 CE_NCT_SSL_CA
 CE_NCT_SSL_Client
 CE_NCT_SSL_Server
+CFArrayAppendArray
+CFArrayAppendValue
+CFArrayApplyFunction
+CFArrayBSearchValues
+CFArrayContainsValue
+CFArrayCreate
+CFArrayCreateCopy
+CFArrayCreateMutable
+CFArrayCreateMutableCopy
+CFArrayExchangeValuesAtIndices
+CFArrayGetCount
+CFArrayGetCountOfValue
+CFArrayGetFirstIndexOfValue
+CFArrayGetLastIndexOfValue
+CFArrayGetTypeID
+CFArrayGetValueAtIndex
+CFArrayGetValues
+CFArrayInsertValueAtIndex
 CFArrayRef
+CFArrayRemoveAllValues
+CFArrayRemoveValueAtIndex
+CFArrayReplaceValues
+CFArraySetValueAtIndex
+CFArraySortValues
+CFAttributedStringBeginEditing
+CFAttributedStringCreate
+CFAttributedStringCreateCopy
+CFAttributedStringCreateMutable
+CFAttributedStringCreateMutableCopy
+CFAttributedStringCreateWithSubstring
+CFAttributedStringEndEditing
+CFAttributedStringGetAttribute
+CFAttributedStringGetAttributeAndLongestEffectiveRange
+CFAttributedStringGetAttributes
+CFAttributedStringGetAttributesAndLongestEffectiveRange
+CFAttributedStringGetLength
+CFAttributedStringGetMutableString
+CFAttributedStringGetString
+CFAttributedStringGetTypeID
+CFAttributedStringRemoveAttribute
+CFAttributedStringReplaceAttributedString
+CFAttributedStringReplaceString
+CFAttributedStringSetAttribute
+CFAttributedStringSetAttributes
+CFBinaryHeapAddValue
+CFBinaryHeapApplyFunction
+CFBinaryHeapContainsValue
+CFBinaryHeapCreate
+CFBinaryHeapCreateCopy
+CFBinaryHeapGetCount
+CFBinaryHeapGetCountOfValue
+CFBinaryHeapGetMinimum
+CFBinaryHeapGetMinimumIfPresent
+CFBinaryHeapGetTypeID
+CFBinaryHeapGetValues
+CFBinaryHeapRemoveAllValues
+CFBinaryHeapRemoveMinimumValue
+CFCharacterSetAddCharactersInRange
+CFCharacterSetAddCharactersInString
+CFCharacterSetCreateBitmapRepresentation
+CFCharacterSetCreateCopy
+CFCharacterSetCreateInvertedSet
+CFCharacterSetCreateMutable
+CFCharacterSetCreateMutableCopy
+CFCharacterSetCreateWithBitmapRepresentation
+CFCharacterSetCreateWithCharactersInRange
+CFCharacterSetCreateWithCharactersInString
+CFCharacterSetGetPredefined
+CFCharacterSetGetTypeID
+CFCharacterSetHasMemberInPlane
+CFCharacterSetIntersect
+CFCharacterSetInvert
+CFCharacterSetIsCharacterMember
+CFCharacterSetIsLongCharacterMember
+CFCharacterSetIsSupersetOfSet
+CFCharacterSetRemoveCharactersInRange
+CFCharacterSetRemoveCharactersInString
+CFCharacterSetUnion
 CFComparisonResult
+CFDictionaryAddValue
+CFDictionaryApplyFunction
+CFDictionaryContainsKey
+CFDictionaryContainsValue
+CFDictionaryCreate
+CFDictionaryCreateCopy
+CFDictionaryCreateMutable
+CFDictionaryCreateMutableCopy
+CFDictionaryGetCount
+CFDictionaryGetCountOfKey
+CFDictionaryGetCountOfValue
+CFDictionaryGetKeysAndValues
+CFDictionaryGetTypeID
+CFDictionaryGetValue
+CFDictionaryGetValueIfPresent
+CFDictionaryRemoveAllValues
+CFDictionaryRemoveValue
+CFDictionaryReplaceValue
+CFDictionarySetValue
+CFErrorCopyDescription
+CFErrorCopyFailureReason
+CFErrorCopyRecoverySuggestion
+CFErrorCopyUserInfo
+CFErrorCreate
+CFErrorCreateWithUserInfoKeysAndValues
+CFErrorGetCode
+CFErrorGetDomain
+CFErrorGetTypeID
 CFFTPCreateParsedResourceListing
 CFHTTPAuthenticationAppliesToRequest
 CFHTTPAuthenticationCopyDomains
@@ -970,14 +1080,63 @@ CFReadStreamCreateForHTTPRequest
 CFReadStreamCreateForStreamedHTTPRequest
 CFReadStreamCreateWithFTPURL
 CFRunLoopSourceRef
+CFSetAddValue
+CFSetApplyFunction
+CFSetContainsValue
+CFSetCreate
+CFSetCreateCopy
+CFSetCreateMutable
+CFSetCreateMutableCopy
+CFSetGetCount
+CFSetGetCountOfValue
+CFSetGetTypeID
+CFSetGetValue
+CFSetGetValues
 CFSetRef
+CFSetRemoveAllValues
+CFSetRemoveValue
+CFSetReplaceValue
+CFSetSetValue
 CFSocketStreamPairSetSecurityProtocol
 CFSocketStreamSOCKSGetError
 CFSocketStreamSOCKSGetErrorSubdomain
 CFStreamCreatePairWithSocketToCFHost
 CFStreamCreatePairWithSocketToNetService
+CFStringFindCharacterFromSet
+CFStringFold
+CFStringGetRangeOfComposedCharactersAtIndex
+CFStringNormalize
 CFStringRef
+CFStringTokenizerAdvanceToNextToken
+CFStringTokenizerCopyBestStringLanguage
+CFStringTokenizerCopyCurrentTokenAttribute
+CFStringTokenizerCreate
+CFStringTokenizerGetCurrentSubTokens
+CFStringTokenizerGetCurrentTokenRange
+CFStringTokenizerGetTypeID
+CFStringTokenizerGoToTokenAtIndex
+CFStringTokenizerSetString
+CFTreeAppendChild
+CFTreeApplyFunctionToChildren
+CFTreeCreate
+CFTreeFindRoot
+CFTreeGetChildAtIndex
+CFTreeGetChildCount
+CFTreeGetChildren
+CFTreeGetContext
+CFTreeGetFirstChild
+CFTreeGetNextSibling
+CFTreeGetParent
+CFTreeGetTypeID
+CFTreeInsertSibling
+CFTreePrependChild
+CFTreeRemove
+CFTreeRemoveAllChildren
+CFTreeSetContext
+CFTreeSortChildren
 CFTypeRef
+CFURLCreateBookmarkData
+CFURLCreateByResolvingBookmarkData
 CFURLError
 CFUUIDGetConstantUUIDWithBytes
 CFWriteStreamCreateWithFTPURL
@@ -1000,6 +1159,8 @@ CFragSystem7Locator
 CFragSystem7LocatorPtr
 CFragSystem7MemoryLocator
 CFragSystem7SegmentedLocator
+CGColor
+CGImage
 CGLChoosePixelFormat
 CGLClearDrawable
 CGLContextObj
@@ -18902,8 +19063,10 @@ accessibilitySetValue: forAttribute:
 accessibilityTraits
 accessibilityValue
 accessory
+accessoryAction
 accessoryControllers
 accessoryDidDisconnect:
+accessoryType
 accessoryView
 aceBadCmd
 aceBadComp
@@ -18932,6 +19095,8 @@ actionSheet: clickedButtonAtIndex:
 actionSheet: didDismissWithButtonIndex: 
 actionSheet: willDismissWithButtonIndex: 
 actionSheetCancel: 
+actionSheetStyle
+actions
 actionsForTarget: forControlEvent: 
 activMask
 activate
@@ -18952,6 +19117,7 @@ activeFlag
 activeFlagBit
 activePane
 activeProcessorCount
+activityIndicatorViewStyle
 acuteUprA
 acuteUprI
 acuteUprO
@@ -19121,6 +19287,7 @@ addValue: withLabel:
 addWhoHeader: length:
 addWindowController:
 addWindowsItem: title: filename:
+additive
 addresmenu
 address
 addressAsString
@@ -19132,6 +19299,9 @@ adjustPageHeightNew: top: bottom: limit:
 adjustPageWidthNew: left: right: limit:
 adjustScroll:
 adjustSubviews
+adjustsFontSizeToFitWidth
+adjustsImageWhenDisabled
+adjustsImageWhenHighlighted
 administrativeArea
 adobeRGB1998ColorSpace
 adoptNode:
@@ -19237,6 +19407,8 @@ allocatePacket
 allowedFileTypes
 allowedInputSourceLocales
 allowedTypes
+allowsActions
+allowsAddingToAddressBook
 allowsAltDragging
 allowsAnimatedImageLooping
 allowsAnimatedImages
@@ -19249,6 +19421,7 @@ allowsCutCopyPaste
 allowsDocumentBackgroundColorChange
 allowsDragging
 allowsDuplicatesInToolbar
+allowsEditing
 allowsEditingTextAttributes
 allowsEmptySelection
 allowsFloats
@@ -19266,6 +19439,7 @@ allowsReordering
 allowsReverseTransformation
 allowsScrolling
 allowsSelection
+allowsSelectionDuringEditing
 allowsTickMarkValuesOnly
 allowsToggleToOff
 allowsToolTipsWhenApplicationIsInactive
@@ -19288,14 +19462,19 @@ altKey
 alternateImage
 alternateMnemonic
 alternateMnemonicLocation
+alternateName
 alternateSelectedControlColor
 alternateSelectedControlTextColor
 alternateTitle
 altersStateOfSelectedItem
+altitude
+alwaysBounceHorizontal
+alwaysBounceVertical
 alwaysShowsDecimalSeparator
 alwaysUsesMultipleValuesMarker
 ampCmd
 ancestorSharedWithView:
+anchorPoint
 anchorPointZ
 anchors
 andPredicateWithSubpredicates:
@@ -19318,7 +19497,9 @@ animationDidStop: finished:
 animationDuration
 animationForKey:
 animationForKey: 
+animationImages
 animationKeys
+animationRepeatCount
 animationResizeTime:
 animationShouldStart:
 animationTimeInterval
@@ -19425,7 +19606,9 @@ applicationDidResignActive:
 applicationDidUnhide:
 applicationDidUpdate:
 applicationDockMenu:
+applicationFrame
 applicationHandle
+applicationIconBadgeNumber
 applicationIconForInterfaceStyle:
 applicationIconImage
 applicationIdentifier
@@ -19648,6 +19831,8 @@ autoKeyMask
 autoSaveTextFields
 autoScales
 autoTrack
+autocapitalizationType
+autocorrectionType
 autoenablesItems
 autohidesScrollers
 automaticRearrangementKeyPaths
@@ -19663,6 +19848,7 @@ autoresizesAllColumnsToFit
 autoresizesOutlineColumn
 autoresizesSubviews
 autoresizingMask
+autoreverses
 autosaveDocumentWithDelegate: didAutosaveSelector: contextInfo:
 autosaveExpandedItems
 autosaveName
@@ -19772,6 +19958,7 @@ bSupportsSymbolicLinks
 bSupportsTrashVolumeCache
 bTakeActiveEvent
 bTrshOffLine
+backBarButtonItem
 backForwardList
 backItem
 backListCount
@@ -19789,6 +19976,7 @@ backgroundPosition
 backgroundRectForBounds: 
 backgroundRepeat
 backgroundStyle  
+backgroundView
 backingLocation
 backingStoreType
 backingType
@@ -19843,8 +20031,10 @@ badTrackIndex
 badTranslationSpecErr
 badUnitErr
 badgeLabel
+badgeValue
 bandinfo
 bannerText
+barStyle
 baseDblQuote
 baseName
 baseOfTypesetterGlyphInfo
@@ -19852,6 +20042,7 @@ baseSingQuote
 baseSpecifier
 baseURL
 baseWritingDirection
+baselineAdjustment
 baselineDeltaForCharacterAtIndex:
 baselineLocation
 baselineOffsetInLayoutManager: glyphIndex:
@@ -19921,6 +20112,7 @@ beginSheetModalForWindow:
 beginSheetModalForWindow: modalDelegate: didEndSelector: contextInfo:
 beginSheetWithOptions: modalForWindow: modalDelegate: didEndSelector: contextInfo:
 beginSheetWithPrintInfo: modalForWindow: delegate: didEndSelector: contextInfo:
+beginTime
 beginTrackingWithTouch: withEvent: 
 beginUndoGrouping
 beginUpdates
@@ -19995,6 +20187,8 @@ borderType
 borderWidth
 bottom
 bottomMargin
+bounces
+bouncesZoom
 boundingBox
 boundingBoxForControlGlyphAtIndex: forTextContainer: proposedLineFragment: glyphPosition: characterIndex:
 boundingRectForFont
@@ -20087,8 +20281,10 @@ buttonNumber
 buttonPressed:
 buttonTitleAtIndex: 
 buttonToolTip
+buttonType
 buttonWithType: 
 buttons
+byValue
 bytes
 bytesPerPlane
 bytesPerRow
@@ -20244,6 +20440,7 @@ calcSize
 calcThumbRgn
 calculate
 calculateSizeOfFile: fork: estimating:
+calculationMode
 calendar
 calendarDate
 calendarFormat
@@ -20280,6 +20477,7 @@ canBecomeKeyView
 canBecomeKeyWindow
 canBecomeMainWindow
 canBecomeVisibleWithoutLogin
+canCancelContentTouches
 canChooseDirectories
 canChooseFiles
 canCloseDocument
@@ -20363,6 +20561,7 @@ cancel:
 cancelAllOperations
 cancelAuthenticationChallenge:
 cancelButtonCell
+cancelButtonIndex
 cancelButtonRectForBounds:
 cancelComposition
 cancelConnectToPeer:
@@ -20667,6 +20866,9 @@ checkSpaceForParts
 checkSpelling:
 checkSpellingOfString: startingAt:
 checkSpellingOfString: startingAt: language: wrap: inSpellDocumentWithTag: wordCount:
+checkTextInDocument:
+checkTextInRange: types: options:
+checkTextInSelection:
 check_string
 check_tasklevel0
 check_tasklevel0_string
@@ -20876,6 +21078,7 @@ clear:
 clearAllowedUUIDs
 clearAttributesCache
 clearBuffer
+clearButtonMode
 clearButtonRectForBounds: 
 clearCaches
 clearColor
@@ -20890,7 +21093,9 @@ clearSearchField:
 clearSelection
 clearStartAnimation
 clearStopAnimation
+clearsContextBeforeDrawing
 clearsFilterPredicateOnInsertion
+clearsOnBeginEditing
 click
 clickCount
 clickedColumn
@@ -20921,6 +21126,7 @@ clientX
 clientY
 clip
 clipRect:
+clipsToBounds
 clkRdErr
 clkWrErr
 clockComponentCmd
@@ -21503,11 +21709,16 @@ content
 contentAspectRatio
 contentDescription
 contentDocument
+contentEdgeInsets
 contentEditable
 contentFilters
 contentFrame
+contentHorizontalAlignment
+contentInset
 contentMaxSize
 contentMinSize
+contentMode
+contentOffset
 contentOffsetForSegmentAtIndex: 
 contentRect
 contentRectForBounds: 
@@ -21518,6 +21729,8 @@ contentResizingMask
 contentSize
 contentSizeForFrameSize: hasHorizontalScroller: hasVerticalScroller: borderType:
 contentStretch
+contentURL
+contentVerticalAlignment
 contentView
 contentViewMargins
 contentWidth
@@ -21528,7 +21741,9 @@ contentsAtPath:
 contentsCenter
 contentsEqualAtPath: andPath:
 contentsFilterMode
+contentsGravity
 contentsOfDirectoryAtPath: error:
+contentsRect
 context
 contextExpression
 contextHelpForKey:
@@ -21543,6 +21758,7 @@ continueSpeaking
 continueTracking: at: inView:
 continueTrackingWithTouch: withEvent: 
 continueWithoutCredentialForAuthenticationChallenge:
+continuous
 control: didFailToFormatString: errorDescription:
 control: didFailToValidatePartialString: errorDescription:
 control: isValidObject:
@@ -21690,6 +21906,7 @@ couldNotUseAnExistingSample
 couldntGetRequiredComponent
 count
 countByEnumeratingWithState: objects: count:
+countDownDuration
 countForFetchRequest: error:
 countForFetchRequest:error:
 countForObject:
@@ -21701,6 +21918,7 @@ counterIncrement
 counterReset
 country
 countryCode
+course
 coveredCharacterSet
 cp_gid
 cp_uid
@@ -22067,6 +22285,7 @@ ctzrzf_
 cue
 cueAfter
 cueBefore
+cumulative
 cung2l_
 cung2r_
 cungbr_
@@ -22104,6 +22323,7 @@ currencyDecimalSeparator
 currencyGroupingSeparator 
 currencySymbol
 currentAppleEvent
+currentBackgroundImage
 currentCalendar
 currentCollation
 currentCommand
@@ -22134,12 +22354,15 @@ currentHardwareOutputNumberOfChannelsChanged:
 currentHardwareSampleRate
 currentHardwareSampleRateChanged:
 currentHost
+currentImage
 currentIn
 currentInputManager
 currentItem
 currentLayoutManager
 currentLocale
+currentMaximumTrackImage
 currentMemoryUsage
+currentMinimumTrackImage
 currentMode
 currentNode
 currentOperation
@@ -22157,7 +22380,11 @@ currentTarget
 currentTextContainer
 currentTextStorage
 currentThread
+currentThumbImage
 currentTime
+currentTitle
+currentTitleColor
+currentTitleShadowColor
 currentValue
 currentVirtualScreen
 cursiveFontFamily
@@ -22167,6 +22394,8 @@ curveToPoint:
 customSelector
 customTextEncodingName
 customUserAgent
+customView
+customizableViewControllers
 customizationPaletteIsRunning
 cut:
 cyanColor
@@ -22348,6 +22577,7 @@ debuggingNoMatchErr
 dec2num
 dec2numl
 dec2str
+decelerating
 decelerationRate
 decform
 decimal
@@ -22498,9 +22728,11 @@ defaultWritingDirectionForLanguage:
 defaults
 defaultsForModuleWithName:
 defer
+defersCurrentPageDisplay
 defineClass: withName:
 defined
 definition
+delaysContentTouches
 delegate
 delete
 delete:
@@ -22604,6 +22836,7 @@ deserializeObjectAt: ofObjCType: fromData: atCursor:
 deserializePropertyListFromData: atCursor: mutableContainers:
 deserializePropertyListFromData: mutableContainers:
 deserializePropertyListLazilyFromData: atCursor: length: mutableContainers:
+desiredAccuracy
 deskPatID
 desktopDamagedErr
 destPortErr
@@ -22617,6 +22850,7 @@ destinationInstancesForEntityMappingNamed:sourceInstances:
 destinationModel
 destinationOfSymbolicLinkAtPath: error:
 destroyContext
+destructiveButtonIndex
 detach
 detachColorList:
 detachCurrentThread
@@ -22635,6 +22869,7 @@ detailTextLabel
 detailsDisclosed
 detailsDisplayed
 detectConflictsForObject:
+detectsPhoneNumbers
 developStage
 developmentLocalization
 device
@@ -22852,6 +23087,7 @@ dirNFErr
 directParameter
 directXObjectAlreadyExists
 direction
+directionalLockEnabled
 directory
 directoryAttributes
 directoryContentsAtPath:
@@ -22868,6 +23104,7 @@ disableScreenUpdatesUntilFlush
 disableUndoRegistration
 disableUpdates
 disabled
+disabledBackground
 disabledControlTextColor
 disappearingItemCursor
 discardCachedImage
@@ -22922,6 +23159,8 @@ displayView
 displayableSubpredicatesOfPredicate:
 displayed
 displayedCommandsTitle
+displayedPerson
+displayedProperties
 displayedProperty
 displaysAnnotations
 displaysAsBook
@@ -22931,6 +23170,7 @@ displaysWhenScreenProfileChanges
 disposeTrack:
 dissolveToPoint: fraction:
 dissolveToPoint: fromRect: fraction:
+distanceFilter
 distantFuture
 distantPast
 distinguishedNames
@@ -23222,6 +23462,7 @@ doubleAcute
 doubleBufferCmd
 doubleClickAtIndex:
 doubleForKey:
+doubleSided
 doubleValue
 double_t
 download
@@ -23309,6 +23550,7 @@ draggedImage: endedAt: deposited:
 draggedImage: endedAt: operation:
 draggedImage: movedTo:
 draggedImageLocation
+dragging
 draggingDestinationDelegate
 draggingDestinationWindow
 draggingEnded:
@@ -23419,6 +23661,7 @@ drawWithFrame: inView: characterIndex:
 drawWithFrame: inView: characterIndex: layoutManager:
 drawWithRect: options:
 drawWithRect: options: attributes:
+drawableProperties
 drawerDidClose:
 drawerDidOpen:
 drawerShouldClose:
@@ -23654,12 +23897,15 @@ eWSUnknownType
 earlierDate:
 echosBullets
 edge
+edgeAntialiasingMask
+editAction
 editButtonItem
 editColumn: row: withEvent: select:
 editInAddressBook:
 editSelf: in:
 editText
 editWithFrame: inView: editor: delegate: event:
+editable
 editableDOMRangeForPoint:
 edited: range: changeInLength:
 editedColumn
@@ -23667,12 +23913,14 @@ editedMask
 editedObject
 editedRange
 editedRow
+editing
 editingAccessoryType
 editingAccessoryView
 editingDelegate
 editingNotAllowed
 editingRectForBounds: 
 editingStringForObjectValue:
+editingStyle
 editionMgrInitErr
 editor: didCloseForObject:
 editorClassName
@@ -23725,6 +23973,8 @@ enableUpdates
 enabled
 enabledEntityNames
 enabledRemoteNotificationTypes
+enabledTextCheckingTypes
+enablesReturnKeyAutomatically
 enclosingMenuItem
 enclosingScrollView
 enclosure: downloadStateDidChange:
@@ -23797,6 +24047,7 @@ endOffset
 endPage
 endParagraph
 endPoint
+endProgress
 endRelationshipCreationForEntityMapping: manager: error:
 endRelationshipCreationForEntityMapping:manager:error:
 endSeeking
@@ -24429,6 +24680,7 @@ exchangePageAtIndex: withPageAtIndex:
 exchangeSubviewAtIndex: withSubviewAtIndex: 
 excludedKeys
 excludedMemoryException
+exclusiveTouch
 executableArchitectures
 executablePath
 execute: atTime: withArguments:
@@ -24680,6 +24932,7 @@ fill
 fillAttributesCache
 fillColor
 fillListMsg
+fillMode
 fillRect:
 fillRule
 filter
@@ -24740,6 +24993,7 @@ firstIndex
 firstKeyView
 firstLineHeadIndent
 firstObjectCommonWithArray:
+firstOtherButtonIndex
 firstPane
 firstPickerError
 firstRectForCharacterRange:
@@ -25058,6 +25312,7 @@ generateApertureModeDimensions
 generateGlyphsForGlyphStorage: desiredNumberOfCharacters: glyphIndex: characterIndex:
 generatesCalendarDates
 generatesDecimalNumbers
+generatesDeviceOrientationNotifications
 genericCMYKColorSpace
 genericGrayColorSpace
 genericRGBColorSpace
@@ -27781,6 +28036,7 @@ handlePrintScriptCommand:
 handleQueryWithUnboundKey:
 handleSaveScriptCommand:
 handleTakeValue: forUnboundKey:
+handleTextCheckingResults: forRange: types: options: orthography: wordCount:
 handlerCGrafPortOnly
 handlerCanClip
 handlerCanHandleComplexMatrix
@@ -27900,13 +28156,19 @@ hiObjectClassExistsErr
 hiObjectClassHasInstancesErr
 hiObjectClassHasSubclassesErr
 hiObjectClassIsAbstractErr
+hidden
 hide
 hide:
 hideOtherApplications
 hideOtherApplications:
 hidePalettes
+hidesAccessoryWhenEditing
+hidesBackButton
+hidesBottomBarWhenPushed
 hidesEmptyCells
+hidesForSinglePage
 hidesOnDeactivate
+hidesWhenStopped
 hierMenu
 highLevelEventMask
 highlight:
@@ -27925,6 +28187,7 @@ highlightedImage
 highlightedItemIndex
 highlightedSelections
 highlightedTableColumn
+highlightedTextColor
 highlightsBy
 hintsAllowBlacklining
 hintsAllowDynamicResize
@@ -27967,6 +28230,7 @@ hmSameAsLastBalloon
 hmSkippedBalloon
 hmUnknownHelpType
 hmWrongVersion
+horizontalAccuracy
 horizontalCornerRadius
 horizontalEdgePadding
 horizontalLineScroll
@@ -28071,6 +28335,7 @@ identityWithCSIdentity:
 identityWithName: authority:
 identityWithPersistentReference:
 identityWithUUIDString: authority:
+idleTimerDisabled
 ieeeck_
 ifnet_stat_increment_param
 ignore
@@ -28134,16 +28399,19 @@ imageCropRect
 imageData
 imageDidNotDraw: inRect:
 imageDimsWhenDisabled
+imageEdgeInsets
 imageFileTypes
 imageForSegment:
 imageForSegmentAtIndex: 
 imageForState: 
 imageForViewer
 imageFrameStyle
+imageInsets
 imageInterpolation
 imageNameForStatus:
 imageNamed:
 imageNamed: 
+imageOrientation
 imageOrigin
 imagePasteboardTypes
 imagePath
@@ -28251,6 +28519,7 @@ indentWidth
 indentationLevel
 indentationMarkerFollowsCell
 indentationPerLevel
+indentationWidth
 indentsWrappedLines
 independentConversationQueueing
 index
@@ -28299,6 +28568,7 @@ indexSetWithIndex:
 indexSetWithIndexesInRange:
 indexTitle
 indicatorImageInTableColumn:
+indicatorStyle
 indicesOfObjectsByEvaluatingObjectSpecifier:
 indicesOfObjectsByEvaluatingWithContainer: count:
 inferredMappingModelForSourceModel:destinationModel:error:
@@ -28987,6 +29257,7 @@ integerValue
 intercellSpacing
 interceptEvent:
 interest
+interfaceOrientation
 interfaceStyle
 interfaceVersion
 interfaces
@@ -29102,8 +29373,12 @@ isAnyApplicationSpeaking
 isAtEnd
 isAttached
 isAutodisplay
+isAutomaticDashSubstitutionEnabled:
+isAutomaticDataDetectionEnabled:
 isAutomaticLinkDetectionEnabled
 isAutomaticQuoteSubstitutionEnabled
+isAutomaticSpellingCorrectionEnabled:
+isAutomaticTextReplacementEnabled:
 isAutoscroll
 isBackButtonVisible
 isBaseFont
@@ -48139,12 +48414,15 @@ keySmallIconAndMask
 keySpecifier
 keyStatementRange
 keySubjectAttr
+keyTimes
 keyUp:
 keyUpMask
 keyViewSelectionDirection
 keyWindow
 keyWithAppleEventCode:
+keyboardAppearance
 keyboardFocusIndicatorColor
+keyboardType
 keychain
 keysSortedByValueUsingSelector:
 keywordForDescriptorAtIndex:
@@ -48537,13 +48815,17 @@ leafKeyPath
 leafKeyPathForNode:
 learnWord:
 left
+leftBarButtonItem
 leftCalloutAccessoryView
+leftCapWidth
 leftExpression
 leftExpressions
 leftMargin
 leftOverBlockSize
 leftOverChars
 leftSingGuillemet
+leftView
+leftViewMode
 leftViewRectForBounds: 
 length
 lengthOfBytesUsingEncoding:
@@ -48553,6 +48835,8 @@ level
 levelForItem:
 levelForRow:
 levelIndicatorStyle
+levelsOfDetail
+levelsOfDetailBias
 levelsOfUndo
 lgamma
 lgammal
@@ -48643,6 +48927,7 @@ loadSuitesFromBundle:
 loadView
 loadWindow
 loadedCellAtRow: column:
+loading
 loadsImagesAutomatically
 localIdentityAuthority
 localName
@@ -48672,6 +48957,7 @@ localizedInputManagerName
 localizedKey
 localizedKeyDictionary
 localizedKeyTable
+localizedModel
 localizedName
 localizedName: locale: 
 localizedNameForCategory:
@@ -48699,6 +48985,7 @@ locationInWindow
 locationManager:didUpdateHeading:
 locationManagerShouldDisplayHeadingCalibration:
 locationOfPrintRect:
+locationServicesEnabled
 locations
 lock
 lockBeforeDate:
@@ -48797,6 +49084,7 @@ macron
 magentaColor
 magentaComponent
 magneticHeading
+magnificationFilter
 mailComposeController:didFinishWithResult:error:
 mailComposeDelegate
 mainBundle
@@ -48907,6 +49195,7 @@ marks
 markupString
 markupType
 mask
+masksToBounds
 matchForPredicate:
 matchPropertyTable
 matchesAppleEventCode:
@@ -48945,6 +49234,7 @@ maxVisibleColumns
 maxWidth
 maximum
 maximumAdvancement
+maximumDate
 maximumDecimalNumber
 maximumFractionDigits
 maximumFrameSizeFromKnobPosition:
@@ -48960,7 +49250,10 @@ maximumRecordedFileSize
 maximumSignificantDigits 
 maximumSizeForCellSize: knobPosition:
 maximumTrackImageForState: 
+maximumValue
+maximumValueImage
 maximumValueImageRectForBounds: 
+maximumZoomScale
 mcActionActivate
 mcActionAddActionNotification
 mcActionAdjustCursor
@@ -49255,6 +49548,7 @@ miniaturize:
 miniaturizeAll:
 minificationFilterBias
 minimum
+minimumDate
 minimumDaysInFirstWeek
 minimumDecimalNumber
 minimumFontSize
@@ -49268,7 +49562,10 @@ minimumSignificantDigits
 minimumSize
 minimumSizeForCellSize: knobPosition:
 minimumTrackImageForState: 
+minimumValue
+minimumValueImage
 minimumValueImageRectForBounds: 
+minimumZoomScale
 miniwindowImage
 miniwindowTitle
 minorVersion
@@ -49277,6 +49574,7 @@ minusSet:
 minusSign
 minute
 minuteField
+minuteInterval
 minuteMask
 minuteOfHour
 minutes
@@ -49288,8 +49586,10 @@ mnemonic
 mnemonicLocation
 mntLdingZ
 modalTransitionStyle
+modalViewController
 modalWindow
 mode
+model
 modelByMergingModels:
 modelByMergingModels: forStoreMetadata:
 modelByMergingModels:forStoreMetadata:
@@ -49309,11 +49609,13 @@ modifyFont:
 modifyFontViaPanel:
 module_info
 module_stat
+momentary
 month
 monthField
 monthMask
 monthOfYear
 monthSymbols
+moreNavigationController
 mostCompatibleStringEncoding
 motionBegan:withEvent:
 motionCancelled:withEvent:
@@ -49397,6 +49699,7 @@ movie: linkToURL:
 movie: shouldContinueOperation: withPhase: atPercent: withAttributes:
 movieAttributes
 movieBounds
+movieControlMode
 movieController
 movieControllerBounds
 movieDrawingCallAlways
@@ -49468,6 +49771,7 @@ msgid
 multiple
 multiplePublisherWrn
 multipleThreadsEnabled
+multipleTouchEnabled
 multiplier
 multivalued
 mungeMaxPacketSize
@@ -49503,12 +49807,16 @@ namespaceWithName: stringValue:
 namespaces
 nativeHandle
 natural_t
+navigationBar
 navigationBar: didPopItem: 
 navigationBar: didPushItem: 
 navigationBar: shouldPopItem: 
 navigationBar: shouldPushItem: 
+navigationBarHidden
+navigationController
 navigationController: didShowViewController: animated: 
 navigationController: willShowViewController: animated: 
+navigationItem
 nbpBuffOvr
 nbpConfDiff
 nbpDuplicate
@@ -49521,6 +49829,7 @@ needClearScrapErr
 needsDisplay
 needsDisplayForKey:
 needsDisplayForKey: 
+needsDisplayOnBoundsChange
 needsLayout
 needsPanelToBecomeKey
 needsSizing
@@ -49550,6 +49859,7 @@ netServiceDidStop:
 netServiceWillPublish:
 netServiceWillResolve:
 network
+networkActivityIndicatorVisible
 networkErr
 networkEvt
 networkMask
@@ -49572,6 +49882,7 @@ newMovieDontUpdateForeBackPointers
 newMovieIdleImportOK
 newObject
 newPMSigWord
+newPersonViewDelegate
 newReferenceObjectForManagedObject:
 newRevisionString
 newSelMsg
@@ -49807,7 +50118,9 @@ numberFortmattingNotADigitErr
 numberFromString:
 numberOfArguments
 numberOfAudioChannels
+numberOfButtons
 numberOfCellsInImageBrowser:
+numberOfChannels
 numberOfCharacters
 numberOfChildren
 numberOfColorComponents
@@ -49822,8 +50135,11 @@ numberOfItemsInComboBox:
 numberOfItemsInComboBoxCell:
 numberOfItemsInImageBrowser:
 numberOfItemsInMenu:
+numberOfLines
+numberOfLoops
 numberOfMajorTickMarks
 numberOfObjects
+numberOfPages
 numberOfPlanes
 numberOfRows
 numberOfRowsInComponent: 
@@ -49832,6 +50148,7 @@ numberOfRowsInTableView:
 numberOfSamples
 numberOfSections
 numberOfSectionsInTableView: 
+numberOfSegments
 numberOfSelectedColumns
 numberOfSelectedRows
 numberOfSlideshowItems
@@ -49952,11 +50269,14 @@ ogonek
 ok:
 okButton
 oldPMSigWord
+on
 onStateImage
 onStateValue
 one
 oneBitMode
 opWrErr
+opacity
+opaque
 opaqueAncestor
 open
 open:
@@ -50029,6 +50349,7 @@ orderFrontSpacingPanel:
 orderFrontStandardAboutPanel:
 orderFrontStandardAboutPanelWithOptions:
 orderFrontStylesPanel:
+orderFrontSubstitutionsPanel:
 orderFrontTablePanel:
 orderOut:
 orderWindow: relativeTo:
@@ -50342,6 +50663,7 @@ pageSizeForPaper:
 pageTitle
 pageUp:
 pages
+pagingEnabled
 pairedDevices
 pairingController
 paletteDocument
@@ -50382,6 +50704,7 @@ parent
 parentEditorForEditor:
 parentForItem:
 parentFrame
+parentGroup
 parentGroups
 parentID
 parentNode
@@ -50389,6 +50712,7 @@ parentOfObject:
 parentRowForRow:
 parentRule
 parentStyleSheet
+parentViewController
 parentWindow
 parse
 parser: didEndElement: namespaceURI: qualifiedName:
@@ -50546,6 +50870,7 @@ peerPickerController:sessionForConnectionType:
 peerPickerControllerDidCancel:
 peersWithConnectionState:
 people
+peoplePickerDelegate
 peopleWithScreenName:
 perMillSymbol
 perThousand
@@ -50621,7 +50946,9 @@ persistentStoreCoordinatorShouldStartSyncing:
 persistentStoreForURL:
 persistentStoreTypeForFileType:
 persistentStores
+personViewDelegate
 perspectiveMatrixType
+phase
 phaseCmd
 phonemesFromText:
 physicalMemory
@@ -50658,6 +50985,7 @@ pixelFormat
 pixelsHigh
 pixelsWide
 placeView:
+placeholder
 placeholderAttributedString
 placeholderRectForBounds: 
 placeholderString
@@ -50814,6 +51142,7 @@ positiveSuffix
 posixGID
 posixName
 posixUID
+possibleTitles
 postEvent: atStart:
 postNotification:
 postNotificationName: object:
@@ -50977,6 +51306,7 @@ productsRequest:didReceiveResponse:
 profile
 profileURI
 program
+progress
 progressMarks
 progressOpAddMovieSelection
 progressOpCopy
@@ -50992,6 +51322,7 @@ progressOpLoadTrackIntoRam
 progressOpPaste
 progressPanel
 progressProcAborted
+progressViewStyle
 project
 project:
 projectDirectory
@@ -51042,6 +51373,7 @@ provideNewView:
 provideViewForUIConfiguration: excludedKeys:
 provisionalDataSource
 proximityMonitoringEnabled
+proximitySensingEnabled
 proximityState
 proxyType
 proxyWithLocal: connection:
@@ -51598,6 +51930,7 @@ removeVolatileDomainForName:
 removeWebScriptKey:
 removeWindowController:
 removeWindowsItem:
+removedOnCompletion
 remquo
 remquol
 renamingIdentifier
@@ -51614,6 +51947,8 @@ renderingMode
 renewGState
 renewRows: columns:
 reopenDocumentForURL: withContentsOfURL: error:
+repeatCount
+repeatDuration
 repeatMode
 replace:
 replaceBytesInRange: withBytes:
@@ -51808,6 +52143,7 @@ retrieveFolderListing
 retryComponentRegistrationErr
 return
 returnID
+returnKeyType
 returnType
 returnsDistinctResults
 returnsObjectsAsFaults
@@ -51819,6 +52155,7 @@ reverseGeocoder:didFindPlacemark:
 reverseObjectEnumerator
 reverseTransformedValue:
 reversedSortDescriptor
+reversesTitleShadowWhenHighlighted
 revert:
 revertButton
 revertDocumentToSaved:
@@ -51845,6 +52182,7 @@ richTextFromDescriptor:
 richTextSource
 richness
 right
+rightBarButtonItem
 rightCalloutAccessoryView
 rightControlKey
 rightControlKeyBit
@@ -51860,6 +52198,8 @@ rightOptionKeyBit
 rightShiftKey
 rightShiftKeyBit
 rightSingGuillemet
+rightView
+rightViewMode
 rightViewRectForBounds: 
 ringDetectBit
 ringDetectMask
@@ -51888,6 +52228,7 @@ rotateByRadians:
 rotatingFooterView
 rotatingHeaderView
 rotation
+rotationMode
 roundingBehavior
 roundingIncrement
 roundingMode
@@ -51896,6 +52237,7 @@ roundtol
 roundtoll
 routines
 routingNotFoundErr
+row
 rowAtPoint:
 rowClass
 rowForDisplayValue:
@@ -52101,7 +52443,9 @@ scaleSegment: newDuration:
 scaleTranslateMatrixType
 scaleUnitSquareToSize:
 scaleXBy: yBy:
+scalesPageToFit
 scalesWhenResized
+scalingMode
 scanCharactersFromSet: intoString:
 scanDecimal:
 scanDouble:
@@ -52160,12 +52504,14 @@ scrollColumnsLeftBy:
 scrollColumnsRightBy:
 scrollEnabled
 scrollIndexToVisible:
+scrollIndicatorInsets
 scrollIntoView:
 scrollIntoViewIfNeeded:
 scrollItemAtIndexToTop:
 scrollItemAtIndexToVisible:
 scrollLineDown:
 scrollLineUp:
+scrollMode
 scrollPageDown:
 scrollPageUp:
 scrollPoint:
@@ -52200,6 +52546,7 @@ scrollerWidth
 scrollerWidthForControlSize:
 scrolling
 scrollsDynamically
+scrollsToTop
 scsiAbortCmdFixed
 scsiAutosenseFailed
 scsiAutosenseValid
@@ -52438,9 +52785,12 @@ secondsFromGMT
 secondsFromGMTForDate:
 sectNFErr
 section
+sectionFooterHeight
 sectionForObject:collationStringSelector:
 sectionForSectionIndexTitle:atIndex:
 sectionForSectionIndexTitleAtIndex:
+sectionHeaderHeight
+sectionIndexMinimumDisplayRowCount
 sectionIndexTitleForSectionName:
 sectionIndexTitles
 sectionIndexTitlesForTableView: 
@@ -52449,11 +52799,13 @@ sectionRowIndex
 sectionTitles
 sections
 sectors
+secureTextEntry
 seekErr
 seekToEndOfFile
 seekToFileOffset:
 segmentCount
 segmentStyle
+segmentedControlStyle
 sel_getName  
 sel_getUid  
 sel_isEqual  
@@ -52519,6 +52871,7 @@ selectWord:
 selected
 selectedAnnotations
 selectedAttributedString
+selectedBackgroundView
 selectedCell
 selectedCellInColumn:
 selectedCells
@@ -52534,6 +52887,7 @@ selectedFont
 selectedFrame
 selectedGroups
 selectedIdentifiersForPerson:
+selectedImage
 selectedIndex
 selectedItem
 selectedItemIdentifier
@@ -52554,6 +52908,7 @@ selectedRowIndexes
 selectedRowIndexesInColumn:
 selectedScopeButtonIndex
 selectedSegment
+selectedSegmentIndex
 selectedString
 selectedTabViewItem
 selectedTag
@@ -52561,6 +52916,7 @@ selectedTextAttributes
 selectedTextBackgroundColor
 selectedTextColor
 selectedValues
+selectedViewController
 selection
 selectionAffinity
 selectionCount
@@ -52587,6 +52943,7 @@ selectionRangeForProposedRange: granularity:
 selectionShouldChangeInOutlineView:
 selectionShouldChangeInTableView:
 selectionStart
+selectionStyle
 selectionsByLine
 selector
 selectorForCommand:
@@ -52633,7 +52990,9 @@ sepNotConsistent
 sepNotIntlSep
 separatesColumns
 separator
+separatorColor
 separatorItem
+separatorStyle
 seqGrabAlwaysUseTimeBase
 seqGrabAppendToFile
 seqGrabCanMoveWindowWhileRecording
@@ -52862,8 +53221,12 @@ setAutoScales:
 setAutodisplay:
 setAutoenablesItems:
 setAutohidesScrollers:
+setAutomaticDashSubstitutionEnabled:
+setAutomaticDataDetectionEnabled:
 setAutomaticLinkDetectionEnabled:
 setAutomaticQuoteSubstitutionEnabled:
+setAutomaticSpellingCorrectionEnabled:
+setAutomaticTextReplacementEnabled:
 setAutomaticallyPreparesContent:
 setAutomaticallyRearrangesObjects:
 setAutorecalculatesKeyViewLoop:
@@ -53251,6 +53614,7 @@ setEnabled:
 setEnabled: forEntityNames:
 setEnabled: forSegment:
 setEnabled: forSegmentAtIndex: 
+setEnabledTextCheckingTypes:
 setEnctype:
 setEnd:
 setEnd: offset:
@@ -54679,6 +55043,7 @@ sharedTypesetter
 sharedURLCache
 sharedUserDefaultsController
 sharedWorkspace
+sharegroup
 sharingType
 sheet
 shgeqz_
@@ -54722,6 +55087,7 @@ shouldDrawInsertionPoint
 shouldEnableActionForPerson: identifier:
 shouldExitPane:
 shouldHide
+shouldIndentWhileEditing
 shouldInstallPaletteWithPath:
 shouldLoad
 shouldPasteInSelection
@@ -54756,25 +55122,33 @@ showPools
 showUserSettingsDialog
 showWindow:
 showWindows
+showingDeleteConfirmation
 showsAlpha
 showsApplicationBadge
 showsBaselineSeparator
+showsBookmarkButton
 showsBorderOnlyWhileMouseInside
+showsCancelButton
 showsCompositionNames
 showsControlCharacters
 showsExpertParameters
 showsFirstResponder
 showsHelp
+showsHorizontalScrollIndicator
 showsInvisibleCharacters
 showsPrintPanel
 showsProgressPanel
+showsReorderControl
 showsResizeIndicator
 showsScopeBar
+showsSelectionIndicator
 showsStateBy
 showsStateColumn
 showsSuppressionButton
 showsToolbarButton
+showsTouchWhenHighlighted
 showsUserLocation
+showsVerticalScrollIndicator
 shsein_
 shseqr_
 shuffleMode
@@ -55466,6 +55840,7 @@ sourceInstancesForEntityMappingNamed:destinationInstances:
 sourceModel
 sourceNotFoundErr
 sourcePath
+sourceType
 spGammaDir
 spVidNamesDir
 span
@@ -55493,6 +55868,7 @@ speechSynthesizer: didEncounterSyncMessage:
 speechSynthesizer: didFinishSpeaking:
 speechSynthesizer: willSpeakPhoneme:
 speechSynthesizer: willSpeakWord: ofString:
+speed
 spellCheckerDocumentTag
 spellServer: checkGrammarInString: language: details:
 spellServer: didForgetWord: inLanguage:
@@ -55660,6 +56036,11 @@ stateImageWidth
 statistics
 status
 statusBar
+statusBarFrame
+statusBarHidden
+statusBarOrientation
+statusBarOrientationAnimationDuration
+statusBarStyle
 statusCode
 statusErr
 statusForTable:
@@ -55834,6 +56215,8 @@ subentities
 subentitiesByName
 subframeArchives
 subgroups
+sublayerTransform
+sublayers
 submenu
 submenuAction:
 submit
@@ -55872,6 +56255,7 @@ superMsg
 superclass
 superclassDescription
 superentity
+superlayer
 supermenu
 superproject
 superscript:
@@ -55951,6 +56335,7 @@ systemId
 systemLocale
 systemMicrosecondClock
 systemMillisecondClock
+systemName
 systemSecondClock
 systemStatusBar
 systemTabletID
@@ -55970,11 +56355,13 @@ tabBar: didEndCustomizingItems: changed:
 tabBar: didSelectItem: 
 tabBar: willBeginCustomizingItems: 
 tabBar: willEndCustomizingItems: changed: 
+tabBarController
 tabBarController: didEndCustomizingViewControllers: changed: 
 tabBarController: didSelectViewController: 
 tabBarController:shouldSelectViewController:
 tabBarController:willBeginCustomizingViewControllers:
 tabBarController:willEndCustomizingViewControllers:changed:
+tabBarItem
 tabIndex
 tabKeyTraversesCells
 tabState
@@ -55993,6 +56380,8 @@ tabWidth
 table
 tableColumnWithIdentifier:
 tableColumns
+tableFooterView
+tableHeaderView
 tableLayout
 tableView
 tableView: acceptDrop: row: dropOperation:
@@ -56077,6 +56466,7 @@ takeValue: forKeyPath:
 takeValuesFromDictionary:
 takesTitleFromPreviousColumn
 tangentialPressure
+tapCount
 target
 targetForAction:
 targetForAction: to: from:
@@ -56241,6 +56631,7 @@ testSuiteForTestCaseWithName:
 testSuiteWithName:
 text
 textAlign
+textAlignment
 textAttributesForNegativeInfinity
 textAttributesForNegativeValues
 textAttributesForNil
@@ -56377,6 +56768,7 @@ tickMarkValueAtIndex:
 tightenKerning:
 tighteningFactorForTruncation
 tile
+tileSize
 tilt
 timbreCmd
 timeBaseAfterStopTime
@@ -56393,6 +56785,7 @@ timeIntervalSinceReferenceDate
 timeNotInMedia
 timeNotInTrack
 timeNotInViewErr
+timeOffset
 timeStamp
 timeStyle
 timeZone
@@ -56439,6 +56832,8 @@ timingApple_640x870_75hz
 timingApple_832x624_75hz
 timingApple_FixedRateLCD
 timingFilmRate_48hz
+timingFunction
+timingFunctions
 timingGTF_640x480_120hz
 timingInvalid
 timingInvalid_SM_T24
@@ -56480,6 +56875,7 @@ timingVESA_800x600_60hz
 timingVESA_800x600_72hz
 timingVESA_800x600_75hz
 timingVESA_800x600_85hz
+tintColor
 title
 titleAlignment
 titleBarFontOfSize:
@@ -56487,6 +56883,7 @@ titleBaseWritingDirection
 titleCell
 titleColor
 titleColorForState: 
+titleEdgeInsets
 titleFont
 titleForPerson: identifier:
 titleForSegmentAtIndex: 
@@ -56501,6 +56898,8 @@ titleRect
 titleRectForBounds:
 titleRectForContentRect: 
 titleShadowColorForState: 
+titleShadowOffset
+titleView
 titleWidth
 titleWidth:
 tk0BadErr
@@ -56513,8 +56912,12 @@ togChar12HourBit
 togCharZCycleBit
 togDelta12HourBit
 toggle:
+toggleAutomaticDashSubstitution:
+toggleAutomaticDataDetection:
 toggleAutomaticLinkDetection:
 toggleAutomaticQuoteSubstitution:
+toggleAutomaticSpellingCorrection:
+toggleAutomaticTextReplacement:
 toggleBadChar
 toggleBadDelta
 toggleBadField
@@ -56680,13 +57083,17 @@ toolbarSelectableItemIdentifiers:
 toolbarWillAddItem:
 top
 topAutoreleasePoolCount
+topCapHeight
+topItem
 topLevelObject
 topMargin
+topViewController
 totalAutoreleasedObjects
 totalDuration
 totalFailureCount
 totalLoadCmd
 touch
+touchInside
 touchesBegan: withEvent: 
 touchesCancelled: withEvent: 
 touchesEnded: withEvent: 
@@ -56719,6 +57126,7 @@ trackUsageInPreview
 trackWithEvent:
 trackWithQuickTimeTrack: error:
 trackerClassNameForEvent:
+tracking
 trackingArea
 trackingAreas
 trackingMode
@@ -56997,6 +57405,7 @@ unionWith:
 unionWithRect:
 uniqueID
 uniqueId
+uniqueIdentifier
 uniqueSpellDocumentTag
 unitEmptyErr
 unitTblFullErr
@@ -57007,6 +57416,7 @@ unknownException
 unknownFormatErr
 unknownInsertModeErr
 unknownPersonViewController:shouldPerformDefaultActionForPerson:property:identifier:
+unknownPersonViewDelegate
 unlearnWord:
 unload
 unloadComposition
@@ -57067,6 +57477,7 @@ updateFromPath:
 updateFromPrintInfo
 updateHelpMenuWithArray:
 updateInsertionPointStateAndRestartTimer:
+updateInterval
 updateMask
 updateMeters
 updateMovieFile
@@ -58384,6 +58795,7 @@ userFixedPitchFontOfSize:
 userFontOfSize:
 userIdentityWithPosixUID: authority:
 userInfo
+userInteractionEnabled
 userInterfaceItemIdentifier
 userItem
 userKeyEquivalent
@@ -59474,6 +59886,7 @@ versionForClassName:
 versionHash
 versionHashModifier
 versionIdentifiers
+verticalAccuracy
 verticalAlign
 verticalAlignment
 verticalCornerRadius
@@ -59503,6 +59916,7 @@ view: stringForToolTip: point: userData:
 view: willDisplayImage:
 viewAnimations
 viewBoundsChanged:
+viewControllers
 viewDidAppear: 
 viewDidDisappear: 
 viewDidEndLiveResize
@@ -59546,6 +59960,7 @@ visibleFrame
 visibleItems
 visiblePages
 visibleRect
+visibleViewController
 visualContextForConnection:
 vlog1pf
 vlogbf
@@ -60051,6 +60466,7 @@ yuvComponentIn
 yuvComponentSyncIn
 z
 zIndex
+zPosition
 zbdsqr_
 zdrot_
 zdrscl_
@@ -60254,6 +60670,7 @@ zlibDataCompressorSubType
 zone
 zoom:
 zoomAccelerate
+zoomBouncing
 zoomDecelerate
 zoomDocProc
 zoomEnabled
@@ -60267,6 +60684,7 @@ zoomOut:
 zoomScale
 zoomToRect:animated:
 zoomValue
+zooming
 zpbcon_
 zpbequ_
 zpbrfs_

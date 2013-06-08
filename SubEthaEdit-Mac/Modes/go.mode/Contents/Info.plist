@@ -3,9 +3,9 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleIdentifier</key>
-	<string>SEEMode.Objective-C</string>
+	<string>SEEMode.go</string>
 	<key>CFBundleName</key>
-	<string>Objective-C</string>
+	<string>go</string>
 	<key>NSHumanReadableCopyright</key>
 	<string>© 2009 TheCodingMonkeys
 http://www.codingmonkeys.de</string>
