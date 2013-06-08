@@ -97,7 +97,7 @@
 -(void)parseXMLFile:(NSString *)aPath {
 
     NSError *err=nil;
-    NSXMLDocument *syntaxDefinitionXML = [[NSXMLDocument alloc] initWithData:[NSData dataWithContentsOfFile:aPath] options:nil error:&err];
+    NSXMLDocument *syntaxDefinitionXML = [[NSXMLDocument alloc] initWithData:[NSData dataWithContentsOfFile:aPath] options:0 error:&err];
 
     if (err) {
 		[self showWarning:NSLocalizedString(@"XML Structure Error",@"XML Structure Error Title")  withDescription:[NSString stringWithFormat:NSLocalizedString(@"Error while loading '%@': %@",@"Syntax XML Loading Error Informative Text"),aPath, [err localizedDescription]]];

@@ -3685,7 +3685,6 @@
                     <state-link state="PHP" />
                     
                     <state-link state="CSSComment" />
-                    <state-link state="CSSSingleComment" />
                     <state-link state="CSSRound bracket" />
                     <state-link state="CSSString" />
                     <state-link state="CSSSingleString" />
@@ -3696,13 +3695,7 @@
                     <end><regex>\*/</regex></end>
                     <state-link state="PHP" />
                 </state>
-                
-                <state id="CSSSingleComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
-                    <begin><string>//</string></begin>
-                    <end><regex>[\n\r]</regex></end>
-                    <state-link state="PHP" />
-                </state>
-        
+                        
                 <state id="CSSRound bracket" type="string" color="#760f15" font-weight="normal" font-style="normal">
                     <begin><string>\(</string></begin>
                     <end><regex>\)</regex></end>

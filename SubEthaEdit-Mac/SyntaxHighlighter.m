@@ -161,7 +161,7 @@ NSString * const kSyntaxHighlightingParentModeForAutocompleteAttributeName = @"P
 					for (i=0;i<count;i++) {
 						NSString *groupName = [captureGroups objectAtIndex:i];
 						NSString *replacement = [[delimiterMatch substringNamed:groupName] stringByReplacingRegularExpressionOperators];
-						if (groupName && replacement) [combinedDelimiterString replaceOccurrencesOfString:[NSString stringWithFormat:@"(?#see-insert-start-group:%@)",groupName] withString:replacement options:nil range:NSMakeRange(0,[combinedDelimiterString length])];
+						if (groupName && replacement) [combinedDelimiterString replaceOccurrencesOfString:[NSString stringWithFormat:@"(?#see-insert-start-group:%@)",groupName] withString:replacement options:0 range:NSMakeRange(0,[combinedDelimiterString length])];
 					}
 				}
 				

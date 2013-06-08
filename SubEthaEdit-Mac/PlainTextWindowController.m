@@ -33,7 +33,7 @@
 #import <PSMTabBarControl/PSMTabBarControl.h>
 #import <PSMTabBarControl/PSMTabStyle.h>
 #import <objc/objc-runtime.h>			// for objc_msgSend
-
+#import "LockWindow.h"
 
 
 NSString * const PlainTextWindowToolbarIdentifier = 
@@ -90,7 +90,6 @@ enum {
 
 - (void)insertObject:(NSDocument *)document inDocumentsAtIndex:(unsigned int)index;
 - (void)removeObjectFromDocumentsAtIndex:(unsigned int)index;
-- (void)adjustLockWindow;
 @end
 
 #pragma mark -
@@ -152,10 +151,6 @@ enum {
     [I_tabBar release];
     [I_tabView release];
 
-	if (I_lockChildWindow) [I_lockChildWindow release];
-	I_lockChildWindow = nil;
-
-
     [[DocumentController sharedInstance] updateTabMenu];
             
     [super dealloc];
@@ -185,16 +180,9 @@ enum {
     [toolbar setAutosavesConfiguration:YES];
     [toolbar setDelegate:self];
     [[self window] setToolbar:toolbar];
-    [self adjustLockWindow];
 }
 
 - (void)windowDidLoad {
-    // [[[[[self window] standardWindowButton:NSWindowDocumentIconButton] superview] titleCell] setLineBreakMode:NSLineBreakByTruncatingMiddle];
-    
-    //[self adjustToolbarToDocumentMode];
-
-    //[self validateUpperDrawer];
-    
     NSSize drawerSize = [O_participantsDrawer contentSize];
     drawerSize.width = 170;
     [O_participantsDrawer setContentSize:drawerSize];
@@ -254,27 +242,6 @@ enum {
     BOOL shouldHideTabBar = [[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey];
     [I_tabBar setHideForSingleTab:!shouldHideTabBar];
     [I_tabBar hideTabBar:!shouldHideTabBar animate:NO];
-
-    {
-//        NSButton *button=[NSWindow standardWindowButton:NSWindowToolbarButton forStyleMask:[[self window] styleMask]];
-        // add a transparent child window to display a lock next to the toolbar button
-        NSImage *lockImage = [NSImage imageNamed:@"LockTitlebar"];
-        NSRect frame=NSZeroRect;
-        frame.size = [lockImage size];
-        frame.origin = [[self window] frame].origin;
-        frame.origin.x += 100;
-        NSWindow *childWindow = [[NSWindow alloc] initWithContentRect:frame styleMask:NSBorderlessWindowMask backing:NSBackingStoreBuffered defer:NO];
-        [childWindow setIgnoresMouseEvents:YES];
-        NSImageView *imageView = [[NSImageView alloc] initWithFrame:frame];
-        [imageView setImage:lockImage];
-        [imageView setToolTip:NSLocalizedString(@"All participants of this document are connected using secure connections",@"Tooltip for ssl lock at top of the window")];
-        [childWindow setContentView:imageView];
-        [childWindow setOpaque:NO];
-        [childWindow setBackgroundColor:[NSColor clearColor]];
-        [[self window] addChildWindow:childWindow ordered:NSWindowAbove];
-        I_lockChildWindow = childWindow;
-    }
-    //[self validateButtons];
 }
 
 - (void)takeSettingsFromDocument {
@@ -1224,13 +1191,17 @@ enum {
 
 #pragma mark -
 
-- (void)synchronizeWindowTitleWithDocumentName {
-    [super synchronizeWindowTitleWithDocumentName];
+- (void)updateLock {
     BOOL showLock=NO;
     PlainTextDocument *document = (PlainTextDocument *)[self document];
     TCMMMSession *session = [document session];
     showLock = [session isSecure] && ([document isAnnounced] || [session participantCount] + [session openInvitationCount]>1);
-    [I_lockChildWindow setAlphaValue:showLock?1.0:0.01];
+    [I_lockImageView setHidden:!showLock];
+}
+
+- (void)synchronizeWindowTitleWithDocumentName {
+    [super synchronizeWindowTitleWithDocumentName];
+    [self updateLock];
 }
 
 - (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName document:(PlainTextDocument *)document {
@@ -1854,19 +1825,6 @@ enum {
 #pragma mark -
 #pragma mark ### window delegation  ###
 
-- (void)adjustLockWindow {
-    NSRect lockFrame = [I_lockChildWindow frame];
-    NSRect windowFrame = [[self window] frame];
-    lockFrame.origin.y = NSMaxY(windowFrame)-17.;
-    lockFrame.origin.x = NSMaxX(windowFrame)-43.;
-    [I_lockChildWindow setFrame:lockFrame display:YES];
-}
-
-
-- (void)windowDidResize:(NSNotification *)aNotification {
-    [self adjustLockWindow];
-}
-
 - (NSRect)windowWillUseStandardFrame:(NSWindow *)sender defaultFrame:(NSRect)defaultFrame {
     if (!([[NSApp currentEvent] modifierFlags] & NSShiftKeyMask)) {
         NSRect windowFrame=[[self window] frame];
@@ -1882,7 +1840,7 @@ enum {
 }
 
 - (void)windowDidBecomeMain:(NSNotification *)aNotification {
-    [self adjustLockWindow];
+    [self updateLock];
     // switch mode menu on becoming main
     [(PlainTextDocument *)[self document] adjustModeMenu];
     // also make sure the tab menu is updated correctly
@@ -1952,9 +1910,32 @@ enum {
 - (IBAction)showWindow:(id)aSender {
     if (![[self window] isVisible]) {
         [self cascadeWindow];
-        [self windowDidResize:nil];
     }
     [super showWindow:aSender];
+    
+    if (!I_lockImageView) {
+        id superview = [[[self window] standardWindowButton:NSWindowToolbarButton] superview];
+        NSRect toolbarButtonFrame = [[[self window] standardWindowButton:NSWindowToolbarButton] frame];
+        NSImage *lockImage = [NSImage imageNamed:@"LockTitlebar"];
+        NSRect iconFrame = toolbarButtonFrame;
+    
+        iconFrame.size = [lockImage size];
+        iconFrame.origin.x =NSMinX(toolbarButtonFrame) - iconFrame.size.width - 3.;
+        iconFrame.origin.y =NSMaxY(toolbarButtonFrame) - iconFrame.size.height + 1.;
+
+        I_lockImageView = [[NSImageView alloc] initWithFrame:iconFrame];
+        [I_lockImageView setEditable:NO];
+        [I_lockImageView setImageFrameStyle:NSImageFrameNone];
+        [I_lockImageView setImageScaling:NSScaleNone];
+        [I_lockImageView setImageAlignment:NSImageAlignCenter];
+        [I_lockImageView setAutoresizingMask:NSViewMinXMargin | NSViewMinYMargin];
+        [superview addSubview:I_lockImageView];
+        [I_lockImageView release];
+        [I_lockImageView setImage:lockImage];
+        [I_lockImageView setToolTip:NSLocalizedString(@"All participants of this document are connected using secure connections",@"Tooltip for ssl lock at top of the window")];
+    }
+    [self updateLock];
+
 }
 
 - (NSRect)dissolveToFrame {
@@ -1963,6 +1944,10 @@ enum {
         NSWindow *window = [self window];
         NSRect bounds = [[I_tabBar performSelector:@selector(lastVisibleTab)] frame];
         bounds = [[window contentView] convertRect:bounds fromView:I_tabBar];
+        bounds.size.height += 25.;
+        bounds.origin.y -= 32.;
+        bounds = NSInsetRect(bounds,-8.,-9.);
+        bounds.origin.x +=1;
         NSPoint point1 = bounds.origin;
         NSPoint point2 = NSMakePoint(NSMaxX(bounds),NSMaxY(bounds));
         point1 = [window convertBaseToScreen:point1];
@@ -1970,7 +1955,7 @@ enum {
         bounds = NSMakeRect(MIN(point1.x,point2.x),MIN(point1.y,point2.y),ABS(point1.x-point2.x),ABS(point1.y-point2.y));
         return bounds;
     } else {
-        return [[self window] frame];
+        return NSOffsetRect(NSInsetRect([[self window] frame],-9.,-9.),0.,-4.);
     }
 }
 

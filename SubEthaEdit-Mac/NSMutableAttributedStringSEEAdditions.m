@@ -131,6 +131,10 @@ extern NSString const * WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
     [self endEditing];
 }
 
+@end
+
+@implementation NSAttributedString (NSAttributedStringSeeAdditions)
+
 - (NSDictionary *)dictionaryRepresentationUsingEncoding:(NSStringEncoding)anEncoding {
     NSMutableDictionary *dictionary=[NSMutableDictionary dictionary];
     [dictionary setObject:[[[self string] copy] autorelease] forKey:@"String"];

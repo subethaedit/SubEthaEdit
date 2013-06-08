@@ -12,6 +12,7 @@
 #import "TCMBEEPManagementProfile.h"
 #import <Security/Security.h>
 
+#import <netinet/tcp.h>
 #import <netinet/in.h>
 #import <sys/socket.h>
 #import <sys/sockio.h>  // SIOCGIFMTU
