@@ -961,7 +961,6 @@ static NSString *tempFileName(NSString *origPath) {
     [I_session release];
     [I_plainTextAttributes release];
     [I_typingAttributes release];
-	[I_adjustedTypingAttributes autorelease];
 	[I_blockeditAttributes release];
     [I_fonts.plainFont release];
     [I_fonts.boldFont release];
@@ -4577,8 +4576,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
      I_plainTextAttributes=nil;
     [I_typingAttributes release];
      I_typingAttributes=nil;
-    [I_adjustedTypingAttributes autorelease];
-     I_adjustedTypingAttributes=nil;
     [I_styleCacheDictionary removeAllObjects];
     [[NSNotificationQueue defaultQueue]
         enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentDefaultParagraphStyleDidChangeNotification object:self]
@@ -4592,8 +4589,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
      I_plainTextAttributes=nil;
     [I_typingAttributes release];
      I_typingAttributes=nil;
-    [I_adjustedTypingAttributes autorelease];
-     I_adjustedTypingAttributes=nil;
     [I_blockeditAttributes release];
      I_blockeditAttributes=nil;
     [I_styleCacheDictionary removeAllObjects];

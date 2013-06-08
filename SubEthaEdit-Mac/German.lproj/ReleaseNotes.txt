@@ -1,4 +1,22 @@
 
+SubEthaEdit 3.2.1
+=================
+
+Veränderugen:
+- Ein Problem in mDNSResponder von Apple kann unter Umständen zu exzessivem 
+  Schreiben von Logdateien führen. SubEthaEdit 3.2.1 reduziert die Häufigkeit 
+  dieses Problems. Falls es doch auftritt, kann es durch Ein- und Ausschalten 
+  der Port Weiterleitung in den erweiterten Einstellungen behoben werden.
+
+Korrekturen:
+- Ein Problem wurde behoben, welches dazu führte das CJK bedingte 
+  Schriftartenwechsel eine falsche Schriftart für das verbleibende Dokument 
+  bewirkten.
+- Ein Fehler wurde beseitigt, welcher bewirkte das die Apple Skripte des LaTeX 
+  Modus falsch eingebunden wurden.
+
+
+
 SubEthaEdit 3.2
 ===============
 
