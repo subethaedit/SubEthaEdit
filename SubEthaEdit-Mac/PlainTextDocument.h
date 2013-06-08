@@ -82,6 +82,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
         BOOL isSEEText;
         BOOL isAutosavingForRestart;
         BOOL keepUndoManagerOnZeroWindowControllers;
+        BOOL isSettingFileURL;
     } I_flags;
     int I_tabWidth;
 //    int I_changeCount;
