@@ -43,8 +43,8 @@ static NSArray *S_possibleStyleColors;
     if ([[aStyle documentMode] isEqual:[anotherStyle documentMode]]) {
         NSMutableIndexSet *result=[NSMutableIndexSet indexSet];
         NSArray *allKeys=[aStyle allKeys];
-        unsigned int i=0;
-        unsigned int count=[allKeys count];
+        NSUInteger i=0;
+        NSUInteger count=[allKeys count];
         for (i=0;i<count;i++) {
             NSString *styleID=[allKeys objectAtIndex:i];
             if (![SyntaxStyle style:[aStyle styleForKey:styleID] isEqualToStyle:[anotherStyle styleForKey:styleID]]) {
@@ -62,7 +62,7 @@ static NSArray *S_possibleStyleColors;
     NSMutableDictionary *styleDictionary = [NSMutableDictionary dictionary];
     NSMutableArray *possibleKeys = [NSMutableArray array];
     [possibleKeys addObjectsFromArray:S_possibleStyleColors];
-    [possibleKeys addObjectsFromArray:[NSArray arrayWithObjects:@"font-trait",kSyntaxHighlightingStyleIDAttributeName,nil]];
+    [possibleKeys addObjectsFromArray:[NSArray arrayWithObjects:@"font-trait",@"type",kSyntaxHighlightingStyleIDAttributeName,nil]];
     
     NSEnumerator *enumerator = [possibleKeys objectEnumerator];
     id key;
@@ -71,8 +71,10 @@ static NSArray *S_possibleStyleColors;
         if (object) [styleDictionary setObject:object forKey:key];
     }
 
-    [self addKey:styleID];
-    [self setStyle:styleDictionary forKey:styleID];            
+    if ([styleDictionary objectForKey:@"color"]) {
+        [self addKey:styleID];
+        [self setStyle:styleDictionary forKey:styleID];            
+    }
 }
 
 - (void)takeValuesFromModeSubtree:(CFXMLTreeRef)aModeTree {
@@ -160,7 +162,7 @@ static NSArray *S_possibleStyleColors;
     int             childCount;
     int             index;
 
-    // Get a count of the top level nodeâ€™s children.
+    // Get a count of the top level nodeÕs children.
     childCount = CFTreeGetChildCount(cfXMLTree);
 
     // Print the data string for each top-level node.
@@ -241,7 +243,7 @@ static NSArray *S_possibleStyleColors;
 
 - (void)writeOutAllStylesDictionaryToHome
 {
-	NSMutableDictionary *allStylesDictionary = [NSMutableDictionary new];
+	NSMutableDictionary *allStylesDictionary = [NSMutableDictionary dictionary];
     NSEnumerator *keys=[[self allKeys] objectEnumerator];
     NSString *key = nil;
     while ((key=[keys nextObject])) {

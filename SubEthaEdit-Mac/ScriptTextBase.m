@@ -10,13 +10,13 @@
 #import "ScriptLine.h"
 #import "ScriptCharacters.h"
 #import "ScriptTextSelection.h"
-#import "TextStorage.h"
+#import "FoldableTextStorage.h"
 #import "PlainTextDocument.h"
 
 
 @implementation ScriptTextBase
 
-- (id)initWithTextStorage:(TextStorage *)aTextStorage {
+- (id)initWithTextStorage:(FullTextStorage *)aTextStorage {
     if ((self=[super init])) {
         I_textStorage = [aTextStorage retain];
     }
@@ -79,23 +79,23 @@
     NSBeep();
 }
 
-- (NSArray *)scriptedCharacters {
-    // NSLog(@"%s", __FUNCTION__);
-    NSMutableArray *result=[NSMutableArray array];
-    NSRange range=[self rangeRepresentation];
-    int nextIndex=NSMaxRange(range);
-    int index=range.location;
-    while (index<nextIndex) {
-        [result addObject:[ScriptCharacters scriptCharactersWithTextStorage:I_textStorage characterRange:NSMakeRange(index++,1)]];
-    }
-    return result;
-}
+//- (NSArray *)scriptedCharacters {
+//    // NSLog(@"%s", __FUNCTION__);
+//    NSMutableArray *result=[NSMutableArray array];
+//    NSRange range=[self rangeRepresentation];
+//    int nextIndex=NSMaxRange(range);
+//    int index=range.location;
+//    while (index<nextIndex) {
+//        [result addObject:[ScriptCharacters scriptCharactersWithTextStorage:I_textStorage characterRange:NSMakeRange(index++,1)]];
+//    }
+//    return result;
+//}
 
-- (unsigned int)countOfScriptedCharacters {
+- (NSUInteger)countOfScriptedCharacters {
     return [self rangeRepresentation].length;
 }
 
-- (id)valueInScriptedCharactersAtIndex:(unsigned)index {
+- (id)objectInScriptedCharactersAtIndex:(unsigned)index {
     // NSLog(@"%s: %d", __FUNCTION__, index);
     return [ScriptCharacters scriptCharactersWithTextStorage:I_textStorage characterRange:NSMakeRange(index+[self rangeRepresentation].location,1)];
 }
@@ -106,7 +106,7 @@
 
 - (void)removeObjectFromScriptedCharactersAtIndex:(unsigned)anIndex {
 //    NSLog(@"%s: %d", __FUNCTION__, anIndex);
-    [[self valueInScriptedCharactersAtIndex:anIndex] setScriptedContents:@""];
+    [[self objectInScriptedCharactersAtIndex:anIndex] setScriptedContents:@""];
 }
 
 - (id)scriptedContents
@@ -116,22 +116,27 @@
 
 - (void)setScriptedContents:(id)value {
     // NSLog(@"%s: %@", __FUNCTION__, value);
-    [[I_textStorage delegate] replaceTextInRange:[self rangeRepresentation] withString:value];
+    [[[I_textStorage foldableTextStorage] delegate] replaceTextInRange:[self rangeRepresentation] withString:value];
 }
 
-- (id)insertionPoints
-{
-    NSMutableArray *resultArray=[NSMutableArray new];
-    NSRange range = [self rangeRepresentation];
-    int index=range.location;
-    int endIndex=NSMaxRange(range);
-    for (;index<=endIndex;index++) {
-        [resultArray addObject:[ScriptTextSelection insertionPointWithTextStorage:I_textStorage index:index]];
-    }
-    return resultArray;
+//- (id)insertionPoints
+//{
+//    NSMutableArray *resultArray=[NSMutableArray new];
+//    NSRange range = [self rangeRepresentation];
+//    int index=range.location;
+//    int endIndex=NSMaxRange(range);
+//    for (;index<=endIndex;index++) {
+//        [resultArray addObject:[ScriptTextSelection insertionPointWithTextStorage:I_textStorage index:index]];
+//    }
+//    return resultArray;
+//}
+
+- (unsigned int)countOfInsertionPoints {
+	return [self rangeRepresentation].length+1;
 }
 
-- (id)valueInInsertionPointsAtIndex:(unsigned)anIndex {
+- (id)objectInInsertionPointsAtIndex:(unsigned)anIndex {
+//    NSLog(@"%s: %d", __FUNCTION__, anIndex);
     return [ScriptTextSelection insertionPointWithTextStorage:I_textStorage index:[self rangeRepresentation].location+anIndex];
 }
 

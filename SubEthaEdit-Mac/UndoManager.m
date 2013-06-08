@@ -22,7 +22,7 @@ NSString * const UndoManagerWillCloseUndoGroupNotification = @"UndoManagerWillCl
 NSString * const UndoManagerWillRedoChangeNotification = @"UndoManagerWillRedoChangeNotification";
 NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoChangeNotification";
 
-
+#if !defined(CODA) // moved interface to header
 @interface UndoGroup : NSObject 
 {
     UndoGroup *_parent;
@@ -39,6 +39,7 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
 - (void)setActionName:(NSString *)newName;
 
 @end
+#endif //!defined(CODA)
 
 #pragma mark -
 
@@ -663,7 +664,7 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
 
 - (void)performUndoGroup:(UndoGroup *)group {
     NSArray *actions = [group actions];
-    
+    // TODO collect text operations into one big one to give the document a good way to 
     if (actions != nil) {
         _flags.isPerformingGroup = YES;
         unsigned i = [actions count];
@@ -681,9 +682,7 @@ NSString * const UndoManagerWillUndoChangeNotification = @"UndoManagerWillUndoCh
         [[_document textStorage] endEditing];
         _flags.isPerformingGroup=NO;
         if (operation) {
-            NSTextView *textView = [[[_document topmostWindowController] activePlainTextEditor] textView];
-            [textView setSelectedRange:NSMakeRange([operation affectedCharRange].location + [[operation replacementString] length], 0)];
-            [textView scrollRangeToVisible:[textView selectedRange]];
+        	[_document undoManagerDidPerformUndoGroupWithLastOperation:operation];
         }
     }
 }

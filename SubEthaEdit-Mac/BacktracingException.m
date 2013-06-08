@@ -10,7 +10,9 @@
 #import "BacktracingException.h"
 
 //#import <vmutils/vmutils.h>
+#if !defined(CODA)
 extern NSArray * StackSymbols(BOOL flag) __attribute__((weak_import));
+#endif //!defined(CODA)
 
 #define kMaxCrawlDepth 15	// Max number of stack frames to print
 
@@ -89,18 +91,22 @@ static void SignificantRaise( NSException *x )
 + (NSString*) backtraceSkippingFrames: (int)skip
 {
     NSMutableString *out = [[NSMutableString alloc] initWithCapacity: 1024];
-	
+
+#if defined(CODA)
+	NSArray *symbols = [NSArray array];
+#else
     NSArray *symbols;
 	if (StackSymbols != NULL) {
         symbols = (NSArray*) StackSymbols(YES);
     } else {
         symbols = [NSArray array];
     }
+#endif //defined(CODA)
     // Append all the symbols to the string, one per line.
     // Skip leading stack frames from NSException or NSAssertionHandler; they're not interesting.
     // Similarly, skip anything after 'NSApplicationMain' or 'main', as it's also not interesting.
-    unsigned int i, nPrinted=0;
-    unsigned int symbolsCount = [symbols count];
+    NSUInteger i, nPrinted=0;
+    NSUInteger symbolsCount = [symbols count];
     for( i=skip+1/*2*/; i<symbolsCount; i++ ) {
         if( nPrinted >= kMaxCrawlDepth ) {
             [out appendString: @"\t...more...\n"];

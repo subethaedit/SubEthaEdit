@@ -74,7 +74,11 @@ SUCH DAMAGE.
 
 @interface SEActiveProc : NSObject 
 {
+#if MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5
+	SRefCon _oldRefCon;
+#else
 	long _oldRefCon;
+#endif //MAC_OS_X_VERSION_MAX_ALLOWED >= MAC_OS_X_VERSION_10_5 
 	OSAActiveUPP _oldActiveProc;
 	OSAActiveUPP _activeProc;
 	ComponentInstance _component;

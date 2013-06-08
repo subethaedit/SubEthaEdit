@@ -16,9 +16,9 @@
     int              I_startCharacterIndex;
 }
 
-+ (id)insertionPointWithTextStorage:(TextStorage *)aTextStorage index:(int)anIndex;
-+ (id)scriptTextSelectionWithTextStorage:(TextStorage *)aTextStorage editor:(PlainTextEditor *)anEditor;
-- (id)initWithTextStorage:(TextStorage *)aTextStorage editor:(PlainTextEditor *)anEditor;
++ (id)insertionPointWithTextStorage:(FullTextStorage *)aTextStorage index:(int)anIndex;
++ (id)scriptTextSelectionWithTextStorage:(FullTextStorage *)aTextStorage editor:(PlainTextEditor *)anEditor;
+- (id)initWithTextStorage:(FullTextStorage *)aTextStorage editor:(PlainTextEditor *)anEditor;
 
 - (id)objectSpecifier;
 

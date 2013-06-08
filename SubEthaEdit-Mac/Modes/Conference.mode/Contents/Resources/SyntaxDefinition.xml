@@ -41,14 +41,12 @@
                 <regex>(\*\w+\*)</regex>
             </keywords>
 
-            <keywords id="Emails and URLs" color="#0000ff" inverted-color="#4939ff" casesensitive="no">
-                <regex>\b([A-Z0-9._%-]+@[A-Z0-9._%-]+\.[A-Z]{2,4})\b</regex>
-                <regex>\b(\S+://[^\s&lt;&gt;]+)</regex>
-            </keywords>
+            <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
                         
             <state id="Tool Tip" color="#076e09" inverted-color="#67dd6a" font-weight="normal" font-style="italic">
                 <begin><regex>{</regex></begin>
                 <end><regex>}</regex></end>
+	            <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
 
         </default>

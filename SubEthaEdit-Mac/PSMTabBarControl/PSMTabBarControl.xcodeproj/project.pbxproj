@@ -209,7 +209,7 @@
 		3767A91A0A2F7A11005F7522 /* PSMTabDragWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PSMTabDragWindow.m; path = source/PSMTabDragWindow.m; sourceTree = "<group>"; };
 		37E25E800A549B3100CD63B7 /* AdiumGradient.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = AdiumGradient.tiff; path = images/AdiumGradient.tiff; sourceTree = "<group>"; };
 		53DF68FD067E5B5A0090B5B0 /* PSMTabBarControl.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = PSMTabBarControl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		53DF68FE067E5B5A0090B5B0 /* PSMTabBarControlFramework-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "PSMTabBarControlFramework-Info.plist"; sourceTree = "<group>"; };
+		53DF68FE067E5B5A0090B5B0 /* PSMTabBarControlFramework-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "PSMTabBarControlFramework-Info.plist"; sourceTree = "<group>"; };
 		54D33B2806778E3300C9C163 /* PSMTabBarControl.ibclassdescription */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = PSMTabBarControl.ibclassdescription; sourceTree = "<group>"; };
 		5E0001E50B0DBAAE00B32F06 /* PSMPFTabStyle.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = PSMPFTabStyle.h; path = source/PSMPFTabStyle.h; sourceTree = "<group>"; };
 		5E0001E70B0DBAB200B32F06 /* PSMPFTabStyle.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = PSMPFTabStyle.m; path = source/PSMPFTabStyle.m; sourceTree = "<group>"; };
@@ -243,7 +243,7 @@
 		A251BE940959A23A0058BC7F /* TabClose_Front.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = TabClose_Front.tif; path = images/TabClose_Front.tif; sourceTree = "<group>"; };
 		A251BE9B0959A2530058BC7F /* ReadMe.rtfd */ = {isa = PBXFileReference; lastKnownFileType = wrapper.rtfd; path = ReadMe.rtfd; sourceTree = "<group>"; };
 		A251BEA00959BB5B0058BC7F /* TabBarControlDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = TabBarControlDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		A251BEA20959BB5B0058BC7F /* TabBarControlDemo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = "TabBarControlDemo-Info.plist"; sourceTree = "<group>"; };
+		A251BEA20959BB5B0058BC7F /* TabBarControlDemo-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "TabBarControlDemo-Info.plist"; sourceTree = "<group>"; };
 		A251BEC30959BC0E0058BC7F /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/MainMenu.nib; sourceTree = "<group>"; };
 		A268E7F809A9822900E082AA /* AquaTabNew.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AquaTabNew.png; path = images/AquaTabNew.png; sourceTree = "<group>"; };
 		A268E7F909A9822900E082AA /* AquaTabNewPressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = AquaTabNewPressed.png; path = images/AquaTabNewPressed.png; sourceTree = "<group>"; };
@@ -1036,6 +1036,7 @@
 		C056398C08A954F8003078D8 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_VERSION = 4.0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;
@@ -1046,6 +1047,7 @@
 		C056398D08A954F8003078D8 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				GCC_VERSION = 4.0;
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				PREBINDING = NO;

@@ -11,7 +11,7 @@
 #import "DocumentMode.h"
 #import "DocumentModeManager.h"
 #import "ScriptTextSelection.h"
-#import "TextStorage.h"
+#import "FoldableTextStorage.h"
 #import "PlainTextDocument.h"
 #import "PlainTextWindowController.h"
 #import "PlainTextEditor.h"

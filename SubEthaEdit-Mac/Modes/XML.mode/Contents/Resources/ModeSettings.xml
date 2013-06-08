@@ -11,6 +11,6 @@
         <extension>seestyle</extension>
         <extension>scriptSuite</extension>
         <extension>scriptTerminology</extension>
-        <regex>\A#&lt;\?xml</regex>
+        <regex>\A&lt;\?xml</regex>
     </recognition>
 </settings>

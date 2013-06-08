@@ -9,8 +9,13 @@
 #import <Carbon/Carbon.h>
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <objc/objc-runtime.h>			// for objc_msgSend
+#if defined(CODA)
+#import <FTPKit/PCDebug.h>
+#endif //defined(CODA)
 
+#if !defined(CODA)
 #import <PSMTabBarControl/PSMTabBarControl.h>
+#endif //!defined(CODA)
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "PlainTextEditor.h"
 #import "DocumentController.h"
@@ -33,7 +38,8 @@
 #import "SyntaxHighlighter.h"
 #import "SymbolTableEntry.h"
 
-#import "TextStorage.h"
+#import "FoldableTextStorage.h"
+#import "FullTextStorage.h"
 #import "LayoutManager.h"
 #import "TextView.h"
 #import "EncodingManager.h"
@@ -66,17 +72,22 @@
 
 #import <UniversalDetector/UniversalDetector.h>
 
-#pragma options align=mac68k
+#if defined(CODA)
+#import "TSDocument.h"
+#import "TSWrapperViewController.h"
+#endif //defined(CODA)
+
+#pragma pack(push, 2)
 struct SelectionRange
 {
-    short unused1; // 0 (not used)
-    short lineNum; // line to select (<0 to specify range)
-    long startRange; // start of selection range (if line < 0)
-    long endRange; // end of selection range (if line < 0)
-    long unused2; // 0 (not used)
-    long theDate; // modification date/time
+    int16_t unused1; // 0 (not used)
+    int16_t lineNum; // line to select (<0 to specify range)
+    int32_t startRange; // start of selection range (if line < 0)
+    int32_t endRange; // end of selection range (if line < 0)
+    int32_t unused2; // 0 (not used)
+    int32_t theDate; // modification date/time
 };
-#pragma options align=reset
+#pragma pack(pop)
 
 
 static PlainTextDocument *transientDocument = nil;
@@ -153,32 +164,36 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 @implementation PlainTextDocument
 
 + (void)initialize {
-    NSFontManager *fontManager=[NSFontManager sharedFontManager];
-    NSMutableDictionary *attributes=[NSMutableDictionary new];
-    NSMutableParagraphStyle *style=[NSMutableParagraphStyle new];
-    [style setLineBreakMode:NSLineBreakByTruncatingTail];
-    [attributes setObject:style forKey:NSParagraphStyleAttributeName];
-    NSFont *font=[NSFont menuFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]];
-    NSFont *boldFont      =[fontManager convertFont:font toHaveTrait:NSBoldFontMask];
-    NSFont *italicFont    =[fontManager convertFont:font toHaveTrait:NSItalicFontMask];
-    NSFont *boldItalicFont=[fontManager convertFont:boldFont toHaveTrait:NSItalicFontMask];
-    [attributes setObject:font forKey:NSFontAttributeName];
-    plainSymbolAttributes=[attributes copy];
-
-    [attributes setObject:boldFont forKey:NSFontAttributeName];
-    boldSymbolAttributes=[attributes copy];
-
-    [attributes setObject:italicFont forKey:NSFontAttributeName];
-    if ([italicFont isEqualTo:font]) {
-        [attributes setObject:[NSNumber numberWithFloat:.2] forKey:NSObliquenessAttributeName];
-    }
-    italicSymbolAttributes=[attributes copy];
-
-    [attributes setObject:boldItalicFont forKey:NSFontAttributeName];
-    boldItalicSymbolAttributes=[attributes copy];
-
-    [attributes release];
-    [style release];
+	if (self == [PlainTextDocument class]) 
+	{
+		NSFontManager *fontManager=[NSFontManager sharedFontManager];
+		NSMutableDictionary *attributes=[NSMutableDictionary new];
+		NSMutableParagraphStyle *style=[NSMutableParagraphStyle new];
+		[style setLineBreakMode:NSLineBreakByTruncatingTail];
+		[attributes setObject:style forKey:NSParagraphStyleAttributeName];
+		NSFont *font=[NSFont menuFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]];
+		NSFont *boldFont      =[fontManager convertFont:font toHaveTrait:NSBoldFontMask];
+		NSFont *italicFont    =[fontManager convertFont:font toHaveTrait:NSItalicFontMask];
+		NSFont *boldItalicFont=[fontManager convertFont:boldFont toHaveTrait:NSItalicFontMask];
+		[attributes setObject:font forKey:NSFontAttributeName];
+		plainSymbolAttributes=[attributes copy];
+	
+		[attributes setObject:boldFont forKey:NSFontAttributeName];
+		boldSymbolAttributes=[attributes copy];
+	
+		[attributes setObject:italicFont forKey:NSFontAttributeName];
+		if ([italicFont isEqualTo:font]) {
+			[attributes setObject:[NSNumber numberWithFloat:.2] forKey:NSObliquenessAttributeName];
+		}
+		italicSymbolAttributes=[attributes copy];
+	
+		[attributes setObject:boldItalicFont forKey:NSFontAttributeName];
+		boldItalicSymbolAttributes=[attributes copy];
+	
+		[attributes release];
+		[style release];
+		
+	}
 }
 
 + (PlainTextDocument *)transientDocument
@@ -235,7 +250,7 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (void)TCM_textStorageLineEndingDidChange:(NSNotification *)aNotification {
-     I_lineEndingString = [NSString lineEndingStringForLineEnding:[(TextStorage *)[self textStorage] lineEnding]];
+     I_lineEndingString = [NSString lineEndingStringForLineEnding:[(FoldableTextStorage *)[self textStorage] lineEnding]];
     [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
 }
 
@@ -286,6 +301,9 @@ static NSString *tempFileName(NSString *origPath) {
     [center addObserver:self selector:@selector(applyEditPreferences:) name:DocumentModeApplyEditPreferencesNotification object:nil];
     [center addObserver:self selector:@selector(scriptWrapperWillRunScriptNotification:) name:ScriptWrapperWillRunScriptNotification object:nil];
     [center addObserver:self selector:@selector(scriptWrapperDidRunScriptNotification:) name:ScriptWrapperDidRunScriptNotification object:nil];
+
+	[center addObserver:self selector:@selector(documentModeListChanged:) 
+	  name:@"DocumentModeListChanged" object:nil];
 
     I_blockeditTextView=nil;
 
@@ -356,7 +374,12 @@ static NSString *tempFileName(NSString *origPath) {
     NSEnumerator *controllers=[[self windowControllers] objectEnumerator];
     id controller=nil;
     while ((controller=[controllers nextObject])) {
-        if ([controller isKindOfClass:[PlainTextWindowController class]] && ![(PlainTextWindowController *)controller hasManyDocuments]) {
+#if defined(CODA)
+		if ([controller isKindOfClass:[PlainTextWindowController class]]) 
+#else
+        if ([controller isKindOfClass:[PlainTextWindowController class]] && ![(PlainTextWindowController *)controller hasManyDocuments]) 
+#endif //defined(CODA)
+		{
             [(PlainTextWindowController *)controller 
                 setSizeByColumns:[[[self documentMode] defaultForKey:DocumentModeColumnsPreferenceKey] intValue] 
                             rows:[[[self documentMode] defaultForKey:DocumentModeRowsPreferenceKey] intValue]];
@@ -400,7 +423,11 @@ static NSString *tempFileName(NSString *origPath) {
             NSAppleEventDescriptor *addressDescriptor = [NSAppleEventDescriptor descriptorWithDescriptorType:typeApplSignature bytes:[signatureData bytes] length:[signatureData length]];
             if (addressDescriptor != nil) {
                 NSAppleEventDescriptor *appleEvent = [NSAppleEventDescriptor appleEventWithEventClass:kODBEditorSuite eventID:kAEClosedFile targetDescriptor:addressDescriptor returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
-                NSAppleEventDescriptor *aliasDescriptor = [NSAppleEventDescriptor descriptorWithDescriptorType:typeFSS bytes:&fsSpec length:sizeof(fsSpec)];
+#if defined(__LP64__)
+				NSAppleEventDescriptor *aliasDescriptor = [NSAppleEventDescriptor descriptorWithDescriptorType:typeFSRef bytes:&fileRef length:sizeof(fileRef)];
+#else
+				NSAppleEventDescriptor *aliasDescriptor = [NSAppleEventDescriptor descriptorWithDescriptorType:typeFSS bytes:&fsSpec length:sizeof(fsSpec)];
+#endif //defined(__LP64__)
                 [appleEvent setParamDescriptor:aliasDescriptor forKeyword:keyDirectObject];
                 NSAppleEventDescriptor *tokenDesc = [[self ODBParameters] objectForKey:@"keyFileSenderToken"];
                 if (tokenDesc != nil) {
@@ -435,7 +462,11 @@ static NSString *tempFileName(NSString *origPath) {
     err = FSGetCatalogInfo(&fileRef, kFSCatInfoNone, NULL, NULL, &fsSpec, NULL);
     NSAppleEventDescriptor *directObjectDesc = nil;
     if (err == noErr) {
-        directObjectDesc = [NSAppleEventDescriptor descriptorWithDescriptorType:typeFSS bytes:&fsSpec length:sizeof(fsSpec)];
+#if defined(__LP64__)
+		directObjectDesc = [NSAppleEventDescriptor descriptorWithDescriptorType:typeFSRef bytes:&fileRef length:sizeof(fileRef)];
+#else
+		directObjectDesc = [NSAppleEventDescriptor descriptorWithDescriptorType:typeFSS bytes:&fsSpec length:sizeof(fsSpec)];
+#endif //defined(__LP64__)
     } else {
         DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Failed to create fsspec");
         return;
@@ -519,13 +550,14 @@ static NSString *tempFileName(NSString *origPath) {
 
 
 - (void)executeInvalidateLayout:(NSNotification *)aNotification {
-    TextStorage *textStorage=(TextStorage *)[self textStorage];
+    FoldableTextStorage *textStorage=(FoldableTextStorage *)[self textStorage];
     NSRange wholeRange=NSMakeRange(0,[textStorage length]);
     NSEnumerator *rangeValues=[I_rangesToInvalidate objectEnumerator];
     NSValue *rangeValue=nil;
     [textStorage beginEditing];
     while ((rangeValue=[rangeValues nextObject])) {
-        NSRange changeRange=NSIntersectionRange(wholeRange,[rangeValue rangeValue]);
+    	NSRange changeRange=[textStorage foldedRangeForFullRange:[rangeValue rangeValue]];
+        changeRange=NSIntersectionRange(wholeRange,changeRange);
         if (changeRange.length!=0) {
             [textStorage edited:NSTextStorageEditedAttributes range:changeRange changeInLength:0];
         }
@@ -534,9 +566,10 @@ static NSString *tempFileName(NSString *origPath) {
     [I_rangesToInvalidate removeAllObjects];
 }
 
+// this is invalidating textRanges for the fullTextStorage
 - (void)invalidateLayoutForRange:(NSRange)aRange {
-    TextStorage *textStorage=(TextStorage *)[self textStorage];
-    NSRange wholeRange=NSMakeRange(0,[textStorage length]);
+    FoldableTextStorage *textStorage=(FoldableTextStorage *)[self textStorage];
+    NSRange wholeRange=NSMakeRange(0,[[textStorage fullTextStorage] length]);
     if (aRange.length==0) {
         if (aRange.location>0) {
             aRange.location-=1;
@@ -551,7 +584,7 @@ static NSString *tempFileName(NSString *origPath) {
     [I_rangesToInvalidate addObject:[NSValue valueWithRange:aRange]];
     [[NSNotificationQueue defaultQueue]
         enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentInvalidateLayoutNotification object:self]
-               postingStyle:NSPostASAP
+               postingStyle:NSPostWhenIdle
                coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender
                    forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
 }
@@ -562,7 +595,7 @@ static NSString *tempFileName(NSString *origPath) {
     [I_symbolArray release];
     I_symbolArray=nil;
     if ([mode hasSymbols]) {
-        I_symbolArray = [[mode symbolArrayForTextStorage:[self textStorage]] copy];
+        I_symbolArray = [[mode symbolArrayForTextStorage:[(FoldableTextStorage *)[self textStorage] fullTextStorage]] copy];
 		
 		// If symbolArrayForTextStorage: return nil the document is not yet ready for symbol recognition.
 		if (!I_symbolArray) {
@@ -684,6 +717,7 @@ static NSString *tempFileName(NSString *origPath) {
 
 }
 
+// range is in fulltextstorage
 - (int)selectedSymbolForRange:(NSRange)aRange {
 //    if (aRange.length==0) aRange.length=1;
     int count=[I_symbolArray count];
@@ -708,13 +742,7 @@ static NSString *tempFileName(NSString *origPath) {
     if ([aMenuItem tag]<[I_symbolArray count]) {
         NSRange symbolRange=[[I_symbolArray objectAtIndex:[aMenuItem tag]] jumpRange];
         NSTextView *textView=[aMenuItem representedObject];
-        NSRange wholeRange=NSMakeRange(0,[[self textStorage] length]);
-        symbolRange=RangeConfinedToRange(symbolRange,wholeRange);
-        [textView setSelectedRange:symbolRange];
-        [textView scrollRangeToVisible:symbolRange];
-        if ([textView respondsToSelector:@selector(showFindIndicatorForRange:)]) {
-            [textView showFindIndicatorForRange:symbolRange];
-        } 
+		[self selectRange:symbolRange];
 
         PlainTextWindowController *controller=(PlainTextWindowController *)[[textView window] windowController];
         NSArray *plainTextEditors=[controller plainTextEditors];
@@ -733,9 +761,9 @@ static NSString *tempFileName(NSString *origPath) {
 #define STACKLIMIT 100
 #define BUFFERSIZE 500
 
-- (unsigned int)TCM_positionOfMatchingBracketToPosition:(unsigned int)position {
+- (NSUInteger)TCM_positionOfMatchingBracketToPosition:(NSUInteger)position {
     NSString *aString = [[self textStorage] string];
-    unsigned int result=NSNotFound;
+    NSUInteger result=NSNotFound;
     unichar possibleBracket=[aString characterAtIndex:position];
     BOOL forward=YES;
     if ([self TCM_charIsOpeningBracket:possibleBracket]) {
@@ -826,7 +854,7 @@ static NSString *tempFileName(NSString *origPath) {
     static NSDictionary *mBracketAttributes=nil;
     if (!mBracketAttributes) mBracketAttributes=[[NSDictionary dictionaryWithObject:[[NSColor redColor] highlightWithLevel:0.3]
                                                     forKey:NSBackgroundColorAttributeName] retain];
-    unsigned int matchingBracketPosition=[self TCM_positionOfMatchingBracketToPosition:aPosition];
+    NSUInteger matchingBracketPosition=[self TCM_positionOfMatchingBracketToPosition:aPosition];
     if (matchingBracketPosition!=NSNotFound) {
         NSLayoutManager *layoutManager=[aTextView layoutManager];
         [layoutManager addTemporaryAttributes:mBracketAttributes
@@ -877,7 +905,7 @@ static NSString *tempFileName(NSString *origPath) {
             transientDocument = nil;
         }
         [self TCM_generateNewSession];
-        I_textStorage = [TextStorage new];
+        I_textStorage = [FoldableTextStorage new];
         [I_textStorage setDelegate:self];
         [self setLineEnding:LineEndingLF];
         [self setDocumentMode:[[DocumentModeManager sharedInstance] modeForNewDocuments]];
@@ -903,7 +931,7 @@ static NSString *tempFileName(NSString *origPath) {
         [self setShouldChangeChangeCount:NO];
         [self setSession:aSession];
         [[TCMMMPresenceManager sharedInstance] registerSession:[self session]];
-        I_textStorage = [TextStorage new];
+        I_textStorage = [FoldableTextStorage new];
         [I_textStorage setDelegate:self];
         [self setDocumentMode:[[DocumentModeManager sharedInstance] baseMode]];
         I_flags.isRemotelyEditingTextStorage=NO;
@@ -961,6 +989,9 @@ static NSString *tempFileName(NSString *origPath) {
     [I_session release];
     [I_plainTextAttributes release];
     [I_typingAttributes release];
+#if defined(CODA)
+	[I_adjustedTypingAttributes autorelease];
+#endif //defined(CODA)
 	[I_blockeditAttributes release];
     [I_fonts.plainFont release];
     [I_fonts.boldFont release];
@@ -999,6 +1030,12 @@ static NSString *tempFileName(NSString *origPath) {
     
     [I_currentTextOperation release];
     
+    [I_stateDictionaryFromLoading release];
+     I_stateDictionaryFromLoading = nil;
+    
+    [I_lastTextShouldChangeReplacementString release];
+     I_lastTextShouldChangeReplacementString = nil;
+    
     [super dealloc];
 }
 
@@ -1017,7 +1054,14 @@ static NSString *tempFileName(NSString *origPath) {
 - (void)presentAlert:(NSAlert *)alert modalDelegate:(id)delegate didEndSelector:(SEL)didEndSelector contextInfo:(void *)contextInfo
 {
     if (alert == nil) return;
-    
+
+#if defined(CODA)
+	 NSWindow *window = [self windowForSheet];
+	[alert beginSheetModalForWindow:window
+					  modalDelegate:delegate
+					 didEndSelector:didEndSelector
+						contextInfo:contextInfo];
+#else
     NSArray *orderedWindows = [NSApp orderedWindows];
     unsigned minIndex = NSNotFound;
     NSEnumerator *enumerator = [[self windowControllers] objectEnumerator];
@@ -1058,6 +1102,7 @@ static NSString *tempFileName(NSString *origPath) {
         }
         [self setScheduledAlertDictionary:dict];
     }
+#endif //defined(CODA)
 }
 
 - (void)presentScheduledAlertForWindow:(NSWindow *)window
@@ -1171,7 +1216,7 @@ static NSString *tempFileName(NSString *origPath) {
     [self setShowsMatchingBrackets:[[documentMode defaultForKey:DocumentModeShowMatchingBracketsPreferenceKey] boolValue]];
     
     NSString *string = [[self textStorage] string];
-    unsigned lineEndIndex, contentsEndIndex;
+    NSUInteger lineEndIndex, contentsEndIndex;
     [string getLineStart:NULL end:&lineEndIndex contentsEnd:&contentsEndIndex forRange:NSMakeRange(0, 0)];
     if (lineEndIndex == contentsEndIndex) {
         [self setLineEnding:[[documentMode defaultForKey:DocumentModeLineEndingPreferenceKey] intValue]];
@@ -1197,15 +1242,18 @@ static NSString *tempFileName(NSString *origPath) {
     if (aDocumentMode != I_documentMode) {
         [I_documentMode autorelease];
         SyntaxHighlighter *highlighter=[I_documentMode syntaxHighlighter];
-        [highlighter cleanUpTextStorage:[self textStorage]];
+        FullTextStorage *fullTextStorage = [I_textStorage fullTextStorage];
+        [highlighter cleanUpTextStorage:fullTextStorage];
          I_documentMode = [aDocumentMode retain];
         [self takeSettingsFromDocumentMode];
-        [I_textStorage addAttributes:[self plainTextAttributes]
-                                   range:NSMakeRange(0,[I_textStorage length])];
+        [fullTextStorage addAttributes:[self plainTextAttributes]
+                                   range:NSMakeRange(0,[fullTextStorage length])];
         if (I_flags.highlightSyntax) {
-            [self highlightSyntaxInRange:NSMakeRange(0,[[self textStorage] length])];
+            [self highlightSyntaxInRange:NSMakeRange(0,[fullTextStorage length])];
         }
+#if !defined(CODA)
         [self setContinuousSpellCheckingEnabled:[[aDocumentMode defaultForKey:DocumentModeSpellCheckingPreferenceKey] boolValue]];
+#endif //!defined(CODA)
         [self updateSymbolTable];
         if (I_flags.shouldChangeExtensionOnModeChange) {
             NSArray *recognizedExtensions = [I_documentMode recognizedExtensions];
@@ -1222,6 +1270,13 @@ static NSString *tempFileName(NSString *origPath) {
         }
         [[NSNotificationCenter defaultCenter] postNotificationName:PlainTextDocumentDidChangeDocumentModeNotification object:self];
     }
+}
+
+- (void)documentModeListChanged:(NSNotification *)aNotification {
+	DocumentMode *oldMode = [self documentMode];
+	DocumentMode *newMode = [[DocumentModeManager sharedInstance] documentModeForIdentifier:[oldMode documentModeIdentifier]];
+	// just set the document mode - if the object hasn't changed the setter takes care of it
+	[self setDocumentMode:newMode];
 }
 
 - (NSMutableDictionary *)printOptions {
@@ -1241,16 +1296,16 @@ static NSString *tempFileName(NSString *origPath) {
     I_flags.shouldChangeChangeCount=oldState;
 }
 
-- (unsigned int)fileEncoding {
-    return [(TextStorage *)[self textStorage] encoding];
+- (NSUInteger)fileEncoding {
+    return [(FoldableTextStorage *)[self textStorage] encoding];
 }
 
-- (void)setFileEncoding:(unsigned int)anEncoding {
-    [(TextStorage *)[self textStorage] setEncoding:anEncoding];
+- (void)setFileEncoding:(NSUInteger)anEncoding {
+    [(FoldableTextStorage *)[self textStorage] setEncoding:anEncoding];
     [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
 }
 
-- (void)setFileEncodingUndoable:(unsigned int)anEncoding {
+- (void)setFileEncodingUndoable:(NSUInteger)anEncoding {
     [[[self documentUndoManager] prepareWithInvocationTarget:self] 
         setFileEncodingUndoable:[self fileEncoding]];
     [self setFileEncoding:anEncoding];
@@ -1426,36 +1481,49 @@ static NSString *tempFileName(NSString *origPath) {
     }
 }
 
+- (void)setContentUsingXMLDocument:(NSXMLDocument *)inDocument {
+	NSString *xmlString = [inDocument XMLStringWithOptions:NSXMLNodePrettyPrint|NSXMLNodePreserveEmptyElements];
+	if ([self tabWidth] != 4 || [self usesTabs]) {
+		OGRegularExpression *spaceMatch = [OGRegularExpression regularExpressionWithString:@"^((    )+)<"];
+		NSMutableString *string = [[xmlString mutableCopy] autorelease];
+		NSString *replacementString = [self usesTabs]?@"\t":[@" " stringByPaddingToLength:[self tabWidth] withString:@" " startingAtIndex:0];
+		NSArray *matchArray=[spaceMatch allMatchesInString:xmlString range:NSMakeRange(0,[string length])];
+		NSEnumerator *matches = [matchArray reverseObjectEnumerator];
+		OGRegularExpressionMatch *match = nil;
+		while ((match=[matches nextObject])) {
+			NSRange replacementRange = [match rangeOfSubstringAtIndex:1];
+			int numberOfReplacements = replacementRange.length / 4;
+			while (--numberOfReplacements > 0) {
+				[string replaceCharactersInRange:NSMakeRange(NSMaxRange(replacementRange),0) withString:replacementString];
+			}
+			[string replaceCharactersInRange:replacementRange withString:replacementString];
+		}
+		xmlString = (NSString *)string;
+	}
+	[self performSelector:@selector(setScriptedContents:) withObject:xmlString];
+	// [self clearChangeMarks:aSender];
+}
+
 - (IBAction)prettyPrintXML:(id)aSender {
     NSError *error=nil;
-    NSXMLDocument *document = [[NSXMLDocument alloc] initWithXMLString:[[self textStorage] string] options:NSXMLNodePreserveEmptyElements error:&error];
+    NSXMLDocument *document = [[[NSXMLDocument alloc] initWithXMLString:[[(FoldableTextStorage *)[self textStorage] fullTextStorage] string] options:NSXMLNodePreserveEmptyElements|NSXMLNodePreserveCDATA error:&error] autorelease];
     if (document) {
-        NSString *xmlString = [document XMLStringWithOptions:NSXMLNodePrettyPrint|NSXMLNodePreserveEmptyElements];
-        [document release];
-        if ([self tabWidth] != 4 || [self usesTabs]) {
-            OGRegularExpression *spaceMatch = [OGRegularExpression regularExpressionWithString:@"((    )+)<"];
-            NSMutableString *string = [[xmlString mutableCopy] autorelease];
-            NSString *replacementString = [self usesTabs]?@"\t":[@" " stringByPaddingToLength:[self tabWidth] withString:@" " startingAtIndex:0];
-            NSArray *matchArray=[spaceMatch allMatchesInString:xmlString range:NSMakeRange(0,[string length])];
-            NSEnumerator *matches = [matchArray reverseObjectEnumerator];
-            OGRegularExpressionMatch *match = nil;
-            while ((match=[matches nextObject])) {
-                NSRange replacementRange = [match rangeOfSubstringAtIndex:1];
-                int numberOfReplacements = replacementRange.length / 4;
-                while (--numberOfReplacements > 0) {
-                    [string replaceCharactersInRange:NSMakeRange(NSMaxRange(replacementRange),0) withString:replacementString];
-                }
-                [string replaceCharactersInRange:replacementRange withString:replacementString];
-            }
-            xmlString = (NSString *)string;
-        }
-        [self performSelector:@selector(setScriptedContents:) withObject:xmlString];
-        // [self clearChangeMarks:aSender];
+    	[self setContentUsingXMLDocument:document];
     } else {
-        [document release];
         [self presentError:(NSError *)error modalForWindow:[self windowForSheet] delegate:nil didPresentSelector:NULL contextInfo:nil];
     }
 }
+
+- (IBAction)prettyPrintHTML:(id)aSender {
+    NSError *error=nil;
+    NSXMLDocument *document = [[[NSXMLDocument alloc] initWithXMLString:[[(FoldableTextStorage *)[self textStorage] fullTextStorage] string] options:NSXMLDocumentTidyHTML|NSXMLNodePreserveEmptyElements|NSXMLNodePreserveAttributeOrder|NSXMLNodePreserveEntities error:&error] autorelease];
+    if (document) {
+    	[self setContentUsingXMLDocument:document];
+    } else {
+        [self presentError:(NSError *)error modalForWindow:[self windowForSheet] delegate:nil didPresentSelector:NULL contextInfo:nil];
+    }
+}
+
 
 - (IBAction)refreshWebPreview:(id)aSender {
     if (!I_webPreviewWindowController) {
@@ -1508,7 +1576,9 @@ static NSString *tempFileName(NSString *origPath) {
 - (IBAction)newView:(id)aSender {
     if (!I_flags.isReceivingContent && [[self windowControllers] count] > 0) {
         PlainTextWindowController *controller = [[PlainTextWindowController alloc] init];
+#if !defined(CODA)
         [[DocumentController sharedInstance] addWindowController:controller];
+#endif //!defined(CODA)
         [self addWindowController:controller];
         [controller showWindow:aSender];
         [controller release];
@@ -1525,7 +1595,7 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (IBAction)clearChangeMarks:(id)aSender {
-    NSTextStorage *textStorage=[self textStorage];
+    NSTextStorage *textStorage=[(FoldableTextStorage *)[self textStorage] fullTextStorage];
     [textStorage removeAttribute:ChangedByUserIDAttributeName range:NSMakeRange(0,[textStorage length])];
 }
 
@@ -1628,7 +1698,11 @@ static NSString *tempFileName(NSString *origPath) {
                 // didn't work so update bottom status bar to previous state
                 [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
             } else {
+#if defined(CODA)
+				BOOL myIsEdited = [self isDocumentEdited];
+#else
                 BOOL isEdited = [self isDocumentEdited];
+#endif //defined(CODA)
                 [[self documentUndoManager] beginUndoGrouping];
                 [[self plainTextEditors] makeObjectsPerformSelector:@selector(pushSelectedRanges)];
                 [I_textStorage beginEditing];
@@ -1636,13 +1710,18 @@ static NSString *tempFileName(NSString *origPath) {
                 [self setFileEncodingUndoable:encoding];
                 [I_textStorage replaceCharactersInRange:NSMakeRange(0, [I_textStorage length]) withString:reinterpretedString];
                 [reinterpretedString release];
-                if (!isEdited) {
+#if defined(CODA)
+				if (!myIsEdited) 
+#else
+                if (!isEdited) 
+#endif //defined(CODA)
+				{
                     [I_textStorage setAttributes:[self plainTextAttributes] range:NSMakeRange(0, [I_textStorage length])];
                 } else {
                     [I_textStorage setAttributes:[self typingAttributes] range:NSMakeRange(0, [I_textStorage length])];
                 }
                 if (I_flags.highlightSyntax) {
-                    [self highlightSyntaxInRange:NSMakeRange(0, [I_textStorage length])];
+                    [self highlightSyntaxInRange:NSMakeRange(0, [[I_textStorage fullTextStorage] length])];
                 }
                 [I_textStorage endEditing];
                 [[self documentUndoManager] endUndoGrouping];
@@ -1656,7 +1735,7 @@ static NSString *tempFileName(NSString *origPath) {
     }
 }
 
-
+#if !defined(CODA)
 #pragma mark Overrides of NSDocument Methods to Support MultiDocument Windows
 
 static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
@@ -1670,16 +1749,63 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
         }
         shouldOpenInTab = !shouldOpenInTab;
     }
+    PlainTextWindowController *windowController = nil;
+	BOOL closeTransient = transientDocument && transientDocument != self
+						  && NSEqualRects(transientDocumentWindowFrame, [[[transientDocument topmostWindowController] window] frame])
+						  && [[[NSUserDefaults standardUserDefaults] objectForKey:OpenDocumentOnStartPreferenceKey] boolValue];
     if (shouldOpenInTab) {
-        PlainTextWindowController *controller = [[DocumentController sharedDocumentController] activeWindowController];
-        [self addWindowController:controller];
-        [[(PlainTextWindowController *)controller tabBar] setHideForSingleTab:![[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey]];
+        windowController = [[DocumentController sharedDocumentController] activeWindowController];
+        [self addWindowController:windowController];
+        [[windowController tabBar] setHideForSingleTab:![[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey]];
+		if (closeTransient && ![self isProxyDocument]) {
+			[transientDocument close];
+			transientDocument = nil;
+		}
+
     } else {
-        PlainTextWindowController *controller = [[PlainTextWindowController alloc] init];
-        [self addWindowController:controller];
-        [[DocumentController sharedInstance] addWindowController:controller];
-        [controller release];
+        windowController = [[PlainTextWindowController alloc] init];
+        [self addWindowController:windowController];
+        [[DocumentController sharedInstance] addWindowController:windowController];
+        [windowController release];
     }
+
+
+    
+	if (I_stateDictionaryFromLoading) {
+		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+		if ([defaults boolForKey:DocumentStateSaveAndLoadWindowPositionKey]) {
+			if (![windowController hasManyDocuments]) {
+				NSDictionary *windowFrameDict = [I_stateDictionaryFromLoading objectForKey:@"p"];
+				if ([windowFrameDict isKindOfClass:[NSDictionary class]]) {
+					NSRect windowFrameRect = NSZeroRect;
+					windowFrameRect.origin.x = [[windowFrameDict objectForKey:@"x"] doubleValue];
+					windowFrameRect.origin.y = [[windowFrameDict objectForKey:@"y"] doubleValue];
+					windowFrameRect.size.height = [[windowFrameDict objectForKey:@"h"] doubleValue];
+					windowFrameRect.size.width  = [[windowFrameDict objectForKey:@"w"] doubleValue];
+					NSSize minSize = [[windowController window] minSize];
+					if (windowFrameRect.size.height >= minSize.height && windowFrameRect.size.width >= minSize.width) {
+						[windowController setWindowFrame:windowFrameRect constrainedToScreen:nil display:YES];
+					}
+					if (!shouldOpenInTab && closeTransient && ![self isProxyDocument]) {
+						[transientDocument close];
+						transientDocument = nil;
+					}
+				}
+			}
+		}
+		
+		if ([defaults boolForKey:DocumentStateSaveAndLoadSelectionKey]) {
+			NSDictionary *selectionDict = [I_stateDictionaryFromLoading objectForKey:@"s"];
+			if ([selectionDict isKindOfClass:[NSDictionary class]]) {
+				NSRange selectionRange = NSMakeRange([[selectionDict objectForKey:@"p"] intValue],[[selectionDict objectForKey:@"l"] intValue]);
+				[[self activePlainTextEditor] selectRangeInBackgroundWithoutIndication:selectionRange expandIfFolded:NO];
+			}
+		}
+       	
+    	[I_stateDictionaryFromLoading release];
+    	 I_stateDictionaryFromLoading = nil;
+    }
+
 }
 
 - (void)addWindowController:(NSWindowController *)windowController 
@@ -1792,6 +1918,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     // Do the regular NSDocument thing.
     [super close];
 }
+#endif //!defined(CODA)
 
 #pragma mark -
 
@@ -1846,18 +1973,18 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"validating line endings");
 
     NSString *string = [[self textStorage] string];
-    unsigned length = [string length];
-    unsigned curPos = 0;
-    unsigned start, end, contentsEnd;
+    NSUInteger length = [string length];
+    NSUInteger curPos = 0;
+    NSUInteger start, end, contentsEnd;
     unichar CR   = 0x000D;
     unichar LF   = 0x000A;
     unichar LSEP = 0x2028;
     unichar PSEP = 0x2029;
-    unsigned countOfCR = 0;
-    unsigned countOfLF = 0;
-    unsigned countOfCRLF = 0;
-    unsigned countOfLSEP = 0;
-    unsigned countOfPSEP = 0;
+    NSUInteger countOfCR = 0;
+    NSUInteger countOfLF = 0;
+    NSUInteger countOfCRLF = 0;
+    NSUInteger countOfLSEP = 0;
+    NSUInteger countOfPSEP = 0;
     
     while (curPos < length) {
         [string getLineStart:&start end:&end contentsEnd:&contentsEnd forRange:NSMakeRange(curPos, 0)];
@@ -1891,6 +2018,9 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     NSArray *sortedLineEndingStatsKeys = [lineEndingStats keysSortedByValueUsingSelector:@selector(compare:)];
     BOOL hasLineEndings = ([[lineEndingStats objectForKey:[sortedLineEndingStatsKeys objectAtIndex:4]] unsignedIntValue] != 0);
     BOOL hasMixedLineEndings = hasLineEndings && ([[lineEndingStats objectForKey:[sortedLineEndingStatsKeys objectAtIndex:3]] unsignedIntValue] != 0);
+#if defined(CODA)
+	[(TextStorage*)[self textStorage] setHasMixedLineEndings:hasMixedLineEndings]; 
+#endif //defined(CODA)
     if (hasLineEndings) {
         [self setLineEnding:[[sortedLineEndingStatsKeys objectAtIndex:4] unsignedShortValue]];
         if (hasMixedLineEndings) {
@@ -1915,22 +2045,32 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
                     localizedName = @"LF";
                     break;
             }
-            NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-            [alert setAlertStyle:NSWarningAlertStyle];
-            [alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"The file has mixed line endings. Do you want to convert all line endings to %@, the most common line ending in the file?", nil), localizedName]];
-            [alert setInformativeText:NSLocalizedString(@"Other applications may not be able to read the file if you don't convert all line endings to the same line ending.", nil)];
-            [alert addButtonWithTitle:[NSString stringWithFormat:NSLocalizedString(@"Convert to %@", nil), localizedName]];
-            [alert addButtonWithTitle:NSLocalizedString(@"Keep Line Endings", nil)];
-            [[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
-            [self presentAlert:alert
-                 modalDelegate:self
-                didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
-                   contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
-                                                    @"MixedLineEndingsAlert", @"Alert",
-                                                    [sortedLineEndingStatsKeys objectAtIndex:4], @"LineEnding",
-                                                    nil] retain]];
+            [[I_textStorage fullTextStorage] setHasMixedLineEndings:YES];
+        	[self performSelector:@selector(showLineEndingAlert:) withObject:[NSDictionary dictionaryWithObjectsAndKeys:
+        		localizedName,
+        		@"localizedName",
+        		[NSDictionary dictionaryWithObjectsAndKeys:
+        			@"MixedLineEndingsAlert", @"Alert",
+                    [sortedLineEndingStatsKeys objectAtIndex:4], @"LineEnding",
+                 	nil],
+                @"contextInfo",nil] afterDelay:0.0]; // delay this alert so we can call this method even if we didn't show the window yet
         }
     }
+}
+
+- (void)showLineEndingAlert:(NSDictionary *)anOptionDictionary {
+	NSString *localizedName = [anOptionDictionary objectForKey:@"localizedName"];
+	NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+	[alert setAlertStyle:NSWarningAlertStyle];
+	[alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"The file has mixed line endings. Do you want to convert all line endings to %@, the most common line ending in the file?", nil), localizedName]];
+	[alert setInformativeText:NSLocalizedString(@"Other applications may not be able to read the file if you don't convert all line endings to the same line ending.", nil)];
+	[alert addButtonWithTitle:[NSString stringWithFormat:NSLocalizedString(@"Convert to %@", nil), localizedName]];
+	[alert addButtonWithTitle:NSLocalizedString(@"Keep Line Endings", nil)];
+	[[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
+	[self presentAlert:alert
+		 modalDelegate:self
+		didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
+		   contextInfo:[[anOptionDictionary objectForKey:@"contextInfo"] retain]];
 }
 
 - (id)handleShowScriptCommand:(NSScriptCommand *)command {
@@ -1938,7 +2078,8 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     return nil;
 }
 
-- (void)showWindows {    
+- (void)showWindows {
+	// now the transient window only is closed if now position data was found in the file to load - otherwise it happens in makewindowcontrollers    
     BOOL closeTransient = transientDocument && transientDocument != self
                           && NSEqualRects(transientDocumentWindowFrame, [[[transientDocument topmostWindowController] window] frame])
                           && [[[NSUserDefaults standardUserDefaults] objectForKey:OpenDocumentOnStartPreferenceKey] boolValue];
@@ -1951,8 +2092,10 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
             NSWindow *window = [windowController window];
             [window setFrameTopLeftPoint:NSMakePoint(transientDocumentWindowFrame.origin.x, NSMaxY(transientDocumentWindowFrame))];
         }
+#if !defined(CODA)
         [windowController selectTabForDocument:self];
         [[windowController tabBar] updateViewsHack];
+#endif //!defined(CODA)
         if (closeTransient) [[windowController window] orderFront:self]; // stop cascading
         [windowController showWindow:self];
     }
@@ -1968,7 +2111,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     }
 }
 
-- (void)TCM_validateSizeAndLineEndings {
+- (void)TCM_validateSize {
     if ([I_textStorage length] > [[NSUserDefaults standardUserDefaults] integerForKey:@"StringLengthToStopHighlightingAndWrapping"]) {
         NSAlert *alert = [[[NSAlert alloc] init] autorelease];
         [alert setAlertStyle:NSInformationalAlertStyle];
@@ -1979,16 +2122,18 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
              modalDelegate:self
             didEndSelector:@selector(bigDocumentAlertDidEnd:returnCode:contextInfo:)
                contextInfo:nil];
-    } else {
-        [self TCM_validateLineEndings];
     }
 }
 
 - (void)bigDocumentAlertDidEnd:(NSAlert *)anAlert returnCode:(int)aReturnCode  contextInfo:(void  *)aContextInfo {
     [[anAlert window] orderOut:self];
-    [self TCM_validateLineEndings];
+#if defined(CODA)
+		if ( aContextInfo )
+			[(id)aContextInfo autorelease];
+#endif //defined(CODA)
 }
 
+#if !defined(CODA)
 - (NSWindow *)windowForSheet {
     NSWindow *result=[[self topmostWindowController] window];
     if (!result && I_documentProxyWindowController) {
@@ -1996,6 +2141,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     }
     return result;
 }
+#endif //!defined(CODA)
 
 - (void)windowControllerWillLoadNib:(NSWindowController *)aController {
     [super windowControllerWillLoadNib:aController];
@@ -2005,7 +2151,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 - (void)windowControllerDidLoadNib:(NSWindowController *)aController {
     [super windowControllerDidLoadNib:aController];
     DocumentMode *mode=[self documentMode];
-    [(PlainTextWindowController *)aController setSizeByColumns:[[mode defaultForKey:DocumentModeColumnsPreferenceKey] intValue] rows:[[mode defaultForKey:DocumentModeRowsPreferenceKey] intValue]];
+	[(PlainTextWindowController *)aController setSizeByColumns:[[mode defaultForKey:DocumentModeColumnsPreferenceKey] intValue] rows:[[mode defaultForKey:DocumentModeRowsPreferenceKey] intValue]];
 }
 
 static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
@@ -2103,7 +2249,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                         [self selectRange:NSMakeRange(selectionRange->startRange, selectionRange->endRange - selectionRange->startRange)];
                     } else {
                         DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"gotoLine");
-                        [self gotoLine:selectionRange->lineNum + 1 orderFront:NO];
+                        [self gotoLine:selectionRange->lineNum + 1];
                     }
                 }
 
@@ -2208,14 +2354,14 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 - (void)exportPanelDidEnd:(NSSavePanel *)aPanel returnCode:(int)aReturnCode contextInfo:(void *)aContextInfo {
     if (aReturnCode==NSOKButton) {
         NSDictionary *htmlOptions=[[[[self documentMode] defaults] objectForKey:DocumentModeExportPreferenceKey] objectForKey:DocumentModeExportHTMLPreferenceKey];
-        TextStorage *textStorage = (TextStorage *)I_textStorage;
+        FoldableTextStorage *textStorage = (FoldableTextStorage *)I_textStorage;
         
         if ([[htmlOptions objectForKey:DocumentModeHTMLExportHighlightSyntaxPreferenceKey] boolValue]) {
             SyntaxHighlighter *highlighter=[I_documentMode syntaxHighlighter];
             if (highlighter)
                 while (![highlighter colorizeDirtyRanges:textStorage ofDocument:self]);
         } else {
-            textStorage = [[TextStorage new] autorelease];
+            textStorage = [[FoldableTextStorage new] autorelease];
             [textStorage setAttributedString:I_textStorage];
             [[I_documentMode syntaxHighlighter] cleanUpTextStorage:textStorage];
             [textStorage  addAttributes:[self plainTextAttributes]
@@ -2287,7 +2433,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     
         // ShortID users
         BOOL colorConflict=NO;
-        NSMutableSet *userColors=[NSMutableSet new];
+        NSMutableSet *userColors=[NSMutableSet set];
         NSMutableArray *contributorDictionaries=[NSMutableArray array];
         NSMutableArray *lurkerDictionaries=[NSMutableArray array];
         NSMutableDictionary *contributorDictionary=[NSMutableDictionary dictionary];
@@ -2449,9 +2595,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
           
         // Prepare Content    
         NSMutableString *content=[NSMutableString string];
-        NSUserDefaults *standardUserDefaults=[NSUserDefaults standardUserDefaults];
         if ([[htmlOptions objectForKey:DocumentModeHTMLExportAddCurrentDatePreferenceKey] boolValue]) {
-            [content appendFormat:@"<p>%@</p>",[[NSCalendarDate calendarDate] descriptionWithCalendarFormat:[standardUserDefaults objectForKey:NSDateFormatString] locale:(id)standardUserDefaults]];
+			NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init]  autorelease];
+			[dateFormatter setDateStyle:NSDateFormatterFullStyle];
+			[dateFormatter setTimeStyle:NSDateFormatterNoStyle];			
+			[content appendFormat:@"<p>%@</p>", [dateFormatter stringFromDate:[NSDate date]]];
         }
         NSString *fontString=@"";
         if ([[self fontWithTrait:0] isFixedPitch] || 
@@ -2495,13 +2643,13 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 #pragma mark ### Save/Open Panel loading ###
 
 - (IBAction)goIntoBundles:(id)sender {
-    BOOL flag = ([sender state] == NSOffState) ? NO : YES;
+    BOOL flag = ([(NSButton*)sender state] == NSOffState) ? NO : YES;
     [I_savePanel setTreatsFilePackagesAsDirectories:flag];
     [[NSUserDefaults standardUserDefaults] setBool:flag forKey:@"GoIntoBundlesPrefKey"];
 }
 
 - (IBAction)showHiddenFiles:(id)sender {
-    BOOL flag = ([sender state] == NSOffState) ? NO : YES;
+    BOOL flag = ([(NSButton*)sender state] == NSOffState) ? NO : YES;
     if ([I_savePanel canShowHiddenFiles]) {
         [I_savePanel setInternalShowsHiddenFiles:flag];
     }
@@ -2578,7 +2726,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     if (I_lastSaveOperation == NSSaveToOperation) {
         NSArray *encodings = [[EncodingManager sharedInstance] enabledEncodings];
         NSMutableArray *lossyEncodings = [NSMutableArray array];
-        unsigned int i;
+        NSUInteger i;
         for (i = 0; i < [encodings count]; i++) {
             if (![[I_textStorage string] canBeConvertedToEncoding:[[encodings objectAtIndex:i] unsignedIntValue]]) {
                 [lossyEncodings addObject:[encodings objectAtIndex:i]];
@@ -2663,7 +2811,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     NSArray *loggedOperations = [ls loggedOperations];
     unsigned opCount = [loggedOperations count];
 
-    TextStorage *textStorage=(TextStorage *)[self textStorage];
+    FoldableTextStorage *textStorage=(FoldableTextStorage *)[self textStorage];
     [textStorage setContentByDictionaryRepresentation:[ls initialTextStorageDictionaryRepresentation]];
     NSRange wholeRange=NSMakeRange(0,[textStorage length]);
     [textStorage addAttributes:[self plainTextAttributes] range:wholeRange];
@@ -2677,6 +2825,34 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         [self handleOperation:[[loggedOperations objectAtIndex:i] operation]];
         [viewToUpdate display];
     }
+}
+
+- (IBAction)reversePlaybackLoggingState:(id)aSender {
+    TCMMMLoggingState *ls = [[self session] loggingState];
+    NSArray *loggedOperations = [ls loggedOperations];
+    unsigned opCount = [loggedOperations count];
+
+    NSTextView *viewToUpdate = [[[self plainTextEditors] lastObject] textView];
+    [viewToUpdate display];
+    
+    long i = 0;
+	NSMutableAttributedString *attributedStringToInsert = [NSMutableAttributedString new];
+    for (i=opCount-1;i>=0;--i) {
+		TCMMMLoggedOperation *operation = [loggedOperations objectAtIndex:i];
+		id innerOperation = [operation operation];
+		if ([innerOperation isKindOfClass:[TextOperation class]]) {
+			NSRange affectedRange = NSMakeRange([innerOperation affectedCharRange].location,[innerOperation replacementString].length);
+	        if ([operation replacedAttributedStringDictionaryRepresentation]) {
+				[attributedStringToInsert setContentByDictionaryRepresentation:[operation replacedAttributedStringDictionaryRepresentation]];
+	        } else {
+        		[attributedStringToInsert replaceCharactersInRange:NSMakeRange(0,[attributedStringToInsert length]) withString:@""];
+	        }
+	        [I_textStorage replaceCharactersInRange:affectedRange withAttributedString:attributedStringToInsert];
+	        [viewToUpdate scrollRangeToVisible:[innerOperation affectedCharRange]];
+	        [[viewToUpdate enclosingScrollView] display];
+		}
+    }
+    [attributedStringToInsert release];
 }
 
 - (BOOL)isDocumentEdited {
@@ -2971,12 +3147,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     // the elements of the array will be merged into a Dictionary that actually holds the data
     // the purpose of this is so there can be compressed and uncompressed data in it
     // currently 2 types are supported
-    // - a Number - this number indicates the fileformatversion which the saving app new about.
+    // - a Number - this number indicates the fileformatversion which the saving app knew about.
     // - an Array with exactly one entry which is a dictionary with uncompressed content
     // - an Array with exactly 2 entries which is a length followed by an compressed content dictionary
     // - everthing else will be ignored but preserved so we have potential upward compatibility
     
-    int headerLength = [@"SEEText" length];
+    NSUInteger headerLength = [(NSString*)@"SEEText" length];
     NSArray *topLevelArray = TCM_BdecodedObjectWithData([fileData subdataWithRange:NSMakeRange(headerLength,[fileData length]-headerLength)]);
     int fileversion=0;
     NSMutableArray *preservedData = [NSMutableArray array];
@@ -2985,9 +3161,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     id element = [elements nextObject];
     if (element) fileversion = [element unsignedIntValue];
     while ((element=[elements nextObject])) {
-        if ([element isKindOfClass:[NSArray class]] && [element count]==1 && [[element objectAtIndex:0] isKindOfClass:[NSDictionary class]]) {
+        if ([element isKindOfClass:[NSArray class]] && [(NSArray*)element count]==1 && [[element objectAtIndex:0] isKindOfClass:[NSDictionary class]]) {
             [dictRep addEntriesFromDictionary:[element objectAtIndex:0]];
-        } else if ([element isKindOfClass:[NSArray class]] && [element count]==2) {
+        } else if ([element isKindOfClass:[NSArray class]] && [(NSArray*)element count]==2) {
             NSDictionary *dict = TCM_BdecodedObjectWithData([NSData dataWithArrayOfCompressedData:element]);
             if (dict && [dict isKindOfClass:[NSDictionary class]]) {
                 [dictRep addEntriesFromDictionary:dict];
@@ -3011,7 +3187,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [[self session] addContributors:contributors];
     // load text into dictionary
     NSMutableDictionary *storageRep = [dictRep objectForKey:@"TextStorage"];
-    NSString *string = [NSString stringWithContentsOfURL:[NSURL fileURLWithPath:[[anURL path] stringByAppendingPathComponent:@"plain.txt"]]  encoding:(NSStringEncoding)[[storageRep objectForKey:@"Encoding"] unsignedIntValue] error:outError];
+    NSString *string = [NSString stringWithContentsOfURL:[NSURL fileURLWithPath:[[anURL path] stringByAppendingPathComponent:@"plain.txt"]]  encoding:[dictRep objectForKey:@"AutosaveInformation"] ? NSUTF8StringEncoding : (NSStringEncoding)[[storageRep objectForKey:@"Encoding"] unsignedIntValue] error:outError];
     if (!string) return NO;
     [storageRep setObject:string forKey:@"String"];
     [self setContentByDictionaryRepresentation:dictRep];
@@ -3032,6 +3208,24 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         I_flags.isSEEText = [[self fileType] isEqualToString:@"SEETextType"];
         if (wasAutosave) *wasAutosave = YES;
     }
+	if (I_stateDictionaryFromLoading) { // was set in takeSettingsFromDocumentState: because of symmetry - is code that also is in the non-seetext part of the calling method
+		
+		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+		if ([defaults boolForKey:DocumentStateSaveAndLoadTabSettingKey]) {
+			NSDictionary *tabSettings = [I_stateDictionaryFromLoading objectForKey:@"t"];
+			if ([tabSettings isKindOfClass:[NSDictionary class]]) {
+				id value = [tabSettings objectForKey:@"u"];
+				if ([value isKindOfClass:[NSNumber class]]) {
+					[self setUsesTabs:[value boolValue]];
+				}
+				value = [tabSettings objectForKey:@"w"];
+				if ([value isKindOfClass:[NSNumber class]]) {
+					[self setTabWidth:[value intValue]];
+				}
+			}
+		}
+	}
+
     return YES;
 }
 
@@ -3040,6 +3234,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 	if (!anURL) {
 		return NO;
 	}
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *fileName = [anURL path];
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"readFromURL:%@ ofType:%@ properties: %@", anURL, docType, aProperties);
 
@@ -3079,12 +3274,15 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         return NO;
     }
 
-    NSTextStorage *textStorage = [self textStorage];
+    FullTextStorage *textStorage = (FullTextStorage *)[I_textStorage fullTextStorage];
+    [textStorage setShouldWatchLineEndings:NO];
+
+
     BOOL isReverting = ([textStorage length] != 0);
     BOOL wasAutosaved = NO;
     NSAttributedString *undoString = nil;
     if (isReverting) {
-        undoString = [I_textStorage attributedSubstringFromRange:NSMakeRange(0,[I_textStorage length])];
+        undoString = [textStorage attributedSubstringFromRange:NSMakeRange(0,[textStorage length])];
     }
 
 
@@ -3117,10 +3315,21 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 return NO;
             }
         } else {
-            fileData = [NSData dataWithContentsOfURL:anURL options:0 error:outError];
+            fileData = [NSData dataWithContentsOfURL:anURL options:NSMappedRead error:outError];
+			I_flags.hasUTF8BOM = [fileData startsWithUTF8BOM]; // set the flag here
         }
                 
         DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"Data of size: %d bytes read", [fileData length]);
+
+		// check extended attributes for state
+		NSData *stateData = [UKXattrMetadataStore dataForKey:@"de.codingmonkeys.seestate" atPath:fileName traverseLink:YES];
+		id stateDictionary = TCM_BdecodedObjectWithData(stateData);
+//		NSLog(@"%s %@",__FUNCTION__,stateDictionary);
+		if ([stateDictionary isKindOfClass:[NSDictionary class]]) {
+			I_stateDictionaryFromLoading = [stateDictionary retain];
+//			NSLog(@"%s %@",__FUNCTION__,stateDictionary);
+		}
+	
 
 
     #ifndef TCM_NO_DEBUG
@@ -3132,6 +3341,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         // How things should work:
         // - if we are reverting we stay in the mode we are
         // - If the user chose a mode explicidly in the open panel or via the see tool (in aProperties) it is taken
+        // - if a mode is found in the state dictionary, it is used if found
         // - Otherwise automatic mode recognition will take place
         
         DocumentMode *mode = nil;
@@ -3147,6 +3357,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 if (![identifier isEqualToString:AUTOMATICMODEIDENTIFIER]) {
                     mode = [[DocumentModeManager sharedInstance] documentModeForIdentifier:identifier];
                 }
+            } else if ([defaults boolForKey:DocumentStateSaveAndLoadDocumentModeKey] && [I_stateDictionaryFromLoading objectForKey:@"m"]) {
+            	mode = [[DocumentModeManager sharedInstance] documentModeForIdentifier:[I_stateDictionaryFromLoading objectForKey:@"m"]];
+            	// if default mode is found, don't use it
+            	if ([mode isBaseMode]) {
+            		mode = nil;
+            	}
             }
         }
 
@@ -3201,7 +3417,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         if (encodingWasChosenExplicidly) {
             DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"The user did choose an explicid encoding (via open panel or seetool): %@",CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(encoding)));
             [options setObject:[NSNumber numberWithUnsignedInt:encoding] forKey:@"CharacterEncoding"];
-            success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];
+            success = [textStorage readFromData:fileData encoding:encoding];
         }
 
 //        NSArray *xattrKeys = [UKXattrMetadataStore allKeysAtPath:[anURL path] traverseLink:YES];
@@ -3232,7 +3448,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                     if (xEncoding != NoStringEncoding) {
                         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"We found an encoding in the xattrs! %@",CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(xEncoding)));
                         [options setObject:[NSNumber numberWithUnsignedInt:xEncoding] forKey:@"CharacterEncoding"];
-                        success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];
+                        success = [textStorage readFromData:fileData encoding:xEncoding];
                     }
                     
                 }
@@ -3241,9 +3457,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
         if (!success && [fileData startsWithUTF8BOM]) {
             DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"We found a UTF-8 BOM!");
-            I_flags.hasUTF8BOM = YES;
             [options setObject:[NSNumber numberWithUnsignedInt:NSUTF8StringEncoding] forKey:@"CharacterEncoding"];
-            success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];
+            success = [textStorage readFromData:fileData encoding:NSUTF8StringEncoding];
     #ifndef TCM_NO_DEBUG
         [_readFromURLDebugInformation appendFormat:@"-> Found UTF8BOM:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n",success,[options description],[docAttrs description],(success?nil:*outError)];
     #endif
@@ -3254,7 +3469,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"Checking for encoding/charset setting from html/xml/css");
             // checking if we can guess the correct encoding based on the charset inside the doc - check only the first 4k to avoid finding encoding settings in strings later on in the file (my counter example is a php file that writes out an email with html content that has another encoding than my php file - this is an actual example ;) )
             unsigned dataLength = MIN([fileData length],4096);
-            NSString	*fileContent = [[[NSString alloc] initWithBytesNoCopy:(void *)[fileData bytes] length:dataLength encoding:NSMacOSRomanStringEncoding freeWhenDone:NO] autorelease];
+            NSString	*fileContent = [[NSString alloc] initWithBytesNoCopy:(void *)[fileData bytes] length:dataLength encoding:NSMacOSRomanStringEncoding freeWhenDone:NO];
             BOOL		foundEncoding = NO;
             
             if ( [[mode documentModeIdentifier] isEqualToString:@"SEEMode.CSS"] ) {
@@ -3264,13 +3479,14 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 // check for html charset in all other documents
                 foundEncoding = [fileContent findIANAEncodingUsingExpression:@"<meta.*?charset=(.*?)\"" encoding:&encoding];
             }
+            [fileContent release];
             
             if ( foundEncoding ) {
                 [options setObject:[NSNumber numberWithUnsignedInt:encoding] forKey:NSCharacterEncodingDocumentOption];
-                success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];
+                success = [textStorage readFromData:fileData encoding:encoding];
                 if (success) [[EncodingManager sharedInstance] activateEncoding:encoding];
     #ifndef TCM_NO_DEBUG
-        [_readFromURLDebugInformation appendFormat:@"--> 2. Step - reading encoding/charset setting from html/xml/css:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n",success,[options description],[docAttrs description],(success?nil:*outError)];
+        [_readFromURLDebugInformation appendFormat:@"--> 2. Step - reading encoding/charset setting from html/xml/css:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n iana-encoding-name:%@",success,[options description],[docAttrs description],(success?nil:*outError),CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(encoding))];
     #endif
             }
         }
@@ -3285,7 +3501,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             
             // guess encoding based on character sniffing
             UniversalDetector   *detector = [UniversalDetector detector];
-            int maxLength = [[NSUserDefaults standardUserDefaults] integerForKey:@"ByteLengthToUseForModeRecognitionAndEncodingGuessing"];
+            int maxLength = [defaults integerForKey:@"ByteLengthToUseForModeRecognitionAndEncodingGuessing"];
             NSData *checkData = fileData;
             if ([fileData length] > maxLength) {
                 checkData = [[NSData alloc] initWithBytes:(void *)[fileData bytes] length:maxLength];
@@ -3305,7 +3521,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                  !(udEncoding == NSWindowsCP1250StringEncoding && encoding != NoStringEncoding)) {
                 // lookup found something meaningful, so try to use it
                 [options setObject:[NSNumber numberWithUnsignedInt:udEncoding] forKey:NSCharacterEncodingDocumentOption];
-                success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];
+                success = [textStorage readFromData:fileData encoding:udEncoding];
                 if (success) [[EncodingManager sharedInstance] activateEncoding:udEncoding];
     #ifndef TCM_NO_DEBUG
         [_readFromURLDebugInformation appendFormat:@"---> 3. Step - using UniversalDetector:\n success:%d confidence:%1.3f encoding:%@ readWithOptions:%@ docAttributes:%@ error:%@\n",success,confidence,CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(udEncoding)) ,[options description],[docAttrs description],(success?nil:*outError)];
@@ -3317,48 +3533,93 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         if (!success && encoding != NoStringEncoding && encoding < SmallestCustomStringEncoding) {
             DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"Checking with encoding set by mode");
             [options setObject:[NSNumber numberWithUnsignedInt:encoding] forKey:@"CharacterEncoding"];
-            success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];
+            success = [textStorage readFromData:fileData encoding:encoding];
     #ifndef TCM_NO_DEBUG
         [_readFromURLDebugInformation appendFormat:@"-> Mode Encoding Step:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n",success,[options description],[docAttrs description],(success?nil:*outError)];
     #endif
         }
-            
-        if ( !success ) {
-            DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"Checking with system encoding");
-
-            //all guess attempts failed, try system encoding
-            [options removeObjectForKey:NSCharacterEncodingDocumentOption];
-            success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];
-    #ifndef TCM_NO_DEBUG
-        [_readFromURLDebugInformation appendFormat:@"----> 4. Step - using system encoding by not specifying an encoding:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n",success,[options description],[docAttrs description],(success?nil:*outError)];
-    #endif
-        }
-        
+                    
         if ( !success ) {
             DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"Checking with Mac OS Roman as last resort");
             //even system failed, try Mac OS Roman system encoding
             [options setObject:[NSNumber numberWithUnsignedInt:NSMacOSRomanStringEncoding] forKey:NSCharacterEncodingDocumentOption];
-            success = [textStorage readFromData:fileData options:options documentAttributes:&docAttrs error:outError];
+            success = [textStorage readFromData:fileData encoding:NSMacOSRomanStringEncoding];
     #ifndef TCM_NO_DEBUG
         [_readFromURLDebugInformation appendFormat:@"-----> 5. Step - using mac os roman encoding:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n",success,[options description],[docAttrs description],(success?nil:*outError)];
     #endif
         }
     
-        [self setFileEncoding:[[docAttrs objectForKey:@"CharacterEncoding"] unsignedIntValue]];
+        [self setFileEncoding:[[options objectForKey:@"CharacterEncoding"] unsignedIntValue]];
 
+		if ( [[options objectForKey:NSCharacterEncodingDocumentOption] unsignedIntValue] == NSUTF8StringEncoding )
+			I_flags.hasUTF8BOM = [fileData startsWithUTF8BOM];
 
         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Encoding guessing information summary: %@", _readFromURLDebugInformation);
         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Read successful? %@", success ? @"YES" : @"NO");
         DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"documentAttributes: %@", [docAttrs description]);
 
         [self setDocumentMode:mode];
-        if ([I_textStorage length] > [[NSUserDefaults standardUserDefaults] integerForKey:@"StringLengthToStopHighlightingAndWrapping"]) {
+        if ([I_textStorage length] > [defaults integerForKey:@"StringLengthToStopHighlightingAndWrapping"]) {
             [self setHighlightsSyntax:NO];
             [self setWrapLines:NO];
         }
-        [self performSelector:@selector(TCM_validateSizeAndLineEndings) withObject:nil afterDelay:0.0f];
-        [textStorage endEditing];     
 
+        [self performSelector:@selector(TCM_validateSize) withObject:nil afterDelay:0.0f];
+
+		if (I_stateDictionaryFromLoading) {
+			
+			NSNumber *value = [I_stateDictionaryFromLoading objectForKey:@"g"];
+			if ([value isKindOfClass:[NSNumber class]]) {
+				[self setShowsGutter:[value boolValue]];
+			}
+			
+			
+			if ([defaults boolForKey:DocumentStateSaveAndLoadWrapSettingKey]) {
+				value = [I_stateDictionaryFromLoading objectForKey:@"w"];
+				if ([value isKindOfClass:[NSNumber class]]) {
+					int wrapValue = [value intValue];
+					[self setWrapLines:wrapValue];
+					if (wrapValue) {
+						[self setWrapMode:wrapValue == 2 ? DocumentModeWrapModeCharacters : 1];
+					}
+				}			
+			}
+			
+			if ([defaults boolForKey:DocumentStateSaveAndLoadTabSettingKey]) {
+				NSDictionary *tabSettings = [I_stateDictionaryFromLoading objectForKey:@"t"];
+				if ([tabSettings isKindOfClass:[NSDictionary class]]) {
+					value = [tabSettings objectForKey:@"u"];
+					if ([value isKindOfClass:[NSNumber class]]) {
+						[self setUsesTabs:[value boolValue]];
+					}
+					value = [tabSettings objectForKey:@"w"];
+					if ([value isKindOfClass:[NSNumber class]]) {
+						[self setTabWidth:[value intValue]];
+					}
+				}
+			}
+			
+			if ([defaults boolForKey:DocumentStateSaveAndLoadFoldingStateKey]) {
+				unsigned int characterLength = [[I_stateDictionaryFromLoading objectForKey:@"l"] unsignedIntValue];
+				BOOL sameLength = (characterLength == [[I_textStorage fullTextStorage] length]);
+				if (sameLength){
+		//			NSLog(@"%s was same Length",__FUNCTION__);
+					NSData *foldingData = [I_stateDictionaryFromLoading objectForKey:@"f"];
+					if (foldingData) {
+						[I_textStorage foldAccordingToDataRepresentation:foldingData];
+					}
+				}
+			}
+		}
+
+        [textStorage endEditing];
+        
+        NSNumber *lineEndingNumber = [I_stateDictionaryFromLoading objectForKey:@"e"];
+        if (lineEndingNumber) {
+        	[self setLineEnding:[lineEndingNumber intValue]];
+        } else {
+	        [self TCM_validateLineEndings];
+	    }
     } // end of part where the file wasn't SEEText
 
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"fileEncoding: %@", [NSString localizedNameOfStringEncoding:[self fileEncoding]]);
@@ -3371,7 +3632,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [self setIsFileWritable:isWritable];
 
 
-    unsigned int wholeLength = [I_textStorage length];
+    NSUInteger wholeLength = [I_textStorage length];
     [I_textStorage addAttributes:[self plainTextAttributes]
                            range:NSMakeRange(0, wholeLength)];
 
@@ -3385,7 +3646,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     
     if (!isReverting && ![docType isEqualToString:@"SEETextType"]) {
         // clear the logging state
-        if ([I_textStorage length] > [[NSUserDefaults standardUserDefaults] integerForKey:@"ByteLengthToUseForModeRecognitionAndEncodingGuessing"]) {
+        if ([I_textStorage length] > [defaults integerForKey:@"ByteLengthToUseForModeRecognitionAndEncodingGuessing"]) {
         // if the file is to big no logging state to save space
             [[self session] setLoggingState:nil];
         } else {
@@ -3397,7 +3658,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         [[[self session] loggingState] handleOperation:[SelectionOperation selectionOperationWithRange:NSMakeRange(0,0) userID:[TCMMMUserManager myUserID]]];
     }
 
+    [(FullTextStorage *)textStorage setShouldWatchLineEndings:YES];
     I_flags.isReadingFile = NO;
+
+	// do a first round of syntax highlighting
+	[self highlightSyntaxLoop];
 
     return YES;
 }
@@ -3415,7 +3680,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     
     TCMMMUserManager *um = [TCMMMUserManager sharedInstance];
     TCMMMLoggingState *ls = [[self session] loggingState];
-    TCMMMLoggedOperation *lop = NULL;
+    TCMMMLoggedOperation *lop = nil;
     if ([[ls loggedOperations] count]>0) {
         lop = [[ls loggedOperations] objectAtIndex:0];
         NSXMLElement *element = [NSXMLNode elementWithName:@"firstactivity" stringValue:[[lop date] rfc1123Representation]];
@@ -3479,13 +3744,30 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         BOOL modeWantsUTF8BOM = [[[self documentMode] defaultForKey:DocumentModeUTF8BOMPreferenceKey] boolValue];
         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"modeWantsUTF8BOM: %d, hasUTF8BOM: %d", modeWantsUTF8BOM, I_flags.hasUTF8BOM);
         BOOL useUTF8Encoding = ((I_lastSaveOperation == NSSaveToOperation) && (I_encodingFromLastRunSaveToOperation == NSUTF8StringEncoding)) || ((I_lastSaveOperation != NSSaveToOperation) && ([self fileEncoding] == NSUTF8StringEncoding));
+		BOOL result = NO;
         if ((I_flags.hasUTF8BOM || modeWantsUTF8BOM) && useUTF8Encoding) {
             NSData *data = [[[self textStorage] string] dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:NO];
-            return [[data dataPrefixedWithUTF8BOM] writeToURL:absoluteURL options:0 error:outError];
+            result = [[data dataPrefixedWithUTF8BOM] writeToURL:absoluteURL options:0 error:outError];
+            if (result) {
+            	// write the xtended attribute for utf-8
+            	[UKXattrMetadataStore setString:@"UTF-8;134217984" forKey:@"com.apple.TextEncoding" atPath:[absoluteURL path] traverseLink:YES];
+            }
         } else {
             // let us write using NSStrings write methods so the encoding is added to the extended attributes
-            return [[[self textStorage] string] writeToURL:absoluteURL atomically:NO encoding:[self fileEncoding] error:outError];
+            result = [[[(FoldableTextStorage *)[self textStorage] fullTextStorage] string] writeToURL:absoluteURL atomically:NO encoding:[self fileEncoding] error:outError];
         }
+        NSData *stateData = [self stateData];
+        if (stateData && ![[NSUserDefaults standardUserDefaults] boolForKey:DontSaveDocumentStateInXattrsKey]) {
+			[UKXattrMetadataStore setData:stateData forKey:@"de.codingmonkeys.seestate" atPath:[absoluteURL path] traverseLink:YES];
+		} else {
+			// due to the way fspathreplaceobject of carbon core works, we need to remove the xattr from the original file if it exists
+			if (originalContentsURL) {
+				[UKXattrMetadataStore removeDataForKey:@"de.codingmonkeys.seestate" atPath:[originalContentsURL path] traverseLink:YES];
+			}
+		}
+//        NSArray *xattrKeys = [UKXattrMetadataStore allKeysAtPath:[absoluteURL path] traverseLink:YES];
+//        NSLog(@"%s xattrKeys:%@",__FUNCTION__,xattrKeys);
+        return result;
     } else if ([inTypeName isEqualToString:@"SEETextType"]) {
         NSString *packagePath = [absoluteURL path];
         NSFileManager *fm =[NSFileManager defaultManager];
@@ -3553,7 +3835,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 //-timelog            NSLog(@"%s bencoding and compressing took: %fs",__FUNCTION__,[intermediateDate timeIntervalSinceNow]*-1.);
             
             if (success) success = [data writeToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"collaborationdata.bencoded"]] options:0 error:outError];
-            if (success) success = [[[self textStorage] string] writeToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"plain.txt"]] atomically:NO encoding:[self fileEncoding] error:outError];
+			// autosave in utf-8 always no matter what to accomodate for strange inserted characters
+            if (success) success = [[[(FoldableTextStorage *)[self textStorage] fullTextStorage] string] writeToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"plain.txt"]] atomically:NO encoding:(saveOperation == NSAutosaveOperation) ? NSUTF8StringEncoding : [self fileEncoding] error:outError];
             if (success) success = [self writeMetaDataToURL:[NSURL fileURLWithPath:[packagePath stringByAppendingPathComponent:@"metadata.xml"]] error:outError];
             
             if (saveOperation != NSAutosaveOperation) {
@@ -3762,8 +4045,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         err = MoreSecCopyHelperToolURLAndCheckBundled(
             CFBundleGetMainBundle(), 
             CFSTR("SubEthaEditHelperToolTemplate"), 
-            kApplicationSupportFolderType, 
+            kApplicationSupportFolderType,
+#if defined(CODA)
+			CFSTR("Coda"),
+#else
             CFSTR("SubEthaEdit"), 
+#endif //defined(CODA)
             CFSTR("SubEthaEditHelperTool"), 
             &tool);
 
@@ -3776,7 +4063,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 CFBundleGetMainBundle(), 
                 CFSTR("SubEthaEditHelperToolTemplate"), 
                 kTemporaryFolderType, 
+#if defined(CODA)
+				CFSTR("Coda"),
+#else
                 CFSTR("SubEthaEdit"), 
+#endif //defined(CODA)
                 CFSTR("SubEthaEditHelperTool"), 
                 &tool);
         }
@@ -3787,7 +4078,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     if (err == noErr) {
         NSFileManager *fileManager = [NSFileManager defaultManager];
         NSDictionary *fileAttributes = [fileManager fileAttributesAtPath:fullDocumentPath traverseLink:YES];
-        unsigned long fileReferenceCount = [[fileAttributes objectForKey:NSFileReferenceCount] unsignedLongValue];
+        NSUInteger fileReferenceCount = [[fileAttributes objectForKey:NSFileReferenceCount] unsignedLongValue];
         if (fileReferenceCount > 1) {
         
             if (err == noErr) {
@@ -3984,7 +4275,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         
         NSFileManager *fileManager = [NSFileManager defaultManager];
         NSDictionary *fileAttributes = [fileManager fileAttributesAtPath:fullDocumentPath traverseLink:YES];
-        unsigned long fileReferenceCount = [[fileAttributes objectForKey:NSFileReferenceCount] unsignedLongValue];
+        NSUInteger fileReferenceCount = [[fileAttributes objectForKey:NSFileReferenceCount] unsignedLongValue];
         BOOL isFileWritable = [fileManager isWritableFileAtPath:fullDocumentPath];
         if (fileReferenceCount > 1 && isFileWritable) {            
             char cFullDocumentPath[MAXPATHLEN+1];
@@ -4047,6 +4338,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                                      modalDelegate:nil
                                     didEndSelector:nil
                                        contextInfo:NULL];
+								if ( outError )
+									*outError = nil; 
                             }
                         } else {
                             (void)[fileManager removeFileAtPath:tempFilePath handler:nil];
@@ -4059,6 +4352,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                                  modalDelegate:nil
                                 didEndSelector:nil
                                    contextInfo:NULL];
+							if ( outError )
+								*outError = nil; 
 
                         }
                     }
@@ -4116,7 +4411,22 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Keep document version");
             return YES;
         }
-                
+#if defined(CODA)
+		NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+		[alert setAlertStyle:NSWarningAlertStyle];
+		[alert setMessageText:NSLocalizedString(@"Document changed externally", nil)];
+		[alert setInformativeText:NSLocalizedString(@"This document was changed by another application.", nil)];  		[alert addButtonWithTitle:NSLocalizedString(@"Keep Coda Version", nil)];  
+		[alert addButtonWithTitle:NSLocalizedString(@"Reload", nil)]; 
+		[[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
+		[self presentAlert:alert
+			 modalDelegate:self
+			didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
+			   contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
+				   @"DocumentChangedExternallyAlert", @"Alert", self, @"Document",
+				   nil] retain]]; 
+		
+		return NO;		
+#else                
         if ([self isDocumentEdited]) {
             NSAlert *alert = [[[NSAlert alloc] init] autorelease];
             [alert setAlertStyle:NSWarningAlertStyle];
@@ -4150,12 +4460,26 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
             return NO;
         }
+#endif //defined(CODA)
     }
 
     return YES;
 }
 
 #pragma mark -
+
+- (BOOL)hasMarkedTexts {
+	NSEnumerator *plainTextEditors = [[self plainTextEditors] objectEnumerator];
+	PlainTextEditor *editor = nil;
+	while ((editor = [plainTextEditors nextObject])) {
+		if ([[editor textView] hasMarkedText]) {
+//			[[editor textView] unmarkText];
+			return YES;
+		}
+	}
+	return NO;
+}
+
 
 
 - (BOOL)validateMenuItem:(NSMenuItem *)anItem {
@@ -4177,7 +4501,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 encoding==NSUTF8StringEncoding ||
                 encoding==NSNonLossyASCIIStringEncoding));
     } else if (selector == @selector(selectEncoding:)) {
-        if ([self fileEncoding] == (unsigned int)[anItem tag]) {
+        if ([self fileEncoding] == (NSUInteger)[anItem tag]) {
             [anItem setState:NSOnState];
         } else {
             [anItem setState:NSOffState];
@@ -4220,11 +4544,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                          NSLocalizedString(@"Announce All",@"Menu/Toolbar Title for announcing all Documents")];
         return YES;
     } else if (selector == @selector(saveDocument:)) {
-        return ![self isProxyDocument];
+        return ![self isProxyDocument] && ![self hasMarkedTexts];
     } else if (selector == @selector(saveDocumentAs:)) {
-        return ![self isProxyDocument];
+        return ![self isProxyDocument] && ![self hasMarkedTexts];
     } else if (selector == @selector(saveDocumentTo:)) {
-        return ![self isProxyDocument];
+        return ![self isProxyDocument] && ![self hasMarkedTexts];
     } else if (selector == @selector(printDocument:)) {
         return ![self isProxyDocument];
     } else if (selector == @selector(runPageLayout:)) {
@@ -4248,6 +4572,26 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     return [super validateMenuItem:anItem];
 }
 
+- (IBAction)saveDocumentAs:(id)aSender {
+	if (![self hasMarkedTexts]) {
+		[super saveDocumentAs:aSender];
+	}
+}
+
+- (IBAction)saveDocument:(id)aSender {
+	if (![self hasMarkedTexts]) {
+		[super saveDocument:aSender];
+	}
+}
+
+- (IBAction)saveDocumentTo:(id)aSender {
+	if (![self hasMarkedTexts]) {
+		[super saveDocumentTo:aSender];
+	}
+}
+
+
+
 - (BOOL)validateToolbarItem:(NSToolbarItem *)toolbarItem {
     NSString *itemIdentifier = [toolbarItem itemIdentifier];
 
@@ -4270,13 +4614,13 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (LineEnding)lineEnding {
-    return [(TextStorage *)[self textStorage] lineEnding];
+    return [(FoldableTextStorage *)[self textStorage] lineEnding];
 }
 
 // http://developer.apple.com/documentation/Carbon/Conceptual/ATSUI_Concepts/atsui_chap4/chapter_4_section_5.html
 
 - (void)setLineEnding:(LineEnding)newLineEnding {
-    [(TextStorage *)[self textStorage] setLineEnding:newLineEnding];
+    [(FoldableTextStorage *)[self textStorage] setLineEnding:newLineEnding];
     I_lineEndingString = [NSString lineEndingStringForLineEnding:newLineEnding];
     [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
 }
@@ -4291,7 +4635,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 // caution this call releases its argument because it doesn't seem to work otherwise :(
 - (void)setAttributedStringUndoable:(NSAttributedString *)aString {
     [[self documentUndoManager] beginUndoGrouping];
-    [[[self documentUndoManager] prepareWithInvocationTarget:self] setAttributedStringUndoable:[I_textStorage attributedSubstringFromRange:NSMakeRange(0,[I_textStorage length])]];
+    FullTextStorage *fullTextStorage = [I_textStorage fullTextStorage];
+    [[[self documentUndoManager] prepareWithInvocationTarget:self] setAttributedStringUndoable:[fullTextStorage attributedSubstringFromRange:NSMakeRange(0,[fullTextStorage length])]];
     [[self documentUndoManager] endUndoGrouping];
     BOOL previousState = [self isHandlingUndoManually];
     [self setIsHandlingUndoManually:YES];
@@ -4314,6 +4659,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         NSDictionary *contextInfo = [NSDictionary dictionaryWithObjectsAndKeys:
                                                     @"EditAnywayAlert", @"Alert",
                                                     invocation, @"Invocation",
+#if defined(CODA)
+													self, @"Document",
+#endif //defined(CODA)
                                                     nil];
 
         NSAlert *alert = [[[NSAlert alloc] init] autorelease];
@@ -4328,7 +4676,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
                contextInfo:[contextInfo retain]];
     } else {
-        TextStorage *textStorage=(TextStorage *)[self textStorage];
+        FoldableTextStorage *textStorage=(FoldableTextStorage *)[self textStorage];
         [textStorage beginEditing];
         [textStorage setShouldWatchLineEndings:NO];
 
@@ -4347,6 +4695,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [self convertLineEndingsToLineEnding:[aSender tag]];
 }
 
+// ranges are in fulltextstorage
 - (NSRange)rangeOfPrevious:(BOOL)aPrevious symbolForRange:(NSRange)aRange {
     if ([[self documentMode] hasSymbols] && [I_symbolArray count]) {
         int position=[self selectedSymbolForRange:aRange];
@@ -4380,9 +4729,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     return NSMakeRange(NSNotFound,0);
 }
 
+// ranges are in fulltextstorage
 - (NSRange)rangeOfPrevious:(BOOL)aPrevious changeForRange:(NSRange)aRange {
     NSRange searchRange;
-    TextStorage *textStorage=(TextStorage *)[self textStorage];
+    FullTextStorage *textStorage=[(FoldableTextStorage *)[self textStorage] fullTextStorage];
     NSString *userID=nil;
     unsigned position;
     NSRange fullRange=NSMakeRange(0,[textStorage length]);
@@ -4390,7 +4740,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         if (aRange.location>0) aRange.location-=1;
         else return NSMakeRange(NSNotFound,0);
     }
-    userID=[textStorage attribute:ChangedByUserIDAttributeName atIndex:aRange.location longestEffectiveRange:&searchRange inRange:fullRange];
+    
+    [textStorage attribute:ChangedByUserIDAttributeName atIndex:aRange.location longestEffectiveRange:&searchRange inRange:fullRange];
     userID=nil;
     while (!userID) {
         if (aPrevious) {
@@ -4444,16 +4795,29 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (NSDictionary *)styleAttributesForStyleID:(NSString *)aStyleID {
-    NSDictionary *result=[I_styleCacheDictionary objectForKey:aStyleID];
+	if (!aStyleID) {
+		NSLog(@"%s was called with a styleID of nil",__FUNCTION__);
+		return [NSDictionary dictionary];
+	}
+    NSMutableDictionary *result=[I_styleCacheDictionary objectForKey:aStyleID];
     if (!result) {
         DocumentMode *documentMode=[self documentMode];
         BOOL darkBackground=[[documentMode defaultForKey:DocumentModeBackgroundColorIsDarkPreferenceKey] boolValue];
         NSDictionary *style=nil;
+#if defined(CODA)
+		NSDictionary *spellingStyle=nil;
+#endif //defined(CODA)
         if ([aStyleID isEqualToString:SyntaxStyleBaseIdentifier] && 
             [[documentMode defaultForKey:DocumentModeUseDefaultStylePreferenceKey] boolValue]) {
             style=[[[DocumentModeManager baseMode] syntaxStyle] styleForKey:aStyleID];
+#if defined(CODA)
+			spellingStyle = [[documentMode syntaxStyle] styleForKey:aStyleID];
+#endif //defined(CODA)
         } else {
             style=[[documentMode syntaxStyle] styleForKey:aStyleID];
+#if defined(CODA)
+			spellingStyle = style;
+#endif //defined(CODA)
         }
         NSFontTraitMask traits=[[style objectForKey:@"font-trait"] unsignedIntValue];
         NSFont *font=[self fontWithTrait:traits];
@@ -4466,14 +4830,29 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         if (synthesise && (traits & NSBoldFontMask) && !([[NSFontManager sharedFontManager] traitsOfFont:font] & NSBoldFontMask)) {
             strokeWidth=darkBackground?-9.:-3.;
         }
+		
+#if defined(CODA)
+		NSString *useSpellChecking = [spellingStyle objectForKey:@"usespellchecking"];
+		if ( !useSpellChecking )
+			useSpellChecking = @"no";					
+#endif //defined(CODA)
+		
         NSColor *foregroundColor=[style objectForKey:darkBackground?@"inverted-color":@"color"];
-        result=[NSDictionary dictionaryWithObjectsAndKeys:font,NSFontAttributeName,
+                
+        result=[NSMutableDictionary dictionaryWithObjectsAndKeys:font,NSFontAttributeName,
             foregroundColor,NSForegroundColorAttributeName,
             aStyleID,@"styleID",
+#if defined(CODA)
+			useSpellChecking, @"usespellchecking",
+#endif //defined(CODA)
             [NSNumber numberWithFloat:obliquenessFactor],NSObliquenessAttributeName,
             [NSNumber numberWithFloat:strokeWidth],NSStrokeWidthAttributeName,
             nil];
-        [I_styleCacheDictionary setObject:result forKey:aStyleID];
+        // this is necessary for the highlighter to actually set the correct link attribute here
+        if ([[style objectForKey:@"type"] isEqualToString:@"url"]) [result setObject:@"link" forKey:NSLinkAttributeName];
+			
+		if ( aStyleID && result ) 
+			[I_styleCacheDictionary setObject:result forKey:aStyleID];
     }
     return result;
 }
@@ -4553,7 +4932,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
         [paragraphStyle setTabStops:[NSArray array]];
         NSFont *font=[sLayoutManager substituteFontForFont:[self fontWithTrait:0]];
-        float charWidth = [font widthOfString:@" "];
+		float charWidth = 0.0f;
+		if ( font != nil )
+			charWidth = [@" " sizeWithAttributes:[NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName]].width;
+
         if (charWidth<=0) {
             charWidth=[font maximumAdvancement].width;
         }
@@ -4576,7 +4958,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
      I_plainTextAttributes=nil;
     [I_typingAttributes release];
      I_typingAttributes=nil;
-    [I_styleCacheDictionary removeAllObjects];
+#if defined(CODA)
+	[I_adjustedTypingAttributes autorelease];
+	I_adjustedTypingAttributes=nil;
+#endif //defined(CODA)
+	[I_styleCacheDictionary removeAllObjects];
     [[NSNotificationQueue defaultQueue]
         enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentDefaultParagraphStyleDidChangeNotification object:self]
                postingStyle:NSPostWhenIdle
@@ -4589,11 +4975,16 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
      I_plainTextAttributes=nil;
     [I_typingAttributes release];
      I_typingAttributes=nil;
+#if defined(CODA)
+	[I_adjustedTypingAttributes autorelease];
+	I_adjustedTypingAttributes=nil;
+#endif //defined(CODA)	
     [I_blockeditAttributes release];
      I_blockeditAttributes=nil;
     [I_styleCacheDictionary removeAllObjects];
-    NSRange wholeRange=NSMakeRange(0,[[self textStorage] length]);
-    [I_textStorage addAttributes:[self plainTextAttributes]
+    FullTextStorage *fullTextStorage = [I_textStorage fullTextStorage];
+    NSRange wholeRange=NSMakeRange(0,[fullTextStorage length]);
+    [fullTextStorage addAttributes:[self plainTextAttributes]
                            range:wholeRange];
     if (I_flags.highlightSyntax) {
         [self highlightSyntaxInRange:wholeRange];
@@ -4621,35 +5012,29 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 
 - (void)gotoLine:(unsigned)aLine {
-    [self gotoLine:aLine orderFront:NO];
-}
-
-- (void)gotoLine:(unsigned)aLine orderFront:(BOOL)aFlag {
     PlainTextWindowController *windowController=[self topmostWindowController];
+#if !defined(CODA)	
     [windowController selectTabForDocument:self];
+#endif //!defined(CODA)	
     [windowController gotoLine:aLine];
-    if (aFlag) [[windowController window] makeKeyAndOrderFront:self];
 }
 
+// dispatches to the plaintexteditor eventually
 - (void)selectRange:(NSRange)aRange {
     PlainTextWindowController *windowController=[self topmostWindowController];
+#if !defined(CODA)	
     [windowController selectTabForDocument:self];
+#endif //!defined(CODA)	
     [windowController selectRange:aRange];
-	NSTextView *textView = [[windowController activePlainTextEditor] textView];
-	if ([textView respondsToSelector:@selector(showFindIndicatorForRange:)]) {
-		[textView showFindIndicatorForRange:aRange];
-	} 
-    [[windowController window] makeKeyAndOrderFront:self];
 }
 
+// dispatches to the plaintexteditor eventually
 - (void)selectRangeInBackground:(NSRange)aRange {
     PlainTextWindowController *windowController=[self topmostWindowController];
+#if !defined(CODA)	
     [windowController selectTabForDocument:self];
-    [windowController selectRange:aRange];
-	NSTextView *textView = [[windowController activePlainTextEditor] textView];
-	if ([textView respondsToSelector:@selector(showFindIndicatorForRange:)]) {
-		[textView showFindIndicatorForRange:aRange];
-	} 
+#endif //!defined(CODA)	
+    [windowController selectRangeInBackground:aRange];
 }
 
 - (void)addFindAllController:(FindAllController *)aController
@@ -4763,6 +5148,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     return [super displayName];
 }
 
+#if !defined(CODA)
 - (void)setDisplayName:(NSString *)aDisplayName {
     if (![self fileName]) {
         [self setTemporaryDisplayName:aDisplayName];
@@ -4770,7 +5156,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         [self setFileName:[[[self fileName] stringByDeletingLastPathComponent] stringByAppendingPathComponent:aDisplayName]];
     }
 }
-
+#endif //!defined(CODA)
+	
 #pragma mark -
 #pragma mark ### Printing ###
 
@@ -4841,7 +5228,12 @@ static NSString *S_measurementUnits;
 
 }
 
-- (void)changeFont:(id)aSender {
+#if defined(CODA)
+- (void)changeFontInteral:(id)aSender
+#else	
+- (void)changeFont:(id)aSender
+#endif //defined(CODA)
+{
     NSFont *newFont = [aSender convertFont:I_fonts.plainFont];
     if (I_printOperationIsRunning) {
         NSMutableDictionary *dict=[NSMutableDictionary dictionary];
@@ -5070,7 +5462,7 @@ static NSString *S_measurementUnits;
 #pragma mark -
 
 - (void)alertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-    NSDictionary *alertContext = (NSDictionary *)contextInfo;
+    NSDictionary *alertContext = [(NSDictionary *)contextInfo autorelease];
     NSString *alertIdentifier = [alertContext objectForKey:@"Alert"];
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"alertDidEnd: %@", alertIdentifier);
 
@@ -5146,8 +5538,6 @@ static NSString *S_measurementUnits;
             [textView insertText:replacementString];
         }
     }
-
-    [alertContext autorelease];
 }
 
 - (void)applicationDidBecomeActive:(NSNotification *)aNotification {
@@ -5178,6 +5568,7 @@ static NSString *S_measurementUnits;
         [super updateChangeCount:changeType];
     }
     
+#if !defined(CODA)
     NSEnumerator *enumerator = [[self windowControllers] objectEnumerator];
     id windowController;
     while ((windowController = [enumerator nextObject])) {
@@ -5185,9 +5576,10 @@ static NSString *S_measurementUnits;
             [(PlainTextWindowController *)windowController documentUpdatedChangeCount:self];
         }
     }
-
-//    NSString *changes[]={@"NSChangeDone",@"NSChangeUndone",@"NSChangeCleared",@"NSChangeReadOtherContents",@"NSChangeAutosaved",@"NSChangeRedone"};
-//    NSLog(@"%s count:%d %@ %@ %@",__FUNCTION__,I_changeCount,changes[changeType],[self isDocumentEdited]?@"Dirty":@"Clean",I_flags.shouldChangeChangeCount?@"shouldChange":@"doesn'tChange");
+#endif //!defined(CODA)
+	
+	//    NSString *changes[]={@"NSChangeDone",@"NSChangeUndone",@"NSChangeCleared",@"NSChangeReadOtherContents",@"NSChangeAutosaved",@"NSChangeRedone"};
+	//    NSLog(@"%s count:%d %@ %@ %@",__FUNCTION__,I_changeCount,changes[changeType],[self isDocumentEdited]?@"Dirty":@"Clean",I_flags.shouldChangeChangeCount?@"shouldChange":@"doesn'tChange");
 }
 
 - (void)setIsDocumentEdited:(BOOL)aFlag {
@@ -5233,13 +5625,14 @@ static NSString *S_measurementUnits;
 
 - (void)setHighlightsSyntax:(BOOL)aFlag {
     if (I_flags.highlightSyntax != aFlag) {
+    	FullTextStorage *fts = [I_textStorage fullTextStorage];
         I_flags.highlightSyntax = aFlag;
         if (I_flags.highlightSyntax) {
-            [self highlightSyntaxInRange:NSMakeRange(0,[I_textStorage length])];
+            [self highlightSyntaxInRange:NSMakeRange(0,[fts length])];
         } else {
-            [[I_documentMode syntaxHighlighter] cleanUpTextStorage:I_textStorage];
-            [I_textStorage addAttributes:[self plainTextAttributes]
-                                   range:NSMakeRange(0,[I_textStorage length])];
+            [[I_documentMode syntaxHighlighter] cleanUpTextStorage:fts];
+            [fts addAttributes:[self plainTextAttributes]
+                                   range:NSMakeRange(0,[fts length])];
         }
     }
 }
@@ -5252,11 +5645,13 @@ static NSString *S_measurementUnits;
     [self setHighlightsSyntax:![self highlightsSyntax]];
 }
 
+// this method expects ranges of the fulltextstorage
 - (void)highlightSyntaxInRange:(NSRange)aRange {
     if (I_flags.highlightSyntax) {
-        NSRange range=NSIntersectionRange(aRange,NSMakeRange(0,[I_textStorage length]));
+    	FullTextStorage *fts = [I_textStorage fullTextStorage];
+        NSRange range=NSIntersectionRange(aRange,NSMakeRange(0,[fts length]));
         if (range.length>0) {
-            [I_textStorage removeAttribute:kSyntaxHighlightingIsCorrectAttributeName range:range];
+            [fts removeAttribute:kSyntaxHighlightingIsCorrectAttributeName range:range synchronize:NO];
             [[NSNotificationQueue defaultQueue]
                 enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentSyntaxColorizeNotification object:self]
                        postingStyle:NSPostWhenIdle
@@ -5291,9 +5686,12 @@ static NSString *S_measurementUnits;
         SyntaxHighlighter *highlighter=[I_documentMode syntaxHighlighter];
         if (highlighter) {
             if (!I_flags.syntaxHighlightingIsSuspended) {
-                if (![highlighter colorizeDirtyRanges:I_textStorage ofDocument:self]) {
+                if (![highlighter colorizeDirtyRanges:[I_textStorage fullTextStorage] ofDocument:self]) {
                     I_flags.textDidChangeSinceLastSyntaxHighlighting = NO;
                     [self performHighlightSyntax];
+                } else {
+                	// tell the gutter to show stuff
+					[[self plainTextEditors] makeObjectsPerformSelector:@selector(setNeedsDisplayForRuler) withObject:nil];
                 }
             } else {
                 [self performHighlightSyntax];
@@ -5337,7 +5735,7 @@ static NSString *S_measurementUnits;
         }
     }
 
-    [aState handleOperation:[SelectionOperation selectionOperationWithRange:[[[[self topmostWindowController] activePlainTextEditorForDocument:self] textView] selectedRange] userID:[TCMMMUserManager myUserID]]];
+    [aState handleOperation:[SelectionOperation selectionOperationWithRange:[[[self activePlainTextEditor] textView] selectedRange] userID:[TCMMMUserManager myUserID]]];
 }
 
 - (void)sessionDidDenyJoinRequest:(TCMMMSession *)aSession {
@@ -5393,8 +5791,10 @@ static NSString *S_measurementUnits;
     if ([[self windowControllers] count]>0) {
         [self TCM_generateNewSession];
         if (I_flags.isReceivingContent) {
+#if !defined(CODA)			
             PlainTextWindowController *controller=[[self windowControllers] objectAtIndex:0];
             [controller documentDidLoseConnection:self];
+#endif //!defined(CODA)			
         } else {
             NSAlert *alert = [[[NSAlert alloc] init] autorelease];
             [alert setAlertStyle:NSInformationalAlertStyle];
@@ -5437,8 +5837,10 @@ static NSString *S_measurementUnits;
     // this is slightly modified make window controllers code ...
     [self makeWindowControllers]; 
     PlainTextWindowController *windowController=[[self windowControllers] lastObject];
-    
+
+#if !defined(CODA)    
     [[windowController tabBar] updateViewsHack];
+#endif //!defined(CODA)	
     I_flags.isReceivingContent=YES;
     [windowController document:self isReceivingContent:YES];
     
@@ -5451,7 +5853,9 @@ static NSString *S_measurementUnits;
         [window setFrameTopLeftPoint:NSMakePoint(transientDocumentWindowFrame.origin.x, NSMaxY(transientDocumentWindowFrame))];
         [transientDocument close];
     } else if (![[windowController window] isVisible]) {
+#if !defined(CODA)		
         [windowController cascadeWindow];
+#endif //!defined(CODA)		
     }
     [I_documentProxyWindowController dissolveToWindow:[windowController window]];
     
@@ -5486,7 +5890,53 @@ static NSString *S_measurementUnits;
 }
 
 
+- (NSMutableDictionary *)stateDataBaseDictionary {
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSMutableDictionary *stateDictionary = [NSMutableDictionary dictionary];
+	PlainTextEditor *activeTextEditor = [self activePlainTextEditor];
+	DocumentMode *mode = [self documentMode];
 
+	NSRange selectionRange = [I_textStorage fullRangeForFoldedRange:[[activeTextEditor textView] selectedRange]];
+	
+	if ([defaults boolForKey:DocumentStateSaveAndLoadSelectionKey]) {
+		[stateDictionary setObject:[NSDictionary dictionaryWithObjectsAndKeys:
+			[NSNumber numberWithUnsignedInt:selectionRange.location],@"p", //position
+			[NSNumber numberWithUnsignedInt:selectionRange.length]  ,@"l", //length
+			nil] forKey:@"s"];
+	}
+	
+	
+	if ([defaults boolForKey:DocumentStateSaveAndLoadWindowPositionKey]) {
+		NSRect windowFrame = [[[activeTextEditor textView] window] frame];
+		
+		[stateDictionary setObject:[NSDictionary dictionaryWithObjectsAndKeys:
+			[NSNumber numberWithInt:windowFrame.origin.x],@"x", //x
+			[NSNumber numberWithInt:windowFrame.origin.y],@"y", //y
+			[NSNumber numberWithInt:windowFrame.size.width],@"w", //w
+			[NSNumber numberWithInt:windowFrame.size.height],@"h", //h
+			nil] forKey:@"p"]; // window position
+	}
+
+	if ([defaults boolForKey:DocumentStateSaveAndLoadTabSettingKey]) {
+		BOOL documentValue = [self usesTabs];
+		BOOL modeValue = [[mode defaultForKey:DocumentModeUseTabsPreferenceKey] boolValue];
+			
+		[stateDictionary setObject:[NSNumber numberWithInt:[self lineEnding]] forKey:@"e"];
+	
+		if (((documentValue && !modeValue) || (!documentValue && modeValue)) ||
+			([self tabWidth] != [[mode defaultForKey:DocumentModeTabWidthPreferenceKey] intValue])) {
+			NSDictionary *tabValuesDictionary = [NSDictionary dictionaryWithObjectsAndKeys:
+				[NSNumber numberWithInt:documentValue ? 1 : 0],@"u",
+				[NSNumber numberWithInt:[self tabWidth]],@"w",
+			nil];
+			[stateDictionary setObject:tabValuesDictionary forKey:@"t"];
+		}
+	}
+
+	return stateDictionary;
+}
+
+// this is the data stored in the seetext file format
 - (NSDictionary *)documentState {
     NSMutableDictionary *result = [[self sessionInformation] mutableCopy];
     [result removeObjectForKey:@"FileType"]; // don't save the filetype in a seetext
@@ -5498,6 +5948,12 @@ static NSString *S_measurementUnits;
                forKey:DocumentModeShowInvisibleCharactersPreferenceKey];
     [result setObject:[NSNumber numberWithBool:[self highlightsSyntax]]
                forKey:DocumentModeHighlightSyntaxPreferenceKey];
+
+    NSMutableDictionary *stateDictionary = [self stateDataBaseDictionary];
+
+	if ([stateDictionary count]) {
+		[result setObject:stateDictionary forKey:@"stateDataDictionary"];
+	}
     
     return result;
 }
@@ -5517,7 +5973,73 @@ static NSString *S_measurementUnits;
     value = [aDocumentState objectForKey:DocumentModeLineEndingPreferenceKey];
     if (value) [self setValue:value forKey:@"lineEnding"];
     
+    value = [aDocumentState objectForKey:@"stateDataDictionary"];
+    if ([value isKindOfClass:[NSDictionary class]]) {
+    	I_stateDictionaryFromLoading = [value retain];	
+    }    
 }
+
+// this is the data stored in the extended attributes - which differs from the seetext format data
+// used keys:
+//  p: window position (window Frame as (dict with x,y,w,h))
+//  l: textstorage length (to check if folding data may be applied)
+//  f: foldingData
+//  s: selection (in full text range)
+//  m: document mode identifier
+//  e: line ending
+//  w: wraps lines - 0:no 1:wordwrap 2:characterwrap
+//  t: tabsettings (dict with w:<int> u:0|1)
+//  g: shows gutter
+
+- (NSData *)stateData {
+	NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+	NSMutableDictionary *stateDictionary = [self stateDataBaseDictionary];
+	PlainTextEditor *activeTextEditor = [self activePlainTextEditor];
+		
+	DocumentMode *mode = [self documentMode];
+		
+	if ([defaults boolForKey:DocumentStateSaveAndLoadDocumentModeKey]) {
+		if (![mode isBaseMode]) {
+			// save the mode if it is not the base mode
+			[stateDictionary setObject:[[self documentMode] documentModeIdentifier] forKey:@"m"];
+		}
+	}
+	
+	BOOL documentValue = NO;
+	BOOL modeValue = NO;
+	
+	if ([defaults boolForKey:DocumentStateSaveAndLoadWrapSettingKey]) {
+		documentValue = [self wrapLines];
+		modeValue = [[mode defaultForKey:DocumentModeWrapLinesPreferenceKey] boolValue];
+		if ((documentValue && !modeValue) || (!documentValue && modeValue)) {
+			NSNumber *wrapSetting = [NSNumber numberWithInt:0];
+			if (documentValue) {
+				wrapSetting = [NSNumber numberWithInt:[self wrapMode]==DocumentModeWrapModeCharacters ? 2 : 1];
+			}
+			[stateDictionary setObject:wrapSetting forKey:@"w"];
+		}
+	}
+	
+	documentValue = [activeTextEditor showsGutter];
+	modeValue = [[mode defaultForKey:DocumentModeShowLineNumbersPreferenceKey] boolValue];
+	if ((documentValue && !modeValue) || (!documentValue && modeValue)) {
+		[stateDictionary setObject:[NSNumber numberWithInt:documentValue ? 1 : 0] forKey:@"g"];
+	}
+		
+	if ([defaults boolForKey:DocumentStateSaveAndLoadFoldingStateKey]) {
+		[stateDictionary setObject:[NSNumber numberWithUnsignedInt:[[I_textStorage fullTextStorage] length]] forKey:@"l"]; // characterlength
+		NSData *foldingStateData = [I_textStorage dataRepresentationOfFoldedRangesWithMaxDepth:-1];
+		if (foldingStateData && [foldingStateData length]) {
+			[stateDictionary setObject:foldingStateData forKey:@"f"]; // foldingstatedata
+		}
+	}
+	
+	// here we could check our xtended attribute data for length and use less depth with the foldings 
+//	NSLog(@"%s %@",__FUNCTION__,stateDictionary);
+	return TCM_BencodedObject(stateDictionary);
+}
+
+
 
 - (void)setFileName:(NSString *)fileName {
     [super setFileName:fileName];
@@ -5529,12 +6051,12 @@ static NSString *S_measurementUnits;
 
 - (NSDictionary *)textStorageDictionaryRepresentation
 {
-    return [(TextStorage *)[self textStorage] dictionaryRepresentation];
+    return [(FoldableTextStorage *)[self textStorage] dictionaryRepresentation];
 }
 
 - (void)setContentByDictionaryRepresentation:(NSDictionary *)aRepresentation {
     I_flags.isRemotelyEditingTextStorage=YES;
-    TextStorage *textStorage=(TextStorage *)[self textStorage];
+    FoldableTextStorage *textStorage=(FoldableTextStorage *)[self textStorage];
     [textStorage setContentByDictionaryRepresentation:[aRepresentation objectForKey:@"TextStorage"]];
     NSRange wholeRange=NSMakeRange(0,[textStorage length]);
     [textStorage addAttributes:[self plainTextAttributes] range:wholeRange];
@@ -5604,23 +6126,38 @@ static NSString *S_measurementUnits;
 }
 
 
+- (PlainTextEditor *)activePlainTextEditor {
+#if defined(CODA)
+	return [[self topmostWindowController] activePlainTextEditor];
+#else
+    return [[self topmostWindowController] activePlainTextEditorForDocument:self];
+#endif //defined(CODA)		
+
+}
+
+
 - (NSArray *)plainTextEditors {
     NSMutableArray *result = [NSMutableArray array];
     NSEnumerator *windowControllers = [[self windowControllers] objectEnumerator];
     PlainTextWindowController *windowController;
-    while ((windowController = [windowControllers nextObject])) {
-        [result addObjectsFromArray:[windowController plainTextEditorsForDocument:self]];
-    }
+    while ((windowController = [windowControllers nextObject])) 
+	{
+#if defined(CODA)		
+		[result addObjectsFromArray:[windowController plainTextEditors]];
+#else
+		[result addObjectsFromArray:[windowController plainTextEditorsForDocument:self]];
+#endif //defined(CODA)
+	}
     return result;
 }
 
 - (BOOL)handleOperation:(TCMMMOperation *)aOperation {
     if ([[aOperation operationID] isEqualToString:[TextOperation operationID]]) {
         TextOperation *operation=(TextOperation *)aOperation;
-        TextStorage *textStorage=(TextStorage *)[self textStorage];
+		FullTextStorage *fullTextStorage = [I_textStorage fullTextStorage];
     
         // check validity of operation
-        if (NSMaxRange([operation affectedCharRange])>[textStorage length]) {
+        if (NSMaxRange([operation affectedCharRange])>[fullTextStorage length]) {
             NSLog(@"User tried to change text outside the document bounds:%@ %@",operation,[[TCMMMUserManager sharedInstance] userForUserID:[operation userID]]);
             return NO;
         }
@@ -5638,17 +6175,17 @@ static NSString *S_measurementUnits;
             }
         }
 
-        [textStorage beginEditing];
+        [fullTextStorage beginEditing];
         NSRange newRange=NSMakeRange([operation affectedCharRange].location,
                                      [[operation replacementString] length]);
-        [textStorage replaceCharactersInRange:[operation affectedCharRange]
+        [fullTextStorage replaceCharactersInRange:[operation affectedCharRange]
                                    withString:[operation replacementString]];
-        [textStorage addAttribute:WrittenByUserIDAttributeName value:[operation userID]
+        [fullTextStorage addAttribute:WrittenByUserIDAttributeName value:[operation userID]
                             range:newRange];
-        [textStorage addAttribute:ChangedByUserIDAttributeName value:[operation userID]
+        [fullTextStorage addAttribute:ChangedByUserIDAttributeName value:[operation userID]
                             range:newRange];
-        [textStorage addAttributes:[textStorage attributeDictionaryByAddingStyleAttributesForInsertLocation:newRange.location toDictionary:[self plainTextAttributes]] range:newRange];
-        [textStorage endEditing];
+        [fullTextStorage addAttributes:[fullTextStorage attributeDictionaryByAddingStyleAttributesForInsertLocation:newRange.location toDictionary:[self plainTextAttributes]] range:newRange];
+        [fullTextStorage endEditing];
 
 
         if (I_flags.isRemotelyEditingTextStorage) {
@@ -5683,11 +6220,35 @@ static NSString *S_measurementUnits;
     return YES;
 }
 
+- (void)undoManagerDidPerformUndoGroupWithLastOperation:(TextOperation *)aOperation {
+	// adjust selection to be after the changed character or if it was more than one character select the whole text
+	NSTextView *textView = [[self activePlainTextEditor] textView];
+	NSRange rangeToSelect = NSMakeRange([aOperation affectedCharRange].location,[[aOperation replacementString] length]);
+	if ([[self documentUndoManager] isRedoing]) {
+		rangeToSelect.location += rangeToSelect.length;
+		rangeToSelect.length = 0;
+	}
+	[textView setSelectedRange:[I_textStorage foldedRangeForFullRange:rangeToSelect]];
+	[textView scrollRangeToVisible:[textView selectedRange]];
+}
+
+
 #pragma mark -
 #pragma mark ### TextStorage Delegate Methods ###
-- (void)textStorage:(NSTextStorage *)aTextStorage willReplaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString {
+
+- (void)textStorageDidChangeNumberOfTopLevelFoldings:(FoldableTextStorage *)aFoldableTextStorage {
+	// currently just ensure the gutter updates
+	[[self plainTextEditors] makeObjectsPerformSelector:@selector(setNeedsDisplayForRuler) withObject:nil];
+}
+
+// these delegate methods return ranges regarding the fullTextStorage, and also return it
+
+- (void)textStorage:(FullTextStorage *)aTextStorage willReplaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString {
 //    NSLog(@"textStorage:%@ willReplaceCharactersInRange:%@ withString:%@",aTextStorage,NSStringFromRange(aRange),aString);
+	[I_session setLastReplacedAttributedString:[aTextStorage attributedSubstringFromRange:aRange]];
     if (!I_flags.isRemotelyEditingTextStorage && !I_flags.isReadingFile && !I_flags.isHandlingUndoManually) {
+    	FullTextStorage *fullTextStorage = (FullTextStorage *)aTextStorage;
+    
         TextOperation *operation=[TextOperation textOperationWithAffectedCharRange:aRange replacementString:aString userID:(NSString *)[TCMMMUserManager myUserID]];
         UndoManager *undoManager=[self documentUndoManager];
         BOOL shouldGroup=YES;
@@ -5695,33 +6256,34 @@ static NSString *S_measurementUnits;
             shouldGroup=[operation shouldBeGroupedWithTextOperation:I_lastRegisteredUndoOperation];
         }
         [undoManager registerUndoChangeTextInRange:NSMakeRange(aRange.location,[aString length])
-                     replacementString:[[aTextStorage string] substringWithRange:aRange] shouldGroupWithPriorOperation:shouldGroup];
+                     replacementString:[[fullTextStorage string] substringWithRange:aRange] shouldGroupWithPriorOperation:shouldGroup];
         [I_lastRegisteredUndoOperation release];
         I_lastRegisteredUndoOperation = [operation retain];
     }
 }
 
-- (void)textStorage:(NSTextStorage *)aTextStorage didReplaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString {
+
+- (void)textStorage:(FullTextStorage *)aTextStorage didReplaceCharactersInRange:(NSRange)aRange withString:(NSString *)aString {
 //    NSLog(@"textStorage:%@ didReplaceCharactersInRange:%@ withString:%@\n\n%d==%d?",aTextStorage,NSStringFromRange(aRange),aString, [aTextStorage length], [aString length]);
+
+	FullTextStorage *fullTextStorage = (FullTextStorage *)aTextStorage;
     TextOperation *textOp=[TextOperation textOperationWithAffectedCharRange:aRange replacementString:aString userID:[TCMMMUserManager myUserID]];
     if (!I_flags.isRemotelyEditingTextStorage) {
         [[self session] documentDidApplyOperation:textOp];
     } 
     
-    if ([aTextStorage length]==[aString length]) {
-        [aTextStorage addAttributes:[self plainTextAttributes] range:NSMakeRange(0,[aString length])];
+    if ([fullTextStorage length]==[aString length]) { // complete replacement needs basic attributes set again
+        [fullTextStorage addAttributes:[self plainTextAttributes] range:NSMakeRange(0,[aString length])];
     }
 
     if (I_flags.highlightSyntax) {
         if ([aString length]) {
             NSRange range=NSMakeRange(aRange.location,[aString length]);
+//            NSLog(@"%s %@",__FUNCTION__, NSStringFromRange(range));
             [self highlightSyntaxInRange:range];
         } else {
             unsigned length=[aTextStorage length];
             NSRange range=NSMakeRange(aRange.location!=0?aRange.location-1:aRange.location,length>=2?2:1);
-            if (length>=NSMaxRange(range)) {
-                [aTextStorage removeAttribute:kSyntaxHighlightingIsCorrectAttributeName range:range];
-            }
             [self highlightSyntaxInRange:range];
         }
     }
@@ -5773,6 +6335,11 @@ static NSString *S_measurementUnits;
     if (didChangeAParticipant) {
         [self TCM_sendPlainTextDocumentParticipantsDataDidChangeNotification];
     }
+
+	if ([aString length] == 0) {
+		// deletion happend and has nasty layout not being done bugs, so let us invalidate some characters after the change
+		[self invalidateLayoutForRange:NSMakeRange(aRange.location,2)];
+	}
 
 // transform SymbolTable if there
     NSEnumerator *entries=[I_symbolArray objectEnumerator];
@@ -5828,15 +6395,17 @@ static NSString *S_measurementUnits;
                forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
 }
 
-- (NSDictionary *)blockeditAttributesForTextStorage:(TextStorage *)aTextStorage {
+- (NSDictionary *)blockeditAttributesForTextStorage:(FoldableTextStorage *)aTextStorage {
     return [self blockeditAttributes];
 }
 
-- (void)textStorageDidStartBlockedit:(TextStorage *)aTextStorage {
+- (void)textStorageDidStartBlockedit:(FoldableTextStorage *)aTextStorage {
+//	NSLog(@"%s",__FUNCTION__);
     [[self plainTextEditors] makeObjectsPerformSelector:@selector(TCM_updateStatusBar)];
 }
 
-- (void)textStorageDidStopBlockedit:(TextStorage *)aTextStorage {
+- (void)textStorageDidStopBlockedit:(FoldableTextStorage *)aTextStorage {
+//	NSLog(@"%s",__FUNCTION__);
     [[self plainTextEditors] makeObjectsPerformSelector:@selector(TCM_updateStatusBar)];
 }
 
@@ -5862,7 +6431,7 @@ static NSString *S_measurementUnits;
     NSRange affectedRange=[aTextView rangeForUserTextChange];
     NSRange selectedRange=[aTextView selectedRange];
     if (aSelector==@selector(cancel:)) {
-        TextStorage *textStorage=(TextStorage *)[self textStorage];
+        FoldableTextStorage *textStorage=(FoldableTextStorage *)[self textStorage];
         if ([textStorage hasBlockeditRanges]) {
             [textStorage stopBlockedit];
             return YES;
@@ -5899,7 +6468,8 @@ static NSString *S_measurementUnits;
                     deleteRange.location=affectedRange.location-toDelete;
                     deleteRange.length  =affectedRange.location-deleteRange.location;
                     if ([aTextView shouldChangeTextInRange:deleteRange replacementString:@""]) {
-                        [[aTextView textStorage] replaceCharactersInRange:deleteRange withString:@""];
+                    	NSTextStorage *textStorage = [aTextView textStorage];
+                        [textStorage replaceCharactersInRange:deleteRange withString:@""];
                         [aTextView didChangeText];
                     }
                     return YES;
@@ -5936,7 +6506,7 @@ static NSString *S_measurementUnits;
         } else if ((aSelector==@selector(moveLeft:)    || aSelector==@selector(moveRight:) || 
                     aSelector==@selector(moveForward:) || aSelector==@selector(moveBackward:)) &&
                     I_flags.showMatchingBrackets) {
-            unsigned int position=0;
+            NSUInteger position=0;
             if (aSelector==@selector(moveLeft:) || aSelector==@selector(moveBackward:)) {
                 position=selectedRange.location-1;
             } else {
@@ -5956,7 +6526,7 @@ static NSString *S_measurementUnits;
 - (NSRange)textView:(NSTextView *)aTextView
            willChangeSelectionFromCharacterRange:(NSRange)aOldSelectedCharRange
                                 toCharacterRange:(NSRange)aNewSelectedCharRange {
-    TextStorage *textStorage = (TextStorage *)[aTextView textStorage];
+    FoldableTextStorage *textStorage = (FoldableTextStorage *)[aTextView textStorage];
     if (![textStorage isBlockediting] && [textStorage hasBlockeditRanges] && !I_flags.isRemotelyEditingTextStorage && ![[self documentUndoManager] isPerformingGroup]) {
         if ([textStorage length]==0) {
             [textStorage stopBlockedit];
@@ -5990,10 +6560,54 @@ static NSString *S_measurementUnits;
                                               inTextContainer:[aTextView textContainer]];
         NSRect    glyphRect=[layoutManager boundingRectForGlyphRange:NSMakeRange(glyphIndex, 1)
                                                      inTextContainer:[aTextView textContainer]];
-        if (NSPointInRect(point, glyphRect)) {
+        
+#if defined(CODA)
+		// This makes it so it will match if you click past the end or beginning of the document
+		if (NSPointInRect(point, glyphRect) || (glyphIndex == 0) || (glyphIndex == ([layoutManager numberOfGlyphs] - 1)))
+#else
+		if (NSPointInRect(point, glyphRect))	
+#endif //defined(CODA)
+		{			
             // Convert the glyph index to a character index
-            unsigned charIndex=[layoutManager characterIndexForGlyphAtIndex:glyphIndex];
-            NSString *string=[[self textStorage] string];
+            NSUInteger charIndex=[layoutManager characterIndexForGlyphAtIndex:glyphIndex];
+            NSString *string=[[self textStorage] string];			
+#if defined(CODA)
+			// This change makes it so double clicking the space before or after 
+			// a bracket initiates matching
+			
+			if ( charIndex < [string length] )
+			{
+				NSUInteger positionToMatch = NSNotFound;
+				unichar clickedChar = [string characterAtIndex:charIndex];
+				
+				if ( [self TCM_charIsBracket:clickedChar] )
+				{
+					positionToMatch = charIndex;
+				}
+				else
+				{
+					if ( (charIndex > 0) && [self TCM_charIsBracket:[string characterAtIndex:(charIndex - 1)]] )
+					{
+						positionToMatch = (charIndex - 1);
+					}
+					else if ( (charIndex < ([string length] - 1)) && [self TCM_charIsBracket:[string characterAtIndex:(charIndex + 1)]] )
+					{
+						positionToMatch = (charIndex + 1);
+					}
+				}
+				
+				if ( positionToMatch != NSNotFound ) 
+				{
+					NSUInteger matchingPosition = [self TCM_positionOfMatchingBracketToPosition:positionToMatch];
+					
+					if ( matchingPosition != NSNotFound ) 
+					{
+						aNewSelectedCharRange = NSUnionRange(NSMakeRange(positionToMatch,1),
+															 NSMakeRange(matchingPosition,1));
+					}
+				}
+			}
+#else			
             if ([self TCM_charIsBracket:[string characterAtIndex:charIndex]] && [self TCM_validTypeForBracketAtIndex:charIndex]) {
                 unsigned matchingPosition=[self TCM_positionOfMatchingBracketToPosition:charIndex];
                 if (matchingPosition!=NSNotFound) {
@@ -6001,6 +6615,7 @@ static NSString *S_measurementUnits;
                                                         NSMakeRange(matchingPosition,1));
                 }
             }
+#endif //defined(CODA)			
         }
     }
 
@@ -6011,20 +6626,33 @@ static NSString *S_measurementUnits;
 - (void)textViewDidChangeSelection:(NSNotification *)aNotification {
     if (!I_flags.isRemotelyEditingTextStorage) {
         NSTextView *textView=(NSTextView *)[aNotification object];
-        NSRange selectedRange = [textView selectedRange];
+        NSRange selectedRange = [I_textStorage fullRangeForFoldedRange:[textView selectedRange]];
         SelectionOperation *selOp = [SelectionOperation selectionOperationWithRange:selectedRange userID:[TCMMMUserManager myUserID]];
         [[self session] documentDidApplyOperation:selOp];
         [self TCM_sendPlainTextDocumentParticipantsDataDidChangeNotification];
     }
 }
 
+- (BOOL)didPauseBecauseOfMarkedText {
+	return I_flags.isRemotelyEditingTextStorage;
+}
+
+
 - (BOOL)textView:(NSTextView *)aTextView shouldChangeTextInRange:(NSRange)aAffectedCharRange replacementString:(NSString *)aReplacementString {
-    TextStorage *textStorage=(TextStorage *)[aTextView textStorage];
+    FoldableTextStorage *textStorage=(FoldableTextStorage *)[aTextView textStorage];
     if ([aTextView hasMarkedText] && !I_flags.didPauseBecauseOfMarkedText) {
         //NSLog(@"paused because of marked...");
         I_flags.didPauseBecauseOfMarkedText=YES;
         [[self session] pauseProcessing];
+//        [[self documentUndoManager] beginUndoGrouping];
+//		NSLog(@"%s beginning marked text undo group",__FUNCTION__);
+
     }
+
+	// record this change for possible later use
+	 I_lastTextShouldChangeReplacementRange = aAffectedCharRange;
+	[I_lastTextShouldChangeReplacementString release];
+	 I_lastTextShouldChangeReplacementString = [aReplacementString copy];
 
     UndoManager *undoManager=[self documentUndoManager];
     if ([textStorage hasBlockeditRanges] && ![textStorage isBlockediting] &&
@@ -6102,15 +6730,58 @@ static NSString *S_measurementUnits;
 
 - (void)textDidChange:(NSNotification *)aNotification {
     NSTextView *textView=[aNotification object];
+    FoldableTextStorage *textStorage = (FoldableTextStorage *) [textView textStorage];
+    BOOL cancelBlockEdit = NO;
+
     if (I_flags.didPauseBecauseOfMarkedText && textView && ![textView hasMarkedText]) {
         //NSLog(@"started because of marked... in did change");
         I_flags.didPauseBecauseOfMarkedText=NO;
+
+		
+		// check change for conformance
+		if ((![I_lastTextShouldChangeReplacementString canBeConvertedToEncoding:[self fileEncoding]])) {
+//			NSLog(@"%s %@ %@",__FUNCTION__,NSStringFromRange(I_lastTextShouldChangeReplacementRange),I_lastTextShouldChangeReplacementString);
+			cancelBlockEdit = YES;
+			
+			// undo last change
+			[textStorage replaceCharactersInRange:NSMakeRange(I_lastTextShouldChangeReplacementRange.location,[I_lastTextShouldChangeReplacementString length]) withString:@""];
+			
+			NSLog(@"%s %@",__FUNCTION__,textStorage);
+			
+			// show sheet
+			TCMMMSession *session=[self session];
+			if ([session isServer] && [session participantCount]<=1) {
+				NSMutableDictionary *contextInfo = [[NSMutableDictionary alloc] init];
+				[contextInfo setObject:@"ShouldPromoteAlert" forKey:@"Alert"];
+				[contextInfo setObject:textView forKey:@"TextView"];
+				[contextInfo setObject:[[I_lastTextShouldChangeReplacementString copy] autorelease] forKey:@"ReplacementString"];
+				[contextInfo autorelease];
+		
+				NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+				[alert setAlertStyle:NSWarningAlertStyle];
+				[alert setMessageText:NSLocalizedString(@"You are trying to insert characters that cannot be handled by the file's current encoding. Do you want to cancel the change?", nil)];
+				[alert setInformativeText:[NSLocalizedString(@"You are no longer restricted by the file's current encoding if you promote to a Unicode encoding.", nil) stringByAppendingString:[NSString stringWithFormat:@"\n%@ ->\n%@",I_lastTextShouldChangeReplacementString,[NSString stringWithData:[I_lastTextShouldChangeReplacementString dataUsingEncoding:[self fileEncoding] allowLossyConversion:YES] encoding:[self fileEncoding]]]]];
+				[alert addButtonWithTitle:NSLocalizedString(@"Insert", nil)];
+				[alert addButtonWithTitle:NSLocalizedString(@"Promote to UTF8", nil)];
+				[alert addButtonWithTitle:NSLocalizedString(@"Promote to Unicode", nil)];
+				[[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
+				[alert beginSheetModalForWindow:[textView window]
+								  modalDelegate:self
+								 didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
+									contextInfo:[contextInfo retain]];
+			} else {
+				NSBeep();
+			}
+		}
+//		NSLog(@"%s ending marked text undo group",__FUNCTION__);
+//		[[self documentUndoManager] endUndoGrouping];
+
+
         [[self session] startProcessing];
 //        DEBUGLOG(@"MillionMonkeysDomain",AlwaysLogLevel,@"start");
     }
 
 
-    TextStorage *textStorage = (TextStorage *) [textView textStorage];
     // take care for blockedit
 
     if (![textStorage didBlockedit]) {
@@ -6120,7 +6791,7 @@ static NSString *S_measurementUnits;
         }
     }
     
-    if ([textStorage didBlockedit] && ![textStorage isBlockediting] && ![textView hasMarkedText]) {
+    if ([textStorage didBlockedit] && ![textStorage isBlockediting] && ![textView hasMarkedText] && !cancelBlockEdit) {
         [textStorage beginEditing];
         NSRange lineRange=[textStorage didBlockeditLineRange];
         NSRange selectedRange=[textView selectedRange];
@@ -6253,9 +6924,11 @@ static NSString *S_measurementUnits;
 
 - (void)handleBeginUndoGroupCommand:(NSScriptCommand *)command {
     [[self documentUndoManager] beginUndoGrouping];
+	[I_textStorage beginEditing];
 }
 
 - (void)handleEndUndoGroupCommand:(NSScriptCommand *)command {
+	[I_textStorage endEditing];
     [[self documentUndoManager] endUndoGrouping];
 }
 
@@ -6280,7 +6953,7 @@ static NSString *S_measurementUnits;
     NSMutableString *mutableString = [aString mutableCopy];
     [mutableString convertLineEndingsToLineEndingString:[self lineEndingString]];
 
-    NSTextStorage *textStorage = [self textStorage];
+    FullTextStorage *textStorage = [(FoldableTextStorage *)[self textStorage] fullTextStorage];
     [textStorage replaceCharactersInRange:aRange withString:mutableString];
     if ([mutableString length] > 0) {
         [textStorage addAttributes:[self typingAttributes] 
@@ -6289,14 +6962,14 @@ static NSString *S_measurementUnits;
     
     [mutableString release];
     
-    if (I_flags.highlightSyntax) {
-        [self highlightSyntaxInRange:NSMakeRange(0, [I_textStorage length])];
-    }
+//    if (I_flags.highlightSyntax) {
+//        [self highlightSyntaxInRange:NSMakeRange(0, [[I_textStorage fullTextStorage] length])];
+//    }
 
 }
 
 - (NSNumber *)uniqueID {
-    return [NSNumber numberWithUnsignedInt:(unsigned int)self];
+    return [NSNumber numberWithUnsignedInt:(uintptr_t)self];
 }
 
 - (id)objectSpecifier {
@@ -6406,16 +7079,16 @@ static NSString *S_measurementUnits;
 }
 
 - (void)setScriptedContents:(id)value {
-    [self replaceTextInRange:NSMakeRange(0,[I_textStorage length]) withString:value];
+    [self replaceTextInRange:NSMakeRange(0,[[I_textStorage fullTextStorage] length]) withString:value];
 }
 
-- (TextStorage *)scriptedPlainContents {
-    return (TextStorage *)I_textStorage;
+- (FoldableTextStorage *)scriptedPlainContents {
+    return (FoldableTextStorage *)I_textStorage;
 }
 
 - (void)setScriptedPlainContents:(id)value {
     if ([value isKindOfClass:[NSString class]]) {
-        [self replaceTextInRange:NSMakeRange(0, [I_textStorage length]) withString:value];
+        [self replaceTextInRange:NSMakeRange(0, [[I_textStorage fullTextStorage] length]) withString:value];
     }
 }
 
@@ -6452,12 +7125,12 @@ static NSString *S_measurementUnits;
 
 - (id)scriptSelection {
     if ([self isProxyDocument]) return nil;
-    return [[[self topmostWindowController] activePlainTextEditorForDocument:self] scriptSelection];
+    return [[self activePlainTextEditor] scriptSelection];
 }
 
 - (void)setScriptSelection:(id)aSelection {
     if ([self isProxyDocument]) return;
-    [[[self topmostWindowController] activePlainTextEditorForDocument:self] setScriptSelection:aSelection];
+    [[self activePlainTextEditor] setScriptSelection:aSelection];
 }
 
 - (NSArray *)orderedWindows {
@@ -6498,8 +7171,8 @@ static NSString *S_measurementUnits;
 #ifndef TCM_NO_DEBUG
 
 - (void)createThumbnail:(id)aSender {
-    NSTextView *myTextView = [[[self topmostWindowController] activePlainTextEditorForDocument:self] textView];
-    [myTextView setDrawsBackground:NO];
+    NSTextView *myTextView = [[self activePlainTextEditor] textView];
+	[myTextView setDrawsBackground:NO];
     NSRect rectToCache = [myTextView frame];
     NSBitmapImageRep *rep = [myTextView bitmapImageRepForCachingDisplayInRect:rectToCache];
     [myTextView cacheDisplayInRect:[myTextView frame] toBitmapImageRep:rep];

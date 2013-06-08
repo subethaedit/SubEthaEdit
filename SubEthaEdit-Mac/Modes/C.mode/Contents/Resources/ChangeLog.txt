@@ -1,3 +1,6 @@
+Changes with Version 3.5  (SEE 3.5)
+	 *) added code folding
+
 Changes with Version 1.5 (SEE 2.5.1)
 
     *) added artwork for open counterpart in c and c++ mode

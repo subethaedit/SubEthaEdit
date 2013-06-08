@@ -11,7 +11,7 @@
 #import "PlainTextDocument.h"
 #import "DocumentMode.h"
 #import "PlainTextEditor.h"
-#import "TextStorage.h"
+#import "FoldableTextStorage.h"
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "TCMMMUserSEEAdditions.h"
 #import "SelectionOperation.h"
@@ -27,11 +27,16 @@
 #import "SEEDocumentDialog.h"
 #import "EncodingDoctorDialog.h"
 #import "DocumentController.h"
+#if !defined(CODA)
 #import "PlainTextWindowControllerTabContext.h"
+#endif //!defined(CODA)
 #import "NSMenuTCMAdditions.h"
 #import "PlainTextLoadProgress.h"
+#if !defined(CODA)
 #import <PSMTabBarControl/PSMTabBarControl.h>
 #import <PSMTabBarControl/PSMTabStyle.h>
+#import "URLBubbleWindow.h"
+#endif //!defined(CODA)
 #import <objc/objc-runtime.h>			// for objc_msgSend
 
 
@@ -60,7 +65,9 @@ NSString * const ToggleAnnouncementToolbarItemIdentifier =
 NSString * const ToggleShowInvisibleCharactersToolbarItemIdentifier = 
                @"ToggleShowInvisibleCharactersToolbarItemIdentifier";
 
+#if !defined(CODA)
 static NSPoint S_cascadePoint = {0.0,0.0};
+#endif //!defined(CODA)
 
 static int KickButtonStateMask=1;
 static int ReadOnlyButtonStateMask=2;
@@ -88,8 +95,8 @@ static NSAttributedString *S_dragString = nil;
 
 - (void)validateUpperDrawer;
 
-- (void)insertObject:(NSDocument *)document inDocumentsAtIndex:(unsigned int)index;
-- (void)removeObjectFromDocumentsAtIndex:(unsigned int)index;
+- (void)insertObject:(NSDocument *)document inDocumentsAtIndex:(NSUInteger)index;
+- (void)removeObjectFromDocumentsAtIndex:(NSUInteger)index;
 @end
 
 #pragma mark -
@@ -126,8 +133,10 @@ static NSAttributedString *S_dragString = nil;
         [item setTarget:self];
         [item setTag:ParticipantContextMenuTagKickDeny];
         [I_contextMenu setDelegate:self];
-        
-        [self setShouldCascadeWindows:NO];
+    
+#if !defined(CODA)
+		[self setShouldCascadeWindows:NO];
+#endif //!defined(CODA)
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateForPortMapStatus) name:TCMPortMapperDidFinishWorkNotification object:[TCMPortMapper sharedInstance]];
     }
     return self;
@@ -163,12 +172,14 @@ static NSAttributedString *S_dragString = nil;
     [I_documents release];
     I_documents = nil;
 
-    [I_tabBar setDelegate:nil];
-    [I_tabBar setTabView:nil];
-    [I_tabView setDelegate:nil];
-    [I_tabBar release];
-    [I_tabView release];
-
+#if !defined(CODA)
+	[I_tabBar setDelegate:nil];
+	[I_tabBar setTabView:nil];
+	[I_tabView setDelegate:nil];
+	[I_tabBar release];
+	[I_tabView release];
+#endif //!defined(CODA)	
+	 
     [[DocumentController sharedInstance] updateTabMenu];
             
     [super dealloc];
@@ -243,9 +254,11 @@ static NSAttributedString *S_dragString = nil;
                                                object:nil];
 
     [[[self window] contentView] setAutoresizesSubviews:YES];
-    NSRect contentFrame = [[[self window] contentView] frame];
 
-    I_tabBar = [[PSMTabBarControl alloc] initWithFrame:NSMakeRect(0.0, NSHeight(contentFrame) - 22.0, NSWidth(contentFrame), 22.0)];
+#if !defined(CODA)
+	NSRect contentFrame = [[[self window] contentView] frame];
+	 
+	I_tabBar = [[PSMTabBarControl alloc] initWithFrame:NSMakeRect(0.0, NSHeight(contentFrame) - 22.0, NSWidth(contentFrame), 22.0)];
     [I_tabBar setAutoresizingMask:NSViewWidthSizable | NSViewMinYMargin];
     [I_tabBar setStyleNamed:@"PF"];
     [[[self window] contentView] addSubview:I_tabBar];
@@ -262,7 +275,8 @@ static NSAttributedString *S_dragString = nil;
     [I_tabBar hideTabBar:!shouldHideTabBar animate:NO];
 //    [I_tabBar setCellOptimumWidth:160];
 //    [I_tabBar setCellMinWidth:120];
-
+#endif //!defined(CODA)
+	
 	NSMutableParagraphStyle *paragraphStyle = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
     [paragraphStyle setAlignment:NSCenterTextAlignment];
     [paragraphStyle setFirstLineHeadIndent:30.];
@@ -302,6 +316,7 @@ static NSAttributedString *S_dragString = nil;
     [[self plainTextEditors] makeObjectsPerformSelector:@selector(takeSettingsFromDocument)];
 }
 
+#if !defined(CODA)
 - (NSTabViewItem *)tabViewItemForDocument:(PlainTextDocument *)document
 {
     unsigned count = [I_tabView numberOfTabViewItems];
@@ -315,12 +330,14 @@ static NSAttributedString *S_dragString = nil;
     }
     return nil;
 }
+#endif //!defined(CODA)
 
 - (void)document:(PlainTextDocument *)document isReceivingContent:(BOOL)flag;
 {
     if (![[self documents] containsObject:document])
         return;
         
+#if !defined(CODA)
     NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
     if (tabViewItem) {
         PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
@@ -356,9 +373,11 @@ static NSAttributedString *S_dragString = nil;
             }
         }
     }
+#endif //!defined(CODA)
 }
 
 - (void)documentDidLoseConnection:(PlainTextDocument *)document {
+#if !defined(CODA)
     NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
     if (tabViewItem) {
         PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
@@ -368,6 +387,50 @@ static NSAttributedString *S_dragString = nil;
         [loadProgress stopAnimation];
         [loadProgress setStatusText:NSLocalizedString(@"Did lose Connection!", @"Text in Proxy window")];
     }
+#endif //!defined(CODA)
+}
+
+- (void)setWindowFrame:(NSRect)aFrame constrainedToScreen:(NSScreen *)aScreen display:(BOOL)aFlag {
+	if (!aScreen) {
+		// search for a screen that fits most of the frame
+		NSEnumerator *screens = [[NSScreen screens] objectEnumerator];
+		NSScreen *screen = nil;
+		double overlapArea = -1.0;
+		while ((screen = [screens nextObject])) {
+			NSRect intersectionRect = NSIntersectionRect(aFrame, [screen frame]);
+			double thisOverlapArea = intersectionRect.size.width * intersectionRect.size.height;
+			if (thisOverlapArea > overlapArea) {
+				aScreen = screen;
+				overlapArea = thisOverlapArea;
+			}
+		}
+		// only do that when we don't have an associated screen
+		NSRect targetScreenVisibleFrame = [aScreen visibleFrame];
+		if (NSWidth(targetScreenVisibleFrame) < NSWidth(aFrame)) {
+			aFrame.size.width = targetScreenVisibleFrame.size.width;
+		}
+		if (NSMinX(targetScreenVisibleFrame) > NSMinX(aFrame)) {
+			aFrame.origin.x += NSMinX(targetScreenVisibleFrame) - NSMinX(aFrame);
+		}
+		if (NSMaxX(targetScreenVisibleFrame) < NSMaxX(aFrame)) {
+			aFrame.origin.x -= NSMaxX(aFrame) - NSMaxX(targetScreenVisibleFrame);
+		}
+		I_doNotCascade = YES;
+	}
+
+    if (aScreen) {
+        NSRect visibleFrame=[aScreen visibleFrame];
+        if (NSHeight(aFrame)>NSHeight(visibleFrame)) {
+            float heightDiff=aFrame.size.height-visibleFrame.size.height;
+            aFrame.origin.y+=heightDiff;
+            aFrame.size.height-=heightDiff;
+        }
+        if (NSMinY(aFrame)<NSMinY(visibleFrame)) {
+            float positionDiff=NSMinY(visibleFrame)-NSMinY(aFrame);
+            aFrame.origin.y+=positionDiff;
+        }
+    }
+    [[self window] setFrame:aFrame display:YES];
 }
 
 - (void)setSizeByColumns:(int)aColumns rows:(int)aRows {
@@ -383,19 +446,8 @@ static NSAttributedString *S_dragString = nil;
     contentRect.size=contentSize;
     NSRect frameRect=[window frameRectForContentRect:contentRect];
     NSScreen *screen=[[self window] screen];
-    if (screen) {
-        NSRect visibleFrame=[screen visibleFrame];
-        if (NSHeight(frameRect)>NSHeight(visibleFrame)) {
-            float heightDiff=frameRect.size.height-visibleFrame.size.height;
-            frameRect.origin.y+=heightDiff;
-            frameRect.size.height-=heightDiff;
-        }
-        if (NSMinY(frameRect)<NSMinY(visibleFrame)) {
-            float positionDiff=NSMinY(visibleFrame)-NSMinY(frameRect);
-            frameRect.origin.y+=positionDiff;
-        }
-    }
-    [[self window] setFrame:frameRect display:YES];
+    [self setWindowFrame:frameRect constrainedToScreen:screen display:YES];
+    
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
@@ -421,8 +473,10 @@ static NSAttributedString *S_dragString = nil;
                            NSLocalizedString(@"Collapse Split View",@"Collapse Split View Menu Entry")];
         
         BOOL isReceivingContent = NO;
+#if !defined(CODA)		
         NSTabViewItem *tabViewItem = [self tabViewItemForDocument:[self document]];
         if (tabViewItem) isReceivingContent = [[tabViewItem identifier] isReceivingContent];
+#endif //!defined(CODA)		
         return !isReceivingContent;
     } else if (selector == @selector(changePendingUsersAccess:)) {
         TCMMMSession *session=[(PlainTextDocument *)[self document] session];
@@ -436,19 +490,27 @@ static NSAttributedString *S_dragString = nil;
     } else if (selector == @selector(openInSeparateWindow:)) {
         return ([[self documents] count] > 1);
     } else if (selector == @selector(selectNextTab:)) {
+#if !defined(CODA)
         if ([self hasManyDocuments]) 
             return YES;
         else
+#endif //!defined(CODA)
             return NO;
     } else if (selector == @selector(selectPreviousTab:)) {
+#if !defined(CODA)
         if ([self hasManyDocuments]) 
             return YES;
         else
+#endif //!defined(CODA)
             return NO;    
     } else if (selector == @selector(showDocumentAtIndex:)) {
         int documentNumberToShow = [[menuItem representedObject] intValue];
         id document = nil;
+#if defined(CODA)
+		NSArray *documents = [self documents];
+#else
         NSArray *documents = [self orderedDocuments];
+#endif //defined(CODA)
         if ([documents count] > documentNumberToShow) {
             document = [documents objectAtIndex:documentNumberToShow];
             if ([document isDocumentEdited]) {
@@ -489,7 +551,8 @@ static NSAttributedString *S_dragString = nil;
 }
 
 - (PlainTextEditor *)activePlainTextEditorForDocument:(PlainTextDocument *)aDocument {
-    NSTabViewItem *tabViewItem = [self tabViewItemForDocument:aDocument];
+#if !defined(CODA)
+	NSTabViewItem *tabViewItem = [self tabViewItemForDocument:aDocument];
     if (tabViewItem) {
         PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
         NSArray *plainTextEditors = [tabContext plainTextEditors];
@@ -506,31 +569,36 @@ static NSAttributedString *S_dragString = nil;
             return [plainTextEditors objectAtIndex:0];
         }
     }
-    return nil;
+#endif //!defined(CODA)
+	return nil;
 }
 
 
 #pragma mark -
 
 - (void)gotoLine:(unsigned)aLine {
-    NSRange range=[(TextStorage *)[[self document] textStorage] findLine:aLine];
-    [self selectRange:range];
+	PlainTextEditor *activeEditor = [self activePlainTextEditor];
+	[activeEditor gotoLine:aLine];
 }
 
+// selects a range of the fulltextstorage
 - (void)selectRange:(NSRange)aRange {
-    NSTextView *aTextView=[[self activePlainTextEditor] textView];
-    NSRange range=RangeConfinedToRange(aRange,NSMakeRange(0,[[aTextView textStorage] length]));
-    [aTextView setSelectedRange:range];
-    [aTextView scrollRangeToVisible:range];
-    if (!NSEqualRanges(range,aRange)) NSBeep();
+	PlainTextEditor *activeEditor = [self activePlainTextEditor];
+	[activeEditor selectRange:aRange];
+}
+
+- (void)selectRangeInBackground:(NSRange)aRange {
+	PlainTextEditor *activeEditor = [self activePlainTextEditor];
+	[activeEditor selectRangeInBackground:aRange];
 }
 
 #pragma mark -
 
 - (IBAction)openInSeparateWindow:(id)sender
 {
+#if !defined(CODA)
     PlainTextDocument *document = [self document];
-    unsigned int documentIndex = [[self documents] indexOfObject:document];
+    NSUInteger documentIndex = [[self documents] indexOfObject:document];
     NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
     
     [tabViewItem retain];
@@ -576,6 +644,7 @@ static NSAttributedString *S_dragString = nil;
     if ([O_participantsDrawer state] == NSDrawerOpenState) {
         [windowController openParticipantsDrawer:self];
     }
+#endif //!defined(CODA)
 }
 
 - (BOOL)showsBottomStatusBar {
@@ -622,13 +691,13 @@ static NSAttributedString *S_dragString = nil;
             buttonState |= FollowUserStateMask;
         }
         NSMutableIndexSet *rows=[[selectedRows mutableCopy] autorelease];
-        unsigned int row=NSNotFound;
+        NSUInteger row=NSNotFound;
         NSDictionary *participants=[session participants];
         for (row=[rows firstIndex];row!=NSNotFound;row=[rows firstIndex]) {
             ItemChildPair pair=[O_participantsView itemChildPairAtRow:row];
             if (pair.childIndex!=-1) {
                 if (pair.itemIndex==0) {
-                    if (pair.childIndex<[[participants objectForKey:@"ReadWrite"] count]) {
+                    if (pair.childIndex<[(NSArray*)[participants objectForKey:@"ReadWrite"] count]) {
                         if ([[[[participants objectForKey:@"ReadWrite"] objectAtIndex:pair.childIndex] userID] isEqualToString:[TCMMMUserManager myUserID]]) {
                             return 0;
                         } else {
@@ -640,7 +709,7 @@ static NSAttributedString *S_dragString = nil;
                     }
                     buttonState |= KickStateMask;
                 } else if (pair.itemIndex==1) {
-                    if (pair.childIndex<[[participants objectForKey:@"ReadOnly"] count]) {
+                    if (pair.childIndex<[(NSArray*)[participants objectForKey:@"ReadOnly"] count]) {
                         buttonState = buttonState | ReadWriteButtonStateMask;
                     } else {
                         buttonState &= ~FollowUserStateMask;
@@ -720,7 +789,7 @@ static NSAttributedString *S_dragString = nil;
         NSMutableArray *userIDsToKick=[NSMutableArray array];
         NSMutableArray *userIDsToCancelInvitation=[NSMutableArray array];
         NSMutableIndexSet *rows=[[[O_participantsView selectedRowIndexes] mutableCopy] autorelease];
-        unsigned int row=NSNotFound;
+        NSUInteger row=NSNotFound;
         NSDictionary *participants=[session participants];
         NSDictionary *invitedUsers=[session invitedUsers];
         for (row=[rows firstIndex];row!=NSNotFound;row=[rows firstIndex]) {
@@ -728,13 +797,13 @@ static NSAttributedString *S_dragString = nil;
             if (pair.childIndex!=-1) {
                 if (pair.itemIndex!=2) {
                     NSString *group=(pair.itemIndex==0)?@"ReadWrite":@"ReadOnly";
-                    if ([[participants objectForKey:group] count]>pair.childIndex) {
+                    if ([(NSArray*)[participants objectForKey:group] count]>pair.childIndex) {
                         NSString *userID=[[[participants objectForKey:group] objectAtIndex:pair.childIndex] userID];
                         if (![userID isEqualToString:[TCMMMUserManager myUserID]]) {
                             [userIDsToKick addObject:userID];
                         }
                     } else {
-                        [userIDsToCancelInvitation addObject:[[[invitedUsers objectForKey:group] objectAtIndex:pair.childIndex-[[participants objectForKey:group] count]] userID]];
+                        [userIDsToCancelInvitation addObject:[[[invitedUsers objectForKey:group] objectAtIndex:pair.childIndex-[(NSArray*)[participants objectForKey:group] count]] userID]];
                     }
                 } else {
                     [pendingUsersIndexSet addIndex:pair.childIndex];
@@ -767,7 +836,7 @@ static NSAttributedString *S_dragString = nil;
         NSMutableIndexSet *pendingUsersIndexSet=[NSMutableIndexSet indexSet];
         NSMutableArray *userIDsToChangeGroup=[NSMutableArray array];
         NSMutableIndexSet *rows=[[[O_participantsView selectedRowIndexes] mutableCopy] autorelease];
-        unsigned int row=NSNotFound;
+        NSUInteger row=NSNotFound;
         NSDictionary *participants=[session participants];
         NSArray *readWriteArray=[participants objectForKey:@"ReadWrite"];
         for (row=[rows firstIndex];row!=NSNotFound;row=[rows firstIndex]) {
@@ -804,7 +873,7 @@ static NSAttributedString *S_dragString = nil;
         NSMutableIndexSet *pendingUsersIndexSet=[NSMutableIndexSet indexSet];
         NSMutableArray *userIDsToChangeGroup=[NSMutableArray array];
         NSMutableIndexSet *rows=[[[O_participantsView selectedRowIndexes] mutableCopy] autorelease];
-        unsigned int row=NSNotFound;
+        NSUInteger row=NSNotFound;
         NSDictionary *participants=[session participants];
         NSArray *readOnlyArray=[participants objectForKey:@"ReadOnly"];
         for (row=[rows firstIndex];row!=NSNotFound;row=[rows firstIndex]) {
@@ -914,33 +983,11 @@ static NSAttributedString *S_dragString = nil;
 
 
 - (IBAction)jumpToNextSymbol:(id)aSender {
-    TextView *textView = (TextView *)[[self activePlainTextEditor] textView];
-    NSRange change = [[self document] rangeOfPrevious:NO 
-                                       symbolForRange:NSMakeRange(NSMaxRange([textView selectedRange]),0)];
-    if (change.location == NSNotFound) {
-        NSBeep();
-    } else {
-        [textView setSelectedRange:change];
-        [textView scrollRangeToVisible:change];
-        if ([textView respondsToSelector:@selector(showFindIndicatorForRange:)]) {
-            [textView showFindIndicatorForRange:change];
-        } 
-    }
+    [[self activePlainTextEditor] jumpToNextSymbol:aSender];
 }
 
 - (IBAction)jumpToPreviousSymbol:(id)aSender {
-    TextView *textView = (TextView *)[[self activePlainTextEditor] textView];
-    NSRange change = [[self document] rangeOfPrevious:YES 
-                                       symbolForRange:NSMakeRange([textView selectedRange].location,0)];
-    if (change.location == NSNotFound) {
-        NSBeep();
-    } else {
-        [textView setSelectedRange:change];
-        [textView scrollRangeToVisible:change];
-        if ([textView respondsToSelector:@selector(showFindIndicatorForRange:)]) {
-            [textView showFindIndicatorForRange:change];
-        } 
-    }
+    [[self activePlainTextEditor] jumpToPreviousSymbol:aSender];
 }
 
 
@@ -1262,8 +1309,10 @@ static NSAttributedString *S_dragString = nil;
 - (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName document:(PlainTextDocument *)document {
     TCMMMSession *session = [document session];
     
-    NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
+#if !defined(CODA)	
+	NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
     if (tabViewItem) [tabViewItem setLabel:displayName];
+#endif //defined(CODA)	
  
     if ([[document ODBParameters] objectForKey:@"keyFileCustomPath"]) {
         displayName = [[document ODBParameters] objectForKey:@"keyFileCustomPath"];
@@ -1272,7 +1321,7 @@ static NSAttributedString *S_dragString = nil;
         int count = [pathComponents count];
         if (count != 0) {
             NSMutableString *result = [NSMutableString string];
-            int i = count;
+            int i = 0;
             int pathComponentsToShow = [[NSUserDefaults standardUserDefaults] integerForKey:AdditionalShownPathComponentsPreferenceKey] + 1;
             for (i = count-1; i >= 1 && i > count-pathComponentsToShow-1; i--) {
                 if (i != count-1) {
@@ -1373,8 +1422,8 @@ static NSAttributedString *S_dragString = nil;
     return NO;
 }
 
-- (float)splitView:(NSSplitView *)aSplitView constrainSplitPosition:(float)proposedPosition 
-       ofSubviewAt:(int)offset {
+- (CGFloat)splitView:(NSSplitView *)aSplitView constrainSplitPosition:(CGFloat)proposedPosition 
+       ofSubviewAt:(NSInteger)offset {
 
     float height=[aSplitView frame].size.height;
     float minHeight=(aSplitView==I_dialogSplitView) ? SPLITMINHEIGHTDIALOG : SPLITMINHEIGHTTEXT;;
@@ -1419,23 +1468,33 @@ static NSAttributedString *S_dragString = nil;
     [I_dialogSplitView setNeedsDisplay:YES];
     
     if (timeSinceStart >= timeInterval) {
+#if !defined(CODA)		
         NSTabViewItem *tabViewItem = [self tabViewItemForDocument:[self document]];
+#endif //!defined(CODA)		
         if (![[info objectForKey:@"type"] isEqualToString:@"BlindDown"]) {
+#if !defined(CODA)			
             NSTabViewItem *tab = [I_tabView selectedTabViewItem];
             [tab setView:[[I_dialogSplitView subviews] objectAtIndex:1]];
+#endif //!defined(CODA)			
             I_dialogSplitView = nil;
             
+#if !defined(CODA)			
             if (tabViewItem) [[tabViewItem identifier] setDialogSplitView:nil];
+#endif //!defined(CODA)			
                          
             NSSize minSize = [[self window] contentMinSize];
             minSize.height -= 100;
             minSize.width -= 63;
             [[self window] setContentMinSize:minSize];
+#if !defined(CODA)			
             if (tabViewItem) [[tabViewItem identifier] setDocumentDialog:nil];
+#endif //!defined(CODA)			
             I_documentDialog = nil;
             [[self window] makeFirstResponder:[[self activePlainTextEditor] textView]];
         } else {
+#if !defined(CODA)			
             if (tabViewItem) [[self window] makeFirstResponder:[[self documentDialog] initialFirstResponder]];
+#endif //!defined(CODA)			
         }
         [dialogView setAutoresizesSubviews:YES];
         [I_dialogAnimationTimer invalidate];
@@ -1448,21 +1507,29 @@ static NSAttributedString *S_dragString = nil;
     [aDocumentDialog setDocument:[self document]];
     if (aDocumentDialog) {
         if (!I_dialogSplitView) {
+#if !defined(CODA)			
             NSTabViewItem *tab = [self tabViewItemForDocument:[self document]];
+#endif //!defined(CODA)			
             
             //NSView *contentView = [[[self window] contentView] retain];
+#if !defined(CODA)			
             NSView *tabItemView = [[tab view] retain];
+#endif //!defined(CODA)			
             NSView *dialogView = [aDocumentDialog mainView];
             //I_dialogSplitView = [[SplitView alloc] initWithFrame:[contentView frame]];
+#if !defined(CODA)			
             I_dialogSplitView = [[[SplitView alloc] initWithFrame:[tabItemView frame]] autorelease];
             
             [[tab identifier] setDialogSplitView:I_dialogSplitView];
-
+#endif //!defined(CODA)
+			
             [(SplitView *)I_dialogSplitView setDividerThickness:3.];
             NSRect mainFrame = [dialogView frame];
             //[[self window] setContentView:I_dialogSplitView];
+#if !defined(CODA)			
             [tab setView:I_dialogSplitView];
-            
+#endif //!defined(CODA)          
+			
             [I_dialogSplitView setIsPaneSplitter:YES];
             [I_dialogSplitView setDelegate:self];
             [I_dialogSplitView addSubview:dialogView];
@@ -1474,7 +1541,9 @@ static NSAttributedString *S_dragString = nil;
             [dialogView setAutoresizesSubviews:NO];
             [dialogView setFrame:mainFrame];
             //[I_dialogSplitView addSubview:[contentView autorelease]];
+#if !defined(CODA)			
             [I_dialogSplitView addSubview:[tabItemView autorelease]];
+#endif //!defined(CODA)			
             NSSize minSize = [[self window] contentMinSize];
             minSize.height+=100;
             minSize.width+=63;
@@ -1497,12 +1566,14 @@ static NSAttributedString *S_dragString = nil;
         }
         //[I_documentDialog autorelease];
         //I_documentDialog = [aDocumentDialog retain];
-        
+    
+#if !defined(CODA)		
         NSTabViewItem *tabViewItem = [self tabViewItemForDocument:[self document]];
-        if (tabViewItem) {
+         if (tabViewItem) {
             [[tabViewItem identifier] setDocumentDialog:aDocumentDialog];
             I_documentDialog = aDocumentDialog;
         }
+#endif //!defined(CODA)
     } else if (!aDocumentDialog && I_dialogSplitView) {
         [[[I_dialogSplitView subviews] objectAtIndex:0] setAutoresizesSubviews:NO];
         I_dialogAnimationTimer = [[NSTimer scheduledTimerWithTimeInterval:0.01 
@@ -1521,6 +1592,7 @@ static NSAttributedString *S_dragString = nil;
     [self setDocumentDialog:[[[EncodingDoctorDialog alloc] initWithEncoding:NSASCIIStringEncoding] autorelease]];
 }
 
+#if !defined(CODA)
 - (IBAction)toggleSplitView:(id)aSender {
     if ([I_plainTextEditors count]==1) {
         NSTabViewItem *tab = [I_tabView selectedTabViewItem];
@@ -1591,6 +1663,7 @@ static NSAttributedString *S_dragString = nil;
     }
     [[self window] makeFirstResponder:textView];
 }
+#endif //!defined(CODA)
 
 #pragma mark -
 #pragma mark ### ParticipantsView data source methods ###
@@ -1607,11 +1680,11 @@ static NSAttributedString *S_dragString = nil;
         NSDictionary *participants=[session participants];
         NSDictionary *invitedUsers=[session invitedUsers];
         if (anItemIndex==0) {
-            return [[participants objectForKey:@"ReadWrite"] count] + 
-                   [[invitedUsers objectForKey:@"ReadWrite"] count];
+            return [(NSArray*)[participants objectForKey:@"ReadWrite"] count] + 
+                   [(NSArray*)[invitedUsers objectForKey:@"ReadWrite"] count];
         } else if (anItemIndex==1) {
-            return [[participants objectForKey:@"ReadOnly"] count] + 
-                   [[invitedUsers objectForKey:@"ReadOnly"] count];
+            return [(NSArray*)[participants objectForKey:@"ReadOnly"] count] + 
+                   [(NSArray*)[invitedUsers objectForKey:@"ReadOnly"] count];
         } else if (anItemIndex==2) {
             return [[session pendingUsers] count];
         }
@@ -1658,7 +1731,7 @@ static NSAttributedString *S_dragString = nil;
         int participantCount=0;
         if (anItemIndex==0 || anItemIndex==1) {
             NSString *group=(anItemIndex==0)?@"ReadWrite":@"ReadOnly";
-            participantCount=[[participants objectForKey:group] count];
+            participantCount=[(NSArray*)[participants objectForKey:group] count];
             if (aChildIndex < participantCount) {
                 user=[[participants objectForKey:group] objectAtIndex:aChildIndex];
             } else {
@@ -1687,10 +1760,10 @@ static NSAttributedString *S_dragString = nil;
                     // (void)NSLocalizedString(@"DeclinedInvitation", @"Declined Invitation");
                     result=NSLocalizedString(status,@"<do not localize>");
                 } else if ([[user userID] isEqualToString:[TCMMMUserManager myUserID]]) {
-                    result =[(TextStorage *)[document textStorage] 
+                    result =[(FoldableTextStorage *)[document textStorage] 
                             positionStringForRange:[[[self activePlainTextEditor] textView] selectedRange]];
                 } else if (selectionOperation) {
-                    result =[(TextStorage *)[document textStorage] positionStringForRange:[selectionOperation selectedRange]];
+                    result =[[(FoldableTextStorage *)[document textStorage] fullTextStorage] positionStringForRange:[selectionOperation selectedRange]];
                 }
                 return [[[NSAttributedString alloc] initWithString:result attributes:attributes] autorelease];
             } else if (aTag==ParticipantsChildImageTag) {
@@ -1723,10 +1796,10 @@ static NSAttributedString *S_dragString = nil;
         TCMMMUser *user=nil;
         if (anItemIndex<2) {
             NSString *group = anItemIndex==0?@"ReadWrite":@"ReadOnly";
-            if ([[participants objectForKey:group] count]>aChildIndex) {
+            if ([(NSArray*)[participants objectForKey:group] count]>aChildIndex) {
                 user=[[participants objectForKey:group] objectAtIndex:aChildIndex];
             } else {
-                user=[[[session invitedUsers] objectForKey:group] objectAtIndex:aChildIndex-[[participants objectForKey:group] count]];
+                user=[[[session invitedUsers] objectForKey:group] objectAtIndex:aChildIndex-[(NSArray*)[participants objectForKey:group] count]];
             }
         } else if (anItemIndex==2) {
             user=[[session pendingUsers] objectAtIndex:aChildIndex];
@@ -1748,9 +1821,9 @@ static NSAttributedString *S_dragString = nil;
             
             if (user) {
                 [toolTipArray addObject:[user name]];
-                if ([[[user properties] objectForKey:@"AIM"] length] > 0)
+                if ([(NSString*)[[user properties] objectForKey:@"AIM"] length] > 0)
                     [toolTipArray addObject:[NSString stringWithFormat:@"AIM: %@",[[user properties] objectForKey:@"AIM"]]];
-                if ([[[user properties] objectForKey:@"Email"] length] > 0)
+                if ([(NSString*)[[user properties] objectForKey:@"Email"] length] > 0)
                     [toolTipArray addObject:[NSString stringWithFormat:@"Email: %@",[[user properties] objectForKey:@"Email"]]];
             }
             
@@ -1901,6 +1974,7 @@ static NSAttributedString *S_dragString = nil;
     // also make sure the tab menu is updated correctly
     [[DocumentController sharedInstance] updateTabMenu];
     
+#if !defined(CODA)
     NSTabViewItem *tabViewItem = [I_tabView selectedTabViewItem];
     if (tabViewItem) {
         PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
@@ -1909,6 +1983,7 @@ static NSAttributedString *S_dragString = nil;
             [tabContext setIsAlertScheduled:NO];
         }
     }
+#endif //!defined(CODA)
 }
 
 - (void)windowDidBecomeKey:(NSNotification *)aNotification
@@ -1956,15 +2031,19 @@ static NSAttributedString *S_dragString = nil;
 
 #pragma mark -
 
+#if !defined(CODA)
 - (void)cascadeWindow {
     NSWindow *window = [self window];
     S_cascadePoint = [window cascadeTopLeftFromPoint:S_cascadePoint];
     [window setFrameTopLeftPoint:S_cascadePoint];
 }
+#endif //!defined(CODA)
 
 - (IBAction)showWindow:(id)aSender {
-    if (![[self window] isVisible]) {
-        [self cascadeWindow];
+    if (![[self window] isVisible] && !I_doNotCascade) {
+#if !defined(CODA)		
+    	[self cascadeWindow];
+#endif //!defined(CODA)
     }
     [super showWindow:aSender];
     
@@ -1994,26 +2073,31 @@ static NSAttributedString *S_dragString = nil;
 }
 
 - (NSRect)dissolveToFrame {
-    if ([self hasManyDocuments] ||
-        ([PlainTextDocument transientDocument] && [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey])) {
-        NSWindow *window = [self window];
-        NSRect bounds = [[I_tabBar performSelector:@selector(lastVisibleTab)] frame];
-        bounds = [[window contentView] convertRect:bounds fromView:I_tabBar];
-        bounds.size.height += 25.;
-        bounds.origin.y -= 32.;
-        bounds = NSInsetRect(bounds,-8.,-9.);
-        bounds.origin.x +=1;
-        NSPoint point1 = bounds.origin;
-        NSPoint point2 = NSMakePoint(NSMaxX(bounds),NSMaxY(bounds));
-        point1 = [window convertBaseToScreen:point1];
-        point2 = [window convertBaseToScreen:point2];
-        bounds = NSMakeRect(MIN(point1.x,point2.x),MIN(point1.y,point2.y),ABS(point1.x-point2.x),ABS(point1.y-point2.y));
-        return bounds;
-    } else {
-        return NSOffsetRect(NSInsetRect([[self window] frame],-9.,-9.),0.,-4.);
-    }
+#if defined(CODA)
+	return [[self window] frame];
+#else
+	if ([self hasManyDocuments] ||
+	 ([PlainTextDocument transientDocument] && [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey])) {
+	 	NSWindow *window = [self window];
+		 NSRect bounds = [[I_tabBar performSelector:@selector(lastVisibleTab)] frame];
+		 bounds = [[window contentView] convertRect:bounds fromView:I_tabBar];
+		 bounds.size.height += 25.;
+		 bounds.origin.y -= 32.;
+		 bounds = NSInsetRect(bounds,-8.,-9.);
+		 bounds.origin.x +=1;
+		 NSPoint point1 = bounds.origin;
+		 NSPoint point2 = NSMakePoint(NSMaxX(bounds),NSMaxY(bounds));
+		 point1 = [window convertBaseToScreen:point1];
+		 point2 = [window convertBaseToScreen:point2];
+		 bounds = NSMakeRect(MIN(point1.x,point2.x),MIN(point1.y,point2.y),ABS(point1.x-point2.x),ABS(point1.y-point2.y));
+		 return bounds;
+	 } else {
+	 	return NSOffsetRect(NSInsetRect([[self window] frame],-9.,-9.),0.,-4.);
+	 }
+#endif //defined(CODA)	
 }
 
+#if !defined(CODA)
 - (void)documentUpdatedChangeCount:(PlainTextDocument *)document
 {
     NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
@@ -2030,7 +2114,7 @@ static NSAttributedString *S_dragString = nil;
     PlainTextDocument *document;
     while ((document = [enumerator nextObject]))
     {
-        unsigned int documentIndex = [[self documents] indexOfObject:document];
+        NSUInteger documentIndex = [[self documents] indexOfObject:document];
         NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
         
         [tabViewItem retain];
@@ -2202,6 +2286,7 @@ static NSAttributedString *S_dragString = nil;
         }
     }
 }
+#endif //!defined(CODA)
 
 - (void)reviewedDocument:(NSDocument *)doc shouldClose:(BOOL)shouldClose contextInfo:(void *)contextInfo
 {      
@@ -2210,7 +2295,7 @@ static NSAttributedString *S_dragString = nil;
     
     if (shouldClose) {
         NSArray *windowControllers = [doc windowControllers];
-        unsigned int windowControllerCount = [windowControllers count];
+        NSUInteger windowControllerCount = [windowControllers count];
         if (windowControllerCount > 1) {
             [self documentWillClose:doc];
             [self close];
@@ -2232,7 +2317,12 @@ static NSAttributedString *S_dragString = nil;
         unsigned count = [documents count];
         while (count--) {
             PlainTextDocument *document = [documents objectAtIndex:count];
-            if ([document isDocumentEdited] && [self selectTabForDocument:document]) {
+#if defined(CODA)
+			if ([document isDocumentEdited]) 
+#else
+            if ([document isDocumentEdited] && [self selectTabForDocument:document]) 
+#endif //defined(CODA)
+			{
                 [document canCloseDocumentWithDelegate:self
                                    shouldCloseSelector:@selector(reviewedDocument:shouldClose:contextInfo:)
                                            contextInfo:(void *)(@selector(reviewChangesAndQuitEnumeration:))];
@@ -2265,7 +2355,7 @@ static NSAttributedString *S_dragString = nil;
 
 #pragma mark  Private KVC-Compliance for Public Properties 
 
-- (void)insertObject:(NSDocument *)document inDocumentsAtIndex:(unsigned int)index
+- (void)insertObject:(NSDocument *)document inDocumentsAtIndex:(NSUInteger)index
 {
     // Instantiate the documents array lazily.
     if (!I_documents) {
@@ -2275,7 +2365,7 @@ static NSAttributedString *S_dragString = nil;
 }
 
 
-- (void)removeObjectFromDocumentsAtIndex:(unsigned int)index
+- (void)removeObjectFromDocumentsAtIndex:(NSUInteger)index
 {
     // Instantiate the documents array lazily, if only to get a useful exception thrown.
     if (!I_documents) {
@@ -2288,6 +2378,7 @@ static NSAttributedString *S_dragString = nil;
 
 #pragma mark Simple Property Getting 
 
+#if !defined(CODA)
 - (NSArray *)orderedDocuments {
     NSMutableArray *result = [NSMutableArray array];
     NSEnumerator *tabViewItems = [[[self tabBar] representedTabViewItems] objectEnumerator];
@@ -2300,6 +2391,7 @@ static NSAttributedString *S_dragString = nil;
     }
     return result;
 }
+#endif //!defined(CODA)
 
 - (NSArray *)documents 
 {
@@ -2334,7 +2426,8 @@ static NSAttributedString *S_dragString = nil;
 
         I_editorSplitView = nil;
         I_dialogSplitView = nil;
-        
+
+#if !defined(CODA)        
         NSTabViewItem *tab = [[NSTabViewItem alloc] initWithIdentifier:tabContext];
         [tab setLabel:[document displayName]];
         [tab setView:[plainTextEditor editorView]];
@@ -2352,6 +2445,7 @@ static NSAttributedString *S_dragString = nil;
         }
         
         return tab;
+#endif //!defined(CODA)
     }
     return nil;
 }
@@ -2360,6 +2454,7 @@ static NSAttributedString *S_dragString = nil;
 {
     if (document == [self document]) {
         [super setDocument:document];
+#if !defined(CODA)
         NSTabViewItem *tabViewItem = [self tabViewItemForDocument:(PlainTextDocument *)document];
         if (tabViewItem) {
             PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
@@ -2367,8 +2462,12 @@ static NSAttributedString *S_dragString = nil;
             I_editorSplitView = [tabContext editorSplitView];
             I_dialogSplitView = [tabContext dialogSplitView];
         } 
+#endif //!defined(CODA)
         return;
     }
+	[[URLBubbleWindow sharedURLBubbleWindow] hideIfNecessary];
+
+    
     BOOL isNew = NO;
     [super setDocument:document];
     // A document has been told that this window controller belongs to it.
@@ -2378,14 +2477,16 @@ static NSAttributedString *S_dragString = nil;
         // Have we already recorded this document in our list?
         NSArray *documents = [self documents];
         if (![documents containsObject:document]) {
+#if !defined(CODA)
             // No. Record it, in a KVO-compliant way.
             NSTabViewItem *tab = [self addDocument:document];
             [I_tabView selectTabViewItem:tab];
             
             isNew = [I_tabView numberOfTabViewItems] == 1 ? YES : NO;
-            
+#endif //!defined(CODA)
         } else {
-            // document is already there
+#if !defined(CODA)
+			// document is already there
             NSTabViewItem *tabViewItem = [self tabViewItemForDocument:(PlainTextDocument *)document];
             if (tabViewItem) {
                 PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
@@ -2397,10 +2498,13 @@ static NSAttributedString *S_dragString = nil;
                 }
                 [I_tabView selectTabViewItem:tabViewItem];
             } else {
+#endif //!defined(CODA)				
                 I_plainTextEditors = nil;
                 I_editorSplitView = nil;
                 I_dialogSplitView = nil;
+#if !defined(CODA)				
             }
+#endif //!defined(CODA)			
         }
     } else {
         I_plainTextEditors = nil;
@@ -2516,10 +2620,12 @@ static NSAttributedString *S_dragString = nil;
     //NSLog(@"%s",__FUNCTION__);
     // A document is being closed, and trying to close this window controller. Is it the last document for this window controller?
     NSArray *documents = [self documents];
-    unsigned int oldDocumentCount = [documents count];
+    NSUInteger oldDocumentCount = [documents count];
     if (I_documentBeingClosed && oldDocumentCount > 1) {
+#if !defined(CODA)		
         NSTabViewItem *tabViewItem = [self tabViewItemForDocument:(PlainTextDocument *)I_documentBeingClosed];
         if (tabViewItem) [I_tabView removeTabViewItem:tabViewItem];
+#endif //!defined(CODA)		
     
         id document = nil;
         BOOL keepCurrentDocument = ![[self document] isEqual:I_documentBeingClosed];
@@ -2528,7 +2634,7 @@ static NSAttributedString *S_dragString = nil;
         [I_documentBeingClosed removeWindowController:self];
 
         // There are other documents open. Just remove the document being closed from our list.
-        unsigned int documentIndex = [documents indexOfObject:I_documentBeingClosed];
+        NSUInteger documentIndex = [documents indexOfObject:I_documentBeingClosed];
         [self removeObjectFromDocumentsAtIndex:documentIndex];
 
         I_documentBeingClosed = nil;
@@ -2536,7 +2642,7 @@ static NSAttributedString *S_dragString = nil;
         // If that was the current document (and it probably was) then pick another one. Don't forget that [self documents] has now changed.
         if (!keepCurrentDocument) {
             documents = [self documents];
-            unsigned int newDocumentCount = [documents count];
+            NSUInteger newDocumentCount = [documents count];
             if (documentIndex > (newDocumentCount - 1)) {
                 // We closed the last document in the list. Display the new last document.
                 documentIndex = newDocumentCount - 1;
@@ -2550,7 +2656,9 @@ static NSAttributedString *S_dragString = nil;
             [[I_documents objectAtIndex:0] removeWindowController:self];
             [self removeObjectFromDocumentsAtIndex:0];
         }
+#if !defined(CODA)		
         if ([I_tabView numberOfTabViewItems] > 0) [I_tabView removeTabViewItem:[I_tabView tabViewItemAtIndex:0]];
+#endif //!defined(CODA)
         [self setDocument:nil];
         
         [[DocumentController sharedDocumentController] removeWindowController:self];
@@ -2577,7 +2685,7 @@ static NSAttributedString *S_dragString = nil;
 {
     if (shouldClose) {
         NSArray *windowControllers = [doc windowControllers];
-        unsigned int windowControllerCount = [windowControllers count];
+        NSUInteger windowControllerCount = [windowControllers count];
         if (windowControllerCount > 1) {
             [self documentWillClose:doc];
             [self close];
@@ -2589,6 +2697,7 @@ static NSAttributedString *S_dragString = nil;
     }
 }
 
+#if !defined(CODA)
 - (BOOL)tabView:(NSTabView *)tabView shouldCloseTabViewItem:(NSTabViewItem *)tabViewItem
 {
     id document = [[tabViewItem identifier] document];
@@ -2624,7 +2733,7 @@ static NSAttributedString *S_dragString = nil;
 	return YES;
 }
 
-- (NSImage *)tabView:(NSTabView *)aTabView imageForTabViewItem:(NSTabViewItem *)tabViewItem offset:(NSSize *)offset styleMask:(unsigned int *)styleMask
+- (NSImage *)tabView:(NSTabView *)aTabView imageForTabViewItem:(NSTabViewItem *)tabViewItem offset:(NSSize *)offset styleMask:(NSUInteger *)styleMask
 {    
 	// grabs whole window image of the right tab
 	[[self window] disableFlushWindow];
@@ -2668,6 +2777,7 @@ static NSAttributedString *S_dragString = nil;
 	
 	return viewImage;
 }
+#endif //!defined(CODA)
 
 float ToolbarHeightForWindow(NSWindow *window)
 {
@@ -2688,6 +2798,7 @@ float ToolbarHeightForWindow(NSWindow *window)
     return toolbarHeight;
 }
 
+#if !defined(CODA)
 - (PSMTabBarControl *)tabView:(NSTabView *)aTabView newTabBarForDraggedTabViewItem:(NSTabViewItem *)tabViewItem atPoint:(NSPoint)point
 {
 	//create a new window controller with no tab items
@@ -2722,7 +2833,7 @@ float ToolbarHeightForWindow(NSWindow *window)
         
         PlainTextWindowController *windowController = (PlainTextWindowController *)[[tabBarControl window] windowController];
         id document = [[tabViewItem identifier] document];
-        unsigned int documentIndex = [[self documents] indexOfObject:document];
+        NSUInteger documentIndex = [[self documents] indexOfObject:document];
         [document retain];
         [document removeWindowController:self];
         [self removeObjectFromDocumentsAtIndex:documentIndex];
@@ -2782,5 +2893,6 @@ float ToolbarHeightForWindow(NSWindow *window)
     PlainTextDocument *document = [tabContext document];
     return [self windowTitleForDocumentDisplayName:[document displayName] document:document];
 }
+#endif //!defined(CODA)
 
 @end

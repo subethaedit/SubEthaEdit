@@ -12,6 +12,7 @@
 @interface DebugAttributeInspectorController : NSWindowController {
 
     IBOutlet NSArrayController *O_attributesContentController;
+    IBOutlet NSArrayController *O_foldingTextStorageAttributesContentController;
 
 }
 

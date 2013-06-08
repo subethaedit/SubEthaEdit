@@ -14,6 +14,7 @@
 #import "PlainTextDocument.h"
 #import "PlainTextWindowController.h"
 #import "GeneralPreferences.h"
+#import "NSScreenTCMAdditions.h"
 
 @interface NSWindow (NSWindowNonBlockingAnimationAdditions) 
 - (void)setFrameUsingNonBlockingAnimation:(NSRect)aFrame;
@@ -164,8 +165,8 @@
         // check current position against windows that are already there
         int maxHitCount = 0;
         
+		int currentHitCount = 0;
         while (YES) {
-            int currentHitCount;
             while (origin.y - windowFrame.size.height > NSMinY(screenRect)) {
                 currentHitCount = 0;
                 NSEnumerator *windows = [proxyWindowArray objectEnumerator];

@@ -18,14 +18,24 @@
 #import "NSMenuTCMAdditions.h"
 #import "StylePreferences.h"
 #import "GeneralPreferences.h"
-#import "TextStorage.h"
+#import "FoldableTextStorage.h"
 #import "NSSavePanelTCMAdditions.h"
 #import "MoreSecurity.h"
 #import "PlainTextWindowController.h"
+#if !defined(CODA)
 #import <PSMTabBarControl/PSMTabBarControl.h>
+#endif //!defined(CODA)
 #import <objc/objc-runtime.h>			// for objc_msgSend
 
 #import "BacktracingException.h"
+#if defined(CODA)
+#import "TSDocument.h"
+#import "TSDocumentWindowController.h"
+#import "TSPlainTextWrapper.h"
+#import "TSSplitController.h"
+#import "MoreCFQ.h" // prevent compiler warning
+#import <FTPKit/FTPKit.h> // for string category
+#endif //defined(CODA)
 
 @interface DocumentController (DocumentControllerPrivateAdditions)
 
@@ -39,6 +49,7 @@
 
 
 @implementation DocumentController (DocumentControllerPrivateAdditions)
+
 
 //- (void) _writeAutosaveRecords {
 //    NSLog(@"%s %@",__FUNCTION__,[BacktracingException backtrace]);
@@ -351,7 +362,11 @@ static NSString *tempFileName() {
         PlainTextWindowController *windowController = nil;
         BOOL firstWC = YES;
         while ((windowController=[windowControllers nextObject])) {
+#if defined(CODA)
+			NSEnumerator      *documents = [[windowController documents] objectEnumerator];
+#else
             NSEnumerator      *documents = [[windowController orderedDocuments] objectEnumerator];
+#endif //defined(CODA)
             PlainTextDocument *document = nil;
             if (!firstWC) {
                 [aMenu addItem:[NSMenuItem separatorItem]];
@@ -450,10 +465,10 @@ static NSString *tempFileName() {
     return result;
 }
 
-- (int)runModalOpenPanel:(NSOpenPanel *)openPanel forTypes:(NSArray *)extensions {
+- (NSInteger)runModalOpenPanel:(NSOpenPanel *)openPanel forTypes:(NSArray *)extensions {
     if (![NSBundle loadNibNamed:@"OpenPanelAccessory" owner:self])  {
         NSLog(@"Failed to load OpenPanelAccessory.nib");
-        return nil;
+        return NSCancelButton;
     }
         
     [O_modePopUpButton setHasAutomaticMode:YES];
@@ -526,12 +541,20 @@ static NSString *tempFileName() {
     return I_encodingFromLastRunOpenPanel;
 }
 
+#if defined(CODA)
+- (void)setDocumentsFromLastRunOpenPanel:(NSArray*)filenames
+{
+	if ( filenames )
+		[I_fileNamesFromLastRunOpenPanel addObjectsFromArray:filenames];
+}
+#endif //defined(CODA)
+
 - (NSString *)modeIdentifierFromLastRunOpenPanel {
     return I_modeIdentifierFromLastRunOpenPanel;
 }
 
 - (BOOL)isDocumentFromLastRunOpenPanel:(NSDocument *)aDocument {
-    int index = [I_fileNamesFromLastRunOpenPanel indexOfObject:[aDocument fileName]];
+    NSInteger index = [I_fileNamesFromLastRunOpenPanel indexOfObject:[aDocument fileName]];
     if (index == NSNotFound) {
         return NO;
     }
@@ -549,6 +572,8 @@ static NSString *tempFileName() {
     [alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"File operation error: %@ with file: %@", nil), [errorInfo objectForKey:@"Error"], [errorInfo objectForKey:@"Path"]]];
     [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
     (void)[alert runModal];
+	[alert release];
+	
     return YES;
 }
 
@@ -944,7 +969,7 @@ static NSString *tempFileName() {
             } else {
                 if (shouldJumpToLine) {
                     if (columnToGoTo!=-1) {
-                        NSRange lineRange = [(TextStorage *)[(PlainTextDocument *)document textStorage] findLine:lineToGoTo];
+                        NSRange lineRange = [(FoldableTextStorage *)[(PlainTextDocument *)document textStorage] findLine:lineToGoTo];
                         [(PlainTextDocument *)document selectRange:NSMakeRange(lineRange.location+columnToGoTo,selectionLength)];
                     } else {
                         [(PlainTextDocument *)document gotoLine:lineToGoTo];
@@ -985,7 +1010,7 @@ static NSString *tempFileName() {
             if ([properties objectForKey:@"encoding"] == nil && documentModeIdentifierArgument != nil) {
                 DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForName:documentModeIdentifierArgument];
                 if (mode) {
-                    unsigned int encodingNumber = [[mode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
+                    NSUInteger encodingNumber = [[mode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
                     if (encodingNumber < SmallestCustomStringEncoding) {
                         NSString *IANAName = (NSString *)CFStringConvertEncodingToIANACharSetName(CFStringConvertNSStringEncodingToEncoding(encodingNumber));
                         if (IANAName != nil) {
@@ -1068,7 +1093,7 @@ static NSString *tempFileName() {
             } else {
                 if (shouldJumpToLine) {
                     if (columnToGoTo!=-1) {
-                        NSRange lineRange = [(TextStorage *)[(PlainTextDocument *)document textStorage] findLine:lineToGoTo];
+                        NSRange lineRange = [(FoldableTextStorage *)[(PlainTextDocument *)document textStorage] findLine:lineToGoTo];
                         [(PlainTextDocument *)document selectRange:NSMakeRange(lineRange.location+columnToGoTo,selectionLength)];
                     } else {
                         [(PlainTextDocument *)document gotoLine:lineToGoTo];
@@ -1121,7 +1146,7 @@ static NSString *tempFileName() {
                               autorelease];
         }
         if (newFileContent) {
-            TextStorage *textStorage=(TextStorage *)[document textStorage];
+            FoldableTextStorage *textStorage=(FoldableTextStorage *)[document textStorage];
             [textStorage replaceCharactersInRange:NSMakeRange(0,[textStorage length]) withString:newFileContent];
             [document updateChangeCount:NSChangeCleared];
         }
@@ -1165,7 +1190,9 @@ static NSString *tempFileName() {
         while (--count >= 0) {
             PlainTextWindowController *sourceWindowController = [I_windowControllers objectAtIndex:count];
             if (sourceWindowController != targetWindowController) {
+#if !defined(CODA)
                 [sourceWindowController moveAllTabsToWindowController:targetWindowController];
+#endif //!defined(CODA)
                 [sourceWindowController close];
                 [self removeWindowController:sourceWindowController];
             }
@@ -1178,14 +1205,27 @@ static NSString *tempFileName() {
 
 #pragma mark -
 
+#if defined(CODA)
+#pragma pack(push, 2)
+#else
 #pragma options align=mac68k
+#endif //defined(CODA)
 struct ModificationInfo
 {
     FSSpec theFile; // identifies the file
+#if defined(CODA)
+    int32_t theDate; // the date/time the file was last modified
+    int16_t saved; // set this to zero when replying
+#else
     long theDate; // the date/time the file was last modified
     short saved; // set this to zero when replying
+#endif //defined(CODA)
 };
+#if defined(CODA)
+#pragma pack(pop)
+#else
 #pragma options align=reset
+#endif //defined(CODA)
 
 - (void)handleAppleEvent:(NSAppleEventDescriptor *)event withReplyEvent:(NSAppleEventDescriptor *)replyEvent {
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"handleAppleEvent: %@, withReplyEvent: %@", [event description], [replyEvent description]);
@@ -1288,6 +1328,7 @@ struct ModificationInfo
 
 #pragma mark -
 
+#if !defined(CODA)
 - (IBAction)alwaysShowTabBar:(id)sender
 {
     BOOL flag = ([sender state] == NSOnState) ? NO : YES;
@@ -1306,15 +1347,16 @@ struct ModificationInfo
     }
     
 }
+#endif //!defined(CODA)
 
 - (IBAction)goIntoBundles:(id)sender {
-    BOOL flag = ([sender state] == NSOffState) ? NO : YES;
+    BOOL flag = ((NSButton*)[sender state] == NSOffState) ? NO : YES;
     [I_openPanel setTreatsFilePackagesAsDirectories:flag];
     [[NSUserDefaults standardUserDefaults] setBool:flag forKey:@"GoIntoBundlesPrefKey"];
 }
 
 - (IBAction)showHiddenFiles:(id)sender {
-    BOOL flag = ([sender state] == NSOffState) ? NO : YES;
+    BOOL flag = ((NSButton*)[sender state] == NSOffState) ? NO : YES;
     if ([I_openPanel canShowHiddenFiles]) {
         [I_openPanel setInternalShowsHiddenFiles:flag];
     }
@@ -1393,6 +1435,16 @@ struct ModificationInfo
     [self closeAllDocumentsWithDelegate:nil didCloseAllSelector:NULL contextInfo:NULL];
 }
 
+#if defined(CODA)
+- (void)noteNewRecentDocumentURL:(NSURL*)aURL
+{
+	NSString *filePath = [aURL path];
+	
+	if ( ![filePath isChildOfPath:[[NSString tempFolder] normalizePath]] )
+		[super noteNewRecentDocumentURL:aURL];
+}
+#endif //defined(CODA)
+
 - (void)closeDocumentsStartingWith:(PlainTextDocument *)doc shouldClose:(BOOL)shouldClose closeAllContext:(void *)closeAllContext
 {
     // Iterate over unsaved documents, preserve closeAllContext to invoke it after the last document
@@ -1408,8 +1460,10 @@ struct ModificationInfo
             while (count--) {
                 PlainTextDocument *document = [documents objectAtIndex:count];
                 if ([document isDocumentEdited]) {
+#if !defined(CODA)
                     PlainTextWindowController *controller = [document topmostWindowController];
                     (void)[controller selectTabForDocument:document];
+#endif //!defined(CODA)
                     [document canCloseDocumentWithDelegate:self
                                        shouldCloseSelector:@selector(reviewedDocument:shouldClose:contextInfo:)
                                                contextInfo:closeAllContext];
@@ -1437,7 +1491,7 @@ struct ModificationInfo
     
     if (shouldClose) {
         NSArray *windowControllers = [doc windowControllers];
-        unsigned int windowControllerCount = [windowControllers count];
+        NSUInteger windowControllerCount = [windowControllers count];
         if (windowControllerCount > 1) {
             [windowController documentWillClose:doc];
             [windowController close];
@@ -1471,15 +1525,38 @@ struct ModificationInfo
 // note the "setServicesProvider:" in the applicationWillFinishLaunching method
 
 - (void)openSelection:(NSPasteboard *)pboard userData:(NSString *)data error:(NSString **)error {
+#if defined(CODA)
+	TSDocument			*document = [TSDocument frontmostDocument];
+	TSPlainTextWrapper	*wrapper = nil;
+	if ( !document ) 
+	{
+		document = (TSDocument *)[self openUntitledDocumentOfType:@"PlainTextType" display:YES];
+		wrapper = (TSPlainTextWrapper*)[[[document selectedSplitController] viewController] wrapper];
+	}
+	else
+	{
+		TSDocumentWindowController *wc = [document windowController];
+		TSTabController *tc = [wc addTabInBackground:NO];
+		wrapper = (TSPlainTextWrapper*)[[[tc selectedSplitController] viewController] wrapper];
+	}
+	[[[[wrapper plainTextEditors] objectAtIndex:0] textView] readSelectionFromPasteboard:pboard];
+	NSTextStorage *ts = [wrapper textStorage];
+#else
     PlainTextDocument *document = (PlainTextDocument *)[self openUntitledDocumentOfType:@"PlainTextType" display:YES];
     [[[[document plainTextEditors] objectAtIndex:0] textView] readSelectionFromPasteboard:pboard];
     // Workaround for when only RTF is on the drag pasteboard (e.g. when dragging text from safari on the SubEthaEditApplicationIcon)
     NSTextStorage *ts = [document textStorage];
+#endif //defined(CODA)
     [ts removeAttribute:NSBackgroundColorAttributeName range:NSMakeRange(0,[ts length])];
     [ts removeAttribute:NSLinkAttributeName range:NSMakeRange(0,[ts length])];
     DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForPath:@"" withContentString:[ts string]];
+#if defined(CODA)
+	[wrapper setDocumentMode:mode];
+	[wrapper clearChangeMarks:self];
+#else
     [(PlainTextDocument *)document setDocumentMode:mode];
     [document clearChangeMarks:self];
+#endif //defined(CODA)
 }
 
 @end

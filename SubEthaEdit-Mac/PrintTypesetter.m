@@ -13,7 +13,7 @@
 @implementation PrintTypesetter
 
 - (void)willSetLineFragmentRect:(NSRect *)lineFragmentRect forGlyphRange:(NSRange)glyphRange 
-        usedRect:(NSRect *)usedRect baselineOffset:(float *)baselineOffset {
+        usedRect:(NSRect *)usedRect baselineOffset:(CGFloat *)baselineOffset {
     NSLayoutManager *layout = [self layoutManager];
     NSTextStorage *text = [layout textStorage];
     NSRange charRange;
@@ -22,7 +22,7 @@
     
     // Convert the glyph range to a character range.
     charRange = [layoutManager characterRangeForGlyphRange:glyphRange actualGlyphRange:NULL];
-    unsigned startIndex, lineEndIndex, contentsEndIndex;
+    NSUInteger startIndex, lineEndIndex, contentsEndIndex;
     [[text string] getLineStart:&startIndex end:&lineEndIndex contentsEnd:&contentsEndIndex forRange:charRange];
     if (NSMaxRange(charRange)>contentsEndIndex) {
         charRange.length=contentsEndIndex-charRange.location;

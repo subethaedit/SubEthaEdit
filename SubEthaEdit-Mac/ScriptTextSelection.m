@@ -7,7 +7,8 @@
 //
 
 #import "ScriptTextSelection.h"
-#import "TextStorage.h"
+#import "FoldableTextStorage.h"
+#import "FullTextStorage.h"
 #import "PlainTextDocument.h"
 #import "PlainTextEditor.h"
 
@@ -18,18 +19,18 @@
     I_startCharacterIndex = anIndex;
 }
 
-+ (id)insertionPointWithTextStorage:(TextStorage *)aTextStorage index:(int)anIndex {
++ (id)insertionPointWithTextStorage:(FullTextStorage *)aTextStorage index:(int)anIndex {
     ScriptTextSelection *selection=[[[ScriptTextSelection alloc] initWithTextStorage:aTextStorage editor:nil] autorelease];
     [selection setStartIndex:anIndex];
     return selection;
 }
 
-+ (id)scriptTextSelectionWithTextStorage:(TextStorage *)aTextStorage editor:(PlainTextEditor *)anEditor
++ (id)scriptTextSelectionWithTextStorage:(FullTextStorage *)aTextStorage editor:(PlainTextEditor *)anEditor
 {
     return [[[ScriptTextSelection alloc] initWithTextStorage:aTextStorage editor:anEditor] autorelease];
 }
 
-- (id)initWithTextStorage:(TextStorage *)aTextStorage editor:(PlainTextEditor *)anEditor {
+- (id)initWithTextStorage:(FullTextStorage *)aTextStorage editor:(PlainTextEditor *)anEditor {
     if ((self = [super initWithTextStorage:aTextStorage])) {
         I_editor      = [anEditor retain];
     }
@@ -44,7 +45,7 @@
 
 - (NSRange)rangeRepresentation {
     if (I_editor) {
-        return [[I_editor textView] selectedRange];
+        return [[I_textStorage foldableTextStorage] fullRangeForFoldedRange:[[I_editor textView] selectedRange]];
     } else {
         return NSMakeRange(I_startCharacterIndex,0);
     }
@@ -52,6 +53,7 @@
 
 - (void)setScriptedStartCharacterIndex:(int)aValue {
     // NSLog(@"%s: %d", __FUNCTION__, aValue);
+	aValue = [[I_textStorage foldableTextStorage] foldedRangeForFullRange:NSMakeRange(aValue,0)].location;
     if (I_editor && aValue > 0) {
         NSTextView *textView = [I_editor textView];
         NSRange range = [textView selectedRange];
@@ -75,6 +77,7 @@
 
 - (void)setScriptedNextCharacterIndex:(int)aValue {
     // NSLog(@"%s: %d", __FUNCTION__, aValue);
+	aValue = [[I_textStorage foldableTextStorage] foldedRangeForFullRange:NSMakeRange(aValue,0)].location;
     if (I_editor && aValue > 0) {
         NSTextView *textView = [I_editor textView];
         NSRange range = [textView selectedRange];
@@ -109,20 +112,22 @@
 }
 
 - (void)setScriptedContents:(id)value {
-    // NSLog(@"%s: %d", __FUNCTION__, value);
+//	NSLog(@"%s: %@, %@ %@", __FUNCTION__, value, [[I_textStorage foldableTextStorage] delegate], [I_textStorage class]);
     NSRange range=[self rangeRepresentation];
-    [[I_textStorage delegate] replaceTextInRange:range withString:value];
+    [[[I_textStorage foldableTextStorage] delegate] replaceTextInRange:range withString:value];
     if (I_editor) {
-        [[I_editor textView] setSelectedRange:NSMakeRange(range.location,[value length])];
+        [[I_editor textView] setSelectedRange:NSMakeRange(range.location,[(NSString*)value length])];
     }
 }
 
 - (id)objectSpecifier
 {
+//    NSLog(@"%s:", __FUNCTION__);
     NSScriptClassDescription *containerDescription;
     NSScriptObjectSpecifier  *containerSpecifier;
     NSScriptObjectSpecifier  *resultSpecifier;
     if (I_editor) {
+//		NSLog(@"%s: had editor", __FUNCTION__);
         containerDescription = (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[NSWindow class]];
         containerSpecifier   = [[[I_editor textView] window] objectSpecifier];
         
@@ -132,7 +137,8 @@
                                                                         key:@"scriptSelection"] autorelease];
         
     } else {
-        containerDescription = (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[I_textStorage class]];
+//		NSLog(@"%s: did not have editor", __FUNCTION__);
+        containerDescription = (NSScriptClassDescription *)[NSScriptClassDescription classDescriptionForClass:[FoldableTextStorage class]];
         containerSpecifier   = [I_textStorage objectSpecifier];
         
         resultSpecifier = 

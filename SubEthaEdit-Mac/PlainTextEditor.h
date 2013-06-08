@@ -11,7 +11,7 @@
 #import "SelectionOperation.h"
 #import "PlainTextWindowControllerTabContext.h"
 
-@class PlainTextWindowControllerTabContext,PlainTextDocument,PopUpButton,RadarScroller,TCMMMUser;
+@class PlainTextWindowControllerTabContext,PlainTextDocument,PopUpButton,RadarScroller,TCMMMUser, TextView;
 
 @interface PlainTextEditor : NSResponder {
     IBOutlet NSImageView *O_waitPipeStatusImageView;
@@ -28,7 +28,7 @@
     IBOutlet NSView       *O_topStatusBarView;
     IBOutlet NSView       *O_bottomStatusBarView;
     RadarScroller   *I_radarScroller;
-    NSTextView      *I_textView;
+    TextView        *I_textView;
     NSTextContainer *I_textContainer;
     NSMutableArray *I_storedSelectedRanges;
     PlainTextWindowControllerTabContext *I_windowControllerTabContext;
@@ -81,6 +81,8 @@
 
 - (void)scrollToUserWithID:(NSString *)aUserID;
 
+- (void)setNeedsDisplayForRuler;
+
 - (void)updateViews;
 
 - (void)storePosition;
@@ -91,8 +93,18 @@
 - (IBAction)toggleWrap:(id)aSender;
 - (IBAction)toggleShowsChangeMarks:(id)aSender;
 
+- (IBAction)jumpToNextSymbol:(id)aSender;
+- (IBAction)jumpToPreviousSymbol:(id)aSender;
+
 - (IBAction)jumpToNextChange:(id)aSender;
 - (IBAction)jumpToPreviousChange:(id)aSender;
+
+- (void)selectRange:(NSRange)aRange;
+- (void)selectRangeInBackground:(NSRange)aRange;
+- (void)selectRangeInBackgroundWithoutIndication:(NSRange)aRange expandIfFolded:(BOOL)aFlag;
+- (void)gotoLine:(unsigned)aLine;
+- (void)gotoLineInBackground:(unsigned)aLine;
+
 
 @end
 

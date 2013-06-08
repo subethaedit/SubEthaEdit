@@ -52,7 +52,7 @@
 
 /* Do not allow selecting the "Customize" item and the separator before it. (Note that the customize item can be chosen and an action will be sent, but the selection doesn't change to it.)
 */
-- (void)selectItemAtIndex:(int)index {
+- (void)selectItemAtIndex:(NSInteger)index {
     if (index + 2 <= [self numberOfItems]) [super selectItemAtIndex:index];
 }
 
@@ -104,7 +104,7 @@
 /* Update contents based on encodings list customization
 */
 - (void)encodingsListChanged:(NSNotification *)notification {
-    unsigned int tag = (unsigned int)[[self selectedItem] tag];
+    NSUInteger tag = (NSUInteger)[[self selectedItem] tag];
     if (tag != 0 && tag != NoStringEncoding) defaultEncoding = tag;
     [[EncodingManager sharedInstance] setupPopUp:self selectedEncoding:defaultEncoding withDefaultEntry:hasDefaultEntry withModeEntry:hasModeEntry lossyEncodings:[NSArray array]];
 }
@@ -263,7 +263,7 @@ static int encodingCompare(const void *firstPtr, const void *secondPtr) {
     for (cnt = 0; cnt < numEncodings; cnt++) {
         NSStringEncoding enc = [[encs objectAtIndex:cnt] unsignedIntValue];
         
-        unsigned int i;
+        NSUInteger i;
         BOOL lossy = NO;
         for (i = 0; i < [listOfEncodings count]; i++) {
             if ([[listOfEncodings objectAtIndex:i] unsignedIntValue] == enc) {
@@ -441,7 +441,7 @@ static int encodingCompare(const void *firstPtr, const void *secondPtr) {
 
     for (cnt = 0; cnt < numRows; cnt++) {
         NSCell *cell = [encodingMatrix cellAtRow:cnt column:0];
-        if (((unsigned int)[cell tag] != NoStringEncoding) && ([cell state] == NSOnState)) [encs addObject:[NSNumber numberWithUnsignedInt:[cell tag]]];
+        if (((NSUInteger)[cell tag] != NoStringEncoding) && ([cell state] == NSOnState)) [encs addObject:[NSNumber numberWithUnsignedInt:[cell tag]]];
     }
 
     [encodings autorelease];

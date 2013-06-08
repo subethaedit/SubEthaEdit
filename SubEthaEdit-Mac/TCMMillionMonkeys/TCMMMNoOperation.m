@@ -12,7 +12,9 @@
 @implementation TCMMMNoOperation
 
 + (void)initialize {
-    [TCMMMOperation registerClass:self forOperationType:[self operationID]];
+	if (self == [TCMMMNoOperation class]) {
+	    [TCMMMOperation registerClass:self forOperationType:[self operationID]];
+	}
 }
 
 + (NSString *)operationID {
