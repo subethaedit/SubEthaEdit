@@ -4133,7 +4133,7 @@
 				GCC_WARN_UNUSED_VARIABLE = YES;
 				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				PREBINDING = NO;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -4155,7 +4155,7 @@
 					"-DNDEBUG",
 				);
 				PREBINDING = NO;
-				SDKROOT = macosx10.6;
+				SDKROOT = macosx;
 				STRIP_INSTALLED_PRODUCT = YES;
 				VALID_ARCHS = "i386 x86_64";
 			};
