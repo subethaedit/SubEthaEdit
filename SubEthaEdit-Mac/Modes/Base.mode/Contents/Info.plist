@@ -23,5 +23,7 @@ http://www.codingmonkeys.de</string>
 	<array>
 		<string>txt</string>
 	</array>
+	<key>SEEMinimumEngineVersion</key>
+	<string>3.5</string>
 </dict>
 </plist>

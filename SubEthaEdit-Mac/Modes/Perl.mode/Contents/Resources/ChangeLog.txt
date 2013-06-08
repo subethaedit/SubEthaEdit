@@ -1,5 +1,8 @@
+Changes with Version 3.5.1  (SEE 3.5.1)
+    *) fixed spacing issue with heredocs SEE-3907
+
 Changes with Version 3.5  (SEE 3.5)
-	 *) added code folding
+    *) added code folding
 
 Changes with Version 1.7 (SEE 2.6.4)
     *) Fixes more problems with states for regex and quotes.

@@ -140,8 +140,30 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 }
 
 #define SCRIPTMODEMENUTAGBASE 4000
+#define SEEENGINEVERSION 3.5
+
++ (BOOL)canParseModeVersionOfBundle:(NSBundle *)aBundle {
+    CFURLRef url = CFURLCreateWithFileSystemPath(NULL, (CFStringRef) [aBundle bundlePath], kCFURLPOSIXPathStyle, 1);
+    CFDictionaryRef infodict = CFBundleCopyInfoDictionaryInDirectory(url);
+    NSDictionary *infoDictionary = (NSDictionary *) infodict;    
+    double requiredEngineVersion = [[infoDictionary objectForKey:@"SEEMinimumEngineVersion"] doubleValue];
+    CFRelease(url);
+    CFRelease(infodict);
+    return (requiredEngineVersion<=SEEENGINEVERSION);
+}
 
 - (id)initWithBundle:(NSBundle *)aBundle {
+    
+    if (![DocumentMode canParseModeVersionOfBundle:aBundle]) {
+        NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+        [alert setAlertStyle:NSWarningAlertStyle];
+        [alert setMessageText:NSLocalizedString(@"Mode not compatible",@"Mode requires newer engine title")];
+        [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"The mode '%@' was written for a newer version of SubEthaEngine and cannot be used with this application.", @"Mode requires newer engine Informative Text"), [aBundle bundleIdentifier]]];
+        [alert addButtonWithTitle:@"OK"];
+        [alert runModal];
+        return nil;
+    }
+    
     self = [super init];
     if (self) {
         I_autocompleteDictionary = [NSMutableArray new];

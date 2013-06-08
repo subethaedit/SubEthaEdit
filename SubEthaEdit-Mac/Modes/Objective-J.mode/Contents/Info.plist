@@ -19,5 +19,7 @@
 	<key>NSHumanReadableCopyright</key>
 	<string>© 2006 Arcaeum, LLC
 http://www.codingmonkeys.de</string>
+	<key>SEEMinimumEngineVersion</key>
+	<string>3.5</string>
 </dict>
 </plist>

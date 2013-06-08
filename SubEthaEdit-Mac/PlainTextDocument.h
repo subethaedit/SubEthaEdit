@@ -81,6 +81,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
         BOOL hasUTF8BOM;
         BOOL isSEEText;
         BOOL isAutosavingForRestart;
+        BOOL keepUndoManagerOnZeroWindowControllers;
     } I_flags;
     int I_tabWidth;
 //    int I_changeCount;
@@ -267,6 +268,10 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 
 - (void)setHighlightsSyntax:(BOOL)aFlag;
 - (BOOL)highlightsSyntax;
+
+- (void)setKeepUndoManagerOnZeroWindowControllers:(BOOL)aFlag;
+- (BOOL)keepUndoManagerOnZeroWindowControllers;
+
 
 - (PlainTextWindowController *)topmostWindowController;
 - (void)gotoLine:(unsigned)aLine;
