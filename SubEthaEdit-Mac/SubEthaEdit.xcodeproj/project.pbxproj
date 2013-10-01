@@ -2265,7 +2265,6 @@
 		2A37F4B8FDCFA73011CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				4C1D39DA17FB085800B1CF5C /* AboutPanel.xib */,
 				14EC6E270A63F2E800B44481 /* ServicesMenu.strings */,
 				14289008095740F200D14688 /* Acknowledgements.txt */,
 				F291D1A00FCECD22008BC286 /* FoldingBubbleText.rtf */,
@@ -2275,6 +2274,7 @@
 				1428900A095740F200D14688 /* RE.txt */,
 				145047410997750100D18142 /* ReleaseNotes.txt */,
 				1493A8580A10DABB004ECE6A /* SystemVersionCheck.strings */,
+				4C1D39DA17FB085800B1CF5C /* AboutPanel.xib */,
 				142890170957418400D14688 /* AdvancedPrefs.nib */,
 				F2D12A090BF0B6B000A776CC /* ConnectionBrowser.nib */,
 				F2A707C60BF8A54100482EFC /* LoginSheet.nib */,
