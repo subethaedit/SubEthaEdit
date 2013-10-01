@@ -77,7 +77,7 @@
                                  /(float)I_maxHeight*markRect.size.height);  
             if (markRect.size.height<2.) markRect.size.height=2.;
 
-            [[mark objectForKey:@"Color"] set];
+            [((NSColor *)[mark objectForKey:@"Color"]) set];
             NSBezierPath *bezierPath=[NSBezierPath bezierPathWithRect:NSIntersectionRect(scroller,markRect)];
             [bezierPath fill];
             [[[mark objectForKey:@"Color"] shadowWithLevel:0.3] set];
