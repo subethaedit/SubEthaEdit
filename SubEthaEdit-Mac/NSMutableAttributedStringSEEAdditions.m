@@ -7,11 +7,9 @@
 //
 
 #import "NSMutableAttributedStringSEEAdditions.h"
-#ifndef TCM_ISSEED
-    #import <OgreKit/OgreKit.h>
-	#import "GeneralPreferences.h"
-	#import "SyntaxHighlighter.h"
-#endif
+#import <OgreKit/OgreKit.h>
+#import "GeneralPreferences.h"
+#import "SyntaxHighlighter.h"
 
 #ifdef SUBETHAEDIT
 	#import "TCMMMUserManager.h"
@@ -23,7 +21,6 @@ extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
 
 @implementation NSMutableAttributedString (NSMutableAttributedStringSEEAdditions) 
 
-#ifndef TCM_ISSEED
 - (NSRange)detab:(BOOL)shouldDetab inRange:(NSRange)aRange tabWidth:(int)aTabWidth askingTextView:(NSTextView *)aTextView {
     [self beginEditing];
 
@@ -87,9 +84,7 @@ extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
     [aTextView didChangeText];
     return aRange;
 }
-#endif
 
-#ifndef TCM_ISSEED
 - (void)makeLeadingWhitespaceNonBreaking {
     [self beginEditing];
     static NSString *hardspaceString=nil;
@@ -125,7 +120,6 @@ extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
     }
     [self endEditing];
 }
-#endif
 
 - (void)removeAttributes:(id)anObjectEnumerable range:(NSRange)aRange {
 	[self beginEditing];

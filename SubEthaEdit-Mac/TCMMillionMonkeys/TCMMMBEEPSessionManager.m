@@ -22,10 +22,6 @@
 #import "PreferenceKeys.h"
 #import <netdb.h>       // getaddrinfo, struct addrinfo, AI_NUMERICHOST
 
-#ifdef TCM_ISSEED
-    #import "SDAppController.h"
-#endif
-
 #define PORTRANGELENGTH 10
 NSString * const DefaultPortNumber = @"port";
 NSString * const ShouldAutomaticallyMapPort = @"ShouldAutomaticallyMapPort";
@@ -968,9 +964,6 @@ static TCMMMBEEPSessionManager *sharedInstance;
     [aBEEPSession addProfileURIs:[I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerDefaultMode]];
     [aBEEPSession addTLSProfileURIs:[I_greetingProfiles objectForKey:kTCMMMBEEPSessionManagerTLSMode]];
     [aBEEPSession setDelegate:self];
-#ifdef TCM_ISSEED
-    [aBEEPSession setAuthenticationDelegate:[SDAppController sharedInstance]];
-#endif
     [aBEEPSession open];
 
     [I_pendingSessions addObject:aBEEPSession];

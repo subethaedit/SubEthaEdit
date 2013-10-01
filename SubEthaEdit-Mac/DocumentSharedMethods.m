@@ -9,10 +9,6 @@
 #import "DocumentSharedMethods.h"
 
 
-#ifndef TCM_ISSEED
-@implementation PlainTextDocument (DocumentSharedMethods) 
-#else
-@implementation SDDocument (DocumentSharedMethods) 
-#endif
+@implementation PlainTextDocument (DocumentSharedMethods)
 
 @end
