@@ -307,8 +307,6 @@
 		319AAE3C0CB0165800ACDAB4 /* Precedence_AddPressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 319AAE1A0CB015B300ACDAB4 /* Precedence_AddPressed.tiff */; };
 		319AAE3D0CB0165900ACDAB4 /* Precedence_Remove.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 319AAE1B0CB015B300ACDAB4 /* Precedence_Remove.tiff */; };
 		319AAE3E0CB0165A00ACDAB4 /* Precedence_RemovePressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 319AAE1C0CB015B300ACDAB4 /* Precedence_RemovePressed.png */; };
-		31AE9CF60EE85A3900370087 /* Sparkle.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 31AE9CF50EE85A3900370087 /* Sparkle.framework */; };
-		31AE9D380EE85D8900370087 /* Sparkle.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31AE9CF50EE85A3900370087 /* Sparkle.framework */; };
 		31D2C7000CA7C9C8003CC5C9 /* PrecedenceRuleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2C6E50CA7C7A7003CC5C9 /* PrecedenceRuleCell.m */; };
 		31D2C7050CA7CA04003CC5C9 /* PrecedencePrefs.nib in Resources */ = {isa = PBXBuildFile; fileRef = 31D2C6D10CA7C78C003CC5C9 /* PrecedencePrefs.nib */; };
 		31D2C7060CA7CA08003CC5C9 /* PrecedenceRules.nib in Resources */ = {isa = PBXBuildFile; fileRef = 31D2C6D30CA7C78C003CC5C9 /* PrecedenceRules.nib */; };
@@ -738,7 +736,6 @@
 				144E3AD30B6FEEDF001C49C2 /* OgreKit.framework in Copy Files (Frameworks) */,
 				31D5FB230AA309200088DB18 /* HDCrashReporter.framework in Copy Files (Frameworks) */,
 				141F4EB40AE4266F001B73D2 /* PSMTabBarControl.framework in Copy Files (Frameworks) */,
-				31AE9CF60EE85A3900370087 /* Sparkle.framework in Copy Files (Frameworks) */,
 				F290D9DD0EDB04F900E643C0 /* TCMPortMapper.framework in Copy Files (Frameworks) */,
 			);
 			name = "Copy Files (Frameworks)";
@@ -1192,7 +1189,6 @@
 		319AAE1A0CB015B300ACDAB4 /* Precedence_AddPressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Precedence_AddPressed.tiff; path = artwork/Precedence_AddPressed.tiff; sourceTree = "<group>"; };
 		319AAE1B0CB015B300ACDAB4 /* Precedence_Remove.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Precedence_Remove.tiff; path = artwork/Precedence_Remove.tiff; sourceTree = "<group>"; };
 		319AAE1C0CB015B300ACDAB4 /* Precedence_RemovePressed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Precedence_RemovePressed.png; path = artwork/Precedence_RemovePressed.png; sourceTree = "<group>"; };
-		31AE9CF50EE85A3900370087 /* Sparkle.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Sparkle.framework; path = Sparkle/Sparkle.framework; sourceTree = "<group>"; };
 		31D2C6D20CA7C78C003CC5C9 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PrecedencePrefs.nib; sourceTree = "<group>"; };
 		31D2C6D40CA7C78C003CC5C9 /* English */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = English; path = English.lproj/PrecedenceRules.nib; sourceTree = "<group>"; };
 		31D2C6E50CA7C7A7003CC5C9 /* PrecedenceRuleCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PrecedenceRuleCell.m; sourceTree = "<group>"; };
@@ -1483,7 +1479,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				31AE9D380EE85D8900370087 /* Sparkle.framework in Frameworks */,
 				F2A099500C9EBC5B000AD27A /* UniversalDetector.framework in Frameworks */,
 				144E3AD20B6FEED6001C49C2 /* OgreKit.framework in Frameworks */,
 				141F4F120AE42BC7001B73D2 /* PSMTabBarControl.framework in Frameworks */,
@@ -1513,7 +1508,6 @@
 		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				31AE9CF50EE85A3900370087 /* Sparkle.framework */,
 				F290D9D70EDB04EF00E643C0 /* TCMPortMapper.framework */,
 				14288FDD09573E8900D14688 /* AddressBook.framework */,
 				14288FDF09573EA300D14688 /* Carbon.framework */,
