@@ -152,15 +152,11 @@
 		1428920F095751CB00D14688 /* NSImageTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289209095751CB00D14688 /* NSImageTCMAdditions.m */; };
 		14289210095751CB00D14688 /* NSStringSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428920B095751CB00D14688 /* NSStringSEEAdditions.m */; };
 		14289211095751CB00D14688 /* TCMMMUserSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428920D095751CB00D14688 /* TCMMMUserSEEAdditions.m */; };
-		142892270957523300D14688 /* DebugBEEP.nib in Resources */ = {isa = PBXBuildFile; fileRef = 142892190957523300D14688 /* DebugBEEP.nib */; };
 		142892280957523300D14688 /* DebugBEEPController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428921B0957523300D14688 /* DebugBEEPController.m */; };
 		142892290957523300D14688 /* DebugController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428921D0957523300D14688 /* DebugController.m */; };
 		1428922A0957523300D14688 /* DebugPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428921F0957523300D14688 /* DebugPreferences.m */; };
-		1428922B0957523300D14688 /* DebugPrefs.nib in Resources */ = {isa = PBXBuildFile; fileRef = 142892200957523300D14688 /* DebugPrefs.nib */; };
-		1428922C0957523300D14688 /* DebugPresence.nib in Resources */ = {isa = PBXBuildFile; fileRef = 142892210957523300D14688 /* DebugPresence.nib */; };
 		1428922D0957523300D14688 /* DebugPresenceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 142892230957523300D14688 /* DebugPresenceController.m */; };
 		1428922E0957523300D14688 /* DebugUserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 142892250957523300D14688 /* DebugUserController.m */; };
-		1428922F0957523300D14688 /* DebugUsers.nib in Resources */ = {isa = PBXBuildFile; fileRef = 142892260957523300D14688 /* DebugUsers.nib */; };
 		14289329095756D800D14688 /* TCMMMBEEPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289312095756D800D14688 /* TCMMMBEEPSessionManager.m */; };
 		1428932A095756D800D14688 /* TCMMMBrowserListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289314095756D800D14688 /* TCMMMBrowserListView.m */; };
 		1428932B095756D800D14688 /* TCMMMMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289316095756D800D14688 /* TCMMMMessage.m */; };
@@ -279,7 +275,6 @@
 		3134F7AB0CB1331900F8C116 /* PrecedenceRolloverButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 3134F7A90CB1331900F8C116 /* PrecedenceRolloverButton.m */; };
 		3134F7DE0CB13A2E00F8C116 /* Precedence_RemoveRollover.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 3134F7DD0CB13A2E00F8C116 /* Precedence_RemoveRollover.tiff */; };
 		316A0D2A0C68A47100720268 /* DebugAttributeInspectorController.m in Sources */ = {isa = PBXBuildFile; fileRef = 316A0D280C68A47100720268 /* DebugAttributeInspectorController.m */; };
-		316A0D2B0C68A47100720268 /* DebugAttributesInspector.nib in Resources */ = {isa = PBXBuildFile; fileRef = 316A0D290C68A47100720268 /* DebugAttributesInspector.nib */; };
 		3170E46112846C670096089C /* SEEStyleSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 3170E46012846C670096089C /* SEEStyleSheet.m */; };
 		3170E4D4128715F20096089C /* SEEStyleSheet.h in Sources */ = {isa = PBXBuildFile; fileRef = 3170E45F12846C670096089C /* SEEStyleSheet.h */; };
 		3170E4D5128715F20096089C /* SEEStyleSheet.m in Sources */ = {isa = PBXBuildFile; fileRef = 3170E46012846C670096089C /* SEEStyleSheet.m */; };
@@ -296,6 +291,13 @@
 		4C0D3D6617FB133600AAFB38 /* ServerConnection.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D6517FB133600AAFB38 /* ServerConnection.xib */; };
 		4C0D3D6817FB145600AAFB38 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D6717FB145600AAFB38 /* Preferences.xib */; };
 		4C0D3D6A17FB149200AAFB38 /* LoginSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D6917FB149200AAFB38 /* LoginSheet.xib */; };
+		4C0D3D6C17FB165700AAFB38 /* DebugAttributesInspector.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D6B17FB165700AAFB38 /* DebugAttributesInspector.xib */; };
+		4C0D3D6E17FB165C00AAFB38 /* DebugBEEP.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D6D17FB165C00AAFB38 /* DebugBEEP.xib */; };
+		4C0D3D7017FB166200AAFB38 /* DebugHistory.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D6F17FB166200AAFB38 /* DebugHistory.xib */; };
+		4C0D3D7217FB166900AAFB38 /* DebugPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D7117FB166900AAFB38 /* DebugPrefs.xib */; };
+		4C0D3D7417FB166D00AAFB38 /* DebugPresence.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D7317FB166D00AAFB38 /* DebugPresence.xib */; };
+		4C0D3D7617FB168200AAFB38 /* DebugUsers.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D7517FB168200AAFB38 /* DebugUsers.xib */; };
+		4C0D3D7817FB16F500AAFB38 /* DebugSendOperation.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D7717FB16F500AAFB38 /* DebugSendOperation.xib */; };
 		4C1D399B17FAE85200B1CF5C /* TCMPortMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F290D9D70EDB04EF00E643C0 /* TCMPortMapper.framework */; };
 		4C1D39DC17FB085800B1CF5C /* AboutPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C1D39DA17FB085800B1CF5C /* AboutPanel.xib */; };
 		4CD5F7DA17FB0BF200F49E31 /* AdvancedPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F7D817FB0BF200F49E31 /* AdvancedPrefs.xib */; };
@@ -435,7 +437,6 @@
 		F2ABC4E30C799CCD007437A2 /* TCMMMLoggedOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC4E10C799CCD007437A2 /* TCMMMLoggedOperation.m */; };
 		F2ABC4E50C799CCD007437A2 /* TCMMMLoggedOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC4E10C799CCD007437A2 /* TCMMMLoggedOperation.m */; };
 		F2ABC5400C79D9AB007437A2 /* DebugHistoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC5300C79D898007437A2 /* DebugHistoryController.m */; };
-		F2ABC5470C79D9C4007437A2 /* DebugHistory.nib in Resources */ = {isa = PBXBuildFile; fileRef = F2ABC5460C79D9C4007437A2 /* DebugHistory.nib */; };
 		F2B18CEB0C4BB550000BB062 /* GlassButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F2B18CE70C4BB550000BB062 /* GlassButtonCell.m */; };
 		F2B18CEE0C4BB550000BB062 /* GlassButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F2B18CEA0C4BB550000BB062 /* GlassButton.m */; };
 		F2B91DA00D7EEE3400626BBC /* FriendCast13None.png in Resources */ = {isa = PBXBuildFile; fileRef = F2B91D9F0D7EEE3400626BBC /* FriendCast13None.png */; };
@@ -910,20 +911,16 @@
 		1428920B095751CB00D14688 /* NSStringSEEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = NSStringSEEAdditions.m; sourceTree = "<group>"; };
 		1428920C095751CB00D14688 /* TCMMMUserSEEAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = TCMMMUserSEEAdditions.h; sourceTree = "<group>"; };
 		1428920D095751CB00D14688 /* TCMMMUserSEEAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = TCMMMUserSEEAdditions.m; sourceTree = "<group>"; };
-		142892190957523300D14688 /* DebugBEEP.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = DebugBEEP.nib; path = Debug/DebugBEEP.nib; sourceTree = "<group>"; };
 		1428921A0957523300D14688 /* DebugBEEPController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DebugBEEPController.h; path = Debug/DebugBEEPController.h; sourceTree = "<group>"; };
 		1428921B0957523300D14688 /* DebugBEEPController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = DebugBEEPController.m; path = Debug/DebugBEEPController.m; sourceTree = "<group>"; };
 		1428921C0957523300D14688 /* DebugController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DebugController.h; path = Debug/DebugController.h; sourceTree = "<group>"; };
 		1428921D0957523300D14688 /* DebugController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = DebugController.m; path = Debug/DebugController.m; sourceTree = "<group>"; };
 		1428921E0957523300D14688 /* DebugPreferences.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DebugPreferences.h; path = Debug/DebugPreferences.h; sourceTree = "<group>"; };
 		1428921F0957523300D14688 /* DebugPreferences.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = DebugPreferences.m; path = Debug/DebugPreferences.m; sourceTree = "<group>"; };
-		142892200957523300D14688 /* DebugPrefs.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = DebugPrefs.nib; path = Debug/DebugPrefs.nib; sourceTree = "<group>"; };
-		142892210957523300D14688 /* DebugPresence.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = DebugPresence.nib; path = Debug/DebugPresence.nib; sourceTree = "<group>"; };
 		142892220957523300D14688 /* DebugPresenceController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DebugPresenceController.h; path = Debug/DebugPresenceController.h; sourceTree = "<group>"; };
 		142892230957523300D14688 /* DebugPresenceController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = DebugPresenceController.m; path = Debug/DebugPresenceController.m; sourceTree = "<group>"; };
 		142892240957523300D14688 /* DebugUserController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DebugUserController.h; path = Debug/DebugUserController.h; sourceTree = "<group>"; };
 		142892250957523300D14688 /* DebugUserController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = DebugUserController.m; path = Debug/DebugUserController.m; sourceTree = "<group>"; };
-		142892260957523300D14688 /* DebugUsers.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = DebugUsers.nib; path = Debug/DebugUsers.nib; sourceTree = "<group>"; };
 		14289310095756D800D14688 /* TCMMillionMonkeys.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TCMMillionMonkeys.h; path = TCMMillionMonkeys/TCMMillionMonkeys.h; sourceTree = "<group>"; };
 		14289311095756D800D14688 /* TCMMMBEEPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TCMMMBEEPSessionManager.h; path = TCMMillionMonkeys/TCMMMBEEPSessionManager.h; sourceTree = "<group>"; };
 		14289312095756D800D14688 /* TCMMMBEEPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = TCMMMBEEPSessionManager.m; path = TCMMillionMonkeys/TCMMMBEEPSessionManager.m; sourceTree = "<group>"; };
@@ -1140,7 +1137,6 @@
 		313C391E131EAEE300BAC5F5 /* PCDebug.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PCDebug.h; sourceTree = "<group>"; };
 		316A0D270C68A47100720268 /* DebugAttributeInspectorController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = DebugAttributeInspectorController.h; path = Debug/DebugAttributeInspectorController.h; sourceTree = "<group>"; };
 		316A0D280C68A47100720268 /* DebugAttributeInspectorController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = DebugAttributeInspectorController.m; path = Debug/DebugAttributeInspectorController.m; sourceTree = "<group>"; };
-		316A0D290C68A47100720268 /* DebugAttributesInspector.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = DebugAttributesInspector.nib; path = Debug/DebugAttributesInspector.nib; sourceTree = "<group>"; };
 		3170E45F12846C670096089C /* SEEStyleSheet.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEStyleSheet.h; sourceTree = "<group>"; };
 		3170E46012846C670096089C /* SEEStyleSheet.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEStyleSheet.m; sourceTree = "<group>"; };
 		3188F6780CAD1218009E4C0B /* DNDArrayController.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = DNDArrayController.m; sourceTree = "<group>"; };
@@ -1162,6 +1158,13 @@
 		4C0D3D6517FB133600AAFB38 /* ServerConnection.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ServerConnection.xib; sourceTree = "<group>"; };
 		4C0D3D6717FB145600AAFB38 /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
 		4C0D3D6917FB149200AAFB38 /* LoginSheet.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginSheet.xib; sourceTree = "<group>"; };
+		4C0D3D6B17FB165700AAFB38 /* DebugAttributesInspector.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DebugAttributesInspector.xib; path = Debug/DebugAttributesInspector.xib; sourceTree = "<group>"; };
+		4C0D3D6D17FB165C00AAFB38 /* DebugBEEP.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DebugBEEP.xib; path = Debug/DebugBEEP.xib; sourceTree = "<group>"; };
+		4C0D3D6F17FB166200AAFB38 /* DebugHistory.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DebugHistory.xib; path = Debug/DebugHistory.xib; sourceTree = "<group>"; };
+		4C0D3D7117FB166900AAFB38 /* DebugPrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DebugPrefs.xib; path = Debug/DebugPrefs.xib; sourceTree = "<group>"; };
+		4C0D3D7317FB166D00AAFB38 /* DebugPresence.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DebugPresence.xib; path = Debug/DebugPresence.xib; sourceTree = "<group>"; };
+		4C0D3D7517FB168200AAFB38 /* DebugUsers.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DebugUsers.xib; path = Debug/DebugUsers.xib; sourceTree = "<group>"; };
+		4C0D3D7717FB16F500AAFB38 /* DebugSendOperation.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DebugSendOperation.xib; path = Debug/DebugSendOperation.xib; sourceTree = "<group>"; };
 		4C1D39DB17FB085800B1CF5C /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/AboutPanel.xib; sourceTree = "<group>"; };
 		4C1D39E917FB088200B1CF5C /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/AboutPanel.xib; sourceTree = "<group>"; };
 		4CD5F7D917FB0BF200F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/AdvancedPrefs.xib; sourceTree = "<group>"; };
@@ -1360,7 +1363,6 @@
 		F2ABC4E20C799CCD007437A2 /* TCMMMLoggedOperation.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TCMMMLoggedOperation.h; path = TCMMillionMonkeys/TCMMMLoggedOperation.h; sourceTree = "<group>"; };
 		F2ABC52F0C79D898007437A2 /* DebugHistoryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DebugHistoryController.h; path = Debug/DebugHistoryController.h; sourceTree = "<group>"; };
 		F2ABC5300C79D898007437A2 /* DebugHistoryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DebugHistoryController.m; path = Debug/DebugHistoryController.m; sourceTree = "<group>"; };
-		F2ABC5460C79D9C4007437A2 /* DebugHistory.nib */ = {isa = PBXFileReference; lastKnownFileType = wrapper.nib; name = DebugHistory.nib; path = Debug/DebugHistory.nib; sourceTree = "<group>"; };
 		F2B18CE70C4BB550000BB062 /* GlassButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GlassButtonCell.m; sourceTree = "<group>"; };
 		F2B18CE80C4BB550000BB062 /* GlassButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GlassButtonCell.h; sourceTree = "<group>"; };
 		F2B18CE90C4BB550000BB062 /* GlassButton.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = GlassButton.h; sourceTree = "<group>"; };
@@ -1824,28 +1826,29 @@
 		1428917B0957483C00D14688 /* Debug */ = {
 			isa = PBXGroup;
 			children = (
-				316A0D270C68A47100720268 /* DebugAttributeInspectorController.h */,
-				316A0D280C68A47100720268 /* DebugAttributeInspectorController.m */,
-				1428921A0957523300D14688 /* DebugBEEPController.h */,
-				1428921B0957523300D14688 /* DebugBEEPController.m */,
 				1428921C0957523300D14688 /* DebugController.h */,
 				1428921D0957523300D14688 /* DebugController.m */,
+				316A0D270C68A47100720268 /* DebugAttributeInspectorController.h */,
+				316A0D280C68A47100720268 /* DebugAttributeInspectorController.m */,
+				4C0D3D6B17FB165700AAFB38 /* DebugAttributesInspector.xib */,
+				1428921A0957523300D14688 /* DebugBEEPController.h */,
+				1428921B0957523300D14688 /* DebugBEEPController.m */,
+				4C0D3D6D17FB165C00AAFB38 /* DebugBEEP.xib */,
 				1428921E0957523300D14688 /* DebugPreferences.h */,
 				1428921F0957523300D14688 /* DebugPreferences.m */,
+				4C0D3D7117FB166900AAFB38 /* DebugPrefs.xib */,
 				142892220957523300D14688 /* DebugPresenceController.h */,
 				142892230957523300D14688 /* DebugPresenceController.m */,
+				4C0D3D7317FB166D00AAFB38 /* DebugPresence.xib */,
 				1428F4B10BDE3B8A00411CA6 /* DebugSendOperationController.h */,
 				1428F4B20BDE3B8A00411CA6 /* DebugSendOperationController.m */,
+				4C0D3D7717FB16F500AAFB38 /* DebugSendOperation.xib */,
 				142892240957523300D14688 /* DebugUserController.h */,
 				142892250957523300D14688 /* DebugUserController.m */,
-				316A0D290C68A47100720268 /* DebugAttributesInspector.nib */,
-				142892190957523300D14688 /* DebugBEEP.nib */,
-				142892200957523300D14688 /* DebugPrefs.nib */,
-				142892210957523300D14688 /* DebugPresence.nib */,
-				142892260957523300D14688 /* DebugUsers.nib */,
-				F2ABC5460C79D9C4007437A2 /* DebugHistory.nib */,
+				4C0D3D7517FB168200AAFB38 /* DebugUsers.xib */,
 				F2ABC52F0C79D898007437A2 /* DebugHistoryController.h */,
 				F2ABC5300C79D898007437A2 /* DebugHistoryController.m */,
+				4C0D3D6F17FB166200AAFB38 /* DebugHistory.xib */,
 			);
 			name = Debug;
 			sourceTree = "<group>";
@@ -2792,6 +2795,8 @@
 			buildActionMask = 2147483647;
 			files = (
 				F291D1810FCEC111008BC286 /* FoldingBubble.pdf in Resources */,
+				4C0D3D6E17FB165C00AAFB38 /* DebugBEEP.xib in Resources */,
+				4C0D3D7017FB166200AAFB38 /* DebugHistory.xib in Resources */,
 				14448AA40A18964A00F36B34 /* SubEthaEdit.sdef in Resources */,
 				1428900D095740F200D14688 /* Acknowledgements.txt in Resources */,
 				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
@@ -2814,6 +2819,7 @@
 				142890BA095743F200D14688 /* EditPrefs.tiff in Resources */,
 				142890BB095743F200D14688 /* EmptyButton.tiff in Resources */,
 				142890BD095743F200D14688 /* HideChangeMarks.png in Resources */,
+				4C0D3D6C17FB165700AAFB38 /* DebugAttributesInspector.xib in Resources */,
 				142890BF095743F200D14688 /* HomeFolderIcon.tiff in Resources */,
 				4CD5F7DA17FB0BF200F49E31 /* AdvancedPrefs.xib in Resources */,
 				142890C0095743F200D14688 /* Internet.tiff in Resources */,
@@ -2840,6 +2846,8 @@
 				142890DB095743F200D14688 /* SplitClose.tiff in Resources */,
 				142890DC095743F200D14688 /* SplitOpen.tiff in Resources */,
 				142890DD095743F200D14688 /* StatusButtonKick.tiff in Resources */,
+				4C0D3D7817FB16F500AAFB38 /* DebugSendOperation.xib in Resources */,
+				4C0D3D7217FB166900AAFB38 /* DebugPrefs.xib in Resources */,
 				142890DE095743F200D14688 /* StatusButtonReadOnly.tiff in Resources */,
 				4CD5F7FA17FB0D0C00F49E31 /* GeneralPrefs.xib in Resources */,
 				4C0D3D6617FB133600AAFB38 /* ServerConnection.xib in Resources */,
@@ -2868,11 +2876,7 @@
 				142890FF095743F200D14688 /* URLIcon.tiff in Resources */,
 				14289100095743F200D14688 /* WaitPipe.png in Resources */,
 				14289101095743F200D14688 /* WebReload.tiff in Resources */,
-				142892270957523300D14688 /* DebugBEEP.nib in Resources */,
 				4CD5F7E617FB0C7B00F49E31 /* EditPrefs.xib in Resources */,
-				1428922B0957523300D14688 /* DebugPrefs.nib in Resources */,
-				1428922C0957523300D14688 /* DebugPresence.nib in Resources */,
-				1428922F0957523300D14688 /* DebugUsers.nib in Resources */,
 				14289572095776DE00D14688 /* see.1 in Resources */,
 				142895040957692100D14688 /* SymbolWarn.tiff in Resources */,
 				5E18F62B09A8A43A00A96A6C /* InvitationBadge3.tiff in Resources */,
@@ -2911,10 +2915,9 @@
 				F27B2EE60B52957800679CF2 /* hud_buttonFill-P.tiff in Resources */,
 				F27B2EE70B52957800679CF2 /* hud_buttonFill-N.tiff in Resources */,
 				F27B2EE80B52957800679CF2 /* hud_buttonLeft-P.tiff in Resources */,
-				316A0D2B0C68A47100720268 /* DebugAttributesInspector.nib in Resources */,
-				F2ABC5470C79D9C4007437A2 /* DebugHistory.nib in Resources */,
 				F23905670C7DEA3000E85DF8 /* seetext.icns in Resources */,
 				F25A19B60C8C79CA00147E4C /* ssllock.png in Resources */,
+				4C0D3D7617FB168200AAFB38 /* DebugUsers.xib in Resources */,
 				4CD5F7FE17FB0D2200F49E31 /* License.xib in Resources */,
 				F2406F0C0C8EE481000DC9FF /* LockTitlebar.png in Resources */,
 				F2CA7CE60CA11FC9008BEA38 /* StatusLock.png in Resources */,
@@ -2968,6 +2971,7 @@
 				F291D1A10FCECD22008BC286 /* FoldingBubbleText.rtf in Resources */,
 				F291D1B10FCECF33008BC286 /* FoldingBubbleBig.png in Resources */,
 				4CD5F80217FB0D3700F49E31 /* MainMenu.xib in Resources */,
+				4C0D3D7417FB166D00AAFB38 /* DebugPresence.xib in Resources */,
 				F280ABDC131E72180091D145 /* StyleSheetPrefs.png in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
