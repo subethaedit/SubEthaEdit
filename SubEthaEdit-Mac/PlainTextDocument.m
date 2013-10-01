@@ -2542,9 +2542,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                     NSString *shortID=[contributorDict valueForKeyPath:@"ShortID"];
                     NSString *aim=[[contributorDict valueForKeyPath:@"User.properties.AIM"] stringByReplacingEntitiesForUTF8:YES];
                     NSString *email=[[contributorDict valueForKeyPath:@"User.properties.Email"] stringByReplacingEntitiesForUTF8:YES];
-                    [legend appendFormat:@"<tr>",shortID];
+                    [legend appendFormat:@"<tr>"];
                     if (shouldSaveImages) {
-                        [legend appendFormat:@"<th><img src=\"%@%@.png\" width=\"32\" height=\"32\" alt=\"%@\"/></th>",imageDirectoryPrefix,shortID,name, name];
+                        [legend appendFormat:@"<th><img src=\"%@%@.png\" width=\"32\" height=\"32\" alt=\"%@\"/></th>", imageDirectoryPrefix, name, name];
                     }
                     [legend appendFormat:@"<td class=\"ContributorName %@\"%@>%@</td>",shortID,contributorForegroundColor,name];
                     if (shouldShowAIMAndEmail) {
