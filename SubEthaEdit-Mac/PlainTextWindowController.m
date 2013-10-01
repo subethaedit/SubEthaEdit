@@ -2739,7 +2739,7 @@ static NSAttributedString *S_dragString = nil;
 	return YES;
 }
 
-- (NSImage *)tabView:(NSTabView *)aTabView imageForTabViewItem:(NSTabViewItem *)tabViewItem offset:(NSSize *)offset styleMask:(NSUInteger *)styleMask
+- (NSImage *)tabView:(NSTabView *)aTabView imageForTabViewItem:(NSTabViewItem *)tabViewItem offset:(NSSize *)offset styleMask:(unsigned int *)styleMask
 {    
 	// grabs whole window image of the right tab
 	[[self window] disableFlushWindow];
