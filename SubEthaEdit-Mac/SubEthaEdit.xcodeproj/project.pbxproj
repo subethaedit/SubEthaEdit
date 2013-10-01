@@ -315,6 +315,7 @@
 		31D5F8680AA301E80088DB18 /* HDCrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31D5F8590AA2FB760088DB18 /* HDCrashReporter.framework */; };
 		31D5FB230AA309200088DB18 /* HDCrashReporter.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 31D5F8590AA2FB760088DB18 /* HDCrashReporter.framework */; };
 		31FFC93D104E97A000E08256 /* NSErrorTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */; };
+		4C1D399B17FAE85200B1CF5C /* TCMPortMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F290D9D70EDB04EF00E643C0 /* TCMPortMapper.framework */; };
 		5E0F01C30AB573A100A5DE33 /* DialogBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F01C10AB573A100A5DE33 /* DialogBackgroundView.m */; };
 		5E0F6AE80A039283003D2813 /* SEActiveProc.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F6AE40A039283003D2813 /* SEActiveProc.m */; };
 		5E18F62B09A8A43A00A96A6C /* InvitationBadge3.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E18F62909A8A43A00A96A6C /* InvitationBadge3.tiff */; };
@@ -1448,6 +1449,7 @@
 				14251B990BBD5E1700052C84 /* Foundation.framework in Frameworks */,
 				14251B9A0BBD5E1700052C84 /* Security.framework in Frameworks */,
 				14251B9B0BBD5E1700052C84 /* SystemConfiguration.framework in Frameworks */,
+				4C1D399B17FAE85200B1CF5C /* TCMPortMapper.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -3005,13 +3007,14 @@
 			files = (
 			);
 			inputPaths = (
+				"$(INFOPLIST_FILE)",
 			);
 			outputPaths = (
 				"$(DERIVED_FILE_DIR)/Info.plist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "export PATH=$PATH:/usr/local/bin\nREVISION=`/usr/bin/env svnversion \"$SRCROOT\"`\ncpp -P -DREVISION=$REVISION $INFOPLIST_FILE $SCRIPT_OUTPUT_FILE_0\nexit 0";
+			shellScript = "export PATH=$PATH:/usr/local/bin\nGIT_REV=`git rev-list --reverse HEAD | grep -n ${REV_SHA1} | cut -d: -f1`\nREVISION=`echo $(( ${GIT_REV}+4000 ))` # adding 4000 to identify a GIT revision\ncpp -P -DREVISION=$REVISION $INFOPLIST_FILE $SCRIPT_OUTPUT_FILE_0\nexit 0";
 		};
 		1428947209575D2D00D14688 /* Run Script (sdp) */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3810,7 +3813,6 @@
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = seed/seed_Prefix.pch;
@@ -3828,7 +3830,6 @@
 					vmutils,
 				);
 				PRODUCT_NAME = seed;
-				ZERO_LINK = NO;
 			};
 			name = Debug;
 		};
@@ -3839,7 +3840,6 @@
 				FRAMEWORK_SEARCH_PATHS = /System/Library/PrivateFrameworks;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_MODEL_TUNING = G5;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = seed/seed_Prefix.pch;
 				INFOPLIST_FILE = seed/Info.plist;
@@ -3857,7 +3857,6 @@
 				);
 				PRODUCT_NAME = seed;
 				STRIP_INSTALLED_PRODUCT = YES;
-				ZERO_LINK = NO;
 			};
 			name = Release;
 		};
