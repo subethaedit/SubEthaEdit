@@ -95,7 +95,7 @@
         if (initialText) {
         	[initialText release];
         }
-		DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel,@"imported %d operations, the last one being:%@ statistics are:%@",[I_loggedOperations count],[I_loggedOperations lastObject],I_statisticsArray);
+		DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel,@"imported %ld operations, the last one being:%@ statistics are:%@",(unsigned long)[I_loggedOperations count],[I_loggedOperations lastObject],I_statisticsArray);
     }
     return self;
 }

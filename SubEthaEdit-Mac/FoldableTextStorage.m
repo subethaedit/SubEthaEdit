@@ -176,7 +176,7 @@ typedef union {
 
 - (NSString *)foldedStringRepresentation {
 
-	return [[self foldedStringRepresentationOfRange:NSMakeRange(0,[I_fullTextStorage length]) foldings:I_sortedFoldedTextAttachments level:0] stringByAppendingFormat:@"\n->%d Foldings",[I_sortedFoldedTextAttachments count]];
+	return [[self foldedStringRepresentationOfRange:NSMakeRange(0,[I_fullTextStorage length]) foldings:I_sortedFoldedTextAttachments level:0] stringByAppendingFormat:@"\n->%lu Foldings",(unsigned long)[I_sortedFoldedTextAttachments count]];
 }
 
 

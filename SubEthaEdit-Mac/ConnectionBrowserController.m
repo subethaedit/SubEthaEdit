@@ -866,7 +866,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 
 - (IBAction)joinSession:(id)aSender {
     NSInteger row = [aSender clickedRow];
-    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"joinSession in row: %d", row);
+    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"joinSession in row: %ld", (long)row);
     
     ItemChildPair pair = [aSender itemChildPairAtRow:row];
     if (pair.childIndex != -1) {
@@ -876,7 +876,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 
 - (IBAction)doubleAction:(id)aSender {
     NSInteger row = [aSender clickedRow];
-    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"joinSession in row: %d", row);
+    DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"joinSession in row: %ld", (long)row);
     
     ItemChildPair pair = [aSender itemChildPairAtRow:row];
     if (pair.childIndex != -1) {
