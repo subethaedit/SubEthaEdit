@@ -26,7 +26,6 @@
 #import "SyntaxDefinition.h"
 #import <OgreKit/OgreKit.h>
 #import "NSCursorSEEAdditions.h"
-#import "BacktracingException.h"
 #import "DocumentModeManager.h"
 #import "ConnectionBrowserController.h"
 

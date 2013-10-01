@@ -1310,11 +1310,6 @@ static NSString *tempFileName(NSString *origPath) {
     [self setFileEncoding:anEncoding];
 }
 
-//- (NSURL *)autosavedContentsFileURL {
-//    NSLog(@"%s %@ %@",__FUNCTION__,[super autosavedContentsFileURL],[BacktracingException backtrace]);
-//    return [super autosavedContentsFileURL];
-//}
-
 - (NSDictionary *)fileAttributes {
     return I_fileAttributes;
 }

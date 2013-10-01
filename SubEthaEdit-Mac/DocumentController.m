@@ -31,7 +31,6 @@
 #endif //!defined(CODA)
 #import <objc/objc-runtime.h>			// for objc_msgSend
 
-#import "BacktracingException.h"
 #if defined(CODA)
 #import "CodaDocument.h"
 #import "CodaWindowController.h"
@@ -53,12 +52,6 @@
 
 
 @implementation DocumentController (DocumentControllerPrivateAdditions)
-
-
-//- (void) _writeAutosaveRecords {
-//    NSLog(@"%s %@",__FUNCTION__,[BacktracingException backtrace]);
-//    [super _writeAutosaveRecords];
-//}
 
 
 // for directory drags for which we open an open panel so the user can select the (multiple) files he wants to open

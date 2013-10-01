@@ -8,7 +8,6 @@
 
 #import "PlainTextWindow.h"
 #import "PlainTextWindowController.h"
-#import "BacktracingException.h"
 
 @implementation PlainTextWindow
 

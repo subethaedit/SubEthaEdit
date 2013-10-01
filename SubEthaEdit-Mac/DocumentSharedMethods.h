@@ -8,14 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-#ifndef TCM_ISSEED
 #import "PlainTextDocument.h"
 @class PlainTextDocument;
 @interface PlainTextDocument (DocumentSharedMethods) 
-#else
-#import "SDDocument.h"
-@class SDDocument;
-@interface SDDocument (DocumentSharedMethods) 
-#endif
 
 @end
