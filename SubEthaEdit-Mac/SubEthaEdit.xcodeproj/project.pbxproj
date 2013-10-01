@@ -3739,7 +3739,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					/System/Library/PrivateFrameworks,
 					"\"$(SRCROOT)/TCMPortMapper\"",
-					"\"$(SRCROOT)/Sparkle\"",
 				);
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_DYNAMIC_NO_PIC = NO;
@@ -3774,7 +3773,6 @@
 				FRAMEWORK_SEARCH_PATHS = (
 					/System/Library/PrivateFrameworks,
 					"\"$(SRCROOT)/TCMPortMapper\"",
-					"\"$(SRCROOT)/Sparkle\"",
 				);
 				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_MODEL_TUNING = G5;
