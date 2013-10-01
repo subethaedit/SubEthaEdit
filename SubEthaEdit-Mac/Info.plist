@@ -278,8 +278,6 @@
 	</array>
 	<key>CFBundleVersion</key>
 	<string>TCM_REVISION</string>
-	<key>TCMRevisionHash</key>
-	<string>TCM_REVISION_HASH</string>
 	<key>LSEnvironment</key>
 	<dict>
 		<key>MinimumSystemVersion</key>
@@ -296,8 +294,6 @@
 	<key>NSServices</key>
 	<array>
 		<dict>
-			<key>NSRequiredContext</key>
-			<dict/>
 			<key>NSMenuItem</key>
 			<dict>
 				<key>default</key>
@@ -307,6 +303,8 @@
 			<string>openSelection</string>
 			<key>NSPortName</key>
 			<string>SubEthaEdit</string>
+			<key>NSRequiredContext</key>
+			<dict/>
 			<key>NSSendTypes</key>
 			<array>
 				<string>public.plain-text</string>
@@ -316,35 +314,12 @@
 			</array>
 		</dict>
 	</array>
-	<key>SUExpectsDSASignature</key>
-	<true/>
-	<key>SUFeedURL</key>
-	<string>http://www.codingmonkeys.de/subethaedit/appcast.rss</string>
-	<key>SUPublicDSAKey</key>
-	<string>-----BEGIN PUBLIC KEY-----
-MIIDOjCCAi0GByqGSM44BAEwggIgAoIBAQCD+jaaiE84ZGe28mW/u1HqTZKs1eFN
-tBpkBd55qNiUSCAKB7BOkIbyRl9bqDynSlrAgBAcya1Nkif4aptLoEBz/BFcDT2j
-WlKnYJEyTxhKWGubeKeVKGA3Wr/NWuCCQiZokETgi6qbNmq4MRC97/XTY/SomDzF
-y193ltZs+GADbzo6ZbNwMRvWnFQsHIV+Qz3W9cOWgWfrGwZL6ZVMs/JrLBKy1x8N
-F+yFoo092ZsnlzBgotn4E4UX0DdQxDlV3CCAcbLzTastgdMkVs1rum9pbzymhFUI
-io8EhRl7YWGXMECE0k4/kimtkwt8jIF0LldUyI1gMTE8HJQa7bV1sRgjAhUA6ECC
-hZLDLzT5tVcMGrwHVcjboi8CggEAJqRlIaDwtRbchlt6AYiBtggFb/jkShq59nCi
-9dRVVmDAodSuHIYEuLOuf1kY6Oz7SNXEHN9ZDg1LmTmM8/9QuipJwdR+MJ2XKm0t
-T/VW+oI1JrDmRi1nRg6hLE7XT8qD8/Sp29Vsu4x+YGTV94BunjFbM1AhITsF+nMY
-2p9HwT+APuJvxhm/tQVCQ8QVlr69ObyA4cCNJUuRCX7PpZEMayQslpO7Z/gNfgoe
-ftiT7QJlub7xENq9ZJ5Csw76KG6b2CqnwK/76n2ALbW3RazqiWcGdjk2c3acOHvq
-5EH+4YlCAebrCYcLo3q4MkUA2qVNNDkgPI6q/xr4wFw+nxObGwOCAQUAAoIBAE1w
-SHT1iU0IRQT9hVu8BjJHn1P0h5kZDS1C0OyhY2BzZLeU/se1VJoYE99uAieMt/jp
-zUJBEYkHKOJPAXMbmqGTm4T+4PjPhy/a53vZP/i5Hke0D9VWILN3riVPpcBaz7W1
-bghauo3ax9soU8debynGxhYmGqfpEGL0zU377Xmb6oeLuIeBRc0XtSFI1R5l6k19
-F0vmLFsjqt6kTT3jLDv5HGVofBh7zaEUuHT7j3p5rB2u0zRYCUnZk6GIkoI0TfjD
-BeYykN+b2qAi1yS2y8bpYY66g2pv5VL/Mw/piR46gD9P8mSFI6iFaqu2LnbD1esx
-NpVfZko6DqvJJcLklZ8=
------END PUBLIC KEY-----</string>
 	<key>TCMBundledSeeToolVersion</key>
 	<string>1.2.1</string>
 	<key>TCMMinimumSeeToolVersion</key>
 	<string>1.0</string>
+	<key>TCMRevisionHash</key>
+	<string>TCM_REVISION_HASH</string>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>
