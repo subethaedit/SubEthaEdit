@@ -19,7 +19,7 @@
 #import "TCMMMUser.h"
 #import "TCMMMUserSEEAdditions.h"
 #import "TCMMMSession.h"
-#import "TCMMMTransformator.h";
+#import "TCMMMTransformator.h"
 #import "ButtonScrollView.h"
 #import "PopUpButton.h"
 #import "PopUpButtonCell.h"

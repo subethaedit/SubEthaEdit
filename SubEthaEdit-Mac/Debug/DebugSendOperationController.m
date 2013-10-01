@@ -12,8 +12,8 @@
 #import "DebugSendOperationController.h"
 #import "PlainTextDocument.h"
 #import "TCMMMSession.h"
-#import "TextOperation.h";
-#import "SelectionOperation.h";
+#import "TextOperation.h"
+#import "SelectionOperation.h"
 
 @implementation DebugSendOperationController
 

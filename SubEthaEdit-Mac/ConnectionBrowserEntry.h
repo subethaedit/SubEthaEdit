@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "TCMBEEP.h"
 #import "TCMMillionMonkeys.h"
-#import "TCMHost.h";
+#import "TCMHost.h"
 
 extern NSString * const ConnectionBrowserEntryStatusDidChangeNotification;
 
