@@ -2009,7 +2009,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
         }
         curPos = end;
     }
-    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"line endings stats -\nLF:   %d\nLSEP: %d\nPSEP: %d\nCR:   %d\nCRLF: %d\n", countOfLF, countOfLSEP, countOfPSEP, countOfCR, countOfCRLF);
+    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"line endings stats -\nLF:   %lu\nLSEP: %lu\nPSEP: %lu\nCR:   %lu\nCRLF: %lu\n", (unsigned long)countOfLF, (unsigned long)countOfLSEP, (unsigned long)countOfPSEP, (unsigned long)countOfCR, (unsigned long)countOfCRLF);
     
     NSDictionary *lineEndingStats = [NSDictionary dictionaryWithObjectsAndKeys:
         [NSNumber numberWithUnsignedInt:countOfCR], [NSNumber numberWithUnsignedShort:LineEndingCR],
@@ -3317,7 +3317,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 			I_flags.hasUTF8BOM = [fileData startsWithUTF8BOM]; // set the flag here
         }
                 
-        DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"Data of size: %d bytes read", [fileData length]);
+        DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"Data of size: %lu bytes read", (unsigned long)[fileData length]);
 
 		// check extended attributes for state
 		NSData *stateData = [UKXattrMetadataStore dataForKey:@"de.codingmonkeys.seestate" atPath:fileName traverseLink:YES];
@@ -3331,7 +3331,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 
     #ifndef TCM_NO_DEBUG
-        [_readFromURLDebugInformation appendFormat:@"was Readable:%d didLoadBytesOfData:%d\n",isReadable,fileData?[fileData length]:-1];
+        [_readFromURLDebugInformation appendFormat:@"was Readable:%d didLoadBytesOfData:%lu\n",isReadable,[fileData length]];
     #endif
 
     
@@ -3727,9 +3727,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         TCMMMLogStatisticsEntry *stat = [contributorEntry objectForKey:@"stat"];
         if (stat) {
             [element addAttribute:[NSXMLNode attributeWithName:@"lastactivity" stringValue:[[stat dateOfLastActivity] rfc1123Representation]]];
-            [element addAttribute:[NSXMLNode attributeWithName:@"deletions"  stringValue:[NSString stringWithFormat:@"%u",[stat deletedCharacters]]]];
-            [element addAttribute:[NSXMLNode attributeWithName:@"insertions" stringValue:[NSString stringWithFormat:@"%u",[stat insertedCharacters]]]];
-            [element addAttribute:[NSXMLNode attributeWithName:@"selections" stringValue:[NSString stringWithFormat:@"%u",[stat selectedCharacters]]]];
+            [element addAttribute:[NSXMLNode attributeWithName:@"deletions"  stringValue:[NSString stringWithFormat:@"%lu",[stat deletedCharacters]]]];
+            [element addAttribute:[NSXMLNode attributeWithName:@"insertions" stringValue:[NSString stringWithFormat:@"%lu",[stat insertedCharacters]]]];
+            [element addAttribute:[NSXMLNode attributeWithName:@"selections" stringValue:[NSString stringWithFormat:@"%lu",[stat selectedCharacters]]]];
         }
         [contributorsElement addChild:element];
     }
@@ -3745,7 +3745,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 - (BOOL)writeToURL:(NSURL *)absoluteURL ofType:(NSString *)inTypeName forSaveOperation:(NSSaveOperationType)saveOperation originalContentsURL:(NSURL *)originalContentsURL error:(NSError **)outError {
 //-timelog    NSDate *startDate = [NSDate date];
 //-timelog    NSLog(@"%s %@ %@ %d %@",__FUNCTION__, absoluteURL, inTypeName, saveOperation,originalContentsURL);
-    DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"write to:%@ type:%@ saveOperation:%d originalURL:%@", absoluteURL, inTypeName, saveOperation,originalContentsURL);
+    DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"write to:%@ type:%@ saveOperation:%lu originalURL:%@", absoluteURL, inTypeName, (unsigned long)saveOperation,originalContentsURL);
     if ([inTypeName isEqualToString:@"PlainTextType"]) {
         BOOL modeWantsUTF8BOM = [[[self documentMode] defaultForKey:DocumentModeUTF8BOMPreferenceKey] boolValue];
         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"modeWantsUTF8BOM: %d, hasUTF8BOM: %d", modeWantsUTF8BOM, I_flags.hasUTF8BOM);
