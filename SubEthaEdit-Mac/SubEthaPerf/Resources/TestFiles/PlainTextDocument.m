@@ -61,7 +61,6 @@
 #import "NSMenuTCMAdditions.h"
 
 #import "TCMMMLoggingState.h"
-#import "BacktracingException.h"
 
 #import "UKXattrMetadataStore.h"
 
@@ -1272,11 +1271,6 @@ static NSString *tempFileName(NSString *origPath) {
         setFileEncodingUndoable:[self fileEncoding]];
     [self setFileEncoding:anEncoding];
 }
-
-//- (NSURL *)autosavedContentsFileURL {
-//    NSLog(@"%s %@ %@",__FUNCTION__,[super autosavedContentsFileURL],[BacktracingException backtrace]);
-//    return [super autosavedContentsFileURL];
-//}
 
 - (NSDictionary *)fileAttributes {
     return I_fileAttributes;

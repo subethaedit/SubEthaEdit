@@ -11,7 +11,6 @@
 #import "PlainTextDocument.h"
 #import "FoldableTextStorage.h"
 #import "DocumentMode.h"
-#import "BacktracingException.h"
 
 int const kWebPreviewRefreshAutomatic=1;
 int const kWebPreviewRefreshOnSave   =2;
