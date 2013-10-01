@@ -1,0 +1,582 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4510" systemVersion="13A584" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+    <dependencies>
+        <deployment defaultVersion="1060" identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4510"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="FindReplaceController">
+            <connections>
+                <outlet property="O_FindAllButton" destination="168" id="355"/>
+                <outlet property="O_NextButton" destination="172" id="359"/>
+                <outlet property="O_PrevButton" destination="167" id="358"/>
+                <outlet property="O_ReplaceAllButton" destination="175" id="354"/>
+                <outlet property="O_ReplaceButton" destination="169" id="356"/>
+                <outlet property="O_ReplaceFindButton" destination="163" id="357"/>
+                <outlet property="O_findComboBox" destination="166" id="214"/>
+                <outlet property="O_findPanel" destination="8" id="134"/>
+                <outlet property="O_gotoLineTextField" destination="126" id="136"/>
+                <outlet property="O_gotoPanel" destination="123" id="135"/>
+                <outlet property="O_ignoreCaseCheckbox" destination="173" id="218"/>
+                <outlet property="O_progressIndicator" destination="183" id="217"/>
+                <outlet property="O_progressIndicatorDet" destination="352" id="353"/>
+                <outlet property="O_regexCaptureGroupsCheckbox" destination="198" id="226"/>
+                <outlet property="O_regexCheckbox" destination="178" id="219"/>
+                <outlet property="O_regexDrawer" destination="213" id="234"/>
+                <outlet property="O_regexEscapeCharacter" destination="204" id="224"/>
+                <outlet property="O_regexExtendedCheckbox" destination="208" id="230"/>
+                <outlet property="O_regexFindLongestCheckbox" destination="191" id="229"/>
+                <outlet property="O_regexIgnoreEmptyCheckbox" destination="192" id="228"/>
+                <outlet property="O_regexMultilineCheckbox" destination="203" id="231"/>
+                <outlet property="O_regexOptionsView" destination="185" id="233"/>
+                <outlet property="O_regexSinglelineCheckbox" destination="186" id="232"/>
+                <outlet property="O_regexSyntaxPopup" destination="200" id="223"/>
+                <outlet property="O_replaceComboBox" destination="176" id="215"/>
+                <outlet property="O_scopePopup" destination="164" id="221"/>
+                <outlet property="O_statusTextField" destination="184" id="216"/>
+                <outlet property="O_tabWidthPanel" destination="328" id="333"/>
+                <outlet property="O_tabWidthTextField" destination="331" id="335"/>
+                <outlet property="O_wrapAroundCheckbox" destination="170" id="220"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application"/>
+        <window title="Find" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" releasedWhenClosed="NO" wantsToBeColor="NO" visibleAtLaunch="NO" frameAutosaveName="FindPanel" animationBehavior="default" id="8" userLabel="FindPanel" customClass="NSPanel">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" resizable="YES" utility="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="210" y="356" width="516" height="197"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
+            <view key="contentView" autoresizesSubviews="NO" id="3">
+                <rect key="frame" x="0.0" y="0.0" width="516" height="197"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button verticalHuggingPriority="750" tag="6" id="163">
+                        <rect key="frame" x="251" y="7" width="112" height="28"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="push" title="Replace &amp; Find" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" tag="6" inset="2" id="419">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="smallSystem"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="performFindPanelAction:" target="-2" id="307"/>
+                            <outlet property="nextKeyView" destination="167" id="261"/>
+                        </connections>
+                    </button>
+                    <popUpButton toolTip="Scope for Replace All" verticalHuggingPriority="750" id="164">
+                        <rect key="frame" x="389" y="42" width="96" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <popUpButtonCell key="cell" type="push" title="Document" bezelStyle="rounded" alignment="left" controlSize="small" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="161" id="420">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="smallSystem"/>
+                            <menu key="menu" title="OtherViews" id="177">
+                                <items>
+                                    <menuItem title="Document" state="on" id="161"/>
+                                    <menuItem title="Selection" tag="1" id="171"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                        <connections>
+                            <outlet property="nextKeyView" destination="168" id="266"/>
+                        </connections>
+                    </popUpButton>
+                    <button verticalHuggingPriority="750" tag="3" id="167">
+                        <rect key="frame" x="361" y="7" width="81" height="28"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="push" title="Previous" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" tag="3" inset="2" id="421">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="smallSystem"/>
+                            <string key="keyEquivalent">G</string>
+                            <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="performFindPanelAction:" target="-2" id="308"/>
+                            <outlet property="nextKeyView" destination="172" id="271"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" tag="1001" id="168">
+                        <rect key="frame" x="15" y="7" width="76" height="28"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="push" title="Find All" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" tag="1001" inset="2" id="422">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="smallSystem"/>
+                            <string key="keyEquivalent">f</string>
+                            <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="performFindPanelAction:" target="-2" id="312"/>
+                            <outlet property="nextKeyView" destination="175" id="258"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" tag="5" id="169">
+                        <rect key="frame" x="177" y="7" width="76" height="28"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="push" title="Replace" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" tag="5" inset="2" id="423">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="smallSystem"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="performFindPanelAction:" target="-2" id="310"/>
+                            <outlet property="nextKeyView" destination="163" id="260"/>
+                        </connections>
+                    </button>
+                    <button toolTip="Continue search at the beginning of the document" id="170">
+                        <rect key="frame" x="151" y="45" width="92" height="18"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <buttonCell key="cell" type="check" title="Wrap around" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" state="on" inset="2" id="424">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="smallSystem"/>
+                        </buttonCell>
+                        <connections>
+                            <outlet property="nextKeyView" destination="173" id="264"/>
+                        </connections>
+                    </button>
+                    <button verticalHuggingPriority="750" tag="2" id="172">
+                        <rect key="frame" x="440" y="7" width="61" height="28"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="push" title="Next" bezelStyle="rounded" alignment="center" controlSize="small" state="on" borderStyle="border" tag="2" inset="2" id="425">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="smallSystem"/>
+                            <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                        </buttonCell>
+                        <connections>
+                            <action selector="performFindPanelAction:" target="-2" id="309"/>
+                            <outlet property="nextKeyView" destination="166" id="267"/>
+                        </connections>
+                    </button>
+                    <button toolTip="Ignore UPPPERCASE and lowercase" id="173">
+                        <rect key="frame" x="249" y="45" width="92" height="18"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <buttonCell key="cell" type="check" title="Ignore case" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" state="on" inset="2" id="426">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="smallSystem"/>
+                        </buttonCell>
+                        <connections>
+                            <outlet property="nextKeyView" destination="164" id="265"/>
+                        </connections>
+                    </button>
+                    <textField verticalHuggingPriority="750" id="174">
+                        <rect key="frame" x="350" y="47" width="43" height="14"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" id="427">
+                            <font key="font" metaFont="smallSystem"/>
+                            <string key="title">Scope:
+</string>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <button verticalHuggingPriority="750" tag="4" id="175">
+                        <rect key="frame" x="89" y="7" width="90" height="28"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="push" title="Replace All" bezelStyle="rounded" alignment="center" controlSize="small" borderStyle="border" tag="4" inset="2" id="428">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="smallSystem"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="performFindPanelAction:" target="-2" id="311"/>
+                            <outlet property="nextKeyView" destination="169" id="259"/>
+                        </connections>
+                    </button>
+                    <button toolTip="Enable regular expressions" id="178">
+                        <rect key="frame" x="88" y="45" width="64" height="18"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <buttonCell key="cell" type="check" title="RegEx" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="429">
+                            <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                            <font key="font" metaFont="smallSystem"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="updateRegexDrawer:" target="-2" id="314"/>
+                            <outlet property="nextKeyView" destination="170" id="263"/>
+                        </connections>
+                    </button>
+                    <progressIndicator horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="spinning" id="183">
+                        <rect key="frame" x="56" y="46" width="16" height="16"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </progressIndicator>
+                    <textField hidden="YES" verticalHuggingPriority="750" id="184">
+                        <rect key="frame" x="3" y="39" width="72" height="20"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="4242 replaced. Second line." id="430">
+                            <font key="font" metaFont="miniSystem"/>
+                            <color key="textColor" red="0.40000001000000002" green="0.40000001000000002" blue="0.40000001000000002" alpha="1" colorSpace="calibratedRGB"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <customView autoresizesSubviews="NO" id="239">
+                        <rect key="frame" x="0.0" y="67" width="516" height="122"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <customView autoresizesSubviews="NO" id="241">
+                                <rect key="frame" x="38" y="60" width="458" height="60"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES" heightSizable="YES"/>
+                                <subviews>
+                                    <comboBox toolTip="For help with regular expressions have a look at &quot;Help → Regular Expressions&quot;" verticalHuggingPriority="750" id="166">
+                                        <rect key="frame" x="37" y="2" width="424" height="55"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <comboBoxCell key="cell" controlSize="small" selectable="YES" editable="YES" borderStyle="bezel" alignment="left" drawsBackground="YES" completes="NO" usesDataSource="YES" numberOfVisibleItems="8" id="434">
+                                            <font key="font" metaFont="cellTitle"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </comboBoxCell>
+                                        <connections>
+                                            <action selector="findNextAndOrderOut:" target="-2" id="313"/>
+                                            <outlet property="dataSource" destination="-2" id="318"/>
+                                            <outlet property="delegate" destination="-2" id="320"/>
+                                            <outlet property="nextKeyView" destination="176" id="268"/>
+                                        </connections>
+                                    </comboBox>
+                                    <textField verticalHuggingPriority="750" id="162">
+                                        <rect key="frame" x="-3" y="37" width="35" height="16"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Find:" id="433">
+                                            <font key="font" metaFont="cellTitle"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                </subviews>
+                            </customView>
+                            <customView autoresizesSubviews="NO" id="240">
+                                <rect key="frame" x="20" y="2" width="476" height="60"/>
+                                <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                                <subviews>
+                                    <comboBox verticalHuggingPriority="750" id="176">
+                                        <rect key="frame" x="55" y="1" width="424" height="55"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                        <string key="toolTip">You can use the following backslash sequences in this field.
+
+\0, \&amp;: The matched string
+\1, \2, ... \9: The string matched by n-th group subexpression
+\`: The part of the string before the match
+\': The part of the string after the match
+\-: The part of the string between the match and the last match
+\+: The string of the matched highest-numbered group
+\g&lt;name&gt;: The string matched by named group subexpression
+\g&lt;number&gt;: The string matched by n-th group subexpression
+\\: Backslash character "\"
+\t: horizontal tab (0x09)
+\n: newline (0x0A)
+\r: return (0x0D)
+\x{HHHH}: 16-bit Unicode character U+HHHH</string>
+                                        <comboBoxCell key="cell" controlSize="small" selectable="YES" editable="YES" borderStyle="bezel" alignment="left" drawsBackground="YES" completes="NO" usesDataSource="YES" numberOfVisibleItems="8" id="432">
+                                            <font key="font" metaFont="cellTitle"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                        </comboBoxCell>
+                                        <connections>
+                                            <outlet property="dataSource" destination="-2" id="319"/>
+                                            <outlet property="nextKeyView" destination="178" id="270"/>
+                                        </connections>
+                                    </comboBox>
+                                    <textField verticalHuggingPriority="750" id="165">
+                                        <rect key="frame" x="-3" y="34" width="53" height="20"/>
+                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Replace:" id="431">
+                                            <font key="font" metaFont="cellTitle"/>
+                                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                        </textFieldCell>
+                                    </textField>
+                                </subviews>
+                            </customView>
+                        </subviews>
+                    </customView>
+                    <button verticalHuggingPriority="750" tag="2" id="337">
+                        <rect key="frame" x="440" y="-34" width="61" height="28"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
+                        <buttonCell key="cell" type="push" title="Next" alternateTitle="Invisible Button for Command-G" bezelStyle="rounded" alignment="center" controlSize="small" state="on" borderStyle="border" tag="2" transparent="YES" inset="2" id="435">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="smallSystem"/>
+                            <string key="keyEquivalent">g</string>
+                            <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                        </buttonCell>
+                        <connections>
+                            <action selector="performFindPanelAction:" target="-2" id="361"/>
+                        </connections>
+                    </button>
+                    <progressIndicator verticalHuggingPriority="750" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" controlSize="small" style="bar" id="352">
+                        <rect key="frame" x="19" y="47" width="54" height="12"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </progressIndicator>
+                </subviews>
+            </view>
+            <connections>
+                <outlet property="initialFirstResponder" destination="172" id="255"/>
+            </connections>
+        </window>
+        <window title="Go to Line" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" releasedWhenClosed="NO" wantsToBeColor="NO" visibleAtLaunch="NO" animationBehavior="default" id="123" userLabel="GotoPanel" customClass="NSPanel">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" utility="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="127" y="319" width="187" height="44"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
+            <view key="contentView" autoresizesSubviews="NO" id="124">
+                <rect key="frame" x="1" y="1" width="187" height="44"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button verticalHuggingPriority="750" id="125">
+                        <rect key="frame" x="112" y="5" width="61" height="32"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <buttonCell key="cell" type="push" title="Go" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="436">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                            <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                        </buttonCell>
+                        <connections>
+                            <action selector="gotoLineAndClosePanel:" target="-2" id="316"/>
+                        </connections>
+                    </button>
+                    <textField verticalHuggingPriority="750" id="126">
+                        <rect key="frame" x="60" y="12" width="50" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="437">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <action selector="gotoLine:" target="-2" id="317"/>
+                        </connections>
+                    </textField>
+                    <textField verticalHuggingPriority="750" id="127">
+                        <rect key="frame" x="17" y="15" width="38" height="17"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" id="438">
+                            <font key="font" metaFont="system"/>
+                            <string key="title">Line:
+</string>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                </subviews>
+            </view>
+            <connections>
+                <outlet property="initialFirstResponder" destination="126" id="131"/>
+            </connections>
+        </window>
+        <customView autoresizesSubviews="NO" id="185" userLabel="RegExOptions">
+            <rect key="frame" x="0.0" y="0.0" width="460" height="94"/>
+            <autoresizingMask key="autoresizingMask"/>
+            <subviews>
+                <box autoresizesSubviews="NO" title="RegEx Options" id="212">
+                    <rect key="frame" x="12" y="10" width="438" height="78"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
+                    <view key="contentView">
+                        <rect key="frame" x="2" y="2" width="434" height="61"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <popUpButton toolTip="Regular Expression flavor" verticalHuggingPriority="750" id="200">
+                                <rect key="frame" x="57" y="35" width="111" height="15"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <popUpButtonCell key="cell" type="push" title="Ruby" bezelStyle="rounded" alignment="left" controlSize="mini" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" tag="8" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="199" id="445">
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="miniSystem"/>
+                                    <menu key="menu" title="OtherViews" id="209">
+                                        <items>
+                                            <menuItem title="POSIX Basic" tag="1" id="195"/>
+                                            <menuItem title="POSIX Extended" tag="2" id="190"/>
+                                            <menuItem title="Emacs" tag="3" id="210"/>
+                                            <menuItem title="grep" tag="4" id="187"/>
+                                            <menuItem title="GNU" tag="5" id="194"/>
+                                            <menuItem title="Java" tag="6" id="206"/>
+                                            <menuItem title="Perl" tag="7" id="197"/>
+                                            <menuItem title="Ruby" state="on" tag="8" id="199"/>
+                                        </items>
+                                    </menu>
+                                </popUpButtonCell>
+                                <connections>
+                                    <outlet property="nextKeyView" destination="204" id="272"/>
+                                </connections>
+                            </popUpButton>
+                            <popUpButton toolTip="Character to escape command characters" verticalHuggingPriority="750" id="204">
+                                <rect key="frame" x="120" y="15" width="48" height="15"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <popUpButtonCell key="cell" type="push" title="\" bezelStyle="rounded" alignment="left" controlSize="mini" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="201" id="447">
+                                    <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="miniSystem"/>
+                                    <menu key="menu" title="OtherViews" id="207">
+                                        <items>
+                                            <menuItem title="\" state="on" id="201"/>
+                                            <menuItem title="¥" tag="1" id="202"/>
+                                        </items>
+                                    </menu>
+                                </popUpButtonCell>
+                                <connections>
+                                    <outlet property="nextKeyView" destination="186" id="273"/>
+                                </connections>
+                            </popUpButton>
+                            <button id="186">
+                                <rect key="frame" x="184" y="35" width="76" height="18"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <string key="toolTip">^ -&gt; \A
+$ -&gt; \z
+\Z -&gt; \z</string>
+                                <buttonCell key="cell" type="check" title="Line context" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="mini" state="on" inset="2" id="439">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="miniSystem"/>
+                                </buttonCell>
+                                <connections>
+                                    <outlet property="nextKeyView" destination="203" id="274"/>
+                                </connections>
+                            </button>
+                            <button toolTip="'.' matches newline" id="203">
+                                <rect key="frame" x="184" y="22" width="65" height="18"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <buttonCell key="cell" type="check" title="Multiline" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="mini" state="on" inset="2" id="446">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="miniSystem"/>
+                                </buttonCell>
+                                <connections>
+                                    <outlet property="nextKeyView" destination="208" id="275"/>
+                                </connections>
+                            </button>
+                            <button toolTip="Extended pattern options" id="208">
+                                <rect key="frame" x="184" y="9" width="65" height="18"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <buttonCell key="cell" type="check" title="Extended" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="mini" inset="2" id="449">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="miniSystem"/>
+                                </buttonCell>
+                                <connections>
+                                    <outlet property="nextKeyView" destination="191" id="276"/>
+                                </connections>
+                            </button>
+                            <button toolTip="Find the longest matching pattern" id="191">
+                                <rect key="frame" x="282" y="22" width="108" height="18"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <buttonCell key="cell" type="check" title="Only longest match" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="mini" inset="2" id="441">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="miniSystem"/>
+                                </buttonCell>
+                                <connections>
+                                    <outlet property="nextKeyView" destination="192" id="277"/>
+                                </connections>
+                            </button>
+                            <button toolTip="Ignore matches that are empty" id="192">
+                                <rect key="frame" x="282" y="35" width="120" height="18"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <buttonCell key="cell" type="check" title="Ignore empty matches" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="mini" state="on" inset="2" id="442">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="miniSystem"/>
+                                </buttonCell>
+                            </button>
+                            <button id="193">
+                                <rect key="frame" x="328" y="95" width="108" height="18"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <buttonCell key="cell" type="check" title="Capture Groups" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="mini" inset="2" id="443">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="miniSystem"/>
+                                </buttonCell>
+                            </button>
+                            <textField verticalHuggingPriority="750" id="189">
+                                <rect key="frame" x="17" y="37" width="36" height="11"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Syntax:" id="440">
+                                    <font key="font" metaFont="miniSystem"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <textField verticalHuggingPriority="750" id="205">
+                                <rect key="frame" x="17" y="18" width="86" height="11"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" title="Escape Character:" id="448">
+                                    <font key="font" metaFont="miniSystem"/>
+                                    <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                </textFieldCell>
+                            </textField>
+                            <button toolTip="Capture named and not-named groups." id="198">
+                                <rect key="frame" x="282" y="9" width="118" height="18"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <buttonCell key="cell" type="check" title="Capture groups" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="mini" state="on" inset="2" id="444">
+                                    <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                    <font key="font" metaFont="miniSystem"/>
+                                </buttonCell>
+                                <connections>
+                                    <outlet property="nextKeyView" destination="200" id="281"/>
+                                </connections>
+                            </button>
+                            <button horizontalHuggingPriority="750" verticalHuggingPriority="750" id="399">
+                                <rect key="frame" x="155" y="77" width="21" height="24"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <buttonCell key="cell" type="help" bezelStyle="helpButton" alignment="center" borderStyle="border" inset="2" id="450">
+                                    <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                    <font key="font" metaFont="system"/>
+                                </buttonCell>
+                            </button>
+                        </subviews>
+                    </view>
+                    <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                    <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                </box>
+            </subviews>
+        </customView>
+        <drawer preferredEdge="minY" leadingOffset="20" trailingOffset="20" id="213" userLabel="Options">
+            <size key="contentSize" width="460" height="100"/>
+            <size key="minContentSize" width="420" height="90"/>
+            <size key="maxContentSize" width="600" height="90"/>
+            <connections>
+                <outlet property="contentView" destination="185" id="236"/>
+                <outlet property="delegate" destination="-2" id="237"/>
+                <outlet property="parentWindow" destination="8" id="238"/>
+            </connections>
+        </drawer>
+        <window title="Tab Width" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" hidesOnDeactivate="YES" releasedWhenClosed="NO" wantsToBeColor="NO" visibleAtLaunch="NO" animationBehavior="default" id="328" userLabel="TabWidthPanel" customClass="NSPanel">
+            <windowStyleMask key="styleMask" titled="YES" closable="YES" utility="YES"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="240" y="561" width="215" height="43"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
+            <view key="contentView" autoresizesSubviews="NO" id="330">
+                <rect key="frame" x="1" y="1" width="215" height="43"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <button verticalHuggingPriority="750" id="327">
+                        <rect key="frame" x="150" y="5" width="61" height="32"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <buttonCell key="cell" type="push" title="Set" bezelStyle="rounded" alignment="center" borderStyle="border" inset="2" id="451">
+                            <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                            <string key="keyEquivalent" base64-UTF8="YES">
+DQ
+</string>
+                        </buttonCell>
+                        <connections>
+                            <action selector="chooseTabWidth:" target="-2" id="336"/>
+                        </connections>
+                    </button>
+                    <textField verticalHuggingPriority="750" id="331">
+                        <rect key="frame" x="98" y="11" width="50" height="22"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" state="on" borderStyle="bezel" alignment="left" drawsBackground="YES" id="453">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                        <connections>
+                            <action selector="chooseTabWidth:" target="-2" id="334"/>
+                        </connections>
+                    </textField>
+                    <textField verticalHuggingPriority="750" id="329">
+                        <rect key="frame" x="17" y="14" width="76" height="17"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="left" id="452">
+                            <font key="font" metaFont="system"/>
+                            <string key="title">Tab Width:
+</string>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                </subviews>
+            </view>
+            <connections>
+                <outlet property="initialFirstResponder" destination="331" id="332"/>
+            </connections>
+        </window>
+    </objects>
+</document>
