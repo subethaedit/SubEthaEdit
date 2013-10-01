@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4504" systemVersion="13A584" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4510" systemVersion="13A584" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment version="1050" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4504"/>
+        <deployment defaultVersion="1060" identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4510"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="EditPreferences">
@@ -35,14 +35,14 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <view key="contentView">
                             <rect key="frame" x="2" y="2" width="440" height="434"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <box title="File" id="34">
                                     <rect key="frame" x="17" y="49" width="409" height="109"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <view key="contentView">
                                         <rect key="frame" x="2" y="2" width="405" height="92"/>
-                                        <autoresizingMask key="autoresizingMask"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
                                             <textField verticalHuggingPriority="750" id="31">
                                                 <rect key="frame" x="55" y="61" width="102" height="18"/>
@@ -68,12 +68,12 @@
                                                     </menu>
                                                 </popUpButtonCell>
                                                 <connections>
+                                                    <binding destination="240" name="selectedTag" keyPath="selection.defaults.Encoding" id="269"/>
                                                     <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultFile" id="138">
                                                         <dictionary key="options">
                                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                         </dictionary>
                                                     </binding>
-                                                    <binding destination="240" name="selectedTag" keyPath="selection.defaults.Encoding" id="269"/>
                                                 </connections>
                                             </popUpButton>
                                             <textField verticalHuggingPriority="750" id="26">
@@ -102,12 +102,12 @@
                                                     </menu>
                                                 </popUpButtonCell>
                                                 <connections>
+                                                    <binding destination="240" name="selectedTag" keyPath="selection.defaults.LineEnding" id="270"/>
                                                     <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultFile" id="136">
                                                         <dictionary key="options">
                                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                         </dictionary>
                                                     </binding>
-                                                    <binding destination="240" name="selectedTag" keyPath="selection.defaults.LineEnding" id="270"/>
                                                 </connections>
                                             </popUpButton>
                                             <button id="274">
@@ -118,12 +118,12 @@
                                                     <font key="font" metaFont="smallSystem"/>
                                                 </buttonCell>
                                                 <connections>
+                                                    <binding destination="240" name="value" keyPath="selection.defaults.UTF8BOM" id="280"/>
                                                     <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultFile" id="282">
                                                         <dictionary key="options">
                                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                         </dictionary>
                                                     </binding>
-                                                    <binding destination="240" name="value" keyPath="selection.defaults.UTF8BOM" id="280"/>
                                                 </connections>
                                             </button>
                                         </subviews>
@@ -136,7 +136,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <view key="contentView">
                                         <rect key="frame" x="2" y="2" width="405" height="63"/>
-                                        <autoresizingMask key="autoresizingMask"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
                                             <button toolTip="Uses tabs instead of spaces" id="57">
                                                 <rect key="frame" x="13" y="36" width="127" height="18"/>
@@ -179,12 +179,12 @@
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                                 <connections>
+                                                    <binding destination="239" name="value" keyPath="selection.defaults.TabWidth" id="267"/>
                                                     <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultEdit" id="146">
                                                         <dictionary key="options">
                                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                         </dictionary>
                                                     </binding>
-                                                    <binding destination="239" name="value" keyPath="selection.defaults.TabWidth" id="267"/>
                                                     <outlet property="nextKeyView" destination="193" id="207"/>
                                                 </connections>
                                             </textField>
@@ -196,12 +196,12 @@
                                                     <font key="font" metaFont="smallSystem"/>
                                                 </buttonCell>
                                                 <connections>
+                                                    <binding destination="239" name="value" keyPath="selection.defaults.IndentNewLines" id="266"/>
                                                     <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultEdit" id="142">
                                                         <dictionary key="options">
                                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                         </dictionary>
                                                     </binding>
-                                                    <binding destination="239" name="value" keyPath="selection.defaults.IndentNewLines" id="266"/>
                                                 </connections>
                                             </button>
                                             <button toolTip="New lines are indented at the level of the upper line." id="376">
@@ -212,12 +212,12 @@
                                                     <font key="font" metaFont="smallSystem"/>
                                                 </buttonCell>
                                                 <connections>
-                                                    <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultEdit" id="378">
+                                                    <binding destination="239" name="value" keyPath="selection.defaults.TabKeyReplacesSelection" id="381">
                                                         <dictionary key="options">
                                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                         </dictionary>
                                                     </binding>
-                                                    <binding destination="239" name="value" keyPath="selection.defaults.TabKeyReplacesSelection" id="381">
+                                                    <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultEdit" id="378">
                                                         <dictionary key="options">
                                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                         </dictionary>
@@ -234,7 +234,7 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                     <view key="contentView">
                                         <rect key="frame" x="2" y="2" width="405" height="157"/>
-                                        <autoresizingMask key="autoresizingMask"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
                                             <button toolTip="Enable syntax coloring by default" id="50">
                                                 <rect key="frame" x="11" y="124" width="121" height="18"/>
@@ -244,12 +244,12 @@
                                                     <font key="font" metaFont="smallSystem"/>
                                                 </buttonCell>
                                                 <connections>
+                                                    <binding destination="238" name="value" keyPath="selection.defaults.HighlightSyntax" id="255"/>
                                                     <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultView" id="171">
                                                         <dictionary key="options">
                                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                         </dictionary>
                                                     </binding>
-                                                    <binding destination="238" name="value" keyPath="selection.defaults.HighlightSyntax" id="255"/>
                                                 </connections>
                                             </button>
                                             <button toolTip="Flash matching brackets and parens red." id="156">
@@ -260,12 +260,12 @@
                                                     <font key="font" metaFont="smallSystem"/>
                                                 </buttonCell>
                                                 <connections>
+                                                    <binding destination="238" name="value" keyPath="selection.defaults.ShowMatchingBrackets" id="256"/>
                                                     <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultView" id="177">
                                                         <dictionary key="options">
                                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                         </dictionary>
                                                     </binding>
-                                                    <binding destination="238" name="value" keyPath="selection.defaults.ShowMatchingBrackets" id="256"/>
                                                 </connections>
                                             </button>
                                             <button id="158">
@@ -292,12 +292,12 @@
                                                     <font key="font" metaFont="smallSystem"/>
                                                 </buttonCell>
                                                 <connections>
+                                                    <binding destination="238" name="value" keyPath="selection.defaults.ShowLineNumbers" id="257"/>
                                                     <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultView" id="178">
                                                         <dictionary key="options">
                                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                         </dictionary>
                                                     </binding>
-                                                    <binding destination="238" name="value" keyPath="selection.defaults.ShowLineNumbers" id="257"/>
                                                 </connections>
                                             </button>
                                             <matrix verticalHuggingPriority="750" allowsEmptySelection="NO" autosizesCells="NO" id="161">
@@ -339,12 +339,12 @@
                                                     <font key="font" metaFont="smallSystem"/>
                                                 </buttonCell>
                                                 <connections>
+                                                    <binding destination="238" name="value" keyPath="selection.defaults.ShowInvisibleCharacters" id="258"/>
                                                     <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultView" id="179">
                                                         <dictionary key="options">
                                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                         </dictionary>
                                                     </binding>
-                                                    <binding destination="238" name="value" keyPath="selection.defaults.ShowInvisibleCharacters" id="258"/>
                                                 </connections>
                                             </button>
                                             <textField verticalHuggingPriority="750" id="185">
@@ -372,12 +372,12 @@
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                                 <connections>
+                                                    <binding destination="238" name="value" keyPath="selection.defaults.Columns" id="261"/>
                                                     <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultView" id="202">
                                                         <dictionary key="options">
                                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                         </dictionary>
                                                     </binding>
-                                                    <binding destination="238" name="value" keyPath="selection.defaults.Columns" id="261"/>
                                                     <outlet property="nextKeyView" destination="189" id="205"/>
                                                 </connections>
                                             </textField>
@@ -417,12 +417,12 @@
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                                 <connections>
+                                                    <binding destination="238" name="value" keyPath="selection.defaults.Rows" id="262"/>
                                                     <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultView" id="204">
                                                         <dictionary key="options">
                                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                         </dictionary>
                                                     </binding>
-                                                    <binding destination="238" name="value" keyPath="selection.defaults.Rows" id="262"/>
                                                     <outlet property="nextKeyView" destination="63" id="206"/>
                                                 </connections>
                                             </textField>
@@ -434,12 +434,12 @@
                                                     <font key="font" metaFont="smallSystem"/>
                                                 </buttonCell>
                                                 <connections>
+                                                    <binding destination="238" name="value" keyPath="selection.defaults.IndentWrappedLines" id="299"/>
                                                     <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultView" id="286">
                                                         <dictionary key="options">
                                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                         </dictionary>
                                                     </binding>
-                                                    <binding destination="238" name="value" keyPath="selection.defaults.IndentWrappedLines" id="299"/>
                                                 </connections>
                                             </button>
                                             <button id="290">
@@ -450,12 +450,12 @@
                                                     <font key="font" metaFont="smallSystem"/>
                                                 </buttonCell>
                                                 <connections>
+                                                    <binding destination="238" name="value" keyPath="selection.defaults.ShowPageGuide" id="308"/>
                                                     <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultView" id="298">
                                                         <dictionary key="options">
                                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                         </dictionary>
                                                     </binding>
-                                                    <binding destination="238" name="value" keyPath="selection.defaults.ShowPageGuide" id="308"/>
                                                 </connections>
                                             </button>
                                             <textField toolTip="Set the tab width in characters " verticalHuggingPriority="750" id="294">
@@ -474,17 +474,17 @@
                                                     <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                                 <connections>
+                                                    <binding destination="238" name="value" keyPath="selection.defaults.PageGuideWidth" id="309"/>
+                                                    <binding destination="238" name="enabled" keyPath="selection.defaults.ShowPageGuide" id="310"/>
                                                     <binding destination="73" name="enabled2" keyPath="selection.defaults.UseDefaultView" previousBinding="310" id="341">
                                                         <dictionary key="options">
                                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                             <integer key="NSNotApplicablePlaceholder" value="-1"/>
                                                             <integer key="NSNoSelectionPlaceholder" value="-1"/>
-                                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
                                                             <integer key="NSNullPlaceholder" value="-1"/>
+                                                            <integer key="NSMultipleValuesPlaceholder" value="-1"/>
                                                         </dictionary>
                                                     </binding>
-                                                    <binding destination="238" name="enabled" keyPath="selection.defaults.ShowPageGuide" id="310"/>
-                                                    <binding destination="238" name="value" keyPath="selection.defaults.PageGuideWidth" id="309"/>
                                                 </connections>
                                             </textField>
                                             <textField verticalHuggingPriority="750" id="312">
@@ -523,12 +523,12 @@
                                                             <integer key="NSMultipleValuesPlaceholder" value="-1"/>
                                                         </dictionary>
                                                     </binding>
+                                                    <binding destination="238" name="value" keyPath="selection.defaults.IndentWrappedLinesCharacterAmount" id="327"/>
                                                     <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultView" id="336">
                                                         <dictionary key="options">
                                                             <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                         </dictionary>
                                                     </binding>
-                                                    <binding destination="238" name="value" keyPath="selection.defaults.IndentWrappedLinesCharacterAmount" id="327"/>
                                                 </connections>
                                             </textField>
                                             <textField verticalHuggingPriority="750" id="319">
@@ -557,8 +557,8 @@
                                     </buttonCell>
                                     <connections>
                                         <action selector="validateDefaultsState:" target="-2" id="251"/>
-                                        <binding destination="73" name="hidden" keyPath="selection.isBaseMode" id="93"/>
                                         <binding destination="73" name="value" keyPath="selection.defaults.UseDefaultView" id="176"/>
+                                        <binding destination="73" name="hidden" keyPath="selection.isBaseMode" id="93"/>
                                     </connections>
                                 </button>
                                 <button toolTip="Use the settings specified in &quot;Default Mode&quot;" id="70">
@@ -570,8 +570,8 @@
                                     </buttonCell>
                                     <connections>
                                         <action selector="validateDefaultsState:" target="-2" id="252"/>
-                                        <binding destination="73" name="hidden" keyPath="selection.isBaseMode" id="94"/>
                                         <binding destination="73" name="value" keyPath="selection.defaults.UseDefaultEdit" id="149"/>
+                                        <binding destination="73" name="hidden" keyPath="selection.isBaseMode" id="94"/>
                                     </connections>
                                 </button>
                                 <button toolTip="Use the settings specified in &quot;Default Mode&quot;" id="71">
@@ -583,8 +583,8 @@
                                     </buttonCell>
                                     <connections>
                                         <action selector="validateDefaultsState:" target="-2" id="253"/>
-                                        <binding destination="73" name="hidden" keyPath="selection.isBaseMode" id="95"/>
                                         <binding destination="73" name="value" keyPath="selection.defaults.UseDefaultFile" id="129"/>
+                                        <binding destination="73" name="hidden" keyPath="selection.isBaseMode" id="95"/>
                                     </connections>
                                 </button>
                                 <button verticalHuggingPriority="750" id="272">
@@ -608,7 +608,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <popUpButtonCell key="cell" type="push" title="Default Mode" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="11" id="374">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
+                            <font key="font" metaFont="menu"/>
                             <menu key="menu" title="OtherViews" id="10">
                                 <items>
                                     <menuItem title="Default Mode" state="on" id="11"/>

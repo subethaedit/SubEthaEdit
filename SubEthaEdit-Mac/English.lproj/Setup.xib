@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4504" systemVersion="13A584" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4510" systemVersion="13A584" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment version="1090" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4510"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="SetupController">
@@ -35,7 +35,7 @@
             <rect key="contentRect" x="58" y="402" width="616" height="408"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1280" height="832"/>
             <view key="contentView" autoresizesSubviews="NO" id="6">
-                <rect key="frame" x="1" y="9" width="616" height="408"/>
+                <rect key="frame" x="0.0" y="0.0" width="616" height="408"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <imageView id="7">
@@ -65,7 +65,7 @@
                             <action selector="goBack:" target="-2" id="36"/>
                         </connections>
                     </button>
-                    <tabView autoresizesSubviews="NO" type="noTabsBezelBorder" id="9">
+                    <tabView type="noTabsBezelBorder" id="9">
                         <rect key="frame" x="170" y="48" width="428" height="350"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <font key="font" metaFont="system"/>
@@ -73,7 +73,7 @@
                             <tabViewItem label="Welcome" identifier="welcome" id="8">
                                 <view key="view" autoresizesSubviews="NO" id="10">
                                     <rect key="frame" x="10" y="7" width="408" height="330"/>
-                                    <autoresizingMask key="autoresizingMask"/>
+                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
                                         <textField verticalHuggingPriority="750" id="38">
                                             <rect key="frame" x="6" y="301" width="374" height="22"/>
@@ -264,7 +264,7 @@ If you choose not to install the command line tool right now you can later do so
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <subviews>
                                                     <textView importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" quoteSubstitution="YES" dashSubstitution="YES" textReplacement="YES" spellingCorrection="YES" smartInsertDelete="YES" id="82">
-                                                        <rect key="frame" x="0.0" y="38" width="372" height="305"/>
+                                                        <rect key="frame" x="0.0" y="0.0" width="372" height="305"/>
                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                         <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                         <size key="minSize" width="372" height="305"/>
@@ -504,7 +504,7 @@ TheCodingMonkeys hope you are having a great time using SubEthaEdit. Share and E
                         <autoresizingMask key="autoresizingMask"/>
                         <view key="contentView">
                             <rect key="frame" x="2" y="2" width="128" height="135"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <imageView id="88">
                                     <rect key="frame" x="0.0" y="-6" width="130" height="133"/>
@@ -528,7 +528,7 @@ TheCodingMonkeys hope you are having a great time using SubEthaEdit. Share and E
             <rect key="contentRect" x="468" y="264" width="417" height="155"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1280" height="832"/>
             <view key="contentView" autoresizesSubviews="NO" id="46">
-                <rect key="frame" x="1" y="9" width="417" height="155"/>
+                <rect key="frame" x="0.0" y="0.0" width="417" height="155"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField verticalHuggingPriority="750" id="47">
