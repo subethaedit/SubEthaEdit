@@ -2881,6 +2881,7 @@ CGFloat ToolbarHeightForWindow(NSWindow *window)
 
 - (BOOL)tabView:(NSTabView *)aTabView validateOverflowMenuItem:(NSMenuItem *)menuItem forTabViewItem:(NSTabViewItem *)tabViewItem
 {
+/* TODO: compatiblity fix
     int offset = floor(NSAppKitVersionNumber)>NSAppKitVersionNumber10_4 ? 1 : 0 ;//NSAppKitVersionNumber10_4 - need an offset for leopard
     PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
     PlainTextDocument *document = [tabContext document];
@@ -2892,7 +2893,7 @@ CGFloat ToolbarHeightForWindow(NSWindow *window)
 
     if ([I_tabView selectedTabViewItem] == tabViewItem)
         SetItemMark(_NSGetCarbonMenu([menuItem menu]), [[menuItem menu] indexOfItem:menuItem]+offset, checkMark);
-        
+*/
     return YES;
 }
 
