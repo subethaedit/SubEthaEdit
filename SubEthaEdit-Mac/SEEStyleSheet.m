@@ -368,7 +368,7 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 }
 
 - (void)revertToPersistentState {
-	self.scopeStyleDictionary = [I_scopeStyleDictionaryPersistentState mutableCopy];
+	self.scopeStyleDictionary = [[I_scopeStyleDictionaryPersistentState mutableCopy] autorelease];
 	[self clearCache];
 }
 
