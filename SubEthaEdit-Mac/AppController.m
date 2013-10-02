@@ -9,9 +9,6 @@
 #import <AddressBook/AddressBook.h>
 #import <Security/Security.h>
 #import <Carbon/Carbon.h>
-#if !defined(CODA)
-#import <HDCrashReporter/crashReporter.h>
-#endif //!defined(CODA)
 #import <TCMPortMapper/TCMPortMapper.h>
 
 #import "TCMBEEP.h"
@@ -626,10 +623,8 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 
     [self setupAuthorization];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentModeListDidChange:) name:@"DocumentModeListChanged" object:nil];
-    
-    if ([HDCrashReporter newCrashLogExists]) {
-        [HDCrashReporter doCrashSubmitting];
-    }
+
+	// do crash reports here?
 }
 #endif //!defined(CODA)
 
