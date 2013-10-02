@@ -2810,8 +2810,8 @@ CGFloat ToolbarHeightForWindow(NSWindow *window)
 {
 	//create a new window controller with no tab items
 	PlainTextWindowController *controller = [[[PlainTextWindowController alloc] init] autorelease];
-    id <PSMTabStyle> style = (id <PSMTabStyle>)[[aTabView delegate] style];
-    BOOL hideForSingleTab = [[aTabView delegate] hideForSingleTab];
+    id <PSMTabStyle> style = (id <PSMTabStyle>)[(PSMTabBarControl *)[aTabView delegate] style];
+    BOOL hideForSingleTab = [(PSMTabBarControl *)[aTabView delegate] hideForSingleTab];
 	
 	NSRect windowFrame = [[controller window] frame];
 	point.y += windowFrame.size.height - [[[controller window] contentView] frame].size.height + ToolbarHeightForWindow([self window]);
