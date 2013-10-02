@@ -243,8 +243,6 @@
 		319AAE3D0CB0165900ACDAB4 /* Precedence_Remove.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 319AAE1B0CB015B300ACDAB4 /* Precedence_Remove.tiff */; };
 		319AAE3E0CB0165A00ACDAB4 /* Precedence_RemovePressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 319AAE1C0CB015B300ACDAB4 /* Precedence_RemovePressed.png */; };
 		31D2C7000CA7C9C8003CC5C9 /* PrecedenceRuleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2C6E50CA7C7A7003CC5C9 /* PrecedenceRuleCell.m */; };
-		31D5F8680AA301E80088DB18 /* HDCrashReporter.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 31D5F8590AA2FB760088DB18 /* HDCrashReporter.framework */; };
-		31D5FB230AA309200088DB18 /* HDCrashReporter.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 31D5F8590AA2FB760088DB18 /* HDCrashReporter.framework */; };
 		31FFC93D104E97A000E08256 /* NSErrorTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */; };
 		4C0D3D6417FB12F700AAFB38 /* StyleSheetPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D6317FB12F700AAFB38 /* StyleSheetPrefs.xib */; };
 		4C0D3D6617FB133600AAFB38 /* ServerConnection.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D6517FB133600AAFB38 /* ServerConnection.xib */; };
@@ -579,26 +577,12 @@
 			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
 			remoteInfo = SubEthaEdit;
 		};
-		31D5F8580AA2FB760088DB18 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 31D5F8510AA2FB760088DB18 /* CrashReporter.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
-			remoteInfo = HDCrashReporter;
-		};
 		5EC638300ABEB78000D3295B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
 			proxyType = 1;
 			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
 			remoteInfo = SubEthaEdit;
-		};
-		F23CE7F711CDE23900A64D10 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 31D5F8510AA2FB760088DB18 /* CrashReporter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = HDCrashReporter;
 		};
 		F2A093BA0C9EBB42000AD27A /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
@@ -672,7 +656,6 @@
 			files = (
 				F2A0997A0C9EE015000AD27A /* UniversalDetector.framework in Copy Files (Frameworks) */,
 				144E3AD30B6FEEDF001C49C2 /* OgreKit.framework in Copy Files (Frameworks) */,
-				31D5FB230AA309200088DB18 /* HDCrashReporter.framework in Copy Files (Frameworks) */,
 				141F4EB40AE4266F001B73D2 /* PSMTabBarControl.framework in Copy Files (Frameworks) */,
 				F290D9DD0EDB04F900E643C0 /* TCMPortMapper.framework in Copy Files (Frameworks) */,
 			);
@@ -1074,7 +1057,6 @@
 		31D2C6E70CA7C7A7003CC5C9 /* PrecedencePreferences.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PrecedencePreferences.m; sourceTree = "<group>"; };
 		31D2C6E80CA7C7A7003CC5C9 /* PrecedencePreferences.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PrecedencePreferences.h; sourceTree = "<group>"; };
 		31D2C6EB0CA7C7DE003CC5C9 /* PrecedencePrefs.tif */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = PrecedencePrefs.tif; path = artwork/PrecedencePrefs.tif; sourceTree = "<group>"; };
-		31D5F8510AA2FB760088DB18 /* CrashReporter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = CrashReporter.xcodeproj; path = CrashReporter/CrashReporter.xcodeproj; sourceTree = "<group>"; };
 		31FFC93B104E97A000E08256 /* NSErrorTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSErrorTCMAdditions.h; sourceTree = "<group>"; };
 		31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSErrorTCMAdditions.m; sourceTree = "<group>"; };
 		32DBCF750370BD2300C91783 /* SubEthaEdit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubEthaEdit_Prefix.pch; sourceTree = "<group>"; };
@@ -1393,7 +1375,6 @@
 				14288FED09573F2B00D14688 /* Security.framework in Frameworks */,
 				142894D4095765CF00D14688 /* SystemConfiguration.framework in Frameworks */,
 				14288FF509573F4900D14688 /* WebKit.framework in Frameworks */,
-				31D5F8680AA301E80088DB18 /* HDCrashReporter.framework in Frameworks */,
 				F290D9D80EDB04EF00E643C0 /* TCMPortMapper.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2084,7 +2065,6 @@
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				F2D86C150F8E7DA200B912A2 /* SubEthaPerf */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
-				31D5F8510AA2FB760088DB18 /* CrashReporter.xcodeproj */,
 				141F4E970AE42602001B73D2 /* PSMTabBarControl.xcodeproj */,
 				14F16CEF0971A87300402129 /* OgreKit.xcodeproj */,
 				F2A093B40C9EBB42000AD27A /* UniversalDetector.xcodeproj */,
@@ -2206,14 +2186,6 @@
 				1058C7A8FEA54F5311CA2CBB /* Other Frameworks */,
 			);
 			name = Frameworks;
-			sourceTree = "<group>";
-		};
-		31D5F8520AA2FB760088DB18 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				31D5F8590AA2FB760088DB18 /* HDCrashReporter.framework */,
-			);
-			name = Products;
 			sourceTree = "<group>";
 		};
 		5E754EA60AB5649C00C5119E /* Dialogs */ = {
@@ -2437,7 +2409,6 @@
 				141F4EA90AE42641001B73D2 /* PBXTargetDependency */,
 				F2A099430C9EBC39000AD27A /* PBXTargetDependency */,
 				F2D22CB60EE9C5ED004B8E33 /* PBXTargetDependency */,
-				F23CE7F811CDE23900A64D10 /* PBXTargetDependency */,
 			);
 			name = SubEthaEdit;
 			productInstallPath = "$(HOME)/Applications";
@@ -2488,10 +2459,6 @@
 			mainGroup = 2A37F4AAFDCFA73011CA2CEA /* SubEthaEdit */;
 			projectDirPath = "";
 			projectReferences = (
-				{
-					ProductGroup = 31D5F8520AA2FB760088DB18 /* Products */;
-					ProjectRef = 31D5F8510AA2FB760088DB18 /* CrashReporter.xcodeproj */;
-				},
 				{
 					ProductGroup = 144E3A970B6FEE8D001C49C2 /* Products */;
 					ProjectRef = 14F16CEF0971A87300402129 /* OgreKit.xcodeproj */;
@@ -2584,13 +2551,6 @@
 			fileType = wrapper.application;
 			path = ReplaceWithAttributesTest.app;
 			remoteRef = 144E3AAB0B6FEE8D001C49C2 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		31D5F8590AA2FB760088DB18 /* HDCrashReporter.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = HDCrashReporter.framework;
-			remoteRef = 31D5F8580AA2FB760088DB18 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		F2A093BB0C9EBB42000AD27A /* UniversalDetector.framework */ = {
@@ -3231,11 +3191,6 @@
 			isa = PBXTargetDependency;
 			target = 8D15AC270486D014006FF6A4 /* SubEthaEdit */;
 			targetProxy = 5EC638300ABEB78000D3295B /* PBXContainerItemProxy */;
-		};
-		F23CE7F811CDE23900A64D10 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = HDCrashReporter;
-			targetProxy = F23CE7F711CDE23900A64D10 /* PBXContainerItemProxy */;
 		};
 		F2A099430C9EBC39000AD27A /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
