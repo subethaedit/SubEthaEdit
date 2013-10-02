@@ -594,7 +594,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
             }
         } else if (result == NSAlertThirdButtonReturn) {
             LicenseController *licenseController = [LicenseController sharedInstance];
-            (int)[NSApp runModalForWindow:[licenseController window]];
+            [NSApp runModalForWindow:[licenseController window]];
         }
     }
     
