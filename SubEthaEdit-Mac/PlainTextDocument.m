@@ -2374,7 +2374,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         BOOL shouldSaveImages=[[htmlOptions objectForKey:DocumentModeHTMLExportShowParticipantsPreferenceKey] boolValue] &&
                               [[htmlOptions objectForKey:DocumentModeHTMLExportShowUserImagesPreferenceKey] boolValue];
         
-        static NSDictionary *baseAttributeMapping;
+        static NSDictionary *baseAttributeMapping = nil;
         if (baseAttributeMapping==nil) {
             baseAttributeMapping=[NSDictionary dictionaryWithObjectsAndKeys:
                                 [NSDictionary dictionaryWithObjectsAndKeys:
