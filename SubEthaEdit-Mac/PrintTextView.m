@@ -100,7 +100,7 @@
                                 [monochromePath setLineWidth:0.2];
                                 [monochromePath stroke];
                             } else {
-                                [value set]; // NSColor
+                                [(NSColor *)value set]; // NSColor
                                 NSRectFill(drawRect);
                             }
                             

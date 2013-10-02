@@ -53,8 +53,8 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 		self.scopeStyleDictionary = [NSMutableDictionary dictionary];
 		self.linkedStyleSheets = [NSMutableArray array];
 		
-		I_allScopesArray = [[NSMutableArray alloc] initWithObject:SEEStyleSheetMetaDefaultScopeName];
-		I_allLanguageContextsArray = [[NSMutableArray alloc] initWithObject:[aMode scriptedName]];
+		I_allScopesArray =  [[NSMutableArray alloc] initWithObjects:SEEStyleSheetMetaDefaultScopeName, nil];
+		I_allLanguageContextsArray = [[NSMutableArray alloc] initWithObjects:[aMode scriptedName], nil];
 		
 		[self parseXMLFile:aPath];
         
@@ -575,7 +575,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 		for (NSDictionary *keywordGroupToImport in [state objectForKey:@"ImportedKeywordGroups"]) {
 			NSUInteger importPosition = [[keywordGroupToImport objectForKey:@"importPosition"] unsignedIntegerValue];
 			for (NSDictionary *keywordGroupDict in [keywordGroupToImport objectForKey:@"keywordGroups"]) {
-				[aString appendFormat:@"%@i-%d-%@ (%@)\n",indentString, importPosition, [keywordGroupDict objectForKey:@"id"], [keywordGroupDict objectForKey:@"scope"]];
+				[aString appendFormat:@"%@i-%lu-%@ (%@)\n",indentString, (unsigned long)importPosition, [keywordGroupDict objectForKey:@"id"], [keywordGroupDict objectForKey:@"scope"]];
 			}
 		}
 		for (id substate in [state objectForKey:@"states"]) {

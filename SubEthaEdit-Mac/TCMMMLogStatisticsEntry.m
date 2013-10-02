@@ -109,6 +109,6 @@
     return lastActivity;
 }
 - (NSString *)description {
-    return [NSString stringWithFormat:@"%@ user:%@ lastActivity:%@ opCount:%u delChar:%u insChar:%u selChar:%u",[self class],[self user],lastActivity,operationCount,deletedCharacters,insertedCharacters,selectedCharacters];
+    return [NSString stringWithFormat:@"%@ user:%@ lastActivity:%@ opCount:%lu delChar:%lu insChar:%lu selChar:%lu",[self class],[self user],lastActivity,operationCount,deletedCharacters,insertedCharacters,selectedCharacters];
 }
 @end

@@ -169,7 +169,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 {
     TCMBEEPSession *session = nil;
     for (session in I_sessions) {
-        NSLog(@"Session: %@, %@, retainCount: %d", [session description], NSStringFromClass([session class]), [session retainCount]);
+        NSLog(@"Session: %@, %@, retainCount: %lu", [session description], NSStringFromClass([session class]), (unsigned long)[session retainCount]);
     }
 }
 

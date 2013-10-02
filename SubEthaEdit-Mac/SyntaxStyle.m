@@ -192,7 +192,7 @@ static NSArray *S_possibleStyleColors;
         if ((CFXMLNodeGetTypeCode(xmlNode) == kCFXMLNodeTypeElement) &&
             [@"seestyle" isEqualToString:(NSString *)CFXMLNodeGetString(xmlNode)]) {
             DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Top level node: %@", (NSString *)CFXMLNodeGetString(xmlNode));
-            DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Childs: %d", CFTreeGetChildCount(xmlTree));
+            DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Childs: %ld", CFTreeGetChildCount(xmlTree));
             break;
         }
     }

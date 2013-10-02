@@ -239,7 +239,7 @@
 - (IBAction)takeInheritanceState:(id)aSender {
 	NSInteger selectedRow = [O_stylesTableView selectedRow];
 	if (selectedRow != -1) {
-		NSLog(@"%s %d",__FUNCTION__, [aSender state]);
+		NSLog(@"%s %ld",__FUNCTION__, (long)[aSender state]);
 		NSString *scopeString = [[self scopesArray] objectAtIndex:selectedRow];
 		NSDictionary *computedStyleAttributes = [self.currentStyleSheet      styleAttributesForScope:scopeString];
 		NSMutableDictionary *directStyleAttributes   = [[[self.currentStyleSheet styleAttributesForExactScope:scopeString] mutableCopy] autorelease];

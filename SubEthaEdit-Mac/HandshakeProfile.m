@@ -29,7 +29,7 @@
     if (userAgent) {
         [[[self session] userInfo] setObject:userAgent forKey:@"userAgent"];
     }
-    I_remoteInfos = [aDictionary retain];
+    I_remoteInfos = [aDictionary mutableCopy];
 }
 
 - (NSDictionary *)remoteInfos {

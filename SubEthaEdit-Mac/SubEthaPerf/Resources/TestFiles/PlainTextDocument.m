@@ -129,7 +129,7 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 
 
 @interface PlainTextDocument (PlainTextDocumentPrivateAdditions)
-- (NSTextView *)printableView;
+- (NSView *)printableView;
 - (void)TCM_invalidateDefaultParagraphStyle;
 - (void)TCM_invalidateTextAttributes;
 - (void)TCM_styleFonts;
@@ -4794,7 +4794,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 static NSString *S_measurementUnits;
 
-- (NSTextView *)printableView {
+- (NSView *)printableView {
     // make sure everything is colored if it should be
     MultiPagePrintView *printView=[[MultiPagePrintView alloc] initWithFrame:NSMakeRect(0.,0.,100.,100.) document:self];
 

@@ -9,17 +9,6 @@
 #import "NSMenuTCMAdditions.h"
 #import <dlfcn.h>
 
-@implementation NSMenu (NSMenuTCMAdditions)
-- (void)removeAllItems {
-    int i = [self numberOfItems];
-    while (i--) {
-        [self removeItemAtIndex:i];
-    }
-}
-
-@end
-
-
 @implementation  NSMenuItem (NSMenuItemTCMAdditions)
 - (id)autoreleasedCopy {
     NSMenuItem *result=[[NSMenuItem alloc] initWithTitle:[self title] action:[self action] keyEquivalent:[self keyEquivalent]];

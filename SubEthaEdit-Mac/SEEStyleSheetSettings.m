@@ -38,7 +38,7 @@ NSString * const SEEStyleSheetSettingsUsesMultipleStyleSheetsKey = @"usesMultipl
 }
 
 - (void)pushSettingsToModeDefaults {
-	NSMutableDictionary *result = [NSMutableDictionary new];
+	NSMutableDictionary *result = [NSMutableDictionary dictionary];
 	if (self.singleStyleSheetName) [result setObject:self.singleStyleSheetName forKey:SEEStyleSheetSettingsSingleStyleSheetKey];
 	[result setObject:[[I_styleSheetNamesByLanguageContext copy] autorelease] forKey:SEEStyleSheetSettingsMultipleStyleSheetsKey];
 	[result setObject:[NSNumber numberWithBool:self.usesMultipleStyleSheets] forKey:SEEStyleSheetSettingsUsesMultipleStyleSheetsKey];

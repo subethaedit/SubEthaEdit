@@ -543,7 +543,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
             );
                     
             if (err != noErr) {
-                DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Could not create default right (%ld)", err);
+                DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Could not create default right (%d)", (SInt32)err);
 #if SPF_DEAD_CODE
                 err = noErr;
 #endif
@@ -594,7 +594,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
             }
         } else if (result == NSAlertThirdButtonReturn) {
             LicenseController *licenseController = [LicenseController sharedInstance];
-            (int)[NSApp runModalForWindow:[licenseController window]];
+            [NSApp runModalForWindow:[licenseController window]];
         }
     }
     
@@ -916,7 +916,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     }
 
     [I_scriptOrderArray release];
-     I_scriptOrderArray = [[[I_scriptsByFilename allKeys] sortedArrayUsingSelector:@selector(compare:)] retain];
+     I_scriptOrderArray = [[[I_scriptsByFilename allKeys] sortedArrayUsingSelector:@selector(compare:)] mutableCopy];
         
     for (NSString *filename in I_scriptOrderArray) {
         ScriptWrapper *script=[I_scriptsByFilename objectForKey:filename];

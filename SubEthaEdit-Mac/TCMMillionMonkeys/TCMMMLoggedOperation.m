@@ -82,7 +82,7 @@
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"%@\ntime: %f\nop: %@\nindex:%u", [self class],[I_date timeIntervalSinceReferenceDate],I_op,I_index];
+    return [NSString stringWithFormat:@"%@\ntime: %f\nop: %@\nindex:%lld", [self class],[I_date timeIntervalSinceReferenceDate],I_op,I_index];
 }
 
 

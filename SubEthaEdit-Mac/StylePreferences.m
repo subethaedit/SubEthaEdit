@@ -314,9 +314,7 @@
 }
 
 - (void)takeStyleSheetChoice:(id)aSender {
-	NSLog(@"%s %@ %d:%d",__FUNCTION__, aSender, [aSender clickedRow], [aSender clickedColumn]);
-	
-
+	NSLog(@"%s %@ %ld:%ld",__FUNCTION__, aSender, (long)[aSender clickedRow], (long)[aSender clickedColumn]);
 }
 
 - (void)tableView:(NSTableView *)aTableView setObjectValue:(id)anObject forTableColumn:(NSTableColumn *)aTableColumn row:(NSInteger)rowIndex {

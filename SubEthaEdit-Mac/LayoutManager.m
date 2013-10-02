@@ -45,23 +45,23 @@ static NSString *S_specialGlyphs[17];
 
 + (void)initialize {
 	if (self == [LayoutManager class]) {
-		S_specialGlyphs[u_00b6]=[[NSString alloc] initWithFormat:@"%C",0x00b6];
-		S_specialGlyphs[u_00b6_red]=[[NSString alloc] initWithFormat:@"%C",0x00b6];
-		S_specialGlyphs[u_2014]=[[NSString alloc] initWithFormat:@"%C",0x2014];
-		S_specialGlyphs[u_2014_red]=[[NSString alloc] initWithFormat:@"%C",0x2014];
-		S_specialGlyphs[u_2024]=[[NSString alloc] initWithFormat:@"%C",0x2024];
-		S_specialGlyphs[u_2038]=[[NSString alloc] initWithFormat:@"%C",0x2038];
-		S_specialGlyphs[u_204b]=[[NSString alloc] initWithFormat:@"%C",0x204b];
-		S_specialGlyphs[u_204b_red]=[[NSString alloc] initWithFormat:@"%C",0x204b];
-		S_specialGlyphs[u_2192]=[[NSString alloc] initWithFormat:@"%C",0x2192];
-		S_specialGlyphs[u_21ab]=[[NSString alloc] initWithFormat:@"%C",0x21ab];
-		S_specialGlyphs[u_21ab_red]=[[NSString alloc] initWithFormat:@"%C",0x21ab];
-		S_specialGlyphs[u_21cb]=[[NSString alloc] initWithFormat:@"%C",0x21cb];
-		S_specialGlyphs[u_2761]=[[NSString alloc] initWithFormat:@"%C",0x2761];
-		S_specialGlyphs[u_2761_red]=[[NSString alloc] initWithFormat:@"%C",0x2761];
-		S_specialGlyphs[u_fffd]=[[NSString alloc] initWithFormat:@"%C",0xfffd];
+		S_specialGlyphs[u_00b6]=[[NSString alloc] initWithFormat:@"%C",(unsigned short)0x00b6];
+		S_specialGlyphs[u_00b6_red]=[[NSString alloc] initWithFormat:@"%C",(unsigned short)0x00b6];
+		S_specialGlyphs[u_2014]=[[NSString alloc] initWithFormat:@"%C",(unsigned short)0x2014];
+		S_specialGlyphs[u_2014_red]=[[NSString alloc] initWithFormat:@"%C",(unsigned short)0x2014];
+		S_specialGlyphs[u_2024]=[[NSString alloc] initWithFormat:@"%C",(unsigned short)0x2024];
+		S_specialGlyphs[u_2038]=[[NSString alloc] initWithFormat:@"%C",(unsigned short)0x2038];
+		S_specialGlyphs[u_204b]=[[NSString alloc] initWithFormat:@"%C",(unsigned short)0x204b];
+		S_specialGlyphs[u_204b_red]=[[NSString alloc] initWithFormat:@"%C",(unsigned short)0x204b];
+		S_specialGlyphs[u_2192]=[[NSString alloc] initWithFormat:@"%C",(unsigned short)0x2192];
+		S_specialGlyphs[u_21ab]=[[NSString alloc] initWithFormat:@"%C",(unsigned short)0x21ab];
+		S_specialGlyphs[u_21ab_red]=[[NSString alloc] initWithFormat:@"%C",(unsigned short)0x21ab];
+		S_specialGlyphs[u_21cb]=[[NSString alloc] initWithFormat:@"%C",(unsigned short)0x21cb];
+		S_specialGlyphs[u_2761]=[[NSString alloc] initWithFormat:@"%C",(unsigned short)0x2761];
+		S_specialGlyphs[u_2761_red]=[[NSString alloc] initWithFormat:@"%C",(unsigned short)0x2761];
+		S_specialGlyphs[u_fffd]=[[NSString alloc] initWithFormat:@"%C",(unsigned short)0xfffd];
 	}
-	S_specialGlyphs[u_25A1]=[[NSString alloc] initWithFormat:@"%C",0x25A1]; //WHITE SQUARE, &squ
+	S_specialGlyphs[u_25A1]=[[NSString alloc] initWithFormat:@"%C",(unsigned short)0x25A1]; //WHITE SQUARE, &squ
 }
 
 - (id)init {
