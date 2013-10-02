@@ -916,7 +916,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     }
 
     [I_scriptOrderArray release];
-     I_scriptOrderArray = [[[I_scriptsByFilename allKeys] sortedArrayUsingSelector:@selector(compare:)] retain];
+     I_scriptOrderArray = [[[I_scriptsByFilename allKeys] sortedArrayUsingSelector:@selector(compare:)] mutableCopy];
         
     for (NSString *filename in I_scriptOrderArray) {
         ScriptWrapper *script=[I_scriptsByFilename objectForKey:filename];

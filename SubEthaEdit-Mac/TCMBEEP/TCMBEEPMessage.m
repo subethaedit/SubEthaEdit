@@ -104,7 +104,7 @@
 - (void)setPayload:(NSData *)aData
 {
     [I_payload autorelease];
-    I_payload = [aData retain];
+    I_payload = [aData mutableCopy];
 }
 
 - (NSData *)payload

@@ -193,7 +193,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         I_autocompleteDictionary = [NSMutableArray new];
         I_bundle = [aBundle retain];
 
-		I_styleIDTransitionDictionary = [[NSDictionary alloc] initWithContentsOfFile:[aBundle pathForResource:@"StyleIDTransition" ofType:@"plist"]];
+		I_styleIDTransitionDictionary = [[NSMutableDictionary alloc] initWithContentsOfFile:[aBundle pathForResource:@"StyleIDTransition" ofType:@"plist"]];
 
         I_modeSettings = [[ModeSettings alloc] initWithFile:[aBundle pathForResource:@"ModeSettings" ofType:@"xml"]];
 		if (!I_modeSettings) { // Fall back to info.plist
@@ -251,7 +251,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         }
         
         [I_scriptOrderArray release];
-         I_scriptOrderArray = [[[I_scriptsByFilename allKeys] sortedArrayUsingSelector:@selector(compare:)] retain];
+         I_scriptOrderArray = [[[I_scriptsByFilename allKeys] sortedArrayUsingSelector:@selector(compare:)] mutableCopy];
 #endif //!defined(CODA)        
 
         NSArray *searchLocations = [NSArray arrayWithObjects:I_bundle,[NSBundle mainBundle],nil];
