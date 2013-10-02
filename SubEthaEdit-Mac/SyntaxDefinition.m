@@ -53,8 +53,8 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 		self.scopeStyleDictionary = [NSMutableDictionary dictionary];
 		self.linkedStyleSheets = [NSMutableArray array];
 		
-		I_allScopesArray = [[NSMutableArray alloc] initWithObject:SEEStyleSheetMetaDefaultScopeName];
-		I_allLanguageContextsArray = [[NSMutableArray alloc] initWithObject:[aMode scriptedName]];
+		I_allScopesArray =  [[NSMutableArray alloc] initWithObjects:SEEStyleSheetMetaDefaultScopeName, nil];
+		I_allLanguageContextsArray = [[NSMutableArray alloc] initWithObjects:[aMode scriptedName], nil];
 		
 		[self parseXMLFile:aPath];
         
