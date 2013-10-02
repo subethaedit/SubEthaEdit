@@ -543,7 +543,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
             );
                     
             if (err != noErr) {
-                DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Could not create default right (%ld)", err);
+                DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Could not create default right (%d)", (SInt32)err);
 #if SPF_DEAD_CODE
                 err = noErr;
 #endif

@@ -73,7 +73,7 @@ NSString * const TCMMMUserWillLeaveSessionNotification =
 }
 
 - (NSString *)description {
-    return [NSString stringWithFormat:@"TCMMMUser <ID:%@,Name:%@,properties:%d>",[self userID],[self name],[[self properties] count]];
+    return [NSString stringWithFormat:@"TCMMMUser <ID:%@,Name:%@,properties:%lu>",[self userID],[self name],(unsigned long)[[self properties] count]];
 }
 
 - (BOOL)isMe {

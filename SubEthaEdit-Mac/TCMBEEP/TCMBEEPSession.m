@@ -547,7 +547,7 @@ static NSData *dhparamData = nil;
         if (result == 0) {
             addressData = [NSData dataWithBytes:&name length:namelen];
         } else if (result == -1) {
-            DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"getsockname failed: %@ / %s", errno, strerror(errno));
+            DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"getsockname failed: %d / %s", errno, strerror(errno));
         }
     }
     
@@ -628,7 +628,7 @@ static NSData *dhparamData = nil;
         int result = setsockopt(socketHandle, IPPROTO_TCP, 
                                 TCP_NODELAY, &yes, sizeof(int));
         if (result == -1) {
-            DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Could not setsockopt to TCP_NODELAY: %@ / %s", errno, strerror(errno));
+            DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Could not setsockopt to TCP_NODELAY: %d / %s", errno, strerror(errno));
         }
     }
     
@@ -693,7 +693,7 @@ static NSData *dhparamData = nil;
         // send greeting
         DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Life after TLS handshake...");
 
-        DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"writeBuffer length: %d, readBuffer length: %d", [I_writeBuffer length], [I_readBuffer length]);
+        DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"writeBuffer length: %lu, readBuffer length: %lu", (unsigned long)[I_writeBuffer length], (unsigned long)[I_readBuffer length]);
 
         I_flags.isTLSEnabled = YES;
         [self setProfileURIs:I_TLSProfileURIs];
@@ -991,7 +991,7 @@ static NSData *dhparamData = nil;
 {
     DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"%s", __FUNCTION__);
     
-    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"writeBuffer length: %d, readBuffer length: %d", [I_writeBuffer length], [I_readBuffer length]);
+    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"writeBuffer length: %lu, readBuffer length: %lu", (unsigned long)[I_writeBuffer length], (unsigned long)[I_readBuffer length]);
     
     
     Boolean resultReadStream, resultWriteStream;
@@ -1038,7 +1038,7 @@ static NSData *dhparamData = nil;
 #endif
 
     if (bytesWritten > 0) {
-        DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"bytesWritten: %d", bytesWritten);
+        DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"bytesWritten: %ld", bytesWritten);
         [I_writeBuffer replaceBytesInRange:NSMakeRange(0, bytesWritten) withBytes:NULL length:0];
         
         if (!([I_writeBuffer length] > 0)) {
@@ -1288,7 +1288,7 @@ static NSData *dhparamData = nil;
     // implicitly close all channels including channel zero and begin underlying negotiation process
     [self TCM_closeChannelsImplicitly];
     
-    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"writeBuffer length: %d, readBuffer length: %d", [I_writeBuffer length], [I_readBuffer length]);
+    DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"writeBuffer length: %lu, readBuffer length: %lu", (unsigned long)[I_writeBuffer length], (unsigned long)[I_readBuffer length]);
 
     I_flags.isWaitingForTLSProceed = NO;
     I_flags.isTLSHandshaking = YES;
@@ -1476,7 +1476,7 @@ void callBackReadStream(CFReadStreamRef stream, CFStreamEventType type, void *cl
         case kCFStreamEventErrorOccurred:
             DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFReadStream kCFStreamEventErrorOccurred");
             CFStreamError myErr = CFReadStreamGetError(stream);
-            NSError *error = [NSError errorWithDomain:[NSString stringWithFormat:@"%d", myErr.domain] code:myErr.error userInfo:nil];
+            NSError *error = [NSError errorWithDomain:[NSString stringWithFormat:@"%ld", myErr.domain] code:myErr.error userInfo:nil];
             [session TCM_handleStreamErrorOccurredEvent:error];
             break;
 
@@ -1513,7 +1513,7 @@ void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type, void *
         case kCFStreamEventErrorOccurred:
             DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFWriteStream kCFStreamEventErrorOccurred");
             CFStreamError myErr = CFWriteStreamGetError(stream);
-            NSError *error = [NSError errorWithDomain:[NSString stringWithFormat:@"%d", myErr.domain] code:myErr.error userInfo:nil];
+            NSError *error = [NSError errorWithDomain:[NSString stringWithFormat:@"%ld", myErr.domain] code:myErr.error userInfo:nil];
             [session TCM_handleStreamErrorOccurredEvent:error];
             break;
 

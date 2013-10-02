@@ -106,14 +106,14 @@ void TCM_AppendBencodedObjectToData(id inObject, NSMutableData *inData) {
         [result appendData:[(TCMMutableBencodedData *)inObject data]];
     } else if ([inObject isKindOfClass:[NSString class]]) {
         CFIndex stringByteLength = TCM_AppendStringToMutableData((NSString *)inObject,result);
-		NSString *prefixString = [[NSString alloc] initWithFormat:@"%d:",stringByteLength];
+		NSString *prefixString = [[NSString alloc] initWithFormat:@"%ld:",stringByteLength];
         NSMutableData *prefixData = [[NSMutableData alloc] init];
         TCM_AppendStringToMutableData(prefixString,prefixData);
         [result replaceBytesInRange:NSMakeRange([result length] - stringByteLength,0) withBytes:[prefixData bytes] length:[prefixData length]];
         [prefixData release];
         [prefixString release];
     } else if ([inObject isKindOfClass:[NSData class]]) {
-		NSString *prefixString = [[NSString alloc] initWithFormat:@"%d.",[(NSData *)inObject length]];
+		NSString *prefixString = [[NSString alloc] initWithFormat:@"%lu.",(unsigned long)[(NSData *)inObject length]];
         TCM_AppendStringToMutableData(prefixString,result);
         [prefixString release];
         [result appendData:inObject];

@@ -575,7 +575,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 		for (NSDictionary *keywordGroupToImport in [state objectForKey:@"ImportedKeywordGroups"]) {
 			NSUInteger importPosition = [[keywordGroupToImport objectForKey:@"importPosition"] unsignedIntegerValue];
 			for (NSDictionary *keywordGroupDict in [keywordGroupToImport objectForKey:@"keywordGroups"]) {
-				[aString appendFormat:@"%@i-%d-%@ (%@)\n",indentString, importPosition, [keywordGroupDict objectForKey:@"id"], [keywordGroupDict objectForKey:@"scope"]];
+				[aString appendFormat:@"%@i-%lu-%@ (%@)\n",indentString, (unsigned long)importPosition, [keywordGroupDict objectForKey:@"id"], [keywordGroupDict objectForKey:@"scope"]];
 			}
 		}
 		for (id substate in [state objectForKey:@"states"]) {
