@@ -1963,7 +1963,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
             [window setFrameTopLeftPoint:NSMakePoint(transientDocumentWindowFrame.origin.x, NSMaxY(transientDocumentWindowFrame))];
         }
         [windowController selectTabForDocument:self];
-        [[windowController tabBar] updateViewsHack];
+ //       [[windowController tabBar] updateViewsHack];
         if (closeTransient) [[windowController window] orderFront:self]; // stop cascading
         [windowController showWindow:self];
     }
@@ -5462,7 +5462,7 @@ static NSString *S_measurementUnits;
     [self makeWindowControllers]; 
     PlainTextWindowController *windowController=[[self windowControllers] lastObject];
     
-    [[windowController tabBar] updateViewsHack];
+//    [[windowController tabBar] updateViewsHack];
     I_flags.isReceivingContent=YES;
     [windowController document:self isReceivingContent:YES];
     

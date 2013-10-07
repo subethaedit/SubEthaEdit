@@ -12,6 +12,7 @@
 #if defined(CODA)
 @class ParticipantsView, PlainTextEditor, PlainTextDocument,URLImageView;
 #else
+#import <PSMTabBarControl/PSMTabBarControl.h>
 @class ParticipantsView, PlainTextEditor, PSMTabBarControl, PlainTextDocument,URLImageView;
 #endif //defined(CODA)
 
@@ -24,8 +25,12 @@ extern NSString * const InternetToolbarItemIdentifier;
 extern NSString * const ToggleChangeMarksToolbarItemIdentifier;
 extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 
-@interface PlainTextWindowController : NSWindowController <NSSplitViewDelegate,NSMenuDelegate,NSToolbarDelegate> {
-
+#if defined(CODA)
+@interface PlainTextWindowController : NSWindowController <NSSplitViewDelegate,NSMenuDelegate,NSToolbarDelegate>
+#else
+@interface PlainTextWindowController : NSWindowController <NSSplitViewDelegate,NSMenuDelegate,NSToolbarDelegate,PSMTabBarControlDelegate>
+#endif //defined(CODA)
+ {
     // Participants drawer views
     IBOutlet NSDrawer            *O_participantsDrawer;
     IBOutlet NSScrollView        *O_participantsScrollView;

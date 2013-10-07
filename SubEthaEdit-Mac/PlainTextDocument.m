@@ -2097,7 +2097,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
         }
 #if !defined(CODA)
         [windowController selectTabForDocument:self];
-        [[windowController tabBar] updateViewsHack];
+//        [[windowController tabBar] updateViewsHack];
 #endif //!defined(CODA)
         if (closeTransient) [[windowController window] orderFront:self]; // stop cascading
         [windowController showWindow:self];
@@ -5963,7 +5963,7 @@ static NSString *S_measurementUnits;
     PlainTextWindowController *windowController=[[self windowControllers] lastObject];
 
 #if !defined(CODA)    
-    [[windowController tabBar] updateViewsHack];
+//    [[windowController tabBar] updateViewsHack];
 #endif //!defined(CODA)	
     I_flags.isReceivingContent=YES;
     [windowController document:self isReceivingContent:YES];
