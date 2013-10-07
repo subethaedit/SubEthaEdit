@@ -19,17 +19,17 @@
 
 - (void)_setCompiledReplaceString:(NSArray*)compiledReplaceString
 {
-	_compiledReplaceString = [compiledReplaceString retain];
+	_compiledReplaceString = [compiledReplaceString mutableCopy];
 }
 
 - (void)_setCompiledReplaceStringType:(NSArray*)compiledReplaceStringType
 {
-	_compiledReplaceStringType = [compiledReplaceStringType retain];
+	_compiledReplaceStringType = [compiledReplaceStringType mutableCopy];
 }
 
 - (void)_setNameArray:(NSArray*)nameArray
 {
-	_nameArray = [nameArray retain];
+	_nameArray = [nameArray mutableCopy];
 }
 
 - (void)_setOptions:(unsigned)options
