@@ -3498,7 +3498,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             NSStringEncoding udEncoding=NSUTF8StringEncoding;
             
             // guess encoding based on character sniffing
-            UniversalDetector   *detector = [UniversalDetector detector];
+            UniversalDetector   *detector = [[[UniversalDetector alloc] init] autorelease];
             int maxLength = [defaults integerForKey:@"ByteLengthToUseForModeRecognitionAndEncodingGuessing"];
             NSData *checkData = fileData;
             if ([fileData length] > maxLength) {

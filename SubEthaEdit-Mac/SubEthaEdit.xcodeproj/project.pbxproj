@@ -24,7 +24,7 @@
 		141958B10BB951C400CB4AA4 /* TCMMMSessionAppKitHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 141958970BB9507700CB4AA4 /* TCMMMSessionAppKitHelper.m */; };
 		141F50ED0AE51B66001B73D2 /* PlainTextWindowControllerTabContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 141F50EB0AE51B65001B73D2 /* PlainTextWindowControllerTabContext.m */; };
 		14288FDE09573E8900D14688 /* AddressBook.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14288FDD09573E8900D14688 /* AddressBook.framework */; };
-		14288FE009573EA300D14688 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14288FDF09573EA300D14688 /* Carbon.framework */; };
+		14288FE009573EA300D14688 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14288FDF09573EA300D14688 /* Carbon.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		14288FED09573F2B00D14688 /* Security.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14288FEC09573F2B00D14688 /* Security.framework */; };
 		14288FF509573F4900D14688 /* WebKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14288FF409573F4900D14688 /* WebKit.framework */; };
 		1428900D095740F200D14688 /* Acknowledgements.txt in Resources */ = {isa = PBXBuildFile; fileRef = 14289008095740F200D14688 /* Acknowledgements.txt */; };
@@ -251,6 +251,8 @@
 		4C0D3D7417FB166D00AAFB38 /* DebugPresence.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D7317FB166D00AAFB38 /* DebugPresence.xib */; };
 		4C0D3D7617FB168200AAFB38 /* DebugUsers.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D7517FB168200AAFB38 /* DebugUsers.xib */; };
 		4C0D3D7817FB16F500AAFB38 /* DebugSendOperation.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D7717FB16F500AAFB38 /* DebugSendOperation.xib */; };
+		4C0FDA2218031235008E24E8 /* UniversalDetector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C0FDA2118031235008E24E8 /* UniversalDetector.framework */; };
+		4C0FDA231803125E008E24E8 /* UniversalDetector.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 4C0FDA2118031235008E24E8 /* UniversalDetector.framework */; };
 		4C1D39DC17FB085800B1CF5C /* AboutPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C1D39DA17FB085800B1CF5C /* AboutPanel.xib */; };
 		4C6AE8741802E8810089D489 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; };
 		4C6AE8751802E8AC0089D489 /* PSMTabBarControl.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 4CF3490017FC6EAF005D0D4F /* PSMTabBarControl.framework */; };
@@ -376,8 +378,6 @@
 		F29940600C0C7F3400A53189 /* NSScreenTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F299405E0C0C7F3400A53189 /* NSScreenTCMAdditions.m */; };
 		F29AD8670CA3391B0097D04E /* Bonjour13.png in Resources */ = {isa = PBXBuildFile; fileRef = F29AD8660CA3391B0097D04E /* Bonjour13.png */; };
 		F2A093510C9EA923000AD27A /* DocumentSharedMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A0934E0C9EA923000AD27A /* DocumentSharedMethods.m */; };
-		F2A099500C9EBC5B000AD27A /* UniversalDetector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F2A093BB0C9EBB42000AD27A /* UniversalDetector.framework */; };
-		F2A0997A0C9EE015000AD27A /* UniversalDetector.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F2A093BB0C9EBB42000AD27A /* UniversalDetector.framework */; };
 		F2A707BB0BF89F4200482EFC /* LoginSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A707B90BF89F4200482EFC /* LoginSheetController.m */; };
 		F2ABC4D60C799775007437A2 /* TCMMMLoggingState.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC4D40C799775007437A2 /* TCMMMLoggingState.m */; };
 		F2ABC4E30C799CCD007437A2 /* TCMMMLoggedOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC4E10C799CCD007437A2 /* TCMMMLoggedOperation.m */; };
@@ -508,34 +508,6 @@
 			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
 			remoteInfo = SubEthaEdit;
 		};
-		F2A093BA0C9EBB42000AD27A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F2A093B40C9EBB42000AD27A /* UniversalDetector.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
-			remoteInfo = UniversalDetector;
-		};
-		F2A093BC0C9EBB42000AD27A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F2A093B40C9EBB42000AD27A /* UniversalDetector.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 1B0DDCAB0A2D0AD10009B697;
-			remoteInfo = DetectorTest;
-		};
-		F2A093BE0C9EBB42000AD27A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F2A093B40C9EBB42000AD27A /* UniversalDetector.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 3DBF4F570BCD396800DA401A;
-			remoteInfo = universaldetector;
-		};
-		F2A099420C9EBC39000AD27A /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F2A093B40C9EBB42000AD27A /* UniversalDetector.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
-			remoteInfo = UniversalDetector;
-		};
 		F2D22CB20EE9C5DE004B8E33 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F2D22CAE0EE9C5DE004B8E33 /* SeeTextImporter.xcodeproj */;
@@ -571,10 +543,10 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F2A0997A0C9EE015000AD27A /* UniversalDetector.framework in Copy Files (Frameworks) */,
 				F290D9DD0EDB04F900E643C0 /* TCMPortMapper.framework in Copy Files (Frameworks) */,
 				4C6AE8751802E8AC0089D489 /* PSMTabBarControl.framework in Copy Files (Frameworks) */,
 				4C6AE8761802E8AC0089D489 /* OgreKit.framework in Copy Files (Frameworks) */,
+				4C0FDA231803125E008E24E8 /* UniversalDetector.framework in Copy Files (Frameworks) */,
 			);
 			name = "Copy Files (Frameworks)";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -986,6 +958,7 @@
 		4C0D3D7317FB166D00AAFB38 /* DebugPresence.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DebugPresence.xib; path = Debug/DebugPresence.xib; sourceTree = "<group>"; };
 		4C0D3D7517FB168200AAFB38 /* DebugUsers.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DebugUsers.xib; path = Debug/DebugUsers.xib; sourceTree = "<group>"; };
 		4C0D3D7717FB16F500AAFB38 /* DebugSendOperation.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DebugSendOperation.xib; path = Debug/DebugSendOperation.xib; sourceTree = "<group>"; };
+		4C0FDA2118031235008E24E8 /* UniversalDetector.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UniversalDetector.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C1D39DB17FB085800B1CF5C /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/AboutPanel.xib; sourceTree = "<group>"; };
 		4C1D39E917FB088200B1CF5C /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/AboutPanel.xib; sourceTree = "<group>"; };
 		4C6AE8731802E8810089D489 /* OgreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OgreKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1165,7 +1138,6 @@
 		F29AD8660CA3391B0097D04E /* Bonjour13.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Bonjour13.png; path = artwork/Bonjour13.png; sourceTree = "<group>"; };
 		F2A0934D0C9EA923000AD27A /* DocumentSharedMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DocumentSharedMethods.h; sourceTree = "<group>"; };
 		F2A0934E0C9EA923000AD27A /* DocumentSharedMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentSharedMethods.m; sourceTree = "<group>"; };
-		F2A093B40C9EBB42000AD27A /* UniversalDetector.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = UniversalDetector.xcodeproj; path = UniversalDetector/UniversalDetector.xcodeproj; sourceTree = "<group>"; };
 		F2A707960BF8935400482EFC /* LoginButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LoginButton.png; path = artwork/LoginButton.png; sourceTree = "<group>"; };
 		F2A707AF0BF89A4300482EFC /* LoginButtonIn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LoginButtonIn.png; path = artwork/LoginButtonIn.png; sourceTree = "<group>"; };
 		F2A707B80BF89F4200482EFC /* LoginSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = LoginSheetController.h; sourceTree = "<group>"; };
@@ -1290,9 +1262,9 @@
 				142894D4095765CF00D14688 /* SystemConfiguration.framework in Frameworks */,
 				14288FF509573F4900D14688 /* WebKit.framework in Frameworks */,
 				F290D9D80EDB04EF00E643C0 /* TCMPortMapper.framework in Frameworks */,
-				F2A099500C9EBC5B000AD27A /* UniversalDetector.framework in Frameworks */,
 				4CF3490117FC6EAF005D0D4F /* PSMTabBarControl.framework in Frameworks */,
 				4C6AE8741802E8810089D489 /* OgreKit.framework in Frameworks */,
+				4C0FDA2218031235008E24E8 /* UniversalDetector.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1311,15 +1283,16 @@
 		1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				14288FDD09573E8900D14688 /* AddressBook.framework */,
-				14288FDF09573EA300D14688 /* Carbon.framework */,
 				1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */,
+				14288FDF09573EA300D14688 /* Carbon.framework */,
+				14288FDD09573E8900D14688 /* AddressBook.framework */,
 				14288FEC09573F2B00D14688 /* Security.framework */,
 				142894D3095765CF00D14688 /* SystemConfiguration.framework */,
 				14288FF409573F4900D14688 /* WebKit.framework */,
 				F290D9D70EDB04EF00E643C0 /* TCMPortMapper.framework */,
 				4CF3490017FC6EAF005D0D4F /* PSMTabBarControl.framework */,
 				4C6AE8731802E8810089D489 /* OgreKit.framework */,
+				4C0FDA2118031235008E24E8 /* UniversalDetector.framework */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
@@ -1961,7 +1934,6 @@
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				F2D86C150F8E7DA200B912A2 /* SubEthaPerf */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
-				F2A093B40C9EBB42000AD27A /* UniversalDetector.xcodeproj */,
 				F2D22CAE0EE9C5DE004B8E33 /* SeeTextImporter.xcodeproj */,
 				5EC6382B0ABEB71100D3295B /* Unit Tests-Info.plist */,
 			);
@@ -2160,16 +2132,6 @@
 			name = TextSystem;
 			sourceTree = "<group>";
 		};
-		F2A093B50C9EBB42000AD27A /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				F2A093BB0C9EBB42000AD27A /* UniversalDetector.framework */,
-				F2A093BD0C9EBB42000AD27A /* DetectorTest */,
-				F2A093BF0C9EBB42000AD27A /* libuniversaldetector.a */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		F2D22CAF0EE9C5DE004B8E33 /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -2299,7 +2261,6 @@
 			dependencies = (
 				142894C20957611D00D14688 /* PBXTargetDependency */,
 				142894FC0957685A00D14688 /* PBXTargetDependency */,
-				F2A099430C9EBC39000AD27A /* PBXTargetDependency */,
 				F2D22CB60EE9C5ED004B8E33 /* PBXTargetDependency */,
 			);
 			name = SubEthaEdit;
@@ -2360,10 +2321,6 @@
 					ProductGroup = F2D22CAF0EE9C5DE004B8E33 /* Products */;
 					ProjectRef = F2D22CAE0EE9C5DE004B8E33 /* SeeTextImporter.xcodeproj */;
 				},
-				{
-					ProductGroup = F2A093B50C9EBB42000AD27A /* Products */;
-					ProjectRef = F2A093B40C9EBB42000AD27A /* UniversalDetector.xcodeproj */;
-				},
 			);
 			projectRoot = "";
 			targets = (
@@ -2379,27 +2336,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		F2A093BB0C9EBB42000AD27A /* UniversalDetector.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = UniversalDetector.framework;
-			remoteRef = F2A093BA0C9EBB42000AD27A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		F2A093BD0C9EBB42000AD27A /* DetectorTest */ = {
-			isa = PBXReferenceProxy;
-			fileType = "compiled.mach-o.executable";
-			path = DetectorTest;
-			remoteRef = F2A093BC0C9EBB42000AD27A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		F2A093BF0C9EBB42000AD27A /* libuniversaldetector.a */ = {
-			isa = PBXReferenceProxy;
-			fileType = archive.ar;
-			path = libuniversaldetector.a;
-			remoteRef = F2A093BE0C9EBB42000AD27A /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		F2D22CB30EE9C5DE004B8E33 /* SeeTextImporter.mdimporter */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.cfbundle;
@@ -3009,11 +2945,6 @@
 			target = 8D15AC270486D014006FF6A4 /* SubEthaEdit */;
 			targetProxy = 5EC638300ABEB78000D3295B /* PBXContainerItemProxy */;
 		};
-		F2A099430C9EBC39000AD27A /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = UniversalDetector;
-			targetProxy = F2A099420C9EBC39000AD27A /* PBXContainerItemProxy */;
-		};
 		F2D22CB60EE9C5ED004B8E33 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			name = SeeTextImporter;
@@ -3501,7 +3432,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)";
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/TCMPortMapper\"";
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -3528,8 +3458,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COMBINE_HIDPI_IMAGES = YES;
-				CONFIGURATION_BUILD_DIR = "$(BUILD_DIR)/$(CONFIGURATION)";
-				COPY_PHASE_STRIP = YES;
 				DEAD_CODE_STRIPPING = YES;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/TCMPortMapper\"";
 				GCC_C_LANGUAGE_STANDARD = c99;
@@ -3550,9 +3478,7 @@
 				OTHER_LDFLAGS = "-lz";
 				PREBINDING = YES;
 				PRODUCT_NAME = SubEthaEdit;
-				SEPARATE_STRIP = YES;
 				SKIP_INSTALL = NO;
-				STRIP_STYLE = debugging;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Release;
