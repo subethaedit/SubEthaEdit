@@ -1,4 +1,4 @@
-ONIGURUMA_VERSION=onig-5.9.4
+ONIGURUMA_VERSION=Onigmo-Onigmo-5.13.5
 OS_VERSION=$(shell uname -r)
 
 UNIVERSAL_DIR=universal
@@ -38,11 +38,11 @@ $(INTEL_DIR)/$(ONIG_TARGET): $(INTEL_DIR)
 	make $(@F)
 
 $(INTEL_64_DIR):
-	tar xzvf $(ONIGURUMA_VERSION).tar.gz
+	unzip $(ONIGURUMA_VERSION).zip
 	mv $(ONIGURUMA_VERSION) $@
 
 $(INTEL_DIR):
-	tar xzvf $(ONIGURUMA_VERSION).tar.gz
+	unzip $(ONIGURUMA_VERSION).zip
 	mv $(ONIGURUMA_VERSION) $@
 
 $(UNIVERSAL_DIR):
