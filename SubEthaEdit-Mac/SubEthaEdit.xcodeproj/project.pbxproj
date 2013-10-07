@@ -280,6 +280,9 @@
 		4CD5F83517FB0EB500F49E31 /* URLBubbleWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F83317FB0EB500F49E31 /* URLBubbleWindow.xib */; };
 		4CD5F83917FB0ECB00F49E31 /* UserStatistics.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F83717FB0ECB00F49E31 /* UserStatistics.xib */; };
 		4CD5F83D17FB0EE000F49E31 /* WebPreview.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F83B17FB0EE000F49E31 /* WebPreview.xib */; };
+		4CE9CF381802F4E900F5BC56 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; };
+		4CE9CF391802F4F100F5BC56 /* OgreKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; };
+		4CE9CF3A1802F52A00F5BC56 /* SEEStyleSheetSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D56992133B880900CEC841 /* SEEStyleSheetSettings.m */; };
 		4CF3490117FC6EAF005D0D4F /* PSMTabBarControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF3490017FC6EAF005D0D4F /* PSMTabBarControl.framework */; };
 		5E0F01C30AB573A100A5DE33 /* DialogBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F01C10AB573A100A5DE33 /* DialogBackgroundView.m */; };
 		5E0F6AE80A039283003D2813 /* SEActiveProc.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F6AE40A039283003D2813 /* SEActiveProc.m */; };
@@ -593,6 +596,7 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
+				4CE9CF391802F4F100F5BC56 /* OgreKit.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1296,6 +1300,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				4CE9CF381802F4E900F5BC56 /* OgreKit.framework in Frameworks */,
 				F2D86CDC0F8E8B2600B912A2 /* Carbon.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -2330,6 +2335,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = TheCodingMonkeys;
 				TargetAttributes = {
 					8D15AC270486D014006FF6A4 = {
 						DevelopmentTeam = KNQNV2YMZL;
@@ -2950,6 +2956,7 @@
 				F2D86CA10F8E88ED00B912A2 /* SyntaxDefinition.m in Sources */,
 				F2D86CB90F8E8A0F00B912A2 /* DocumentModeManager.m in Sources */,
 				F2D86CBA0F8E8A1400B912A2 /* DocumentMode.m in Sources */,
+				4CE9CF3A1802F52A00F5BC56 /* SEEStyleSheetSettings.m in Sources */,
 				F2D86CBF0F8E8A2E00B912A2 /* ScriptWrapper.m in Sources */,
 				F2D86CC30F8E8A5200B912A2 /* EncodingManager.m in Sources */,
 				F2D86CC60F8E8A5B00B912A2 /* RegexSymbolParser.m in Sources */,
@@ -3508,10 +3515,11 @@
 				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-C";
 				INFOPLIST_PREPROCESS = YES;
-				INSTALL_PATH = "$(HOME)/Applications";
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				OTHER_CFLAGS = "-DSUBETHAEDIT";
 				OTHER_LDFLAGS = "-lz";
 				PRODUCT_NAME = SubEthaEdit;
+				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = app;
 			};
 			name = Debug;
@@ -3532,7 +3540,7 @@
 				INFOPLIST_FILE = Info.plist;
 				INFOPLIST_OTHER_PREPROCESSOR_FLAGS = "-C";
 				INFOPLIST_PREPROCESS = YES;
-				INSTALL_PATH = /;
+				LD_RUNPATH_SEARCH_PATHS = "@loader_path/../Frameworks";
 				OTHER_CFLAGS = (
 					"-DTCM_NO_DEBUG",
 					"-DNS_BLOCK_ASSERTIONS",
@@ -3543,6 +3551,7 @@
 				PREBINDING = YES;
 				PRODUCT_NAME = SubEthaEdit;
 				SEPARATE_STRIP = YES;
+				SKIP_INSTALL = NO;
 				STRIP_STYLE = debugging;
 				WRAPPER_EXTENSION = app;
 			};
@@ -3555,6 +3564,7 @@
 				GCC_WARN_ABOUT_RETURN_TYPE = YES;
 				GCC_WARN_UNINITIALIZED_AUTOS = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				SKIP_INSTALL = YES;
 			};
 			name = Debug;
 		};
@@ -3571,6 +3581,7 @@
 					"-DNS_BLOCK_ASSERTIONS",
 					"-DNDEBUG",
 				);
+				SKIP_INSTALL = YES;
 				STRIP_INSTALLED_PRODUCT = YES;
 			};
 			name = Release;
