@@ -216,8 +216,6 @@
 		14448AA40A18964A00F36B34 /* SubEthaEdit.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 1428905A0957434600D14688 /* SubEthaEdit.sdef */; };
 		144DEAA709AA1D4400AF8CFB /* NSSavePanelTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 144DEAA509AA1D4400AF8CFB /* NSSavePanelTCMAdditions.m */; };
 		144E29660A222EFE002ED261 /* SubEthaEdit-PantherScripting.r in Rez */ = {isa = PBXBuildFile; fileRef = 144E29650A222EFE002ED261 /* SubEthaEdit-PantherScripting.r */; };
-		144E3AD20B6FEED6001C49C2 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 144E3AA40B6FEE8D001C49C2 /* OgreKit.framework */; };
-		144E3AD30B6FEEDF001C49C2 /* OgreKit.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 144E3AA40B6FEE8D001C49C2 /* OgreKit.framework */; };
 		145047420997750100D18142 /* ReleaseNotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 145047410997750100D18142 /* ReleaseNotes.txt */; };
 		14584B2F0BE0C6E000EB6D15 /* TCMBEEPBencodedMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F2230A460BE0243100437D55 /* TCMBEEPBencodedMessage.m */; };
 		14584B300BE0C6E300EB6D15 /* TCMBEEPBencodingProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F2230A480BE0243100437D55 /* TCMBEEPBencodingProfile.m */; };
@@ -254,6 +252,9 @@
 		4C0D3D7617FB168200AAFB38 /* DebugUsers.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D7517FB168200AAFB38 /* DebugUsers.xib */; };
 		4C0D3D7817FB16F500AAFB38 /* DebugSendOperation.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D7717FB16F500AAFB38 /* DebugSendOperation.xib */; };
 		4C1D39DC17FB085800B1CF5C /* AboutPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C1D39DA17FB085800B1CF5C /* AboutPanel.xib */; };
+		4C6AE8741802E8810089D489 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; };
+		4C6AE8751802E8AC0089D489 /* PSMTabBarControl.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 4CF3490017FC6EAF005D0D4F /* PSMTabBarControl.framework */; };
+		4C6AE8761802E8AC0089D489 /* OgreKit.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; };
 		4CD5F7DA17FB0BF200F49E31 /* AdvancedPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F7D817FB0BF200F49E31 /* AdvancedPrefs.xib */; };
 		4CD5F7DE17FB0C2800F49E31 /* ConnectionBrowser.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F7DC17FB0C2800F49E31 /* ConnectionBrowser.xib */; };
 		4CD5F7E217FB0C4D00F49E31 /* DocumentProxy.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F7E017FB0C4D00F49E31 /* DocumentProxy.xib */; };
@@ -386,7 +387,6 @@
 		F2BB09F90CA018B600258EC7 /* NSImage-States.m in Sources */ = {isa = PBXBuildFile; fileRef = F2BB09F40CA018B100258EC7 /* NSImage-States.m */; };
 		F2BB09FA0CA018BC00258EC7 /* NSImage-Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = F2BB09EF0CA0189900258EC7 /* NSImage-Additions.m */; };
 		F2BB09FF0CA018CA00258EC7 /* PCRolloverImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2BB09FC0CA018CA00258EC7 /* PCRolloverImageView.m */; };
-		F2C4C2650F93E51D00A3E0B5 /* OgreKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 144E3AA40B6FEE8D001C49C2 /* OgreKit.framework */; };
 		F2C6D3750D6DB131002B401D /* URLIconNotOK.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2C6D3730D6DB131002B401D /* URLIconNotOK.tiff */; };
 		F2C6D3760D6DB131002B401D /* URLIconOK.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2C6D3740D6DB131002B401D /* URLIconOK.tiff */; };
 		F2CA79A50CA04BAC008BEA38 /* HUDStatisticGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CA79A30CA04BAC008BEA38 /* HUDStatisticGraphView.m */; };
@@ -417,7 +417,6 @@
 		F2D5FF520CB26EA800407399 /* ToolbarIconTerminal.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF500CB26EA800407399 /* ToolbarIconTerminal.icns */; };
 		F2D86C2E0F8E7EFA00B912A2 /* SEPAppController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D86C2D0F8E7EFA00B912A2 /* SEPAppController.m */; };
 		F2D86C300F8E7F6A00B912A2 /* SEPMainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = F2D86C2F0F8E7F6A00B912A2 /* SEPMainMenu.xib */; };
-		F2D86C3E0F8E801400B912A2 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 144E3AA40B6FEE8D001C49C2 /* OgreKit.framework */; };
 		F2D86C510F8E811600B912A2 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D86C500F8E811600B912A2 /* main.m */; };
 		F2D86C7F0F8E849800B912A2 /* SEPLogger.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D86C7E0F8E849800B912A2 /* SEPLogger.m */; };
 		F2D86C9F0F8E88EB00B912A2 /* SyntaxStyle.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893C40957594500D14688 /* SyntaxStyle.m */; };
@@ -492,55 +491,6 @@
 			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
 			remoteInfo = SubEthaEdit;
 		};
-		144E3AA10B6FEE8D001C49C2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 14F16CEF0971A87300402129 /* OgreKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 8DC2EF5B0486A6940098B216;
-			remoteInfo = "OgreKit (Full Features)";
-		};
-		144E3AA30B6FEE8D001C49C2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 14F16CEF0971A87300402129 /* OgreKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4DC40BFC09150BDB0029A2A6;
-			remoteInfo = "OgreKit (without Find Panel)";
-		};
-		144E3AA50B6FEE8D001C49C2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 14F16CEF0971A87300402129 /* OgreKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4DC40C0409150C280029A2A6;
-			remoteInfo = "Regular Expression Test";
-		};
-		144E3AA70B6FEE8D001C49C2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 14F16CEF0971A87300402129 /* OgreKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4DC40C0F09150C3E0029A2A6;
-			remoteInfo = "Find Panel Test";
-		};
-		144E3AA90B6FEE8D001C49C2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 14F16CEF0971A87300402129 /* OgreKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4DC40C1A09150C730029A2A6;
-			remoteInfo = "My Find Panel Example";
-		};
-		144E3AAB0B6FEE8D001C49C2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 14F16CEF0971A87300402129 /* OgreKit.xcodeproj */;
-			proxyType = 2;
-			remoteGlobalIDString = 4DC40C3009150C9E0029A2A6;
-			remoteInfo = "Replace With Attributes Test";
-		};
-		144E3AD00B6FEEC1001C49C2 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 14F16CEF0971A87300402129 /* OgreKit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 4DC40BF209150BDB0029A2A6;
-			remoteInfo = "OgreKit (without Find Panel)";
-		};
 		14C431AE0BF3465A007D29EB /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -583,13 +533,6 @@
 			remoteGlobalIDString = 8DC2EF4F0486A6940098B216;
 			remoteInfo = UniversalDetector;
 		};
-		F2C4C27D0F93E70600A3E0B5 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 14F16CEF0971A87300402129 /* OgreKit.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 4DC40BF209150BDB0029A2A6;
-			remoteInfo = "OgreKit (without Find Panel)";
-		};
 		F2D22CB20EE9C5DE004B8E33 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = F2D22CAE0EE9C5DE004B8E33 /* SeeTextImporter.xcodeproj */;
@@ -626,8 +569,9 @@
 			dstSubfolderSpec = 10;
 			files = (
 				F2A0997A0C9EE015000AD27A /* UniversalDetector.framework in Copy Files (Frameworks) */,
-				144E3AD30B6FEEDF001C49C2 /* OgreKit.framework in Copy Files (Frameworks) */,
 				F290D9DD0EDB04F900E643C0 /* TCMPortMapper.framework in Copy Files (Frameworks) */,
+				4C6AE8751802E8AC0089D489 /* PSMTabBarControl.framework in Copy Files (Frameworks) */,
+				4C6AE8761802E8AC0089D489 /* OgreKit.framework in Copy Files (Frameworks) */,
 			);
 			name = "Copy Files (Frameworks)";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -649,7 +593,6 @@
 			dstPath = "";
 			dstSubfolderSpec = 10;
 			files = (
-				F2C4C2650F93E51D00A3E0B5 /* OgreKit.framework in Copy Frameworks */,
 			);
 			name = "Copy Frameworks";
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1001,7 +944,6 @@
 		14E2944F0A0CBFB0007C0065 /* SelectCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectCommand.m; sourceTree = "<group>"; };
 		14EC6E180A63F2B100B44481 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/ServicesMenu.strings; sourceTree = "<group>"; };
 		14EC6E2B0A63F2F700B44481 /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/ServicesMenu.strings; sourceTree = "<group>"; };
-		14F16CEF0971A87300402129 /* OgreKit.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = OgreKit.xcodeproj; path = OgreKit/OgreKit.xcodeproj; sourceTree = "<group>"; };
 		2A37F4B0FDCFA73011CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
@@ -1042,6 +984,7 @@
 		4C0D3D7717FB16F500AAFB38 /* DebugSendOperation.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DebugSendOperation.xib; path = Debug/DebugSendOperation.xib; sourceTree = "<group>"; };
 		4C1D39DB17FB085800B1CF5C /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/AboutPanel.xib; sourceTree = "<group>"; };
 		4C1D39E917FB088200B1CF5C /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/AboutPanel.xib; sourceTree = "<group>"; };
+		4C6AE8731802E8810089D489 /* OgreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OgreKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CD5F7D917FB0BF200F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/AdvancedPrefs.xib; sourceTree = "<group>"; };
 		4CD5F7DB17FB0C0F00F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/AdvancedPrefs.xib; sourceTree = "<group>"; };
 		4CD5F7DD17FB0C2800F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ConnectionBrowser.xib; sourceTree = "<group>"; };
@@ -1343,9 +1286,9 @@
 				142894D4095765CF00D14688 /* SystemConfiguration.framework in Frameworks */,
 				14288FF509573F4900D14688 /* WebKit.framework in Frameworks */,
 				F290D9D80EDB04EF00E643C0 /* TCMPortMapper.framework in Frameworks */,
-				144E3AD20B6FEED6001C49C2 /* OgreKit.framework in Frameworks */,
 				F2A099500C9EBC5B000AD27A /* UniversalDetector.framework in Frameworks */,
 				4CF3490117FC6EAF005D0D4F /* PSMTabBarControl.framework in Frameworks */,
+				4C6AE8741802E8810089D489 /* OgreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1354,7 +1297,6 @@
 			buildActionMask = 2147483647;
 			files = (
 				F2D86CDC0F8E8B2600B912A2 /* Carbon.framework in Frameworks */,
-				F2D86C3E0F8E801400B912A2 /* OgreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1372,6 +1314,7 @@
 				14288FF409573F4900D14688 /* WebKit.framework */,
 				F290D9D70EDB04EF00E643C0 /* TCMPortMapper.framework */,
 				4CF3490017FC6EAF005D0D4F /* PSMTabBarControl.framework */,
+				4C6AE8731802E8810089D489 /* OgreKit.framework */,
 			);
 			name = "Linked Frameworks";
 			sourceTree = "<group>";
@@ -1973,19 +1916,6 @@
 			name = see;
 			sourceTree = "<group>";
 		};
-		144E3A970B6FEE8D001C49C2 /* Products */ = {
-			isa = PBXGroup;
-			children = (
-				144E3AA20B6FEE8D001C49C2 /* OgreKit.framework */,
-				144E3AA40B6FEE8D001C49C2 /* OgreKit.framework */,
-				144E3AA60B6FEE8D001C49C2 /* OgreTest.app */,
-				144E3AA80B6FEE8D001C49C2 /* OgreFindPanelTest.app */,
-				144E3AAA0B6FEE8D001C49C2 /* MyFindPanelExample.app */,
-				144E3AAC0B6FEE8D001C49C2 /* ReplaceWithAttributesTest.app */,
-			);
-			name = Products;
-			sourceTree = "<group>";
-		};
 		19C28FB0FE9D524F11CA2CBB /* Products */ = {
 			isa = PBXGroup;
 			children = (
@@ -2026,7 +1956,6 @@
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				F2D86C150F8E7DA200B912A2 /* SubEthaPerf */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
-				14F16CEF0971A87300402129 /* OgreKit.xcodeproj */,
 				F2A093B40C9EBB42000AD27A /* UniversalDetector.xcodeproj */,
 				F2D22CAE0EE9C5DE004B8E33 /* SeeTextImporter.xcodeproj */,
 				5EC6382B0ABEB71100D3295B /* Unit Tests-Info.plist */,
@@ -2365,7 +2294,6 @@
 			dependencies = (
 				142894C20957611D00D14688 /* PBXTargetDependency */,
 				142894FC0957685A00D14688 /* PBXTargetDependency */,
-				144E3AD10B6FEEC1001C49C2 /* PBXTargetDependency */,
 				F2A099430C9EBC39000AD27A /* PBXTargetDependency */,
 				F2D22CB60EE9C5ED004B8E33 /* PBXTargetDependency */,
 			);
@@ -2388,7 +2316,6 @@
 			buildRules = (
 			);
 			dependencies = (
-				F2C4C27E0F93E70600A3E0B5 /* PBXTargetDependency */,
 			);
 			name = SubEthaPerf;
 			productName = SubEthaPerf;
@@ -2424,10 +2351,6 @@
 			projectDirPath = "";
 			projectReferences = (
 				{
-					ProductGroup = 144E3A970B6FEE8D001C49C2 /* Products */;
-					ProjectRef = 14F16CEF0971A87300402129 /* OgreKit.xcodeproj */;
-				},
-				{
 					ProductGroup = F2D22CAF0EE9C5DE004B8E33 /* Products */;
 					ProjectRef = F2D22CAE0EE9C5DE004B8E33 /* SeeTextImporter.xcodeproj */;
 				},
@@ -2450,48 +2373,6 @@
 /* End PBXProject section */
 
 /* Begin PBXReferenceProxy section */
-		144E3AA20B6FEE8D001C49C2 /* OgreKit.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = OgreKit.framework;
-			remoteRef = 144E3AA10B6FEE8D001C49C2 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		144E3AA40B6FEE8D001C49C2 /* OgreKit.framework */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.framework;
-			path = OgreKit.framework;
-			remoteRef = 144E3AA30B6FEE8D001C49C2 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		144E3AA60B6FEE8D001C49C2 /* OgreTest.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = OgreTest.app;
-			remoteRef = 144E3AA50B6FEE8D001C49C2 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		144E3AA80B6FEE8D001C49C2 /* OgreFindPanelTest.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = OgreFindPanelTest.app;
-			remoteRef = 144E3AA70B6FEE8D001C49C2 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		144E3AAA0B6FEE8D001C49C2 /* MyFindPanelExample.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = MyFindPanelExample.app;
-			remoteRef = 144E3AA90B6FEE8D001C49C2 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
-		144E3AAC0B6FEE8D001C49C2 /* ReplaceWithAttributesTest.app */ = {
-			isa = PBXReferenceProxy;
-			fileType = wrapper.application;
-			path = ReplaceWithAttributesTest.app;
-			remoteRef = 144E3AAB0B6FEE8D001C49C2 /* PBXContainerItemProxy */;
-			sourceTree = BUILT_PRODUCTS_DIR;
-		};
 		F2A093BB0C9EBB42000AD27A /* UniversalDetector.framework */ = {
 			isa = PBXReferenceProxy;
 			fileType = wrapper.framework;
@@ -3111,11 +2992,6 @@
 			target = 8D15AC270486D014006FF6A4 /* SubEthaEdit */;
 			targetProxy = 1428981C0958192A00D14688 /* PBXContainerItemProxy */;
 		};
-		144E3AD10B6FEEC1001C49C2 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "OgreKit (without Find Panel)";
-			targetProxy = 144E3AD00B6FEEC1001C49C2 /* PBXContainerItemProxy */;
-		};
 		14C431AF0BF3465A007D29EB /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8D15AC270486D014006FF6A4 /* SubEthaEdit */;
@@ -3130,11 +3006,6 @@
 			isa = PBXTargetDependency;
 			name = UniversalDetector;
 			targetProxy = F2A099420C9EBC39000AD27A /* PBXContainerItemProxy */;
-		};
-		F2C4C27E0F93E70600A3E0B5 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = "OgreKit (without Find Panel)";
-			targetProxy = F2C4C27D0F93E70600A3E0B5 /* PBXContainerItemProxy */;
 		};
 		F2D22CB60EE9C5ED004B8E33 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
