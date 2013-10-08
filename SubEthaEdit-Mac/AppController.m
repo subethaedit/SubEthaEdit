@@ -384,22 +384,15 @@ static AppController *sharedInstance = nil;
     image = [[[NSImage imageNamed:@"Rendezvous"] resizedImageWithSize:NSMakeSize(13.0, 13.0)] retain];
     [image setName:@"Rendezvous13"];
 
-//    image = [[[NSImage imageNamed:@"Internet"] resizedImageWithSize:NSMakeSize(13.0, 13.0)] retain];
-//    [image setName:@"Internet13"];
-
-//    image = [[[NSImage imageNamed:@"ssllock"] resizedImageWithSize:NSMakeSize(16.0, 16.0)] retain];
-    image = [NSImage imageNamed:@"ssllock"];
+    image = [[NSImage imageNamed:@"ssllock"] retain];
     [image setName:@"ssllock18"];
-    
-    
+
     // FIXME "Termination has to be removed before release!"
     //if ([[NSDate dateWithString:@"2007-02-21 12:00:00 +0000"] timeIntervalSinceNow] < 0) {
     //    [NSApp terminate:self];
     //    return;
     //}
     
-    
-
     [NSScriptSuiteRegistry sharedScriptSuiteRegistry];
     
     [[NSScriptCoercionHandler sharedCoercionHandler] registerCoercer:[DocumentMode class]

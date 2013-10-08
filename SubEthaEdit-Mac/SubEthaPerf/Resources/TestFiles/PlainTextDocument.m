@@ -5512,7 +5512,7 @@ static NSString *S_measurementUnits;
 
 
 - (NSDictionary *)documentState {
-    NSMutableDictionary *result = [[self sessionInformation] mutableCopy];
+    NSMutableDictionary *result = [[[self sessionInformation] mutableCopy] autorelease];
     [result removeObjectForKey:@"FileType"]; // don't save the filetype in a seetext
     [result setObject:[NSNumber numberWithBool:[self showsChangeMarks]]
                forKey:HighlightChangesPreferenceKey];

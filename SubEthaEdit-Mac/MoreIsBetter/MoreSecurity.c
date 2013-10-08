@@ -2138,7 +2138,8 @@ extern OSStatus MoreSecExecuteRequestInHelperTool(CFURLRef helperTool, Authoriza
 	// calls MoreSecHelperToolMain (defined above).
 	
 	if (err == noErr) {
-		childPID = vfork();
+		childPID = fork(); // was vfork(), should be posix_spawn()
+
 
 		if (childPID == 0) {						// Child
 			err = dup2(fdChild, STDIN_FILENO);

@@ -18,7 +18,7 @@ do_decompress(unsigned char* sourceData, unsigned long sourceSize, unsigned char
 /*
 + (NSImage*)imageWithCompressedData:(NSData*)data length:(unsigned long)size forWidth:(int)width
 {
-	NSImage *newImage = nil;
+	NSImage *resultImage = nil;
 	unsigned char* decompressedData = malloc(size);
 	
 	if ( do_decompress((unsigned char*)[data bytes], [data length], decompressedData, size) )
@@ -28,26 +28,26 @@ do_decompress(unsigned char* sourceData, unsigned long sourceSize, unsigned char
 
 		if ( aRep )
 		{
-			newImage = [[[NSImage alloc] initWithSize:[aRep size]] autorelease];
-			[newImage addRepresentation: aRep];
+			resultImage = [[[NSImage alloc] initWithSize:[aRep size]] autorelease];
+			[resultImage addRepresentation: aRep];
 		}
 	}
 	
-	return newImage;
+	return resultImage;
 }
 */
 
-- (NSImage*)copyAsBitmapWithSize:(NSSize)size usingInterpolation:(NSImageInterpolation)interpolation
+- (NSImage*)duplicateAsBitmapWithSize:(NSSize)size usingInterpolation:(NSImageInterpolation)interpolation
 {
-	NSImage *image = [self copyWithSize:size usingInterpolation:interpolation];
+	NSImage *image = [self duplicateWithSize:size usingInterpolation:interpolation];
 
 	return [image duplicateAsBitmap];
 }
 
 
-- (NSImage*)copyAsBitmapWithSize:(NSSize)size
+- (NSImage*)duplicateAsBitmapWithSize:(NSSize)size
 {
-	NSImage *image = [self copyWithSize:size];
+	NSImage *image = [self duplicateWithSize:size];
 
 	return [image duplicateAsBitmap];
 }
@@ -59,53 +59,53 @@ do_decompress(unsigned char* sourceData, unsigned long sourceSize, unsigned char
 }
 
 
-- (NSImage*)copyWithSize:(NSSize)size
+- (NSImage*)duplicateWithSize:(NSSize)size
 {
-	NSImage *newImage = [[[NSImage alloc] initWithSize:size] autorelease];
+	NSImage *resultImage = [[[NSImage alloc] initWithSize:size] autorelease];
 	BOOL isFlipped = [self isFlipped];
 	NSImageRep *aRep = [self repBestMatchingRect:NSMakeRect(0,0,size.width, size.height)];
 	
 	if ( isFlipped )
 		[self setFlipped:NO];
 	
-	[newImage lockFocus];
+	[resultImage lockFocus];
 			[aRep drawInRect:NSMakeRect(0,0,size.width,size.height)];
-	[newImage unlockFocus];
+	[resultImage unlockFocus];
 		
 	[self setFlipped:isFlipped];
 	
-	return newImage;
+	return resultImage;
 }
 
 
-- (NSImage*)copyWithSize:(NSSize)size usingInterpolation:(NSImageInterpolation)interpolation
+- (NSImage*)duplicateWithSize:(NSSize)size usingInterpolation:(NSImageInterpolation)interpolation
 {
 	NSGraphicsContext* graphicsContext = [NSGraphicsContext currentContext];
 	BOOL wasAntialiasing = [graphicsContext shouldAntialias];
     NSImageInterpolation previousImageInterpolation = [graphicsContext imageInterpolation];
-	NSImage *newImage = nil;
+	NSImage *resultImage = nil;
 
 	[graphicsContext setShouldAntialias:YES];
 	[graphicsContext setImageInterpolation:interpolation];
 
-	newImage = [self copyWithSize:size];
+	resultImage = [self duplicateWithSize:size];
 
 	[graphicsContext setShouldAntialias:wasAntialiasing];
 	[graphicsContext setImageInterpolation:previousImageInterpolation];
 	
-	return newImage;
+	return resultImage;
 }
 
 
 - (NSImage*)duplicate
 {
-	NSImage *newImage = [[[NSImage alloc] initWithSize:[self size]] autorelease];
+	NSImage *resultImage = [[[NSImage alloc] initWithSize:[self size]] autorelease];
 		
-	[newImage lockFocus];
+	[resultImage lockFocus];
 		[self dissolveToPoint:NSZeroPoint fraction:1.0];
-	[newImage unlockFocus];
+	[resultImage unlockFocus];
 	
-	return newImage;
+	return resultImage;
 }
 
 /*

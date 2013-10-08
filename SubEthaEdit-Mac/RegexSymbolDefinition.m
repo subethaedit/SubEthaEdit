@@ -17,23 +17,26 @@ extern NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree);
     self=[super init];
     if (self) {
         if (!aPath) {
-            [self dealloc];
+            [self release]; self = nil;
             return nil;
         }
         everythingOkay = YES;
         [self setMode:aMode];
         I_symbols = [NSMutableArray new];
         I_block = nil;
+
         // Parse XML File
         [self parseXMLFile:aPath];
+
+		DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Initiated new SyntaxDefinition:%@",[self description]);
+
+		if (! everythingOkay) {
+			NSLog(@"Critical errors while loading symbol definition. Not loading symbol parser.");
+			[self release]; self = nil;
+			return nil;
+		}
     }
-    DEBUGLOG(@"SyntaxHighlighterDomain", AllLogLevel, @"Initiated new SyntaxDefinition:%@",[self description]);
-    if (everythingOkay) return self;
-    else {
-        NSLog(@"Critical errors while loading symbol definition. Not loading symbol parser.");
-        [self dealloc];
-        return nil;
-    }
+	return self;
 }
 
 - (void)dealloc {

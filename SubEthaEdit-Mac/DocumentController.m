@@ -1143,16 +1143,16 @@ static NSString *tempFileName() {
         if (encoding < SmallestCustomStringEncoding) {
             [document setFileEncoding:encoding];
         }
-        NSString *newFileContent=[newMode newFileContent];
-        if (newFileContent && ![newFileContent canBeConvertedToEncoding:[document fileEncoding]]) {
-            newFileContent=[[[NSString alloc] 
-                            initWithData:[newFileContent dataUsingEncoding:[document fileEncoding] allowLossyConversion:YES] 
+        NSString *templateFileContent=[newMode templateFileContent];
+        if (templateFileContent && ![templateFileContent canBeConvertedToEncoding:[document fileEncoding]]) {
+            templateFileContent=[[[NSString alloc] 
+                            initWithData:[templateFileContent dataUsingEncoding:[document fileEncoding] allowLossyConversion:YES] 
                             encoding:[document fileEncoding]] 
                               autorelease];
         }
-        if (newFileContent) {
+        if (templateFileContent) {
             FoldableTextStorage *textStorage=(FoldableTextStorage *)[document textStorage];
-            [textStorage replaceCharactersInRange:NSMakeRange(0,[textStorage length]) withString:newFileContent];
+            [textStorage replaceCharactersInRange:NSMakeRange(0,[textStorage length]) withString:templateFileContent];
             [document updateChangeCount:NSChangeCleared];
         }
     }

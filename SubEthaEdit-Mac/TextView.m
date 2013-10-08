@@ -1089,11 +1089,11 @@ static NSMenu *S_defaultMenu=nil;
             case NSLeftMouseUp:
                 if (timerOn) {
                     [NSEvent stopPeriodicEvents];
-                    timerOn = NO;
+//                    timerOn = NO;
                     [autoscrollEvent release];
                     autoscrollEvent = nil;
                 }
-            return;
+				return;
 				
 			default:
 				break;

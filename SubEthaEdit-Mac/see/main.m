@@ -94,7 +94,7 @@ BOOL meetsRequiredVersion(NSString *string) {
     return NO;
 }
 
-CFURLRef URLRefForSubEthaEdit() {
+CFURLRef CopyURLRefForSubEthaEdit() {
     OSStatus status = noErr;
     CFURLRef appURL = NULL;
     
@@ -168,14 +168,13 @@ static void printVersion() {
     NSString *appShortVersionString = @"n/a";
     NSString *bundledSeeToolVersionString = nil;
     
-    appURL = URLRefForSubEthaEdit();
+    appURL = CopyURLRefForSubEthaEdit();
     if (appURL != NULL) {
         NSBundle *appBundle = [NSBundle bundleWithPath:[(NSURL *)appURL path]];
         appVersion = [[appBundle infoDictionary] objectForKey:@"CFBundleVersion"];
         versionString = [[appBundle infoDictionary] objectForKey:@"CFBundleShortVersionString"];
         bundledSeeToolVersionString = [[appBundle infoDictionary] objectForKey:@"TCMBundledSeeToolVersion"];
         localizedVersionString = [[appBundle localizedInfoDictionary] objectForKey:@"CFBundleShortVersionString"];
-        CFRelease(appURL);
     }
         
     if (versionString) {
@@ -188,8 +187,7 @@ static void printVersion() {
     NSString *bundleVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
     fprintf(stdout, "see %s (%s)\n", [shortVersion UTF8String], [bundleVersion UTF8String]);
     if (appURL != NULL) {
-        NSString *path = [(NSURL *)appURL path];
-        fprintf(stdout, "%s %s (%s)\n", [path fileSystemRepresentation], [appShortVersionString UTF8String], [appVersion UTF8String]);
+        fprintf(stdout, "%s %s (%s)\n", [[(NSURL *)appURL path] fileSystemRepresentation], [appShortVersionString UTF8String], [appVersion UTF8String]);
         if (bundledSeeToolVersionString) {
             int myMajor, myMinor;
             parseShortVersionString(&myMajor, &myMinor);
@@ -214,6 +212,8 @@ static void printVersion() {
                 fprintf(stdout, "\nA newer version of the see command line tool is available.\nThe found SubEthaEdit bundles version %s of the see command.\n\n", [bundledSeeToolVersionString UTF8String]);
             }
         }
+        CFRelease(appURL);
+		appURL = NULL;
     }
     fflush(stdout);
     
@@ -225,10 +225,9 @@ static void printVersion() {
 
 
 static CFURLRef launchSubEthaEdit(NSDictionary *options) {
-    OSStatus status = noErr;
     CFURLRef appURL = NULL;
 
-    appURL = URLRefForSubEthaEdit(); 
+    appURL = CopyURLRefForSubEthaEdit();
     if (appURL == NULL) {
         fprintf(stderr, "see: Couldn't find compatible SubEthaEdit.\n     Please install a current version of SubEthaEdit.\n");
         fflush(stderr);
@@ -247,7 +246,7 @@ static CFURLRef launchSubEthaEdit(NSDictionary *options) {
         }
         inLaunchSpec.asyncRefCon = NULL;
         
-        status = LSOpenFromURLSpec(&inLaunchSpec, NULL);
+        LSOpenFromURLSpec(&inLaunchSpec, NULL);
         return appURL;
     }
 }
@@ -512,7 +511,7 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
     // Bring terminal to front when wait and resume was specified
     //
     
-    if (resume) {
+    if (resume || wait) {
         Boolean result;
         OSErr err = SameProcess(&psn, &noPSN, &result);
         if (err == noErr && !result) {

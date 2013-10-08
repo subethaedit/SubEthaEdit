@@ -26,20 +26,20 @@
     self=[super init];
     if (self) {
         if (!aPath) {
-            [self dealloc];
+            [self release]; self = nil;
             return nil;
         }
         // Parse XML File
 		[self getReady];
         [self parseXMLFile:aPath];
-    }
 
-    if (everythingOkay) return self;
-    else {
-//        NSLog(@"Critical errors while loading mode settings. ModeSettings.xml will be ignored, falling back to Info.plist.");
-        [self dealloc];
-        return nil;
+		if (! everythingOkay) {
+			NSLog(@"Critical errors while loading mode settings. ModeSettings.xml will be ignored, falling back to Info.plist.");
+            [self release]; self = nil;
+			return nil;
+		}
     }
+	return self;
 }
 
 - (id)initWithPlist:(NSString *)bundlePath {

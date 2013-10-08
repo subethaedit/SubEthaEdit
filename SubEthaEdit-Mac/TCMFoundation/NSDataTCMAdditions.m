@@ -141,14 +141,14 @@ static unsigned long local_preprocessForDecode( const unsigned char *inBytes, un
 
     if ( inBase64String && [ inBase64String length ] > 0 )
     {
-        unsigned long		ixtext;
-        unsigned long		lentext;
-        unsigned char		ch;
-        unsigned char		inbuf [4], outbuf [3];
-        short				ixinbuf;
-        NSData				*base64Data;
-		unsigned char		*preprocessed, *decodedBytes;
-		unsigned long		preprocessedLength, decodedLength;
+        unsigned long		ixtext = 0;
+        unsigned long		lentext = 0;
+        unsigned char		ch = 0;
+        unsigned char		inbuf [4] = {}, outbuf [3] = {};
+        short				ixinbuf = 0;
+        NSData				*base64Data = nil;
+		unsigned char		*preprocessed = NULL, *decodedBytes = NULL;
+		unsigned long		preprocessedLength = 0, decodedLength = 0;
 		short				ctcharsinbuf = 3;
 		BOOL				notDone = YES;
 

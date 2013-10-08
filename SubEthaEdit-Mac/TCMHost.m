@@ -50,6 +50,8 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
     
         I_host = CFHostCreateWithName(NULL, (CFStringRef)name);
         if (I_host == nil) {
+			[self release];
+			self = nil;
             return nil;
         }
         
@@ -73,7 +75,9 @@ void myCallback(CFHostRef myHost, CFHostInfoType typeInfo, const CFStreamError *
     
         I_host = CFHostCreateWithAddress(NULL, (CFDataRef)addr);
         if (I_host == nil) {
-            return nil;
+			[self release];
+			self = nil;
+			return nil;
         }
         
         [self setAddress:addr];

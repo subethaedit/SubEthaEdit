@@ -131,10 +131,12 @@ static NSData *dhparamData = nil;
 
 	// 	TLS_ECDH_anon_WITH_AES_256_CBC_SHA     =	0xC019, available in snow leopard, but already active here
 
-	OSStatus err = SSLSetEnabledCiphers(sslContext,ciphers,2);
+//	OSStatus err =
+	SSLSetEnabledCiphers(sslContext,ciphers,2);
 //	printf("set ciphers with error: %d\n",(int)err);
     if (aFlag) {
-		err = SSLSetDiffieHellmanParams(sslContext,[dhparamData bytes],[dhparamData length]);
+//		err =
+		SSLSetDiffieHellmanParams(sslContext,[dhparamData bytes],[dhparamData length]);
 //		printf("SSLSetDiffieHellmanParams with error: %d\n",(int)err);
 	}
 }

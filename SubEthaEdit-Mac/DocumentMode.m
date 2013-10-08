@@ -592,7 +592,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     return I_autocompleteDictionary;
 }
 
-- (NSString *)newFileContent {
+- (NSString *)templateFileContent {
     NSString *templateFilename;
     if (I_modeSettings) {
         templateFilename=[I_modeSettings templateFile];

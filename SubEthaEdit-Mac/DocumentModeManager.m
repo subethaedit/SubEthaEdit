@@ -426,7 +426,6 @@ static DocumentModeManager *S_sharedInstance=nil;
     
     //create Directories 
     NSArray *userDomainPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES); 
-    NSEnumerator *enumerator = [userDomainPaths objectEnumerator]; 
     for (path in userDomainPaths) { 
         NSString *fullPath = [path stringByAppendingPathComponent:MODEPATHCOMPONENT]; 
         if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:nil]) { 
@@ -444,7 +443,7 @@ static DocumentModeManager *S_sharedInstance=nil;
     
     [allPaths addObject:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Modes/"]]; 
     
-    enumerator = [allPaths reverseObjectEnumerator]; 
+    NSEnumerator *enumerator = [allPaths reverseObjectEnumerator];
     while ((path = [enumerator nextObject])) { 
         NSEnumerator *dirEnumerator = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil] objectEnumerator]; 
         while ((file = [dirEnumerator nextObject])) { 

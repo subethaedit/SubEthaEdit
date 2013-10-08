@@ -158,15 +158,18 @@ static int encodingCompare(const void *firstPtr, const void *secondPtr) {
         CFStringEncoding *tmp;
         int cnt, num = 0;
         while (cfEncodings[num] != kCFStringEncodingInvalidId) num++;	// Count
-        tmp = malloc(sizeof(CFStringEncoding) * num);
-        memcpy(tmp, cfEncodings, sizeof(CFStringEncoding) * num);	// Copy the list
-        qsort(tmp, num, sizeof(CFStringEncoding), encodingCompare);	// Sort it
-        allEncodings = [[NSMutableArray alloc] init];			// Now put it in an NSArray
-        for (cnt = 0; cnt < num; cnt++) {
-            NSStringEncoding nsEncoding = CFStringConvertEncodingToNSStringEncoding(tmp[cnt]);
-            if (nsEncoding && [NSString localizedNameOfStringEncoding:nsEncoding]) [allEncodings addObject:[NSNumber numberWithUnsignedInt:nsEncoding]];
-        }
-        free(tmp);
+		if (num > 0)
+		{
+			tmp = malloc(sizeof(CFStringEncoding) * num);
+			memcpy(tmp, cfEncodings, sizeof(CFStringEncoding) * num);	// Copy the list
+			qsort(tmp, num, sizeof(CFStringEncoding), encodingCompare);	// Sort it
+			allEncodings = [[NSMutableArray alloc] init];			// Now put it in an NSArray
+			for (cnt = 0; cnt < num; cnt++) {
+				NSStringEncoding nsEncoding = CFStringConvertEncodingToNSStringEncoding(tmp[cnt]);
+				if (nsEncoding && [NSString localizedNameOfStringEncoding:nsEncoding]) [allEncodings addObject:[NSNumber numberWithUnsignedInt:nsEncoding]];
+			}
+			free(tmp);
+		}
     }
     return allEncodings;
 }

@@ -196,7 +196,6 @@
     int count = [dataPoints count];
     int step = 1.;//MAX(1,(int)(count/(NSWidth(bounds)*20.)));
 	BOOL didMove=NO;
-	float lastX=-1.;
     for (i=0;i<count;i+=step) {
         NSDictionary *entryDict = [dataPoints objectAtIndex:i];
         if (i+step>count) {
@@ -237,7 +236,6 @@
                 [paths[j] lineToPoint:point];
             }
             lastPoints[j]=point;
-            lastX = point.x;
         }
 		didMove = YES;
     }

@@ -35,29 +35,28 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
     self=[super init];
     if (self) {
         if (!aPath) {
-            [self dealloc];
+            [self release]; self = nil;
             return nil;
         }
         // Alloc & Init
         I_defaultState = [NSMutableDictionary new];
         I_importedModes = [NSMutableDictionary new];
-        I_useSpellingDictionary = NO;
         I_allStates = [NSMutableDictionary new];
-        I_name = nil;
-        [self setMode:aMode];
-        everythingOkay = YES;
-        I_foldingTopLevel = 1;
-        I_defaultSyntaxStyle = [SyntaxStyle new]; 
-        [I_defaultSyntaxStyle setDocumentMode:aMode];               
-        // Parse XML File
-		self.scopeStyleDictionary = [NSMutableDictionary dictionary];
-		self.linkedStyleSheets = [NSMutableArray array];
-		
+        I_defaultSyntaxStyle = [SyntaxStyle new];
 		I_allScopesArray =  [[NSMutableArray alloc] initWithObjects:SEEStyleSheetMetaDefaultScopeName, nil];
 		I_allLanguageContextsArray = [[NSMutableArray alloc] initWithObjects:[aMode scriptedName], nil];
-		
+
+		self.scopeStyleDictionary = [NSMutableDictionary dictionary];
+		self.linkedStyleSheets = [NSMutableArray array];
+
+        everythingOkay = YES;
+        I_foldingTopLevel = 1;
+
+        // Parse XML File
+        [self setMode:aMode];
+        [I_defaultSyntaxStyle setDocumentMode:aMode];
 		[self parseXMLFile:aPath];
-        
+
         // Setup stuff <-> style dictionaries
         I_stylesForToken = [NSMutableDictionary new];
         I_stylesForRegex = [NSMutableDictionary new];
@@ -69,16 +68,14 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 		I_levelsForStyleIDs = [NSMutableDictionary new];
 		I_keyForInheritedSymbols = nil;
 		I_keyForInheritedAutocomplete = nil;
+
+	    if (! everythingOkay) {
+			NSLog(@"Critical errors while loading syntax definition. Not loading syntax highlighter.");
+            [self release]; self = nil;
+			return nil;
+		}
 	}
-    
-//    NSLog([self description]);
-    
-    if (everythingOkay) return self;
-    else {
-        NSLog(@"Critical errors while loading syntax definition. Not loading syntax highlighter.");
-        [self dealloc];
-        return nil;
-    }
+	return self;
 }
 
 - (void)dealloc {

@@ -6062,7 +6062,7 @@ static NSString *S_measurementUnits;
 
 // this is the data stored in the seetext file format
 - (NSDictionary *)documentState {
-    NSMutableDictionary *result = [[self sessionInformation] mutableCopy];
+    NSMutableDictionary *result = [[[self sessionInformation] mutableCopy] autorelease];
     [result removeObjectForKey:@"FileType"]; // don't save the filetype in a seetext
     [result setObject:[NSNumber numberWithBool:[self showsChangeMarks]]
                forKey:HighlightChangesPreferenceKey];
