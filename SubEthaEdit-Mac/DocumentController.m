@@ -140,7 +140,7 @@
     if (result == NSRunStoppedResponse) {
         BOOL success = NO;
 
-        short domain;
+        short domain = 0;
         int tag = [[O_modeInstallerDomainMatrix selectedCell] tag];
         if (tag == 0) {
             domain = kUserDomain;

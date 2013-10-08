@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4504" systemVersion="13A584" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4511" systemVersion="13A598" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment version="1050" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4511"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PrecedencePreferences">
@@ -29,16 +28,16 @@
                         <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
                         <clipView key="contentView" id="aUn-1K-bNh">
                             <rect key="frame" x="1" y="17" width="255" height="322"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" headerView="53" id="11">
-                                    <rect key="frame" x="0.0" y="0.0" width="256" height="322"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="255" height="322"/>
                                     <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                     <tableColumns>
-                                        <tableColumn editable="NO" width="107" minWidth="40" maxWidth="1000" id="13">
+                                        <tableColumn editable="NO" width="106" minWidth="40" maxWidth="1000" id="13">
                                             <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Mode">
                                                 <font key="font" metaFont="smallSystem"/>
                                                 <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -104,7 +103,7 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <tableHeaderView key="headerView" id="53">
-                            <rect key="frame" x="0.0" y="0.0" width="256" height="17"/>
+                            <rect key="frame" x="0.0" y="0.0" width="255" height="17"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </tableHeaderView>
                     </scrollView>
@@ -113,7 +112,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" id="zAc-Og-Ucq">
                             <rect key="frame" x="1" y="17" width="386" height="322"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="56" id="15">
                                     <rect key="frame" x="0.0" y="0.0" width="386" height="322"/>
@@ -200,7 +199,7 @@
         <customObject id="31" userLabel="DocumentModeManager" customClass="DocumentModeManager"/>
     </objects>
     <resources>
-        <image name="Precedence_Add" width="128" height="128"/>
-        <image name="Precedence_AddPressed" width="128" height="128"/>
+        <image name="Precedence_Add" width="23" height="22"/>
+        <image name="Precedence_AddPressed" width="23" height="22"/>
     </resources>
 </document>

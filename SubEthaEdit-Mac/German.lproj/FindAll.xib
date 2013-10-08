@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4504" systemVersion="13A584" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4511" systemVersion="13A598" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment version="1090" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4511"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="FindAllController">
@@ -30,7 +29,7 @@
             <rect key="contentRect" x="357" y="396" width="245" height="334"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1024" height="746"/>
             <view key="contentView" autoresizesSubviews="NO" id="12">
-                <rect key="frame" x="1" y="1" width="245" height="334"/>
+                <rect key="frame" x="0.0" y="0.0" width="245" height="334"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <scrollView autohidesScrollers="YES" horizontalLineScroll="16" horizontalPageScroll="10" verticalLineScroll="16" verticalPageScroll="10" usesPredominantAxisScrolling="NO" id="10">
@@ -38,7 +37,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" id="uiB-wW-rid">
                             <rect key="frame" x="1" y="17" width="243" height="261"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" autosaveColumns="NO" rowHeight="14" headerView="37" id="11" customClass="FindAllTableView">
                                     <rect key="frame" x="0.0" y="0.0" width="243" height="261"/>
@@ -139,6 +138,6 @@
         </window>
     </objects>
     <resources>
-        <image name="WebReload" width="128" height="128"/>
+        <image name="WebReload" width="9" height="9"/>
     </resources>
 </document>

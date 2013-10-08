@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4504" systemVersion="13A584" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4511" systemVersion="13A598" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment version="1090" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4511"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="GeneralPreferences">
@@ -34,7 +33,7 @@
             <rect key="contentRect" x="522" y="333" width="365" height="499"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
             <view key="contentView" autoresizesSubviews="NO" id="6">
-                <rect key="frame" x="1" y="9" width="365" height="499"/>
+                <rect key="frame" x="0.0" y="0.0" width="365" height="499"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <box autoresizesSubviews="NO" title="Ich" id="58">
@@ -42,7 +41,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <view key="contentView">
                             <rect key="frame" x="2" y="2" width="328" height="102"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <imageView toolTip="Das Bild kann im eigenen Adressbuch-Eintrag verändert werden." id="64" customClass="PCRolloverImageView">
                                     <rect key="frame" x="17" y="16" width="70" height="70"/>
@@ -129,7 +128,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <view key="contentView">
                             <rect key="frame" x="2" y="2" width="329" height="152"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <slider verticalHuggingPriority="750" id="18">
                                     <rect key="frame" x="208" y="59" width="85" height="18"/>
@@ -305,7 +304,7 @@
                         <autoresizingMask key="autoresizingMask"/>
                         <view key="contentView">
                             <rect key="frame" x="2" y="2" width="329" height="148"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <button toolTip="Öffne ein leeres Dokument beim Starten des Programms." id="31">
                                     <rect key="frame" x="13" y="99" width="302" height="18"/>

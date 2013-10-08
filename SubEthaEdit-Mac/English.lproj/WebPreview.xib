@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4504" systemVersion="13A584" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4511" systemVersion="13A598" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment version="1090" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4511"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="WebPreviewWindowController">
@@ -22,7 +21,7 @@
             <rect key="contentRect" x="261" y="355" width="480" height="375"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
             <view key="contentView" autoresizesSubviews="NO" id="8">
-                <rect key="frame" x="1" y="9" width="480" height="375"/>
+                <rect key="frame" x="0.0" y="0.0" width="480" height="375"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <customView autoresizesSubviews="NO" id="9" customClass="WebView">
@@ -130,6 +129,6 @@
         </view>
     </objects>
     <resources>
-        <image name="WebReload" width="128" height="128"/>
+        <image name="WebReload" width="9" height="9"/>
     </resources>
 </document>

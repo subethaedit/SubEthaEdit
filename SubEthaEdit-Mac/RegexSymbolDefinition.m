@@ -152,7 +152,7 @@ extern NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree);
                 blockEnd = extractStringWithEntitiesFromTree(xmlTree);
             }  
             if (blockStart && blockEnd) {
-                NSString *combined = [NSString stringWithFormat:@"(%@(?!%@))|(%@)",blockStart,blockEnd,blockStart,blockEnd];
+                NSString *combined = [NSString stringWithFormat:@"(%@(?!%@))|(%@)",blockStart,blockEnd,blockStart];
                 if ([OGRegularExpression isValidExpressionString:combined]) {
                     I_block = [[OGRegularExpression alloc] initWithString:combined options:OgreFindNotEmptyOption];
                 } else {

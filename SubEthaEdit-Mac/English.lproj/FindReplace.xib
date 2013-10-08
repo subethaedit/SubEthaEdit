@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4510" systemVersion="13A584" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4511" systemVersion="13A598" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment defaultVersion="1060" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4510"/>
+        <deployment defaultVersion="1090" identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4511"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="FindReplaceController">
@@ -312,7 +312,7 @@ DQ
             <rect key="contentRect" x="127" y="319" width="187" height="44"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
             <view key="contentView" autoresizesSubviews="NO" id="124">
-                <rect key="frame" x="1" y="1" width="187" height="44"/>
+                <rect key="frame" x="0.0" y="0.0" width="187" height="44"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button verticalHuggingPriority="750" id="125">
@@ -518,8 +518,8 @@ $ -&gt; \z
         </customView>
         <drawer preferredEdge="minY" leadingOffset="20" trailingOffset="20" id="213" userLabel="Options">
             <size key="contentSize" width="460" height="100"/>
-            <size key="minContentSize" width="420" height="90"/>
-            <size key="maxContentSize" width="600" height="90"/>
+            <size key="minContentSize" width="460" height="100"/>
+            <size key="maxContentSize" width="600" height="100"/>
             <connections>
                 <outlet property="contentView" destination="185" id="236"/>
                 <outlet property="delegate" destination="-2" id="237"/>
@@ -532,7 +532,7 @@ $ -&gt; \z
             <rect key="contentRect" x="240" y="561" width="215" height="43"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
             <view key="contentView" autoresizesSubviews="NO" id="330">
-                <rect key="frame" x="1" y="1" width="215" height="43"/>
+                <rect key="frame" x="0.0" y="0.0" width="215" height="43"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <button verticalHuggingPriority="750" id="327">

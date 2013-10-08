@@ -900,7 +900,7 @@
 		144483A10A16026200F36B34 /* TCMTextSuite.scriptTerminology */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = TCMTextSuite.scriptTerminology; sourceTree = "<group>"; };
 		144DEAA409AA1D4400AF8CFB /* NSSavePanelTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NSSavePanelTCMAdditions.h; sourceTree = "<group>"; };
 		144DEAA509AA1D4400AF8CFB /* NSSavePanelTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSSavePanelTCMAdditions.m; sourceTree = "<group>"; };
-		144E23550A1F6197002ED261 /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/SystemVersionCheck.strings; sourceTree = "<group>"; };
+		144E23550A1F6197002ED261 /* German */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/SystemVersionCheck.strings; sourceTree = "<group>"; };
 		144E29650A222EFE002ED261 /* SubEthaEdit-PantherScripting.r */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.rez; path = "SubEthaEdit-PantherScripting.r"; sourceTree = "<group>"; };
 		145047510997758600D18142 /* German */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = German; path = German.lproj/ReleaseNotes.txt; sourceTree = "<group>"; };
 		1468BA8F097D91BC006F5936 /* German */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/InfoPlist.strings; sourceTree = "<group>"; };
@@ -919,7 +919,7 @@
 		14E2944E0A0CBFB0007C0065 /* SelectCommand.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SelectCommand.h; sourceTree = "<group>"; };
 		14E2944F0A0CBFB0007C0065 /* SelectCommand.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SelectCommand.m; sourceTree = "<group>"; };
 		14EC6E180A63F2B100B44481 /* English */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = English; path = English.lproj/ServicesMenu.strings; sourceTree = "<group>"; };
-		14EC6E2B0A63F2F700B44481 /* German */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/ServicesMenu.strings; sourceTree = "<group>"; };
+		14EC6E2B0A63F2F700B44481 /* German */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/ServicesMenu.strings; sourceTree = "<group>"; };
 		2A37F4B0FDCFA73011CA2CEA /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
 		2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		2A37F4C5FDCFA73011CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };

@@ -744,7 +744,7 @@ static NSMenu *S_defaultMenu=nil;
 }
 
 - (NSArray *)writablePasteboardTypes {
-	NSMutableArray *result = [NSArray arrayWithObject:NSStringPboardType];
+	NSArray *result = [NSArray arrayWithObject:NSStringPboardType];
 	return result;
 }
 

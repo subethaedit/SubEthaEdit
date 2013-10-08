@@ -1593,7 +1593,7 @@ extern OSStatus MoreSecIsFolderIgnoringOwnership(const FSRef *folder, Boolean *i
 		HFSUniStr255 	tmpStrU;
 		
 		now = UpTime();
-		tmpStr = CFStringCreateWithFormat(NULL, NULL, CFSTR("MoreSecIsFolderIgnoringOwnership Temp %lx%lx"), now.hi, now.lo);
+		tmpStr = CFStringCreateWithFormat(NULL, NULL, CFSTR("MoreSecIsFolderIgnoringOwnership Temp %x%x"), (unsigned int)now.hi, (unsigned int)now.lo);
 		err = CFQError(tmpStr);
 		
 		if (err == noErr) {

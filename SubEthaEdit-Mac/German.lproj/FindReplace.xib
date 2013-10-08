@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4504" systemVersion="13A584" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4511" systemVersion="13A598" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment version="1050" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4511"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="FindReplaceController">
@@ -367,7 +366,7 @@ DQ
                     <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES" flexibleMaxY="YES"/>
                     <view key="contentView">
                         <rect key="frame" x="2" y="2" width="434" height="61"/>
-                        <autoresizingMask key="autoresizingMask"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <popUpButton toolTip="Dialekt" verticalHuggingPriority="750" id="200">
                                 <rect key="frame" x="57" y="35" width="111" height="15"/>
@@ -518,8 +517,8 @@ $ -&gt; \z
         </customView>
         <drawer preferredEdge="minY" leadingOffset="20" trailingOffset="20" id="213" userLabel="Options">
             <size key="contentSize" width="460" height="100"/>
-            <size key="minContentSize" width="420" height="90"/>
-            <size key="maxContentSize" width="600" height="90"/>
+            <size key="minContentSize" width="460" height="100"/>
+            <size key="maxContentSize" width="600" height="100"/>
             <connections>
                 <outlet property="contentView" destination="185" id="236"/>
                 <outlet property="delegate" destination="-2" id="237"/>
