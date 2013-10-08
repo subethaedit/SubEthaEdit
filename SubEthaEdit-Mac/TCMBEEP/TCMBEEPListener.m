@@ -47,13 +47,13 @@ static void acceptConnection(CFSocketRef aSocketRef, CFSocketCallBackType aType,
             int result = setsockopt(CFSocketGetNative(I_listeningSocket), SOL_SOCKET, 
                                     SO_REUSEADDR, &yes, sizeof(int));
             if (result == -1) {
-                DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Could not setsockopt to reuseaddr: %@ / %s", errno, strerror(errno));
+                DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Could not setsockopt to reuseaddr: %i / %s", errno, strerror(errno));
             }
             
             result = setsockopt(CFSocketGetNative(I_listeningSocket), IPPROTO_TCP, 
                                     TCP_NODELAY, &yes, sizeof(int));
             if (result == -1) {
-                DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Could not setsockopt to TCP_NODELAY: %@ / %s", errno, strerror(errno));
+                DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Could not setsockopt to TCP_NODELAY: %i / %s", errno, strerror(errno));
             }
         } else {
             DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Could not create listening socket for IPv4");
@@ -65,13 +65,13 @@ static void acceptConnection(CFSocketRef aSocketRef, CFSocketCallBackType aType,
             int result = setsockopt(CFSocketGetNative(I_listeningSocket6), SOL_SOCKET, 
                                     SO_REUSEADDR, &yes, sizeof(int));
             if (result == -1) {
-                DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Could not setsockopt to reuseaddr: %@ / %s", errno, strerror(errno));
+                DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Could not setsockopt to reuseaddr: %i / %s", errno, strerror(errno));
             }
             
             result = setsockopt(CFSocketGetNative(I_listeningSocket6), IPPROTO_TCP, 
                                     TCP_NODELAY, &yes, sizeof(int));
             if (result == -1) {
-                DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Could not setsockopt to TCP_NODELAY: %@ / %s", errno, strerror(errno));
+                DEBUGLOG(@"BEEPLogDomain", DetailedLogLevel, @"Could not setsockopt to TCP_NODELAY: %i / %s", errno, strerror(errno));
             }
         } else {
             DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Could not create listening socket for IPv6");
