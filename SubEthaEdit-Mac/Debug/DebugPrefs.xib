@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4510" systemVersion="13A584" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4511" systemVersion="13A598" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4510"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4511"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="DebugPreferences">
@@ -33,17 +33,17 @@
                                     <rect key="frame" x="14" y="14" width="282" height="159"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <clipView key="contentView" id="eSR-ub-3Rz">
-                                        <rect key="frame" x="1" y="17" width="269" height="130"/>
-                                        <autoresizingMask key="autoresizingMask"/>
+                                        <rect key="frame" x="1" y="17" width="280" height="141"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
                                             <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnReordering="NO" multipleSelection="NO" autosaveColumns="NO" headerView="91" id="13">
-                                                <rect key="frame" x="0.0" y="0.0" width="269" height="130"/>
+                                                <rect key="frame" x="0.0" y="0.0" width="280" height="141"/>
                                                 <autoresizingMask key="autoresizingMask"/>
                                                 <size key="intercellSpacing" width="3" height="2"/>
                                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                                 <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                                 <tableColumns>
-                                                    <tableColumn editable="NO" width="174" minWidth="40" maxWidth="1000" id="15">
+                                                    <tableColumn editable="NO" width="180" minWidth="40" maxWidth="1000" id="15">
                                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Domains">
                                                             <font key="font" metaFont="smallSystem"/>
                                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -59,7 +59,7 @@
                                                             <binding destination="20" name="value" keyPath="arrangedObjects.domain" id="22"/>
                                                         </connections>
                                                     </tableColumn>
-                                                    <tableColumn width="88.995002746582031" minWidth="34.995002746582031" maxWidth="1000" id="14">
+                                                    <tableColumn width="93.995002746582031" minWidth="34.995002746582031" maxWidth="1000" id="14">
                                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Level">
                                                             <font key="font" metaFont="smallSystem"/>
                                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -83,15 +83,15 @@
                                         <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                     </clipView>
                                     <scroller key="horizontalScroller" verticalHuggingPriority="750" controlSize="small" id="90">
-                                        <rect key="frame" x="1" y="147" width="269" height="11"/>
+                                        <rect key="frame" x="1" y="144" width="280" height="14"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </scroller>
                                     <scroller key="verticalScroller" verticalHuggingPriority="750" controlSize="small" id="92">
-                                        <rect key="frame" x="270" y="17" width="11" height="130"/>
+                                        <rect key="frame" x="267" y="17" width="14" height="141"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </scroller>
                                     <tableHeaderView key="headerView" id="91">
-                                        <rect key="frame" x="0.0" y="0.0" width="269" height="17"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="280" height="17"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                     </tableHeaderView>
                                 </scrollView>
@@ -145,7 +145,7 @@
                     <button id="56">
                         <rect key="frame" x="18" y="92" width="159" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="check" title="Save and Load Window Position" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="mini" state="on" imageScaling="proportionallyDown" inset="2" id="82">
+                        <buttonCell key="cell" type="check" title="Save and Load Window Position" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="mini" state="on" inset="2" id="82">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="miniSystem"/>
                         </buttonCell>
@@ -156,7 +156,7 @@
                     <button id="58">
                         <rect key="frame" x="18" y="77" width="159" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="check" title="Save and Load Tab Setting" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="mini" state="on" imageScaling="proportionallyDown" inset="2" id="83">
+                        <buttonCell key="cell" type="check" title="Save and Load Tab Setting" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="mini" state="on" inset="2" id="83">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="miniSystem"/>
                         </buttonCell>
@@ -167,7 +167,7 @@
                     <button id="60">
                         <rect key="frame" x="18" y="62" width="159" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="check" title="Save and Load Wrap Setting" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="mini" state="on" imageScaling="proportionallyDown" inset="2" id="84">
+                        <buttonCell key="cell" type="check" title="Save and Load Wrap Setting" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="mini" state="on" inset="2" id="84">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="miniSystem"/>
                         </buttonCell>
@@ -178,7 +178,7 @@
                     <button id="62">
                         <rect key="frame" x="18" y="47" width="159" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="check" title="Save and Load Document Mode" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="mini" state="on" imageScaling="proportionallyDown" inset="2" id="85">
+                        <buttonCell key="cell" type="check" title="Save and Load Document Mode" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="mini" state="on" inset="2" id="85">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="miniSystem"/>
                         </buttonCell>
@@ -189,7 +189,7 @@
                     <button id="64">
                         <rect key="frame" x="18" y="32" width="159" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="check" title="Save and Load Selection" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="mini" state="on" imageScaling="proportionallyDown" inset="2" id="86">
+                        <buttonCell key="cell" type="check" title="Save and Load Selection" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="mini" state="on" inset="2" id="86">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="miniSystem"/>
                         </buttonCell>
@@ -200,7 +200,7 @@
                     <button id="66">
                         <rect key="frame" x="18" y="17" width="159" height="18"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                        <buttonCell key="cell" type="check" title="Save and Load Folding State" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="mini" state="on" imageScaling="proportionallyDown" inset="2" id="87">
+                        <buttonCell key="cell" type="check" title="Save and Load Folding State" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="mini" state="on" inset="2" id="87">
                             <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
                             <font key="font" metaFont="miniSystem"/>
                         </buttonCell>

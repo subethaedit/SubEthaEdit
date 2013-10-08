@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4504" systemVersion="13A584" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4511" systemVersion="13A598" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment version="1090" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4511"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="StylePreferences">
@@ -30,11 +29,11 @@
         <customObject id="-3" userLabel="Application"/>
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" wantsToBeColor="NO" visibleAtLaunch="NO" animationBehavior="default" id="6" userLabel="Window">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
-            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="204" y="280" width="551" height="530"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1280" height="832"/>
+            <value key="minSize" type="size" width="551" height="480"/>
             <view key="contentView" autoresizesSubviews="NO" id="5">
-                <rect key="frame" x="1" y="9" width="551" height="530"/>
+                <rect key="frame" x="0.0" y="0.0" width="551" height="530"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <box autoresizesSubviews="NO" title="Box" titlePosition="noTitle" id="8">
@@ -42,14 +41,14 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <view key="contentView">
                             <rect key="frame" x="2" y="2" width="513" height="490"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <box autoresizesSubviews="NO" title="Schrift" id="388">
                                     <rect key="frame" x="16" y="420" width="481" height="58"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                     <view key="contentView">
                                         <rect key="frame" x="2" y="2" width="477" height="41"/>
-                                        <autoresizingMask key="autoresizingMask"/>
+                                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                         <subviews>
                                             <textField verticalHuggingPriority="750" id="391">
                                                 <rect key="frame" x="105" y="12" width="355" height="17"/>
@@ -60,15 +59,15 @@
                                                     <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                 </textFieldCell>
                                                 <connections>
-                                                    <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultFont" id="398">
-                                                        <dictionary key="options">
-                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
-                                                        </dictionary>
-                                                    </binding>
                                                     <binding destination="395" name="value" keyPath="selection.defaults.FontAttributes" id="410">
                                                         <dictionary key="options">
                                                             <bool key="NSConditionallySetsEditable" value="NO"/>
                                                             <string key="NSValueTransformerName">FontAttributesToString</string>
+                                                        </dictionary>
+                                                    </binding>
+                                                    <binding destination="73" name="enabled" keyPath="selection.defaults.UseDefaultFont" id="398">
+                                                        <dictionary key="options">
+                                                            <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                         </dictionary>
                                                     </binding>
                                                 </connections>
@@ -106,7 +105,7 @@
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                                                 <view key="contentView">
                                                     <rect key="frame" x="2" y="2" width="451" height="67"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <customView autoresizesSubviews="NO" id="381">
                                                             <rect key="frame" x="14" y="-2" width="423" height="63"/>
@@ -223,11 +222,11 @@
                                                 <rect key="frame" x="14" y="132" width="449" height="166"/>
                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                 <clipView key="contentView" id="RYj-MX-FdW">
-                                                    <rect key="frame" x="1" y="1" width="432" height="164"/>
-                                                    <autoresizingMask key="autoresizingMask"/>
+                                                    <rect key="frame" x="1" y="1" width="447" height="164"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnReordering="NO" columnResizing="NO" autosaveColumns="NO" rowHeight="20" id="303" customClass="TableView">
-                                                            <rect key="frame" x="0.0" y="0.0" width="432" height="164"/>
+                                                            <rect key="frame" x="0.0" y="0.0" width="447" height="164"/>
                                                             <autoresizingMask key="autoresizingMask"/>
                                                             <size key="intercellSpacing" width="3" height="2"/>
                                                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -246,7 +245,7 @@
                                                                     </textFieldCell>
                                                                     <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                 </tableColumn>
-                                                                <tableColumn identifier="dark" width="206.8070068359375" minWidth="39.806999206542969" maxWidth="1000" id="304">
+                                                                <tableColumn identifier="dark" width="221.8070068359375" minWidth="39.806999206542969" maxWidth="1000" id="304">
                                                                     <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="dark">
                                                                         <font key="font" metaFont="smallSystem"/>
                                                                         <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -268,12 +267,12 @@
                                                     </subviews>
                                                     <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                                 </clipView>
-                                                <scroller key="horizontalScroller" verticalHuggingPriority="750" id="455">
+                                                <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" id="455">
                                                     <rect key="frame" x="-100" y="-100" width="432" height="15"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
                                                 <scroller key="verticalScroller" verticalHuggingPriority="750" id="456">
-                                                    <rect key="frame" x="433" y="1" width="15" height="164"/>
+                                                    <rect key="frame" x="432" y="1" width="16" height="164"/>
                                                     <autoresizingMask key="autoresizingMask"/>
                                                 </scroller>
                                             </scrollView>
@@ -371,8 +370,8 @@
                                     </buttonCell>
                                     <connections>
                                         <action selector="validateDefaultsState:" target="-2" id="413"/>
-                                        <binding destination="73" name="hidden" keyPath="selection.isBaseMode" id="405"/>
                                         <binding destination="73" name="value" keyPath="selection.defaults.UseDefaultFont" id="404"/>
+                                        <binding destination="73" name="hidden" keyPath="selection.isBaseMode" id="405"/>
                                     </connections>
                                 </button>
                                 <button verticalHuggingPriority="750" id="394">
@@ -396,7 +395,7 @@
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <popUpButtonCell key="cell" type="push" title="Standard Modus" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="borderAndBezel" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="11" id="452">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                            <font key="font" metaFont="system"/>
+                            <font key="font" metaFont="menu"/>
                             <menu key="menu" title="OtherViews" id="10">
                                 <items>
                                     <menuItem title="Standard Modus" state="on" id="11"/>

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4504" systemVersion="13A584" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4511" systemVersion="13A598" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment version="1090" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4511"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="EncodingManager">
@@ -18,15 +17,15 @@
             <rect key="contentRect" x="543" y="554" width="336" height="187"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1280" height="832"/>
             <view key="contentView" autoresizesSubviews="NO" id="6">
-                <rect key="frame" x="1" y="1" width="336" height="187"/>
+                <rect key="frame" x="0.0" y="0.0" width="336" height="187"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" findBarPosition="aboveHorizontalRuler" id="8">
                         <rect key="frame" x="6" y="40" width="324" height="121"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" id="BIF-C1-M1V">
-                            <rect key="frame" x="1" y="1" width="311" height="119"/>
-                            <autoresizingMask key="autoresizingMask"/>
+                            <rect key="frame" x="1" y="1" width="322" height="119"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <matrix autoresizesSubviews="NO" verticalHuggingPriority="750" mode="highlight" drawsBackground="YES" allowsEmptySelection="NO" autosizesCells="NO" id="9">
                                     <rect key="frame" x="0.0" y="0.0" width="329" height="18"/>
@@ -53,12 +52,12 @@
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </clipView>
-                        <scroller key="horizontalScroller" verticalHuggingPriority="750" controlSize="small" id="26">
+                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" controlSize="small" id="26">
                             <rect key="frame" x="-100" y="-100" width="330" height="15"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" verticalHuggingPriority="750" controlSize="small" id="27">
-                            <rect key="frame" x="312" y="1" width="11" height="119"/>
+                            <rect key="frame" x="309" y="1" width="14" height="119"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>

@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4504" systemVersion="13A584" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4511" systemVersion="13A598" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment version="1050" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4504"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4511"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="PlainTextWindowController">
@@ -24,8 +23,8 @@
         <customObject id="-3" userLabel="Application"/>
         <window title="&lt; do not localize >" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" wantsToBeColor="NO" visibleAtLaunch="NO" animationBehavior="default" id="6" userLabel="Window" customClass="PlainTextWindow">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES" unifiedTitleAndToolbar="YES"/>
-            <windowPositionMask key="initialPositionMask" leftStrut="YES" topStrut="YES"/>
-            <rect key="contentRect" x="50" y="328" width="452" height="471"/>
+            <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
+            <rect key="contentRect" x="150" y="279" width="452" height="471"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1440" height="878"/>
             <view key="contentView" id="5">
                 <rect key="frame" x="0.0" y="0.0" width="452" height="471"/>
@@ -38,7 +37,7 @@
         <drawer trailingOffset="15" id="11" userLabel="Drawer">
             <size key="contentSize" width="200" height="439"/>
             <size key="minContentSize" width="132" height="50"/>
-            <size key="maxContentSize" width="600" height="400"/>
+            <size key="maxContentSize" width="600" height="439"/>
             <connections>
                 <outlet property="contentView" destination="42" id="43"/>
                 <outlet property="parentWindow" destination="6" id="17"/>
@@ -133,7 +132,7 @@
                     <autoresizingMask key="autoresizingMask"/>
                     <popUpButtonCell key="cell" type="square" title="Item1" bezelStyle="shadowlessSquare" alignment="left" borderStyle="bezel" inset="2" pullsDown="YES" preferredEdge="maxY" selectedItem="106" id="185">
                         <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="system"/>
+                        <font key="font" metaFont="menu"/>
                         <menu key="menu" title="OtherViews" id="103">
                             <items>
                                 <menuItem title="Item1" hidden="YES" id="106"/>
@@ -157,11 +156,11 @@
         </customView>
     </objects>
     <resources>
-        <image name="ParticipantFollowActive" width="128" height="128"/>
-        <image name="ParticipantFollowEmpty" width="128" height="128"/>
-        <image name="StatusButtonKick" width="128" height="128"/>
-        <image name="StatusButtonReadOnly" width="128" height="128"/>
-        <image name="StatusButtonReadWrite" width="128" height="128"/>
-        <image name="URLIcon" width="128" height="128"/>
+        <image name="ParticipantFollowActive" width="28" height="22"/>
+        <image name="ParticipantFollowEmpty" width="28" height="22"/>
+        <image name="StatusButtonKick" width="22" height="22"/>
+        <image name="StatusButtonReadOnly" width="22" height="22"/>
+        <image name="StatusButtonReadWrite" width="22" height="22"/>
+        <image name="URLIcon" width="16" height="16"/>
     </resources>
 </document>
