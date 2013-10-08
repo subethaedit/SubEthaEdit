@@ -87,7 +87,7 @@ struct SelectionRange
     int32_t unused2; // 0 (not used)
     int32_t theDate; // modification date/time
 };
-#pragma pack(pop)
+#pragma pack(pop, 2)
 
 
 static PlainTextDocument *transientDocument = nil;
@@ -2568,7 +2568,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 int alternateFlag=0;
                 for (lurker in lurkerDictionaries) {
                     NSString *name   =[[lurker valueForKeyPath:@"User.name"] stringByReplacingEntitiesForUTF8:YES];
-                    NSString *shortID= [lurker valueForKeyPath:@"ShortID"];
+//                    NSString *shortID= [lurker valueForKeyPath:@"ShortID"];
                     NSString *aim    =[[lurker valueForKeyPath:@"User.properties.AIM"] stringByReplacingEntitiesForUTF8:YES];
                     NSString *email  =[[lurker valueForKeyPath:@"User.properties.Email"] stringByReplacingEntitiesForUTF8:YES];
                     [legend appendFormat:@"<tr%@>",alternateFlag?@" class=\"Alternate\"":@""];
@@ -6705,7 +6705,7 @@ static NSString *S_measurementUnits;
         } else if ((aSelector==@selector(moveLeft:)    || aSelector==@selector(moveRight:) || 
                     aSelector==@selector(moveForward:) || aSelector==@selector(moveBackward:)) &&
                     I_flags.showMatchingBrackets) {
-            NSUInteger position=0;
+            NSInteger position=0;
             if (aSelector==@selector(moveLeft:) || aSelector==@selector(moveBackward:)) {
                 position=selectedRange.location-1;
             } else {

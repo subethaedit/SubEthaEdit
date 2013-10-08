@@ -284,21 +284,19 @@ static DocumentModeManager *S_sharedInstance=nil;
 			modeSettings = [[ModeSettings alloc] initWithPlist:[bundle bundlePath]];
 		}
 		
-        NSMutableDictionary *modeDictionary = [NSMutableDictionary dictionary];
         NSMutableArray *ruleArray = [NSMutableArray array];
-        
-        NSEnumerator *extensions, *filenames, *regexes, *casesensitiveExtensions;
         if (modeSettings) {
-            extensions = [[modeSettings recognizedExtensions] objectEnumerator];
-            casesensitiveExtensions = [[modeSettings recognizedCasesensitveExtensions] objectEnumerator];
-            filenames = [[modeSettings recognizedFilenames] objectEnumerator];
-            regexes = [[modeSettings recognizedRegexes] objectEnumerator];
-            
+			NSMutableDictionary *modeDictionary = [NSMutableDictionary dictionary];
+            NSEnumerator *extensions = [[modeSettings recognizedExtensions] objectEnumerator];
+            NSEnumerator *casesensitiveExtensions = [[modeSettings recognizedCasesensitveExtensions] objectEnumerator];
+            NSEnumerator *filenames = [[modeSettings recognizedFilenames] objectEnumerator];
+            NSEnumerator *regexes = [[modeSettings recognizedRegexes] objectEnumerator];
+
             i = [modeOrder indexOfObject:[bundle bundleIdentifier]];
             if (i!=NSNotFound) {
                 [precendenceArray replaceObjectAtIndex:i withObject:modeDictionary];
             } else [precendenceArray addObject:modeDictionary];
-            
+
             [modeDictionary setObject:[bundle bundleIdentifier] forKey:@"Identifier"];
             [modeDictionary setObject:[bundle objectForInfoDictionaryKey:@"CFBundleName"] forKey:@"Name"];
             [modeDictionary setObject:[bundle objectForInfoDictionaryKey:@"CFBundleVersion"] forKey:@"Version"];
@@ -308,63 +306,63 @@ static DocumentModeManager *S_sharedInstance=nil;
             if ([bundlePath hasPrefix:@"/Network/Library"]) location = NSLocalizedString(@"Network Library", @"Location: Network Library");
             if ([bundlePath hasPrefix:[[NSBundle mainBundle] bundlePath]]) location = NSLocalizedString(@"Application", @"Location: Application");
             [modeDictionary setObject:location forKey:@"Location"];
-            
+
             [modeDictionary setObject:ruleArray forKey:@"Rules"];
-        } 
-        
-        NSString *extension = nil;
-        NSString *casesensitiveExtension = nil;
-        NSString *filename = nil;
-        NSString *regex = nil;
-                
-        while ((extension = [extensions nextObject])) {
-            [ruleArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                  extension,@"String",
-                                  [NSNumber numberWithBool:YES],@"Enabled",
-                                  [NSNumber numberWithInt:0],@"TypeIdentifier",
-                                  [NSNumber numberWithBool:NO],@"Overridden",
-                                  @"",@"OverriddenTooltip",
-                                  [NSNumber numberWithBool:YES],@"ModeRule",
-                                  nil]];
-        }
-        
-        while ((casesensitiveExtension = [casesensitiveExtensions nextObject])) {
-            [ruleArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                  casesensitiveExtension,@"String",
-                                  [NSNumber numberWithBool:YES],@"Enabled",
-                                  [NSNumber numberWithInt:3],@"TypeIdentifier",
-                                  [NSNumber numberWithBool:NO],@"Overridden",
-                                  @"",@"OverriddenTooltip",
-                                  [NSNumber numberWithBool:YES],@"ModeRule",
-                                  nil]];
-        }
-        
-        while ((filename = [filenames nextObject])) {
-            [ruleArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                  filename,@"String",
-                                  [NSNumber numberWithBool:YES],@"Enabled",
-                                  [NSNumber numberWithInt:1],@"TypeIdentifier",
-                                  [NSNumber numberWithBool:NO],@"Overridden",
-                                  @"",@"OverriddenTooltip",
-                                  [NSNumber numberWithBool:YES],@"ModeRule",
-                                  nil]];
-        }
-        
-        while ((regex = [regexes nextObject])) {
-            if ([OGRegularExpression isValidExpressionString:regex]) {
-                [ruleArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
-                                      regex,@"String",
-                                      [NSNumber numberWithBool:YES],@"Enabled",
-                                      [NSNumber numberWithInt:2],@"TypeIdentifier",
-                                      [NSNumber numberWithBool:NO],@"Overridden",
-                                      @"",@"OverriddenTooltip",
-                                      [NSNumber numberWithBool:YES],@"ModeRule",
-                                      nil]];
-            }
-        }
- 
+
+			NSString *extension = nil;
+			NSString *casesensitiveExtension = nil;
+			NSString *filename = nil;
+			NSString *regex = nil;
+
+			while ((extension = [extensions nextObject])) {
+				[ruleArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+									  extension,@"String",
+									  [NSNumber numberWithBool:YES],@"Enabled",
+									  [NSNumber numberWithInt:0],@"TypeIdentifier",
+									  [NSNumber numberWithBool:NO],@"Overridden",
+									  @"",@"OverriddenTooltip",
+									  [NSNumber numberWithBool:YES],@"ModeRule",
+									  nil]];
+			}
+
+			while ((casesensitiveExtension = [casesensitiveExtensions nextObject])) {
+				[ruleArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+									  casesensitiveExtension,@"String",
+									  [NSNumber numberWithBool:YES],@"Enabled",
+									  [NSNumber numberWithInt:3],@"TypeIdentifier",
+									  [NSNumber numberWithBool:NO],@"Overridden",
+									  @"",@"OverriddenTooltip",
+									  [NSNumber numberWithBool:YES],@"ModeRule",
+									  nil]];
+			}
+
+			while ((filename = [filenames nextObject])) {
+				[ruleArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+									  filename,@"String",
+									  [NSNumber numberWithBool:YES],@"Enabled",
+									  [NSNumber numberWithInt:1],@"TypeIdentifier",
+									  [NSNumber numberWithBool:NO],@"Overridden",
+									  @"",@"OverriddenTooltip",
+									  [NSNumber numberWithBool:YES],@"ModeRule",
+									  nil]];
+			}
+
+			while ((regex = [regexes nextObject])) {
+				if ([OGRegularExpression isValidExpressionString:regex]) {
+					[ruleArray addObject:[NSMutableDictionary dictionaryWithObjectsAndKeys:
+										  regex,@"String",
+										  [NSNumber numberWithBool:YES],@"Enabled",
+										  [NSNumber numberWithInt:2],@"TypeIdentifier",
+										  [NSNumber numberWithBool:NO],@"Overridden",
+										  @"",@"OverriddenTooltip",
+										  [NSNumber numberWithBool:YES],@"ModeRule",
+										  nil]];
+				}
+			}
+		}
+
         [modeSettings release];
- 
+
         // Enumerate rules from defaults to add user added rules back in
         NSEnumerator *oldModes = [oldPrecedenceArray objectEnumerator];
         id oldMode;
