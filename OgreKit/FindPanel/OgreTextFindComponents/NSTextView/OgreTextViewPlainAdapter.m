@@ -196,7 +196,7 @@
 - (BOOL)isHighlightable { return YES; }
 
 - (OgreFindResultLeaf*)findResultLeafWithThread:(OgreTextFindThread*)aThread {
-    return [[[OgreTextViewFindResult alloc] initWithTextView:_textView] autorelease]; 
+    return (id)[[[OgreTextViewFindResult alloc] initWithTextView:_textView] autorelease];
 }
 
 - (BOOL)isSelected

@@ -158,7 +158,7 @@
 
 - (OgreFindResultLeaf*)findResultLeafWithThread:(OgreTextFindThread*)aThread
 {
-    return [[[OgreOutlineCellFindResult alloc] initWithOutlineColumn:[self outlineColumn] item:[self target]] autorelease]; 
+    return (id)[[[OgreOutlineCellFindResult alloc] initWithOutlineColumn:[self outlineColumn] item:[self target]] autorelease];
 }
 
 - (BOOL)isSelected
