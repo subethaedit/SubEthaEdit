@@ -1362,9 +1362,9 @@ static NSAttributedString *S_dragString = nil;
     
     NSArray *windowControllers=[document windowControllers];
     if ([windowControllers count]>1) {
-        displayName = [displayName stringByAppendingFormat:@" - %d/%d",
+        displayName = [displayName stringByAppendingFormat:@" - %lu/%lu",
                         [windowControllers indexOfObject:self]+1,
-                        [windowControllers count]];
+                        (unsigned long)[windowControllers count]];
     }
     
     return displayName;
@@ -2739,7 +2739,7 @@ static NSAttributedString *S_dragString = nil;
 	return YES;
 }
 
-- (NSImage *)tabView:(NSTabView *)aTabView imageForTabViewItem:(NSTabViewItem *)tabViewItem offset:(NSSize *)offset styleMask:(unsigned int *)styleMask
+- (NSImage *)tabView:(NSTabView *)aTabView imageForTabViewItem:(NSTabViewItem *)tabViewItem offset:(NSSize *)offset styleMask:(NSUInteger *)styleMask
 {    
 	// grabs whole window image of the right tab
 	[[self window] disableFlushWindow];
