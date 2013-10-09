@@ -43,6 +43,9 @@ static NSArray *S_relevantPrintOptionKeys=nil;
 }
 
 - (void)dealloc {
+	self.O_printOptionController = nil;
+	self.O_printOptionView = nil;
+
     [I_printDictionary release];
     [I_defaultModeDictionary release];
     [super dealloc];
@@ -82,11 +85,11 @@ static NSArray *S_relevantPrintOptionKeys=nil;
             [I_defaultModeDictionary removeAllObjects];
             [I_defaultModeDictionary setDictionary:[[[[DocumentModeManager baseMode] defaultForKey:DocumentModePrintOptionsPreferenceKey] copy] autorelease]];
         }
-        [O_printOptionController setContent:I_defaultModeDictionary];
-        [self setSubviewsOfView:O_printOptionView enabled:NO];
+        [self.O_printOptionController setContent:I_defaultModeDictionary];
+        [self setSubviewsOfView:self.O_printOptionView enabled:NO];
     } else {
-        [self setSubviewsOfView:O_printOptionView enabled:YES];
-        [O_printOptionController setContent:I_printDictionary];
+        [self setSubviewsOfView:self.O_printOptionView enabled:YES];
+        [self.O_printOptionController setContent:I_printDictionary];
     }
     
 }
@@ -95,7 +98,7 @@ static NSString *S_measurementUnits;
 
 - (void)mainViewDidLoad {
     // Initialize user interface elements to reflect current preference settings
-    [NSBundle loadNibNamed:@"PrintOptions" owner:self];
+    [[NSBundle mainBundle] loadNibNamed:@"PrintOptions" owner:self topLevelObjects:nil];
     if (!S_measurementUnits) {
         S_measurementUnits=[[[NSUserDefaults standardUserDefaults] stringForKey:@"AppleMeasurementUnits"] retain];
     }
@@ -106,15 +109,15 @@ static NSString *S_measurementUnits;
                                           @"Centimeters or Inches, short label string for them");
     int i=996;
     for (i=996;i<1000;i++) {
-        [[O_printOptionView viewWithTag:i] setStringValue:labelText];
+        [[self.O_printOptionView viewWithTag:i] setStringValue:labelText];
     }
     NSView *superview=[O_placeholderView superview];
-    [O_printOptionView setFrame:[O_placeholderView frame]];
-    [superview replaceSubview:O_placeholderView with:O_printOptionView];
+    [self.O_printOptionView setFrame:[O_placeholderView frame]];
+    [superview replaceSubview:O_placeholderView with:self.O_printOptionView];
     
     [self changeMode:O_modePopUpButton];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentModeListChanged:) name:@"DocumentModeListChanged" object:nil];
-    [O_printOptionTextField setFontDelegate:self];
+    [self.O_printOptionTextField setFontDelegate:self];
 }
 
 - (void)documentModeListChanged:(NSNotification *)aNotification {
@@ -136,7 +139,7 @@ static NSString *S_measurementUnits;
         [myDictionary   removeObserver:self forKeyPath:keyPath];
         [I_printDictionary addObserver:self forKeyPath:keyPath options:0 context:nil];
     }
-    [O_printOptionController setContent:nil];
+    [self.O_printOptionController setContent:nil];
     I_currentMode=newMode;
     [O_defaultButton setHidden:[I_currentMode isBaseMode]];
     [O_defaultButton setState:[[I_currentMode defaultForKey:DocumentModeUseDefaultPrintPreferenceKey] boolValue]?NSOnState:NSOffState];
@@ -151,7 +154,7 @@ static NSString *S_measurementUnits;
 }
 
 - (IBAction)changeFontViaPanel:(id)sender {
-    NSDictionary *fontAttributes=[[O_printOptionController content] valueForKeyPath:@"SEEFontAttributes"];
+    NSDictionary *fontAttributes=[[self.O_printOptionController content] valueForKeyPath:@"SEEFontAttributes"];
     NSFont *newFont=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
     if (!newFont) newFont=[NSFont userFixedPitchFontOfSize:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
     
@@ -159,7 +162,7 @@ static NSString *S_measurementUnits;
         setSelectedFont:newFont 
              isMultiple:NO];
     [[NSFontManager sharedFontManager] orderFrontFontPanel:self];
-	[[O_printOptionTextField window] makeFirstResponder:O_printOptionTextField];
+	[[self.O_printOptionTextField window] makeFirstResponder:self.O_printOptionTextField];
 }
 
 - (void)changeFont:(id)aSender {
@@ -170,7 +173,7 @@ static NSString *S_measurementUnits;
                  forKey:NSFontNameAttribute];
         [dict setObject:[NSNumber numberWithFloat:[newFont pointSize]] 
                  forKey:NSFontSizeAttribute];
-        [[O_printOptionController content] setValue:dict forKeyPath:PROPERTY(SEEFontAttributes)];
+        [[self.O_printOptionController content] setValue:dict forKeyPath:PROPERTY(SEEFontAttributes)];
     }
 }
 
