@@ -28,16 +28,15 @@
 
 - (NSView *)assignMainView
 {
-    NSView *contentView = [O_window contentView];
-    if (NSResizableWindowMask & [O_window styleMask]) {
-        I_minSize = [O_window contentMinSize];
-        I_maxSize = [O_window contentMaxSize];
+    NSView *contentView = [self.O_window contentView];
+    if (NSResizableWindowMask & [self.O_window styleMask]) {
+        I_minSize = [self.O_window contentMinSize];
+        I_maxSize = [self.O_window contentMaxSize];
     } else {
-        I_minSize = I_maxSize = [[O_window contentView] frame].size;
+        I_minSize = I_maxSize = [[self.O_window contentView] frame].size;
     }
     [self setMainView:contentView];
-    [O_window release];
-    O_window = nil;
+    self.O_window = nil;
     
     return contentView;
 }
@@ -53,7 +52,7 @@
     NSString *mainNibName = [self mainNibName];
 
     // Loads that nib file, passing in the preference pane object as the nib file's owner.
-    [NSBundle loadNibNamed:mainNibName owner:self];
+    [[NSBundle mainBundle] loadNibNamed:mainNibName owner:self topLevelObjects:nil];
 
     // Invokes the preference pane object assignMainView method to find and assign the main view.
     NSView *mainView = [self assignMainView];

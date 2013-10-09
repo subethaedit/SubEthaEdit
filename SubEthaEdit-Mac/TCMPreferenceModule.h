@@ -12,11 +12,12 @@
 
 @interface TCMPreferenceModule : NSResponder
 {
-    IBOutlet NSWindow *O_window;
     NSView *O_mainView;
     NSSize I_maxSize;
     NSSize I_minSize;
 }
+
+@property (readwrite, strong) IBOutlet NSWindow *O_window;
 
 - (NSImage *)icon;
 - (NSString *)iconLabel;
