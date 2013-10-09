@@ -1317,7 +1317,7 @@ static NSAttributedString *S_dragString = nil;
     if ([[document ODBParameters] objectForKey:@"keyFileCustomPath"]) {
         displayName = [[document ODBParameters] objectForKey:@"keyFileCustomPath"];
     } else {
-        NSArray *pathComponents = [[document fileName] pathComponents];
+        NSArray *pathComponents = [[document fileURL] pathComponents];
         int count = [pathComponents count];
         if (count != 0) {
             NSMutableString *result = [NSMutableString string];
@@ -1342,8 +1342,8 @@ static NSAttributedString *S_dragString = nil;
 
     if (session && ![session isServer]) {
         displayName = [displayName stringByAppendingFormat:@" - %@", [[[TCMMMUserManager sharedInstance] userForUserID:[session hostID]] name]];
-        if ([document fileName]) {
-            if (![[[session filename] lastPathComponent] isEqualToString:[[document fileName] lastPathComponent]]) {
+        if ([document fileURL]) {
+            if (![[[session filename] lastPathComponent] isEqualToString:[[document fileURL] lastPathComponent]]) {
                 displayName = [displayName stringByAppendingFormat:@" (%@)", [session filename]];
             }
             displayName = [displayName stringByAppendingString:@" *"];
@@ -1530,7 +1530,6 @@ static NSAttributedString *S_dragString = nil;
             [tab setView:I_dialogSplitView];
 #endif //!defined(CODA)          
 			
-            [I_dialogSplitView setIsPaneSplitter:YES];
             [I_dialogSplitView setDelegate:self];
             [I_dialogSplitView addSubview:dialogView];
             mainFrame.size.width = [I_dialogSplitView frame].size.width;
@@ -1616,7 +1615,6 @@ static NSAttributedString *S_dragString = nil;
         [[[I_plainTextEditors objectAtIndex:1] editorView] setFrameSize:splitSize];
         [I_editorSplitView addSubview:[[I_plainTextEditors objectAtIndex:0] editorView]];
         [I_editorSplitView addSubview:[[I_plainTextEditors objectAtIndex:1] editorView]];
-        [I_editorSplitView setIsPaneSplitter:YES];
         [I_editorSplitView setDelegate:self];
         [[I_plainTextEditors objectAtIndex:1] setShowsBottomStatusBar:
             [[I_plainTextEditors objectAtIndex:0] showsBottomStatusBar]];
