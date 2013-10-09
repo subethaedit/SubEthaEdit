@@ -161,10 +161,6 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
     IBOutlet NSObjectController *O_printOptionController;
     BOOL I_printOperationIsRunning;
 
-    // export nib
-    IBOutlet NSWindow *O_exportSheet;
-    IBOutlet NSObjectController *O_exportSheetController;
-    
     NSArray *I_preservedDataFromSEETextFile;
     
     AuthorizationRef I_authRef;
@@ -177,6 +173,10 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
         NSMutableString *_readFromURLDebugInformation;
     #endif
 }
+
+@property (readwrite, strong) IBOutlet NSWindow *O_exportSheet;
+@property (readwrite, strong) IBOutlet NSObjectController *O_exportSheetController;
+
 
 + (PlainTextDocument *)transientDocument;
 

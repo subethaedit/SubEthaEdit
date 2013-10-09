@@ -1005,9 +1005,9 @@ static NSString *tempFileName(NSString *origPath) {
     [I_lastRegisteredUndoOperation release];
     [I_undoManager release];
 
-    [O_exportSheetController release];
-    [O_exportSheet release];
-    
+	self.O_exportSheet = nil;
+	self.O_exportSheetController = nil;
+
     [O_printOptionView release];
     [O_printOptionController release];
 
@@ -2316,11 +2316,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         then sheet with save panel
         finish
     */
-    if (!O_exportSheet)
-        [NSBundle loadNibNamed: @"Export" owner: self];
-        
-    [O_exportSheetController setContent:[[[self documentMode] defaults] objectForKey:DocumentModeExportPreferenceKey]];
-    [NSApp beginSheet: O_exportSheet
+    if (! self.O_exportSheet) {
+		[[NSBundle mainBundle] loadNibNamed:@"Export" owner:self topLevelObjects:nil];
+	}
+
+    [self.O_exportSheetController setContent:[[[self documentMode] defaults] objectForKey:DocumentModeExportPreferenceKey]];
+    [NSApp beginSheet: self.O_exportSheet
             modalForWindow: [self windowForSheet]
             modalDelegate:  self
             didEndSelector: @selector(continueExport:returnCode:contextInfo:)
@@ -2329,11 +2330,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (IBAction)cancelExport:(id)aSender {
-    [NSApp endSheet:O_exportSheet returnCode:NSCancelButton];
+    [NSApp endSheet:self.O_exportSheet returnCode:NSCancelButton];
 }
 
 - (IBAction)continueExport:(id)aSender {
-    [NSApp endSheet:O_exportSheet returnCode:NSOKButton];
+    [NSApp endSheet:self.O_exportSheet returnCode:NSOKButton];
 }
 
 - (void)continueExport:(NSWindow *)aSheet returnCode:(int)aReturnCode contextInfo:(void *)aContextInfo {
@@ -2345,299 +2346,295 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         [savePanel setExtensionHidden:NO];
         [savePanel setAllowsOtherFileTypes:YES];
         [savePanel setTreatsFilePackagesAsDirectories:YES];
-        [savePanel setRequiredFileType:@"html"];
-        [savePanel beginSheetForDirectory:nil 
-            file:[[[[self displayName] lastPathComponent] stringByDeletingPathExtension] stringByAppendingPathExtension:@"html"] 
-            modalForWindow:[self windowForSheet] 
-            modalDelegate:self 
-            didEndSelector:@selector(exportPanelDidEnd:returnCode:contextInfo:) contextInfo:nil];
-    }
-}
+		[savePanel setAllowedFileTypes:@[@"html"]];
+		[savePanel setNameFieldStringValue:[[[[self displayName] lastPathComponent] stringByDeletingPathExtension] stringByAppendingPathExtension:@"html"]];
 
-- (void)exportPanelDidEnd:(NSSavePanel *)aPanel returnCode:(int)aReturnCode contextInfo:(void *)aContextInfo {
-    if (aReturnCode==NSOKButton) {
-        NSDictionary *htmlOptions=[[[[self documentMode] defaults] objectForKey:DocumentModeExportPreferenceKey] objectForKey:DocumentModeExportHTMLPreferenceKey];
-        FoldableTextStorage *textStorage = (FoldableTextStorage *)I_textStorage;
-        
-        if ([[htmlOptions objectForKey:DocumentModeHTMLExportHighlightSyntaxPreferenceKey] boolValue]) {
-            SyntaxHighlighter *highlighter=[I_documentMode syntaxHighlighter];
-            if (highlighter)
-                while (![highlighter colorizeDirtyRanges:textStorage ofDocument:self]);
-        } else {
-            textStorage = [[FoldableTextStorage new] autorelease];
-            [textStorage setAttributedString:I_textStorage];
-            [[I_documentMode syntaxHighlighter] cleanUpTextStorage:textStorage];
-            [textStorage  addAttributes:[self plainTextAttributes]
-                                  range:NSMakeRange(0,[textStorage length])];
-        }
+		[savePanel beginSheetModalForWindow:[self windowForSheet] completionHandler:^(NSInteger result) {
+			if (result == NSFileHandlingPanelOKButton) {
+				NSDictionary *htmlOptions=[[[[self documentMode] defaults] objectForKey:DocumentModeExportPreferenceKey] objectForKey:DocumentModeExportHTMLPreferenceKey];
+				FoldableTextStorage *textStorage = (FoldableTextStorage *)I_textStorage;
 
-        BOOL shouldSaveImages=[[htmlOptions objectForKey:DocumentModeHTMLExportShowParticipantsPreferenceKey] boolValue] &&
-                              [[htmlOptions objectForKey:DocumentModeHTMLExportShowUserImagesPreferenceKey] boolValue];
-        
-        static NSDictionary *baseAttributeMapping = nil;
-        if (baseAttributeMapping==nil) {
-            baseAttributeMapping=[NSDictionary dictionaryWithObjectsAndKeys:
-                                [NSDictionary dictionaryWithObjectsAndKeys:
-                                    @"<strong>",@"openTag",
-                                    @"</strong>",@"closeTag",nil], @"Bold",
-                                [NSDictionary dictionaryWithObjectsAndKeys:
-                                    @"<em>",@"openTag",
-                                    @"</em>",@"closeTag",nil], @"Italic",
-                                [NSDictionary dictionaryWithObjectsAndKeys:
-                                    @"<span style=\"color:%@;\">",@"openTag",
-                                    @"</span>",@"closeTag",nil], @"ForegroundColor",
-                                [NSDictionary dictionaryWithObjectsAndKeys:
-                                    @"<span class=\"%@\">",@"openTag",
-                                    @"</span>",@"closeTag",nil], @"ChangedByShortUserID",
-                                [NSDictionary dictionaryWithObjectsAndKeys:
-                                    @"<a title=\"%@\">",@"openTag",
-                                    @"</a>",@"closeTag",nil], @"WrittenBy",
-                                nil];
-            [baseAttributeMapping retain];
-        }
-    
-        NSString *htmlFile=[aPanel filename];
-        NSString *imageDirectory=@"";
-        NSString *imageDirectoryPrefix=@"";
-        if (shouldSaveImages) {
-            NSFileManager *fileManager=[NSFileManager defaultManager];
-            imageDirectoryPrefix=[[[htmlFile lastPathComponent] stringByDeletingPathExtension] stringByAppendingString:@"_images"];
-            imageDirectory=[[htmlFile stringByDeletingLastPathComponent] stringByAppendingPathComponent:imageDirectoryPrefix];
-            BOOL isDir = NO;
-            if (([fileManager fileExistsAtPath:imageDirectory isDirectory:&isDir] && isDir) ||
-                 [fileManager createDirectoryAtPath:imageDirectory withIntermediateDirectories:YES attributes:nil error:nil]) {
-                imageDirectoryPrefix = [imageDirectoryPrefix stringByAppendingString:@"/"];
-            } else {
-                imageDirectory = [htmlFile stringByDeletingLastPathComponent];
-                imageDirectoryPrefix = @"";
-            }
-        }
-        
-        TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
-        NSMutableString *metaHeaders=[NSMutableString string];
-        NSCalendarDate *now=[NSCalendarDate calendarDate];
-        NSString *metaFormatString=@"<meta name=\"%@\" content=\"%@\" />\n";
-        [metaHeaders appendFormat:metaFormatString,@"last-modified",[now rfc1123Representation]];
-        [metaHeaders appendFormat:metaFormatString,@"DC.Date",[now descriptionWithCalendarFormat:@"%Y-%m-%d"]];
-        [metaHeaders appendFormat:metaFormatString,@"DC.Creator",[[[userManager me] name] stringByReplacingEntitiesForUTF8:NO]];
-        
-      
-        NSMutableSet *shortContributorIDs=[[NSMutableSet new] autorelease];
-        
-        // Load Templates
-        NSString *templateDirectory=[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"HTMLExport"];
-        NSString *documentBase=[[[NSString alloc] initWithData:[NSData dataWithContentsOfFile:[templateDirectory stringByAppendingPathComponent:@"Base.html"]] 
-                                        encoding:NSUTF8StringEncoding] autorelease];
-        NSString *styleSheetBase=[[[NSString alloc] initWithData:[NSData dataWithContentsOfFile:[templateDirectory stringByAppendingPathComponent:@"Base.css"]] 
-                                        encoding:NSUTF8StringEncoding] autorelease];
-        NSMutableString *styleSheet=[NSMutableString stringWithString:styleSheetBase];
-        
-        NSValueTransformer *hueTrans=[NSValueTransformer valueTransformerForName:@"HueToColor"];
-    
-        // ShortID users
-        BOOL colorConflict=NO;
-        NSMutableSet *userColors=[NSMutableSet set];
-        NSMutableArray *contributorDictionaries=[NSMutableArray array];
-        NSMutableArray *lurkerDictionaries=[NSMutableArray array];
-        NSMutableDictionary *contributorDictionary=[NSMutableDictionary dictionary];
-        NSSet *contributorIDs=[self userIDsOfContributors];
-        NSEnumerator *contributorEnumerator=[[[self session] contributors] objectEnumerator];
-        TCMMMUser *contributor=nil;
-        NSCharacterSet *validCharacters=[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"];
-        while ((contributor=[contributorEnumerator nextObject])) {
-            [metaHeaders appendFormat:metaFormatString,@"DC.Contributor",[[contributor name] stringByReplacingEntitiesForUTF8:YES]];
+				if ([[htmlOptions objectForKey:DocumentModeHTMLExportHighlightSyntaxPreferenceKey] boolValue]) {
+					SyntaxHighlighter *highlighter=[I_documentMode syntaxHighlighter];
+					if (highlighter)
+						while (![highlighter colorizeDirtyRanges:textStorage ofDocument:self]);
+				} else {
+					textStorage = [[FoldableTextStorage new] autorelease];
+					[textStorage setAttributedString:I_textStorage];
+					[[I_documentMode syntaxHighlighter] cleanUpTextStorage:textStorage];
+					[textStorage  addAttributes:[self plainTextAttributes]
+										  range:NSMakeRange(0,[textStorage length])];
+				}
 
-            NSScanner *scanner=[NSScanner scannerWithString:[contributor name]];
-            [scanner setCharactersToBeSkipped:[validCharacters invertedSet]];
-            NSMutableString *IDBasis=[NSMutableString string];
-            while (![scanner isAtEnd]) {
-                NSString *scannedString;
-                if ([scanner scanCharactersFromSet:validCharacters intoString:&scannedString]) {
-                    [IDBasis appendString:scannedString];
-                }
-            }
-            if ([IDBasis length]==0) {
-                [IDBasis appendString:@"u"];
-            }
-            NSString *IDString=IDBasis;
-            int i;
-            for (i=1;[shortContributorIDs containsObject:IDString];i++) {
-                IDString = [NSString stringWithFormat:@"%@%d",IDBasis,i];
-            }
-            [shortContributorIDs addObject:IDString];
-            if (shouldSaveImages) {
-                [[[contributor properties] objectForKey:@"ImageAsPNG"] writeToFile:[imageDirectory stringByAppendingPathComponent:[IDString stringByAppendingPathExtension:@"png"]] atomically:YES];
-            }
-            NSDictionary *dictionary=[NSDictionary dictionaryWithObjectsAndKeys:contributor,@"User",IDString,@"ShortID",nil];
-            if ([contributorIDs containsObject:[contributor userID]]) {
-                [contributorDictionary   setObject:dictionary forKey:[contributor userID]];
-                [contributorDictionaries addObject:dictionary];
-                if ([userColors containsObject:[hueTrans reverseTransformedValue:[contributor changeColor]]]) {
-                    colorConflict=YES;
-                }
-                [userColors addObject:[hueTrans reverseTransformedValue:[contributor changeColor]]];
-            } else {
-                [lurkerDictionaries addObject:dictionary];
-            }
-        }
-    
-        NSSortDescriptor *nameDescriptor=[[[NSSortDescriptor alloc] initWithKey:@"User.name" 
-                  ascending:YES
-                  selector:@selector(caseInsensitiveCompare:)] autorelease];
-        [contributorDictionaries sortUsingDescriptors:[NSArray arrayWithObject:nameDescriptor]];
-        [lurkerDictionaries      sortUsingDescriptors:[NSArray arrayWithObject:nameDescriptor]];
-    
-        NSEnumerator *contributorDictionaryEnumerator=[contributorDictionaries objectEnumerator];
-        NSDictionary *contributorDict=nil;
-        int i=0;
-    
-        while ((contributorDict=[contributorDictionaryEnumerator nextObject])) {
-            NSColor *color=colorConflict?
-                    [hueTrans transformedValue:[NSNumber numberWithFloat:(float)i/[contributorDictionaries count]*100.]]:
-                    [[contributorDict objectForKey:@"User"] changeColor];
-            
-            NSColor *userColor=[[self documentBackgroundColor] blendedColorWithFraction:[[NSUserDefaults standardUserDefaults] floatForKey:ChangesSaturationPreferenceKey]/100.
-                                 ofColor:color];
-            [styleSheet appendFormat:@".%@ {\n    background-color: %@;\n}\n\n",[contributorDict objectForKey:@"ShortID"],[userColor HTMLString]];
-            i++;
-        }
-        
-        // prepare DisplayName
-        NSString *displayName=[[self displayName] stringByReplacingEntitiesForUTF8:YES];
-        
-        // modify TextStorage
-        NSRange wholeRange=NSMakeRange(0,[[self textStorage] length]);
-        NSMutableAttributedString *attributedStringForXHTML=[(TextStorage *)textStorage attributedStringForXHTMLExportWithRange:wholeRange foregroundColor:[self documentForegroundColor] backgroundColor:[self documentBackgroundColor]];
-        
-        unsigned index=0;
-        do {
-            NSRange foundRange;
-            NSString *authorID=[attributedStringForXHTML attribute:@"ChangedByUserID" atIndex:index 
-                                 longestEffectiveRange:&foundRange inRange:wholeRange];
-            index=NSMaxRange(foundRange);
-            if (authorID) {
-                [attributedStringForXHTML addAttribute:@"ChangedByShortUserID" value:[[contributorDictionary objectForKey:authorID] objectForKey:@"ShortID"] range:foundRange];
-            }
-        } while (index<NSMaxRange(wholeRange));
-            
-        // Prepare Legend
-        NSMutableString *legend=[NSMutableString string];
-        int tableSpan=1;
-        BOOL shouldShowAIMAndEmail=[[htmlOptions objectForKey:DocumentModeHTMLExportShowAIMAndEmailPreferenceKey] boolValue];
-        if (shouldSaveImages) tableSpan++;
-        if (shouldShowAIMAndEmail) tableSpan++;  
-        // Contriburtors and lurkers as Table
-        // lurkers as Table
-        if ([[htmlOptions objectForKey:DocumentModeHTMLExportShowParticipantsPreferenceKey] boolValue]) {
-            [legend appendString:@"<table>"];
-            if ([contributorDictionaries count]) {
-                NSString *contributorForegroundColor=@"";
-                if (![[self documentForegroundColor] isDark]) {
-                    contributorForegroundColor=[NSString stringWithFormat:@" style=\"color:%@;\"",[[self documentForegroundColor] HTMLString]];
-                }
-                [legend appendFormat:@"<tr><th colspan=\"%d\">%@</th></tr>\n",tableSpan,NSLocalizedString(@"Contributors",@"Title for Contributors in Export and Print")];
-                NSDictionary *contributorDict=nil;
-                for (contributorDict in contributorDictionaries) {
-                    NSString *name=[[contributorDict valueForKeyPath:@"User.name"] stringByReplacingEntitiesForUTF8:YES];
-                    NSString *shortID=[contributorDict valueForKeyPath:@"ShortID"];
-                    NSString *aim=[[contributorDict valueForKeyPath:@"User.properties.AIM"] stringByReplacingEntitiesForUTF8:YES];
-                    NSString *email=[[contributorDict valueForKeyPath:@"User.properties.Email"] stringByReplacingEntitiesForUTF8:YES];
-                    [legend appendFormat:@"<tr>", nil];
-                    if (shouldSaveImages) {
-                        [legend appendFormat:@"<th><img src=\"%@%@.png\" width=\"32\" height=\"32\" alt=\"%@\"/></th>", imageDirectoryPrefix, name, name];
-                    }
-                    [legend appendFormat:@"<td class=\"ContributorName %@\"%@>%@</td>",shortID,contributorForegroundColor,name];
-                    if (shouldShowAIMAndEmail) {
-                        [legend appendString:@"<td>"];
-                        if ([aim length]) {
-                            [legend appendFormat:@"%@ <a href=\"aim:goim?screenname=%@\">%@</a>",NSLocalizedString(@"PrintExportLegendAIMLabel",@"Label for AIM in legend in Print and Export"),aim,aim];
-                        }
-                        [legend appendString:@"<br />"];
-                        if ([email length]) {
-                            [legend appendFormat:@"%@ <a href=\"mailto:%@\">%@</a>",NSLocalizedString(@"PrintExportLegendEmailLabel",@"Label for Email in legend in Print and Export"),email,email];
-                        }
-                        [legend appendString:@"</td>"];
-                    }
-                    [legend appendString:@"</tr>\n"];
-                }
-                
-            }
-            if ([lurkerDictionaries count] && [[htmlOptions objectForKey:DocumentModeHTMLExportShowVisitorsPreferenceKey] boolValue]) {
-                [legend appendFormat:@"<tr><th colspan=\"%d\">%@</th></tr>\n",tableSpan,NSLocalizedString(@"Visitors",@"Title for Visitors in Export and Print")];
-                NSDictionary *lurker=nil;
-                int alternateFlag=0;
-                for (lurker in lurkerDictionaries) {
-                    NSString *name   =[[lurker valueForKeyPath:@"User.name"] stringByReplacingEntitiesForUTF8:YES];
-//                    NSString *shortID= [lurker valueForKeyPath:@"ShortID"];
-                    NSString *aim    =[[lurker valueForKeyPath:@"User.properties.AIM"] stringByReplacingEntitiesForUTF8:YES];
-                    NSString *email  =[[lurker valueForKeyPath:@"User.properties.Email"] stringByReplacingEntitiesForUTF8:YES];
-                    [legend appendFormat:@"<tr%@>",alternateFlag?@" class=\"Alternate\"":@""];
-                    if (shouldSaveImages) {
-                        [legend appendFormat:@"<th><img src=\"%@%@.png\" width=\"32\" height=\"32\" alt=\"%@\"/></th>",imageDirectoryPrefix, name, name];
-                    }
-                    [legend appendFormat:@"<td class=\"VisitorName\">%@</td>",name];
-                    if (shouldShowAIMAndEmail) {
-                        [legend appendString:@"<td>"];
-                        if ([aim length]) {
-                            [legend appendFormat:@"%@ <a href=\"aim:goim?screenname=%@\">%@</a>",NSLocalizedString(@"PrintExportLegendAIMLabel",@"Label for AIM in legend in Print and Export"),aim,aim];
-                        }
-                        [legend appendString:@"<br />"];
-                        if ([email length]) {
-                            [legend appendFormat:@"%@ <a href=\"mailto:%@\">%@</a>",NSLocalizedString(@"PrintExportLegendEmailLabel",@"Label for Email in legend in Print and Export"),email,email];
-                        }
-                        [legend appendString:@"</td>"];
-                    }
-                    [legend appendString:@"</tr>\n"];
-                    alternateFlag=1-alternateFlag;
-                }
-            }
-            [legend appendString:@"</table>\n"];
-        }  
-          
-        // Prepare Content    
-        NSMutableString *content=[NSMutableString string];
-        if ([[htmlOptions objectForKey:DocumentModeHTMLExportAddCurrentDatePreferenceKey] boolValue]) {
-			NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init]  autorelease];
-			[dateFormatter setDateStyle:NSDateFormatterFullStyle];
-			[dateFormatter setTimeStyle:NSDateFormatterNoStyle];			
-			[content appendFormat:@"<p>%@</p>", [dateFormatter stringFromDate:[NSDate date]]];
-        }
-        NSString *fontString=@"";
-        if ([[self fontWithTrait:0] isFixedPitch] || 
-            [@"Monaco" isEqualToString:[[self fontWithTrait:0] fontName]]) {
-            fontString=@"font-size:small; font-family:monospace; ";
-        } 
-        [attributedStringForXHTML detab:YES inRange:wholeRange tabWidth:[self tabWidth] askingTextView:nil];
-        BOOL wrapsLines=[self wrapLines];
-        NSString *topLevelTag=wrapsLines?@"div":@"pre";
-        if (wrapsLines) {
-            [attributedStringForXHTML makeLeadingWhitespaceNonBreaking];
-        }
-        NSMutableDictionary *mapping=[[baseAttributeMapping mutableCopy] autorelease];
-        if (![[htmlOptions objectForKey:DocumentModeHTMLExportWrittenByHoversPreferenceKey] boolValue]) {
-            [mapping removeObjectForKey:@"WrittenBy"];
-        }
-        if (![[htmlOptions objectForKey:DocumentModeHTMLExportShowChangeMarksPreferenceKey] boolValue]) {
-            [mapping removeObjectForKey:@"ChangedByShortUserID"];
-        }
-        NSMutableString *innerContent=[attributedStringForXHTML XHTMLStringWithAttributeMapping:mapping forUTF8:YES];
-        if (wrapsLines) {
-            [innerContent addBRs];
-        }
-        [content appendFormat:@"<%@ style=\"text-align:left;color:%@; background-color:%@; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;%@\">",topLevelTag, [[self documentForegroundColor] HTMLString],[[self documentBackgroundColor] HTMLString],fontString];
-        [content appendString:innerContent];
-        [content appendFormat:@"</%@>",topLevelTag];
-    
-    
-        // finish creation :-)    
-        NSString *result=[NSString stringWithFormat:documentBase,displayName,styleSheet,legend,content,metaHeaders];
-        [[result dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:NO] writeToFile:htmlFile atomically:YES];
-        if (!I_flags.highlightSyntax && 
-            [[htmlOptions objectForKey:DocumentModeHTMLExportHighlightSyntaxPreferenceKey] boolValue]) {
-            [self setHighlightsSyntax:YES];
-            [self setHighlightsSyntax:NO];
-        }
-    }
+				BOOL shouldSaveImages=[[htmlOptions objectForKey:DocumentModeHTMLExportShowParticipantsPreferenceKey] boolValue] &&
+				[[htmlOptions objectForKey:DocumentModeHTMLExportShowUserImagesPreferenceKey] boolValue];
+
+				static NSDictionary *baseAttributeMapping = nil;
+				if (baseAttributeMapping==nil) {
+					baseAttributeMapping=[NSDictionary dictionaryWithObjectsAndKeys:
+										  [NSDictionary dictionaryWithObjectsAndKeys:
+										   @"<strong>",@"openTag",
+										   @"</strong>",@"closeTag",nil], @"Bold",
+										  [NSDictionary dictionaryWithObjectsAndKeys:
+										   @"<em>",@"openTag",
+										   @"</em>",@"closeTag",nil], @"Italic",
+										  [NSDictionary dictionaryWithObjectsAndKeys:
+										   @"<span style=\"color:%@;\">",@"openTag",
+										   @"</span>",@"closeTag",nil], @"ForegroundColor",
+										  [NSDictionary dictionaryWithObjectsAndKeys:
+										   @"<span class=\"%@\">",@"openTag",
+										   @"</span>",@"closeTag",nil], @"ChangedByShortUserID",
+										  [NSDictionary dictionaryWithObjectsAndKeys:
+										   @"<a title=\"%@\">",@"openTag",
+										   @"</a>",@"closeTag",nil], @"WrittenBy",
+										  nil];
+					[baseAttributeMapping retain];
+				}
+
+				NSString *htmlFile=[[savePanel URL] path];
+				NSString *imageDirectory=@"";
+				NSString *imageDirectoryPrefix=@"";
+				if (shouldSaveImages) {
+					NSFileManager *fileManager=[NSFileManager defaultManager];
+					imageDirectoryPrefix=[[[htmlFile lastPathComponent] stringByDeletingPathExtension] stringByAppendingString:@"_images"];
+					imageDirectory=[[htmlFile stringByDeletingLastPathComponent] stringByAppendingPathComponent:imageDirectoryPrefix];
+					BOOL isDir = NO;
+					if (([fileManager fileExistsAtPath:imageDirectory isDirectory:&isDir] && isDir) ||
+						[fileManager createDirectoryAtPath:imageDirectory withIntermediateDirectories:YES attributes:nil error:nil]) {
+						imageDirectoryPrefix = [imageDirectoryPrefix stringByAppendingString:@"/"];
+					} else {
+						imageDirectory = [htmlFile stringByDeletingLastPathComponent];
+						imageDirectoryPrefix = @"";
+					}
+				}
+
+				TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
+				NSMutableString *metaHeaders=[NSMutableString string];
+				NSCalendarDate *now=[NSCalendarDate calendarDate];
+				NSString *metaFormatString=@"<meta name=\"%@\" content=\"%@\" />\n";
+				[metaHeaders appendFormat:metaFormatString,@"last-modified",[now rfc1123Representation]];
+				[metaHeaders appendFormat:metaFormatString,@"DC.Date",[now descriptionWithCalendarFormat:@"%Y-%m-%d"]];
+				[metaHeaders appendFormat:metaFormatString,@"DC.Creator",[[[userManager me] name] stringByReplacingEntitiesForUTF8:NO]];
+
+
+				NSMutableSet *shortContributorIDs=[[NSMutableSet new] autorelease];
+
+				// Load Templates
+				NSString *templateDirectory=[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"HTMLExport"];
+				NSString *documentBase=[[[NSString alloc] initWithData:[NSData dataWithContentsOfFile:[templateDirectory stringByAppendingPathComponent:@"Base.html"]]
+															  encoding:NSUTF8StringEncoding] autorelease];
+				NSString *styleSheetBase=[[[NSString alloc] initWithData:[NSData dataWithContentsOfFile:[templateDirectory stringByAppendingPathComponent:@"Base.css"]]
+																encoding:NSUTF8StringEncoding] autorelease];
+				NSMutableString *styleSheet=[NSMutableString stringWithString:styleSheetBase];
+
+				NSValueTransformer *hueTrans=[NSValueTransformer valueTransformerForName:@"HueToColor"];
+
+				// ShortID users
+				BOOL colorConflict=NO;
+				NSMutableSet *userColors=[NSMutableSet set];
+				NSMutableArray *contributorDictionaries=[NSMutableArray array];
+				NSMutableArray *lurkerDictionaries=[NSMutableArray array];
+				NSMutableDictionary *contributorDictionary=[NSMutableDictionary dictionary];
+				NSSet *contributorIDs=[self userIDsOfContributors];
+				NSEnumerator *contributorEnumerator=[[[self session] contributors] objectEnumerator];
+				TCMMMUser *contributor=nil;
+				NSCharacterSet *validCharacters=[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"];
+				while ((contributor=[contributorEnumerator nextObject])) {
+					[metaHeaders appendFormat:metaFormatString,@"DC.Contributor",[[contributor name] stringByReplacingEntitiesForUTF8:YES]];
+
+					NSScanner *scanner=[NSScanner scannerWithString:[contributor name]];
+					[scanner setCharactersToBeSkipped:[validCharacters invertedSet]];
+					NSMutableString *IDBasis=[NSMutableString string];
+					while (![scanner isAtEnd]) {
+						NSString *scannedString;
+						if ([scanner scanCharactersFromSet:validCharacters intoString:&scannedString]) {
+							[IDBasis appendString:scannedString];
+						}
+					}
+					if ([IDBasis length]==0) {
+						[IDBasis appendString:@"u"];
+					}
+					NSString *IDString=IDBasis;
+					int i;
+					for (i=1;[shortContributorIDs containsObject:IDString];i++) {
+						IDString = [NSString stringWithFormat:@"%@%d",IDBasis,i];
+					}
+					[shortContributorIDs addObject:IDString];
+					if (shouldSaveImages) {
+						[[[contributor properties] objectForKey:@"ImageAsPNG"] writeToFile:[imageDirectory stringByAppendingPathComponent:[IDString stringByAppendingPathExtension:@"png"]] atomically:YES];
+					}
+					NSDictionary *dictionary=[NSDictionary dictionaryWithObjectsAndKeys:contributor,@"User",IDString,@"ShortID",nil];
+					if ([contributorIDs containsObject:[contributor userID]]) {
+						[contributorDictionary   setObject:dictionary forKey:[contributor userID]];
+						[contributorDictionaries addObject:dictionary];
+						if ([userColors containsObject:[hueTrans reverseTransformedValue:[contributor changeColor]]]) {
+							colorConflict=YES;
+						}
+						[userColors addObject:[hueTrans reverseTransformedValue:[contributor changeColor]]];
+					} else {
+						[lurkerDictionaries addObject:dictionary];
+					}
+				}
+
+				NSSortDescriptor *nameDescriptor=[[[NSSortDescriptor alloc] initWithKey:@"User.name"
+																			  ascending:YES
+																			   selector:@selector(caseInsensitiveCompare:)] autorelease];
+				[contributorDictionaries sortUsingDescriptors:[NSArray arrayWithObject:nameDescriptor]];
+				[lurkerDictionaries      sortUsingDescriptors:[NSArray arrayWithObject:nameDescriptor]];
+
+				NSEnumerator *contributorDictionaryEnumerator=[contributorDictionaries objectEnumerator];
+				NSDictionary *contributorDict=nil;
+				int i=0;
+
+				while ((contributorDict=[contributorDictionaryEnumerator nextObject])) {
+					NSColor *color=colorConflict?
+					[hueTrans transformedValue:[NSNumber numberWithFloat:(float)i/[contributorDictionaries count]*100.]]:
+					[[contributorDict objectForKey:@"User"] changeColor];
+
+					NSColor *userColor=[[self documentBackgroundColor] blendedColorWithFraction:[[NSUserDefaults standardUserDefaults] floatForKey:ChangesSaturationPreferenceKey]/100.
+																						ofColor:color];
+					[styleSheet appendFormat:@".%@ {\n    background-color: %@;\n}\n\n",[contributorDict objectForKey:@"ShortID"],[userColor HTMLString]];
+					i++;
+				}
+
+				// prepare DisplayName
+				NSString *displayName=[[self displayName] stringByReplacingEntitiesForUTF8:YES];
+
+				// modify TextStorage
+				NSRange wholeRange=NSMakeRange(0,[[self textStorage] length]);
+				NSMutableAttributedString *attributedStringForXHTML=[(TextStorage *)textStorage attributedStringForXHTMLExportWithRange:wholeRange foregroundColor:[self documentForegroundColor] backgroundColor:[self documentBackgroundColor]];
+
+				unsigned index=0;
+				do {
+					NSRange foundRange;
+					NSString *authorID=[attributedStringForXHTML attribute:@"ChangedByUserID" atIndex:index
+													 longestEffectiveRange:&foundRange inRange:wholeRange];
+					index=NSMaxRange(foundRange);
+					if (authorID) {
+						[attributedStringForXHTML addAttribute:@"ChangedByShortUserID" value:[[contributorDictionary objectForKey:authorID] objectForKey:@"ShortID"] range:foundRange];
+					}
+				} while (index<NSMaxRange(wholeRange));
+
+				// Prepare Legend
+				NSMutableString *legend=[NSMutableString string];
+				int tableSpan=1;
+				BOOL shouldShowAIMAndEmail=[[htmlOptions objectForKey:DocumentModeHTMLExportShowAIMAndEmailPreferenceKey] boolValue];
+				if (shouldSaveImages) tableSpan++;
+				if (shouldShowAIMAndEmail) tableSpan++;
+				// Contriburtors and lurkers as Table
+				// lurkers as Table
+				if ([[htmlOptions objectForKey:DocumentModeHTMLExportShowParticipantsPreferenceKey] boolValue]) {
+					[legend appendString:@"<table>"];
+					if ([contributorDictionaries count]) {
+						NSString *contributorForegroundColor=@"";
+						if (![[self documentForegroundColor] isDark]) {
+							contributorForegroundColor=[NSString stringWithFormat:@" style=\"color:%@;\"",[[self documentForegroundColor] HTMLString]];
+						}
+						[legend appendFormat:@"<tr><th colspan=\"%d\">%@</th></tr>\n",tableSpan,NSLocalizedString(@"Contributors",@"Title for Contributors in Export and Print")];
+						NSDictionary *contributorDict=nil;
+						for (contributorDict in contributorDictionaries) {
+							NSString *name=[[contributorDict valueForKeyPath:@"User.name"] stringByReplacingEntitiesForUTF8:YES];
+							NSString *shortID=[contributorDict valueForKeyPath:@"ShortID"];
+							NSString *aim=[[contributorDict valueForKeyPath:@"User.properties.AIM"] stringByReplacingEntitiesForUTF8:YES];
+							NSString *email=[[contributorDict valueForKeyPath:@"User.properties.Email"] stringByReplacingEntitiesForUTF8:YES];
+							[legend appendFormat:@"<tr>", nil];
+							if (shouldSaveImages) {
+								[legend appendFormat:@"<th><img src=\"%@%@.png\" width=\"32\" height=\"32\" alt=\"%@\"/></th>", imageDirectoryPrefix, name, name];
+							}
+							[legend appendFormat:@"<td class=\"ContributorName %@\"%@>%@</td>",shortID,contributorForegroundColor,name];
+							if (shouldShowAIMAndEmail) {
+								[legend appendString:@"<td>"];
+								if ([aim length]) {
+									[legend appendFormat:@"%@ <a href=\"aim:goim?screenname=%@\">%@</a>",NSLocalizedString(@"PrintExportLegendAIMLabel",@"Label for AIM in legend in Print and Export"),aim,aim];
+								}
+								[legend appendString:@"<br />"];
+								if ([email length]) {
+									[legend appendFormat:@"%@ <a href=\"mailto:%@\">%@</a>",NSLocalizedString(@"PrintExportLegendEmailLabel",@"Label for Email in legend in Print and Export"),email,email];
+								}
+								[legend appendString:@"</td>"];
+							}
+							[legend appendString:@"</tr>\n"];
+						}
+
+					}
+					if ([lurkerDictionaries count] && [[htmlOptions objectForKey:DocumentModeHTMLExportShowVisitorsPreferenceKey] boolValue]) {
+						[legend appendFormat:@"<tr><th colspan=\"%d\">%@</th></tr>\n",tableSpan,NSLocalizedString(@"Visitors",@"Title for Visitors in Export and Print")];
+						NSDictionary *lurker=nil;
+						int alternateFlag=0;
+						for (lurker in lurkerDictionaries) {
+							NSString *name   =[[lurker valueForKeyPath:@"User.name"] stringByReplacingEntitiesForUTF8:YES];
+							//                    NSString *shortID= [lurker valueForKeyPath:@"ShortID"];
+							NSString *aim    =[[lurker valueForKeyPath:@"User.properties.AIM"] stringByReplacingEntitiesForUTF8:YES];
+							NSString *email  =[[lurker valueForKeyPath:@"User.properties.Email"] stringByReplacingEntitiesForUTF8:YES];
+							[legend appendFormat:@"<tr%@>",alternateFlag?@" class=\"Alternate\"":@""];
+							if (shouldSaveImages) {
+								[legend appendFormat:@"<th><img src=\"%@%@.png\" width=\"32\" height=\"32\" alt=\"%@\"/></th>",imageDirectoryPrefix, name, name];
+							}
+							[legend appendFormat:@"<td class=\"VisitorName\">%@</td>",name];
+							if (shouldShowAIMAndEmail) {
+								[legend appendString:@"<td>"];
+								if ([aim length]) {
+									[legend appendFormat:@"%@ <a href=\"aim:goim?screenname=%@\">%@</a>",NSLocalizedString(@"PrintExportLegendAIMLabel",@"Label for AIM in legend in Print and Export"),aim,aim];
+								}
+								[legend appendString:@"<br />"];
+								if ([email length]) {
+									[legend appendFormat:@"%@ <a href=\"mailto:%@\">%@</a>",NSLocalizedString(@"PrintExportLegendEmailLabel",@"Label for Email in legend in Print and Export"),email,email];
+								}
+								[legend appendString:@"</td>"];
+							}
+							[legend appendString:@"</tr>\n"];
+							alternateFlag=1-alternateFlag;
+						}
+					}
+					[legend appendString:@"</table>\n"];
+				}
+
+				// Prepare Content
+				NSMutableString *content=[NSMutableString string];
+				if ([[htmlOptions objectForKey:DocumentModeHTMLExportAddCurrentDatePreferenceKey] boolValue]) {
+					NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init]  autorelease];
+					[dateFormatter setDateStyle:NSDateFormatterFullStyle];
+					[dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+					[content appendFormat:@"<p>%@</p>", [dateFormatter stringFromDate:[NSDate date]]];
+				}
+				NSString *fontString=@"";
+				if ([[self fontWithTrait:0] isFixedPitch] ||
+					[@"Monaco" isEqualToString:[[self fontWithTrait:0] fontName]]) {
+					fontString=@"font-size:small; font-family:monospace; ";
+				}
+				[attributedStringForXHTML detab:YES inRange:wholeRange tabWidth:[self tabWidth] askingTextView:nil];
+				BOOL wrapsLines=[self wrapLines];
+				NSString *topLevelTag=wrapsLines?@"div":@"pre";
+				if (wrapsLines) {
+					[attributedStringForXHTML makeLeadingWhitespaceNonBreaking];
+				}
+				NSMutableDictionary *mapping=[[baseAttributeMapping mutableCopy] autorelease];
+				if (![[htmlOptions objectForKey:DocumentModeHTMLExportWrittenByHoversPreferenceKey] boolValue]) {
+					[mapping removeObjectForKey:@"WrittenBy"];
+				}
+				if (![[htmlOptions objectForKey:DocumentModeHTMLExportShowChangeMarksPreferenceKey] boolValue]) {
+					[mapping removeObjectForKey:@"ChangedByShortUserID"];
+				}
+				NSMutableString *innerContent=[attributedStringForXHTML XHTMLStringWithAttributeMapping:mapping forUTF8:YES];
+				if (wrapsLines) {
+					[innerContent addBRs];
+				}
+				[content appendFormat:@"<%@ style=\"text-align:left;color:%@; background-color:%@; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;%@\">",topLevelTag, [[self documentForegroundColor] HTMLString],[[self documentBackgroundColor] HTMLString],fontString];
+				[content appendString:innerContent];
+				[content appendFormat:@"</%@>",topLevelTag];
+
+
+				// finish creation :-)
+				NSString *result=[NSString stringWithFormat:documentBase,displayName,styleSheet,legend,content,metaHeaders];
+				[[result dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:NO] writeToFile:htmlFile atomically:YES];
+				if (!I_flags.highlightSyntax &&
+					[[htmlOptions objectForKey:DocumentModeHTMLExportHighlightSyntaxPreferenceKey] boolValue]) {
+					[self setHighlightsSyntax:YES];
+					[self setHighlightsSyntax:NO];
+				}
+			}
+		}];
+	}
 }
 
 #pragma mark -
@@ -2654,7 +2651,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     if ([I_savePanel canShowHiddenFiles]) {
         [I_savePanel setInternalShowsHiddenFiles:flag];
     }
-    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:@"ShowsHiddenFiles"];    
+    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:@"ShowsHiddenFiles"];
 }
 
 - (NSString *)panel:(id)sender userEnteredFilename:(NSString *)filename confirmed:(BOOL)okFlag
