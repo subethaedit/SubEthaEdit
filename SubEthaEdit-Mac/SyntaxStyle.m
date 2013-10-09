@@ -161,17 +161,15 @@ static NSArray *S_possibleStyleColors;
 + (NSArray *)syntaxStylesWithXMLFile:(NSString *)aPath {
     NSMutableArray *result=[NSMutableArray array];
     CFXMLTreeRef cfXMLTree;
-    CFDataRef xmlData;
     if (!(aPath)) {
         NSLog(@"ERROR: Can't parse nil syntax style.");
         return result;
     }
-    CFURLRef sourceURL = (CFURLRef)[NSURL fileURLWithPath:aPath];
+    NSURL *sourceURL = [NSURL fileURLWithPath:aPath];
+	NSData *xmlData = [[[NSData alloc] initWithContentsOfURL:sourceURL options:0 error:nil] autorelease];
     NSDictionary *errorDict;
 
-    CFURLCreateDataAndPropertiesFromResource(kCFAllocatorDefault, sourceURL, &xmlData, NULL, NULL, NULL);
-
-    cfXMLTree = CFXMLTreeCreateFromDataWithError(kCFAllocatorDefault,xmlData,sourceURL,kCFXMLParserSkipWhitespace|kCFXMLParserSkipMetaData,kCFXMLNodeCurrentVersion,(CFDictionaryRef *)&errorDict);
+    cfXMLTree = CFXMLTreeCreateFromDataWithError(kCFAllocatorDefault,(CFDataRef)xmlData,(CFURLRef)sourceURL,kCFXMLParserSkipWhitespace|kCFXMLParserSkipMetaData,kCFXMLNodeCurrentVersion,(CFDictionaryRef *)&errorDict);
 
     if (!cfXMLTree) {
         return result;
@@ -215,7 +213,6 @@ static NSArray *S_possibleStyleColors;
         }
     }
     CFRelease(cfXMLTree);
-    CFRelease(xmlData);
     return result;
 }
 

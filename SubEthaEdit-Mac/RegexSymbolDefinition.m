@@ -45,20 +45,16 @@ extern NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree);
     [super dealloc];
 }
 
-#pragma mark - 
 #pragma mark - XML parsing
-#pragma mark - 
 
 /*"Entry point for XML parsing, branches to according node functions"*/
 -(void)parseXMLFile:(NSString *)aPath {
-    CFXMLTreeRef cfXMLTree;
-    CFDataRef xmlData;
-    CFURLRef sourceURL = (CFURLRef)[NSURL fileURLWithPath:aPath];
-    NSDictionary *errorDict;
+    NSURL *sourceURL = [NSURL fileURLWithPath:aPath];
+	NSData *xmlData = [[NSData alloc] initWithContentsOfURL:[NSURL fileURLWithPath:aPath] options:0 error:nil];
+//	NSXMLParser *parser = [[NSXMLParser alloc] initWithData:xmlData];
 
-    CFURLCreateDataAndPropertiesFromResource(kCFAllocatorDefault, sourceURL, &xmlData, NULL, NULL, NULL);
-
-    cfXMLTree = CFXMLTreeCreateFromDataWithError(kCFAllocatorDefault,xmlData,sourceURL,kCFXMLParserSkipMetaData,kCFXMLNodeCurrentVersion,(CFDictionaryRef *)&errorDict);
+	NSDictionary *errorDict = nil;
+    CFXMLTreeRef cfXMLTree = CFXMLTreeCreateFromDataWithError(kCFAllocatorDefault,(CFDataRef)xmlData,(CFURLRef)sourceURL,kCFXMLParserSkipMetaData,kCFXMLNodeCurrentVersion,(CFDictionaryRef *)&errorDict);
 
     if (!cfXMLTree) {
         NSLog(@"Error parsing syntax definition \"%@\":\n%@", aPath, [errorDict description]);
@@ -132,7 +128,8 @@ extern NSString *extractStringWithEntitiesFromTree(CFXMLTreeRef aTree);
         }
     }
     CFRelease(cfXMLTree);
-    CFRelease(xmlData);
+//	[parser release];
+    [xmlData release];
 }
 
 /*"Parse the <blocks> tag"*/
