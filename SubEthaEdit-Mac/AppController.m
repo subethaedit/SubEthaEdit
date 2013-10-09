@@ -253,19 +253,49 @@ static AppController *sharedInstance = nil;
                 myName=NSFullUserName();
             }
             
-            ABMultiValue *emails=[meCard valueForProperty:kABEmailProperty];
+            ABMultiValue *emails = [meCard valueForProperty:kABEmailProperty];
             NSString *primaryIdentifier=[emails primaryIdentifier];
             if (primaryIdentifier) {
                 [defaults setObject:primaryIdentifier forKey:MyEmailIdentifierPreferenceKey];
                 myEmail=[emails valueAtIndex:[emails indexForIdentifier:primaryIdentifier]];
             }
 
-            ABMultiValue *aims=[meCard valueForProperty:kABAIMInstantProperty];
-            primaryIdentifier=[aims primaryIdentifier];
-            if (primaryIdentifier) {
-                [defaults setObject:primaryIdentifier forKey:MyAIMIdentifierPreferenceKey];
-                myAIM=[aims valueAtIndex:[aims indexForIdentifier:primaryIdentifier]];
-            }
+			// Find best matching default from Adressbook
+            ABMultiValue *instantMessageServices = [meCard valueForProperty:kABInstantMessageProperty];
+            primaryIdentifier = [instantMessageServices primaryIdentifier];
+            if (primaryIdentifier)
+            {
+                NSDictionary *primaryInstantMessageServiceDict = [instantMessageServices valueForIdentifier:primaryIdentifier];
+                if ([[primaryInstantMessageServiceDict objectForKey:kABInstantMessageServiceKey] isEqualToString:kABInstantMessageServiceAIM]) // Make sure primary service is AIM service
+                {
+                    [defaults setObject:primaryIdentifier forKey:MyAIMIdentifierPreferenceKey];
+					myAIM = [primaryInstantMessageServiceDict objectForKey:kABInstantMessageUsernameKey];
+				}
+                else
+                {
+                    for (NSString *instantMessageIdentifier in instantMessageServices) // if primary service was not AIM service
+                    {
+                        NSDictionary *instantMessageServiceDict = [instantMessageServices valueForIdentifier:instantMessageIdentifier];
+                        if ([[instantMessageServiceDict objectForKey:kABInstantMessageServiceKey] isEqualToString:kABInstantMessageServiceAIM])
+                        {
+                            [defaults setObject:instantMessageIdentifier forKey:MyAIMIdentifierPreferenceKey];
+                            myAIM = [instantMessageServiceDict objectForKey:kABInstantMessageUsernameKey];
+                        }
+                    }
+                }
+			}
+			else
+			{
+				for (NSString *instantMessageIdentifier in instantMessageServices)
+				{
+					NSDictionary *instantMessageServiceDict = [instantMessageServices valueForIdentifier:instantMessageIdentifier];
+					if ([[instantMessageServiceDict objectForKey:kABInstantMessageServiceKey] isEqualToString:kABInstantMessageServiceAIM])
+					{
+						[defaults setObject:instantMessageIdentifier forKey:MyAIMIdentifierPreferenceKey];
+						myAIM = [instantMessageServiceDict objectForKey:kABInstantMessageUsernameKey];
+					}
+				}
+			}
         } else {
             myName=NSFullUserName();
             myEmail=@"";
@@ -291,7 +321,7 @@ static AppController *sharedInstance = nil;
 
         NSString *identifier=[defaults stringForKey:MyAIMIdentifierPreferenceKey];
         if (identifier) {
-            ABMultiValue *aims=[meCard valueForProperty:kABAIMInstantProperty];
+            ABMultiValue *aims=[meCard valueForProperty:kABInstantMessageProperty];
             NSUInteger index=[aims indexForIdentifier:identifier];
             if (index!=NSNotFound) {
                 if (![myAIM isEqualToString:[aims valueAtIndex:index]]) {
