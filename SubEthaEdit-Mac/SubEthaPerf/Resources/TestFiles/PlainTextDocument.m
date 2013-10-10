@@ -2462,7 +2462,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         NSMutableString *content=[NSMutableString string];
         NSUserDefaults *standardUserDefaults=[NSUserDefaults standardUserDefaults];
         if ([[htmlOptions objectForKey:DocumentModeHTMLExportAddCurrentDatePreferenceKey] boolValue]) {
-            [content appendFormat:@"<p>%@</p>",[[NSCalendarDate date] descriptionWithCalendarFormat:[standardUserDefaults objectForKey:NSDateFormatString] locale:(id)standardUserDefaults]];
+            [content appendFormat:@"<p>%@</p>", [[NSDate date] descriptionWithLocale:[NSLocale currentLocale]]];
         }
         NSString *fontString=@"";
         if ([[self fontWithTrait:0] isFixedPitch] || 
