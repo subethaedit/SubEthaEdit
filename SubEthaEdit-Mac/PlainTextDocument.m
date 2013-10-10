@@ -2410,10 +2410,10 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 				TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
 				NSMutableString *metaHeaders=[NSMutableString string];
-				NSCalendarDate *now=[NSCalendarDate calendarDate];
+				NSDate *now=[NSDate date];
 				NSString *metaFormatString=@"<meta name=\"%@\" content=\"%@\" />\n";
-				[metaHeaders appendFormat:metaFormatString,@"last-modified",[now rfc1123Representation]];
-				[metaHeaders appendFormat:metaFormatString,@"DC.Date",[now descriptionWithCalendarFormat:@"%Y-%m-%d"]];
+				[metaHeaders appendFormat:metaFormatString,@"last-modified",[now rfc1123DateTimeString]];
+				[metaHeaders appendFormat:metaFormatString,@"DC.Date",[now W3CDTFLongDateString]];
 				[metaHeaders appendFormat:metaFormatString,@"DC.Creator",[[[userManager me] name] stringByReplacingEntitiesForUTF8:NO]];
 
 
@@ -3687,7 +3687,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     TCMMMLoggedOperation *lop = nil;
     if ([[ls loggedOperations] count]>0) {
         lop = [[ls loggedOperations] objectAtIndex:0];
-        NSXMLElement *element = [NSXMLNode elementWithName:@"firstactivity" stringValue:[[lop date] rfc1123Representation]];
+        NSXMLElement *element = [NSXMLNode elementWithName:@"firstactivity" stringValue:[[lop date] rfc1123DateTimeString]];
         TCMMMUser *user = [um userForUserID:[[lop operation] userID]];
         if (user) [element addAttribute:[NSXMLNode attributeWithName:@"name" stringValue:[user name]]];
         [rootElement addChild:element];
@@ -3695,7 +3695,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     
     lop = [[ls loggedOperations] lastObject];
     if (lop) {
-        NSXMLElement *element = [NSXMLNode elementWithName:@"lastactivity" stringValue:[[lop date] rfc1123Representation]];
+        NSXMLElement *element = [NSXMLNode elementWithName:@"lastactivity" stringValue:[[lop date] rfc1123DateTimeString]];
         TCMMMUser *user = [um userForUserID:[[lop operation] userID]];
         if (user) [element addAttribute:[NSXMLNode attributeWithName:@"name" stringValue:[user name]]];
         [rootElement addChild:element];
@@ -3723,7 +3723,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         if ([contributor aim])   [element addAttribute:[NSXMLNode attributeWithName:@"aim"   stringValue:[contributor aim]]];
         TCMMMLogStatisticsEntry *stat = [contributorEntry objectForKey:@"stat"];
         if (stat) {
-            [element addAttribute:[NSXMLNode attributeWithName:@"lastactivity" stringValue:[[stat dateOfLastActivity] rfc1123Representation]]];
+            [element addAttribute:[NSXMLNode attributeWithName:@"lastactivity" stringValue:[[stat dateOfLastActivity] rfc1123DateTimeString]]];
             [element addAttribute:[NSXMLNode attributeWithName:@"deletions"  stringValue:[NSString stringWithFormat:@"%lu",[stat deletedCharacters]]]];
             [element addAttribute:[NSXMLNode attributeWithName:@"insertions" stringValue:[NSString stringWithFormat:@"%lu",[stat insertedCharacters]]]];
             [element addAttribute:[NSXMLNode attributeWithName:@"selections" stringValue:[NSString stringWithFormat:@"%lu",[stat selectedCharacters]]]];

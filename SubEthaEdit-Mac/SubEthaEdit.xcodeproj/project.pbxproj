@@ -91,7 +91,7 @@
 		14289111095744C100D14688 /* MoreSecurity.c in Sources */ = {isa = PBXBuildFile; fileRef = 1428910B095744C100D14688 /* MoreSecurity.c */; };
 		14289112095744C100D14688 /* MoreUNIX.c in Sources */ = {isa = PBXBuildFile; fileRef = 1428910E095744C100D14688 /* MoreUNIX.c */; };
 		142891310957457500D14688 /* CFTreeTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428911D0957457500D14688 /* CFTreeTCMAdditions.m */; };
-		142891330957457500D14688 /* NSCalendarDateTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891200957457500D14688 /* NSCalendarDateTCMAdditions.m */; };
+		142891330957457500D14688 /* NSDateTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891200957457500D14688 /* NSDateTCMAdditions.m */; };
 		142891340957457500D14688 /* NSDataTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891220957457500D14688 /* NSDataTCMAdditions.m */; };
 		142891350957457500D14688 /* NSDictionaryTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891240957457500D14688 /* NSDictionaryTCMAdditions.m */; };
 		142891360957457500D14688 /* NSNetServiceTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891260957457500D14688 /* NSNetServiceTCMAdditions.m */; };
@@ -670,8 +670,8 @@
 		1428910F095744C100D14688 /* MoreUNIX.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MoreUNIX.h; path = MoreIsBetter/MoreUNIX.h; sourceTree = "<group>"; };
 		1428911C0957457500D14688 /* CFTreeTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CFTreeTCMAdditions.h; path = TCMFoundation/CFTreeTCMAdditions.h; sourceTree = "<group>"; };
 		1428911D0957457500D14688 /* CFTreeTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = CFTreeTCMAdditions.m; path = TCMFoundation/CFTreeTCMAdditions.m; sourceTree = "<group>"; };
-		1428911F0957457500D14688 /* NSCalendarDateTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = NSCalendarDateTCMAdditions.h; path = TCMFoundation/NSCalendarDateTCMAdditions.h; sourceTree = "<group>"; };
-		142891200957457500D14688 /* NSCalendarDateTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = NSCalendarDateTCMAdditions.m; path = TCMFoundation/NSCalendarDateTCMAdditions.m; sourceTree = "<group>"; };
+		1428911F0957457500D14688 /* NSDateTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = NSDateTCMAdditions.h; path = TCMFoundation/NSDateTCMAdditions.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		142891200957457500D14688 /* NSDateTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = NSDateTCMAdditions.m; path = TCMFoundation/NSDateTCMAdditions.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		142891210957457500D14688 /* NSDataTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = NSDataTCMAdditions.h; path = TCMFoundation/NSDataTCMAdditions.h; sourceTree = "<group>"; };
 		142891220957457500D14688 /* NSDataTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = NSDataTCMAdditions.m; path = TCMFoundation/NSDataTCMAdditions.m; sourceTree = "<group>"; };
 		142891230957457500D14688 /* NSDictionaryTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = NSDictionaryTCMAdditions.h; path = TCMFoundation/NSDictionaryTCMAdditions.h; sourceTree = "<group>"; };
@@ -684,7 +684,7 @@
 		1428912A0957457500D14688 /* TCMBencodingUtilities.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TCMBencodingUtilities.h; path = TCMFoundation/TCMBencodingUtilities.h; sourceTree = "<group>"; };
 		1428912B0957457500D14688 /* TCMBencodingUtilities.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = TCMBencodingUtilities.m; path = TCMFoundation/TCMBencodingUtilities.m; sourceTree = "<group>"; };
 		1428912C0957457500D14688 /* TCMDebug.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TCMDebug.h; path = TCMFoundation/TCMDebug.h; sourceTree = "<group>"; };
-		1428912E0957457500D14688 /* TCMFoundation.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TCMFoundation.h; path = TCMFoundation/TCMFoundation.h; sourceTree = "<group>"; };
+		1428912E0957457500D14688 /* TCMFoundation.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = TCMFoundation.h; path = TCMFoundation/TCMFoundation.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		1428912F0957457500D14688 /* TCMRendezvousBrowser.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TCMRendezvousBrowser.h; path = TCMFoundation/TCMRendezvousBrowser.h; sourceTree = "<group>"; };
 		142891300957457500D14688 /* TCMRendezvousBrowser.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = TCMRendezvousBrowser.m; path = TCMFoundation/TCMRendezvousBrowser.m; sourceTree = "<group>"; };
 		142891410957475E00D14688 /* TCMBEEP.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TCMBEEP.h; path = TCMBEEP/TCMBEEP.h; sourceTree = "<group>"; };
@@ -701,7 +701,7 @@
 		1428914C0957475E00D14688 /* TCMBEEPProfile.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TCMBEEPProfile.h; path = TCMBEEP/TCMBEEPProfile.h; sourceTree = "<group>"; };
 		1428914D0957475E00D14688 /* TCMBEEPProfile.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = TCMBEEPProfile.m; path = TCMBEEP/TCMBEEPProfile.m; sourceTree = "<group>"; };
 		1428914E0957475E00D14688 /* TCMBEEPSession.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TCMBEEPSession.h; path = TCMBEEP/TCMBEEPSession.h; sourceTree = "<group>"; };
-		1428914F0957475E00D14688 /* TCMBEEPSession.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = TCMBEEPSession.m; path = TCMBEEP/TCMBEEPSession.m; sourceTree = "<group>"; };
+		1428914F0957475E00D14688 /* TCMBEEPSession.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = TCMBEEPSession.m; path = TCMBEEP/TCMBEEPSession.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		14289172095747F800D14688 /* ODBEditorSuite.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ODBEditorSuite.h; sourceTree = "<group>"; };
 		142891D509574E5B00D14688 /* ImagePopUpButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ImagePopUpButtonCell.h; sourceTree = "<group>"; };
 		142891D609574E5B00D14688 /* ImagePopUpButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ImagePopUpButtonCell.m; sourceTree = "<group>"; };
@@ -855,7 +855,7 @@
 		1428944A09575B9700D14688 /* ParticipantsView.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = ParticipantsView.h; sourceTree = "<group>"; };
 		1428944B09575B9700D14688 /* ParticipantsView.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = ParticipantsView.m; sourceTree = "<group>"; };
 		1428944C09575B9700D14688 /* PlainTextDocument.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PlainTextDocument.h; sourceTree = "<group>"; };
-		1428944D09575B9700D14688 /* PlainTextDocument.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PlainTextDocument.m; sourceTree = "<group>"; };
+		1428944D09575B9700D14688 /* PlainTextDocument.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = PlainTextDocument.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		1428944E09575B9700D14688 /* PlainTextEditor.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PlainTextEditor.h; sourceTree = "<group>"; };
 		1428944F09575B9700D14688 /* PlainTextEditor.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = PlainTextEditor.m; sourceTree = "<group>"; };
 		1428945009575B9700D14688 /* PlainTextWindowController.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; path = PlainTextWindowController.h; sourceTree = "<group>"; };
@@ -1071,8 +1071,8 @@
 		F2061D570B4C13AF00E6631F /* SmallGrowBoxRight3.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = SmallGrowBoxRight3.tiff; path = artwork/SmallGrowBoxRight3.tiff; sourceTree = "<group>"; };
 		F2061D660B4C152600E6631F /* FirstClickCustomView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = FirstClickCustomView.h; sourceTree = "<group>"; };
 		F2061D670B4C152600E6631F /* FirstClickCustomView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FirstClickCustomView.m; sourceTree = "<group>"; };
-		F20948B80C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCMMMLogStatisticsEntry.h; sourceTree = "<group>"; };
-		F20948B90C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMMMLogStatisticsEntry.m; sourceTree = "<group>"; };
+		F20948B80C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = TCMMMLogStatisticsEntry.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
+		F20948B90C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = TCMMMLogStatisticsEntry.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F20948EA0C7B4C7100E78EBA /* UserStatisticsController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = UserStatisticsController.h; sourceTree = "<group>"; };
 		F20948EB0C7B4C7100E78EBA /* UserStatisticsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserStatisticsController.m; sourceTree = "<group>"; };
 		F20E1FAB0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ThousandSeparatorValueTransformer.h; sourceTree = "<group>"; };
@@ -1144,8 +1144,8 @@
 		F2A707B90BF89F4200482EFC /* LoginSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginSheetController.m; sourceTree = "<group>"; };
 		F2ABC4D30C799775007437A2 /* TCMMMLoggingState.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TCMMMLoggingState.h; path = TCMMillionMonkeys/TCMMMLoggingState.h; sourceTree = "<group>"; };
 		F2ABC4D40C799775007437A2 /* TCMMMLoggingState.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = TCMMMLoggingState.m; path = TCMMillionMonkeys/TCMMMLoggingState.m; sourceTree = "<group>"; };
-		F2ABC4E10C799CCD007437A2 /* TCMMMLoggedOperation.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = TCMMMLoggedOperation.m; path = TCMMillionMonkeys/TCMMMLoggedOperation.m; sourceTree = "<group>"; };
-		F2ABC4E20C799CCD007437A2 /* TCMMMLoggedOperation.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = TCMMMLoggedOperation.h; path = TCMMillionMonkeys/TCMMMLoggedOperation.h; sourceTree = "<group>"; };
+		F2ABC4E10C799CCD007437A2 /* TCMMMLoggedOperation.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = TCMMMLoggedOperation.m; path = TCMMillionMonkeys/TCMMMLoggedOperation.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
+		F2ABC4E20C799CCD007437A2 /* TCMMMLoggedOperation.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = TCMMMLoggedOperation.h; path = TCMMillionMonkeys/TCMMMLoggedOperation.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		F2ABC52F0C79D898007437A2 /* DebugHistoryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = DebugHistoryController.h; path = Debug/DebugHistoryController.h; sourceTree = "<group>"; };
 		F2ABC5300C79D898007437A2 /* DebugHistoryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DebugHistoryController.m; path = Debug/DebugHistoryController.m; sourceTree = "<group>"; };
 		F2B18CE70C4BB550000BB062 /* GlassButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; path = GlassButtonCell.m; sourceTree = "<group>"; };
@@ -1166,7 +1166,7 @@
 		F2C6D3730D6DB131002B401D /* URLIconNotOK.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = URLIconNotOK.tiff; path = artwork/URLIconNotOK.tiff; sourceTree = "<group>"; };
 		F2C6D3740D6DB131002B401D /* URLIconOK.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = URLIconOK.tiff; path = artwork/URLIconOK.tiff; sourceTree = "<group>"; };
 		F2CA79A20CA04BAC008BEA38 /* HUDStatisticGraphView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = HUDStatisticGraphView.h; sourceTree = "<group>"; };
-		F2CA79A30CA04BAC008BEA38 /* HUDStatisticGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HUDStatisticGraphView.m; sourceTree = "<group>"; };
+		F2CA79A30CA04BAC008BEA38 /* HUDStatisticGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HUDStatisticGraphView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F2CA7CE50CA11FC9008BEA38 /* StatusLock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = StatusLock.png; path = artwork/StatusLock.png; sourceTree = "<group>"; };
 		F2CA7CE70CA11FDA008BEA38 /* Internet13.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Internet13.png; path = artwork/Internet13.png; sourceTree = "<group>"; };
 		F2CA7CE90CA11FFB008BEA38 /* ToolbarIconConnectionBrowser.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ToolbarIconConnectionBrowser.tiff; path = artwork/ToolbarIconConnectionBrowser.tiff; sourceTree = "<group>"; };
@@ -1202,7 +1202,7 @@
 		F2D5FF500CB26EA800407399 /* ToolbarIconTerminal.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = ToolbarIconTerminal.icns; path = artwork/ToolbarIconTerminal.icns; sourceTree = "<group>"; };
 		F2D86C1F0F8E7E2A00B912A2 /* SubEthaPerf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SubEthaPerf.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2D86C2C0F8E7EFA00B912A2 /* SEPAppController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEPAppController.h; sourceTree = "<group>"; };
-		F2D86C2D0F8E7EFA00B912A2 /* SEPAppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEPAppController.m; sourceTree = "<group>"; };
+		F2D86C2D0F8E7EFA00B912A2 /* SEPAppController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = SEPAppController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F2D86C2F0F8E7F6A00B912A2 /* SEPMainMenu.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = SEPMainMenu.xib; path = SubEthaPerf/Resources/SEPMainMenu.xib; sourceTree = "<group>"; };
 		F2D86C3B0F8E7FC300B912A2 /* SubEthaPerf-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = "SubEthaPerf-Info.plist"; path = "Resources/SubEthaPerf-Info.plist"; sourceTree = "<group>"; };
 		F2D86C500F8E811600B912A2 /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
@@ -1498,8 +1498,8 @@
 				1428911D0957457500D14688 /* CFTreeTCMAdditions.m */,
 				5E685D5009D82BBB00E41973 /* NSAppleScriptTCMAdditions.h */,
 				5E685D5109D82BBB00E41973 /* NSAppleScriptTCMAdditions.m */,
-				1428911F0957457500D14688 /* NSCalendarDateTCMAdditions.h */,
-				142891200957457500D14688 /* NSCalendarDateTCMAdditions.m */,
+				1428911F0957457500D14688 /* NSDateTCMAdditions.h */,
+				142891200957457500D14688 /* NSDateTCMAdditions.m */,
 				142891210957457500D14688 /* NSDataTCMAdditions.h */,
 				142891220957457500D14688 /* NSDataTCMAdditions.m */,
 				142891230957457500D14688 /* NSDictionaryTCMAdditions.h */,
@@ -2700,7 +2700,7 @@
 				14289111095744C100D14688 /* MoreSecurity.c in Sources */,
 				14289112095744C100D14688 /* MoreUNIX.c in Sources */,
 				142891310957457500D14688 /* CFTreeTCMAdditions.m in Sources */,
-				142891330957457500D14688 /* NSCalendarDateTCMAdditions.m in Sources */,
+				142891330957457500D14688 /* NSDateTCMAdditions.m in Sources */,
 				142891340957457500D14688 /* NSDataTCMAdditions.m in Sources */,
 				142891350957457500D14688 /* NSDictionaryTCMAdditions.m in Sources */,
 				142891360957457500D14688 /* NSNetServiceTCMAdditions.m in Sources */,
@@ -3526,7 +3526,6 @@
 				GCC_PREFIX_HEADER = SubEthaPerf/SubEthaPerf_Prefix.pch;
 				INFOPLIST_FILE = "SubEthaPerf/Resources/SubEthaPerf-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
@@ -3552,7 +3551,6 @@
 				GCC_PREFIX_HEADER = SubEthaPerf/SubEthaPerf_Prefix.pch;
 				INFOPLIST_FILE = "SubEthaPerf/Resources/SubEthaPerf-Info.plist";
 				INSTALL_PATH = "$(HOME)/Applications";
-				MACOSX_DEPLOYMENT_TARGET = 10.6;
 				OTHER_LDFLAGS = (
 					"-framework",
 					Foundation,
