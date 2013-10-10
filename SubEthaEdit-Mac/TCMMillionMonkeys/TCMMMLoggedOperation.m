@@ -19,7 +19,7 @@
 - (id)initWithOperation:(TCMMMOperation *)anOperation index:(long long)anIndex{
     if ((self=[super init])) {
         I_op = [anOperation copy];
-        I_date = [[NSCalendarDate alloc] init];
+        I_date = [[NSDate alloc] init];
         I_index = anIndex;
     }
     return self;
@@ -28,7 +28,7 @@
 - (id)initWithDictionaryRepresentation:(NSDictionary *)aDictionary {
     self = [super init];
     if (self) {
-        I_date = [[NSCalendarDate alloc] initWithTimeIntervalSinceReferenceDate:[[aDictionary objectForKey:@"t"] doubleValue]/100.];
+        I_date = [[NSDate alloc] initWithTimeIntervalSinceReferenceDate:[[aDictionary objectForKey:@"t"] doubleValue]/100.];
         I_op = [[TCMMMOperation operationWithDictionaryRepresentation:[aDictionary objectForKey:@"op"]] retain];
         I_index = [[aDictionary objectForKey:@"i"] longLongValue];
         I_replacedAttributedStringDictionaryRepresentation = [[aDictionary objectForKey:@"rstr"] retain];
@@ -67,13 +67,13 @@
 }
 
 
-- (void)setDate:(NSCalendarDate *)aDate {
+- (void)setDate:(NSDate *)aDate {
     [I_date autorelease];
      I_date = [aDate retain];
 }
 
 
-- (NSCalendarDate *)date {
+- (NSDate *)date {
     return I_date;
 }
 

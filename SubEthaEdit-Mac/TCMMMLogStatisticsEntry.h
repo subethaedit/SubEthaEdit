@@ -12,7 +12,7 @@
 
 @interface TCMMMLogStatisticsEntry : NSObject {
     TCMMMUser *user;
-    NSCalendarDate *lastActivity;
+    NSDate *lastActivity;
     BOOL isInside;
     unsigned long operationCount;
     unsigned long deletedCharacters;
@@ -27,7 +27,7 @@
 - (unsigned long)insertedCharacters;
 - (unsigned long)selectedCharacters;
 - (TCMMMUser *)user;
-- (NSCalendarDate *)dateOfLastActivity;
+- (NSDate *)dateOfLastActivity;
 - (TCMMMLoggingState *)loggingState;
 - (void)setLoggingState:(TCMMMLoggingState *)aLoggingState;
 - (BOOL)isInside;
