@@ -222,7 +222,7 @@ static NSData *dhparamData = nil;
         NSString *name;
         do {
             sequenceNumber++;
-            name = [NSString stringWithFormat:@"%@-p%d-s%d", [[NSCalendarDate date] descriptionWithCalendarFormat:@"%Y-%m-%d--%H-%M-%S.%F-"], [[NSProcessInfo processInfo] processIdentifier], sequenceNumber];
+            name = [NSString stringWithFormat:@"%@-p%d-s%d", [NSDate date], [[NSProcessInfo processInfo] processIdentifier], sequenceNumber];
             name = [[origPath stringByDeletingLastPathComponent] stringByAppendingPathComponent:name];
         } while ([[NSFileManager defaultManager] fileExistsAtPath:name]);
 
@@ -232,7 +232,7 @@ static NSData *dhparamData = nil;
     
     int fileNumber = numberOfLogs++;
 
-    NSString *headerString = [NSString stringWithFormat:@"[%@] %@\n\n", [[NSCalendarDate calendarDate] description], [NSString stringWithAddressData:[self peerAddressData]]];
+    NSString *headerString = [NSString stringWithFormat:@"[%@] %@\n\n", [[NSDate date] description], [NSString stringWithAddressData:[self peerAddressData]]];
     NSData *headerData = [headerString dataUsingEncoding:NSASCIIStringEncoding];
     
     NSString *logBase = [logDirectory stringByAppendingFormat:@"/%02d", fileNumber];
@@ -324,7 +324,7 @@ static NSData *dhparamData = nil;
     
 #ifndef TCM_NO_DEBUG
 	if (isLogging) {
-		NSString *trailerString = [NSString stringWithFormat:@"\n\n[%@] dealloc\n\n", [[NSCalendarDate calendarDate] description]];
+		NSString *trailerString = [NSString stringWithFormat:@"\n\n[%@] dealloc\n\n", [[NSDate date] description]];
 		NSData *trailerData = [trailerString dataUsingEncoding:NSASCIIStringEncoding];
 		[I_rawLogInHandle writeData:trailerData];
 		[I_rawLogInHandle closeFile];

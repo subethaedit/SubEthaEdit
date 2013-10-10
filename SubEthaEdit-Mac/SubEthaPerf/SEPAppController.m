@@ -25,7 +25,7 @@
 	NSString *name;
 	do {
 		sequenceNumber++;
-		name = [NSString stringWithFormat:@"Perflog-%@-%@-%d.log", [[NSCalendarDate date] descriptionWithCalendarFormat:@"%Y-%m-%d--%H-%M"], [[NSProcessInfo processInfo] hostName], sequenceNumber];
+		name = [NSString stringWithFormat:@"Perflog-%@-%@-%d.log", [NSDate date], [[NSProcessInfo processInfo] hostName], sequenceNumber];
 		name = [appDir stringByAppendingPathComponent:name];
 	} while ([[NSFileManager defaultManager] fileExistsAtPath:name]);
 
