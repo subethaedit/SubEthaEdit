@@ -124,7 +124,7 @@
         /* child item */
         id  childItem = [_outlineColumn ogreChild:(index - 1) ofItem:_item];
         adapter = [[[OgreOutlineItemAdapter alloc] initWithOutlineColumn:_outlineColumn item:childItem] autorelease];
-        [adapter setLevel:[self level] + 1];
+        [((OgreOutlineItemAdapter *)adapter) setLevel:[self level] + 1];
         
     }
     
@@ -132,7 +132,7 @@
         [adapter setTerminal:YES];
     }    
     [adapter setParent:self];
-    [adapter setIndex:index];
+    [((OgreOutlineItemAdapter *)adapter) setIndex:index];
     [adapter setReversed:[self isReversed]];
     
     return adapter;

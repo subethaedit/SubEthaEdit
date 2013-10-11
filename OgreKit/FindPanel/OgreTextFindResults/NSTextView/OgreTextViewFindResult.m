@@ -300,7 +300,7 @@ static const unsigned   OgreTextViewFindResultInitialCapacity = 30;
 	unsigned	a, b, c, d, b2;
 	unsigned	i, j, 
 				count = [self count], 
-				numberOfSubranges = [[_matchRangeArray objectAtIndex:1] count];
+				numberOfSubranges = [(NSArray *)[_matchRangeArray objectAtIndex:1] count];
 	
 	a = oldRange.location;
 	b = NSMaxRange(oldRange);
