@@ -152,7 +152,7 @@
 		142893B3095758FD00D14688 /* UserChangeOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893B0095758FD00D14688 /* UserChangeOperation.m */; };
 		142893C50957594500D14688 /* DocumentMode.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893B60957594500D14688 /* DocumentMode.m */; };
 		142893C60957594500D14688 /* DocumentModeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893B80957594500D14688 /* DocumentModeManager.m */; };
-		142893C70957594500D14688 /* RegexSymbolDefinition.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893BA0957594500D14688 /* RegexSymbolDefinition.m */; };
+		142893C70957594500D14688 /* RegexSymbolDefinition.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893BA0957594500D14688 /* RegexSymbolDefinition.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		142893C80957594500D14688 /* RegexSymbolParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893BC0957594500D14688 /* RegexSymbolParser.m */; };
 		142893C90957594500D14688 /* SymbolTableEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893BE0957594500D14688 /* SymbolTableEntry.m */; };
 		142893CA0957594500D14688 /* SyntaxDefinition.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893C00957594500D14688 /* SyntaxDefinition.m */; };
@@ -2297,6 +2297,7 @@
 			isa = PBXProject;
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
+				CLASSPREFIX = SEE;
 				LastUpgradeCheck = 0500;
 				ORGANIZATIONNAME = TheCodingMonkeys;
 				TargetAttributes = {
