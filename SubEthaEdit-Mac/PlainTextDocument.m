@@ -87,7 +87,7 @@ struct SelectionRange
     int32_t unused2; // 0 (not used)
     int32_t theDate; // modification date/time
 };
-#pragma pack(pop, 2)
+#pragma pack(pop)
 
 
 static PlainTextDocument *transientDocument = nil;
@@ -2718,7 +2718,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     [savePanel setDelegate:self];
 
     if (![self fileURL] && [self directoryForSavePanel]) {
-        [savePanel setDirectory:[self directoryForSavePanel]];
+        [savePanel setDirectoryURL:[NSURL fileURLWithPath:[self directoryForSavePanel]]];
     }
 
     if (I_lastSaveOperation == NSSaveToOperation) {
@@ -2772,9 +2772,9 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     NSSavePanel *panel = (NSSavePanel *)[aSender window];
     NSString *seeTextExtension = [self fileNameExtensionForType:@"de.codingmonkeys.subethaedit.seetext" saveOperation:NSSaveOperation];
     if ([[aSender selectedCell] tag]==1) {
-        [panel setRequiredFileType:seeTextExtension];
+        [panel setAllowedFileTypes:@[seeTextExtension]];
     } else {
-        [panel setRequiredFileType:nil];
+        [panel setAllowedFileTypes:@[]];
         NSTextField *nameField = [panel valueForKey:@"_nameField"];
         if (nameField && [nameField isKindOfClass:[NSTextField class]]) {
             NSString *name = [nameField stringValue];
