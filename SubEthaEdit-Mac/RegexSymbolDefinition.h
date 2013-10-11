@@ -3,7 +3,8 @@
 //  SubEthaEdit
 //
 //  Created by Martin Pittenauer on Thu Apr 22 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Updated by Michael Ehrmann on Fri Oct 11 2013.
+//  Copyright (c) 2004 - 2013 TheCodingMonkeys. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>

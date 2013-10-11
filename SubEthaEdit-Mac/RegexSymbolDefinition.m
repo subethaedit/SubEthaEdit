@@ -3,7 +3,8 @@
 //  SubEthaEdit
 //
 //  Created by Martin Pittenauer on Thu Apr 22 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Updated by Michael Ehrmann on Fri Oct 11 2013.
+//  Copyright (c) 2004 - 2013 TheCodingMonkeys. All rights reserved.
 //
 
 // this file needs arc - either project wide,
@@ -120,211 +121,6 @@ static NSString * const XMLAttributeFontTrait = @"font-trait";
 	}
 	return YES;
 }
-
-
-//    CFDictionaryRef errorDict = nil;
-//    CFXMLTreeRef cfXMLTree = CFXMLTreeCreateFromDataWithError(kCFAllocatorDefault, (__bridge CFDataRef)xmlData, (__bridge CFURLRef)sourceURL, kCFXMLParserSkipMetaData, kCFXMLNodeCurrentVersion, &errorDict);
-//
-//    if (!cfXMLTree)
-//    {
-//        NSLog(@"Error parsing syntax definition \"%@\":\n%@", aPath, [(__bridge NSDictionary *)errorDict description]);
-//        everythingOkay = NO;
-//        return;
-//    }
-//
-//    CFXMLTreeRef xmlTree = NULL;
-//    CFXMLNodeRef xmlNode = NULL;
-//    int childCount;
-//    int index;
-//
-//    // Get child count of the top level nodes.
-//    childCount = CFTreeGetChildCount(cfXMLTree);
-//
-//    // Print the data string for each top-level node.
-//    for (index = 0; index < childCount; index++)
-//    {
-//        xmlTree = CFTreeGetChildAtIndex(cfXMLTree, index);
-//        xmlNode = CFXMLTreeGetNode(xmlTree);
-//
-//        if ((CFXMLNodeGetTypeCode(xmlNode) == kCFXMLNodeTypeElement) &&
-//            [@"symbols" isEqualToString:(NSString *)CFXMLNodeGetString(xmlNode)])
-//        {
-//            break;
-//        }
-//    }
-//
-//    if (xmlTree && xmlNode)
-//    {
-//        childCount = CFTreeGetChildCount(xmlTree);
-//
-//        for (index = 0; index < childCount; index++)
-//        {
-//            CFXMLTreeRef xmlSubTree = CFTreeGetChildAtIndex(xmlTree, index);
-//            CFXMLNodeRef xmlSubNode = CFXMLTreeGetNode(xmlSubTree);
-//
-//            if ([@"blocks" isEqualToString:(NSString *)CFXMLNodeGetString(xmlSubNode)])
-//            {
-//                //[self parseBlocks:xmlSubTree]; //Next version
-//            }
-//            else if ([@"symbol" isEqualToString:(NSString *)CFXMLNodeGetString(xmlSubNode)])
-//            {
-//                CFXMLElementInfo eInfo = *(CFXMLElementInfo *)CFXMLNodeGetInfoPtr(xmlSubNode);
-//                NSDictionary *attributes = (NSDictionary *)eInfo.attributes;
-//
-//                I_currentSymbol = [NSMutableDictionary dictionary];
-//                [I_symbols addObject:I_currentSymbol];
-//
-//                if ([attributes objectForKey:@"image"])
-//                {
-//                    NSString *imageName = [attributes objectForKey:@"image"];
-//                    NSImage *image = [[[NSImage alloc] initWithContentsOfFile:[[[self mode] bundle] pathForImageResource:imageName]] autorelease];
-//
-//                    if (!image) image = [NSImage imageNamed:imageName];
-//
-//                    if (image)
-//                    {
-//                        [I_currentSymbol setObject:image forKey:@"image"];
-//                    }
-//                    else
-//                    {
-//                        NSLog(@"Can't find image '%@'", [attributes objectForKey:@"image"]);
-//                    }
-//                }
-//
-//                if ([attributes objectForKey:@"id"]) [I_currentSymbol setObject:[attributes objectForKey:@"id"] forKey:@"id"];
-//
-//                if ([attributes objectForKey:@"indentation"]) [I_currentSymbol setObject:[attributes objectForKey:@"indentation"] forKey:@"indentation"];
-//
-//                if ([attributes objectForKey:@"ignoreblocks"]) [I_currentSymbol setObject:[attributes objectForKey:@"ignoreblocks"] forKey:@"ignoreblocks"];
-//
-//                if ([attributes objectForKey:@"show-in-comments"]) [I_currentSymbol setObject:[attributes objectForKey:@"show-in-comments"] forKey:@"show-in-comments"];
-//
-//                if ([attributes objectForKey:@"font-weight"] || [attributes objectForKey:@"font-style"])
-//                {
-//                    NSFontTraitMask mask = 0;
-//
-//                    if ([[attributes objectForKey:@"font-weight"] isEqualTo:@"bold"]) mask = mask | NSBoldFontMask;
-//
-//                    if ([[attributes objectForKey:@"font-style"] isEqualTo:@"italic"]) mask = mask | NSItalicFontMask;
-//
-//                    [I_currentSymbol setObject:[[[NSNumber alloc] initWithUnsignedInt:mask] autorelease] forKey:@"font-trait"];
-//                }
-//
-//                [self parseSymbol:xmlSubTree];
-//            }
-//        }
-//    }
-//
-//    CFRelease(cfXMLTree);
-//	//	[parser release];
-//    [xmlData release];
-//}
-
-
-/*"Parse the <symbol> tag"*/
-//- (void)parseSymbol:(CFXMLTreeRef)aTree
-//{
-//    int childCount;
-//    int index;
-//
-//    childCount = CFTreeGetChildCount(aTree);
-//
-//    for (index = 0; index < childCount; index++)
-//    {
-//        CFXMLTreeRef xmlTree = CFTreeGetChildAtIndex(aTree, index);
-//        CFXMLNodeRef xmlNode = CFXMLTreeGetNode(xmlTree);
-//
-//        if (CFXMLNodeGetTypeCode(xmlNode) == kCFXMLNodeTypeElement)
-//        {
-//            NSString *tag = (NSString *)CFXMLNodeGetString(xmlNode);
-//
-//            if ([@"regex" isEqualToString:tag])
-//            {
-//                NSString *theString = extractStringWithEntitiesFromTree(xmlTree);
-//
-//                if ([OGRegularExpression isValidExpressionString:theString])
-//                {
-//                    OGRegularExpression *aRegex = [[[OGRegularExpression alloc] initWithString:theString options:OgreFindNotEmptyOption] autorelease];
-//                    [I_currentSymbol setObject:aRegex forKey:@"regex"];
-//                }
-//                else
-//                {
-//                    NSLog(@"ERROR: %@ is not a valid Regex.", theString);
-//                    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-//                    [alert setAlertStyle:NSWarningAlertStyle];
-//                    [alert setMessageText:NSLocalizedString(@"Regular Expression Error", @"Regular Expression Error Title")];
-//                    [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"\"%@\" is not a valid regular expression. Please check your regular expression in Find Panel's Ruby mode.", @"Symbol Regular Expression Error Informative Text"), theString]];
-//                    [alert addButtonWithTitle:@"OK"];
-//                    [alert runModal];
-//                    everythingOkay = NO;
-//                }
-//            }
-//            else if ([@"postprocess" isEqualToString:tag])
-//            {
-//                I_currentPostprocess = [NSMutableArray array];
-//                [I_currentSymbol setObject:I_currentPostprocess forKey:@"postprocess"];
-//                [self parsePostprocess:xmlTree];
-//            }
-//        }
-//    }
-//}
-
-
-/*"Parse the <postprocess> tag"*/
-//- (void)parsePostprocess:(CFXMLTreeRef)aTree
-//{
-//    int childCount;
-//    int index;
-//    OGRegularExpression *findRegex = nil;
-//    NSString *replaceString;
-//
-//    childCount = CFTreeGetChildCount(aTree);
-//
-//    for (index = 0; index < childCount; index++)
-//    {
-//        CFXMLTreeRef xmlTree = CFTreeGetChildAtIndex(aTree, index);
-//        CFXMLNodeRef xmlNode = CFXMLTreeGetNode(xmlTree);
-//
-//        if (CFXMLNodeGetTypeCode(xmlNode) == kCFXMLNodeTypeElement)
-//        {
-//            NSString *tag = (NSString *)CFXMLNodeGetString(xmlNode);
-//
-//            if ([@"find" isEqualToString:tag])
-//            {
-//                NSString *aString = extractStringWithEntitiesFromTree(xmlTree);
-//
-//                if ([OGRegularExpression isValidExpressionString:aString])
-//                {
-//                    findRegex = [[[OGRegularExpression alloc] initWithString:aString options:OgreFindNotEmptyOption | OgreMultilineOption] autorelease];
-//                }
-//                else
-//                {
-//                    NSLog(@"ERROR: %@ is not a valid Regex.", aString);
-//                    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-//                    [alert setAlertStyle:NSWarningAlertStyle];
-//                    [alert setMessageText:NSLocalizedString(@"Regular Expression Error", @"Regular Expression Error Title")];
-//                    [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"\"%@\" is not a valid regular expression. Please check your regular expression in Find Panel's Ruby mode.", @"Symbol Regular Expression Error Informative Text"), aString]];
-//                    [alert addButtonWithTitle:@"OK"];
-//                    [alert runModal];
-//                    everythingOkay = NO;
-//                }
-//            }
-//            else if ([@"replace" isEqualToString:tag])
-//            {
-//                replaceString = extractStringWithEntitiesFromTree(xmlTree);
-//
-//                if (findRegex && replaceString)
-//                {
-//                    [I_currentPostprocess addObject:[NSArray arrayWithObjects:findRegex, replaceString, nil]];
-//                }
-//
-//                findRegex = nil;
-//                replaceString = nil;
-//            }
-//        }
-//    }
-//}
-
 
 - (OGRegularExpression *)blockRegularExpressionWithDictionary:(NSDictionary *)blockDictionary error:(NSError **)outError
 {
@@ -541,6 +337,7 @@ static NSString * const XMLAttributeFontTrait = @"font-trait";
 	}
 }
 
+
 - (void)parser:(NSXMLParser *)parser foundIgnorableWhitespace:(NSString *)whitespaceString
 {
 	if (! self.xmlCharactersInProgress)
@@ -552,6 +349,7 @@ static NSString * const XMLAttributeFontTrait = @"font-trait";
 		[self.xmlCharactersInProgress appendString:whitespaceString];
 	}
 }
+
 
 - (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)parseError
 {
