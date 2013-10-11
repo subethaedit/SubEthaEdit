@@ -289,7 +289,7 @@ static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFi
 
 
 	pid_t pid = [runningSubEthaEdit processIdentifier];
-	NSAppleEventDescriptor* addressDescriptor = [[NSAppleEventDescriptor alloc] initWithDescriptorType:typeKernelProcessID bytes:&pid length:sizeof(pid)];
+	NSAppleEventDescriptor* addressDescriptor = [[[NSAppleEventDescriptor alloc] initWithDescriptorType:typeKernelProcessID bytes:&pid length:sizeof(pid)] autorelease];
     if (addressDescriptor != nil) {
         NSAppleEventDescriptor *appleEvent = [NSAppleEventDescriptor appleEventWithEventClass:'Hdra' eventID:'See ' targetDescriptor:addressDescriptor returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
         if (appleEvent != nil) {
