@@ -1269,20 +1269,20 @@ static NSData *dhparamData = nil;
 
 						DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"element: %@, attributes: %@, content: %@", element, attributes, content);
 
-						if ([element isEqualToString:@"ready"])
+						if ([element isEqualToString:TCMBEEPSessionXMLElementReady])
 						{
 							BOOL shouldProceed = YES;
-							NSString *version = [attributes objectForKey:@"version"];
+							NSString *version = [attributes objectForKey:TCMBEEPSessionXMLAttributeVersion];
 							if (version && ![version isEqualToString:@"1"])
 							{
 								shouldProceed = NO;
-								answerData = [@"<error code='501'>version attribute poorly formed in &lt;ready&gt; element</error>" dataUsingEncoding : NSUTF8StringEncoding];
+								answerData = [[NSString stringWithFormat:@"<%@ %@='501'>version attribute poorly formed in &lt;%@&gt; element</%@>", TCMBEEPSessionXMLElementError, TCMBEEPSessionXMLAttributeCode, TCMBEEPSessionXMLElementReady, TCMBEEPSessionXMLElementError] dataUsingEncoding : NSUTF8StringEncoding];
 								// FIXME Opened TLS channel but there is no TLS
 							}
 
 							if (shouldProceed)
 							{
-								answerData = [@"<proceed />" dataUsingEncoding : NSUTF8StringEncoding];
+								answerData = [[NSString stringWithFormat:@"<%@ />", TCMBEEPSessionXMLElementProceed] dataUsingEncoding : NSUTF8StringEncoding];
 								// implicitly close all channels including channel zero, but proceed frame needs to go through
 								I_flags.hasSentTLSProceed = YES;
 
@@ -1443,13 +1443,13 @@ static NSData *dhparamData = nil;
 
                 DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"element: %@, attributes: %@, content: %@", element, attributes, content);
 
-                if ([element isEqualToString:@"proceed"] && attributes == nil && content == nil)
+                if ([element isEqualToString:TCMBEEPSessionXMLElementProceed] && attributes == nil && content == nil)
                 {
                     [self TCM_startTLSHandshake];
                 }
-                else if ([element isEqualToString:@"error"])
+                else if ([element isEqualToString:TCMBEEPSessionXMLElementError])
                 {
-                    DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Received error: %@ (%@)", [attributes objectForKey:@"code"], content);
+                    DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Received error: %@ (%@)", [attributes objectForKey:TCMBEEPSessionXMLAttributeCode], content);
                     // FIXME Opened TLS channel but there is no TLS
                 }
             }

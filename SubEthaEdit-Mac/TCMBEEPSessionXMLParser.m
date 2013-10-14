@@ -16,6 +16,13 @@
 
 #import "TCMBEEPSessionXMLParser.h"
 
+NSString * const TCMBEEPSessionXMLElementReady = @"ready";
+NSString * const TCMBEEPSessionXMLElementProceed = @"proceed";
+NSString * const TCMBEEPSessionXMLElementError = @"error";
+
+NSString * const TCMBEEPSessionXMLAttributeVersion = @"version";
+NSString * const TCMBEEPSessionXMLAttributeCode = @"code";
+
 @interface TCMBEEPSessionXMLParser ()
 
 @property (atomic, readwrite, strong) NSString *elementName;

@@ -8,6 +8,13 @@
 
 #import <Foundation/Foundation.h>
 
+extern NSString * const TCMBEEPSessionXMLElementReady;
+extern NSString * const TCMBEEPSessionXMLElementProceed;
+extern NSString * const TCMBEEPSessionXMLElementError;
+
+extern NSString * const TCMBEEPSessionXMLAttributeVersion;
+extern NSString * const TCMBEEPSessionXMLAttributeCode;
+
 @interface TCMBEEPSessionXMLParser : NSObject <NSXMLParserDelegate>
 
 @property (atomic, readonly, strong) NSString *elementName;
