@@ -74,7 +74,7 @@
 {
 	if (self.elementName)
 	{
-		NSLog(@"Second element (%@) in BEEPSession XML response. structure invalid, aborting... (First element: %@)", elementName. self.elementName);
+		NSLog(@"Second element (%@) in BEEPSession XML response. structure invalid, aborting... (First element: %@)", elementName, self.elementName);
 		[parser abortParsing];
 		return;
 	}
