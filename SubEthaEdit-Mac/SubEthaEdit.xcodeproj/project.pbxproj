@@ -252,6 +252,7 @@
 		4C0D3D7817FB16F500AAFB38 /* DebugSendOperation.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D7717FB16F500AAFB38 /* DebugSendOperation.xib */; };
 		4C0FDA2218031235008E24E8 /* UniversalDetector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C0FDA2118031235008E24E8 /* UniversalDetector.framework */; };
 		4C0FDA231803125E008E24E8 /* UniversalDetector.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 4C0FDA2118031235008E24E8 /* UniversalDetector.framework */; };
+		4C123002180BE4A60069253E /* TCMBEEPSessionXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C123001180BE4A60069253E /* TCMBEEPSessionXMLParser.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C1D39DC17FB085800B1CF5C /* AboutPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C1D39DA17FB085800B1CF5C /* AboutPanel.xib */; };
 		4C6AE8741802E8810089D489 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; };
 		4C6AE8751802E8AC0089D489 /* PSMTabBarControl.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 4CF3490017FC6EAF005D0D4F /* PSMTabBarControl.framework */; };
@@ -959,6 +960,8 @@
 		4C0D3D7517FB168200AAFB38 /* DebugUsers.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DebugUsers.xib; path = Debug/DebugUsers.xib; sourceTree = "<group>"; };
 		4C0D3D7717FB16F500AAFB38 /* DebugSendOperation.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DebugSendOperation.xib; path = Debug/DebugSendOperation.xib; sourceTree = "<group>"; };
 		4C0FDA2118031235008E24E8 /* UniversalDetector.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UniversalDetector.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C123000180BE4A60069253E /* TCMBEEPSessionXMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCMBEEPSessionXMLParser.h; sourceTree = "<group>"; };
+		4C123001180BE4A60069253E /* TCMBEEPSessionXMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMBEEPSessionXMLParser.m; sourceTree = "<group>"; };
 		4C1D39DB17FB085800B1CF5C /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/AboutPanel.xib; sourceTree = "<group>"; };
 		4C1D39E917FB088200B1CF5C /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/AboutPanel.xib; sourceTree = "<group>"; };
 		4C6AE8731802E8810089D489 /* OgreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OgreKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1548,6 +1551,8 @@
 				1428914D0957475E00D14688 /* TCMBEEPProfile.m */,
 				1428914E0957475E00D14688 /* TCMBEEPSession.h */,
 				1428914F0957475E00D14688 /* TCMBEEPSession.m */,
+				4C123000180BE4A60069253E /* TCMBEEPSessionXMLParser.h */,
+				4C123001180BE4A60069253E /* TCMBEEPSessionXMLParser.m */,
 			);
 			name = TCMBEEP;
 			sourceTree = "<group>";
@@ -2729,6 +2734,7 @@
 				1428922A0957523300D14688 /* DebugPreferences.m in Sources */,
 				1428922D0957523300D14688 /* DebugPresenceController.m in Sources */,
 				1428922E0957523300D14688 /* DebugUserController.m in Sources */,
+				4C123002180BE4A60069253E /* TCMBEEPSessionXMLParser.m in Sources */,
 				14289329095756D800D14688 /* TCMMMBEEPSessionManager.m in Sources */,
 				1428932A095756D800D14688 /* TCMMMBrowserListView.m in Sources */,
 				1428932B095756D800D14688 /* TCMMMMessage.m in Sources */,

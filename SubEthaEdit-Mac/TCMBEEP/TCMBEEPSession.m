@@ -10,6 +10,7 @@
 #import "TCMBEEPChannel.h"
 #import "TCMBEEPFrame.h"
 #import "TCMBEEPManagementProfile.h"
+#import "TCMBEEPSessionXMLParser.h"
 #import "GenericSASLProfile.h"
 #import <Security/Security.h>
 #import "PreferenceKeys.h"
@@ -62,7 +63,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 - (void)TCM_listenForTLSHandshake;
 - (void)TCM_checkForCompletedTLSHandshakeAndRestartManagementChannel;
 - (CFArrayRef)TCM_sslCertificatesFromKeychain:(const char *)kcName encryptOnly:(CSSM_BOOL)encryptOnly usedKeychain:(SecKeychainRef*)pKcRef;
-- (BOOL)TCM_parseData:(NSData *)data forElement:(NSString **)element attributes:(NSDictionary **)attributes content:(NSString **)content;
+//- (BOOL)TCM_parseData:(NSData *)data forElement:(NSString **)element attributes:(NSDictionary **)attributes content:(NSString **)content;
 @end
 
 #pragma mark -
@@ -1170,135 +1171,196 @@ static NSData *dhparamData = nil;
     }
 }
 
-- (BOOL)TCM_parseData:(NSData *)data forElement:(NSString **)element attributes:(NSDictionary **)attributes content:(NSString **)content
-{
-    BOOL result = YES;
-    // Parse XML
-    CFXMLTreeRef contentTree = NULL;
-    NSDictionary *errorDict;
-    
-    // create XML tree from payload
-    contentTree = CFXMLTreeCreateFromDataWithError(kCFAllocatorDefault,
-                                (CFDataRef)data,
-                                NULL, //sourceURL
-                                kCFXMLParserSkipWhitespace | kCFXMLParserSkipMetaData,
-                                kCFXMLNodeCurrentVersion,
-                                (CFDictionaryRef *)&errorDict);
-    if (!contentTree) {
-        DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"nixe baum: %@", [errorDict description]);
-        result = NO;
-    }
-    
-    CFXMLNodeRef node = NULL;
-    CFXMLTreeRef xmlTree = NULL;
-    if (result) {
-        // extract top level element from tree
-        int childCount = CFTreeGetChildCount(contentTree);
-        int index;
-        for (index = 0; index < childCount; index++) {
-            xmlTree = CFTreeGetChildAtIndex(contentTree, index);
-            node = CFXMLTreeGetNode(xmlTree);
-            if (CFXMLNodeGetTypeCode(node) == kCFXMLNodeTypeElement) {
-                break;
-            }
-        }
-        if (!xmlTree || !node || CFXMLNodeGetTypeCode(node) != kCFXMLNodeTypeElement) {
-            result = NO;
-        }
-    }
-    
-    if (result) {
-        *element = [[(NSString *)CFXMLNodeGetString(node) retain] autorelease];
-        CFXMLElementInfo *info = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(node);
-        *attributes = [[(NSDictionary *)info->attributes retain] autorelease];
-        NSMutableString *contentString = [NSMutableString string];
-        int childCount = CFTreeGetChildCount(xmlTree);
-        int index;
-        for (index = 0; index < childCount; index++) {
-            CFXMLTreeRef subTree = CFTreeGetChildAtIndex(xmlTree, index);
-            CFXMLNodeRef textNode = CFXMLTreeGetNode(subTree);
-            if (CFXMLNodeGetTypeCode(textNode) == kCFXMLNodeTypeText) {
-                [contentString appendString:(NSString *)CFXMLNodeGetString(textNode)];
-            }
-        }
-        if ([contentString length] > 0)
-            *content = contentString;
-        else
-            *content = nil;
-    } else {
-        *element = nil;
-        *attributes = nil;
-        *content = nil;
-    }
-    
-    if (contentTree) CFRelease(contentTree);
-    return result;
-}
+//- (BOOL)TCM_parseData:(NSData *)data forElement:(NSString **)element attributes:(NSDictionary **)attributes content:(NSString **)content
+//{
+//    BOOL result = YES;
+//    // Parse XML
+//    CFXMLTreeRef contentTree = NULL;
+//    NSDictionary *errorDict;
+//    
+//    // create XML tree from payload
+//    contentTree = CFXMLTreeCreateFromDataWithError(kCFAllocatorDefault,
+//                                (CFDataRef)data,
+//                                NULL, //sourceURL
+//                                kCFXMLParserSkipWhitespace | kCFXMLParserSkipMetaData,
+//                                kCFXMLNodeCurrentVersion,
+//                                (CFDictionaryRef *)&errorDict);
+//    if (!contentTree) {
+//        DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"nixe baum: %@", [errorDict description]);
+//        result = NO;
+//    }
+//    
+//    CFXMLNodeRef node = NULL;
+//    CFXMLTreeRef xmlTree = NULL;
+//    if (result) {
+//        // extract top level element from tree
+//        int childCount = CFTreeGetChildCount(contentTree);
+//        int index;
+//        for (index = 0; index < childCount; index++) {
+//            xmlTree = CFTreeGetChildAtIndex(contentTree, index);
+//            node = CFXMLTreeGetNode(xmlTree);
+//            if (CFXMLNodeGetTypeCode(node) == kCFXMLNodeTypeElement) {
+//                break;
+//            }
+//        }
+//        if (!xmlTree || !node || CFXMLNodeGetTypeCode(node) != kCFXMLNodeTypeElement) {
+//            result = NO;
+//        }
+//    }
+//    
+//    if (result) {
+//        *element = [[(NSString *)CFXMLNodeGetString(node) retain] autorelease];
+//        CFXMLElementInfo *info = (CFXMLElementInfo *)CFXMLNodeGetInfoPtr(node);
+//        *attributes = [[(NSDictionary *)info->attributes retain] autorelease];
+//        NSMutableString *contentString = [NSMutableString string];
+//        int childCount = CFTreeGetChildCount(xmlTree);
+//        int index;
+//        for (index = 0; index < childCount; index++) {
+//            CFXMLTreeRef subTree = CFTreeGetChildAtIndex(xmlTree, index);
+//            CFXMLNodeRef textNode = CFXMLTreeGetNode(subTree);
+//            if (CFXMLNodeGetTypeCode(textNode) == kCFXMLNodeTypeText) {
+//                [contentString appendString:(NSString *)CFXMLNodeGetString(textNode)];
+//            }
+//        }
+//        if ([contentString length] > 0)
+//            *content = contentString;
+//        else
+//            *content = nil;
+//    } else {
+//        *element = nil;
+//        *attributes = nil;
+//        *content = nil;
+//    }
+//    
+//    if (contentTree) CFRelease(contentTree);
+//    return result;
+//}
 
 - (NSMutableDictionary *)preferedAnswerToAcceptRequestForChannel:(int32_t)channelNumber withProfileURIs:(NSArray *)aProfileURIArray andData:(NSArray *)aDataArray
 {
-    // Profile URIs ausduennen 
+    // Profile URIs ausduennen
     NSMutableArray *requestArray = [NSMutableArray array];
     NSMutableDictionary *preferedAnswer = nil;
-//    NSLog(@"profileURIs: %@ selfProfileURIs:%@ peerProfileURIs:%@\n\nSession:%@", aProfileURIArray, [self profileURIs], [self peerProfileURIs], self);
+//	NSLog(@"profileURIs: %@ selfProfileURIs:%@ peerProfileURIs:%@\n\nSession:%@", aProfileURIArray, [self profileURIs], [self peerProfileURIs], self);
     int i;
-    for (i = 0; i < [aProfileURIArray count]; i++) {
+
+    for (i = 0; i < [aProfileURIArray count]; i++)
+    {
         NSString *profileURI = [aProfileURIArray objectAtIndex:i];
-        if ([[self profileURIs] containsObject:profileURI]) {
+        if ([[self profileURIs] containsObject:profileURI])
+        {
             NSData *requestData = [aDataArray objectAtIndex:i];
             [requestArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:profileURI, @"ProfileURI", requestData, @"Data", nil]];
-            if (!preferedAnswer)  {
+            if (!preferedAnswer)
+            {
                 NSData *answerData = [NSData data];
-                if ([profileURI isEqualToString:TCMBEEPTLSProfileURI] || 
-                	([profileURI isEqualToString:TCMBEEPTLSAnonProfileURI] && 
-                	[[NSUserDefaults standardUserDefaults] boolForKey:EnableAnonTLSKey])) {
+                if ([profileURI isEqualToString:TCMBEEPTLSProfileURI] ||
+                    ([profileURI isEqualToString:TCMBEEPTLSAnonProfileURI] &&
+                     [[NSUserDefaults standardUserDefaults] boolForKey:EnableAnonTLSKey]))
+                {
                     // parse data for 'ready' element, may have attribute
-                    NSString *element, *content;
-                    NSDictionary *attributes;
-                    BOOL result = [self TCM_parseData:[aDataArray objectAtIndex:i] forElement:&element attributes:&attributes content:&content];
-                    if (result) DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"element: %@, attributes: %@, content: %@", element, attributes, content);
-                    if (result && [element isEqualToString:@"ready"]) {
-                        BOOL shouldProceed = YES;
-                        NSString *version = [attributes objectForKey:@"version"];
-                        if (version && ![version isEqualToString:@"1"]) {
-                            shouldProceed = NO;
-                            answerData = [@"<error code='501'>version attribute poorly formed in &lt;ready&gt; element</error>" dataUsingEncoding:NSUTF8StringEncoding];
-//                            FIXME Opened TLS channel but there is no TLS
-                        }
-                        
-                        if (shouldProceed) {
-                            answerData = [@"<proceed />" dataUsingEncoding:NSUTF8StringEncoding];
-                            // implicitly close all channels including channel zero, but proceed frame needs to go through
-                            I_flags.hasSentTLSProceed = YES;
-                            if ([profileURI isEqualToString:TCMBEEPTLSAnonProfileURI] && 
-                                [[NSUserDefaults standardUserDefaults] boolForKey:EnableAnonTLSKey]) {
-                            	I_flags.isTLSAnon = YES;
-                            }
-                        }
-                                           
-                    } else {
-                        // Terminate session?
+
+                    TCMBEEPSessionXMLParser *dataParser = [[[TCMBEEPSessionXMLParser alloc] initWithXMLData:[aDataArray objectAtIndex:i]] autorelease];
+                    if (dataParser)
+                    {
+						NSString *element = dataParser.elementName;
+						NSString *content = dataParser.content;
+						NSDictionary *attributes = dataParser.attributeDict;
+
+						DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"element: %@, attributes: %@, content: %@", element, attributes, content);
+
+						if ([element isEqualToString:@"ready"])
+						{
+							BOOL shouldProceed = YES;
+							NSString *version = [attributes objectForKey:@"version"];
+							if (version && ![version isEqualToString:@"1"])
+							{
+								shouldProceed = NO;
+								answerData = [@"<error code='501'>version attribute poorly formed in &lt;ready&gt; element</error>" dataUsingEncoding : NSUTF8StringEncoding];
+								// FIXME Opened TLS channel but there is no TLS
+							}
+
+							if (shouldProceed)
+							{
+								answerData = [@"<proceed />" dataUsingEncoding : NSUTF8StringEncoding];
+								// implicitly close all channels including channel zero, but proceed frame needs to go through
+								I_flags.hasSentTLSProceed = YES;
+
+								if ([profileURI isEqualToString:TCMBEEPTLSAnonProfileURI] &&
+									[[NSUserDefaults standardUserDefaults] boolForKey:EnableAnonTLSKey])
+								{
+									I_flags.isTLSAnon = YES;
+								}
+							}
+						}
+						else
+						{
+							// Terminate session?
+						}
                     }
-                } else if ([profileURI hasPrefix:TCMBEEPSASLProfileURIPrefix]) {
+
+//                    NSString *element, *content;
+//                    NSDictionary *attributes;
+//                    BOOL result = [self TCM_parseData:[aDataArray objectAtIndex:i] forElement:&element attributes:&attributes content:&content];
+//
+//                    if (result) DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"element: %@, attributes: %@, content: %@", element, attributes, content);
+//
+//                    if (result && [element isEqualToString:@"ready"])
+//                    {
+//                        BOOL shouldProceed = YES;
+//                        NSString *version = [attributes objectForKey:@"version"];
+//
+//                        if (version && ![version isEqualToString:@"1"])
+//                        {
+//                            shouldProceed = NO;
+//                            answerData = [@"<error code='501'>version attribute poorly formed in &lt;ready&gt; element</error>" dataUsingEncoding : NSUTF8StringEncoding];
+//							//                            FIXME Opened TLS channel but there is no TLS
+//                        }
+//
+//                        if (shouldProceed)
+//                        {
+//                            answerData = [@"<proceed />" dataUsingEncoding : NSUTF8StringEncoding];
+//                            // implicitly close all channels including channel zero, but proceed frame needs to go through
+//                            I_flags.hasSentTLSProceed = YES;
+//
+//                            if ([profileURI isEqualToString:TCMBEEPTLSAnonProfileURI] &&
+//                                [[NSUserDefaults standardUserDefaults] boolForKey:EnableAnonTLSKey])
+//                            {
+//                                I_flags.isTLSAnon = YES;
+//                            }
+//                        }
+//                    }
+//                    else
+//                    {
+//                        // Terminate session?
+//                    }
+                }
+                else if ([profileURI hasPrefix:TCMBEEPSASLProfileURIPrefix])
+                {
                     preferedAnswer = (NSMutableDictionary *)[GenericSASLProfile replyForChannelRequestWithProfileURI:profileURI andData:requestData inSession:self];
                     break;
                 }
-                
-                preferedAnswer = [NSMutableDictionary dictionaryWithObjectsAndKeys:profileURI, @"ProfileURI", 
-                                                                                   answerData, @"Data",
-                                                                                   nil];
+
+                preferedAnswer = [NSMutableDictionary dictionaryWithObjectsAndKeys:profileURI, @"ProfileURI",
+                                  answerData, @"Data",
+                                  nil];
                 break;
             }
         }
     }
+
     // prefered Profile URIs raussuchen
     if (!preferedAnswer) return nil;
-    // if channel exists 
+
+    // if channel exists
     if ([I_activeChannels objectForLong:channelNumber]) return nil;
+
     // delegate fragen, falls er gefragt werden will
-    if ([[self delegate] respondsToSelector:@selector(BEEPSession:willSendReply:forChannelRequests:)]) {
+    if ([[self delegate] respondsToSelector:@selector(BEEPSession:willSendReply:forChannelRequests:)])
+    {
         preferedAnswer = [[self delegate] BEEPSession:self willSendReply:preferedAnswer forChannelRequests:requestArray];
     }
+
     return preferedAnswer;
 }
 
@@ -1358,44 +1420,88 @@ static NSData *dhparamData = nil;
     [[channel profile] handleInitializationData:inData];
     [self insertObject:channel inChannelsAtIndex:[self countOfChannels]];
     [channel release];
-    
+
     [self activateChannel:channel];
-    if (!isInitiator) {
+
+    if (!isInitiator)
+    {
         id delegate = [self delegate];
-        if ([delegate respondsToSelector:@selector(BEEPSession:didOpenChannelWithProfile:data:)])
-            [delegate BEEPSession:self didOpenChannelWithProfile:[channel profile] data:inData];
-    } else {
-        if ([aProfileURI isEqualToString:TCMBEEPTLSProfileURI] || [aProfileURI isEqualToString:TCMBEEPTLSAnonProfileURI]) {
+
+        if ([delegate respondsToSelector:@selector(BEEPSession:didOpenChannelWithProfile:data:)]) [delegate BEEPSession:self didOpenChannelWithProfile:[channel profile] data:inData];
+    }
+    else
+    {
+        if ([aProfileURI isEqualToString:TCMBEEPTLSProfileURI] || [aProfileURI isEqualToString:TCMBEEPTLSAnonProfileURI])
+        {
             // parse associated data for 'error' or 'proceed' elements, 'error' may contain attributes?
-            NSString *element, *content;
-            NSDictionary *attributes;
-            BOOL result = [self TCM_parseData:inData forElement:&element attributes:&attributes content:&content];
-            if (result) {
+            TCMBEEPSessionXMLParser *dataParser = [[[TCMBEEPSessionXMLParser alloc] initWithXMLData:inData] autorelease];
+            if (dataParser)
+            {
+                NSString *element = dataParser.elementName;
+                NSString *content = dataParser.content;
+                NSDictionary *attributes = dataParser.attributeDict;
+
                 DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"element: %@, attributes: %@, content: %@", element, attributes, content);
-                if ([element isEqualToString:@"proceed"] && attributes == nil && content == nil) {
+
+                if ([element isEqualToString:@"proceed"] && attributes == nil && content == nil)
+                {
                     [self TCM_startTLSHandshake];
-                } else if ([element isEqualToString:@"error"]) {
-                    DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Received error: %@ (%@)", [attributes objectForKey:@"code"], content);
-//                    FIXME Opened TLS channel but there is no TLS
                 }
-            } else {
+                else if ([element isEqualToString:@"error"])
+                {
+                    DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Received error: %@ (%@)", [attributes objectForKey:@"code"], content);
+                    // FIXME Opened TLS channel but there is no TLS
+                }
+            }
+            else
+            {
                 // Terminate session?
             }
-        } else if ([aProfileURI isEqualToString:TCMBEEPSASLPLAINProfileURI]) {
-            NSLog(@"%s",__FUNCTION__);
+
+//            NSString *element, *content;
+//            NSDictionary *attributes;
+//            BOOL result = [self TCM_parseData:inData forElement:&element attributes:&attributes content:&content];
+//
+//            if (result)
+//            {
+//                DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"element: %@, attributes: %@, content: %@", element, attributes, content);
+//
+//                if ([element isEqualToString:@"proceed"] && attributes == nil && content == nil)
+//                {
+//                    [self TCM_startTLSHandshake];
+//                }
+//                else if ([element isEqualToString:@"error"])
+//                {
+//                    DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Received error: %@ (%@)", [attributes objectForKey:@"code"], content);
+//					//                    FIXME Opened TLS channel but there is no TLS
+//                }
+//            }
+//            else
+//            {
+//                // Terminate session?
+//            }
+        }
+        else if ([aProfileURI isEqualToString:TCMBEEPSASLPLAINProfileURI])
+        {
+            NSLog(@"%s", __FUNCTION__);
             // need to close it directly because this one doesn't do anything else
             [GenericSASLProfile processPLAINAnswer:inData inSession:self];
             [[channel profile] close];
         }
+
         // sender rausfinden
         NSNumber *channelNumber = [NSNumber numberWithInt:aChannelNumber];
         id aSender = [I_channelRequests objectForKey:channelNumber];
-        [I_channelRequests removeObjectForKey:channelNumber]; 
+        [I_channelRequests removeObjectForKey:channelNumber];
+
         // sender profile geben
-        if ([aSender respondsToSelector:@selector(BEEPSession:didOpenChannelWithProfile:data:)]) {
+        if ([aSender respondsToSelector:@selector(BEEPSession:didOpenChannelWithProfile:data:)])
+        {
             [aSender BEEPSession:self didOpenChannelWithProfile:[channel profile] data:inData];
-        } else if (![aProfileURI isEqualToString:TCMBEEPTLSProfileURI] && ![aProfileURI isEqualToString:TCMBEEPTLSAnonProfileURI]) {
-            NSLog(@"WARNING: The Object (%@) that requested the channel with ProfileURI:%@ doesn't respond to BEEPSession:didOpenChannelWithProfile:data:",aSender,aProfileURI);
+        }
+        else if (![aProfileURI isEqualToString:TCMBEEPTLSProfileURI] && ![aProfileURI isEqualToString:TCMBEEPTLSAnonProfileURI])
+        {
+            NSLog(@"WARNING: The Object (%@) that requested the channel with ProfileURI:%@ doesn't respond to BEEPSession:didOpenChannelWithProfile:data:", aSender, aProfileURI);
         }
     }
 }
