@@ -90,7 +90,6 @@
 		14289110095744C100D14688 /* MoreCFQ.c in Sources */ = {isa = PBXBuildFile; fileRef = 14289109095744C100D14688 /* MoreCFQ.c */; };
 		14289111095744C100D14688 /* MoreSecurity.c in Sources */ = {isa = PBXBuildFile; fileRef = 1428910B095744C100D14688 /* MoreSecurity.c */; };
 		14289112095744C100D14688 /* MoreUNIX.c in Sources */ = {isa = PBXBuildFile; fileRef = 1428910E095744C100D14688 /* MoreUNIX.c */; };
-		142891310957457500D14688 /* CFTreeTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428911D0957457500D14688 /* CFTreeTCMAdditions.m */; };
 		142891330957457500D14688 /* NSDateTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891200957457500D14688 /* NSDateTCMAdditions.m */; };
 		142891340957457500D14688 /* NSDataTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891220957457500D14688 /* NSDataTCMAdditions.m */; };
 		142891350957457500D14688 /* NSDictionaryTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891240957457500D14688 /* NSDictionaryTCMAdditions.m */; };
@@ -440,7 +439,6 @@
 		F2D86DAD0F8E8B6600B912A2 /* TextOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893AE095758FD00D14688 /* TextOperation.m */; };
 		F2D86DB20F8E8B7F00B912A2 /* TCMMMOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428931A095756D800D14688 /* TCMMMOperation.m */; };
 		F2D86DBA0F8E9B9A00B912A2 /* PreferenceKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D86DB90F8E9B9A00B912A2 /* PreferenceKeys.m */; };
-		F2D86DDD0F8E9CF500B912A2 /* CFTreeTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428911D0957457500D14688 /* CFTreeTCMAdditions.m */; };
 		F2D86E1B0F8EA5DC00B912A2 /* PreferenceKeys.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D86DB90F8E9B9A00B912A2 /* PreferenceKeys.m */; };
 		F2D86E5B0F8EB44100B912A2 /* Modes in Resources */ = {isa = PBXBuildFile; fileRef = 1428904A0957427100D14688 /* Modes */; };
 		F2D86E7B0F8EB57000B912A2 /* TestFiles in Resources */ = {isa = PBXBuildFile; fileRef = F2D86E780F8EB57000B912A2 /* TestFiles */; };
@@ -669,8 +667,6 @@
 		1428910D095744C100D14688 /* MoreSetup.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MoreSetup.h; path = MoreIsBetter/MoreSetup.h; sourceTree = "<group>"; };
 		1428910E095744C100D14688 /* MoreUNIX.c */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.c; name = MoreUNIX.c; path = MoreIsBetter/MoreUNIX.c; sourceTree = "<group>"; };
 		1428910F095744C100D14688 /* MoreUNIX.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = MoreUNIX.h; path = MoreIsBetter/MoreUNIX.h; sourceTree = "<group>"; };
-		1428911C0957457500D14688 /* CFTreeTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = CFTreeTCMAdditions.h; path = TCMFoundation/CFTreeTCMAdditions.h; sourceTree = "<group>"; };
-		1428911D0957457500D14688 /* CFTreeTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; name = CFTreeTCMAdditions.m; path = TCMFoundation/CFTreeTCMAdditions.m; sourceTree = "<group>"; };
 		1428911F0957457500D14688 /* NSDateTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = NSDateTCMAdditions.h; path = TCMFoundation/NSDateTCMAdditions.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		142891200957457500D14688 /* NSDateTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = NSDateTCMAdditions.m; path = TCMFoundation/NSDateTCMAdditions.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		142891210957457500D14688 /* NSDataTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.c.h; name = NSDataTCMAdditions.h; path = TCMFoundation/NSDataTCMAdditions.h; sourceTree = "<group>"; };
@@ -1498,8 +1494,6 @@
 		142891160957452000D14688 /* TCMFoundation */ = {
 			isa = PBXGroup;
 			children = (
-				1428911C0957457500D14688 /* CFTreeTCMAdditions.h */,
-				1428911D0957457500D14688 /* CFTreeTCMAdditions.m */,
 				5E685D5009D82BBB00E41973 /* NSAppleScriptTCMAdditions.h */,
 				5E685D5109D82BBB00E41973 /* NSAppleScriptTCMAdditions.m */,
 				1428911F0957457500D14688 /* NSDateTCMAdditions.h */,
@@ -2707,7 +2701,6 @@
 				14289110095744C100D14688 /* MoreCFQ.c in Sources */,
 				14289111095744C100D14688 /* MoreSecurity.c in Sources */,
 				14289112095744C100D14688 /* MoreUNIX.c in Sources */,
-				142891310957457500D14688 /* CFTreeTCMAdditions.m in Sources */,
 				142891330957457500D14688 /* NSDateTCMAdditions.m in Sources */,
 				142891340957457500D14688 /* NSDataTCMAdditions.m in Sources */,
 				142891350957457500D14688 /* NSDictionaryTCMAdditions.m in Sources */,
@@ -2913,7 +2906,6 @@
 				F2D86DAD0F8E8B6600B912A2 /* TextOperation.m in Sources */,
 				F2D86DB20F8E8B7F00B912A2 /* TCMMMOperation.m in Sources */,
 				F2D86DBA0F8E9B9A00B912A2 /* PreferenceKeys.m in Sources */,
-				F2D86DDD0F8E9CF500B912A2 /* CFTreeTCMAdditions.m in Sources */,
 				F2D86E840F8EB76C00B912A2 /* SEPDocument.m in Sources */,
 				F212908B0F8EC56F0076B6B1 /* NSDictionaryTCMAdditions.m in Sources */,
 				F21290980F8EC5870076B6B1 /* NSMutableAttributedStringSEEAdditions.m in Sources */,
