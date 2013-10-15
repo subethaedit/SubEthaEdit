@@ -8,12 +8,13 @@
 
 #import "TCMBEEPManagementProfile.h"
 #import "TCMBEEPMessage.h"
+#import "TCMBEEPMessageXMLPayloadParser.h"
 #import "TCMBEEPChannel.h"
 #import "TCMBEEPSession.h"
 #import <CoreFoundation/CoreFoundation.h>
 
 
-@interface TCMBEEPManagementProfile (TCMBEEPManagementProfilePrivateAdditions)
+@interface TCMBEEPManagementProfile ()
 
 - (BOOL)TCM_processGreeting:(TCMBEEPMessage *)aMessage XMLTree:(CFXMLTreeRef)aContentTree;
 - (BOOL)TCM_proccessStartMessage:(TCMBEEPMessage *)aMessage XMLSubTree:(CFXMLTreeRef)aSubTree;
@@ -48,6 +49,16 @@
     [I_messageNumbersOfCloseRequestsByChannelsNumbers release];
     [super dealloc];
 }
+
+- (void)setDelegate:(id <TCMBEEPProfileDelegate, TCMBEEPManagementProfileDelegate>)aDelegate
+{
+	[super setDelegate:aDelegate];
+}
+- (id <TCMBEEPProfileDelegate, TCMBEEPManagementProfileDelegate>)delegate
+{
+	return [super delegate];
+}
+
 
 - (void)sendGreetingWithProfileURIs:(NSArray *)anArray featuresAttribute:(NSString *)aFeaturesString localizeAttribute:(NSString *)aLocalizeString
 {
