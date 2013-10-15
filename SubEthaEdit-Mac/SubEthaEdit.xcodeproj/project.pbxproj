@@ -252,6 +252,7 @@
 		4C0FDA2218031235008E24E8 /* UniversalDetector.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C0FDA2118031235008E24E8 /* UniversalDetector.framework */; };
 		4C0FDA231803125E008E24E8 /* UniversalDetector.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 4C0FDA2118031235008E24E8 /* UniversalDetector.framework */; };
 		4C123002180BE4A60069253E /* TCMBEEPSessionXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C123001180BE4A60069253E /* TCMBEEPSessionXMLParser.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		4C123005180C01EF0069253E /* TCMBEEPMessageXMLPayloadParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C123004180C01EF0069253E /* TCMBEEPMessageXMLPayloadParser.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C1D39DC17FB085800B1CF5C /* AboutPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C1D39DA17FB085800B1CF5C /* AboutPanel.xib */; };
 		4C6AE8741802E8810089D489 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; };
 		4C6AE8751802E8AC0089D489 /* PSMTabBarControl.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 4CF3490017FC6EAF005D0D4F /* PSMTabBarControl.framework */; };
@@ -958,6 +959,8 @@
 		4C0FDA2118031235008E24E8 /* UniversalDetector.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = UniversalDetector.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C123000180BE4A60069253E /* TCMBEEPSessionXMLParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCMBEEPSessionXMLParser.h; sourceTree = "<group>"; };
 		4C123001180BE4A60069253E /* TCMBEEPSessionXMLParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMBEEPSessionXMLParser.m; sourceTree = "<group>"; };
+		4C123003180C01EF0069253E /* TCMBEEPMessageXMLPayloadParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = TCMBEEPMessageXMLPayloadParser.h; sourceTree = "<group>"; };
+		4C123004180C01EF0069253E /* TCMBEEPMessageXMLPayloadParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMBEEPMessageXMLPayloadParser.m; sourceTree = "<group>"; };
 		4C1D39DB17FB085800B1CF5C /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/AboutPanel.xib; sourceTree = "<group>"; };
 		4C1D39E917FB088200B1CF5C /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/AboutPanel.xib; sourceTree = "<group>"; };
 		4C6AE8731802E8810089D489 /* OgreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OgreKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1541,6 +1544,8 @@
 				142891490957475E00D14688 /* TCMBEEPManagementProfile.m */,
 				1428914A0957475E00D14688 /* TCMBEEPMessage.h */,
 				1428914B0957475E00D14688 /* TCMBEEPMessage.m */,
+				4C123003180C01EF0069253E /* TCMBEEPMessageXMLPayloadParser.h */,
+				4C123004180C01EF0069253E /* TCMBEEPMessageXMLPayloadParser.m */,
 				1428914C0957475E00D14688 /* TCMBEEPProfile.h */,
 				1428914D0957475E00D14688 /* TCMBEEPProfile.m */,
 				1428914E0957475E00D14688 /* TCMBEEPSession.h */,
@@ -1818,9 +1823,9 @@
 		14289305095756A100D14688 /* TCMMillionMonkeys */ = {
 			isa = PBXGroup;
 			children = (
+				14289310095756D800D14688 /* TCMMillionMonkeys.h */,
 				142D1B990BAEE04900B9EF1C /* TCMMMUserManagerKitAdditions.h */,
 				142D1B9A0BAEE04900B9EF1C /* TCMMMUserManagerKitAdditions.m */,
-				14289310095756D800D14688 /* TCMMillionMonkeys.h */,
 				14289311095756D800D14688 /* TCMMMBEEPSessionManager.h */,
 				14289312095756D800D14688 /* TCMMMBEEPSessionManager.m */,
 				14289313095756D800D14688 /* TCMMMBrowserListView.h */,
@@ -2808,6 +2813,7 @@
 				5E685DB409D8438800E41973 /* NSMenuTCMAdditions.m in Sources */,
 				5EA1258A09E2B4190055965D /* ScriptWrapper.m in Sources */,
 				5E57298F09F514FB00D3746B /* Toolbar.m in Sources */,
+				4C123005180C01EF0069253E /* TCMBEEPMessageXMLPayloadParser.m in Sources */,
 				5E0F6AE80A039283003D2813 /* SEActiveProc.m in Sources */,
 				14E291C70A07A501007C0065 /* ScriptLine.m in Sources */,
 				14E291EA0A07B480007C0065 /* ScriptCharacters.m in Sources */,
