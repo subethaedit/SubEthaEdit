@@ -36,7 +36,7 @@ NSString * const TCMBEEPSessionXMLAttributeCode = @"code";
 
 @implementation TCMBEEPSessionXMLParser
 
-- (id)initWithXMLData:(NSData *)data
+- (instancetype)initWithXMLData:(NSData *)data
 {
     self = [super init];
     if (self) {

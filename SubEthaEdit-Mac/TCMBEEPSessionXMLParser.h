@@ -21,6 +21,6 @@ extern NSString * const TCMBEEPSessionXMLAttributeCode;
 @property (atomic, readonly, strong) NSDictionary *attributeDict;
 @property (atomic, readonly, strong) NSString *content;
 
-- (id)initWithXMLData:(NSData *)data;
+- (instancetype)initWithXMLData:(NSData *)data;
 
 @end
