@@ -407,15 +407,19 @@ static AppController *sharedInstance = nil;
     // prepare images
     NSImage *image = [[[NSImage imageNamed:@"UnknownPerson"] resizedImageWithSize:NSMakeSize(32.0, 32.0)] retain];
     [image setName:@"UnknownPerson32"];
+	[image release];
 
     image = [[[NSImage imageNamed:@"DefaultPerson"] resizedImageWithSize:NSMakeSize(32.0, 32.0)] retain];
     [image setName:@"DefaultPerson32"];
+	[image release];
     
     image = [[[NSImage imageNamed:@"Rendezvous"] resizedImageWithSize:NSMakeSize(13.0, 13.0)] retain];
     [image setName:@"Rendezvous13"];
+	[image release];
 
     image = [[NSImage imageNamed:@"ssllock"] retain];
     [image setName:@"ssllock18"];
+	[image release];
 
     // FIXME "Termination has to be removed before release!"
     //if ([[NSDate dateWithString:@"2007-02-21 12:00:00 +0000"] timeIntervalSinceNow] < 0) {
@@ -900,7 +904,6 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 
     //create Directories
     NSArray *userDomainPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-    NSEnumerator *enumerator = [userDomainPaths objectEnumerator];
     for (path in userDomainPaths) {
         NSString *fullPath = [path stringByAppendingPathComponent:SCRIPTPATHCOMPONENT];
         if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:nil]) {
@@ -918,9 +921,8 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [allPaths addObject:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Scripts/"]];
 
     // iterate over all directories
-
-    enumerator = [allPaths reverseObjectEnumerator];
-    while ((path = [enumerator nextObject])) {
+	NSEnumerator *enumerator = [allPaths reverseObjectEnumerator];
+    for (path in enumerator) {
         NSEnumerator *dirEnumerator = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil] objectEnumerator];
         while ((file = [dirEnumerator nextObject])) {
             // skip hidden files and directory entries
