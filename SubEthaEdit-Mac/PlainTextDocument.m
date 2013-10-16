@@ -410,23 +410,26 @@ static NSString *tempFileName(NSString *origPath) {
     if (name == nil || [name length] == 0)
         return;
 
-    OSErr err;
+//    OSErr err;
     NSURL *fileURL = [NSURL fileURLWithPath:name];
-    FSRef fileRef;
-    CFURLGetFSRef((CFURLRef)fileURL, &fileRef);
-    FSSpec fsSpec;
-    err = FSGetCatalogInfo(&fileRef, kFSCatInfoNone, NULL, NULL, &fsSpec, NULL);
-    if (err == noErr) {
+	NSData *fileURLBookmarkData = [fileURL bookmarkDataWithOptions:NSURLBookmarkCreationSuitableForBookmarkFile includingResourceValuesForKeys:nil relativeToURL:nil error:nil];
+//    FSRef fileRef;
+//    CFURLGetFSRef((CFURLRef)fileURL, &fileRef);
+//    FSSpec fsSpec;
+//    err = FSGetCatalogInfo(&fileRef, kFSCatInfoNone, NULL, NULL, &fsSpec, NULL);
+//    if (err == noErr) {
+	if (fileURLBookmarkData) {
         NSData *signatureData = [[self ODBParameters] objectForKey:@"keyFileSender"];
         if (signatureData != nil) {
             NSAppleEventDescriptor *addressDescriptor = [NSAppleEventDescriptor descriptorWithDescriptorType:typeApplSignature bytes:[signatureData bytes] length:[signatureData length]];
             if (addressDescriptor != nil) {
                 NSAppleEventDescriptor *appleEvent = [NSAppleEventDescriptor appleEventWithEventClass:kODBEditorSuite eventID:kAEClosedFile targetDescriptor:addressDescriptor returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
-#if defined(__LP64__)
-				NSAppleEventDescriptor *aliasDescriptor = [NSAppleEventDescriptor descriptorWithDescriptorType:typeFSRef bytes:&fileRef length:sizeof(fileRef)];
-#else
-				NSAppleEventDescriptor *aliasDescriptor = [NSAppleEventDescriptor descriptorWithDescriptorType:typeFSS bytes:&fsSpec length:sizeof(fsSpec)];
-#endif //defined(__LP64__)
+				NSAppleEventDescriptor *aliasDescriptor = [NSAppleEventDescriptor descriptorWithDescriptorType:typeBookmarkData bytes:&fileURLBookmarkData length:sizeof(fileURLBookmarkData)];
+//#if defined(__LP64__)
+//				NSAppleEventDescriptor *aliasDescriptor = [NSAppleEventDescriptor descriptorWithDescriptorType:typeFSRef bytes:&fileRef length:sizeof(fileRef)];
+//#else
+//				NSAppleEventDescriptor *aliasDescriptor = [NSAppleEventDescriptor descriptorWithDescriptorType:typeFSS bytes:&fsSpec length:sizeof(fsSpec)];
+//#endif //defined(__LP64__)
                 [appleEvent setParamDescriptor:aliasDescriptor forKeyword:keyDirectObject];
                 NSAppleEventDescriptor *tokenDesc = [[self ODBParameters] objectForKey:@"keyFileSenderToken"];
                 if (tokenDesc != nil) {
@@ -444,7 +447,7 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (void)TCM_sendODBModifiedEvent {
-    OSErr err;
+//    OSErr err;
     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"preparing ODB modified event");
     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"ODBParameters: %@", [[self ODBParameters] description]);
     if ([self ODBParameters] == nil || [[self ODBParameters] count] == 0)
@@ -456,19 +459,27 @@ static NSString *tempFileName(NSString *origPath) {
 
 
     NSURL *fileURL = [NSURL fileURLWithPath:fileName];
-    FSRef fileRef;
-    CFURLGetFSRef((CFURLRef)fileURL, &fileRef);
-    FSSpec fsSpec;
-    err = FSGetCatalogInfo(&fileRef, kFSCatInfoNone, NULL, NULL, &fsSpec, NULL);
+	NSData *fileURLBookmarkData = [fileURL bookmarkDataWithOptions:NSURLBookmarkCreationSuitableForBookmarkFile includingResourceValuesForKeys:nil relativeToURL:nil error:nil];
+//    FSRef fileRef;
+//    CFURLGetFSRef((CFURLRef)fileURL, &fileRef);
+//    FSSpec fsSpec;
+//    err = FSGetCatalogInfo(&fileRef, kFSCatInfoNone, NULL, NULL, &fsSpec, NULL);
     NSAppleEventDescriptor *directObjectDesc = nil;
-    if (err == noErr) {
-#if defined(__LP64__)
-		directObjectDesc = [NSAppleEventDescriptor descriptorWithDescriptorType:typeFSRef bytes:&fileRef length:sizeof(fileRef)];
-#else
-		directObjectDesc = [NSAppleEventDescriptor descriptorWithDescriptorType:typeFSS bytes:&fsSpec length:sizeof(fsSpec)];
-#endif //defined(__LP64__)
-    } else {
-        DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Failed to create fsspec");
+//    if (err == noErr) {
+//#if defined(__LP64__)
+//		directObjectDesc = [NSAppleEventDescriptor descriptorWithDescriptorType:typeFSRef bytes:&fileRef length:sizeof(fileRef)];
+//#else
+//		directObjectDesc = [NSAppleEventDescriptor descriptorWithDescriptorType:typeFSS bytes:&fsSpec length:sizeof(fsSpec)];
+//#endif //defined(__LP64__)
+//    } else {
+//        DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Failed to create fsspec");
+//        return;
+//    }
+
+	if (fileURLBookmarkData) {
+		directObjectDesc = [NSAppleEventDescriptor descriptorWithDescriptorType:typeBookmarkData bytes:&fileURLBookmarkData length:sizeof(fileURLBookmarkData)];
+	} else {
+        DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Failed to create URL Bookmark data");
         return;
     }
 
@@ -2157,37 +2168,12 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 	[(PlainTextWindowController *)aController setSizeByColumns:[[mode defaultForKey:DocumentModeColumnsPreferenceKey] intValue] rows:[[mode defaultForKey:DocumentModeRowsPreferenceKey] intValue]];
 }
 
-static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
-    OSErr err;
-    AliasHandle localAlias;
-    long length;
-    CFURLRef theURLRef;
-            /* init result */
-    theURLRef = NULL;
-            /* get alias */
-    length = AEGetDescDataSize(theDesc);
-    localAlias = (AliasHandle)NewHandle(length);
-    if (localAlias != NULL) {
-        err = AEGetDescData(theDesc, *localAlias, length);
-        if (err == noErr) {
-            FSRef target;
-            Boolean wasChanged;
-            err = FSResolveAlias(NULL, localAlias, &target, &wasChanged);
-            if (err == noErr) {
-                theURLRef = CFURLCreateFromFSRef(NULL, &target);
-            }
-        }
-        DisposeHandle((Handle)localAlias);
-    }
-    return theURLRef;
-}
-
 - (void)handleOpenDocumentEvent {
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"handleOpenDocumentEvent");
     NSAppleEventDescriptor *eventDesc = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
-    if (!([eventDesc eventClass] == kCoreEventClass && [eventDesc eventID] == kAEOpenDocuments)) {
-        return;
-    }
+//    if (!([eventDesc eventClass] == kCoreEventClass && [eventDesc eventID] == kAEOpenDocuments)) {
+//        return;
+//    }
 
     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"%@", [eventDesc description]);
 
@@ -2230,14 +2216,13 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     }
     
     // coerce the document list into a list of CFURLRefs
-    NSAppleEventDescriptor *aliasesDesc = [[eventDesc descriptorForKeyword:keyDirectObject] coerceToDescriptorType:typeAEList];
-    int numberOfItems = [aliasesDesc numberOfItems];
-    int i;
-    for (i = 1; i <= numberOfItems; i++) {
-        NSAppleEventDescriptor *aliasDesc = [[aliasesDesc descriptorAtIndex:i] coerceToDescriptorType:typeAlias];
-        if (aliasDesc) {
-            DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"alias: %@", [aliasDesc description]);
-            NSURL *fileURL = (NSURL *)CFURLFromAEDescAlias([aliasDesc aeDesc]);
+    NSAppleEventDescriptor *bookmarksDescription = [[eventDesc descriptorForKeyword:keyDirectObject] coerceToDescriptorType:typeAEList];
+    int numberOfItems = [bookmarksDescription numberOfItems];
+    for (int i = 1; i <= numberOfItems; i++) {
+        NSAppleEventDescriptor *bookmarkDataDesc = [[bookmarksDescription descriptorAtIndex:i] coerceToDescriptorType:typeBookmarkData];
+        if (bookmarkDataDesc) {
+            DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"bookmarkData: %@", [bookmarkDataDesc description]);
+            NSURL *fileURL = [NSURL URLByResolvingBookmarkData:[bookmarkDataDesc data] options:0 relativeToURL:nil bookmarkDataIsStale:nil error:nil];
             NSString *filePath = [[fileURL path] stringByStandardizingPath];
             if ([filePath isEqualToString:[[[self fileURL] path] stringByStandardizingPath]]) {
 
@@ -2292,7 +2277,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"retrieved ODB parameters: %@", [ODBParameters description]);
                 [self setODBParameters:ODBParameters];
             }
-            [fileURL release];
         }
     }
     [[self windowControllers] makeObjectsPerformSelector:@selector(synchronizeWindowTitleWithDocumentName)];
@@ -3155,6 +3139,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     NSEnumerator *elements = [topLevelArray objectEnumerator];
     id element = [elements nextObject];
     if (element) fileversion = [element unsignedIntValue];
+#pragma unused (fileversion)
+
     while ((element=[elements nextObject])) {
         if ([element isKindOfClass:[NSArray class]] && [(NSArray*)element count]==1 && [[element objectAtIndex:0] isKindOfClass:[NSDictionary class]]) {
             [dictRep addEntriesFromDictionary:[element objectAtIndex:0]];
@@ -3264,7 +3250,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     if (!fileExists || (isDir && ![docType isEqualToString:@"SEETextType"])) {
         // generate the correct error
         [NSData dataWithContentsOfURL:anURL options:0 error:outError];
-        DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"file doesn't exist %@",*outError);
+        DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"file doesn't exist %@",outError?*outError:nil);
         I_flags.isReadingFile = NO;
         return NO;
     }
@@ -3540,7 +3526,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             [options setObject:[NSNumber numberWithUnsignedInt:NSMacOSRomanStringEncoding] forKey:NSCharacterEncodingDocumentOption];
             success = [textStorage readFromData:fileData encoding:NSMacOSRomanStringEncoding];
     #ifndef TCM_NO_DEBUG
-        [_readFromURLDebugInformation appendFormat:@"-----> 5. Step - using mac os roman encoding:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n",success,[options description],nil,(success?nil:*outError)];
+			[_readFromURLDebugInformation appendFormat:@"-----> 5. Step - using mac os roman encoding:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n",success,[options description],nil,(success?nil:outError?*outError:nil)];
     #endif
         }
     
@@ -3881,6 +3867,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                                       didRunSelector:NULL
                                          contextInfo:nil];
                         [[self printOptions] addEntriesFromDictionary:savedPrintOptions];
+						[savedPrintOptions release];
                     }
                 }
             }

@@ -470,6 +470,7 @@ static AppController *sharedInstance = nil;
     [[DocumentController sharedDocumentController] setAutosavingDelay:[[NSUserDefaults standardUserDefaults] floatForKey:@"AutoSavingDelay"]];
 }
 
+#ifndef __clang_analyzer__
 static OSStatus AuthorizationRightSetWithWorkaround(
     AuthorizationRef    authRef,
     const char *        rightName,
@@ -537,6 +538,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 
     return err;
 }
+#endif
 
 - (void)setupAuthorization {
     OSStatus err = noErr;

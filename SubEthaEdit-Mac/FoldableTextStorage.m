@@ -192,8 +192,8 @@ typedef union {
 	*outShouldInsertString = YES; // initialize value
 	FoldedTextAttachment *attachment = nil;
 	FoldedTextAttachment *attachmentReplacementStartetIn = nil;
-	NSRange attachmentRange = {};
-	NSRange resultRange = {};
+	NSRange attachmentRange; // = {NSNotFound, 0};
+	NSRange resultRange = {NSNotFound, 0};
 	
 	// safeguard against misuse when there are no foldings
 	if (attachmentCount == 0) {

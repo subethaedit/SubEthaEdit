@@ -2040,7 +2040,7 @@
 - (IBAction)showCustomizeEncodingPanel:(id)aSender
 {
     [self performSelector:@selector(TCM_updateBottomStatusBar) withObject:nil afterDelay:0.0001];
-    [[EncodingManager sharedInstance] showPanel:self];
+    [[EncodingManager sharedInstance] showWindow:aSender];
 }
 
 

@@ -150,8 +150,6 @@ static NSMenu *S_defaultMenu=nil;
             if ([textStorage length]>0) {
                 [textStorage setHasBlockeditRanges:YES];
                 [NSEvent stopPeriodicEvents];
-                [leftMouseDraggedEvent release];
-                 leftMouseDraggedEvent = nil;
                 if (isAddingBlockeditRanges) {
                     [textStorage addAttributes:blockeditAttributes
                                          range:blockeditRange];
@@ -164,7 +162,9 @@ static NSMenu *S_defaultMenu=nil;
                 // evil hack for unpause
                 [[self delegate] textViewDidChangeSelection:nil];
             }
-            break;
+			[leftMouseDraggedEvent release];
+			leftMouseDraggedEvent = nil;
+			break;
         } else {
             currentPoint = [self convertPoint:[leftMouseDraggedEvent locationInWindow] fromView:nil];
             glyphIndex =[layoutManager glyphIndexForPoint:currentPoint 
@@ -728,6 +728,7 @@ static NSMenu *S_defaultMenu=nil;
 		if ([textStorage respondsToSelector:@selector(fullRangeForFoldedRange:)]) {
 			selectedRange = [textStorage fullRangeForFoldedRange:selectedRange];
 			textStorage = [textStorage fullTextStorage];
+			#pragma unused (selectedRange,textStorage)
 		}
 		NSMutableAttributedString *mutableString = [[[[self textStorage] attributedSubstringFromRange:[self selectedRange]] mutableCopy] autorelease];
 		NSTextAttachment *foldingIconAttachment = [[[NSTextAttachment alloc] initWithFileWrapper:[[[NSFileWrapper alloc] initWithPath:[[NSBundle mainBundle] pathForResource:@"FoldingBubbleBig" ofType:@"png"]] autorelease]] autorelease];

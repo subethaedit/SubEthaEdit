@@ -433,7 +433,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 	
 	NSString *autocompleteFromMode = [[stateNode attributeForName:@"useautocompletefrommode"] stringValue];
 	if (autocompleteFromMode) {
-		[stateDictionary setObject:symbolsFromMode forKey:StateDictionarySwitchToAutocompleteFromModeKey];
+		if (symbolsFromMode) [stateDictionary setObject:symbolsFromMode forKey:StateDictionarySwitchToAutocompleteFromModeKey];
 		if (![I_allLanguageContextsArray containsObject:autocompleteFromMode]) {
 			[I_allLanguageContextsArray addObject:autocompleteFromMode];
 			//NSLog(@"%s added %@ -> %@",__FUNCTION__, autocompleteFromMode, I_allLanguageContextsArray);
@@ -752,22 +752,22 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 
 - (void)getReady {
 	@synchronized(self) {
-		BOOL wasntReady = NO;
+//		BOOL wasntReady = NO;
 		if (!I_combinedStateRegexReady && !I_combinedStateRegexCalculating) {
 			[self calculateCombinedStateRegexes];
-			wasntReady = YES;
+//			wasntReady = YES;
 		}
 		if (!I_cacheStylesReady && !I_cacheStylesCalculating) {
 			//Moved addStyles in here, which should speed up type-and-color performance significantly.
 			[self addStyleIDsFromState:[self defaultState]];
 			[self cacheStyles];
-			wasntReady = YES;
+//			wasntReady = YES;
 		}
 		if (!I_symbolAndAutocompleteInheritanceReady) {
 			[self calculateSymbolInheritanceForState:[I_allStates objectForKey:[NSString stringWithFormat:@"/%@/%@", [self name], SyntaxStyleBaseIdentifier]] inheritedSymbols:[self name] inheritedAutocomplete:[self name]];
 			I_symbolAndAutocompleteInheritanceReady = YES;
 			//		NSLog(@"Defaultstate: Sym:%@, Auto:%@", [[self defaultState] objectForKey:[self keyForInheritedSymbols]],[[self defaultState] objectForKey:[self keyForInheritedAutocomplete]]);
-			wasntReady = YES;
+//			wasntReady = YES;
 		}
 //		NSArray *allScopes = [self.scopeStyleDictionary.allKeys sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
 //		NSLog(@"%s all scopes?: \n%@",__FUNCTION__, allScopes);

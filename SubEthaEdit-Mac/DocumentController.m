@@ -88,33 +88,19 @@
         NSBundle *installedModeBundle = [mode bundle];
         NSString *versionStringOfInstalledMode = [installedModeBundle objectForInfoDictionaryKey:@"CFBundleVersion"];
         NSString *installedModeFileName = [installedModeBundle bundlePath];
-        
-        OSErr err = noErr;
-        FSRef folderRef;
-        NSString *userDomainPath = nil;
-        NSString *localDomainPath = nil;
-        NSString *networkDomainPath = nil;
-        
-        err = FSFindFolder(kUserDomain, kApplicationSupportFolderType, kDontCreateFolder, &folderRef);
-        if (err == noErr)
-            userDomainPath = [(NSURL *)CFURLCreateFromFSRef(kCFAllocatorSystemDefault, &folderRef) path];
 
-        err = FSFindFolder(kLocalDomain, kApplicationSupportFolderType, kDontCreateFolder, &folderRef);
-        if (err == noErr)
-            localDomainPath = [(NSURL *)CFURLCreateFromFSRef(kCFAllocatorSystemDefault, &folderRef) path];
-            
-        err = FSFindFolder(kNetworkDomain, kApplicationSupportFolderType, kDontCreateFolder, &folderRef);
-        if (err == noErr)
-            networkDomainPath = [(NSURL *)CFURLCreateFromFSRef(kCFAllocatorSystemDefault, &folderRef) path];
-            
-        short domain;
+        NSString *userDomainPath = [[[[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil] URLByStandardizingPath] path];
+        NSString *localDomainPath = [[[[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory inDomain:NSLocalDomainMask appropriateForURL:nil create:NO error:nil] URLByStandardizingPath] path];
+        NSString *networkDomainPath = [[[[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory inDomain:NSNetworkDomainMask appropriateForURL:nil create:NO error:nil] URLByStandardizingPath] path];
+
+		NSSearchPathDomainMask domain = 0;
         BOOL isKnownDomain = YES;
         if (userDomainPath != nil && [installedModeFileName hasPrefix:userDomainPath]) {
-            domain = kUserDomain;
+            domain = NSUserDomainMask;
         } else if (localDomainPath != nil && [installedModeFileName hasPrefix:localDomainPath]) {
-            domain = kLocalDomain;
+            domain = NSLocalDomainMask;
         } else if (networkDomainPath != nil && [installedModeFileName hasPrefix:networkDomainPath]) {
-            domain = kNetworkDomain;
+            domain = NSNetworkDomainMask;
         } else {
             isKnownDomain = NO;
         }
@@ -122,9 +108,9 @@
         NSString *installedModeName = [NSString stringWithFormat:@"%@ (%@)", [installedModeFileName lastPathComponent], versionStringOfInstalledMode];
         NSString *informativeText = [NSString stringWithFormat:NSLocalizedString(@"Mode \"%@\" is already installed in \"%@\".", nil), installedModeName, installedModeFileName];
 
-        if (!isKnownDomain || domain == kNetworkDomain || domain == kLocalDomain) {
+        if (!isKnownDomain || domain == NSNetworkDomainMask || domain == NSLocalDomainMask) {
             informativeText = [informativeText stringByAppendingFormat:@" %@", NSLocalizedString(@"You will override the installed mode.", nil)];
-        } else if (domain == kUserDomain) {
+        } else if (domain == NSUserDomainMask) {
             informativeText = [informativeText stringByAppendingFormat:@" %@", NSLocalizedString(@"You will replace the installed mode.", nil)];
         }
 
@@ -159,6 +145,7 @@
             destination = [destination stringByAppendingPathComponent:@"Modes"];
             destination = [destination stringByAppendingPathComponent:[fileName lastPathComponent]];
             DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Mode installation path: %@", destination);
+			if (appSupportURL) CFRelease(appSupportURL);
             
             if (![fileName isEqualToString:destination]) {
                 if (domain == kUserDomain) {
@@ -254,7 +241,7 @@
                     }
 
 
-                    CFRelease(tool);
+                    if (tool) CFRelease(tool);
                     if (auth != NULL) {
                         (void)AuthorizationFree(auth, kAuthorizationFlagDestroyRights);
                     }

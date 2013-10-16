@@ -1121,8 +1121,11 @@ static int ExecuteSelfInPrivilegedSelfRepairMode(int fdIn, int fdOut, Authorizat
 		#if MORE_DEBUG
 			fprintf(stderr, "MoreSecurity: Calling AEWP\n");
 		#endif
-	    err = OSStatusToEXXX( AuthorizationExecuteWithPrivileges(auth, pathToSelf, 
-										kAuthorizationFlagDefaults, (char * const *) kSelfRepairArguments, &fileConnToChild) );
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
+	    err = OSStatusToEXXX( AuthorizationExecuteWithPrivileges(auth, pathToSelf,
+#pragma clang diagnostic pop
+		kAuthorizationFlagDefaults, (char * const *) kSelfRepairArguments, &fileConnToChild) );
 		#if MORE_DEBUG
 			fprintf(stderr, "MoreSecurity: AEWP returned %d\n", err);
 		#endif
@@ -1391,7 +1394,10 @@ extern AuthorizationRef MoreSecHelperToolCopyAuthRef(void)
 	
 	result = NULL;
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 	(void) AuthorizationCopyPrivilegedReference(&result, kAuthorizationFlagDefaults);
+#pragma clang diagnostic pop
 
 	return result;
 }
@@ -1546,7 +1552,11 @@ static OSStatus FSSetCatalogInfoIDs(const FSRef *ref,
     uid_t                       uid;
     gid_t                       gid;
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     err = FSSetCatalogInfo(ref, whichInfo, catalogInfo);
+#pragma clang diagnostic pop
+
     if ( (err == noErr) && (whichInfo & kFSCatInfoPermissions) ) {
 #if defined(__LP64__)
 		permInfo = &(catalogInfo->permissions);
@@ -1558,8 +1568,11 @@ static OSStatus FSSetCatalogInfoIDs(const FSRef *ref,
         if (uid != -1 || gid != -1 ) {
             char filePath[MAXPATHLEN];
             
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
             err = FSRefMakePath(ref, (UInt8 *) filePath, sizeof(filePath));
-            if (err == noErr) {
+#pragma clang diagnostic pop
+           if (err == noErr) {
                 err = chown(filePath, uid, gid);
                 if (err == -1) {
                     err = errno;
@@ -1592,7 +1605,10 @@ extern OSStatus MoreSecIsFolderIgnoringOwnership(const FSRef *folder, Boolean *i
 		CFStringRef 	tmpStr;
 		HFSUniStr255 	tmpStrU;
 		
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 		now = UpTime();
+#pragma clang diagnostic pop
 		tmpStr = CFStringCreateWithFormat(NULL, NULL, CFSTR("MoreSecIsFolderIgnoringOwnership Temp %x%x"), (unsigned int)now.hi, (unsigned int)now.lo);
 		err = CFQError(tmpStr);
 		
@@ -1601,7 +1617,10 @@ extern OSStatus MoreSecIsFolderIgnoringOwnership(const FSRef *folder, Boolean *i
 			tmpStrU.length = (UInt16) CFStringGetLength(tmpStr);
 			CFStringGetCharacters(tmpStr, CFRangeMake(0, tmpStrU.length), tmpStrU.unicode);
 		
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 			err = FSCreateFileUnicode(folder, tmpStrU.length, tmpStrU.unicode, kFSCatInfoNone, NULL, &fileRef, NULL);
+#pragma clang diagnostic pop
 		}
 		
 		CFQRelease(tmpStr);
@@ -1612,7 +1631,10 @@ extern OSStatus MoreSecIsFolderIgnoringOwnership(const FSRef *folder, Boolean *i
 	// Probe that temporary file to see if permissions are being ignored.
 		
 	if (err == noErr) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 		err = FSGetCatalogInfo(&fileRef, kFSCatInfoPermissions, &info, NULL, NULL, NULL);
+#pragma clang diagnostic pop
 		if (err == noErr) {
 			FSPermissionInfo *permInfo;
 			
@@ -1641,7 +1663,10 @@ extern OSStatus MoreSecIsFolderIgnoringOwnership(const FSRef *folder, Boolean *i
                 permInfo->groupID = realgid;
 				err = FSSetCatalogInfoIDs(&fileRef, kFSCatInfoPermissions, &info);
 				if (err == noErr) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 					err = FSGetCatalogInfo(&fileRef, kFSCatInfoPermissions, &info, NULL, NULL, NULL);
+#pragma clang diagnostic pop
 				}
 				if (err == noErr) {
 					*ignoringOwnership = (permInfo->groupID != realgid);
@@ -1649,7 +1674,10 @@ extern OSStatus MoreSecIsFolderIgnoringOwnership(const FSRef *folder, Boolean *i
 			}
 			assert( (err != noErr) || (*ignoringOwnership == (permInfo->groupID == kPermissionsUnknownGroupID)) );
 		}
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 		junk = FSDeleteObject(&fileRef);
+#pragma clang diagnostic pop
 		assert(junk == noErr);
 	}
 	
@@ -1665,7 +1693,10 @@ extern OSStatus MoreSecIsFolderIgnoringSetUID(const FSRef *folder, Boolean *igno
 
 	// Call statfs and check the MNT_NOSUID flag.
 	
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 	err = FSRefMakePath(folder, (UInt8 *) folderPath, sizeof(folderPath));
+#pragma clang diagnostic pop
 	if (err == noErr) {
 		err = statfs(folderPath, &sb);
     	err = EXXXToOSStatus( MoreUNIXErrno(err) );
@@ -1797,7 +1828,10 @@ static OSStatus CopyHelperToolURL(short domain, OSType folder, CFStringRef subFo
 		
 	folderURL = NULL;
 	
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 	err = FSFindFolder(domain, folder, createFolder, &folderRef);
+#pragma clang diagnostic pop
 	if (err == noErr && subFolderName != NULL) {
 		FSRef 			tmp;
 		HFSUniStr255 	subFolderNameU;
@@ -1814,17 +1848,23 @@ static OSStatus CopyHelperToolURL(short domain, OSType folder, CFStringRef subFo
 		// and ignore the dupFNErr if it already exists because we need to set up 
 		// folderRef.
 		
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 		err = FSMakeFSRefUnicode(&tmp, subFolderNameU.length, subFolderNameU.unicode, kTextEncodingUnknown, &folderRef);
 		if (err != noErr && createFolder) {
 			err = FSCreateDirectoryUnicode(&tmp, subFolderNameU.length, subFolderNameU.unicode, kFSCatInfoNone, NULL, 
 										   &folderRef, NULL, NULL);
+#pragma clang diagnostic pop
 		}
 	}
 	
 	// Create a URL to the parent folder, then append the tool name.
 	
 	if (err == noErr) {
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 		folderURL = CFURLCreateFromFSRef(NULL, &folderRef);
+#pragma clang diagnostic pop
 		err = CFQError(folderURL);
 	}
 	if (err == noErr) {
@@ -1927,7 +1967,11 @@ static OSStatus	CreateURLToNewHelperToolInFolder(
         domain = kUserDomain;
     }
     
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
     err = FSFindFolder(domain, folder, true, &folderRef);
+#pragma clang diagnostic pop
+
 	if (err == noErr) {
 		err = MoreSecIsFolderIgnoringOwnership(&folderRef, &ignoring);
 	}
