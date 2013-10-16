@@ -296,7 +296,7 @@ static NSString	*OgreAFPCAttributedReplaceHistoryKey = @"AFPC Attributed Replace
 		//[findTextView setString:@""];
 	}
 	
-	NSMutableArray	*replaceHistory = [[NSMutableArray arrayWithArray:[history objectForKey:OgreAFPCReplaceHistoryKey]] retain];
+	NSMutableArray	*replaceHistory = [NSMutableArray arrayWithArray:[history objectForKey:OgreAFPCReplaceHistoryKey]];
 	if ((replaceHistory != nil) && ([replaceHistory count] > 0)) {
 		countOfAutorelease = 0;
 		pool = [[NSAutoreleasePool alloc] init];

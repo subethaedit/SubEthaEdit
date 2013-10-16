@@ -131,12 +131,12 @@
     
     OgreTextFindComponentEnumerator *enumerator;
     if ([self isReversed]) {
-        enumerator = [OgreTextFindReverseComponentEnumerator alloc];
+        enumerator = [[[OgreTextFindReverseComponentEnumerator alloc] initWithBranch:self inSelection:(inSelection/* && (count > 0)*/)] autorelease];
     } else {
-        enumerator = [OgreTextFindComponentEnumerator alloc];
+        enumerator = [[[OgreTextFindComponentEnumerator alloc] initWithBranch:self inSelection:(inSelection/* && (count > 0)*/)] autorelease];
     }
-    [[enumerator initWithBranch:self inSelection:(inSelection/* && (count > 0)*/)] autorelease];
-    if ([self isTerminal]) [enumerator setTerminalIndex:[[[(OgreOutlineView*)[_outlineColumn tableView] ogrePathComponentsOfSelectedItem] objectAtIndex:0] intValue]];
+    if ([self isTerminal])
+		[enumerator setTerminalIndex:[[[(OgreOutlineView*)[_outlineColumn tableView] ogrePathComponentsOfSelectedItem] objectAtIndex:0] intValue]];
 
     return enumerator;
 }

@@ -52,7 +52,6 @@
 			string = anObject;
 		}
     } else if ([anObject isKindOfClass:[NSAttributedString class]]) {
-		NSString	*string;
 		if ([_delegate shouldEquateYenWithBackslash]) {
 			string = [self equateInString:[(NSAttributedString*)anObject string]];
 		} else {

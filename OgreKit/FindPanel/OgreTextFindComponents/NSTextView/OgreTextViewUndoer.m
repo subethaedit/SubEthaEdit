@@ -60,7 +60,7 @@
 - (void)undoTextView:(id)aTarget jumpToSelection:(BOOL)jumpToSelection invocationTarget:(id)myself
 {
 	NSTextStorage       *textStorage = [aTarget textStorage];
-    NSRange             aRange, newRange;
+    NSRange             aRange, newRange = {NSNotFound, 0};
     NSAttributedString  *aString;
     unsigned            i;
     OgreTextViewUndoer    *redoArray = [[OgreTextViewUndoer alloc] initWithCapacity:_count];

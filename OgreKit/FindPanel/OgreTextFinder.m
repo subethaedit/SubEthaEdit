@@ -999,7 +999,7 @@ static NSString	*OgreTextFinderEscapeCharacterKey = @"Escape Character";
 		[(id <OgreTextFindProgressDelegate>)sheet setReleaseWhenOKButtonClicked:NO];
 		[sheet performSelector:@selector(close:) withObject:self];
 	}
-	[sheet release];
+//	[sheet release];
 }
 
 /* alert sheet */
