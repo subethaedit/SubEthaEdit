@@ -138,7 +138,7 @@ SubEthaEdit 3.2.1
 =================
 
 Changes:
-- Implemented a partial work-around for an issue of Apple's mDNSResponder in 
+- Implemented a partial work-around for an issue of Apple’s mDNSResponder in 
   conjunction with Airport Base Stations that causes excessive logging. If it 
   still happens, turning automatic port mapping off and on again resolves the 
   issue.
