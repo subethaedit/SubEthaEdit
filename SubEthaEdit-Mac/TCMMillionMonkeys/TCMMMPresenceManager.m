@@ -54,7 +54,7 @@ NSString * const TCMMMPresenceManagerDidReceiveTokenNotification=
         @"isVisible"  => nil | NSNumber "YES"
         @"InternalIsVisible" => nil | NSNumber "YES" // for internal use only
         @"StatusProfile" => TCMMMStatusProfile if present
-        @"shouldSendVisibilityChangeNotification" => nil | NSNumber "YES"  // for internal use only
+        @"shouldSendVisibilityChangeNotification" => nil | NSNumber "YES"  // for internal use only
         @"shouldAutoConnect" => nil | NSNumber "YES" // if we autoconnect to reachability infos of that user - == subscribe to friendcast
         @"hasFriendCast" => nil | NSNumber "YES"
 "*/
@@ -459,7 +459,7 @@ NSString * const TCMMMPresenceManagerDidReceiveTokenNotification=
             }
         }
     } else {
-        //NSLog(@"%s got information about a third party: %@ %@",__FUNCTION__,anURLString,aUserID);
+        //NSLog(@"%s got information about a third party: %@ %@",__FUNCTION__,anURLString,aUserID);
         // see if we already have a connection to that userID, if not initiate connection to that user
         NSMutableDictionary *status = [self statusOfUserID:userID];
         if ([[NSUserDefaults standardUserDefaults] boolForKey:AutoconnectPrefKey]) {

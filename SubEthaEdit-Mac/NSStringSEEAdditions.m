@@ -693,7 +693,7 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
 
 /*"AttributeMapping:
 
-        "WrittenBy" => { "openTag" => "<span class="@%">",
+        "WrittenBy" => { "openTag" => "<span class="@%">",
                              "closeTag" => "</span>"},
         "ForegroundColor" => {"openTag"=>"<span style="color: %@;">",
                               "closeTag"=>"</span>" }
