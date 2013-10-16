@@ -25,29 +25,21 @@ enum {
 - (void)configureWithAction:(SEL)aSelector;
 @end
     
-@interface EncodingManager : NSObject {
+@interface EncodingManager : NSWindowController {
     @private
-    IBOutlet NSMatrix *encodingMatrix;
     NSArray *encodings;
     NSCountedSet *registeredEncodings;
-    
-    // These three outlets are temporary, reset each time the encodingAccessory nib is loaded, and cleared each time
-    IBOutlet NSButton *ignoreRichTextButton;
-    IBOutlet EncodingPopUpButton *encodingPopupButton;
-    IBOutlet NSView *encodingAccessory;
 }
+
+@property (nonatomic, strong) IBOutlet NSMatrix *encodingMatrix;
 
 /* There is just one instance...
 */
-+ (EncodingManager *)sharedInstance;
++ (instancetype)sharedInstance;
 
 /* List of encodings that should be shown in encoding lists
 */
 - (NSArray *)enabledEncodings;
-
-/* Returns a fresh encoding accessory to be used in open/save panels. Also returns pointers to the encoding popup and ignore rich text button if desired.
-*/
-- (NSView *)encodingAccessory:(unsigned)encoding includeDefaultEntry:(BOOL)includeDefaultItem enableIgnoreRichTextButton:(BOOL)includeRichTextButton encodingPopUp:(NSPopUpButton **)popup ignoreRichTextButton:(NSButton **)button lossyEncodings:(NSArray *)listOfEncodings;
 
 /* Empties then initializes the supplied popup with the supported encodings.
 */
@@ -59,7 +51,6 @@ enum {
 
 /* Action methods for bringing up and dealing with changes in the encodings list panel
 */
-- (IBAction)showPanel:(id)sender;
 - (IBAction)encodingListChanged:(id)sender;
 - (IBAction)clearAll:(id)sender;
 - (IBAction)selectAll:(id)sender;
