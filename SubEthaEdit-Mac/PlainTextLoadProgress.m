@@ -14,38 +14,41 @@
 
 - (id)init
 {
-    self = [super init];
+    self = [super initWithNibName:@"PlainTextLoadProgress" bundle:nil];
     if (self) {
-        (void)[NSBundle loadNibNamed:@"PlainTextLoadProgress" owner:self];
     }
     return self;
 }
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+
+	self.loadStatusFieldOutlet = nil;
+	self.progressIndicatorOutlet = nil;
+	
     [super dealloc];
 }
 
 - (void)startAnimation
 {
-    [_progressIndicator setIndeterminate:YES];
-    [_progressIndicator startAnimation:self];
+    [self.progressIndicatorOutlet setIndeterminate:YES];
+    [self.progressIndicatorOutlet startAnimation:self];
 }
 
 - (void)stopAnimation
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [_progressIndicator stopAnimation:self];
+    [self.progressIndicatorOutlet stopAnimation:self];
 }
 
 - (void)setStatusText:(NSString *)string
 {
-    [_loadStatusField setStringValue:string];
+    [self.loadStatusFieldOutlet setStringValue:string];
 }
 
 - (NSView *)loadProgressView
 {
-    return _loadProgressView;
+    return self.view;
 }
 
 - (void)registerForSession:(TCMMMSession *)aSession {
@@ -60,8 +63,8 @@
 - (void)updateProgress:(NSNotification *)aNotification
 {
     if ([[aNotification object] percentOfSessionReceived] > 0.0) {
-        [_progressIndicator setIndeterminate:NO];
-        [_progressIndicator setDoubleValue:[[aNotification object] percentOfSessionReceived]];
+        [self.progressIndicatorOutlet setIndeterminate:NO];
+        [self.progressIndicatorOutlet setDoubleValue:[[aNotification object] percentOfSessionReceived]];
     }
 }
 

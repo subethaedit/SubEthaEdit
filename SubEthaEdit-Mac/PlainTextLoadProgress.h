@@ -10,11 +10,11 @@
 
 @class TCMMMSession;
 
-@interface PlainTextLoadProgress : NSObject {
-    IBOutlet NSView *_loadProgressView;
-    IBOutlet NSProgressIndicator *_progressIndicator;
-    IBOutlet NSTextField *_loadStatusField;
+@interface PlainTextLoadProgress : NSViewController {
 }
+
+@property (nonatomic, assign) IBOutlet NSProgressIndicator *progressIndicatorOutlet;
+@property (nonatomic, assign) IBOutlet NSTextField *loadStatusFieldOutlet;
 
 - (void)startAnimation;
 - (void)stopAnimation;
