@@ -121,7 +121,6 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
     }
 }
 
-#if !defined(CODA)
 - (BOOL)isValidSerial
 {
     // Pirated number (2.1.1): 2QF-PABI-OCM6-KRHH (Blocked by enforcing SEE prefix) (SB)
@@ -215,7 +214,6 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
     
     return result;
 }
-#endif //!defined(CODA)
 
 - (BOOL)isWhiteSpace {
     static unichar s_space=0,s_tab,s_cr,s_nl;
@@ -623,59 +621,51 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
 	OGRegularExpression			*regex = nil;
 	OGRegularExpressionMatch	*match = nil;
 	BOOL						success = NO;
-	
-	//@"<meta.*?charset=(.*?)\""
-#if CODA
-	@synchronized(self)
-	{	
-#endif
-		NS_DURING
-			regex = [OGRegularExpression regularExpressionWithString:regEx options:OgreCaptureGroupOption | OgreIgnoreCaseOption];
-			match = [regex matchInString:self];
 
-			if ( [match count] >= 2 )
+	//@"<meta.*?charset=(.*?)\""
+	NS_DURING
+	regex = [OGRegularExpression regularExpressionWithString:regEx options:OgreCaptureGroupOption | OgreIgnoreCaseOption];
+	match = [regex matchInString:self];
+
+	if ( [match count] >= 2 )
+	{
+		NSString *matchString = [self substringWithRange:[match rangeOfSubstringAtIndex:1]];
+
+		if ( matchString )
+		{
+			CFStringEncoding cfEncoding = CFStringConvertIANACharSetNameToEncoding((CFStringRef)matchString);
+
+			if ( cfEncoding == kCFStringEncodingInvalidId )
 			{
-				NSString *matchString = [self substringWithRange:[match rangeOfSubstringAtIndex:1]];
-				
-				if ( matchString )
+				NSLog(@"findIANAEncodingUsingExpression:encoding: invalid encoding");
+			}
+			else
+			{
+				if ( outEncoding )
 				{
-					CFStringEncoding cfEncoding = CFStringConvertIANACharSetNameToEncoding((CFStringRef)matchString);
-				
-					if ( cfEncoding == kCFStringEncodingInvalidId )
-					{
-						NSLog(@"findIANAEncodingUsingExpression:encoding: invalid encoding");
-					}
-					else
-					{
-						if ( outEncoding )
-						{
-							NSStringEncoding foundEncoding = CFStringConvertEncodingToNSStringEncoding(cfEncoding);
-							// if we find a utf16 variant then this makes no sense as we found it in a text that was 8bit interpreted so we return no
-							if (foundEncoding != NSUnicodeStringEncoding && 
-								foundEncoding != 0x94000100 && // NSUTF16LittleEndianStringEncoding || 
-								foundEncoding != 0x90000100 && // NSUTF16BigEndianStringEncoding || 
-								foundEncoding != 0x98000100 && // NSUTF32BigEndianStringEncoding || 
-								foundEncoding != 0x9c000100 && // NSUTF32LittleEndianStringEncoding || 
-								foundEncoding != 0x8c000100 ) { //NSUTF32StringEncoding) {
-								*outEncoding = foundEncoding;
-								success = YES;
-							}
-						}
-						else
-						{
-							success = NO;
-						}
+					NSStringEncoding foundEncoding = CFStringConvertEncodingToNSStringEncoding(cfEncoding);
+					// if we find a utf16 variant then this makes no sense as we found it in a text that was 8bit interpreted so we return no
+					if (foundEncoding != NSUnicodeStringEncoding &&
+						foundEncoding != 0x94000100 && // NSUTF16LittleEndianStringEncoding ||
+						foundEncoding != 0x90000100 && // NSUTF16BigEndianStringEncoding ||
+						foundEncoding != 0x98000100 && // NSUTF32BigEndianStringEncoding ||
+						foundEncoding != 0x9c000100 && // NSUTF32LittleEndianStringEncoding ||
+						foundEncoding != 0x8c000100 ) { //NSUTF32StringEncoding) {
+						*outEncoding = foundEncoding;
+						success = YES;
 					}
 				}
+				else
+				{
+					success = NO;
+				}
 			}
-			
-		NS_HANDLER
-			NSLog(@"%@", [localException description]);
-		NS_ENDHANDLER
-#if CODA
+		}
 	}
-#endif 
 
+	NS_HANDLER
+	NSLog(@"%@", [localException description]);
+	NS_ENDHANDLER
 	return success;
 }
 

@@ -98,11 +98,7 @@ NSString *ListViewDidChangeSelectionNotification=
     if ((scrollView=[self enclosingScrollView])) {
         [[NSNotificationCenter defaultCenter] 
             addObserver:self selector:@selector(enclosingScrollViewFrameDidChange:) 
-#if defined(CODA)
-			name:NSViewFrameDidChangeNotification object:[scrollView contentView]];
-#else
             name:NSViewFrameDidChangeNotification object:scrollView];
-#endif //defined(CODA)
     }
     [self resizeToFit];
 }

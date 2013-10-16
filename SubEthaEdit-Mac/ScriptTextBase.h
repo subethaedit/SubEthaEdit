@@ -25,7 +25,4 @@
 - (NSArray *)scriptedLines;
 //- (NSArray *)scriptedCharacters;
 
-#if defined(CODA)
-@property (readwrite, copy) id scriptedContents;
-#endif //defined(CODA)
 @end

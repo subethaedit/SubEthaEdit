@@ -26,19 +26,9 @@
 #import "NSSavePanelTCMAdditions.h"
 #import "MoreSecurity.h"
 #import "PlainTextWindowController.h"
-#if !defined(CODA)
 #import <PSMTabBarControl/PSMTabBarControl.h>
-#endif //!defined(CODA)
 #import <objc/objc-runtime.h>			// for objc_msgSend
 
-#if defined(CODA)
-#import "CodaDocument.h"
-#import "CodaWindowController.h"
-#import "PlainTextNodeDocument.h"
-#import "SplitController.h"
-#import "MoreCFQ.h" // prevent compiler warning
-#import <FTPKit/FTPKit.h> // for string category
-#endif //defined(CODA)
 
 @interface DocumentController (DocumentControllerPrivateAdditions)
 
@@ -343,11 +333,7 @@ static NSString *tempFileName() {
         PlainTextWindowController *windowController = nil;
         BOOL firstWC = YES;
         for (windowController in I_windowControllers) {
-#if defined(CODA)
-			NSEnumerator      *documents = [[windowController documents] objectEnumerator];
-#else
             NSEnumerator      *documents = [[windowController orderedDocuments] objectEnumerator];
-#endif //defined(CODA)
             PlainTextDocument *document = nil;
             if (!firstWC) {
                 [aMenu addItem:[NSMenuItem separatorItem]];
@@ -523,14 +509,6 @@ static NSString *tempFileName() {
 - (NSStringEncoding)encodingFromLastRunOpenPanel {
     return I_encodingFromLastRunOpenPanel;
 }
-
-#if defined(CODA)
-- (void)setDocumentsFromLastRunOpenPanel:(NSArray*)filenames
-{
-	if ( filenames )
-		[I_fileNamesFromLastRunOpenPanel addObjectsFromArray:filenames];
-}
-#endif //defined(CODA)
 
 - (NSString *)modeIdentifierFromLastRunOpenPanel {
     return I_modeIdentifierFromLastRunOpenPanel;
@@ -1191,9 +1169,7 @@ static NSString *tempFileName() {
         while (--count >= 0) {
             PlainTextWindowController *sourceWindowController = [I_windowControllers objectAtIndex:count];
             if (sourceWindowController != targetWindowController) {
-#if !defined(CODA)
                 [sourceWindowController moveAllTabsToWindowController:targetWindowController];
-#endif //!defined(CODA)
                 [sourceWindowController close];
                 [self removeWindowController:sourceWindowController];
             }
@@ -1210,13 +1186,8 @@ static NSString *tempFileName() {
 struct ModificationInfo
 {
     FSSpec theFile; // identifies the file
-#if defined(CODA)
-    int32_t theDate; // the date/time the file was last modified
-    int16_t saved; // set this to zero when replying
-#else
     long theDate; // the date/time the file was last modified
     short saved; // set this to zero when replying
-#endif //defined(CODA)
 };
 #pragma pack(pop)
 
@@ -1318,7 +1289,6 @@ struct ModificationInfo
 
 #pragma mark -
 
-#if !defined(CODA)
 - (IBAction)alwaysShowTabBar:(id)sender
 {
     BOOL flag = ([sender state] == NSOnState) ? NO : YES;
@@ -1336,7 +1306,6 @@ struct ModificationInfo
     }
     
 }
-#endif //!defined(CODA)
 
 - (IBAction)goIntoBundles:(id)sender {
     BOOL flag = ([(NSButton*)sender state] == NSOffState) ? NO : YES;
@@ -1424,16 +1393,6 @@ struct ModificationInfo
     [self closeAllDocumentsWithDelegate:nil didCloseAllSelector:NULL contextInfo:NULL];
 }
 
-#if defined(CODA)
-- (void)noteNewRecentDocumentURL:(NSURL*)aURL
-{
-	NSString *filePath = [aURL path];
-	
-	if ( ![filePath pc_isChildOfPath:[[[NSFileManager defaultManager] pc_chewableItemsFolderCreate:NO] pc_stringByNormalizingPath]] )
-		[super noteNewRecentDocumentURL:aURL];
-}
-#endif //defined(CODA)
-
 - (void)closeDocumentsStartingWith:(PlainTextDocument *)doc shouldClose:(BOOL)shouldClose closeAllContext:(void *)closeAllContext
 {
     // Iterate over unsaved documents, preserve closeAllContext to invoke it after the last document
@@ -1448,10 +1407,8 @@ struct ModificationInfo
             while (count--) {
                 PlainTextDocument *document = [documents objectAtIndex:count];
                 if ([document isDocumentEdited]) {
-#if !defined(CODA)
                     PlainTextWindowController *controller = [document topmostWindowController];
                     (void)[controller selectTabForDocument:document];
-#endif //!defined(CODA)
                     [document canCloseDocumentWithDelegate:self
                                        shouldCloseSelector:@selector(reviewedDocument:shouldClose:contextInfo:)
                                                contextInfo:closeAllContext];
@@ -1513,37 +1470,15 @@ struct ModificationInfo
 // note the "setServicesProvider:" in the applicationWillFinishLaunching method
 
 - (void)openSelection:(NSPasteboard *)pboard userData:(NSString *)data error:(NSString **)error {
-#if defined(CODA)
-	CodaDocument			*document = [CodaDocument frontmostDocument];
-	PlainTextNodeDocument	*wrapper = nil;
-	if ( !document ) 
-	{
-		document = (CodaDocument *)[self openUntitledDocumentOfType:@"PlainTextType" display:YES];
-		wrapper = (PlainTextNodeDocument*)[document nodeDocument];
-	}
-	else
-	{
-		[[document windowController] newTab:self];
-		wrapper = (PlainTextNodeDocument*)[document nodeDocument];
-	}
-	[[[[wrapper plainTextEditors] objectAtIndex:0] textView] readSelectionFromPasteboard:pboard];
-	NSTextStorage *ts = [wrapper textStorage];
-#else
     PlainTextDocument *document = (PlainTextDocument *)[self openUntitledDocumentAndDisplay:YES error:nil];
     [[[[document plainTextEditors] objectAtIndex:0] textView] readSelectionFromPasteboard:pboard];
     // Workaround for when only RTF is on the drag pasteboard (e.g. when dragging text from safari on the SubEthaEditApplicationIcon)
     NSTextStorage *ts = [document textStorage];
-#endif //defined(CODA)
     [ts removeAttribute:NSBackgroundColorAttributeName range:NSMakeRange(0,[ts length])];
     [ts removeAttribute:NSLinkAttributeName range:NSMakeRange(0,[ts length])];
     DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForPath:@"" withContentString:[ts string]];
-#if defined(CODA)
-	[wrapper setDocumentMode:mode];
-	[wrapper clearChangeMarks:self];
-#else
     [(PlainTextDocument *)document setDocumentMode:mode];
     [document clearChangeMarks:self];
-#endif //defined(CODA)
 }
 
 @end

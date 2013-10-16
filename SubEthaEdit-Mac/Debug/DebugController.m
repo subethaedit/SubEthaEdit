@@ -225,9 +225,7 @@ static DebugController * sharedInstance = nil;
 
 
 - (IBAction)sendCrashReport:(id)sender {
-#if !defined(CODA)
 	// do crash reports here?
-#endif //!defined(CODA)
 }
 
 - (IBAction)printModePrecedences:(id)aSender {

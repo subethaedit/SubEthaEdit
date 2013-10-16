@@ -7,9 +7,6 @@
 //
 
 
-#if defined(CODA)
-#import "../document/NodeDocument.h"
-#endif //defined(CODA)
 #import <Cocoa/Cocoa.h>
 #import <Security/Security.h>
 #import "EncodingManager.h"
@@ -42,11 +39,7 @@ extern NSString * const WrittenByUserIDAttributeName;
 extern NSString * const ChangedByUserIDAttributeName;
 extern NSString * const PlainTextDocumentDidSaveNotification;
 
-#if defined(CODA)
-@interface PlainTextDocument : NodeDocument <SEEDocument,  NSTextViewDelegate, NSTextStorageDelegate, NSOpenSavePanelDelegate>
-#else
 @interface PlainTextDocument : NSDocument <SEEDocument, NSTextViewDelegate, NSTextStorageDelegate, NSOpenSavePanelDelegate>
-#endif //defined(CODA)
 {
     TCMMMSession *I_session;
     struct {
@@ -186,10 +179,6 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 
 - (void)setPreservedDataFromSEETextFile:(NSArray *)aPreservedData;
 - (NSArray *)preservedDataFromSEETextFile;
-
-#if defined(CODA)
-- (void)changeFontInteral:(id)aSender;
-#endif //defined(CODA)
 
 - (id)initWithSession:(TCMMMSession *)aSession;
 

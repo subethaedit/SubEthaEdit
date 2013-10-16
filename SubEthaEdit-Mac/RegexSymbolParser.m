@@ -12,10 +12,6 @@
 #import "DocumentModeManager.h"
 #import <OgreKit/OgreKit.h>
 
-#if defined(CODA)
-static NSString* PostProcessMatch(NSString* string, NSArray* postprocess);
-#endif //defined(CODA)
-
 
 @implementation RegexSymbolParser
 
@@ -95,14 +91,8 @@ static NSString* PostProcessMatch(NSString* string, NSArray* postprocess);
         NSEnumerator *matchEnumerator = [[regex allMatchesInString:[aTextStorage string] range:aRange] objectEnumerator];
         OGRegularExpressionMatch *aMatch;
         while ((aMatch = [matchEnumerator nextObject])) {
-#if defined(CODA)
-			// If no substrings are matched, indexOfFirstMatchedSubstring returns 0 which is the entire match range
-			unsigned indexOfFirstSubstring = [aMatch indexOfFirstMatchedSubstring];
-			NSRange jumprange = [aMatch rangeOfSubstringAtIndex:indexOfFirstSubstring];
-#else
             NSRange jumprange = [aMatch rangeOfSubstringAtIndex:1];
             if (![aMatch substringAtIndex:1]) jumprange = [aMatch rangeOfMatchedString];
-#endif // defined(CODA)
 			if ( jumprange.location < [aTextStorage length] )
 			{
 				BOOL isComment = [[aTextStorage attribute:kSyntaxHighlightingScopenameAttributeName atIndex:jumprange.location effectiveRange:nil] hasPrefix:@"comment"];
@@ -111,12 +101,8 @@ static NSString* PostProcessMatch(NSString* string, NSArray* postprocess);
 				if (!isComment||showInComments) {
 					
 					NSRange fullrange = [aMatch rangeOfMatchedString];
-#if defined(CODA)
-					NSString* name = PostProcessMatch([aMatch substringAtIndex:indexOfFirstSubstring], [symbol objectForKey:@"postprocess"]);
-#else
 					NSString *name = [aMatch substringAtIndex:1];
 					if (!name) name = [aMatch matchedString];
-#endif // defined(CODA)
 					NSArray *postprocess = [symbol objectForKey:@"postprocess"];
 					if (postprocess) {
 						for (NSArray *findreplace in postprocess) {
@@ -127,54 +113,7 @@ static NSString* PostProcessMatch(NSString* string, NSArray* postprocess);
 					}
 					
 					SymbolTableEntry *aSymbolTableEntry = [SymbolTableEntry symbolTableEntryWithName:name fontTraitMask:mask image:image type:type indentationLevel:indent jumpRange:jumprange range:fullrange];
-					
-#if defined(CODA)
-					NSMutableArray* substrings = [NSMutableArray arrayWithCapacity:[aMatch count]];
-					
-					for ( unsigned substringIdx = [aMatch indexOfFirstMatchedSubstring]; substringIdx > 0; substringIdx = [aMatch indexOfFirstMatchedSubstringAfterIndex:(substringIdx + 1)] )
-					{
-						[substrings addObject:PostProcessMatch([aMatch substringAtIndex:substringIdx], [symbol objectForKey:@"postprocess"])];
-					}
-					
-					OGRegularExpressionCapture* captureHistory = [aMatch captureHistory];
-					
-					if ( captureHistory != nil )
-					{
-						if ( [substrings count] == 0 )
-						{
-							unsigned numberOfChildren = [captureHistory numberOfChildren];
-							
-							for ( unsigned childIdx = 0; childIdx < numberOfChildren; ++childIdx )
-								[substrings addObject:PostProcessMatch([[captureHistory childAtIndex:childIdx] string], [symbol objectForKey:@"postprocess"])];
-						}
-						else
-						{
-							unsigned numberOfChildren = [captureHistory numberOfChildren];
-							unsigned prevGroupIdx = 0;
-							unsigned numberOfReplacements = 0;
-							
-							for ( unsigned childIdx = 0; childIdx < numberOfChildren; ++childIdx )
-							{
-								OGRegularExpressionCapture* curCapture = [captureHistory childAtIndex:childIdx];
-								unsigned curGroupIdx = [curCapture groupIndex];
-								unsigned indexOfCapture = (curGroupIdx - indexOfFirstSubstring + childIdx - numberOfReplacements);
-								if ( prevGroupIdx != curGroupIdx )
-								{
-									[substrings replaceObjectAtIndex:indexOfCapture withObject:PostProcessMatch([curCapture string], [symbol objectForKey:@"postprocess"])];
-									prevGroupIdx = curGroupIdx;
-									++numberOfReplacements;
-								}
-								else
-									[substrings insertObject:PostProcessMatch([curCapture string], [symbol objectForKey:@"postprocess"]) atIndex:(indexOfCapture + 1)];
-							}
-						}
-					}
-					
-					aSymbolTableEntry.substrings = substrings;
-					aSymbolTableEntry.documentModeIdentifier = [[I_symbolDefinition mode] documentModeIdentifier];
-#endif //defined(CODA)
-					
-					
+
 					if ([name isEqualToString:@""]) {
 						[aSymbolTableEntry setIsSeparator:YES];
 					}
@@ -190,19 +129,3 @@ static NSString* PostProcessMatch(NSString* string, NSArray* postprocess);
 }
 
 @end
-
-#if defined(CODA)
-
-static NSString* PostProcessMatch(NSString* string, NSArray* postprocess)
-{
-	for (NSArray *findreplace in postprocess) {
-		OGRegularExpression *find = [findreplace objectAtIndex:0];
-		NSString *replace = [findreplace objectAtIndex:1];
-		string = [find replaceAllMatchesInString:string withString:replace options:OgreNoneOption];
-	}
-	
-	return string;
-}
-
-#endif //defined(CODA)
-

@@ -997,9 +997,7 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
         } else {
             // if no autojoin add user to pending users and notify 
             [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMSessionPendingUsersDidChangeNotification object:self];
-#if !defined(CODA)
             [I_helper playSoundNamed:@"Knock"];
-#endif //!defined(CODA)
         }
     }
 }
@@ -1029,9 +1027,7 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
             [self acceptInvitation];
         } else {
             [self setClientState:TCMMMSessionClientInvitedState];
-#if !defined(CODA)
             [I_helper playSoundNamed:@"Invitation"];
-#endif //!defined(CODA)
         }
         if (!document) {
             [self setWasInvited:YES];

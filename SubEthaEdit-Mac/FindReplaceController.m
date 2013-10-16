@@ -19,9 +19,6 @@
 #import "time.h"
 #import "TextOperation.h"
 #import <objc/objc-runtime.h>
-#if defined(CODA)
-#import "TextView.h"
-#endif //defined(CODA)
 
 static FindReplaceController *sharedInstance=nil;
 
@@ -109,11 +106,7 @@ static FindReplaceController *sharedInstance=nil;
 
 - (NSTextView *)textViewToSearchIn {
     id obj = [[NSApp mainWindow] firstResponder];
-#if defined(CODA)
-	return (obj && [obj isKindOfClass:[TextView class]]) ? obj : nil;
-#else
     return (obj && [obj isKindOfClass:[NSTextView class]]) ? obj : nil;
-#endif
 }
 
 - (IBAction)orderFrontTabWidthPanel:(id)aSender {

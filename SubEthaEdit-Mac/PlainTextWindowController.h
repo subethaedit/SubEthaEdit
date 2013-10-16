@@ -8,13 +8,9 @@
 
 #import <AppKit/AppKit.h>
 #import <TCMPortMapper/TCMPortMapper.h>
-
-#if defined(CODA)
-@class ParticipantsView, PlainTextEditor, PlainTextDocument,URLImageView;
-#else
 #import <PSMTabBarControl/PSMTabBarControl.h>
+
 @class ParticipantsView, PlainTextEditor, PSMTabBarControl, PlainTextDocument,URLImageView;
-#endif //defined(CODA)
 
 extern NSString * const PlainTextWindowToolbarIdentifier;
 extern NSString * const ParticipantsToolbarItemIdentifier;
@@ -25,11 +21,7 @@ extern NSString * const InternetToolbarItemIdentifier;
 extern NSString * const ToggleChangeMarksToolbarItemIdentifier;
 extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 
-#if defined(CODA)
-@interface PlainTextWindowController : NSWindowController <NSSplitViewDelegate,NSMenuDelegate,NSToolbarDelegate>
-#else
 @interface PlainTextWindowController : NSWindowController <NSSplitViewDelegate,NSMenuDelegate,NSToolbarDelegate,PSMTabBarControlDelegate>
-#endif //defined(CODA)
  {
     // Participants drawer views
     IBOutlet NSDrawer            *O_participantsDrawer;
@@ -57,12 +49,11 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
     } I_flags;
     NSTimer *I_dialogAnimationTimer;
     BOOL I_doNotCascade;
-    @private
-#if !defined(CODA)	
+
+ @private
     NSTabView *I_tabView;
     PSMTabBarControl *I_tabBar;
-#endif //!defined(CODA)	
-    
+
     NSMutableArray *I_documents;
     NSDocument *I_documentBeingClosed;
 
@@ -113,7 +104,6 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 
 - (void)documentWillClose:(NSDocument *)document;
 
-#if !defined(CODA)
 - (void)documentUpdatedChangeCount:(PlainTextDocument *)document;
 - (NSTabViewItem *)addDocument:(NSDocument *)document;
 - (void)moveAllTabsToWindowController:(PlainTextWindowController *)windowController;
@@ -126,23 +116,16 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 - (IBAction)selectPreviousTab:(id)sender;
 - (IBAction)showDocumentAtIndex:(id)aMenuEntry;
 - (void)closeAllTabs;
-#endif //!defined(CODA)
 - (void)reviewChangesAndQuitEnumeration:(BOOL)cont;
 
-#if !defined(CODA)
 - (NSArray *)orderedDocuments;
-#endif //!defined(CODA)
 - (NSArray *)documents;
 
 - (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName document:(PlainTextDocument *)document;
 
-#if !defined(CODA)
 - (PSMTabBarControl *)tabBar;
 - (NSTabView *)tabView;
-#endif //!defined(CODA)
 
 - (NSRect)dissolveToFrame;
-#if !defined(CODA)
 - (void)cascadeWindow;
-#endif //!defined(CODA)
 @end

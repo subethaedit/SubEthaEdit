@@ -16,7 +16,6 @@ typedef struct {
   float red2, green2, blue2, alpha2;
 } _twoColorsType;
 
-#if !defined(CODA)
 static void _linearColorBlendFunction(void *info, const float *in, float *out)
 {
   _twoColorsType *twoColors = info;
@@ -26,7 +25,6 @@ static void _linearColorBlendFunction(void *info, const float *in, float *out)
   out[2] = (1.0 - *in) * twoColors->blue1 + *in * twoColors->blue2;
   out[3] = (1.0 - *in) * twoColors->alpha1 + *in * twoColors->alpha2;
 }
-#endif //!defined(CODA)
 
 static void _linearBounceColorBlendFunction(void *info, const CGFloat *in, CGFloat *out)
 {

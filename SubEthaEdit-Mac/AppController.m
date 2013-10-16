@@ -20,9 +20,7 @@
 #import "ConnectionBrowserController.h"
 #import "PlainTextDocument.h"
 #import "UndoManager.h"
-#if !defined(CODA)
 #import "LicenseController.h"
-#endif //!defined(CODA)
 #import "GenericSASLProfile.h"
 
 #import "AdvancedPreferences.h"
@@ -58,9 +56,7 @@
 #import "SESendProc.h"
 #import "SEActiveProc.h"
 
-#if !defined(CODA)
 #import "UserStatisticsController.h"
-#endif //!defined(CODA)
 
 #ifndef TCM_NO_DEBUG
 #import "Debug/DebugPreferences.h"
@@ -360,13 +356,9 @@ static AppController *sharedInstance = nil;
         }
     }
 
-#if defined(CODA)
-	myImage=[[NSImage imageNamed:@"genericPerson"] copy];
-#else
     if (!myImage) {
         myImage=[[NSImage imageNamed:@"DefaultPerson"] retain];
     }
-#endif //defined(CODA)
 
     if (!myEmail) myEmail=@"";
     if (!myAIM)   myAIM  =@"";
@@ -582,7 +574,6 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     }
 }
 
-#if !defined(CODA)
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // this is actually after the opening of the first untitled document window!
 
@@ -655,7 +646,6 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 
 	// do crash reports here?
 }
-#endif //!defined(CODA)
 
 - (void)sessionManagerIsReady:(NSNotification *)aNotification {
     [[TCMMMBEEPSessionManager sharedInstance] listen];
@@ -1069,23 +1059,6 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     return NO;
 }
 
-#if defined(CODA)
-- (void)showAboutBox:(id)sender
-{
-	// Create the AboutController if it doesn't already exist
-
-	if ( !iAboutController )
-		iAboutController = [[PCAboutController alloc] initWithWindowNibName:@"AboutBox"];
-
-	// Show window if it is hidden, or vice-versa
-
-	if ( ![[iAboutController window] isVisible] )
-		[iAboutController showWindow:self];
-	else
-		[[iAboutController window] makeKeyAndOrderFront:self];
-}
-#endif //defined(CODA)
-
 #pragma mark ### IBActions ###
 
 - (IBAction)undo:(id)aSender {
@@ -1109,16 +1082,13 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 }
 
 - (IBAction)enterSerialNumber:(id)sender {
-#if !defined(CODA)
     [[LicenseController sharedInstance] showWindow:self];
-#endif //!defined(CODA)
 }
 
 - (IBAction)reloadDocumentModes:(id)aSender {
     [[DocumentModeManager sharedInstance] reloadDocumentModes:aSender];
 }
 
-#if !defined(CODA)
 - (IBAction)showUserStatisticsWindow:(id)aSender {
     static UserStatisticsController *uc = nil;
     if (!uc) uc = [UserStatisticsController new];
@@ -1128,7 +1098,6 @@ static OSStatus AuthorizationRightSetWithWorkaround(
         [[uc window] performClose:self];
     }
 }
-#endif //!defined(CODA)
 
 
 #pragma mark -
@@ -1171,11 +1140,9 @@ static OSStatus AuthorizationRightSetWithWorkaround(
         [menuItem setTitle:title];
         return [undoManager canRedo];
     } 
-#if !defined(CODA)
 	else if (selector == @selector(enterSerialNumber:) || selector == @selector(purchaseSubEthaEdit:)) {
         return [LicenseController shouldRun];
     }
-#endif //!defined(CODA)	
     return YES;
 }
 

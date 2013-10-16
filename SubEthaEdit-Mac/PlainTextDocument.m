@@ -9,13 +9,8 @@
 #import <Carbon/Carbon.h>
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <objc/objc-runtime.h>			// for objc_msgSend
-#if defined(CODA)
-#import <FTPKit/PCDebug.h>
-#endif //defined(CODA)
 
-#if !defined(CODA)
 #import <PSMTabBarControl/PSMTabBarControl.h>
-#endif //!defined(CODA)
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "PlainTextEditor.h"
 #import "DocumentController.h"
@@ -72,10 +67,6 @@
 
 #import <UniversalDetector/UniversalDetector.h>
 
-#if defined(CODA)
-#import "CodaDocument.h"
-#import "NodeDocumentViewController.h"
-#endif //defined(CODA)
 
 #pragma pack(push, 2)
 struct SelectionRange
@@ -373,11 +364,7 @@ static NSString *tempFileName(NSString *origPath) {
     NSEnumerator *controllers=[[self windowControllers] objectEnumerator];
     id controller=nil;
     while ((controller=[controllers nextObject])) {
-#if defined(CODA)
-		if ([controller isKindOfClass:[PlainTextWindowController class]]) 
-#else
-        if ([controller isKindOfClass:[PlainTextWindowController class]] && ![(PlainTextWindowController *)controller hasManyDocuments]) 
-#endif //defined(CODA)
+        if ([controller isKindOfClass:[PlainTextWindowController class]] && ![(PlainTextWindowController *)controller hasManyDocuments])
 		{
             [(PlainTextWindowController *)controller 
                 setSizeByColumns:[[[self documentMode] defaultForKey:DocumentModeColumnsPreferenceKey] intValue] 
@@ -993,9 +980,6 @@ static NSString *tempFileName(NSString *origPath) {
     [I_session release];
     [I_plainTextAttributes release];
     [I_typingAttributes release];
-#if defined(CODA)
-	[I_adjustedTypingAttributes autorelease];
-#endif //defined(CODA)
 	[I_blockeditAttributes release];
     [I_fonts.plainFont release];
     [I_fonts.boldFont release];
@@ -1059,13 +1043,6 @@ static NSString *tempFileName(NSString *origPath) {
 {
     if (alert == nil) return;
 
-#if defined(CODA)
-	 NSWindow *window = [self windowForSheet];
-	[alert beginSheetModalForWindow:window
-					  modalDelegate:delegate
-					 didEndSelector:didEndSelector
-						contextInfo:contextInfo];
-#else
     NSArray *orderedWindows = [NSApp orderedWindows];
     NSUInteger minIndex = NSNotFound;
     NSEnumerator *enumerator = [[self windowControllers] objectEnumerator];
@@ -1106,7 +1083,6 @@ static NSString *tempFileName(NSString *origPath) {
         }
         [self setScheduledAlertDictionary:dict];
     }
-#endif //defined(CODA)
 }
 
 - (void)presentScheduledAlertForWindow:(NSWindow *)window
@@ -1261,9 +1237,7 @@ static NSString *tempFileName(NSString *origPath) {
         if (I_flags.highlightSyntax) {
             [self highlightSyntaxInRange:NSMakeRange(0,[fullTextStorage length])];
         }
-#if !defined(CODA)
         [self setContinuousSpellCheckingEnabled:[[aDocumentMode defaultForKey:DocumentModeSpellCheckingPreferenceKey] boolValue]];
-#endif //!defined(CODA)
         [self updateSymbolTable];
         if (I_flags.shouldChangeExtensionOnModeChange) {
             NSArray *recognizedExtensions = [I_documentMode recognizedExtensions];
@@ -1581,9 +1555,7 @@ static NSString *tempFileName(NSString *origPath) {
 - (IBAction)newView:(id)aSender {
     if (!I_flags.isReceivingContent && [[self windowControllers] count] > 0) {
         PlainTextWindowController *controller = [[PlainTextWindowController alloc] init];
-#if !defined(CODA)
         [[DocumentController sharedInstance] addWindowController:controller];
-#endif //!defined(CODA)
         [self addWindowController:controller];
         [controller showWindow:aSender];
         [controller release];
@@ -1703,22 +1675,16 @@ static NSString *tempFileName(NSString *origPath) {
                 // didn't work so update bottom status bar to previous state
                 [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
             } else {
-#if defined(CODA)
-				BOOL myIsEdited = [self isDocumentEdited];
-#else
                 BOOL isEdited = [self isDocumentEdited];
-#endif //defined(CODA)
+
                 [[self documentUndoManager] beginUndoGrouping];
                 [[self plainTextEditors] makeObjectsPerformSelector:@selector(pushSelectedRanges)];
                 [I_textStorage beginEditing];
                 [I_textStorage replaceCharactersInRange:NSMakeRange(0, [I_textStorage length]) withString:@""];
                 [self setFileEncodingUndoable:encoding];
                 [I_textStorage replaceCharactersInRange:NSMakeRange(0, [I_textStorage length]) withString:reinterpretedString];
-#if defined(CODA)
-				if (!myIsEdited) 
-#else
-                if (!isEdited) 
-#endif //defined(CODA)
+
+				if (!isEdited)
 				{
                     [I_textStorage setAttributes:[self plainTextAttributes] range:NSMakeRange(0, [I_textStorage length])];
                 } else {
@@ -1739,7 +1705,6 @@ static NSString *tempFileName(NSString *origPath) {
     }
 }
 
-#if !defined(CODA)
 #pragma mark Overrides of NSDocument Methods to Support MultiDocument Windows
 
 static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
@@ -1820,7 +1785,6 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     [super addWindowController:windowController];
     PlainTextDocumentIgnoreRemoveWindowController = NO;
 }
-#endif //!defined(CODA)
 
 - (void)setKeepUndoManagerOnZeroWindowControllers:(BOOL)aFlag {
 	I_flags.keepUndoManagerOnZeroWindowControllers = aFlag;
@@ -1829,7 +1793,6 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 	return I_flags.keepUndoManagerOnZeroWindowControllers;
 }
 
-#if !defined(CODA)
 - (void)removeWindowController:(NSWindowController *)windowController
 {
     if (!PlainTextDocumentIgnoreRemoveWindowController) {
@@ -1932,7 +1895,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     // Do the regular NSDocument thing.
     [super close];
 }
-#endif //!defined(CODA)
+
 
 #pragma mark -
 
@@ -2032,9 +1995,6 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     NSArray *sortedLineEndingStatsKeys = [lineEndingStats keysSortedByValueUsingSelector:@selector(compare:)];
     BOOL hasLineEndings = ([[lineEndingStats objectForKey:[sortedLineEndingStatsKeys objectAtIndex:4]] unsignedIntValue] != 0);
     BOOL hasMixedLineEndings = hasLineEndings && ([[lineEndingStats objectForKey:[sortedLineEndingStatsKeys objectAtIndex:3]] unsignedIntValue] != 0);
-#if defined(CODA)
-	[(TextStorage*)[self textStorage] setHasMixedLineEndings:hasMixedLineEndings]; 
-#endif //defined(CODA)
     if (hasLineEndings) {
         [self setLineEnding:[[sortedLineEndingStatsKeys objectAtIndex:4] unsignedShortValue]];
         if (hasMixedLineEndings) {
@@ -2106,10 +2066,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
             NSWindow *window = [windowController window];
             [window setFrameTopLeftPoint:NSMakePoint(transientDocumentWindowFrame.origin.x, NSMaxY(transientDocumentWindowFrame))];
         }
-#if !defined(CODA)
         [windowController selectTabForDocument:self];
-//        [[windowController tabBar] updateViewsHack];
-#endif //!defined(CODA)
         if (closeTransient) [[windowController window] orderFront:self]; // stop cascading
         [windowController showWindow:self];
     }
@@ -2141,13 +2098,8 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 
 - (void)bigDocumentAlertDidEnd:(NSAlert *)anAlert returnCode:(int)aReturnCode  contextInfo:(void  *)aContextInfo {
     [[anAlert window] orderOut:self];
-#if defined(CODA)
-		if ( aContextInfo )
-			[(id)aContextInfo autorelease];
-#endif //defined(CODA)
 }
 
-#if !defined(CODA)
 - (NSWindow *)windowForSheet {
     NSWindow *result=[[self topmostWindowController] window];
     if (!result && I_documentProxyWindowController) {
@@ -2155,7 +2107,6 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     }
     return result;
 }
-#endif //!defined(CODA)
 
 - (void)windowControllerWillLoadNib:(NSWindowController *)aController {
     [super windowControllerWillLoadNib:aController];
@@ -3538,14 +3489,6 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Encoding guessing information summary: %@", _readFromURLDebugInformation);
         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Read successful? %@", success ? @"YES" : @"NO");
 
-#if defined(CODA)
-		//have to do this before setdocumentmode to avoid layout when calling setContinuousSpellCheckingEnabled: 
-		[textStorage endEditing]; 
-		
-		if ( mode == nil )
-			mode = [DocumentModeManager baseMode];
-#endif
-
         [self setDocumentMode:mode];
         if ([I_textStorage length] > [defaults integerForKey:@"StringLengthToStopHighlightingAndWrapping"]) {
             [self setHighlightsSyntax:NO];
@@ -3600,10 +3543,8 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 			}
 		}
 
-#if !defined(CODA)
         [textStorage endEditing];
-#endif
-        
+
         NSNumber *lineEndingNumber = [I_stateDictionaryFromLoading objectForKey:@"e"];
         if (lineEndingNumber) {
         	[self setLineEnding:[lineEndingNumber intValue]];
@@ -4035,12 +3976,8 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
             CFBundleGetMainBundle(), 
             CFSTR("SubEthaEditHelperToolTemplate"), 
             kApplicationSupportFolderType,
-#if defined(CODA)
-			CFSTR("Coda"),
-#else
-            CFSTR("SubEthaEdit"), 
-#endif //defined(CODA)
-            CFSTR("SubEthaEditHelperTool"), 
+            CFSTR("SubEthaEdit"),
+            CFSTR("SubEthaEditHelperTool"),
             &tool);
 
         // If the home directory is on an volume that doesn't support 
@@ -4052,12 +3989,8 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
                 CFBundleGetMainBundle(), 
                 CFSTR("SubEthaEditHelperToolTemplate"), 
                 kTemporaryFolderType, 
-#if defined(CODA)
-				CFSTR("Coda"),
-#else
-                CFSTR("SubEthaEdit"), 
-#endif //defined(CODA)
-                CFSTR("SubEthaEditHelperTool"), 
+                CFSTR("SubEthaEdit"),
+                CFSTR("SubEthaEditHelperTool"),
                 &tool);
         }
     }
@@ -4400,22 +4333,6 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
             DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Keep document version");
             return YES;
         }
-#if defined(CODA)
-		NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-		[alert setAlertStyle:NSWarningAlertStyle];
-		[alert setMessageText:NSLocalizedString(@"Document changed externally", nil)];
-		[alert setInformativeText:NSLocalizedString(@"This document was changed by another application.", nil)];  		[alert addButtonWithTitle:NSLocalizedString(@"Keep Coda Version", nil)];  
-		[alert addButtonWithTitle:NSLocalizedString(@"Reload", nil)]; 
-		[[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
-		[self presentAlert:alert
-			 modalDelegate:self
-			didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
-			   contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
-				   @"DocumentChangedExternallyAlert", @"Alert", self, @"Document",
-				   nil] retain]]; 
-		
-		return NO;		
-#else                
         if ([self isDocumentEdited]) {
             NSAlert *alert = [[[NSAlert alloc] init] autorelease];
             [alert setAlertStyle:NSWarningAlertStyle];
@@ -4449,7 +4366,6 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 
             return NO;
         }
-#endif //defined(CODA)
     }
 
     return YES;
@@ -4659,9 +4575,6 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
         NSDictionary *contextInfo = [NSDictionary dictionaryWithObjectsAndKeys:
                                                     @"EditAnywayAlert", @"Alert",
                                                     invocation, @"Invocation",
-#if defined(CODA)
-													self, @"Document",
-#endif //defined(CODA)
                                                     nil];
 
         NSAlert *alert = [[[NSAlert alloc] init] autorelease];
@@ -4678,10 +4591,6 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     } else {
         FoldableTextStorage *textStorage=(FoldableTextStorage *)[self textStorage];
         [textStorage beginEditing];
-#if defined(CODA)
-		//don't want the highlighter to run as we open the document
-		[self setDocumentMode:nil];
-#endif //defined (CODA)
         [textStorage setShouldWatchLineEndings:NO];
 
         [self setLineEnding:lineEnding];
@@ -4834,29 +4743,17 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
         DocumentMode *documentMode=[self documentMode];
         BOOL darkBackground=[[documentMode defaultForKey:DocumentModeBackgroundColorIsDarkPreferenceKey] boolValue];
         NSDictionary *style=nil;
-#if defined(CODA)
-		NSDictionary *spellingStyle=nil;
-#endif //defined(CODA)
-        if ([aStyleID isEqualToString:SyntaxStyleBaseIdentifier] && 
+        if ([aStyleID isEqualToString:SyntaxStyleBaseIdentifier] &&
             [[documentMode defaultForKey:DocumentModeUseDefaultStylePreferenceKey] boolValue]) {
             style=[[[DocumentModeManager baseMode] syntaxStyle] styleForKey:aStyleID];
-#if defined(CODA)
-			spellingStyle = [[documentMode syntaxStyle] styleForKey:aStyleID];
-#endif //defined(CODA)
         } else {
             style=[[documentMode syntaxStyle] styleForKey:aStyleID];
-#if defined(CODA)
-			spellingStyle = style;
-#endif //defined(CODA)
         }
 		
 		if (![style objectForKey:@"color"]) {
 			// This is a style without color, so fall back to scope color.
 			style = [I_styleCacheDictionary objectForKey:[style objectForKey:@"scope"]];
 			//if (!style) style = [[documentMode syntaxStyle] styleForScope:[style objectForKey:@"scope"]]; // FIXME: if no style then no style objectforkey scope
-#if defined(CODA)
-			spellingStyle = style;
-#endif //defined(CODA)
 		}
 		
         NSFontTraitMask traits=[[style objectForKey:@"font-trait"] unsignedIntValue];
@@ -4871,20 +4768,12 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
             strokeWidth=darkBackground?-9.:-3.;
         }
 		
-#if defined(CODA)
-		NSString *useSpellChecking = [spellingStyle objectForKey:@"usespellchecking"];
-		if ( !useSpellChecking )
-			useSpellChecking = @"no";					
-#endif //defined(CODA)
-		
+
         NSColor *foregroundColor=[style objectForKey:darkBackground?@"inverted-color":@"color"];
                 
         result=[NSMutableDictionary dictionaryWithObjectsAndKeys:font,NSFontAttributeName,
 				foregroundColor,NSForegroundColorAttributeName,
             aStyleID,@"styleID",
-#if defined(CODA)
-			useSpellChecking, @"usespellchecking",
-#endif //defined(CODA)
             [NSNumber numberWithFloat:obliquenessFactor],NSObliquenessAttributeName,
             [NSNumber numberWithFloat:strokeWidth],NSStrokeWidthAttributeName,
             nil];
@@ -5015,10 +4904,6 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
      I_plainTextAttributes=nil;
     [I_typingAttributes release];
      I_typingAttributes=nil;
-#if defined(CODA)
-	[I_adjustedTypingAttributes autorelease];
-	I_adjustedTypingAttributes=nil;
-#endif //defined(CODA)
 	[I_styleCacheDictionary removeAllObjects];
     [[NSNotificationQueue defaultQueue]
         enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentDefaultParagraphStyleDidChangeNotification object:self]
@@ -5032,10 +4917,6 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
      I_plainTextAttributes=nil;
     [I_typingAttributes release];
      I_typingAttributes=nil;
-#if defined(CODA)
-	[I_adjustedTypingAttributes autorelease];
-	I_adjustedTypingAttributes=nil;
-#endif //defined(CODA)	
     [I_blockeditAttributes release];
      I_blockeditAttributes=nil;
     [I_styleCacheDictionary removeAllObjects];
@@ -5070,27 +4951,21 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 
 - (void)gotoLine:(unsigned)aLine {
     PlainTextWindowController *windowController=[self topmostWindowController];
-#if !defined(CODA)	
     [windowController selectTabForDocument:self];
-#endif //!defined(CODA)	
     [windowController gotoLine:aLine];
 }
 
 // dispatches to the plaintexteditor eventually
 - (void)selectRange:(NSRange)aRange {
     PlainTextWindowController *windowController=[self topmostWindowController];
-#if !defined(CODA)	
     [windowController selectTabForDocument:self];
-#endif //!defined(CODA)	
     [windowController selectRange:aRange];
 }
 
 // dispatches to the plaintexteditor eventually
 - (void)selectRangeInBackground:(NSRange)aRange {
     PlainTextWindowController *windowController=[self topmostWindowController];
-#if !defined(CODA)	
     [windowController selectTabForDocument:self];
-#endif //!defined(CODA)	
     [windowController selectRangeInBackground:aRange];
 }
 
@@ -5205,7 +5080,6 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     return [super displayName];
 }
 
-#if !defined(CODA)
 - (void)setDisplayName:(NSString *)aDisplayName {
     if (!I_flags.isSettingFileURL) {
         if (![self fileURL]) {
@@ -5219,8 +5093,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
         [super setDisplayName:aDisplayName];
     }
 }
-#endif //!defined(CODA)
-	
+
 #pragma mark -
 #pragma mark ### Printing ###
 
@@ -5291,11 +5164,7 @@ static NSString *S_measurementUnits;
 
 }
 
-#if defined(CODA)
-- (void)changeFontInteral:(id)aSender
-#else	
 - (void)changeFont:(id)aSender
-#endif //defined(CODA)
 {
     NSFont *newFont = [aSender convertFont:I_fonts.plainFont];
     if (I_printOperationIsRunning) {
@@ -5667,7 +5536,6 @@ static NSString *S_measurementUnits;
         [super updateChangeCount:changeType];
     }
     
-#if !defined(CODA)
     NSEnumerator *enumerator = [[self windowControllers] objectEnumerator];
     id windowController;
     while ((windowController = [enumerator nextObject])) {
@@ -5675,8 +5543,7 @@ static NSString *S_measurementUnits;
             [(PlainTextWindowController *)windowController documentUpdatedChangeCount:self];
         }
     }
-#endif //!defined(CODA)
-	
+
 	//    NSString *changes[]={@"NSChangeDone",@"NSChangeUndone",@"NSChangeCleared",@"NSChangeReadOtherContents",@"NSChangeAutosaved",@"NSChangeRedone"};
 	//    NSLog(@"%s count:%d %@ %@ %@",__FUNCTION__,I_changeCount,changes[changeType],[self isDocumentEdited]?@"Dirty":@"Clean",I_flags.shouldChangeChangeCount?@"shouldChange":@"doesn'tChange");
 }
@@ -5899,10 +5766,8 @@ static NSString *S_measurementUnits;
     if ([[self windowControllers] count]>0) {
         [self TCM_generateNewSession];
         if (I_flags.isReceivingContent) {
-#if !defined(CODA)			
             PlainTextWindowController *controller=[[self windowControllers] objectAtIndex:0];
             [controller documentDidLoseConnection:self];
-#endif //!defined(CODA)			
         } else {
             NSAlert *alert = [[[NSAlert alloc] init] autorelease];
             [alert setAlertStyle:NSInformationalAlertStyle];
@@ -5945,10 +5810,6 @@ static NSString *S_measurementUnits;
     // this is slightly modified make window controllers code ...
     [self makeWindowControllers]; 
     PlainTextWindowController *windowController=[[self windowControllers] lastObject];
-
-#if !defined(CODA)    
-//    [[windowController tabBar] updateViewsHack];
-#endif //!defined(CODA)	
     I_flags.isReceivingContent=YES;
     [windowController document:self isReceivingContent:YES];
     
@@ -5961,9 +5822,7 @@ static NSString *S_measurementUnits;
         [window setFrameTopLeftPoint:NSMakePoint(transientDocumentWindowFrame.origin.x, NSMaxY(transientDocumentWindowFrame))];
         [transientDocument close];
     } else if (![[windowController window] isVisible]) {
-#if !defined(CODA)		
         [windowController cascadeWindow];
-#endif //!defined(CODA)		
     }
     [I_documentProxyWindowController dissolveToWindow:[windowController window]];
     
@@ -6236,12 +6095,7 @@ static NSString *S_measurementUnits;
 
 
 - (PlainTextEditor *)activePlainTextEditor {
-#if defined(CODA)
-	return [[self topmostWindowController] activePlainTextEditor];
-#else
     return [[self topmostWindowController] activePlainTextEditorForDocument:self];
-#endif //defined(CODA)		
-
 }
 
 
@@ -6251,11 +6105,7 @@ static NSString *S_measurementUnits;
     PlainTextWindowController *windowController;
     while ((windowController = [windowControllers nextObject])) 
 	{
-#if defined(CODA)		
-		[result addObjectsFromArray:[windowController plainTextEditors]];
-#else
 		[result addObjectsFromArray:[windowController plainTextEditorsForDocument:self]];
-#endif //defined(CODA)
 	}
     return result;
 }
@@ -6744,53 +6594,11 @@ static NSString *S_measurementUnits;
         NSRect    glyphRect=[layoutManager boundingRectForGlyphRange:NSMakeRange(glyphIndex, 1)
                                                      inTextContainer:[aTextView textContainer]];
         
-#if defined(CODA)
-		// This makes it so it will match if you click past the end or beginning of the document
-		if (NSPointInRect(point, glyphRect) || (glyphIndex == 0) || (glyphIndex == ([layoutManager numberOfGlyphs] - 1)))
-#else
-		if (NSPointInRect(point, glyphRect))	
-#endif //defined(CODA)
-		{			
+		if (NSPointInRect(point, glyphRect))
+		{
             // Convert the glyph index to a character index
             NSUInteger charIndex=[layoutManager characterIndexForGlyphAtIndex:glyphIndex];
             NSString *string=[[self textStorage] string];			
-#if defined(CODA)
-			// This change makes it so double clicking the space before or after 
-			// a bracket initiates matching
-			
-			if ( charIndex < [string length] )
-			{
-				NSUInteger positionToMatch = NSNotFound;
-				unichar clickedChar = [string characterAtIndex:charIndex];
-				
-				if ( [self TCM_charIsBracket:clickedChar] )
-				{
-					positionToMatch = charIndex;
-				}
-				else if ( clickedChar == 32 ) // only select ahead if you clicked on a space #15023
-				{
-					if ( (charIndex > 0) && [self TCM_charIsBracket:[string characterAtIndex:(charIndex - 1)]] )
-					{
-						positionToMatch = (charIndex - 1);
-					}
-					else if ( (charIndex < ([string length] - 1)) && [self TCM_charIsBracket:[string characterAtIndex:(charIndex + 1)]] )
-					{
-						positionToMatch = (charIndex + 1);
-					}
-				}
-				
-				if ( positionToMatch != NSNotFound ) 
-				{
-					NSUInteger matchingPosition = [self TCM_positionOfMatchingBracketToPosition:positionToMatch];
-					
-					if ( matchingPosition != NSNotFound ) 
-					{
-						aNewSelectedCharRange = NSUnionRange(NSMakeRange(positionToMatch,1),
-															 NSMakeRange(matchingPosition,1));
-					}
-				}
-			}
-#else			
             if ([self TCM_charIsBracket:[string characterAtIndex:charIndex]] && [self TCM_validTypeForBracketAtIndex:charIndex]) {
                 NSUInteger matchingPosition=[self TCM_positionOfMatchingBracketToPosition:charIndex];
                 if (matchingPosition!=NSNotFound) {
@@ -6798,7 +6606,6 @@ static NSString *S_measurementUnits;
                                                         NSMakeRange(matchingPosition,1));
                 }
             }
-#endif //defined(CODA)			
         }
     }
 

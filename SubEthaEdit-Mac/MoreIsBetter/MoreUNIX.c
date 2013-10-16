@@ -193,11 +193,7 @@ extern int MoreUNIXWrite(int fd, const void *buf, size_t bufSize, size_t *bytesW
 	// lets you disable SIGPIPE easily.
 	
 	#if !defined(MORE_UNIX_WRITE_CHECK_SIGPIPE)
-		#if defined(CODA)
-			#define MORE_UNIX_WRITE_CHECK_SIGPIPE 0
-		#else
-			#define MORE_UNIX_WRITE_CHECK_SIGPIPE 1
-		#endif //defined(CODA)
+		#define MORE_UNIX_WRITE_CHECK_SIGPIPE 1
 	#endif
 	#if MORE_DEBUG && MORE_UNIX_WRITE_CHECK_SIGPIPE
 		{

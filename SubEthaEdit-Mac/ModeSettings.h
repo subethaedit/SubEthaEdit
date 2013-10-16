@@ -16,9 +16,6 @@
     NSMutableArray *I_recognitionFilenames;
     NSString *I_templateFile;
     BOOL everythingOkay;
-#if defined(CODA)
-	NSMutableSet *I_recognitionVariablePrefixes;
-#endif //defined(CODA)
 }
 
 - (id)initWithFile:(NSString *)aPath;
@@ -34,8 +31,5 @@
 - (NSArray *)recognizedFilenames;
 - (NSString *)templateFile;
 - (void)setTemplateFile:(NSString *)aString;
-#if defined(CODA)
-- (NSSet*)recognizedVariablePrefixes;
-#endif //defined(CODA)
 
 @end

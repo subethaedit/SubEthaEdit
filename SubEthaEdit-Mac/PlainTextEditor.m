@@ -39,15 +39,8 @@
 #import "FoldableTextStorage.h"
 #import "FoldedTextAttachment.h"
 #import <objc/objc-runtime.h>
-
-#if !defined(CODA)
 #import "URLBubbleWindow.h"
-#endif //!defined(CODA)
 
-#if defined(CODA)
-#import "CodeTextView.h"
-#import "CodaGutterRulerView.h"
-#endif //defined(CODA)
 
 @interface NSTextView (PrivateAdditions)
 - (BOOL)	_isUnmarking;
@@ -231,11 +224,7 @@
 
     I_textContainer =  [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(frame.size.width, FLT_MAX)];
 
-#if defined(CODA)
-    I_textView = [[CodeTextView alloc] initWithFrame:frame textContainer:I_textContainer];
-#else
     I_textView = [[TextView alloc] initWithFrame:frame textContainer:I_textContainer];
-#endif //defined(CODA)
     [(TextView *)I_textView setEditor : self];
     [I_textView setHorizontallyResizable:NO];
     [I_textView setVerticallyResizable:YES];
@@ -261,16 +250,10 @@
     [I_textContainer setWidthTracksTextView:YES];
     [layoutManager addTextContainer:I_textContainer];
 
-#if defined(CODA)
-    [O_scrollView setVerticalRulerView:[[[CodaGutterRulerView alloc] initWithScrollView:O_scrollView orientation:NSVerticalRuler] autorelease]];
-#else
     [O_scrollView setVerticalRulerView:[[[GutterRulerView alloc] initWithScrollView:O_scrollView orientation:NSVerticalRuler] autorelease]];
-#endif //defined(CODA)
     [O_scrollView setHasVerticalRuler:YES];
 
-#if !defined(CODA)
     [[O_scrollView verticalRulerView] setRuleThickness:42.];
-#endif //!defined(CODA)
 
     [O_scrollView setDocumentView:I_textView];
     [I_textView release];
@@ -283,12 +266,10 @@
 
     [I_textView setDefaultParagraphStyle:[document defaultParagraphStyle]];
 
-
-#if !defined(CODA)
     [[NSNotificationCenter defaultCenter] addObserver:document selector:@selector(textViewDidChangeSelection:) name:NSTextViewDidChangeSelectionNotification object:I_textView];
     [[NSNotificationCenter defaultCenter] addObserver:document selector:@selector(textDidChange:) name:NSTextDidChangeNotification object:I_textView];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textDidChange:) name:PlainTextDocumentDidChangeTextStorageNotification object:document];
-#endif //defined(CODA)
+
     NSView *view = [[NSView alloc] initWithFrame:[O_editorView frame]];
     [view setAutoresizesSubviews:YES];
     [view setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
@@ -1171,38 +1152,16 @@
         if ([textStorage hasBlockeditRanges])
         {
             [menuItem setTitle:NSLocalizedString(@"MenuBlockeditEnd", @"End Blockedit in edit Menu")];
-#if defined(CODA)
-
-            if (![[[menuItem menu] title] isEqualToString:@"CodaEditorContextualMenu"])
-            {
-                [menuItem setKeyEquivalent:@"\e"];
-                [menuItem setKeyEquivalentModifierMask:0];
-            }
-
-            [menuItem setAction:@selector(endBlockedit:)];
-#else
             [menuItem setKeyEquivalent:@"\e"];
             [menuItem setAction:@selector(endBlockedit:)];
             [menuItem setKeyEquivalentModifierMask:0];
-#endif //defined(CODA)
             return YES;
         }
 
         [menuItem setTitle:NSLocalizedString(@"MenuBlockeditSelection", @"Blockedit Selection in edit Menu")];
-#if defined(CODA)
-
-        if (![[[menuItem menu] title] isEqualToString:@"CodaEditorContextualMenu"])
-        {
-            [menuItem setKeyEquivalent:@"B"];
-            [menuItem setKeyEquivalentModifierMask:NSCommandKeyMask | NSShiftKeyMask];
-        }
-
-        [menuItem setAction:@selector(blockeditSelection:)];
-#else
         [menuItem setKeyEquivalent:@"B"];
         [menuItem setAction:@selector(blockeditSelection:)];
         [menuItem setKeyEquivalentModifierMask:NSCommandKeyMask | NSShiftKeyMask];
-#endif //defined(CODA)
         return YES;
     }
     else if (selector == @selector(copyAsXHTML:))
@@ -1482,11 +1441,7 @@
     }
 
     // fixes cursor position after layout change
-#if defined(CODA)
-    [I_textView updateInsertionPointStateAndRestartTimer:YES];
-#else
     //    [I_textView updateInsertionPointStateAndRestartTimer:YES];
-#endif //defined(CODA)
 
     [[self document] setWrapLines:[self wrapsLines]];
     [self TCM_updateBottomStatusBar];
@@ -1860,11 +1815,7 @@
             NSEnumerator *menuItems = [[[s_cell menu] itemArray] objectEnumerator];
             NSMenuItem *menuItem  = nil;
             PlainTextWindowController *wc = [[I_textView window] windowController];
-#if defined(CODA)
-            NSArray *orderedDocuments = [wc documents];
-#else
             NSArray *orderedDocuments = [wc orderedDocuments];
-#endif //defined(CODA)
             PlainTextDocument *myDocument = [self document];
 
             while ((menuItem = [menuItems nextObject]))
@@ -2060,7 +2011,6 @@
     {
         [aTextView setSelectedRange:NSMakeRange(charIndex, 0)];
 
-#if !defined(CODA)
         URLBubbleWindow *bubbleWindow = [URLBubbleWindow sharedURLBubbleWindow];
         NSWindow *window = [aTextView window];
         [bubbleWindow setURLToOpen:link];
@@ -2079,11 +2029,9 @@
         NSPoint positionPoint = NSMakePoint(NSMidX(boundingRect), NSMinY(boundingRect));         // textviews are always flipped
         positionPoint = [aTextView convertPoint:positionPoint toView:nil];
 
-
         [bubbleWindow setVisible:NO animated:NO];
         [bubbleWindow setPosition:positionPoint inWindow:window];
         [bubbleWindow setVisible:YES animated:YES];
-#endif //!defined (CODA)
         return YES;
     }
 }
@@ -2201,10 +2149,7 @@
 
 - (BOOL)textView:(NSTextView *)aTextView shouldChangeTextInRange:(NSRange)affectedCharRange replacementString:(NSString *)replacementString
 {
-#if !defined(CODA)
     [[URLBubbleWindow sharedURLBubbleWindow] hideIfNecessary];
-#endif //!defined(CODA)
-
     if (replacementString == nil) return YES;     // only styles are changed
 
     PlainTextDocument *document = [self document];
@@ -2313,12 +2258,6 @@
 
         if (!isLineEndingValid)
         {
-#if defined(CODA)
-            NSMutableString *mutableString = [[NSMutableString alloc] initWithString:replacementString];
-            [mutableString convertLineEndingsToLineEndingString:[document lineEndingString]];
-            [aTextView insertText:mutableString];
-            [mutableString release];
-#else
             NSMutableDictionary *contextInfo = [[NSMutableDictionary alloc] init];
             [contextInfo setObject:@"PasteWrongLineEndingsAlert" forKey:@"Alert"];
             [contextInfo setObject:aTextView forKey:@"TextView"];
@@ -2336,7 +2275,6 @@
 							 modalDelegate	:document
                             didEndSelector	:@selector(alertDidEnd:returnCode:contextInfo:)
 							  contextInfo		:[contextInfo retain]];
-#endif //defined(CODA)
             return NO;
         }
     }
@@ -2390,9 +2328,7 @@
 
 - (void)contentViewBoundsDidChange:(NSNotification *)aNotification
 {
-#if !defined(CODA)
     [[URLBubbleWindow sharedURLBubbleWindow] hideIfNecessary];
-#endif // !defined(CODA)
     [self setNeedsDisplayForRuler];
 }
 
@@ -2401,9 +2337,7 @@
 willChangeSelectionFromCharacterRange	:(NSRange)aOldSelectedCharRange
 	  toCharacterRange						:(NSRange)aNewSelectedCharRange
 {
-#if !defined(CODA)
     [[URLBubbleWindow sharedURLBubbleWindow] hideIfNecessary];
-#endif // !defined(CODA)
     PlainTextDocument *document = (PlainTextDocument *)[self document];
     return [document textView:aTextView
 willChangeSelectionFromCharacterRange	:aOldSelectedCharRange
@@ -2587,7 +2521,6 @@ willChangeSelectionFromCharacterRange	:aOldSelectedCharRange
 #pragma mark -
 #pragma mark ### Auto completion ###
 
-#if !defined(CODA)
 - (NSArray *)textView:(NSTextView *)textView completions:(NSArray *)words forPartialWordRange:(NSRange)charRange indexOfSelectedItem:(NSInteger *)index
 {
     NSString *partialWord, *completionEntry;
@@ -2750,9 +2683,6 @@ willChangeSelectionFromCharacterRange	:aOldSelectedCharRange
     [document setShouldChangeChangeCount:YES];
     [document updateChangeCount:NSChangeDone];
 }
-
-
-#endif //!defined(CODA)
 
 @end
 
