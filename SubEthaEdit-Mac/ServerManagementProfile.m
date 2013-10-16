@@ -44,6 +44,16 @@
     return self;
 }
 
+- (void)setDelegate:(id <TCMBEEPProfileDelegate, ServerManagementProfileInitiatorDelegate, ServerManagementProfileResponderDelegateAdditions>)aDelegate
+{
+	[super setDelegate:aDelegate];
+}
+
+- (id <TCMBEEPProfileDelegate, ServerManagementProfileInitiatorDelegate, ServerManagementProfileResponderDelegateAdditions>)delegate
+{
+	return (id <TCMBEEPProfileDelegate, ServerManagementProfileInitiatorDelegate, ServerManagementProfileResponderDelegateAdditions>) [super delegate];
+}
+
 - (BOOL)didSendFILLST {
     return _didSendFILLST;
 }

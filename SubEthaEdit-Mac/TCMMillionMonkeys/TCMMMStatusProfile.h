@@ -9,7 +9,17 @@
 #import <Foundation/Foundation.h>
 #import "../TCMBEEP/TCMBEEP.h"
 
-@class TCMMMUser, TCMMMSession;
+@class TCMMMUser, TCMMMSession, TCMMMStatusProfile;
+
+@protocol TCMMMStatusProfileDelegate <NSObject>
+- (void)profileDidReceiveReachabilityRequest:(TCMMMStatusProfile *)aProfile;
+- (void)profile:(TCMMMStatusProfile *)aProfile didReceiveFriendcastingChange:(BOOL)isFriendcasting;
+- (void)profile:(TCMMMStatusProfile *)aProfile didReceiveVisibilityChange:(BOOL)isVisible;
+- (void)profile:(TCMMMStatusProfile *)aProfile didReceiveAnnouncedSession:(TCMMMSession *)aSession;
+- (void)profile:(TCMMMStatusProfile *)aProfile didReceiveConcealedSessionID:(NSString *)anID;
+- (void)profile:(TCMMMStatusProfile *)aProfile didReceiveReachabilityURLString:(NSString *)anURLString forUserID:(NSString *)aUserID;
+- (void)profile:(TCMMMStatusProfile *)aProfile didReceiveToken:(NSString *)aToken;
+@end
 
 @interface TCMMMStatusProfile : TCMBEEPProfile {
     NSMutableDictionary *I_options;
@@ -25,14 +35,6 @@
 - (void)sendIsFriendcasting:(BOOL)isFriendcasting;
 - (void)sendReachabilityURLString:(NSString *)anURLString forUserID:(NSString *)aUserID;
 - (BOOL)sendToken:(NSString *)aToken;
-@end
-
-@interface NSObject (TCMMMStatusProfileDelegateMethods)
-- (void)profileDidReceiveReachabilityRequest:(TCMMMStatusProfile *)aProfile; 
-- (void)profile:(TCMMMStatusProfile *)aProfile didReceiveFriendcastingChange:(BOOL)isFriendcasting;
-- (void)profile:(TCMMMStatusProfile *)aProfile didReceiveVisibilityChange:(BOOL)isVisible;
-- (void)profile:(TCMMMStatusProfile *)aProfile didReceiveAnnouncedSession:(TCMMMSession *)aSession;
-- (void)profile:(TCMMMStatusProfile *)aProfile didReceiveConcealedSessionID:(NSString *)anID;
-- (void)profile:(TCMMMStatusProfile *)aProfile didReceiveReachabilityURLString:(NSString *)anURLString forUserID:(NSString *)aUserID;
-- (void)profile:(TCMMMStatusProfile *)aProfile didReceiveToken:(NSString *)aToken;
+- (void)setDelegate:(id <TCMBEEPProfileDelegate, TCMMMStatusProfileDelegate>)aDelegate;
+- (id <TCMBEEPProfileDelegate, TCMMMStatusProfileDelegate>)delegate;
 @end

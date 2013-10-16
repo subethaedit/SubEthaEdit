@@ -11,10 +11,11 @@
 #import "TCMBEEP.h"
 #import "TCMMillionMonkeys.h"
 #import "EncodingManager.h"
+#import "ServerManagementProfile.h"
 
 @class ServerManagementProfile;
 
-@interface ServerConnectionWindowController : NSWindowController {
+@interface ServerConnectionWindowController : NSWindowController <TCMBEEPProfileDelegate, ServerManagementProfileInitiatorDelegate, ServerManagementProfileResponderDelegateAdditions> {
     IBOutlet NSTableView *O_tableView;
     IBOutlet DocumentModePopUpButton *O_modePopUpButton;
     IBOutlet NSTextField *O_newfileNameTextField;

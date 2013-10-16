@@ -45,7 +45,7 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 
 #pragma mark -
 
-@interface TCMBEEPSession (TCMBEEPSessionPrivateAdditions)
+@interface TCMBEEPSession ()
 - (void)TCM_initHelper;
 - (void)TCM_handleStreamOpenEvent;
 - (void)TCM_handleStreamHasBytesAvailableEvent;
@@ -55,8 +55,6 @@ static void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type,
 - (void)TCM_fillBufferInRoundRobinFashion;
 - (void)TCM_readBytes;
 - (void)TCM_writeBytes;
-- (void)TCM_cleanup;
-- (void)TCM_triggerTerminator;
 - (void)TCM_closeChannelsImplicitly;
 - (void)TCM_createManagementChannelAndSendGreeting;
 - (void)TCM_startTLSHandshake;
@@ -1142,30 +1140,36 @@ static NSData *dhparamData = nil;
 
 - (void)didReceiveGreetingWithProfileURIs:(NSArray *)profileURIs featuresAttribute:(NSString *)aFeaturesAttribute localizeAttribute:(NSString *)aLocalizeAttribute
 {
-//    NSLog(@"%s", __FUNCTION__);
     [self setPeerLocalizeAttribute:aLocalizeAttribute];
     [self setPeerFeaturesAttribute:aFeaturesAttribute];
     [self setPeerProfileURIs:profileURIs];
-    
+
     [[NSNotificationCenter defaultCenter] postNotificationName:TCMBEEPSessionDidReceiveGreetingNotification object:self];
-    
+
     // check for tuning profiles and initiate tuning
-    if ([self isInitiator] && ( [profileURIs containsObject:TCMBEEPTLSProfileURI] || 
-    						   ([profileURIs containsObject:TCMBEEPTLSAnonProfileURI] && 
-    						    [[NSUserDefaults standardUserDefaults] boolForKey:EnableAnonTLSKey]))) {
-    	NSString *profileURI = TCMBEEPTLSProfileURI;
-    	if ([profileURIs containsObject:TCMBEEPTLSAnonProfileURI] && 
-    						    [[NSUserDefaults standardUserDefaults] boolForKey:EnableAnonTLSKey]) {
-    		I_flags.isTLSAnon = YES; // set to anon
-    		profileURI = TCMBEEPTLSAnonProfileURI;
-    	}
-        NSData *data = [@"<ready />" dataUsingEncoding:NSUTF8StringEncoding];
+    if ([self isInitiator] && ([profileURIs containsObject:TCMBEEPTLSProfileURI] ||
+							   ([profileURIs containsObject:TCMBEEPTLSAnonProfileURI] &&
+								[[NSUserDefaults standardUserDefaults] boolForKey:EnableAnonTLSKey])))
+    {
+        NSString *profileURI = TCMBEEPTLSProfileURI;
+
+        if ([profileURIs containsObject:TCMBEEPTLSAnonProfileURI] &&
+            [[NSUserDefaults standardUserDefaults] boolForKey:EnableAnonTLSKey])
+        {
+            I_flags.isTLSAnon = YES; // set to anon
+            profileURI = TCMBEEPTLSAnonProfileURI;
+        }
+
+        NSData *data = [@"<ready />" dataUsingEncoding : NSUTF8StringEncoding];
         [self startChannelWithProfileURIs:[NSArray arrayWithObject:profileURI]
-                                  andData:[NSArray arrayWithObject:data]
-                                   sender:self];
+								  andData:[NSArray arrayWithObject:data]
+								   sender:self];
         I_flags.isWaitingForTLSProceed = YES;
-    } else { // nothing to tune so let us rock
-        if ([[self delegate] respondsToSelector:@selector(BEEPSession:didReceiveGreetingWithProfileURIs:)]) {
+    }
+    else // nothing to tune so let us rock
+    {
+        if ([[self delegate] respondsToSelector:@selector(BEEPSession:didReceiveGreetingWithProfileURIs:)])
+        {
             [[self delegate] BEEPSession:self didReceiveGreetingWithProfileURIs:profileURIs];
         }
     }
@@ -1239,17 +1243,16 @@ static NSData *dhparamData = nil;
 - (NSMutableDictionary *)preferedAnswerToAcceptRequestForChannel:(int32_t)channelNumber withProfileURIs:(NSArray *)aProfileURIArray andData:(NSArray *)aDataArray
 {
     // Profile URIs ausduennen
-    NSMutableArray *requestArray = [NSMutableArray array];
-    NSMutableDictionary *preferedAnswer = nil;
-//	NSLog(@"profileURIs: %@ selfProfileURIs:%@ peerProfileURIs:%@\n\nSession:%@", aProfileURIArray, [self profileURIs], [self peerProfileURIs], self);
-    int i;
+    __block NSMutableArray *requestArray = [NSMutableArray array];
+    __block NSMutableDictionary *preferedAnswer = nil;
 
-    for (i = 0; i < [aProfileURIArray count]; i++)
-    {
-        NSString *profileURI = [aProfileURIArray objectAtIndex:i];
+	//	NSLog(@"profileURIs: %@ selfProfileURIs:%@ peerProfileURIs:%@\n\nSession:%@", aProfileURIArray, [self profileURIs], [self peerProfileURIs], self);
+
+	[aProfileURIArray enumerateObjectsUsingBlock:^(id obj, NSUInteger idx, BOOL *stop) {
+        NSString *profileURI = (NSString *)obj;
         if ([[self profileURIs] containsObject:profileURI])
         {
-            NSData *requestData = [aDataArray objectAtIndex:i];
+            NSData *requestData = [aDataArray objectAtIndex:idx];
             [requestArray addObject:[NSDictionary dictionaryWithObjectsAndKeys:profileURI, @"ProfileURI", requestData, @"Data", nil]];
             if (!preferedAnswer)
             {
@@ -1260,7 +1263,7 @@ static NSData *dhparamData = nil;
                 {
                     // parse data for 'ready' element, may have attribute
 
-                    TCMBEEPSessionXMLParser *dataParser = [[[TCMBEEPSessionXMLParser alloc] initWithXMLData:[aDataArray objectAtIndex:i]] autorelease];
+                    TCMBEEPSessionXMLParser *dataParser = [[[TCMBEEPSessionXMLParser alloc] initWithXMLData:requestData] autorelease];
                     if (dataParser)
                     {
 						NSString *element = dataParser.elementName;
@@ -1298,56 +1301,20 @@ static NSData *dhparamData = nil;
 							// Terminate session?
 						}
                     }
-
-//                    NSString *element, *content;
-//                    NSDictionary *attributes;
-//                    BOOL result = [self TCM_parseData:[aDataArray objectAtIndex:i] forElement:&element attributes:&attributes content:&content];
-//
-//                    if (result) DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"element: %@, attributes: %@, content: %@", element, attributes, content);
-//
-//                    if (result && [element isEqualToString:@"ready"])
-//                    {
-//                        BOOL shouldProceed = YES;
-//                        NSString *version = [attributes objectForKey:@"version"];
-//
-//                        if (version && ![version isEqualToString:@"1"])
-//                        {
-//                            shouldProceed = NO;
-//                            answerData = [@"<error code='501'>version attribute poorly formed in &lt;ready&gt; element</error>" dataUsingEncoding : NSUTF8StringEncoding];
-//							//                            FIXME Opened TLS channel but there is no TLS
-//                        }
-//
-//                        if (shouldProceed)
-//                        {
-//                            answerData = [@"<proceed />" dataUsingEncoding : NSUTF8StringEncoding];
-//                            // implicitly close all channels including channel zero, but proceed frame needs to go through
-//                            I_flags.hasSentTLSProceed = YES;
-//
-//                            if ([profileURI isEqualToString:TCMBEEPTLSAnonProfileURI] &&
-//                                [[NSUserDefaults standardUserDefaults] boolForKey:EnableAnonTLSKey])
-//                            {
-//                                I_flags.isTLSAnon = YES;
-//                            }
-//                        }
-//                    }
-//                    else
-//                    {
-//                        // Terminate session?
-//                    }
-                }
+				}
                 else if ([profileURI hasPrefix:TCMBEEPSASLProfileURIPrefix])
                 {
                     preferedAnswer = (NSMutableDictionary *)[GenericSASLProfile replyForChannelRequestWithProfileURI:profileURI andData:requestData inSession:self];
-                    break;
+                    *stop = YES;
                 }
 
                 preferedAnswer = [NSMutableDictionary dictionaryWithObjectsAndKeys:profileURI, @"ProfileURI",
                                   answerData, @"Data",
                                   nil];
-                break;
+				*stop = YES;
             }
         }
-    }
+    }];
 
     // prefered Profile URIs raussuchen
     if (!preferedAnswer) return nil;
@@ -1360,7 +1327,7 @@ static NSData *dhparamData = nil;
     {
         preferedAnswer = [[self delegate] BEEPSession:self willSendReply:preferedAnswer forChannelRequests:requestArray];
     }
-
+	
     return preferedAnswer;
 }
 
@@ -1457,29 +1424,6 @@ static NSData *dhparamData = nil;
             {
                 // Terminate session?
             }
-
-//            NSString *element, *content;
-//            NSDictionary *attributes;
-//            BOOL result = [self TCM_parseData:inData forElement:&element attributes:&attributes content:&content];
-//
-//            if (result)
-//            {
-//                DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"element: %@, attributes: %@, content: %@", element, attributes, content);
-//
-//                if ([element isEqualToString:@"proceed"] && attributes == nil && content == nil)
-//                {
-//                    [self TCM_startTLSHandshake];
-//                }
-//                else if ([element isEqualToString:@"error"])
-//                {
-//                    DEBUGLOG(@"BEEPLogDomain", SimpleLogLevel, @"Received error: %@ (%@)", [attributes objectForKey:@"code"], content);
-//					//                    FIXME Opened TLS channel but there is no TLS
-//                }
-//            }
-//            else
-//            {
-//                // Terminate session?
-//            }
         }
         else if ([aProfileURI isEqualToString:TCMBEEPSASLPLAINProfileURI])
         {

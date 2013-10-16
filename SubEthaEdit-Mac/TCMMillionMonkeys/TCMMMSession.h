@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SessionProfile.h"
 
 
 extern NSString * const TCMMMSessionClientStateDidChangeNotification;
@@ -75,7 +76,7 @@ typedef enum TCMMMSessionClientState {
 
 @class TCMMMState;
 
-@interface TCMMMSession : NSObject
+@interface TCMMMSession : NSObject <TCMBEEPProfileDelegate, SessionProfileDelegate>
 {
     id <SEEDocument> I_document;
     NSString *I_sessionID;

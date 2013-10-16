@@ -449,4 +449,15 @@
     [super channelDidReceiveFrame:aFrame startingMessage:aFlag];
 }
 
+
+- (void)setDelegate:(id <TCMBEEPProfileDelegate, SessionProfileDelegate>)aDelegate
+{
+	[super setDelegate:aDelegate];
+}
+
+- (id <TCMBEEPProfileDelegate, SessionProfileDelegate>)delegate
+{
+	return (id <TCMBEEPProfileDelegate, SessionProfileDelegate>)[super delegate];
+}
+
 @end

@@ -19,11 +19,13 @@ extern NSString * const TCMBEEPMessageXMLAttributeFeatures;
 extern NSString * const TCMBEEPMessageXMLAttributeLocalize;
 extern NSString * const TCMBEEPMessageXMLAttributeURI;
 extern NSString * const TCMBEEPMessageXMLAttributeChannelNumber;
+extern NSString * const TCMBEEPMessageXMLAttributeCode;
 
 @interface TCMBEEPMessageXMLPayloadParser : NSObject <NSXMLParserDelegate>
 
 @property (atomic, readonly, copy) NSString *messageType;
 @property (atomic, readonly, copy) NSDictionary *messageAttributeDict;
+@property (atomic, readonly, copy) NSData *messageData;
 @property (atomic, readonly, copy) NSArray *profileURIs;
 @property (atomic, readonly, copy) NSArray *profileDataBlocks;
 

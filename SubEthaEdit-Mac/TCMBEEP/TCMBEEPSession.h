@@ -7,6 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "TCMBEEPProfile.h"
+#import "TCMBEEPManagementProfile.h"
 
 extern NSString * const NetworkTimeoutPreferenceKey;
 extern NSString * const kTCMBEEPFrameTrailer;
@@ -46,14 +47,12 @@ enum {
 @class TCMBEEPChannel, TCMBEEPFrame, TCMBEEPProfile, TCMBEEPSession;
 
 @protocol TCMBEEPAuthenticationDelegate <NSObject>
-@optional
 // provides an information Object representing the authenticated entitiy, if the credentials are valid. nil otherwise.
 // for the PLAIN mechanism the credentials are in form "username" and "password"
 - (id)authenticationInformationForCredentials:(NSDictionary *)credentials error:(NSError **)error;
 @end
 
 @protocol TCMBEEPSessionDelegate <NSObject>
-@optional
 - (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didReceiveGreetingWithProfileURIs:(NSArray *)aProfileURIArray;
 - (NSMutableDictionary *)BEEPSession:(TCMBEEPSession *)aBEEPSession willSendReply:(NSMutableDictionary *)aReply forChannelRequests:(NSArray *)aRequests;
 - (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didOpenChannelWithProfile:(TCMBEEPProfile *)aProfile data:(NSData *)inData;
@@ -62,7 +61,7 @@ enum {
 @end
 
 
-@interface TCMBEEPSession : NSObject
+@interface TCMBEEPSession : NSObject <TCMBEEPProfileDelegate, TCMBEEPManagementProfileDelegate>
 {
     CFReadStreamRef I_readStream;
     CFWriteStreamRef I_writeStream;

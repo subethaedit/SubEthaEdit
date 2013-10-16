@@ -17,7 +17,6 @@
 @optional
 - (void)profile:(TCMBEEPProfile *)aProfile didFailWithError:(NSError *)anError;
 - (void)profileDidClose:(TCMBEEPProfile *)aProfile;
-
 @end
 
 

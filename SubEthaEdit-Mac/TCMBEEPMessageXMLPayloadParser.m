@@ -24,6 +24,7 @@ NSString * const TCMBEEPMessageXMLAttributeFeatures = @"features";
 NSString * const TCMBEEPMessageXMLAttributeLocalize = @"localize";
 NSString * const TCMBEEPMessageXMLAttributeURI = @"uri";
 NSString * const TCMBEEPMessageXMLAttributeChannelNumber = @"number";
+NSString * const TCMBEEPMessageXMLAttributeCode = @"code";
 
 #import "TCMBEEPMessageXMLPayloadParser.h"
 
@@ -31,6 +32,7 @@ NSString * const TCMBEEPMessageXMLAttributeChannelNumber = @"number";
 
 @property (atomic, readwrite, copy) NSString *messageType;
 @property (atomic, readwrite, copy) NSDictionary *messageAttributeDict;
+@property (atomic, readwrite, copy) NSData *messageData;
 @property (atomic, readwrite, copy) NSArray *profileURIs;
 @property (atomic, readwrite, copy) NSArray *profileDataBlocks;
 
@@ -136,7 +138,11 @@ NSString * const TCMBEEPMessageXMLAttributeChannelNumber = @"number";
 	}
 	else if ([elementName isEqualToString:TCMBEEPMessageXMLElementProfile]) {
 		if (self.profileDataBlockInProgress) {
-			[self.profileDataBlocksInProgress addObject:self.profileDataBlockInProgress];
+			if (self.profileDataBlocksInProgress) {
+				[self.profileDataBlocksInProgress addObject:self.profileDataBlockInProgress];
+			} else {
+				self.messageData = self.profileDataBlockInProgress;
+			}
 			self.profileDataBlockInProgress = nil;
 		}
 	}
