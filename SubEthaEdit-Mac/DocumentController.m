@@ -549,6 +549,19 @@ static NSString *tempFileName() {
 }
 
 
+- (void)openDocumentWithContentsOfURL:(NSURL *)url display:(BOOL)displayDocument completionHandler:(void (^)(NSDocument *, BOOL, NSError *))completionHandler
+{
+    NSAppleEventDescriptor *eventDesc = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
+	[super openDocumentWithContentsOfURL:url display:displayDocument completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error)
+	 {
+		 if (document && displayDocument) {
+			 [(PlainTextDocument *)document handleOpenDocumentEvent:eventDesc];
+		 }
+		 completionHandler(document, displayDocument, error);
+	 }];
+}
+
+
 - (id)openDocumentWithContentsOfURL:(NSURL *)anURL display:(BOOL)flag error:(NSError **)outError {
     if ([I_fileNamesFromLastRunOpenPanel count]==0) {
         [self setIsOpeningUsingAlternateMenuItem:NO];
@@ -570,9 +583,6 @@ static NSString *tempFileName() {
         return [NSNumber numberWithBool:YES];        
     } else {
         NSDocument *document = [super openDocumentWithContentsOfURL:anURL display:flag error:outError];
-        if (document && flag) {
-            [(PlainTextDocument *)document handleOpenDocumentEvent];
-        }
         return document;
     }
 }
