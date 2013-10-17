@@ -6,10 +6,6 @@
 //  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
 //
 
-// FIXME fix deprecated printer methods
-
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations" // we know there are printer warnings
-
 #import "DocumentController.h"
 #import "TCMMMSession.h"
 #import "PlainTextDocument.h"
