@@ -361,10 +361,10 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (IBAction)cancelExport:(id)aSender;
 - (IBAction)continueExport:(id)aSender;
 
-#pragma mark ### Printing ###
-- (IBAction)changeFontViaPanel:(id)sender;
-- (NSMutableDictionary *)printOptions;
-- (void)setPrintOptions:(NSDictionary *)aPrintOptions;
+//#pragma mark ### Printing ###
+//- (IBAction)changeFontViaPanel:(id)sender;
+//- (NSMutableDictionary *)printOptions;
+//- (void)setPrintOptions:(NSDictionary *)aPrintOptions;
 
 #pragma mark -
 #pragma mark ### Session Interaction ###

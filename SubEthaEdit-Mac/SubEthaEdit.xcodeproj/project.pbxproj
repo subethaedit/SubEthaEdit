@@ -261,6 +261,7 @@
 		4CB8EE4F180FD9A40051AB6B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CB8EE4E180FD9A40051AB6B /* libz.dylib */; };
 		4CB8EE50180FDF160051AB6B /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */; };
 		4CB8EE51180FDF790051AB6B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CB8EE4E180FD9A40051AB6B /* libz.dylib */; };
+		4CB8EE55181032340051AB6B /* SEEPrintOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CB8EE54181032340051AB6B /* SEEPrintOptionsViewController.m */; };
 		4CD5F7DA17FB0BF200F49E31 /* AdvancedPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F7D817FB0BF200F49E31 /* AdvancedPrefs.xib */; };
 		4CD5F7DE17FB0C2800F49E31 /* ConnectionBrowser.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F7DC17FB0C2800F49E31 /* ConnectionBrowser.xib */; };
 		4CD5F7E217FB0C4D00F49E31 /* DocumentProxy.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F7E017FB0C4D00F49E31 /* DocumentProxy.xib */; };
@@ -969,6 +970,8 @@
 		4C6AE8731802E8810089D489 /* OgreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OgreKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CB8EE4C180FD8FE0051AB6B /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		4CB8EE4E180FD9A40051AB6B /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
+		4CB8EE53181032340051AB6B /* SEEPrintOptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEPrintOptionsViewController.h; sourceTree = "<group>"; };
+		4CB8EE54181032340051AB6B /* SEEPrintOptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEPrintOptionsViewController.m; sourceTree = "<group>"; };
 		4CD5F7D917FB0BF200F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/AdvancedPrefs.xib; sourceTree = "<group>"; };
 		4CD5F7DB17FB0C0F00F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/AdvancedPrefs.xib; sourceTree = "<group>"; };
 		4CD5F7DD17FB0C2800F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ConnectionBrowser.xib; sourceTree = "<group>"; };
@@ -1696,6 +1699,8 @@
 				1428944B09575B9700D14688 /* ParticipantsView.m */,
 				1428944C09575B9700D14688 /* PlainTextDocument.h */,
 				1428944D09575B9700D14688 /* PlainTextDocument.m */,
+				4CB8EE53181032340051AB6B /* SEEPrintOptionsViewController.h */,
+				4CB8EE54181032340051AB6B /* SEEPrintOptionsViewController.m */,
 				1428944E09575B9700D14688 /* PlainTextEditor.h */,
 				1428944F09575B9700D14688 /* PlainTextEditor.m */,
 				149774150B5E159F004A546C /* PlainTextLoadProgress.h */,
@@ -2779,6 +2784,7 @@
 				142893C70957594500D14688 /* RegexSymbolDefinition.m in Sources */,
 				142893C80957594500D14688 /* RegexSymbolParser.m in Sources */,
 				142893C90957594500D14688 /* SymbolTableEntry.m in Sources */,
+				4CB8EE55181032340051AB6B /* SEEPrintOptionsViewController.m in Sources */,
 				142893CA0957594500D14688 /* SyntaxDefinition.m in Sources */,
 				142893CB0957594500D14688 /* SyntaxHighlighter.m in Sources */,
 				142893CC0957594500D14688 /* SyntaxStyle.m in Sources */,

@@ -788,7 +788,7 @@ static NSString *tempFileName() {
         NSError *error=nil;
         PlainTextDocument *document = [self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:filename] display:YES error:&error];
         NSLog(@"%@",error);
-        [document printShowingPrintPanel:NO];
+//        [document printShowingPrintPanel:NO];
         if (shouldClose) {
             [document close];
         }
@@ -891,8 +891,8 @@ static NSString *tempFileName() {
                 [(PlainTextDocument *)document setJobDescription:jobDescription];
             }
             if (shouldPrint) {
-                [document printShowingPrintPanel:NO];
-                [document close];            
+//                [document printShowingPrintPanel:NO];
+                [document close];
             } else {
                 if (shouldJumpToLine) {
                     if (columnToGoTo!=-1) {
@@ -957,7 +957,7 @@ static NSString *tempFileName() {
                 [(PlainTextDocument *)document setJobDescription:jobDescription];
             }
             if (shouldPrint) {
-                [document printShowingPrintPanel:NO];
+//                [document printShowingPrintPanel:NO];
                 [document close];
             } else {
                 [documents addObject:document];
@@ -1014,8 +1014,8 @@ static NSString *tempFileName() {
             }
             
             if (shouldPrint) {
-                [document printShowingPrintPanel:NO];
-                [document close];            
+//                [document printShowingPrintPanel:NO];
+                [document close];
             } else {
                 if (shouldJumpToLine) {
                     if (columnToGoTo!=-1) {
@@ -1139,6 +1139,9 @@ static NSString *tempFileName() {
 
 #pragma mark -
 
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 #pragma pack(push, 2)
 struct ModificationInfo
 {
@@ -1178,6 +1181,8 @@ struct ModificationInfo
         [replyEvent setDescriptor:listDesc forKeyword:keyDirectObject];
     }
 }
+#pragma clang diagnostic pop
+
 
 - (void)menuNeedsUpdate:(NSMenu *)aMenu {
     [self updateMenuWithTabMenuItems:aMenu shortcuts:YES];

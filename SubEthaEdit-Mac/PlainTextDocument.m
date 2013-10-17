@@ -277,7 +277,7 @@ static NSString *tempFileName(NSString *origPath) {
     [center addObserver:self selector:@selector(userWillLeaveSession:) name:TCMMMUserWillLeaveSessionNotification object:nil];
 
     [center addObserver:self selector:@selector(updateViewBecauseOfPreferences:) name:GeneralViewPreferencesDidChangeNotificiation object:nil];
-    [center addObserver:self selector:@selector(printPreferencesDidChange:) name:PrintPreferencesDidChangeNotification object:nil];
+//    [center addObserver:self selector:@selector(printPreferencesDidChange:) name:PrintPreferencesDidChangeNotification object:nil];
     [center addObserver:self selector:@selector(applyStylePreferences:) name:DocumentModeApplyStylePreferencesNotification object:nil];
     [center addObserver:self selector:@selector(applyEditPreferences:) name:DocumentModeApplyEditPreferencesNotification object:nil];
     [center addObserver:self selector:@selector(scriptWrapperWillRunScriptNotification:) name:ScriptWrapperWillRunScriptNotification object:nil];
@@ -324,11 +324,11 @@ static NSString *tempFileName(NSString *origPath) {
     }
 }
 
-- (void)printPreferencesDidChange:(NSNotification *)aNotification {
-    if ([[aNotification object] isEqualTo:[self documentMode]]) {
-        [self setPrintOptions:[[self documentMode] defaultForKey:DocumentModePrintOptionsPreferenceKey]];
-    }
-}
+//- (void)printPreferencesDidChange:(NSNotification *)aNotification {
+//    if ([[aNotification object] isEqualTo:[self documentMode]]) {
+//        [self setPrintOptions:[[self documentMode] defaultForKey:DocumentModePrintOptionsPreferenceKey]];
+//    }
+//}
 
 - (void)applyStylePreferences {
     [self takeStyleSettingsFromDocumentMode];
@@ -5096,87 +5096,64 @@ struct SelectionRange
 #pragma mark -
 #pragma mark ### Printing ###
 
-static NSString *S_measurementUnits;
+- (NSPrintOperation *)printOperationWithSettings:(NSDictionary *)printSettings error:(NSError **)outError
+{
+	NSPrintOperation *printOperation = [NSPrintOperation printOperationWithView:[self printableView]];
+	return printOperation;
+}
 
 - (NSView *)printableView {
     // make sure everything is colored if it should be
-    MultiPagePrintView *printView=[[MultiPagePrintView alloc] initWithFrame:NSMakeRect(0.,0.,100.,100.) document:self];
-
+    MultiPagePrintView *printView = [[MultiPagePrintView alloc] initWithFrame:NSMakeRect(0.0, 0.0, 100.0, 100.0) document:self];
     return [printView autorelease];
 }
 
-- (void)printShowingPrintPanel:(BOOL)showPanels {
-    // Obtain a custom view that will be printed
-    NSView *printView = [self printableView];
+//static NSString *S_measurementUnits;
 
-    if (!O_printOptionView) {
-        [NSBundle loadNibNamed:@"PrintOptions" owner:self];
-        if (!S_measurementUnits) {
-            S_measurementUnits=[[[NSUserDefaults standardUserDefaults] stringForKey:@"AppleMeasurementUnits"] retain];
-        }
-        NSString *labelText=NSLocalizedString(([NSString stringWithFormat:@"Label%@",S_measurementUnits]),@"Centimeters or Inches, short label string for them");
-        int i=996;
-        for (i=996;i<1000;i++) {
-            [[O_printOptionView viewWithTag:i] setStringValue:labelText];
-        }
-		[O_printOptionTextField setFontDelegate:self];
-    }
-
-    // Construct the print operation and setup Print panel
-    NSPrintOperation *op = [NSPrintOperation printOperationWithView:printView printInfo:[self printInfo]];
-    [op setShowsPrintPanel:showPanels];
-
-    if (showPanels) {
-        // Add accessory view, if needed
-        //[op setAccessoryView:O_printOptionView];
-        [O_printOptionController setContent:[self printOptions]];
-    }
-    I_printOperationIsRunning=YES;
-    // Run operation, which shows the Print panel if showPanels was YES
-    [self runModalPrintOperation:op
-                        delegate:self
-                  didRunSelector:@selector(documentDidRunModalPrintOperation:success:contextInfo:)
-                     contextInfo:[op retain]];
-}
-
-- (void)documentDidRunModalPrintOperation:(NSDocument *)document success:(BOOL)success contextInfo:(void *)contextInfo {
-    I_printOperationIsRunning=NO;
-    NSPrintOperation *op=(NSPrintOperation *)contextInfo;
-    if (success) {
-        [self setPrintInfo:[[NSPrintOperation currentOperation] printInfo]];
-    }
-    [O_printOptionController setContent:[NSMutableDictionary dictionary]];
-    [op autorelease];
-}
-
-- (IBAction)changeFontViaPanel:(id)sender {
-    NSDictionary *fontAttributes=[[O_printOptionController content] valueForKeyPath:@"SEEFontAttributes"];
-    NSFont *newFont=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
-    if (!newFont) newFont=[NSFont userFixedPitchFontOfSize:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
-    
-    [[NSFontManager sharedFontManager] 
-        setSelectedFont:newFont 
-             isMultiple:NO];
-    [[NSFontManager sharedFontManager] orderFrontFontPanel:self];
-	
-	[[sender window] makeFirstResponder:O_printOptionTextField];
-
-}
-
-- (void)changeFont:(id)aSender
-{
-    NSFont *newFont = [aSender convertFont:I_fonts.plainFont];
-    if (I_printOperationIsRunning) {
-        NSMutableDictionary *dict=[NSMutableDictionary dictionary];
-        [dict setObject:[newFont fontName] 
-                 forKey:NSFontNameAttribute];
-        [dict setObject:[NSNumber numberWithFloat:[newFont pointSize]] 
-                 forKey:NSFontSizeAttribute];
-        [[O_printOptionController content] setValue:dict forKeyPath:PROPERTY(SEEFontAttributes)];
-    } else {
-        [self setPlainFont:newFont];
-    }
-}
+//- (void)printShowingPrintPanel:(BOOL)showPanels {
+//    // Obtain a custom view that will be printed
+//    NSView *printView = [self printableView];
+//
+//    if (!O_printOptionView) {
+//        [NSBundle loadNibNamed:@"PrintOptions" owner:self];
+//        if (!S_measurementUnits) {
+//            S_measurementUnits=[[[NSUserDefaults standardUserDefaults] stringForKey:@"AppleMeasurementUnits"] retain];
+//        }
+//        NSString *labelText=NSLocalizedString(([NSString stringWithFormat:@"Label%@",S_measurementUnits]),@"Centimeters or Inches, short label string for them");
+//        int i=996;
+//        for (i=996;i<1000;i++) {
+//            [[O_printOptionView viewWithTag:i] setStringValue:labelText];
+//        }
+//		[O_printOptionTextField setFontDelegate:self];
+//    }
+//
+//    // Construct the print operation and setup Print panel
+//    NSPrintOperation *op = [NSPrintOperation printOperationWithView:printView printInfo:[self printInfo]];
+//    [op setShowsPrintPanel:showPanels];
+//
+//    if (showPanels) {
+//        // Add accessory view, if needed
+//        //[op setAccessoryView:O_printOptionView];
+//        [O_printOptionController setContent:[self printOptions]];
+//    }
+//    I_printOperationIsRunning=YES;
+//    // Run operation, which shows the Print panel if showPanels was YES
+//    [self runModalPrintOperation:op
+//                        delegate:self
+//                  didRunSelector:@selector(documentDidRunModalPrintOperation:success:contextInfo:)
+//                     contextInfo:[op retain]];
+//}
+//
+//- (void)documentDidRunModalPrintOperation:(NSDocument *)document success:(BOOL)success contextInfo:(void *)contextInfo {
+//    I_printOperationIsRunning=NO;
+//    NSPrintOperation *op=(NSPrintOperation *)contextInfo;
+//    if (success) {
+//        [self setPrintInfo:[[NSPrintOperation currentOperation] printInfo]];
+//    }
+//    [O_printOptionController setContent:[NSMutableDictionary dictionary]];
+//    [op autorelease];
+//}
+//
 
 
 #pragma mark -
