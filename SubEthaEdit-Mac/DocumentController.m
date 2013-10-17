@@ -112,137 +112,129 @@
     if (result == NSRunStoppedResponse) {
         BOOL success = NO;
 
-        short domain = 0;
+        NSSearchPathDomainMask domain = 0;
         int tag = [[O_modeInstallerDomainMatrix selectedCell] tag];
         if (tag == 0) {
-            domain = kUserDomain;
+            domain = NSUserDomainMask;
         } else if (tag == 1) {
-            domain = kLocalDomain;
+            domain = NSLocalDomainMask;
         }
-        
-        // Determine destination path and copy mode package
-        OSErr err = noErr;
-        FSRef folderRef;
-        err = FSFindFolder(domain, kApplicationSupportFolderType, kDontCreateFolder, &folderRef);
-        if (err == noErr) {
-            CFURLRef appSupportURL = CFURLCreateFromFSRef(kCFAllocatorSystemDefault, &folderRef);
-            NSString *destination = [(NSURL *)appSupportURL path];
-            destination = [destination stringByAppendingPathComponent:@"SubEthaEdit"];
-            destination = [destination stringByAppendingPathComponent:@"Modes"];
-            destination = [destination stringByAppendingPathComponent:[fileName lastPathComponent]];
-            DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Mode installation path: %@", destination);
-			if (appSupportURL) CFRelease(appSupportURL);
-            
-            if (![fileName isEqualToString:destination]) {
-                if (domain == kUserDomain) {
-					// TODO: check errors here and present alert which is currently in fileManager:shouldProceedAfterError:
-                    NSFileManager *fileManager = [NSFileManager defaultManager];
-                    if ([fileManager fileExistsAtPath:destination]) {
-                        (void)[fileManager removeItemAtPath:destination error:nil];
-                    }
-                    success = [fileManager copyItemAtPath:fileName toPath:destination error:nil];
-                } else {
-                    OSStatus err;
-                    CFURLRef tool = NULL;
-                    AuthorizationRef auth = NULL;
-                    NSDictionary *request = nil;
-                    NSDictionary *response = nil;
 
-                    err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &auth);
-                    if (err == noErr) {
-                        static const char *kRightName = "de.codingmonkeys.SubEthaEdit.HelperTool";
-                        static const AuthorizationFlags kAuthFlags = kAuthorizationFlagDefaults 
-                                                                   | kAuthorizationFlagInteractionAllowed
-                                                                   | kAuthorizationFlagExtendRights
-                                                                   | kAuthorizationFlagPreAuthorize;
-                        AuthorizationItem   right  = { kRightName, 0, NULL, 0 };
-                        AuthorizationRights rights = { 1, &right };
+		NSURL *appSupportURL = [[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory inDomain:domain appropriateForURL:nil create:NO error:nil];
+		NSURL *destinationURL = [appSupportURL URLByAppendingPathComponent:@"SubEthaEdit"];
+		destinationURL = [destinationURL URLByAppendingPathComponent:@"Modes"];
+		destinationURL = [destinationURL URLByAppendingPathComponent:[fileName lastPathComponent]];
+		NSString *destination  = [destinationURL path];
 
-                        err = AuthorizationCopyRights(auth, &rights, kAuthorizationEmptyEnvironment, kAuthFlags, NULL);
-                    }
-                    
-                    if (err == noErr) {
-                        err = MoreSecCopyHelperToolURLAndCheckBundled(
-                            CFBundleGetMainBundle(), 
-                            CFSTR("SubEthaEditHelperToolTemplate"), 
-                            kApplicationSupportFolderType, 
-                            CFSTR("SubEthaEdit"), 
-                            CFSTR("SubEthaEditHelperTool"), 
-                            &tool);
+		if (![fileName isEqualToString:destination]) {
+			if (domain == NSUserDomainMask) {
+				// TODO: check errors here and present alert which is currently in fileManager:shouldProceedAfterError:
+				NSFileManager *fileManager = [NSFileManager defaultManager];
+				if ([fileManager fileExistsAtPath:destination]) {
+					(void)[fileManager removeItemAtPath:destination error:nil];
+				}
+				success = [fileManager copyItemAtPath:fileName toPath:destination error:nil];
+			} else {
+				OSStatus err;
+				CFURLRef tool = NULL;
+				AuthorizationRef auth = NULL;
+				NSDictionary *request = nil;
+				NSDictionary *response = nil;
 
-                        // If the home directory is on an volume that doesn't support 
-                        // setuid root helper tools, ask the user whether they want to use 
-                        // a temporary tool.
-                        
-                        if (err == kMoreSecFolderInappropriateErr) {
-                            err = MoreSecCopyHelperToolURLAndCheckBundled(
-                                CFBundleGetMainBundle(), 
-                                CFSTR("SubEthaEditHelperToolTemplate"), 
-                                kTemporaryFolderType, 
-                                CFSTR("SubEthaEdit"), 
-                                CFSTR("SubEthaEditHelperTool"), 
-                                &tool);
-                        }
-                    }
+				err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &auth);
+				if (err == noErr) {
+					static const char *kRightName = "de.codingmonkeys.SubEthaEdit.HelperTool";
+					static const AuthorizationFlags kAuthFlags = kAuthorizationFlagDefaults
+					| kAuthorizationFlagInteractionAllowed
+					| kAuthorizationFlagExtendRights
+					| kAuthorizationFlagPreAuthorize;
+					AuthorizationItem   right  = { kRightName, 0, NULL, 0 };
+					AuthorizationRights rights = { 1, &right };
 
-                    // Create the request dictionary for copying the mode
+					err = AuthorizationCopyRights(auth, &rights, kAuthorizationEmptyEnvironment, kAuthFlags, NULL);
+				}
 
-                    if (err == noErr) {
-                    
+				if (err == noErr) {
+					err = MoreSecCopyHelperToolURLAndCheckBundled(
+																  CFBundleGetMainBundle(),
+																  CFSTR("SubEthaEditHelperToolTemplate"),
+																  kApplicationSupportFolderType,
+																  CFSTR("SubEthaEdit"),
+																  CFSTR("SubEthaEditHelperTool"),
+																  &tool);
+
+					// If the home directory is on an volume that doesn't support
+					// setuid root helper tools, ask the user whether they want to use
+					// a temporary tool.
+
+					if (err == kMoreSecFolderInappropriateErr) {
+						err = MoreSecCopyHelperToolURLAndCheckBundled(
+																	  CFBundleGetMainBundle(),
+																	  CFSTR("SubEthaEditHelperToolTemplate"),
+																	  kTemporaryFolderType,
+																	  CFSTR("SubEthaEdit"),
+																	  CFSTR("SubEthaEditHelperTool"),
+																	  &tool);
+					}
+				}
+
+				// Create the request dictionary for copying the mode
+
+				if (err == noErr) {
+
                     NSNumber *filePermissions = [NSNumber numberWithUnsignedShort:(S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH)];
                     NSDictionary *targetAttrs = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                    filePermissions, NSFilePosixPermissions,
-                                                    @"root", NSFileOwnerAccountName,
-                                                    @"admin", NSFileGroupOwnerAccountName,
-                                                    nil];
-                                        
-                        request = [NSDictionary dictionaryWithObjectsAndKeys:
-                                            @"CopyFiles", @"CommandName",
-                                            fileName, @"SourceFile",
-                                            destination, @"TargetFile",
-                                            targetAttrs, @"TargetAttributes",
-                                            nil];
-                    }
+												 filePermissions, NSFilePosixPermissions,
+												 @"root", NSFileOwnerAccountName,
+												 @"admin", NSFileGroupOwnerAccountName,
+												 nil];
 
-                    // Go go gadget helper tool!
+					request = [NSDictionary dictionaryWithObjectsAndKeys:
+							   @"CopyFiles", @"CommandName",
+							   fileName, @"SourceFile",
+							   destination, @"TargetFile",
+							   targetAttrs, @"TargetAttributes",
+							   nil];
+				}
 
-                    if (err == noErr) {
-                        err = MoreSecExecuteRequestInHelperTool(tool, auth, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
-                    }
-                    
-                    // Extract information from the response.
-                    
-                    if (err == noErr) {
-                        //NSLog(@"response: %@", response);
+				// Go go gadget helper tool!
 
-                        err = MoreSecGetErrorFromResponse((CFDictionaryRef)response);
-                        if (err == noErr) {
-                            success = YES;
-                        }
-                    }
-                    
-                    // Clean up after second call of helper tool.
-                    if (response) {
-                        [response release];
-                    }
+				if (err == noErr) {
+					err = MoreSecExecuteRequestInHelperTool(tool, auth, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
+				}
+
+				// Extract information from the response.
+
+				if (err == noErr) {
+					//NSLog(@"response: %@", response);
+
+					err = MoreSecGetErrorFromResponse((CFDictionaryRef)response);
+					if (err == noErr) {
+						success = YES;
+					}
+				}
+
+				// Clean up after second call of helper tool.
+				if (response) {
+					[response release];
+				}
 
 
-                    if (tool) CFRelease(tool);
-                    if (auth != NULL) {
-                        (void)AuthorizationFree(auth, kAuthorizationFlagDestroyRights);
-                    }
-                }
-            } else {
-                success = YES;
-            }
-        }
-        
+				if (tool) CFRelease(tool);
+				if (auth != NULL) {
+					(void)AuthorizationFree(auth, kAuthorizationFlagDestroyRights);
+				}
+			}
+		} else {
+			success = YES;
+		}
+
         [[DocumentModeManager sharedInstance] reloadDocumentModes:self];
-        
+
         NSAlert *alert = [[NSAlert alloc] init];
         [alert setAlertStyle:NSInformationalAlertStyle];
         if (success) {
-            [alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"The mode \"%@\" has been installed successfully.", nil), name]];       
+            [alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"The mode \"%@\" has been installed successfully.", nil), name]];
         } else {
             [alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"Installation of mode \"%@\" failed.", nil), name]];
         }
@@ -418,7 +410,7 @@ static NSString *tempFileName() {
     
     I_openPanel = openPanel;
     if ([self locationForNextOpenPanel]) {
-        [I_openPanel setDirectory:[[self locationForNextOpenPanel] path]];
+        [I_openPanel setDirectoryURL:[self locationForNextOpenPanel]];
         [self setLocationForNextOpenPanel:nil];
     }
     int result = [super runModalOpenPanel:openPanel forTypes:extensions];
