@@ -34,10 +34,9 @@
 }
 
 - (void)roundtripBencode:(id)anObject {
-    XCTAssertEqualObjects(
-        TCM_BdecodedObjectWithData(TCM_BencodedObject(anObject)),
-        anObject,
-        @"round-trip bencoding of %@", anObject);
+	NSData *encodedObject = TCM_BencodedObject(anObject);
+	id decodedObject = TCM_BdecodedObjectWithData(encodedObject);
+    XCTAssertEqualObjects(decodedObject, anObject, @"round-trip bencoding of %@", anObject);
 }
 
 - (void)bdecode:(NSData *)anData shouldFail:(BOOL)aFlag{

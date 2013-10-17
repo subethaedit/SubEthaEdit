@@ -162,7 +162,7 @@ id TCM_CopyBdecodedObject(uint8_t *aBytes, unsigned *aPosition, unsigned aLength
     if (aBytes[*aPosition]=='d') {
 		static NSMutableDictionary *S_bencodingDictionaryKeysDictionary = nil; // this is for not creating strings multiple times on load and decode
 		if (!S_bencodingDictionaryKeysDictionary) { S_bencodingDictionaryKeysDictionary = [NSMutableDictionary new]; }
-                
+
         result=[NSMutableDictionary new];
         (*aPosition)++;
         while (YES) {
@@ -170,20 +170,21 @@ id TCM_CopyBdecodedObject(uint8_t *aBytes, unsigned *aPosition, unsigned aLength
                 (*aPosition)++;
                 break;
             } else {
-                id value=TCM_CopyBdecodedObject(aBytes,aPosition,aLength);
-                if (value) {
-					id key=TCM_CopyBdecodedObject(aBytes,aPosition,aLength);
-					if (key) {
+				id key=TCM_CopyBdecodedObject(aBytes,aPosition,aLength);
+				if (key) {
+					id value=TCM_CopyBdecodedObject(aBytes,aPosition,aLength);
+					if (value) {
 						NSString *decodedKey = [S_bencodingDictionaryKeysDictionary objectForKey:key];
 						if (! decodedKey) {
 							decodedKey = [[key retain] autorelease];
 							[S_bencodingDictionaryKeysDictionary setObject:decodedKey forKey:key];
 						}
 						[result setObject:value forKey:decodedKey];
-						[key release];
+						[value release];
+						value = nil;
 					}
-					[value release];
-					value = nil;
+					[key release];
+					key = nil;
                 } else {
 					[result release];
                     return nil;
