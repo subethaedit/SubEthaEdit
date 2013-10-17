@@ -47,7 +47,6 @@
     NSURL *I_locationForNextOpenPanel;
         
     @private
-    NSMutableArray *I_documentsWithPendingDisplay;
     NSMutableArray *I_windowControllers;
 }
 
