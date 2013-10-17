@@ -67,20 +67,6 @@
 
 #import <UniversalDetector/UniversalDetector.h>
 
-
-#pragma pack(push, 2)
-struct SelectionRange
-{
-    int16_t unused1; // 0 (not used)
-    int16_t lineNum; // line to select (<0 to specify range)
-    int32_t startRange; // start of selection range (if line < 0)
-    int32_t endRange; // end of selection range (if line < 0)
-    int32_t unused2; // 0 (not used)
-    int32_t theDate; // modification date/time
-};
-#pragma pack(pop)
-
-
 static PlainTextDocument *transientDocument = nil;
 static NSRect transientDocumentWindowFrame;
 
@@ -2119,12 +2105,25 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 	[(PlainTextWindowController *)aController setSizeByColumns:[[mode defaultForKey:DocumentModeColumnsPreferenceKey] intValue] rows:[[mode defaultForKey:DocumentModeRowsPreferenceKey] intValue]];
 }
 
-- (void)handleOpenDocumentEvent {
+
+#pragma pack(push, 2)
+struct SelectionRange
+{
+    int16_t unused1; // 0 (not used)
+    int16_t lineNum; // line to select (<0 to specify range)
+    int32_t startRange; // start of selection range (if line < 0)
+    int32_t endRange; // end of selection range (if line < 0)
+    int32_t unused2; // 0 (not used)
+    int32_t theDate; // modification date/time
+};
+#pragma pack(pop)
+
+
+- (void)handleOpenDocumentEvent:(NSAppleEventDescriptor *)eventDesc {
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"handleOpenDocumentEvent");
-    NSAppleEventDescriptor *eventDesc = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
-//    if (!([eventDesc eventClass] == kCoreEventClass && [eventDesc eventID] == kAEOpenDocuments)) {
-//        return;
-//    }
+    if (!([eventDesc eventClass] == kCoreEventClass && [eventDesc eventID] == kAEOpenDocuments)) {
+        return;
+    }
 
     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"%@", [eventDesc description]);
 

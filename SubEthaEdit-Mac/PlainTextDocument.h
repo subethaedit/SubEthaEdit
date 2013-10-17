@@ -268,7 +268,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 //- (void)gotoLine:(unsigned)aLine orderFront:(BOOL)aFlag;
 - (void)selectRange:(NSRange)aRange;
 - (void)selectRangeInBackground:(NSRange)aRange;
-- (void)handleOpenDocumentEvent;
+- (void)handleOpenDocumentEvent:(NSAppleEventDescriptor *)eventDesc;
 
 - (void)convertLineEndingsToLineEnding:(LineEnding)lineEnding;
 - (IBAction)convertLineEndings:(id)aSender;
