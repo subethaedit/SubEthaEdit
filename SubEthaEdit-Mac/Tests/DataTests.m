@@ -17,10 +17,10 @@
 - (void)testUTF8BOMDataAdditions {
     NSData *utf8StringData=[@"foo bar" dataUsingEncoding:NSUTF8StringEncoding];
 
-    STAssertFalse(
+    XCTAssertFalse(
         [utf8StringData startsWithUTF8BOM],
         @"NSString conversion doesn't contain a utf8 bom");
-    STAssertTrue(
+    XCTAssertTrue(
         [[utf8StringData dataPrefixedWithUTF8BOM] startsWithUTF8BOM],
         @"if we add a bom we recognize it");
     char utf8_bom[3];
@@ -28,13 +28,13 @@
     utf8_bom[1]=0xbb;
     utf8_bom[2]=0xbf;
     NSData *utf8BOMData = [NSData dataWithBytes:utf8_bom length:3];
-    STAssertTrue(
+    XCTAssertTrue(
         [utf8BOMData dataPrefixedWithUTF8BOM],
         @"if we make a bom we recognize it");
 }
 
 - (void)roundtripBencode:(id)anObject {
-    STAssertEqualObjects(
+    XCTAssertEqualObjects(
         TCM_BdecodedObjectWithData(TCM_BencodedObject(anObject)),
         anObject,
         @"round-trip bencoding of %@", anObject);
@@ -42,7 +42,7 @@
 
 - (void)bdecode:(NSData *)anData shouldFail:(BOOL)aFlag{
     id result = TCM_BdecodedObjectWithData(anData);
-    STAssertTrue(
+    XCTAssertTrue(
         aFlag ? (result == nil) : (result != nil),
         @"decoding of %@",[[[NSString alloc] initWithData:anData encoding:NSMacOSRomanStringEncoding] autorelease]);
 }
@@ -50,7 +50,7 @@
 - (void)testBencoding {
     [self roundtripBencode:[NSNumber numberWithInt:5]];
     [self roundtripBencode:@"Sample text"];
-    STAssertEqualObjects(
+    XCTAssertEqualObjects(
         TCM_BdecodedObjectWithData(TCM_BencodedObject([NSNumber numberWithFloat:2.2])),
         [NSNumber numberWithInt:[[NSNumber numberWithFloat:2.2] intValue]],
         @"round-trip bencoding of %@",[NSNumber numberWithFloat:2.2]);

@@ -6,10 +6,10 @@
 //  Copyright (c) 2006 TheCodingMonkeys. All rights reserved.
 //
 
-#import <SenTestingKit/SenTestingKit.h>
+#import <XCTest/XCTest.h>
 
 
-@interface DataTests : SenTestCase {
+@interface DataTests : XCTestCase {
 
 }
 
