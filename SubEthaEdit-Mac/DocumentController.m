@@ -474,19 +474,6 @@ static NSString *tempFileName() {
     return [I_propertiesForOpenedFiles objectForKey:fileName];
 }
 
-
-// TODO: this will not happen anymore since the handler API is depricated
-- (BOOL)fileManager:(NSFileManager *)manager shouldProceedAfterError:(NSDictionary *)errorInfo {
-    NSAlert *alert = [[NSAlert alloc] init];
-    [alert setAlertStyle:NSWarningAlertStyle];
-    [alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"File operation error: %@ with file: %@", nil), [errorInfo objectForKey:@"Error"], [errorInfo objectForKey:@"Path"]]];
-    [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
-    (void)[alert runModal];
-	[alert release];
-	
-    return YES;
-}
-
 - (PlainTextDocument *)frontmostPlainTextDocument {
     NSWindow *window = nil;
     for (window in [NSApp orderedWindows]) {
