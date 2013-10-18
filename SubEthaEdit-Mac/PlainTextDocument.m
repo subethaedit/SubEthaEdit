@@ -277,7 +277,7 @@ static NSString *tempFileName(NSString *origPath) {
     [center addObserver:self selector:@selector(userWillLeaveSession:) name:TCMMMUserWillLeaveSessionNotification object:nil];
 
     [center addObserver:self selector:@selector(updateViewBecauseOfPreferences:) name:GeneralViewPreferencesDidChangeNotificiation object:nil];
-//    [center addObserver:self selector:@selector(printPreferencesDidChange:) name:PrintPreferencesDidChangeNotification object:nil];
+    [center addObserver:self selector:@selector(printPreferencesDidChange:) name:PrintPreferencesDidChangeNotification object:nil];
     [center addObserver:self selector:@selector(applyStylePreferences:) name:DocumentModeApplyStylePreferencesNotification object:nil];
     [center addObserver:self selector:@selector(applyEditPreferences:) name:DocumentModeApplyEditPreferencesNotification object:nil];
     [center addObserver:self selector:@selector(scriptWrapperWillRunScriptNotification:) name:ScriptWrapperWillRunScriptNotification object:nil];
@@ -324,11 +324,11 @@ static NSString *tempFileName(NSString *origPath) {
     }
 }
 
-//- (void)printPreferencesDidChange:(NSNotification *)aNotification {
-//    if ([[aNotification object] isEqualTo:[self documentMode]]) {
-//        [self setPrintOptions:[[self documentMode] defaultForKey:DocumentModePrintOptionsPreferenceKey]];
-//    }
-//}
+- (void)printPreferencesDidChange:(NSNotification *)aNotification {
+    if ([[aNotification object] isEqualTo:[self documentMode]]) {
+        [self setPrintOptions:[[self documentMode] defaultForKey:DocumentModePrintOptionsPreferenceKey]];
+    }
+}
 
 - (void)applyStylePreferences {
     [self takeStyleSettingsFromDocumentMode];
