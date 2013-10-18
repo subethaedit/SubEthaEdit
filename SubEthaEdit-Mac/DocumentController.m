@@ -400,14 +400,10 @@ static NSString *tempFileName() {
     [openPanel setCanChooseDirectories:YES];
     [O_goIntoBundlesCheckbox setState:flag ? NSOnState : NSOffState];
     
-    if ([openPanel canShowHiddenFiles]) {
-        flag = [[NSUserDefaults standardUserDefaults] boolForKey:@"ShowsHiddenFiles"];
-        [openPanel setInternalShowsHiddenFiles:flag];
-        [O_showHiddenFilesCheckbox setState:flag ? NSOnState : NSOffState];
-    } else {
-        [O_showHiddenFilesCheckbox setHidden:YES];
-    }
-    
+	flag = [[NSUserDefaults standardUserDefaults] boolForKey:@"ShowsHiddenFiles"];
+	[openPanel setShowsHiddenFiles:flag];
+	[O_showHiddenFilesCheckbox setState:flag ? NSOnState : NSOffState];
+
     I_openPanel = openPanel;
     if ([self locationForNextOpenPanel]) {
         [I_openPanel setDirectoryURL:[self locationForNextOpenPanel]];
@@ -1264,9 +1260,7 @@ struct ModificationInfo
 
 - (IBAction)showHiddenFiles:(id)sender {
     BOOL flag = ([(NSButton*)sender state] == NSOffState) ? NO : YES;
-    if ([I_openPanel canShowHiddenFiles]) {
-        [I_openPanel setInternalShowsHiddenFiles:flag];
-    }
+	[I_openPanel setShowsHiddenFiles:flag];
     [[NSUserDefaults standardUserDefaults] setBool:flag forKey:@"ShowsHiddenFiles"];
 }
 

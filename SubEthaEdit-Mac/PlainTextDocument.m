@@ -24,6 +24,7 @@
 #import "PrintPreferences.h"
 #import "AppController.h"
 #import "NSSavePanelTCMAdditions.h"
+#import "SEESavePanelAccessoryViewController.h"
 #import "EncodingDoctorDialog.h"
 #import "NSMutableAttributedStringSEEAdditions.h"
 #import "NSErrorTCMAdditions.h"
@@ -998,7 +999,7 @@ static NSString *tempFileName(NSString *origPath) {
     [I_printOptions autorelease];
     [I_scheduledAlertDictionary release];
 	
-	[self setTemporarySavePanel:nil];
+//	[self setTemporarySavePanel:nil];
     free(I_bracketMatching.openingBracketsArray);
     free(I_bracketMatching.closingBracketsArray);
     
@@ -2574,88 +2575,82 @@ struct SelectionRange
 #pragma mark -
 #pragma mark ### Save/Open Panel loading ###
 
-- (IBAction)goIntoBundles:(id)sender {
-    BOOL flag = ([(NSButton*)sender state] == NSOffState) ? NO : YES;
-    [I_savePanel setTreatsFilePackagesAsDirectories:flag];
-    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:@"GoIntoBundlesPrefKey"];
-}
+//- (IBAction)goIntoBundles:(id)sender {
+//    BOOL flag = ([(NSButton*)sender state] == NSOffState) ? NO : YES;
+//    [I_savePanel setTreatsFilePackagesAsDirectories:flag];
+//    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:@"GoIntoBundlesPrefKey"];
+//}
+//
+//- (IBAction)showHiddenFiles:(id)sender {
+//    BOOL flag = ([(NSButton*)sender state] == NSOffState) ? NO : YES;
+//    if ([I_savePanel canShowHiddenFiles]) {
+//        [I_savePanel setInternalShowsHiddenFiles:flag];
+//    }
+//    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:@"ShowsHiddenFiles"];
+//}
 
-- (IBAction)showHiddenFiles:(id)sender {
-    BOOL flag = ([(NSButton*)sender state] == NSOffState) ? NO : YES;
-    if ([I_savePanel canShowHiddenFiles]) {
-        [I_savePanel setInternalShowsHiddenFiles:flag];
-    }
-    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:@"ShowsHiddenFiles"];
-}
+//- (NSString *)panel:(id)sender userEnteredFilename:(NSString *)filename confirmed:(BOOL)okFlag
+//{
+//    if (okFlag) {
+//        NSString *panelFileName = [sender filename];
+//        NSFileManager *fileManager = [NSFileManager defaultManager];
+//        NSWorkspace *workspace = [NSWorkspace sharedWorkspace];
+//        BOOL isDir;
+//        if ([fileManager fileExistsAtPath:panelFileName isDirectory:&isDir] && isDir && ![workspace isFilePackageAtPath:panelFileName]) {
+//            NSAlert *alert = [[NSAlert alloc] init];
+//            [alert setAlertStyle:NSInformationalAlertStyle];
+//            [alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"The document can not be saved with the name \"%@\" because a folder with the same name already exists.", nil), filename]];
+//            [alert setInformativeText:NSLocalizedString(@"Try choosing a different name for the document.", nil)];
+//            [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
+//            (void)[alert runModal];
+//            [[alert window] orderOut:self];
+//            [alert release];
+//            return nil;
+//        }
+//    }
+//    
+//    return filename;
+//}
+//
+//- (void)setTemporarySavePanel:(NSSavePanel *)aPanel {
+//	if (aPanel != I_savePanel) {
+//		if (I_savePanel && [I_savePanel delegate] == (id)self) {
+//			[I_savePanel setDelegate:nil];
+//		}
+//		[I_savePanel autorelease];
+//		 I_savePanel = [aPanel retain];
+//	}
+//}
+//
+//- (void) _savePanelWasPresented:(id)aPanel withResult:(int)aResult inContext:(void*) aContext; {
+//	[I_savePanel setDelegate:nil];
+//	if (aResult == NSCancelButton) {	
+//		[self setTemporarySavePanel:nil];
+//	}
+//	[super _savePanelWasPresented:aPanel withResult:aResult inContext:aContext];
+//}
 
-- (NSString *)panel:(id)sender userEnteredFilename:(NSString *)filename confirmed:(BOOL)okFlag
-{
-    if (okFlag) {
-        NSString *panelFileName = [sender filename];
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        NSWorkspace *workspace = [NSWorkspace sharedWorkspace];
-        BOOL isDir;
-        if ([fileManager fileExistsAtPath:panelFileName isDirectory:&isDir] && isDir && ![workspace isFilePackageAtPath:panelFileName]) {
-            NSAlert *alert = [[NSAlert alloc] init];
-            [alert setAlertStyle:NSInformationalAlertStyle];
-            [alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"The document can not be saved with the name \"%@\" because a folder with the same name already exists.", nil), filename]];
-            [alert setInformativeText:NSLocalizedString(@"Try choosing a different name for the document.", nil)];
-            [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
-            (void)[alert runModal];
-            [[alert window] orderOut:self];
-            [alert release];
-            return nil;
-        }
-    }
-    
-    return filename;
-}
-
-- (void)setTemporarySavePanel:(NSSavePanel *)aPanel {
-	if (aPanel != I_savePanel) {
-		if (I_savePanel && [I_savePanel delegate] == (id)self) {
-			[I_savePanel setDelegate:nil];
-		}
-		[I_savePanel autorelease];
-		 I_savePanel = [aPanel retain];
-	}
-}
-
-- (void) _savePanelWasPresented:(id)aPanel withResult:(int)aResult inContext:(void*) aContext; {
-	[I_savePanel setDelegate:nil];
-	if (aResult == NSCancelButton) {	
-		[self setTemporarySavePanel:nil];
-	}
-	[super _savePanelWasPresented:aPanel withResult:aResult inContext:aContext];
-}
-    
 - (BOOL)prepareSavePanel:(NSSavePanel *)savePanel {
-	
-    if (![NSBundle loadNibNamed:@"SavePanelAccessory" owner:self])  {
-        NSLog(@"Failed to load SavePanelAccessory.nib");
-        return NO;
-    }
-    
-    BOOL isGoingIntoBundles = [[NSUserDefaults standardUserDefaults] boolForKey:@"GoIntoBundlesPrefKey"];
-    [savePanel setTreatsFilePackagesAsDirectories:isGoingIntoBundles];
-    
+	BOOL isGoingIntoBundles = [[NSUserDefaults standardUserDefaults] boolForKey:@"GoIntoBundlesPrefKey"];
     BOOL showsHiddenFiles = [[NSUserDefaults standardUserDefaults] boolForKey:@"ShowsHiddenFiles"];
-    if ([savePanel canShowHiddenFiles]) {
-        [savePanel setInternalShowsHiddenFiles:showsHiddenFiles];
-    }    
 
+    [savePanel setTreatsFilePackagesAsDirectories:isGoingIntoBundles];
+	[savePanel setShowsHiddenFiles:showsHiddenFiles];
     [savePanel setExtensionHidden:NO];
-    [savePanel performSelector:@selector(setExtensionHidden:) withObject:nil afterDelay:0.0];
     [savePanel setCanSelectHiddenExtension:NO];
 
-    [self setTemporarySavePanel:savePanel];
-    [savePanel setDelegate:self];
+//    [savePanel setDelegate:self];
 
     if (![self fileURL] && [self directoryForSavePanel]) {
         [savePanel setDirectoryURL:[NSURL fileURLWithPath:[self directoryForSavePanel]]];
     }
 
-    if (I_lastSaveOperation == NSSaveToOperation) {
+	SEESavePanelAccessoryViewController *accessoryViewController = [[[SEESavePanelAccessoryViewController alloc] initWithNibName:@"SEESavePanelAccessoryViewController" bundle:nil] autorelease];
+	accessoryViewController.savePanel = savePanel;
+	savePanel.accessoryView = accessoryViewController.view;
+
+	EncodingPopUpButton *encodingPopup = accessoryViewController.encodingPopUpButtonOutlet;
+    if (encodingPopup) {
         NSArray *encodings = [[EncodingManager sharedInstance] enabledEncodings];
         NSMutableArray *lossyEncodings = [NSMutableArray array];
         for (id loopItem in encodings) {
@@ -2664,42 +2659,32 @@ struct SelectionRange
             }
         }
         [[EncodingManager sharedInstance] registerEncoding:[self fileEncoding]];
-        [O_encodingPopUpButton setEncoding:[self fileEncoding] defaultEntry:NO modeEntry:NO lossyEncodings:lossyEncodings];
-        
-        [O_savePanelAccessoryFileFormatMatrix selectCellWithTag:I_flags.isSEEText?1:0];
+		[encodingPopup setEncoding:[self fileEncoding] defaultEntry:NO modeEntry:NO lossyEncodings:lossyEncodings];
+	}
 
-        [savePanel setAccessoryView:O_savePanelAccessoryView];
-        [O_goIntoBundlesCheckbox setState:isGoingIntoBundles ? NSOnState : NSOffState];
-        if ([savePanel canShowHiddenFiles]) {
-            [O_showHiddenFilesCheckbox setState:showsHiddenFiles ? NSOnState : NSOffState];
-        } else {
-            [O_showHiddenFilesCheckbox setHidden:YES];
-        }
-    } else {
-        [savePanel setAccessoryView:O_savePanelAccessoryView2];
-        [O_goIntoBundlesCheckbox2 setState:isGoingIntoBundles ? NSOnState : NSOffState];
-        if ([savePanel canShowHiddenFiles]) {
-            [O_showHiddenFilesCheckbox2 setState:showsHiddenFiles ? NSOnState : NSOffState];
-        } else {
-            [O_showHiddenFilesCheckbox2 setHidden:YES];
-        }
-        [O_savePanelAccessoryFileFormatMatrix2 selectCellWithTag:I_flags.isSEEText?1:0];
-    }
-	
-    [O_savePanelAccessoryView release];
-    O_savePanelAccessoryView = nil;
-    
-    [O_savePanelAccessoryView2 release];
-    O_savePanelAccessoryView2 = nil;
-	
+	[accessoryViewController.savePanelAccessoryFileFormatMatrixOutlet selectCellWithTag:I_flags.isSEEText?1:0];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(savePanelDidBecomeKey:) name:NSWindowDidBecomeKeyNotification object:savePanel];
+//        [O_encodingPopUpButton setEncoding:[self fileEncoding] defaultEntry:NO modeEntry:NO lossyEncodings:lossyEncodings];
+//        
+//        [O_savePanelAccessoryFileFormatMatrix selectCellWithTag:I_flags.isSEEText?1:0];
+//
+//        [savePanel setAccessoryView:O_savePanelAccessoryView];
+//        [O_goIntoBundlesCheckbox setState:isGoingIntoBundles ? NSOnState : NSOffState];
+//		[O_showHiddenFilesCheckbox setState:showsHiddenFiles ? NSOnState : NSOffState];
+//    } else {
+//        [savePanel setAccessoryView:O_savePanelAccessoryView2];
+//        [O_goIntoBundlesCheckbox2 setState:isGoingIntoBundles ? NSOnState : NSOffState];
+//		[O_showHiddenFilesCheckbox2 setState:showsHiddenFiles ? NSOnState : NSOffState];
+//        [O_savePanelAccessoryFileFormatMatrix2 selectCellWithTag:I_flags.isSEEText?1:0];
+//    }
+//	
+//    [O_savePanelAccessoryView release];
+//    O_savePanelAccessoryView = nil;
+//    
+//    [O_savePanelAccessoryView2 release];
+//    O_savePanelAccessoryView2 = nil;
+
     return YES;
-}
-
-- (void)savePanelDidBecomeKey:(NSNotification *)aNotification {
-	[[aNotification object] TCM_selectFilenameWithoutExtension];
-    [[NSNotificationCenter defaultCenter] removeObserver:self  name:NSWindowDidBecomeKeyNotification object:[aNotification object]];
 }
 
 - (IBAction)selectFileFormat:(id)aSender {
@@ -2836,7 +2821,7 @@ struct SelectionRange
     BOOL didShowPanel=NO;
     if (saveOperation != NSAutosaveOperation) {
         didShowPanel = (I_savePanel)?YES:NO;
-		[self setTemporarySavePanel:nil];
+//		[self setTemporarySavePanel:nil];
     }
     
     if (anAbsoluteURL) {

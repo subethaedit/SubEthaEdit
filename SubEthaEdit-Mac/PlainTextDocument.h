@@ -173,7 +173,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 
 + (PlainTextDocument *)transientDocument;
 
-- (void)setTemporarySavePanel:(NSSavePanel *)aPanel;
+//- (void)setTemporarySavePanel:(NSSavePanel *)aPanel;
 
 - (NSImage *)documentIcon;
 
@@ -186,8 +186,8 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (void)presentScheduledAlertForWindow:(NSWindow *)window;
 
 - (IBAction)newView:(id)aSender;
-- (IBAction)goIntoBundles:(id)sender;
-- (IBAction)showHiddenFiles:(id)sender;
+//- (IBAction)goIntoBundles:(id)sender;
+//- (IBAction)showHiddenFiles:(id)sender;
 - (IBAction)selectFileFormat:(id)aSender;
 - (IBAction)showWebPreview:(id)aSender;
 - (BOOL)isProxyDocument;

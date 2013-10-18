@@ -262,6 +262,8 @@
 		4CB8EE50180FDF160051AB6B /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */; };
 		4CB8EE51180FDF790051AB6B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CB8EE4E180FD9A40051AB6B /* libz.dylib */; };
 		4CB8EE55181032340051AB6B /* SEEPrintOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CB8EE54181032340051AB6B /* SEEPrintOptionsViewController.m */; };
+		4CCD4DD21811703D00FE6134 /* SEESavePanelAccessoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CCD4DD01811703D00FE6134 /* SEESavePanelAccessoryViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		4CCD4DD31811703D00FE6134 /* SEESavePanelAccessoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CCD4DD11811703D00FE6134 /* SEESavePanelAccessoryViewController.xib */; };
 		4CD5F7DA17FB0BF200F49E31 /* AdvancedPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F7D817FB0BF200F49E31 /* AdvancedPrefs.xib */; };
 		4CD5F7DE17FB0C2800F49E31 /* ConnectionBrowser.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F7DC17FB0C2800F49E31 /* ConnectionBrowser.xib */; };
 		4CD5F7E217FB0C4D00F49E31 /* DocumentProxy.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F7E017FB0C4D00F49E31 /* DocumentProxy.xib */; };
@@ -972,6 +974,9 @@
 		4CB8EE4E180FD9A40051AB6B /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		4CB8EE53181032340051AB6B /* SEEPrintOptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEPrintOptionsViewController.h; sourceTree = "<group>"; };
 		4CB8EE54181032340051AB6B /* SEEPrintOptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEPrintOptionsViewController.m; sourceTree = "<group>"; };
+		4CCD4DCF1811703D00FE6134 /* SEESavePanelAccessoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEESavePanelAccessoryViewController.h; sourceTree = "<group>"; };
+		4CCD4DD01811703D00FE6134 /* SEESavePanelAccessoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEESavePanelAccessoryViewController.m; sourceTree = "<group>"; };
+		4CCD4DD11811703D00FE6134 /* SEESavePanelAccessoryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEESavePanelAccessoryViewController.xib; sourceTree = "<group>"; };
 		4CD5F7D917FB0BF200F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/AdvancedPrefs.xib; sourceTree = "<group>"; };
 		4CD5F7DB17FB0C0F00F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/AdvancedPrefs.xib; sourceTree = "<group>"; };
 		4CD5F7DD17FB0C2800F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ConnectionBrowser.xib; sourceTree = "<group>"; };
@@ -1699,6 +1704,9 @@
 				1428944B09575B9700D14688 /* ParticipantsView.m */,
 				1428944C09575B9700D14688 /* PlainTextDocument.h */,
 				1428944D09575B9700D14688 /* PlainTextDocument.m */,
+				4CCD4DCF1811703D00FE6134 /* SEESavePanelAccessoryViewController.h */,
+				4CCD4DD01811703D00FE6134 /* SEESavePanelAccessoryViewController.m */,
+				4CCD4DD11811703D00FE6134 /* SEESavePanelAccessoryViewController.xib */,
 				4CB8EE53181032340051AB6B /* SEEPrintOptionsViewController.h */,
 				4CB8EE54181032340051AB6B /* SEEPrintOptionsViewController.m */,
 				1428944E09575B9700D14688 /* PlainTextEditor.h */,
@@ -2442,6 +2450,7 @@
 				4C0D3D6617FB133600AAFB38 /* ServerConnection.xib in Resources */,
 				142890DF095743F200D14688 /* StatusButtonReadWrite.tiff in Resources */,
 				142890E1095743F200D14688 /* StatusPending.tiff in Resources */,
+				4CCD4DD31811703D00FE6134 /* SEESavePanelAccessoryViewController.xib in Resources */,
 				142890E2095743F200D14688 /* StatusReadOnly.tiff in Resources */,
 				142890E3095743F200D14688 /* StatusReadWrite.tiff in Resources */,
 				142890E4095743F200D14688 /* style.icns in Resources */,
@@ -2749,6 +2758,7 @@
 				14289329095756D800D14688 /* TCMMMBEEPSessionManager.m in Sources */,
 				1428932A095756D800D14688 /* TCMMMBrowserListView.m in Sources */,
 				1428932B095756D800D14688 /* TCMMMMessage.m in Sources */,
+				4CCD4DD21811703D00FE6134 /* SEESavePanelAccessoryViewController.m in Sources */,
 				1428932C095756D800D14688 /* TCMMMNoOperation.m in Sources */,
 				1428932D095756D800D14688 /* TCMMMOperation.m in Sources */,
 				1428932E095756D800D14688 /* TCMMMPresenceManager.m in Sources */,
