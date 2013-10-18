@@ -282,7 +282,8 @@ static int namedGroupCallback(const unsigned char *name, const unsigned char *na
     ci.syntax         = [[self class] onigSyntaxTypeForSyntax:_syntax];
     ci.option         = compileTimeOptions;
     ci.case_fold_flag = ONIGENC_CASE_FOLD_DEFAULT;
-    
+	
+    @synchronized ([OGRegularExpression class]) {
 	r = onig_new_deluxe(
         &_regexBuffer, 
         (unsigned char*)_UTF16ExpressionString, 
@@ -296,7 +297,7 @@ static int namedGroupCallback(const unsigned char *name, const unsigned char *na
 		[self release];
 		[NSException raise:OgreException format:@"%s", s];
 	}
-	
+	}
 	// nameでgroup numberを引く辞書、(group number-1)でnameを引く逆引き辞書(配列)の作成
 	if ([self numberOfNames] > 0) {
 		// named groupを使用する場合
@@ -465,6 +466,7 @@ static int namedGroupCallback(const unsigned char *name, const unsigned char *na
 	// 正規表現オブジェクトの作成・解放
 
 	// Next 11 lines by MATSUMOTO Satoshi, Sep 31 2005
+@synchronized ([OGRegularExpression class]) {
 #if defined( __BIG_ENDIAN__ )
  	r = onig_new(&regexBuffer, (unsigned char*)UTF16Str, (unsigned char*)(UTF16Str + length),
 		compileTimeOptions, ONIG_ENCODING_UTF16_BE, 
@@ -479,7 +481,7 @@ static int namedGroupCallback(const unsigned char *name, const unsigned char *na
 
 	onig_free(regexBuffer);
     NSZoneFree([self zone], UTF16Str);
-    
+}
 	if (r == ONIG_NORMAL) {
 		// 正しい正規表現
 		return YES;
