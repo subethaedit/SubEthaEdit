@@ -1,0 +1,14 @@
+//
+//  TCMReleaseInfo.xcconfig
+//  SubEthaEdit
+//
+//  Created by Michael Ehrmann on 21.10.13.
+//  Copyright (c) 2013 TheCodingMonkeys. All rights reserved.
+//
+
+#include "TCMRevision.xcconfig"
+
+TCM_APP_STYLE = BETA
+TCM_APP_VERSION = 4.0b1
+TCM_APP_GET_INFO = "SubEthaEdit ${TCM_APP_VERSION}, © 2003-2013 TheCodingMonkeys."
+TCM_APP_COPYRIGHT = "© 2003-2013 TheCodingMonkeys. All rights reserved."

@@ -246,7 +246,7 @@
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
 	<key>CFBundleGetInfoString</key>
-	<string>SubEthaEdit 3.6, © 2003-2010 TheCodingMonkeys</string>
+	<string>${TCM_APP_GET_INFO}</string>
 	<key>CFBundleHelpBookFolder</key>
 	<string>SubEthaEditHelp</string>
 	<key>CFBundleHelpBookName</key>
@@ -254,7 +254,7 @@
 	<key>CFBundleIconFile</key>
 	<string>SubEthaEdit.icns</string>
 	<key>CFBundleIdentifier</key>
-	<string>de.codingmonkeys.SubEthaEdit.Debug</string>
+	<string>de.codingmonkeys.${PRODUCT_NAME:rfc1034identifier}${BX_APP_STYLE}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -262,7 +262,7 @@
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>4.0b1</string>
+	<string>${TCM_APP_VERSION}</string>
 	<key>CFBundleSignature</key>
 	<string>Hdra</string>
 	<key>CFBundleURLTypes</key>
@@ -277,7 +277,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>TCM_REVISION</string>
+	<string>${TCM_APP_VERSION}.${TCM_APP_REVISION}</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.developer-tools</string>
 	<key>LSEnvironment</key>
@@ -288,7 +288,7 @@
 	<key>NSAppleScriptEnabled</key>
 	<string>YES</string>
 	<key>NSHumanReadableCopyright</key>
-	<string>© 2003-2013 TheCodingMonkeys</string>
+	<string>${TCM_APP_COPYRIGHT}</string>
 	<key>NSMainNibFile</key>
 	<string>MainMenu</string>
 	<key>NSPrincipalClass</key>
@@ -321,7 +321,7 @@
 	<key>TCMMinimumSeeToolVersion</key>
 	<string>1.0</string>
 	<key>TCMRevisionHash</key>
-	<string>TCM_REVISION_HASH</string>
+	<string>${TCM_APP_REVISION_HASH}</string>
 	<key>UTExportedTypeDeclarations</key>
 	<array>
 		<dict>
@@ -394,5 +394,7 @@
 			</dict>
 		</dict>
 	</array>
+	<key>LSMinimumSystemVersion</key>
+	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
 </dict>
 </plist>

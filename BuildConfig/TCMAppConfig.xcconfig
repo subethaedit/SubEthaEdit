@@ -1,0 +1,19 @@
+//
+//  TCMAppConfig.xcconfig
+//  SubEthaEdit
+//
+//  Created by Michael Ehrmann on 21.10.13.
+//  Copyright (c) 2013 TheCodingMonkeys. All rights reserved.
+//
+
+#include "TCMReleaseInfo.xcconfig"
+
+SDKROOT = macosx10.9
+MACOSX_DEPLOYMENT_TARGET = 10.9
+
+ARCHS = $(ARCHS_STANDARD_64_BIT)
+
+COMBINE_HIDPI_IMAGES = YES
+
+GCC_PREPROCESSOR_DEFINITIONS = $(inherited) CONFIGURATION_$(CONFIGURATION) $(TCM_APP_STYLE)
+SKIP_INSTALL = YES
