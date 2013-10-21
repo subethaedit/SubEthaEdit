@@ -6,11 +6,11 @@
 //+ (NSImage*)imageWithCompressedData:(NSData*)data length:(unsigned long)size forWidth:(int)width;
 //- (NSData*)compressedData:(unsigned long*)ioSize;
 
-- (NSImage*)copyWithSize:(NSSize)size usingInterpolation:(NSImageInterpolation)interpolation;
-- (NSImage*)copyWithSize:(NSSize)size;
+- (NSImage*)duplicateWithSize:(NSSize)size usingInterpolation:(NSImageInterpolation)interpolation;
+- (NSImage*)duplicateWithSize:(NSSize)size;
 
-- (NSImage*)copyAsBitmapWithSize:(NSSize)size usingInterpolation:(NSImageInterpolation)interpolation;
-- (NSImage*)copyAsBitmapWithSize:(NSSize)size;
+- (NSImage*)duplicateAsBitmapWithSize:(NSSize)size usingInterpolation:(NSImageInterpolation)interpolation;
+- (NSImage*)duplicateAsBitmapWithSize:(NSSize)size;
 - (NSImage*)duplicateAsBitmap;
 
 - (void)putOnPasteboardAsPDF;

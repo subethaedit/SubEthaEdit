@@ -98,11 +98,7 @@ NSString *ListViewDidChangeSelectionNotification=
     if ((scrollView=[self enclosingScrollView])) {
         [[NSNotificationCenter defaultCenter] 
             addObserver:self selector:@selector(enclosingScrollViewFrameDidChange:) 
-#if defined(CODA)
-			name:NSViewFrameDidChangeNotification object:[scrollView contentView]];
-#else
             name:NSViewFrameDidChangeNotification object:scrollView];
-#endif //defined(CODA)
     }
     [self resizeToFit];
 }
@@ -702,15 +698,15 @@ NSString *ListViewDidChangeSelectionNotification=
     I_indexNumberOfItems=[dataSource listView:self numberOfEntriesOfItemAtIndex:-1];
     
     if (I_indexNumberOfChildren!=NULL) {
-        free(I_indexNumberOfChildren  );
-        free(I_indexRowAtItem         );
-        free(I_indexYRangesForItem    );
-        free(I_indexItemChildPairAtRow);
+        free(I_indexNumberOfChildren  ); I_indexNumberOfChildren = NULL;
+        free(I_indexRowAtItem         ); I_indexRowAtItem = NULL;
+        free(I_indexYRangesForItem    ); I_indexYRangesForItem = NULL;
+        free(I_indexItemChildPairAtRow); I_indexItemChildPairAtRow = NULL;
     }
     
-    I_indexNumberOfChildren = (NSInteger *)malloc(sizeof(NSInteger)*I_indexNumberOfItems);
-    I_indexRowAtItem        = (NSInteger *)malloc(sizeof(NSInteger)*I_indexNumberOfItems);
-    I_indexYRangesForItem   = (NSRange *)malloc(sizeof(NSRange)*I_indexNumberOfItems);
+    I_indexNumberOfChildren = (NSInteger *)calloc(sizeof(NSInteger),I_indexNumberOfItems);
+    I_indexRowAtItem        = (NSInteger *)calloc(sizeof(NSInteger),I_indexNumberOfItems);
+    I_indexYRangesForItem   = (NSRange *)calloc(sizeof(NSRange),I_indexNumberOfItems);
     NSInteger itemIndex;
     NSInteger row=0;
     CGFloat yPosition=0;
@@ -731,16 +727,19 @@ NSString *ListViewDidChangeSelectionNotification=
     }
     I_indexNumberOfRows=row;
     I_indexMaxHeight=yPosition-itemRowGapHeight - [myClass firstRowOffset];
-    
-    I_indexItemChildPairAtRow = (ItemChildPair *)malloc(sizeof(ItemChildPair)*row);
-    row=0;
-    for (itemIndex=0;itemIndex<I_indexNumberOfItems;itemIndex++) {
-        ItemChildPair pair;
-        pair.itemIndex=itemIndex;
-        for (pair.childIndex=-1;pair.childIndex<I_indexNumberOfChildren[itemIndex];pair.childIndex++) {
-            I_indexItemChildPairAtRow[row++]=pair;
-        }
-    }
+
+	if (row > 0)
+	{
+		I_indexItemChildPairAtRow = (ItemChildPair *)calloc(sizeof(ItemChildPair), row);
+		row=0;
+		for (itemIndex=0;itemIndex<I_indexNumberOfItems;itemIndex++) {
+			ItemChildPair pair;
+			pair.itemIndex=itemIndex;
+			for (pair.childIndex=-1;pair.childIndex<I_indexNumberOfChildren[itemIndex];pair.childIndex++) {
+				I_indexItemChildPairAtRow[row++]=pair;
+			}
+		}
+	}
     I_indicesNeedRebuilding = NO;
 }
 

@@ -4,7 +4,7 @@ Index: TCMBEEP/TCMBEEPSession.m
 +++ TCMBEEP/TCMBEEPSession.m	(revision 2981)
 @@ -289,7 +289,7 @@
              sequenceNumber++;
-             name = [NSString stringWithFormat:@"%@-p%d-s%d", [[NSCalendarDate date] descriptionWithCalendarFormat:@"%Y-%m-%d--%H-%M-%S.%F-"], [[NSProcessInfo processInfo] processIdentifier], sequenceNumber];
+             name = [NSString stringWithFormat:@"%@-p%d-s%d", [NSDate date], [[NSProcessInfo processInfo] processIdentifier], sequenceNumber];
              name = [[origPath stringByDeletingLastPathComponent] stringByAppendingPathComponent:name];
 -        } while ([[NSFileManager defaultManager] fileExistsAtPath:logDirectory]);
 +        } while ([[NSFileManager defaultManager] fileExistsAtPath:name]);
@@ -2205,7 +2205,7 @@ Index: SubEthaPerf/SEPAppController.m
 +	NSString *name;
 +	do {
 +		sequenceNumber++;
-+		name = [NSString stringWithFormat:@"Perflog-%@-%@-%d.log", [[NSCalendarDate date] descriptionWithCalendarFormat:@"%Y-%m-%d--%H-%M"], [[NSProcessInfo processInfo] hostName], sequenceNumber];
++		name = [NSString stringWithFormat:@"Perflog-%@-%@-%d.log", [NSDate date], [[NSProcessInfo processInfo] hostName], sequenceNumber];
 +		name = [appDir stringByAppendingPathComponent:name];
 +	} while ([[NSFileManager defaultManager] fileExistsAtPath:name]);
 +

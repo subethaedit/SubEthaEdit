@@ -7,8 +7,7 @@
 //
 
 #import "TCMDebug.h"
-#import "CFTreeTCMAdditions.h"
-#import "NSCalendarDateTCMAdditions.h"
+#import "NSDateTCMAdditions.h"
 #import "NSDataTCMAdditions.h"
 #import "NSDictionaryTCMAdditions.h"
 #import "NSNetServiceTCMAdditions.h"

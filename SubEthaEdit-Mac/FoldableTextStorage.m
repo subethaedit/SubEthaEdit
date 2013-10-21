@@ -192,8 +192,8 @@ typedef union {
 	*outShouldInsertString = YES; // initialize value
 	FoldedTextAttachment *attachment = nil;
 	FoldedTextAttachment *attachmentReplacementStartetIn = nil;
-	NSRange attachmentRange = NSMakeRange(0,0);
-	NSRange resultRange = NSMakeRange(0,0);
+	NSRange attachmentRange; // = {NSNotFound, 0};
+	NSRange resultRange = {NSNotFound, 0};
 	
 	// safeguard against misuse when there are no foldings
 	if (attachmentCount == 0) {
@@ -333,7 +333,7 @@ typedef union {
 		} else { // advance
 			attachment = [inFoldingAttachments objectAtIndex:attachmentIndex];
 			attachmentRange = [attachment foldedTextRange];
-			indexInFullText = attachmentRange.location;
+//			indexInFullText = attachmentRange.location;
 			indexAfterFolding += attachmentRange.location - previousAttachmentMaxRange + 1;
 			previousAttachmentMaxRange = NSMaxRange(attachmentRange);
 			attachmentIndex++;
@@ -1051,7 +1051,7 @@ typedef union {
 					[self foldRange:continousCommentRange];
 				}
 				// move ahead
-				type = [I_fullTextStorage attribute:kSyntaxHighlightingTypeAttributeName atIndex:NSMaxRange(attributeRange) longestEffectiveRange:&attributeRange inRange:wholeRange];
+				[I_fullTextStorage attribute:kSyntaxHighlightingTypeAttributeName atIndex:NSMaxRange(attributeRange) longestEffectiveRange:&attributeRange inRange:wholeRange];
 			}
 		} while (NSMaxRange(attributeRange) < NSMaxRange(wholeRange));
 	}

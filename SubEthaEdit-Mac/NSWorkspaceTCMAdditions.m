@@ -12,6 +12,7 @@
 static NSMutableDictionary *S_preresizedFileIcons=nil;
 
 @implementation NSWorkspace (NSWorkspaceTCMAdditions) 
+
 - (NSImage *) iconForFileType:(NSString *)anExtension size:(int)aSize {
     NSNumber *sizeNumber = [NSNumber numberWithInt:aSize];
     
@@ -27,11 +28,12 @@ static NSMutableDictionary *S_preresizedFileIcons=nil;
     
     NSImage *icon = [iconsByExtension objectForKey:anExtension];
     if (!icon) {
-        icon = [[[NSWorkspace sharedWorkspace] iconForFileType:anExtension] copy];
+        icon = [[[[NSWorkspace sharedWorkspace] iconForFileType:anExtension] copy] autorelease];
         [icon setSize:NSMakeSize(aSize,aSize)];
         [iconsByExtension setObject:icon forKey:anExtension];
     }
     
     return icon;
 }
+
 @end

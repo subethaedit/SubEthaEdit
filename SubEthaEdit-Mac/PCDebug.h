@@ -130,16 +130,10 @@ extern "C" {
 			sDidCheck = YES;
 
 #if !TARGET_OS_IPHONE
-			OSErr err = Gestalt('PDbg', &sEnabled);
-			if ( err == gestaltUndefSelectorErr )
-			{
-				sEnabled = [[NSUserDefaults standardUserDefaults] boolForKey:@"DebugLogging"];
-				if ( sEnabled )
-					NSLog(@"DEBUG LOGGING IS ON");
-				
-				(void) NewGestaltValue('PDbg', sEnabled);
-			}
-#endif			
+			sEnabled = [[NSUserDefaults standardUserDefaults] boolForKey:@"DebugLogging"];
+			if ( sEnabled )
+				NSLog(@"DEBUG LOGGING IS ON");
+#endif
 		}
 		
 		return sEnabled;

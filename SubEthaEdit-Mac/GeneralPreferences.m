@@ -77,19 +77,30 @@
 }
 
 - (void)TCM_setupComboBoxes {
-    ABPerson *meCard=[[ABAddressBook sharedAddressBook] me];
-    ABMultiValue *emails=[meCard valueForProperty:kABEmailProperty];
-    int index=0;
-    int count=[emails count];
-    for (index=0;index<count;index++) {
-        [O_emailComboBox addItemWithObjectValue:[emails valueAtIndex:index]];
-    }
-    ABMultiValue *aims=[meCard valueForProperty:kABAIMInstantProperty];
+    ABPerson *meCard = [[ABAddressBook sharedAddressBook] me];
 
-    count=[aims count];
-    for (index=0;index<count;index++) {
-        [O_aimComboBox addItemWithObjectValue:[aims valueAtIndex:index]];
-    }
+	// populate email combobox
+    ABMultiValue *emailAccounts = [meCard valueForProperty:kABEmailProperty];
+	if ([emailAccounts propertyType] == kABMultiStringProperty)
+	{
+		for (NSString *emailAccountsIdentifier in emailAccounts)
+		{
+			NSString *email = [emailAccounts valueForIdentifier:emailAccountsIdentifier];
+			[O_emailComboBox addItemWithObjectValue:email];
+		}
+	}
+
+	// populate AIM combobox
+    ABMultiValue *instantMessageAccounts = [meCard valueForProperty:kABInstantMessageProperty];
+	if ([instantMessageAccounts propertyType] == kABMultiDictionaryProperty)
+	{
+		for (NSString *instantMessageEntryIdentifier in instantMessageAccounts) {
+			NSDictionary *instantMessageEntry = [instantMessageAccounts valueForIdentifier:instantMessageEntryIdentifier];
+			if ([[instantMessageEntry objectForKey:kABInstantMessageServiceKey] isEqualToString:kABInstantMessageServiceAIM]) {
+				[O_aimComboBox addItemWithObjectValue:[instantMessageEntry objectForKey:kABInstantMessageUsernameKey]];
+			}
+		}
+	}
 }
 
 - (IBAction)changeName:(id)aSender {
@@ -115,7 +126,7 @@
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         [defaults setObject:newValue forKey:MyAIMPreferenceKey];
         ABPerson *meCard=[[ABAddressBook sharedAddressBook] me];
-        ABMultiValue *aims=[meCard valueForProperty:kABAIMInstantProperty];
+        ABMultiValue *aims=[meCard valueForProperty:kABInstantMessageProperty];
         int index=0;
         int count=[aims count];
         for (index=0;index<count;index++) {
@@ -332,14 +343,18 @@
 
 - (IBAction)chooseImage:(id)aSender {
     NSOpenPanel *panel = [NSOpenPanel openPanel];
-    
-    [panel beginSheetForDirectory:nil 
-                             file:nil 
-                            types:nil 
-                   modalForWindow:[O_pictureImageView window] 
-                    modalDelegate:self
-                   didEndSelector:@selector(chooseImagePanelDidEnd:returnCode:contextInfo:) 
-                      contextInfo:nil];
+
+	[panel beginSheetModalForWindow:[O_pictureImageView window] completionHandler:^(NSInteger result) {
+		if (result == NSFileHandlingPanelOKButton) {
+			NSImage *image = [[[NSImage alloc]initWithContentsOfURL:[panel URL]] autorelease];
+			if (image) {
+				[O_pictureImageView setImage:image];
+				[self takeImageFromImageView:O_pictureImageView];
+			} else {
+				NSBeep();
+			}
+		}
+	}];
 }
 
 - (IBAction)takeImageFromImageView:(id)aSender {
@@ -354,18 +369,6 @@
     [myImage setFlipped:NO];
     [O_pictureImageView setImage:myImage];
     [TCMMMUserManager didChangeMe];
-}
-
-- (void)chooseImagePanelDidEnd:(NSSavePanel *)aSavePanel returnCode:(int)returnCode  contextInfo:(void  *)contextInfo {
-    if (returnCode == NSOKButton) {
-        NSImage *image = [[[NSImage alloc]initWithContentsOfURL:[aSavePanel URL]] autorelease];
-        if (image) {
-            [O_pictureImageView setImage:image];
-            [self takeImageFromImageView:O_pictureImageView];
-        } else {
-            NSBeep();
-        }
-    }
 }
 
 - (IBAction)clearImage:(id)aSender {

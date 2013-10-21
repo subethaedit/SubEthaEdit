@@ -3,35 +3,21 @@
 //  SubEthaEdit
 //
 //  Created by Martin Pittenauer on Thu Apr 22 2004.
-//  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
+//  Updated by Michael Ehrmann on Fri Oct 11 2013.
+//  Copyright (c) 2004 - 2013 TheCodingMonkeys. All rights reserved.
 //
 
 #import <Foundation/Foundation.h>
 #import <OgreKit/OgreKit.h>
 #import "DocumentMode.h"
 
-@interface RegexSymbolDefinition : NSObject {
-    OGRegularExpression *I_block;
-    DocumentMode *I_mode;
-    NSMutableDictionary *I_currentSymbol;
-    NSMutableArray *I_currentPostprocess;
-    NSMutableArray *I_symbols;
-    BOOL everythingOkay;
-}
+@interface RegexSymbolDefinition : NSObject <NSXMLParserDelegate>
 
-/*"Initizialisation"*/
+@property (atomic, readonly, strong) DocumentMode *mode;
+@property (atomic, readonly, strong) OGRegularExpression *block;
+@property (atomic, readonly, copy) NSArray *symbols;
+@property (atomic, readonly, strong) NSError *xmlStructureError;
+
 - (id)initWithFile:(NSString *)aPath forMode:(DocumentMode *)aMode;
-
-/*"XML parsing"*/
-- (void)parseXMLFile:(NSString *)aPath;
-- (void)parseBlocks:(CFXMLTreeRef)aTree;
-- (void)parseSymbol:(CFXMLTreeRef)aTree;
-- (void)parsePostprocess:(CFXMLTreeRef)aTree;
-
-/*"Accessors"*/
-- (OGRegularExpression *)block;
-- (NSArray *)symbols;
-- (DocumentMode *)mode;
-- (void)setMode:(DocumentMode *)aMode;
 
 @end

@@ -154,25 +154,27 @@
     TCMMMLoggingState *state = [entry loggingState];
     NSString *userID = [[entry user] userID];
     NSArray *dataPoints = [state statisticsData];
-    NSCalendarDate *firstDate = [[dataPoints objectAtIndex:0] objectForKey:@"date"];
-    NSCalendarDate *lastDate = [[dataPoints lastObject] objectForKey:@"date"];
+    NSDate *firstDate = [[dataPoints objectAtIndex:0] objectForKey:@"date"];
+    NSDate *lastDate = [[dataPoints lastObject] objectForKey:@"date"];
 	if (timeInterval>0.) {
-		firstDate = [[[NSCalendarDate alloc] initWithTimeInterval:-1.*timeInterval sinceDate:lastDate] autorelease];
+		firstDate = [[[NSDate alloc] initWithTimeInterval:-1.*timeInterval sinceDate:lastDate] autorelease];
 	}
 //    NSLog(@"%s %@-%@",__FUNCTION__,firstDate,lastDate);
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
 
-    NSString *firstDateString = [firstDate descriptionWithCalendarFormat:[defaults objectForKey:NSShortTimeDateFormatString]];
-    NSString *lastDateString  = [lastDate  descriptionWithCalendarFormat:[defaults objectForKey:NSShortTimeDateFormatString]];
+	NSString *firstDateString = nil;
+	NSString *lastDateString  = nil;
     NSTimeInterval timeRange = [lastDate timeIntervalSinceDate:firstDate];
-    if (timeRange<60*60*12) {
-        NSMutableString *timeFormatString = [defaults objectForKey:NSTimeFormatString];
+    if (timeRange < 60*60*12)
+	{
+		firstDateString = [NSDateFormatter localizedStringFromDate:firstDate dateStyle:NSDateFormatterNoStyle timeStyle:kCFDateFormatterMediumStyle];
+		lastDateString  = [NSDateFormatter localizedStringFromDate:lastDate dateStyle:NSDateFormatterNoStyle timeStyle:kCFDateFormatterMediumStyle];
+	}
+	else
+	{
+		firstDateString = [NSDateFormatter localizedStringFromDate:firstDate dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterShortStyle];
+		lastDateString  = [NSDateFormatter localizedStringFromDate:lastDate dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterShortStyle];
+	}
 
-        firstDateString = [firstDate descriptionWithCalendarFormat:timeFormatString];
-        lastDateString  = [lastDate  descriptionWithCalendarFormat:timeFormatString];
-    }
-
-    
     [[[NSColor redColor] colorWithAlphaComponent:0.2] set];
 //    [NSBezierPath fillRect:bounds];
 //    NSFrameRect(bounds);
@@ -196,7 +198,6 @@
     int count = [dataPoints count];
     int step = 1.;//MAX(1,(int)(count/(NSWidth(bounds)*20.)));
 	BOOL didMove=NO;
-	float lastX=-1.;
     for (i=0;i<count;i+=step) {
         NSDictionary *entryDict = [dataPoints objectAtIndex:i];
         if (i+step>count) {
@@ -237,7 +238,6 @@
                 [paths[j] lineToPoint:point];
             }
             lastPoints[j]=point;
-            lastX = point.x;
         }
 		didMove = YES;
     }

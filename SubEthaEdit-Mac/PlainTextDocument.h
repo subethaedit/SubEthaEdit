@@ -7,9 +7,6 @@
 //
 
 
-#if defined(CODA)
-#import "../document/NodeDocument.h"
-#endif //defined(CODA)
 #import <Cocoa/Cocoa.h>
 #import <Security/Security.h>
 #import "EncodingManager.h"
@@ -42,11 +39,7 @@ extern NSString * const WrittenByUserIDAttributeName;
 extern NSString * const ChangedByUserIDAttributeName;
 extern NSString * const PlainTextDocumentDidSaveNotification;
 
-#if defined(CODA)
-@interface PlainTextDocument : NodeDocument <SEEDocument,  NSTextViewDelegate, NSTextStorageDelegate, NSOpenSavePanelDelegate>
-#else
 @interface PlainTextDocument : NSDocument <SEEDocument, NSTextViewDelegate, NSTextStorageDelegate, NSOpenSavePanelDelegate>
-#endif //defined(CODA)
 {
     TCMMMSession *I_session;
     struct {
@@ -161,10 +154,6 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
     IBOutlet NSObjectController *O_printOptionController;
     BOOL I_printOperationIsRunning;
 
-    // export nib
-    IBOutlet NSWindow *O_exportSheet;
-    IBOutlet NSObjectController *O_exportSheetController;
-    
     NSArray *I_preservedDataFromSEETextFile;
     
     AuthorizationRef I_authRef;
@@ -178,18 +167,18 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
     #endif
 }
 
+@property (readwrite, strong) IBOutlet NSWindow *O_exportSheet;
+@property (readwrite, strong) IBOutlet NSObjectController *O_exportSheetController;
+
+
 + (PlainTextDocument *)transientDocument;
 
-- (void)setTemporarySavePanel:(NSSavePanel *)aPanel;
+//- (void)setTemporarySavePanel:(NSSavePanel *)aPanel;
 
 - (NSImage *)documentIcon;
 
 - (void)setPreservedDataFromSEETextFile:(NSArray *)aPreservedData;
 - (NSArray *)preservedDataFromSEETextFile;
-
-#if defined(CODA)
-- (void)changeFontInteral:(id)aSender;
-#endif //defined(CODA)
 
 - (id)initWithSession:(TCMMMSession *)aSession;
 
@@ -197,8 +186,8 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (void)presentScheduledAlertForWindow:(NSWindow *)window;
 
 - (IBAction)newView:(id)aSender;
-- (IBAction)goIntoBundles:(id)sender;
-- (IBAction)showHiddenFiles:(id)sender;
+//- (IBAction)goIntoBundles:(id)sender;
+//- (IBAction)showHiddenFiles:(id)sender;
 - (IBAction)selectFileFormat:(id)aSender;
 - (IBAction)showWebPreview:(id)aSender;
 - (BOOL)isProxyDocument;
@@ -279,7 +268,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 //- (void)gotoLine:(unsigned)aLine orderFront:(BOOL)aFlag;
 - (void)selectRange:(NSRange)aRange;
 - (void)selectRangeInBackground:(NSRange)aRange;
-- (void)handleOpenDocumentEvent;
+- (void)handleOpenDocumentEvent:(NSAppleEventDescriptor *)eventDesc;
 
 - (void)convertLineEndingsToLineEnding:(LineEnding)lineEnding;
 - (IBAction)convertLineEndings:(id)aSender;
@@ -372,8 +361,8 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (IBAction)cancelExport:(id)aSender;
 - (IBAction)continueExport:(id)aSender;
 
-#pragma mark ### Printing ###
-- (IBAction)changeFontViaPanel:(id)sender;
+//#pragma mark ### Printing ###
+//- (IBAction)changeFontViaPanel:(id)sender;
 - (NSMutableDictionary *)printOptions;
 - (void)setPrintOptions:(NSDictionary *)aPrintOptions;
 

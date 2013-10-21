@@ -212,4 +212,15 @@
     }
 }
 
+- (void)setDelegate:(id <TCMBEEPProfileDelegate, TCMMMStatusProfileDelegate>)aDelegate
+{
+	[super setDelegate:aDelegate];
+}
+
+- (id <TCMBEEPProfileDelegate, TCMMMStatusProfileDelegate>)delegate
+{
+	return (id <TCMBEEPProfileDelegate, TCMMMStatusProfileDelegate>)[super delegate];
+}
+
+
 @end

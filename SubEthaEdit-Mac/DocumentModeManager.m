@@ -13,13 +13,8 @@
 #import "SyntaxDefinition.h"
 #import <OgreKit/OgreKit.h>
 
-#if defined(CODA)
-#define MODEPATHCOMPONENT @"Application Support/Coda/Modes/"
-#define STYLEPATHCOMPONENT @"Application Support/Coda/Styles/"
-#else
 #define MODEPATHCOMPONENT @"Application Support/SubEthaEditDebug/Modes/"
 #define STYLEPATHCOMPONENT @"Application Support/SubEthaEditDebug/Styles/"
-#endif //defined(CODA)
 
 @interface DocumentModeManager (DocumentModeManagerPrivateAdditions)
 - (void)TCM_findModes;
@@ -164,9 +159,6 @@ static DocumentModeManager *S_sharedInstance=nil;
             I_documentModesByIdentifier =[NSMutableDictionary new];
             I_documentModesByName       = [NSMutableDictionary new];
 			I_documentModesByIdentifierLock = [NSRecursiveLock new]; // ifc - experimental locking... awaiting real fix from TCM
-#if defined(CODA)
-            I_modeIdentifiersByExtension=[NSMutableDictionary new];
-#endif //defined(CODA)
             I_modeIdentifiersTagArray   =[NSMutableArray new];
             [I_modeIdentifiersTagArray addObject:@"-"];
             [I_modeIdentifiersTagArray addObject:AUTOMATICMODEIDENTIFIER];
@@ -190,9 +182,6 @@ static DocumentModeManager *S_sharedInstance=nil;
     [I_documentModesByName release];
     [I_documentModesByIdentifier release];
 	[I_documentModesByIdentifierLock release]; // ifc - experimental locking... awaiting real fix from TCM
-#if defined(CODA)
-    [I_modeIdentifiersByExtension release];
-#endif //defined(CODA)
     [super dealloc];
 }
 
@@ -426,7 +415,6 @@ static DocumentModeManager *S_sharedInstance=nil;
     
     //create Directories 
     NSArray *userDomainPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES); 
-    NSEnumerator *enumerator = [userDomainPaths objectEnumerator]; 
     for (path in userDomainPaths) { 
         NSString *fullPath = [path stringByAppendingPathComponent:MODEPATHCOMPONENT]; 
         if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:nil]) { 
@@ -444,7 +432,7 @@ static DocumentModeManager *S_sharedInstance=nil;
     
     [allPaths addObject:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Modes/"]]; 
     
-    enumerator = [allPaths reverseObjectEnumerator]; 
+    NSEnumerator *enumerator = [allPaths reverseObjectEnumerator];
     while ((path = [enumerator nextObject])) { 
         NSEnumerator *dirEnumerator = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil] objectEnumerator]; 
         while ((file = [dirEnumerator nextObject])) { 
@@ -561,9 +549,6 @@ static DocumentModeManager *S_sharedInstance=nil;
     [I_modeBundles                removeAllObjects];
     [I_documentModesByIdentifier  removeAllObjects];
 	[I_documentModesByName		  removeAllObjects];
-#if defined(CODA)
-	[I_modeIdentifiersByExtension removeAllObjects];
-#endif //defined(CODA)
     [self TCM_findModes];
 	[I_documentModesByIdentifierLock unlock]; // ifc - experimental
 
@@ -704,23 +689,6 @@ static DocumentModeManager *S_sharedInstance=nil;
 - (DocumentMode *)documentModeForPath:(NSString *)path withContentString:(NSString *)contentString {
     NSString *filename = [path lastPathComponent];
     NSString *extension = [path pathExtension];
-#if defined(CODA)        
-// need to loop over keys like this for bug #10694
-	NSArray		*allKeys = [I_modeIdentifiersByExtension allKeys];
-	int			i, count = [allKeys count];
-	NSString	*identifier = nil;
-	NSString	*curKey = nil;
-	
-	for ( i = 0; i < count && (identifier == nil); i++ )
-	{
-		curKey = [allKeys objectAtIndex:i];
-		if ( [[filename lowercaseString] hasSuffix:[curKey lowercaseString]] )
-			identifier = [I_modeIdentifiersByExtension objectForKey:curKey];
-    }
-	
-	if ( identifier ) 
-        return [self documentModeForIdentifier:identifier];
-#endif //defined(CODA)
     NSEnumerator *modeEnumerator = [[self modePrecedenceArray] objectEnumerator];
     NSMutableDictionary *mode;
     while ((mode = [modeEnumerator nextObject])) {

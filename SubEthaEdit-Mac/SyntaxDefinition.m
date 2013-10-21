@@ -35,29 +35,28 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
     self=[super init];
     if (self) {
         if (!aPath) {
-            [self dealloc];
+            [self release]; self = nil;
             return nil;
         }
         // Alloc & Init
         I_defaultState = [NSMutableDictionary new];
         I_importedModes = [NSMutableDictionary new];
-        I_useSpellingDictionary = NO;
         I_allStates = [NSMutableDictionary new];
-        I_name = nil;
-        [self setMode:aMode];
-        everythingOkay = YES;
-        I_foldingTopLevel = 1;
-        I_defaultSyntaxStyle = [SyntaxStyle new]; 
-        [I_defaultSyntaxStyle setDocumentMode:aMode];               
-        // Parse XML File
-		self.scopeStyleDictionary = [NSMutableDictionary dictionary];
-		self.linkedStyleSheets = [NSMutableArray array];
-		
+        I_defaultSyntaxStyle = [SyntaxStyle new];
 		I_allScopesArray =  [[NSMutableArray alloc] initWithObjects:SEEStyleSheetMetaDefaultScopeName, nil];
 		I_allLanguageContextsArray = [[NSMutableArray alloc] initWithObjects:[aMode scriptedName], nil];
-		
+
+		self.scopeStyleDictionary = [NSMutableDictionary dictionary];
+		self.linkedStyleSheets = [NSMutableArray array];
+
+        everythingOkay = YES;
+        I_foldingTopLevel = 1;
+
+        // Parse XML File
+        [self setMode:aMode];
+        [I_defaultSyntaxStyle setDocumentMode:aMode];
 		[self parseXMLFile:aPath];
-        
+
         // Setup stuff <-> style dictionaries
         I_stylesForToken = [NSMutableDictionary new];
         I_stylesForRegex = [NSMutableDictionary new];
@@ -69,16 +68,14 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 		I_levelsForStyleIDs = [NSMutableDictionary new];
 		I_keyForInheritedSymbols = nil;
 		I_keyForInheritedAutocomplete = nil;
+
+	    if (! everythingOkay) {
+			NSLog(@"Critical errors while loading syntax definition. Not loading syntax highlighter.");
+            [self release]; self = nil;
+			return nil;
+		}
 	}
-    
-//    NSLog([self description]);
-    
-    if (everythingOkay) return self;
-    else {
-        NSLog(@"Critical errors while loading syntax definition. Not loading syntax highlighter.");
-        [self dealloc];
-        return nil;
-    }
+	return self;
 }
 
 - (void)dealloc {
@@ -436,7 +433,7 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 	
 	NSString *autocompleteFromMode = [[stateNode attributeForName:@"useautocompletefrommode"] stringValue];
 	if (autocompleteFromMode) {
-		[stateDictionary setObject:symbolsFromMode forKey:StateDictionarySwitchToAutocompleteFromModeKey];
+		if (symbolsFromMode) [stateDictionary setObject:symbolsFromMode forKey:StateDictionarySwitchToAutocompleteFromModeKey];
 		if (![I_allLanguageContextsArray containsObject:autocompleteFromMode]) {
 			[I_allLanguageContextsArray addObject:autocompleteFromMode];
 			//NSLog(@"%s added %@ -> %@",__FUNCTION__, autocompleteFromMode, I_allLanguageContextsArray);
@@ -755,22 +752,22 @@ static NSString * const StateDictionaryUseAutocompleteFromModeKey      = @"useau
 
 - (void)getReady {
 	@synchronized(self) {
-		BOOL wasntReady = NO;
+//		BOOL wasntReady = NO;
 		if (!I_combinedStateRegexReady && !I_combinedStateRegexCalculating) {
 			[self calculateCombinedStateRegexes];
-			wasntReady = YES;
+//			wasntReady = YES;
 		}
 		if (!I_cacheStylesReady && !I_cacheStylesCalculating) {
 			//Moved addStyles in here, which should speed up type-and-color performance significantly.
 			[self addStyleIDsFromState:[self defaultState]];
 			[self cacheStyles];
-			wasntReady = YES;
+//			wasntReady = YES;
 		}
 		if (!I_symbolAndAutocompleteInheritanceReady) {
 			[self calculateSymbolInheritanceForState:[I_allStates objectForKey:[NSString stringWithFormat:@"/%@/%@", [self name], SyntaxStyleBaseIdentifier]] inheritedSymbols:[self name] inheritedAutocomplete:[self name]];
 			I_symbolAndAutocompleteInheritanceReady = YES;
 			//		NSLog(@"Defaultstate: Sym:%@, Auto:%@", [[self defaultState] objectForKey:[self keyForInheritedSymbols]],[[self defaultState] objectForKey:[self keyForInheritedAutocomplete]]);
-			wasntReady = YES;
+//			wasntReady = YES;
 		}
 //		NSArray *allScopes = [self.scopeStyleDictionary.allKeys sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
 //		NSLog(@"%s all scopes?: \n%@",__FUNCTION__, allScopes);

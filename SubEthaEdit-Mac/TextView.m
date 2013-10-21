@@ -150,8 +150,6 @@ static NSMenu *S_defaultMenu=nil;
             if ([textStorage length]>0) {
                 [textStorage setHasBlockeditRanges:YES];
                 [NSEvent stopPeriodicEvents];
-                [leftMouseDraggedEvent release];
-                 leftMouseDraggedEvent = nil;
                 if (isAddingBlockeditRanges) {
                     [textStorage addAttributes:blockeditAttributes
                                          range:blockeditRange];
@@ -164,7 +162,9 @@ static NSMenu *S_defaultMenu=nil;
                 // evil hack for unpause
                 [[self delegate] textViewDidChangeSelection:nil];
             }
-            break;
+			[leftMouseDraggedEvent release];
+			leftMouseDraggedEvent = nil;
+			break;
         } else {
             currentPoint = [self convertPoint:[leftMouseDraggedEvent locationInWindow] fromView:nil];
             glyphIndex =[layoutManager glyphIndexForPoint:currentPoint 
@@ -224,11 +224,7 @@ static NSMenu *S_defaultMenu=nil;
 
 // make sure our document gets the font change
 - (void)changeFont:(id)aSender {
-#if defined(CODA)
-	[[editor document] changeFontInteral:aSender];
-#else
     [[self document] changeFont:aSender];
-#endif //defined(CODA)
 }
 
 
@@ -275,10 +271,6 @@ static NSMenu *S_defaultMenu=nil;
 
     FoldableTextStorage *ts = (FoldableTextStorage *)[self textStorage];
 
-#if defined(CODA)
-	NSSize textOffset = [self textContainerInset]; 
-#endif //defined(CODA)
-
     if (document) {
         while ((user=[participants nextObject])) {
             if (user != me) {
@@ -298,13 +290,8 @@ static NSMenu *S_defaultMenu=nil;
                                                 
                         if (rectCount>0) {
                             NSPoint myPoint = rectArray[0].origin;
-#if defined(CODA)
-					        myPoint.x -= (0.5 + textOffset.width); 
-                            myPoint.y += (rectArray[0].size.height - 0.5 + textOffset.height);
-#else
                             myPoint.x -= 0.5;
                             myPoint.y += rectArray[0].size.height - 0.5;
-#endif //defined(CODA)
                             [self drawInsertionPointWithColor:changeColor atPoint:myPoint];
                         }
                     }
@@ -316,17 +303,9 @@ static NSMenu *S_defaultMenu=nil;
     if (I_isDragTarget) {
         [[[NSColor selectedTextBackgroundColor] colorWithAlphaComponent:0.5] set];
         NSBezierPath *path=[NSBezierPath bezierPathWithRect:NSInsetRect([self bounds],2,2)];
-#if defined(CODA)
-		// need to set-up the clip to over-ride the systems clipping of the text view
-		[NSGraphicsContext saveGraphicsState];
-		[[NSBezierPath bezierPathWithRect:[self visibleRect]] setClip];
-#endif //defined(CODA)
         [path setLineWidth:4.];
         [path setLineJoinStyle:NSRoundLineCapStyle];
         [path stroke];
-#if defined(CODA)
-		[NSGraphicsContext restoreGraphicsState];
-#endif //defined(CODA)
     }
 }
 
@@ -568,17 +547,13 @@ static NSMenu *S_defaultMenu=nil;
     [[self enclosingScrollView] setDocumentCursor:isDark?[NSCursor invertedIBeamCursor]:[NSCursor IBeamCursor]];
     if (( wasDark && !isDark) || 
         (!wasDark &&  isDark)) {
-#if !defined(CODA)
         // remove and add from Superview to activiate my cursor rect and deactivate the ones of the TextView
         NSScrollView *sv = [[[self enclosingScrollView] retain] autorelease];
         NSView *superview = [sv superview];
         [sv removeFromSuperview];
         [superview addSubview:sv];
-#endif //!defined(CODA)
     }
-#if !defined(CODA)
     [[self window] invalidateCursorRectsForView:self];
-#endif //!defined(CODA)
 }
 
 - (void)toggleContinuousSpellChecking:(id)sender {
@@ -659,9 +634,7 @@ static NSMenu *S_defaultMenu=nil;
 
     I_flags.shouldCheckCompleteStart=YES;
     //I_flags.autoCompleteInProgress=YES; // Temporarliy disabled (SEE-874)
-#if !defined(CODA)
-    [super complete:sender]; 
-#endif //!defined(CODA)
+    [super complete:sender];
 }
 
 - (NSArray *)completionsForPartialWordRange:(NSRange)charRange indexOfSelectedItem:(NSInteger *)index {
@@ -728,6 +701,7 @@ static NSMenu *S_defaultMenu=nil;
 		if ([textStorage respondsToSelector:@selector(fullRangeForFoldedRange:)]) {
 			selectedRange = [textStorage fullRangeForFoldedRange:selectedRange];
 			textStorage = [textStorage fullTextStorage];
+			#pragma unused (selectedRange,textStorage)
 		}
 		NSMutableAttributedString *mutableString = [[[[self textStorage] attributedSubstringFromRange:[self selectedRange]] mutableCopy] autorelease];
 		NSTextAttachment *foldingIconAttachment = [[[NSTextAttachment alloc] initWithFileWrapper:[[[NSFileWrapper alloc] initWithPath:[[NSBundle mainBundle] pathForResource:@"FoldingBubbleBig" ofType:@"png"]] autorelease]] autorelease];
@@ -1027,9 +1001,6 @@ static NSMenu *S_defaultMenu=nil;
     NSTextContainer *textContainer = [self textContainer];
     NSPoint point = [self convertPoint:[anEvent locationInWindow] fromView:nil];
     point.x=5;
-#if defined(CODA)
-	point.y -= [self textContainerInset].height; 
-#endif //defined(CODA)
     unsigned glyphIndex,endCharacterIndex,startCharacterIndex;
     glyphIndex=[layoutManager glyphIndexForPoint:point 
                                  inTextContainer:textContainer];
@@ -1056,9 +1027,6 @@ static NSMenu *S_defaultMenu=nil;
                 event = autoscrollEvent;           
             case NSLeftMouseDragged:
                 point = [self convertPoint:[event locationInWindow] fromView:nil];
-#if defined(CODA)
-				point.y -= [self textContainerInset].height; 
-#endif //defined(CODA)
                 glyphIndex = [layoutManager glyphIndexForPoint:point
                                                inTextContainer:textContainer];
                 endCharacterIndex = [layoutManager characterIndexForGlyphAtIndex:glyphIndex];
@@ -1089,11 +1057,11 @@ static NSMenu *S_defaultMenu=nil;
             case NSLeftMouseUp:
                 if (timerOn) {
                     [NSEvent stopPeriodicEvents];
-                    timerOn = NO;
+//                    timerOn = NO;
                     [autoscrollEvent release];
                     autoscrollEvent = nil;
                 }
-            return;
+				return;
 				
 			default:
 				break;

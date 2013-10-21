@@ -87,19 +87,16 @@
 
 
 - (void)didSelect {
-#if !defined(CODA)
     BOOL isDir;
     if ([[NSFileManager defaultManager] fileExistsAtPath:SEE_TOOL_PATH isDirectory:&isDir] && !isDir) {
         [O_commandLineToolRemoveButton setEnabled:YES];
     } else {
         [O_commandLineToolRemoveButton setEnabled:NO];
     }
-#endif //!defined(CODA)
 }
 
 #pragma mark -
 
-#if !defined(CODA)
 - (BOOL)installCommandLineTool {
     OSStatus err;
     CFURLRef tool = NULL;
@@ -380,7 +377,6 @@
     // trigger update
     [[[DocumentController sharedInstance] documents] makeObjectsPerformSelector:@selector(applyStylePreferences)];
 }
-#endif //!defined(CODA)
 
 
 @end

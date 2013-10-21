@@ -26,7 +26,7 @@ extern NSString * const kTCMMMBEEPSessionManagerTLSMode;
 
 @class TCMBEEPListener, TCMHost, TCMBEEPSession;
 
-@interface TCMMMBEEPSessionManager : NSObject
+@interface TCMMMBEEPSessionManager : NSObject <TCMBEEPSessionDelegate, TCMBEEPProfileDelegate>
 {
     TCMBEEPListener *I_listener;
     int I_listeningPort;

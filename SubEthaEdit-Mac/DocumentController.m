@@ -6,10 +6,6 @@
 //  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
 //
 
-// FIXME fix deprecated printer methods
-
-#pragma GCC diagnostic ignored "-Wdeprecated-declarations" // we know there are printer warnings
-
 #import "DocumentController.h"
 #import "TCMMMSession.h"
 #import "PlainTextDocument.h"
@@ -26,19 +22,9 @@
 #import "NSSavePanelTCMAdditions.h"
 #import "MoreSecurity.h"
 #import "PlainTextWindowController.h"
-#if !defined(CODA)
 #import <PSMTabBarControl/PSMTabBarControl.h>
-#endif //!defined(CODA)
 #import <objc/objc-runtime.h>			// for objc_msgSend
 
-#if defined(CODA)
-#import "CodaDocument.h"
-#import "CodaWindowController.h"
-#import "PlainTextNodeDocument.h"
-#import "SplitController.h"
-#import "MoreCFQ.h" // prevent compiler warning
-#import <FTPKit/FTPKit.h> // for string category
-#endif //defined(CODA)
 
 @interface DocumentController (DocumentControllerPrivateAdditions)
 
@@ -88,33 +74,19 @@
         NSBundle *installedModeBundle = [mode bundle];
         NSString *versionStringOfInstalledMode = [installedModeBundle objectForInfoDictionaryKey:@"CFBundleVersion"];
         NSString *installedModeFileName = [installedModeBundle bundlePath];
-        
-        OSErr err = noErr;
-        FSRef folderRef;
-        NSString *userDomainPath = nil;
-        NSString *localDomainPath = nil;
-        NSString *networkDomainPath = nil;
-        
-        err = FSFindFolder(kUserDomain, kApplicationSupportFolderType, kDontCreateFolder, &folderRef);
-        if (err == noErr)
-            userDomainPath = [(NSURL *)CFURLCreateFromFSRef(kCFAllocatorSystemDefault, &folderRef) path];
 
-        err = FSFindFolder(kLocalDomain, kApplicationSupportFolderType, kDontCreateFolder, &folderRef);
-        if (err == noErr)
-            localDomainPath = [(NSURL *)CFURLCreateFromFSRef(kCFAllocatorSystemDefault, &folderRef) path];
-            
-        err = FSFindFolder(kNetworkDomain, kApplicationSupportFolderType, kDontCreateFolder, &folderRef);
-        if (err == noErr)
-            networkDomainPath = [(NSURL *)CFURLCreateFromFSRef(kCFAllocatorSystemDefault, &folderRef) path];
-            
-        short domain;
+        NSString *userDomainPath = [[[[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil] URLByStandardizingPath] path];
+        NSString *localDomainPath = [[[[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory inDomain:NSLocalDomainMask appropriateForURL:nil create:NO error:nil] URLByStandardizingPath] path];
+        NSString *networkDomainPath = [[[[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory inDomain:NSNetworkDomainMask appropriateForURL:nil create:NO error:nil] URLByStandardizingPath] path];
+
+		NSSearchPathDomainMask domain = 0;
         BOOL isKnownDomain = YES;
         if (userDomainPath != nil && [installedModeFileName hasPrefix:userDomainPath]) {
-            domain = kUserDomain;
+            domain = NSUserDomainMask;
         } else if (localDomainPath != nil && [installedModeFileName hasPrefix:localDomainPath]) {
-            domain = kLocalDomain;
+            domain = NSLocalDomainMask;
         } else if (networkDomainPath != nil && [installedModeFileName hasPrefix:networkDomainPath]) {
-            domain = kNetworkDomain;
+            domain = NSNetworkDomainMask;
         } else {
             isKnownDomain = NO;
         }
@@ -122,9 +94,9 @@
         NSString *installedModeName = [NSString stringWithFormat:@"%@ (%@)", [installedModeFileName lastPathComponent], versionStringOfInstalledMode];
         NSString *informativeText = [NSString stringWithFormat:NSLocalizedString(@"Mode \"%@\" is already installed in \"%@\".", nil), installedModeName, installedModeFileName];
 
-        if (!isKnownDomain || domain == kNetworkDomain || domain == kLocalDomain) {
+        if (!isKnownDomain || domain == NSNetworkDomainMask || domain == NSLocalDomainMask) {
             informativeText = [informativeText stringByAppendingFormat:@" %@", NSLocalizedString(@"You will override the installed mode.", nil)];
-        } else if (domain == kUserDomain) {
+        } else if (domain == NSUserDomainMask) {
             informativeText = [informativeText stringByAppendingFormat:@" %@", NSLocalizedString(@"You will replace the installed mode.", nil)];
         }
 
@@ -140,136 +112,129 @@
     if (result == NSRunStoppedResponse) {
         BOOL success = NO;
 
-        short domain = 0;
+        NSSearchPathDomainMask domain = 0;
         int tag = [[O_modeInstallerDomainMatrix selectedCell] tag];
         if (tag == 0) {
-            domain = kUserDomain;
+            domain = NSUserDomainMask;
         } else if (tag == 1) {
-            domain = kLocalDomain;
+            domain = NSLocalDomainMask;
         }
-        
-        // Determine destination path and copy mode package
-        OSErr err = noErr;
-        FSRef folderRef;
-        err = FSFindFolder(domain, kApplicationSupportFolderType, kDontCreateFolder, &folderRef);
-        if (err == noErr) {
-            CFURLRef appSupportURL = CFURLCreateFromFSRef(kCFAllocatorSystemDefault, &folderRef);
-            NSString *destination = [(NSURL *)appSupportURL path];
-            destination = [destination stringByAppendingPathComponent:@"SubEthaEdit"];
-            destination = [destination stringByAppendingPathComponent:@"Modes"];
-            destination = [destination stringByAppendingPathComponent:[fileName lastPathComponent]];
-            DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Mode installation path: %@", destination);
-            
-            if (![fileName isEqualToString:destination]) {
-                if (domain == kUserDomain) {
-					// TODO: check errors here and present alert which is currently in fileManager:shouldProceedAfterError:
-                    NSFileManager *fileManager = [NSFileManager defaultManager];
-                    if ([fileManager fileExistsAtPath:destination]) {
-                        (void)[fileManager removeItemAtPath:destination error:nil];
-                    }
-                    success = [fileManager copyItemAtPath:fileName toPath:destination error:nil];
-                } else {
-                    OSStatus err;
-                    CFURLRef tool = NULL;
-                    AuthorizationRef auth = NULL;
-                    NSDictionary *request = nil;
-                    NSDictionary *response = nil;
 
-                    err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &auth);
-                    if (err == noErr) {
-                        static const char *kRightName = "de.codingmonkeys.SubEthaEdit.HelperTool";
-                        static const AuthorizationFlags kAuthFlags = kAuthorizationFlagDefaults 
-                                                                   | kAuthorizationFlagInteractionAllowed
-                                                                   | kAuthorizationFlagExtendRights
-                                                                   | kAuthorizationFlagPreAuthorize;
-                        AuthorizationItem   right  = { kRightName, 0, NULL, 0 };
-                        AuthorizationRights rights = { 1, &right };
+		NSURL *appSupportURL = [[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory inDomain:domain appropriateForURL:nil create:NO error:nil];
+		NSURL *destinationURL = [appSupportURL URLByAppendingPathComponent:@"SubEthaEdit"];
+		destinationURL = [destinationURL URLByAppendingPathComponent:@"Modes"];
+		destinationURL = [destinationURL URLByAppendingPathComponent:[fileName lastPathComponent]];
+		NSString *destination  = [destinationURL path];
 
-                        err = AuthorizationCopyRights(auth, &rights, kAuthorizationEmptyEnvironment, kAuthFlags, NULL);
-                    }
-                    
-                    if (err == noErr) {
-                        err = MoreSecCopyHelperToolURLAndCheckBundled(
-                            CFBundleGetMainBundle(), 
-                            CFSTR("SubEthaEditHelperToolTemplate"), 
-                            kApplicationSupportFolderType, 
-                            CFSTR("SubEthaEdit"), 
-                            CFSTR("SubEthaEditHelperTool"), 
-                            &tool);
+		if (![fileName isEqualToString:destination]) {
+			if (domain == NSUserDomainMask) {
+				// TODO: check errors here and present alert which is currently in fileManager:shouldProceedAfterError:
+				NSFileManager *fileManager = [NSFileManager defaultManager];
+				if ([fileManager fileExistsAtPath:destination]) {
+					(void)[fileManager removeItemAtPath:destination error:nil];
+				}
+				success = [fileManager copyItemAtPath:fileName toPath:destination error:nil];
+			} else {
+				OSStatus err;
+				CFURLRef tool = NULL;
+				AuthorizationRef auth = NULL;
+				NSDictionary *request = nil;
+				NSDictionary *response = nil;
 
-                        // If the home directory is on an volume that doesn't support 
-                        // setuid root helper tools, ask the user whether they want to use 
-                        // a temporary tool.
-                        
-                        if (err == kMoreSecFolderInappropriateErr) {
-                            err = MoreSecCopyHelperToolURLAndCheckBundled(
-                                CFBundleGetMainBundle(), 
-                                CFSTR("SubEthaEditHelperToolTemplate"), 
-                                kTemporaryFolderType, 
-                                CFSTR("SubEthaEdit"), 
-                                CFSTR("SubEthaEditHelperTool"), 
-                                &tool);
-                        }
-                    }
+				err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &auth);
+				if (err == noErr) {
+					static const char *kRightName = "de.codingmonkeys.SubEthaEdit.HelperTool";
+					static const AuthorizationFlags kAuthFlags = kAuthorizationFlagDefaults
+					| kAuthorizationFlagInteractionAllowed
+					| kAuthorizationFlagExtendRights
+					| kAuthorizationFlagPreAuthorize;
+					AuthorizationItem   right  = { kRightName, 0, NULL, 0 };
+					AuthorizationRights rights = { 1, &right };
 
-                    // Create the request dictionary for copying the mode
+					err = AuthorizationCopyRights(auth, &rights, kAuthorizationEmptyEnvironment, kAuthFlags, NULL);
+				}
 
-                    if (err == noErr) {
-                    
+				if (err == noErr) {
+					err = MoreSecCopyHelperToolURLAndCheckBundled(
+																  CFBundleGetMainBundle(),
+																  CFSTR("SubEthaEditHelperToolTemplate"),
+																  kApplicationSupportFolderType,
+																  CFSTR("SubEthaEdit"),
+																  CFSTR("SubEthaEditHelperTool"),
+																  &tool);
+
+					// If the home directory is on an volume that doesn't support
+					// setuid root helper tools, ask the user whether they want to use
+					// a temporary tool.
+
+					if (err == kMoreSecFolderInappropriateErr) {
+						err = MoreSecCopyHelperToolURLAndCheckBundled(
+																	  CFBundleGetMainBundle(),
+																	  CFSTR("SubEthaEditHelperToolTemplate"),
+																	  kTemporaryFolderType,
+																	  CFSTR("SubEthaEdit"),
+																	  CFSTR("SubEthaEditHelperTool"),
+																	  &tool);
+					}
+				}
+
+				// Create the request dictionary for copying the mode
+
+				if (err == noErr) {
+
                     NSNumber *filePermissions = [NSNumber numberWithUnsignedShort:(S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH)];
                     NSDictionary *targetAttrs = [NSDictionary dictionaryWithObjectsAndKeys:
-                                                    filePermissions, NSFilePosixPermissions,
-                                                    @"root", NSFileOwnerAccountName,
-                                                    @"admin", NSFileGroupOwnerAccountName,
-                                                    nil];
-                                        
-                        request = [NSDictionary dictionaryWithObjectsAndKeys:
-                                            @"CopyFiles", @"CommandName",
-                                            fileName, @"SourceFile",
-                                            destination, @"TargetFile",
-                                            targetAttrs, @"TargetAttributes",
-                                            nil];
-                    }
+												 filePermissions, NSFilePosixPermissions,
+												 @"root", NSFileOwnerAccountName,
+												 @"admin", NSFileGroupOwnerAccountName,
+												 nil];
 
-                    // Go go gadget helper tool!
+					request = [NSDictionary dictionaryWithObjectsAndKeys:
+							   @"CopyFiles", @"CommandName",
+							   fileName, @"SourceFile",
+							   destination, @"TargetFile",
+							   targetAttrs, @"TargetAttributes",
+							   nil];
+				}
 
-                    if (err == noErr) {
-                        err = MoreSecExecuteRequestInHelperTool(tool, auth, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
-                    }
-                    
-                    // Extract information from the response.
-                    
-                    if (err == noErr) {
-                        //NSLog(@"response: %@", response);
+				// Go go gadget helper tool!
 
-                        err = MoreSecGetErrorFromResponse((CFDictionaryRef)response);
-                        if (err == noErr) {
-                            success = YES;
-                        }
-                    }
-                    
-                    // Clean up after second call of helper tool.
-                    if (response) {
-                        [response release];
-                    }
+				if (err == noErr) {
+					err = MoreSecExecuteRequestInHelperTool(tool, auth, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
+				}
+
+				// Extract information from the response.
+
+				if (err == noErr) {
+					//NSLog(@"response: %@", response);
+
+					err = MoreSecGetErrorFromResponse((CFDictionaryRef)response);
+					if (err == noErr) {
+						success = YES;
+					}
+				}
+
+				// Clean up after second call of helper tool.
+				if (response) {
+					[response release];
+				}
 
 
-                    CFRelease(tool);
-                    if (auth != NULL) {
-                        (void)AuthorizationFree(auth, kAuthorizationFlagDestroyRights);
-                    }
-                }
-            } else {
-                success = YES;
-            }
-        }
-        
+				if (tool) CFRelease(tool);
+				if (auth != NULL) {
+					(void)AuthorizationFree(auth, kAuthorizationFlagDestroyRights);
+				}
+			}
+		} else {
+			success = YES;
+		}
+
         [[DocumentModeManager sharedInstance] reloadDocumentModes:self];
-        
+
         NSAlert *alert = [[NSAlert alloc] init];
         [alert setAlertStyle:NSInformationalAlertStyle];
         if (success) {
-            [alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"The mode \"%@\" has been installed successfully.", nil), name]];       
+            [alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"The mode \"%@\" has been installed successfully.", nil), name]];
         } else {
             [alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"Installation of mode \"%@\" failed.", nil), name]];
         }
@@ -317,9 +282,8 @@ static NSString *tempFileName() {
         I_waitingDocuments = [NSMutableDictionary new];
         I_refCountsOfSeeScriptCommands = [NSMutableDictionary new];
         I_pipingSeeScriptCommands = [NSMutableArray new];
-        
+
         I_windowControllers = [NSMutableArray new];
-        I_documentsWithPendingDisplay = [NSMutableArray new];
     }
     return self;
 }
@@ -334,7 +298,6 @@ static NSString *tempFileName() {
     [I_refCountsOfSeeScriptCommands release];
     [I_pipingSeeScriptCommands release];
     
-    [I_documentsWithPendingDisplay release];
     [I_windowControllers release];
     
     [super dealloc];
@@ -356,11 +319,7 @@ static NSString *tempFileName() {
         PlainTextWindowController *windowController = nil;
         BOOL firstWC = YES;
         for (windowController in I_windowControllers) {
-#if defined(CODA)
-			NSEnumerator      *documents = [[windowController documents] objectEnumerator];
-#else
             NSEnumerator      *documents = [[windowController orderedDocuments] objectEnumerator];
-#endif //defined(CODA)
             PlainTextDocument *document = nil;
             if (!firstWC) {
                 [aMenu addItem:[NSMenuItem separatorItem]];
@@ -403,45 +362,6 @@ static NSString *tempFileName() {
     return documentMenu;
 }
 
-
-- (void)displayPendingDocuments
-{
-    // How many documents need displaying?
-    //unsigned int documentCount = [I_documentsWithPendingDisplay count];
-    //if (documentCount == 1) {
-        // Just one. Do what NSDocumentController would have done if this class didn't override -openDocumentWithContentsOfURL:display:error:.
-        NSDocument *document = [I_documentsWithPendingDisplay objectAtIndex:0];
-        [document makeWindowControllers];
-        [document showWindows];
-        [(PlainTextDocument *)document handleOpenDocumentEvent];
-    /*
-    } else if (documentCount > 0) {
-        // More than one. Instantiate a window controller that can display all of them.
-        PlainTextWindowController *windowController = [[PlainTextWindowController alloc] init];
-        [I_windowControllers addObject:windowController];
-
-        // "Add" it to each of the documents.
-        unsigned int index;
-        for (index = 0; index < documentCount; index++) {
-            [[I_documentsWithPendingDisplay objectAtIndex:index] addWindowController:windowController];
-            [(PlainTextDocument *)[I_documentsWithPendingDisplay objectAtIndex:index] handleOpenDocumentEvent];
-
-        }
-
-        // Make the first document the current one.
-        [windowController setDocument:[I_documentsWithPendingDisplay objectAtIndex:0]];
-
-        // Show the window.
-        [windowController showWindow:self];
-
-        // Release the window controller. It will be deallocated when all of the documents have been closed.
-        [windowController release];
-
-    } // else something inexplicable has happened. Ignore it (instead of crashing).
-    */
-    [I_documentsWithPendingDisplay removeAllObjects];
-}
-
 - (void)addProxyDocumentWithSession:(TCMMMSession *)aSession {
     PlainTextDocument *document = [[PlainTextDocument alloc] initWithSession:aSession];
     [document makeProxyWindowController];
@@ -480,17 +400,13 @@ static NSString *tempFileName() {
     [openPanel setCanChooseDirectories:YES];
     [O_goIntoBundlesCheckbox setState:flag ? NSOnState : NSOffState];
     
-    if ([openPanel canShowHiddenFiles]) {
-        flag = [[NSUserDefaults standardUserDefaults] boolForKey:@"ShowsHiddenFiles"];
-        [openPanel setInternalShowsHiddenFiles:flag];
-        [O_showHiddenFilesCheckbox setState:flag ? NSOnState : NSOffState];
-    } else {
-        [O_showHiddenFilesCheckbox setHidden:YES];
-    }
-    
+	flag = [[NSUserDefaults standardUserDefaults] boolForKey:@"ShowsHiddenFiles"];
+	[openPanel setShowsHiddenFiles:flag];
+	[O_showHiddenFilesCheckbox setState:flag ? NSOnState : NSOffState];
+
     I_openPanel = openPanel;
     if ([self locationForNextOpenPanel]) {
-        [I_openPanel setDirectory:[[self locationForNextOpenPanel] path]];
+        [I_openPanel setDirectoryURL:[self locationForNextOpenPanel]];
         [self setLocationForNextOpenPanel:nil];
     }
     int result = [super runModalOpenPanel:openPanel forTypes:extensions];
@@ -537,14 +453,6 @@ static NSString *tempFileName() {
     return I_encodingFromLastRunOpenPanel;
 }
 
-#if defined(CODA)
-- (void)setDocumentsFromLastRunOpenPanel:(NSArray*)filenames
-{
-	if ( filenames )
-		[I_fileNamesFromLastRunOpenPanel addObjectsFromArray:filenames];
-}
-#endif //defined(CODA)
-
 - (NSString *)modeIdentifierFromLastRunOpenPanel {
     return I_modeIdentifierFromLastRunOpenPanel;
 }
@@ -560,19 +468,6 @@ static NSString *tempFileName() {
 
 - (NSDictionary *)propertiesForOpenedFile:(NSString *)fileName {
     return [I_propertiesForOpenedFiles objectForKey:fileName];
-}
-
-
-// TODO: this will not happen anymore since the handler API is depricated
-- (BOOL)fileManager:(NSFileManager *)manager shouldProceedAfterError:(NSDictionary *)errorInfo {
-    NSAlert *alert = [[NSAlert alloc] init];
-    [alert setAlertStyle:NSWarningAlertStyle];
-    [alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"File operation error: %@ with file: %@", nil), [errorInfo objectForKey:@"Error"], [errorInfo objectForKey:@"Path"]]];
-    [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
-    (void)[alert runModal];
-	[alert release];
-	
-    return YES;
 }
 
 - (PlainTextDocument *)frontmostPlainTextDocument {
@@ -637,6 +532,19 @@ static NSString *tempFileName() {
 }
 
 
+- (void)openDocumentWithContentsOfURL:(NSURL *)url display:(BOOL)displayDocument completionHandler:(void (^)(NSDocument *, BOOL, NSError *))completionHandler
+{
+    NSAppleEventDescriptor *eventDesc = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
+	[super openDocumentWithContentsOfURL:url display:displayDocument completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error)
+	 {
+		 if (document && displayDocument) {
+			 [(PlainTextDocument *)document handleOpenDocumentEvent:eventDesc];
+		 }
+		 completionHandler(document, displayDocument, error);
+	 }];
+}
+
+
 - (id)openDocumentWithContentsOfURL:(NSURL *)anURL display:(BOOL)flag error:(NSError **)outError {
     if ([I_fileNamesFromLastRunOpenPanel count]==0) {
         [self setIsOpeningUsingAlternateMenuItem:NO];
@@ -658,9 +566,6 @@ static NSString *tempFileName() {
         return [NSNumber numberWithBool:YES];        
     } else {
         NSDocument *document = [super openDocumentWithContentsOfURL:anURL display:flag error:outError];
-        if (document && flag) {
-            [(PlainTextDocument *)document handleOpenDocumentEvent];
-        }
         return document;
     }
 }
@@ -866,7 +771,7 @@ static NSString *tempFileName() {
         NSError *error=nil;
         PlainTextDocument *document = [self openDocumentWithContentsOfURL:[NSURL fileURLWithPath:filename] display:YES error:&error];
         NSLog(@"%@",error);
-        [document printShowingPrintPanel:NO];
+//        [document printShowingPrintPanel:NO];
         if (shouldClose) {
             [document close];
         }
@@ -969,8 +874,8 @@ static NSString *tempFileName() {
                 [(PlainTextDocument *)document setJobDescription:jobDescription];
             }
             if (shouldPrint) {
-                [document printShowingPrintPanel:NO];
-                [document close];            
+//                [document printShowingPrintPanel:NO];
+                [document close];
             } else {
                 if (shouldJumpToLine) {
                     if (columnToGoTo!=-1) {
@@ -1035,7 +940,7 @@ static NSString *tempFileName() {
                 [(PlainTextDocument *)document setJobDescription:jobDescription];
             }
             if (shouldPrint) {
-                [document printShowingPrintPanel:NO];
+//                [document printShowingPrintPanel:NO];
                 [document close];
             } else {
                 [documents addObject:document];
@@ -1092,8 +997,8 @@ static NSString *tempFileName() {
             }
             
             if (shouldPrint) {
-                [document printShowingPrintPanel:NO];
-                [document close];            
+//                [document printShowingPrintPanel:NO];
+                [document close];
             } else {
                 if (shouldJumpToLine) {
                     if (columnToGoTo!=-1) {
@@ -1143,16 +1048,16 @@ static NSString *tempFileName() {
         if (encoding < SmallestCustomStringEncoding) {
             [document setFileEncoding:encoding];
         }
-        NSString *newFileContent=[newMode newFileContent];
-        if (newFileContent && ![newFileContent canBeConvertedToEncoding:[document fileEncoding]]) {
-            newFileContent=[[[NSString alloc] 
-                            initWithData:[newFileContent dataUsingEncoding:[document fileEncoding] allowLossyConversion:YES] 
+        NSString *templateFileContent=[newMode templateFileContent];
+        if (templateFileContent && ![templateFileContent canBeConvertedToEncoding:[document fileEncoding]]) {
+            templateFileContent=[[[NSString alloc] 
+                            initWithData:[templateFileContent dataUsingEncoding:[document fileEncoding] allowLossyConversion:YES] 
                             encoding:[document fileEncoding]] 
                               autorelease];
         }
-        if (newFileContent) {
+        if (templateFileContent) {
             FoldableTextStorage *textStorage=(FoldableTextStorage *)[document textStorage];
-            [textStorage replaceCharactersInRange:NSMakeRange(0,[textStorage length]) withString:newFileContent];
+            [textStorage replaceCharactersInRange:NSMakeRange(0,[textStorage length]) withString:templateFileContent];
             [document updateChangeCount:NSChangeCleared];
         }
     }
@@ -1204,9 +1109,7 @@ static NSString *tempFileName() {
         while (--count >= 0) {
             PlainTextWindowController *sourceWindowController = [I_windowControllers objectAtIndex:count];
             if (sourceWindowController != targetWindowController) {
-#if !defined(CODA)
                 [sourceWindowController moveAllTabsToWindowController:targetWindowController];
-#endif //!defined(CODA)
                 [sourceWindowController close];
                 [self removeWindowController:sourceWindowController];
             }
@@ -1219,17 +1122,15 @@ static NSString *tempFileName() {
 
 #pragma mark -
 
+
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 #pragma pack(push, 2)
 struct ModificationInfo
 {
     FSSpec theFile; // identifies the file
-#if defined(CODA)
-    int32_t theDate; // the date/time the file was last modified
-    int16_t saved; // set this to zero when replying
-#else
     long theDate; // the date/time the file was last modified
     short saved; // set this to zero when replying
-#endif //defined(CODA)
 };
 #pragma pack(pop)
 
@@ -1263,6 +1164,8 @@ struct ModificationInfo
         [replyEvent setDescriptor:listDesc forKeyword:keyDirectObject];
     }
 }
+#pragma clang diagnostic pop
+
 
 - (void)menuNeedsUpdate:(NSMenu *)aMenu {
     [self updateMenuWithTabMenuItems:aMenu shortcuts:YES];
@@ -1331,7 +1234,6 @@ struct ModificationInfo
 
 #pragma mark -
 
-#if !defined(CODA)
 - (IBAction)alwaysShowTabBar:(id)sender
 {
     BOOL flag = ([sender state] == NSOnState) ? NO : YES;
@@ -1349,7 +1251,6 @@ struct ModificationInfo
     }
     
 }
-#endif //!defined(CODA)
 
 - (IBAction)goIntoBundles:(id)sender {
     BOOL flag = ([(NSButton*)sender state] == NSOffState) ? NO : YES;
@@ -1359,9 +1260,7 @@ struct ModificationInfo
 
 - (IBAction)showHiddenFiles:(id)sender {
     BOOL flag = ([(NSButton*)sender state] == NSOffState) ? NO : YES;
-    if ([I_openPanel canShowHiddenFiles]) {
-        [I_openPanel setInternalShowsHiddenFiles:flag];
-    }
+	[I_openPanel setShowsHiddenFiles:flag];
     [[NSUserDefaults standardUserDefaults] setBool:flag forKey:@"ShowsHiddenFiles"];
 }
 
@@ -1437,16 +1336,6 @@ struct ModificationInfo
     [self closeAllDocumentsWithDelegate:nil didCloseAllSelector:NULL contextInfo:NULL];
 }
 
-#if defined(CODA)
-- (void)noteNewRecentDocumentURL:(NSURL*)aURL
-{
-	NSString *filePath = [aURL path];
-	
-	if ( ![filePath pc_isChildOfPath:[[[NSFileManager defaultManager] pc_chewableItemsFolderCreate:NO] pc_stringByNormalizingPath]] )
-		[super noteNewRecentDocumentURL:aURL];
-}
-#endif //defined(CODA)
-
 - (void)closeDocumentsStartingWith:(PlainTextDocument *)doc shouldClose:(BOOL)shouldClose closeAllContext:(void *)closeAllContext
 {
     // Iterate over unsaved documents, preserve closeAllContext to invoke it after the last document
@@ -1461,10 +1350,8 @@ struct ModificationInfo
             while (count--) {
                 PlainTextDocument *document = [documents objectAtIndex:count];
                 if ([document isDocumentEdited]) {
-#if !defined(CODA)
                     PlainTextWindowController *controller = [document topmostWindowController];
                     (void)[controller selectTabForDocument:document];
-#endif //!defined(CODA)
                     [document canCloseDocumentWithDelegate:self
                                        shouldCloseSelector:@selector(reviewedDocument:shouldClose:contextInfo:)
                                                contextInfo:closeAllContext];
@@ -1526,37 +1413,15 @@ struct ModificationInfo
 // note the "setServicesProvider:" in the applicationWillFinishLaunching method
 
 - (void)openSelection:(NSPasteboard *)pboard userData:(NSString *)data error:(NSString **)error {
-#if defined(CODA)
-	CodaDocument			*document = [CodaDocument frontmostDocument];
-	PlainTextNodeDocument	*wrapper = nil;
-	if ( !document ) 
-	{
-		document = (CodaDocument *)[self openUntitledDocumentOfType:@"PlainTextType" display:YES];
-		wrapper = (PlainTextNodeDocument*)[document nodeDocument];
-	}
-	else
-	{
-		[[document windowController] newTab:self];
-		wrapper = (PlainTextNodeDocument*)[document nodeDocument];
-	}
-	[[[[wrapper plainTextEditors] objectAtIndex:0] textView] readSelectionFromPasteboard:pboard];
-	NSTextStorage *ts = [wrapper textStorage];
-#else
     PlainTextDocument *document = (PlainTextDocument *)[self openUntitledDocumentAndDisplay:YES error:nil];
     [[[[document plainTextEditors] objectAtIndex:0] textView] readSelectionFromPasteboard:pboard];
     // Workaround for when only RTF is on the drag pasteboard (e.g. when dragging text from safari on the SubEthaEditApplicationIcon)
     NSTextStorage *ts = [document textStorage];
-#endif //defined(CODA)
     [ts removeAttribute:NSBackgroundColorAttributeName range:NSMakeRange(0,[ts length])];
     [ts removeAttribute:NSLinkAttributeName range:NSMakeRange(0,[ts length])];
     DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForPath:@"" withContentString:[ts string]];
-#if defined(CODA)
-	[wrapper setDocumentMode:mode];
-	[wrapper clearChangeMarks:self];
-#else
     [(PlainTextDocument *)document setDocumentMode:mode];
     [document clearChangeMarks:self];
-#endif //defined(CODA)
 }
 
 @end

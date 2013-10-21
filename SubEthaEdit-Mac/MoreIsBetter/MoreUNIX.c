@@ -14,7 +14,7 @@
 				please do not use, install, modify or redistribute this Apple software.
 
 				In consideration of your agreement to abide by the following terms, and subject
-				to these terms, Apple grants you a personal, non-exclusive license, under AppleÕs
+				to these terms, Apple grants you a personal, non-exclusive license, under Appleâ€™s
 				copyrights in this original Apple software (the "Apple Software"), to use,
 				reproduce, modify and redistribute the Apple Software, with or without
 				modifications, in source and/or binary forms; provided that if you redistribute
@@ -193,11 +193,7 @@ extern int MoreUNIXWrite(int fd, const void *buf, size_t bufSize, size_t *bytesW
 	// lets you disable SIGPIPE easily.
 	
 	#if !defined(MORE_UNIX_WRITE_CHECK_SIGPIPE)
-		#if defined(CODA)
-			#define MORE_UNIX_WRITE_CHECK_SIGPIPE 0
-		#else
-			#define MORE_UNIX_WRITE_CHECK_SIGPIPE 1
-		#endif //defined(CODA)
+		#define MORE_UNIX_WRITE_CHECK_SIGPIPE 1
 	#endif
 	#if MORE_DEBUG && MORE_UNIX_WRITE_CHECK_SIGPIPE
 		{

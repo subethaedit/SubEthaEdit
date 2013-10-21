@@ -47,9 +47,8 @@
 
     // Loads that nib file, passing in the preference pane object as the nib file’s owner.
 
-    [[[[NSNib alloc] initWithNibNamed:mainNibName bundle:nil] autorelease] instantiateNibWithOwner:self topLevelObjects:&I_topLevelNibObjects];
+    [[[[NSNib alloc] initWithNibNamed:mainNibName bundle:nil] autorelease] instantiateWithOwner:self topLevelObjects:&I_topLevelNibObjects];
     [I_topLevelNibObjects retain];
-    [I_topLevelNibObjects makeObjectsPerformSelector:@selector(release)];
 
     // Invokes the preference pane object’s assignMainView method to find and assign the main view.
     NSView *mainView = [self assignMainView];

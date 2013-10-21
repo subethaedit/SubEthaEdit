@@ -9,13 +9,8 @@
 #import <Carbon/Carbon.h>
 #import <SystemConfiguration/SystemConfiguration.h>
 #import <objc/objc-runtime.h>			// for objc_msgSend
-#if defined(CODA)
-#import <FTPKit/PCDebug.h>
-#endif //defined(CODA)
 
-#if !defined(CODA)
 #import <PSMTabBarControl/PSMTabBarControl.h>
-#endif //!defined(CODA)
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "PlainTextEditor.h"
 #import "DocumentController.h"
@@ -29,6 +24,7 @@
 #import "PrintPreferences.h"
 #import "AppController.h"
 #import "NSSavePanelTCMAdditions.h"
+#import "SEESavePanelAccessoryViewController.h"
 #import "EncodingDoctorDialog.h"
 #import "NSMutableAttributedStringSEEAdditions.h"
 #import "NSErrorTCMAdditions.h"
@@ -71,24 +67,6 @@
 #import "UKXattrMetadataStore.h"
 
 #import <UniversalDetector/UniversalDetector.h>
-
-#if defined(CODA)
-#import "CodaDocument.h"
-#import "NodeDocumentViewController.h"
-#endif //defined(CODA)
-
-#pragma pack(push, 2)
-struct SelectionRange
-{
-    int16_t unused1; // 0 (not used)
-    int16_t lineNum; // line to select (<0 to specify range)
-    int32_t startRange; // start of selection range (if line < 0)
-    int32_t endRange; // end of selection range (if line < 0)
-    int32_t unused2; // 0 (not used)
-    int32_t theDate; // modification date/time
-};
-#pragma pack(pop, 2)
-
 
 static PlainTextDocument *transientDocument = nil;
 static NSRect transientDocumentWindowFrame;
@@ -373,11 +351,7 @@ static NSString *tempFileName(NSString *origPath) {
     NSEnumerator *controllers=[[self windowControllers] objectEnumerator];
     id controller=nil;
     while ((controller=[controllers nextObject])) {
-#if defined(CODA)
-		if ([controller isKindOfClass:[PlainTextWindowController class]]) 
-#else
-        if ([controller isKindOfClass:[PlainTextWindowController class]] && ![(PlainTextWindowController *)controller hasManyDocuments]) 
-#endif //defined(CODA)
+        if ([controller isKindOfClass:[PlainTextWindowController class]] && ![(PlainTextWindowController *)controller hasManyDocuments])
 		{
             [(PlainTextWindowController *)controller 
                 setSizeByColumns:[[[self documentMode] defaultForKey:DocumentModeColumnsPreferenceKey] intValue] 
@@ -410,23 +384,26 @@ static NSString *tempFileName(NSString *origPath) {
     if (name == nil || [name length] == 0)
         return;
 
-    OSErr err;
+//    OSErr err;
     NSURL *fileURL = [NSURL fileURLWithPath:name];
-    FSRef fileRef;
-    CFURLGetFSRef((CFURLRef)fileURL, &fileRef);
-    FSSpec fsSpec;
-    err = FSGetCatalogInfo(&fileRef, kFSCatInfoNone, NULL, NULL, &fsSpec, NULL);
-    if (err == noErr) {
+	NSData *fileURLBookmarkData = [fileURL bookmarkDataWithOptions:NSURLBookmarkCreationSuitableForBookmarkFile includingResourceValuesForKeys:nil relativeToURL:nil error:nil];
+//    FSRef fileRef;
+//    CFURLGetFSRef((CFURLRef)fileURL, &fileRef);
+//    FSSpec fsSpec;
+//    err = FSGetCatalogInfo(&fileRef, kFSCatInfoNone, NULL, NULL, &fsSpec, NULL);
+//    if (err == noErr) {
+	if (fileURLBookmarkData) {
         NSData *signatureData = [[self ODBParameters] objectForKey:@"keyFileSender"];
         if (signatureData != nil) {
             NSAppleEventDescriptor *addressDescriptor = [NSAppleEventDescriptor descriptorWithDescriptorType:typeApplSignature bytes:[signatureData bytes] length:[signatureData length]];
             if (addressDescriptor != nil) {
                 NSAppleEventDescriptor *appleEvent = [NSAppleEventDescriptor appleEventWithEventClass:kODBEditorSuite eventID:kAEClosedFile targetDescriptor:addressDescriptor returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
-#if defined(__LP64__)
-				NSAppleEventDescriptor *aliasDescriptor = [NSAppleEventDescriptor descriptorWithDescriptorType:typeFSRef bytes:&fileRef length:sizeof(fileRef)];
-#else
-				NSAppleEventDescriptor *aliasDescriptor = [NSAppleEventDescriptor descriptorWithDescriptorType:typeFSS bytes:&fsSpec length:sizeof(fsSpec)];
-#endif //defined(__LP64__)
+				NSAppleEventDescriptor *aliasDescriptor = [NSAppleEventDescriptor descriptorWithDescriptorType:typeBookmarkData bytes:&fileURLBookmarkData length:sizeof(fileURLBookmarkData)];
+//#if defined(__LP64__)
+//				NSAppleEventDescriptor *aliasDescriptor = [NSAppleEventDescriptor descriptorWithDescriptorType:typeFSRef bytes:&fileRef length:sizeof(fileRef)];
+//#else
+//				NSAppleEventDescriptor *aliasDescriptor = [NSAppleEventDescriptor descriptorWithDescriptorType:typeFSS bytes:&fsSpec length:sizeof(fsSpec)];
+//#endif //defined(__LP64__)
                 [appleEvent setParamDescriptor:aliasDescriptor forKeyword:keyDirectObject];
                 NSAppleEventDescriptor *tokenDesc = [[self ODBParameters] objectForKey:@"keyFileSenderToken"];
                 if (tokenDesc != nil) {
@@ -444,7 +421,7 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (void)TCM_sendODBModifiedEvent {
-    OSErr err;
+//    OSErr err;
     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"preparing ODB modified event");
     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"ODBParameters: %@", [[self ODBParameters] description]);
     if ([self ODBParameters] == nil || [[self ODBParameters] count] == 0)
@@ -456,19 +433,27 @@ static NSString *tempFileName(NSString *origPath) {
 
 
     NSURL *fileURL = [NSURL fileURLWithPath:fileName];
-    FSRef fileRef;
-    CFURLGetFSRef((CFURLRef)fileURL, &fileRef);
-    FSSpec fsSpec;
-    err = FSGetCatalogInfo(&fileRef, kFSCatInfoNone, NULL, NULL, &fsSpec, NULL);
+	NSData *fileURLBookmarkData = [fileURL bookmarkDataWithOptions:NSURLBookmarkCreationSuitableForBookmarkFile includingResourceValuesForKeys:nil relativeToURL:nil error:nil];
+//    FSRef fileRef;
+//    CFURLGetFSRef((CFURLRef)fileURL, &fileRef);
+//    FSSpec fsSpec;
+//    err = FSGetCatalogInfo(&fileRef, kFSCatInfoNone, NULL, NULL, &fsSpec, NULL);
     NSAppleEventDescriptor *directObjectDesc = nil;
-    if (err == noErr) {
-#if defined(__LP64__)
-		directObjectDesc = [NSAppleEventDescriptor descriptorWithDescriptorType:typeFSRef bytes:&fileRef length:sizeof(fileRef)];
-#else
-		directObjectDesc = [NSAppleEventDescriptor descriptorWithDescriptorType:typeFSS bytes:&fsSpec length:sizeof(fsSpec)];
-#endif //defined(__LP64__)
-    } else {
-        DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Failed to create fsspec");
+//    if (err == noErr) {
+//#if defined(__LP64__)
+//		directObjectDesc = [NSAppleEventDescriptor descriptorWithDescriptorType:typeFSRef bytes:&fileRef length:sizeof(fileRef)];
+//#else
+//		directObjectDesc = [NSAppleEventDescriptor descriptorWithDescriptorType:typeFSS bytes:&fsSpec length:sizeof(fsSpec)];
+//#endif //defined(__LP64__)
+//    } else {
+//        DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Failed to create fsspec");
+//        return;
+//    }
+
+	if (fileURLBookmarkData) {
+		directObjectDesc = [NSAppleEventDescriptor descriptorWithDescriptorType:typeBookmarkData bytes:&fileURLBookmarkData length:sizeof(fileURLBookmarkData)];
+	} else {
+        DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Failed to create URL Bookmark data");
         return;
     }
 
@@ -982,9 +967,6 @@ static NSString *tempFileName(NSString *origPath) {
     [I_session release];
     [I_plainTextAttributes release];
     [I_typingAttributes release];
-#if defined(CODA)
-	[I_adjustedTypingAttributes autorelease];
-#endif //defined(CODA)
 	[I_blockeditAttributes release];
     [I_fonts.plainFont release];
     [I_fonts.boldFont release];
@@ -1005,9 +987,9 @@ static NSString *tempFileName(NSString *origPath) {
     [I_lastRegisteredUndoOperation release];
     [I_undoManager release];
 
-    [O_exportSheetController release];
-    [O_exportSheet release];
-    
+	self.O_exportSheet = nil;
+	self.O_exportSheetController = nil;
+
     [O_printOptionView release];
     [O_printOptionController release];
 
@@ -1017,7 +999,7 @@ static NSString *tempFileName(NSString *origPath) {
     [I_printOptions autorelease];
     [I_scheduledAlertDictionary release];
 	
-	[self setTemporarySavePanel:nil];
+//	[self setTemporarySavePanel:nil];
     free(I_bracketMatching.openingBracketsArray);
     free(I_bracketMatching.closingBracketsArray);
     
@@ -1048,13 +1030,6 @@ static NSString *tempFileName(NSString *origPath) {
 {
     if (alert == nil) return;
 
-#if defined(CODA)
-	 NSWindow *window = [self windowForSheet];
-	[alert beginSheetModalForWindow:window
-					  modalDelegate:delegate
-					 didEndSelector:didEndSelector
-						contextInfo:contextInfo];
-#else
     NSArray *orderedWindows = [NSApp orderedWindows];
     NSUInteger minIndex = NSNotFound;
     NSEnumerator *enumerator = [[self windowControllers] objectEnumerator];
@@ -1095,7 +1070,6 @@ static NSString *tempFileName(NSString *origPath) {
         }
         [self setScheduledAlertDictionary:dict];
     }
-#endif //defined(CODA)
 }
 
 - (void)presentScheduledAlertForWindow:(NSWindow *)window
@@ -1250,9 +1224,7 @@ static NSString *tempFileName(NSString *origPath) {
         if (I_flags.highlightSyntax) {
             [self highlightSyntaxInRange:NSMakeRange(0,[fullTextStorage length])];
         }
-#if !defined(CODA)
         [self setContinuousSpellCheckingEnabled:[[aDocumentMode defaultForKey:DocumentModeSpellCheckingPreferenceKey] boolValue]];
-#endif //!defined(CODA)
         [self updateSymbolTable];
         if (I_flags.shouldChangeExtensionOnModeChange) {
             NSArray *recognizedExtensions = [I_documentMode recognizedExtensions];
@@ -1570,9 +1542,7 @@ static NSString *tempFileName(NSString *origPath) {
 - (IBAction)newView:(id)aSender {
     if (!I_flags.isReceivingContent && [[self windowControllers] count] > 0) {
         PlainTextWindowController *controller = [[PlainTextWindowController alloc] init];
-#if !defined(CODA)
         [[DocumentController sharedInstance] addWindowController:controller];
-#endif //!defined(CODA)
         [self addWindowController:controller];
         [controller showWindow:aSender];
         [controller release];
@@ -1692,22 +1662,16 @@ static NSString *tempFileName(NSString *origPath) {
                 // didn't work so update bottom status bar to previous state
                 [self TCM_sendPlainTextDocumentDidChangeEditStatusNotification];
             } else {
-#if defined(CODA)
-				BOOL myIsEdited = [self isDocumentEdited];
-#else
                 BOOL isEdited = [self isDocumentEdited];
-#endif //defined(CODA)
+
                 [[self documentUndoManager] beginUndoGrouping];
                 [[self plainTextEditors] makeObjectsPerformSelector:@selector(pushSelectedRanges)];
                 [I_textStorage beginEditing];
                 [I_textStorage replaceCharactersInRange:NSMakeRange(0, [I_textStorage length]) withString:@""];
                 [self setFileEncodingUndoable:encoding];
                 [I_textStorage replaceCharactersInRange:NSMakeRange(0, [I_textStorage length]) withString:reinterpretedString];
-#if defined(CODA)
-				if (!myIsEdited) 
-#else
-                if (!isEdited) 
-#endif //defined(CODA)
+
+				if (!isEdited)
 				{
                     [I_textStorage setAttributes:[self plainTextAttributes] range:NSMakeRange(0, [I_textStorage length])];
                 } else {
@@ -1728,7 +1692,6 @@ static NSString *tempFileName(NSString *origPath) {
     }
 }
 
-#if !defined(CODA)
 #pragma mark Overrides of NSDocument Methods to Support MultiDocument Windows
 
 static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
@@ -1809,7 +1772,6 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     [super addWindowController:windowController];
     PlainTextDocumentIgnoreRemoveWindowController = NO;
 }
-#endif //!defined(CODA)
 
 - (void)setKeepUndoManagerOnZeroWindowControllers:(BOOL)aFlag {
 	I_flags.keepUndoManagerOnZeroWindowControllers = aFlag;
@@ -1818,7 +1780,6 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 	return I_flags.keepUndoManagerOnZeroWindowControllers;
 }
 
-#if !defined(CODA)
 - (void)removeWindowController:(NSWindowController *)windowController
 {
     if (!PlainTextDocumentIgnoreRemoveWindowController) {
@@ -1921,7 +1882,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     // Do the regular NSDocument thing.
     [super close];
 }
-#endif //!defined(CODA)
+
 
 #pragma mark -
 
@@ -2021,9 +1982,6 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     NSArray *sortedLineEndingStatsKeys = [lineEndingStats keysSortedByValueUsingSelector:@selector(compare:)];
     BOOL hasLineEndings = ([[lineEndingStats objectForKey:[sortedLineEndingStatsKeys objectAtIndex:4]] unsignedIntValue] != 0);
     BOOL hasMixedLineEndings = hasLineEndings && ([[lineEndingStats objectForKey:[sortedLineEndingStatsKeys objectAtIndex:3]] unsignedIntValue] != 0);
-#if defined(CODA)
-	[(TextStorage*)[self textStorage] setHasMixedLineEndings:hasMixedLineEndings]; 
-#endif //defined(CODA)
     if (hasLineEndings) {
         [self setLineEnding:[[sortedLineEndingStatsKeys objectAtIndex:4] unsignedShortValue]];
         if (hasMixedLineEndings) {
@@ -2095,10 +2053,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
             NSWindow *window = [windowController window];
             [window setFrameTopLeftPoint:NSMakePoint(transientDocumentWindowFrame.origin.x, NSMaxY(transientDocumentWindowFrame))];
         }
-#if !defined(CODA)
         [windowController selectTabForDocument:self];
-//        [[windowController tabBar] updateViewsHack];
-#endif //!defined(CODA)
         if (closeTransient) [[windowController window] orderFront:self]; // stop cascading
         [windowController showWindow:self];
     }
@@ -2130,13 +2085,8 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 
 - (void)bigDocumentAlertDidEnd:(NSAlert *)anAlert returnCode:(int)aReturnCode  contextInfo:(void  *)aContextInfo {
     [[anAlert window] orderOut:self];
-#if defined(CODA)
-		if ( aContextInfo )
-			[(id)aContextInfo autorelease];
-#endif //defined(CODA)
 }
 
-#if !defined(CODA)
 - (NSWindow *)windowForSheet {
     NSWindow *result=[[self topmostWindowController] window];
     if (!result && I_documentProxyWindowController) {
@@ -2144,7 +2094,6 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     }
     return result;
 }
-#endif //!defined(CODA)
 
 - (void)windowControllerWillLoadNib:(NSWindowController *)aController {
     [super windowControllerWillLoadNib:aController];
@@ -2157,34 +2106,22 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 	[(PlainTextWindowController *)aController setSizeByColumns:[[mode defaultForKey:DocumentModeColumnsPreferenceKey] intValue] rows:[[mode defaultForKey:DocumentModeRowsPreferenceKey] intValue]];
 }
 
-static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
-    OSErr err;
-    AliasHandle localAlias;
-    long length;
-    CFURLRef theURLRef;
-            /* init result */
-    theURLRef = NULL;
-            /* get alias */
-    length = AEGetDescDataSize(theDesc);
-    localAlias = (AliasHandle)NewHandle(length);
-    if (localAlias != NULL) {
-        err = AEGetDescData(theDesc, *localAlias, length);
-        if (err == noErr) {
-            FSRef target;
-            Boolean wasChanged;
-            err = FSResolveAlias(NULL, localAlias, &target, &wasChanged);
-            if (err == noErr) {
-                theURLRef = CFURLCreateFromFSRef(NULL, &target);
-            }
-        }
-        DisposeHandle((Handle)localAlias);
-    }
-    return theURLRef;
-}
 
-- (void)handleOpenDocumentEvent {
+#pragma pack(push, 2)
+struct SelectionRange
+{
+    int16_t unused1; // 0 (not used)
+    int16_t lineNum; // line to select (<0 to specify range)
+    int32_t startRange; // start of selection range (if line < 0)
+    int32_t endRange; // end of selection range (if line < 0)
+    int32_t unused2; // 0 (not used)
+    int32_t theDate; // modification date/time
+};
+#pragma pack(pop)
+
+
+- (void)handleOpenDocumentEvent:(NSAppleEventDescriptor *)eventDesc {
     DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"handleOpenDocumentEvent");
-    NSAppleEventDescriptor *eventDesc = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
     if (!([eventDesc eventClass] == kCoreEventClass && [eventDesc eventID] == kAEOpenDocuments)) {
         return;
     }
@@ -2230,14 +2167,13 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     }
     
     // coerce the document list into a list of CFURLRefs
-    NSAppleEventDescriptor *aliasesDesc = [[eventDesc descriptorForKeyword:keyDirectObject] coerceToDescriptorType:typeAEList];
-    int numberOfItems = [aliasesDesc numberOfItems];
-    int i;
-    for (i = 1; i <= numberOfItems; i++) {
-        NSAppleEventDescriptor *aliasDesc = [[aliasesDesc descriptorAtIndex:i] coerceToDescriptorType:typeAlias];
-        if (aliasDesc) {
-            DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"alias: %@", [aliasDesc description]);
-            NSURL *fileURL = (NSURL *)CFURLFromAEDescAlias([aliasDesc aeDesc]);
+    NSAppleEventDescriptor *bookmarksDescription = [[eventDesc descriptorForKeyword:keyDirectObject] coerceToDescriptorType:typeAEList];
+    int numberOfItems = [bookmarksDescription numberOfItems];
+    for (int i = 1; i <= numberOfItems; i++) {
+        NSAppleEventDescriptor *bookmarkDataDesc = [[bookmarksDescription descriptorAtIndex:i] coerceToDescriptorType:typeBookmarkData];
+        if (bookmarkDataDesc) {
+            DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"bookmarkData: %@", [bookmarkDataDesc description]);
+            NSURL *fileURL = [NSURL URLByResolvingBookmarkData:[bookmarkDataDesc data] options:0 relativeToURL:nil bookmarkDataIsStale:nil error:nil];
             NSString *filePath = [[fileURL path] stringByStandardizingPath];
             if ([filePath isEqualToString:[[[self fileURL] path] stringByStandardizingPath]]) {
 
@@ -2292,7 +2228,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"retrieved ODB parameters: %@", [ODBParameters description]);
                 [self setODBParameters:ODBParameters];
             }
-            [fileURL release];
         }
     }
     [[self windowControllers] makeObjectsPerformSelector:@selector(synchronizeWindowTitleWithDocumentName)];
@@ -2316,11 +2251,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         then sheet with save panel
         finish
     */
-    if (!O_exportSheet)
-        [NSBundle loadNibNamed: @"Export" owner: self];
-        
-    [O_exportSheetController setContent:[[[self documentMode] defaults] objectForKey:DocumentModeExportPreferenceKey]];
-    [NSApp beginSheet: O_exportSheet
+    if (! self.O_exportSheet) {
+		[[NSBundle mainBundle] loadNibNamed:@"Export" owner:self topLevelObjects:nil];
+	}
+
+    [self.O_exportSheetController setContent:[[[self documentMode] defaults] objectForKey:DocumentModeExportPreferenceKey]];
+    [NSApp beginSheet: self.O_exportSheet
             modalForWindow: [self windowForSheet]
             modalDelegate:  self
             didEndSelector: @selector(continueExport:returnCode:contextInfo:)
@@ -2329,11 +2265,11 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 }
 
 - (IBAction)cancelExport:(id)aSender {
-    [NSApp endSheet:O_exportSheet returnCode:NSCancelButton];
+    [NSApp endSheet:self.O_exportSheet returnCode:NSCancelButton];
 }
 
 - (IBAction)continueExport:(id)aSender {
-    [NSApp endSheet:O_exportSheet returnCode:NSOKButton];
+    [NSApp endSheet:self.O_exportSheet returnCode:NSOKButton];
 }
 
 - (void)continueExport:(NSWindow *)aSheet returnCode:(int)aReturnCode contextInfo:(void *)aContextInfo {
@@ -2345,386 +2281,376 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         [savePanel setExtensionHidden:NO];
         [savePanel setAllowsOtherFileTypes:YES];
         [savePanel setTreatsFilePackagesAsDirectories:YES];
-        [savePanel setRequiredFileType:@"html"];
-        [savePanel beginSheetForDirectory:nil 
-            file:[[[[self displayName] lastPathComponent] stringByDeletingPathExtension] stringByAppendingPathExtension:@"html"] 
-            modalForWindow:[self windowForSheet] 
-            modalDelegate:self 
-            didEndSelector:@selector(exportPanelDidEnd:returnCode:contextInfo:) contextInfo:nil];
-    }
-}
+		[savePanel setAllowedFileTypes:@[@"html"]];
+		[savePanel setNameFieldStringValue:[[[[self displayName] lastPathComponent] stringByDeletingPathExtension] stringByAppendingPathExtension:@"html"]];
 
-- (void)exportPanelDidEnd:(NSSavePanel *)aPanel returnCode:(int)aReturnCode contextInfo:(void *)aContextInfo {
-    if (aReturnCode==NSOKButton) {
-        NSDictionary *htmlOptions=[[[[self documentMode] defaults] objectForKey:DocumentModeExportPreferenceKey] objectForKey:DocumentModeExportHTMLPreferenceKey];
-        FoldableTextStorage *textStorage = (FoldableTextStorage *)I_textStorage;
-        
-        if ([[htmlOptions objectForKey:DocumentModeHTMLExportHighlightSyntaxPreferenceKey] boolValue]) {
-            SyntaxHighlighter *highlighter=[I_documentMode syntaxHighlighter];
-            if (highlighter)
-                while (![highlighter colorizeDirtyRanges:textStorage ofDocument:self]);
-        } else {
-            textStorage = [[FoldableTextStorage new] autorelease];
-            [textStorage setAttributedString:I_textStorage];
-            [[I_documentMode syntaxHighlighter] cleanUpTextStorage:textStorage];
-            [textStorage  addAttributes:[self plainTextAttributes]
-                                  range:NSMakeRange(0,[textStorage length])];
-        }
+		[savePanel beginSheetModalForWindow:[self windowForSheet] completionHandler:^(NSInteger result) {
+			if (result == NSFileHandlingPanelOKButton) {
+				NSDictionary *htmlOptions=[[[[self documentMode] defaults] objectForKey:DocumentModeExportPreferenceKey] objectForKey:DocumentModeExportHTMLPreferenceKey];
+				FoldableTextStorage *textStorage = (FoldableTextStorage *)I_textStorage;
 
-        BOOL shouldSaveImages=[[htmlOptions objectForKey:DocumentModeHTMLExportShowParticipantsPreferenceKey] boolValue] &&
-                              [[htmlOptions objectForKey:DocumentModeHTMLExportShowUserImagesPreferenceKey] boolValue];
-        
-        static NSDictionary *baseAttributeMapping = nil;
-        if (baseAttributeMapping==nil) {
-            baseAttributeMapping=[NSDictionary dictionaryWithObjectsAndKeys:
-                                [NSDictionary dictionaryWithObjectsAndKeys:
-                                    @"<strong>",@"openTag",
-                                    @"</strong>",@"closeTag",nil], @"Bold",
-                                [NSDictionary dictionaryWithObjectsAndKeys:
-                                    @"<em>",@"openTag",
-                                    @"</em>",@"closeTag",nil], @"Italic",
-                                [NSDictionary dictionaryWithObjectsAndKeys:
-                                    @"<span style=\"color:%@;\">",@"openTag",
-                                    @"</span>",@"closeTag",nil], @"ForegroundColor",
-                                [NSDictionary dictionaryWithObjectsAndKeys:
-                                    @"<span class=\"%@\">",@"openTag",
-                                    @"</span>",@"closeTag",nil], @"ChangedByShortUserID",
-                                [NSDictionary dictionaryWithObjectsAndKeys:
-                                    @"<a title=\"%@\">",@"openTag",
-                                    @"</a>",@"closeTag",nil], @"WrittenBy",
-                                nil];
-            [baseAttributeMapping retain];
-        }
-    
-        NSString *htmlFile=[aPanel filename];
-        NSString *imageDirectory=@"";
-        NSString *imageDirectoryPrefix=@"";
-        if (shouldSaveImages) {
-            NSFileManager *fileManager=[NSFileManager defaultManager];
-            imageDirectoryPrefix=[[[htmlFile lastPathComponent] stringByDeletingPathExtension] stringByAppendingString:@"_images"];
-            imageDirectory=[[htmlFile stringByDeletingLastPathComponent] stringByAppendingPathComponent:imageDirectoryPrefix];
-            BOOL isDir = NO;
-            if (([fileManager fileExistsAtPath:imageDirectory isDirectory:&isDir] && isDir) ||
-                 [fileManager createDirectoryAtPath:imageDirectory withIntermediateDirectories:YES attributes:nil error:nil]) {
-                imageDirectoryPrefix = [imageDirectoryPrefix stringByAppendingString:@"/"];
-            } else {
-                imageDirectory = [htmlFile stringByDeletingLastPathComponent];
-                imageDirectoryPrefix = @"";
-            }
-        }
-        
-        TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
-        NSMutableString *metaHeaders=[NSMutableString string];
-        NSCalendarDate *now=[NSCalendarDate calendarDate];
-        NSString *metaFormatString=@"<meta name=\"%@\" content=\"%@\" />\n";
-        [metaHeaders appendFormat:metaFormatString,@"last-modified",[now rfc1123Representation]];
-        [metaHeaders appendFormat:metaFormatString,@"DC.Date",[now descriptionWithCalendarFormat:@"%Y-%m-%d"]];
-        [metaHeaders appendFormat:metaFormatString,@"DC.Creator",[[[userManager me] name] stringByReplacingEntitiesForUTF8:NO]];
-        
-      
-        NSMutableSet *shortContributorIDs=[[NSMutableSet new] autorelease];
-        
-        // Load Templates
-        NSString *templateDirectory=[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"HTMLExport"];
-        NSString *documentBase=[[[NSString alloc] initWithData:[NSData dataWithContentsOfFile:[templateDirectory stringByAppendingPathComponent:@"Base.html"]] 
-                                        encoding:NSUTF8StringEncoding] autorelease];
-        NSString *styleSheetBase=[[[NSString alloc] initWithData:[NSData dataWithContentsOfFile:[templateDirectory stringByAppendingPathComponent:@"Base.css"]] 
-                                        encoding:NSUTF8StringEncoding] autorelease];
-        NSMutableString *styleSheet=[NSMutableString stringWithString:styleSheetBase];
-        
-        NSValueTransformer *hueTrans=[NSValueTransformer valueTransformerForName:@"HueToColor"];
-    
-        // ShortID users
-        BOOL colorConflict=NO;
-        NSMutableSet *userColors=[NSMutableSet set];
-        NSMutableArray *contributorDictionaries=[NSMutableArray array];
-        NSMutableArray *lurkerDictionaries=[NSMutableArray array];
-        NSMutableDictionary *contributorDictionary=[NSMutableDictionary dictionary];
-        NSSet *contributorIDs=[self userIDsOfContributors];
-        NSEnumerator *contributorEnumerator=[[[self session] contributors] objectEnumerator];
-        TCMMMUser *contributor=nil;
-        NSCharacterSet *validCharacters=[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"];
-        while ((contributor=[contributorEnumerator nextObject])) {
-            [metaHeaders appendFormat:metaFormatString,@"DC.Contributor",[[contributor name] stringByReplacingEntitiesForUTF8:YES]];
+				if ([[htmlOptions objectForKey:DocumentModeHTMLExportHighlightSyntaxPreferenceKey] boolValue]) {
+					SyntaxHighlighter *highlighter=[I_documentMode syntaxHighlighter];
+					if (highlighter)
+						while (![highlighter colorizeDirtyRanges:textStorage ofDocument:self]);
+				} else {
+					textStorage = [[FoldableTextStorage new] autorelease];
+					[textStorage setAttributedString:I_textStorage];
+					[[I_documentMode syntaxHighlighter] cleanUpTextStorage:textStorage];
+					[textStorage  addAttributes:[self plainTextAttributes]
+										  range:NSMakeRange(0,[textStorage length])];
+				}
 
-            NSScanner *scanner=[NSScanner scannerWithString:[contributor name]];
-            [scanner setCharactersToBeSkipped:[validCharacters invertedSet]];
-            NSMutableString *IDBasis=[NSMutableString string];
-            while (![scanner isAtEnd]) {
-                NSString *scannedString;
-                if ([scanner scanCharactersFromSet:validCharacters intoString:&scannedString]) {
-                    [IDBasis appendString:scannedString];
-                }
-            }
-            if ([IDBasis length]==0) {
-                [IDBasis appendString:@"u"];
-            }
-            NSString *IDString=IDBasis;
-            int i;
-            for (i=1;[shortContributorIDs containsObject:IDString];i++) {
-                IDString = [NSString stringWithFormat:@"%@%d",IDBasis,i];
-            }
-            [shortContributorIDs addObject:IDString];
-            if (shouldSaveImages) {
-                [[[contributor properties] objectForKey:@"ImageAsPNG"] writeToFile:[imageDirectory stringByAppendingPathComponent:[IDString stringByAppendingPathExtension:@"png"]] atomically:YES];
-            }
-            NSDictionary *dictionary=[NSDictionary dictionaryWithObjectsAndKeys:contributor,@"User",IDString,@"ShortID",nil];
-            if ([contributorIDs containsObject:[contributor userID]]) {
-                [contributorDictionary   setObject:dictionary forKey:[contributor userID]];
-                [contributorDictionaries addObject:dictionary];
-                if ([userColors containsObject:[hueTrans reverseTransformedValue:[contributor changeColor]]]) {
-                    colorConflict=YES;
-                }
-                [userColors addObject:[hueTrans reverseTransformedValue:[contributor changeColor]]];
-            } else {
-                [lurkerDictionaries addObject:dictionary];
-            }
-        }
-    
-        NSSortDescriptor *nameDescriptor=[[[NSSortDescriptor alloc] initWithKey:@"User.name" 
-                  ascending:YES
-                  selector:@selector(caseInsensitiveCompare:)] autorelease];
-        [contributorDictionaries sortUsingDescriptors:[NSArray arrayWithObject:nameDescriptor]];
-        [lurkerDictionaries      sortUsingDescriptors:[NSArray arrayWithObject:nameDescriptor]];
-    
-        NSEnumerator *contributorDictionaryEnumerator=[contributorDictionaries objectEnumerator];
-        NSDictionary *contributorDict=nil;
-        int i=0;
-    
-        while ((contributorDict=[contributorDictionaryEnumerator nextObject])) {
-            NSColor *color=colorConflict?
-                    [hueTrans transformedValue:[NSNumber numberWithFloat:(float)i/[contributorDictionaries count]*100.]]:
-                    [[contributorDict objectForKey:@"User"] changeColor];
-            
-            NSColor *userColor=[[self documentBackgroundColor] blendedColorWithFraction:[[NSUserDefaults standardUserDefaults] floatForKey:ChangesSaturationPreferenceKey]/100.
-                                 ofColor:color];
-            [styleSheet appendFormat:@".%@ {\n    background-color: %@;\n}\n\n",[contributorDict objectForKey:@"ShortID"],[userColor HTMLString]];
-            i++;
-        }
-        
-        // prepare DisplayName
-        NSString *displayName=[[self displayName] stringByReplacingEntitiesForUTF8:YES];
-        
-        // modify TextStorage
-        NSRange wholeRange=NSMakeRange(0,[[self textStorage] length]);
-        NSMutableAttributedString *attributedStringForXHTML=[(TextStorage *)textStorage attributedStringForXHTMLExportWithRange:wholeRange foregroundColor:[self documentForegroundColor] backgroundColor:[self documentBackgroundColor]];
-        
-        unsigned index=0;
-        do {
-            NSRange foundRange;
-            NSString *authorID=[attributedStringForXHTML attribute:@"ChangedByUserID" atIndex:index 
-                                 longestEffectiveRange:&foundRange inRange:wholeRange];
-            index=NSMaxRange(foundRange);
-            if (authorID) {
-                [attributedStringForXHTML addAttribute:@"ChangedByShortUserID" value:[[contributorDictionary objectForKey:authorID] objectForKey:@"ShortID"] range:foundRange];
-            }
-        } while (index<NSMaxRange(wholeRange));
-            
-        // Prepare Legend
-        NSMutableString *legend=[NSMutableString string];
-        int tableSpan=1;
-        BOOL shouldShowAIMAndEmail=[[htmlOptions objectForKey:DocumentModeHTMLExportShowAIMAndEmailPreferenceKey] boolValue];
-        if (shouldSaveImages) tableSpan++;
-        if (shouldShowAIMAndEmail) tableSpan++;  
-        // Contriburtors and lurkers as Table
-        // lurkers as Table
-        if ([[htmlOptions objectForKey:DocumentModeHTMLExportShowParticipantsPreferenceKey] boolValue]) {
-            [legend appendString:@"<table>"];
-            if ([contributorDictionaries count]) {
-                NSString *contributorForegroundColor=@"";
-                if (![[self documentForegroundColor] isDark]) {
-                    contributorForegroundColor=[NSString stringWithFormat:@" style=\"color:%@;\"",[[self documentForegroundColor] HTMLString]];
-                }
-                [legend appendFormat:@"<tr><th colspan=\"%d\">%@</th></tr>\n",tableSpan,NSLocalizedString(@"Contributors",@"Title for Contributors in Export and Print")];
-                NSDictionary *contributorDict=nil;
-                for (contributorDict in contributorDictionaries) {
-                    NSString *name=[[contributorDict valueForKeyPath:@"User.name"] stringByReplacingEntitiesForUTF8:YES];
-                    NSString *shortID=[contributorDict valueForKeyPath:@"ShortID"];
-                    NSString *aim=[[contributorDict valueForKeyPath:@"User.properties.AIM"] stringByReplacingEntitiesForUTF8:YES];
-                    NSString *email=[[contributorDict valueForKeyPath:@"User.properties.Email"] stringByReplacingEntitiesForUTF8:YES];
-                    [legend appendFormat:@"<tr>", nil];
-                    if (shouldSaveImages) {
-                        [legend appendFormat:@"<th><img src=\"%@%@.png\" width=\"32\" height=\"32\" alt=\"%@\"/></th>", imageDirectoryPrefix, name, name];
-                    }
-                    [legend appendFormat:@"<td class=\"ContributorName %@\"%@>%@</td>",shortID,contributorForegroundColor,name];
-                    if (shouldShowAIMAndEmail) {
-                        [legend appendString:@"<td>"];
-                        if ([aim length]) {
-                            [legend appendFormat:@"%@ <a href=\"aim:goim?screenname=%@\">%@</a>",NSLocalizedString(@"PrintExportLegendAIMLabel",@"Label for AIM in legend in Print and Export"),aim,aim];
-                        }
-                        [legend appendString:@"<br />"];
-                        if ([email length]) {
-                            [legend appendFormat:@"%@ <a href=\"mailto:%@\">%@</a>",NSLocalizedString(@"PrintExportLegendEmailLabel",@"Label for Email in legend in Print and Export"),email,email];
-                        }
-                        [legend appendString:@"</td>"];
-                    }
-                    [legend appendString:@"</tr>\n"];
-                }
-                
-            }
-            if ([lurkerDictionaries count] && [[htmlOptions objectForKey:DocumentModeHTMLExportShowVisitorsPreferenceKey] boolValue]) {
-                [legend appendFormat:@"<tr><th colspan=\"%d\">%@</th></tr>\n",tableSpan,NSLocalizedString(@"Visitors",@"Title for Visitors in Export and Print")];
-                NSDictionary *lurker=nil;
-                int alternateFlag=0;
-                for (lurker in lurkerDictionaries) {
-                    NSString *name   =[[lurker valueForKeyPath:@"User.name"] stringByReplacingEntitiesForUTF8:YES];
-//                    NSString *shortID= [lurker valueForKeyPath:@"ShortID"];
-                    NSString *aim    =[[lurker valueForKeyPath:@"User.properties.AIM"] stringByReplacingEntitiesForUTF8:YES];
-                    NSString *email  =[[lurker valueForKeyPath:@"User.properties.Email"] stringByReplacingEntitiesForUTF8:YES];
-                    [legend appendFormat:@"<tr%@>",alternateFlag?@" class=\"Alternate\"":@""];
-                    if (shouldSaveImages) {
-                        [legend appendFormat:@"<th><img src=\"%@%@.png\" width=\"32\" height=\"32\" alt=\"%@\"/></th>",imageDirectoryPrefix, name, name];
-                    }
-                    [legend appendFormat:@"<td class=\"VisitorName\">%@</td>",name];
-                    if (shouldShowAIMAndEmail) {
-                        [legend appendString:@"<td>"];
-                        if ([aim length]) {
-                            [legend appendFormat:@"%@ <a href=\"aim:goim?screenname=%@\">%@</a>",NSLocalizedString(@"PrintExportLegendAIMLabel",@"Label for AIM in legend in Print and Export"),aim,aim];
-                        }
-                        [legend appendString:@"<br />"];
-                        if ([email length]) {
-                            [legend appendFormat:@"%@ <a href=\"mailto:%@\">%@</a>",NSLocalizedString(@"PrintExportLegendEmailLabel",@"Label for Email in legend in Print and Export"),email,email];
-                        }
-                        [legend appendString:@"</td>"];
-                    }
-                    [legend appendString:@"</tr>\n"];
-                    alternateFlag=1-alternateFlag;
-                }
-            }
-            [legend appendString:@"</table>\n"];
-        }  
-          
-        // Prepare Content    
-        NSMutableString *content=[NSMutableString string];
-        if ([[htmlOptions objectForKey:DocumentModeHTMLExportAddCurrentDatePreferenceKey] boolValue]) {
-			NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init]  autorelease];
-			[dateFormatter setDateStyle:NSDateFormatterFullStyle];
-			[dateFormatter setTimeStyle:NSDateFormatterNoStyle];			
-			[content appendFormat:@"<p>%@</p>", [dateFormatter stringFromDate:[NSDate date]]];
-        }
-        NSString *fontString=@"";
-        if ([[self fontWithTrait:0] isFixedPitch] || 
-            [@"Monaco" isEqualToString:[[self fontWithTrait:0] fontName]]) {
-            fontString=@"font-size:small; font-family:monospace; ";
-        } 
-        [attributedStringForXHTML detab:YES inRange:wholeRange tabWidth:[self tabWidth] askingTextView:nil];
-        BOOL wrapsLines=[self wrapLines];
-        NSString *topLevelTag=wrapsLines?@"div":@"pre";
-        if (wrapsLines) {
-            [attributedStringForXHTML makeLeadingWhitespaceNonBreaking];
-        }
-        NSMutableDictionary *mapping=[[baseAttributeMapping mutableCopy] autorelease];
-        if (![[htmlOptions objectForKey:DocumentModeHTMLExportWrittenByHoversPreferenceKey] boolValue]) {
-            [mapping removeObjectForKey:@"WrittenBy"];
-        }
-        if (![[htmlOptions objectForKey:DocumentModeHTMLExportShowChangeMarksPreferenceKey] boolValue]) {
-            [mapping removeObjectForKey:@"ChangedByShortUserID"];
-        }
-        NSMutableString *innerContent=[attributedStringForXHTML XHTMLStringWithAttributeMapping:mapping forUTF8:YES];
-        if (wrapsLines) {
-            [innerContent addBRs];
-        }
-        [content appendFormat:@"<%@ style=\"text-align:left;color:%@; background-color:%@; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;%@\">",topLevelTag, [[self documentForegroundColor] HTMLString],[[self documentBackgroundColor] HTMLString],fontString];
-        [content appendString:innerContent];
-        [content appendFormat:@"</%@>",topLevelTag];
-    
-    
-        // finish creation :-)    
-        NSString *result=[NSString stringWithFormat:documentBase,displayName,styleSheet,legend,content,metaHeaders];
-        [[result dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:NO] writeToFile:htmlFile atomically:YES];
-        if (!I_flags.highlightSyntax && 
-            [[htmlOptions objectForKey:DocumentModeHTMLExportHighlightSyntaxPreferenceKey] boolValue]) {
-            [self setHighlightsSyntax:YES];
-            [self setHighlightsSyntax:NO];
-        }
-    }
+				BOOL shouldSaveImages=[[htmlOptions objectForKey:DocumentModeHTMLExportShowParticipantsPreferenceKey] boolValue] &&
+				[[htmlOptions objectForKey:DocumentModeHTMLExportShowUserImagesPreferenceKey] boolValue];
+
+				static NSDictionary *baseAttributeMapping = nil;
+				if (baseAttributeMapping==nil) {
+					baseAttributeMapping=[NSDictionary dictionaryWithObjectsAndKeys:
+										  [NSDictionary dictionaryWithObjectsAndKeys:
+										   @"<strong>",@"openTag",
+										   @"</strong>",@"closeTag",nil], @"Bold",
+										  [NSDictionary dictionaryWithObjectsAndKeys:
+										   @"<em>",@"openTag",
+										   @"</em>",@"closeTag",nil], @"Italic",
+										  [NSDictionary dictionaryWithObjectsAndKeys:
+										   @"<span style=\"color:%@;\">",@"openTag",
+										   @"</span>",@"closeTag",nil], @"ForegroundColor",
+										  [NSDictionary dictionaryWithObjectsAndKeys:
+										   @"<span class=\"%@\">",@"openTag",
+										   @"</span>",@"closeTag",nil], @"ChangedByShortUserID",
+										  [NSDictionary dictionaryWithObjectsAndKeys:
+										   @"<a title=\"%@\">",@"openTag",
+										   @"</a>",@"closeTag",nil], @"WrittenBy",
+										  nil];
+					[baseAttributeMapping retain];
+				}
+
+				NSString *htmlFile=[[savePanel URL] path];
+				NSString *imageDirectory=@"";
+				NSString *imageDirectoryPrefix=@"";
+				if (shouldSaveImages) {
+					NSFileManager *fileManager=[NSFileManager defaultManager];
+					imageDirectoryPrefix=[[[htmlFile lastPathComponent] stringByDeletingPathExtension] stringByAppendingString:@"_images"];
+					imageDirectory=[[htmlFile stringByDeletingLastPathComponent] stringByAppendingPathComponent:imageDirectoryPrefix];
+					BOOL isDir = NO;
+					if (([fileManager fileExistsAtPath:imageDirectory isDirectory:&isDir] && isDir) ||
+						[fileManager createDirectoryAtPath:imageDirectory withIntermediateDirectories:YES attributes:nil error:nil]) {
+						imageDirectoryPrefix = [imageDirectoryPrefix stringByAppendingString:@"/"];
+					} else {
+						imageDirectory = [htmlFile stringByDeletingLastPathComponent];
+						imageDirectoryPrefix = @"";
+					}
+				}
+
+				TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
+				NSMutableString *metaHeaders=[NSMutableString string];
+				NSDate *now=[NSDate date];
+				NSString *metaFormatString=@"<meta name=\"%@\" content=\"%@\" />\n";
+				[metaHeaders appendFormat:metaFormatString,@"last-modified",[now rfc1123DateTimeString]];
+				[metaHeaders appendFormat:metaFormatString,@"DC.Date",[now W3CDTFLongDateString]];
+				[metaHeaders appendFormat:metaFormatString,@"DC.Creator",[[[userManager me] name] stringByReplacingEntitiesForUTF8:NO]];
+
+
+				NSMutableSet *shortContributorIDs=[[NSMutableSet new] autorelease];
+
+				// Load Templates
+				NSString *templateDirectory=[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"HTMLExport"];
+				NSString *documentBase=[[[NSString alloc] initWithData:[NSData dataWithContentsOfFile:[templateDirectory stringByAppendingPathComponent:@"Base.html"]]
+															  encoding:NSUTF8StringEncoding] autorelease];
+				NSString *styleSheetBase=[[[NSString alloc] initWithData:[NSData dataWithContentsOfFile:[templateDirectory stringByAppendingPathComponent:@"Base.css"]]
+																encoding:NSUTF8StringEncoding] autorelease];
+				NSMutableString *styleSheet=[NSMutableString stringWithString:styleSheetBase];
+
+				NSValueTransformer *hueTrans=[NSValueTransformer valueTransformerForName:@"HueToColor"];
+
+				// ShortID users
+				BOOL colorConflict=NO;
+				NSMutableSet *userColors=[NSMutableSet set];
+				NSMutableArray *contributorDictionaries=[NSMutableArray array];
+				NSMutableArray *lurkerDictionaries=[NSMutableArray array];
+				NSMutableDictionary *contributorDictionary=[NSMutableDictionary dictionary];
+				NSSet *contributorIDs=[self userIDsOfContributors];
+				NSEnumerator *contributorEnumerator=[[[self session] contributors] objectEnumerator];
+				TCMMMUser *contributor=nil;
+				NSCharacterSet *validCharacters=[NSCharacterSet characterSetWithCharactersInString:@"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"];
+				while ((contributor=[contributorEnumerator nextObject])) {
+					[metaHeaders appendFormat:metaFormatString,@"DC.Contributor",[[contributor name] stringByReplacingEntitiesForUTF8:YES]];
+
+					NSScanner *scanner=[NSScanner scannerWithString:[contributor name]];
+					[scanner setCharactersToBeSkipped:[validCharacters invertedSet]];
+					NSMutableString *IDBasis=[NSMutableString string];
+					while (![scanner isAtEnd]) {
+						NSString *scannedString;
+						if ([scanner scanCharactersFromSet:validCharacters intoString:&scannedString]) {
+							[IDBasis appendString:scannedString];
+						}
+					}
+					if ([IDBasis length]==0) {
+						[IDBasis appendString:@"u"];
+					}
+					NSString *IDString=IDBasis;
+					int i;
+					for (i=1;[shortContributorIDs containsObject:IDString];i++) {
+						IDString = [NSString stringWithFormat:@"%@%d",IDBasis,i];
+					}
+					[shortContributorIDs addObject:IDString];
+					if (shouldSaveImages) {
+						[[[contributor properties] objectForKey:@"ImageAsPNG"] writeToFile:[imageDirectory stringByAppendingPathComponent:[IDString stringByAppendingPathExtension:@"png"]] atomically:YES];
+					}
+					NSDictionary *dictionary=[NSDictionary dictionaryWithObjectsAndKeys:contributor,@"User",IDString,@"ShortID",nil];
+					if ([contributorIDs containsObject:[contributor userID]]) {
+						[contributorDictionary   setObject:dictionary forKey:[contributor userID]];
+						[contributorDictionaries addObject:dictionary];
+						if ([userColors containsObject:[hueTrans reverseTransformedValue:[contributor changeColor]]]) {
+							colorConflict=YES;
+						}
+						[userColors addObject:[hueTrans reverseTransformedValue:[contributor changeColor]]];
+					} else {
+						[lurkerDictionaries addObject:dictionary];
+					}
+				}
+
+				NSSortDescriptor *nameDescriptor=[[[NSSortDescriptor alloc] initWithKey:@"User.name"
+																			  ascending:YES
+																			   selector:@selector(caseInsensitiveCompare:)] autorelease];
+				[contributorDictionaries sortUsingDescriptors:[NSArray arrayWithObject:nameDescriptor]];
+				[lurkerDictionaries      sortUsingDescriptors:[NSArray arrayWithObject:nameDescriptor]];
+
+				NSEnumerator *contributorDictionaryEnumerator=[contributorDictionaries objectEnumerator];
+				NSDictionary *contributorDict=nil;
+				int i=0;
+
+				while ((contributorDict=[contributorDictionaryEnumerator nextObject])) {
+					NSColor *color=colorConflict?
+					[hueTrans transformedValue:[NSNumber numberWithFloat:(float)i/[contributorDictionaries count]*100.]]:
+					[[contributorDict objectForKey:@"User"] changeColor];
+
+					NSColor *userColor=[[self documentBackgroundColor] blendedColorWithFraction:[[NSUserDefaults standardUserDefaults] floatForKey:ChangesSaturationPreferenceKey]/100.
+																						ofColor:color];
+					[styleSheet appendFormat:@".%@ {\n    background-color: %@;\n}\n\n",[contributorDict objectForKey:@"ShortID"],[userColor HTMLString]];
+					i++;
+				}
+
+				// prepare DisplayName
+				NSString *displayName=[[self displayName] stringByReplacingEntitiesForUTF8:YES];
+
+				// modify TextStorage
+				NSRange wholeRange=NSMakeRange(0,[[self textStorage] length]);
+				NSMutableAttributedString *attributedStringForXHTML=[(TextStorage *)textStorage attributedStringForXHTMLExportWithRange:wholeRange foregroundColor:[self documentForegroundColor] backgroundColor:[self documentBackgroundColor]];
+
+				unsigned index=0;
+				do {
+					NSRange foundRange;
+					NSString *authorID=[attributedStringForXHTML attribute:@"ChangedByUserID" atIndex:index
+													 longestEffectiveRange:&foundRange inRange:wholeRange];
+					index=NSMaxRange(foundRange);
+					if (authorID) {
+						[attributedStringForXHTML addAttribute:@"ChangedByShortUserID" value:[[contributorDictionary objectForKey:authorID] objectForKey:@"ShortID"] range:foundRange];
+					}
+				} while (index<NSMaxRange(wholeRange));
+
+				// Prepare Legend
+				NSMutableString *legend=[NSMutableString string];
+				int tableSpan=1;
+				BOOL shouldShowAIMAndEmail=[[htmlOptions objectForKey:DocumentModeHTMLExportShowAIMAndEmailPreferenceKey] boolValue];
+				if (shouldSaveImages) tableSpan++;
+				if (shouldShowAIMAndEmail) tableSpan++;
+				// Contriburtors and lurkers as Table
+				// lurkers as Table
+				if ([[htmlOptions objectForKey:DocumentModeHTMLExportShowParticipantsPreferenceKey] boolValue]) {
+					[legend appendString:@"<table>"];
+					if ([contributorDictionaries count]) {
+						NSString *contributorForegroundColor=@"";
+						if (![[self documentForegroundColor] isDark]) {
+							contributorForegroundColor=[NSString stringWithFormat:@" style=\"color:%@;\"",[[self documentForegroundColor] HTMLString]];
+						}
+						[legend appendFormat:@"<tr><th colspan=\"%d\">%@</th></tr>\n",tableSpan,NSLocalizedString(@"Contributors",@"Title for Contributors in Export and Print")];
+						NSDictionary *contributorDict=nil;
+						for (contributorDict in contributorDictionaries) {
+							NSString *name=[[contributorDict valueForKeyPath:@"User.name"] stringByReplacingEntitiesForUTF8:YES];
+							NSString *shortID=[contributorDict valueForKeyPath:@"ShortID"];
+							NSString *aim=[[contributorDict valueForKeyPath:@"User.properties.AIM"] stringByReplacingEntitiesForUTF8:YES];
+							NSString *email=[[contributorDict valueForKeyPath:@"User.properties.Email"] stringByReplacingEntitiesForUTF8:YES];
+							[legend appendFormat:@"<tr>", nil];
+							if (shouldSaveImages) {
+								[legend appendFormat:@"<th><img src=\"%@%@.png\" width=\"32\" height=\"32\" alt=\"%@\"/></th>", imageDirectoryPrefix, name, name];
+							}
+							[legend appendFormat:@"<td class=\"ContributorName %@\"%@>%@</td>",shortID,contributorForegroundColor,name];
+							if (shouldShowAIMAndEmail) {
+								[legend appendString:@"<td>"];
+								if ([aim length]) {
+									[legend appendFormat:@"%@ <a href=\"aim:goim?screenname=%@\">%@</a>",NSLocalizedString(@"PrintExportLegendAIMLabel",@"Label for AIM in legend in Print and Export"),aim,aim];
+								}
+								[legend appendString:@"<br />"];
+								if ([email length]) {
+									[legend appendFormat:@"%@ <a href=\"mailto:%@\">%@</a>",NSLocalizedString(@"PrintExportLegendEmailLabel",@"Label for Email in legend in Print and Export"),email,email];
+								}
+								[legend appendString:@"</td>"];
+							}
+							[legend appendString:@"</tr>\n"];
+						}
+
+					}
+					if ([lurkerDictionaries count] && [[htmlOptions objectForKey:DocumentModeHTMLExportShowVisitorsPreferenceKey] boolValue]) {
+						[legend appendFormat:@"<tr><th colspan=\"%d\">%@</th></tr>\n",tableSpan,NSLocalizedString(@"Visitors",@"Title for Visitors in Export and Print")];
+						NSDictionary *lurker=nil;
+						int alternateFlag=0;
+						for (lurker in lurkerDictionaries) {
+							NSString *name   =[[lurker valueForKeyPath:@"User.name"] stringByReplacingEntitiesForUTF8:YES];
+							//                    NSString *shortID= [lurker valueForKeyPath:@"ShortID"];
+							NSString *aim    =[[lurker valueForKeyPath:@"User.properties.AIM"] stringByReplacingEntitiesForUTF8:YES];
+							NSString *email  =[[lurker valueForKeyPath:@"User.properties.Email"] stringByReplacingEntitiesForUTF8:YES];
+							[legend appendFormat:@"<tr%@>",alternateFlag?@" class=\"Alternate\"":@""];
+							if (shouldSaveImages) {
+								[legend appendFormat:@"<th><img src=\"%@%@.png\" width=\"32\" height=\"32\" alt=\"%@\"/></th>",imageDirectoryPrefix, name, name];
+							}
+							[legend appendFormat:@"<td class=\"VisitorName\">%@</td>",name];
+							if (shouldShowAIMAndEmail) {
+								[legend appendString:@"<td>"];
+								if ([aim length]) {
+									[legend appendFormat:@"%@ <a href=\"aim:goim?screenname=%@\">%@</a>",NSLocalizedString(@"PrintExportLegendAIMLabel",@"Label for AIM in legend in Print and Export"),aim,aim];
+								}
+								[legend appendString:@"<br />"];
+								if ([email length]) {
+									[legend appendFormat:@"%@ <a href=\"mailto:%@\">%@</a>",NSLocalizedString(@"PrintExportLegendEmailLabel",@"Label for Email in legend in Print and Export"),email,email];
+								}
+								[legend appendString:@"</td>"];
+							}
+							[legend appendString:@"</tr>\n"];
+							alternateFlag=1-alternateFlag;
+						}
+					}
+					[legend appendString:@"</table>\n"];
+				}
+
+				// Prepare Content
+				NSMutableString *content=[NSMutableString string];
+				if ([[htmlOptions objectForKey:DocumentModeHTMLExportAddCurrentDatePreferenceKey] boolValue]) {
+					NSDateFormatter *dateFormatter = [[[NSDateFormatter alloc] init]  autorelease];
+					[dateFormatter setDateStyle:NSDateFormatterFullStyle];
+					[dateFormatter setTimeStyle:NSDateFormatterNoStyle];
+					[content appendFormat:@"<p>%@</p>", [dateFormatter stringFromDate:[NSDate date]]];
+				}
+				NSString *fontString=@"";
+				if ([[self fontWithTrait:0] isFixedPitch] ||
+					[@"Monaco" isEqualToString:[[self fontWithTrait:0] fontName]]) {
+					fontString=@"font-size:small; font-family:monospace; ";
+				}
+				[attributedStringForXHTML detab:YES inRange:wholeRange tabWidth:[self tabWidth] askingTextView:nil];
+				BOOL wrapsLines=[self wrapLines];
+				NSString *topLevelTag=wrapsLines?@"div":@"pre";
+				if (wrapsLines) {
+					[attributedStringForXHTML makeLeadingWhitespaceNonBreaking];
+				}
+				NSMutableDictionary *mapping=[[baseAttributeMapping mutableCopy] autorelease];
+				if (![[htmlOptions objectForKey:DocumentModeHTMLExportWrittenByHoversPreferenceKey] boolValue]) {
+					[mapping removeObjectForKey:@"WrittenBy"];
+				}
+				if (![[htmlOptions objectForKey:DocumentModeHTMLExportShowChangeMarksPreferenceKey] boolValue]) {
+					[mapping removeObjectForKey:@"ChangedByShortUserID"];
+				}
+				NSMutableString *innerContent=[attributedStringForXHTML XHTMLStringWithAttributeMapping:mapping forUTF8:YES];
+				if (wrapsLines) {
+					[innerContent addBRs];
+				}
+				[content appendFormat:@"<%@ style=\"text-align:left;color:%@; background-color:%@; border:solid black 1px; padding:0.5em 1em 0.5em 1em; overflow:auto;%@\">",topLevelTag, [[self documentForegroundColor] HTMLString],[[self documentBackgroundColor] HTMLString],fontString];
+				[content appendString:innerContent];
+				[content appendFormat:@"</%@>",topLevelTag];
+
+
+				// finish creation :-)
+				NSString *result=[NSString stringWithFormat:documentBase,displayName,styleSheet,legend,content,metaHeaders];
+				[[result dataUsingEncoding:NSUTF8StringEncoding allowLossyConversion:NO] writeToFile:htmlFile atomically:YES];
+				if (!I_flags.highlightSyntax &&
+					[[htmlOptions objectForKey:DocumentModeHTMLExportHighlightSyntaxPreferenceKey] boolValue]) {
+					[self setHighlightsSyntax:YES];
+					[self setHighlightsSyntax:NO];
+				}
+			}
+		}];
+	}
 }
 
 #pragma mark -
 #pragma mark ### Save/Open Panel loading ###
 
-- (IBAction)goIntoBundles:(id)sender {
-    BOOL flag = ([(NSButton*)sender state] == NSOffState) ? NO : YES;
-    [I_savePanel setTreatsFilePackagesAsDirectories:flag];
-    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:@"GoIntoBundlesPrefKey"];
-}
+//- (IBAction)goIntoBundles:(id)sender {
+//    BOOL flag = ([(NSButton*)sender state] == NSOffState) ? NO : YES;
+//    [I_savePanel setTreatsFilePackagesAsDirectories:flag];
+//    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:@"GoIntoBundlesPrefKey"];
+//}
+//
+//- (IBAction)showHiddenFiles:(id)sender {
+//    BOOL flag = ([(NSButton*)sender state] == NSOffState) ? NO : YES;
+//    if ([I_savePanel canShowHiddenFiles]) {
+//        [I_savePanel setInternalShowsHiddenFiles:flag];
+//    }
+//    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:@"ShowsHiddenFiles"];
+//}
 
-- (IBAction)showHiddenFiles:(id)sender {
-    BOOL flag = ([(NSButton*)sender state] == NSOffState) ? NO : YES;
-    if ([I_savePanel canShowHiddenFiles]) {
-        [I_savePanel setInternalShowsHiddenFiles:flag];
-    }
-    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:@"ShowsHiddenFiles"];    
-}
+//- (NSString *)panel:(id)sender userEnteredFilename:(NSString *)filename confirmed:(BOOL)okFlag
+//{
+//    if (okFlag) {
+//        NSString *panelFileName = [sender filename];
+//        NSFileManager *fileManager = [NSFileManager defaultManager];
+//        NSWorkspace *workspace = [NSWorkspace sharedWorkspace];
+//        BOOL isDir;
+//        if ([fileManager fileExistsAtPath:panelFileName isDirectory:&isDir] && isDir && ![workspace isFilePackageAtPath:panelFileName]) {
+//            NSAlert *alert = [[NSAlert alloc] init];
+//            [alert setAlertStyle:NSInformationalAlertStyle];
+//            [alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"The document can not be saved with the name \"%@\" because a folder with the same name already exists.", nil), filename]];
+//            [alert setInformativeText:NSLocalizedString(@"Try choosing a different name for the document.", nil)];
+//            [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
+//            (void)[alert runModal];
+//            [[alert window] orderOut:self];
+//            [alert release];
+//            return nil;
+//        }
+//    }
+//    
+//    return filename;
+//}
+//
+//- (void)setTemporarySavePanel:(NSSavePanel *)aPanel {
+//	if (aPanel != I_savePanel) {
+//		if (I_savePanel && [I_savePanel delegate] == (id)self) {
+//			[I_savePanel setDelegate:nil];
+//		}
+//		[I_savePanel autorelease];
+//		 I_savePanel = [aPanel retain];
+//	}
+//}
+//
+//- (void) _savePanelWasPresented:(id)aPanel withResult:(int)aResult inContext:(void*) aContext; {
+//	[I_savePanel setDelegate:nil];
+//	if (aResult == NSCancelButton) {	
+//		[self setTemporarySavePanel:nil];
+//	}
+//	[super _savePanelWasPresented:aPanel withResult:aResult inContext:aContext];
+//}
 
-- (NSString *)panel:(id)sender userEnteredFilename:(NSString *)filename confirmed:(BOOL)okFlag
-{
-    if (okFlag) {
-        NSString *panelFileName = [sender filename];
-        NSFileManager *fileManager = [NSFileManager defaultManager];
-        NSWorkspace *workspace = [NSWorkspace sharedWorkspace];
-        BOOL isDir;
-        if ([fileManager fileExistsAtPath:panelFileName isDirectory:&isDir] && isDir && ![workspace isFilePackageAtPath:panelFileName]) {
-            NSAlert *alert = [[NSAlert alloc] init];
-            [alert setAlertStyle:NSInformationalAlertStyle];
-            [alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"The document can not be saved with the name \"%@\" because a folder with the same name already exists.", nil), filename]];
-            [alert setInformativeText:NSLocalizedString(@"Try choosing a different name for the document.", nil)];
-            [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
-            (void)[alert runModal];
-            [[alert window] orderOut:self];
-            [alert release];
-            return nil;
-        }
-    }
-    
-    return filename;
-}
-
-- (void)setTemporarySavePanel:(NSSavePanel *)aPanel {
-	if (aPanel != I_savePanel) {
-		if (I_savePanel && [I_savePanel delegate] == (id)self) {
-			[I_savePanel setDelegate:nil];
-		}
-		[I_savePanel autorelease];
-		 I_savePanel = [aPanel retain];
-	}
-}
-
-- (void) _savePanelWasPresented:(id)aPanel withResult:(int)aResult inContext:(void*) aContext; {
-	[I_savePanel setDelegate:nil];
-	if (aResult == NSCancelButton) {	
-		[self setTemporarySavePanel:nil];
-	}
-	[super _savePanelWasPresented:aPanel withResult:aResult inContext:aContext];
-}
-    
 - (BOOL)prepareSavePanel:(NSSavePanel *)savePanel {
-	
-    if (![NSBundle loadNibNamed:@"SavePanelAccessory" owner:self])  {
-        NSLog(@"Failed to load SavePanelAccessory.nib");
-        return NO;
-    }
-    
-    BOOL isGoingIntoBundles = [[NSUserDefaults standardUserDefaults] boolForKey:@"GoIntoBundlesPrefKey"];
-    [savePanel setTreatsFilePackagesAsDirectories:isGoingIntoBundles];
-    
+	BOOL isGoingIntoBundles = [[NSUserDefaults standardUserDefaults] boolForKey:@"GoIntoBundlesPrefKey"];
     BOOL showsHiddenFiles = [[NSUserDefaults standardUserDefaults] boolForKey:@"ShowsHiddenFiles"];
-    if ([savePanel canShowHiddenFiles]) {
-        [savePanel setInternalShowsHiddenFiles:showsHiddenFiles];
-    }    
 
+    [savePanel setTreatsFilePackagesAsDirectories:isGoingIntoBundles];
+	[savePanel setShowsHiddenFiles:showsHiddenFiles];
     [savePanel setExtensionHidden:NO];
-    [savePanel performSelector:@selector(setExtensionHidden:) withObject:nil afterDelay:0.0];
     [savePanel setCanSelectHiddenExtension:NO];
 
-    [self setTemporarySavePanel:savePanel];
-    [savePanel setDelegate:self];
+//    [savePanel setDelegate:self];
 
     if (![self fileURL] && [self directoryForSavePanel]) {
-        [savePanel setDirectory:[self directoryForSavePanel]];
+        [savePanel setDirectoryURL:[NSURL fileURLWithPath:[self directoryForSavePanel]]];
     }
 
-    if (I_lastSaveOperation == NSSaveToOperation) {
+	SEESavePanelAccessoryViewController *accessoryViewController = [[[SEESavePanelAccessoryViewController alloc] initWithNibName:@"SEESavePanelAccessoryViewController" bundle:nil] autorelease];
+	accessoryViewController.savePanel = savePanel;
+	savePanel.accessoryView = accessoryViewController.view;
+
+	EncodingPopUpButton *encodingPopup = accessoryViewController.encodingPopUpButtonOutlet;
+    if (encodingPopup) {
         NSArray *encodings = [[EncodingManager sharedInstance] enabledEncodings];
         NSMutableArray *lossyEncodings = [NSMutableArray array];
         for (id loopItem in encodings) {
@@ -2733,51 +2659,41 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             }
         }
         [[EncodingManager sharedInstance] registerEncoding:[self fileEncoding]];
-        [O_encodingPopUpButton setEncoding:[self fileEncoding] defaultEntry:NO modeEntry:NO lossyEncodings:lossyEncodings];
-        
-        [O_savePanelAccessoryFileFormatMatrix selectCellWithTag:I_flags.isSEEText?1:0];
+		[encodingPopup setEncoding:[self fileEncoding] defaultEntry:NO modeEntry:NO lossyEncodings:lossyEncodings];
+	}
 
-        [savePanel setAccessoryView:O_savePanelAccessoryView];
-        [O_goIntoBundlesCheckbox setState:isGoingIntoBundles ? NSOnState : NSOffState];
-        if ([savePanel canShowHiddenFiles]) {
-            [O_showHiddenFilesCheckbox setState:showsHiddenFiles ? NSOnState : NSOffState];
-        } else {
-            [O_showHiddenFilesCheckbox setHidden:YES];
-        }
-    } else {
-        [savePanel setAccessoryView:O_savePanelAccessoryView2];
-        [O_goIntoBundlesCheckbox2 setState:isGoingIntoBundles ? NSOnState : NSOffState];
-        if ([savePanel canShowHiddenFiles]) {
-            [O_showHiddenFilesCheckbox2 setState:showsHiddenFiles ? NSOnState : NSOffState];
-        } else {
-            [O_showHiddenFilesCheckbox2 setHidden:YES];
-        }
-        [O_savePanelAccessoryFileFormatMatrix2 selectCellWithTag:I_flags.isSEEText?1:0];
-    }
-	
-    [O_savePanelAccessoryView release];
-    O_savePanelAccessoryView = nil;
-    
-    [O_savePanelAccessoryView2 release];
-    O_savePanelAccessoryView2 = nil;
-	
+	[accessoryViewController.savePanelAccessoryFileFormatMatrixOutlet selectCellWithTag:I_flags.isSEEText?1:0];
 
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(savePanelDidBecomeKey:) name:NSWindowDidBecomeKeyNotification object:savePanel];
+//        [O_encodingPopUpButton setEncoding:[self fileEncoding] defaultEntry:NO modeEntry:NO lossyEncodings:lossyEncodings];
+//        
+//        [O_savePanelAccessoryFileFormatMatrix selectCellWithTag:I_flags.isSEEText?1:0];
+//
+//        [savePanel setAccessoryView:O_savePanelAccessoryView];
+//        [O_goIntoBundlesCheckbox setState:isGoingIntoBundles ? NSOnState : NSOffState];
+//		[O_showHiddenFilesCheckbox setState:showsHiddenFiles ? NSOnState : NSOffState];
+//    } else {
+//        [savePanel setAccessoryView:O_savePanelAccessoryView2];
+//        [O_goIntoBundlesCheckbox2 setState:isGoingIntoBundles ? NSOnState : NSOffState];
+//		[O_showHiddenFilesCheckbox2 setState:showsHiddenFiles ? NSOnState : NSOffState];
+//        [O_savePanelAccessoryFileFormatMatrix2 selectCellWithTag:I_flags.isSEEText?1:0];
+//    }
+//	
+//    [O_savePanelAccessoryView release];
+//    O_savePanelAccessoryView = nil;
+//    
+//    [O_savePanelAccessoryView2 release];
+//    O_savePanelAccessoryView2 = nil;
+
     return YES;
-}
-
-- (void)savePanelDidBecomeKey:(NSNotification *)aNotification {
-	[[aNotification object] TCM_selectFilenameWithoutExtension];
-    [[NSNotificationCenter defaultCenter] removeObserver:self  name:NSWindowDidBecomeKeyNotification object:[aNotification object]];
 }
 
 - (IBAction)selectFileFormat:(id)aSender {
     NSSavePanel *panel = (NSSavePanel *)[aSender window];
     NSString *seeTextExtension = [self fileNameExtensionForType:@"de.codingmonkeys.subethaedit.seetext" saveOperation:NSSaveOperation];
     if ([[aSender selectedCell] tag]==1) {
-        [panel setRequiredFileType:seeTextExtension];
+        [panel setAllowedFileTypes:@[seeTextExtension]];
     } else {
-        [panel setRequiredFileType:nil];
+        [panel setAllowedFileTypes:@[]];
         NSTextField *nameField = [panel valueForKey:@"_nameField"];
         if (nameField && [nameField isKindOfClass:[NSTextField class]]) {
             NSString *name = [nameField stringValue];
@@ -2905,7 +2821,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     BOOL didShowPanel=NO;
     if (saveOperation != NSAutosaveOperation) {
         didShowPanel = (I_savePanel)?YES:NO;
-		[self setTemporarySavePanel:nil];
+//		[self setTemporarySavePanel:nil];
     }
     
     if (anAbsoluteURL) {
@@ -3158,6 +3074,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     NSEnumerator *elements = [topLevelArray objectEnumerator];
     id element = [elements nextObject];
     if (element) fileversion = [element unsignedIntValue];
+#pragma unused (fileversion)
+
     while ((element=[elements nextObject])) {
         if ([element isKindOfClass:[NSArray class]] && [(NSArray*)element count]==1 && [[element objectAtIndex:0] isKindOfClass:[NSDictionary class]]) {
             [dictRep addEntriesFromDictionary:[element objectAtIndex:0]];
@@ -3267,7 +3185,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     if (!fileExists || (isDir && ![docType isEqualToString:@"SEETextType"])) {
         // generate the correct error
         [NSData dataWithContentsOfURL:anURL options:0 error:outError];
-        DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"file doesn't exist %@",*outError);
+        DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"file doesn't exist %@",outError?*outError:nil);
         I_flags.isReadingFile = NO;
         return NO;
     }
@@ -3543,7 +3461,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             [options setObject:[NSNumber numberWithUnsignedInt:NSMacOSRomanStringEncoding] forKey:NSCharacterEncodingDocumentOption];
             success = [textStorage readFromData:fileData encoding:NSMacOSRomanStringEncoding];
     #ifndef TCM_NO_DEBUG
-        [_readFromURLDebugInformation appendFormat:@"-----> 5. Step - using mac os roman encoding:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n",success,[options description],nil,(success?nil:*outError)];
+			[_readFromURLDebugInformation appendFormat:@"-----> 5. Step - using mac os roman encoding:\n success:%d readWithOptions:%@ docAttributes:%@ error:%@\n",success,[options description],nil,(success?nil:outError?*outError:nil)];
     #endif
         }
     
@@ -3554,14 +3472,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Encoding guessing information summary: %@", _readFromURLDebugInformation);
         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Read successful? %@", success ? @"YES" : @"NO");
-
-#if defined(CODA)
-		//have to do this before setdocumentmode to avoid layout when calling setContinuousSpellCheckingEnabled: 
-		[textStorage endEditing]; 
-		
-		if ( mode == nil )
-			mode = [DocumentModeManager baseMode];
-#endif
 
         [self setDocumentMode:mode];
         if ([I_textStorage length] > [defaults integerForKey:@"StringLengthToStopHighlightingAndWrapping"]) {
@@ -3617,10 +3527,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 			}
 		}
 
-#if !defined(CODA)
         [textStorage endEditing];
-#endif
-        
+
         NSNumber *lineEndingNumber = [I_stateDictionaryFromLoading objectForKey:@"e"];
         if (lineEndingNumber) {
         	[self setLineEnding:[lineEndingNumber intValue]];
@@ -3690,7 +3598,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     TCMMMLoggedOperation *lop = nil;
     if ([[ls loggedOperations] count]>0) {
         lop = [[ls loggedOperations] objectAtIndex:0];
-        NSXMLElement *element = [NSXMLNode elementWithName:@"firstactivity" stringValue:[[lop date] rfc1123Representation]];
+        NSXMLElement *element = [NSXMLNode elementWithName:@"firstactivity" stringValue:[[lop date] rfc1123DateTimeString]];
         TCMMMUser *user = [um userForUserID:[[lop operation] userID]];
         if (user) [element addAttribute:[NSXMLNode attributeWithName:@"name" stringValue:[user name]]];
         [rootElement addChild:element];
@@ -3698,7 +3606,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     
     lop = [[ls loggedOperations] lastObject];
     if (lop) {
-        NSXMLElement *element = [NSXMLNode elementWithName:@"lastactivity" stringValue:[[lop date] rfc1123Representation]];
+        NSXMLElement *element = [NSXMLNode elementWithName:@"lastactivity" stringValue:[[lop date] rfc1123DateTimeString]];
         TCMMMUser *user = [um userForUserID:[[lop operation] userID]];
         if (user) [element addAttribute:[NSXMLNode attributeWithName:@"name" stringValue:[user name]]];
         [rootElement addChild:element];
@@ -3726,7 +3634,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         if ([contributor aim])   [element addAttribute:[NSXMLNode attributeWithName:@"aim"   stringValue:[contributor aim]]];
         TCMMMLogStatisticsEntry *stat = [contributorEntry objectForKey:@"stat"];
         if (stat) {
-            [element addAttribute:[NSXMLNode attributeWithName:@"lastactivity" stringValue:[[stat dateOfLastActivity] rfc1123Representation]]];
+            [element addAttribute:[NSXMLNode attributeWithName:@"lastactivity" stringValue:[[stat dateOfLastActivity] rfc1123DateTimeString]]];
             [element addAttribute:[NSXMLNode attributeWithName:@"deletions"  stringValue:[NSString stringWithFormat:@"%lu",[stat deletedCharacters]]]];
             [element addAttribute:[NSXMLNode attributeWithName:@"insertions" stringValue:[NSString stringWithFormat:@"%lu",[stat insertedCharacters]]]];
             [element addAttribute:[NSXMLNode attributeWithName:@"selections" stringValue:[NSString stringWithFormat:@"%lu",[stat selectedCharacters]]]];
@@ -3884,6 +3792,7 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                                       didRunSelector:NULL
                                          contextInfo:nil];
                         [[self printOptions] addEntriesFromDictionary:savedPrintOptions];
+						[savedPrintOptions release];
                     }
                 }
             }
@@ -4051,12 +3960,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             CFBundleGetMainBundle(), 
             CFSTR("SubEthaEditHelperToolTemplate"), 
             kApplicationSupportFolderType,
-#if defined(CODA)
-			CFSTR("Coda"),
-#else
-            CFSTR("SubEthaEdit"), 
-#endif //defined(CODA)
-            CFSTR("SubEthaEditHelperTool"), 
+            CFSTR("SubEthaEdit"),
+            CFSTR("SubEthaEditHelperTool"),
             &tool);
 
         // If the home directory is on an volume that doesn't support 
@@ -4068,12 +3973,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
                 CFBundleGetMainBundle(), 
                 CFSTR("SubEthaEditHelperToolTemplate"), 
                 kTemporaryFolderType, 
-#if defined(CODA)
-				CFSTR("Coda"),
-#else
-                CFSTR("SubEthaEdit"), 
-#endif //defined(CODA)
-                CFSTR("SubEthaEditHelperTool"), 
+                CFSTR("SubEthaEdit"),
+                CFSTR("SubEthaEditHelperTool"),
                 &tool);
         }
     }
@@ -4416,22 +4317,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"Keep document version");
             return YES;
         }
-#if defined(CODA)
-		NSAlert *alert = [[[NSAlert alloc] init] autorelease];
-		[alert setAlertStyle:NSWarningAlertStyle];
-		[alert setMessageText:NSLocalizedString(@"Document changed externally", nil)];
-		[alert setInformativeText:NSLocalizedString(@"This document was changed by another application.", nil)];  		[alert addButtonWithTitle:NSLocalizedString(@"Keep Coda Version", nil)];  
-		[alert addButtonWithTitle:NSLocalizedString(@"Reload", nil)]; 
-		[[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
-		[self presentAlert:alert
-			 modalDelegate:self
-			didEndSelector:@selector(alertDidEnd:returnCode:contextInfo:)
-			   contextInfo:[[NSDictionary dictionaryWithObjectsAndKeys:
-				   @"DocumentChangedExternallyAlert", @"Alert", self, @"Document",
-				   nil] retain]]; 
-		
-		return NO;		
-#else                
         if ([self isDocumentEdited]) {
             NSAlert *alert = [[[NSAlert alloc] init] autorelease];
             [alert setAlertStyle:NSWarningAlertStyle];
@@ -4465,7 +4350,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
             return NO;
         }
-#endif //defined(CODA)
     }
 
     return YES;
@@ -4675,9 +4559,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         NSDictionary *contextInfo = [NSDictionary dictionaryWithObjectsAndKeys:
                                                     @"EditAnywayAlert", @"Alert",
                                                     invocation, @"Invocation",
-#if defined(CODA)
-													self, @"Document",
-#endif //defined(CODA)
                                                     nil];
 
         NSAlert *alert = [[[NSAlert alloc] init] autorelease];
@@ -4694,10 +4575,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     } else {
         FoldableTextStorage *textStorage=(FoldableTextStorage *)[self textStorage];
         [textStorage beginEditing];
-#if defined(CODA)
-		//don't want the highlighter to run as we open the document
-		[self setDocumentMode:nil];
-#endif //defined (CODA)
         [textStorage setShouldWatchLineEndings:NO];
 
         [self setLineEnding:lineEnding];
@@ -4850,29 +4727,17 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         DocumentMode *documentMode=[self documentMode];
         BOOL darkBackground=[[documentMode defaultForKey:DocumentModeBackgroundColorIsDarkPreferenceKey] boolValue];
         NSDictionary *style=nil;
-#if defined(CODA)
-		NSDictionary *spellingStyle=nil;
-#endif //defined(CODA)
-        if ([aStyleID isEqualToString:SyntaxStyleBaseIdentifier] && 
+        if ([aStyleID isEqualToString:SyntaxStyleBaseIdentifier] &&
             [[documentMode defaultForKey:DocumentModeUseDefaultStylePreferenceKey] boolValue]) {
             style=[[[DocumentModeManager baseMode] syntaxStyle] styleForKey:aStyleID];
-#if defined(CODA)
-			spellingStyle = [[documentMode syntaxStyle] styleForKey:aStyleID];
-#endif //defined(CODA)
         } else {
             style=[[documentMode syntaxStyle] styleForKey:aStyleID];
-#if defined(CODA)
-			spellingStyle = style;
-#endif //defined(CODA)
         }
 		
 		if (![style objectForKey:@"color"]) {
 			// This is a style without color, so fall back to scope color.
 			style = [I_styleCacheDictionary objectForKey:[style objectForKey:@"scope"]];
 			//if (!style) style = [[documentMode syntaxStyle] styleForScope:[style objectForKey:@"scope"]]; // FIXME: if no style then no style objectforkey scope
-#if defined(CODA)
-			spellingStyle = style;
-#endif //defined(CODA)
 		}
 		
         NSFontTraitMask traits=[[style objectForKey:@"font-trait"] unsignedIntValue];
@@ -4887,20 +4752,12 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
             strokeWidth=darkBackground?-9.:-3.;
         }
 		
-#if defined(CODA)
-		NSString *useSpellChecking = [spellingStyle objectForKey:@"usespellchecking"];
-		if ( !useSpellChecking )
-			useSpellChecking = @"no";					
-#endif //defined(CODA)
-		
+
         NSColor *foregroundColor=[style objectForKey:darkBackground?@"inverted-color":@"color"];
                 
         result=[NSMutableDictionary dictionaryWithObjectsAndKeys:font,NSFontAttributeName,
 				foregroundColor,NSForegroundColorAttributeName,
             aStyleID,@"styleID",
-#if defined(CODA)
-			useSpellChecking, @"usespellchecking",
-#endif //defined(CODA)
             [NSNumber numberWithFloat:obliquenessFactor],NSObliquenessAttributeName,
             [NSNumber numberWithFloat:strokeWidth],NSStrokeWidthAttributeName,
             nil];
@@ -5031,10 +4888,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
      I_plainTextAttributes=nil;
     [I_typingAttributes release];
      I_typingAttributes=nil;
-#if defined(CODA)
-	[I_adjustedTypingAttributes autorelease];
-	I_adjustedTypingAttributes=nil;
-#endif //defined(CODA)
 	[I_styleCacheDictionary removeAllObjects];
     [[NSNotificationQueue defaultQueue]
         enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentDefaultParagraphStyleDidChangeNotification object:self]
@@ -5048,10 +4901,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
      I_plainTextAttributes=nil;
     [I_typingAttributes release];
      I_typingAttributes=nil;
-#if defined(CODA)
-	[I_adjustedTypingAttributes autorelease];
-	I_adjustedTypingAttributes=nil;
-#endif //defined(CODA)	
     [I_blockeditAttributes release];
      I_blockeditAttributes=nil;
     [I_styleCacheDictionary removeAllObjects];
@@ -5086,27 +4935,21 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 
 - (void)gotoLine:(unsigned)aLine {
     PlainTextWindowController *windowController=[self topmostWindowController];
-#if !defined(CODA)	
     [windowController selectTabForDocument:self];
-#endif //!defined(CODA)	
     [windowController gotoLine:aLine];
 }
 
 // dispatches to the plaintexteditor eventually
 - (void)selectRange:(NSRange)aRange {
     PlainTextWindowController *windowController=[self topmostWindowController];
-#if !defined(CODA)	
     [windowController selectTabForDocument:self];
-#endif //!defined(CODA)	
     [windowController selectRange:aRange];
 }
 
 // dispatches to the plaintexteditor eventually
 - (void)selectRangeInBackground:(NSRange)aRange {
     PlainTextWindowController *windowController=[self topmostWindowController];
-#if !defined(CODA)	
     [windowController selectTabForDocument:self];
-#endif //!defined(CODA)	
     [windowController selectRangeInBackground:aRange];
 }
 
@@ -5221,7 +5064,6 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     return [super displayName];
 }
 
-#if !defined(CODA)
 - (void)setDisplayName:(NSString *)aDisplayName {
     if (!I_flags.isSettingFileURL) {
         if (![self fileURL]) {
@@ -5235,96 +5077,68 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
         [super setDisplayName:aDisplayName];
     }
 }
-#endif //!defined(CODA)
-	
+
 #pragma mark -
 #pragma mark ### Printing ###
 
-static NSString *S_measurementUnits;
+- (NSPrintOperation *)printOperationWithSettings:(NSDictionary *)printSettings error:(NSError **)outError
+{
+	NSPrintOperation *printOperation = [NSPrintOperation printOperationWithView:[self printableView]];
+	return printOperation;
+}
 
 - (NSView *)printableView {
     // make sure everything is colored if it should be
-    MultiPagePrintView *printView=[[MultiPagePrintView alloc] initWithFrame:NSMakeRect(0.,0.,100.,100.) document:self];
-
+    MultiPagePrintView *printView = [[MultiPagePrintView alloc] initWithFrame:NSMakeRect(0.0, 0.0, 100.0, 100.0) document:self];
     return [printView autorelease];
 }
 
-- (void)printShowingPrintPanel:(BOOL)showPanels {
-    // Obtain a custom view that will be printed
-    NSView *printView = [self printableView];
+//static NSString *S_measurementUnits;
 
-    if (!O_printOptionView) {
-        [NSBundle loadNibNamed:@"PrintOptions" owner:self];
-        if (!S_measurementUnits) {
-            S_measurementUnits=[[[NSUserDefaults standardUserDefaults] stringForKey:@"AppleMeasurementUnits"] retain];
-        }
-        NSString *labelText=NSLocalizedString(([NSString stringWithFormat:@"Label%@",S_measurementUnits]),@"Centimeters or Inches, short label string for them");
-        int i=996;
-        for (i=996;i<1000;i++) {
-            [[O_printOptionView viewWithTag:i] setStringValue:labelText];
-        }
-		[O_printOptionTextField setFontDelegate:self];
-    }
-
-    // Construct the print operation and setup Print panel
-    NSPrintOperation *op = [NSPrintOperation printOperationWithView:printView printInfo:[self printInfo]];
-    [op setShowsPrintPanel:showPanels];
-
-    if (showPanels) {
-        // Add accessory view, if needed
-        //[op setAccessoryView:O_printOptionView];
-        [O_printOptionController setContent:[self printOptions]];
-    }
-    I_printOperationIsRunning=YES;
-    // Run operation, which shows the Print panel if showPanels was YES
-    [self runModalPrintOperation:op
-                        delegate:self
-                  didRunSelector:@selector(documentDidRunModalPrintOperation:success:contextInfo:)
-                     contextInfo:[op retain]];
-}
-
-- (void)documentDidRunModalPrintOperation:(NSDocument *)document success:(BOOL)success contextInfo:(void *)contextInfo {
-    I_printOperationIsRunning=NO;
-    NSPrintOperation *op=(NSPrintOperation *)contextInfo;
-    if (success) {
-        [self setPrintInfo:[[NSPrintOperation currentOperation] printInfo]];
-    }
-    [O_printOptionController setContent:[NSMutableDictionary dictionary]];
-    [op autorelease];
-}
-
-- (IBAction)changeFontViaPanel:(id)sender {
-    NSDictionary *fontAttributes=[[O_printOptionController content] valueForKeyPath:@"SEEFontAttributes"];
-    NSFont *newFont=[NSFont fontWithName:[fontAttributes objectForKey:NSFontNameAttribute] size:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
-    if (!newFont) newFont=[NSFont userFixedPitchFontOfSize:[[fontAttributes objectForKey:NSFontSizeAttribute] floatValue]];
-    
-    [[NSFontManager sharedFontManager] 
-        setSelectedFont:newFont 
-             isMultiple:NO];
-    [[NSFontManager sharedFontManager] orderFrontFontPanel:self];
-	
-	[[sender window] makeFirstResponder:O_printOptionTextField];
-
-}
-
-#if defined(CODA)
-- (void)changeFontInteral:(id)aSender
-#else	
-- (void)changeFont:(id)aSender
-#endif //defined(CODA)
-{
-    NSFont *newFont = [aSender convertFont:I_fonts.plainFont];
-    if (I_printOperationIsRunning) {
-        NSMutableDictionary *dict=[NSMutableDictionary dictionary];
-        [dict setObject:[newFont fontName] 
-                 forKey:NSFontNameAttribute];
-        [dict setObject:[NSNumber numberWithFloat:[newFont pointSize]] 
-                 forKey:NSFontSizeAttribute];
-        [[O_printOptionController content] setValue:dict forKeyPath:PROPERTY(SEEFontAttributes)];
-    } else {
-        [self setPlainFont:newFont];
-    }
-}
+//- (void)printShowingPrintPanel:(BOOL)showPanels {
+//    // Obtain a custom view that will be printed
+//    NSView *printView = [self printableView];
+//
+//    if (!O_printOptionView) {
+//        [NSBundle loadNibNamed:@"PrintOptions" owner:self];
+//        if (!S_measurementUnits) {
+//            S_measurementUnits=[[[NSUserDefaults standardUserDefaults] stringForKey:@"AppleMeasurementUnits"] retain];
+//        }
+//        NSString *labelText=NSLocalizedString(([NSString stringWithFormat:@"Label%@",S_measurementUnits]),@"Centimeters or Inches, short label string for them");
+//        int i=996;
+//        for (i=996;i<1000;i++) {
+//            [[O_printOptionView viewWithTag:i] setStringValue:labelText];
+//        }
+//		[O_printOptionTextField setFontDelegate:self];
+//    }
+//
+//    // Construct the print operation and setup Print panel
+//    NSPrintOperation *op = [NSPrintOperation printOperationWithView:printView printInfo:[self printInfo]];
+//    [op setShowsPrintPanel:showPanels];
+//
+//    if (showPanels) {
+//        // Add accessory view, if needed
+//        //[op setAccessoryView:O_printOptionView];
+//        [O_printOptionController setContent:[self printOptions]];
+//    }
+//    I_printOperationIsRunning=YES;
+//    // Run operation, which shows the Print panel if showPanels was YES
+//    [self runModalPrintOperation:op
+//                        delegate:self
+//                  didRunSelector:@selector(documentDidRunModalPrintOperation:success:contextInfo:)
+//                     contextInfo:[op retain]];
+//}
+//
+//- (void)documentDidRunModalPrintOperation:(NSDocument *)document success:(BOOL)success contextInfo:(void *)contextInfo {
+//    I_printOperationIsRunning=NO;
+//    NSPrintOperation *op=(NSPrintOperation *)contextInfo;
+//    if (success) {
+//        [self setPrintInfo:[[NSPrintOperation currentOperation] printInfo]];
+//    }
+//    [O_printOptionController setContent:[NSMutableDictionary dictionary]];
+//    [op autorelease];
+//}
+//
 
 
 #pragma mark -
@@ -5683,7 +5497,6 @@ static NSString *S_measurementUnits;
         [super updateChangeCount:changeType];
     }
     
-#if !defined(CODA)
     NSEnumerator *enumerator = [[self windowControllers] objectEnumerator];
     id windowController;
     while ((windowController = [enumerator nextObject])) {
@@ -5691,8 +5504,7 @@ static NSString *S_measurementUnits;
             [(PlainTextWindowController *)windowController documentUpdatedChangeCount:self];
         }
     }
-#endif //!defined(CODA)
-	
+
 	//    NSString *changes[]={@"NSChangeDone",@"NSChangeUndone",@"NSChangeCleared",@"NSChangeReadOtherContents",@"NSChangeAutosaved",@"NSChangeRedone"};
 	//    NSLog(@"%s count:%d %@ %@ %@",__FUNCTION__,I_changeCount,changes[changeType],[self isDocumentEdited]?@"Dirty":@"Clean",I_flags.shouldChangeChangeCount?@"shouldChange":@"doesn'tChange");
 }
@@ -5915,10 +5727,8 @@ static NSString *S_measurementUnits;
     if ([[self windowControllers] count]>0) {
         [self TCM_generateNewSession];
         if (I_flags.isReceivingContent) {
-#if !defined(CODA)			
             PlainTextWindowController *controller=[[self windowControllers] objectAtIndex:0];
             [controller documentDidLoseConnection:self];
-#endif //!defined(CODA)			
         } else {
             NSAlert *alert = [[[NSAlert alloc] init] autorelease];
             [alert setAlertStyle:NSInformationalAlertStyle];
@@ -5961,10 +5771,6 @@ static NSString *S_measurementUnits;
     // this is slightly modified make window controllers code ...
     [self makeWindowControllers]; 
     PlainTextWindowController *windowController=[[self windowControllers] lastObject];
-
-#if !defined(CODA)    
-//    [[windowController tabBar] updateViewsHack];
-#endif //!defined(CODA)	
     I_flags.isReceivingContent=YES;
     [windowController document:self isReceivingContent:YES];
     
@@ -5977,9 +5783,7 @@ static NSString *S_measurementUnits;
         [window setFrameTopLeftPoint:NSMakePoint(transientDocumentWindowFrame.origin.x, NSMaxY(transientDocumentWindowFrame))];
         [transientDocument close];
     } else if (![[windowController window] isVisible]) {
-#if !defined(CODA)		
         [windowController cascadeWindow];
-#endif //!defined(CODA)		
     }
     [I_documentProxyWindowController dissolveToWindow:[windowController window]];
     
@@ -6062,7 +5866,7 @@ static NSString *S_measurementUnits;
 
 // this is the data stored in the seetext file format
 - (NSDictionary *)documentState {
-    NSMutableDictionary *result = [[self sessionInformation] mutableCopy];
+    NSMutableDictionary *result = [[[self sessionInformation] mutableCopy] autorelease];
     [result removeObjectForKey:@"FileType"]; // don't save the filetype in a seetext
     [result setObject:[NSNumber numberWithBool:[self showsChangeMarks]]
                forKey:HighlightChangesPreferenceKey];
@@ -6252,12 +6056,7 @@ static NSString *S_measurementUnits;
 
 
 - (PlainTextEditor *)activePlainTextEditor {
-#if defined(CODA)
-	return [[self topmostWindowController] activePlainTextEditor];
-#else
     return [[self topmostWindowController] activePlainTextEditorForDocument:self];
-#endif //defined(CODA)		
-
 }
 
 
@@ -6267,11 +6066,7 @@ static NSString *S_measurementUnits;
     PlainTextWindowController *windowController;
     while ((windowController = [windowControllers nextObject])) 
 	{
-#if defined(CODA)		
-		[result addObjectsFromArray:[windowController plainTextEditors]];
-#else
 		[result addObjectsFromArray:[windowController plainTextEditorsForDocument:self]];
-#endif //defined(CODA)
 	}
     return result;
 }
@@ -6760,53 +6555,11 @@ static NSString *S_measurementUnits;
         NSRect    glyphRect=[layoutManager boundingRectForGlyphRange:NSMakeRange(glyphIndex, 1)
                                                      inTextContainer:[aTextView textContainer]];
         
-#if defined(CODA)
-		// This makes it so it will match if you click past the end or beginning of the document
-		if (NSPointInRect(point, glyphRect) || (glyphIndex == 0) || (glyphIndex == ([layoutManager numberOfGlyphs] - 1)))
-#else
-		if (NSPointInRect(point, glyphRect))	
-#endif //defined(CODA)
-		{			
+		if (NSPointInRect(point, glyphRect))
+		{
             // Convert the glyph index to a character index
             NSUInteger charIndex=[layoutManager characterIndexForGlyphAtIndex:glyphIndex];
             NSString *string=[[self textStorage] string];			
-#if defined(CODA)
-			// This change makes it so double clicking the space before or after 
-			// a bracket initiates matching
-			
-			if ( charIndex < [string length] )
-			{
-				NSUInteger positionToMatch = NSNotFound;
-				unichar clickedChar = [string characterAtIndex:charIndex];
-				
-				if ( [self TCM_charIsBracket:clickedChar] )
-				{
-					positionToMatch = charIndex;
-				}
-				else if ( clickedChar == 32 ) // only select ahead if you clicked on a space #15023
-				{
-					if ( (charIndex > 0) && [self TCM_charIsBracket:[string characterAtIndex:(charIndex - 1)]] )
-					{
-						positionToMatch = (charIndex - 1);
-					}
-					else if ( (charIndex < ([string length] - 1)) && [self TCM_charIsBracket:[string characterAtIndex:(charIndex + 1)]] )
-					{
-						positionToMatch = (charIndex + 1);
-					}
-				}
-				
-				if ( positionToMatch != NSNotFound ) 
-				{
-					NSUInteger matchingPosition = [self TCM_positionOfMatchingBracketToPosition:positionToMatch];
-					
-					if ( matchingPosition != NSNotFound ) 
-					{
-						aNewSelectedCharRange = NSUnionRange(NSMakeRange(positionToMatch,1),
-															 NSMakeRange(matchingPosition,1));
-					}
-				}
-			}
-#else			
             if ([self TCM_charIsBracket:[string characterAtIndex:charIndex]] && [self TCM_validTypeForBracketAtIndex:charIndex]) {
                 NSUInteger matchingPosition=[self TCM_positionOfMatchingBracketToPosition:charIndex];
                 if (matchingPosition!=NSNotFound) {
@@ -6814,7 +6567,6 @@ static NSString *S_measurementUnits;
                                                         NSMakeRange(matchingPosition,1));
                 }
             }
-#endif //defined(CODA)			
         }
     }
 

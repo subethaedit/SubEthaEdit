@@ -127,7 +127,7 @@ extern NSString * const DocumentModeStyleSheetsDefaultLanguageContextKey;
 - (SyntaxHighlighter *)syntaxHighlighter;
 - (SyntaxDefinition *)syntaxDefinition;
 - (RegexSymbolParser *)symbolParser;
-- (NSString *)newFileContent;
+- (NSString *)templateFileContent;
 - (NSMutableArray *)autocompleteDictionary;
 
 - (BOOL)hasSymbols;

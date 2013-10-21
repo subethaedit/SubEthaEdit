@@ -19,9 +19,6 @@
 #import "time.h"
 #import "TextOperation.h"
 #import <objc/objc-runtime.h>
-#if defined(CODA)
-#import "TextView.h"
-#endif //defined(CODA)
 
 static FindReplaceController *sharedInstance=nil;
 
@@ -109,11 +106,7 @@ static FindReplaceController *sharedInstance=nil;
 
 - (NSTextView *)textViewToSearchIn {
     id obj = [[NSApp mainWindow] firstResponder];
-#if defined(CODA)
-	return (obj && [obj isKindOfClass:[TextView class]]) ? obj : nil;
-#else
     return (obj && [obj isKindOfClass:[NSTextView class]]) ? obj : nil;
-#endif
 }
 
 - (IBAction)orderFrontTabWidthPanel:(id)aSender {
@@ -154,7 +147,7 @@ static FindReplaceController *sharedInstance=nil;
     // This is a workaround from dts to trick the KeyViewLoopValidation on Tiger (atm 10.4.4)
     // Quoting Scott Ritchie (dts) <sritchie@apple.com>:
     
-    // The problem occurs because there is a drawer (or toolbar, for that matter) present that does not contain any views that can become key. When AppKit searches the drawer for a potential key view and finds none, it erroneously selects the current key view as the one to tab to.  Thus, tabbing gets stuck.
+    // The problem occurs because there is a drawer (or toolbar, for that matter) present that does not contain any views that can become key. When AppKit searches the drawer for a potential key view and finds none, it erroneously selects the current key view as the one to tab to. Thus, tabbing gets stuck.
 
     //If possible, simply place a control that can gain the input focus in the drawer. This will cause the tabbing problem to go away.
 

@@ -7,9 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import <Carbon/Carbon.h>
+#import <AppKit/AppKit.h>
 #import <getopt.h>
-#import <stdio.h>
 
 
 /*
@@ -94,69 +93,57 @@ BOOL meetsRequiredVersion(NSString *string) {
     return NO;
 }
 
-CFURLRef URLRefForSubEthaEdit() {
-    OSStatus status = noErr;
-    CFURLRef appURL = NULL;
-    
-    ProcessSerialNumber psn;
-    psn.lowLongOfPSN = kNoProcess;
-	psn.highLongOfPSN = kNoProcess;
-    
-    int bundleVersion = 0;
+CFURLRef CopyURLRefForSubEthaEdit()
+{
+	NSURL *applicationURL = nil;
+    NSUInteger bundleVersion = 0;
 
-    while (!(status = GetNextProcess(&psn))) {
-        CFDictionaryRef dict = ProcessInformationCopyDictionary(&psn, kProcessDictionaryIncludeAllInformationMask);
-        if (dict) {
-            NSString *bundleIdentifier = [(NSDictionary *)dict objectForKey:@"CFBundleIdentifier"];
-            if ([bundleIdentifier isEqualToString:@"de.codingmonkeys.SubEthaEdit"]) {
-                NSString *bundlePath = [(NSDictionary *)dict objectForKey:@"BundlePath"];
-                NSBundle *appBundle = [NSBundle bundleWithPath:bundlePath];
-                int version = [[[appBundle infoDictionary] objectForKey:@"CFBundleVersion"] intValue];
-                NSString *minimumSeeToolVersionString = [[appBundle infoDictionary] objectForKey:@"TCMMinimumSeeToolVersion"];
-                if (version > bundleVersion && meetsRequiredVersion(minimumSeeToolVersionString)) {
-                    bundleVersion = version;
-                    appURL = (CFURLRef)[NSURL fileURLWithPath:bundlePath];
-                }
-            }
-            CFRelease(dict);
-        }
-    }
-    
-    if (appURL) {
-        CFRetain(appURL);
-        return appURL;
-    }
-            
-    status = LSFindApplicationForInfo('Hdra', CFSTR("de.codingmonkeys.SubEthaEdit"), CFSTR("SubEthaEdit.app"), NULL, &appURL); // release appURL
-    if (status == kLSApplicationNotFoundErr) {
-        NSBundle *appBundle = [NSBundle bundleWithPath:[(NSURL *)appURL path]];
+	// Look if some version of SubEthaEdit is currently running.
+	NSArray *runningApplications = [[NSWorkspace sharedWorkspace] runningApplications];
+	for (NSRunningApplication *runningApplication in runningApplications)
+	{
+		NSString *bundleIdentifier = [runningApplication bundleIdentifier];
+		if ([bundleIdentifier isEqualToString:@"de.codingmonkeys.SubEthaEdit"])
+		{
+			NSURL *runningApplicationBundleURL = [runningApplication bundleURL];
+			NSBundle *appBundle = [NSBundle bundleWithURL:runningApplicationBundleURL];
+			NSUInteger version = [[[appBundle infoDictionary] objectForKey:(id)kCFBundleVersionKey] unsignedIntegerValue];
+			NSString *minimumSeeToolVersionString = [[appBundle infoDictionary] objectForKey:@"TCMMinimumSeeToolVersion"];
+
+			if (version > bundleVersion && meetsRequiredVersion(minimumSeeToolVersionString))
+			{
+				bundleVersion = version;
+				applicationURL = [[runningApplicationBundleURL copy] autorelease];
+			}
+		}
+	}
+	if (applicationURL)
+	{
+		return (CFURLRef)[applicationURL retain];
+	}
+
+	// Look for the default version of SubEthaEdit
+	applicationURL = [[NSWorkspace sharedWorkspace] URLForApplicationWithBundleIdentifier:@"de.codingmonkeys.SubEthaEdit"];
+	if (applicationURL)
+	{
+        NSBundle *appBundle = [NSBundle bundleWithURL:applicationURL];
         NSString *minimumSeeToolVersionString = [[appBundle infoDictionary] objectForKey:@"TCMMinimumSeeToolVersion"];
         if (meetsRequiredVersion(minimumSeeToolVersionString)) {
-            return appURL;
+			return (CFURLRef)[applicationURL copy];
         }
-        
-    }
-    
-    appURL = NULL;
-    bundleVersion = 0;
-    CFURLRef testURL = CFURLCreateWithString(NULL, CFSTR("see://egal"), NULL);
-    CFArrayRef array = LSCopyApplicationURLsForURL(testURL, kLSRolesAll);
-    NSEnumerator *urlEnumerator = [(NSArray *)array objectEnumerator];
-    NSURL *url = nil;
-    while ((url = [urlEnumerator nextObject])) {
-        NSBundle *appBundle = [NSBundle bundleWithPath:[url path]];
-        int version = [[[appBundle infoDictionary] objectForKey:@"CFBundleVersion"] intValue];
+	}
+
+	// Look for any app that understands the see:// URL protocol
+	applicationURL = [[NSWorkspace sharedWorkspace] URLForApplicationToOpenURL:[NSURL URLWithString:@"see://egal"]];
+	if (applicationURL)
+	{
+        NSBundle *appBundle = [NSBundle bundleWithURL:applicationURL];
         NSString *minimumSeeToolVersionString = [[appBundle infoDictionary] objectForKey:@"TCMMinimumSeeToolVersion"];
-        if (version > bundleVersion && meetsRequiredVersion(minimumSeeToolVersionString)) {
-            bundleVersion = version;
-            if (appURL) CFRelease(appURL);
-            appURL = (CFURLRef)url;
-            CFRetain(appURL);
+        if (meetsRequiredVersion(minimumSeeToolVersionString)) {
+			return (CFURLRef)[applicationURL copy];
         }
-    }
-    if (testURL) CFRelease(testURL);
-    if (array) CFRelease(array);
-    return appURL;
+	}
+	return NULL;
 }
 
 static void printVersion() {
@@ -168,14 +155,13 @@ static void printVersion() {
     NSString *appShortVersionString = @"n/a";
     NSString *bundledSeeToolVersionString = nil;
     
-    appURL = URLRefForSubEthaEdit();
+    appURL = CopyURLRefForSubEthaEdit();
     if (appURL != NULL) {
         NSBundle *appBundle = [NSBundle bundleWithPath:[(NSURL *)appURL path]];
         appVersion = [[appBundle infoDictionary] objectForKey:@"CFBundleVersion"];
         versionString = [[appBundle infoDictionary] objectForKey:@"CFBundleShortVersionString"];
         bundledSeeToolVersionString = [[appBundle infoDictionary] objectForKey:@"TCMBundledSeeToolVersion"];
         localizedVersionString = [[appBundle localizedInfoDictionary] objectForKey:@"CFBundleShortVersionString"];
-        CFRelease(appURL);
     }
         
     if (versionString) {
@@ -188,8 +174,7 @@ static void printVersion() {
     NSString *bundleVersion = [[NSBundle mainBundle] objectForInfoDictionaryKey:@"CFBundleVersion"];
     fprintf(stdout, "see %s (%s)\n", [shortVersion UTF8String], [bundleVersion UTF8String]);
     if (appURL != NULL) {
-        NSString *path = [(NSURL *)appURL path];
-        fprintf(stdout, "%s %s (%s)\n", [path fileSystemRepresentation], [appShortVersionString UTF8String], [appVersion UTF8String]);
+        fprintf(stdout, "%s %s (%s)\n", [[(NSURL *)appURL path] fileSystemRepresentation], [appShortVersionString UTF8String], [appVersion UTF8String]);
         if (bundledSeeToolVersionString) {
             int myMajor, myMinor;
             parseShortVersionString(&myMajor, &myMinor);
@@ -214,6 +199,8 @@ static void printVersion() {
                 fprintf(stdout, "\nA newer version of the see command line tool is available.\nThe found SubEthaEdit bundles version %s of the see command.\n\n", [bundledSeeToolVersionString UTF8String]);
             }
         }
+        CFRelease(appURL);
+		appURL = NULL;
     }
     fflush(stdout);
     
@@ -225,10 +212,9 @@ static void printVersion() {
 
 
 static CFURLRef launchSubEthaEdit(NSDictionary *options) {
-    OSStatus status = noErr;
     CFURLRef appURL = NULL;
 
-    appURL = URLRefForSubEthaEdit(); 
+    appURL = CopyURLRefForSubEthaEdit();
     if (appURL == NULL) {
         fprintf(stderr, "see: Couldn't find compatible SubEthaEdit.\n     Please install a current version of SubEthaEdit.\n");
         fflush(stderr);
@@ -247,7 +233,7 @@ static CFURLRef launchSubEthaEdit(NSDictionary *options) {
         }
         inLaunchSpec.asyncRefCon = NULL;
         
-        status = LSOpenFromURLSpec(&inLaunchSpec, NULL);
+        LSOpenFromURLSpec(&inLaunchSpec, NULL);
         return appURL;
     }
 }
@@ -276,40 +262,34 @@ static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFi
     if (!appURL) {
         return nil;
     }
-    
-    OSStatus status = noErr;
-    NSString *appPath = [(NSURL *)appURL path];
-    BOOL hasFound = NO;
-    ProcessSerialNumber psn;
-    psn.lowLongOfPSN = kNoProcess;
-	psn.highLongOfPSN = kNoProcess;
 
-    while (!(status = GetNextProcess(&psn))) {
-        CFDictionaryRef dict = ProcessInformationCopyDictionary(&psn, kProcessDictionaryIncludeAllInformationMask);
-        if (dict) {
-            NSString *bundleIdentifier = [(NSDictionary *)dict objectForKey:@"CFBundleIdentifier"];
-            if ([bundleIdentifier isEqualToString:@"de.codingmonkeys.SubEthaEdit"]) {
-                NSString *bundlePath = [(NSDictionary *)dict objectForKey:@"BundlePath"];
-                if ([appPath isEqualToString:bundlePath]) {
-                    hasFound = YES;
-                    CFRelease(dict);
-                    break;
-                }
-            }
-            CFRelease(dict);
-        }
-    }
+	BOOL foundRunningInstance = NO;
+	NSRunningApplication *runningSubEthaEdit = nil;
+	NSArray *runningApplications = [[NSWorkspace sharedWorkspace] runningApplications];
+	for (NSRunningApplication *runningApplication in runningApplications)
+	{
+		NSString *bundleIdentifier = [runningApplication bundleIdentifier];
+		if ([bundleIdentifier isEqualToString:@"de.codingmonkeys.SubEthaEdit"])
+		{
+			if ([runningApplication.bundleURL isEqualTo:(NSURL *)appURL] == YES)
+			{
+				foundRunningInstance = YES;
+				runningSubEthaEdit = runningApplication;
+			}
+		}
+	}
 
-    if (!hasFound) {
-        return nil;
-    }
-    
+	if (! foundRunningInstance) {
+		return nil;
+	}
+
     NSMutableArray *resultFileNames = [NSMutableArray array];
     AESendMode sendMode = kAENoReply;
     long timeOut = kAEDefaultTimeout;
-    NSAppleEventDescriptor *addressDescriptor;
-    
-    addressDescriptor = [NSAppleEventDescriptor descriptorWithDescriptorType:typeProcessSerialNumber bytes:&psn length:sizeof(ProcessSerialNumber)];
+
+
+	pid_t pid = [runningSubEthaEdit processIdentifier];
+	NSAppleEventDescriptor* addressDescriptor = [[[NSAppleEventDescriptor alloc] initWithDescriptorType:typeKernelProcessID bytes:&pid length:sizeof(pid)] autorelease];
     if (addressDescriptor != nil) {
         NSAppleEventDescriptor *appleEvent = [NSAppleEventDescriptor appleEventWithEventClass:'Hdra' eventID:'See ' targetDescriptor:addressDescriptor returnID:kAutoGenerateReturnID transactionID:kAnyTransactionID];
         if (appleEvent != nil) {
@@ -425,31 +405,22 @@ static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFi
 
 static void openFiles(NSArray *fileNames, NSDictionary *options) {
 
-    OSErr err = noErr;
-    ProcessSerialNumber psn = {0, kNoProcess};
-    ProcessSerialNumber noPSN = {0, kNoProcess};
     NSFileManager *fileManager = [NSFileManager defaultManager];
     BOOL wait = [[options objectForKey:@"wait"] boolValue];
     BOOL resume = [[options objectForKey:@"resume"] boolValue];
     NSMutableDictionary *mutatedOptions = [[options mutableCopy] autorelease];
     int i = 0;
     int count = 0;
-    
-        
-    err = GetFrontProcess(&psn);
-    if (err != noErr) {
-        psn = noPSN;
-    }
-    
+
+	NSRunningApplication *frontmostApplication = [[NSWorkspace sharedWorkspace] frontmostApplication];
+
     BOOL isStandardInputATTY = isatty([[NSFileHandle fileHandleWithStandardInput] fileDescriptor]);
-    
     BOOL isStandardOutputATTY = isatty([[NSFileHandle fileHandleWithStandardOutput] fileDescriptor]);
     if (!isStandardOutputATTY) {
         [mutatedOptions setObject:[NSNumber numberWithBool:YES] forKey:@"wait"];
         [mutatedOptions setObject:[NSNumber numberWithBool:YES] forKey:@"pipe-out"];
         wait = YES;
     }
-    
     
     //
     // Read from stdin when no file names have been specified
@@ -512,12 +483,8 @@ static void openFiles(NSArray *fileNames, NSDictionary *options) {
     // Bring terminal to front when wait and resume was specified
     //
     
-    if (resume) {
-        Boolean result;
-        OSErr err = SameProcess(&psn, &noPSN, &result);
-        if (err == noErr && !result) {
-            (void)SetFrontProcess(&psn);
-        }
+    if (resume || wait) {
+		[frontmostApplication activateWithOptions:NSApplicationActivateIgnoringOtherApps];
     }
         
 

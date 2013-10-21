@@ -130,20 +130,11 @@
 //    nameRect.size.width -= NSWidth(colorRect) + 5.;
     [[user name] drawInRect:nameRect withAttributes:[entry isInside]?mNameAttributes:mInactiveNameAttributes];
 
-    
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSMutableString *dateTimeFormatString = [NSMutableString new];
-    [dateTimeFormatString appendString:[defaults objectForKey:NSShortTimeDateFormatString]];
-    NSRange minuteRange = [dateTimeFormatString rangeOfString:@"%M"];
-    if (minuteRange.location != NSNotFound) {
-        [dateTimeFormatString replaceCharactersInRange:NSMakeRange(NSMaxRange(minuteRange),0) withString:@":%S"];
-    }
-    
-    NSString *lastActivityString = [NSString stringWithFormat:NSLocalizedString(@"Last activity: %@",@"String appearing in the statistics window below the name, last time of actifity is inserted"),[[entry dateOfLastActivity] descriptionWithCalendarFormat:dateTimeFormatString]];
-    [dateTimeFormatString release];
+	NSString *lastActicityDateString = [NSDateFormatter localizedStringFromDate:[entry dateOfLastActivity] dateStyle:NSDateFormatterShortStyle timeStyle:NSDateFormatterMediumStyle];
+    NSString *lastActivityString = [NSString stringWithFormat:NSLocalizedString(@"Last activity: %@",@"String appearing in the statistics window below the name, last time of actifity is inserted"),lastActicityDateString];
     labelRect = NSOffsetRect(NSInsetRect(labelRect,0,7.),0,8.);
     [lastActivityString drawInRect:labelRect withAttributes:mStatusAttributes];
-    
+
 //    if (![entry isInside]) {
 //        NSFrameRect(labelRect);
 //    }

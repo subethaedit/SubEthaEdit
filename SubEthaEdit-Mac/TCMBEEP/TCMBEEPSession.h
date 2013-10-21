@@ -7,6 +7,7 @@
 
 #import <Foundation/Foundation.h>
 #import "TCMBEEPProfile.h"
+#import "TCMBEEPManagementProfile.h"
 
 extern NSString * const NetworkTimeoutPreferenceKey;
 extern NSString * const kTCMBEEPFrameTrailer;
@@ -43,10 +44,24 @@ enum {
 };
 
 
-@class TCMBEEPChannel, TCMBEEPFrame, TCMBEEPProfile;
+@class TCMBEEPChannel, TCMBEEPFrame, TCMBEEPProfile, TCMBEEPSession;
+
+@protocol TCMBEEPAuthenticationDelegate <NSObject>
+// provides an information Object representing the authenticated entitiy, if the credentials are valid. nil otherwise.
+// for the PLAIN mechanism the credentials are in form "username" and "password"
+- (id)authenticationInformationForCredentials:(NSDictionary *)credentials error:(NSError **)error;
+@end
+
+@protocol TCMBEEPSessionDelegate <NSObject>
+- (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didReceiveGreetingWithProfileURIs:(NSArray *)aProfileURIArray;
+- (NSMutableDictionary *)BEEPSession:(TCMBEEPSession *)aBEEPSession willSendReply:(NSMutableDictionary *)aReply forChannelRequests:(NSArray *)aRequests;
+- (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didOpenChannelWithProfile:(TCMBEEPProfile *)aProfile data:(NSData *)inData;
+- (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didFailWithError:(NSError *)anError;
+- (void)BEEPSessionDidClose:(TCMBEEPSession *)aBEEPSession;
+@end
 
 
-@interface TCMBEEPSession : NSObject
+@interface TCMBEEPSession : NSObject <TCMBEEPProfileDelegate, TCMBEEPManagementProfileDelegate>
 {
     CFReadStreamRef I_readStream;
     CFWriteStreamRef I_writeStream;
@@ -119,10 +134,10 @@ enum {
 - (void)invalidateTerminator;
 
 /*"Accessors"*/
-- (void)setDelegate:(id)aDelegate;
-- (id)delegate;
-- (void)setAuthenticationDelegate:(id)aDelegate;
-- (id)authenticationDelegate;
+- (void)setDelegate:(id <TCMBEEPSessionDelegate>)aDelegate;
+- (id <TCMBEEPSessionDelegate>)delegate;
+- (void)setAuthenticationDelegate:(id <TCMBEEPAuthenticationDelegate>)aDelegate;
+- (id <TCMBEEPAuthenticationDelegate>)authenticationDelegate;
 - (void)setAuthenticationInformation:(id)anInformation;
 - (id)authenticationInformation;
 - (void)setUserInfo:(NSMutableDictionary *)aUserInfo;
@@ -171,18 +186,3 @@ enum {
 
 @end
 
-@interface NSObject (TCMBEEPAuthenticationDelegateAdditions) 
-// provides an information Object representing the authenticated entitiy, if the credentials are valid. nil otherwise.
-// for the PLAIN mechanism the credentials are in form "username" and "password"
-- (id)authenticationInformationForCredentials:(NSDictionary *)credentials error:(NSError **)error;
-@end
-
-@interface NSObject (TCMBEEPSessionDelegateAdditions)
-
-- (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didReceiveGreetingWithProfileURIs:(NSArray *)aProfileURIArray;
-- (NSMutableDictionary *)BEEPSession:(TCMBEEPSession *)aBEEPSession willSendReply:(NSMutableDictionary *)aReply forChannelRequests:(NSArray *)aRequests;
-- (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didOpenChannelWithProfile:(TCMBEEPProfile *)aProfile data:(NSData *)inData;
-- (void)BEEPSession:(TCMBEEPSession *)aBEEPSession didFailWithError:(NSError *)anError;
-- (void)BEEPSessionDidClose:(TCMBEEPSession *)aBEEPSession;
-
-@end

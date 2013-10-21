@@ -9,10 +9,8 @@
 #import <Cocoa/Cocoa.h>
 #import "TCMPreferenceModule.h"
 
-#if !defined(CODA)
 #define SEE_TOOL_PATH    @"/usr/bin/see"
 #define SEE_MANPAGE_PATH @"/usr/share/man/man1/see.1"
-#endif //!defined(CODA)
 
 @interface AdvancedPreferences : TCMPreferenceModule {
     IBOutlet NSButton *O_commandLineToolRemoveButton;
@@ -25,12 +23,10 @@
     IBOutlet NSProgressIndicator *O_mappingStatusProgressIndicator;
 }
 
-#if !defined(CODA)
 - (IBAction)commandLineToolInstall:(id)sender;
 - (IBAction)commandLineToolRemove:(id)sender;
 - (IBAction)changeDisableScreenFonts:(id)aSender;
 - (IBAction)changeSynthesiseFonts:(id)aSender;
-#endif //!defined(CODA)
 - (IBAction)changeAutomaticallyMapPorts:(id)aSender;
 
 @end

@@ -20,9 +20,7 @@
 #import "ConnectionBrowserController.h"
 #import "PlainTextDocument.h"
 #import "UndoManager.h"
-#if !defined(CODA)
 #import "LicenseController.h"
-#endif //!defined(CODA)
 #import "GenericSASLProfile.h"
 
 #import "AdvancedPreferences.h"
@@ -58,9 +56,7 @@
 #import "SESendProc.h"
 #import "SEActiveProc.h"
 
-#if !defined(CODA)
 #import "UserStatisticsController.h"
-#endif //!defined(CODA)
 
 #ifndef TCM_NO_DEBUG
 #import "Debug/DebugPreferences.h"
@@ -165,10 +161,10 @@ static AppController *sharedInstance = nil;
 		[defaults setObject:[NSNumber numberWithBool:floor(NSAppKitVersionNumber) > 824.] forKey:@"SaveSeeTextPreview"];
 		[defaults setObject:[NSNumber numberWithBool:YES] forKey:ShouldAutomaticallyMapPort];
 
-		[defaults setObject:[NSNumber numberWithBool:YES] forKey:EnableTLSKey];
+		[defaults setObject:[NSNumber numberWithBool:NO] forKey:EnableTLSKey];
 		[defaults setObject:[NSNumber numberWithBool:NO] forKey:UseTemporaryKeychainForTLSKey]; // no more temporary keychain in 10.6 and up builds
 		
-		[defaults setObject:[NSNumber numberWithBool:YES] forKey:EnableAnonTLSKey];
+		[defaults setObject:[NSNumber numberWithBool:NO] forKey:EnableAnonTLSKey];
 		
 		NSDictionary* sequelProDefaults = [NSDictionary dictionaryWithContentsOfFile:[[NSBundle mainBundle] pathForResource:@"PreferenceDefaults" ofType:@"plist"]];
 		
@@ -253,19 +249,49 @@ static AppController *sharedInstance = nil;
                 myName=NSFullUserName();
             }
             
-            ABMultiValue *emails=[meCard valueForProperty:kABEmailProperty];
+            ABMultiValue *emails = [meCard valueForProperty:kABEmailProperty];
             NSString *primaryIdentifier=[emails primaryIdentifier];
             if (primaryIdentifier) {
                 [defaults setObject:primaryIdentifier forKey:MyEmailIdentifierPreferenceKey];
                 myEmail=[emails valueAtIndex:[emails indexForIdentifier:primaryIdentifier]];
             }
 
-            ABMultiValue *aims=[meCard valueForProperty:kABAIMInstantProperty];
-            primaryIdentifier=[aims primaryIdentifier];
-            if (primaryIdentifier) {
-                [defaults setObject:primaryIdentifier forKey:MyAIMIdentifierPreferenceKey];
-                myAIM=[aims valueAtIndex:[aims indexForIdentifier:primaryIdentifier]];
-            }
+			// Find best matching default from Adressbook
+            ABMultiValue *instantMessageServices = [meCard valueForProperty:kABInstantMessageProperty];
+            primaryIdentifier = [instantMessageServices primaryIdentifier];
+            if (primaryIdentifier)
+            {
+                NSDictionary *primaryInstantMessageServiceDict = [instantMessageServices valueForIdentifier:primaryIdentifier];
+                if ([[primaryInstantMessageServiceDict objectForKey:kABInstantMessageServiceKey] isEqualToString:kABInstantMessageServiceAIM]) // Make sure primary service is AIM service
+                {
+                    [defaults setObject:primaryIdentifier forKey:MyAIMIdentifierPreferenceKey];
+					myAIM = [primaryInstantMessageServiceDict objectForKey:kABInstantMessageUsernameKey];
+				}
+                else
+                {
+                    for (NSString *instantMessageIdentifier in instantMessageServices) // if primary service was not AIM service
+                    {
+                        NSDictionary *instantMessageServiceDict = [instantMessageServices valueForIdentifier:instantMessageIdentifier];
+                        if ([[instantMessageServiceDict objectForKey:kABInstantMessageServiceKey] isEqualToString:kABInstantMessageServiceAIM])
+                        {
+                            [defaults setObject:instantMessageIdentifier forKey:MyAIMIdentifierPreferenceKey];
+                            myAIM = [instantMessageServiceDict objectForKey:kABInstantMessageUsernameKey];
+                        }
+                    }
+                }
+			}
+			else
+			{
+				for (NSString *instantMessageIdentifier in instantMessageServices)
+				{
+					NSDictionary *instantMessageServiceDict = [instantMessageServices valueForIdentifier:instantMessageIdentifier];
+					if ([[instantMessageServiceDict objectForKey:kABInstantMessageServiceKey] isEqualToString:kABInstantMessageServiceAIM])
+					{
+						[defaults setObject:instantMessageIdentifier forKey:MyAIMIdentifierPreferenceKey];
+						myAIM = [instantMessageServiceDict objectForKey:kABInstantMessageUsernameKey];
+					}
+				}
+			}
         } else {
             myName=NSFullUserName();
             myEmail=@"";
@@ -291,7 +317,7 @@ static AppController *sharedInstance = nil;
 
         NSString *identifier=[defaults stringForKey:MyAIMIdentifierPreferenceKey];
         if (identifier) {
-            ABMultiValue *aims=[meCard valueForProperty:kABAIMInstantProperty];
+            ABMultiValue *aims=[meCard valueForProperty:kABInstantMessageProperty];
             NSUInteger index=[aims indexForIdentifier:identifier];
             if (index!=NSNotFound) {
                 if (![myAIM isEqualToString:[aims valueAtIndex:index]]) {
@@ -330,13 +356,9 @@ static AppController *sharedInstance = nil;
         }
     }
 
-#if defined(CODA)
-	myImage=[[NSImage imageNamed:@"genericPerson"] copy];
-#else
     if (!myImage) {
         myImage=[[NSImage imageNamed:@"DefaultPerson"] retain];
     }
-#endif //defined(CODA)
 
     if (!myEmail) myEmail=@"";
     if (!myAIM)   myAIM  =@"";
@@ -377,29 +399,26 @@ static AppController *sharedInstance = nil;
     // prepare images
     NSImage *image = [[[NSImage imageNamed:@"UnknownPerson"] resizedImageWithSize:NSMakeSize(32.0, 32.0)] retain];
     [image setName:@"UnknownPerson32"];
+	[image release];
 
     image = [[[NSImage imageNamed:@"DefaultPerson"] resizedImageWithSize:NSMakeSize(32.0, 32.0)] retain];
     [image setName:@"DefaultPerson32"];
+	[image release];
     
     image = [[[NSImage imageNamed:@"Rendezvous"] resizedImageWithSize:NSMakeSize(13.0, 13.0)] retain];
     [image setName:@"Rendezvous13"];
+	[image release];
 
-//    image = [[[NSImage imageNamed:@"Internet"] resizedImageWithSize:NSMakeSize(13.0, 13.0)] retain];
-//    [image setName:@"Internet13"];
-
-//    image = [[[NSImage imageNamed:@"ssllock"] resizedImageWithSize:NSMakeSize(16.0, 16.0)] retain];
-    image = [NSImage imageNamed:@"ssllock"];
+    image = [[NSImage imageNamed:@"ssllock"] retain];
     [image setName:@"ssllock18"];
-    
-    
+	[image release];
+
     // FIXME "Termination has to be removed before release!"
     //if ([[NSDate dateWithString:@"2007-02-21 12:00:00 +0000"] timeIntervalSinceNow] < 0) {
     //    [NSApp terminate:self];
     //    return;
     //}
     
-    
-
     [NSScriptSuiteRegistry sharedScriptSuiteRegistry];
     
     [[NSScriptCoercionHandler sharedCoercionHandler] registerCoercer:[DocumentMode class]
@@ -443,6 +462,7 @@ static AppController *sharedInstance = nil;
     [[DocumentController sharedDocumentController] setAutosavingDelay:[[NSUserDefaults standardUserDefaults] floatForKey:@"AutoSavingDelay"]];
 }
 
+#ifndef __clang_analyzer__
 static OSStatus AuthorizationRightSetWithWorkaround(
     AuthorizationRef    authRef,
     const char *        rightName,
@@ -510,6 +530,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 
     return err;
 }
+#endif
 
 - (void)setupAuthorization {
     OSStatus err = noErr;
@@ -553,7 +574,6 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     }
 }
 
-#if !defined(CODA)
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification {
     // this is actually after the opening of the first untitled document window!
 
@@ -626,7 +646,6 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 
 	// do crash reports here?
 }
-#endif //!defined(CODA)
 
 - (void)sessionManagerIsReady:(NSNotification *)aNotification {
     [[TCMMMBEEPSessionManager sharedInstance] listen];
@@ -877,7 +896,6 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 
     //create Directories
     NSArray *userDomainPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-    NSEnumerator *enumerator = [userDomainPaths objectEnumerator];
     for (path in userDomainPaths) {
         NSString *fullPath = [path stringByAppendingPathComponent:SCRIPTPATHCOMPONENT];
         if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:nil]) {
@@ -895,9 +913,8 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [allPaths addObject:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Scripts/"]];
 
     // iterate over all directories
-
-    enumerator = [allPaths reverseObjectEnumerator];
-    while ((path = [enumerator nextObject])) {
+	NSEnumerator *enumerator = [allPaths reverseObjectEnumerator];
+    for (path in enumerator) {
         NSEnumerator *dirEnumerator = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil] objectEnumerator];
         while ((file = [dirEnumerator nextObject])) {
             // skip hidden files and directory entries
@@ -1042,23 +1059,6 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     return NO;
 }
 
-#if defined(CODA)
-- (void)showAboutBox:(id)sender
-{
-	// Create the AboutController if it doesn't already exist
-
-	if ( !iAboutController )
-		iAboutController = [[PCAboutController alloc] initWithWindowNibName:@"AboutBox"];
-
-	// Show window if it is hidden, or vice-versa
-
-	if ( ![[iAboutController window] isVisible] )
-		[iAboutController showWindow:self];
-	else
-		[[iAboutController window] makeKeyAndOrderFront:self];
-}
-#endif //defined(CODA)
-
 #pragma mark ### IBActions ###
 
 - (IBAction)undo:(id)aSender {
@@ -1082,16 +1082,13 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 }
 
 - (IBAction)enterSerialNumber:(id)sender {
-#if !defined(CODA)
     [[LicenseController sharedInstance] showWindow:self];
-#endif //!defined(CODA)
 }
 
 - (IBAction)reloadDocumentModes:(id)aSender {
     [[DocumentModeManager sharedInstance] reloadDocumentModes:aSender];
 }
 
-#if !defined(CODA)
 - (IBAction)showUserStatisticsWindow:(id)aSender {
     static UserStatisticsController *uc = nil;
     if (!uc) uc = [UserStatisticsController new];
@@ -1101,7 +1098,6 @@ static OSStatus AuthorizationRightSetWithWorkaround(
         [[uc window] performClose:self];
     }
 }
-#endif //!defined(CODA)
 
 
 #pragma mark -
@@ -1144,11 +1140,9 @@ static OSStatus AuthorizationRightSetWithWorkaround(
         [menuItem setTitle:title];
         return [undoManager canRedo];
     } 
-#if !defined(CODA)
 	else if (selector == @selector(enterSerialNumber:) || selector == @selector(purchaseSubEthaEdit:)) {
         return [LicenseController shouldRun];
     }
-#endif //!defined(CODA)	
     return YES;
 }
 

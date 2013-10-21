@@ -122,7 +122,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
         const char *ipAddress = [hostAddress UTF8String];
         struct addrinfo hints;
         struct addrinfo *result = NULL;
-        BOOL isIPv6Address = NO;
+//        BOOL isIPv6Address = NO;
 
         memset(&hints, 0, sizeof(hints));
         hints.ai_flags    = AI_NUMERICHOST;
@@ -137,7 +137,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
         err = getaddrinfo(ipAddress, portString, &hints, &result);
         if (err == 0) {
             addressData = [NSData dataWithBytes:(UInt8 *)result->ai_addr length:result->ai_addrlen];
-            isIPv6Address = result->ai_family == PF_INET6;
+//            isIPv6Address = result->ai_family == PF_INET6;
             DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"getaddrinfo succeeded with addr: %@", [NSString stringWithAddressData:addressData]);
             if (anAddressData) *anAddressData = addressData;
             freeaddrinfo(result);

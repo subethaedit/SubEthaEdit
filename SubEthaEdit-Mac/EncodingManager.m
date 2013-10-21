@@ -109,26 +109,43 @@
 
 @implementation EncodingManager
 
-/* Manage single shared instance which both init and sharedInstance methods return.
-*/
-static EncodingManager *sharedInstance = nil;
-
-+ (EncodingManager *)sharedInstance {
-    return sharedInstance ? sharedInstance : [[self alloc] init];
-}
-
-- (id)init {
-    if (sharedInstance) {		// We just have one instance of the EncodingManager class, return that one instead
-        [self release];
-    } else if ((self = [super init])) {
-        sharedInstance = self;
-        registeredEncodings = [[NSCountedSet alloc] init];
-    }
++ (instancetype)sharedInstance
+{
+	static dispatch_once_t onceToken = 0;
+	static id sharedInstance = nil;
+	dispatch_once(&onceToken, ^{
+		sharedInstance = [[self alloc] init];
+	});
     return sharedInstance;
 }
 
-- (void)dealloc {
-    if (self != sharedInstance) [super dealloc];	// Don't free the shared instance
+- (id)init
+{
+    self = [super initWithWindowNibName:@"SelectEncodingsPanel"];
+    if (self) {
+		registeredEncodings = [[NSCountedSet alloc] init];
+    }
+    return self;
+}
+
+- (void)dealloc
+{
+	[registeredEncodings release];
+	registeredEncodings = nil;
+
+	[super dealloc];
+}
+
+- (void)loadWindow
+{
+	[super loadWindow];
+	if ([self.window isKindOfClass:[NSPanel class]])
+	{
+		NSPanel *panel = (NSPanel *)self.window;
+		panel.worksWhenModal = YES; // This should work when open panel is up
+		panel.level = NSModalPanelWindowLevel; // Again, for the same reason
+	}
+	[self setupEncodingsList]; // Initialize the list (only need to do this once)
 }
 
 
@@ -158,21 +175,24 @@ static int encodingCompare(const void *firstPtr, const void *secondPtr) {
         CFStringEncoding *tmp;
         int cnt, num = 0;
         while (cfEncodings[num] != kCFStringEncodingInvalidId) num++;	// Count
-        tmp = malloc(sizeof(CFStringEncoding) * num);
-        memcpy(tmp, cfEncodings, sizeof(CFStringEncoding) * num);	// Copy the list
-        qsort(tmp, num, sizeof(CFStringEncoding), encodingCompare);	// Sort it
-        allEncodings = [[NSMutableArray alloc] init];			// Now put it in an NSArray
-        for (cnt = 0; cnt < num; cnt++) {
-            NSStringEncoding nsEncoding = CFStringConvertEncodingToNSStringEncoding(tmp[cnt]);
-            if (nsEncoding && [NSString localizedNameOfStringEncoding:nsEncoding]) [allEncodings addObject:[NSNumber numberWithUnsignedInt:nsEncoding]];
-        }
-        free(tmp);
+		if (num > 0)
+		{
+			tmp = malloc(sizeof(CFStringEncoding) * num);
+			memcpy(tmp, cfEncodings, sizeof(CFStringEncoding) * num);	// Copy the list
+			qsort(tmp, num, sizeof(CFStringEncoding), encodingCompare);	// Sort it
+			allEncodings = [[NSMutableArray alloc] init];			// Now put it in an NSArray
+			for (cnt = 0; cnt < num; cnt++) {
+				NSStringEncoding nsEncoding = CFStringConvertEncodingToNSStringEncoding(tmp[cnt]);
+				if (nsEncoding && [NSString localizedNameOfStringEncoding:nsEncoding]) [allEncodings addObject:[NSNumber numberWithUnsignedInt:nsEncoding]];
+			}
+			free(tmp);
+		}
     }
     return allEncodings;
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
-    if ([menuItem action] == @selector(showPanel:)){
+    if ([menuItem action] == @selector(showWindow:)){
         return YES;
     }
     
@@ -191,12 +211,12 @@ static int encodingCompare(const void *firstPtr, const void *secondPtr) {
         NSString *encodingName = ianaName?[NSString stringWithFormat:@"%@ [%@]",[NSString localizedNameOfStringEncoding:encoding],ianaName]:[NSString localizedNameOfStringEncoding:encoding];
         //[NSString localizedNameOfStringEncoding:encoding];
         NSCell *cell;
-        if (cnt >= [encodingMatrix numberOfRows]) [encodingMatrix addRow];
-        cell = [encodingMatrix cellAtRow:cnt column:0];
+        if (cnt >= [self.encodingMatrix numberOfRows]) [self.encodingMatrix addRow];
+        cell = [self.encodingMatrix cellAtRow:cnt column:0];
         [cell setTitle:encodingName];
         [cell setTag:encoding];
     }
-    [encodingMatrix sizeToCells];
+    [self.encodingMatrix sizeToCells];
     [self noteEncodingListChange:NO updateList:YES postNotification:NO];
 }
 
@@ -256,7 +276,7 @@ static int encodingCompare(const void *firstPtr, const void *secondPtr) {
         [[popup lastItem] setTag:NoStringEncoding];
     }
     [popup addItemWithTitle:NSLocalizedString(@"Customize Encodings List...", @"Encoding popup entry for bringing up the Customize Encodings List panel (this also occurs as the title of the panel itself, they should have the same localization)")];
-    [[popup lastItem] setAction:@selector(showPanel:)];
+    [[popup lastItem] setAction:@selector(showWindow:)];
     [[popup lastItem] setTarget:self];
     [[popup lastItem] setTag:NoStringEncoding];
 
@@ -292,7 +312,7 @@ static int encodingCompare(const void *firstPtr, const void *secondPtr) {
     [separator setTag:NoStringEncoding];
     [aMenu addItem:separator];
     NSMenuItem *customizeItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Customize Encodings List...", nil)
-                                                           action:@selector(showPanel:)
+                                                           action:@selector(showWindow:)
                                                     keyEquivalent:@""];
     [customizeItem setTag:NoStringEncoding];
     [customizeItem setEnabled:YES];
@@ -335,9 +355,9 @@ static int encodingCompare(const void *firstPtr, const void *secondPtr) {
     if (writeDefault) [[NSUserDefaults standardUserDefaults] setObject:encodings forKey:@"Encodings"];
 
     if (updateList) {
-        int cnt, numEncodings = [encodingMatrix numberOfRows];
+        int cnt, numEncodings = [self.encodingMatrix numberOfRows];
         for (cnt = 0; cnt < numEncodings; cnt++) {
-            NSCell *cell = [encodingMatrix cellAtRow:cnt column:0];
+            NSCell *cell = [self.encodingMatrix cellAtRow:cnt column:0];
             [cell setState:[encodings containsObject:[NSNumber numberWithUnsignedInt:[cell tag]]] ? NSOnState : NSOffState];
             if ([registeredEncodings containsObject:[NSNumber numberWithUnsignedInt:[cell tag]]] ||
                 [cell tag] == NSUTF8StringEncoding || [cell tag] == NSUnicodeStringEncoding) {
@@ -346,7 +366,7 @@ static int encodingCompare(const void *firstPtr, const void *secondPtr) {
                 [cell setEnabled:YES];
             }
         }
-        [encodingMatrix setNeedsDisplay:YES];
+        [self.encodingMatrix setNeedsDisplay:YES];
     }
 
     if (post) {
@@ -354,25 +374,6 @@ static int encodingCompare(const void *firstPtr, const void *secondPtr) {
         // this is for a flicker free update of the ecodings popup in the bottom status bar
         [[NSNotificationCenter defaultCenter] postNotificationName:@"AfterEncodingsListChanged" object:nil];
     }
-}
-
-/* Use this method to get a new accessory view. It reinitializes the popup, selects the specified item, and also includes or deletes the default entry (corresponding to "Automatic")
-*/
-- (NSView *)encodingAccessory:(unsigned)encoding includeDefaultEntry:(BOOL)includeDefaultItem enableIgnoreRichTextButton:(BOOL)includeRichTextButton encodingPopUp:(NSPopUpButton **)popup ignoreRichTextButton:(NSButton **)button lossyEncodings:(NSArray *)listOfEncodings{
-    // For now rather than caching, load the accessory view everytime, as it might appear in multiple panels simultaneously.
-    NSLog(@"WARNING! Method is deprecated");
-    if (![NSBundle loadNibNamed:@"EncodingAccessory" owner:self])  {
-        NSLog(@"Failed to load EncodingAccessory.nib");
-        return nil;
-    }
-    if (popup) *popup = (NSPopUpButton *)encodingPopupButton;
-    if (button) *button = ignoreRichTextButton;
-
-    [ignoreRichTextButton setEnabled:includeRichTextButton];
-    //[encodingPopupButton setEncoding:encoding defaultEntry:includeDefaultItem lossyEncodings:listOfEncodings];
-    [encodingAccessory retain];			// Hang on to the view we want, and
-    [[encodingAccessory window] release];	// ...get rid of the dummy window (should switch to custom top level view for this)
-    return [encodingAccessory autorelease];
 }
 
 /* Because we want the encoding list to be modifiable even when a modal panel (such as the open panel) is up, we indicate that both the encodings list panel and the target work when modal. (See showPanel: below for the former...)
@@ -384,30 +385,12 @@ static int encodingCompare(const void *firstPtr, const void *secondPtr) {
 
 /* Action methods */
 
-- (void)ensureMatrix {
-    if (!encodingMatrix) {
-        if (![NSBundle loadNibNamed:@"SelectEncodingsPanel" owner:self])  {
-            NSLog(@"Failed to load SelectEncodingsPanel.nib");
-            return;
-        }
-        [(NSPanel *)[encodingMatrix window] setWorksWhenModal:YES];	// This should work when open panel is up
-        [[encodingMatrix window] setLevel:NSModalPanelWindowLevel];	// Again, for the same reason
-        [self setupEncodingsList];					// Initialize the list (only need to do this once)
-    }
-}
-
-- (IBAction)showPanel:(id)sender {
-    [self ensureMatrix];
-    [[encodingMatrix window] makeKeyAndOrderFront:nil];
-}
-
-
 - (IBAction)encodingListChanged:(id)sender {
-    int cnt, numRows = [encodingMatrix numberOfRows];
+    int cnt, numRows = [self.encodingMatrix numberOfRows];
     NSMutableArray *encs = [[NSMutableArray alloc] init];
 
     for (cnt = 0; cnt < numRows; cnt++) {
-        NSCell *cell = [encodingMatrix cellAtRow:cnt column:0];
+        NSCell *cell = [self.encodingMatrix cellAtRow:cnt column:0];
         if (((NSUInteger)[cell tag] != NoStringEncoding) && ([cell state] == NSOnState)) [encs addObject:[NSNumber numberWithUnsignedInt:[cell tag]]];
     }
 

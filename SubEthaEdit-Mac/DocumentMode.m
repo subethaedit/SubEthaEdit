@@ -231,7 +231,6 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         
 #ifdef SUBETHAEDIT
 
-#if !defined(CODA)
 
         // Load scripts
         I_scriptsByFilename = [NSMutableDictionary new];
@@ -252,7 +251,6 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         
         [I_scriptOrderArray release];
          I_scriptOrderArray = [[[I_scriptsByFilename allKeys] sortedArrayUsingSelector:@selector(compare:)] mutableCopy];
-#endif //!defined(CODA)        
 
         NSArray *searchLocations = [NSArray arrayWithObjects:I_bundle,[NSBundle mainBundle],nil];
         I_menuItemArray = [NSMutableArray new];
@@ -338,18 +336,9 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             [I_defaults setObject:[NSNumber numberWithInt:4] forKey:DocumentModeTabWidthPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithInt:80] forKey:DocumentModeColumnsPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithInt:80] forKey:DocumentModePageGuideWidthPreferenceKey];
-#if defined(CODA)
-			[I_defaults setObject:[NSNumber numberWithInt:4] forKey:DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey];
-#else
             [I_defaults setObject:[NSNumber numberWithInt:0] forKey:DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey];
-#endif //defined(CODA)
             [I_defaults setObject:[NSNumber numberWithInt:40] forKey:DocumentModeRowsPreferenceKey];
-#if defined(CODA)
-			NSFont* font = [NSFont fontWithName:@"Panic Sans" size:11.0f];
-			if ( font == nil ) { font = [NSFont userFixedPitchFontOfSize:0.0]; }
-#else
             NSFont *font=[NSFont userFixedPitchFontOfSize:0.0];
-#endif //defined(CODA)
             NSMutableDictionary *dict=[NSMutableDictionary dictionary];
             [dict setObject:[font fontName] 
                      forKey:NSFontNameAttribute];
@@ -363,11 +352,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             [I_defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentModeShowMatchingBracketsPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentModeWrapLinesPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithBool:YES] forKey:DocumentModeIndentNewLinesPreferenceKey];
-#if defined(CODA)
-			[I_defaults setObject:[NSNumber numberWithBool:YES]  forKey:DocumentModeUseTabsPreferenceKey];
-#else
             [I_defaults setObject:[NSNumber numberWithBool:NO]  forKey:DocumentModeUseTabsPreferenceKey];
-#endif //defined(CODA)
             [I_defaults setObject:[NSNumber numberWithUnsignedInt:DocumentModeWrapModeWords] forKey:DocumentModeWrapModePreferenceKey];
             [I_defaults setObject:[NSNumber numberWithInt:LineEndingLF] forKey:DocumentModeLineEndingPreferenceKey];
             [I_defaults setObject:[NSNumber numberWithBool:NO] forKey:DocumentModeUTF8BOMPreferenceKey];
@@ -467,11 +452,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
             [I_defaults setObject:[NSNumber numberWithInt:80] forKey:DocumentModePageGuideWidthPreferenceKey];
         }
         if (![I_defaults objectForKey:DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey]) {
-#if defined(CODA)
-			[I_defaults setObject:[NSNumber numberWithInt:4] forKey:DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey];
-#else
             [I_defaults setObject:[NSNumber numberWithInt:0] forKey:DocumentModeIndentWrappedLinesCharacterAmountPreferenceKey];
-#endif //defined(CODA)
         }
 
 		if (![I_defaults objectForKey:DocumentModeTabKeyMovesToIndentPreferenceKey]) {
@@ -592,7 +573,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
     return I_autocompleteDictionary;
 }
 
-- (NSString *)newFileContent {
+- (NSString *)templateFileContent {
     NSString *templateFilename;
     if (I_modeSettings) {
         templateFilename=[I_modeSettings templateFile];
@@ -720,13 +701,6 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                 [[style styleForKey:SyntaxStyleBaseIdentifier] setObject:color forKey:isDark?@"inverted-color":@"color"];
             }
         }
-
-#if defined(CODA)
-		NSString *useSpellChecking = [[I_defaultSyntaxStyle styleForKey:SyntaxStyleBaseIdentifier] objectForKey:@"usespellchecking"];
-		if ( useSpellChecking )
-			[[style styleForKey:SyntaxStyleBaseIdentifier] setObject:useSpellChecking forKey:@"usespellchecking"];
-#endif //defined(CODA)
-
         [self setSyntaxStyle:style];
         [style release];
     }

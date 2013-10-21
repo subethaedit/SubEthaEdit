@@ -22,14 +22,15 @@ extern NSString * PrintPreferencesDidChangeNotification;
     IBOutlet NSButton *O_defaultButton;
 
     // PrintOptions nib
-	IBOutlet FontForwardingTextField *O_printOptionTextField;
-    IBOutlet NSView *O_printOptionView;
-    IBOutlet NSObjectController *O_printOptionController;
-    
+
     DocumentMode *I_currentMode;
     NSMutableDictionary  *I_printDictionary;
     NSMutableDictionary  *I_defaultModeDictionary;
 }
+
+@property (readwrite, strong) IBOutlet NSView *O_printOptionView;
+@property (readwrite, assign) IBOutlet FontForwardingTextField *O_printOptionTextField;
+@property (readwrite, strong) IBOutlet NSObjectController *O_printOptionController;
 
 + (NSArray *)relevantPrintOptionKeys;
 

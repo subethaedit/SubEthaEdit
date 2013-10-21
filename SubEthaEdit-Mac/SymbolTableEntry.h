@@ -19,10 +19,6 @@
     SelectionOperation *I_rangeSelectionOperation;
     int      I_indentationLevel;
     BOOL I_isSeparator;
-#if defined(CODA)
-	NSString* I_documentModeIdentifier; 
-	NSArray* I_substrings; 
-#endif //defined(CODA)
 }
 
 + (SymbolTableEntry *)symbolTableEntryWithName:(NSString *)aName fontTraitMask:(int)aMask image:(NSImage *)anImage type:(NSString *)aType indentationLevel:(int)anIndentationLevel jumpRange:(NSRange)aJumpRange range:(NSRange)aRange;
@@ -46,8 +42,4 @@
 - (int)indentationLevel;
 - (void)setIsSeparator:(BOOL)aFlag;
 - (BOOL)isSeparator;
-#if defined(CODA)
-@property (readwrite, retain) NSString* documentModeIdentifier;
-@property (readwrite, retain) NSArray* substrings;
-#endif //defined(CODA)
 @end

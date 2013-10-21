@@ -152,4 +152,16 @@
     }
 }
 
+
+- (void)setDelegate:(id <TCMBEEPProfileDelegate, HandshakeProfileDelegate>)aDelegate
+{
+	[super setDelegate:aDelegate];
+}
+
+- (id <TCMBEEPProfileDelegate, HandshakeProfileDelegate>)delegate
+{
+	return (id <TCMBEEPProfileDelegate, HandshakeProfileDelegate>)[super delegate];
+}
+
+
 @end

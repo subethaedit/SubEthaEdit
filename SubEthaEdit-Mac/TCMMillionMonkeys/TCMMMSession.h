@@ -7,6 +7,7 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SessionProfile.h"
 
 
 extern NSString * const TCMMMSessionClientStateDidChangeNotification;
@@ -61,9 +62,6 @@ typedef enum TCMMMSessionClientState {
 - (BOOL)isReceivingContent;
 - (void)validateEditability;
 - (BOOL)handleOperation:(TCMMMOperation *)aOperation;
-#if defined(CODA)
-- (NSString*)displayName; 
-#endif //defined(CODA)
 @end
 
 
@@ -75,7 +73,7 @@ typedef enum TCMMMSessionClientState {
 
 @class TCMMMState;
 
-@interface TCMMMSession : NSObject
+@interface TCMMMSession : NSObject <TCMBEEPProfileDelegate, SessionProfileDelegate>
 {
     id <SEEDocument> I_document;
     NSString *I_sessionID;

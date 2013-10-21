@@ -206,12 +206,10 @@ static unsigned int trimmedStartOnLevel = UINT_MAX;
             NSString *delimiterName = [delimiterMatch nameOfSubstringAtIndex:[delimiterMatch indexOfFirstMatchedSubstring]];
             delimiterStateNumber = [[delimiterName substringFromIndex:16] intValue];
             
-            NSRange startTrimRange = NSMakeRange(NSNotFound, 0);
-
             if (delimiterStateNumber<4242) { // Found a start within current state
                 //NSLog(@"Found a start: '%@' current range: %@",[[aString string] substringWithRange:delimiterRange], NSStringFromRange(currentRange));
 				
-                startTrimRange = [delimiterMatch rangeOfSubstringNamed:@"trimmedstart"];
+                NSRange startTrimRange = [delimiterMatch rangeOfSubstringNamed:@"trimmedstart"];
 
                 nextRange.location = (NSMaxRange(stateRange) - startTrimRange.length);
                 nextRange.length = currentRange.length - stateRange.length + startTrimRange.length;

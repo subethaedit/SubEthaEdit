@@ -11,7 +11,13 @@
 #import "TCMBEEPMessage.h"
 
 
-@class TCMBEEPChannel, TCMBEEPMessage;
+@class TCMBEEPChannel, TCMBEEPMessage, TCMBEEPProfile;
+
+@protocol TCMBEEPProfileDelegate <NSObject>
+@optional
+- (void)profile:(TCMBEEPProfile *)aProfile didFailWithError:(NSError *)anError;
+- (void)profileDidClose:(TCMBEEPProfile *)aProfile;
+@end
 
 
 @interface TCMBEEPProfile : NSObject
@@ -29,8 +35,8 @@
 - (void)handleInitializationData:(NSData *)aData;
 - (void)processBEEPMessage:(TCMBEEPMessage *)aMessage;
 
-- (void)setDelegate:(id)aDelegate;
-- (id)delegate;
+- (void)setDelegate:(id <TCMBEEPProfileDelegate>)aDelegate;
+- (id <TCMBEEPProfileDelegate>)delegate;
 - (void)setChannel:(TCMBEEPChannel *)aChannel;
 - (TCMBEEPChannel *)channel;
 - (TCMBEEPSession *)session;
@@ -50,9 +56,3 @@
 @end
 
 
-@interface NSObject (TCMBEEPProfileDelegateAdditions)
-
-- (void)profile:(TCMBEEPProfile *)aProfile didFailWithError:(NSError *)anError;
-- (void)profileDidClose:(TCMBEEPProfile *)aProfile;
-
-@end

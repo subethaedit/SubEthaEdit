@@ -47,7 +47,6 @@
     NSURL *I_locationForNextOpenPanel;
         
     @private
-    NSMutableArray *I_documentsWithPendingDisplay;
     NSMutableArray *I_windowControllers;
 }
 
@@ -55,9 +54,7 @@
 
 - (NSMenu *)documentMenu;
 
-#if !defined(CODA)
 - (IBAction)alwaysShowTabBar:(id)sender;
-#endif //!defined(CODA)
 
 - (IBAction)goIntoBundles:(id)sender;
 - (IBAction)changeModeInstallationDomain:(id)sender;
@@ -80,10 +77,6 @@
 - (NSDictionary *)propertiesForOpenedFile:(NSString *)fileName;
 
 - (PlainTextDocument *)frontmostPlainTextDocument;
-
-#if defined(CODA)
-- (void)setDocumentsFromLastRunOpenPanel:(NSArray*)filenames;
-#endif //defined(CODA)
 
 - (BOOL)isOpeningUntitledDocument;
 - (void)setIsOpeningUsingAlternateMenuItem:(BOOL)aFlag;

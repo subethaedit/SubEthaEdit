@@ -15,9 +15,6 @@
 #import "GeneralPreferences.h"
 #import "FoldableTextStorage.h"
 #import "SelectionOperation.h"
-#if defined(CODA)
-#import "TextView.h"
-#endif //defined(CODA)
 
 enum {
     u_false=0,
@@ -264,11 +261,7 @@ static NSString *S_specialGlyphs[17];
     }
 
     // selections and carets
-#if defined(CODA)
-	PlainTextDocument *document = (PlainTextDocument *)[[(TextView*)[container textView] editor] document];
-#else
     PlainTextDocument *document = (PlainTextDocument *)[[[[container textView] window] windowController] document];
-#endif //defined(CODA)
     TCMMMSession *session=[document session];
     NSString *sessionID=[session sessionID];
     NSDictionary *sessionParticipants=[session participants];
@@ -287,13 +280,6 @@ static NSString *S_specialGlyphs[17];
                                  ofColor:changeColor];
                 NSUInteger rectCount;
                 NSRectArray selectionRectArray = [self rectArrayForCharacterRange:selectionRange withinSelectedCharacterRange:selectionRange inTextContainer:container rectCount:&rectCount];
-#if defined(CODA)
-				for ( int i=0; i < rectCount; i++ )
-				{
-					selectionRectArray[i].origin.x += anOrigin.x;
-					selectionRectArray[i].origin.y += anOrigin.y;
-				}
-#endif //defined(CODA)
                 [self drawBorderedMarksWithColor:selectionColor atRects:selectionRectArray rectCount:rectCount];
             }
         }

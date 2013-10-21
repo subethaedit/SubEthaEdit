@@ -7,6 +7,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="EncodingManager">
             <connections>
                 <outlet property="encodingMatrix" destination="9" id="12"/>
+                <outlet property="window" destination="5" id="sAI-Wd-AFk"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
@@ -105,6 +106,9 @@
                     </button>
                 </subviews>
             </view>
+            <connections>
+                <outlet property="delegate" destination="-2" id="aXT-vX-GrC"/>
+            </connections>
         </window>
     </objects>
 </document>

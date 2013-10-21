@@ -15,7 +15,7 @@
 #import "UserChangeOperation.h"
 
 @interface TCMMMLogStatisticsEntry (TCMMMLogStatisticsEntryPrivateAdditions)
-- (void)setDateOfLastActivity:(NSCalendarDate *)aDate;
+- (void)setDateOfLastActivity:(NSDate *)aDate;
 @end
 
 @implementation TCMMMLogStatisticsEntry
@@ -32,7 +32,7 @@
 
 - (id)initWithMMUser:(TCMMMUser *)aUser {
     if ((self=[super init])) {
-        [self setDateOfLastActivity:[NSCalendarDate distantPast]];
+        [self setDateOfLastActivity:[NSDate distantPast]];
         user = [aUser retain];
     }
     return self;
@@ -96,7 +96,7 @@
 - (unsigned long)selectedCharacters {
     return selectedCharacters;
 }
-- (void)setDateOfLastActivity:(NSCalendarDate *)aDate {
+- (void)setDateOfLastActivity:(NSDate *)aDate {
     [self willChangeValueForKey:@"dateOfLastActivity"];
     [lastActivity autorelease];
      lastActivity = [aDate retain];
@@ -105,7 +105,7 @@
 - (TCMMMUser *)user {
     return user;
 }
-- (NSCalendarDate *)dateOfLastActivity {
+- (NSDate *)dateOfLastActivity {
     return lastActivity;
 }
 - (NSString *)description {
