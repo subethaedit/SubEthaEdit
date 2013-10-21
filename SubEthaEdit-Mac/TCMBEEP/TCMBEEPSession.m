@@ -1147,7 +1147,7 @@ static NSData *dhparamData = nil;
     [[NSNotificationCenter defaultCenter] postNotificationName:TCMBEEPSessionDidReceiveGreetingNotification object:self];
 
     // check for tuning profiles and initiate tuning
-    if ([self isInitiator] && ([profileURIs containsObject:TCMBEEPTLSProfileURI] ||
+    if ([self isInitiator] && (([profileURIs containsObject:TCMBEEPTLSProfileURI] && [[NSUserDefaults standardUserDefaults] boolForKey:EnableTLSKey]) ||
 							   ([profileURIs containsObject:TCMBEEPTLSAnonProfileURI] &&
 								[[NSUserDefaults standardUserDefaults] boolForKey:EnableAnonTLSKey])))
     {
