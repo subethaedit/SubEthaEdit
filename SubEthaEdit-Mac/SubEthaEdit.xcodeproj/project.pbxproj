@@ -1961,7 +1961,6 @@
 				F2D86C150F8E7DA200B912A2 /* SubEthaPerf */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
 				F2D22CAE0EE9C5DE004B8E33 /* SeeTextImporter.xcodeproj */,
-				5EC6382B0ABEB71100D3295B /* Unit Tests-Info.plist */,
 			);
 			comments = "Build Requirements:\n\nMake sure you use a shared build directory for both the SubEthaEdit project and the OgreKit project. Currently, both projects use the default build location so you can set the shared build directory in the global Xcode preferences and both projects will pick it up. You can also set the shared build location in both projects directly.\n\n/usr/local/bin/svnversion is required if you want automatic versioning support of the build.";
 			name = SubEthaEdit;
@@ -2105,6 +2104,7 @@
 		5EC638450ABEBE2C00D3295B /* Unit Tests */ = {
 			isa = PBXGroup;
 			children = (
+				5EC6382B0ABEB71100D3295B /* Unit Tests-Info.plist */,
 				5EC638340ABEB88B00D3295B /* DataTests.h */,
 				5EC638350ABEB88B00D3295B /* DataTests.m */,
 			);
