@@ -1879,7 +1879,7 @@
 		2A37F4AAFDCFA73011CA2CEA /* SubEthaEdit */ = {
 			isa = PBXGroup;
 			children = (
-				4CAA423618157A4C00457B2A /* Build Configs */,
+				4CAA423618157A4C00457B2A /* Configuration */,
 				142891780957483200D14688 /* Additions */,
 				2A37F4ABFDCFA73011CA2CEA /* Classes */,
 				142892490957526300D14688 /* Document */,
@@ -2024,13 +2024,13 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
-		4CAA423618157A4C00457B2A /* Build Configs */ = {
+		4CAA423618157A4C00457B2A /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
 				4CAA423718157B1000457B2A /* TCMReleaseInfo.xcconfig */,
 				4CAA423818157EAB00457B2A /* TCMAppConfig.xcconfig */,
 			);
-			name = "Build Configs";
+			name = Configuration;
 			path = ../BuildConfig;
 			sourceTree = "<group>";
 		};
@@ -2215,6 +2215,7 @@
 				F298A0040CCB9EFC00C4DB8B /* Copy Importers */,
 				142894C30957614300D14688 /* Copy Files (Auxiliary Binaries) */,
 				142898130958165400D14688 /* Run Script (Deployment) */,
+				4CF06A311816B1FB00B35DF8 /* Codesign ThirdParty */,
 			);
 			buildRules = (
 			);
@@ -2559,6 +2560,20 @@
 			runOnlyForDeploymentPostprocessing = 1;
 			shellPath = /bin/sh;
 			shellScript = "echo \"Removing debug nib files...\"\nfind -d \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources\" -name \"Debug*.nib\" -exec rm -rf \"{}\" \\;\n\n# echo \"Rename resource file...\"\n# mv \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources/SubEthaEdit.rsrc\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources/SubEthaEdit-SystemVersionCheck.rsrc\"\n\necho \"Remove Headers directories...\"\nfind \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" -path '*/Headers/*' -delete\nfind \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" -name 'Headers' -type d -delete\nfind \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" -name 'Headers' -type l -delete";
+		};
+		4CF06A311816B1FB00B35DF8 /* Codesign ThirdParty */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputPaths = (
+			);
+			name = "Codesign ThirdParty";
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "#############################################################################################\n# Apply a codesigning to a given file of app\n# Argument $1 = developer certificate name\n# Argument $2 = path og Mach-o\n# Argument $3 = optional arguments\n#############################################################################################\nfunction _app_signing_apply_resign()\n{\n    local certificate=\"${1}\"\n    local path=\"${2}\"\n    local entitlements=\"${3}\"\n\n    local workspace=$(pwd)\n    local tmp=\"/tmp/$RANDOM\"\n    local tmp_entitlement=\"/tmp/$RANDOM\"\n\n    # extract entitlements from Binary\n    local macho_entitlements=$(codesign --display --entitlements=- \"${path}\" 2>/dev/null)\n    local macho_entitlements=${macho_entitlements##*<?xml}\n\n    local entitlement_file=\"\"\n\n    # sign with entitlements\n    if [[ \"${macho_entitlements}\" != \"\" ]]; then\n\n        # save entitlement to file\n        entitlement_file=$(basename \"${path}\")\n        entitlement_file=\"${workspace}/${entitlement_file}.entitlement\"\n\n        # make valid XML file end export it\n        macho_entitlements=\"<?xml${macho_entitlements}\"\n\n        codesign --force --verbose=2 --sign=\"${certificate}\" --entitlements \"${entitlement_file}\" --timestamp=none --preserve-  metadata=i,res \"${path}\" 2>| $tmp\n\n        $(rm -f \"${entitlement_file}\")\n\n    # sign without entitlements\n    else\n\n        # use entitlement\n        if [[ \"${entitlements}\" != \"\" ]]; then\n            codesign --force --verbose=3 --sign=\"${certificate}\" --entitlements \"${entitlements}\"  --timestamp=none --preserve-metadata=i,res \"${path}\" # 2>| $tmp\n        #without entitlements\n        else\n            codesign --force --verbose=3 --sign=\"${certificate}\" --timestamp=none --preserve-metadata=i,res \"${path}\" # 2>| $tmp\n        fi\n    fi\n}\n\npath_xpcservice=\"${CONFIGURATION_BUILD_DIR}/${XPCSERVICES_FOLDER_PATH}\"\npath_plugins=\"${CONFIGURATION_BUILD_DIR}/${PLUGINS_FOLDER_PATH}\"\npath_frameworks=\"${CONFIGURATION_BUILD_DIR}/${FRAMEWORKS_FOLDER_PATH}\"\npath_resources=\"${CONFIGURATION_BUILD_DIR}/${UNLOCALIZED_RESOURCES_FOLDER_PATH}\"\npath_spotligth=\"${CONFIGURATION_BUILD_DIR}/${CONTENTS_FOLDER_PATH}/${LOCAL_LIBRARY_DIR}/Spotlight\"\nsign_sh1=$(security find-identity -v | grep \"${CODE_SIGN_IDENTITY}:\" | awk '{print $2}' | sed -e '2,$d')\n\n# Frameworks\n_app_signing_apply_resign \"${sign_sh1}\" \"${path_frameworks}/OgreKit.framework/Versions/A/OgreKit\"\n_app_signing_apply_resign \"${sign_sh1}\" \"${path_frameworks}/PSMTabBarControl.framework/Versions/A/PSMTabBarControl\"\n_app_signing_apply_resign \"${sign_sh1}\" \"${path_frameworks}/TCMPortMapper.framework/Versions/A/TCMPortMapper\"\n_app_signing_apply_resign \"${sign_sh1}\" \"${path_frameworks}/UniversalDetector.framework/Versions/A/UniversalDetector\"\n\n#spotlight plugins\n_app_signing_apply_resign \"${sign_sh1}\" \"${path_spotligth}/SeeTextImporter.mdimporter/Contents/MacOS/SeeTextImporter\"\n";
 		};
 		5EC638280ABEB71100D3295B /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -3262,6 +3277,7 @@
 		C05733C808A9546B00998B17 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/TCMPortMapper\"";
@@ -3286,6 +3302,7 @@
 		C05733C908A9546B00998B17 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CODE_SIGN_IDENTITY = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEAD_CODE_STRIPPING = YES;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/TCMPortMapper\"";

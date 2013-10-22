@@ -254,7 +254,7 @@
 	<key>CFBundleIconFile</key>
 	<string>SubEthaEdit.icns</string>
 	<key>CFBundleIdentifier</key>
-	<string>de.codingmonkeys.${PRODUCT_NAME:rfc1034identifier}${BX_APP_STYLE}</string>
+	<string>de.codingmonkeys.${PRODUCT_NAME:rfc1034identifier}${TCM_APP_STYLE}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -285,6 +285,8 @@
 		<key>MinimumSystemVersion</key>
 		<string>10.4</string>
 	</dict>
+	<key>LSMinimumSystemVersion</key>
+	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
 	<key>NSAppleScriptEnabled</key>
 	<string>YES</string>
 	<key>NSHumanReadableCopyright</key>
@@ -394,7 +396,5 @@
 			</dict>
 		</dict>
 	</array>
-	<key>LSMinimumSystemVersion</key>
-	<string>${MACOSX_DEPLOYMENT_TARGET}</string>
 </dict>
 </plist>
