@@ -8,7 +8,11 @@
 
 #include "TCMRevision.xcconfig"
 
+TCM_APP_COPYRIGHT = © 2003-2013 TheCodingMonkeys. All rights reserved.
+
 TCM_APP_STYLE = BETA
 TCM_APP_VERSION = 4.0b1
-TCM_APP_GET_INFO = "SubEthaEdit ${TCM_APP_VERSION}, © 2003-2013 TheCodingMonkeys."
-TCM_APP_COPYRIGHT = "© 2003-2013 TheCodingMonkeys. All rights reserved."
+TCM_APP_GET_INFO = SubEthaEdit ${TCM_APP_VERSION}, ${TCM_APP_COPYRIGHT}
+
+TCM_CLT_VERSION = 1.2.1
+TCM_CLT_GET_INFO = see ${TCM_CLT_VERSION}, ${TCM_APP_COPYRIGHT}

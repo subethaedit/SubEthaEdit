@@ -6,20 +6,6 @@
 	objectVersion = 46;
 	objects = {
 
-/* Begin PBXAggregateTarget section */
-		14C431AB0BF34655007D29EB /* World */ = {
-			isa = PBXAggregateTarget;
-			buildConfigurationList = 14C431B60BF3467D007D29EB /* Build configuration list for PBXAggregateTarget "World" */;
-			buildPhases = (
-			);
-			dependencies = (
-				14C431AF0BF3465A007D29EB /* PBXTargetDependency */,
-			);
-			name = World;
-			productName = World;
-		};
-/* End PBXAggregateTarget section */
-
 /* Begin PBXBuildFile section */
 		141958B10BB951C400CB4AA4 /* TCMMMSessionAppKitHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 141958970BB9507700CB4AA4 /* TCMMMSessionAppKitHelper.m */; };
 		141F50ED0AE51B66001B73D2 /* PlainTextWindowControllerTabContext.m in Sources */ = {isa = PBXBuildFile; fileRef = 141F50EB0AE51B65001B73D2 /* PlainTextWindowControllerTabContext.m */; };
@@ -292,6 +278,7 @@
 		4CE9CF381802F4E900F5BC56 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; };
 		4CE9CF391802F4F100F5BC56 /* OgreKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; };
 		4CE9CF3A1802F52A00F5BC56 /* SEEStyleSheetSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D56992133B880900CEC841 /* SEEStyleSheetSettings.m */; };
+		4CF06A2F1816AF5D00B35DF8 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
 		4CF3490117FC6EAF005D0D4F /* PSMTabBarControl.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CF3490017FC6EAF005D0D4F /* PSMTabBarControl.framework */; };
 		5E0F01C30AB573A100A5DE33 /* DialogBackgroundView.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F01C10AB573A100A5DE33 /* DialogBackgroundView.m */; };
 		5E0F6AE80A039283003D2813 /* SEActiveProc.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E0F6AE40A039283003D2813 /* SEActiveProc.m */; };
@@ -440,7 +427,7 @@
 		F2D86CC70F8E8A5C00B912A2 /* RegexSymbolDefinition.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893BA0957594500D14688 /* RegexSymbolDefinition.m */; };
 		F2D86CCF0F8E8A7A00B912A2 /* SymbolTableEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893BE0957594500D14688 /* SymbolTableEntry.m */; };
 		F2D86CD40F8E8ABD00B912A2 /* NSColorTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289207095751CB00D14688 /* NSColorTCMAdditions.m */; };
-		F2D86CDC0F8E8B2600B912A2 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14288FDF09573EA300D14688 /* Carbon.framework */; };
+		F2D86CDC0F8E8B2600B912A2 /* Carbon.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 14288FDF09573EA300D14688 /* Carbon.framework */; settings = {ATTRIBUTES = (Weak, ); }; };
 		F2D86DA40F8E8B3E00B912A2 /* ModeSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 311717F20A0E8C3600A9DA18 /* ModeSettings.m */; };
 		F2D86DAA0F8E8B6000B912A2 /* SelectionOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893AC095758FD00D14688 /* SelectionOperation.m */; };
 		F2D86DAD0F8E8B6600B912A2 /* TextOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893AE095758FD00D14688 /* TextOperation.m */; };
@@ -464,49 +451,7 @@
 		F2FB96E30CBE68ED000B85AE /* UKXattrMetadataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = F2FB96E10CBE68ED000B85AE /* UKXattrMetadataStore.m */; };
 /* End PBXBuildFile section */
 
-/* Begin PBXBuildRule section */
-		142894EC095767E000D14688 /* PBXBuildRule */ = {
-			isa = PBXBuildRule;
-			compilerSpec = com.apple.compilers.proxy.script;
-			filePatterns = "*.vers";
-			fileType = pattern.proxy;
-			isEditable = 1;
-			outputFiles = (
-				"$(DERIVED_FILES_DIR)/$(INPUT_FILE_BASE)_vers.c",
-			);
-			script = "REV=`/usr/local/bin/svnversion \"$SRCROOT\"`\n\nsed \"s/#PLACEHOLDER#/$REV/g\" \"$INPUT_FILE_PATH\" > \"$DERIVED_FILES_DIR\"/\"$INPUT_FILE_BASE\"_vers.c";
-		};
-/* End PBXBuildRule section */
-
 /* Begin PBXContainerItemProxy section */
-		142894C10957611D00D14688 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 142894A90957606F00D14688;
-			remoteInfo = HelperTool;
-		};
-		142894FB0957685A00D14688 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 142894DD095766EE00D14688;
-			remoteInfo = see;
-		};
-		1428981C0958192A00D14688 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
-			remoteInfo = SubEthaEdit;
-		};
-		14C431AE0BF3465A007D29EB /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 8D15AC270486D014006FF6A4;
-			remoteInfo = SubEthaEdit;
-		};
 		5EC638300ABEB78000D3295B /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 2A37F4A9FDCFA73011CA2CEA /* Project object */;
@@ -519,13 +464,6 @@
 			containerPortal = F2D22CAE0EE9C5DE004B8E33 /* SeeTextImporter.xcodeproj */;
 			proxyType = 2;
 			remoteGlobalIDString = 8D576316048677EA00EA77CD;
-			remoteInfo = SeeTextImporter;
-		};
-		F2D22CB50EE9C5ED004B8E33 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = F2D22CAE0EE9C5DE004B8E33 /* SeeTextImporter.xcodeproj */;
-			proxyType = 1;
-			remoteGlobalIDString = 8D57630D048677EA00EA77CD;
 			remoteInfo = SeeTextImporter;
 		};
 /* End PBXContainerItemProxy section */
@@ -1029,6 +967,7 @@
 		4CD5F83A17FB0ECF00F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/UserStatistics.xib; sourceTree = "<group>"; };
 		4CD5F83C17FB0EE000F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/WebPreview.xib; sourceTree = "<group>"; };
 		4CD5F83E17FB0EE600F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/WebPreview.xib; sourceTree = "<group>"; };
+		4CF06A2E1816A7D800B35DF8 /* HelperTool_Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = HelperTool_Info.plist; sourceTree = "<group>"; };
 		4CF3490017FC6EAF005D0D4F /* PSMTabBarControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PSMTabBarControl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		5E0F01C10AB573A100A5DE33 /* DialogBackgroundView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DialogBackgroundView.m; sourceTree = "<group>"; };
 		5E0F01C20AB573A100A5DE33 /* DialogBackgroundView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DialogBackgroundView.h; sourceTree = "<group>"; };
@@ -1151,7 +1090,7 @@
 		F298693D0D338B0F0031C9F3 /* ServerManagementProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ServerManagementProfile.h; sourceTree = "<group>"; };
 		F299405E0C0C7F3400A53189 /* NSScreenTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSScreenTCMAdditions.m; sourceTree = "<group>"; };
 		F299405F0C0C7F3400A53189 /* NSScreenTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NSScreenTCMAdditions.h; sourceTree = "<group>"; };
-		F29940780C0C806600A53189 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; name = Info.plist; path = see/Info.plist; sourceTree = "<group>"; };
+		F29940780C0C806600A53189 /* See_Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; name = See_Info.plist; path = see/See_Info.plist; sourceTree = "<group>"; };
 		F29AD8660CA3391B0097D04E /* Bonjour13.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Bonjour13.png; path = artwork/Bonjour13.png; sourceTree = "<group>"; };
 		F2A0934D0C9EA923000AD27A /* DocumentSharedMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DocumentSharedMethods.h; sourceTree = "<group>"; };
 		F2A0934E0C9EA923000AD27A /* DocumentSharedMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentSharedMethods.m; sourceTree = "<group>"; };
@@ -1246,8 +1185,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				142894B90957610C00D14688 /* CoreServices.framework in Frameworks */,
 				142894BA0957610C00D14688 /* Foundation.framework in Frameworks */,
+				142894B90957610C00D14688 /* CoreServices.framework in Frameworks */,
 				142894B80957610C00D14688 /* Security.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1256,8 +1195,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4CB8EE50180FDF160051AB6B /* AppKit.framework in Frameworks */,
 				142894E10957670900D14688 /* Foundation.framework in Frameworks */,
+				4CB8EE50180FDF160051AB6B /* AppKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1292,8 +1231,9 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				4CE9CF381802F4E900F5BC56 /* OgreKit.framework in Frameworks */,
+				4CF06A2F1816AF5D00B35DF8 /* Cocoa.framework in Frameworks */,
 				F2D86CDC0F8E8B2600B912A2 /* Carbon.framework in Frameworks */,
+				4CE9CF381802F4E900F5BC56 /* OgreKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1908,6 +1848,7 @@
 			isa = PBXGroup;
 			children = (
 				142894B5095760CE00D14688 /* SubEthaEditHelperTool.m */,
+				4CF06A2E1816A7D800B35DF8 /* HelperTool_Info.plist */,
 			);
 			name = HelperTool;
 			sourceTree = "<group>";
@@ -1917,7 +1858,7 @@
 			children = (
 				142894E8095767CD00D14688 /* main.m */,
 				142894E9095767CD00D14688 /* see.1 */,
-				F29940780C0C806600A53189 /* Info.plist */,
+				F29940780C0C806600A53189 /* See_Info.plist */,
 			);
 			name = see;
 			sourceTree = "<group>";
@@ -2209,24 +2150,6 @@
 		};
 /* End PBXGroup section */
 
-/* Begin PBXLegacyTarget section */
-		142898180958189300D14688 /* Create Disk Image */ = {
-			isa = PBXLegacyTarget;
-			buildArgumentsString = "-c \"$(SRCROOT)/createDiskImage.sh\" $(ACTION)";
-			buildConfigurationList = 14289819095818E200D14688 /* Build configuration list for PBXLegacyTarget "Create Disk Image" */;
-			buildPhases = (
-			);
-			buildToolPath = /bin/sh;
-			buildWorkingDirectory = "";
-			dependencies = (
-				1428981D0958192A00D14688 /* PBXTargetDependency */,
-			);
-			name = "Create Disk Image";
-			passBuildSettingsInEnvironment = 1;
-			productName = "Create Disk Image";
-		};
-/* End PBXLegacyTarget section */
-
 /* Begin PBXNativeTarget section */
 		142894A90957606F00D14688 /* HelperTool */ = {
 			isa = PBXNativeTarget;
@@ -2248,12 +2171,10 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 142894E30957671300D14688 /* Build configuration list for PBXNativeTarget "see" */;
 			buildPhases = (
-				F299406E0C0C7F7800A53189 /* ShellScript */,
 				142894DB095766EE00D14688 /* Sources */,
 				142894DC095766EE00D14688 /* Frameworks */,
 			);
 			buildRules = (
-				142894EC095767E000D14688 /* PBXBuildRule */,
 			);
 			dependencies = (
 			);
@@ -2293,15 +2214,11 @@
 				149EC6970958726E002BDC41 /* Copy Files (Frameworks) */,
 				F298A0040CCB9EFC00C4DB8B /* Copy Importers */,
 				142894C30957614300D14688 /* Copy Files (Auxiliary Binaries) */,
-				14EB1AB90AA2ED9A004F5BEE /* Run Script (Versioning) */,
 				142898130958165400D14688 /* Run Script (Deployment) */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				142894C20957611D00D14688 /* PBXTargetDependency */,
-				142894FC0957685A00D14688 /* PBXTargetDependency */,
-				F2D22CB60EE9C5ED004B8E33 /* PBXTargetDependency */,
 			);
 			name = SubEthaEdit;
 			productInstallPath = "$(HOME)/Applications";
@@ -2317,7 +2234,6 @@
 				F2C4C2640F93E51800A3E0B5 /* Copy Frameworks */,
 				F2D86C1C0F8E7E2A00B912A2 /* Sources */,
 				F2D86C1D0F8E7E2A00B912A2 /* Frameworks */,
-				F2D86C670F8E820C00B912A2 /* ShellScript */,
 			);
 			buildRules = (
 			);
@@ -2368,9 +2284,7 @@
 				8D15AC270486D014006FF6A4 /* SubEthaEdit */,
 				142894A90957606F00D14688 /* HelperTool */,
 				142894DD095766EE00D14688 /* see */,
-				142898180958189300D14688 /* Create Disk Image */,
 				5EC638290ABEB71100D3295B /* Unit Tests */,
-				14C431AB0BF34655007D29EB /* World */,
 				F2D86C1E0F8E7E2A00B912A2 /* SubEthaPerf */,
 			);
 		};
@@ -2646,20 +2560,6 @@
 			shellPath = /bin/sh;
 			shellScript = "echo \"Removing debug nib files...\"\nfind -d \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources\" -name \"Debug*.nib\" -exec rm -rf \"{}\" \\;\n\n# echo \"Rename resource file...\"\n# mv \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources/SubEthaEdit.rsrc\" \"$TARGET_BUILD_DIR/$PRODUCT_NAME.$WRAPPER_EXTENSION/Contents/Resources/SubEthaEdit-SystemVersionCheck.rsrc\"\n\necho \"Remove Headers directories...\"\nfind \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" -path '*/Headers/*' -delete\nfind \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" -name 'Headers' -type d -delete\nfind \"$TARGET_BUILD_DIR/$FULL_PRODUCT_NAME\" -name 'Headers' -type l -delete";
 		};
-		14EB1AB90AA2ED9A004F5BEE /* Run Script (Versioning) */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 8;
-			files = (
-			);
-			inputPaths = (
-			);
-			name = "Run Script (Versioning)";
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 1;
-			shellPath = "/usr/bin/env sh";
-			shellScript = "# add path that should already be set\nif [ -x /usr/libexec/path_helper ]; then\n\teval `/usr/libexec/path_helper -s`\nfi\n\n# run actual script\n/usr/bin/env ruby $SOURCE_ROOT/InsertVersionHashToInfoPlist.rb";
-		};
 		5EC638280ABEB71100D3295B /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
@@ -2672,34 +2572,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "# Run the unit tests in this test bundle.\n\"${SYSTEM_DEVELOPER_DIR}/Tools/RunUnitTests\"\n";
-		};
-		F299406E0C0C7F7800A53189 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-				"$(INFOPLIST_FILE)",
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Info.plist",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "export PATH=$PATH:/usr/local/bin\nGIT_REV=`git rev-list --reverse HEAD | grep -n ${REV_SHA1} | cut -d: -f1`\nREVISION=`echo $(( ${GIT_REV}+4000 ))` # adding 4000 to identify a GIT revision\ncpp -P -DREVISION=$REVISION $INFOPLIST_FILE $SCRIPT_OUTPUT_FILE_0\nexit 0";
-		};
-		F2D86C670F8E820C00B912A2 /* ShellScript */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputPaths = (
-			);
-			outputPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = "/usr/bin/perl -w";
-			shellScript = "# Xcode auto-versioning script for Subversion\n# by Axel Andersson, modified by Daniel Jalkut to add\n# \"--revision HEAD\" to the svn info line, which allows\n# the latest revision to always be used.\n        \nuse strict;\n        \ndie \"$0: Must be run from Xcode\" unless $ENV{\"BUILT_PRODUCTS_DIR\"};\n        \n# Get the current subversion revision number and use it to set the CFBundleVersion value\nmy $REV = `export PATH=\\$PATH:/usr/local/bin;/usr/bin/env svnversion -n ./`;\nmy $INFO = \"$ENV{BUILT_PRODUCTS_DIR}/$ENV{WRAPPER_NAME}/Contents/Info.plist\";\n        \nmy $version = $REV;\n$version =~ s/([\\d]*:)(\\d+[M|S]*).*/$2/;\ndie \"$0: No Subversion revision found\" unless $version;\n        \nopen(FH, \"$INFO\") or die \"$0: $INFO: $!\";\nmy $info = join(\"\", <FH>);\nclose(FH);\n        \n$info =~ s/([\\t ]+<key>CFBundleVersion<\\/key>\\n[\\t ]+<string>).*?(<\\/string>)/$1$version$2/;\n        \nopen(FH, \">$INFO\") or die \"$0: $INFO: $!\";\nprint FH $info;\nclose(FH);\n";
 		};
 /* End PBXShellScriptBuildPhase section */
 
@@ -2964,35 +2836,10 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		142894C20957611D00D14688 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 142894A90957606F00D14688 /* HelperTool */;
-			targetProxy = 142894C10957611D00D14688 /* PBXContainerItemProxy */;
-		};
-		142894FC0957685A00D14688 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 142894DD095766EE00D14688 /* see */;
-			targetProxy = 142894FB0957685A00D14688 /* PBXContainerItemProxy */;
-		};
-		1428981D0958192A00D14688 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8D15AC270486D014006FF6A4 /* SubEthaEdit */;
-			targetProxy = 1428981C0958192A00D14688 /* PBXContainerItemProxy */;
-		};
-		14C431AF0BF3465A007D29EB /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 8D15AC270486D014006FF6A4 /* SubEthaEdit */;
-			targetProxy = 14C431AE0BF3465A007D29EB /* PBXContainerItemProxy */;
-		};
 		5EC638310ABEB78000D3295B /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 8D15AC270486D014006FF6A4 /* SubEthaEdit */;
 			targetProxy = 5EC638300ABEB78000D3295B /* PBXContainerItemProxy */;
-		};
-		F2D22CB60EE9C5ED004B8E33 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			name = SeeTextImporter;
-			targetProxy = F2D22CB50EE9C5ED004B8E33 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
 
@@ -3292,12 +3139,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
+				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				GCC_VERSION = "";
+				INFOPLIST_FILE = HelperTool_Info.plist;
 				INSTALL_PATH = "$(HOME)/bin";
 				PREBINDING = NO;
 				PRODUCT_NAME = SubEthaEditHelperToolTemplate;
@@ -3308,9 +3156,10 @@
 		142894AE0957608D00D14688 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
-				GCC_VERSION = "";
+				INFOPLIST_FILE = HelperTool_Info.plist;
 				INSTALL_PATH = "$(HOME)/bin";
 				PREBINDING = NO;
 				PRODUCT_NAME = SubEthaEditHelperToolTemplate;
@@ -3322,19 +3171,14 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				COPY_PHASE_STRIP = NO;
+				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
 				GCC_MODEL_TUNING = G5;
 				GCC_OPTIMIZATION_LEVEL = 0;
-				INFOPLIST_FILE = see/Info.plist;
+				INFOPLIST_FILE = see/See_Info.plist;
 				INSTALL_PATH = "$(HOME)/bin";
-				OTHER_LDFLAGS = (
-					"-sectcreate",
-					__TEXT,
-					__info_plist,
-					"$(DERIVED_FILE_DIR)/Info.plist",
-				);
 				PREBINDING = NO;
 				PRODUCT_NAME = see;
 				ZERO_LINK = NO;
@@ -3344,66 +3188,13 @@
 		142894E50957671300D14688 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				CREATE_INFOPLIST_SECTION_IN_BINARY = YES;
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
 				GCC_MODEL_TUNING = G5;
-				INFOPLIST_FILE = see/Info.plist;
+				INFOPLIST_FILE = see/See_Info.plist;
 				INSTALL_PATH = "$(HOME)/bin";
-				OTHER_LDFLAGS = (
-					"-sectcreate",
-					__TEXT,
-					__info_plist,
-					"$(DERIVED_FILE_DIR)/Info.plist",
-				);
 				PREBINDING = NO;
 				PRODUCT_NAME = see;
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
-		1428981A095818E200D14688 /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				PRODUCT_NAME = "Create Disk Image";
-			};
-			name = Debug;
-		};
-		1428981B095818E200D14688 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				DiskImageBackgroundImage = artwork/dmg_background.png;
-				DiskImageProduct = SubEthaEdit.app;
-				DiskImageSizeInMB = 100;
-				DiskImageVolumeName = SubEthaEdit;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				PRODUCT_NAME = "Create Disk Image";
-				ZERO_LINK = NO;
-			};
-			name = Release;
-		};
-		14C431B70BF3467D007D29EB /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = NO;
-				GCC_DYNAMIC_NO_PIC = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
-				GCC_OPTIMIZATION_LEVEL = 0;
-				PRODUCT_NAME = World;
-			};
-			name = Debug;
-		};
-		14C431B80BF3467D007D29EB /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				COPY_PHASE_STRIP = YES;
-				GCC_ENABLE_FIX_AND_CONTINUE = NO;
-				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
-				PRODUCT_NAME = World;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -3553,7 +3344,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
@@ -3571,7 +3361,6 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = SubEthaPerf;
-				SDKROOT = macosx;
 			};
 			name = Debug;
 		};
@@ -3579,7 +3368,6 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
-				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = YES;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				GCC_ENABLE_FIX_AND_CONTINUE = NO;
@@ -3596,7 +3384,6 @@
 				);
 				PREBINDING = NO;
 				PRODUCT_NAME = SubEthaPerf;
-				SDKROOT = macosx;
 				ZERO_LINK = NO;
 			};
 			name = Release;
@@ -3618,24 +3405,6 @@
 			buildConfigurations = (
 				142894E40957671300D14688 /* Debug */,
 				142894E50957671300D14688 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		14289819095818E200D14688 /* Build configuration list for PBXLegacyTarget "Create Disk Image" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				1428981A095818E200D14688 /* Debug */,
-				1428981B095818E200D14688 /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		14C431B60BF3467D007D29EB /* Build configuration list for PBXAggregateTarget "World" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				14C431B70BF3467D007D29EB /* Debug */,
-				14C431B80BF3467D007D29EB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
