@@ -6,6 +6,7 @@
 //  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
 //
 
+#import "TCMFoundation.h"
 #import "TCMBencodingUtilities.h"
 #import "TCMMMUserManager.h"
 #import "TCMMMUser.h"
