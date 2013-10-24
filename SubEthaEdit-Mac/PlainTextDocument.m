@@ -175,7 +175,7 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 }
 
 + (BOOL)canConcurrentlyReadDocumentsOfType:(NSString *)aTypeName {
-	return YES;
+	return NO;
 }
 
 + (PlainTextDocument *)transientDocument
