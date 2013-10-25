@@ -11,6 +11,7 @@
 #import <Carbon/Carbon.h>
 #import <TCMPortMapper/TCMPortMapper.h>
 
+#import "TCMFoundation.h"
 #import "TCMBEEP.h"
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "TCMMMUserSEEAdditions.h"
@@ -876,60 +877,49 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     
     // load scripts and do stuff
     [I_scriptsByFilename release];
-     I_scriptsByFilename = [NSMutableDictionary new];
-
+    I_scriptsByFilename = [NSMutableDictionary new];
+    
     [I_contextMenuItemArray release];
-     I_contextMenuItemArray = [NSMutableArray new];
-
+    I_contextMenuItemArray = [NSMutableArray new];
+    
     [I_toolbarItemIdentifiers release];
-     I_toolbarItemIdentifiers = [NSMutableArray new];
+    I_toolbarItemIdentifiers = [NSMutableArray new];
+    
     [I_defaultToolbarItemIdentifiers release];
-     I_defaultToolbarItemIdentifiers = [NSMutableArray new];
+    I_defaultToolbarItemIdentifiers = [NSMutableArray new];
+    
     [I_toolbarItemsByIdentifier release];
-     I_toolbarItemsByIdentifier = [NSMutableDictionary new];
-
-    NSString *file;
-    NSString *path;
+    I_toolbarItemsByIdentifier = [NSMutableDictionary new];
+    
+    NSString *file = nil;
+    NSString *path = nil;
     
     // make sure Basic directories have been created
     [DocumentModeManager sharedInstance];
-
-    //create Directories
-    NSArray *userDomainPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-    for (path in userDomainPaths) {
-        NSString *fullPath = [path stringByAppendingPathComponent:SCRIPTPATHCOMPONENT];
-        if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:nil]) {
-            [[NSFileManager defaultManager] createDirectoryAtPath:fullPath withIntermediateDirectories:YES attributes:nil error:nil];
+    
+    NSURL *userScriptsDirectory = [[NSFileManager defaultManager] URLForDirectory:NSApplicationScriptsDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:nil];
+    NSArray *scriptURLs = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:userScriptsDirectory includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles error:nil];
+    for (NSURL *scriptURL in scriptURLs)
+    {
+        ScriptWrapper *script = [ScriptWrapper scriptWrapperWithContentsOfURL:scriptURL];
+        if (script) {
+            [I_scriptsByFilename setObject:script forKey:[[[scriptURL path] stringByStandardizingPath] stringByDeletingPathExtension]];
         }
-    }
-
-    // collect all directories
-    NSMutableArray *allPaths = [NSMutableArray array];
-    NSArray *allDomainsPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, YES);
-    for (path in allDomainsPaths) {
-        [allPaths addObject:[path stringByAppendingPathComponent:SCRIPTPATHCOMPONENT]];
     }
     
-    [allPaths addObject:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Scripts/"]];
-
-    // iterate over all directories
-	NSEnumerator *enumerator = [allPaths reverseObjectEnumerator];
-    for (path in enumerator) {
-        NSEnumerator *dirEnumerator = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil] objectEnumerator];
-        while ((file = [dirEnumerator nextObject])) {
-            // skip hidden files and directory entries
-            if (![file hasPrefix:@"."]) {
-                ScriptWrapper *script = [ScriptWrapper scriptWrapperWithContentsOfURL:[NSURL fileURLWithPath:[path stringByAppendingPathComponent:file]]];
-                if (script) {
-                    [I_scriptsByFilename setObject:script forKey:[file stringByDeletingPathExtension]];
-                }
-            }
+    NSURL *applicationScriptsDirectory = [[[NSBundle mainBundle] resourceURL] URLByAppendingPathComponent:@"Scripts"];
+    scriptURLs = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:applicationScriptsDirectory includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles error:nil];
+    for (NSURL *scriptURL in scriptURLs)
+    {
+        ScriptWrapper *script = [ScriptWrapper scriptWrapperWithContentsOfURL:scriptURL];
+        if (script) {
+            [I_scriptsByFilename setObject:script forKey:[[[scriptURL path] stringByStandardizingPath] stringByDeletingPathExtension]];
         }
     }
-
+    
     [I_scriptOrderArray release];
-     I_scriptOrderArray = [[[I_scriptsByFilename allKeys] sortedArrayUsingSelector:@selector(compare:)] mutableCopy];
-        
+    I_scriptOrderArray = [[[I_scriptsByFilename allKeys] sortedArrayUsingSelector:@selector(compare:)] mutableCopy];
+    
     for (NSString *filename in I_scriptOrderArray) {
         ScriptWrapper *script=[I_scriptsByFilename objectForKey:filename];
         NSDictionary *settingsDictionary = [script settingsDictionary];
@@ -938,7 +928,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
             displayName = [settingsDictionary objectForKey:ScriptWrapperDisplayNameSettingsKey];
         }
         NSMenuItem *item = [[NSMenuItem alloc] initWithTitle:displayName
-                                                      action:@selector(performScriptAction:) 
+                                                      action:@selector(performScriptAction:)
                                                keyEquivalent:@""];
         [item setTarget:script];
         if (settingsDictionary) {
@@ -948,7 +938,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
             }
         }
         [scriptMenu addItem:[item autorelease]];
-
+        
         NSToolbarItem *toolbarItem = [script toolbarItemWithImageSearchLocations:[NSArray arrayWithObjects:[[[script URL] path] stringByDeletingLastPathComponent],[NSBundle mainBundle],nil] identifierAddition:@"Application"];
         
         if (toolbarItem) {
@@ -962,11 +952,11 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     // add final entries
     [scriptMenu addItem:[NSMenuItem separatorItem]];
     item=[[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Reload Scripts", @"Reload Scripts MenuItem in Script Menu")
-                              action:@selector(reloadScriptMenu) keyEquivalent:@""] autorelease];
+                                     action:@selector(reloadScriptMenu) keyEquivalent:@""] autorelease];
     [item setTarget:self];
     [scriptMenu addItem:item];
     item=[[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Open Script Folder", @"Open Script Folder MenuItem in Script Menu")
-                              action:@selector(showScriptFolder:) keyEquivalent:@""] autorelease];
+                                     action:@selector(showScriptFolder:) keyEquivalent:@""] autorelease];
     [item setTarget:self];
     [scriptMenu addItem:item];
     
@@ -990,13 +980,8 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 
 - (IBAction)showScriptFolder:(id)aSender {
     //create Directories
-    NSArray *userDomainPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-    NSString *path = nil;
-    for (path in userDomainPaths) {
-        NSString *fullPath = [path stringByAppendingPathComponent:SCRIPTPATHCOMPONENT];
-        [[NSWorkspace sharedWorkspace] openURL:[NSURL fileURLWithPath:fullPath]];
-        return;
-    }
+    NSURL *userScriptsDirectory = [[NSFileManager defaultManager] URLForDirectory:NSApplicationScriptsDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:nil];
+    [[NSWorkspace sharedWorkspace] openURL:userScriptsDirectory];
 }
 
 - (void)setupScriptMenu {

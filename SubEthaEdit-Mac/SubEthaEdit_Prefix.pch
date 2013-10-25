@@ -14,16 +14,4 @@
         
     extern NSString * const AddressHistory;
 
-	// compatibility typedefs for 10.4
-	#if !defined(NSINTEGER_DEFINED)
-	typedef int NSInteger;
-	typedef unsigned int NSUInteger;
-	#define NSINTEGER_DEFINED 1
-	#endif // !defined(NSINTEGER_DEFINED)
-
 #endif //__OBJC__
-
-#if !defined(CGFLOAT_DEFINED)
-typedef float CGFloat;
-#define CGFLOAT_DEFINED 1
-#endif // !defined(CGFLOAT_DEFINED)

@@ -6,15 +6,10 @@
 //  Copyright 2006 TheCodingMonkeys. All rights reserved.
 //
 
-#import <Carbon/Carbon.h>
 #import "ScriptWrapper.h"
 #import "NSAppleScriptTCMAdditions.h"
-// #import "SESendProc.h"
-#import "SEActiveProc.h"
+#import "AppController.h"
 
-#ifdef SUBETHAEDIT
-	#import "AppController.h"
-#endif
 
 NSString * const ScriptWrapperDisplayNameSettingsKey     =@"displayname";
 NSString * const ScriptWrapperShortDisplayNameSettingsKey=@"shortdisplayname";
@@ -27,11 +22,6 @@ NSString * const ScriptWrapperInContextMenuSettingsKey   =@"incontextmenu";
 NSString * const ScriptWrapperWillRunScriptNotification=@"ScriptWrapperWillRunScriptNotification";
 NSString * const ScriptWrapperDidRunScriptNotification =@"ScriptWrapperDidRunScriptNotification";
 
-
-@interface NSAppleScript (PrivateAPI)
-+ (ComponentInstance) _defaultScriptingComponent;
-- (OSAID) _compiledScriptID;
-@end
 
 @implementation ScriptWrapper
 
@@ -61,47 +51,6 @@ NSString * const ScriptWrapperDidRunScriptNotification =@"ScriptWrapperDidRunScr
 
 - (void)executeAndReturnError:(NSDictionary **)errorDictionary {
     [I_appleScript executeAndReturnError:errorDictionary];
-/*
-    OSAID resultID  = kOSANullScript;
-    OSAID contextID = kOSANullScript;
-    OSAID scriptID  = [I_appleScript _compiledScriptID];
-    ComponentInstance component = OpenDefaultComponent( kOSAComponentType, typeAppleScript );
-    SESendProc   *sp=[[SESendProc   alloc] initWithComponent:component];
-    SEActiveProc *ap=[[SEActiveProc alloc] initWithComponent:component];
-    FSRef fsRef;
-    
-    if (!CFURLGetFSRef((CFURLRef)I_URL, &fsRef)) {
-        NSBeep();
-        NSLog(@"mist, fsref ging nicht");
-    }
-    OSStatus err = noErr;
-    err = OSALoadFile(component,&fsRef,NULL,0,&scriptID);
-    if (err==noErr) {
-        err = OSAExecute(component,scriptID,contextID,kOSAModeNull,&resultID);
-        AEDesc resultData;
-        AECreateDesc(typeNull, NULL,0,&resultData);
-        if (err==errOSAScriptError) {
-            NSMutableDictionary *errorDict=[NSMutableDictionary dictionary];
-            OSAScriptError(component,kOSAErrorMessage,typeChar,&resultData);
-            NSAppleEventDescriptor *errorDescriptor=[[NSAppleEventDescriptor alloc] initWithAEDescNoCopy:&resultData];
-            [errorDict setObject:[errorDescriptor stringValue] forKey:@"NSAppleScriptErrorMessage"];
-            [errorDescriptor release];
-            OSAScriptError(component,kOSAErrorNumber,typeChar,&resultData);
-            errorDescriptor=[[NSAppleEventDescriptor alloc] initWithAEDescNoCopy:&resultData];
-            [errorDict setObject:[NSNumber numberWithInt:[errorDescriptor int32Value]] forKey:@"NSAppleScriptErrorNumber"];
-            [errorDescriptor release];
-            OSAScriptError(component,kOSAErrorBriefMessage,typeChar,&resultData);
-            errorDescriptor=[[NSAppleEventDescriptor alloc] initWithAEDescNoCopy:&resultData];
-            [errorDict setObject:[errorDescriptor stringValue] forKey:@"NSAppleScriptErrorBriefMessage"];
-            [errorDescriptor release];
-            *errorDictionary = errorDict;
-        }
-        [ap release];
-        [sp release];
-    } else {
-        NSLog(@"OSALoadFile did fail");
-    }
-    */
 }
 
 - (NSDictionary *)settingsDictionary {
@@ -120,7 +69,6 @@ NSString * const ScriptWrapperDidRunScriptNotification =@"ScriptWrapperDidRunScr
 - (NSURL *)URL {
     return I_URL;
 }
-
 
 - (NSToolbarItem *)toolbarItemWithImageSearchLocations:(NSArray *)anImageSearchLocationsArray identifierAddition:(NSString *)anAddition {
     NSDictionary *settingsDictionary=[self settingsDictionary];
@@ -191,14 +139,21 @@ NSString * const ScriptWrapperDidRunScriptNotification =@"ScriptWrapperDidRunScr
 }
 
 - (void)performScriptAction:(id)aSender {
-    if (([[NSApp currentEvent] type]!=NSKeyDown) &&
-        (([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask) ||
-         (GetCurrentKeyModifiers() & optionKey)) ) {
+    if (([[NSApp currentEvent] type] != NSKeyDown) &&
+        ([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask)) {
         [self revealSource];
     } else {
-        [self performSelectorInBackground:@selector(_delayedExecute) withObject:nil];
+        NSURL *userScriptDirectory = [[NSFileManager defaultManager] URLForDirectory:NSApplicationScriptsDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
+        if (userScriptDirectory && [[[I_URL URLByStandardizingPath] path] hasPrefix:[[userScriptDirectory URLByStandardizingPath] path]])
+        {
+            NSUserScriptTask *userScript = [[NSUserScriptTask alloc] initWithURL:I_URL error:nil];
+            [userScript executeWithCompletionHandler:nil];
+        }
+        else
+        {
+            [self performSelectorInBackground:@selector(_delayedExecute) withObject:nil];
+        }
     }
-
 }
 
 @end
