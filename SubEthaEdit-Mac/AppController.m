@@ -891,9 +891,6 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [I_toolbarItemsByIdentifier release];
     I_toolbarItemsByIdentifier = [NSMutableDictionary new];
     
-    NSString *file = nil;
-    NSString *path = nil;
-    
     // make sure Basic directories have been created
     [DocumentModeManager sharedInstance];
     
