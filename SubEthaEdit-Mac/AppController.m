@@ -177,12 +177,26 @@ static AppController *sharedInstance = nil;
 		[[TCMMMTransformator sharedInstance] registerTransformationTarget:[SelectionOperation class] selector:@selector(transformOperation:serverOperation:) forOperationId:[SelectionOperation operationID] andOperationID:[TextOperation operationID]];
 		[UserChangeOperation class];
 		[TCMMMNoOperation class];
+        
 	}
 }
 
 + (AppController *)sharedInstance {
     return sharedInstance;
 }
+    
+- (id)init
+    {
+        self = [super init];
+        if (self) {
+#if BETA
+            [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"f6d8d69c0803df397e1a47872ffc2348" companyName:@"TheCodingMonkeys" delegate:self];
+#else
+            [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"893da3588e5f78e26b48286f3b15e8d7" companyName:@"TheCodingMonkeys" delegate:self];
+#endif
+        }
+        return self;
+    }
 
 - (void)awakeFromNib {
     sharedInstance = self;
@@ -462,7 +476,7 @@ static AppController *sharedInstance = nil;
     [NSApp setServicesProvider:[DocumentController sharedDocumentController]];
     [[DocumentController sharedDocumentController] setAutosavingDelay:[[NSUserDefaults standardUserDefaults] floatForKey:@"AutoSavingDelay"]];
 }
-
+    
 #ifndef __clang_analyzer__
 static OSStatus AuthorizationRightSetWithWorkaround(
     AuthorizationRef    authRef,
@@ -645,7 +659,8 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [self setupAuthorization];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentModeListDidChange:) name:@"DocumentModeListChanged" object:nil];
 
-	// do crash reports here?
+	// start crash reporting
+    [[BITHockeyManager sharedHockeyManager] startManager];
 }
 
 - (void)sessionManagerIsReady:(NSNotification *)aNotification {
@@ -1040,8 +1055,16 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [menu update];
     return NO;
 }
+    
+#pragma mark - BITHockeyManagerDelegate
 
-#pragma mark ### IBActions ###
+// needs to be implemente because its required by the protocol
+- (void) showMainApplicationWindowForCrashManager:(BITCrashManager *)crashManager
+{
+}
+
+
+#pragma mark - IBActions
 
 - (IBAction)undo:(id)aSender {
     id document=[[NSDocumentController sharedDocumentController] currentDocument];
@@ -1082,8 +1105,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 }
 
 
-#pragma mark -
-#pragma mark ### Toolbar ###
+#pragma mark - Toolbar
 
 - (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdentifier willBeInsertedIntoToolbar:(BOOL)willBeInserted {
     return [[[I_toolbarItemsByIdentifier objectForKey:itemIdentifier] copy] autorelease];
@@ -1097,8 +1119,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     return I_defaultToolbarItemIdentifiers;
 }
 
-#pragma mark -
-#pragma mark ### Menu validation ###
+#pragma mark - Menu validation
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
     SEL selector = [menuItem action];
