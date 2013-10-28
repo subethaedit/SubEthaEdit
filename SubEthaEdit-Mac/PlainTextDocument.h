@@ -81,12 +81,12 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 //    int I_changeCount;
     DocumentMode  *I_documentMode;
     FoldableTextStorage *I_textStorage;
-    struct {
-        NSFont *plainFont;
-        NSFont *boldFont;
-        NSFont *italicFont;
-        NSFont *boldItalicFont;
-    } I_fonts;
+    
+    NSFont *I_plainFont;
+    NSFont *I_boldFont;
+    NSFont *I_italicFont;
+    NSFont *I_boldItalicFont;
+    
     NSMutableDictionary *I_styleCacheDictionary;
     NSDictionary *I_plainTextAttributes;
     NSDictionary *I_typingAttributes;
@@ -148,12 +148,6 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
     TextOperation *I_lastRegisteredUndoOperation;
     
     NSMutableDictionary *I_printOptions;
-    // Print nib
-	IBOutlet FontForwardingTextField *O_printOptionTextField;
-    IBOutlet NSView *O_printOptionView;
-    IBOutlet NSObjectController *O_printOptionController;
-    BOOL I_printOperationIsRunning;
-
     NSArray *I_preservedDataFromSEETextFile;
     
     AuthorizationRef I_authRef;
@@ -361,12 +355,11 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (IBAction)cancelExport:(id)aSender;
 - (IBAction)continueExport:(id)aSender;
 
-//#pragma mark ### Printing ###
-//- (IBAction)changeFontViaPanel:(id)sender;
+#pragma mark ### Printing ###
 - (NSMutableDictionary *)printOptions;
-- (void)setPrintOptions:(NSDictionary *)aPrintOptions;
+- (void)setPrintOptions:(NSMutableDictionary *)aPrintOptions;
 
-- (IBAction)changeFontViaPanel:(id)sender;
+#pragma mark - Font handling
 - (IBAction)changeFont:(id)aSender;
 
 #pragma mark -
