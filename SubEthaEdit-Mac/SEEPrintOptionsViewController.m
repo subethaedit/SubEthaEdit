@@ -65,7 +65,38 @@
 }
 
 - (NSSet *)keyPathsForValuesAffectingPreview {
-    return [NSSet setWithObjects:@"printOptionControllerOutlet.content.SEEFontAttributes", nil];
+    return [NSSet setWithObjects:
+//            @"self.representedObject.leftMargin",
+//            @"self.representedObject.rightMargin",
+//            @"self.representedObject.topMargin",
+//            @"self.representedObject.bottomMargin",
+            
+            @"self.printOptionControllerOutlet.content.NSLeftMargin",
+            @"self.printOptionControllerOutlet.content.NSRightMargin",
+            @"self.printOptionControllerOutlet.content.NSTopMargin",
+            @"self.printOptionControllerOutlet.content.NSBottomMargin",
+            
+            @"self.printOptionControllerOutlet.content.SEEAnnotateChangeMarks",
+            @"self.printOptionControllerOutlet.content.SEEAnnotateWrittenBy",
+            @"self.printOptionControllerOutlet.content.SEEColorizeChangeMarks",
+            @"self.printOptionControllerOutlet.content.SEEColorizeWrittenBy",
+            @"self.printOptionControllerOutlet.content.SEEHighlightSyntax",
+            
+            @"self.printOptionControllerOutlet.content.SEEPageHeader",
+            @"self.printOptionControllerOutlet.content.SEEPageHeaderCurrentDate",
+            @"self.printOptionControllerOutlet.content.SEEPageHeaderFilename",
+            
+            @"self.printOptionControllerOutlet.content.SEEParticipantImages",
+            @"self.printOptionControllerOutlet.content.SEEParticipants",
+            @"self.printOptionControllerOutlet.content.SEEParticipantsAIMAndEmail",
+            @"self.printOptionControllerOutlet.content.SEEParticipantsVisitors1",
+
+            @"self.printOptionControllerOutlet.content.SEEResizeDocumentFont",
+            @"self.printOptionControllerOutlet.content.SEEResizeDocumentFontTo",
+            @"self.printOptionControllerOutlet.content.SEEUseCustomFont",
+            @"self.printOptionControllerOutlet.content.SEEFontAttributes",
+            @"self.printOptionControllerOutlet.content.SEEWhiteBackground",
+            nil];
 }
 
 @end
