@@ -366,6 +366,9 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (NSMutableDictionary *)printOptions;
 - (void)setPrintOptions:(NSDictionary *)aPrintOptions;
 
+- (IBAction)changeFontViaPanel:(id)sender;
+- (IBAction)changeFont:(id)aSender;
+
 #pragma mark -
 #pragma mark ### Session Interaction ###
 
