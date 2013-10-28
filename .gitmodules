@@ -7,3 +7,6 @@ url=git@github.com:codingmonkeys/PSMTabBarControl.git
 [submodule "UniversalDetector"]
 	path = UniversalDetector
 	url = git@github.com:codingmonkeys/UniversalDetector.git
+[submodule "HockeySDK-Mac"]
+	path = HockeySDK-Mac
+url=git@github.com:codingmonkeys/HockeySDK-Mac.git

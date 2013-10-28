@@ -16,6 +16,8 @@
 		<string>ssh://github.com/codingmonkeys/OgreKit.git</string>
 		<key>461B2668-761B-4E27-84CA-D6CF5FF6A7F6</key>
 		<string>ssh://bitbucket.org/TheCodingMonkeys/subethaedit.git</string>
+		<key>A2FBC011-2582-4FE7-B492-CC5DBD2AB77C</key>
+		<string>https://github.com/bitstadium/HockeySDK-Mac.git</string>
 		<key>E7BC7A11-E7BC-4156-8357-0675A3106161</key>
 		<string>ssh://github.com/codingmonkeys/UniversalDetector.git</string>
 	</dict>
@@ -29,6 +31,8 @@
 		<string>../OgreKit</string>
 		<key>461B2668-761B-4E27-84CA-D6CF5FF6A7F6</key>
 		<string>../../..</string>
+		<key>A2FBC011-2582-4FE7-B492-CC5DBD2AB77C</key>
+		<string>../HockeySDK-Mac</string>
 		<key>E7BC7A11-E7BC-4156-8357-0675A3106161</key>
 		<string>../UniversalDetector</string>
 	</dict>
@@ -40,6 +44,14 @@
 	<string>461B2668-761B-4E27-84CA-D6CF5FF6A7F6</string>
 	<key>IDESourceControlProjectWCConfigurations</key>
 	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>A2FBC011-2582-4FE7-B492-CC5DBD2AB77C</string>
+			<key>IDESourceControlWCCName</key>
+			<string>HockeySDK-Mac</string>
+		</dict>
 		<dict>
 			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
 			<string>public.vcs.git</string>

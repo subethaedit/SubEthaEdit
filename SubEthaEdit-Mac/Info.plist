@@ -277,7 +277,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>${TCM_APP_VERSION}.${TCM_APP_REVISION}</string>
+	<string>${TCM_APP_REVISION}</string>
 	<key>LSApplicationCategoryType</key>
 	<string>public.app-category.developer-tools</string>
 	<key>LSEnvironment</key>
