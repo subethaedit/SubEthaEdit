@@ -130,7 +130,7 @@
         int index=0;
         int count=[aims count];
         for (index=0;index<count;index++) {
-            if ([newValue isEqualToString:[aims valueAtIndex:index]]) {
+            if ([newValue isEqualToString:[[aims valueAtIndex:index] objectForKey:kABInstantMessageUsernameKey]]) {
                 NSString *identifier=[aims identifierAtIndex:index];
                 [defaults setObject:identifier forKey:MyAIMIdentifierPreferenceKey];
                 break;
