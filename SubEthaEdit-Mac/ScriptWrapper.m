@@ -146,7 +146,7 @@ NSString * const ScriptWrapperDidRunScriptNotification =@"ScriptWrapperDidRunScr
         NSURL *userScriptDirectory = [[NSFileManager defaultManager] URLForDirectory:NSApplicationScriptsDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil];
         if (userScriptDirectory && [[[I_URL URLByStandardizingPath] path] hasPrefix:[[userScriptDirectory URLByStandardizingPath] path]])
         {
-            NSUserScriptTask *userScript = [[NSUserScriptTask alloc] initWithURL:I_URL error:nil];
+            NSUserScriptTask *userScript = [[[NSUserScriptTask alloc] initWithURL:I_URL error:nil] autorelease];
             [userScript executeWithCompletionHandler:nil];
         }
         else
