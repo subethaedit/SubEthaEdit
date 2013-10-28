@@ -1217,11 +1217,14 @@ struct ModificationInfo
 }
 
 - (void)updateTabMenu {
-   NSMenuItem *menuItem = [[[[NSApp mainMenu] itemWithTag:WindowMenuTag] submenu] itemWithTag:GotoTabMenuItemTag];
-    if ([[self documents] count] >0) {
-        [self updateMenuWithTabMenuItems:[menuItem submenu] shortcuts:YES];
-    } else {
-        [[menuItem submenu] removeAllItems];
+    NSMenuItem *menuItem = [[[[NSApp mainMenu] itemWithTag:WindowMenuTag] submenu] itemWithTag:GotoTabMenuItemTag];
+    if (menuItem)
+    {
+        if ([[self documents] count] >0) {
+            [self updateMenuWithTabMenuItems:[menuItem submenu] shortcuts:YES];
+        } else {
+            [[menuItem submenu] removeAllItems];
+        }
     }
 }
 
