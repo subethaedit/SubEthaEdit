@@ -1,10 +1,10 @@
-	//
-	//  SEEPrintOptionsViewController.m
-	//  SubEthaEdit
-	//
-	//  Created by Michael Ehrmann on 17.10.13.
-	//  Copyright (c) 2013 TheCodingMonkeys. All rights reserved.
-	//
+//
+//  SEEPrintOptionsViewController.m
+//  SubEthaEdit
+//
+//  Created by Michael Ehrmann on 17.10.13.
+//  Copyright (c) 2013 TheCodingMonkeys. All rights reserved.
+//
 
 #import "SEEPrintOptionsViewController.h"
 #import "FontForwardingTextField.h"
