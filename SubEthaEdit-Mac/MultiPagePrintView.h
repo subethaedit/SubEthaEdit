@@ -11,9 +11,9 @@
 
 
 @interface MultiPagePrintView : NSView {
-    int I_pageCount;
     NSTextStorage *I_textStorage;
     NSLayoutManager *I_layoutManager;
+    NSInteger I_pageCount;
     NSSize I_pageSize;
     NSSize I_textContainerSize;
     NSPoint I_textContainerOrigin;
@@ -25,25 +25,26 @@
                    *I_visitorArray;
     NSFont *I_baseFont;
     NSMutableDictionary *I_styleCacheDictionary;
+    
     struct {
-        float contributorNameWidth;
-        float contributorAIMWidth;
-        float contributorEmailWidth;
-        float visitorNameWidth;
-        float visitorAIMWidth;
-        float visitorEmailWidth;
-        float emailAIMLabelWidth;
-        float contributorWidth;
-        float visitorWidth;
+        CGFloat contributorNameWidth;
+        CGFloat contributorAIMWidth;
+        CGFloat contributorEmailWidth;
+        CGFloat visitorNameWidth;
+        CGFloat visitorAIMWidth;
+        CGFloat visitorEmailWidth;
+        CGFloat emailAIMLabelWidth;
+        CGFloat contributorWidth;
+        CGFloat visitorWidth;
     } I_measures;
     
-    int I_visitorIndex;
-    int I_contributorIndex;
-    int I_visitorCount;
-    int I_contributorCount;
+    NSInteger I_visitorIndex;
+    NSInteger I_contributorIndex;
+    NSInteger I_visitorCount;
+    NSInteger I_contributorCount;
     
-    int I_pagesWithLegend;
-    int I_pagesWithFullLegend;
+    NSInteger I_pagesWithLegend;
+    NSInteger I_pagesWithFullLegend;
 }
 
 - (void)setHeaderFormatString:(NSString *)aString;
