@@ -249,7 +249,7 @@
 		4CB8EE4F180FD9A40051AB6B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CB8EE4E180FD9A40051AB6B /* libz.dylib */; };
 		4CB8EE50180FDF160051AB6B /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */; };
 		4CB8EE51180FDF790051AB6B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CB8EE4E180FD9A40051AB6B /* libz.dylib */; };
-		4CB8EE55181032340051AB6B /* SEEPrintOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CB8EE54181032340051AB6B /* SEEPrintOptionsViewController.m */; };
+		4CB8EE55181032340051AB6B /* SEEPrintOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CB8EE54181032340051AB6B /* SEEPrintOptionsViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4CCD4DD21811703D00FE6134 /* SEESavePanelAccessoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CCD4DD01811703D00FE6134 /* SEESavePanelAccessoryViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4CCD4DD31811703D00FE6134 /* SEESavePanelAccessoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CCD4DD11811703D00FE6134 /* SEESavePanelAccessoryViewController.xib */; };
 		4CD5F7DA17FB0BF200F49E31 /* AdvancedPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F7D817FB0BF200F49E31 /* AdvancedPrefs.xib */; };
@@ -1658,6 +1658,7 @@
 				4CCD4DD11811703D00FE6134 /* SEESavePanelAccessoryViewController.xib */,
 				4CB8EE53181032340051AB6B /* SEEPrintOptionsViewController.h */,
 				4CB8EE54181032340051AB6B /* SEEPrintOptionsViewController.m */,
+				4CD5F81F17FB0E2B00F49E31 /* PrintOptions.xib */,
 				1428944E09575B9700D14688 /* PlainTextEditor.h */,
 				1428944F09575B9700D14688 /* PlainTextEditor.m */,
 				149774150B5E159F004A546C /* PlainTextLoadProgress.h */,
@@ -2001,7 +2002,6 @@
 				4C0D3D6717FB145600AAFB38 /* Preferences.xib */,
 				4CD5F81717FB0DF900F49E31 /* PrecedencePrefs.xib */,
 				4CD5F81B17FB0E1800F49E31 /* PrecedenceRules.xib */,
-				4CD5F81F17FB0E2B00F49E31 /* PrintOptions.xib */,
 				4CD5F82317FB0E3C00F49E31 /* PrintPrefs.xib */,
 				4CD5F82717FB0E4F00F49E31 /* SavePanelAccessory.xib */,
 				4CD5F82B17FB0E6000F49E31 /* SelectEncodingsPanel.xib */,
@@ -3295,7 +3295,6 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/TCMPortMapper\"";
-				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_ENABLE_FIX_AND_CONTINUE = YES;
 				GCC_OPTIMIZATION_LEVEL = 0;
@@ -3321,7 +3320,6 @@
 				COMBINE_HIDPI_IMAGES = YES;
 				DEAD_CODE_STRIPPING = YES;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/TCMPortMapper\"";
-				GCC_C_LANGUAGE_STANDARD = c99;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = SubEthaEdit_Prefix.pch;
 				INFOPLIST_FILE = Info.plist;

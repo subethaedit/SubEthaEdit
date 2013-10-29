@@ -252,13 +252,13 @@ static NSString *tempFileName(NSString *origPath) {
 
 
 - (void)TCM_styleFonts {
-    [I_fonts.boldFont autorelease];
-    [I_fonts.italicFont autorelease];
-    [I_fonts.boldItalicFont autorelease];
+    [I_boldFont autorelease];
+    [I_italicFont autorelease];
+    [I_boldItalicFont autorelease];
     NSFontManager *manager=[NSFontManager sharedFontManager];
-    I_fonts.boldFont       = [[manager convertFont:I_fonts.plainFont toHaveTrait:NSBoldFontMask] retain];
-    I_fonts.italicFont     = [[manager convertFont:I_fonts.plainFont toHaveTrait:NSItalicFontMask] retain];
-    I_fonts.boldItalicFont = [[manager convertFont:I_fonts.boldFont  toHaveTrait:NSItalicFontMask] retain];
+    I_boldFont       = [[manager convertFont:I_plainFont toHaveTrait:NSBoldFontMask] retain];
+    I_italicFont     = [[manager convertFont:I_plainFont toHaveTrait:NSItalicFontMask] retain];
+    I_boldItalicFont = [[manager convertFont:I_boldFont  toHaveTrait:NSItalicFontMask] retain];
 }
 
 - (void)TCM_initHelper {
@@ -970,10 +970,10 @@ static NSString *tempFileName(NSString *origPath) {
     [I_plainTextAttributes release];
     [I_typingAttributes release];
 	[I_blockeditAttributes release];
-    [I_fonts.plainFont release];
-    [I_fonts.boldFont release];
-    [I_fonts.italicFont release];
-    [I_fonts.boldItalicFont release];
+    [I_plainFont release];
+    [I_boldFont release];
+    [I_italicFont release];
+    [I_boldItalicFont release];
     [I_styleCacheDictionary release];
     [I_defaultParagraphStyle release];
     [I_fileAttributes release];
@@ -4430,13 +4430,13 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
 /*"A font trait mask of 0 returns the plain font, otherwise use NSBoldFontMask, NSItalicFontMask"*/
 - (NSFont *)fontWithTrait:(NSFontTraitMask)aFontTrait {
     if ((aFontTrait & NSBoldFontMask) && (aFontTrait & NSItalicFontMask)) {
-        return I_fonts.boldItalicFont;
+        return I_boldItalicFont;
     } else if (aFontTrait & NSItalicFontMask) {
-        return I_fonts.italicFont;
+        return I_italicFont;
     } else if (aFontTrait & NSBoldFontMask) {
-        return I_fonts.boldFont;
+        return I_boldFont;
     } else {
-        return I_fonts.plainFont;
+        return I_plainFont;
     }
 }
 
@@ -4448,8 +4448,8 @@ static CFURLRef CFURLFromAEDescAlias(const AEDesc *theDesc) {
     NSDictionary *syntaxStyle=[useDefaultStyle?[[DocumentModeManager baseMode] syntaxStyle]:[[self documentMode] syntaxStyle] styleForKey:SyntaxStyleBaseIdentifier];
     [self setDocumentBackgroundColor:[syntaxStyle objectForKey:darkBackground?@"inverted-background-color":@"background-color"]];
     [self setDocumentForegroundColor:[syntaxStyle objectForKey:darkBackground?@"inverted-color":@"color"]];
-    [I_fonts.plainFont autorelease];
-    I_fonts.plainFont = [aFont copy];
+    [I_plainFont autorelease];
+    I_plainFont = [aFont copy];
     [self TCM_styleFonts];
     [self TCM_invalidateTextAttributes];
     [self TCM_invalidateDefaultParagraphStyle];
@@ -4860,7 +4860,7 @@ static NSString *S_measurementUnits;
 }
 
 - (void)changeFont:(id)aSender {
-    NSFont *newFont = [aSender convertFont:I_fonts.plainFont];
+    NSFont *newFont = [aSender convertFont:I_plainFont];
     if (I_printOperationIsRunning) {
         NSMutableDictionary *dict=[NSMutableDictionary dictionary];
         [dict setObject:[newFont fontName] 

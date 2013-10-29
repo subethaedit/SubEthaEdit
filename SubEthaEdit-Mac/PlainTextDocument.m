@@ -21,7 +21,6 @@
 #import "DocumentProxyWindowController.h"
 #import "UndoManager.h"
 #import "TCMMMUserSEEAdditions.h"
-#import "PrintPreferences.h"
 #import "AppController.h"
 #import "NSSavePanelTCMAdditions.h"
 #import "SEESavePanelAccessoryViewController.h"
@@ -46,7 +45,10 @@
 #import "GeneralPreferences.h"
 
 #import "FindAllController.h"
+
 #import "MultiPagePrintView.h"
+#import "SEEPrintOptionsViewController.h"
+#import "PrintPreferences.h"
 
 #import "MoreUNIX.h"
 #import "MoreSecurity.h"
@@ -246,17 +248,16 @@ static NSString *tempFileName(NSString *origPath) {
 
 
 - (void)TCM_styleFonts {
-    [I_fonts.boldFont autorelease];
-    [I_fonts.italicFont autorelease];
-    [I_fonts.boldItalicFont autorelease];
+    [I_boldFont autorelease];
+    [I_italicFont autorelease];
+    [I_boldItalicFont autorelease];
     NSFontManager *manager=[NSFontManager sharedFontManager];
-    I_fonts.boldFont       = [[manager convertFont:I_fonts.plainFont toHaveTrait:NSBoldFontMask] retain];
-    I_fonts.italicFont     = [[manager convertFont:I_fonts.plainFont toHaveTrait:NSItalicFontMask] retain];
-    I_fonts.boldItalicFont = [[manager convertFont:I_fonts.boldFont  toHaveTrait:NSItalicFontMask] retain];
+    I_boldFont       = [[manager convertFont:I_plainFont toHaveTrait:NSBoldFontMask] retain];
+    I_italicFont     = [[manager convertFont:I_plainFont toHaveTrait:NSItalicFontMask] retain];
+    I_boldItalicFont = [[manager convertFont:I_boldFont  toHaveTrait:NSItalicFontMask] retain];
 }
 
 - (void)TCM_initHelper {
-    I_printOperationIsRunning=NO;
     I_flags.isAutosavingForRestart=NO;
     I_flags.isHandlingUndoManually=NO;
     I_flags.shouldSelectModeOnSave=YES;
@@ -968,10 +969,10 @@ static NSString *tempFileName(NSString *origPath) {
     [I_plainTextAttributes release];
     [I_typingAttributes release];
 	[I_blockeditAttributes release];
-    [I_fonts.plainFont release];
-    [I_fonts.boldFont release];
-    [I_fonts.italicFont release];
-    [I_fonts.boldItalicFont release];
+    [I_plainFont release];
+    [I_boldFont release];
+    [I_italicFont release];
+    [I_boldItalicFont release];
     [I_styleCacheDictionary release];
     [I_defaultParagraphStyle release];
     [I_fileAttributes release];
@@ -989,9 +990,6 @@ static NSString *tempFileName(NSString *origPath) {
 
 	self.O_exportSheet = nil;
 	self.O_exportSheetController = nil;
-
-    [O_printOptionView release];
-    [O_printOptionController release];
 
     [I_documentMode release];
     [I_documentBackgroundColor release];
@@ -1254,7 +1252,7 @@ static NSString *tempFileName(NSString *origPath) {
     return I_printOptions;
 }
 
-- (void)setPrintOptions:(NSDictionary *)aPrintOptions {
+- (void)setPrintOptions:(NSMutableDictionary *)aPrintOptions {
     [I_printOptions autorelease];
     I_printOptions=[aPrintOptions mutableCopy];
 }
@@ -1267,6 +1265,12 @@ static NSString *tempFileName(NSString *origPath) {
     I_flags.shouldChangeChangeCount=oldState;
 }
 
+- (IBAction)changeFont:(id)aSender {
+    NSFont *newFont = [aSender convertFont:I_plainFont];
+    [self setPlainFont:newFont];
+}
+    
+    
 - (NSUInteger)fileEncoding {
     return [(FoldableTextStorage *)[self textStorage] encoding];
 }
@@ -4665,13 +4669,13 @@ struct SelectionRange
 /*"A font trait mask of 0 returns the plain font, otherwise use NSBoldFontMask, NSItalicFontMask"*/
 - (NSFont *)fontWithTrait:(NSFontTraitMask)aFontTrait {
     if ((aFontTrait & NSBoldFontMask) && (aFontTrait & NSItalicFontMask)) {
-        return I_fonts.boldItalicFont;
+        return I_boldItalicFont;
     } else if (aFontTrait & NSItalicFontMask) {
-        return I_fonts.italicFont;
+        return I_italicFont;
     } else if (aFontTrait & NSBoldFontMask) {
-        return I_fonts.boldFont;
+        return I_boldFont;
     } else {
-        return I_fonts.plainFont;
+        return I_plainFont;
     }
 }
 
@@ -4684,8 +4688,8 @@ struct SelectionRange
     SEEStyleSheetSettings *styleSheetSettings = [[self documentMode] styleSheetSettings];
     [self setDocumentBackgroundColor:[styleSheetSettings documentBackgroundColor]];
     [self setDocumentForegroundColor:[styleSheetSettings documentForegroundColor]];
-    [I_fonts.plainFont autorelease];
-    I_fonts.plainFont = [aFont copy];
+    [I_plainFont autorelease];
+    I_plainFont = [aFont copy];
     [self TCM_styleFonts];
     [self TCM_invalidateTextAttributes];
     [self TCM_invalidateDefaultParagraphStyle];
@@ -4707,7 +4711,7 @@ struct SelectionRange
         DocumentMode *documentMode=[self documentMode];
 
         SEEStyleSheet *styleSheet = [documentMode styleSheetForLanguageContext:aLangaugeContext];
-        result = [SEEStyleSheet textAttributesForStyleAttributes:[styleSheet styleAttributesForScope:aScope] font:I_fonts.plainFont];
+        result = [SEEStyleSheet textAttributesForStyleAttributes:[styleSheet styleAttributesForScope:aScope] font:I_plainFont];
         
 		if ( aScope && result ) 
 			[I_styleCacheDictionary setObject:result forKey:aScope];
@@ -5084,7 +5088,14 @@ struct SelectionRange
 - (NSPrintOperation *)printOperationWithSettings:(NSDictionary *)printSettings error:(NSError **)outError
 {
 	NSPrintOperation *printOperation = [NSPrintOperation printOperationWithView:[self printableView]];
-	return printOperation;
+    
+    SEEPrintOptionsViewController *printPanelAccessory = [[SEEPrintOptionsViewController alloc] initWithNibName:nil bundle:nil];
+    printPanelAccessory.document = self;
+
+    NSPrintPanel *printPanel = [printOperation printPanel];
+    [printPanel addAccessoryController:printPanelAccessory];
+	
+    return printOperation;
 }
 
 - (NSView *)printableView {
@@ -5092,54 +5103,6 @@ struct SelectionRange
     MultiPagePrintView *printView = [[MultiPagePrintView alloc] initWithFrame:NSMakeRect(0.0, 0.0, 100.0, 100.0) document:self];
     return [printView autorelease];
 }
-
-//static NSString *S_measurementUnits;
-
-//- (void)printShowingPrintPanel:(BOOL)showPanels {
-//    // Obtain a custom view that will be printed
-//    NSView *printView = [self printableView];
-//
-//    if (!O_printOptionView) {
-//        [NSBundle loadNibNamed:@"PrintOptions" owner:self];
-//        if (!S_measurementUnits) {
-//            S_measurementUnits=[[[NSUserDefaults standardUserDefaults] stringForKey:@"AppleMeasurementUnits"] retain];
-//        }
-//        NSString *labelText=NSLocalizedString(([NSString stringWithFormat:@"Label%@",S_measurementUnits]),@"Centimeters or Inches, short label string for them");
-//        int i=996;
-//        for (i=996;i<1000;i++) {
-//            [[O_printOptionView viewWithTag:i] setStringValue:labelText];
-//        }
-//		[O_printOptionTextField setFontDelegate:self];
-//    }
-//
-//    // Construct the print operation and setup Print panel
-//    NSPrintOperation *op = [NSPrintOperation printOperationWithView:printView printInfo:[self printInfo]];
-//    [op setShowsPrintPanel:showPanels];
-//
-//    if (showPanels) {
-//        // Add accessory view, if needed
-//        //[op setAccessoryView:O_printOptionView];
-//        [O_printOptionController setContent:[self printOptions]];
-//    }
-//    I_printOperationIsRunning=YES;
-//    // Run operation, which shows the Print panel if showPanels was YES
-//    [self runModalPrintOperation:op
-//                        delegate:self
-//                  didRunSelector:@selector(documentDidRunModalPrintOperation:success:contextInfo:)
-//                     contextInfo:[op retain]];
-//}
-//
-//- (void)documentDidRunModalPrintOperation:(NSDocument *)document success:(BOOL)success contextInfo:(void *)contextInfo {
-//    I_printOperationIsRunning=NO;
-//    NSPrintOperation *op=(NSPrintOperation *)contextInfo;
-//    if (success) {
-//        [self setPrintInfo:[[NSPrintOperation currentOperation] printInfo]];
-//    }
-//    [O_printOptionController setContent:[NSMutableDictionary dictionary]];
-//    [op autorelease];
-//}
-//
-
 
 #pragma mark -
 - (UndoManager *)documentUndoManager {

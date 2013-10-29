@@ -336,7 +336,7 @@ static AppController *sharedInstance = nil;
             NSUInteger index=[aims indexForIdentifier:identifier];
             if (index!=NSNotFound) {
                 if (![myAIM isEqualToString:[aims valueAtIndex:index]]) {
-                    myAIM=[aims valueAtIndex:index];
+                    myAIM=[[aims valueAtIndex:index] objectForKey:kABInstantMessageUsernameKey];
                     [defaults setObject:myAIM forKey:MyAIMPreferenceKey];
                 }
             }
