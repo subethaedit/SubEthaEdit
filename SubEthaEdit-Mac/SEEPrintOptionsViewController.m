@@ -71,30 +71,40 @@
 //            @"self.representedObject.topMargin",
 //            @"self.representedObject.bottomMargin",
             
+            @"self.printOptionControllerOutlet.content.SEEFacingPages",
             @"self.printOptionControllerOutlet.content.NSLeftMargin",
             @"self.printOptionControllerOutlet.content.NSRightMargin",
             @"self.printOptionControllerOutlet.content.NSTopMargin",
             @"self.printOptionControllerOutlet.content.NSBottomMargin",
             
             @"self.printOptionControllerOutlet.content.SEEAnnotateChangeMarks",
-            @"self.printOptionControllerOutlet.content.SEEAnnotateWrittenBy",
             @"self.printOptionControllerOutlet.content.SEEColorizeChangeMarks",
+
+            @"self.printOptionControllerOutlet.content.SEEAnnotateWrittenBy",
             @"self.printOptionControllerOutlet.content.SEEColorizeWrittenBy",
+            
             @"self.printOptionControllerOutlet.content.SEEHighlightSyntax",
             
             @"self.printOptionControllerOutlet.content.SEEPageHeader",
             @"self.printOptionControllerOutlet.content.SEEPageHeaderCurrentDate",
             @"self.printOptionControllerOutlet.content.SEEPageHeaderFilename",
+            @"self.printOptionControllerOutlet.content.SEEPageHeaderFullPath",
             
-            @"self.printOptionControllerOutlet.content.SEEParticipantImages",
             @"self.printOptionControllerOutlet.content.SEEParticipants",
+            @"self.printOptionControllerOutlet.content.SEEParticipantsVisitors",
+            @"self.printOptionControllerOutlet.content.SEEParticipantImages",
             @"self.printOptionControllerOutlet.content.SEEParticipantsAIMAndEmail",
-            @"self.printOptionControllerOutlet.content.SEEParticipantsVisitors1",
 
             @"self.printOptionControllerOutlet.content.SEEResizeDocumentFont",
             @"self.printOptionControllerOutlet.content.SEEResizeDocumentFontTo",
+            
             @"self.printOptionControllerOutlet.content.SEEUseCustomFont",
             @"self.printOptionControllerOutlet.content.SEEFontAttributes",
+            
+            @"self.printOptionControllerOutlet.content.SEEWhiteBackground",
+            
+            @"self.printOptionControllerOutlet.content.SEEHighlightSyntax",
+            @"self.printOptionControllerOutlet.content.SEELineNumbers",
             @"self.printOptionControllerOutlet.content.SEEWhiteBackground",
             nil];
 }

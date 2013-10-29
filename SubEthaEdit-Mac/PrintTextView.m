@@ -22,7 +22,6 @@
 }
 
 - (void)drawViewBackgroundInRect:(NSRect)rect {    
-
     NSLayoutManager *layoutManager = [self layoutManager];
     NSTextStorage *textStorage=[self textStorage];
     NSString *textStorageString=[textStorage string];
