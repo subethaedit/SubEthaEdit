@@ -1656,9 +1656,6 @@
 				4CCD4DCF1811703D00FE6134 /* SEESavePanelAccessoryViewController.h */,
 				4CCD4DD01811703D00FE6134 /* SEESavePanelAccessoryViewController.m */,
 				4CCD4DD11811703D00FE6134 /* SEESavePanelAccessoryViewController.xib */,
-				4CB8EE53181032340051AB6B /* SEEPrintOptionsViewController.h */,
-				4CB8EE54181032340051AB6B /* SEEPrintOptionsViewController.m */,
-				4CD5F81F17FB0E2B00F49E31 /* PrintOptions.xib */,
 				1428944E09575B9700D14688 /* PlainTextEditor.h */,
 				1428944F09575B9700D14688 /* PlainTextEditor.m */,
 				149774150B5E159F004A546C /* PlainTextLoadProgress.h */,
@@ -1840,6 +1837,9 @@
 		14289377095757E400D14688 /* Printing */ = {
 			isa = PBXGroup;
 			children = (
+				4CB8EE53181032340051AB6B /* SEEPrintOptionsViewController.h */,
+				4CB8EE54181032340051AB6B /* SEEPrintOptionsViewController.m */,
+				4CD5F81F17FB0E2B00F49E31 /* PrintOptions.xib */,
 				142893780957580F00D14688 /* MultiPagePrintView.h */,
 				142893790957580F00D14688 /* MultiPagePrintView.m */,
 				1428937A0957580F00D14688 /* PrintTextView.h */,

@@ -25,19 +25,18 @@
     [super loadView];
     
     NSView *view = self.view;
+
     NSString *measurementUnits = [[NSUserDefaults standardUserDefaults] stringForKey:@"AppleMeasurementUnits"];
     NSString *labelText = NSLocalizedString(([NSString stringWithFormat:@"Label%@", measurementUnits]), @"Centimeters or Inches, short label string for them");
-    int i = 996;
-    for (i = 996; i < 1000; i++) {
-        [[view viewWithTag:i] setStringValue:labelText];
+    for (NSInteger viewTag = 996; viewTag < 1000; viewTag++) {
+        [[view viewWithTag:viewTag] setStringValue:labelText];
     }
+    
     [self.printOptionTextFieldOutlet setFontDelegate:self];
     [self.printOptionControllerOutlet setContent:[self.document printOptions]];
 }
 
-- (NSArray *)localizedSummaryItems {
-    return @[];
-}
+#pragma mark - Font panel
 
 - (IBAction)changeFontViaPanel:(id)sender {
     NSDictionary *fontAttributes = [[self.printOptionControllerOutlet content] valueForKeyPath:@"SEEFontAttributes"];
@@ -64,13 +63,15 @@
     [self.printOptionControllerOutlet.content setValue:dict forKeyPath:@"SEEFontAttributes"];
 }
 
+
+#pragma mark - NSPrintPanelAccessorizing
+
+- (NSArray *)localizedSummaryItems {
+    return @[];
+}
+
 - (NSSet *)keyPathsForValuesAffectingPreview {
     return [NSSet setWithObjects:
-//            @"self.representedObject.leftMargin",
-//            @"self.representedObject.rightMargin",
-//            @"self.representedObject.topMargin",
-//            @"self.representedObject.bottomMargin",
-            
             @"self.printOptionControllerOutlet.content.SEEFacingPages",
             @"self.printOptionControllerOutlet.content.NSLeftMargin",
             @"self.printOptionControllerOutlet.content.NSRightMargin",
