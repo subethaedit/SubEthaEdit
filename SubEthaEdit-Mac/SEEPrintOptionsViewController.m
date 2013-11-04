@@ -67,7 +67,12 @@
 #pragma mark - NSPrintPanelAccessorizing
 
 - (NSArray *)localizedSummaryItems {
-    return @[];
+    
+    BOOL showPageHeader = [[[[self document] printOptions] objectForKey:@"SEEPageHeader"] boolValue];
+    return @[@{NSPrintPanelAccessorySummaryItemNameKey:
+                   NSLocalizedStringFromTable(@"Header and Footer", @"PrintAccessory", @"Print panel summary item title for whether header and footer (page number, date, document title) should be printed"),
+               NSPrintPanelAccessorySummaryItemDescriptionKey:
+                   showPageHeader ? NSLocalizedStringFromTable(@"On", @"PrintAccessory", @"Print panel summary value for feature that is enabled") : NSLocalizedStringFromTable(@"Off", @"PrintAccessory", @"Print panel summary value for feature that is disabled")}];
 }
 
 - (NSSet *)keyPathsForValuesAffectingPreview {
