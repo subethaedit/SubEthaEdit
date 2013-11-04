@@ -8,16 +8,20 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class EncodingPopUpButton;
+@class EncodingPopUpButton, PlainTextDocument;
 
 @interface SEESavePanelAccessoryViewController : NSViewController
 
-@property (nonatomic, readwrite, weak) IBOutlet NSButton *goIntoBundlesCheckboxOutlet;
-@property (nonatomic, readwrite, weak) IBOutlet NSButton *showHiddenFilesCheckboxOutlet;
 @property (nonatomic, readwrite, weak) IBOutlet EncodingPopUpButton *encodingPopUpButtonOutlet;
 @property (nonatomic, readwrite, weak) IBOutlet NSMatrix *savePanelAccessoryFileFormatMatrixOutlet;
 @property (nonatomic, readwrite, weak) IBOutlet NSObjectController *savePanelProxy;
 
+@property (nonatomic, readwrite, weak) PlainTextDocument *document;
 @property (nonatomic, readwrite, weak) NSSavePanel *savePanel;
+@property (nonatomic, readwrite, assign) NSSaveOperationType *saveOperation;
+
+@property (nonatomic, readonly) NSArray *writableDocumentTypes;
+
++ (BOOL)prepareSavePanel:(NSSavePanel *)savePanel withSaveOperation:(NSSaveOperationType)saveOperation forDocument:(NSDocument *)document;
 
 @end

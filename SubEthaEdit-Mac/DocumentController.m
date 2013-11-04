@@ -19,7 +19,6 @@
 #import "StylePreferences.h"
 #import "GeneralPreferences.h"
 #import "FoldableTextStorage.h"
-#import "NSSavePanelTCMAdditions.h"
 #import "MoreSecurity.h"
 #import "PlainTextWindowController.h"
 #import <PSMTabBarControl/PSMTabBarControl.h>

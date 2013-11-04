@@ -22,7 +22,6 @@
 #import "UndoManager.h"
 #import "TCMMMUserSEEAdditions.h"
 #import "AppController.h"
-#import "NSSavePanelTCMAdditions.h"
 #import "SEESavePanelAccessoryViewController.h"
 #import "EncodingDoctorDialog.h"
 #import "NSMutableAttributedStringSEEAdditions.h"
@@ -1088,6 +1087,13 @@ static NSString *tempFileName(NSString *origPath) {
                         contextInfo:contextInfo];
 }
 
+
+#pragma mark - Encoding
+
+- (BOOL)canBeConvertedToEncoding:(NSStringEncoding)encoding
+{
+    return [[[I_textStorage fullTextStorage] string] canBeConvertedToEncoding:encoding];
+}
 
 #pragma mark -
 #pragma mark ### accessors ###
@@ -2237,16 +2243,6 @@ struct SelectionRange
     [[self windowControllers] makeObjectsPerformSelector:@selector(synchronizeWindowTitleWithDocumentName)];
 }
 
-- (void)runModalSavePanelForSaveOperation:(NSSaveOperationType)saveOperation delegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
-    I_lastSaveOperation = saveOperation;
-    [super runModalSavePanelForSaveOperation:saveOperation delegate:delegate didSaveSelector:didSaveSelector contextInfo:contextInfo];
-}
-
-- (BOOL)shouldRunSavePanelWithAccessoryView {
-	
-    return YES;
-}
-
 #pragma mark -
 #pragma mark ### Export ###
 
@@ -2282,7 +2278,7 @@ struct SelectionRange
         NSSavePanel *savePanel=[NSSavePanel savePanel];
         [savePanel setPrompt:NSLocalizedString(@"ExportPrompt",@"Text on the active SavePanel Button in the export sheet")];
         [savePanel setCanCreateDirectories:YES];
-        [savePanel setExtensionHidden:NO];
+        [savePanel setCanSelectHiddenExtension:NO];
         [savePanel setAllowsOtherFileTypes:YES];
         [savePanel setTreatsFilePackagesAsDirectories:YES];
 		[savePanel setAllowedFileTypes:@[@"html"]];
@@ -2579,19 +2575,15 @@ struct SelectionRange
 #pragma mark -
 #pragma mark ### Save/Open Panel loading ###
 
-//- (IBAction)goIntoBundles:(id)sender {
-//    BOOL flag = ([(NSButton*)sender state] == NSOffState) ? NO : YES;
-//    [I_savePanel setTreatsFilePackagesAsDirectories:flag];
-//    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:@"GoIntoBundlesPrefKey"];
-//}
-//
-//- (IBAction)showHiddenFiles:(id)sender {
-//    BOOL flag = ([(NSButton*)sender state] == NSOffState) ? NO : YES;
-//    if ([I_savePanel canShowHiddenFiles]) {
-//        [I_savePanel setInternalShowsHiddenFiles:flag];
-//    }
-//    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:@"ShowsHiddenFiles"];
-//}
+- (void)runModalSavePanelForSaveOperation:(NSSaveOperationType)saveOperation delegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
+    I_lastSaveOperation = saveOperation;
+    [super runModalSavePanelForSaveOperation:saveOperation delegate:delegate didSaveSelector:didSaveSelector contextInfo:contextInfo];
+}
+
+- (BOOL)shouldRunSavePanelWithAccessoryView {
+	
+    return YES;
+}
 
 //- (NSString *)panel:(id)sender userEnteredFilename:(NSString *)filename confirmed:(BOOL)okFlag
 //{
@@ -2635,81 +2627,11 @@ struct SelectionRange
 //}
 
 - (BOOL)prepareSavePanel:(NSSavePanel *)savePanel {
-	BOOL isGoingIntoBundles = [[NSUserDefaults standardUserDefaults] boolForKey:@"GoIntoBundlesPrefKey"];
-    BOOL showsHiddenFiles = [[NSUserDefaults standardUserDefaults] boolForKey:@"ShowsHiddenFiles"];
-
-    [savePanel setTreatsFilePackagesAsDirectories:isGoingIntoBundles];
-	[savePanel setShowsHiddenFiles:showsHiddenFiles];
-    [savePanel setExtensionHidden:NO];
-    [savePanel setCanSelectHiddenExtension:NO];
-
-//    [savePanel setDelegate:self];
-
     if (![self fileURL] && [self directoryForSavePanel]) {
         [savePanel setDirectoryURL:[NSURL fileURLWithPath:[self directoryForSavePanel]]];
     }
-
-	SEESavePanelAccessoryViewController *accessoryViewController = [[[SEESavePanelAccessoryViewController alloc] initWithNibName:@"SEESavePanelAccessoryViewController" bundle:nil] autorelease];
-	accessoryViewController.savePanel = savePanel;
-	savePanel.accessoryView = accessoryViewController.view;
-
-	EncodingPopUpButton *encodingPopup = accessoryViewController.encodingPopUpButtonOutlet;
-    if (encodingPopup) {
-        NSArray *encodings = [[EncodingManager sharedInstance] enabledEncodings];
-        NSMutableArray *lossyEncodings = [NSMutableArray array];
-        for (id loopItem in encodings) {
-            if (![[[I_textStorage fullTextStorage] string] canBeConvertedToEncoding:[loopItem unsignedIntValue]]) {
-                [lossyEncodings addObject:loopItem];
-            }
-        }
-        [[EncodingManager sharedInstance] registerEncoding:[self fileEncoding]];
-		[encodingPopup setEncoding:[self fileEncoding] defaultEntry:NO modeEntry:NO lossyEncodings:lossyEncodings];
-	}
-
-	[accessoryViewController.savePanelAccessoryFileFormatMatrixOutlet selectCellWithTag:I_flags.isSEEText?1:0];
-
-//        [O_encodingPopUpButton setEncoding:[self fileEncoding] defaultEntry:NO modeEntry:NO lossyEncodings:lossyEncodings];
-//        
-//        [O_savePanelAccessoryFileFormatMatrix selectCellWithTag:I_flags.isSEEText?1:0];
-//
-//        [savePanel setAccessoryView:O_savePanelAccessoryView];
-//        [O_goIntoBundlesCheckbox setState:isGoingIntoBundles ? NSOnState : NSOffState];
-//		[O_showHiddenFilesCheckbox setState:showsHiddenFiles ? NSOnState : NSOffState];
-//    } else {
-//        [savePanel setAccessoryView:O_savePanelAccessoryView2];
-//        [O_goIntoBundlesCheckbox2 setState:isGoingIntoBundles ? NSOnState : NSOffState];
-//		[O_showHiddenFilesCheckbox2 setState:showsHiddenFiles ? NSOnState : NSOffState];
-//        [O_savePanelAccessoryFileFormatMatrix2 selectCellWithTag:I_flags.isSEEText?1:0];
-//    }
-//	
-//    [O_savePanelAccessoryView release];
-//    O_savePanelAccessoryView = nil;
-//    
-//    [O_savePanelAccessoryView2 release];
-//    O_savePanelAccessoryView2 = nil;
-
-    return YES;
+    return [SEESavePanelAccessoryViewController prepareSavePanel:savePanel withSaveOperation:I_lastSaveOperation forDocument:self];
 }
-
-- (IBAction)selectFileFormat:(id)aSender {
-    NSSavePanel *panel = (NSSavePanel *)[aSender window];
-    NSString *seeTextExtension = [self fileNameExtensionForType:@"de.codingmonkeys.subethaedit.seetext" saveOperation:NSSaveOperation];
-    if ([[aSender selectedCell] tag]==1) {
-        [panel setAllowedFileTypes:@[seeTextExtension]];
-    } else {
-        [panel setAllowedFileTypes:@[]];
-        NSTextField *nameField = [panel valueForKey:@"_nameField"];
-        if (nameField && [nameField isKindOfClass:[NSTextField class]]) {
-            NSString *name = [nameField stringValue];
-            if ([[name pathExtension] isEqualToString:seeTextExtension]) {
-                [nameField setStringValue:[name stringByDeletingPathExtension]];
-            }
-        }
-    }
-    [panel setExtensionHidden:NO];
-    [panel TCM_selectFilenameWithoutExtension];
-}
-
 
 - (void)saveDocumentWithDelegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
     if ([self TCM_validateDocument]) {
@@ -3652,6 +3574,28 @@ struct SelectionRange
 
 - (NSString *)autosavingFileType {
     return @"SEETextType";
+}
+
+- (NSArray *)writableTypesForSaveOperation:(NSSaveOperationType)saveOperation
+{
+    NSArray *writableTypes = [super writableTypesForSaveOperation:saveOperation];
+    
+    
+    NSMutableArray *mutableWritableTypes = [[writableTypes mutableCopy] autorelease];
+    [mutableWritableTypes removeObject:@"de.codingmonkeys.subethaedit.syntaxstyle"];
+    writableTypes = [[mutableWritableTypes copy] autorelease];
+    return writableTypes;
+}
+
+- (NSString *)fileNameExtensionForType:(NSString *)typeName saveOperation:(NSSaveOperationType)saveOperation
+{
+    NSString *fileNameExtension = [super fileNameExtensionForType:typeName saveOperation:saveOperation];
+    if (! fileNameExtension)
+    {
+        NSArray *modeFileNameExtensions = self.documentMode.recognizedExtensions;
+        fileNameExtension = modeFileNameExtensions.firstObject;
+    }
+    return fileNameExtension;
 }
 
 - (BOOL)writeToURL:(NSURL *)absoluteURL ofType:(NSString *)inTypeName forSaveOperation:(NSSaveOperationType)saveOperation originalContentsURL:(NSURL *)originalContentsURL error:(NSError **)outError {
