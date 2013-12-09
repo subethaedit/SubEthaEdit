@@ -536,7 +536,7 @@ static NSString *tempFileName() {
     NSAppleEventDescriptor *eventDesc = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
 	[super openDocumentWithContentsOfURL:url display:displayDocument completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error)
 	 {
-		 if (document && displayDocument) {
+		 if (document && [document isKindOfClass:PlainTextDocument.class] && displayDocument) {
 			 [(PlainTextDocument *)document handleOpenDocumentEvent:eventDesc];
 		 }
 		 completionHandler(document, displayDocument, error);
