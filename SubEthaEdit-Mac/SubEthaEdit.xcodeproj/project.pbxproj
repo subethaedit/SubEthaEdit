@@ -252,6 +252,8 @@
 		4CB8EE55181032340051AB6B /* SEEPrintOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CB8EE54181032340051AB6B /* SEEPrintOptionsViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4CCD4DD21811703D00FE6134 /* SEESavePanelAccessoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CCD4DD01811703D00FE6134 /* SEESavePanelAccessoryViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4CCD4DD31811703D00FE6134 /* SEEPlainTextDocumentSavePanelSaveToAccessory.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CCD4DD11811703D00FE6134 /* SEEPlainTextDocumentSavePanelSaveToAccessory.xib */; };
+		4CD168EB182A5A5C007E3B26 /* SEEFolderDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CD168E9182A5A5C007E3B26 /* SEEFolderDocument.m */; };
+		4CD168EC182A5A5C007E3B26 /* SEEFolderDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD168EA182A5A5C007E3B26 /* SEEFolderDocument.xib */; };
 		4CD5F7DA17FB0BF200F49E31 /* AdvancedPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F7D817FB0BF200F49E31 /* AdvancedPrefs.xib */; };
 		4CD5F7DE17FB0C2800F49E31 /* ConnectionBrowser.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F7DC17FB0C2800F49E31 /* ConnectionBrowser.xib */; };
 		4CD5F7E217FB0C4D00F49E31 /* DocumentProxy.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F7E017FB0C4D00F49E31 /* DocumentProxy.xib */; };
@@ -920,6 +922,9 @@
 		4CCD4DCF1811703D00FE6134 /* SEESavePanelAccessoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEESavePanelAccessoryViewController.h; sourceTree = "<group>"; };
 		4CCD4DD01811703D00FE6134 /* SEESavePanelAccessoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEESavePanelAccessoryViewController.m; sourceTree = "<group>"; };
 		4CCD4DD11811703D00FE6134 /* SEEPlainTextDocumentSavePanelSaveToAccessory.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEEPlainTextDocumentSavePanelSaveToAccessory.xib; sourceTree = "<group>"; };
+		4CD168E8182A5A5C007E3B26 /* SEEFolderDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEFolderDocument.h; sourceTree = "<group>"; };
+		4CD168E9182A5A5C007E3B26 /* SEEFolderDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEFolderDocument.m; sourceTree = "<group>"; };
+		4CD168EA182A5A5C007E3B26 /* SEEFolderDocument.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEEFolderDocument.xib; sourceTree = "<group>"; };
 		4CD5F7D917FB0BF200F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/AdvancedPrefs.xib; sourceTree = "<group>"; };
 		4CD5F7DB17FB0C0F00F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/AdvancedPrefs.xib; sourceTree = "<group>"; };
 		4CD5F7DD17FB0C2800F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ConnectionBrowser.xib; sourceTree = "<group>"; };
@@ -1684,6 +1689,9 @@
 				F2CA79A30CA04BAC008BEA38 /* HUDStatisticGraphView.m */,
 				F2CA7D2C0CA142B0008BEA38 /* HUDStatisticPersonCell.h */,
 				F2CA7D2D0CA142B0008BEA38 /* HUDStatisticPersonCell.m */,
+				4CD168E8182A5A5C007E3B26 /* SEEFolderDocument.h */,
+				4CD168E9182A5A5C007E3B26 /* SEEFolderDocument.m */,
+				4CD168EA182A5A5C007E3B26 /* SEEFolderDocument.xib */,
 			);
 			name = Document;
 			sourceTree = "<group>";
@@ -2396,6 +2404,7 @@
 				142890E7095743F200D14688 /* SubEthaEdit.icns in Resources */,
 				142890E8095743F200D14688 /* SubEthaEditFiles.icns in Resources */,
 				142890E9095743F200D14688 /* Symbol#.tiff in Resources */,
+				4CD168EC182A5A5C007E3B26 /* SEEFolderDocument.xib in Resources */,
 				142890EA095743F200D14688 /* SymbolC.tiff in Resources */,
 				142890EB095743F200D14688 /* SymbolE.png in Resources */,
 				142890ED095743F200D14688 /* SymbolF.png in Resources */,
@@ -2745,6 +2754,7 @@
 				142894A409575FF200D14688 /* TextFieldCell.m in Sources */,
 				5E28E2900972FB8E00099B13 /* InsetTextFieldCell.m in Sources */,
 				5E685D5309D82BBB00E41973 /* NSAppleScriptTCMAdditions.m in Sources */,
+				4CD168EB182A5A5C007E3B26 /* SEEFolderDocument.m in Sources */,
 				5E685DB409D8438800E41973 /* NSMenuTCMAdditions.m in Sources */,
 				5EA1258A09E2B4190055965D /* ScriptWrapper.m in Sources */,
 				5E57298F09F514FB00D3746B /* Toolbar.m in Sources */,
