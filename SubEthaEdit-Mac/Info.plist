@@ -7,176 +7,40 @@
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
-			<key>CFBundleTypeExtensions</key>
+			<key>CFBundleTypeName</key>
+			<string>Anything</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSItemContentTypes</key>
 			<array>
-				<string>*</string>
-				<string>F</string>
-				<string>F90</string>
-				<string>Filemaker</string>
-				<string>M</string>
-				<string>act3</string>
-				<string>ada</string>
-				<string>applescript</string>
-				<string>as</string>
-				<string>asm</string>
-				<string>asp</string>
-				<string>awk</string>
-				<string>bak</string>
-				<string>bash</string>
-				<string>b</string>
-				<string>bf</string>
-				<string>brainfuck</string>
-				<string>builder</string>
-				<string>c</string>
-				<string>cgi</string>
-				<string>c++</string>
-				<string>cfm</string>
-				<string>cob</string>
-				<string>conf</string>
-				<string>cp</string>
-				<string>cpp</string>
-				<string>cs</string>
-				<string>csh</string>
-				<string>css</string>
-				<string>CSS</string>
-				<string>csv</string>
-				<string>custom</string>
-				<string>cxx</string>
-				<string>def</string>
-				<string>default</string>
-				<string>do</string>
-				<string>dtd</string>
-				<string>dxf</string>
-				<string>enc</string>
-				<string>eps</string>
-				<string>erl</string>
-				<string>err</string>
-				<string>f</string>
-				<string>f90</string>
-				<string>fcgi</string>
-				<string>for</string>
-				<string>fs</string>
-				<string>fscript</string>
-				<string>gcc</string>
-				<string>go</string>
-				<string>h</string>
-				<string>hpgl</string>
-				<string>hrl</string>
-				<string>htm</string>
-				<string>HTM</string>
-				<string>html</string>
-				<string>ics</string>
-				<string>idl</string>
-				<string>inc</string>
-				<string>ini</string>
-				<string>java</string>
-				<string>javascript</string>
-				<string>js</string>
-				<string>las</string>
-				<string>lasso</string>
-				<string>latex</string>
-				<string>lgt</string>
-				<string>lisp</string>
-				<string>log</string>
-				<string>ltx</string>
-				<string>lua</string>
-				<string>m</string>
-				<string>m1s</string>
-				<string>mel</string>
-				<string>m4</string>
-				<string>mk</string>
-				<string>mm</string>
-				<string>msl</string>
-				<string>mtl</string>
-				<string>mws</string>
-				<string>mx</string>
-				<string>mxo</string>
-				<string>mysql</string>
-				<string>notes</string>
-				<string>njs</string>
-				<string>p</string>
-				<string>ps</string>
-				<string>pas</string>
-				<string>pch</string>
-				<string>php</string>
-				<string>php3</string>
-				<string>php4</string>
-				<string>phtml</string>
-				<string>pl</string>
-				<string>plist</string>
-				<string>pm</string>
-				<string>pod</string>
-				<string>postgresql</string>
-				<string>pike</string>
-				<string>pp</string>
-				<string>pro</string>
-				<string>py</string>
-				<string>python</string>
-				<string>pyw</string>
-				<string>r</string>
-				<string>rb</string>
-				<string>rc</string>
-				<string>reb</string>
-				<string>rebol</string>
-				<string>rsp</string>
-				<string>rtf</string>
-				<string>rhtml</string>
-				<string>ruby</string>
-				<string>rjs</string>
-				<string>rxp</string>
-				<string>s</string>
-				<string>sgml</string>
-				<string>sh</string>
-				<string>shtm</string>
-				<string>shtml</string>
-				<string>sieve</string>
-				<string>sl</string>
-				<string>strings</string>
-				<string>sty</string>
-				<string>sps</string>
-				<string>spss</string>
-				<string>sql</string>
-				<string>SQL</string>
-				<string>st</string>
-				<string>svg</string>
-				<string>tab</string>
-				<string>tcl</string>
-				<string>tcsh</string>
-				<string>tex</string>
-				<string>text</string>
-				<string>txt</string>
-				<string>types</string>
-				<string>uue</string>
-				<string>v</string>
-				<string>vbs</string>
-				<string>vcard</string>
-				<string>vcs</string>
-				<string>verilog</string>
-				<string>vhd</string>
-				<string>vhdl</string>
-				<string>vrm</string>
-				<string>vrml</string>
-				<string>wmk</string>
-				<string>x</string>
-				<string>xhtml</string>
-				<string>xml</string>
-				<string>xsl</string>
-				<string>xslt</string>
-				<string>yaml</string>
+				<string>public.item</string>
 			</array>
+			<key>NSDocumentClass</key>
+			<string>PlainTextDocument</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeName</key>
+			<string>Directory</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.folder</string>
+				<string>com.apple.package</string>
+				<string>com.apple.bundle</string>
+			</array>
+			<key>NSDocumentClass</key>
+			<string>SEEFolderDocument</string>
+		</dict>
+		<dict>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles.icns</string>
-			<key>CFBundleTypeMIMETypes</key>
+			<key>LSItemContentTypes</key>
 			<array>
-				<string>text/plain</string>
+				<string>public.plain-text</string>
 			</array>
 			<key>CFBundleTypeName</key>
 			<string>PlainTextType</string>
-			<key>CFBundleTypeOSTypes</key>
-			<array>
-				<string>****</string>
-				<string>TEXT</string>
-			</array>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
 			<key>LSTypeIsPackage</key>
@@ -185,10 +49,22 @@
 			<string>PlainTextDocument</string>
 		</dict>
 		<dict>
-			<key>CFBundleTypeExtensions</key>
+			<key>CFBundleTypeIconFile</key>
+			<string>seetext.icns</string>
+			<key>CFBundleTypeName</key>
+			<string>SEETextType</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSItemContentTypes</key>
 			<array>
-				<string>seestyle</string>
+				<string>de.codingmonkeys.subethaedit.seetext</string>
 			</array>
+			<key>LSTypeIsPackage</key>
+			<true/>
+			<key>NSDocumentClass</key>
+			<string>PlainTextDocument</string>
+		</dict>
+		<dict>
 			<key>CFBundleTypeIconFile</key>
 			<string>style.icns</string>
 			<key>CFBundleTypeName</key>
@@ -205,10 +81,6 @@
 			<string>PlainTextDocument</string>
 		</dict>
 		<dict>
-			<key>CFBundleTypeExtensions</key>
-			<array>
-				<string>mode</string>
-			</array>
 			<key>CFBundleTypeIconFile</key>
 			<string>Mode.icns</string>
 			<key>CFBundleTypeName</key>
@@ -221,26 +93,6 @@
 			</array>
 			<key>LSTypeIsPackage</key>
 			<true/>
-		</dict>
-		<dict>
-			<key>CFBundleTypeExtensions</key>
-			<array>
-				<string>seetext</string>
-			</array>
-			<key>CFBundleTypeIconFile</key>
-			<string>seetext.icns</string>
-			<key>CFBundleTypeName</key>
-			<string>SEETextType</string>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>de.codingmonkeys.subethaedit.seetext</string>
-			</array>
-			<key>LSTypeIsPackage</key>
-			<true/>
-			<key>NSDocumentClass</key>
-			<string>PlainTextDocument</string>
 		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
