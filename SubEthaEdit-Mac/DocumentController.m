@@ -283,6 +283,9 @@ static NSString *tempFileName() {
         I_pipingSeeScriptCommands = [NSMutableArray new];
 
         I_windowControllers = [NSMutableArray new];
+
+
+		NSLog(@"DocumentClass names: %@", self.documentClassNames);
     }
     return self;
 }
@@ -300,6 +303,17 @@ static NSString *tempFileName() {
     [I_windowControllers release];
     
     [super dealloc];
+}
+
+- (NSString *)typeForContentsOfURL:(NSURL *)url error:(NSError **)outError
+{
+	NSString *result = [super typeForContentsOfURL:url error:outError];
+
+	NSArray *allTextIdentifiersForExtension = (NSArray *)UTTypeCreateAllIdentifiersForTag(kUTTagClassFilenameExtension, [url pathExtension], @"public.text");
+	NSLog(@"%@", allTextIdentifiersForExtension);
+	[allTextIdentifiersForExtension release];
+
+	return result;
 }
 
 - (void)updateMenuWithTabMenuItems:(NSMenu *)aMenu shortcuts:(BOOL)withShortcuts {
@@ -380,6 +394,15 @@ static NSString *tempFileName() {
     }
     return result;
 }
+
+
+- (void)beginOpenPanel:(NSOpenPanel *)openPanel forTypes:(NSArray *)inTypes completionHandler:(void (^)(NSInteger result))completionHandler
+{
+	[super beginOpenPanel:openPanel forTypes:inTypes completionHandler:^(NSInteger result) {
+		if (result == NSOpen)
+	}];
+}
+
 
 - (NSInteger)runModalOpenPanel:(NSOpenPanel *)openPanel forTypes:(NSArray *)extensions {
     if (![NSBundle loadNibNamed:@"OpenPanelAccessory" owner:self])  {

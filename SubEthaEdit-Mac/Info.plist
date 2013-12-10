@@ -35,14 +35,14 @@
 		<dict>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles.icns</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>public.plain-text</string>
-			</array>
 			<key>CFBundleTypeName</key>
 			<string>PlainTextType</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.text</string>
+			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
 			<key>NSDocumentClass</key>
