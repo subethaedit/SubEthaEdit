@@ -1870,6 +1870,7 @@
 		142894DA095766D000D14688 /* see */ = {
 			isa = PBXGroup;
 			children = (
+				2A37F4B8FDCFA73011CA2CEA /* Resources */,
 				142894E8095767CD00D14688 /* main.m */,
 				142894E9095767CD00D14688 /* see.1 */,
 				F29940780C0C806600A53189 /* See_Info.plist */,
@@ -1915,7 +1916,6 @@
 				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
 				142894B4095760A200D14688 /* HelperTool */,
 				142894DA095766D000D14688 /* see */,
-				2A37F4B8FDCFA73011CA2CEA /* Resources */,
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				F2D86C150F8E7DA200B912A2 /* SubEthaPerf */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
@@ -3300,6 +3300,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SubEthaEdit.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/TCMPortMapper\"";
@@ -3315,6 +3316,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_CFLAGS = "-DSUBETHAEDIT";
 				PRODUCT_NAME = SubEthaEdit;
+				PROVISIONING_PROFILE = "C5DBD3F4-0272-4F8F-9451-B85D158FDE46";
 				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = app;
 			};
@@ -3325,6 +3327,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SubEthaEdit.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEAD_CODE_STRIPPING = YES;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/TCMPortMapper\"";
@@ -3342,6 +3345,7 @@
 					"-DSUBETHAEDIT",
 				);
 				PRODUCT_NAME = SubEthaEdit;
+				PROVISIONING_PROFILE = "C5DBD3F4-0272-4F8F-9451-B85D158FDE46";
 				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = app;
 			};
