@@ -395,15 +395,6 @@ static NSString *tempFileName() {
     return result;
 }
 
-
-- (void)beginOpenPanel:(NSOpenPanel *)openPanel forTypes:(NSArray *)inTypes completionHandler:(void (^)(NSInteger result))completionHandler
-{
-	[super beginOpenPanel:openPanel forTypes:inTypes completionHandler:^(NSInteger result) {
-		if (result == NSOpen)
-	}];
-}
-
-
 - (NSInteger)runModalOpenPanel:(NSOpenPanel *)openPanel forTypes:(NSArray *)extensions {
     if (![NSBundle loadNibNamed:@"OpenPanelAccessory" owner:self])  {
         NSLog(@"Failed to load OpenPanelAccessory.nib");
