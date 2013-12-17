@@ -7,8 +7,6 @@
 	<key>CFBundleDocumentTypes</key>
 	<array>
 		<dict>
-			<key>CFBundleTypeIconFile</key>
-			<string>SubEthaEditFiles.icns</string>
 			<key>CFBundleTypeName</key>
 			<string>Any File</string>
 			<key>CFBundleTypeRole</key>
@@ -129,6 +127,24 @@
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
+			<key>NSDocumentClass</key>
+			<string>PlainTextDocument</string>
+		</dict>
+		<dict>
+			<key>CFBundleTypeIconFile</key>
+			<string>seetext.icns</string>
+			<key>CFBundleTypeName</key>
+			<string>SEETextType</string>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>LSHandlerRank</key>
+			<string>Owner</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>de.codingmonkeys.subethaedit.seetext</string>
+			</array>
+			<key>LSTypeIsPackage</key>
+			<true/>
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
 		</dict>
@@ -2247,24 +2263,6 @@
 			<key>NSDocumentClass</key>
 			<string>PlainTextDocument</string>
 		</dict>
-		<dict>
-			<key>CFBundleTypeIconFile</key>
-			<string>seetext.icns</string>
-			<key>CFBundleTypeName</key>
-			<string>seetext Source File</string>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>LSHandlerRank</key>
-			<string>Owner</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>de.codingmonkeys.subethaedit.seetext</string>
-			</array>
-			<key>LSTypeIsPackage</key>
-			<true/>
-			<key>NSDocumentClass</key>
-			<string>PlainTextDocument</string>
-		</dict>
 	</array>
 	<key>CFBundleExecutable</key>
 	<string>${EXECUTABLE_NAME}</string>
@@ -2346,7 +2344,9 @@
 	<array>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>act3 Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2361,7 +2361,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>ltx Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2376,7 +2378,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>lgt Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2391,7 +2395,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>cfm Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2406,7 +2412,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>wmk Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2421,7 +2429,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>latex Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2436,7 +2446,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>p Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2451,7 +2463,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>idl Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2466,7 +2480,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>seestyle Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2481,7 +2497,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>def Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2496,7 +2514,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>las Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2511,7 +2531,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>vhd Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2526,7 +2548,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>go Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2541,7 +2565,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>pro Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2556,7 +2582,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>do Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2571,7 +2599,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>sps Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2586,7 +2616,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>mode Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2601,7 +2633,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>m1s Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2616,7 +2650,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>reb Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2631,7 +2667,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>mx Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2646,7 +2684,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>mxo Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2661,7 +2701,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>mk Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2676,7 +2718,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>lua Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2691,7 +2735,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>vbs Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2706,7 +2752,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>x Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2721,7 +2769,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>rebol Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2736,7 +2786,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>vrm Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2751,7 +2803,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>custom Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2766,7 +2820,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>st Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2781,7 +2837,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>brainfuck Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2796,7 +2854,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>pp Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2811,7 +2871,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>rhtml Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2826,7 +2888,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>pyw Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2841,7 +2905,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>verilog Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2856,7 +2922,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>Filemaker Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2871,7 +2939,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>uue Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2886,7 +2956,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>rjs Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2901,7 +2973,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>rsp Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2916,7 +2990,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>pike Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2931,7 +3007,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>pod Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2946,7 +3024,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>sl Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2961,7 +3041,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>tab Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2976,7 +3058,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>ini Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -2991,7 +3075,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>enc Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -3006,7 +3092,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>v Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -3021,7 +3109,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>mel Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -3036,7 +3126,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>SQL Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -3051,7 +3143,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>sgml Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -3066,7 +3160,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>err Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -3081,7 +3177,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>ruby Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -3096,7 +3194,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>gcc Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -3111,7 +3211,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>notes Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -3126,7 +3228,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>tcl Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -3141,7 +3245,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>m4 Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -3156,7 +3262,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>b Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -3171,7 +3279,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>bf Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -3186,7 +3296,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>rc Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -3201,7 +3313,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>strings Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -3216,7 +3330,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>python Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -3231,7 +3347,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>mtl Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -3246,9 +3364,12 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>com.apple.package</string>
+				<string>public.composite-content</string>
+			</array>
 			<key>UTTypeDescription</key>
-			<string>SubEthaEdit Text File</string>
+			<string>SEEText File</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.seetext</string>
 			<key>UTTypeTagSpecification</key>
@@ -3261,7 +3382,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>yaml Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -3276,7 +3399,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>dxf Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -3291,7 +3416,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>njs Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -3306,7 +3433,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>vrml Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -3321,7 +3450,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>types Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -3336,7 +3467,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>mws Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -3351,7 +3484,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>rxp Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -3366,7 +3501,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>postgresql Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -3381,7 +3518,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>msl Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -3396,7 +3535,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>awk Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -3411,7 +3552,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>cob Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -3426,7 +3569,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>bak Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -3441,7 +3586,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>lasso Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -3456,7 +3603,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>hpgl Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -3471,7 +3620,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>spss Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -3486,7 +3637,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>builder Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -3501,7 +3654,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>default Source File</string>
 			<key>UTTypeIdentifier</key>
@@ -3516,7 +3671,9 @@
 		</dict>
 		<dict>
 			<key>UTTypeConformsTo</key>
-			<string>public.text</string>
+			<array>
+				<string>public.source-code</string>
+			</array>
 			<key>UTTypeDescription</key>
 			<string>sieve Source File</string>
 			<key>UTTypeIdentifier</key>
