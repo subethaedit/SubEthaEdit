@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
     </dependencies>
@@ -117,8 +117,8 @@
                         </column>
                     </cells>
                     <connections>
-                        <binding destination="-2" name="content" keyPath="self.writableDocumentTypes" id="opY-9c-7O9"/>
                         <binding destination="-2" name="selectedTag" keyPath="self." previousBinding="opY-9c-7O9" id="q7E-KR-DCF"/>
+                        <binding destination="-2" name="content" keyPath="self.writableDocumentTypes" id="opY-9c-7O9"/>
                     </connections>
                 </matrix>
             </subviews>

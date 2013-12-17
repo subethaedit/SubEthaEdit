@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4510" systemVersion="13A584" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
-        <deployment defaultVersion="1060" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4510"/>
+        <deployment defaultVersion="1090" identifier="macosx"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="NSApplication">
@@ -1132,7 +1132,7 @@
         <customObject id="354" userLabel="Font Manager" customClass="NSFontManager"/>
         <customObject id="463" userLabel="FindReplaceController" customClass="FindReplaceController"/>
         <customObject id="484" userLabel="AboutPanelController" customClass="AboutPanelController"/>
-        <window title="Mode Installer" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" wantsToBeColor="NO" visibleAtLaunch="NO" animationBehavior="default" id="501" userLabel="Panel" customClass="NSPanel">
+        <window title="Mode Installer" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="501" userLabel="Panel" customClass="NSPanel">
             <windowStyleMask key="styleMask" titled="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="274" y="483" width="488" height="241"/>
@@ -1225,7 +1225,7 @@ DQ
             </view>
         </window>
         <customObject id="546" userLabel="LicenseController" customClass="LicenseController"/>
-        <window title="License" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" wantsToBeColor="NO" visibleAtLaunch="NO" animationBehavior="default" id="587" userLabel="Window">
+        <window title="License" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="587" userLabel="Window">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
             <rect key="contentRect" x="535" y="279" width="387" height="480"/>
@@ -1239,15 +1239,15 @@ DQ
                         <rect key="frame" x="0.0" y="0.0" width="387" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" id="YLv-eZ-yXB">
-                            <rect key="frame" x="0.0" y="0.0" width="372" height="480"/>
+                            <rect key="frame" x="0.0" y="0.0" width="387" height="480"/>
                             <autoresizingMask key="autoresizingMask"/>
                             <subviews>
                                 <textView editable="NO" selectable="NO" importsGraphics="NO" richText="NO" baseWritingDirection="leftToRight" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="590">
-                                    <rect key="frame" x="0.0" y="0.0" width="372" height="1159"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="387" height="1159"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="372" height="480"/>
+                                    <size key="minSize" width="387" height="480"/>
                                     <size key="maxSize" width="759" height="10000000"/>
                                     <attributedString key="textStorage">
                                         <fragment>
@@ -2070,17 +2070,17 @@ Cg
                                         </fragment>
                                     </attributedString>
                                     <color key="insertionPointColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="372" height="480"/>
+                                    <size key="minSize" width="387" height="480"/>
                                     <size key="maxSize" width="759" height="10000000"/>
                                 </textView>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </clipView>
-                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" id="819">
+                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="819">
                             <rect key="frame" x="-100" y="-100" width="87" height="18"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
-                        <scroller key="verticalScroller" verticalHuggingPriority="750" id="818">
+                        <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="818">
                             <rect key="frame" x="372" y="0.0" width="15" height="480"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
