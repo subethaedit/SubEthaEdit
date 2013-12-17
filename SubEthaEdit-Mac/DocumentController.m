@@ -19,7 +19,6 @@
 #import "StylePreferences.h"
 #import "GeneralPreferences.h"
 #import "FoldableTextStorage.h"
-#import "NSSavePanelTCMAdditions.h"
 #import "MoreSecurity.h"
 #import "PlainTextWindowController.h"
 #import <PSMTabBarControl/PSMTabBarControl.h>
@@ -284,6 +283,9 @@ static NSString *tempFileName() {
         I_pipingSeeScriptCommands = [NSMutableArray new];
 
         I_windowControllers = [NSMutableArray new];
+
+
+		NSLog(@"DocumentClass names: %@", self.documentClassNames);
     }
     return self;
 }
@@ -301,6 +303,17 @@ static NSString *tempFileName() {
     [I_windowControllers release];
     
     [super dealloc];
+}
+
+- (NSString *)typeForContentsOfURL:(NSURL *)url error:(NSError **)outError
+{
+	NSString *result = [super typeForContentsOfURL:url error:outError];
+
+	NSArray *allTextIdentifiersForExtension = (NSArray *)UTTypeCreateAllIdentifiersForTag(kUTTagClassFilenameExtension, [url pathExtension], @"public.text");
+	NSLog(@"%@", allTextIdentifiersForExtension);
+	[allTextIdentifiersForExtension release];
+
+	return result;
 }
 
 - (void)updateMenuWithTabMenuItems:(NSMenu *)aMenu shortcuts:(BOOL)withShortcuts {
@@ -537,7 +550,7 @@ static NSString *tempFileName() {
     NSAppleEventDescriptor *eventDesc = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
 	[super openDocumentWithContentsOfURL:url display:displayDocument completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error)
 	 {
-		 if (document && displayDocument) {
+		 if (document && [document isKindOfClass:PlainTextDocument.class] && displayDocument) {
 			 [(PlainTextDocument *)document handleOpenDocumentEvent:eventDesc];
 		 }
 		 completionHandler(document, displayDocument, error);

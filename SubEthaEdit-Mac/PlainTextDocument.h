@@ -182,7 +182,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (IBAction)newView:(id)aSender;
 //- (IBAction)goIntoBundles:(id)sender;
 //- (IBAction)showHiddenFiles:(id)sender;
-- (IBAction)selectFileFormat:(id)aSender;
+//- (IBAction)selectFileFormat:(id)aSender;
 - (IBAction)showWebPreview:(id)aSender;
 - (BOOL)isProxyDocument;
 - (BOOL)isPendingInvitation;
@@ -233,6 +233,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (NSColor *)documentForegroundColor;
 - (void)setDocumentForegroundColor:(NSColor *)aColor;
 
+- (BOOL)canBeConvertedToEncoding:(NSStringEncoding)encoding;
 - (NSUInteger)fileEncoding;
 - (void)setFileEncoding:(NSUInteger)anEncoding;
 - (void)setFileEncodingUndoable:(NSUInteger)anEncoding;

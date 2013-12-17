@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
+    </dependencies>
+    <objects>
+        <customObject id="-2" userLabel="File's Owner" customClass="SEESavePanelAccessoryViewController">
+            <connections>
+                <outlet property="encodingPopUpButtonOutlet" destination="HX4-XT-4p8" id="CYf-WS-tYp"/>
+                <outlet property="goIntoBundlesCheckboxOutlet" destination="9Fu-aG-2nv" id="Q6C-2e-mre"/>
+                <outlet property="savePanelAccessoryFileFormatMatrixOutlet" destination="R4k-bN-bad" id="ECC-ZI-Hgn"/>
+                <outlet property="savePanelProxy" destination="hdv-OS-fKg" id="6EJ-jv-lEd"/>
+                <outlet property="showHiddenFilesCheckboxOutlet" destination="ewP-G0-gRK" id="tfc-hQ-qmA"/>
+                <outlet property="view" destination="1" id="i4V-hZ-h7n"/>
+            </connections>
+        </customObject>
+        <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
+        <customObject id="-3" userLabel="Application"/>
+        <customView id="1" userLabel="SavePanel Accessory View">
+            <rect key="frame" x="0.0" y="0.0" width="400" height="223"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="9Fu-aG-2nv">
+                    <rect key="frame" x="114" y="167" width="122" height="18"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="Go into bundles" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="QYx-kG-A0o">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <binding destination="hdv-OS-fKg" name="value" keyPath="selection.treatsFilePackagesAsDirectories" id="xfw-ui-qag"/>
+                    </connections>
+                </button>
+                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dcw-Ou-9su">
+                    <rect key="frame" x="31" y="97" width="79" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="File Format:" id="J50-9b-d0q">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="ewP-G0-gRK">
+                    <rect key="frame" x="114" y="187" width="133" height="18"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <buttonCell key="cell" type="check" title="Show hidden files" bezelStyle="regularSquare" imagePosition="left" alignment="left" inset="2" id="NWX-Ve-a3p">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <connections>
+                        <binding destination="hdv-OS-fKg" name="value" keyPath="selection.showsHiddenFiles" id="HDW-W1-fIE"/>
+                    </connections>
+                </button>
+                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Yq5-SF-Pt9">
+                    <rect key="frame" x="18" y="137" width="92" height="17"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="File Encoding:" id="bXL-ZQ-hNP">
+                        <font key="font" metaFont="system"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <popUpButton verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="HX4-XT-4p8" customClass="EncodingPopUpButton">
+                    <rect key="frame" x="114" y="131" width="130" height="26"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <popUpButtonCell key="cell" type="push" title="UTF8 with BOM" bezelStyle="rounded" alignment="left" lineBreakMode="clipping" state="on" borderStyle="border" inset="2" arrowPosition="arrowAtCenter" preferredEdge="maxY" selectedItem="8Mj-uj-Tzv" id="QVG-Z5-fcY">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="menu"/>
+                        <menu key="menu" title="OtherViews" id="goR-MC-AIb">
+                            <items>
+                                <menuItem title="UTF8 with BOM" state="on" id="8Mj-uj-Tzv"/>
+                            </items>
+                        </menu>
+                    </popUpButtonCell>
+                </popUpButton>
+                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lTA-rc-wla">
+                    <rect key="frame" x="136" y="80" width="243" height="13"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Can be read by any other text editing Application" id="NG4-74-5IO">
+                        <font key="font" metaFont="label"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" setsMaxLayoutWidthAtFirstLayout="YES" translatesAutoresizingMaskIntoConstraints="NO" id="z3K-uZ-yO8">
+                    <rect key="frame" x="136" y="28" width="219" height="26"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMinY="YES"/>
+                    <textFieldCell key="cell" sendsActionOnEndEditing="YES" title="Includes users and changes. Can be read by Applications supporting Subetha Engine." id="UdZ-4c-MuR">
+                        <font key="font" metaFont="label"/>
+                        <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                        <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
+                <matrix verticalHuggingPriority="750" allowsEmptySelection="NO" autorecalculatesCellSize="YES" translatesAutoresizingMaskIntoConstraints="NO" id="R4k-bN-bad">
+                    <rect key="frame" x="116" y="39" width="110" height="75"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="110" id="iwr-qt-yPd"/>
+                    </constraints>
+                    <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                    <size key="cellSize" width="104" height="18"/>
+                    <size key="intercellSpacing" width="4" height="20"/>
+                    <buttonCell key="prototype" type="radio" title="Radio" imagePosition="left" alignment="left" inset="2" id="8Mg-in-8uD">
+                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                    <cells>
+                        <column>
+                            <buttonCell type="radio" title="Plain Text" imagePosition="left" alignment="left" state="on" inset="2" id="05Q-ml-QF6">
+                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <buttonCell type="radio" title="Subetha Text" imagePosition="left" alignment="left" tag="1" inset="2" id="7GK-bS-CmP">
+                                <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                        </column>
+                    </cells>
+                    <connections>
+                        <binding destination="-2" name="selectedTag" keyPath="self." previousBinding="opY-9c-7O9" id="q7E-KR-DCF"/>
+                        <binding destination="-2" name="content" keyPath="self.writableDocumentTypes" id="opY-9c-7O9"/>
+                    </connections>
+                </matrix>
+            </subviews>
+            <constraints>
+                <constraint firstItem="z3K-uZ-yO8" firstAttribute="top" secondItem="lTA-rc-wla" secondAttribute="bottom" constant="26" id="4AP-S2-Zd0"/>
+                <constraint firstItem="HX4-XT-4p8" firstAttribute="leading" secondItem="Yq5-SF-Pt9" secondAttribute="trailing" constant="8" symbolic="YES" id="7Gi-oe-Tpd"/>
+                <constraint firstItem="R4k-bN-bad" firstAttribute="leading" secondItem="dcw-Ou-9su" secondAttribute="trailing" constant="8" symbolic="YES" id="AnJ-GC-Z0K"/>
+                <constraint firstItem="R4k-bN-bad" firstAttribute="leading" secondItem="lTA-rc-wla" secondAttribute="leading" constant="-22" id="Fb0-Uq-9JR"/>
+                <constraint firstItem="ewP-G0-gRK" firstAttribute="leading" secondItem="9Fu-aG-2nv" secondAttribute="leading" id="NQc-sB-dAn"/>
+                <constraint firstItem="HX4-XT-4p8" firstAttribute="leading" secondItem="R4k-bN-bad" secondAttribute="leading" id="Rn8-ZD-Pa7"/>
+                <constraint firstItem="Yq5-SF-Pt9" firstAttribute="baseline" secondItem="HX4-XT-4p8" secondAttribute="baseline" id="TIU-8e-nmz"/>
+                <constraint firstItem="HX4-XT-4p8" firstAttribute="leading" secondItem="9Fu-aG-2nv" secondAttribute="leading" id="Vdc-sG-fGj"/>
+                <constraint firstItem="R4k-bN-bad" firstAttribute="top" secondItem="dcw-Ou-9su" secondAttribute="top" id="Xpe-1G-uHE"/>
+                <constraint firstAttribute="bottom" secondItem="R4k-bN-bad" secondAttribute="bottom" constant="39" id="YUb-Z2-CQ0"/>
+                <constraint firstItem="lTA-rc-wla" firstAttribute="top" secondItem="HX4-XT-4p8" secondAttribute="bottom" constant="41" id="YWI-bJ-2f1"/>
+                <constraint firstItem="z3K-uZ-yO8" firstAttribute="leading" secondItem="lTA-rc-wla" secondAttribute="leading" id="dad-NP-Jrq"/>
+                <constraint firstItem="HX4-XT-4p8" firstAttribute="top" secondItem="9Fu-aG-2nv" secondAttribute="bottom" constant="14" id="ii1-CQ-5pr"/>
+                <constraint firstAttribute="bottom" secondItem="z3K-uZ-yO8" secondAttribute="bottom" constant="28" id="qGa-Fh-LCv"/>
+                <constraint firstItem="9Fu-aG-2nv" firstAttribute="top" secondItem="ewP-G0-gRK" secondAttribute="bottom" constant="6" symbolic="YES" id="qnu-eT-TKp"/>
+                <constraint firstItem="Yq5-SF-Pt9" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="20" symbolic="YES" id="ubT-cZ-n6F"/>
+                <constraint firstItem="ewP-G0-gRK" firstAttribute="top" secondItem="1" secondAttribute="top" constant="20" symbolic="YES" id="yQ5-ch-QzU"/>
+                <constraint firstItem="R4k-bN-bad" firstAttribute="top" secondItem="HX4-XT-4p8" secondAttribute="bottom" constant="20" id="z13-Io-SB0"/>
+            </constraints>
+        </customView>
+        <objectController objectClassName="NSSavePanel" id="hdv-OS-fKg" userLabel="SavePanel Proxy">
+            <declaredKeys>
+                <string>treatsFilePackagesAsDirectories</string>
+                <string>showsHiddenFiles</string>
+            </declaredKeys>
+        </objectController>
+    </objects>
+</document>

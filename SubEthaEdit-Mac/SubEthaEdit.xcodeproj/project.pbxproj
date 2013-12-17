@@ -198,7 +198,6 @@
 		144483A20A16026200F36B34 /* TCMTextSuite.scriptSuite in Resources */ = {isa = PBXBuildFile; fileRef = 144483A00A16026200F36B34 /* TCMTextSuite.scriptSuite */; };
 		144483A30A16026200F36B34 /* TCMTextSuite.scriptTerminology in Resources */ = {isa = PBXBuildFile; fileRef = 144483A10A16026200F36B34 /* TCMTextSuite.scriptTerminology */; };
 		14448AA40A18964A00F36B34 /* SubEthaEdit.sdef in Resources */ = {isa = PBXBuildFile; fileRef = 1428905A0957434600D14688 /* SubEthaEdit.sdef */; };
-		144DEAA709AA1D4400AF8CFB /* NSSavePanelTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 144DEAA509AA1D4400AF8CFB /* NSSavePanelTCMAdditions.m */; };
 		144E29660A222EFE002ED261 /* SubEthaEdit-PantherScripting.r in Rez */ = {isa = PBXBuildFile; fileRef = 144E29650A222EFE002ED261 /* SubEthaEdit-PantherScripting.r */; };
 		145047420997750100D18142 /* ReleaseNotes.txt in Resources */ = {isa = PBXBuildFile; fileRef = 145047410997750100D18142 /* ReleaseNotes.txt */; };
 		14584B2F0BE0C6E000EB6D15 /* TCMBEEPBencodedMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = F2230A460BE0243100437D55 /* TCMBEEPBencodedMessage.m */; };
@@ -240,6 +239,7 @@
 		4C123002180BE4A60069253E /* TCMBEEPSessionXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C123001180BE4A60069253E /* TCMBEEPSessionXMLParser.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C123005180C01EF0069253E /* TCMBEEPMessageXMLPayloadParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C123004180C01EF0069253E /* TCMBEEPMessageXMLPayloadParser.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C1D39DC17FB085800B1CF5C /* AboutPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C1D39DA17FB085800B1CF5C /* AboutPanel.xib */; };
+		4C33110E18228EEE00468A42 /* SEEPlainTextDocumentSavePanelAccessory.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C33110D18228EEE00468A42 /* SEEPlainTextDocumentSavePanelAccessory.xib */; };
 		4C4EFE45181AA3410072176F /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C4EFE44181AA3400072176F /* HockeySDK.framework */; };
 		4C4EFE47181AA3B00072176F /* HockeySDK.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 4C4EFE44181AA3400072176F /* HockeySDK.framework */; };
 		4C6AE8741802E8810089D489 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; };
@@ -251,7 +251,9 @@
 		4CB8EE51180FDF790051AB6B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CB8EE4E180FD9A40051AB6B /* libz.dylib */; };
 		4CB8EE55181032340051AB6B /* SEEPrintOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CB8EE54181032340051AB6B /* SEEPrintOptionsViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4CCD4DD21811703D00FE6134 /* SEESavePanelAccessoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CCD4DD01811703D00FE6134 /* SEESavePanelAccessoryViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		4CCD4DD31811703D00FE6134 /* SEESavePanelAccessoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CCD4DD11811703D00FE6134 /* SEESavePanelAccessoryViewController.xib */; };
+		4CCD4DD31811703D00FE6134 /* SEEPlainTextDocumentSavePanelSaveToAccessory.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CCD4DD11811703D00FE6134 /* SEEPlainTextDocumentSavePanelSaveToAccessory.xib */; };
+		4CD168EB182A5A5C007E3B26 /* SEEFolderDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CD168E9182A5A5C007E3B26 /* SEEFolderDocument.m */; };
+		4CD168EC182A5A5C007E3B26 /* SEEFolderDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD168EA182A5A5C007E3B26 /* SEEFolderDocument.xib */; };
 		4CD5F7DA17FB0BF200F49E31 /* AdvancedPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F7D817FB0BF200F49E31 /* AdvancedPrefs.xib */; };
 		4CD5F7DE17FB0C2800F49E31 /* ConnectionBrowser.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F7DC17FB0C2800F49E31 /* ConnectionBrowser.xib */; };
 		4CD5F7E217FB0C4D00F49E31 /* DocumentProxy.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F7E017FB0C4D00F49E31 /* DocumentProxy.xib */; };
@@ -843,8 +845,6 @@
 		1443B0380BD918A800755DED /* TCMBEEPAuthenticationClient.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMBEEPAuthenticationClient.m; path = TCMBEEP/TCMBEEPAuthenticationClient.m; sourceTree = "<group>"; };
 		144483A00A16026200F36B34 /* TCMTextSuite.scriptSuite */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = TCMTextSuite.scriptSuite; sourceTree = "<group>"; };
 		144483A10A16026200F36B34 /* TCMTextSuite.scriptTerminology */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.xml; path = TCMTextSuite.scriptTerminology; sourceTree = "<group>"; };
-		144DEAA409AA1D4400AF8CFB /* NSSavePanelTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NSSavePanelTCMAdditions.h; sourceTree = "<group>"; };
-		144DEAA509AA1D4400AF8CFB /* NSSavePanelTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSSavePanelTCMAdditions.m; sourceTree = "<group>"; };
 		144E23550A1F6197002ED261 /* German */ = {isa = PBXFileReference; fileEncoding = 10; lastKnownFileType = text.plist.strings; name = German; path = German.lproj/SystemVersionCheck.strings; sourceTree = "<group>"; };
 		144E29650A222EFE002ED261 /* SubEthaEdit-PantherScripting.r */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = sourcecode.rez; path = "SubEthaEdit-PantherScripting.r"; sourceTree = "<group>"; };
 		145047510997758600D18142 /* German */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; name = German; path = German.lproj/ReleaseNotes.txt; sourceTree = "<group>"; };
@@ -910,6 +910,7 @@
 		4C123004180C01EF0069253E /* TCMBEEPMessageXMLPayloadParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMBEEPMessageXMLPayloadParser.m; sourceTree = "<group>"; };
 		4C1D39DB17FB085800B1CF5C /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/AboutPanel.xib; sourceTree = "<group>"; };
 		4C1D39E917FB088200B1CF5C /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/AboutPanel.xib; sourceTree = "<group>"; };
+		4C33110D18228EEE00468A42 /* SEEPlainTextDocumentSavePanelAccessory.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEEPlainTextDocumentSavePanelAccessory.xib; sourceTree = "<group>"; };
 		4C4EFE44181AA3400072176F /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HockeySDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C6AE8731802E8810089D489 /* OgreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OgreKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4CAA423718157B1000457B2A /* TCMReleaseInfo.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = TCMReleaseInfo.xcconfig; sourceTree = "<group>"; };
@@ -920,7 +921,10 @@
 		4CB8EE54181032340051AB6B /* SEEPrintOptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEPrintOptionsViewController.m; sourceTree = "<group>"; };
 		4CCD4DCF1811703D00FE6134 /* SEESavePanelAccessoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEESavePanelAccessoryViewController.h; sourceTree = "<group>"; };
 		4CCD4DD01811703D00FE6134 /* SEESavePanelAccessoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEESavePanelAccessoryViewController.m; sourceTree = "<group>"; };
-		4CCD4DD11811703D00FE6134 /* SEESavePanelAccessoryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEESavePanelAccessoryViewController.xib; sourceTree = "<group>"; };
+		4CCD4DD11811703D00FE6134 /* SEEPlainTextDocumentSavePanelSaveToAccessory.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEEPlainTextDocumentSavePanelSaveToAccessory.xib; sourceTree = "<group>"; };
+		4CD168E8182A5A5C007E3B26 /* SEEFolderDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEFolderDocument.h; sourceTree = "<group>"; };
+		4CD168E9182A5A5C007E3B26 /* SEEFolderDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEFolderDocument.m; sourceTree = "<group>"; };
+		4CD168EA182A5A5C007E3B26 /* SEEFolderDocument.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEEFolderDocument.xib; sourceTree = "<group>"; };
 		4CD5F7D917FB0BF200F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/AdvancedPrefs.xib; sourceTree = "<group>"; };
 		4CD5F7DB17FB0C0F00F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/AdvancedPrefs.xib; sourceTree = "<group>"; };
 		4CD5F7DD17FB0C2800F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ConnectionBrowser.xib; sourceTree = "<group>"; };
@@ -1532,8 +1536,6 @@
 				14289209095751CB00D14688 /* NSImageTCMAdditions.m */,
 				142D18B20BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.h */,
 				142D18B30BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m */,
-				144DEAA409AA1D4400AF8CFB /* NSSavePanelTCMAdditions.h */,
-				144DEAA509AA1D4400AF8CFB /* NSSavePanelTCMAdditions.m */,
 				F299405F0C0C7F3400A53189 /* NSScreenTCMAdditions.h */,
 				F299405E0C0C7F3400A53189 /* NSScreenTCMAdditions.m */,
 				1428920A095751CB00D14688 /* NSStringSEEAdditions.h */,
@@ -1655,7 +1657,8 @@
 				1428944D09575B9700D14688 /* PlainTextDocument.m */,
 				4CCD4DCF1811703D00FE6134 /* SEESavePanelAccessoryViewController.h */,
 				4CCD4DD01811703D00FE6134 /* SEESavePanelAccessoryViewController.m */,
-				4CCD4DD11811703D00FE6134 /* SEESavePanelAccessoryViewController.xib */,
+				4CCD4DD11811703D00FE6134 /* SEEPlainTextDocumentSavePanelSaveToAccessory.xib */,
+				4C33110D18228EEE00468A42 /* SEEPlainTextDocumentSavePanelAccessory.xib */,
 				1428944E09575B9700D14688 /* PlainTextEditor.h */,
 				1428944F09575B9700D14688 /* PlainTextEditor.m */,
 				149774150B5E159F004A546C /* PlainTextLoadProgress.h */,
@@ -1686,6 +1689,9 @@
 				F2CA79A30CA04BAC008BEA38 /* HUDStatisticGraphView.m */,
 				F2CA7D2C0CA142B0008BEA38 /* HUDStatisticPersonCell.h */,
 				F2CA7D2D0CA142B0008BEA38 /* HUDStatisticPersonCell.m */,
+				4CD168E8182A5A5C007E3B26 /* SEEFolderDocument.h */,
+				4CD168E9182A5A5C007E3B26 /* SEEFolderDocument.m */,
+				4CD168EA182A5A5C007E3B26 /* SEEFolderDocument.xib */,
 			);
 			name = Document;
 			sourceTree = "<group>";
@@ -1864,6 +1870,7 @@
 		142894DA095766D000D14688 /* see */ = {
 			isa = PBXGroup;
 			children = (
+				2A37F4B8FDCFA73011CA2CEA /* Resources */,
 				142894E8095767CD00D14688 /* main.m */,
 				142894E9095767CD00D14688 /* see.1 */,
 				F29940780C0C806600A53189 /* See_Info.plist */,
@@ -1909,7 +1916,6 @@
 				2A37F4AFFDCFA73011CA2CEA /* Other Sources */,
 				142894B4095760A200D14688 /* HelperTool */,
 				142894DA095766D000D14688 /* see */,
-				2A37F4B8FDCFA73011CA2CEA /* Resources */,
 				2A37F4C3FDCFA73011CA2CEA /* Frameworks */,
 				F2D86C150F8E7DA200B912A2 /* SubEthaPerf */,
 				19C28FB0FE9D524F11CA2CBB /* Products */,
@@ -2009,6 +2015,8 @@
 				4CD5F83317FB0EB500F49E31 /* URLBubbleWindow.xib */,
 				4CD5F83717FB0ECB00F49E31 /* UserStatistics.xib */,
 				4CD5F83B17FB0EE000F49E31 /* WebPreview.xib */,
+				4C0D3D6517FB133600AAFB38 /* ServerConnection.xib */,
+				4C0D3D6317FB12F700AAFB38 /* StyleSheetPrefs.xib */,
 				1428904E0957429A00D14688 /* AppleScript */,
 				14289051095742A100D14688 /* Artwork */,
 				14289054095742AD00D14688 /* Sound */,
@@ -2016,8 +2024,6 @@
 				1428904A0957427100D14688 /* Modes */,
 				5E4DA73A09E15C6800D91CFC /* Scripts */,
 				142890450957421300D14688 /* SubEthaEditHelp */,
-				4C0D3D6517FB133600AAFB38 /* ServerConnection.xib */,
-				4C0D3D6317FB12F700AAFB38 /* StyleSheetPrefs.xib */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -2391,13 +2397,14 @@
 				4C0D3D6617FB133600AAFB38 /* ServerConnection.xib in Resources */,
 				142890DF095743F200D14688 /* StatusButtonReadWrite.tiff in Resources */,
 				142890E1095743F200D14688 /* StatusPending.tiff in Resources */,
-				4CCD4DD31811703D00FE6134 /* SEESavePanelAccessoryViewController.xib in Resources */,
+				4CCD4DD31811703D00FE6134 /* SEEPlainTextDocumentSavePanelSaveToAccessory.xib in Resources */,
 				142890E2095743F200D14688 /* StatusReadOnly.tiff in Resources */,
 				142890E3095743F200D14688 /* StatusReadWrite.tiff in Resources */,
 				142890E4095743F200D14688 /* style.icns in Resources */,
 				142890E7095743F200D14688 /* SubEthaEdit.icns in Resources */,
 				142890E8095743F200D14688 /* SubEthaEditFiles.icns in Resources */,
 				142890E9095743F200D14688 /* Symbol#.tiff in Resources */,
+				4CD168EC182A5A5C007E3B26 /* SEEFolderDocument.xib in Resources */,
 				142890EA095743F200D14688 /* SymbolC.tiff in Resources */,
 				142890EB095743F200D14688 /* SymbolE.png in Resources */,
 				142890ED095743F200D14688 /* SymbolF.png in Resources */,
@@ -2409,6 +2416,7 @@
 				142890F4095743F200D14688 /* SymbolL.png in Resources */,
 				142890F6095743F200D14688 /* SymbolM.tiff in Resources */,
 				142890F7095743F200D14688 /* SymbolP.png in Resources */,
+				4C33110E18228EEE00468A42 /* SEEPlainTextDocumentSavePanelAccessory.xib in Resources */,
 				142890F9095743F200D14688 /* SymbolS.png in Resources */,
 				142890FB095743F200D14688 /* SymbolT.png in Resources */,
 				142890FD095743F200D14688 /* SymbolV.png in Resources */,
@@ -2745,8 +2753,8 @@
 				1428946D09575B9700D14688 /* WebPreviewWindowController.m in Sources */,
 				142894A409575FF200D14688 /* TextFieldCell.m in Sources */,
 				5E28E2900972FB8E00099B13 /* InsetTextFieldCell.m in Sources */,
-				144DEAA709AA1D4400AF8CFB /* NSSavePanelTCMAdditions.m in Sources */,
 				5E685D5309D82BBB00E41973 /* NSAppleScriptTCMAdditions.m in Sources */,
+				4CD168EB182A5A5C007E3B26 /* SEEFolderDocument.m in Sources */,
 				5E685DB409D8438800E41973 /* NSMenuTCMAdditions.m in Sources */,
 				5EA1258A09E2B4190055965D /* ScriptWrapper.m in Sources */,
 				5E57298F09F514FB00D3746B /* Toolbar.m in Sources */,
@@ -3292,6 +3300,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SubEthaEdit.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				COPY_PHASE_STRIP = NO;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/TCMPortMapper\"";
@@ -3307,6 +3316,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.9;
 				OTHER_CFLAGS = "-DSUBETHAEDIT";
 				PRODUCT_NAME = SubEthaEdit;
+				PROVISIONING_PROFILE = "C5DBD3F4-0272-4F8F-9451-B85D158FDE46";
 				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = app;
 			};
@@ -3317,6 +3327,7 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SubEthaEdit.entitlements;
 				CODE_SIGN_IDENTITY = "Mac Developer";
+				"CODE_SIGN_IDENTITY[sdk=macosx*]" = "Mac Developer";
 				COMBINE_HIDPI_IMAGES = YES;
 				DEAD_CODE_STRIPPING = YES;
 				FRAMEWORK_SEARCH_PATHS = "\"$(SRCROOT)/TCMPortMapper\"";
@@ -3334,6 +3345,7 @@
 					"-DSUBETHAEDIT",
 				);
 				PRODUCT_NAME = SubEthaEdit;
+				PROVISIONING_PROFILE = "C5DBD3F4-0272-4F8F-9451-B85D158FDE46";
 				SKIP_INSTALL = NO;
 				WRAPPER_EXTENSION = app;
 			};
