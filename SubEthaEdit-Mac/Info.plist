@@ -23,6 +23,22 @@
 			<string>PlainTextDocument</string>
 		</dict>
 		<dict>
+			<key>CFBundleTypeName</key>
+			<string>Any Directory</string>
+			<key>CFBundleTypeRole</key>
+			<string>Viewer</string>
+			<key>LSHandlerRank</key>
+			<string>Alternate</string>
+			<key>LSItemContentTypes</key>
+			<array>
+				<string>public.directory</string>
+			</array>
+			<key>LSTypeIsPackage</key>
+			<false/>
+			<key>NSDocumentClass</key>
+			<string>SEEFolderDocument</string>
+		</dict>
+		<dict>
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles.icns</string>
 			<key>CFBundleTypeName</key>

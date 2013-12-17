@@ -10,6 +10,7 @@
 
 @interface SEEFolderDocument : NSDocument
 
-@property (nonatomic, readwrite, strong) NSFileWrapper *fileWrapper;
+@property (nonatomic, readwrite, strong) NSURL *representedFolderURL;
+@property (nonatomic, readwrite, strong) NSArray *folderItems;
 
 @end

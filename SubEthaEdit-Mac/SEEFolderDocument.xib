@@ -27,7 +27,7 @@
                             <rect key="frame" x="1" y="17" width="259" height="542"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" headerView="Zzs-us-0sA" viewBased="YES" id="l6B-RD-Jo4">
+                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="lastColumnOnly" columnSelection="YES" multipleSelection="NO" autosaveColumns="NO" headerView="Zzs-us-0sA" id="l6B-RD-Jo4">
                                     <rect key="frame" x="0.0" y="0.0" width="259" height="542"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
@@ -46,28 +46,8 @@
                                                 <color key="backgroundColor" name="controlBackgroundColor" catalog="System" colorSpace="catalog"/>
                                             </textFieldCell>
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
-                                            <prototypeCellViews>
-                                                <tableCellView id="CIJ-ir-VL5">
-                                                    <rect key="frame" x="1" y="1" width="256" height="17"/>
-                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                                                    <subviews>
-                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" id="mYr-um-rsF">
-                                                            <rect key="frame" x="0.0" y="0.0" width="256" height="17"/>
-                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="3hC-Ab-YVf">
-                                                                <font key="font" metaFont="system"/>
-                                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                                                            </textFieldCell>
-                                                        </textField>
-                                                    </subviews>
-                                                    <connections>
-                                                        <outlet property="textField" destination="mYr-um-rsF" id="XVh-QV-heo"/>
-                                                    </connections>
-                                                </tableCellView>
-                                            </prototypeCellViews>
                                             <connections>
-                                                <binding destination="dSD-gA-oul" name="value" keyPath="arrangedObjects.filename" id="hLb-DD-9aR"/>
+                                                <binding destination="dSD-gA-oul" name="value" keyPath="arrangedObjects.lastPathComponent" id="Pae-FA-Ec6"/>
                                             </connections>
                                         </tableColumn>
                                     </tableColumns>
@@ -95,6 +75,14 @@
             </connections>
         </window>
         <customObject id="-3" userLabel="Application"/>
-        <arrayController id="dSD-gA-oul"/>
+        <arrayController objectClassName="NSURL" editable="NO" avoidsEmptySelection="NO" id="dSD-gA-oul">
+            <declaredKeys>
+                <string>lastPathComponent</string>
+            </declaredKeys>
+            <connections>
+                <binding destination="-2" name="contentArray" keyPath="folderItems" id="YPk-MV-zBz"/>
+            </connections>
+        </arrayController>
+        <userDefaultsController representsSharedInstance="YES" id="Z4T-NO-KgU"/>
     </objects>
 </document>
