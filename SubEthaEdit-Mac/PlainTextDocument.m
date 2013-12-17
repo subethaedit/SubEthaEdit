@@ -186,13 +186,13 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 
 - (void)setFileType:(NSString *)aString {
     [self willChangeValueForKey:@"documentIcon"];
-    I_flags.isSEEText = [@"SEETextType" isEqualToString:aString];
+    I_flags.isSEEText = UTTypeConformsTo((CFStringRef)aString, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext");
     [super setFileType:aString];
     [self didChangeValueForKey:@"documentIcon"];
 }
 
 - (NSImage *)documentIcon {
-    if ([@"SEETextType" isEqualToString:[self fileType]]) {
+    if (UTTypeConformsTo((CFStringRef)[self fileType], (CFStringRef)@"de.codingmonkeys.subethaedit.seetext")) {
         return [NSImage imageNamed:@"seetext"];
     } else {
         return [NSImage imageNamed:@"SubEthaEditFiles"];
@@ -2767,22 +2767,22 @@ struct SelectionRange
         if (saveOperation == NSSaveToOperation) {
             I_encodingFromLastRunSaveToOperation = [[O_encodingPopUpButton selectedItem] tag];
             if ([[O_savePanelAccessoryFileFormatMatrix selectedCell] tag] == 1) {
-                aType = @"SEETextType";
+                aType = @"de.codingmonkeys.subethaedit.seetext";
              } else {
-                aType = @"PlainTextType";
+                aType = @"public.text";
             }
          } else if (didShowPanel) {
             if ([[O_savePanelAccessoryFileFormatMatrix2 selectedCell] tag] == 1) {
-                aType = @"SEETextType";
+                aType = @"de.codingmonkeys.subethaedit.seetext";
                 I_flags.isSEEText = YES;
             } else {
-                aType = @"PlainTextType";
+                aType = @"public.text";
                 I_flags.isSEEText = NO;
             }
          }
     }
-    if ([aType isEqualToString:@"SEETextType"]) {
-        NSString *seeTextExtension = [self fileNameExtensionForType:@"de.codingmonkeys.subethaedit.seetext" saveOperation:NSSaveOperation];
+    if (UTTypeConformsTo((CFStringRef)aType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext")) {
+        NSString *seeTextExtension = [self fileNameExtensionForType:aType saveOperation:NSSaveOperation];
         if (![[[anAbsoluteURL path] pathExtension] isEqualToString:seeTextExtension]) {
             anAbsoluteURL = [NSURL fileURLWithPath:[[anAbsoluteURL path] stringByAppendingPathExtension:seeTextExtension]];
         }
@@ -2793,7 +2793,7 @@ struct SelectionRange
 
 - (NSData *)dataOfType:(NSString *)aType error:(NSError **)outError{
 
-    if ([aType isEqualToString:@"PlainTextType"] || [aType isEqualToString:@"SubEthaEditSyntaxStyle"]) {
+    if ([[[self class] writableTypes] containsObject:aType]) {
         NSData *data;
         if (I_lastSaveOperation == NSSaveToOperation) {
             DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Save a copy using encoding: %@", [NSString localizedNameOfStringEncoding:I_encodingFromLastRunSaveToOperation]);
@@ -3047,7 +3047,7 @@ struct SelectionRange
             [self performSelector:@selector(clearChangeCount) withObject:nil afterDelay:0.0];
             [self performSelector:@selector(setAutosavedContentsFileURL:) withObject:nil afterDelay:0.0];
         }
-        I_flags.isSEEText = [[self fileType] isEqualToString:@"SEETextType"];
+        I_flags.isSEEText = UTTypeConformsTo((CFStringRef)[self fileType], (CFStringRef)@"de.codingmonkeys.subethaedit.seetext");
         if (wasAutosave) *wasAutosave = YES;
     }
 	if (I_stateDictionaryFromLoading) { // was set in takeSettingsFromDocumentState: because of symmetry - is code that also is in the non-seetext part of the calling method
@@ -3089,7 +3089,15 @@ struct SelectionRange
     I_flags.shouldSelectModeOnSave = NO;
     I_flags.isReadingFile = YES;
 
-    if (![docType isEqualToString:@"PlainTextType"] && ![docType isEqualToString:@"SubEthaEditSyntaxStyle"] && ![docType isEqualToString:@"SEETextType"]) {
+	BOOL openingFileSupported = NO;
+	for (NSString *uti in [[self class] readableTypes]) {
+		if (UTTypeConformsTo((CFStringRef)docType, (CFStringRef)uti)) {
+			openingFileSupported = YES;
+			break;
+		}
+	}
+
+    if (! openingFileSupported) {
         if (outError) *outError = [NSError errorWithDomain:@"SEEDomain" code:42 userInfo:
             [NSDictionary dictionaryWithObjectsAndKeys:
                 fileName,NSFilePathErrorKey,
@@ -3104,11 +3112,11 @@ struct SelectionRange
 
     BOOL isDir, fileExists;
     fileExists = [[NSFileManager defaultManager] fileExistsAtPath:fileName isDirectory:&isDir];
-    if (fileExists && !isDir && [docType isEqualToString:@"SEETextType"]) {
-        docType = @"PlainTextType";
+    if (fileExists && !isDir && UTTypeConformsTo((CFStringRef)docType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext")) {
+        docType = @"public.text";
         [self performSelector:@selector(setFileType:) withObject:docType afterDelay:0.];
     }
-    if (!fileExists || (isDir && ![docType isEqualToString:@"SEETextType"])) {
+    if (!fileExists || (isDir && !UTTypeConformsTo((CFStringRef)docType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext"))) {
         // generate the correct error
         [NSData dataWithContentsOfURL:anURL options:0 error:outError];
         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"file doesn't exist %@",outError?*outError:nil);
@@ -3128,7 +3136,7 @@ struct SelectionRange
     }
 
 
-    if ([docType isEqualToString:@"SEETextType"]) {
+    if (UTTypeConformsTo((CFStringRef)docType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext")) {
         BOOL result = [self readSEETextFromURL:anURL properties:aProperties wasAutosave:&wasAutosaved error:outError];
         if (!result) {
             I_flags.isReadingFile = NO;
@@ -3485,7 +3493,7 @@ struct SelectionRange
         [[self documentUndoManager] endUndoGrouping];
     }
     
-    if (!isReverting && ![docType isEqualToString:@"SEETextType"]) {
+    if (!isReverting && !UTTypeConformsTo((CFStringRef)docType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext")) {
         // clear the logging state
         if ([I_textStorage length] > [defaults integerForKey:@"ByteLengthToUseForModeRecognitionAndEncodingGuessing"]) {
         // if the file is to big no logging state to save space
@@ -3573,7 +3581,7 @@ struct SelectionRange
 }
 
 - (NSString *)autosavingFileType {
-    return @"SEETextType";
+    return @"de.codingmonkeys.subethaedit.seetext";
 }
 
 - (NSArray *)writableTypesForSaveOperation:(NSSaveOperationType)saveOperation
@@ -3598,11 +3606,11 @@ struct SelectionRange
     return fileNameExtension;
 }
 
-- (BOOL)writeToURL:(NSURL *)absoluteURL ofType:(NSString *)inTypeName forSaveOperation:(NSSaveOperationType)saveOperation originalContentsURL:(NSURL *)originalContentsURL error:(NSError **)outError {
+- (BOOL)writeToURL:(NSURL *)absoluteURL ofType:(NSString *)inType forSaveOperation:(NSSaveOperationType)saveOperation originalContentsURL:(NSURL *)originalContentsURL error:(NSError **)outError {
 //-timelog    NSDate *startDate = [NSDate date];
 //-timelog    NSLog(@"%s %@ %@ %d %@",__FUNCTION__, absoluteURL, inTypeName, saveOperation,originalContentsURL);
-    DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"write to:%@ type:%@ saveOperation:%lu originalURL:%@", absoluteURL, inTypeName, (unsigned long)saveOperation,originalContentsURL);
-    if ([inTypeName isEqualToString:@"PlainTextType"]) {
+    DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"write to:%@ type:%@ saveOperation:%lu originalURL:%@", absoluteURL, inType, (unsigned long)saveOperation,originalContentsURL);
+    if (UTTypeConformsTo((CFStringRef)inType, (CFStringRef)@"public.data")) {
         BOOL modeWantsUTF8BOM = [[[self documentMode] defaultForKey:DocumentModeUTF8BOMPreferenceKey] boolValue];
         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"modeWantsUTF8BOM: %d, hasUTF8BOM: %d", modeWantsUTF8BOM, I_flags.hasUTF8BOM);
         BOOL useUTF8Encoding = ((I_lastSaveOperation == NSSaveToOperation) && (I_encodingFromLastRunSaveToOperation == NSUTF8StringEncoding)) || ((I_lastSaveOperation != NSSaveToOperation) && ([self fileEncoding] == NSUTF8StringEncoding));
@@ -3630,7 +3638,7 @@ struct SelectionRange
 //        NSArray *xattrKeys = [UKXattrMetadataStore allKeysAtPath:[absoluteURL path] traverseLink:YES];
 //        NSLog(@"%s xattrKeys:%@",__FUNCTION__,xattrKeys);
         return result;
-    } else if ([inTypeName isEqualToString:@"SEETextType"]) {
+    } else if (UTTypeConformsTo((CFStringRef)inType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext")) {
         NSString *packagePath = [absoluteURL path];
         NSFileManager *fm =[NSFileManager defaultManager];
         if ([fm createDirectoryAtPath:packagePath withIntermediateDirectories:YES attributes:nil error:nil]) {
@@ -3797,13 +3805,13 @@ struct SelectionRange
             }
         }
 	} else {
-        return [super writeToURL:absoluteURL ofType:inTypeName forSaveOperation:saveOperation originalContentsURL:originalContentsURL error:outError];
+        return [super writeToURL:absoluteURL ofType:inType forSaveOperation:saveOperation originalContentsURL:originalContentsURL error:outError];
     }   
 }
 
-- (NSDictionary *)fileAttributesToWriteToURL:(NSURL *)absoluteURL ofType:(NSString *)documentTypeName forSaveOperation:(NSSaveOperationType)saveOperationType originalContentsURL:(NSURL *)absoluteOriginalContentsURL error:(NSError **)outError {
+- (NSDictionary *)fileAttributesToWriteToURL:(NSURL *)absoluteURL ofType:(NSString *)documentType forSaveOperation:(NSSaveOperationType)saveOperationType originalContentsURL:(NSURL *)absoluteOriginalContentsURL error:(NSError **)outError {
 
-    if ([documentTypeName isEqualToString:@"SEETextType"]) {
+    if (UTTypeConformsTo((CFStringRef)documentType, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext")) {
         return [NSDictionary dictionary];
     }
 
@@ -3813,7 +3821,7 @@ struct SelectionRange
     if ([self fileURL] && [self fileType]) {
         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Preserve HFS Type and Creator Code");
         NSMutableDictionary *newAttributes = [[[super
-        fileAttributesToWriteToURL:absoluteURL ofType:documentTypeName forSaveOperation:saveOperationType originalContentsURL:absoluteOriginalContentsURL error:outError] mutableCopy] autorelease];
+        fileAttributesToWriteToURL:absoluteURL ofType:documentType forSaveOperation:saveOperationType originalContentsURL:absoluteOriginalContentsURL error:outError] mutableCopy] autorelease];
         NSDictionary *attributes = [self fileAttributes];
         if (attributes != nil) {
             if ([attributes objectForKey:NSFileHFSTypeCode]) [newAttributes setObject:[attributes objectForKey:NSFileHFSTypeCode] forKey:NSFileHFSTypeCode];
@@ -3850,7 +3858,7 @@ struct SelectionRange
 
         for(id loopItem in documentTypes) {
             NSString *type = [loopItem objectForKey:@"CFBundleTypeName"];
-            if (type && [type isEqualToString:documentTypeName]) {
+            if (type && [type isEqualToString:documentType]) {
                 NSArray *typeCodeStrings = [loopItem objectForKey:@"CFBundleTypeOSTypes"];
                 if (typeCodeStrings) {
                     NSString *firstTypeCodeString = [typeCodeStrings objectAtIndex:0];
@@ -3865,7 +3873,7 @@ struct SelectionRange
 
     // Add the type and/or creator to the dictionary if they exist.
     newAttributes = [[[super
-        fileAttributesToWriteToURL:absoluteURL ofType:documentTypeName forSaveOperation:saveOperationType originalContentsURL:absoluteOriginalContentsURL error:outError] mutableCopy] autorelease];
+        fileAttributesToWriteToURL:absoluteURL ofType:documentType forSaveOperation:saveOperationType originalContentsURL:absoluteOriginalContentsURL error:outError] mutableCopy] autorelease];
     if (typeCode)
         [newAttributes setObject:typeCode forKey:NSFileHFSTypeCode];
     if (creatorCode)
