@@ -309,9 +309,10 @@ static NSString *tempFileName() {
 {
 	NSString *result = [super typeForContentsOfURL:url error:outError];
 
-	NSArray *allTextIdentifiersForExtension = (NSArray *)UTTypeCreateAllIdentifiersForTag(kUTTagClassFilenameExtension, [url pathExtension], @"public.text");
-	NSLog(@"%@", allTextIdentifiersForExtension);
-	[allTextIdentifiersForExtension release];
+//	NSString *fileExtension = [url pathExtension];
+//	NSArray *allTextIdentifiersForExtension = (NSArray *)UTTypeCreateAllIdentifiersForTag(kUTTagClassFilenameExtension, (CFStringRef)fileExtension, NULL);
+//	NSLog(@"%@", allTextIdentifiersForExtension);
+//	[allTextIdentifiersForExtension release];
 
 	return result;
 }

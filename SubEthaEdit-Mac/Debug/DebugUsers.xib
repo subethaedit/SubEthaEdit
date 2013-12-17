@@ -151,7 +151,7 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="104">
-                            <rect key="frame" x="525" y="17" width="15" height="273"/>
+                            <rect key="frame" x="524" y="17" width="16" height="273"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <tableHeaderView key="headerView" id="103">

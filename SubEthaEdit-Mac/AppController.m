@@ -708,10 +708,12 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     NSEnumerator      *documents=[[[NSDocumentController sharedDocumentController] documents] objectEnumerator];
     PlainTextDocument *document = nil;
     while ((document=[documents nextObject])) {
-        badgeCount += [[[document session] pendingUsers] count];
-        if ([document isPendingInvitation]) {
-            badgeCount++;
-        }
+		if ([document isKindOfClass:[PlainTextDocument class]]) {
+			badgeCount += [[[document session] pendingUsers] count];
+			if ([document isPendingInvitation]) {
+				badgeCount++;
+			}
+		}
     }
 
     if (badgeCount == 0) {
@@ -1068,7 +1070,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 
 - (IBAction)undo:(id)aSender {
     id document=[[NSDocumentController sharedDocumentController] currentDocument];
-    if (document) {
+    if (document && [document isKindOfClass:[PlainTextDocument class]]) {
         [document undo:aSender];
     } else {
         NSUndoManager *undoManager=[(id)[[NSApp mainWindow] delegate] undoManager];
@@ -1078,7 +1080,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 
 - (IBAction)redo:(id)aSender {
     id document=[[NSDocumentController sharedDocumentController] currentDocument];
-    if (document) {
+    if (document && [document isKindOfClass:[PlainTextDocument class]]) {
         [document redo:aSender];
     } else {
         NSUndoManager *undoManager=[(id)[[NSApp mainWindow] delegate] undoManager];
@@ -1126,7 +1128,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     
     id undoManager = nil;
     PlainTextDocument *currentDocument = [[NSDocumentController sharedDocumentController] currentDocument];
-    if (currentDocument) {
+    if (currentDocument && [currentDocument isKindOfClass:[PlainTextDocument class]]) {
         undoManager = [currentDocument documentUndoManager];
     } else {
         undoManager = [(id)[[NSApp mainWindow] delegate] undoManager];

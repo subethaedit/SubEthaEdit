@@ -156,12 +156,14 @@
         NSEnumerator *documents = [[[NSDocumentController sharedDocumentController] documents] objectEnumerator];
         PlainTextDocument *document = nil;
         while ((document = [documents nextObject])) {
-            DocumentProxyWindowController *wc = [document proxyWindowController];
-            if (wc) {
-                [proxyWindowArray addObject:[wc window]];
-            }
+			if ([document isKindOfClass:[PlainTextDocument class]]) {
+				DocumentProxyWindowController *wc = [document proxyWindowController];
+				if (wc) {
+					[proxyWindowArray addObject:[wc window]];
+				}
+			}
         }
-        
+
         // check current position against windows that are already there
         int maxHitCount = 0;
         

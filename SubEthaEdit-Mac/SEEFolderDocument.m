@@ -26,9 +26,12 @@
     [super windowControllerDidLoadNib:aController];
 }
 
-- (BOOL)readFromFileWrapper:(NSFileWrapper *)fileWrapper ofType:(NSString *)typeName error:(NSError **)outError
+- (BOOL)readFromURL:(NSURL *)url ofType:(NSString *)typeName error:(NSError **)outError
 {
-    self.fileWrapper = fileWrapper;
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+
+    self.representedFolderURL = url;
+	self.folderItems = [fileManager contentsOfDirectoryAtURL:url includingPropertiesForKeys:[NSArray array] options:0 error:nil];
     return YES;
 }
 
