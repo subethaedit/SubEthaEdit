@@ -8,8 +8,21 @@
 
 #import "TCMPreferenceModule.h"
 
+@interface TCMPreferenceModule ()
+
+@property (readwrite, strong) NSArray *topLevelNibObjects;
+
+@end
 
 @implementation TCMPreferenceModule
+
+- (void)dealloc
+{
+	self.topLevelNibObjects = nil;
+	self.O_window = nil;
+
+    [super dealloc];
+}
 
 - (NSImage *)icon
 {
@@ -52,7 +65,9 @@
     NSString *mainNibName = [self mainNibName];
 
     // Loads that nib file, passing in the preference pane object as the nib file's owner.
-    [[NSBundle mainBundle] loadNibNamed:mainNibName owner:self topLevelObjects:nil];
+	NSArray *topLevelNibObjects = nil;
+    [[NSBundle mainBundle] loadNibNamed:mainNibName owner:self topLevelObjects:&topLevelNibObjects];
+	self.topLevelNibObjects = topLevelNibObjects;
 
     // Invokes the preference pane object assignMainView method to find and assign the main view.
     NSView *mainView = [self assignMainView];
