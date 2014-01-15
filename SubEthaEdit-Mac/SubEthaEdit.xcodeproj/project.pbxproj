@@ -127,7 +127,6 @@
 		142893A2095758C200D14688 /* EditPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289392095758C100D14688 /* EditPreferences.m */; };
 		142893A3095758C200D14688 /* GeneralPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289394095758C100D14688 /* GeneralPreferences.m */; };
 		142893A4095758C200D14688 /* OverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289396095758C100D14688 /* OverlayView.m */; };
-		142893A5095758C200D14688 /* PrintPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289398095758C100D14688 /* PrintPreferences.m */; };
 		142893A6095758C200D14688 /* StylePreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428939A095758C100D14688 /* StylePreferences.m */; };
 		142893A7095758C200D14688 /* TableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428939C095758C100D14688 /* TableView.m */; };
 		142893A8095758C200D14688 /* TCMPreferenceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428939E095758C100D14688 /* TCMPreferenceController.m */; };
@@ -272,7 +271,6 @@
 		4CD5F81917FB0DF900F49E31 /* PrecedencePrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F81717FB0DF900F49E31 /* PrecedencePrefs.xib */; };
 		4CD5F81D17FB0E1900F49E31 /* PrecedenceRules.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F81B17FB0E1800F49E31 /* PrecedenceRules.xib */; };
 		4CD5F82117FB0E2B00F49E31 /* PrintOptions.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F81F17FB0E2B00F49E31 /* PrintOptions.xib */; };
-		4CD5F82517FB0E3C00F49E31 /* PrintPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F82317FB0E3C00F49E31 /* PrintPrefs.xib */; };
 		4CD5F82917FB0E4F00F49E31 /* SavePanelAccessory.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F82717FB0E4F00F49E31 /* SavePanelAccessory.xib */; };
 		4CD5F82D17FB0E6000F49E31 /* SelectEncodingsPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F82B17FB0E6000F49E31 /* SelectEncodingsPanel.xib */; };
 		4CD5F83117FB0E8D00F49E31 /* StylePrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F82F17FB0E8D00F49E31 /* StylePrefs.xib */; };
@@ -413,7 +411,6 @@
 		F2D5FF440CB2669200407399 /* AdvancedPrefs.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF430CB2669200407399 /* AdvancedPrefs.icns */; };
 		F2D5FF480CB266C700407399 /* ToolbarIconColorChooser.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF470CB266C700407399 /* ToolbarIconColorChooser.icns */; };
 		F2D5FF4B0CB2677600407399 /* UnknownPerson.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF4A0CB2677600407399 /* UnknownPerson.icns */; };
-		F2D5FF4D0CB2679100407399 /* PrintPrefs.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF4C0CB2679100407399 /* PrintPrefs.icns */; };
 		F2D5FF510CB26EA800407399 /* ToolbarIconRunInTerminal.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF4F0CB26EA800407399 /* ToolbarIconRunInTerminal.icns */; };
 		F2D5FF520CB26EA800407399 /* ToolbarIconTerminal.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF500CB26EA800407399 /* ToolbarIconTerminal.icns */; };
 		F2D86C2E0F8E7EFA00B912A2 /* SEPAppController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D86C2D0F8E7EFA00B912A2 /* SEPAppController.m */; };
@@ -574,7 +571,6 @@
 		1428907B095743F200D14688 /* Participants.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Participants.icns; path = artwork/Participants.icns; sourceTree = "<group>"; };
 		1428907C095743F200D14688 /* PreviousChange.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = PreviousChange.png; path = artwork/PreviousChange.png; sourceTree = "<group>"; };
 		1428907E095743F200D14688 /* PreviousSymbol.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = PreviousSymbol.png; path = artwork/PreviousSymbol.png; sourceTree = "<group>"; };
-		14289080095743F200D14688 /* PrintPrefs.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = PrintPrefs.tiff; path = artwork/PrintPrefs.tiff; sourceTree = "<group>"; };
 		14289081095743F200D14688 /* Rendezvous.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Rendezvous.tiff; path = artwork/Rendezvous.tiff; sourceTree = "<group>"; };
 		14289082095743F200D14688 /* ScriptMenu.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ScriptMenu.tiff; path = artwork/ScriptMenu.tiff; sourceTree = "<group>"; };
 		14289083095743F200D14688 /* SeeFolderIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = SeeFolderIcon.tiff; path = artwork/SeeFolderIcon.tiff; sourceTree = "<group>"; };
@@ -725,8 +721,6 @@
 		14289394095758C100D14688 /* GeneralPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GeneralPreferences.m; sourceTree = "<group>"; };
 		14289395095758C100D14688 /* OverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = OverlayView.h; sourceTree = "<group>"; };
 		14289396095758C100D14688 /* OverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = OverlayView.m; sourceTree = "<group>"; };
-		14289397095758C100D14688 /* PrintPreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = PrintPreferences.h; sourceTree = "<group>"; };
-		14289398095758C100D14688 /* PrintPreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PrintPreferences.m; sourceTree = "<group>"; };
 		14289399095758C100D14688 /* StylePreferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = StylePreferences.h; sourceTree = "<group>"; };
 		1428939A095758C100D14688 /* StylePreferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StylePreferences.m; sourceTree = "<group>"; };
 		1428939B095758C100D14688 /* TableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = TableView.h; sourceTree = "<group>"; };
@@ -961,8 +955,6 @@
 		4CD5F81E17FB0E1D00F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/PrecedenceRules.xib; sourceTree = "<group>"; };
 		4CD5F82017FB0E2B00F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PrintOptions.xib; sourceTree = "<group>"; };
 		4CD5F82217FB0E3000F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/PrintOptions.xib; sourceTree = "<group>"; };
-		4CD5F82417FB0E3C00F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PrintPrefs.xib; sourceTree = "<group>"; };
-		4CD5F82617FB0E4000F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/PrintPrefs.xib; sourceTree = "<group>"; };
 		4CD5F82817FB0E4F00F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SavePanelAccessory.xib; sourceTree = "<group>"; };
 		4CD5F82A17FB0E5400F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/SavePanelAccessory.xib; sourceTree = "<group>"; };
 		4CD5F82C17FB0E6000F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/SelectEncodingsPanel.xib; sourceTree = "<group>"; };
@@ -1162,7 +1154,6 @@
 		F2D5FF430CB2669200407399 /* AdvancedPrefs.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = AdvancedPrefs.icns; path = artwork/AdvancedPrefs.icns; sourceTree = "<group>"; };
 		F2D5FF470CB266C700407399 /* ToolbarIconColorChooser.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = ToolbarIconColorChooser.icns; path = artwork/ToolbarIconColorChooser.icns; sourceTree = "<group>"; };
 		F2D5FF4A0CB2677600407399 /* UnknownPerson.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = UnknownPerson.icns; path = artwork/UnknownPerson.icns; sourceTree = "<group>"; };
-		F2D5FF4C0CB2679100407399 /* PrintPrefs.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = PrintPrefs.icns; path = artwork/PrintPrefs.icns; sourceTree = "<group>"; };
 		F2D5FF4F0CB26EA800407399 /* ToolbarIconRunInTerminal.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = ToolbarIconRunInTerminal.icns; path = artwork/ToolbarIconRunInTerminal.icns; sourceTree = "<group>"; };
 		F2D5FF500CB26EA800407399 /* ToolbarIconTerminal.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = ToolbarIconTerminal.icns; path = artwork/ToolbarIconTerminal.icns; sourceTree = "<group>"; };
 		F2D86C1F0F8E7E2A00B912A2 /* SubEthaPerf.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SubEthaPerf.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1373,8 +1364,6 @@
 				319AAE1B0CB015B300ACDAB4 /* Precedence_Remove.tiff */,
 				319AAE1C0CB015B300ACDAB4 /* Precedence_RemovePressed.png */,
 				3134F7DD0CB13A2E00F8C116 /* Precedence_RemoveRollover.tiff */,
-				14289080095743F200D14688 /* PrintPrefs.tiff */,
-				F2D5FF4C0CB2679100407399 /* PrintPrefs.icns */,
 				F2D5FF3D0CB2666000407399 /* Rendezvous.icns */,
 				14289081095743F200D14688 /* Rendezvous.tiff */,
 				14289082095743F200D14688 /* ScriptMenu.tiff */,
@@ -1749,8 +1738,6 @@
 				14289394095758C100D14688 /* GeneralPreferences.m */,
 				14289395095758C100D14688 /* OverlayView.h */,
 				14289396095758C100D14688 /* OverlayView.m */,
-				14289397095758C100D14688 /* PrintPreferences.h */,
-				14289398095758C100D14688 /* PrintPreferences.m */,
 				F2D86DB80F8E9B9A00B912A2 /* PreferenceKeys.h */,
 				F2D86DB90F8E9B9A00B912A2 /* PreferenceKeys.m */,
 				31D2C6E60CA7C7A7003CC5C9 /* PrecedenceRuleCell.h */,
@@ -2008,7 +1995,6 @@
 				4C0D3D6717FB145600AAFB38 /* Preferences.xib */,
 				4CD5F81717FB0DF900F49E31 /* PrecedencePrefs.xib */,
 				4CD5F81B17FB0E1800F49E31 /* PrecedenceRules.xib */,
-				4CD5F82317FB0E3C00F49E31 /* PrintPrefs.xib */,
 				4CD5F82717FB0E4F00F49E31 /* SavePanelAccessory.xib */,
 				4CD5F82B17FB0E6000F49E31 /* SelectEncodingsPanel.xib */,
 				4CD5F82F17FB0E8D00F49E31 /* StylePrefs.xib */,
@@ -2429,7 +2415,6 @@
 				5E18F62B09A8A43A00A96A6C /* InvitationBadge3.tiff in Resources */,
 				4CD5F7EA17FB0C8E00F49E31 /* EncodingDoctor.xib in Resources */,
 				5E18F62C09A8A43A00A96A6C /* InvitationBadge1-2.tiff in Resources */,
-				4CD5F82517FB0E3C00F49E31 /* PrintPrefs.xib in Resources */,
 				5E294A4B09DAD29D0010A5B2 /* ToolbarIconBuild.tiff in Resources */,
 				5E4DA76309E1638000D91CFC /* ScriptMenuItemIcon.png in Resources */,
 				1493A8590A10DABB004ECE6A /* SystemVersionCheck.strings in Resources */,
@@ -2495,7 +2480,6 @@
 				4CD5F83517FB0EB500F49E31 /* URLBubbleWindow.xib in Resources */,
 				F2D5FF480CB266C700407399 /* ToolbarIconColorChooser.icns in Resources */,
 				F2D5FF4B0CB2677600407399 /* UnknownPerson.icns in Resources */,
-				F2D5FF4D0CB2679100407399 /* PrintPrefs.icns in Resources */,
 				F2D5FF510CB26EA800407399 /* ToolbarIconRunInTerminal.icns in Resources */,
 				4CD5F7F217FB0CBF00F49E31 /* FindAll.xib in Resources */,
 				4CD5F81D17FB0E1900F49E31 /* PrecedenceRules.xib in Resources */,
@@ -2702,7 +2686,6 @@
 				142893A2095758C200D14688 /* EditPreferences.m in Sources */,
 				142893A3095758C200D14688 /* GeneralPreferences.m in Sources */,
 				142893A4095758C200D14688 /* OverlayView.m in Sources */,
-				142893A5095758C200D14688 /* PrintPreferences.m in Sources */,
 				142893A6095758C200D14688 /* StylePreferences.m in Sources */,
 				142893A7095758C200D14688 /* TableView.m in Sources */,
 				142893A8095758C200D14688 /* TCMPreferenceController.m in Sources */,
@@ -3103,15 +3086,6 @@
 				4CD5F82217FB0E3000F49E31 /* German */,
 			);
 			name = PrintOptions.xib;
-			sourceTree = "<group>";
-		};
-		4CD5F82317FB0E3C00F49E31 /* PrintPrefs.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4CD5F82417FB0E3C00F49E31 /* English */,
-				4CD5F82617FB0E4000F49E31 /* German */,
-			);
-			name = PrintPrefs.xib;
 			sourceTree = "<group>";
 		};
 		4CD5F82717FB0E4F00F49E31 /* SavePanelAccessory.xib */ = {

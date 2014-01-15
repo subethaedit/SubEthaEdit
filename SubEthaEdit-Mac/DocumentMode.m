@@ -65,7 +65,6 @@ NSString * const DocumentModeUseDefaultFilePreferenceKey       = @"UseDefaultFil
 NSString * const DocumentModeUseDefaultFontPreferenceKey       = @"UseDefaultFont";
 NSString * const DocumentModePrintInfoPreferenceKey            = @"PrintInfo"  ;
 NSString * const DocumentModePrintOptionsPreferenceKey         = @"PrintOptions"  ;
-NSString * const DocumentModeUseDefaultPrintPreferenceKey      = @"UseDefaultPrint";
 NSString * const DocumentModeUseDefaultStylePreferenceKey      = @"UseDefaultStyle";
 NSString * const DocumentModeSyntaxStylePreferenceKey          = @"SyntaxStyle";
 NSString * const DocumentModeUseDefaultStyleSheetPreferenceKey = @"UseDefaultStyleSheet";
@@ -151,9 +150,6 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
 	
 		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultFontPreferenceKey
 									  forKey:DocumentModeFontAttributesPreferenceKey];
-	
-		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultPrintPreferenceKey
-									  forKey:DocumentModePrintOptionsPreferenceKey];
 	
 		[defaultablePreferenceKeys setObject:DocumentModeUseDefaultStylePreferenceKey
 									  forKey:DocumentModeBackgroundColorIsDarkPreferenceKey];
@@ -372,9 +368,7 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                                forKey:DocumentModeUseDefaultFilePreferenceKey];
                 [I_defaults setObject:[NSNumber numberWithBool:YES] 
                                forKey:DocumentModeUseDefaultFontPreferenceKey];
-                [I_defaults setObject:[NSNumber numberWithBool:YES] 
-                               forKey:DocumentModeUseDefaultPrintPreferenceKey];
-                [I_defaults setObject:[NSNumber numberWithBool:YES] 
+                [I_defaults setObject:[NSNumber numberWithBool:YES]
                                forKey:DocumentModeUseDefaultStylePreferenceKey];
                 [I_defaults setObject:[NSNumber numberWithBool:YES] 
                                forKey:DocumentModeUseDefaultStyleSheetPreferenceKey];
@@ -437,13 +431,6 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                                  forKey:NSPrintBottomMargin];
                 [I_defaults setObject:printDictionary
                                forKey:DocumentModePrintOptionsPreferenceKey];
-            }
-        } else {
-            if (![I_defaults objectForKey:DocumentModeUseDefaultPrintPreferenceKey]) {
-                [I_defaults setObject:[NSNumber numberWithBool:YES] 
-                               forKey:DocumentModeUseDefaultPrintPreferenceKey];
-                [I_defaults setObject:[NSNumber numberWithBool:YES] 
-                               forKey:DocumentModeUseDefaultStylePreferenceKey];
             }
         }
 

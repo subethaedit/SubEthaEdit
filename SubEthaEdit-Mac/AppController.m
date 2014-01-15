@@ -29,7 +29,6 @@
 #import "GeneralPreferences.h"
 #import "StylePreferences.h"
 #import "StyleSheetPreferences.h"
-#import "PrintPreferences.h"
 #import "PrecedencePreferences.h"
 
 #import "HandshakeProfile.h"
@@ -458,7 +457,6 @@ static AppController *sharedInstance = nil;
     [TCMPreferenceController registerPrefModule:[[StylePreferences new] autorelease]];
     [TCMPreferenceController registerPrefModule:[[StyleSheetPreferences new] autorelease]];
     [TCMPreferenceController registerPrefModule:[[PrecedencePreferences new] autorelease]];
-    [TCMPreferenceController registerPrefModule:[[PrintPreferences new] autorelease]];
     [TCMPreferenceController registerPrefModule:[[AdvancedPreferences new] autorelease]];
     
 #ifndef TCM_NO_DEBUG
