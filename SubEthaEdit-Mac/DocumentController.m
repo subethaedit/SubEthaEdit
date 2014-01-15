@@ -308,13 +308,19 @@ static NSString *tempFileName() {
 - (NSString *)typeForContentsOfURL:(NSURL *)url error:(NSError **)outError
 {
 	NSString *result = [super typeForContentsOfURL:url error:outError];
-
-//	NSString *fileExtension = [url pathExtension];
-//	NSArray *allTextIdentifiersForExtension = (NSArray *)UTTypeCreateAllIdentifiersForTag(kUTTagClassFilenameExtension, (CFStringRef)fileExtension, NULL);
-//	NSLog(@"%@", allTextIdentifiersForExtension);
-//	[allTextIdentifiersForExtension release];
-
 	return result;
+}
+
+- (Class)documentClassForType:(NSString *)typeName
+{
+	Class documentClass = [super documentClassForType:typeName];
+	if ([typeName isEqualToString:@"de.codingmonkeys.subethaedit.seetext"] && [documentClass class] != [PlainTextDocument class]) {
+		documentClass = [PlainTextDocument class];
+	} else if ([typeName isEqualToString:@"de.codingmonkeys.subethaedit.mode"] && [documentClass class] != [PlainTextDocument class]) {
+		documentClass = [PlainTextDocument class];
+	}
+
+	return  documentClass;
 }
 
 - (void)updateMenuWithTabMenuItems:(NSMenu *)aMenu shortcuts:(BOOL)withShortcuts {
@@ -554,7 +560,9 @@ static NSString *tempFileName() {
 		 if (document && [document isKindOfClass:PlainTextDocument.class] && displayDocument) {
 			 [(PlainTextDocument *)document handleOpenDocumentEvent:eventDesc];
 		 }
-		 completionHandler(document, displayDocument, error);
+		 if (completionHandler) {
+			 completionHandler(document, displayDocument, error);
+		 }
 	 }];
 }
 
