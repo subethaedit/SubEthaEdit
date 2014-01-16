@@ -21,6 +21,7 @@
 #import "FoldableTextStorage.h"
 #import "MoreSecurity.h"
 #import "PlainTextWindowController.h"
+#import "SEEOpenPanelAccessoryViewController.h"
 #import <PSMTabBarControl/PSMTabBarControl.h>
 #import <objc/objc-runtime.h>			// for objc_msgSend
 
@@ -403,40 +404,23 @@ static NSString *tempFileName() {
 }
 
 - (NSInteger)runModalOpenPanel:(NSOpenPanel *)openPanel forTypes:(NSArray *)extensions {
-    if (![NSBundle loadNibNamed:@"OpenPanelAccessory" owner:self])  {
-        NSLog(@"Failed to load OpenPanelAccessory.nib");
-        return NSCancelButton;
-    }
-        
-    [O_modePopUpButton setHasAutomaticMode:YES];
-    [O_modePopUpButton setSelectedModeIdentifier:AUTOMATICMODEIDENTIFIER];
-    [O_encodingPopUpButton setEncoding:ModeStringEncoding defaultEntry:YES modeEntry:YES lossyEncodings:nil];
-    [openPanel setAccessoryView:O_openPanelAccessoryView];
-    [O_openPanelAccessoryView release];
-    O_openPanelAccessoryView = nil;
+	NSInteger result = NSCancelButton;
+	SEEOpenPanelAccessoryViewController *openPanelAccessoryViewController = [SEEOpenPanelAccessoryViewController openPanelAccessoryControllerForOpenPanel:openPanel];
 
-    BOOL flag = [[NSUserDefaults standardUserDefaults] boolForKey:@"GoIntoBundlesPrefKey"];
-    [openPanel setTreatsFilePackagesAsDirectories:flag];
-    [openPanel setCanChooseDirectories:YES];
-    [O_goIntoBundlesCheckbox setState:flag ? NSOnState : NSOffState];
-    
-	flag = [[NSUserDefaults standardUserDefaults] boolForKey:@"ShowsHiddenFiles"];
-	[openPanel setShowsHiddenFiles:flag];
-	[O_showHiddenFilesCheckbox setState:flag ? NSOnState : NSOffState];
+	if (openPanelAccessoryViewController) {
+		if ([self locationForNextOpenPanel]) {
+			[openPanel setDirectoryURL:[self locationForNextOpenPanel]];
+			[self setLocationForNextOpenPanel:nil];
+		}
+		NSInteger result = [super runModalOpenPanel:openPanel forTypes:extensions];
 
-    I_openPanel = openPanel;
-    if ([self locationForNextOpenPanel]) {
-        [I_openPanel setDirectoryURL:[self locationForNextOpenPanel]];
-        [self setLocationForNextOpenPanel:nil];
-    }
-    int result = [super runModalOpenPanel:openPanel forTypes:extensions];
-    I_openPanel = nil;
-    
-    [self setModeIdentifierFromLastRunOpenPanel:[O_modePopUpButton selectedModeIdentifier]];
-    [self setEncodingFromLastRunOpenPanel:[[O_encodingPopUpButton selectedItem] tag]];
-    if (result==NSFileHandlingPanelCancelButton) {
-        [self setIsOpeningUsingAlternateMenuItem:NO];
-    }    
+		[self setModeIdentifierFromLastRunOpenPanel:[openPanelAccessoryViewController.modePopUpButtonOutlet selectedModeIdentifier]];
+		[self setEncodingFromLastRunOpenPanel:[[openPanelAccessoryViewController.encodingPopUpButtonOutlet selectedItem] tag]];
+
+		if (result == NSFileHandlingPanelCancelButton) {
+			[self setIsOpeningUsingAlternateMenuItem:NO];
+		}
+	}
     return result;
 }
 
@@ -1275,18 +1259,6 @@ struct ModificationInfo
         }
     }
     
-}
-
-- (IBAction)goIntoBundles:(id)sender {
-    BOOL flag = ([(NSButton*)sender state] == NSOffState) ? NO : YES;
-    [I_openPanel setTreatsFilePackagesAsDirectories:flag];
-    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:@"GoIntoBundlesPrefKey"];
-}
-
-- (IBAction)showHiddenFiles:(id)sender {
-    BOOL flag = ([(NSButton*)sender state] == NSOffState) ? NO : YES;
-	[I_openPanel setShowsHiddenFiles:flag];
-    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:@"ShowsHiddenFiles"];
 }
 
 - (IBAction)installMode:(id)sender {
