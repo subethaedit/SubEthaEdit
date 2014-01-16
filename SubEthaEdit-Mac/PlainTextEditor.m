@@ -80,7 +80,10 @@
 @end
 
 
-@interface PlainTextEditor (PlainTextEditorPrivateAdditions)
+@interface PlainTextEditor ()
+
+@property (nonatomic, strong) NSArray *topLevelNibObjects;
+
 - (void)	TCM_updateStatusBar;
 - (void)	TCM_updateBottomStatusBar;
 - (float)	pageGuidePositionForColumns:(int)aColumns;
@@ -99,9 +102,13 @@
         I_flags.showTopStatusBar = YES;
         I_flags.showBottomStatusBar = YES;
         I_flags.pausedProcessing = NO;
+		I_storedSelectedRanges = [NSMutableArray new];
+
         [self setFollowUserID:nil];
-        [NSBundle loadNibNamed:@"PlainTextEditor" owner:self];
-        I_storedSelectedRanges = [NSMutableArray new];
+
+		NSArray *topLevelNibObjects = nil;
+        [[NSBundle mainBundle] loadNibNamed:@"PlainTextEditor" owner:self topLevelObjects:&topLevelNibObjects];
+		self.topLevelNibObjects = topLevelNibObjects;
     }
 
     return self;
@@ -113,6 +120,7 @@
     [[NSNotificationCenter defaultCenter] removeObserver:[I_windowControllerTabContext document] name:NSTextViewDidChangeSelectionNotification object:I_textView];
     [[NSNotificationCenter defaultCenter] removeObserver:[I_windowControllerTabContext document] name:NSTextDidChangeNotification object:I_textView];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
+
     [I_textView setDelegate:nil];
     [I_textView setEditor:nil];     // in case our editor outlives us
     [O_editorView setNextResponder:nil];
@@ -122,6 +130,9 @@
     [I_followUserID release];
     [I_storedSelectedRanges release];
     [I_storedPosition release];
+
+	self.topLevelNibObjects = nil;
+
     [super dealloc];
 }
 
