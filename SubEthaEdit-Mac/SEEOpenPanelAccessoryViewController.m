@@ -10,6 +10,10 @@
 #import "EncodingManager.h"
 #import "DocumentModeManager.h"
 
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
 @implementation SEEOpenPanelAccessoryViewController
 
 + (instancetype)openPanelAccessoryControllerForOpenPanel:(NSOpenPanel *)inOpenPanel {
