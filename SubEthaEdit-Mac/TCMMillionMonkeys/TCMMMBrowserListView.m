@@ -116,8 +116,11 @@ static NSMutableDictionary *S_childNameAttributes=nil;
     
     NSImage *image=[dataSource listView:self objectValueForTag:TCMMMBrowserChildStatusImageTag atChildIndex:aChildIndex ofItemAtIndex:aItemIndex];
     if (image) {
-        [image compositeToPoint:NSMakePoint(CHILDBASEINSET+9-(16+2),2+16+CHILDVINSET) 
-                      operation:NSCompositeSourceOver];
+		NSRect targetRect = NSZeroRect;
+		targetRect.origin = NSMakePoint(CHILDBASEINSET+9-(16+2),2+CHILDVINSET);
+		targetRect.size = NSMakeSize(16., 16.);
+
+		[image drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
     }
 
     image=[dataSource listView:self objectValueForTag:TCMMMBrowserChildIconImageTag atChildIndex:aChildIndex ofItemAtIndex:aItemIndex];
@@ -130,9 +133,12 @@ static NSMutableDictionary *S_childNameAttributes=nil;
             else if (status<3) fraction=.75;
             else fraction=1.0;
         }
-        [image compositeToPoint:NSMakePoint(CHILDBASEINSET+9+inset*16.,2+16+CHILDVINSET) 
-                      operation:NSCompositeSourceOver fraction:fraction];
-    }
+		NSRect targetRect = NSZeroRect;
+		targetRect.origin = NSMakePoint(CHILDBASEINSET+9+inset*16.,2+CHILDVINSET);
+		targetRect.size = NSMakeSize(16., 16.);
+		
+		[image drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	}
     NSString *string=[dataSource listView:self objectValueForTag:TCMMMBrowserChildNameTag atChildIndex:aChildIndex ofItemAtIndex:aItemIndex];
     [[NSColor blackColor] set];
     if (string) {
@@ -196,34 +202,39 @@ static NSMutableDictionary *S_childNameAttributes=nil;
 
     NSImage *actionImage=[dataSource listView:self objectValueForTag:TCMMMBrowserItemActionImageTag atChildIndex:-1 ofItemAtIndex:aIndex];
     if (actionImage) {
-        [NSGraphicsContext saveGraphicsState];
         NSSize actionSize=[actionImage size];
-        [actionImage compositeToPoint:NSMakePoint(itemRect.size.width-actionImagePadding-actionSize.width,(NSInteger)(itemRowHeight-(itemRowHeight-actionSize.height)/2.))
-                     operation:NSCompositeSourceOver];
-        itemRect.size.width-=actionImagePadding+actionSize.width+actionImagePadding;
+		NSRect targetRect = NSZeroRect;
+		targetRect.size = [actionImage size];
+		targetRect.origin = NSMakePoint(itemRect.size.width-actionImagePadding-actionSize.width,floor((itemRowHeight-targetRect.size.height)/2.));
+ 		[actionImage drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+       itemRect.size.width-=actionImagePadding+actionSize.width+actionImagePadding;
         NSRectClip(itemRect);
     }
     
     NSImage *image=[dataSource listView:self objectValueForTag:TCMMMBrowserItemImageTag atChildIndex:-1 ofItemAtIndex:aIndex];
     if (image) {
-        [image compositeToPoint:NSMakePoint(4+(32.-[image size].width),32+3) 
-                      operation:NSCompositeSourceOver];
+		NSRect targetRect = NSZeroRect;
+		targetRect.origin = NSMakePoint(4+(32.-[image size].width),3);
+		targetRect.size = NSMakeSize(32,32);
+		[image drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
     }
 
     image=[dataSource listView:self objectValueForTag:TCMMMBrowserItemStatusImageOverlayTag atChildIndex:-1 ofItemAtIndex:aIndex];
     if (image) {
-        [image compositeToPoint:NSMakePoint(4+32+5-[image size].width,32+3+3) 
-                      operation:NSCompositeSourceOver
-                       fraction:1.0];
+		NSRect targetRect = NSZeroRect;
+		targetRect.origin = NSMakePoint(4+32+5-[image size].width,3+3);
+		targetRect.size = NSMakeSize(32,32);
+		[image drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
     }
 
     
     CGFloat nameXOrigin = 32.+11.;
     NSImage *browserStatus2Image = [dataSource listView:self objectValueForTag:TCMMMBrowserItemImageInFrontOfNameTag atChildIndex:-1 ofItemAtIndex:aIndex];
     if (browserStatus2Image) {
-        [browserStatus2Image compositeToPoint:NSMakePoint(nameXOrigin-2,16.+3.) 
-                                   operation:NSCompositeSourceOver];
-        //nameXOrigin += [browserStatus2Image size].width+4.;
+		NSRect targetRect = NSZeroRect;
+		targetRect.origin = NSMakePoint(nameXOrigin-2,3.+2);
+		targetRect.size = browserStatus2Image.size;
+		[browserStatus2Image drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
     }
     nameXOrigin += 16.+3.;
     
@@ -232,18 +243,19 @@ static NSMutableDictionary *S_childNameAttributes=nil;
 
     NSString *string=[dataSource listView:self objectValueForTag:TCMMMBrowserItemNameTag atChildIndex:-1 ofItemAtIndex:aIndex];
     [[NSColor blackColor] set];
-    NSSize nameSize=[string sizeWithAttributes:S_itemNameAttributes];
+	//    NSSize nameSize=[string sizeWithAttributes:S_itemNameAttributes];
     NSRect nameRect = NSMakeRect(nameXOrigin,2.,NSWidth(itemRect)-nameXOrigin-(image?imageWidth+6.:2.),16.);
     if (string) {
         [string drawInRect:nameRect withAttributes:S_itemNameAttributes];
     }
 
-    // this one is right aligned now - and probably soon unused
+    // unused
+	/*
     if (image) {
-        [image compositeToPoint:NSMakePoint(NSMaxX(itemRect)-imageWidth-2.,
+			[image compositeToPoint:NSMakePoint(NSMaxX(itemRect)-imageWidth-2.,
                                             (NSInteger)(1.+nameSize.height)-(nameSize.height - [image size].height)/3.) 
                       operation:NSCompositeSourceOver];
-    }
+    }*/
 
     string=[dataSource listView:self objectValueForTag:TCMMMBrowserItemUserNameTag atChildIndex:-1 ofItemAtIndex:aIndex];
     [[NSColor blackColor] set];
@@ -261,8 +273,10 @@ static NSMutableDictionary *S_childNameAttributes=nil;
     NSImage *browserStatusImage = [dataSource listView:self objectValueForTag:TCMMMBrowserItemStatusImageTag atChildIndex:-1 ofItemAtIndex:aIndex];
 //    CGFloat additionalSpace = 21.;
     if (browserStatusImage) {
-        [browserStatusImage compositeToPoint:NSMakePoint(32.+9.,32+1.) 
-                                   operation:NSCompositeSourceOver];
+ 		NSRect targetRect = NSZeroRect;
+		targetRect.origin = NSMakePoint(32.+9.,16+1.+5);
+		targetRect.size = browserStatusImage.size;
+ 		[browserStatusImage drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
     }
 
 //    [[NSColor redColor] set];

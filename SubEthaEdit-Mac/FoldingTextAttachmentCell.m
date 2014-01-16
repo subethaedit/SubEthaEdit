@@ -34,9 +34,11 @@ layoutManager {
 //    [[NSColor redColor] set];
 //    NSLog(@"cell frame %@", NSStringFromRect(cellFrame));
 //    NSFrameRect(cellFrame);
-	[s_foldingImage 
-	  compositeToPoint:NSMakePoint(cellFrame.origin.x + IMAGE_INSET,NSMaxY(cellFrame) - IMAGE_INSET)
-	         operation:NSCompositeSourceOver];
+	NSRect targetRect = NSZeroRect;
+	targetRect.size = s_foldingImage.size;
+	targetRect.origin = NSMakePoint(cellFrame.origin.x + IMAGE_INSET,NSMaxY(cellFrame) - IMAGE_INSET - s_foldingImage.size.height);
+	[s_foldingImage drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	
 }
 
 
