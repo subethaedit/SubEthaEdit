@@ -2622,7 +2622,7 @@ struct SelectionRange
     if (![self fileURL] && [self directoryForSavePanel]) {
         [savePanel setDirectoryURL:[NSURL fileURLWithPath:[self directoryForSavePanel]]];
     }
-    return [SEESavePanelAccessoryViewController prepareSavePanel:savePanel withSaveOperation:I_lastSaveOperation forDocument:self];
+    return ([[SEESavePanelAccessoryViewController prepareSavePanel:savePanel withSaveOperation:I_lastSaveOperation forDocument:self] retain] != nil);
 }
 
 - (void)saveDocumentWithDelegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
