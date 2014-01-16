@@ -22,6 +22,10 @@
 
 static FindReplaceController *sharedInstance=nil;
 
+@interface FindReplaceController ()
+@property (nonatomic, strong) NSArray *topLevelNibObjects;
+@end
+
 @implementation FindReplaceController
 
 
@@ -49,21 +53,23 @@ static FindReplaceController *sharedInstance=nil;
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationWillResignActiveNotification object:[NSApplication sharedApplication]];
     [I_findHistory dealloc];
     [I_replaceHistory dealloc];
+	self.topLevelNibObjects = nil;
     [super dealloc];
 }
 
 - (void)loadUI {
     if (!O_findPanel) {
-        if (![NSBundle loadNibNamed:@"FindReplace" owner:self]) {
+		NSArray *topLevelNibObjects = nil;
+        if (![[NSBundle mainBundle] loadNibNamed:@"FindReplace" owner:self topLevelObjects:&topLevelNibObjects]) {
             NSBeep();
         } else {
+			self.topLevelNibObjects = topLevelNibObjects;
 			[O_findComboBox setButtonBordered:NO];
 			[O_replaceComboBox setButtonBordered:NO];
             NSWindow *window = [O_replaceComboBox window];
             if ([window respondsToSelector:@selector(setCollectionBehavior:)]) {
                 ((void (*)(id, SEL, int))objc_msgSend)(window, @selector(setCollectionBehavior:), 2);
             }
-
 		}
     }
 }
