@@ -58,9 +58,10 @@
     NSImageInterpolation oldInterpolation=[context imageInterpolation];
     [context setImageInterpolation:NSImageInterpolationHigh];
     [[NSColor clearColor] set];
-    [[NSBezierPath bezierPathWithRect:(NSMakeRect(0.,0.,mysize.width,mysize.height))] fill];
-    [self compositeToPoint:NSMakePoint(0.,0.)
-                 operation:NSCompositeSourceOver fraction:.5];
+	NSRect totalRect = NSMakeRect(0.,0.,mysize.width,mysize.height);
+    [[NSBezierPath bezierPathWithRect:totalRect] fill];
+	[self drawInRect:totalRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:0.5 respectFlipped:YES hints:nil];
+	
     [context setImageInterpolation:oldInterpolation];
     [image unlockFocus];
     
