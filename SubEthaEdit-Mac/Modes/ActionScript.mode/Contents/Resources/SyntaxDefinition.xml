@@ -931,7 +931,7 @@
 				<string>setIsBranch</string>
 				<string>setIsOpen</string>
 				<string>setLabel</string>
-				<string>setNodeProperties </string>
+				<string>setNodeProperties</string>
 				<string>apply</string>
 				<string>call</string>
 				<string>prototype</string>
@@ -1053,7 +1053,6 @@
 				<string>onMouseUp</string>
 				<string>onPress</string>
 				<string>onRelease</string>
-				<!-- CODA fixed spelling <string>onRelaseOutside</string> -->
 				<string>onReleaseOutside</string>
 				<string>onRollOut</string>
 				<string>onRollOver</string>
@@ -1537,7 +1536,7 @@
 				<string>undefined</string>
             </keywords>
             
-            <keywords id="Properties" useforautocomplete="yes">
+            <keywords id="Properties" useforautocomplete="yes" scope="language.property">
 				<string>_accProps</string>
 				<string>_alpha</string>
 				<string>_changed</string>
@@ -1685,12 +1684,13 @@
             </keywords>
             
             <keywords id="Types" useforautocomplete="yes" scope="keyword.type">
-							<string>int</string>
-							<string>private</string>
-							<string>public</string>
-							<string>static</string>
-							<string>var</string>
-							<string>void</string>
+				<string>int</string>
+				<string>private</string>
+				<string>public</string>
+				<string>protected</string>
+				<string>static</string>
+				<string>var</string>
+				<string>void</string>
             </keywords>
             
             <keywords id="Keywords" useforautocomplete="yes" scope="keyword.control">
