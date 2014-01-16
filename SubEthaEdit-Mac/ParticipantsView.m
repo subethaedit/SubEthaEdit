@@ -97,8 +97,10 @@
     
     NSImage *image=[dataSource listView:self objectValueForTag:ParticipantsChildImageTag atChildIndex:aChildIndex ofItemAtIndex:aItemIndex];
     if (image) {
-        [image compositeToPoint:NSMakePoint(4+(32.-[image size].width),32+3) 
-                      operation:NSCompositeSourceOver];
+		NSRect targetRect = NSZeroRect;
+		targetRect.size = image.size;
+		targetRect.origin = NSMakePoint(4+(32.-targetRect.size.width),32-targetRect.size.height+3);
+        [image drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
     }
     
     CGFloat nameXOrigin = 32.+11.;
@@ -113,9 +115,10 @@
     NSSize nameSize=[string sizeWithAttributes:mNameAttributes];
     image=[dataSource listView:self objectValueForTag:ParticipantsChildImageNextToNameTag atChildIndex:aChildIndex ofItemAtIndex:aItemIndex];
     if (image) {
-        [image compositeToPoint:NSMakePoint(nameXOrigin+(int)nameSize.width+6.,
-                                            (int)(1.+nameSize.height)-(nameSize.height - [image size].height)/3.) 
-                      operation:NSCompositeSourceOver];
+		NSRect targetRect = NSZeroRect;
+		targetRect.size = image.size;
+		targetRect.origin = NSMakePoint(nameXOrigin+(int)nameSize.width+6.,16. - targetRect.size.height);
+        [image drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
     }
     
     NSAttributedString *attributedString=[dataSource listView:self objectValueForTag:ParticipantsChildStatusTag atChildIndex:aChildIndex ofItemAtIndex:aItemIndex];
@@ -143,8 +146,10 @@
     
     NSImage *image=[dataSource listView:self objectValueForTag:ParticipantsItemStatusImageTag atChildIndex:-1 ofItemAtIndex:aItemIndex];
     if (image) {
-        [image compositeToPoint:NSMakePoint(12,2+16) 
-                      operation:NSCompositeSourceOver];
+		NSRect targetRect = NSZeroRect;
+		targetRect.size = image.size;
+		targetRect.origin = NSMakePoint(12,2+16 - targetRect.size.height);
+        [image drawInRect:targetRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
     }
 
     NSString *string=[dataSource listView:self objectValueForTag:ParticipantsItemNameTag atChildIndex:-1 ofItemAtIndex:aItemIndex];
