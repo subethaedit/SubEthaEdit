@@ -412,7 +412,8 @@ static NSString *tempFileName() {
 			[openPanel setDirectoryURL:[self locationForNextOpenPanel]];
 			[self setLocationForNextOpenPanel:nil];
 		}
-		NSInteger result = [super runModalOpenPanel:openPanel forTypes:extensions];
+		
+		result = [super runModalOpenPanel:openPanel forTypes:extensions];
 
 		[self setModeIdentifierFromLastRunOpenPanel:[openPanelAccessoryViewController.modePopUpButtonOutlet selectedModeIdentifier]];
 		[self setEncodingFromLastRunOpenPanel:[[openPanelAccessoryViewController.encodingPopUpButtonOutlet selectedItem] tag]];
