@@ -54,17 +54,17 @@ static FindReplaceController *sharedInstance=nil;
 
 - (void)loadUI {
     if (!O_findPanel) {
-//        if (![NSBundle loadNibNamed:@"FindReplace" owner:self]) {
-//            NSBeep();
-//        } else {
-//			[O_findComboBox setButtonBordered:NO];
-//			[O_replaceComboBox setButtonBordered:NO];
-//            NSWindow *window = [O_replaceComboBox window];
-//            if ([window respondsToSelector:@selector(setCollectionBehavior:)]) {
-//                ((void (*)(id, SEL, int))objc_msgSend)(window, @selector(setCollectionBehavior:), 2);
-//            }
-//
-//		}
+        if (![NSBundle loadNibNamed:@"FindReplace" owner:self]) {
+            NSBeep();
+        } else {
+			[O_findComboBox setButtonBordered:NO];
+			[O_replaceComboBox setButtonBordered:NO];
+            NSWindow *window = [O_replaceComboBox window];
+            if ([window respondsToSelector:@selector(setCollectionBehavior:)]) {
+                ((void (*)(id, SEL, int))objc_msgSend)(window, @selector(setCollectionBehavior:), 2);
+            }
+
+		}
     }
 }
 
