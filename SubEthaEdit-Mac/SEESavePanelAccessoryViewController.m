@@ -25,28 +25,23 @@
 @dynamic writableDocumentTypes;
 
 
-+ (BOOL)prepareSavePanel:(NSSavePanel *)savePanel withSaveOperation:(NSSaveOperationType)saveOperation forDocument:(PlainTextDocument *)document
++ (instancetype)prepareSavePanel:(NSSavePanel *)savePanel withSaveOperation:(NSSaveOperationType)saveOperation forDocument:(PlainTextDocument *)document
 {
-    SEESavePanelAccessoryViewController *viewController = nil;
-    if (saveOperation == NSSaveToOperation) {
-        viewController = [[[self class] alloc] initWithNibName:@"SEEPlainTextDocumentSavePanelSaveToAccessory" bundle:nil];
-    } else {
-        viewController = [[[self class] alloc] initWithNibName:@"SEEPlainTextDocumentSavePanelAccessory" bundle:nil];
-    }
+    SEESavePanelAccessoryViewController *viewController = [[[self class] alloc] initWithNibName:@"SavePanelAccessory" bundle:nil];
+
     viewController.document = document;
     viewController.savePanel = savePanel;
     viewController.saveOperation = saveOperation;
-    
-    savePanel.accessoryView = viewController.view;
-    
-    return YES;
-}
 
+	(void)viewController.view; // force load the view
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
-    self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
-    return self;
+	if (saveOperation == NSSaveToOperation) {
+		savePanel.accessoryView = viewController.saveToPanelAccessoryOutlet;
+	} else {
+		savePanel.accessoryView = viewController.savePanelAccessoryOutlet;
+	}
+    
+    return viewController;
 }
 
 
@@ -62,38 +57,32 @@
     [savePanel setCanSelectHiddenExtension:YES];
     
 	self.savePanelProxy.content = savePanel;
-    
-    EncodingPopUpButton *encodingPopup = self.encodingPopUpButtonOutlet;
-    if (encodingPopup) {
-        PlainTextDocument *document = self.document;
-        NSArray *encodings = [[EncodingManager sharedInstance] enabledEncodings];
-        NSMutableArray *lossyEncodings = [NSMutableArray array];
-        for (id loopItem in encodings) {
-            if (![document canBeConvertedToEncoding:[loopItem unsignedIntValue]]) {
-                [lossyEncodings addObject:loopItem];
-            }
-        }
-        [[EncodingManager sharedInstance] registerEncoding:[document fileEncoding]];
-		[encodingPopup setEncoding:[document fileEncoding] defaultEntry:NO modeEntry:NO lossyEncodings:lossyEncodings];
-	}
+
+	if (self.saveOperation == NSSaveToOperation) {
+		EncodingPopUpButton *encodingPopup = self.encodingPopUpButtonOutlet;
+		if (encodingPopup) {
+			PlainTextDocument *document = self.document;
+			NSArray *encodings = [[EncodingManager sharedInstance] enabledEncodings];
+			NSMutableArray *lossyEncodings = [NSMutableArray array];
+			for (id loopItem in encodings) {
+				if (![document canBeConvertedToEncoding:[loopItem unsignedIntValue]]) {
+					[lossyEncodings addObject:loopItem];
+				}
+			}
+			[[EncodingManager sharedInstance] registerEncoding:[document fileEncoding]];
+			[encodingPopup setEncoding:[document fileEncoding] defaultEntry:NO modeEntry:NO lossyEncodings:lossyEncodings];
+		}
+    }
 }
 
 
 - (IBAction)selectFileFormat:(id)aSender
 {
     NSSavePanel *panel = (NSSavePanel *)self.savePanel;
-    NSString *seeTextExtension = [self.document fileNameExtensionForType:@"de.codingmonkeys.subethaedit.seetext" saveOperation:NSSaveOperation];
     if ([[aSender selectedCell] tag]==1) {
-        [panel setAllowedFileTypes:@[seeTextExtension]];
+        [panel setAllowedFileTypes:@[@"de.codingmonkeys.subethaedit.seetext"]];
     } else {
-        [panel setAllowedFileTypes:@[]];
-        NSTextField *nameField = [panel valueForKey:@"_nameField"];
-        if (nameField && [nameField isKindOfClass:[NSTextField class]]) {
-            NSString *name = [nameField stringValue];
-            if ([[name pathExtension] isEqualToString:seeTextExtension]) {
-                [nameField setStringValue:[name stringByDeletingPathExtension]];
-            }
-        }
+        [panel setAllowedFileTypes:@[self.document.fileType]];
     }
     [panel setExtensionHidden:NO];
 }
