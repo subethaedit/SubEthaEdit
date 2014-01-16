@@ -82,14 +82,7 @@
     if ([[aSender selectedCell] tag]==1) {
         [panel setAllowedFileTypes:@[@"de.codingmonkeys.subethaedit.seetext"]];
     } else {
-        [panel setAllowedFileTypes:@[]];
-        NSTextField *nameField = [panel valueForKey:@"_nameField"];
-        if (nameField && [nameField isKindOfClass:[NSTextField class]]) {
-            NSString *name = [nameField stringValue];
-            if ([[name pathExtension] isEqualToString:@"seetext"]) {
-                [nameField setStringValue:[name stringByDeletingPathExtension]];
-            }
-        }
+        [panel setAllowedFileTypes:@[self.document.fileType]];
     }
     [panel setExtensionHidden:NO];
 }
