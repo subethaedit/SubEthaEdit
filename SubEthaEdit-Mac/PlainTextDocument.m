@@ -2618,11 +2618,17 @@ struct SelectionRange
 //	[super _savePanelWasPresented:aPanel withResult:aResult inContext:aContext];
 //}
 
+const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
+
 - (BOOL)prepareSavePanel:(NSSavePanel *)savePanel {
     if (![self fileURL] && [self directoryForSavePanel]) {
         [savePanel setDirectoryURL:[NSURL fileURLWithPath:[self directoryForSavePanel]]];
     }
-    return ([[SEESavePanelAccessoryViewController prepareSavePanel:savePanel withSaveOperation:I_lastSaveOperation forDocument:self] retain] != nil);
+
+	SEESavePanelAccessoryViewController *viewController = [SEESavePanelAccessoryViewController prepareSavePanel:savePanel withSaveOperation:I_lastSaveOperation forDocument:self];
+	objc_setAssociatedObject(savePanel, SEESavePanelAssociationKey, viewController, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+
+    return (viewController != nil);
 }
 
 - (void)saveDocumentWithDelegate:(id)delegate didSaveSelector:(SEL)didSaveSelector contextInfo:(void *)contextInfo {
