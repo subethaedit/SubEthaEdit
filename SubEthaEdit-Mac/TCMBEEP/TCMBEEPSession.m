@@ -1529,7 +1529,7 @@ static NSData *dhparamData = nil;
 void callBackReadStream(CFReadStreamRef stream, CFStreamEventType type, void *clientCallBackInfo)
 {
     NSAutoreleasePool *pool=nil;
-    if (floor(NSFoundationVersionNumber)>NSFoundationVersionNumber10_3) pool=[NSAutoreleasePool new];
+    pool=[NSAutoreleasePool new];
     TCMBEEPSession *session = (TCMBEEPSession *)clientCallBackInfo;
 
     switch(type)
@@ -1560,7 +1560,7 @@ void callBackReadStream(CFReadStreamRef stream, CFStreamEventType type, void *cl
             DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"CFReadStream ??");
             break;
     }
-    if (floor(NSFoundationVersionNumber)>NSFoundationVersionNumber10_3) [pool release];
+    [pool release];
 }
 
 void callBackWriteStream(CFWriteStreamRef stream, CFStreamEventType type, void *clientCallBackInfo)
