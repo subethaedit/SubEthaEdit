@@ -247,6 +247,8 @@
 		4C6BDC5F1889858A0088CBFC /* folded.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC5D1889858A0088CBFC /* folded.png */; };
 		4C6BDC601889858A0088CBFC /* folded@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC5E1889858A0088CBFC /* folded@2x.png */; };
 		4C6BDC6618898E1E0088CBFC /* ScriptMenu.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC6518898E1E0088CBFC /* ScriptMenu.pdf */; };
+		4C6BDC6918898F850088CBFC /* ScriptMenuItemIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC6718898F850088CBFC /* ScriptMenuItemIcon.png */; };
+		4C6BDC6A18898F850088CBFC /* ScriptMenuItemIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC6818898F850088CBFC /* ScriptMenuItemIcon@2x.png */; };
 		4CB8EE4D180FD8FE0051AB6B /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CB8EE4C180FD8FE0051AB6B /* XCTest.framework */; };
 		4CB8EE4F180FD9A40051AB6B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CB8EE4E180FD9A40051AB6B /* libz.dylib */; };
 		4CB8EE50180FDF160051AB6B /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */; };
@@ -292,7 +294,6 @@
 		5E28E2900972FB8E00099B13 /* InsetTextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E28E28E0972FB8E00099B13 /* InsetTextFieldCell.m */; };
 		5E294A4B09DAD29D0010A5B2 /* ToolbarIconBuild.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E294A4A09DAD29D0010A5B2 /* ToolbarIconBuild.tiff */; };
 		5E4DA73D09E15C6800D91CFC /* Scripts in Resources */ = {isa = PBXBuildFile; fileRef = 5E4DA73A09E15C6800D91CFC /* Scripts */; };
-		5E4DA76309E1638000D91CFC /* ScriptMenuItemIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 5E4DA76209E1638000D91CFC /* ScriptMenuItemIcon.png */; };
 		5E57298F09F514FB00D3746B /* Toolbar.m in Sources */ = {isa = PBXBuildFile; fileRef = 5E57298D09F514FB00D3746B /* Toolbar.m */; };
 		5E67DB1A0ABF0DEA0013562D /* NSDataTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891220957457500D14688 /* NSDataTCMAdditions.m */; };
 		5E67DB8D0ABF21270013562D /* glass-normal-cap-left.tiff in Resources */ = {isa = PBXBuildFile; fileRef = 5E67DB870ABF21270013562D /* glass-normal-cap-left.tiff */; };
@@ -901,6 +902,8 @@
 		4C6BDC5D1889858A0088CBFC /* folded.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = folded.png; path = artwork/folded.png; sourceTree = "<group>"; };
 		4C6BDC5E1889858A0088CBFC /* folded@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "folded@2x.png"; path = "artwork/folded@2x.png"; sourceTree = "<group>"; };
 		4C6BDC6518898E1E0088CBFC /* ScriptMenu.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = ScriptMenu.pdf; path = artwork/ScriptMenu.pdf; sourceTree = "<group>"; };
+		4C6BDC6718898F850088CBFC /* ScriptMenuItemIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ScriptMenuItemIcon.png; path = artwork/ScriptMenuItemIcon.png; sourceTree = "<group>"; };
+		4C6BDC6818898F850088CBFC /* ScriptMenuItemIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ScriptMenuItemIcon@2x.png"; path = "artwork/ScriptMenuItemIcon@2x.png"; sourceTree = "<group>"; };
 		4CAA423718157B1000457B2A /* TCMReleaseInfo.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = TCMReleaseInfo.xcconfig; sourceTree = "<group>"; };
 		4CAA423818157EAB00457B2A /* TCMAppConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = TCMAppConfig.xcconfig; sourceTree = "<group>"; };
 		4CB8EE4C180FD8FE0051AB6B /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -978,7 +981,6 @@
 		5E294A4A09DAD29D0010A5B2 /* ToolbarIconBuild.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ToolbarIconBuild.tiff; path = artwork/ToolbarIconBuild.tiff; sourceTree = "<group>"; };
 		5E4DA72C09E159B400D91CFC /* ToolbarIconTerminal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ToolbarIconTerminal.png; path = artwork/ToolbarIconTerminal.png; sourceTree = "<group>"; };
 		5E4DA73A09E15C6800D91CFC /* Scripts */ = {isa = PBXFileReference; lastKnownFileType = folder; path = Scripts; sourceTree = "<group>"; };
-		5E4DA76209E1638000D91CFC /* ScriptMenuItemIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ScriptMenuItemIcon.png; path = artwork/ScriptMenuItemIcon.png; sourceTree = "<group>"; };
 		5E57298C09F514FB00D3746B /* Toolbar.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = Toolbar.h; sourceTree = "<group>"; };
 		5E57298D09F514FB00D3746B /* Toolbar.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Toolbar.m; sourceTree = "<group>"; };
 		5E67DB870ABF21270013562D /* glass-normal-cap-left.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = "glass-normal-cap-left.tiff"; path = "artwork/glass-normal-cap-left.tiff"; sourceTree = "<group>"; };
@@ -1345,7 +1347,6 @@
 				3134F7DD0CB13A2E00F8C116 /* Precedence_RemoveRollover.tiff */,
 				F2D5FF3D0CB2666000407399 /* Rendezvous.icns */,
 				14289081095743F200D14688 /* Rendezvous.tiff */,
-				5E4DA76209E1638000D91CFC /* ScriptMenuItemIcon.png */,
 				14289083095743F200D14688 /* SeeFolderIcon.tiff */,
 				14289084095743F200D14688 /* ShiftLeft.png */,
 				14289086095743F200D14688 /* ShiftRight.png */,
@@ -2032,6 +2033,8 @@
 				4C6BDC5D1889858A0088CBFC /* folded.png */,
 				4C6BDC5E1889858A0088CBFC /* folded@2x.png */,
 				4C6BDC6518898E1E0088CBFC /* ScriptMenu.pdf */,
+				4C6BDC6718898F850088CBFC /* ScriptMenuItemIcon.png */,
+				4C6BDC6818898F850088CBFC /* ScriptMenuItemIcon@2x.png */,
 			);
 			name = Retina;
 			sourceTree = "<group>";
@@ -2341,6 +2344,7 @@
 				14448AA40A18964A00F36B34 /* SubEthaEdit.sdef in Resources */,
 				1428900D095740F200D14688 /* Acknowledgements.txt in Resources */,
 				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
+				4C6BDC6918898F850088CBFC /* ScriptMenuItemIcon.png in Resources */,
 				4CD5F81917FB0DF900F49E31 /* PrecedencePrefs.xib in Resources */,
 				142890140957413900D14688 /* Localizable.strings in Resources */,
 				1428900F095740F200D14688 /* RE.txt in Resources */,
@@ -2350,6 +2354,7 @@
 				1428904B0957427100D14688 /* Modes in Resources */,
 				5E4DA73D09E15C6800D91CFC /* Scripts in Resources */,
 				4C0D3D6A17FB149200AAFB38 /* LoginSheet.xib in Resources */,
+				4C6BDC6A18898F850088CBFC /* ScriptMenuItemIcon@2x.png in Resources */,
 				4C6BDC5C188983380088CBFC /* FoldingBubbleBig@2x.png in Resources */,
 				142890470957421300D14688 /* SubEthaEditHelp in Resources */,
 				142890580957432800D14688 /* Invitation.aiff in Resources */,
@@ -2423,7 +2428,6 @@
 				4CD5F7EA17FB0C8E00F49E31 /* EncodingDoctor.xib in Resources */,
 				5E18F62C09A8A43A00A96A6C /* InvitationBadge1-2.tiff in Resources */,
 				5E294A4B09DAD29D0010A5B2 /* ToolbarIconBuild.tiff in Resources */,
-				5E4DA76309E1638000D91CFC /* ScriptMenuItemIcon.png in Resources */,
 				1493A8590A10DABB004ECE6A /* SystemVersionCheck.strings in Resources */,
 				4CD5F7DE17FB0C2800F49E31 /* ConnectionBrowser.xib in Resources */,
 				144483970A15F68F00F36B34 /* SubEthaEditSuite.scriptSuite in Resources */,
