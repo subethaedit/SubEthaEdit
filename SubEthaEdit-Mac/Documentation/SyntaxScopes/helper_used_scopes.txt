@@ -3,6 +3,7 @@
 comment 					*//JavadocComment 
 comment.block 				// Comment
 comment.block.documentation
+comment.block.documentation.js
 comment.block.documentation.tag
 comment.block.js
 comment.block.vb
@@ -42,6 +43,7 @@ markup.comment
 markup.declaration
 markup.declaration.string.double
 markup.declaration.string.single
+markup.inline.cdata
 markup.processing
 markup.processing.attribute.value.string
 markup.processing.languageswitch.asp
@@ -54,6 +56,7 @@ meta.block.attribute
 meta.block.css
 meta.block.curly
 meta.block.curly.js
+meta.block.js
 meta.block.percentagestring.unescapedbracketrecursive.angle
 meta.block.percentagestring.unescapedbracketrecursive.bracket
 meta.block.percentagestring.unescapedbracketrecursive.parentheses
@@ -80,6 +83,7 @@ string.symbol
 string.symbol.percent
 string.symbol.percent.curly
 
+style.at-rule
 style.comment.block
 style.comment.block.documentation
 style.value.string.double
@@ -87,6 +91,7 @@ style.value.string.single
 
 support						// Application API and Central API
 support.accessor
+support.function
 
 
 ################################################################// Used in Coda Style Sheets
