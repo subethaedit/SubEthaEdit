@@ -198,7 +198,7 @@ static NSMutableDictionary *S_nameAttributes, *S_contactAttributes, *S_contactLa
     [I_contributorArray removeAllObjects];
     [I_visitorArray removeAllObjects];
     
-    [[self subviews] makeObjectsPerformSelector:@selector(removeFromSuperview)];
+    [[[[self subviews] copy] autorelease] makeObjectsPerformSelector:@selector(removeFromSuperview)];
     [I_textStorage setAttributedString:[(FoldableTextStorage *)[I_document textStorage] fullTextStorage]];
     
     NSPrintInfo *printInfo = [[NSPrintOperation currentOperation] printInfo];
