@@ -2244,6 +2244,7 @@ struct SelectionRange
         finish
     */
     if (! self.O_exportSheet) {
+		// there are strong outlets to every top level nib object, so no additional array is needed to hold them.
 		[[NSBundle mainBundle] loadNibNamed:@"Export" owner:self topLevelObjects:nil];
 	}
 

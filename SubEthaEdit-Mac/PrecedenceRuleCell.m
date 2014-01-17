@@ -47,6 +47,7 @@
 - (id)init {
     self = [super init];
     if (self) {
+		// there are strong outlets to every top level nib object, so no additional array is needed to hold them.
 		[[NSBundle mainBundle] loadNibNamed:@"PrecedenceRules" owner:self topLevelObjects:nil];
 		preferenceController = nil;
     }
