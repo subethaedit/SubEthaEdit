@@ -333,9 +333,6 @@
 		F20E1FAE0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = F20E1FAC0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.m */; };
 		F212908B0F8EC56F0076B6B1 /* NSDictionaryTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891240957457500D14688 /* NSDictionaryTCMAdditions.m */; };
 		F21290980F8EC5870076B6B1 /* NSMutableAttributedStringSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142D18B30BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m */; };
-		F23025740D6C709A00728699 /* DotRed.png in Resources */ = {isa = PBXBuildFile; fileRef = F23025710D6C709A00728699 /* DotRed.png */; };
-		F23025750D6C709A00728699 /* DotGreen.png in Resources */ = {isa = PBXBuildFile; fileRef = F23025720D6C709A00728699 /* DotGreen.png */; };
-		F23025760D6C709A00728699 /* DotYellow.png in Resources */ = {isa = PBXBuildFile; fileRef = F23025730D6C709A00728699 /* DotYellow.png */; };
 		F234E1010BE0F1E100504A7C /* ServerConnectionWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = F234E0FF0BE0F1E100504A7C /* ServerConnectionWindowController.m */; };
 		F234E1020BE0F1EA00504A7C /* ServerConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F234E0FA0BE0F1C500504A7C /* ServerConnectionManager.m */; };
 		F234E4590BE2592300504A7C /* NSWorkspaceTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F234E4570BE2592300504A7C /* NSWorkspaceTCMAdditions.m */; };
@@ -1040,9 +1037,6 @@
 		F2230A480BE0243100437D55 /* TCMBEEPBencodingProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMBEEPBencodingProfile.m; path = TCMBEEP/TCMBEEPBencodingProfile.m; sourceTree = "<group>"; };
 		F223FC8C0BDF5F0A00437D55 /* UnknownPerson.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = UnknownPerson.png; path = artwork/UnknownPerson.png; sourceTree = "<group>"; };
 		F223FC8E0BDF5F1C00437D55 /* DefaultPerson.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DefaultPerson.png; path = artwork/DefaultPerson.png; sourceTree = "<group>"; };
-		F23025710D6C709A00728699 /* DotRed.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DotRed.png; path = artwork/DotRed.png; sourceTree = "<group>"; };
-		F23025720D6C709A00728699 /* DotGreen.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DotGreen.png; path = artwork/DotGreen.png; sourceTree = "<group>"; };
-		F23025730D6C709A00728699 /* DotYellow.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DotYellow.png; path = artwork/DotYellow.png; sourceTree = "<group>"; };
 		F234E0F90BE0F1C500504A7C /* ServerConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ServerConnectionManager.h; sourceTree = "<group>"; };
 		F234E0FA0BE0F1C500504A7C /* ServerConnectionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerConnectionManager.m; sourceTree = "<group>"; };
 		F234E0FE0BE0F1E100504A7C /* ServerConnectionWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ServerConnectionWindowController.h; sourceTree = "<group>"; };
@@ -1416,9 +1410,6 @@
 				142890AE095743F200D14688 /* URLIcon.tiff */,
 				142890AF095743F200D14688 /* WaitPipe.png */,
 				142890B0095743F200D14688 /* WebReload.tiff */,
-				F23025710D6C709A00728699 /* DotRed.png */,
-				F23025720D6C709A00728699 /* DotGreen.png */,
-				F23025730D6C709A00728699 /* DotYellow.png */,
 			);
 			name = Artwork;
 			sourceTree = "<group>";
@@ -2507,9 +2498,6 @@
 				F272F94E0D1A786400647928 /* LoginButton.png in Resources */,
 				F272F94F0D1A786400647928 /* LoginButtonIn.png in Resources */,
 				4C6BDC5218896DCC0088CBFC /* SubEthaEdit.iconset in Resources */,
-				F23025740D6C709A00728699 /* DotRed.png in Resources */,
-				F23025750D6C709A00728699 /* DotGreen.png in Resources */,
-				F23025760D6C709A00728699 /* DotYellow.png in Resources */,
 				F2C6D3750D6DB131002B401D /* URLIconNotOK.tiff in Resources */,
 				F2C6D3760D6DB131002B401D /* URLIconOK.tiff in Resources */,
 				4CD5F7E217FB0C4D00F49E31 /* DocumentProxy.xib in Resources */,
