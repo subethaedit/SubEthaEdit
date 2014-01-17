@@ -1,11 +1,14 @@
-################################################################// Used in The Modes so far: actionscript, applescript, asp, base, bash, <ENTER HERE>, ruby
+################################################################// Used in The Modes so far: actionscript, applescript, asp, base, bash, c, <ENTER HERE>, ruby
 
 comment 					*//JavadocComment 
 comment.block 				// Comment
 comment.block.documentation
+comment.block.documentation.js
+comment.block.documentation.tag
 comment.block.js
 comment.block.vb
 comment.line				// SingleComment
+comment.line.double-slash
 comment.line.double-slash.js
 comment.line.vb
 
@@ -14,6 +17,7 @@ constant.character
 constant.numeric			*// Numbers
 constant.numeric.character
 constant.numeric.keyword 	*// Constants
+constant.numeric.preprocessor
 
 keyword						*// Keywords, Predefined Variables
 keyword.class				// Classes
@@ -21,6 +25,7 @@ keyword.control				*// Control Statements - if else
 keyword.control.asp
 keyword.control.vb
 keyword.function			// Functions (Commands)
+keyword.operator
 keyword.type				*// Types - public private int
 
 language.function			*// FunctionRegex
@@ -38,6 +43,7 @@ markup.comment
 markup.declaration
 markup.declaration.string.double
 markup.declaration.string.single
+markup.inline.cdata 			*//
 markup.processing
 markup.processing.attribute.value.string
 markup.processing.languageswitch.asp
@@ -50,12 +56,15 @@ meta.block.attribute
 meta.block.css
 meta.block.curly
 meta.block.curly.js
+meta.block.js
 meta.block.percentagestring.unescapedbracketrecursive.angle
 meta.block.percentagestring.unescapedbracketrecursive.bracket
 meta.block.percentagestring.unescapedbracketrecursive.parentheses
 meta.block.square
 meta.default				*// Base
+meta.important				*//
 meta.invalid.sgmlcomment
+meta.tag.preprocessor
 
 string.array.percent
 string.array.percent.curly
@@ -75,13 +84,28 @@ string.symbol
 string.symbol.percent
 string.symbol.percent.curly
 
+style.at-rule
 style.comment.block
 style.comment.block.documentation
+style.property.name
+style.value.color.rgb-value
+style.value.keyword
+style.value.numeric
 style.value.string.double
 style.value.string.single
 
+structured.emphasis
+structured.event
+structured.heading
+structured.heading.section
+structured.reference
+structured.separator
+structured.tool-tip
+structured.variable
+
 support						// Application API and Central API
 support.accessor
+support.function
 
 
 ################################################################// Used in Coda Style Sheets
@@ -99,7 +123,7 @@ support.accessor
 -markup.comment
 markup.constant.entity
 -markup.declaration
-markup.inline.cdata
+-markup.inline.cdata
 -markup.processing
 -markup.tag
 -markup.tag.attribute.name
@@ -107,13 +131,14 @@ markup.inline.cdata
 markup.tag.framework
 -meta.default
 meta.highlight.currentline
-meta.important
+-meta.important
 meta.invalid
 meta.invisible.characters
 
 
 ################################################################//Helper Regex
-// ^\s.*
 .*scope="(.*)".*
+^\s.*
 ^<.*
 ^\n
+

@@ -5,12 +5,11 @@
     <head>
         <name>C++</name> <!-- The definitions title -->
         <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]></charsintokens> <!-- Valid Characters for Variables -->
-		<stylesheet>C</stylesheet>
     </head>
 
     <states>
-    
         <default id="Base" scope="meta.default">
+
             <import mode="C" keywords-only="yes" />
             <state-link mode="C" state="Characters"/>
             <state-link mode="C" state="Preprocessor"/>
@@ -90,5 +89,4 @@
 
         </default>
     </states>
-
 </syntax>

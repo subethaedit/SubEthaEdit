@@ -9,7 +9,6 @@
     </head>
 
     <states>
-    
         <default id="Base" scope="meta.default">
 
             <keywords id="FunctionRegex" useforautocomplete="no" scope="entity.name.function">
@@ -120,7 +119,7 @@
                 <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
             
-            <state id="String" type="string" foldable="no" scope="string.quoted.double">
+            <state id="String" type="string" foldable="no" scope="string.double">
                 <begin><regex>"</regex></begin>
                 <end><regex>((?&lt;!\\)(\\\\)*)"</regex></end>
             </state>
@@ -132,7 +131,5 @@
             </state>
             
         </default>
-
     </states>
-
 </syntax>
