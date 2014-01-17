@@ -403,7 +403,6 @@
 		F2D5FF3A0CB2661000407399 /* DefaultPerson.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF390CB2661000407399 /* DefaultPerson.icns */; };
 		F2D5FF3E0CB2666000407399 /* Rendezvous.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF3D0CB2666000407399 /* Rendezvous.icns */; };
 		F2D5FF400CB2667A00407399 /* StylePrefs.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF3F0CB2667A00407399 /* StylePrefs.icns */; };
-		F2D5FF440CB2669200407399 /* AdvancedPrefs.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF430CB2669200407399 /* AdvancedPrefs.icns */; };
 		F2D5FF480CB266C700407399 /* ToolbarIconColorChooser.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF470CB266C700407399 /* ToolbarIconColorChooser.icns */; };
 		F2D5FF4B0CB2677600407399 /* UnknownPerson.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF4A0CB2677600407399 /* UnknownPerson.icns */; };
 		F2D5FF510CB26EA800407399 /* ToolbarIconRunInTerminal.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF4F0CB26EA800407399 /* ToolbarIconRunInTerminal.icns */; };
@@ -545,7 +544,6 @@
 		1428905E095743B300D14688 /* debug.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = debug.tiff; path = artwork/debug.tiff; sourceTree = "<group>"; };
 		14289060095743F200D14688 /* Action.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Action.tiff; path = artwork/Action.tiff; sourceTree = "<group>"; };
 		14289061095743F200D14688 /* ActionPressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ActionPressed.tiff; path = artwork/ActionPressed.tiff; sourceTree = "<group>"; };
-		14289062095743F200D14688 /* AdvancedPrefs.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = AdvancedPrefs.tiff; path = artwork/AdvancedPrefs.tiff; sourceTree = "<group>"; };
 		14289063095743F200D14688 /* Announce.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Announce.tiff; path = artwork/Announce.tiff; sourceTree = "<group>"; };
 		14289064095743F200D14688 /* CandyBar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = CandyBar.png; path = artwork/CandyBar.png; sourceTree = "<group>"; };
 		14289066095743F200D14688 /* Conceal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Conceal.png; path = artwork/Conceal.png; sourceTree = "<group>"; };
@@ -1141,7 +1139,6 @@
 		F2D5FF390CB2661000407399 /* DefaultPerson.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = DefaultPerson.icns; path = artwork/DefaultPerson.icns; sourceTree = "<group>"; };
 		F2D5FF3D0CB2666000407399 /* Rendezvous.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Rendezvous.icns; path = artwork/Rendezvous.icns; sourceTree = "<group>"; };
 		F2D5FF3F0CB2667A00407399 /* StylePrefs.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = StylePrefs.icns; path = artwork/StylePrefs.icns; sourceTree = "<group>"; };
-		F2D5FF430CB2669200407399 /* AdvancedPrefs.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = AdvancedPrefs.icns; path = artwork/AdvancedPrefs.icns; sourceTree = "<group>"; };
 		F2D5FF470CB266C700407399 /* ToolbarIconColorChooser.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = ToolbarIconColorChooser.icns; path = artwork/ToolbarIconColorChooser.icns; sourceTree = "<group>"; };
 		F2D5FF4A0CB2677600407399 /* UnknownPerson.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = UnknownPerson.icns; path = artwork/UnknownPerson.icns; sourceTree = "<group>"; };
 		F2D5FF4F0CB26EA800407399 /* ToolbarIconRunInTerminal.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = ToolbarIconRunInTerminal.icns; path = artwork/ToolbarIconRunInTerminal.icns; sourceTree = "<group>"; };
@@ -1286,8 +1283,6 @@
 				F2C6D3740D6DB131002B401D /* URLIconOK.tiff */,
 				14289060095743F200D14688 /* Action.tiff */,
 				14289061095743F200D14688 /* ActionPressed.tiff */,
-				F2D5FF430CB2669200407399 /* AdvancedPrefs.icns */,
-				14289062095743F200D14688 /* AdvancedPrefs.tiff */,
 				F2D5FF370CB2660100407399 /* Announce.icns */,
 				14289063095743F200D14688 /* Announce.tiff */,
 				F29AD8660CA3391B0097D04E /* Bonjour13.png */,
@@ -2481,7 +2476,6 @@
 				F2D5FF400CB2667A00407399 /* StylePrefs.icns in Resources */,
 				4CD5F80617FB0D5B00F49E31 /* OpenPanelAccessory.xib in Resources */,
 				4CD5F81517FB0DD700F49E31 /* PlainTextWindow.xib in Resources */,
-				F2D5FF440CB2669200407399 /* AdvancedPrefs.icns in Resources */,
 				4CD5F83517FB0EB500F49E31 /* URLBubbleWindow.xib in Resources */,
 				F2D5FF480CB266C700407399 /* ToolbarIconColorChooser.icns in Resources */,
 				F2D5FF4B0CB2677600407399 /* UnknownPerson.icns in Resources */,

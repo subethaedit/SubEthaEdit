@@ -22,7 +22,7 @@
 @implementation AdvancedPreferences
 
 - (NSImage *)icon {
-    return [NSImage imageNamed:@"AdvancedPrefs"];
+    return [NSImage imageNamed:NSImageNameAdvanced];
 }
 
 - (NSString *)iconLabel {
