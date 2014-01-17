@@ -75,12 +75,6 @@ static const CGFunctionCallbacks linearBounceFunctionCallbacks = {0,
 }
 
 - (void)drawRect:(NSRect)rect {
-    /* with pixelated image
-    NSImage *fillImage=[NSImage imageNamed:@"CandyBar"];
-    [fillImage setFlipped:YES];
-    [fillImage drawInRect:[self bounds] fromRect:NSMakeRect(0,0,[fillImage size].width,[fillImage size].height) operation:NSCompositeCopy fraction:1.0];
-    */
-    // with fancy CGShading
     NSRect bounds=[self bounds];
     CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
     CGContextSaveGState(context); {
