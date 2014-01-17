@@ -1,0 +1,97 @@
+################################################################// Used in The Modes so far:
+
+comment 					*//JavadocComment 
+comment.block 				// Comment
+comment.block.js
+comment.block.vb
+comment.line				// SingleComment
+comment.line.double-slash.js
+comment.line.vb
+
+constant					// Constants
+constant.character
+constant.numeric			*// Numbers
+constant.numeric.keyword 	*// Constants
+
+keyword						*// Keywords, Predefined Variables
+keyword.class				// Classes
+keyword.control				*// Control Statements - if else 
+keyword.control.asp
+keyword.control.vb
+keyword.function			// Functions (Commands)
+keyword.type				*// Types - public private int
+
+language.function			*// FunctionRegex
+language.operator			*// Operators - +, -,
+language.preprocessor		// Preprocessor
+language.property			*// Properties -> used in coda 2
+
+markup.comment
+markup.declaration
+markup.declaration.string.double
+markup.declaration.string.single
+markup.processing
+markup.processing.attribute.value.string
+markup.processing.languageswitch.asp
+markup.tag
+markup.tag.attribute.name
+markup.tag.attribute.value.string
+
+meta.block					// Block
+meta.block.attribute
+meta.block.css
+meta.block.curly
+meta.block.curly.js
+meta.block.square
+meta.default				*// Base
+meta.invalid.sgmlcomment
+
+string.double				// Double Quoted String
+string.double.js
+string.double.vb
+string.regexp.js
+string.single				// Single Quoted String
+string.single.js
+
+style.comment.block
+style.comment.block.documentation
+style.value.string.double
+style.value.string.single
+
+support						// Application API and Central API
+
+
+
+################################################################// Used in Coda Style Sheets
+-comment
+-constant.numeric
+-constant.numeric.keyword
+-keyword
+-keyword.control
+-keyword.type
+-language.function
+-language.operator
+-language.property
+language.variable
+language.variable.string
+-markup.comment
+markup.constant.entity
+-markup.declaration
+markup.inline.cdata
+-markup.processing
+-markup.tag
+-markup.tag.attribute.name
+-markup.tag.attribute.value
+markup.tag.framework
+-meta.default
+meta.highlight.currentline
+meta.important
+meta.invalid
+meta.invisible.characters
+
+
+################################################################//Helper Regex
+// ^\s.*
+.*scope="(.*)".*
+^<.*
+^\n

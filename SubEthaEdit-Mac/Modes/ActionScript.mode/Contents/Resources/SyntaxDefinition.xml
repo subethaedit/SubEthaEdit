@@ -931,7 +931,7 @@
 				<string>setIsBranch</string>
 				<string>setIsOpen</string>
 				<string>setLabel</string>
-				<string>setNodeProperties </string>
+				<string>setNodeProperties</string>
 				<string>apply</string>
 				<string>call</string>
 				<string>prototype</string>
@@ -1053,7 +1053,6 @@
 				<string>onMouseUp</string>
 				<string>onPress</string>
 				<string>onRelease</string>
-				<!-- CODA fixed spelling <string>onRelaseOutside</string> -->
 				<string>onReleaseOutside</string>
 				<string>onRollOut</string>
 				<string>onRollOver</string>
@@ -1406,6 +1405,7 @@
 				<string>onXML</string>
 				<string>send</string>
             </keywords>
+            
             <keywords id="Application API and Central API" useforautocomplete="yes" scope="support">
 			     <string>onActivate</string>
 			     <string>onDeactivate</string>
@@ -1497,6 +1497,7 @@
 			     <string>encode</string>
 			     <string>setType</string>
             </keywords>
+            
             <keywords id="Constants" useforautocomplete="yes" scope="constant.numeric.keyword">
 				<string>BACKSPACE</string>
 				<string>CAPSLOCK</string>
@@ -1534,7 +1535,8 @@
 				<string>true</string>
 				<string>undefined</string>
             </keywords>
-            <keywords id="Properties" useforautocomplete="yes">
+            
+            <keywords id="Properties" useforautocomplete="yes" scope="language.property">
 				<string>_accProps</string>
 				<string>_alpha</string>
 				<string>_changed</string>
@@ -1569,127 +1571,131 @@
 				<string>_ymouse</string>
 				<string>_yscale</string>
             </keywords>
+            
             <keywords id="Keywords" useforautocomplete="yes" scope="keyword">
-              <string>add</string>
-							<string>arguments</string>
-							<string>ASClamp</string>
-							<string>ASClamp2</string>
-							<string>ASConstructor</string>
-							<string>asfunction</string>
-							<string>ASInstanceOf</string>
-							<string>ASNative</string>
-							<string>ASNew</string>
-							<string>ASSetNative</string>
-							<string>ASSetPropFlags</string>
-							<string>call</string>
-							<string>callee</string>
-							<string>chr</string>
-							<string>clearInterval</string>
-							<string>class</string>
-							<string>constructor</string>
-							<string>dashBoardSave</string>
-							<string>data</string>
-							<string>dragOver</string>
-							<string>dragOut</string>
-							<string>duplicateMovieClip</string>
-							<string>dynamic</string>
-							<string>enterFrame</string>
-							<string>eq</string>
-							<string>escape</string>
-							<string>eval</string>
-							<string>evaluate</string>
-							<string>fscommand</string>
-							<string>ge</string>
-							<string>get</string>
-							<string>getProperty</string>
-							<string>getTimer</string>
-							<string>getURL</string>
-							<string>getVersion</string>
-							<string>globalStyleFormat</string>
-							<string>gotoAndPlay</string>
-							<string>gotoAndStop</string>
-							<string>gt</string>
-							<string>ifFrameLoaded</string>
-							<string>infinity</string>
-							<string>isFinite</string>
-							<string>isNaN</string>
-							<string>keyDown</string>
-							<string>keyPress</string>
-							<string>keyUp</string>
-							<string>label</string>
-							<string>le</string>
-							<string>length</string>
-							<string>load</string>
-							<string>loadMovie</string>
-							<string>loadMovieNum</string>
-							<string>loadVariables</string>
-							<string>loadVariablesNum</string>
-							<string>lt</string>
-							<string>maxscroll</string>
-							<string>mbchr</string>
-							<string>mblength</string>
-							<string>mbord</string>
-							<string>mbsubstring</string>
-							<string>method</string>
-							<string>MMSave</string>
-							<string>MMExecute</string>
-							<string>mouseDown</string>
-							<string>mouseMove</string>
-							<string>mouseUp</string>
-							<string>ne</string>
-							<string>newline</string>
-							<string>nextFrame</string>
-							<string>nextScene</string>
-							<string>on</string>
-							<string>onClipEvent</string>
-							<string>ord</string>
-							<string>parseFloat</string>
-							<string>parseInt</string>
-							<string>play</string>
-							<string>press</string>
-							<string>prevFrame</string>
-							<string>prevScene</string>
-							<string>print</string>
-							<string>printAsBitmap</string>
-							<string>printAsBitmapNum</string>
-							<string>printNum</string>
-							<string>prototype</string>
-							<string>release</string>
-							<string>releaseOutside</string>
-							<string>rollOver</string>
-							<string>rollOut</string>
-							<string>random</string>
-							<string>removeMovieClip</string>
-							<string>scroll</string>
-							<string>set</string>
-							<string>setInterval</string>
-							<string>setProperty</string>
-							<string>startDrag</string>
-							<string>stop</string>
-							<string>stopAllSounds</string>
-							<string>stopDrag</string>
-							<string>substring</string>
-							<string>targetPath</string>
-							<string>tellTarget</string>
-							<string>toggleHighQuality</string>
-							<string>trace</string>
-							<string>unescape</string>
-							<string>unload</string>
-							<string>unloadMovie</string>
-							<string>unloadMovieNum</string>
-							<string>updateAfterEvent</string>
+           		<string>add</string>
+				<string>arguments</string>
+				<string>ASClamp</string>
+				<string>ASClamp2</string>
+				<string>ASConstructor</string>
+				<string>asfunction</string>
+				<string>ASInstanceOf</string>
+				<string>ASNative</string>
+				<string>ASNew</string>
+				<string>ASSetNative</string>
+				<string>ASSetPropFlags</string>
+				<string>call</string>
+				<string>callee</string>
+				<string>chr</string>
+				<string>clearInterval</string>
+				<string>class</string>
+				<string>constructor</string>
+				<string>dashBoardSave</string>
+				<string>data</string>
+				<string>dragOver</string>
+				<string>dragOut</string>
+				<string>duplicateMovieClip</string>
+				<string>dynamic</string>
+				<string>enterFrame</string>
+				<string>eq</string>
+				<string>escape</string>
+				<string>eval</string>
+				<string>evaluate</string>
+				<string>fscommand</string>
+				<string>ge</string>
+				<string>get</string>
+				<string>getProperty</string>
+				<string>getTimer</string>
+				<string>getURL</string>
+				<string>getVersion</string>
+				<string>globalStyleFormat</string>
+				<string>gotoAndPlay</string>
+				<string>gotoAndStop</string>
+				<string>gt</string>
+				<string>ifFrameLoaded</string>
+				<string>infinity</string>
+				<string>isFinite</string>
+				<string>isNaN</string>
+				<string>keyDown</string>
+				<string>keyPress</string>
+				<string>keyUp</string>
+				<string>label</string>
+				<string>le</string>
+				<string>length</string>
+				<string>load</string>
+				<string>loadMovie</string>
+				<string>loadMovieNum</string>
+				<string>loadVariables</string>
+				<string>loadVariablesNum</string>
+				<string>lt</string>
+				<string>maxscroll</string>
+				<string>mbchr</string>
+				<string>mblength</string>
+				<string>mbord</string>
+				<string>mbsubstring</string>
+				<string>method</string>
+				<string>MMSave</string>
+				<string>MMExecute</string>
+				<string>mouseDown</string>
+				<string>mouseMove</string>
+				<string>mouseUp</string>
+				<string>ne</string>
+				<string>newline</string>
+				<string>nextFrame</string>
+				<string>nextScene</string>
+				<string>on</string>
+				<string>onClipEvent</string>
+				<string>ord</string>
+				<string>parseFloat</string>
+				<string>parseInt</string>
+				<string>play</string>
+				<string>press</string>
+				<string>prevFrame</string>
+				<string>prevScene</string>
+				<string>print</string>
+				<string>printAsBitmap</string>
+				<string>printAsBitmapNum</string>
+				<string>printNum</string>
+				<string>prototype</string>
+				<string>release</string>
+				<string>releaseOutside</string>
+				<string>rollOver</string>
+				<string>rollOut</string>
+				<string>random</string>
+				<string>removeMovieClip</string>
+				<string>scroll</string>
+				<string>set</string>
+				<string>setInterval</string>
+				<string>setProperty</string>
+				<string>startDrag</string>
+				<string>stop</string>
+				<string>stopAllSounds</string>
+				<string>stopDrag</string>
+				<string>substring</string>
+				<string>targetPath</string>
+				<string>tellTarget</string>
+				<string>toggleHighQuality</string>
+				<string>trace</string>
+				<string>unescape</string>
+				<string>unload</string>
+				<string>unloadMovie</string>
+				<string>unloadMovieNum</string>
+				<string>updateAfterEvent</string>
             </keywords>
+            
             <keywords id="Types" useforautocomplete="yes" scope="keyword.type">
-							<string>int</string>
-							<string>private</string>
-							<string>public</string>
-							<string>static</string>
-							<string>var</string>
-							<string>void</string>
+				<string>int</string>
+				<string>private</string>
+				<string>public</string>
+				<string>protected</string>
+				<string>static</string>
+				<string>var</string>
+				<string>void</string>
             </keywords>
+            
             <keywords id="Keywords" useforautocomplete="yes" scope="keyword.control">
-	              <string>and</string>
-	              <string>break</string>
+				<string>and</string>
+	            <string>break</string>
                 <string>case</string>
                 <string>catch</string>
                 <string>continue</string>
@@ -1719,24 +1725,24 @@
                 <string>typeof</string>
                 <string>while</string>
                 <string>with</string>
-                
             </keywords>
-
 
             <keywords id="Numbers" useforautocomplete="no" scope="constant.numeric">
 				<regex>(?&lt;![\w\d_])((?:[+-]?(?:(?:[0-9]+\.[0-9]*)|(?:\.[0-9]+))(?:[eE][+\-]?[0-9]+)?[fFlL]?)|(?:(?:(?:[1-9][0-9]*)|0[0-7]*|(?:0[xX][0-9a-fA-F]+))(?:(?:[uU][lL]?)|(?:[lL][uU]?))?))(?![\w\d_])</regex>
             </keywords>
+            
             <keywords id="Operators" useforautocomplete="no" scope="language.operator">
-							<regex>([\+\-\*\\\=\|\!\&lt;\&gt;])</regex>
+				<regex>([\+\-\*\\\=\|\!\&lt;\&gt;])</regex>
             </keywords>
+
             <keywords id="Preprocessor" useforautocomplete="no" scope="language.preprocessor">
 				<regex>(^[ 	]*#([^\n\r])*)</regex>
             </keywords>
+
             <keywords id="FunctionRegex" useforautocomplete="no" scope="language.function">
-							<regex>([\$A-Za-z0-9_]+[ \t]*)\(</regex>
+				<regex>([\$A-Za-z0-9_]+[ \t]*)\(</regex>
             </keywords>
         
-            <!-- CODA <state id="JavadocComment" type="comment" color="#236E25"  font-style="italic"> -->
             <state id="JavadocComment" type="comment" scope="comment">
                 <begin><regex>/\*\*(?=[\n\r])</regex></begin>
                 <end><regex>\*/</regex></end>
@@ -1755,13 +1761,11 @@
                 <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
             
-            <!-- CODA <state id="Double Quoted String" type="string" color="#727272" font-weight="normal" font-style="normal"> -->
             <state id="Double Quoted String" type="string" usespellchecking="yes" scope="string.double">
                 <begin><regex>"</regex></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
             </state>
             
-            <!-- CODA <state id="Single Quoted String" type="string" color="#727272" font-weight="normal" font-style="normal"> -->
             <state id="Single Quoted String" type="string" usespellchecking="yes" scope="string.single">
                 <begin><regex>'</regex></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
