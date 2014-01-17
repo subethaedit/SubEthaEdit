@@ -1,0 +1,63 @@
+
+
+
+*comment //JavadocComment 
+comment.block // Comment
+comment.line // SingleComment
+
+constant // Constants
+*constant.numeric // Numbers
+*constant.numeric.keyword // Constants
+constant.character
+
+*keyword // Keywords, Predefined Variables
+keyword.class // Classes
+*keyword.control // Control Statements - if else 
+keyword.function // Functions (Commands)
+*keyword.type // Types - public private int
+
+*language.function // FunctionRegex
+*language.operator // Operators - +, -,
+language.preprocessor // Preprocessor
+*language.property // Properties -> used in coda 2
+
+meta.block // Block
+*meta.default // Base
+
+
+string.double // Double Quoted String
+string.single // Single Quoted String
+
+support // Application API and Central API
+
+
+
+
+
+
+// Used in Coda Style Sheets
+-comment
+-constant.numeric
+-constant.numeric.keyword
+-keyword
+-keyword.control
+-keyword.type
+-language.function
+-language.operator
+language.property
+language.variable
+-language.variable.string
+markup.comment
+markup.constant.entity
+markup.declaration
+markup.inline.cdata
+markup.processing
+markup.tag
+markup.tag.attribute.name
+markup.tag.attribute.value
+markup.tag.framework
+-meta.default
+meta.highlight.currentline
+meta.important
+meta.invalid
+meta.invisible.characters
