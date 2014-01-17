@@ -62,7 +62,7 @@ string.array.percent.curly
 string.double				// Double Quoted String
 string.double.js
 string.double.vb
-string.exec.percentx
+string.exec.backtick
 string.exec.percentx
 string.exec.percentx.curly
 string.here-doc

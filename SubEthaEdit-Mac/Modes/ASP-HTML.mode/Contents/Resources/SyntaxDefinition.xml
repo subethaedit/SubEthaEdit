@@ -578,7 +578,7 @@
                     <state-link state="ASP-VBScript"/>
 				</state>
 				
-				<state id="JSRegular Expressions" type="string" color="#760f15" scope="string.regexp.js">
+				<state id="JSRegular Expressions" type="string" color="#760f15" scope="string.regex.js">
 					<begin><regex>(?&lt;![&lt;/])/.*?[^\\](?=/[^\n\r]*(?:;|\)|,|[\n\r]))</regex></begin>
 					<end><regex>/[cgimosx]*</regex></end>
                     <state-link state="ASP-VBScript"/>
