@@ -503,8 +503,8 @@ static DocumentModeManager *S_sharedInstance=nil;
             } 
         } 
     }
-    NSLog(@"%s %@",__FUNCTION__, I_styleSheetPathsByName);
-} 
+//    NSLog(@"%s %@",__FUNCTION__, I_styleSheetPathsByName);
+}
 
 - (SEEStyleSheet *)styleSheetForName:(NSString *)aStyleSheetName {
 	SEEStyleSheet *result = [I_styleSheetsByName objectForKey:aStyleSheetName];

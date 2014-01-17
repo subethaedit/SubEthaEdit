@@ -282,11 +282,7 @@ static NSString *tempFileName() {
         I_waitingDocuments = [NSMutableDictionary new];
         I_refCountsOfSeeScriptCommands = [NSMutableDictionary new];
         I_pipingSeeScriptCommands = [NSMutableArray new];
-
         I_windowControllers = [NSMutableArray new];
-
-
-		NSLog(@"DocumentClass names: %@", self.documentClassNames);
     }
     return self;
 }

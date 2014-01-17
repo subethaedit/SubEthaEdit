@@ -36,7 +36,7 @@
         SEEStyleSheet *styleSheet = [[SEEStyleSheet new] autorelease];
 //        [styleSheet importStyleSheetAtPath:[[NSBundle mainBundle] URLForResource:@"Default" withExtension:@"sss" subdirectory:@"Modes/Styles"]];
         self.currentStyleSheet = styleSheet;
-        NSLog(@"%s %@",__FUNCTION__,styleSheet.allScopes);
+//        NSLog(@"%s %@",__FUNCTION__,styleSheet.allScopes);
     }
     return self;
 }
