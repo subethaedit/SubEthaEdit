@@ -38,8 +38,8 @@
 #import "NSMutableAttributedStringSEEAdditions.h"
 #import "FoldableTextStorage.h"
 #import "FoldedTextAttachment.h"
-#import <objc/objc-runtime.h>
 #import "URLBubbleWindow.h"
+#import <objc/objc-runtime.h>
 
 
 @interface NSTextView (PrivateAdditions)
