@@ -89,6 +89,15 @@ style.comment.block.documentation
 style.value.string.double
 style.value.string.single
 
+structured.emphasis
+structured.event
+structured.heading
+structured.heading.section
+structured.reference
+structured.separator
+structured.tool-tip
+structured.variable
+
 support						// Application API and Central API
 support.accessor
 support.function
@@ -127,3 +136,4 @@ meta.invisible.characters
 ^\s.*
 ^<.*
 ^\n
+
