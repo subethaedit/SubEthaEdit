@@ -862,7 +862,7 @@
 					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 				</state>
 				
-				<state id="JSRegular Expressions" type="string" scope="string.regexp.js">
+				<state id="JSRegular Expressions" type="string" scope="string.regex.js">
 					<begin><regex>(?&lt;![&lt;/])/.*?[^\\](?=/[^\n\r]*(?:;|\)|,|[\n\r]))</regex></begin>
 					<end><regex>/[cgimosx]*</regex></end>
 				</state>
@@ -885,7 +885,7 @@
 				</state>
 			</state>
 			
-			<state id="CFML Tags With Content" foldable="yes" scope="meta default">
+			<state id="CFML Tags With Content" foldable="yes" scope="meta.default">
 				<begin>
 					<regex>&lt;\s*(?'cfmlcontenttag'(?i)cf(?:function|invoke|loop|component|http|try|output|catch|)\b[-:_\w]*)\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*></regex>
 					<autoend>&lt;/\g&lt;cfmlcontenttag>></autoend>
