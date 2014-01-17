@@ -24,6 +24,7 @@ keyword.control				*// Control Statements - if else
 keyword.control.asp
 keyword.control.vb
 keyword.function			// Functions (Commands)
+keyword.operator
 keyword.type				*// Types - public private int
 
 language.function			*// FunctionRegex
