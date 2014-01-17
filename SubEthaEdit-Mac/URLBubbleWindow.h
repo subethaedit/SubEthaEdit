@@ -14,7 +14,7 @@
     NSURL *I_URLToOpen;
 }
 
-@property (readwrite, strong) IBOutlet NSView *O_openURLView;
+@property (readwrite, strong) IBOutlet NSView *openURLViewOutlet;
 
 + (URLBubbleWindow *)sharedURLBubbleWindow;
 

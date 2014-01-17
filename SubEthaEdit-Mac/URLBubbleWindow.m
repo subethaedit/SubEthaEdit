@@ -24,7 +24,7 @@ static URLBubbleWindow *S_sharedInstance;
 	// load nib
 	[[NSBundle mainBundle] loadNibNamed:@"URLBubbleWindow" owner:self topLevelObjects:nil];
 	
-	if ((self = [self initWithView:self.O_openURLView
+	if ((self = [self initWithView:self.openURLViewOutlet
 					attachedToPoint:NSMakePoint(0,0)])) {
 		[self setBorderWidth:1.0];
 		[self setBorderColor:[NSColor colorWithCalibratedWhite:1.0 alpha:0.60]];
@@ -35,7 +35,7 @@ static URLBubbleWindow *S_sharedInstance;
 
 - (void)dealloc
 {
-	self.O_openURLView = nil;
+	self.openURLViewOutlet = nil;
 	[I_URLToOpen release];
 
     [super dealloc];
