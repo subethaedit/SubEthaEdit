@@ -1,7 +1,8 @@
-################################################################// Used in The Modes so far:
+################################################################// Used in The Modes so far: actionscript, applescript, asp, base, bash, <ENTER HERE>, ruby
 
 comment 					*//JavadocComment 
 comment.block 				// Comment
+comment.block.documentation
 comment.block.js
 comment.block.vb
 comment.line				// SingleComment
@@ -11,6 +12,7 @@ comment.line.vb
 constant					// Constants
 constant.character
 constant.numeric			*// Numbers
+constant.numeric.character
 constant.numeric.keyword 	*// Constants
 
 keyword						*// Keywords, Predefined Variables
@@ -25,6 +27,12 @@ language.function			*// FunctionRegex
 language.operator			*// Operators - +, -,
 language.preprocessor		// Preprocessor
 language.property			*// Properties -> used in coda 2
+language.variable
+language.variable.class
+language.variable.global
+language.variable.global.builtin
+language.variable.instance
+language.variable.string
 
 markup.comment
 markup.declaration
@@ -42,16 +50,30 @@ meta.block.attribute
 meta.block.css
 meta.block.curly
 meta.block.curly.js
+meta.block.percentagestring.unescapedbracketrecursive.angle
+meta.block.percentagestring.unescapedbracketrecursive.bracket
+meta.block.percentagestring.unescapedbracketrecursive.parentheses
 meta.block.square
 meta.default				*// Base
 meta.invalid.sgmlcomment
 
+string.array.percent
+string.array.percent.curly
 string.double				// Double Quoted String
 string.double.js
 string.double.vb
-string.regexp.js
+string.exec.backtick
+string.exec.percentx
+string.exec.percentx.curly
+string.here-doc
+string.percentage.curly
+string.regex.js
+string.regex.percentage.curly
 string.single				// Single Quoted String
 string.single.js
+string.symbol
+string.symbol.percent
+string.symbol.percent.curly
 
 style.comment.block
 style.comment.block.documentation
@@ -59,7 +81,7 @@ style.value.string.double
 style.value.string.single
 
 support						// Application API and Central API
-
+support.accessor
 
 
 ################################################################// Used in Coda Style Sheets
@@ -72,8 +94,8 @@ support						// Application API and Central API
 -language.function
 -language.operator
 -language.property
-language.variable
-language.variable.string
+-language.variable
+-language.variable.string
 -markup.comment
 markup.constant.entity
 -markup.declaration

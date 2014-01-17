@@ -10,7 +10,8 @@
 
     <states>
     
-        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" scope="meta.default">            
+        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" scope="meta.default">
+        
             <keywords id="Keywords" color="#881350" useforautocomplete="yes" scope="keyword.control">
                 <string>else</string>
                 <string>for</string>
@@ -30,6 +31,7 @@
                 <string>case</string>
                 <string>esac</string>
             </keywords>
+            
             <keywords id="Keywords for Variables" color="#881350" useforautocomplete="yes" scope="keyword">
                 <string>export</string>
                 <string>unset</string>
@@ -37,7 +39,8 @@
                 <string>typeset</string>
                 <string>local</string>
             </keywords>
-            <keywords id="Builtin functions" color="#408" useforautocomplete="yes">
+            
+            <keywords id="Builtin functions" color="#408" useforautocomplete="yes" scope="keyword.function">
                 <string>source</string>
                 <string>alias</string>
                 <string>bg</string>
@@ -85,7 +88,8 @@
                 <string>unalias</string>
                 <string>wait</string>
             </keywords>
-            <keywords id="Unix commands" color="#808" useforautocomplete="yes">
+            
+            <keywords id="Unix commands" color="#808" useforautocomplete="yes" scope="keyword.function">
                 <string>arch</string>
                 <string>awk</string>
                 <string>bash</string>
@@ -416,82 +420,83 @@
                 <string>zip</string>
                 <string>zsoelim</string>
             </keywords>
-            <keywords id="Numbers" color="#00f" inverted-color="#5d56ff" useforautocomplete="no">
+            
+            <keywords id="Numbers" color="#00f" inverted-color="#5d56ff" useforautocomplete="no" scope="constant.numeric">
 				<regex>(?&lt;=[^[A-Za-z0-9]]|^)((?:(?:[0-9]+\.[0-9]*)|(?:\.[0-9]+)([eE][+\-]?[0-9]+)?[fFlL]?)|(?:(?:(?:[1-9][0-9]*)|0[0-7]*|(?:0[xX][0-9a-fA-F]))(?:(?:[uU][lL]?)|(?:[lL][uU]?))?))(?=[^[A-Za-z0-9]]|$)</regex>
             </keywords>
 
-            <keywords id="FunctionRegex" color="#003369" useforautocomplete="no">
+            <keywords id="FunctionRegex" color="#003369" useforautocomplete="no" scope="language.function">
 				<regex>([A-Za-z0-9_]+ *)\(</regex>
             </keywords>
-            <keywords id="Preprocessor" color="#683821" useforautocomplete="no">
+            
+            <keywords id="Preprocessor" color="#683821" useforautocomplete="no" scope="language.preprocessor">
 				<regex>(^[ \t]*#([^\n\r])*)</regex>
             </keywords>
-            <keywords id="Variables" color="#C4620A" useforautocomplete="no">
+            
+            <keywords id="Variables" color="#C4620A" useforautocomplete="no" scope="language.variable">
 				<regex>(\$[#@A-Za-z0-9_]+)</regex>
 				<regex>(\$\{[^\}]*\})</regex>
             </keywords>
         
-            <state id="SingleComment" type="comment" color="#236E25" font-weight="normal" font-style="italic">
+            <state id="SingleComment" type="comment" color="#236E25" font-weight="normal" font-style="italic" scope="comment.line">
                 <begin><regex>(?&lt;!\$)#</regex></begin>
                 <end><regex>[\n\r]</regex></end>
 				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
             
-            <state id="String with double quotes" type="string" color="#760f15">
+            <state id="String with double quotes" type="string" color="#760f15" scope="string.double">
                 <begin><string>((?&lt;!\\)(\\\\)*)"</string></begin>
                 <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
-                <keywords id="Variables in double quoted Strings" color="#C4620A" useforautocomplete="no">
+                <keywords id="Variables in double quoted Strings" color="#C4620A" useforautocomplete="no" scope="language.variable.string">
                     <regex>(\$[#@A-Za-z0-9_]+)</regex>
                     <regex>(\$\{[^\}]*\})</regex>
                 </keywords>
             </state>
     
-            <state id="String with single quotes" type="string" color="#760f15">
+            <state id="String with single quotes" type="string" color="#760f15" scope="string.single">
                 <begin><string>((?&lt;!\\)(\\\\)*)'</string></begin>
                 <end><regex>'</regex></end>
-                <keywords id="Variables in single quoted Strings" color="#C4620A" useforautocomplete="no">
+                <keywords id="Variables in single quoted Strings" color="#C4620A" useforautocomplete="no" scope="language.variable.string">
                     <regex>(\$[#@A-Za-z0-9_]+)</regex>
                     <regex>(\$\{[^\}]*\})</regex>
                 </keywords>
             </state>
     
-            <state id="Backticks" color="#608">
+            <state id="Backticks" color="#608" scope="string.exec.backtick">
                 <begin><string>(?&lt;!\\)(\\\\)*`</string></begin>
                 <end><regex>(?&lt;!\\)(\\\\)*`</regex></end>
             </state>
 
-            <state id="do done Block" type="block" foldable="yes">
+            <state id="do done Block" type="block" foldable="yes" scope="meta.block">
                 <begin><regex>(?&lt;![^;\s])do(?!\S)</regex></begin>
                 <end><regex>(?&lt;!\S)done(?!\S)</regex></end>
                 <import />
             </state>
 
-            <state id="case esac Block" type="block" foldable="yes">
+            <state id="case esac Block" type="block" foldable="yes" scope="meta.block">
                 <begin><regex>(?&lt;![^;\s])case(?!\S)</regex></begin>
                 <end><regex>(?&lt;!\S)esac(?!\S)</regex></end>
                 <import />
             </state>
 
-            <state id="if then fi Block" type="block" foldable="yes">
+            <state id="if then fi Block" type="block" foldable="yes" scope="meta.block">
                 <begin><regex>(?&lt;![^;\s])then(?!\S)</regex></begin>
                 <end><regex>(?&lt;!\S)fi(?!\S)</regex></end>
                 <import />
             </state>
 
-            <state id="Anti Bracket Block" foldable="no">
+            <state id="Anti Bracket Block" foldable="no" scope="meta.block">
                 <begin><regex>\${</regex></begin>
                 <end><regex>}</regex></end>
                 <import />
             </state>
 
-            <state id="Bracket Block" type="block" foldable="yes">
+            <state id="Bracket Block" type="block" foldable="yes" scope="meta.block">
                 <begin><regex>(?:(?&lt;=\s)function[\s\w]+)?(?&lt;!\\){</regex></begin>
                 <end><regex>(?&lt;!\\)}</regex></end>
                 <import />
             </state>
 
         </default>
-
     </states>
-
 </syntax>
