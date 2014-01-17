@@ -1,0 +1,2 @@
+Changes with Version 4.0  (SEE 4.0)
+	 *) added ChangeLog
