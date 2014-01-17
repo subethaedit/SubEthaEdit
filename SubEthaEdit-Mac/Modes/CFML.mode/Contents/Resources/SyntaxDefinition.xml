@@ -4,694 +4,692 @@
 	<!-- STUDIO - Completely rewritten for Coda, do not replace with SEE version -->
 	<head>
 		<name>CFML</name> <!-- The definitions title -->
-		<charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@"]]></charsintokens> 
-		<charsincompletion><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@</=!>]]></charsincompletion> 
-		<folding toplevel="3" />
-	</head>
-
-	<states>
-
-		<default id="Base" usesymbolsfrommode="CFML" useautocompletefrommode="CFML" usespellchecking="yes" scope="meta.default">
-
+		<charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@"]]></charsintokens>
+			<charsincompletion><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@</=!>]]></charsincompletion>
+			<folding toplevel="3" />
+			</head>
+			
+			<states>
+			<default id="Base" usesymbolsfrommode="CFML" useautocompletefrommode="CFML" usespellchecking="yes" scope="meta.default">
+			
 			<import mode="XML" keywords-only="yes"/>
-
+			
 			<state id="Inline CFML Script" useforautocomplete="no" usesymbolsfrommode="CFML" useautocompletefrommode="CFML" foldable="yes" scope="meta.default">
-				<begin><regex>&lt;(?i)cfscript></regex><autoend>&lt;/cfscript></autoend></begin>
-				<end><regex>&lt;/(?i)cfscript></regex></end>
-
-				<keywords id="CFML Script Tags" scope="markup.tag">
-					<regex>(\A&lt;\Z)</regex>
-					<regex>(&lt;/?(?i)cfscript[^>]*>)</regex>
-				</keywords>
-
-				<state id="Opening CFML Script Tag" scope="markup.tag">
-					<begin><regex>\A(?i)cfscript</regex></begin>
-					<end><regex>&gt;</regex></end>
-
-					<import mode="XML" state="Tags" />
-				</state>
-
-				<state id="Single Line Comment" type="comment" scope="comment.line">
-					<begin><regex>//</regex></begin>
-					<end><regex>[\n\r]</regex></end>
-				</state>
-
-				<state id="Multi Line Comment" type="comment" scope="comment.block">
-					<begin><regex>/\*</regex></begin>
-					<end><regex>\*/</regex></end>
-				</state>
-
-				<import state="CFML Code" />
-
+			<begin><regex>&lt;(?i)cfscript></regex><autoend>&lt;/cfscript></autoend></begin>
+			<end><regex>&lt;/(?i)cfscript></regex></end>
+			
+			<keywords id="CFML Script Tags" scope="markup.tag">
+			<regex>(\A&lt;\Z)</regex>
+			<regex>(&lt;/?(?i)cfscript[^>]*>)</regex>
+			</keywords>
+			
+			<state id="Opening CFML Script Tag" scope="markup.tag">
+			<begin><regex>\A(?i)cfscript</regex></begin>
+			<end><regex>&gt;</regex></end>
+			
+			<import mode="XML" state="Tags" />
 			</state>
-
+			
+			<state id="Single Line Comment" type="comment" scope="comment.line">
+			<begin><regex>//</regex></begin>
+			<end><regex>[\n\r]</regex></end>
+			</state>
+			
+			<state id="Multi Line Comment" type="comment" scope="comment.block">
+			<begin><regex>/\*</regex></begin>
+			<end><regex>\*/</regex></end>
+			</state>
+			
+			<import state="CFML Code" />
+			</state>
+			
 			<state id="CFML Comment" background-color="none" type="comment" scope="markup.comment">
-				<begin><regex>&lt;!---</regex></begin>
-				<end><regex>---&gt;</regex></end>
-				<state-link state="CFML Comment" />
+			<begin><regex>&lt;!---</regex></begin>
+			<end><regex>---&gt;</regex></end>
+			<state-link state="CFML Comment" />
 			</state>
-
+			
 			<state id="CFML Query" usesymbolsfrommode="SQL" useautocompletefrommode="SQL" foldable="yes" scope="markup.tag">
-				<begin><regex>&lt;(?i)cfquery\s.*&gt;</regex></begin>
-				<end><regex>&lt;/(?i)cfquery&gt;</regex></end>
-
-				<import mode="SQL" keywords-only="yes"/>
-				<import state="CFML Code" />
-				<state-link state="CFML Comment" />
-				<state-link state="Comment" mode="XML" />
-				<state-link state="CDATA" mode="XML" />
-				<state-link state="Doctype" mode="XML" />
-				<state-link state="Escape" mode="XML" />
-
-				<!-- CODA -->
-				<state id="Query Comment" type="comment" scope="comment.block">
-					<begin><regex>/\*</regex></begin>
-					<end><regex>\*/</regex></end>
-				</state>
-
-				<keywords id="Query Tags" scope="markup.tag">
-					<regex>(\A&lt;\Z)</regex>
-					<regex>(&lt;/(?i)cfquery[^&gt;]*&gt;)</regex>
-				</keywords>
-
-				<state id="Opening Query Tag" usesymbolsfrommode="CFML" useautocompletefrommode="CFML" scope="markup.tag">
-					<begin><regex>\A(?i)cfquery</regex></begin>
-					<end><regex>&gt;</regex></end>
-
-					<import state="CFML Tags" />
-				</state>
-
-				<keywords id="CFML Attributes in Tags" useforautocomplete="no" scope="markup.tag.attribute.name">
-					<regex>([\w-]*)(?=[ \t]*=)</regex>
-				</keywords>
-
-				<!-- CODA -->
-				<state id="CFML self-closing Tags in Query" usesymbolsfrommode="CFML" useautocompletefrommode="CFML" scope="markup.tag">
-					<begin><regex>&lt;(?=(?i)\s*cf(?!query\s))</regex></begin>
-					<end><regex>&gt;</regex></end>
-
-					<import state="CFML Code" />
-					<import state="CFML Tags" />
-				</state>
-				<!-- CODA
-				<state id="Query Parameter" usesymbolsfrommode="CFML" useautocompletefrommode="CFML">
-					<begin><regex>&lt;(?=(?i)cfqueryparam)</regex></begin>
-					<end><regex>&gt;</regex></end>
-					<import state="CFML Tags" />
-				</state>
-				-->
-
+			<begin><regex>&lt;(?i)cfquery\s.*&gt;</regex></begin>
+			<end><regex>&lt;/(?i)cfquery&gt;</regex></end>
+			
+			<import mode="SQL" keywords-only="yes"/>
+			<import state="CFML Code" />
+			<state-link state="CFML Comment" />
+			<state-link state="Comment" mode="XML" />
+			<state-link state="CDATA" mode="XML" />
+			<state-link state="Doctype" mode="XML" />
+			<state-link state="Escape" mode="XML" />
+			
+			<!-- CODA -->
+			<state id="Query Comment" type="comment" scope="comment.block">
+			<begin><regex>/\*</regex></begin>
+			<end><regex>\*/</regex></end>
 			</state>
-
-
-
-<state id="CFML Code" useforautocomplete="no" containerState="yes" usesymbolsfrommode="CFML" useautocompletefrommode="CFML" scope="meta.default">
-
-	<keywords id="Generic Functions" useforautocomplete="no" scope="language.function">
-		<!--<regex>([\w]+[\(]{1}[\w\s\.\[\]\)\(\"/;,|#&amp;]+[\)]{1})(?=[^&lt;]*&gt;)</regex>-->
-		<regex>([A-Za-z0-9_]+ *)\(</regex>
-	</keywords>
-
-	<state id="CFML Double Strings" type="string" useforautocomplete="no" scope="string.double">
-		<begin><regex>"</regex></begin>
-		<end><regex>"</regex></end>
-        <import state="CFML Output Variables State" keywords-only="yes" />
-	</state>
-
-	<state id="CFML Single Strings" type="string" useforautocomplete="no" usespellchecking="yes" scope="string.single">
-		<begin><regex>'</regex></begin>
-		<end><regex>'</regex></end>
-        <import state="CFML Output Variables State" keywords-only="yes" />
-	</state>
-
-	<state id="Block" type="block" foldable="yes" scope="meta.block.curly">
-		<begin><regex>(?:(?&lt;=\s)(?:if|else|else\s+if|for|while|do|switch|case)\s*(?:\([^#{\n\r]*?\))?)?\s*{</regex></begin>
-		<end><regex>}</regex></end>
-		<import state="CFML Code" />
-        <import state="CFML Output Variables State" keywords-only="yes" />
-	</state>
-
-	<keywords id="Control Keywords" useforautocomplete="yes" scope="keyword.control">
-		<string>assignment</string>
-		<string>break</string>
-		<string>case</string>
-		<string>catch</string>
-		<string>continue</string>
-		<string>default</string>
-		<string>do</string>
-		<string>else</string>
-		<string>elseif</string>
-		<string>for</string>
-		<string>if</string>
-		<string>in</string>
-		<string>switch</string>
-		<string>try</string>
-		<string>while</string>
-		<string>function</string>
-	</keywords>
-
-<import state="CFML Output Variables State" keywords-only="yes" />
-
-	<keywords id="Scope and Tag Variables" useforautocomplete="no" scope="keyword">
-		<regex>((?i)(?:session\.|application\.|request\.|request\.session\.|client\.|server\.|server\.coldfusion\.|form\.|cfcatch\.|cfdirectory\.|cferror\.|cffile\.|cfftp\.|cfhtp\.|cfindex\.|cfldap\.|cfpop\.|cfquery\.|cfregistry\.|cfsearch\.|cfstoredproc\.|cgi\.|url\.|cookie\.|arguments\.|cfevent\.)(?:[\w\d])+(?:\[([\w\d"'])+\])?)</regex>
-	</keywords>
-
-	<keywords id="Numbers" useforautocomplete="no" scope="constant.numeric">
-		<regex>(?&lt;=[^\w\d]|^)((?:(?:(?:[0-9]+\.[0-9]*)|(?:\.[0-9]+))(?:[eE][+\-]?[0-9]+)?[fFlL]?)|(?:(?:(?:[1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(?:(?:[uU][lL]?)|(?:[lL][uU]?))?))(?=[^\w\d]|$)</regex>
-	</keywords>
-
-	<keywords id="Keywords" casesensitive="no" useforautocomplete="yes" scope="keyword">
-		<string>and</string>
-		<string>or</string>
-		<string>mod</string>
-		<string>is</string>
-		<string>equal</string>
-		<string>eq</string>
-		<string>lt</string>
-		<string>less than</string>
-		<string>lte</string>
-		<string>le</string>
-		<string>less than or equal to</string>
-		<string>gt</string>
-		<string>greater than</string>
-		<string>gte</string>
-		<string>greater than or equal to</string>
-		<string>is not</string>
-		<string>neq</string>
-		<string>not equal</string>
-		<string>contains</string>
-		<string>does not contain</string>
-		<string>not</string>
-		<string>true</string>
-		<string>false</string>
-		<string>&amp;</string>
-		<string>break</string>
-		<string>case</string>
-		<string>catch</string>
-		<string>continue</string>
-		<string>do</string>
-		<string>else</string>
-		<string>for</string>
-		<string>if</string>
-		<string>in</string>
-		<string>return</string>
-		<string>try</string>
-		<string>var</string>
-		<string>while</string>
-	</keywords>
-
-	<keywords id="Functions" casesensitive="no" useforautocomplete="yes" scope="support.function">
-		<regex>((?i)ACos)(?=\s*\()</regex>
-		<regex>((?i)ASin)(?=\s*\()</regex>
-		<regex>((?i)Abs)(?=\s*\()</regex>
-		<regex>((?i)AddSOAPRequestHeader)(?=\s*\()</regex>
-		<regex>((?i)AddSOAPResponseHeader)(?=\s*\()</regex>
-		<regex>((?i)AjaxLink)(?=\s*\()</regex>
-		<regex>((?i)AjaxOnLoad)(?=\s*\()</regex>
-		<regex>((?i)ApplicationStop)(?=\s*\()</regex>
-		<regex>((?i)ArrayAppend)(?=\s*\()</regex>
-		<regex>((?i)ArrayAvg)(?=\s*\()</regex>
-		<regex>((?i)ArrayClear)(?=\s*\()</regex>
-		<regex>((?i)ArrayContains)(?=\s*\()</regex>
-		<regex>((?i)ArrayDelete)(?=\s*\()</regex>
-		<regex>((?i)ArrayDeleteAt)(?=\s*\()</regex>
-		<regex>((?i)ArrayFind)(?=\s*\()</regex>
-		<regex>((?i)ArrayFindNoCase)(?=\s*\()</regex>
-		<regex>((?i)ArrayInsertAt)(?=\s*\()</regex>
-		<regex>((?i)ArrayIsDefined)(?=\s*\()</regex>
-		<regex>((?i)ArrayIsEmpty)(?=\s*\()</regex>
-		<regex>((?i)ArrayLen)(?=\s*\()</regex>
-		<regex>((?i)ArrayMax)(?=\s*\()</regex>
-		<regex>((?i)ArrayMin)(?=\s*\()</regex>
-		<regex>((?i)ArrayNew)(?=\s*\()</regex>
-		<regex>((?i)ArrayPrepend)(?=\s*\()</regex>
-		<regex>((?i)ArrayResize)(?=\s*\()</regex>
-		<regex>((?i)ArraySet)(?=\s*\()</regex>
-		<regex>((?i)ArraySort)(?=\s*\()</regex>
-		<regex>((?i)ArraySum)(?=\s*\()</regex>
-		<regex>((?i)ArraySwap)(?=\s*\()</regex>
-		<regex>((?i)ArrayToList)(?=\s*\()</regex>
-		<regex>((?i)Asc)(?=\s*\()</regex>
-		<regex>((?i)Atn)(?=\s*\()</regex>
-		<regex>((?i)BinaryDecode)(?=\s*\()</regex>
-		<regex>((?i)BinaryEncode)(?=\s*\()</regex>
-		<regex>((?i)BitAnd)(?=\s*\()</regex>
-		<regex>((?i)BitMaskClear)(?=\s*\()</regex>
-		<regex>((?i)BitMaskRead)(?=\s*\()</regex>
-		<regex>((?i)BitMaskSet)(?=\s*\()</regex>
-		<regex>((?i)BitNot)(?=\s*\()</regex>
-		<regex>((?i)BitOr)(?=\s*\()</regex>
-		<regex>((?i)BitSHLN)(?=\s*\()</regex>
-		<regex>((?i)BitSHRN)(?=\s*\()</regex>
-		<regex>((?i)BitXor)(?=\s*\()</regex>
-		<regex>((?i)CJustify)(?=\s*\()</regex>
-		<regex>((?i)CacheGet)(?=\s*\()</regex>
-		<regex>((?i)CacheGetAllIds)(?=\s*\()</regex>
-		<regex>((?i)CacheGetMetadata)(?=\s*\()</regex>
-		<regex>((?i)CacheGetProperties)(?=\s*\()</regex>
-		<regex>((?i)CachePut)(?=\s*\()</regex>
-		<regex>((?i)CacheRemove)(?=\s*\()</regex>
-		<regex>((?i)CacheSetProperties)(?=\s*\()</regex>
-		<regex>((?i)Ceiling)(?=\s*\()</regex>
-		<regex>((?i)CharsetDecode)(?=\s*\()</regex>
-		<regex>((?i)CharsetEncode)(?=\s*\()</regex>
-		<regex>((?i)Chr)(?=\s*\()</regex>
-		<regex>((?i)Compare)(?=\s*\()</regex>
-		<regex>((?i)CompareNoCase)(?=\s*\()</regex>
-		<regex>((?i)Cos)(?=\s*\()</regex>
-		<regex>((?i)CreateDate)(?=\s*\()</regex>
-		<regex>((?i)CreateDateTime)(?=\s*\()</regex>
-		<regex>((?i)CreateODBCDate)(?=\s*\()</regex>
-		<regex>((?i)CreateODBCDateTime)(?=\s*\()</regex>
-		<regex>((?i)CreateODBCTime)(?=\s*\()</regex>
-		<regex>((?i)CreateObject)(?=\s*\()</regex>
-		<regex>((?i)CreateTime)(?=\s*\()</regex>
-		<regex>((?i)CreateTimeSpan)(?=\s*\()</regex>
-		<regex>((?i)CreateUUID)(?=\s*\()</regex>
-		<regex>((?i)DE)(?=\s*\()</regex>
-		<regex>((?i)DateAdd)(?=\s*\()</regex>
-		<regex>((?i)DateCompare)(?=\s*\()</regex>
-		<regex>((?i)DateConvert)(?=\s*\()</regex>
-		<regex>((?i)DateDiff)(?=\s*\()</regex>
-		<regex>((?i)DateFormat)(?=\s*\()</regex>
-		<regex>((?i)DatePart)(?=\s*\()</regex>
-		<regex>((?i)Day)(?=\s*\()</regex>
-		<regex>((?i)DayOfWeek)(?=\s*\()</regex>
-		<regex>((?i)DayOfWeekAsString)(?=\s*\()</regex>
-		<regex>((?i)DayOfYear)(?=\s*\()</regex>
-		<regex>((?i)DaysInMonth)(?=\s*\()</regex>
-		<regex>((?i)DaysInYear)(?=\s*\()</regex>
-		<regex>((?i)DecimalFormat)(?=\s*\()</regex>
-		<regex>((?i)DecrementValue)(?=\s*\()</regex>
-		<regex>((?i)Decrypt)(?=\s*\()</regex>
-		<regex>((?i)DecryptBinary)(?=\s*\()</regex>
-		<regex>((?i)DeleteClientVariable)(?=\s*\()</regex>
-		<regex>((?i)DeserializeJSON)(?=\s*\()</regex>
-		<regex>((?i)DirectoryCreate)(?=\s*\()</regex>
-		<regex>((?i)DirectoryDelete)(?=\s*\()</regex>
-		<regex>((?i)DirectoryExists)(?=\s*\()</regex>
-		<regex>((?i)DirectoryList)(?=\s*\()</regex>
-		<regex>((?i)DirectoryRename)(?=\s*\()</regex>
-		<regex>((?i)DollarFormat)(?=\s*\()</regex>
-		<regex>((?i)DotNetToCFType)(?=\s*\()</regex>
-		<regex>((?i)Duplicate)(?=\s*\()</regex>
-		<regex>((?i)Encrypt)(?=\s*\()</regex>
-		<regex>((?i)EncryptBinary)(?=\s*\()</regex>
-		<regex>((?i)EntityDelete)(?=\s*\()</regex>
-		<regex>((?i)EntityLoad)(?=\s*\()</regex>
-		<regex>((?i)EntityLoadByExample)(?=\s*\()</regex>
-		<regex>((?i)EntityLoadByPK)(?=\s*\()</regex>
-		<regex>((?i)EntityMerge)(?=\s*\()</regex>
-		<regex>((?i)EntityNew)(?=\s*\()</regex>
-		<regex>((?i)EntityReload)(?=\s*\()</regex>
-		<regex>((?i)EntitySave)(?=\s*\()</regex>
-		<regex>((?i)EntitytoQuery)(?=\s*\()</regex>
-		<regex>((?i)Evaluate)(?=\s*\()</regex>
-		<regex>((?i)Exp)(?=\s*\()</regex>
-		<regex>((?i)ExpandPath)(?=\s*\()</regex>
-		<regex>((?i)FileClose)(?=\s*\()</regex>
-		<regex>((?i)FileCopy)(?=\s*\()</regex>
-		<regex>((?i)FileDelete)(?=\s*\()</regex>
-		<regex>((?i)FileExists)(?=\s*\()</regex>
-		<regex>((?i)FileIsEOF)(?=\s*\()</regex>
-		<regex>((?i)FileMove)(?=\s*\()</regex>
-		<regex>((?i)FileOpen)(?=\s*\()</regex>
-		<regex>((?i)FileRead)(?=\s*\()</regex>
-		<regex>((?i)FileReadBinary)(?=\s*\()</regex>
-		<regex>((?i)FileReadLine)(?=\s*\()</regex>
-		<regex>((?i)FileSeek)(?=\s*\()</regex>
-		<regex>((?i)FileSetAccessMode)(?=\s*\()</regex>
-		<regex>((?i)FileSetAttribute)(?=\s*\()</regex>
-		<regex>((?i)FileSetLastModified)(?=\s*\()</regex>
-		<regex>((?i)FileSkipBytes)(?=\s*\()</regex>
-		<regex>((?i)FileWrite)(?=\s*\()</regex>
-		<regex>((?i)FileWriteLine)(?=\s*\()</regex>
-		<regex>((?i)Find)(?=\s*\()</regex>
-		<regex>((?i)FindNoCase)(?=\s*\()</regex>
-		<regex>((?i)FindOneOf)(?=\s*\()</regex>
-		<regex>((?i)FirstDayOfMonth)(?=\s*\()</regex>
-		<regex>((?i)Fix)(?=\s*\()</regex>
-		<regex>((?i)FormatBaseN)(?=\s*\()</regex>
-		<regex>((?i)GenerateSecretKey)(?=\s*\()</regex>
-		<regex>((?i)GetAuthUser)(?=\s*\()</regex>
-		<regex>((?i)GetBaseTagData)(?=\s*\()</regex>
-		<regex>((?i)GetBaseTagList)(?=\s*\()</regex>
-		<regex>((?i)GetBaseTemplatePath)(?=\s*\()</regex>
-		<regex>((?i)GetClientVariablesList)(?=\s*\()</regex>
-		<regex>((?i)GetComponentMetaData)(?=\s*\()</regex>
-		<regex>((?i)GetContextRoot)(?=\s*\()</regex>
-		<regex>((?i)GetCurrentTemplatePath)(?=\s*\()</regex>
-		<regex>((?i)GetDirectoryFromPath)(?=\s*\()</regex>
-		<regex>((?i)GetEncoding)(?=\s*\()</regex>
-		<regex>((?i)GetException)(?=\s*\()</regex>
-		<regex>((?i)GetFileFromPath)(?=\s*\()</regex>
-		<regex>((?i)GetFileInfo)(?=\s*\()</regex>
-		<regex>((?i)GetFunctionCalledName)(?=\s*\()</regex>
-		<regex>((?i)GetFunctionList)(?=\s*\()</regex>
-		<regex>((?i)GetGatewayHelper)(?=\s*\()</regex>
-		<regex>((?i)GetHttpRequestData)(?=\s*\()</regex>
-		<regex>((?i)GetHttpTimeString)(?=\s*\()</regex>
-		<regex>((?i)GetK2ServerDocCount)(?=\s*\()</regex>
-		<regex>((?i)GetK2ServerDocCountLimit)(?=\s*\()</regex>
-		<regex>((?i)GetLocalHostIP)(?=\s*\()</regex>
-		<regex>((?i)GetLocale)(?=\s*\()</regex>
-		<regex>((?i)GetLocaleDisplayName)(?=\s*\()</regex>
-		<regex>((?i)GetMetaData)(?=\s*\()</regex>
-		<regex>((?i)GetMetricData)(?=\s*\()</regex>
-		<regex>((?i)GetPageContext)(?=\s*\()</regex>
-		<regex>((?i)GetPrinterInfo)(?=\s*\()</regex>
-		<regex>((?i)GetProfileSections)(?=\s*\()</regex>
-		<regex>((?i)GetProfileString)(?=\s*\()</regex>
-		<regex>((?i)GetReadableImageFormats)(?=\s*\()</regex>
-		<regex>((?i)GetSOAPRequest)(?=\s*\()</regex>
-		<regex>((?i)GetSOAPRequestHeader)(?=\s*\()</regex>
-		<regex>((?i)GetSOAPResponse)(?=\s*\()</regex>
-		<regex>((?i)GetSOAPResponseHeader)(?=\s*\()</regex>
-		<regex>((?i)GetTempDirectory)(?=\s*\()</regex>
-		<regex>((?i)GetTempFile)(?=\s*\()</regex>
-		<regex>((?i)GetTemplatePath)(?=\s*\()</regex>
-		<regex>((?i)GetTickCount)(?=\s*\()</regex>
-		<regex>((?i)GetTimeZoneInfo)(?=\s*\()</regex>
-		<regex>((?i)GetToken)(?=\s*\()</regex>
-		<regex>((?i)GetUserRoles)(?=\s*\()</regex>
-		<regex>((?i)GetVFSMetaData)(?=\s*\()</regex>
-		<regex>((?i)GetWriteableImageFormats)(?=\s*\()</regex>
-		<regex>((?i)HTMLCodeFormat)(?=\s*\()</regex>
-		<regex>((?i)HTMLEditFormat)(?=\s*\()</regex>
-		<regex>((?i)Hash)(?=\s*\()</regex>
-		<regex>((?i)Hour)(?=\s*\()</regex>
-		<regex>((?i)IIf)(?=\s*\()</regex>
-		<regex>((?i)ImageAddBorder)(?=\s*\()</regex>
-		<regex>((?i)ImageBlur)(?=\s*\()</regex>
-		<regex>((?i)ImageClearRect)(?=\s*\()</regex>
-		<regex>((?i)ImageCopy)(?=\s*\()</regex>
-		<regex>((?i)ImageCrop)(?=\s*\()</regex>
-		<regex>((?i)ImageDrawArc)(?=\s*\()</regex>
-		<regex>((?i)ImageDrawBeveledRect)(?=\s*\()</regex>
-		<regex>((?i)ImageDrawCubicCurve)(?=\s*\()</regex>
-		<regex>((?i)ImageDrawLine)(?=\s*\()</regex>
-		<regex>((?i)ImageDrawLines)(?=\s*\()</regex>
-		<regex>((?i)ImageDrawOval)(?=\s*\()</regex>
-		<regex>((?i)ImageDrawPoint)(?=\s*\()</regex>
-		<regex>((?i)ImageDrawQuadraticCurve)(?=\s*\()</regex>
-		<regex>((?i)ImageDrawRect)(?=\s*\()</regex>
-		<regex>((?i)ImageDrawRoundRect)(?=\s*\()</regex>
-		<regex>((?i)ImageDrawText)(?=\s*\()</regex>
-		<regex>((?i)ImageFlip)(?=\s*\()</regex>
-		<regex>((?i)ImageGetBlob)(?=\s*\()</regex>
-		<regex>((?i)ImageGetBufferedImage)(?=\s*\()</regex>
-		<regex>((?i)ImageGetEXIFTag)(?=\s*\()</regex>
-		<regex>((?i)ImageGetHeight)(?=\s*\()</regex>
-		<regex>((?i)ImageGetIPTCTag)(?=\s*\()</regex>
-		<regex>((?i)ImageGetWidth)(?=\s*\()</regex>
-		<regex>((?i)ImageGrayscale)(?=\s*\()</regex>
-		<regex>((?i)ImageInfo)(?=\s*\()</regex>
-		<regex>((?i)ImageNegative)(?=\s*\()</regex>
-		<regex>((?i)ImageNew)(?=\s*\()</regex>
-		<regex>((?i)ImageOverlay)(?=\s*\()</regex>
-		<regex>((?i)ImagePaste)(?=\s*\()</regex>
-		<regex>((?i)ImageRead)(?=\s*\()</regex>
-		<regex>((?i)ImageReadBase64)(?=\s*\()</regex>
-		<regex>((?i)ImageResize)(?=\s*\()</regex>
-		<regex>((?i)ImageRotate)(?=\s*\()</regex>
-		<regex>((?i)ImageRotateDrawingAxis)(?=\s*\()</regex>
-		<regex>((?i)ImageScaleToFit)(?=\s*\()</regex>
-		<regex>((?i)ImageSetAntialiasing)(?=\s*\()</regex>
-		<regex>((?i)ImageSetBackgroundColor)(?=\s*\()</regex>
-		<regex>((?i)ImageSetDrawingColor)(?=\s*\()</regex>
-		<regex>((?i)ImageSetDrawingStroke)(?=\s*\()</regex>
-		<regex>((?i)ImageSetDrawingTransparency)(?=\s*\()</regex>
-		<regex>((?i)ImageSharpen)(?=\s*\()</regex>
-		<regex>((?i)ImageShear)(?=\s*\()</regex>
-		<regex>((?i)ImageShearDrawingAxis)(?=\s*\()</regex>
-		<regex>((?i)ImageTranslate)(?=\s*\()</regex>
-		<regex>((?i)ImageTranslateDrawingAxis)(?=\s*\()</regex>
-		<regex>((?i)ImageWrite)(?=\s*\()</regex>
-		<regex>((?i)ImageWriteBase64)(?=\s*\()</regex>
-		<regex>((?i)ImageXORDrawingMode)(?=\s*\()</regex>
-		<regex>((?i)IncrementValue)(?=\s*\()</regex>
-		<regex>((?i)InputBaseN)(?=\s*\()</regex>
-		<regex>((?i)Insert)(?=\s*\()</regex>
-		<regex>((?i)Int)(?=\s*\()</regex>
-		<regex>((?i)IsArray)(?=\s*\()</regex>
-		<regex>((?i)IsBinary)(?=\s*\()</regex>
-		<regex>((?i)IsBoolean)(?=\s*\()</regex>
-		<regex>((?i)IsCustomFunction)(?=\s*\()</regex>
-		<regex>((?i)IsDDX)(?=\s*\()</regex>
-		<regex>((?i)IsDate)(?=\s*\()</regex>
-		<regex>((?i)IsDebugMode)(?=\s*\()</regex>
-		<regex>((?i)IsDefined)(?=\s*\()</regex>
-		<regex>((?i)IsIPv6)(?=\s*\()</regex>
-		<regex>((?i)IsImage)(?=\s*\()</regex>
-		<regex>((?i)IsImageFile)(?=\s*\()</regex>
-		<regex>((?i)IsInstanceOf)(?=\s*\()</regex>
-		<regex>((?i)IsJSON)(?=\s*\()</regex>
-		<regex>((?i)IsK2ServerABroker)(?=\s*\()</regex>
-		<regex>((?i)IsK2ServerDocCountExceeded)(?=\s*\()</regex>
-		<regex>((?i)IsK2ServerOnline)(?=\s*\()</regex>
-		<regex>((?i)IsLeapYear)(?=\s*\()</regex>
-		<regex>((?i)IsLocalHost)(?=\s*\()</regex>
-		<regex>((?i)IsNull)(?=\s*\()</regex>
-		<regex>((?i)IsNumeric)(?=\s*\()</regex>
-		<regex>((?i)IsNumericDate)(?=\s*\()</regex>
-		<regex>((?i)IsObject)(?=\s*\()</regex>
-		<regex>((?i)IsPDFFile)(?=\s*\()</regex>
-		<regex>((?i)IsPDFObject)(?=\s*\()</regex>
-		<regex>((?i)IsQuery)(?=\s*\()</regex>
-		<regex>((?i)IsSOAPRequest)(?=\s*\()</regex>
-		<regex>((?i)IsSimpleValue)(?=\s*\()</regex>
-		<regex>((?i)IsSpreadsheetFile)(?=\s*\()</regex>
-		<regex>((?i)IsSpreadsheetObject)(?=\s*\()</regex>
-		<regex>((?i)IsStruct)(?=\s*\()</regex>
-		<regex>((?i)IsUserInAnyRole)(?=\s*\()</regex>
-		<regex>((?i)IsUserInRole)(?=\s*\()</regex>
-		<regex>((?i)IsUserLoggedIn)(?=\s*\()</regex>
-		<regex>((?i)IsValid)(?=\s*\()</regex>
-		<regex>((?i)IsWDDX)(?=\s*\()</regex>
-		<regex>((?i)IsXML)(?=\s*\()</regex>
-		<regex>((?i)IsXmlAttribute)(?=\s*\()</regex>
-		<regex>((?i)IsXmlDoc)(?=\s*\()</regex>
-		<regex>((?i)IsXmlElem)(?=\s*\()</regex>
-		<regex>((?i)IsXmlNode)(?=\s*\()</regex>
-		<regex>((?i)IsXmlRoot)(?=\s*\()</regex>
-		<regex>((?i)JSStringFormat)(?=\s*\()</regex>
-		<regex>((?i)JavaCast)(?=\s*\()</regex>
-		<regex>((?i)LCase)(?=\s*\()</regex>
-		<regex>((?i)LJustify)(?=\s*\()</regex>
-		<regex>((?i)LSCurrencyFormat)(?=\s*\()</regex>
-		<regex>((?i)LSDateFormat)(?=\s*\()</regex>
-		<regex>((?i)LSEuroCurrencyFormat)(?=\s*\()</regex>
-		<regex>((?i)LSIsCurrency)(?=\s*\()</regex>
-		<regex>((?i)LSIsDate)(?=\s*\()</regex>
-		<regex>((?i)LSIsNumeric)(?=\s*\()</regex>
-		<regex>((?i)LSNumberFormat)(?=\s*\()</regex>
-		<regex>((?i)LSParseCurrency)(?=\s*\()</regex>
-		<regex>((?i)LSParseDateTime)(?=\s*\()</regex>
-		<regex>((?i)LSParseEuroCurrency)(?=\s*\()</regex>
-		<regex>((?i)LSParseNumber)(?=\s*\()</regex>
-		<regex>((?i)LSTimeFormat)(?=\s*\()</regex>
-		<regex>((?i)LTrim)(?=\s*\()</regex>
-		<regex>((?i)Left)(?=\s*\()</regex>
-		<regex>((?i)Len)(?=\s*\()</regex>
-		<regex>((?i)ListAppend)(?=\s*\()</regex>
-		<regex>((?i)ListChangeDelims)(?=\s*\()</regex>
-		<regex>((?i)ListContains)(?=\s*\()</regex>
-		<regex>((?i)ListContainsNoCase)(?=\s*\()</regex>
-		<regex>((?i)ListDeleteAt)(?=\s*\()</regex>
-		<regex>((?i)ListFind)(?=\s*\()</regex>
-		<regex>((?i)ListFindNoCase)(?=\s*\()</regex>
-		<regex>((?i)ListFirst)(?=\s*\()</regex>
-		<regex>((?i)ListGetAt)(?=\s*\()</regex>
-		<regex>((?i)ListInsertAt)(?=\s*\()</regex>
-		<regex>((?i)ListLast)(?=\s*\()</regex>
-		<regex>((?i)ListLen)(?=\s*\()</regex>
-		<regex>((?i)ListPrepend)(?=\s*\()</regex>
-		<regex>((?i)ListQualify)(?=\s*\()</regex>
-		<regex>((?i)ListRest)(?=\s*\()</regex>
-		<regex>((?i)ListSetAt)(?=\s*\()</regex>
-		<regex>((?i)ListSort)(?=\s*\()</regex>
-		<regex>((?i)ListToArray)(?=\s*\()</regex>
-		<regex>((?i)ListValueCount)(?=\s*\()</regex>
-		<regex>((?i)ListValueCountNoCase)(?=\s*\()</regex>
-		<regex>((?i)Location)(?=\s*\()</regex>
-		<regex>((?i)Log)(?=\s*\()</regex>
-		<regex>((?i)Log10)(?=\s*\()</regex>
-		<regex>((?i)Max)(?=\s*\()</regex>
-		<regex>((?i)Mid)(?=\s*\()</regex>
-		<regex>((?i)Min)(?=\s*\()</regex>
-		<regex>((?i)Minute)(?=\s*\()</regex>
-		<regex>((?i)Month)(?=\s*\()</regex>
-		<regex>((?i)MonthAsString)(?=\s*\()</regex>
-		<regex>((?i)Now)(?=\s*\()</regex>
-		<regex>((?i)NumberFormat)(?=\s*\()</regex>
-		<regex>((?i)ORMClearSession)(?=\s*\()</regex>
-		<regex>((?i)ORMCloseSession)(?=\s*\()</regex>
-		<regex>((?i)ORMEvictCollection)(?=\s*\()</regex>
-		<regex>((?i)ORMEvictEntity)(?=\s*\()</regex>
-		<regex>((?i)ORMEvictQueries)(?=\s*\()</regex>
-		<regex>((?i)ORMExecuteQuery)(?=\s*\()</regex>
-		<regex>((?i)ORMFlush)(?=\s*\()</regex>
-		<regex>((?i)ORMGetSession)(?=\s*\()</regex>
-		<regex>((?i)ORMGetSessionFactory)(?=\s*\()</regex>
-		<regex>((?i)ORMReload)(?=\s*\()</regex>
-		<regex>((?i)ObjectEquals)(?=\s*\()</regex>
-		<regex>((?i)ObjectLoad)(?=\s*\()</regex>
-		<regex>((?i)ObjectSave)(?=\s*\()</regex>
-		<regex>((?i)ParagraphFormat)(?=\s*\()</regex>
-		<regex>((?i)ParseDateTime)(?=\s*\()</regex>
-		<regex>((?i)Pi)(?=\s*\()</regex>
-		<regex>((?i)PrecisionEvaluate)(?=\s*\()</regex>
-		<regex>((?i)PreserveSingleQuotes)(?=\s*\()</regex>
-		<regex>((?i)Quarter)(?=\s*\()</regex>
-		<regex>((?i)QueryAddColumn)(?=\s*\()</regex>
-		<regex>((?i)QueryAddRow)(?=\s*\()</regex>
-		<regex>((?i)QueryConvertForGrid)(?=\s*\()</regex>
-		<regex>((?i)QueryNew)(?=\s*\()</regex>
-		<regex>((?i)QuerySetCell)(?=\s*\()</regex>
-		<regex>((?i)QuotedValueList)(?=\s*\()</regex>
-		<regex>((?i)REFind)(?=\s*\()</regex>
-		<regex>((?i)REFindNoCase)(?=\s*\()</regex>
-		<regex>((?i)REMatch)(?=\s*\()</regex>
-		<regex>((?i)REMatchNoCase)(?=\s*\()</regex>
-		<regex>((?i)REReplace)(?=\s*\()</regex>
-		<regex>((?i)REReplaceNoCase)(?=\s*\()</regex>
-		<regex>((?i)RJustify)(?=\s*\()</regex>
-		<regex>((?i)RTrim)(?=\s*\()</regex>
-		<regex>((?i)Rand)(?=\s*\()</regex>
-		<regex>((?i)RandRange)(?=\s*\()</regex>
-		<regex>((?i)Randomize)(?=\s*\()</regex>
-		<regex>((?i)ReleaseComObject)(?=\s*\()</regex>
-		<regex>((?i)RemoveChars)(?=\s*\()</regex>
-		<regex>((?i)RepeatString)(?=\s*\()</regex>
-		<regex>((?i)Replace)(?=\s*\()</regex>
-		<regex>((?i)ReplaceList)(?=\s*\()</regex>
-		<regex>((?i)ReplaceNoCase)(?=\s*\()</regex>
-		<regex>((?i)Reverse)(?=\s*\()</regex>
-		<regex>((?i)Right)(?=\s*\()</regex>
-		<regex>((?i)Round)(?=\s*\()</regex>
-		<regex>((?i)Second)(?=\s*\()</regex>
-		<regex>((?i)SendGatewayMessage)(?=\s*\()</regex>
-		<regex>((?i)SerializeJSON)(?=\s*\()</regex>
-		<regex>((?i)SetEncoding)(?=\s*\()</regex>
-		<regex>((?i)SetLocale)(?=\s*\()</regex>
-		<regex>((?i)SetProfileString)(?=\s*\()</regex>
-		<regex>((?i)SetVariable)(?=\s*\()</regex>
-		<regex>((?i)Sgn)(?=\s*\()</regex>
-		<regex>((?i)Sin)(?=\s*\()</regex>
-		<regex>((?i)Sleep)(?=\s*\()</regex>
-		<regex>((?i)SpanExcluding)(?=\s*\()</regex>
-		<regex>((?i)SpanIncluding)(?=\s*\()</regex>
-		<regex>((?i)SpreadsheetAddColumn)(?=\s*\()</regex>
-		<regex>((?i)SpreadsheetAddFreezePane)(?=\s*\()</regex>
-		<regex>((?i)SpreadsheetAddImage)(?=\s*\()</regex>
-		<regex>((?i)SpreadsheetAddInfo)(?=\s*\()</regex>
-		<regex>((?i)SpreadsheetAddRow)(?=\s*\()</regex>
-		<regex>((?i)SpreadsheetAddRows)(?=\s*\()</regex>
-		<regex>((?i)SpreadsheetAddSplitPane)(?=\s*\()</regex>
-		<regex>((?i)SpreadsheetCreateSheet)(?=\s*\()</regex>
-		<regex>((?i)SpreadsheetDeleteColumn)(?=\s*\()</regex>
-		<regex>((?i)SpreadsheetDeleteColumns)(?=\s*\()</regex>
-		<regex>((?i)SpreadsheetDeleteRow)(?=\s*\()</regex>
-		<regex>((?i)SpreadsheetDeleteRows)(?=\s*\()</regex>
-		<regex>((?i)SpreadsheetFormatCell)(?=\s*\()</regex>
-		<regex>((?i)SpreadsheetFormatColumn)(?=\s*\()</regex>
-		<regex>((?i)SpreadsheetFormatColumns)(?=\s*\()</regex>
-		<regex>((?i)SpreadsheetFormatRow)(?=\s*\()</regex>
-		<regex>((?i)SpreadsheetFormatRows)(?=\s*\()</regex>
-		<regex>((?i)SpreadsheetGetCellComment)(?=\s*\()</regex>
-		<regex>((?i)SpreadsheetGetCellFormula)(?=\s*\()</regex>
-		<regex>((?i)SpreadsheetGetCellValue)(?=\s*\()</regex>
-		<regex>((?i)SpreadsheetInfo)(?=\s*\()</regex>
-		<regex>((?i)SpreadsheetMergeCells)(?=\s*\()</regex>
-		<regex>((?i)SpreadsheetNew)(?=\s*\()</regex>
-		<regex>((?i)SpreadsheetRead)(?=\s*\()</regex>
-		<regex>((?i)SpreadsheetReadBinary)(?=\s*\()</regex>
-		<regex>((?i)SpreadsheetSetActiveSheet)(?=\s*\()</regex>
-		<regex>((?i)SpreadsheetSetActiveSheetNumber)(?=\s*\()</regex>
-		<regex>((?i)SpreadsheetSetCellComment)(?=\s*\()</regex>
-		<regex>((?i)SpreadsheetSetCellFormula)(?=\s*\()</regex>
-		<regex>((?i)SpreadsheetSetCellValue)(?=\s*\()</regex>
-		<regex>((?i)SpreadsheetSetColumnWidth)(?=\s*\()</regex>
-		<regex>((?i)SpreadsheetSetFooter)(?=\s*\()</regex>
-		<regex>((?i)SpreadsheetSetHeader)(?=\s*\()</regex>
-		<regex>((?i)SpreadsheetSetRowHeight)(?=\s*\()</regex>
-		<regex>((?i)SpreadsheetShiftColumns)(?=\s*\()</regex>
-		<regex>((?i)SpreadsheetShiftRows)(?=\s*\()</regex>
-		<regex>((?i)SpreadsheetWrite)(?=\s*\()</regex>
-		<regex>((?i)Sqr)(?=\s*\()</regex>
-		<regex>((?i)StripCR)(?=\s*\()</regex>
-		<regex>((?i)StructAppend)(?=\s*\()</regex>
-		<regex>((?i)StructClear)(?=\s*\()</regex>
-		<regex>((?i)StructCopy)(?=\s*\()</regex>
-		<regex>((?i)StructCount)(?=\s*\()</regex>
-		<regex>((?i)StructDelete)(?=\s*\()</regex>
-		<regex>((?i)StructFind)(?=\s*\()</regex>
-		<regex>((?i)StructFindKey)(?=\s*\()</regex>
-		<regex>((?i)StructFindValue)(?=\s*\()</regex>
-		<regex>((?i)StructGet)(?=\s*\()</regex>
-		<regex>((?i)StructInsert)(?=\s*\()</regex>
-		<regex>((?i)StructIsEmpty)(?=\s*\()</regex>
-		<regex>((?i)StructKeyArray)(?=\s*\()</regex>
-		<regex>((?i)StructKeyExists)(?=\s*\()</regex>
-		<regex>((?i)StructKeyList)(?=\s*\()</regex>
-		<regex>((?i)StructNew)(?=\s*\()</regex>
-		<regex>((?i)StructSort)(?=\s*\()</regex>
-		<regex>((?i)StructUpdate)(?=\s*\()</regex>
-		<regex>((?i)Tan)(?=\s*\()</regex>
-		<regex>((?i)ThreadJoin)(?=\s*\()</regex>
-		<regex>((?i)ThreadTerminate)(?=\s*\()</regex>
-		<regex>((?i)Throw)(?=\s*\()</regex>
-		<regex>((?i)TimeFormat)(?=\s*\()</regex>
-		<regex>((?i)ToBase64)(?=\s*\()</regex>
-		<regex>((?i)ToBinary)(?=\s*\()</regex>
-		<regex>((?i)ToScript)(?=\s*\()</regex>
-		<regex>((?i)ToString)(?=\s*\()</regex>
-		<regex>((?i)Trace)(?=\s*\()</regex>
-		<regex>((?i)TransactionCommit)(?=\s*\()</regex>
-		<regex>((?i)TransactionRollback)(?=\s*\()</regex>
-		<regex>((?i)TransactionSetSavePoint)(?=\s*\()</regex>
-		<regex>((?i)TransactionSetSavePoint)(?=\s*\()</regex>				
-		<regex>((?i)Trim)(?=\s*\()</regex>
-		<regex>((?i)UCase)(?=\s*\()</regex>
-		<regex>((?i)URLDecode)(?=\s*\()</regex>
-		<regex>((?i)URLEncodedFormat)(?=\s*\()</regex>
-		<regex>((?i)URLSessionFormat)(?=\s*\()</regex>
-		<regex>((?i)Val)(?=\s*\()</regex>
-		<regex>((?i)ValueList)(?=\s*\()</regex>
-		<regex>((?i)VerifyClient)(?=\s*\()</regex>
-		<regex>((?i)Week)(?=\s*\()</regex>
-		<regex>((?i)Wrap)(?=\s*\()</regex>
-		<regex>((?i)WriteDump)(?=\s*\()</regex>
-		<regex>((?i)WriteLog)(?=\s*\()</regex>
-		<regex>((?i)WriteOutput)(?=\s*\()</regex>
-		<regex>((?i)Writedump)(?=\s*\()</regex>
-		<regex>((?i)Writelog)(?=\s*\()</regex>
-		<regex>((?i)XmlChildPos)(?=\s*\()</regex>
-		<regex>((?i)XmlElemNew)(?=\s*\()</regex>
-		<regex>((?i)XmlFormat)(?=\s*\()</regex>
-		<regex>((?i)XmlGetNodeType)(?=\s*\()</regex>
-		<regex>((?i)XmlNew)(?=\s*\()</regex>
-		<regex>((?i)XmlParse)(?=\s*\()</regex>
-		<regex>((?i)XmlSearch)(?=\s*\()</regex>
-		<regex>((?i)XmlTransform)(?=\s*\()</regex>
-		<regex>((?i)XmlValidate)(?=\s*\()</regex>
-		<regex>((?i)Year)(?=\s*\()</regex>
-		<regex>((?i)YesNoFormat)(?=\s*\()</regex>
-	</keywords>
-
-	<keywords id="Operators" useforautocomplete="no" scope="language.operator">
-		<regex>([\+\-\*\\\=])</regex>
-	</keywords>
-
-</state>
-
-<import state="CFML Output Variables State" keywords-only="yes" />
-<state id="CFML Output Variables State" containerState="yes">
-<keywords id="Output Variables" useforautocomplete="no" scope="language.variable">
-	<!-- CODA <regex>(#[^&lt;&gt;#]+#)</regex> -->
-	<regex>(?&lt;!#)(#[^&lt;>{#]+#)(?!#)</regex>
-</keywords>
-</state>
+			
+			<keywords id="Query Tags" scope="markup.tag">
+			<regex>(\A&lt;\Z)</regex>
+			<regex>(&lt;/(?i)cfquery[^&gt;]*&gt;)</regex>
+			</keywords>
+			
+			<state id="Opening Query Tag" usesymbolsfrommode="CFML" useautocompletefrommode="CFML" scope="markup.tag">
+			<begin><regex>\A(?i)cfquery</regex></begin>
+			<end><regex>&gt;</regex></end>
+			
+			<import state="CFML Tags" />
+			</state>
+			
+			<keywords id="CFML Attributes in Tags" useforautocomplete="no" scope="markup.tag.attribute.name">
+			<regex>([\w-]*)(?=[ \t]*=)</regex>
+			</keywords>
+			
+			<!-- CODA -->
+			<state id="CFML self-closing Tags in Query" usesymbolsfrommode="CFML" useautocompletefrommode="CFML" scope="markup.tag">
+			<begin><regex>&lt;(?=(?i)\s*cf(?!query\s))</regex></begin>
+			<end><regex>&gt;</regex></end>
+			
+			<import state="CFML Code" />
+			<import state="CFML Tags" />
+			</state>
+			<!-- CODA
+			<state id="Query Parameter" usesymbolsfrommode="CFML" useautocompletefrommode="CFML">
+			<begin><regex>&lt;(?=(?i)cfqueryparam)</regex></begin>
+			<end><regex>&gt;</regex></end>
+			<import state="CFML Tags" />
+			</state>
+			-->
+			
+			</state>
+			
+			
+			
+			<state id="CFML Code" useforautocomplete="no" containerState="yes" usesymbolsfrommode="CFML" useautocompletefrommode="CFML" scope="meta.default">
+			
+			<keywords id="Generic Functions" useforautocomplete="no" scope="language.function">
+			<!--<regex>([\w]+[\(]{1}[\w\s\.\[\]\)\(\"/;,|#&amp;]+[\)]{1})(?=[^&lt;]*&gt;)</regex>-->
+			<regex>([A-Za-z0-9_]+ *)\(</regex>
+			</keywords>
+			
+			<state id="CFML Double Strings" type="string" useforautocomplete="no" scope="string.double">
+				<begin><regex>"</regex></begin>
+				<end><regex>"</regex></end>
+				<import state="CFML Output Variables State" keywords-only="yes" />
+			</state>
+			
+			<state id="CFML Single Strings" type="string" useforautocomplete="no" usespellchecking="yes" scope="string.single">
+				<begin><regex>'</regex></begin>
+				<end><regex>'</regex></end>
+				<import state="CFML Output Variables State" keywords-only="yes" />
+			</state>
+			
+			<state id="Block" type="block" foldable="yes" scope="meta.block.curly">
+				<begin><regex>(?:(?&lt;=\s)(?:if|else|else\s+if|for|while|do|switch|case)\s*(?:\([^#{\n\r]*?\))?)?\s*{</regex></begin>
+				<end><regex>}</regex></end>
+				<import state="CFML Code" />
+				<import state="CFML Output Variables State" keywords-only="yes" />
+			</state>
+			
+			<keywords id="Control Keywords" useforautocomplete="yes" scope="keyword.control">
+				<string>assignment</string>
+				<string>break</string>
+				<string>case</string>
+				<string>catch</string>
+				<string>continue</string>
+				<string>default</string>
+				<string>do</string>
+				<string>else</string>
+				<string>elseif</string>
+				<string>for</string>
+				<string>if</string>
+				<string>in</string>
+				<string>switch</string>
+				<string>try</string>
+				<string>while</string>
+				<string>function</string>
+			</keywords>
+			
+			<import state="CFML Output Variables State" keywords-only="yes" />
+			
+			<keywords id="Scope and Tag Variables" useforautocomplete="no" scope="keyword">
+				<regex>((?i)(?:session\.|application\.|request\.|request\.session\.|client\.|server\.|server\.coldfusion\.|form\.|cfcatch\.|cfdirectory\.|cferror\.|cffile\.|cfftp\.|cfhtp\.|cfindex\.|cfldap\.|cfpop\.|cfquery\.|cfregistry\.|cfsearch\.|cfstoredproc\.|cgi\.|url\.|cookie\.|arguments\.|cfevent\.)(?:[\w\d])+(?:\[([\w\d"'])+\])?)</regex>
+			</keywords>
+			
+			<keywords id="Numbers" useforautocomplete="no" scope="constant.numeric">
+				<regex>(?&lt;=[^\w\d]|^)((?:(?:(?:[0-9]+\.[0-9]*)|(?:\.[0-9]+))(?:[eE][+\-]?[0-9]+)?[fFlL]?)|(?:(?:(?:[1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(?:(?:[uU][lL]?)|(?:[lL][uU]?))?))(?=[^\w\d]|$)</regex>
+			</keywords>
+			
+			<keywords id="Keywords" casesensitive="no" useforautocomplete="yes" scope="keyword">
+				<string>and</string>
+				<string>or</string>
+				<string>mod</string>
+				<string>is</string>
+				<string>equal</string>
+				<string>eq</string>
+				<string>lt</string>
+				<string>less than</string>
+				<string>lte</string>
+				<string>le</string>
+				<string>less than or equal to</string>
+				<string>gt</string>
+				<string>greater than</string>
+				<string>gte</string>
+				<string>greater than or equal to</string>
+				<string>is not</string>
+				<string>neq</string>
+				<string>not equal</string>
+				<string>contains</string>
+				<string>does not contain</string>
+				<string>not</string>
+				<string>true</string>
+				<string>false</string>
+				<string>&amp;</string>
+				<string>break</string>
+				<string>case</string>
+				<string>catch</string>
+				<string>continue</string>
+				<string>do</string>
+				<string>else</string>
+				<string>for</string>
+				<string>if</string>
+				<string>in</string>
+				<string>return</string>
+				<string>try</string>
+				<string>var</string>
+				<string>while</string>
+			</keywords>
+			
+			<keywords id="Functions" casesensitive="no" useforautocomplete="yes" scope="support.function">
+				<regex>((?i)ACos)(?=\s*\()</regex>
+				<regex>((?i)ASin)(?=\s*\()</regex>
+				<regex>((?i)Abs)(?=\s*\()</regex>
+				<regex>((?i)AddSOAPRequestHeader)(?=\s*\()</regex>
+				<regex>((?i)AddSOAPResponseHeader)(?=\s*\()</regex>
+				<regex>((?i)AjaxLink)(?=\s*\()</regex>
+				<regex>((?i)AjaxOnLoad)(?=\s*\()</regex>
+				<regex>((?i)ApplicationStop)(?=\s*\()</regex>
+				<regex>((?i)ArrayAppend)(?=\s*\()</regex>
+				<regex>((?i)ArrayAvg)(?=\s*\()</regex>
+				<regex>((?i)ArrayClear)(?=\s*\()</regex>
+				<regex>((?i)ArrayContains)(?=\s*\()</regex>
+				<regex>((?i)ArrayDelete)(?=\s*\()</regex>
+				<regex>((?i)ArrayDeleteAt)(?=\s*\()</regex>
+				<regex>((?i)ArrayFind)(?=\s*\()</regex>
+				<regex>((?i)ArrayFindNoCase)(?=\s*\()</regex>
+				<regex>((?i)ArrayInsertAt)(?=\s*\()</regex>
+				<regex>((?i)ArrayIsDefined)(?=\s*\()</regex>
+				<regex>((?i)ArrayIsEmpty)(?=\s*\()</regex>
+				<regex>((?i)ArrayLen)(?=\s*\()</regex>
+				<regex>((?i)ArrayMax)(?=\s*\()</regex>
+				<regex>((?i)ArrayMin)(?=\s*\()</regex>
+				<regex>((?i)ArrayNew)(?=\s*\()</regex>
+				<regex>((?i)ArrayPrepend)(?=\s*\()</regex>
+				<regex>((?i)ArrayResize)(?=\s*\()</regex>
+				<regex>((?i)ArraySet)(?=\s*\()</regex>
+				<regex>((?i)ArraySort)(?=\s*\()</regex>
+				<regex>((?i)ArraySum)(?=\s*\()</regex>
+				<regex>((?i)ArraySwap)(?=\s*\()</regex>
+				<regex>((?i)ArrayToList)(?=\s*\()</regex>
+				<regex>((?i)Asc)(?=\s*\()</regex>
+				<regex>((?i)Atn)(?=\s*\()</regex>
+				<regex>((?i)BinaryDecode)(?=\s*\()</regex>
+				<regex>((?i)BinaryEncode)(?=\s*\()</regex>
+				<regex>((?i)BitAnd)(?=\s*\()</regex>
+				<regex>((?i)BitMaskClear)(?=\s*\()</regex>
+				<regex>((?i)BitMaskRead)(?=\s*\()</regex>
+				<regex>((?i)BitMaskSet)(?=\s*\()</regex>
+				<regex>((?i)BitNot)(?=\s*\()</regex>
+				<regex>((?i)BitOr)(?=\s*\()</regex>
+				<regex>((?i)BitSHLN)(?=\s*\()</regex>
+				<regex>((?i)BitSHRN)(?=\s*\()</regex>
+				<regex>((?i)BitXor)(?=\s*\()</regex>
+				<regex>((?i)CJustify)(?=\s*\()</regex>
+				<regex>((?i)CacheGet)(?=\s*\()</regex>
+				<regex>((?i)CacheGetAllIds)(?=\s*\()</regex>
+				<regex>((?i)CacheGetMetadata)(?=\s*\()</regex>
+				<regex>((?i)CacheGetProperties)(?=\s*\()</regex>
+				<regex>((?i)CachePut)(?=\s*\()</regex>
+				<regex>((?i)CacheRemove)(?=\s*\()</regex>
+				<regex>((?i)CacheSetProperties)(?=\s*\()</regex>
+				<regex>((?i)Ceiling)(?=\s*\()</regex>
+				<regex>((?i)CharsetDecode)(?=\s*\()</regex>
+				<regex>((?i)CharsetEncode)(?=\s*\()</regex>
+				<regex>((?i)Chr)(?=\s*\()</regex>
+				<regex>((?i)Compare)(?=\s*\()</regex>
+				<regex>((?i)CompareNoCase)(?=\s*\()</regex>
+				<regex>((?i)Cos)(?=\s*\()</regex>
+				<regex>((?i)CreateDate)(?=\s*\()</regex>
+				<regex>((?i)CreateDateTime)(?=\s*\()</regex>
+				<regex>((?i)CreateODBCDate)(?=\s*\()</regex>
+				<regex>((?i)CreateODBCDateTime)(?=\s*\()</regex>
+				<regex>((?i)CreateODBCTime)(?=\s*\()</regex>
+				<regex>((?i)CreateObject)(?=\s*\()</regex>
+				<regex>((?i)CreateTime)(?=\s*\()</regex>
+				<regex>((?i)CreateTimeSpan)(?=\s*\()</regex>
+				<regex>((?i)CreateUUID)(?=\s*\()</regex>
+				<regex>((?i)DE)(?=\s*\()</regex>
+				<regex>((?i)DateAdd)(?=\s*\()</regex>
+				<regex>((?i)DateCompare)(?=\s*\()</regex>
+				<regex>((?i)DateConvert)(?=\s*\()</regex>
+				<regex>((?i)DateDiff)(?=\s*\()</regex>
+				<regex>((?i)DateFormat)(?=\s*\()</regex>
+				<regex>((?i)DatePart)(?=\s*\()</regex>
+				<regex>((?i)Day)(?=\s*\()</regex>
+				<regex>((?i)DayOfWeek)(?=\s*\()</regex>
+				<regex>((?i)DayOfWeekAsString)(?=\s*\()</regex>
+				<regex>((?i)DayOfYear)(?=\s*\()</regex>
+				<regex>((?i)DaysInMonth)(?=\s*\()</regex>
+				<regex>((?i)DaysInYear)(?=\s*\()</regex>
+				<regex>((?i)DecimalFormat)(?=\s*\()</regex>
+				<regex>((?i)DecrementValue)(?=\s*\()</regex>
+				<regex>((?i)Decrypt)(?=\s*\()</regex>
+				<regex>((?i)DecryptBinary)(?=\s*\()</regex>
+				<regex>((?i)DeleteClientVariable)(?=\s*\()</regex>
+				<regex>((?i)DeserializeJSON)(?=\s*\()</regex>
+				<regex>((?i)DirectoryCreate)(?=\s*\()</regex>
+				<regex>((?i)DirectoryDelete)(?=\s*\()</regex>
+				<regex>((?i)DirectoryExists)(?=\s*\()</regex>
+				<regex>((?i)DirectoryList)(?=\s*\()</regex>
+				<regex>((?i)DirectoryRename)(?=\s*\()</regex>
+				<regex>((?i)DollarFormat)(?=\s*\()</regex>
+				<regex>((?i)DotNetToCFType)(?=\s*\()</regex>
+				<regex>((?i)Duplicate)(?=\s*\()</regex>
+				<regex>((?i)Encrypt)(?=\s*\()</regex>
+				<regex>((?i)EncryptBinary)(?=\s*\()</regex>
+				<regex>((?i)EntityDelete)(?=\s*\()</regex>
+				<regex>((?i)EntityLoad)(?=\s*\()</regex>
+				<regex>((?i)EntityLoadByExample)(?=\s*\()</regex>
+				<regex>((?i)EntityLoadByPK)(?=\s*\()</regex>
+				<regex>((?i)EntityMerge)(?=\s*\()</regex>
+				<regex>((?i)EntityNew)(?=\s*\()</regex>
+				<regex>((?i)EntityReload)(?=\s*\()</regex>
+				<regex>((?i)EntitySave)(?=\s*\()</regex>
+				<regex>((?i)EntitytoQuery)(?=\s*\()</regex>
+				<regex>((?i)Evaluate)(?=\s*\()</regex>
+				<regex>((?i)Exp)(?=\s*\()</regex>
+				<regex>((?i)ExpandPath)(?=\s*\()</regex>
+				<regex>((?i)FileClose)(?=\s*\()</regex>
+				<regex>((?i)FileCopy)(?=\s*\()</regex>
+				<regex>((?i)FileDelete)(?=\s*\()</regex>
+				<regex>((?i)FileExists)(?=\s*\()</regex>
+				<regex>((?i)FileIsEOF)(?=\s*\()</regex>
+				<regex>((?i)FileMove)(?=\s*\()</regex>
+				<regex>((?i)FileOpen)(?=\s*\()</regex>
+				<regex>((?i)FileRead)(?=\s*\()</regex>
+				<regex>((?i)FileReadBinary)(?=\s*\()</regex>
+				<regex>((?i)FileReadLine)(?=\s*\()</regex>
+				<regex>((?i)FileSeek)(?=\s*\()</regex>
+				<regex>((?i)FileSetAccessMode)(?=\s*\()</regex>
+				<regex>((?i)FileSetAttribute)(?=\s*\()</regex>
+				<regex>((?i)FileSetLastModified)(?=\s*\()</regex>
+				<regex>((?i)FileSkipBytes)(?=\s*\()</regex>
+				<regex>((?i)FileWrite)(?=\s*\()</regex>
+				<regex>((?i)FileWriteLine)(?=\s*\()</regex>
+				<regex>((?i)Find)(?=\s*\()</regex>
+				<regex>((?i)FindNoCase)(?=\s*\()</regex>
+				<regex>((?i)FindOneOf)(?=\s*\()</regex>
+				<regex>((?i)FirstDayOfMonth)(?=\s*\()</regex>
+				<regex>((?i)Fix)(?=\s*\()</regex>
+				<regex>((?i)FormatBaseN)(?=\s*\()</regex>
+				<regex>((?i)GenerateSecretKey)(?=\s*\()</regex>
+				<regex>((?i)GetAuthUser)(?=\s*\()</regex>
+				<regex>((?i)GetBaseTagData)(?=\s*\()</regex>
+				<regex>((?i)GetBaseTagList)(?=\s*\()</regex>
+				<regex>((?i)GetBaseTemplatePath)(?=\s*\()</regex>
+				<regex>((?i)GetClientVariablesList)(?=\s*\()</regex>
+				<regex>((?i)GetComponentMetaData)(?=\s*\()</regex>
+				<regex>((?i)GetContextRoot)(?=\s*\()</regex>
+				<regex>((?i)GetCurrentTemplatePath)(?=\s*\()</regex>
+				<regex>((?i)GetDirectoryFromPath)(?=\s*\()</regex>
+				<regex>((?i)GetEncoding)(?=\s*\()</regex>
+				<regex>((?i)GetException)(?=\s*\()</regex>
+				<regex>((?i)GetFileFromPath)(?=\s*\()</regex>
+				<regex>((?i)GetFileInfo)(?=\s*\()</regex>
+				<regex>((?i)GetFunctionCalledName)(?=\s*\()</regex>
+				<regex>((?i)GetFunctionList)(?=\s*\()</regex>
+				<regex>((?i)GetGatewayHelper)(?=\s*\()</regex>
+				<regex>((?i)GetHttpRequestData)(?=\s*\()</regex>
+				<regex>((?i)GetHttpTimeString)(?=\s*\()</regex>
+				<regex>((?i)GetK2ServerDocCount)(?=\s*\()</regex>
+				<regex>((?i)GetK2ServerDocCountLimit)(?=\s*\()</regex>
+				<regex>((?i)GetLocalHostIP)(?=\s*\()</regex>
+				<regex>((?i)GetLocale)(?=\s*\()</regex>
+				<regex>((?i)GetLocaleDisplayName)(?=\s*\()</regex>
+				<regex>((?i)GetMetaData)(?=\s*\()</regex>
+				<regex>((?i)GetMetricData)(?=\s*\()</regex>
+				<regex>((?i)GetPageContext)(?=\s*\()</regex>
+				<regex>((?i)GetPrinterInfo)(?=\s*\()</regex>
+				<regex>((?i)GetProfileSections)(?=\s*\()</regex>
+				<regex>((?i)GetProfileString)(?=\s*\()</regex>
+				<regex>((?i)GetReadableImageFormats)(?=\s*\()</regex>
+				<regex>((?i)GetSOAPRequest)(?=\s*\()</regex>
+				<regex>((?i)GetSOAPRequestHeader)(?=\s*\()</regex>
+				<regex>((?i)GetSOAPResponse)(?=\s*\()</regex>
+				<regex>((?i)GetSOAPResponseHeader)(?=\s*\()</regex>
+				<regex>((?i)GetTempDirectory)(?=\s*\()</regex>
+				<regex>((?i)GetTempFile)(?=\s*\()</regex>
+				<regex>((?i)GetTemplatePath)(?=\s*\()</regex>
+				<regex>((?i)GetTickCount)(?=\s*\()</regex>
+				<regex>((?i)GetTimeZoneInfo)(?=\s*\()</regex>
+				<regex>((?i)GetToken)(?=\s*\()</regex>
+				<regex>((?i)GetUserRoles)(?=\s*\()</regex>
+				<regex>((?i)GetVFSMetaData)(?=\s*\()</regex>
+				<regex>((?i)GetWriteableImageFormats)(?=\s*\()</regex>
+				<regex>((?i)HTMLCodeFormat)(?=\s*\()</regex>
+				<regex>((?i)HTMLEditFormat)(?=\s*\()</regex>
+				<regex>((?i)Hash)(?=\s*\()</regex>
+				<regex>((?i)Hour)(?=\s*\()</regex>
+				<regex>((?i)IIf)(?=\s*\()</regex>
+				<regex>((?i)ImageAddBorder)(?=\s*\()</regex>
+				<regex>((?i)ImageBlur)(?=\s*\()</regex>
+				<regex>((?i)ImageClearRect)(?=\s*\()</regex>
+				<regex>((?i)ImageCopy)(?=\s*\()</regex>
+				<regex>((?i)ImageCrop)(?=\s*\()</regex>
+				<regex>((?i)ImageDrawArc)(?=\s*\()</regex>
+				<regex>((?i)ImageDrawBeveledRect)(?=\s*\()</regex>
+				<regex>((?i)ImageDrawCubicCurve)(?=\s*\()</regex>
+				<regex>((?i)ImageDrawLine)(?=\s*\()</regex>
+				<regex>((?i)ImageDrawLines)(?=\s*\()</regex>
+				<regex>((?i)ImageDrawOval)(?=\s*\()</regex>
+				<regex>((?i)ImageDrawPoint)(?=\s*\()</regex>
+				<regex>((?i)ImageDrawQuadraticCurve)(?=\s*\()</regex>
+				<regex>((?i)ImageDrawRect)(?=\s*\()</regex>
+				<regex>((?i)ImageDrawRoundRect)(?=\s*\()</regex>
+				<regex>((?i)ImageDrawText)(?=\s*\()</regex>
+				<regex>((?i)ImageFlip)(?=\s*\()</regex>
+				<regex>((?i)ImageGetBlob)(?=\s*\()</regex>
+				<regex>((?i)ImageGetBufferedImage)(?=\s*\()</regex>
+				<regex>((?i)ImageGetEXIFTag)(?=\s*\()</regex>
+				<regex>((?i)ImageGetHeight)(?=\s*\()</regex>
+				<regex>((?i)ImageGetIPTCTag)(?=\s*\()</regex>
+				<regex>((?i)ImageGetWidth)(?=\s*\()</regex>
+				<regex>((?i)ImageGrayscale)(?=\s*\()</regex>
+				<regex>((?i)ImageInfo)(?=\s*\()</regex>
+				<regex>((?i)ImageNegative)(?=\s*\()</regex>
+				<regex>((?i)ImageNew)(?=\s*\()</regex>
+				<regex>((?i)ImageOverlay)(?=\s*\()</regex>
+				<regex>((?i)ImagePaste)(?=\s*\()</regex>
+				<regex>((?i)ImageRead)(?=\s*\()</regex>
+				<regex>((?i)ImageReadBase64)(?=\s*\()</regex>
+				<regex>((?i)ImageResize)(?=\s*\()</regex>
+				<regex>((?i)ImageRotate)(?=\s*\()</regex>
+				<regex>((?i)ImageRotateDrawingAxis)(?=\s*\()</regex>
+				<regex>((?i)ImageScaleToFit)(?=\s*\()</regex>
+				<regex>((?i)ImageSetAntialiasing)(?=\s*\()</regex>
+				<regex>((?i)ImageSetBackgroundColor)(?=\s*\()</regex>
+				<regex>((?i)ImageSetDrawingColor)(?=\s*\()</regex>
+				<regex>((?i)ImageSetDrawingStroke)(?=\s*\()</regex>
+				<regex>((?i)ImageSetDrawingTransparency)(?=\s*\()</regex>
+				<regex>((?i)ImageSharpen)(?=\s*\()</regex>
+				<regex>((?i)ImageShear)(?=\s*\()</regex>
+				<regex>((?i)ImageShearDrawingAxis)(?=\s*\()</regex>
+				<regex>((?i)ImageTranslate)(?=\s*\()</regex>
+				<regex>((?i)ImageTranslateDrawingAxis)(?=\s*\()</regex>
+				<regex>((?i)ImageWrite)(?=\s*\()</regex>
+				<regex>((?i)ImageWriteBase64)(?=\s*\()</regex>
+				<regex>((?i)ImageXORDrawingMode)(?=\s*\()</regex>
+				<regex>((?i)IncrementValue)(?=\s*\()</regex>
+				<regex>((?i)InputBaseN)(?=\s*\()</regex>
+				<regex>((?i)Insert)(?=\s*\()</regex>
+				<regex>((?i)Int)(?=\s*\()</regex>
+				<regex>((?i)IsArray)(?=\s*\()</regex>
+				<regex>((?i)IsBinary)(?=\s*\()</regex>
+				<regex>((?i)IsBoolean)(?=\s*\()</regex>
+				<regex>((?i)IsCustomFunction)(?=\s*\()</regex>
+				<regex>((?i)IsDDX)(?=\s*\()</regex>
+				<regex>((?i)IsDate)(?=\s*\()</regex>
+				<regex>((?i)IsDebugMode)(?=\s*\()</regex>
+				<regex>((?i)IsDefined)(?=\s*\()</regex>
+				<regex>((?i)IsIPv6)(?=\s*\()</regex>
+				<regex>((?i)IsImage)(?=\s*\()</regex>
+				<regex>((?i)IsImageFile)(?=\s*\()</regex>
+				<regex>((?i)IsInstanceOf)(?=\s*\()</regex>
+				<regex>((?i)IsJSON)(?=\s*\()</regex>
+				<regex>((?i)IsK2ServerABroker)(?=\s*\()</regex>
+				<regex>((?i)IsK2ServerDocCountExceeded)(?=\s*\()</regex>
+				<regex>((?i)IsK2ServerOnline)(?=\s*\()</regex>
+				<regex>((?i)IsLeapYear)(?=\s*\()</regex>
+				<regex>((?i)IsLocalHost)(?=\s*\()</regex>
+				<regex>((?i)IsNull)(?=\s*\()</regex>
+				<regex>((?i)IsNumeric)(?=\s*\()</regex>
+				<regex>((?i)IsNumericDate)(?=\s*\()</regex>
+				<regex>((?i)IsObject)(?=\s*\()</regex>
+				<regex>((?i)IsPDFFile)(?=\s*\()</regex>
+				<regex>((?i)IsPDFObject)(?=\s*\()</regex>
+				<regex>((?i)IsQuery)(?=\s*\()</regex>
+				<regex>((?i)IsSOAPRequest)(?=\s*\()</regex>
+				<regex>((?i)IsSimpleValue)(?=\s*\()</regex>
+				<regex>((?i)IsSpreadsheetFile)(?=\s*\()</regex>
+				<regex>((?i)IsSpreadsheetObject)(?=\s*\()</regex>
+				<regex>((?i)IsStruct)(?=\s*\()</regex>
+				<regex>((?i)IsUserInAnyRole)(?=\s*\()</regex>
+				<regex>((?i)IsUserInRole)(?=\s*\()</regex>
+				<regex>((?i)IsUserLoggedIn)(?=\s*\()</regex>
+				<regex>((?i)IsValid)(?=\s*\()</regex>
+				<regex>((?i)IsWDDX)(?=\s*\()</regex>
+				<regex>((?i)IsXML)(?=\s*\()</regex>
+				<regex>((?i)IsXmlAttribute)(?=\s*\()</regex>
+				<regex>((?i)IsXmlDoc)(?=\s*\()</regex>
+				<regex>((?i)IsXmlElem)(?=\s*\()</regex>
+				<regex>((?i)IsXmlNode)(?=\s*\()</regex>
+				<regex>((?i)IsXmlRoot)(?=\s*\()</regex>
+				<regex>((?i)JSStringFormat)(?=\s*\()</regex>
+				<regex>((?i)JavaCast)(?=\s*\()</regex>
+				<regex>((?i)LCase)(?=\s*\()</regex>
+				<regex>((?i)LJustify)(?=\s*\()</regex>
+				<regex>((?i)LSCurrencyFormat)(?=\s*\()</regex>
+				<regex>((?i)LSDateFormat)(?=\s*\()</regex>
+				<regex>((?i)LSEuroCurrencyFormat)(?=\s*\()</regex>
+				<regex>((?i)LSIsCurrency)(?=\s*\()</regex>
+				<regex>((?i)LSIsDate)(?=\s*\()</regex>
+				<regex>((?i)LSIsNumeric)(?=\s*\()</regex>
+				<regex>((?i)LSNumberFormat)(?=\s*\()</regex>
+				<regex>((?i)LSParseCurrency)(?=\s*\()</regex>
+				<regex>((?i)LSParseDateTime)(?=\s*\()</regex>
+				<regex>((?i)LSParseEuroCurrency)(?=\s*\()</regex>
+				<regex>((?i)LSParseNumber)(?=\s*\()</regex>
+				<regex>((?i)LSTimeFormat)(?=\s*\()</regex>
+				<regex>((?i)LTrim)(?=\s*\()</regex>
+				<regex>((?i)Left)(?=\s*\()</regex>
+				<regex>((?i)Len)(?=\s*\()</regex>
+				<regex>((?i)ListAppend)(?=\s*\()</regex>
+				<regex>((?i)ListChangeDelims)(?=\s*\()</regex>
+				<regex>((?i)ListContains)(?=\s*\()</regex>
+				<regex>((?i)ListContainsNoCase)(?=\s*\()</regex>
+				<regex>((?i)ListDeleteAt)(?=\s*\()</regex>
+				<regex>((?i)ListFind)(?=\s*\()</regex>
+				<regex>((?i)ListFindNoCase)(?=\s*\()</regex>
+				<regex>((?i)ListFirst)(?=\s*\()</regex>
+				<regex>((?i)ListGetAt)(?=\s*\()</regex>
+				<regex>((?i)ListInsertAt)(?=\s*\()</regex>
+				<regex>((?i)ListLast)(?=\s*\()</regex>
+				<regex>((?i)ListLen)(?=\s*\()</regex>
+				<regex>((?i)ListPrepend)(?=\s*\()</regex>
+				<regex>((?i)ListQualify)(?=\s*\()</regex>
+				<regex>((?i)ListRest)(?=\s*\()</regex>
+				<regex>((?i)ListSetAt)(?=\s*\()</regex>
+				<regex>((?i)ListSort)(?=\s*\()</regex>
+				<regex>((?i)ListToArray)(?=\s*\()</regex>
+				<regex>((?i)ListValueCount)(?=\s*\()</regex>
+				<regex>((?i)ListValueCountNoCase)(?=\s*\()</regex>
+				<regex>((?i)Location)(?=\s*\()</regex>
+				<regex>((?i)Log)(?=\s*\()</regex>
+				<regex>((?i)Log10)(?=\s*\()</regex>
+				<regex>((?i)Max)(?=\s*\()</regex>
+				<regex>((?i)Mid)(?=\s*\()</regex>
+				<regex>((?i)Min)(?=\s*\()</regex>
+				<regex>((?i)Minute)(?=\s*\()</regex>
+				<regex>((?i)Month)(?=\s*\()</regex>
+				<regex>((?i)MonthAsString)(?=\s*\()</regex>
+				<regex>((?i)Now)(?=\s*\()</regex>
+				<regex>((?i)NumberFormat)(?=\s*\()</regex>
+				<regex>((?i)ORMClearSession)(?=\s*\()</regex>
+				<regex>((?i)ORMCloseSession)(?=\s*\()</regex>
+				<regex>((?i)ORMEvictCollection)(?=\s*\()</regex>
+				<regex>((?i)ORMEvictEntity)(?=\s*\()</regex>
+				<regex>((?i)ORMEvictQueries)(?=\s*\()</regex>
+				<regex>((?i)ORMExecuteQuery)(?=\s*\()</regex>
+				<regex>((?i)ORMFlush)(?=\s*\()</regex>
+				<regex>((?i)ORMGetSession)(?=\s*\()</regex>
+				<regex>((?i)ORMGetSessionFactory)(?=\s*\()</regex>
+				<regex>((?i)ORMReload)(?=\s*\()</regex>
+				<regex>((?i)ObjectEquals)(?=\s*\()</regex>
+				<regex>((?i)ObjectLoad)(?=\s*\()</regex>
+				<regex>((?i)ObjectSave)(?=\s*\()</regex>
+				<regex>((?i)ParagraphFormat)(?=\s*\()</regex>
+				<regex>((?i)ParseDateTime)(?=\s*\()</regex>
+				<regex>((?i)Pi)(?=\s*\()</regex>
+				<regex>((?i)PrecisionEvaluate)(?=\s*\()</regex>
+				<regex>((?i)PreserveSingleQuotes)(?=\s*\()</regex>
+				<regex>((?i)Quarter)(?=\s*\()</regex>
+				<regex>((?i)QueryAddColumn)(?=\s*\()</regex>
+				<regex>((?i)QueryAddRow)(?=\s*\()</regex>
+				<regex>((?i)QueryConvertForGrid)(?=\s*\()</regex>
+				<regex>((?i)QueryNew)(?=\s*\()</regex>
+				<regex>((?i)QuerySetCell)(?=\s*\()</regex>
+				<regex>((?i)QuotedValueList)(?=\s*\()</regex>
+				<regex>((?i)REFind)(?=\s*\()</regex>
+				<regex>((?i)REFindNoCase)(?=\s*\()</regex>
+				<regex>((?i)REMatch)(?=\s*\()</regex>
+				<regex>((?i)REMatchNoCase)(?=\s*\()</regex>
+				<regex>((?i)REReplace)(?=\s*\()</regex>
+				<regex>((?i)REReplaceNoCase)(?=\s*\()</regex>
+				<regex>((?i)RJustify)(?=\s*\()</regex>
+				<regex>((?i)RTrim)(?=\s*\()</regex>
+				<regex>((?i)Rand)(?=\s*\()</regex>
+				<regex>((?i)RandRange)(?=\s*\()</regex>
+				<regex>((?i)Randomize)(?=\s*\()</regex>
+				<regex>((?i)ReleaseComObject)(?=\s*\()</regex>
+				<regex>((?i)RemoveChars)(?=\s*\()</regex>
+				<regex>((?i)RepeatString)(?=\s*\()</regex>
+				<regex>((?i)Replace)(?=\s*\()</regex>
+				<regex>((?i)ReplaceList)(?=\s*\()</regex>
+				<regex>((?i)ReplaceNoCase)(?=\s*\()</regex>
+				<regex>((?i)Reverse)(?=\s*\()</regex>
+				<regex>((?i)Right)(?=\s*\()</regex>
+				<regex>((?i)Round)(?=\s*\()</regex>
+				<regex>((?i)Second)(?=\s*\()</regex>
+				<regex>((?i)SendGatewayMessage)(?=\s*\()</regex>
+				<regex>((?i)SerializeJSON)(?=\s*\()</regex>
+				<regex>((?i)SetEncoding)(?=\s*\()</regex>
+				<regex>((?i)SetLocale)(?=\s*\()</regex>
+				<regex>((?i)SetProfileString)(?=\s*\()</regex>
+				<regex>((?i)SetVariable)(?=\s*\()</regex>
+				<regex>((?i)Sgn)(?=\s*\()</regex>
+				<regex>((?i)Sin)(?=\s*\()</regex>
+				<regex>((?i)Sleep)(?=\s*\()</regex>
+				<regex>((?i)SpanExcluding)(?=\s*\()</regex>
+				<regex>((?i)SpanIncluding)(?=\s*\()</regex>
+				<regex>((?i)SpreadsheetAddColumn)(?=\s*\()</regex>
+				<regex>((?i)SpreadsheetAddFreezePane)(?=\s*\()</regex>
+				<regex>((?i)SpreadsheetAddImage)(?=\s*\()</regex>
+				<regex>((?i)SpreadsheetAddInfo)(?=\s*\()</regex>
+				<regex>((?i)SpreadsheetAddRow)(?=\s*\()</regex>
+				<regex>((?i)SpreadsheetAddRows)(?=\s*\()</regex>
+				<regex>((?i)SpreadsheetAddSplitPane)(?=\s*\()</regex>
+				<regex>((?i)SpreadsheetCreateSheet)(?=\s*\()</regex>
+				<regex>((?i)SpreadsheetDeleteColumn)(?=\s*\()</regex>
+				<regex>((?i)SpreadsheetDeleteColumns)(?=\s*\()</regex>
+				<regex>((?i)SpreadsheetDeleteRow)(?=\s*\()</regex>
+				<regex>((?i)SpreadsheetDeleteRows)(?=\s*\()</regex>
+				<regex>((?i)SpreadsheetFormatCell)(?=\s*\()</regex>
+				<regex>((?i)SpreadsheetFormatColumn)(?=\s*\()</regex>
+				<regex>((?i)SpreadsheetFormatColumns)(?=\s*\()</regex>
+				<regex>((?i)SpreadsheetFormatRow)(?=\s*\()</regex>
+				<regex>((?i)SpreadsheetFormatRows)(?=\s*\()</regex>
+				<regex>((?i)SpreadsheetGetCellComment)(?=\s*\()</regex>
+				<regex>((?i)SpreadsheetGetCellFormula)(?=\s*\()</regex>
+				<regex>((?i)SpreadsheetGetCellValue)(?=\s*\()</regex>
+				<regex>((?i)SpreadsheetInfo)(?=\s*\()</regex>
+				<regex>((?i)SpreadsheetMergeCells)(?=\s*\()</regex>
+				<regex>((?i)SpreadsheetNew)(?=\s*\()</regex>
+				<regex>((?i)SpreadsheetRead)(?=\s*\()</regex>
+				<regex>((?i)SpreadsheetReadBinary)(?=\s*\()</regex>
+				<regex>((?i)SpreadsheetSetActiveSheet)(?=\s*\()</regex>
+				<regex>((?i)SpreadsheetSetActiveSheetNumber)(?=\s*\()</regex>
+				<regex>((?i)SpreadsheetSetCellComment)(?=\s*\()</regex>
+				<regex>((?i)SpreadsheetSetCellFormula)(?=\s*\()</regex>
+				<regex>((?i)SpreadsheetSetCellValue)(?=\s*\()</regex>
+				<regex>((?i)SpreadsheetSetColumnWidth)(?=\s*\()</regex>
+				<regex>((?i)SpreadsheetSetFooter)(?=\s*\()</regex>
+				<regex>((?i)SpreadsheetSetHeader)(?=\s*\()</regex>
+				<regex>((?i)SpreadsheetSetRowHeight)(?=\s*\()</regex>
+				<regex>((?i)SpreadsheetShiftColumns)(?=\s*\()</regex>
+				<regex>((?i)SpreadsheetShiftRows)(?=\s*\()</regex>
+				<regex>((?i)SpreadsheetWrite)(?=\s*\()</regex>
+				<regex>((?i)Sqr)(?=\s*\()</regex>
+				<regex>((?i)StripCR)(?=\s*\()</regex>
+				<regex>((?i)StructAppend)(?=\s*\()</regex>
+				<regex>((?i)StructClear)(?=\s*\()</regex>
+				<regex>((?i)StructCopy)(?=\s*\()</regex>
+				<regex>((?i)StructCount)(?=\s*\()</regex>
+				<regex>((?i)StructDelete)(?=\s*\()</regex>
+				<regex>((?i)StructFind)(?=\s*\()</regex>
+				<regex>((?i)StructFindKey)(?=\s*\()</regex>
+				<regex>((?i)StructFindValue)(?=\s*\()</regex>
+				<regex>((?i)StructGet)(?=\s*\()</regex>
+				<regex>((?i)StructInsert)(?=\s*\()</regex>
+				<regex>((?i)StructIsEmpty)(?=\s*\()</regex>
+				<regex>((?i)StructKeyArray)(?=\s*\()</regex>
+				<regex>((?i)StructKeyExists)(?=\s*\()</regex>
+				<regex>((?i)StructKeyList)(?=\s*\()</regex>
+				<regex>((?i)StructNew)(?=\s*\()</regex>
+				<regex>((?i)StructSort)(?=\s*\()</regex>
+				<regex>((?i)StructUpdate)(?=\s*\()</regex>
+				<regex>((?i)Tan)(?=\s*\()</regex>
+				<regex>((?i)ThreadJoin)(?=\s*\()</regex>
+				<regex>((?i)ThreadTerminate)(?=\s*\()</regex>
+				<regex>((?i)Throw)(?=\s*\()</regex>
+				<regex>((?i)TimeFormat)(?=\s*\()</regex>
+				<regex>((?i)ToBase64)(?=\s*\()</regex>
+				<regex>((?i)ToBinary)(?=\s*\()</regex>
+				<regex>((?i)ToScript)(?=\s*\()</regex>
+				<regex>((?i)ToString)(?=\s*\()</regex>
+				<regex>((?i)Trace)(?=\s*\()</regex>
+				<regex>((?i)TransactionCommit)(?=\s*\()</regex>
+				<regex>((?i)TransactionRollback)(?=\s*\()</regex>
+				<regex>((?i)TransactionSetSavePoint)(?=\s*\()</regex>
+				<regex>((?i)TransactionSetSavePoint)(?=\s*\()</regex>
+				<regex>((?i)Trim)(?=\s*\()</regex>
+				<regex>((?i)UCase)(?=\s*\()</regex>
+				<regex>((?i)URLDecode)(?=\s*\()</regex>
+				<regex>((?i)URLEncodedFormat)(?=\s*\()</regex>
+				<regex>((?i)URLSessionFormat)(?=\s*\()</regex>
+				<regex>((?i)Val)(?=\s*\()</regex>
+				<regex>((?i)ValueList)(?=\s*\()</regex>
+				<regex>((?i)VerifyClient)(?=\s*\()</regex>
+				<regex>((?i)Week)(?=\s*\()</regex>
+				<regex>((?i)Wrap)(?=\s*\()</regex>
+				<regex>((?i)WriteDump)(?=\s*\()</regex>
+				<regex>((?i)WriteLog)(?=\s*\()</regex>
+				<regex>((?i)WriteOutput)(?=\s*\()</regex>
+				<regex>((?i)Writedump)(?=\s*\()</regex>
+				<regex>((?i)Writelog)(?=\s*\()</regex>
+				<regex>((?i)XmlChildPos)(?=\s*\()</regex>
+				<regex>((?i)XmlElemNew)(?=\s*\()</regex>
+				<regex>((?i)XmlFormat)(?=\s*\()</regex>
+				<regex>((?i)XmlGetNodeType)(?=\s*\()</regex>
+				<regex>((?i)XmlNew)(?=\s*\()</regex>
+				<regex>((?i)XmlParse)(?=\s*\()</regex>
+				<regex>((?i)XmlSearch)(?=\s*\()</regex>
+				<regex>((?i)XmlTransform)(?=\s*\()</regex>
+				<regex>((?i)XmlValidate)(?=\s*\()</regex>
+				<regex>((?i)Year)(?=\s*\()</regex>
+				<regex>((?i)YesNoFormat)(?=\s*\()</regex>
+			</keywords>
+			
+			<keywords id="Operators" useforautocomplete="no" scope="language.operator">
+				<regex>([\+\-\*\\\=])</regex>
+			</keywords>
+			
+			</state>
+			
+			<import state="CFML Output Variables State" keywords-only="yes" />
+			<state id="CFML Output Variables State" containerState="yes">
+				<keywords id="Output Variables" useforautocomplete="no" scope="language.variable">
+					<!-- CODA <regex>(#[^&lt;&gt;#]+#)</regex> -->
+					<regex>(?&lt;!#)(#[^&lt;>{#]+#)(?!#)</regex>
+				</keywords>
+			</state>
 			<!--  This is the "we do a complete HTML mode" section -->
 			<state id="Comment" type="comment" scope="markup.comment">
 				<begin><regex>&lt;!--</regex><autoend>--></autoend></begin>
@@ -755,7 +753,7 @@
 				<end>
 					<regex>(?i)&lt;[ \t]*/[ \t]*style[ \t]*></regex>
 				</end>
-
+				
 				<import mode="CSS"/>
                 <import mode="XML" keywords-only="yes"/>
 				<state id="CSSInside curly brackets" foldable="yes" indent="yes" scope="meta.block.curly">
@@ -785,9 +783,9 @@
 					<state-link state="CSSString"/>
 					<state-link state="CSSSingleString"/>
 				</state>
-
+				
 				<import keywords-only="yes"/>
-
+				
 				<state id="CSSRules" scope="style.at-rule">
 					<begin>
 						<regex>^@[-\w_]+</regex>
@@ -796,7 +794,7 @@
 						<regex>.(?=[{\n\r])</regex>
 					</end>
 				</state>
-
+				
 				<state id="CSSAutodocComment" type="comment" scope="style.comment.block.documentation">
 					<begin>
 						<string>/\*"</string>
@@ -833,10 +831,10 @@
 						<regex>(?&lt;!\\)(\\\\)*'</regex>
 					</end>
 				</state>
-
+				
 			</state>
-
-
+			
+			
 			<state id="Inline Javascript" usesymbolsfrommode="Javascript" useautocompletefrommode="Javascript" foldable="yes" scope="meta.block.js">
 				<begin>
 					<regex>&lt;(?i)script[^>]*></regex><autoend>&lt;/script></autoend>
@@ -846,39 +844,39 @@
 				</end>
 				<import mode="Javascript" keywords-only="yes"/>
 				<import mode="XML" keywords-only="yes"/>
-
+				
 				<state id="JSAutodocComment" type="comment" scope="comment.block.documentation.js">
 					<begin><regex>/\*"</regex></begin>
 					<end><regex>"\*/</regex></end>
 				</state>
-
+				
 				<state id="JSComment" type="comment" scope="comment.block.js">
 					<begin><regex>/\*</regex><autoend>\*/</autoend></begin>
 					<end><regex>\*/</regex></end>
 					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 				</state>
-
+				
 				<state id="JSSingleComment" type="comment" scope="comment.line.double-slash.js">
 					<begin><regex>//</regex></begin>
 					<end><regex>[\n\r]|.(?=&lt;(?i)/script\s*>)</regex></end>
 					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 				</state>
-
+				
 				<state id="JSRegular Expressions" type="string" scope="string.regexp.js">
 					<begin><regex>(?&lt;![&lt;/])/.*?[^\\](?=/[^\n\r]*(?:;|\)|,|[\n\r]))</regex></begin>
 					<end><regex>/[cgimosx]*</regex></end>
 				</state>
-
+				
 				<state id="JSString" type="string" scope="string.double.js">
 					<begin><regex>"</regex></begin>
 					<end><regex>(?&lt;!\\)(\\\\)*"</regex></end>
 				</state>
-
+				
 				<state id="JSSingleString" type="string" scope="string.single.js">
 					<begin><regex>'</regex></begin>
 					<end><regex>(?&lt;!\\)(\\\\)*'</regex></end>
 				</state>
-
+				
 				<state id="JSBlock" type="block" foldable="yes" indent="yes" scope="meta.block.curly.js">
 					<begin><regex>{</regex><autoend>}</autoend></begin>
 					<end><regex>}</regex></end>
@@ -886,7 +884,7 @@
 					<import mode="ERB" state="Inline Javascript"/>
 				</state>
 			</state>
-
+			
 			<state id="CFML Tags With Content" foldable="yes" scope="meta default">
 				<begin>
 					<regex>&lt;\s*(?'cfmlcontenttag'(?i)cf(?:function|invoke|loop|component|http|try|output|catch|)\b[-:_\w]*)\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*></regex>
@@ -899,7 +897,7 @@
 				<import />
 				<import state="CFML Output Variables State" keywords-only="yes" />
 			</state>
-
+			
 			<state id="CFML If Tags" foldable="yes" scope="meta.default">
 				<begin>
 					<regex>&lt;(?=\s*(?'cfmliftag'(?i)cf(?:if)[-:_\w]*)\s*(?:.*)*\s*>)</regex>
@@ -918,21 +916,21 @@
 					</keywords>
 					<import state="CFML Code"/>
 				</state>
-					<keywords id="opening tag coloring" scope="markup.tag">
-						<regex>(>)</regex>
-						<regex>(cfif)</regex>
-						<regex>(&lt;)</regex>
-					</keywords>
+				<keywords id="opening tag coloring" scope="markup.tag">
+					<regex>(>)</regex>
+					<regex>(cfif)</regex>
+					<regex>(&lt;)</regex>
+				</keywords>
 				<import mode="XML" keywords-only="yes"/>
 				<import />
 				<import state="CFML Output Variables State" keywords-only="yes" />
 			</state>
-
-
+			
+			
 			<state id="CFML Tags" scope="meta.default">
 				<begin><regex>&lt;(?=(?i)cf)</regex></begin>
 				<end><regex>></regex></end>
-
+				
 				<import state="CFML Code" />
 		        <import state="CFML Output Variables State" keywords-only="yes" />
 				
@@ -949,7 +947,7 @@
 					<regex>([^"]*")(?=[ \t]*>)</regex>
 				</keywords>
 			</state>
-
+			
 			<state id="Single Tag with CFML State" foldable="no" scope="meta.default">
 				<begin>
 					<regex>&lt;\s*[^/?!][-:_\w]*(?=[^&lt;>]*&lt;cfif.+&lt;/cfif>[^>]*[^>]*/>)</regex>
@@ -971,7 +969,7 @@
 					<regex>([^"]*")(?=[ \t]*>)</regex>
 				</keywords>
 			</state>
-
+			
 			<state id="Tag State CFML" foldable="yes" indent="yes" scope="meta.default">
 				<begin>
 					<regex>&lt;\s*(?'xmltagstatename'[^/?!][-:_\w]*)\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*></regex>
@@ -983,12 +981,8 @@
 				<import mode="XML" keywords-only="yes"/>
 				<import />
 				<import state="CFML Output Variables State" keywords-only="yes" />
-
+				
 			</state>
-
-
-</default>
-
-</states>
-
+			</default>
+			</states>
 </syntax>
