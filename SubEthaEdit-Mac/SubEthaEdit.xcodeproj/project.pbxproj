@@ -401,7 +401,6 @@
 		F2D56993133B880900CEC841 /* SEEStyleSheetSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D56992133B880900CEC841 /* SEEStyleSheetSettings.m */; };
 		F2D5FF380CB2660100407399 /* Announce.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF370CB2660100407399 /* Announce.icns */; };
 		F2D5FF3A0CB2661000407399 /* DefaultPerson.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF390CB2661000407399 /* DefaultPerson.icns */; };
-		F2D5FF3C0CB2661900407399 /* GeneralPrefs.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF3B0CB2661900407399 /* GeneralPrefs.icns */; };
 		F2D5FF3E0CB2666000407399 /* Rendezvous.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF3D0CB2666000407399 /* Rendezvous.icns */; };
 		F2D5FF400CB2667A00407399 /* StylePrefs.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF3F0CB2667A00407399 /* StylePrefs.icns */; };
 		F2D5FF440CB2669200407399 /* AdvancedPrefs.icns in Resources */ = {isa = PBXBuildFile; fileRef = F2D5FF430CB2669200407399 /* AdvancedPrefs.icns */; };
@@ -552,7 +551,6 @@
 		14289066095743F200D14688 /* Conceal.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Conceal.png; path = artwork/Conceal.png; sourceTree = "<group>"; };
 		14289069095743F200D14688 /* EditPrefs.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = EditPrefs.tiff; path = artwork/EditPrefs.tiff; sourceTree = "<group>"; };
 		1428906A095743F200D14688 /* EmptyButton.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = EmptyButton.tiff; path = artwork/EmptyButton.tiff; sourceTree = "<group>"; };
-		1428906B095743F200D14688 /* GeneralPrefs.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = GeneralPrefs.tiff; path = artwork/GeneralPrefs.tiff; sourceTree = "<group>"; };
 		1428906C095743F200D14688 /* HideChangeMarks.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = HideChangeMarks.png; path = artwork/HideChangeMarks.png; sourceTree = "<group>"; };
 		1428906E095743F200D14688 /* HomeFolderIcon.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = HomeFolderIcon.tiff; path = artwork/HomeFolderIcon.tiff; sourceTree = "<group>"; };
 		1428906F095743F200D14688 /* Internet.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = Internet.tiff; path = artwork/Internet.tiff; sourceTree = "<group>"; };
@@ -1141,7 +1139,6 @@
 		F2D56992133B880900CEC841 /* SEEStyleSheetSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEStyleSheetSettings.m; sourceTree = "<group>"; };
 		F2D5FF370CB2660100407399 /* Announce.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Announce.icns; path = artwork/Announce.icns; sourceTree = "<group>"; };
 		F2D5FF390CB2661000407399 /* DefaultPerson.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = DefaultPerson.icns; path = artwork/DefaultPerson.icns; sourceTree = "<group>"; };
-		F2D5FF3B0CB2661900407399 /* GeneralPrefs.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = GeneralPrefs.icns; path = artwork/GeneralPrefs.icns; sourceTree = "<group>"; };
 		F2D5FF3D0CB2666000407399 /* Rendezvous.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = Rendezvous.icns; path = artwork/Rendezvous.icns; sourceTree = "<group>"; };
 		F2D5FF3F0CB2667A00407399 /* StylePrefs.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = StylePrefs.icns; path = artwork/StylePrefs.icns; sourceTree = "<group>"; };
 		F2D5FF430CB2669200407399 /* AdvancedPrefs.icns */ = {isa = PBXFileReference; lastKnownFileType = image.icns; name = AdvancedPrefs.icns; path = artwork/AdvancedPrefs.icns; sourceTree = "<group>"; };
@@ -1309,8 +1306,6 @@
 				F2D2CDB00D73043D000E3812 /* FriendCastBlue.tiff */,
 				F2D2CDB10D73043D000E3812 /* FriendCastBlack.tiff */,
 				F2B91DBB0D7EF93000626BBC /* FriendcastingConnection.png */,
-				1428906B095743F200D14688 /* GeneralPrefs.tiff */,
-				F2D5FF3B0CB2661900407399 /* GeneralPrefs.icns */,
 				5E67DB870ABF21270013562D /* glass-normal-cap-left.tiff */,
 				5E67DB880ABF21270013562D /* glass-normal-pressed-cap-right.tiff */,
 				5E67DB890ABF21270013562D /* glass-normal-fill.tiff */,
@@ -2481,7 +2476,6 @@
 				F247D74F0CB147F100908450 /* ParticipantFollowActive.png in Resources */,
 				F2D5FF380CB2660100407399 /* Announce.icns in Resources */,
 				F2D5FF3A0CB2661000407399 /* DefaultPerson.icns in Resources */,
-				F2D5FF3C0CB2661900407399 /* GeneralPrefs.icns in Resources */,
 				4C6BDC5518896DCC0088CBFC /* SubEthaEditStyle.iconset in Resources */,
 				F2D5FF3E0CB2666000407399 /* Rendezvous.icns in Resources */,
 				F2D5FF400CB2667A00407399 /* StylePrefs.icns in Resources */,

@@ -214,7 +214,7 @@
 
 
 - (NSImage *)icon {
-    return [NSImage imageNamed:@"GeneralPrefs"];
+    return [NSImage imageNamed:NSImageNamePreferencesGeneral];
 }
 
 - (NSString *)iconLabel {
