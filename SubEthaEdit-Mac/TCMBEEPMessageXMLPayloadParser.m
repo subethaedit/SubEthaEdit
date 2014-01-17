@@ -133,6 +133,7 @@ NSString * const TCMBEEPMessageXMLAttributeCode = @"code";
 		self.profileDataBlocksInProgress = nil;
 	}
 	else if ([elementName isEqualToString:TCMBEEPMessageXMLElementStart]) {
+		self.profileURIs = self.profileURIsInProgress;
 		self.profileURIsInProgress = nil;
 		self.profileDataBlocksInProgress = nil;
 	}
