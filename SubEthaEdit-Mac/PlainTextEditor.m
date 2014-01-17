@@ -124,7 +124,7 @@
     [I_textView setDelegate:nil];
     [I_textView setEditor:nil];     // in case our editor outlives us
     [O_editorView setNextResponder:nil];
-    [O_editorView release];
+
     [I_textContainer release];
     [I_radarScroller release];
     [I_followUserID release];
