@@ -43,7 +43,7 @@ markup.comment
 markup.declaration
 markup.declaration.string.double
 markup.declaration.string.single
-markup.inline.cdata
+markup.inline.cdata 			*//
 markup.processing
 markup.processing.attribute.value.string
 markup.processing.languageswitch.asp
@@ -62,6 +62,7 @@ meta.block.percentagestring.unescapedbracketrecursive.bracket
 meta.block.percentagestring.unescapedbracketrecursive.parentheses
 meta.block.square
 meta.default				*// Base
+meta.important				*//
 meta.invalid.sgmlcomment
 meta.tag.preprocessor
 
@@ -86,6 +87,10 @@ string.symbol.percent.curly
 style.at-rule
 style.comment.block
 style.comment.block.documentation
+style.property.name
+style.value.color.rgb-value
+style.value.keyword
+style.value.numeric
 style.value.string.double
 style.value.string.single
 
@@ -118,7 +123,7 @@ support.function
 -markup.comment
 markup.constant.entity
 -markup.declaration
-markup.inline.cdata
+-markup.inline.cdata
 -markup.processing
 -markup.tag
 -markup.tag.attribute.name
@@ -126,7 +131,7 @@ markup.inline.cdata
 markup.tag.framework
 -meta.default
 meta.highlight.currentline
-meta.important
+-meta.important
 meta.invalid
 meta.invisible.characters
 
