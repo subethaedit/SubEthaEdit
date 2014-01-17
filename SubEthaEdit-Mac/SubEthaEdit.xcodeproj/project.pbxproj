@@ -244,6 +244,9 @@
 		4C6BDC5418896DCC0088CBFC /* SubEthaEditMode.iconset in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC4E18896DCC0088CBFC /* SubEthaEditMode.iconset */; };
 		4C6BDC5518896DCC0088CBFC /* SubEthaEditStyle.iconset in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC4F18896DCC0088CBFC /* SubEthaEditStyle.iconset */; };
 		4C6BDC5618896DCC0088CBFC /* SubEthaEditText.iconset in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC5018896DCC0088CBFC /* SubEthaEditText.iconset */; };
+		4C6BDC5C188983380088CBFC /* FoldingBubbleBig@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC5B188983380088CBFC /* FoldingBubbleBig@2x.png */; };
+		4C6BDC5F1889858A0088CBFC /* folded.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC5D1889858A0088CBFC /* folded.png */; };
+		4C6BDC601889858A0088CBFC /* folded@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC5E1889858A0088CBFC /* folded@2x.png */; };
 		4CB8EE4D180FD8FE0051AB6B /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CB8EE4C180FD8FE0051AB6B /* XCTest.framework */; };
 		4CB8EE4F180FD9A40051AB6B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CB8EE4E180FD9A40051AB6B /* libz.dylib */; };
 		4CB8EE50180FDF160051AB6B /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */; };
@@ -357,13 +360,10 @@
 		F280ABDC131E72180091D145 /* StyleSheetPrefs.png in Resources */ = {isa = PBXBuildFile; fileRef = F280ABDB131E72180091D145 /* StyleSheetPrefs.png */; };
 		F281D34E0F38756100AD7DE1 /* FoldableTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D34C0F38756100AD7DE1 /* FoldableTextStorage.m */; };
 		F281D3600F38758600AD7DE1 /* AbstractFoldingTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D35F0F38758600AD7DE1 /* AbstractFoldingTextStorage.m */; };
-		F281D37C0F38775200AD7DE1 /* folded.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F281D37B0F38775200AD7DE1 /* folded.tiff */; };
 		F281D3910F3877A900AD7DE1 /* FoldedTextAttachment.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D3900F3877A900AD7DE1 /* FoldedTextAttachment.m */; };
 		F281D4370F388A0B00AD7DE1 /* FoldingTextAttachmentCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D4360F388A0B00AD7DE1 /* FoldingTextAttachmentCell.m */; };
 		F290D9D80EDB04EF00E643C0 /* TCMPortMapper.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = F290D9D70EDB04EF00E643C0 /* TCMPortMapper.framework */; };
 		F290D9DD0EDB04F900E643C0 /* TCMPortMapper.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = F290D9D70EDB04EF00E643C0 /* TCMPortMapper.framework */; };
-		F291D17B0FCEB387008BC286 /* FoldingBubble.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F291D17A0FCEB387008BC286 /* FoldingBubble.pdf */; };
-		F291D1810FCEC111008BC286 /* FoldingBubble.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F291D17A0FCEB387008BC286 /* FoldingBubble.pdf */; };
 		F291D1A10FCECD22008BC286 /* FoldingBubbleText.rtf in Resources */ = {isa = PBXBuildFile; fileRef = F291D1A00FCECD22008BC286 /* FoldingBubbleText.rtf */; };
 		F291D1B10FCECF33008BC286 /* FoldingBubbleBig.png in Resources */ = {isa = PBXBuildFile; fileRef = F291D1B00FCECF33008BC286 /* FoldingBubbleBig.png */; };
 		F298693E0D338B0F0031C9F3 /* ServerManagementProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F298693C0D338B0F0031C9F3 /* ServerManagementProfile.m */; };
@@ -898,6 +898,9 @@
 		4C6BDC4E18896DCC0088CBFC /* SubEthaEditMode.iconset */ = {isa = PBXFileReference; lastKnownFileType = folder.iconset; name = SubEthaEditMode.iconset; path = artwork/SubEthaEditMode.iconset; sourceTree = "<group>"; };
 		4C6BDC4F18896DCC0088CBFC /* SubEthaEditStyle.iconset */ = {isa = PBXFileReference; lastKnownFileType = folder.iconset; name = SubEthaEditStyle.iconset; path = artwork/SubEthaEditStyle.iconset; sourceTree = "<group>"; };
 		4C6BDC5018896DCC0088CBFC /* SubEthaEditText.iconset */ = {isa = PBXFileReference; lastKnownFileType = folder.iconset; name = SubEthaEditText.iconset; path = artwork/SubEthaEditText.iconset; sourceTree = "<group>"; };
+		4C6BDC5B188983380088CBFC /* FoldingBubbleBig@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "FoldingBubbleBig@2x.png"; path = "artwork/FoldingBubbleBig@2x.png"; sourceTree = "<group>"; };
+		4C6BDC5D1889858A0088CBFC /* folded.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = folded.png; path = artwork/folded.png; sourceTree = "<group>"; };
+		4C6BDC5E1889858A0088CBFC /* folded@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "folded@2x.png"; path = "artwork/folded@2x.png"; sourceTree = "<group>"; };
 		4CAA423718157B1000457B2A /* TCMReleaseInfo.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = TCMReleaseInfo.xcconfig; sourceTree = "<group>"; };
 		4CAA423818157EAB00457B2A /* TCMAppConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = TCMAppConfig.xcconfig; sourceTree = "<group>"; };
 		4CB8EE4C180FD8FE0051AB6B /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -1066,13 +1069,11 @@
 		F281D34C0F38756100AD7DE1 /* FoldableTextStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoldableTextStorage.m; sourceTree = "<group>"; };
 		F281D35E0F38758600AD7DE1 /* AbstractFoldingTextStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = AbstractFoldingTextStorage.h; sourceTree = "<group>"; };
 		F281D35F0F38758600AD7DE1 /* AbstractFoldingTextStorage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AbstractFoldingTextStorage.m; sourceTree = "<group>"; };
-		F281D37B0F38775200AD7DE1 /* folded.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = folded.tiff; path = artwork/folded.tiff; sourceTree = "<group>"; };
 		F281D38F0F3877A900AD7DE1 /* FoldedTextAttachment.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = FoldedTextAttachment.h; sourceTree = "<group>"; };
 		F281D3900F3877A900AD7DE1 /* FoldedTextAttachment.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoldedTextAttachment.m; sourceTree = "<group>"; };
 		F281D4350F388A0B00AD7DE1 /* FoldingTextAttachmentCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = FoldingTextAttachmentCell.h; sourceTree = "<group>"; };
 		F281D4360F388A0B00AD7DE1 /* FoldingTextAttachmentCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = FoldingTextAttachmentCell.m; sourceTree = "<group>"; };
 		F290D9D70EDB04EF00E643C0 /* TCMPortMapper.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = TCMPortMapper.framework; path = TCMPortMapper/TCMPortMapper.framework; sourceTree = "<group>"; };
-		F291D17A0FCEB387008BC286 /* FoldingBubble.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = FoldingBubble.pdf; path = artwork/FoldingBubble.pdf; sourceTree = "<group>"; };
 		F291D1A00FCECD22008BC286 /* FoldingBubbleText.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = FoldingBubbleText.rtf; path = artwork/FoldingBubbleText.rtf; sourceTree = "<group>"; };
 		F291D1B00FCECF33008BC286 /* FoldingBubbleBig.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FoldingBubbleBig.png; path = artwork/FoldingBubbleBig.png; sourceTree = "<group>"; };
 		F298693C0D338B0F0031C9F3 /* ServerManagementProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerManagementProfile.m; sourceTree = "<group>"; };
@@ -1275,9 +1276,7 @@
 		14289051095742A100D14688 /* Artwork */ = {
 			isa = PBXGroup;
 			children = (
-				F291D1B00FCECF33008BC286 /* FoldingBubbleBig.png */,
-				F291D17A0FCEB387008BC286 /* FoldingBubble.pdf */,
-				F281D37B0F38775200AD7DE1 /* folded.tiff */,
+				4C6BDC61188985EF0088CBFC /* Retina */,
 				F2C6D3730D6DB131002B401D /* URLIconNotOK.tiff */,
 				F2C6D3740D6DB131002B401D /* URLIconOK.tiff */,
 				14289060095743F200D14688 /* Action.tiff */,
@@ -2026,6 +2025,17 @@
 			name = Localisation;
 			sourceTree = "<group>";
 		};
+		4C6BDC61188985EF0088CBFC /* Retina */ = {
+			isa = PBXGroup;
+			children = (
+				F291D1B00FCECF33008BC286 /* FoldingBubbleBig.png */,
+				4C6BDC5B188983380088CBFC /* FoldingBubbleBig@2x.png */,
+				4C6BDC5D1889858A0088CBFC /* folded.png */,
+				4C6BDC5E1889858A0088CBFC /* folded@2x.png */,
+			);
+			name = Retina;
+			sourceTree = "<group>";
+		};
 		4CAA423618157A4C00457B2A /* Configuration */ = {
 			isa = PBXGroup;
 			children = (
@@ -2326,7 +2336,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				F291D1810FCEC111008BC286 /* FoldingBubble.pdf in Resources */,
 				4C0D3D6E17FB165C00AAFB38 /* DebugBEEP.xib in Resources */,
 				4C0D3D7017FB166200AAFB38 /* DebugHistory.xib in Resources */,
 				14448AA40A18964A00F36B34 /* SubEthaEdit.sdef in Resources */,
@@ -2341,6 +2350,7 @@
 				1428904B0957427100D14688 /* Modes in Resources */,
 				5E4DA73D09E15C6800D91CFC /* Scripts in Resources */,
 				4C0D3D6A17FB149200AAFB38 /* LoginSheet.xib in Resources */,
+				4C6BDC5C188983380088CBFC /* FoldingBubbleBig@2x.png in Resources */,
 				142890470957421300D14688 /* SubEthaEditHelp in Resources */,
 				142890580957432800D14688 /* Invitation.aiff in Resources */,
 				142890590957432800D14688 /* Knock.wav in Resources */,
@@ -2418,6 +2428,7 @@
 				1493A8590A10DABB004ECE6A /* SystemVersionCheck.strings in Resources */,
 				4CD5F7DE17FB0C2800F49E31 /* ConnectionBrowser.xib in Resources */,
 				144483970A15F68F00F36B34 /* SubEthaEditSuite.scriptSuite in Resources */,
+				4C6BDC5F1889858A0088CBFC /* folded.png in Resources */,
 				144483980A15F68F00F36B34 /* SubEthaEditSuite.scriptTerminology in Resources */,
 				144483A20A16026200F36B34 /* TCMTextSuite.scriptSuite in Resources */,
 				144483A30A16026200F36B34 /* TCMTextSuite.scriptTerminology in Resources */,
@@ -2473,6 +2484,7 @@
 				F2D5FF3E0CB2666000407399 /* Rendezvous.icns in Resources */,
 				F2D5FF400CB2667A00407399 /* StylePrefs.icns in Resources */,
 				4CD5F80617FB0D5B00F49E31 /* OpenPanelAccessory.xib in Resources */,
+				4C6BDC601889858A0088CBFC /* folded@2x.png in Resources */,
 				4CD5F81517FB0DD700F49E31 /* PlainTextWindow.xib in Resources */,
 				4CD5F83517FB0EB500F49E31 /* URLBubbleWindow.xib in Resources */,
 				F2D5FF480CB266C700407399 /* ToolbarIconColorChooser.icns in Resources */,
@@ -2493,7 +2505,6 @@
 				F2D2CDCC0D730C3C000E3812 /* FriendCast13Off.png in Resources */,
 				F2B91DA00D7EEE3400626BBC /* FriendCast13None.png in Resources */,
 				F2B91DBC0D7EF93000626BBC /* FriendcastingConnection.png in Resources */,
-				F281D37C0F38775200AD7DE1 /* folded.tiff in Resources */,
 				F291D1A10FCECD22008BC286 /* FoldingBubbleText.rtf in Resources */,
 				F291D1B10FCECF33008BC286 /* FoldingBubbleBig.png in Resources */,
 				4CD5F80217FB0D3700F49E31 /* MainMenu.xib in Resources */,
@@ -2509,7 +2520,6 @@
 				F2D86C300F8E7F6A00B912A2 /* SEPMainMenu.xib in Resources */,
 				F2D86E5B0F8EB44100B912A2 /* Modes in Resources */,
 				F2D86E7B0F8EB57000B912A2 /* TestFiles in Resources */,
-				F291D17B0FCEB387008BC286 /* FoldingBubble.pdf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
