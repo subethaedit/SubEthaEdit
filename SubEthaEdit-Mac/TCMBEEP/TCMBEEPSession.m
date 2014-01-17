@@ -1312,12 +1312,17 @@ static NSData *dhparamData = nil;
                                   answerData, @"Data",
                                   nil];
 				*stop = YES;
+				if (preferedAnswer) [preferedAnswer retain];
             }
         }
     }];
 
     // prefered Profile URIs raussuchen
-    if (!preferedAnswer) return nil;
+    if (!preferedAnswer) {
+		return nil;
+	} else {
+		[preferedAnswer autorelease];
+	}
 
     // if channel exists
     if ([I_activeChannels objectForLong:channelNumber]) return nil;
