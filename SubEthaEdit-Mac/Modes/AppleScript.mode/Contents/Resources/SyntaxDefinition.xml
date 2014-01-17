@@ -8,9 +8,9 @@
     </head>
 
     <states>
-    
-        <default id="Base" color="#408000" font-weight="normal" font-style="normal" scope="meta.default">
-            <keywords id="Commands" color="#0b0bff" inverted-color="#4939ff" useforautocomplete="yes">
+        <default id="Base" scope="meta.default">
+
+            <keywords id="Commands" color="#0b0bff" inverted-color="#4939ff" useforautocomplete="yes" scope="keyword.function">
                 <string>close</string>
                 <string>copy</string>
                 <string>count</string>
@@ -29,7 +29,8 @@
                 <string>run</string>
                 <string>save</string>
             </keywords>
-            <keywords id="Variable Assigments" color="#0b0bff" inverted-color="#4939ff" font-weight="bold" useforautocomplete="yes">
+            
+            <keywords id="Variable Assigments" color="#0b0bff" inverted-color="#4939ff" font-weight="bold" useforautocomplete="yes" scope="keyword">
                 <string>set</string>
                 <string>copy</string>
                 <string>global</string>
@@ -37,7 +38,8 @@
                 <string>property</string>
                 <string>prop</string>
             </keywords>
-            <keywords id="Operators" color="#0b0bff" inverted-color="#4939ff" font-weight="bold" useforautocomplete="yes">
+            
+            <keywords id="Operators" color="#0b0bff" inverted-color="#4939ff" font-weight="bold" useforautocomplete="yes" scope="language.operator">
                 <string>my</string>
                 <string>on</string>
                 <string>of</string>
@@ -82,7 +84,8 @@
                 <regex>(isn't less than)</regex>
                 <regex>(a reference to)</regex>
             </keywords>
-            <keywords id="Control Statements" color="#0b0bff" inverted-color="#4939ff" font-weight="bold" useforautocomplete="yes">
+            
+            <keywords id="Control Statements" color="#0b0bff" inverted-color="#4939ff" font-weight="bold" useforautocomplete="yes" scope="keyword.control">
                 <string>tell</string>
                 <string>if</string>
                 <string>else</string>
@@ -99,7 +102,8 @@
                 <string>continue</string>
                 <string>then</string>
             </keywords>
-            <keywords id="References" color="#0b0bff" inverted-color="#4939ff" font-weight="bold" useforautocomplete="yes">
+            
+            <keywords id="References" color="#0b0bff" inverted-color="#4939ff" font-weight="bold" useforautocomplete="yes" scope="keyword">
                 <string>some</string>
                 <string>every</string>
                 <string>whose</string>
@@ -122,7 +126,8 @@
                 <string>middle</string>
                 <string>named</string>
             </keywords>
-            <keywords id="Constants" casesensitive="no" color="#0b0bff" inverted-color="#4939ff" useforautocomplete="yes">
+            
+            <keywords id="Constants" casesensitive="no" color="#0b0bff" inverted-color="#4939ff" useforautocomplete="yes" scope="constant">
                 <regex>(application responses)</regex>
                 <string>id</string>
                 <string>case</string>
@@ -197,7 +202,8 @@
                 <string>days</string>
                 <string>weeks</string>
             </keywords>
-            <keywords id="Predefined Variables" casesensitive="no" color="#0b0bff" inverted-color="#4939ff" useforautocomplete="yes">
+            
+            <keywords id="Predefined Variables" casesensitive="no" color="#0b0bff" inverted-color="#4939ff" useforautocomplete="yes" scope="keyword">
                 <string>it</string>
                 <string>me</string>
                 <string>version</string>
@@ -209,81 +215,83 @@
                 <string>anything</string>
                 <regex>(missing value)</regex>
             </keywords>
-            <keywords id="Numbers" color="#000" useforautocomplete="no">
+            
+            <keywords id="Numbers" color="#000" useforautocomplete="no" scope="constant.numeric">
                 <regex>([-&amp;+\*\\\(\)])</regex>
 				<regex>[^[A-Za-z]]([0-9]*\.*[0-9]+)[^[A-Za-z]]</regex>
 				<regex>(^[0-9]*\.*[0-9]+)[^[A-Za-z]]</regex>
 				<regex>[^[A-Za-z]]([0-9]*\.*[0-9]+)</regex>
 				<regex>(0x[0-9a-fA-F]+)</regex>
             </keywords>
-            <keywords id="Characters" color="#00f" inverted-color="#4939ff" useforautocomplete="no">
+            
+            <keywords id="Characters" color="#00f" inverted-color="#4939ff" useforautocomplete="no" scope="constant.character">
 				<regex>'.'</regex>
             </keywords>
             
-            <state id="Comment" type="comment" color="#8d8d8d" font-style="italic">
+            <state id="Comment" type="comment" color="#8d8d8d" font-style="italic" scope="comment.block">
                 <begin><string>\(\*</string></begin>
                 <end><regex>\*\)</regex></end>
             </state>
             
-            <state id="SingleComment" type="comment" color="#8d8d8d" font-style="italic">
+            <state id="SingleComment" type="comment" color="#8d8d8d" font-style="italic" scope="comment.line">
                 <begin><string>--</string></begin>
                 <end><regex>[\n\r]</regex></end>
             </state>
             
-            <state id="String" type="string" color="#000">
+            <state id="String" type="string" color="#000" scope="string.double">
                 <begin><string>@?"</string></begin>
                 <end><regex>((?&lt;!\\)(\\\\)*)"</regex></end>
             </state>
 
-            <state id="Tell statement with to" foldable="no">
+            <state id="Tell statement with to" foldable="no" scope="meta.block">
                 <begin><regex>tell[\t ]+(?=[^\n\r]+to)</regex></begin>
                 <end><regex>to</regex></end>
                 <import mode="AppleScript"/>
             </state>
 
-            <state id="Tell statement" foldable="yes">
+            <state id="Tell statement" foldable="yes" scope="meta.block">
                 <begin><regex>tell[\t ]+[^\n\r]+</regex></begin>
                 <end><regex>^\s*(?&lt;trimmedend&gt;end(?:[ \t]+tell)?)(?=([\n\r]|\Z))</regex></end>
                 <import mode="AppleScript"/>
             </state>
         
-            <state id="Repeat Statement" foldable="yes">
+            <state id="Repeat Statement" foldable="yes" scope="meta.block">
                 <begin><regex>^[ \t]*repeat(?:[ \t]+[^\n\r]+)?(?=[\n\r])</regex></begin>
                 <end><regex>^\s*(?&lt;trimmedend&gt;end(?:[ \t]+repeat)?)(?=([\n\r]|\Z))</regex></end>
                 <import mode="AppleScript"/>
             </state>
         
-            <state id="Try Statement" foldable="yes">
+            <state id="Try Statement" foldable="yes" scope="meta.block">
                 <begin><regex>^[ \t]*try(?=\s)</regex></begin>
                 <end><regex>^\s*(?&lt;trimmedend&gt;end(?:[ \t]+try)?)(?=([\n\r]|\Z))</regex></end>
                 <import mode="AppleScript"/>
             </state>
         
-            <state id="using terms from Statement" foldable="yes">
+            <state id="using terms from Statement" foldable="yes" scope="meta.block">
                 <begin><regex>^[ \t]*using terms from[ \t]+[^\n\r]*</regex></begin>
                 <end><regex>^\s*(?&lt;trimmedend&gt;end(?:[ \t]+using terms from)?)(?=([\n\r]|\Z))</regex></end>
                 <import mode="AppleScript"/>
             </state>
         
-            <state id="with timeout Statement" foldable="yes">
+            <state id="with timeout Statement" foldable="yes" scope="meta.block">
                 <begin><regex>^[ \t]*with timeout[ \t]+[^\n\r]*</regex></begin>
                 <end><regex>^\s*(?&lt;trimmedend&gt;end(?:[ \t]+with timeout)?)(?=([\n\r]|\Z))</regex></end>
                 <import mode="AppleScript"/>
             </state>
         
-            <state id="with transaction Statement" foldable="yes">
+            <state id="with transaction Statement" foldable="yes" scope="meta.block">
                 <begin><regex>^[ \t]*with transaction(?:[ \t]+[^\n\r]+)?(?=[\n\r])</regex></begin>
                 <end><regex>^\s*(?&lt;trimmedend&gt;end(?:[ \t]+with transaction)?)(?=([\n\r]|\Z))</regex></end>
                 <import mode="AppleScript"/>
             </state>
         
-            <state id="ignoring Statement" foldable="yes">
+            <state id="ignoring Statement" foldable="yes" scope="meta.block">
                 <begin><regex>^[ \t]*ignoring[ \t]+[^\n\r]*</regex></begin>
                 <end><regex>^\s*(?&lt;trimmedend&gt;end(?:[ \t]+ignoring)?)(?=([\n\r]|\Z))</regex></end>
                 <import mode="AppleScript"/>
             </state>
         
-            <state id="considering Statement" foldable="yes">
+            <state id="considering Statement" foldable="yes" scope="meta.block">
                 <begin><regex>^[ \t]*considering[ \t]+[^\n\r]*</regex></begin>
                 <end><regex>^\s*(?&lt;trimmedend&gt;end(?:[ \t]+considering)?)(?=([\n\r]|\Z))</regex></end>
                 <import mode="AppleScript"/>
@@ -291,5 +299,4 @@
         
          </default>
     </states>
-
 </syntax>
