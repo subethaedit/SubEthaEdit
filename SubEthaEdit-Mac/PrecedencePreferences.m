@@ -15,7 +15,7 @@
 @implementation PrecedencePreferences
 
 - (NSImage *)icon {
-    return [NSImage imageNamed:@"Mode.icns"];
+    return [NSImage imageNamed:@"SubEthaEditMode"];
 }
 
 - (NSString *)iconLabel {
