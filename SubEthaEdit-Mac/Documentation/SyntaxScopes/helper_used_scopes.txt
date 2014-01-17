@@ -1,11 +1,13 @@
-################################################################// Used in The Modes so far: actionscript, applescript, asp, base, bash, <ENTER HERE>, ruby
+################################################################// Used in The Modes so far: actionscript, applescript, asp, base, bash, c, <ENTER HERE>, ruby
 
 comment 					*//JavadocComment 
 comment.block 				// Comment
 comment.block.documentation
+comment.block.documentation.tag
 comment.block.js
 comment.block.vb
 comment.line				// SingleComment
+comment.line.double-slash
 comment.line.double-slash.js
 comment.line.vb
 
@@ -14,6 +16,7 @@ constant.character
 constant.numeric			*// Numbers
 constant.numeric.character
 constant.numeric.keyword 	*// Constants
+constant.numeric.preprocessor
 
 keyword						*// Keywords, Predefined Variables
 keyword.class				// Classes
@@ -56,6 +59,7 @@ meta.block.percentagestring.unescapedbracketrecursive.parentheses
 meta.block.square
 meta.default				*// Base
 meta.invalid.sgmlcomment
+meta.tag.preprocessor
 
 string.array.percent
 string.array.percent.curly
@@ -113,7 +117,7 @@ meta.invisible.characters
 
 
 ################################################################//Helper Regex
-// ^\s.*
 .*scope="(.*)".*
+^\s.*
 ^<.*
 ^\n
