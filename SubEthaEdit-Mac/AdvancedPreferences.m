@@ -22,7 +22,7 @@
 @implementation AdvancedPreferences
 
 - (NSImage *)icon {
-    return [NSImage imageNamed:@"AdvancedPrefs"];
+    return [NSImage imageNamed:NSImageNameAdvanced];
 }
 
 - (NSString *)iconLabel {
@@ -48,10 +48,10 @@
     // since we only have one mapping this is fine
     TCMPortMapping *mapping = [[[TCMPortMapper sharedInstance] portMappings] anyObject];
     if ([mapping mappingStatus]==TCMPortMappingStatusMapped) {
-        [O_mappingStatusImageView setImage:[NSImage imageNamed:@"DotGreen"]];
+        [O_mappingStatusImageView setImage:[NSImage imageNamed:NSImageNameStatusAvailable]];
         [O_mappingStatusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Port mapped (%d)",@"Status of Port mapping when successful"), [mapping externalPort]]];
     } else {
-        [O_mappingStatusImageView setImage:[NSImage imageNamed:@"DotRed"]];
+        [O_mappingStatusImageView setImage:[NSImage imageNamed:NSImageNameStatusUnavailable]];
         [O_mappingStatusTextField setStringValue:NSLocalizedString(@"Port not mapped",@"Status of Port mapping when unsuccessful or intentionally unmapped")];
     }
     [O_mappingStatusImageView setHidden:NO];
