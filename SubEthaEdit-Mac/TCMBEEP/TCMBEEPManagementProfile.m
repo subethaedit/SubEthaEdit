@@ -174,7 +174,11 @@
 		int32_t channelNumber = [[attributeDict objectForKey:TCMBEEPMessageXMLAttributeChannelNumber] intValue];
 		if (channelNumber > 0)
 		{
-			if (channelNumber % 2 == 1)
+			// see beepcore standard 2.3.1.2 - initators request odd channel numbers, listeners only even channel numbers
+			BOOL channelNumberIsOdd = (channelNumber % 2 == 1);
+			BOOL isOwnChannelRequest = (self.session.isInitiator ? channelNumberIsOdd : !channelNumberIsOdd);
+			
+			if (!isOwnChannelRequest)
 			{
 				NSArray *profileURIs = dataParser.profileURIs;
 				NSArray *profileDataBlocks = dataParser.profileDataBlocks;
