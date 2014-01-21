@@ -46,6 +46,7 @@ markup.declaration.string.single
 markup.inline.cdata 			*//
 markup.processing
 markup.processing.attribute.value.string
+markup.processing.languageswitch
 markup.processing.languageswitch.asp
 markup.tag
 markup.tag.attribute.name
@@ -53,6 +54,7 @@ markup.tag.attribute.value.string
 
 meta.block					// Block
 meta.block.attribute
+meta.block.begin
 meta.block.css
 meta.block.curly
 meta.block.curly.js
@@ -61,10 +63,12 @@ meta.block.percentagestring.unescapedbracketrecursive.angle
 meta.block.percentagestring.unescapedbracketrecursive.bracket
 meta.block.percentagestring.unescapedbracketrecursive.parentheses
 meta.block.square
+meta.block.tag.erb
 meta.default				*// Base
 meta.important				*//
 meta.invalid				*//
 meta.invalid.sgmlcomment
+meta.tag.erbstart
 meta.tag.preprocessor
 
 string.array.percent
