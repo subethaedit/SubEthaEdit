@@ -11,10 +11,17 @@
 
 @implementation RadarScroller
 
++ (BOOL)isCompatibleWithOverlayScrollers {
+	BOOL result = (self == [RadarScroller class]);
+    return result;
+}
+
 - (id)initWithFrame:(NSRect)frameRect {
-    self=[super initWithFrame:frameRect];
-    I_maxHeight=5.;
-    I_marks=[NSMutableDictionary new];
+    self = [super initWithFrame:frameRect];
+	if (self) {
+		I_maxHeight=5.;
+		I_marks=[NSMutableDictionary new];
+	}
     return self;
 }
 
@@ -32,8 +39,7 @@
     [self setNeedsDisplay:YES];
 }
 
-- (void)setMarkFor:(NSString *)aIdentifier withColor:(NSColor *)aColor 
-       forMinLocation:(float)aMinLocation andMaxLocation:(float)aMaxLocation{
+- (void)setMarkFor:(NSString *)aIdentifier withColor:(NSColor *)aColor forMinLocation:(float)aMinLocation andMaxLocation:(float)aMaxLocation {
     [I_marks setObject:[NSDictionary dictionaryWithObjectsAndKeys:
                         [aColor colorWithAlphaComponent:0.5],@"Color",
                         [NSNumber numberWithFloat:aMinLocation],@"minLocation",
@@ -48,11 +54,12 @@
 }
 
 
-- (void)drawRect:(NSRect)aRect {
-    [super drawRect:aRect];
-    if ([self usableParts]==NSAllScrollerParts) {
-//        float knobSize=[self knobProportion];
-        NSRect scroller=[self rectForPart:NSScrollerKnobSlot];
+- (void)drawKnobSlotInRect:(NSRect)aRect highlight:(BOOL)flag {
+
+    [super drawKnobSlotInRect:aRect highlight:flag];
+
+	if ([self usableParts] == NSAllScrollerParts) {
+        NSRect scroller = [self rectForPart:NSScrollerKnobSlot];
         NSRect scrollerKnob = [self rectForPart:NSScrollerKnob];
         scrollerKnob.origin.y += 3.5;
         scrollerKnob.size.height -= 7.;
@@ -85,4 +92,5 @@
         }
     }
 }
+
 @end

@@ -20,7 +20,7 @@
 #import "TCMMMUserSEEAdditions.h"
 #import "TCMMMSession.h"
 #import "TCMMMTransformator.h"
-#import "ButtonScrollView.h"
+#import "SEEPlainTextEditorScrollView.h"
 #import "PopUpButton.h"
 #import "PopUpButtonCell.h"
 #import "RadarScroller.h"
@@ -212,15 +212,15 @@
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TCM_updateBottomStatusBar) name:@"AfterEncodingsListChanged" object:nil];
 
-    if (I_flags.hasSplitButton)
-    {
-        NSRect scrollviewFrame = [O_scrollView frame];
-        [O_scrollView removeFromSuperview];
-        O_scrollView = [[ButtonScrollView alloc] initWithFrame:scrollviewFrame];
-        [O_scrollView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-        [O_editorView addSubview:O_scrollView];
-        [O_scrollView release];
-    }
+//    if (I_flags.hasSplitButton)
+//    {
+//        NSRect scrollviewFrame = [O_scrollView frame];
+//        [O_scrollView removeFromSuperview];
+//        O_scrollView = [[SEEPlainTextEditorScrollView alloc] initWithFrame:scrollviewFrame];
+//        [O_scrollView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+//        [O_editorView addSubview:O_scrollView positioned:NSWindowBelow relativeTo:O_topStatusBarView];
+//        [O_scrollView release];
+//    }
 
     I_radarScroller = [RadarScroller new];
     [O_scrollView setHasVerticalScroller:YES];
@@ -785,7 +785,7 @@
 {
     if (I_flags.hasSplitButton)
     {
-        [[(ButtonScrollView *)O_scrollView button] setState:aFlag ? NSOnState:NSOffState];
+        [[(SEEPlainTextEditorScrollView *)O_scrollView button] setState:aFlag ? NSOnState:NSOffState];
     }
 }
 

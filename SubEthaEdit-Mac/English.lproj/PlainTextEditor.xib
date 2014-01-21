@@ -28,7 +28,7 @@
             <rect key="frame" x="0.0" y="0.0" width="409" height="290"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <customView autoresizesSubviews="NO" id="6" userLabel="Scroll View Placeholder" customClass="NSScrollView">
+                <customView autoresizesSubviews="NO" id="6" customClass="SEEPlainTextEditorScrollView">
                     <rect key="frame" x="0.0" y="0.0" width="409" height="290"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
@@ -37,6 +37,14 @@
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         </customView>
                     </subviews>
+                    <userDefinedRuntimeAttributes>
+                        <userDefinedRuntimeAttribute type="number" keyPath="topOverlayHeightNumber">
+                            <integer key="value" value="17"/>
+                        </userDefinedRuntimeAttribute>
+                        <userDefinedRuntimeAttribute type="number" keyPath="bottomOverlayHeightNumber">
+                            <integer key="value" value="17"/>
+                        </userDefinedRuntimeAttribute>
+                    </userDefinedRuntimeAttributes>
                 </customView>
                 <customView autoresizesSubviews="NO" id="27" userLabel="Top Blurred View" customClass="RMBlurredView">
                     <rect key="frame" x="0.0" y="273" width="409" height="17"/>
