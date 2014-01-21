@@ -139,7 +139,18 @@ meta.highlight.currentline
 -meta.important
 -meta.invalid
 meta.invisible.characters
-
+meta.link
+string
+string.regex
+string.regex.escaped
+style.at-rule
+style.comment
+style.property.name
+style.value.color.rgb-value
+style.value.keyword
+style.value.numeric
+style.value.string
+support
 
 ################################################################//Helper Regex
 .*scope="(.*)".*
