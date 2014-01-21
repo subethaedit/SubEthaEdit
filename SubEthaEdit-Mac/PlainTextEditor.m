@@ -39,6 +39,7 @@
 #import "FoldableTextStorage.h"
 #import "FoldedTextAttachment.h"
 #import "URLBubbleWindow.h"
+#import "RMBlurredView.h"
 #import <objc/objc-runtime.h>
 
 
@@ -285,6 +286,56 @@
     [view setAutoresizesSubviews:YES];
     [view setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
     [view addSubview:[O_editorView autorelease]];
+
+//	// Test code
+//	{
+//		RMBlurredView *blurredView = [[RMBlurredView alloc] initWithFrame:NSMakeRect(0.0, 17.0, [O_editorView frame].size.width, 68.0)];
+//		[blurredView setAutoresizingMask:NSViewWidthSizable | NSViewMaxYMargin];
+//		[blurredView setTintColor:[NSColor colorWithCalibratedWhite:0.8 alpha:0.4]];
+//		[blurredView setSaturationFactor:12.0];
+//		[blurredView setBlurRadius:3.0];
+//		[blurredView.layer setBorderColor:[[NSColor lightGrayColor] CGColor]];
+//		[blurredView.layer setBorderWidth:0.5];
+//
+//		O_scrollView.bottomOverlayHeight += 68.0;
+//
+//		TCMMMUser *me=[TCMMMUserManager me];
+//		NSImage *myImage = [me image];
+//		[myImage setFlipped:NO];
+//		NSImageView *userImageView = [[NSImageView alloc] initWithFrame:NSMakeRect(12.0, 6.0, 56.0, 56.0)];
+//		userImageView.image = myImage;
+//		[userImageView setWantsLayer:YES];
+//		CGFloat hueValue = [[[me properties] objectForKey:@"Hue"] doubleValue] / 255.0;
+//		[userImageView.layer setBorderColor:[[NSColor colorWithCalibratedHue:hueValue saturation:0.8 brightness:1.0 alpha:0.6] CGColor]];
+//		[userImageView.layer setCornerRadius:28.0];
+//		[userImageView.layer setBorderWidth:3.0];
+//		[userImageView.layer setOpacity:0.8];
+//		[blurredView addSubview:userImageView];
+//		[view addSubview:blurredView];
+//
+//		NSArray *allUsers = [[TCMMMUserManager sharedInstance] allUsers];
+//		CGFloat userWidth = 12.0 + 56.0;
+//		CGFloat userImageXOffset = 12.0 + 56.0 + 12.0;
+//		for (TCMMMUser *user in allUsers) {
+//			if (user == me) continue;
+//
+//			userImageView = [[NSImageView alloc] initWithFrame:NSMakeRect(userImageXOffset, 6.0, 56.0, 56.0)];
+//			userImageXOffset += userWidth;
+//			myImage = user.image;
+//			[myImage setFlipped:NO];
+//			userImageView.image = myImage;
+//			[userImageView setWantsLayer:YES];
+//			hueValue = [[[user properties] objectForKey:@"Hue"] doubleValue] / 255.0;
+//			[userImageView.layer setBorderColor:[[NSColor colorWithCalibratedHue:hueValue saturation:0.8 brightness:1.0 alpha:0.6] CGColor]];
+//			[userImageView.layer setCornerRadius:28.0];
+//			[userImageView.layer setBorderWidth:3.0];
+//			[userImageView.layer setOpacity:1.0];
+//			[blurredView addSubview:userImageView];
+//		}
+//
+//		[O_editorView addSubview:blurredView];
+//	}
+
     [view setPostsFrameChangedNotifications:YES];
     [I_textView setPostsFrameChangedNotifications:YES];
     [O_editorView setNextResponder:self];
