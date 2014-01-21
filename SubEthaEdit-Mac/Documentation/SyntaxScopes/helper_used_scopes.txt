@@ -143,14 +143,14 @@ meta.link
 string
 string.regex
 string.regex.escaped
-style.at-rule
+-style.at-rule
 style.comment
-style.property.name
-style.value.color.rgb-value
-style.value.keyword
-style.value.numeric
+-style.property.name
+-style.value.color.rgb-value
+-style.value.keyword
+-style.value.numeric
 style.value.string
-support
+-support
 
 ################################################################//Helper Regex
 .*scope="(.*)".*
