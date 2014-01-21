@@ -249,6 +249,8 @@
 		4C6BDC6618898E1E0088CBFC /* ScriptMenu.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC6518898E1E0088CBFC /* ScriptMenu.pdf */; };
 		4C6BDC6918898F850088CBFC /* ScriptMenuItemIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC6718898F850088CBFC /* ScriptMenuItemIcon.png */; };
 		4C6BDC6A18898F850088CBFC /* ScriptMenuItemIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC6818898F850088CBFC /* ScriptMenuItemIcon@2x.png */; };
+		4C97D502188D3F2F000B4999 /* RMBlurredView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C97D501188D3F2F000B4999 /* RMBlurredView.m */; };
+		4C97D504188D42FA000B4999 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C97D503188D42FA000B4999 /* QuartzCore.framework */; };
 		4CB8EE4D180FD8FE0051AB6B /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CB8EE4C180FD8FE0051AB6B /* XCTest.framework */; };
 		4CB8EE4F180FD9A40051AB6B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CB8EE4E180FD9A40051AB6B /* libz.dylib */; };
 		4CB8EE50180FDF160051AB6B /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */; };
@@ -904,6 +906,9 @@
 		4C6BDC6518898E1E0088CBFC /* ScriptMenu.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = ScriptMenu.pdf; path = artwork/ScriptMenu.pdf; sourceTree = "<group>"; };
 		4C6BDC6718898F850088CBFC /* ScriptMenuItemIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ScriptMenuItemIcon.png; path = artwork/ScriptMenuItemIcon.png; sourceTree = "<group>"; };
 		4C6BDC6818898F850088CBFC /* ScriptMenuItemIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ScriptMenuItemIcon@2x.png"; path = "artwork/ScriptMenuItemIcon@2x.png"; sourceTree = "<group>"; };
+		4C97D500188D3F2F000B4999 /* RMBlurredView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMBlurredView.h; sourceTree = "<group>"; };
+		4C97D501188D3F2F000B4999 /* RMBlurredView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMBlurredView.m; sourceTree = "<group>"; };
+		4C97D503188D42FA000B4999 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		4CAA423718157B1000457B2A /* TCMReleaseInfo.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = TCMReleaseInfo.xcconfig; sourceTree = "<group>"; };
 		4CAA423818157EAB00457B2A /* TCMAppConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = TCMAppConfig.xcconfig; sourceTree = "<group>"; };
 		4CB8EE4C180FD8FE0051AB6B /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -1209,6 +1214,7 @@
 				14288FED09573F2B00D14688 /* Security.framework in Frameworks */,
 				142894D4095765CF00D14688 /* SystemConfiguration.framework in Frameworks */,
 				14288FF509573F4900D14688 /* WebKit.framework in Frameworks */,
+				4C97D504188D42FA000B4999 /* QuartzCore.framework in Frameworks */,
 				F290D9D80EDB04EF00E643C0 /* TCMPortMapper.framework in Frameworks */,
 				4CF3490117FC6EAF005D0D4F /* PSMTabBarControl.framework in Frameworks */,
 				4C6AE8741802E8810089D489 /* OgreKit.framework in Frameworks */,
@@ -1517,6 +1523,8 @@
 				F26B7D850CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m */,
 				31FFC93B104E97A000E08256 /* NSErrorTCMAdditions.h */,
 				31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */,
+				4C97D500188D3F2F000B4999 /* RMBlurredView.h */,
+				4C97D501188D3F2F000B4999 /* RMBlurredView.m */,
 			);
 			name = Additions;
 			sourceTree = "<group>";
@@ -1960,6 +1968,7 @@
 		2A37F4C3FDCFA73011CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4C97D503188D42FA000B4999 /* QuartzCore.framework */,
 				1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */,
 				1058C7A8FEA54F5311CA2CBB /* Other Frameworks */,
 				4CB8EE4E180FD9A40051AB6B /* libz.dylib */,
@@ -2658,6 +2667,7 @@
 				142891560957475E00D14688 /* TCMBEEPProfile.m in Sources */,
 				142891570957475E00D14688 /* TCMBEEPSession.m in Sources */,
 				142891DD09574E5B00D14688 /* ImagePopUpButtonCell.m in Sources */,
+				4C97D502188D3F2F000B4999 /* RMBlurredView.m in Sources */,
 				142891DE09574E5B00D14688 /* TCMHost.m in Sources */,
 				142891E009574E5B00D14688 /* TCMListView.m in Sources */,
 				1428920E095751CB00D14688 /* NSColorTCMAdditions.m in Sources */,
