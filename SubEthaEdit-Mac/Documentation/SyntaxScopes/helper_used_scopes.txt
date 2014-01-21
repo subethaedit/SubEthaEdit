@@ -63,6 +63,7 @@ meta.block.percentagestring.unescapedbracketrecursive.parentheses
 meta.block.square
 meta.default				*// Base
 meta.important				*//
+meta.invalid				*//
 meta.invalid.sgmlcomment
 meta.tag.preprocessor
 
@@ -132,7 +133,7 @@ markup.tag.framework
 -meta.default
 meta.highlight.currentline
 -meta.important
-meta.invalid
+-meta.invalid
 meta.invisible.characters
 
 
