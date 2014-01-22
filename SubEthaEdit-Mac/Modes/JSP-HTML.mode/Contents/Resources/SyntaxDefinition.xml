@@ -8,7 +8,7 @@
 
     <states>
     
-        <default id="Base" usesymbolsfrommode="HTML" useautocompletefrommode="HTML" usespellchecking="yes">
+        <default id="Base" usesymbolsfrommode="HTML" useautocompletefrommode="HTML" usespellchecking="yes" scope="meta.default">
             <import mode="XML" keywords-only="yes"/>
         
 		<state id="JSP Comment" type="comment" background-color="none" scope="comment.block.jsp">
@@ -49,7 +49,7 @@
 			<state-link mode="Java" state="Comment"/>
 			<state-link mode="Java" state="SingleComment"/>
 			<state-link mode="Java" state="Strings"/>
-            <state id="Java Block" foldable="yes">
+            <state id="Java Block" foldable="yes" scope="meta.block">
                 <begin><regex>(?:(?&lt;=\s)(?:if|else|else\s+if|for|while|do|switch|case)\s*(?:\([^#{\n\r]*?\))?)?\s*{</regex><autoend>}</autoend></begin>
                 <end><regex>(?:}|[^\n\r](?=\s*[\n\r]?%>))</regex></end>
 				<import mode="Java" keywords-only="yes" />
@@ -57,7 +57,6 @@
             </state>
 		</state>
 	
-		
             <!--  This is the "we do a complete HTML mode and import Java everywhere" section -->
 			<state id="Comment" type="comment" scope="markup.comment">
 				<begin><regex>&lt;!--</regex><autoend>--></autoend></begin>
@@ -213,9 +212,7 @@
 					</end>
 					<state-link state="Java"/>
 				</state>
-
             </state>
-
 
             <state id="Inline Javascript" usesymbolsfrommode="Javascript" useautocompletefrommode="Javascript" foldable="yes" scope="meta.block.js">
                 <begin>
@@ -248,7 +245,7 @@
                     <state-link state="Java"/>
 				</state>
 				
-				<state id="JSRegular Expressions" type="string" scope="string.regexp.js">
+				<state id="JSRegular Expressions" type="string" scope="string.regex.js">
 					<begin><regex>(?&lt;![&lt;/])/.*?[^\\](?=/[^\n\r]*(?:;|\)|,|[\n\r]))</regex></begin>
 					<end><regex>/[cgimosx]*</regex></end>
                     <state-link state="Java"/>
@@ -274,7 +271,7 @@
 				</state>
 			</state>            
 
-            <state id="Single Tag with JSP State" foldable="no">
+            <state id="Single Tag with JSP State" foldable="no" scope="markup.tag">
                 <begin>
                     <regex>&lt;\s*[^/?!][-:_\w]*(?=[^&lt;>]*&lt;%.+%>[^>]*[^>]*/>)</regex>
                 </begin>
@@ -330,7 +327,5 @@
             </state>
 
 		</default>
-        
     </states>
-
 </syntax>

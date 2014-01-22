@@ -6,6 +6,7 @@ comment.block.documentation
 comment.block.documentation.js
 comment.block.documentation.tag
 comment.block.js
+comment.block.jsp
 comment.block.vb
 comment.line				// SingleComment
 comment.line.double-slash
@@ -54,6 +55,7 @@ markup.processing
 markup.processing.attribute.value.string
 markup.processing.languageswitch
 markup.processing.languageswitch.asp
+markup.processing.languageswitch.jsp
 markup.tag
 markup.tag.attribute.name
 markup.tag.attribute.value.string
@@ -70,6 +72,7 @@ meta.block.percentagestring.unescapedbracketrecursive.bracket
 meta.block.percentagestring.unescapedbracketrecursive.parentheses
 meta.block.square
 meta.block.tag.erb
+meta.block.tag.erb.no-content
 meta.default				*// Base
 meta.important				*//
 meta.invalid				*//
