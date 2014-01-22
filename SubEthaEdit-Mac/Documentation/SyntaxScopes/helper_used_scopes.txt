@@ -51,6 +51,7 @@ markup.declaration
 markup.declaration.string.double
 markup.declaration.string.single
 markup.inline.cdata 			*//
+markup.inline.math
 markup.processing
 markup.processing.attribute.value.string
 markup.processing.languageswitch
