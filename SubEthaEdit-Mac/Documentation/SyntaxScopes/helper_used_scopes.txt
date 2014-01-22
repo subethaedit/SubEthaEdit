@@ -10,8 +10,10 @@ comment.block.jsp
 comment.block.php
 comment.block.vb
 comment.line				// SingleComment
+comment.line.double-dash
 comment.line.double-slash
 comment.line.double-slash.js
+comment.line.number-sign
 comment.line.php
 comment.line.vb
 
@@ -80,6 +82,7 @@ markup.tag.attribute.value.string
 meta.block					// Block
 meta.block.attribute
 meta.block.begin
+meta.block.create-table
 meta.block.css
 meta.block.curly
 meta.block.curly.js
@@ -146,6 +149,7 @@ string.symbol.percent.angle
 string.symbol.percent.bracket
 string.symbol.percent.curly
 string.symbol.percent.parentheses
+string.other.backtick
 
 style.at-rule
 style.comment.block
@@ -234,4 +238,4 @@ one step tidy xml
 objective j default state block - ?
 pragma(s)?
 "<!--  This is the "we do a complete HTML mode and import php everywhere" section -->" -> similar comments all over the place - smart thing?
-
+string.single/string.double were string.quoted.single/string.quoted.double in some instances
