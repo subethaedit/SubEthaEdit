@@ -69,6 +69,7 @@ meta.default				*// Base
 meta.important				*//
 meta.invalid				*//
 meta.invalid.sgmlcomment
+meta.link
 meta.tag.erbstart
 meta.tag.preprocessor
 
