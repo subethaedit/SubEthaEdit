@@ -292,7 +292,7 @@
 					<state-link state="Ruby"/>
 				</state>
 
-				<state id="JSRegular Expressions" type="string" scope="string.regexp.js">
+				<state id="JSRegular Expressions" type="string" scope="string.regex.js">
 					<begin><regex>(?&lt;![&lt;/])/.*?[^\\](?=/[^\n\r]*(?:;|\)|,|[\n\r]))</regex></begin>
 					<end><regex>/[cgimosx]*</regex></end>
 					<state-link state="Ruby"/>
