@@ -82,6 +82,7 @@ markup.raw.file
 markup.raw.indented
 
 markup.comment
+markup.constant.entity
 markup.declaration
 markup.declaration.string.double
 markup.declaration.string.single
@@ -120,6 +121,7 @@ meta.default				*// Base
 meta.important				*//
 meta.important.memorymanagement
 meta.invalid				*//
+meta.invalid.ampersand
 meta.invalid.sgmlcomment
 meta.link
 meta.preprocessor.nowiki
@@ -269,5 +271,6 @@ pragma(s)?
 "<!--  This is the "we do a complete HTML mode and import php everywhere" section -->" -> similar comments all over the place - smart thing?
 string.single/string.double were string.quoted.single/string.quoted.double in some instances
 is there a place where ….js -> is that defined somewhere?
+sometimes meta default is used for tag state (or similar) (?)
 
 special/weird cases: Diff, SVNNLog | Markup, Conference | LaTeX | Wiki
