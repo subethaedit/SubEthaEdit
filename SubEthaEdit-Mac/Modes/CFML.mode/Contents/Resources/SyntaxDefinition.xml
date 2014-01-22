@@ -684,7 +684,7 @@
 			</state>
 			
 			<import state="CFML Output Variables State" keywords-only="yes" />
-			<state id="CFML Output Variables State" containerState="yes">
+			<state id="CFML Output Variables State" containerState="yes" scope="meta.state">
 				<keywords id="Output Variables" useforautocomplete="no" scope="language.variable">
 					<!-- CODA <regex>(#[^&lt;&gt;#]+#)</regex> -->
 					<regex>(?&lt;!#)(#[^&lt;>{#]+#)(?!#)</regex>
