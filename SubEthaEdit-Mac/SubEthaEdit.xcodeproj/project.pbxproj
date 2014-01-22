@@ -217,6 +217,7 @@
 		319AAE3E0CB0165A00ACDAB4 /* Precedence_RemovePressed.png in Resources */ = {isa = PBXBuildFile; fileRef = 319AAE1C0CB015B300ACDAB4 /* Precedence_RemovePressed.png */; };
 		31D2C7000CA7C9C8003CC5C9 /* PrecedenceRuleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2C6E50CA7C7A7003CC5C9 /* PrecedenceRuleCell.m */; };
 		31FFC93D104E97A000E08256 /* NSErrorTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */; };
+		424CA988189058C000B2D333 /* SymbolMark.png in Resources */ = {isa = PBXBuildFile; fileRef = 424CA987189058C000B2D333 /* SymbolMark.png */; };
 		4C0D3D6417FB12F700AAFB38 /* StyleSheetPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D6317FB12F700AAFB38 /* StyleSheetPrefs.xib */; };
 		4C0D3D6617FB133600AAFB38 /* ServerConnection.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D6517FB133600AAFB38 /* ServerConnection.xib */; };
 		4C0D3D6817FB145600AAFB38 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D6717FB145600AAFB38 /* Preferences.xib */; };
@@ -873,6 +874,7 @@
 		31FFC93B104E97A000E08256 /* NSErrorTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NSErrorTCMAdditions.h; sourceTree = "<group>"; };
 		31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSErrorTCMAdditions.m; sourceTree = "<group>"; };
 		32DBCF750370BD2300C91783 /* SubEthaEdit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubEthaEdit_Prefix.pch; sourceTree = "<group>"; };
+		424CA987189058C000B2D333 /* SymbolMark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SymbolMark.png; path = artwork/SymbolMark.png; sourceTree = "<group>"; };
 		4C0D3D6317FB12F700AAFB38 /* StyleSheetPrefs.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StyleSheetPrefs.xib; sourceTree = "<group>"; };
 		4C0D3D6517FB133600AAFB38 /* ServerConnection.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ServerConnection.xib; sourceTree = "<group>"; };
 		4C0D3D6717FB145600AAFB38 /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
@@ -1375,6 +1377,7 @@
 				142890A1095743F200D14688 /* SymbolK.png */,
 				142890A3095743F200D14688 /* SymbolL.png */,
 				142890A5095743F200D14688 /* SymbolM.tiff */,
+				424CA987189058C000B2D333 /* SymbolMark.png */,
 				142890A6095743F200D14688 /* SymbolP.png */,
 				142890A8095743F200D14688 /* SymbolS.png */,
 				142890AA095743F200D14688 /* SymbolT.png */,
@@ -2341,6 +2344,7 @@
 			files = (
 				4C0D3D6E17FB165C00AAFB38 /* DebugBEEP.xib in Resources */,
 				4C0D3D7017FB166200AAFB38 /* DebugHistory.xib in Resources */,
+				424CA988189058C000B2D333 /* SymbolMark.png in Resources */,
 				14448AA40A18964A00F36B34 /* SubEthaEdit.sdef in Resources */,
 				1428900D095740F200D14688 /* Acknowledgements.txt in Resources */,
 				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
