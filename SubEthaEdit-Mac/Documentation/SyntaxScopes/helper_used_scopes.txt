@@ -53,6 +53,7 @@ language.variable.class
 language.variable.global
 language.variable.global.builtin
 language.variable.instance
+language.variable.perl
 language.variable.string
 
 markup.comment
@@ -105,6 +106,7 @@ string.exec.backtick
 string.exec.percentx
 string.exec.percentx.curly
 string.here-doc
+string.here-doc.perl
 string.percentage.curly
 string.regex.js
 string.regex.percentage.curly
@@ -195,4 +197,5 @@ libraries?
 pretty sure indent="" is almost never used?
 one step tidy xml
 objective j default state block - ?
+pragma(s)?
 
