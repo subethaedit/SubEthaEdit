@@ -113,7 +113,7 @@ structured.variable
 support						// Application API and Central API
 support.accessor
 support.function
-
+support.class
 
 ################################################################// Used in Coda Style Sheets
 -comment
