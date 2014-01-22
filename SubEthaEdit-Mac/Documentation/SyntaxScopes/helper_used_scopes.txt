@@ -71,6 +71,7 @@ markup.heading.3
 markup.heading.4
 markup.heading.5
 markup.italic
+markup.italic.bold
 markup.list.numbered
 markup.list.unnumbered
 markup.other.footnote
@@ -124,7 +125,9 @@ meta.invalid				*//
 meta.invalid.ampersand
 meta.invalid.sgmlcomment
 meta.link
+meta.link.portion
 meta.preprocessor.nowiki
+meta.state
 meta.tag.erbstart
 meta.tag.preprocessor
 

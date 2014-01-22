@@ -21,10 +21,10 @@
 			   </state>
 			</state>
 	
-			<state id="Italic" color="#000" font-style="italic" >
+			<state id="Italic" color="#000" font-style="italic" scope="markup.italic">
 				<begin><regex>\/\/</regex></begin>
 				<end><regex>(?&lt;!p:|s:)\/\/|[\r\n]</regex></end>
-				<state id="Italic Bold" color="#000" font-weight="bold" font-style="italic" scope="markup.italic">
+				<state id="Italic Bold" color="#000" font-weight="bold" font-style="italic" scope="markup.italic.bold">
 					<begin><regex>\*\*</regex></begin>
 					<end><regex>\*\*</regex></end>
 				</state>
@@ -41,7 +41,7 @@
 			<state id="External Link" color="#00a" font-weight="normal" scope="meta.link">
 				<begin><regex>\[(?=\[)</regex></begin>
 				<end><regex>\]\]|[\r\n]</regex></end>
-					<state id="URL Portion">
+					<state id="URL Portion" scope="meta.link.portion">
 						<begin><regex>\[</regex></begin>
 						<end><regex>(?:.(?=\]\]|\|)|[\r\n])</regex></end>
 						<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
