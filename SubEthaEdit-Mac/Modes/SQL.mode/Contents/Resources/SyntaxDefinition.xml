@@ -861,7 +861,7 @@
                 <end><regex>(?&lt;!\\)(\\\\)*"</regex></end>
             </state>
 
-            <state id="Anti Block" foldable="no">
+            <state id="Anti Block" foldable="no" scope="meta.block">
                 <begin><regex>\(</regex></begin>
                 <end><regex>\)</regex></end>
                 <import />
