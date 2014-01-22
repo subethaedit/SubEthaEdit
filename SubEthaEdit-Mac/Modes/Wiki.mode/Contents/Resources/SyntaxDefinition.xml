@@ -68,7 +68,6 @@
 				<state-link state="External Link" />
 				<state-link state="Bold" />
 				<state-link state="Italic" />
-	
 			</state>
 
 			<state id="Quoted Odd Levels" color="#7b1e20" scope="markup.quote.odd">
@@ -88,7 +87,6 @@
 				<begin><regex>\((?=\()</regex></begin>
 				<end><regex>(?&lt;=\))\)</regex></end>
 			</state>
-	
 	
 	
 			<state id="Headline Level 1" color="#881350" font-weight="bold" scope="markup.heading.1">
@@ -140,10 +138,7 @@
 				<begin><regex>%%</regex></begin>
 				<end><regex>%%</regex></end>
 			</state>
-
-	
 	
         </default>
     </states>
-
 </syntax>

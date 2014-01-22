@@ -8,12 +8,12 @@
 	</head>
 	<states>
 		<default id="Base" color="#000" scope="meta.default">
-			<keywords id="Literals" color="#00f" inverted-color="#7d9ffa" useforautocomplete="yes">
+			<keywords id="Literals" color="#00f" inverted-color="#7d9ffa" useforautocomplete="yes" scope="keyword">
 				<string>true</string>
 				<string>false</string>
 				<string>nil</string>
 			</keywords>
-			<keywords id="Keywords" color="#881350" font-weight="bold" useforautocomplete="yes">
+			<keywords id="Keywords" color="#881350" font-weight="bold" useforautocomplete="yes" scope="keyword.control">
 				<string>and</string>
 				<string>break</string>
 				<string>do</string>
@@ -34,7 +34,7 @@
 				<string>until</string>
 				<string>while</string>
 			</keywords>
-			<keywords id="Basic Functions" color="#400080" font-weight="bold" useforautocomplete="yes">
+			<keywords id="Basic Functions" color="#400080" font-weight="bold" useforautocomplete="yes" scope="keyword.function">
 				<string>assert</string>
 				<string>collectgarbage</string>
 				<string>dofile</string>
@@ -63,7 +63,7 @@
 				<string>unpack</string>
 				<string>xpcall</string>
 			</keywords>
-			<keywords id="Libraries" color="#400080" font-weight="bold" useforautocomplete="yes">
+			<keywords id="Libraries" color="#400080" font-weight="bold" useforautocomplete="yes" scope="keyword">
 				<string>bit</string>
 				<string>coroutine</string>
 				<string>debug</string>
@@ -75,7 +75,7 @@
 				<string>posix</string>
 				<string>md5</string>
 			</keywords>
-			<keywords id="Library Functions" color="#400080" useforautocomplete="yes">
+			<keywords id="Library Functions" color="#400080" useforautocomplete="yes" scope="keyword.function">
 				<string>and</string>
 				<string>or</string>
 				<string>xor</string>
@@ -209,7 +209,7 @@
 				<string>crypt</string>
 				<string>decrypt</string>
 			</keywords>
-			<keywords id="MetaTableKeywords" color="#881350" useforautocomplete="yes">
+			<keywords id="MetaTableKeywords" color="#881350" useforautocomplete="yes" scope="keyword">
 				<string>__add</string>
 				<string>__concat</string>
 				<string>__div</string>
@@ -227,56 +227,56 @@
 				<string>__tostring</string>
 				<string>__unm</string>
 			</keywords>
-			<keywords id="Numbers" color="#00f" inverted-color="#7d9ffa" useforautocomplete="no">
+			<keywords id="Numbers" color="#00f" inverted-color="#7d9ffa" useforautocomplete="no" scope="constant.numeric">
 				<regex>(?&lt;![A-Za-z0-9])((?:(?:(?:[0-9]+\.[0-9]*)|(?:\.[0-9]+))(?:[eE][+\-]?[0-9]+)?)|(?:[0-9]*)|(?:0x\h+))(?![A-Za-z0-9])</regex>
 			</keywords>
 			
 			<!-- only is for shebangs, since \A does not work reliably we add some necessary shebang lua actually ignores the first line if it starts with # - no way to do this here though -->
-			<state id="Firstline Unix Comment" color="#236E25" type="comment" font-style="italic">
+			<state id="Firstline Unix Comment" color="#236E25" type="comment" font-style="italic" scope="comment.line">
 				<begin><regex>\A#!/</regex></begin>
 				<end><regex>[\n\r]</regex></end>
 			</state>
 
-			<state id="Multiline Comment" color="#236E25" type="comment" font-style="italic">
+			<state id="Multiline Comment" color="#236E25" type="comment" font-style="italic" scope="comment.block">
 				<begin><regex>--\[(?'commentbrackets'=*)\[</regex></begin>
 				<end><regex>\](?#see-insert-start-group:commentbrackets)\]</regex></end>
 				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 			</state>
 
-			<state id="Singleline Comment" color="#236E25" type="comment" font-style="italic">
+			<state id="Singleline Comment" color="#236E25" type="comment" font-style="italic" scope="comment.line">
 				<begin><regex>--</regex></begin>
 				<end><regex>[\n\r]</regex></end>
 				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 			</state>
 
 			<!-- lua strings are single line, or have a \ in front of the newline. so we end the string state to mark this when encountering newlines without preceding \ -->
-			<state id="String with single quotes" type="string" color="#994500">
+			<state id="String with single quotes" type="string" color="#994500" scope="string.single">
 				<begin><regex>'</regex></begin>
 				<end><regex>(?&lt;!\\)(?:\\\\)*(?:'|\n)</regex></end>
 			</state>
-			<state id="String" color="#994500" type="string" font-weight="normal" font-style="normal">
+			<state id="String" color="#994500" type="string" font-weight="normal" font-style="normal" scope="string.double">
 				<begin><string>"</string></begin>
 				<end><regex>(?&lt;!\\)(?:\\\\)*(?:"|\n)</regex></end>
 			</state>
-			<state id="Long bracket string" color="#994500" foldable="yes" font-weight="normal" font-style="normal">
+			<state id="Long bracket string" color="#994500" foldable="yes" font-weight="normal" font-style="normal" scope="string">
 				<begin><string>\[(?'stringbrackets'=*)\[</string></begin>
 				<end><regex>\](?#see-insert-start-group:stringbrackets)\]</regex></end>
 			</state>
 
-			<state id="do-then-end blocks" foldable="yes" type="block">
+			<state id="do-then-end blocks" foldable="yes" type="block" scope="meta.block">
 				<begin><string>\b(?:(?:(?:else|do|then)\b)|(?:function(?:[ \t]+(?'funcname'(?'varname'[\p{Alpha}_][\p{Alnum}_]*)(?:\.\g'varname')*(?::\g'varname')?))?\b))</string></begin>
 				<end><regex>\b(?:end|elseif)\b|(\s(?=else\s))</regex></end>
 				<import />
 			</state>
 
-			<state id="repeat-until blocks" foldable="yes" type="block">
+			<state id="repeat-until blocks" foldable="yes" type="block" scope="meta.block">
 				<begin><string>\brepeat\b</string></begin>
 				<end><regex>\buntil\b</regex></end>
 				<import />
 			</state>
 
 			<!-- don't show empty tables -->
-			<state id="tables" foldable="yes">
+			<state id="tables" foldable="yes" scope="meta.block">
 				<begin><string>{(?!})</string></begin>
 				<end><regex>}</regex></end>
 				<import />

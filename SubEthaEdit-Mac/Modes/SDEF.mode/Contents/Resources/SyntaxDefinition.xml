@@ -12,10 +12,8 @@
     <states>
     
         <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" scope="meta.default">
-            
             <import mode="XML" />
         </default>
 
     </states>
-
 </syntax>

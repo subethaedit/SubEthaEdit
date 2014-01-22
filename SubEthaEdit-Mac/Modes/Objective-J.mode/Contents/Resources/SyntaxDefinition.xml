@@ -606,7 +606,7 @@
                 <string>CPXMLNode</string>
             </keywords>
                         
-            <keywords id="Cappuccino Types" useforautocomplete="yes" scope="support.class.standard.obj">
+            <keywords id="Cappuccino Types" useforautocomplete="yes" scope="support.class.standard.objj">
                 <string>CPAffineTransformStruct</string>
                 <string>CPApplicationTerminateReply</string>
                 <string>CPBackingStoreType</string>
@@ -2860,5 +2860,4 @@
 
 
     </states>
-
 </syntax>
