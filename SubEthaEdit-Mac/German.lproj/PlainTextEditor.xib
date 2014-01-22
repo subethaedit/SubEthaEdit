@@ -13,6 +13,7 @@
                 <outlet property="O_modePopUpButton" destination="75" id="76"/>
                 <outlet property="O_positionTextField" destination="13" id="14"/>
                 <outlet property="O_scrollView" destination="6" id="11"/>
+                <outlet property="O_splitButton" destination="Vf8-MP-UD0" id="04q-QH-545"/>
                 <outlet property="O_symbolPopUpButton" destination="61" id="62"/>
                 <outlet property="O_tabStatusPopUpButton" destination="84" id="86"/>
                 <outlet property="O_topStatusBarView" destination="27" id="30"/>
@@ -102,7 +103,7 @@
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                         </customView>
                         <textField verticalHuggingPriority="750" id="25">
-                            <rect key="frame" x="227" y="-1" width="181" height="17"/>
+                            <rect key="frame" x="210" y="-1" width="181" height="17"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
                             <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="&lt;Geschrieben von ...>" id="91">
                                 <font key="font" metaFont="smallSystem"/>
@@ -122,6 +123,14 @@
                                 <action selector="positionClick:" target="-2" id="88"/>
                             </connections>
                         </textField>
+                        <button id="Vf8-MP-UD0">
+                            <rect key="frame" x="392" y="0.0" width="17" height="17"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="SplitOpen" imagePosition="only" alignment="center" alternateImage="SplitClose" transparent="YES" imageScaling="proportionallyDown" inset="2" id="DlZ-2M-ymd">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                        </button>
                         <imageView hidden="YES" toolTip="See-Befehl wartet bis das Dokument geschlossen wird." id="68">
                             <rect key="frame" x="1" y="1" width="16" height="16"/>
                             <autoresizingMask key="autoresizingMask"/>
@@ -133,6 +142,8 @@
         </customView>
     </objects>
     <resources>
+        <image name="SplitClose" width="15" height="15"/>
+        <image name="SplitOpen" width="15" height="15"/>
         <image name="WaitPipe" width="13" height="12"/>
     </resources>
 </document>

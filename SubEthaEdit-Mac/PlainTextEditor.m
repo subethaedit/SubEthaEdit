@@ -82,9 +82,6 @@
 
 
 @interface PlainTextEditor ()
-
-@property (nonatomic, strong) NSArray *topLevelNibObjects;
-
 - (void)	TCM_updateStatusBar;
 - (void)	TCM_updateBottomStatusBar;
 - (float)	pageGuidePositionForColumns:(int)aColumns;
@@ -107,9 +104,12 @@
 
         [self setFollowUserID:nil];
 
-		NSArray *topLevelNibObjects = nil;
-        [[NSBundle mainBundle] loadNibNamed:@"PlainTextEditor" owner:self topLevelObjects:&topLevelNibObjects];
-		self.topLevelNibObjects = topLevelNibObjects;
+        [[NSBundle mainBundle] loadNibNamed:@"PlainTextEditor" owner:self topLevelObjects:nil];
+
+		if (! I_flags.hasSplitButton) {
+			[O_splitButton removeFromSuperview];
+			O_splitButton = nil;
+		}
     }
 
     return self;
@@ -122,9 +122,10 @@
     [[NSNotificationCenter defaultCenter] removeObserver:[I_windowControllerTabContext document] name:NSTextDidChangeNotification object:I_textView];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 
+	[O_symbolPopUpButton setDelegate:nil];
+
     [I_textView setDelegate:nil];
     [I_textView setEditor:nil];     // in case our editor outlives us
-    [O_editorView setNextResponder:nil];
 
     [I_textContainer release];
     [I_radarScroller release];
@@ -132,7 +133,8 @@
     [I_storedSelectedRanges release];
     [I_storedPosition release];
 
-	self.topLevelNibObjects = nil;
+    [self.O_editorView setNextResponder:nil];
+	self.O_editorView = nil;
 
     [super dealloc];
 }
@@ -213,16 +215,6 @@
 
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TCM_updateBottomStatusBar) name:@"AfterEncodingsListChanged" object:nil];
 
-//    if (I_flags.hasSplitButton)
-//    {
-//        NSRect scrollviewFrame = [O_scrollView frame];
-//        [O_scrollView removeFromSuperview];
-//        O_scrollView = [[SEEPlainTextEditorScrollView alloc] initWithFrame:scrollviewFrame];
-//        [O_scrollView setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-//        [O_editorView addSubview:O_scrollView positioned:NSWindowBelow relativeTo:O_topStatusBarView];
-//        [O_scrollView release];
-//    }
-
     I_radarScroller = [RadarScroller new];
     [O_scrollView setHasVerticalScroller:YES];
     [O_scrollView setVerticalScroller:I_radarScroller];
@@ -282,14 +274,9 @@
     [[NSNotificationCenter defaultCenter] addObserver:document selector:@selector(textDidChange:) name:NSTextDidChangeNotification object:I_textView];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textDidChange:) name:PlainTextDocumentDidChangeTextStorageNotification object:document];
 
-    NSView *view = [[NSView alloc] initWithFrame:[O_editorView frame]];
-    [view setAutoresizesSubviews:YES];
-    [view setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
-    [view addSubview:[O_editorView autorelease]];
-
 //	// Test code
 //	{
-//		RMBlurredView *blurredView = [[RMBlurredView alloc] initWithFrame:NSMakeRect(0.0, 17.0, [O_editorView frame].size.width, 68.0)];
+//		RMBlurredView *blurredView = [[RMBlurredView alloc] initWithFrame:NSMakeRect(0.0, 17.0, [self.O_editorView frame].size.width, 68.0)];
 //		[blurredView setAutoresizingMask:NSViewWidthSizable | NSViewMaxYMargin];
 //		[blurredView setTintColor:[NSColor colorWithCalibratedWhite:0.8 alpha:0.4]];
 //		[blurredView setSaturationFactor:12.0];
@@ -311,7 +298,6 @@
 //		[userImageView.layer setBorderWidth:3.0];
 //		[userImageView.layer setOpacity:0.8];
 //		[blurredView addSubview:userImageView];
-//		[view addSubview:blurredView];
 //
 //		NSArray *allUsers = [[TCMMMUserManager sharedInstance] allUsers];
 //		CGFloat userWidth = 12.0 + 56.0;
@@ -333,17 +319,24 @@
 //			[blurredView addSubview:userImageView];
 //		}
 //
-//		[O_editorView addSubview:blurredView];
+//		[self.O_editorView addSubview:blurredView];
 //	}
 
+	// Adding a second view hirachy to include this controller into the responder chain
+    NSView *view = [[[NSView alloc] initWithFrame:[self.O_editorView frame]] autorelease];
+    [view setAutoresizesSubviews:YES];
+    [view setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
+    [view addSubview:self.O_editorView];
     [view setPostsFrameChangedNotifications:YES];
-    [I_textView setPostsFrameChangedNotifications:YES];
-    [O_editorView setNextResponder:self];
+    [self.O_editorView setNextResponder:self];
     [self setNextResponder:view];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewFrameDidChange:) name:NSViewFrameDidChangeNotification object:view];
+    self.O_editorView = view;
+
+	[I_textView setPostsFrameChangedNotifications:YES];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textViewFrameDidChange:) name:NSViewFrameDidChangeNotification object:I_textView];
-    O_editorView = view;
-    [O_symbolPopUpButton setDelegate:self];
+
+	[O_symbolPopUpButton setDelegate:self];
 
     [self takeSettingsFromDocument];
     [self takeStyleSettingsFromDocument];
@@ -727,11 +720,11 @@
     NSFont *font = [[self document] fontWithTrait:0];
     CGFloat characterWidth = [@"n" sizeWithAttributes :[NSDictionary dictionaryWithObject:font forKey:NSFontAttributeName]].width;
 
-    result.width = characterWidth * aColumns + [[I_textView textContainer] lineFragmentPadding] * 2 + [I_textView textContainerInset].width * 2 + ([O_editorView bounds].size.width - [[I_textView enclosingScrollView] contentSize].width);
+    result.width = characterWidth * aColumns + [[I_textView textContainer] lineFragmentPadding] * 2 + [I_textView textContainerInset].width * 2 + ([self.O_editorView bounds].size.width - [[I_textView enclosingScrollView] contentSize].width);
 
     result.height = [[I_textContainer layoutManager] defaultLineHeightForFont:font] * aRows +
 	[I_textView textContainerInset].height * 2 +
-	([O_editorView bounds].size.height - [[I_textView enclosingScrollView] contentSize].height);
+	([self.O_editorView bounds].size.height - [[I_textView enclosingScrollView] contentSize].height);
 
     return result;
 }
@@ -810,7 +803,7 @@
 
 - (NSView *)editorView
 {
-    return O_editorView;
+    return self.O_editorView;
 }
 
 
@@ -836,7 +829,7 @@
 {
     if (I_flags.hasSplitButton)
     {
-        [[(SEEPlainTextEditorScrollView *)O_scrollView button] setState:aFlag ? NSOnState:NSOffState];
+        [O_splitButton setState:aFlag ? NSOnState:NSOffState];
     }
 }
 
@@ -1562,7 +1555,7 @@
         else
         {
             frame.size.height -= STATUSBARSIZE;
-            [O_editorView setNeedsDisplayInRect:NSMakeRect(frame.origin.x, NSMaxY(frame), frame.size.width, STATUSBARSIZE)];
+            [self.O_editorView setNeedsDisplayInRect:NSMakeRect(frame.origin.x, NSMaxY(frame), frame.size.width, STATUSBARSIZE)];
             [self TCM_updateStatusBar];
         }
 
@@ -1596,7 +1589,7 @@
         {
             frame.size.height -= STATUSBARSIZE;
             frame.origin.y   += STATUSBARSIZE;
-            [O_editorView setNeedsDisplayInRect:NSMakeRect(frame.origin.x, frame.origin.y - STATUSBARSIZE, frame.size.width, STATUSBARSIZE)];
+            [self.O_editorView setNeedsDisplayInRect:NSMakeRect(frame.origin.x, frame.origin.y - STATUSBARSIZE, frame.size.width, STATUSBARSIZE)];
             [self TCM_updateBottomStatusBar];
         }
 
@@ -1615,7 +1608,7 @@
         I_followUserID = [userID copy];
         [self scrollToUserWithID:userID];
         [self TCM_updateStatusBar];
-        id windowController = [[O_editorView window] windowController];
+        id windowController = [[self.O_editorView window] windowController];
 
         if ([windowController respondsToSelector:@selector(validateButtons)])
         {
@@ -1889,11 +1882,11 @@
                     break;
                 }
             }
-            NSRect frame = [O_editorView frame];
+            NSRect frame = [self.O_editorView frame];
             frame.size.width = 50;
             frame.origin.y = frame.size.height - 20;
             frame.size.height = 20;
-            [s_cell performClickWithFrame:frame inView:O_editorView];
+            [s_cell performClickWithFrame:frame inView:self.O_editorView];
             return;
         }
         else if ([self showsBottomStatusBar])
