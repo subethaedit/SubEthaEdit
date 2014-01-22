@@ -3,49 +3,49 @@
 
 <syntax>
     <head>
-        <name>SVNLog</name>
+        <name>SVNlog</name>
         <!-- The definitions title -->
         <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-+@|"]]></charsintokens>
     </head>
     <states>
         <default id="Base" color="#000000" inverted-color="#ffffff" font-style="normal" font-weight="normal" background-color="#f4f7fe" inverted-background-color="#010e23" scope="meta.default">
-            <state id="Changed Paths" color="#aaaaaa" inverted-color="#929292" font-style="normal" font-weight="normal">
+            <state id="Changed Paths" color="#aaaaaa" inverted-color="#929292" font-style="normal" font-weight="normal" scope="structured.changelog.heading">
                 <begin>
                     <regex>^Changed paths:\n</regex>
                 </begin>
                 <end>
                     <regex>^\n</regex>
                 </end>
-                <keywords id="Added" color="#549a18" inverted-color="#76b14c" font-style="italic" font-weight="normal" useforautocomplete="no">
+                <keywords id="Added" color="#549a18" inverted-color="#76b14c" font-style="italic" font-weight="normal" useforautocomplete="no" scope="structured.changelog.added">
                     <regex>^([ ]{3}A .+)$</regex>
                 </keywords>
-                <keywords id="Modified" color="#a57e24" inverted-color="#d1ad40" font-style="italic" font-weight="normal" useforautocomplete="no">
+                <keywords id="Modified" color="#a57e24" inverted-color="#d1ad40" font-style="italic" font-weight="normal" useforautocomplete="no" scope="structured.changelog.modified">
                     <regex>^([ ]{3}M .+)$</regex>
                 </keywords>
-                <keywords id="Deleted" color="#b82314" inverted-color="#e55959" font-style="italic" font-weight="normal" useforautocomplete="no">
+                <keywords id="Deleted" color="#b82314" inverted-color="#e55959" font-style="italic" font-weight="normal" useforautocomplete="no" scope="structured.changelog.deleted">
                     <regex>^([ ]{3}D .+)$</regex>
                 </keywords>
-                <keywords id="Replaced" color="#c16024" font-style="italic" font-weight="bold" useforautocomplete="no">
+                <keywords id="Replaced" color="#c16024" font-style="italic" font-weight="bold" useforautocomplete="no" scope="structured.changelog.replaced">
                     <regex>^([ ]{3}R .+)$</regex>
                 </keywords>
             </state>
-            <keywords id="-----------------" color="#666666" inverted-color="#999999" font-style="normal" font-weight="bold" useforautocomplete="no">
+            <keywords id="-----------------" color="#666666" inverted-color="#999999" font-style="normal" font-weight="bold" useforautocomplete="no" scope="structured.separator.horizontal">
                 <regex>^([-]{3,})</regex>
             </keywords>
-            <state id="Block" type="block" foldable="yes">
+            <state id="Block" type="block" foldable="yes" scope="">
                 <begin>
                     <regex>\-\-\-\-\-[\n\r][^\n\r]+</regex>
                 </begin>
                 <end>
                     <regex>[\r\n]\-\-\-\-\-</regex>
                 </end>
-                <keywords id="Pipes" color="#696969" inverted-color="#ffffff" font-style="normal" font-weight="normal" useforautocomplete="no">
+                <keywords id="Pipes" color="#696969" inverted-color="#ffffff" font-style="normal" font-weight="normal" useforautocomplete="no" scope="structured.separator.vertical">
                     <string>|</string>
                 </keywords>
-                <keywords id="User" color="#1444b4" inverted-color="#83c9ff" font-style="normal" font-weight="bold" useforautocomplete="no">
+                <keywords id="User" color="#1444b4" inverted-color="#83c9ff" font-style="normal" font-weight="bold" useforautocomplete="no" scope="structured.changelog.user">
                     <regex>\| (.+) \| .+ \| .+lines?</regex>
                 </keywords>
-                <keywords id="Revision" color="#001bbb" inverted-color="#83c9ff" font-style="normal" font-weight="bold" useforautocomplete="no">
+                <keywords id="Revision" color="#001bbb" inverted-color="#83c9ff" font-style="normal" font-weight="bold" useforautocomplete="no" scope="structured.changelog.revision">
                     <regex>(r\d+)</regex>
                 </keywords>
                 <import/>
