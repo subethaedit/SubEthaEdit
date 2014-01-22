@@ -63,6 +63,24 @@ language.variable.php
 language.variable.string
 language.variable.string.php
 
+markup.bold
+markup.bold.italic
+markup.heading.1
+markup.heading.2
+markup.heading.3
+markup.heading.4
+markup.heading.5
+markup.italic
+markup.list.numbered
+markup.list.unnumbered
+markup.other.footnote
+markup.other.line
+markup.quote.even
+markup.quote.odd
+markup.raw.code
+markup.raw.file
+markup.raw.indented
+
 markup.comment
 markup.declaration
 markup.declaration.string.double
@@ -104,6 +122,7 @@ meta.important.memorymanagement
 meta.invalid				*//
 meta.invalid.sgmlcomment
 meta.link
+meta.preprocessor.nowiki
 meta.tag.erbstart
 meta.tag.preprocessor
 
@@ -251,4 +270,4 @@ pragma(s)?
 string.single/string.double were string.quoted.single/string.quoted.double in some instances
 is there a place where ….js -> is that defined somewhere?
 
-special/weird cases: Diff, SVNNLog | Markup, Conference | LaTeX
+special/weird cases: Diff, SVNNLog | Markup, Conference | LaTeX | Wiki
