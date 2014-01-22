@@ -7,10 +7,12 @@ comment.block.documentation.js
 comment.block.documentation.tag
 comment.block.js
 comment.block.jsp
+comment.block.php
 comment.block.vb
 comment.line				// SingleComment
 comment.line.double-slash
 comment.line.double-slash.js
+comment.line.php
 comment.line.vb
 
 constant					// Constants
@@ -44,6 +46,7 @@ keyword.type.objj
 
 language.function			*// FunctionRegex
 language.function.js
+language.function.php
 language.operator			*// Operators - +, -,
 language.preprocessor		// Preprocessor
 language.property			*// Properties -> used in coda 2
@@ -54,7 +57,9 @@ language.variable.global
 language.variable.global.builtin
 language.variable.instance
 language.variable.perl
+language.variable.php
 language.variable.string
+language.variable.string.php
 
 markup.comment
 markup.declaration
@@ -67,6 +72,7 @@ markup.processing.attribute.value.string
 markup.processing.languageswitch
 markup.processing.languageswitch.asp
 markup.processing.languageswitch.jsp
+markup.processing.languageswitch.php
 markup.tag
 markup.tag.attribute.name
 markup.tag.attribute.value.string
@@ -85,6 +91,8 @@ meta.block.percentagestring.unescapedbracketrecursive.parentheses
 meta.block.square
 meta.block.tag.erb
 meta.block.tag.erb.no-content
+meta.block.tag.php
+meta.block.tag.php.no-content
 meta.default				*// Base
 meta.important				*//
 meta.important.memorymanagement
@@ -100,6 +108,7 @@ string.array.percent.curly
 string.double				// Double Quoted String
 string.double.js
 string.double.nsstring.objj
+string.double.php
 string.double.openstep
 string.double.vb
 string.exec.backtick
@@ -107,11 +116,13 @@ string.exec.percentx
 string.exec.percentx.curly
 string.here-doc
 string.here-doc.perl
+string.here-doc.php
 string.percentage.curly
 string.regex.js
 string.regex.percentage.curly
 string.single				// Single Quoted String
 string.single.js
+string.single.php
 string.symbol
 string.symbol.percent
 string.symbol.percent.curly
@@ -137,12 +148,14 @@ structured.variable
 
 support						// Application API and Central API - mostly used for framework classes and constants?
 support.accessor
-support.function
 support.class
 support.class.standard.js
 support.class.standard.obj
 support.class.standard.objj
 support.constant.objj
+support.function
+support.function.php
+support.method.special.php
 
 ################################################################// Used in Coda Style Sheets
 -comment
@@ -198,4 +211,5 @@ pretty sure indent="" is almost never used?
 one step tidy xml
 objective j default state block - ?
 pragma(s)?
+"<!--  This is the "we do a complete HTML mode and import php everywhere" section -->" -> similar comments all over the place - smart thing?
 
