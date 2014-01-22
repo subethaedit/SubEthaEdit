@@ -22,7 +22,7 @@
             <state-link mode="C" state="Comment"/>
             <state-link mode="C" state="SingleComment"/>
             <state-link mode="C" state="String"/>
-            <state id="NSString" type="string" foldable="no" scope="string.quoted.double.openstep">
+            <state id="NSString" type="string" foldable="no" scope="string.double.openstep">
                 <begin>
                     <string>@"</string>
                 </begin>
@@ -30,7 +30,7 @@
                     <regex>(((?&lt;!\\)(\\\\)*)|^)"</regex>
                 </end>
             </state>
-            <state id="Block" type="block" foldable="yes" scope="meta.block" indent="yes">
+            <state id="Block" type="block" foldable="yes" indent="yes" scope="meta.block">
                 <begin>
                     <regex>(?:^[ \t]*[-+][^(-;]*\([A-Za-z0-9 *_]*\)[A-Za-z0-9_ \t\n\r]+)?{</regex>
                     <autoend>}</autoend>
