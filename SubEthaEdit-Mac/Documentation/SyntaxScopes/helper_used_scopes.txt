@@ -170,3 +170,9 @@ style.value.string
 ^<.*
 ^\n
 
+################################################################//Questions
+scope for nil, true, false, pi -> constant? literal?
+LassoScriot <-> CFML -> delete one, which one?
+LaTeX scopes are fishy
+libraries?
+
