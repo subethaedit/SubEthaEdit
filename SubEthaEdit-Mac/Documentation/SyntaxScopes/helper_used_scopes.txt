@@ -15,12 +15,18 @@ comment.line.vb
 
 constant					// Constants
 constant.character
+constant.language.cocoa
+constant.language.types.cocoa
 constant.numeric			*// Numbers
 constant.numeric.character
 constant.numeric.js
 constant.numeric.keyword 	*// Constants
 constant.numeric.keyword.js
 constant.numeric.preprocessor
+
+entity.name.method
+entity.name.type.classes.cocoa
+entity.name.function.cocoa
 
 keyword						*// Keywords, Predefined Variables
 keyword.class				// Classes
@@ -29,6 +35,7 @@ keyword.control.asp
 keyword.control.js
 keyword.control.vb
 keyword.function			// Functions (Commands)
+keyword.objective-c
 keyword.operator
 keyword.type				*// Types - public private int
 keyword.type.js
@@ -67,6 +74,7 @@ meta.block.begin
 meta.block.css
 meta.block.curly
 meta.block.curly.js
+meta.block.directives
 meta.block.js
 meta.block.percentagestring.unescapedbracketrecursive.angle
 meta.block.percentagestring.unescapedbracketrecursive.bracket
@@ -76,6 +84,7 @@ meta.block.tag.erb
 meta.block.tag.erb.no-content
 meta.default				*// Base
 meta.important				*//
+meta.important.memorymanagement
 meta.invalid				*//
 meta.invalid.sgmlcomment
 meta.link
@@ -86,6 +95,7 @@ string.array.percent
 string.array.percent.curly
 string.double				// Double Quoted String
 string.double.js
+string.double.openstep
 string.double.vb
 string.exec.backtick
 string.exec.percentx
@@ -175,4 +185,5 @@ scope for nil, true, false, pi -> constant? literal?
 LassoScriot <-> CFML -> delete one, which one?
 LaTeX scopes are fishy
 libraries?
-
+pretty sure indent="" is almost never used?
+one step tidy xml
