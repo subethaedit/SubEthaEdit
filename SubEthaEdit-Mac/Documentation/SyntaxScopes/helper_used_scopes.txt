@@ -161,12 +161,21 @@ style.value.numeric
 style.value.string.double
 style.value.string.single
 
+structured.changelog.added
+structured.changelog.deleted
+structured.changelog.heading
+structured.changelog.modified
+structured.changelog.replaced
+structured.changelog.revision
+structured.changelog.user
 structured.emphasis
 structured.event
 structured.heading
 structured.heading.section
 structured.reference
 structured.separator
+structured.separator.horizontal
+structured.separator.vertical
 structured.tool-tip
 structured.variable
 
@@ -231,7 +240,8 @@ style.value.string
 ################################################################//Questions
 scope for nil, true, false, pi -> constant? literal?
 LassoScriot <-> CFML -> delete one, which one?
-LaTeX scopes are fishy
+Diff scopes are fishy
+LaTeX scopes are fishy (made by me)
 libraries?
 pretty sure indent="" is almost never used?
 one step tidy xml
@@ -239,3 +249,6 @@ objective j default state block - ?
 pragma(s)?
 "<!--  This is the "we do a complete HTML mode and import php everywhere" section -->" -> similar comments all over the place - smart thing?
 string.single/string.double were string.quoted.single/string.quoted.double in some instances
+is there a place where ….js -> is that defined somewhere?
+
+special/weird cases: Diff, SVNNLog | Markup, Conference | LaTeX
