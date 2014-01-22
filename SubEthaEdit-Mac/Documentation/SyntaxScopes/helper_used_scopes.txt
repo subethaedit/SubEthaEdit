@@ -127,6 +127,7 @@ meta.invalid.sgmlcomment
 meta.link
 meta.link.portion
 meta.preprocessor.nowiki
+meta.state
 meta.tag.erbstart
 meta.tag.preprocessor
 
