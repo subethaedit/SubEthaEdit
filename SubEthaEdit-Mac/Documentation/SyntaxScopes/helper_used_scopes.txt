@@ -84,9 +84,11 @@ meta.block.css
 meta.block.curly
 meta.block.curly.js
 meta.block.directives
+meta.block.interpolation
 meta.block.js
 meta.block.percentagestring.unescapedbracketrecursive.angle
 meta.block.percentagestring.unescapedbracketrecursive.bracket
+meta.block.percentagestring.unescapedbracketrecursive.curly
 meta.block.percentagestring.unescapedbracketrecursive.parentheses
 meta.block.square
 meta.block.tag.erb
@@ -104,7 +106,10 @@ meta.tag.preprocessor
 
 string.angle
 string.array.percent
+string.array.percent.angle
+string.array.percent.bracket
 string.array.percent.curly
+string.array.percent.parentheses
 string.double				// Double Quoted String
 string.double.js
 string.double.nsstring.objj
@@ -113,19 +118,34 @@ string.double.openstep
 string.double.vb
 string.exec.backtick
 string.exec.percentx
+string.exec.percentx.angle
+string.exec.percentx.bracket
 string.exec.percentx.curly
+string.exec.percentx.parentheses
 string.here-doc
+string.here-doc.intended
 string.here-doc.perl
 string.here-doc.php
+string.percentage
+string.percentage.angle
+string.percentage.bracket
 string.percentage.curly
+string.percentage.parentheses
 string.regex.js
+string.regex.percentage
+string.regex.percentage.angle
+string.regex.percentage.bracket
 string.regex.percentage.curly
+string.regex.percentage.parentheses
 string.single				// Single Quoted String
 string.single.js
 string.single.php
 string.symbol
 string.symbol.percent
+string.symbol.percent.angle
+string.symbol.percent.bracket
 string.symbol.percent.curly
+string.symbol.percent.parentheses
 
 style.at-rule
 style.comment.block
