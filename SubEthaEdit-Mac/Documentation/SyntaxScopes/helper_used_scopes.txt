@@ -16,19 +16,24 @@ constant					// Constants
 constant.character
 constant.numeric			*// Numbers
 constant.numeric.character
+constant.numeric.js
 constant.numeric.keyword 	*// Constants
+constant.numeric.keyword.js
 constant.numeric.preprocessor
 
 keyword						*// Keywords, Predefined Variables
 keyword.class				// Classes
 keyword.control				*// Control Statements - if else 
 keyword.control.asp
+keyword.control.js
 keyword.control.vb
 keyword.function			// Functions (Commands)
 keyword.operator
 keyword.type				*// Types - public private int
+keyword.type.js
 
 language.function			*// FunctionRegex
+language.function.js
 language.operator			*// Operators - +, -,
 language.preprocessor		// Preprocessor
 language.property			*// Properties -> used in coda 2
@@ -114,6 +119,7 @@ support						// Application API and Central API
 support.accessor
 support.function
 support.class
+support.class.standard.js
 
 ################################################################// Used in Coda Style Sheets
 -comment
