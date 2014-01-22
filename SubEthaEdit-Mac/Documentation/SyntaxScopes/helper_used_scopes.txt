@@ -152,9 +152,11 @@ support.class
 support.class.standard.js
 support.class.standard.obj
 support.class.standard.objj
+support.constant
 support.constant.objj
 support.function
 support.function.php
+support.method
 support.method.special.php
 
 ################################################################// Used in Coda Style Sheets
