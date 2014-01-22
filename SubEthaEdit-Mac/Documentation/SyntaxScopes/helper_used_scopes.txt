@@ -34,11 +34,13 @@ keyword.control				*// Control Statements - if else
 keyword.control.asp
 keyword.control.js
 keyword.control.vb
+keyword.directive.objj
 keyword.function			// Functions (Commands)
 keyword.objective-c
 keyword.operator
 keyword.type				*// Types - public private int
 keyword.type.js
+keyword.type.objj
 
 language.function			*// FunctionRegex
 language.function.js
@@ -91,10 +93,12 @@ meta.link
 meta.tag.erbstart
 meta.tag.preprocessor
 
+string.angle
 string.array.percent
 string.array.percent.curly
 string.double				// Double Quoted String
 string.double.js
+string.double.nsstring.objj
 string.double.openstep
 string.double.vb
 string.exec.backtick
@@ -129,11 +133,14 @@ structured.separator
 structured.tool-tip
 structured.variable
 
-support						// Application API and Central API
+support						// Application API and Central API - mostly used for framework classes and constants?
 support.accessor
 support.function
 support.class
 support.class.standard.js
+support.class.standard.obj
+support.class.standard.objj
+support.constant.objj
 
 ################################################################// Used in Coda Style Sheets
 -comment
@@ -187,3 +194,5 @@ LaTeX scopes are fishy
 libraries?
 pretty sure indent="" is almost never used?
 one step tidy xml
+objective j default state block - ?
+
