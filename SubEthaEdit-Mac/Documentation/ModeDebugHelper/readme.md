@@ -43,4 +43,6 @@ Returning all scopes used by a single Mode:
 
 ---
 ##PS:
-Lisas default Path: `/Users/Lisa/Projects/git/subethaedit/SubEthaEdit-Mac/Modes`
+Lisas default Path: `/Users/Lisa/Projects/git/subethaedit/SubEthaEdit-Mac/Modes`  
+Coda 2s default Path: `/Applications/Coda 2.app/Contents/Resources`
+
