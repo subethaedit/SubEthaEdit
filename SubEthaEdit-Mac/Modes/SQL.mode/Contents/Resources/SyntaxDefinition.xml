@@ -233,7 +233,7 @@
                 <string>VSIZE</string>
                 <string>WIDTH_BUCKET</string>
             </keywords>
-            <keywords id="Numeric Keywords" casesensitive="no" useforautocomplete="yes" scope="constant.nunmeric.keyword">
+            <keywords id="Numeric Keywords" casesensitive="no" useforautocomplete="yes" scope="constant.numeric.keyword">
               <string>FALSE</string>
               <string>NULL</string>
               <string>TRUE</string>
@@ -846,22 +846,22 @@
             </state>
     
             
-            <state id="String Singlequoted" type="string" usespellchecking="yes" scope="string.quoted.single">
+            <state id="String Singlequoted" type="string" usespellchecking="yes" scope="string.single">
                 <begin><regex>'</regex></begin>
                 <end><regex>(?&lt;!\\)(\\\\)*'</regex></end>
             </state>
             
-            <state id="String with Backticks" type="string" usespellchecking="yes" scope="string.quoted.other.backticks">
+            <state id="String with Backticks" type="string" usespellchecking="yes" scope="string.other.backtick">
                 <begin><regex>`</regex></begin>
                 <end><regex>(?&lt;!\\)(\\\\)*`</regex></end>
             </state>
             
-            <state id="String Doublequoted" type="string" usespellchecking="yes" scope="string.quoted.double">
+            <state id="String Doublequoted" type="string" usespellchecking="yes" scope="string.double">
                 <begin><regex>"</regex></begin>
                 <end><regex>(?&lt;!\\)(\\\\)*"</regex></end>
             </state>
 
-            <state id="Anti Block" foldable="no">
+            <state id="Anti Block" foldable="no" scope="meta.block">
                 <begin><regex>\(</regex></begin>
                 <end><regex>\)</regex></end>
                 <import />

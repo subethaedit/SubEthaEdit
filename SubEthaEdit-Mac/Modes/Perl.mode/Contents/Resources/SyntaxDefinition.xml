@@ -48,7 +48,7 @@
                 <string>eq</string>
                 <string>ne</string>
             </keywords>
-            <keywords id="Pragmas" useforautocomplete="yes" scope="">
+            <keywords id="Pragmas" useforautocomplete="yes" scope="keyword">
                 <string>strict</string>
                 <string>english</string>
                 <string>warnings</string>
@@ -377,7 +377,5 @@
             </state>
 
         </default>
-
     </states>
-
 </syntax>

@@ -11,7 +11,7 @@
     <states>
     
     	<!-- STUDIO - rewritten for 1.6, do not replace. -->
-        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="HTML" useautocompletefrommode="HTML" usespellchecking="yes">
+        <default id="Base" color="#000" background-color="#fff" font-weight="normal" font-style="normal" usesymbolsfrommode="HTML" useautocompletefrommode="HTML" usespellchecking="yes" scope="meta.default">
 			<import mode="XML" keywords-only="yes"/>
 			
 			<state id="Inline VBScript" color="#000" background-color="#fff" usesymbolsfrommode="ASP-HTML" useautocompletefrommode="ASP-HTML" scope="meta.default">
@@ -604,7 +604,7 @@
 				</state>
 			</state>            
 
-            <state id="Single Tag with ASP State" foldable="no">
+            <state id="Single Tag with ASP State" foldable="no" scope="meta.state">
                 <begin>
                     <regex>&lt;\s*[^/?!][-:_\w]*(?=[^&lt;>]*&lt;%.+%>[^>]*[^>]*/>)</regex>
                 </begin>
@@ -662,7 +662,7 @@
                 <import state="ASP Tag Container State" keywords-only="yes" />
             </state>
             
-            <state id="ASP Tag Container State" containerState="yes">
+            <state id="ASP Tag Container State" containerState="yes" scope="meta.state">
                 <keywords id="ASP Tags" scope="keyword.control.asp">
                 	<regex>&lt;/?((?i)asp:\w+)</regex>
                 </keywords>

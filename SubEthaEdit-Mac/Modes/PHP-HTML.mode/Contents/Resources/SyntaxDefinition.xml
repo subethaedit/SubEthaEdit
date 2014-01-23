@@ -3527,7 +3527,7 @@
                     <string>this</string>
                 </keywords>
                 <keywords id="PHP Control Keywords" useforautocomplete="yes" scope="keyword.control">
-									<string>class</string>
+				  <string>class</string>
                   <string>and</string>
                   <string>as</string>
                   <string>break</string>
@@ -3643,7 +3643,7 @@
                     <end>
                         <regex>(((?&lt;!\\)(\\\\)*)|^)"</regex>
                     </end>
-                    <keywords id="Variables" useforautocomplete="no"  scope="language.variable.strings.php">
+                    <keywords id="Variables" useforautocomplete="no"  scope="language.variable.string.php">
                         <regex>(\$(?:[\w\d])+)</regex>
                     </keywords>
                 </state>
@@ -3865,7 +3865,7 @@
                     <state-link state="PHP"/>
 				</state>
 				
-				<state id="JSRegular Expressions" type="string" scope="string.regexp.js">
+				<state id="JSRegular Expressions" type="string" scope="string.regex.js">
 					<begin><regex>(?&lt;![&lt;/])/.*?[^\\](?=/[^\n\r]*(?:;|\)|,|[\n\r]))</regex></begin>
 					<end><regex>/[cgimosx]*</regex></end>
                     <state-link state="PHP"/>

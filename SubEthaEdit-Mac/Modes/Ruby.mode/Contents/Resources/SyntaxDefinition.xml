@@ -410,7 +410,7 @@
                 <begin><regex>%[Qq]?{</regex></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)}</regex></end>
                 <state-link state="Interpolation"/>
-				<state id="UnescapedCurlyBracketRecursive" type="string" foldable="no">
+				<state id="UnescapedCurlyBracketRecursive" type="string" foldable="no" scope="meta.block.percentagestring.unescapedbracketrecursive.curly">
 					<begin><regex>(?:(?:(?&lt;!\\)(?:\\\\)*)|^){</regex></begin>
 					<end><regex>(?:(?:(?&lt;!\\)(\\\\)*)|^)}</regex></end>
 	                <import state="Percent Strings {" />
@@ -453,7 +453,7 @@
 
 			<!-- Execution Coloring -->
 
-            <state id="Backticks"   scope="string.exec.backticks">
+            <state id="Backticks"   scope="string.exec.backtick">
                 <begin><regex>(?&lt;!\$)(?:`)</regex></begin>
                 <end><regex>(?:(?:(?&lt;!\\)(\\\\)*)|^)`</regex></end>
             </state>
@@ -621,9 +621,6 @@
                 <import />
             </state>
 
-
         </default>
-        
     </states>
-
 </syntax>

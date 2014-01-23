@@ -9,14 +9,14 @@
 
     <states>
     
-        <default id="Base" color="#000">
-            <keywords id="Keywords" color="#881350" useforautocomplete="no">
+        <default id="Base" color="#000" scope="meta.default">
+            <keywords id="Keywords" color="#881350" useforautocomplete="no" scope="keyword">
                 <regex>(\\\w+[\t ]*{[^}]*})</regex>
                 <regex>((?:(?:(?&lt;!\\)(?:\\\\)*)|^)\\[\w\d]+)</regex>
                 <regex>(\\\\)</regex>
             </keywords>
             
-            <keywords id="Structuring Keywords" color="#881350" font-weight="bold"> 
+            <keywords id="Structuring Keywords" color="#881350" font-weight="bold" scope="structured"> 
                 <regex>(\\part[\t ]*{[^}]*})</regex>
                 <regex>(\\chapter[\t ]*{[^}]*})</regex>
                 <regex>(\\section[\t ]*{[^}]*})</regex>
@@ -26,22 +26,22 @@
                 <regex>(\\subparagraph[\t ]*{[^}]*})</regex>
             </keywords>
 
-            <keywords id="Functions" color="#408" useforautocomplete="no">
+            <keywords id="Functions" color="#408" useforautocomplete="no" scope="language.function">
                 <regex>((?:\[[\w\d,\. ]*\])?(?:{[^}]*(?=})[^{]*})+)</regex>
             </keywords>
         
-			<state id="Singleline Comment" color="#236E25" font-style="italic">
+			<state id="Singleline Comment" color="#236E25" font-style="italic" scope="comment.single">
 				<begin><regex>(?&lt;!\\)%</regex></begin>
 				<end><regex>[\n\r]</regex></end>
                 <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 			</state>
 
-			<state id="Inline Math" color="#a00" font-style="italic">
+			<state id="Inline Math" color="#a00" font-style="italic" scope="markup.inline.math">
 				<begin><regex>(?&lt;!\\)\$</regex></begin>
 				<end><regex>(?&lt;!\\)\$</regex></end>
 			</state>
 
-            <state id="Block" foldable="yes">
+            <state id="Block" foldable="yes" scope="meta.block">
                 <begin>
                     <regex>\\begin\s*{\s*(?'latexblock'[-:_\w]*)\s*}</regex>
                 </begin>
@@ -52,7 +52,5 @@
             </state>
         
 		</default>
-
     </states>
-
 </syntax>

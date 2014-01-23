@@ -91,7 +91,7 @@
 				</end>
 				<import/>
 			</state>
-			<state id="Tag State" foldable="yes" indent="yes" scope="meta.default" usespellchecking="no">
+			<state id="Tag State" foldable="yes" indent="yes" usespellchecking="no" scope="meta.default">
 				<begin>
 					<regex>&lt;\s*(?'xmltagstatename'[^/?!][-:_\w]*)\s*(?:[-:_\w]+[ \t]*=[ \t]*(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*></regex>
 					<autoend>&lt;/\g&lt;xmltagstatename>></autoend>

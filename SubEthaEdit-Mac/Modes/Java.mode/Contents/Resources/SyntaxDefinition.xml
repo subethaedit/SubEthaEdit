@@ -1898,7 +1898,7 @@
             <keywords id="FunctionRegex" useforautocomplete="no" scope="language.function">
 				<regex>([A-Za-z0-9_]+ *)\(</regex>
             </keywords>
-            <keywords id="Preprocessor" useforautocomplete="no" scope="keyword">
+            <keywords id="Preprocessor" useforautocomplete="no" scope="language.preprocessor">
 				<regex>(^[ 	]*import([^\n\r])*)</regex>
 				<regex>(^[ 	]*package([^\n\r])*)</regex>
             </keywords>
@@ -1911,7 +1911,7 @@
             <state id="JavadocComment" type="comment"  scope="comment.block.documentation">
                 <begin><regex>/\*\*</regex></begin>
                 <end><regex>\*/</regex></end>
-                <keywords id="JavadocTags" useforautocomplete="no" scope="comment.block.documentation.tags">
+                <keywords id="JavadocTags" useforautocomplete="no" scope="comment.block.documentation.tag">
                     <regex>(?&lt;=[^\w\d]|^)(@\w+)</regex>
                 </keywords>
 				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
@@ -1935,14 +1935,12 @@
                 <end><regex>(?&lt;!\\)(\\\\)*"</regex></end>
             </state>
 
-            <state id="Block" foldable="yes">
+            <state id="Block" foldable="yes" scope="meta.block">
                 <begin><regex>(?:(?&lt;=\s)(?:if|else|else\s+if|for|while|do|switch|case)\s*(?:\([^#{\n\r]*?\))?)?\s*{</regex></begin>
                 <end><regex>}</regex></end>
                 <import />
             </state>
 
         </default>
-
     </states>
-
 </syntax>
