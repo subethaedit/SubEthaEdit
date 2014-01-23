@@ -21,7 +21,6 @@
 #import "TCMMMSession.h"
 #import "TCMMMTransformator.h"
 #import "SEEPlainTextEditorScrollView.h"
-#import "PopUpButton.h"
 #import "PopUpButtonCell.h"
 #import "RadarScroller.h"
 #import "SelectionOperation.h"

@@ -10,10 +10,11 @@
 #import "TCMMMOperation.h"
 #import "SelectionOperation.h"
 #import "PlainTextWindowControllerTabContext.h"
+#import "PopUpButton.h"
 
 @class PlainTextWindowControllerTabContext,PlainTextDocument,SEEPlainTextEditorScrollView,PopUpButton,RadarScroller,TCMMMUser, TextView;
 
-@interface PlainTextEditor : NSResponder <NSTextViewDelegate> {
+@interface PlainTextEditor : NSResponder <NSTextViewDelegate, PopUpButtonDelegate> {
     IBOutlet NSImageView *O_waitPipeStatusImageView;
     IBOutlet NSTextField *O_positionTextField;
     IBOutlet PopUpButton *O_tabStatusPopUpButton;
