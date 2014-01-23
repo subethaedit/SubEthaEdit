@@ -46,6 +46,10 @@ keyword.type				*// Types - public private int
 keyword.type.js
 keyword.type.objj
 
+
+language.subroutine.method
+language.subroutine.function
+
 language.function			*// FunctionRegex
 language.function.js
 language.function.php
