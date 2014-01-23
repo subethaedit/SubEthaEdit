@@ -1,0 +1,46 @@
+#README
+
+
+This readme contains example calls to the *.xslts* created for debugging and improving the *SyntaxDefinition.xmls* contained in a SubEthaEdit-Mode.
+
+---
+## XML-Nodes for a special Scope
+*ModeDefinitionPerScope.xslt*
+
+
+Printing all Nodes that contain a certain `scope`-attribute (*eg. `keyword.function`*): 
+
+	xsltproc --param scope-value "'<scope-value>'" --novalid ModeDefinitionPerScope.xslt <path>/<mode-name>.mode/Contents/Resources/SyntaxDefinition.xml | see
+
+Printing all Nodes for all modes: 
+
+	find <path> -name "SyntaxDefinition.xml" -exec xsltproc --param scope-value "'<scope-value>'" --novalid ModeDefinitionPerScope.xslt \{\} \;
+
+Piping that into SEE and making sure the file is opened in the right mode:
+
+	find <path> -name "SyntaxDefinition.xml" -exec xsltproc --param scope-value "'<scope-value>'" --novalid ModeDefinitionPerScope.xslt \{\} \; | see --mode xml
+	
+Adding a root node to the the resulting XML: 
+
+	( echo "<modes>"; find <path>  -name "SyntaxDefinition.xml" -exec xsltproc --param scope-value "'keyword.function'" --novalid ModeDefinitionPerScope.xslt \{\} \;; echo "</modes>" ) | see --mode xml
+
+---
+## All used Scopes in a Mode
+*ModeScopes.xslt*
+
+Returning all scopes used by a single Mode (*eg. `PHP-HTML`*):
+
+	xsltproc --novalid ModeScopes.xslt <path>/<mode-name>.mode/Contents/Resources/SyntaxDefinition.xml | see
+
+Returning all scopes used by a single Mode:
+
+	find <path> -name "SyntaxDefinition.xml" -exec xsltproc --novalid ModeScopes.xslt \{\} \; | see
+
+Returning all scopes used by a single Mode:
+
+	find  <path> -name "SyntaxDefinition.xml" -exec xsltproc --novalid ModeScopes.xslt \{\} \; | awk '{print $1}' | sort | uniq | see
+
+
+---
+##PS:
+Lisas default Path: `/Users/Lisa/Projects/git/subethaedit/SubEthaEdit-Mac/Modes`
