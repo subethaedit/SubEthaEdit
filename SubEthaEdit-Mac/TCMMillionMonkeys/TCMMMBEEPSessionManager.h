@@ -68,6 +68,8 @@ extern NSString * const kTCMMMBEEPSessionManagerTLSMode;
 
 - (void)removeSessionFromSessionsArray:(TCMBEEPSession *)aBEEPSession;
 
+- (NSArray *)connectedUsers;
+
 - (TCMBEEPSession *)sessionForUserID:(NSString *)aUserID;
 - (TCMBEEPSession *)sessionForUserID:(NSString *)aUserID URLString:(NSString *)aURLString;
 - (TCMBEEPSession *)sessionForUserID:(NSString *)aUserID peerAddressData:(NSData *)anAddressData;

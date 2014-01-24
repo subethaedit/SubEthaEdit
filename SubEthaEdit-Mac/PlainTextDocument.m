@@ -1384,6 +1384,17 @@ static NSString *tempFileName(NSString *origPath) {
     [self setIsAnnounced:![self isAnnounced]];
 }
 
+- (IBAction)inviteUsersToDocumentViaSharingService:(id)sender {
+	NSURL *documentSharingURL = [self documentURL];
+	NSArray *sharingServiceItems = @[];
+	if (documentSharingURL && self.isAnnounced) {
+		sharingServiceItems = @[documentSharingURL];
+	}
+	NSSharingServicePicker *servicePicker = [[NSSharingServicePicker alloc] initWithItems:sharingServiceItems];
+	[servicePicker setDelegate:self];
+	[servicePicker showRelativeToRect:NSZeroRect ofView:sender preferredEdge:CGRectMaxYEdge];
+}
+
 - (IBAction)toggleIsAnnouncedOnAllDocuments:(id)aSender {
     BOOL targetSetting = ![self isAnnounced];
     NSEnumerator *documents = [[[DocumentController sharedInstance] documents] objectEnumerator];
@@ -6065,10 +6076,43 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 	[textView scrollRangeToVisible:[textView selectedRange]];
 }
 
+#pragma mark - NSSharingServicePickerDelegate
+
+- (NSArray *)sharingServicePicker:(NSSharingServicePicker *)sharingServicePicker sharingServicesForItems:(NSArray *)items proposedSharingServices:(NSArray *)proposedServices {
+	TCMMMBEEPSessionManager *sessionManager = [TCMMMBEEPSessionManager sharedInstance];
+	NSArray *connectedUsers = [sessionManager connectedUsers];
+	NSMutableArray *sharingServices = [[proposedServices mutableCopy] autorelease];
+
+	// can't get seperators to work...
+//	// add seperator
+//	if (connectedUsers.count > 0 && proposedServices.count > 0 ) {
+//		[sharingServices insertObject:[[NSSharingService alloc] initWithTitle:@" " image:nil alternateImage:nil handler:^{}] atIndex:0];
+//	}
+
+	// for each connected user crate a sharing service for read/write invitations
+	for (TCMMMUser *user in connectedUsers) {
+		NSString *sharingServiceTitle = [NSString stringWithFormat:@"Invite %@", [user name]];
+		NSImage *userImage = [user image];
+		NSSharingService *customSharingService = [[NSSharingService alloc] initWithTitle:sharingServiceTitle image:userImage alternateImage:nil handler:^{
+			TCMBEEPSession *BEEPSession = [[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:[user userID]];// peerAddressData:[userDescription objectForKey:@"PeerAddressData"]];
+			[self setPlainTextEditorsShowChangeMarksOnInvitation];
+			[self.session inviteUser:user intoGroup:@"ReadWrite" usingBEEPSession:BEEPSession];
+		}];
+
+		[sharingServices insertObject:customSharingService atIndex:0];
+	}
+
+	// remove Safari Reading List entry if available...
+	[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNameAddToSafariReadingList]];
+
+	return sharingServices;
+}
+
+- (void)sharingServicePicker:(NSSharingServicePicker *)sharingServicePicker didChooseSharingService:(NSSharingService *)service {
+}
 
 #pragma mark -
 #pragma mark ### TextStorage Delegate Methods ###
-
 - (void)textStorageDidChangeNumberOfTopLevelFoldings:(FoldableTextStorage *)aFoldableTextStorage {
 	// currently just ensure the gutter updates
 	[[self plainTextEditors] makeObjectsPerformSelector:@selector(setNeedsDisplayForRuler) withObject:nil];

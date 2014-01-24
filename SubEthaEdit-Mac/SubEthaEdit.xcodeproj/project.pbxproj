@@ -150,7 +150,7 @@
 		1428940409575A3000D14688 /* UndoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893F509575A3000D14688 /* UndoManager.m */; };
 		1428940509575A3000D14688 /* URLImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893F709575A3000D14688 /* URLImageView.m */; };
 		1428942F09575AE600D14688 /* BorderedTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428941609575AE600D14688 /* BorderedTextField.m */; };
-		1428943009575AE600D14688 /* ButtonScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428941809575AE600D14688 /* ButtonScrollView.m */; };
+		1428943009575AE600D14688 /* SEEPlainTextEditorScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428941809575AE600D14688 /* SEEPlainTextEditorScrollView.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1428943109575AE600D14688 /* CandyBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428941A09575AE600D14688 /* CandyBarView.m */; };
 		1428943C09575AE600D14688 /* DocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428942C09575AE600D14688 /* DocumentController.m */; };
 		1428943D09575AE600D14688 /* DocumentProxyWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428942E09575AE600D14688 /* DocumentProxyWindowController.m */; };
@@ -250,13 +250,15 @@
 		4C6BDC6618898E1E0088CBFC /* ScriptMenu.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC6518898E1E0088CBFC /* ScriptMenu.pdf */; };
 		4C6BDC6918898F850088CBFC /* ScriptMenuItemIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC6718898F850088CBFC /* ScriptMenuItemIcon.png */; };
 		4C6BDC6A18898F850088CBFC /* ScriptMenuItemIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC6818898F850088CBFC /* ScriptMenuItemIcon@2x.png */; };
+		4C97D502188D3F2F000B4999 /* RMBlurredView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C97D501188D3F2F000B4999 /* RMBlurredView.m */; };
+		4C97D504188D42FA000B4999 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C97D503188D42FA000B4999 /* QuartzCore.framework */; };
 		4CB8EE4D180FD8FE0051AB6B /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CB8EE4C180FD8FE0051AB6B /* XCTest.framework */; };
 		4CB8EE4F180FD9A40051AB6B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CB8EE4E180FD9A40051AB6B /* libz.dylib */; };
 		4CB8EE50180FDF160051AB6B /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */; };
 		4CB8EE51180FDF790051AB6B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CB8EE4E180FD9A40051AB6B /* libz.dylib */; };
 		4CB8EE55181032340051AB6B /* SEEPrintOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CB8EE54181032340051AB6B /* SEEPrintOptionsViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4CCD4DD21811703D00FE6134 /* SEESavePanelAccessoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CCD4DD01811703D00FE6134 /* SEESavePanelAccessoryViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		4CD168EB182A5A5C007E3B26 /* SEEFolderDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CD168E9182A5A5C007E3B26 /* SEEFolderDocument.m */; };
+		4CD168EB182A5A5C007E3B26 /* SEEFolderDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CD168E9182A5A5C007E3B26 /* SEEFolderDocument.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4CD168EC182A5A5C007E3B26 /* SEEFolderDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD168EA182A5A5C007E3B26 /* SEEFolderDocument.xib */; };
 		4CD3CFF31887FE2E00908506 /* SEEOpenPanelAccessoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CD3CFF21887FE2E00908506 /* SEEOpenPanelAccessoryViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4CD5F7DA17FB0BF200F49E31 /* AdvancedPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F7D817FB0BF200F49E31 /* AdvancedPrefs.xib */; };
@@ -765,8 +767,8 @@
 		142893F709575A3000D14688 /* URLImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLImageView.m; sourceTree = "<group>"; };
 		1428941509575AE600D14688 /* BorderedTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = BorderedTextField.h; sourceTree = "<group>"; };
 		1428941609575AE600D14688 /* BorderedTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BorderedTextField.m; sourceTree = "<group>"; };
-		1428941709575AE600D14688 /* ButtonScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ButtonScrollView.h; sourceTree = "<group>"; };
-		1428941809575AE600D14688 /* ButtonScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ButtonScrollView.m; sourceTree = "<group>"; };
+		1428941709575AE600D14688 /* SEEPlainTextEditorScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SEEPlainTextEditorScrollView.h; sourceTree = "<group>"; };
+		1428941809575AE600D14688 /* SEEPlainTextEditorScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEPlainTextEditorScrollView.m; sourceTree = "<group>"; };
 		1428941909575AE600D14688 /* CandyBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = CandyBarView.h; sourceTree = "<group>"; };
 		1428941A09575AE600D14688 /* CandyBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CandyBarView.m; sourceTree = "<group>"; };
 		1428942B09575AE600D14688 /* DocumentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DocumentController.h; sourceTree = "<group>"; };
@@ -906,6 +908,9 @@
 		4C6BDC6518898E1E0088CBFC /* ScriptMenu.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = ScriptMenu.pdf; path = artwork/ScriptMenu.pdf; sourceTree = "<group>"; };
 		4C6BDC6718898F850088CBFC /* ScriptMenuItemIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ScriptMenuItemIcon.png; path = artwork/ScriptMenuItemIcon.png; sourceTree = "<group>"; };
 		4C6BDC6818898F850088CBFC /* ScriptMenuItemIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ScriptMenuItemIcon@2x.png"; path = "artwork/ScriptMenuItemIcon@2x.png"; sourceTree = "<group>"; };
+		4C97D500188D3F2F000B4999 /* RMBlurredView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = RMBlurredView.h; sourceTree = "<group>"; };
+		4C97D501188D3F2F000B4999 /* RMBlurredView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RMBlurredView.m; sourceTree = "<group>"; };
+		4C97D503188D42FA000B4999 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		4CAA423718157B1000457B2A /* TCMReleaseInfo.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = TCMReleaseInfo.xcconfig; sourceTree = "<group>"; };
 		4CAA423818157EAB00457B2A /* TCMAppConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = TCMAppConfig.xcconfig; sourceTree = "<group>"; };
 		4CB8EE4C180FD8FE0051AB6B /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -1211,6 +1216,7 @@
 				14288FED09573F2B00D14688 /* Security.framework in Frameworks */,
 				142894D4095765CF00D14688 /* SystemConfiguration.framework in Frameworks */,
 				14288FF509573F4900D14688 /* WebKit.framework in Frameworks */,
+				4C97D504188D42FA000B4999 /* QuartzCore.framework in Frameworks */,
 				F290D9D80EDB04EF00E643C0 /* TCMPortMapper.framework in Frameworks */,
 				4CF3490117FC6EAF005D0D4F /* PSMTabBarControl.framework in Frameworks */,
 				4C6AE8741802E8810089D489 /* OgreKit.framework in Frameworks */,
@@ -1520,6 +1526,8 @@
 				F26B7D850CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m */,
 				31FFC93B104E97A000E08256 /* NSErrorTCMAdditions.h */,
 				31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */,
+				4C97D500188D3F2F000B4999 /* RMBlurredView.h */,
+				4C97D501188D3F2F000B4999 /* RMBlurredView.m */,
 			);
 			name = Additions;
 			sourceTree = "<group>";
@@ -1595,8 +1603,8 @@
 				5E754EA60AB5649C00C5119E /* Dialogs */,
 				1428941509575AE600D14688 /* BorderedTextField.h */,
 				1428941609575AE600D14688 /* BorderedTextField.m */,
-				1428941709575AE600D14688 /* ButtonScrollView.h */,
-				1428941809575AE600D14688 /* ButtonScrollView.m */,
+				1428941709575AE600D14688 /* SEEPlainTextEditorScrollView.h */,
+				1428941809575AE600D14688 /* SEEPlainTextEditorScrollView.m */,
 				1428941909575AE600D14688 /* CandyBarView.h */,
 				1428941A09575AE600D14688 /* CandyBarView.m */,
 				1428942B09575AE600D14688 /* DocumentController.h */,
@@ -1963,6 +1971,7 @@
 		2A37F4C3FDCFA73011CA2CEA /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
+				4C97D503188D42FA000B4999 /* QuartzCore.framework */,
 				1058C7A6FEA54F5311CA2CBB /* Linked Frameworks */,
 				1058C7A8FEA54F5311CA2CBB /* Other Frameworks */,
 				4CB8EE4E180FD9A40051AB6B /* libz.dylib */,
@@ -2662,6 +2671,7 @@
 				142891560957475E00D14688 /* TCMBEEPProfile.m in Sources */,
 				142891570957475E00D14688 /* TCMBEEPSession.m in Sources */,
 				142891DD09574E5B00D14688 /* ImagePopUpButtonCell.m in Sources */,
+				4C97D502188D3F2F000B4999 /* RMBlurredView.m in Sources */,
 				142891DE09574E5B00D14688 /* TCMHost.m in Sources */,
 				142891E009574E5B00D14688 /* TCMListView.m in Sources */,
 				1428920E095751CB00D14688 /* NSColorTCMAdditions.m in Sources */,
@@ -2729,7 +2739,7 @@
 				1428940409575A3000D14688 /* UndoManager.m in Sources */,
 				1428940509575A3000D14688 /* URLImageView.m in Sources */,
 				1428942F09575AE600D14688 /* BorderedTextField.m in Sources */,
-				1428943009575AE600D14688 /* ButtonScrollView.m in Sources */,
+				1428943009575AE600D14688 /* SEEPlainTextEditorScrollView.m in Sources */,
 				1428943109575AE600D14688 /* CandyBarView.m in Sources */,
 				1428943C09575AE600D14688 /* DocumentController.m in Sources */,
 				1428943D09575AE600D14688 /* DocumentProxyWindowController.m in Sources */,

@@ -10,10 +10,11 @@
 #import "TCMMMOperation.h"
 #import "SelectionOperation.h"
 #import "PlainTextWindowControllerTabContext.h"
+#import "PopUpButton.h"
 
-@class PlainTextWindowControllerTabContext,PlainTextDocument,PopUpButton,RadarScroller,TCMMMUser, TextView;
+@class PlainTextWindowControllerTabContext,PlainTextDocument,SEEPlainTextEditorScrollView,PopUpButton,RadarScroller,TCMMMUser, TextView;
 
-@interface PlainTextEditor : NSResponder <NSTextViewDelegate> {
+@interface PlainTextEditor : NSResponder <NSTextViewDelegate, PopUpButtonDelegate> {
     IBOutlet NSImageView *O_waitPipeStatusImageView;
     IBOutlet NSTextField *O_positionTextField;
     IBOutlet PopUpButton *O_tabStatusPopUpButton;
@@ -23,8 +24,8 @@
     IBOutlet PopUpButton *O_encodingPopUpButton;
     IBOutlet PopUpButton *O_lineEndingPopUpButton;
     IBOutlet PopUpButton *O_symbolPopUpButton;
-    IBOutlet NSScrollView *O_scrollView;
-    IBOutlet NSView       *O_editorView;
+    IBOutlet NSButton	 *O_splitButton;
+    IBOutlet SEEPlainTextEditorScrollView *O_scrollView;
     IBOutlet NSView       *O_topStatusBarView;
     IBOutlet NSView       *O_bottomStatusBarView;
     RadarScroller   *I_radarScroller;
@@ -42,6 +43,8 @@
     } I_flags;
     SelectionOperation *I_storedPosition;
 }
+
+@property (nonatomic, strong) IBOutlet NSView *O_editorView;
 
 - (id)initWithWindowControllerTabContext:(PlainTextWindowControllerTabContext *)aWindowControllerTabContext splitButton:(BOOL)aFlag;
 - (NSView *)editorView;

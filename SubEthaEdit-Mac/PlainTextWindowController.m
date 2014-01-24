@@ -1542,8 +1542,8 @@ static NSAttributedString *S_dragString = nil;
         PlainTextEditor *plainTextEditor = [[PlainTextEditor alloc] initWithWindowControllerTabContext:context splitButton:NO];
         [I_plainTextEditors addObject:plainTextEditor];
         [plainTextEditor release];
-        I_editorSplitView = [[[SplitView alloc] initWithFrame:[[[I_plainTextEditors objectAtIndex:0] editorView] frame]] autorelease];
 
+        I_editorSplitView = [[[SplitView alloc] initWithFrame:[[[I_plainTextEditors objectAtIndex:0] editorView] frame]] autorelease];
         [context setEditorSplitView:I_editorSplitView];
 
         if (!I_dialogSplitView) {
@@ -1566,12 +1566,15 @@ static NSAttributedString *S_dragString = nil;
             [[I_plainTextEditors objectAtIndex:0] showsGutter]];
         [self setInitialRadarStatusForPlainTextEditor:[I_plainTextEditors objectAtIndex:1]];
     } else if ([I_plainTextEditors count]==2) {
+
+		//Preserve scroll position of second editor, if it is currently the selected one.
         id fr = [[self window] firstResponder];
         NSRect visibleRect = NSZeroRect;
         if (fr == [[I_plainTextEditors objectAtIndex:1] textView]) {
             visibleRect = [[[I_plainTextEditors objectAtIndex:1] textView] visibleRect];
             [[[I_plainTextEditors objectAtIndex:0] textView] setSelectedRange:[[[I_plainTextEditors objectAtIndex:1] textView] selectedRange]];
         }
+
         if (!I_dialogSplitView) {
             //[[self window] setContentView:[[I_plainTextEditors objectAtIndex:0] editorView]];
             NSTabViewItem *tab = [I_tabView selectedTabViewItem];
@@ -1590,7 +1593,8 @@ static NSAttributedString *S_dragString = nil;
             [[I_plainTextEditors objectAtIndex:1] showsBottomStatusBar]];
         [I_plainTextEditors removeObjectAtIndex:1];
         I_editorSplitView = nil;
-        
+
+		// restore scroll position of second editor if it was the selected one
         if (!NSEqualRects(NSZeroRect,visibleRect)) {
             [[[I_plainTextEditors objectAtIndex:0] textView] scrollRectToVisible:visibleRect];
         }
