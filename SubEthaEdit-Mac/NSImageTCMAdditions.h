@@ -11,6 +11,7 @@
 
 @interface NSImage (NSImageTCMAdditions) 
 
++ (NSImage *)pdfBasedImageNamed:(NSString *)aName fillColor:(NSColor *)aFillColor;
 + (NSImage *)clearedImageWithSize:(NSSize)aSize;
 - (NSImage *)resizedImageWithSize:(NSSize)aSize;
 - (NSImage *)dimmedImage;

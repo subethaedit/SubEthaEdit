@@ -7,6 +7,7 @@
 //
 
 #import "NSImageTCMAdditions.h"
+#import <Quartz/Quartz.h>
 
 // this file needs arc - either project wide,
 // or add -fobjc-arc on a per file basis in the compile build phase
@@ -15,6 +16,43 @@
 #endif
 
 @implementation NSImage (NSImageTCMAdditions)
+
++ (NSImage *)pdfBasedImageNamed:(NSString *)aName fillColor:(NSColor *)aFillColor {
+	NSImage *result = [NSImage imageNamed:aName];
+	if (!result) {
+		NSString *pdfName = aName;
+		if ([aName hasSuffix:@"Selected"]) {
+			pdfName = [aName substringToIndex:aName.length - @"Selected".length];
+		}
+		NSURL *url = [[NSBundle mainBundle] URLForResource:pdfName withExtension:@"pdf"];
+		CGDataProviderRef dataProvider = CGDataProviderCreateWithURL((__bridge CFURLRef)url);
+		CGPDFDocumentRef pdfDocument = CGPDFDocumentCreateWithProvider(dataProvider);
+		CFRelease(dataProvider);
+		
+		CGPDFPageRef page1 = CGPDFDocumentGetPage(pdfDocument, 1);
+		NSRect boxRect = CGPDFPageGetBoxRect(page1,kCGPDFCropBox);
+		
+		NSSize imageSize = boxRect.size;
+		NSSize scaleFactors = NSMakeSize(0.25, 0.25);
+		imageSize.width *= scaleFactors.width;
+		imageSize.height *= scaleFactors.height;
+		result = [NSImage imageWithSize:imageSize flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
+			[[NSColor clearColor] set];
+			NSRectFill(dstRect);
+			CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
+			CGContextScaleCTM(context, scaleFactors.width,
+							  scaleFactors.height);
+			CGContextTranslateCTM(context, -boxRect.origin.x, -boxRect.origin.y);
+			CGContextSetShadow(context, CGSizeMake(0, -2./scaleFactors.width), 4/scaleFactors.width);
+			CGContextDrawPDFPage(context, page1);
+			return YES;
+		}];
+		
+		result.name = aName;
+	}
+	return result;
+}
+
 
 + (NSImage *)clearedImageWithSize:(NSSize)aSize {
     NSImage *image = [[NSImage alloc] initWithSize:aSize];
