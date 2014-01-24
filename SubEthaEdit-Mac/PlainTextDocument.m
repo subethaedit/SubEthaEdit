@@ -6076,6 +6076,41 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 	[textView scrollRangeToVisible:[textView selectedRange]];
 }
 
+
+#pragma mark - NSSharingServiceDelegate
+
+- (NSRect)sharingService:(NSSharingService *)sharingService sourceFrameOnScreenForShareItem:(id <NSPasteboardWriting>)item {
+	NSArray *windowControllers = [self windowControllers];
+	if (windowControllers.count > 0) {
+		NSWindow *window = [[windowControllers objectAtIndex:0] window];
+		NSView *windowView = [[window contentView] superview];
+		return [window convertRectToScreen:[windowView convertRect:[windowView frame] toView:nil]];
+	}
+	return NSZeroRect;
+}
+
+- (NSImage *)sharingService:(NSSharingService *)sharingService transitionImageForShareItem:(id <NSPasteboardWriting>)item contentRect:(NSRect *)contentRect {
+	NSArray *windowControllers = [self windowControllers];
+	if (windowControllers.count > 0) {
+		NSWindow *window = [[windowControllers objectAtIndex:0] window];
+		NSView *windowView = [[window contentView] superview];
+		NSBitmapImageRep *bitmapRep = [windowView bitmapImageRepForCachingDisplayInRect:[windowView visibleRect]];
+		[windowView cacheDisplayInRect:[windowView visibleRect] toBitmapImageRep:bitmapRep];
+		NSImage *image = [[[NSImage alloc] initWithSize:[windowView bounds].size] autorelease];
+		[image addRepresentation:bitmapRep];
+		return image;
+	}
+	return nil;
+}
+
+- (NSWindow *)sharingService:(NSSharingService *)sharingService sourceWindowForShareItems:(NSArray *)items sharingContentScope:(NSSharingContentScope *)sharingContentScope {
+	NSArray *windowControllers = [self windowControllers];
+	if (windowControllers.count > 0)
+		return [[windowControllers objectAtIndex:0] window];
+	return nil;
+}
+
+
 #pragma mark - NSSharingServicePickerDelegate
 
 - (NSArray *)sharingServicePicker:(NSSharingServicePicker *)sharingServicePicker sharingServicesForItems:(NSArray *)items proposedSharingServices:(NSArray *)proposedServices {
@@ -6106,6 +6141,10 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 	[sharingServices removeObject:[NSSharingService sharingServiceNamed:NSSharingServiceNameAddToSafariReadingList]];
 
 	return sharingServices;
+}
+
+- (id <NSSharingServiceDelegate>)sharingServicePicker:(NSSharingServicePicker *)sharingServicePicker delegateForSharingService:(NSSharingService *)sharingService {
+	return self;
 }
 
 - (void)sharingServicePicker:(NSSharingServicePicker *)sharingServicePicker didChooseSharingService:(NSSharingService *)service {
