@@ -1390,7 +1390,7 @@ static NSString *tempFileName(NSString *origPath) {
 	if (documentSharingURL && self.isAnnounced) {
 		sharingServiceItems = @[documentSharingURL];
 	}
-	NSSharingServicePicker *servicePicker = [[NSSharingServicePicker alloc] initWithItems:sharingServiceItems];
+	NSSharingServicePicker *servicePicker = [[[NSSharingServicePicker alloc] initWithItems:sharingServiceItems] autorelease];
 	[servicePicker setDelegate:self];
 	[servicePicker showRelativeToRect:NSZeroRect ofView:sender preferredEdge:CGRectMaxYEdge];
 }
@@ -6145,9 +6145,6 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 - (id <NSSharingServiceDelegate>)sharingServicePicker:(NSSharingServicePicker *)sharingServicePicker delegateForSharingService:(NSSharingService *)sharingService {
 	return self;
-}
-
-- (void)sharingServicePicker:(NSSharingServicePicker *)sharingServicePicker didChooseSharingService:(NSSharingService *)service {
 }
 
 #pragma mark -
