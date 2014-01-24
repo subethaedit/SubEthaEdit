@@ -466,6 +466,22 @@ static TCMMMBEEPSessionManager *sharedInstance;
     }
 }
 
+
+- (NSArray *)connectedUsers {
+	NSMutableArray *availableUsers = [NSMutableArray array];
+	TCMMMUserManager *userManager = [TCMMMUserManager sharedInstance];
+
+	for (NSString *sessionUserID in [I_sessionInformationByUserID allKeys]) {
+		NSDictionary *sessionInformation = [I_sessionInformationByUserID objectForKey:sessionUserID];
+		TCMMMUser *user = [userManager userForUserID:[sessionInformation objectForKey:@"peerUserID"]];
+		if (user && user != userManager.me) {
+			[availableUsers addObject:user];
+		}
+	}
+	return availableUsers;
+}
+
+
 - (TCMBEEPSession *)sessionForUserID:(NSString *)aUserID
 {
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"sessionInfo: %@", [I_sessionInformationByUserID objectForKey:aUserID]);
