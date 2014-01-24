@@ -1390,7 +1390,7 @@ static NSString *tempFileName(NSString *origPath) {
 	if (documentSharingURL && self.isAnnounced) {
 		sharingServiceItems = @[documentSharingURL];
 	}
-	NSSharingServicePicker *servicePicker = [[NSSharingServicePicker alloc] initWithItems:sharingServiceItems];
+	NSSharingServicePicker *servicePicker = [[[NSSharingServicePicker alloc] initWithItems:sharingServiceItems] autorelease];
 	[servicePicker setDelegate:self];
 	[servicePicker showRelativeToRect:NSZeroRect ofView:sender preferredEdge:CGRectMaxYEdge];
 }
@@ -6076,6 +6076,41 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 	[textView scrollRangeToVisible:[textView selectedRange]];
 }
 
+
+#pragma mark - NSSharingServiceDelegate
+
+- (NSRect)sharingService:(NSSharingService *)sharingService sourceFrameOnScreenForShareItem:(id <NSPasteboardWriting>)item {
+	NSArray *windowControllers = [self windowControllers];
+	if (windowControllers.count > 0) {
+		NSWindow *window = [[windowControllers objectAtIndex:0] window];
+		NSView *windowView = [[window contentView] superview];
+		return [window convertRectToScreen:[windowView convertRect:[windowView frame] toView:nil]];
+	}
+	return NSZeroRect;
+}
+
+- (NSImage *)sharingService:(NSSharingService *)sharingService transitionImageForShareItem:(id <NSPasteboardWriting>)item contentRect:(NSRect *)contentRect {
+	NSArray *windowControllers = [self windowControllers];
+	if (windowControllers.count > 0) {
+		NSWindow *window = [[windowControllers objectAtIndex:0] window];
+		NSView *windowView = [[window contentView] superview];
+		NSBitmapImageRep *bitmapRep = [windowView bitmapImageRepForCachingDisplayInRect:[windowView visibleRect]];
+		[windowView cacheDisplayInRect:[windowView visibleRect] toBitmapImageRep:bitmapRep];
+		NSImage *image = [[[NSImage alloc] initWithSize:[windowView bounds].size] autorelease];
+		[image addRepresentation:bitmapRep];
+		return image;
+	}
+	return nil;
+}
+
+- (NSWindow *)sharingService:(NSSharingService *)sharingService sourceWindowForShareItems:(NSArray *)items sharingContentScope:(NSSharingContentScope *)sharingContentScope {
+	NSArray *windowControllers = [self windowControllers];
+	if (windowControllers.count > 0)
+		return [[windowControllers objectAtIndex:0] window];
+	return nil;
+}
+
+
 #pragma mark - NSSharingServicePickerDelegate
 
 - (NSArray *)sharingServicePicker:(NSSharingServicePicker *)sharingServicePicker sharingServicesForItems:(NSArray *)items proposedSharingServices:(NSArray *)proposedServices {
@@ -6091,7 +6126,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 	// for each connected user crate a sharing service for read/write invitations
 	for (TCMMMUser *user in connectedUsers) {
-		NSString *sharingServiceTitle = [NSString stringWithFormat:@"Invite %@", [user name]];
+		NSString *sharingServiceTitle = [NSString stringWithFormat:NSLocalizedString(@"Invite %@", @"Invitation format string used in sharing service picker. %@ will be replaced with the user name."), [user name]];
 		NSImage *userImage = [user image];
 		NSSharingService *customSharingService = [[NSSharingService alloc] initWithTitle:sharingServiceTitle image:userImage alternateImage:nil handler:^{
 			TCMBEEPSession *BEEPSession = [[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:[user userID]];// peerAddressData:[userDescription objectForKey:@"PeerAddressData"]];
@@ -6108,7 +6143,8 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 	return sharingServices;
 }
 
-- (void)sharingServicePicker:(NSSharingServicePicker *)sharingServicePicker didChooseSharingService:(NSSharingService *)service {
+- (id <NSSharingServiceDelegate>)sharingServicePicker:(NSSharingServicePicker *)sharingServicePicker delegateForSharingService:(NSSharingService *)sharingService {
+	return self;
 }
 
 #pragma mark -
