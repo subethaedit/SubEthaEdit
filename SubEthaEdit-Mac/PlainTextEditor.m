@@ -81,6 +81,10 @@
 
 
 @interface PlainTextEditor ()
+
+@property (nonatomic, assign) IBOutlet NSButton *shareInviteUsersButtonOutlet;
+@property (nonatomic, strong) NSArray *topLecelNibObjects;
+
 - (void)	TCM_updateStatusBar;
 - (void)	TCM_updateBottomStatusBar;
 - (float)	pageGuidePositionForColumns:(int)aColumns;
@@ -103,7 +107,9 @@
 
         [self setFollowUserID:nil];
 
-        [[NSBundle mainBundle] loadNibNamed:@"PlainTextEditor" owner:self topLevelObjects:nil];
+		NSArray *topLevelNibObjects = nil;
+        [[NSBundle mainBundle] loadNibNamed:@"PlainTextEditor" owner:self topLevelObjects:&topLevelNibObjects];
+		self.topLecelNibObjects = topLevelNibObjects;
 
 		if (! I_flags.hasSplitButton) {
 			[O_splitButton removeFromSuperview];
@@ -133,6 +139,7 @@
     [I_storedPosition release];
 
     [self.O_editorView setNextResponder:nil];
+	self.topLecelNibObjects = nil;
 	self.O_editorView = nil;
 
     [super dealloc];
@@ -221,6 +228,7 @@
     frame.origin = NSMakePoint(0., 0.);
     frame.size  = [O_scrollView contentSize];
 
+	[self.shareInviteUsersButtonOutlet sendActionOn:NSLeftMouseDownMask];
 
     LayoutManager *layoutManager = [LayoutManager new];
     [[document textStorage] addLayoutManager:layoutManager];

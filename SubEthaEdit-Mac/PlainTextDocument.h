@@ -39,7 +39,7 @@ extern NSString * const WrittenByUserIDAttributeName;
 extern NSString * const ChangedByUserIDAttributeName;
 extern NSString * const PlainTextDocumentDidSaveNotification;
 
-@interface PlainTextDocument : NSDocument <SEEDocument, NSTextViewDelegate, NSTextStorageDelegate, NSOpenSavePanelDelegate>
+@interface PlainTextDocument : NSDocument <SEEDocument, NSTextViewDelegate, NSTextStorageDelegate, NSOpenSavePanelDelegate, NSSharingServicePickerDelegate>
 {
     TCMMMSession *I_session;
     struct {
@@ -209,6 +209,7 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 - (void)setIsAnnounced:(BOOL)aFlag;
 - (IBAction)toggleIsAnnounced:(id)aSender;
 - (IBAction)toggleIsAnnouncedOnAllDocuments:(id)aSender;
+- (IBAction)inviteUsersToDocumentViaSharingService:(id)aSender;
 - (IBAction)changePendingUsersAccess:(id)aSender;
 - (IBAction)changePendingUsersAccessOnAllDocuments:(id)aSender;
 
