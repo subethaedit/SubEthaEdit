@@ -255,6 +255,7 @@ static NSMenu *S_defaultMenu=nil;
         NSRect rectToFill=[self bounds];
         rectToFill.origin.x = I_pageGuidePosition;
         [NSBezierPath fillRect:rectToFill];
+		
     }
 }
 

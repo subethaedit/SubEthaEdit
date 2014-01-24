@@ -89,7 +89,7 @@
 		142891DE09574E5B00D14688 /* TCMHost.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891D809574E5B00D14688 /* TCMHost.m */; };
 		142891E009574E5B00D14688 /* TCMListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891DC09574E5B00D14688 /* TCMListView.m */; };
 		1428920E095751CB00D14688 /* NSColorTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289207095751CB00D14688 /* NSColorTCMAdditions.m */; };
-		1428920F095751CB00D14688 /* NSImageTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289209095751CB00D14688 /* NSImageTCMAdditions.m */; };
+		1428920F095751CB00D14688 /* NSImageTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289209095751CB00D14688 /* NSImageTCMAdditions.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		14289210095751CB00D14688 /* NSStringSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428920B095751CB00D14688 /* NSStringSEEAdditions.m */; };
 		14289211095751CB00D14688 /* TCMMMUserSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428920D095751CB00D14688 /* TCMMMUserSEEAdditions.m */; };
 		142892280957523300D14688 /* DebugBEEPController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428921B0957523300D14688 /* DebugBEEPController.m */; };
@@ -448,6 +448,10 @@
 		F2F2B6CD0CA842040045C189 /* HUDRelative-2.png in Resources */ = {isa = PBXBuildFile; fileRef = F2F2B6CB0CA842040045C189 /* HUDRelative-2.png */; };
 		F2F2B6CE0CA842070045C189 /* HUDRelative-1.png in Resources */ = {isa = PBXBuildFile; fileRef = F2F2B6CC0CA842040045C189 /* HUDRelative-1.png */; };
 		F2FB96E30CBE68ED000B85AE /* UKXattrMetadataStore.m in Sources */ = {isa = PBXBuildFile; fileRef = F2FB96E10CBE68ED000B85AE /* UKXattrMetadataStore.m */; };
+		F2FEE7131892A747000E6BC8 /* SharingIconCloseCross.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F2FEE70F1892A747000E6BC8 /* SharingIconCloseCross.pdf */; };
+		F2FEE7141892A747000E6BC8 /* SharingIconEye.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F2FEE7101892A747000E6BC8 /* SharingIconEye.pdf */; };
+		F2FEE7151892A747000E6BC8 /* SharingIconReadOnly.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F2FEE7111892A747000E6BC8 /* SharingIconReadOnly.pdf */; };
+		F2FEE7161892A747000E6BC8 /* SharingIconWrite.pdf in Resources */ = {isa = PBXBuildFile; fileRef = F2FEE7121892A747000E6BC8 /* SharingIconWrite.pdf */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -1174,6 +1178,10 @@
 		F2F2B6CC0CA842040045C189 /* HUDRelative-1.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "HUDRelative-1.png"; path = "artwork/HUDRelative-1.png"; sourceTree = "<group>"; };
 		F2FB96E00CBE68ED000B85AE /* UKXattrMetadataStore.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = UKXattrMetadataStore.h; path = UKXattrMetadataStore/UKXattrMetadataStore.h; sourceTree = "<group>"; };
 		F2FB96E10CBE68ED000B85AE /* UKXattrMetadataStore.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UKXattrMetadataStore.m; path = UKXattrMetadataStore/UKXattrMetadataStore.m; sourceTree = "<group>"; };
+		F2FEE70F1892A747000E6BC8 /* SharingIconCloseCross.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = SharingIconCloseCross.pdf; sourceTree = "<group>"; };
+		F2FEE7101892A747000E6BC8 /* SharingIconEye.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = SharingIconEye.pdf; sourceTree = "<group>"; };
+		F2FEE7111892A747000E6BC8 /* SharingIconReadOnly.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = SharingIconReadOnly.pdf; sourceTree = "<group>"; };
+		F2FEE7121892A747000E6BC8 /* SharingIconWrite.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = SharingIconWrite.pdf; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -1287,6 +1295,7 @@
 			isa = PBXGroup;
 			children = (
 				4C6BDC61188985EF0088CBFC /* Retina */,
+				F2FEE70E1892A747000E6BC8 /* SharingBarIcons */,
 				F2C6D3730D6DB131002B401D /* URLIconNotOK.tiff */,
 				F2C6D3740D6DB131002B401D /* URLIconOK.tiff */,
 				14289060095743F200D14688 /* Action.tiff */,
@@ -2175,6 +2184,18 @@
 			path = ..;
 			sourceTree = "<group>";
 		};
+		F2FEE70E1892A747000E6BC8 /* SharingBarIcons */ = {
+			isa = PBXGroup;
+			children = (
+				F2FEE70F1892A747000E6BC8 /* SharingIconCloseCross.pdf */,
+				F2FEE7101892A747000E6BC8 /* SharingIconEye.pdf */,
+				F2FEE7111892A747000E6BC8 /* SharingIconReadOnly.pdf */,
+				F2FEE7121892A747000E6BC8 /* SharingIconWrite.pdf */,
+			);
+			name = SharingBarIcons;
+			path = artwork/SharingBarIcons;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -2382,6 +2403,7 @@
 				4C0D3D6C17FB165700AAFB38 /* DebugAttributesInspector.xib in Resources */,
 				142890BF095743F200D14688 /* HomeFolderIcon.tiff in Resources */,
 				4CD5F7DA17FB0BF200F49E31 /* AdvancedPrefs.xib in Resources */,
+				F2FEE7131892A747000E6BC8 /* SharingIconCloseCross.pdf in Resources */,
 				142890C0095743F200D14688 /* Internet.tiff in Resources */,
 				142890C1095743F200D14688 /* InternetResume.tiff in Resources */,
 				142890C2095743F200D14688 /* InternetStop.tiff in Resources */,
@@ -2410,6 +2432,7 @@
 				4CD5F7FA17FB0D0C00F49E31 /* GeneralPrefs.xib in Resources */,
 				4C0D3D6617FB133600AAFB38 /* ServerConnection.xib in Resources */,
 				4C6BDC5418896DCC0088CBFC /* SubEthaEditMode.iconset in Resources */,
+				F2FEE7161892A747000E6BC8 /* SharingIconWrite.pdf in Resources */,
 				142890DF095743F200D14688 /* StatusButtonReadWrite.tiff in Resources */,
 				142890E1095743F200D14688 /* StatusPending.tiff in Resources */,
 				142890E2095743F200D14688 /* StatusReadOnly.tiff in Resources */,
@@ -2429,6 +2452,7 @@
 				142890F7095743F200D14688 /* SymbolP.png in Resources */,
 				142890F9095743F200D14688 /* SymbolS.png in Resources */,
 				142890FB095743F200D14688 /* SymbolT.png in Resources */,
+				F2FEE7151892A747000E6BC8 /* SharingIconReadOnly.pdf in Resources */,
 				142890FD095743F200D14688 /* SymbolV.png in Resources */,
 				142890FF095743F200D14688 /* URLIcon.tiff in Resources */,
 				14289100095743F200D14688 /* WaitPipe.png in Resources */,
@@ -2516,6 +2540,7 @@
 				F2C6D3750D6DB131002B401D /* URLIconNotOK.tiff in Resources */,
 				F2C6D3760D6DB131002B401D /* URLIconOK.tiff in Resources */,
 				4CD5F7E217FB0C4D00F49E31 /* DocumentProxy.xib in Resources */,
+				F2FEE7141892A747000E6BC8 /* SharingIconEye.pdf in Resources */,
 				F2D2CDB20D73043D000E3812 /* FriendCast16Active.png in Resources */,
 				F2D2CDB30D73043D000E3812 /* FriendCast16.png in Resources */,
 				F2D2CDCB0D730C3C000E3812 /* FriendCast13.png in Resources */,
