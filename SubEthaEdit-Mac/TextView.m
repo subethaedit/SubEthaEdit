@@ -258,12 +258,14 @@ static NSMenu *S_defaultMenu=nil;
 		
     }
 	
-	for (NSString *iconName in @[@"SharingIconWriteSelected",@"SharingIconReadOnlySelected",@"SharingIconWriteSelected",@"SharingIconCloseCrossSelected"]) {
-	
-		NSImage *image = [NSImage pdfBasedImageNamed:iconName fillColor:[NSColor whiteColor]];
-		aRect.size = image.size;
-		[image drawInRect:aRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
-		aRect.origin.x += aRect.size.width;
+	for (NSString *iconName in @[@"SharingIconWrite",@"SharingIconReadOnly",@"SharingIconWrite",@"SharingIconCloseCross"]) {
+		for (NSString *iconState in @[@"Selected",@"NormalDisabled",@"SelectedDisabled",@"Normal"]) {
+			NSString *imageName = [NSString stringWithFormat:@"%@_%@",iconName,iconState];
+			NSImage *image = [NSImage pdfBasedImageNamed:imageName fillColor:[NSColor whiteColor] scaleFactor:0.3];
+			aRect.size = image.size;
+			[image drawInRect:aRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+			aRect.origin.x += aRect.size.width;
+		}
 	}
 }
 

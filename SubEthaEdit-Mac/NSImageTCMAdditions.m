@@ -18,13 +18,16 @@
 
 @implementation NSImage (NSImageTCMAdditions)
 
-+ (NSImage *)pdfBasedImageNamed:(NSString *)aName fillColor:(NSColor *)aFillColor {
++ (NSImage *)pdfBasedImageNamed:(NSString *)aName fillColor:(NSColor *)aFillColor scaleFactor:(CGFloat)aScaleFactor {
 	NSImage *result = [NSImage imageNamed:aName];
 	if (!result) {
-		NSString *pdfName = aName;
-		if ([aName hasSuffix:@"Selected"]) {
-			pdfName = [aName substringToIndex:aName.length - @"Selected".length];
+		NSArray *parts = [aName componentsSeparatedByString:@"_"];
+		NSString *pdfName = parts.firstObject;
+		NSString *state = parts.lastObject;
+		if ([state hasPrefix:@"Selected"]) {
+			aFillColor = [NSColor selectedMenuItemColor];
 		}
+		BOOL disabled = [state hasSuffix:@"Disabled"];
 		NSURL *url = [[NSBundle mainBundle] URLForResource:pdfName withExtension:@"pdf"];
 		CGDataProviderRef dataProvider = CGDataProviderCreateWithURL((__bridge CFURLRef)url);
 		CGPDFDocumentRef pdfDocument = CGPDFDocumentCreateWithProvider(dataProvider);
@@ -35,9 +38,10 @@
 		
 		CGRect fullRect = CGRectZero;
 		fullRect.size = boxRect.size;
-		NSSize scaleFactors = NSMakeSize(0.25, 0.25);
+		NSSize scaleFactors = NSMakeSize(aScaleFactor, aScaleFactor);
 		fullRect.size.width *= scaleFactors.width;
 		fullRect.size.height *= scaleFactors.height;
+		fullRect = NSIntegralRect(fullRect); // only ganze pixel sind gute pixel
 		result = [NSImage imageWithSize:fullRect.size flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
 
 			[[NSColor clearColor] set];
@@ -65,6 +69,9 @@
 			
 			CGContextSetShadow(context, CGSizeMake(0, -1.), 3.);
 			CGContextScaleCTM(context, 1/layerScale.width, 1/layerScale.height);
+			if (disabled) {
+				CGContextSetAlpha(context, 0.6);
+			}
 			CGContextDrawLayerAtPoint(context, CGPointZero, layer);
 /*			CGContextSetBlendMode(context, kCGBlendModeNormal);
 			[[NSColor clearColor] set];
