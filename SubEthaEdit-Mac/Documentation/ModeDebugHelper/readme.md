@@ -3,8 +3,17 @@
 
 This readme contains example calls to the *.xslts* created for debugging and improving the *SyntaxDefinition.xmls* contained in a SubEthaEdit-Mode.
 
+Overview:
+
+1. [All XML-Nodes for one Scope](#nodeForScope)
+2. [All used Scopes in a Mode](#scopes)
+3. [All values of one Style attribute used in a Mode](#oneStyleAttributeValues)
+4. [All values of all Style attributes used in a Mode](#allStyleAttributeValues)
+
+
+
 ---
-## XML-Nodes for a special Scope
+## [All XML-Nodes for one Scope](id:nodeForScope)
 **ModeDefinitionPerScope.xslt**
 
 
@@ -21,7 +30,7 @@ Adding a root node to the the resulting XML:
 	( echo "<modes>"; find <path>  -name "SyntaxDefinition.xml" -exec xsltproc --param scope-value "'keyword.function'" --novalid ModeDefinitionPerScope.xslt \{\} \;; echo "</modes>" ) | see --mode xml
 
 ---
-## All used Scopes in a Mode
+## [All used Scopes in a Mode](id:scopes)
 **ModeScopes.xslt**
 
 Returning all scopes used by a single Mode (*eg. `PHP-HTML`*):
@@ -37,7 +46,7 @@ Returning all scopes used by multiple Modes - sorted:
 	find  <path> -name "SyntaxDefinition.xml" -exec xsltproc --novalid ModeScopes.xslt \{\} \; | awk '{print $1}' | sort | uniq | see
 
 ---
-## All values of one Style attribute used in a Mode
+## [All values of one Style attribute used in a Mode](id:oneStyleAttributeValues)
 **ModeStyles.xslt**
 
 Returning all scope-styles (*eg. `color`*) used by a single Mode (*eg. `PHP-HTML`*) (_opened in SubEthaEdit in CSS-Mode_):
@@ -48,6 +57,18 @@ Returning all scope styles used by multiple Modes (*eg. `PHP-HTML`*):
 
 	find  <path> -name "SyntaxDefinition.xml" -exec xsltproc --param style-attribute "'<style-attribute>'" --novalid ModeStyles.xslt \{\} \; | awk '{print $1}' | sort | uniq | see --mode css
 
+---
+## [All values of all Style attributes used in a Mode](id:allStyleAttributeValues)
+**ModeScopeStyles.xslt**
+
+Returning all scope-styles (`color, inverted-color, background-color, inverted-background-color, font-trait, font-weight, font-style
+` used by a single Mode (*eg. `PHP-HTML`*) (_opened in SubEthaEdit in CSS-Mode_):
+
+	xsltproc --novalid ModeScopeStyles.xslt <path>/<mode-name>.mode/Contents/Resources/SyntaxDefinition.xml | see --mode css
+
+Returning all scope styles used by multiple Modes (*eg. `PHP-HTML`*):
+
+	find  <path> -name "SyntaxDefinition.xml" -exec xsltproc --novalid ModeScopeStyles.xslt \{\} \; | awk '{print $1}' | sort | uniq | see --mode css
 
 ---
 ##PS:
@@ -61,3 +82,6 @@ Lisa (ghost)-specific examples for **ModeStyles.xslt** :
 
 	find  /Users/Lisa/Projects/git/subethaedit/SubEthaEdit-Mac/Modes -name "SyntaxDefinition.xml" -exec xsltproc --param style-attribute "'inverted-color'" --novalid ModeStyles.xslt \{\} \; | sort | uniq | see --mode css
 
+Lisa (ghost)-specific examples for **ModeScopeStyles.xslt** :
+
+	find  /Users/Lisa/Projects/git/subethaedit/SubEthaEdit-Mac/Modes -name "SyntaxDefinition.xml" -exec xsltproc --novalid ModeScopeStyles.xslt \{\} \; | sort | uniq | see --mode css
