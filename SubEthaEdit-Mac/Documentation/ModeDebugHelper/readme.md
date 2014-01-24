@@ -40,9 +40,29 @@ Returning all scopes used by a single Mode:
 
 	find  <path> -name "SyntaxDefinition.xml" -exec xsltproc --novalid ModeScopes.xslt \{\} \; | awk '{print $1}' | sort | uniq | see
 
+---
+## All values of one Style attribute used in a Mode
+*ModeStyles.xslt*
+
+Returning all scope style (*eg. `color`*) values used by a single Mode (*eg. `PHP-HTML`*):
+
+	xsltproc --param style-attribute "'<style-attribute>'" --novalid ModeStyles.xslt <path>/<mode-name>.mode/Contents/Resources/SyntaxDefinition.xml | see
+
+Returning all scopes used by a single Mode:
+
+	find <path> -name "SyntaxDefinition.xml" -exec xsltproc --param style-attribute "'<style-attribute>'" --novalid ModeStyles.xslt \{\} \; | see
+
+Returning all scopes used by a single Mode:
+
+	find  <path> -name "SyntaxDefinition.xml" -exec xsltproc --param style-attribute "'<style-attribute>'" --novalid ModeStyles.xslt \{\} \; | awk '{print $1}' | sort | uniq | see
+
 
 ---
 ##PS:
 Lisas default Path: `/Users/Lisa/Projects/git/subethaedit/SubEthaEdit-Mac/Modes`  
 Coda 2s default Path: `/Applications/Coda 2.app/Contents/Resources`
+
+	xsltproc --param style-attribute "'color'" --novalid ModeStyles.xslt /Users/Lisa/Projects/git/subethaedit/SubEthaEdit-Mac/Modes/AppleScript.mode/Contents/Resources/SyntaxDefinition.xml | see
+
+	find  /Users/Lisa/Projects/git/subethaedit/SubEthaEdit-Mac/Modes -name "SyntaxDefinition.xml" -exec xsltproc --param style-attribute "'color'" --novalid ModeStyles.xslt \{\} \; | awk '{print $1}' | sort | uniq | see
 
