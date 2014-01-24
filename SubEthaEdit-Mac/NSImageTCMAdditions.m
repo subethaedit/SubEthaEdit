@@ -8,6 +8,7 @@
 
 #import "NSImageTCMAdditions.h"
 #import <Quartz/Quartz.h>
+#import <CoreGraphics/CoreGraphics.h>
 
 // this file needs arc - either project wide,
 // or add -fobjc-arc on a per file basis in the compile build phase
@@ -32,19 +33,46 @@
 		CGPDFPageRef page1 = CGPDFDocumentGetPage(pdfDocument, 1);
 		NSRect boxRect = CGPDFPageGetBoxRect(page1,kCGPDFCropBox);
 		
-		NSSize imageSize = boxRect.size;
+		CGRect fullRect = CGRectZero;
+		fullRect.size = boxRect.size;
 		NSSize scaleFactors = NSMakeSize(0.25, 0.25);
-		imageSize.width *= scaleFactors.width;
-		imageSize.height *= scaleFactors.height;
-		result = [NSImage imageWithSize:imageSize flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
+		fullRect.size.width *= scaleFactors.width;
+		fullRect.size.height *= scaleFactors.height;
+		result = [NSImage imageWithSize:fullRect.size flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
+
 			[[NSColor clearColor] set];
 			NSRectFill(dstRect);
+			
 			CGContextRef context = [[NSGraphicsContext currentContext] graphicsPort];
-			CGContextScaleCTM(context, scaleFactors.width,
-							  scaleFactors.height);
-			CGContextTranslateCTM(context, -boxRect.origin.x, -boxRect.origin.y);
-			CGContextSetShadow(context, CGSizeMake(0, -2./scaleFactors.width), 4/scaleFactors.width);
-			CGContextDrawPDFPage(context, page1);
+			
+			CGSize layerScale = CGSizeMake(CGBitmapContextGetWidth(context) / fullRect.size.width,
+										   CGBitmapContextGetHeight(context) / fullRect.size.height);
+			
+			CGRect layerRect = CGRectMake(0, 0, fullRect.size.width * layerScale.width, fullRect.size.height * layerScale.height);
+			CGLayerRef layer = CGLayerCreateWithContext(context, layerRect.size, nil);
+			CGContextRef layerContext = CGLayerGetContext(layer);
+			CGContextSaveGState(layerContext);
+			CGContextScaleCTM(layerContext, scaleFactors.width * layerScale.width,
+							  scaleFactors.height * layerScale.height);
+			CGContextTranslateCTM(layerContext, -boxRect.origin.x, -boxRect.origin.y);
+			CGContextDrawPDFPage(layerContext, page1);
+			CGContextRestoreGState(layerContext);
+			
+			CGContextSetBlendMode(layerContext, kCGBlendModeSourceIn);
+			CGContextSetFillColorWithColor(layerContext, [aFillColor CGColor]);
+			CGContextFillRect(layerContext, layerRect);
+
+			
+			CGContextSetShadow(context, CGSizeMake(0, -1.), 3.);
+			CGContextScaleCTM(context, 1/layerScale.width, 1/layerScale.height);
+			CGContextDrawLayerAtPoint(context, CGPointZero, layer);
+/*			CGContextSetBlendMode(context, kCGBlendModeNormal);
+			[[NSColor clearColor] set];
+			NSRectFill(dstRect);
+			CGContextClipToMask(context, fullRect, maskImage);
+			[aFillColor set];
+			NSRectFill(dstRect);
+*/
 			return YES;
 		}];
 		

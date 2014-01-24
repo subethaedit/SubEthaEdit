@@ -255,7 +255,16 @@ static NSMenu *S_defaultMenu=nil;
         NSRect rectToFill=[self bounds];
         rectToFill.origin.x = I_pageGuidePosition;
         [NSBezierPath fillRect:rectToFill];
+		
     }
+	
+	for (NSString *iconName in @[@"SharingIconWriteSelected",@"SharingIconReadOnlySelected",@"SharingIconWriteSelected",@"SharingIconCloseCrossSelected"]) {
+	
+		NSImage *image = [NSImage pdfBasedImageNamed:iconName fillColor:[NSColor whiteColor]];
+		aRect.size = image.size;
+		[image drawInRect:aRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+		aRect.origin.x += aRect.size.width;
+	}
 }
 
 - (void)drawRect:(NSRect)aRect {
