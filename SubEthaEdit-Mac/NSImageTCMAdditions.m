@@ -8,11 +8,16 @@
 
 #import "NSImageTCMAdditions.h"
 
+// this file needs arc - either project wide,
+// or add -fobjc-arc on a per file basis in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
 
 @implementation NSImage (NSImageTCMAdditions)
 
 + (NSImage *)clearedImageWithSize:(NSSize)aSize {
-    NSImage *image=[[[NSImage alloc] initWithSize:aSize] autorelease];
+    NSImage *image = [[NSImage alloc] initWithSize:aSize];
     [image setCacheMode:NSImageCacheNever];
     [image lockFocus];
     [[NSColor clearColor] set];
@@ -65,7 +70,7 @@
     [context setImageInterpolation:oldInterpolation];
     [image unlockFocus];
     
-    return [image autorelease];
+    return image;
 }
 
 
