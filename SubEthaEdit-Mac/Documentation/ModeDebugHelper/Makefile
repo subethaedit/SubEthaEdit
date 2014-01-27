@@ -6,7 +6,10 @@ XSLT=ModeScopeStyles.xslt
 
 LANGUAGES=ActionScript AppleScript ASP-HTML Base bash C C++ CFML Conference CSS Diff ERB erlang go HTML Java Javascript JSP-HTML LassoScript-HTML LaTeX Lua Objective-C Objective-J Pascal Perl PHP-HTML Python Ruby SDEF SQL SVNLog Wiki XML
 
-MODEPATHPREFIX=../../Modes/
+
+#debug mode path
+MODEPATHPREFIX=/Users/Lisa/Desktop/Modes/
+#MODEPATHPREFIX=../../Modes/
 MODEPATHSUFFIX=.mode/Contents/Resources/SyntaxDefinition.xml
 
 STYLEPATHPREFIX=ModeStyles/
