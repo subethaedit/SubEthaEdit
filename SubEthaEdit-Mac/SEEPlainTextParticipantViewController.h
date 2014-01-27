@@ -11,6 +11,9 @@
 @class TCMMMUser;
 
 @interface SEEPlainTextParticipantViewController : NSViewController
+
 @property (nonatomic, readonly, strong) TCMMMUser *user;
-@property (nonatomic, strong) IBOutlet NSView *participantView;
+
+- (id)initWithParticipant:(TCMMMUser *)aParticipant;
+
 @end
