@@ -283,7 +283,8 @@
 
 //	// Test code
 //	{
-//		RMBlurredView *blurredView = [[RMBlurredView alloc] initWithFrame:NSMakeRect(0.0, 17.0, [self.O_editorView frame].size.width, 68.0)];
+//		NSRect blurredViewRect = NSMakeRect(0.0, 17.0, [self.O_editorView frame].size.width, 96.0);
+//		RMBlurredView *blurredView = [[RMBlurredView alloc] initWithFrame:blurredViewRect];
 //		[blurredView setAutoresizingMask:NSViewWidthSizable | NSViewMaxYMargin];
 //		[blurredView setTintColor:[NSColor colorWithCalibratedWhite:0.8 alpha:0.4]];
 //		[blurredView setSaturationFactor:12.0];
@@ -291,39 +292,67 @@
 //		[blurredView.layer setBorderColor:[[NSColor lightGrayColor] CGColor]];
 //		[blurredView.layer setBorderWidth:0.5];
 //
-//		O_scrollView.bottomOverlayHeight += 68.0;
+//		O_scrollView.bottomOverlayHeight += NSHeight(blurredViewRect);
 //
 //		TCMMMUser *me=[TCMMMUserManager me];
 //		NSImage *myImage = [me image];
 //		[myImage setFlipped:NO];
-//		NSImageView *userImageView = [[NSImageView alloc] initWithFrame:NSMakeRect(12.0, 6.0, 56.0, 56.0)];
-//		userImageView.image = myImage;
-//		[userImageView setWantsLayer:YES];
+//		NSButton *userImageButton = [[NSButton alloc] initWithFrame:NSMakeRect(19.0 + 6.0, 26.0, 62.0, 62.0)];
+//		userImageButton.bordered = NO;
+//		userImageButton.image = myImage;
+//		[userImageButton setWantsLayer:YES];
 //		CGFloat hueValue = [[[me properties] objectForKey:@"Hue"] doubleValue] / 255.0;
-//		[userImageView.layer setBorderColor:[[NSColor colorWithCalibratedHue:hueValue saturation:0.8 brightness:1.0 alpha:0.6] CGColor]];
-//		[userImageView.layer setCornerRadius:28.0];
-//		[userImageView.layer setBorderWidth:3.0];
-//		[userImageView.layer setOpacity:0.8];
-//		[blurredView addSubview:userImageView];
+//		[userImageButton.layer setBorderColor:[[NSColor colorWithCalibratedHue:hueValue saturation:0.8 brightness:1.0 alpha:0.6] CGColor]];
+//		[userImageButton.layer setCornerRadius:31.0];
+//		[userImageButton.layer setBorderWidth:3.0];
+//		[userImageButton.layer setOpacity:0.8];
+//		[blurredView addSubview:userImageButton];
+//		
+//		NSTextField *textField = [[NSTextField alloc] initWithFrame:NSMakeRect(6.0, 8.0, 100.0, 14.0)];
+//		[textField setDrawsBackground:NO];
+//		[textField setBordered:NO];
+//		[textField setBezeled:NO];
+//		[textField setEditable:NO];
+//		[textField setSelectable:NO];
+//		[textField setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
+//		[textField.cell setControlSize:NSSmallControlSize];
+//		[textField setAlignment:NSCenterTextAlignment];
+//		textField.stringValue = me.name;
+//		[blurredView addSubview:textField];
 //
 //		NSArray *allUsers = [[TCMMMUserManager sharedInstance] allUsers];
-//		CGFloat userWidth = 12.0 + 56.0;
-//		CGFloat userImageXOffset = 12.0 + 56.0 + 12.0;
+//		CGFloat userWidth = 12.0 + 100.0;
+//		CGFloat userImageXOffset = 6.0 + 19.0 + 62.0 + 19.0 + 6.0;
+//		CGFloat userNameXOffset = 6.0 + 100.0 + 6.0;
 //		for (TCMMMUser *user in allUsers) {
 //			if (user == me) continue;
 //
-//			userImageView = [[NSImageView alloc] initWithFrame:NSMakeRect(userImageXOffset, 6.0, 56.0, 56.0)];
+//			userImageButton = [[NSButton alloc] initWithFrame:NSMakeRect(userImageXOffset + 19.0, 26.0, 62.0, 62.0)];
+//			userImageButton.bordered = NO;
 //			userImageXOffset += userWidth;
 //			myImage = user.image;
 //			[myImage setFlipped:NO];
-//			userImageView.image = myImage;
-//			[userImageView setWantsLayer:YES];
+//			userImageButton.image = myImage;
+//			[userImageButton setWantsLayer:YES];
 //			hueValue = [[[user properties] objectForKey:@"Hue"] doubleValue] / 255.0;
-//			[userImageView.layer setBorderColor:[[NSColor colorWithCalibratedHue:hueValue saturation:0.8 brightness:1.0 alpha:0.6] CGColor]];
-//			[userImageView.layer setCornerRadius:28.0];
-//			[userImageView.layer setBorderWidth:3.0];
-//			[userImageView.layer setOpacity:1.0];
-//			[blurredView addSubview:userImageView];
+//			[userImageButton.layer setBorderColor:[[NSColor colorWithCalibratedHue:hueValue saturation:0.8 brightness:1.0 alpha:0.6] CGColor]];
+//			[userImageButton.layer setCornerRadius:32.0];
+//			[userImageButton.layer setBorderWidth:3.0];
+//			[userImageButton.layer setOpacity:1.0];
+//			[blurredView addSubview:userImageButton];
+//
+//			NSTextField *textField = [[NSTextField alloc] initWithFrame:NSMakeRect(userNameXOffset, 8.0, 100.0, 14.0)];
+//			userNameXOffset += userWidth;
+//			[textField setDrawsBackground:NO];
+//			[textField setBordered:NO];
+//			[textField setBezeled:NO];
+//			[textField setEditable:NO];
+//			[textField setSelectable:NO];
+//			[textField setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
+//			[textField.cell setControlSize:NSSmallControlSize];
+//			[textField setAlignment:NSCenterTextAlignment];
+//			textField.stringValue = user.name;
+//			[blurredView addSubview:textField];
 //		}
 //
 //		[self.O_editorView addSubview:blurredView];
