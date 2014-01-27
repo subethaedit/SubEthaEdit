@@ -9,6 +9,10 @@ LANGUAGES=ActionScript AppleScript ASP-HTML Base bash C C++ CFML Conference CSS 
 
 #debug mode path
 MODEPATHPREFIX=/Users/Lisa/Desktop/Modes/
+
+#coda 2 modes
+#MODEPATHPREFIX=Coda2Modes/
+
 #MODEPATHPREFIX=../../Modes/
 MODEPATHSUFFIX=.mode/Contents/Resources/SyntaxDefinition.xml
 
