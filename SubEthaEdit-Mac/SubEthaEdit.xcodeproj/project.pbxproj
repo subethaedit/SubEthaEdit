@@ -340,6 +340,14 @@
 		F20E1FAE0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = F20E1FAC0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.m */; };
 		F212908B0F8EC56F0076B6B1 /* NSDictionaryTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891240957457500D14688 /* NSDictionaryTCMAdditions.m */; };
 		F21290980F8EC5870076B6B1 /* NSMutableAttributedStringSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142D18B30BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m */; };
+		F2257CF9189673AA005EF9B1 /* BottomBarSharingIconAnnounce_Inactive.png in Resources */ = {isa = PBXBuildFile; fileRef = F2257CF1189673AA005EF9B1 /* BottomBarSharingIconAnnounce_Inactive.png */; };
+		F2257CFA189673AA005EF9B1 /* BottomBarSharingIconAnnounce_Inactive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2257CF2189673AA005EF9B1 /* BottomBarSharingIconAnnounce_Inactive@2x.png */; };
+		F2257CFB189673AA005EF9B1 /* BottomBarSharingIconAnnounce.png in Resources */ = {isa = PBXBuildFile; fileRef = F2257CF3189673AA005EF9B1 /* BottomBarSharingIconAnnounce.png */; };
+		F2257CFC189673AA005EF9B1 /* BottomBarSharingIconAnnounce@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2257CF4189673AA005EF9B1 /* BottomBarSharingIconAnnounce@2x.png */; };
+		F2257CFD189673AA005EF9B1 /* BottomBarSharingIconAdd.png in Resources */ = {isa = PBXBuildFile; fileRef = F2257CF5189673AA005EF9B1 /* BottomBarSharingIconAdd.png */; };
+		F2257CFE189673AA005EF9B1 /* BottomBarSharingIconAdd@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2257CF6189673AA005EF9B1 /* BottomBarSharingIconAdd@2x.png */; };
+		F2257CFF189673AA005EF9B1 /* BottomBarSharingIconGroup.png in Resources */ = {isa = PBXBuildFile; fileRef = F2257CF7189673AA005EF9B1 /* BottomBarSharingIconGroup.png */; };
+		F2257D00189673AA005EF9B1 /* BottomBarSharingIconGroup@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2257CF8189673AA005EF9B1 /* BottomBarSharingIconGroup@2x.png */; };
 		F234E1010BE0F1E100504A7C /* ServerConnectionWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = F234E0FF0BE0F1E100504A7C /* ServerConnectionWindowController.m */; };
 		F234E1020BE0F1EA00504A7C /* ServerConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F234E0FA0BE0F1C500504A7C /* ServerConnectionManager.m */; };
 		F234E4590BE2592300504A7C /* NSWorkspaceTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F234E4570BE2592300504A7C /* NSWorkspaceTCMAdditions.m */; };
@@ -1048,6 +1056,14 @@
 		F2230A480BE0243100437D55 /* TCMBEEPBencodingProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMBEEPBencodingProfile.m; path = TCMBEEP/TCMBEEPBencodingProfile.m; sourceTree = "<group>"; };
 		F223FC8C0BDF5F0A00437D55 /* UnknownPerson.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = UnknownPerson.png; path = artwork/UnknownPerson.png; sourceTree = "<group>"; };
 		F223FC8E0BDF5F1C00437D55 /* DefaultPerson.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = DefaultPerson.png; path = artwork/DefaultPerson.png; sourceTree = "<group>"; };
+		F2257CF1189673AA005EF9B1 /* BottomBarSharingIconAnnounce_Inactive.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BottomBarSharingIconAnnounce_Inactive.png; path = artwork/BottomBarSharingIconAnnounce_Inactive.png; sourceTree = "<group>"; };
+		F2257CF2189673AA005EF9B1 /* BottomBarSharingIconAnnounce_Inactive@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "BottomBarSharingIconAnnounce_Inactive@2x.png"; path = "artwork/BottomBarSharingIconAnnounce_Inactive@2x.png"; sourceTree = "<group>"; };
+		F2257CF3189673AA005EF9B1 /* BottomBarSharingIconAnnounce.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BottomBarSharingIconAnnounce.png; path = artwork/BottomBarSharingIconAnnounce.png; sourceTree = "<group>"; };
+		F2257CF4189673AA005EF9B1 /* BottomBarSharingIconAnnounce@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "BottomBarSharingIconAnnounce@2x.png"; path = "artwork/BottomBarSharingIconAnnounce@2x.png"; sourceTree = "<group>"; };
+		F2257CF5189673AA005EF9B1 /* BottomBarSharingIconAdd.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BottomBarSharingIconAdd.png; path = artwork/BottomBarSharingIconAdd.png; sourceTree = "<group>"; };
+		F2257CF6189673AA005EF9B1 /* BottomBarSharingIconAdd@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "BottomBarSharingIconAdd@2x.png"; path = "artwork/BottomBarSharingIconAdd@2x.png"; sourceTree = "<group>"; };
+		F2257CF7189673AA005EF9B1 /* BottomBarSharingIconGroup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BottomBarSharingIconGroup.png; path = artwork/BottomBarSharingIconGroup.png; sourceTree = "<group>"; };
+		F2257CF8189673AA005EF9B1 /* BottomBarSharingIconGroup@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "BottomBarSharingIconGroup@2x.png"; path = "artwork/BottomBarSharingIconGroup@2x.png"; sourceTree = "<group>"; };
 		F234E0F90BE0F1C500504A7C /* ServerConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ServerConnectionManager.h; sourceTree = "<group>"; };
 		F234E0FA0BE0F1C500504A7C /* ServerConnectionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ServerConnectionManager.m; sourceTree = "<group>"; };
 		F234E0FE0BE0F1E100504A7C /* ServerConnectionWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ServerConnectionWindowController.h; sourceTree = "<group>"; };
@@ -2049,6 +2065,14 @@
 		4C6BDC61188985EF0088CBFC /* Retina */ = {
 			isa = PBXGroup;
 			children = (
+				F2257CF1189673AA005EF9B1 /* BottomBarSharingIconAnnounce_Inactive.png */,
+				F2257CF2189673AA005EF9B1 /* BottomBarSharingIconAnnounce_Inactive@2x.png */,
+				F2257CF3189673AA005EF9B1 /* BottomBarSharingIconAnnounce.png */,
+				F2257CF4189673AA005EF9B1 /* BottomBarSharingIconAnnounce@2x.png */,
+				F2257CF5189673AA005EF9B1 /* BottomBarSharingIconAdd.png */,
+				F2257CF6189673AA005EF9B1 /* BottomBarSharingIconAdd@2x.png */,
+				F2257CF7189673AA005EF9B1 /* BottomBarSharingIconGroup.png */,
+				F2257CF8189673AA005EF9B1 /* BottomBarSharingIconGroup@2x.png */,
 				F291D1B00FCECF33008BC286 /* FoldingBubbleBig.png */,
 				4C6BDC5B188983380088CBFC /* FoldingBubbleBig@2x.png */,
 				4C6BDC5D1889858A0088CBFC /* folded.png */,
@@ -2378,6 +2402,7 @@
 				14448AA40A18964A00F36B34 /* SubEthaEdit.sdef in Resources */,
 				1428900D095740F200D14688 /* Acknowledgements.txt in Resources */,
 				8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */,
+				F2257CFF189673AA005EF9B1 /* BottomBarSharingIconGroup.png in Resources */,
 				4C6BDC6918898F850088CBFC /* ScriptMenuItemIcon.png in Resources */,
 				4CD5F81917FB0DF900F49E31 /* PrecedencePrefs.xib in Resources */,
 				142890140957413900D14688 /* Localizable.strings in Resources */,
@@ -2389,6 +2414,7 @@
 				5E4DA73D09E15C6800D91CFC /* Scripts in Resources */,
 				4C0D3D6A17FB149200AAFB38 /* LoginSheet.xib in Resources */,
 				4C6BDC6A18898F850088CBFC /* ScriptMenuItemIcon@2x.png in Resources */,
+				F2257CF9189673AA005EF9B1 /* BottomBarSharingIconAnnounce_Inactive.png in Resources */,
 				4C6BDC5C188983380088CBFC /* FoldingBubbleBig@2x.png in Resources */,
 				142890470957421300D14688 /* SubEthaEditHelp in Resources */,
 				142890580957432800D14688 /* Invitation.aiff in Resources */,
@@ -2420,6 +2446,7 @@
 				142890D5095743F200D14688 /* ShiftLeft.png in Resources */,
 				4CD5F7EE17FB0CA300F49E31 /* Export.xib in Resources */,
 				4CD5F7F617FB0CD200F49E31 /* FindReplace.xib in Resources */,
+				F2257CFE189673AA005EF9B1 /* BottomBarSharingIconAdd@2x.png in Resources */,
 				4CD5F83117FB0E8D00F49E31 /* StylePrefs.xib in Resources */,
 				142890D7095743F200D14688 /* ShiftRight.png in Resources */,
 				142890D9095743F200D14688 /* ShowChangeMarks.png in Resources */,
@@ -2428,6 +2455,7 @@
 				142890DD095743F200D14688 /* StatusButtonKick.tiff in Resources */,
 				4C0D3D7817FB16F500AAFB38 /* DebugSendOperation.xib in Resources */,
 				4C0D3D7217FB166900AAFB38 /* DebugPrefs.xib in Resources */,
+				F2257CFB189673AA005EF9B1 /* BottomBarSharingIconAnnounce.png in Resources */,
 				142890DE095743F200D14688 /* StatusButtonReadOnly.tiff in Resources */,
 				4CD5F7FA17FB0D0C00F49E31 /* GeneralPrefs.xib in Resources */,
 				4C0D3D6617FB133600AAFB38 /* ServerConnection.xib in Resources */,
@@ -2451,15 +2479,18 @@
 				142890F6095743F200D14688 /* SymbolM.tiff in Resources */,
 				142890F7095743F200D14688 /* SymbolP.png in Resources */,
 				142890F9095743F200D14688 /* SymbolS.png in Resources */,
+				F2257CFD189673AA005EF9B1 /* BottomBarSharingIconAdd.png in Resources */,
 				142890FB095743F200D14688 /* SymbolT.png in Resources */,
 				F2FEE7151892A747000E6BC8 /* SharingIconReadOnly.pdf in Resources */,
 				142890FD095743F200D14688 /* SymbolV.png in Resources */,
 				142890FF095743F200D14688 /* URLIcon.tiff in Resources */,
 				14289100095743F200D14688 /* WaitPipe.png in Resources */,
+				F2257CFC189673AA005EF9B1 /* BottomBarSharingIconAnnounce@2x.png in Resources */,
 				14289101095743F200D14688 /* WebReload.tiff in Resources */,
 				4C6BDC5318896DCC0088CBFC /* SubEthaEditFiles.iconset in Resources */,
 				4CD5F7E617FB0C7B00F49E31 /* EditPrefs.xib in Resources */,
 				14289572095776DE00D14688 /* see.1 in Resources */,
+				F2257D00189673AA005EF9B1 /* BottomBarSharingIconGroup@2x.png in Resources */,
 				142895040957692100D14688 /* SymbolWarn.tiff in Resources */,
 				5E18F62B09A8A43A00A96A6C /* InvitationBadge3.tiff in Resources */,
 				4CD5F7EA17FB0C8E00F49E31 /* EncodingDoctor.xib in Resources */,
@@ -2506,6 +2537,7 @@
 				4CD5F81117FB0DC100F49E31 /* PlainTextLoadProgress.xib in Resources */,
 				4CD5F82917FB0E4F00F49E31 /* SavePanelAccessory.xib in Resources */,
 				F2CA7CE80CA11FDA008BEA38 /* Internet13.png in Resources */,
+				F2257CFA189673AA005EF9B1 /* BottomBarSharingIconAnnounce_Inactive@2x.png in Resources */,
 				4CD5F82D17FB0E6000F49E31 /* SelectEncodingsPanel.xib in Resources */,
 				F2CA7CEA0CA11FFB008BEA38 /* ToolbarIconConnectionBrowser.tiff in Resources */,
 				F29AD8670CA3391B0097D04E /* Bonjour13.png in Resources */,
