@@ -257,6 +257,31 @@ static NSMenu *S_defaultMenu=nil;
         [NSBezierPath fillRect:rectToFill];
 		
     }
+
+	NSRect movingRect = aRect;
+	CGFloat nextY = movingRect.origin.y;
+	for (NSString *iconName in @[@"SharingIconWrite",@"SharingIconReadOnly",@"SharingIconWrite",@"SharingIconCloseCross"]) {
+		for (int i = 0; i < 2; i++) {
+			for (NSString *iconState in @[TCM_PDFIMAGE_NORMAL,TCM_PDFIMAGE_SELECTED,TCM_PDFIMAGE_HIGHLIGHTED]) {
+				for (NSString *iconState2 in @[@"",TCM_PDFIMAGE_DISABLED]) {
+					for (NSString *iconSize in @[@"12",@"32",@"65"]) {
+						NSString *imageName = i ? [NSString stringWithFormat:@"%@_%@_%@%@",iconName,iconSize,iconState,iconState2] : [NSString stringWithFormat:@"%@_%@_#ddff9f_#0c7926_#ddff9f_%@%@",iconName,iconSize,iconState,iconState2];
+						NSImage *image = [NSImage pdfBasedImageNamed:imageName];
+						movingRect.size = image.size;
+						[image drawInRect:movingRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+						movingRect.origin.x += movingRect.size.width;
+						if (CGRectGetMaxX(movingRect) > CGRectGetMaxX(aRect)) {
+							movingRect.origin.x = aRect.origin.x;
+							movingRect.origin.y = nextY;
+						} else {
+							nextY = MAX(CGRectGetMaxY(movingRect),nextY);
+						}
+					}
+				}
+			}
+		}
+	}
+
 }
 
 - (void)drawRect:(NSRect)aRect {
