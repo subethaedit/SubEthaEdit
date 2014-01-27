@@ -14,6 +14,7 @@
 
 #import "SEEPlainTextParticipantViewController.h"
 #import "TCMMMUser.h"
+#import "TCMMMUserSEEAdditions.h"
 
 @interface SEEPlainTextParticipantViewController ()
 @property (nonatomic, readwrite, strong) TCMMMUser *participant;
