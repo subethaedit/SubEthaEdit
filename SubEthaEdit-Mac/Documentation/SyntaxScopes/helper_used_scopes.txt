@@ -1,5 +1,6 @@
 ################################################################// Used in The Modes so far: actionscript, applescript, asp, base, bash, c, <ENTER HERE>, ruby
 
+// TODO
 comment 					*//JavadocComment 
 comment.block 				// Comment
 comment.block.documentation
@@ -17,56 +18,71 @@ comment.line.number-sign
 comment.line.php
 comment.line.vb
 
+### 
 constant					// Constants
-constant.character
-constant.language.cocoa
-constant.language.types.cocoa
-constant.numeric			*// Numbers
-constant.numeric.character
-constant.numeric.js
-constant.numeric.keyword 	*// Constants
-constant.numeric.keyword.js
-constant.numeric.preprocessor
+-- constant.character --> constant.numeric.character
+-- constant.language.cocoa --> support.constant(.cocoa)
+-- constant.language.types.cocoa --> support.type(.cocoa)
 
-entity.name.method
-entity.name.type.classes.cocoa
-entity.name.function.cocoa
+-- constant.numeric			*// Numbers --> Zahlenliterale --> language.constant.numeric
+-- constant.numeric.character
+-- constant.numeric.js
+-- constant.numeric.keyword 	*// Constants --> keyword.constant // support.constant
+-- constant.numeric.keyword.js
+-- constant.numeric.preprocessor --> language.constant.numeric.preprocessor
 
+-- entity.name.method -> language.subroutine.method
+-- entity.name.type.classes.cocoa -> support.class.standard(.cocoa)
+-- entity.name.function.cocoa -> support.subroutine.standard(.cocoa)
+-- 								support.subroutine.common(.third-party)
+-- 								support.subroutine.common(.rails)
+
+
+### keyword marks the inner workings and special words of a language (basics)
 keyword						*// Keywords, Predefined Variables
+keyword.constant		// true, false, undefined, nil, NULL
+keyword.type				*// Types - int NSObject (only!?)
+keyword.type.js
+keyword.type.objj
 keyword.class				// Classes
-keyword.control				*// Control Statements - if else 
+keyword.control				*// Control Statements - if else while end
 keyword.control.asp
 keyword.control.js
 keyword.control.vb
-keyword.directive.objj
-keyword.function			// Functions (Commands)
-keyword.objective-c
-keyword.operator
-keyword.type				*// Types - public private int
-keyword.type.js
-keyword.type.objj
+++ keyword.control.definition --> class function
+keyword.directive.objj // @public, @private
+-- keyword.function			// Functions (Commands) --> keyword.subroutine bash: builtin, ruby: part of language : exit
+-- keyword.objective-c
+-- keyword.operator --> language.operator
 
+++ keyword.variable.global
 
-language.subroutine.method
-language.subroutine.function
-
-language.function			*// FunctionRegex
-language.function.js
-language.function.php
+### everything language relatedelse basically
+++ language.subroutine.method
+++ language.subroutine.method.definition
+++ language.subroutine.method.call
+++ language.subroutine.function
+++ language.subroutine.function.definition
+++ language.subroutine.function.call
+-- language.function			*// FunctionRegex --> language.subroutine.*
+-- language.function.js
+-- language.function.php
 language.operator			*// Operators - +, -,
-language.preprocessor		// Preprocessor
++++ language.operator.special			*// Operators: erlang "language.operator"
+language.preprocessor		// Preprocessor --> #import
 language.property			*// Properties -> used in coda 2
 language.record
 language.variable
 language.variable.class
 language.variable.global
-language.variable.global.builtin
+-- language.variable.global.builtin --> keyword.variable.global // todo: find this for perl (??) and php (GLOBALS)
 language.variable.instance
-language.variable.perl
+-- language.variable.perl --> language.variable
 language.variable.php
-language.variable.string
+language.variable.string // variables in strings!
 language.variable.string.php
 
+// TODO
 markup.bold
 markup.bold.italic
 markup.heading.1
@@ -86,6 +102,7 @@ markup.raw.code
 markup.raw.file
 markup.raw.indented
 
+// TODO
 markup.comment
 markup.constant.entity
 markup.declaration
@@ -103,6 +120,7 @@ markup.tag
 markup.tag.attribute.name
 markup.tag.attribute.value.string
 
+// TODO
 meta.block					// Block
 meta.block.attribute
 meta.block.begin
@@ -135,9 +153,11 @@ meta.state
 meta.tag.erbstart
 meta.tag.preprocessor
 
+
+### string
 string.angle
 string.array.percent
-string.array.percent.angle
+string.array.percent.angle  // ruby zeichenkette mit leerzeichen nach array
 string.array.percent.bracket
 string.array.percent.curly
 string.array.percent.parentheses
@@ -177,8 +197,10 @@ string.symbol.percent.angle
 string.symbol.percent.bracket
 string.symbol.percent.curly
 string.symbol.percent.parentheses
-string.other.backtick
+--- string.other.backtick --> string.single.backtick
++++ string.single.backtick
 
+// TODO
 style.at-rule
 style.comment.block
 style.comment.block.documentation
@@ -189,6 +211,8 @@ style.value.numeric
 style.value.string.double
 style.value.string.single
 
+
+// TODO
 structured.changelog.added
 structured.changelog.deleted
 structured.changelog.heading
@@ -207,7 +231,8 @@ structured.separator.vertical
 structured.tool-tip
 structured.variable
 
-support						// Application API and Central API - mostly used for framework classes and constants?
+### language support
+-- support						--> support.whatevberthatmaybe// Application API and Central API - mostly used for framework classes and constants?
 support.accessor
 support.class
 support.class.standard.js
@@ -215,10 +240,10 @@ support.class.standard.obj
 support.class.standard.objj
 support.constant
 support.constant.objj
-support.function
-support.function.php
-support.method
-support.method.special.php
+-- support.function --> support.subroutine.function
+-- support.function.php --> support.subroutine.function.php
+-- support.method --> support.subroutine.method
+-- support.method.special.php --> language.subroutine.method.special.php
 
 ################################################################// Used in Coda Style Sheets
 -comment
