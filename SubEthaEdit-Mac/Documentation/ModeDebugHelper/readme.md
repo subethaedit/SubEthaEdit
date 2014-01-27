@@ -9,7 +9,7 @@ Overview:
 2. [All used Scopes in a Mode](#scopes)
 3. [All values of one Style attribute used in a Mode](#oneStyleAttributeValues)
 4. [All values of all Style attributes used in a Mode](#allStyleAttributeValues)
-
+5. [Style Extraction Makefile](#makefile)
 
 
 ---
@@ -69,6 +69,22 @@ Returning all scope-styles (`color, inverted-color, background-color, inverted-b
 Returning all scope styles used by multiple Modes (*eg. `PHP-HTML`*):
 
 	find  <path> -name "SyntaxDefinition.xml" -exec xsltproc --novalid ModeScopeStyles.xslt \{\} \; | awk '{print $1}' | sort | uniq | see --mode css
+
+
+---
+## [Style Extraction Makefile](id:makefile)
+**Makefile**
+
+`make` : generates Style Sheets for all Modes found the default Mode Folder  
+`make MODEPATHPREFIX=<path/to/Modes/Folder/>` generates the Style Sheets for the modes in given folder  
+`make STYLEPATHPREFIX=<path/to/Style/Folder/>` generates the Style Sheets in the given folder  
+`make clean` : deletes all the generated Style Sheets (if there are any)  
+`make init` : creates a ModeStyles folder (where newly generated .sss-Files are stored)  
+`make init STYLEPATHPREFIX=<path/to/Style/Folder/>` generates that folder instead 
+
+For more information about this Makefile drop it onto the text editor of your choice and have fun.
+
+
 
 ---
 ##PS:
