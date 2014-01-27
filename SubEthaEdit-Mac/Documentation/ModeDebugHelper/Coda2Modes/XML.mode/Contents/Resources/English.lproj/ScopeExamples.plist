@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>meta.default</key>
+    <string>Default Text</string>
+    <key>meta.highlight.currentline</key>
+    <string>-</string>
+    <key>meta.invisible.character</key>
+    <string>¶ .</string>
+    <key>meta.link</key>
+    <string>http://apple.com www.panic.com</string>
+    <key>meta.link.email</key>
+    <string>steve@apple.com</string>
+    <key>markup.constant.entity</key>
+    <string>&amp;lt; &amp;#160; &amp;#x2014;</string>
+    <key>meta.invalid.sgmlcomment</key>
+    <string>--</string>
+    <key>meta.invalid.ampersand</key>
+    <string>&amp;</string>
+    <key>markup.comment</key>
+    <string>&lt;!-- SGML Comment --&gt;</string>
+    <key>markup.inline.cdata</key>
+    <string>&lt;![CDATA[&lt;inline&gt;Data&lt;/inline&gt;]]&gt;</string>
+    <key>markup.processing</key>
+    <string>&lt;?xml version='1.0' encoding='utf-8'?&gt;</string>
+    <key>markup.tag</key>
+    <string>&lt;document&gt; &lt;br/&gt;</string>
+    <key>markup.tag.attribute.name</key>
+    <string>href id class</string>
+    <key>markup.tag.attribute.value.string</key>
+    <string>"left" "utf-8"</string>
+    <key>markup.declaration</key>
+    <string>&lt;!DOCTYPE &gt; &lt;!ENTITY &gt;</string>
+    <key>markup.declaration.string.double</key>
+    <string>"spec.dtd"</string>
+    <key>markup.declaration.string.single</key>
+    <string>'&lt;'</string>
+    <key>markup.processing.attribute.value.string</key>
+    <string>"utf-8" 'no'</string>
+  </dict>
+</plist>

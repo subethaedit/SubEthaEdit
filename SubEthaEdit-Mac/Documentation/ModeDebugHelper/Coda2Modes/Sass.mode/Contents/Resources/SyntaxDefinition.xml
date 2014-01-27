@@ -1,0 +1,245 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "syntax.dtd">
+<syntax>
+	<head>
+		<name>Sass</name>
+		<!-- The definitions title -->
+        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@]]></charsintokens>
+        <charsincompletion><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@]]></charsincompletion>
+    </head>
+	<states>
+		<default id="Base" usesymbolsfrommode="Sass" useautocompletefrommode="CSS" scope="meta.default">
+			
+			 <keywords id="Rules" casesensitive="no" useforautocomplete="yes" scope="style.at-rule">
+				<string>@import</string>
+				<string>@media</string>
+				<string>@imported</string>
+				<string>@screen</string>
+				<string>@extend</string>
+				<string>@debug</string>
+				<string>@warn</string>
+				<string>@if</string>
+				<string>@else if</string>
+				<string>@else</string>
+				<string>@for</string>
+				<string>@each</string>
+				<string>@while</string>
+				<string>@mixin</string>
+				<string>@include</string>
+				<string>@function</string>
+				<string>@return</string>
+				<string>@content</string>
+			</keywords>			
+
+			<keywords id="Number Literals" useforautocomplete="yes" scope="constant.numeric.keyword">
+				<string>true</string>
+				<string>false</string>
+				<string>TRUE</string>
+				<string>FALSE</string>
+			</keywords>
+			<!--
+			<keywords id="Operators" useforautocomplete="no" scope="language.operator">
+				<regex>([\+\-\*\\\=\|\!])</regex>
+				<regex>(\&lt;)(?![\?])</regex>
+				<regex>(?&lt;!\?)(\&gt;)</regex>
+				<regex>(\/)</regex>
+			</keywords>
+			-->
+			<keywords id="Control Keywords" useforautocomplete="yes" scope="keyword.control">
+        		<regex>(\s+and\s+)</regex>
+                <regex>(\s+or\s+)</regex>
+                <regex>(\s+not\s+)</regex>
+                <regex>(\s+from\s+)</regex>
+                <regex>(\s+to\s+)</regex>
+            </keywords>
+
+            <keywords id="Keywords" useforautocomplete="yes" casesensitive="no" scope="style.value.keyword">
+                <string>!optional</string>
+            </keywords>
+
+
+			<!-- top level strings -->
+            <state-link state="String" mode="CSS"/>
+            <state-link state="SingleString" mode="CSS"/>
+
+			<!-- adds support for -webkit rules -->
+			<state-link state="Rules" mode="CSS" />
+			
+			<!-- gets us attribute state highlighting behind variables -->
+			<state id="Variable Attribute state" scope="meta.block.attribute">
+				<begin>
+					<regex>\$[\d\w\-]+:</regex>
+				</begin>
+				<end>
+					<regex>(;|(?'unwindend'[{}]))</regex>
+				</end>
+				
+				<import mode="CSS" state="Attribute state" />     			
+				<import keywords-only="yes" />		
+
+            </state>
+			
+			<keywords id="Variables" useforautocomplete="no" scope="language.variable.sass" highlightInOrder="yes">
+				<regex>(\$[\d\w\-]+)</regex>
+			</keywords>
+			
+			<keywords id="Sass functions" useforautocomplete="yes" casesensitive="no" scope="support.function.sass">
+				<!-- RGB Function -->
+				<regex>(?&lt;![\d\w])(rgb)\s*\(</regex>
+				<regex>(?&lt;![\d\w])(rgba)\s*\(</regex>
+				<regex>(?&lt;![\d\w])(mix)\s*\(</regex>
+
+				<!-- HSL Functions -->
+				<regex>(?&lt;![\d\w])(hsl)\s*\(</regex>
+				<regex>(?&lt;![\d\w])(hsla)\s*\(</regex>
+				<regex>(?&lt;![\d\w])(hue)\s*\(</regex>
+				<regex>(?&lt;![\d\w])(saturation)\s*\(</regex>
+				<regex>(?&lt;![\d\w])(lightness)\s*\(</regex>
+				<regex>(?&lt;![\d\w])(adjust-hue)\s*\(</regex>
+				<regex>(?&lt;![\d\w])(lighten)\s*\(</regex>
+				<regex>(?&lt;![\d\w])(darken)\s*\(</regex>
+				<regex>(?&lt;![\d\w])(saturate)\s*\(</regex>
+				<regex>(?&lt;![\d\w])(desaturate)\s*\(</regex>
+				<regex>(?&lt;![\d\w])(grayscale)\s*\(</regex>
+				<regex>(?&lt;![\d\w])(complement)\s*\(</regex>
+
+				<!-- Opacity Functions -->
+				<regex>(?&lt;![\d\w])(alpha)\s*\(</regex>
+				<regex>(?&lt;![\d\w])(opacity)\s*\(</regex>
+				<regex>(?&lt;![\d\w])(opacify)\s*\(</regex>
+				<regex>(?&lt;![\d\w])(fade-in)\s*\(</regex>
+				<regex>(?&lt;![\d\w])(transparentize)\s*\(</regex>
+				<regex>(?&lt;![\d\w])(fade-out)\s*\(</regex>
+
+				<!-- String Functions -->
+				<regex>(?&lt;![\d\w])(unqoute)\s*\(</regex>
+				<regex>(?&lt;![\d\w])(quote)\s*\(</regex>
+
+				<!-- Numbers Functions -->
+				<regex>(?&lt;![\d\w])(percentage)\s*\(</regex>
+				<regex>(?&lt;![\d\w])(round)\s*\(</regex>
+				<regex>(?&lt;![\d\w])(ceil)\s*\(</regex>
+				<regex>(?&lt;![\d\w])(floor)\s*\(</regex>
+				<regex>(?&lt;![\d\w])(abs)\s*\(</regex>
+				
+				<!-- Introspect Functions -->
+				<regex>(?&lt;![\d\w])(type_of)\s*\(</regex>
+				<regex>(?&lt;![\d\w])(unit)\s*\(</regex>
+				<regex>(?&lt;![\d\w])(unitless)\s*\(</regex>
+				<regex>(?&lt;![\d\w])(comparable)\s*\(</regex>
+
+				<!-- Misc Functions -->
+				<regex>(?&lt;![\d\w])(nth)\s*\(</regex>
+
+			</keywords>
+			
+			<state id="Comment Group" foldable="yes" indent="no" delimiterState="Comment" scope="meta.default">
+       			<begin><regex>/\*[ \t]*(?i)@group[ \t]+.*?\*/</regex></begin>
+       			<end><regex>/\*[ \t]*(?i)@end[ \t]*\*/</regex></end>
+       			<import />
+       		</state>
+			
+			<state id="Comment" type="comment" foldable="yes" scope="style.comment.block">
+                <begin>
+                    <string>/\*</string>
+                    <autoend>\*/</autoend>
+                </begin>
+                <end>
+                    <regex>\*/</regex>
+                </end>
+                
+                <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+            </state>
+			
+			<state-link state="AutodocComment" mode="CSS" />
+            
+			<state id="SingleComment" type="comment" scope="style.comment.block">
+				<begin><regex>(?://)</regex></begin>
+				<end><regex>(?:[\n\r])</regex></end>
+			</state>
+					
+		  	<state id="Inside curly brackets" foldable="yes" indent="yes" scope="meta.block.curly">
+                <begin>
+                    <string>{</string>
+                    <autoend>}</autoend>
+                </begin>
+                <end>
+                    <regex>}</regex>
+                </end>
+                
+                	<state-link state="AutodocComment" mode="CSS" />
+					<state-link state="Comment" />
+					<state-link state="SingleString" mode="CSS" />
+					
+					<state id="SingleComment in Curly" type="comment" scope="style.comment.block">
+						<begin><regex>(?://)</regex></begin>
+						<!-- <end><regex>(?:[\n\r]|(?'unwindend'}))</regex></end> #20639-->
+						<end><regex>(?:[\n\r])</regex></end>
+					</state>
+					
+                	<state id="String" type="string" scope="style.value.string.double">
+						<begin>
+							<string>"</string>
+						</begin>
+						<end>
+							<regex>(((?&lt;!\\)(\\\\)*)|^)"</regex>
+						</end>
+						
+						<keywords id="Variables" useforautocomplete="no" scope="language.variable.sass">
+							<regex>(\$[\d\w\-]+)</regex>
+						</keywords>						
+					</state>
+							
+       			<import keywords-only="yes" />
+       			
+       			<keywords id="Placeholder Selectors" useforautocomplete="no" scope="language.variable.placeholder" highlightInOrder="yes">
+					<regex>(%[\d\w\-]+)</regex>
+				</keywords>
+       			
+       			<!-- nested matches, not complete -->
+       			<keywords id="Nested Properties" casesensitive="no" scope="style.property.name">
+					<string>family</string>
+					<string>style</string>
+					<string>weight</string>
+					<string>size</string>
+       			</keywords>
+
+       			<import mode="CSS" state="Inside curly brackets" keywords-only="yes" />
+
+				<state id="Attribute state" scope="meta.block.attribute">
+					<begin>
+						<regex>:</regex>
+					</begin>
+					<end>
+						<regex>(;|(?'unwindend'[{}]))</regex>
+					</end>
+	
+					<import mode="CSS" state="Attribute state" />      			
+					<import keywords-only="yes" />					
+				</state>
+       			
+
+				<state-link state="Inside curly brackets" />
+				
+            </state>
+
+			<!--
+			<state id="Interpolation" useforautocomplete="no" scope="meta.important">
+				<begin>
+					<string>#{</string>
+				</begin>
+				<end>
+					<string>}</string>
+				</end>
+				
+				
+				<keywords id="Interpolate" useforautocomplete="no" scope="meta.important">
+					<regex>(\$[\d\w-]+)</regex>
+				</keywords>
+
+			</state>
+			-->
+
+		</default>
+	</states>
+</syntax>

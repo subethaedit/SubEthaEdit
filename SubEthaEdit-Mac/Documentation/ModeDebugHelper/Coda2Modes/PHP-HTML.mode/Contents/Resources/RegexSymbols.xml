@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "symbol.dtd">
+<symbols>
+    <blocks>
+        <beginregex>{</beginregex>
+        <endregex>}</endregex>
+    </blocks>
+
+	<!-- CODA -->
+	<symbol id="includes" font-weight="normal" font-style="normal" image="Symbol#" indentation="0" ignoreblocks="no"> 
+		<regex>(?i)(?:(?:^|\s)(?:include|require)(?:_once)?)\s*\(([-\s_\w\./\$'"\[\]]+)\)</regex>
+		<regex>(?i)(?:(?:^|\s)(?:include|require)(?:_once)?)\s+((?:"([-\s_\d\w\./\$']+)")|(?:'([-\s_\d\w\./\$"]+)'))</regex>
+		<postprocess>
+			<find>[-\s_\d\w\./]*?/</find>
+			<replace></replace>
+		</postprocess>
+	</symbol>
+	
+	<!-- END CODA -->
+	
+	 <symbol id="function prototype" font-weight="normal" font-style="normal" image="SymbolP" indentation="0" ignoreblocks="no" useforautocomplete="yes">
+		<!-- CODA 
+        <regex>(?:^|(?&lt;=\r))[ ]{0,1}(?:final[ \t]+)?(?:(?:private|public|protected)[ \t]+)?(?:static[ \t]+)?function[ \t]+&amp;?([a-zA-Z0-9_]+[ \t]*\([^)]*\))[^{}]*{</regex>
+		-->
+        <regex>(?:^|(?&lt;=\r))[ \t]*(?:(?:abstract|protected)[ \t]+)?(?:(?:private|public|protected|abstract)[ \t]+)?(?:static[ \t]+)?function\s+(?'name'\w+\s*\([^);]*\))[ \t]*;</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+	
+    <symbol id="function" font-weight="normal" font-style="normal" image="SymbolF()" indentation="0" ignoreblocks="no" useforautocomplete="yes"> 
+		<!-- CODA 
+        <regex>(?:^|(?&lt;=\r))[ ]{0,1}(?:final[ \t]+)?(?:(?:private|public|protected)[ \t]+)?(?:static[ \t]+)?function[ \t]+&amp;?([a-zA-Z0-9_]+[ \t]*\([^)]*\))[^{}]*{</regex>
+		-->
+        <regex>(?:^|(?&lt;=\r))(?:(?:final|static|abstract)[ \t]+)?(?:(?:private|public|protected|abstract)[ \t]+)?(?:static[ \t]+)?function\s+(?'name'\w+\s*\((?'arguments'[^{;]*)\))[^{};]*{</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+        <arguments>([\$\w]+[\$=\w\s'"\(\)]*)[,\n\t]*</arguments>
+    </symbol>
+
+    <symbol id="function indented" font-weight="normal" font-style="normal" image="SymbolF()" indentation="1" ignoreblocks="no" useforautocomplete="yes">
+		<!-- CODA
+		<regex>(?:^|(?&lt;=\r))(?:[ ]{2,}|\t)[ \t]*(?:final[ \t]+)?(?:(?:private|public|protected)[ \t]+)?(?:static[ \t]+)?function[ \t]+&amp;?([a-zA-Z0-9_]+[ \t]*\([^)]*\))[^{}]*{</regex>
+		-->
+		<regex>(?:^|(?&lt;=\r))[ \t]+(?:(?:final|static|abstract)[ \t]+)?(?:(?:private|public|protected|abstract)[ \t]+)?(?:static[ \t]+)?function[ \t]+&amp;?\s*(?'name'[a-zA-Z0-9_]+[ \t]*\((?'arguments'[^{;]*)\))[^{};]*{</regex>
+       <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+        <arguments>([\$\w]+[\$=\w\s'"\(\)]*)[,\n\t]*</arguments>
+    </symbol>
+
+	<symbol id="language.variable.php.php-html" hidden="yes" useforautocomplete="yes">
+		<regex>(\$[\w\d]+)</regex>
+	</symbol>
+
+    <symbol id="language.class.php.php-html" font-weight="bold" font-style="normal" image="SymbolC" indentation="0" ignoreblocks="yes" useforautocomplete="yes">
+        <!-- CODA
+        <regex>(?:^|(?&lt;=\r))[ \t]*(?:final[ \t]+)?class[ \t]+([a-zA-Z0-9_]+([ \t]+extends[ \t]+[a-zA-Z0-9_]+)?)[ \t]*[^{}]*{</regex>
+		-->
+        <regex>(?:^|(?&lt;=\r))[ \t]*(?:(?:final|static|abstract)[ \t]+)?class[ \t]+(?'name'[a-zA-Z0-9_]+)(?:[ \t]+extends[ \t]+[a-zA-Z0-9_]+)?[ \t]*[^{}]*{</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+        <poststring>()</poststring>
+        <movecursor>1</movecursor>
+    </symbol>
+
+    <symbol id="Comment Marks" font-weight="bold" indentation="0" image="SymbolMark" ignoreblocks="yes" show-in-comments="yes">
+        <regex>//- mark[\t ]*(?:-(?=[\n\r]))?([^\n\r]*)</regex>
+    </symbol>
+
+	 <!-- CODA -->
+    <symbol id="Pragma marks" font-weight="normal" font-style="normal" image="SymbolMark" indentation="0" ignoreblocks="no" show-in-comments="yes">
+        <regex>//\s*!([^\n\r]+)</regex>
+		<regex>/\*\s*!(.+) \*/</regex>
+    </symbol>
+    
+    <!-- END CODA -->
+</symbols>

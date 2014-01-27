@@ -1,0 +1,47 @@
+Changes with Version 4.0 (SEE 4.0)
+   *) updated for syntax scopes
+
+Changes with Version 3.5  (SEE 3.5.1)
+	 *) fixed issues with wonky coloring of class member variables
+	 *) made default color of numbers on dark background brighter
+
+Changes with Version 3.5  (SEE 3.5)
+	 *) added code folding
+
+Changes with Version 1.9 (SEE 3.0.2)
+    *) fixed bracket matching
+
+Changes with Version 1.8 (SEE 3.0.1)
+    *) greatly improved PHP mode by switching to nested states
+
+Changes with Version 1.7 (SEE 2.6.3)
+    *) fixed the validate scripts to work with unicode and leopard
+    *) fixed the validate scripts to work with tabs
+
+Changes with Version 1.6
+    *) added PHP5 specific keywords
+
+Changes with Version 1.5 (SEE 2.5.1)
+    *) fixed link in Lookup in PHP Documentation Script
+    *) substituted 501 with `id -g` to make all utf-8 "do shell script" commands work on non-501 users. (fixes SEE-1042)
+    *) fixed issue SEE-1040: "Check Syntax" script has same key shortcut as block edit by changing it to ctrl-command-b
+
+Changes with Version 1.4 (SEE 2.5)
+    *) added scripts: Close Last Tag, Insert/Edit HTML Color, Add Link, Check Syntax, Run using PHP, HTML Comment Selection, Lookup in PHP Documentation
+    *) added real, double, bool, boolean, integer, resource, NULL as keywords
+    *) removed non existing functions: add, remove
+    *) added missing keywords: endif, endwhile
+
+Changes with Version 1.3 (SEE 2.3)
+    *) added css and xhtml autocompletions
+    *) added coloration of single line html comments <!-- -->
+    *) added INC/inc as extension
+
+Changes with Version 1.2
+    *) added private, public and protected to RegexSymbols as well as SyntaxDefinition.html
+    *) fixed double appeareance of functions if indented 3 spaces
+
+Changes with Version 1.1
+    
+    *) EXTENSIONS: Added uppercase variants where appropriate.
+    *) BUNDLE: Changed Bundle Identifier to PHP-HTML (was Objective-C)

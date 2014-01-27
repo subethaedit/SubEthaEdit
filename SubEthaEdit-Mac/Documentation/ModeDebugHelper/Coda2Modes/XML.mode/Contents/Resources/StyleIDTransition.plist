@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>/XML/Attributes in Tags</key>
+	<string>Tags.Attributes in Tags</string>
+	<key>/XML/CDATA</key>
+	<string>CDATA</string>
+	<key>/XML/Comment</key>
+	<string>Comment</string>
+	<key>/XML/Doctype</key>
+	<string>Doctype</string>
+	<key>/XML/Entities</key>
+	<string>Tags.Entities</string>
+	<key>/XML/Escape</key>
+	<string>Escape</string>
+	<key>/XML/Strings in Tags</key>
+	<string>Tags.Strings in Tags</string>
+	<key>/XML/Tags</key>
+	<string>Tags</string>
+	<key>_Default</key>
+	<string>_Default</string>
+</dict>
+</plist>

@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>/Python/Backticks</key>
+	<string>Backticks</string>
+	<key>/Python/Built-In Functions</key>
+	<string>_Default.Built-In Functions</string>
+	<key>/Python/Built-in Constants</key>
+	<string>_Default.Built-in Constants</string>
+	<key>/Python/Exceptions</key>
+	<string>_Default.Exceptions</string>
+	<key>/Python/Keywords</key>
+	<string>_Default.Keywords</string>
+	<key>/Python/Numbers</key>
+	<string>_Default.Numbers</string>
+	<key>/Python/Singleline Comment</key>
+	<string>Singleline Comment</string>
+	<key>/Python/Special Attributes</key>
+	<string>_Default.Special Attributes</string>
+	<key>/Python/Special Methods</key>
+	<string>_Default.Special Methods</string>
+	<key>/Python/String with double quotes</key>
+	<string>String with double quotes</string>
+	<key>/Python/String with single quotes</key>
+	<string>String with single quotes</string>
+	<key>/Python/String with triple double quotes</key>
+	<string>String with triple double quotes</string>
+	<key>/Python/String with triple single quotes</key>
+	<string>String with triple single quotes</string>
+	<key>/Python/Types</key>
+	<string>_Default.Types</string>
+	<key>_Default</key>
+	<string>_Default</string>
+</dict>
+</plist>

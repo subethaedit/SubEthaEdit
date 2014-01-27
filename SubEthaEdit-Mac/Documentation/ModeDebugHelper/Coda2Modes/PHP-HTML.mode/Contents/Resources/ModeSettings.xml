@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<settings>
+    <recognition>
+        <extension>php</extension>
+        <extension>php3</extension>
+        <extension>php4</extension>
+        <extension>php5</extension>
+        <extension>phtml</extension>
+        <extension>inc</extension>
+        <regex>\A#!/usr/bin/php</regex>
+        <regex>\A#!/usr/bin/env php</regex>
+        <regex>&lt;\?php.+(?:\?&gt;|\Z)</regex>
+        <regex>&lt;\?.+(?:\?&gt;|\Z)</regex>
+    </recognition>
+</settings>

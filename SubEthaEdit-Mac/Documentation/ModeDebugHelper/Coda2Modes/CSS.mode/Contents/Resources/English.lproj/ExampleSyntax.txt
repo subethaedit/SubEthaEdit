@@ -1,0 +1,29 @@
+@media screen,projection {
+  body {
+    background: #999;
+    font: 300 100.01% "Helvetica Neue",Helvetica,"Arial Unicode MS",Arial,sans-serif;
+    color: #000;
+    margin: 0;
+    padding: 0;
+    line-height: 1.5;
+    text-align: center;
+    text-rendering: optimizeLegibility
+  }
+  #column-1 div.sample {
+    background: #2c53b0 url(blueprint-min.png) no-repeat;
+    float: right!important;
+    height: 99px;
+    margin: -5em 1em 1em;
+    padding: 10px;
+    width: 99px
+  } /* comments! */
+}
+@media print {
+  body {
+    background: #fff;
+    color: #000;
+    font: 300 100.01% "Helvetica Neue",Helvetica,"Arial Unicode MS",Arial,sans-serif;
+    margin: 3em 2em 6em 4em;
+    text-rendering: optimizeLegibility
+  }
+}

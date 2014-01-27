@@ -1,0 +1,1509 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "syntax.dtd">
+<syntax>
+
+	<head>
+		<name>LassoScript-HTML</name> <!-- The definitions title -->
+		<charsintokens><![CDATA[#$_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ<>]]></charsintokens> <!-- Valid Characters for Variables -->
+		<!-- <charsdelimitingtokens></charsdelimitingtokens> -->
+	</head>
+
+	<states>
+
+		<default id="Base" usesymbolsfrommode="HTML" useautocompletefrommode="HTML" usespellchecking="yes" scope="meta.default">
+		                 
+			<import mode="XML" keywords-only="yes" />
+			
+			<!-- support for pure lasso code libraries -->
+			
+			<state id="Define Multiple line lasso 9" foldable="yes" usesymbolsfrommode="LassoScript-HTML" useautocompletefrommode="LassoScript-HTML" scope="meta.default">
+				<begin>
+					<regex>(?&lt;![\d\w.\-#])(?:define|public|protected|private|provide)\s+(?:.*?)=>(?:.*?){</regex>
+				</begin>
+				<end>
+					<string>}</string>
+				</end>
+				
+				<import state="Define Multiple line lasso 9"/>
+				<import state="LassoScript Code"/>
+
+			</state>
+			
+			<state id="Define Single line lasso 9" usesymbolsfrommode="LassoScript-HTML" useautocompletefrommode="LassoScript-HTML" scope="meta.default">
+				<begin>
+					<regex>(?:^|[\r\n])[ \t]*(?:define|public|protected|private|provide)\s+</regex>
+				</begin>
+				<end>
+					<regex>(?'unwindend'[\r\n])</regex>
+				</end>
+				
+				<import state="LassoScript Code"/>
+				
+			</state>
+			
+			<state id="Define Lasso 8" usesymbolsfrommode="LassoScript-HTML" useautocompletefrommode="LassoScript-HTML" scope="meta.default">
+				<begin>
+					<regex>(?:^|\s)(?i)Define_Tag\s*\(</regex>
+				</begin>
+				<end>
+					<regex>(?i)(/Define_Tag)</regex>
+				</end>
+				
+				<import state="LassoScript Code"/>
+			</state>
+			
+			<state id="Lasso No Process" type="block" foldable="yes" usesymbolsfrommode="LassoScript-HTML" useautocompletefrommode="LassoScript-HTML"  scope="comment.block">
+				<begin>
+					<regex>[\[]\s*noprocess\s*[\]]</regex>
+				</begin>
+				<end>
+					<regex>[\[]\s*[/]noprocess\s*[\]]</regex>
+				</end>
+			</state>
+			
+			<!-- inline lassoscript -->
+			
+			<state id="LassoScript Code" containerState="yes" usesymbolsfrommode="LassoScript-HTML" useautocompletefrommode="LassoScript-HTML" scope="meta.default">
+				
+				<keywords id="LassoScript Language Switch" useforautocomplete="no" scope="markup.processing.languageswitch">
+			   		<regex>(&lt;\?(?i)(?:lassoscript))</regex>
+			   		<regex>(\?&gt;)</regex>
+			   		<regex>(\[)</regex>
+			   		<regex>(\])</regex>
+			   		<regex>(&lt;\?=)</regex>
+			   	</keywords>
+			   	
+				<state id="Lasso Block" type="block" foldable="yes" scope="meta.block.curly">
+                    <begin>
+                        <regex>{</regex><autoend>}</autoend>
+                    </begin>
+                    <end>
+                        <regex>(?:}|(?'unwindend'\]))</regex>
+                    </end>
+                    <import state="LassoScript Code"/>
+                </state>
+<!--             
+                This does not work for pure Lasso files. FIXME
+                <state id="Foldable Block" type="block" foldable="yes">
+                    <begin><string>(?i)(?&lt;!\S)(?'blockstart'if|iterate|loop|while|define_tag|select)[: \t(][^;]+;</string></begin>
+                    <end><regex>(?i)/(?#see-insert-start-group:blockstart);</regex></end>
+                    <import mode="XML" keywords-only="yes" />
+                    <import state="LassoScript Code" />
+                </state>
+ -->			
+				<keywords id="Built-in Types" useforautocomplete="yes" scope="support.function">
+					<string>_</string>
+					<string>...</string>
+					<string>..</string>
+					<string>.</string>
+					<string>abort</string>
+					<string>average</string>
+					<string>by</string>
+					<string>case</string>
+					<string>data</string>
+					<string>define</string>
+					<string>descending</string>
+					<string>do</string>
+					<string>error_msg_invalidParameter</string>
+					<string>error_code_invalidParameter</string>
+					<string>error_msg_networkError</string>
+					<string>error_code_networkError</string>
+					<string>error_msg_runtimeAssertion</string>
+					<string>error_code_runtimeAssertion</string>
+					<string>error_msg_tagNotFound</string>
+					<string>error_code_tagNotFound</string>
+					<string>error_msg_resNotFound</string>
+					<string>error_code_resNotFound</string>
+					<string>false</string>
+					<string>from</string>
+					<string>to</string>
+					<string>group</string>
+					<string>handle</string>
+					<string>import</string>
+					<string>in</string>
+					<string>inherited</string>
+					<string>into</string>
+					<string>iterate</string>
+					<string>join</string>
+					<string>let</string>
+					<string>local</string>
+					<string>match</string>
+					<string>max</string>
+					<string>min</string>
+					<string>null</string>
+					<string>order</string>
+					<string>params</string>
+					<string>parent</string>
+					<string>private</string>
+					<string>protect</string>
+					<string>protected</string>
+					<string>provide</string>
+					<string>public</string>
+					<string>records</string>
+					<string>require</string>
+					<string>return</string>
+					<string>returnHome</string>
+					<string>returnValue</string>
+					<string>select</string>
+					<string>self</string>
+					<string>skip</string>
+					<string>sum</string>
+					<string>take</string>
+					<string>thread</string>
+					<string>trait</string>
+					<string>true</string>
+					<string>type</string>
+					<string>var</string>
+					<string>void</string>
+					<string>where</string>
+					<string>with</string>
+					<string>yield</string>
+					<string>yieldHome</string>
+				</keywords>
+					
+				<keywords id="Default Lasso Tags" casesensitive="no" useforautocomplete="yes" scope="keyword">
+					<string>__char</string>
+					<string>__sync_timestamp__</string>
+					<string>_admin_addgroup</string>
+					<string>_admin_adduser</string>
+					<string>_admin_defaultconnector</string>
+					<string>_admin_defaultconnectornames</string>
+					<string>_admin_defaultdatabase</string>
+					<string>_admin_defaultfield</string>
+					<string>_admin_defaultgroup</string>
+					<string>_admin_defaulthost</string>
+					<string>_admin_defaulttable</string>
+					<string>_admin_defaultuser</string>
+					<string>_admin_deleteconnector</string>
+					<string>_admin_deletedatabase</string>
+					<string>_admin_deletefield</string>
+					<string>_admin_deletegroup</string>
+					<string>_admin_deletehost</string>
+					<string>_admin_deletetable</string>
+					<string>_admin_deleteuser</string>
+					<string>_admin_duplicategroup</string>
+					<string>_admin_internaldatabase</string>
+					<string>_admin_listconnectors</string>
+					<string>_admin_listdatabases</string>
+					<string>_admin_listfields</string>
+					<string>_admin_listgroups</string>
+					<string>_admin_listhosts</string>
+					<string>_admin_listtables</string>
+					<string>_admin_listusers</string>
+					<string>_admin_refreshconnector</string>
+					<string>_admin_refreshsecurity</string>
+					<string>_admin_servicepath</string>
+					<string>_admin_updateconnector</string>
+					<string>_admin_updatedatabase</string>
+					<string>_admin_updatefield</string>
+					<string>_admin_updategroup</string>
+					<string>_admin_updatehost</string>
+					<string>_admin_updatetable</string>
+					<string>_admin_updateuser</string>
+					<string>_chartfx_activation_string</string>
+					<string>_chartfx_getchallengestring</string>
+					<string>_chop_args</string>
+					<string>_chop_mimes</string>
+					<string>_client_addr_old</string>
+					<string>_client_address_old</string>
+					<string>_client_ip_old</string>
+					<string>_database_names</string>
+					<string>_datasource_reload</string>
+					<string>_date_current</string>
+					<string>_date_format</string>
+					<string>_date_msec</string>
+					<string>_date_parse</string>
+					<string>_execution_timelimit</string>
+					<string>_file_chmod</string>
+					<string>_jdbc_acceptsurl</string>
+					<string>_jdbc_debug</string>
+					<string>_jdbc_deletehost</string>
+					<string>_jdbc_driverclasses</string>
+					<string>_jdbc_driverinfo</string>
+					<string>_jdbc_metainfo</string>
+					<string>_jdbc_propertyinfo</string>
+					<string>_jdbc_setdriver</string>
+					<string>_lasso_param</string>
+					<string>_log_helper</string>
+					<string>_proc_withparam</string>
+					<string>_recursion_limit</string>
+					<string>_request_param</string>
+					<string>_security_binaryexpiration</string>
+					<string>_security_flushcaches</string>
+					<string>_security_isserialized</string>
+					<string>_security_serialexpiration</string>
+					<string>_srand</string>
+					<string>_strict_literals</string>
+					<string>_substring</string>
+					<string>_xmlrpc_exconverter</string>
+					<string>_xmlrpc_inconverter</string>
+					<string>_xmlrpc_xmlinconverter</string>
+					<string>action_addinfo</string>
+					<string>action_addrecord</string>
+					<string>action_param</string>
+					<string>action_params</string>
+					<string>action_setfoundcount</string>
+					<string>action_setrecordid</string>
+					<string>action_settotalcount</string>
+					<string>action_statement</string>
+					<string>admin_allowedfileroots</string>
+					<string>admin_changeuser</string>
+					<string>admin_createuser</string>
+					<string>admin_currentgroups</string>
+					<string>admin_currentuserid</string>
+					<string>admin_currentusername</string>
+					<string>admin_getpref</string>
+					<string>admin_groupassignuser</string>
+					<string>admin_grouplistusers</string>
+					<string>admin_groupremoveuser</string>
+					<string>admin_lassoservicepath</string>
+					<string>admin_listgroups</string>
+					<string>admin_refreshsecurity</string>
+					<string>admin_reloaddatasource</string>
+					<string>admin_removepref</string>
+					<string>admin_setpref</string>
+					<string>admin_userexists</string>
+					<string>admin_userlistgroups</string>
+					<string>all</string>
+					<string>and</string>
+					<string>array_iterator</string>
+					<string>auth</string>
+					<string>auth_admin</string>
+					<string>auth_auth</string>
+					<string>auth_custom</string>
+					<string>auth_group</string>
+					<string>auth_prompt</string>
+					<string>auth_user</string>
+					<string>base64</string>
+					<string>bean</string>
+					<string>bigint</string>
+					<string>bom_utf16be</string>
+					<string>bom_utf16le</string>
+					<string>bom_utf32be</string>
+					<string>bom_utf32le</string>
+					<string>bom_utf8</string>
+					<string>boolean</string>
+					<string>bw</string>
+					<string>cache</string>
+					<string>cache_delete</string>
+					<string>cache_empty</string>
+					<string>cache_exists</string>
+					<string>cache_fetch</string>
+					<string>cache_object</string>
+					<string>cache_preferences</string>
+					<string>cache_store</string>
+					<string>chart</string>
+					<string>chart_chart</string>
+					<string>chart_test</string>
+					<string>chartfx</string>
+					<string>checked</string>
+					<string>choice_list</string>
+					<string>choice_listitem</string>
+					<string>choicelistitem</string>
+					<string>cipher_decrypt</string>
+					<string>cipher_digest</string>
+					<string>cipher_encrypt</string>
+					<string>cipher_hmac</string>
+					<string>cipher_keylength</string>
+					<string>cipher_list</string>
+					<string>client_addr</string>
+					<string>client_address</string>
+					<string>client_authorization</string>
+					<string>client_browser</string>
+					<string>client_contentlength</string>
+					<string>client_contenttype</string>
+					<string>client_cookielist</string>
+					<string>client_cookies</string>
+					<string>client_encoding</string>
+					<string>client_formmethod</string>
+					<string>client_getargs</string>
+					<string>client_getparams</string>
+					<string>client_headers</string>
+					<string>client_ip</string>
+					<string>client_ipfrominteger</string>
+					<string>client_iptointeger</string>
+					<string>client_password</string>
+					<string>client_postargs</string>
+					<string>client_postparams</string>
+					<string>client_type</string>
+					<string>client_url</string>
+					<string>client_username</string>
+					<string>cn</string>
+					<string>column</string>
+					<string>column_name</string>
+					<string>column_names</string>
+					<string>compare_beginswith</string>
+					<string>compare_contains</string>
+					<string>compare_endswith</string>
+					<string>compare_equalto</string>
+					<string>compare_greaterthan</string>
+					<string>compare_lessthan</string>
+					<string>compare_notcontains</string>
+					<string>compare_notequalto</string>
+					<string>compare_strictequalto</string>
+					<string>compare_strictnotequalto</string>
+					<string>compiler_removecacheddoc</string>
+					<string>compiler_setdefaultparserflags</string>
+					<string>compress</string>
+					<string>content_body</string>
+					<string>content_encoding</string>
+					<string>content_header</string>
+					<string>content_type</string>
+					<string>cookie</string>
+					<string>cookie_set</string>
+					<string>curl_ftp_getfile</string>
+					<string>curl_ftp_getlisting</string>
+					<string>curl_ftp_putfile</string>
+					<string>curl_include_url</string>
+					<string>currency</string>
+					<string>database_changecolumn</string>
+					<string>database_changefield</string>
+					<string>database_createcolumn</string>
+					<string>database_createfield</string>
+					<string>database_createtable</string>
+					<string>database_fmcontainer</string>
+					<string>database_hostinfo</string>
+					<string>database_inline</string>
+					<string>database_name</string>
+					<string>database_nameitem</string>
+					<string>database_names</string>
+					<string>database_realname</string>
+					<string>database_removecolumn</string>
+					<string>database_removefield</string>
+					<string>database_removetable</string>
+					<string>database_repeating</string>
+					<string>database_repeating_valueitem</string>
+					<string>database_repeatingvalueitem</string>
+					<string>database_schemanameitem</string>
+					<string>database_schemanames</string>
+					<string>database_tablecolumn</string>
+					<string>database_tablenameitem</string>
+					<string>database_tablenames</string>
+					<string>datasource_name</string>
+					<string>datasource_register</string>
+					<string>date__date_current</string>
+					<string>date__date_format</string>
+					<string>date__date_msec</string>
+					<string>date__date_parse</string>
+					<string>date_add</string>
+					<string>date_date</string>
+					<string>date_difference</string>
+					<string>date_duration</string>
+					<string>date_format</string>
+					<string>date_getcurrentdate</string>
+					<string>date_getday</string>
+					<string>date_getdayofweek</string>
+					<string>date_gethour</string>
+					<string>date_getlocaltimezone</string>
+					<string>date_getminute</string>
+					<string>date_getmonth</string>
+					<string>date_getsecond</string>
+					<string>date_gettime</string>
+					<string>date_getyear</string>
+					<string>date_gmttolocal</string>
+					<string>date_localtogmt</string>
+					<string>date_maximum</string>
+					<string>date_minimum</string>
+					<string>date_msec</string>
+					<string>date_setformat</string>
+					<string>date_subtract</string>
+					<string>db_layoutnameitem</string>
+					<string>db_layoutnames</string>
+					<string>db_nameitem</string>
+					<string>db_names</string>
+					<string>db_tablenameitem</string>
+					<string>db_tablenames</string>
+					<string>dbi_column_names</string>
+					<string>dbi_field_names</string>
+					<string>decode_base64</string>
+					<string>decode_bheader</string>
+					<string>decode_hex</string>
+					<string>decode_html</string>
+					<string>decode_qheader</string>
+					<string>decode_quotedprintable</string>
+					<string>decode_quotedprintablebytes</string>
+					<string>decode_url</string>
+					<string>decode_xml</string>
+					<string>decompress</string>
+					<string>decrypt_blowfish</string>
+					<string>decrypt_blowfish2</string>
+					<string>default</string>
+					<string>define_atbegin</string>
+					<string>define_atend</string>
+					<string>define_constant</string>
+					<string>define_prototype</string>
+					<string>define_tagp</string>
+					<string>define_typep</string>
+					<string>deserialize</string>
+					<string>directory_directorynameitem</string>
+					<string>directory_lister</string>
+					<string>directory_nameitem</string>
+					<string>directorynameitem</string>
+					<string>dns_default</string>
+					<string>dns_lookup</string>
+					<string>dns_response</string>
+					<string>email_batch</string>
+					<string>email_compose</string>
+					<string>email_digestchallenge</string>
+					<string>email_digestresponse</string>
+					<string>email_extract</string>
+					<string>email_findemails</string>
+					<string>email_immediate</string>
+					<string>email_merge</string>
+					<string>email_mxerror</string>
+					<string>email_mxlookup</string>
+					<string>email_parse</string>
+					<string>email_pop</string>
+					<string>email_queue</string>
+					<string>email_result</string>
+					<string>email_safeemail</string>
+					<string>email_send</string>
+					<string>email_smtp</string>
+					<string>email_status</string>
+					<string>email_token</string>
+					<string>email_translatebreakstocrlf</string>
+					<string>encode_base64</string>
+					<string>encode_bheader</string>
+					<string>encode_break</string>
+					<string>encode_breaks</string>
+					<string>encode_crc32</string>
+					<string>encode_hex</string>
+					<string>encode_html</string>
+					<string>encode_htmltoxml</string>
+					<string>encode_qheader</string>
+					<string>encode_quotedprintable</string>
+					<string>encode_quotedprintablebytes</string>
+					<string>encode_smart</string>
+					<string>encode_sql</string>
+					<string>encode_sql92</string>
+					<string>encode_stricturl</string>
+					<string>encode_url</string>
+					<string>encode_xml</string>
+					<string>encrypt_blowfish</string>
+					<string>encrypt_blowfish2</string>
+					<string>encrypt_crammd5</string>
+					<string>encrypt_hmac</string>
+					<string>encrypt_md5</string>
+					<string>eq</string>
+					<string>error_adderror</string>
+					<string>error_code</string>
+					<string>error_code_aborted</string>
+					<string>error_code_assert</string>
+					<string>error_code_bof</string>
+					<string>error_code_connectioninvalid</string>
+					<string>error_code_couldnotclosefile</string>
+					<string>error_code_couldnotcreateoropenfile</string>
+					<string>error_code_couldnotdeletefile</string>
+					<string>error_code_couldnotdisposememory</string>
+					<string>error_code_couldnotlockmemory</string>
+					<string>error_code_couldnotreadfromfile</string>
+					<string>error_code_couldnotunlockmemory</string>
+					<string>error_code_couldnotwritetofile</string>
+					<string>error_code_criterianotmet</string>
+					<string>error_code_datasourceerror</string>
+					<string>error_code_directoryfull</string>
+					<string>error_code_diskfull</string>
+					<string>error_code_dividebyzero</string>
+					<string>error_code_eof</string>
+					<string>error_code_failure</string>
+					<string>error_code_fieldrestriction</string>
+					<string>error_code_file</string>
+					<string>error_code_filealreadyexists</string>
+					<string>error_code_filecorrupt</string>
+					<string>error_code_fileinvalid</string>
+					<string>error_code_fileinvalidaccessmode</string>
+					<string>error_code_fileisclosed</string>
+					<string>error_code_fileisopen</string>
+					<string>error_code_filelocked</string>
+					<string>error_code_filenotfound</string>
+					<string>error_code_fileunlocked</string>
+					<string>error_code_httpfilenotfound</string>
+					<string>error_code_illegalinstruction</string>
+					<string>error_code_illegaluseoffrozeninstance</string>
+					<string>error_code_invaliddatabase</string>
+					<string>error_code_invalidfilename</string>
+					<string>error_code_invalidmemoryobject</string>
+					<string>error_code_invalidparameter</string>
+					<string>error_code_invalidpassword</string>
+					<string>error_code_invalidpathname</string>
+					<string>error_code_invalidusername</string>
+					<string>error_code_ioerror</string>
+					<string>error_code_loopaborted</string>
+					<string>error_code_memory</string>
+					<string>error_code_network</string>
+					<string>error_code_nilpointer</string>
+					<string>error_code_noerr</string>
+					<string>error_code_nopermission</string>
+					<string>error_code_outofmemory</string>
+					<string>error_code_outofstackspace</string>
+					<string>error_code_overflow</string>
+					<string>error_code_postconditionfailed</string>
+					<string>error_code_preconditionfailed</string>
+					<string>error_code_resnotfound</string>
+					<string>error_code_resource</string>
+					<string>error_code_streamreaderror</string>
+					<string>error_code_streamwriteerror</string>
+					<string>error_code_syntaxerror</string>
+					<string>error_code_tagnotfound</string>
+					<string>error_code_unknownerror</string>
+					<string>error_code_varnotfound</string>
+					<string>error_code_volumedoesnotexist</string>
+					<string>error_code_webactionnotsupported</string>
+					<string>error_code_webadderror</string>
+					<string>error_code_webdeleteerror</string>
+					<string>error_code_webmodulenotfound</string>
+					<string>error_code_webnosuchobject</string>
+					<string>error_code_webrepeatingrelatedfield</string>
+					<string>error_code_webrequiredfieldmissing</string>
+					<string>error_code_webtimeout</string>
+					<string>error_code_webupdateerror</string>
+					<string>error_columnrestriction</string>
+					<string>error_currenterror</string>
+					<string>error_databaseconnectionunavailable</string>
+					<string>error_databasetimeout</string>
+					<string>error_deleteerror</string>
+					<string>error_fieldrestriction</string>
+					<string>error_filenotfound</string>
+					<string>error_invaliddatabase</string>
+					<string>error_invalidpassword</string>
+					<string>error_invalidusername</string>
+					<string>error_modulenotfound</string>
+					<string>error_msg</string>
+					<string>error_msg_aborted</string>
+					<string>error_msg_assert</string>
+					<string>error_msg_bof</string>
+					<string>error_msg_connectioninvalid</string>
+					<string>error_msg_couldnotclosefile</string>
+					<string>error_msg_couldnotcreateoropenfile</string>
+					<string>error_msg_couldnotdeletefile</string>
+					<string>error_msg_couldnotdisposememory</string>
+					<string>error_msg_couldnotlockmemory</string>
+					<string>error_msg_couldnotreadfromfile</string>
+					<string>error_msg_couldnotunlockmemory</string>
+					<string>error_msg_couldnotwritetofile</string>
+					<string>error_msg_criterianotmet</string>
+					<string>error_msg_datasourceerror</string>
+					<string>error_msg_directoryfull</string>
+					<string>error_msg_diskfull</string>
+					<string>error_msg_dividebyzero</string>
+					<string>error_msg_eof</string>
+					<string>error_msg_failure</string>
+					<string>error_msg_fieldrestriction</string>
+					<string>error_msg_file</string>
+					<string>error_msg_filealreadyexists</string>
+					<string>error_msg_filecorrupt</string>
+					<string>error_msg_fileinvalid</string>
+					<string>error_msg_fileinvalidaccessmode</string>
+					<string>error_msg_fileisclosed</string>
+					<string>error_msg_fileisopen</string>
+					<string>error_msg_filelocked</string>
+					<string>error_msg_filenotfound</string>
+					<string>error_msg_fileunlocked</string>
+					<string>error_msg_httpfilenotfound</string>
+					<string>error_msg_illegalinstruction</string>
+					<string>error_msg_illegaluseoffrozeninstance</string>
+					<string>error_msg_invaliddatabase</string>
+					<string>error_msg_invalidfilename</string>
+					<string>error_msg_invalidmemoryobject</string>
+					<string>error_msg_invalidparameter</string>
+					<string>error_msg_invalidpassword</string>
+					<string>error_msg_invalidpathname</string>
+					<string>error_msg_invalidusername</string>
+					<string>error_msg_ioerror</string>
+					<string>error_msg_loopaborted</string>
+					<string>error_msg_memory</string>
+					<string>error_msg_network</string>
+					<string>error_msg_nilpointer</string>
+					<string>error_msg_noerr</string>
+					<string>error_msg_nopermission</string>
+					<string>error_msg_outofmemory</string>
+					<string>error_msg_outofstackspace</string>
+					<string>error_msg_overflow</string>
+					<string>error_msg_postconditionfailed</string>
+					<string>error_msg_preconditionfailed</string>
+					<string>error_msg_resnotfound</string>
+					<string>error_msg_resource</string>
+					<string>error_msg_streamreaderror</string>
+					<string>error_msg_streamwriteerror</string>
+					<string>error_msg_syntaxerror</string>
+					<string>error_msg_tagnotfound</string>
+					<string>error_msg_unknownerror</string>
+					<string>error_msg_varnotfound</string>
+					<string>error_msg_volumedoesnotexist</string>
+					<string>error_msg_webactionnotsupported</string>
+					<string>error_msg_webadderror</string>
+					<string>error_msg_webdeleteerror</string>
+					<string>error_msg_webmodulenotfound</string>
+					<string>error_msg_webnosuchobject</string>
+					<string>error_msg_webrepeatingrelatedfield</string>
+					<string>error_msg_webrequiredfieldmissing</string>
+					<string>error_msg_webtimeout</string>
+					<string>error_msg_webupdateerror</string>
+					<string>error_noerror</string>
+					<string>error_nopermission</string>
+					<string>error_norecordsfound</string>
+					<string>error_outofmemory</string>
+					<string>error_pop</string>
+					<string>error_push</string>
+					<string>error_reqcolumnmissing</string>
+					<string>error_reqfieldmissing</string>
+					<string>error_requiredcolumnmissing</string>
+					<string>error_requiredfieldmissing</string>
+					<string>error_reset</string>
+					<string>error_seterrorcode</string>
+					<string>error_seterrormessage</string>
+					<string>error_updateerror</string>
+					<string>euro</string>
+					<string>event_schedule</string>
+					<string>ew</string>
+					<string>field</string>
+					<string>field_name</string>
+					<string>field_names</string>
+					<string>file</string>
+					<string>file_autoresolvefullpaths</string>
+					<string>file_chmod</string>
+					<string>file_control</string>
+					<string>file_copy</string>
+					<string>file_create</string>
+					<string>file_creationdate</string>
+					<string>file_currenterror</string>
+					<string>file_delete</string>
+					<string>file_exists</string>
+					<string>file_getlinecount</string>
+					<string>file_getsize</string>
+					<string>file_isdirectory</string>
+					<string>file_listdirectory</string>
+					<string>file_moddate</string>
+					<string>file_modechar</string>
+					<string>file_modeline</string>
+					<string>file_move</string>
+					<string>file_openread</string>
+					<string>file_openreadwrite</string>
+					<string>file_openwrite</string>
+					<string>file_openwriteappend</string>
+					<string>file_openwritetruncate</string>
+					<string>file_probeeol</string>
+					<string>file_processuploads</string>
+					<string>file_read</string>
+					<string>file_readline</string>
+					<string>file_rename</string>
+					<string>file_serve</string>
+					<string>file_setsize</string>
+					<string>file_stream</string>
+					<string>file_streamcopy</string>
+					<string>file_uploads</string>
+					<string>file_waitread</string>
+					<string>file_waittimeout</string>
+					<string>file_waitwrite</string>
+					<string>file_write</string>
+					<string>find_soap_ops</string>
+					<string>form_param</string>
+					<string>found_count</string>
+					<string>ft</string>
+					<string>ftp_getfile</string>
+					<string>ftp_getlisting</string>
+					<string>ftp_putfile</string>
+					<string>full</string>
+					<string>generate</string>
+					<string>generate_serialnumber</string>
+					<string>global</string>
+					<string>global_defined</string>
+					<string>global_remove</string>
+					<string>global_reset</string>
+					<string>globals</string>
+					<string>gt</string>
+					<string>gte</string>
+					<string>header</string>
+					<string>html_comment</string>
+					<string>if_empty</string>
+					<string>if_false</string>
+					<string>if_null</string>
+					<string>if_true</string>
+					<string>image</string>
+					<string>image_url</string>
+					<string>img</string>
+					<string>include</string>
+					<string>include_cgi</string>
+					<string>include_currentpath</string>
+					<string>include_once</string>
+					<string>include_raw</string>
+					<string>include_url</string>
+					<string>java</string>
+					<string>java_bean</string>
+					<string>keycolumn_name</string>
+					<string>keycolumn_value</string>
+					<string>keyfield_name</string>
+					<string>keyfield_value</string>
+					<string>lasso_comment</string>
+					<string>lasso_currentaction</string>
+					<string>lasso_datasourceis</string>
+					<string>lasso_datasourceis4d</string>
+					<string>lasso_datasourceisfilemaker</string>
+					<string>lasso_datasourceisfilemaker7</string>
+					<string>lasso_datasourceisfilemakersa</string>
+					<string>lasso_datasourceisjdbc</string>
+					<string>lasso_datasourceislassomysql</string>
+					<string>lasso_datasourceismysql</string>
+					<string>lasso_datasourceisodbc</string>
+					<string>lasso_datasourceisopenbase</string>
+					<string>lasso_datasourceisoracle</string>
+					<string>lasso_datasourceispostgresql</string>
+					<string>lasso_datasourceisspotlight</string>
+					<string>lasso_datasourceissqlite</string>
+					<string>lasso_datasourceissqlserver</string>
+					<string>lasso_datasourcemodulename</string>
+					<string>lasso_datatype</string>
+					<string>lasso_disableondemand</string>
+					<string>lasso_errorreporting</string>
+					<string>lasso_executiontimelimit</string>
+					<string>lasso_parser</string>
+					<string>lasso_process</string>
+					<string>lasso_sessionid</string>
+					<string>lasso_siteid</string>
+					<string>lasso_siteisrunning</string>
+					<string>lasso_sitename</string>
+					<string>lasso_siterestart</string>
+					<string>lasso_sitestart</string>
+					<string>lasso_sitestop</string>
+					<string>lasso_tagexists</string>
+					<string>lasso_tagmodulename</string>
+					<string>lasso_uniqueid</string>
+					<string>lasso_updatecheck</string>
+					<string>lasso_version</string>
+					<string>lassoapp_create</string>
+					<string>lassoapp_dump</string>
+					<string>lassoapp_flattendir</string>
+					<string>lassoapp_getappdata</string>
+					<string>lassoapp_link</string>
+					<string>lassoapp_list</string>
+					<string>lassoapp_process</string>
+					<string>lassoapp_unitize</string>
+					<string>layout_name</string>
+					<string>ldap</string>
+					<string>ldap_scope_base</string>
+					<string>ldap_scope_onelevel</string>
+					<string>ldap_scope_subtree</string>
+					<string>ldml</string>
+					<string>ldml_ldml</string>
+					<string>library</string>
+					<string>library_once</string>
+					<string>link</string>
+					<string>list</string>
+					<string>list_iterator</string>
+					<string>list_reverseiterator</string>
+					<string>ljax_end</string>
+					<string>ljax_hastarget</string>
+					<string>ljax_include</string>
+					<string>ljax_start</string>
+					<string>ljax_target</string>
+					<string>local</string>
+					<string>local_defined</string>
+					<string>local_remove</string>
+					<string>local_reset</string>
+					<string>locale_format</string>
+					<string>locals</string>
+					<string>log</string>
+					<string>log_always</string>
+					<string>log_critical</string>
+					<string>log_deprecated</string>
+					<string>log_destination_console</string>
+					<string>log_destination_database</string>
+					<string>log_destination_file</string>
+					<string>log_detail</string>
+					<string>log_level_critical</string>
+					<string>log_level_deprecated</string>
+					<string>log_level_detail</string>
+					<string>log_level_sql</string>
+					<string>log_level_warning</string>
+					<string>log_setdestination</string>
+					<string>log_sql</string>
+					<string>log_warning</string>
+					<string>logicalop_value</string>
+					<string>logicaloperator_value</string>
+					<string>lt</string>
+					<string>lte</string>
+					<string>magick_image</string>
+					<string>map_iterator</string>
+					<string>match_comparator</string>
+					<string>match_notrange</string>
+					<string>match_notregexp</string>
+					<string>match_range</string>
+					<string>match_regexp</string>
+					<string>math_abs</string>
+					<string>math_acos</string>
+					<string>math_add</string>
+					<string>math_asin</string>
+					<string>math_atan</string>
+					<string>math_atan2</string>
+					<string>math_ceil</string>
+					<string>math_converteuro</string>
+					<string>math_cos</string>
+					<string>math_div</string>
+					<string>math_exp</string>
+					<string>math_floor</string>
+					<string>math_internal_rand</string>
+					<string>math_internal_randmax</string>
+					<string>math_internal_srand</string>
+					<string>math_ln</string>
+					<string>math_log</string>
+					<string>math_log10</string>
+					<string>math_max</string>
+					<string>math_min</string>
+					<string>math_mod</string>
+					<string>math_mult</string>
+					<string>math_pow</string>
+					<string>math_random</string>
+					<string>math_range</string>
+					<string>math_rint</string>
+					<string>math_roman</string>
+					<string>math_round</string>
+					<string>math_sin</string>
+					<string>math_sqrt</string>
+					<string>math_sub</string>
+					<string>math_tan</string>
+					<string>maxrecords_value</string>
+					<string>memory_session_driver</string>
+					<string>minimal</string>
+					<string>misc__srand</string>
+					<string>misc_randomnumber</string>
+					<string>misc_roman</string>
+					<string>misc_valid_creditcard</string>
+					<string>mysql_session_driver</string>
+					<string>named_param</string>
+					<string>namespace_current</string>
+					<string>namespace_delimiter</string>
+					<string>namespace_exists</string>
+					<string>namespace_file_fullpathexists</string>
+					<string>namespace_global</string>
+					<string>namespace_import</string>
+					<string>namespace_load</string>
+					<string>namespace_page</string>
+					<string>namespace_unload</string>
+					<string>namespace_using</string>
+					<string>neq</string>
+					<string>net</string>
+					<string>net_connectinprogress</string>
+					<string>net_connectok</string>
+					<string>net_typessl</string>
+					<string>net_typessltcp</string>
+					<string>net_typessludp</string>
+					<string>net_typetcp</string>
+					<string>net_typeudp</string>
+					<string>net_waitread</string>
+					<string>net_waittimeout</string>
+					<string>net_waitwrite</string>
+					<string>no_default_output</string>
+					<string>none</string>
+					<string>noprocess</string>
+					<string>not</string>
+					<string>nrx</string>
+					<string>nslookup</string>
+					<string>once</string>
+					<string>oneoff</string>
+					<string>op_logicalvalue</string>
+					<string>operator_logicalvalue</string>
+					<string>option</string>
+					<string>or</string>
+					<string>os_process</string>
+					<string>output</string>
+					<string>output_none</string>
+					<string>params_up</string>
+					<string>passthru</string>
+					<string>pdf_barcode</string>
+					<string>pdf_doc</string>
+					<string>pdf_font</string>
+					<string>pdf_image</string>
+					<string>pdf_list</string>
+					<string>pdf_read</string>
+					<string>pdf_table</string>
+					<string>pdf_text</string>
+					<string>percent</string>
+					<string>portal</string>
+					<string>postcondition</string>
+					<string>precondition</string>
+					<string>prettyprintingnsmap</string>
+					<string>prettyprintingtypemap</string>
+					<string>priorityqueue</string>
+					<string>private</string>
+					<string>proc_convert</string>
+					<string>proc_convertbody</string>
+					<string>proc_convertone</string>
+					<string>proc_extract</string>
+					<string>proc_extractone</string>
+					<string>proc_find</string>
+					<string>proc_first</string>
+					<string>proc_foreach</string>
+					<string>proc_get</string>
+					<string>proc_join</string>
+					<string>proc_lasso</string>
+					<string>proc_last</string>
+					<string>proc_map_entry</string>
+					<string>proc_null</string>
+					<string>proc_regexp</string>
+					<string>proc_xml</string>
+					<string>proc_xslt</string>
+					<string>process</string>
+					<string>queue</string>
+					<string>rand</string>
+					<string>randomnumber</string>
+					<string>raw</string>
+					<string>recid_value</string>
+					<string>record_count</string>
+					<string>recordcount</string>
+					<string>recordid_value</string>
+					<string>records</string>
+					<string>records_array</string>
+					<string>records_map</string>
+					<string>redirect_url</string>
+					<string>reference</string>
+					<string>referer</string>
+					<string>referer_url</string>
+					<string>referrer</string>
+					<string>referrer_url</string>
+					<string>regexp</string>
+					<string>repeating</string>
+					<string>repeating_valueitem</string>
+					<string>repeatingvalueitem</string>
+					<string>repetition</string>
+					<string>req_column</string>
+					<string>req_field</string>
+					<string>required_column</string>
+					<string>required_field</string>
+					<string>response_filepath</string>
+					<string>response_localpath</string>
+					<string>resultset</string>
+					<string>resultset_count</string>
+					<string>return_value</string>
+					<string>reverseiterator</string>
+					<string>roman</string>
+					<string>row_count</string>
+					<string>rows</string>
+					<string>rows_array</string>
+					<string>rx</string>
+					<string>schema_name</string>
+					<string>scientific</string>
+					<string>search_args</string>
+					<string>search_arguments</string>
+					<string>search_columnitem</string>
+					<string>search_fielditem</string>
+					<string>search_operatoritem</string>
+					<string>search_opitem</string>
+					<string>search_valueitem</string>
+					<string>searchfielditem</string>
+					<string>searchoperatoritem</string>
+					<string>searchopitem</string>
+					<string>searchvalueitem</string>
+					<string>selected</string>
+					<string>serialize</string>
+					<string>serialnumber_generate</string>
+					<string>series</string>
+					<string>server_date</string>
+					<string>server_day</string>
+					<string>server_ip</string>
+					<string>server_name</string>
+					<string>server_port</string>
+					<string>server_push</string>
+					<string>server_siteisrunning</string>
+					<string>server_sitestart</string>
+					<string>server_sitestop</string>
+					<string>server_time</string>
+					<string>session_abort</string>
+					<string>session_addoutputfilter</string>
+					<string>session_addvar</string>
+					<string>session_addvariable</string>
+					<string>session_deleteexpired</string>
+					<string>session_driver</string>
+					<string>session_end</string>
+					<string>session_id</string>
+					<string>session_removevar</string>
+					<string>session_removevariable</string>
+					<string>session_result</string>
+					<string>session_setdriver</string>
+					<string>session_start</string>
+					<string>set_iterator</string>
+					<string>set_reverseiterator</string>
+					<string>shown_count</string>
+					<string>shown_first</string>
+					<string>shown_last</string>
+					<string>site_atbegin</string>
+					<string>site_id</string>
+					<string>site_name</string>
+					<string>site_restart</string>
+					<string>skiprecords_value</string>
+					<string>sleep</string>
+					<string>soap_convertpartstopairs</string>
+					<string>soap_definetag</string>
+					<string>soap_info</string>
+					<string>soap_lastrequest</string>
+					<string>soap_lastresponse</string>
+					<string>soap_stub</string>
+					<string>sort_args</string>
+					<string>sort_arguments</string>
+					<string>sort_columnitem</string>
+					<string>sort_fielditem</string>
+					<string>sort_orderitem</string>
+					<string>sortcolumnitem</string>
+					<string>sortfielditem</string>
+					<string>sortorderitem</string>
+					<string>sqlite_createdb</string>
+					<string>sqlite_session_driver</string>
+					<string>sqlite_setsleepmillis</string>
+					<string>sqlite_setsleeptries</string>
+					<string>srand</string>
+					<string>stack</string>
+					<string>string_charfromname</string>
+					<string>string_concatenate</string>
+					<string>string_countfields</string>
+					<string>string_endswith</string>
+					<string>string_extract</string>
+					<string>string_findposition</string>
+					<string>string_findregexp</string>
+					<string>string_fordigit</string>
+					<string>string_getfield</string>
+					<string>string_getunicodeversion</string>
+					<string>string_insert</string>
+					<string>string_isalpha</string>
+					<string>string_isalphanumeric</string>
+					<string>string_isdigit</string>
+					<string>string_ishexdigit</string>
+					<string>string_islower</string>
+					<string>string_isnumeric</string>
+					<string>string_ispunctuation</string>
+					<string>string_isspace</string>
+					<string>string_isupper</string>
+					<string>string_length</string>
+					<string>string_lowercase</string>
+					<string>string_remove</string>
+					<string>string_removeleading</string>
+					<string>string_removetrailing</string>
+					<string>string_replace</string>
+					<string>string_replaceregexp</string>
+					<string>string_todecimal</string>
+					<string>string_tointeger</string>
+					<string>string_uppercase</string>
+					<string>string_validcharset</string>
+					<string>table_name</string>
+					<string>table_realname</string>
+					<string>tag_name</string>
+					<string>tags</string>
+					<string>tags_find</string>
+					<string>tags_list</string>
+					<string>tcp_close</string>
+					<string>tcp_open</string>
+					<string>tcp_send</string>
+					<string>tcp_tcp_close</string>
+					<string>tcp_tcp_open</string>
+					<string>tcp_tcp_send</string>
+					<string>technical_passthru</string>
+					<string>test</string>
+					<string>thread_abort</string>
+					<string>thread_event</string>
+					<string>thread_exists</string>
+					<string>thread_getcurrentid</string>
+					<string>thread_getpriority</string>
+					<string>thread_info</string>
+					<string>thread_list</string>
+					<string>thread_lock</string>
+					<string>thread_priority_default</string>
+					<string>thread_priority_high</string>
+					<string>thread_priority_low</string>
+					<string>thread_setpriority</string>
+					<string>token_value</string>
+					<string>total_records</string>
+					<string>treemap</string>
+					<string>treemap_iterator</string>
+					<string>url_rewrite</string>
+					<string>valid_creditcard</string>
+					<string>value_list</string>
+					<string>value_listitem</string>
+					<string>valuelistitem</string>
+					<string>var</string>
+					<string>var_defined</string>
+					<string>var_remove</string>
+					<string>var_reset</string>
+					<string>var_set</string>
+					<string>variable</string>
+					<string>variable_defined</string>
+					<string>variable_set</string>
+					<string>variables</string>
+					<string>variant_count</string>
+					<string>vars</string>
+					<string>verisign_payflowpro</string>
+					<string>wsdl_extract</string>
+					<string>wsdl_getbinding</string>
+					<string>wsdl_getbindingforoperation</string>
+					<string>wsdl_getbindingoperations</string>
+					<string>wsdl_getmessagenamed</string>
+					<string>wsdl_getmessageparts</string>
+					<string>wsdl_getmessagetriofromporttype</string>
+					<string>wsdl_getopbodystyle</string>
+					<string>wsdl_getopbodyuse</string>
+					<string>wsdl_getoperation</string>
+					<string>wsdl_getoplocation</string>
+					<string>wsdl_getopmessagetypes</string>
+					<string>wsdl_getopsoapaction</string>
+					<string>wsdl_getportaddress</string>
+					<string>wsdl_getportsforservice</string>
+					<string>wsdl_getporttype</string>
+					<string>wsdl_getporttypeoperation</string>
+					<string>wsdl_getservicedocumentation</string>
+					<string>wsdl_getservices</string>
+					<string>wsdl_gettargetnamespace</string>
+					<string>wsdl_issoapoperation</string>
+					<string>wsdl_listoperations</string>
+					<string>wsdl_maketest</string>
+					<string>xml_rpc</string>
+					<string>xml_rpccall</string>
+					<string>xml_xml</string>
+					<string>xml_xmlstream</string>
+					<string>xmlstream</string>
+					<string>xsd_attribute</string>
+					<string>xsd_blankarraybase</string>
+					<string>xsd_blankbase</string>
+					<string>xsd_buildtype</string>
+					<string>xsd_cache</string>
+					<string>xsd_checkcardinality</string>
+					<string>xsd_continueall</string>
+					<string>xsd_continueannotation</string>
+					<string>xsd_continueany</string>
+					<string>xsd_continueanyattribute</string>
+					<string>xsd_continueattribute</string>
+					<string>xsd_continueattributegroup</string>
+					<string>xsd_continuechoice</string>
+					<string>xsd_continuecomplexcontent</string>
+					<string>xsd_continuecomplextype</string>
+					<string>xsd_continuedocumentation</string>
+					<string>xsd_continueextension</string>
+					<string>xsd_continuegroup</string>
+					<string>xsd_continuekey</string>
+					<string>xsd_continuelist</string>
+					<string>xsd_continuerestriction</string>
+					<string>xsd_continuesequence</string>
+					<string>xsd_continuesimplecontent</string>
+					<string>xsd_continuesimpletype</string>
+					<string>xsd_continueunion</string>
+					<string>xsd_deserialize</string>
+					<string>xsd_fullyqualifyname</string>
+					<string>xsd_generate</string>
+					<string>xsd_generateblankfromtype</string>
+					<string>xsd_generateblanksimpletype</string>
+					<string>xsd_generatetype</string>
+					<string>xsd_getschematype</string>
+					<string>xsd_issimpletype</string>
+					<string>xsd_loadschema</string>
+					<string>xsd_lookupnamespaceuri</string>
+					<string>xsd_lookuptype</string>
+					<string>xsd_processany</string>
+					<string>xsd_processattribute</string>
+					<string>xsd_processattributegroup</string>
+					<string>xsd_processcomplextype</string>
+					<string>xsd_processelement</string>
+					<string>xsd_processgroup</string>
+					<string>xsd_processimport</string>
+					<string>xsd_processinclude</string>
+					<string>xsd_processschema</string>
+					<string>xsd_processsimpletype</string>
+					<string>xsd_ref</string>
+					<string>xsd_type</string>
+					<string>asasync</string>
+					<string>define_tag</string>
+					<string>define_type</string>
+					<string>encode_set</string>
+					<string>false</string>
+					<string>handle_error</string>
+					<string>handle</string>
+					<string>params</string>
+					<string>true</string>
+					<string>fail</string>
+					<string>fail_if</string>
+				</keywords>
+				<keywords id="Lasso Control keywords" casesensitive="no" useforautocomplete="yes" scope="keyword.control">
+					<string>while</string>
+					<string>else</string>
+					<string>if</string>
+					<string>iterate</string>
+					<string>loop_count</string>
+					<string>loop</string>
+					<string>inline</string>
+					<string>loop</string>                
+				</keywords>
+				<keywords id="Lasso Container keywords" casesensitive="no" useforautocomplete="yes" scope="keyword.container">
+					<string>cache</string>               
+					<string>database_names</string>      
+					<string>database_schemanames</string>
+					<string>database_tablenames</string> 
+					<string>debug</string>
+					<string>define_tag</string>          
+					<string>define_type</string>         
+					<string>email_batch</string>         
+					<string>encode_set</string>          
+					<string>records</string>             
+					<string>html_comment</string>        
+					<string>handle</string>              
+					<string>handle_error</string>        
+					<string>header</string>              
+					<string>inline</string>              
+					<string>iterate</string>             
+					<string>ljax_target</string>         
+					<string>link</string>                
+					<string>link_currentaction</string>  
+					<string>link_currentgroup</string>   
+					<string>link_currentrecord</string>  
+					<string>link_detail</string>         
+					<string>link_firstgroup</string>     
+					<string>link_firstrecord</string>    
+					<string>link_lastgroup</string>      
+					<string>link_lastrecord</string>     
+					<string>link_nextgroup</string>      
+					<string>link_nextrecord</string>     
+					<string>link_prevgroup</string>      
+					<string>link_prevrecord</string>     
+					<string>log</string>                 
+					<string>namespace_using</string>     
+					<string>noprocess</string>           
+					<string>output_none</string>         
+					<string>portal</string>              
+					<string>private</string>             
+					<string>protect</string>             
+					<string>referrer</string>            
+					<string>repeating</string>           
+					<string>resultset</string>           
+					<string>search_arguments</string>    
+					<string>select</string>              
+					<string>sort_arguments</string>      
+					<string>thread_atomic</string>       
+					<string>value_list</string>          
+					<string>while</string>               
+				</keywords>
+				<keywords id="Default Lasso Types" casesensitive="no" useforautocomplete="yes" scope="keyword.type">
+					<string>array</string>
+					<string>bytes</string>
+					<string>date</string>
+					<string>decimal</string>
+					<string>duration</string>
+					<string>integer</string>
+					<string>iterator</string>
+					<string>map</string>
+					<string>null</string>
+					<string>pair</string>
+					<string>set</string>
+					<string>string</string>
+					<string>tag</string>
+					<string>xml</string>
+				</keywords>
+				<keywords id="Dynamic Lasso Member Tags" casesensitive="no" useforautocomplete="yes" scope="markup.tag.attribute.name">
+					<regex>-&gt;([a-zA-Z0-9_]+)</regex>
+				</keywords>
+				<keywords id="Dynamic Lasso Tags/Types" useforautocomplete="yes" scope="markup.tag.attribute.name">
+					<regex>(?&lt;!-&gt;|\$|#|\w)([A-Za-z0-9_]+)\s*(?=[\(:\]\);\+[,}]|\-]|-&gt;)</regex>
+				</keywords>
+				<keywords id="Lasso Tag/Type Parameters" useforautocomplete="yes" scope="markup.tag.attribute.name">
+					<regex>(-[a-zA-Z0-9_]+)(?= *=| *,| *\)| *\]| *;)</regex>
+				</keywords>
+				<keywords id="Numbers" useforautocomplete="no" scope="constant.numeric">
+					<regex>(?&lt;![\w\d_])((?:[+-]?(?:(?:[0-9]+\.[0-9]*)|(?:\.[0-9]+))(?:[eE][+\-]?[0-9]+)?[fFlL]?)|(?:(?:(?:[1-9][0-9]*)|0[0-7]*|(?:0[xX][0-9a-fA-F]+))(?:(?:[uU][lL]?)|(?:[lL][uU]?))?))(?![\w\d_])</regex>
+				</keywords>
+				<keywords id="Lasso Variables" useforautocomplete="no" scope="language.variable" highlightInOrder="yes">
+					<regex>([$#][\w\d]+)</regex>
+				</keywords>
+				
+				<state id="Lasso SingleComment" type="comment" scope="comment.line">
+					<begin><regex>(?://)</regex></begin>
+					<end><regex>.(?=[\n\r])</regex></end>
+					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+				</state>
+				
+				<state id="Lasso MultiComment" type="comment" foldable="yes" scope="comment.block">
+					<begin><regex>/\*</regex></begin>
+					<end><regex>\*/</regex></end>
+	                <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+				</state>
+		
+				<state id="Lasso StringDouble" type="string" usespellchecking="yes" scope="string.double">
+					<begin><regex>"</regex></begin>
+					<end><regex>(?&lt;!\\)(\\\\)*"</regex></end>
+				</state>
+		
+				<state id="Lasso String" type="string" usespellchecking="no" scope="string.single">
+					<begin><regex>'</regex></begin>
+					<end><regex>(?&lt;!\\)(\\\\)*'</regex></end>
+				</state>
+			
+			</state>
+			
+			<state id="LassoScript 1" usesymbolsfrommode="LassoScript-HTML" useautocompletefrommode="LassoScript-HTML" foldable="yes" scope="meta.block">
+				<begin><regex>\[</regex></begin>
+				<end><regex>\]</regex></end>
+					<!--<import state="LassoScript Code" />-->
+					<import state="LassoScript 2" />
+					<import state="LassoScript Code" />
+			</state>
+		
+			<state id="LassoScript 2" usesymbolsfrommode="LassoScript-HTML" useautocompletefrommode="LassoScript-HTML"  foldable="yes" scope="meta.block">
+				<begin><regex>(?:&lt;\?(?i)(?:lassoscript))</regex></begin>
+				<end><regex>\?&gt;</regex></end>
+			   	<state id="LassoScript If Block" type="block" foldable="yes" scope="meta.block.if">
+					<begin><regex>(?&lt;![\[/])\b(?:(?i)if|else)\b:?(?=[^;\r\n]*;)</regex><autoend>/If;</autoend></begin>
+					<end><regex>(?:(?i)(?:/if)|([^e](?=\belse\b)))</regex></end>
+					<import state="LassoScript 2" />
+					<import state="LassoScript Code" />
+			   	</state>
+			   	<state id="LassoScript Container Block" type="block" foldable="yes" scope="meta.block.if">
+					<begin><regex>(?:(?&lt;![\[/#?])\b(?'lassoblockstart'(?i)cache|debug|database_names|database_schemanames|database_tablenames|define_tag|define_type|email_batch|encode_set|records|html_comment|handle|handle_error|header|if|inline|iterate|ljax_target|link|link_currentaction|link_currentgroup|link_currentrecord|link_detail|link_firstgroup|link_firstrecord|link_lastgroup|link_lastrecord|link_nextgroup|link_nextrecord|link_prevgroup|link_prevrecord|log|loop|namespace_using|noprocess|output_none|portal|private|protect|referrer|repeating|resultset|search_arguments|select|sort_arguments|thread_atomic|value_list|while)\b:?(?=[^;\r\n]*;))</regex><autoend>/\g&lt;lassoblockstart>;</autoend></begin>
+					<end><regex>(?:(?i)(?:/(?#see-insert-start-group:lassoblockstart)))</regex></end>
+					<import state="LassoScript 2" />
+					<import state="LassoScript Code" />
+			   	</state>
+				<import state="LassoScript Code" />			
+			</state>
+			
+			<state id="LassoScript 3" usesymbolsfrommode="LassoScript-HTML" useautocompletefrommode="LassoScript-HTML" foldable="yes" scope="meta.block">
+				<begin><regex>(?:&lt;\?=)</regex></begin>
+				<end><regex>\?&gt;</regex></end>
+				<import state="LassoScript Code" />
+			</state>
+			
+			<state-link mode="XML" state="Comment"/>
+            <state-link mode="XML" state="CDATA"/>
+            <state-link mode="XML" state="Doctype"/>
+            <state-link mode="XML" state="Escape"/>
+			
+			<state id="Inline CSS" delimiterState="Tags" usesymbolsfrommode="CSS" useautocompletefrommode="CSS" foldable="yes" indent="yes" scope="meta.block.css">
+				<begin>
+					<regex>&lt;[ \t]*(?i)style[^>]*></regex>
+					<autoend>&lt;/style></autoend>
+				</begin>
+				<end>
+					<regex>(?i)&lt;[ \t]*/[ \t]*style[ \t]*></regex>
+				</end>
+				
+				<import mode="CSS"/>
+
+			</state>
+
+			<state id="JavaScript Container" containerState="yes" usesymbolsfrommode="JavaScript" useautocompletefrommode="JavaScript" scope="meta.block.js">
+				<import mode="JavaScript" keywords-only="yes"/>
+				<state-link state="AutodocComment" mode="JavaScript"/>
+				<state-link state="Comment" mode="JavaScript"/>
+				<state-link state="Regular Expressions" mode="JavaScript"/>
+				<state-link state="String" mode="JavaScript"/>
+				<state-link state="SingleString" mode="JavaScript"/>
+			</state>
+			
+			<state id="Inline JavaScript" delimiterState="Tags" usesymbolsfrommode="JavaScript" useautocompletefrommode="JavaScript" foldable="yes" scope="meta.block.js">
+				<begin>
+                   	<regex>(?:&lt;[ \t]*(?i)script\s*?>)|(?:&lt;[ \t]*(?i)script.+?javascript.*?(?&lt;![-])>)</regex>
+					<autoend>&lt;/script></autoend>
+				</begin>
+				<end>
+					<regex>&lt;(?i)/script[^>]*></regex>
+				</end>
+				
+				<import mode="JavaScript" />
+              
+			</state>
+
+			<state id="Self Closing Tags" foldable="no" scope="markup.tag">
+            	<begin>
+                    <regex>&lt;[ \t]*(?i)(?:area|base|br|col|command|embed|hr|img|input|keygen|link|meta|param|source|track|wbr)</regex>
+                </begin>
+                <end>
+                    <regex>&gt;</regex>
+                </end>
+                <import state="Tags"/>
+            </state>
+
+            <state id="Foldable Tags" containerState="yes" delimiterState="Tags" 
+            foldBegin="\A&lt;[ \t]*(?'xmltagstatename'(?i:(?:a(?:rticle|side|udio))|(?:h(?:ead|eader|tml|\d|group))|(?:b(?:ody|lockquote))|p|pre|a|(?:t(?:able|head|body|foot|h|d|r))|div|(?:f(?:ieldset|orm|ooter))|ul|ol|li|dl|(?:s(?:ection|elect|ource))|nav|ruby|video))\b[\s\S]*(?&lt;![/?])>\Z" foldEnd="&lt;\s*/\s*(?i)(?#see-insert-start-group:xmltagstatename)\s*>" foldable="yes" usespellchecking="yes" scope="meta.block.tag">
+				
+				<import mode="XML" keywords-only="yes"/>
+                <import keywords-only="yes"/>
+				<import/>
+			</state>
+
+			<state id="Tags" usespellchecking="no" foldState="Foldable Tags" scope="markup.tag">
+                <begin>
+                    <regex>&lt;</regex>
+                </begin>
+                <end>
+                    <regex>&gt;</regex>
+                </end>
+                
+                <state-link state="LassoScript 1" />
+                <state-link state="LassoScript 2" />
+                <state-link state="LassoScript 3" />
+                
+                <state id="Javascript Actions" usesymbolsfrommode="JavaScript" useautocompletefrommode="JavaScript" scope="meta.default" >
+					<begin><regex>(?&lt;=[ \t])(?i)on[\w]+[ \t]*=[ \t]*"</regex></begin>
+					<end><regex>"</regex></end>
+	                <keywords id="Action Attribute" useforautocomplete="no" scope="markup.tag.attribute.name">
+						<regex>\A([\w-]+)[ \t]*=</regex>
+					</keywords>
+					
+					<keywords id="Action Quotes" useforautocomplete="no" scope="markup.tag.attribute.value.string">
+						<regex>(")</regex>
+					</keywords>
+					
+					<keywords id="Action Equals" useforautocomplete="no" scope="markup.tag">
+						<regex>\A(?i)on[\w-]+([ \t]*=[ \t]*)</regex>
+					</keywords>
+					
+					<import mode="JavaScript" keywords-only="yes"/>
+	                <import state="JavaScript Container"/>
+            	</state>
+            	
+            	<state id="Links" type="url" useforautocomplete="no" scope="meta.link">
+					<begin><regex>(?&lt;=[ \t])(?i)(?:href|src)[ \t]*=[ \t]*"</regex></begin>
+					<end><regex>"</regex></end>
+
+					<state-link state="LassoScript 1" />
+                	<state-link state="LassoScript 2" />
+                	<state-link state="LassoScript 3" />
+                
+					<state id="Javascript in Links" usesymbolsfrommode="JavaScript" useautocompletefrommode="JavaScript" scope="meta.block.js">
+						<begin><regex>\A[ \t]*(?i)javascript:</regex></begin>
+						<end><regex>(?'unwindend'")</regex></end>
+						<import mode="JavaScript" keywords-only="yes"/>
+	               		<import state="JavaScript Container"/>
+					</state>
+					
+					<keywords id="Link Attribute" useforautocomplete="no" scope="markup.tag.attribute.name">
+						<regex>\A(\w+)[ \t]*=</regex>
+					</keywords>
+					
+					<keywords id="Link Quotes" useforautocomplete="no" scope="markup.tag.attribute.value.string">
+						<regex>(")</regex>
+					</keywords>
+					
+					<keywords id="Link Equals" useforautocomplete="no" scope="markup.tag">
+						<regex>\A(?i)\w+([ \t]*=[ \t]*)</regex>
+					</keywords>
+					
+				</state>
+            	
+               	<state id="Strings in Tags" type="string" useforautocomplete="no" scope="markup.tag.attribute.value.string">
+					<begin><regex>"</regex></begin>
+					<end><regex>"</regex></end>
+					<state-link state="LassoScript 1" />
+                	<state-link state="LassoScript 2" />
+                	<state-link state="LassoScript 3" />
+				</state>
+				
+				<state id="Single Strings in Tags" type="string" useforautocomplete="no" scope="markup.tag.attribute.value.string">
+					<begin><regex>'</regex></begin>
+					<end><regex>'</regex></end>
+					<state-link state="LassoScript 1" />
+                	<state-link state="LassoScript 2" />
+                	<state-link state="LassoScript 3" />				
+                </state>
+				
+				<keywords id="Attributes in Tags" useforautocomplete="no" scope="markup.tag.attribute.name">
+					<regex>([\w-]*)(?=[ \t]*=)</regex>
+				</keywords>
+            </state>
+   
+		</default>
+
+	</states>
+
+</syntax>

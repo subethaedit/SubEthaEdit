@@ -1,0 +1,709 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "syntax.dtd">
+<syntax>
+
+    <head>
+        <name>Ruby</name>
+        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@$?:]]></charsintokens>
+        <folding toplevel="2" />
+    </head>
+    
+    <states>
+    
+        <default id="Base" scope="meta.default">
+            <keywords id="Literals" useforautocomplete="yes" scope="constant.numeric.keyword">
+                <string>true</string>
+                <string>false</string>
+                <string>nil</string>
+				<string>TRUE</string>
+				<string>FALSE</string>
+				<string>NIL</string>
+            </keywords>
+            <keywords id="Attribute Definitions" useforautocomplete="yes" scope="support.accessor">
+                <string>attr</string>
+                <string>attr_reader</string>
+                <string>attr_writer</string>
+                <string>attr_accessor</string>
+            </keywords>
+            <keywords id="Definitions" useforautocomplete="yes" scope="keyword.type">
+                <string>alias</string>
+                <string>undef</string>
+                <string>extend</string>
+                <string>public</string>
+                <string>private</string>
+                <string>protected</string>
+            </keywords>
+            <keywords id="Keywords" useforautocomplete="yes" scope="keyword.control">
+                <string>module</string>
+                <string>class</string>
+                <string>def</string>
+                <string>__FILE__</string>
+                <string>__LINE__</string>
+                <string>BEGIN</string>
+                <string>END</string>
+                <string>and</string>
+                <string>begin</string>
+                <string>break</string>
+                <string>case</string>
+                <string>do</string>
+                <string>else</string>
+                <string>elsif</string>
+                <string>end</string>
+                <string>ensure</string>
+                <string>for</string>
+                <string>if</string>
+                <string>in</string>
+                <string>include</string>
+                <string>next</string>
+                <string>not</string>
+                <string>or</string>
+                <string>redo</string>
+                <string>rescue</string>
+                <string>retry</string>
+                <string>return</string>
+                <string>super</string>
+                <string>self</string>
+                <string>then</string>
+                <string>unless</string>
+                <string>until</string>
+                <string>when</string>
+                <string>while</string>
+                <string>yield</string>
+            </keywords>
+            <keywords id="Builtin Functions" useforautocomplete="yes" scope="keyword.function">
+                <string>abort</string>
+                <string>at_exit</string>
+                <string>autoload</string>
+                <string>binding</string>
+                <string>block_given?</string>
+                <string>callcc</string>
+                <string>caller</string>
+                <string>catch</string>
+                <string>chomp</string>
+                <string>chomp!</string>
+                <string>chop</string>
+                <string>chop!</string>
+                <string>defined?</string>
+                <string>eval</string>
+                <string>exec</string>
+                <string>exit</string>
+                <string>exit!</string>
+                <string>fail</string>
+                <string>fork</string>
+                <string>format</string>
+                <string>gets</string>
+                <string>global_variables</string>
+                <string>gsub</string>
+                <string>gsub!</string>
+                <string>lambda</string>
+                <string>proc</string>
+                <string>load</string>
+                <string>local_variables</string>
+                <string>loop</string>
+                <string>open</string>
+                <string>p</string>
+                <string>print</string>
+                <string>proc</string>
+                <string>putc</string>
+                <string>puts</string>
+                <string>raise</string>
+                <string>fail</string>
+                <string>rand</string>
+                <string>readline</string>
+                <string>readlines</string>
+                <string>require</string>
+                <string>scan</string>
+                <string>select</string>
+                <string>set_trace_func</string>
+                <string>sleep</string>
+                <string>split</string>
+                <string>sprintf</string>
+                <string>format</string>
+                <string>srand</string>
+                <string>syscall</string>
+                <string>system</string>
+                <string>sub</string>
+                <string>sub!</string>
+                <string>test</string>
+                <string>throw</string>
+                <string>trace_var</string>
+                <string>trap</string>
+                <string>untrace_var</string>
+            </keywords>
+            <keywords id="Builtin Classes" useforautocomplete="yes" scope="keyword.class">
+                <string>Abbrev</string>
+                <string>ArgumentError</string>
+                <string>Array</string>
+                <string>Base64</string>
+                <string>Benchmark</string>
+                <string>Benchmark::Tms</string>
+                <string>Bignum</string>
+                <string>Binding</string>
+                <string>CGI</string>
+                <string>Cookie</string>
+                <string>HtmlExtension</string>
+                <string>QueryExtension</string>
+                <string>Session</string>
+                <string>FileStore</string>
+                <string>MemoryStore</string>
+                <string>Class</string>
+                <string>Comparable</string>
+                <string>Complex</string>
+                <string>ConditionVariable</string>
+                <string>Continuation</string>
+                <string>Data</string>
+                <string>Date</string>
+                <string>DateTime</string>
+                <string>Dir</string>
+                <string>EOFError</string>
+                <string>Enumerable</string>
+                <string>Errno</string>
+                <string>Exception</string>
+                <string>FalseClass</string>
+                <string>File</string>
+                <string>Constants</string>
+                <string>Stat</string>
+                <string>FileTest</string>
+                <string>FileUtils</string>
+                <string>CopyContext_</string>
+                <string>DryRun</string>
+                <string>NoWrite</string>
+                <string>Verbose</string>
+                <string>Find</string>
+                <string>Fixnum</string>
+                <string>Float</string>
+                <string>FloatDomainError</string>
+                <string>GC</string>
+                <string>Generator</string>
+                <string>Hash</string>
+                <string>IO</string>
+                <string>IOError</string>
+                <string>Iconv</string>
+                <string>Failure</string>
+                <string>IllegalSequence</string>
+                <string>InvalidCharacter</string>
+                <string>OutOfRange</string>
+                <string>IndexError</string>
+                <string>Integer</string>
+                <string>Interrupt</string>
+                <string>Kernel</string>
+                <string>LoadError</string>
+                <string>LocalJumpError</string>
+                <string>Logger</string>
+                <string>Application</string>
+                <string>LogDevice</string>
+                <string>Severity</string>
+                <string>ShiftingError</string>
+                <string>Marshal</string>
+                <string>MatchData</string>
+                <string>Math</string>
+                <string>Matrix</string>
+                <string>Method</string>
+                <string>Module</string>
+                <string>Mutex</string>
+                <string>NameError</string>
+                <string>NilClass</string>
+                <string>NoMemoryError</string>
+                <string>NoMethodError</string>
+                <string>NotImplementedError</string>
+                <string>Numeric</string>
+                <string>Object</string>
+                <string>ObjectSpace</string>
+                <string>Observable</string>
+                <string>Pathname</string>
+                <string>Precision</string>
+                <string>Proc</string>
+                <string>Process</string>
+                <string>GID</string>
+                <string>Status</string>
+                <string>Sys</string>
+                <string>UID</string>
+                <string>Queue</string>
+                <string>Range</string>
+                <string>RangeError</string>
+                <string>Regexp</string>
+                <string>RegexpError</string>
+                <string>RuntimeError</string>
+                <string>ScriptError</string>
+                <string>SecurityError</string>
+                <string>Set</string>
+                <string>Shellwords</string>
+                <string>Signal</string>
+                <string>SignalException</string>
+                <string>Singleton</string>
+                <string>SingletonClassMethods</string>
+                <string>SizedQueue</string>
+                <string>SortedSet</string>
+                <string>StandardError</string>
+                <string>String</string>
+                <string>StringScanner</string>
+                <string>StringScanner::Error</string>
+                <string>Struct</string>
+                <string>Symbol</string>
+                <string>SyncEnumerator</string>
+                <string>SyntaxError</string>
+                <string>SystemCallError</string>
+                <string>SystemExit</string>
+                <string>SystemStackError</string>
+                <string>Tempfile</string>
+                <string>Test</string>
+                <string>Unit</string>
+                <string>Thread</string>
+                <string>ThreadError</string>
+                <string>ThreadGroup</string>
+                <string>ThreadsWait</string>
+                <string>Time</string>
+                <string>TrueClass</string>
+                <string>TypeError</string>
+                <string>UnboundMethod</string>
+                <string>Vector</string>
+                <string>YAML</string>
+                <string>ZeroDivisionError</string>
+                <string>Zlib</string>
+                <string>BufError</string>
+                <string>DataError</string>
+                <string>Deflate</string>
+                <string>Error</string>
+                <string>GzipFile</string>
+                <string>CRCError</string>
+                <string>Error</string>
+                <string>LengthError</string>
+                <string>NoFooter</string>
+                <string>GzipReader</string>
+                <string>GzipWriter</string>
+                <string>Inflate</string>
+                <string>MemError</string>
+                <string>NeedDict</string>
+                <string>StreamEnd</string>
+                <string>StreamError</string>
+                <string>VersionError</string>
+                <string>ZStream</string>
+                <string>fatal</string>
+            </keywords>
+            <keywords id="Builtin Globals" useforautocomplete="yes"  scope="language.variable.global.builtin">
+            	<!--Ones with chars not defined as variable parse chars won't work-->
+            	<!--Need a clever way around this as adding them makes things not parse right everywhere else-->
+            	<string>$!</string>
+				<string>$@</string>
+				<string>$0</string>
+				<string>$1</string>
+				<string>$2</string>
+				<string>$3</string>
+				<string>$4</string>
+				<string>$5</string>
+				<string>$6</string>
+				<string>$7</string>
+				<string>$8</string>
+				<string>$9</string>
+				<string>$$</string>
+				<string>$?</string>
+				<string>$DEBUG</string>
+				<string>$defout</string>
+				<string>$F</string>
+				<string>$FILENAME</string>
+				<string>$LOAD_PATH</string>
+				<string>$SAFE</string>
+				<string>$stdin</string>
+				<string>$stdout</string>
+				<string>$stderr</string>
+				<string>$VERBOSE</string>
+				<string>ARGF</string>
+				<string>ARGV</string>
+				<string>DATA</string>
+				<string>ENV</string>
+				<string>RUBY_PLATFORM</string>
+				<string>RUBY_RELEASE_DATE</string>
+				<string>RUBY_VERSION</string>
+				<string>STDERR</string>
+				<string>STDIN</string>
+				<string>STDOUT</string>
+				<string>TOPLEVEL_BINDING</string>
+				
+				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$/)(?=[^[_A-Za-z0-9]]|$)</regex>
+				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$\\)(?=[^[_A-Za-z0-9]]|$)</regex>
+				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$,)(?=[^[_A-Za-z0-9]]|$)</regex>
+				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$;)(?=[^[_A-Za-z0-9]]|$)</regex>
+				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$\.)(?=[^[_A-Za-z0-9]]|$)</regex>
+				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$&lt;)(?=[^[_A-Za-z0-9]]|$)</regex>
+				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$&gt;)(?=[^[_A-Za-z0-9]]|$)</regex>
+				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$:)(?=[^[_A-Za-z0-9]]|$)</regex>
+				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$-x)(?=[^[_A-Za-z0-9]]|$)</regex>
+				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$_)(?=[^[_A-Za-z0-9]]|$)</regex>
+				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$~)(?=[^[_A-Za-z0-9]]|$)</regex>
+				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$&amp;)(?=[^[_A-Za-z0-9]]|$)</regex>
+				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$`)(?=[^[_A-Za-z0-9]]|$)</regex>
+				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$')(?=[^[_A-Za-z0-9]]|$)</regex>
+				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\$\+)(?=[^[_A-Za-z0-9]]|$)</regex>
+            </keywords>
+            
+            <keywords id="Operators" useforautocomplete="no" scope="language.operator">
+				<regex>([\+\-\*\\\=\|\!&lt;&gt;\/\%&amp;\^\~\@\.\?:])</regex>
+            </keywords>
+            
+            <keywords id="Methods" useforautocomplete="no" scope="language.function.ruby">
+                <regex>([A-Za-z0-9_?!]+ *)\(</regex>
+                <regex>(?&lt;=[^[_A-Za-z0-9]]|^)def\s+([A-Za-z0-9_?!.]+ *)[\r\n]+</regex>
+            </keywords>
+            
+            <keywords id="Numbers" useforautocomplete="no" scope="constant.numeric">
+            	<!-- Floating point, sci notation -->
+            	<regex>(?&lt;=[^[_A-Za-z0-9]]|^)([+-]?[0-9]+[eE][+-]?[0-9]+)(?=[^[_A-Za-z0-9]]|$)</regex>
+            	<regex>(?&lt;=[^[_A-Za-z0-9]]|^)([+-]?[0-9]+\.[0-9]+[eE][+-]?[0-9]+)(?=[^[_A-Za-z0-9]]|$)</regex>
+            	<!-- Floating point, NOT sci notation. -->
+            	<regex>(?&lt;=[^[_A-Za-z0-9]]|^)([+-]?[0-9]+(?:\.[0-9]+)?)(?=[^[_A-Za-z0-9]]|$)</regex>
+            	<!-- Integers that can have a leading +/- and underscores -->
+            	<regex>(?&lt;=[^[_A-Za-z0-9]]|^)([+-]?(?:[0-9]*_)*[0-9]+)(?=[^[_A-Za-z0-9.]]|$)</regex>
+				<!-- Numbers in a different base -->
+				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(0[xX][0-9a-fA-F]+)(?=[^[_A-Za-z0-9]]|$)</regex>
+				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(0[bB][01]+)(?=[^[_A-Za-z0-9]]|$)</regex>
+			</keywords>
+            <keywords id="Character Constants" useforautocomplete="no" scope="constant.numeric.character">
+				<!-- Numbers generated by looking at character constants, like ?d and ?\n -->
+				<regex>(?&lt;=[^[_A-Za-z0-9]]|^)(\?(?:\\)?[!-~])(?=[^[-_A-Za-z0-9]]|$)</regex>
+				<!-- hex characters -->
+				<regex>(\\x[0-9a-fA-F]{2,4}|\\x\{[0-9a-fA-F]{2,4}\})</regex>
+			</keywords>
+			<keywords id="Symbols" useforautocomplete="no" scope="language.variable.string">
+                <regex>(?&lt;!:)(:(?:(?:@@|@|\$)?[A-Za-z_][A-Za-z_0-9]*[\?!=]?|\[\]=?))</regex>
+			</keywords>
+            <keywords id="Instance Variables" useforautocomplete="no" scope="language.variable.instance">
+            	<regex>(?&lt;=[^[_A-Za-z0-9@:]]|^)(@[A-Za-z0-9_]+)(?=[^[_A-Za-z0-9]]|$)</regex>
+            </keywords>
+            <keywords id="Class Variables" useforautocomplete="no" scope="language.variable.class">
+            	<regex>(?&lt;=[^[_A-Za-z0-9:]]|^)(@@[A-Za-z0-9_]+)(?=[^[_A-Za-z0-9]]|$)</regex>
+            </keywords>
+            <keywords id="Global Variables" useforautocomplete="no" scope="language.variable.global">
+            	<regex>(?&lt;=[^[_A-Za-z0-9:]]|^)(\$[A-Za-z0-9_]+)(?=[^[_A-Za-z0-9]]|$)</regex>
+            </keywords>
+        	
+        	<state id="String with double quotes" type="string" scope="string.double">
+                <begin><regex>"</regex></begin>
+                <end><regex>(((?&lt;!\\)(\\\\)*)|^)"</regex></end>
+
+                <state id="Interpolation" scope="language.variable.interpolation">
+                <begin><regex>#{</regex></begin>
+                <end><regex>}</regex></end>
+                <import />
+                </state>
+            </state>
+    
+            <state id="String with single quotes" type="string" scope="string.single">
+                <begin><regex>(?&lt;!\$)(?:')</regex></begin>
+                <end><regex>(((?&lt;!\\)(\\\\)*)|^)'</regex></end>
+            </state>
+
+
+			<!-- actually heredocs start in the next line, so a way to recolor everything from start to end of line again in normal colors would be good. -->
+            <state id="Heredoc" foldable="yes" scope="string.here-doc">
+                <begin><string>(?:(?&lt;=[=\s+*\({\[])|^)&lt;&lt;(?:(?'heredoc'[_A-Za-z][A-Za-z0-9_]*)|(?:'\g'heredoc'')|(?:"\g'heredoc'"))</string></begin>
+                <end><regex>^(?#see-insert-start-group:heredoc)\s*[\r\n]</regex></end>
+                <state-link state="Interpolation"/>
+            </state>
+
+            <state id="Heredoc Indented End" foldable="yes" scope="string.here-doc.intended">
+                <begin><string>(?:(?&lt;=[=\s+*\({\[])|^)&lt;&lt;\-?(?:(?'heredocindented'[_A-Za-z][A-Za-z0-9_]*)|(?:'\g'heredocindented'')|(?:"\g'heredocindented'"))</string></begin>
+                <end><regex>^[ \t]*(?#see-insert-start-group:heredocindented)\s*[\r\n]</regex></end>
+                <state-link state="Interpolation"/>
+            </state>
+
+            <state id="Percent Strings with Interpolation" type="string" foldable="yes" scope="string.percentage">
+                <begin><regex>%Q?(?'percentstringchar'[^\s{\[\(&lt;A-Za-z0-9>])</regex></begin>
+			<!-- Q with interpolation -->
+                <end><regex>(?#see-insert-start-group:percentstringchar)</regex></end>
+				<state-link state="Interpolation"/>
+            </state>
+			
+			<!-- these work with all kinds of brackets, {[(<>)]} http://www.zenspider.com/Languages/Ruby/QuickRef.html -->
+
+            <state id="Percent Strings without Interpolation" type="string" foldable="yes" scope="string.percentage">
+                <begin><regex>%q(?'percentstringcharnointer'[^\s{\[\(&lt;A-Za-z0-9>])</regex></begin>
+                <end><regex>(?#see-insert-start-group:percentstringcharnointer)</regex></end>
+            </state>
+
+			<state id="Percent Strings Q {" type="string" foldable="yes" scope="string.percentage.curly">
+                <begin><regex>%[Q]?{</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)}</regex></end>
+                <state-link state="Interpolation"/>
+				<state id="UnescapedCurlyBracketRecursive" type="string" foldable="no" scope="meta.default">
+					<begin><regex>(?:(?:(?&lt;!\\)(?:\\\\)*)|^){</regex></begin>
+					<end><regex>(?:(?:(?&lt;!\\)(\\\\)*)|^)}</regex></end>
+	                <import state="Percent Strings Q {" />
+				</state>
+            </state>
+
+            <state id="Percent Strings Q (" type="string" foldable="yes" scope="string.percentage.parentheses">
+                <begin><regex>%[Q]?\(</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)\)</regex></end>
+                <state-link state="Interpolation"/>
+				<state id="UnescapedNormalBracketRecursive" type="string" foldable="no" scope="meta.block.percentagestring.unescapedbracketrecursive.parentheses">
+					<begin><regex>(?:(?:(?&lt;!\\)(?:\\\\)*)|^)\(</regex></begin>
+					<end><regex>(?:(?:(?&lt;!\\)(\\\\)*)|^)\)</regex></end>
+	                <import state="Percent Strings Q (" />
+				</state>
+            </state>
+
+            <state id="Percent Strings Q &lt;" type="string" foldable="yes" scope="string.percentage.angle">
+                <begin><regex>%[Q]?&lt;</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)></regex></end>
+                <state-link state="Interpolation"/>
+				<state id="UnescapedAngelBracketRecursive" type="string" foldable="no" scope="meta.block.percentagestring.unescapedbracketrecursive.angle">
+					<begin><regex>(?:(?:(?&lt;!\\)(?:\\\\)*)|^)&lt;</regex></begin>
+					<end><regex>(?:(?:(?&lt;!\\)(\\\\)*)|^)></regex></end>
+	                <import state="Percent Strings Q &lt;" />
+				</state>
+            </state>
+
+            <state id="Percent Strings Q [" type="string" foldable="yes" scope="string.percentage.bracket">
+                <begin><regex>%[Q]?\[</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)]</regex></end>
+                <state-link state="Interpolation"/>
+				<state id="UnescapedSquareBracketRecursive" type="string" foldable="no" scope="meta.block.percentagestring.unescapedbracketrecursive.bracket">
+					<begin><regex>(?:(?:(?&lt;!\\)(?:\\\\)*)|^)\[</regex></begin>
+					<end><regex>(?:(?:(?&lt;!\\)(\\\\)*)|^)\]</regex></end>
+	                <import state="Percent Strings Q [" />
+				</state>
+            </state>
+			
+			<!-- these work with all kinds of brackets, {[(<>)]} http://www.zenspider.com/Languages/Ruby/QuickRef.html -->
+            <state id="Percent Strings {" type="string" foldable="yes" scope="string.percentage.curly">
+                <begin><regex>%q{</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)}</regex></end>
+				<state id="UnescapedCurlyBracketRecursive" type="string" foldable="no" scope="meta.default">
+					<begin><regex>(?:(?:(?&lt;!\\)(?:\\\\)*)|^){</regex></begin>
+					<end><regex>(?:(?:(?&lt;!\\)(\\\\)*)|^)}</regex></end>
+	                <import state="Percent Strings {" />
+				</state>
+            </state>
+
+            <state id="Percent Strings (" type="string" foldable="yes" scope="string.percentage.parentheses">
+                <begin><regex>%q\(</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)\)</regex></end>
+				<state id="UnescapedNormalBracketRecursive" type="string" foldable="no" scope="meta.block.percentagestring.unescapedbracketrecursive.parentheses">
+					<begin><regex>(?:(?:(?&lt;!\\)(?:\\\\)*)|^)\(</regex></begin>
+					<end><regex>(?:(?:(?&lt;!\\)(\\\\)*)|^)\)</regex></end>
+	                <import state="Percent Strings (" />
+				</state>
+            </state>
+
+            <state id="Percent Strings &lt;" type="string" foldable="yes" scope="string.percentage.angle">
+                <begin><regex>%q&lt;</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)></regex></end>
+				<state id="UnescapedAngelBracketRecursive" type="string" foldable="no" scope="meta.block.percentagestring.unescapedbracketrecursive.angle">
+					<begin><regex>(?:(?:(?&lt;!\\)(?:\\\\)*)|^)&lt;</regex></begin>
+					<end><regex>(?:(?:(?&lt;!\\)(\\\\)*)|^)></regex></end>
+	                <import state="Percent Strings &lt;" />
+				</state>
+            </state>
+
+            <state id="Percent Strings [" type="string" foldable="yes" scope="string.percentage.bracket">
+                <begin><regex>%q\[</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)]</regex></end>
+				<state id="UnescapedSquareBracketRecursive" type="string" foldable="no" scope="meta.block.percentagestring.unescapedbracketrecursive.bracket">
+					<begin><regex>(?:(?:(?&lt;!\\)(?:\\\\)*)|^)\[</regex></begin>
+					<end><regex>(?:(?:(?&lt;!\\)(\\\\)*)|^)\]</regex></end>
+	                <import state="Percent Strings [" />
+				</state>
+            </state>
+    
+
+			<!-- Execution Coloring -->
+
+            <state id="Backticks" scope="string.exec.backticks">
+                <begin><regex>(?&lt;!\$)(?:`)</regex></begin>
+                <end><regex>(?:(?:(?&lt;!\\)(\\\\)*)|^)`</regex></end>
+            </state>
+            
+            <state id="Percent Execution" type="string" foldable="yes" scope="string.exec.percentx">
+                <begin><regex>%x(?'percentexecutionchar'[^\s{\[\(&lt;A-Za-z0-9])</regex></begin>
+                <end><regex>(?#see-insert-start-group:percentexecutionchar)</regex></end>
+				<state-link state="Interpolation"/>
+            </state>
+
+			<!-- these work with all kinds of bracets, {[(<>)]} http://www.zenspider.com/Languages/Ruby/QuickRef.html -->
+            <state id="Percent Execution {" type="string" foldable="yes" scope="string.exec.percentx.curly">
+                <begin><regex>%x{</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)}</regex></end>
+				<import state="Percent Strings {" />
+            </state>
+
+            <state id="Percent Execution (" type="string" foldable="yes" scope="string.exec.percentx.parentheses">
+                <begin><regex>%x\(</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)\)</regex></end>
+				<import state="Percent Strings (" />
+            </state>
+
+            <state id="Percent Execution &lt;" type="string" foldable="yes" scope="string.exec.percentx.angle">
+                <begin><regex>%x&lt;</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)></regex></end>
+				<import state="Percent Strings &lt;" />
+            </state>
+
+            <state id="Percent Execution [" type="string" foldable="yes" scope="string.exec.percentx.bracket">
+                <begin><regex>%x\[</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)]</regex></end>
+				<import state="Percent Strings [" />
+            </state>
+
+			<state id="Regexp" scope="string.regex">
+                							<begin><regex>(?xi)(?:^|(?&lt;=[=>~(:\[,\|&amp;;]|(?:\s|;)when\s|(?:\s|;)or\s|(?:\s|;)and\s|(?:\s|;)not\s|(?:\s|;|\.)index\s|(?:\s|;|\.)scan\s|(?:\s|;|\.)sub\s|(?:\s|l|\.)sub!\s|(?:\s|;|\.)gsub\s|(?:\s|;|\.)gsub!\s|(?:\s|;|\.)match\s|(?:\s|;|\.)assert_no_match\s|(?:\s|;|\.)assert_match\s|(?:\s|;|\.)match\s|(?:\s|;)if\s|(?:\s|;)elsif\s|(?:\s|;)while\s|(?:\s|;)unless\s)|(?&lt;=^when\s|^index\s|^scan\s|^sub\s|^gsub\s|^sub!\s|^gsub!\s|^match\s|^if\s|^elsif\s|^while\s|^unless\s))\s*(?:/)(?![/*+{}?])</regex></begin>
+
+                <end><regex>(?:(?:(?&lt;!\\)(\\\\)*)|^)/[eimnosux]*</regex></end>
+                <state-link state="Interpolation"/>
+				<state id="Escaped Characters" scope="string.regex.escaped">
+                	<begin><regex>\\</regex></begin>
+                	<end><regex>.</regex></end>	
+            	</state>
+            </state>
+
+            <state id="Percent Regex" scope="string.regex.percentage">
+                <begin><regex>%r(?'percentregularchar'[^\s{\[\(&lt;A-Za-z0-9])</regex></begin>
+                <end><regex>(?#see-insert-start-group:percentregularchar)</regex></end>
+				<import state="Regexp" />		
+            </state>
+
+			<!-- these work with all kinds of bracets, {[(<>)]} http://www.zenspider.com/Languages/Ruby/QuickRef.html -->
+            <state id="Percent Regex {" scope="string.regex.percentage.curly">
+                <begin><regex>%r{</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)}</regex></end>
+				<import state="Percent Strings {" />
+				<state-link state="Interpolation"/>
+				<state id="Escaped Characters" scope="string.regex.escaped">
+                	<begin><regex>\\</regex></begin>
+                	<end><regex>.</regex></end>	
+            	</state>
+            </state>
+
+            <state id="Percent Regex (" scope="string.regex.percentage.parentheses">
+                <begin><regex>%r\(</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)\)</regex></end>
+				<import state="Percent Strings (" />
+				<state-link state="Interpolation"/>
+				<state id="Escaped Characters" scope="string.regex.escaped">
+                	<begin><regex>\\</regex></begin>
+                	<end><regex>.</regex></end>	
+            	</state>
+            </state>
+
+            <state id="Percent Regex &lt;" scope="string.regex.percentage.angle">
+                <begin><regex>%r&lt;</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)></regex></end>
+				<import state="Percent Strings &lt;" />
+				<state-link state="Interpolation"/>
+				<state id="Escaped Characters" scope="string.regex.escaped">
+                	<begin><regex>\\</regex></begin>
+                	<end><regex>.</regex></end>	
+            	</state>
+            </state>
+
+            <state id="Percent Regex [" scope="string.regex.percentage.bracket">
+                <begin><regex>%r\[</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)]</regex></end>
+				<import state="Percent Strings [" />
+				<state-link state="Interpolation"/>
+				<state id="Escaped Characters" scope="string.regex.escaped">
+                	<begin><regex>\\</regex></begin>
+                	<end><regex>.</regex></end>	
+            	</state>
+            </state>
+
+			<!-- Symbol Coloring -->
+            <state id="Percent Symbol" scope="string.symbol.percent">
+                <begin><regex>%s(?'percentsymbolchar'[^\s{\[\(&lt;A-Za-z0-9])</regex></begin>
+                <end><regex>(?#see-insert-start-group:percentsymbolchar)</regex></end>
+				<state-link state="Interpolation"/>
+            </state>
+
+			<!-- these work with all kinds of bracets, {[(<>)]} http://www.zenspider.com/Languages/Ruby/QuickRef.html -->
+            <state id="Percent Symbol {" scope="string.symbol.percent.curly">
+                <begin><regex>%s{</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)}</regex></end>
+				<import state="Percent Strings {" />
+            </state>
+
+            <state id="Percent Symbol (" scope="string.symbol.percent.parentheses">
+                <begin><regex>%s\(</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)\)</regex></end>
+				<import state="Percent Strings (" />
+            </state>
+
+            <state id="Percent Symbol &lt;" scope="string.symbol.percent.angle">
+                <begin><regex>%s&lt;</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)></regex></end>
+				<import state="Percent Strings &lt;" />
+            </state>
+
+            <state id="Percent Symbol [" scope="string.symbol.percent.bracket">
+                <begin><regex>%s\[</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)]</regex></end>
+				<import state="Percent Strings [" />
+            </state>
+
+			<!-- W array Coloring -->
+            <state id="Percent Array" scope="string.array.percent">
+                <begin><regex>%[wW](?'percentarraychar'[^\s{\[\(&lt;A-Za-z0-9])</regex></begin>
+                <end><regex>(?#see-insert-start-group:percentarraychar)</regex></end>
+				<state-link state="Interpolation"/>
+            </state>
+
+			<!-- these work with all kinds of bracets, {[(<>)]} http://www.zenspider.com/Languages/Ruby/QuickRef.html -->
+            <state id="Percent Array {" scope="string.array.percent.curly">
+                <begin><regex>%[wW]{</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)}</regex></end>
+				<import state="Percent Strings {" />
+            </state>
+
+            <state id="Percent Array (" scope="string.array.percent.parentheses">
+                <begin><regex>%[wW]\(</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)\)</regex></end>
+				<import state="Percent Strings (" />
+            </state>
+
+            <state id="Percent Array &lt;" scope="string.array.percent.angle">
+                <begin><regex>%[wW]&lt;</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)></regex></end>
+				<import state="Percent Strings &lt;" />
+            </state>
+
+            <state id="Percent Array [" scope="string.array.percent.bracket">
+                <begin><regex>%[wW]\[</regex></begin>
+                <end><regex>(?:(?&lt;!\\)(\\\\)*)]</regex></end>
+				<import state="Percent Strings [" />
+            </state>
+
+            <state id="Singleline Comment" type="comment" scope="comment.line">
+                <begin><regex>#</regex></begin>
+                <end><regex>(?'unwindend'[\n\r])</regex></end>
+	            <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+            </state>
+            
+            <state id="POD Comments" type="comment" scope="comment.block.documentation">
+                <begin><regex>(?:^=begin)</regex></begin>
+                <end><regex>^=end</regex></end>
+            </state>
+
+            <state id="Block" type="block" foldable="yes" scope="meta.block">
+				<begin><regex>(?:(?:\A|^|=)[ \t]*(?:(?:(?:if|unless|while|until)(?:[ \t]+|(?=\()))|(?:case[ \t]+\g'ruby_ident'[ \t]?)|(?:for[ \t]+\g'ruby_ident'[ \t]+in(?:[^\n\r]+do)?)|(?:case))|\b(?:(?:class(?:(?:[ \t]+(?'ruby_ident'(?'ruby_ident_part'[a-zA-Z_][a-zA-Z0-9_]*)(?:(?:\.|::)\g'ruby_ident_part')*)(?:[ \t]+&lt;[ \t]+\g'ruby_ident')?)|(?:[ \t]*&lt;&lt;)))|(?:module[ \t]+[a-zA-Z_][a-zA-Z0-9_]*)|\bdo\b(?:[ \t]*\|[^\n\r|]+\|)?|(?:def[ \t]+(?:(?'ruby_operator_methods'&amp;|\||\^|&lt;=>|===|==|=~|>>|\?|\!|>=|>|&lt;=|\+@|\-@|\+|\-|\*\*|\*|/|%|&lt;&lt;|&lt;|~|\[\]|\[\]=)|\g'ruby_ident'\g'ruby_operator_methods'?))))</regex></begin>
+				<end><regex>\bend\b</regex></end>
+                <import />
+            </state>
+
+            <state id="BeginBlocks" type="block" foldable="yes" scope="meta.block.begin">
+                <begin><regex>\bbegin\b</regex></begin>
+                <end><regex>\bend(?:[ \t]+(?:while|if|unless|until))?\b</regex></end>
+                <import />
+            </state>
+
+			<!-- this should not match normal hash literals. most commonly used in || {} in rails -->
+
+            <state id="CurlyBlocks" type="block" foldable="yes" scope="meta.block.curly">
+                <begin><regex>{(?:[ \t]*\|[^\n\r|]+\|)?</regex></begin>
+                <end><regex>}</regex></end>
+                <import />
+            </state>
+
+
+        </default>
+        
+    </states>
+
+</syntax>

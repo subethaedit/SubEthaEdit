@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "symbol.dtd">
+<symbols>
+
+    <blocks>
+        <beginregex>{</beginregex>
+        <endregex>}</endregex>
+    </blocks>
+    
+    <symbol id="Classes" image="SymbolC" indentation="0" ignoreblocks="yes" useforautocomplete="yes">
+        <regex>^[ \t]*((?:public|private|protected)?[ \t]*(?:(?:abstract|static|final|synchronized|native|strictfp)[ \t]+)*class\s*(?'name'[^{\s]+))</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+
+    <symbol id="Methods" image="SymbolM" indentation="1" ignoreblocks="no" useforautocomplete="yes">
+        <!-- <regex>((?:public|private|protected)[ \t]+(?:(?:abstract|static|final|synchronized|native|strictfp)[ \t]+)*(?:[A-Za-z0-9_\-\.&lt;&gt;]+(?:\[\])?[ \t]+)?[A-Za-z0-9_\-]+[ \t]*(?:\([^\)]*\)[ \t]*)?(?:\s*(throws)[ \t]*[A-Za-z0-9_\-, \t\.]+)?)\s*\{</regex> -->
+		<regex>(?:public|private|protected)[ \t]+(?:(?:abstract|static|final|synchronized|native|strictfp)[ \s]+)*\w+\s(?'name'\w+\s*\((?'arguments'[^)]+)\))[^{]*\{</regex>
+        <postprocess>
+            <!-- CODA
+            <find>\(([^\) ]+(?:[ \t]+\[\])?)[^\)]*\)</find>
+            <replace>(\1)</replace>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            -->
+            <find>\s+</find>
+            <replace> </replace>
+        </postprocess>
+        <arguments>([\$A-Za-z0-9_\[\]]+\s[\$A-Za-z0-9_]+)[ \n\t\r,]*</arguments>
+    </symbol>
+
+    <symbol id="CVS/SVN conflict" font-weight="bold" image="SymbolWarn" indentation="0" ignoreblocks="no">
+        <regex>^&lt;&lt;&lt;&lt;&lt;&lt;&lt;([\n\r]|.)*?======([\n\r]|.)*?&gt;&gt;&gt;&gt;&gt;&gt;&gt;</regex>
+        <postprocess>
+            <find>.*</find>
+            <replace>Versioning conflict!</replace>
+        </postprocess>
+    </symbol>
+    
+    <!-- CODA -->
+    <symbol id="Pragma marks" font-weight="normal" font-style="normal" image="SymbolMark" indentation="0" ignoreblocks="no" show-in-comments="yes">
+        <regex>// !([^\n\r]+)</regex>
+    </symbol>
+
+</symbols>
