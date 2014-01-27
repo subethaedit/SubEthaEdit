@@ -9,6 +9,7 @@
 #import "NSImageTCMAdditions.h"
 #import <Quartz/Quartz.h>
 #import <CoreGraphics/CoreGraphics.h>
+#import "NSColorTCMAdditions.h"
 
 // this file needs arc - either project wide,
 // or add -fobjc-arc on a per file basis in the compile build phase
@@ -18,16 +19,40 @@
 
 @implementation NSImage (NSImageTCMAdditions)
 
-+ (NSImage *)pdfBasedImageNamed:(NSString *)aName fillColor:(NSColor *)aFillColor scaleFactor:(CGFloat)aScaleFactor {
++ (NSImage *)pdfBasedImageNamed:(NSString *)aName {
 	NSImage *result = [NSImage imageNamed:aName];
 	if (!result) {
 		NSArray *parts = [aName componentsSeparatedByString:@"_"];
+		
+		NSInteger pointWidth = [[parts objectAtIndex:1] integerValue];
+		
+		NSColor *selectedColor = [NSColor selectedMenuItemColor];
+		NSColor *normalColor   = [NSColor whiteColor];
+		NSColor *highlightColor = [[NSColor selectedMenuItemColor] blendedColorWithFraction:0.25 ofColor:[NSColor blackColor]];
+		
+		if (parts.count > 3) {
+			normalColor = [NSColor colorForHTMLString:parts[2]];
+		}
+		if (parts.count > 4) {
+			selectedColor = [NSColor colorForHTMLString:parts[3]];
+		}
+		if (parts.count > 5) {
+			highlightColor = [NSColor colorForHTMLString:parts[4]];
+		}
+
+		
+		NSColor *fillColor = normalColor;
 		NSString *pdfName = parts.firstObject;
 		NSString *state = parts.lastObject;
-		if ([state hasPrefix:@"Selected"]) {
-			aFillColor = [NSColor selectedMenuItemColor];
+		if ([state hasPrefix:TCM_PDFIMAGE_SELECTED]) {
+			fillColor = selectedColor;
+		} else if ([state hasPrefix:TCM_PDFIMAGE_HIGHLIGHTED]) {
+			fillColor = highlightColor;
 		}
-		BOOL disabled = [state hasSuffix:@"Disabled"];
+		BOOL disabled = [state hasSuffix:TCM_PDFIMAGE_DISABLED];
+		if (disabled) {
+			fillColor = [fillColor blendedColorWithFraction:0.25 ofColor:[NSColor colorWithCalibratedWhite:0.856 alpha:1.000]];
+		}
 		NSURL *url = [[NSBundle mainBundle] URLForResource:pdfName withExtension:@"pdf"];
 		CGDataProviderRef dataProvider = CGDataProviderCreateWithURL((__bridge CFURLRef)url);
 		CGPDFDocumentRef pdfDocument = CGPDFDocumentCreateWithProvider(dataProvider);
@@ -37,11 +62,10 @@
 		NSRect boxRect = CGPDFPageGetBoxRect(page1,kCGPDFCropBox);
 		
 		CGRect fullRect = CGRectZero;
-		fullRect.size = boxRect.size;
-		NSSize scaleFactors = NSMakeSize(aScaleFactor, aScaleFactor);
-		fullRect.size.width *= scaleFactors.width;
-		fullRect.size.height *= scaleFactors.height;
-		fullRect = NSIntegralRect(fullRect); // only ganze pixel sind gute pixel
+		fullRect.size = CGSizeMake(pointWidth, pointWidth);
+		fullRect.size.height = round(boxRect.size.height * fullRect.size.width / boxRect.size.width);
+		NSSize scaleFactors = NSMakeSize(fullRect.size.width / boxRect.size.width,
+										 fullRect.size.height / boxRect.size.height);
 		result = [NSImage imageWithSize:fullRect.size flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
 
 			[[NSColor clearColor] set];
@@ -63,14 +87,14 @@
 			CGContextRestoreGState(layerContext);
 			
 			CGContextSetBlendMode(layerContext, kCGBlendModeSourceIn);
-			CGContextSetFillColorWithColor(layerContext, [aFillColor CGColor]);
+			CGContextSetFillColorWithColor(layerContext, [fillColor CGColor]);
 			CGContextFillRect(layerContext, layerRect);
 
 			
 			CGContextSetShadow(context, CGSizeMake(0, -1.), 3.);
 			CGContextScaleCTM(context, 1/layerScale.width, 1/layerScale.height);
 			if (disabled) {
-				CGContextSetAlpha(context, 0.6);
+				CGContextSetAlpha(context, 0.9);
 			}
 			CGContextDrawLayerAtPoint(context, CGPointZero, layer);
 /*			CGContextSetBlendMode(context, kCGBlendModeNormal);
