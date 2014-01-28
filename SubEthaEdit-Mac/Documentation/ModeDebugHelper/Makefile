@@ -5,6 +5,8 @@ XSLTPROC=/usr/bin/xsltproc
 # XSLT that generates a sss file from all the used scopes + styles in a SyntaxDefinition.xml
 XSLT_STYLESHEET_FROM_MODE=ModeScopeStyles.xslt
 
+# XSLT that generates a SyntaxDefinition.xml without the style attributes (color etc) from a SyntaxDefinition.xml
+XSLT_REMOVE_STYLEATTRIBUTES_FROM_MODE=ModeRemoveStyles.xslt
 
 # Languages for which to generate a .sss-file : additional languages have to be added by hand
 LANGUAGES=ActionScript AppleScript ASP-HTML Base bash C C++ CFML Conference CSS Diff ERB erlang go HTML Java Javascript JSP-HTML LassoScript-HTML LaTeX Lua Objective-C Objective-J Pascal Perl PHP-HTML Python Ruby SDEF SQL SVNLog Wiki XML LESS Sass Smarty YAML
@@ -32,17 +34,21 @@ STYLES=$(addprefix $(STYLE_PATH_PREFIX), $(addsuffix $(STYLE_PATH_SUFFIX), $(LAN
 DEFINITONS=$(addprefix $(MODE_PATH_PREFIX), $(addsuffix $(MODE_PATH_SUFFIX), $(LANGUAGES)))
 RESULTS=$(addprefix $(MODE_RESULT_PATH_PREFIX), $(addsuffix $(MODE_RESULT_PATH_SUFFIX), $(LANGUAGES)))
 
-#all: styles definitions
-#all: styles results
-all: styles
+all: stylesheader styles resultsheader results
 
 styles: $(STYLES)
 definitions: $(DEFINITONS)
 results: $(RESULTS)
 
+stylesheader:
+	@ echo "########## generating style sheets from SyntaxDefinition.xmls";	
+
+resultsheader:
+	@ echo "########## generating style-less SyntaxDefinition.xmls";
+
 #generating a style sheet from a SyntaxDefinition.xml
 $(STYLE_PATH_PREFIX)%.sss: $(XSLT_STYLESHEET_FROM_MODE)
-	@ if [ -s $(MODE_PATH_PREFIX)$*$(MODE_PATH_SUFFIX) ]; then \
+		@ if [ -s $(MODE_PATH_PREFIX)$*$(MODE_PATH_SUFFIX) ]; then \
 		$(XSLTPROC) --novalid $(XSLT_STYLESHEET_FROM_MODE)  $(MODE_PATH_PREFIX)$*$(MODE_PATH_SUFFIX) > $(STYLE_PATH_PREFIX)$*.sss; \
 		if [ -s $(STYLE_PATH_PREFIX)$*.sss ]; then \
 			echo "Created Style Sheet:\t$*"; \
@@ -53,6 +59,17 @@ $(STYLE_PATH_PREFIX)%.sss: $(XSLT_STYLESHEET_FROM_MODE)
 	else \
 		echo "No Mode:\t\t$*"; \
 	fi
+
+#generating a style-less SyntaxDefinition.xml
+$(MODE_RESULT_PATH_PREFIX)%$(MODE_RESULT_PATH_SUFFIX): $(XSLT_REMOVE_STYLEATTRIBUTES_FROM_MODE)
+	@ if [ -s $(MODE_PATH_PREFIX)$*$(MODE_PATH_SUFFIX) ]; then \
+		mkdir -p "$$(dirname $(MODE_RESULT_PATH_PREFIX)$*$(MODE_RESULT_PATH_SUFFIX))"; \
+		$(XSLTPROC) --novalid $(XSLT_REMOVE_STYLEATTRIBUTES_FROM_MODE)  $(MODE_PATH_PREFIX)$*$(MODE_PATH_SUFFIX) > $(MODE_RESULT_PATH_PREFIX)$*$(MODE_RESULT_PATH_SUFFIX); \
+		echo "Created style-less SyntaxDefinition.xml:\t$*"; \
+	else \
+		echo "No Mode:\t\t$*"; \
+	fi	
+	
 	
 ### init - make that directory
 init:
@@ -64,7 +81,7 @@ init:
 			echo "Created Directory:\t\t$$dir"; \
 		fi; \
 		done;
-
+	
 ### cleanup - delete all the style files
 clean:
 	@ for file in $(STYLES); do \
