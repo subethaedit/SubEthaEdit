@@ -6,7 +6,7 @@
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 	<xsl:output indent="yes" encoding="UTF-8" method="xml" 
 		doctype-system="syntax.dtd" 
-		cdata-section-elements="charsintokens" />
+		cdata-section-elements="charsintokens charsincompletion" />
 
 	<xsl:template match="/">
 		<xsl:call-template name="remove-style-attribute" />
