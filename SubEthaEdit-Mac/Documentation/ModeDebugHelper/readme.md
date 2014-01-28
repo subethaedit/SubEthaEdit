@@ -6,7 +6,7 @@ This readme contains example calls to the *.xslts* created for debugging and imp
 Overview:
 
 1. [All XML-Nodes using a scope](#xmlForScope)
-2. [All used Scopes in a Mode](#scopes)
+2. [All Scopes used in a Mode](#scopes)
 3. [All values of one Style attribute used in a Mode](#oneStyleAttributeValues)
 4. [All values of all Style attributes used in a Mode](#allStyleAttributeValues)
 5. [Remove the Style attributes used in a Mode](#removeStyleAttributes)
@@ -17,7 +17,6 @@ Overview:
 ---
 ## [All XML-Nodes using a Scope](id:xmlForScope)
 **XMLTagsForScope.xslt**
-
 
 Printing all XML-Nodes that are a certain `scope` (*eg. `keyword.function`*) for a single Mode (_opened in SubEthaEdit in XML-Mode_): 
 
@@ -32,20 +31,20 @@ Adding a root node to the the resulting XML:
 	( echo "<modes>"; find <path>  -name "SyntaxDefinition.xml" -exec xsltproc --param scope "'<scope>'" --novalid XMLTagsForScope.xslt \{\} \;; echo "</modes>" ) | see --mode xml
 
 ---
-## [All used Scopes in a Mode](id:scopes)
-**ModeScopes.xslt**
+## [All Scopes used in a Mode](id:scopes)
+**ScopesInMode.xslt**
 
-Returning all scopes used by a single Mode (*eg. `PHP-HTML`*):
+Returning all scopes used in a single Mode (*eg. `PHP-HTML`*):
 
-	xsltproc --novalid ModeScopes.xslt <path>/<mode-name>.mode/Contents/Resources/SyntaxDefinition.xml | see
+	xsltproc --novalid ScopesInMode.xslt <path>/<mode-name>.mode/Contents/Resources/SyntaxDefinition.xml | see
 
 Returning all scopes used by multiple Modes:
 
-	find <path> -name "SyntaxDefinition.xml" -exec xsltproc --novalid ModeScopes.xslt \{\} \; | see
+	find <path> -name "SyntaxDefinition.xml" -exec xsltproc --novalid ScopesInMode.xslt \{\} \; | see
 
-Returning all scopes used by multiple Modes - sorted:
+Returning all scopes used by multiple Modes - sorted and uniqued:
 
-	find  <path> -name "SyntaxDefinition.xml" -exec xsltproc --novalid ModeScopes.xslt \{\} \; | awk '{print $1}' | sort | uniq | see
+	find  <path> -name "SyntaxDefinition.xml" -exec xsltproc --novalid ScopesInMode.xslt \{\} \; | awk '{print $1}' | sort | uniq | see
 
 ---
 ## [All values of one Style attribute used in a Mode](id:oneStyleAttributeValues)
@@ -117,6 +116,15 @@ Coda 2s default Path: `/Applications/Coda 2.app/Contents/Resources`
 		( echo "<modes>"; find Coda2Modes/ -name "SyntaxDefinition.xml" -exec xsltproc --param scope "'language.operator'" --novalid XMLTagsForScope.xslt \{\} \;; echo "</modes>" ) | see --mode xml
 
 	
+* Examples for **ScopesInMode.xslt**
+		
+		xsltproc --novalid ScopesInMode.xslt Coda2Modes/PHP-HTML.mode/Contents/Resources/SyntaxDefinition.xml | see
+
+		find Coda2Modes/ -name "SyntaxDefinition.xml" -exec xsltproc --novalid ScopesInMode.xslt \{\} \; | see
+
+		find Coda2Modes/ -name "SyntaxDefinition.xml" -exec xsltproc --novalid ScopesInMode.xslt \{\} \; | awk '{print $1}' | sort | uniq | see
+		
+
 Lisa (ghost)-specific examples for **ModeStyles.xslt** :
 
 	xsltproc --param style-attribute "'inverted-color'" --novalid ModeStyles.xslt /Users/Lisa/Projects/git/subethaedit/SubEthaEdit-Mac/Modes/AppleScript.mode/Contents/Resources/SyntaxDefinition.xml | see --mode css
