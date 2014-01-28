@@ -9,8 +9,6 @@
 	<xsl:param name="to">color</xsl:param>
 
 	<xsl:template match="/">
-		<test><xsl:value-of select="$from" /><xsl:value-of select="$to" /></test>
-
 		<xsl:call-template name="rename-scope">
 			<xsl:with-param name="from" select="$from" />
 			<xsl:with-param name="to" select="$to" />
@@ -44,4 +42,5 @@
   			</xsl:choose>
   		</xsl:attribute>
 	</xsl:template>
+	
 </xsl:stylesheet>
