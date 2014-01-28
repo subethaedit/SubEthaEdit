@@ -8,7 +8,7 @@ Overview:
 1. [All XML-Nodes using a scope](#xmlForScope)
 2. [All Scopes used in a Mode](#scopes)
 3. [Simple Style Sheet for one style attribute](#oneStyleAttribute)
-4. [All values of all Style attributes used in a Mode](#allStyleAttributeValues)
+4. [Simple Style Sheet for all style attributes](#allStyleAttributes)
 5. [Remove the Style attributes used in a Mode](#removeStyleAttributes)
 6. [Rename scope](#renameScope)
 7. [Style Extraction Makefile](#makefile)
@@ -59,19 +59,16 @@ Returning a style sheet for a scope style used by multiple Modes - sorted:
 	find  <path> -name "SyntaxDefinition.xml" -exec xsltproc --param style-attribute "'<style-attribute>'" --novalid StyleSheetForAttribute.xslt \{\} \; | sort | uniq | see --mode css
 
 ---
-## [All values of all Style attributes used in a Mode](id:allStyleAttributeValues)
-**ModeScopeStyles.xslt**
+## [Simple Style Sheet for all style attributes](id:allStyleAttributes)
+**StyleSheetForAllAttributes.xslt**
 
-Returning all scope styles (`color, inverted-color, background-color, inverted-background-color, font-trait, font-weight, font-style
-` used by a single Mode (*eg. `PHP-HTML`*) (_opened in SubEthaEdit in CSS-Mode_):
+Returning a style sheet for all scope styles (`color, inverted-color, background-color, inverted-background-color, font-trait, font-weight, font-style`) used by a single Mode (*eg. `PHP-HTML`*) (_opened in SubEthaEdit in CSS-Mode_):
 
-	xsltproc --novalid ModeScopeStyles.xslt <path>/<mode-name>.mode/Contents/Resources/SyntaxDefinition.xml | see --mode css
+	xsltproc --novalid StyleSheetForAllAttributes.xslt <path>/<mode-name>.mode/Contents/Resources/SyntaxDefinition.xml | see --mode css
 
-Returning all scope styles used by multiple Modes (*eg. `PHP-HTML`*):
+Returning a style sheet for all scope styles used by multiple Modes - sorted:
 
-	find  <path> -name "SyntaxDefinition.xml" -exec xsltproc --novalid ModeScopeStyles.xslt \{\} \; | awk '{print $1}' | sort | uniq | see --mode css
-
-
+	find  <path> -name "SyntaxDefinition.xml" -exec xsltproc --novalid StyleSheetForAllAttributes.xslt \{\} \; | sort | see --mode css
 
 ---
 ## [Remove all Style attributes used in a Mode](id:removeStyleAttributes)
@@ -132,9 +129,14 @@ Modes - Coda2 - relative path in repository: `Coda2Modes/`
 		find Coda2Modes/ -name "SyntaxDefinition.xml" -exec xsltproc --param style-attribute "'background-color'" --novalid StyleSheetForAttribute.xslt \{\} \; | sort | uniq | see --mode css
 	
 
-Lisa (ghost)-specific examples for **ModeScopeStyles.xslt** :
+* Examples for **StyleSheetForAllAttributes.xslt**
 
-	find  /Users/Lisa/Projects/git/subethaedit/SubEthaEdit-Mac/Modes -name "SyntaxDefinition.xml" -exec xsltproc --novalid ModeScopeStyles.xslt \{\} \; | sort | uniq | see --mode css
+		xsltproc --novalid StyleSheetForAllAttributes.xslt Coda2Modes/ASP-HTML.mode/Contents/Resources/SyntaxDefinition.xml | see --mode css
+
+		find Coda2Modes -name "SyntaxDefinition.xml" -exec xsltproc --novalid StyleSheetForAllAttributes.xslt \{\} \; | sort | see --mode css
+	
+
+
 
 Examples for **ModeRenameScope.xslt** :
 
