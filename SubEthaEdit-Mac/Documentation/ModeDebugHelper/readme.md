@@ -87,11 +87,11 @@ Removing all scope-styles (`color, inverted-color, background-color, inverted-ba
 **Makefile**
 
 `make` : generates Style Sheets for all Modes found in the default Mode folder  
-`make MODEPATHPREFIX=<path/to/Modes/Folder/>` generates the Style Sheets for the modes in given folder  
-`make STYLEPATHPREFIX=<path/to/Style/Folder/>` generates the Style Sheets in the given folder  
+`make MODE_PATH_PREFIX=<path/to/Modes/Folder/>` generates the Style Sheets for the modes in given folder  
+`make STYLE_PATH_PREFIX=<path/to/Style/Folder/>` generates the Style Sheets in the given folder  
 `make clean` : deletes all the generated Style Sheets (if there are any)  
 `make init` : creates a ModeStyles folder (where newly generated .sss-Files are stored)  
-`make init STYLEPATHPREFIX=<path/to/Style/Folder/>` generates that folder instead 
+`make init STYLE_PATH_PREFIX=<path/to/Style/Folder/>` generates that folder instead 
 
 For more information about this Makefile drop it onto the text editor of your choice and have fun.
 
