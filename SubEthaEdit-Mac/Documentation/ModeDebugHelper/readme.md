@@ -9,7 +9,7 @@ Overview:
 2. [All Scopes used in a Mode](#scopes)
 3. [Simple Style Sheet for one style attribute](#oneStyleAttribute)
 4. [Simple Style Sheet for all style attributes](#allStyleAttributes)
-5. [Remove the Style attributes used in a Mode](#removeStyleAttributes)
+5. [Remove style attributes from Mode](#removeStyleAttributes)
 6. [Rename scope](#renameScope)
 7. [Style Extraction Makefile](#makefile)
 
@@ -71,13 +71,12 @@ Returning a style sheet for all scope styles used by multiple Modes - sorted:
 	find  <path> -name "SyntaxDefinition.xml" -exec xsltproc --novalid StyleSheetForAllAttributes.xslt \{\} \; | sort | see --mode css
 
 ---
-## [Remove all Style attributes used in a Mode](id:removeStyleAttributes)
-**ModeRemoveStyles.xslt**
+## [Remove style attributes from Mode](id:removeStyleAttributes)
+**RemoveStyleAttributes.xslt**
 
-Removing all scope-styles (`color, inverted-color, background-color, inverted-background-color, font-trait, font-weight, font-style
-` used by a single Mode (*eg. `PHP-HTML`*) (_opened in SubEthaEdit in XML-Mode_):
+Removing all style attributes (`color, inverted-color, background-color, inverted-background-color, font-trait, font-weight, font-style` from a Mode (*eg. `PHP-HTML`*) (_opened in SubEthaEdit in XML-Mode_):
 
-	xsltproc --novalid ModeRemoveStyles.xslt <path>/<mode-name>.mode/Contents/Resources/SyntaxDefinition.xml | see --mode xml
+	xsltproc --novalid RemoveStyleAttributes.xslt <path>/<mode-name>.mode/Contents/Resources/SyntaxDefinition.xml | see --mode xml
 
 ---
 ## [Rename scope](id:renameScope)
@@ -136,6 +135,9 @@ Modes - Coda2 - relative path in repository: `Coda2Modes/`
 		find Coda2Modes -name "SyntaxDefinition.xml" -exec xsltproc --novalid StyleSheetForAllAttributes.xslt \{\} \; | sort | see --mode css
 	
 
+* Examples for **RemoveStyleAttributes.xslt**
+
+		xsltproc --novalid RemoveStyleAttributes.xslt Coda2Modes/ASP-HTML.mode/Contents/Resources/SyntaxDefinition.xml | see --mode xml
 
 
 Examples for **ModeRenameScope.xslt** :
