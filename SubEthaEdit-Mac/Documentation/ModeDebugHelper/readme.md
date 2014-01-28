@@ -49,11 +49,11 @@ Returning all scopes used by multiple Modes - sorted:
 ## [All values of one Style attribute used in a Mode](id:oneStyleAttributeValues)
 **ModeStyles.xslt**
 
-Returning all scope-styles (*eg. `color`*) used by a single Mode (*eg. `PHP-HTML`*) (_opened in SubEthaEdit in CSS-Mode_):
+Returning a scope style (*eg. `color`*) used by a single Mode (*eg. `PHP-HTML`*) (_opened in SubEthaEdit in CSS-Mode_):
 
 	xsltproc --param style-attribute "'<style-attribute>'" --novalid ModeStyles.xslt <path>/<mode-name>.mode/Contents/Resources/SyntaxDefinition.xml | see --mode css
 
-Returning all scope styles used by multiple Modes (*eg. `PHP-HTML`*):
+Returning a scope style used by multiple Modes:
 
 	find  <path> -name "SyntaxDefinition.xml" -exec xsltproc --param style-attribute "'<style-attribute>'" --novalid ModeStyles.xslt \{\} \; | awk '{print $1}' | sort | uniq | see --mode css
 
@@ -61,7 +61,7 @@ Returning all scope styles used by multiple Modes (*eg. `PHP-HTML`*):
 ## [All values of all Style attributes used in a Mode](id:allStyleAttributeValues)
 **ModeScopeStyles.xslt**
 
-Returning all scope-styles (`color, inverted-color, background-color, inverted-background-color, font-trait, font-weight, font-style
+Returning all scope styles (`color, inverted-color, background-color, inverted-background-color, font-trait, font-weight, font-style
 ` used by a single Mode (*eg. `PHP-HTML`*) (_opened in SubEthaEdit in CSS-Mode_):
 
 	xsltproc --novalid ModeScopeStyles.xslt <path>/<mode-name>.mode/Contents/Resources/SyntaxDefinition.xml | see --mode css
@@ -75,7 +75,7 @@ Returning all scope styles used by multiple Modes (*eg. `PHP-HTML`*):
 ## [Style Extraction Makefile](id:makefile)
 **Makefile**
 
-`make` : generates Style Sheets for all Modes found the default Mode Folder  
+`make` : generates Style Sheets for all Modes found in the default Mode folder  
 `make MODEPATHPREFIX=<path/to/Modes/Folder/>` generates the Style Sheets for the modes in given folder  
 `make STYLEPATHPREFIX=<path/to/Style/Folder/>` generates the Style Sheets in the given folder  
 `make clean` : deletes all the generated Style Sheets (if there are any)  
@@ -83,7 +83,6 @@ Returning all scope styles used by multiple Modes (*eg. `PHP-HTML`*):
 `make init STYLEPATHPREFIX=<path/to/Style/Folder/>` generates that folder instead 
 
 For more information about this Makefile drop it onto the text editor of your choice and have fun.
-
 
 
 ---
