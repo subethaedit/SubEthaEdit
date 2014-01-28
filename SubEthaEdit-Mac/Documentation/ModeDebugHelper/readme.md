@@ -10,7 +10,8 @@ Overview:
 3. [All values of one Style attribute used in a Mode](#oneStyleAttributeValues)
 4. [All values of all Style attributes used in a Mode](#allStyleAttributeValues)
 5. [Remove the Style attributes used in a Mode](#removeStyleAttributes)
-6. [Style Extraction Makefile](#makefile)
+6. [Rename scope](#renameScope)
+7. [Style Extraction Makefile](#makefile)
 
 
 ---
@@ -83,6 +84,14 @@ Removing all scope-styles (`color, inverted-color, background-color, inverted-ba
 	xsltproc --novalid ModeRemoveStyles.xslt <path>/<mode-name>.mode/Contents/Resources/SyntaxDefinition.xml | see --mode xml
 
 ---
+## [Rename scope](id:renameScope)
+**ModeRenameScope.xslt**
+
+Renaming a scope (*eg. `meta.default`*) used by a single Mode (*eg. `PHP-HTML`*) (_opened in SubEthaEdit in XML-Mode_):
+
+	xsltproc --param from "'<scope-value>'" --param to "'<new-scope-value>'" --novalid ModeRenameScope.xslt <path>/<mode-name>.mode/Contents/Resources/SyntaxDefinition.xml | see --mode xml
+
+---
 ## [Style Extraction Makefile](id:makefile)
 **Makefile**
 
@@ -93,7 +102,6 @@ Removing all scope-styles (`color, inverted-color, background-color, inverted-ba
 `make clean` : deletes all the generated .sss files and .mode directories  
 
 For more information about this Makefile drop it onto the text editor of your choice and have fun.
-
 
 ---
 ##PS:
@@ -110,3 +118,8 @@ Lisa (ghost)-specific examples for **ModeStyles.xslt** :
 Lisa (ghost)-specific examples for **ModeScopeStyles.xslt** :
 
 	find  /Users/Lisa/Projects/git/subethaedit/SubEthaEdit-Mac/Modes -name "SyntaxDefinition.xml" -exec xsltproc --novalid ModeScopeStyles.xslt \{\} \; | sort | uniq | see --mode css
+
+Examples for **ModeRenameScope.xslt** :
+
+	xsltproc --param from "'meta.default'" --param to "'magic.bullet'" --novalid ModeRenameScope.xslt Coda2Modes/PHP-HTML.mode/Contents/Resources/SyntaxDefinition.xml | see --mode xml
+
