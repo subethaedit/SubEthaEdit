@@ -5,7 +5,7 @@ This readme contains example calls to the *.xslts* created for debugging and imp
 
 Overview:
 
-1. [All XML-Nodes for one Scope](#nodeForScope)
+1. [All XML-Nodes using a scope](#xmlForScope)
 2. [All used Scopes in a Mode](#scopes)
 3. [All values of one Style attribute used in a Mode](#oneStyleAttributeValues)
 4. [All values of all Style attributes used in a Mode](#allStyleAttributeValues)
@@ -15,21 +15,21 @@ Overview:
 
 
 ---
-## [All XML-Nodes for one Scope](id:nodeForScope)
-**ModeDefinitionPerScope.xslt**
+## [All XML-Nodes using a Scope](id:xmlForScope)
+**XMLTagsForScope.xslt**
 
 
-Printing all Nodes that contain a certain `scope`-attribute (*eg. `keyword.function`*) for a single Mode: 
+Printing all XML-Nodes that are a certain `scope` (*eg. `keyword.function`*) for a single Mode (_opened in SubEthaEdit in XML-Mode_): 
 
-	xsltproc --param scope-value "'<scope-value>'" --novalid ModeDefinitionPerScope.xslt <path>/<mode-name>.mode/Contents/Resources/SyntaxDefinition.xml | see
+	xsltproc --param scope "'<scope>'" --novalid XMLTagsForScope.xslt <path>/<mode-name>.mode/Contents/Resources/SyntaxDefinition.xml | see --mode xml
 
-Printing all Nodes for multiple Modes (_opened in SubEthaEdit in XML-Mode_): 
+Printing all XML-Nodes for multiple Modes: 
 
-	find <path> -name "SyntaxDefinition.xml" -exec xsltproc --param scope-value "'<scope-value>'" --novalid ModeDefinitionPerScope.xslt \{\} \; | see --mode xml
+	find <path> -name "SyntaxDefinition.xml" -exec xsltproc --param scope "'<scope>'" --novalid XMLTagsForScope.xslt \{\} \; | see --mode xml
 	
 Adding a root node to the the resulting XML: 
 
-	( echo "<modes>"; find <path>  -name "SyntaxDefinition.xml" -exec xsltproc --param scope-value "'keyword.function'" --novalid ModeDefinitionPerScope.xslt \{\} \;; echo "</modes>" ) | see --mode xml
+	( echo "<modes>"; find <path>  -name "SyntaxDefinition.xml" -exec xsltproc --param scope "'<scope>'" --novalid XMLTagsForScope.xslt \{\} \;; echo "</modes>" ) | see --mode xml
 
 ---
 ## [All used Scopes in a Mode](id:scopes)
@@ -104,11 +104,19 @@ Renaming a scope (*eg. `meta.default`*) used by a single Mode (*eg. `PHP-HTML`*)
 For more information about this Makefile drop it onto the text editor of your choice and have fun.
 
 ---
-##PS:
+##PS: Examples
 Lisas default Path: `/Users/Lisa/Projects/git/subethaedit/SubEthaEdit-Mac/Modes`  
 Coda 2s default Path: `/Applications/Coda 2.app/Contents/Resources`
 
+* Examples for **XMLTagsForScope.xslt**
+	
+		xsltproc --param scope "'language.operator'" --novalid XMLTagsForScope.xslt Coda2Modes/PHP-HTML.mode/Contents/Resources/SyntaxDefinition.xml | see --mode xml
+	
+		find Coda2Modes/ -name "SyntaxDefinition.xml" -exec xsltproc --param scope "'language.operator'" --novalid XMLTagsForScope.xslt \{\} \; | see --mode xml
+	
+		( echo "<modes>"; find Coda2Modes/ -name "SyntaxDefinition.xml" -exec xsltproc --param scope "'language.operator'" --novalid XMLTagsForScope.xslt \{\} \;; echo "</modes>" ) | see --mode xml
 
+	
 Lisa (ghost)-specific examples for **ModeStyles.xslt** :
 
 	xsltproc --param style-attribute "'inverted-color'" --novalid ModeStyles.xslt /Users/Lisa/Projects/git/subethaedit/SubEthaEdit-Mac/Modes/AppleScript.mode/Contents/Resources/SyntaxDefinition.xml | see --mode css
