@@ -24,14 +24,21 @@ MODE_PATH_SUFFIX=.mode/Contents/Resources/SyntaxDefinition.xml
 STYLE_PATH_PREFIX=ModeStyles/
 STYLE_PATH_SUFFIX=.sss
 
+# Path to store the resulting modes at
+MODE_RESULT_PATH_PREFIX=ResultModes/
+MODE_RESULT_PATH_SUFFIX=.mode/Contents/Resources/SyntaxDefinition.xml
+
 STYLES=$(addprefix $(STYLE_PATH_PREFIX), $(addsuffix $(STYLE_PATH_SUFFIX), $(LANGUAGES)))
 DEFINITONS=$(addprefix $(MODE_PATH_PREFIX), $(addsuffix $(MODE_PATH_SUFFIX), $(LANGUAGES)))
+RESULTS=$(addprefix $(MODE_RESULT_PATH_PREFIX), $(addsuffix $(MODE_RESULT_PATH_SUFFIX), $(LANGUAGES)))
 
 #all: styles definitions
+#all: styles results
 all: styles
 
 styles: $(STYLES)
 definitions: $(DEFINITONS)
+results: $(RESULTS)
 
 #generating a style sheet from a SyntaxDefinition.xml
 $(STYLE_PATH_PREFIX)%.sss: $(XSLT_STYLESHEET_FROM_MODE)
@@ -49,8 +56,29 @@ $(STYLE_PATH_PREFIX)%.sss: $(XSLT_STYLESHEET_FROM_MODE)
 	
 ### init - make that directory
 init:
-	mkdir $(STYLE_PATH_PREFIX)
+	@ for dir in $(STYLE_PATH_PREFIX) $(MODE_RESULT_PATH_PREFIX); do \
+		if [ -d $$dir ]; then \
+			echo "Directory already exists:\t$$dir"; \
+		else \
+			mkdir $$dir; \
+			echo "Created Directory:\t\t$$dir"; \
+		fi; \
+		done;
 
 ### cleanup - delete all the style files
 clean:
-	rm $(STYLES) 
+	@ for file in $(STYLES); do \
+		if [ -f $$file ]; then \
+	    	rm $$file; \
+	    	echo "Removed file:\t$$file"; \
+		fi; \
+	done;
+	@ if [ $(MODE_RESULT_PATH_PREFIX) != $(MODE_PATH_PREFIX) ]; then \
+		for file in $(RESULTS); do \
+			if [ -f $$file ]; then \
+		    	rm $$file; \
+		    	echo "Removed file:\t$$file"; \
+			fi; \
+		done; \
+	fi; \
+
