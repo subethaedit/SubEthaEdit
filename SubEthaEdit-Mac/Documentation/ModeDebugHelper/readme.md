@@ -9,7 +9,8 @@ Overview:
 2. [All used Scopes in a Mode](#scopes)
 3. [All values of one Style attribute used in a Mode](#oneStyleAttributeValues)
 4. [All values of all Style attributes used in a Mode](#allStyleAttributeValues)
-5. [Style Extraction Makefile](#makefile)
+5. [Remove the Style attributes used in a Mode](#removeStyleAttributes)
+6. [Style Extraction Makefile](#makefile)
 
 
 ---
@@ -70,6 +71,16 @@ Returning all scope styles used by multiple Modes (*eg. `PHP-HTML`*):
 
 	find  <path> -name "SyntaxDefinition.xml" -exec xsltproc --novalid ModeScopeStyles.xslt \{\} \; | awk '{print $1}' | sort | uniq | see --mode css
 
+
+
+---
+## [Remove all Style attributes used in a Mode](id:removeStyleAttributes)
+**ModeRemoveStyles.xslt**
+
+Removing all scope-styles (`color, inverted-color, background-color, inverted-background-color, font-trait, font-weight, font-style
+` used by a single Mode (*eg. `PHP-HTML`*) (_opened in SubEthaEdit in XML-Mode_):
+
+	xsltproc --novalid ModeRemoveStyles.xslt <path>/<mode-name>.mode/Contents/Resources/SyntaxDefinition.xml | see --mode xml
 
 ---
 ## [Style Extraction Makefile](id:makefile)
