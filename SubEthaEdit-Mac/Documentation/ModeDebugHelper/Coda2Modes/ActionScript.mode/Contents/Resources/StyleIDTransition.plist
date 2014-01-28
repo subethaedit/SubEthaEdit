@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>/Actionscript/Application API and Central API</key>
+	<string>_Default.Application API and Central API</string>
+	<key>/Actionscript/Classes</key>
+	<string>_Default.Classes</string>
+	<key>/Actionscript/Comment</key>
+	<string>Comment</string>
+	<key>/Actionscript/Constants</key>
+	<string>_Default.Constants</string>
+	<key>/Actionscript/Double Quoted String</key>
+	<string>Double Quoted String</string>
+	<key>/Actionscript/Functions</key>
+	<string>_Default.Functions</string>
+	<key>/Actionscript/JavadocComment</key>
+	<string>JavadocComment</string>
+	<key>/Actionscript/Keywords</key>
+	<string>_Default.Keywords</string>
+	<key>/Actionscript/Numbers</key>
+	<string>_Default.Numbers</string>
+	<key>/Actionscript/Operators</key>
+	<string>_Default.Operators</string>
+	<key>/Actionscript/Preprocessor</key>
+	<string>_Default.Preprocessor</string>
+	<key>/Actionscript/Properties</key>
+	<string>_Default.Properties</string>
+	<key>/Actionscript/Single Quoted String</key>
+	<string>Single Quoted String</string>
+	<key>/Actionscript/SingleComment</key>
+	<string>SingleComment</string>
+	<key>_Default</key>
+	<string>_Default</string>
+</dict>
+</plist>

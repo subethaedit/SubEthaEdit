@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "settings.dtd">
+<settings>
+    <recognition>
+	   <extension>cfm</extension>
+	   <extension>cfc</extension>
+	   <extension>cfr</extension>
+	   <extension>cfml</extension>
+    </recognition>
+</settings>
+
+

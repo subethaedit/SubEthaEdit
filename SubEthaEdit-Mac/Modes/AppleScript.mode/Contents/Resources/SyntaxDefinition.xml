@@ -8,7 +8,7 @@
     </head>
 
     <states>
-        <default id="Base" scope="meta.default">
+        <default id="Base" color="#408000" font-weight="normal" font-style="normal" scope="meta.default">
 
             <keywords id="Commands" color="#0b0bff" inverted-color="#4939ff" useforautocomplete="yes" scope="keyword.function">
                 <string>close</string>

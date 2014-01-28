@@ -1,0 +1,198 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+
+<!-- TODO 
+
+variables
+	env
+	request
+	server
+	session
+	get
+	post
+	globals
+	
+control
+	do..while
+	foreach
+	while
+	if..else
+	if
+	else
+	elseif
+	for
+	case
+	switch
+	if..then..else shortcut
+	
+basics
+	function
+	return
+	heredoc
+	
+-->
+<plist version="1.0">
+<dict>
+	<key>Title</key>
+	<string>PHP-HTML</string>
+	<key>Clips</key>
+	<array>
+		
+		<dict> <!-- Basics -->
+			<key>Title</key>
+			<string>Basics</string>
+			<key>Clips</key>
+			<array>
+			
+				<dict><!-- !Echo -->
+					<key>Versions</key>
+					<array/>
+					<key>Placeholders</key>
+					<array>
+						<dict>
+							<key>Range</key>
+							<string>{6, 15}</string>
+							<key>Type</key>
+							<integer>9</integer>
+						</dict>
+					</array>
+					<key>Title</key>
+					<string>Echo</string>
+					<key>Trigger</key>
+					<string>echo</string>
+					<key>Content</key>
+					<string>echo "Insertion Point";</string>
+				</dict>
+				
+				<dict><!-- !include -->
+					<key>Versions</key>
+					<array/>
+					<key>Placeholders</key>
+					<array>
+						<dict>
+							<key>Range</key>
+							<string>{9, 12}</string>
+							<key>Type</key>
+							<integer>12</integer>
+						</dict>
+					</array>
+					<key>Title</key>
+					<string>Include</string>
+					<key>Trigger</key>
+					<string>inc</string>
+					<key>Content</key>
+					<string>include 'filename.php';</string>
+				</dict>
+
+				<dict><!-- !include_once -->
+					<key>Versions</key>
+					<array/>
+					<key>Placeholders</key>
+					<array>
+						<dict>
+							<key>Range</key>
+							<string>{14, 12}</string>
+							<key>Type</key>
+							<integer>12</integer>
+						</dict>
+					</array>
+					<key>Title</key>
+					<string>Include Once</string>
+					<key>Trigger</key>
+					<string>inco</string>
+					<key>Content</key>
+					<string>include_once 'filename.php';</string>
+				</dict>
+
+				<dict><!-- !require -->
+					<key>Versions</key>
+					<array/>
+					<key>Title</key>
+					<string>Require</string>
+					<key>Trigger</key>
+					<string>req</string>
+					<key>Content</key>
+					<string>require 'filename.php';</string>
+					<key>Placeholders</key>
+					<array>
+						<dict>
+							<key>Range</key>
+							<string>{9, 12}</string>
+							<key>Type</key>
+							<integer>12</integer>
+						</dict>
+					</array>
+				</dict>
+
+				<dict><!-- !require_once -->
+					<key>Versions</key>
+					<array/>
+					<key>Title</key>
+					<string>Require Once</string>
+					<key>Trigger</key>
+					<string>reqo</string>
+					<key>Content</key>
+					<string>require_once 'filename.php';</string>
+					<key>Placeholders</key>
+					<array>
+						<dict>
+							<key>Range</key>
+							<string>{14, 12}</string>
+							<key>Type</key>
+							<integer>12</integer>
+						</dict>
+					</array>
+				</dict>
+
+				<dict><!-- !class -->
+					<key>Versions</key>
+					<array/>
+					<key>Title</key>
+					<string>Class</string>
+					<key>Trigger</key>
+					<string>class</string>
+					<key>Content</key>
+					<string><![CDATA[
+/**
+* Class Description
+*/
+class Name extends ParentClass {
+
+	Code
+
+}
+]]></string>
+					<key>Placeholders</key>
+					<array>
+						<dict>
+							<key>Range</key>
+							<string>{7, 17}</string>
+							<key>Type</key>
+							<integer>12</integer>
+						</dict>
+						<dict>
+							<key>Range</key>
+							<string>{34, 4}</string>
+							<key>Type</key>
+							<integer>12</integer>
+						</dict>
+						<dict>
+							<key>Range</key>
+							<string>{47, 11}</string>
+							<key>Type</key>
+							<integer>12</integer>
+						</dict>
+						<dict>
+							<key>Range</key>
+							<string>{63, 4}</string>
+							<key>Type</key>
+							<integer>12</integer>
+						</dict>
+					</array>
+				</dict>
+
+			</array>
+		</dict> <!-- Basic Group -->
+	</array>
+</dict>
+</plist>

@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "syntax.dtd">
+
+<syntax>
+
+    <head>
+        <name>XML</name> <!-- The definitions title -->
+        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]></charsintokens> <!-- Valid Characters for Variables -->
+        <!-- <charsdelimitingtokens></charsdelimitingtokens> -->
+   		<folding toplevel="4"/>
+    </head>
+
+    <states>
+    
+        <default id="Base" font-style="normal" usespellchecking="yes" scope="meta.default">
+        
+            <keywords id="Entities" scope="markup.constant.entity">
+                <regex>(&amp;\w{1,8};)</regex>
+                <regex>(&amp;#[0-9]+;)</regex>
+                <regex>(&amp;#x[A-Fa-f0-9]+;)</regex>
+            </keywords>
+
+        <state id="Comment" foldable="yes" type="comment" scope="markup.comment">
+            <begin><regex>&lt;!--</regex></begin>
+            <end><regex>--&gt;</regex></end>
+			
+			<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>     
+        </state>
+
+        <state id="CDATA" scope="markup.inline.cdata">
+            <begin><regex>&lt;!\s*\[CDATA\s*\[</regex></begin>
+            <end><regex>\]\s*\]\s*&gt;</regex></end>
+        </state>
+        
+        <state id="Doctype" scope="markup.declaration">
+            <begin><regex>&lt;!</regex></begin>
+            <end><regex>&gt;</regex></end>
+            <state id="String" type="string" scope="markup.declaration.string.double">
+				<begin><regex>"</regex></begin>
+				<end><regex>"</regex></end>
+			</state>
+			<state id="SingleString" type="string" scope="markup.declaration.string.single">
+				<begin><regex>'</regex></begin>
+				<end><regex>'</regex></end>
+			</state>
+			<state id="Block" type="block" foldable="yes" indent="yes" scope="meta.block.square">
+				<begin><regex>\[</regex><autoend>\]</autoend></begin>
+				<end><regex>]</regex></end>
+				<import />
+			</state>
+        </state>
+
+        <state id="Escape" scope="markup.processing">
+            <begin><regex>&lt;\?</regex></begin>
+            <end><regex>\?&gt;</regex></end>
+            <state id="ProcessingString" type="string" scope="markup.processing.attribute.value.string">
+				<begin><regex>"</regex></begin>
+				<end><regex>"</regex></end>
+			</state>
+			<state id="ProcessingSingleString" type="string" scope="markup.processing.attribute.value.string">
+				<begin><regex>'</regex></begin>
+				<end><regex>'</regex></end>
+			</state>
+        </state>
+
+		<state id="Foldable Tags" containerState="yes" delimiterState="Tags" foldBegin="\A&lt;[ \t]*(?'xmltagstatename'[-:_\.a-zA-Z\d]+)[\s\S]*(?&lt;![/?])>\Z" foldEnd="&lt;\s*/\s*(?i)(?#see-insert-start-group:xmltagstatename)\s*>" foldable="yes" usespellchecking="yes" scope="meta.block.tag">		
+            <import keywords-only="yes"/>
+			<import/>
+		</state>
+
+		<state id="Tags" usespellchecking="no" foldState="Foldable Tags" scope="markup.tag">
+			<begin>
+				<regex>&lt;</regex>
+			</begin>
+			<end>
+				<regex>&gt;</regex>
+			</end>
+			
+			<state id="Strings in Tags" type="string" useforautocomplete="no" scope="markup.tag.attribute.value.string">
+				<begin><regex>"</regex></begin>
+				<end><regex>"</regex></end>
+			</state>
+			
+			<state id="Single Strings in Tags" type="string" useforautocomplete="no" scope="markup.tag.attribute.value.string">
+				<begin><regex>'</regex></begin>
+				<end><regex>'</regex></end>
+			</state>
+			
+			<keywords id="Attributes in Tags" useforautocomplete="no" scope="markup.tag.attribute.name">
+				<regex>([\w-]*)(?=[ \t]*=)</regex>
+			</keywords>
+		</state>
+	
+        </default>
+
+    </states>
+
+</syntax>

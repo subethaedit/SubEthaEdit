@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>/JavaScript/AutodocComment</key>
+	<string>AutodocComment</string>
+	<key>/JavaScript/Characters</key>
+	<string>_Default.Characters</string>
+	<key>/JavaScript/Comment</key>
+	<string>Comment</string>
+	<key>/JavaScript/FunctionRegex</key>
+	<string>_Default.FunctionRegex</string>
+	<key>/JavaScript/Keywords</key>
+	<string>_Default.Keywords</string>
+	<key>/JavaScript/Numbers</key>
+	<string>_Default.Numbers</string>
+	<key>/JavaScript/Regular Expressions</key>
+	<string>/Regular Expressions/</string>
+	<key>/JavaScript/SingleComment</key>
+	<string>SingleComment</string>
+	<key>/JavaScript/SingleString</key>
+	<string>SingleString</string>
+	<key>/JavaScript/String</key>
+	<string>String</string>
+	<key>_Default</key>
+	<string>_Default</string>
+</dict>
+</plist>

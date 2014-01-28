@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<syntax>
+    <head>
+        <name>YAML</name>
+          <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@]]></charsintokens> 
+    </head>
+    <states>
+        <default id="Base" scope="meta.default">
+
+            <keywords id="Keywords" casesensitive="no" scope="style.property.name">
+              <regex>^(.*?):</regex>
+            </keywords>
+
+            <keywords id = "Numbers" scope="constant.numeric">
+      				<regex>(?&lt;![\w\d\._])((?:(?:(?:[0-9]+\.[0-9]*)|(\.[0-9]+))(?:[eE][+\-]?[0-9]+)?[fFlL]?)|(?:(?:(?:[1-9][0-9]*)|0(?:[1-7][0-7]*)?|(?:0[xX][0-9a-fA-F]+))(?:(?:[uU][lL]?)|(?:[lL][uU]?))?))(?![\w\d\._])</regex>
+            </keywords>
+
+            <state id="Comment" scope="style.comment.block">
+                <begin><regex>#</regex></begin>
+                <end><regex>[\n\r]</regex></end>
+            </state>
+
+            <state id="String" scope="style.value.string.double">
+                <begin><regex>"</regex></begin>
+                <end>
+                    <regex>(?&lt;!\\)(\\\\)*"</regex>
+                </end>
+            </state>
+
+            <state id="SingleString" scope="style.value.string.single">
+                <begin>
+                    <string>'</string>
+                </begin>
+                <end>
+                    <regex>(?&lt;!\\)(\\\\)*'</regex>
+                </end>
+            </state>
+
+        </default>
+        
+    </states>
+
+</syntax>

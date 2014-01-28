@@ -1,0 +1,4049 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "syntax.dtd">
+
+<syntax>
+    <head>
+        <name>PHP-HTML</name>
+        <!-- The definitions title -->
+        <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@$"]]></charsintokens>
+        <charsincompletion><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@$&lt;/=>!]]></charsincompletion>
+    </head>
+    <states>
+        <default id="Base" usesymbolsfrommode="HTML" useautocompletefrommode="HTML" scope="meta.default">
+            <import mode="XML" keywords-only="yes"/>
+            <state id="PHP" usesymbolsfrommode="PHP-HTML" useautocompletefrommode="PHP-HTML" foldable="yes" scope="meta.block">
+                <begin>
+                    <regex>(?:&lt;\?(?:(?i)php|=)?)</regex>
+                    <autoend>\?></autoend>
+                </begin>
+                <end>
+                    <regex>(?:\?>)|(?:\Z)</regex>
+                </end>
+                <keywords id="PHP Delimiter" useforautocomplete="no" scope="markup.processing.languageswitch.php">
+                    <regex>(&lt;\?(?i)php\d?)</regex>
+                    <!--<regex>(&lt;\?)(?![\S])</regex>-->
+                    <regex>(&lt;\?=)</regex>
+                    <regex>(&lt;\?)</regex>
+                    <regex>(\?>)</regex>
+                </keywords>
+                
+                <keywords id="FunctionRegex" useforautocomplete="no" scope="language.function.php">
+                    <regex>([A-Za-z0-9_]+) *\(</regex>
+                </keywords>
+                
+                <!-- NOTE, regex values must be sorted by length to work correctly -->
+                <keywords id="PHP4 Functions" casesensitive="no" useforautocomplete="yes" scope="support.function.php">
+                    <regex>(\b@??_) *\(</regex>
+					<regex>(\b@??abs) *\(</regex>
+					<regex>(\b@??accept_connect) *\(</regex>
+					<regex>(\b@??acosh) *\(</regex>
+					<regex>(\b@??acos) *\(</regex>
+					<regex>(\b@??ada_afetch) *\(</regex>
+					<regex>(\b@??ada_autocommit) *\(</regex>
+					<regex>(\b@??ada_closeall) *\(</regex>
+					<regex>(\b@??ada_close) *\(</regex>
+					<regex>(\b@??ada_commit) *\(</regex>
+					<regex>(\b@??ada_connect) *\(</regex>
+					<regex>(\b@??ada_exec) *\(</regex>
+					<regex>(\b@??ada_fetchrow) *\(</regex>
+					<regex>(\b@??ada_fieldlen) *\(</regex>
+					<regex>(\b@??ada_fieldname) *\(</regex>
+					<regex>(\b@??ada_fieldtype) *\(</regex>
+					<regex>(\b@??ada_freeresult) *\(</regex>
+					<regex>(\b@??ada_numfields) *\(</regex>
+					<regex>(\b@??ada_numrows) *\(</regex>
+					<regex>(\b@??ada_resultall) *\(</regex>
+					<regex>(\b@??ada_result) *\(</regex>
+					<regex>(\b@??ada_rollback) *\(</regex>
+					<regex>(\b@??add_iovec) *\(</regex>
+					<regex>(\b@??addaction) *\(</regex>
+					<regex>(\b@??addcolor) *\(</regex>
+					<regex>(\b@??addcslashes) *\(</regex>
+					<regex>(\b@??addentry) *\(</regex>
+					<regex>(\b@??addfill) *\(</regex>
+					<regex>(\b@??addshape) *\(</regex>
+					<regex>(\b@??addslashes) *\(</regex>
+					<regex>(\b@??addstring) *\(</regex>
+					<regex>(\b@??affected_rows) *\(</regex>
+					<regex>(\b@??aggregate_info) *\(</regex>
+					<regex>(\b@??aggregate_methods_by_list) *\(</regex>
+					<regex>(\b@??aggregate_methods_by_regexp) *\(</regex>
+					<regex>(\b@??aggregate_methods) *\(</regex>
+					<regex>(\b@??aggregate_properties_by_list) *\(</regex>
+					<regex>(\b@??aggregate_properties_by_regexp) *\(</regex>
+					<regex>(\b@??aggregate_properties) *\(</regex>
+					<regex>(\b@??aggregate) *\(</regex>
+					<regex>(\b@??aggregation_info) *\(</regex>
+					<regex>(\b@??alarm) *\(</regex>
+					<regex>(\b@??align) *\(</regex>
+					<regex>(\b@??apache_child_terminate) *\(</regex>
+					<regex>(\b@??apache_get_modules) *\(</regex>
+					<regex>(\b@??apache_get_version) *\(</regex>
+					<regex>(\b@??apache_getenv) *\(</regex>
+					<regex>(\b@??apache_lookup_uri) *\(</regex>
+					<regex>(\b@??apache_note) *\(</regex>
+					<regex>(\b@??apache_request_headers) *\(</regex>
+					<regex>(\b@??apache_response_headers) *\(</regex>
+					<regex>(\b@??apache_setenv) *\(</regex>
+					<regex>(\b@??apache_sub_req) *\(</regex>
+					<regex>(\b@??array_change_key_case) *\(</regex>
+					<regex>(\b@??array_chunk) *\(</regex>
+					<regex>(\b@??array_combine) *\(</regex>
+					<regex>(\b@??array_count_values) *\(</regex>
+					<regex>(\b@??array_diff_assoc) *\(</regex>
+					<regex>(\b@??array_diff) *\(</regex>
+					<regex>(\b@??array_fill) *\(</regex>
+					<regex>(\b@??array_filter) *\(</regex>
+					<regex>(\b@??array_flip) *\(</regex>
+					<regex>(\b@??array_intersect_assoc) *\(</regex>
+					<regex>(\b@??array_intersect) *\(</regex>
+					<regex>(\b@??array_key_exists) *\(</regex>
+					<regex>(\b@??array_keys) *\(</regex>
+					<regex>(\b@??array_map) *\(</regex>
+					<regex>(\b@??array_merge_recursive) *\(</regex>
+					<regex>(\b@??array_merge) *\(</regex>
+					<regex>(\b@??array_multisort) *\(</regex>
+					<regex>(\b@??array_pad) *\(</regex>
+					<regex>(\b@??array_pop) *\(</regex>
+					<regex>(\b@??array_push) *\(</regex>
+					<regex>(\b@??array_rand) *\(</regex>
+					<regex>(\b@??array_reduce) *\(</regex>
+					<regex>(\b@??array_reverse) *\(</regex>
+					<regex>(\b@??array_search) *\(</regex>
+					<regex>(\b@??array_shift) *\(</regex>
+					<regex>(\b@??array_slice) *\(</regex>
+					<regex>(\b@??array_splice) *\(</regex>
+					<regex>(\b@??array_sum) *\(</regex>
+					<regex>(\b@??array_unique) *\(</regex>
+					<regex>(\b@??array_unshift) *\(</regex>
+					<regex>(\b@??array_values) *\(</regex>
+					<regex>(\b@??array_walk_recursive) *\(</regex>
+					<regex>(\b@??array_walk) *\(</regex>
+					<regex>(\b@??arsort) *\(</regex>
+					<regex>(\b@??ascii2ebcdic) *\(</regex>
+					<regex>(\b@??asinh) *\(</regex>
+					<regex>(\b@??asin) *\(</regex>
+					<regex>(\b@??asort) *\(</regex>
+					<regex>(\b@??aspell_check_raw) *\(</regex>
+					<regex>(\b@??aspell_check) *\(</regex>
+					<regex>(\b@??aspell_new) *\(</regex>
+					<regex>(\b@??aspell_suggest) *\(</regex>
+					<regex>(\b@??assert_options) *\(</regex>
+					<regex>(\b@??assert) *\(</regex>
+					<regex>(\b@??atan) *\(</regex>
+					<regex>(\b@??atan2) *\(</regex>
+					<regex>(\b@??atanh) *\(</regex>
+					<regex>(\b@??auto_commit) *\(</regex>
+					<regex>(\b@??base64_decode) *\(</regex>
+					<regex>(\b@??base64_encode) *\(</regex>
+					<regex>(\b@??base_convert) *\(</regex>
+					<regex>(\b@??basename) *\(</regex>
+					<regex>(\b@??bcadd) *\(</regex>
+					<regex>(\b@??bccomp) *\(</regex>
+					<regex>(\b@??bcdiv) *\(</regex>
+					<regex>(\b@??bcmod) *\(</regex>
+					<regex>(\b@??bcmul) *\(</regex>
+					<regex>(\b@??bcpowmod) *\(</regex>
+					<regex>(\b@??bcpow) *\(</regex>
+					<regex>(\b@??bcscale) *\(</regex>
+					<regex>(\b@??bcsqrt) *\(</regex>
+					<regex>(\b@??bcsub) *\(</regex>
+					<regex>(\b@??bin2hex) *\(</regex>
+					<regex>(\b@??bind_textdomain_codeset) *\(</regex>
+					<regex>(\b@??bindec) *\(</regex>
+					<regex>(\b@??bindtextdomain) *\(</regex>
+					<regex>(\b@??bind) *\(</regex>
+					<regex>(\b@??bind_param) *\(</regex>
+					<regex>(\b@??bind_result) *\(</regex>
+					<regex>(\b@??birdstep_autocommit) *\(</regex>
+					<regex>(\b@??birdstep_close) *\(</regex>
+					<regex>(\b@??birdstep_commit) *\(</regex>
+					<regex>(\b@??birdstep_connect) *\(</regex>
+					<regex>(\b@??birdstep_exec) *\(</regex>
+					<regex>(\b@??birdstep_fetch) *\(</regex>
+					<regex>(\b@??birdstep_fieldname) *\(</regex>
+					<regex>(\b@??birdstep_fieldnum) *\(</regex>
+					<regex>(\b@??birdstep_freeresult) *\(</regex>
+					<regex>(\b@??birdstep_off_autocommit) *\(</regex>
+					<regex>(\b@??birdstep_result) *\(</regex>
+					<regex>(\b@??birdstep_rollback) *\(</regex>
+					<regex>(\b@??build_iovec) *\(</regex>
+					<regex>(\b@??bzclose) *\(</regex>
+					<regex>(\b@??bzcompress) *\(</regex>
+					<regex>(\b@??bzdecompress) *\(</regex>
+					<regex>(\b@??bzerrno) *\(</regex>
+					<regex>(\b@??bzerror) *\(</regex>
+					<regex>(\b@??bzerrstr) *\(</regex>
+					<regex>(\b@??bzflush) *\(</regex>
+					<regex>(\b@??bzopen) *\(</regex>
+					<regex>(\b@??bzread) *\(</regex>
+					<regex>(\b@??bzwrite) *\(</regex>
+					<regex>(\b@??cal_days_in_month) *\(</regex>
+					<regex>(\b@??cal_from_jd) *\(</regex>
+					<regex>(\b@??cal_info) *\(</regex>
+					<regex>(\b@??cal_to_jd) *\(</regex>
+					<regex>(\b@??call_user_func_array) *\(</regex>
+					<regex>(\b@??call_user_func) *\(</regex>
+					<regex>(\b@??call_user_method_array) *\(</regex>
+					<regex>(\b@??call_user_method) *\(</regex>
+					<regex>(\b@??ccvs_add) *\(</regex>
+					<regex>(\b@??ccvs_auth) *\(</regex>
+					<regex>(\b@??ccvs_command) *\(</regex>
+					<regex>(\b@??ccvs_count) *\(</regex>
+					<regex>(\b@??ccvs_delete) *\(</regex>
+					<regex>(\b@??ccvs_done) *\(</regex>
+					<regex>(\b@??ccvs_init) *\(</regex>
+					<regex>(\b@??ccvs_lookup) *\(</regex>
+					<regex>(\b@??ccvs_new) *\(</regex>
+					<regex>(\b@??ccvs_report) *\(</regex>
+					<regex>(\b@??ccvs_return) *\(</regex>
+					<regex>(\b@??ccvs_reverse) *\(</regex>
+					<regex>(\b@??ccvs_sale) *\(</regex>
+					<regex>(\b@??ccvs_status) *\(</regex>
+					<regex>(\b@??ccvs_textvalue) *\(</regex>
+					<regex>(\b@??ccvs_void) *\(</regex>
+					<regex>(\b@??ceil) *\(</regex>
+					<regex>(\b@??change_user) *\(</regex>
+					<regex>(\b@??character_set_name) *\(</regex>
+					<regex>(\b@??chdir) *\(</regex>
+					<regex>(\b@??checkdate) *\(</regex>
+					<regex>(\b@??checkdnsrr) *\(</regex>
+					<regex>(\b@??chgrp) *\(</regex>
+					<regex>(\b@??chmod) *\(</regex>
+					<regex>(\b@??chop) *\(</regex>
+					<regex>(\b@??chown) *\(</regex>
+					<regex>(\b@??chroot) *\(</regex>
+					<regex>(\b@??chr) *\(</regex>
+					<regex>(\b@??chunk_split) *\(</regex>
+					<regex>(\b@??class_exists) *\(</regex>
+					<regex>(\b@??class_implements) *\(</regex>
+					<regex>(\b@??clearstatcache) *\(</regex>
+					<regex>(\b@??client_encoding) *\(</regex>
+					<regex>(\b@??closedir) *\(</regex>
+					<regex>(\b@??close) *\(</regex>
+					<regex>(\b@??closelog) *\(</regex>
+					<regex>(\b@??com_addref) *\(</regex>
+					<regex>(\b@??com_event_sink) *\(</regex>
+					<regex>(\b@??com_get) *\(</regex>
+					<regex>(\b@??com_invoke_ex) *\(</regex>
+					<regex>(\b@??com_invoke) *\(</regex>
+					<regex>(\b@??com_isenum) *\(</regex>
+					<regex>(\b@??com_load) *\(</regex>
+					<regex>(\b@??com_load_typelib) *\(</regex>
+					<regex>(\b@??com_message_pump) *\(</regex>
+					<regex>(\b@??com_print_typeinfo) *\(</regex>
+					<regex>(\b@??com_propget) *\(</regex>
+					<regex>(\b@??com_propput) *\(</regex>
+					<regex>(\b@??com_propset) *\(</regex>
+					<regex>(\b@??com_release) *\(</regex>
+					<regex>(\b@??com_set) *\(</regex>
+					<regex>(\b@??commit) *\(</regex>
+					<regex>(\b@??compact) *\(</regex>
+					<regex>(\b@??confirm_ctype_compiled) *\(</regex>
+					<regex>(\b@??confirm_cybermut_compiled) *\(</regex>
+					<regex>(\b@??confirm_ncurses_compiled) *\(</regex>
+					<regex>(\b@??confirm_zziplib_compiled) *\(</regex>
+					<regex>(\b@??connection_aborted) *\(</regex>
+					<regex>(\b@??connect) *\(</regex>
+					<regex>(\b@??connection_status) *\(</regex>
+					<regex>(\b@??connection_timeout) *\(</regex>
+					<regex>(\b@??constant) *\(</regex>
+					<regex>(\b@??convert_cyr_string) *\(</regex>
+					<regex>(\b@??copy) *\(</regex>
+					<regex>(\b@??cosh) *\(</regex>
+					<regex>(\b@??cos) *\(</regex>
+					<regex>(\b@??count_chars) *\(</regex>
+					<regex>(\b@??count) *\(</regex>
+					<regex>(\b@??cpdf_add_annotation) *\(</regex>
+					<regex>(\b@??cpdf_add_outline) *\(</regex>
+					<regex>(\b@??cpdf_arc) *\(</regex>
+					<regex>(\b@??cpdf_begin_text) *\(</regex>
+					<regex>(\b@??cpdf_circle) *\(</regex>
+					<regex>(\b@??cpdf_clip) *\(</regex>
+					<regex>(\b@??cpdf_closepath_fill_stroke) *\(</regex>
+					<regex>(\b@??cpdf_closepath_stroke) *\(</regex>
+					<regex>(\b@??cpdf_closepath) *\(</regex>
+					<regex>(\b@??cpdf_close) *\(</regex>
+					<regex>(\b@??cpdf_continue_text) *\(</regex>
+					<regex>(\b@??cpdf_curveto) *\(</regex>
+					<regex>(\b@??cpdf_end_text) *\(</regex>
+					<regex>(\b@??cpdf_fill_stroke) *\(</regex>
+					<regex>(\b@??cpdf_fill) *\(</regex>
+					<regex>(\b@??cpdf_finalize_page) *\(</regex>
+					<regex>(\b@??cpdf_finalize) *\(</regex>
+					<regex>(\b@??cpdf_get_buffer) *\(</regex>
+					<regex>(\b@??cpdf_global_set_document_limits) *\(</regex>
+					<regex>(\b@??cpdf_import_jpeg) *\(</regex>
+					<regex>(\b@??cpdf_lineto) *\(</regex>
+					<regex>(\b@??cpdf_moveto) *\(</regex>
+					<regex>(\b@??cpdf_newpath) *\(</regex>
+					<regex>(\b@??cpdf_open) *\(</regex>
+					<regex>(\b@??cpdf_output_buffer) *\(</regex>
+					<regex>(\b@??cpdf_page_init) *\(</regex>
+					<regex>(\b@??cpdf_place_inline_image) *\(</regex>
+					<regex>(\b@??cpdf_rect) *\(</regex>
+					<regex>(\b@??cpdf_restore) *\(</regex>
+					<regex>(\b@??cpdf_rlineto) *\(</regex>
+					<regex>(\b@??cpdf_rmoveto) *\(</regex>
+					<regex>(\b@??cpdf_rotate_text) *\(</regex>
+					<regex>(\b@??cpdf_rotate) *\(</regex>
+					<regex>(\b@??cpdf_save_to_file) *\(</regex>
+					<regex>(\b@??cpdf_save) *\(</regex>
+					<regex>(\b@??cpdf_scale) *\(</regex>
+					<regex>(\b@??cpdf_set_action_url) *\(</regex>
+					<regex>(\b@??cpdf_set_annotation) *\(</regex>
+					<regex>(\b@??cpdf_set_char_spacing) *\(</regex>
+					<regex>(\b@??cpdf_set_creator) *\(</regex>
+					<regex>(\b@??cpdf_set_current_page) *\(</regex>
+					<regex>(\b@??cpdf_set_font_directories) *\(</regex>
+					<regex>(\b@??cpdf_set_font) *\(</regex>
+					<regex>(\b@??cpdf_set_font_map_file) *\(</regex>
+					<regex>(\b@??cpdf_set_horiz_scaling) *\(</regex>
+					<regex>(\b@??cpdf_set_keywords) *\(</regex>
+					<regex>(\b@??cpdf_set_leading) *\(</regex>
+					<regex>(\b@??cpdf_set_page_animation) *\(</regex>
+					<regex>(\b@??cpdf_set_subject) *\(</regex>
+					<regex>(\b@??cpdf_set_text_matrix) *\(</regex>
+					<regex>(\b@??cpdf_set_text_pos) *\(</regex>
+					<regex>(\b@??cpdf_set_text_rendering) *\(</regex>
+					<regex>(\b@??cpdf_set_text_rise) *\(</regex>
+					<regex>(\b@??cpdf_set_title) *\(</regex>
+					<regex>(\b@??cpdf_set_transition) *\(</regex>
+					<regex>(\b@??cpdf_set_viewer_preferences) *\(</regex>
+					<regex>(\b@??cpdf_set_word_spacing) *\(</regex>
+					<regex>(\b@??cpdf_setdash) *\(</regex>
+					<regex>(\b@??cpdf_setflat) *\(</regex>
+					<regex>(\b@??cpdf_setgray_stroke) *\(</regex>
+					<regex>(\b@??cpdf_setgray) *\(</regex>
+					<regex>(\b@??cpdf_setgray_fill) *\(</regex>
+					<regex>(\b@??cpdf_setlinecap) *\(</regex>
+					<regex>(\b@??cpdf_setlinejoin) *\(</regex>
+					<regex>(\b@??cpdf_setlinewidth) *\(</regex>
+					<regex>(\b@??cpdf_setmiterlimit) *\(</regex>
+					<regex>(\b@??cpdf_setrgbcolor_stroke) *\(</regex>
+					<regex>(\b@??cpdf_setrgbcolor) *\(</regex>
+					<regex>(\b@??cpdf_setrgbcolor_fill) *\(</regex>
+					<regex>(\b@??cpdf_show_xy) *\(</regex>
+					<regex>(\b@??cpdf_show) *\(</regex>
+					<regex>(\b@??cpdf_stringwidth) *\(</regex>
+					<regex>(\b@??cpdf_stroke) *\(</regex>
+					<regex>(\b@??cpdf_text) *\(</regex>
+					<regex>(\b@??cpdf_translate) *\(</regex>
+					<regex>(\b@??crack_check) *\(</regex>
+					<regex>(\b@??crack_closedict) *\(</regex>
+					<regex>(\b@??crack_getlastmessage) *\(</regex>
+					<regex>(\b@??crack_opendict) *\(</regex>
+					<regex>(\b@??crash) *\(</regex>
+					<regex>(\b@??crc32) *\(</regex>
+					<regex>(\b@??create_function) *\(</regex>
+					<regex>(\b@??crypt) *\(</regex>
+					<regex>(\b@??ctype_alnum) *\(</regex>
+					<regex>(\b@??ctype_alpha) *\(</regex>
+					<regex>(\b@??ctype_cntrl) *\(</regex>
+					<regex>(\b@??ctype_digit) *\(</regex>
+					<regex>(\b@??ctype_graph) *\(</regex>
+					<regex>(\b@??ctype_lower) *\(</regex>
+					<regex>(\b@??ctype_print) *\(</regex>
+					<regex>(\b@??ctype_punct) *\(</regex>
+					<regex>(\b@??ctype_space) *\(</regex>
+					<regex>(\b@??ctype_upper) *\(</regex>
+					<regex>(\b@??ctype_xdigit) *\(</regex>
+					<regex>(\b@??curl_close) *\(</regex>
+					<regex>(\b@??curl_errno) *\(</regex>
+					<regex>(\b@??curl_error) *\(</regex>
+					<regex>(\b@??curl_exec) *\(</regex>
+					<regex>(\b@??curl_getinfo) *\(</regex>
+					<regex>(\b@??curl_init) *\(</regex>
+					<regex>(\b@??curl_multi_add_handle) *\(</regex>
+					<regex>(\b@??curl_multi_close) *\(</regex>
+					<regex>(\b@??curl_multi_exec) *\(</regex>
+					<regex>(\b@??curl_multi_getcontent) *\(</regex>
+					<regex>(\b@??curl_multi_info_read) *\(</regex>
+					<regex>(\b@??curl_multi_init) *\(</regex>
+					<regex>(\b@??curl_multi_remove_handle) *\(</regex>
+					<regex>(\b@??curl_multi_select) *\(</regex>
+					<regex>(\b@??curl_setopt) *\(</regex>
+					<regex>(\b@??curl_version) *\(</regex>
+					<regex>(\b@??current) *\(</regex>
+					<regex>(\b@??cv_add) *\(</regex>
+					<regex>(\b@??cv_auth) *\(</regex>
+					<regex>(\b@??cv_command) *\(</regex>
+					<regex>(\b@??cv_count) *\(</regex>
+					<regex>(\b@??cv_delete) *\(</regex>
+					<regex>(\b@??cv_done) *\(</regex>
+					<regex>(\b@??cv_init) *\(</regex>
+					<regex>(\b@??cv_lookup) *\(</regex>
+					<regex>(\b@??cv_new) *\(</regex>
+					<regex>(\b@??cv_report) *\(</regex>
+					<regex>(\b@??cv_return) *\(</regex>
+					<regex>(\b@??cv_reverse) *\(</regex>
+					<regex>(\b@??cv_sale) *\(</regex>
+					<regex>(\b@??cv_status) *\(</regex>
+					<regex>(\b@??cv_textvalue) *\(</regex>
+					<regex>(\b@??cv_void) *\(</regex>
+					<regex>(\b@??cybercash_base64_decode) *\(</regex>
+					<regex>(\b@??cybercash_base64_encode) *\(</regex>
+					<regex>(\b@??cybercash_decr) *\(</regex>
+					<regex>(\b@??cybercash_encr) *\(</regex>
+					<regex>(\b@??cybermut_creerformulairecm) *\(</regex>
+					<regex>(\b@??cybermut_creerreponsecm) *\(</regex>
+					<regex>(\b@??cybermut_testmac) *\(</regex>
+					<regex>(\b@??cyrus_authenticate) *\(</regex>
+					<regex>(\b@??cyrus_bind) *\(</regex>
+					<regex>(\b@??cyrus_close) *\(</regex>
+					<regex>(\b@??cyrus_connect) *\(</regex>
+					<regex>(\b@??cyrus_query) *\(</regex>
+					<regex>(\b@??cyrus_unbind) *\(</regex>
+					<regex>(\b@??data_seek) *\(</regex>
+					<regex>(\b@??date_sunrise) *\(</regex>
+					<regex>(\b@??date) *\(</regex>
+					<regex>(\b@??date_sunset) *\(</regex>
+					<regex>(\b@??dav_set_mkcol_handlers) *\(</regex>
+					<regex>(\b@??db_id_list) *\(</regex>
+					<regex>(\b@??dba_close) *\(</regex>
+					<regex>(\b@??dba_delete) *\(</regex>
+					<regex>(\b@??dba_exists) *\(</regex>
+					<regex>(\b@??dba_fetch) *\(</regex>
+					<regex>(\b@??dba_firstkey) *\(</regex>
+					<regex>(\b@??dba_handlers) *\(</regex>
+					<regex>(\b@??dba_insert) *\(</regex>
+					<regex>(\b@??dba_list) *\(</regex>
+					<regex>(\b@??dba_nextkey) *\(</regex>
+					<regex>(\b@??dba_open) *\(</regex>
+					<regex>(\b@??dba_optimize) *\(</regex>
+					<regex>(\b@??dba_popen) *\(</regex>
+					<regex>(\b@??dba_replace) *\(</regex>
+					<regex>(\b@??dba_sync) *\(</regex>
+					<regex>(\b@??dbase_add_record) *\(</regex>
+					<regex>(\b@??dbase_close) *\(</regex>
+					<regex>(\b@??dbase_create) *\(</regex>
+					<regex>(\b@??dbase_delete_record) *\(</regex>
+					<regex>(\b@??dbase_get_record_with_names) *\(</regex>
+					<regex>(\b@??dbase_get_record) *\(</regex>
+					<regex>(\b@??dbase_numfields) *\(</regex>
+					<regex>(\b@??dbase_numrecords) *\(</regex>
+					<regex>(\b@??dbase_open) *\(</regex>
+					<regex>(\b@??dbase_pack) *\(</regex>
+					<regex>(\b@??dbase_replace_record) *\(</regex>
+					<regex>(\b@??dblist) *\(</regex>
+					<regex>(\b@??dbmclose) *\(</regex>
+					<regex>(\b@??dbmdelete) *\(</regex>
+					<regex>(\b@??dbmexists) *\(</regex>
+					<regex>(\b@??dbmfetch) *\(</regex>
+					<regex>(\b@??dbmfirstkey) *\(</regex>
+					<regex>(\b@??dbminsert) *\(</regex>
+					<regex>(\b@??dbmnextkey) *\(</regex>
+					<regex>(\b@??dbmopen) *\(</regex>
+					<regex>(\b@??dbmreplace) *\(</regex>
+					<regex>(\b@??dbplus_add) *\(</regex>
+					<regex>(\b@??dbplus_aql) *\(</regex>
+					<regex>(\b@??dbplus_chdir) *\(</regex>
+					<regex>(\b@??dbplus_close) *\(</regex>
+					<regex>(\b@??dbplus_curr) *\(</regex>
+					<regex>(\b@??dbplus_errcode) *\(</regex>
+					<regex>(\b@??dbplus_errno) *\(</regex>
+					<regex>(\b@??dbplus_find) *\(</regex>
+					<regex>(\b@??dbplus_first) *\(</regex>
+					<regex>(\b@??dbplus_flush) *\(</regex>
+					<regex>(\b@??dbplus_freealllocks) *\(</regex>
+					<regex>(\b@??dbplus_freelock) *\(</regex>
+					<regex>(\b@??dbplus_freerlocks) *\(</regex>
+					<regex>(\b@??dbplus_getlock) *\(</regex>
+					<regex>(\b@??dbplus_getunique) *\(</regex>
+					<regex>(\b@??dbplus_info) *\(</regex>
+					<regex>(\b@??dbplus_last) *\(</regex>
+					<regex>(\b@??dbplus_next) *\(</regex>
+					<regex>(\b@??dbplus_open) *\(</regex>
+					<regex>(\b@??dbplus_prev) *\(</regex>
+					<regex>(\b@??dbplus_rchperm) *\(</regex>
+					<regex>(\b@??dbplus_rcreate) *\(</regex>
+					<regex>(\b@??dbplus_rcrtexact) *\(</regex>
+					<regex>(\b@??dbplus_rcrtlike) *\(</regex>
+					<regex>(\b@??dbplus_resolve) *\(</regex>
+					<regex>(\b@??dbplus_restorepos) *\(</regex>
+					<regex>(\b@??dbplus_rkeys) *\(</regex>
+					<regex>(\b@??dbplus_ropen) *\(</regex>
+					<regex>(\b@??dbplus_rquery) *\(</regex>
+					<regex>(\b@??dbplus_rrename) *\(</regex>
+					<regex>(\b@??dbplus_rsecindex) *\(</regex>
+					<regex>(\b@??dbplus_runlink) *\(</regex>
+					<regex>(\b@??dbplus_rzap) *\(</regex>
+					<regex>(\b@??dbplus_savepos) *\(</regex>
+					<regex>(\b@??dbplus_setindex) *\(</regex>
+					<regex>(\b@??dbplus_setindexbynumber) *\(</regex>
+					<regex>(\b@??dbplus_sql) *\(</regex>
+					<regex>(\b@??dbplus_tcl) *\(</regex>
+					<regex>(\b@??dbplus_tremove) *\(</regex>
+					<regex>(\b@??dbplus_undoprepare) *\(</regex>
+					<regex>(\b@??dbplus_undo) *\(</regex>
+					<regex>(\b@??dbplus_unlockrel) *\(</regex>
+					<regex>(\b@??dbplus_unselect) *\(</regex>
+					<regex>(\b@??dbplus_update) *\(</regex>
+					<regex>(\b@??dbplus_xlockrel) *\(</regex>
+					<regex>(\b@??dbplus_xunlockrel) *\(</regex>
+					<regex>(\b@??dbx_close) *\(</regex>
+					<regex>(\b@??dbx_cmp_asc) *\(</regex>
+					<regex>(\b@??dbx_cmp_desc) *\(</regex>
+					<regex>(\b@??dbx_compare) *\(</regex>
+					<regex>(\b@??dbx_connect) *\(</regex>
+					<regex>(\b@??dbx_error) *\(</regex>
+					<regex>(\b@??dbx_escape_string) *\(</regex>
+					<regex>(\b@??dbx_query) *\(</regex>
+					<regex>(\b@??dbx_sort) *\(</regex>
+					<regex>(\b@??dcgettext) *\(</regex>
+					<regex>(\b@??dcngettext) *\(</regex>
+					<regex>(\b@??deaggregate) *\(</regex>
+					<regex>(\b@??debug_backtrace) *\(</regex>
+					<regex>(\b@??debug) *\(</regex>
+					<regex>(\b@??debug_print_backtrace) *\(</regex>
+					<regex>(\b@??debug_zval_dump) *\(</regex>
+					<regex>(\b@??debugger_off) *\(</regex>
+					<regex>(\b@??debugger_on) *\(</regex>
+					<regex>(\b@??decbin) *\(</regex>
+					<regex>(\b@??dechex) *\(</regex>
+					<regex>(\b@??decoct) *\(</regex>
+					<regex>(\b@??decrypt) *\(</regex>
+					<regex>(\b@??define) *\(</regex>
+					<regex>(\b@??define_syslog_variables) *\(</regex>
+					<regex>(\b@??defined) *\(</regex>
+					<regex>(\b@??deg2rad) *\(</regex>
+					<regex>(\b@??delete_iovec) *\(</regex>
+					<regex>(\b@??dgettext) *\(</regex>
+					<regex>(\b@??dio_close) *\(</regex>
+					<regex>(\b@??dio_fcntl) *\(</regex>
+					<regex>(\b@??dio_open) *\(</regex>
+					<regex>(\b@??dio_read) *\(</regex>
+					<regex>(\b@??dio_seek) *\(</regex>
+					<regex>(\b@??dio_stat) *\(</regex>
+					<regex>(\b@??dio_tcsetattr) *\(</regex>
+					<regex>(\b@??dio_truncate) *\(</regex>
+					<regex>(\b@??dio_write) *\(</regex>
+					<regex>(\b@??dir) *\(</regex>
+					<regex>(\b@??dirname) *\(</regex>
+					<regex>(\b@??disable_reads_from_master) *\(</regex>
+					<regex>(\b@??disable_rpl_parse) *\(</regex>
+					<regex>(\b@??disk_free_space) *\(</regex>
+					<regex>(\b@??disk_total_space) *\(</regex>
+					<regex>(\b@??diskfreespace) *\(</regex>
+					<regex>(\b@??display_disabled_function) *\(</regex>
+					<regex>(\b@??dl) *\(</regex>
+					<regex>(\b@??dngettext) *\(</regex>
+					<regex>(\b@??dns_check_record) *\(</regex>
+					<regex>(\b@??dns_get_mx) *\(</regex>
+					<regex>(\b@??dns_get_record) *\(</regex>
+					<regex>(\b@??domxml_add_root) *\(</regex>
+					<regex>(\b@??domxml_attributes) *\(</regex>
+					<regex>(\b@??domxml_children) *\(</regex>
+					<regex>(\b@??domxml_doc_add_root) *\(</regex>
+					<regex>(\b@??domxml_doc_document_element) *\(</regex>
+					<regex>(\b@??domxml_doc_get_element_by_id) *\(</regex>
+					<regex>(\b@??domxml_doc_get_elements_by_tagname) *\(</regex>
+					<regex>(\b@??domxml_doc_get_root) *\(</regex>
+					<regex>(\b@??domxml_doc_set_root) *\(</regex>
+					<regex>(\b@??domxml_doc_validate) *\(</regex>
+					<regex>(\b@??domxml_doc_xinclude) *\(</regex>
+					<regex>(\b@??domxml_dump_mem) *\(</regex>
+					<regex>(\b@??domxml_dump_mem_file) *\(</regex>
+					<regex>(\b@??domxml_dump_node) *\(</regex>
+					<regex>(\b@??domxml_dumpmem) *\(</regex>
+					<regex>(\b@??domxml_elem_get_attribute) *\(</regex>
+					<regex>(\b@??domxml_elem_set_attribute) *\(</regex>
+					<regex>(\b@??domxml_get_attribute) *\(</regex>
+					<regex>(\b@??domxml_getattr) *\(</regex>
+					<regex>(\b@??domxml_html_dump_mem) *\(</regex>
+					<regex>(\b@??domxml_new_child) *\(</regex>
+					<regex>(\b@??domxml_new_doc) *\(</regex>
+					<regex>(\b@??domxml_new_xmldoc) *\(</regex>
+					<regex>(\b@??domxml_node_add_namespace) *\(</regex>
+					<regex>(\b@??domxml_node_attributes) *\(</regex>
+					<regex>(\b@??domxml_node_children) *\(</regex>
+					<regex>(\b@??domxml_node_get_content) *\(</regex>
+					<regex>(\b@??domxml_node) *\(</regex>
+					<regex>(\b@??domxml_node_has_attributes) *\(</regex>
+					<regex>(\b@??domxml_node_new_child) *\(</regex>
+					<regex>(\b@??domxml_node_set_content) *\(</regex>
+					<regex>(\b@??domxml_node_set_namespace) *\(</regex>
+					<regex>(\b@??domxml_node_unlink_node) *\(</regex>
+					<regex>(\b@??domxml_open_file) *\(</regex>
+					<regex>(\b@??domxml_open_mem) *\(</regex>
+					<regex>(\b@??domxml_parser_add_chunk) *\(</regex>
+					<regex>(\b@??domxml_parser_cdata_section) *\(</regex>
+					<regex>(\b@??domxml_parser_characters) *\(</regex>
+					<regex>(\b@??domxml_parser_comment) *\(</regex>
+					<regex>(\b@??domxml_parser_end_document) *\(</regex>
+					<regex>(\b@??domxml_parser_end_element) *\(</regex>
+					<regex>(\b@??domxml_parser_end) *\(</regex>
+					<regex>(\b@??domxml_parser_entity_reference) *\(</regex>
+					<regex>(\b@??domxml_parser_get_document) *\(</regex>
+					<regex>(\b@??domxml_parser_namespace_decl) *\(</regex>
+					<regex>(\b@??domxml_parser_processing_instruction) *\(</regex>
+					<regex>(\b@??domxml_parser_start_document) *\(</regex>
+					<regex>(\b@??domxml_parser_start_element) *\(</regex>
+					<regex>(\b@??domxml_parser) *\(</regex>
+					<regex>(\b@??domxml_root) *\(</regex>
+					<regex>(\b@??domxml_set_attribute) *\(</regex>
+					<regex>(\b@??domxml_set_content) *\(</regex>
+					<regex>(\b@??domxml_setattr) *\(</regex>
+					<regex>(\b@??domxml_substitute_entities_default) *\(</regex>
+					<regex>(\b@??domxml_unlink_node) *\(</regex>
+					<regex>(\b@??domxml_version) *\(</regex>
+					<regex>(\b@??domxml_xmltree) *\(</regex>
+					<regex>(\b@??domxml_xslt_process) *\(</regex>
+					<regex>(\b@??domxml_xslt_result_dump_file) *\(</regex>
+					<regex>(\b@??domxml_xslt_result_dump_mem) *\(</regex>
+					<regex>(\b@??domxml_xslt_stylesheet_doc) *\(</regex>
+					<regex>(\b@??domxml_xslt_stylesheet) *\(</regex>
+					<regex>(\b@??domxml_xslt_stylesheet_file) *\(</regex>
+					<regex>(\b@??domxml_xslt_version) *\(</regex>
+					<regex>(\b@??doubleval) *\(</regex>
+					<regex>(\b@??drawarc) *\(</regex>
+					<regex>(\b@??drawcircle) *\(</regex>
+					<regex>(\b@??drawcubicto) *\(</regex>
+					<regex>(\b@??drawcubic) *\(</regex>
+					<regex>(\b@??drawcurveto) *\(</regex>
+					<regex>(\b@??drawcurve) *\(</regex>
+					<regex>(\b@??drawglyph) *\(</regex>
+					<regex>(\b@??drawline) *\(</regex>
+					<regex>(\b@??drawlineto) *\(</regex>
+					<regex>(\b@??dump_debug_info) *\(</regex>
+					<regex>(\b@??each) *\(</regex>
+					<regex>(\b@??easter_date) *\(</regex>
+					<regex>(\b@??easter_days) *\(</regex>
+					<regex>(\b@??ebcdic2ascii) *\(</regex>
+					<regex>(\b@??enable_reads_from_master) *\(</regex>
+					<regex>(\b@??enable_rpl_parse) *\(</regex>
+					<regex>(\b@??encrypt) *\(</regex>
+					<regex>(\b@??end) *\(</regex>
+					<regex>(\b@??ereg_replace) *\(</regex>
+					<regex>(\b@??eregi_replace) *\(</regex>
+					<regex>(\b@??eregi) *\(</regex>
+					<regex>(\b@??ereg) *\(</regex>
+					<regex>(\b@??errno) *\(</regex>
+					<regex>(\b@??error_log) *\(</regex>
+					<regex>(\b@??error_reporting) *\(</regex>
+					<regex>(\b@??error) *\(</regex>
+					<regex>(\b@??escape_string) *\(</regex>
+					<regex>(\b@??escapeshellarg) *\(</regex>
+					<regex>(\b@??escapeshellcmd) *\(</regex>
+					<regex>(\b@??exec) *\(</regex>
+					<regex>(\b@??execute) *\(</regex>
+					<regex>(\b@??exif_imagetype) *\(</regex>
+					<regex>(\b@??exif_read_data) *\(</regex>
+					<regex>(\b@??exif_tagname) *\(</regex>
+					<regex>(\b@??exif_thumbnail) *\(</regex>
+					<regex>(\b@??explode) *\(</regex>
+					<regex>(\b@??expm1) *\(</regex>
+					<regex>(\b@??exp) *\(</regex>
+					<regex>(\b@??extension_loaded) *\(</regex>
+					<regex>(\b@??extract) *\(</regex>
+					<regex>(\b@??ezmlm_hash) *\(</regex>
+					<regex>(\b@??fam_cancel_monitor) *\(</regex>
+					<regex>(\b@??fam_close) *\(</regex>
+					<regex>(\b@??fam_monitor_collection) *\(</regex>
+					<regex>(\b@??fam_monitor_directory) *\(</regex>
+					<regex>(\b@??fam_monitor_file) *\(</regex>
+					<regex>(\b@??fam_next_event) *\(</regex>
+					<regex>(\b@??fam_open) *\(</regex>
+					<regex>(\b@??fam_pending) *\(</regex>
+					<regex>(\b@??fam_resume_monitor) *\(</regex>
+					<regex>(\b@??fam_suspend_monitor) *\(</regex>
+					<regex>(\b@??fbsql_affected_rows) *\(</regex>
+					<regex>(\b@??fbsql_autocommit) *\(</regex>
+					<regex>(\b@??fbsql_blob_size) *\(</regex>
+					<regex>(\b@??fbsql_clob_size) *\(</regex>
+					<regex>(\b@??fbsql_close) *\(</regex>
+					<regex>(\b@??fbsql_commit) *\(</regex>
+					<regex>(\b@??fbsql_connect) *\(</regex>
+					<regex>(\b@??fbsql_create_blob) *\(</regex>
+					<regex>(\b@??fbsql_create_clob) *\(</regex>
+					<regex>(\b@??fbsql_create_db) *\(</regex>
+					<regex>(\b@??fbsql_data_seek) *\(</regex>
+					<regex>(\b@??fbsql_database_password) *\(</regex>
+					<regex>(\b@??fbsql_database) *\(</regex>
+					<regex>(\b@??fbsql_db_query) *\(</regex>
+					<regex>(\b@??fbsql_db_status) *\(</regex>
+					<regex>(\b@??fbsql_drop_db) *\(</regex>
+					<regex>(\b@??fbsql_errno) *\(</regex>
+					<regex>(\b@??fbsql_error) *\(</regex>
+					<regex>(\b@??fbsql_fetch_array) *\(</regex>
+					<regex>(\b@??fbsql_fetch_assoc) *\(</regex>
+					<regex>(\b@??fbsql_fetch_field) *\(</regex>
+					<regex>(\b@??fbsql_fetch_lengths) *\(</regex>
+					<regex>(\b@??fbsql_fetch_object) *\(</regex>
+					<regex>(\b@??fbsql_fetch_row) *\(</regex>
+					<regex>(\b@??fbsql_field_flags) *\(</regex>
+					<regex>(\b@??fbsql_field_len) *\(</regex>
+					<regex>(\b@??fbsql_field_name) *\(</regex>
+					<regex>(\b@??fbsql_field_seek) *\(</regex>
+					<regex>(\b@??fbsql_field_table) *\(</regex>
+					<regex>(\b@??fbsql_field_type) *\(</regex>
+					<regex>(\b@??fbsql_free_result) *\(</regex>
+					<regex>(\b@??fbsql_get_autostart_info) *\(</regex>
+					<regex>(\b@??fbsql_hostname) *\(</regex>
+					<regex>(\b@??fbsql_insert_id) *\(</regex>
+					<regex>(\b@??fbsql_list_dbs) *\(</regex>
+					<regex>(\b@??fbsql_list_fields) *\(</regex>
+					<regex>(\b@??fbsql_list_tables) *\(</regex>
+					<regex>(\b@??fbsql_next_result) *\(</regex>
+					<regex>(\b@??fbsql_num_fields) *\(</regex>
+					<regex>(\b@??fbsql_num_rows) *\(</regex>
+					<regex>(\b@??fbsql_password) *\(</regex>
+					<regex>(\b@??fbsql_pconnect) *\(</regex>
+					<regex>(\b@??fbsql_query) *\(</regex>
+					<regex>(\b@??fbsql) *\(</regex>
+					<regex>(\b@??fbsql_read_blob) *\(</regex>
+					<regex>(\b@??fbsql_read_clob) *\(</regex>
+					<regex>(\b@??fbsql_result) *\(</regex>
+					<regex>(\b@??fbsql_rollback) *\(</regex>
+					<regex>(\b@??fbsql_select_db) *\(</regex>
+					<regex>(\b@??fbsql_set_lob_mode) *\(</regex>
+					<regex>(\b@??fbsql_set_transaction) *\(</regex>
+					<regex>(\b@??fbsql_start_db) *\(</regex>
+					<regex>(\b@??fbsql_stop_db) *\(</regex>
+					<regex>(\b@??fbsql_table_name) *\(</regex>
+					<regex>(\b@??fbsql_tablename) *\(</regex>
+					<regex>(\b@??fbsql_username) *\(</regex>
+					<regex>(\b@??fbsql_warnings) *\(</regex>
+					<regex>(\b@??fclose) *\(</regex>
+					<regex>(\b@??fd_alloc) *\(</regex>
+					<regex>(\b@??fd_clear) *\(</regex>
+					<regex>(\b@??fd_dealloc) *\(</regex>
+					<regex>(\b@??fd_isset) *\(</regex>
+					<regex>(\b@??fd_set) *\(</regex>
+					<regex>(\b@??fd_zero) *\(</regex>
+					<regex>(\b@??fdf_add_doc_javascript) *\(</regex>
+					<regex>(\b@??fdf_add_template) *\(</regex>
+					<regex>(\b@??fdf_close) *\(</regex>
+					<regex>(\b@??fdf_create) *\(</regex>
+					<regex>(\b@??fdf_enum_values) *\(</regex>
+					<regex>(\b@??fdf_errno) *\(</regex>
+					<regex>(\b@??fdf_error) *\(</regex>
+					<regex>(\b@??fdf_get_ap) *\(</regex>
+					<regex>(\b@??fdf_get_attachment) *\(</regex>
+					<regex>(\b@??fdf_get_encoding) *\(</regex>
+					<regex>(\b@??fdf_get_file) *\(</regex>
+					<regex>(\b@??fdf_get_flags) *\(</regex>
+					<regex>(\b@??fdf_get_opt) *\(</regex>
+					<regex>(\b@??fdf_get_status) *\(</regex>
+					<regex>(\b@??fdf_get_value) *\(</regex>
+					<regex>(\b@??fdf_get_version) *\(</regex>
+					<regex>(\b@??fdf_header) *\(</regex>
+					<regex>(\b@??fdf_next_field_name) *\(</regex>
+					<regex>(\b@??fdf_open_string) *\(</regex>
+					<regex>(\b@??fdf_open) *\(</regex>
+					<regex>(\b@??fdf_remove_item) *\(</regex>
+					<regex>(\b@??fdf_save_string) *\(</regex>
+					<regex>(\b@??fdf_save) *\(</regex>
+					<regex>(\b@??fdf_set_ap) *\(</regex>
+					<regex>(\b@??fdf_set_encoding) *\(</regex>
+					<regex>(\b@??fdf_set_file) *\(</regex>
+					<regex>(\b@??fdf_set_flags) *\(</regex>
+					<regex>(\b@??fdf_set_javascript_action) *\(</regex>
+					<regex>(\b@??fdf_set_on_import_javascript) *\(</regex>
+					<regex>(\b@??fdf_set_opt) *\(</regex>
+					<regex>(\b@??fdf_set_status) *\(</regex>
+					<regex>(\b@??fdf_set_submit_form_action) *\(</regex>
+					<regex>(\b@??fdf_set_target_frame) *\(</regex>
+					<regex>(\b@??fdf_set_value) *\(</regex>
+					<regex>(\b@??fdf_set_version) *\(</regex>
+					<regex>(\b@??feof) *\(</regex>
+					<regex>(\b@??fetch_array) *\(</regex>
+					<regex>(\b@??fetch_assoc) *\(</regex>
+					<regex>(\b@??fetch_fields) *\(</regex>
+					<regex>(\b@??fetch_field) *\(</regex>
+					<regex>(\b@??fetch_iovec) *\(</regex>
+					<regex>(\b@??fetch_lengths) *\(</regex>
+					<regex>(\b@??fetch_object) *\(</regex>
+					<regex>(\b@??fetch_row) *\(</regex>
+					<regex>(\b@??fetch) *\(</regex>
+					<regex>(\b@??fetvh_field_direct) *\(</regex>
+					<regex>(\b@??fflush) *\(</regex>
+					<regex>(\b@??fgetcsv) *\(</regex>
+					<regex>(\b@??fgetc) *\(</regex>
+					<regex>(\b@??fgetss) *\(</regex>
+					<regex>(\b@??fgets) *\(</regex>
+					<regex>(\b@??field_count) *\(</regex>
+					<regex>(\b@??field_seek) *\(</regex>
+					<regex>(\b@??field_tell) *\(</regex>
+					<regex>(\b@??file_exists) *\(</regex>
+					<regex>(\b@??file_get_contents) *\(</regex>
+					<regex>(\b@??file_set_contents) *\(</regex>
+					<regex>(\b@??fileatime) *\(</regex>
+					<regex>(\b@??filectime) *\(</regex>
+					<regex>(\b@??file) *\(</regex>
+					<regex>(\b@??filegroup) *\(</regex>
+					<regex>(\b@??fileinode) *\(</regex>
+					<regex>(\b@??filemtime) *\(</regex>
+					<regex>(\b@??fileowner) *\(</regex>
+					<regex>(\b@??fileperms) *\(</regex>
+					<regex>(\b@??filepro_fieldcount) *\(</regex>
+					<regex>(\b@??filepro_fieldname) *\(</regex>
+					<regex>(\b@??filepro_fieldtype) *\(</regex>
+					<regex>(\b@??filepro_fieldwidth) *\(</regex>
+					<regex>(\b@??filepro_retrieve) *\(</regex>
+					<regex>(\b@??filepro_rowcount) *\(</regex>
+					<regex>(\b@??filepro) *\(</regex>
+					<regex>(\b@??filesize) *\(</regex>
+					<regex>(\b@??filetype) *\(</regex>
+					<regex>(\b@??filter) *\(</regex>
+					<regex>(\b@??floatval) *\(</regex>
+					<regex>(\b@??flock) *\(</regex>
+					<regex>(\b@??floor) *\(</regex>
+					<regex>(\b@??flush) *\(</regex>
+					<regex>(\b@??fmod) *\(</regex>
+					<regex>(\b@??fnmatch) *\(</regex>
+					<regex>(\b@??fopenstream) *\(</regex>
+					<regex>(\b@??fopen) *\(</regex>
+					<regex>(\b@??fpassthru) *\(</regex>
+					<regex>(\b@??fprintf) *\(</regex>
+					<regex>(\b@??fputs) *\(</regex>
+					<regex>(\b@??fread) *\(</regex>
+					<regex>(\b@??free_iovec) *\(</regex>
+					<regex>(\b@??free_result) *\(</regex>
+					<regex>(\b@??freemagick) *\(</regex>
+					<regex>(\b@??frenchtojd) *\(</regex>
+					<regex>(\b@??fribidi_charset_info) *\(</regex>
+					<regex>(\b@??fribidi_get_charsets) *\(</regex>
+					<regex>(\b@??fribidi_log2vis) *\(</regex>
+					<regex>(\b@??fscanf) *\(</regex>
+					<regex>(\b@??fseek) *\(</regex>
+					<regex>(\b@??fsockopen) *\(</regex>
+					<regex>(\b@??fstat) *\(</regex>
+					<regex>(\b@??ftell) *\(</regex>
+					<regex>(\b@??ftok) *\(</regex>
+					<regex>(\b@??ftp_cdup) *\(</regex>
+					<regex>(\b@??ftp_chdir) *\(</regex>
+					<regex>(\b@??ftp_chmod) *\(</regex>
+					<regex>(\b@??ftp_close) *\(</regex>
+					<regex>(\b@??ftp_connect) *\(</regex>
+					<regex>(\b@??ftp_delete) *\(</regex>
+					<regex>(\b@??ftp_exec) *\(</regex>
+					<regex>(\b@??ftp_fget) *\(</regex>
+					<regex>(\b@??ftp_fput) *\(</regex>
+					<regex>(\b@??ftp_get) *\(</regex>
+					<regex>(\b@??ftp_get_option) *\(</regex>
+					<regex>(\b@??ftp_login) *\(</regex>
+					<regex>(\b@??ftp_mdtm) *\(</regex>
+					<regex>(\b@??ftp_mkdir) *\(</regex>
+					<regex>(\b@??ftp_nb_continue) *\(</regex>
+					<regex>(\b@??ftp_nb_fget) *\(</regex>
+					<regex>(\b@??ftp_nb_fput) *\(</regex>
+					<regex>(\b@??ftp_nb_get) *\(</regex>
+					<regex>(\b@??ftp_nb_put) *\(</regex>
+					<regex>(\b@??ftp_nlist) *\(</regex>
+					<regex>(\b@??ftp_pasv) *\(</regex>
+					<regex>(\b@??ftp_put) *\(</regex>
+					<regex>(\b@??ftp_pwd) *\(</regex>
+					<regex>(\b@??ftp_quit) *\(</regex>
+					<regex>(\b@??ftp_rawlist) *\(</regex>
+					<regex>(\b@??ftp_raw) *\(</regex>
+					<regex>(\b@??ftp_rename) *\(</regex>
+					<regex>(\b@??ftp_rmdir) *\(</regex>
+					<regex>(\b@??ftp_set_option) *\(</regex>
+					<regex>(\b@??ftp_site) *\(</regex>
+					<regex>(\b@??ftp_size) *\(</regex>
+					<regex>(\b@??ftp_ssl_connect) *\(</regex>
+					<regex>(\b@??ftp_systype) *\(</regex>
+					<regex>(\b@??ftruncate) *\(</regex>
+					<regex>(\b@??func_get_args) *\(</regex>
+					<regex>(\b@??func_get_arg) *\(</regex>
+					<regex>(\b@??func_num_args) *\(</regex>
+					<regex>(\b@??function_exists) *\(</regex>
+					<regex>(\b@??fwrite) *\(</regex>
+					<regex>(\b@??gamma_correct_tag) *\(</regex>
+					<regex>(\b@??gd_info) *\(</regex>
+					<regex>(\b@??get_all_headers) *\(</regex>
+					<regex>(\b@??get_browser) *\(</regex>
+					<regex>(\b@??get_cfg_var) *\(</regex>
+					<regex>(\b@??get_class_methods) *\(</regex>
+					<regex>(\b@??get_class_vars) *\(</regex>
+					<regex>(\b@??get_class) *\(</regex>
+					<regex>(\b@??get_client_info) *\(</regex>
+					<regex>(\b@??get_current_user) *\(</regex>
+					<regex>(\b@??get_declared_classes) *\(</regex>
+					<regex>(\b@??get_defined_constants) *\(</regex>
+					<regex>(\b@??get_defined_functions) *\(</regex>
+					<regex>(\b@??get_defined_vars) *\(</regex>
+					<regex>(\b@??get_extension_funcs) *\(</regex>
+					<regex>(\b@??get_headers) *\(</regex>
+					<regex>(\b@??get_host_info) *\(</regex>
+					<regex>(\b@??get_html_translation_table) *\(</regex>
+					<regex>(\b@??get_include_path) *\(</regex>
+					<regex>(\b@??get_included_files) *\(</regex>
+					<regex>(\b@??get_loaded_extensions) *\(</regex>
+					<regex>(\b@??get_magic_quotes_gpc) *\(</regex>
+					<regex>(\b@??get_magic_quotes_runtime) *\(</regex>
+					<regex>(\b@??get_meta_tags) *\(</regex>
+					<regex>(\b@??get_object_vars) *\(</regex>
+					<regex>(\b@??get_parent_class) *\(</regex>
+					<regex>(\b@??get_proto_info) *\(</regex>
+					<regex>(\b@??get_required_files) *\(</regex>
+					<regex>(\b@??get_resource_type) *\(</regex>
+					<regex>(\b@??get_server_info) *\(</regex>
+					<regex>(\b@??get_server_version) *\(</regex>
+					<regex>(\b@??getallheaders) *\(</regex>
+					<regex>(\b@??getascent) *\(</regex>
+					<regex>(\b@??getcwd) *\(</regex>
+					<regex>(\b@??getdate) *\(</regex>
+					<regex>(\b@??getdescent) *\(</regex>
+					<regex>(\b@??getenv) *\(</regex>
+					<regex>(\b@??getheight) *\(</regex>
+					<regex>(\b@??gethostbyaddr) *\(</regex>
+					<regex>(\b@??gethostbyname) *\(</regex>
+					<regex>(\b@??gethostbynamel) *\(</regex>
+					<regex>(\b@??getimagesize) *\(</regex>
+					<regex>(\b@??getlastaccess) *\(</regex>
+					<regex>(\b@??getlastbrowser) *\(</regex>
+					<regex>(\b@??getlastemail) *\(</regex>
+					<regex>(\b@??getlasthost) *\(</regex>
+					<regex>(\b@??getlastmod) *\(</regex>
+					<regex>(\b@??getlastref) *\(</regex>
+					<regex>(\b@??getleading) *\(</regex>
+					<regex>(\b@??getlogdir) *\(</regex>
+					<regex>(\b@??getloghost) *\(</regex>
+					<regex>(\b@??getmxrr) *\(</regex>
+					<regex>(\b@??getmygid) *\(</regex>
+					<regex>(\b@??getmyiid) *\(</regex>
+					<regex>(\b@??getmyinode) *\(</regex>
+					<regex>(\b@??getmypid) *\(</regex>
+					<regex>(\b@??getmyuid) *\(</regex>
+					<regex>(\b@??getopt) *\(</regex>
+					<regex>(\b@??getpeername) *\(</regex>
+					<regex>(\b@??getprotobyname) *\(</regex>
+					<regex>(\b@??getprotobynumber) *\(</regex>
+					<regex>(\b@??getrandmax) *\(</regex>
+					<regex>(\b@??getrusage) *\(</regex>
+					<regex>(\b@??getservbyname) *\(</regex>
+					<regex>(\b@??getservbyport) *\(</regex>
+					<regex>(\b@??getshape1) *\(</regex>
+					<regex>(\b@??getshape2) *\(</regex>
+					<regex>(\b@??getsockname) *\(</regex>
+					<regex>(\b@??getsockopt) *\(</regex>
+					<regex>(\b@??getstartlogging) *\(</regex>
+					<regex>(\b@??gettext) *\(</regex>
+					<regex>(\b@??gettimeofday) *\(</regex>
+					<regex>(\b@??gettoday) *\(</regex>
+					<regex>(\b@??gettotal) *\(</regex>
+					<regex>(\b@??gettype) *\(</regex>
+					<regex>(\b@??getwidth) *\(</regex>
+					<regex>(\b@??glob) *\(</regex>
+					<regex>(\b@??gmdate) *\(</regex>
+					<regex>(\b@??gmmktime) *\(</regex>
+					<regex>(\b@??gmp_abs) *\(</regex>
+					<regex>(\b@??gmp_add) *\(</regex>
+					<regex>(\b@??gmp_and) *\(</regex>
+					<regex>(\b@??gmp_clrbit) *\(</regex>
+					<regex>(\b@??gmp_cmp) *\(</regex>
+					<regex>(\b@??gmp_com) *\(</regex>
+					<regex>(\b@??gmp_div_qr) *\(</regex>
+					<regex>(\b@??gmp_div_q) *\(</regex>
+					<regex>(\b@??gmp_div) *\(</regex>
+					<regex>(\b@??gmp_div_r) *\(</regex>
+					<regex>(\b@??gmp_divexact) *\(</regex>
+					<regex>(\b@??gmp_fact) *\(</regex>
+					<regex>(\b@??gmp_gcd) *\(</regex>
+					<regex>(\b@??gmp_gcdext) *\(</regex>
+					<regex>(\b@??gmp_hamdist) *\(</regex>
+					<regex>(\b@??gmp_init) *\(</regex>
+					<regex>(\b@??gmp_intval) *\(</regex>
+					<regex>(\b@??gmp_invert) *\(</regex>
+					<regex>(\b@??gmp_jacobi) *\(</regex>
+					<regex>(\b@??gmp_legendre) *\(</regex>
+					<regex>(\b@??gmp_mod) *\(</regex>
+					<regex>(\b@??gmp_mul) *\(</regex>
+					<regex>(\b@??gmp_neg) *\(</regex>
+					<regex>(\b@??gmp_or) *\(</regex>
+					<regex>(\b@??gmp_perfect_square) *\(</regex>
+					<regex>(\b@??gmp_popcount) *\(</regex>
+					<regex>(\b@??gmp_pow) *\(</regex>
+					<regex>(\b@??gmp_powm) *\(</regex>
+					<regex>(\b@??gmp_prob_prime) *\(</regex>
+					<regex>(\b@??gmp_random) *\(</regex>
+					<regex>(\b@??gmp_scan0) *\(</regex>
+					<regex>(\b@??gmp_scan1) *\(</regex>
+					<regex>(\b@??gmp_setbit) *\(</regex>
+					<regex>(\b@??gmp_sign) *\(</regex>
+					<regex>(\b@??gmp_sqrt) *\(</regex>
+					<regex>(\b@??gmp_sqrtrem) *\(</regex>
+					<regex>(\b@??gmp_strval) *\(</regex>
+					<regex>(\b@??gmp_sub) *\(</regex>
+					<regex>(\b@??gmp_xor) *\(</regex>
+					<regex>(\b@??gmstrftime) *\(</regex>
+					<regex>(\b@??gregoriantojd) *\(</regex>
+					<regex>(\b@??gzclose) *\(</regex>
+					<regex>(\b@??gzcompress) *\(</regex>
+					<regex>(\b@??gzdeflate) *\(</regex>
+					<regex>(\b@??gzencode) *\(</regex>
+					<regex>(\b@??gzeof) *\(</regex>
+					<regex>(\b@??gzfile) *\(</regex>
+					<regex>(\b@??gzgetc) *\(</regex>
+					<regex>(\b@??gzgetss) *\(</regex>
+					<regex>(\b@??gzgets) *\(</regex>
+					<regex>(\b@??gzinflate) *\(</regex>
+					<regex>(\b@??gzopen) *\(</regex>
+					<regex>(\b@??gzpassthru) *\(</regex>
+					<regex>(\b@??gzputs) *\(</regex>
+					<regex>(\b@??gzread) *\(</regex>
+					<regex>(\b@??gzrewind) *\(</regex>
+					<regex>(\b@??gzseek) *\(</regex>
+					<regex>(\b@??gztell) *\(</regex>
+					<regex>(\b@??gzuncompress) *\(</regex>
+					<regex>(\b@??gzwrite) *\(</regex>
+					<regex>(\b@??handle) *\(</regex>
+					<regex>(\b@??headers_sent) *\(</regex>
+					<regex>(\b@??header) *\(</regex>
+					<regex>(\b@??hebrevc) *\(</regex>
+					<regex>(\b@??hebrev) *\(</regex>
+					<regex>(\b@??hexdec) *\(</regex>
+					<regex>(\b@??highlight_file) *\(</regex>
+					<regex>(\b@??highlight_string) *\(</regex>
+					<regex>(\b@??html_doc_file) *\(</regex>
+					<regex>(\b@??html_doc) *\(</regex>
+					<regex>(\b@??html_entity_decode) *\(</regex>
+					<regex>(\b@??htmlentities) *\(</regex>
+					<regex>(\b@??htmlspecialchars) *\(</regex>
+					<regex>(\b@??hw_array2objrec) *\(</regex>
+					<regex>(\b@??hw_changeobject) *\(</regex>
+					<regex>(\b@??hw_childrenobj) *\(</regex>
+					<regex>(\b@??hw_children) *\(</regex>
+					<regex>(\b@??hw_close) *\(</regex>
+					<regex>(\b@??hw_connection_info) *\(</regex>
+					<regex>(\b@??hw_connect) *\(</regex>
+					<regex>(\b@??hw_cp) *\(</regex>
+					<regex>(\b@??hw_deleteobject) *\(</regex>
+					<regex>(\b@??hw_docbyanchor) *\(</regex>
+					<regex>(\b@??hw_docbyanchorobj) *\(</regex>
+					<regex>(\b@??hw_document_attributes) *\(</regex>
+					<regex>(\b@??hw_document_bodytag) *\(</regex>
+					<regex>(\b@??hw_document_content) *\(</regex>
+					<regex>(\b@??hw_document_setcontent) *\(</regex>
+					<regex>(\b@??hw_document_size) *\(</regex>
+					<regex>(\b@??hw_documentattributes) *\(</regex>
+					<regex>(\b@??hw_documentbodytag) *\(</regex>
+					<regex>(\b@??hw_documentcontent) *\(</regex>
+					<regex>(\b@??hw_documentsetcontent) *\(</regex>
+					<regex>(\b@??hw_documentsize) *\(</regex>
+					<regex>(\b@??hw_dummy) *\(</regex>
+					<regex>(\b@??hw_edittext) *\(</regex>
+					<regex>(\b@??hw_errormsg) *\(</regex>
+					<regex>(\b@??hw_error) *\(</regex>
+					<regex>(\b@??hw_free_document) *\(</regex>
+					<regex>(\b@??hw_getanchorsobj) *\(</regex>
+					<regex>(\b@??hw_getanchors) *\(</regex>
+					<regex>(\b@??hw_getandlock) *\(</regex>
+					<regex>(\b@??hw_getcgi) *\(</regex>
+					<regex>(\b@??hw_getchildcollobj) *\(</regex>
+					<regex>(\b@??hw_getchildcoll) *\(</regex>
+					<regex>(\b@??hw_getchilddoccoll) *\(</regex>
+					<regex>(\b@??hw_getchilddoccollobj) *\(</regex>
+					<regex>(\b@??hw_getobjectbyftquerycollobj) *\(</regex>
+					<regex>(\b@??hw_getobjectbyftqueryobj) *\(</regex>
+					<regex>(\b@??hw_getobjectbyftquery) *\(</regex>
+					<regex>(\b@??hw_getobjectbyftquerycoll) *\(</regex>
+					<regex>(\b@??hw_getobjectbyquerycoll) *\(</regex>
+					<regex>(\b@??hw_getobjectbyquerycollobj) *\(</regex>
+					<regex>(\b@??hw_getobjectbyquery) *\(</regex>
+					<regex>(\b@??hw_getobjectbyqueryobj) *\(</regex>
+					<regex>(\b@??hw_getobject) *\(</regex>
+					<regex>(\b@??hw_getparentsobj) *\(</regex>
+					<regex>(\b@??hw_getparents) *\(</regex>
+					<regex>(\b@??hw_getrellink) *\(</regex>
+					<regex>(\b@??hw_getremotechildren) *\(</regex>
+					<regex>(\b@??hw_getremote) *\(</regex>
+					<regex>(\b@??hw_getsrcbydestobj) *\(</regex>
+					<regex>(\b@??hw_gettext) *\(</regex>
+					<regex>(\b@??hw_getusername) *\(</regex>
+					<regex>(\b@??hw_identify) *\(</regex>
+					<regex>(\b@??hw_incollections) *\(</regex>
+					<regex>(\b@??hw_info) *\(</regex>
+					<regex>(\b@??hw_inscoll) *\(</regex>
+					<regex>(\b@??hw_insdoc) *\(</regex>
+					<regex>(\b@??hw_insertanchors) *\(</regex>
+					<regex>(\b@??hw_insertdocument) *\(</regex>
+					<regex>(\b@??hw_insertobject) *\(</regex>
+					<regex>(\b@??hw_mapid) *\(</regex>
+					<regex>(\b@??hw_modifyobject) *\(</regex>
+					<regex>(\b@??hw_mv) *\(</regex>
+					<regex>(\b@??hw_new_document_from_file) *\(</regex>
+					<regex>(\b@??hw_new_document) *\(</regex>
+					<regex>(\b@??hw_objrec2array) *\(</regex>
+					<regex>(\b@??hw_output_document) *\(</regex>
+					<regex>(\b@??hw_outputdocument) *\(</regex>
+					<regex>(\b@??hw_pconnect) *\(</regex>
+					<regex>(\b@??hw_pipecgi) *\(</regex>
+					<regex>(\b@??hw_pipedocument) *\(</regex>
+					<regex>(\b@??hw_root) *\(</regex>
+					<regex>(\b@??hw_setlinkroot) *\(</regex>
+					<regex>(\b@??hw_stat) *\(</regex>
+					<regex>(\b@??hw_unlock) *\(</regex>
+					<regex>(\b@??hw_who) *\(</regex>
+					<regex>(\b@??hypot) *\(</regex>
+					<regex>(\b@??i18n_convert) *\(</regex>
+					<regex>(\b@??i18n_discover_encoding) *\(</regex>
+					<regex>(\b@??i18n_http_input) *\(</regex>
+					<regex>(\b@??i18n_http_output) *\(</regex>
+					<regex>(\b@??i18n_internal_encoding) *\(</regex>
+					<regex>(\b@??i18n_ja_jp_hantozen) *\(</regex>
+					<regex>(\b@??i18n_mime_header_decode) *\(</regex>
+					<regex>(\b@??i18n_mime_header_encode) *\(</regex>
+					<regex>(\b@??ibase_add_user) *\(</regex>
+					<regex>(\b@??ibase_bind) *\(</regex>
+					<regex>(\b@??ibase_blob_add) *\(</regex>
+					<regex>(\b@??ibase_blob_cancel) *\(</regex>
+					<regex>(\b@??ibase_blob_close) *\(</regex>
+					<regex>(\b@??ibase_blob_create) *\(</regex>
+					<regex>(\b@??ibase_blob_echo) *\(</regex>
+					<regex>(\b@??ibase_blob_get) *\(</regex>
+					<regex>(\b@??ibase_blob_import) *\(</regex>
+					<regex>(\b@??ibase_blob_info) *\(</regex>
+					<regex>(\b@??ibase_blob_open) *\(</regex>
+					<regex>(\b@??ibase_close) *\(</regex>
+					<regex>(\b@??ibase_commit) *\(</regex>
+					<regex>(\b@??ibase_connect) *\(</regex>
+					<regex>(\b@??ibase_delete_user) *\(</regex>
+					<regex>(\b@??ibase_errmsg) *\(</regex>
+					<regex>(\b@??ibase_execute) *\(</regex>
+					<regex>(\b@??ibase_fetch_assoc) *\(</regex>
+					<regex>(\b@??ibase_fetch_object) *\(</regex>
+					<regex>(\b@??ibase_fetch_row) *\(</regex>
+					<regex>(\b@??ibase_field_info) *\(</regex>
+					<regex>(\b@??ibase_free_query) *\(</regex>
+					<regex>(\b@??ibase_free_result) *\(</regex>
+					<regex>(\b@??ibase_modify_user) *\(</regex>
+					<regex>(\b@??ibase_num_fields) *\(</regex>
+					<regex>(\b@??ibase_pconnect) *\(</regex>
+					<regex>(\b@??ibase_prepare) *\(</regex>
+					<regex>(\b@??ibase_query) *\(</regex>
+					<regex>(\b@??ibase_rollback) *\(</regex>
+					<regex>(\b@??ibase_timefmt) *\(</regex>
+					<regex>(\b@??ibase_trans) *\(</regex>
+					<regex>(\b@??icap_create_calendar) *\(</regex>
+					<regex>(\b@??icap_delete_calendar) *\(</regex>
+					<regex>(\b@??icap_delete_event) *\(</regex>
+					<regex>(\b@??icap_fetch_event) *\(</regex>
+					<regex>(\b@??icap_list_alarms) *\(</regex>
+					<regex>(\b@??icap_list_events) *\(</regex>
+					<regex>(\b@??icap_open) *\(</regex>
+					<regex>(\b@??icap_popen) *\(</regex>
+					<regex>(\b@??icap_rename_calendar) *\(</regex>
+					<regex>(\b@??icap_reopen) *\(</regex>
+					<regex>(\b@??icap_snooze) *\(</regex>
+					<regex>(\b@??icap_store_event) *\(</regex>
+					<regex>(\b@??iconv_get_encoding) *\(</regex>
+					<regex>(\b@??iconv_mime_decode) *\(</regex>
+					<regex>(\b@??iconv_mime_encode) *\(</regex>
+					<regex>(\b@??iconv_set_encoding) *\(</regex>
+					<regex>(\b@??iconv_strlen) *\(</regex>
+					<regex>(\b@??iconv_strpos) *\(</regex>
+					<regex>(\b@??iconv) *\(</regex>
+					<regex>(\b@??iconv_strrpos) *\(</regex>
+					<regex>(\b@??iconv_substr) *\(</regex>
+					<regex>(\b@??idate) *\(</regex>
+					<regex>(\b@??ifx_affected_rows) *\(</regex>
+					<regex>(\b@??ifx_blobinfile_mode) *\(</regex>
+					<regex>(\b@??ifx_byteasvarchar) *\(</regex>
+					<regex>(\b@??ifx_close) *\(</regex>
+					<regex>(\b@??ifx_connect) *\(</regex>
+					<regex>(\b@??ifx_copy_blob) *\(</regex>
+					<regex>(\b@??ifx_create_blob) *\(</regex>
+					<regex>(\b@??ifx_create_char) *\(</regex>
+					<regex>(\b@??ifx_create_db) *\(</regex>
+					<regex>(\b@??ifx_do) *\(</regex>
+					<regex>(\b@??ifx_drop_db) *\(</regex>
+					<regex>(\b@??ifx_errormsg) *\(</regex>
+					<regex>(\b@??ifx_error) *\(</regex>
+					<regex>(\b@??ifx_fetch_object) *\(</regex>
+					<regex>(\b@??ifx_fetch_row) *\(</regex>
+					<regex>(\b@??ifx_fieldproperties) *\(</regex>
+					<regex>(\b@??ifx_fieldtypes) *\(</regex>
+					<regex>(\b@??ifx_free_blob) *\(</regex>
+					<regex>(\b@??ifx_free_char) *\(</regex>
+					<regex>(\b@??ifx_free_result) *\(</regex>
+					<regex>(\b@??ifx_get_blob) *\(</regex>
+					<regex>(\b@??ifx_get_char) *\(</regex>
+					<regex>(\b@??ifx_getsqlca) *\(</regex>
+					<regex>(\b@??ifx_htmltbl_result) *\(</regex>
+					<regex>(\b@??ifx_nullformat) *\(</regex>
+					<regex>(\b@??ifx_num_fields) *\(</regex>
+					<regex>(\b@??ifx_num_rows) *\(</regex>
+					<regex>(\b@??ifx_pconnect) *\(</regex>
+					<regex>(\b@??ifx_prepare) *\(</regex>
+					<regex>(\b@??ifx_query) *\(</regex>
+					<regex>(\b@??ifx_result) *\(</regex>
+					<regex>(\b@??ifx_textasvarchar) *\(</regex>
+					<regex>(\b@??ifx_update_blob) *\(</regex>
+					<regex>(\b@??ifx_update_char) *\(</regex>
+					<regex>(\b@??ifxus_close_slob) *\(</regex>
+					<regex>(\b@??ifxus_create_slob) *\(</regex>
+					<regex>(\b@??ifxus_free_slob) *\(</regex>
+					<regex>(\b@??ifxus_open_slob) *\(</regex>
+					<regex>(\b@??ifxus_read_slob) *\(</regex>
+					<regex>(\b@??ifxus_seek_slob) *\(</regex>
+					<regex>(\b@??ifxus_tell_slob) *\(</regex>
+					<regex>(\b@??ifxus_write_slob) *\(</regex>
+					<regex>(\b@??ignore_user_abort) *\(</regex>
+					<regex>(\b@??image2wbmp) *\(</regex>
+					<regex>(\b@??image_type_to_mime_type) *\(</regex>
+					<regex>(\b@??imagealphablending) *\(</regex>
+					<regex>(\b@??imageantialias) *\(</regex>
+					<regex>(\b@??imagearc) *\(</regex>
+					<regex>(\b@??imagecharup) *\(</regex>
+					<regex>(\b@??imagechar) *\(</regex>
+					<regex>(\b@??imagecolorallocatealpha) *\(</regex>
+					<regex>(\b@??imagecolorallocate) *\(</regex>
+					<regex>(\b@??imagecolorat) *\(</regex>
+					<regex>(\b@??imagecolorclosestalpha) *\(</regex>
+					<regex>(\b@??imagecolorclosest) *\(</regex>
+					<regex>(\b@??imagecolorclosesthwb) *\(</regex>
+					<regex>(\b@??imagecolordeallocate) *\(</regex>
+					<regex>(\b@??imagecolorexactalpha) *\(</regex>
+					<regex>(\b@??imagecolorexact) *\(</regex>
+					<regex>(\b@??imagecolormatch) *\(</regex>
+					<regex>(\b@??imagecolorresolvealpha) *\(</regex>
+					<regex>(\b@??imagecolorresolve) *\(</regex>
+					<regex>(\b@??imagecolorset) *\(</regex>
+					<regex>(\b@??imagecolorsforindex) *\(</regex>
+					<regex>(\b@??imagecolorstotal) *\(</regex>
+					<regex>(\b@??imagecolortransparent) *\(</regex>
+					<regex>(\b@??imagecopymerge) *\(</regex>
+					<regex>(\b@??imagecopymergegray) *\(</regex>
+					<regex>(\b@??imagecopyresampled) *\(</regex>
+					<regex>(\b@??imagecopyresized) *\(</regex>
+					<regex>(\b@??imagecopy) *\(</regex>
+					<regex>(\b@??imagecreatefromgd2) *\(</regex>
+					<regex>(\b@??imagecreatefromgd) *\(</regex>
+					<regex>(\b@??imagecreatefromgd2part) *\(</regex>
+					<regex>(\b@??imagecreatefromgif) *\(</regex>
+					<regex>(\b@??imagecreatefromjpeg) *\(</regex>
+					<regex>(\b@??imagecreatefrompng) *\(</regex>
+					<regex>(\b@??imagecreate) *\(</regex>
+					<regex>(\b@??imagecreatefromstring) *\(</regex>
+					<regex>(\b@??imagecreatefromwbmp) *\(</regex>
+					<regex>(\b@??imagecreatefromxbm) *\(</regex>
+					<regex>(\b@??imagecreatefromxpm) *\(</regex>
+					<regex>(\b@??imagecreatetruecolor) *\(</regex>
+					<regex>(\b@??imagedashedline) *\(</regex>
+					<regex>(\b@??imagedestroy) *\(</regex>
+					<regex>(\b@??imageellipse) *\(</regex>
+					<regex>(\b@??imagefilledpolygon) *\(</regex>
+					<regex>(\b@??imagefilledrectangle) *\(</regex>
+					<regex>(\b@??imagefilltoborder) *\(</regex>
+					<regex>(\b@??imagefill) *\(</regex>
+					<regex>(\b@??imagefilledarc) *\(</regex>
+					<regex>(\b@??imagefilledellipse) *\(</regex>
+					<regex>(\b@??imagefilter) *\(</regex>
+					<regex>(\b@??imagefontheight) *\(</regex>
+					<regex>(\b@??imagefontwidth) *\(</regex>
+					<regex>(\b@??imageftbbox) *\(</regex>
+					<regex>(\b@??imagefttext) *\(</regex>
+					<regex>(\b@??imagegammacorrect) *\(</regex>
+					<regex>(\b@??imagegd2) *\(</regex>
+					<regex>(\b@??imagegd) *\(</regex>
+					<regex>(\b@??imagegif) *\(</regex>
+					<regex>(\b@??imageinterlace) *\(</regex>
+					<regex>(\b@??imageistruecolor) *\(</regex>
+					<regex>(\b@??imagejpeg) *\(</regex>
+					<regex>(\b@??imagelayereffect) *\(</regex>
+					<regex>(\b@??imageline) *\(</regex>
+					<regex>(\b@??imageloadfont) *\(</regex>
+					<regex>(\b@??imagepalettecopy) *\(</regex>
+					<regex>(\b@??imagepng) *\(</regex>
+					<regex>(\b@??imagepolygon) *\(</regex>
+					<regex>(\b@??imagepsbbox) *\(</regex>
+					<regex>(\b@??imagepscopyfont) *\(</regex>
+					<regex>(\b@??imagepsencodefont) *\(</regex>
+					<regex>(\b@??imagepsextendfont) *\(</regex>
+					<regex>(\b@??imagepsfreefont) *\(</regex>
+					<regex>(\b@??imagepsloadfont) *\(</regex>
+					<regex>(\b@??imagepsslantfont) *\(</regex>
+					<regex>(\b@??imagepstext) *\(</regex>
+					<regex>(\b@??imagerectangle) *\(</regex>
+					<regex>(\b@??imagerotate) *\(</regex>
+					<regex>(\b@??imagesavealpha) *\(</regex>
+					<regex>(\b@??imagesetbrush) *\(</regex>
+					<regex>(\b@??imagesetpixel) *\(</regex>
+					<regex>(\b@??imagesetstyle) *\(</regex>
+					<regex>(\b@??imagesetthickness) *\(</regex>
+					<regex>(\b@??imagesettile) *\(</regex>
+					<regex>(\b@??imagestringup) *\(</regex>
+					<regex>(\b@??imagestring) *\(</regex>
+					<regex>(\b@??imagesx) *\(</regex>
+					<regex>(\b@??imagesy) *\(</regex>
+					<regex>(\b@??imagetruecolortopalette) *\(</regex>
+					<regex>(\b@??imagettfbbox) *\(</regex>
+					<regex>(\b@??imagettftext) *\(</regex>
+					<regex>(\b@??imagetypes) *\(</regex>
+					<regex>(\b@??imagewbmp) *\(</regex>
+					<regex>(\b@??imap_8bit) *\(</regex>
+					<regex>(\b@??imap_alerts) *\(</regex>
+					<regex>(\b@??imap_append) *\(</regex>
+					<regex>(\b@??imap_base64) *\(</regex>
+					<regex>(\b@??imap_binary) *\(</regex>
+					<regex>(\b@??imap_bodystruct) *\(</regex>
+					<regex>(\b@??imap_body) *\(</regex>
+					<regex>(\b@??imap_check) *\(</regex>
+					<regex>(\b@??imap_clearflag_full) *\(</regex>
+					<regex>(\b@??imap_close) *\(</regex>
+					<regex>(\b@??imap_createmailbox) *\(</regex>
+					<regex>(\b@??imap_create) *\(</regex>
+					<regex>(\b@??imap_delete) *\(</regex>
+					<regex>(\b@??imap_deletemailbox) *\(</regex>
+					<regex>(\b@??imap_errors) *\(</regex>
+					<regex>(\b@??imap_expunge) *\(</regex>
+					<regex>(\b@??imap_fetch_overview) *\(</regex>
+					<regex>(\b@??imap_fetchbody) *\(</regex>
+					<regex>(\b@??imap_fetchheader) *\(</regex>
+					<regex>(\b@??imap_fetchstructure) *\(</regex>
+					<regex>(\b@??imap_fetchtext) *\(</regex>
+					<regex>(\b@??imap_get_quotaroot) *\(</regex>
+					<regex>(\b@??imap_get_quota) *\(</regex>
+					<regex>(\b@??imap_getmailboxes) *\(</regex>
+					<regex>(\b@??imap_getsubscribed) *\(</regex>
+					<regex>(\b@??imap_headerinfo) *\(</regex>
+					<regex>(\b@??imap_headers) *\(</regex>
+					<regex>(\b@??imap_header) *\(</regex>
+					<regex>(\b@??imap_last_error) *\(</regex>
+					<regex>(\b@??imap_listsubscribed) *\(</regex>
+					<regex>(\b@??imap_list) *\(</regex>
+					<regex>(\b@??imap_listmailbox) *\(</regex>
+					<regex>(\b@??imap_lsub) *\(</regex>
+					<regex>(\b@??imap_mail_compose) *\(</regex>
+					<regex>(\b@??imap_mail) *\(</regex>
+					<regex>(\b@??imap_mail_copy) *\(</regex>
+					<regex>(\b@??imap_mail_move) *\(</regex>
+					<regex>(\b@??imap_mailboxmsginfo) *\(</regex>
+					<regex>(\b@??imap_mime_header_decode) *\(</regex>
+					<regex>(\b@??imap_msgno) *\(</regex>
+					<regex>(\b@??imap_num_msg) *\(</regex>
+					<regex>(\b@??imap_num_recent) *\(</regex>
+					<regex>(\b@??imap_open) *\(</regex>
+					<regex>(\b@??imap_ping) *\(</regex>
+					<regex>(\b@??imap_popen) *\(</regex>
+					<regex>(\b@??imap_qprint) *\(</regex>
+					<regex>(\b@??imap_renamemailbox) *\(</regex>
+					<regex>(\b@??imap_rename) *\(</regex>
+					<regex>(\b@??imap_reopen) *\(</regex>
+					<regex>(\b@??imap_rfc822_parse_adrlist) *\(</regex>
+					<regex>(\b@??imap_rfc822_parse_headers) *\(</regex>
+					<regex>(\b@??imap_rfc822_write_address) *\(</regex>
+					<regex>(\b@??imap_scanmailbox) *\(</regex>
+					<regex>(\b@??imap_scan) *\(</regex>
+					<regex>(\b@??imap_search) *\(</regex>
+					<regex>(\b@??imap_set_quota) *\(</regex>
+					<regex>(\b@??imap_setacl) *\(</regex>
+					<regex>(\b@??imap_setflag_full) *\(</regex>
+					<regex>(\b@??imap_sort) *\(</regex>
+					<regex>(\b@??imap_status) *\(</regex>
+					<regex>(\b@??imap_subscribe) *\(</regex>
+					<regex>(\b@??imap_thread) *\(</regex>
+					<regex>(\b@??imap_uid) *\(</regex>
+					<regex>(\b@??imap_undelete) *\(</regex>
+					<regex>(\b@??imap_unsubscribe) *\(</regex>
+					<regex>(\b@??imap_utf7_decode) *\(</regex>
+					<regex>(\b@??imap_utf7_encode) *\(</regex>
+					<regex>(\b@??imap_utf8) *\(</regex>
+					<regex>(\b@??implode) *\(</regex>
+					<regex>(\b@??import_request_variables) *\(</regex>
+					<regex>(\b@??imsp_abook_create) *\(</regex>
+					<regex>(\b@??imsp_abook_deleteent) *\(</regex>
+					<regex>(\b@??imsp_abook_delete) *\(</regex>
+					<regex>(\b@??imsp_abook_expand) *\(</regex>
+					<regex>(\b@??imsp_abook_fetch) *\(</regex>
+					<regex>(\b@??imsp_abook_find) *\(</regex>
+					<regex>(\b@??imsp_abook_getlist) *\(</regex>
+					<regex>(\b@??imsp_abook_lock) *\(</regex>
+					<regex>(\b@??imsp_abook_rename) *\(</regex>
+					<regex>(\b@??imsp_abook_search) *\(</regex>
+					<regex>(\b@??imsp_abook_store) *\(</regex>
+					<regex>(\b@??imsp_abook_unlock) *\(</regex>
+					<regex>(\b@??imsp_close) *\(</regex>
+					<regex>(\b@??imsp_open) *\(</regex>
+					<regex>(\b@??imsp_option_get) *\(</regex>
+					<regex>(\b@??imsp_option_set) *\(</regex>
+					<regex>(\b@??imsp_option_unset) *\(</regex>
+					<regex>(\b@??in_array) *\(</regex>
+					<regex>(\b@??info) *\(</regex>
+					<regex>(\b@??ingres_autocommit) *\(</regex>
+					<regex>(\b@??ingres_close) *\(</regex>
+					<regex>(\b@??ingres_commit) *\(</regex>
+					<regex>(\b@??ingres_connect) *\(</regex>
+					<regex>(\b@??ingres_fetch_array) *\(</regex>
+					<regex>(\b@??ingres_fetch_object) *\(</regex>
+					<regex>(\b@??ingres_fetch_row) *\(</regex>
+					<regex>(\b@??ingres_field_length) *\(</regex>
+					<regex>(\b@??ingres_field_name) *\(</regex>
+					<regex>(\b@??ingres_field_nullable) *\(</regex>
+					<regex>(\b@??ingres_field_precision) *\(</regex>
+					<regex>(\b@??ingres_field_scale) *\(</regex>
+					<regex>(\b@??ingres_field_type) *\(</regex>
+					<regex>(\b@??ingres_num_fields) *\(</regex>
+					<regex>(\b@??ingres_num_rows) *\(</regex>
+					<regex>(\b@??ingres_pconnect) *\(</regex>
+					<regex>(\b@??ingres_query) *\(</regex>
+					<regex>(\b@??ingres_rollback) *\(</regex>
+					<regex>(\b@??ini_alter) *\(</regex>
+					<regex>(\b@??ini_get_all) *\(</regex>
+					<regex>(\b@??ini_get) *\(</regex>
+					<regex>(\b@??ini_restore) *\(</regex>
+					<regex>(\b@??ini_set) *\(</regex>
+					<regex>(\b@??init) *\(</regex>
+					<regex>(\b@??insert_id) *\(</regex>
+					<regex>(\b@??intval) *\(</regex>
+					<regex>(\b@??ip2long) *\(</regex>
+					<regex>(\b@??iptcembed) *\(</regex>
+					<regex>(\b@??iptcparse) *\(</regex>
+					<regex>(\b@??ircg_channel_mode) *\(</regex>
+					<regex>(\b@??ircg_disconnect) *\(</regex>
+					<regex>(\b@??ircg_eval_ecmascript_params) *\(</regex>
+					<regex>(\b@??ircg_fetch_error_msg) *\(</regex>
+					<regex>(\b@??ircg_get_username) *\(</regex>
+					<regex>(\b@??ircg_html_encode) *\(</regex>
+					<regex>(\b@??ircg_ignore_add) *\(</regex>
+					<regex>(\b@??ircg_ignore_del) *\(</regex>
+					<regex>(\b@??ircg_invite) *\(</regex>
+					<regex>(\b@??ircg_is_conn_alive) *\(</regex>
+					<regex>(\b@??ircg_join) *\(</regex>
+					<regex>(\b@??ircg_kick) *\(</regex>
+					<regex>(\b@??ircg_lookup_format_messages) *\(</regex>
+					<regex>(\b@??ircg_msg) *\(</regex>
+					<regex>(\b@??ircg_nickname_escape) *\(</regex>
+					<regex>(\b@??ircg_nick) *\(</regex>
+					<regex>(\b@??ircg_nickname_unescape) *\(</regex>
+					<regex>(\b@??ircg_notice) *\(</regex>
+					<regex>(\b@??ircg_part) *\(</regex>
+					<regex>(\b@??ircg_pconnect) *\(</regex>
+					<regex>(\b@??ircg_register_format_messages) *\(</regex>
+					<regex>(\b@??ircg_set_current) *\(</regex>
+					<regex>(\b@??ircg_set_file) *\(</regex>
+					<regex>(\b@??ircg_set_on_die) *\(</regex>
+					<regex>(\b@??ircg_topic) *\(</regex>
+					<regex>(\b@??ircg_whois) *\(</regex>
+					<regex>(\b@??ircg_who) *\(</regex>
+					<regex>(\b@??is_a) *\(</regex>
+					<regex>(\b@??is_array) *\(</regex>
+					<regex>(\b@??is_bool) *\(</regex>
+					<regex>(\b@??is_callable) *\(</regex>
+					<regex>(\b@??is_dir) *\(</regex>
+					<regex>(\b@??is_double) *\(</regex>
+					<regex>(\b@??is_executable) *\(</regex>
+					<regex>(\b@??is_file) *\(</regex>
+					<regex>(\b@??is_finite) *\(</regex>
+					<regex>(\b@??is_float) *\(</regex>
+					<regex>(\b@??is_infinite) *\(</regex>
+					<regex>(\b@??is_integer) *\(</regex>
+					<regex>(\b@??is_int) *\(</regex>
+					<regex>(\b@??is_link) *\(</regex>
+					<regex>(\b@??is_long) *\(</regex>
+					<regex>(\b@??is_nan) *\(</regex>
+					<regex>(\b@??is_null) *\(</regex>
+					<regex>(\b@??is_numeric) *\(</regex>
+					<regex>(\b@??is_object) *\(</regex>
+					<regex>(\b@??is_readable) *\(</regex>
+					<regex>(\b@??is_real) *\(</regex>
+					<regex>(\b@??is_resource) *\(</regex>
+					<regex>(\b@??is_scalar) *\(</regex>
+					<regex>(\b@??is_string) *\(</regex>
+					<regex>(\b@??is_subclass_of) *\(</regex>
+					<regex>(\b@??is_uploaded_file) *\(</regex>
+					<regex>(\b@??is_writable) *\(</regex>
+					<regex>(\b@??is_writeable) *\(</regex>
+					<regex>(\b@??java_last_exception_clear) *\(</regex>
+					<regex>(\b@??java_last_exception_get) *\(</regex>
+					<regex>(\b@??jddayofweek) *\(</regex>
+					<regex>(\b@??jdmonthname) *\(</regex>
+					<regex>(\b@??jdtofrench) *\(</regex>
+					<regex>(\b@??jdtogregorian) *\(</regex>
+					<regex>(\b@??jdtojewish) *\(</regex>
+					<regex>(\b@??jdtojulian) *\(</regex>
+					<regex>(\b@??jdtounix) *\(</regex>
+					<regex>(\b@??jewishtojd) *\(</regex>
+					<regex>(\b@??join) *\(</regex>
+					<regex>(\b@??jpeg2wbmp) *\(</regex>
+					<regex>(\b@??juliantojd) *\(</regex>
+					<regex>(\b@??key_exists) *\(</regex>
+					<regex>(\b@??key) *\(</regex>
+					<regex>(\b@??kill) *\(</regex>
+					<regex>(\b@??krsort) *\(</regex>
+					<regex>(\b@??ksort) *\(</regex>
+					<regex>(\b@??labelframe) *\(</regex>
+					<regex>(\b@??lcg_value) *\(</regex>
+					<regex>(\b@??ldap_8859_to_t61) *\(</regex>
+					<regex>(\b@??ldap_add) *\(</regex>
+					<regex>(\b@??ldap_bind) *\(</regex>
+					<regex>(\b@??ldap_close) *\(</regex>
+					<regex>(\b@??ldap_compare) *\(</regex>
+					<regex>(\b@??ldap_connect) *\(</regex>
+					<regex>(\b@??ldap_count_entries) *\(</regex>
+					<regex>(\b@??ldap_delete) *\(</regex>
+					<regex>(\b@??ldap_dn2ufn) *\(</regex>
+					<regex>(\b@??ldap_err2str) *\(</regex>
+					<regex>(\b@??ldap_errno) *\(</regex>
+					<regex>(\b@??ldap_error) *\(</regex>
+					<regex>(\b@??ldap_explode_dn) *\(</regex>
+					<regex>(\b@??ldap_first_attribute) *\(</regex>
+					<regex>(\b@??ldap_first_entry) *\(</regex>
+					<regex>(\b@??ldap_first_reference) *\(</regex>
+					<regex>(\b@??ldap_free_entry) *\(</regex>
+					<regex>(\b@??ldap_free_result) *\(</regex>
+					<regex>(\b@??ldap_get_attributes) *\(</regex>
+					<regex>(\b@??ldap_get_dn) *\(</regex>
+					<regex>(\b@??ldap_get_entries) *\(</regex>
+					<regex>(\b@??ldap_get_option) *\(</regex>
+					<regex>(\b@??ldap_get_values_len) *\(</regex>
+					<regex>(\b@??ldap_get_values) *\(</regex>
+					<regex>(\b@??ldap_list) *\(</regex>
+					<regex>(\b@??ldap_mod_add) *\(</regex>
+					<regex>(\b@??ldap_mod_del) *\(</regex>
+					<regex>(\b@??ldap_mod_replace) *\(</regex>
+					<regex>(\b@??ldap_modify) *\(</regex>
+					<regex>(\b@??ldap_next_attribute) *\(</regex>
+					<regex>(\b@??ldap_next_entry) *\(</regex>
+					<regex>(\b@??ldap_next_reference) *\(</regex>
+					<regex>(\b@??ldap_parse_reference) *\(</regex>
+					<regex>(\b@??ldap_parse_result) *\(</regex>
+					<regex>(\b@??ldap_read) *\(</regex>
+					<regex>(\b@??ldap_rename) *\(</regex>
+					<regex>(\b@??ldap_search) *\(</regex>
+					<regex>(\b@??ldap_set_option) *\(</regex>
+					<regex>(\b@??ldap_set_rebind_proc) *\(</regex>
+					<regex>(\b@??ldap_sort) *\(</regex>
+					<regex>(\b@??ldap_start_tls) *\(</regex>
+					<regex>(\b@??ldap_str2err) *\(</regex>
+					<regex>(\b@??ldap_t61_to_8859) *\(</regex>
+					<regex>(\b@??ldap_unbind) *\(</regex>
+					<regex>(\b@??leak) *\(</regex>
+					<regex>(\b@??levenshtein) *\(</regex>
+					<regex>(\b@??linkinfo) *\(</regex>
+					<regex>(\b@??link) *\(</regex>
+					<regex>(\b@??listen) *\(</regex>
+					<regex>(\b@??localeconv) *\(</regex>
+					<regex>(\b@??localtime) *\(</regex>
+					<regex>(\b@??log) *\(</regex>
+					<regex>(\b@??log10) *\(</regex>
+					<regex>(\b@??log1p) *\(</regex>
+					<regex>(\b@??logas) *\(</regex>
+					<regex>(\b@??long2ip) *\(</regex>
+					<regex>(\b@??lstat) *\(</regex>
+					<regex>(\b@??ltrim) *\(</regex>
+					<regex>(\b@??magic_quotes_runtime) *\(</regex>
+					<regex>(\b@??magickdebug) *\(</regex>
+					<regex>(\b@??mailparse_determine_best_xfer_encoding) *\(</regex>
+					<regex>(\b@??mailparse_msg_create) *\(</regex>
+					<regex>(\b@??mailparse_msg_extract_part) *\(</regex>
+					<regex>(\b@??mailparse_msg_extract_part_file) *\(</regex>
+					<regex>(\b@??mailparse_msg_free) *\(</regex>
+					<regex>(\b@??mailparse_msg_get_part_data) *\(</regex>
+					<regex>(\b@??mailparse_msg_get_part) *\(</regex>
+					<regex>(\b@??mail) *\(</regex>
+					<regex>(\b@??mailparse_msg_get_structure) *\(</regex>
+					<regex>(\b@??mailparse_msg_parse) *\(</regex>
+					<regex>(\b@??mailparse_msg_parse_file) *\(</regex>
+					<regex>(\b@??mailparse_rfc822_parse_addresses) *\(</regex>
+					<regex>(\b@??mailparse_stream_encode) *\(</regex>
+					<regex>(\b@??master_query) *\(</regex>
+					<regex>(\b@??max) *\(</regex>
+					<regex>(\b@??mb_convert_case) *\(</regex>
+					<regex>(\b@??mb_convert_encoding) *\(</regex>
+					<regex>(\b@??mb_convert_kana) *\(</regex>
+					<regex>(\b@??mb_convert_variables) *\(</regex>
+					<regex>(\b@??mb_decode_mimeheader) *\(</regex>
+					<regex>(\b@??mb_decode_numericentity) *\(</regex>
+					<regex>(\b@??mb_detect_encoding) *\(</regex>
+					<regex>(\b@??mb_detect_order) *\(</regex>
+					<regex>(\b@??mb_encode_mimeheader) *\(</regex>
+					<regex>(\b@??mb_encode_numericentity) *\(</regex>
+					<regex>(\b@??mb_ereg_match) *\(</regex>
+					<regex>(\b@??mb_ereg_replace) *\(</regex>
+					<regex>(\b@??mb_ereg_search_getpos) *\(</regex>
+					<regex>(\b@??mb_ereg_search_getregs) *\(</regex>
+					<regex>(\b@??mb_ereg_search_init) *\(</regex>
+					<regex>(\b@??mb_ereg_search) *\(</regex>
+					<regex>(\b@??mb_ereg_search_pos) *\(</regex>
+					<regex>(\b@??mb_ereg_search_regs) *\(</regex>
+					<regex>(\b@??mb_ereg_search_setpos) *\(</regex>
+					<regex>(\b@??mb_eregi_replace) *\(</regex>
+					<regex>(\b@??mb_eregi) *\(</regex>
+					<regex>(\b@??mb_ereg) *\(</regex>
+					<regex>(\b@??mb_get_info) *\(</regex>
+					<regex>(\b@??mb_http_input) *\(</regex>
+					<regex>(\b@??mb_http_output) *\(</regex>
+					<regex>(\b@??mb_internal_encoding) *\(</regex>
+					<regex>(\b@??mb_language) *\(</regex>
+					<regex>(\b@??mb_output_handler) *\(</regex>
+					<regex>(\b@??mb_parse_str) *\(</regex>
+					<regex>(\b@??mb_preferred_mime_name) *\(</regex>
+					<regex>(\b@??mb_regex_encoding) *\(</regex>
+					<regex>(\b@??mb_regex_set_options) *\(</regex>
+					<regex>(\b@??mb_send_mail) *\(</regex>
+					<regex>(\b@??mb_split) *\(</regex>
+					<regex>(\b@??mb_strcut) *\(</regex>
+					<regex>(\b@??mb_strimwidth) *\(</regex>
+					<regex>(\b@??mb_strlen) *\(</regex>
+					<regex>(\b@??mb_strpos) *\(</regex>
+					<regex>(\b@??mb_strrpos) *\(</regex>
+					<regex>(\b@??mb_strtolower) *\(</regex>
+					<regex>(\b@??mb_strtoupper) *\(</regex>
+					<regex>(\b@??mb_strwidth) *\(</regex>
+					<regex>(\b@??mb_substitute_character) *\(</regex>
+					<regex>(\b@??mb_substr_count) *\(</regex>
+					<regex>(\b@??mb_substr) *\(</regex>
+					<regex>(\b@??mbereg_match) *\(</regex>
+					<regex>(\b@??mbereg_replace) *\(</regex>
+					<regex>(\b@??mbereg_search_init) *\(</regex>
+					<regex>(\b@??mbereg_search_pos) *\(</regex>
+					<regex>(\b@??mbereg_search_regs) *\(</regex>
+					<regex>(\b@??mbereg_search_setpos) *\(</regex>
+					<regex>(\b@??mbereg_search) *\(</regex>
+					<regex>(\b@??mberegi_replace) *\(</regex>
+					<regex>(\b@??mberegi) *\(</regex>
+					<regex>(\b@??mbereg) *\(</regex>
+					<regex>(\b@??mbereg_search_getpos) *\(</regex>
+					<regex>(\b@??mbereg_search_getregs) *\(</regex>
+					<regex>(\b@??mbregex_encoding) *\(</regex>
+					<regex>(\b@??mbsplit) *\(</regex>
+					<regex>(\b@??mbstrcut) *\(</regex>
+					<regex>(\b@??mbstrlen) *\(</regex>
+					<regex>(\b@??mbstrpos) *\(</regex>
+					<regex>(\b@??mbstrrpos) *\(</regex>
+					<regex>(\b@??mbsubstr) *\(</regex>
+					<regex>(\b@??mcal_append_event) *\(</regex>
+					<regex>(\b@??mcal_close) *\(</regex>
+					<regex>(\b@??mcal_create_calendar) *\(</regex>
+					<regex>(\b@??mcal_date_compare) *\(</regex>
+					<regex>(\b@??mcal_date_valid) *\(</regex>
+					<regex>(\b@??mcal_day_of_week) *\(</regex>
+					<regex>(\b@??mcal_day_of_year) *\(</regex>
+					<regex>(\b@??mcal_days_in_month) *\(</regex>
+					<regex>(\b@??mcal_delete_calendar) *\(</regex>
+					<regex>(\b@??mcal_delete_event) *\(</regex>
+					<regex>(\b@??mcal_event_add_attribute) *\(</regex>
+					<regex>(\b@??mcal_event_init) *\(</regex>
+					<regex>(\b@??mcal_event_set_alarm) *\(</regex>
+					<regex>(\b@??mcal_event_set_category) *\(</regex>
+					<regex>(\b@??mcal_event_set_class) *\(</regex>
+					<regex>(\b@??mcal_event_set_description) *\(</regex>
+					<regex>(\b@??mcal_event_set_end_now) *\(</regex>
+					<regex>(\b@??mcal_event_set_end) *\(</regex>
+					<regex>(\b@??mcal_event_set_recur_daily) *\(</regex>
+					<regex>(\b@??mcal_event_set_recur_monthly_mday) *\(</regex>
+					<regex>(\b@??mcal_event_set_recur_monthly_wday) *\(</regex>
+					<regex>(\b@??mcal_event_set_recur_none) *\(</regex>
+					<regex>(\b@??mcal_event_set_recur_weekly) *\(</regex>
+					<regex>(\b@??mcal_event_set_recur_yearly) *\(</regex>
+					<regex>(\b@??mcal_event_set_start_now) *\(</regex>
+					<regex>(\b@??mcal_event_set_start) *\(</regex>
+					<regex>(\b@??mcal_event_set_title) *\(</regex>
+					<regex>(\b@??mcal_fetch_current_stream_event) *\(</regex>
+					<regex>(\b@??mcal_fetch_event) *\(</regex>
+					<regex>(\b@??mcal_is_leap_year) *\(</regex>
+					<regex>(\b@??mcal_list_alarms) *\(</regex>
+					<regex>(\b@??mcal_list_events) *\(</regex>
+					<regex>(\b@??mcal_next_recurrence) *\(</regex>
+					<regex>(\b@??mcal_open) *\(</regex>
+					<regex>(\b@??mcal_popen) *\(</regex>
+					<regex>(\b@??mcal_rename_calendar) *\(</regex>
+					<regex>(\b@??mcal_reopen) *\(</regex>
+					<regex>(\b@??mcal_snooze) *\(</regex>
+					<regex>(\b@??mcal_store_event) *\(</regex>
+					<regex>(\b@??mcal_time_valid) *\(</regex>
+					<regex>(\b@??mcal_week_of_year) *\(</regex>
+					<regex>(\b@??mck_base64_decode) *\(</regex>
+					<regex>(\b@??mck_base64_encode) *\(</regex>
+					<regex>(\b@??mck_decr) *\(</regex>
+					<regex>(\b@??mck_encr) *\(</regex>
+					<regex>(\b@??mcrypt_cbc) *\(</regex>
+					<regex>(\b@??mcrypt_cfb) *\(</regex>
+					<regex>(\b@??mcrypt_create_iv) *\(</regex>
+					<regex>(\b@??mcrypt_decrypt) *\(</regex>
+					<regex>(\b@??mcrypt_ecb) *\(</regex>
+					<regex>(\b@??mcrypt_enc_get_algorithms_name) *\(</regex>
+					<regex>(\b@??mcrypt_enc_get_block_size) *\(</regex>
+					<regex>(\b@??mcrypt_enc_get_iv_size) *\(</regex>
+					<regex>(\b@??mcrypt_enc_get_key_size) *\(</regex>
+					<regex>(\b@??mcrypt_enc_get_modes_name) *\(</regex>
+					<regex>(\b@??mcrypt_enc_get_supported_key_sizes) *\(</regex>
+					<regex>(\b@??mcrypt_enc_is_block_algorithm_mode) *\(</regex>
+					<regex>(\b@??mcrypt_enc_is_block_algorithm) *\(</regex>
+					<regex>(\b@??mcrypt_enc_is_block_mode) *\(</regex>
+					<regex>(\b@??mcrypt_enc_self_test) *\(</regex>
+					<regex>(\b@??mcrypt_encrypt) *\(</regex>
+					<regex>(\b@??mcrypt_generic_deinit) *\(</regex>
+					<regex>(\b@??mcrypt_generic) *\(</regex>
+					<regex>(\b@??mcrypt_generic_end) *\(</regex>
+					<regex>(\b@??mcrypt_generic_init) *\(</regex>
+					<regex>(\b@??mcrypt_get_block_size) *\(</regex>
+					<regex>(\b@??mcrypt_get_cipher_name) *\(</regex>
+					<regex>(\b@??mcrypt_get_iv_size) *\(</regex>
+					<regex>(\b@??mcrypt_get_key_size) *\(</regex>
+					<regex>(\b@??mcrypt_list_algorithms) *\(</regex>
+					<regex>(\b@??mcrypt_list_modes) *\(</regex>
+					<regex>(\b@??mcrypt_module_close) *\(</regex>
+					<regex>(\b@??mcrypt_module_get_algo_block_size) *\(</regex>
+					<regex>(\b@??mcrypt_module_get_algo_key_size) *\(</regex>
+					<regex>(\b@??mcrypt_module_get_supported_key_sizes) *\(</regex>
+					<regex>(\b@??mcrypt_module_is_block_algorithm) *\(</regex>
+					<regex>(\b@??mcrypt_module_is_block_algorithm_mode) *\(</regex>
+					<regex>(\b@??mcrypt_module_is_block_mode) *\(</regex>
+					<regex>(\b@??mcrypt_module_open) *\(</regex>
+					<regex>(\b@??mcrypt_module_self_test) *\(</regex>
+					<regex>(\b@??mcrypt_ofb) *\(</regex>
+					<regex>(\b@??mcve_adduserarg) *\(</regex>
+					<regex>(\b@??mcve_adduser) *\(</regex>
+					<regex>(\b@??mcve_bt) *\(</regex>
+					<regex>(\b@??mcve_checkstatus) *\(</regex>
+					<regex>(\b@??mcve_chkpwd) *\(</regex>
+					<regex>(\b@??mcve_chngpwd) *\(</regex>
+					<regex>(\b@??mcve_completeauthorizations) *\(</regex>
+					<regex>(\b@??mcve_connect) *\(</regex>
+					<regex>(\b@??mcve_connectionerror) *\(</regex>
+					<regex>(\b@??mcve_deleteresponse) *\(</regex>
+					<regex>(\b@??mcve_deletetrans) *\(</regex>
+					<regex>(\b@??mcve_deleteusersetup) *\(</regex>
+					<regex>(\b@??mcve_deluser) *\(</regex>
+					<regex>(\b@??mcve_destroyconn) *\(</regex>
+					<regex>(\b@??mcve_destroyengine) *\(</regex>
+					<regex>(\b@??mcve_disableuser) *\(</regex>
+					<regex>(\b@??mcve_edituser) *\(</regex>
+					<regex>(\b@??mcve_enableuser) *\(</regex>
+					<regex>(\b@??mcve_force) *\(</regex>
+					<regex>(\b@??mcve_getcell) *\(</regex>
+					<regex>(\b@??mcve_getcellbynum) *\(</regex>
+					<regex>(\b@??mcve_getcommadelimited) *\(</regex>
+					<regex>(\b@??mcve_getheader) *\(</regex>
+					<regex>(\b@??mcve_getuserarg) *\(</regex>
+					<regex>(\b@??mcve_getuserparam) *\(</regex>
+					<regex>(\b@??mcve_gft) *\(</regex>
+					<regex>(\b@??mcve_gl) *\(</regex>
+					<regex>(\b@??mcve_gut) *\(</regex>
+					<regex>(\b@??mcve_initconn) *\(</regex>
+					<regex>(\b@??mcve_initengine) *\(</regex>
+					<regex>(\b@??mcve_initusersetup) *\(</regex>
+					<regex>(\b@??mcve_iscommadelimited) *\(</regex>
+					<regex>(\b@??mcve_liststats) *\(</regex>
+					<regex>(\b@??mcve_listusers) *\(</regex>
+					<regex>(\b@??mcve_maxconntimeout) *\(</regex>
+					<regex>(\b@??mcve_monitor) *\(</regex>
+					<regex>(\b@??mcve_numcolumns) *\(</regex>
+					<regex>(\b@??mcve_numrows) *\(</regex>
+					<regex>(\b@??mcve_override) *\(</regex>
+					<regex>(\b@??mcve_parsecommadelimited) *\(</regex>
+					<regex>(\b@??mcve_ping) *\(</regex>
+					<regex>(\b@??mcve_preauthcompletion) *\(</regex>
+					<regex>(\b@??mcve_preauth) *\(</regex>
+					<regex>(\b@??mcve_qc) *\(</regex>
+					<regex>(\b@??mcve_responseparam) *\(</regex>
+					<regex>(\b@??mcve_returncode) *\(</regex>
+					<regex>(\b@??mcve_returnstatus) *\(</regex>
+					<regex>(\b@??mcve_return) *\(</regex>
+					<regex>(\b@??mcve_sale) *\(</regex>
+					<regex>(\b@??mcve_setblocking) *\(</regex>
+					<regex>(\b@??mcve_setdropfile) *\(</regex>
+					<regex>(\b@??mcve_setip) *\(</regex>
+					<regex>(\b@??mcve_setssl) *\(</regex>
+					<regex>(\b@??mcve_settimeout) *\(</regex>
+					<regex>(\b@??mcve_settle) *\(</regex>
+					<regex>(\b@??mcve_text_avs) *\(</regex>
+					<regex>(\b@??mcve_text_code) *\(</regex>
+					<regex>(\b@??mcve_text_cv) *\(</regex>
+					<regex>(\b@??mcve_transactionauth) *\(</regex>
+					<regex>(\b@??mcve_transactionavs) *\(</regex>
+					<regex>(\b@??mcve_transactionbatch) *\(</regex>
+					<regex>(\b@??mcve_transactioncv) *\(</regex>
+					<regex>(\b@??mcve_transactionid) *\(</regex>
+					<regex>(\b@??mcve_transactionitem) *\(</regex>
+					<regex>(\b@??mcve_transactionssent) *\(</regex>
+					<regex>(\b@??mcve_transactiontext) *\(</regex>
+					<regex>(\b@??mcve_transinqueue) *\(</regex>
+					<regex>(\b@??mcve_transnew) *\(</regex>
+					<regex>(\b@??mcve_transparam) *\(</regex>
+					<regex>(\b@??mcve_transsend) *\(</regex>
+					<regex>(\b@??mcve_ub) *\(</regex>
+					<regex>(\b@??mcve_uwait) *\(</regex>
+					<regex>(\b@??mcve_verifyconnection) *\(</regex>
+					<regex>(\b@??mcve_verifysslcert) *\(</regex>
+					<regex>(\b@??mcve_void) *\(</regex>
+					<regex>(\b@??md5_file) *\(</regex>
+					<regex>(\b@??md5) *\(</regex>
+					<regex>(\b@??mdecrypt_generic) *\(</regex>
+					<regex>(\b@??memory_get_usage) *\(</regex>
+					<regex>(\b@??metaphone) *\(</regex>
+					<regex>(\b@??method_exists) *\(</regex>
+					<regex>(\b@??mhash_count) *\(</regex>
+					<regex>(\b@??mhash_get_block_size) *\(</regex>
+					<regex>(\b@??mhash_get_hash_name) *\(</regex>
+					<regex>(\b@??mhash) *\(</regex>
+					<regex>(\b@??mhash_keygen_s2k) *\(</regex>
+					<regex>(\b@??microtime) *\(</regex>
+					<regex>(\b@??mime_content_type) *\(</regex>
+					<regex>(\b@??min) *\(</regex>
+					<regex>(\b@??ming_setcubicthreshold) *\(</regex>
+					<regex>(\b@??ming_setscale) *\(</regex>
+					<regex>(\b@??ming_useswfversion) *\(</regex>
+					<regex>(\b@??mkdir) *\(</regex>
+					<regex>(\b@??mktime) *\(</regex>
+					<regex>(\b@??money_format) *\(</regex>
+					<regex>(\b@??move_uploaded_file) *\(</regex>
+					<regex>(\b@??move) *\(</regex>
+					<regex>(\b@??movepento) *\(</regex>
+					<regex>(\b@??movepen) *\(</regex>
+					<regex>(\b@??moveto) *\(</regex>
+					<regex>(\b@??msession_call) *\(</regex>
+					<regex>(\b@??msession_connect) *\(</regex>
+					<regex>(\b@??msession_count) *\(</regex>
+					<regex>(\b@??msession_create) *\(</regex>
+					<regex>(\b@??msession_ctl) *\(</regex>
+					<regex>(\b@??msession_destroy) *\(</regex>
+					<regex>(\b@??msession_disconnect) *\(</regex>
+					<regex>(\b@??msession_exec) *\(</regex>
+					<regex>(\b@??msession_find) *\(</regex>
+					<regex>(\b@??msession_get) *\(</regex>
+					<regex>(\b@??msession_get_array) *\(</regex>
+					<regex>(\b@??msession_get_data) *\(</regex>
+					<regex>(\b@??msession_inc) *\(</regex>
+					<regex>(\b@??msession_list) *\(</regex>
+					<regex>(\b@??msession_listvar) *\(</regex>
+					<regex>(\b@??msession_lock) *\(</regex>
+					<regex>(\b@??msession_ping) *\(</regex>
+					<regex>(\b@??msession_plugin) *\(</regex>
+					<regex>(\b@??msession_randstr) *\(</regex>
+					<regex>(\b@??msession_set_array) *\(</regex>
+					<regex>(\b@??msession_set) *\(</regex>
+					<regex>(\b@??msession_set_data) *\(</regex>
+					<regex>(\b@??msession_timeout) *\(</regex>
+					<regex>(\b@??msession_uniq) *\(</regex>
+					<regex>(\b@??msession_unlock) *\(</regex>
+					<regex>(\b@??msg_get_queue) *\(</regex>
+					<regex>(\b@??msg_receive) *\(</regex>
+					<regex>(\b@??msg_remove_queue) *\(</regex>
+					<regex>(\b@??msg_send) *\(</regex>
+					<regex>(\b@??msg_set_queue) *\(</regex>
+					<regex>(\b@??msg_stat_queue) *\(</regex>
+					<regex>(\b@??msql_affected_rows) *\(</regex>
+					<regex>(\b@??msql_close) *\(</regex>
+					<regex>(\b@??msql_connect) *\(</regex>
+					<regex>(\b@??msql_create_db) *\(</regex>
+					<regex>(\b@??msql_createdb) *\(</regex>
+					<regex>(\b@??msql_data_seek) *\(</regex>
+					<regex>(\b@??msql_db_query) *\(</regex>
+					<regex>(\b@??msql_dbname) *\(</regex>
+					<regex>(\b@??msql_drop_db) *\(</regex>
+					<regex>(\b@??msql_dropdb) *\(</regex>
+					<regex>(\b@??msql_error) *\(</regex>
+					<regex>(\b@??msql_fetch_array) *\(</regex>
+					<regex>(\b@??msql_fetch_field) *\(</regex>
+					<regex>(\b@??msql_fetch_object) *\(</regex>
+					<regex>(\b@??msql_fetch_row) *\(</regex>
+					<regex>(\b@??msql_field_flags) *\(</regex>
+					<regex>(\b@??msql_field_len) *\(</regex>
+					<regex>(\b@??msql_field_name) *\(</regex>
+					<regex>(\b@??msql_field_seek) *\(</regex>
+					<regex>(\b@??msql_field_table) *\(</regex>
+					<regex>(\b@??msql_field_type) *\(</regex>
+					<regex>(\b@??msql_fieldflags) *\(</regex>
+					<regex>(\b@??msql_fieldlen) *\(</regex>
+					<regex>(\b@??msql_fieldname) *\(</regex>
+					<regex>(\b@??msql_fieldtable) *\(</regex>
+					<regex>(\b@??msql_fieldtype) *\(</regex>
+					<regex>(\b@??msql_free_result) *\(</regex>
+					<regex>(\b@??msql_freeresult) *\(</regex>
+					<regex>(\b@??msql_list_dbs) *\(</regex>
+					<regex>(\b@??msql_list_fields) *\(</regex>
+					<regex>(\b@??msql_list_tables) *\(</regex>
+					<regex>(\b@??msql_listdbs) *\(</regex>
+					<regex>(\b@??msql_listfields) *\(</regex>
+					<regex>(\b@??msql_listtables) *\(</regex>
+					<regex>(\b@??msql_num_fields) *\(</regex>
+					<regex>(\b@??msql) *\(</regex>
+					<regex>(\b@??msql_num_rows) *\(</regex>
+					<regex>(\b@??msql_numfields) *\(</regex>
+					<regex>(\b@??msql_numrows) *\(</regex>
+					<regex>(\b@??msql_pconnect) *\(</regex>
+					<regex>(\b@??msql_query) *\(</regex>
+					<regex>(\b@??msql_regcase) *\(</regex>
+					<regex>(\b@??msql_result) *\(</regex>
+					<regex>(\b@??msql_select_db) *\(</regex>
+					<regex>(\b@??msql_selectdb) *\(</regex>
+					<regex>(\b@??msql_tablename) *\(</regex>
+					<regex>(\b@??mssql_affected_rows) *\(</regex>
+					<regex>(\b@??mssql_bind) *\(</regex>
+					<regex>(\b@??mssql_close) *\(</regex>
+					<regex>(\b@??mssql_connect) *\(</regex>
+					<regex>(\b@??mssql_data_seek) *\(</regex>
+					<regex>(\b@??mssql_deadlock_retry_count) *\(</regex>
+					<regex>(\b@??mssql_execute) *\(</regex>
+					<regex>(\b@??mssql_fetch_array) *\(</regex>
+					<regex>(\b@??mssql_fetch_assoc) *\(</regex>
+					<regex>(\b@??mssql_fetch_batch) *\(</regex>
+					<regex>(\b@??mssql_fetch_field) *\(</regex>
+					<regex>(\b@??mssql_fetch_object) *\(</regex>
+					<regex>(\b@??mssql_fetch_row) *\(</regex>
+					<regex>(\b@??mssql_field_length) *\(</regex>
+					<regex>(\b@??mssql_field_name) *\(</regex>
+					<regex>(\b@??mssql_field_seek) *\(</regex>
+					<regex>(\b@??mssql_field_type) *\(</regex>
+					<regex>(\b@??mssql_free_result) *\(</regex>
+					<regex>(\b@??mssql_free_statement) *\(</regex>
+					<regex>(\b@??mssql_get_last_message) *\(</regex>
+					<regex>(\b@??mssql_guid_string) *\(</regex>
+					<regex>(\b@??mssql_init) *\(</regex>
+					<regex>(\b@??mssql_min_client_severity) *\(</regex>
+					<regex>(\b@??mssql_min_error_severity) *\(</regex>
+					<regex>(\b@??mssql_min_message_severity) *\(</regex>
+					<regex>(\b@??mssql_min_server_severity) *\(</regex>
+					<regex>(\b@??mssql_next_result) *\(</regex>
+					<regex>(\b@??mssql_num_fields) *\(</regex>
+					<regex>(\b@??mssql_num_rows) *\(</regex>
+					<regex>(\b@??mssql_pconnect) *\(</regex>
+					<regex>(\b@??mssql_query) *\(</regex>
+					<regex>(\b@??mssql_result) *\(</regex>
+					<regex>(\b@??mssql_rows_affected) *\(</regex>
+					<regex>(\b@??mssql_select_db) *\(</regex>
+					<regex>(\b@??mssql_set_message_handler) *\(</regex>
+					<regex>(\b@??mssql_unbuffered_query) *\(</regex>
+					<regex>(\b@??mt_getrandmax) *\(</regex>
+					<regex>(\b@??mt_rand) *\(</regex>
+					<regex>(\b@??mt_srand) *\(</regex>
+					<regex>(\b@??multcolor) *\(</regex>
+					<regex>(\b@??muscat_close) *\(</regex>
+					<regex>(\b@??muscat_get) *\(</regex>
+					<regex>(\b@??muscat_give) *\(</regex>
+					<regex>(\b@??muscat_setup_net) *\(</regex>
+					<regex>(\b@??muscat_setup) *\(</regex>
+					<regex>(\b@??mysql_affected_rows) *\(</regex>
+					<regex>(\b@??mysql_change_user) *\(</regex>
+					<regex>(\b@??mysql_client_encoding) *\(</regex>
+					<regex>(\b@??mysql_close) *\(</regex>
+					<regex>(\b@??mysql_connect) *\(</regex>
+					<regex>(\b@??mysql_create_db) *\(</regex>
+					<regex>(\b@??mysql_createdb) *\(</regex>
+					<regex>(\b@??mysql_data_seek) *\(</regex>
+					<regex>(\b@??mysql_db_name) *\(</regex>
+					<regex>(\b@??mysql_db_query) *\(</regex>
+					<regex>(\b@??mysql_dbname) *\(</regex>
+					<regex>(\b@??mysql) *\(</regex>
+					<regex>(\b@??mysql_drop_db) *\(</regex>
+					<regex>(\b@??mysql_dropdb) *\(</regex>
+					<regex>(\b@??mysql_errno) *\(</regex>
+					<regex>(\b@??mysql_error) *\(</regex>
+					<regex>(\b@??mysql_escape_string) *\(</regex>
+					<regex>(\b@??mysql_fetch_array) *\(</regex>
+					<regex>(\b@??mysql_fetch_assoc) *\(</regex>
+					<regex>(\b@??mysql_fetch_field) *\(</regex>
+					<regex>(\b@??mysql_fetch_lengths) *\(</regex>
+					<regex>(\b@??mysql_fetch_object) *\(</regex>
+					<regex>(\b@??mysql_fetch_row) *\(</regex>
+					<regex>(\b@??mysql_field_flags) *\(</regex>
+					<regex>(\b@??mysql_field_len) *\(</regex>
+					<regex>(\b@??mysql_field_name) *\(</regex>
+					<regex>(\b@??mysql_field_seek) *\(</regex>
+					<regex>(\b@??mysql_field_table) *\(</regex>
+					<regex>(\b@??mysql_field_type) *\(</regex>
+					<regex>(\b@??mysql_fieldflags) *\(</regex>
+					<regex>(\b@??mysql_fieldlen) *\(</regex>
+					<regex>(\b@??mysql_fieldname) *\(</regex>
+					<regex>(\b@??mysql_fieldtable) *\(</regex>
+					<regex>(\b@??mysql_fieldtype) *\(</regex>
+					<regex>(\b@??mysql_free_result) *\(</regex>
+					<regex>(\b@??mysql_freeresult) *\(</regex>
+					<regex>(\b@??mysql_get_client_info) *\(</regex>
+					<regex>(\b@??mysql_get_host_info) *\(</regex>
+					<regex>(\b@??mysql_get_proto_info) *\(</regex>
+					<regex>(\b@??mysql_get_server_info) *\(</regex>
+					<regex>(\b@??mysql_info) *\(</regex>
+					<regex>(\b@??mysql_insert_id) *\(</regex>
+					<regex>(\b@??mysql_list_dbs) *\(</regex>
+					<regex>(\b@??mysql_list_fields) *\(</regex>
+					<regex>(\b@??mysql_list_processes) *\(</regex>
+					<regex>(\b@??mysql_list_tables) *\(</regex>
+					<regex>(\b@??mysql_listdbs) *\(</regex>
+					<regex>(\b@??mysql_listfields) *\(</regex>
+					<regex>(\b@??mysql_listtables) *\(</regex>
+					<regex>(\b@??mysql_num_fields) *\(</regex>
+					<regex>(\b@??mysql_num_rows) *\(</regex>
+					<regex>(\b@??mysql_numfields) *\(</regex>
+					<regex>(\b@??mysql_numrows) *\(</regex>
+					<regex>(\b@??mysql_pconnect) *\(</regex>
+					<regex>(\b@??mysql_ping) *\(</regex>
+					<regex>(\b@??mysql_query) *\(</regex>
+					<regex>(\b@??mysql_real_escape_string) *\(</regex>
+					<regex>(\b@??mysql_result) *\(</regex>
+					<regex>(\b@??mysql_select_db) *\(</regex>
+					<regex>(\b@??mysql_selectdb) *\(</regex>
+					<regex>(\b@??mysql_stat) *\(</regex>
+					<regex>(\b@??mysql_table_name) *\(</regex>
+					<regex>(\b@??mysql_tablename) *\(</regex>
+					<regex>(\b@??mysql_thread_id) *\(</regex>
+					<regex>(\b@??mysql_unbuffered_query) *\(</regex>
+					<regex>(\b@??mysqli_affected_rows) *\(</regex>
+					<regex>(\b@??mysqli_autocommit) *\(</regex>
+					<regex>(\b@??mysqli_bind_param) *\(</regex>
+					<regex>(\b@??mysqli_bind_result) *\(</regex>
+					<regex>(\b@??mysqli_change_user) *\(</regex>
+					<regex>(\b@??mysqli_character_set_name) *\(</regex>
+					<regex>(\b@??mysqli_client_encoding) *\(</regex>
+					<regex>(\b@??mysqli_close) *\(</regex>
+					<regex>(\b@??mysqli_commit) *\(</regex>
+					<regex>(\b@??mysqli_connect) *\(</regex>
+					<regex>(\b@??mysqli_data_seek) *\(</regex>
+					<regex>(\b@??mysqli_debug) *\(</regex>
+					<regex>(\b@??mysqli_disable_reads_from_master) *\(</regex>
+					<regex>(\b@??mysqli_disable_rpl_parse) *\(</regex>
+					<regex>(\b@??mysqli_dump_debug_info) *\(</regex>
+					<regex>(\b@??mysqli_enable_reads_from_master) *\(</regex>
+					<regex>(\b@??mysqli_enable_rpl_parse) *\(</regex>
+					<regex>(\b@??mysqli_errno) *\(</regex>
+					<regex>(\b@??mysqli_error) *\(</regex>
+					<regex>(\b@??mysqli_escape_string) *\(</regex>
+					<regex>(\b@??mysqli_execute) *\(</regex>
+					<regex>(\b@??mysqli_fetch_array) *\(</regex>
+					<regex>(\b@??mysqli_fetch_assoc) *\(</regex>
+					<regex>(\b@??mysqli_fetch_field_direct) *\(</regex>
+					<regex>(\b@??mysqli_fetch_fields) *\(</regex>
+					<regex>(\b@??mysqli_fetch_field) *\(</regex>
+					<regex>(\b@??mysqli_fetch_lengths) *\(</regex>
+					<regex>(\b@??mysqli_fetch_object) *\(</regex>
+					<regex>(\b@??mysqli_fetch) *\(</regex>
+					<regex>(\b@??mysqli_fetch_row) *\(</regex>
+					<regex>(\b@??mysqli_field_count) *\(</regex>
+					<regex>(\b@??mysqli_field_seek) *\(</regex>
+					<regex>(\b@??mysqli_field_tell) *\(</regex>
+					<regex>(\b@??mysqli_free_result) *\(</regex>
+					<regex>(\b@??mysqli_get_client_info) *\(</regex>
+					<regex>(\b@??mysqli_get_host_info) *\(</regex>
+					<regex>(\b@??mysqli_get_proto_info) *\(</regex>
+					<regex>(\b@??mysqli_get_server_info) *\(</regex>
+					<regex>(\b@??mysqli_get_server_version) *\(</regex>
+					<regex>(\b@??mysqli_info) *\(</regex>
+					<regex>(\b@??mysqli_init) *\(</regex>
+					<regex>(\b@??mysqli_insert_id) *\(</regex>
+					<regex>(\b@??mysqli_kill) *\(</regex>
+					<regex>(\b@??mysqli_master_query) *\(</regex>
+					<regex>(\b@??mysqli_num_fields) *\(</regex>
+					<regex>(\b@??mysqli_num_rows) *\(</regex>
+					<regex>(\b@??mysqli_options) *\(</regex>
+					<regex>(\b@??mysqli_param_count) *\(</regex>
+					<regex>(\b@??mysqli_ping) *\(</regex>
+					<regex>(\b@??mysqli_prepare_result) *\(</regex>
+					<regex>(\b@??mysqli_prepare) *\(</regex>
+					<regex>(\b@??mysqli_profiler) *\(</regex>
+					<regex>(\b@??mysqli_query) *\(</regex>
+					<regex>(\b@??mysqli_read_query_result) *\(</regex>
+					<regex>(\b@??mysqli_real_connect) *\(</regex>
+					<regex>(\b@??mysqli_real_escape_string) *\(</regex>
+					<regex>(\b@??mysqli_real_query) *\(</regex>
+					<regex>(\b@??mysqli_reload) *\(</regex>
+					<regex>(\b@??mysqli_rollback) *\(</regex>
+					<regex>(\b@??mysqli_rpl_parse_enabled) *\(</regex>
+					<regex>(\b@??mysqli_rpl_probe) *\(</regex>
+					<regex>(\b@??mysqli_rpl_query_type) *\(</regex>
+					<regex>(\b@??mysqli_select_db) *\(</regex>
+					<regex>(\b@??mysqli_send_long_data) *\(</regex>
+					<regex>(\b@??mysqli_send_query) *\(</regex>
+					<regex>(\b@??mysqli_set_opt) *\(</regex>
+					<regex>(\b@??mysqli_slave_query) *\(</regex>
+					<regex>(\b@??mysqli_ssl_set) *\(</regex>
+					<regex>(\b@??mysqli_stat) *\(</regex>
+					<regex>(\b@??mysqli_stmt_affected_rows) *\(</regex>
+					<regex>(\b@??mysqli_stmt_close) *\(</regex>
+					<regex>(\b@??mysqli_stmt_errno) *\(</regex>
+					<regex>(\b@??mysqli_stmt_error) *\(</regex>
+					<regex>(\b@??mysqli_stmt_store_result) *\(</regex>
+					<regex>(\b@??mysqli_store_result) *\(</regex>
+					<regex>(\b@??mysqli_thread_id) *\(</regex>
+					<regex>(\b@??mysqli_thread_safe) *\(</regex>
+					<regex>(\b@??mysqli_use_result) *\(</regex>
+					<regex>(\b@??mysqli_warning_count) *\(</regex>
+					<regex>(\b@??natcasesort) *\(</regex>
+					<regex>(\b@??natsort) *\(</regex>
+					<regex>(\b@??ncurses_addchnstr) *\(</regex>
+					<regex>(\b@??ncurses_addchstr) *\(</regex>
+					<regex>(\b@??ncurses_addch) *\(</regex>
+					<regex>(\b@??ncurses_addnstr) *\(</regex>
+					<regex>(\b@??ncurses_addstr) *\(</regex>
+					<regex>(\b@??ncurses_assume_default_colors) *\(</regex>
+					<regex>(\b@??ncurses_attroff) *\(</regex>
+					<regex>(\b@??ncurses_attron) *\(</regex>
+					<regex>(\b@??ncurses_attrset) *\(</regex>
+					<regex>(\b@??ncurses_baudrate) *\(</regex>
+					<regex>(\b@??ncurses_beep) *\(</regex>
+					<regex>(\b@??ncurses_bkgdset) *\(</regex>
+					<regex>(\b@??ncurses_bkgd) *\(</regex>
+					<regex>(\b@??ncurses_border) *\(</regex>
+					<regex>(\b@??ncurses_bottom_panel) *\(</regex>
+					<regex>(\b@??ncurses_can_change_color) *\(</regex>
+					<regex>(\b@??ncurses_cbreak) *\(</regex>
+					<regex>(\b@??ncurses_clear) *\(</regex>
+					<regex>(\b@??ncurses_clrtobot) *\(</regex>
+					<regex>(\b@??ncurses_clrtoeol) *\(</regex>
+					<regex>(\b@??ncurses_color_content) *\(</regex>
+					<regex>(\b@??ncurses_color_set) *\(</regex>
+					<regex>(\b@??ncurses_curs_set) *\(</regex>
+					<regex>(\b@??ncurses_def_prog_mode) *\(</regex>
+					<regex>(\b@??ncurses_def_shell_mode) *\(</regex>
+					<regex>(\b@??ncurses_define_key) *\(</regex>
+					<regex>(\b@??ncurses_del_panel) *\(</regex>
+					<regex>(\b@??ncurses_delay_output) *\(</regex>
+					<regex>(\b@??ncurses_delch) *\(</regex>
+					<regex>(\b@??ncurses_deleteln) *\(</regex>
+					<regex>(\b@??ncurses_delwin) *\(</regex>
+					<regex>(\b@??ncurses_doupdate) *\(</regex>
+					<regex>(\b@??ncurses_echochar) *\(</regex>
+					<regex>(\b@??ncurses_echo) *\(</regex>
+					<regex>(\b@??ncurses_end) *\(</regex>
+					<regex>(\b@??ncurses_erasechar) *\(</regex>
+					<regex>(\b@??ncurses_erase) *\(</regex>
+					<regex>(\b@??ncurses_filter) *\(</regex>
+					<regex>(\b@??ncurses_flash) *\(</regex>
+					<regex>(\b@??ncurses_flushinp) *\(</regex>
+					<regex>(\b@??ncurses_getch) *\(</regex>
+					<regex>(\b@??ncurses_getmaxyx) *\(</regex>
+					<regex>(\b@??ncurses_getmouse) *\(</regex>
+					<regex>(\b@??ncurses_getyx) *\(</regex>
+					<regex>(\b@??ncurses_halfdelay) *\(</regex>
+					<regex>(\b@??ncurses_has_colors) *\(</regex>
+					<regex>(\b@??ncurses_has_ic) *\(</regex>
+					<regex>(\b@??ncurses_has_il) *\(</regex>
+					<regex>(\b@??ncurses_has_key) *\(</regex>
+					<regex>(\b@??ncurses_hide_panel) *\(</regex>
+					<regex>(\b@??ncurses_hline) *\(</regex>
+					<regex>(\b@??ncurses_inch) *\(</regex>
+					<regex>(\b@??ncurses_init_color) *\(</regex>
+					<regex>(\b@??ncurses_init_pair) *\(</regex>
+					<regex>(\b@??ncurses_init) *\(</regex>
+					<regex>(\b@??ncurses_insch) *\(</regex>
+					<regex>(\b@??ncurses_insdelln) *\(</regex>
+					<regex>(\b@??ncurses_insertln) *\(</regex>
+					<regex>(\b@??ncurses_insstr) *\(</regex>
+					<regex>(\b@??ncurses_instr) *\(</regex>
+					<regex>(\b@??ncurses_isendwin) *\(</regex>
+					<regex>(\b@??ncurses_keyok) *\(</regex>
+					<regex>(\b@??ncurses_keypad) *\(</regex>
+					<regex>(\b@??ncurses_killchar) *\(</regex>
+					<regex>(\b@??ncurses_longname) *\(</regex>
+					<regex>(\b@??ncurses_meta) *\(</regex>
+					<regex>(\b@??ncurses_mouse_trafo) *\(</regex>
+					<regex>(\b@??ncurses_mouseinterval) *\(</regex>
+					<regex>(\b@??ncurses_mousemask) *\(</regex>
+					<regex>(\b@??ncurses_move_panel) *\(</regex>
+					<regex>(\b@??ncurses_move) *\(</regex>
+					<regex>(\b@??ncurses_mvaddchstr) *\(</regex>
+					<regex>(\b@??ncurses_mvaddch) *\(</regex>
+					<regex>(\b@??ncurses_mvaddchnstr) *\(</regex>
+					<regex>(\b@??ncurses_mvaddnstr) *\(</regex>
+					<regex>(\b@??ncurses_mvaddstr) *\(</regex>
+					<regex>(\b@??ncurses_mvcur) *\(</regex>
+					<regex>(\b@??ncurses_mvdelch) *\(</regex>
+					<regex>(\b@??ncurses_mvgetch) *\(</regex>
+					<regex>(\b@??ncurses_mvhline) *\(</regex>
+					<regex>(\b@??ncurses_mvinch) *\(</regex>
+					<regex>(\b@??ncurses_mvwaddstr) *\(</regex>
+					<regex>(\b@??ncurses_napms) *\(</regex>
+					<regex>(\b@??ncurses_new_panel) *\(</regex>
+					<regex>(\b@??ncurses_newpad) *\(</regex>
+					<regex>(\b@??ncurses_newwin) *\(</regex>
+					<regex>(\b@??ncurses_nl) *\(</regex>
+					<regex>(\b@??ncurses_nocbreak) *\(</regex>
+					<regex>(\b@??ncurses_noecho) *\(</regex>
+					<regex>(\b@??ncurses_nonl) *\(</regex>
+					<regex>(\b@??ncurses_noqiflush) *\(</regex>
+					<regex>(\b@??ncurses_noraw) *\(</regex>
+					<regex>(\b@??ncurses_pair_content) *\(</regex>
+					<regex>(\b@??ncurses_panel_above) *\(</regex>
+					<regex>(\b@??ncurses_panel_below) *\(</regex>
+					<regex>(\b@??ncurses_panel_window) *\(</regex>
+					<regex>(\b@??ncurses_pnoutrefresh) *\(</regex>
+					<regex>(\b@??ncurses_prefresh) *\(</regex>
+					<regex>(\b@??ncurses_putp) *\(</regex>
+					<regex>(\b@??ncurses_qiflush) *\(</regex>
+					<regex>(\b@??ncurses_raw) *\(</regex>
+					<regex>(\b@??ncurses_refresh) *\(</regex>
+					<regex>(\b@??ncurses_replace_panel) *\(</regex>
+					<regex>(\b@??ncurses_reset_prog_mode) *\(</regex>
+					<regex>(\b@??ncurses_reset_shell_mode) *\(</regex>
+					<regex>(\b@??ncurses_resetty) *\(</regex>
+					<regex>(\b@??ncurses_savetty) *\(</regex>
+					<regex>(\b@??ncurses_scr_dump) *\(</regex>
+					<regex>(\b@??ncurses_scr_init) *\(</regex>
+					<regex>(\b@??ncurses_scr_restore) *\(</regex>
+					<regex>(\b@??ncurses_scr_set) *\(</regex>
+					<regex>(\b@??ncurses_scrl) *\(</regex>
+					<regex>(\b@??ncurses_show_panel) *\(</regex>
+					<regex>(\b@??ncurses_slk_attr) *\(</regex>
+					<regex>(\b@??ncurses_slk_attroff) *\(</regex>
+					<regex>(\b@??ncurses_slk_attron) *\(</regex>
+					<regex>(\b@??ncurses_slk_attrset) *\(</regex>
+					<regex>(\b@??ncurses_slk_clear) *\(</regex>
+					<regex>(\b@??ncurses_slk_color) *\(</regex>
+					<regex>(\b@??ncurses_slk_init) *\(</regex>
+					<regex>(\b@??ncurses_slk_noutrefresh) *\(</regex>
+					<regex>(\b@??ncurses_slk_refresh) *\(</regex>
+					<regex>(\b@??ncurses_slk_restore) *\(</regex>
+					<regex>(\b@??ncurses_slk_set) *\(</regex>
+					<regex>(\b@??ncurses_slk_touch) *\(</regex>
+					<regex>(\b@??ncurses_standend) *\(</regex>
+					<regex>(\b@??ncurses_standout) *\(</regex>
+					<regex>(\b@??ncurses_start_color) *\(</regex>
+					<regex>(\b@??ncurses_termattrs) *\(</regex>
+					<regex>(\b@??ncurses_termname) *\(</regex>
+					<regex>(\b@??ncurses_timeout) *\(</regex>
+					<regex>(\b@??ncurses_top_panel) *\(</regex>
+					<regex>(\b@??ncurses_typeahead) *\(</regex>
+					<regex>(\b@??ncurses_ungetch) *\(</regex>
+					<regex>(\b@??ncurses_ungetmouse) *\(</regex>
+					<regex>(\b@??ncurses_update_panels) *\(</regex>
+					<regex>(\b@??ncurses_use_default_colors) *\(</regex>
+					<regex>(\b@??ncurses_use_env) *\(</regex>
+					<regex>(\b@??ncurses_use_extended_names) *\(</regex>
+					<regex>(\b@??ncurses_vidattr) *\(</regex>
+					<regex>(\b@??ncurses_vline) *\(</regex>
+					<regex>(\b@??ncurses_waddch) *\(</regex>
+					<regex>(\b@??ncurses_waddstr) *\(</regex>
+					<regex>(\b@??ncurses_wattroff) *\(</regex>
+					<regex>(\b@??ncurses_wattron) *\(</regex>
+					<regex>(\b@??ncurses_wattrset) *\(</regex>
+					<regex>(\b@??ncurses_wborder) *\(</regex>
+					<regex>(\b@??ncurses_wclear) *\(</regex>
+					<regex>(\b@??ncurses_wcolor_set) *\(</regex>
+					<regex>(\b@??ncurses_werase) *\(</regex>
+					<regex>(\b@??ncurses_wgetch) *\(</regex>
+					<regex>(\b@??ncurses_whline) *\(</regex>
+					<regex>(\b@??ncurses_wmouse_trafo) *\(</regex>
+					<regex>(\b@??ncurses_wmove) *\(</regex>
+					<regex>(\b@??ncurses_wnoutrefresh) *\(</regex>
+					<regex>(\b@??ncurses_wrefresh) *\(</regex>
+					<regex>(\b@??ncurses_wstandend) *\(</regex>
+					<regex>(\b@??ncurses_wstandout) *\(</regex>
+					<regex>(\b@??ncurses_wvline) *\(</regex>
+					<regex>(\b@??new_xmldoc) *\(</regex>
+					<regex>(\b@??nextframe) *\(</regex>
+					<regex>(\b@??next) *\(</regex>
+					<regex>(\b@??ngettext) *\(</regex>
+					<regex>(\b@??nl2br) *\(</regex>
+					<regex>(\b@??nl_langinfo) *\(</regex>
+					<regex>(\b@??notes_body) *\(</regex>
+					<regex>(\b@??notes_copy_db) *\(</regex>
+					<regex>(\b@??notes_create_db) *\(</regex>
+					<regex>(\b@??notes_create_note) *\(</regex>
+					<regex>(\b@??notes_drop_db) *\(</regex>
+					<regex>(\b@??notes_find_note) *\(</regex>
+					<regex>(\b@??notes_header_info) *\(</regex>
+					<regex>(\b@??notes_list_msgs) *\(</regex>
+					<regex>(\b@??notes_mark_read) *\(</regex>
+					<regex>(\b@??notes_mark_unread) *\(</regex>
+					<regex>(\b@??notes_nav_create) *\(</regex>
+					<regex>(\b@??notes_search) *\(</regex>
+					<regex>(\b@??notes_unread) *\(</regex>
+					<regex>(\b@??notes_version) *\(</regex>
+					<regex>(\b@??num_fields) *\(</regex>
+					<regex>(\b@??num_rows) *\(</regex>
+					<regex>(\b@??number_format) *\(</regex>
+					<regex>(\b@??ob_clean) *\(</regex>
+					<regex>(\b@??ob_end_clean) *\(</regex>
+					<regex>(\b@??ob_end_flush) *\(</regex>
+					<regex>(\b@??ob_flush) *\(</regex>
+					<regex>(\b@??ob_get_clean) *\(</regex>
+					<regex>(\b@??ob_get_contents) *\(</regex>
+					<regex>(\b@??ob_get_flush) *\(</regex>
+					<regex>(\b@??ob_get_length) *\(</regex>
+					<regex>(\b@??ob_get_level) *\(</regex>
+					<regex>(\b@??ob_get_status) *\(</regex>
+					<regex>(\b@??ob_gzhandler) *\(</regex>
+					<regex>(\b@??ob_iconv_handler) *\(</regex>
+					<regex>(\b@??ob_implicit_flush) *\(</regex>
+					<regex>(\b@??ob_list_handlers) *\(</regex>
+					<regex>(\b@??ob_start) *\(</regex>
+					<regex>(\b@??ocibindbyname) *\(</regex>
+					<regex>(\b@??ocicancel) *\(</regex>
+					<regex>(\b@??ocicollappend) *\(</regex>
+					<regex>(\b@??ocicollassignelem) *\(</regex>
+					<regex>(\b@??ocicollassign) *\(</regex>
+					<regex>(\b@??ocicollgetelem) *\(</regex>
+					<regex>(\b@??ocicollmax) *\(</regex>
+					<regex>(\b@??ocicollsize) *\(</regex>
+					<regex>(\b@??ocicolltrim) *\(</regex>
+					<regex>(\b@??ocicolumnisnull) *\(</regex>
+					<regex>(\b@??ocicolumnname) *\(</regex>
+					<regex>(\b@??ocicolumnprecision) *\(</regex>
+					<regex>(\b@??ocicolumnscale) *\(</regex>
+					<regex>(\b@??ocicolumnsize) *\(</regex>
+					<regex>(\b@??ocicolumntype) *\(</regex>
+					<regex>(\b@??ocicolumntyperaw) *\(</regex>
+					<regex>(\b@??ocicommit) *\(</regex>
+					<regex>(\b@??ocidefinebyname) *\(</regex>
+					<regex>(\b@??ocierror) *\(</regex>
+					<regex>(\b@??ociexecute) *\(</regex>
+					<regex>(\b@??ocifetchstatement) *\(</regex>
+					<regex>(\b@??ocifetch) *\(</regex>
+					<regex>(\b@??ocifetchinto) *\(</regex>
+					<regex>(\b@??ocifreecollection) *\(</regex>
+					<regex>(\b@??ocifreecoll) *\(</regex>
+					<regex>(\b@??ocifreecursor) *\(</regex>
+					<regex>(\b@??ocifreedescriptor) *\(</regex>
+					<regex>(\b@??ocifreedesc) *\(</regex>
+					<regex>(\b@??ocifreestatement) *\(</regex>
+					<regex>(\b@??ociinternaldebug) *\(</regex>
+					<regex>(\b@??ociloaddesc) *\(</regex>
+					<regex>(\b@??ociloadlob) *\(</regex>
+					<regex>(\b@??ocilogoff) *\(</regex>
+					<regex>(\b@??ocilogon) *\(</regex>
+					<regex>(\b@??ocinewcollection) *\(</regex>
+					<regex>(\b@??ocinewcursor) *\(</regex>
+					<regex>(\b@??ocinewdescriptor) *\(</regex>
+					<regex>(\b@??ocinlogon) *\(</regex>
+					<regex>(\b@??ocinumcols) *\(</regex>
+					<regex>(\b@??ociparse) *\(</regex>
+					<regex>(\b@??ocipasswordchange) *\(</regex>
+					<regex>(\b@??ociplogon) *\(</regex>
+					<regex>(\b@??ociresult) *\(</regex>
+					<regex>(\b@??ocirollback) *\(</regex>
+					<regex>(\b@??ocirowcount) *\(</regex>
+					<regex>(\b@??ocisavedescfile) *\(</regex>
+					<regex>(\b@??ocisavedesc) *\(</regex>
+					<regex>(\b@??ocisavelobfile) *\(</regex>
+					<regex>(\b@??ocisavelob) *\(</regex>
+					<regex>(\b@??ociserverversion) *\(</regex>
+					<regex>(\b@??ocisetprefetch) *\(</regex>
+					<regex>(\b@??ocistatementtype) *\(</regex>
+					<regex>(\b@??ocitest2) *\(</regex>
+					<regex>(\b@??ocitest) *\(</regex>
+					<regex>(\b@??ociwritelobtofile) *\(</regex>
+					<regex>(\b@??octdec) *\(</regex>
+					<regex>(\b@??odbc_autocommit) *\(</regex>
+					<regex>(\b@??odbc_binmode) *\(</regex>
+					<regex>(\b@??odbc_close_all) *\(</regex>
+					<regex>(\b@??odbc_close) *\(</regex>
+					<regex>(\b@??odbc_columnprivileges) *\(</regex>
+					<regex>(\b@??odbc_columns) *\(</regex>
+					<regex>(\b@??odbc_commit) *\(</regex>
+					<regex>(\b@??odbc_connect) *\(</regex>
+					<regex>(\b@??odbc_cursor) *\(</regex>
+					<regex>(\b@??odbc_data_source) *\(</regex>
+					<regex>(\b@??odbc_do) *\(</regex>
+					<regex>(\b@??odbc_errormsg) *\(</regex>
+					<regex>(\b@??odbc_error) *\(</regex>
+					<regex>(\b@??odbc_execute) *\(</regex>
+					<regex>(\b@??odbc_exec) *\(</regex>
+					<regex>(\b@??odbc_fetch_array) *\(</regex>
+					<regex>(\b@??odbc_fetch_into) *\(</regex>
+					<regex>(\b@??odbc_fetch_object) *\(</regex>
+					<regex>(\b@??odbc_fetch_row) *\(</regex>
+					<regex>(\b@??odbc_field_len) *\(</regex>
+					<regex>(\b@??odbc_field_name) *\(</regex>
+					<regex>(\b@??odbc_field_num) *\(</regex>
+					<regex>(\b@??odbc_field_precision) *\(</regex>
+					<regex>(\b@??odbc_field_scale) *\(</regex>
+					<regex>(\b@??odbc_field_type) *\(</regex>
+					<regex>(\b@??odbc_foreignkeys) *\(</regex>
+					<regex>(\b@??odbc_free_result) *\(</regex>
+					<regex>(\b@??odbc_gettypeinfo) *\(</regex>
+					<regex>(\b@??odbc_longreadlen) *\(</regex>
+					<regex>(\b@??odbc_next_result) *\(</regex>
+					<regex>(\b@??odbc_num_fields) *\(</regex>
+					<regex>(\b@??odbc_num_rows) *\(</regex>
+					<regex>(\b@??odbc_pconnect) *\(</regex>
+					<regex>(\b@??odbc_prepare) *\(</regex>
+					<regex>(\b@??odbc_primarykeys) *\(</regex>
+					<regex>(\b@??odbc_procedurecolumns) *\(</regex>
+					<regex>(\b@??odbc_procedures) *\(</regex>
+					<regex>(\b@??odbc_result_all) *\(</regex>
+					<regex>(\b@??odbc_result) *\(</regex>
+					<regex>(\b@??odbc_rollback) *\(</regex>
+					<regex>(\b@??odbc_setoption) *\(</regex>
+					<regex>(\b@??odbc_specialcolumns) *\(</regex>
+					<regex>(\b@??odbc_statistics) *\(</regex>
+					<regex>(\b@??odbc_tableprivileges) *\(</regex>
+					<regex>(\b@??odbc_tables) *\(</regex>
+					<regex>(\b@??onclose) *\(</regex>
+					<regex>(\b@??oncreate) *\(</regex>
+					<regex>(\b@??open_listen_sock) *\(</regex>
+					<regex>(\b@??opendir) *\(</regex>
+					<regex>(\b@??openlog) *\(</regex>
+					<regex>(\b@??openssl_csr_export_to_file) *\(</regex>
+					<regex>(\b@??openssl_csr_export) *\(</regex>
+					<regex>(\b@??openssl_csr_new) *\(</regex>
+					<regex>(\b@??openssl_csr_sign) *\(</regex>
+					<regex>(\b@??openssl_error_string) *\(</regex>
+					<regex>(\b@??openssl_free_key) *\(</regex>
+					<regex>(\b@??openssl_free_x509) *\(</regex>
+					<regex>(\b@??openssl_get_privatekey) *\(</regex>
+					<regex>(\b@??openssl_get_publickey) *\(</regex>
+					<regex>(\b@??openssl_open) *\(</regex>
+					<regex>(\b@??openssl_pkcs7_decrypt) *\(</regex>
+					<regex>(\b@??openssl_pkcs7_encrypt) *\(</regex>
+					<regex>(\b@??openssl_pkcs7_sign) *\(</regex>
+					<regex>(\b@??openssl_pkcs7_verify) *\(</regex>
+					<regex>(\b@??openssl_pkey_export_to_file) *\(</regex>
+					<regex>(\b@??openssl_pkey_export) *\(</regex>
+					<regex>(\b@??openssl_pkey_free) *\(</regex>
+					<regex>(\b@??openssl_pkey_get_private) *\(</regex>
+					<regex>(\b@??openssl_pkey_get_public) *\(</regex>
+					<regex>(\b@??openssl_pkey_new) *\(</regex>
+					<regex>(\b@??openssl_private_decrypt) *\(</regex>
+					<regex>(\b@??openssl_private_encrypt) *\(</regex>
+					<regex>(\b@??openssl_public_decrypt) *\(</regex>
+					<regex>(\b@??openssl_public_encrypt) *\(</regex>
+					<regex>(\b@??openssl_read_publickey) *\(</regex>
+					<regex>(\b@??openssl_read_x509) *\(</regex>
+					<regex>(\b@??openssl_seal) *\(</regex>
+					<regex>(\b@??openssl_sign) *\(</regex>
+					<regex>(\b@??openssl_verify) *\(</regex>
+					<regex>(\b@??openssl_x509_check_private_key) *\(</regex>
+					<regex>(\b@??openssl_x509_checkpurpose) *\(</regex>
+					<regex>(\b@??openssl_x509_export_to_file) *\(</regex>
+					<regex>(\b@??openssl_x509_export) *\(</regex>
+					<regex>(\b@??openssl_x509_free) *\(</regex>
+					<regex>(\b@??openssl_x509_parse) *\(</regex>
+					<regex>(\b@??openssl_x509_read) *\(</regex>
+					<regex>(\b@??options) *\(</regex>
+					<regex>(\b@??ora_bind) *\(</regex>
+					<regex>(\b@??ora_close) *\(</regex>
+					<regex>(\b@??ora_columnname) *\(</regex>
+					<regex>(\b@??ora_columnsize) *\(</regex>
+					<regex>(\b@??ora_columntype) *\(</regex>
+					<regex>(\b@??ora_commitoff) *\(</regex>
+					<regex>(\b@??ora_commiton) *\(</regex>
+					<regex>(\b@??ora_commit) *\(</regex>
+					<regex>(\b@??ora_do) *\(</regex>
+					<regex>(\b@??ora_errorcode) *\(</regex>
+					<regex>(\b@??ora_error) *\(</regex>
+					<regex>(\b@??ora_exec) *\(</regex>
+					<regex>(\b@??ora_fetch_into) *\(</regex>
+					<regex>(\b@??ora_fetch) *\(</regex>
+					<regex>(\b@??ora_getcolumn) *\(</regex>
+					<regex>(\b@??ora_logoff) *\(</regex>
+					<regex>(\b@??ora_logon) *\(</regex>
+					<regex>(\b@??ora_numcols) *\(</regex>
+					<regex>(\b@??ora_numrows) *\(</regex>
+					<regex>(\b@??ora_open) *\(</regex>
+					<regex>(\b@??ora_parse) *\(</regex>
+					<regex>(\b@??ora_plogon) *\(</regex>
+					<regex>(\b@??ora_rollback) *\(</regex>
+					<regex>(\b@??orbit_caught_exception) *\(</regex>
+					<regex>(\b@??orbit_exception_id) *\(</regex>
+					<regex>(\b@??orbit_exception_value) *\(</regex>
+					<regex>(\b@??orbit_get_repository_id) *\(</regex>
+					<regex>(\b@??orbit_load_idl) *\(</regex>
+					<regex>(\b@??ord) *\(</regex>
+					<regex>(\b@??output) *\(</regex>
+					<regex>(\b@??output_add_rewrite_var) *\(</regex>
+					<regex>(\b@??output_reset_rewrite_vars) *\(</regex>
+					<regex>(\b@??overload) *\(</regex>
+					<regex>(\b@??ovrimos_close_all) *\(</regex>
+					<regex>(\b@??ovrimos_close) *\(</regex>
+					<regex>(\b@??ovrimos_commit) *\(</regex>
+					<regex>(\b@??ovrimos_connect) *\(</regex>
+					<regex>(\b@??ovrimos_cursor) *\(</regex>
+					<regex>(\b@??ovrimos_do) *\(</regex>
+					<regex>(\b@??ovrimos_execute) *\(</regex>
+					<regex>(\b@??ovrimos_exec) *\(</regex>
+					<regex>(\b@??ovrimos_fetch_into) *\(</regex>
+					<regex>(\b@??ovrimos_fetch_row) *\(</regex>
+					<regex>(\b@??ovrimos_field_len) *\(</regex>
+					<regex>(\b@??ovrimos_field_name) *\(</regex>
+					<regex>(\b@??ovrimos_field_num) *\(</regex>
+					<regex>(\b@??ovrimos_field_type) *\(</regex>
+					<regex>(\b@??ovrimos_free_result) *\(</regex>
+					<regex>(\b@??ovrimos_longreadlen) *\(</regex>
+					<regex>(\b@??ovrimos_num_fields) *\(</regex>
+					<regex>(\b@??ovrimos_num_rows) *\(</regex>
+					<regex>(\b@??ovrimos_prepare) *\(</regex>
+					<regex>(\b@??ovrimos_result) *\(</regex>
+					<regex>(\b@??ovrimos_result_all) *\(</regex>
+					<regex>(\b@??ovrimos_rollback) *\(</regex>
+					<regex>(\b@??pack) *\(</regex>
+					<regex>(\b@??param_count) *\(</regex>
+					<regex>(\b@??parse_ini_file) *\(</regex>
+					<regex>(\b@??parse_str) *\(</regex>
+					<regex>(\b@??parse_url) *\(</regex>
+					<regex>(\b@??passthru) *\(</regex>
+					<regex>(\b@??pathinfo) *\(</regex>
+					<regex>(\b@??pclose) *\(</regex>
+					<regex>(\b@??pcntl_alarm) *\(</regex>
+					<regex>(\b@??pcntl_exec) *\(</regex>
+					<regex>(\b@??pcntl_fork) *\(</regex>
+					<regex>(\b@??pcntl_getpriority) *\(</regex>
+					<regex>(\b@??pcntl_setpriority) *\(</regex>
+					<regex>(\b@??pcntl_signal) *\(</regex>
+					<regex>(\b@??pcntl_waitpid) *\(</regex>
+					<regex>(\b@??pcntl_wexitstatus) *\(</regex>
+					<regex>(\b@??pcntl_wifexited) *\(</regex>
+					<regex>(\b@??pcntl_wifsignaled) *\(</regex>
+					<regex>(\b@??pcntl_wifstopped) *\(</regex>
+					<regex>(\b@??pcntl_wstopsig) *\(</regex>
+					<regex>(\b@??pcntl_wtermsig) *\(</regex>
+					<regex>(\b@??pdf_add_annotation) *\(</regex>
+					<regex>(\b@??pdf_add_bookmark) *\(</regex>
+					<regex>(\b@??pdf_add_launchlink) *\(</regex>
+					<regex>(\b@??pdf_add_locallink) *\(</regex>
+					<regex>(\b@??pdf_add_note) *\(</regex>
+					<regex>(\b@??pdf_add_outline) *\(</regex>
+					<regex>(\b@??pdf_add_pdflink) *\(</regex>
+					<regex>(\b@??pdf_add_thumbnail) *\(</regex>
+					<regex>(\b@??pdf_add_weblink) *\(</regex>
+					<regex>(\b@??pdf_arc) *\(</regex>
+					<regex>(\b@??pdf_arcn) *\(</regex>
+					<regex>(\b@??pdf_attach_file) *\(</regex>
+					<regex>(\b@??pdf_begin_page) *\(</regex>
+					<regex>(\b@??pdf_begin_pattern) *\(</regex>
+					<regex>(\b@??pdf_begin_template) *\(</regex>
+					<regex>(\b@??pdf_circle) *\(</regex>
+					<regex>(\b@??pdf_clip) *\(</regex>
+					<regex>(\b@??pdf_close_image) *\(</regex>
+					<regex>(\b@??pdf_close_pdi) *\(</regex>
+					<regex>(\b@??pdf_close_pdi_page) *\(</regex>
+					<regex>(\b@??pdf_closepath_fill_stroke) *\(</regex>
+					<regex>(\b@??pdf_closepath_stroke) *\(</regex>
+					<regex>(\b@??pdf_closepath) *\(</regex>
+					<regex>(\b@??pdf_close) *\(</regex>
+					<regex>(\b@??pdf_concat) *\(</regex>
+					<regex>(\b@??pdf_continue_text) *\(</regex>
+					<regex>(\b@??pdf_curveto) *\(</regex>
+					<regex>(\b@??pdf_delete) *\(</regex>
+					<regex>(\b@??pdf_end_page) *\(</regex>
+					<regex>(\b@??pdf_end_pattern) *\(</regex>
+					<regex>(\b@??pdf_end_template) *\(</regex>
+					<regex>(\b@??pdf_endpath) *\(</regex>
+					<regex>(\b@??pdf_execute_image) *\(</regex>
+					<regex>(\b@??pdf_fill_stroke) *\(</regex>
+					<regex>(\b@??pdf_fill) *\(</regex>
+					<regex>(\b@??pdf_findfont) *\(</regex>
+					<regex>(\b@??pdf_get_buffer) *\(</regex>
+					<regex>(\b@??pdf_get_fontname) *\(</regex>
+					<regex>(\b@??pdf_get_font) *\(</regex>
+					<regex>(\b@??pdf_get_fontsize) *\(</regex>
+					<regex>(\b@??pdf_get_image_height) *\(</regex>
+					<regex>(\b@??pdf_get_image_width) *\(</regex>
+					<regex>(\b@??pdf_get_info) *\(</regex>
+					<regex>(\b@??pdf_get_majorversion) *\(</regex>
+					<regex>(\b@??pdf_get_minorversion) *\(</regex>
+					<regex>(\b@??pdf_get_parameter) *\(</regex>
+					<regex>(\b@??pdf_get_pdi_parameter) *\(</regex>
+					<regex>(\b@??pdf_get_pdi_value) *\(</regex>
+					<regex>(\b@??pdf_get_value) *\(</regex>
+					<regex>(\b@??pdf_initgraphics) *\(</regex>
+					<regex>(\b@??pdf_lineto) *\(</regex>
+					<regex>(\b@??pdf_makespotcolor) *\(</regex>
+					<regex>(\b@??pdf_moveto) *\(</regex>
+					<regex>(\b@??pdf_new) *\(</regex>
+					<regex>(\b@??pdf_open_ccitt) *\(</regex>
+					<regex>(\b@??pdf_open_file) *\(</regex>
+					<regex>(\b@??pdf_open_gif) *\(</regex>
+					<regex>(\b@??pdf_open_image) *\(</regex>
+					<regex>(\b@??pdf_open_image_file) *\(</regex>
+					<regex>(\b@??pdf_open_jpeg) *\(</regex>
+					<regex>(\b@??pdf_open_memory_image) *\(</regex>
+					<regex>(\b@??pdf_open_pdi) *\(</regex>
+					<regex>(\b@??pdf_open_pdi_page) *\(</regex>
+					<regex>(\b@??pdf_open_png) *\(</regex>
+					<regex>(\b@??pdf_open) *\(</regex>
+					<regex>(\b@??pdf_open_tiff) *\(</regex>
+					<regex>(\b@??pdf_place_image) *\(</regex>
+					<regex>(\b@??pdf_place_pdi_page) *\(</regex>
+					<regex>(\b@??pdf_put_image) *\(</regex>
+					<regex>(\b@??pdf_rect) *\(</regex>
+					<regex>(\b@??pdf_restore) *\(</regex>
+					<regex>(\b@??pdf_rotate) *\(</regex>
+					<regex>(\b@??pdf_save) *\(</regex>
+					<regex>(\b@??pdf_scale) *\(</regex>
+					<regex>(\b@??pdf_set_border_color) *\(</regex>
+					<regex>(\b@??pdf_set_border_dash) *\(</regex>
+					<regex>(\b@??pdf_set_border_style) *\(</regex>
+					<regex>(\b@??pdf_set_char_spacing) *\(</regex>
+					<regex>(\b@??pdf_set_duration) *\(</regex>
+					<regex>(\b@??pdf_set_font) *\(</regex>
+					<regex>(\b@??pdf_set_horiz_scaling) *\(</regex>
+					<regex>(\b@??pdf_set_info_author) *\(</regex>
+					<regex>(\b@??pdf_set_info_creator) *\(</regex>
+					<regex>(\b@??pdf_set_info_keywords) *\(</regex>
+					<regex>(\b@??pdf_set_info) *\(</regex>
+					<regex>(\b@??pdf_set_info_subject) *\(</regex>
+					<regex>(\b@??pdf_set_info_title) *\(</regex>
+					<regex>(\b@??pdf_set_leading) *\(</regex>
+					<regex>(\b@??pdf_set_parameter) *\(</regex>
+					<regex>(\b@??pdf_set_text_matrix) *\(</regex>
+					<regex>(\b@??pdf_set_text_pos) *\(</regex>
+					<regex>(\b@??pdf_set_text_rendering) *\(</regex>
+					<regex>(\b@??pdf_set_text_rise) *\(</regex>
+					<regex>(\b@??pdf_set_transition) *\(</regex>
+					<regex>(\b@??pdf_set_value) *\(</regex>
+					<regex>(\b@??pdf_set_word_spacing) *\(</regex>
+					<regex>(\b@??pdf_setcolor) *\(</regex>
+					<regex>(\b@??pdf_setdash) *\(</regex>
+					<regex>(\b@??pdf_setflat) *\(</regex>
+					<regex>(\b@??pdf_setfont) *\(</regex>
+					<regex>(\b@??pdf_setgray_stroke) *\(</regex>
+					<regex>(\b@??pdf_setgray) *\(</regex>
+					<regex>(\b@??pdf_setgray_fill) *\(</regex>
+					<regex>(\b@??pdf_setlinecap) *\(</regex>
+					<regex>(\b@??pdf_setlinejoin) *\(</regex>
+					<regex>(\b@??pdf_setlinewidth) *\(</regex>
+					<regex>(\b@??pdf_setmatrix) *\(</regex>
+					<regex>(\b@??pdf_setmiterlimit) *\(</regex>
+					<regex>(\b@??pdf_setpolydash) *\(</regex>
+					<regex>(\b@??pdf_setrgbcolor_fill) *\(</regex>
+					<regex>(\b@??pdf_setrgbcolor_stroke) *\(</regex>
+					<regex>(\b@??pdf_setrgbcolor) *\(</regex>
+					<regex>(\b@??pdf_show_boxed) *\(</regex>
+					<regex>(\b@??pdf_show) *\(</regex>
+					<regex>(\b@??pdf_show_xy) *\(</regex>
+					<regex>(\b@??pdf_skew) *\(</regex>
+					<regex>(\b@??pdf_stringwidth) *\(</regex>
+					<regex>(\b@??pdf_stroke) *\(</regex>
+					<regex>(\b@??pdf_translate) *\(</regex>
+					<regex>(\b@??pfpro_cleanup) *\(</regex>
+					<regex>(\b@??pfpro_init) *\(</regex>
+					<regex>(\b@??pfpro_process_raw) *\(</regex>
+					<regex>(\b@??pfpro_process) *\(</regex>
+					<regex>(\b@??pfpro_version) *\(</regex>
+					<regex>(\b@??pfsockopen) *\(</regex>
+					<regex>(\b@??pg_affected_rows) *\(</regex>
+					<regex>(\b@??pg_cancel_query) *\(</regex>
+					<regex>(\b@??pg_client_encoding) *\(</regex>
+					<regex>(\b@??pg_clientencoding) *\(</regex>
+					<regex>(\b@??pg_close) *\(</regex>
+					<regex>(\b@??pg_cmdtuples) *\(</regex>
+					<regex>(\b@??pg_connection_busy) *\(</regex>
+					<regex>(\b@??pg_connection_reset) *\(</regex>
+					<regex>(\b@??pg_connection_status) *\(</regex>
+					<regex>(\b@??pg_connect) *\(</regex>
+					<regex>(\b@??pg_convert) *\(</regex>
+					<regex>(\b@??pg_copy_from) *\(</regex>
+					<regex>(\b@??pg_copy_to) *\(</regex>
+					<regex>(\b@??pg_dbname) *\(</regex>
+					<regex>(\b@??pg_delete) *\(</regex>
+					<regex>(\b@??pg_end_copy) *\(</regex>
+					<regex>(\b@??pg_errormessage) *\(</regex>
+					<regex>(\b@??pg_escape_bytea) *\(</regex>
+					<regex>(\b@??pg_escape_string) *\(</regex>
+					<regex>(\b@??pg_exec) *\(</regex>
+					<regex>(\b@??pg_fetch_all) *\(</regex>
+					<regex>(\b@??pg_fetch_array) *\(</regex>
+					<regex>(\b@??pg_fetch_assoc) *\(</regex>
+					<regex>(\b@??pg_fetch_object) *\(</regex>
+					<regex>(\b@??pg_fetch_result) *\(</regex>
+					<regex>(\b@??pg_fetch_row) *\(</regex>
+					<regex>(\b@??pg_field_is_null) *\(</regex>
+					<regex>(\b@??pg_field_name) *\(</regex>
+					<regex>(\b@??pg_field_num) *\(</regex>
+					<regex>(\b@??pg_field_prtlen) *\(</regex>
+					<regex>(\b@??pg_field_size) *\(</regex>
+					<regex>(\b@??pg_field_type) *\(</regex>
+					<regex>(\b@??pg_fieldisnull) *\(</regex>
+					<regex>(\b@??pg_fieldname) *\(</regex>
+					<regex>(\b@??pg_fieldnum) *\(</regex>
+					<regex>(\b@??pg_fieldprtlen) *\(</regex>
+					<regex>(\b@??pg_fieldsize) *\(</regex>
+					<regex>(\b@??pg_fieldtype) *\(</regex>
+					<regex>(\b@??pg_free_result) *\(</regex>
+					<regex>(\b@??pg_freeresult) *\(</regex>
+					<regex>(\b@??pg_get_notify) *\(</regex>
+					<regex>(\b@??pg_get_pid) *\(</regex>
+					<regex>(\b@??pg_get_result) *\(</regex>
+					<regex>(\b@??pg_getlastoid) *\(</regex>
+					<regex>(\b@??pg_host) *\(</regex>
+					<regex>(\b@??pg_insert) *\(</regex>
+					<regex>(\b@??pg_last_error) *\(</regex>
+					<regex>(\b@??pg_last_notice) *\(</regex>
+					<regex>(\b@??pg_last_oid) *\(</regex>
+					<regex>(\b@??pg_lo_close) *\(</regex>
+					<regex>(\b@??pg_lo_create) *\(</regex>
+					<regex>(\b@??pg_lo_export) *\(</regex>
+					<regex>(\b@??pg_lo_import) *\(</regex>
+					<regex>(\b@??pg_lo_open) *\(</regex>
+					<regex>(\b@??pg_lo_read_all) *\(</regex>
+					<regex>(\b@??pg_lo_read) *\(</regex>
+					<regex>(\b@??pg_lo_seek) *\(</regex>
+					<regex>(\b@??pg_lo_tell) *\(</regex>
+					<regex>(\b@??pg_lo_unlink) *\(</regex>
+					<regex>(\b@??pg_lo_write) *\(</regex>
+					<regex>(\b@??pg_loclose) *\(</regex>
+					<regex>(\b@??pg_locreate) *\(</regex>
+					<regex>(\b@??pg_loexport) *\(</regex>
+					<regex>(\b@??pg_loimport) *\(</regex>
+					<regex>(\b@??pg_loopen) *\(</regex>
+					<regex>(\b@??pg_loreadall) *\(</regex>
+					<regex>(\b@??pg_loread) *\(</regex>
+					<regex>(\b@??pg_lounlink) *\(</regex>
+					<regex>(\b@??pg_lowrite) *\(</regex>
+					<regex>(\b@??pg_meta_data) *\(</regex>
+					<regex>(\b@??pg_num_fields) *\(</regex>
+					<regex>(\b@??pg_num_rows) *\(</regex>
+					<regex>(\b@??pg_numfields) *\(</regex>
+					<regex>(\b@??pg_numrows) *\(</regex>
+					<regex>(\b@??pg_options) *\(</regex>
+					<regex>(\b@??pg_pconnect) *\(</regex>
+					<regex>(\b@??pg_ping) *\(</regex>
+					<regex>(\b@??pg_port) *\(</regex>
+					<regex>(\b@??pg_put_line) *\(</regex>
+					<regex>(\b@??pg_query) *\(</regex>
+					<regex>(\b@??pg_result_error) *\(</regex>
+					<regex>(\b@??pg_result_seek) *\(</regex>
+					<regex>(\b@??pg_result_status) *\(</regex>
+					<regex>(\b@??pg_result) *\(</regex>
+					<regex>(\b@??pg_select) *\(</regex>
+					<regex>(\b@??pg_send_query) *\(</regex>
+					<regex>(\b@??pg_set_client_encoding) *\(</regex>
+					<regex>(\b@??pg_setclientencoding) *\(</regex>
+					<regex>(\b@??pg_trace) *\(</regex>
+					<regex>(\b@??pg_tty) *\(</regex>
+					<regex>(\b@??pg_unescape_bytea) *\(</regex>
+					<regex>(\b@??pg_untrace) *\(</regex>
+					<regex>(\b@??pg_update) *\(</regex>
+					<regex>(\b@??php3_udobc_close_all) *\(</regex>
+					<regex>(\b@??php3_uodbc_autocommit) *\(</regex>
+					<regex>(\b@??php3_uodbc_binmode) *\(</regex>
+					<regex>(\b@??php3_uodbc_close) *\(</regex>
+					<regex>(\b@??php3_uodbc_commit) *\(</regex>
+					<regex>(\b@??php3_uodbc_connect) *\(</regex>
+					<regex>(\b@??php3_uodbc_cursor) *\(</regex>
+					<regex>(\b@??php3_uodbc_do) *\(</regex>
+					<regex>(\b@??php3_uodbc_execute) *\(</regex>
+					<regex>(\b@??php3_uodbc_fetch_into) *\(</regex>
+					<regex>(\b@??php3_uodbc_fetch_row) *\(</regex>
+					<regex>(\b@??php3_uodbc_field_len) *\(</regex>
+					<regex>(\b@??php3_uodbc_field_name) *\(</regex>
+					<regex>(\b@??php3_uodbc_field_num) *\(</regex>
+					<regex>(\b@??php3_uodbc_field_type) *\(</regex>
+					<regex>(\b@??php3_uodbc_free_result) *\(</regex>
+					<regex>(\b@??php3_uodbc_longreadlen) *\(</regex>
+					<regex>(\b@??php3_uodbc_num_fields) *\(</regex>
+					<regex>(\b@??php3_uodbc_num_rows) *\(</regex>
+					<regex>(\b@??php3_uodbc_pconnect) *\(</regex>
+					<regex>(\b@??php3_uodbc_prepare) *\(</regex>
+					<regex>(\b@??php3_uodbc_result_all) *\(</regex>
+					<regex>(\b@??php3_uodbc_result) *\(</regex>
+					<regex>(\b@??php3_uodbc_rollback) *\(</regex>
+					<regex>(\b@??php3_uodbc_setoption) *\(</regex>
+					<regex>(\b@??php_ini_scanned_files) *\(</regex>
+					<regex>(\b@??php_logo_guid) *\(</regex>
+					<regex>(\b@??php_sapi_name) *\(</regex>
+					<regex>(\b@??php_uname) *\(</regex>
+					<regex>(\b@??phpcredits) *\(</regex>
+					<regex>(\b@??phpinfo) *\(</regex>
+					<regex>(\b@??phpversion) *\(</regex>
+					<regex>(\b@??ping) *\(</regex>
+					<regex>(\b@??pi) *\(</regex>
+					<regex>(\b@??png2wbmp) *\(</regex>
+					<regex>(\b@??popen) *\(</regex>
+					<regex>(\b@??posix_ctermid) *\(</regex>
+					<regex>(\b@??posix_errno) *\(</regex>
+					<regex>(\b@??posix_get_last_error) *\(</regex>
+					<regex>(\b@??posix_getcwd) *\(</regex>
+					<regex>(\b@??posix_getegid) *\(</regex>
+					<regex>(\b@??posix_geteuid) *\(</regex>
+					<regex>(\b@??posix_getgid) *\(</regex>
+					<regex>(\b@??posix_getgrgid) *\(</regex>
+					<regex>(\b@??posix_getgrnam) *\(</regex>
+					<regex>(\b@??posix_getgroups) *\(</regex>
+					<regex>(\b@??posix_getlogin) *\(</regex>
+					<regex>(\b@??posix_getpgid) *\(</regex>
+					<regex>(\b@??posix_getpgrp) *\(</regex>
+					<regex>(\b@??posix_getpid) *\(</regex>
+					<regex>(\b@??posix_getppid) *\(</regex>
+					<regex>(\b@??posix_getpwnam) *\(</regex>
+					<regex>(\b@??posix_getpwuid) *\(</regex>
+					<regex>(\b@??posix_getrlimit) *\(</regex>
+					<regex>(\b@??posix_getsid) *\(</regex>
+					<regex>(\b@??posix_getuid) *\(</regex>
+					<regex>(\b@??posix_isatty) *\(</regex>
+					<regex>(\b@??posix_kill) *\(</regex>
+					<regex>(\b@??posix_mkfifo) *\(</regex>
+					<regex>(\b@??posix_setegid) *\(</regex>
+					<regex>(\b@??posix_seteuid) *\(</regex>
+					<regex>(\b@??pos) *\(</regex>
+					<regex>(\b@??posix_setgid) *\(</regex>
+					<regex>(\b@??posix_setpgid) *\(</regex>
+					<regex>(\b@??posix_setsid) *\(</regex>
+					<regex>(\b@??posix_setuid) *\(</regex>
+					<regex>(\b@??posix_strerror) *\(</regex>
+					<regex>(\b@??posix_times) *\(</regex>
+					<regex>(\b@??posix_ttyname) *\(</regex>
+					<regex>(\b@??posix_uname) *\(</regex>
+					<regex>(\b@??pow) *\(</regex>
+					<regex>(\b@??preg_grep) *\(</regex>
+					<regex>(\b@??preg_match) *\(</regex>
+					<regex>(\b@??preg_match_all) *\(</regex>
+					<regex>(\b@??preg_quote) *\(</regex>
+					<regex>(\b@??preg_replace_callback) *\(</regex>
+					<regex>(\b@??preg_replace) *\(</regex>
+					<regex>(\b@??preg_split) *\(</regex>
+					<regex>(\b@??prepare) *\(</regex>
+					<regex>(\b@??prev) *\(</regex>
+					<regex>(\b@??print_r) *\(</regex>
+					<regex>(\b@??printf) *\(</regex>
+					<regex>(\b@??proc_close) *\(</regex>
+					<regex>(\b@??proc_get_status) *\(</regex>
+					<regex>(\b@??proc_nice) *\(</regex>
+					<regex>(\b@??proc_open) *\(</regex>
+					<regex>(\b@??proc_terminate) *\(</regex>
+					<regex>(\b@??pspell_add_to_personal) *\(</regex>
+					<regex>(\b@??pspell_add_to_session) *\(</regex>
+					<regex>(\b@??pspell_check) *\(</regex>
+					<regex>(\b@??pspell_clear_session) *\(</regex>
+					<regex>(\b@??pspell_config_create) *\(</regex>
+					<regex>(\b@??pspell_config_ignore) *\(</regex>
+					<regex>(\b@??pspell_config_mode) *\(</regex>
+					<regex>(\b@??pspell_config_personal) *\(</regex>
+					<regex>(\b@??pspell_config_repl) *\(</regex>
+					<regex>(\b@??pspell_config_runtogether) *\(</regex>
+					<regex>(\b@??pspell_config_save_repl) *\(</regex>
+					<regex>(\b@??pspell_new_config) *\(</regex>
+					<regex>(\b@??pspell_new_personal) *\(</regex>
+					<regex>(\b@??pspell_new) *\(</regex>
+					<regex>(\b@??pspell_save_wordlist) *\(</regex>
+					<regex>(\b@??pspell_store_replacement) *\(</regex>
+					<regex>(\b@??pspell_suggest) *\(</regex>
+					<regex>(\b@??putenv) *\(</regex>
+					<regex>(\b@??qdom_error) *\(</regex>
+					<regex>(\b@??qdom_tree) *\(</regex>
+					<regex>(\b@??query) *\(</regex>
+					<regex>(\b@??quoted_printable_decode) *\(</regex>
+					<regex>(\b@??quotemeta) *\(</regex>
+					<regex>(\b@??rad2deg) *\(</regex>
+					<regex>(\b@??rand) *\(</regex>
+					<regex>(\b@??range) *\(</regex>
+					<regex>(\b@??rawurldecode) *\(</regex>
+					<regex>(\b@??rawurlencode) *\(</regex>
+					<regex>(\b@??read_exif_data) *\(</regex>
+					<regex>(\b@??read_query_result) *\(</regex>
+					<regex>(\b@??readdir) *\(</regex>
+					<regex>(\b@??readfile) *\(</regex>
+					<regex>(\b@??readgzfile) *\(</regex>
+					<regex>(\b@??readline_add_history) *\(</regex>
+					<regex>(\b@??readline_clear_history) *\(</regex>
+					<regex>(\b@??readline) *\(</regex>
+					<regex>(\b@??readline_completion_function) *\(</regex>
+					<regex>(\b@??readline_info) *\(</regex>
+					<regex>(\b@??read) *\(</regex>
+					<regex>(\b@??readline_list_history) *\(</regex>
+					<regex>(\b@??readline_read_history) *\(</regex>
+					<regex>(\b@??readline_write_history) *\(</regex>
+					<regex>(\b@??readlink) *\(</regex>
+					<regex>(\b@??readmagick) *\(</regex>
+					<regex>(\b@??readv) *\(</regex>
+					<regex>(\b@??real_connect) *\(</regex>
+					<regex>(\b@??real_escape_string) *\(</regex>
+					<regex>(\b@??real_query) *\(</regex>
+					<regex>(\b@??realpath) *\(</regex>
+					<regex>(\b@??recode_string) *\(</regex>
+					<regex>(\b@??recode) *\(</regex>
+					<regex>(\b@??recode_file) *\(</regex>
+					<regex>(\b@??recvfrom) *\(</regex>
+					<regex>(\b@??recv) *\(</regex>
+					<regex>(\b@??recvmsg) *\(</regex>
+					<regex>(\b@??register_shutdown_function) *\(</regex>
+					<regex>(\b@??register_tick_function) *\(</regex>
+					<regex>(\b@??reload) *\(</regex>
+					<regex>(\b@??rename) *\(</regex>
+					<regex>(\b@??reset) *\(</regex>
+					<regex>(\b@??restore_error_handler) *\(</regex>
+					<regex>(\b@??restore_exception_handler) *\(</regex>
+					<regex>(\b@??restore_include_path) *\(</regex>
+					<regex>(\b@??rewinddir) *\(</regex>
+					<regex>(\b@??rewind) *\(</regex>
+					<regex>(\b@??rmdir) *\(</regex>
+					<regex>(\b@??rollback) *\(</regex>
+					<regex>(\b@??rot13) *\(</regex>
+					<regex>(\b@??rotateto) *\(</regex>
+					<regex>(\b@??rotate) *\(</regex>
+					<regex>(\b@??round) *\(</regex>
+					<regex>(\b@??rpc_call) *\(</regex>
+					<regex>(\b@??rpl_parse_enabled) *\(</regex>
+					<regex>(\b@??rpl_probe) *\(</regex>
+					<regex>(\b@??rpl_query_type) *\(</regex>
+					<regex>(\b@??rsort) *\(</regex>
+					<regex>(\b@??rtrim) *\(</regex>
+					<regex>(\b@??satellite_caught_exception) *\(</regex>
+					<regex>(\b@??satellite_exception_id) *\(</regex>
+					<regex>(\b@??satellite_exception_value) *\(</regex>
+					<regex>(\b@??satellite_get_repository_id) *\(</regex>
+					<regex>(\b@??satellite_load_idl) *\(</regex>
+					<regex>(\b@??satellite_object_to_string) *\(</regex>
+					<regex>(\b@??savemagick) *\(</regex>
+					<regex>(\b@??save) *\(</regex>
+					<regex>(\b@??savetofile) *\(</regex>
+					<regex>(\b@??scale) *\(</regex>
+					<regex>(\b@??scalemagick) *\(</regex>
+					<regex>(\b@??scaleto) *\(</regex>
+					<regex>(\b@??scandir) *\(</regex>
+					<regex>(\b@??select_db) *\(</regex>
+					<regex>(\b@??select) *\(</regex>
+					<regex>(\b@??sem_acquire) *\(</regex>
+					<regex>(\b@??sem_get) *\(</regex>
+					<regex>(\b@??sem_release) *\(</regex>
+					<regex>(\b@??sem_remove) *\(</regex>
+					<regex>(\b@??send_long_data) *\(</regex>
+					<regex>(\b@??send) *\(</regex>
+					<regex>(\b@??sendmsg) *\(</regex>
+					<regex>(\b@??sendto) *\(</regex>
+					<regex>(\b@??serialize) *\(</regex>
+					<regex>(\b@??sesam_affected_rows) *\(</regex>
+					<regex>(\b@??sesam_commit) *\(</regex>
+					<regex>(\b@??sesam_connect) *\(</regex>
+					<regex>(\b@??sesam_debug) *\(</regex>
+					<regex>(\b@??sesam_diagnostic) *\(</regex>
+					<regex>(\b@??sesam_disconnect) *\(</regex>
+					<regex>(\b@??sesam_errormsg) *\(</regex>
+					<regex>(\b@??sesam_execimm) *\(</regex>
+					<regex>(\b@??sesam_fetch_array) *\(</regex>
+					<regex>(\b@??sesam_fetch_result) *\(</regex>
+					<regex>(\b@??sesam_fetch_row) *\(</regex>
+					<regex>(\b@??sesam_field_array) *\(</regex>
+					<regex>(\b@??sesam_field_data) *\(</regex>
+					<regex>(\b@??sesam_field_name) *\(</regex>
+					<regex>(\b@??sesam_free_result) *\(</regex>
+					<regex>(\b@??sesam_num_fields) *\(</regex>
+					<regex>(\b@??sesam_query) *\(</regex>
+					<regex>(\b@??sesam_rollback) *\(</regex>
+					<regex>(\b@??sesam_seek_row) *\(</regex>
+					<regex>(\b@??sesam_settransaction) *\(</regex>
+					<regex>(\b@??session_cache_expire) *\(</regex>
+					<regex>(\b@??session_cache_limiter) *\(</regex>
+					<regex>(\b@??session_decode) *\(</regex>
+					<regex>(\b@??session_destroy) *\(</regex>
+					<regex>(\b@??session_encode) *\(</regex>
+					<regex>(\b@??session_get_cookie_params) *\(</regex>
+					<regex>(\b@??session_id) *\(</regex>
+					<regex>(\b@??session_is_registered) *\(</regex>
+					<regex>(\b@??session_module_name) *\(</regex>
+					<regex>(\b@??session_name) *\(</regex>
+					<regex>(\b@??session_regenerate_id) *\(</regex>
+					<regex>(\b@??session_register) *\(</regex>
+					<regex>(\b@??session_save_path) *\(</regex>
+					<regex>(\b@??session_set_cookie_params) *\(</regex>
+					<regex>(\b@??session_set_save_handler) *\(</regex>
+					<regex>(\b@??session_start) *\(</regex>
+					<regex>(\b@??session_unregister) *\(</regex>
+					<regex>(\b@??session_unset) *\(</regex>
+					<regex>(\b@??session_write_close) *\(</regex>
+					<regex>(\b@??set_content) *\(</regex>
+					<regex>(\b@??set_error_handler) *\(</regex>
+					<regex>(\b@??set_exception_handler) *\(</regex>
+					<regex>(\b@??set_file_buffer) *\(</regex>
+					<regex>(\b@??set_include_path) *\(</regex>
+					<regex>(\b@??set_iovec) *\(</regex>
+					<regex>(\b@??set_magic_quotes_runtime) *\(</regex>
+					<regex>(\b@??set_nonblock) *\(</regex>
+					<regex>(\b@??set_opt) *\(</regex>
+					<regex>(\b@??set_socket_blocking) *\(</regex>
+					<regex>(\b@??set_socket_timeout) *\(</regex>
+					<regex>(\b@??set_time_limit) *\(</regex>
+					<regex>(\b@??set_user_error_handler) *\(</regex>
+					<regex>(\b@??setaction) *\(</regex>
+					<regex>(\b@??setbackground) *\(</regex>
+					<regex>(\b@??setbounds) *\(</regex>
+					<regex>(\b@??setcolor) *\(</regex>
+					<regex>(\b@??setcookie) *\(</regex>
+					<regex>(\b@??setdepth) *\(</regex>
+					<regex>(\b@??setdimension) *\(</regex>
+					<regex>(\b@??setdown) *\(</regex>
+					<regex>(\b@??setfont) *\(</regex>
+					<regex>(\b@??setframes) *\(</regex>
+					<regex>(\b@??setheight) *\(</regex>
+					<regex>(\b@??sethit) *\(</regex>
+					<regex>(\b@??setindentation) *\(</regex>
+					<regex>(\b@??setleftfill) *\(</regex>
+					<regex>(\b@??setleftmargin) *\(</regex>
+					<regex>(\b@??setlinespacing) *\(</regex>
+					<regex>(\b@??setline) *\(</regex>
+					<regex>(\b@??setlocale) *\(</regex>
+					<regex>(\b@??setmargins) *\(</regex>
+					<regex>(\b@??setmatrix) *\(</regex>
+					<regex>(\b@??setname) *\(</regex>
+					<regex>(\b@??setover) *\(</regex>
+					<regex>(\b@??setrate) *\(</regex>
+					<regex>(\b@??setratio) *\(</regex>
+					<regex>(\b@??setrightfill) *\(</regex>
+					<regex>(\b@??setrightmargin) *\(</regex>
+					<regex>(\b@??setsockopt) *\(</regex>
+					<regex>(\b@??setspacing) *\(</regex>
+					<regex>(\b@??settype) *\(</regex>
+					<regex>(\b@??setup) *\(</regex>
+					<regex>(\b@??sha1_file) *\(</regex>
+					<regex>(\b@??sha1) *\(</regex>
+					<regex>(\b@??shell_exec) *\(</regex>
+					<regex>(\b@??shm_attach) *\(</regex>
+					<regex>(\b@??shm_close) *\(</regex>
+					<regex>(\b@??shm_delete) *\(</regex>
+					<regex>(\b@??shm_detach) *\(</regex>
+					<regex>(\b@??shm_get_var) *\(</regex>
+					<regex>(\b@??shm_open) *\(</regex>
+					<regex>(\b@??shm_put_var) *\(</regex>
+					<regex>(\b@??shm_read) *\(</regex>
+					<regex>(\b@??shm_remove_var) *\(</regex>
+					<regex>(\b@??shm_remove) *\(</regex>
+					<regex>(\b@??shm_size) *\(</regex>
+					<regex>(\b@??shm_write) *\(</regex>
+					<regex>(\b@??shmop_close) *\(</regex>
+					<regex>(\b@??shmop_delete) *\(</regex>
+					<regex>(\b@??shmop_open) *\(</regex>
+					<regex>(\b@??shmop_read) *\(</regex>
+					<regex>(\b@??shmop_size) *\(</regex>
+					<regex>(\b@??shmop_write) *\(</regex>
+					<regex>(\b@??short_tags) *\(</regex>
+					<regex>(\b@??show_source) *\(</regex>
+					<regex>(\b@??shuffle) *\(</regex>
+					<regex>(\b@??shutdown) *\(</regex>
+					<regex>(\b@??signal) *\(</regex>
+					<regex>(\b@??similar_text) *\(</regex>
+					<regex>(\b@??sinh) *\(</regex>
+					<regex>(\b@??sin) *\(</regex>
+					<regex>(\b@??sizeof) *\(</regex>
+					<regex>(\b@??skewx) *\(</regex>
+					<regex>(\b@??skewxto) *\(</regex>
+					<regex>(\b@??skewyto) *\(</regex>
+					<regex>(\b@??skewy) *\(</regex>
+					<regex>(\b@??slave_query) *\(</regex>
+					<regex>(\b@??sleep) *\(</regex>
+					<regex>(\b@??smfi_addheader) *\(</regex>
+					<regex>(\b@??smfi_addrcpt) *\(</regex>
+					<regex>(\b@??smfi_chgheader) *\(</regex>
+					<regex>(\b@??smfi_delrcpt) *\(</regex>
+					<regex>(\b@??smfi_getsymval) *\(</regex>
+					<regex>(\b@??smfi_replacebody) *\(</regex>
+					<regex>(\b@??smfi_setflags) *\(</regex>
+					<regex>(\b@??smfi_setreply) *\(</regex>
+					<regex>(\b@??smfi_settimeout) *\(</regex>
+					<regex>(\b@??snmp3_get) *\(</regex>
+					<regex>(\b@??snmp3_real_walk) *\(</regex>
+					<regex>(\b@??snmp3_set) *\(</regex>
+					<regex>(\b@??snmp3_walk) *\(</regex>
+					<regex>(\b@??snmp_get_quick_print) *\(</regex>
+					<regex>(\b@??snmp_set_enum_print) *\(</regex>
+					<regex>(\b@??snmp_set_oid_numeric_print) *\(</regex>
+					<regex>(\b@??snmp_set_quick_print) *\(</regex>
+					<regex>(\b@??snmpget) *\(</regex>
+					<regex>(\b@??snmprealwalk) *\(</regex>
+					<regex>(\b@??snmpset) *\(</regex>
+					<regex>(\b@??snmpwalkoid) *\(</regex>
+					<regex>(\b@??snmpwalk) *\(</regex>
+					<regex>(\b@??socket_accept) *\(</regex>
+					<regex>(\b@??socket_bind) *\(</regex>
+					<regex>(\b@??socket_clear_error) *\(</regex>
+					<regex>(\b@??socket_close) *\(</regex>
+					<regex>(\b@??socket_connect) *\(</regex>
+					<regex>(\b@??socket_create_listen) *\(</regex>
+					<regex>(\b@??socket_create) *\(</regex>
+					<regex>(\b@??socket_create_pair) *\(</regex>
+					<regex>(\b@??socket_fd_alloc) *\(</regex>
+					<regex>(\b@??socket_fd_clear) *\(</regex>
+					<regex>(\b@??socket_fd_free) *\(</regex>
+					<regex>(\b@??socket_fd_isset) *\(</regex>
+					<regex>(\b@??socket_fd_set) *\(</regex>
+					<regex>(\b@??socket_fd_zero) *\(</regex>
+					<regex>(\b@??socket_get_option) *\(</regex>
+					<regex>(\b@??socket_get_status) *\(</regex>
+					<regex>(\b@??socket_getopt) *\(</regex>
+					<regex>(\b@??socket_getpeername) *\(</regex>
+					<regex>(\b@??socket_getsockname) *\(</regex>
+					<regex>(\b@??socket_iovec_add) *\(</regex>
+					<regex>(\b@??socket_iovec_alloc) *\(</regex>
+					<regex>(\b@??socket_iovec_delete) *\(</regex>
+					<regex>(\b@??socket_iovec_fetch) *\(</regex>
+					<regex>(\b@??socket_iovec_free) *\(</regex>
+					<regex>(\b@??socket_iovec_set) *\(</regex>
+					<regex>(\b@??socket_last_error) *\(</regex>
+					<regex>(\b@??socket_listen) *\(</regex>
+					<regex>(\b@??socket_read) *\(</regex>
+					<regex>(\b@??socket_readv) *\(</regex>
+					<regex>(\b@??socket_recv) *\(</regex>
+					<regex>(\b@??socket_recvfrom) *\(</regex>
+					<regex>(\b@??socket_recvmsg) *\(</regex>
+					<regex>(\b@??socket_select) *\(</regex>
+					<regex>(\b@??socket_send) *\(</regex>
+					<regex>(\b@??socket_sendmsg) *\(</regex>
+					<regex>(\b@??socket_sendto) *\(</regex>
+					<regex>(\b@??socket_set_block) *\(</regex>
+					<regex>(\b@??socket_set_blocking) *\(</regex>
+					<regex>(\b@??socket_set_nonblock) *\(</regex>
+					<regex>(\b@??socket_set_option) *\(</regex>
+					<regex>(\b@??socket_set_timeout) *\(</regex>
+					<regex>(\b@??socket_setopt) *\(</regex>
+					<regex>(\b@??socket_shutdown) *\(</regex>
+					<regex>(\b@??socket_strerror) *\(</regex>
+					<regex>(\b@??socket) *\(</regex>
+					<regex>(\b@??socket_writev) *\(</regex>
+					<regex>(\b@??socket_write) *\(</regex>
+					<regex>(\b@??socketpair) *\(</regex>
+					<regex>(\b@??solid_close) *\(</regex>
+					<regex>(\b@??solid_connect) *\(</regex>
+					<regex>(\b@??solid_exec) *\(</regex>
+					<regex>(\b@??solid_fetch_prev) *\(</regex>
+					<regex>(\b@??solid_fetchrow) *\(</regex>
+					<regex>(\b@??solid_fieldname) *\(</regex>
+					<regex>(\b@??solid_fieldnum) *\(</regex>
+					<regex>(\b@??solid_freeresult) *\(</regex>
+					<regex>(\b@??solid_numfields) *\(</regex>
+					<regex>(\b@??solid_numrows) *\(</regex>
+					<regex>(\b@??solid_result) *\(</regex>
+					<regex>(\b@??sort) *\(</regex>
+					<regex>(\b@??soundex) *\(</regex>
+					<regex>(\b@??spliti) *\(</regex>
+					<regex>(\b@??split) *\(</regex>
+					<regex>(\b@??sprintf) *\(</regex>
+					<regex>(\b@??sql_regcase) *\(</regex>
+					<regex>(\b@??sqlconnect) *\(</regex>
+					<regex>(\b@??sqldisconnect) *\(</regex>
+					<regex>(\b@??sqlexecdirect) *\(</regex>
+					<regex>(\b@??sqlfetch) *\(</regex>
+					<regex>(\b@??sqlfree) *\(</regex>
+					<regex>(\b@??sqlgetdata) *\(</regex>
+					<regex>(\b@??sqlrowcount) *\(</regex>
+					<regex>(\b@??sqrt) *\(</regex>
+					<regex>(\b@??srand) *\(</regex>
+					<regex>(\b@??sscanf) *\(</regex>
+					<regex>(\b@??ssl_set) *\(</regex>
+					<regex>(\b@??stat) *\(</regex>
+					<regex>(\b@??store_result) *\(</regex>
+					<regex>(\b@??str_ireplace) *\(</regex>
+					<regex>(\b@??str_pad) *\(</regex>
+					<regex>(\b@??str_repeat) *\(</regex>
+					<regex>(\b@??str_replace) *\(</regex>
+					<regex>(\b@??str_rot13) *\(</regex>
+					<regex>(\b@??str_shuffle) *\(</regex>
+					<regex>(\b@??str_split) *\(</regex>
+					<regex>(\b@??str_word_count) *\(</regex>
+					<regex>(\b@??strcasecmp) *\(</regex>
+					<regex>(\b@??strchr) *\(</regex>
+					<regex>(\b@??strcmp) *\(</regex>
+					<regex>(\b@??strcoll) *\(</regex>
+					<regex>(\b@??strcspn) *\(</regex>
+					<regex>(\b@??stream_bucket_append) *\(</regex>
+					<regex>(\b@??stream_bucket_make_writeable) *\(</regex>
+					<regex>(\b@??stream_bucket_new) *\(</regex>
+					<regex>(\b@??stream_bucket_prepend) *\(</regex>
+					<regex>(\b@??stream_context_create) *\(</regex>
+					<regex>(\b@??stream_context_get_options) *\(</regex>
+					<regex>(\b@??stream_context_set_option) *\(</regex>
+					<regex>(\b@??stream_context_set_params) *\(</regex>
+					<regex>(\b@??stream_copy_to_stream) *\(</regex>
+					<regex>(\b@??stream_filter_append) *\(</regex>
+					<regex>(\b@??stream_filter_prepend) *\(</regex>
+					<regex>(\b@??stream_get_filters) *\(</regex>
+					<regex>(\b@??stream_get_line) *\(</regex>
+					<regex>(\b@??stream_get_meta_data) *\(</regex>
+					<regex>(\b@??stream_get_wrappers) *\(</regex>
+					<regex>(\b@??stream_register_filter) *\(</regex>
+					<regex>(\b@??stream_register_wrapper) *\(</regex>
+					<regex>(\b@??stream_select) *\(</regex>
+					<regex>(\b@??stream_set_blocking) *\(</regex>
+					<regex>(\b@??stream_set_timeout) *\(</regex>
+					<regex>(\b@??stream_set_write_buffer) *\(</regex>
+					<regex>(\b@??stream_socket_accept) *\(</regex>
+					<regex>(\b@??stream_socket_client) *\(</regex>
+					<regex>(\b@??stream_socket_get_name) *\(</regex>
+					<regex>(\b@??stream_socket_server) *\(</regex>
+					<regex>(\b@??streammp3) *\(</regex>
+					<regex>(\b@??strerror) *\(</regex>
+					<regex>(\b@??strftime) *\(</regex>
+					<regex>(\b@??strip_tags) *\(</regex>
+					<regex>(\b@??stripcslashes) *\(</regex>
+					<regex>(\b@??stripos) *\(</regex>
+					<regex>(\b@??stripslashes) *\(</regex>
+					<regex>(\b@??stristr) *\(</regex>
+					<regex>(\b@??strlen) *\(</regex>
+					<regex>(\b@??strnatcasecmp) *\(</regex>
+					<regex>(\b@??strnatcmp) *\(</regex>
+					<regex>(\b@??strncasecmp) *\(</regex>
+					<regex>(\b@??strncmp) *\(</regex>
+					<regex>(\b@??strpbrk) *\(</regex>
+					<regex>(\b@??strpos) *\(</regex>
+					<regex>(\b@??strrchr) *\(</regex>
+					<regex>(\b@??strrev) *\(</regex>
+					<regex>(\b@??strripos) *\(</regex>
+					<regex>(\b@??strrpos) *\(</regex>
+					<regex>(\b@??strspn) *\(</regex>
+					<regex>(\b@??strstr) *\(</regex>
+					<regex>(\b@??strtok) *\(</regex>
+					<regex>(\b@??strtolower) *\(</regex>
+					<regex>(\b@??strtotime) *\(</regex>
+					<regex>(\b@??strtoupper) *\(</regex>
+					<regex>(\b@??strtr) *\(</regex>
+					<regex>(\b@??strval) *\(</regex>
+					<regex>(\b@??substr_count) *\(</regex>
+					<regex>(\b@??substr) *\(</regex>
+					<regex>(\b@??substr_replace) *\(</regex>
+					<regex>(\b@??swf_actiongeturl) *\(</regex>
+					<regex>(\b@??swf_actiongotoframe) *\(</regex>
+					<regex>(\b@??swf_actiongotolabel) *\(</regex>
+					<regex>(\b@??swf_actionnextframe) *\(</regex>
+					<regex>(\b@??swf_actionplay) *\(</regex>
+					<regex>(\b@??swf_actionprevframe) *\(</regex>
+					<regex>(\b@??swf_actionsettarget) *\(</regex>
+					<regex>(\b@??swf_actionstop) *\(</regex>
+					<regex>(\b@??swf_actiontogglequality) *\(</regex>
+					<regex>(\b@??swf_actionwaitforframe) *\(</regex>
+					<regex>(\b@??swf_addbuttonrecord) *\(</regex>
+					<regex>(\b@??swf_addcolor) *\(</regex>
+					<regex>(\b@??swf_closefile) *\(</regex>
+					<regex>(\b@??swf_definebitmap) *\(</regex>
+					<regex>(\b@??swf_definefont) *\(</regex>
+					<regex>(\b@??swf_defineline) *\(</regex>
+					<regex>(\b@??swf_definepoly) *\(</regex>
+					<regex>(\b@??swf_definerect) *\(</regex>
+					<regex>(\b@??swf_definetext) *\(</regex>
+					<regex>(\b@??swf_endbutton) *\(</regex>
+					<regex>(\b@??swf_enddoaction) *\(</regex>
+					<regex>(\b@??swf_endshape) *\(</regex>
+					<regex>(\b@??swf_endsymbol) *\(</regex>
+					<regex>(\b@??swf_fontsize) *\(</regex>
+					<regex>(\b@??swf_fontslant) *\(</regex>
+					<regex>(\b@??swf_fonttracking) *\(</regex>
+					<regex>(\b@??swf_getbitmapinfo) *\(</regex>
+					<regex>(\b@??swf_getfontinfo) *\(</regex>
+					<regex>(\b@??swf_getframe) *\(</regex>
+					<regex>(\b@??swf_labelframe) *\(</regex>
+					<regex>(\b@??swf_lookat) *\(</regex>
+					<regex>(\b@??swf_modifyobject) *\(</regex>
+					<regex>(\b@??swf_mulcolor) *\(</regex>
+					<regex>(\b@??swf_nextid) *\(</regex>
+					<regex>(\b@??swf_oncondition) *\(</regex>
+					<regex>(\b@??swf_openfile) *\(</regex>
+					<regex>(\b@??swf_ortho2) *\(</regex>
+					<regex>(\b@??swf_ortho) *\(</regex>
+					<regex>(\b@??swf_perspective) *\(</regex>
+					<regex>(\b@??swf_placeobject) *\(</regex>
+					<regex>(\b@??swf_polarview) *\(</regex>
+					<regex>(\b@??swf_popmatrix) *\(</regex>
+					<regex>(\b@??swf_posround) *\(</regex>
+					<regex>(\b@??swf_pushmatrix) *\(</regex>
+					<regex>(\b@??swf_removeobject) *\(</regex>
+					<regex>(\b@??swf_rotate) *\(</regex>
+					<regex>(\b@??swf_scale) *\(</regex>
+					<regex>(\b@??swf_setfont) *\(</regex>
+					<regex>(\b@??swf_setframe) *\(</regex>
+					<regex>(\b@??swf_shapearc) *\(</regex>
+					<regex>(\b@??swf_shapecurveto3) *\(</regex>
+					<regex>(\b@??swf_shapecurveto) *\(</regex>
+					<regex>(\b@??swf_shapefillbitmapclip) *\(</regex>
+					<regex>(\b@??swf_shapefillbitmaptile) *\(</regex>
+					<regex>(\b@??swf_shapefilloff) *\(</regex>
+					<regex>(\b@??swf_shapefillsolid) *\(</regex>
+					<regex>(\b@??swf_shapelinesolid) *\(</regex>
+					<regex>(\b@??swf_shapelineto) *\(</regex>
+					<regex>(\b@??swf_shapemoveto) *\(</regex>
+					<regex>(\b@??swf_showframe) *\(</regex>
+					<regex>(\b@??swf_startbutton) *\(</regex>
+					<regex>(\b@??swf_startdoaction) *\(</regex>
+					<regex>(\b@??swf_startshape) *\(</regex>
+					<regex>(\b@??swf_startsymbol) *\(</regex>
+					<regex>(\b@??swf_textwidth) *\(</regex>
+					<regex>(\b@??swf_translate) *\(</regex>
+					<regex>(\b@??swf_viewport) *\(</regex>
+					<regex>(\b@??swfaction) *\(</regex>
+					<regex>(\b@??swfbitmap) *\(</regex>
+					<regex>(\b@??swfbutton_keypress) *\(</regex>
+					<regex>(\b@??swfbutton) *\(</regex>
+					<regex>(\b@??swffill) *\(</regex>
+					<regex>(\b@??swffont) *\(</regex>
+					<regex>(\b@??swfgradient) *\(</regex>
+					<regex>(\b@??swfmorph) *\(</regex>
+					<regex>(\b@??swfmovie) *\(</regex>
+					<regex>(\b@??swfshape) *\(</regex>
+					<regex>(\b@??swfsprite) *\(</regex>
+					<regex>(\b@??swftext) *\(</regex>
+					<regex>(\b@??swftextfield) *\(</regex>
+					<regex>(\b@??sybase_affected_rows) *\(</regex>
+					<regex>(\b@??sybase_close) *\(</regex>
+					<regex>(\b@??sybase_connect) *\(</regex>
+					<regex>(\b@??sybase_data_seek) *\(</regex>
+					<regex>(\b@??sybase_deadlock_retry_count) *\(</regex>
+					<regex>(\b@??sybase_fetch_array) *\(</regex>
+					<regex>(\b@??sybase_fetch_assoc) *\(</regex>
+					<regex>(\b@??sybase_fetch_field) *\(</regex>
+					<regex>(\b@??sybase_fetch_object) *\(</regex>
+					<regex>(\b@??sybase_fetch_row) *\(</regex>
+					<regex>(\b@??sybase_field_seek) *\(</regex>
+					<regex>(\b@??sybase_free_result) *\(</regex>
+					<regex>(\b@??sybase_get_last_message) *\(</regex>
+					<regex>(\b@??sybase_min_client_severity) *\(</regex>
+					<regex>(\b@??sybase_min_error_severity) *\(</regex>
+					<regex>(\b@??sybase_min_message_severity) *\(</regex>
+					<regex>(\b@??sybase_min_server_severity) *\(</regex>
+					<regex>(\b@??sybase_num_fields) *\(</regex>
+					<regex>(\b@??sybase_num_rows) *\(</regex>
+					<regex>(\b@??sybase_pconnect) *\(</regex>
+					<regex>(\b@??sybase_query) *\(</regex>
+					<regex>(\b@??sybase_result) *\(</regex>
+					<regex>(\b@??sybase_select_db) *\(</regex>
+					<regex>(\b@??sybase_set_message_handler) *\(</regex>
+					<regex>(\b@??sybase_unbuffered_query) *\(</regex>
+					<regex>(\b@??symlink) *\(</regex>
+					<regex>(\b@??syslog) *\(</regex>
+					<regex>(\b@??system) *\(</regex>
+					<regex>(\b@??tanh) *\(</regex>
+					<regex>(\b@??tan) *\(</regex>
+					<regex>(\b@??tempnam) *\(</regex>
+					<regex>(\b@??textdomain) *\(</regex>
+					<regex>(\b@??thread_id) *\(</regex>
+					<regex>(\b@??thread_safe) *\(</regex>
+					<regex>(\b@??time) *\(</regex>
+					<regex>(\b@??tmpfile) *\(</regex>
+					<regex>(\b@??token_get_all) *\(</regex>
+					<regex>(\b@??token_name) *\(</regex>
+					<regex>(\b@??touch) *\(</regex>
+					<regex>(\b@??trigger_error) *\(</regex>
+					<regex>(\b@??trim) *\(</regex>
+					<regex>(\b@??uasort) *\(</regex>
+					<regex>(\b@??ucfirst) *\(</regex>
+					<regex>(\b@??ucwords) *\(</regex>
+					<regex>(\b@??udm_add_search_limit) *\(</regex>
+					<regex>(\b@??udm_alloc_agent) *\(</regex>
+					<regex>(\b@??udm_api_version) *\(</regex>
+					<regex>(\b@??udm_cat_list) *\(</regex>
+					<regex>(\b@??udm_cat_path) *\(</regex>
+					<regex>(\b@??udm_check_charset) *\(</regex>
+					<regex>(\b@??udm_check_stored) *\(</regex>
+					<regex>(\b@??udm_clear_search_limits) *\(</regex>
+					<regex>(\b@??udm_close_stored) *\(</regex>
+					<regex>(\b@??udm_crc32) *\(</regex>
+					<regex>(\b@??udm_errno) *\(</regex>
+					<regex>(\b@??udm_error) *\(</regex>
+					<regex>(\b@??udm_find) *\(</regex>
+					<regex>(\b@??udm_free_agent) *\(</regex>
+					<regex>(\b@??udm_free_ispell_data) *\(</regex>
+					<regex>(\b@??udm_free_res) *\(</regex>
+					<regex>(\b@??udm_get_doc_count) *\(</regex>
+					<regex>(\b@??udm_get_res_field_ex) *\(</regex>
+					<regex>(\b@??udm_get_res_field) *\(</regex>
+					<regex>(\b@??udm_get_res_param) *\(</regex>
+					<regex>(\b@??udm_load_ispell_data) *\(</regex>
+					<regex>(\b@??udm_make_excerpt) *\(</regex>
+					<regex>(\b@??udm_open_stored) *\(</regex>
+					<regex>(\b@??udm_parse_query_string) *\(</regex>
+					<regex>(\b@??udm_set_agent_param_ex) *\(</regex>
+					<regex>(\b@??udm_set_agent_param) *\(</regex>
+					<regex>(\b@??uksort) *\(</regex>
+					<regex>(\b@??umask) *\(</regex>
+					<regex>(\b@??uniqid) *\(</regex>
+					<regex>(\b@??unixtojd) *\(</regex>
+					<regex>(\b@??unlink) *\(</regex>
+					<regex>(\b@??unpack) *\(</regex>
+					<regex>(\b@??unregister_tick_function) *\(</regex>
+					<regex>(\b@??unserialize) *\(</regex>
+					<regex>(\b@??urldecode) *\(</regex>
+					<regex>(\b@??urlencode) *\(</regex>
+					<regex>(\b@??use_result) *\(</regex>
+					<regex>(\b@??user_error) *\(</regex>
+					<regex>(\b@??usleep) *\(</regex>
+					<regex>(\b@??usort) *\(</regex>
+					<regex>(\b@??utf8_decode) *\(</regex>
+					<regex>(\b@??utf8_encode) *\(</regex>
+					<regex>(\b@??var_dump) *\(</regex>
+					<regex>(\b@??var_export) *\(</regex>
+					<regex>(\b@??velocis_autocommit) *\(</regex>
+					<regex>(\b@??velocis_close) *\(</regex>
+					<regex>(\b@??velocis_commit) *\(</regex>
+					<regex>(\b@??velocis_connect) *\(</regex>
+					<regex>(\b@??velocis_exec) *\(</regex>
+					<regex>(\b@??velocis_fetch) *\(</regex>
+					<regex>(\b@??velocis_fieldname) *\(</regex>
+					<regex>(\b@??velocis_fieldnum) *\(</regex>
+					<regex>(\b@??velocis_freeresult) *\(</regex>
+					<regex>(\b@??velocis_off_autocommit) *\(</regex>
+					<regex>(\b@??velocis_result) *\(</regex>
+					<regex>(\b@??velocis_rollback) *\(</regex>
+					<regex>(\b@??version_compare) *\(</regex>
+					<regex>(\b@??vfprintf) *\(</regex>
+					<regex>(\b@??virtual) *\(</regex>
+					<regex>(\b@??vm_addalias) *\(</regex>
+					<regex>(\b@??vm_adduser) *\(</regex>
+					<regex>(\b@??vm_delalias) *\(</regex>
+					<regex>(\b@??vm_deluser) *\(</regex>
+					<regex>(\b@??vm_passwd) *\(</regex>
+					<regex>(\b@??vpopmail_add_alias_domain_ex) *\(</regex>
+					<regex>(\b@??vpopmail_add_alias_domain) *\(</regex>
+					<regex>(\b@??vpopmail_add_domain_ex) *\(</regex>
+					<regex>(\b@??vpopmail_add_domain) *\(</regex>
+					<regex>(\b@??vpopmail_add_user) *\(</regex>
+					<regex>(\b@??vpopmail_alias_add) *\(</regex>
+					<regex>(\b@??vpopmail_alias_del) *\(</regex>
+					<regex>(\b@??vpopmail_alias_del_domain) *\(</regex>
+					<regex>(\b@??vpopmail_alias_get_all) *\(</regex>
+					<regex>(\b@??vpopmail_alias_get) *\(</regex>
+					<regex>(\b@??vpopmail_auth_user) *\(</regex>
+					<regex>(\b@??vpopmail_del_domain_ex) *\(</regex>
+					<regex>(\b@??vpopmail_del_domain) *\(</regex>
+					<regex>(\b@??vpopmail_del_user) *\(</regex>
+					<regex>(\b@??vpopmail_error) *\(</regex>
+					<regex>(\b@??vpopmail_passwd) *\(</regex>
+					<regex>(\b@??vpopmail_set_user_quota) *\(</regex>
+					<regex>(\b@??vprintf) *\(</regex>
+					<regex>(\b@??vsprintf) *\(</regex>
+					<regex>(\b@??w32api_deftype) *\(</regex>
+					<regex>(\b@??w32api_init_dtype) *\(</regex>
+					<regex>(\b@??w32api_invoke_function) *\(</regex>
+					<regex>(\b@??w32api_register_function) *\(</regex>
+					<regex>(\b@??w32api_set_call_method) *\(</regex>
+					<regex>(\b@??warning_count) *\(</regex>
+					<regex>(\b@??wddx_add_vars) *\(</regex>
+					<regex>(\b@??wddx_deserialize) *\(</regex>
+					<regex>(\b@??wddx_packet_end) *\(</regex>
+					<regex>(\b@??wddx_packet_start) *\(</regex>
+					<regex>(\b@??wddx_serialize_value) *\(</regex>
+					<regex>(\b@??wddx_serialize_vars) *\(</regex>
+					<regex>(\b@??wddx_serialize) *\(</regex>
+					<regex>(\b@??wddx_unserialize) *\(</regex>
+					<regex>(\b@??wordwrap) *\(</regex>
+					<regex>(\b@??writev) *\(</regex>
+					<regex>(\b@??write) *\(</regex>
+					<regex>(\b@??xml_error_string) *\(</regex>
+					<regex>(\b@??xml_get_current_byte_index) *\(</regex>
+					<regex>(\b@??xml_get_current_column_number) *\(</regex>
+					<regex>(\b@??xml_get_current_line_number) *\(</regex>
+					<regex>(\b@??xml_get_error_code) *\(</regex>
+					<regex>(\b@??xml_parse_into_struct) *\(</regex>
+					<regex>(\b@??xml_parser_create) *\(</regex>
+					<regex>(\b@??xml_parser_create_ns) *\(</regex>
+					<regex>(\b@??xml_parse) *\(</regex>
+					<regex>(\b@??xml_parser_free) *\(</regex>
+					<regex>(\b@??xml_parser_get_option) *\(</regex>
+					<regex>(\b@??xml_parser_set_option) *\(</regex>
+					<regex>(\b@??xml_set_character_data_handler) *\(</regex>
+					<regex>(\b@??xml_set_default_handler) *\(</regex>
+					<regex>(\b@??xml_set_element_handler) *\(</regex>
+					<regex>(\b@??xml_set_end_namespace_decl_handler) *\(</regex>
+					<regex>(\b@??xml_set_external_entity_ref_handler) *\(</regex>
+					<regex>(\b@??xml_set_notation_decl_handler) *\(</regex>
+					<regex>(\b@??xml_set_object) *\(</regex>
+					<regex>(\b@??xml_set_processing_instruction_handler) *\(</regex>
+					<regex>(\b@??xml_set_start_namespace_decl_handler) *\(</regex>
+					<regex>(\b@??xml_set_unparsed_entity_decl_handler) *\(</regex>
+					<regex>(\b@??xmldocfile) *\(</regex>
+					<regex>(\b@??xmldoc) *\(</regex>
+					<regex>(\b@??xmlrpc_decode) *\(</regex>
+					<regex>(\b@??xmlrpc_decode_request) *\(</regex>
+					<regex>(\b@??xmlrpc_encode_request) *\(</regex>
+					<regex>(\b@??xmlrpc_encode) *\(</regex>
+					<regex>(\b@??xmlrpc_get_type) *\(</regex>
+					<regex>(\b@??xmlrpc_is_fault) *\(</regex>
+					<regex>(\b@??xmlrpc_parse_method_descriptions) *\(</regex>
+					<regex>(\b@??xmlrpc_server_add_introspection_data) *\(</regex>
+					<regex>(\b@??xmlrpc_server_call_method) *\(</regex>
+					<regex>(\b@??xmlrpc_server_create) *\(</regex>
+					<regex>(\b@??xmlrpc_server_destroy) *\(</regex>
+					<regex>(\b@??xmlrpc_server_register_introspection_callback) *\(</regex>
+					<regex>(\b@??xmlrpc_server_register_method) *\(</regex>
+					<regex>(\b@??xmlrpc_set_type) *\(</regex>
+					<regex>(\b@??xmltree) *\(</regex>
+					<regex>(\b@??xpath_eval_expression) *\(</regex>
+					<regex>(\b@??xpath_eval) *\(</regex>
+					<regex>(\b@??xpath_new_context) *\(</regex>
+					<regex>(\b@??xpath_register_ns_auto) *\(</regex>
+					<regex>(\b@??xpath_register_ns) *\(</regex>
+					<regex>(\b@??xptr_eval) *\(</regex>
+					<regex>(\b@??xptr_new_context) *\(</regex>
+					<regex>(\b@??xslt_backend_info) *\(</regex>
+					<regex>(\b@??xslt_backend_name) *\(</regex>
+					<regex>(\b@??xslt_backend_version) *\(</regex>
+					<regex>(\b@??xslt_closelog) *\(</regex>
+					<regex>(\b@??xslt_create) *\(</regex>
+					<regex>(\b@??xslt_errno) *\(</regex>
+					<regex>(\b@??xslt_error) *\(</regex>
+					<regex>(\b@??xslt_fetch_result) *\(</regex>
+					<regex>(\b@??xslt_free) *\(</regex>
+					<regex>(\b@??xslt_getopt) *\(</regex>
+					<regex>(\b@??xslt_openlog) *\(</regex>
+					<regex>(\b@??xslt_output_begintransform) *\(</regex>
+					<regex>(\b@??xslt_output_endtransform) *\(</regex>
+					<regex>(\b@??xslt_process) *\(</regex>
+					<regex>(\b@??xslt_run) *\(</regex>
+					<regex>(\b@??xslt_set_base) *\(</regex>
+					<regex>(\b@??xslt_set_encoding) *\(</regex>
+					<regex>(\b@??xslt_set_error_handler) *\(</regex>
+					<regex>(\b@??xslt_set_log) *\(</regex>
+					<regex>(\b@??xslt_set_object) *\(</regex>
+					<regex>(\b@??xslt_set_sax_handlers) *\(</regex>
+					<regex>(\b@??xslt_set_sax_handler) *\(</regex>
+					<regex>(\b@??xslt_set_scheme_handlers) *\(</regex>
+					<regex>(\b@??xslt_set_scheme_handler) *\(</regex>
+					<regex>(\b@??xslt_setopt) *\(</regex>
+					<regex>(\b@??xslt_transform) *\(</regex>
+					<regex>(\b@??yaz_addinfo) *\(</regex>
+					<regex>(\b@??yaz_ccl_conf) *\(</regex>
+					<regex>(\b@??yaz_ccl_parse) *\(</regex>
+					<regex>(\b@??yaz_close) *\(</regex>
+					<regex>(\b@??yaz_connect) *\(</regex>
+					<regex>(\b@??yaz_database) *\(</regex>
+					<regex>(\b@??yaz_element) *\(</regex>
+					<regex>(\b@??yaz_errno) *\(</regex>
+					<regex>(\b@??yaz_error) *\(</regex>
+					<regex>(\b@??yaz_es_result) *\(</regex>
+					<regex>(\b@??yaz_get_option) *\(</regex>
+					<regex>(\b@??yaz_hits) *\(</regex>
+					<regex>(\b@??yaz_itemorder) *\(</regex>
+					<regex>(\b@??yaz_present) *\(</regex>
+					<regex>(\b@??yaz_range) *\(</regex>
+					<regex>(\b@??yaz_record) *\(</regex>
+					<regex>(\b@??yaz_scan_result) *\(</regex>
+					<regex>(\b@??yaz_scan) *\(</regex>
+					<regex>(\b@??yaz_schema) *\(</regex>
+					<regex>(\b@??yaz_search) *\(</regex>
+					<regex>(\b@??yaz_set_option) *\(</regex>
+					<regex>(\b@??yaz_sort) *\(</regex>
+					<regex>(\b@??yaz_syntax) *\(</regex>
+					<regex>(\b@??yaz_wait) *\(</regex>
+					<regex>(\b@??yp_all) *\(</regex>
+					<regex>(\b@??yp_cat) *\(</regex>
+					<regex>(\b@??yp_err_string) *\(</regex>
+					<regex>(\b@??yp_errno) *\(</regex>
+					<regex>(\b@??yp_first) *\(</regex>
+					<regex>(\b@??yp_get_default_domain) *\(</regex>
+					<regex>(\b@??yp_master) *\(</regex>
+					<regex>(\b@??yp_match) *\(</regex>
+					<regex>(\b@??yp_next) *\(</regex>
+					<regex>(\b@??yp_order) *\(</regex>
+					<regex>(\b@??zend_logo_guid) *\(</regex>
+					<regex>(\b@??zend_test_func) *\(</regex>
+					<regex>(\b@??zend_thread_id) *\(</regex>
+					<regex>(\b@??zend_version) *\(</regex>
+					<regex>(\b@??zip_close) *\(</regex>
+					<regex>(\b@??zip_entry_close) *\(</regex>
+					<regex>(\b@??zip_entry_compressedsize) *\(</regex>
+					<regex>(\b@??zip_entry_compressionmethod) *\(</regex>
+					<regex>(\b@??zip_entry_filesize) *\(</regex>
+					<regex>(\b@??zip_entry_name) *\(</regex>
+					<regex>(\b@??zip_entry_open) *\(</regex>
+					<regex>(\b@??zip_entry_read) *\(</regex>
+					<regex>(\b@??zip_open) *\(</regex>
+					<regex>(\b@??zip_read) *\(</regex>
+					<regex>(\b@??zlib_get_coding_type) *\(</regex>
+					<regex>(\b@??zzip_closedir) *\(</regex>
+					<regex>(\b@??zzip_close) *\(</regex>
+					<regex>(\b@??zzip_entry_compressedsize) *\(</regex>
+					<regex>(\b@??zzip_entry_compressionmethod) *\(</regex>
+					<regex>(\b@??zzip_entry_filesize) *\(</regex>
+					<regex>(\b@??zzip_entry_name) *\(</regex>
+					<regex>(\b@??zzip_opendir) *\(</regex>
+					<regex>(\b@??zzip_open) *\(</regex>
+					<regex>(\b@??zzip_readdir) *\(</regex>
+					<regex>(\b@??zzip_read) *\(</regex>
+                </keywords>
+                <keywords id="PHP Keywords" useforautocomplete="yes" scope="keyword">
+                    <string>clone</string>
+                    <string>die</string>
+                    <string>echo</string>
+                    <string>exit</string>
+                    <string>function</string>
+                    <string>list</string>
+                    <string>new</string>
+                    <string>parent</string>
+                    <string>print</string>
+                    <string>real</string>
+                    <string>resource</string>
+                    <string>this</string>
+                </keywords>
+                <keywords id="PHP Control Keywords" useforautocomplete="yes" scope="keyword.control">
+				  <string>class</string>
+                  <string>and</string>
+                  <string>as</string>
+                  <string>break</string>
+                  <string>case</string>
+                  <string>catch</string>
+                  <string>continue</string>
+                  <string>declare</string>
+                  <string>default</string>
+                  <string>do</string>
+                  <string>elseif</string>
+                  <string>else</string>
+                  <string>enddeclare</string>
+                  <string>endfor</string>
+                  <string>endforeach</string>
+                  <string>endif</string>
+                  <string>endswitch</string>
+                  <string>endwhile</string>
+                  <string>foreach</string>
+                  <string>for</string>
+                  <string>goto</string>
+                  <string>if</string>
+                  <string>include_once</string>
+                  <string>include</string>
+                  <string>or</string>
+                  <string>require_once</string>
+                  <string>require</string>
+                  <string>return</string>
+                  <string>switch</string>
+                  <string>throw</string>
+                  <string>try</string>
+                  <string>use</string>
+                  <string>while</string>
+                  <string>xor</string>
+                  <string>trait</string>
+                </keywords>
+                <keywords id="PHP Types" useforautocomplete="yes" scope="keyword.type">
+					<string>abstract</string>
+					<string>array</string>
+					<string>bool</string>
+					<string>boolean</string>
+					<string>const</string>
+					<string>double</string>
+					<string>extends</string>
+					<string>final</string>
+					<string>float</string>
+					<string>global</string>
+					<string>implements</string>
+					<string>instanceof</string>
+					<string>int</string>
+					<string>integer</string>
+					<string>interface</string>
+					<string>namespace</string>
+					<string>object</string>
+					<string>private</string>
+					<string>protected</string>
+					<string>public</string>
+					<string>static</string>
+					<string>string</string>
+					<string>unset</string>
+					<string>var</string>
+					<string>void</string>
+                </keywords>
+                <keywords id="PHP Magic Methods" useforautocomplete="yes" scope="support.method.special.php">
+                    <string>__construct</string>
+                    <string>__destruct</string>
+                    <string>__call</string>
+                    <string>__get</string>
+                    <string>__set</string>
+                    <string>__sleep</string>
+                    <string>__wakeup</string>
+                    <string>__toString</string>
+                    <string>__clone</string>
+                    <string>__autoload</string>
+                </keywords>
+                <keywords id="PHP Magic Constants" useforautocomplete="yes" casesensitive="no" scope="keyword.magic">
+					<string>__LINE__</string>
+				  	<string>__FILE__</string>
+				  	<string>__DIR__</string>
+				  	<string>__FUNCTION__</string>
+				  	<string>__CLASS__</string>
+				  	<string>__METHOD__</string>
+				  	<string>__NAMESPACE__</string>
+				  	<string>DIRECTORY_SEPARATOR</string>
+				  	<string>PATH_SEPARATOR</string>
+				  	<string>SCANDIR_SORT_ASCENDING</string>
+				  	<string>SCANDIR_SORT_DESCENDING</string>
+				  	<string>SCANDIR_SORT_NONE</string>
+				</keywords>
+                <keywords id="Number Literals" useforautocomplete="YES" scope="constant.numeric.keyword">
+                    <string>true</string>
+                    <string>false</string>
+                    <string>TRUE</string>
+                    <string>FALSE</string>
+                    <string>null</string>
+                    <string>NULL</string>
+                    <string>undefined</string>
+                </keywords>
+				<keywords id="Operators" useforautocomplete="no" scope="language.operator">
+					<regex>([\+\-\*\\\=\|\!])</regex>
+					<regex>(\&lt;)(?![\?])</regex>
+					<regex>(?&lt;!\?)(\&gt;)</regex>
+					<regex>([\/\%&amp;\^\~\@\.])</regex>
+				</keywords>
+                <keywords id="PHP Numbers" useforautocomplete="no" scope="constant.numeric">
+                    <regex>(?&lt;=[^\w\d]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
+                </keywords>
+                <keywords id="PHP Variables" useforautocomplete="no" scope="language.variable.php">
+                    <regex>(\$[a-zA-Z_][a-zA-Z0-9_]*)</regex>
+                </keywords>
+                <state id="PHP Comment" type="comment" foldable="yes" scope="comment.block.php">
+                    <begin>
+                        <regex>/\*</regex><autoend>\*/</autoend>
+                    </begin>
+                    <end>
+                        <regex>\*/</regex>
+                    </end>
+                </state>
+                <state id="PHP SingleComment" type="comment" scope="comment.line.php">
+                    <begin>
+                        <regex>(?://)|#</regex>
+                    </begin>
+                    <end>
+                        <regex>(?:[\n\r])|.?(?=\?>)</regex>
+                    </end>
+                </state>
+                <state id="PHP String" type="string" scope="string.double.php" usespellchecking="yes">
+                    <begin>
+                        <regex>"</regex>
+                    </begin>
+                    <end>
+                        <regex>(((?&lt;!\\)(\\\\)*)|^)"</regex>
+                    </end>
+                    <keywords id="Variables" useforautocomplete="no" scope="language.variable.string.php">
+                        <regex>(\$[a-zA-Z_][a-zA-Z0-9_]*)</regex>
+                    </keywords>
+                </state>
+                <state id="PHP String2" type="string" scope="string.single.php" usespellchecking="yes">
+                    <begin>
+                        <regex>'</regex><autoend>'</autoend>
+                    </begin>
+                    <end>
+                        <regex>(((?&lt;!\\)(\\\\)*)|^)'</regex>
+                    </end>
+                </state>
+                <state id="PHP Backticks" type="string" scope="string.backticks.php">
+                    <begin>
+                        <regex>`</regex><autoend>`</autoend>
+                    </begin>
+                    <end>
+                        <regex>(((?&lt;!\\)(\\\\)*)|^)`</regex>
+                    </end>
+                </state>
+                <state id="PHP Heredoc" type="string" scope="string.here-doc.php">
+                    <begin>
+                        <regex>&lt;&lt;&lt;(?'phpheredoc'[A-Za-z][A-Za-z0-9_]*)</regex>
+                        <autoend>\g&lt;phpheredoc></autoend>
+                    </begin>
+                    <end>
+                        <regex>(?#see-insert-start-group:phpheredoc)</regex>
+                    </end>
+                     <keywords id="Variables" useforautocomplete="no" scope="language.variable.string.php">
+                        <regex>(\$[a-zA-Z_][a-zA-Z0-9_]*)</regex>
+                    </keywords>
+                </state>
+                <state id="PHP Heredoc Quotes" type="string" scope="string.here-doc.php">
+                    <begin>
+                        <regex>&lt;&lt;&lt;"(?'phpheredocquotes'[A-Za-z][A-Za-z0-9_]*)"</regex>
+                        <autoend>\g&lt;phpheredocquotes></autoend>
+                    </begin>
+                    <end>
+                        <regex>(?#see-insert-start-group:phpheredocquotes)</regex>
+                    </end>
+                     <keywords id="Variables" useforautocomplete="no" scope="language.variable.string.php">
+                        <regex>(\$[a-zA-Z_][a-zA-Z0-9_]*)</regex>
+                    </keywords>
+                </state>
+
+                <state id="PHP Nowdoc" type="string" scope="string.now-doc.php">
+                    <begin>
+                        <regex>&lt;&lt;&lt;'(?'phpnowdoc'[A-Za-z][A-Za-z0-9_]*)'</regex>
+                        <autoend>\g&lt;phpnowdoc></autoend>
+                    </begin>
+                    <end>
+                        <regex>(?#see-insert-start-group:phpnowdoc)</regex>
+                    </end>
+                </state>
+                <state id="PHP Block" type="block" foldable="yes" scope="meta.block.curly">
+                    <begin>
+                        <regex>{</regex><autoend>}</autoend>
+                    </begin>
+                    <end>
+                        <regex>(?:}|(?'unwindend'\?>))</regex>
+                    </end>
+                    <import state="PHP"/>
+                </state>
+                
+            </state>
+            
+            <!--  This is the "we do a complete HTML mode and import php everywhere" section -->
+			<state-link mode="XML" state="Comment"/>
+            
+			<state id="CDATA" foldable="yes" scope="markup.inline.cdata">
+				<begin>
+					<regex>&lt;!\s*\[CDATA\s*\[</regex>
+					<autoend>\]\]></autoend>
+				</begin>
+				<end>
+					<regex>\]\s*\]\s*></regex>
+				</end>
+                <state-link state="PHP"/>
+            </state>
+			 <state id="Doctype" foldable="no" scope="markup.declaration">
+                <begin>
+                    <regex>&lt;!</regex><autoend>></autoend>
+                </begin>
+                <end>
+                    <regex>></regex>
+                </end>
+				<state id="String" type="string" scope="markup.declaration.string.double">
+					<begin><regex>"</regex></begin>
+					<end><regex>"</regex></end>
+					<state-link state="PHP"/>
+				</state>
+				<state id="SingleString" type="string" scope="markup.declaration.string.single">
+					<begin><regex>'</regex></begin>
+					<end><regex>'</regex></end>
+					<state-link state="PHP"/>
+				</state>
+				<state id="Block" type="block" foldable="yes" indent="yes" scope="meta.block.square">
+					<begin><regex>\[</regex><autoend>\]</autoend></begin>
+					<end><regex>]</regex></end>
+					<import />
+				</state>
+			   <state-link state="PHP"/>
+            </state>
+         <state id="Escape" foldable="no" scope="markup.processing">
+                <begin>
+                    <regex>&lt;\?</regex><autoend>\?></autoend>
+                </begin>
+                <end>
+                    <regex>\?></regex>
+                </end>
+				<state id="ProcessingString" type="string" scope="markup.processing.attribute.value.string">
+					<begin><regex>"</regex></begin>
+					<end><regex>"</regex></end>
+                   <state-link state="PHP"/>
+				</state>
+				<state id="ProcessingSingleString" type="string" scope="markup.processing.attribute.value.string">
+					<begin><regex>'</regex></begin>
+					<end><regex>'</regex></end>
+                   <state-link state="PHP"/>
+				</state>
+                   <state-link state="PHP"/>
+            </state>
+            <state id="Inline CSS" delimiterState="Tags" usesymbolsfrommode="CSS" useautocompletefrommode="CSS" foldable="yes" indent="yes" scope="meta.block.css">
+                <begin>
+                    <regex>&lt;[\t ]*(?i)style.*?(?&lt;![/?])></regex>
+                    <autoend>&lt;/(?i)style></autoend>
+                </begin>
+                <end>
+                    <regex>&lt;/[\t ]*(?i)style[\t ]*></regex>
+                </end>
+
+                <state-link state="PHP"/>
+                
+				<state id="CSSInside curly brackets" foldable="yes" indent="yes" scope="meta.block.curly">
+					<begin>
+						<string>{</string>
+						<autoend>}</autoend>
+					</begin>
+					<end>
+						<regex>}</regex>
+					</end>
+					
+					<import mode="CSS" state="Inside curly brackets" keywords-only="yes"/>
+					<state id="CSS Attribute state" scope="meta.block.attribute">
+						<begin>
+							<string>:</string>
+						</begin>
+						<end>
+							<regex>(;|(?'unwindend'[{}]))</regex>
+						</end>
+					   <import mode="CSS" state="Attribute state" keywords-only="yes"/>
+						<state-link state="PHP"/>
+						<state-link state="CSSAutodocComment"/>
+						<state-link state="CSSComment"/>
+						<state-link state="CSSString"/>
+						<state-link state="CSSSingleString"/>
+					</state>
+					<state-link state="CSSAutodocComment"/>
+					<state-link state="CSSComment"/>
+					<state-link state="CSSString"/>
+					<state-link state="CSSSingleString"/>
+					<state-link state="PHP"/>
+				</state>
+
+                <import keywords-only="yes"/>
+
+				<state id="CSSRules" scope="style.at-rule">
+					<begin>
+						<regex>^@[-\w_]+</regex>
+					</begin>
+					<end>
+						<regex>.(?=[{\n\r])</regex>
+					</end>
+				</state>
+				
+				<state id="CSSAutodocComment" type="comment" foldable="yes" scope="style.comment.block.documentation">
+					<begin>
+						<string>/\*"</string>
+						<autoend>"\*/</autoend>
+					</begin>
+					<end>
+						<regex>"\*/</regex>
+					</end>
+					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+				</state>
+				<state id="CSSComment" type="comment" foldable="yes" scope="style.comment.block">
+					<begin>
+						<string>/\*</string>
+						<autoend>\*/</autoend>
+					</begin>
+					<end>
+						<regex>\*/</regex>
+					</end>
+					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+				</state>
+				<state id="CSSString" type="string" scope="style.value.string.double">
+					<begin>
+						<string>"</string>
+					</begin>
+					<end>
+						<regex>(?&lt;!\\)(\\\\)*"</regex>
+					</end>
+					<state-link state="PHP"/>
+				</state>
+				<state id="CSSSingleString" type="string" scope="style.value.string.single">
+					<begin>
+						<string>'</string>
+					</begin>
+					<end>
+						<regex>(?&lt;!\\)(\\\\)*'</regex>
+					</end>
+					<state-link state="PHP"/>
+				</state>
+            </state>
+
+			<state id="JavaScript Container" containerState="yes" usesymbolsfrommode="JavaScript" useautocompletefrommode="JavaScript" scope="meta.block.js">
+				
+				<state-link state="PHP"/>
+				<import mode="JavaScript" keywords-only="yes"/>
+
+				<state id="JSAutodocComment" type="comment" foldable="yes" scope="comment.block.documentation.js">
+					<begin><regex>/\*"</regex></begin>
+					<end><regex>"\*/</regex></end>
+				</state>
+		
+				<state id="JSComment" type="comment" foldable="yes" scope="comment.block.js">
+					<begin><regex>/\*</regex><autoend>\*/</autoend></begin>
+					<end><regex>\*/</regex></end>
+					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+				</state>
+					
+				<state id="JSRegular Expressions" type="string" scope="string.regex.js">
+                	<begin><regex>(?i)(?&lt;=[=(,:\+~!?]|return|;)\s*/(?![/*+{}?\r\n])</regex></begin>
+					<end><regex>/[cgimosx]*</regex></end>
+                    
+                    <state id="Escaped Characters" scope="string.regex.escaped.js">
+						<begin><regex>\\</regex></begin>
+						<end><regex>.</regex></end>	
+					</state>
+                    <state-link state="PHP"/> 
+				</state>
+		
+				<state id="JSString" type="string" scope="string.double.js">
+					<begin><regex>"</regex></begin>
+					<end><regex>(?&lt;!\\)(\\\\)*"</regex></end>
+                    <state-link state="PHP"/>
+				</state>
+		
+				<state id="JSSingleString" type="string" scope="string.single.js">
+					<begin><regex>'</regex></begin>
+					<end><regex>(?&lt;!\\)(\\\\)*'</regex></end>
+                    <state-link state="PHP"/>
+				</state>
+			</state>
+
+            <state id="Inline JavaScript" delimiterState="Tags" usesymbolsfrommode="JavaScript" useautocompletefrommode="JavaScript" foldable="yes" scope="meta.block.js">
+                <begin>
+                    <regex>(?:&lt;[ \t]*(?i)script\s*?>)|(?:&lt;(?i)script.+?javascript.*?(?&lt;![?-])>)</regex>
+                    <autoend>&lt;/script></autoend>
+                </begin>
+                <end>
+                    <regex>&lt;(?i)/[\t ]*script[\t ]*></regex>
+                </end>
+				
+                <import mode="JavaScript" keywords-only="yes"/>
+				<import state="JavaScript Container" />
+				
+				<state id="JSSingleComment" type="comment" scope="comment.line.double-slash.js">
+					<begin><regex>//</regex></begin>
+					<end><regex>[\n\r]|(?'unwindend'&lt;\s*(?i)/\s*script\s*>)</regex></end>
+					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
+				</state>
+				<state id="JSBlock" type="block" foldable="yes" indent="yes" scope="meta.block.curly.js">
+					<begin><regex>{</regex><autoend>}</autoend></begin>
+					<end><regex>}</regex></end>
+                    <import mode="JavaScript" keywords-only="yes"/>
+                    <import mode="PHP-HTML" state="Inline JavaScript"/>
+                    <import state="JavaScript Container"/>
+				</state>
+
+			</state>
+			
+			<state id="Self Closing Tags" foldable="no" scope="markup.tag">
+            	<begin>
+                    <regex>&lt;[ \t]*(?i)(?:area|base|br|col|command|embed|hr|img|input|keygen|link|meta|param|source|track|wbr)</regex>
+                </begin>
+                <end>
+                    <regex>&gt;</regex>
+                </end>
+                <import state="Tags"/>
+            </state>
+
+            <state id="Foldable Tags" containerState="yes" delimiterState="Tags" 
+            	foldBegin="\A&lt;[ \t]*(?'xmltagstatename'(?i:(?:a(?:rticle|side|udio))|(?:h(?:ead|eader|tml|\d|group))|(?:b(?:ody|lockquote))|p|pre|a|(?:t(?:able|head|body|foot|h|d|r))|div|(?:f(?:ieldset|orm|ooter))|ul|ol|li|dl|(?:s(?:ection|elect|ource))|nav|ruby|video))\b[\s\S]*(?&lt;![/?])>\Z" foldEnd="&lt;\s*/\s*(?i)(?#see-insert-start-group:xmltagstatename)\s*>" foldable="yes" usespellchecking="yes" scope="meta.block.tag">
+				
+				<import mode="XML" keywords-only="yes"/>
+                <import keywords-only="yes"/>
+				<import/>
+			</state>
+
+			<state id="Tags" usespellchecking="no" foldState="Foldable Tags" scope="markup.tag">
+                <begin>
+                    <regex>&lt;</regex>
+                </begin>
+                <end>
+                    <regex>&gt;</regex>
+                </end>
+                
+                <state-link state="PHP" />
+                
+                <state id="Javascript Actions" usesymbolsfrommode="JavaScript" useautocompletefrommode="JavaScript" scope="meta.default" >
+					<begin><regex>(?&lt;=[ \t])(?i)on[\w]+[ \t]*=[ \t]*"</regex></begin>
+					<end><regex>"</regex></end>
+	                <keywords id="Action Attribute" useforautocomplete="no" scope="markup.tag.attribute.name">
+						<regex>\A([\w-]+)[ \t]*=</regex>
+					</keywords>
+					
+					<keywords id="Action Quotes" useforautocomplete="no" scope="markup.tag.attribute.value.string">
+						<regex>(")</regex>
+					</keywords>
+					
+					<keywords id="Action Equals" useforautocomplete="no" scope="markup.tag">
+						<regex>\A(?i)on[\w-]+([ \t]*=[ \t]*)</regex>
+					</keywords>
+					
+					<import mode="JavaScript" keywords-only="yes"/>
+	                <import state="JavaScript Container"/>
+            	</state>
+            	
+            	<state id="Links" type="url" useforautocomplete="no" scope="meta.link">
+					<begin><regex>(?&lt;=[ \t])(?i)(?:href|src)[ \t]*=[ \t]*"</regex></begin>
+					<end><regex>"</regex></end>
+
+	                <state-link state="PHP" />
+
+					<state id="Javascript in Links" usesymbolsfrommode="JavaScript" useautocompletefrommode="JavaScript" scope="meta.block.js">
+						<begin><regex>\A[ \t]*(?i)javascript:</regex></begin>
+						<end><regex>(?'unwindend'")</regex></end>
+						<import mode="JavaScript" keywords-only="yes"/>
+		                <import state="JavaScript Container"/>
+					</state>
+					
+					<keywords id="Link Attribute" useforautocomplete="no" scope="markup.tag.attribute.name">
+						<regex>\A(\w+)[ \t]*=</regex>
+					</keywords>
+					
+					<keywords id="Link Attribute" useforautocomplete="no" scope="markup.tag.attribute.name">
+						<regex>(\A[ \t]+[\w-]*[ \t]*)=</regex>
+					</keywords>
+					
+					<keywords id="Link Quotes" useforautocomplete="no" scope="markup.tag.attribute.value.string">
+						<regex>(")</regex>
+					</keywords>
+					
+					<keywords id="Link Equals" useforautocomplete="no" scope="markup.tag">
+						<regex>\A(?i)\w+([ \t]*=[ \t]*)</regex>
+					</keywords>
+					
+				</state>
+            	
+               	<state id="Strings in Tags" type="string" useforautocomplete="no" scope="markup.tag.attribute.value.string">
+					<begin><regex>"</regex></begin>
+					<end><regex>"</regex></end>
+	                <state-link state="PHP" />
+				</state>
+				
+				<state id="Single Strings in Tags" type="string" useforautocomplete="no" scope="markup.tag.attribute.value.string">
+					<begin><regex>'</regex></begin>
+					<end><regex>'</regex></end>
+	                <state-link state="PHP" />
+				</state>
+				
+				<keywords id="Attributes in Tags" useforautocomplete="no" scope="markup.tag.attribute.name">
+					<regex>([\w-]*)(?=[ \t]*=)</regex>
+				</keywords>
+            </state>
+          
+        </default>
+    </states>
+</syntax>

@@ -1,0 +1,634 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Title</key>
+	<string>HTML</string>
+	<key>Clips</key>
+	<array>
+		<dict>
+			<key>Versions</key>
+			<array/>
+			<key>Placeholders</key>
+			<array>
+				<dict>
+					<key>Range</key>
+					<string>{24, 5}</string>
+					<key>Type</key>
+					<integer>12</integer>
+				</dict>
+				<dict>
+					<key>Range</key>
+					<string>{57, 4}</string>
+					<key>Type</key>
+					<integer>12</integer>
+				</dict>
+			</array>
+			<key>Title</key>
+			<string>Basic Page Structure</string>
+			<key>Trigger</key>
+			<string>basicpage</string>
+			<key>Content</key>
+			<string>&lt;html&gt;
+	&lt;head&gt;
+		&lt;title&gt;title&lt;/title&gt;
+	&lt;/head&gt;
+	&lt;body&gt;
+		Code
+	&lt;/body&gt;
+&lt;/html&gt;
+</string>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>DOCTYPEs</string>
+			<key>Clips</key>
+			<array>
+				<dict>
+					<key>Versions</key>
+					<array/>
+					<key>Title</key>
+					<string>HTML 4.01 Strict DOCTYPE</string>
+					<key>Trigger</key>
+					<string>html4s</string>
+					<key>Content</key>
+					<string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01//EN&quot; &quot;http://www.w3.org/TR/html4/strict.dtd&quot;&gt;</string>
+				</dict>
+				<dict>
+					<key>Versions</key>
+					<array/>
+					<key>Title</key>
+					<string>HTML 4.01 Transitional DOCTYPE</string>
+					<key>Trigger</key>
+					<string>html4t</string>
+					<key>Content</key>
+					<string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Transitional//EN&quot; &quot;http://www.w3.org/TR/html4/loose.dtd&quot;&gt;</string>
+				</dict>
+				<dict>
+					<key>Versions</key>
+					<array/>
+					<key>Title</key>
+					<string>HTML 4.01 Frameset DOCTYPE</string>
+					<key>Trigger</key>
+					<string>html4f</string>
+					<key>Content</key>
+					<string>&lt;!DOCTYPE HTML PUBLIC &quot;-//W3C//DTD HTML 4.01 Frameset//EN&quot; &quot;http://www.w3.org/TR/html4/frameset.dtd&quot;&gt;</string>
+				</dict>
+				<dict>
+					<key>Versions</key>
+					<array/>
+					<key>Title</key>
+					<string>XHTML 1.0 Strict DOCTYPE</string>
+					<key>Trigger</key>
+					<string>xhtml1s</string>
+					<key>Content</key>
+					<string>&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Strict//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd&quot;&gt;</string>
+				</dict>
+				<dict>
+					<key>Versions</key>
+					<array/>
+					<key>Title</key>
+					<string>XHTML 1.0 Transitional DOCTYPE</string>
+					<key>Trigger</key>
+					<string>xhtml1t</string>
+					<key>Content</key>
+					<string>&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Transitional//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd&quot;&gt;</string>
+				</dict>
+				<dict>
+					<key>Versions</key>
+					<array/>
+					<key>Title</key>
+					<string>XHTML 1.0 Frameset DOCTYPE</string>
+					<key>Trigger</key>
+					<string>xhtml1f</string>
+					<key>Content</key>
+					<string>&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.0 Frameset//EN&quot; &quot;http://www.w3.org/TR/xhtml1/DTD/xhtml1-frameset.dtd&quot;&gt;</string>
+				</dict>
+				<dict>
+					<key>Versions</key>
+					<array/>
+					<key>Title</key>
+					<string>XHTML 1.1 DOCTYPE</string>
+					<key>Trigger</key>
+					<string>xhtml11</string>
+					<key>Content</key>
+					<string>&lt;!DOCTYPE html PUBLIC &quot;-//W3C//DTD XHTML 1.1//EN&quot; &quot;http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd&quot;&gt;</string>
+				</dict>
+				<dict>
+					<key>Versions</key>
+					<array/>
+					<key>Title</key>
+					<string>HTML5 DOCTYPE</string>
+					<key>Trigger</key>
+					<string>html5</string>
+					<key>Content</key>
+					<string>&lt;!DOCTYPE html&gt;</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>Head</string>
+			<key>Clips</key>
+			<array>
+				<dict>
+					<key>Versions</key>
+					<array/>
+					<key>Title</key>
+					<string>HTML 4.01 Encoding Meta Tag (UTF-8)</string>
+					<key>Trigger</key>
+					<string>utf8</string>
+					<key>Content</key>
+					<string>&lt;meta http-equiv=&quot;Content-Type&quot; content=&quot;text/html; charset=utf-8&quot; /&gt;</string>
+				</dict>
+				<dict>
+					<key>Versions</key>
+					<array/>
+					<key>Title</key>
+					<string>HTML5 Encoding Meta Tag (UTF-8)</string>
+					<key>Trigger</key>
+					<string>utf85</string>
+					<key>Content</key>
+					<string>&lt;meta charset=&quot;utf-8&quot;&gt;</string>
+				</dict>
+				<dict>
+					<key>Versions</key>
+					<array>
+						<string>15a43212ec9ef6d9408de98791c34343</string>
+					</array>
+					<key>Placeholders</key>
+					<array>
+						<dict>
+							<key>Range</key>
+							<string>{10, 4}</string>
+							<key>Type</key>
+							<integer>12</integer>
+						</dict>
+					</array>
+					<key>Title</key>
+					<string>Script</string>
+					<key>Trigger</key>
+					<string>script</string>
+					<key>Content</key>
+					<string>&lt;script&gt;
+	Code
+&lt;/script&gt;</string>
+				</dict>
+				<dict>
+					<key>Versions</key>
+					<array/>
+					<key>Placeholders</key>
+					<array>
+						<dict>
+							<key>Range</key>
+							<string>{13, 6}</string>
+							<key>Type</key>
+							<integer>12</integer>
+						</dict>
+						<dict>
+							<key>Range</key>
+							<string>{39, 4}</string>
+							<key>Type</key>
+							<integer>12</integer>
+						</dict>
+					</array>
+					<key>Title</key>
+					<string>Script (external)</string>
+					<key>Trigger</key>
+					<string>scriptws</string>
+					<key>Content</key>
+					<string>&lt;script src=&quot;src.js&quot; charset=&quot;utf-8&quot;&gt;
+	Code
+&lt;/script&gt;</string>
+				</dict>
+				<dict>
+					<key>Versions</key>
+					<array/>
+					<key>Placeholders</key>
+					<array>
+						<dict>
+							<key>Range</key>
+							<string>{40, 15}</string>
+							<key>Type</key>
+							<integer>9</integer>
+						</dict>
+					</array>
+					<key>Title</key>
+					<string>Stylesheet</string>
+					<key>Trigger</key>
+					<string>style</string>
+					<key>Content</key>
+					<string>&lt;style type=&quot;text/css&quot; media=&quot;screen&quot;&gt;
+	Insertion Point
+&lt;/style&gt;</string>
+				</dict>
+				<dict>
+					<key>Versions</key>
+					<array/>
+					<key>Placeholders</key>
+					<array>
+						<dict>
+							<key>Range</key>
+							<string>{29, 8}</string>
+							<key>Type</key>
+							<integer>12</integer>
+						</dict>
+						<dict>
+							<key>Range</key>
+							<string>{46, 9}</string>
+							<key>Type</key>
+							<integer>12</integer>
+						</dict>
+					</array>
+					<key>Title</key>
+					<string>Stylesheet (external)</string>
+					<key>Trigger</key>
+					<string>link</string>
+					<key>Content</key>
+					<string>&lt;link rel=&quot;stylesheet&quot; href=&quot;your.css&quot; title=&quot;CSS Title&quot; type=&quot;text/css&quot; media=&quot;screen&quot; charset=&quot;utf-8&quot;&gt;</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>Body</string>
+			<key>Clips</key>
+			<array>
+				<dict>
+					<key>Versions</key>
+					<array/>
+					<key>Placeholders</key>
+					<array>
+						<dict>
+							<key>Range</key>
+							<string>{14, 15}</string>
+							<key>Type</key>
+							<integer>9</integer>
+						</dict>
+					</array>
+					<key>Title</key>
+					<string>Body</string>
+					<key>Trigger</key>
+					<string>body</string>
+					<key>Content</key>
+					<string>&lt;body id=&quot;&quot;&gt;
+	Insertion Point
+&lt;/body&gt;</string>
+				</dict>
+				<dict>
+					<key>Versions</key>
+					<array/>
+					<key>Placeholders</key>
+					<array>
+						<dict>
+							<key>Range</key>
+							<string>{9, 6}</string>
+							<key>Type</key>
+							<integer>12</integer>
+						</dict>
+						<dict>
+							<key>Range</key>
+							<string>{19, 14}</string>
+							<key>Type</key>
+							<integer>10</integer>
+						</dict>
+					</array>
+					<key>Title</key>
+					<string>Div</string>
+					<key>Trigger</key>
+					<string>div</string>
+					<key>Content</key>
+					<string>&lt;div id=&quot;div_id&quot;&gt;
+	Text Selection
+&lt;/div&gt;</string>
+				</dict>
+				<dict>
+					<key>Versions</key>
+					<array/>
+					<key>Title</key>
+					<string>Table</string>
+					<key>Trigger</key>
+					<string>table</string>
+					<key>Content</key>
+					<string>&lt;table&gt;
+	&lt;caption&gt;&lt;/caption&gt;
+	&lt;thead&gt;
+		&lt;tr&gt;
+			&lt;th&gt;&lt;/th&gt;
+		&lt;/tr&gt;
+	&lt;/thead&gt;
+	&lt;tfoot&gt;
+		&lt;tr&gt;
+			&lt;td&gt;&lt;/td&gt;
+		&lt;/tr&gt;
+	&lt;/tfoot&gt;
+	&lt;tbody&gt;
+		&lt;tr&gt;
+			&lt;td&gt;&lt;/td&gt;
+		&lt;/tr&gt;
+	&lt;/tbody&gt;
+&lt;/table&gt;
+</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>Headings</string>
+			<key>Clips</key>
+			<array>
+				<dict>
+					<key>Versions</key>
+					<array/>
+					<key>Placeholders</key>
+					<array>
+						<dict>
+							<key>Range</key>
+							<string>{4, 14}</string>
+							<key>Type</key>
+							<integer>10</integer>
+						</dict>
+					</array>
+					<key>Title</key>
+					<string>H1</string>
+					<key>Trigger</key>
+					<string>h1</string>
+					<key>Content</key>
+					<string>&lt;h1&gt;Text Selection&lt;/h1&gt;</string>
+				</dict>
+				<dict>
+					<key>Versions</key>
+					<array/>
+					<key>Placeholders</key>
+					<array>
+						<dict>
+							<key>Range</key>
+							<string>{4, 14}</string>
+							<key>Type</key>
+							<integer>10</integer>
+						</dict>
+					</array>
+					<key>Title</key>
+					<string>H2</string>
+					<key>Trigger</key>
+					<string>h2</string>
+					<key>Content</key>
+					<string>&lt;h2&gt;Text Selection&lt;/h2&gt;</string>
+				</dict>
+				<dict>
+					<key>Versions</key>
+					<array/>
+					<key>Placeholders</key>
+					<array>
+						<dict>
+							<key>Range</key>
+							<string>{4, 14}</string>
+							<key>Type</key>
+							<integer>10</integer>
+						</dict>
+					</array>
+					<key>Title</key>
+					<string>H3</string>
+					<key>Trigger</key>
+					<string>h3</string>
+					<key>Content</key>
+					<string>&lt;h3&gt;Text Selection&lt;/h3&gt;</string>
+				</dict>
+				<dict>
+					<key>Versions</key>
+					<array/>
+					<key>Placeholders</key>
+					<array>
+						<dict>
+							<key>Range</key>
+							<string>{4, 14}</string>
+							<key>Type</key>
+							<integer>10</integer>
+						</dict>
+					</array>
+					<key>Title</key>
+					<string>H4</string>
+					<key>Trigger</key>
+					<string>h4</string>
+					<key>Content</key>
+					<string>&lt;h4&gt;Text Selection&lt;/h4&gt;</string>
+				</dict>
+				<dict>
+					<key>Versions</key>
+					<array/>
+					<key>Placeholders</key>
+					<array>
+						<dict>
+							<key>Range</key>
+							<string>{4, 14}</string>
+							<key>Type</key>
+							<integer>10</integer>
+						</dict>
+					</array>
+					<key>Title</key>
+					<string>H5</string>
+					<key>Trigger</key>
+					<string>h5</string>
+					<key>Content</key>
+					<string>&lt;h5&gt;Text Selection&lt;/h5&gt;</string>
+				</dict>
+				<dict>
+					<key>Versions</key>
+					<array/>
+					<key>Placeholders</key>
+					<array>
+						<dict>
+							<key>Range</key>
+							<string>{4, 14}</string>
+							<key>Type</key>
+							<integer>10</integer>
+						</dict>
+					</array>
+					<key>Title</key>
+					<string>H6</string>
+					<key>Trigger</key>
+					<string>h6</string>
+					<key>Content</key>
+					<string>&lt;h6&gt;Text Selection&lt;/h6&gt;</string>
+				</dict>
+			</array>
+		</dict>
+		<dict>
+			<key>Title</key>
+			<string>Form</string>
+			<key>Clips</key>
+			<array>
+				<dict>
+					<key>Versions</key>
+					<array/>
+					<key>Placeholders</key>
+					<array>
+						<dict>
+							<key>Range</key>
+							<string>{14, 8}</string>
+							<key>Type</key>
+							<integer>2</integer>
+						</dict>
+						<dict>
+							<key>Range</key>
+							<string>{32, 4}</string>
+							<key>Type</key>
+							<integer>12</integer>
+						</dict>
+					</array>
+					<key>Title</key>
+					<string>Form</string>
+					<key>Trigger</key>
+					<string>form</string>
+					<key>Content</key>
+					<string>&lt;form action=&quot;Filename&quot; method=&quot;post&quot; accept-charset=&quot;utf-8&quot;&gt;
+	
+&lt;/form&gt;</string>
+				</dict>
+				<dict>
+					<key>Versions</key>
+					<array/>
+					<key>Placeholders</key>
+					<array>
+						<dict>
+							<key>Range</key>
+							<string>{12, 8}</string>
+							<key>Type</key>
+							<integer>12</integer>
+						</dict>
+						<dict>
+							<key>Range</key>
+							<string>{22, 10}</string>
+							<key>Type</key>
+							<integer>12</integer>
+						</dict>
+						<dict>
+							<key>Range</key>
+							<string>{51, 8}</string>
+							<key>Type</key>
+							<integer>12</integer>
+						</dict>
+						<dict>
+							<key>Range</key>
+							<string>{67, 10}</string>
+							<key>Type</key>
+							<integer>12</integer>
+						</dict>
+						<dict>
+							<key>Range</key>
+							<string>{85, 10}</string>
+							<key>Type</key>
+							<integer>12</integer>
+						</dict>
+						<dict>
+							<key>Range</key>
+							<string>{104, 11}</string>
+							<key>Type</key>
+							<integer>12</integer>
+						</dict>
+					</array>
+					<key>Title</key>
+					<string>Input with label</string>
+					<key>Trigger</key>
+					<string>input</string>
+					<key>Content</key>
+					<string>&lt;label for=&quot;input_id&quot;&gt;Label Text&lt;/label&gt;&lt;input id=&quot;input_id&quot; type=&quot;input_type&quot; name=&quot;input_name&quot; value=&quot;input_value&quot;&gt;</string>
+				</dict>
+				<dict>
+					<key>Versions</key>
+					<array/>
+					<key>Placeholders</key>
+					<array>
+						<dict>
+							<key>Range</key>
+							<string>{15, 9}</string>
+							<key>Type</key>
+							<integer>12</integer>
+						</dict>
+						<dict>
+							<key>Range</key>
+							<string>{26, 4}</string>
+							<key>Type</key>
+							<integer>12</integer>
+						</dict>
+					</array>
+					<key>Title</key>
+					<string>Option</string>
+					<key>Trigger</key>
+					<string>option</string>
+					<key>Content</key>
+					<string>&lt;option value=&quot;opt_value&quot;&gt;Text&lt;/option&gt;</string>
+				</dict>
+				<dict>
+					<key>Versions</key>
+					<array/>
+					<key>Placeholders</key>
+					<array>
+						<dict>
+							<key>Range</key>
+							<string>{14, 11}</string>
+							<key>Type</key>
+							<integer>12</integer>
+						</dict>
+						<dict>
+							<key>Range</key>
+							<string>{31, 9}</string>
+							<key>Type</key>
+							<integer>12</integer>
+						</dict>
+						<dict>
+							<key>Range</key>
+							<string>{42, 4}</string>
+							<key>Type</key>
+							<integer>12</integer>
+						</dict>
+					</array>
+					<key>Title</key>
+					<string>Select</string>
+					<key>Trigger</key>
+					<string>select</string>
+					<key>Content</key>
+					<string>&lt;select name=&quot;select_name&quot; id=&quot;select_id&quot;&gt;Text&lt;/select&gt;</string>
+				</dict>
+				<dict>
+					<key>Versions</key>
+					<array/>
+					<key>Placeholders</key>
+					<array>
+						<dict>
+							<key>Range</key>
+							<string>{16, 7}</string>
+							<key>Type</key>
+							<integer>12</integer>
+						</dict>
+						<dict>
+							<key>Range</key>
+							<string>{31, 8}</string>
+							<key>Type</key>
+							<integer>12</integer>
+						</dict>
+						<dict>
+							<key>Range</key>
+							<string>{47, 8}</string>
+							<key>Type</key>
+							<integer>12</integer>
+						</dict>
+						<dict>
+							<key>Range</key>
+							<string>{70, 16}</string>
+							<key>Type</key>
+							<integer>12</integer>
+						</dict>
+					</array>
+					<key>Title</key>
+					<string>Textarea</string>
+					<key>Trigger</key>
+					<string>textarea</string>
+					<key>Content</key>
+					<string>&lt;textarea name=&quot;ta_name&quot; rows=&quot;num_rows&quot; cols=&quot;num_cols&quot; placeholder=&quot;placeholder_text&quot;&gt;&lt;/textarea&gt;</string>
+				</dict>
+			</array>
+		</dict>
+	</array>
+</dict>
+</plist>

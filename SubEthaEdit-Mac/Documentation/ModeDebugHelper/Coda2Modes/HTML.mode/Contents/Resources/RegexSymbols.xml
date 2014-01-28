@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "symbol.dtd">
+<symbols>
+
+    <blocks>
+        <beginregex>&lt;!--</beginregex>
+        <endregex>--&gt;</endregex>
+    </blocks>
+    
+	<!-- CODA added CSS Include and JavaScript Include symbols for the site indexer -->
+    <symbol id="CSS Include" font-weight="normal" font-style="normal" image="Symbol#" indentation="0" ignoreblocks="yes">
+		<regex>&lt;(?i)link.*?href[\t\s]*=[\t\s]*"?([-\s_\d\w\./]+)"?.*?rel[\t\s]*=[\t\s]*"?style[\t\s]*sheet"?.*?&gt;</regex>
+		<regex>&lt;(?i)link.*?rel[\t\s]*=[\t\s]*"?style[\t\s]*sheet"?.*?href\s*=\s*"?([-\s_\d\w\./]+)"?.*?&gt;</regex>
+		<regex>&lt;(?i)script[^&gt;]*?\ssrc\s*=\s*"?([-\s_\d\w\./\?]+)"?\s*&gt;</regex>
+		<postprocess>
+			<find>[-\s_\d\w\./]*?/</find>
+			<replace></replace>
+		</postprocess>
+	</symbol>
+    
+	<!-- END CODA -->
+    
+	<!-- CODA <symbol id="Headers" font-weight="normal" font-style="normal" image="SymbolH.png" indentation="0" ignoreblocks="yes"> -->
+	<symbol id="Headers" font-weight="normal" font-style="normal" image="SymbolH" indentation="0" ignoreblocks="yes">
+		<!-- CODA <regex>&lt;[hH][1-6]&gt;([^&lt;]+)&lt;/[hH][1-6]&gt;</regex> -->
+        <regex>&lt;[hH][1-6][^&gt;\n\r]*[&gt;](.*?)&lt;/[hH][1-6]&gt;</regex>
+        <postprocess>
+            <find>^[ \n\r\t]+</find>
+            <replace></replace>
+            <find>[ \n\r\t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+    
+    <!-- CODA <symbol id="Divs with IDs" font-weight="normal" font-style="normal" image="SymbolD.png" indentation="0" ignoreblocks="yes"> -->
+    <symbol id="Divs with IDs" font-weight="normal" font-style="normal" image="SymbolD" indentation="0" ignoreblocks="yes">
+        <regex>&lt;div[^&gt;]*id *= *"([^"]*)"[^&gt;]*&gt;</regex>
+    </symbol>
+    
+    <!-- CODA <symbol id="Named anchors" font-weight="normal" font-style="normal" image="Symbola.png" indentation="0" ignoreblocks="yes"> -->
+    <symbol id="Named anchors" font-weight="normal" font-style="normal" image="Symbola" indentation="0" ignoreblocks="yes">
+        <regex>&lt;a[^&gt;]*name *= *"([^"]*)"[^&gt;]*&gt;</regex>
+        <postprocess>
+            <find>(?i)%20</find>
+            <replace> </replace>
+            <find>(?i)%3f</find>
+            <replace>\?</replace>
+            <find>%24</find>
+            <replace>\$</replace>
+            <find>%26</find>
+            <replace>\+</replace>
+            <find>(?i)%2c</find>
+            <replace>,</replace>
+            <find>(?i)%2f</find>
+            <replace>/</replace>
+            <find>(?i)%3a</find>
+            <replace>:</replace>
+            <find>(?i)%3b</find>
+            <replace>;</replace>
+            <find>(?i)%3d</find>
+            <replace>=</replace>
+            <find>(?i)%40</find>
+            <replace>@</replace>
+        </postprocess>
+    </symbol>
+
+    <!-- CODA <symbol id="Pragma marks" font-weight="normal" font-style="normal" image="Symbol!.png" indentation="0" ignoreblocks="no" show-in-comments="yes">  -->
+    <symbol id="Pragma marks" font-weight="normal" font-style="normal" image="SymbolMark" indentation="0" ignoreblocks="no" show-in-comments="yes">
+		<!-- CODA <regex>&lt;!\-\- !([^-]*) \-\-&gt;</regex> -->
+        <regex>&lt;!--\s*!(.*?)\s*--&gt;</regex>
+    </symbol>
+
+</symbols>

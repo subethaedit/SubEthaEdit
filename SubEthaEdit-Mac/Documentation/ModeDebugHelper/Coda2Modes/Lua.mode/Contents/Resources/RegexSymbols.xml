@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "symbol.dtd">
+<symbols>
+
+    <symbol id="Functions" image="SymbolF()" indentation="0" ignoreblocks="yes" useforautocomplete="yes">
+        <regex>^function[ \t]+(?'name'[\w\d_\.:]+(?'trim'[ \t]*)\((?'arguments'[^)]*)\))</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+            <find>\s+\(</find>
+            <replace>\(</replace>
+        </postprocess>
+        <arguments>([\$A-Za-z0-9_]+)[ ,]*</arguments>
+    </symbol>
+    <symbol id="Inline Functions" image="SymbolF()" indentation="0" ignoreblocks="yes" useforautocomplete="yes">
+        <regex>(?'name'[\w_]+(?'trim'\s*=\s*function)\((?'arguments'[^)]*)\))</regex>
+        <postprocess>
+        <find>[\n\r]</find>
+        <replace> </replace>
+        <find>(?'displayname'[\w_]+)\s*=\s*function\((?'arguments'[^)]*)\)</find>
+        <replace>\1(\2)</replace>
+        </postprocess>
+        <arguments>([\$A-Za-z0-9_]+)[ ,]*</arguments>
+    </symbol>
+    <symbol id="Inner Functions" image="SymbolF()" indentation="1" ignoreblocks="yes">
+        <regex>^(?:[^\r\n\w]{1,5})function[ \t]+(?'name'[\w\d_\.:]+(?'trim'[ \t]*)\((?'arguments'[^)]*)\))</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+            <find>\s+\(</find>
+            <replace>\(</replace>
+        </postprocess>
+        <arguments>([\$A-Za-z0-9_]+)[ ,]*</arguments>
+    </symbol>
+    <symbol id="Even Innerer Functions" image="SymbolF()" indentation="2" ignoreblocks="yes">
+        <regex>(?:[^\r\n\w]{6,})function[ \t]+(?'name'[\w\d_\.:]+(?'trim'[ \t]*)\((?'arguments'[^)]*)\))</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+            <find>\s+\(</find>
+            <replace>\(</replace>
+        </postprocess>
+        <arguments>([\$A-Za-z0-9_]+)[ ,]*</arguments>
+    </symbol>
+    <symbol id="CVS/SVN conflict" font-weight="bold" image="SymbolWarn" indentation="0" ignoreblocks="no">
+        <regex>^&lt;&lt;&lt;&lt;&lt;&lt;&lt;([\n\r]|.)*?======([\n\r]|.)*?&gt;&gt;&gt;&gt;&gt;&gt;&gt;</regex>
+        <postprocess>
+            <find>.*</find>
+            <replace>Versioning conflict!</replace>
+        </postprocess>
+    </symbol>
+	<symbol id="Pragma marks" font-weight="normal" font-style="normal" image="SymbolMark" indentation="0" ignoreblocks="no" show-in-comments="yes">
+        <regex>--[ \t-]*?!([^\n\r]+)</regex>
+    </symbol>
+
+</symbols>

@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "symbol.dtd">
+<symbols>
+
+    <blocks>
+        <beginregex>{</beginregex>
+        <endregex>}</endregex>
+    </blocks>
+    
+    <symbol id="Defs With Args" image="SymbolF()" indentation="1" ignoreblocks="yes" useforautocomplete="yes">
+        <regex>(?&lt;=[^[_A-Za-z0-9]]|^)def\s+(?'name'[\w\d?!_]+\s*\((?'arguments'[^)]*)\))[\r\n]+</regex>
+        <postprocess>
+        	<find>\s+</find>
+        	<replace> </replace>
+        	<find>#.*</find>
+        	<replace></replace>
+        </postprocess>
+        <arguments>([\$A-Za-z0-9_\s={}]+)[ ,]*</arguments>
+    </symbol>
+    
+     <symbol id="Defs With No Args" image="SymbolF()" indentation="1" ignoreblocks="yes" useforautocomplete="yes">
+        <regex>(?&lt;=[^[_A-Za-z0-9]]|^)def\s+(?'name'[\w\d?!_]+)\s*[\r\n]+</regex>
+        <postprocess>
+        	<find>\s+</find>
+        	<replace> </replace>
+        	<find>#.*</find>
+        	<replace></replace>
+        </postprocess>
+        <poststring>()</poststring>
+        <movecursor>2</movecursor>
+    </symbol>
+
+	<symbol id="Class Method" image="SymbolF" indentation="1" ignoreblocks="yes">
+        <regex>(?&lt;=[^[_A-Za-z0-9]]|^)def\s+(?'name'self.[\w\d?!_]+\s*(\((?'arguments'[^)]*)\)))?[\r\n]+</regex>
+        <postprocess>
+        	<find>\s+</find>
+        	<replace> </replace>
+        	<find>#.*</find>
+        	<replace></replace>
+        </postprocess>
+    </symbol>
+
+    <symbol id="Classes" image="SymbolC" indentation="0" ignoreblocks="yes" useforautocomplete="yes">
+        <regex>(?:^|(?&lt;=\r))[ \t]*class[ \t]+([\w\d?!_]+)</regex>
+    </symbol>
+
+    <symbol id="Modules" image="SymbolM" indentation="0" ignoreblocks="yes">
+        <regex>(?:^|(?&lt;=\r))[ \t]*module[ \t]+([\w\d?!_]+)</regex>
+    </symbol>
+
+    <symbol id="CVS/SVN conflict" font-weight="bold" image="SymbolWarn" indentation="0" ignoreblocks="no">
+        <regex>(?:^|(?&lt;=\r))&lt;&lt;&lt;&lt;&lt;&lt;&lt;([\n\r]|.)*?======([\n\r]|.)*?&gt;&gt;&gt;&gt;&gt;&gt;&gt;</regex>
+        <postprocess>
+            <find>.*</find>
+            <replace>Versioning conflict!</replace>
+        </postprocess>
+    </symbol>
+
+	<!-- CODA <symbol id="Divs with IDs" font-weight="normal" font-style="normal" image="SymbolD.png" indentation="0" ignoreblocks="yes"> -->
+    <symbol id="Divs with IDs" font-weight="normal" font-style="normal" image="SymbolD" indentation="0" ignoreblocks="yes">
+        <regex>&lt;div[^&gt;]*id *= *"([^"]*)"[^&gt;]*&gt;</regex>
+    </symbol>
+
+    <symbol id="Comment Bookmarks" font-weight="normal" font-style="normal" image="SymbolMark" indentation="0" ignoreblocks="no" show-in-comments="yes">
+         <regex>#[ \t]*![ \t]*([^\n\r]+)</regex>
+    </symbol>
+
+    <symbol id="Comment Marks" font-weight="normal" image="SymbolMark" indentation="0" ignoreblocks="yes" show-in-comments="yes">
+        <regex>(?:^|(?&lt;=\r))[\t ]*#mark[\t -]*([^\n]*)\n</regex>
+    </symbol>
+
+</symbols>

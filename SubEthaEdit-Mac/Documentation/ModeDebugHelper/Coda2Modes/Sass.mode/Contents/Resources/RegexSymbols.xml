@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "symbol.dtd">
+<symbols>
+
+    <blocks>
+        <beginregex>{</beginregex>
+        <endregex>}</endregex>
+    </blocks>
+    
+    <!-- CODA - added support for comments after delarations before { -->
+    <symbol id="Tags" image="SymbolT">
+        <regex>(?&lt;=[\n\r\}]|^)[\t ]*(?:/\*.*\*/)*[ \t]*([\w\*][%\w\d\s,\-_\*>:\(\)\+\[\]="~\$\^#\. ]*)(?=(\s*\{)|(\s*/\*.*\*/\s*\{))</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+            <find>/\*.*\*/</find>
+            <replace></replace>
+        </postprocess>
+    </symbol>
+    
+    <symbol id="Classes" image="SymbolC">
+        <regex>(?&lt;=[\n\r\}]|^)[\t ]*(?:/\*.*\*/)*[ \t]*([.:][%\w\d\s,\-_\*>:\(\)\+\[\]="~\$\^#\. ]*)(?=(\s*\{)|(\s*/\*.*\*/\s*\{))</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+            <find>/\*.*\*/</find>
+            <replace></replace>
+        </postprocess>
+    </symbol>
+    
+    <symbol id="IDs" image="SymbolID">
+        <regex>(?&lt;=[\n\r\}]|^)[\t ]*(?:/\*.*\*/)*[ \t]*(#[%\w\d\s,\-_\*>:\(\)\+\[\]="~\$\^#\. ]*)(?=(\s*\{)|(\s*/\*.*\*/\s*\{))</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+            <find>/\*.*\*/</find>
+            <replace></replace>
+        </postprocess>
+    </symbol>
+    
+    <symbol id="Placeholder Selectors" image="SymbolP">
+        <regex>(?&lt;=[\n\r\}]|^)[\t ]*(?:/\*.*\*/)*[ \t]*(%[\w\d\s,\-_\*>:\(\)\+\[\]="~\$\^#\. ]*)(?=(\s*\{)|(\s*/\*.*\*/\s*\{))</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+            <find>/\*.*\*/</find>
+            <replace></replace>
+        </postprocess>
+    </symbol>
+
+	<symbol id="Rules" image="SymbolAt">
+        <regex>(?&lt;=[\n\r]|^)[\t ]*(?:/\*.*\*/)*[ \t]*((?i)@(media|import|function|mixin))\s+([%\w\d\s,\-_\*>:\(\)\+\[\]="~\$\^#\. ]*)(?=(\s*\{)|(\s*/\*.*\*/\s*\{))</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+            <find>/\*.*\*/</find>
+            <replace></replace>
+        </postprocess>
+    </symbol>
+
+	<symbol id="language.variable.sass" hidden="yes" useforautocomplete="yes" ignoreblocks="yes">
+		<regex>(\$[\d\w\-]+)</regex>
+	</symbol>
+
+	<!-- CODA changed to CSS style comments, and changed image to SymbolMark -->
+    <symbol id="Pragma marks" font-weight="normal" font-style="normal" image="SymbolMark" indentation="0" ignoreblocks="no" show-in-comments="yes">
+        <regex>/\*[ \t]*!(.+)[ \t]*\*/</regex>
+        <regex>//[ \t]*!(.+)</regex>
+         <postprocess>
+           <find>[\n\r]</find>
+           <replace> </replace>
+           <find>[ \t]+</find>
+           <replace> </replace>
+        </postprocess>
+    </symbol>
+    
+    <symbol id="CSS Groups" font-weight="normal" font-style="normal" image="SymbolGroup" indentation="0" ignoreblocks="no" show-in-comments="yes">
+        <regex>/\*[ \t]*(?i)@group[ \t]*(.*?)[ \t]*\*/</regex>
+        <postprocess>
+           <find>[\n\r]</find>
+           <replace> </replace>
+           <find>[ \t]+</find>
+           <replace> </replace>
+        </postprocess>
+    </symbol>
+
+</symbols>
