@@ -32,7 +32,7 @@
             <keywords id="-----------------" color="#666666" inverted-color="#999999" font-style="normal" font-weight="bold" useforautocomplete="no" scope="structured.separator.horizontal">
                 <regex>^([-]{3,})</regex>
             </keywords>
-            <state id="Block" type="block" foldable="yes" scope="">
+            <state id="Block" type="block" foldable="yes" scope="meta.block">
                 <begin>
                     <regex>\-\-\-\-\-[\n\r][^\n\r]+</regex>
                 </begin>
