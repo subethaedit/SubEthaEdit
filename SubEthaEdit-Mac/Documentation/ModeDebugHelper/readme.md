@@ -1,7 +1,7 @@
 #README
 
 
-This readme contains example calls to the *.xslts* created for debugging and improving the *SyntaxDefinition.xmls* contained in a SubEthaEdit-Mode.
+This readme contains example calls to the *.xslts* created for debugging and improving the *SyntaxDefinition.xmls* contained in a SubEthaEdit/Coda2-Mode.
 
 Overview:
 
@@ -10,9 +10,8 @@ Overview:
 3. [Simple Style Sheet for one style attribute](#oneStyleAttribute)
 4. [Simple Style Sheet for all style attributes](#allStyleAttributes)
 5. [Remove style attributes from Mode](#removeStyleAttributes)
-6. [Rename scope](#renameScope)
+6. [Rename Scope](#renameScope)
 7. [Style Extraction Makefile](#makefile)
-
 
 ---
 ## [All XML-Nodes using a Scope](id:xmlForScope)
@@ -79,12 +78,12 @@ Removing all style attributes (`color, inverted-color, background-color, inverte
 	xsltproc --novalid RemoveStyleAttributes.xslt <path>/<mode-name>.mode/Contents/Resources/SyntaxDefinition.xml | see --mode xml
 
 ---
-## [Rename scope](id:renameScope)
-**ModeRenameScope.xslt**
+## [Rename Scope](id:renameScope)
+**RenameScope.xslt**
 
-Renaming a scope (*eg. `meta.default`*) used by a single Mode (*eg. `PHP-HTML`*) (_opened in SubEthaEdit in XML-Mode_):
+Renaming a scope (*eg. `meta.default`*) in a single Mode (*eg. `PHP-HTML`*) (_opened in SubEthaEdit in XML-Mode_):
 
-	xsltproc --param from "'<scope-value>'" --param to "'<new-scope-value>'" --novalid ModeRenameScope.xslt <path>/<mode-name>.mode/Contents/Resources/SyntaxDefinition.xml | see --mode xml
+	xsltproc --param from "'<scope-value>'" --param to "'<new-scope-value>'" --novalid RenameScope.xslt <path>/<mode-name>.mode/Contents/Resources/SyntaxDefinition.xml | see --mode xml
 
 ---
 ## [Style Extraction Makefile](id:makefile)
@@ -139,8 +138,7 @@ Modes - Coda2 - relative path in repository: `Coda2Modes/`
 
 		xsltproc --novalid RemoveStyleAttributes.xslt Coda2Modes/ASP-HTML.mode/Contents/Resources/SyntaxDefinition.xml | see --mode xml
 
-
-Examples for **ModeRenameScope.xslt** :
-
-	xsltproc --param from "'meta.default'" --param to "'magic.bullet'" --novalid ModeRenameScope.xslt Coda2Modes/PHP-HTML.mode/Contents/Resources/SyntaxDefinition.xml | see --mode xml
+* Examples for **RenameScope.xslt**
+ 
+		xsltproc --param from "'meta.default'" --param to "'magic.bullet'" --novalid RenameScope.xslt Coda2Modes/PHP-HTML.mode/Contents/Resources/SyntaxDefinition.xml | see --mode xml
 
