@@ -42,6 +42,7 @@ results: $(RESULTS)
 
 stylesheader:
 	@ echo "########## generating style sheets from SyntaxDefinition.xmls";	
+	mkdir -p $(STYLE_PATH_PREFIX);
 
 resultsheader:
 	@ echo "########## generating style-less SyntaxDefinition.xmls";
@@ -70,18 +71,7 @@ $(MODE_RESULT_PATH_PREFIX)%$(MODE_RESULT_PATH_SUFFIX): $(XSLT_REMOVE_STYLEATTRIB
 		echo "No Mode:\t\t$*"; \
 	fi	
 	
-	
-### init - make that directory
-init:
-	@ for dir in $(STYLE_PATH_PREFIX) $(MODE_RESULT_PATH_PREFIX); do \
-		if [ -d $$dir ]; then \
-			echo "Directory already exists:\t$$dir"; \
-		else \
-			mkdir $$dir; \
-			echo "Created Directory:\t\t$$dir"; \
-		fi; \
-		done;
-	
+
 ### cleanup - delete all the style files
 clean:
 	@ for file in $(STYLES); do \
