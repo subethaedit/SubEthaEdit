@@ -33,6 +33,7 @@ MODE_RESULT_PATH_SUFFIX=.mode/Contents/Resources/SyntaxDefinition.xml
 STYLES=$(addprefix $(STYLE_PATH_PREFIX), $(addsuffix $(STYLE_PATH_SUFFIX), $(LANGUAGES)))
 DEFINITONS=$(addprefix $(MODE_PATH_PREFIX), $(addsuffix $(MODE_PATH_SUFFIX), $(LANGUAGES)))
 RESULTS=$(addprefix $(MODE_RESULT_PATH_PREFIX), $(addsuffix $(MODE_RESULT_PATH_SUFFIX), $(LANGUAGES)))
+RESULT_MODE_FOLDER=$(addprefix $(MODE_RESULT_PATH_PREFIX), $(addsuffix ".mode", $(LANGUAGES)))
 
 all: stylesheader styles resultsheader results
 
@@ -81,10 +82,10 @@ clean:
 		fi; \
 	done;
 	@ if [ $(MODE_RESULT_PATH_PREFIX) != $(MODE_PATH_PREFIX) ]; then \
-		for file in $(RESULTS); do \
-			if [ -f $$file ]; then \
-		    	rm $$file; \
-		    	echo "Removed file:\t$$file"; \
+		for dir in $(RESULT_MODE_FOLDER); do \
+			if [ -d $$dir ]; then \
+		    	rm -rd $$dir; \
+		    	echo "Removed directory:\t$$dir"; \
 			fi; \
 		done; \
 	fi; \

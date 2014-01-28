@@ -90,7 +90,7 @@ Removing all scope-styles (`color, inverted-color, background-color, inverted-ba
 `make MODE_PATH_PREFIX=<path/to/Modes/Folder/>` generates style sheets and xml for the Modes in given folder  
 `make STYLE_PATH_PREFIX=<path/to/Style/Folder/>` generates the Style Sheets in the given folder  
 `make MODE_RESULT_PATH_PREFIX=<path/to/Result/Mode/Folder/>` generates the SyntaxDefinition.xmls in the given folder  
-`make clean` : deletes all the generated Style Sheets/SyntaxDefinition files  
+`make clean` : deletes all the generated .sss files and .mode directories  
 
 For more information about this Makefile drop it onto the text editor of your choice and have fun.
 
