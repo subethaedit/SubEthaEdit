@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>/Java/Characters</key>
+	<string>Characters</string>
+	<key>/Java/Classes</key>
+	<string>/Java/Classes</string>
+	<key>/Java/Comment</key>
+	<string>Comment</string>
+	<key>/Java/FunctionRegex</key>
+	<string>_Default.FunctionRegex</string>
+	<key>/Java/JavadocComment</key>
+	<string>JavadocComment</string>
+	<key>/Java/JavadocTags</key>
+	<string>JavadocComment.JavadocTags</string>
+	<key>/Java/Keywords</key>
+	<string>_Default.Keywords</string>
+	<key>/Java/Numbers</key>
+	<string>_Default.Numbers</string>
+	<key>/Java/Preprocessor</key>
+	<string>_Default.Preprocessor</string>
+	<key>/Java/SingleComment</key>
+	<string>SingleComment</string>
+	<key>/Java/Strings</key>
+	<string>Strings</string>
+	<key>_Default</key>
+	<string>_Default</string>
+</dict>
+</plist>

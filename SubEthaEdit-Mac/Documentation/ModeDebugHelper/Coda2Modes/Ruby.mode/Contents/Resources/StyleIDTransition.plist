@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>/Ruby/Attribute Definitions</key>
+	<string>_Default.Attribute Definitions</string>
+	<key>/Ruby/Backticks</key>
+	<string>Backticks</string>
+	<key>/Ruby/Builtin Classes</key>
+	<string>_Default.Builtin Classes</string>
+	<key>/Ruby/Builtin Functions</key>
+	<string>_Default.Builtin Functions</string>
+	<key>/Ruby/Builtin Globals</key>
+	<string>_Default.Builtin Globals</string>
+	<key>/Ruby/Class Variables</key>
+	<string>_Default.Class Variables</string>
+	<key>/Ruby/Definitions</key>
+	<string>_Default.Definitions</string>
+	<key>/Ruby/Global Variables</key>
+	<string>_Default.Global Variables</string>
+	<key>/Ruby/Heredoc</key>
+	<string>/Ruby/Heredoc</string>
+	<key>/Ruby/Hexadecimal Characters</key>
+	<string>_Default.Hexadecimal Characters</string>
+	<key>/Ruby/Instance Variables</key>
+	<string>_Default.Instance Variables</string>
+	<key>/Ruby/Keywords</key>
+	<string>_Default.Keywords</string>
+	<key>/Ruby/Literals</key>
+	<string>_Default.Literals</string>
+	<key>/Ruby/Numbers</key>
+	<string>_Default.Numbers</string>
+	<key>/Ruby/POD Comments</key>
+	<string>POD Comments</string>
+	<key>/Ruby/Regexp</key>
+	<string>Regexp</string>
+	<key>/Ruby/Singleline Comment</key>
+	<string>Singleline Comment</string>
+	<key>/Ruby/String with double quotes</key>
+	<string>String with double quotes</string>
+	<key>/Ruby/String with single quotes</key>
+	<string>String with single quotes</string>
+	<key>/Ruby/Symbols</key>
+	<string>_Default.Symbols</string>
+	<key>/Ruby/test</key>
+	<string>String with double quotes.test</string>
+	<key>_Default</key>
+	<string>_Default</string>
+</dict>
+</plist>

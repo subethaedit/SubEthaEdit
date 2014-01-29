@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "symbol.dtd">
+<symbols>
+
+    <blocks>
+        <beginregex>&lt;!---</beginregex>
+        <endregex>---&gt;</endregex>
+    </blocks>
+    
+    <symbol id="Headers" font-weight="normal" font-style="normal" image="SymbolH" indentation="0" ignoreblocks="yes">
+		 <!--<regex>&lt;[hH][1-6]&gt;([^&lt;]+)&lt;/[hH][1-6]&gt;</regex>-->
+        <regex>&lt;[hH][1-6][^&gt;\n\r]*[&gt;](.*?)&lt;/[hH][1-6]&gt;</regex>
+        <postprocess>
+            <find>^[ \n\r\t]+</find>
+            <replace></replace>
+            <find>[ \n\r\t]+</find>
+            <replace> </replace>
+        </postprocess>
+    </symbol>
+    
+    <symbol id="Divs with IDs" font-weight="normal" font-style="normal" image="SymbolD" indentation="0" ignoreblocks="yes">
+        <regex>&lt;div[^&gt;]*id *= *"([^"]*)"[^&gt;]*&gt;</regex>
+    </symbol>
+    
+    <symbol id="Named anchors" font-weight="normal" font-style="normal" image="Symbola" indentation="0" ignoreblocks="yes">
+        <regex>&lt;a[^&gt;]*name *= *"([^"]*)"[^&gt;]*&gt;</regex>
+        <postprocess>
+            <find>(?i)%20</find>
+            <replace> </replace>
+            <find>(?i)%3f</find>
+            <replace>\?</replace>
+            <find>%24</find>
+            <replace>\$</replace>
+            <find>%26</find>
+            <replace>\+</replace>
+            <find>(?i)%2c</find>
+            <replace>,</replace>
+            <find>(?i)%2f</find>
+            <replace>/</replace>
+            <find>(?i)%3a</find>
+            <replace>:</replace>
+            <find>(?i)%3b</find>
+            <replace>;</replace>
+            <find>(?i)%3d</find>
+            <replace>=</replace>
+            <find>(?i)%40</find>
+            <replace>@</replace>
+        </postprocess>
+    </symbol>
+
+	<!-- STUDIO -->
+	
+    <symbol id="function" font-weight="normal" font-style="normal" image="SymbolF()" indentation="0" ignoreblocks="no" useforautocomplete="yes"> 
+        <!-- <regex>(?:^|(?&lt;=\r))function\s+(?'name'\w+\s*\((?'arguments'[^)]*)\))[^{}]*{</regex> -->
+        <regex>function\s+(\w+\s*\(([^)]+)\))[^{}]*{</regex>
+        <postprocess>
+            <find>[\n\r]</find>
+            <replace> </replace>
+            <find>[ \t]+</find>
+            <replace> </replace>
+        </postprocess>
+        <arguments>([\w]+)[,\n\t]*</arguments>
+    </symbol>
+
+    <symbol id="Pragma marks" font-weight="normal" font-style="normal" image="SymbolMark" indentation="0" ignoreblocks="no" show-in-comments="yes">
+        <regex>&lt;!--\s*![ \t]*(.*)--&gt;</regex>
+    </symbol>
+
+	<symbol id="Pragma marks" font-weight="normal" font-style="normal" image="SymbolMark" indentation="0" ignoreblocks="no" show-in-comments="yes">
+        <regex>&lt;!---\s*![ \t]*(.*)---&gt;</regex>
+    </symbol>
+    
+     <symbol id="cfapplication" font-weight="normal" font-style="normal" image="Symbola" indentation="0" ignoreblocks="yes">
+        <regex>&lt;cfapplication[^&gt;]*name *= *"([^"]*)"[^&gt;]*&gt;</regex>
+    </symbol>
+    
+    <symbol id="cfargument" font-weight="normal" font-style="normal" image="Symbola" indentation="0" ignoreblocks="yes">
+        <regex>&lt;cfargument[^&gt;]*name *= *"([^"]*)"[^&gt;]*&gt;</regex>
+    </symbol>
+    
+    <symbol id="cfdump" font-weight="normal" font-style="normal" image="SymbolD" indentation="0" ignoreblocks="yes">
+        <regex>&lt;cfdump[^&gt;]*var *= *"([^"]*)"[^&gt;]*&gt;</regex>
+    </symbol>
+    
+    <symbol id="cfftp" font-weight="normal" font-style="normal" image="SymbolS" indentation="0" ignoreblocks="yes">
+        <regex>&lt;cfftp[^&gt;]*action *= *"([^"]*)"[^&gt;]*&gt;</regex>
+    </symbol>
+    
+    <symbol id="cffunction" font-weight="normal" font-style="normal" image="SymbolF()" indentation="0" ignoreblocks="yes">
+        <regex>&lt;cffunction[^&gt;]*name *= *"([^"]*)"[^&gt;]*&gt;</regex>
+    </symbol>
+        
+    <symbol id="cfhttpparam" font-weight="normal" font-style="normal" image="SymbolP" indentation="0" ignoreblocks="yes">
+        <regex>&lt;cfhttpparam[^&gt;]*name *= *"([^"]*)"[^&gt;]*&gt;</regex>
+    </symbol>
+    
+    <symbol id="cfinclude" font-weight="normal" font-style="normal" image="Symbol#" indentation="0" ignoreblocks="yes">
+        <regex>&lt;cfinclude[^&gt;]*template *= *"([^"]*)"[^&gt;]*&gt;</regex>
+    </symbol>
+    
+    <symbol id="cflocation" font-weight="normal" font-style="normal" image="SymbolL" indentation="0" ignoreblocks="yes">
+        <regex>&lt;cflocation[^&gt;]*url *= *"([^"]*)"[^&gt;]*&gt;</regex>
+    </symbol>
+          
+    <symbol id="cfparam" font-weight="normal" font-style="normal" image="SymbolP" indentation="0" ignoreblocks="yes">
+        <regex>&lt;cfparam[^&gt;]*name *= *"([^"]*)"[^&gt;]*&gt;</regex>
+    </symbol>
+    
+    <symbol id="cfprocparam" font-weight="normal" font-style="normal" image="SymbolP" indentation="0" ignoreblocks="yes">
+        <regex>&lt;cfprocparam[^&gt;]*variable *= *"([^"]*)"[^&gt;]*&gt;</regex>
+    </symbol>
+    
+    <symbol id="cfprocresult" font-weight="normal" font-style="normal" indentation="0" ignoreblocks="yes">
+        <regex>&lt;cfprocresult[^&gt;]*name *= *"([^"]*)"[^&gt;]*&gt;</regex>
+    </symbol>
+        
+    <symbol id="cfqueryparam" font-weight="normal" font-style="normal" image="SymbolP" indentation="0" ignoreblocks="yes">
+        <regex>&lt;cfqueryparam[^&gt;]*value *= *"([^"]*)"[^&gt;]*&gt;</regex>
+    </symbol>
+    
+    <symbol id="cfset" font-weight="normal" font-style="normal" image="SymbolS" indentation="0" ignoreblocks="yes">
+        <regex>&lt;cfset ([\w\[\]\.]+) *= *[^&gt;]*&gt;</regex>
+    </symbol>
+    
+    <symbol id="cfset-var" font-weight="normal" font-style="normal" image="SymbolS" indentation="0" ignoreblocks="yes">
+        <regex>&lt;cfset var ([\w\[\]\.]+) *= *[^&gt;]*&gt;</regex>
+    </symbol>
+    
+    <symbol id="cfstoredproc" font-weight="normal" font-style="normal" image="SymbolP" indentation="0" ignoreblocks="yes">
+        <regex>&lt;cfstoredproc[^&gt;]*procedure *= *"([^"]*)"[^&gt;]*&gt;</regex>
+    </symbol>
+    
+    <symbol id="Pragma marks" font-weight="normal" font-style="normal" image="SymbolMark" indentation="0" ignoreblocks="no" show-in-comments="yes">
+        <regex>//\s*!([^\n\r]+)</regex>
+		<regex>/\*\s*!(.+) \*/</regex>
+    </symbol>
+    
+    <!-- END -->
+
+</symbols>

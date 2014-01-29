@@ -1,0 +1,3 @@
+/* Here you can provide nice strings to show up in the style preferences 
+   You also need to localize the imported states and keywords
+   they need to be prefixed with a /<modename>/ */

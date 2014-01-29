@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>/Perl/Backticks</key>
+	<string>Backticks</string>
+	<key>/Perl/Functions</key>
+	<string>_Default.Functions</string>
+	<key>/Perl/Heredoc</key>
+	<string>/Perl/Heredoc</string>
+	<key>/Perl/Hexadecimal Characters</key>
+	<string>_Default.Hexadecimal Characters</string>
+	<key>/Perl/Keywords</key>
+	<string>_Default.Keywords</string>
+	<key>/Perl/Numbers</key>
+	<string>_Default.Numbers</string>
+	<key>/Perl/POD style comments</key>
+	<string>/Perl/POD style comments</string>
+	<key>/Perl/Pragmas</key>
+	<string>_Default.Pragmas</string>
+	<key>/Perl/Regular Expressions</key>
+	<string>/Regular Expressions/</string>
+	<key>/Perl/Regular Expressions 2</key>
+	<string>/Regular Expressions/ 2</string>
+	<key>/Perl/Regular Expressions 3</key>
+	<string>?Regular Expressions?</string>
+	<key>/Perl/Regular Expressions 4</key>
+	<string>/Perl/Regular Expressions 4</string>
+	<key>/Perl/Singleline Comment</key>
+	<string>Singleline Comment</string>
+	<key>/Perl/String with double quotes</key>
+	<string>String with double quotes</string>
+	<key>/Perl/String with single quotes</key>
+	<string>String with single quotes</string>
+	<key>/Perl/m Operator with Slashes</key>
+	<string>m//</string>
+	<key>/Perl/q Operators with Parenthesis</key>
+	<string>q(), qq(), qx(), qw()</string>
+	<key>/Perl/q Operators with Slashes</key>
+	<string>q//, qq//, qx//, qw//</string>
+	<key>/Perl/qr Operator with Slashes</key>
+	<string>qr//</string>
+	<key>/Perl/s Operator with Curlies</key>
+	<string>s{}{}</string>
+	<key>/Perl/s Operator with Parenthesis</key>
+	<string>s()()</string>
+	<key>/Perl/s Operator with Slashes</key>
+	<string>s///</string>
+	<key>/Perl/tr, y Operator with Slashes</key>
+	<string>tr///, y///</string>
+	<key>_Default</key>
+	<string>_Default</string>
+</dict>
+</plist>

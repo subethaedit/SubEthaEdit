@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+  <dict>
+    <key>meta.default</key>
+    <string>Default Text</string>
+    <key>meta.highlight.currentline</key>
+    <string>-</string>
+    <key>meta.invisible.character</key>
+    <string>¶ .</string>
+    <key>meta.link</key>
+    <string>http://apple.com www.panic.com</string>
+    <key>meta.link.email</key>
+    <string>steve@apple.com</string>
+    <key>meta.important</key>
+    <string>!important</string>
+    <key>style.comment.block</key>
+    <string>/* Comment */</string>
+    <key>style.comment.block.documentation</key>
+    <string>/** Documentation Comment **/</string>
+    <key>style.property.name</key>
+    <string>padding margin font display width height border</string>
+    <key>style.value.string.parentheses</key>
+    <string>(lorem ipsum)</string>
+    <key>style.value.string.single</key>
+    <string>'lorem ipsum'</string>
+    <key>style.value.string.double</key>
+    <string>"lorem ipsum"</string>
+    <key>style.value.color.rgb-value</key>
+    <string>#fff #0000a1 #cbafde</string>
+    <key>style.value.numeric</key>
+    <string>1.4em 5px 17pt 100% 30deg</string>
+    <key>style.value.keyword</key>
+    <string>bold linear block none no-repeat monospace pointer</string>
+    <key>style.at-rule</key>
+    <string>@import @media</string>
+  </dict>
+</plist>

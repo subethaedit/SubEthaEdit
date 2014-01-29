@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Comments</key>
+	<dict>
+		<key>EndTag</key>
+		<string>*/</string>
+		<key>StartTag</key>
+		<string>/*</string>
+	</dict>
+	<key>Name</key>
+	<string>Sass</string>
+	<key>LineCompletion</key>
+	<string>;</string>
+	<key>VariablePrefixes</key>
+	<array>
+		<string>$</string>
+		<string>#</string>
+	</array>
+	<key>SymbolTableContext</key>
+	<dict>
+		<key>MatchContexts</key>
+		<array>
+			<dict>
+				<key>State</key>
+				<string>SEEMode.Sass</string>
+				<key>Type</key>
+				<string>language.variable.sass</string>
+			</dict>
+		</array>
+	</dict>
+</dict>
+</plist>

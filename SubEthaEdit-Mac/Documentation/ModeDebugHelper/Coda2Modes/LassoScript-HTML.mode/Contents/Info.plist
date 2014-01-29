@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CFBundleIdentifier</key>
+	<string>SEEMode.LassoScript-HTML</string>
+	<key>CFBundleName</key>
+	<string>LassoScript-HTML</string>
+	<key>NSHumanReadableCopyright</key>
+	<string>© 2007 Xaren Consulting, changes by TheCodingMonkeys
+  http://www.xaren.net</string>
+	<key>CFBundleShortVersionString</key>
+	<string>3.5</string>
+	<key>CFBundleVersion</key>
+	<string>3.5</string>
+	<key>CFBundleGetInfoString</key>
+	<string>3.5, Copyright Xaren Consulting 2007</string>
+	<key>CFBundlePackageType</key>
+	<string>BNDL</string>
+	<key>CFBundleInfoDictionaryVersion</key>
+	<string>6.0</string>
+	<key>SEEMinimumEngineVersion</key>
+	<string>3.5</string>
+</dict>
+</plist>

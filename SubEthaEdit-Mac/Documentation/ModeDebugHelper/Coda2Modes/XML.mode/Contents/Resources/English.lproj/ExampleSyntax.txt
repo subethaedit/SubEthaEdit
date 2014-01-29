@@ -1,0 +1,26 @@
+<?xml version='1.0' encoding='ISO-8859-1' standalone='no'?>
+<!DOCTYPE spec SYSTEM "spec.dtd" [
+	<!-- Some comment -- nocomment -- comment -->
+	<!ENTITY XML.version "1.0">
+	<!ENTITY doc.date "10 February 1998">
+	<!ENTITY lt     "<"> 
+]>
+
+<xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/1999/xhtml" version="1.0">
+	<xsl:output method="xml" indent="no" encoding="UTF-8" doctype-system="http://www.w3.org/TR/2000/REC-xhtml1-20000126/DTD/xhtml1-strict.dtd" doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN" media-type="xml/xhtml"/>
+		<spec>
+			<publoc>
+				<loc  href="http://www.w3.org/TR/1998/REC-xml-&iso6.doc.date;">
+				http://www.w3.org/TR/1998/REC-xml-&iso6.doc.date;</loc>
+			</publoc>
+			<!-- <loc  href='http://www.w3.org/TR/WD-xml-961114'>
+			http://www.w3.org/TR/WD-xml-961114</loc> -->
+			<img src='http://panic.com'/>
+			<paragraph>[^&lt;&amp;']</paragraph>
+			<eg><![CDATA[<greeting>Hello, world!</greeting>]]></eg>
+			<xsl:template match="/">
+				<xsl:call-template name="page"/>
+			</xsl:template>
+		</spec>
+	</xsl:template>
+</xsl:stylesheet>

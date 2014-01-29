@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE syntax SYSTEM "symbol.dtd">
+<symbols>
+
+    <blocks>
+        <beginregex>{</beginregex>
+        <endregex>}</endregex>
+    </blocks>
+    
+    <symbol id="Defs" image="SymbolM" indentation="0" ignoreblocks="yes" useforautocomplete="yes">
+        <regex>(?:^|(?&lt;=\r))def[ \t]+(?'name'[\w\d_]+[ \t]*\((?'arguments'[^)]*)\))[ \t]*:</regex>
+        <arguments>([\$A-Za-z0-9_]+)[ ,]*</arguments>
+    </symbol>
+    
+    <symbol id="ClassDefs" image="SymbolM" indentation="1" ignoreblocks="yes">
+        <regex>(?&lt;=[\n\r]|^)[ \t]+def[ \t]+([\w\d_]+)[ \t]*\([^\)]*\)[ \t]*:</regex>
+    </symbol>
+
+    <symbol id="Classes" image="SymbolC" indentation="0" ignoreblocks="yes">
+        <regex>(?&lt;=[\n\r]|^)[ \t]*class[ \t]+([\w\d_]+)[ \t]*(?:\([^\)]*\))?[ \t]*:</regex>
+    </symbol>
+
+    <symbol id="CVS/SVN conflict" font-weight="bold" image="SymbolWarn" indentation="0" ignoreblocks="no">
+        <regex>(?:^|(?&lt;=\r))&lt;&lt;&lt;&lt;&lt;&lt;&lt;([\n\r]|.)*?======([\n\r]|.)*?&gt;&gt;&gt;&gt;&gt;&gt;&gt;</regex>
+        <postprocess>
+            <find>.*</find>
+            <replace>Versioning conflict!</replace>
+        </postprocess>
+    </symbol>
+
+	 <!-- CODA -->
+    <symbol id="Pragma marks" font-weight="normal" font-style="normal" image="SymbolMark" indentation="0" ignoreblocks="no" show-in-comments="yes">
+        <regex># !([^\n\r]+)</regex>
+    </symbol>
+
+</symbols>

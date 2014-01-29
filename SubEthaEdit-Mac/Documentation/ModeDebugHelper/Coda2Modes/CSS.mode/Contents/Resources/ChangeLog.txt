@@ -1,0 +1,23 @@
+Changes with Version 3.5  (SEE 3.5)
+	 *) added code folding
+
+Changes with Version 1.5 (SEE 2.5.3)
+
+    *) Reworked Comment recognition and keyword sensitivity.
+    
+Changes with Version 1.4 (SEE 2.5.1)
+
+    *) Substituted 501 with `id -g` to make all utf-8 "do shell script" commands work on non-501 users. (fixes SEE-1042)
+    
+Changes with Version 1.3 (SEE 2.5)
+
+    *) Added scripts: Insert/Edit HTML Color, Validate.
+    *) Fixed SEE-969: wrong color for IDs
+
+Changes with Version 1.2 (SEE 2.3)
+
+    *) SYMBOLS: Fixed SEE-490.
+
+Changes with Version 1.1
+    
+    *) EXTENSIONS: Added uppercase variants where appropriate.
