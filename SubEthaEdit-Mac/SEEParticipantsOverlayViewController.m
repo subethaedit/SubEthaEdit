@@ -80,7 +80,8 @@
 	[participantViewController.view setFrameOrigin:NSMakePoint(6.0, 0.0)];
 	[view addSubview:participantViewController.view];
 
-	NSArray *allParticipants = [self.document.session.participants objectForKey:@"ReadWrite"];
+	NSMutableArray *allParticipants = [[self.document.session.participants objectForKey:TCMMMSessionReadWriteGroupName] mutableCopy];
+	[allParticipants addObjectsFromArray:[self.document.session.participants objectForKey:TCMMMSessionReadOnlyGroupName]];
 	CGFloat userWidth = 12.0 + 100.0;
 	CGFloat userXOffset = 6.0 + 100.0 + 6.0;
 	for (TCMMMUser *user in allParticipants) {
