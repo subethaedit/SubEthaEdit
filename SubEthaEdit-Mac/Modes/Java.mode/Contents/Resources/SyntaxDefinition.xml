@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE syntax SYSTEM "syntax.dtd">
 <syntax>
 
@@ -6,7 +6,7 @@
         <name>Java</name> <!-- The definitions title -->
         <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@.]]></charsintokens> <!-- Valid Characters for Variables -->
         <!-- <charsdelimitingtokens></charsdelimitingtokens> -->
-        <folding toplevel="2" />
+        <folding toplevel="2"/>
     </head>
 
     <states>
@@ -1908,7 +1908,7 @@
                 <end><regex>(\\u[A-Fa-f0-9]{4}')|(\\'')|(.')</regex></end>
             </state>
     
-            <state id="JavadocComment" type="comment"  scope="comment.block.documentation">
+            <state id="JavadocComment" type="comment" scope="comment.block.documentation">
                 <begin><regex>/\*\*</regex></begin>
                 <end><regex>\*/</regex></end>
                 <keywords id="JavadocTags" useforautocomplete="no" scope="comment.block.documentation.tag">
@@ -1938,7 +1938,7 @@
             <state id="Block" foldable="yes" scope="meta.block">
                 <begin><regex>(?:(?&lt;=\s)(?:if|else|else\s+if|for|while|do|switch|case)\s*(?:\([^#{\n\r]*?\))?)?\s*{</regex></begin>
                 <end><regex>}</regex></end>
-                <import />
+                <import/>
             </state>
 
         </default>

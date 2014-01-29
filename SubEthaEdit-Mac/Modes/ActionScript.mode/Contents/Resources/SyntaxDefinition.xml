@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE syntax SYSTEM "syntax.dtd">
 <syntax>
 
@@ -1755,7 +1755,7 @@
                 <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
             </state>
             
-            <state id="SingleComment" type="comment"  scope="comment.line">
+            <state id="SingleComment" type="comment" scope="comment.line">
                 <begin><regex>//</regex></begin>
                 <end><regex>[\n\r]</regex></end>
                 <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
@@ -1774,7 +1774,7 @@
             <state id="Block" foldable="yes" scope="meta.block">
                 <begin><regex>(?:(?&lt;=\s)(?:if|else|else\s+if|for|while|do|switch|case)\s*(?:\([^#{]*?\))?)?\s*{</regex></begin>
                 <end><regex>}</regex></end>
-                <import />
+                <import/>
             </state>
 
         </default>

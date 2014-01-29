@@ -5,6 +5,7 @@
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 	<xsl:output indent="yes" encoding="UTF-8" method="xml" 
+		standalone="yes" 
 		doctype-system="syntax.dtd" 
 		cdata-section-elements="charsintokens charsincompletion" />
 
@@ -28,5 +29,13 @@
 	<xsl:template match="@font-trait" />
 	<xsl:template match="@font-weight" />
 	<xsl:template match="@font-style" />
-	
+
+<!-- clumsy write the xml without _really_ changing it (for the <'s and the doctype etc. --><!--
+	<xsl:template match="@scope">
+		<xsl:attribute name="scope">
+			<xsl:value-of select="." />
+		</xsl:attribute>
+	</xsl:template>
+-->
+
 </xsl:stylesheet>

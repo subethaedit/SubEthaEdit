@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE syntax SYSTEM "syntax.dtd">
 <syntax>
 
@@ -84,7 +84,7 @@
                 <keywords id="Numbers" useforautocomplete="no" scope="constant.numeric.preprocessor">
                     <regex>(?&lt;=[^\w\d]|^)(([+-]?(([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
                 </keywords>
-                <state-link state="Comment" />
+                <state-link state="Comment"/>
                 <state id="SingleComment in Preprocessor" type="comment" scope="comment.line.double-slash">
                     <begin><regex>//</regex></begin>
                     <end><regex>.(?=[\n\r])</regex></end>
@@ -92,10 +92,10 @@
                 </state>
             </state>
     
-            <state id="DoxyGen Comment" type="comment"  scope="comment.block.documentation">
+            <state id="DoxyGen Comment" type="comment" scope="comment.block.documentation">
                 <begin><regex>/\*[\*\!]</regex><autoend>\*/</autoend></begin>
                 <end><regex>\*/</regex></end>
-                <keywords id="DoxyGen Tags" useforautocomplete="no"  scope="comment.block.documentation.tag">
+                <keywords id="DoxyGen Tags" useforautocomplete="no" scope="comment.block.documentation.tag">
                     <regex>(?&lt;=[^\w\d]|^)([@\\]\w+)</regex>
                 </keywords>
                 <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
@@ -127,7 +127,7 @@
             <state id="Block" type="block" foldable="yes" intend="yes" scope="meta.block.curlybraces">
                 <begin><regex>{</regex><autoend>}</autoend></begin>
                 <end><regex>}</regex></end>
-                <import />
+                <import/>
             </state>
             
         </default>
