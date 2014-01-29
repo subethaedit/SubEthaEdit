@@ -38,7 +38,6 @@
 #import "FoldableTextStorage.h"
 #import "FoldedTextAttachment.h"
 #import "URLBubbleWindow.h"
-#import "RMBlurredView.h"
 #import <objc/objc-runtime.h>
 
 
@@ -84,6 +83,7 @@
 
 @property (nonatomic, assign) IBOutlet NSButton *shareInviteUsersButtonOutlet;
 @property (nonatomic, strong) NSArray *topLecelNibObjects;
+@property (nonatomic, strong) NSViewController *bottomOverlayViewController;
 
 - (void)	TCM_updateStatusBar;
 - (void)	TCM_updateBottomStatusBar;
@@ -281,61 +281,15 @@
     [[NSNotificationCenter defaultCenter] addObserver:document selector:@selector(textDidChange:) name:NSTextDidChangeNotification object:I_textView];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textDidChange:) name:PlainTextDocumentDidChangeTextStorageNotification object:document];
 
-//	// Test code
-//	{
-//		RMBlurredView *blurredView = [[RMBlurredView alloc] initWithFrame:NSMakeRect(0.0, 17.0, [self.O_editorView frame].size.width, 68.0)];
-//		[blurredView setAutoresizingMask:NSViewWidthSizable | NSViewMaxYMargin];
-//		[blurredView setTintColor:[NSColor colorWithCalibratedWhite:0.8 alpha:0.4]];
-//		[blurredView setSaturationFactor:12.0];
-//		[blurredView setBlurRadius:3.0];
-//		[blurredView.layer setBorderColor:[[NSColor lightGrayColor] CGColor]];
-//		[blurredView.layer setBorderWidth:0.5];
-//
-//		O_scrollView.bottomOverlayHeight += 68.0;
-//
-//		TCMMMUser *me=[TCMMMUserManager me];
-//		NSImage *myImage = [me image];
-//		[myImage setFlipped:NO];
-//		NSImageView *userImageView = [[NSImageView alloc] initWithFrame:NSMakeRect(12.0, 6.0, 56.0, 56.0)];
-//		userImageView.image = myImage;
-//		[userImageView setWantsLayer:YES];
-//		CGFloat hueValue = [[[me properties] objectForKey:@"Hue"] doubleValue] / 255.0;
-//		[userImageView.layer setBorderColor:[[NSColor colorWithCalibratedHue:hueValue saturation:0.8 brightness:1.0 alpha:0.6] CGColor]];
-//		[userImageView.layer setCornerRadius:28.0];
-//		[userImageView.layer setBorderWidth:3.0];
-//		[userImageView.layer setOpacity:0.8];
-//		[blurredView addSubview:userImageView];
-//
-//		NSArray *allUsers = [[TCMMMUserManager sharedInstance] allUsers];
-//		CGFloat userWidth = 12.0 + 56.0;
-//		CGFloat userImageXOffset = 12.0 + 56.0 + 12.0;
-//		for (TCMMMUser *user in allUsers) {
-//			if (user == me) continue;
-//
-//			userImageView = [[NSImageView alloc] initWithFrame:NSMakeRect(userImageXOffset, 6.0, 56.0, 56.0)];
-//			userImageXOffset += userWidth;
-//			myImage = user.image;
-//			[myImage setFlipped:NO];
-//			userImageView.image = myImage;
-//			[userImageView setWantsLayer:YES];
-//			hueValue = [[[user properties] objectForKey:@"Hue"] doubleValue] / 255.0;
-//			[userImageView.layer setBorderColor:[[NSColor colorWithCalibratedHue:hueValue saturation:0.8 brightness:1.0 alpha:0.6] CGColor]];
-//			[userImageView.layer setCornerRadius:28.0];
-//			[userImageView.layer setBorderWidth:3.0];
-//			[userImageView.layer setOpacity:1.0];
-//			[blurredView addSubview:userImageView];
-//		}
-//
-//		[self.O_editorView addSubview:blurredView];
-//	}
-
 	// Adding a second view hirachy to include this controller into the responder chain
     NSView *view = [[[NSView alloc] initWithFrame:[self.O_editorView frame]] autorelease];
     [view setAutoresizesSubviews:YES];
     [view setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
     [view addSubview:self.O_editorView];
     [view setPostsFrameChangedNotifications:YES];
+	[view setWantsLayer:self.O_editorView.wantsLayer];
     [self.O_editorView setNextResponder:self];
+	
     [self setNextResponder:view];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewFrameDidChange:) name:NSViewFrameDidChangeNotification object:view];
     self.O_editorView = view;
@@ -1176,6 +1130,47 @@
 {
     [self TCM_adjustTopStatusBarFrames];
     [self TCM_updateBottomStatusBar];
+}
+
+
+#pragma mark - Overlay view support
+
++ (NSSet *)keyPathsForValuesAffectingHasBottomOverlayView
+{
+    return [NSSet setWithObjects:@"bottomOverlayViewController", nil];
+}
+
+- (BOOL)hasBottomOverlayView {
+	return (self.bottomOverlayViewController != nil);
+}
+
+- (void)displayViewControllerInBottomArea:(NSViewController *)viewController {
+	NSViewController *displayedViewController = self.bottomOverlayViewController;
+	if (displayedViewController != viewController) {
+		if (displayedViewController) {
+			NSView *bottomOverlayView = displayedViewController.view;
+			NSRect bottomOverlayFrame = bottomOverlayView.frame;
+			[bottomOverlayView removeFromSuperview];
+			self.bottomOverlayViewController = nil;
+
+			O_scrollView.bottomOverlayHeight -= NSHeight(bottomOverlayFrame);
+		}
+
+		if (viewController) {
+			NSView *bottomOverlayView = viewController.view;
+
+			NSRect bottomOverlayFrame = bottomOverlayView.frame;
+			bottomOverlayFrame.origin.y = O_scrollView.bottomOverlayHeight;
+			bottomOverlayFrame.size.width = [self.O_editorView frame].size.width;
+			bottomOverlayView.frame = bottomOverlayFrame;
+
+			[self.O_editorView addSubview:bottomOverlayView];
+			O_scrollView.bottomOverlayHeight += NSHeight(bottomOverlayFrame);
+
+			self.bottomOverlayViewController = viewController;
+		}
+		[O_scrollView tile];
+	}
 }
 
 

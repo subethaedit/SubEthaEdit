@@ -45,6 +45,7 @@
 }
 
 @property (nonatomic, strong) IBOutlet NSView *O_editorView;
+@property (nonatomic, readonly) BOOL hasBottomOverlayView;
 
 - (id)initWithWindowControllerTabContext:(PlainTextWindowControllerTabContext *)aWindowControllerTabContext splitButton:(BOOL)aFlag;
 - (NSView *)editorView;
@@ -90,6 +91,8 @@
 
 - (void)storePosition;
 - (void)restorePositionAfterOperation:(TCMMMOperation *)aOperation;
+
+- (void)displayViewControllerInBottomArea:(NSViewController *)viewController;
 
 #pragma mark -
 #pragma mark ### Actions ###

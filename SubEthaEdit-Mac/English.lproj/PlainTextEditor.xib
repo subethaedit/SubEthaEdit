@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13B3116" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13C44" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1090" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
@@ -48,7 +48,7 @@
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </customView>
-                <customView autoresizesSubviews="NO" id="27" userLabel="Top Blurred View" customClass="RMBlurredView">
+                <customView id="27" userLabel="Top Blurred View">
                     <rect key="frame" x="0.0" y="273" width="409" height="17"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                     <subviews>
@@ -101,22 +101,40 @@
                             </connections>
                         </button>
                     </subviews>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="number" keyPath="saturationFactorNumber">
-                            <integer key="value" value="12"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="number" keyPath="blurRadiusNumber">
-                            <integer key="value" value="3"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
-                            <color key="value" white="0.84982322080291972" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
-                        </userDefinedRuntimeAttribute>
-                    </userDefinedRuntimeAttributes>
+                    <backgroundFilters>
+                        <ciFilter name="CIColorControls">
+                            <configuration>
+                                <real key="inputBrightness" value="0.0"/>
+                                <real key="inputContrast" value="1"/>
+                                <null key="inputImage"/>
+                                <real key="inputSaturation" value="2"/>
+                            </configuration>
+                        </ciFilter>
+                        <ciFilter name="CIGaussianBlur">
+                            <configuration>
+                                <null key="inputImage"/>
+                                <real key="inputRadius" value="2"/>
+                            </configuration>
+                        </ciFilter>
+                        <ciFilter name="CIExposureAdjust">
+                            <configuration>
+                                <real key="inputEV" value="-0.5"/>
+                                <null key="inputImage"/>
+                            </configuration>
+                        </ciFilter>
+                    </backgroundFilters>
                 </customView>
-                <customView autoresizesSubviews="NO" id="28" userLabel="Bottom Blurred View" customClass="RMBlurredView">
+                <customView id="28" userLabel="Bottom Blurred View">
                     <rect key="frame" x="0.0" y="0.0" width="409" height="17"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <subviews>
+                        <box autoresizesSubviews="NO" verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="7">
+                            <rect key="frame" x="0.0" y="14" width="407" height="5"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                            <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <font key="titleFont" metaFont="system"/>
+                        </box>
                         <customView autoresizesSubviews="NO" toolTip="Tab settings" id="84" customClass="PopUpButton">
                             <rect key="frame" x="87" y="0.0" width="76" height="17"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
@@ -133,13 +151,6 @@
                             <rect key="frame" x="-5" y="0.0" width="95" height="17"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </customView>
-                        <box autoresizesSubviews="NO" verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="7">
-                            <rect key="frame" x="0.0" y="14" width="407" height="5"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                            <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <font key="titleFont" metaFont="system"/>
-                        </box>
                         <button id="7Mi-Cu-bLB">
                             <rect key="frame" x="277" y="0.0" width="21" height="17"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
@@ -159,6 +170,9 @@
                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
                                 <font key="font" metaFont="miniSystem"/>
                             </buttonCell>
+                            <connections>
+                                <action selector="toggleParticipantsOverlay:" target="-1" id="YXe-qQ-ERB"/>
+                            </connections>
                         </button>
                         <button id="bv6-mv-CIq">
                             <rect key="frame" x="332" y="0.0" width="26" height="17"/>
@@ -184,17 +198,28 @@
                             </connections>
                         </textField>
                     </subviews>
-                    <userDefinedRuntimeAttributes>
-                        <userDefinedRuntimeAttribute type="number" keyPath="saturationFactorNumber">
-                            <integer key="value" value="12"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="number" keyPath="blurRadiusNumber">
-                            <integer key="value" value="3"/>
-                        </userDefinedRuntimeAttribute>
-                        <userDefinedRuntimeAttribute type="color" keyPath="tintColor">
-                            <color key="value" white="0.84982322079999995" alpha="0.40000000000000002" colorSpace="calibratedWhite"/>
-                        </userDefinedRuntimeAttribute>
-                    </userDefinedRuntimeAttributes>
+                    <backgroundFilters>
+                        <ciFilter name="CIGaussianBlur">
+                            <configuration>
+                                <null key="inputImage"/>
+                                <real key="inputRadius" value="2"/>
+                            </configuration>
+                        </ciFilter>
+                        <ciFilter name="CIColorControls">
+                            <configuration>
+                                <real key="inputBrightness" value="0.0"/>
+                                <real key="inputContrast" value="1"/>
+                                <null key="inputImage"/>
+                                <real key="inputSaturation" value="4"/>
+                            </configuration>
+                        </ciFilter>
+                        <ciFilter name="CIExposureAdjust">
+                            <configuration>
+                                <real key="inputEV" value="-0.5"/>
+                                <null key="inputImage"/>
+                            </configuration>
+                        </ciFilter>
+                    </backgroundFilters>
                 </customView>
             </subviews>
         </customView>
