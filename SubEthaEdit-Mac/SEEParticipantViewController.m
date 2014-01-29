@@ -89,10 +89,13 @@
 }
 
 - (IBAction)userViewButtonClicked:(id)sender {
+}
+
+- (void)updateForInvitationState {
 	self.connectingProgressIndicatorOutlet.usesThreadedAnimation = YES;
-	[self.connectingProgressIndicatorOutlet startAnimation:sender];
-	self.nameLabelOutlet.alphaValue = 0.6;
-	self.userViewButtonOutlet.alphaValue = 0.4;
+	[self.connectingProgressIndicatorOutlet startAnimation:self];
+	self.nameLabelOutlet.alphaValue = 0.8;
+	self.userViewButtonOutlet.alphaValue = 0.6;
 }
 
 @end
