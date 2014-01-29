@@ -154,7 +154,7 @@
 					<string>GetLocale</string>
 					<string>SetLocale</string>
 					<string>LoadPicture</string>
-					<string>RGB</string>&gt;
+					<string>RGB</string>
 					<string>flush</string>
 					<string>redirect</string>
 					<string>write</string>
