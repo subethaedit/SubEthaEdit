@@ -288,7 +288,9 @@
     [view setAutoresizingMask:NSViewWidthSizable | NSViewHeightSizable];
     [view addSubview:self.O_editorView];
     [view setPostsFrameChangedNotifications:YES];
+	[view setWantsLayer:self.O_editorView.wantsLayer];
     [self.O_editorView setNextResponder:self];
+	
     [self setNextResponder:view];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewFrameDidChange:) name:NSViewFrameDidChangeNotification object:view];
     self.O_editorView = view;
@@ -1168,6 +1170,7 @@
 
 			self.bottomOverlayViewController = viewController;
 		}
+		[O_scrollView tile];
 	}
 }
 
