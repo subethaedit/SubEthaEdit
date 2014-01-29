@@ -80,8 +80,10 @@
 	[participantViewController.view setFrameOrigin:NSMakePoint(6.0, 0.0)];
 	[view addSubview:participantViewController.view];
 
-	NSMutableArray *allParticipants = [[self.document.session.participants objectForKey:TCMMMSessionReadWriteGroupName] mutableCopy];
-	[allParticipants addObjectsFromArray:[self.document.session.participants objectForKey:TCMMMSessionReadOnlyGroupName]];
+	TCMMMSession *session = self.document.session;
+
+	NSMutableArray *allParticipants = [[session.participants objectForKey:TCMMMSessionReadWriteGroupName] mutableCopy];
+	[allParticipants addObjectsFromArray:[session.participants objectForKey:TCMMMSessionReadOnlyGroupName]];
 	CGFloat userWidth = 12.0 + 100.0;
 	CGFloat userXOffset = 6.0 + 100.0 + 6.0;
 	for (TCMMMUser *user in allParticipants) {
@@ -94,17 +96,22 @@
 		[view addSubview:participantViewController.view];
 	}
 	
-	NSMutableArray *allInvitees = [[self.document.session.invitedUsers objectForKey:TCMMMSessionReadWriteGroupName] mutableCopy];
-	[allInvitees addObjectsFromArray:[self.document.session.invitedUsers objectForKey:TCMMMSessionReadOnlyGroupName]];
+	NSMutableArray *allInvitees = [[session.invitedUsers objectForKey:TCMMMSessionReadWriteGroupName] mutableCopy];
+	[allInvitees addObjectsFromArray:[session.invitedUsers objectForKey:TCMMMSessionReadOnlyGroupName]];
 	for (TCMMMUser *user in allInvitees) {
 		if (user == me) continue;
 
-		participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:user];
-		[self.subviewControllers addObject:participantViewController];
-		[participantViewController.view setFrameOrigin:NSMakePoint(userXOffset + 6.0, 0.0)];
-		userXOffset += userWidth;
-		[view addSubview:participantViewController.view];
-		[participantViewController updateForInvitationState];
+		NSString *stateOfInvitee = [session stateOfInvitedUserById:user.userID];
+		if ([stateOfInvitee isEqualToString:TCMMMSessionInvitedUserStateAwaitingResponse]) {
+			participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:user];
+			[self.subviewControllers addObject:participantViewController];
+			[participantViewController.view setFrameOrigin:NSMakePoint(userXOffset + 6.0, 0.0)];
+			userXOffset += userWidth;
+			[view addSubview:participantViewController.view];
+			[participantViewController updateForInvitationState];
+		} else {
+			// remove declined users here
+		}
 	}
 
 }
