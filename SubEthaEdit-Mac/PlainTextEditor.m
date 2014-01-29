@@ -38,7 +38,6 @@
 #import "FoldableTextStorage.h"
 #import "FoldedTextAttachment.h"
 #import "URLBubbleWindow.h"
-#import "RMBlurredView.h"
 #import <objc/objc-runtime.h>
 
 
