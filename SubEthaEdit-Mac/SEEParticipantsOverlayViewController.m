@@ -93,6 +93,20 @@
 		userXOffset += userWidth;
 		[view addSubview:participantViewController.view];
 	}
+	
+	NSMutableArray *allInvitees = [[self.document.session.invitedUsers objectForKey:TCMMMSessionReadWriteGroupName] mutableCopy];
+	[allInvitees addObjectsFromArray:[self.document.session.invitedUsers objectForKey:TCMMMSessionReadOnlyGroupName]];
+	for (TCMMMUser *user in allInvitees) {
+		if (user == me) continue;
+
+		participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:user];
+		[self.subviewControllers addObject:participantViewController];
+		[participantViewController.view setFrameOrigin:NSMakePoint(userXOffset + 6.0, 0.0)];
+		userXOffset += userWidth;
+		[view addSubview:participantViewController.view];
+		[participantViewController updateForInvitationState];
+	}
+
 }
 
 @end
