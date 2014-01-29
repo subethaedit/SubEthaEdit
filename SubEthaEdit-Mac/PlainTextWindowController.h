@@ -68,8 +68,8 @@ extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 
 - (void)refreshDisplay;
 
-- (IBAction)openParticipantsDrawer:(id)aSender;
-- (IBAction)closeParticipantsDrawer:(id)aSender;
+- (IBAction)openParticipantsOverlay:(id)aSender;
+- (IBAction)closeParticipantsOverlay:(id)aSender;
 
 - (void)validateButtons;
 

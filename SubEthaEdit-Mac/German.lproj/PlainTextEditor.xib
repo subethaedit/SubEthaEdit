@@ -94,7 +94,7 @@
                                 <font key="font" metaFont="miniSystem"/>
                             </buttonCell>
                             <connections>
-                                <action selector="toggleParticipantsDrawer:" target="-1" id="0L0-x0-8XB"/>
+                                <action selector="toggleParticipantsOverlay:" target="-1" id="v2r-kw-9sC"/>
                             </connections>
                         </button>
                         <button id="SB3-zK-zNn">

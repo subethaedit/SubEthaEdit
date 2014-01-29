@@ -1357,7 +1357,7 @@ static NSString *tempFileName(NSString *origPath) {
                 DEBUGLOG(@"Document", AllLogLevel, @"announce");
                 [[TCMMMPresenceManager sharedInstance] announceSession:[self session]];
                 [[self session] setFilename:[self preparedDisplayName]];
-                [[self topmostWindowController] openParticipantsDrawer:self];
+                [[self topmostWindowController] openParticipantsOverlay:self];
                 if ([[NSUserDefaults standardUserDefaults] boolForKey:HighlightChangesPreferenceKey]) {
                     NSEnumerator *plainTextEditors=[[self plainTextEditors] objectEnumerator];
                     PlainTextEditor *editor=nil;
@@ -1370,7 +1370,7 @@ static NSString *tempFileName(NSString *origPath) {
                 TCMMMSession *session=[self session];
                 [[TCMMMPresenceManager sharedInstance] concealSession:session];
                 if ([session participantCount]<=1 && [[session pendingUsers] count] == 0) {
-                    [[self windowControllers] makeObjectsPerformSelector:@selector(closeParticipantsDrawer:) withObject:self];
+                    [[self windowControllers] makeObjectsPerformSelector:@selector(closeParticipantsOverlay:) withObject:self];
                 }
             }
         }

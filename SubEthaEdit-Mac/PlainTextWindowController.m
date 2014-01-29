@@ -33,6 +33,7 @@
 #import <PSMTabBarControl/PSMTabBarControl.h>
 #import <PSMTabBarControl/PSMTabStyle.h>
 #import "URLBubbleWindow.h"
+#import "SEEParticipantsOverlayViewController.h"
 #import <objc/objc-runtime.h>			// for objc_msgSend
 
 
@@ -435,9 +436,9 @@ static NSAttributedString *S_dragString = nil;
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
     SEL selector = [menuItem action];
     
-    if (selector == @selector(toggleParticipantsDrawer:)) {
+    if (selector == @selector(toggleParticipantsOverlay:)) {
         [menuItem setTitle:
-            [(NSDrawer *)[[[self window] drawers] objectAtIndex:0] state] == NSDrawerOpenState ?
+            [[[self plainTextEditors] lastObject] hasBottomOverlayView] ?
             NSLocalizedString(@"Hide Participants", nil) :
             NSLocalizedString(@"Show Participants", nil)];
         return YES;
@@ -612,8 +613,10 @@ static NSAttributedString *S_dragString = nil;
     [[[tabViewItem identifier] editorSplitView] setDelegate:windowController];
     [windowController setDocument:document];
     [windowController showWindow:self];
-    if ([O_participantsDrawer state] == NSDrawerOpenState) {
-        [windowController openParticipantsDrawer:self];
+
+	PlainTextEditor *editor = [[self plainTextEditors] lastObject];
+    if (editor.hasBottomOverlayView) {
+        [windowController openParticipantsOverlay:self];
     }
 }
 
@@ -629,27 +632,32 @@ static NSAttributedString *S_dragString = nil;
     }
 }
 
-- (IBAction)openParticipantsDrawer:(id)aSender {
-    [O_participantsDrawer open:aSender];
+- (IBAction)openParticipantsOverlay:(id)aSender {
+
+	PlainTextEditor *editor = [[self plainTextEditors] lastObject];
+	if (editor) {
+		SEEParticipantsOverlayViewController *participantsOverlay = [[[SEEParticipantsOverlayViewController alloc] initWithDocument:self.document] autorelease];
+		[editor displayViewControllerInBottomArea:participantsOverlay];
+	}
 }
 
-- (IBAction)closeParticipantsDrawer:(id)aSender {
-    BOOL shouldClose = YES;
-    PlainTextDocument *document;
-    NSEnumerator *enumerator = [[self documents] objectEnumerator];
-    while ((document = [enumerator nextObject])) {
-        if ([document isAnnounced] || [[document session] clientState] != TCMMMSessionClientNoState) {
-            shouldClose = NO;
-            break;
-        }
-    }
-    if (shouldClose) {
-        [O_participantsDrawer close:aSender];
-    }
+- (IBAction)closeParticipantsOverlay:(id)aSender {
+	PlainTextEditor *editor = [[self plainTextEditors] lastObject];
+	if (editor) {
+		[editor displayViewControllerInBottomArea:nil];
+	}
 }
 
-- (IBAction)toggleParticipantsDrawer:(id)sender {
-    [O_participantsDrawer toggle:sender];
+- (IBAction)toggleParticipantsOverlay:(id)sender {
+	PlainTextEditor *editor = [[self plainTextEditors] lastObject];
+	if (editor) {
+		if (editor.hasBottomOverlayView) {
+			[editor displayViewControllerInBottomArea:nil];
+		} else {
+			SEEParticipantsOverlayViewController *participantsOverlay = [[[SEEParticipantsOverlayViewController alloc] initWithDocument:self.document] autorelease];
+			[editor displayViewControllerInBottomArea:participantsOverlay];
+		}
+	}
 }
 
 - (NSInteger)buttonStateForSelectedRows:(NSIndexSet *)selectedRows {
@@ -996,7 +1004,7 @@ static NSAttributedString *S_dragString = nil;
         [toolbarItem setToolTip:NSLocalizedString(@"ParticipantsToolTip", @"Participants tool tip")];
         [toolbarItem setImage:[NSImage imageNamed:@"Participants"]];
         [toolbarItem setTarget:self];
-        [toolbarItem setAction:@selector(toggleParticipantsDrawer:)];
+        [toolbarItem setAction:@selector(toggleParticipantsOverlay:)];
     } else if ([itemIdent isEqual:InternetToolbarItemIdentifier]) { 
         [toolbarItem setPaletteLabel:NSLocalizedString(@"Connections", nil)];
         [toolbarItem setLabel:NSLocalizedString(@"Connections", nil)];
@@ -2070,10 +2078,12 @@ static NSAttributedString *S_dragString = nil;
         [tabViewItem release];
 	    [document setKeepUndoManagerOnZeroWindowControllers:NO];
         [document release];
-        if ([O_participantsDrawer state] == NSDrawerOpenState) {
-            [windowController openParticipantsDrawer:self];
-        }
-        
+
+		PlainTextEditor *editor = [[self plainTextEditors] lastObject];
+		if (editor.hasBottomOverlayView) {
+			[windowController openParticipantsOverlay:self];
+		}
+
         [[windowController tabBar] hideTabBar:NO animate:YES];
     }
 }
@@ -2622,11 +2632,6 @@ static NSAttributedString *S_dragString = nil;
 
 - (BOOL)tabView:(NSTabView*)aTabView shouldDragTabViewItem:(NSTabViewItem *)tabViewItem fromTabBar:(PSMTabBarControl *)tabBarControl
 {
-    if ([[self documents] count] == 1) {
-        if ([O_participantsDrawer respondsToSelector:@selector(_hide)]) {
-            [O_participantsDrawer performSelector:@selector(_hide)];
-        }
-    }
 	return YES;
 }
 
@@ -2769,10 +2774,11 @@ CGFloat ToolbarHeightForWindow(NSWindow *window)
         [[[tabViewItem identifier] editorSplitView] setDelegate:windowController];
         [windowController setDocument:document];
         
-        if ([O_participantsDrawer state] == NSDrawerOpenState) {
-            [windowController openParticipantsDrawer:self];
-        }
-                  
+		PlainTextEditor *editor = [[self plainTextEditors] lastObject];
+		if (editor.hasBottomOverlayView) {
+			[windowController openParticipantsOverlay:self];
+		}
+
         if (![windowController hasManyDocuments]) {
             [tabBarControl setHideForSingleTab:![[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey]];
             [tabBarControl hideTabBar:![[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey] animate:NO];

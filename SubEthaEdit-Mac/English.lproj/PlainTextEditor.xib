@@ -160,7 +160,7 @@
                                 <font key="font" metaFont="miniSystem"/>
                             </buttonCell>
                             <connections>
-                                <action selector="toggleParticipantsDrawer:" target="-1" id="Obd-WU-Cap"/>
+                                <action selector="toggleParticipantsOverlay:" target="-1" id="YXe-qQ-ERB"/>
                             </connections>
                         </button>
                         <button id="bv6-mv-CIq">

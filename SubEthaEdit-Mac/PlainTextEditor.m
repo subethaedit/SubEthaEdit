@@ -39,7 +39,6 @@
 #import "FoldedTextAttachment.h"
 #import "URLBubbleWindow.h"
 #import "RMBlurredView.h"
-#import "SEEParticipantsOverlayViewController.h"
 #import <objc/objc-runtime.h>
 
 
@@ -85,6 +84,7 @@
 
 @property (nonatomic, assign) IBOutlet NSButton *shareInviteUsersButtonOutlet;
 @property (nonatomic, strong) NSArray *topLecelNibObjects;
+@property (nonatomic, strong) NSViewController *bottomOverlayViewController;
 
 - (void)	TCM_updateStatusBar;
 - (void)	TCM_updateBottomStatusBar;
@@ -281,16 +281,6 @@
     [[NSNotificationCenter defaultCenter] addObserver:document selector:@selector(textViewDidChangeSelection:) name:NSTextViewDidChangeSelectionNotification object:I_textView];
     [[NSNotificationCenter defaultCenter] addObserver:document selector:@selector(textDidChange:) name:NSTextDidChangeNotification object:I_textView];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textDidChange:) name:PlainTextDocumentDidChangeTextStorageNotification object:document];
-
-	// Test code
-	{
-		NSRect blurredViewRect = NSMakeRect(0.0, 17.0, [self.O_editorView frame].size.width, 96.0);
-		SEEParticipantsOverlayViewController *participantsOverlay = [[SEEParticipantsOverlayViewController alloc] initWithDocument:self.document];
-		NSView *participantsOverlayView = participantsOverlay.view;
-		[participantsOverlayView setFrame:blurredViewRect];
-		[self.O_editorView addSubview:participantsOverlayView];
-		O_scrollView.bottomOverlayHeight += NSHeight(blurredViewRect);
-	}
 
 	// Adding a second view hirachy to include this controller into the responder chain
     NSView *view = [[[NSView alloc] initWithFrame:[self.O_editorView frame]] autorelease];
@@ -1139,6 +1129,46 @@
 {
     [self TCM_adjustTopStatusBarFrames];
     [self TCM_updateBottomStatusBar];
+}
+
+
+#pragma mark - Overlay view support
+
++ (NSSet *)keyPathsForValuesAffectingHasBottomOverlayView
+{
+    return [NSSet setWithObjects:@"bottomOverlayViewController", nil];
+}
+
+- (BOOL)hasBottomOverlayView {
+	return (self.bottomOverlayViewController != nil);
+}
+
+- (void)displayViewControllerInBottomArea:(NSViewController *)viewController {
+	NSViewController *displayedViewController = self.bottomOverlayViewController;
+	if (displayedViewController != viewController) {
+		if (displayedViewController) {
+			NSView *bottomOverlayView = displayedViewController.view;
+			NSRect bottomOverlayFrame = bottomOverlayView.frame;
+			[bottomOverlayView removeFromSuperview];
+			self.bottomOverlayViewController = nil;
+
+			O_scrollView.bottomOverlayHeight -= NSHeight(bottomOverlayFrame);
+		}
+
+		if (viewController) {
+			NSView *bottomOverlayView = viewController.view;
+
+			NSRect bottomOverlayFrame = bottomOverlayView.frame;
+			bottomOverlayFrame.origin.y = O_scrollView.bottomOverlayHeight;
+			bottomOverlayFrame.size.width = [self.O_editorView frame].size.width;
+			bottomOverlayView.frame = bottomOverlayFrame;
+
+			[self.O_editorView addSubview:bottomOverlayView];
+			O_scrollView.bottomOverlayHeight += NSHeight(bottomOverlayFrame);
+
+			self.bottomOverlayViewController = viewController;
+		}
+	}
 }
 
 
