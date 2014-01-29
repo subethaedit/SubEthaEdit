@@ -36,6 +36,7 @@
 #import "DocumentModeManager.h"
 #import "ConnectionBrowserController.h"
 #import "PlainTextDocument.h"
+#import "SEEPlainTextEditorScrollView.h"
 
 #define SPANNINGRANGE(a,b) NSMakeRange(MIN(a,b),MAX(a,b)-MIN(a,b)+1)
 
@@ -65,6 +66,20 @@
     }
     [super _adjustedCenteredScrollRectToVisible:aRect forceCenter:force];
 }
+
+- (void)adjustContainerInsetToScrollView {
+	SEEPlainTextEditorScrollView *enclosingScrollView = (SEEPlainTextEditorScrollView *)self.enclosingScrollView;
+	if ([enclosingScrollView isKindOfClass:[SEEPlainTextEditorScrollView class]]) {
+		NSSize currentInset = [self textContainerInset];
+		CGFloat height = 0;
+		height = MAX(enclosingScrollView.topOverlayHeight, enclosingScrollView.bottomOverlayHeight);
+		if (height != currentInset.height) {
+			currentInset.height = height;
+			[self setTextContainerInset:currentInset];
+		}
+	}
+}
+
 
 static NSMenu *S_defaultMenu=nil;
 

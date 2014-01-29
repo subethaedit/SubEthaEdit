@@ -116,6 +116,7 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
     NSScrollView          *scrollView=[textView enclosingScrollView];
     NSLayoutManager    *layoutManager=[textView layoutManager];
     NSRect visibleRect=[scrollView documentVisibleRect];
+	visibleRect.origin.y -= [textView textContainerInset].height;
     NSPoint point=visibleRect.origin;
     point.y+=aRect.origin.y+1.;
     unsigned glyphIndex,characterIndex;
@@ -186,7 +187,7 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
         lineFragmentRectForLastCharacter=[layoutManager lineFragmentRectForGlyphAtIndex:glyphIndex 
                                                                effectiveRange:nil];
 
-		foldingAreaRect.origin.y = boundingRect.origin.y - visibleRect.origin.y;
+		foldingAreaRect.origin.y = boundingRect.origin.y - visibleRect.origin.y + [textView textContainerInset].height;
         foldingAreaRect.size.height = NSMaxY(lineFragmentRectForLastCharacter) - boundingRect.origin.y;
        	
        	int foldingDepth = [textStorage foldingDepthForLine:lineNumber];

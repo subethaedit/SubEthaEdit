@@ -41,6 +41,8 @@
 - (IBAction)foldAllTopLevelBlocks:(id)aSender;
 - (IBAction)foldAllBlocksAtTagLevel:(id)aSender;
 
+- (void)adjustContainerInsetToScrollView;
+
 @end
 
 @interface NSObject (TextViewDelegateMethods) 
