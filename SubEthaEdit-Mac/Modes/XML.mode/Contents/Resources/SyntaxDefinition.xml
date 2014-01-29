@@ -14,13 +14,13 @@
 				<regex>(&amp;)</regex>
 			</keywords>
 			<keywords id="Tags" useforautocomplete="no" scope="markup.tag">
-				<regex>(&lt;[/\s]*[^/?!][-:_\w]*\s*(?:[-:_\w]+[ \t]*=[ \t]*(?:".*?"|'.*?'|[\w:]+)\s*)*[/\s]*>)</regex>
+				<regex>(&lt;[/\s]*[^/?!][-:_\w]*\s*(?:[-:_\w]+[ \t]*=[ \t]*(?:".*?"|'.*?'|[\w:]+)\s*)*[/\s]*&gt;)</regex>
 			</keywords>
 			<keywords id="Attributes in Tags" useforautocomplete="no" scope="markup.tag.attribute.name">
-				<regex>([\w-]*)(?=[ \t]*=[^&lt;]+>)</regex>
+				<regex>([\w-]*)(?=[ \t]*=[^&lt;]+&gt;)</regex>
 			</keywords>
 			<keywords id="Strings in Tags" type="string" useforautocomplete="no" scope="markup.tag.attribute.value.string">
-				<regex>=[ \t]*("[^"]*"|'[^']*')(?=[^&lt;]*>)</regex>
+				<regex>=[ \t]*("[^"]*"|'[^']*')(?=[^&lt;]*&gt;)</regex>
 			</keywords>
 			<keywords id="Entities" useforautocomplete="no" scope="markup.constant.entity">
 				<regex>(&amp;#\d+;)</regex>
@@ -28,20 +28,20 @@
 				<regex>(&amp;[\w\d\.\-]+;)</regex>
 			</keywords>
 			<state id="Comment" type="comment" scope="markup.comment">
-				<begin><regex>&lt;!--</regex><autoend>--></autoend></begin>
-				<end><regex>--></regex></end>
+				<begin><regex>&lt;!--</regex><autoend>--&gt;</autoend></begin>
+				<end><regex>--&gt;</regex></end>
 				<keywords id="SGML Double Dash" useforautocomplete="no" scope="meta.invalid.sgmlcomment">
-					<regex>(?&lt;!\!)(--)(?!>)</regex>
+					<regex>(?&lt;!\!)(--)(?!&gt;)</regex>
 				</keywords>
 				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 			</state>
 			<state id="CDATA" foldable="yes" scope="markup.inline.cdata">
 				<begin>
 					<regex>&lt;!\s*\[CDATA\s*\[</regex>
-					<autoend>\]\]></autoend>
+					<autoend>\]\]&gt;</autoend>
 				</begin>
 				<end>
-					<regex>\]\s*\]\s*></regex>
+					<regex>\]\s*\]\s*&gt;</regex>
 				</end>
 			</state>
 			<state id="Doctype" foldable="no" scope="markup.declaration">
@@ -49,7 +49,7 @@
 					<regex>&lt;!</regex>
 				</begin>
 				<end>
-					<regex>></regex>
+					<regex>&gt;</regex>
 				</end>
 				<state id="String" type="string" scope="markup.declaration.string.double">
 					<begin><regex>"</regex></begin>
@@ -70,7 +70,7 @@
 					<regex>&lt;\?</regex>
 				</begin>
 				<end>
-					<regex>\?></regex>
+					<regex>\?&gt;</regex>
 				</end>
 				<state id="ProcessingString" type="string" scope="markup.processing.attribute.value.string">
 					<begin><regex>"</regex></begin>
@@ -83,20 +83,20 @@
 			</state>
 			<state id="Single Tag" foldable="no" scope="markup.tag">
 				<begin>
-					<regex>&lt;\s*[^/?!][-:_\w]*\s*(?:[-:_\w]+\s*=\s*(?:"[^"]*"|'[^']*'|\w+)\s*)*/\s*(?=>)</regex>
+					<regex>&lt;\s*[^/?!][-:_\w]*\s*(?:[-:_\w]+\s*=\s*(?:"[^"]*"|'[^']*'|\w+)\s*)*/\s*(?=&gt;)</regex>
 				</begin>
 				<end>
-					<regex>></regex>
+					<regex>&gt;</regex>
 				</end>
 				<import/>
 			</state>
 			<state id="Tag State" foldable="yes" indent="yes" usespellchecking="no" scope="meta.default">
 				<begin>
-					<regex>&lt;\s*(?'xmltagstatename'[^/?!][-:_\w]*)\s*(?:[-:_\w]+[ \t]*=[ \t]*(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*></regex>
-					<autoend>&lt;/\g&lt;xmltagstatename>></autoend>
+					<regex>&lt;\s*(?'xmltagstatename'[^/?!][-:_\w]*)\s*(?:[-:_\w]+[ \t]*=[ \t]*(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*&gt;</regex>
+					<autoend>&lt;/\g&lt;xmltagstatename&gt;&gt;</autoend>
 				</begin>
 				<end>
-					<regex>&lt;\s*/\s*(?#see-insert-start-group:xmltagstatename)\s*></regex>
+					<regex>&lt;\s*/\s*(?#see-insert-start-group:xmltagstatename)\s*&gt;</regex>
 				</end>
 				<import/>
 			</state>

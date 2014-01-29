@@ -12,17 +12,17 @@
             <import mode="XML" keywords-only="yes"/>
         
 		<state id="JSP Comment" type="comment" background-color="none" scope="comment.block.jsp">
-			<begin><regex>&lt;\%--</regex><autoend>--\%></autoend></begin>
-			<end><regex>--\%></regex></end>
+			<begin><regex>&lt;\%--</regex><autoend>--\%&gt;</autoend></begin>
+			<end><regex>--\%&gt;</regex></end>
 		</state>
         
 		<state id="JSP Directives" foldable="no" scope="meta.block">
-			<begin><regex>(?:&lt;%@)</regex><autoend>%></autoend></begin>
-			<end><regex>(?:%>)</regex></end>
+			<begin><regex>(?:&lt;%@)</regex><autoend>%&gt;</autoend></begin>
+			<end><regex>(?:%&gt;)</regex></end>
 			
 			<keywords id="JSP Directive Delimiter" useforautocomplete="no" scope="markup.processing.languageswitch.jsp">
 				<regex>(&lt;%[=!@]?)</regex>
-				<regex>(%>)</regex>
+				<regex>(%&gt;)</regex>
 			</keywords>
 			<keywords id="JSP Directive Type" useforautocomplete="no" scope="keyword.type">
 				<regex>&lt;%@\s*(\w+)</regex>
@@ -35,12 +35,12 @@
 		</state>
 
 		<state id="Java" usesymbolsfrommode="Java" useautocompletefrommode="Java" foldable="yes" scope="meta.block">
-			<begin><regex>(?:&lt;%=?)</regex><autoend>%></autoend></begin>
-			<end><regex>(?:%>)</regex></end>
+			<begin><regex>(?:&lt;%=?)</regex><autoend>%&gt;</autoend></begin>
+			<end><regex>(?:%&gt;)</regex></end>
 				
 			<keywords id="JSP Delimiter" useforautocomplete="no" scope="markup.processing.languageswitch.jsp">
 				<regex>(&lt;%[=!@]?)</regex>
-				<regex>(%>)</regex>
+				<regex>(%&gt;)</regex>
 			</keywords>
 			
 			<import mode="Java" keywords-only="yes"/>
@@ -51,7 +51,7 @@
 			<state-link mode="Java" state="Strings"/>
             <state id="Java Block" foldable="yes" scope="meta.block">
                 <begin><regex>(?:(?&lt;=\s)(?:if|else|else\s+if|for|while|do|switch|case)\s*(?:\([^#{\n\r]*?\))?)?\s*{</regex><autoend>}</autoend></begin>
-                <end><regex>(?:}|[^\n\r](?=\s*[\n\r]?%>))</regex></end>
+                <end><regex>(?:}|[^\n\r](?=\s*[\n\r]?%&gt;))</regex></end>
 				<import mode="Java" keywords-only="yes"/>
                 <import state="Java"/>
             </state>
@@ -59,10 +59,10 @@
 	
             <!--  This is the "we do a complete HTML mode and import Java everywhere" section -->
 			<state id="Comment" type="comment" scope="markup.comment">
-				<begin><regex>&lt;!--</regex><autoend>--></autoend></begin>
-				<end><regex>--></regex></end>
+				<begin><regex>&lt;!--</regex><autoend>--&gt;</autoend></begin>
+				<end><regex>--&gt;</regex></end>
 				<keywords id="SGML Double Dash" useforautocomplete="no" scope="meta.invalid.sgmlcomment">
-					<regex>(?&lt;!\!)(--)(?!>)</regex>
+					<regex>(?&lt;!\!)(--)(?!&gt;)</regex>
 				</keywords>
 				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 				<state-link state="Java"/>
@@ -70,19 +70,19 @@
 			<state id="CDATA" foldable="yes" scope="markup.inline.cdata">
 				<begin>
 					<regex>&lt;!\s*\[CDATA\s*\[</regex>
-					<autoend>\]\]></autoend>
+					<autoend>\]\]&gt;</autoend>
 				</begin>
 				<end>
-					<regex>\]\s*\]\s*></regex>
+					<regex>\]\s*\]\s*&gt;</regex>
 				</end>
                 <state-link state="Java"/>
             </state>
 			 <state id="Doctype" foldable="no" scope="markup.declaration">
                 <begin>
-                    <regex>&lt;!</regex><autoend>></autoend>
+                    <regex>&lt;!</regex><autoend>&gt;</autoend>
                 </begin>
                 <end>
-                    <regex>></regex>
+                    <regex>&gt;</regex>
                 </end>
 				<state id="String" type="string" scope="markup.declaration.string.double">
 					<begin><regex>"</regex></begin>
@@ -103,10 +103,10 @@
             </state>
          <state id="Escape" foldable="no" scope="markup.processing">
                 <begin>
-                    <regex>&lt;\?</regex><autoend>\?></autoend>
+                    <regex>&lt;\?</regex><autoend>\?&gt;</autoend>
                 </begin>
                 <end>
-                    <regex>\?></regex>
+                    <regex>\?&gt;</regex>
                 </end>
 				<state id="ProcessingString" type="string" scope="markup.processing.attribute.value.string">
 					<begin><regex>"</regex></begin>
@@ -122,11 +122,11 @@
             </state>
             <state id="Inline CSS" usesymbolsfrommode="CSS" useautocompletefrommode="CSS" foldable="yes" indent="yes" scope="meta.block.css">
                 <begin>
-                    <regex>&lt;[ \t]*(?i)style[^>]*></regex>
-                    <autoend>&lt;/style></autoend>
+                    <regex>&lt;[ \t]*(?i)style[^&gt;]*&gt;</regex>
+                    <autoend>&lt;/style&gt;</autoend>
                 </begin>
                 <end>
-                    <regex>(?i)&lt;[ \t]*/[ \t]*style[ \t]*></regex>
+                    <regex>(?i)&lt;[ \t]*/[ \t]*style[ \t]*&gt;</regex>
                 </end>
                 <state-link state="Java"/>
 
@@ -216,10 +216,10 @@
 
             <state id="Inline Javascript" usesymbolsfrommode="Javascript" useautocompletefrommode="Javascript" foldable="yes" scope="meta.block.js">
                 <begin>
-                    <regex>&lt;(?i)script[^>]*></regex><autoend>&lt;/script></autoend>
+                    <regex>&lt;(?i)script[^&gt;]*&gt;</regex><autoend>&lt;/script&gt;</autoend>
                 </begin>
                 <end>
-                    <regex>&lt;(?i)/script[^>]*></regex>
+                    <regex>&lt;(?i)/script[^&gt;]*&gt;</regex>
                 </end>
                 <import mode="Javascript" keywords-only="yes"/>
                 <import mode="XML" keywords-only="yes"/>
@@ -240,7 +240,7 @@
 				
 				<state id="JSSingleComment" type="comment" scope="comment.line.double-slash.js">
 					<begin><regex>//</regex></begin>
-					<end><regex>[\n\r]|.(?=&lt;(?i)/script\s*>)</regex></end>
+					<end><regex>[\n\r]|.(?=&lt;(?i)/script\s*&gt;)</regex></end>
 					<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
                     <state-link state="Java"/>
 				</state>
@@ -273,54 +273,54 @@
 
             <state id="Single Tag with JSP State" foldable="no" scope="markup.tag">
                 <begin>
-                    <regex>&lt;\s*[^/?!][-:_\w]*(?=[^&lt;>]*&lt;%.+%>[^>]*[^>]*/>)</regex>
+                    <regex>&lt;\s*[^/?!][-:_\w]*(?=[^&lt;&gt;]*&lt;%.+%&gt;[^&gt;]*[^&gt;]*/&gt;)</regex>
                 </begin>
                 <end>
-                    <regex>/[ \t]*></regex>
+                    <regex>/[ \t]*&gt;</regex>
                 </end>
                 <import/>
                 <keywords id="Single Tags with JSP" useforautocomplete="no" scope="markup.tag">
-                    <regex>(&lt;[^>]*)</regex>
-                    <regex>(\A[^&lt;>]*>)</regex>
+                    <regex>(&lt;[^&gt;]*)</regex>
+                    <regex>(\A[^&lt;&gt;]*&gt;)</regex>
                 </keywords>
                 <keywords id="Attributes in Single Tags with JSP" useforautocomplete="no" scope="markup.tag.attribute.name">
                     <regex>([\w-]*)(?=[ \t]*=[^&lt;]+)</regex>
                 </keywords>
                 <keywords id="Strings in Single Tags with JSP" type="string" useforautocomplete="no" scope="markup.tag.attribute.value.string">
                     <regex>=[ \t]*("[^"]*"|'[^']*')(?=[^&lt;]*)</regex>
-                    <regex>([^"]*")(?=[ \t]*>)</regex>
+                    <regex>([^"]*")(?=[ \t]*&gt;)</regex>
                 </keywords>
             </state>
 
             <state id="Tag with JSP State" foldable="yes" scope="meta.block.tag.erb.no-content">
                 <begin>
-                    <regex>&lt;\s*(?'jsptagstatename'[^/?!][-:_\w]*)(?'trimmedstart'[^&lt;>]*&lt;%.+%>[^>]*>)</regex> <!--  Used "trimmedstart regex group, to start searching earlier" -->
-					<autoend>&lt;/\g&lt;jsptagstatename>></autoend>
+                    <regex>&lt;\s*(?'jsptagstatename'[^/?!][-:_\w]*)(?'trimmedstart'[^&lt;&gt;]*&lt;%.+%&gt;[^&gt;]*&gt;)</regex> <!--  Used "trimmedstart regex group, to start searching earlier" -->
+					<autoend>&lt;/\g&lt;jsptagstatename&gt;&gt;</autoend>
                 </begin>
                 <end>
-                    <regex>&lt;\s*/\s*(?#see-insert-start-group:jsptagstatename)\s*></regex>
+                    <regex>&lt;\s*/\s*(?#see-insert-start-group:jsptagstatename)\s*&gt;</regex>
                 </end>
                 <import/>
                 <keywords id="Tags with JSP" useforautocomplete="no" scope="meta.default">
-                    <regex>(&lt;[^>]*>?)</regex>
-                    <regex>(\A[^&lt;>]*>)</regex>
+                    <regex>(&lt;[^&gt;]*&gt;?)</regex>
+                    <regex>(\A[^&lt;&gt;]*&gt;)</regex>
                 </keywords>
                 <keywords id="Attributes in Tags with JSP" useforautocomplete="no" scope="markup.tag.attribute.name">
                     <regex>([\w-]*)(?=[ \t]*=[^&lt;]+)</regex>
                 </keywords>
                 <keywords id="Strings in Tags with JSP" type="string" useforautocomplete="no" scope="markup.tag.attribute.value.string">
                     <regex>=[ \t]*("[^"]*"|'[^']*')(?=[^&lt;]*)</regex>
-                    <regex>([^"]*")(?=[ \t]*>)</regex>
+                    <regex>([^"]*")(?=[ \t]*&gt;)</regex>
                 </keywords>
             </state>
 
             <state id="Tag State JSP" foldable="yes" indent="yes" scope="meta.default">
                 <begin>
-                    <regex>&lt;\s*(?'xmltagstatename'[^/?!][-:_\w]*)\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*></regex>
-					<autoend>&lt;/\g&lt;xmltagstatename>></autoend>
+                    <regex>&lt;\s*(?'xmltagstatename'[^/?!][-:_\w]*)\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*&gt;</regex>
+					<autoend>&lt;/\g&lt;xmltagstatename&gt;&gt;</autoend>
                 </begin>
                 <end>
-                    <regex>&lt;\s*/\s*(?#see-insert-start-group:xmltagstatename)\s*></regex>
+                    <regex>&lt;\s*/\s*(?#see-insert-start-group:xmltagstatename)\s*&gt;</regex>
                 </end>
 	            <import mode="XML" keywords-only="yes"/>
                 <import/>

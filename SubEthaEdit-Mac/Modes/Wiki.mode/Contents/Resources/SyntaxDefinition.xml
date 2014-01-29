@@ -71,13 +71,13 @@
 			</state>
 
 			<state id="Quoted Odd Levels" color="#7b1e20" scope="markup.quote.odd">
-				<begin><regex>^>(?:>>)*?(?!>)</regex></begin>
+				<begin><regex>^&gt;(?:&gt;&gt;)*?(?!&gt;)</regex></begin>
 				<end><regex>[\r\n]</regex></end>
 				<import/>
 			</state>
 
 			<state id="Quoted Even Levels" color="#1b5414" scope="markup.quote.even">
-				<begin><regex>^(?:>>)+(?!>)</regex></begin>
+				<begin><regex>^(?:&gt;&gt;)+(?!&gt;)</regex></begin>
 				<end><regex>[\r\n]</regex></end>
 				<import/>
 			</state>
@@ -120,18 +120,18 @@
 			</state>
 
 			<state id="Code Verbatim" color="#4b4b4b" foldable="yes" scope="markup.raw.code">
-				<begin><regex>&lt;code[^>]*></regex></begin>
-				<end><regex>&lt;/code></regex></end>
+				<begin><regex>&lt;code[^&gt;]*&gt;</regex></begin>
+				<end><regex>&lt;/code&gt;</regex></end>
 			</state>
 
 			<state id="File Verbatim" color="#4b4b4b" font-weight="bold" foldable="yes" scope="markup.raw.file">
-				<begin><regex>&lt;file[^>]*></regex></begin>
-				<end><regex>&lt;/file></regex></end>
+				<begin><regex>&lt;file[^&gt;]*&gt;</regex></begin>
+				<end><regex>&lt;/file&gt;</regex></end>
 			</state>
 
 			<state id="nowiki" color="#4b4b4b" font-weight="bold" foldable="yes" scope="meta.preprocessor.nowiki">
-				<begin><regex>&lt;nowiki[^>]*></regex></begin>
-				<end><regex>&lt;/nowiki></regex></end>
+				<begin><regex>&lt;nowiki[^&gt;]*&gt;</regex></begin>
+				<end><regex>&lt;/nowiki&gt;</regex></end>
 			</state>
 
 			<state id="nowiki %%" color="#4b4b4b" font-weight="bold" foldable="yes" scope="meta.preprocessor.nowiki">

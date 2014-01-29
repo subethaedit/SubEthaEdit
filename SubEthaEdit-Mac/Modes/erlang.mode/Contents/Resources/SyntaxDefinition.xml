@@ -41,7 +41,7 @@
 				<string>when</string>
 			</keywords>
 			<keywords id="Separators" color="#FF0000" font-weight="bold" casesensitive="no" useforautocomplete="no" scope="language.operator">
-				<regex>(->)</regex>
+				<regex>(-&gt;)</regex>
 			</keywords>
 			<keywords id="List Comprehensions" color="#400080" font-weight="bold" casesensitive="no" useforautocomplete="no" scope="language.operator">
 				<regex>(&lt;\-)</regex>
@@ -303,7 +303,7 @@
 		</state>
 		
 		<state id="Block" type="block" foldable="yes" scope="meta.block">
-			<begin><regex>(?:\-\>)</regex></begin>
+			<begin><regex>(?:\-\&gt;)</regex></begin>
 			<end><regex>(?:(?:(?:\;)|(?:\.))(?!\S))|(?:\s*(?=end\b))|(?:\s*(?=catch\b))</regex></end>
 			<import/>
 		</state>

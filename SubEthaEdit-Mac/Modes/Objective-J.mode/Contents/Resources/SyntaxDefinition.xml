@@ -2813,8 +2813,8 @@
             <end><regex>((?&lt;=[^\\])[\n\r])|(^[\n\r])</regex></end>
             <import/>
             <state id="Objective-J Import Angle Strings" scope="string.angle">
-            <begin><regex>&lt;</regex><autoend>></autoend></begin>
-            <end><regex>></regex></end>
+            <begin><regex>&lt;</regex><autoend>&gt;</autoend></begin>
+            <end><regex>&gt;</regex></end>
             </state>
         </state>
 

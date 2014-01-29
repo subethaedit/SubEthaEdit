@@ -12,7 +12,7 @@
         <default id="Base" usesymbolsfrommode="HTML" useautocompletefrommode="HTML" scope="meta.default">
             <import mode="XML" keywords-only="yes"/>
             <keywords id="href links" type="url" useforautocomplete="no" scope="meta.link">
-                <regex>\s(?i)(href|src)(?-i)\s*=\s*"([^"]*)"(?=[^&lt;]*>)</regex>
+                <regex>\s(?i)(href|src)(?-i)\s*=\s*"([^"]*)"(?=[^&lt;]*&gt;)</regex>
             </keywords>
             <state-link mode="XML" state="Comment"/>
             <state-link mode="XML" state="CDATA"/>
@@ -20,11 +20,11 @@
             <state-link mode="XML" state="Escape"/>
             <state id="Inline CSS" usesymbolsfrommode="CSS" useautocompletefrommode="CSS" foldable="yes" indent="yes" scope="meta.block.css">
                 <begin>
-                    <regex>&lt;[ \t]*(?i)style[^>]*></regex>
-                    <autoend>&lt;/style></autoend>
+                    <regex>&lt;[ \t]*(?i)style[^&gt;]*&gt;</regex>
+                    <autoend>&lt;/style&gt;</autoend>
                 </begin>
                 <end>
-                    <regex>(?i)&lt;[ \t]*/[ \t]*style[ \t]*></regex>
+                    <regex>(?i)&lt;[ \t]*/[ \t]*style[ \t]*&gt;</regex>
                 </end>
                 <import mode="CSS"/>
                 <import mode="XML" keywords-only="yes"/>
@@ -32,11 +32,11 @@
             </state>
             <state id="Inline Javascript" usesymbolsfrommode="Javascript" useautocompletefrommode="Javascript" foldable="yes" indent="yes" scope="meta.block.js">
                 <begin>
-                    <regex>&lt;[ \t]*(?i)script[^>]*></regex>
-                    <autoend>&lt;/script></autoend>
+                    <regex>&lt;[ \t]*(?i)script[^&gt;]*&gt;</regex>
+                    <autoend>&lt;/script&gt;</autoend>
                 </begin>
                 <end>
-                    <regex>(?i)&lt;[ \t]*/[ \t]*script[ \t]*></regex>
+                    <regex>(?i)&lt;[ \t]*/[ \t]*script[ \t]*&gt;</regex>
                 </end>
                 <import mode="Javascript"/>
                 <import mode="XML" keywords-only="yes"/>
@@ -44,21 +44,21 @@
             </state>
             <state id="Single Tag" foldable="no" scope="markup.tag">
                 <begin>
-                    <regex>&lt;\s*[^/?!][-:_\w]*\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*/\s*(?=>)</regex>
+                    <regex>&lt;\s*[^/?!][-:_\w]*\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*/\s*(?=&gt;)</regex>
                 </begin>
                 <end>
-                    <regex>></regex>
+                    <regex>&gt;</regex>
                 </end>
                 <import mode="XML" keywords-only="yes"/>
                 <import keywords-only="yes"/>
             </state>
             <state id="Tag State" foldable="yes" indent="yes" scope="meta.default">
                 <begin>
-                    <regex>&lt;\s*(?'xmltagstatename'[^/?!][-:_\w]*)\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*></regex>
-					<autoend>&lt;/\g&lt;xmltagstatename>></autoend>
+                    <regex>&lt;\s*(?'xmltagstatename'[^/?!][-:_\w]*)\s*(?:[-:_\w]+=(?:"[^"]*"|'[^']*'|\w+)\s*)*\s*&gt;</regex>
+					<autoend>&lt;/\g&lt;xmltagstatename&gt;&gt;</autoend>
                 </begin>
                 <end>
-                    <regex>&lt;\s*/\s*(?#see-insert-start-group:xmltagstatename)\s*></regex>
+                    <regex>&lt;\s*/\s*(?#see-insert-start-group:xmltagstatename)\s*&gt;</regex>
                 </end>
                 <import mode="XML" keywords-only="yes"/>
                 <import mode="HTML"/>
