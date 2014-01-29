@@ -247,9 +247,10 @@ static NSAttributedString *S_dragString = nil;
 
 	NSRect contentFrame = [[[self window] contentView] frame];
 	 
-	I_tabBar = [[PSMTabBarControl alloc] initWithFrame:NSMakeRect(0.0, NSHeight(contentFrame) - 22.0, NSWidth(contentFrame), 22.0)];
+	I_tabBar = [[PSMTabBarControl alloc] initWithFrame:NSMakeRect(0.0, NSHeight(contentFrame) - 24.0, NSWidth(contentFrame), 24.0)];
     [I_tabBar setAutoresizingMask:NSViewWidthSizable | NSViewMinYMargin];
     [I_tabBar setStyleNamed:@"Unified"];
+	[I_tabBar setShowAddTabButton:YES];
     [[[self window] contentView] addSubview:I_tabBar];
     I_tabView = [[NSTabView alloc] initWithFrame:NSMakeRect(0.0, 0.0, NSWidth(contentFrame), NSHeight(contentFrame) - 22.0)];
     [I_tabView setAutoresizingMask:NSViewHeightSizable | NSViewWidthSizable];
@@ -2683,10 +2684,10 @@ static NSAttributedString *S_dragString = nil;
 	PSMTabBarControl *tabItem = (PSMTabBarControl *)[aTabView delegate];
 	if ([tabItem orientation] == PSMTabBarHorizontalOrientation) {
 		offset->width = [(id <PSMTabStyle>)[tabItem style] leftMarginForTabBarControl:tabItem];
-		offset->height = 22;
+		offset->height = 24;
 	} else {
 		offset->width = 0;
-		offset->height = 22 + [(id <PSMTabStyle>)[tabItem style] leftMarginForTabBarControl:tabItem];
+		offset->height = 24 + [(id <PSMTabStyle>)[tabItem style] leftMarginForTabBarControl:tabItem];
 	}
 	*styleMask = NSBorderlessWindowMask; //NSTitledWindowMask;
 	
