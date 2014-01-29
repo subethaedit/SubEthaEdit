@@ -298,6 +298,7 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 		NSString                    *text=[textView string];
 		NSScrollView          *scrollView=[textView enclosingScrollView];
 		NSRect visibleRect=[scrollView documentVisibleRect];
+		visibleRect.origin.y -= textView.textContainerInset.height;
 		NSLayoutManager    *layoutManager=[textView layoutManager];
         unsigned glyphIndex=[layoutManager glyphIndexForPoint:NSMakePoint(0.0,point.y + visibleRect.origin.y) 
                                      inTextContainer:[textView textContainer]];

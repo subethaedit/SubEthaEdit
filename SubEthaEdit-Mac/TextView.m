@@ -128,7 +128,9 @@ static NSMenu *S_defaultMenu=nil;
     NSRange blockeditRange,tempRange;
 
     currentPoint = [self convertPoint:[aEvent locationInWindow] fromView:nil];
-    glyphIndex = [layoutManager glyphIndexForPoint:currentPoint 
+	currentPoint.y -= self.textContainerInset.height;
+
+    glyphIndex = [layoutManager glyphIndexForPoint:currentPoint
                                    inTextContainer:[self textContainer]];
     beginIndex=[layoutManager characterIndexForGlyphAtIndex:glyphIndex];
     
@@ -189,7 +191,9 @@ static NSMenu *S_defaultMenu=nil;
 			break;
         } else {
             currentPoint = [self convertPoint:[leftMouseDraggedEvent locationInWindow] fromView:nil];
-            glyphIndex =[layoutManager glyphIndexForPoint:currentPoint 
+			currentPoint.y -= self.textContainerInset.height;
+
+            glyphIndex =[layoutManager glyphIndexForPoint:currentPoint
                                           inTextContainer:[self textContainer]]; 
             characterIndex=[layoutManager characterIndexForGlyphAtIndex:glyphIndex];
             tempRange=[string lineRangeForRange:SPANNINGRANGE(beginIndex,characterIndex)];
@@ -1024,6 +1028,7 @@ static NSMenu *S_defaultMenu=nil;
     NSTextContainer *textContainer = [self textContainer];
     NSPoint point = [self convertPoint:[anEvent locationInWindow] fromView:nil];
     point.x=5;
+	point.y -= self.textContainerInset.height;
     unsigned glyphIndex,endCharacterIndex,startCharacterIndex;
     glyphIndex=[layoutManager glyphIndexForPoint:point 
                                  inTextContainer:textContainer];
@@ -1050,6 +1055,7 @@ static NSMenu *S_defaultMenu=nil;
                 event = autoscrollEvent;           
             case NSLeftMouseDragged:
                 point = [self convertPoint:[event locationInWindow] fromView:nil];
+				point.y -= self.textContainerInset.height;
                 glyphIndex = [layoutManager glyphIndexForPoint:point
                                                inTextContainer:textContainer];
                 endCharacterIndex = [layoutManager characterIndexForGlyphAtIndex:glyphIndex];
