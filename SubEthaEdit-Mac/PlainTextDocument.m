@@ -117,7 +117,7 @@ NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 @end
 
 
-@interface PlainTextDocument (PlainTextDocumentPrivateAdditions)
+@interface PlainTextDocument ()
 - (NSView *)printableView;
 - (void)TCM_invalidateDefaultParagraphStyle;
 - (void)TCM_invalidateTextAttributes;

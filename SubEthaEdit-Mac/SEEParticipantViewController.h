@@ -1,5 +1,5 @@
 //
-//  SEEPlainTextParticipantViewController.h
+//  SEEParticipantViewController.h
 //  SubEthaEdit
 //
 //  Created by Michael Ehrmann on 27.01.14.
@@ -10,7 +10,7 @@
 
 @class TCMMMUser;
 
-@interface SEEPlainTextParticipantViewController : NSViewController
+@interface SEEParticipantViewController : NSViewController
 
 @property (nonatomic, readonly, strong) TCMMMUser *user;
 

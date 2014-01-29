@@ -7,9 +7,12 @@
         <customObject id="-2" userLabel="File's Owner" customClass="SEEPlainTextParticipantViewController">
             <connections>
                 <outlet property="actionOverlayOutlet" destination="lTM-E1-CsT" id="ilx-px-act"/>
-                <outlet property="connectinProgressIndicatorOutlet" destination="k1p-6D-syT" id="zYk-iV-Hba"/>
+                <outlet property="closeConnectionButtonOutlet" destination="Uv8-hZ-TnG" id="RDO-0v-jmD"/>
+                <outlet property="connectingProgressIndicatorOutlet" destination="k1p-6D-syT" id="wZs-np-mwT"/>
                 <outlet property="nameLabelOutlet" destination="laB-2b-86S" id="XZX-Mn-N4c"/>
                 <outlet property="participantViewOutlet" destination="1" id="xn7-5f-3EV"/>
+                <outlet property="toggleEditModeButtonOutlet" destination="cLZ-EU-8Vm" id="Csv-Cp-tP3"/>
+                <outlet property="toggleFollowButtonOutlet" destination="Eo9-iL-hjL" id="ezF-Du-PmF"/>
                 <outlet property="userViewButtonOutlet" destination="hE6-nB-RDu" id="dMU-J4-gUA"/>
                 <outlet property="view" destination="1" id="bcw-1Z-TB2"/>
             </connections>
@@ -31,8 +34,11 @@
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
+                    <connections>
+                        <action selector="userViewButtonClicked:" target="-2" id="uuI-I6-6yk"/>
+                    </connections>
                 </button>
-                <progressIndicator hidden="YES" horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="k1p-6D-syT">
+                <progressIndicator horizontalHuggingPriority="750" verticalHuggingPriority="750" maxValue="100" displayedWhenStopped="NO" bezeled="NO" indeterminate="YES" style="spinning" translatesAutoresizingMaskIntoConstraints="NO" id="k1p-6D-syT">
                     <rect key="frame" x="34" y="40" width="32" height="32"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                 </progressIndicator>
@@ -50,7 +56,7 @@
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <subviews>
                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Uv8-hZ-TnG" userLabel="CloseConnection Button">
-                            <rect key="frame" x="0.0" y="80" width="16" height="16"/>
+                            <rect key="frame" x="0.0" y="68" width="16" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="SharingIconCloseCross" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="GZX-ee-Tzm">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -61,7 +67,7 @@
                             <rect key="frame" x="0.0" y="46" width="16" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="SharingIconWrite" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="Gm4-Ai-0Wn">
-                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
                         </button>
@@ -69,7 +75,7 @@
                             <rect key="frame" x="0.0" y="30" width="16" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="SharingIconEye" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="S70-Da-84S">
-                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
                         </button>

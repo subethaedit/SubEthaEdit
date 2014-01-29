@@ -164,7 +164,6 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 @property (readwrite, strong) IBOutlet NSWindow *O_exportSheet;
 @property (readwrite, strong) IBOutlet NSObjectController *O_exportSheetController;
 
-
 + (PlainTextDocument *)transientDocument;
 
 //- (void)setTemporarySavePanel:(NSSavePanel *)aPanel;

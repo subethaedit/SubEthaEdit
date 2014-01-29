@@ -236,6 +236,8 @@
 		4C1D39DC17FB085800B1CF5C /* AboutPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C1D39DA17FB085800B1CF5C /* AboutPanel.xib */; };
 		4C4EFE45181AA3410072176F /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C4EFE44181AA3400072176F /* HockeySDK.framework */; };
 		4C4EFE47181AA3B00072176F /* HockeySDK.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 4C4EFE44181AA3400072176F /* HockeySDK.framework */; };
+		4C5EC97E1897F6FC0094D850 /* SEEParticipantsOverlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5EC97C1897F6FC0094D850 /* SEEParticipantsOverlayViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		4C5EC97F1897F6FC0094D850 /* SEEParticipantsOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C5EC97D1897F6FC0094D850 /* SEEParticipantsOverlay.xib */; };
 		4C6AE8741802E8810089D489 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; };
 		4C6AE8751802E8AC0089D489 /* PSMTabBarControl.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 4CF3490017FC6EAF005D0D4F /* PSMTabBarControl.framework */; };
 		4C6AE8761802E8AC0089D489 /* OgreKit.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; };
@@ -285,8 +287,8 @@
 		4CD5F83517FB0EB500F49E31 /* URLBubbleWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F83317FB0EB500F49E31 /* URLBubbleWindow.xib */; };
 		4CD5F83917FB0ECB00F49E31 /* UserStatistics.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F83717FB0ECB00F49E31 /* UserStatistics.xib */; };
 		4CD5F83D17FB0EE000F49E31 /* WebPreview.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F83B17FB0EE000F49E31 /* WebPreview.xib */; };
-		4CDC272018967D990060B044 /* SEEPlainTextParticipantView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CDC271F18967D990060B044 /* SEEPlainTextParticipantView.xib */; };
-		4CDC272318969A600060B044 /* SEEPlainTextParticipantViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CDC272218969A600060B044 /* SEEPlainTextParticipantViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		4CDC272018967D990060B044 /* SEEParticipantView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CDC271F18967D990060B044 /* SEEParticipantView.xib */; };
+		4CDC272318969A600060B044 /* SEEParticipantViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CDC272218969A600060B044 /* SEEParticipantViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4CE9CF381802F4E900F5BC56 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; };
 		4CE9CF391802F4F100F5BC56 /* OgreKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; };
 		4CE9CF3A1802F52A00F5BC56 /* SEEStyleSheetSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D56992133B880900CEC841 /* SEEStyleSheetSettings.m */; };
@@ -910,6 +912,9 @@
 		4C1D39DB17FB085800B1CF5C /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/AboutPanel.xib; sourceTree = "<group>"; };
 		4C1D39E917FB088200B1CF5C /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/AboutPanel.xib; sourceTree = "<group>"; };
 		4C4EFE44181AA3400072176F /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HockeySDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		4C5EC97B1897F6FC0094D850 /* SEEParticipantsOverlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEParticipantsOverlayViewController.h; sourceTree = "<group>"; };
+		4C5EC97C1897F6FC0094D850 /* SEEParticipantsOverlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEParticipantsOverlayViewController.m; sourceTree = "<group>"; };
+		4C5EC97D1897F6FC0094D850 /* SEEParticipantsOverlay.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEEParticipantsOverlay.xib; sourceTree = "<group>"; };
 		4C6AE8731802E8810089D489 /* OgreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OgreKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C6BDC4C18896DCC0088CBFC /* SubEthaEdit.iconset */ = {isa = PBXFileReference; lastKnownFileType = folder.iconset; name = SubEthaEdit.iconset; path = artwork/SubEthaEdit.iconset; sourceTree = "<group>"; };
 		4C6BDC4D18896DCC0088CBFC /* SubEthaEditFiles.iconset */ = {isa = PBXFileReference; lastKnownFileType = folder.iconset; name = SubEthaEditFiles.iconset; path = artwork/SubEthaEditFiles.iconset; sourceTree = "<group>"; };
@@ -986,9 +991,9 @@
 		4CD5F83A17FB0ECF00F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/UserStatistics.xib; sourceTree = "<group>"; };
 		4CD5F83C17FB0EE000F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/WebPreview.xib; sourceTree = "<group>"; };
 		4CD5F83E17FB0EE600F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/WebPreview.xib; sourceTree = "<group>"; };
-		4CDC271F18967D990060B044 /* SEEPlainTextParticipantView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEEPlainTextParticipantView.xib; sourceTree = "<group>"; };
-		4CDC272118969A600060B044 /* SEEPlainTextParticipantViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEPlainTextParticipantViewController.h; sourceTree = "<group>"; };
-		4CDC272218969A600060B044 /* SEEPlainTextParticipantViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEPlainTextParticipantViewController.m; sourceTree = "<group>"; };
+		4CDC271F18967D990060B044 /* SEEParticipantView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEEParticipantView.xib; sourceTree = "<group>"; };
+		4CDC272118969A600060B044 /* SEEParticipantViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEParticipantViewController.h; sourceTree = "<group>"; };
+		4CDC272218969A600060B044 /* SEEParticipantViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEParticipantViewController.m; sourceTree = "<group>"; };
 		4CF06A2E1816A7D800B35DF8 /* HelperTool_Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = HelperTool_Info.plist; sourceTree = "<group>"; };
 		4CF06A621816D6D300B35DF8 /* SubEthaEdit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = SubEthaEdit.entitlements; sourceTree = "<group>"; };
 		4CF3490017FC6EAF005D0D4F /* PSMTabBarControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PSMTabBarControl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1661,8 +1666,10 @@
 				4CD3CFF21887FE2E00908506 /* SEEOpenPanelAccessoryViewController.m */,
 				4CCD4DCF1811703D00FE6134 /* SEESavePanelAccessoryViewController.h */,
 				4CCD4DD01811703D00FE6134 /* SEESavePanelAccessoryViewController.m */,
-				4CDC272118969A600060B044 /* SEEPlainTextParticipantViewController.h */,
-				4CDC272218969A600060B044 /* SEEPlainTextParticipantViewController.m */,
+				4C5EC97B1897F6FC0094D850 /* SEEParticipantsOverlayViewController.h */,
+				4C5EC97C1897F6FC0094D850 /* SEEParticipantsOverlayViewController.m */,
+				4CDC272118969A600060B044 /* SEEParticipantViewController.h */,
+				4CDC272218969A600060B044 /* SEEParticipantViewController.m */,
 				1428944E09575B9700D14688 /* PlainTextEditor.h */,
 				1428944F09575B9700D14688 /* PlainTextEditor.m */,
 				149774150B5E159F004A546C /* PlainTextLoadProgress.h */,
@@ -1695,7 +1702,6 @@
 				F2CA7D2D0CA142B0008BEA38 /* HUDStatisticPersonCell.m */,
 				4CD168E8182A5A5C007E3B26 /* SEEFolderDocument.h */,
 				4CD168E9182A5A5C007E3B26 /* SEEFolderDocument.m */,
-				4CD168EA182A5A5C007E3B26 /* SEEFolderDocument.xib */,
 			);
 			name = Document;
 			sourceTree = "<group>";
@@ -2054,7 +2060,9 @@
 				4CD5F83B17FB0EE000F49E31 /* WebPreview.xib */,
 				4C0D3D6517FB133600AAFB38 /* ServerConnection.xib */,
 				4C0D3D6317FB12F700AAFB38 /* StyleSheetPrefs.xib */,
-				4CDC271F18967D990060B044 /* SEEPlainTextParticipantView.xib */,
+				4CDC271F18967D990060B044 /* SEEParticipantView.xib */,
+				4C5EC97D1897F6FC0094D850 /* SEEParticipantsOverlay.xib */,
+				4CD168EA182A5A5C007E3B26 /* SEEFolderDocument.xib */,
 			);
 			name = XIBs;
 			sourceTree = "<group>";
@@ -2471,7 +2479,7 @@
 				F2FEE7161892A747000E6BC8 /* SharingIconWrite.pdf in Resources */,
 				142890DF095743F200D14688 /* StatusButtonReadWrite.tiff in Resources */,
 				142890E1095743F200D14688 /* StatusPending.tiff in Resources */,
-				4CDC272018967D990060B044 /* SEEPlainTextParticipantView.xib in Resources */,
+				4CDC272018967D990060B044 /* SEEParticipantView.xib in Resources */,
 				142890E2095743F200D14688 /* StatusReadOnly.tiff in Resources */,
 				142890E3095743F200D14688 /* StatusReadWrite.tiff in Resources */,
 				142890E9095743F200D14688 /* Symbol#.tiff in Resources */,
@@ -2541,6 +2549,7 @@
 				F25A19B60C8C79CA00147E4C /* ssllock.png in Resources */,
 				4C0D3D7617FB168200AAFB38 /* DebugUsers.xib in Resources */,
 				4CD5F7FE17FB0D2200F49E31 /* License.xib in Resources */,
+				4C5EC97F1897F6FC0094D850 /* SEEParticipantsOverlay.xib in Resources */,
 				F2406F0C0C8EE481000DC9FF /* LockTitlebar.png in Resources */,
 				F2CA7CE60CA11FC9008BEA38 /* StatusLock.png in Resources */,
 				4CD5F81117FB0DC100F49E31 /* PlainTextLoadProgress.xib in Resources */,
@@ -2753,7 +2762,7 @@
 				14289329095756D800D14688 /* TCMMMBEEPSessionManager.m in Sources */,
 				1428932A095756D800D14688 /* TCMMMBrowserListView.m in Sources */,
 				1428932B095756D800D14688 /* TCMMMMessage.m in Sources */,
-				4CDC272318969A600060B044 /* SEEPlainTextParticipantViewController.m in Sources */,
+				4CDC272318969A600060B044 /* SEEParticipantViewController.m in Sources */,
 				4CCD4DD21811703D00FE6134 /* SEESavePanelAccessoryViewController.m in Sources */,
 				1428932C095756D800D14688 /* TCMMMNoOperation.m in Sources */,
 				1428932D095756D800D14688 /* TCMMMOperation.m in Sources */,
@@ -2798,6 +2807,7 @@
 				142893FA09575A3000D14688 /* EncodingManager.m in Sources */,
 				142893FB09575A3000D14688 /* FindReplaceController.m in Sources */,
 				142893FC09575A3000D14688 /* GetURLCommand.m in Sources */,
+				4C5EC97E1897F6FC0094D850 /* SEEParticipantsOverlayViewController.m in Sources */,
 				142893FE09575A3000D14688 /* NSApplicationTCMAdditions.m in Sources */,
 				142893FF09575A3000D14688 /* PullDownButton.m in Sources */,
 				1428940009575A3000D14688 /* PullDownButtonCell.m in Sources */,
