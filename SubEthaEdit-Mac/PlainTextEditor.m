@@ -87,7 +87,7 @@
 
 - (void)	TCM_updateStatusBar;
 - (void)	TCM_updateBottomStatusBar;
-- (float)	pageGuidePositionForColumns:(int)aColumns;
+- (float)pageGuidePositionForColumns:(int)aColumns;
 @end
 
 @implementation PlainTextEditor
@@ -401,7 +401,7 @@
 
     [self TCM_updateStatusBar];
     [self TCM_updateBottomStatusBar];
-
+	
     // trigger the notfications for the first time
     [self sessionDidChange:nil];
     [self participantsDidChange:nil];
@@ -663,6 +663,7 @@
 
         [self TCM_adjustTopStatusBarFrames];
     }
+	[I_textView adjustContainerInsetToScrollView];
 }
 
 
@@ -759,6 +760,7 @@
         }
         [O_lineEndingPopUpButton setTitle:lineEndingStatusString];
     }
+	[I_textView adjustContainerInsetToScrollView];
 }
 
 

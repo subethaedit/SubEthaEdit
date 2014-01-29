@@ -11,6 +11,7 @@
 #import <Security/Security.h>
 #import "EncodingManager.h"
 #import "TCMMMSession.h"
+#import "UndoManager.h"
 
 enum {
     UnknownStringEncoding = NoStringEncoding,
