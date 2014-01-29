@@ -166,7 +166,7 @@
 		1428946709575B9700D14688 /* PopUpButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945509575B9700D14688 /* PopUpButtonCell.m */; };
 		1428946809575B9700D14688 /* RadarScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945709575B9700D14688 /* RadarScroller.m */; };
 		1428946909575B9700D14688 /* SplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945909575B9700D14688 /* SplitView.m */; };
-		1428946B09575B9700D14688 /* TextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945D09575B9700D14688 /* TextView.m */; };
+		1428946B09575B9700D14688 /* TextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945D09575B9700D14688 /* TextView.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1428946C09575B9700D14688 /* URLDataProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945F09575B9700D14688 /* URLDataProtocol.m */; };
 		1428946D09575B9700D14688 /* WebPreviewWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428946109575B9700D14688 /* WebPreviewWindowController.m */; };
 		142894A409575FF200D14688 /* TextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 142894A309575FF200D14688 /* TextFieldCell.m */; };
