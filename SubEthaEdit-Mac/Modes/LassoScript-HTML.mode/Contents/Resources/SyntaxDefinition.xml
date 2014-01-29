@@ -835,15 +835,15 @@
 				<begin><regex>&lt;(?=(?i)cf)</regex></begin>
 				<end><regex>&gt;</regex></end>
 
-				<import state="CFML Code" />
-		        <import state="CFML Output Variables State" keywords-only="yes" />
+				<import state="CFML Code"/>
+		        <import state="CFML Output Variables State" keywords-only="yes"/>
 				
 				<keywords id="CFML Tag start and end parts" scope="markup.tag">
 					<regex>(&lt;(?=(?i)cf)\w+\b)</regex>
 					<regex>(&gt;)</regex>
 				</keywords>
 				
-				<keywords id="Attributes in CFML Tags" useforautocomplete="no"  scope="markup.tag.attribute.name">
+				<keywords id="Attributes in CFML Tags" useforautocomplete="no" scope="markup.tag.attribute.name">
 					<regex>(?&lt;![\.&lt;])\b([\w-]*)(?=[ \t]*[=&gt;](?!&lt;))</regex>
 				</keywords>
 				<keywords id="Strings in CFML Tags" type="string" useforautocomplete="no" scope="markup.tag.attribute.value.string">

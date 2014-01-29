@@ -19,7 +19,7 @@
 				<begin><regex>(?:&lt;%(?!%))|(?:&lt;%=)</regex></begin>
 				<end><regex>(?:[-]?%&gt;)</regex></end>
 
-				<keywords id="ERB Delimiter"  useforautocomplete="no" scope="markup.processing.languageswitch">
+				<keywords id="ERB Delimiter" useforautocomplete="no" scope="markup.processing.languageswitch">
 					<regex>(-?%&gt;)</regex>
 					<regex>(&lt;%=?)</regex>
 				</keywords>
@@ -67,14 +67,14 @@
 					<begin><regex>(?:(?:^|=)[ \t]*(?:(?:(?:if|unless|while|until)(?:[ \t]+|(?=\()))|(?:case[ \t]+\g'ruby_ident'[ \t]?)|(?:for[ \t]+\g'ruby_ident'[ \t]+in(?:[^\n\r]+do)?)|(?:case))|\b(?:(?:class(?:(?:[ \t]+(?'ruby_ident'(?'ruby_ident_part'[a-zA-Z_][a-zA-Z0-9_]*)(?:(?:\.|::)\g'ruby_ident_part')*)(?:[ \t]+&lt;[ \t]+\g'ruby_ident')?)|(?:[ \t]*&lt;&lt;)))|(?:module[ \t]+[a-zA-Z_][a-zA-Z0-9_]*)|\bdo\b(?:[ \t]*\|[^\n\r|]+\|)?|(?:def[ \t]+(?:(?'ruby_operator_methods'&amp;|\||\^|&lt;=&gt;|===|==|=~|&gt;&gt;|\?|\!|&gt;=|&gt;|&lt;=|\+@|\-@|\+|\-|\*\*|\*|/|%|&lt;&lt;|&lt;|~|\[\]|\[\]=)|\g'ruby_ident'\g'ruby_operator_methods'?))))</regex></begin>
 					<end><regex>\bend\b|(?:.(?=%&gt;|-%&gt;))</regex></end>
 					<import state="Ruby "/>
-					<import mode="Ruby" keywords-only="yes" />
+					<import mode="Ruby" keywords-only="yes"/>
 				</state>
 
 				<state id="BeginBlocks" type="block" foldable="yes" scope="meta.block.begin">
 					<begin><regex>\bbegin\b</regex></begin>
 					<end><regex>\bend(?:[ \t]+(?:while|if|unless|until))?\b|(?:.(?=%&gt;|-%&gt;))</regex></end>
 					<import state="Ruby "/>
-					<import mode="Ruby" keywords-only="yes" />
+					<import mode="Ruby" keywords-only="yes"/>
 				</state>
 
 				<!-- this should not match normal hash literals. most commonly used in || {} in rails -->
@@ -83,7 +83,7 @@
 					<begin><regex>{(?:[ \t]*\|[^\n\r|]+\|)?</regex></begin>
 					<end><regex>}|(?:.(?=%&gt;|-%&gt;))</regex></end>
 					<import state="Ruby "/>
-					<import mode="Ruby" keywords-only="yes" />
+					<import mode="Ruby" keywords-only="yes"/>
 				</state>
 
 
@@ -330,7 +330,7 @@
 					<regex>(&lt;[^&gt;]*)</regex>
 					<regex>(\A[^&lt;&gt;]*&gt;)</regex>
 				</keywords>
-				<keywords id="Attributes in Single Tags with Ruby" useforautocomplete="no"  scope="markup.tag.attribute.name">
+				<keywords id="Attributes in Single Tags with Ruby" useforautocomplete="no" scope="markup.tag.attribute.name">
 					<regex>([\w-]*)(?=[ \t]*=[^&lt;]+)</regex>
 				</keywords>
 				<keywords id="Strings in Single Tags with Ruby" type="string" useforautocomplete="no" scope="markup.tag.attribute.value.string">

@@ -3926,7 +3926,7 @@
                 <keywords id="Attributes in Tags with PHP" useforautocomplete="no" scope="markup.tag.attribute.name">
                     <regex>([\w-]*)(?=[ \t]*=[^&lt;]+)</regex>
                 </keywords>
-                <keywords id="Strings in Tags with PHP" type="string" useforautocomplete="no"  scope="markup.tag.attribute.value.string">
+                <keywords id="Strings in Tags with PHP" type="string" useforautocomplete="no" scope="markup.tag.attribute.value.string">
                     <regex>=[ \t]*("[^"]*"|'[^']*')(?=[^&lt;]*)</regex>
                     <regex>([^"]*")(?=[ \t]*&gt;)</regex>
                 </keywords>
@@ -3941,7 +3941,7 @@
                     <regex>&lt;\s*/\s*(?#see-insert-start-group:xmltagstatename)\s*&gt;</regex>
                 </end>
 	            <import mode="XML" keywords-only="yes"/>
-                <import />
+                <import/>
             </state>
             
         </default>

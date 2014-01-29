@@ -399,7 +399,7 @@
                 <state-link state="Interpolation"/>
             </state>
 
-            <state id="Percent Strings" type="string"   foldable="yes" scope="string.percentage">
+            <state id="Percent Strings" type="string" foldable="yes" scope="string.percentage">
                 <begin><regex>%(?:Q|q)?(?'percentstringchar'[^\s{\[\(&lt;A-Za-z0-9&gt;])</regex></begin>
                 <end><regex>(?#see-insert-start-group:percentstringchar)</regex></end>
 				<state-link state="Interpolation"/>
@@ -489,7 +489,7 @@
 				<import state="Percent Strings ["/>
             </state>
 
-            <state id="Regexp"    scope="string.regex">
+            <state id="Regexp" scope="string.regex">
                 <begin><regex>(?x)(?:^|(?&lt;=[=&gt;~(:\[,\|&amp;;]|(?:\s|;)when\s|(?:\s|;)or\s|(?:\s|;)and\s|(?:\s|;)not\s|(?:\s|;|\.)index\s|(?:\s|;|\.)scan\s|(?:\s|;|\.)sub\s|(?:\s|l|\.)sub!\s|(?:\s|;|\.)gsub\s|(?:\s|;|\.)gsub!\s|(?:\s|;|\.)match\s|(?:\s|;)if\s|(?:\s|;)elsif\s|(?:\s|;)while\s|(?:\s|;)unless\s)|(?&lt;=^when\s|^index\s|^scan\s|^sub\s|^gsub\s|^sub!\s|^gsub!\s|^match\s|^if\s|^elsif\s|^while\s|^unless\s))\s*(?:/)(?![*+{}?\n\r])|(?&lt;!\d)(?:/)[^"'](?=[^/\r\n]*/(?:$|[^\d]))</regex></begin>
                 <end><regex>(?:(?:(?&lt;!\\)(\\\\)*)|^)/[eimnosux]*</regex></end>
                 <state-link state="Interpolation"/>
@@ -581,7 +581,7 @@
             <state id="Percent Array &lt;" scope="string.array.percent.angle">
                 <begin><regex>%[wW]&lt;</regex></begin>
                 <end><regex>(?:(?&lt;!\\)(\\\\)*)&gt;</regex></end>
-				<import state="Percent Strings &lt;" />
+				<import state="Percent Strings &lt;"/>
             </state>
 
             <state id="Percent Array [" scope="string.array.percent.bracket">
