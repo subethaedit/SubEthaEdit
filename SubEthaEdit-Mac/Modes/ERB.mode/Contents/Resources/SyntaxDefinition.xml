@@ -6,7 +6,7 @@
 		<name>ERB</name> <!-- The definitions title -->
 		<charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@":]]></charsintokens> 
 		<charsincompletion><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@</="!]]></charsincompletion> 
-		<folding toplevel="3" />
+		<folding toplevel="3"/>
 	</head>
 
 	<states>
@@ -15,7 +15,7 @@
 
 			<import mode="XML" keywords-only="yes"/>
 
-			<state id="Ruby"  usesymbolsfrommode="Ruby" useautocompletefrommode="Ruby" foldable="yes" scope="meta.default">
+			<state id="Ruby" usesymbolsfrommode="Ruby" useautocompletefrommode="Ruby" foldable="yes" scope="meta.default">
 				<begin><regex>(?:&lt;%(?!%))|(?:&lt;%=)</regex></begin>
 				<end><regex>(?:[-]?%>)</regex></end>
 
@@ -24,39 +24,39 @@
 					<regex>(&lt;%=?)</regex>
 				</keywords>
 
-				<import mode="Ruby" keywords-only="yes" />
+				<import mode="Ruby" keywords-only="yes"/>
 
-				<state-link mode="Ruby" state="String with double quotes" />
-				<state-link mode="Ruby" state="String with single quotes" />
-				<state-link mode="Ruby" state="Heredoc" />
-				<state-link mode="Ruby" state="Heredoc Indented End" />
-				<state-link mode="Ruby" state="Percent Strings" />
-				<state-link mode="Ruby" state="Percent Strings {" />
-				<state-link mode="Ruby" state="Percent Strings (" />
-				<state-link mode="Ruby" state="Percent Strings &lt;" />
-				<state-link mode="Ruby" state="Percent Strings [" />
-				<state-link mode="Ruby" state="Backticks" />
-				<state-link mode="Ruby" state="Percent Execution" />
-				<state-link mode="Ruby" state="Percent Execution {" />
-				<state-link mode="Ruby" state="Percent Execution (" />
-				<state-link mode="Ruby" state="Percent Execution &lt;" />
-				<state-link mode="Ruby" state="Percent Execution [" />
-				<state-link mode="Ruby" state="Regexp" />
-				<state-link mode="Ruby" state="Percent Regex" />
-				<state-link mode="Ruby" state="Percent Regex {" />
-				<state-link mode="Ruby" state="Percent Regex (" />
-				<state-link mode="Ruby" state="Percent Regex &lt;" />
-				<state-link mode="Ruby" state="Percent Regex [" />
-				<state-link mode="Ruby" state="Percent Symbol" />
-				<state-link mode="Ruby" state="Percent Symbol {" />
-				<state-link mode="Ruby" state="Percent Symbol (" />
-				<state-link mode="Ruby" state="Percent Symbol &lt;" />
-				<state-link mode="Ruby" state="Percent Symbol [" />
-				<state-link mode="Ruby" state="Percent Array" />
-				<state-link mode="Ruby" state="Percent Array {" />
-				<state-link mode="Ruby" state="Percent Array (" />
-				<state-link mode="Ruby" state="Percent Array &lt;" />
-				<state-link mode="Ruby" state="Percent Array [" />
+				<state-link mode="Ruby" state="String with double quotes"/>
+				<state-link mode="Ruby" state="String with single quotes"/>
+				<state-link mode="Ruby" state="Heredoc"/>
+				<state-link mode="Ruby" state="Heredoc Indented End"/>
+				<state-link mode="Ruby" state="Percent Strings"/>
+				<state-link mode="Ruby" state="Percent Strings {"/>
+				<state-link mode="Ruby" state="Percent Strings ("/>
+				<state-link mode="Ruby" state="Percent Strings &lt;"/>
+				<state-link mode="Ruby" state="Percent Strings ["/>
+				<state-link mode="Ruby" state="Backticks"/>
+				<state-link mode="Ruby" state="Percent Execution"/>
+				<state-link mode="Ruby" state="Percent Execution {"/>
+				<state-link mode="Ruby" state="Percent Execution ("/>
+				<state-link mode="Ruby" state="Percent Execution &lt;"/>
+				<state-link mode="Ruby" state="Percent Execution ["/>
+				<state-link mode="Ruby" state="Regexp"/>
+				<state-link mode="Ruby" state="Percent Regex"/>
+				<state-link mode="Ruby" state="Percent Regex {"/>
+				<state-link mode="Ruby" state="Percent Regex ("/>
+				<state-link mode="Ruby" state="Percent Regex &lt;"/>
+				<state-link mode="Ruby" state="Percent Regex ["/>
+				<state-link mode="Ruby" state="Percent Symbol"/>
+				<state-link mode="Ruby" state="Percent Symbol {"/>
+				<state-link mode="Ruby" state="Percent Symbol ("/>
+				<state-link mode="Ruby" state="Percent Symbol &lt;"/>
+				<state-link mode="Ruby" state="Percent Symbol ["/>
+				<state-link mode="Ruby" state="Percent Array"/>
+				<state-link mode="Ruby" state="Percent Array {"/>
+				<state-link mode="Ruby" state="Percent Array ("/>
+				<state-link mode="Ruby" state="Percent Array &lt;"/>
+				<state-link mode="Ruby" state="Percent Array ["/>
 				<state id="Singleline Comment" type="comment" scope="comment.line.double-slash">
 					<begin><regex>#</regex></begin>
 					<end><regex>(?:.(?=[\n\r]))|(?:.(?=%>|-%>))</regex></end>
@@ -89,14 +89,14 @@
 
 			</state>
 
-			<state id="RubyOneLineERB"  usesymbolsfrommode="Ruby" useautocompletefrommode="Ruby" foldable="no" scope="comment.line">
+			<state id="RubyOneLineERB" usesymbolsfrommode="Ruby" useautocompletefrommode="Ruby" foldable="no" scope="comment.line">
 				<begin><regex>^%</regex></begin>
 				<end><regex>[\n\r]</regex></end>
 
-				<import state="Ruby" />
-				<import mode="Ruby" keywords-only="yes" />
+				<import state="Ruby"/>
+				<import mode="Ruby" keywords-only="yes"/>
 
-				<keywords id="ERB Delimiter One Line"  useforautocomplete="no" scope="meta.tag.erbstart">
+				<keywords id="ERB Delimiter One Line" useforautocomplete="no" scope="meta.tag.erbstart">
 					<regex>(^%)</regex>
 				</keywords>
 
@@ -142,7 +142,7 @@
 				<state id="Doctype Block" type="block" foldable="yes" indent="yes" scope="meta.block.square">
 					<begin><regex>\[</regex><autoend>\]</autoend></begin>
 					<end><regex>]</regex></end>
-					<import />
+					<import/>
 				</state>
 				<state-link state="Ruby"/>
 			</state>
@@ -370,7 +370,7 @@
 					<regex>&lt;\s*/\s*(?#see-insert-start-group:xmltagstatename)\s*></regex>
 				</end>
 				<import mode="XML" keywords-only="yes"/>
-				<import />
+				<import/>
 			</state>
 		</default>
 	</states>

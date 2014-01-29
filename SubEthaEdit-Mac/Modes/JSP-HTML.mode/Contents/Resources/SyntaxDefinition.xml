@@ -43,7 +43,7 @@
 				<regex>(%>)</regex>
 			</keywords>
 			
-			<import mode="Java" keywords-only="yes" />
+			<import mode="Java" keywords-only="yes"/>
 			<state-link mode="Java" state="Characters"/>
 			<state-link mode="Java" state="JavadocComment"/>
 			<state-link mode="Java" state="Comment"/>
@@ -52,8 +52,8 @@
             <state id="Java Block" foldable="yes" scope="meta.block">
                 <begin><regex>(?:(?&lt;=\s)(?:if|else|else\s+if|for|while|do|switch|case)\s*(?:\([^#{\n\r]*?\))?)?\s*{</regex><autoend>}</autoend></begin>
                 <end><regex>(?:}|[^\n\r](?=\s*[\n\r]?%>))</regex></end>
-				<import mode="Java" keywords-only="yes" />
-                <import state="Java" />
+				<import mode="Java" keywords-only="yes"/>
+                <import state="Java"/>
             </state>
 		</state>
 	
@@ -97,7 +97,7 @@
 				<state id="Block" type="block" foldable="yes" indent="yes" scope="meta.block.square">
 					<begin><regex>\[</regex><autoend>\]</autoend></begin>
 					<end><regex>]</regex></end>
-					<import />
+					<import/>
 				</state>
 			   <state-link state="Java"/>
             </state>
@@ -283,7 +283,7 @@
                     <regex>(&lt;[^>]*)</regex>
                     <regex>(\A[^&lt;>]*>)</regex>
                 </keywords>
-                <keywords id="Attributes in Single Tags with JSP" useforautocomplete="no"  scope="markup.tag.attribute.name">
+                <keywords id="Attributes in Single Tags with JSP" useforautocomplete="no" scope="markup.tag.attribute.name">
                     <regex>([\w-]*)(?=[ \t]*=[^&lt;]+)</regex>
                 </keywords>
                 <keywords id="Strings in Single Tags with JSP" type="string" useforautocomplete="no" scope="markup.tag.attribute.value.string">
@@ -323,7 +323,7 @@
                     <regex>&lt;\s*/\s*(?#see-insert-start-group:xmltagstatename)\s*></regex>
                 </end>
 	            <import mode="XML" keywords-only="yes"/>
-                <import />
+                <import/>
             </state>
 
 		</default>

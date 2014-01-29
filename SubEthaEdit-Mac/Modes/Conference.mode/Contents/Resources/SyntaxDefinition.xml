@@ -4,7 +4,7 @@
 
     <head>
         <name>Conference</name> <!-- The definitions title -->
-        <autocompleteoptions use-spelling-dictionary="yes" />
+        <autocompleteoptions use-spelling-dictionary="yes"/>
         <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@"]]></charsintokens> 
     </head>
 

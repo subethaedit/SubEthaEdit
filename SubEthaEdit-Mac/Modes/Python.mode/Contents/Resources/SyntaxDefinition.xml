@@ -342,13 +342,13 @@
 			<state id="Class Blocks" foldable="yes" scope="meta.block">
 				<begin><regex>^class[^:]+\:</regex></begin>
 				<end><regex>(?:\r?\n|\r)(?=(?:\r?\n|\r)(?:\r?\n|\r)\S|(?:\r?\n|\r)\S|\S)</regex></end>
-				<import />
+				<import/>
 			</state>
 
 			<state id="Def Blocks" foldable="yes" scope="meta.block">
 				<begin><regex>^(?'defstartingwhitespace'[ \t]*)def[^:]+\:</regex></begin>
 				<end><regex>(?:\r?\n|\r)(?=(?:\r?\n|\r)(?:\r?\n|\r)(?#see-insert-start-group:defstartingwhitespace)\S|(?:\r?\n|\r)(?#see-insert-start-group:defstartingwhitespace)\S|(?#see-insert-start-group:defstartingwhitespace)\S|(?:\r?\n|\r)(?:\r?\n|\r)\S|(?:\r?\n|\r)\S|\S)</regex></end>
-				<import />
+				<import/>
 			</state>
 
 		</default>

@@ -54,9 +54,9 @@
 				
 				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 				
-				<state-link state="External Link" />
-				<state-link state="Bold" />
-				<state-link state="Italic" />
+				<state-link state="External Link"/>
+				<state-link state="Bold"/>
+				<state-link state="Italic"/>
 			</state>
 
 			<state id="Ordered List" color="#7a4022" scope="markup.list.numbered">
@@ -65,21 +65,21 @@
 				
 				<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 				
-				<state-link state="External Link" />
-				<state-link state="Bold" />
-				<state-link state="Italic" />
+				<state-link state="External Link"/>
+				<state-link state="Bold"/>
+				<state-link state="Italic"/>
 			</state>
 
 			<state id="Quoted Odd Levels" color="#7b1e20" scope="markup.quote.odd">
 				<begin><regex>^>(?:>>)*?(?!>)</regex></begin>
 				<end><regex>[\r\n]</regex></end>
-				<import />
+				<import/>
 			</state>
 
 			<state id="Quoted Even Levels" color="#1b5414" scope="markup.quote.even">
 				<begin><regex>^(?:>>)+(?!>)</regex></begin>
 				<end><regex>[\r\n]</regex></end>
-				<import />
+				<import/>
 			</state>
 
 	

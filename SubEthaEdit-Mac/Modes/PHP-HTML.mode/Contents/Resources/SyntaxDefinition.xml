@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE syntax SYSTEM "syntax.dtd">
-
 <syntax>
     <head>
         <name>PHP-HTML</name>
@@ -3643,7 +3642,7 @@
                     <end>
                         <regex>(((?&lt;!\\)(\\\\)*)|^)"</regex>
                     </end>
-                    <keywords id="Variables" useforautocomplete="no"  scope="language.variable.string.php">
+                    <keywords id="Variables" useforautocomplete="no" scope="language.variable.string.php">
                         <regex>(\$(?:[\w\d])+)</regex>
                     </keywords>
                 </state>
@@ -3715,7 +3714,7 @@
 				<state id="Block" type="block" foldable="yes" indent="yes" scope="meta.block.square">
 					<begin><regex>\[</regex><autoend>\]</autoend></begin>
 					<end><regex>]</regex></end>
-					<import />
+					<import/>
 				</state>
 			   <state-link state="PHP"/>
             </state>

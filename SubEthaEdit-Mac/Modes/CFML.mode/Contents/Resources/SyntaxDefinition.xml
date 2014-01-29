@@ -6,7 +6,7 @@
 		<name>CFML</name> <!-- The definitions title -->
 		<charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@"]]></charsintokens>
 			<charsincompletion><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@</=!>]]></charsincompletion>
-			<folding toplevel="3" />
+			<folding toplevel="3"/>
 			</head>
 			
 			<states>
@@ -27,7 +27,7 @@
 			<begin><regex>\A(?i)cfscript</regex></begin>
 			<end><regex>&gt;</regex></end>
 			
-			<import mode="XML" state="Tags" />
+			<import mode="XML" state="Tags"/>
 			</state>
 			
 			<state id="Single Line Comment" type="comment" scope="comment.line">
@@ -40,7 +40,7 @@
 			<end><regex>\*/</regex></end>
 			</state>
 			
-			<import state="CFML Code" />
+			<import state="CFML Code"/>
 			</state>
 			
 			<state id="CFML Comment" background-color="none" type="comment" scope="markup.comment">
@@ -53,12 +53,12 @@
 			<end><regex>&lt;/(?i)cfquery&gt;</regex></end>
 			
 			<import mode="SQL" keywords-only="yes"/>
-			<import state="CFML Code" />
-			<state-link state="CFML Comment" />
-			<state-link state="Comment" mode="XML" />
-			<state-link state="CDATA" mode="XML" />
-			<state-link state="Doctype" mode="XML" />
-			<state-link state="Escape" mode="XML" />
+			<import state="CFML Code"/>
+			<state-link state="CFML Comment"/>
+			<state-link state="Comment" mode="XML"/>
+			<state-link state="CDATA" mode="XML"/>
+			<state-link state="Doctype" mode="XML"/>
+			<state-link state="Escape" mode="XML"/>
 			
 			<!-- CODA -->
 			<state id="Query Comment" type="comment" scope="comment.block">
@@ -75,7 +75,7 @@
 			<begin><regex>\A(?i)cfquery</regex></begin>
 			<end><regex>&gt;</regex></end>
 			
-			<import state="CFML Tags" />
+			<import state="CFML Tags"/>
 			</state>
 			
 			<keywords id="CFML Attributes in Tags" useforautocomplete="no" scope="markup.tag.attribute.name">
@@ -87,8 +87,8 @@
 			<begin><regex>&lt;(?=(?i)\s*cf(?!query\s))</regex></begin>
 			<end><regex>&gt;</regex></end>
 			
-			<import state="CFML Code" />
-			<import state="CFML Tags" />
+			<import state="CFML Code"/>
+			<import state="CFML Tags"/>
 			</state>
 			<!-- CODA
 			<state id="Query Parameter" usesymbolsfrommode="CFML" useautocompletefrommode="CFML">
@@ -112,20 +112,20 @@
 			<state id="CFML Double Strings" type="string" useforautocomplete="no" scope="string.double">
 				<begin><regex>"</regex></begin>
 				<end><regex>"</regex></end>
-				<import state="CFML Output Variables State" keywords-only="yes" />
+				<import state="CFML Output Variables State" keywords-only="yes"/>
 			</state>
 			
 			<state id="CFML Single Strings" type="string" useforautocomplete="no" usespellchecking="yes" scope="string.single">
 				<begin><regex>'</regex></begin>
 				<end><regex>'</regex></end>
-				<import state="CFML Output Variables State" keywords-only="yes" />
+				<import state="CFML Output Variables State" keywords-only="yes"/>
 			</state>
 			
 			<state id="Block" type="block" foldable="yes" scope="meta.block.curly">
 				<begin><regex>(?:(?&lt;=\s)(?:if|else|else\s+if|for|while|do|switch|case)\s*(?:\([^#{\n\r]*?\))?)?\s*{</regex></begin>
 				<end><regex>}</regex></end>
-				<import state="CFML Code" />
-				<import state="CFML Output Variables State" keywords-only="yes" />
+				<import state="CFML Code"/>
+				<import state="CFML Output Variables State" keywords-only="yes"/>
 			</state>
 			
 			<keywords id="Control Keywords" useforautocomplete="yes" scope="keyword.control">
@@ -147,7 +147,7 @@
 				<string>function</string>
 			</keywords>
 			
-			<import state="CFML Output Variables State" keywords-only="yes" />
+			<import state="CFML Output Variables State" keywords-only="yes"/>
 			
 			<keywords id="Scope and Tag Variables" useforautocomplete="no" scope="keyword">
 				<regex>((?i)(?:session\.|application\.|request\.|request\.session\.|client\.|server\.|server\.coldfusion\.|form\.|cfcatch\.|cfdirectory\.|cferror\.|cffile\.|cfftp\.|cfhtp\.|cfindex\.|cfldap\.|cfpop\.|cfquery\.|cfregistry\.|cfsearch\.|cfstoredproc\.|cgi\.|url\.|cookie\.|arguments\.|cfevent\.)(?:[\w\d])+(?:\[([\w\d"'])+\])?)</regex>
@@ -682,7 +682,7 @@
 			
 			</state>
 			
-			<import state="CFML Output Variables State" keywords-only="yes" />
+			<import state="CFML Output Variables State" keywords-only="yes"/>
 			<state id="CFML Output Variables State" containerState="yes" scope="meta.state">
 				<keywords id="Output Variables" useforautocomplete="no" scope="language.variable">
 					<!-- CODA <regex>(#[^&lt;&gt;#]+#)</regex> -->
@@ -725,7 +725,7 @@
 				<state id="Doctype Block" type="block" foldable="yes" indent="yes" scope="meta.block.square">
 					<begin><regex>\[</regex><autoend>\]</autoend></begin>
 					<end><regex>]</regex></end>
-					<import />
+					<import/>
 				</state>
 			</state>
 			<state id="Escape" foldable="no" scope="markup.processing">
@@ -893,8 +893,8 @@
 					<regex>&lt;\s*/\s*(?#see-insert-start-group:cfmlcontenttag)\s*></regex>
 				</end>
 				<import mode="XML" keywords-only="yes"/>
-				<import />
-				<import state="CFML Output Variables State" keywords-only="yes" />
+				<import/>
+				<import state="CFML Output Variables State" keywords-only="yes"/>
 			</state>
 			
 			<state id="CFML If Tags" foldable="yes" scope="meta.default">
@@ -921,8 +921,8 @@
 					<regex>(&lt;)</regex>
 				</keywords>
 				<import mode="XML" keywords-only="yes"/>
-				<import />
-				<import state="CFML Output Variables State" keywords-only="yes" />
+				<import/>
+				<import state="CFML Output Variables State" keywords-only="yes"/>
 			</state>
 			
 			
@@ -930,8 +930,8 @@
 				<begin><regex>&lt;(?=(?i)cf)</regex></begin>
 				<end><regex>></regex></end>
 				
-				<import state="CFML Code" />
-		        <import state="CFML Output Variables State" keywords-only="yes" />
+				<import state="CFML Code"/>
+		        <import state="CFML Output Variables State" keywords-only="yes"/>
 				
 				<keywords id="CFML Tag start and end parts" scope="markup.tag">
 					<regex>(&lt;(?=(?i)cf)\w+\b)</regex>
@@ -955,12 +955,12 @@
 					<regex>/[ \t]*></regex>
 				</end>
 				<import/>
-				<import state="CFML Output Variables State" keywords-only="yes" />
+				<import state="CFML Output Variables State" keywords-only="yes"/>
 				<keywords id="Single Tags with CFML" useforautocomplete="no" scope="markup.tag">
 					<regex>(&lt;[^>]*)</regex>
 					<regex>(\A[^&lt;>]*>)</regex>
 				</keywords>
-				<keywords id="Attributes in Single Tags with CFML" useforautocomplete="no"  scope="markup.tag.attribute.name">
+				<keywords id="Attributes in Single Tags with CFML" useforautocomplete="no" scope="markup.tag.attribute.name">
 					<regex>([\w-]*)(?=[ \t]*=[^&lt;]+)</regex>
 				</keywords>
 				<keywords id="Strings in Single Tags with CFML" type="string" useforautocomplete="no" scope="markup.tag.attribute.value.string">
@@ -978,8 +978,8 @@
 					<regex>&lt;\s*/\s*(?#see-insert-start-group:xmltagstatename)\s*></regex>
 				</end>
 				<import mode="XML" keywords-only="yes"/>
-				<import />
-				<import state="CFML Output Variables State" keywords-only="yes" />
+				<import/>
+				<import state="CFML Output Variables State" keywords-only="yes"/>
 				
 			</state>
 			</default>

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE syntax SYSTEM "syntax.dtd">
-
 <syntax>
     <head>
         <name>Objective-C</name>
@@ -1037,7 +1036,7 @@
                 <string>XGResource</string>
                 <string>XGTwoWayRandomAuthenticator</string>
             </keywords>
-            <keywords id="Objective-C Keywords" useforautocomplete="yes"  scope="keyword.objective-c">
+            <keywords id="Objective-C Keywords" useforautocomplete="yes" scope="keyword.objective-c">
                 <string>@catch</string>
                 <string>@class</string>
                 <string>@defs</string>

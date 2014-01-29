@@ -48,7 +48,7 @@
                 <end>
                     <regex>\\end\s*{\s*(?#see-insert-start-group:latexblock)\s*}</regex>
                 </end>
-                <import />
+                <import/>
             </state>
         
 		</default>
