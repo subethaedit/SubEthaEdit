@@ -47,6 +47,79 @@
                         </userDefinedRuntimeAttribute>
                     </userDefinedRuntimeAttributes>
                 </customView>
+                <customView autoresizesSubviews="NO" id="27" userLabel="Top Blurred View">
+                    <rect key="frame" x="0.0" y="273" width="409" height="17"/>
+                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                    <subviews>
+                        <box autoresizesSubviews="NO" verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="73">
+                            <rect key="frame" x="0.0" y="-2" width="409" height="5"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
+                            <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
+                            <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                            <font key="titleFont" metaFont="system"/>
+                        </box>
+                        <customView autoresizesSubviews="NO" id="61" customClass="PopUpButton">
+                            <rect key="frame" x="71" y="0.0" width="114" height="17"/>
+                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        </customView>
+                        <textField verticalHuggingPriority="750" id="25">
+                            <rect key="frame" x="210" y="-1" width="181" height="17"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="&lt;Geschrieben von ...>" id="91">
+                                <font key="font" metaFont="smallSystem"/>
+                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                            </textFieldCell>
+                        </textField>
+                        <textField toolTip="Position der Eingabemarke" verticalHuggingPriority="750" id="13" customClass="BorderedTextField">
+                            <rect key="frame" x="0.0" y="0.0" width="179" height="17"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="&lt;Position>" id="90">
+                                <font key="font" metaFont="smallSystem"/>
+                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                            </textFieldCell>
+                            <connections>
+                                <action selector="positionClick:" target="-2" id="88"/>
+                            </connections>
+                        </textField>
+                        <button id="Vf8-MP-UD0">
+                            <rect key="frame" x="392" y="0.0" width="17" height="17"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="SplitOpen" imagePosition="only" alignment="center" alternateImage="SplitClose" transparent="YES" imageScaling="proportionallyDown" inset="2" id="DlZ-2M-ymd">
+                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                        </button>
+                        <imageView hidden="YES" toolTip="See-Befehl wartet bis das Dokument geschlossen wird." id="68">
+                            <rect key="frame" x="1" y="1" width="16" height="16"/>
+                            <autoresizingMask key="autoresizingMask"/>
+                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="WaitPipe" id="92"/>
+                        </imageView>
+                    </subviews>
+                    <backgroundFilters>
+                        <ciFilter name="CIGaussianBlur">
+                            <configuration>
+                                <null key="inputImage"/>
+                                <real key="inputRadius" value="10"/>
+                            </configuration>
+                        </ciFilter>
+                        <ciFilter name="CIColorControls">
+                            <configuration>
+                                <real key="inputBrightness" value="0.0"/>
+                                <real key="inputContrast" value="1"/>
+                                <null key="inputImage"/>
+                                <real key="inputSaturation" value="2"/>
+                            </configuration>
+                        </ciFilter>
+                        <ciFilter name="CIExposureAdjust">
+                            <configuration>
+                                <real key="inputEV" value="0.5"/>
+                                <null key="inputImage"/>
+                            </configuration>
+                        </ciFilter>
+                    </backgroundFilters>
+                </customView>
                 <customView autoresizesSubviews="NO" id="28" userLabel="Bottom Blurred View">
                     <rect key="frame" x="0.0" y="0.0" width="409" height="17"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
@@ -138,80 +211,7 @@
                         </ciFilter>
                         <ciFilter name="CIExposureAdjust">
                             <configuration>
-                                <real key="inputEV" value="-1.5"/>
-                                <null key="inputImage"/>
-                            </configuration>
-                        </ciFilter>
-                    </backgroundFilters>
-                </customView>
-                <customView autoresizesSubviews="NO" id="27" userLabel="Top Blurred View">
-                    <rect key="frame" x="0.0" y="273" width="409" height="17"/>
-                    <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                    <subviews>
-                        <box autoresizesSubviews="NO" verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="73">
-                            <rect key="frame" x="0.0" y="-2" width="409" height="5"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                            <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                            <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                            <font key="titleFont" metaFont="system"/>
-                        </box>
-                        <customView autoresizesSubviews="NO" id="61" customClass="PopUpButton">
-                            <rect key="frame" x="71" y="0.0" width="114" height="17"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        </customView>
-                        <textField verticalHuggingPriority="750" id="25">
-                            <rect key="frame" x="210" y="-1" width="181" height="17"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="&lt;Geschrieben von ...>" id="91">
-                                <font key="font" metaFont="smallSystem"/>
-                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                            </textFieldCell>
-                        </textField>
-                        <textField toolTip="Position der Eingabemarke" verticalHuggingPriority="750" id="13" customClass="BorderedTextField">
-                            <rect key="frame" x="0.0" y="0.0" width="179" height="17"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="&lt;Position>" id="90">
-                                <font key="font" metaFont="smallSystem"/>
-                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                            </textFieldCell>
-                            <connections>
-                                <action selector="positionClick:" target="-2" id="88"/>
-                            </connections>
-                        </textField>
-                        <button id="Vf8-MP-UD0">
-                            <rect key="frame" x="392" y="0.0" width="17" height="17"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="SplitOpen" imagePosition="only" alignment="center" alternateImage="SplitClose" transparent="YES" imageScaling="proportionallyDown" inset="2" id="DlZ-2M-ymd">
-                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                <font key="font" metaFont="system"/>
-                            </buttonCell>
-                        </button>
-                        <imageView hidden="YES" toolTip="See-Befehl wartet bis das Dokument geschlossen wird." id="68">
-                            <rect key="frame" x="1" y="1" width="16" height="16"/>
-                            <autoresizingMask key="autoresizingMask"/>
-                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="WaitPipe" id="92"/>
-                        </imageView>
-                    </subviews>
-                    <backgroundFilters>
-                        <ciFilter name="CIGaussianBlur">
-                            <configuration>
-                                <null key="inputImage"/>
-                                <real key="inputRadius" value="10"/>
-                            </configuration>
-                        </ciFilter>
-                        <ciFilter name="CIColorControls">
-                            <configuration>
-                                <real key="inputBrightness" value="0.0"/>
-                                <real key="inputContrast" value="1"/>
-                                <null key="inputImage"/>
-                                <real key="inputSaturation" value="2"/>
-                            </configuration>
-                        </ciFilter>
-                        <ciFilter name="CIExposureAdjust">
-                            <configuration>
-                                <real key="inputEV" value="-1.5"/>
+                                <real key="inputEV" value="0.5"/>
                                 <null key="inputImage"/>
                             </configuration>
                         </ciFilter>
