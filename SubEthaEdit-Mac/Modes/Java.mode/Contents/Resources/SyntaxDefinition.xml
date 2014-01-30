@@ -1903,7 +1903,7 @@
 				<regex>(^[ 	]*package([^\n\r])*)</regex>
             </keywords>
 
-            <state id="Characters" scope="constant.numeric.character">
+            <state id="Characters" scope="language.constant.numeric.character">
                 <begin><regex>'(?=(?:\\u[A-Fa-f0-9]{4}'|\\?.'))</regex></begin>
                 <end><regex>(\\u[A-Fa-f0-9]{4}')|(\\'')|(.')</regex></end>
             </state>

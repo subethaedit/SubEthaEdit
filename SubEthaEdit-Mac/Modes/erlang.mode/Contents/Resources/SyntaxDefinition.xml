@@ -277,7 +277,7 @@
 				<regex>[\n\r]</regex>
 			</end>
 		</state>
-		<state id="Character Literal" color="#650c41" scope="constant.character">
+		<state id="Character Literal" color="#650c41" scope="language.constant.numeric.character">
 			<begin>
 				<regex>\$</regex>
 			</begin>

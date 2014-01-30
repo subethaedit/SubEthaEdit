@@ -173,7 +173,7 @@
       <keywords id="FunctionRegex" color="#003369" useforautocomplete="no" scope="language.function">
         <regex>([A-Za-z0-9_]+ *)\(</regex>
       </keywords>
-      <state id="Characters" color="#00f" font-weight="normal" font-style="normal" scope="constant.character">
+      <state id="Characters" color="#00f" font-weight="normal" font-style="normal" scope="language.constant.numeric.character">
         <begin>
           <regex>'</regex>
         </begin>

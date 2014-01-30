@@ -2818,7 +2818,7 @@
             </state>
         </state>
 
-        <state id="Characters" background-color="none" scope="constant.numeric.character">
+        <state id="Characters" background-color="none" scope="language.constant.numeric.character">
             <begin><regex>'(?=\\?.')</regex></begin>
             <end><regex>(\\'')|(.')</regex></end>
         </state>
