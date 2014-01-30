@@ -30,7 +30,7 @@
                 <regex>((?:\[[\w\d,\. ]*\])?(?:{[^}]*(?=})[^{]*})+)</regex>
             </keywords>
         
-			<state id="Singleline Comment" color="#236E25" font-style="italic" scope="comment.single">
+			<state id="Singleline Comment" color="#236E25" font-style="italic" scope="structured.comment">
 				<begin><regex>(?&lt;!\\)%</regex></begin>
 				<end><regex>[\n\r]</regex></end>
                 <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
