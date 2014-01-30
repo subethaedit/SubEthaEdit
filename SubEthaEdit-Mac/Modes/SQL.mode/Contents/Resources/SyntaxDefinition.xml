@@ -851,7 +851,7 @@
                 <end><regex>(?&lt;!\\)(\\\\)*'</regex></end>
             </state>
             
-            <state id="String with Backticks" type="string" usespellchecking="yes" scope="string.other.backtick">
+            <state id="String with Backticks" type="string" usespellchecking="yes" scope="string.single.backtick">
                 <begin><regex>`</regex></begin>
                 <end><regex>(?&lt;!\\)(\\\\)*`</regex></end>
             </state>
