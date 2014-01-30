@@ -57,7 +57,7 @@
                 <regex>\s([A-Za-z_][A-Za-z0-9_]+*:)</regex>
                 <regex>(?&lt;![:\s])\s+([A-Za-z_][A-Za-z0-9_]*)]</regex>
             </keywords>
-            <keywords id="Cocoa Classes" background-casesensitive="yes" useforautocomplete="yes" scope="entity.name.type.classes.cocoa">
+            <keywords id="Cocoa Classes" background-casesensitive="yes" useforautocomplete="yes" scope="support.class.standard.cocoa">
                 <string>ABActionDelegate</string>
                 <string>ABAddressBook</string>
                 <string>ABGroup</string>
