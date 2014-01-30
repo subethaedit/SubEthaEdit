@@ -1084,7 +1084,7 @@
             <keywords id="Memory Management" useforautocomplete="yes" scope="meta.important.memorymanagement">
                 <regex>(?&lt;![\w:_])(new|allocWithZone:|alloc|autorelease|copyWithZone:|copy|mutableCopyWithZone:|mutableCopy|retain|release)(?![\w:_])</regex>
             </keywords>
-            <keywords id="Cocoa Functions" useforautocomplete="yes" scope="entity.name.function.cocoa">
+            <keywords id="Cocoa Functions" useforautocomplete="yes" scope="support.subroutine.standard.cocoa">
                 <string>ABAddPropertiesAndTypes</string>
                 <string>ABAddRecord</string>
                 <string>ABAddressBookAddRecord</string>
