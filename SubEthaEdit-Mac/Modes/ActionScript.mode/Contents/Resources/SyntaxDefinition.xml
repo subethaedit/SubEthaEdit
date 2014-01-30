@@ -1406,7 +1406,7 @@
 				<string>send</string>
             </keywords>
             
-            <keywords id="Application API and Central API" useforautocomplete="yes" scope="support">
+            <keywords id="Application API and Central API" useforautocomplete="yes" scope="support.subroutine.method">
 			     <string>onActivate</string>
 			     <string>onDeactivate</string>
 			     <string>onNetworkChange</string>
