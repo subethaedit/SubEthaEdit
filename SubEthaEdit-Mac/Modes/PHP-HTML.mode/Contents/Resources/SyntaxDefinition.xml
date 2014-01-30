@@ -3613,7 +3613,7 @@
                 <keywords id="PHP Numbers" useforautocomplete="no" scope="language.constant.numeric">
                     <regex>(?&lt;=[^\w\d]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
                 </keywords>
-                <keywords id="FunctionRegex" useforautocomplete="no" scope="language.function.php">
+                <keywords id="FunctionRegex" useforautocomplete="no" scope="language.subroutine.function.php">
                     <regex>([A-Za-z0-9_]+ *)\(</regex>
                 </keywords>
                 <keywords id="PHP Variables" useforautocomplete="no" scope="language.variable.php">
