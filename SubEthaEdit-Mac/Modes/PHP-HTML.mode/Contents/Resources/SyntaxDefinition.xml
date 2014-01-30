@@ -3585,7 +3585,7 @@
 									<string>var</string>
 									<string>void</string>
                 </keywords>
-                <keywords id="PHP Magic Methods" useforautocomplete="yes" scope="support.method.special.php">
+                <keywords id="PHP Magic Methods" useforautocomplete="yes" scope="language.subroutine.method.special.php">
                     <string>__construct</string>
                     <string>__destruct</string>
                     <string>__call</string>
