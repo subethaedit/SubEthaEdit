@@ -2434,7 +2434,7 @@
                 <string>NSZeroSize</string>
                 <string>NSZone</string>
             </keywords>
-            <keywords id="Cocoa Constants" useforautocomplete="yes" scope="constant.language.cocoa">
+            <keywords id="Cocoa Constants" useforautocomplete="yes" scope="support.constant.cocoa">
                 <string>AUHostVersionIdentifier</string>
                 <string>AUNumVersion</string>
                 <string>AVAudioQuality</string>
