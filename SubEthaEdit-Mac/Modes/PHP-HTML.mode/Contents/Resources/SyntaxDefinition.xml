@@ -3610,7 +3610,7 @@
 									<regex>(?&lt;!\?)(\&gt;)</regex>
 									<regex>([\/\%&amp;\^\~\@\.])</regex>
 		            </keywords>
-                <keywords id="PHP Numbers" useforautocomplete="no" scope="constant.numeric">
+                <keywords id="PHP Numbers" useforautocomplete="no" scope="language.constant.numeric">
                     <regex>(?&lt;=[^\w\d]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
                 </keywords>
                 <keywords id="FunctionRegex" useforautocomplete="no" scope="language.function.php">

@@ -216,7 +216,7 @@
                 <regex>(missing value)</regex>
             </keywords>
             
-            <keywords id="Numbers" color="#000" useforautocomplete="no" scope="constant.numeric">
+            <keywords id="Numbers" color="#000" useforautocomplete="no" scope="language.constant.numeric">
                 <regex>([-&amp;+\*\\\(\)])</regex>
 				<regex>[^[A-Za-z]]([0-9]*\.*[0-9]+)[^[A-Za-z]]</regex>
 				<regex>(^[0-9]*\.*[0-9]+)[^[A-Za-z]]</regex>

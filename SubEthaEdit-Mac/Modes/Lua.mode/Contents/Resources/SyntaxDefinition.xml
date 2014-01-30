@@ -226,7 +226,7 @@
 				<string>__tostring</string>
 				<string>__unm</string>
 			</keywords>
-			<keywords id="Numbers" color="#00f" inverted-color="#7d9ffa" useforautocomplete="no" scope="constant.numeric">
+			<keywords id="Numbers" color="#00f" inverted-color="#7d9ffa" useforautocomplete="no" scope="language.constant.numeric">
 				<regex>(?&lt;![A-Za-z0-9])((?:(?:(?:[0-9]+\.[0-9]*)|(?:\.[0-9]+))(?:[eE][+\-]?[0-9]+)?)|(?:[0-9]*)|(?:0x\h+))(?![A-Za-z0-9])</regex>
 			</keywords>
 			
