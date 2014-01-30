@@ -24,7 +24,7 @@
                     <regex>(&lt;\?=)</regex>
                     <regex>(\?&gt;)</regex>
                 </keywords>
-                <keywords id="PHP4 Functions" casesensitive="no" useforautocomplete="yes" scope="support.function.php">
+                <keywords id="PHP4 Functions" casesensitive="no" useforautocomplete="yes" scope="support.subroutine.function.php">
                     <string>_</string>
                     <string>abs</string>
                     <string>accept_connect</string>
