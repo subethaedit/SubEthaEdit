@@ -102,7 +102,7 @@
 				<string>RuntimeWarning</string>
 				<string>FutureWarning</string>
 			</keywords>
-			<keywords id="Special Methods" useforautocomplete="yes" scope="support.method">
+			<keywords id="Special Methods" useforautocomplete="yes" scope="support.subroutine.method">
 				<string>__cmp__</string>
 				<string>__rcmp__</string>
 				<string>__hash__</string>
