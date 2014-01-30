@@ -73,7 +73,7 @@
             </keywords>
             
 
-            <state id="Characters" scope="constant.character.entity">
+            <state id="Characters" scope="constant.numeric.character">
                 <begin><regex>'(?=\\?.')</regex></begin>
                 <end><regex>(\\'')|(.')</regex></end>
             </state>
