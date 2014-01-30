@@ -107,7 +107,7 @@
                 <string>undefined</string>
             </keywords>
 
-            <keywords id="FunctionRegex" useforautocomplete="no" scope="language.function.js">
+            <keywords id="FunctionRegex" useforautocomplete="no" scope="language.subroutine.function.js">
 				<regex>([\$A-Za-z0-9_]+[ \t]*)\(</regex>
             </keywords>
         
