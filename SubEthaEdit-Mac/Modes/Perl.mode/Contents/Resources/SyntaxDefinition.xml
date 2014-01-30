@@ -267,7 +267,7 @@
 				<regex>(\\x[0-9a-fA-F]{2,4}|\\x\{[0-9a-fA-F]{2,4}\})</regex>
             </keywords>
             
-            <keywords id="Variables" useforautocomplete="no" scope="language.variable.perl">
+            <keywords id="Variables" useforautocomplete="no" scope="language.variable">
                 <regex>(\$(?:[\w\d])+)</regex>
             </keywords>
 
