@@ -280,7 +280,7 @@
                 <string>ZStream</string>
                 <string>fatal</string>
             </keywords>
-            <keywords id="Builtin Globals" useforautocomplete="yes" scope="language.variable.global.builtin">
+            <keywords id="Builtin Globals" useforautocomplete="yes" scope="keyword.variable.global">
             	<!--Ones with chars not defined as variable parse chars won't work-->
             	<!--Need a clever way around this as adding them makes things not parse right everywhere else-->
             	<string>$!</string>
