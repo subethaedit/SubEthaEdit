@@ -40,7 +40,7 @@
                 <string>local</string>
             </keywords>
             
-            <keywords id="Builtin functions" color="#408" useforautocomplete="yes" scope="keyword.function">
+            <keywords id="Builtin functions" color="#408" useforautocomplete="yes" scope="keyword.subroutine">
                 <string>source</string>
                 <string>alias</string>
                 <string>bg</string>
@@ -89,7 +89,7 @@
                 <string>wait</string>
             </keywords>
             
-            <keywords id="Unix commands" color="#808" useforautocomplete="yes" scope="keyword.function">
+            <keywords id="Unix commands" color="#808" useforautocomplete="yes" scope="keyword.subroutine">
                 <string>arch</string>
                 <string>awk</string>
                 <string>bash</string>

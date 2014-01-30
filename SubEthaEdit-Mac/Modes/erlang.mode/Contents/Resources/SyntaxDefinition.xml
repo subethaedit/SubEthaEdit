@@ -47,7 +47,7 @@
 				<regex>(&lt;\-)</regex>
 				<regex>(\|\|)</regex>
 			</keywords>
-			<keywords id="Built-in Functions" color="#400080" font-weight="bold" font-style="italic" scope="keyword.function">
+			<keywords id="Built-in Functions" color="#400080" font-weight="bold" font-style="italic" scope="keyword.subroutine">
 				<string>abs</string>
 				<string>alive</string>
 				<string>apply</string>
@@ -133,7 +133,7 @@
 				<string>set_cookie</string>
 				<string>set_node</string>
 			</keywords>
-			<keywords id="Functions" color="#400080" font-weight="bold" font-style="italic" scope="keyword.function">
+			<keywords id="Functions" color="#400080" font-weight="bold" font-style="italic" scope="keyword.subroutine">
 				<string>acos</string>
 				<string>asin</string>
 				<string>atan</string>

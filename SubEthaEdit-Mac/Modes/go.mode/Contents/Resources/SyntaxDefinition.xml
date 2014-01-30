@@ -60,7 +60,7 @@
         <string>string</string>
         <string>bool</string>
       </keywords>
-      <keywords id="builtin functions" color="#881350" font-weight="normal" font-style="normal" casesensitive="yes" useforautocomplete="yes" scope="keyword.function">
+      <keywords id="builtin functions" color="#881350" font-weight="normal" font-style="normal" casesensitive="yes" useforautocomplete="yes" scope="keyword.subroutine">
         <string>len</string>
         <string>cap</string>
         <string>new</string>

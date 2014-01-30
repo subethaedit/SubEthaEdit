@@ -33,7 +33,7 @@
 				<string>until</string>
 				<string>while</string>
 			</keywords>
-			<keywords id="Basic Functions" color="#400080" font-weight="bold" useforautocomplete="yes" scope="keyword.function">
+			<keywords id="Basic Functions" color="#400080" font-weight="bold" useforautocomplete="yes" scope="keyword.subroutine">
 				<string>assert</string>
 				<string>collectgarbage</string>
 				<string>dofile</string>
@@ -74,7 +74,7 @@
 				<string>posix</string>
 				<string>md5</string>
 			</keywords>
-			<keywords id="Library Functions" color="#400080" useforautocomplete="yes" scope="keyword.function">
+			<keywords id="Library Functions" color="#400080" useforautocomplete="yes" scope="keyword.subroutine">
 				<string>and</string>
 				<string>or</string>
 				<string>xor</string>

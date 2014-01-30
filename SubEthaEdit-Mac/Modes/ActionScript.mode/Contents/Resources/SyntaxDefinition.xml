@@ -100,7 +100,7 @@
 				<string>UTC</string>
         	</keywords>
         	
-            <keywords id="Functions" useforautocomplete="yes" scope="keyword.function">
+            <keywords id="Functions" useforautocomplete="yes" scope="keyword.subroutine">
 				<string>isActive</string>
 				<string>updateProperties</string>
 				<string>arguments</string>

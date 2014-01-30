@@ -70,7 +70,7 @@
                 <string>while</string>
                 <string>yield</string>
             </keywords>
-            <keywords id="Builtin Functions" useforautocomplete="yes" scope="keyword.function">
+            <keywords id="Builtin Functions" useforautocomplete="yes" scope="keyword.subroutine">
                 <string>abort</string>
                 <string>at_exit</string>
                 <string>autoload</string>
