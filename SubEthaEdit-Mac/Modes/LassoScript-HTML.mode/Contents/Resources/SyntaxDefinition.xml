@@ -199,7 +199,7 @@
 		<string>while</string>
 	</keywords>
 
-	<keywords id="Functions" casesensitive="no" useforautocomplete="yes" scope="support.function">
+	<keywords id="Functions" casesensitive="no" useforautocomplete="yes" scope="support.subroutine.function">
 		<regex>((?i)Abs)(?=\s*\()</regex>
 		<regex>((?i)ACos)(?=\s*\()</regex>
 		<regex>((?i)AddSOAPRequestHeader)(?=\s*\()</regex>

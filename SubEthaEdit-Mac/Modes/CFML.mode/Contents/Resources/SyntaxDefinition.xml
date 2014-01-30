@@ -197,7 +197,7 @@
 				<string>while</string>
 			</keywords>
 			
-			<keywords id="Functions" casesensitive="no" useforautocomplete="yes" scope="support.function">
+			<keywords id="Functions" casesensitive="no" useforautocomplete="yes" scope="support.subroutine.function">
 				<regex>((?i)ACos)(?=\s*\()</regex>
 				<regex>((?i)ASin)(?=\s*\()</regex>
 				<regex>((?i)Abs)(?=\s*\()</regex>

@@ -190,7 +190,7 @@
 				<string>__init__</string>
 				<string>__repr__</string>
 			</keywords>
-			<keywords id="Built-In Functions" useforautocomplete="yes" scope="support.function">
+			<keywords id="Built-In Functions" useforautocomplete="yes" scope="support.subroutine.function">
 				<string>__import__</string>
 				<string>abs</string>
 				<string>apply</string>

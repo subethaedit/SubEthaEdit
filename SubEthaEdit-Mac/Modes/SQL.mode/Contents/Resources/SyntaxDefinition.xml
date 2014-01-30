@@ -64,7 +64,7 @@
                 <string>VARRAY</string>
                 <string>XMLTYPE</string>
             </keywords>
-            <keywords id="Functions" casesensitive="no" useforautocomplete="yes" scope="support.function">
+            <keywords id="Functions" casesensitive="no" useforautocomplete="yes" scope="support.subroutine.function">
                 <string>ABS</string>
                 <string>ACOS</string>
                 <string>ADD_MONTHS</string>

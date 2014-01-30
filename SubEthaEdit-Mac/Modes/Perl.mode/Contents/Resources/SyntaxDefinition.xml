@@ -65,7 +65,7 @@
                 <string>bytes</string>
                 <string>diagnostics</string>
             </keywords>
-            <keywords id="Functions" useforautocomplete="yes" scope="support.function">
+            <keywords id="Functions" useforautocomplete="yes" scope="support.subroutine.function">
                 <string>abs</string>
                 <string>accept</string>
                 <string>alarm</string>
