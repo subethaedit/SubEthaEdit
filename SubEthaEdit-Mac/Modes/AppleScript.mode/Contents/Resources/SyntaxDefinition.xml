@@ -127,7 +127,7 @@
                 <string>named</string>
             </keywords>
             
-            <keywords id="Constants" casesensitive="no" color="#0b0bff" inverted-color="#4939ff" useforautocomplete="yes" scope="constant">
+            <keywords id="Constants" casesensitive="no" color="#0b0bff" inverted-color="#4939ff" useforautocomplete="yes" scope="keyword">
                 <regex>(application responses)</regex>
                 <string>id</string>
                 <string>case</string>
