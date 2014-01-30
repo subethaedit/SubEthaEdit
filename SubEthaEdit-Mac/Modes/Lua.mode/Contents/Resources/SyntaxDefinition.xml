@@ -257,7 +257,7 @@
 				<begin><string>"</string></begin>
 				<end><regex>(?&lt;!\\)(?:\\\\)*(?:"|\n)</regex></end>
 			</state>
-			<state id="Long bracket string" color="#994500" foldable="yes" font-weight="normal" font-style="normal" scope="string">
+			<state id="Long bracket string" color="#994500" foldable="yes" font-weight="normal" font-style="normal" scope="string.here-doc">
 				<begin><string>\[(?'stringbrackets'=*)\[</string></begin>
 				<end><regex>\](?#see-insert-start-group:stringbrackets)\]</regex></end>
 			</state>
