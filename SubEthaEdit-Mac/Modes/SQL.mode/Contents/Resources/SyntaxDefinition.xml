@@ -233,7 +233,7 @@
                 <string>VSIZE</string>
                 <string>WIDTH_BUCKET</string>
             </keywords>
-            <keywords id="Numeric Keywords" casesensitive="no" useforautocomplete="yes" scope="constant.numeric.keyword">
+            <keywords id="Numeric Keywords" casesensitive="no" useforautocomplete="yes" scope="language.constant.numeric.keyword">
               <string>FALSE</string>
               <string>NULL</string>
               <string>TRUE</string>

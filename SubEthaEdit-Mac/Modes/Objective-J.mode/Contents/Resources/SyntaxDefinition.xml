@@ -122,7 +122,7 @@
                 <string>short</string>
             </keywords>
 
-            <keywords id="Objective-J Named Constants" useforautocomplete="yes" scope="constant.numeric.keyword">
+            <keywords id="Objective-J Named Constants" useforautocomplete="yes" scope="language.constant.numeric.keyword">
                 <string>null</string>
                 <string>NULL</string>
                 <string>nil</string>

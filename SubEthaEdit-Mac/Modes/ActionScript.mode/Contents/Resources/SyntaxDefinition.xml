@@ -1498,7 +1498,7 @@
 			     <string>setType</string>
             </keywords>
             
-            <keywords id="Constants" useforautocomplete="yes" scope="constant.numeric.keyword">
+            <keywords id="Constants" useforautocomplete="yes" scope="language.constant.numeric.keyword">
 				<string>BACKSPACE</string>
 				<string>CAPSLOCK</string>
 				<string>CONTROL</string>

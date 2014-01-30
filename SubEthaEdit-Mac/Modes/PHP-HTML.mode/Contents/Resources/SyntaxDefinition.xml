@@ -3597,7 +3597,7 @@
                     <string>__clone</string>
                     <string>__autoload</string>
                 </keywords>
-                <keywords id="Number Literals" useforautocomplete="YES" scope="constant.numeric.keyword">
+                <keywords id="Number Literals" useforautocomplete="YES" scope="language.constant.numeric.keyword">
                     <string>true</string>
                     <string>false</string>
                     <string>null</string>
