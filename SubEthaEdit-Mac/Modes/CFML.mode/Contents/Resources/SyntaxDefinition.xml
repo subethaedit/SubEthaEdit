@@ -104,7 +104,7 @@
 			
 			<state id="CFML Code" useforautocomplete="no" containerState="yes" usesymbolsfrommode="CFML" useautocompletefrommode="CFML" scope="meta.default">
 			
-			<keywords id="Generic Functions" useforautocomplete="no" scope="language.function">
+			<keywords id="Generic Functions" useforautocomplete="no" scope="language.subroutine.function">
 			<!--<regex>([\w]+[\(]{1}[\w\s\.\[\]\)\(\"/;,|#&amp;]+[\)]{1})(?=[^&lt;]*&gt;)</regex>-->
 			<regex>([A-Za-z0-9_]+ *)\(</regex>
 			</keywords>

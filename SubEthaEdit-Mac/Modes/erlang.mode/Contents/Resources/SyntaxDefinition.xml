@@ -156,7 +156,7 @@
 				<string>parse_transform</string>
 				<string>undefined_function</string>
 			</keywords>
-			<keywords id="Function Calls" color="#400080" font-weight="bold" font-style="italic" scope="language.function">
+			<keywords id="Function Calls" color="#400080" font-weight="bold" font-style="italic" scope="language.subroutine.function">
 				<regex>([0-9a-zA-Z_-]+:[0-9a-zA-Z_-]+)\(</regex>
 				<regex>([0-9a-zA-Z_-]+)\(</regex>
 			</keywords>

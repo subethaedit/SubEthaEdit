@@ -1739,7 +1739,7 @@
 				<regex>(^[ 	]*#([^\n\r])*)</regex>
             </keywords>
 
-            <keywords id="FunctionRegex" useforautocomplete="no" scope="language.function">
+            <keywords id="FunctionRegex" useforautocomplete="no" scope="language.subroutine.function">
 				<regex>([\$A-Za-z0-9_]+[ \t]*)\(</regex>
             </keywords>
         

@@ -131,7 +131,7 @@
             <keywords id="Characters" color="#00f" useforautocomplete="no" scope="language.constant.numeric.character">
 				<regex>('.')</regex>
             </keywords>
-            <keywords id="FunctionRegex" color="#003369" useforautocomplete="no" scope="language.function">
+            <keywords id="FunctionRegex" color="#003369" useforautocomplete="no" scope="language.subroutine.function">
 				<regex>([A-Za-z0-9_]+ *)\(</regex>
             </keywords>
             <keywords id="Preprocessor" color="#683821" useforautocomplete="no" scope="language.preprocessor">

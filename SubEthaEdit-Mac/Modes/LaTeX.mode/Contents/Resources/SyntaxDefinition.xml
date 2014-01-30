@@ -26,7 +26,7 @@
                 <regex>(\\subparagraph[\t ]*{[^}]*})</regex>
             </keywords>
 
-            <keywords id="Functions" color="#408" useforautocomplete="no" scope="language.function">
+            <keywords id="Functions" color="#408" useforautocomplete="no" scope="language.subroutine.function">
                 <regex>((?:\[[\w\d,\. ]*\])?(?:{[^}]*(?=})[^{]*})+)</regex>
             </keywords>
         
