@@ -2001,7 +2001,7 @@
                 <string>glVertexAttrib4fv</string>
                 <string>glVertexAttribPointer</string>
             </keywords>
-            <keywords id="Cocoa Types" useforautocomplete="yes" scope="constant.language.types.cocoa">
+            <keywords id="Cocoa Types" useforautocomplete="yes" scope="support.type.cocoa">
                 <string>CAAction</string>
                 <string>CFAllocatorRef</string>
                 <string>CFArrayRef</string>
