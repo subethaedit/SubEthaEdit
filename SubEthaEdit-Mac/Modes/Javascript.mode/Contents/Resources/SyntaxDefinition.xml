@@ -98,7 +98,7 @@
 				<regex>(?&lt;![\w\d\._])((?:(?:(?:[0-9]+\.[0-9]*)|(\.[0-9]+))(?:[eE][+\-]?[0-9]+)?[fFlL]?)|(?:(?:(?:[1-9][0-9]*)|0(?:[1-7][0-7]*)?|(?:0[xX][0-9a-fA-F]+))(?:(?:[uU][lL]?)|(?:[lL][uU]?))?))(?![\w\d\._])</regex>
             </keywords>
 
-            <keywords id="Number Literals" inverted-color="#5d56ff" useforautocomplete="YES" scope="constant.numeric.keyword.js">
+            <keywords id="Number Literals" inverted-color="#5d56ff" useforautocomplete="YES" scope="language.constant.numeric.keyword.js">
                 <string>true</string>
                 <string>false</string>
                 <string>null</string>
