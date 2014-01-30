@@ -51,7 +51,7 @@
                 <import mode="C" keywords-only="yes"/>
                 <import/>
             </state>
-            <keywords id="Methods" casesensitive="yes" scope="entity.name.method">
+            <keywords id="Methods" casesensitive="yes" scope="language.subroutine.method">
                 <regex>[^:]\([^)]*\)\s*([A-Za-z_][A-Za-z0-9_]*)\s*[{;]</regex>
                 <regex>\)\s*([A-Za-z_][A-Za-z0-9_]*:)</regex>
                 <regex>\s([A-Za-z_][A-Za-z0-9_]+*:)</regex>
