@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE syntax SYSTEM "syntax.dtd">
 <syntax>
 
@@ -34,7 +34,7 @@
             <state id="Block" type="block" foldable="yes" scope="meta.block">
                 <begin><regex>^(?:[@]{2}[^@\n\r]+[@]{2})</regex></begin>
                 <end><regex>[\r\n](?=(?:[@][@]|Index|$|--- ))</regex></end>
-                <import />
+                <import/>
             </state>
 
         </default>

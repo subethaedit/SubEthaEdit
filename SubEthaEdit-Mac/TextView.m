@@ -6,6 +6,13 @@
 //  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
 //
 
+// this file needs arc - either project wide,
+// or add -fobjc-arc on a per file basis in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
+
 #import "LayoutManager.h"
 #import "TextView.h"
 #import "FoldableTextStorage.h"
@@ -28,11 +35,14 @@
 #import "NSCursorSEEAdditions.h"
 #import "DocumentModeManager.h"
 #import "ConnectionBrowserController.h"
+#import "PlainTextDocument.h"
+#import "SEEPlainTextEditorScrollView.h"
 
 #define SPANNINGRANGE(a,b) NSMakeRange(MIN(a,b),MAX(a,b)-MIN(a,b)+1)
 
 @interface TextView (TextViewPrivateAdditions) 
-- (PlainTextDocument *)document;
+@property (nonatomic, readonly) PlainTextDocument *document;
+
 @end
 
 @interface NSTextView (NSTextViewTCMPrivateAdditions) 
@@ -57,6 +67,20 @@
     [super _adjustedCenteredScrollRectToVisible:aRect forceCenter:force];
 }
 
+- (void)adjustContainerInsetToScrollView {
+	SEEPlainTextEditorScrollView *enclosingScrollView = (SEEPlainTextEditorScrollView *)self.enclosingScrollView;
+	if ([enclosingScrollView isKindOfClass:[SEEPlainTextEditorScrollView class]]) {
+		NSSize currentInset = [self textContainerInset];
+		CGFloat height = 0;
+		height = MAX(enclosingScrollView.topOverlayHeight, enclosingScrollView.bottomOverlayHeight);
+		if (height != currentInset.height) {
+			currentInset.height = height;
+			[self setTextContainerInset:currentInset];
+		}
+	}
+}
+
+
 static NSMenu *S_defaultMenu=nil;
 
 
@@ -65,12 +89,12 @@ static NSMenu *S_defaultMenu=nil;
 }
 
 + (void)setDefaultMenu:(NSMenu *)aMenu {
-	[S_defaultMenu autorelease];
     S_defaultMenu=[aMenu copy];
 }
 
 - (PlainTextDocument *)document {
-    return (PlainTextDocument *)[(FoldableTextStorage *)[self textStorage] delegate];
+	// was (PlainTextDocument *)[(FoldableTextStorage *)[self textStorage] delegate]
+    return [self.editor document];
 }
 
 
@@ -104,7 +128,9 @@ static NSMenu *S_defaultMenu=nil;
     NSRange blockeditRange,tempRange;
 
     currentPoint = [self convertPoint:[aEvent locationInWindow] fromView:nil];
-    glyphIndex = [layoutManager glyphIndexForPoint:currentPoint 
+	currentPoint.y -= self.textContainerInset.height;
+
+    glyphIndex = [layoutManager glyphIndexForPoint:currentPoint
                                    inTextContainer:[self textContainer]];
     beginIndex=[layoutManager characterIndexForGlyphAtIndex:glyphIndex];
     
@@ -125,8 +151,7 @@ static NSMenu *S_defaultMenu=nil;
         aEvent=[[self window] nextEventMatchingMask:(NSLeftMouseDraggedMask|NSLeftMouseUpMask|NSPeriodicMask)];
 
         if ([aEvent type] == NSLeftMouseDragged) {
-            [leftMouseDraggedEvent release];
-             leftMouseDraggedEvent=[aEvent retain];
+			leftMouseDraggedEvent=aEvent;
             BOOL hitsContent=[self mouse:[self convertPoint:[aEvent locationInWindow] fromView:nil] 
                                   inRect:[self visibleRect]];
             if (timerOn) {
@@ -162,12 +187,13 @@ static NSMenu *S_defaultMenu=nil;
                 // evil hack for unpause
                 [[self delegate] textViewDidChangeSelection:nil];
             }
-			[leftMouseDraggedEvent release];
 			leftMouseDraggedEvent = nil;
 			break;
         } else {
             currentPoint = [self convertPoint:[leftMouseDraggedEvent locationInWindow] fromView:nil];
-            glyphIndex =[layoutManager glyphIndexForPoint:currentPoint 
+			currentPoint.y -= self.textContainerInset.height;
+
+            glyphIndex =[layoutManager glyphIndexForPoint:currentPoint
                                           inTextContainer:[self textContainer]]; 
             characterIndex=[layoutManager characterIndexForGlyphAtIndex:glyphIndex];
             tempRange=[string lineRangeForRange:SPANNINGRANGE(beginIndex,characterIndex)];
@@ -262,7 +288,7 @@ static NSMenu *S_defaultMenu=nil;
 - (void)drawRect:(NSRect)aRect {
     [super drawRect:aRect];
     // now paint Cursors if there are any
-    PlainTextDocument *document=(PlainTextDocument *)[editor document];
+    PlainTextDocument *document = self.document;
     TCMMMSession *session=[document session];
     NSString *sessionID=[session sessionID];
     NSDictionary *sessionParticipants=[session participants];
@@ -333,7 +359,7 @@ static NSMenu *S_defaultMenu=nil;
     }
     
     if ( action == @selector(foldAllTopLevelBlocks:) ) {
-	    PlainTextDocument *document=(PlainTextDocument *)[editor document];
+	    PlainTextDocument *document=self.document;
     	[menuItem setTitle:[NSString stringWithFormat:NSLocalizedString(@"Fold All Level %d Blocks","Fold at top level menu entry label"),MAX(1,[[[document documentMode] syntaxDefinition] foldingTopLevel])]];
     }
     
@@ -342,7 +368,7 @@ static NSMenu *S_defaultMenu=nil;
          action == @selector(foldCurrentBlock:) || 
          action == @selector(foldAllCommentBlocks:) ||
          action == @selector(foldAllBlocksAtCurrentLevel:) ) {
-	    PlainTextDocument *document=(PlainTextDocument *)[editor document];
+	    PlainTextDocument *document = self.document;
 	    DocumentMode *mode = [document documentMode];
     	BOOL hasFoldingInformation = [mode syntaxHighlighter] && [document highlightsSyntax];
     	returnValue = hasFoldingInformation;
@@ -504,7 +530,7 @@ static NSMenu *S_defaultMenu=nil;
 	NSRange selectedRange = [self selectedRange];
 	FoldableTextStorage *textStorage = (FoldableTextStorage *)[self textStorage];
 	NSRange fullRangeOfSelection = [textStorage fullRangeForFoldedRange:selectedRange];
-    PlainTextDocument *document=(PlainTextDocument *)[editor document];
+    PlainTextDocument *document = self.document;
 	[textStorage foldAllWithFoldingLevel:[[[document documentMode] syntaxDefinition] foldingTopLevel]];
 	[self selectFullRangeAppropriateAfterFolding:fullRangeOfSelection];
 }
@@ -549,7 +575,7 @@ static NSMenu *S_defaultMenu=nil;
     if (( wasDark && !isDark) || 
         (!wasDark &&  isDark)) {
         // remove and add from Superview to activiate my cursor rect and deactivate the ones of the TextView
-        NSScrollView *sv = [[[self enclosingScrollView] retain] autorelease];
+        NSScrollView *sv = [self enclosingScrollView];
         NSView *superview = [sv superview];
         [sv removeFromSuperview];
         [superview addSubview:sv];
@@ -704,11 +730,11 @@ static NSMenu *S_defaultMenu=nil;
 			textStorage = [textStorage fullTextStorage];
 			#pragma unused (selectedRange,textStorage)
 		}
-		NSMutableAttributedString *mutableString = [[[[self textStorage] attributedSubstringFromRange:[self selectedRange]] mutableCopy] autorelease];
-		NSTextAttachment *foldingIconAttachment = [[[NSTextAttachment alloc] initWithFileWrapper:[[[NSFileWrapper alloc] initWithPath:[[NSBundle mainBundle] pathForResource:@"FoldingBubbleBig" ofType:@"png"]] autorelease]] autorelease];
+		NSMutableAttributedString *mutableString = [[[self textStorage] attributedSubstringFromRange:[self selectedRange]] mutableCopy];
+		NSTextAttachment *foldingIconAttachment = [[NSTextAttachment alloc] initWithFileWrapper:[[NSFileWrapper alloc] initWithPath:[[NSBundle mainBundle] pathForResource:@"FoldingBubbleBig" ofType:@"png"]]];
 //		[[[foldingIconAttachment attachmentCell] image] setSize:NSMakeSize(19,10)];
 		NSAttributedString *foldingIconString = [NSAttributedString attributedStringWithAttachment:foldingIconAttachment];
-		NSAttributedString *foldingIconReplacementString = [[[NSAttributedString alloc] initWithPath:[[NSBundle mainBundle] pathForResource:@"FoldingBubbleText" ofType:@"rtf"] documentAttributes:nil] autorelease];
+		NSAttributedString *foldingIconReplacementString = [[NSAttributedString alloc] initWithPath:[[NSBundle mainBundle] pathForResource:@"FoldingBubbleText" ofType:@"rtf"] documentAttributes:nil];
 		[mutableString replaceAttachmentsWithAttributedString:foldingIconString];
 		[pasteboard setData:[mutableString RTFDFromRange:NSMakeRange(0,[mutableString length]) documentAttributes:nil] forType:NSRTFDPboardType];
 		[mutableString replaceAttachmentsWithAttributedString:foldingIconReplacementString];
@@ -760,7 +786,7 @@ static NSMenu *S_defaultMenu=nil;
     NSPasteboard *pboard = [sender draggingPasteboard];
     if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
         //NSLog(@"draggingEntered:");
-        PlainTextDocument *document=(PlainTextDocument *)[editor document];
+        PlainTextDocument *document = self.document;
         TCMMMSession *session=[document session];
         if ([session isServer]) {
             [[[self window] drawers] makeObjectsPerformSelector:@selector(open)];
@@ -775,7 +801,7 @@ static NSMenu *S_defaultMenu=nil;
         }
     } else if ([[pboard types] containsObject:@"PresentityNames"] ||
 			   [[pboard types] containsObject:@"IMHandleNames"]) {
-        BOOL shouldDrag=[[(PlainTextDocument *)[self document] session] isServer];
+        BOOL shouldDrag=[[self.document session] isServer];
         if (shouldDrag) {
             [self setIsDragTarget:YES];
             return NSDragOperationGeneric;
@@ -793,7 +819,7 @@ static NSMenu *S_defaultMenu=nil;
     NSPasteboard *pboard = [sender draggingPasteboard];
     if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
         //NSLog(@"draggingUpdated:");
-        BOOL shouldDrag=[[(PlainTextDocument *)[editor document] session] isServer];
+        BOOL shouldDrag=[[self.document session] isServer];
         [self setIsDragTarget:shouldDrag];
         if (shouldDrag) {
             return NSDragOperationGeneric;
@@ -822,7 +848,7 @@ static NSMenu *S_defaultMenu=nil;
     NSPasteboard *pboard = [sender draggingPasteboard];
     if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
         //NSLog(@"prepareForDragOperation:");
-        BOOL shouldDrag=[[(PlainTextDocument *)[editor document] session] isServer];
+        BOOL shouldDrag=[[self.document session] isServer];
         [self setIsDragTarget:shouldDrag];
         return shouldDrag;
     } else if ([[pboard types] containsObject:@"ParticipantDrag"]) {
@@ -849,7 +875,7 @@ static NSMenu *S_defaultMenu=nil;
     if ([[pboard types] containsObject:@"PboardTypeTBD"]) {
         //NSLog(@"performDragOperation:");
         NSArray *userArray=[pboard propertyListForType:@"PboardTypeTBD"];
-        PlainTextDocument *document=(PlainTextDocument *)[editor document];
+        PlainTextDocument *document=self.document;
         TCMMMSession *session=[document session];
         NSDictionary *userDescription=nil;
         for (userDescription in userArray) {
@@ -884,7 +910,7 @@ static NSMenu *S_defaultMenu=nil;
     [self setIsDragTarget:NO];
     PlainTextDocument *document=nil;
     if (I_flags.isDraggingText) {
-            document=(PlainTextDocument *)[self document];
+		document = [self document];
         [[document documentUndoManager] beginUndoGrouping];
     }
     BOOL result = [super performDragOperation:sender];
@@ -901,7 +927,7 @@ static NSMenu *S_defaultMenu=nil;
     [dragTypes addObject:@"ParticipantDrag"];
     [dragTypes addObject:@"PresentityNames"];
     [dragTypes addObject:@"IMHandleNames"];
-    return [dragTypes autorelease];
+    return dragTypes;
 }
 
 - (void)updateDragTypeRegistration {
@@ -924,7 +950,7 @@ static NSMenu *S_defaultMenu=nil;
 
     static NSCharacterSet *s_passThroughCharacterSet=nil;
     if (s_passThroughCharacterSet==nil) {
-        s_passThroughCharacterSet=[[NSCharacterSet characterSetWithCharactersInString:@"1234567"] retain];
+        s_passThroughCharacterSet=[NSCharacterSet characterSetWithCharactersInString:@"1234567"];
     }
     int flags=[aEvent modifierFlags];
     if ((flags & NSControlKeyMask) && !(flags & NSCommandKeyMask) && 
@@ -1002,6 +1028,7 @@ static NSMenu *S_defaultMenu=nil;
     NSTextContainer *textContainer = [self textContainer];
     NSPoint point = [self convertPoint:[anEvent locationInWindow] fromView:nil];
     point.x=5;
+	point.y -= self.textContainerInset.height;
     unsigned glyphIndex,endCharacterIndex,startCharacterIndex;
     glyphIndex=[layoutManager glyphIndexForPoint:point 
                                  inTextContainer:textContainer];
@@ -1028,6 +1055,7 @@ static NSMenu *S_defaultMenu=nil;
                 event = autoscrollEvent;           
             case NSLeftMouseDragged:
                 point = [self convertPoint:[event locationInWindow] fromView:nil];
+				point.y -= self.textContainerInset.height;
                 glyphIndex = [layoutManager glyphIndexForPoint:point
                                                inTextContainer:textContainer];
                 endCharacterIndex = [layoutManager characterIndexForGlyphAtIndex:glyphIndex];
@@ -1039,18 +1067,15 @@ static NSMenu *S_defaultMenu=nil;
                     if (timerOn) {
                         [NSEvent stopPeriodicEvents];
                         timerOn = NO;
-                        [autoscrollEvent release];
                         autoscrollEvent = nil;
                     }
                 } else {
                     if (timerOn) {
-                        [autoscrollEvent release];
-                         autoscrollEvent = [event retain];
+                         autoscrollEvent = event;
                     } else {
                         [NSEvent startPeriodicEventsAfterDelay:0.1 withPeriod:0.1];
                         timerOn = YES;
-                        [autoscrollEvent release];
-                        autoscrollEvent = [event retain];
+                        autoscrollEvent = event;
                     }
                 }
             break;
@@ -1059,7 +1084,6 @@ static NSMenu *S_defaultMenu=nil;
                 if (timerOn) {
                     [NSEvent stopPeriodicEvents];
 //                    timerOn = NO;
-                    [autoscrollEvent release];
                     autoscrollEvent = nil;
                 }
 				return;
@@ -1107,16 +1131,6 @@ static NSMenu *S_defaultMenu=nil;
     } else {
         [self trackMouseForLineSelectionWithEvent:anEvent];
     }    
-}
-
-- (void)setEditor:(PlainTextEditor*)inEditor
-{
-	editor = inEditor; // XXX - avoid circular retain?
-}
-
-- (PlainTextEditor*)editor
-{
-	return editor;
 }
 
 @end

@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE syntax SYSTEM "syntax.dtd">
 <syntax>
 
@@ -864,13 +864,13 @@
             <state id="Anti Block" foldable="no" scope="meta.block">
                 <begin><regex>\(</regex></begin>
                 <end><regex>\)</regex></end>
-                <import />
+                <import/>
             </state>
 
             <state id="Block" type="block" foldable="yes" scope="meta.block.create-table">
                 <begin><regex>(?i)CREATE[ \t]+TABLE[ \t]*[`\w\d_]+[ \t]*\(</regex></begin>
                 <end><regex>\)</regex></end>
-                <import />
+                <import/>
             </state>
 
         </default>

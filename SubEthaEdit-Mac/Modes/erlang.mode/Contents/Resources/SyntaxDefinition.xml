@@ -1,11 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE syntax SYSTEM "syntax.dtd">
-
 <syntax>
 	<head>
 		<name>Erlang</name>
 		<charsintokens><![CDATA[_-0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ@:]]></charsintokens>
-        <folding toplevel="1" />
+        <folding toplevel="1"/>
 	</head>
 	<states>
 		<default id="Base" color="#000" inverted-color="#fff" scope="meta.default">
@@ -42,7 +41,7 @@
 				<string>when</string>
 			</keywords>
 			<keywords id="Separators" color="#FF0000" font-weight="bold" casesensitive="no" useforautocomplete="no" scope="language.operator">
-				<regex>(->)</regex>
+				<regex>(-&gt;)</regex>
 			</keywords>
 			<keywords id="List Comprehensions" color="#400080" font-weight="bold" casesensitive="no" useforautocomplete="no" scope="language.operator">
 				<regex>(&lt;\-)</regex>
@@ -304,15 +303,15 @@
 		</state>
 		
 		<state id="Block" type="block" foldable="yes" scope="meta.block">
-			<begin><regex>(?:\-\>)</regex></begin>
+			<begin><regex>(?:\-\&gt;)</regex></begin>
 			<end><regex>(?:(?:(?:\;)|(?:\.))(?!\S))|(?:\s*(?=end\b))|(?:\s*(?=catch\b))</regex></end>
-			<import />
+			<import/>
 		</state>
 
 		<state id="End Block" type="block" foldable="yes" scope="meta.block">
 			<begin><regex>(?:\b(?:(?:of)|(?:if)|(?:begin))\b)</regex></begin>
 			<end><regex>(?:\bend\b)</regex></end>
-			<import />
+			<import/>
 		</state>
 
 	</states>

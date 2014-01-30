@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE syntax SYSTEM "syntax.dtd">
 <syntax>
 
@@ -48,7 +48,7 @@
                 <end>
                     <regex>\\end\s*{\s*(?#see-insert-start-group:latexblock)\s*}</regex>
                 </end>
-                <import />
+                <import/>
             </state>
         
 		</default>

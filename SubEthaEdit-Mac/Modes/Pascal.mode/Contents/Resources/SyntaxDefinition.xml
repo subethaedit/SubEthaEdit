@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE syntax SYSTEM "syntax.dtd">
 <syntax>
 
@@ -162,7 +162,7 @@
             <state id="begin end Block" type="block" foldable="yes" scope="meta.block">
                 <begin><regex>(?&lt;=\s)(?:begin|case|record)(?=\s)</regex></begin>
                 <end><regex>(?&lt;=\s)end(?=[\s;])</regex></end>
-                <import />
+                <import/>
             </state>
 
         </default>

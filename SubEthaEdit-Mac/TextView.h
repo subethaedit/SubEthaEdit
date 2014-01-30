@@ -20,14 +20,12 @@
         BOOL isDoingUglyHack;
     } I_flags;
     float I_pageGuidePosition;
-    NSTimer *I_timer;
-	PlainTextEditor* editor;
 }
+
+@property (nonatomic, weak) PlainTextEditor *editor;
 
 - (id)delegate;
 
-- (void)setEditor:(PlainTextEditor*)inEditor;
-- (PlainTextEditor*)editor;
 + (void)setDefaultMenu:(NSMenu *)aMenu;
 - (void)setPageGuidePosition:(float)aPosition;
 - (BOOL)isPasting;
@@ -42,6 +40,8 @@
 - (IBAction)foldAllCommentBlocks:(id)aSender;
 - (IBAction)foldAllTopLevelBlocks:(id)aSender;
 - (IBAction)foldAllBlocksAtTagLevel:(id)aSender;
+
+- (void)adjustContainerInsetToScrollView;
 
 @end
 

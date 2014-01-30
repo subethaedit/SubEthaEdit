@@ -1,10 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <!DOCTYPE syntax SYSTEM "syntax.dtd">
 <syntax>
 
     <head>
         <name>Conference</name> <!-- The definitions title -->
-        <autocompleteoptions use-spelling-dictionary="yes" />
+        <autocompleteoptions use-spelling-dictionary="yes"/>
         <charsintokens><![CDATA[_0987654321abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ-@"]]></charsintokens> 
     </head>
 
