@@ -83,7 +83,7 @@
 			</state>
 
 	
-			<state id="Footnotes" color="#236e25" scope="structured.other.footnote">
+			<state id="Footnotes" color="#236e25" scope="structured.footnote">
 				<begin><regex>\((?=\()</regex></begin>
 				<end><regex>(?&lt;=\))\)</regex></end>
 			</state>
