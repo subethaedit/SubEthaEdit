@@ -36,7 +36,7 @@
                 <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 			</state>
 
-			<state id="Inline Math" color="#a00" font-style="italic" scope="markup.inline.math">
+			<state id="Inline Math" color="#a00" font-style="italic" scope="structured.math">
 				<begin><regex>(?&lt;!\\)\$</regex></begin>
 				<end><regex>(?&lt;!\\)\$</regex></end>
 			</state>
