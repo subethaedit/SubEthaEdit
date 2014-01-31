@@ -119,41 +119,41 @@ Modes - Coda2 - relative path in repository: `Coda2Modes/`
 
 * Examples for **XMLTagsForScope.xslt**
 	
-		xsltproc --param scope "'language.operator'" --novalid XMLTagsForScope.xslt Coda2Modes/PHP-HTML.mode/Contents/Resources/SyntaxDefinition.xml | see --mode xml
+		xsltproc --param scope "'language.operator'" --novalid XMLTagsForScope.xslt ../../Modes/PHP-HTML.mode/Contents/Resources/SyntaxDefinition.xml | see --mode xml
 	
-		find Coda2Modes/ -name "SyntaxDefinition.xml" -exec xsltproc --param scope "'language.operator'" --novalid XMLTagsForScope.xslt \{\} \; | see --mode xml
+		find ../../Modes/ -name "SyntaxDefinition.xml" -exec xsltproc --param scope "'language.operator'" --novalid XMLTagsForScope.xslt \{\} \; | see --mode xml
 	
-		( echo "<modes>"; find Coda2Modes/ -name "SyntaxDefinition.xml" -exec xsltproc --param scope "'language.operator'" --novalid XMLTagsForScope.xslt \{\} \;; echo "</modes>" ) | see --mode xml
+		( echo "<modes>"; find ../../Modes/ -name "SyntaxDefinition.xml" -exec xsltproc --param scope "'language.operator'" --novalid XMLTagsForScope.xslt \{\} \;; echo "</modes>" ) | see --mode xml
 
 	
 * Examples for **ScopesInMode.xslt**
 		
-		xsltproc --novalid ScopesInMode.xslt Coda2Modes/PHP-HTML.mode/Contents/Resources/SyntaxDefinition.xml | see
+		xsltproc --novalid ScopesInMode.xslt ../../Modes/PHP-HTML.mode/Contents/Resources/SyntaxDefinition.xml | see
 
-		find Coda2Modes/ -name "SyntaxDefinition.xml" -exec xsltproc --novalid ScopesInMode.xslt \{\} \; | see
+		find ../../Modes/ -name "SyntaxDefinition.xml" -exec xsltproc --novalid ScopesInMode.xslt \{\} \; | see
 
-		find Coda2Modes/ -name "SyntaxDefinition.xml" -exec xsltproc --novalid ScopesInMode.xslt \{\} \; | awk '{print $1}' | sort | uniq | see
+		find ../../Modes/ -name "SyntaxDefinition.xml" -exec xsltproc --novalid ScopesInMode.xslt \{\} \; | awk '{print $1}' | sort | uniq | see
 		
 
 * Examples for **StyleSheetForAttribute.xslt**
 
-		xsltproc --param style-attribute "'background-color'" --novalid StyleSheetForAttribute.xslt Coda2Modes/ASP-HTML.mode/Contents/Resources/SyntaxDefinition.xml | see --mode css
+		xsltproc --param style-attribute "'background-color'" --novalid StyleSheetForAttribute.xslt ../../Modes/ASP-HTML.mode/Contents/Resources/SyntaxDefinition.xml | see --mode css
 
-		find Coda2Modes/ -name "SyntaxDefinition.xml" -exec xsltproc --param style-attribute "'background-color'" --novalid StyleSheetForAttribute.xslt \{\} \; | sort | uniq | see --mode css
+		find ../../Modes/ -name "SyntaxDefinition.xml" -exec xsltproc --param style-attribute "'background-color'" --novalid StyleSheetForAttribute.xslt \{\} \; | sort | uniq | see --mode css
 	
 
 * Examples for **StyleSheetForAllAttributes.xslt**
 
-		xsltproc --novalid StyleSheetForAllAttributes.xslt Coda2Modes/ASP-HTML.mode/Contents/Resources/SyntaxDefinition.xml | see --mode css
+		xsltproc --novalid StyleSheetForAllAttributes.xslt ../../Modes/ASP-HTML.mode/Contents/Resources/SyntaxDefinition.xml | see --mode css
 
-		find Coda2Modes -name "SyntaxDefinition.xml" -exec xsltproc --novalid StyleSheetForAllAttributes.xslt \{\} \; | sort | see --mode css
+		find ../../Modes -name "SyntaxDefinition.xml" -exec xsltproc --novalid StyleSheetForAllAttributes.xslt \{\} \; | sort | see --mode css
 	
 
 * Examples for **RemoveStyleAttributes.xslt**
 
-		xsltproc --novalid RemoveStyleAttributes.xslt Coda2Modes/ASP-HTML.mode/Contents/Resources/SyntaxDefinition.xml | see --mode xml
+		xsltproc --novalid RemoveStyleAttributes.xslt ../../Modes/ASP-HTML.mode/Contents/Resources/SyntaxDefinition.xml | see --mode xml
 
 * Examples for **RenameScope.xslt**
  
-		xsltproc --param from "'meta.default'" --param to "'magic.bullet'" --novalid RenameScope.xslt Coda2Modes/PHP-HTML.mode/Contents/Resources/SyntaxDefinition.xml | see --mode xml
+		xsltproc --param from "'meta.default'" --param to "'magic.bullet'" --novalid RenameScope.xslt ../../Modes/PHP-HTML.mode/Contents/Resources/SyntaxDefinition.xml | see --mode xml
 
