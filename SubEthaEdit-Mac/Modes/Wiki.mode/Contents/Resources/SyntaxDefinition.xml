@@ -15,7 +15,7 @@
 			<state id="Bold" color="#000" font-weight="bold" scope="markup.bold">
 				<begin><regex>\*\*</regex></begin>
 				<end><regex>\*\*</regex></end>
-				<state id="Bold Italic" color="#000" font-weight="bold" font-style="italic" scope="markup.bold.italic">
+				<state id="Bold Italic" color="#000" font-weight="bold" font-style="italic" scope="markup.italicbold">
 					<begin><regex>\/\/</regex></begin>
 					<end><regex>\/\/</regex></end>
 			   </state>
@@ -24,7 +24,7 @@
 			<state id="Italic" color="#000" font-style="italic" scope="markup.italic">
 				<begin><regex>\/\/</regex></begin>
 				<end><regex>(?&lt;!p:|s:)\/\/|[\r\n]</regex></end>
-				<state id="Italic Bold" color="#000" font-weight="bold" font-style="italic" scope="markup.italic.bold">
+				<state id="Italic Bold" color="#000" font-weight="bold" font-style="italic" scope="markup.italicbold">
 					<begin><regex>\*\*</regex></begin>
 					<end><regex>\*\*</regex></end>
 				</state>
