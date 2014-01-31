@@ -270,8 +270,8 @@ static NSAttributedString *S_dragString = nil;
     BOOL shouldHideTabBar = [[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey];
     [I_tabBar setHideForSingleTab:!shouldHideTabBar];
     [I_tabBar hideTabBar:!shouldHideTabBar animate:NO];
-//    [I_tabBar setCellOptimumWidth:160];
-//    [I_tabBar setCellMinWidth:120];
+    [I_tabBar setCellOptimumWidth:300];
+    [I_tabBar setCellMinWidth:140];
 
 	NSMutableParagraphStyle *paragraphStyle = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
     [paragraphStyle setAlignment:NSCenterTextAlignment];

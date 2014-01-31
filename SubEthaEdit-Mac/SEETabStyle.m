@@ -78,6 +78,27 @@
 	return 0;
 }
 
+// Constraints
+- (CGFloat)minimumWidthOfTabCell:(PSMTabBarCell *)cell {
+	return 140.;
+}
+
+- (CGFloat)desiredWidthOfTabCell:(PSMTabBarCell *)cell {
+	return 300.;
+}
+
+- (NSRect)closeButtonRectForBounds:(NSRect)theRect ofTabCell:(PSMTabBarCell *)cell {
+	NSRect result = theRect;
+	result.size = NSMakeSize(12, 13);
+	result.origin.x += 11;
+	result.origin.y += 6;
+	return result;
+}
+
+
+- (CGFloat)heightOfTabCellsForTabBarControl:(PSMTabBarControl *)tabBarControl {
+	return [SEETabStyle desiredTabBarHeight];
+}
 
 - (void)drawBezelOfTabBarControl:(PSMTabBarControl *)tabBarControl inRect:(NSRect)rect {
 	[[NSColor redColor] set];
@@ -88,13 +109,61 @@
 	NSDrawThreePartImage(rect, nil, backgroundImage, nil, NO, NSCompositeSourceOver, 1.0, tabBarControl.isFlipped);
 }
 
+- (NSImage *)closeButtonImageOfType:(PSMCloseButtonImageType)type forTabCell:(PSMTabBarCell *)cell {
+	BOOL isActive = [cell.controlView.window TCM_isActive];
+	switch (type) {
+		case PSMCloseButtonImageTypeDirtyRollover:
+		case PSMCloseButtonImageTypeRollover:
+			return [SEETabStyle imageForWindowActive:isActive name:@"ActiveTabCloseRollover"];
+		case PSMCloseButtonImageTypeDirtyPressed:
+		case PSMCloseButtonImageTypePressed:
+			return [SEETabStyle imageForWindowActive:isActive name:@"ActiveTabClosePressed"];
+		default: return nil;
+	}
+}
+
 - (void)drawBezelOfTabCell:(PSMTabBarCell *)cell withFrame:(NSRect)frame inTabBarControl:(PSMTabBarControl *)tabBarControl {
-	BOOL isActive = [tabBarControl.window TCM_isActive];
-	NSImage *leftCap  = [SEETabStyle imageForWindowActive:isActive name:@"ActiveTabLeftCap"];
-	NSImage *fill     = [SEETabStyle imageForWindowActive:isActive name:@"ActiveTabFill"];
-	NSImage *rightCap = [SEETabStyle imageForWindowActive:isActive name:@"ActiveTabRightCap"];
-	NSDrawThreePartImage(frame, leftCap, fill, rightCap, NO, NSCompositeSourceOver, 1.0, tabBarControl.isFlipped);
+	BOOL isWindowActive = [tabBarControl.window TCM_isActive];
+	BOOL isActive = [cell tabState] & PSMTab_SelectedMask;
+	BOOL isLeft = [cell tabState] & PSMTab_PositionLeftMask;
+	BOOL isRight = [cell tabState] & PSMTab_PositionRightMask;
 	
+	NSInteger selectedCellIndex = 0;
+	for (PSMTabBarCell *tabBarCell in [tabBarControl cells]) {
+		if (tabBarCell.tabState & PSMTab_SelectedMask) {
+			break;
+		}
+		selectedCellIndex++;
+	};
+	NSInteger myIndex = [[tabBarControl cells] indexOfObject:cell];
+	
+	BOOL isLeftOfSelected  = [cell tabState] & PSMTab_RightIsSelectedMask;
+	BOOL isRightOfSelected  = [cell tabState] & PSMTab_LeftIsSelectedMask;
+	isLeftOfSelected = myIndex < selectedCellIndex;
+	isRightOfSelected = myIndex > selectedCellIndex;
+	
+	NSImage *leftCap  = [SEETabStyle imageForWindowActive:isWindowActive name:@"ActiveTabLeftCap"];
+	NSImage *fill     = [SEETabStyle imageForWindowActive:isWindowActive name:@"ActiveTabFill"];
+	NSImage *rightCap = [SEETabStyle imageForWindowActive:isWindowActive name:@"ActiveTabRightCap"];
+	
+	if (!isActive) {
+		leftCap  = [SEETabStyle imageForWindowActive:isWindowActive name:@"InactiveTabLeftCap"];
+		fill     = nil;
+		rightCap = [SEETabStyle imageForWindowActive:isWindowActive name:@"InactiveTabRightCap"];
+	}
+	
+	NSDrawThreePartImage(CGRectInset(frame,8,0), nil, fill, nil, NO, NSCompositeSourceOver, 1.0, tabBarControl.isFlipped);
+	NSRect leftRect = frame;
+	leftRect.size.width = leftCap.size.width;
+	if (isActive || isLeftOfSelected) {
+		[leftCap drawInRect:leftRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	}
+	NSRect rightRect = frame;
+	rightRect.size.width = rightCap.size.width;
+	rightRect.origin.x = CGRectGetMaxX(frame) - rightRect.size.width;
+	if (isActive || isRightOfSelected) {
+		[rightCap drawInRect:rightRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	}
 }
 
 
