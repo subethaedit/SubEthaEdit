@@ -1,6 +1,5 @@
-################################################################// Used in The Modes so far: actionscript, applescript, asp, base, bash, c, <ENTER HERE>, ruby
+################################################################ // Used in the (so far default) SEE modes
 
-// TODO
 comment 					*//JavadocComment 
 comment.block 				// Comment
 comment.block.documentation
@@ -18,98 +17,59 @@ comment.line.number-sign
 comment.line.php
 comment.line.vb
 
-### 
-constant					// Constants
--- constant.character --> constant.numeric.character
--- constant.language.cocoa --> support.constant(.cocoa)
--- constant.language.types.cocoa --> support.type(.cocoa)
-
--- constant.numeric			*// Numbers --> Zahlenliterale --> language.constant.numeric
--- constant.numeric.character
--- constant.numeric.js
--- constant.numeric.keyword 	*// Constants --> keyword.constant // support.constant
--- constant.numeric.keyword.js
--- constant.numeric.preprocessor --> language.constant.numeric.preprocessor
-
--- entity.name.method -> language.subroutine.method
--- entity.name.type.classes.cocoa -> support.class.standard(.cocoa)
--- entity.name.function.cocoa -> support.subroutine.standard(.cocoa)
--- 								support.subroutine.common(.third-party)
--- 								support.subroutine.common(.rails)
-
-
 ### keyword marks the inner workings and special words of a language (basics)
 keyword						*// Keywords, Predefined Variables
-keyword.constant		// true, false, undefined, nil, NULL
-keyword.type				*// Types - int NSObject (only!?)
-keyword.type.js
-keyword.type.objj
 keyword.class				// Classes
+++ keyword.constant		// true, false, undefined, nil, NULL
 keyword.control				*// Control Statements - if else while end
 keyword.control.asp
 keyword.control.js
 keyword.control.vb
-++ keyword.control.definition --> class function
+++ keyword.control.definition used for: class function keywords
 keyword.directive.objj // @public, @private
--- keyword.function			// Functions (Commands) --> keyword.subroutine bash: builtin, ruby: part of language : exit
 -- keyword.objective-c
--- keyword.operator --> language.operator
-
-++ keyword.variable.global
+keyword.subroutine // todo: bash: builtin, ruby: part of language : exit
+keyword.type				*// Types - int NSObject (only!?)
+keyword.type.js
+keyword.type.objj
+keyword.variable.global // todo: find this for perl (??) and php (GLOBALS)
+keyword.vb
 
 ### everything language relatedelse basically
-++ language.subroutine.method
-++ language.subroutine.method.definition
-++ language.subroutine.method.call
-++ language.subroutine.function
-++ language.subroutine.function.definition
-++ language.subroutine.function.call
--- language.function			*// FunctionRegex --> language.subroutine.*
--- language.function.js
--- language.function.php
+language.constant.numeric
+language.constant.numeric.character
+language.constant.numeric.js
+language.constant.numeric.keyword
+language.constant.numeric.keyword.js
+language.constant.numeric.preprocessor // numbers in preprocessor things - C mode
 language.operator			*// Operators - +, -,
-+++ language.operator.special			*// Operators: erlang "language.operator"
+++ language.operator.special			*// Operators: erlang "language.operator"
 language.preprocessor		// Preprocessor --> #import
 language.property			*// Properties -> used in coda 2
 language.record
+language.subroutine.function
+++ language.subroutine.function.call
+++ language.subroutine.function.definition
+language.subroutine.function.js
+language.subroutine.function.php
+language.subroutine.method
+++ language.subroutine.method.call
+++ language.subroutine.method.definition
+language.subroutine.method.special.php
 language.variable
 language.variable.class
 language.variable.global
--- language.variable.global.builtin --> keyword.variable.global // todo: find this for perl (??) and php (GLOBALS)
 language.variable.instance
--- language.variable.perl --> language.variable
 language.variable.php
 language.variable.string // variables in strings!
 language.variable.string.php
 
-// TODO
-markup.bold
-markup.bold.italic
-markup.heading.1
-markup.heading.2
-markup.heading.3
-markup.heading.4
-markup.heading.5
-markup.italic
-markup.italic.bold
-markup.list.numbered
-markup.list.unnumbered
-markup.other.footnote
-markup.other.line
-markup.quote.even
-markup.quote.odd
-markup.raw.code
-markup.raw.file
-markup.raw.indented
-
-// TODO
 markup.comment
 markup.constant.entity
 markup.declaration
 markup.declaration.string.double
 markup.declaration.string.single
-markup.inline.cdata 			*//
-markup.inline.math
+markup.inline.cdata
 markup.processing
 markup.processing.attribute.value.string
 markup.processing.languageswitch
@@ -128,6 +88,7 @@ meta.block.create-table
 meta.block.css
 meta.block.curly
 meta.block.curly.js
+-- meta.block.curlybraces
 meta.block.directives
 meta.block.interpolation
 meta.block.js
@@ -147,12 +108,12 @@ meta.invalid				*//
 meta.invalid.ampersand
 meta.invalid.sgmlcomment
 meta.link
+meta.link.email
 meta.link.portion
 meta.preprocessor.nowiki
 meta.state
 meta.tag.erbstart
 meta.tag.preprocessor
-
 
 ### string
 string.angle
@@ -164,8 +125,8 @@ string.array.percent.parentheses
 string.double				// Double Quoted String
 string.double.js
 string.double.nsstring.objj
-string.double.php
 string.double.openstep
+string.double.php
 string.double.vb
 string.exec.backtick
 string.exec.percentx
@@ -182,6 +143,7 @@ string.percentage.angle
 string.percentage.bracket
 string.percentage.curly
 string.percentage.parentheses
+string.regex
 string.regex.js
 string.regex.percentage
 string.regex.percentage.angle
@@ -189,6 +151,7 @@ string.regex.percentage.bracket
 string.regex.percentage.curly
 string.regex.percentage.parentheses
 string.single				// Single Quoted String
+string.single.backtick
 string.single.js
 string.single.php
 string.symbol
@@ -197,11 +160,46 @@ string.symbol.percent.angle
 string.symbol.percent.bracket
 string.symbol.percent.curly
 string.symbol.percent.parentheses
---- string.other.backtick --> string.single.backtick
-+++ string.single.backtick
 
-// TODO
-style.at-rule
+structured -> structured.section
+++ structured.anchor
+structured.bold
+structured.changes.added
+structured.changes.deleted
+structured.changes.modified
+structured.changes.replaced
+structured.changes.revision
+structured.changes.user
+structured.comment
+structured.emphasis
+structured.event
+structured.footnote
+structured.heading
+structured.heading
+structured.heading.1
+structured.heading.2
+structured.heading.3
+structured.heading.4
+structured.heading.5
+structured.heading.section -> structured.section
+structured.italic
+structured.italicbold
+structured.list.numbered
+structured.list.unnumbered
+structured.math
+++ structured.quote
+structured.quote.even
+structured.quote.odd
+structured.raw.code
+structured.raw.indented
+structured.reference
+++ structured.section
+structured.separator.horizontal
+structured.separator.vertical
+structured.tool-tip
+structured.variable
+
+style.at-rule // @screen
 style.comment.block
 style.comment.block.documentation
 style.property.name
@@ -211,41 +209,24 @@ style.value.numeric
 style.value.string.double
 style.value.string.single
 
-
-// TODO
-structured.changelog.added
-structured.changelog.deleted
-structured.changelog.heading
-structured.changelog.modified
-structured.changelog.replaced
-structured.changelog.revision
-structured.changelog.user
-structured.emphasis
-structured.event
-structured.heading
-structured.heading.section
-structured.reference
-structured.separator
-structured.separator.horizontal
-structured.separator.vertical
-structured.tool-tip
-structured.variable
-
 ### language support
--- support						--> support.whatevberthatmaybe// Application API and Central API - mostly used for framework classes and constants?
 support.accessor
 support.class
+support.class.standard.cocoa
 support.class.standard.js
-support.class.standard.obj
 support.class.standard.objj
 support.constant
+support.constant.cocoa
 support.constant.objj
--- support.function --> support.subroutine.function
--- support.function.php --> support.subroutine.function.php
--- support.method --> support.subroutine.method
--- support.method.special.php --> language.subroutine.method.special.php
+++ support.subroutine.common(.third-party)
+++ support.subroutine.common(.rails)
+support.subroutine.function
+support.subroutine.function.php
+support.subroutine.method
+support.subroutine.standard.cocoa
+support.type.cocoa
 
-################################################################// Used in Coda Style Sheets
+################################################################ // Used in Coda Style Sheets
 -comment
 -constant.numeric
 -constant.numeric.keyword
@@ -284,25 +265,24 @@ style.comment
 style.value.string
 -support
 
-################################################################//Helper Regex
-.*scope="(.*)".*
-^\s.*
-^<.*
-^\n
+################################################################ // Questions and TODOS
+##### TODO TODO TODO TODO
 
-################################################################//Questions
-scope for nil, true, false, pi -> constant? literal?
-LassoScriot <-> CFML -> delete one, which one?
-Diff scopes are fishy
-LaTeX scopes are fishy (made by me)
-libraries?
-pretty sure indent="" is almost never used?
-one step tidy xml
-objective j default state block - ?
-pragma(s)?
-"<!--  This is the "we do a complete HTML mode and import php everywhere" section -->" -> similar comments all over the place - smart thing?
-string.single/string.double were string.quoted.single/string.quoted.double in some instances
-is there a place where ….js -> is that defined somewhere?
-sometimes meta default is used for tag state (or similar) (?)
-
-special/weird cases: Diff, SVNNLog | Markup, Conference | LaTeX | Wiki
+* check the scopes that include the language ending
+* what scope to use? Constants --> keyword.constant (nil, true, false, pi?) // support.constant // language.constant.numeric.keyword ( nil, true, false, pi?)???
+* new scopes for keyword.objective-c
+* make those structered: Diff, SVNNLog | Markup, Conference | LaTeX | Wiki
+* SDEF mode misses SymbolM
+* make xml Schema for SyntaxDefinition
+* check for background-color:none in SubethaEdit (might be used to reset to the default instead of inheriting from somewhere
+* make xslt for inverted stylesheet -> check for autogenerated (implicit) inverted colors
+* make stylesheets for langs, normal and inverted-versions
+* remove style information from the syntaxdefinitions
+* LassoScript <-> CFML -> delete one, which one? because they are almost the same
+* libraries? (eg. QuartzCore import?) names?
+* pretty sure indent="" is almost never used?
+* one step tidy xml
+* objective j default state block - ?
+* "<!--  This is the "we do a complete HTML mode and import php everywhere" section -->" -> similar comments all over the place - smart thing?
+* is there a place where ….js -> is that defined somewhere?
+* sometimes meta default is used for tag state (or similar) (?)
