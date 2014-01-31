@@ -45,7 +45,6 @@ languages=ActionScript AppleScript ASP-HTML \
 mode_directory=../../Modes/
 #mode_directory=Coda2Modes/
 #mode_directory=ResultModes/
-#mode_directory=/Users/Lisa/Desktop/Modes/
 
 ## Directory to store the resulting modes at
 result_mode_directory=ResultModes/
@@ -74,10 +73,38 @@ mode=PHP-HTML
 
 ################################################################ Startup
 
-all: how-to
+all: help
 
-how-to:
-	@ echo " HOW-TO - call with the options you want, this is an umbrella makefile for rename, remove-styles, create-style-sheet";
+help:
+	@ bold=`tput bold`; \
+	normal=`tput sgr0`; \
+    echo  " ################################## HOW-TO ##################################                                                      \n" \
+            "                                                                                                                                 \n" \
+            " This Makefile acts as a umbrella makefile, using other makefiles to do the actual work.                                         \n" \
+            " The following options are available:                                                                                            \n" \
+            "                                                                                                                                 \n" \
+            " $${bold}make$${normal} and $${bold}make help$${normal} : prints a short how-to                                                                                  \n" \
+            "                                                                                                                                 \n" \
+            " $${bold}make create-style-sheet$${normal} generates style sheets from the style info in the definition files                    \n" \
+            " $${bold}make create-style-sheet mode_directory=<path/to/Modes/Folder/>$${normal} generates style sheets for the modes in folder \n" \
+            " $${bold}make create-style-sheet style_directory=<path/to/Style/Folder/>$${normal} generates style sheets in folder              \n" \
+            "                                                                                                                                 \n" \
+            " $${bold}make remove-styles$${normal} generates SyntaxDefinition.xmls without style information                                  \n" \
+            " $${bold}make remove-styles mode_directory=<path/to/Modes/Folder/>$${normal} generates new xml for the modes in folder           \n" \
+            " $${bold}make remove-styles result_mode_directory=<path/to/Result/Mode/Folder/>$${normal} generates new xml in folder            \n" \
+            "                                                                                                                                 \n" \
+            " $${bold}make style-extraction$${normal} calls both create-style-sheet and remove-styles for one step extraction                 \n" \
+            "                                                                                                                                 \n" \
+            " $${bold}make rename from=<scope> to=<scope>$${normal} generates new xml in results folder with renamed scopes                   \n" \
+            "                                                                                                                                 \n" \
+            " $${bold}make find-scope scope=<scope>$${normal} generates a xml files containing all the uses of <scope>                        \n" \
+            " $${bold}make all-scopes-one-mode mode=<mode>$${normal} generates an annotated txt with scopes used by a mode                    \n" \
+            " $${bold}make all-scopes-by-lang$${normal} generates an annotated txt with scopes used by all modes                              \n" \
+            " $${bold}make all-scopes-uniqued$${normal} generates a txt with sorted scopes used by all modes                                  \n" \
+            "                                                                                                                                 \n" \
+            " $${bold}make clean$${normal} deletes all the generated .sss files and result .mode directories                                  \n" \
+            "                                                                                                                                 \n" \
+            " ** For more information about this Makefile drop it onto the text editor of your choice and have fun. **                        \n";
 
 ################################################################ Real Recipes
 
