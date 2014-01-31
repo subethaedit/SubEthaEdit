@@ -124,7 +124,7 @@
 				<end><regex>&lt;/code&gt;</regex></end>
 			</state>
 
-			<state id="File Verbatim" color="#4b4b4b" font-weight="bold" foldable="yes" scope="markup.raw.file">
+			<state id="File Verbatim" color="#4b4b4b" font-weight="bold" foldable="yes" scope="structured.reference">
 				<begin><regex>&lt;file[^&gt;]*&gt;</regex></begin>
 				<end><regex>&lt;/file&gt;</regex></end>
 			</state>
