@@ -36,6 +36,37 @@
     return @"SubEthaEdit";
 }
 
++ (NSDictionary *)tabTitleAttributesForWindowActive:(BOOL)isActive {
+	static NSDictionary *attributes = nil;
+	if (!attributes) {
+		NSShadow *shadow = [[NSShadow alloc] init];
+		[shadow setShadowColor:[[NSColor whiteColor] colorWithAlphaComponent:0.4]];
+		[shadow setShadowBlurRadius:1.0];
+		[shadow setShadowOffset:NSMakeSize(0.0, -1.0)];
+		
+		NSMutableDictionary *baseAttributes = [NSMutableDictionary new];
+		baseAttributes[NSFontAttributeName] = [NSFont fontWithName:@"LucidaGrande-Bold" size:11];
+		baseAttributes[NSForegroundColorAttributeName] = [NSColor blackColor];
+		baseAttributes[NSShadowAttributeName] = shadow;
+
+		NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
+		[paragraphStyle setAlignment:NSCenterTextAlignment];
+		[paragraphStyle setLineBreakMode:NSLineBreakByTruncatingMiddle];
+		baseAttributes[NSParagraphStyleAttributeName] = paragraphStyle;
+
+		
+		NSMutableDictionary *inactiveAttributes = [baseAttributes mutableCopy];
+		inactiveAttributes[NSForegroundColorAttributeName] = [NSColor colorWithWhite:0.3 alpha:1.0];
+
+		
+		attributes = @{@"AW" : [baseAttributes copy], @"IW" : [inactiveAttributes copy]};
+	
+	};
+	NSString *isActivePrefix = isActive ? @"AW" : @"IW";
+	NSDictionary *result = attributes[isActivePrefix];
+	return result;
+}
+
 + (NSImage *)imageForWindowActive:(BOOL)isActive name:(NSString *)aName {
 	static NSDictionary *images = nil;
 	if (!images) images = @{@"AW" : [NSMutableDictionary new], @"IW" : [NSMutableDictionary new]};
@@ -56,13 +87,13 @@
 }
 
 - (NSImage *)addTabButtonImage {
-	return [NSImage imageNamed:@"AddTab"];
+	return [SEETabStyle imageForWindowActive:YES name:@"AddTabButton"];
 }
 - (NSImage *)addTabButtonPressedImage {
-	return [NSImage imageNamed:@"AddTab"];
+	return [SEETabStyle imageForWindowActive:YES name:@"AddTabButtonPushed"];
 }
 - (NSImage *)addTabButtonRolloverImage {
-	return [NSImage imageNamed:@"AddTab"];
+	return [SEETabStyle imageForWindowActive:YES name:@"AddTabButton"];
 }
 
 - (CGFloat)leftMarginForTabBarControl:(PSMTabBarControl *)tabBarControl {
@@ -112,6 +143,12 @@
 - (NSImage *)closeButtonImageOfType:(PSMCloseButtonImageType)type forTabCell:(PSMTabBarCell *)cell {
 	BOOL isActive = [cell.controlView.window TCM_isActive];
 	switch (type) {
+		case PSMCloseButtonImageTypeStandard:
+			if (cell.tabState & PSMTab_SelectedMask) {
+				return [SEETabStyle imageForWindowActive:isActive name:@"ActiveTabClose"];
+			} else {
+				return nil;
+			}
 		case PSMCloseButtonImageTypeDirtyRollover:
 		case PSMCloseButtonImageTypeRollover:
 			return [SEETabStyle imageForWindowActive:isActive name:@"ActiveTabCloseRollover"];
@@ -125,8 +162,6 @@
 - (void)drawBezelOfTabCell:(PSMTabBarCell *)cell withFrame:(NSRect)frame inTabBarControl:(PSMTabBarControl *)tabBarControl {
 	BOOL isWindowActive = [tabBarControl.window TCM_isActive];
 	BOOL isActive = [cell tabState] & PSMTab_SelectedMask;
-	BOOL isLeft = [cell tabState] & PSMTab_PositionLeftMask;
-	BOOL isRight = [cell tabState] & PSMTab_PositionRightMask;
 	
 	NSInteger selectedCellIndex = 0;
 	for (PSMTabBarCell *tabBarCell in [tabBarControl cells]) {
@@ -166,5 +201,9 @@
 	}
 }
 
+- (void)drawTitleOfTabCell:(PSMTabBarCell *)cell withFrame:(NSRect)frame inTabBarControl:(PSMTabBarControl *)tabBarControl {
+	NSString *titleString = cell.title;
+	[titleString drawWithRect:CGRectOffset(frame,0,16) options:NSStringDrawingDisableScreenFontSubstitution attributes:[SEETabStyle tabTitleAttributesForWindowActive:[tabBarControl.window TCM_isActive]]];
+}
 
 @end

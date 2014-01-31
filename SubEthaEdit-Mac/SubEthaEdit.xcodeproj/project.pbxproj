@@ -386,6 +386,14 @@
 		F2ABC4D60C799775007437A2 /* TCMMMLoggingState.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC4D40C799775007437A2 /* TCMMMLoggingState.m */; };
 		F2ABC4E30C799CCD007437A2 /* TCMMMLoggedOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC4E10C799CCD007437A2 /* TCMMMLoggedOperation.m */; };
 		F2ABC5400C79D9AB007437A2 /* DebugHistoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC5300C79D898007437A2 /* DebugHistoryController.m */; };
+		F2B136E6189BF27000430639 /* AW AddTabButtonRollover.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2B136DE189BF27000430639 /* AW AddTabButtonRollover.tiff */; };
+		F2B136E7189BF27000430639 /* AW AddTabButtonRolloverBG_Pressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2B136DF189BF27000430639 /* AW AddTabButtonRolloverBG_Pressed.tiff */; };
+		F2B136E8189BF27000430639 /* AW AddTabButtonRolloverBG.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2B136E0189BF27000430639 /* AW AddTabButtonRolloverBG.tiff */; };
+		F2B136E9189BF27000430639 /* AW AddTabButtonRolloverPlus.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2B136E1189BF27000430639 /* AW AddTabButtonRolloverPlus.tiff */; };
+		F2B136EA189BF27000430639 /* IW AddTabButton.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2B136E2189BF27000430639 /* IW AddTabButton.tiff */; };
+		F2B136EB189BF27000430639 /* AW AddTabButton.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2B136E3189BF27000430639 /* AW AddTabButton.tiff */; };
+		F2B136EC189BF27000430639 /* AW AddTabButtonPushed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2B136E4189BF27000430639 /* AW AddTabButtonPushed.tiff */; };
+		F2B136ED189BF27000430639 /* AW AddTabButtonRollover_Pressed.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2B136E5189BF27000430639 /* AW AddTabButtonRollover_Pressed.tiff */; };
 		F2B18CEB0C4BB550000BB062 /* GlassButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F2B18CE70C4BB550000BB062 /* GlassButtonCell.m */; };
 		F2B18CEE0C4BB550000BB062 /* GlassButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F2B18CEA0C4BB550000BB062 /* GlassButton.m */; };
 		F2B91DA00D7EEE3400626BBC /* FriendCast13None.png in Resources */ = {isa = PBXBuildFile; fileRef = F2B91D9F0D7EEE3400626BBC /* FriendCast13None.png */; };
@@ -1191,6 +1199,14 @@
 		F2ABC4E20C799CCD007437A2 /* TCMMMLoggedOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = TCMMMLoggedOperation.h; path = TCMMillionMonkeys/TCMMMLoggedOperation.h; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		F2ABC52F0C79D898007437A2 /* DebugHistoryController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = DebugHistoryController.h; path = Debug/DebugHistoryController.h; sourceTree = "<group>"; };
 		F2ABC5300C79D898007437A2 /* DebugHistoryController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = DebugHistoryController.m; path = Debug/DebugHistoryController.m; sourceTree = "<group>"; };
+		F2B136DE189BF27000430639 /* AW AddTabButtonRollover.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "AW AddTabButtonRollover.tiff"; sourceTree = "<group>"; };
+		F2B136DF189BF27000430639 /* AW AddTabButtonRolloverBG_Pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "AW AddTabButtonRolloverBG_Pressed.tiff"; sourceTree = "<group>"; };
+		F2B136E0189BF27000430639 /* AW AddTabButtonRolloverBG.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "AW AddTabButtonRolloverBG.tiff"; sourceTree = "<group>"; };
+		F2B136E1189BF27000430639 /* AW AddTabButtonRolloverPlus.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "AW AddTabButtonRolloverPlus.tiff"; sourceTree = "<group>"; };
+		F2B136E2189BF27000430639 /* IW AddTabButton.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "IW AddTabButton.tiff"; sourceTree = "<group>"; };
+		F2B136E3189BF27000430639 /* AW AddTabButton.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "AW AddTabButton.tiff"; sourceTree = "<group>"; };
+		F2B136E4189BF27000430639 /* AW AddTabButtonPushed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "AW AddTabButtonPushed.tiff"; sourceTree = "<group>"; };
+		F2B136E5189BF27000430639 /* AW AddTabButtonRollover_Pressed.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; path = "AW AddTabButtonRollover_Pressed.tiff"; sourceTree = "<group>"; };
 		F2B18CE70C4BB550000BB062 /* GlassButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlassButtonCell.m; sourceTree = "<group>"; };
 		F2B18CE80C4BB550000BB062 /* GlassButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = GlassButtonCell.h; sourceTree = "<group>"; };
 		F2B18CE90C4BB550000BB062 /* GlassButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = GlassButton.h; sourceTree = "<group>"; };
@@ -2324,6 +2340,14 @@
 		F2D3E4E4189941F50096425B /* Tabs */ = {
 			isa = PBXGroup;
 			children = (
+				F2B136DE189BF27000430639 /* AW AddTabButtonRollover.tiff */,
+				F2B136DF189BF27000430639 /* AW AddTabButtonRolloverBG_Pressed.tiff */,
+				F2B136E0189BF27000430639 /* AW AddTabButtonRolloverBG.tiff */,
+				F2B136E1189BF27000430639 /* AW AddTabButtonRolloverPlus.tiff */,
+				F2B136E2189BF27000430639 /* IW AddTabButton.tiff */,
+				F2B136E3189BF27000430639 /* AW AddTabButton.tiff */,
+				F2B136E4189BF27000430639 /* AW AddTabButtonPushed.tiff */,
+				F2B136E5189BF27000430639 /* AW AddTabButtonRollover_Pressed.tiff */,
 				F2D3E4E5189941F50096425B /* AddTab.pdf */,
 				F2D3E4E6189941F50096425B /* AW ActiveTabClose.png */,
 				F2D3E4E7189941F50096425B /* AW ActiveTabClose@2x.png */,
@@ -2661,6 +2685,7 @@
 				142890C0095743F200D14688 /* Internet.tiff in Resources */,
 				142890C1095743F200D14688 /* InternetResume.tiff in Resources */,
 				142890C2095743F200D14688 /* InternetStop.tiff in Resources */,
+				F2B136ED189BF27000430639 /* AW AddTabButtonRollover_Pressed.tiff in Resources */,
 				F2D3E536189941F50096425B /* AW InactiveTabAlert@2x.png in Resources */,
 				F2D3E561189941F50096425B /* IW InactiveTabClosePressed.png in Resources */,
 				F2D3E532189941F50096425B /* AW ActiveTabLeftCap@2x.png in Resources */,
@@ -2669,12 +2694,14 @@
 				142890C3095743F200D14688 /* LibraryFolderIcon.tiff in Resources */,
 				142890C6095743F200D14688 /* NamedLogo2.tiff in Resources */,
 				142890C7095743F200D14688 /* NextChange.png in Resources */,
+				F2B136EB189BF27000430639 /* AW AddTabButton.tiff in Resources */,
 				142890C9095743F200D14688 /* NextSymbol.png in Resources */,
 				F2D3E537189941F50096425B /* AW InactiveTabBG.png in Resources */,
 				142890CB095743F200D14688 /* ParticipantBar_Fill.tiff in Resources */,
 				F2D3E530189941F50096425B /* AW ActiveTabFill@2x.png in Resources */,
 				142890CC095743F200D14688 /* Participants.icns in Resources */,
 				F2D3E54E189941F50096425B /* AW SingleTabAddButtonRollover@2x.png in Resources */,
+				F2B136E9189BF27000430639 /* AW AddTabButtonRolloverPlus.tiff in Resources */,
 				4CD5F82117FB0E2B00F49E31 /* PrintOptions.xib in Resources */,
 				142890CD095743F200D14688 /* PreviousChange.png in Resources */,
 				142890CF095743F200D14688 /* PreviousSymbol.png in Resources */,
@@ -2730,6 +2757,7 @@
 				142890FF095743F200D14688 /* URLIcon.tiff in Resources */,
 				14289100095743F200D14688 /* WaitPipe.png in Resources */,
 				F2D3E545189941F50096425B /* AW Pulled ActiveTabLeftCap.png in Resources */,
+				F2B136E8189BF27000430639 /* AW AddTabButtonRolloverBG.tiff in Resources */,
 				F2257CFC189673AA005EF9B1 /* BottomBarSharingIconAnnounce@2x.png in Resources */,
 				F2D3E552189941F50096425B /* IW ActiveTabClosePressed@2x.png in Resources */,
 				14289101095743F200D14688 /* WebReload.tiff in Resources */,
@@ -2759,6 +2787,7 @@
 				5EB51AF80A177CF500AE2E17 /* InvisibleCharactersShow.png in Resources */,
 				4C1D39DC17FB085800B1CF5C /* AboutPanel.xib in Resources */,
 				F2D3E551189941F50096425B /* IW ActiveTabClosePressed.png in Resources */,
+				F2B136E7189BF27000430639 /* AW AddTabButtonRolloverBG_Pressed.tiff in Resources */,
 				F2D3E555189941F50096425B /* IW ActiveTabFill.png in Resources */,
 				5EB51AF90A177CF500AE2E17 /* InvisibleCharactersHide.png in Resources */,
 				F2D3E541189941F50096425B /* AW InactiveTabRightCap.png in Resources */,
@@ -2767,6 +2796,7 @@
 				F2D3E564189941F50096425B /* IW InactiveTabCloseRollover@2x.png in Resources */,
 				5EFF543A0A21D293005DC26B /* ToolbarIconBuildAndRun.tiff in Resources */,
 				5EFF5C4C0A22EE7F005DC26B /* ToolbarIconGenericScript.tiff in Resources */,
+				F2B136E6189BF27000430639 /* AW AddTabButtonRollover.tiff in Resources */,
 				14EC6E280A63F2E800B44481 /* ServicesMenu.strings in Resources */,
 				4C6BDC6618898E1E0088CBFC /* ScriptMenu.pdf in Resources */,
 				5EF31E430A7E437C00D777F5 /* InvertedIBeam.tiff in Resources */,
@@ -2798,6 +2828,7 @@
 				4CD5F7FE17FB0D2200F49E31 /* License.xib in Resources */,
 				F2D3E538189941F50096425B /* AW InactiveTabBG@2x.png in Resources */,
 				F2406F0C0C8EE481000DC9FF /* LockTitlebar.png in Resources */,
+				F2B136EC189BF27000430639 /* AW AddTabButtonPushed.tiff in Resources */,
 				F2CA7CE60CA11FC9008BEA38 /* StatusLock.png in Resources */,
 				4CD5F81117FB0DC100F49E31 /* PlainTextLoadProgress.xib in Resources */,
 				4CD5F82917FB0E4F00F49E31 /* SavePanelAccessory.xib in Resources */,
@@ -2838,6 +2869,7 @@
 				F2D5FF4B0CB2677600407399 /* UnknownPerson.icns in Resources */,
 				F2D3E559189941F50096425B /* IW ActiveTabRightCap.png in Resources */,
 				F2D3E52D189941F50096425B /* AW ActiveTabCloseRollover.png in Resources */,
+				F2B136EA189BF27000430639 /* IW AddTabButton.tiff in Resources */,
 				F2D5FF510CB26EA800407399 /* ToolbarIconRunInTerminal.icns in Resources */,
 				4CD5F7F217FB0CBF00F49E31 /* FindAll.xib in Resources */,
 				4CD5F81D17FB0E1900F49E31 /* PrecedenceRules.xib in Resources */,
