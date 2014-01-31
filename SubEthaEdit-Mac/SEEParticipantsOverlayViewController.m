@@ -67,7 +67,7 @@
 
 
 - (void)update {
-	// cleanup old vie hierachy
+	// cleanup old view hierachy
 	NSArray *subviews = [self.view.subviews copy];
 	[subviews makeObjectsPerformSelector:@selector(removeFromSuperview)];
 	[self.subviewControllers removeAllObjects];
@@ -114,6 +114,16 @@
 		}
 	}
 
+	NSArray *allPendingUsers = session.pendingUsers;
+	for (TCMMMUser *user in allPendingUsers) {
+		if (user == me) continue;
+
+		participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:user];
+		[self.subviewControllers addObject:participantViewController];
+		[participantViewController.view setFrameOrigin:NSMakePoint(userXOffset + 6.0, 0.0)];
+		userXOffset += userWidth;
+		[view addSubview:participantViewController.view];
+	}
 }
 
 @end
