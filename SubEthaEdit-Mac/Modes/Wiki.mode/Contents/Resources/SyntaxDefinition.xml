@@ -12,19 +12,19 @@
 
 			<import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 
-			<state id="Bold" color="#000" font-weight="bold" scope="markup.bold">
+			<state id="Bold" color="#000" font-weight="bold" scope="structured.bold">
 				<begin><regex>\*\*</regex></begin>
 				<end><regex>\*\*</regex></end>
-				<state id="Bold Italic" color="#000" font-weight="bold" font-style="italic" scope="markup.italicbold">
+				<state id="Bold Italic" color="#000" font-weight="bold" font-style="italic" scope="structured.italicbold">
 					<begin><regex>\/\/</regex></begin>
 					<end><regex>\/\/</regex></end>
 			   </state>
 			</state>
 	
-			<state id="Italic" color="#000" font-style="italic" scope="markup.italic">
+			<state id="Italic" color="#000" font-style="italic" scope="structured.italic">
 				<begin><regex>\/\/</regex></begin>
 				<end><regex>(?&lt;!p:|s:)\/\/|[\r\n]</regex></end>
-				<state id="Italic Bold" color="#000" font-weight="bold" font-style="italic" scope="markup.italicbold">
+				<state id="Italic Bold" color="#000" font-weight="bold" font-style="italic" scope="structured.italicbold">
 					<begin><regex>\*\*</regex></begin>
 					<end><regex>\*\*</regex></end>
 				</state>
@@ -33,7 +33,7 @@
 
       <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 
-			<keywords id="Horizontal Line" color="#000" font-weight="bold" scope="markup.other.line">
+			<keywords id="Horizontal Line" color="#000" font-weight="bold" scope="structured.other.line">
 				<regex>^(----[-]*)</regex>
 			</keywords>
 
@@ -48,7 +48,7 @@
 					</state>
 			</state>
 
-			<state id="Unordered List" color="#683821" scope="markup.list.unnumbered">
+			<state id="Unordered List" color="#683821" scope="structured.list.unnumbered">
 				<begin><regex>^  +\*</regex></begin>
 				<end><regex>[\r\n]</regex></end>
 				
@@ -59,7 +59,7 @@
 				<state-link state="Italic"/>
 			</state>
 
-			<state id="Ordered List" color="#7a4022" scope="markup.list.numbered">
+			<state id="Ordered List" color="#7a4022" scope="structured.list.numbered">
 				<begin><regex>^  +\-</regex></begin>
 				<end><regex>[\r\n]</regex></end>
 				
@@ -70,56 +70,56 @@
 				<state-link state="Italic"/>
 			</state>
 
-			<state id="Quoted Odd Levels" color="#7b1e20" scope="markup.quote.odd">
+			<state id="Quoted Odd Levels" color="#7b1e20" scope="structured.quote.odd">
 				<begin><regex>^&gt;(?:&gt;&gt;)*?(?!&gt;)</regex></begin>
 				<end><regex>[\r\n]</regex></end>
 				<import/>
 			</state>
 
-			<state id="Quoted Even Levels" color="#1b5414" scope="markup.quote.even">
+			<state id="Quoted Even Levels" color="#1b5414" scope="structured.quote.even">
 				<begin><regex>^(?:&gt;&gt;)+(?!&gt;)</regex></begin>
 				<end><regex>[\r\n]</regex></end>
 				<import/>
 			</state>
 
 	
-			<state id="Footnotes" color="#236e25" scope="markup.other.footnote">
+			<state id="Footnotes" color="#236e25" scope="structured.other.footnote">
 				<begin><regex>\((?=\()</regex></begin>
 				<end><regex>(?&lt;=\))\)</regex></end>
 			</state>
 	
 	
-			<state id="Headline Level 1" color="#881350" font-weight="bold" scope="markup.heading.1">
+			<state id="Headline Level 1" color="#881350" font-weight="bold" scope="structured.heading.1">
 				<begin><regex>^======</regex></begin>
 				<end><regex>======</regex></end>
 			</state>
 	
-			<state id="Headline Level 2" color="#970058" font-weight="bold" scope="markup.heading.2">
+			<state id="Headline Level 2" color="#970058" font-weight="bold" scope="structured.heading.2">
 				<begin><regex>^=====</regex></begin>
 				<end><regex>=====</regex></end>
 			</state>
 	
-			<state id="Headline Level 3" color="#a70062" font-weight="bold" scope="markup.heading.3">
+			<state id="Headline Level 3" color="#a70062" font-weight="bold" scope="structured.heading.3">
 				<begin><regex>^====</regex></begin>
 				<end><regex>====</regex></end>
 			</state>
 	
-			<state id="Headline Level 4" color="#b20068" font-weight="bold" scope="markup.heading.4">
+			<state id="Headline Level 4" color="#b20068" font-weight="bold" scope="structured.heading.4">
 				<begin><regex>^===</regex></begin>
 				<end><regex>===</regex></end>
 			</state>
 	
-			<state id="Headline Level 5" color="#be006f" font-weight="bold" scope="markup.heading.5">
+			<state id="Headline Level 5" color="#be006f" font-weight="bold" scope="structured.heading.5">
 				<begin><regex>^==</regex></begin>
 				<end><regex>==</regex></end>
 			</state>
 
-			<state id="Indented Verbatim" color="#4b4b4b" scope="markup.raw.indented">
+			<state id="Indented Verbatim" color="#4b4b4b" scope="structured.raw.indented">
 				<begin><regex>^  (?![\*\-])</regex></begin>
 				<end><regex>(?:\r?(?:\n|\r))</regex></end>
 			</state>
 
-			<state id="Code Verbatim" color="#4b4b4b" foldable="yes" scope="markup.raw.code">
+			<state id="Code Verbatim" color="#4b4b4b" foldable="yes" scope="structured.raw.code">
 				<begin><regex>&lt;code[^&gt;]*&gt;</regex></begin>
 				<end><regex>&lt;/code&gt;</regex></end>
 			</state>
