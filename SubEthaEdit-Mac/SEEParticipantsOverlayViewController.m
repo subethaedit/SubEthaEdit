@@ -74,57 +74,128 @@
 
 	// install new subviews for all allContributors
 	NSView *view = self.view;
-	TCMMMUser *me = [TCMMMUserManager me];
-	SEEParticipantViewController *participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:me];
-	[self.subviewControllers addObject:participantViewController];
-	[participantViewController.view setFrameOrigin:NSMakePoint(6.0, 0.0)];
-	[view addSubview:participantViewController.view];
-
 	TCMMMSession *session = self.document.session;
+	TCMMMUser *me = [TCMMMUserManager me];
 
-	NSMutableArray *allParticipants = [[session.participants objectForKey:TCMMMSessionReadWriteGroupName] mutableCopy];
-	[allParticipants addObjectsFromArray:[session.participants objectForKey:TCMMMSessionReadOnlyGroupName]];
-	CGFloat userWidth = 12.0 + 100.0;
-	CGFloat userXOffset = 6.0 + 100.0 + 6.0;
-	for (TCMMMUser *user in allParticipants) {
-		if (user == me) continue;
-
-		participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:user];
+	{
+		SEEParticipantViewController *participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:me];
 		[self.subviewControllers addObject:participantViewController];
-		[participantViewController.view setFrameOrigin:NSMakePoint(userXOffset + 6.0, 0.0)];
-		userXOffset += userWidth;
 		[view addSubview:participantViewController.view];
+		NSLayoutConstraint *horizontalConstraint = [NSLayoutConstraint constraintWithItem:participantViewController.view
+																				attribute:NSLayoutAttributeLeading
+																				relatedBy:NSLayoutRelationEqual
+																				   toItem:view
+																				attribute:NSLayoutAttributeLeft
+																			   multiplier:1
+																				 constant:6];
+
+		NSLayoutConstraint *verticalConstraint = [NSLayoutConstraint constraintWithItem:participantViewController.view
+																			  attribute:NSLayoutAttributeTop
+																			  relatedBy:NSLayoutRelationEqual
+																				 toItem:view
+																			  attribute:NSLayoutAttributeTop
+																			 multiplier:1
+																			   constant:0];
+
+		[view addConstraints:@[horizontalConstraint, verticalConstraint]];
 		[participantViewController updateForParticipantUserState];
 	}
-	
-	NSMutableArray *allInvitees = [[session.invitedUsers objectForKey:TCMMMSessionReadWriteGroupName] mutableCopy];
-	[allInvitees addObjectsFromArray:[session.invitedUsers objectForKey:TCMMMSessionReadOnlyGroupName]];
-	for (TCMMMUser *user in allInvitees) {
-		if (user == me) continue;
+	{
+		NSMutableArray *allParticipants = [[session.participants objectForKey:TCMMMSessionReadWriteGroupName] mutableCopy];
+		[allParticipants addObjectsFromArray:[session.participants objectForKey:TCMMMSessionReadOnlyGroupName]];
+		for (TCMMMUser *user in allParticipants) {
+			if (user == me) continue;
 
-		NSString *stateOfInvitee = [session stateOfInvitedUserById:user.userID];
-		if ([stateOfInvitee isEqualToString:TCMMMSessionInvitedUserStateAwaitingResponse]) {
-			participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:user];
+			SEEParticipantViewController *participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:user];
+
+			NSView *lastUserView = [self.subviewControllers.lastObject view];
 			[self.subviewControllers addObject:participantViewController];
-			[participantViewController.view setFrameOrigin:NSMakePoint(userXOffset + 6.0, 0.0)];
-			userXOffset += userWidth;
 			[view addSubview:participantViewController.view];
-			[participantViewController updateForInvitationState];
-		} else {
-			// TODO: remove declined users here
+			NSLayoutConstraint *horizontalConstraint = [NSLayoutConstraint constraintWithItem:participantViewController.view
+																					attribute:NSLayoutAttributeLeft
+																					relatedBy:NSLayoutRelationEqual
+																					   toItem:lastUserView
+																					attribute:NSLayoutAttributeRight
+																				   multiplier:1
+																					 constant:6];
+
+			NSLayoutConstraint *verticalConstraint = [NSLayoutConstraint constraintWithItem:participantViewController.view
+																				  attribute:NSLayoutAttributeTop
+																				  relatedBy:NSLayoutRelationEqual
+																					 toItem:view
+																				  attribute:NSLayoutAttributeTop
+																				 multiplier:1
+																				   constant:0];
+
+			[view addConstraints:@[horizontalConstraint, verticalConstraint]];
+			[participantViewController updateForParticipantUserState];
 		}
 	}
+	{
+		NSMutableArray *allInvitees = [[session.invitedUsers objectForKey:TCMMMSessionReadWriteGroupName] mutableCopy];
+		[allInvitees addObjectsFromArray:[session.invitedUsers objectForKey:TCMMMSessionReadOnlyGroupName]];
+		for (TCMMMUser *user in allInvitees) {
+			if (user == me) continue;
 
-	NSArray *allPendingUsers = session.pendingUsers;
-	for (TCMMMUser *user in allPendingUsers) {
-		if (user == me) continue;
+			NSString *stateOfInvitee = [session stateOfInvitedUserById:user.userID];
+			if ([stateOfInvitee isEqualToString:TCMMMSessionInvitedUserStateAwaitingResponse]) {
+				SEEParticipantViewController *participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:user];
 
-		participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:user];
-		[self.subviewControllers addObject:participantViewController];
-		[participantViewController.view setFrameOrigin:NSMakePoint(userXOffset + 6.0, 0.0)];
-		userXOffset += userWidth;
-		[view addSubview:participantViewController.view];
-		[participantViewController updateForPendingUserState];
+				NSView *lastUserView = [self.subviewControllers.lastObject view];
+				[self.subviewControllers addObject:participantViewController];
+				[view addSubview:participantViewController.view];
+				NSLayoutConstraint *horizontalConstraint = [NSLayoutConstraint constraintWithItem:participantViewController.view
+																						attribute:NSLayoutAttributeLeft
+																						relatedBy:NSLayoutRelationEqual
+																						   toItem:lastUserView
+																						attribute:NSLayoutAttributeRight
+																					   multiplier:1
+																						 constant:6];
+
+				NSLayoutConstraint *verticalConstraint = [NSLayoutConstraint constraintWithItem:participantViewController.view
+																					  attribute:NSLayoutAttributeTop
+																					  relatedBy:NSLayoutRelationEqual
+																						 toItem:view
+																					  attribute:NSLayoutAttributeTop
+																					 multiplier:1
+																					   constant:0];
+
+				[view addConstraints:@[horizontalConstraint, verticalConstraint]];
+				[participantViewController updateForInvitationState];
+			} else {
+				// TODO: remove declined users here
+			}
+		}
+	}
+	{
+		NSArray *allPendingUsers = session.pendingUsers;
+		for (TCMMMUser *user in allPendingUsers) {
+			if (user == me) continue;
+
+			SEEParticipantViewController *participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:user];
+
+			NSView *lastUserView = [self.subviewControllers.lastObject view];
+			[self.subviewControllers addObject:participantViewController];
+			[view addSubview:participantViewController.view];
+			NSLayoutConstraint *horizontalConstraint = [NSLayoutConstraint constraintWithItem:participantViewController.view
+																					attribute:NSLayoutAttributeLeft
+																					relatedBy:NSLayoutRelationEqual
+																					   toItem:lastUserView
+																					attribute:NSLayoutAttributeRight
+																				   multiplier:1
+																					 constant:6];
+
+			NSLayoutConstraint *verticalConstraint = [NSLayoutConstraint constraintWithItem:participantViewController.view
+																				  attribute:NSLayoutAttributeTop
+																				  relatedBy:NSLayoutRelationEqual
+																					 toItem:view
+																				  attribute:NSLayoutAttributeTop
+																				 multiplier:1
+																				   constant:0];
+
+			[view addConstraints:@[horizontalConstraint, verticalConstraint]];
+			[participantViewController updateForPendingUserState];
+		}
 	}
 }
 
