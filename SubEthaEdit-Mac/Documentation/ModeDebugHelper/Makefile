@@ -20,8 +20,23 @@
 
 xsltproc=/usr/bin/xsltproc
 
-# languages for which to generate a .sss-file : additional languages have to be added by hand
-languages=ActionScript AppleScript ASP-HTML Base bash C C++ CFML Conference CSS Diff ERB erlang go HTML Java Javascript JSP-HTML LassoScript-HTML LaTeX Lua Objective-C Objective-J Pascal Perl PHP-HTML Python Ruby SDEF SQL SVNLog Wiki XML LESS Sass Smarty YAML
+# languages for which to generate a .sss-file : additional languages have to be added by hand - the last line are coda 2 modes that are not included in SEE (so far)
+languages=ActionScript AppleScript ASP-HTML \
+			Base bash \
+			C C++ CFML Conference CSS \
+			Diff \
+			ERB erlang \
+			go \
+			HTML \
+			Java Javascript JSP-HTML \
+			LassoScript-HTML LaTeX Lua \
+			Objective-C Objective-J \
+			Pascal Perl PHP-HTML Python \
+			Ruby \
+			SDEF SQL SVNLog \
+			Wiki \
+			XML \
+			LESS Sass Smarty YAML
 
 ################################################################ Paths
 
