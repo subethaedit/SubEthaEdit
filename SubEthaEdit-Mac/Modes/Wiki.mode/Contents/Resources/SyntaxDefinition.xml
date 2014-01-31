@@ -33,7 +33,7 @@
 
       <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 
-			<keywords id="Horizontal Line" color="#000" font-weight="bold" scope="structured.other.line">
+			<keywords id="Horizontal Line" color="#000" font-weight="bold" scope="structured.separator.horizontal">
 				<regex>^(----[-]*)</regex>
 			</keywords>
 
