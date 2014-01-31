@@ -91,6 +91,10 @@
             isEnabled = "NO">
          </CommandLineArgument>
          <CommandLineArgument
+            argument = "-NSConstraintBasedLayoutVisualizeMutuallyExclusiveConstraints YES"
+            isEnabled = "NO">
+         </CommandLineArgument>
+         <CommandLineArgument
             argument = "-AppleLanguages (&apos;en&apos;)"
             isEnabled = "NO">
          </CommandLineArgument>
