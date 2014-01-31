@@ -39,8 +39,8 @@ keyword.vb
 language.constant.numeric
 language.constant.numeric.character
 language.constant.numeric.js
-language.constant.numeric.keyword
-language.constant.numeric.keyword.js
+-- language.constant.numeric.keyword // true false NaN undefined to keyword.constant, pi INT_MAX to support.constant
+-- language.constant.numeric.keyword.js
 language.constant.numeric.preprocessor // numbers in preprocessor things - C mode
 language.operator			*// Operators - +, -,
 ++ language.operator.special			*// Operators: erlang "language.operator"
@@ -215,7 +215,7 @@ support.class
 support.class.standard.cocoa
 support.class.standard.js
 support.class.standard.objj
-support.constant
+support.constant // pi
 support.constant.cocoa
 support.constant.objj
 ++ support.subroutine.common(.third-party)
@@ -268,8 +268,11 @@ style.value.string
 ################################################################ // Questions and TODOS
 ##### TODO TODO TODO TODO
 
+* make the last rename round for now
+* update scope xml docu thing
+* make a default stylesheet that highlights (almost) EVERYTHING (find farbschema bright sun or something ^^) / sprachen / structured / markup
+
 * check the scopes that include the language ending
-* what scope to use? Constants --> keyword.constant (nil, true, false, pi?) // support.constant // language.constant.numeric.keyword ( nil, true, false, pi?)???
 * new scopes for keyword.objective-c
 * make those structered: Diff, SVNNLog | Markup, Conference | LaTeX | Wiki
 * SDEF mode misses SymbolM
@@ -279,10 +282,9 @@ style.value.string
 * make stylesheets for langs, normal and inverted-versions
 * remove style information from the syntaxdefinitions
 * LassoScript <-> CFML -> delete one, which one? because they are almost the same
-* libraries? (eg. QuartzCore import?) names?
-* pretty sure indent="" is almost never used?
+* libraries? (eg. QuartzCore import?) names? --> evtl autocomplete?
+* pretty sure indent="yes|no" is almost never used? --> autoformatierung - return, indent (in coda) -- if else!
 * one step tidy xml
-* objective j default state block - ?
-* "<!--  This is the "we do a complete HTML mode and import php everywhere" section -->" -> similar comments all over the place - smart thing?
+* "<!--  This is the "we do a complete HTML mode and import php everywhere" section -->" -> similar comments all over the place - smart thing? ---- compare ERB because this is newer and nicer
 * is there a place where ….js -> is that defined somewhere?
-* sometimes meta default is used for tag state (or similar) (?)
+* sometimes meta default is used for tag state (or similar) (?) - part of the meta talks
