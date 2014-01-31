@@ -89,24 +89,24 @@ Renaming a scope (*eg. `meta.default`*) in a single Mode (*eg. `PHP-HTML`*) (_op
 ## [Style Extraction and Mode Helper Makefile](id:makefile)
 **Makefile**
 
-`make` : prints a short how-to
+`make` and `make help`: prints a short how-to
 
-`make create-style-sheet` generates style sheets from the style info in the definition files  
-`make create-style-sheet mode_directory=<path/to/Modes/Folder/>` generates style sheets for the modes in folder  
-`make create-style-sheet style_directory=<path/to/Style/Folder/>` generates style sheets in folder
+`make create-style-sheet` : generates style sheets from the style info in the definition files  
+`make create-style-sheet mode_directory=<path/to/Modes/Folder/>` : generates style sheets for the modes in folder  
+`make create-style-sheet style_directory=<path/to/Style/Folder/>` : generates style sheets in folder
 
-`make remove-styles` generates SyntaxDefinition.xmls without style information   
-`make remove-styles mode_directory=<path/to/Modes/Folder/>` generates new xml for the modes in folder  
-`make remove-styles result_mode_directory=<path/to/Result/Mode/Folder/>` generates new xml in folder  
+`make remove-styles` : generates SyntaxDefinition.xmls without style information   
+`make remove-styles mode_directory=<path/to/Modes/Folder/>` : generates new xml for the modes in folder  
+`make remove-styles result_mode_directory=<path/to/Result/Mode/Folder/>` : generates new xml in folder  
 
-`make style-extraction` calls both create-style-sheet and remove-styles for one step extraction
+`make style-extraction` : calls both create-style-sheet and remove-styles for one step extraction
 
-`make rename from=<scope> to=<scope>` generates new xml in results folder with renamed scopes  
+`make rename from=<scope> to=<scope>` : generates new xml in results folder with renamed scopes  
 
-`make find-scope scope=<scope>` generates a xml files containing all the uses of <scope>  
-`make all-scopes-one-mode mode=<mode>` generates an annotated txt with scopes used by a mode  
-`make all-scopes-by-lang` generates an annotated txt with scopes used by all modes  
-`make all-scopes-uniqued` generates a txt with sorted scopes used by all modes  
+`make find-scope scope=<scope>` : generates a xml files containing all the uses of <scope>  
+`make all-scopes-one-mode mode=<mode>` : generates an annotated txt with scopes used by a mode  
+`make all-scopes-by-lang` : generates an annotated txt with scopes used by all modes  
+`make all-scopes-uniqued` : generates a txt with sorted scopes used by all modes  
 
 `make clean` : deletes all the generated .sss files and result .mode directories  
 
