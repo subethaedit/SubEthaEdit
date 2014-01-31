@@ -94,6 +94,7 @@
 		[participantViewController.view setFrameOrigin:NSMakePoint(userXOffset + 6.0, 0.0)];
 		userXOffset += userWidth;
 		[view addSubview:participantViewController.view];
+		[participantViewController updateForParticipantUserState];
 	}
 	
 	NSMutableArray *allInvitees = [[session.invitedUsers objectForKey:TCMMMSessionReadWriteGroupName] mutableCopy];
@@ -110,7 +111,7 @@
 			[view addSubview:participantViewController.view];
 			[participantViewController updateForInvitationState];
 		} else {
-			// remove declined users here
+			// TODO: remove declined users here
 		}
 	}
 
@@ -123,6 +124,7 @@
 		[participantViewController.view setFrameOrigin:NSMakePoint(userXOffset + 6.0, 0.0)];
 		userXOffset += userWidth;
 		[view addSubview:participantViewController.view];
+		[participantViewController updateForPendingUserState];
 	}
 }
 

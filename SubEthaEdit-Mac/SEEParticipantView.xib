@@ -17,6 +17,7 @@
                 <outlet property="pendingUserKickButtonOutlet" destination="ioi-KN-wP0" id="a5d-nh-9GH"/>
                 <outlet property="toggleEditModeButtonOutlet" destination="cLZ-EU-8Vm" id="Csv-Cp-tP3"/>
                 <outlet property="toggleFollowButtonOutlet" destination="Eo9-iL-hjL" id="ezF-Du-PmF"/>
+                <outlet property="userViewButtonLeftConstraintOutlet" destination="6bf-Dn-WAG" id="kBs-s3-cYk"/>
                 <outlet property="userViewButtonOutlet" destination="hE6-nB-RDu" id="dMU-J4-gUA"/>
                 <outlet property="view" destination="1" id="bcw-1Z-TB2"/>
             </connections>

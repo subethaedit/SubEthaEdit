@@ -21,6 +21,7 @@
 
 @property (nonatomic, strong) IBOutlet NSView *participantViewOutlet;
 @property (nonatomic, weak) IBOutlet NSTextField *nameLabelOutlet;
+@property (nonatomic, weak) IBOutlet NSLayoutConstraint *userViewButtonLeftConstraintOutlet;
 @property (nonatomic, weak) IBOutlet NSButton *userViewButtonOutlet;
 @property (nonatomic, weak) IBOutlet NSProgressIndicator *connectingProgressIndicatorOutlet;
 
@@ -65,24 +66,37 @@
 	NSTextField *nameLabel = self.nameLabelOutlet;
 	nameLabel.stringValue = self.participant.name;
 
-	NSButton *closeConnectionButton = self.closeConnectionButtonOutlet;
-	closeConnectionButton.image = [NSImage pdfBasedImageNamed:@"SharingIconCloseCross"TCM_PDFIMAGE_SEP@"16"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_NORMAL];
-
-	NSButton *toggleEditModeButton = self.toggleEditModeButtonOutlet;
-	toggleEditModeButton.image = [NSImage pdfBasedImageNamed:@"SharingIconReadOnly"TCM_PDFIMAGE_SEP@"16"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_NORMAL];
-	toggleEditModeButton.alternateImage = [NSImage pdfBasedImageNamed:@"SharingIconWrite"TCM_PDFIMAGE_SEP@"16"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_NORMAL];
-
-	NSButton *toggleFollowButton = self.toggleFollowButtonOutlet;
-	toggleFollowButton.image = [NSImage pdfBasedImageNamed:@"SharingIconEye"TCM_PDFIMAGE_SEP@"16"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_NORMAL];
-	toggleFollowButton.alternateImage = [NSImage pdfBasedImageNamed:@"SharingIconEye"TCM_PDFIMAGE_SEP@"16"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_SELECTED];
-
-	if (self.participant.isMe) {
-		self.participantActionOverlayOutlet.hidden = YES;
-		self.participantActionOverlayOutlet = nil;
-	} else {
-		// install tracking for action overlay
-		[self.participantViewOutlet addTrackingArea:[[NSTrackingArea alloc] initWithRect:NSZeroRect options:NSTrackingMouseEnteredAndExited|NSTrackingActiveInKeyWindow|NSTrackingInVisibleRect owner:self userInfo:nil]];
+	// participant users action overlay
+	{
+		NSButton *button = self.closeConnectionButtonOutlet;
+		button.image = [NSImage pdfBasedImageNamed:@"SharingIconCloseCross"TCM_PDFIMAGE_SEP@"16"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_NORMAL];
 	}
+	{
+		NSButton *button = self.toggleEditModeButtonOutlet;
+		button.image = [NSImage pdfBasedImageNamed:@"SharingIconReadOnly"TCM_PDFIMAGE_SEP@"16"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_NORMAL];
+		button.alternateImage = [NSImage pdfBasedImageNamed:@"SharingIconWrite"TCM_PDFIMAGE_SEP@"16"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_NORMAL];
+	}
+	{
+		NSButton *button = self.toggleFollowButtonOutlet;
+		button.image = [NSImage pdfBasedImageNamed:@"SharingIconEye"TCM_PDFIMAGE_SEP@"16"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_NORMAL];
+		button.alternateImage = [NSImage pdfBasedImageNamed:@"SharingIconEye"TCM_PDFIMAGE_SEP@"16"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_SELECTED];
+	}
+
+
+	// pending users action overlay
+	{
+		NSButton *button = self.pendingUserKickButtonOutlet;
+		button.image = [NSImage pdfBasedImageNamed:@"SharingIconCloseCross"TCM_PDFIMAGE_SEP@"16"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_NORMAL];
+	}
+	{
+		NSButton *button = self.chooseEditModeButtonOutlet;
+		button.image = [NSImage pdfBasedImageNamed:@"SharingIconWrite"TCM_PDFIMAGE_SEP@"16"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_NORMAL];
+	}
+	{
+		NSButton *button = self.chooseReadOnlyModeButtonOutlet;
+		button.image = [NSImage pdfBasedImageNamed:@"SharingIconReadOnly"TCM_PDFIMAGE_SEP@"16"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_NORMAL];
+	}
+
 }
 
 - (void)mouseEntered:(NSEvent *)theEvent {
@@ -105,6 +119,33 @@
 }
 
 - (IBAction)userViewButtonClicked:(id)sender {
+}
+
+- (void)updateForParticipantUserState {
+	if (self.participant.isMe) {
+		self.participantActionOverlayOutlet.hidden = YES;
+		self.participantActionOverlayOutlet = nil;
+	} else {
+		// install tracking for action overlay
+		[self.participantViewOutlet addTrackingArea:[[NSTrackingArea alloc] initWithRect:NSZeroRect options:NSTrackingMouseEnteredAndExited|NSTrackingActiveInKeyWindow|NSTrackingInVisibleRect owner:self userInfo:nil]];
+	}
+}
+
+- (void)updateForPendingUserState {
+	NSView *userView = self.participantViewOutlet;
+	NSView *overlayView = self.pendingUserActionOverlayOutlet;
+	overlayView.hidden = NO;
+	[userView addSubview:overlayView];
+
+	NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:overlayView
+																  attribute:NSLayoutAttributeTrailing
+																  relatedBy:NSLayoutRelationEqual
+																	 toItem:userView
+																  attribute:NSLayoutAttributeRight
+																 multiplier:1
+																   constant:0];
+	[self.view addConstraints:@[constraint]];
+	self.userViewButtonLeftConstraintOutlet.constant = 16;
 }
 
 - (void)updateForInvitationState {
