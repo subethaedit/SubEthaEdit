@@ -100,7 +100,7 @@
 				<string>UTC</string>
         	</keywords>
         	
-            <keywords id="Functions" useforautocomplete="yes" scope="keyword.function">
+            <keywords id="Functions" useforautocomplete="yes" scope="keyword.subroutine">
 				<string>isActive</string>
 				<string>updateProperties</string>
 				<string>arguments</string>
@@ -1406,7 +1406,7 @@
 				<string>send</string>
             </keywords>
             
-            <keywords id="Application API and Central API" useforautocomplete="yes" scope="support">
+            <keywords id="Application API and Central API" useforautocomplete="yes" scope="support.subroutine.method">
 			     <string>onActivate</string>
 			     <string>onDeactivate</string>
 			     <string>onNetworkChange</string>
@@ -1498,7 +1498,7 @@
 			     <string>setType</string>
             </keywords>
             
-            <keywords id="Constants" useforautocomplete="yes" scope="constant.numeric.keyword">
+            <keywords id="Constants" useforautocomplete="yes" scope="language.constant.numeric.keyword">
 				<string>BACKSPACE</string>
 				<string>CAPSLOCK</string>
 				<string>CONTROL</string>
@@ -1727,7 +1727,7 @@
                 <string>with</string>
             </keywords>
 
-            <keywords id="Numbers" useforautocomplete="no" scope="constant.numeric">
+            <keywords id="Numbers" useforautocomplete="no" scope="language.constant.numeric">
 				<regex>(?&lt;![\w\d_])((?:[+-]?(?:(?:[0-9]+\.[0-9]*)|(?:\.[0-9]+))(?:[eE][+\-]?[0-9]+)?[fFlL]?)|(?:(?:(?:[1-9][0-9]*)|0[0-7]*|(?:0[xX][0-9a-fA-F]+))(?:(?:[uU][lL]?)|(?:[lL][uU]?))?))(?![\w\d_])</regex>
             </keywords>
             
@@ -1739,7 +1739,7 @@
 				<regex>(^[ 	]*#([^\n\r])*)</regex>
             </keywords>
 
-            <keywords id="FunctionRegex" useforautocomplete="no" scope="language.function">
+            <keywords id="FunctionRegex" useforautocomplete="no" scope="language.subroutine.function">
 				<regex>([\$A-Za-z0-9_]+[ \t]*)\(</regex>
             </keywords>
         

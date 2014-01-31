@@ -19,7 +19,7 @@
             <state-link mode="C" state="SingleComment"/>
             <state-link mode="C" state="String"/>
 
-            <keywords id="C++ Keywords" useforautocomplete="yes" scope="keyword.operator">
+            <keywords id="C++ Keywords" useforautocomplete="yes" scope="language.operator">
                 <string>bool</string>
                 <string>class</string>
                 <string>false</string>

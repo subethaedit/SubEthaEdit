@@ -26,17 +26,17 @@
                 <regex>(\\subparagraph[\t ]*{[^}]*})</regex>
             </keywords>
 
-            <keywords id="Functions" color="#408" useforautocomplete="no" scope="language.function">
+            <keywords id="Functions" color="#408" useforautocomplete="no" scope="language.subroutine.function">
                 <regex>((?:\[[\w\d,\. ]*\])?(?:{[^}]*(?=})[^{]*})+)</regex>
             </keywords>
         
-			<state id="Singleline Comment" color="#236E25" font-style="italic" scope="comment.single">
+			<state id="Singleline Comment" color="#236E25" font-style="italic" scope="structured.comment">
 				<begin><regex>(?&lt;!\\)%</regex></begin>
 				<end><regex>[\n\r]</regex></end>
                 <import mode="Base" state="EmailAndURLContainerState" keywords-only="yes"/>
 			</state>
 
-			<state id="Inline Math" color="#a00" font-style="italic" scope="markup.inline.math">
+			<state id="Inline Math" color="#a00" font-style="italic" scope="structured.math">
 				<begin><regex>(?&lt;!\\)\$</regex></begin>
 				<end><regex>(?&lt;!\\)\$</regex></end>
 			</state>

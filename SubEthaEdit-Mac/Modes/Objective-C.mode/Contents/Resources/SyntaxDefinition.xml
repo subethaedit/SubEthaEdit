@@ -51,13 +51,13 @@
                 <import mode="C" keywords-only="yes"/>
                 <import/>
             </state>
-            <keywords id="Methods" casesensitive="yes" scope="entity.name.method">
+            <keywords id="Methods" casesensitive="yes" scope="language.subroutine.method">
                 <regex>[^:]\([^)]*\)\s*([A-Za-z_][A-Za-z0-9_]*)\s*[{;]</regex>
                 <regex>\)\s*([A-Za-z_][A-Za-z0-9_]*:)</regex>
                 <regex>\s([A-Za-z_][A-Za-z0-9_]+*:)</regex>
                 <regex>(?&lt;![:\s])\s+([A-Za-z_][A-Za-z0-9_]*)]</regex>
             </keywords>
-            <keywords id="Cocoa Classes" background-casesensitive="yes" useforautocomplete="yes" scope="entity.name.type.classes.cocoa">
+            <keywords id="Cocoa Classes" background-casesensitive="yes" useforautocomplete="yes" scope="support.class.standard.cocoa">
                 <string>ABActionDelegate</string>
                 <string>ABAddressBook</string>
                 <string>ABGroup</string>
@@ -1084,7 +1084,7 @@
             <keywords id="Memory Management" useforautocomplete="yes" scope="meta.important.memorymanagement">
                 <regex>(?&lt;![\w:_])(new|allocWithZone:|alloc|autorelease|copyWithZone:|copy|mutableCopyWithZone:|mutableCopy|retain|release)(?![\w:_])</regex>
             </keywords>
-            <keywords id="Cocoa Functions" useforautocomplete="yes" scope="entity.name.function.cocoa">
+            <keywords id="Cocoa Functions" useforautocomplete="yes" scope="support.subroutine.standard.cocoa">
                 <string>ABAddPropertiesAndTypes</string>
                 <string>ABAddRecord</string>
                 <string>ABAddressBookAddRecord</string>
@@ -2001,7 +2001,7 @@
                 <string>glVertexAttrib4fv</string>
                 <string>glVertexAttribPointer</string>
             </keywords>
-            <keywords id="Cocoa Types" useforautocomplete="yes" scope="constant.language.types.cocoa">
+            <keywords id="Cocoa Types" useforautocomplete="yes" scope="support.type.cocoa">
                 <string>CAAction</string>
                 <string>CFAllocatorRef</string>
                 <string>CFArrayRef</string>
@@ -2434,7 +2434,7 @@
                 <string>NSZeroSize</string>
                 <string>NSZone</string>
             </keywords>
-            <keywords id="Cocoa Constants" useforautocomplete="yes" scope="constant.language.cocoa">
+            <keywords id="Cocoa Constants" useforautocomplete="yes" scope="support.constant.cocoa">
                 <string>AUHostVersionIdentifier</string>
                 <string>AUNumVersion</string>
                 <string>AVAudioQuality</string>

@@ -33,7 +33,7 @@
 				<string>until</string>
 				<string>while</string>
 			</keywords>
-			<keywords id="Basic Functions" color="#400080" font-weight="bold" useforautocomplete="yes" scope="keyword.function">
+			<keywords id="Basic Functions" color="#400080" font-weight="bold" useforautocomplete="yes" scope="keyword.subroutine">
 				<string>assert</string>
 				<string>collectgarbage</string>
 				<string>dofile</string>
@@ -74,7 +74,7 @@
 				<string>posix</string>
 				<string>md5</string>
 			</keywords>
-			<keywords id="Library Functions" color="#400080" useforautocomplete="yes" scope="keyword.function">
+			<keywords id="Library Functions" color="#400080" useforautocomplete="yes" scope="keyword.subroutine">
 				<string>and</string>
 				<string>or</string>
 				<string>xor</string>
@@ -226,7 +226,7 @@
 				<string>__tostring</string>
 				<string>__unm</string>
 			</keywords>
-			<keywords id="Numbers" color="#00f" inverted-color="#7d9ffa" useforautocomplete="no" scope="constant.numeric">
+			<keywords id="Numbers" color="#00f" inverted-color="#7d9ffa" useforautocomplete="no" scope="language.constant.numeric">
 				<regex>(?&lt;![A-Za-z0-9])((?:(?:(?:[0-9]+\.[0-9]*)|(?:\.[0-9]+))(?:[eE][+\-]?[0-9]+)?)|(?:[0-9]*)|(?:0x\h+))(?![A-Za-z0-9])</regex>
 			</keywords>
 			
@@ -257,7 +257,7 @@
 				<begin><string>"</string></begin>
 				<end><regex>(?&lt;!\\)(?:\\\\)*(?:"|\n)</regex></end>
 			</state>
-			<state id="Long bracket string" color="#994500" foldable="yes" font-weight="normal" font-style="normal" scope="string">
+			<state id="Long bracket string" color="#994500" foldable="yes" font-weight="normal" font-style="normal" scope="string.here-doc">
 				<begin><string>\[(?'stringbrackets'=*)\[</string></begin>
 				<end><regex>\](?#see-insert-start-group:stringbrackets)\]</regex></end>
 			</state>

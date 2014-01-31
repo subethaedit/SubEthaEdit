@@ -14,11 +14,11 @@
     
         <default id="Base" font-weight="normal" font-style="normal" scope="meta.default">
             
-            <keywords id="Numbers" useforautocomplete="no" scope="constant.numeric">
+            <keywords id="Numbers" useforautocomplete="no" scope="language.constant.numeric">
                 <regex>(?&lt;=[^\w\d]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
             </keywords>
             
-            <keywords id="Function Calls" useforautocomplete="no" scope="language.function">
+            <keywords id="Function Calls" useforautocomplete="no" scope="language.subroutine.function">
                 <regex>([A-Za-z0-9_]+ *)\(</regex>
             </keywords>
             
@@ -122,7 +122,7 @@
                 <string>short</string>
             </keywords>
 
-            <keywords id="Objective-J Named Constants" useforautocomplete="yes" scope="constant.numeric.keyword">
+            <keywords id="Objective-J Named Constants" useforautocomplete="yes" scope="language.constant.numeric.keyword">
                 <string>null</string>
                 <string>NULL</string>
                 <string>nil</string>
@@ -149,7 +149,7 @@
                 <string>@selector</string>
             </keywords>
             
-            <keywords id="Objective-J Selector" casesensitive="yes" scope="language.function">
+            <keywords id="Objective-J Selector" casesensitive="yes" scope="language.subroutine.function">
                 <regex>[^:]\([^)]*\)[   ]*([A-Za-z0-9_]+)[  ]*[{;]</regex>
                 <regex>\)[  ]*([A-Za-z0-9_]+:)</regex>
                 <regex>([A-Za-z0-9_]+:)</regex>
@@ -2818,7 +2818,7 @@
             </state>
         </state>
 
-        <state id="Characters" background-color="none" scope="constant.numeric.character">
+        <state id="Characters" background-color="none" scope="language.constant.numeric.character">
             <begin><regex>'(?=\\?.')</regex></begin>
             <end><regex>(\\'')|(.')</regex></end>
         </state>

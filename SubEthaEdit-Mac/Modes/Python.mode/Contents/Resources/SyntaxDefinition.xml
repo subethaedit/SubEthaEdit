@@ -102,7 +102,7 @@
 				<string>RuntimeWarning</string>
 				<string>FutureWarning</string>
 			</keywords>
-			<keywords id="Special Methods" useforautocomplete="yes" scope="support.method">
+			<keywords id="Special Methods" useforautocomplete="yes" scope="support.subroutine.method">
 				<string>__cmp__</string>
 				<string>__rcmp__</string>
 				<string>__hash__</string>
@@ -190,7 +190,7 @@
 				<string>__init__</string>
 				<string>__repr__</string>
 			</keywords>
-			<keywords id="Built-In Functions" useforautocomplete="yes" scope="support.function">
+			<keywords id="Built-In Functions" useforautocomplete="yes" scope="support.subroutine.function">
 				<string>__import__</string>
 				<string>abs</string>
 				<string>apply</string>
@@ -297,7 +297,7 @@
 				<string>as</string>
 			</keywords>
 			<!-- see http://docs.python.org/3.1/reference/lexical_analysis.html - numeric literals -->
-			<keywords id="Numbers" useforautocomplete="no" scope="constant.numeric">
+			<keywords id="Numbers" useforautocomplete="no" scope="language.constant.numeric">
 				<!-- floats -->
 				<regex>(?&lt;![\w\d_\.])((?:(?:(?:(?:\d+\.\d*|\.\d+)(?:[eE][+-]?\d+)?)|(?:[\d+][eE][+-]?\d+))[jJ]?)|\d+[jJ])(?![\w\d_\.])</regex>
 				<!-- integers -->

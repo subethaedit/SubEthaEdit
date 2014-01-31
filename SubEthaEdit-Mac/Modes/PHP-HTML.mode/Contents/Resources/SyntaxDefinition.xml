@@ -24,7 +24,7 @@
                     <regex>(&lt;\?=)</regex>
                     <regex>(\?&gt;)</regex>
                 </keywords>
-                <keywords id="PHP4 Functions" casesensitive="no" useforautocomplete="yes" scope="support.function.php">
+                <keywords id="PHP4 Functions" casesensitive="no" useforautocomplete="yes" scope="support.subroutine.function.php">
                     <string>_</string>
                     <string>abs</string>
                     <string>accept_connect</string>
@@ -3585,7 +3585,7 @@
 									<string>var</string>
 									<string>void</string>
                 </keywords>
-                <keywords id="PHP Magic Methods" useforautocomplete="yes" scope="support.method.special.php">
+                <keywords id="PHP Magic Methods" useforautocomplete="yes" scope="language.subroutine.method.special.php">
                     <string>__construct</string>
                     <string>__destruct</string>
                     <string>__call</string>
@@ -3597,7 +3597,7 @@
                     <string>__clone</string>
                     <string>__autoload</string>
                 </keywords>
-                <keywords id="Number Literals" useforautocomplete="YES" scope="constant.numeric.keyword">
+                <keywords id="Number Literals" useforautocomplete="YES" scope="language.constant.numeric.keyword">
                     <string>true</string>
                     <string>false</string>
                     <string>null</string>
@@ -3610,10 +3610,10 @@
 									<regex>(?&lt;!\?)(\&gt;)</regex>
 									<regex>([\/\%&amp;\^\~\@\.])</regex>
 		            </keywords>
-                <keywords id="PHP Numbers" useforautocomplete="no" scope="constant.numeric">
+                <keywords id="PHP Numbers" useforautocomplete="no" scope="language.constant.numeric">
                     <regex>(?&lt;=[^\w\d]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
                 </keywords>
-                <keywords id="FunctionRegex" useforautocomplete="no" scope="language.function.php">
+                <keywords id="FunctionRegex" useforautocomplete="no" scope="language.subroutine.function.php">
                     <regex>([A-Za-z0-9_]+ *)\(</regex>
                 </keywords>
                 <keywords id="PHP Variables" useforautocomplete="no" scope="language.variable.php">

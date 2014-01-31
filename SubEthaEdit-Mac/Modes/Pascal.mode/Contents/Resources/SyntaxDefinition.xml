@@ -125,13 +125,13 @@
                 <string>File</string>
                 <string>Text</string>
             </keywords>
-            <keywords id="Numbers" color="#00f" useforautocomplete="no" scope="constant.numeric">
+            <keywords id="Numbers" color="#00f" useforautocomplete="no" scope="language.constant.numeric">
 				<regex>(?&lt;=[^\w\d]|^)(((([0-9]+\.[0-9]*)|(\.[0-9]+))([eE][+\-]?[0-9]+)?[fFlL]?)|((([1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(([uU][lL]?)|([lL][uU]?))?))(?=[^\w\d]|$)</regex>
             </keywords>
-            <keywords id="Characters" color="#00f" useforautocomplete="no" scope="constant.numeric.character">
+            <keywords id="Characters" color="#00f" useforautocomplete="no" scope="language.constant.numeric.character">
 				<regex>('.')</regex>
             </keywords>
-            <keywords id="FunctionRegex" color="#003369" useforautocomplete="no" scope="language.function">
+            <keywords id="FunctionRegex" color="#003369" useforautocomplete="no" scope="language.subroutine.function">
 				<regex>([A-Za-z0-9_]+ *)\(</regex>
             </keywords>
             <keywords id="Preprocessor" color="#683821" useforautocomplete="no" scope="language.preprocessor">

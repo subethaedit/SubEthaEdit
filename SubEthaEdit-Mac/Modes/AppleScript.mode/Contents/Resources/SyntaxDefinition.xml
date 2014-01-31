@@ -10,7 +10,7 @@
     <states>
         <default id="Base" color="#408000" font-weight="normal" font-style="normal" scope="meta.default">
 
-            <keywords id="Commands" color="#0b0bff" inverted-color="#4939ff" useforautocomplete="yes" scope="keyword.function">
+            <keywords id="Commands" color="#0b0bff" inverted-color="#4939ff" useforautocomplete="yes" scope="keyword.subroutine">
                 <string>close</string>
                 <string>copy</string>
                 <string>count</string>
@@ -127,7 +127,7 @@
                 <string>named</string>
             </keywords>
             
-            <keywords id="Constants" casesensitive="no" color="#0b0bff" inverted-color="#4939ff" useforautocomplete="yes" scope="constant">
+            <keywords id="Constants" casesensitive="no" color="#0b0bff" inverted-color="#4939ff" useforautocomplete="yes" scope="keyword">
                 <regex>(application responses)</regex>
                 <string>id</string>
                 <string>case</string>
@@ -216,7 +216,7 @@
                 <regex>(missing value)</regex>
             </keywords>
             
-            <keywords id="Numbers" color="#000" useforautocomplete="no" scope="constant.numeric">
+            <keywords id="Numbers" color="#000" useforautocomplete="no" scope="language.constant.numeric">
                 <regex>([-&amp;+\*\\\(\)])</regex>
 				<regex>[^[A-Za-z]]([0-9]*\.*[0-9]+)[^[A-Za-z]]</regex>
 				<regex>(^[0-9]*\.*[0-9]+)[^[A-Za-z]]</regex>
@@ -224,7 +224,7 @@
 				<regex>(0x[0-9a-fA-F]+)</regex>
             </keywords>
             
-            <keywords id="Characters" color="#00f" inverted-color="#4939ff" useforautocomplete="no" scope="constant.character">
+            <keywords id="Characters" color="#00f" inverted-color="#4939ff" useforautocomplete="no" scope="language.constant.numeric.character">
 				<regex>'.'</regex>
             </keywords>
             

@@ -106,7 +106,7 @@
 
 <state id="CFML Code" useforautocomplete="no" containerState="yes" usesymbolsfrommode="CFML" useautocompletefrommode="CFML" scope="meta.default">
 
-	<keywords id="Generic Functions" useforautocomplete="no" scope="language.function">
+	<keywords id="Generic Functions" useforautocomplete="no" scope="language.subroutine.function">
 		<!--<regex>([\w]+[\(]{1}[\w\s\.\[\]\)\(\"/;,|#&amp;]+[\)]{1})(?=[^&lt;]*&gt;)</regex>-->
 		<regex>([A-Za-z0-9_]+ *)\(</regex>
 	</keywords>
@@ -155,7 +155,7 @@
 		<regex>((?i)(?:session\.|application\.|request\.|request\.session\.|client\.|server\.|server\.coldfusion\.|form\.|cfcatch\.|cfdirectory\.|cferror\.|cffile\.|cfftp\.|cfhtp\.|cfindex\.|cfldap\.|cfpop\.|cfquery\.|cfregistry\.|cfsearch\.|cfstoredproc\.|cgi\.|url\.|cookie\.|arguments\.|cfevent\.)(?:[\w\d])+(?:\[([\w\d"'])+\])?)</regex>
 	</keywords>
 
-	<keywords id="Numbers" useforautocomplete="no" scope="constant.numeric">
+	<keywords id="Numbers" useforautocomplete="no" scope="language.constant.numeric">
 		<regex>(?&lt;=[^\w\d]|^)((?:(?:(?:[0-9]+\.[0-9]*)|(?:\.[0-9]+))(?:[eE][+\-]?[0-9]+)?[fFlL]?)|(?:(?:(?:[1-9][0-9]*)|0[0-7]*|(0[xX][0-9a-fA-F]+))(?:(?:[uU][lL]?)|(?:[lL][uU]?))?))(?=[^\w\d]|$)</regex>
 	</keywords>
 
@@ -199,7 +199,7 @@
 		<string>while</string>
 	</keywords>
 
-	<keywords id="Functions" casesensitive="no" useforautocomplete="yes" scope="support.function">
+	<keywords id="Functions" casesensitive="no" useforautocomplete="yes" scope="support.subroutine.function">
 		<regex>((?i)Abs)(?=\s*\()</regex>
 		<regex>((?i)ACos)(?=\s*\()</regex>
 		<regex>((?i)AddSOAPRequestHeader)(?=\s*\()</regex>
