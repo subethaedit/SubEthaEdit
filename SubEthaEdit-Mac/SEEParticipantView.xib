@@ -4,13 +4,17 @@
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="SEEPlainTextParticipantViewController">
+        <customObject id="-2" userLabel="File's Owner" customClass="SEEParticipantViewController">
             <connections>
-                <outlet property="actionOverlayOutlet" destination="lTM-E1-CsT" id="ilx-px-act"/>
+                <outlet property="chooseEditModeButtonOutlet" destination="1iS-eR-ahe" id="gaV-mn-Kac"/>
+                <outlet property="chooseReadOnlyModeButtonOutlet" destination="7Kl-QN-egj" id="Dl1-HW-hvb"/>
                 <outlet property="closeConnectionButtonOutlet" destination="Uv8-hZ-TnG" id="RDO-0v-jmD"/>
                 <outlet property="connectingProgressIndicatorOutlet" destination="k1p-6D-syT" id="wZs-np-mwT"/>
                 <outlet property="nameLabelOutlet" destination="laB-2b-86S" id="XZX-Mn-N4c"/>
+                <outlet property="participantActionOverlayOutlet" destination="lTM-E1-CsT" id="BMS-gs-uzp"/>
                 <outlet property="participantViewOutlet" destination="1" id="xn7-5f-3EV"/>
+                <outlet property="pendingUserActionOverlayOutlet" destination="Y0C-Vm-vVD" id="YO2-LH-dqF"/>
+                <outlet property="pendingUserKickButtonOutlet" destination="ioi-KN-wP0" id="a5d-nh-9GH"/>
                 <outlet property="toggleEditModeButtonOutlet" destination="cLZ-EU-8Vm" id="Csv-Cp-tP3"/>
                 <outlet property="toggleFollowButtonOutlet" destination="Eo9-iL-hjL" id="ezF-Du-PmF"/>
                 <outlet property="userViewButtonOutlet" destination="hE6-nB-RDu" id="dMU-J4-gUA"/>
@@ -51,53 +55,16 @@
                         <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                 </textField>
-                <customView hidden="YES" wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lTM-E1-CsT" userLabel="Action Overlay">
-                    <rect key="frame" x="84" y="0.0" width="16" height="96"/>
-                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                    <subviews>
-                        <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Uv8-hZ-TnG" userLabel="CloseConnection Button">
-                            <rect key="frame" x="0.0" y="68" width="16" height="16"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="SharingIconCloseCross" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="GZX-ee-Tzm">
-                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                <font key="font" metaFont="system"/>
-                            </buttonCell>
-                        </button>
-                        <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cLZ-EU-8Vm">
-                            <rect key="frame" x="0.0" y="46" width="16" height="16"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="SharingIconWrite" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="Gm4-Ai-0Wn">
-                                <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
-                                <font key="font" metaFont="system"/>
-                            </buttonCell>
-                        </button>
-                        <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Eo9-iL-hjL">
-                            <rect key="frame" x="0.0" y="30" width="16" height="16"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="SharingIconEye" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="S70-Da-84S">
-                                <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
-                                <font key="font" metaFont="system"/>
-                            </buttonCell>
-                        </button>
-                    </subviews>
-                    <constraints>
-                        <constraint firstAttribute="width" constant="16" id="eWI-Cf-ece"/>
-                    </constraints>
-                    <animations/>
-                </customView>
             </subviews>
             <constraints>
                 <constraint firstAttribute="centerX" secondItem="hE6-nB-RDu" secondAttribute="centerX" id="6bf-Dn-WAG"/>
                 <constraint firstAttribute="centerY" secondItem="hE6-nB-RDu" secondAttribute="centerY" constant="9" id="9g1-gp-gv4"/>
                 <constraint firstItem="hE6-nB-RDu" firstAttribute="centerX" secondItem="k1p-6D-syT" secondAttribute="centerX" id="DMG-H5-rAW"/>
                 <constraint firstAttribute="centerX" secondItem="laB-2b-86S" secondAttribute="centerX" id="GGy-df-UFa"/>
-                <constraint firstAttribute="bottom" secondItem="lTM-E1-CsT" secondAttribute="bottom" id="IjD-m9-h62"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="laB-2b-86S" secondAttribute="trailing" constant="2" id="Tpl-No-JI8"/>
                 <constraint firstItem="hE6-nB-RDu" firstAttribute="centerY" secondItem="k1p-6D-syT" secondAttribute="centerY" constant="-1" id="XBu-jo-auU"/>
                 <constraint firstItem="laB-2b-86S" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="1" secondAttribute="leading" constant="2" id="f1R-GA-Ioi"/>
-                <constraint firstItem="lTM-E1-CsT" firstAttribute="top" secondItem="1" secondAttribute="top" id="fJx-KN-nFE"/>
                 <constraint firstItem="laB-2b-86S" firstAttribute="top" secondItem="hE6-nB-RDu" secondAttribute="bottom" constant="7" id="vgD-Fe-TTq"/>
-                <constraint firstAttribute="trailing" secondItem="lTM-E1-CsT" secondAttribute="trailing" id="xH1-ht-fZN"/>
             </constraints>
             <animations>
                 <caTransition key="subviews">
@@ -113,10 +80,124 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
                 </caTransition>
             </animations>
         </customView>
+        <customView hidden="YES" autoresizesSubviews="NO" wantsLayer="YES" translatesAutoresizingMaskIntoConstraints="NO" id="lTM-E1-CsT" userLabel="Participants Action Overlay">
+            <rect key="frame" x="0.0" y="0.0" width="16" height="96"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="Uv8-hZ-TnG" userLabel="CloseConnection Button">
+                    <rect key="frame" x="0.0" y="68" width="16" height="16"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="16" id="Bn0-XN-5hb"/>
+                        <constraint firstAttribute="width" constant="16" id="qDA-7N-Ldm"/>
+                    </constraints>
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="SharingIconCloseCross" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="GZX-ee-Tzm">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                </button>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="cLZ-EU-8Vm" userLabel="Toggle ReadWrite State Button">
+                    <rect key="frame" x="0.0" y="46" width="16" height="16"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="16" id="Bsd-oy-YyC"/>
+                        <constraint firstAttribute="height" constant="16" id="HHZ-z4-EVI"/>
+                    </constraints>
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="SharingIconWrite" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="Gm4-Ai-0Wn">
+                        <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                </button>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="Eo9-iL-hjL" userLabel="Toggle Follow Button">
+                    <rect key="frame" x="0.0" y="30" width="16" height="16"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="16" id="RMO-MH-RYw"/>
+                        <constraint firstAttribute="width" constant="16" id="jbi-BJ-yCv"/>
+                    </constraints>
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="SharingIconEye" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="S70-Da-84S">
+                        <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                </button>
+            </subviews>
+            <constraints>
+                <constraint firstItem="cLZ-EU-8Vm" firstAttribute="trailing" secondItem="Eo9-iL-hjL" secondAttribute="trailing" id="9fE-4Z-bzG"/>
+                <constraint firstAttribute="width" constant="16" id="Awa-dS-szM"/>
+                <constraint firstAttribute="trailing" secondItem="Uv8-hZ-TnG" secondAttribute="trailing" id="F5W-ZE-okx"/>
+                <constraint firstItem="Uv8-hZ-TnG" firstAttribute="leading" secondItem="lTM-E1-CsT" secondAttribute="leading" id="IlW-AH-xRM"/>
+                <constraint firstItem="cLZ-EU-8Vm" firstAttribute="leading" secondItem="Eo9-iL-hjL" secondAttribute="leading" id="M9o-mZ-X1v"/>
+                <constraint firstItem="cLZ-EU-8Vm" firstAttribute="leading" secondItem="Uv8-hZ-TnG" secondAttribute="leading" id="MfQ-HI-1OF"/>
+                <constraint firstAttribute="height" constant="96" id="Mm5-9B-roJ"/>
+                <constraint firstItem="cLZ-EU-8Vm" firstAttribute="trailing" secondItem="Uv8-hZ-TnG" secondAttribute="trailing" id="P8C-YX-H0R"/>
+                <constraint firstItem="cLZ-EU-8Vm" firstAttribute="top" secondItem="Uv8-hZ-TnG" secondAttribute="bottom" constant="6" id="RJk-wr-Mim"/>
+                <constraint firstItem="Uv8-hZ-TnG" firstAttribute="top" secondItem="lTM-E1-CsT" secondAttribute="top" constant="12" id="Tw7-6s-t8d"/>
+                <constraint firstItem="Uv8-hZ-TnG" firstAttribute="leading" secondItem="lTM-E1-CsT" secondAttribute="leading" id="dl6-4b-bVQ"/>
+                <constraint firstItem="Eo9-iL-hjL" firstAttribute="top" secondItem="cLZ-EU-8Vm" secondAttribute="bottom" id="tGt-cF-PKZ"/>
+            </constraints>
+            <animations/>
+        </customView>
+        <customView hidden="YES" autoresizesSubviews="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Y0C-Vm-vVD" userLabel="Pending Users Action Overlay">
+            <rect key="frame" x="0.0" y="0.0" width="16" height="96"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+            <subviews>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="ioi-KN-wP0" userLabel="CloseConnection Button">
+                    <rect key="frame" x="0.0" y="68" width="16" height="16"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="16" id="734-Cm-gac"/>
+                        <constraint firstAttribute="height" constant="16" id="CEy-tl-nud"/>
+                    </constraints>
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="SharingIconCloseCross" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="rLm-jq-SK0">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                </button>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="7Kl-QN-egj" userLabel="Accept ReadOnly Button">
+                    <rect key="frame" x="0.0" y="46" width="16" height="16"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="16" id="SAC-27-DUn"/>
+                        <constraint firstAttribute="width" constant="16" id="Vw2-A8-DA9"/>
+                    </constraints>
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="SharingIconReadOnly" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="E6r-hA-4ou">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                </button>
+                <button translatesAutoresizingMaskIntoConstraints="NO" id="1iS-eR-ahe" userLabel="Accept Write Button">
+                    <rect key="frame" x="0.0" y="30" width="16" height="16"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="16" id="F0m-ea-eR3"/>
+                        <constraint firstAttribute="height" constant="16" id="Qtk-xf-DcC"/>
+                    </constraints>
+                    <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="SharingIconWrite" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="ZSM-Py-ctA">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="system"/>
+                    </buttonCell>
+                </button>
+            </subviews>
+            <constraints>
+                <constraint firstItem="ioi-KN-wP0" firstAttribute="trailing" secondItem="7Kl-QN-egj" secondAttribute="trailing" id="08L-D4-7Xs"/>
+                <constraint firstItem="7Kl-QN-egj" firstAttribute="trailing" secondItem="1iS-eR-ahe" secondAttribute="trailing" id="2gG-QI-uCO"/>
+                <constraint firstAttribute="width" constant="16" id="V5Z-k4-dCc"/>
+                <constraint firstItem="ioi-KN-wP0" firstAttribute="leading" secondItem="7Kl-QN-egj" secondAttribute="leading" id="fKt-4j-Ek9"/>
+                <constraint firstItem="ioi-KN-wP0" firstAttribute="top" secondItem="Y0C-Vm-vVD" secondAttribute="top" constant="12" id="i1s-ad-o3b"/>
+                <constraint firstAttribute="trailing" secondItem="ioi-KN-wP0" secondAttribute="trailing" id="lLy-ee-3bq"/>
+                <constraint firstItem="7Kl-QN-egj" firstAttribute="top" secondItem="ioi-KN-wP0" secondAttribute="bottom" constant="6" id="lha-49-wZf"/>
+                <constraint firstAttribute="height" constant="96" id="nvm-Sq-XOs"/>
+                <constraint firstItem="7Kl-QN-egj" firstAttribute="leading" secondItem="Y0C-Vm-vVD" secondAttribute="leading" id="qWW-DN-hHL"/>
+                <constraint firstItem="7Kl-QN-egj" firstAttribute="leading" secondItem="1iS-eR-ahe" secondAttribute="leading" id="rLE-kr-KU9"/>
+                <constraint firstItem="ioi-KN-wP0" firstAttribute="leading" secondItem="Y0C-Vm-vVD" secondAttribute="leading" id="sV2-RL-SiO"/>
+                <constraint firstItem="1iS-eR-ahe" firstAttribute="top" secondItem="7Kl-QN-egj" secondAttribute="bottom" id="w1s-na-i4B"/>
+            </constraints>
+        </customView>
     </objects>
     <resources>
         <image name="SharingIconCloseCross" width="84" height="84"/>
         <image name="SharingIconEye" width="84" height="84"/>
+        <image name="SharingIconReadOnly" width="84" height="84"/>
         <image name="SharingIconWrite" width="84" height="84"/>
         <image name="UnknownPerson" width="128" height="128"/>
     </resources>

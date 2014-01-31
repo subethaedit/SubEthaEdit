@@ -20,6 +20,8 @@ extern NSString * const TCMMMSessionDidReceiveContentNotification;
 extern NSString * const TCMMMSessionReadWriteGroupName;
 extern NSString * const TCMMMSessionReadOnlyGroupName ;
 
+extern NSString * const TCMMMSessionInvitedUserStateAwaitingResponse;
+extern NSString * const TCMMMSessionInvitedUserStateInvitationDeclined;
 
 @class SessionProfile, TCMMMOperation, TCMBEEPSession, TCMMMUser, TCMMMLoggingState;
 

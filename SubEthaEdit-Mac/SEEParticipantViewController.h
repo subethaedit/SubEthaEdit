@@ -12,8 +12,8 @@
 
 @interface SEEParticipantViewController : NSViewController
 
-@property (nonatomic, readonly, strong) TCMMMUser *user;
+@property (nonatomic, readonly, strong) TCMMMUser *participant;
 
 - (id)initWithParticipant:(TCMMMUser *)aParticipant;
-
+- (void)updateForInvitationState;
 @end

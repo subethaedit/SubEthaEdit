@@ -24,10 +24,15 @@
 @property (nonatomic, weak) IBOutlet NSButton *userViewButtonOutlet;
 @property (nonatomic, weak) IBOutlet NSProgressIndicator *connectingProgressIndicatorOutlet;
 
-@property (nonatomic, strong) IBOutlet NSView *actionOverlayOutlet;
+@property (nonatomic, strong) IBOutlet NSView *participantActionOverlayOutlet;
 @property (nonatomic, weak) IBOutlet NSButton *closeConnectionButtonOutlet;
 @property (nonatomic, weak) IBOutlet NSButton *toggleEditModeButtonOutlet;
 @property (nonatomic, weak) IBOutlet NSButton *toggleFollowButtonOutlet;
+
+@property (nonatomic, strong) IBOutlet NSView *pendingUserActionOverlayOutlet;
+@property (nonatomic, weak) IBOutlet NSButton *pendingUserKickButtonOutlet;
+@property (nonatomic, weak) IBOutlet NSButton *chooseEditModeButtonOutlet;
+@property (nonatomic, weak) IBOutlet NSButton *chooseReadOnlyModeButtonOutlet;
 
 @end
 
@@ -72,8 +77,8 @@
 	toggleFollowButton.alternateImage = [NSImage pdfBasedImageNamed:@"SharingIconEye"TCM_PDFIMAGE_SEP@"16"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_SELECTED];
 
 	if (self.participant.isMe) {
-		self.actionOverlayOutlet.hidden = YES;
-		self.actionOverlayOutlet = nil;
+		self.participantActionOverlayOutlet.hidden = YES;
+		self.participantActionOverlayOutlet = nil;
 	} else {
 		// install tracking for action overlay
 		[self.participantViewOutlet addTrackingArea:[[NSTrackingArea alloc] initWithRect:NSZeroRect options:NSTrackingMouseEnteredAndExited|NSTrackingActiveInKeyWindow|NSTrackingInVisibleRect owner:self userInfo:nil]];
@@ -81,18 +86,32 @@
 }
 
 - (void)mouseEntered:(NSEvent *)theEvent {
-	self.actionOverlayOutlet.hidden = NO;
+	self.participantActionOverlayOutlet.hidden = NO;
+	[self.view addSubview:self.participantActionOverlayOutlet];
+
+	NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:self.participantActionOverlayOutlet
+																  attribute:NSLayoutAttributeTrailing
+																  relatedBy:NSLayoutRelationEqual
+																	 toItem:self.view
+																  attribute:NSLayoutAttributeRight
+																 multiplier:1
+																   constant:0];
+	[self.view addConstraints:@[constraint]];
 }
 
 - (void)mouseExited:(NSEvent *)theEvent {
-	self.actionOverlayOutlet.hidden = YES;
+	[self.participantActionOverlayOutlet removeFromSuperview];
+	self.participantActionOverlayOutlet.hidden = YES;
 }
 
 - (IBAction)userViewButtonClicked:(id)sender {
+}
+
+- (void)updateForInvitationState {
 	self.connectingProgressIndicatorOutlet.usesThreadedAnimation = YES;
-	[self.connectingProgressIndicatorOutlet startAnimation:sender];
-	self.nameLabelOutlet.alphaValue = 0.6;
-	self.userViewButtonOutlet.alphaValue = 0.4;
+	[self.connectingProgressIndicatorOutlet startAnimation:self];
+	self.nameLabelOutlet.alphaValue = 0.8;
+	self.userViewButtonOutlet.alphaValue = 0.6;
 }
 
 @end

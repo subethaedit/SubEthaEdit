@@ -43,6 +43,9 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 NSString * const TCMMMSessionReadWriteGroupName = @"ReadWrite";
 NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
 
+NSString * const TCMMMSessionInvitedUserStateAwaitingResponse = @"AwaitingResponse";
+NSString * const TCMMMSessionInvitedUserStateInvitationDeclined = @"DeclinedInvitation";
+
 
 @interface TCMMMSession (TCMMMSessionPrivateAdditions)
 
@@ -624,7 +627,7 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
     
     if ([self isServer] && ![I_profilesByUserID objectForKey:userID]) {
         [I_groupOfInvitedUsers setObject:aGroup forKey:userID];
-        [I_stateOfInvitedUsers setObject:@"AwaitingResponse" forKey:userID];
+        [I_stateOfInvitedUsers setObject:TCMMMSessionInvitedUserStateAwaitingResponse forKey:userID];
         [[I_invitedUsers objectForKey:@"ReadWrite"] removeObject:aUser];
         [[I_invitedUsers objectForKey:@"ReadOnly"] removeObject:aUser];
         [[I_invitedUsers objectForKey:aGroup] addObject:aUser];
@@ -980,7 +983,7 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
     }
 
     NSString *userState=[I_stateOfInvitedUsers objectForKey:peerUserID];
-    if (userState && [userState isEqualToString:@"AwaitingResponse"]) {
+    if (userState && [userState isEqualToString:TCMMMSessionInvitedUserStateAwaitingResponse]) {
         [profile denyJoin];
     } else {
         if (userState) {
@@ -1126,7 +1129,7 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
 
 - (void)profileDidDeclineInvitation:(SessionProfile *)aProfile {
     NSString *peerUserID = [[[aProfile session] userInfo] objectForKey:@"peerUserID"];
-    [I_stateOfInvitedUsers setObject:@"DeclinedInvitation" forKey:peerUserID];
+    [I_stateOfInvitedUsers setObject:TCMMMSessionInvitedUserStateInvitationDeclined forKey:peerUserID];
     [aProfile setDelegate:nil];
     if ([I_profilesByUserID objectForKey:peerUserID]==aProfile) {
         [I_profilesByUserID removeObjectForKey:peerUserID];
@@ -1277,7 +1280,7 @@ NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
             [I_statesByClientID removeObjectForKey:peerUserID];
         } else {
             NSString *userState=[I_stateOfInvitedUsers objectForKey:peerUserID];
-            if (userState && [userState isEqualToString:@"AwaitingResponse"]) {
+            if (userState && [userState isEqualToString:TCMMMSessionInvitedUserStateAwaitingResponse]) {
                 [self profileDidDeclineInvitation:(SessionProfile *)aProfile];
             }
         }
