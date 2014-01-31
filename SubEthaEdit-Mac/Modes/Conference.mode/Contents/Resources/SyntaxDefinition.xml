@@ -23,7 +23,7 @@
                 <regex>^([[:upper:]0-9 _\-/&amp;.?!]+):</regex>
             </keywords>
             
-            <keywords id="Separators" color="#333" inverted-color="#ddd" useforautocomplete="no" scope="structured.separator">
+            <keywords id="Separators" color="#333" inverted-color="#ddd" useforautocomplete="no" scope="structured.separator.horizontal">
                 <regex>^(-{6,})</regex>
             </keywords>
 
