@@ -11,5 +11,5 @@
 #import <PSMTabBarControl/PSMTabStyle.h>
 
 @interface SEETabStyle : NSObject <PSMTabStyle>
-+ (CGFloat)desiredTabBarHeight;
++ (CGFloat)desiredTabBarControlHeight;
 @end

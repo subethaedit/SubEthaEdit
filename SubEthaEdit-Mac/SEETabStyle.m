@@ -28,7 +28,7 @@
 
 @implementation SEETabStyle
 
-+ (CGFloat)desiredTabBarHeight {
++ (CGFloat)desiredTabBarControlHeight {
 	return 24.0;
 }
 
@@ -128,7 +128,7 @@
 
 
 - (CGFloat)heightOfTabCellsForTabBarControl:(PSMTabBarControl *)tabBarControl {
-	return [SEETabStyle desiredTabBarHeight];
+	return [SEETabStyle desiredTabBarControlHeight];
 }
 
 - (void)drawBezelOfTabBarControl:(PSMTabBarControl *)tabBarControl inRect:(NSRect)rect {

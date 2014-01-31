@@ -254,12 +254,12 @@ static NSAttributedString *S_dragString = nil;
 
 	NSRect contentFrame = [[[self window] contentView] frame];
 	 
-	I_tabBar = [[PSMTabBarControl alloc] initWithFrame:NSMakeRect(0.0, NSHeight(contentFrame) - [SEETabStyle desiredTabBarHeight], NSWidth(contentFrame), [SEETabStyle desiredTabBarHeight])];
+	I_tabBar = [[PSMTabBarControl alloc] initWithFrame:NSMakeRect(0.0, NSHeight(contentFrame) - [SEETabStyle desiredTabBarControlHeight], NSWidth(contentFrame), [SEETabStyle desiredTabBarControlHeight])];
     [I_tabBar setAutoresizingMask:NSViewWidthSizable | NSViewMinYMargin];
     [I_tabBar setStyleNamed:@"SubEthaEdit"];
 	[I_tabBar setShowAddTabButton:YES];
     [[[self window] contentView] addSubview:I_tabBar];
-    I_tabView = [[NSTabView alloc] initWithFrame:NSMakeRect(0.0, 0.0, NSWidth(contentFrame), NSHeight(contentFrame) - [SEETabStyle desiredTabBarHeight])];
+    I_tabView = [[NSTabView alloc] initWithFrame:NSMakeRect(0.0, 0.0, NSWidth(contentFrame), NSHeight(contentFrame) - [SEETabStyle desiredTabBarControlHeight])];
     [I_tabView setAutoresizingMask:NSViewHeightSizable | NSViewWidthSizable];
     [I_tabView setTabViewType:NSNoTabsNoBorder];
     [[[self window] contentView] addSubview:I_tabView];
