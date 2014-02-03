@@ -163,13 +163,15 @@
 				[view addConstraints:@[horizontalConstraint, verticalConstraint]];
 				[participantViewController updateForInvitationState];
 			} else {
-				// TODO: remove declined users here
+				// Move invited user to 
 				NSUserNotification *userNotification = [[NSUserNotification alloc] init];
 				userNotification.hasActionButton = NO;
-				userNotification.title = [NSString stringWithFormat:NSLocalizedString(@"%@ declined your invitation.", @"User Notification title if a invited user declines your invitation."), user.name];
+				userNotification.title = NSLocalizedString(@"User declined invitation.", @"User Notification title if a invited user declines your invitation.");
+				userNotification.subtitle = [NSString stringWithFormat:NSLocalizedString(@"%@ did not join %@.", @"User Notification subtitle if a invited user declines your invitation."), user.name, self.document.displayName];
 				[[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:userNotification];
 
-				// add user too poof group...
+				// Let's do it async for now, because the old drawer causes crashes if the user is removed before it updates.
+				[session performSelector:@selector(cancelInvitationForUserWithID:) withObject:user.userID afterDelay:0.1];
 			}
 		}
 	}
