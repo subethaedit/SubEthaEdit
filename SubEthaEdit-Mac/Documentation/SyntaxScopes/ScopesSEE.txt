@@ -18,6 +18,8 @@ comment.line.vb
 
 keyword
 keyword.class
+keyword.constant
+keyword.constant.js
 keyword.control
 keyword.control.asp
 keyword.control.js
@@ -34,8 +36,6 @@ keyword.vb
 language.constant.numeric
 language.constant.numeric.character
 language.constant.numeric.js
-language.constant.numeric.keyword
-language.constant.numeric.keyword.js
 language.constant.numeric.preprocessor
 language.operator
 language.preprocessor
@@ -77,7 +77,6 @@ meta.block.create-table
 meta.block.css
 meta.block.curly
 meta.block.curly.js
-meta.block.curlybraces
 meta.block.directives
 meta.block.interpolation
 meta.block.js
@@ -150,7 +149,6 @@ string.symbol.percent.bracket
 string.symbol.percent.curly
 string.symbol.percent.parentheses
 
-structured
 structured.bold
 structured.changes.added
 structured.changes.deleted
@@ -168,7 +166,6 @@ structured.heading.2
 structured.heading.3
 structured.heading.4
 structured.heading.5
-structured.heading.section
 structured.italic
 structured.italicbold
 structured.list.numbered
@@ -179,6 +176,7 @@ structured.quote.odd
 structured.raw.code
 structured.raw.indented
 structured.reference
+structured.section
 structured.separator.horizontal
 structured.separator.vertical
 structured.tool-tip

@@ -20,7 +20,8 @@ comment.line.vb
 ### keyword marks the inner workings and special words of a language (basics)
 keyword						*// Keywords, Predefined Variables
 keyword.class				// Classes
-++ keyword.constant		// true, false, undefined, nil, NULL
+keyword.constant		// true, false, undefined, nil, NULL, NaN
+keyword.constant.js
 keyword.control				*// Control Statements - if else while end
 keyword.control.asp
 keyword.control.js
@@ -39,8 +40,6 @@ keyword.vb
 language.constant.numeric
 language.constant.numeric.character
 language.constant.numeric.js
--- language.constant.numeric.keyword // true false NaN undefined to keyword.constant, pi INT_MAX to support.constant
--- language.constant.numeric.keyword.js
 language.constant.numeric.preprocessor // numbers in preprocessor things - C mode
 language.operator			*// Operators - +, -,
 ++ language.operator.special			*// Operators: erlang "language.operator"
@@ -88,7 +87,6 @@ meta.block.create-table
 meta.block.css
 meta.block.curly
 meta.block.curly.js
--- meta.block.curlybraces
 meta.block.directives
 meta.block.interpolation
 meta.block.js
@@ -161,7 +159,6 @@ string.symbol.percent.bracket
 string.symbol.percent.curly
 string.symbol.percent.parentheses
 
-structured -> structured.section
 ++ structured.anchor
 structured.bold
 structured.changes.added
@@ -181,7 +178,6 @@ structured.heading.2
 structured.heading.3
 structured.heading.4
 structured.heading.5
-structured.heading.section -> structured.section
 structured.italic
 structured.italicbold
 structured.list.numbered
@@ -193,7 +189,7 @@ structured.quote.odd
 structured.raw.code
 structured.raw.indented
 structured.reference
-++ structured.section
+structured.section
 structured.separator.horizontal
 structured.separator.vertical
 structured.tool-tip
@@ -215,7 +211,7 @@ support.class
 support.class.standard.cocoa
 support.class.standard.js
 support.class.standard.objj
-support.constant // pi
+support.constant //  pi INT_MAX
 support.constant.cocoa
 support.constant.objj
 ++ support.subroutine.common(.third-party)
