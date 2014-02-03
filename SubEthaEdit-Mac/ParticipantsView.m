@@ -250,7 +250,7 @@
                 NSPoint draggingLocation=[self convertPoint:[sender draggingLocation] fromView:nil];
                 int itemIndex=[self targetItemForDragPoint:draggingLocation];
                 if (itemIndex<2) {
-                    NSString *key=(itemIndex==0?@"ReadWrite":@"ReadOnly");
+                    NSString *key=(itemIndex==0?TCMMMSessionReadWriteGroupName:TCMMMSessionReadOnlyGroupName);
                     if ([[plist objectForKey:key] boolValue]) {
                         [self highlightItemForDrag:itemIndex];
                         return NSDragOperationGeneric;
@@ -306,7 +306,7 @@
             if (user) {
                 TCMBEEPSession *BEEPSession=[[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:[user userID] peerAddressData:[userDescription objectForKey:@"PeerAddressData"]];
                 [[self document] setPlainTextEditorsShowChangeMarksOnInvitation];
-                [session inviteUser:user intoGroup:I_dragToItem==0?@"ReadWrite":@"ReadOnly" usingBEEPSession:BEEPSession];
+                [session inviteUser:user intoGroup:I_dragToItem==0?TCMMMSessionReadWriteGroupName:TCMMMSessionReadOnlyGroupName usingBEEPSession:BEEPSession];
             }
         }
         [self highlightItemForDrag:-1];
@@ -325,7 +325,7 @@
     } else if ([[pboard types] containsObject:@"PresentityNames"] ||
 			   [[pboard types] containsObject:@"IMHandleNames"]) {
         if ([[(PlainTextDocument *)[self document] session] isServer]) {
-            [ConnectionBrowserController invitePeopleFromPasteboard:pboard intoDocument:[self document] group:I_dragToItem==0?@"ReadWrite":@"ReadOnly"];
+            [ConnectionBrowserController invitePeopleFromPasteboard:pboard intoDocument:[self document] group:I_dragToItem==0?TCMMMSessionReadWriteGroupName:TCMMMSessionReadOnlyGroupName];
             [self highlightItemForDrag:-1];
             return YES;
         }

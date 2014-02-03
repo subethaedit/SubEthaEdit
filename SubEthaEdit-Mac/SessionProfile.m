@@ -336,7 +336,7 @@
             if ([operation isKindOfClass:[UserChangeOperation class]] &&
                 [(UserChangeOperation *)operation type]==UserChangeTypeGroupChange &&                                 
                 [[operation userID] isEqualToString:[TCMMMUserManager myUserID]] &&
-                [[(UserChangeOperation *)operation theNewGroup] isEqualToString:@"ReadOnly"]) {
+                [[(UserChangeOperation *)operation theNewGroup] isEqualToString:TCMMMSessionReadOnlyGroupName]) {
                 id delegate=[self delegate];
                 if ([delegate respondsToSelector:@selector(profile:didReceiveUserChangeToReadOnly:)]) {
                     [delegate profile:self didReceiveUserChangeToReadOnly:(UserChangeOperation *)operation];

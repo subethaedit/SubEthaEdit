@@ -19,6 +19,8 @@ extern NSString * const TCMMMSessionDidReceiveContentNotification;
 
 extern NSString * const TCMMMSessionReadWriteGroupName;
 extern NSString * const TCMMMSessionReadOnlyGroupName ;
+extern NSString * const TCMMMSessionPoofGroupName;
+// CloseGroup seems to be private to the session right now
 
 extern NSString * const TCMMMSessionInvitedUserStateAwaitingResponse;
 extern NSString * const TCMMMSessionInvitedUserStateInvitationDeclined;

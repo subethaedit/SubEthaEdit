@@ -5587,7 +5587,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 - (void)sendInitialUserStateViaMMState:(TCMMMState *)aState {
     TCMMMSession *session=[self session];
     NSString *sessionID=[session sessionID];
-    NSEnumerator *writingParticipants=[[[session participants] objectForKey:@"ReadWrite"] objectEnumerator];
+    NSEnumerator *writingParticipants=[[[session participants] objectForKey:TCMMMSessionReadWriteGroupName] objectEnumerator];
     TCMMMUser *user=nil;
     while ((user=[writingParticipants nextObject])) {
         SelectionOperation *selectionOperation=[[user propertiesForSessionID:sessionID] objectForKey:@"SelectionOperation"];
@@ -6131,7 +6131,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 		NSSharingService *customSharingService = [[NSSharingService alloc] initWithTitle:sharingServiceTitle image:userImage alternateImage:nil handler:^{
 			TCMBEEPSession *BEEPSession = [[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:[user userID]];// peerAddressData:[userDescription objectForKey:@"PeerAddressData"]];
 			[self setPlainTextEditorsShowChangeMarksOnInvitation];
-			[self.session inviteUser:user intoGroup:@"ReadWrite" usingBEEPSession:BEEPSession];
+			[self.session inviteUser:user intoGroup:TCMMMSessionReadWriteGroupName usingBEEPSession:BEEPSession];
 		}];
 
 		[sharingServices insertObject:customSharingService atIndex:0];
@@ -6225,7 +6225,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 // transform all selectedRanges
     TCMMMSession *session=[self session];
     NSString *sessionID=[session sessionID];
-    NSEnumerator *participants=[[[session participants] objectForKey:@"ReadWrite"] objectEnumerator];
+    NSEnumerator *participants=[[[session participants] objectForKey:TCMMMSessionReadWriteGroupName] objectEnumerator];
     BOOL didChangeAParticipant=NO;
     TCMMMUser *user=nil;
     TCMMMTransformator *transformator=[TCMMMTransformator sharedInstance];

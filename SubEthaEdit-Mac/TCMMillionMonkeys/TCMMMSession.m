@@ -42,6 +42,8 @@ NSString * const TCMMMSessionDidReceiveContentNotification =
 
 NSString * const TCMMMSessionReadWriteGroupName = @"ReadWrite";
 NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
+NSString * const TCMMMSessionPoofGroupName  = @"PoofGroup";
+NSString * const TCMMMSessionCloseGroupName  = @"CloseGroup";
 
 NSString * const TCMMMSessionInvitedUserStateAwaitingResponse = @"AwaitingResponse";
 NSString * const TCMMMSessionInvitedUserStateInvitationDeclined = @"DeclinedInvitation";
@@ -138,8 +140,8 @@ NSString * const TCMMMSessionInvitedUserStateInvitationDeclined = @"DeclinedInvi
         [self setHostID:[TCMMMUserManager myUserID]];
         TCMMMUser *me=[TCMMMUserManager me];
         [I_contributors addObject:me];
-        [I_participants setObject:[NSMutableArray arrayWithObject:me] forKey:@"ReadWrite"];
-        [I_groupByUserID setObject:@"ReadWrite" forKey:[me userID]];
+        [I_participants setObject:[NSMutableArray arrayWithObject:me] forKey:TCMMMSessionReadWriteGroupName];
+        [I_groupByUserID setObject:TCMMMSessionReadWriteGroupName forKey:[me userID]];
         [self setIsServer:YES];
         [self setClientState:TCMMMSessionClientNoState];
     }
@@ -371,7 +373,7 @@ NSString * const TCMMMSessionInvitedUserStateInvitationDeclined = @"DeclinedInvi
     I_accessState=aState;
     if (aState != TCMMMSessionAccessLockedState) {
         if ([I_pendingUsers count]) {
-            [self setGroup:aState==TCMMMSessionAccessReadWriteState?@"ReadWrite":@"ReadOnly"
+            [self setGroup:aState==TCMMMSessionAccessReadWriteState?TCMMMSessionReadWriteGroupName:TCMMMSessionReadOnlyGroupName
                   forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,[I_pendingUsers count])]];
         }
     }
@@ -423,7 +425,7 @@ NSString * const TCMMMSessionInvitedUserStateInvitationDeclined = @"DeclinedInvi
 }
 
 - (BOOL)isEditable {
-    return [[I_groupByUserID objectForKey:[TCMMMUserManager myUserID]] isEqualToString:@"ReadWrite"];
+    return [[I_groupByUserID objectForKey:[TCMMMUserManager myUserID]] isEqualToString:TCMMMSessionReadWriteGroupName];
 }
 
 - (void)presenceManagerDidReceiveToken:(NSNotification *)aNotification {
@@ -447,7 +449,7 @@ NSString * const TCMMMSessionInvitedUserStateInvitationDeclined = @"DeclinedInvi
 }
 
 - (void)setGroup:(NSString *)aGroup forParticipantsWithUserIDs:(NSArray *)aUserIDs {
-    if ([aGroup isEqualToString:@"PoofGroup"] || [aGroup isEqualToString:@"CloseGroup"]) {
+    if ([aGroup isEqualToString:TCMMMSessionPoofGroupName] || [aGroup isEqualToString:TCMMMSessionCloseGroupName]) {
         NSString *userID;
         TCMMMUser *user;
         TCMMMUserManager *userManager=[TCMMMUserManager sharedInstance];
@@ -500,7 +502,7 @@ NSString * const TCMMMSessionInvitedUserStateInvitationDeclined = @"DeclinedInvi
                 if ([self isServer]) {
                     [self documentDidApplyOperation:[UserChangeOperation userChangeOperationWithType:UserChangeTypeGroupChange userID:userID newGroup:aGroup]];
                 }
-                if ([oldGroup isEqualToString:@"ReadWrite"]) {
+                if ([oldGroup isEqualToString:TCMMMSessionReadWriteGroupName]) {
                     SessionProfile *profile=[I_profilesByUserID objectForKey:userID];
                     TCMMMState *state=[I_statesByClientID objectForKey:userID];
                     [state setClient:nil];
@@ -522,7 +524,7 @@ NSString * const TCMMMSessionInvitedUserStateInvitationDeclined = @"DeclinedInvi
 }
 
 - (void)setGroup:(NSString *)aGroup forPendingUsersWithIndexes:(NSIndexSet *)aSet {
-    if ([aGroup isEqualToString:@"PoofGroup"]) {
+    if ([aGroup isEqualToString:TCMMMSessionPoofGroupName]) {
         NSMutableIndexSet *set = [aSet mutableCopy];
         NSUInteger index;
         while ((index = [set firstIndex]) != NSNotFound) {
@@ -628,8 +630,8 @@ NSString * const TCMMMSessionInvitedUserStateInvitationDeclined = @"DeclinedInvi
     if ([self isServer] && ![I_profilesByUserID objectForKey:userID]) {
         [I_groupOfInvitedUsers setObject:aGroup forKey:userID];
         [I_stateOfInvitedUsers setObject:TCMMMSessionInvitedUserStateAwaitingResponse forKey:userID];
-        [[I_invitedUsers objectForKey:@"ReadWrite"] removeObject:aUser];
-        [[I_invitedUsers objectForKey:@"ReadOnly"] removeObject:aUser];
+        [[I_invitedUsers objectForKey:TCMMMSessionReadWriteGroupName] removeObject:aUser];
+        [[I_invitedUsers objectForKey:TCMMMSessionReadOnlyGroupName] removeObject:aUser];
         [[I_invitedUsers objectForKey:aGroup] addObject:aUser];
     //    NSLog(@"BeepSession: %@ forUser:%@",aBEEPSession, aUser);
         [aBEEPSession startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"] andData:[NSArray arrayWithObject:[SessionProfile defaultInitializationData]] sender:self];
@@ -723,8 +725,8 @@ NSString * const TCMMMSessionInvitedUserStateInvitationDeclined = @"DeclinedInvi
 - (void)abandon {
     NSMutableSet *userIDs=[NSMutableSet setWithArray:[I_groupByUserID allKeys]];
     [userIDs removeObject:[TCMMMUserManager myUserID]];
-    [self setGroup:@"CloseGroup" forParticipantsWithUserIDs:[userIDs allObjects]];
-    [self setGroup:@"PoofGroup" forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,[I_pendingUsers count])]];
+    [self setGroup:TCMMMSessionCloseGroupName forParticipantsWithUserIDs:[userIDs allObjects]];
+    [self setGroup:TCMMMSessionPoofGroupName forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0,[I_pendingUsers count])]];
     NSEnumerator *invitedUserIDs=[[I_groupOfInvitedUsers allKeys] objectEnumerator];
     NSString *userID=nil;
     while ((userID=[invitedUserIDs nextObject])) {
@@ -974,12 +976,12 @@ NSString * const TCMMMSessionInvitedUserStateInvitationDeclined = @"DeclinedInvi
     
     TCMMMState *state=[I_statesByClientID objectForKey:peerUserID];
     if (state) {
-        [self setGroup:@"PoofGroup" forParticipantsWithUserIDs:[NSArray arrayWithObject:peerUserID]];
+        [self setGroup:TCMMMSessionPoofGroupName forParticipantsWithUserIDs:[NSArray arrayWithObject:peerUserID]];
     }
     TCMMMUser *user=[[TCMMMUserManager sharedInstance] userForUserID:peerUserID];
     
     if ([I_pendingUsers containsObject:user]) {
-        [self setGroup:@"PoofGroup" forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndex:[I_pendingUsers indexOfObject:user]]];
+        [self setGroup:TCMMMSessionPoofGroupName forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndex:[I_pendingUsers indexOfObject:user]]];
     }
 
     NSString *userState=[I_stateOfInvitedUsers objectForKey:peerUserID];
@@ -995,7 +997,7 @@ NSString * const TCMMMSessionInvitedUserStateInvitationDeclined = @"DeclinedInvi
         [profile setDelegate:self];
         // decide if autojoin depending on setting
         if ([self accessState]!=TCMMMSessionAccessLockedState) {
-            [self setGroup:[self accessState]==TCMMMSessionAccessReadWriteState?@"ReadWrite":@"ReadOnly"
+            [self setGroup:[self accessState]==TCMMMSessionAccessReadWriteState?TCMMMSessionReadWriteGroupName:TCMMMSessionReadOnlyGroupName
                   forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndex:[I_pendingUsers count]-1]];
         } else {
             // if no autojoin add user to pending users and notify 
@@ -1327,7 +1329,7 @@ NSString * const TCMMMSessionInvitedUserStateInvitationDeclined = @"DeclinedInvi
     //NSLog(@"pre-emtive-didRecieveUserChangeToReadOnly");
     TCMMMState *state=[I_statesByClientID objectForKey:[self hostID]];
     [state processAllUserChangeMessages];
-    [self setGroup:@"ReadOnly" forParticipantsWithUserIDs:[NSArray arrayWithObject:[TCMMMUserManager myUserID]]];
+    [self setGroup:TCMMMSessionReadOnlyGroupName forParticipantsWithUserIDs:[NSArray arrayWithObject:[TCMMMUserManager myUserID]]];
     SessionProfile *profile=[I_profilesByUserID objectForKey:[self hostID]];
     [profile setMMState:nil];
     [state setDelegate:nil];
@@ -1365,7 +1367,7 @@ NSString * const TCMMMSessionInvitedUserStateInvitationDeclined = @"DeclinedInvi
                 // remove all Users
                 [self cleanupParticipants];
                 // detach document
-                if ([[anOperation theNewGroup] isEqualTo:@"PoofGroup"]) {
+                if ([[anOperation theNewGroup] isEqualTo:TCMMMSessionPoofGroupName]) {
                     [[self document] sessionDidReceiveKick:self];
                 } else {
                     [[self document] sessionDidReceiveClose:self];
@@ -1373,7 +1375,7 @@ NSString * const TCMMMSessionInvitedUserStateInvitationDeclined = @"DeclinedInvi
                 [self setClientState:TCMMMSessionClientNoState];
             }
         } else if ([userID isEqualToString:[self hostID]] && ![self isServer]) {
-            if ([[anOperation theNewGroup] isEqualTo:@"PoofGroup"]) {
+            if ([[anOperation theNewGroup] isEqualTo:TCMMMSessionPoofGroupName]) {
                 [[self document] sessionDidLoseConnection:self];
             } else {
                 [[self document] sessionDidReceiveClose:self];
@@ -1401,7 +1403,7 @@ NSString * const TCMMMSessionInvitedUserStateInvitationDeclined = @"DeclinedInvi
                 DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Can't change my group in my document, pah!");
             } else {
                 //NSLog(@"normal self change:%@",[anOperation description]);
-                if ([[anOperation theNewGroup] isEqualTo:@"ReadOnly"]) {
+                if ([[anOperation theNewGroup] isEqualTo:TCMMMSessionReadOnlyGroupName]) {
                     //NSLog(@"normal self change to read only");
 
                     [[aState retain] autorelease];
@@ -1500,7 +1502,7 @@ NSString * const TCMMMSessionInvitedUserStateInvitationDeclined = @"DeclinedInvi
         
         if (clientID) { // bad client sent a message that could not be processed 
             if ([self isServer]) {
-                [self setGroup:@"PoofGroup" forParticipantsWithUserIDs:[NSArray arrayWithObject:clientID]];
+                [self setGroup:TCMMMSessionPoofGroupName forParticipantsWithUserIDs:[NSArray arrayWithObject:clientID]];
             } else {
                 [self leave];
                 break;
