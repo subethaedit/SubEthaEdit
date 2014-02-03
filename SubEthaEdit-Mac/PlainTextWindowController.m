@@ -34,6 +34,7 @@
 #import <PSMTabBarControl/PSMTabStyle.h>
 #import "URLBubbleWindow.h"
 #import "SEEParticipantsOverlayViewController.h"
+#import "SEETabStyle.h"
 #import <objc/objc-runtime.h>			// for objc_msgSend
 
 
@@ -97,6 +98,12 @@ static NSAttributedString *S_dragString = nil;
 #pragma mark -
 
 @implementation PlainTextWindowController
+
++ (void)initialize {
+	if (self == [PlainTextWindowController class]) {
+		[PSMTabBarControl registerTabStyleClass:[SEETabStyle class]];
+	}
+}
 
 - (id)init {
     if ((self = [super initWithWindowNibName:@"PlainTextWindow"])) {
@@ -248,11 +255,12 @@ static NSAttributedString *S_dragString = nil;
 
 	NSRect contentFrame = [[[self window] contentView] frame];
 	 
-	I_tabBar = [[PSMTabBarControl alloc] initWithFrame:NSMakeRect(0.0, NSHeight(contentFrame) - 22.0, NSWidth(contentFrame), 22.0)];
+	I_tabBar = [[PSMTabBarControl alloc] initWithFrame:NSMakeRect(0.0, NSHeight(contentFrame) - [SEETabStyle desiredTabBarControlHeight], NSWidth(contentFrame), [SEETabStyle desiredTabBarControlHeight])];
     [I_tabBar setAutoresizingMask:NSViewWidthSizable | NSViewMinYMargin];
-    [I_tabBar setStyleNamed:@"Unified"];
+    [I_tabBar setStyleNamed:@"SubEthaEdit"];
+	[I_tabBar setShowAddTabButton:YES];
     [[[self window] contentView] addSubview:I_tabBar];
-    I_tabView = [[NSTabView alloc] initWithFrame:NSMakeRect(0.0, 0.0, NSWidth(contentFrame), NSHeight(contentFrame) - 22.0)];
+    I_tabView = [[NSTabView alloc] initWithFrame:NSMakeRect(0.0, 0.0, NSWidth(contentFrame), NSHeight(contentFrame) - [SEETabStyle desiredTabBarControlHeight])];
     [I_tabView setAutoresizingMask:NSViewHeightSizable | NSViewWidthSizable];
     [I_tabView setTabViewType:NSNoTabsNoBorder];
     [[[self window] contentView] addSubview:I_tabView];
@@ -263,8 +271,8 @@ static NSAttributedString *S_dragString = nil;
     BOOL shouldHideTabBar = [[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey];
     [I_tabBar setHideForSingleTab:!shouldHideTabBar];
     [I_tabBar hideTabBar:!shouldHideTabBar animate:NO];
-//    [I_tabBar setCellOptimumWidth:160];
-//    [I_tabBar setCellMinWidth:120];
+    [I_tabBar setCellOptimumWidth:300];
+    [I_tabBar setCellMinWidth:140];
 
 	NSMutableParagraphStyle *paragraphStyle = [[[NSParagraphStyle defaultParagraphStyle] mutableCopy] autorelease];
     [paragraphStyle setAlignment:NSCenterTextAlignment];
@@ -2688,10 +2696,10 @@ static NSAttributedString *S_dragString = nil;
 	PSMTabBarControl *tabItem = (PSMTabBarControl *)[aTabView delegate];
 	if ([tabItem orientation] == PSMTabBarHorizontalOrientation) {
 		offset->width = [(id <PSMTabStyle>)[tabItem style] leftMarginForTabBarControl:tabItem];
-		offset->height = 22;
+		offset->height = 24;
 	} else {
 		offset->width = 0;
-		offset->height = 22 + [(id <PSMTabStyle>)[tabItem style] leftMarginForTabBarControl:tabItem];
+		offset->height = 24 + [(id <PSMTabStyle>)[tabItem style] leftMarginForTabBarControl:tabItem];
 	}
 	*styleMask = NSBorderlessWindowMask; //NSTitledWindowMask;
 	

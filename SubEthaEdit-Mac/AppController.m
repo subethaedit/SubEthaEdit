@@ -909,16 +909,18 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     // make sure Basic directories have been created
     [DocumentModeManager sharedInstance];
     
+	NSArray *scriptURLs = nil;
     NSURL *userScriptsDirectory = [[NSFileManager defaultManager] URLForDirectory:NSApplicationScriptsDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:nil];
-    NSArray *scriptURLs = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:userScriptsDirectory includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles error:nil];
-    for (NSURL *scriptURL in scriptURLs)
-    {
-        ScriptWrapper *script = [ScriptWrapper scriptWrapperWithContentsOfURL:scriptURL];
-        if (script) {
-            [I_scriptsByFilename setObject:script forKey:[[[scriptURL path] stringByStandardizingPath] stringByDeletingPathExtension]];
-        }
+	if (userScriptsDirectory) {
+		scriptURLs = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:userScriptsDirectory includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles error:nil];
+		for (NSURL *scriptURL in scriptURLs)
+		{
+			ScriptWrapper *script = [ScriptWrapper scriptWrapperWithContentsOfURL:scriptURL];
+			if (script) {
+				[I_scriptsByFilename setObject:script forKey:[[[scriptURL path] stringByStandardizingPath] stringByDeletingPathExtension]];
+			}
+		}
     }
-    
     NSURL *applicationScriptsDirectory = [[[NSBundle mainBundle] resourceURL] URLByAppendingPathComponent:@"Scripts"];
     scriptURLs = [[NSFileManager defaultManager] contentsOfDirectoryAtURL:applicationScriptsDirectory includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles error:nil];
     for (NSURL *scriptURL in scriptURLs)
