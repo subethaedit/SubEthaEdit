@@ -16,7 +16,7 @@
                 <regex>(\\\\)</regex>
             </keywords>
             
-            <keywords id="Structuring Keywords" color="#881350" font-weight="bold" scope="structured"> 
+            <keywords id="Structuring Keywords" color="#881350" font-weight="bold" scope="structured.section"> 
                 <regex>(\\part[\t ]*{[^}]*})</regex>
                 <regex>(\\chapter[\t ]*{[^}]*})</regex>
                 <regex>(\\section[\t ]*{[^}]*})</regex>

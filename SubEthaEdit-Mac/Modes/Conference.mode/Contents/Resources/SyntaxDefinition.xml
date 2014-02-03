@@ -19,7 +19,7 @@
                 <regex>^([[:upper:]0-9]+[[:upper:]0-9 &amp;_\-/'.?!]*)[\n\r]</regex>
             </keywords>
 
-            <keywords id="Sections" color="#a61a1a" inverted-color="#ff2528" font-weight="bold" useforautocomplete="no" scope="structured.heading.section">
+            <keywords id="Sections" color="#a61a1a" inverted-color="#ff2528" font-weight="bold" useforautocomplete="no" scope="structured.section">
                 <regex>^([[:upper:]0-9 _\-/&amp;.?!]+):</regex>
             </keywords>
             
