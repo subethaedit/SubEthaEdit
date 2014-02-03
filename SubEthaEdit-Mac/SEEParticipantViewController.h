@@ -15,5 +15,9 @@
 @property (nonatomic, readonly, strong) TCMMMUser *participant;
 
 - (id)initWithParticipant:(TCMMMUser *)aParticipant;
+
+- (void)updateForParticipantUserState;
+- (void)updateForPendingUserState;
 - (void)updateForInvitationState;
+
 @end

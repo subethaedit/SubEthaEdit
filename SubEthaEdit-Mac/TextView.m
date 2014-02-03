@@ -292,7 +292,7 @@ static NSMenu *S_defaultMenu=nil;
     TCMMMSession *session=[document session];
     NSString *sessionID=[session sessionID];
     NSDictionary *sessionParticipants=[session participants];
-    NSEnumerator *participants = [[sessionParticipants objectForKey:@"ReadWrite"] objectEnumerator];
+    NSEnumerator *participants = [[sessionParticipants objectForKey:TCMMMSessionReadWriteGroupName] objectEnumerator];
     TCMMMUser *user;
     TCMMMUser *me=[TCMMMUserManager me];
 
@@ -883,7 +883,7 @@ static NSMenu *S_defaultMenu=nil;
             if (user) {
                 TCMBEEPSession *BEEPSession=[[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:[user userID] peerAddressData:[userDescription objectForKey:@"PeerAddressData"]];
                 [document setPlainTextEditorsShowChangeMarksOnInvitation];
-                [session inviteUser:user intoGroup:@"ReadWrite" usingBEEPSession:BEEPSession];
+                [session inviteUser:user intoGroup:TCMMMSessionReadWriteGroupName usingBEEPSession:BEEPSession];
             }
         }
         [self setIsDragTarget:NO];

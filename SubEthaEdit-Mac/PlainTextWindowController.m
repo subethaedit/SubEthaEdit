@@ -191,7 +191,7 @@ static NSAttributedString *S_dragString = nil;
 
 - (void)setInitialRadarStatusForPlainTextEditor:(PlainTextEditor *)editor {
     PlainTextDocument *document=(PlainTextDocument *)[self document];
-    NSEnumerator *users=[[[[document session] participants] objectForKey:@"ReadWrite"] objectEnumerator];
+    NSEnumerator *users=[[[[document session] participants] objectForKey:TCMMMSessionReadWriteGroupName] objectEnumerator];
     TCMMMUser *user=nil;
     while ((user=[users nextObject])) {
         if (user != [TCMMMUserManager me]) {
@@ -683,8 +683,8 @@ static NSAttributedString *S_dragString = nil;
             ItemChildPair pair=[O_participantsView itemChildPairAtRow:row];
             if (pair.childIndex!=-1) {
                 if (pair.itemIndex==0) {
-                    if (pair.childIndex<[(NSArray*)[participants objectForKey:@"ReadWrite"] count]) {
-                        if ([[[[participants objectForKey:@"ReadWrite"] objectAtIndex:pair.childIndex] userID] isEqualToString:[TCMMMUserManager myUserID]]) {
+                    if (pair.childIndex<[(NSArray*)[participants objectForKey:TCMMMSessionReadWriteGroupName] count]) {
+                        if ([[[[participants objectForKey:TCMMMSessionReadWriteGroupName] objectAtIndex:pair.childIndex] userID] isEqualToString:[TCMMMUserManager myUserID]]) {
                             return 0;
                         } else {
                             buttonState = buttonState | ReadOnlyButtonStateMask;
@@ -695,7 +695,7 @@ static NSAttributedString *S_dragString = nil;
                     }
                     buttonState |= KickStateMask;
                 } else if (pair.itemIndex==1) {
-                    if (pair.childIndex<[(NSArray*)[participants objectForKey:@"ReadOnly"] count]) {
+                    if (pair.childIndex<[(NSArray*)[participants objectForKey:TCMMMSessionReadOnlyGroupName] count]) {
                         buttonState = buttonState | ReadWriteButtonStateMask;
                     } else {
                         buttonState &= ~FollowUserStateMask;
@@ -719,7 +719,7 @@ static NSAttributedString *S_dragString = nil;
         ItemChildPair pair = [O_participantsView itemChildPairAtRow:[selectedRows firstIndex]];
         if (pair.childIndex != -1 && pair.itemIndex == 0) {
             NSDictionary *participants=[session participants];
-            NSArray *dataSource = [participants objectForKey:@"ReadWrite"];
+            NSArray *dataSource = [participants objectForKey:TCMMMSessionReadWriteGroupName];
             if (pair.childIndex<[dataSource count]) {
                 if (![[[dataSource objectAtIndex:pair.childIndex] userID] isEqualToString:[TCMMMUserManager myUserID]]) {
                     buttonState |= FollowUserStateMask;
@@ -733,7 +733,7 @@ static NSAttributedString *S_dragString = nil;
         ItemChildPair pair=[O_participantsView itemChildPairAtRow:selectedRow];
         if (pair.childIndex!=-1) {
             if (pair.itemIndex!=2) {
-                NSArray *participantArray=[[[(PlainTextDocument *)[self document] session] participants] objectForKey:(pair.itemIndex==0?@"ReadWrite":@"ReadOnly")];
+                NSArray *participantArray=[[[(PlainTextDocument *)[self document] session] participants] objectForKey:(pair.itemIndex==0?TCMMMSessionReadWriteGroupName:TCMMMSessionReadOnlyGroupName)];
                 if ([participantArray count]>pair.childIndex) {
                     NSString *userID=[[participantArray objectAtIndex:pair.childIndex] userID];
                 
@@ -782,7 +782,7 @@ static NSAttributedString *S_dragString = nil;
             ItemChildPair pair=[O_participantsView itemChildPairAtRow:row];
             if (pair.childIndex!=-1) {
                 if (pair.itemIndex!=2) {
-                    NSString *group=(pair.itemIndex==0)?@"ReadWrite":@"ReadOnly";
+                    NSString *group=(pair.itemIndex==0)?TCMMMSessionReadWriteGroupName:TCMMMSessionReadOnlyGroupName;
                     if ([(NSArray*)[participants objectForKey:group] count]>pair.childIndex) {
                         NSString *userID=[[[participants objectForKey:group] objectAtIndex:pair.childIndex] userID];
                         if (![userID isEqualToString:[TCMMMUserManager myUserID]]) {
@@ -798,10 +798,10 @@ static NSAttributedString *S_dragString = nil;
             [rows removeIndex:row];
         }
         if ([pendingUsersIndexSet count]>0) {
-            [session setGroup:@"PoofGroup" forPendingUsersWithIndexes:pendingUsersIndexSet];
+            [session setGroup:TCMMMSessionReadOnlyGroupName forPendingUsersWithIndexes:pendingUsersIndexSet];
         }
         if ([userIDsToKick count]>0) {
-            [session setGroup:@"PoofGroup" forParticipantsWithUserIDs:userIDsToKick];
+            [session setGroup:TCMMMSessionReadOnlyGroupName forParticipantsWithUserIDs:userIDsToKick];
         }
         if ([userIDsToCancelInvitation count]>0) {
             NSString *userID=nil;
@@ -823,7 +823,7 @@ static NSAttributedString *S_dragString = nil;
         NSMutableIndexSet *rows=[[[O_participantsView selectedRowIndexes] mutableCopy] autorelease];
         NSUInteger row=NSNotFound;
         NSDictionary *participants=[session participants];
-        NSArray *readWriteArray=[participants objectForKey:@"ReadWrite"];
+        NSArray *readWriteArray=[participants objectForKey:TCMMMSessionReadWriteGroupName];
         for (row=[rows firstIndex];row!=NSNotFound;row=[rows firstIndex]) {
             ItemChildPair pair=[O_participantsView itemChildPairAtRow:row];
             if (pair.childIndex!=-1) {
@@ -841,10 +841,10 @@ static NSAttributedString *S_dragString = nil;
             [rows removeIndex:row];
         }
         if ([pendingUsersIndexSet count]>0) {
-            [session setGroup:@"ReadOnly" forPendingUsersWithIndexes:pendingUsersIndexSet];
+            [session setGroup:TCMMMSessionReadOnlyGroupName forPendingUsersWithIndexes:pendingUsersIndexSet];
         }
         if ([userIDsToChangeGroup count]>0) {
-            [session setGroup:@"ReadOnly" forParticipantsWithUserIDs:userIDsToChangeGroup];
+            [session setGroup:TCMMMSessionReadOnlyGroupName forParticipantsWithUserIDs:userIDsToChangeGroup];
         }
     
         [O_participantsView reloadData];
@@ -860,7 +860,7 @@ static NSAttributedString *S_dragString = nil;
         NSMutableIndexSet *rows=[[[O_participantsView selectedRowIndexes] mutableCopy] autorelease];
         NSUInteger row=NSNotFound;
         NSDictionary *participants=[session participants];
-        NSArray *readOnlyArray=[participants objectForKey:@"ReadOnly"];
+        NSArray *readOnlyArray=[participants objectForKey:TCMMMSessionReadOnlyGroupName];
         for (row=[rows firstIndex];row!=NSNotFound;row=[rows firstIndex]) {
             ItemChildPair pair=[O_participantsView itemChildPairAtRow:row];
             if (pair.childIndex!=-1) {
@@ -875,10 +875,10 @@ static NSAttributedString *S_dragString = nil;
             [rows removeIndex:row];
         }
         if ([pendingUsersIndexSet count]>0) {
-            [session setGroup:@"ReadWrite" forPendingUsersWithIndexes:pendingUsersIndexSet];
+            [session setGroup:TCMMMSessionReadWriteGroupName forPendingUsersWithIndexes:pendingUsersIndexSet];
         }
         if ([userIDsToChangeGroup count]>0) {
-            [session setGroup:@"ReadWrite" forParticipantsWithUserIDs:userIDsToChangeGroup];
+            [session setGroup:TCMMMSessionReadWriteGroupName forParticipantsWithUserIDs:userIDsToChangeGroup];
         }
     
         [O_participantsView reloadData];
@@ -901,7 +901,7 @@ static NSAttributedString *S_dragString = nil;
         ItemChildPair pair=[O_participantsView itemChildPairAtRow:selectedRow];
         if (pair.childIndex!=-1) {
             if (pair.itemIndex!=2) {
-                NSArray *participantArray=[[[(PlainTextDocument *)[self document] session] participants] objectForKey:(pair.itemIndex==0?@"ReadWrite":@"ReadOnly")];
+                NSArray *participantArray=[[[(PlainTextDocument *)[self document] session] participants] objectForKey:(pair.itemIndex==0?TCMMMSessionReadWriteGroupName:TCMMMSessionReadOnlyGroupName)];
                 if ([participantArray count]>pair.childIndex) {
                     NSString *userID=[[participantArray objectAtIndex:pair.childIndex] userID];
                     if (![userID isEqualToString:[TCMMMUserManager myUserID]]) {
@@ -933,7 +933,7 @@ static NSAttributedString *S_dragString = nil;
         if (pair.childIndex!=-1) {
             TCMMMSession *session=[(PlainTextDocument *)[self document] session];
             if (pair.itemIndex==2) {
-                [session setGroup:@"ReadWrite" forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndex:pair.childIndex]];
+                [session setGroup:TCMMMSessionReadWriteGroupName forPendingUsersWithIndexes:[NSIndexSet indexSetWithIndex:pair.childIndex]];
             } else {
                 [self followUser:aSender];
             }
@@ -1640,11 +1640,11 @@ static NSAttributedString *S_dragString = nil;
         NSDictionary *participants=[session participants];
         NSDictionary *invitedUsers=[session invitedUsers];
         if (anItemIndex==0) {
-            return [(NSArray*)[participants objectForKey:@"ReadWrite"] count] + 
-                   [(NSArray*)[invitedUsers objectForKey:@"ReadWrite"] count];
+            return [(NSArray*)[participants objectForKey:TCMMMSessionReadWriteGroupName] count] + 
+                   [(NSArray*)[invitedUsers objectForKey:TCMMMSessionReadWriteGroupName] count];
         } else if (anItemIndex==1) {
-            return [(NSArray*)[participants objectForKey:@"ReadOnly"] count] + 
-                   [(NSArray*)[invitedUsers objectForKey:@"ReadOnly"] count];
+            return [(NSArray*)[participants objectForKey:TCMMMSessionReadOnlyGroupName] count] + 
+                   [(NSArray*)[invitedUsers objectForKey:TCMMMSessionReadOnlyGroupName] count];
         } else if (anItemIndex==2) {
             return [[session pendingUsers] count];
         }
@@ -1690,7 +1690,7 @@ static NSAttributedString *S_dragString = nil;
         TCMMMUser *user=nil;
         NSInteger participantCount=0;
         if (anItemIndex==0 || anItemIndex==1) {
-            NSString *group=(anItemIndex==0)?@"ReadWrite":@"ReadOnly";
+            NSString *group=(anItemIndex==0)?TCMMMSessionReadWriteGroupName:TCMMMSessionReadOnlyGroupName;
             participantCount=[(NSArray*)[participants objectForKey:group] count];
             if (aChildIndex < participantCount) {
                 user=[[participants objectForKey:group] objectAtIndex:aChildIndex];
@@ -1755,7 +1755,7 @@ static NSAttributedString *S_dragString = nil;
         NSDictionary *participants=[session participants];
         TCMMMUser *user=nil;
         if (anItemIndex<2) {
-            NSString *group = anItemIndex==0?@"ReadWrite":@"ReadOnly";
+            NSString *group = anItemIndex==0?TCMMMSessionReadWriteGroupName:TCMMMSessionReadOnlyGroupName;
             if ([(NSArray*)[participants objectForKey:group] count]>aChildIndex) {
                 user=[[participants objectForKey:group] objectAtIndex:aChildIndex];
             } else {
@@ -1813,8 +1813,8 @@ static NSAttributedString *S_dragString = nil;
         NSInteger state = [self buttonStateForSelectedRows:selectedRows];
         NSDictionary *plist=[NSDictionary dictionaryWithObjectsAndKeys:
             [NSNumber numberWithBool:(state & KickButtonStateMask)],@"Kick",
-            [NSNumber numberWithBool:(state & ReadOnlyButtonStateMask)],@"ReadOnly",
-            [NSNumber numberWithBool:(state & ReadWriteButtonStateMask)],@"ReadWrite",nil];
+            [NSNumber numberWithBool:(state & ReadOnlyButtonStateMask)],TCMMMSessionReadOnlyGroupName,
+            [NSNumber numberWithBool:(state & ReadWriteButtonStateMask)],TCMMMSessionReadWriteGroupName,nil];
         [aPasteBoard declareTypes:[NSArray arrayWithObjects:@"ParticipantDrag",NSVCardPboardType,nil] owner:nil];
         [aPasteBoard setPropertyList:plist forType:@"ParticipantDrag"];
         NSMutableString *vcfString=[NSMutableString string];
@@ -1827,7 +1827,7 @@ static NSAttributedString *S_dragString = nil;
                 if (pair.itemIndex==2) {
                     user=[[session pendingUsers] objectAtIndex:pair.childIndex];
                 } else {
-                    NSString *group=(pair.itemIndex==0)?@"ReadWrite":@"ReadOnly";
+                    NSString *group=(pair.itemIndex==0)?TCMMMSessionReadWriteGroupName:TCMMMSessionReadOnlyGroupName;
                     NSArray *array=[[session participants] objectForKey:group];
                     if ([array count]>pair.childIndex) {
                         user=[array objectAtIndex:pair.childIndex];
@@ -1868,11 +1868,11 @@ static NSAttributedString *S_dragString = nil;
             if (pair.itemIndex==2) {
                 user=[[session pendingUsers] objectAtIndex:pair.childIndex];
             } else {
-                NSArray *participantArray=[[session participants] objectForKey:(pair.itemIndex==0?@"ReadWrite":@"ReadOnly")];
+                NSArray *participantArray=[[session participants] objectForKey:(pair.itemIndex==0?TCMMMSessionReadWriteGroupName:TCMMMSessionReadOnlyGroupName)];
                 if ([participantArray count]>pair.childIndex) {
                     user=[participantArray objectAtIndex:pair.childIndex];
                 } else {
-                    user=[[[session invitedUsers] objectForKey:(pair.itemIndex==0?@"ReadWrite":@"ReadOnly")] objectAtIndex:pair.childIndex-[participantArray count]];
+                    user=[[[session invitedUsers] objectForKey:(pair.itemIndex==0?TCMMMSessionReadWriteGroupName:TCMMMSessionReadOnlyGroupName)] objectAtIndex:pair.childIndex-[participantArray count]];
                 }
             }
         }
