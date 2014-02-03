@@ -164,6 +164,12 @@
 				[participantViewController updateForInvitationState];
 			} else {
 				// TODO: remove declined users here
+				NSUserNotification *userNotification = [[NSUserNotification alloc] init];
+				userNotification.hasActionButton = NO;
+				userNotification.title = [NSString stringWithFormat:NSLocalizedString(@"%@ declined your invitation.", @"User Notification title if a invited user declines your invitation."), user.name];
+				[[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:userNotification];
+
+				// add user too poof group...
 			}
 		}
 	}
