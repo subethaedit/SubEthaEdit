@@ -177,6 +177,8 @@
 																	  multiplier:1
 																		constant:0];
 	[view addConstraints:@[verticalConstraint, heightConstraint, horizontalConstraint, witdhConstraint]];
+//	spacerView.layer.borderWidth = 1;
+//	spacerView.layer.borderColor = [[NSColor redColor] CGColor];
 
 	// Invited user waiting to be accepted
 	{
@@ -264,6 +266,8 @@
 												  multiplier:1
 													constant:0];
 	[view addConstraints:@[verticalConstraint, heightConstraint, horizontalConstraint, witdhConstraint]];
+//	secondSpacerView.layer.borderWidth = 1;
+//	secondSpacerView.layer.borderColor = [[NSColor redColor] CGColor];
 
 	// Pending users to be accepted
 	{
