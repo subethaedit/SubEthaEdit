@@ -266,9 +266,6 @@ structured.heading.3
 structured.heading.4
 structured.heading.5
 structured.emphasis
-structured.bold
-structured.italic
-structured.italicbold
 structured.list.numbered
 structured.list.unnumbered
 structured.quote
@@ -277,20 +274,15 @@ structured.quote.odd
 structured.raw.code
 structured.raw.indented
 structured.anchor
-structured.reference
-structured.section
-structured.event
 structured.footnote
 structured.math
-structured.tool-tip
-structured.variable
 */
 
-structured.heading {
-	color : #aaaaaa;
-	font-weight : normal;
+structured.bold {
+    font-weight : bold;
 	font-style : normal;
- }
+
+}
 
 structured.changes.added {
 	color : #549a18;
@@ -329,8 +321,45 @@ structured.changes.user {
 	font-style : normal;
 }
 
+structured.emphasis {
+	color : #000;
+	font-weight : bold;
+	font-style : italic;
+}
+
+structured.event {
+	color : #333;
+	font-style : italic;
+}
+
+structured.heading {
+	color : #8f6d00;
+	font-weight : bold;
+	font-style : normal;
+}
+
+structured.italic {
+	font-weight : normal;
+	font-style : italic;
+}
+
+structured.italicbold {
+	font-weight : bold;
+	font-style : italic;
+}
+
+
+structured.reference {
+	color : #225;
+}
+
+structured.section {
+	color : #a61a1a;
+	font-weight : bold;
+}
+
 structured.separator.horizontal {
-	color : #666666;
+	color : #555;
 	font-weight : bold;
 	font-style : normal;
 }
@@ -340,7 +369,17 @@ structured.separator.vertical {
 	font-weight : normal;
 	font-style : normal;
 }
-  
+
+structured.tool-tip {
+	color : #076e09;
+	font-weight : normal;
+	font-style : italic;
+}
+
+structured.variable {
+	color : #881280;
+}
+
 /* Styles */
 /*
 style.comment
@@ -395,12 +434,10 @@ support {
 }
 
 support.constant {
-	color:#400080;
 	font-style:italic;
 }
 
 support.type {
-	color:#400080;
 	font-style:italic;
 }
 
