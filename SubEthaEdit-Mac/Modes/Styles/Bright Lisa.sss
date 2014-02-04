@@ -93,7 +93,6 @@ language.variable.instance {
 
 /* Markup */
 /*
-markup.constant.entity
 markup.declaration.string.double
 markup.declaration.string.single
 markup.tag.attribute.value
@@ -101,6 +100,10 @@ markup.tag.attribute.value
 
 markup.comment {
 	color:#236e25;
+}
+
+markup.constant.entity {
+	color:color:#279;
 }
 
 markup.declaration {
@@ -143,7 +146,6 @@ markup.tag.attribute.value.string {
 
 /* Meta Scopes */
 /*
-meta.highlight.currentline
 meta.block
 meta.block.attribute
 meta.block.begin
@@ -163,7 +165,6 @@ meta.invalid.ampersand
 meta.invalid.sgmlcomment
 meta.link.email
 meta.link.portion
-meta.preprocessor.nowiki
 meta.state
 meta.tag.erbstart
 meta.tag.preprocessor
@@ -202,6 +203,11 @@ meta.invisible.character {
 meta.link {
 	color:#0000ff;
 	font-underline:underline;
+}
+
+meta.preprocessor.nowiki {
+	color : #4b4b4b;
+	font-weight : bold;
 }
 
 /* Strings */
@@ -260,21 +266,8 @@ string.symbol {
 /* Structured */
 /*
 structured.comment
-structured.heading.1
-structured.heading.2
-structured.heading.3
-structured.heading.4
-structured.heading.5
-structured.emphasis
-structured.list.numbered
-structured.list.unnumbered
 structured.quote
-structured.quote.even
-structured.quote.odd
-structured.raw.code
-structured.raw.indented
 structured.anchor
-structured.footnote
 structured.math
 */
 
@@ -332,10 +325,39 @@ structured.event {
 	font-style : italic;
 }
 
+structured.footnote {
+	color : #236e25;
+}
+
 structured.heading {
 	color : #8f6d00;
 	font-weight : bold;
 	font-style : normal;
+}
+
+structured.heading.1 {
+	color : #881350;
+	font-weight : bold;
+}
+
+structured.heading.2 {
+	color : #970058;
+	font-weight : bold;
+}
+
+structured.heading.3 {
+	color : #a70062;
+	font-weight : bold;
+}
+
+structured.heading.4 {
+	color : #b20068;
+	font-weight : bold;
+}
+
+structured.heading.5 {
+	color : #be006f;
+	font-weight : bold;
 }
 
 structured.italic {
@@ -348,6 +370,29 @@ structured.italicbold {
 	font-style : italic;
 }
 
+structured.list.unnumbered {
+	color : #683821;
+}
+
+structured.list.numbered {
+	color : #7a4022;
+}
+
+structured.quote.odd {
+	color : #7b1e20;
+}
+
+structured.quote.even {
+	color : #1b5414;
+}
+
+structured.raw.indented {
+	color : #4b4b4b;
+}
+
+structured.raw.code {
+	color : #4b4b4b;
+}
 
 structured.reference {
 	color : #225;
