@@ -127,6 +127,11 @@
 	}
 }
 
+- (IBAction)closeConnection:(id)sender {
+	NSLog(@"Unimplemented function %s", __FUNCTION__);
+//	[self.document.session cancelInvitationForUserWithID:self.participant.userID];
+}
+
 - (void)updateForParticipantUserState {
 	if (self.participant.isMe) {
 		self.participantActionOverlayOutlet = nil;

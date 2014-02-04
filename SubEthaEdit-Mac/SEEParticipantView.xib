@@ -97,6 +97,9 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
+                    <connections>
+                        <action selector="closeConnection:" target="-2" id="QxR-dc-Yfx"/>
+                    </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="cLZ-EU-8Vm" userLabel="Toggle ReadWrite State Button">
                     <rect key="frame" x="0.0" y="46" width="16" height="16"/>
@@ -154,6 +157,9 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
+                    <connections>
+                        <action selector="closeConnection:" target="-2" id="atV-lx-aYA"/>
+                    </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="7Kl-QN-egj" userLabel="Accept ReadOnly Button">
                     <rect key="frame" x="0.0" y="46" width="16" height="16"/>
