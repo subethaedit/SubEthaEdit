@@ -84,7 +84,7 @@
 
 	// me
 	{
-		SEEParticipantViewController *participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:me];
+		SEEParticipantViewController *participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:me inDocument:self.document];
 		[self.participantSubviewControllers addObject:participantViewController];
 		[view addSubview:participantViewController.view];
 		NSLayoutConstraint *horizontalConstraint = [NSLayoutConstraint constraintWithItem:participantViewController.view
@@ -114,7 +114,7 @@
 		for (TCMMMUser *user in allParticipants) {
 			if (user == me) continue;
 
-			SEEParticipantViewController *participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:user];
+			SEEParticipantViewController *participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:user inDocument:self.document];
 
 			NSView *lastUserView = [self.participantSubviewControllers.lastObject view];
 			[self.participantSubviewControllers addObject:participantViewController];
@@ -189,7 +189,7 @@
 
 			NSString *stateOfInvitee = [session stateOfInvitedUserById:user.userID];
 			if ([stateOfInvitee isEqualToString:TCMMMSessionInvitedUserStateAwaitingResponse]) {
-				SEEParticipantViewController *participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:user];
+				SEEParticipantViewController *participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:user inDocument:self.document];
 
 				NSView *lastUserView = [self.inviteeSubviewControllers.lastObject view];
 				if (!lastUserView) {
@@ -275,7 +275,7 @@
 		for (TCMMMUser *user in allPendingUsers) {
 			if (user == me) continue;
 
-			SEEParticipantViewController *participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:user];
+			SEEParticipantViewController *participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:user inDocument:self.document];
 
 			NSView *lastUserView = [self.pendingSubviewControllers.lastObject view];
 			if (!lastUserView) {

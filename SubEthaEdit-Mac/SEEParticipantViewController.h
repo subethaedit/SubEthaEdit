@@ -8,13 +8,13 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class TCMMMUser;
+@class PlainTextDocument, TCMMMUser;
 
 @interface SEEParticipantViewController : NSViewController
 
 @property (nonatomic, readonly, strong) TCMMMUser *participant;
 
-- (id)initWithParticipant:(TCMMMUser *)aParticipant;
+- (id)initWithParticipant:(TCMMMUser *)aParticipant inDocument:(PlainTextDocument *)document;
 
 - (void)updateForParticipantUserState;
 - (void)updateForPendingUserState;

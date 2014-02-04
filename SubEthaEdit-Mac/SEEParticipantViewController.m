@@ -13,11 +13,13 @@
 #endif
 
 #import "SEEParticipantViewController.h"
+#import "PlainTextDocument.h"
 #import "TCMMMUser.h"
 #import "TCMMMUserSEEAdditions.h"
 
 @interface SEEParticipantViewController ()
 @property (nonatomic, readwrite, strong) TCMMMUser *participant;
+@property (nonatomic, readwrite, weak) PlainTextDocument *document;
 
 @property (nonatomic, strong) IBOutlet NSView *participantViewOutlet;
 @property (nonatomic, weak) IBOutlet NSTextField *nameLabelOutlet;
@@ -39,11 +41,12 @@
 
 @implementation SEEParticipantViewController
 
-- (id)initWithParticipant:(TCMMMUser *)aParticipant
+- (id)initWithParticipant:(TCMMMUser *)aParticipant inDocument:(PlainTextDocument *)document
 {
     self = [super initWithNibName:@"SEEParticipantView" bundle:nil];
     if (self) {
 		self.participant = aParticipant;
+		self.document = document;
     }
     return self;
 }
@@ -96,7 +99,6 @@
 		NSButton *button = self.chooseReadOnlyModeButtonOutlet;
 		button.image = [NSImage pdfBasedImageNamed:@"SharingIconReadOnly"TCM_PDFIMAGE_SEP@"16"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_NORMAL];
 	}
-
 }
 
 - (void)mouseEntered:(NSEvent *)theEvent {
