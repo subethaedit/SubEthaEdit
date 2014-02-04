@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8" standalone="yes"?>
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" xmlns="http://www.w3.org/1999/xhtml" version="1.0">
-	<xsl:output method="xml" indent="yes" encoding="UTF-8" doctype-system="http://www.w3.org/TR/2000/REC-xhtml1-20000126/DTD/xhtml1-strict.dtd" doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN" media-type="xml/xhtml"/>
-	<xsl:template name="page">
+	<xsl:output method="xml" indent="yes" encoding="UTF-8" 
+		doctype-system="http://www.w3.org/TR/2000/REC-xhtml1-20000126/DTD/xhtml1-strict.dtd" 
+		doctype-public="-//W3C//DTD XHTML 1.0 Strict//EN" 
+		media-type="xml/xhtml"/>
+	
+	<xsl:template match="/">
 		<html xmlns="http://www.w3.org/1999/xhtml">
 			<head>
 				<title>SubEthaEdit Syntax Scope Style Guide</title>
@@ -108,49 +112,59 @@
           <li>Style sheets should represent a complete color scheme, providing at least all high level scopes</li>
 					</ul>
 					<h2>Scope Areas</h2>
-					<xsl:call-template name="scope_areas"/>
+					<xsl:apply-templates select="/document/scope_area"/>
 				</div>
 			</body>
 		</html>
 	</xsl:template>
-	<xsl:template match="/">
-		<xsl:call-template name="page"/>
+	
+	<xsl:template match="scope_area">
+		<div class="syntax_scope_area">
+			<h3>
+				<xsl:value-of select="title"/>
+			</h3>
+			<p>
+				<xsl:value-of select="description"/>
+			</p>
+			<xsl:apply-templates select="scope_group"/>
+		</div>
 	</xsl:template>
-	<xsl:template name="scope_areas">
-		<xsl:for-each select="/document/scope_area">
-			<div class="syntax_scope_area">
-				<h3>
-					<xsl:value-of select="title"/>
-				</h3>
-				<p>
-					<xsl:value-of select="description"/>
-				</p>
-				<xsl:for-each select="scope_group">
-					<div class="syntax_scope">
-						<div class="syntax_scope_name">
-							<table>
-							<xsl:for-each select="scope">
-							<tr><td><tt>
-									<xsl:value-of select="@name"/>
-								</tt></td><td>
-							<div class="examples">
-								<xsl:for-each select="example">
-									<tt>
-										<xsl:value-of select="."/>
-									</tt><span class="language"><xsl:value-of select="@lang"/></span>
-								</xsl:for-each>
-							</div>
-							</td></tr>
-								
-							</xsl:for-each>
-							</table>
-						</div>
-						<p class="syntax_scope_description">
-							<xsl:value-of select="description"/>
-						</p>
-					</div>
-				</xsl:for-each>
+	
+	<xsl:template match="scope_group">
+		<div class="syntax_scope">
+			<p class="syntax_scope_description">
+				<xsl:value-of select="description"/>
+			</p>
+			<div class="syntax_scope_name">
+				<table>
+					<xsl:apply-templates select="scope | sub_group"/>
+				</table>
 			</div>
-		</xsl:for-each>
+		</div>
 	</xsl:template>
+
+	<xsl:template match="scope_group/sub_group">
+		<tr>
+			<td colspan="2" class="description">
+				<xsl:copy-of select="description"/>
+			</td>
+		</tr>
+		<xsl:apply-templates select="scope"/>
+	</xsl:template>
+
+	<xsl:template match="scope">
+		<tr class="scope">
+			<td>
+				<tt><xsl:value-of select="@name"/></tt>
+			</td>
+			<td>
+				<div class="examples">
+					<xsl:for-each select="example">
+						<tt><xsl:value-of select="."/></tt><span class="language"><xsl:value-of select="@lang"/></span>
+					</xsl:for-each>
+				</div>
+			</td>
+		</tr>
+	</xsl:template>
+	
 </xsl:stylesheet>
