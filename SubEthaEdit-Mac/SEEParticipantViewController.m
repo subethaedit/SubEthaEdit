@@ -123,7 +123,6 @@
 
 - (void)updateForParticipantUserState {
 	if (self.participant.isMe) {
-		self.participantActionOverlayOutlet.hidden = YES;
 		self.participantActionOverlayOutlet = nil;
 	} else {
 		// install tracking for action overlay
@@ -153,6 +152,14 @@
 	[self.connectingProgressIndicatorOutlet startAnimation:self];
 	self.nameLabelOutlet.alphaValue = 0.8;
 	self.userViewButtonOutlet.alphaValue = 0.6;
+
+	[self.toggleEditModeButtonOutlet removeFromSuperview];
+	self.toggleEditModeButtonOutlet = nil;
+
+	[self.toggleFollowButtonOutlet removeFromSuperview];
+	self.toggleFollowButtonOutlet = nil;
+
+	[self.participantViewOutlet addTrackingArea:[[NSTrackingArea alloc] initWithRect:NSZeroRect options:NSTrackingMouseEnteredAndExited|NSTrackingActiveInKeyWindow|NSTrackingInVisibleRect owner:self userInfo:nil]];
 }
 
 @end
