@@ -264,10 +264,6 @@ style.value.string
 ################################################################ // Questions and TODOS
 ##### TODO TODO TODO TODO
 
-* make the last rename round for now
-* update scope xml docu thing
-* make a default stylesheet that highlights (almost) EVERYTHING (find farbschema bright sun or something ^^) / sprachen / structured / markup
-
 * check the scopes that include the language ending
 * new scopes for keyword.objective-c
 * make those structered: Diff, SVNNLog | Markup, Conference | LaTeX | Wiki
@@ -284,3 +280,8 @@ style.value.string
 * "<!--  This is the "we do a complete HTML mode and import php everywhere" section -->" -> similar comments all over the place - smart thing? ---- compare ERB because this is newer and nicer
 * is there a place where ….js -> is that defined somewhere?
 * sometimes meta default is used for tag state (or similar) (?) - part of the meta talks
+
+*string.double.openstep?
+*string.angle -> meta.state?
+
+*make the localizable strings examples into ScopeDoc.xml examples

@@ -2,6 +2,10 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
   <dict>
+    <key>meta.important</key>
+    <string>!important</string>
+    <key>meta.invalid</key>
+    <string>HTML invalid</string>
     <key>comment</key>
     <string>// code comment</string>
     <key>comment.block</key>
@@ -10,43 +14,39 @@
     <string>code keywords</string>
     <key>keyword.type</key>
     <string>code type keywords</string>
-    <key>language.function</key>
-    <string>code_functions()</string>
-    <key>constant</key>
+    <key>language.constant</key>
     <string>code constants</string>
+    <key>language.subroutine.function</key>
+    <string>code_functions()</string>
     <key>string</key>
     <string>"code strings"</string>
     <key>string.regex</key>
     <string>/code regex/</string>
     <key>support</key>
     <string>code libraries</string>
-    <key>meta.important</key>
-    <string>!important</string>
-    <key>style.comment</key>
-    <string>/* CSS comment */</string>
-    <key>style.property.name</key>
-    <string>CSS properties</string>
-    <key>style.value</key>
-    <string>CSS Values</string>
-    <key>style.value.string</key>
-    <string>"CSS strings"</string>
-    <key>style.value.color.rgb-value</key>
-    <string>CSS colors #fff</string>
-    <key>style.at-rule</key>
-    <string>CSS @import @media</string>
-    <key>markup.constant.entity</key>
-    <string>HTML &amp;entities; &amp;lt;</string>
-    <key>meta.invalid</key>
-    <string>HTML invalid</string>
     <key>markup.comment</key>
     <string>&lt;!-- SGML Comment --&gt;</string>
+    <key>markup.constant.entity</key>
+    <string>HTML &amp;entities; &amp;lt;</string>
+    <key>markup.declaration</key>
+    <string>&lt;!DOCTYPE &gt;</string>
     <key>markup.inline.cdata</key>
     <string>&lt;![CDATA[&lt;inline&gt;Data&lt;/inline&gt;]]&gt;</string>
     <key>markup.processing</key>
     <string>&lt;?xml html version='1.0' processing instructions ?&gt;</string>
     <key>markup.tag.attribute.value</key>
     <string>"HTML Attribute Values"</string>
-    <key>markup.declaration</key>
-    <string>&lt;!DOCTYPE &gt;</string>
+    <key>style.at-rule</key>
+    <string>CSS @import @media</string>
+    <key>style.comment</key>
+    <string>/* CSS comment */</string>
+    <key>style.property.name</key>
+    <string>CSS properties</string>
+    <key>style.value</key>
+    <string>CSS Values</string>
+    <key>style.value.color.rgb-value</key>
+    <string>CSS colors #fff</string>
+    <key>style.value.string</key>
+    <string>"CSS strings"</string>
   </dict>
 </plist>

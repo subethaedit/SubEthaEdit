@@ -7,7 +7,8 @@
 ## style_files
 ###
 
-xslt=StyleSheetForAllAttributes.xslt
+#xslt=StyleSheetForAllAttributes.xslt
+xslt=StyleSheetForAllAttributesFormated.xslt
 
 ################################################################ Startup
 all: header styles
