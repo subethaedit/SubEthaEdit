@@ -47,8 +47,8 @@
       margin-top: 4px;
     }
     div.syntax_scope_name {
-      border-bottom: 1px solid #aaa;
-      margin-bottom: 8px;
+      border-top: 2px solid #aaa;
+      padding-top: 8px;
     }
     div.syntax_scope_name > tt {
       font-weight: bold;
@@ -86,10 +86,19 @@
     }
     table {
     	width: 100%;
+		border-collapse:collapse;
     }
     tr, td {
     	margin:0;
     	padding:0;
+    }
+    tr.scope td {
+    	border-bottom:1px solid #ccc;
+    }
+    td.description {
+    	color:#653;
+    	border-bottom:1px #875 solid;
+    	padding-top:10px;
     }
   </style>
 			</head>
@@ -166,5 +175,4 @@
 			</td>
 		</tr>
 	</xsl:template>
-	
 </xsl:stylesheet>
