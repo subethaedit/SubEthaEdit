@@ -120,7 +120,11 @@
 	self.participantActionOverlayOutlet.hidden = YES;
 }
 
-- (IBAction)userViewButtonClicked:(id)sender {
+- (IBAction)userViewButtonDoubleClicked:(id)sender {
+	NSEvent *event = [NSApp currentEvent];
+	if (event.clickCount == 2) {
+		NSLog(@"Unimplemented function %s", __FUNCTION__);
+	}
 }
 
 - (void)updateForParticipantUserState {
@@ -129,6 +133,10 @@
 	} else {
 		// install tracking for action overlay
 		[self.participantViewOutlet addTrackingArea:[[NSTrackingArea alloc] initWithRect:NSZeroRect options:NSTrackingMouseEnteredAndExited|NSTrackingActiveInKeyWindow|NSTrackingInVisibleRect owner:self userInfo:nil]];
+
+		// ad double clickt target for follow
+		[self.userViewButtonOutlet setAction:@selector(userViewButtonDoubleClicked:)];
+		[self.userViewButtonOutlet setTarget:self];
 	}
 }
 
