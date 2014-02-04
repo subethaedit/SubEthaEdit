@@ -2,15 +2,15 @@
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
   <dict>
-    <key>comment.line</key>
-    <string>// comment</string>
     <key>comment.block.documentation</key>
     <string>/** Doxygen Comment **/</string>
-    <key>comment.block.documentation.tags</key>
+    <key>comment.block.documentation.tag</key>
     <string>/** @return **/</string>
-    <key>constant.numeric</key>
+    <key>comment.line</key>
+    <string>// comment</string>
+    <key>language.constant.numeric</key>
     <string>0 15 0x4a 3.14</string>
-    <key>constant.numeric.character</key>
+    <key>language.constant.numeric.character</key>
     <string>'c'</string>
   </dict>
 </plist>
