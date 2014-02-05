@@ -81,7 +81,7 @@
                 <constraint firstItem="laB-2b-86S" firstAttribute="top" secondItem="hE6-nB-RDu" secondAttribute="bottom" constant="7" id="fDc-KA-DyE"/>
                 <constraint firstItem="laB-2b-86S" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="1" secondAttribute="leading" constant="2" id="fWY-ha-tdE"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="laB-2b-86S" secondAttribute="trailing" constant="2" id="ukF-Tk-rCD"/>
-                <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="250" constant="100" id="z2q-Sf-2xm"/>
+                <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="200" constant="100" id="z2q-Sf-2xm"/>
             </constraints>
             <animations>
                 <caTransition key="subviews">
@@ -139,6 +139,9 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
                         <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
+                    <connections>
+                        <action selector="toggleFollow:" target="-2" id="2mh-dZ-lUu"/>
+                    </connections>
                 </button>
             </subviews>
             <constraints>

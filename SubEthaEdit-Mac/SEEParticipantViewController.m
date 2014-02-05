@@ -199,6 +199,7 @@
 	}
 
 	self.pendingUserQuestionMarkOutlet.hidden = NO;
+	self.userViewButtonOutlet.enabled = NO;
 }
 
 - (void)updateForInvitationState {
@@ -206,6 +207,7 @@
 	[self.connectingProgressIndicatorOutlet startAnimation:self];
 	self.nameLabelOutlet.alphaValue = 0.8;
 	self.userViewButtonOutlet.alphaValue = 0.6;
+	self.userViewButtonOutlet.enabled = NO;
 
 	[self.toggleEditModeButtonOutlet removeFromSuperview];
 	[self.toggleFollowButtonOutlet removeFromSuperview];
