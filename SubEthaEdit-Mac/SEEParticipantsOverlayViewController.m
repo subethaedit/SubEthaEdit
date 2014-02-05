@@ -80,50 +80,27 @@
 	// install new subviews for all allContributors
 	NSView *view = self.view;
 	TCMMMSession *session = self.document.session;
-	TCMMMUser *me = [TCMMMUserManager me];
-
-	// me
-	{
-		SEEParticipantViewController *participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:me inDocument:self.document];
-		[self.participantSubviewControllers addObject:participantViewController];
-		[view addSubview:participantViewController.view];
-		NSLayoutConstraint *horizontalConstraint = [NSLayoutConstraint constraintWithItem:participantViewController.view
-																				attribute:NSLayoutAttributeLeft
-																				relatedBy:NSLayoutRelationEqual
-																				   toItem:view
-																				attribute:NSLayoutAttributeLeft
-																			   multiplier:1
-																				 constant:6];
-
-		NSLayoutConstraint *verticalConstraint = [NSLayoutConstraint constraintWithItem:participantViewController.view
-																			  attribute:NSLayoutAttributeTop
-																			  relatedBy:NSLayoutRelationEqual
-																				 toItem:view
-																			  attribute:NSLayoutAttributeTop
-																			 multiplier:1
-																			   constant:0];
-
-		[view addConstraints:@[horizontalConstraint, verticalConstraint]];
-		[participantViewController updateForParticipantUserState];
-	}
 
 	// Participants working on the document
 	{
 		NSMutableArray *allParticipants = [[session.participants objectForKey:TCMMMSessionReadWriteGroupName] mutableCopy];
 		[allParticipants addObjectsFromArray:[session.participants objectForKey:TCMMMSessionReadOnlyGroupName]];
 		for (TCMMMUser *user in allParticipants) {
-			if (user == me) continue;
-
 			SEEParticipantViewController *participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:user inDocument:self.document];
 
 			NSView *lastUserView = [self.participantSubviewControllers.lastObject view];
+			NSLayoutAttribute lastUserViewLayoutAttribute = NSLayoutAttributeRight;
+			if (!lastUserView) {
+				lastUserView = view;
+				lastUserViewLayoutAttribute = NSLayoutAttributeLeft;
+			}
 			[self.participantSubviewControllers addObject:participantViewController];
 			[view addSubview:participantViewController.view];
 			NSLayoutConstraint *horizontalConstraint = [NSLayoutConstraint constraintWithItem:participantViewController.view
 																					attribute:NSLayoutAttributeLeft
 																					relatedBy:NSLayoutRelationEqual
 																					   toItem:lastUserView
-																					attribute:NSLayoutAttributeRight
+																					attribute:lastUserViewLayoutAttribute
 																				   multiplier:1
 																					 constant:6];
 
@@ -185,8 +162,6 @@
 		NSMutableArray *allInvitees = [[session.invitedUsers objectForKey:TCMMMSessionReadWriteGroupName] mutableCopy];
 		[allInvitees addObjectsFromArray:[session.invitedUsers objectForKey:TCMMMSessionReadOnlyGroupName]];
 		for (TCMMMUser *user in allInvitees) {
-			if (user == me) continue;
-
 			NSString *stateOfInvitee = [session stateOfInvitedUserById:user.userID];
 			if ([stateOfInvitee isEqualToString:TCMMMSessionInvitedUserStateAwaitingResponse]) {
 				SEEParticipantViewController *participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:user inDocument:self.document];
@@ -273,8 +248,6 @@
 	{
 		NSArray *allPendingUsers = session.pendingUsers;
 		for (TCMMMUser *user in allPendingUsers) {
-			if (user == me) continue;
-
 			SEEParticipantViewController *participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:user inDocument:self.document];
 
 			NSView *lastUserView = [self.pendingSubviewControllers.lastObject view];
