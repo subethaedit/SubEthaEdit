@@ -164,6 +164,7 @@ typedef enum TCMMMSessionClientState {
 
 - (NSString *)invitationTokenForGroup:(NSString *)aGroup;
 - (void)setGroup:(NSString *)aGroup forParticipantsWithUserIDs:(NSArray *)aUserIDs;
+- (void)denyPendingUser:(TCMMMUser *)aUser;
 - (void)setGroup:(NSString *)aGroup forPendingUsersWithIndexes:(NSIndexSet *)aSet;
 
 - (void)joinUsingBEEPSession:(TCMBEEPSession *)aBEEPSession;
