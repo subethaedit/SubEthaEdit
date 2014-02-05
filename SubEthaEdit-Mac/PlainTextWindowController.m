@@ -798,10 +798,10 @@ static NSAttributedString *S_dragString = nil;
             [rows removeIndex:row];
         }
         if ([pendingUsersIndexSet count]>0) {
-            [session setGroup:TCMMMSessionReadOnlyGroupName forPendingUsersWithIndexes:pendingUsersIndexSet];
+            [session setGroup:TCMMMSessionPoofGroupName forPendingUsersWithIndexes:pendingUsersIndexSet];
         }
         if ([userIDsToKick count]>0) {
-            [session setGroup:TCMMMSessionReadOnlyGroupName forParticipantsWithUserIDs:userIDsToKick];
+            [session setGroup:TCMMMSessionPoofGroupName forParticipantsWithUserIDs:userIDsToKick];
         }
         if ([userIDsToCancelInvitation count]>0) {
             NSString *userID=nil;

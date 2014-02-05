@@ -13,11 +13,13 @@
 #endif
 
 #import "SEEParticipantViewController.h"
+#import "PlainTextDocument.h"
 #import "TCMMMUser.h"
 #import "TCMMMUserSEEAdditions.h"
 
 @interface SEEParticipantViewController ()
 @property (nonatomic, readwrite, strong) TCMMMUser *participant;
+@property (nonatomic, readwrite, weak) PlainTextDocument *document;
 
 @property (nonatomic, strong) IBOutlet NSView *participantViewOutlet;
 @property (nonatomic, weak) IBOutlet NSTextField *nameLabelOutlet;
@@ -39,11 +41,12 @@
 
 @implementation SEEParticipantViewController
 
-- (id)initWithParticipant:(TCMMMUser *)aParticipant
+- (id)initWithParticipant:(TCMMMUser *)aParticipant inDocument:(PlainTextDocument *)document
 {
     self = [super initWithNibName:@"SEEParticipantView" bundle:nil];
     if (self) {
 		self.participant = aParticipant;
+		self.document = document;
     }
     return self;
 }
@@ -96,7 +99,6 @@
 		NSButton *button = self.chooseReadOnlyModeButtonOutlet;
 		button.image = [NSImage pdfBasedImageNamed:@"SharingIconReadOnly"TCM_PDFIMAGE_SEP@"16"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_NORMAL];
 	}
-
 }
 
 - (void)mouseEntered:(NSEvent *)theEvent {
@@ -118,16 +120,41 @@
 	self.participantActionOverlayOutlet.hidden = YES;
 }
 
-- (IBAction)userViewButtonClicked:(id)sender {
+- (IBAction)userViewButtonDoubleClicked:(id)sender {
+	NSEvent *event = [NSApp currentEvent];
+	if (event.clickCount == 2) {
+		NSLog(@"Unimplemented function %s", __FUNCTION__);
+	}
+}
+
+- (IBAction)closeConnection:(id)sender {
+	TCMMMSession *documentSession = self.document.session;
+	if (documentSession.isServer) {
+		NSDictionary *participants = documentSession.participants;
+        NSDictionary *invitedUsers = documentSession.invitedUsers;
+		NSArray *pendingUsers = documentSession.pendingUsers;
+		TCMMMUser *user = self.participant;
+
+		if ([pendingUsers containsObject:user]) {
+			[documentSession denyPendingUser:user];
+		} else if ([[invitedUsers objectForKey:TCMMMSessionReadWriteGroupName] containsObject:user] || [[invitedUsers objectForKey:TCMMMSessionReadOnlyGroupName] containsObject:user]) {
+			[documentSession cancelInvitationForUserWithID:[user userID]];
+		} else if ([[participants objectForKey:TCMMMSessionReadWriteGroupName] containsObject:user] || [[participants objectForKey:TCMMMSessionReadOnlyGroupName] containsObject:user]) {
+			[documentSession setGroup:TCMMMSessionPoofGroupName forParticipantsWithUserIDs:@[[user userID]]];
+		}
+	}
 }
 
 - (void)updateForParticipantUserState {
 	if (self.participant.isMe) {
-		self.participantActionOverlayOutlet.hidden = YES;
 		self.participantActionOverlayOutlet = nil;
 	} else {
 		// install tracking for action overlay
 		[self.participantViewOutlet addTrackingArea:[[NSTrackingArea alloc] initWithRect:NSZeroRect options:NSTrackingMouseEnteredAndExited|NSTrackingActiveInKeyWindow|NSTrackingInVisibleRect owner:self userInfo:nil]];
+
+		// ad double clickt target for follow
+		[self.userViewButtonOutlet setAction:@selector(userViewButtonDoubleClicked:)];
+		[self.userViewButtonOutlet setTarget:self];
 	}
 }
 
@@ -153,6 +180,14 @@
 	[self.connectingProgressIndicatorOutlet startAnimation:self];
 	self.nameLabelOutlet.alphaValue = 0.8;
 	self.userViewButtonOutlet.alphaValue = 0.6;
+
+	[self.toggleEditModeButtonOutlet removeFromSuperview];
+	self.toggleEditModeButtonOutlet = nil;
+
+	[self.toggleFollowButtonOutlet removeFromSuperview];
+	self.toggleFollowButtonOutlet = nil;
+
+	[self.participantViewOutlet addTrackingArea:[[NSTrackingArea alloc] initWithRect:NSZeroRect options:NSTrackingMouseEnteredAndExited|NSTrackingActiveInKeyWindow|NSTrackingInVisibleRect owner:self userInfo:nil]];
 }
 
 @end

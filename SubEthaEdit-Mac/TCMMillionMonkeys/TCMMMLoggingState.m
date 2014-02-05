@@ -105,7 +105,7 @@
     TCMMMLogStatisticsEntry *entry = nil;
     while ((entry = [statisticsEntries nextObject])) {
         if ([entry isInside]) {
-            TCMMMOperation *op = [UserChangeOperation userChangeOperationWithType:UserChangeTypeLeave userID:[[entry user] userID] newGroup:TCMMMSessionReadOnlyGroupName];
+            TCMMMOperation *op = [UserChangeOperation userChangeOperationWithType:UserChangeTypeLeave userID:[[entry user] userID] newGroup:TCMMMSessionPoofGroupName];
             [self handleOperation:op];
         }
     }
@@ -119,7 +119,7 @@
     long long index = [(TCMMMLoggedOperation *)[I_loggedOperations lastObject] index];
     while ((entry = [statisticsEntries nextObject])) {
         if ([entry isInside]) {
-            TCMMMLoggedOperation *op = [TCMMMLoggedOperation loggedOperationWithOperation:[UserChangeOperation userChangeOperationWithType:UserChangeTypeLeave userID:[[entry user] userID] newGroup:TCMMMSessionReadOnlyGroupName] index:++index];
+            TCMMMLoggedOperation *op = [TCMMMLoggedOperation loggedOperationWithOperation:[UserChangeOperation userChangeOperationWithType:UserChangeTypeLeave userID:[[entry user] userID] newGroup:TCMMMSessionPoofGroupName] index:++index];
             [leaveOperations addObject:[op dictionaryRepresentation]];
         }
     }

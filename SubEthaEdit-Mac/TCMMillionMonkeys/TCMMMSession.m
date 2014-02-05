@@ -523,19 +523,33 @@ NSString * const TCMMMSessionInvitedUserStateInvitationDeclined = @"DeclinedInvi
     [self validateSecurity];
 }
 
+
+- (void)denyPendingUser:(TCMMMUser *)aUser {
+	SessionProfile *profile=[I_profilesByUserID objectForKey:[aUser userID]];
+	if (profile) {
+		[profile denyJoin];
+		[profile close];
+		[profile setDelegate:nil];
+	}
+	[I_profilesByUserID removeObjectForKey:[aUser userID]];
+	[I_pendingUsers removeObject:aUser];
+    [self validateSecurity];
+    [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMSessionPendingUsersDidChangeNotification object:self];
+}
+
 - (void)setGroup:(NSString *)aGroup forPendingUsersWithIndexes:(NSIndexSet *)aSet {
     if ([aGroup isEqualToString:TCMMMSessionPoofGroupName]) {
         NSMutableIndexSet *set = [aSet mutableCopy];
         NSUInteger index;
         while ((index = [set firstIndex]) != NSNotFound) {
             TCMMMUser *user = [I_pendingUsers objectAtIndex:index];
-            SessionProfile *profile=[I_profilesByUserID objectForKey:[user userID]];
-            if (profile) {
-                [profile denyJoin];
-                [profile close];
-                [profile setDelegate:nil];
-            }
-            [I_profilesByUserID removeObjectForKey:[user userID]];
+			SessionProfile *profile=[I_profilesByUserID objectForKey:[user userID]];
+			if (profile) {
+				[profile denyJoin];
+				[profile close];
+				[profile setDelegate:nil];
+			}
+			[I_profilesByUserID removeObjectForKey:[user userID]];
             [set removeIndex:index];
         }
         [set release];
