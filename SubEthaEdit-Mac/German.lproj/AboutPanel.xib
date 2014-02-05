@@ -8,9 +8,6 @@
             <connections>
                 <outlet property="O_appIconView" destination="59" id="60"/>
                 <outlet property="O_legalTextField" destination="58" id="63"/>
-                <outlet property="O_licenseeLabel" destination="76" id="82"/>
-                <outlet property="O_licenseeNameField" destination="80" id="83"/>
-                <outlet property="O_licenseeOrganizationField" destination="81" id="84"/>
                 <outlet property="O_ogreVersionField" destination="92" id="93"/>
                 <outlet property="O_versionField" destination="56" id="62"/>
                 <outlet property="window" destination="48" id="53"/>
@@ -56,33 +53,6 @@
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="NamedLogo2" id="98"/>
                     </imageView>
-                    <textField verticalHuggingPriority="750" id="76">
-                        <rect key="frame" x="8" y="305" width="269" height="14"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Lizenznehmer:" id="99">
-                            <font key="font" metaFont="smallSystem"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField verticalHuggingPriority="750" id="80">
-                        <rect key="frame" x="8" y="290" width="269" height="14"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Name" id="100">
-                            <font key="font" metaFont="smallSystem"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField verticalHuggingPriority="750" id="81">
-                        <rect key="frame" x="8" y="275" width="269" height="14"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Organization" id="101">
-                            <font key="font" metaFont="smallSystem"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
                     <scrollView horizontalLineScroll="0.0" horizontalPageScroll="0.0" verticalLineScroll="0.0" verticalPageScroll="0.0" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" id="74">
                         <rect key="frame" x="0.0" y="44" width="285" height="222"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
