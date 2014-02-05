@@ -8,9 +8,6 @@
             <connections>
                 <outlet property="O_appIconView" destination="59" id="60"/>
                 <outlet property="O_legalTextField" destination="58" id="63"/>
-                <outlet property="O_licenseeLabel" destination="76" id="82"/>
-                <outlet property="O_licenseeNameField" destination="80" id="83"/>
-                <outlet property="O_licenseeOrganizationField" destination="81" id="84"/>
                 <outlet property="O_ogreVersionField" destination="92" id="93"/>
                 <outlet property="O_versionField" destination="56" id="62"/>
                 <outlet property="window" destination="48" id="53"/>
@@ -21,15 +18,15 @@
         <window allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="48" userLabel="Panel" customClass="NSPanel">
             <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="497" y="318" width="278" height="459"/>
+            <rect key="contentRect" x="497" y="318" width="278" height="423"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1178"/>
             <value key="minSize" type="size" width="213" height="107"/>
             <view key="contentView" id="47">
-                <rect key="frame" x="0.0" y="0.0" width="278" height="459"/>
+                <rect key="frame" x="0.0" y="0.0" width="278" height="423"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <textField verticalHuggingPriority="750" id="56">
-                        <rect key="frame" x="8" y="329" width="262" height="13"/>
+                        <rect key="frame" x="8" y="293" width="262" height="13"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Version" id="95">
                             <font key="font" metaFont="label"/>
@@ -38,59 +35,41 @@
                         </textFieldCell>
                     </textField>
                     <textField verticalHuggingPriority="750" id="58">
-                        <rect key="frame" x="17" y="11" width="244" height="14"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Copyright" usesSingleLineMode="YES" id="96">
+                        <rect key="frame" x="48" y="10" width="181" height="27"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Copyright" id="96">
                             <font key="font" metaFont="label"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
                     <imageView id="59">
-                        <rect key="frame" x="106" y="385" width="64" height="64"/>
+                        <rect key="frame" x="106" y="349" width="64" height="64"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSApplicationIcon" id="97"/>
                     </imageView>
                     <imageView id="67">
-                        <rect key="frame" x="58" y="357" width="164" height="22"/>
+                        <rect key="frame" x="58" y="321" width="164" height="22"/>
                         <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <imageCell key="cell" refusesFirstResponder="YES" alignment="left" image="NamedLogo2" id="98"/>
                     </imageView>
-                    <textField verticalHuggingPriority="750" id="76">
-                        <rect key="frame" x="8" y="288" width="262" height="14"/>
+                    <textField verticalHuggingPriority="750" id="92">
+                        <rect key="frame" x="17" y="274" width="244" height="11"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Licensee:" id="99">
-                            <font key="font" metaFont="smallSystem"/>
+                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="OgreKit/oniguruma Version" id="102">
+                            <font key="font" metaFont="miniSystem"/>
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
                     </textField>
-                    <textField verticalHuggingPriority="750" id="80">
-                        <rect key="frame" x="8" y="273" width="262" height="14"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Name" id="100">
-                            <font key="font" metaFont="smallSystem"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <textField verticalHuggingPriority="750" id="81">
-                        <rect key="frame" x="8" y="258" width="262" height="14"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="Organization" id="101">
-                            <font key="font" metaFont="smallSystem"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
-                    <scrollView horizontalLineScroll="0.0" horizontalPageScroll="0.0" verticalLineScroll="0.0" verticalPageScroll="0.0" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" id="74">
-                        <rect key="frame" x="0.0" y="33" width="278" height="216"/>
-                        <autoresizingMask key="autoresizingMask" heightSizable="YES"/>
-                        <clipView key="contentView" id="1Ii-1F-SaP">
+                    <scrollView horizontalLineScroll="0.0" horizontalPageScroll="0.0" verticalLineScroll="0.0" verticalPageScroll="0.0" hasHorizontalScroller="NO" hasVerticalScroller="NO" usesPredominantAxisScrolling="NO" id="ubA-e8-0YV">
+                        <rect key="frame" x="-1" y="45" width="278" height="216"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <clipView key="contentView" id="m4w-Bv-W5S">
                             <rect key="frame" x="1" y="1" width="276" height="214"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <textView editable="NO" continuousSpellChecking="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="73">
+                                <textView editable="NO" continuousSpellChecking="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="SJp-Ov-kFe">
                                     <rect key="frame" x="0.0" y="0.0" width="276" height="214"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -286,24 +265,15 @@ Pavel Brož</string>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                         </clipView>
-                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="104">
+                        <scroller key="horizontalScroller" hidden="YES" verticalHuggingPriority="750" doubleValue="1" horizontal="YES" id="LNG-ME-3k5">
                             <rect key="frame" x="-100" y="-100" width="87" height="18"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
-                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="103">
+                        <scroller key="verticalScroller" hidden="YES" verticalHuggingPriority="750" horizontal="NO" id="VTk-Tu-lcD">
                             <rect key="frame" x="-100" y="-100" width="15" height="114"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>
-                    <textField verticalHuggingPriority="750" id="92">
-                        <rect key="frame" x="17" y="310" width="244" height="11"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
-                        <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="OgreKit/oniguruma Version" id="102">
-                            <font key="font" metaFont="miniSystem"/>
-                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
-                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
-                        </textFieldCell>
-                    </textField>
                 </subviews>
             </view>
             <connections>
