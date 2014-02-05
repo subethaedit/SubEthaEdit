@@ -145,7 +145,6 @@
 		142893FE09575A3000D14688 /* NSApplicationTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893E909575A3000D14688 /* NSApplicationTCMAdditions.m */; };
 		142893FF09575A3000D14688 /* PullDownButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893EB09575A3000D14688 /* PullDownButton.m */; };
 		1428940009575A3000D14688 /* PullDownButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893ED09575A3000D14688 /* PullDownButtonCell.m */; };
-		1428940209575A3000D14688 /* LicenseController.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893F109575A3000D14688 /* LicenseController.m */; };
 		1428940309575A3000D14688 /* TexturedButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893F309575A3000D14688 /* TexturedButtonCell.m */; };
 		1428940409575A3000D14688 /* UndoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893F509575A3000D14688 /* UndoManager.m */; };
 		1428940509575A3000D14688 /* URLImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893F709575A3000D14688 /* URLImageView.m */; };
@@ -271,7 +270,6 @@
 		4CD5F7F217FB0CBF00F49E31 /* FindAll.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F7F017FB0CBF00F49E31 /* FindAll.xib */; };
 		4CD5F7F617FB0CD200F49E31 /* FindReplace.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F7F417FB0CD200F49E31 /* FindReplace.xib */; };
 		4CD5F7FA17FB0D0C00F49E31 /* GeneralPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F7F817FB0D0C00F49E31 /* GeneralPrefs.xib */; };
-		4CD5F7FE17FB0D2200F49E31 /* License.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F7FC17FB0D2200F49E31 /* License.xib */; };
 		4CD5F80217FB0D3700F49E31 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F80017FB0D3700F49E31 /* MainMenu.xib */; };
 		4CD5F80617FB0D5B00F49E31 /* OpenPanelAccessory.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F80417FB0D5B00F49E31 /* OpenPanelAccessory.xib */; };
 		4CD5F80A17FB0D7000F49E31 /* PlainTextEditor.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F80817FB0D7000F49E31 /* PlainTextEditor.xib */; };
@@ -848,8 +846,6 @@
 		142893EB09575A3000D14688 /* PullDownButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PullDownButton.m; sourceTree = "<group>"; };
 		142893EC09575A3000D14688 /* PullDownButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = PullDownButtonCell.h; sourceTree = "<group>"; };
 		142893ED09575A3000D14688 /* PullDownButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PullDownButtonCell.m; sourceTree = "<group>"; };
-		142893F009575A3000D14688 /* LicenseController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = LicenseController.h; sourceTree = "<group>"; };
-		142893F109575A3000D14688 /* LicenseController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LicenseController.m; sourceTree = "<group>"; };
 		142893F209575A3000D14688 /* TexturedButtonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = TexturedButtonCell.h; sourceTree = "<group>"; };
 		142893F309575A3000D14688 /* TexturedButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TexturedButtonCell.m; sourceTree = "<group>"; };
 		142893F409575A3000D14688 /* UndoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = UndoManager.h; sourceTree = "<group>"; };
@@ -1034,8 +1030,6 @@
 		4CD5F7F717FB0CD600F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/FindReplace.xib; sourceTree = "<group>"; };
 		4CD5F7F917FB0D0C00F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/GeneralPrefs.xib; sourceTree = "<group>"; };
 		4CD5F7FB17FB0D0F00F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/GeneralPrefs.xib; sourceTree = "<group>"; };
-		4CD5F7FD17FB0D2200F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/License.xib; sourceTree = "<group>"; };
-		4CD5F7FF17FB0D2600F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/License.xib; sourceTree = "<group>"; };
 		4CD5F80117FB0D3700F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		4CD5F80317FB0D3B00F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/MainMenu.xib; sourceTree = "<group>"; };
 		4CD5F80517FB0D5B00F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/OpenPanelAccessory.xib; sourceTree = "<group>"; };
@@ -2099,8 +2093,6 @@
 				142893E109575A3000D14688 /* EncodingManager.m */,
 				142893E209575A3000D14688 /* FindReplaceController.h */,
 				142893E309575A3000D14688 /* FindReplaceController.m */,
-				142893F009575A3000D14688 /* LicenseController.h */,
-				142893F109575A3000D14688 /* LicenseController.m */,
 				F2A707B80BF89F4200482EFC /* LoginSheetController.h */,
 				F2A707B90BF89F4200482EFC /* LoginSheetController.m */,
 				142893EA09575A3000D14688 /* PullDownButton.h */,
@@ -2194,7 +2186,6 @@
 				4CD5F7F017FB0CBF00F49E31 /* FindAll.xib */,
 				4CD5F7F417FB0CD200F49E31 /* FindReplace.xib */,
 				4CD5F7F817FB0D0C00F49E31 /* GeneralPrefs.xib */,
-				4CD5F7FC17FB0D2200F49E31 /* License.xib */,
 				4CD5F80017FB0D3700F49E31 /* MainMenu.xib */,
 				4CD5F80417FB0D5B00F49E31 /* OpenPanelAccessory.xib */,
 				4CD5F80817FB0D7000F49E31 /* PlainTextEditor.xib */,
@@ -2837,7 +2828,6 @@
 				F25A19B60C8C79CA00147E4C /* ssllock.png in Resources */,
 				4C0D3D7617FB168200AAFB38 /* DebugUsers.xib in Resources */,
 				F2D3E546189941F50096425B /* AW Pulled ActiveTabLeftCap@2x.png in Resources */,
-				4CD5F7FE17FB0D2200F49E31 /* License.xib in Resources */,
 				4C5EC97F1897F6FC0094D850 /* SEEParticipantsOverlay.xib in Resources */,
 				F2D3E538189941F50096425B /* AW InactiveTabBG@2x.png in Resources */,
 				F2406F0C0C8EE481000DC9FF /* LockTitlebar.png in Resources */,
@@ -3119,7 +3109,6 @@
 				142893FE09575A3000D14688 /* NSApplicationTCMAdditions.m in Sources */,
 				142893FF09575A3000D14688 /* PullDownButton.m in Sources */,
 				1428940009575A3000D14688 /* PullDownButtonCell.m in Sources */,
-				1428940209575A3000D14688 /* LicenseController.m in Sources */,
 				1428940309575A3000D14688 /* TexturedButtonCell.m in Sources */,
 				1428940409575A3000D14688 /* UndoManager.m in Sources */,
 				1428940509575A3000D14688 /* URLImageView.m in Sources */,
@@ -3415,15 +3404,6 @@
 				4CD5F7FB17FB0D0F00F49E31 /* German */,
 			);
 			name = GeneralPrefs.xib;
-			sourceTree = "<group>";
-		};
-		4CD5F7FC17FB0D2200F49E31 /* License.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4CD5F7FD17FB0D2200F49E31 /* English */,
-				4CD5F7FF17FB0D2600F49E31 /* German */,
-			);
-			name = License.xib;
 			sourceTree = "<group>";
 		};
 		4CD5F80017FB0D3700F49E31 /* MainMenu.xib */ = {
