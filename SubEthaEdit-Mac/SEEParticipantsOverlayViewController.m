@@ -58,6 +58,8 @@
 	view.layer.borderColor = [[NSColor lightGrayColor] CGColor];
 	view.layer.borderWidth = 0.5;
 
+	view.layer.backgroundColor = [[NSColor colorWithCalibratedWhite:0.7 alpha:0.2] CGColor];
+
 	[self update];
 }
 
@@ -153,6 +155,7 @@
 																	   attribute:NSLayoutAttributeNotAnAttribute
 																	  multiplier:1
 																		constant:0];
+	witdhConstraint.priority = NSLayoutPriorityRequired;
 	[view addConstraints:@[verticalConstraint, heightConstraint, horizontalConstraint, witdhConstraint]];
 //	spacerView.layer.borderWidth = 1;
 //	spacerView.layer.borderColor = [[NSColor redColor] CGColor];
@@ -240,6 +243,7 @@
 												   attribute:NSLayoutAttributeWidth
 												  multiplier:1
 													constant:0];
+	witdhConstraint.priority = NSLayoutPriorityRequired;
 	[view addConstraints:@[verticalConstraint, heightConstraint, horizontalConstraint, witdhConstraint]];
 //	secondSpacerView.layer.borderWidth = 1;
 //	secondSpacerView.layer.borderColor = [[NSColor redColor] CGColor];

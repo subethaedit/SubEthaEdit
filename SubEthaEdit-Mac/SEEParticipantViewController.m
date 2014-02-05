@@ -14,6 +14,8 @@
 
 #import "SEEParticipantViewController.h"
 #import "PlainTextDocument.h"
+#import "PlainTextWindowController.h"
+#import "PlainTextEditor.h"
 #import "TCMMMUser.h"
 #import "TCMMMUserSEEAdditions.h"
 
@@ -36,6 +38,7 @@
 @property (nonatomic, weak) IBOutlet NSButton *pendingUserKickButtonOutlet;
 @property (nonatomic, weak) IBOutlet NSButton *chooseEditModeButtonOutlet;
 @property (nonatomic, weak) IBOutlet NSButton *chooseReadOnlyModeButtonOutlet;
+@property (nonatomic, weak) IBOutlet NSTextField *pendingUserQuestionMarkOutlet;
 
 @end
 
@@ -123,7 +126,21 @@
 - (IBAction)userViewButtonDoubleClicked:(id)sender {
 	NSEvent *event = [NSApp currentEvent];
 	if (event.clickCount == 2) {
-		NSLog(@"Unimplemented function %s", __FUNCTION__);
+		[self toggleFollow:sender];
+	}
+}
+
+- (IBAction)toggleFollow:(id)sender {
+	TCMMMUser *user = self.participant;
+	if (! user.isMe) {
+		PlainTextWindowController *windowController = self.view.window.windowController;
+		PlainTextEditor *activeEditor = windowController.activePlainTextEditor;
+
+		if ([activeEditor.followUserID isEqualToString:user.userID]) {
+			[activeEditor setFollowUserID:nil];
+		} else {
+			[activeEditor setFollowUserID:user.userID];
+		}
 	}
 }
 
@@ -152,27 +169,37 @@
 		// install tracking for action overlay
 		[self.participantViewOutlet addTrackingArea:[[NSTrackingArea alloc] initWithRect:NSZeroRect options:NSTrackingMouseEnteredAndExited|NSTrackingActiveInKeyWindow|NSTrackingInVisibleRect owner:self userInfo:nil]];
 
-		// ad double clickt target for follow
+		// add double click target for follow action
 		[self.userViewButtonOutlet setAction:@selector(userViewButtonDoubleClicked:)];
 		[self.userViewButtonOutlet setTarget:self];
+
+		if (! self.document.session.isServer) {
+			[self.closeConnectionButtonOutlet removeFromSuperview];
+			[self.toggleEditModeButtonOutlet removeFromSuperview];
+		}
 	}
 }
 
 - (void)updateForPendingUserState {
-	NSView *userView = self.participantViewOutlet;
-	NSView *overlayView = self.pendingUserActionOverlayOutlet;
-	overlayView.hidden = NO;
-	[userView addSubview:overlayView];
+	if (self.document.session.isServer) {
+		NSView *userView = self.participantViewOutlet;
+		NSView *overlayView = self.pendingUserActionOverlayOutlet;
+		overlayView.hidden = NO;
+		[userView addSubview:overlayView];
 
-	NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:overlayView
-																  attribute:NSLayoutAttributeTrailing
-																  relatedBy:NSLayoutRelationEqual
-																	 toItem:userView
-																  attribute:NSLayoutAttributeRight
-																 multiplier:1
-																   constant:0];
-	[self.view addConstraints:@[constraint]];
-	self.userViewButtonLeftConstraintOutlet.constant = 16;
+		NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:overlayView
+																	  attribute:NSLayoutAttributeTrailing
+																	  relatedBy:NSLayoutRelationEqual
+																		 toItem:userView
+																	  attribute:NSLayoutAttributeRight
+																	 multiplier:1
+																	   constant:0];
+		[self.view addConstraints:@[constraint]];
+		self.userViewButtonLeftConstraintOutlet.constant = 16;
+	}
+
+	self.pendingUserQuestionMarkOutlet.hidden = NO;
+	self.userViewButtonOutlet.enabled = NO;
 }
 
 - (void)updateForInvitationState {
@@ -180,14 +207,16 @@
 	[self.connectingProgressIndicatorOutlet startAnimation:self];
 	self.nameLabelOutlet.alphaValue = 0.8;
 	self.userViewButtonOutlet.alphaValue = 0.6;
+	self.userViewButtonOutlet.enabled = NO;
 
 	[self.toggleEditModeButtonOutlet removeFromSuperview];
-	self.toggleEditModeButtonOutlet = nil;
-
 	[self.toggleFollowButtonOutlet removeFromSuperview];
-	self.toggleFollowButtonOutlet = nil;
 
-	[self.participantViewOutlet addTrackingArea:[[NSTrackingArea alloc] initWithRect:NSZeroRect options:NSTrackingMouseEnteredAndExited|NSTrackingActiveInKeyWindow|NSTrackingInVisibleRect owner:self userInfo:nil]];
+	if (! self.document.session.isServer) {
+		[self.closeConnectionButtonOutlet removeFromSuperview];
+	} else {
+		[self.participantViewOutlet addTrackingArea:[[NSTrackingArea alloc] initWithRect:NSZeroRect options:NSTrackingMouseEnteredAndExited|NSTrackingActiveInKeyWindow|NSTrackingInVisibleRect owner:self userInfo:nil]];
+	}
 }
 
 @end

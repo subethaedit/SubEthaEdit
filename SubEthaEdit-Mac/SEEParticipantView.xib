@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13C48" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5051" systemVersion="13C48" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5051"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="SEEParticipantViewController">
@@ -15,6 +15,7 @@
                 <outlet property="participantViewOutlet" destination="1" id="xn7-5f-3EV"/>
                 <outlet property="pendingUserActionOverlayOutlet" destination="Y0C-Vm-vVD" id="YO2-LH-dqF"/>
                 <outlet property="pendingUserKickButtonOutlet" destination="ioi-KN-wP0" id="a5d-nh-9GH"/>
+                <outlet property="pendingUserQuestionMarkOutlet" destination="i14-Tb-TdJ" id="kOH-bI-HoT"/>
                 <outlet property="toggleEditModeButtonOutlet" destination="cLZ-EU-8Vm" id="Csv-Cp-tP3"/>
                 <outlet property="toggleFollowButtonOutlet" destination="Eo9-iL-hjL" id="ezF-Du-PmF"/>
                 <outlet property="userViewButtonLeftConstraintOutlet" destination="6bf-Dn-WAG" id="kBs-s3-cYk"/>
@@ -44,6 +45,18 @@
                     <rect key="frame" x="34" y="40" width="32" height="32"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                 </progressIndicator>
+                <textField hidden="YES" wantsLayer="YES" horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="i14-Tb-TdJ">
+                    <rect key="frame" x="36" y="33" width="29" height="48"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <shadow key="shadow" blurRadius="3">
+                        <size key="offset" width="1" height="1"/>
+                        <color key="color" name="controlShadowColor" catalog="System" colorSpace="catalog"/>
+                    </shadow>
+                    <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" enabled="NO" allowsUndo="NO" sendsActionOnEndEditing="YES" alignment="center" title="?" id="Hip-GX-5Hh">
+                        <font key="font" metaFont="systemBold" size="40"/>
+                        <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                    </textFieldCell>
+                </textField>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="laB-2b-86S" userLabel="Text Field - Participant Name">
                     <rect key="frame" x="31" y="8" width="39" height="14"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -57,16 +70,18 @@
             <constraints>
                 <constraint firstAttribute="centerX" secondItem="hE6-nB-RDu" secondAttribute="centerX" id="6bf-Dn-WAG"/>
                 <constraint firstAttribute="centerY" secondItem="hE6-nB-RDu" secondAttribute="centerY" constant="9" id="9g1-gp-gv4"/>
+                <constraint firstItem="hE6-nB-RDu" firstAttribute="centerY" secondItem="i14-Tb-TdJ" secondAttribute="centerY" id="BeS-c5-vn6"/>
                 <constraint firstAttribute="height" constant="96" id="CTe-CY-L0P"/>
                 <constraint firstItem="hE6-nB-RDu" firstAttribute="centerX" secondItem="k1p-6D-syT" secondAttribute="centerX" id="DMG-H5-rAW"/>
                 <constraint firstAttribute="trailing" relation="lessThanOrEqual" secondItem="laB-2b-86S" secondAttribute="trailing" constant="32" id="JBu-y8-Oyh"/>
                 <constraint firstAttribute="centerX" secondItem="laB-2b-86S" secondAttribute="centerX" id="SG5-MR-sI7"/>
                 <constraint firstItem="hE6-nB-RDu" firstAttribute="centerY" secondItem="k1p-6D-syT" secondAttribute="centerY" constant="-1" id="XBu-jo-auU"/>
                 <constraint firstItem="laB-2b-86S" firstAttribute="leading" relation="lessThanOrEqual" secondItem="1" secondAttribute="leading" constant="33" id="c2i-Jb-xjL"/>
+                <constraint firstItem="hE6-nB-RDu" firstAttribute="centerX" secondItem="i14-Tb-TdJ" secondAttribute="centerX" id="cZw-Ty-KOG"/>
                 <constraint firstItem="laB-2b-86S" firstAttribute="top" secondItem="hE6-nB-RDu" secondAttribute="bottom" constant="7" id="fDc-KA-DyE"/>
                 <constraint firstItem="laB-2b-86S" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="1" secondAttribute="leading" constant="2" id="fWY-ha-tdE"/>
                 <constraint firstAttribute="trailing" relation="greaterThanOrEqual" secondItem="laB-2b-86S" secondAttribute="trailing" constant="2" id="ukF-Tk-rCD"/>
-                <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="700" constant="100" id="z2q-Sf-2xm"/>
+                <constraint firstAttribute="width" relation="greaterThanOrEqual" priority="200" constant="100" id="z2q-Sf-2xm"/>
             </constraints>
             <animations>
                 <caTransition key="subviews">
@@ -124,6 +139,9 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
                         <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
+                    <connections>
+                        <action selector="toggleFollow:" target="-2" id="2mh-dZ-lUu"/>
+                    </connections>
                 </button>
             </subviews>
             <constraints>
