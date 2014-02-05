@@ -38,6 +38,7 @@
 @property (nonatomic, weak) IBOutlet NSButton *pendingUserKickButtonOutlet;
 @property (nonatomic, weak) IBOutlet NSButton *chooseEditModeButtonOutlet;
 @property (nonatomic, weak) IBOutlet NSButton *chooseReadOnlyModeButtonOutlet;
+@property (nonatomic, weak) IBOutlet NSTextField *pendingUserQuestionMarkOutlet;
 
 @end
 
@@ -168,27 +169,36 @@
 		// install tracking for action overlay
 		[self.participantViewOutlet addTrackingArea:[[NSTrackingArea alloc] initWithRect:NSZeroRect options:NSTrackingMouseEnteredAndExited|NSTrackingActiveInKeyWindow|NSTrackingInVisibleRect owner:self userInfo:nil]];
 
-		// ad double clickt target for follow
+		// add double click target for follow action
 		[self.userViewButtonOutlet setAction:@selector(userViewButtonDoubleClicked:)];
 		[self.userViewButtonOutlet setTarget:self];
+
+		if (! self.document.session.isServer) {
+			[self.closeConnectionButtonOutlet removeFromSuperview];
+			[self.toggleEditModeButtonOutlet removeFromSuperview];
+		}
 	}
 }
 
 - (void)updateForPendingUserState {
-	NSView *userView = self.participantViewOutlet;
-	NSView *overlayView = self.pendingUserActionOverlayOutlet;
-	overlayView.hidden = NO;
-	[userView addSubview:overlayView];
+	if (self.document.session.isServer) {
+		NSView *userView = self.participantViewOutlet;
+		NSView *overlayView = self.pendingUserActionOverlayOutlet;
+		overlayView.hidden = NO;
+		[userView addSubview:overlayView];
 
-	NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:overlayView
-																  attribute:NSLayoutAttributeTrailing
-																  relatedBy:NSLayoutRelationEqual
-																	 toItem:userView
-																  attribute:NSLayoutAttributeRight
-																 multiplier:1
-																   constant:0];
-	[self.view addConstraints:@[constraint]];
-	self.userViewButtonLeftConstraintOutlet.constant = 16;
+		NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:overlayView
+																	  attribute:NSLayoutAttributeTrailing
+																	  relatedBy:NSLayoutRelationEqual
+																		 toItem:userView
+																	  attribute:NSLayoutAttributeRight
+																	 multiplier:1
+																	   constant:0];
+		[self.view addConstraints:@[constraint]];
+		self.userViewButtonLeftConstraintOutlet.constant = 16;
+	}
+
+	self.pendingUserQuestionMarkOutlet.hidden = NO;
 }
 
 - (void)updateForInvitationState {
@@ -198,12 +208,13 @@
 	self.userViewButtonOutlet.alphaValue = 0.6;
 
 	[self.toggleEditModeButtonOutlet removeFromSuperview];
-	self.toggleEditModeButtonOutlet = nil;
-
 	[self.toggleFollowButtonOutlet removeFromSuperview];
-	self.toggleFollowButtonOutlet = nil;
 
-	[self.participantViewOutlet addTrackingArea:[[NSTrackingArea alloc] initWithRect:NSZeroRect options:NSTrackingMouseEnteredAndExited|NSTrackingActiveInKeyWindow|NSTrackingInVisibleRect owner:self userInfo:nil]];
+	if (! self.document.session.isServer) {
+		[self.closeConnectionButtonOutlet removeFromSuperview];
+	} else {
+		[self.participantViewOutlet addTrackingArea:[[NSTrackingArea alloc] initWithRect:NSZeroRect options:NSTrackingMouseEnteredAndExited|NSTrackingActiveInKeyWindow|NSTrackingInVisibleRect owner:self userInfo:nil]];
+	}
 }
 
 @end
