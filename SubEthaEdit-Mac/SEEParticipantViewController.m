@@ -14,6 +14,8 @@
 
 #import "SEEParticipantViewController.h"
 #import "PlainTextDocument.h"
+#import "PlainTextWindowController.h"
+#import "PlainTextEditor.h"
 #import "TCMMMUser.h"
 #import "TCMMMUserSEEAdditions.h"
 
@@ -123,7 +125,21 @@
 - (IBAction)userViewButtonDoubleClicked:(id)sender {
 	NSEvent *event = [NSApp currentEvent];
 	if (event.clickCount == 2) {
-		NSLog(@"Unimplemented function %s", __FUNCTION__);
+		[self toggleFollow:sender];
+	}
+}
+
+- (IBAction)toggleFollow:(id)sender {
+	TCMMMUser *user = self.participant;
+	if (! user.isMe) {
+		PlainTextWindowController *windowController = self.view.window.windowController;
+		PlainTextEditor *activeEditor = windowController.activePlainTextEditor;
+
+		if ([activeEditor.followUserID isEqualToString:user.userID]) {
+			[activeEditor setFollowUserID:nil];
+		} else {
+			[activeEditor setFollowUserID:user.userID];
+		}
 	}
 }
 
