@@ -58,6 +58,8 @@
 	view.layer.borderColor = [[NSColor lightGrayColor] CGColor];
 	view.layer.borderWidth = 0.5;
 
+	view.layer.backgroundColor = [[NSColor colorWithCalibratedWhite:0.7 alpha:0.2] CGColor];
+
 	[self update];
 }
 

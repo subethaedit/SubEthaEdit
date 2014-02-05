@@ -16,24 +16,18 @@
             <rect key="frame" x="0.0" y="0.0" width="480" height="96"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
             <backgroundFilters>
-                <ciFilter name="CIColorControls">
-                    <configuration>
-                        <real key="inputBrightness" value="0.0"/>
-                        <real key="inputContrast" value="1"/>
-                        <null key="inputImage"/>
-                        <real key="inputSaturation" value="2"/>
-                    </configuration>
-                </ciFilter>
                 <ciFilter name="CIGaussianBlur">
                     <configuration>
                         <null key="inputImage"/>
                         <real key="inputRadius" value="2"/>
                     </configuration>
                 </ciFilter>
-                <ciFilter name="CIExposureAdjust">
+                <ciFilter name="CIColorControls">
                     <configuration>
-                        <real key="inputEV" value="-0.5"/>
+                        <real key="inputBrightness" value="0.0"/>
+                        <real key="inputContrast" value="1"/>
                         <null key="inputImage"/>
+                        <real key="inputSaturation" value="2"/>
                     </configuration>
                 </ciFilter>
             </backgroundFilters>
