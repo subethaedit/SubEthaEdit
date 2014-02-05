@@ -128,8 +128,21 @@
 }
 
 - (IBAction)closeConnection:(id)sender {
-	NSLog(@"Unimplemented function %s", __FUNCTION__);
-//	[self.document.session cancelInvitationForUserWithID:self.participant.userID];
+	TCMMMSession *documentSession = self.document.session;
+	if (documentSession.isServer) {
+		NSDictionary *participants = documentSession.participants;
+        NSDictionary *invitedUsers = documentSession.invitedUsers;
+		NSArray *pendingUsers = documentSession.pendingUsers;
+		TCMMMUser *user = self.participant;
+
+		if ([pendingUsers containsObject:user]) {
+			[documentSession denyPendingUser:user];
+		} else if ([[invitedUsers objectForKey:TCMMMSessionReadWriteGroupName] containsObject:user] || [[invitedUsers objectForKey:TCMMMSessionReadOnlyGroupName] containsObject:user]) {
+			[documentSession cancelInvitationForUserWithID:[user userID]];
+		} else if ([[participants objectForKey:TCMMMSessionReadWriteGroupName] containsObject:user] || [[participants objectForKey:TCMMMSessionReadOnlyGroupName] containsObject:user]) {
+			[documentSession setGroup:TCMMMSessionPoofGroupName forParticipantsWithUserIDs:@[[user userID]]];
+		}
+	}
 }
 
 - (void)updateForParticipantUserState {
