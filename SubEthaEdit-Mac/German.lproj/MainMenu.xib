@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13C44" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1090" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
@@ -37,19 +37,6 @@
                                 </connections>
                             </menuItem>
                             <menuItem isSeparatorItem="YES" id="143">
-                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
-                            </menuItem>
-                            <menuItem title="SubEthaEdit kaufen" id="473">
-                                <connections>
-                                    <action selector="purchaseSubEthaEdit:" target="210" id="486"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem title="Seriennummer eingeben..." tag="201" id="474">
-                                <connections>
-                                    <action selector="enterSerialNumber:" target="210" id="487"/>
-                                </connections>
-                            </menuItem>
-                            <menuItem isSeparatorItem="YES" id="472">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
                             <menuItem title="Dienste" id="131">
@@ -1227,15 +1214,15 @@ DQ
                         <rect key="frame" x="0.0" y="0.0" width="387" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" id="FRN-eC-kYD">
-                            <rect key="frame" x="0.0" y="0.0" width="387" height="480"/>
+                            <rect key="frame" x="0.0" y="0.0" width="372" height="480"/>
                             <autoresizingMask key="autoresizingMask"/>
                             <subviews>
                                 <textView editable="NO" selectable="NO" importsGraphics="NO" richText="NO" baseWritingDirection="leftToRight" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" quoteSubstitution="YES" dashSubstitution="YES" textReplacement="YES" spellingCorrection="YES" smartInsertDelete="YES" id="590">
-                                    <rect key="frame" x="0.0" y="0.0" width="387" height="1159"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="372" height="1159"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="387" height="480"/>
+                                    <size key="minSize" width="372" height="480"/>
                                     <size key="maxSize" width="417" height="10000000"/>
                                     <attributedString key="textStorage">
                                         <fragment>
@@ -2058,7 +2045,7 @@ Cg
                                         </fragment>
                                     </attributedString>
                                     <color key="insertionPointColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="387" height="480"/>
+                                    <size key="minSize" width="372" height="480"/>
                                     <size key="maxSize" width="417" height="10000000"/>
                                 </textView>
                             </subviews>

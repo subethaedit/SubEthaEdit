@@ -1049,9 +1049,6 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     }
 }
 
-- (IBAction)enterSerialNumber:(id)sender {
-}
-
 - (IBAction)reloadDocumentModes:(id)aSender {
     [[DocumentModeManager sharedInstance] reloadDocumentModes:aSender];
 }
@@ -1104,9 +1101,6 @@ static OSStatus AuthorizationRightSetWithWorkaround(
         if (title == nil) title = NSLocalizedString(@"&Redo", nil);
         [menuItem setTitle:title];
         return [undoManager canRedo];
-    } 
-	else if (selector == @selector(enterSerialNumber:) || selector == @selector(purchaseSubEthaEdit:)) {
-        return NO;
     }
     return YES;
 }
@@ -1176,10 +1170,6 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 
 - (IBAction)provideFeedback:(id)sender {
     [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"http://www.subethaedit.net/feedback.html",@"Feedback Link")]];
-}
-
-- (IBAction)purchaseSubEthaEdit:(id)sender {
-    [[NSWorkspace sharedWorkspace] openURL:[NSURL URLWithString:NSLocalizedString(@"http://www.subethaedit.net/purchase.html",@"Purchase Link")]];
 }
 
 - (void)changeFont:(id)aSender {

@@ -62,9 +62,6 @@ extern NSString * const GlobalScriptsDidReloadNotification;
 - (IBAction)undo:(id)aSender;
 - (IBAction)redo:(id)aSender;
 
-- (IBAction)purchaseSubEthaEdit:(id)sender;
-- (IBAction)enterSerialNumber:(id)sender;
-
 - (IBAction)reloadDocumentModes:(id)aSender;
 
 - (IBAction)showAcknowledgements:(id)sender;
