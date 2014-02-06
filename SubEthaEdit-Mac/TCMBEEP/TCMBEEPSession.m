@@ -1267,10 +1267,12 @@ static NSData *dhparamData = nil;
                     if (dataParser)
                     {
 						NSString *element = dataParser.elementName;
-						NSString *content = dataParser.content;
 						NSDictionary *attributes = dataParser.attributeDict;
 
+#ifndef TCM_BLOCK_DEBUGLOGS
+						NSString *content = dataParser.content;
 						DEBUGLOG(@"BEEPLogDomain", AllLogLevel, @"element: %@, attributes: %@, content: %@", element, attributes, content);
+#endif
 
 						if ([element isEqualToString:TCMBEEPSessionXMLElementReady])
 						{
