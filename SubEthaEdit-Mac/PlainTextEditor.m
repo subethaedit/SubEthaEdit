@@ -83,7 +83,9 @@
 
 @property (nonatomic, strong) IBOutlet NSView *O_editorView;
 @property (nonatomic, assign) IBOutlet NSView *O_topStatusBarView;
+@property (nonatomic, strong) NSArray *topStatusBarViewBackgroundFilters;
 @property (nonatomic, assign) IBOutlet NSView *O_bottomStatusBarView;
+@property (nonatomic, strong) NSArray *bottomStatusBarViewBackgroundFilters;
 @property (nonatomic, assign) IBOutlet NSButton *shareInviteUsersButtonOutlet;
 
 @property (nonatomic, strong) NSArray *topLevelNibObjects;
@@ -1563,21 +1565,18 @@
     if (I_flags.showTopStatusBar != aFlag)
     {
         I_flags.showTopStatusBar = !I_flags.showTopStatusBar;
-        NSRect frame = [O_scrollView frame];
 
-        if (!I_flags.showTopStatusBar)
-        {
-            frame.size.height += STATUSBARSIZE;
-        }
-        else
-        {
-            frame.size.height -= STATUSBARSIZE;
-            [self.O_editorView setNeedsDisplayInRect:NSMakeRect(frame.origin.x, NSMaxY(frame), frame.size.width, STATUSBARSIZE)];
-            [self TCM_updateStatusBar];
-        }
+		[self TCM_updateStatusBar];
 
-        [O_scrollView setFrame:frame];
-        [self.O_topStatusBarView setHidden:!I_flags.showTopStatusBar];
+		if (! I_flags.showTopStatusBar) {
+			self.topStatusBarViewBackgroundFilters = self.O_topStatusBarView.layer.backgroundFilters;
+			self.O_topStatusBarView.layer.backgroundFilters = nil;
+		} else {
+			self.O_topStatusBarView.layer.backgroundFilters = self.topStatusBarViewBackgroundFilters;
+			self.topStatusBarViewBackgroundFilters = nil;
+		}
+
+		[self.O_topStatusBarView setHidden:!I_flags.showTopStatusBar];
         [self.O_topStatusBarView setNeedsDisplay:YES];
         [[self document] setShowsTopStatusBar:aFlag];
     }
@@ -1595,22 +1594,16 @@
     if (I_flags.showBottomStatusBar != aFlag)
     {
         I_flags.showBottomStatusBar = !I_flags.showBottomStatusBar;
-        NSRect frame = [O_scrollView frame];
 
-        if (!I_flags.showBottomStatusBar)
-        {
-            frame.size.height += STATUSBARSIZE;
-            frame.origin.y   -= STATUSBARSIZE;
-        }
-        else
-        {
-            frame.size.height -= STATUSBARSIZE;
-            frame.origin.y   += STATUSBARSIZE;
-            [self.O_editorView setNeedsDisplayInRect:NSMakeRect(frame.origin.x, frame.origin.y - STATUSBARSIZE, frame.size.width, STATUSBARSIZE)];
-            [self TCM_updateBottomStatusBar];
-        }
+		[self TCM_updateBottomStatusBar];
 
-        [O_scrollView setFrame:frame];
+		if (! I_flags.showBottomStatusBar) {
+			self.bottomStatusBarViewBackgroundFilters = self.O_bottomStatusBarView.layer.backgroundFilters;
+			self.O_bottomStatusBarView.layer.backgroundFilters = nil;
+		} else {
+			self.O_bottomStatusBarView.layer.backgroundFilters = self.bottomStatusBarViewBackgroundFilters;
+			self.bottomStatusBarViewBackgroundFilters = nil;
+		}
         [self.O_bottomStatusBarView setHidden:!I_flags.showBottomStatusBar];
         [self.O_bottomStatusBarView setNeedsDisplay:YES];
     }
