@@ -69,7 +69,6 @@ extern NSString * const GlobalScriptsDidReloadNotification;
 - (IBAction)showReleaseNotes:(id)sender;
 - (IBAction)visitWebsite:(id)sender;
 - (IBAction)additionalModes:(id)sender;
-- (IBAction)gotoDocumentation:(id)sender;
 - (IBAction)reportBug:(id)sender;
 - (IBAction)provideFeedback:(id)sender;
 - (IBAction)showUserStatisticsWindow:(id)aSender;
