@@ -81,8 +81,12 @@
 
 @interface PlainTextEditor ()
 
+@property (nonatomic, strong) IBOutlet NSView *O_editorView;
+@property (nonatomic, assign) IBOutlet NSView *O_topStatusBarView;
+@property (nonatomic, assign) IBOutlet NSView *O_bottomStatusBarView;
 @property (nonatomic, assign) IBOutlet NSButton *shareInviteUsersButtonOutlet;
-@property (nonatomic, strong) NSArray *topLecelNibObjects;
+
+@property (nonatomic, strong) NSArray *topLevelNibObjects;
 @property (nonatomic, strong) NSViewController *bottomOverlayViewController;
 
 - (void)	TCM_updateStatusBar;
@@ -109,7 +113,7 @@
 
 		NSArray *topLevelNibObjects = nil;
         [[NSBundle mainBundle] loadNibNamed:@"PlainTextEditor" owner:self topLevelObjects:&topLevelNibObjects];
-		self.topLecelNibObjects = topLevelNibObjects;
+		self.topLevelNibObjects = topLevelNibObjects;
 
 		if (! I_flags.hasSplitButton) {
 			[O_splitButton removeFromSuperview];
@@ -139,7 +143,7 @@
     [I_storedPosition release];
 
     [self.O_editorView setNextResponder:nil];
-	self.topLecelNibObjects = nil;
+	self.topLevelNibObjects = nil;
 	self.O_editorView = nil;
 
     [super dealloc];
@@ -293,6 +297,9 @@
     [self setNextResponder:view];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(viewFrameDidChange:) name:NSViewFrameDidChangeNotification object:view];
     self.O_editorView = view;
+
+	self.O_topStatusBarView.layer.backgroundColor = [[NSColor colorWithCalibratedWhite:0.7 alpha:0.5] CGColor];
+	self.O_bottomStatusBarView.layer.backgroundColor = [[NSColor colorWithCalibratedWhite:0.7 alpha:0.5] CGColor];
 
 	[I_textView setPostsFrameChangedNotifications:YES];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textViewFrameDidChange:) name:NSViewFrameDidChangeNotification object:I_textView];
@@ -524,7 +531,7 @@
     {
         float symbolWidth = [(PopUpButtonCell *)[O_symbolPopUpButton cell] desiredWidth];
         PlainTextDocument *document = [self document];
-        NSRect bounds = [O_topStatusBarView bounds];
+        NSRect bounds = [self.O_topStatusBarView bounds];
         NSRect positionFrame = [O_positionTextField frame];
         BOOL isWaiting = [[self document] isWaiting];
         [O_waitPipeStatusImageView setHidden:!isWaiting];
@@ -573,7 +580,7 @@
         newWrittenByFrame.origin.x = bounds.origin.x + bounds.size.width - RIGHTINSET - newWrittenByFrame.size.width;
         [O_writtenByTextField setFrame:newWrittenByFrame];
         [O_symbolPopUpButton setFrame:NSIntegralRect(newPopUpFrame)];
-        [O_topStatusBarView setNeedsDisplay:YES];
+        [self.O_topStatusBarView setNeedsDisplay:YES];
     }
 }
 
@@ -1564,8 +1571,8 @@
         }
 
         [O_scrollView setFrame:frame];
-        [O_topStatusBarView setHidden:!I_flags.showTopStatusBar];
-        [O_topStatusBarView setNeedsDisplay:YES];
+        [self.O_topStatusBarView setHidden:!I_flags.showTopStatusBar];
+        [self.O_topStatusBarView setNeedsDisplay:YES];
         [[self document] setShowsTopStatusBar:aFlag];
     }
 }
@@ -1598,8 +1605,8 @@
         }
 
         [O_scrollView setFrame:frame];
-        [O_bottomStatusBarView setHidden:!I_flags.showBottomStatusBar];
-        [O_bottomStatusBarView setNeedsDisplay:YES];
+        [self.O_bottomStatusBarView setHidden:!I_flags.showBottomStatusBar];
+        [self.O_bottomStatusBarView setNeedsDisplay:YES];
     }
 }
 

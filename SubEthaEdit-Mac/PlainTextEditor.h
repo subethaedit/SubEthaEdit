@@ -26,8 +26,6 @@
     IBOutlet PopUpButton *O_symbolPopUpButton;
     IBOutlet NSButton	 *O_splitButton;
     IBOutlet SEEPlainTextEditorScrollView *O_scrollView;
-    IBOutlet NSView       *O_topStatusBarView;
-    IBOutlet NSView       *O_bottomStatusBarView;
     RadarScroller   *I_radarScroller;
     TextView        *I_textView;
     NSTextContainer *I_textContainer;
@@ -44,8 +42,8 @@
     SelectionOperation *I_storedPosition;
 }
 
-@property (nonatomic, strong) IBOutlet NSView *O_editorView;
 @property (nonatomic, readonly) BOOL hasBottomOverlayView;
+
 
 - (id)initWithWindowControllerTabContext:(PlainTextWindowControllerTabContext *)aWindowControllerTabContext splitButton:(BOOL)aFlag;
 - (NSView *)editorView;
