@@ -108,8 +108,8 @@
 	NSView *userView = self.participantViewOutlet;
 	NSView *overlayView = self.participantActionOverlayOutlet;
 	overlayView.hidden = NO;
-	overlayView.layer.borderWidth = 1.0;
-	overlayView.layer.borderColor = [[NSColor redColor] CGColor];
+//	overlayView.layer.borderWidth = 1.0;
+//	overlayView.layer.borderColor = [[NSColor redColor] CGColor];
 	[self.view addSubview:overlayView];
 
 	NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:overlayView
@@ -241,8 +241,8 @@
 		NSView *userView = self.participantViewOutlet;
 		NSView *overlayView = self.pendingUserActionOverlayOutlet;
 		overlayView.hidden = NO;
-		overlayView.layer.borderWidth = 1.0;
-		overlayView.layer.borderColor = [[NSColor redColor] CGColor];
+//		overlayView.layer.borderWidth = 1.0;
+//		overlayView.layer.borderColor = [[NSColor redColor] CGColor];
 		[userView addSubview:overlayView];
 
 		NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:overlayView

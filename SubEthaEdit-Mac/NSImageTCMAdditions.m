@@ -27,7 +27,7 @@
 		NSInteger pointWidth = [[parts objectAtIndex:1] integerValue];
 		
 		NSColor *selectedColor = [NSColor selectedMenuItemColor];
-		NSColor *normalColor   = [NSColor controlColor];
+		NSColor *normalColor   = [NSColor darkGrayColor];
 		NSColor *highlightColor = [[NSColor selectedMenuItemColor] blendedColorWithFraction:0.25 ofColor:[NSColor blackColor]];
 		
 		if (parts.count > 3) {
@@ -90,8 +90,8 @@
 			CGContextSetFillColorWithColor(layerContext, [fillColor CGColor]);
 			CGContextFillRect(layerContext, layerRect);
 
-			
-			CGContextSetShadow(context, CGSizeMake(0, -1.), 1.);
+			CGContextSetShadowWithColor(context, CGSizeMake(0, -2.0), 0.9, [[NSColor colorWithCalibratedWhite:1.0 alpha:1.0/3.0] CGColor]);
+//			CGContextSetShadow(context, CGSizeMake(0, -1.0), 1.0);
 			CGContextScaleCTM(context, 1/layerScale.width, 1/layerScale.height);
 			if (disabled) {
 				CGContextSetAlpha(context, 0.9);

@@ -303,12 +303,13 @@
 	NSView *topStatusBarView = self.O_topStatusBarView;
 	topStatusBarView.layer.borderColor = [[NSColor lightGrayColor] CGColor];
 	topStatusBarView.layer.borderWidth = 0.5;
-	topStatusBarView.layer.backgroundColor = [[NSColor colorWithCalibratedWhite:0.7 alpha:0.5] CGColor];
+	topStatusBarView.layer.backgroundColor = [[NSColor colorWithCalibratedWhite:0.65
+																		  alpha:0.75] CGColor];
 
 	NSView *bottomStatusBarView = self.O_bottomStatusBarView;
 	bottomStatusBarView.layer.borderColor = [[NSColor lightGrayColor] CGColor];
 	bottomStatusBarView.layer.borderWidth = 0.5;
-	bottomStatusBarView.layer.backgroundColor = [[NSColor colorWithCalibratedWhite:0.7 alpha:0.5] CGColor];
+	bottomStatusBarView.layer.backgroundColor = [[NSColor colorWithCalibratedWhite:0.65 alpha:0.75] CGColor];
 
 	[I_textView setPostsFrameChangedNotifications:YES];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(textViewFrameDidChange:) name:NSViewFrameDidChangeNotification object:I_textView];
