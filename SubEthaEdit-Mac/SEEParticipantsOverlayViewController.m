@@ -97,7 +97,12 @@
 				lastUserViewLayoutAttribute = NSLayoutAttributeLeft;
 			}
 			[self.participantSubviewControllers addObject:participantViewController];
-			[view addSubview:participantViewController.view];
+
+			NSView *participantView = participantViewController.view;
+//			participantView.layer.borderColor = [[NSColor redColor] CGColor];
+//			participantView.layer.borderWidth = 1.0;
+			[view addSubview:participantView];
+
 			NSLayoutConstraint *horizontalConstraint = [NSLayoutConstraint constraintWithItem:participantViewController.view
 																					attribute:NSLayoutAttributeLeft
 																					relatedBy:NSLayoutRelationEqual
@@ -157,6 +162,7 @@
 																		constant:0];
 	witdhConstraint.priority = NSLayoutPriorityRequired;
 	[view addConstraints:@[verticalConstraint, heightConstraint, horizontalConstraint, witdhConstraint]];
+
 //	spacerView.layer.borderWidth = 1;
 //	spacerView.layer.borderColor = [[NSColor redColor] CGColor];
 
@@ -174,7 +180,12 @@
 					lastUserView = spacerView;
 				}
 				[self.inviteeSubviewControllers addObject:participantViewController];
-				[view addSubview:participantViewController.view];
+
+				NSView *participantView = participantViewController.view;
+//				participantView.layer.borderColor = [[NSColor redColor] CGColor];
+//				participantView.layer.borderWidth = 1.0;
+				[view addSubview:participantView];
+
 				NSLayoutConstraint *horizontalConstraint = [NSLayoutConstraint constraintWithItem:participantViewController.view
 																						attribute:NSLayoutAttributeLeft
 																						relatedBy:NSLayoutRelationEqual
@@ -245,6 +256,7 @@
 													constant:0];
 	witdhConstraint.priority = NSLayoutPriorityRequired;
 	[view addConstraints:@[verticalConstraint, heightConstraint, horizontalConstraint, witdhConstraint]];
+
 //	secondSpacerView.layer.borderWidth = 1;
 //	secondSpacerView.layer.borderColor = [[NSColor redColor] CGColor];
 
@@ -259,7 +271,12 @@
 				lastUserView = secondSpacerView;
 			}
 			[self.pendingSubviewControllers addObject:participantViewController];
-			[view addSubview:participantViewController.view];
+
+			NSView *participantView = participantViewController.view;
+//			participantView.layer.borderColor = [[NSColor redColor] CGColor];
+//			participantView.layer.borderWidth = 1.0;
+			[view addSubview:participantView];
+
 			NSLayoutConstraint *horizontalConstraint = [NSLayoutConstraint constraintWithItem:participantViewController.view
 																					attribute:NSLayoutAttributeLeft
 																					relatedBy:NSLayoutRelationEqual

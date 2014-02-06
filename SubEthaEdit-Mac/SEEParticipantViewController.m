@@ -114,7 +114,8 @@
 																	 toItem:self.view
 																  attribute:NSLayoutAttributeRight
 																 multiplier:1
-																   constant:0];
+																   constant:-5
+									  ];
 	[self.view addConstraints:@[constraint]];
 }
 
@@ -237,7 +238,7 @@
 																		 toItem:userView
 																	  attribute:NSLayoutAttributeRight
 																	 multiplier:1
-																	   constant:0];
+																	   constant:-5];
 		[self.view addConstraints:@[constraint]];
 		self.userViewButtonLeftConstraintOutlet.constant = 16;
 	}
