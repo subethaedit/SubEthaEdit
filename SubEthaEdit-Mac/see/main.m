@@ -103,7 +103,9 @@ CFURLRef CopyURLRefForSubEthaEdit()
 	for (NSRunningApplication *runningApplication in runningApplications)
 	{
 		NSString *bundleIdentifier = [runningApplication bundleIdentifier];
-		if ([bundleIdentifier isEqualToString:@"de.codingmonkeys.SubEthaEdit"])
+		if ([bundleIdentifier isEqualToString:@"de.codingmonkeys.SubEthaEdit"] || // old version bevore 4.0
+			[bundleIdentifier isEqualToString:@"de.codingmonkeys.SubEthaEdit.Mac"] || // 4.0 or newer
+			[bundleIdentifier isEqualToString:@"de.codingmonkeys.SubEthaEdit.MacBETA"]) // 4.0 or newer BETA version
 		{
 			NSURL *runningApplicationBundleURL = [runningApplication bundleURL];
 			NSBundle *appBundle = [NSBundle bundleWithURL:runningApplicationBundleURL];
@@ -123,7 +125,7 @@ CFURLRef CopyURLRefForSubEthaEdit()
 	}
 
 	// Look for the default version of SubEthaEdit
-	applicationURL = [[NSWorkspace sharedWorkspace] URLForApplicationWithBundleIdentifier:@"de.codingmonkeys.SubEthaEdit"];
+	applicationURL = [[NSWorkspace sharedWorkspace] URLForApplicationWithBundleIdentifier:@"de.codingmonkeys.SubEthaEdit.Mac"];
 	if (applicationURL)
 	{
         NSBundle *appBundle = [NSBundle bundleWithURL:applicationURL];
@@ -269,7 +271,7 @@ static NSArray *see(NSArray *fileNames, NSArray *newFileNames, NSString *stdinFi
 	for (NSRunningApplication *runningApplication in runningApplications)
 	{
 		NSString *bundleIdentifier = [runningApplication bundleIdentifier];
-		if ([bundleIdentifier isEqualToString:@"de.codingmonkeys.SubEthaEdit"])
+		if ([bundleIdentifier isEqualToString:@"de.codingmonkeys.SubEthaEdit.Mac"])
 		{
 			if ([runningApplication.bundleURL isEqualTo:(NSURL *)appURL] == YES)
 			{

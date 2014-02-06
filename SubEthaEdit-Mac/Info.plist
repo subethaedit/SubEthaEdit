@@ -2291,7 +2291,7 @@
 	<key>CFBundleIconFile</key>
 	<string>SubEthaEdit</string>
 	<key>CFBundleIdentifier</key>
-	<string>de.codingmonkeys.${PRODUCT_NAME:rfc1034identifier}${TCM_APP_STYLE}</string>
+	<string>de.codingmonkeys.${PRODUCT_NAME:rfc1034identifier}.Mac${TCM_APP_STYLE}</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
