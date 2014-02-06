@@ -524,17 +524,55 @@ NSString * const TCMMMSessionInvitedUserStateInvitationDeclined = @"DeclinedInvi
 }
 
 
-- (void)denyPendingUser:(TCMMMUser *)aUser {
-	SessionProfile *profile=[I_profilesByUserID objectForKey:[aUser userID]];
-	if (profile) {
-		[profile denyJoin];
-		[profile close];
-		[profile setDelegate:nil];
+- (void)addPendingUser:(TCMMMUser *)aUser toGroup:(NSString *)aGroup {
+	if (aUser != nil && aGroup != nil) {
+		[I_groupByUserID setObject:aGroup forKey:[aUser userID]];
+
+		if (![I_participants objectForKey:aGroup]) {
+			[I_participants setObject:[NSMutableArray array] forKey:aGroup];
+		}
+		[[I_participants objectForKey:aGroup] addObject:aUser];
+
+		[I_contributors addObject:aUser];
+
+		[self documentDidApplyOperation:[UserChangeOperation userChangeOperationWithType:UserChangeTypeJoin user:aUser newGroup:aGroup]];
+
+		SessionProfile *profile = [I_profilesByUserID objectForKey:[aUser userID]];
+		TCMMMState *state = [[TCMMMState alloc] initAsServer:YES];
+		[state setDelegate:self];
+		[state setClient:profile];
+		[I_statesByClientID setObject:state forKey:[aUser userID]];
+		[profile acceptJoin];
+		[profile sendSessionInformation:[self TCM_sessionInformationForUserID:[aUser userID]]];
+		id <SEEDocument> document = [self document];
+		[document sendInitialUserStateViaMMState:state];
+		[state release];
+
+		[aUser joinSessionID:[self sessionID]];
+
+		NSMutableDictionary *properties=[aUser propertiesForSessionID:[self sessionID]];
+		[properties setObject:[SelectionOperation selectionOperationWithRange:NSMakeRange(0,0) userID:[aUser userID]] forKey:@"SelectionOperation"];
+
+		[I_profilesByUserID removeObjectForKey:[aUser userID]];
+		[I_pendingUsers removeObject:aUser];
+		[self validateSecurity];
+		[[NSNotificationCenter defaultCenter] postNotificationName:TCMMMSessionPendingUsersDidChangeNotification object:self];
 	}
-	[I_profilesByUserID removeObjectForKey:[aUser userID]];
-	[I_pendingUsers removeObject:aUser];
-    [self validateSecurity];
-    [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMSessionPendingUsersDidChangeNotification object:self];
+}
+
+- (void)denyPendingUser:(TCMMMUser *)aUser {
+	if (aUser != nil) {
+		SessionProfile *profile=[I_profilesByUserID objectForKey:[aUser userID]];
+		if (profile) {
+			[profile denyJoin];
+			[profile close];
+			[profile setDelegate:nil];
+		}
+		[I_profilesByUserID removeObjectForKey:[aUser userID]];
+		[I_pendingUsers removeObject:aUser];
+		[self validateSecurity];
+		[[NSNotificationCenter defaultCenter] postNotificationName:TCMMMSessionPendingUsersDidChangeNotification object:self];
+	}
 }
 
 - (void)setGroup:(NSString *)aGroup forPendingUsersWithIndexes:(NSIndexSet *)aSet {

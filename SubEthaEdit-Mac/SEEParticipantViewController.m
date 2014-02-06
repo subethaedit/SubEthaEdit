@@ -123,10 +123,42 @@
 	self.participantActionOverlayOutlet.hidden = YES;
 }
 
+- (IBAction)closeConnection:(id)sender {
+	TCMMMSession *documentSession = self.document.session;
+	if (documentSession.isServer) {
+		NSDictionary *participants = documentSession.participants;
+        NSDictionary *invitedUsers = documentSession.invitedUsers;
+		NSArray *pendingUsers = documentSession.pendingUsers;
+		TCMMMUser *user = self.participant;
+
+		if ([pendingUsers containsObject:user]) {
+			[documentSession denyPendingUser:user];
+		} else if ([[invitedUsers objectForKey:TCMMMSessionReadWriteGroupName] containsObject:user] || [[invitedUsers objectForKey:TCMMMSessionReadOnlyGroupName] containsObject:user]) {
+			[documentSession cancelInvitationForUserWithID:[user userID]];
+		} else if ([[participants objectForKey:TCMMMSessionReadWriteGroupName] containsObject:user] || [[participants objectForKey:TCMMMSessionReadOnlyGroupName] containsObject:user]) {
+			[documentSession setGroup:TCMMMSessionPoofGroupName forParticipantsWithUserIDs:@[[user userID]]];
+		}
+	}
+}
+
 - (IBAction)userViewButtonDoubleClicked:(id)sender {
 	NSEvent *event = [NSApp currentEvent];
 	if (event.clickCount == 2) {
 		[self toggleFollow:sender];
+	}
+}
+
+- (IBAction)toggleEditMode:(id)sender {
+	TCMMMSession *documentSession = self.document.session;
+	if (documentSession.isServer) {
+		NSDictionary *participants = documentSession.participants;
+		TCMMMUser *user = self.participant;
+
+		if ([[participants objectForKey:TCMMMSessionReadWriteGroupName] containsObject:user]) {
+			[documentSession setGroup:TCMMMSessionReadOnlyGroupName forParticipantsWithUserIDs:@[[user userID]]];
+		} else if ([[participants objectForKey:TCMMMSessionReadOnlyGroupName] containsObject:user]) {
+			[documentSession setGroup:TCMMMSessionReadWriteGroupName forParticipantsWithUserIDs:@[[user userID]]];
+		}
 	}
 }
 
@@ -144,20 +176,32 @@
 	}
 }
 
-- (IBAction)closeConnection:(id)sender {
+- (IBAction)chooseReadOnlyMode:(id)sender {
 	TCMMMSession *documentSession = self.document.session;
 	if (documentSession.isServer) {
 		NSDictionary *participants = documentSession.participants;
-        NSDictionary *invitedUsers = documentSession.invitedUsers;
 		NSArray *pendingUsers = documentSession.pendingUsers;
 		TCMMMUser *user = self.participant;
 
 		if ([pendingUsers containsObject:user]) {
-			[documentSession denyPendingUser:user];
-		} else if ([[invitedUsers objectForKey:TCMMMSessionReadWriteGroupName] containsObject:user] || [[invitedUsers objectForKey:TCMMMSessionReadOnlyGroupName] containsObject:user]) {
-			[documentSession cancelInvitationForUserWithID:[user userID]];
-		} else if ([[participants objectForKey:TCMMMSessionReadWriteGroupName] containsObject:user] || [[participants objectForKey:TCMMMSessionReadOnlyGroupName] containsObject:user]) {
-			[documentSession setGroup:TCMMMSessionPoofGroupName forParticipantsWithUserIDs:@[[user userID]]];
+			[documentSession addPendingUser:user toGroup:TCMMMSessionReadOnlyGroupName];
+		} else if ([[participants objectForKey:TCMMMSessionReadWriteGroupName] containsObject:user]) {
+			[documentSession setGroup:TCMMMSessionReadOnlyGroupName forParticipantsWithUserIDs:@[[user userID]]];
+		}
+	}
+}
+
+- (IBAction)chooseReadWriteMode:(id)sender {
+	TCMMMSession *documentSession = self.document.session;
+	if (documentSession.isServer) {
+		NSDictionary *participants = documentSession.participants;
+		NSArray *pendingUsers = documentSession.pendingUsers;
+		TCMMMUser *user = self.participant;
+
+		if ([pendingUsers containsObject:user]) {
+			[documentSession addPendingUser:user toGroup:TCMMMSessionReadWriteGroupName];
+		} else if ([[participants objectForKey:TCMMMSessionReadOnlyGroupName] containsObject:user]) {
+			[documentSession setGroup:TCMMMSessionReadWriteGroupName forParticipantsWithUserIDs:@[[user userID]]];
 		}
 	}
 }
