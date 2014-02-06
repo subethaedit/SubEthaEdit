@@ -577,8 +577,14 @@ static NSMenu *S_defaultMenu=nil;
         // remove and add from Superview to activiate my cursor rect and deactivate the ones of the TextView
         NSScrollView *sv = [self enclosingScrollView];
         NSView *superview = [sv superview];
+		NSArray *subviews = [[superview subviews] copy];
+		NSUInteger subViewIndex = [subviews indexOfObject:sv];
+		NSView *viewAbove = nil;
+		if (subviews.count > subViewIndex + 1) {
+			viewAbove = [subviews objectAtIndex:subViewIndex + 1];
+		}
         [sv removeFromSuperview];
-        [superview addSubview:sv];
+        [superview addSubview:sv positioned:NSWindowBelow relativeTo:viewAbove];
     }
     [[self window] invalidateCursorRectsForView:self];
 }
