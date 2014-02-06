@@ -149,6 +149,7 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
                 <constraint firstItem="cLZ-EU-8Vm" firstAttribute="trailing" secondItem="Eo9-iL-hjL" secondAttribute="trailing" id="9fE-4Z-bzG"/>
                 <constraint firstAttribute="width" constant="16" id="Awa-dS-szM"/>
                 <constraint firstAttribute="trailing" secondItem="Uv8-hZ-TnG" secondAttribute="trailing" id="F5W-ZE-okx"/>
+                <constraint firstAttribute="bottom" secondItem="Eo9-iL-hjL" secondAttribute="bottom" constant="30" id="GBw-Ld-lv8"/>
                 <constraint firstItem="Uv8-hZ-TnG" firstAttribute="leading" secondItem="lTM-E1-CsT" secondAttribute="leading" id="IlW-AH-xRM"/>
                 <constraint firstItem="cLZ-EU-8Vm" firstAttribute="leading" secondItem="Eo9-iL-hjL" secondAttribute="leading" id="M9o-mZ-X1v"/>
                 <constraint firstItem="cLZ-EU-8Vm" firstAttribute="leading" secondItem="Uv8-hZ-TnG" secondAttribute="leading" id="MfQ-HI-1OF"/>
@@ -214,6 +215,7 @@ CAARABoAIwAtADIANwBBAEcAUABXAFwAZAB5AHsAfQB/AIEAiwCSAJcAogClAKcAqQCrALMAuADDAMwA
             <constraints>
                 <constraint firstItem="ioi-KN-wP0" firstAttribute="trailing" secondItem="7Kl-QN-egj" secondAttribute="trailing" id="08L-D4-7Xs"/>
                 <constraint firstItem="7Kl-QN-egj" firstAttribute="trailing" secondItem="1iS-eR-ahe" secondAttribute="trailing" id="2gG-QI-uCO"/>
+                <constraint firstAttribute="bottom" secondItem="1iS-eR-ahe" secondAttribute="bottom" constant="30" id="4ZN-d4-mAE"/>
                 <constraint firstAttribute="width" constant="16" id="V5Z-k4-dCc"/>
                 <constraint firstItem="ioi-KN-wP0" firstAttribute="leading" secondItem="7Kl-QN-egj" secondAttribute="leading" id="fKt-4j-Ek9"/>
                 <constraint firstItem="ioi-KN-wP0" firstAttribute="top" secondItem="Y0C-Vm-vVD" secondAttribute="top" constant="12" id="i1s-ad-o3b"/>

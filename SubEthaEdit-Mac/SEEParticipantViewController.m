@@ -105,18 +105,29 @@
 }
 
 - (void)mouseEntered:(NSEvent *)theEvent {
-	self.participantActionOverlayOutlet.hidden = NO;
-	[self.view addSubview:self.participantActionOverlayOutlet];
+	NSView *userView = self.participantViewOutlet;
+	NSView *overlayView = self.participantActionOverlayOutlet;
+	overlayView.hidden = NO;
+	overlayView.layer.borderWidth = 1.0;
+	overlayView.layer.borderColor = [[NSColor redColor] CGColor];
+	[self.view addSubview:overlayView];
 
-	NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:self.participantActionOverlayOutlet
-																  attribute:NSLayoutAttributeTrailing
+	NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:overlayView
+																  attribute:NSLayoutAttributeRight
 																  relatedBy:NSLayoutRelationEqual
-																	 toItem:self.view
+																	 toItem:userView
 																  attribute:NSLayoutAttributeRight
 																 multiplier:1
-																   constant:-5
-									  ];
-	[self.view addConstraints:@[constraint]];
+																   constant:-5];
+
+	NSLayoutConstraint *verticalConstraint = [NSLayoutConstraint constraintWithItem:overlayView
+																		  attribute:NSLayoutAttributeTop
+																		  relatedBy:NSLayoutRelationEqual
+																			 toItem:userView
+																		  attribute:NSLayoutAttributeTop
+																		 multiplier:1
+																		   constant:0];
+	[userView addConstraints:@[constraint, verticalConstraint]];
 }
 
 - (void)mouseExited:(NSEvent *)theEvent {
@@ -230,16 +241,26 @@
 		NSView *userView = self.participantViewOutlet;
 		NSView *overlayView = self.pendingUserActionOverlayOutlet;
 		overlayView.hidden = NO;
+		overlayView.layer.borderWidth = 1.0;
+		overlayView.layer.borderColor = [[NSColor redColor] CGColor];
 		[userView addSubview:overlayView];
 
 		NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:overlayView
-																	  attribute:NSLayoutAttributeTrailing
+																	  attribute:NSLayoutAttributeRight
 																	  relatedBy:NSLayoutRelationEqual
 																		 toItem:userView
 																	  attribute:NSLayoutAttributeRight
 																	 multiplier:1
 																	   constant:-5];
-		[self.view addConstraints:@[constraint]];
+
+		NSLayoutConstraint *verticalConstraint = [NSLayoutConstraint constraintWithItem:overlayView
+																	  attribute:NSLayoutAttributeTop
+																	  relatedBy:NSLayoutRelationEqual
+																		 toItem:userView
+																	  attribute:NSLayoutAttributeTop
+																	 multiplier:1
+																	   constant:0];
+		[userView addConstraints:@[constraint, verticalConstraint]];
 		self.userViewButtonLeftConstraintOutlet.constant = 16;
 	}
 
