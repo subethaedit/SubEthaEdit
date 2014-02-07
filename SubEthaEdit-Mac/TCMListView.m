@@ -597,32 +597,29 @@ NSString *ListViewDidChangeSelectionNotification=
     }
     [rows release];
 
-    NSImage *resultImage=[[NSImage alloc] initWithSize:imageSize];
-    [resultImage setFlipped:YES];
-    [NSGraphicsContext saveGraphicsState];
-    [resultImage lockFocus];
-    [[NSColor clearColor] set];
-    NSRectFill(NSMakeRect(0,0,imageSize.width,imageSize.height));
-    NSAffineTransform *itemStep=[NSAffineTransform transform];
-    [itemStep translateXBy:0 yBy:itemRowHeight];
-    NSAffineTransform *childStep=[NSAffineTransform transform];
-    [childStep translateXBy:0 yBy:childRowHeight];
-    NSValue *value=nil;
-    for (value in itemChildPairs) {
-        ItemChildPair pair;
-        [value getValue:&pair];
-        if (pair.childIndex==-1) {
-            [self drawItemAtIndex:pair.itemIndex drawBackground:NO];
-            [itemStep concat];
-        } else {
-            [self drawChildWithIndex:pair.childIndex ofItemAtIndex:pair.itemIndex drawBackground:NO];
-            [childStep concat];
-        }
-    }
-    [resultImage unlockFocus];
-    [NSGraphicsContext restoreGraphicsState];
-    [resultImage setFlipped:NO];
-    return [resultImage autorelease];
+	NSImage *resultImage = [NSImage imageWithSize:imageSize flipped:YES drawingHandler:^BOOL(NSRect dstRect) {
+		[[NSColor clearColor] set];
+		NSRectFill(dstRect);
+
+		NSAffineTransform *itemStep=[NSAffineTransform transform];
+		[itemStep translateXBy:0 yBy:itemRowHeight];
+		NSAffineTransform *childStep=[NSAffineTransform transform];
+		[childStep translateXBy:0 yBy:childRowHeight];
+		NSValue *value=nil;
+		for (value in itemChildPairs) {
+			ItemChildPair pair;
+			[value getValue:&pair];
+			if (pair.childIndex==-1) {
+				[self drawItemAtIndex:pair.itemIndex drawBackground:NO];
+				[itemStep concat];
+			} else {
+				[self drawChildWithIndex:pair.childIndex ofItemAtIndex:pair.itemIndex drawBackground:NO];
+				[childStep concat];
+			}
+		}
+		return YES;
+	}];
+	return resultImage;
 }
 
 - (NSPasteboard *)currentDraggingPasteboard {

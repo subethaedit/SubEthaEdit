@@ -63,17 +63,14 @@
 }
 
 - (NSImage *)TCM_menuImageWithColor:(NSColor *)aColor {
-    NSRect rect=NSMakeRect(0,0,COLORMENUIMAGEWIDTH,COLORMENUIMAGEHEIGHT);
-    NSImage *image=[[NSImage alloc] initWithSize:rect.size];
-    [image lockFocus];
-    [aColor drawSwatchInRect:rect];
-//    [aColor set];
-//    NSRectFill(rect);
-    [[NSColor blackColor] set];
-    [NSBezierPath strokeRect:rect];
-    [image unlockFocus];
-    
-    return [image autorelease];
+    NSRect rect = NSMakeRect(0.0, 0.0, COLORMENUIMAGEWIDTH, COLORMENUIMAGEHEIGHT);
+	NSImage *image = [NSImage imageWithSize:rect.size flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
+		[aColor drawSwatchInRect:dstRect];
+		[[NSColor blackColor] set];
+		[NSBezierPath strokeRect:dstRect];
+		return YES;
+	}];
+    return image;
 }
 
 - (void)TCM_setupComboBoxes {

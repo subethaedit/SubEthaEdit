@@ -25,7 +25,6 @@
  */
 
 + (NSImage *)pdfBasedImageNamed:(NSString *)aName;
-+ (NSImage *)clearedImageWithSize:(NSSize)aSize;
 - (NSImage *)resizedImageWithSize:(NSSize)aSize;
 - (NSImage *)dimmedImage;
 

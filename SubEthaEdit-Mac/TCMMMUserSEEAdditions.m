@@ -80,12 +80,13 @@
         NSValueTransformer *hueTrans = [NSValueTransformer valueTransformerForName:@"HueToColor"];
         NSColor *color = [hueTrans transformedValue:hue];
         NSRect rect = NSMakeRect(0, 0, 13, 8);
-        NSImage *image = [[[NSImage alloc] initWithSize:rect.size] autorelease];
-        [image lockFocus];
-        [color drawSwatchInRect:rect];
-        [aColor set];
-        [NSBezierPath strokeRect:rect];
-        [image unlockFocus];
+
+		NSImage *image = [NSImage imageWithSize:rect.size flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
+			[color drawSwatchInRect:dstRect];
+			[aColor set];
+			[NSBezierPath strokeRect:dstRect];
+			return YES;
+		}];
         return image;
     } else {
         return nil;

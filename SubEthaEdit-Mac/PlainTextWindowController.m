@@ -2661,48 +2661,56 @@ static NSAttributedString *S_dragString = nil;
 }
 
 - (NSImage *)tabView:(NSTabView *)aTabView imageForTabViewItem:(NSTabViewItem *)tabViewItem offset:(NSSize *)offset styleMask:(NSUInteger *)styleMask
-{    
-	// grabs whole window image of the right tab
+{
 	[[self window] disableFlushWindow];
     NSTabViewItem *oldItem = [aTabView selectedTabViewItem];
     [aTabView selectTabViewItem:tabViewItem];
     [aTabView display];
-	NSImage *viewImage = [[[NSImage alloc] init] autorelease];
-	NSRect contentFrame = [[[self window] contentView] frame];
-	[[[self window] contentView] lockFocus];
-	NSBitmapImageRep *viewRep = [[[NSBitmapImageRep alloc] initWithFocusedViewRect:contentFrame] autorelease];
-	[viewImage addRepresentation:viewRep];
-	[[[self window] contentView] unlockFocus];
+
+	// get the view chache
+	NSView *contentView = [[self window] contentView];
+	NSBitmapImageRep *viewCache = [contentView bitmapImageRepForCachingDisplayInRect:contentView.frame];
+	[contentView cacheDisplayInRect:contentView.frame toBitmapImageRep:viewCache];
+
     [aTabView selectTabViewItem:oldItem];
     [aTabView display];
 	[[self window] enableFlushWindow];
-		
-	//draw over where the tab bar would usually be
-	NSRect tabFrame = [I_tabBar frame];
-	[viewImage lockFocus];
-	[[NSColor clearColor] set];
-	NSRectFill(tabFrame);
-	//draw the background flipped, which is actually the right way up
-	NSAffineTransform *transform = [NSAffineTransform transform];
-	[transform scaleXBy:1.0 yBy:-1.0];
-	[transform concat];
-	tabFrame.origin.y = -tabFrame.origin.y - tabFrame.size.height;
-	//[(id <PSMTabStyle>)[[aTabView delegate] style] drawBackgroundInRect:tabFrame];
-	[transform invert];
-	[transform concat];
-	
-	[viewImage unlockFocus];
-	
-	PSMTabBarControl *tabItem = (PSMTabBarControl *)[aTabView delegate];
-	if ([tabItem orientation] == PSMTabBarHorizontalOrientation) {
-		offset->width = [(id <PSMTabStyle>)[tabItem style] leftMarginForTabBarControl:tabItem];
-		offset->height = 24;
-	} else {
-		offset->width = 0;
-		offset->height = 24 + [(id <PSMTabStyle>)[tabItem style] leftMarginForTabBarControl:tabItem];
+
+	NSImage *viewImage = [NSImage imageWithSize:viewCache.size flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
+		[viewCache drawInRect:dstRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 respectFlipped:NO hints:nil];
+
+		//draw over where the tab bar would usually be
+		NSRect tabFrame = [I_tabBar frame];
+		[[NSColor clearColor] set];
+		NSRectFill(tabFrame);
+
+		//draw the background flipped, which is actually the right way up
+		NSAffineTransform *transform = [NSAffineTransform transform];
+		[transform scaleXBy:1.0 yBy:-1.0];
+		[transform concat];
+		tabFrame.origin.y = -tabFrame.origin.y - tabFrame.size.height;
+		[[((PSMTabBarControl *)[aTabView delegate]) style] drawBezelOfTabBarControl:I_tabBar inRect:tabFrame];
+		[transform invert];
+		[transform concat];
+
+		return YES;
+	}];
+
+	if (offset != NULL) {
+		PSMTabBarControl *tabItem = (PSMTabBarControl *)[aTabView delegate];
+		if ([tabItem orientation] == PSMTabBarHorizontalOrientation) {
+			offset->width = [(id <PSMTabStyle>)[tabItem style] leftMarginForTabBarControl:tabItem];
+			offset->height = 24;
+		} else {
+			offset->width = 0;
+			offset->height = 24 + [(id <PSMTabStyle>)[tabItem style] leftMarginForTabBarControl:tabItem];
+		}
 	}
-	*styleMask = NSBorderlessWindowMask; //NSTitledWindowMask;
-	
+
+	if (styleMask != NULL) {
+		*styleMask = NSBorderlessWindowMask; //NSTitledWindowMask;
+	}
+
 	return viewImage;
 }
 
