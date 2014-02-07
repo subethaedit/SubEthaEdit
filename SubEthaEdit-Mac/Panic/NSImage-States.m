@@ -1,4 +1,3 @@
-#import "NSImage-Additions.h"
 #import "NSImage-States.h"
 
 @implementation NSImage (States)

@@ -403,7 +403,6 @@
 		F2B91DBC0D7EF93000626BBC /* FriendcastingConnection.png in Resources */ = {isa = PBXBuildFile; fileRef = F2B91DBB0D7EF93000626BBC /* FriendcastingConnection.png */; };
 		F2BB09EB0CA0186400258EC7 /* NSBezierPath-Arrow.m in Sources */ = {isa = PBXBuildFile; fileRef = F2BB09E80CA0186400258EC7 /* NSBezierPath-Arrow.m */; };
 		F2BB09F90CA018B600258EC7 /* NSImage-States.m in Sources */ = {isa = PBXBuildFile; fileRef = F2BB09F40CA018B100258EC7 /* NSImage-States.m */; };
-		F2BB09FA0CA018BC00258EC7 /* NSImage-Additions.m in Sources */ = {isa = PBXBuildFile; fileRef = F2BB09EF0CA0189900258EC7 /* NSImage-Additions.m */; };
 		F2BB09FF0CA018CA00258EC7 /* PCRolloverImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2BB09FC0CA018CA00258EC7 /* PCRolloverImageView.m */; };
 		F2C6D3750D6DB131002B401D /* URLIconNotOK.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2C6D3730D6DB131002B401D /* URLIconNotOK.tiff */; };
 		F2C6D3760D6DB131002B401D /* URLIconOK.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2C6D3740D6DB131002B401D /* URLIconOK.tiff */; };
@@ -1221,8 +1220,6 @@
 		F2B91DBB0D7EF93000626BBC /* FriendcastingConnection.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FriendcastingConnection.png; path = artwork/FriendcastingConnection.png; sourceTree = "<group>"; };
 		F2BB09E80CA0186400258EC7 /* NSBezierPath-Arrow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSBezierPath-Arrow.m"; path = "Panic/NSBezierPath-Arrow.m"; sourceTree = "<group>"; };
 		F2BB09E90CA0186400258EC7 /* NSBezierPath-Arrow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = "NSBezierPath-Arrow.h"; path = "Panic/NSBezierPath-Arrow.h"; sourceTree = "<group>"; };
-		F2BB09EF0CA0189900258EC7 /* NSImage-Additions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSImage-Additions.m"; path = "Panic/NSImage-Additions.m"; sourceTree = "<group>"; };
-		F2BB09F00CA0189900258EC7 /* NSImage-Additions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = "NSImage-Additions.h"; path = "Panic/NSImage-Additions.h"; sourceTree = "<group>"; };
 		F2BB09F40CA018B100258EC7 /* NSImage-States.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSImage-States.m"; path = "Panic/NSImage-States.m"; sourceTree = "<group>"; };
 		F2BB09F50CA018B100258EC7 /* NSImage-States.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = "NSImage-States.h"; path = "Panic/NSImage-States.h"; sourceTree = "<group>"; };
 		F2BB09FB0CA018CA00258EC7 /* PCRolloverImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = PCRolloverImageView.h; path = Panic/PCRolloverImageView.h; sourceTree = "<group>"; };
@@ -1698,8 +1695,6 @@
 				1428920D095751CB00D14688 /* TCMMMUserSEEAdditions.m */,
 				F2BB09E90CA0186400258EC7 /* NSBezierPath-Arrow.h */,
 				F2BB09E80CA0186400258EC7 /* NSBezierPath-Arrow.m */,
-				F2BB09F00CA0189900258EC7 /* NSImage-Additions.h */,
-				F2BB09EF0CA0189900258EC7 /* NSImage-Additions.m */,
 				F2BB09F50CA018B100258EC7 /* NSImage-States.h */,
 				F2BB09F40CA018B100258EC7 /* NSImage-States.m */,
 				F2BB09FB0CA018CA00258EC7 /* PCRolloverImageView.h */,
@@ -3191,7 +3186,6 @@
 				F2A093510C9EA923000AD27A /* DocumentSharedMethods.m in Sources */,
 				F2BB09EB0CA0186400258EC7 /* NSBezierPath-Arrow.m in Sources */,
 				F2BB09F90CA018B600258EC7 /* NSImage-States.m in Sources */,
-				F2BB09FA0CA018BC00258EC7 /* NSImage-Additions.m in Sources */,
 				F2BB09FF0CA018CA00258EC7 /* PCRolloverImageView.m in Sources */,
 				F2CA79A50CA04BAC008BEA38 /* HUDStatisticGraphView.m in Sources */,
 				F2CA7D2F0CA142B1008BEA38 /* HUDStatisticPersonCell.m in Sources */,
