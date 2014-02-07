@@ -14,7 +14,7 @@
 @class SyntaxStyle;
 @class TableView;
 
-@interface StyleSheetPreferences : TCMPreferenceModule <NSComboBoxDataSource, NSComboBoxDelegate, NSTextFieldDelegate>
+@interface SEEStyleSheetEditorWindowController : TCMPreferenceModule <NSComboBoxDataSource, NSComboBoxDelegate, NSTextFieldDelegate>
 
 @property (nonatomic, copy) id copiedStyle;
 @property (nonatomic, strong) NSFont *baseFont;

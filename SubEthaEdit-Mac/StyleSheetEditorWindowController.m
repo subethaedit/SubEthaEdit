@@ -22,7 +22,7 @@
 #error ARC must be enabled!
 #endif
 
-@interface StyleSheetPreferences ()
+@interface SEEStyleSheetEditorWindowController ()
 @property (nonatomic, strong) SEEStyleSheet *currentStyleSheet;
 
 @property (nonatomic, strong) IBOutlet TableView *O_stylesTableView;
@@ -67,7 +67,7 @@
 
 @end
 
-@implementation StyleSheetPreferences
+@implementation SEEStyleSheetEditorWindowController
 
 - (id)init {
     self = [super init];
