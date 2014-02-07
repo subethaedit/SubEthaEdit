@@ -371,7 +371,7 @@
 		F27B2EE80B52957800679CF2 /* hud_buttonLeft-P.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2EE20B52957800679CF2 /* hud_buttonLeft-P.tiff */; };
 		F27B2EF10B52968E00679CF2 /* HUDButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F27B2EED0B52968E00679CF2 /* HUDButtonCell.m */; };
 		F27B2EF20B52968E00679CF2 /* HUDButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F27B2EEE0B52968E00679CF2 /* HUDButton.m */; };
-		F280ABC4131E6ED50091D145 /* StyleSheetEditorWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = F280ABC3131E6ED50091D145 /* StyleSheetEditorWindowController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		F280ABC4131E6ED50091D145 /* SEEStyleSheetEditorWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = F280ABC3131E6ED50091D145 /* SEEStyleSheetEditorWindowController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		F280ABDC131E72180091D145 /* StyleSheetPrefs.png in Resources */ = {isa = PBXBuildFile; fileRef = F280ABDB131E72180091D145 /* StyleSheetPrefs.png */; };
 		F281D34E0F38756100AD7DE1 /* FoldableTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D34C0F38756100AD7DE1 /* FoldableTextStorage.m */; };
 		F281D3600F38758600AD7DE1 /* AbstractFoldingTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D35F0F38758600AD7DE1 /* AbstractFoldingTextStorage.m */; };
@@ -1170,8 +1170,8 @@
 		F27B2EED0B52968E00679CF2 /* HUDButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HUDButtonCell.m; sourceTree = "<group>"; };
 		F27B2EEE0B52968E00679CF2 /* HUDButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HUDButton.m; sourceTree = "<group>"; };
 		F27B2EEF0B52968E00679CF2 /* HUDButton.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HUDButton.h; sourceTree = "<group>"; };
-		F280ABC2131E6ED50091D145 /* StyleSheetEditorWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = StyleSheetEditorWindowController.h; sourceTree = "<group>"; };
-		F280ABC3131E6ED50091D145 /* StyleSheetEditorWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = StyleSheetEditorWindowController.m; sourceTree = "<group>"; };
+		F280ABC2131E6ED50091D145 /* SEEStyleSheetEditorWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SEEStyleSheetEditorWindowController.h; sourceTree = "<group>"; };
+		F280ABC3131E6ED50091D145 /* SEEStyleSheetEditorWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEStyleSheetEditorWindowController.m; sourceTree = "<group>"; };
 		F280ABDB131E72180091D145 /* StyleSheetPrefs.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = StyleSheetPrefs.png; path = artwork/StyleSheetPrefs.png; sourceTree = "<group>"; };
 		F281D3490F38756100AD7DE1 /* FullTextStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = FullTextStorage.h; sourceTree = "<group>"; };
 		F281D34A0F38756100AD7DE1 /* FoldableTextStorage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = FoldableTextStorage.h; sourceTree = "<group>"; };
@@ -1918,8 +1918,8 @@
 				3188F6790CAD1218009E4C0B /* DNDArrayController.h */,
 				14289399095758C100D14688 /* StylePreferences.h */,
 				1428939A095758C100D14688 /* StylePreferences.m */,
-				F280ABC2131E6ED50091D145 /* StyleSheetEditorWindowController.h */,
-				F280ABC3131E6ED50091D145 /* StyleSheetEditorWindowController.m */,
+				F280ABC2131E6ED50091D145 /* SEEStyleSheetEditorWindowController.h */,
+				F280ABC3131E6ED50091D145 /* SEEStyleSheetEditorWindowController.m */,
 				1428939B095758C100D14688 /* TableView.h */,
 				1428939C095758C100D14688 /* TableView.m */,
 				142894A209575FF200D14688 /* TextFieldCell.h */,
@@ -3216,7 +3216,7 @@
 				F2CEAAF1100B46150036B3F7 /* URLBubbleWindow.m in Sources */,
 				31FFC93D104E97A000E08256 /* NSErrorTCMAdditions.m in Sources */,
 				3170E46112846C670096089C /* SEEStyleSheet.m in Sources */,
-				F280ABC4131E6ED50091D145 /* StyleSheetEditorWindowController.m in Sources */,
+				F280ABC4131E6ED50091D145 /* SEEStyleSheetEditorWindowController.m in Sources */,
 				F2D56993133B880900CEC841 /* SEEStyleSheetSettings.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

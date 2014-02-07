@@ -27,7 +27,7 @@
 #import "EditPreferences.h"
 #import "GeneralPreferences.h"
 #import "StylePreferences.h"
-#import "StyleSheetEditorWindowController.h"
+#import "SEEStyleSheetEditorWindowController.h"
 #import "PrecedencePreferences.h"
 
 #import "HandshakeProfile.h"

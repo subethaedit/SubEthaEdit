@@ -6,7 +6,7 @@
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
-#import "StyleSheetEditorWindowController.h"
+#import "SEEStyleSheetEditorWindowController.h"
 #import "SyntaxStyle.h"
 #import "DocumentModeManager.h"
 #import "DocumentController.h"
