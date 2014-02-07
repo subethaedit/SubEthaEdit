@@ -32,7 +32,7 @@
                 <outlet property="O_styleSheetPopUpButton" destination="461" id="514"/>
                 <outlet property="O_stylesTableView" destination="303" id="344"/>
                 <outlet property="O_underlineButton" destination="468" id="495"/>
-                <outlet property="O_window" destination="6" id="7"/>
+                <outlet property="window" destination="6" id="2Tw-I4-sBu"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
@@ -469,6 +469,9 @@
                     </comboBox>
                 </subviews>
             </view>
+            <connections>
+                <outlet property="delegate" destination="-2" id="0tm-SR-NvK"/>
+            </connections>
         </window>
         <objectController objectClassName="DocumentMode" id="523" userLabel="ModeController">
             <declaredKeys>

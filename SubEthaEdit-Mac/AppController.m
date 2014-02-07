@@ -27,7 +27,6 @@
 #import "EditPreferences.h"
 #import "GeneralPreferences.h"
 #import "StylePreferences.h"
-#import "SEEStyleSheetEditorWindowController.h"
 #import "PrecedencePreferences.h"
 
 #import "HandshakeProfile.h"
@@ -56,6 +55,7 @@
 #import "SEActiveProc.h"
 
 #import "UserStatisticsController.h"
+#import "SEEStyleSheetEditorWindowController.h"
 
 #ifndef TCM_NO_DEBUG
 #import "Debug/DebugPreferences.h"
@@ -454,7 +454,6 @@ static AppController *sharedInstance = nil;
     EditPreferences *editPrefs = [[EditPreferences new] autorelease];
     [TCMPreferenceController registerPrefModule:editPrefs];
     [TCMPreferenceController registerPrefModule:[[StylePreferences new] autorelease]];
-    [TCMPreferenceController registerPrefModule:[[SEEStyleSheetEditorWindowController new] autorelease]];
     [TCMPreferenceController registerPrefModule:[[PrecedencePreferences new] autorelease]];
     [TCMPreferenceController registerPrefModule:[[AdvancedPreferences new] autorelease]];
     
@@ -1064,16 +1063,15 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 }
 
 - (IBAction)showStyleSheetEditorWindow:(id)aSender {
-	NSLog(@"TODO: implement when there is a editor window controller");
-//    static SEEStyleSheetEditorWindowController *editorWindowController = nil;
-//    if (!editorWindowController) {
-//		editorWindowController = [SEEStyleSheetEditorWindowController new];
-//	}
-//    if (![[editorWindowController window] isVisible]) {
-//		[editorWindowController showWindow:aSender];
-//    } else {
-//		[[editorWindowController window] performClose:self];
-//    }
+    static SEEStyleSheetEditorWindowController *editorWindowController = nil;
+    if (!editorWindowController) {
+		editorWindowController = [SEEStyleSheetEditorWindowController new];
+	}
+    if (![[editorWindowController window] isVisible]) {
+		[editorWindowController showWindow:aSender];
+    } else {
+		[[editorWindowController window] performClose:self];
+    }
 }
 
 #pragma mark - Toolbar

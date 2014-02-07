@@ -70,13 +70,13 @@
 @implementation SEEStyleSheetEditorWindowController
 
 - (id)init {
-    self = [super init];
+    self = [super initWithWindowNibName:@"SEEStyleSheetEditorWindowController"];
     if (self) {
         self.undoManager = [NSUndoManager new];
         SEEStyleSheet *styleSheet = [SEEStyleSheet new];
-//        [styleSheet importStyleSheetAtPath:[[NSBundle mainBundle] URLForResource:@"Default" withExtension:@"sss" subdirectory:@"Modes/Styles"]];
+//		[styleSheet importStyleSheetAtPath:[[NSBundle mainBundle] URLForResource:@"Default" withExtension:@"sss" subdirectory:@"Modes/Styles"]];
         self.currentStyleSheet = styleSheet;
-//        NSLog(@"%s %@",__FUNCTION__,styleSheet.allScopes);
+//		NSLog(@"%s %@",__FUNCTION__,styleSheet.allScopes);
     }
     return self;
 }
@@ -95,10 +95,6 @@
 
 - (NSString *)identifier {
     return @"de.codingmonkeys.subethaedit.preferences.stylesheet";
-}
-
-- (NSString *)mainNibName {
-    return @"SEEStyleSheetEditorWindowController";
 }
 
 - (void)adjustTableViewColumns:(NSNotification *)aNotification {
@@ -158,9 +154,7 @@
 		[self selectMode:[frontmostDocument documentMode]];
 		// TODO: select a stylesheet from the mode's stylesheet settings (if not already the case)
 	}
-	[super didSelect];
 }
-
 
 - (void)updateBackgroundColor {
 	NSColor *backgroundColor = [[self.currentStyleSheet styleAttributesForScope:SEEStyleSheetMetaDefaultScopeName] objectForKey:SEEStyleSheetFontBackgroundColorKey];
