@@ -1031,6 +1031,14 @@
                             <menuItem isSeparatorItem="YES" id="233">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
+                            <menuItem title="Style Sheet Editor" id="Tyd-a7-5Hp">
+                                <connections>
+                                    <action selector="showStyleSheetEditorWindow:" target="210" id="emv-HG-wQa"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem isSeparatorItem="YES" id="k0I-fL-5QT">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
                             <menuItem title="Bring All to Front" id="5">
                                 <connections>
                                     <action selector="arrangeInFront:" target="-1" id="39"/>
