@@ -5,7 +5,7 @@
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
     </dependencies>
     <objects>
-        <customObject id="-2" userLabel="File's Owner" customClass="StyleSheetPreferences">
+        <customObject id="-2" userLabel="File's Owner" customClass="SEEStyleSheetEditorWindowController">
             <connections>
                 <outlet property="O_addScopeButton" destination="540" id="553"/>
                 <outlet property="O_backgroundColorWell" destination="282" id="496"/>
