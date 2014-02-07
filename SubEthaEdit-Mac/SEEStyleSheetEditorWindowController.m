@@ -81,6 +81,37 @@
     return self;
 }
 
+- (void)windowDidLoad {
+	[self takeFontFromMode:[DocumentModeManager baseMode]];
+	
+	[self.O_styleSheetPopUpButton removeAllItems];
+	[self.O_styleSheetPopUpButton addItemsWithTitles:[[DocumentModeManager sharedInstance] allStyleSheetNames]];
+	[self switchToStyleSheetName:[self.O_styleSheetPopUpButton itemTitleAtIndex:0]];
+    
+    // Set tableview to non highlighting cells
+    for (NSTableColumn *column in [self.O_stylesTableView tableColumns]) {
+		[column setDataCell:[TextFieldCell new]];
+	}
+    
+    [[self.O_stylesTableView enclosingScrollView] setPostsFrameChangedNotifications:YES];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(adjustTableViewColumns:) name:NSViewFrameDidChangeNotification object:[self.O_stylesTableView enclosingScrollView]];
+    NSMutableAttributedString *string=[[self.O_italicButton attributedTitle] mutableCopy];
+    [string addAttribute:NSObliquenessAttributeName value:[NSNumber numberWithFloat:.2] range:NSMakeRange(0,[[string string] length])];
+    [self.O_italicButton setAttributedTitle:string];
+    
+    string=[[self.O_underlineButton attributedTitle] mutableCopy];
+    [string addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(0,[[string string] length])];
+    [self.O_underlineButton setAttributedTitle:string];
+    
+    string=[[self.O_strikethroughButton attributedTitle] mutableCopy];
+    [string addAttribute:NSStrikethroughStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(0,[[string string] length])];
+    [self.O_strikethroughButton setAttributedTitle:string];
+    
+    [self adjustTableViewColumns:nil];
+    [self updateForChangedStyles];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentModeListChanged:) name:@"DocumentModeListChanged" object:nil];
+}
+
 - (void)dealloc {
     self.currentStyleSheet = nil;
 }
@@ -110,37 +141,6 @@
 	self.currentStyleSheet = [[DocumentModeManager sharedInstance] styleSheetForName:aStyleSheetName];
 	[self.currentStyleSheet setScopeExamples:[[self.O_modeController content] scopeExamples]];
 	[self updateForChangedStyles];
-}
-
-- (void)mainViewDidLoad {
-	[self takeFontFromMode:[DocumentModeManager baseMode]];
-
-	[self.O_styleSheetPopUpButton removeAllItems];
-	[self.O_styleSheetPopUpButton addItemsWithTitles:[[DocumentModeManager sharedInstance] allStyleSheetNames]];
-	[self switchToStyleSheetName:[self.O_styleSheetPopUpButton itemTitleAtIndex:0]];
-    
-    // Set tableview to non highlighting cells
-    for (NSTableColumn *column in [self.O_stylesTableView tableColumns]) {
-		[column setDataCell:[TextFieldCell new]];
-	}
-    
-    [[self.O_stylesTableView enclosingScrollView] setPostsFrameChangedNotifications:YES];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(adjustTableViewColumns:) name:NSViewFrameDidChangeNotification object:[self.O_stylesTableView enclosingScrollView]];
-    NSMutableAttributedString *string=[[self.O_italicButton attributedTitle] mutableCopy];
-    [string addAttribute:NSObliquenessAttributeName value:[NSNumber numberWithFloat:.2] range:NSMakeRange(0,[[string string] length])];
-    [self.O_italicButton setAttributedTitle:string];
-    
-    string=[[self.O_underlineButton attributedTitle] mutableCopy];
-    [string addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(0,[[string string] length])];
-    [self.O_underlineButton setAttributedTitle:string];
-    
-    string=[[self.O_strikethroughButton attributedTitle] mutableCopy];
-    [string addAttribute:NSStrikethroughStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(0,[[string string] length])];
-    [self.O_strikethroughButton setAttributedTitle:string];
-    
-    [self adjustTableViewColumns:nil];
-    [self updateForChangedStyles];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentModeListChanged:) name:@"DocumentModeListChanged" object:nil];
 }
 
 - (void)changeStyleSheet:(id)aSender {
