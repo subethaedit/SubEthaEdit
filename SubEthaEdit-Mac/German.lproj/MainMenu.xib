@@ -1194,7 +1194,6 @@ DQ
                 </subviews>
             </view>
         </window>
-        <customObject id="546" userLabel="LicenseController" customClass="LicenseController"/>
         <window title="Lizenz" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="587" userLabel="Window">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
