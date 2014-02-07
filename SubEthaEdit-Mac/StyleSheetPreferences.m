@@ -14,6 +14,13 @@
 #import "TextFieldCell.h"
 #import "GeneralPreferences.h"
 #import "SyntaxHighlighter.h"
+#import "PlainTextDocument.h"
+
+// this file needs arc - either project wide,
+// or add -fobjc-arc on a per file basis in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
 
 @interface StyleSheetPreferences ()
 @property (nonatomic, retain) SEEStyleSheet *currentStyleSheet;
@@ -33,7 +40,7 @@
     self = [super init];
     if (self) {
         I_undoManager=[NSUndoManager new];
-        SEEStyleSheet *styleSheet = [[SEEStyleSheet new] autorelease];
+        SEEStyleSheet *styleSheet = [SEEStyleSheet new];
 //        [styleSheet importStyleSheetAtPath:[[NSBundle mainBundle] URLForResource:@"Default" withExtension:@"sss" subdirectory:@"Modes/Styles"]];
         self.currentStyleSheet = styleSheet;
 //        NSLog(@"%s %@",__FUNCTION__,styleSheet.allScopes);
@@ -42,10 +49,7 @@
 }
 
 - (void)dealloc {
-    [I_undoManager release];
-    [copiedStyle release];
     self.currentStyleSheet = nil;
-    [super dealloc];
 }
 
 - (NSImage *)icon {
@@ -88,22 +92,22 @@
     
     // Set tableview to non highlighting cells
     for (NSTableColumn *column in [O_stylesTableView tableColumns]) {
-		[column setDataCell:[[TextFieldCell new] autorelease]];
+		[column setDataCell:[TextFieldCell new]];
 	}
     
     [[O_stylesTableView enclosingScrollView] setPostsFrameChangedNotifications:YES];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(adjustTableViewColumns:) name:NSViewFrameDidChangeNotification object:[O_stylesTableView enclosingScrollView]];
     NSMutableAttributedString *string=[[O_italicButton attributedTitle] mutableCopy];
     [string addAttribute:NSObliquenessAttributeName value:[NSNumber numberWithFloat:.2] range:NSMakeRange(0,[[string string] length])];
-    [O_italicButton setAttributedTitle:[string autorelease]];
+    [O_italicButton setAttributedTitle:string];
     
     string=[[O_underlineButton attributedTitle] mutableCopy];
     [string addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(0,[[string string] length])];
-    [O_underlineButton setAttributedTitle:[string autorelease]];
+    [O_underlineButton setAttributedTitle:string];
     
     string=[[O_strikethroughButton attributedTitle] mutableCopy];
     [string addAttribute:NSStrikethroughStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(0,[[string string] length])];
-    [O_strikethroughButton setAttributedTitle:[string autorelease]];
+    [O_strikethroughButton setAttributedTitle:string];
     
     [self adjustTableViewColumns:nil];
     [self updateForChangedStyles];
@@ -222,7 +226,7 @@
 		}
 		NSString *snippet = [self.currentStyleSheet styleSheetSnippetForScope:scopeString];
 		NSTextStorage *ts = [O_sheetSnippetTextView textStorage];
-		[ts setAttributedString:[[[NSAttributedString alloc] initWithString:snippet attributes:[NSDictionary dictionaryWithObject:[NSFont userFixedPitchFontOfSize:11.] forKey:NSFontNameAttribute]] autorelease]];
+		[ts setAttributedString:[[NSAttributedString alloc] initWithString:snippet attributes:[NSDictionary dictionaryWithObject:[NSFont userFixedPitchFontOfSize:11.] forKey:NSFontNameAttribute]]];
 		
 	}
 	BOOL hasChanges = [self.currentStyleSheet hasChanges];
@@ -242,7 +246,7 @@
 		NSLog(@"%s %ld",__FUNCTION__, (long)[aSender state]);
 		NSString *scopeString = [[self scopesArray] objectAtIndex:selectedRow];
 		NSDictionary *computedStyleAttributes = [self.currentStyleSheet      styleAttributesForScope:scopeString];
-		NSMutableDictionary *directStyleAttributes   = [[[self.currentStyleSheet styleAttributesForExactScope:scopeString] mutableCopy] autorelease];
+		NSMutableDictionary *directStyleAttributes   = [[self.currentStyleSheet styleAttributesForExactScope:scopeString] mutableCopy];
 		for (NSArray *triple in [NSArray arrayWithObjects:
 									[NSArray arrayWithObjects:SEEStyleSheetFontWeightKey,O_inheritBoldButton,O_boldButton,nil],
 									[NSArray arrayWithObjects:SEEStyleSheetFontStyleKey,O_inheritItalicButton,O_italicButton,nil],
@@ -311,7 +315,7 @@
 	NSInteger selectedRow = [O_stylesTableView selectedRow];
 	if (selectedRow != -1) {
 		NSString *scopeString = [[self scopesArray] objectAtIndex:selectedRow];
-		NSMutableDictionary *directStyleAttributes   = [[[self.currentStyleSheet styleAttributesForExactScope:scopeString] mutableCopy] autorelease];
+		NSMutableDictionary *directStyleAttributes = [[self.currentStyleSheet styleAttributesForExactScope:scopeString] mutableCopy];
 		[directStyleAttributes setObject:[aSender color] forKey:SEEStyleSheetFontForegroundColorKey];
 		NSLog(@"%s %@",__FUNCTION__, directStyleAttributes);
 		[self.currentStyleSheet setStyleAttributes:directStyleAttributes forScope:scopeString];
@@ -323,7 +327,7 @@
 	NSInteger selectedRow = [O_stylesTableView selectedRow];
 	if (selectedRow != -1) {
 		NSString *scopeString = [[self scopesArray] objectAtIndex:selectedRow];
-		NSMutableDictionary *directStyleAttributes   = [[[self.currentStyleSheet styleAttributesForExactScope:scopeString] mutableCopy] autorelease];
+		NSMutableDictionary *directStyleAttributes   = [[self.currentStyleSheet styleAttributesForExactScope:scopeString] mutableCopy];
 		[directStyleAttributes setObject:[aSender color] forKey:SEEStyleSheetFontBackgroundColorKey];
 		NSLog(@"%s %@",__FUNCTION__, directStyleAttributes);
 		[self.currentStyleSheet setStyleAttributes:directStyleAttributes forScope:scopeString];
@@ -335,7 +339,7 @@
 	NSInteger selectedRow = [O_stylesTableView selectedRow];
 	if (selectedRow != -1) {
 		NSString *scopeString = [[self scopesArray] objectAtIndex:selectedRow];
-		NSMutableDictionary *directStyleAttributes   = [[[self.currentStyleSheet styleAttributesForExactScope:scopeString] mutableCopy] autorelease];
+		NSMutableDictionary *directStyleAttributes   = [[self.currentStyleSheet styleAttributesForExactScope:scopeString] mutableCopy];
 		[directStyleAttributes setObject:[aButton state] == NSOnState ? aYesValue : aNoValue forKey:aKey];
 		NSLog(@"%s %@",__FUNCTION__, directStyleAttributes);
 		[self.currentStyleSheet setStyleAttributes:directStyleAttributes forScope:scopeString];
@@ -375,8 +379,6 @@
 - (IBAction)revealStyleSheetInFinder:(id)aSender {
 	[[DocumentModeManager sharedInstance] revealStyleSheetInFinder:self.currentStyleSheet];
 }
-
-
 
 - (NSUndoManager *)undoManager {
     return I_undoManager;
@@ -642,8 +644,7 @@
 }
 
 - (void)setBaseFont:(NSFont *)aFont {
-    [I_baseFont autorelease];
-     I_baseFont = [aFont retain];
+     I_baseFont = aFont;
 }
 
 - (NSFont *)baseFont {
@@ -653,7 +654,7 @@
 - (NSDictionary *)textAttributesForScope:(NSString *)aScopeString {
 	NSDictionary *computedStyle = [self.currentStyleSheet styleAttributesForScope:aScopeString];
 	NSFont *font = [self baseFont];
-	NSMutableDictionary *result = [[[SEEStyleSheet textAttributesForStyleAttributes:computedStyle font:font] mutableCopy] autorelease];
+	NSMutableDictionary *result = [[SEEStyleSheet textAttributesForStyleAttributes:computedStyle font:font] mutableCopy];
     static NSMutableParagraphStyle *s_paragraphStyle=nil;
     if (!s_paragraphStyle) {
         s_paragraphStyle=[[NSParagraphStyle defaultParagraphStyle] mutableCopy];
@@ -730,10 +731,10 @@
 	NSString *scopeString = [[self scopesArray] objectAtIndex:aRow];
 	NSDictionary *textAttributes = [self textAttributesForScope:scopeString];
 	if ([[aTableColumn identifier] isEqualToString:@"scope"]) {
-		return [[[NSAttributedString alloc] initWithString:scopeString attributes:textAttributes] autorelease];
+		return [[NSAttributedString alloc] initWithString:scopeString attributes:textAttributes];
 	} else {
 		NSString *exampleString = [self.currentStyleSheet exampleForScope:scopeString];
-		return [[[NSAttributedString alloc] initWithString:exampleString attributes:textAttributes] autorelease];
+		return [[NSAttributedString alloc] initWithString:exampleString attributes:textAttributes];
 	}
 }
 

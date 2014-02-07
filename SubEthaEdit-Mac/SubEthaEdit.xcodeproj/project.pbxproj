@@ -371,7 +371,7 @@
 		F27B2EE80B52957800679CF2 /* hud_buttonLeft-P.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2EE20B52957800679CF2 /* hud_buttonLeft-P.tiff */; };
 		F27B2EF10B52968E00679CF2 /* HUDButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F27B2EED0B52968E00679CF2 /* HUDButtonCell.m */; };
 		F27B2EF20B52968E00679CF2 /* HUDButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F27B2EEE0B52968E00679CF2 /* HUDButton.m */; };
-		F280ABC4131E6ED50091D145 /* StyleSheetPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = F280ABC3131E6ED50091D145 /* StyleSheetPreferences.m */; };
+		F280ABC4131E6ED50091D145 /* StyleSheetPreferences.m in Sources */ = {isa = PBXBuildFile; fileRef = F280ABC3131E6ED50091D145 /* StyleSheetPreferences.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		F280ABDC131E72180091D145 /* StyleSheetPrefs.png in Resources */ = {isa = PBXBuildFile; fileRef = F280ABDB131E72180091D145 /* StyleSheetPrefs.png */; };
 		F281D34E0F38756100AD7DE1 /* FoldableTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D34C0F38756100AD7DE1 /* FoldableTextStorage.m */; };
 		F281D3600F38758600AD7DE1 /* AbstractFoldingTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D35F0F38758600AD7DE1 /* AbstractFoldingTextStorage.m */; };
