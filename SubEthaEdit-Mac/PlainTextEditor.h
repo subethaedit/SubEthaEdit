@@ -12,11 +12,11 @@
 #import "PlainTextWindowControllerTabContext.h"
 #import "PopUpButton.h"
 
-@class PlainTextWindowControllerTabContext,PlainTextDocument,SEEPlainTextEditorScrollView,PopUpButton,RadarScroller,TCMMMUser, TextView;
+@class PlainTextWindowControllerTabContext,PlainTextDocument,SEEPlainTextEditorScrollView,PopUpButton,RadarScroller,TCMMMUser, TextView, BorderedTextField;
 
 @interface PlainTextEditor : NSResponder <NSTextViewDelegate, PopUpButtonDelegate> {
     IBOutlet NSImageView *O_waitPipeStatusImageView;
-    IBOutlet NSTextField *O_positionTextField;
+    IBOutlet BorderedTextField *O_positionTextField;
     IBOutlet PopUpButton *O_tabStatusPopUpButton;
     IBOutlet NSTextField *O_windowWidthTextField;
     IBOutlet NSTextField *O_writtenByTextField;

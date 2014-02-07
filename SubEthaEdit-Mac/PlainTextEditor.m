@@ -525,71 +525,78 @@
 }
 
 
-#define RIGHTINSET 5.
+#define SPACING 5.
 
 - (void)TCM_adjustTopStatusBarFrames
 {
-    static float s_initialXPosition = NSNotFound;
-
-    if (s_initialXPosition == NSNotFound)
-    {
+    static CGFloat s_initialXPosition = NAN;
+    if (isnan(s_initialXPosition)) {
         s_initialXPosition = [O_positionTextField frame].origin.x;
     }
 
-    if (I_flags.showTopStatusBar)
-    {
-        float symbolWidth = [(PopUpButtonCell *)[O_symbolPopUpButton cell] desiredWidth];
-        PlainTextDocument *document = [self document];
+    if (I_flags.showTopStatusBar) {
         NSRect bounds = [self.O_topStatusBarView bounds];
-        NSRect positionFrame = [O_positionTextField frame];
-        BOOL isWaiting = [[self document] isWaiting];
+
+		PlainTextDocument *document = [self document];
+		BOOL isWaiting = [document isWaiting];
+		BOOL hasSymbols = [[document documentMode] hasSymbols];
+
+		// document is waiting for some input from a pipe so show an indicator for that
         [O_waitPipeStatusImageView setHidden:!isWaiting];
-        [(BorderedTextField *)O_positionTextField setHasLeftBorder : isWaiting];
-        positionFrame.origin.x = isWaiting ? s_initialXPosition + 19. : s_initialXPosition;
-        NSPoint position = positionFrame.origin;
-        positionFrame.size.width = [[O_positionTextField stringValue]
-                                    sizeWithAttributes:[NSDictionary dictionaryWithObject:[O_positionTextField font]
-																				   forKey:NSFontAttributeName]].width + 9.;
-        [O_positionTextField setFrame:NSIntegralRect(positionFrame)];
-        position.x = (float)(int)NSMaxX(positionFrame);
-        NSRect newWrittenByFrame = [O_writtenByTextField frame];
-        newWrittenByFrame.size.width = [[O_writtenByTextField stringValue]
-                                        sizeWithAttributes:[NSDictionary dictionaryWithObject:[O_writtenByTextField font]
-																					   forKey:NSFontAttributeName]].width + 5.;
-        NSRect newPopUpFrame = [O_symbolPopUpButton frame];
-        newPopUpFrame.origin.x = position.x;
+        [O_positionTextField setHasLeftBorder:isWaiting];
 
-        if ([[document documentMode] hasSymbols])
-        {
-            newPopUpFrame.size.width = symbolWidth;
-            [O_symbolPopUpButton setHidden:NO];
-        }
-        else
-        {
-            [O_symbolPopUpButton setHidden:YES];
-        }
+		// if there are no symbols hide the symbols popup
+		[O_symbolPopUpButton setHidden:!hasSymbols];
 
-        int remainingWidth = bounds.size.width - position.x - 5. - RIGHTINSET;
+		// calculate optimal size for position text field
+		NSSize positionTextSize = [[O_positionTextField stringValue] sizeWithAttributes:@{NSFontAttributeName: [O_positionTextField font]}];
+        NSRect positionTextFrame = [O_positionTextField frame];
+		positionTextFrame.origin.x = isWaiting ? s_initialXPosition + 19. : s_initialXPosition;
+        positionTextFrame.size.width = positionTextSize.width + 9.;
 
-        if (newWrittenByFrame.size.width + newPopUpFrame.size.width > remainingWidth)
-        {
-            if (remainingWidth - newWrittenByFrame.size.width > 20.)
-            {
-                newPopUpFrame.size.width = remainingWidth - newWrittenByFrame.size.width;
-            }
-            else
-            {
-                // manage
-                unsigned space = (remainingWidth - 20.) / 2.;
-                newPopUpFrame.size.width = space + 20.;
-                newWrittenByFrame.size.width = space;
+		// calculate optimal width for symbol popup
+		CGFloat symbolPopupWidth = [(PopUpButtonCell *)[O_symbolPopUpButton cell] desiredWidth];
+        NSRect symbolPopupFrame = [O_symbolPopUpButton frame];
+        symbolPopupFrame.origin.x = NSMaxX(positionTextFrame);
+		symbolPopupFrame.size.width = symbolPopupWidth;
+
+		// calculate optimal size of writtenBy text field
+		NSSize writtenByTextSize = [[O_writtenByTextField stringValue] sizeWithAttributes:@{NSFontAttributeName: [O_positionTextField font]}];
+        NSRect writtenByTextFrame = [O_writtenByTextField frame];
+        writtenByTextFrame.size.width = writtenByTextSize.width + SPACING;
+
+		// toggle split view button, just needed for size here
+		NSRect splitToggleButtonFrame = [O_splitButton frame];
+		CGFloat splitButtonWidth = NSWidth(splitToggleButtonFrame);
+
+		// the writtenBy text field has priorty over the symbol popup so give it all space it wants if possible
+        CGFloat remainingWidth = bounds.size.width - symbolPopupFrame.origin.x - SPACING - SPACING - splitButtonWidth;
+		if (writtenByTextFrame.size.width + symbolPopupFrame.size.width > remainingWidth) {
+			// make sure symbol popup does not get smaller than 20 px.
+            if (remainingWidth - writtenByTextFrame.size.width > 20.) {
+                symbolPopupFrame.size.width = remainingWidth - writtenByTextFrame.size.width;
+            } else {
+                // To small for both views, split space equaly and give the popup 20px more space
+                CGFloat remainingSpace = (remainingWidth - 20.) / 2.;
+                symbolPopupFrame.size.width = remainingSpace + 20.;
+                writtenByTextFrame.size.width = remainingSpace;
             }
         }
 
-        newWrittenByFrame.origin.x = bounds.origin.x + bounds.size.width - RIGHTINSET - newWrittenByFrame.size.width;
-        [O_writtenByTextField setFrame:newWrittenByFrame];
-        [O_symbolPopUpButton setFrame:NSIntegralRect(newPopUpFrame)];
-        [self.O_topStatusBarView setNeedsDisplay:YES];
+		// finally we can calulate the origin of the writtenBy text field
+        writtenByTextFrame.origin.x = bounds.origin.x + bounds.size.width - writtenByTextFrame.size.width - SPACING - splitButtonWidth;
+
+		// adjust all frames to backing grid
+		positionTextFrame = [O_positionTextField centerScanRect:positionTextFrame];
+		symbolPopupFrame = [O_symbolPopUpButton centerScanRect:symbolPopupFrame];
+		writtenByTextFrame = [O_writtenByTextField centerScanRect:writtenByTextFrame];
+
+		// set frames
+		[O_positionTextField setFrame:positionTextFrame];
+        [O_symbolPopUpButton setFrame:symbolPopupFrame];
+		[O_writtenByTextField setFrame:writtenByTextFrame];
+
+		[self.O_topStatusBarView setNeedsDisplay:YES];
     }
 }
 
