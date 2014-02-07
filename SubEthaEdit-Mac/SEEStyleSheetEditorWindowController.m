@@ -98,7 +98,7 @@
 }
 
 - (NSString *)mainNibName {
-    return @"StyleSheetPrefs";
+    return @"SEEStyleSheetEditorWindowController";
 }
 
 - (void)adjustTableViewColumns:(NSNotification *)aNotification {

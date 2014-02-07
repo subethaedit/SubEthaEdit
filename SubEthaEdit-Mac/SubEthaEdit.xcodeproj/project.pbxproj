@@ -215,7 +215,7 @@
 		31D2C7000CA7C9C8003CC5C9 /* PrecedenceRuleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2C6E50CA7C7A7003CC5C9 /* PrecedenceRuleCell.m */; };
 		31FFC93D104E97A000E08256 /* NSErrorTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */; };
 		424CA988189058C000B2D333 /* SymbolMark.png in Resources */ = {isa = PBXBuildFile; fileRef = 424CA987189058C000B2D333 /* SymbolMark.png */; };
-		4C0D3D6417FB12F700AAFB38 /* StyleSheetEditorWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D6317FB12F700AAFB38 /* StyleSheetEditorWindowController.xib */; };
+		4C0D3D6417FB12F700AAFB38 /* SEEStyleSheetEditorWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D6317FB12F700AAFB38 /* SEEStyleSheetEditorWindowController.xib */; };
 		4C0D3D6617FB133600AAFB38 /* ServerConnection.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D6517FB133600AAFB38 /* ServerConnection.xib */; };
 		4C0D3D6817FB145600AAFB38 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D6717FB145600AAFB38 /* Preferences.xib */; };
 		4C0D3D6A17FB149200AAFB38 /* LoginSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D6917FB149200AAFB38 /* LoginSheet.xib */; };
@@ -964,7 +964,7 @@
 		31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSErrorTCMAdditions.m; sourceTree = "<group>"; };
 		32DBCF750370BD2300C91783 /* SubEthaEdit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubEthaEdit_Prefix.pch; sourceTree = "<group>"; };
 		424CA987189058C000B2D333 /* SymbolMark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SymbolMark.png; path = artwork/SymbolMark.png; sourceTree = "<group>"; };
-		4C0D3D6317FB12F700AAFB38 /* StyleSheetEditorWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = StyleSheetEditorWindowController.xib; sourceTree = "<group>"; };
+		4C0D3D6317FB12F700AAFB38 /* SEEStyleSheetEditorWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEEStyleSheetEditorWindowController.xib; sourceTree = "<group>"; };
 		4C0D3D6517FB133600AAFB38 /* ServerConnection.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ServerConnection.xib; sourceTree = "<group>"; };
 		4C0D3D6717FB145600AAFB38 /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
 		4C0D3D6917FB149200AAFB38 /* LoginSheet.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginSheet.xib; sourceTree = "<group>"; };
@@ -2203,7 +2203,7 @@
 				4CD5F83717FB0ECB00F49E31 /* UserStatistics.xib */,
 				4CD5F83B17FB0EE000F49E31 /* WebPreview.xib */,
 				4C0D3D6517FB133600AAFB38 /* ServerConnection.xib */,
-				4C0D3D6317FB12F700AAFB38 /* StyleSheetEditorWindowController.xib */,
+				4C0D3D6317FB12F700AAFB38 /* SEEStyleSheetEditorWindowController.xib */,
 				4CDC271F18967D990060B044 /* SEEParticipantView.xib */,
 				4C5EC97D1897F6FC0094D850 /* SEEParticipantsOverlay.xib */,
 				4CD168EA182A5A5C007E3B26 /* SEEFolderDocument.xib */,
@@ -2751,7 +2751,7 @@
 				142890EF095743F200D14688 /* SymbolF().tiff in Resources */,
 				142890F0095743F200D14688 /* SymbolG.png in Resources */,
 				142890F2095743F200D14688 /* SymbolK.png in Resources */,
-				4C0D3D6417FB12F700AAFB38 /* StyleSheetEditorWindowController.xib in Resources */,
+				4C0D3D6417FB12F700AAFB38 /* SEEStyleSheetEditorWindowController.xib in Resources */,
 				F2D3E544189941F50096425B /* AW Pulled ActiveTabCenterFill@2x.png in Resources */,
 				4CD5F83917FB0ECB00F49E31 /* UserStatistics.xib in Resources */,
 				F2D3E55C189941F50096425B /* IW InactiveTabAlert@2x.png in Resources */,
