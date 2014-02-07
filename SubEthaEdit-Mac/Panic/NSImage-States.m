@@ -28,44 +28,28 @@
 
 - (NSImage*)darkenImageWithAlpha:(float)alpha
 {
-	NSImage* image = [[self copy] autorelease];
-	BOOL wasFlipped = [self isFlipped];
-	
-	if ( wasFlipped )
-		[self setFlipped:NO];
-	
-	[image lockFocus];
-			
-	[[NSColor colorWithCalibratedWhite:0 alpha:alpha] set];  // make sure the color has an alpha component, or we'll get a solid rectangle
-	NSRectFillUsingOperation(NSMakeRect(0, 0, [self size].width, [self size].height), NSCompositeSourceAtop); // start drawing on the new image.
+	NSImage *image = [NSImage imageWithSize:self.size flipped:self.isFlipped drawingHandler:^BOOL(NSRect dstRect) {
+		[self drawInRect:dstRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 respectFlipped:YES hints:nil];
 
-	[image unlockFocus];
-	
-	if ( wasFlipped )
-		[self setFlipped:YES];
-	
+		[[NSColor colorWithCalibratedWhite:0.0 alpha:alpha] set]; // make sure the color has an alpha component, or we'll get a solid rectangle
+		NSRectFillUsingOperation(dstRect, NSCompositeSourceAtop); // start drawing on the new image.
+
+		return YES;
+	}];
 	return image;
 }
 
 
 - (NSImage*)lightenImageWithAlpha:(float)alpha
 {
-	NSImage* image = [[self copy] autorelease]; 
-	BOOL wasFlipped = [self isFlipped];
-	
-	if ( wasFlipped )
-		[self setFlipped:NO];
+	NSImage *image = [NSImage imageWithSize:self.size flipped:self.isFlipped drawingHandler:^BOOL(NSRect dstRect) {
+		[self drawInRect:dstRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0 respectFlipped:YES hints:nil];
 
-	[image lockFocus];
+		[[NSColor colorWithCalibratedWhite:1.0 alpha:alpha] set]; // make sure the color has an alpha component, or we'll get a solid rectangle
+		NSRectFillUsingOperation(dstRect, NSCompositeSourceAtop); // start drawing on the new image.
 
-	[[NSColor colorWithCalibratedWhite:1.0 alpha:alpha] set];  // make sure the color has an alpha component, or we'll get a solid rectangle
-	NSRectFillUsingOperation(NSMakeRect(0, 0, [self size].width, [self size].height), NSCompositeSourceAtop); // start drawing on the new image.
-	
-	[image unlockFocus];
-
-	if ( wasFlipped ) 
-		[self setFlipped:YES];
-
+		return YES;
+	}];
 	return image;
 }
 @end

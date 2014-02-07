@@ -6849,18 +6849,10 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     [layoutManager invalidateLayoutForCharacterRange:wholeRange isSoft:NO actualCharacterRange:NULL];
     [textView setNeedsDisplay:YES];
     
-//    NSImage *imageContext = [NSImage clearedImageWithSize:frame.size];
-//    [imageContext setFlipped:YES];
-//    [imageContext lockFocus];
-//    [textView drawRect:frame];
-//    [imageContext unlockFocus];
-    
-    
     NSRect rectToCache = [textView frame];
     NSBitmapImageRep *rep = [textView bitmapImageRepForCachingDisplayInRect:rectToCache];
     [textView cacheDisplayInRect:[textView frame] toBitmapImageRep:rep];
 
-//    NSBitmapImageRep *rep = [NSBitmapImageRep imageRepWithData:[imageContext TIFFRepresentation]] ;
     NSPasteboard *pb=[NSPasteboard generalPasteboard];
     [pb declareTypes:[NSArray arrayWithObject:NSTIFFPboardType] owner:self];
     [pb setData:[rep TIFFRepresentation] forType:NSTIFFPboardType];

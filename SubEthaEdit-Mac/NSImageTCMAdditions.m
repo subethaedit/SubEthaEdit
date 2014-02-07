@@ -113,18 +113,7 @@
 }
 
 
-+ (NSImage *)clearedImageWithSize:(NSSize)aSize {
-    NSImage *image = [[NSImage alloc] initWithSize:aSize];
-    [image setCacheMode:NSImageCacheNever];
-    [image lockFocus];
-    [[NSColor clearColor] set];
-    [[NSBezierPath bezierPathWithRect:(NSMakeRect(0.,0.,aSize.width,aSize.height))] fill];
-    [image unlockFocus];
-    return image;
-}
-
 - (NSImage *)resizedImageWithSize:(NSSize)aSize {
-    
     NSSize originalSize=[self size];
     NSSize newSize=aSize;
     if (originalSize.width>originalSize.height) {
@@ -134,40 +123,32 @@
         newSize.width=(int)(originalSize.width/originalSize.height*newSize.height);            
         if (newSize.width <=0) newSize.width=1;
     }
-    [self setFlipped:NO];
-    NSImage *image=[NSImage clearedImageWithSize:newSize];
-    [image lockFocus];
-    NSGraphicsContext *context=[NSGraphicsContext currentContext];
-    NSImageInterpolation oldInterpolation=[context imageInterpolation];
-    [context setImageInterpolation:NSImageInterpolationHigh];
-    [self      drawInRect:NSMakeRect(0.,0.,newSize.width, newSize.height)
-                 fromRect:NSMakeRect(0.,0.,originalSize.width,originalSize.height)
-                operation:NSCompositeSourceOver
-                 fraction:1.0];
-    [context setImageInterpolation:oldInterpolation];
-    [image unlockFocus];
 
-    return image;
+	NSImage *resultImage = [NSImage imageWithSize:newSize flipped:self.isFlipped drawingHandler:^BOOL(NSRect dstRect) {
+		[[NSColor clearColor] set];
+		NSRectFill(dstRect);
+		NSGraphicsContext *context = [NSGraphicsContext currentContext];
+		[context setImageInterpolation:NSImageInterpolationHigh];
+		[self drawInRect:NSMakeRect(0.,0.,newSize.width, newSize.height)
+					 fromRect:NSZeroRect
+					operation:NSCompositeSourceOver
+					 fraction:1.0];
+		return YES;
+	}];
+    return resultImage;
 }
 
 - (NSImage *)dimmedImage {
-    
-    NSSize mysize=[self size];
-    NSImage *image=[[NSImage alloc] initWithSize:mysize];
-    [image setCacheMode:NSImageCacheNever];
-    [image lockFocus];
-    NSGraphicsContext *context=[NSGraphicsContext currentContext];
-    NSImageInterpolation oldInterpolation=[context imageInterpolation];
-    [context setImageInterpolation:NSImageInterpolationHigh];
-    [[NSColor clearColor] set];
-	NSRect totalRect = NSMakeRect(0.,0.,mysize.width,mysize.height);
-    [[NSBezierPath bezierPathWithRect:totalRect] fill];
-	[self drawInRect:totalRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:0.5 respectFlipped:YES hints:nil];
-	
-    [context setImageInterpolation:oldInterpolation];
-    [image unlockFocus];
-    
-    return image;
+
+	NSImage *resultImage = [NSImage imageWithSize:self.size flipped:self.isFlipped drawingHandler:^BOOL(NSRect dstRect) {
+		NSGraphicsContext *context = [NSGraphicsContext currentContext];
+		[context setImageInterpolation:NSImageInterpolationHigh];
+		[[NSColor clearColor] set];
+		[[NSBezierPath bezierPathWithRect:dstRect] fill];
+		[self drawInRect:dstRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:0.5 respectFlipped:YES hints:nil];
+		return YES;
+	}];
+	return resultImage;
 }
 
 
