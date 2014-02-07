@@ -678,32 +678,21 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     if (badgeCount == 0) {
         newAppImage = appImage;
     } else {
-        
-        newAppImage      = [[[NSImage alloc] initWithSize:[appImage size]] autorelease];
-        
-        NSImage *badgeImage = [NSImage imageNamed:(badgeCount >= 100)?@"InvitationBadge3":@"InvitationBadge1-2"];
-        
-        NSRect badgeRect = NSZeroRect;
-        badgeRect.size = [badgeImage size];
-//        badgeRect.origin.x = [newAppImage size].width / 16.;
-        badgeRect.origin.y = [newAppImage size].height - badgeRect.size.height - badgeRect.origin.x;
-        
-        // Draw into the new image (the badged image)
-        [newAppImage lockFocus];
+		newAppImage = [NSImage imageWithSize:[appImage size] flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
+			NSImage *badgeImage = [NSImage imageNamed:(badgeCount >= 100)?@"InvitationBadge3":@"InvitationBadge1-2"];
+			NSRect badgeRect = NSZeroRect;
+			badgeRect.size = [badgeImage size];
+			badgeRect.origin.y = dstRect.size.height - badgeRect.size.height;
 
-        // First draw the unmodified app image.
-        [appImage drawInRect:NSMakeRect(0, 0, [newAppImage size].width, [newAppImage size].height)
-                           fromRect:NSMakeRect(0, 0, [appImage size].width, [appImage size].height)
-                          operation:NSCompositeCopy
-                           fraction:1.0];
+			[appImage drawInRect:dstRect fromRect:NSZeroRect operation:NSCompositeCopy fraction:1.0];
+			[badgeImage drawInRect:badgeRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
 
-        [badgeImage drawInRect:badgeRect fromRect:NSMakeRect(0.,0.,badgeRect.size.width,badgeRect.size.height) operation:NSCompositeSourceOver fraction:1.0];
-        
-        NSString *badgeString = [NSString stringWithFormat:@"%d", badgeCount];
-        NSSize stringSize = [badgeString sizeWithAttributes:s_attributes];
-        [badgeString drawAtPoint:NSMakePoint(NSMidX(badgeRect)-stringSize.width/2., NSMidY(badgeRect)-stringSize.height/2.+1.) withAttributes:s_attributes];
-    
-        [newAppImage unlockFocus];
+			NSString *badgeString = [NSString stringWithFormat:@"%d", badgeCount];
+			NSSize stringSize = [badgeString sizeWithAttributes:s_attributes];
+			[badgeString drawAtPoint:NSMakePoint(NSMidX(badgeRect)-stringSize.width/2., NSMidY(badgeRect)-stringSize.height/2.+1.) withAttributes:s_attributes];
+
+			return YES;
+		}];
     }
 
     [NSApp setApplicationIconImage:newAppImage];
