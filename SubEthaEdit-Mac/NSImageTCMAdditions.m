@@ -90,7 +90,7 @@
 			CGContextSetFillColorWithColor(layerContext, [fillColor CGColor]);
 			CGContextFillRect(layerContext, layerRect);
 
-			CGContextSetShadowWithColor(context, CGSizeMake(0, -2.0), 0.9, [[NSColor colorWithCalibratedWhite:1.0 alpha:1.0/3.0] CGColor]);
+			CGContextSetShadowWithColor(context, CGSizeMake(0, -1.0), 0.5, [[NSColor colorWithCalibratedWhite:1.0 alpha:1.0/3.0] CGColor]);
 //			CGContextSetShadow(context, CGSizeMake(0, -1.0), 1.0);
 			CGContextScaleCTM(context, 1/layerScale.width, 1/layerScale.height);
 			if (disabled) {
