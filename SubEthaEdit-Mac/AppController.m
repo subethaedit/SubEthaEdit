@@ -1063,6 +1063,18 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     }
 }
 
+- (IBAction)showStyleSheetEditorWindow:(id)aSender {
+	NSLog(@"TODO: implement when there is a editor window controller");
+//    static SEEStyleSheetEditorWindowController *editorWindowController = nil;
+//    if (!editorWindowController) {
+//		editorWindowController = [SEEStyleSheetEditorWindowController new];
+//	}
+//    if (![[editorWindowController window] isVisible]) {
+//		[editorWindowController showWindow:aSender];
+//    } else {
+//		[[editorWindowController window] performClose:self];
+//    }
+}
 
 #pragma mark - Toolbar
 
