@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13C48" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
     </dependencies>
@@ -73,13 +73,13 @@
                 <constraint firstItem="hE6-nB-RDu" firstAttribute="centerY" secondItem="i14-Tb-TdJ" secondAttribute="centerY" id="BeS-c5-vn6"/>
                 <constraint firstAttribute="height" constant="96" id="CTe-CY-L0P"/>
                 <constraint firstItem="hE6-nB-RDu" firstAttribute="centerX" secondItem="k1p-6D-syT" secondAttribute="centerX" id="DMG-H5-rAW"/>
-                <constraint firstAttribute="width" secondItem="hE6-nB-RDu" secondAttribute="width" priority="501" constant="44" id="KND-Ve-MSI"/>
+                <constraint firstAttribute="width" secondItem="hE6-nB-RDu" secondAttribute="width" priority="549" constant="44" id="KND-Ve-MSI"/>
                 <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="96" id="LnQ-VY-TNr"/>
                 <constraint firstAttribute="centerX" secondItem="laB-2b-86S" secondAttribute="centerX" id="SG5-MR-sI7"/>
                 <constraint firstItem="hE6-nB-RDu" firstAttribute="centerY" secondItem="k1p-6D-syT" secondAttribute="centerY" constant="-1" id="XBu-jo-auU"/>
                 <constraint firstItem="hE6-nB-RDu" firstAttribute="centerX" secondItem="i14-Tb-TdJ" secondAttribute="centerX" id="cZw-Ty-KOG"/>
                 <constraint firstItem="laB-2b-86S" firstAttribute="top" secondItem="hE6-nB-RDu" secondAttribute="bottom" constant="7" id="fDc-KA-DyE"/>
-                <constraint firstAttribute="width" secondItem="laB-2b-86S" secondAttribute="width" priority="501" constant="10" id="m4y-y8-bvP"/>
+                <constraint firstAttribute="width" secondItem="laB-2b-86S" secondAttribute="width" priority="550" constant="10" id="m4y-y8-bvP"/>
             </constraints>
             <animations>
                 <caTransition key="subviews">
