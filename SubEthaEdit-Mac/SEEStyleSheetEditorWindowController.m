@@ -116,10 +116,6 @@
     self.currentStyleSheet = nil;
 }
 
-- (NSImage *)icon {
-    return [NSImage imageNamed:@"StyleSheetPrefs"];
-}
-
 - (NSString *)iconLabel {
     return NSLocalizedString(@"StyleSheetPrefsIconLabel", @"Label displayed below tyle pref icon and used as window title.");
 }
