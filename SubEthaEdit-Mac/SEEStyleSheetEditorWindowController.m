@@ -22,6 +22,9 @@
 #error ARC must be enabled!
 #endif
 
+
+// TODO: clean out the rest of the pref pane related things, make sure everything that needs to be called is still called. 
+
 @interface SEEStyleSheetEditorWindowController ()
 @property (nonatomic, strong) SEEStyleSheet *currentStyleSheet;
 
@@ -82,6 +85,7 @@
 }
 
 - (void)windowDidLoad {
+	[self.window setTitle:NSLocalizedString(@"StyleSheetPrefsIconLabel", @"Label displayed below tyle pref icon and used as window title.")];
 	[self takeFontFromMode:[DocumentModeManager baseMode]];
 	
 	[self.O_styleSheetPopUpButton removeAllItems];
@@ -114,14 +118,6 @@
 
 - (void)dealloc {
     self.currentStyleSheet = nil;
-}
-
-- (NSString *)iconLabel {
-    return NSLocalizedString(@"StyleSheetPrefsIconLabel", @"Label displayed below tyle pref icon and used as window title.");
-}
-
-- (NSString *)identifier {
-    return @"de.codingmonkeys.subethaedit.preferences.stylesheet";
 }
 
 - (void)adjustTableViewColumns:(NSNotification *)aNotification {
