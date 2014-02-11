@@ -12,7 +12,7 @@
 #import "PlainTextWindowControllerTabContext.h"
 #import "PopUpButton.h"
 
-@class PlainTextWindowControllerTabContext,PlainTextDocument,SEEPlainTextEditorScrollView,PopUpButton,RadarScroller,TCMMMUser, TextView, BorderedTextField;
+@class PlainTextWindowControllerTabContext,PlainTextDocument,SEEPlainTextEditorScrollView,PopUpButton,RadarScroller,TCMMMUser, SEETextView, BorderedTextField;
 
 @interface PlainTextEditor : NSResponder <NSTextViewDelegate, PopUpButtonDelegate> {
     IBOutlet NSImageView *O_waitPipeStatusImageView;
@@ -27,7 +27,7 @@
     IBOutlet NSButton	 *O_splitButton;
     IBOutlet SEEPlainTextEditorScrollView *O_scrollView;
     RadarScroller   *I_radarScroller;
-    TextView        *I_textView;
+    SEETextView        *I_textView;
     NSTextContainer *I_textContainer;
     NSMutableArray *I_storedSelectedRanges;
     PlainTextWindowControllerTabContext *I_windowControllerTabContext;
@@ -120,6 +120,7 @@
 // funnel point for all our internal pointers for additional text checking
 - (void)scheduleTextCheckingForRange:(NSRange)aRange;
 
+- (BOOL)hitTestOverlayViewsWithEvent:(NSEvent *)aEvent;
 
 @end
 

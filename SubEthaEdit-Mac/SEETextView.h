@@ -1,5 +1,5 @@
 //
-//  TextView.h
+//  SEETextView.h
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Tue Apr 06 2004.
@@ -10,7 +10,7 @@
 
 @class PlainTextEditor; 
 
-@interface TextView : NSTextView {
+@interface SEETextView : NSTextView {
     BOOL I_isDragTarget;
     struct {
         BOOL shouldCheckCompleteStart;
@@ -48,8 +48,8 @@
 @interface NSObject (TextViewDelegateMethods) 
 - (void)textView:(NSTextView *)aTextView mouseDidGoDown:(NSEvent *)aEvent;
 - (NSDictionary *)blockeditAttributesForTextView:(NSTextView *)aTextView;
-- (void)textViewDidChangeSpellCheckingSetting:(TextView *)aTextView;
-- (void)textView:(TextView *)aTextView didFinishAutocompleteByInsertingCompletion:(NSString *)aWord forPartialWordRange:(NSRange)aCharRange movement:(int)aMovement;
-- (void)textViewWillStartAutocomplete:(TextView *)aTextView;
+- (void)textViewDidChangeSpellCheckingSetting:(SEETextView *)aTextView;
+- (void)textView:(SEETextView *)aTextView didFinishAutocompleteByInsertingCompletion:(NSString *)aWord forPartialWordRange:(NSRange)aCharRange movement:(int)aMovement;
+- (void)textViewWillStartAutocomplete:(SEETextView *)aTextView;
 - (void)textViewContextMenuNeedsUpdate:(NSMenu *)aContextMenu;
 @end

@@ -17,7 +17,7 @@
 #import "SelectionOperation.h"
 #import "ImagePopUpButtonCell.h"
 #import "LayoutManager.h"
-#import "TextView.h"
+#import "SEETextView.h"
 #import "SplitView.h"
 #import "ConnectionBrowserController.h"
 #import "GeneralPreferences.h"
@@ -906,7 +906,7 @@ static NSAttributedString *S_dragString = nil;
                     NSString *userID=[[participantArray objectAtIndex:pair.childIndex] userID];
                     if (![userID isEqualToString:[TCMMMUserManager myUserID]]) {
                         PlainTextEditor *plainTextEditor=[self activePlainTextEditor];
-                        if ([aSender isKindOfClass:[TextView class]]) {
+                        if ([aSender isKindOfClass:[SEETextView class]]) {
                             NSEnumerator    *editors=[[self plainTextEditors] objectEnumerator];
                             PlainTextEditor *editor=nil;
                             while ((editor=[editors nextObject])) {
