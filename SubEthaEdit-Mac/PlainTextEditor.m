@@ -151,6 +151,18 @@
     [super dealloc];
 }
 
+- (BOOL)hitTestOverlayViewsWithEvent:(NSEvent *)aEvent {
+	BOOL result = NO;
+	NSPoint eventLocationInWindow = aEvent.locationInWindow;
+	if ([self.O_topStatusBarView hitTest:eventLocationInWindow] != nil) {
+		result = YES;
+	} else if ([self.O_bottomStatusBarView hitTest:eventLocationInWindow] != nil) {
+		result = YES;
+	} else if ([self.bottomOverlayViewController.view hitTest:eventLocationInWindow] != nil) {
+		result = YES;
+	}
+	return result;
+}
 
 - (void)participantsDidChange:(NSNotification *)aNotification
 {

@@ -1102,6 +1102,10 @@ static NSMenu *S_defaultMenu=nil;
 
 - (void)cursorUpdate:(NSEvent *)anEvent
 {
+	if ([self.editor hitTestOverlayViewsWithEvent:anEvent]) {
+		return;
+	}
+
     // ugly
     if ( [NSCursor currentCursor] == [NSCursor IBeamCursor] && 
          [[self backgroundColor] isDark]) {
@@ -1118,6 +1122,10 @@ static NSMenu *S_defaultMenu=nil;
 
 - (void)mouseMoved:(NSEvent *)anEvent
 {
+	if ([self.editor hitTestOverlayViewsWithEvent:anEvent]) {
+		return;
+	}
+
 	// ugly
     if ( [NSCursor currentCursor] == [NSCursor IBeamCursor] &&
          [[self backgroundColor] isDark] )  {

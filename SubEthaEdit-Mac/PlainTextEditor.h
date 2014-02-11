@@ -120,6 +120,7 @@
 // funnel point for all our internal pointers for additional text checking
 - (void)scheduleTextCheckingForRange:(NSRange)aRange;
 
+- (BOOL)hitTestOverlayViewsWithEvent:(NSEvent *)aEvent;
 
 @end
 
