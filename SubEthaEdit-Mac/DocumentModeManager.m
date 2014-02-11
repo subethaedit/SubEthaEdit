@@ -26,6 +26,7 @@
 - (NSString *)pathForWritingStyleSheetWithName:(NSString *)aStyleSheetName;
 @end
 
+#pragma mark
 @implementation DocumentModePopUpButton
 
 /* Replace the cell, sign up for notifications.
@@ -91,7 +92,7 @@
 
 @end
 
-
+#pragma mark -
 @implementation DocumentModeMenu
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -111,6 +112,7 @@
 
 @end
 
+#pragma mark
 static DocumentModeManager *S_sharedInstance=nil;
 
 @implementation DocumentModeManager
@@ -143,6 +145,7 @@ static DocumentModeManager *S_sharedInstance=nil;
     return [NSString stringWithFormat:@"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<seestyle>\n%@</seestyle>\n",result];
 }
 
+#pragma mark
 - (id)init {
     if (S_sharedInstance) {
         [self dealloc];
@@ -182,6 +185,53 @@ static DocumentModeManager *S_sharedInstance=nil;
     [I_documentModesByIdentifier release];
 	[I_documentModesByIdentifierLock release]; // ifc - experimental locking... awaiting real fix from TCM
     [super dealloc];
+}
+
+#pragma mark - Directories
+
+#define MODE_EXTENSION @"mode"
+#define BUNDLE_MODE_FOLDER_NAME @"Modes"
+#define LIBRARY_MODE_FOLDER_NAME @"Modes"
+
+#define BUNDLE_STYLE_FOLDER_NAME @"Modes/Styles/"
+#define LIBRARY_STYLE_FOLDER_NAME @"Styles"
+- (NSURL *)applicationSupportDirectory {
+    NSFileManager *sharedFM = [NSFileManager defaultManager];
+    NSArray *possibleURLs = [sharedFM URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask];
+    NSURL *appSupportDir = nil;
+	
+    if ([possibleURLs count] >= 1) {
+        // Use the first directory (if multiple are returned)
+        appSupportDir = [possibleURLs objectAtIndex:0];
+    }
+	return appSupportDir;
+}
+
+- (NSURL *)URLWithAddedBundleIdentifierDirectoryForURL:(NSURL *)anURL subDirectoryName:(NSString *)aSubDirectory {
+	NSURL *url = nil;
+    if (anURL) {
+        NSString *appBundleID = [[NSBundle mainBundle] bundleIdentifier];
+        url = [anURL URLByAppendingPathComponent:appBundleID];
+		if (aSubDirectory) {
+			url = [url URLByAppendingPathComponent:aSubDirectory];
+		}
+    }
+	return url;
+}
+
+- (void)createUserApplicationSupportDirectory {
+	NSURL *applicationSupport = [self applicationSupportDirectory];
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	
+	NSString *fullPathStyles = [[self URLWithAddedBundleIdentifierDirectoryForURL:applicationSupport subDirectoryName:LIBRARY_STYLE_FOLDER_NAME] path];
+	if (![fileManager fileExistsAtPath:fullPathStyles isDirectory:NULL]) {
+		[fileManager createDirectoryAtPath:fullPathStyles withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+	
+	NSString *fullPathModes = [[self URLWithAddedBundleIdentifierDirectoryForURL:applicationSupport subDirectoryName:LIBRARY_MODE_FOLDER_NAME] path];
+	if (![fileManager fileExistsAtPath:fullPathModes isDirectory:NULL]) {
+		[fileManager createDirectoryAtPath:fullPathModes withIntermediateDirectories:YES attributes:nil error:nil];
+    }
 }
 
 #pragma mark - Stuff with Precedences
@@ -410,9 +460,6 @@ static DocumentModeManager *S_sharedInstance=nil;
     }
 }
 
-#define BUNDLE_MODE_FOLDER_NAME @"Modes"
-#define LIBRARY_MODE_FOLDER_NAME @"Modes"
-#define MODE_EXTENSION @"mode"
 - (void)TCM_findModes {
 	[self createUserApplicationSupportDirectory];
 	
@@ -446,48 +493,6 @@ static DocumentModeManager *S_sharedInstance=nil;
                 }
             }
         }
-    }
-}
-
-#pragma mark - Directories
-#define BUNDLE_STYLE_FOLDER_NAME @"Modes/Styles/"
-#define LIBRARY_STYLE_FOLDER_NAME @"Styles"
-- (NSURL *)applicationSupportDirectory {
-    NSFileManager *sharedFM = [NSFileManager defaultManager];
-    NSArray *possibleURLs = [sharedFM URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask];
-    NSURL *appSupportDir = nil;
-	
-    if ([possibleURLs count] >= 1) {
-        // Use the first directory (if multiple are returned)
-        appSupportDir = [possibleURLs objectAtIndex:0];
-    }
-	return appSupportDir;
-}
-
-- (NSURL *)URLWithAddedBundleIdentifierDirectoryForURL:(NSURL *)anURL subDirectoryName:(NSString *)aSubDirectory {
-	NSURL *url = nil;
-    if (anURL) {
-        NSString *appBundleID = [[NSBundle mainBundle] bundleIdentifier];
-        url = [anURL URLByAppendingPathComponent:appBundleID];
-		if (aSubDirectory) {
-			url = [url URLByAppendingPathComponent:aSubDirectory];
-		}
-    }
-	return url;
-}
-
-- (void)createUserApplicationSupportDirectory {
-	NSURL *applicationSupport = [self applicationSupportDirectory];
-	NSFileManager *fileManager = [NSFileManager defaultManager];
-	
-	NSString *fullPathStyles = [[self URLWithAddedBundleIdentifierDirectoryForURL:applicationSupport subDirectoryName:LIBRARY_STYLE_FOLDER_NAME] path];
-	if (![fileManager fileExistsAtPath:fullPathStyles isDirectory:NULL]) {
-		[fileManager createDirectoryAtPath:fullPathStyles withIntermediateDirectories:YES attributes:nil error:nil];
-    }
-	
-	NSString *fullPathModes = [[self URLWithAddedBundleIdentifierDirectoryForURL:applicationSupport subDirectoryName:LIBRARY_MODE_FOLDER_NAME] path];
-	if (![fileManager fileExistsAtPath:fullPathModes isDirectory:NULL]) {
-		[fileManager createDirectoryAtPath:fullPathModes withIntermediateDirectories:YES attributes:nil error:nil];
     }
 }
 
