@@ -459,9 +459,54 @@ static DocumentModeManager *S_sharedInstance=nil;
     } 
 } 
 
+#pragma mark - Directories
+#define BUNDLE_STYLE_FOLDER_NAME @"Modes/Styles/"
+#define BUNDLE_MODE_FOLDER_NAME @"Modes"
+#define LIBRARY_STYLE_FOLDER_NAME @"Styles"
+#define LIBRARY_MODE_FOLDER_NAME @"Modes"
+
+- (NSURL *)applicationSupportDirectory {
+    NSFileManager *sharedFM = [NSFileManager defaultManager];
+    NSArray *possibleURLs = [sharedFM URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask];
+    NSURL *appSupportDir = nil;
+	
+    if ([possibleURLs count] >= 1) {
+        // Use the first directory (if multiple are returned)
+        appSupportDir = [possibleURLs objectAtIndex:0];
+    }
+	return appSupportDir;
+}
+
+- (NSURL *)URLWithAddedBundleIdentifierDirectoryForURL:(NSURL *)anURL subDirectoryName:(NSString *)aSubDirectory {
+	NSURL *url = nil;
+    if (anURL) {
+        NSString *appBundleID = [[NSBundle mainBundle] bundleIdentifier];
+        url = [anURL URLByAppendingPathComponent:appBundleID];
+		if (aSubDirectory) {
+			url = [url URLByAppendingPathComponent:aSubDirectory];
+		}
+    }
+	return url;
+}
+
+- (void)createUserApplicationSupportDirectory {
+	NSURL *applicationSupport = [self applicationSupportDirectory];
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	
+	NSString *fullPathStyles = [[self URLWithAddedBundleIdentifierDirectoryForURL:applicationSupport subDirectoryName:LIBRARY_STYLE_FOLDER_NAME] path];
+	if (![fileManager fileExistsAtPath:fullPathStyles isDirectory:NULL]) {
+		[fileManager createDirectoryAtPath:fullPathStyles withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+	
+	NSString *fullPathModes = [[self URLWithAddedBundleIdentifierDirectoryForURL:applicationSupport subDirectoryName:LIBRARY_MODE_FOLDER_NAME] path];
+	if (![fileManager fileExistsAtPath:fullPathModes isDirectory:NULL]) {
+		[fileManager createDirectoryAtPath:fullPathModes withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+}
+
+#pragma mark - Stuff with Styles
 - (NSString *)pathForWritingStyleSheetWithName:(NSString *)aStyleSheetName {
 	NSString *fullPath = nil;
-#pragma mark - Directories
 
     //create Directory if necessary 
     NSArray *userDomainPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory,NSUserDomainMask, YES); 
@@ -487,8 +532,6 @@ static DocumentModeManager *S_sharedInstance=nil;
             [[NSFileManager defaultManager] createDirectoryAtPath:fullPath withIntermediateDirectories:YES attributes:nil error:nil]; 
         } 
     } 
-    
-#pragma mark - Stuff with Styles
     
     NSMutableArray *allPaths = [NSMutableArray array]; 
     NSArray *allDomainsPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, YES); 
