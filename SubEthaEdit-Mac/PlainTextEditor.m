@@ -1194,7 +1194,6 @@
 
 			self.bottomOverlayViewController = viewController;
 		}
-		[O_scrollView tile];
 	}
 }
 
