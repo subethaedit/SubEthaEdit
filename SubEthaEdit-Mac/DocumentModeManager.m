@@ -14,7 +14,6 @@
 #import <OgreKit/OgreKit.h>
 
 #define MODEPATHCOMPONENT @"Application Support/SubEthaEditDebug/Modes/"
-#define STYLEPATHCOMPONENT @"Application Support/SubEthaEditDebug/Styles/"
 
 @interface DocumentModeManager (DocumentModeManagerPrivateAdditions)
 - (void)TCM_findModes;
@@ -506,47 +505,31 @@ static DocumentModeManager *S_sharedInstance=nil;
 
 #pragma mark - Stuff with Styles
 - (NSString *)pathForWritingStyleSheetWithName:(NSString *)aStyleSheetName {
-	NSString *fullPath = nil;
-
-    //create Directory if necessary 
-    NSArray *userDomainPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory,NSUserDomainMask, YES); 
-    for (NSString *path in userDomainPaths) { 
-        fullPath = [path stringByAppendingPathComponent:STYLEPATHCOMPONENT]; 
-        if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:nil]) { 
-            [[NSFileManager defaultManager] createDirectoryAtPath:fullPath withIntermediateDirectories:YES attributes:nil error:nil]; 
-        } 
-    }
+	[self createUserApplicationSupportDirectory];
+	NSString *fullPath = [[self URLWithAddedBundleIdentifierDirectoryForURL:[self applicationSupportDirectory] subDirectoryName:LIBRARY_STYLE_FOLDER_NAME] path];
     return [[fullPath stringByAppendingPathComponent:aStyleSheetName] stringByAppendingPathExtension:SEEStyleSheetFileExtension];
-    
 }
 
 - (void)TCM_findStyles { 
-    NSString *file = nil; 
-    NSString *path = nil; 
-    
-    //create Directories 
-    NSArray *userDomainPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES); 
-    for (path in userDomainPaths) { 
-        NSString *fullPath = [path stringByAppendingPathComponent:STYLEPATHCOMPONENT]; 
-        if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:nil]) { 
-            [[NSFileManager defaultManager] createDirectoryAtPath:fullPath withIntermediateDirectories:YES attributes:nil error:nil]; 
-        } 
+	[self createUserApplicationSupportDirectory];
+
+    NSURL *url = nil;
+    NSMutableArray *allURLs = [NSMutableArray array];
+	
+    NSArray *allDomainsURLs = [[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSAllDomainsMask];
+    for (url in allDomainsURLs) { 
+        [allURLs addObject:[self URLWithAddedBundleIdentifierDirectoryForURL:url subDirectoryName:LIBRARY_STYLE_FOLDER_NAME]];
     } 
     
-    NSMutableArray *allPaths = [NSMutableArray array]; 
-    NSArray *allDomainsPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, YES); 
-    for (path in allDomainsPaths) { 
-        [allPaths addObject:[path stringByAppendingPathComponent:STYLEPATHCOMPONENT]]; 
-    } 
+    [allURLs addObject:[[[NSBundle mainBundle] resourceURL] URLByAppendingPathComponent:BUNDLE_STYLE_FOLDER_NAME]];
     
-    [allPaths addObject:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Modes/Styles/"]]; 
-    
-    NSEnumerator *enumerator = [allPaths reverseObjectEnumerator]; 
-    while ((path = [enumerator nextObject])) { 
-        NSEnumerator *dirEnumerator = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil] objectEnumerator]; 
-        while ((file = [dirEnumerator nextObject])) { 
-            if ([[file pathExtension] isEqualToString:SEEStyleSheetFileExtension]) { 
-	            [I_styleSheetPathsByName setObject:[path stringByAppendingPathComponent:file] forKey:[file stringByDeletingPathExtension]];
+    NSEnumerator *enumerator = [allURLs reverseObjectEnumerator]; 
+    NSURL *fileURL = nil;
+    while ((url = [enumerator nextObject])) {
+        NSDirectoryEnumerator *dirEnumerator = [[NSFileManager defaultManager] enumeratorAtURL:url includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles errorHandler:NULL];
+        while ((fileURL = [dirEnumerator nextObject])) {
+            if ([[fileURL pathExtension] isEqualToString:SEEStyleSheetFileExtension]) {
+	            [I_styleSheetPathsByName setObject:[fileURL path] forKey:[[fileURL lastPathComponent] stringByDeletingPathExtension]];
             } 
         } 
     }
