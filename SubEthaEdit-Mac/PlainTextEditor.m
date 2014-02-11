@@ -1207,6 +1207,7 @@
 			self.bottomOverlayViewController = viewController;
 		}
 	}
+	[I_textView adjustContainerInsetToScrollView];
 }
 
 
@@ -1585,15 +1586,17 @@
     {
         I_flags.showTopStatusBar = !I_flags.showTopStatusBar;
 
-		[self TCM_updateStatusBar];
-
 		if (! I_flags.showTopStatusBar) {
 			self.topStatusBarViewBackgroundFilters = self.O_topStatusBarView.layer.backgroundFilters;
 			self.O_topStatusBarView.layer.backgroundFilters = nil;
+			O_scrollView.topOverlayHeight -= NSHeight(self.O_topStatusBarView.frame);
 		} else {
 			self.O_topStatusBarView.layer.backgroundFilters = self.topStatusBarViewBackgroundFilters;
 			self.topStatusBarViewBackgroundFilters = nil;
+			O_scrollView.topOverlayHeight += NSHeight(self.O_topStatusBarView.frame);
 		}
+
+		[self TCM_updateStatusBar];
 
 		[self.O_topStatusBarView setHidden:!I_flags.showTopStatusBar];
         [self.O_topStatusBarView setNeedsDisplay:YES];
@@ -1612,19 +1615,28 @@
 {
     if (I_flags.showBottomStatusBar != aFlag)
     {
+		NSViewController *bottomOverlayViewController = [self.bottomOverlayViewController retain];
+		[self displayViewControllerInBottomArea:nil];
+		
         I_flags.showBottomStatusBar = !I_flags.showBottomStatusBar;
-
-		[self TCM_updateBottomStatusBar];
 
 		if (! I_flags.showBottomStatusBar) {
 			self.bottomStatusBarViewBackgroundFilters = self.O_bottomStatusBarView.layer.backgroundFilters;
 			self.O_bottomStatusBarView.layer.backgroundFilters = nil;
+			O_scrollView.bottomOverlayHeight -= NSHeight(self.O_bottomStatusBarView.frame);
 		} else {
 			self.O_bottomStatusBarView.layer.backgroundFilters = self.bottomStatusBarViewBackgroundFilters;
 			self.bottomStatusBarViewBackgroundFilters = nil;
+			O_scrollView.bottomOverlayHeight += NSHeight(self.O_bottomStatusBarView.frame);
 		}
+
+		[self TCM_updateBottomStatusBar];
+
         [self.O_bottomStatusBarView setHidden:!I_flags.showBottomStatusBar];
         [self.O_bottomStatusBarView setNeedsDisplay:YES];
+
+		[self displayViewControllerInBottomArea:bottomOverlayViewController];
+		[bottomOverlayViewController release];
     }
 }
 

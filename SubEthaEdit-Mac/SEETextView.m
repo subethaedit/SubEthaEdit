@@ -40,9 +40,9 @@
 
 #define SPANNINGRANGE(a,b) NSMakeRange(MIN(a,b),MAX(a,b)-MIN(a,b)+1)
 
-@interface SEETextView (TextViewPrivateAdditions) 
+@interface SEETextView () 
 @property (nonatomic, readonly) PlainTextDocument *document;
-
+@property (nonatomic, assign) CGFloat additionalFrameHeight;
 @end
 
 @interface NSTextView (NSTextViewTCMPrivateAdditions) 
@@ -71,15 +71,31 @@
 	SEEPlainTextEditorScrollView *enclosingScrollView = (SEEPlainTextEditorScrollView *)self.enclosingScrollView;
 	if ([enclosingScrollView isKindOfClass:[SEEPlainTextEditorScrollView class]]) {
 		NSSize currentInset = [self textContainerInset];
-		CGFloat height = 0;
-		height = MAX(enclosingScrollView.topOverlayHeight, enclosingScrollView.bottomOverlayHeight);
+		CGFloat height = (enclosingScrollView.topOverlayHeight + enclosingScrollView.bottomOverlayHeight) / 2.0;
 		if (height != currentInset.height) {
 			currentInset.height = height;
 			[self setTextContainerInset:currentInset];
+			[self setFrameSize:self.frame.size];
 		}
 	}
 }
 
+- (NSPoint)textContainerOrigin {
+	SEEPlainTextEditorScrollView *enclosingScrollView = (SEEPlainTextEditorScrollView *)self.enclosingScrollView;
+    NSPoint origin = [super textContainerOrigin];
+    NSPoint newOrigin = NSMakePoint(origin.x, enclosingScrollView.topOverlayHeight);
+	return newOrigin;
+}
+
+- (void)setFrameSize:(NSSize)newSize {
+	SEEPlainTextEditorScrollView *enclosingScrollView = (SEEPlainTextEditorScrollView *)self.enclosingScrollView;
+	if ([enclosingScrollView isKindOfClass:[SEEPlainTextEditorScrollView class]]) {
+		CGFloat additionalFrameHeight = enclosingScrollView.topOverlayHeight + enclosingScrollView.bottomOverlayHeight;
+		newSize = NSMakeSize(newSize.width, newSize.height + additionalFrameHeight - self.additionalFrameHeight);
+		self.additionalFrameHeight = additionalFrameHeight;
+	}
+	[super setFrameSize:newSize];
+}
 
 static NSMenu *S_defaultMenu=nil;
 
