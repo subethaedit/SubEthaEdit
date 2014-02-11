@@ -388,6 +388,10 @@
 	[self updateInspector];
 }
 
+- (IBAction)duplicateStyleSheet:(id)aSender {
+	[self revealStyleSheetInFinder:aSender]; //TODO: make that a proper duplicate - for now make it behave like before;
+}
+
 - (IBAction)revertStyleSheet:(id)aSender {
 	[self.currentStyleSheet revertToPersistentState];
 	[self updateInspector];

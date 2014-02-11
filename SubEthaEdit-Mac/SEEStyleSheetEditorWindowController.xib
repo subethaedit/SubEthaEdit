@@ -451,7 +451,7 @@
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <action selector="revealStyleSheetInFinder:" target="-2" id="550"/>
+                            <action selector="duplicateStyleSheet:" target="-2" id="lgt-hh-O0a"/>
                         </connections>
                     </button>
                     <comboBox verticalHuggingPriority="750" id="559">
