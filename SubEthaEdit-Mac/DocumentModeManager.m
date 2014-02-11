@@ -128,7 +128,7 @@ static DocumentModeManager *S_sharedInstance=nil;
 }
 
 + (NSString *)defaultStyleSheetName {
-	return @"Bright Dom";
+	return @"Bright Lisa";
 }
 
 + (NSString *)xmlFileRepresentationOfAllStyles {
