@@ -185,6 +185,7 @@ static DocumentModeManager *S_sharedInstance=nil;
     [super dealloc];
 }
 
+#pragma mark - Stuff with Precedences
 - (void)revalidatePrecedences {
     // Check for overriden Rules
 
@@ -387,6 +388,7 @@ static DocumentModeManager *S_sharedInstance=nil;
     return precendenceArray;
 }
 
+#pragma mark
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     [[NSUserDefaults standardUserDefaults] setObject:[self modePrecedenceArray] forKey:@"ModePrecedences"];
 }
@@ -459,6 +461,7 @@ static DocumentModeManager *S_sharedInstance=nil;
 
 - (NSString *)pathForWritingStyleSheetWithName:(NSString *)aStyleSheetName {
 	NSString *fullPath = nil;
+#pragma mark - Directories
 
     //create Directory if necessary 
     NSArray *userDomainPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory,NSUserDomainMask, YES); 
@@ -485,6 +488,7 @@ static DocumentModeManager *S_sharedInstance=nil;
         } 
     } 
     
+#pragma mark - Stuff with Styles
     
     NSMutableArray *allPaths = [NSMutableArray array]; 
     NSArray *allDomainsPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, YES); 
@@ -536,6 +540,7 @@ static DocumentModeManager *S_sharedInstance=nil;
 	[[NSWorkspace sharedWorkspace] selectFile:[I_styleSheetPathsByName objectForKey:[aStyleSheet styleSheetName]] inFileViewerRootedAtPath:nil];
 }
 
+#pragma mark - Stuff with modes
 - (IBAction)reloadDocumentModes:(id)aSender {
 
     // write all preferences
