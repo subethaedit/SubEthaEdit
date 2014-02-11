@@ -284,6 +284,7 @@
 		4CD5F83D17FB0EE000F49E31 /* WebPreview.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F83B17FB0EE000F49E31 /* WebPreview.xib */; };
 		4CDC272018967D990060B044 /* SEEParticipantView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CDC271F18967D990060B044 /* SEEParticipantView.xib */; };
 		4CDC272318969A600060B044 /* SEEParticipantViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CDC272218969A600060B044 /* SEEParticipantViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		4CE6C99D18AA905500AB45D1 /* SEEOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE6C99C18AA905500AB45D1 /* SEEOverlayView.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4CE9CF381802F4E900F5BC56 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; };
 		4CE9CF391802F4F100F5BC56 /* OgreKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; };
 		4CE9CF3A1802F52A00F5BC56 /* SEEStyleSheetSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D56992133B880900CEC841 /* SEEStyleSheetSettings.m */; };
@@ -1059,6 +1060,8 @@
 		4CDC271F18967D990060B044 /* SEEParticipantView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEEParticipantView.xib; sourceTree = "<group>"; };
 		4CDC272118969A600060B044 /* SEEParticipantViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEParticipantViewController.h; sourceTree = "<group>"; };
 		4CDC272218969A600060B044 /* SEEParticipantViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEParticipantViewController.m; sourceTree = "<group>"; };
+		4CE6C99B18AA905500AB45D1 /* SEEOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEOverlayView.h; sourceTree = "<group>"; };
+		4CE6C99C18AA905500AB45D1 /* SEEOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEOverlayView.m; sourceTree = "<group>"; };
 		4CF06A2E1816A7D800B35DF8 /* HelperTool_Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = HelperTool_Info.plist; sourceTree = "<group>"; };
 		4CF06A621816D6D300B35DF8 /* SubEthaEdit.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.xml; path = SubEthaEdit.entitlements; sourceTree = "<group>"; };
 		4CF3490017FC6EAF005D0D4F /* PSMTabBarControl.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = PSMTabBarControl.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1805,6 +1808,8 @@
 				4CCD4DD01811703D00FE6134 /* SEESavePanelAccessoryViewController.m */,
 				4C5EC97B1897F6FC0094D850 /* SEEParticipantsOverlayViewController.h */,
 				4C5EC97C1897F6FC0094D850 /* SEEParticipantsOverlayViewController.m */,
+				4CE6C99B18AA905500AB45D1 /* SEEOverlayView.h */,
+				4CE6C99C18AA905500AB45D1 /* SEEOverlayView.m */,
 				4CDC272118969A600060B044 /* SEEParticipantViewController.h */,
 				4CDC272218969A600060B044 /* SEEParticipantViewController.m */,
 				1428944E09575B9700D14688 /* PlainTextEditor.h */,
@@ -3130,6 +3135,7 @@
 				1428946909575B9700D14688 /* SplitView.m in Sources */,
 				1428946B09575B9700D14688 /* SEETextView.m in Sources */,
 				1428946C09575B9700D14688 /* URLDataProtocol.m in Sources */,
+				4CE6C99D18AA905500AB45D1 /* SEEOverlayView.m in Sources */,
 				1428946D09575B9700D14688 /* WebPreviewWindowController.m in Sources */,
 				142894A409575FF200D14688 /* TextFieldCell.m in Sources */,
 				5E28E2900972FB8E00099B13 /* InsetTextFieldCell.m in Sources */,
