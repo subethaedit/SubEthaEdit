@@ -6,7 +6,7 @@
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
-#import "StyleSheetPreferences.h"
+#import "SEEStyleSheetEditorWindowController.h"
 #import "SyntaxStyle.h"
 #import "DocumentModeManager.h"
 #import "DocumentController.h"
@@ -14,104 +14,129 @@
 #import "TextFieldCell.h"
 #import "GeneralPreferences.h"
 #import "SyntaxHighlighter.h"
+#import "PlainTextDocument.h"
 
-@interface StyleSheetPreferences ()
-@property (nonatomic, retain) SEEStyleSheet *currentStyleSheet;
-- (void)updateFontLabel;
-- (void)takeFontFromMode:(DocumentMode *)aMode;
-- (void)selectMode:(DocumentMode *)aMode;
-- (void)updateForChangedStyles;
-- (NSArray *)scopesArray;
+// this file needs arc - either project wide,
+// or add -fobjc-arc on a per file basis in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
+
+// TODO: clean out the rest of the pref pane related things, make sure everything that needs to be called is still called. 
+
+@interface SEEStyleSheetEditorWindowController ()
+@property (nonatomic, strong) SEEStyleSheet *currentStyleSheet;
+
+@property (nonatomic, strong) IBOutlet TableView *O_stylesTableView;
+@property (nonatomic, strong) IBOutlet DocumentModePopUpButton *O_modePopUpButton;
+@property (nonatomic, strong) IBOutlet NSObjectController *O_modeController;
+
+@property (nonatomic, strong) IBOutlet NSButton *O_boldButton;
+@property (nonatomic, strong) IBOutlet NSButton *O_italicButton;
+@property (nonatomic, strong) IBOutlet NSButton *O_underlineButton;
+@property (nonatomic, strong) IBOutlet NSButton *O_strikethroughButton;
+
+@property (nonatomic, strong) IBOutlet NSColorWell *O_colorWell;
+@property (nonatomic, strong) IBOutlet NSColorWell *O_backgroundColorWell;
+
+@property (nonatomic, strong) IBOutlet NSButton *O_inheritBoldButton;
+@property (nonatomic, strong) IBOutlet NSButton *O_inheritItalicButton;
+@property (nonatomic, strong) IBOutlet NSButton *O_inheritUnderlineButton;
+@property (nonatomic, strong) IBOutlet NSButton *O_inheritStrikethroughButton;
+@property (nonatomic, strong) IBOutlet NSButton *O_inheritColorWell;
+@property (nonatomic, strong) IBOutlet NSButton *O_inheritBackgroundColorWell;
+
+@property (nonatomic, strong) IBOutlet NSPopUpButton *O_styleSheetPopUpButton;
+
+@property (nonatomic, strong) IBOutlet NSTextView *O_sheetSnippetTextView;
+
+@property (nonatomic, strong) IBOutlet NSButton *O_saveStyleSheetButton;
+@property (nonatomic, strong) IBOutlet NSButton *O_revertStyleSheetButton;
+@property (nonatomic, strong) IBOutlet NSButton *O_revealInFinderButton;
+
+@property (nonatomic, strong) IBOutlet NSButton *O_duplicateStyleSheetButton;
+
+@property (nonatomic, strong) IBOutlet NSButton *O_addScopeButton;
+@property (nonatomic, strong) IBOutlet NSButton *O_removeScopeButton;
+
+@property (nonatomic, strong) IBOutlet NSButton *O_showOnlyMatchingScopesButton;
+
+@property (nonatomic, strong) IBOutlet NSComboBox *O_scopeComboBox;
+
+@property (nonatomic, strong) IBOutlet NSTextField *O_fontLabel;
+
+@property (nonatomic, strong) NSUndoManager *undoManager;
+
 @end
 
-@implementation StyleSheetPreferences
-
-@synthesize currentStyleSheet;
-@synthesize copiedStyle;
+@implementation SEEStyleSheetEditorWindowController
 
 - (id)init {
-    self = [super init];
+    self = [super initWithWindowNibName:@"SEEStyleSheetEditorWindowController"];
     if (self) {
-        I_undoManager=[NSUndoManager new];
-        SEEStyleSheet *styleSheet = [[SEEStyleSheet new] autorelease];
-//        [styleSheet importStyleSheetAtPath:[[NSBundle mainBundle] URLForResource:@"Default" withExtension:@"sss" subdirectory:@"Modes/Styles"]];
+        self.undoManager = [NSUndoManager new];
+        SEEStyleSheet *styleSheet = [SEEStyleSheet new];
+//		[styleSheet importStyleSheetAtPath:[[NSBundle mainBundle] URLForResource:@"Default" withExtension:@"sss" subdirectory:@"Modes/Styles"]];
         self.currentStyleSheet = styleSheet;
-//        NSLog(@"%s %@",__FUNCTION__,styleSheet.allScopes);
+//		NSLog(@"%s %@",__FUNCTION__,styleSheet.allScopes);
     }
     return self;
 }
 
-- (void)dealloc {
-    [I_undoManager release];
-    [copiedStyle release];
-    self.currentStyleSheet = nil;
-    [super dealloc];
-}
-
-- (NSImage *)icon {
-    return [NSImage imageNamed:@"StyleSheetPrefs"];
-}
-
-- (NSString *)iconLabel {
-    return NSLocalizedString(@"StyleSheetPrefsIconLabel", @"Label displayed below tyle pref icon and used as window title.");
-}
-
-- (NSString *)identifier {
-    return @"de.codingmonkeys.subethaedit.preferences.stylesheet";
-}
-
-- (NSString *)mainNibName {
-    return @"StyleSheetPrefs";
-}
-
-- (void)adjustTableViewColumns:(NSNotification *)aNotification {
-    CGFloat width=[[[O_stylesTableView enclosingScrollView] contentView] frame].size.width;
-    width-=[O_stylesTableView intercellSpacing].width * 2;
-    CGFloat width2 = MIN(300,width/2);
-    NSArray *columns=[O_stylesTableView tableColumns];
-    [[columns objectAtIndex:0] setWidth:width2];
-    [[columns objectAtIndex:1] setWidth:width-width2];
-}
-
-- (void)switchToStyleSheetName:(NSString *)aStyleSheetName {
-	self.currentStyleSheet = [[DocumentModeManager sharedInstance] styleSheetForName:aStyleSheetName];
-	[self.currentStyleSheet setScopeExamples:[[O_modeController content] scopeExamples]];
-	[self updateForChangedStyles];
-}
-
-- (void)mainViewDidLoad {
+- (void)windowDidLoad {
+	[self.window setTitle:NSLocalizedString(@"StyleSheetPrefsIconLabel", @"Label displayed below tyle pref icon and used as window title.")];
 	[self takeFontFromMode:[DocumentModeManager baseMode]];
-
-	[O_styleSheetPopUpButton removeAllItems];
-	[O_styleSheetPopUpButton addItemsWithTitles:[[DocumentModeManager sharedInstance] allStyleSheetNames]];
-	[self switchToStyleSheetName:[O_styleSheetPopUpButton itemTitleAtIndex:0]];
+	
+	[self.O_styleSheetPopUpButton removeAllItems];
+	[self.O_styleSheetPopUpButton addItemsWithTitles:[[DocumentModeManager sharedInstance] allStyleSheetNames]];
+	[self switchToStyleSheetName:[self.O_styleSheetPopUpButton itemTitleAtIndex:0]];
     
     // Set tableview to non highlighting cells
-    for (NSTableColumn *column in [O_stylesTableView tableColumns]) {
-		[column setDataCell:[[TextFieldCell new] autorelease]];
+    for (NSTableColumn *column in [self.O_stylesTableView tableColumns]) {
+		[column setDataCell:[TextFieldCell new]];
 	}
     
-    [[O_stylesTableView enclosingScrollView] setPostsFrameChangedNotifications:YES];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(adjustTableViewColumns:) name:NSViewFrameDidChangeNotification object:[O_stylesTableView enclosingScrollView]];
-    NSMutableAttributedString *string=[[O_italicButton attributedTitle] mutableCopy];
+    [[self.O_stylesTableView enclosingScrollView] setPostsFrameChangedNotifications:YES];
+    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(adjustTableViewColumns:) name:NSViewFrameDidChangeNotification object:[self.O_stylesTableView enclosingScrollView]];
+    NSMutableAttributedString *string=[[self.O_italicButton attributedTitle] mutableCopy];
     [string addAttribute:NSObliquenessAttributeName value:[NSNumber numberWithFloat:.2] range:NSMakeRange(0,[[string string] length])];
-    [O_italicButton setAttributedTitle:[string autorelease]];
+    [self.O_italicButton setAttributedTitle:string];
     
-    string=[[O_underlineButton attributedTitle] mutableCopy];
+    string=[[self.O_underlineButton attributedTitle] mutableCopy];
     [string addAttribute:NSUnderlineStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(0,[[string string] length])];
-    [O_underlineButton setAttributedTitle:[string autorelease]];
+    [self.O_underlineButton setAttributedTitle:string];
     
-    string=[[O_strikethroughButton attributedTitle] mutableCopy];
+    string=[[self.O_strikethroughButton attributedTitle] mutableCopy];
     [string addAttribute:NSStrikethroughStyleAttributeName value:[NSNumber numberWithInteger:NSUnderlineStyleSingle] range:NSMakeRange(0,[[string string] length])];
-    [O_strikethroughButton setAttributedTitle:[string autorelease]];
+    [self.O_strikethroughButton setAttributedTitle:string];
     
     [self adjustTableViewColumns:nil];
     [self updateForChangedStyles];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(documentModeListChanged:) name:@"DocumentModeListChanged" object:nil];
 }
 
+- (void)dealloc {
+    self.currentStyleSheet = nil;
+}
+
+- (void)adjustTableViewColumns:(NSNotification *)aNotification {
+    CGFloat width=[[[self.O_stylesTableView enclosingScrollView] contentView] frame].size.width;
+    width-=[self.O_stylesTableView intercellSpacing].width * 2;
+    CGFloat width2 = MIN(300,width/2);
+    NSArray *columns=[self.O_stylesTableView tableColumns];
+    [[columns objectAtIndex:0] setWidth:width2];
+    [[columns objectAtIndex:1] setWidth:width-width2];
+}
+
+- (void)switchToStyleSheetName:(NSString *)aStyleSheetName {
+	self.currentStyleSheet = [[DocumentModeManager sharedInstance] styleSheetForName:aStyleSheetName];
+	[self.currentStyleSheet setScopeExamples:[[self.O_modeController content] scopeExamples]];
+	[self updateForChangedStyles];
+}
+
 - (void)changeStyleSheet:(id)aSender {
-	NSString *styleSheetName = [[O_styleSheetPopUpButton selectedItem] title];
+	NSString *styleSheetName = [[self.O_styleSheetPopUpButton selectedItem] title];
 	[self switchToStyleSheetName:styleSheetName];
 }
 
@@ -121,15 +146,13 @@
 		[self selectMode:[frontmostDocument documentMode]];
 		// TODO: select a stylesheet from the mode's stylesheet settings (if not already the case)
 	}
-	[super didSelect];
 }
-
 
 - (void)updateBackgroundColor {
 	NSColor *backgroundColor = [[self.currentStyleSheet styleAttributesForScope:SEEStyleSheetMetaDefaultScopeName] objectForKey:SEEStyleSheetFontBackgroundColorKey];
 	if (!backgroundColor) backgroundColor = [NSColor whiteColor];
-    [O_stylesTableView setLightBackgroundColor:backgroundColor];
-    [O_stylesTableView setDarkBackgroundColor: backgroundColor];
+    [self.O_stylesTableView setLightBackgroundColor:backgroundColor];
+    [self.O_stylesTableView setDarkBackgroundColor: backgroundColor];
 }
 
 - (void)takeFontFromMode:(DocumentMode *)aMode {
@@ -173,27 +196,27 @@
 #define MANY  -4
 
 - (void)updateScopeButtons {
-	BOOL scopeExists = ([self.currentStyleSheet styleAttributesForExactScope:[O_scopeComboBox stringValue]] != nil);
+	BOOL scopeExists = ([self.currentStyleSheet styleAttributesForExactScope:[self.O_scopeComboBox stringValue]] != nil);
 	
-	[O_addScopeButton    setEnabled:!scopeExists];
-	[O_removeScopeButton setEnabled:scopeExists];
+	[self.O_addScopeButton    setEnabled:!scopeExists];
+	[self.O_removeScopeButton setEnabled:scopeExists];
 }
 
 - (void)updateInspector {
-	NSInteger selectedRow = [O_stylesTableView selectedRow];
+	NSInteger selectedRow = [self.O_stylesTableView selectedRow];
 	if (selectedRow != -1) {
 		NSString *scopeString = [[self scopesArray] objectAtIndex:selectedRow];
 		
-		[O_scopeComboBox setStringValue:scopeString];
+		[self.O_scopeComboBox setStringValue:scopeString];
 		
 		NSDictionary *computedStyleAttributes = [self.currentStyleSheet      styleAttributesForScope:scopeString];
 		NSDictionary *directStyleAttributes   = [self.currentStyleSheet styleAttributesForExactScope:scopeString];
 		
 		for (NSArray *triple in [NSArray arrayWithObjects:
-									[NSArray arrayWithObjects:SEEStyleSheetFontWeightKey,O_inheritBoldButton,O_boldButton,nil],
-									[NSArray arrayWithObjects:SEEStyleSheetFontStyleKey,O_inheritItalicButton,O_italicButton,nil],
-									[NSArray arrayWithObjects:SEEStyleSheetFontUnderlineKey,O_inheritUnderlineButton,O_underlineButton,nil],
-									[NSArray arrayWithObjects:SEEStyleSheetFontStrikeThroughKey,O_inheritStrikethroughButton,O_strikethroughButton,nil],
+									[NSArray arrayWithObjects:SEEStyleSheetFontWeightKey,self.O_inheritBoldButton,self.O_boldButton,nil],
+									[NSArray arrayWithObjects:SEEStyleSheetFontStyleKey,self.O_inheritItalicButton,self.O_italicButton,nil],
+									[NSArray arrayWithObjects:SEEStyleSheetFontUnderlineKey,self.O_inheritUnderlineButton,self.O_underlineButton,nil],
+									[NSArray arrayWithObjects:SEEStyleSheetFontStrikeThroughKey,self.O_inheritStrikethroughButton,self.O_strikethroughButton,nil],
 									nil]) {
 			NSString *key = [triple objectAtIndex:0];
 			NSButton *inheritButton = [triple objectAtIndex:1];
@@ -208,8 +231,8 @@
 		}
 
 		for (NSArray *triple in [NSArray arrayWithObjects:
-									[NSArray arrayWithObjects:SEEStyleSheetFontForegroundColorKey,O_inheritColorWell,O_colorWell,nil],
-									[NSArray arrayWithObjects:SEEStyleSheetFontBackgroundColorKey,O_inheritBackgroundColorWell,O_backgroundColorWell,nil],
+									[NSArray arrayWithObjects:SEEStyleSheetFontForegroundColorKey,self.O_inheritColorWell,self.O_colorWell,nil],
+									[NSArray arrayWithObjects:SEEStyleSheetFontBackgroundColorKey,self.O_inheritBackgroundColorWell,self.O_backgroundColorWell,nil],
 									nil]) {
 			NSString *key = [triple objectAtIndex:0];
 			NSButton *inheritButton = [triple objectAtIndex:1];
@@ -221,35 +244,35 @@
 			[well setEnabled:!inherit];
 		}
 		NSString *snippet = [self.currentStyleSheet styleSheetSnippetForScope:scopeString];
-		NSTextStorage *ts = [O_sheetSnippetTextView textStorage];
-		[ts setAttributedString:[[[NSAttributedString alloc] initWithString:snippet attributes:[NSDictionary dictionaryWithObject:[NSFont userFixedPitchFontOfSize:11.] forKey:NSFontNameAttribute]] autorelease]];
+		NSTextStorage *ts = [self.O_sheetSnippetTextView textStorage];
+		[ts setAttributedString:[[NSAttributedString alloc] initWithString:snippet attributes:[NSDictionary dictionaryWithObject:[NSFont userFixedPitchFontOfSize:11.] forKey:NSFontNameAttribute]]];
 		
 	}
 	BOOL hasChanges = [self.currentStyleSheet hasChanges];
-	[O_saveStyleSheetButton   setEnabled:hasChanges];
-	[O_revertStyleSheetButton setEnabled:hasChanges];
+	[self.O_saveStyleSheetButton   setEnabled:hasChanges];
+	[self.O_revertStyleSheetButton setEnabled:hasChanges];
 	[self updateScopeButtons];
 }
 
 - (IBAction)toggleMatchingScopes:(id)aSender {
-	[O_stylesTableView reloadData];
+	[self.O_stylesTableView reloadData];
 }
 
 
 - (IBAction)takeInheritanceState:(id)aSender {
-	NSInteger selectedRow = [O_stylesTableView selectedRow];
+	NSInteger selectedRow = [self.O_stylesTableView selectedRow];
 	if (selectedRow != -1) {
 		NSLog(@"%s %ld",__FUNCTION__, (long)[aSender state]);
 		NSString *scopeString = [[self scopesArray] objectAtIndex:selectedRow];
 		NSDictionary *computedStyleAttributes = [self.currentStyleSheet      styleAttributesForScope:scopeString];
-		NSMutableDictionary *directStyleAttributes   = [[[self.currentStyleSheet styleAttributesForExactScope:scopeString] mutableCopy] autorelease];
+		NSMutableDictionary *directStyleAttributes   = [[self.currentStyleSheet styleAttributesForExactScope:scopeString] mutableCopy];
 		for (NSArray *triple in [NSArray arrayWithObjects:
-									[NSArray arrayWithObjects:SEEStyleSheetFontWeightKey,O_inheritBoldButton,O_boldButton,nil],
-									[NSArray arrayWithObjects:SEEStyleSheetFontStyleKey,O_inheritItalicButton,O_italicButton,nil],
-									[NSArray arrayWithObjects:SEEStyleSheetFontUnderlineKey,O_inheritUnderlineButton,O_underlineButton,nil],
-									[NSArray arrayWithObjects:SEEStyleSheetFontStrikeThroughKey,O_inheritStrikethroughButton,O_strikethroughButton,nil],
-									[NSArray arrayWithObjects:SEEStyleSheetFontForegroundColorKey,O_inheritColorWell,O_colorWell,nil],
-									[NSArray arrayWithObjects:SEEStyleSheetFontBackgroundColorKey,O_inheritBackgroundColorWell,O_backgroundColorWell,nil],
+									[NSArray arrayWithObjects:SEEStyleSheetFontWeightKey,self.O_inheritBoldButton,self.O_boldButton,nil],
+									[NSArray arrayWithObjects:SEEStyleSheetFontStyleKey,self.O_inheritItalicButton,self.O_italicButton,nil],
+									[NSArray arrayWithObjects:SEEStyleSheetFontUnderlineKey,self.O_inheritUnderlineButton,self.O_underlineButton,nil],
+									[NSArray arrayWithObjects:SEEStyleSheetFontStrikeThroughKey,self.O_inheritStrikethroughButton,self.O_strikethroughButton,nil],
+									[NSArray arrayWithObjects:SEEStyleSheetFontForegroundColorKey,self.O_inheritColorWell,self.O_colorWell,nil],
+									[NSArray arrayWithObjects:SEEStyleSheetFontBackgroundColorKey,self.O_inheritBackgroundColorWell,self.O_backgroundColorWell,nil],
 									nil]) {
 			NSString *key = [triple objectAtIndex:0];
 			NSButton *inheritButton = [triple objectAtIndex:1];
@@ -271,15 +294,15 @@
 }
 
 - (void)updateForChangedStyles {
-	[O_stylesTableView reloadData];
+	[self.O_stylesTableView reloadData];
 	[self updateBackgroundColor];
 	[self updateInspector];
 }
 
 
 - (void)selectMode:(DocumentMode *)aDocumentMode {
-	[O_modeController setContent:aDocumentMode];
-	[O_modePopUpButton setSelectedMode:aDocumentMode];
+	[self.O_modeController setContent:aDocumentMode];
+	[self.O_modePopUpButton setSelectedMode:aDocumentMode];
 	[self.currentStyleSheet setScopeExamples:[aDocumentMode scopeExamples]];
 
 	NSDictionary *fontAttributes=[aDocumentMode defaultForKey:DocumentModeFontAttributesPreferenceKey];
@@ -288,8 +311,8 @@
 	[self setBaseFont:newFont];
 
 
-	[O_stylesTableView reloadData];
-	[O_scopeComboBox reloadData];
+	[self.O_stylesTableView reloadData];
+	[self.O_scopeComboBox reloadData];
 	NSLog(@"%s scopes:%@ \n contexts:%@",__FUNCTION__, [aDocumentMode.syntaxDefinition allScopes], [aDocumentMode.syntaxDefinition allLanguageContexts]);
 }
 
@@ -308,10 +331,10 @@
 
 
 - (IBAction)changeForegroundColor:(id)aSender {
-	NSInteger selectedRow = [O_stylesTableView selectedRow];
+	NSInteger selectedRow = [self.O_stylesTableView selectedRow];
 	if (selectedRow != -1) {
 		NSString *scopeString = [[self scopesArray] objectAtIndex:selectedRow];
-		NSMutableDictionary *directStyleAttributes   = [[[self.currentStyleSheet styleAttributesForExactScope:scopeString] mutableCopy] autorelease];
+		NSMutableDictionary *directStyleAttributes = [[self.currentStyleSheet styleAttributesForExactScope:scopeString] mutableCopy];
 		[directStyleAttributes setObject:[aSender color] forKey:SEEStyleSheetFontForegroundColorKey];
 		NSLog(@"%s %@",__FUNCTION__, directStyleAttributes);
 		[self.currentStyleSheet setStyleAttributes:directStyleAttributes forScope:scopeString];
@@ -320,10 +343,10 @@
 }
 
 - (IBAction)changeBackgroundColor:(id)aSender {
-	NSInteger selectedRow = [O_stylesTableView selectedRow];
+	NSInteger selectedRow = [self.O_stylesTableView selectedRow];
 	if (selectedRow != -1) {
 		NSString *scopeString = [[self scopesArray] objectAtIndex:selectedRow];
-		NSMutableDictionary *directStyleAttributes   = [[[self.currentStyleSheet styleAttributesForExactScope:scopeString] mutableCopy] autorelease];
+		NSMutableDictionary *directStyleAttributes   = [[self.currentStyleSheet styleAttributesForExactScope:scopeString] mutableCopy];
 		[directStyleAttributes setObject:[aSender color] forKey:SEEStyleSheetFontBackgroundColorKey];
 		NSLog(@"%s %@",__FUNCTION__, directStyleAttributes);
 		[self.currentStyleSheet setStyleAttributes:directStyleAttributes forScope:scopeString];
@@ -332,10 +355,10 @@
 }
 
 - (void)changeTraitByButton:(NSButton *)aButton key:(NSString *)aKey yesValue:(id)aYesValue noValue:(id)aNoValue {
-	NSInteger selectedRow = [O_stylesTableView selectedRow];
+	NSInteger selectedRow = [self.O_stylesTableView selectedRow];
 	if (selectedRow != -1) {
 		NSString *scopeString = [[self scopesArray] objectAtIndex:selectedRow];
-		NSMutableDictionary *directStyleAttributes   = [[[self.currentStyleSheet styleAttributesForExactScope:scopeString] mutableCopy] autorelease];
+		NSMutableDictionary *directStyleAttributes   = [[self.currentStyleSheet styleAttributesForExactScope:scopeString] mutableCopy];
 		[directStyleAttributes setObject:[aButton state] == NSOnState ? aYesValue : aNoValue forKey:aKey];
 		NSLog(@"%s %@",__FUNCTION__, directStyleAttributes);
 		[self.currentStyleSheet setStyleAttributes:directStyleAttributes forScope:scopeString];
@@ -368,7 +391,7 @@
 - (IBAction)revertStyleSheet:(id)aSender {
 	[self.currentStyleSheet revertToPersistentState];
 	[self updateInspector];
-	[O_stylesTableView reloadData];
+	[self.O_stylesTableView reloadData];
 }
 
 
@@ -376,11 +399,6 @@
 	[[DocumentModeManager sharedInstance] revealStyleSheetInFinder:self.currentStyleSheet];
 }
 
-
-
-- (NSUndoManager *)undoManager {
-    return I_undoManager;
-}
 
 //- (void)setStyle:(SyntaxStyle *)aStyle {
 //    // style now
@@ -594,11 +612,11 @@
 //
 
 - (void)documentModeListChanged:(NSNotification *)aNotification {
-    [self performSelector:@selector(changeMode:) withObject:O_modePopUpButton afterDelay:.2];
+    [self performSelector:@selector(changeMode:) withObject:self.O_modePopUpButton afterDelay:.2];
 }
 
 - (IBAction)removeScope:(id)aSender {
-	NSString *scopeString = [O_scopeComboBox stringValue];
+	NSString *scopeString = [self.O_scopeComboBox stringValue];
 	BOOL scopeExists = ([self.currentStyleSheet styleAttributesForExactScope:scopeString] != nil);
 
 	if (scopeExists) {
@@ -607,9 +625,9 @@
 	}
 }
 - (IBAction)addScope:(id)aSender {
-	NSString *scopeString = [O_scopeComboBox stringValue];
+	NSString *scopeString = [self.O_scopeComboBox stringValue];
 	BOOL scopeExists = ([self.currentStyleSheet styleAttributesForExactScope:scopeString] != nil);
-	NSString *selectedScopeString = [[self scopesArray] objectAtIndex:[O_stylesTableView selectedRow]];
+	NSString *selectedScopeString = [[self scopesArray] objectAtIndex:[self.O_stylesTableView selectedRow]];
 
 	if (!scopeExists) {
 		[self.currentStyleSheet setStyleAttributes:[self.currentStyleSheet styleAttributesForExactScope:selectedScopeString] forScope:scopeString];
@@ -630,8 +648,8 @@
 
 - (void)updateFontLabel {
 	NSFont *font = self.baseFont;
-	[O_fontLabel setFont:font];
-	[O_fontLabel setStringValue:[NSString stringWithFormat:@"%@, %.1f",[font displayName],[font pointSize]]];
+	[self.O_fontLabel setFont:font];
+	[self.O_fontLabel setStringValue:[NSString stringWithFormat:@"%@, %.1f",[font displayName],[font pointSize]]];
 }
 
 - (void)changeFont:(id)fontManager {
@@ -641,19 +659,10 @@
 	[self updateForChangedStyles];
 }
 
-- (void)setBaseFont:(NSFont *)aFont {
-    [I_baseFont autorelease];
-     I_baseFont = [aFont retain];
-}
-
-- (NSFont *)baseFont {
-    return I_baseFont;
-}
-
 - (NSDictionary *)textAttributesForScope:(NSString *)aScopeString {
 	NSDictionary *computedStyle = [self.currentStyleSheet styleAttributesForScope:aScopeString];
 	NSFont *font = [self baseFont];
-	NSMutableDictionary *result = [[[SEEStyleSheet textAttributesForStyleAttributes:computedStyle font:font] mutableCopy] autorelease];
+	NSMutableDictionary *result = [[SEEStyleSheet textAttributesForStyleAttributes:computedStyle font:font] mutableCopy];
     static NSMutableParagraphStyle *s_paragraphStyle=nil;
     if (!s_paragraphStyle) {
         s_paragraphStyle=[[NSParagraphStyle defaultParagraphStyle] mutableCopy];
@@ -664,7 +673,7 @@
 }
 
 - (IBAction)copy:aSender {
-	NSInteger selectedRow = [O_stylesTableView selectedRow];
+	NSInteger selectedRow = [self.O_stylesTableView selectedRow];
 	if (selectedRow != -1) {
 		NSString *scopeString = [[self scopesArray] objectAtIndex:selectedRow];
 		self.copiedStyle = [self.currentStyleSheet styleAttributesForExactScope:scopeString];
@@ -673,12 +682,12 @@
 
 - (IBAction)paste:aSender {
 	if (self.copiedStyle) {
-		NSInteger selectedRow = [O_stylesTableView selectedRow];
+		NSInteger selectedRow = [self.O_stylesTableView selectedRow];
 		if (selectedRow != -1) {
 			NSString *scopeString = [[self scopesArray] objectAtIndex:selectedRow];
 			[self.currentStyleSheet setStyleAttributes:self.copiedStyle forScope:scopeString];
 			[self updateInspector];
-			[O_stylesTableView reloadData];
+			[self.O_stylesTableView reloadData];
 		}
 	}
 }
@@ -705,19 +714,19 @@
 
 - (NSInteger)numberOfItemsInComboBox:(NSComboBox *)aComboBox {
 //	NSLog(@"%s %@",__FUNCTION__,[[O_modeController content] availableScopes]);
-	return [[[O_modeController content] availableScopes] count];
+	return [[[self.O_modeController content] availableScopes] count];
 }
 
 - (id)comboBox:(NSComboBox *)aComboBox objectValueForItemAtIndex:(NSInteger)index {
 //	NSLog(@"%s",__FUNCTION__);
-	return [[[O_modeController content] availableScopes] objectAtIndex:index];
+	return [[[self.O_modeController content] availableScopes] objectAtIndex:index];
 }
 
 #pragma mark -
 #pragma mark TableView DataSource
 
 - (NSArray *)scopesArray {
-	return (O_showOnlyMatchingScopesButton.state == NSOnState) ? self.currentStyleSheet.allScopesWithExamples : self.currentStyleSheet.allScopes;
+	return (self.O_showOnlyMatchingScopesButton.state == NSOnState) ? self.currentStyleSheet.allScopesWithExamples : self.currentStyleSheet.allScopes;
 }
 
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)aTableView {
@@ -730,10 +739,10 @@
 	NSString *scopeString = [[self scopesArray] objectAtIndex:aRow];
 	NSDictionary *textAttributes = [self textAttributesForScope:scopeString];
 	if ([[aTableColumn identifier] isEqualToString:@"scope"]) {
-		return [[[NSAttributedString alloc] initWithString:scopeString attributes:textAttributes] autorelease];
+		return [[NSAttributedString alloc] initWithString:scopeString attributes:textAttributes];
 	} else {
 		NSString *exampleString = [self.currentStyleSheet exampleForScope:scopeString];
-		return [[[NSAttributedString alloc] initWithString:exampleString attributes:textAttributes] autorelease];
+		return [[NSAttributedString alloc] initWithString:exampleString attributes:textAttributes];
 	}
 }
 
