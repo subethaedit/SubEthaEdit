@@ -232,6 +232,10 @@ static NSMenu *S_defaultMenu=nil;
 }
 
 - (void)mouseDown:(NSEvent *)aEvent {
+	if ([self.editor hitTestOverlayViewsWithEvent:aEvent]) {
+		return;
+	}
+
     if ([[self delegate] respondsToSelector:@selector(textView:mouseDidGoDown:)]) {
         [[self delegate] textView:self mouseDidGoDown:aEvent];
     }
@@ -1102,10 +1106,6 @@ static NSMenu *S_defaultMenu=nil;
 
 - (void)cursorUpdate:(NSEvent *)anEvent
 {
-	if ([self.editor hitTestOverlayViewsWithEvent:anEvent]) {
-		return;
-	}
-
     // ugly
     if ( [NSCursor currentCursor] == [NSCursor IBeamCursor] && 
          [[self backgroundColor] isDark]) {
@@ -1120,6 +1120,43 @@ static NSMenu *S_defaultMenu=nil;
 	}
 }
 
+// (void)mouseDown:(NSEvent *)theEvent // look abouve!
+
+- (void)rightMouseDown:(NSEvent *)theEvent {
+	if ([self.editor hitTestOverlayViewsWithEvent:theEvent]) {
+		return;
+	}
+	[super rightMouseDown:theEvent];
+}
+
+- (void)otherMouseDown:(NSEvent *)theEvent {
+	if ([self.editor hitTestOverlayViewsWithEvent:theEvent]) {
+		return;
+	}
+	[super otherMouseDown:theEvent];
+}
+
+- (void)mouseUp:(NSEvent *)theEvent {
+	if ([self.editor hitTestOverlayViewsWithEvent:theEvent]) {
+		return;
+	}
+	[super mouseUp:theEvent];
+}
+
+- (void)rightMouseUp:(NSEvent *)theEvent {
+	if ([self.editor hitTestOverlayViewsWithEvent:theEvent]) {
+		return;
+	}
+	[super rightMouseUp:theEvent];
+}
+
+- (void)otherMouseUp:(NSEvent *)theEvent {
+	if ([self.editor hitTestOverlayViewsWithEvent:theEvent]) {
+		return;
+	}
+	[super otherMouseUp:theEvent];
+}
+
 - (void)mouseMoved:(NSEvent *)anEvent
 {
 	if ([self.editor hitTestOverlayViewsWithEvent:anEvent]) {
@@ -1128,7 +1165,7 @@ static NSMenu *S_defaultMenu=nil;
 
 	// ugly
     if ( [NSCursor currentCursor] == [NSCursor IBeamCursor] &&
-         [[self backgroundColor] isDark] )  {
+		[[self backgroundColor] isDark] )  {
 
         [[NSCursor invertedIBeamCursor] set];
 
@@ -1136,6 +1173,34 @@ static NSMenu *S_defaultMenu=nil;
 	           [super respondsToSelector:@selector(mouseMoved:)]) {
 		[super mouseMoved:anEvent];
 	}
+}
+
+- (void)mouseDragged:(NSEvent *)theEvent {
+	if ([self.editor hitTestOverlayViewsWithEvent:theEvent]) {
+		return;
+	}
+	[super mouseDragged:theEvent];
+}
+
+- (void)scrollWheel:(NSEvent *)theEvent {
+	if ([self.editor hitTestOverlayViewsWithEvent:theEvent]) {
+		return;
+	}
+	[super scrollWheel:theEvent];
+}
+
+- (void)rightMouseDragged:(NSEvent *)theEvent {
+	if ([self.editor hitTestOverlayViewsWithEvent:theEvent]) {
+		return;
+	}
+	[super rightMouseDragged:theEvent];
+}
+
+- (void)otherMouseDragged:(NSEvent *)theEvent {
+	if ([self.editor hitTestOverlayViewsWithEvent:theEvent]) {
+		return;
+	}
+	[super otherMouseDragged:theEvent];
 }
 
 // needs the textview to be delegate to the ruler
