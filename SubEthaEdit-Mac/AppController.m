@@ -39,7 +39,7 @@
 #import "SelectionOperation.h"
 #import "UserChangeOperation.h"
 #import "EncodingManager.h"
-#import "TextView.h"
+#import "SEETextView.h"
 
 #import "URLDataProtocol.h"
 
@@ -994,7 +994,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [defaultMenu addItem:[[(NSMenuItem *)[EditMenu itemWithTag:TransformationsMenuItemTag] copy] autorelease]];
     [defaultMenu addItem:[[(NSMenuItem *)[EditMenu itemWithTag:SpeechMenuItemTag] copy] autorelease]];
 //    NSLog(@"%s default menu:%@",__FUNCTION__,defaultMenu);
-    [TextView setDefaultMenu:defaultMenu];
+    [SEETextView setDefaultMenu:defaultMenu];
 }
 
 - (NSArray *)contextMenuItemArray {

@@ -12,7 +12,7 @@
 #import "PlainTextDocument.h"
 #import "PlainTextWindowController.h"
 #import "LayoutManager.h"
-#import "TextView.h"
+#import "SEETextView.h"
 #import "GutterRulerView.h"
 #import "DocumentMode.h"
 #import "TCMMMUserManager.h"
@@ -241,8 +241,8 @@
 
     I_textContainer =  [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(frame.size.width, FLT_MAX)];
 
-    I_textView = [[TextView alloc] initWithFrame:frame textContainer:I_textContainer];
-    [(TextView *)I_textView setEditor : self];
+    I_textView = [[SEETextView alloc] initWithFrame:frame textContainer:I_textContainer];
+    [(SEETextView *)I_textView setEditor : self];
     [I_textView setHorizontallyResizable:NO];
     [I_textView setVerticallyResizable:YES];
     [I_textView setAutoresizingMask:NSViewWidthSizable];
@@ -458,11 +458,11 @@
 
         if ([[mode defaultForKey:DocumentModeShowPageGuidePreferenceKey] boolValue])
         {
-            [(TextView *)I_textView setPageGuidePosition :[self pageGuidePositionForColumns:[[mode defaultForKey:DocumentModePageGuideWidthPreferenceKey] intValue]]];
+            [(SEETextView *)I_textView setPageGuidePosition :[self pageGuidePositionForColumns:[[mode defaultForKey:DocumentModePageGuideWidthPreferenceKey] intValue]]];
         }
         else
         {
-            [(TextView *)I_textView setPageGuidePosition : 0];
+            [(SEETextView *)I_textView setPageGuidePosition : 0];
         }
     }
 }
@@ -1680,7 +1680,7 @@
 
 - (IBAction)insertStateClose:(id)aSender
 {
-    TextView *textView = I_textView;
+    SEETextView *textView = I_textView;
     NSRange selectedRange = [(FoldableTextStorage *)[I_textView textStorage] fullRangeForFoldedRange : [textView selectedRange]];
 
     FullTextStorage *fullTextStorage = [(FoldableTextStorage *)[I_textView textStorage] fullTextStorage];
@@ -1733,7 +1733,7 @@
 
 - (IBAction)jumpToNextSymbol:(id)aSender
 {
-    TextView *textView = I_textView;
+    SEETextView *textView = I_textView;
     PlainTextDocument *document = [self document];
     NSRange selectedRange = [(FoldableTextStorage *)[document textStorage] fullRangeForFoldedRange : [textView selectedRange]];
     NSRange change = [document rangeOfPrevious:NO
@@ -1752,7 +1752,7 @@
 
 - (IBAction)jumpToPreviousSymbol:(id)aSender
 {
-    TextView *textView = I_textView;
+    SEETextView *textView = I_textView;
     PlainTextDocument *document = [self document];
     NSRange selectedRange = [(FoldableTextStorage *)[document textStorage] fullRangeForFoldedRange : [textView selectedRange]];
     NSRange change = [[self document] rangeOfPrevious:YES
@@ -1771,7 +1771,7 @@
 
 - (IBAction)jumpToNextChange:(id)aSender
 {
-    TextView *textView = (TextView *)[self textView];
+    SEETextView *textView = (SEETextView *)[self textView];
     PlainTextDocument *document = [self document];
     NSRange selectedRange = [(FoldableTextStorage *)[document textStorage] fullRangeForFoldedRange :[textView selectedRange]];
     unsigned maxrange = NSMaxRange(selectedRange);
@@ -1791,7 +1791,7 @@
 
 - (IBAction)jumpToPreviousChange:(id)aSender
 {
-    TextView *textView = (TextView *)[self textView];
+    SEETextView *textView = (SEETextView *)[self textView];
     PlainTextDocument *document = [self document];
     NSRange selectedRange = [(FoldableTextStorage *)[document textStorage] fullRangeForFoldedRange :[textView selectedRange]];
     NSRange change = [[self document] rangeOfPrevious:YES
@@ -2295,7 +2295,7 @@
 
     [aTextView setTypingAttributes:[(FoldableTextStorage *)[aTextView textStorage] attributeDictionaryByAddingStyleAttributesForInsertLocation : affectedCharRange.location toDictionary :[(PlainTextDocument *)[self document] typingAttributes]]];
 
-    if ([(TextView *)aTextView isPasting] && ![(FoldableTextStorage *)[aTextView textStorage] hasMixedLineEndings])
+    if ([(SEETextView *)aTextView isPasting] && ![(FoldableTextStorage *)[aTextView textStorage] hasMixedLineEndings])
     {
         NSUInteger length = [replacementString length];
         NSUInteger curPos = 0;
@@ -2437,7 +2437,7 @@ willChangeSelectionFromCharacterRange	:aOldSelectedCharRange
 }
 
 
-- (void)textViewDidChangeSpellCheckingSetting:(TextView *)aTextView
+- (void)textViewDidChangeSpellCheckingSetting:(SEETextView *)aTextView
 {
     [[self document] takeSpellCheckingSettingsFromEditor:self];
 }
@@ -2732,7 +2732,7 @@ willChangeSelectionFromCharacterRange	:aOldSelectedCharRange
 }
 
 
-- (void)textViewWillStartAutocomplete:(TextView *)aTextView
+- (void)textViewWillStartAutocomplete:(SEETextView *)aTextView
 {
     //    NSLog(@"Start");
     PlainTextDocument *document = [self document];
@@ -2742,7 +2742,7 @@ willChangeSelectionFromCharacterRange	:aOldSelectedCharRange
 }
 
 
-- (void)textView:(TextView *)aTextView didFinishAutocompleteByInsertingCompletion:(NSString *)aWord forPartialWordRange:(NSRange)aCharRange movement:(int)aMovement
+- (void)textView:(SEETextView *)aTextView didFinishAutocompleteByInsertingCompletion:(NSString *)aWord forPartialWordRange:(NSRange)aCharRange movement:(int)aMovement
 {
     //    NSLog(@"textView: didFinishAutocompleteByInsertingCompletion:%@ forPartialWordRange:%@ movement:%d",aWord,NSStringFromRange(aCharRange),aMovement);
     PlainTextDocument *document = [self document];

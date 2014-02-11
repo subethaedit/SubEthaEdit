@@ -163,7 +163,7 @@
 		1428946709575B9700D14688 /* PopUpButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945509575B9700D14688 /* PopUpButtonCell.m */; };
 		1428946809575B9700D14688 /* RadarScroller.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945709575B9700D14688 /* RadarScroller.m */; };
 		1428946909575B9700D14688 /* SplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945909575B9700D14688 /* SplitView.m */; };
-		1428946B09575B9700D14688 /* TextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945D09575B9700D14688 /* TextView.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		1428946B09575B9700D14688 /* SEETextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945D09575B9700D14688 /* SEETextView.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1428946C09575B9700D14688 /* URLDataProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945F09575B9700D14688 /* URLDataProtocol.m */; };
 		1428946D09575B9700D14688 /* WebPreviewWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428946109575B9700D14688 /* WebPreviewWindowController.m */; };
 		142894A409575FF200D14688 /* TextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 142894A309575FF200D14688 /* TextFieldCell.m */; };
@@ -884,8 +884,8 @@
 		1428945709575B9700D14688 /* RadarScroller.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = RadarScroller.m; sourceTree = "<group>"; };
 		1428945809575B9700D14688 /* SplitView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SplitView.h; sourceTree = "<group>"; };
 		1428945909575B9700D14688 /* SplitView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SplitView.m; sourceTree = "<group>"; };
-		1428945C09575B9700D14688 /* TextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = TextView.h; sourceTree = "<group>"; };
-		1428945D09575B9700D14688 /* TextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TextView.m; sourceTree = "<group>"; };
+		1428945C09575B9700D14688 /* SEETextView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SEETextView.h; sourceTree = "<group>"; };
+		1428945D09575B9700D14688 /* SEETextView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEETextView.m; sourceTree = "<group>"; };
 		1428945E09575B9700D14688 /* URLDataProtocol.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = URLDataProtocol.h; sourceTree = "<group>"; };
 		1428945F09575B9700D14688 /* URLDataProtocol.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLDataProtocol.m; sourceTree = "<group>"; };
 		1428946009575B9700D14688 /* WebPreviewWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = WebPreviewWindowController.h; sourceTree = "<group>"; };
@@ -2319,8 +2319,8 @@
 				F281D34B0F38756100AD7DE1 /* FullTextStorage.m */,
 				F281D34A0F38756100AD7DE1 /* FoldableTextStorage.h */,
 				F281D34C0F38756100AD7DE1 /* FoldableTextStorage.m */,
-				1428945C09575B9700D14688 /* TextView.h */,
-				1428945D09575B9700D14688 /* TextView.m */,
+				1428945C09575B9700D14688 /* SEETextView.h */,
+				1428945D09575B9700D14688 /* SEETextView.m */,
 				F281D38F0F3877A900AD7DE1 /* FoldedTextAttachment.h */,
 				F281D3900F3877A900AD7DE1 /* FoldedTextAttachment.m */,
 				F281D4350F388A0B00AD7DE1 /* FoldingTextAttachmentCell.h */,
@@ -3128,7 +3128,7 @@
 				1428946709575B9700D14688 /* PopUpButtonCell.m in Sources */,
 				1428946809575B9700D14688 /* RadarScroller.m in Sources */,
 				1428946909575B9700D14688 /* SplitView.m in Sources */,
-				1428946B09575B9700D14688 /* TextView.m in Sources */,
+				1428946B09575B9700D14688 /* SEETextView.m in Sources */,
 				1428946C09575B9700D14688 /* URLDataProtocol.m in Sources */,
 				1428946D09575B9700D14688 /* WebPreviewWindowController.m in Sources */,
 				142894A409575FF200D14688 /* TextFieldCell.m in Sources */,

@@ -11,7 +11,7 @@
 #import "PlainTextWindowController.h"
 #import "PlainTextDocument.h"
 #import "PlainTextEditor.h"
-#import "TextView.h"
+#import "SEETextView.h"
 #import "TCMMMSession.h"
 #import "FoldableTextStorage.h"
 #import "FindAllController.h"

@@ -36,7 +36,7 @@
 #import "FoldableTextStorage.h"
 #import "FullTextStorage.h"
 #import "LayoutManager.h"
-#import "TextView.h"
+#import "SEETextView.h"
 #import "EncodingManager.h"
 #import "TextOperation.h"
 #import "SelectionOperation.h"
@@ -718,7 +718,7 @@ static NSString *tempFileName(NSString *origPath) {
 - (IBAction)chooseGotoSymbolMenuItem:(NSMenuItem *)aMenuItem {
     if ([aMenuItem tag]<[I_symbolArray count]) {
         NSRange symbolRange=[[I_symbolArray objectAtIndex:[aMenuItem tag]] jumpRange];
-        TextView *textView=[aMenuItem representedObject];
+        SEETextView *textView=[aMenuItem representedObject];
         PlainTextEditor *editor = [textView editor];
 		[editor selectRange:symbolRange];
 		[editor setFollowUserID:nil];
@@ -5258,7 +5258,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 }
 
 - (void)takeSpellCheckingSettingsFromEditor:(PlainTextEditor *)anEditor {
-	TextView *textView = (TextView *)[anEditor textView];
+	SEETextView *textView = (SEETextView *)[anEditor textView];
 	NSMutableDictionary *modeDefaults = [[self documentMode] defaults];
 	[modeDefaults setObject:[NSNumber numberWithBool:[textView isContinuousSpellCheckingEnabled]] forKey:DocumentModeSpellCheckingPreferenceKey];
 	
@@ -6431,11 +6431,11 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
             return YES;
 
         } else if (aSelector==@selector(insertBacktab:) && !tabKeyReplaces && selectedRange.length > 0) {
-        	PlainTextEditor *editor = [(TextView *)aTextView editor];
+        	PlainTextEditor *editor = [(SEETextView *)aTextView editor];
         	[editor shiftLeft:self];
         	return YES;
         }  else if (aSelector==@selector(insertTab:)    && !tabKeyReplaces && selectedRange.length > 0) {
-        	PlainTextEditor *editor = [(TextView *)aTextView editor];
+        	PlainTextEditor *editor = [(SEETextView *)aTextView editor];
         	[editor shiftRight:self];
         	return YES;
         } else if (aSelector==@selector(insertTab:)) {
@@ -6594,7 +6594,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
     }
 	
-	if ([textStorage length] == 0 && I_flags.shouldChangeExtensionOnModeChange && [(TextView *)aTextView isPasting]) {
+	if ([textStorage length] == 0 && I_flags.shouldChangeExtensionOnModeChange && [(SEETextView *)aTextView isPasting]) {
 //		NSLog(@"%s now we check",__FUNCTION__);
 		DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForPath:@"" withContentString:aReplacementString];
 		
@@ -6839,7 +6839,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     NSSize textContainerInset = NSMakeSize(20.,20.);
     NSTextContainer *textContainer = [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(frame.size.width - textContainerInset.width*2,frame.size.height - textContainerInset.height*2)];
     [textContainer setWidthTracksTextView:YES];
-    TextView *textView = [[TextView alloc] initWithFrame:frame textContainer:textContainer];
+    SEETextView *textView = [[SEETextView alloc] initWithFrame:frame textContainer:textContainer];
     [textView setTextContainerInset:textContainerInset];
     [textView setMaxSize:[textView frame].size];
     [textView setBackgroundColor:[self documentBackgroundColor]];

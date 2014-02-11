@@ -1,5 +1,5 @@
 //
-//  TextView.m
+//  SEETextView.m
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Tue Apr 06 2004.
@@ -14,7 +14,7 @@
 
 
 #import "LayoutManager.h"
-#import "TextView.h"
+#import "SEETextView.h"
 #import "FoldableTextStorage.h"
 #import "FullTextStorage.h"
 #import "PlainTextDocument.h"
@@ -40,7 +40,7 @@
 
 #define SPANNINGRANGE(a,b) NSMakeRange(MIN(a,b),MAX(a,b)-MIN(a,b)+1)
 
-@interface TextView (TextViewPrivateAdditions) 
+@interface SEETextView (TextViewPrivateAdditions) 
 @property (nonatomic, readonly) PlainTextDocument *document;
 
 @end
@@ -49,7 +49,7 @@
 - (void)_adjustedCenteredScrollRectToVisible:(NSRect)aRect forceCenter:(BOOL)force;
 @end
 
-@implementation TextView
+@implementation SEETextView
 
 - (id)delegate {
 	return (id)super.delegate;
