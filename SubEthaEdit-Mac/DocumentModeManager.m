@@ -410,60 +410,48 @@ static DocumentModeManager *S_sharedInstance=nil;
     }
 }
 
-- (void)TCM_findModes { 
-    NSString *file = nil; 
-    NSString *path = nil; 
+#define BUNDLE_MODE_FOLDER_NAME @"Modes"
+#define LIBRARY_MODE_FOLDER_NAME @"Modes"
+#define MODE_EXTENSION @"mode"
+- (void)TCM_findModes {
+	[self createUserApplicationSupportDirectory];
+	
+    NSURL *url = nil;
+    NSMutableArray *allURLs = [NSMutableArray array];
+	
+    NSArray *allDomainsURLs = [[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSAllDomainsMask];
+    for (url in allDomainsURLs) {
+        [allURLs addObject:[self URLWithAddedBundleIdentifierDirectoryForURL:url subDirectoryName:LIBRARY_MODE_FOLDER_NAME]];
+    }
     
-    //create Directories 
-    NSArray *userDomainPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES); 
-    for (path in userDomainPaths) { 
-        NSString *fullPath = [path stringByAppendingPathComponent:MODEPATHCOMPONENT]; 
-        if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:nil]) { 
-            [[NSFileManager defaultManager] createDirectoryAtPath:[fullPath stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:nil]; 
-            [[NSFileManager defaultManager] createDirectoryAtPath:fullPath withIntermediateDirectories:YES attributes:nil error:nil]; 
-        } 
-    } 
+    [allURLs addObject:[[[NSBundle mainBundle] resourceURL] URLByAppendingPathComponent:BUNDLE_MODE_FOLDER_NAME]];
     
-    
-    NSMutableArray *allPaths = [NSMutableArray array]; 
-    NSArray *allDomainsPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, YES); 
-    for (path in allDomainsPaths) { 
-        [allPaths addObject:[path stringByAppendingPathComponent:MODEPATHCOMPONENT]]; 
-    } 
-    
-    [allPaths addObject:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Modes/"]]; 
-    
-    NSEnumerator *enumerator = [allPaths reverseObjectEnumerator];
-    while ((path = [enumerator nextObject])) { 
-        NSEnumerator *dirEnumerator = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil] objectEnumerator]; 
-        while ((file = [dirEnumerator nextObject])) { 
-            if ([[file pathExtension] isEqualToString:@"mode"]) { 
-                NSBundle *bundle = [NSBundle bundleWithPath:[path stringByAppendingPathComponent:file]]; 
-                if (bundle && [bundle bundleIdentifier]) 
-                { 
-                    if (![DocumentMode canParseModeVersionOfBundle:bundle]) 
-                    { 
-                        [self performSelector:@selector(showIncompatibleModeErrorForBundle:) withObject:bundle afterDelay:0]; // delay, as we don't want to block the init call, otherwise we keep receiving init messages 
-                    } 
-                    else 
-                    { 
-                        [I_modeBundles setObject:bundle forKey:[bundle bundleIdentifier]]; 
-                        if (![I_modeIdentifiersTagArray containsObject:[bundle bundleIdentifier]]) { 
-                            [I_modeIdentifiersTagArray addObject:[bundle bundleIdentifier]];                    
-                        } 
-                    } 
-                } 
-            } 
-        } 
-    } 
-} 
+    NSEnumerator *enumerator = [allURLs reverseObjectEnumerator];
+    NSURL *fileURL = nil;
+    while ((url = [enumerator nextObject])) {
+        NSDirectoryEnumerator *dirEnumerator = [[NSFileManager defaultManager] enumeratorAtURL:url includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles errorHandler:NULL];
+        while ((fileURL = [dirEnumerator nextObject])) {
+            if ([[fileURL pathExtension] isEqualToString:MODE_EXTENSION]) {
+                NSBundle *bundle = [NSBundle bundleWithURL:fileURL];
+                if (bundle && [bundle bundleIdentifier]) {
+                    if (![DocumentMode canParseModeVersionOfBundle:bundle]) {
+                        [self performSelector:@selector(showIncompatibleModeErrorForBundle:) withObject:bundle afterDelay:0]; // delay, as we don't want to block the init call, otherwise we keep receiving init messages
+                    
+					} else {
+                        [I_modeBundles setObject:bundle forKey:[bundle bundleIdentifier]];
+                        if (![I_modeIdentifiersTagArray containsObject:[bundle bundleIdentifier]]) {
+                            [I_modeIdentifiersTagArray addObject:[bundle bundleIdentifier]];
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
 
 #pragma mark - Directories
 #define BUNDLE_STYLE_FOLDER_NAME @"Modes/Styles/"
-#define BUNDLE_MODE_FOLDER_NAME @"Modes"
 #define LIBRARY_STYLE_FOLDER_NAME @"Styles"
-#define LIBRARY_MODE_FOLDER_NAME @"Modes"
-
 - (NSURL *)applicationSupportDirectory {
     NSFileManager *sharedFM = [NSFileManager defaultManager];
     NSArray *possibleURLs = [sharedFM URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask];
@@ -519,7 +507,7 @@ static DocumentModeManager *S_sharedInstance=nil;
     NSArray *allDomainsURLs = [[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSAllDomainsMask];
     for (url in allDomainsURLs) { 
         [allURLs addObject:[self URLWithAddedBundleIdentifierDirectoryForURL:url subDirectoryName:LIBRARY_STYLE_FOLDER_NAME]];
-    } 
+    }
     
     [allURLs addObject:[[[NSBundle mainBundle] resourceURL] URLByAppendingPathComponent:BUNDLE_STYLE_FOLDER_NAME]];
     
