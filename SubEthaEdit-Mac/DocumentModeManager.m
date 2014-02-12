@@ -556,7 +556,15 @@ static DocumentModeManager *S_sharedInstance=nil;
 }
 
 - (void)revealStyleSheetInFinder:(SEEStyleSheet *)aStyleSheet {
-	[[NSWorkspace sharedWorkspace] selectFile:[I_styleSheetPathsByName objectForKey:[aStyleSheet styleSheetName]] inFileViewerRootedAtPath:nil];
+	NSString *filePath = [I_styleSheetPathsByName objectForKey:[aStyleSheet styleSheetName]];
+	NSString *bundlePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:BUNDLE_STYLE_FOLDER_NAME];
+	NSString *shortenedFilePath = [filePath stringByDeletingLastPathComponent];
+	BOOL styleSheetIsBundleSheet = [bundlePath isEqualToString:shortenedFilePath];
+	if (styleSheetIsBundleSheet) { // copy the style sheet to application support and open there
+		[self saveStyleSheet:aStyleSheet]; // saves to user application support
+		filePath = [I_styleSheetPathsByName objectForKey:[aStyleSheet styleSheetName]];
+	}
+	[[NSWorkspace sharedWorkspace] selectFile:filePath inFileViewerRootedAtPath:nil];
 }
 
 #pragma mark - Stuff with modes
