@@ -59,6 +59,8 @@
 		CFRelease(dataProvider);
 		
 		CGPDFPageRef page1 = CGPDFDocumentGetPage(pdfDocument, 1);
+		CGPDFPageRetain(page1);
+		CGPDFDocumentRelease(pdfDocument);
 		NSRect boxRect = CGPDFPageGetBoxRect(page1,kCGPDFCropBox);
 		
 		CGRect fullRect = CGRectZero;
@@ -97,6 +99,7 @@
 				CGContextSetAlpha(context, 0.9);
 			}
 			CGContextDrawLayerAtPoint(context, CGPointZero, layer);
+			CGLayerRelease(layer);
 /*			CGContextSetBlendMode(context, kCGBlendModeNormal);
 			[[NSColor clearColor] set];
 			NSRectFill(dstRect);

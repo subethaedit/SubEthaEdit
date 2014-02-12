@@ -5051,7 +5051,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 {
 	NSPrintOperation *printOperation = [NSPrintOperation printOperationWithView:[self printableView]];
     
-    SEEPrintOptionsViewController *printPanelAccessory = [[SEEPrintOptionsViewController alloc] initWithNibName:nil bundle:nil];
+    SEEPrintOptionsViewController *printPanelAccessory = [[[SEEPrintOptionsViewController alloc] initWithNibName:nil bundle:nil] autorelease];
     printPanelAccessory.document = self;
 
     NSPrintPanel *printPanel = [printOperation printPanel];
