@@ -10,6 +10,8 @@
 #import <Quartz/Quartz.h>
 #import <CoreGraphics/CoreGraphics.h>
 #import "NSColorTCMAdditions.h"
+#import <objc/objc-runtime.h>
+
 
 // this file needs arc - either project wide,
 // or add -fobjc-arc on a per file basis in the compile build phase
@@ -18,6 +20,8 @@
 #endif
 
 @implementation NSImage (NSImageTCMAdditions)
+
+const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociationKey;
 
 + (NSImage *)pdfBasedImageNamed:(NSString *)aName {
 	NSImage *result = [NSImage imageNamed:aName];
@@ -59,8 +63,6 @@
 		CFRelease(dataProvider);
 		
 		CGPDFPageRef page1 = CGPDFDocumentGetPage(pdfDocument, 1);
-		CGPDFPageRetain(page1);
-		CGPDFDocumentRelease(pdfDocument);
 		NSRect boxRect = CGPDFPageGetBoxRect(page1,kCGPDFCropBox);
 		
 		CGRect fullRect = CGRectZero;
@@ -109,7 +111,9 @@
 */
 			return YES;
 		}];
-		
+
+		// need to hold onto the pdf document while image is living
+		objc_setAssociatedObject(result, TCMImageAdditionsPDFAssociationKey, CFBridgingRelease(pdfDocument), OBJC_ASSOCIATION_RETAIN_NONATOMIC);
 		result.name = aName;
 	}
 	return result;
