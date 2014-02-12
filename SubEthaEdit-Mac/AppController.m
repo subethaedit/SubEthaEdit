@@ -781,40 +781,52 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     DEBUGLOG(@"SyntaxHighlighterDomain", SimpleLogLevel, @"%@",[[DocumentModeManager sharedInstance] description]);
     DEBUGLOG(@"SyntaxHighlighterDomain", SimpleLogLevel, @"Found modes: %@",[[[DocumentModeManager sharedInstance] availableModes] description]);
 
-    NSMenu *modeMenu=[[[NSApp mainMenu] itemWithTag:ModeMenuTag] submenu];
-    NSMenuItem *switchModesMenuItem=[modeMenu itemWithTag:SwitchModeMenuTag];
+    NSMenu *modeMenu = [[[NSApp mainMenu] itemWithTag:ModeMenuTag] submenu];
 
-    DocumentModeMenu *menu=[[DocumentModeMenu new] autorelease];
-    [switchModesMenuItem setSubmenu:menu];
-    [menu configureWithAction:@selector(chooseMode:) alternateDisplay:NO];
+	NSMenuItem *switchModesMenuItem = ({ // Mode -> Switch Mode
+		NSMenuItem *menuItem = [modeMenu itemWithTag:SwitchModeMenuTag]; // from the xib
 
-    NSMenuItem *menuItem =[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Reveal in Finder",@"Reveal in Finder - menu entry")
-                                                     action:nil
-                                              keyEquivalent:@""];
-    [menuItem setAlternate:YES];
-    [menuItem setKeyEquivalentModifierMask:NSAlternateKeyMask];
-    menu=[[DocumentModeMenu new] autorelease];
-    [menuItem setSubmenu:menu];
-    [menu configureWithAction:@selector(showModeBundleContents:) alternateDisplay:YES];
-    [modeMenu insertItem:menuItem atIndex:[modeMenu indexOfItem:switchModesMenuItem]+1];
-    [menuItem release];
+		DocumentModeMenu *documentModeMenu = [[DocumentModeMenu new] autorelease];
+		[documentModeMenu configureWithAction:@selector(chooseMode:) alternateDisplay:NO];
+		[menuItem setSubmenu:documentModeMenu];
+		menuItem;
+	});
 
-    // Setup File -> New submenu
-    menu=[[DocumentModeMenu new] autorelease];
-    NSMenu *fileMenu=[[[NSApp mainMenu] itemWithTag:FileMenuTag] submenu];
-    NSMenuItem *fileNewMenuItem=[fileMenu itemWithTag:FileNewMenuItemTag];
-    [fileNewMenuItem setSubmenu:menu];
-    [fileNewMenuItem setKeyEquivalent:@""];
-    [menu configureWithAction:@selector(newDocumentWithModeMenuItem:) alternateDisplay:NO];
-    [self addShortcutToModeForNewDocumentsEntry];
+	NSMenuItem *revealModesMenuItem = ({ // Mode -> Show In Finder (ALT)
+		NSMenuItem *menuItem = [[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Reveal in Finder",@"Reveal in Finder - menu entry") action:nil keyEquivalent:@""];
+		[menuItem setAlternate:YES];
+		[menuItem setKeyEquivalentModifierMask:NSAlternateKeyMask];
+		
+		DocumentModeMenu *documentModeMenu = [[DocumentModeMenu new] autorelease];
+		[documentModeMenu configureWithAction:@selector(showModeBundleContents:) alternateDisplay:YES];
+		[menuItem setSubmenu:documentModeMenu];
+		menuItem;
+	});
+    [modeMenu insertItem:revealModesMenuItem atIndex:[modeMenu indexOfItem:switchModesMenuItem]+1];
+    [revealModesMenuItem release];
+
+	NSMenu *fileMenu = [[[NSApp mainMenu] itemWithTag:FileMenuTag] submenu]; // from the xib
+	{ // File -> New
+		NSMenuItem *menuItem = [fileMenu itemWithTag:FileNewMenuItemTag]; // from the xib
+		[menuItem setKeyEquivalent:@""];
+
+		DocumentModeMenu *documentModeMenu = [[DocumentModeMenu new] autorelease];
+		[documentModeMenu configureWithAction:@selector(newDocumentWithModeMenuItem:) alternateDisplay:NO];
+		[menuItem setSubmenu:documentModeMenu];
+		
+		[self addShortcutToModeForNewDocumentsEntry];
+	}
     
-    // Setup File -> New (alternate) submenu
-    menu = [[[DocumentModeMenu alloc] init] autorelease];
-    NSMenuItem *fileNewAlternateMenuItem = [fileMenu itemWithTag:FileNewAlternateMenuItemTag];
-    [fileNewAlternateMenuItem setSubmenu:menu];
-    [fileNewAlternateMenuItem setKeyEquivalent:@""];
-    [menu configureWithAction:@selector(newAlternateDocumentWithModeMenuItem:) alternateDisplay:NO];
-    [self addShortcutToModeForNewAlternateDocumentsEntry];
+	{ // File -> New in tab
+		NSMenuItem *menuItem = [fileMenu itemWithTag:FileNewAlternateMenuItemTag]; // from the xib
+		[menuItem setKeyEquivalent:@""];
+		
+		DocumentModeMenu *documentModeMenu = [[DocumentModeMenu new] autorelease];
+		[documentModeMenu configureWithAction:@selector(newAlternateDocumentWithModeMenuItem:) alternateDisplay:NO];
+		[menuItem setSubmenu:documentModeMenu];
+
+		[self addShortcutToModeForNewAlternateDocumentsEntry];
+	}
 }
 
 - (void)setupFileEncodingsSubmenu {
