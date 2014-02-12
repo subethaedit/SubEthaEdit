@@ -83,8 +83,10 @@
 - (NSPoint)textContainerOrigin {
 	SEEPlainTextEditorScrollView *enclosingScrollView = (SEEPlainTextEditorScrollView *)self.enclosingScrollView;
     NSPoint origin = [super textContainerOrigin];
-    NSPoint newOrigin = NSMakePoint(origin.x, enclosingScrollView.topOverlayHeight);
-	return newOrigin;
+	if ([enclosingScrollView isKindOfClass:[SEEPlainTextEditorScrollView class]]) {
+		origin = NSMakePoint(origin.x, enclosingScrollView.topOverlayHeight);
+	}
+	return origin;
 }
 
 - (void)setFrameSize:(NSSize)newSize {
