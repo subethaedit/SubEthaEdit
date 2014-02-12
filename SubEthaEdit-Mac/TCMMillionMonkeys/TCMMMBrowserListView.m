@@ -125,14 +125,14 @@ static NSMutableDictionary *S_childNameAttributes=nil;
 
     image=[dataSource listView:self objectValueForTag:TCMMMBrowserChildIconImageTag atChildIndex:aChildIndex ofItemAtIndex:aItemIndex];
     if (image) {
-        NSNumber *number=[dataSource listView:self objectValueForTag:TCMMMBrowserChildClientStatusTag atChildIndex:aChildIndex ofItemAtIndex:aItemIndex];
-        CGFloat fraction=1.0;
-        if (number) {
-            int status=[number intValue];
-            if (status==0) fraction=.5;
-            else if (status<3) fraction=.75;
-            else fraction=1.0;
-        }
+//        NSNumber *number=[dataSource listView:self objectValueForTag:TCMMMBrowserChildClientStatusTag atChildIndex:aChildIndex ofItemAtIndex:aItemIndex];
+//        CGFloat fraction=1.0;
+//        if (number) {
+//            int status=[number intValue];
+//            if (status==0) fraction=.5;
+//            else if (status<3) fraction=.75;
+//            else fraction=1.0;
+//        }
 		NSRect targetRect = NSZeroRect;
 		targetRect.origin = NSMakePoint(CHILDBASEINSET+9+inset*16.,2+CHILDVINSET);
 		targetRect.size = NSMakeSize(16., 16.);

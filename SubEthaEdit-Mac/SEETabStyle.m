@@ -172,10 +172,10 @@
 	};
 	NSInteger myIndex = [[tabBarControl cells] indexOfObject:cell];
 	
-	BOOL isLeftOfSelected  = [cell tabState] & PSMTab_RightIsSelectedMask;
-	BOOL isRightOfSelected  = [cell tabState] & PSMTab_LeftIsSelectedMask;
-	isLeftOfSelected = myIndex < selectedCellIndex;
-	isRightOfSelected = myIndex > selectedCellIndex;
+//	BOOL isLeftOfSelected  = [cell tabState] & PSMTab_RightIsSelectedMask;
+//	BOOL isRightOfSelected  = [cell tabState] & PSMTab_LeftIsSelectedMask;
+	BOOL isLeftOfSelected = myIndex < selectedCellIndex;
+	BOOL isRightOfSelected = myIndex > selectedCellIndex;
 	
 	NSImage *leftCap  = [SEETabStyle imageForWindowActive:isWindowActive name:@"ActiveTabLeftCap"];
 	NSImage *fill     = [SEETabStyle imageForWindowActive:isWindowActive name:@"ActiveTabFill"];
