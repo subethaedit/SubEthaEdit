@@ -435,63 +435,8 @@ static DocumentModeManager *S_sharedInstance=nil;
     return precendenceArray;
 }
 
-#pragma mark
 - (void)applicationWillTerminate:(NSNotification *)aNotification {
     [[NSUserDefaults standardUserDefaults] setObject:[self modePrecedenceArray] forKey:@"ModePrecedences"];
-}
-
-- (void)showIncompatibleModeErrorForBundle:(NSBundle *)aBundle
-{
-    NSAlert *alert = [[[NSAlert alloc] init] autorelease]; 
-    [alert setAlertStyle:NSWarningAlertStyle]; 
-    [alert setMessageText:NSLocalizedString(@"Mode not compatible",@"Mode requires newer engine title")]; 
-    [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"The mode '%@' was written for a newer version of SubEthaEngine and cannot be used with this application.", @"Mode requires newer engine Informative Text"), [aBundle bundleIdentifier]]]; 
-    [alert addButtonWithTitle:@"OK"]; 
-    [alert addButtonWithTitle:NSLocalizedString(@"Reveal in Finder",@"Reveal in Finder - menu entry")]; 
-    [alert setDelegate:self];
-    
-    int returnCode = [alert runModal]; 
-    
-    if (returnCode == NSAlertSecondButtonReturn) {
-        // Show mode in Finder
-        [[NSWorkspace sharedWorkspace] selectFile:[aBundle bundlePath] inFileViewerRootedAtPath:nil];
-    }
-}
-
-- (void)TCM_findModes {
-	[self createUserApplicationSupportDirectory];
-	
-    NSURL *url = nil;
-    NSMutableArray *allURLs = [NSMutableArray array];
-	
-    NSArray *allDomainsURLs = [[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSAllDomainsMask];
-    for (url in allDomainsURLs) {
-        [allURLs addObject:[self URLWithAddedBundleIdentifierDirectoryForURL:url subDirectoryName:LIBRARY_MODE_FOLDER_NAME]];
-    }
-    
-    [allURLs addObject:[[[NSBundle mainBundle] resourceURL] URLByAppendingPathComponent:BUNDLE_MODE_FOLDER_NAME]];
-    
-    NSEnumerator *enumerator = [allURLs reverseObjectEnumerator];
-    NSURL *fileURL = nil;
-    while ((url = [enumerator nextObject])) {
-        NSDirectoryEnumerator *dirEnumerator = [[NSFileManager defaultManager] enumeratorAtURL:url includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles errorHandler:NULL];
-        while ((fileURL = [dirEnumerator nextObject])) {
-            if ([[fileURL pathExtension] isEqualToString:MODE_EXTENSION]) {
-                NSBundle *bundle = [NSBundle bundleWithURL:fileURL];
-                if (bundle && [bundle bundleIdentifier]) {
-                    if (![DocumentMode canParseModeVersionOfBundle:bundle]) {
-                        [self performSelector:@selector(showIncompatibleModeErrorForBundle:) withObject:bundle afterDelay:0]; // delay, as we don't want to block the init call, otherwise we keep receiving init messages
-                    
-					} else {
-                        [I_modeBundles setObject:bundle forKey:[bundle bundleIdentifier]];
-                        if (![I_modeIdentifiersTagArray containsObject:[bundle bundleIdentifier]]) {
-                            [I_modeIdentifiersTagArray addObject:[bundle bundleIdentifier]];
-                        }
-                    }
-                }
-            }
-        }
-    }
 }
 
 #pragma mark - Stuff with Styles
@@ -566,6 +511,59 @@ static DocumentModeManager *S_sharedInstance=nil;
 }
 
 #pragma mark - Stuff with modes
+- (void)showIncompatibleModeErrorForBundle:(NSBundle *)aBundle {
+    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+    [alert setAlertStyle:NSWarningAlertStyle];
+    [alert setMessageText:NSLocalizedString(@"Mode not compatible",@"Mode requires newer engine title")];
+    [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"The mode '%@' was written for a newer version of SubEthaEngine and cannot be used with this application.", @"Mode requires newer engine Informative Text"), [aBundle bundleIdentifier]]];
+    [alert addButtonWithTitle:@"OK"];
+    [alert addButtonWithTitle:NSLocalizedString(@"Reveal in Finder",@"Reveal in Finder - menu entry")];
+    [alert setDelegate:self];
+    
+    int returnCode = [alert runModal];
+    
+    if (returnCode == NSAlertSecondButtonReturn) {
+        // Show mode in Finder
+        [[NSWorkspace sharedWorkspace] selectFile:[aBundle bundlePath] inFileViewerRootedAtPath:nil];
+    }
+}
+
+- (void)TCM_findModes {
+	[self createUserApplicationSupportDirectory];
+	
+    NSURL *url = nil;
+    NSMutableArray *allURLs = [NSMutableArray array];
+	
+    NSArray *allDomainsURLs = [[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSAllDomainsMask];
+    for (url in allDomainsURLs) {
+        [allURLs addObject:[self URLWithAddedBundleIdentifierDirectoryForURL:url subDirectoryName:LIBRARY_MODE_FOLDER_NAME]];
+    }
+    
+    [allURLs addObject:[[[NSBundle mainBundle] resourceURL] URLByAppendingPathComponent:BUNDLE_MODE_FOLDER_NAME]];
+    
+    NSEnumerator *enumerator = [allURLs reverseObjectEnumerator];
+    NSURL *fileURL = nil;
+    while ((url = [enumerator nextObject])) {
+        NSDirectoryEnumerator *dirEnumerator = [[NSFileManager defaultManager] enumeratorAtURL:url includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles errorHandler:NULL];
+        while ((fileURL = [dirEnumerator nextObject])) {
+            if ([[fileURL pathExtension] isEqualToString:MODE_EXTENSION]) {
+                NSBundle *bundle = [NSBundle bundleWithURL:fileURL];
+                if (bundle && [bundle bundleIdentifier]) {
+                    if (![DocumentMode canParseModeVersionOfBundle:bundle]) {
+                        [self performSelector:@selector(showIncompatibleModeErrorForBundle:) withObject:bundle afterDelay:0]; // delay, as we don't want to block the init call, otherwise we keep receiving init messages
+						
+					} else {
+                        [I_modeBundles setObject:bundle forKey:[bundle bundleIdentifier]];
+                        if (![I_modeIdentifiersTagArray containsObject:[bundle bundleIdentifier]]) {
+                            [I_modeIdentifiersTagArray addObject:[bundle bundleIdentifier]];
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
 - (IBAction)reloadDocumentModes:(id)aSender {
 
     // write all preferences
