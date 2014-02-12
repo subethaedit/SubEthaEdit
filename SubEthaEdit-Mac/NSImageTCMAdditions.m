@@ -23,6 +23,70 @@
 
 const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociationKey;
 
++ (NSImage *)highResolutionImageWithSize:(NSSize)inSize usingDrawingBlock:(void (^)(void))drawingBlock
+{
+	NSImage * resultImage = [[NSImage alloc] initWithSize:inSize];
+	if (resultImage)
+	{
+		// Save external graphic context
+		NSGraphicsContext *currentContext = [NSGraphicsContext currentContext];
+
+		// create @1x bitmap representation (72ppi)
+		{
+			NSBitmapImageRep *lowResBitmapImageRep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL
+																							 pixelsWide:inSize.width
+																							 pixelsHigh:inSize.height
+																						  bitsPerSample:8
+																						samplesPerPixel:4
+																							   hasAlpha:YES
+																							   isPlanar:NO
+																						 colorSpaceName:NSCalibratedRGBColorSpace
+																						   bitmapFormat:NSAlphaFirstBitmapFormat
+																							bytesPerRow:0
+																						   bitsPerPixel:0];
+
+			lowResBitmapImageRep = [lowResBitmapImageRep bitmapImageRepByRetaggingWithColorSpace:[NSColorSpace sRGBColorSpace]];
+
+			NSGraphicsContext *lowResBitmapContext = [NSGraphicsContext graphicsContextWithBitmapImageRep:lowResBitmapImageRep];
+			[NSGraphicsContext setCurrentContext:lowResBitmapContext];
+
+			drawingBlock(); // your drawing code in points
+
+			[resultImage addRepresentation:lowResBitmapImageRep];
+		}
+
+		// create @2x retina bitmap (144ppi)
+		{
+			NSBitmapImageRep *highResBitmapImageRep = [[NSBitmapImageRep alloc] initWithBitmapDataPlanes:NULL
+																							  pixelsWide:inSize.width * 2.0
+																							  pixelsHigh:inSize.height * 2.0
+																						   bitsPerSample:8
+																						 samplesPerPixel:4
+																								hasAlpha:YES
+																								isPlanar:NO
+																						  colorSpaceName:NSCalibratedRGBColorSpace
+																							bitmapFormat:NSAlphaFirstBitmapFormat
+																							 bytesPerRow:0
+																							bitsPerPixel:0];
+
+			highResBitmapImageRep = [highResBitmapImageRep bitmapImageRepByRetaggingWithColorSpace:[NSColorSpace sRGBColorSpace]];
+			[highResBitmapImageRep setSize:inSize]; // this sets the image to be 144ppi
+
+			NSGraphicsContext *highResBitmapContext = [NSGraphicsContext graphicsContextWithBitmapImageRep:highResBitmapImageRep];
+			[NSGraphicsContext setCurrentContext:highResBitmapContext];
+
+			drawingBlock(); // your drawing code in points
+
+			[resultImage addRepresentation:highResBitmapImageRep];
+		}
+
+		// restore external graphic context
+		[NSGraphicsContext setCurrentContext:currentContext];
+	}
+	return resultImage;
+}
+
+
 + (NSImage *)pdfBasedImageNamed:(NSString *)aName {
 	NSImage *result = [NSImage imageNamed:aName];
 	if (!result) {
