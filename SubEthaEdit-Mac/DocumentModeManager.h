@@ -65,6 +65,7 @@
 - (BOOL)documentModeAvailableModeIdentifier:(NSString *)anIdentifier;
 - (int)tagForDocumentModeIdentifier:(NSString *)anIdentifier;
 - (NSDictionary *)availableModes;
+
 - (NSMutableArray *)reloadPrecedences;
 - (void)revalidatePrecedences;
 
@@ -74,5 +75,6 @@
 - (void)revealStyleSheetInFinder:(SEEStyleSheet *)aStyleSheet;
 
 - (IBAction)reloadDocumentModes:(id)aSender;
+- (void)revealModeInFinder:(DocumentMode *)aMode;
 
 @end

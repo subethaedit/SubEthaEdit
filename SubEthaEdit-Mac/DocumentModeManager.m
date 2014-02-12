@@ -511,6 +511,32 @@ static DocumentModeManager *S_sharedInstance=nil;
 }
 
 #pragma mark - Stuff with modes
+- (NSString *)pathForWritingMode:(DocumentMode *)aMode {
+	[self createUserApplicationSupportDirectory];
+	NSString *modeFolderPath = [[self URLWithAddedBundleIdentifierDirectoryForURL:[self applicationSupportDirectory] subDirectoryName:LIBRARY_MODE_FOLDER_NAME] path];
+	NSString *fullPath = [[modeFolderPath stringByAppendingPathComponent:[aMode displayName]] stringByAppendingPathExtension:@"mode"];
+    return fullPath;
+}
+
+- (void)revealModeInFinder:(DocumentMode *)aMode {
+	NSString *bundlePath = [[aMode bundle] bundlePath];
+	NSString *shortenedModePath = [bundlePath stringByDeletingLastPathComponent];
+	NSString *appBundleModePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:BUNDLE_MODE_FOLDER_NAME];
+	
+	BOOL modeIsInBundle = [appBundleModePath isEqualToString:shortenedModePath];
+	
+	if (modeIsInBundle) { // copy the mode bundle to application support and open there
+		NSError *error = nil;
+		NSFileManager *fileManager = [NSFileManager defaultManager];
+		BOOL success = [fileManager copyItemAtPath:bundlePath toPath:[self pathForWritingMode:aMode] error:&error];
+		if(success != YES) {
+			NSLog(@"Error: %@", error);
+		}
+	}
+	[self reloadDocumentModes:self];
+	[[NSWorkspace sharedWorkspace] selectFile:[[[self documentModeForIdentifier:[aMode documentModeIdentifier]] bundle] resourcePath] inFileViewerRootedAtPath:nil];
+}
+
 - (void)showIncompatibleModeErrorForBundle:(NSBundle *)aBundle {
     NSAlert *alert = [[[NSAlert alloc] init] autorelease];
     [alert setAlertStyle:NSWarningAlertStyle];
