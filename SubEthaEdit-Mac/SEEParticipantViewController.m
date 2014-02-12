@@ -105,33 +105,10 @@
 }
 
 - (void)mouseEntered:(NSEvent *)theEvent {
-	NSView *userView = self.participantViewOutlet;
-	NSView *overlayView = self.participantActionOverlayOutlet;
-	overlayView.hidden = NO;
-//	overlayView.layer.borderWidth = 1.0;
-//	overlayView.layer.borderColor = [[NSColor redColor] CGColor];
-	[self.view addSubview:overlayView];
-
-	NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:overlayView
-																  attribute:NSLayoutAttributeRight
-																  relatedBy:NSLayoutRelationEqual
-																	 toItem:userView
-																  attribute:NSLayoutAttributeRight
-																 multiplier:1
-																   constant:-5];
-
-	NSLayoutConstraint *verticalConstraint = [NSLayoutConstraint constraintWithItem:overlayView
-																		  attribute:NSLayoutAttributeTop
-																		  relatedBy:NSLayoutRelationEqual
-																			 toItem:userView
-																		  attribute:NSLayoutAttributeTop
-																		 multiplier:1
-																		   constant:0];
-	[userView addConstraints:@[constraint, verticalConstraint]];
+	self.participantActionOverlayOutlet.hidden = NO;
 }
 
 - (void)mouseExited:(NSEvent *)theEvent {
-	[self.participantActionOverlayOutlet removeFromSuperview];
 	self.participantActionOverlayOutlet.hidden = YES;
 }
 
@@ -222,6 +199,33 @@
 	if (self.participant.isMe) {
 		self.participantActionOverlayOutlet = nil;
 	} else {
+		if (! self.document.session.isServer) {
+			[self.closeConnectionButtonOutlet removeFromSuperview];
+			[self.toggleEditModeButtonOutlet removeFromSuperview];
+		}
+
+		// add action overlay to view hierarchy
+		NSView *userView = self.participantViewOutlet;
+		NSView *overlayView = self.participantActionOverlayOutlet;
+		overlayView.hidden = YES;
+		NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:overlayView
+																	  attribute:NSLayoutAttributeRight
+																	  relatedBy:NSLayoutRelationEqual
+																		 toItem:userView
+																	  attribute:NSLayoutAttributeRight
+																	 multiplier:1
+																	   constant:-5];
+
+		NSLayoutConstraint *verticalConstraint = [NSLayoutConstraint constraintWithItem:overlayView
+																			  attribute:NSLayoutAttributeTop
+																			  relatedBy:NSLayoutRelationEqual
+																				 toItem:userView
+																			  attribute:NSLayoutAttributeTop
+																			 multiplier:1
+																			   constant:0];
+		[userView addSubview:self.participantActionOverlayOutlet];
+		[userView addConstraints:@[constraint, verticalConstraint]];
+
 		// install tracking for action overlay
 		[self.participantViewOutlet addTrackingArea:[[NSTrackingArea alloc] initWithRect:NSZeroRect options:NSTrackingMouseEnteredAndExited|NSTrackingActiveInKeyWindow|NSTrackingInVisibleRect owner:self userInfo:nil]];
 
@@ -229,10 +233,6 @@
 		[self.userViewButtonOutlet setAction:@selector(userViewButtonDoubleClicked:)];
 		[self.userViewButtonOutlet setTarget:self];
 
-		if (! self.document.session.isServer) {
-			[self.closeConnectionButtonOutlet removeFromSuperview];
-			[self.toggleEditModeButtonOutlet removeFromSuperview];
-		}
 	}
 }
 
@@ -241,8 +241,6 @@
 		NSView *userView = self.participantViewOutlet;
 		NSView *overlayView = self.pendingUserActionOverlayOutlet;
 		overlayView.hidden = NO;
-//		overlayView.layer.borderWidth = 1.0;
-//		overlayView.layer.borderColor = [[NSColor redColor] CGColor];
 		[userView addSubview:overlayView];
 
 		NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:overlayView
@@ -275,12 +273,35 @@
 	self.userViewButtonOutlet.alphaValue = 0.6;
 	self.userViewButtonOutlet.enabled = NO;
 
-	[self.toggleEditModeButtonOutlet removeFromSuperview];
-	[self.toggleFollowButtonOutlet removeFromSuperview];
-
 	if (! self.document.session.isServer) {
-		[self.closeConnectionButtonOutlet removeFromSuperview];
+		self.participantActionOverlayOutlet = nil;
 	} else {
+		[self.toggleEditModeButtonOutlet removeFromSuperview];
+		[self.toggleFollowButtonOutlet removeFromSuperview];
+		
+		// add action overlay to view hierarchy
+		NSView *userView = self.participantViewOutlet;
+		NSView *overlayView = self.participantActionOverlayOutlet;
+		overlayView.hidden = YES;
+		NSLayoutConstraint *constraint = [NSLayoutConstraint constraintWithItem:overlayView
+																	  attribute:NSLayoutAttributeRight
+																	  relatedBy:NSLayoutRelationEqual
+																		 toItem:userView
+																	  attribute:NSLayoutAttributeRight
+																	 multiplier:1
+																	   constant:-5];
+
+		NSLayoutConstraint *verticalConstraint = [NSLayoutConstraint constraintWithItem:overlayView
+																			  attribute:NSLayoutAttributeTop
+																			  relatedBy:NSLayoutRelationEqual
+																				 toItem:userView
+																			  attribute:NSLayoutAttributeTop
+																			 multiplier:1
+																			   constant:0];
+		[userView addSubview:self.participantActionOverlayOutlet];
+		[userView addConstraints:@[constraint, verticalConstraint]];
+
+		// install tracking for action overlay
 		[self.participantViewOutlet addTrackingArea:[[NSTrackingArea alloc] initWithRect:NSZeroRect options:NSTrackingMouseEnteredAndExited|NSTrackingActiveInKeyWindow|NSTrackingInVisibleRect owner:self userInfo:nil]];
 	}
 }
