@@ -491,6 +491,20 @@ static DocumentModeManager *S_sharedInstance=nil;
 	return [[I_styleSheetPathsByName allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
 }
 
+- (SEEStyleSheet *)duplicateStyleSheet:(SEEStyleSheet *)aStyleSheet {
+	NSString *sheetName = [[aStyleSheet styleSheetName] stringByAppendingString:@" 2"];
+	NSString *newPath = [self pathForWritingStyleSheetWithName:sheetName];
+	int i = 3;
+	while ([[NSFileManager defaultManager] fileExistsAtPath:newPath]) {
+		sheetName = [NSString stringWithFormat:@"%@ %d", [aStyleSheet styleSheetName], i];
+		newPath = [self pathForWritingStyleSheetWithName:sheetName];
+		i++;
+	}
+	[aStyleSheet exportStyleSheetToPath:[NSURL fileURLWithPath:newPath]];
+	[self TCM_findStyles];
+	return [self styleSheetForName:sheetName];
+}
+
 - (void)saveStyleSheet:(SEEStyleSheet *)aStyleSheet {
 	NSString *newPath = [self pathForWritingStyleSheetWithName:[aStyleSheet styleSheetName]];
 	[aStyleSheet exportStyleSheetToPath:[NSURL fileURLWithPath:newPath]];
