@@ -340,11 +340,11 @@ NSString * const TCMMMSessionInvitedUserStateInvitationDeclined = @"DeclinedInvi
     return I_flags.wasInvited;
 }
 
-- (unsigned int)participantCount {
+- (NSUInteger)participantCount {
     return [I_groupByUserID count];
 }
 
-- (unsigned int)openInvitationCount {
+- (NSUInteger)openInvitationCount {
     return [[[I_stateOfInvitedUsers allValues] filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"SELF = 'AwaitingResponse'"]] count];
 }
 
