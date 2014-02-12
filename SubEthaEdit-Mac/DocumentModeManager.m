@@ -13,8 +13,6 @@
 #import "SyntaxDefinition.h"
 #import <OgreKit/OgreKit.h>
 
-#define MODEPATHCOMPONENT @"Application Support/SubEthaEditDebug/Modes/"
-
 @interface DocumentModeManager (DocumentModeManagerPrivateAdditions)
 - (void)TCM_findModes;
 - (void)TCM_findStyles;
@@ -793,7 +791,10 @@ static DocumentModeManager *S_sharedInstance=nil;
     return [I_modeIdentifiersTagArray indexOfObject:anIdentifier];
 }
 
-
+#pragma mark
+#define MENU_ITEM_TAG_BUNDLE_MODE_FOLDER 0
+#define MENU_ITEM_TAG_LIBRARY_MODE_FOLDER 1
+#define MENU_ITEM_TAG_USER_MODE_FOLDER 2
 - (void)setupMenu:(NSMenu *)aMenu action:(SEL)aSelector alternateDisplay:(BOOL)aFlag {
 
     // Remove all menu items
@@ -873,16 +874,16 @@ static DocumentModeManager *S_sharedInstance=nil;
             }
             [aMenu addItem:menuItem];
             [menuItem release];
-            
-        }
+		}
     }
+
     if (aFlag) {
         [aMenu addItem:[NSMenuItem separatorItem]];
         menuItem = [[NSMenuItem alloc] 
             initWithTitle:NSLocalizedString(@"Open User Modes Folder", @"Menu item in alternate mode menu for opening the user modes folder.")
                    action:@selector(revealModesFolder:)
             keyEquivalent:@""];
-        [menuItem setTag:2];
+        [menuItem setTag:MENU_ITEM_TAG_USER_MODE_FOLDER];
         [menuItem setTarget:self];
         [aMenu addItem:menuItem];
         [menuItem release];
@@ -891,38 +892,47 @@ static DocumentModeManager *S_sharedInstance=nil;
             initWithTitle:NSLocalizedString(@"Open Library Modes Folder",@"Menu item in alternate mode menu for opening the library modes folder.")
                    action:@selector(revealModesFolder:)
             keyEquivalent:@""];
-        [menuItem setTag:1];
+        [menuItem setTag:MENU_ITEM_TAG_LIBRARY_MODE_FOLDER];
         [menuItem setTarget:self];
         [aMenu addItem:menuItem];
         [menuItem release];
 
+#ifdef BETA
+		// debug only
         menuItem = [[NSMenuItem alloc] 
             initWithTitle:NSLocalizedString(@"Open SubEthaEdit Modes Folder",@"Menu item in alternate mode menu for opening the SubEthaEdit modes folder.")
                    action:@selector(revealModesFolder:)
             keyEquivalent:@""];
-        [menuItem setTag:0];
+        [menuItem setTag:MENU_ITEM_TAG_BUNDLE_MODE_FOLDER];
         [menuItem setTarget:self];
         [aMenu addItem:menuItem];
         [menuItem release];
+#endif
     }
 }
 
 - (IBAction)revealModesFolder:(id)aSender {
-    NSString *directoryString = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Modes/"];
+	NSURL *url = nil;
     switch ([aSender tag]) {
-        case 2: {
-            NSArray *userDomainPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-            NSString *path=[userDomainPaths lastObject];
-            directoryString = [path stringByAppendingPathComponent:MODEPATHCOMPONENT]; }
-            break;
-        case 1: {
-            NSArray *systemDomainPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSSystemDomainMask, YES);
-            NSString *path=[systemDomainPaths lastObject];
-            directoryString = [path stringByAppendingPathComponent:MODEPATHCOMPONENT];
-            }
-            break;
+		case MENU_ITEM_TAG_BUNDLE_MODE_FOLDER: { // debug
+			url = [[[NSBundle mainBundle] resourceURL] URLByAppendingPathComponent:BUNDLE_MODE_FOLDER_NAME];
+		} break;
+			
+        case MENU_ITEM_TAG_USER_MODE_FOLDER: {
+            NSArray *userDomainURLs = [[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask];
+			url = [self URLWithAddedBundleIdentifierDirectoryForURL:[userDomainURLs lastObject] subDirectoryName:LIBRARY_MODE_FOLDER_NAME];
+		} break;
+			
+        case MENU_ITEM_TAG_LIBRARY_MODE_FOLDER: {
+            NSArray *systemDomainURLs = [[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSLocalDomainMask];
+			url = [self URLWithAddedBundleIdentifierDirectoryForURL:[systemDomainURLs lastObject] subDirectoryName:LIBRARY_MODE_FOLDER_NAME];
+		} break;
     }
-    if (![[NSWorkspace sharedWorkspace] openFile:directoryString]) NSBeep();;
+//	BOOL canOpenURL = [[NSWorkspace sharedWorkspace] openURL:url]; (application error alert :/
+	BOOL canOpenURL = [[NSWorkspace sharedWorkspace] openFile:[url path]];
+    if (!canOpenURL) {
+		NSBeep();
+	}
 }
 
 - (void)setupPopUp:(DocumentModePopUpButton *)aPopUp selectedModeIdentifier:(NSString *)aModeIdentifier automaticMode:(BOOL)hasAutomaticMode {
