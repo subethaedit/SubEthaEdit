@@ -389,7 +389,11 @@
 }
 
 - (IBAction)duplicateStyleSheet:(id)aSender {
-	[self revealStyleSheetInFinder:aSender]; //TODO: make that a proper duplicate - for now make it behave like before;
+	SEEStyleSheet *sheet = [[DocumentModeManager sharedInstance] duplicateStyleSheet:self.currentStyleSheet];
+	[self.O_styleSheetPopUpButton removeAllItems];
+	[self.O_styleSheetPopUpButton addItemsWithTitles:[[DocumentModeManager sharedInstance] allStyleSheetNames]];
+	[self.O_styleSheetPopUpButton selectItemWithTitle:[sheet styleSheetName]];
+	[self changeStyleSheet:self];
 }
 
 - (IBAction)revertStyleSheet:(id)aSender {
