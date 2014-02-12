@@ -13,9 +13,6 @@
 #import "SyntaxDefinition.h"
 #import <OgreKit/OgreKit.h>
 
-#define MODEPATHCOMPONENT @"Application Support/SubEthaEditDebug/Modes/"
-#define STYLEPATHCOMPONENT @"Application Support/SubEthaEditDebug/Styles/"
-
 @interface DocumentModeManager (DocumentModeManagerPrivateAdditions)
 - (void)TCM_findModes;
 - (void)TCM_findStyles;
@@ -27,6 +24,7 @@
 - (NSString *)pathForWritingStyleSheetWithName:(NSString *)aStyleSheetName;
 @end
 
+#pragma mark
 @implementation DocumentModePopUpButton
 
 /* Replace the cell, sign up for notifications.
@@ -92,7 +90,7 @@
 
 @end
 
-
+#pragma mark -
 @implementation DocumentModeMenu
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
@@ -112,6 +110,7 @@
 
 @end
 
+#pragma mark
 static DocumentModeManager *S_sharedInstance=nil;
 
 @implementation DocumentModeManager
@@ -128,7 +127,7 @@ static DocumentModeManager *S_sharedInstance=nil;
 }
 
 + (NSString *)defaultStyleSheetName {
-	return @"Bright Dom";
+	return @"Bright Lisa";
 }
 
 + (NSString *)xmlFileRepresentationOfAllStyles {
@@ -144,6 +143,7 @@ static DocumentModeManager *S_sharedInstance=nil;
     return [NSString stringWithFormat:@"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<seestyle>\n%@</seestyle>\n",result];
 }
 
+#pragma mark
 - (id)init {
     if (S_sharedInstance) {
         [self dealloc];
@@ -185,6 +185,54 @@ static DocumentModeManager *S_sharedInstance=nil;
     [super dealloc];
 }
 
+#pragma mark - Directories
+
+#define MODE_EXTENSION @"mode"
+#define BUNDLE_MODE_FOLDER_NAME @"Modes"
+#define LIBRARY_MODE_FOLDER_NAME @"Modes"
+
+#define BUNDLE_STYLE_FOLDER_NAME @"Modes/Styles/"
+#define LIBRARY_STYLE_FOLDER_NAME @"Styles"
+- (NSURL *)applicationSupportDirectory {
+    NSFileManager *sharedFM = [NSFileManager defaultManager];
+    NSArray *possibleURLs = [sharedFM URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask];
+    NSURL *appSupportDir = nil;
+	
+    if ([possibleURLs count] >= 1) {
+        // Use the first directory (if multiple are returned)
+        appSupportDir = [possibleURLs objectAtIndex:0];
+    }
+	return appSupportDir;
+}
+
+- (NSURL *)URLWithAddedBundleIdentifierDirectoryForURL:(NSURL *)anURL subDirectoryName:(NSString *)aSubDirectory {
+	NSURL *url = nil;
+    if (anURL) {
+        NSString *appBundleID = [[NSBundle mainBundle] bundleIdentifier];
+        url = [anURL URLByAppendingPathComponent:appBundleID];
+		if (aSubDirectory) {
+			url = [url URLByAppendingPathComponent:aSubDirectory];
+		}
+    }
+	return url;
+}
+
+- (void)createUserApplicationSupportDirectory {
+	NSURL *applicationSupport = [self applicationSupportDirectory];
+	NSFileManager *fileManager = [NSFileManager defaultManager];
+	
+	NSString *fullPathStyles = [[self URLWithAddedBundleIdentifierDirectoryForURL:applicationSupport subDirectoryName:LIBRARY_STYLE_FOLDER_NAME] path];
+	if (![fileManager fileExistsAtPath:fullPathStyles isDirectory:NULL]) {
+		[fileManager createDirectoryAtPath:fullPathStyles withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+	
+	NSString *fullPathModes = [[self URLWithAddedBundleIdentifierDirectoryForURL:applicationSupport subDirectoryName:LIBRARY_MODE_FOLDER_NAME] path];
+	if (![fileManager fileExistsAtPath:fullPathModes isDirectory:NULL]) {
+		[fileManager createDirectoryAtPath:fullPathModes withIntermediateDirectories:YES attributes:nil error:nil];
+    }
+}
+
+#pragma mark - Stuff with Precedences
 - (void)revalidatePrecedences {
     // Check for overriden Rules
 
@@ -391,115 +439,33 @@ static DocumentModeManager *S_sharedInstance=nil;
     [[NSUserDefaults standardUserDefaults] setObject:[self modePrecedenceArray] forKey:@"ModePrecedences"];
 }
 
-- (void)showIncompatibleModeErrorForBundle:(NSBundle *)aBundle
-{
-    NSAlert *alert = [[[NSAlert alloc] init] autorelease]; 
-    [alert setAlertStyle:NSWarningAlertStyle]; 
-    [alert setMessageText:NSLocalizedString(@"Mode not compatible",@"Mode requires newer engine title")]; 
-    [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"The mode '%@' was written for a newer version of SubEthaEngine and cannot be used with this application.", @"Mode requires newer engine Informative Text"), [aBundle bundleIdentifier]]]; 
-    [alert addButtonWithTitle:@"OK"]; 
-    [alert addButtonWithTitle:NSLocalizedString(@"Reveal in Finder",@"Reveal in Finder - menu entry")]; 
-    [alert setDelegate:self];
-    
-    int returnCode = [alert runModal]; 
-    
-    if (returnCode == NSAlertSecondButtonReturn) {
-        // Show mode in Finder
-        [[NSWorkspace sharedWorkspace] selectFile:[aBundle bundlePath] inFileViewerRootedAtPath:nil];
-    }
-}
-
-- (void)TCM_findModes { 
-    NSString *file = nil; 
-    NSString *path = nil; 
-    
-    //create Directories 
-    NSArray *userDomainPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES); 
-    for (path in userDomainPaths) { 
-        NSString *fullPath = [path stringByAppendingPathComponent:MODEPATHCOMPONENT]; 
-        if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:nil]) { 
-            [[NSFileManager defaultManager] createDirectoryAtPath:[fullPath stringByDeletingLastPathComponent] withIntermediateDirectories:YES attributes:nil error:nil]; 
-            [[NSFileManager defaultManager] createDirectoryAtPath:fullPath withIntermediateDirectories:YES attributes:nil error:nil]; 
-        } 
-    } 
-    
-    
-    NSMutableArray *allPaths = [NSMutableArray array]; 
-    NSArray *allDomainsPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, YES); 
-    for (path in allDomainsPaths) { 
-        [allPaths addObject:[path stringByAppendingPathComponent:MODEPATHCOMPONENT]]; 
-    } 
-    
-    [allPaths addObject:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Modes/"]]; 
-    
-    NSEnumerator *enumerator = [allPaths reverseObjectEnumerator];
-    while ((path = [enumerator nextObject])) { 
-        NSEnumerator *dirEnumerator = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil] objectEnumerator]; 
-        while ((file = [dirEnumerator nextObject])) { 
-            if ([[file pathExtension] isEqualToString:@"mode"]) { 
-                NSBundle *bundle = [NSBundle bundleWithPath:[path stringByAppendingPathComponent:file]]; 
-                if (bundle && [bundle bundleIdentifier]) 
-                { 
-                    if (![DocumentMode canParseModeVersionOfBundle:bundle]) 
-                    { 
-                        [self performSelector:@selector(showIncompatibleModeErrorForBundle:) withObject:bundle afterDelay:0]; // delay, as we don't want to block the init call, otherwise we keep receiving init messages 
-                    } 
-                    else 
-                    { 
-                        [I_modeBundles setObject:bundle forKey:[bundle bundleIdentifier]]; 
-                        if (![I_modeIdentifiersTagArray containsObject:[bundle bundleIdentifier]]) { 
-                            [I_modeIdentifiersTagArray addObject:[bundle bundleIdentifier]];                    
-                        } 
-                    } 
-                } 
-            } 
-        } 
-    } 
-} 
-
+#pragma mark - Stuff with Styles
 - (NSString *)pathForWritingStyleSheetWithName:(NSString *)aStyleSheetName {
-	NSString *fullPath = nil;
-
-    //create Directory if necessary 
-    NSArray *userDomainPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory,NSUserDomainMask, YES); 
-    for (NSString *path in userDomainPaths) { 
-        fullPath = [path stringByAppendingPathComponent:STYLEPATHCOMPONENT]; 
-        if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:nil]) { 
-            [[NSFileManager defaultManager] createDirectoryAtPath:fullPath withIntermediateDirectories:YES attributes:nil error:nil]; 
-        } 
-    }
+	[self createUserApplicationSupportDirectory];
+	NSString *fullPath = [[self URLWithAddedBundleIdentifierDirectoryForURL:[self applicationSupportDirectory] subDirectoryName:LIBRARY_STYLE_FOLDER_NAME] path];
     return [[fullPath stringByAppendingPathComponent:aStyleSheetName] stringByAppendingPathExtension:SEEStyleSheetFileExtension];
-    
 }
 
 - (void)TCM_findStyles { 
-    NSString *file = nil; 
-    NSString *path = nil; 
+	[self createUserApplicationSupportDirectory];
+
+    NSURL *url = nil;
+    NSMutableArray *allURLs = [NSMutableArray array];
+	
+    NSArray *allDomainsURLs = [[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSAllDomainsMask];
+    for (url in allDomainsURLs) { 
+        [allURLs addObject:[self URLWithAddedBundleIdentifierDirectoryForURL:url subDirectoryName:LIBRARY_STYLE_FOLDER_NAME]];
+    }
     
-    //create Directories 
-    NSArray *userDomainPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES); 
-    for (path in userDomainPaths) { 
-        NSString *fullPath = [path stringByAppendingPathComponent:STYLEPATHCOMPONENT]; 
-        if (![[NSFileManager defaultManager] fileExistsAtPath:fullPath isDirectory:nil]) { 
-            [[NSFileManager defaultManager] createDirectoryAtPath:fullPath withIntermediateDirectories:YES attributes:nil error:nil]; 
-        } 
-    } 
+    [allURLs addObject:[[[NSBundle mainBundle] resourceURL] URLByAppendingPathComponent:BUNDLE_STYLE_FOLDER_NAME]];
     
-    
-    NSMutableArray *allPaths = [NSMutableArray array]; 
-    NSArray *allDomainsPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, YES); 
-    for (path in allDomainsPaths) { 
-        [allPaths addObject:[path stringByAppendingPathComponent:STYLEPATHCOMPONENT]]; 
-    } 
-    
-    [allPaths addObject:[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Modes/Styles/"]]; 
-    
-    NSEnumerator *enumerator = [allPaths reverseObjectEnumerator]; 
-    while ((path = [enumerator nextObject])) { 
-        NSEnumerator *dirEnumerator = [[[NSFileManager defaultManager] contentsOfDirectoryAtPath:path error:nil] objectEnumerator]; 
-        while ((file = [dirEnumerator nextObject])) { 
-            if ([[file pathExtension] isEqualToString:SEEStyleSheetFileExtension]) { 
-	            [I_styleSheetPathsByName setObject:[path stringByAppendingPathComponent:file] forKey:[file stringByDeletingPathExtension]];
+    NSEnumerator *enumerator = [allURLs reverseObjectEnumerator]; 
+    NSURL *fileURL = nil;
+    while ((url = [enumerator nextObject])) {
+        NSDirectoryEnumerator *dirEnumerator = [[NSFileManager defaultManager] enumeratorAtURL:url includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles errorHandler:NULL];
+        while ((fileURL = [dirEnumerator nextObject])) {
+            if ([[fileURL pathExtension] isEqualToString:SEEStyleSheetFileExtension]) {
+	            [I_styleSheetPathsByName setObject:[fileURL path] forKey:[[fileURL lastPathComponent] stringByDeletingPathExtension]];
             } 
         } 
     }
@@ -525,6 +491,20 @@ static DocumentModeManager *S_sharedInstance=nil;
 	return [[I_styleSheetPathsByName allKeys] sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
 }
 
+- (SEEStyleSheet *)duplicateStyleSheet:(SEEStyleSheet *)aStyleSheet {
+	NSString *sheetName = [[aStyleSheet styleSheetName] stringByAppendingString:@" 2"];
+	NSString *newPath = [self pathForWritingStyleSheetWithName:sheetName];
+	int i = 3;
+	while ([[NSFileManager defaultManager] fileExistsAtPath:newPath]) {
+		sheetName = [NSString stringWithFormat:@"%@ %d", [aStyleSheet styleSheetName], i];
+		newPath = [self pathForWritingStyleSheetWithName:sheetName];
+		i++;
+	}
+	[aStyleSheet exportStyleSheetToPath:[NSURL fileURLWithPath:newPath]];
+	[self TCM_findStyles];
+	return [self styleSheetForName:sheetName];
+}
+
 - (void)saveStyleSheet:(SEEStyleSheet *)aStyleSheet {
 	NSString *newPath = [self pathForWritingStyleSheetWithName:[aStyleSheet styleSheetName]];
 	[aStyleSheet exportStyleSheetToPath:[NSURL fileURLWithPath:newPath]];
@@ -533,7 +513,95 @@ static DocumentModeManager *S_sharedInstance=nil;
 }
 
 - (void)revealStyleSheetInFinder:(SEEStyleSheet *)aStyleSheet {
-	[[NSWorkspace sharedWorkspace] selectFile:[I_styleSheetPathsByName objectForKey:[aStyleSheet styleSheetName]] inFileViewerRootedAtPath:nil];
+	NSString *filePath = [I_styleSheetPathsByName objectForKey:[aStyleSheet styleSheetName]];
+	NSString *bundlePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:BUNDLE_STYLE_FOLDER_NAME];
+	NSString *shortenedFilePath = [filePath stringByDeletingLastPathComponent];
+	BOOL styleSheetIsBundleSheet = [bundlePath isEqualToString:shortenedFilePath];
+	if (styleSheetIsBundleSheet) { // copy the style sheet to application support and open there
+		[self saveStyleSheet:aStyleSheet]; // saves to user application support
+		filePath = [I_styleSheetPathsByName objectForKey:[aStyleSheet styleSheetName]];
+	}
+	[[NSWorkspace sharedWorkspace] selectFile:filePath inFileViewerRootedAtPath:nil];
+}
+
+#pragma mark - Stuff with modes
+- (NSString *)pathForWritingMode:(DocumentMode *)aMode {
+	[self createUserApplicationSupportDirectory];
+	NSString *modeFolderPath = [[self URLWithAddedBundleIdentifierDirectoryForURL:[self applicationSupportDirectory] subDirectoryName:LIBRARY_MODE_FOLDER_NAME] path];
+	NSString *fullPath = [[modeFolderPath stringByAppendingPathComponent:[aMode displayName]] stringByAppendingPathExtension:@"mode"];
+    return fullPath;
+}
+
+- (void)revealModeInFinder:(DocumentMode *)aMode {
+	NSString *bundlePath = [[aMode bundle] bundlePath];
+	NSString *shortenedModePath = [bundlePath stringByDeletingLastPathComponent];
+	NSString *appBundleModePath = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:BUNDLE_MODE_FOLDER_NAME];
+	
+	BOOL modeIsInBundle = [appBundleModePath isEqualToString:shortenedModePath];
+	
+	if (modeIsInBundle) { // copy the mode bundle to application support and open there
+		NSError *error = nil;
+		NSFileManager *fileManager = [NSFileManager defaultManager];
+		BOOL success = [fileManager copyItemAtPath:bundlePath toPath:[self pathForWritingMode:aMode] error:&error];
+		if(success != YES) {
+			NSLog(@"Error: %@", error);
+		}
+	}
+	[self reloadDocumentModes:self];
+	[[NSWorkspace sharedWorkspace] selectFile:[[[self documentModeForIdentifier:[aMode documentModeIdentifier]] bundle] resourcePath] inFileViewerRootedAtPath:nil];
+}
+
+- (void)showIncompatibleModeErrorForBundle:(NSBundle *)aBundle {
+    NSAlert *alert = [[[NSAlert alloc] init] autorelease];
+    [alert setAlertStyle:NSWarningAlertStyle];
+    [alert setMessageText:NSLocalizedString(@"Mode not compatible",@"Mode requires newer engine title")];
+    [alert setInformativeText:[NSString stringWithFormat:NSLocalizedString(@"The mode '%@' was written for a newer version of SubEthaEngine and cannot be used with this application.", @"Mode requires newer engine Informative Text"), [aBundle bundleIdentifier]]];
+    [alert addButtonWithTitle:@"OK"];
+    [alert addButtonWithTitle:NSLocalizedString(@"Reveal in Finder",@"Reveal in Finder - menu entry")];
+    [alert setDelegate:self];
+    
+    int returnCode = [alert runModal];
+    
+    if (returnCode == NSAlertSecondButtonReturn) {
+        // Show mode in Finder
+        [[NSWorkspace sharedWorkspace] selectFile:[aBundle bundlePath] inFileViewerRootedAtPath:nil];
+    }
+}
+
+- (void)TCM_findModes {
+	[self createUserApplicationSupportDirectory];
+	
+    NSURL *url = nil;
+    NSMutableArray *allURLs = [NSMutableArray array];
+	
+    NSArray *allDomainsURLs = [[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSAllDomainsMask];
+    for (url in allDomainsURLs) {
+        [allURLs addObject:[self URLWithAddedBundleIdentifierDirectoryForURL:url subDirectoryName:LIBRARY_MODE_FOLDER_NAME]];
+    }
+    
+    [allURLs addObject:[[[NSBundle mainBundle] resourceURL] URLByAppendingPathComponent:BUNDLE_MODE_FOLDER_NAME]];
+    
+    NSEnumerator *enumerator = [allURLs reverseObjectEnumerator];
+    NSURL *fileURL = nil;
+    while ((url = [enumerator nextObject])) {
+        NSDirectoryEnumerator *dirEnumerator = [[NSFileManager defaultManager] enumeratorAtURL:url includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles errorHandler:NULL];
+        while ((fileURL = [dirEnumerator nextObject])) {
+            if ([[fileURL pathExtension] isEqualToString:MODE_EXTENSION]) {
+                NSBundle *bundle = [NSBundle bundleWithURL:fileURL];
+                if (bundle && [bundle bundleIdentifier]) {
+                    if (![DocumentMode canParseModeVersionOfBundle:bundle]) {
+                        [self performSelector:@selector(showIncompatibleModeErrorForBundle:) withObject:bundle afterDelay:0]; // delay, as we don't want to block the init call, otherwise we keep receiving init messages
+						
+					} else {
+                        [I_modeBundles setObject:bundle forKey:[bundle bundleIdentifier]];
+                        if (![I_modeIdentifiersTagArray containsObject:[bundle bundleIdentifier]]) {
+                            [I_modeIdentifiersTagArray addObject:[bundle bundleIdentifier]];
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 - (IBAction)reloadDocumentModes:(id)aSender {
@@ -761,7 +829,10 @@ static DocumentModeManager *S_sharedInstance=nil;
     return [I_modeIdentifiersTagArray indexOfObject:anIdentifier];
 }
 
-
+#pragma mark
+#define MENU_ITEM_TAG_BUNDLE_MODE_FOLDER 0
+#define MENU_ITEM_TAG_LIBRARY_MODE_FOLDER 1
+#define MENU_ITEM_TAG_USER_MODE_FOLDER 2
 - (void)setupMenu:(NSMenu *)aMenu action:(SEL)aSelector alternateDisplay:(BOOL)aFlag {
 
     // Remove all menu items
@@ -841,16 +912,16 @@ static DocumentModeManager *S_sharedInstance=nil;
             }
             [aMenu addItem:menuItem];
             [menuItem release];
-            
-        }
+		}
     }
+
     if (aFlag) {
         [aMenu addItem:[NSMenuItem separatorItem]];
         menuItem = [[NSMenuItem alloc] 
             initWithTitle:NSLocalizedString(@"Open User Modes Folder", @"Menu item in alternate mode menu for opening the user modes folder.")
                    action:@selector(revealModesFolder:)
             keyEquivalent:@""];
-        [menuItem setTag:2];
+        [menuItem setTag:MENU_ITEM_TAG_USER_MODE_FOLDER];
         [menuItem setTarget:self];
         [aMenu addItem:menuItem];
         [menuItem release];
@@ -859,38 +930,47 @@ static DocumentModeManager *S_sharedInstance=nil;
             initWithTitle:NSLocalizedString(@"Open Library Modes Folder",@"Menu item in alternate mode menu for opening the library modes folder.")
                    action:@selector(revealModesFolder:)
             keyEquivalent:@""];
-        [menuItem setTag:1];
+        [menuItem setTag:MENU_ITEM_TAG_LIBRARY_MODE_FOLDER];
         [menuItem setTarget:self];
         [aMenu addItem:menuItem];
         [menuItem release];
 
+#ifdef BETA
+		// debug only
         menuItem = [[NSMenuItem alloc] 
             initWithTitle:NSLocalizedString(@"Open SubEthaEdit Modes Folder",@"Menu item in alternate mode menu for opening the SubEthaEdit modes folder.")
                    action:@selector(revealModesFolder:)
             keyEquivalent:@""];
-        [menuItem setTag:0];
+        [menuItem setTag:MENU_ITEM_TAG_BUNDLE_MODE_FOLDER];
         [menuItem setTarget:self];
         [aMenu addItem:menuItem];
         [menuItem release];
+#endif
     }
 }
 
 - (IBAction)revealModesFolder:(id)aSender {
-    NSString *directoryString = [[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"Modes/"];
+	NSURL *url = nil;
     switch ([aSender tag]) {
-        case 2: {
-            NSArray *userDomainPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSUserDomainMask, YES);
-            NSString *path=[userDomainPaths lastObject];
-            directoryString = [path stringByAppendingPathComponent:MODEPATHCOMPONENT]; }
-            break;
-        case 1: {
-            NSArray *systemDomainPaths = NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSSystemDomainMask, YES);
-            NSString *path=[systemDomainPaths lastObject];
-            directoryString = [path stringByAppendingPathComponent:MODEPATHCOMPONENT];
-            }
-            break;
+		case MENU_ITEM_TAG_BUNDLE_MODE_FOLDER: { // debug
+			url = [[[NSBundle mainBundle] resourceURL] URLByAppendingPathComponent:BUNDLE_MODE_FOLDER_NAME];
+		} break;
+			
+        case MENU_ITEM_TAG_USER_MODE_FOLDER: {
+            NSArray *userDomainURLs = [[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSUserDomainMask];
+			url = [self URLWithAddedBundleIdentifierDirectoryForURL:[userDomainURLs lastObject] subDirectoryName:LIBRARY_MODE_FOLDER_NAME];
+		} break;
+			
+        case MENU_ITEM_TAG_LIBRARY_MODE_FOLDER: {
+            NSArray *systemDomainURLs = [[NSFileManager defaultManager] URLsForDirectory:NSApplicationSupportDirectory inDomains:NSLocalDomainMask];
+			url = [self URLWithAddedBundleIdentifierDirectoryForURL:[systemDomainURLs lastObject] subDirectoryName:LIBRARY_MODE_FOLDER_NAME];
+		} break;
     }
-    if (![[NSWorkspace sharedWorkspace] openFile:directoryString]) NSBeep();;
+//	BOOL canOpenURL = [[NSWorkspace sharedWorkspace] openURL:url]; (application error alert :/
+	BOOL canOpenURL = [[NSWorkspace sharedWorkspace] openFile:[url path]];
+    if (!canOpenURL) {
+		NSBeep();
+	}
 }
 
 - (void)setupPopUp:(DocumentModePopUpButton *)aPopUp selectedModeIdentifier:(NSString *)aModeIdentifier automaticMode:(BOOL)hasAutomaticMode {

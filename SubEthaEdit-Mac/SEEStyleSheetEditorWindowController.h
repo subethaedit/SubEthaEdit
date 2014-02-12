@@ -35,6 +35,7 @@
 - (IBAction)changeFontViaPanel:(id)sender;
 
 - (IBAction)saveStyleSheet:(id)aSender;
+- (IBAction)duplicateStyleSheet:(id)aSender;
 - (IBAction)revealStyleSheetInFinder:(id)aSender;
 - (IBAction)revertStyleSheet:(id)aSender;
 

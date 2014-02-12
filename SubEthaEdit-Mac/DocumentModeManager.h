@@ -65,14 +65,17 @@
 - (BOOL)documentModeAvailableModeIdentifier:(NSString *)anIdentifier;
 - (int)tagForDocumentModeIdentifier:(NSString *)anIdentifier;
 - (NSDictionary *)availableModes;
+
 - (NSMutableArray *)reloadPrecedences;
 - (void)revalidatePrecedences;
 
 - (SEEStyleSheet *)styleSheetForName:(NSString *)aStyleSheetName;
 - (NSArray *)allStyleSheetNames;
 - (void)saveStyleSheet:(SEEStyleSheet *)aStyleSheet;
+- (SEEStyleSheet *)duplicateStyleSheet:(SEEStyleSheet *)aStyleSheet;
 - (void)revealStyleSheetInFinder:(SEEStyleSheet *)aStyleSheet;
 
 - (IBAction)reloadDocumentModes:(id)aSender;
+- (void)revealModeInFinder:(DocumentMode *)aMode;
 
 @end

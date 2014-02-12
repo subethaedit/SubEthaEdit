@@ -388,6 +388,14 @@
 	[self updateInspector];
 }
 
+- (IBAction)duplicateStyleSheet:(id)aSender {
+	SEEStyleSheet *sheet = [[DocumentModeManager sharedInstance] duplicateStyleSheet:self.currentStyleSheet];
+	[self.O_styleSheetPopUpButton removeAllItems];
+	[self.O_styleSheetPopUpButton addItemsWithTitles:[[DocumentModeManager sharedInstance] allStyleSheetNames]];
+	[self.O_styleSheetPopUpButton selectItemWithTitle:[sheet styleSheetName]];
+	[self changeStyleSheet:self];
+}
+
 - (IBAction)revertStyleSheet:(id)aSender {
 	[self.currentStyleSheet revertToPersistentState];
 	[self updateInspector];
