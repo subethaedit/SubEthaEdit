@@ -730,13 +730,12 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     return dockMenu;
 }
 
-
 - (IBAction)showModeBundleContents:(id)aSender {
-    DocumentModeManager *modeManager=[DocumentModeManager sharedInstance];
-    NSString *identifier=[modeManager documentModeIdentifierForTag:[aSender tag]];
-    if (identifier) {
-        DocumentMode *newMode=[modeManager documentModeForIdentifier:identifier];
-        [[NSWorkspace sharedWorkspace] selectFile:[[newMode bundle] resourcePath] inFileViewerRootedAtPath:nil];
+    DocumentModeManager *modeManager = [DocumentModeManager sharedInstance];
+    NSString *modeIdentifier = [modeManager documentModeIdentifierForTag:[aSender tag]];
+    if (modeIdentifier) {
+		DocumentMode *mode = [modeManager documentModeForIdentifier:modeIdentifier];
+		[modeManager revealModeInFinder:mode];
     }
 }
 
