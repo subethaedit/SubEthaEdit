@@ -11,11 +11,17 @@
 ## syntax_files
 ## result_files
 ## result_mode_mode_directory
+## plist_result_directory
+## mode_plist_suffix
+## plist_files
+## plist_result_files
 ###
 ## from
 ## to
 ## scope
 ## mode
+## key
+## to
 ###
 
 xsltproc=/usr/bin/xsltproc
@@ -59,11 +65,19 @@ syntax_definition="SyntaxDefinition.xml"
 ## Paths to the Style Sheet location
 style_directory=ModeStyles/
 
+## Plist related paths
+plist_result_directory=ModePlists/
+mode_plist_suffix=.mode/Contents/Info.plist
+
 ##
 style_files=$(addprefix $(style_directory), $(addsuffix .sss, $(languages)))
 syntax_files=$(addprefix $(mode_directory), $(addsuffix $(mode_syntax_def_suffix), $(languages)))
 result_files=$(addprefix $(result_mode_directory), $(addsuffix $(mode_syntax_def_suffix), $(languages)))
 result_mode_mode_directory=$(addprefix $(result_mode_directory), $(addsuffix ".mode", $(languages)))
+
+##
+plist_files=$(addprefix $(mode_directory), $(addsuffix $(mode_plist_suffix), $(languages)))
+plist_result_files=$(addprefix $(plist_result_directory), $(addsuffix $(mode_plist_suffix), $(languages)))
 
 ## Outside Parameter
 from=meta.default
@@ -83,7 +97,7 @@ help:
             " This Makefile acts as a umbrella makefile, using other makefiles to do the actual work.                                         \n" \
             " The following options are available:                                                                                            \n" \
             "                                                                                                                                 \n" \
-            " $${bold}make$${normal} and $${bold}make help$${normal} : prints a short how-to                                                                                  \n" \
+            " $${bold}make$${normal} and $${bold}make help$${normal} : prints a short how-to                                                  \n" \
             "                                                                                                                                 \n" \
             " $${bold}make create-style-sheet$${normal} generates style sheets from the style info in the definition files                    \n" \
             " $${bold}make create-style-sheet mode_directory=<path/to/Modes/Folder/>$${normal} generates style sheets for the modes in folder \n" \
@@ -96,6 +110,8 @@ help:
             " $${bold}make style-extraction$${normal} calls both create-style-sheet and remove-styles for one step extraction                 \n" \
             "                                                                                                                                 \n" \
             " $${bold}make rename from=<scope> to=<scope>$${normal} generates new xml in results folder with renamed scopes                   \n" \
+            "                                                                                                                                 \n" \
+            " $${bold}make update-plist key=<key> to=<value>$${normal} generates new plist in results folder with changed value               \n" \
             "                                                                                                                                 \n" \
             " $${bold}make find-scope scope=<scope>$${normal} generates a xml files containing all the uses of <scope>                        \n" \
             " $${bold}make all-scopes-one-mode mode=<mode>$${normal} generates an annotated txt with scopes used by a mode                    \n" \
@@ -121,6 +137,11 @@ create-style-sheet:
 	xsltproc=$(xsltproc) mode_directory=$(mode_directory) mode_syntax_def_suffix=$(mode_syntax_def_suffix)
 
 style-extraction: create-style-sheet remove-styles
+
+update-plist:
+	@ make -f make_update-plist.makefile key=$(key) to=$(to) plist_files="$(plist_files)" plist_result_files="$(plist_result_files)" \
+	xsltproc=$(xsltproc) mode_directory=$(mode_directory) plist_result_directory=$(plist_result_directory) mode_plist_suffix=$(mode_plist_suffix)
+
 ################################################################ Helper Recipes	
 
 ### finding the use cases for one scope
