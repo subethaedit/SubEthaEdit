@@ -12,7 +12,8 @@ Overview:
 5. [Remove style attributes from Mode](#removeStyleAttributes)
 6. [Rename Scope](#renameScope)
 7. [Update Plist](#updatePlist)
-8. [Style Extraction Makefile](#makefile)
+8. [List Plist Values](#plistValues)
+9. [Style Extraction Makefile](#makefile)
 
 ---
 ## [All XML-Nodes using a Scope](id:xmlForScope)
@@ -95,6 +96,16 @@ Changing a plist key (*eg. `CFBundleShortVersionString`*) value to something els
 	xsltproc --param key "'<key>'" --param to "'<to>'" --novalid UpdateInfoPlist.xslt <path>/<mode-name>.mode/Contents/Info.plist | see --mode xml
 	
 ---
+## [List Plist Values](id:plistValues)
+**PlistValueForKey.xslt**
+
+Getting textfile with the value for a plist key (*eg. `CFBundleShortVersionString`*) in a single Mode (*eg. `PHP-HTML`*):
+
+		xsltproc --param key "'<key>'" --novalid PlistValueForKey.xslt <path>/<mode-name>.mode/Contents/Info.plist | see
+
+
+
+---
 ## [Style Extraction and Mode Helper Makefile](id:makefile)
 **Makefile**
 
@@ -172,4 +183,6 @@ Modes - Coda2 - relative path in repository: `Coda2Modes/`
 
 		xsltproc --param key "'CFBundleShortVersionString'" --param to "'4.0'" --novalid UpdateInfoPlist.xslt ../../Modes/XML.mode/Contents/Info.plist | see --mode xml
 		
+* Examples for **PlistValueForKey.xslt**
 		
+		xsltproc --param key "'CFBundleShortVersionString'" --novalid PlistValueForKey.xslt ../../Modes/XML.mode/Contents/Info.plist | see --mode xml
