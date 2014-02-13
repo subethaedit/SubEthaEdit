@@ -92,9 +92,6 @@
 @property (nonatomic, strong) NSArray *topLevelNibObjects;
 @property (nonatomic, strong) NSViewController *bottomOverlayViewController;
 
-@property (nonatomic, assign) BOOL showsNumberOfActiveParticipants;
-@property (nonatomic, strong) NSNumber *numberOfActiveParticipants;
-
 - (void)	TCM_updateStatusBar;
 - (void)	TCM_updateBottomStatusBar;
 - (float)pageGuidePositionForColumns:(int)aColumns;
@@ -196,20 +193,37 @@
 {
     [[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(participantsDidChange:)
-												name	:TCMMMSessionParticipantsDidChangeNotification
-											  object	:[[self document] session]];
+												 name:TCMMMSessionParticipantsDidChangeNotification
+											   object:[[self document] session]];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
-											 selector:@selector(sessionPropertysDidUpdate:)
-												name	:TCMMMSessionDidChangeNotification
-											  object	:[[self document] session]];
+											 selector:@selector(documentSessionPropertysDidUpdate:)
+												 name:TCMMMSessionDidChangeNotification
+											   object:[[self document] session]];
 }
 
 
-- (void)sessionPropertysDidUpdate:(NSNotification *)aNotification {
-	NSImage *image = [NSImage imageNamed:@"BottomBarSharingIconAnnounce_Inactive"];
-	NSImage *greenTintedImage = [image imageTintedWithColor:[NSColor greenColor] invert:YES];
-	NSImage *blueTintedImage = [image imageTintedWithColor:[NSColor blueColor] invert:YES];
+- (void)documentSessionPropertysDidUpdate:(NSNotification *)aNotification {
+	NSImage *announceImage = [NSImage imageNamed:@"BottomBarSharingIconAnnounce"];
+
+	TCMMMSession *session = aNotification.object;
+	switch (session.accessState) {
+		case TCMMMSessionAccessLockedState:
+			self.alternateAnnounceImage = announceImage;
+			break;
+
+		case TCMMMSessionAccessReadOnlyState:
+			self.alternateAnnounceImage = [announceImage imageTintedWithColor:[NSColor orangeColor] invert:YES];
+			break;
+
+		case TCMMMSessionAccessReadWriteState:
+			self.alternateAnnounceImage = [announceImage imageTintedWithColor:[NSColor blueColor] invert:YES];
+			break;
+
+		default:
+			self.alternateAnnounceImage = announceImage;
+			break;
+	}
 }
 
 

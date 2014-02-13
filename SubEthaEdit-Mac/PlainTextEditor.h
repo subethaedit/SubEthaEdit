@@ -43,6 +43,12 @@
 }
 
 @property (nonatomic, readonly) BOOL hasBottomOverlayView;
+// bottom status bar binding values
+@property (nonatomic, assign) BOOL showsNumberOfActiveParticipants;
+@property (nonatomic, strong) NSNumber *numberOfActiveParticipants;
+
+@property (nonatomic, strong) NSImage *alternateAnnounceImage;
+
 
 
 - (id)initWithWindowControllerTabContext:(PlainTextWindowControllerTabContext *)aWindowControllerTabContext splitButton:(BOOL)aFlag;
