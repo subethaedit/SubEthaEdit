@@ -1,12 +1,12 @@
 [submodule "PSMTabBarControl"]
 	path = PSMTabBarControl
-url=git@github.com:codingmonkeys/PSMTabBarControl.git
+	url  = https://github.com/codingmonkeys/PSMTabBarControl.git
 [submodule "OgreKit"]
 	path = OgreKit
-	url = git@github.com:codingmonkeys/OgreKit.git
+	url  = https://github.com/codingmonkeys/OgreKit.git
 [submodule "UniversalDetector"]
 	path = UniversalDetector
-	url = git@github.com:codingmonkeys/UniversalDetector.git
+	url  = https://github.com/codingmonkeys/UniversalDetector.git
 [submodule "HockeySDK-Mac"]
 	path = HockeySDK-Mac
-url=git@github.com:codingmonkeys/HockeySDK-Mac.git
+	url  = https://github.com/codingmonkeys/HockeySDK-Mac.git
