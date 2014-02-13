@@ -48,3 +48,13 @@ http://www.codingmonkeys.de</xsl:param>
 	</xsl:template>
 	
 </xsl:stylesheet>
+
+<!--
+Workaround for newlines in values: replace :when with this:
+
+			<xsl:when test="$my_key = 'NSHumanReadableCopyright'">
+				 <string>© 2014 TheCodingMonkeys
+http://www.codingmonkeys.de</string>
+			</xsl:when>
+			
+-->
