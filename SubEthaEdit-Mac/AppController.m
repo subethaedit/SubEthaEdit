@@ -839,9 +839,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [fileEncodingsSubmenu configureWithAction:@selector(selectEncoding:)];
 }
 
-#define SCRIPTPATHCOMPONENT @"Application Support/SubEthaEdit/Scripts"
 #define SCRIPTMENUTAGBASE   7000
-
 - (void)reloadScriptMenu {
     NSMenu *scriptMenu=[[[NSApp mainMenu] itemWithTag:ScriptMenuTag] submenu];
     while ([scriptMenu numberOfItems]) {
