@@ -78,6 +78,7 @@ result_mode_mode_directory=$(addprefix $(result_mode_directory), $(addsuffix ".m
 ##
 plist_files=$(addprefix $(mode_directory), $(addsuffix $(mode_plist_suffix), $(languages)))
 plist_result_files=$(addprefix $(plist_result_directory), $(addsuffix $(mode_plist_suffix), $(languages)))
+plist=Info.plist
 
 ## Outside Parameter
 from=meta.default
@@ -112,6 +113,8 @@ help:
             " $${bold}make rename from=<scope> to=<scope>$${normal} generates new xml in results folder with renamed scopes                   \n" \
             "                                                                                                                                 \n" \
             " $${bold}make update-plist key=<key> to=<value>$${normal} generates new plist in results folder with changed value               \n" \
+            "                                                                                                                                 \n" \
+            " $${bold}make plist-values key=<key>$${normal} generates a list of the values used for the given key                             \n" \
             "                                                                                                                                 \n" \
             " $${bold}make find-scope scope=<scope>$${normal} generates a xml files containing all the uses of <scope>                        \n" \
             " $${bold}make all-scopes-one-mode mode=<mode>$${normal} generates an annotated txt with scopes used by a mode                    \n" \
@@ -160,6 +163,11 @@ all-scopes-by-lang:
 
 all-scopes-uniqued:
 	@ find $(mode_directory) -name $(syntax_definition) -exec $(xsltproc) --novalid $(xslt_scope_in_mode) \{\} \; | awk '{print $$1}' | sort | uniq | see
+
+### plist helper
+plist-values:
+	@ find $(mode_directory) -name $(plist) -exec $(xsltproc) --param key "'$(key)'" --novalid PlistValueForKey.xslt \{\} \; | see
+
 
 ### cleanup - delete style and result files
 clean:

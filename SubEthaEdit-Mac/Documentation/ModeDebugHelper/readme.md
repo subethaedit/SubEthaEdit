@@ -125,6 +125,8 @@ Getting textfile with the value for a plist key (*eg. `CFBundleShortVersionStrin
 
 `make update-plist key=<key> to=<value>` : generates new plist in results folder with changed value
 
+`make plist-values key=<key>` : generates a list of the values used for the given key 
+
 `make find-scope scope=<scope>` : generates a xml files containing all the uses of <scope>  
 `make all-scopes-one-mode mode=<mode>` : generates an annotated txt with scopes used by a mode  
 `make all-scopes-by-lang` : generates an annotated txt with scopes used by all modes  
