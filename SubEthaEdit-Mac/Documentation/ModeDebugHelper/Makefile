@@ -161,7 +161,6 @@ all-scopes-by-lang:
 all-scopes-uniqued:
 	@ find $(mode_directory) -name $(syntax_definition) -exec $(xsltproc) --novalid $(xslt_scope_in_mode) \{\} \; | awk '{print $$1}' | sort | uniq | see
 
-
 ### cleanup - delete style and result files
 clean:
 	@ for file in $(style_files); do \

@@ -11,7 +11,8 @@ Overview:
 4. [Simple Style Sheet for all style attributes](#allStyleAttributes)
 5. [Remove style attributes from Mode](#removeStyleAttributes)
 6. [Rename Scope](#renameScope)
-7. [Style Extraction Makefile](#makefile)
+7. [Update Plist](#updatePlist)
+8. [Style Extraction Makefile](#makefile)
 
 ---
 ## [All XML-Nodes using a Scope](id:xmlForScope)
@@ -86,6 +87,14 @@ Renaming a scope (*eg. `meta.default`*) in a single Mode (*eg. `PHP-HTML`*) (_op
 	xsltproc --param from "'<scope-value>'" --param to "'<new-scope-value>'" --novalid RenameScope.xslt <path>/<mode-name>.mode/Contents/Resources/SyntaxDefinition.xml | see --mode xml
 
 ---
+## [Update Plist](id:updatePlist)
+**RenameScope.xslt**
+
+Changing a plist key (*eg. `CFBundleShortVersionString`*) value to something else in a single Mode (*eg. `PHP-HTML`*) (_opened in SubEthaEdit in XML-Mode_):
+
+	xsltproc --param key "'<key>'" --param to "'<to>'" --novalid UpdateInfoPlist.xslt <path>/<mode-name>.mode/Contents/Info.plist | see --mode xml
+	
+---
 ## [Style Extraction and Mode Helper Makefile](id:makefile)
 **Makefile**
 
@@ -102,6 +111,8 @@ Renaming a scope (*eg. `meta.default`*) in a single Mode (*eg. `PHP-HTML`*) (_op
 `make style-extraction` : calls both create-style-sheet and remove-styles for one step extraction
 
 `make rename from=<scope> to=<scope>` : generates new xml in results folder with renamed scopes  
+
+`make update-plist key=<key> to=<value>` : generates new plist in results folder with changed value
 
 `make find-scope scope=<scope>` : generates a xml files containing all the uses of <scope>  
 `make all-scopes-one-mode mode=<mode>` : generates an annotated txt with scopes used by a mode  
@@ -157,3 +168,8 @@ Modes - Coda2 - relative path in repository: `Coda2Modes/`
  
 		xsltproc --param from "'meta.default'" --param to "'magic.bullet'" --novalid RenameScope.xslt ../../Modes/PHP-HTML.mode/Contents/Resources/SyntaxDefinition.xml | see --mode xml
 
+* Examples for **UpdateInfoPlist.xslt**
+
+		xsltproc --param key "'CFBundleShortVersionString'" --param to "'4.0'" --novalid UpdateInfoPlist.xslt ../../Modes/XML.mode/Contents/Info.plist | see --mode xml
+		
+		
