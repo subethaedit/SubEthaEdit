@@ -91,6 +91,7 @@
 @property (nonatomic, strong) NSArray *topLevelNibObjects;
 @property (nonatomic, strong) NSViewController *bottomOverlayViewController;
 
+@property (nonatomic, assign) BOOL showsNumberOfActiveParticipants;
 @property (nonatomic, strong) NSNumber *numberOfActiveParticipants;
 
 - (void)	TCM_updateStatusBar;
@@ -173,6 +174,7 @@
     {
 		NSUInteger participantCount = [[[self document] session] participantCount];
 		self.numberOfActiveParticipants = @(participantCount);
+		self.showsNumberOfActiveParticipants = participantCount > 1;
 		
         ((void (
 		  *)(id, SEL, BOOL))objc_msgSend)(layoutManager, @selector(setAllowsNonContiguousLayout:), (participantCount == 1));
