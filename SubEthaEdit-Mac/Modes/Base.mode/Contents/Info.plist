@@ -24,6 +24,6 @@ http://www.codingmonkeys.de</string>
 		<string>txt</string>
 	</array>
 	<key>SEEMinimumEngineVersion</key>
-	<string>3.5</string>
+	<string>4.0</string>
 </dict>
 </plist>

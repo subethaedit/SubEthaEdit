@@ -17,6 +17,6 @@
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>SEEMinimumEngineVersion</key>
-	<string>3.5</string>
+	<string>4.0</string>
 </dict>
 </plist>
