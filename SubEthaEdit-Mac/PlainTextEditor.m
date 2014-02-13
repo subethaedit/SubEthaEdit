@@ -169,12 +169,11 @@
 - (void)participantsDidChange:(NSNotification *)aNotification
 {
     NSLayoutManager *layoutManager = [I_textView layoutManager];
-
-	NSUInteger participantCount = [[[self document] session] participantCount];
-	self.numberOfActiveParticipants = @(participantCount);
-	
     if ([layoutManager respondsToSelector:@selector(setAllowsNonContiguousLayout:)])
     {
+		NSUInteger participantCount = [[[self document] session] participantCount];
+		self.numberOfActiveParticipants = @(participantCount);
+		
         ((void (
 		  *)(id, SEL, BOOL))objc_msgSend)(layoutManager, @selector(setAllowsNonContiguousLayout:), (participantCount == 1));
     }
