@@ -34,6 +34,7 @@
 #import "SyntaxHighlighter.h"
 #import "ScriptTextSelection.h"
 #import "NSMenuTCMAdditions.h"
+#import "NSImageTCMAdditions.h"
 #import "NSMutableAttributedStringSEEAdditions.h"
 #import "FoldableTextStorage.h"
 #import "FoldedTextAttachment.h"
@@ -187,6 +188,7 @@
     PlainTextDocument *document = [self document];
 
     [[NSNotificationCenter defaultCenter] removeObserver:self name:TCMMMSessionParticipantsDidChangeNotification object:[document session]];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:TCMMMSessionDidChangeNotification object:[document session]];
 }
 
 
@@ -196,6 +198,18 @@
 											 selector:@selector(participantsDidChange:)
 												name	:TCMMMSessionParticipantsDidChangeNotification
 											  object	:[[self document] session]];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(sessionPropertysDidUpdate:)
+												name	:TCMMMSessionDidChangeNotification
+											  object	:[[self document] session]];
+}
+
+
+- (void)sessionPropertysDidUpdate:(NSNotification *)aNotification {
+	NSImage *image = [NSImage imageNamed:@"BottomBarSharingIconAnnounce_Inactive"];
+	NSImage *greenTintedImage = [image imageTintedWithColor:[NSColor greenColor] invert:YES];
+	NSImage *blueTintedImage = [image imageTintedWithColor:[NSColor blueColor] invert:YES];
 }
 
 

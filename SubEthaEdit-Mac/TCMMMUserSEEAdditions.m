@@ -128,7 +128,7 @@
         [[self properties] setObject:image forKey:@"Image"];
         [image setCacheMode:NSImageCacheNever];
     }
-    return image;
+    return [image imageTintedWithColor:[NSColor greenColor] invert:NO];
 }
 
 - (NSImage *)image48

@@ -27,18 +27,12 @@
 #define kWaitingTime 0.1
 
 
-NSString * const TCMMMSessionParticipantsDidChangeNotification = 
-               @"TCMMMSessionParticipantsDidChangeNotification";
-NSString * const TCMMMSessionPendingUsersDidChangeNotification = 
-               @"TCMMMSessionPendingUsersDidChangeNotification";
-NSString * const TCMMMSessionPendingInvitationsDidChange =
-               @"TCMMMSessionPendingInvitationsDidChange";
-NSString * const TCMMMSessionDidChangeNotification = 
-               @"TCMMMSessionDidChangeNotification";
-NSString * const TCMMMSessionClientStateDidChangeNotification = 
-               @"TCMMMSessionClientStateDidChangeNotification";
-NSString * const TCMMMSessionDidReceiveContentNotification = 
-               @"TCMMMSessionDidReceiveContentNotification";
+NSString * const TCMMMSessionParticipantsDidChangeNotification = @"TCMMMSessionParticipantsDidChangeNotification";
+NSString * const TCMMMSessionPendingUsersDidChangeNotification = @"TCMMMSessionPendingUsersDidChangeNotification";
+NSString * const TCMMMSessionPendingInvitationsDidChange = @"TCMMMSessionPendingInvitationsDidChange";
+NSString * const TCMMMSessionDidChangeNotification = @"TCMMMSessionDidChangeNotification";
+NSString * const TCMMMSessionClientStateDidChangeNotification = @"TCMMMSessionClientStateDidChangeNotification";
+NSString * const TCMMMSessionDidReceiveContentNotification = @"TCMMMSessionDidReceiveContentNotification";
 
 NSString * const TCMMMSessionReadWriteGroupName = @"ReadWrite";
 NSString * const TCMMMSessionReadOnlyGroupName  = @"ReadOnly";
