@@ -2,7 +2,6 @@
 
 <xsl:stylesheet xmlns:xsl="http://www.w3.org/1999/XSL/Transform" version="1.0">
 	<xsl:output indent="yes" encoding="UTF-8" method="xml" 
-		standalone="no"
 		doctype-system="http://www.apple.com/DTDs/PropertyList-1.0.dtd" 
 		doctype-public="-//Apple//DTD PLIST 1.0//EN"
 		media-type="xml/plist"/>
