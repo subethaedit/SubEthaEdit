@@ -26,6 +26,7 @@
 
 + (NSImage *)pdfBasedImageNamed:(NSString *)aName;
 - (NSImage *)resizedImageWithSize:(NSSize)aSize;
+- (NSImage *)imageTintedWithColor:(NSColor *)tint invert:(BOOL)aFlag;
 - (NSImage *)dimmedImage;
 
 @end
