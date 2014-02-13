@@ -1,4 +1,4 @@
-Changes with Version 4.0  (SEE 4.0)
-	 *) added ChangeLog
-	 *) added scopes
-
+Changes with Version 4.0 (SEE 4.0)
+	*) added ChangeLog
+	*) SYNTAX: updated for syntax scopes
+	*) SYNTAX: markup cleanup
