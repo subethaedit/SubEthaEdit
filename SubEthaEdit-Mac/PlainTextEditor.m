@@ -88,6 +88,7 @@
 @property (nonatomic, assign) IBOutlet NSView *O_bottomStatusBarView;
 @property (nonatomic, strong) NSArray *bottomStatusBarViewBackgroundFilters;
 @property (nonatomic, assign) IBOutlet NSButton *shareInviteUsersButtonOutlet;
+@property (nonatomic, assign) IBOutlet NSButton *shareAnnounceButtonOutlet;
 
 @property (nonatomic, strong) NSArray *topLevelNibObjects;
 @property (nonatomic, strong) NSViewController *bottomOverlayViewController;
@@ -204,26 +205,7 @@
 
 
 - (void)documentSessionPropertysDidUpdate:(NSNotification *)aNotification {
-	NSImage *announceImage = [NSImage imageNamed:@"BottomBarSharingIconAnnounce"];
-
-	TCMMMSession *session = aNotification.object;
-	switch (session.accessState) {
-		case TCMMMSessionAccessLockedState:
-			self.alternateAnnounceImage = announceImage;
-			break;
-
-		case TCMMMSessionAccessReadOnlyState:
-			self.alternateAnnounceImage = [announceImage imageTintedWithColor:[NSColor orangeColor] invert:YES];
-			break;
-
-		case TCMMMSessionAccessReadWriteState:
-			self.alternateAnnounceImage = [announceImage imageTintedWithColor:[NSColor blueColor] invert:YES];
-			break;
-
-		default:
-			self.alternateAnnounceImage = announceImage;
-			break;
-	}
+	[self updateAnnounceButton];
 }
 
 
@@ -831,6 +813,35 @@
 	[I_textView adjustContainerInsetToScrollView];
 }
 
+- (void)updateAnnounceButton {
+	NSImage *announceImage = [NSImage imageNamed:@"BottomBarSharingIconAnnounce"];
+
+	PlainTextDocument *document = self.document;
+	TCMMMSession *session = document.session;
+	switch (session.accessState) {
+		case TCMMMSessionAccessLockedState:
+			self.alternateAnnounceImage = announceImage;
+			break;
+
+		case TCMMMSessionAccessReadOnlyState:
+			self.alternateAnnounceImage = [announceImage imageTintedWithColor:[NSColor orangeColor] invert:YES];
+			break;
+
+		case TCMMMSessionAccessReadWriteState:
+			self.alternateAnnounceImage = [announceImage imageTintedWithColor:[NSColor blueColor] invert:YES];
+			break;
+
+		default:
+			self.alternateAnnounceImage = announceImage;
+			break;
+	}
+
+	NSInteger buttonState = document.isAnnounced?NSOnState:NSOffState;
+	[self.shareAnnounceButtonOutlet setState:NSOffState]; // This is realy dirty!
+	// need to make the state switch in order force alternate image update in a layer backed view hierarchy on 10.9.1
+	[self.shareAnnounceButtonOutlet setState:buttonState];
+}
+
 
 - (NSView *)editorView
 {
@@ -1200,6 +1211,7 @@
 {
     [self TCM_adjustTopStatusBarFrames];
     [self TCM_updateBottomStatusBar];
+	[self updateAnnounceButton];
 }
 
 
