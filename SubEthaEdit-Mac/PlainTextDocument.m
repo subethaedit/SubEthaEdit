@@ -1373,6 +1373,7 @@ static NSString *tempFileName(NSString *origPath) {
                     [[self windowControllers] makeObjectsPerformSelector:@selector(closeParticipantsOverlay:) withObject:self];
                 }
             }
+			[[self plainTextEditors] makeObjectsPerformSelector:@selector(updateViews)];
         }
         // needed for updating of the lock
         [[self windowControllers] makeObjectsPerformSelector:@selector(synchronizeWindowTitleWithDocumentName)];

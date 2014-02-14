@@ -34,6 +34,7 @@
 #import "SyntaxHighlighter.h"
 #import "ScriptTextSelection.h"
 #import "NSMenuTCMAdditions.h"
+#import "NSImageTCMAdditions.h"
 #import "NSMutableAttributedStringSEEAdditions.h"
 #import "FoldableTextStorage.h"
 #import "FoldedTextAttachment.h"
@@ -87,12 +88,10 @@
 @property (nonatomic, assign) IBOutlet NSView *O_bottomStatusBarView;
 @property (nonatomic, strong) NSArray *bottomStatusBarViewBackgroundFilters;
 @property (nonatomic, assign) IBOutlet NSButton *shareInviteUsersButtonOutlet;
+@property (nonatomic, assign) IBOutlet NSButton *shareAnnounceButtonOutlet;
 
 @property (nonatomic, strong) NSArray *topLevelNibObjects;
 @property (nonatomic, strong) NSViewController *bottomOverlayViewController;
-
-@property (nonatomic, assign) BOOL showsNumberOfActiveParticipants;
-@property (nonatomic, strong) NSNumber *numberOfActiveParticipants;
 
 - (void)	TCM_updateStatusBar;
 - (void)	TCM_updateBottomStatusBar;
@@ -187,6 +186,7 @@
     PlainTextDocument *document = [self document];
 
     [[NSNotificationCenter defaultCenter] removeObserver:self name:TCMMMSessionParticipantsDidChangeNotification object:[document session]];
+    [[NSNotificationCenter defaultCenter] removeObserver:self name:TCMMMSessionDidChangeNotification object:[document session]];
 }
 
 
@@ -194,8 +194,18 @@
 {
     [[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(participantsDidChange:)
-												name	:TCMMMSessionParticipantsDidChangeNotification
-											  object	:[[self document] session]];
+												 name:TCMMMSessionParticipantsDidChangeNotification
+											   object:[[self document] session]];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
+											 selector:@selector(documentSessionPropertysDidUpdate:)
+												 name:TCMMMSessionDidChangeNotification
+											   object:[[self document] session]];
+}
+
+
+- (void)documentSessionPropertysDidUpdate:(NSNotification *)aNotification {
+	[self updateAnnounceButton];
 }
 
 
@@ -803,6 +813,35 @@
 	[I_textView adjustContainerInsetToScrollView];
 }
 
+- (void)updateAnnounceButton {
+	NSImage *announceImage = [NSImage imageNamed:@"BottomBarSharingIconAnnounce"];
+
+	PlainTextDocument *document = self.document;
+	TCMMMSession *session = document.session;
+	switch (session.accessState) {
+		case TCMMMSessionAccessLockedState:
+			self.alternateAnnounceImage = announceImage;
+			break;
+
+		case TCMMMSessionAccessReadOnlyState:
+			self.alternateAnnounceImage = [announceImage imageTintedWithColor:[NSColor orangeColor] invert:YES];
+			break;
+
+		case TCMMMSessionAccessReadWriteState:
+			self.alternateAnnounceImage = [announceImage imageTintedWithColor:[NSColor blueColor] invert:YES];
+			break;
+
+		default:
+			self.alternateAnnounceImage = announceImage;
+			break;
+	}
+
+	NSInteger buttonState = document.isAnnounced?NSOnState:NSOffState;
+	[self.shareAnnounceButtonOutlet setState:NSOffState]; // This is realy dirty!
+	// need to make the state switch in order force alternate image update in a layer backed view hierarchy on 10.9.1
+	[self.shareAnnounceButtonOutlet setState:buttonState];
+}
+
 
 - (NSView *)editorView
 {
@@ -1172,6 +1211,7 @@
 {
     [self TCM_adjustTopStatusBarFrames];
     [self TCM_updateBottomStatusBar];
+	[self updateAnnounceButton];
 }
 
 

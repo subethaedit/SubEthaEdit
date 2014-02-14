@@ -21,6 +21,7 @@
                 <outlet property="O_waitPipeStatusImageView" destination="68" id="69"/>
                 <outlet property="O_windowWidthTextField" destination="15" id="21"/>
                 <outlet property="O_writtenByTextField" destination="25" id="31"/>
+                <outlet property="shareAnnounceButtonOutlet" destination="7Mi-Cu-bLB" id="XN5-mI-pJm"/>
                 <outlet property="shareInviteUsersButtonOutlet" destination="bv6-mv-CIq" id="hQV-kB-VvW"/>
             </connections>
         </customObject>
@@ -118,7 +119,7 @@
                         </ciFilter>
                     </backgroundFilters>
                 </customView>
-                <customView id="28" userLabel="Bottom Blurred View" customClass="SEEOverlayView">
+                <customView wantsLayer="YES" id="28" userLabel="Bottom Blurred View" customClass="SEEOverlayView">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="17"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <subviews>
@@ -145,7 +146,7 @@
                             <rect key="frame" x="217" y="0.0" width="243" height="17"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         </customView>
-                        <button id="7Mi-Cu-bLB">
+                        <button wantsLayer="YES" id="7Mi-Cu-bLB">
                             <rect key="frame" x="459" y="0.0" width="21" height="17"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                             <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="BottomBarSharingIconAnnounce_Inactive" imagePosition="only" alignment="center" alternateImage="BottomBarSharingIconAnnounce" controlSize="mini" imageScaling="proportionallyDown" inset="2" id="4l5-Nu-6M1">
@@ -154,6 +155,7 @@
                             </buttonCell>
                             <connections>
                                 <action selector="toggleIsAnnounced:" target="-1" id="IJN-40-Y5s"/>
+                                <binding destination="-2" name="alternateImage" keyPath="self.alternateAnnounceImage" id="9C3-Qh-Q6v"/>
                                 <outlet property="menu" destination="eH3-RU-uKl" id="H3t-Aa-F1C"/>
                             </connections>
                         </button>
@@ -166,12 +168,12 @@
                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                             </textFieldCell>
                             <connections>
+                                <binding destination="-2" name="value" keyPath="self.numberOfActiveParticipants" id="MvO-Wx-x95"/>
                                 <binding destination="-2" name="hidden" keyPath="self.showsNumberOfActiveParticipants" id="vrO-w6-O41">
                                     <dictionary key="options">
                                         <string key="NSValueTransformerName">NSNegateBoolean</string>
                                     </dictionary>
                                 </binding>
-                                <binding destination="-2" name="value" keyPath="self.numberOfActiveParticipants" id="MvO-Wx-x95"/>
                             </connections>
                         </textField>
                         <button id="OwG-YH-zbO">

@@ -209,6 +209,49 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
     return resultImage;
 }
 
+
+- (NSImage *)imageTintedWithColor:(NSColor *)tint invert:(BOOL)aFlag
+{
+    if (tint != nil) {
+    	NSImage *tintedImage = [NSImage imageWithSize:self.size flipped:self.isFlipped drawingHandler:^BOOL(NSRect dstRect) {
+			CIFilter *colorGenerator = [CIFilter filterWithName:@"CIConstantColorGenerator"];
+			CIColor *color = [[CIColor alloc] initWithColor:tint];
+			[colorGenerator setDefaults];
+			[colorGenerator setValue:color forKey:@"inputColor"];
+
+			CIFilter *monochromeFilter = [CIFilter filterWithName:@"CIColorMonochrome"];
+			CIImage *baseImage = [CIImage imageWithData:[self TIFFRepresentation]];
+			[monochromeFilter setDefaults];
+			[monochromeFilter setValue:baseImage forKey:@"inputImage"];
+			[monochromeFilter setValue:[CIColor colorWithRed:0.75 green:0.75 blue:0.75] forKey:@"inputColor"];
+			[monochromeFilter setValue:[NSNumber numberWithFloat:1.0] forKey:@"inputIntensity"];
+			CIImage *monochromeImage = [monochromeFilter valueForKey:@"outputImage"];
+			if (aFlag) {
+				CIFilter *invertFilter = [CIFilter filterWithName:@"CIColorInvert"];
+				[invertFilter setDefaults];
+				[invertFilter setValue:[monochromeFilter valueForKey:@"outputImage"] forKey:@"inputImage"];
+				monochromeImage = [invertFilter valueForKey:@"outputImage"];
+			}
+
+			CIFilter *compositingFilter = [CIFilter filterWithName:@"CIMultiplyCompositing"];
+			[compositingFilter setDefaults];
+			[compositingFilter setValue:[colorGenerator valueForKey:@"outputImage"] forKey:@"inputImage"];
+			[compositingFilter setValue:monochromeImage forKey:@"inputBackgroundImage"];
+
+			CIImage *outputImage = [compositingFilter valueForKey:@"outputImage"];
+
+			[outputImage drawInRect:dstRect fromRect:(NSRect)outputImage.extent operation:NSCompositeCopy fraction:1.0];
+
+			return YES;
+		}];
+
+    	return tintedImage;
+    } else {
+    	return [self copy];
+    }
+}
+
+
 - (NSImage *)dimmedImage {
 
 	NSImage *resultImage = [NSImage imageWithSize:self.size flipped:self.isFlipped drawingHandler:^BOOL(NSRect dstRect) {
