@@ -323,6 +323,8 @@ static NSMenu *S_defaultMenu=nil;
     if (document) {
         while ((user=[participants nextObject])) {
             if (user != me) {
+				NSPoint textContainerOrigin = self.textContainerOrigin;
+
                 SelectionOperation *selectionOperation= [[user propertiesForSessionID:sessionID] objectForKey:@"SelectionOperation"];
                 if (selectionOperation) {
                     NSRange selectionRange = [ts foldedRangeForFullRange:[selectionOperation selectedRange]];
@@ -341,6 +343,10 @@ static NSMenu *S_defaultMenu=nil;
                             NSPoint myPoint = rectArray[0].origin;
                             myPoint.x -= 0.5;
                             myPoint.y += rectArray[0].size.height - 0.5;
+							
+							myPoint.x += textContainerOrigin.x;
+							myPoint.y += textContainerOrigin.y;
+							
                             [self drawInsertionPointWithColor:changeColor atPoint:myPoint];
                         }
                     }

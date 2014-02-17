@@ -161,25 +161,6 @@ static NSString *S_specialGlyphs[17];
 }
 
 
-- (void)drawCaretWithColor:(NSColor *)aColor atPoint:(NSPoint)aPoint {
-    NSBezierPath *caretPath = [NSBezierPath bezierPath];
-    [caretPath moveToPoint:NSMakePoint(aPoint.x,aPoint.y-2)];
-    [caretPath lineToPoint:NSMakePoint(aPoint.x+2,aPoint.y)];
-    [caretPath lineToPoint:NSMakePoint(aPoint.x+3,aPoint.y-1)];
-    [caretPath lineToPoint:NSMakePoint(aPoint.x,aPoint.y-4)];
-    [caretPath lineToPoint:NSMakePoint(aPoint.x-3,aPoint.y-1)];
-    [caretPath lineToPoint:NSMakePoint(aPoint.x-2,aPoint.y)];
-    [caretPath closePath];
-    [aColor set];
-
-//    BOOL shouldAntialias = [[NSGraphicsContext currentContext] shouldAntialias];
-//    [[NSGraphicsContext currentContext] setShouldAntialias:NO];
-    [caretPath fill];
-//    [caretPath stroke];
-//    [[NSGraphicsContext currentContext] setShouldAntialias:shouldAntialias];
-}
-
-
 - (BOOL)showsChangeMarks {
     return I_flags.showsChangeMarks;
 }
@@ -260,13 +241,13 @@ static NSString *S_specialGlyphs[17];
         }
     }
 
-    // selections and carets
+    // selections
     PlainTextDocument *document = (PlainTextDocument *)[[[[container textView] window] windowController] document];
     TCMMMSession *session=[document session];
     NSString *sessionID=[session sessionID];
     NSDictionary *sessionParticipants=[session participants];
     NSEnumerator *participants = [[sessionParticipants objectForKey:TCMMMSessionReadWriteGroupName] objectEnumerator];
-    TCMMMUser *user;
+    TCMMMUser *user = nil;
 //    float saturation=[[[NSUserDefaults standardUserDefaults] objectForKey:SelectionSaturationPreferenceKey] floatValue];
 	FoldableTextStorage *ts = (FoldableTextStorage *)[self textStorage];
     while ((user = [participants nextObject])) {
@@ -280,6 +261,13 @@ static NSString *S_specialGlyphs[17];
                                  ofColor:changeColor];
                 NSUInteger rectCount;
                 NSRectArray selectionRectArray = [self rectArrayForCharacterRange:selectionRange withinSelectedCharacterRange:selectionRange inTextContainer:container rectCount:&rectCount];
+				
+				// transform the selection rects by the textcontainerorigin
+				for (NSUInteger index = 0; index < rectCount; index++) {
+					selectionRectArray[index].origin.x += containerOrigin.x;
+					selectionRectArray[index].origin.y += containerOrigin.y;
+				}
+				
                 [self drawBorderedMarksWithColor:selectionColor atRects:selectionRectArray rectCount:rectCount];
             }
         }
