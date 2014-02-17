@@ -644,7 +644,9 @@ static NSAttributedString *S_dragString = nil;
 
 	PlainTextEditor *editor = [[self plainTextEditors] lastObject];
 	if (editor) {
-		SEEParticipantsOverlayViewController *participantsOverlay = [[[SEEParticipantsOverlayViewController alloc] initWithDocument:self.document] autorelease];
+		NSTabViewItem *tab = [I_tabView selectedTabViewItem];
+        PlainTextWindowControllerTabContext *context = (PlainTextWindowControllerTabContext *)[tab identifier];
+		SEEParticipantsOverlayViewController *participantsOverlay = [[[SEEParticipantsOverlayViewController alloc] initWithTabContext:context] autorelease];
 		[editor displayViewControllerInBottomArea:participantsOverlay];
 	}
 }
@@ -662,7 +664,9 @@ static NSAttributedString *S_dragString = nil;
 		if (editor.hasBottomOverlayView) {
 			[editor displayViewControllerInBottomArea:nil];
 		} else {
-			SEEParticipantsOverlayViewController *participantsOverlay = [[[SEEParticipantsOverlayViewController alloc] initWithDocument:self.document] autorelease];
+			NSTabViewItem *tab = [I_tabView selectedTabViewItem];
+			PlainTextWindowControllerTabContext *context = (PlainTextWindowControllerTabContext *)[tab identifier];
+			SEEParticipantsOverlayViewController *participantsOverlay = [[[SEEParticipantsOverlayViewController alloc] initWithTabContext:context] autorelease];
 			[editor displayViewControllerInBottomArea:participantsOverlay];
 		}
 	}
@@ -1588,7 +1592,7 @@ static NSAttributedString *S_dragString = nil;
 		// show participant overlay if split gets toggled
 		if ([[I_plainTextEditors objectAtIndex:0] hasBottomOverlayView]) {
 			[[I_plainTextEditors objectAtIndex:0] displayViewControllerInBottomArea:nil];
-			SEEParticipantsOverlayViewController *participantsOverlay = [[[SEEParticipantsOverlayViewController alloc] initWithDocument:self.document] autorelease];
+			SEEParticipantsOverlayViewController *participantsOverlay = [[[SEEParticipantsOverlayViewController alloc] initWithTabContext:context] autorelease];
 			[[I_plainTextEditors objectAtIndex:1] displayViewControllerInBottomArea:participantsOverlay];
 		}
 
@@ -1620,7 +1624,7 @@ static NSAttributedString *S_dragString = nil;
 		// show participant overlay if split gets toggled
  		if ([[I_plainTextEditors objectAtIndex:1] hasBottomOverlayView]) {
 			[[I_plainTextEditors objectAtIndex:1] displayViewControllerInBottomArea:nil];
-			SEEParticipantsOverlayViewController *participantsOverlay = [[[SEEParticipantsOverlayViewController alloc] initWithDocument:self.document] autorelease];
+			SEEParticipantsOverlayViewController *participantsOverlay = [[[SEEParticipantsOverlayViewController alloc] initWithTabContext:[tabViewItem identifier]] autorelease];
 			[[I_plainTextEditors objectAtIndex:0] displayViewControllerInBottomArea:participantsOverlay];
 		}
 

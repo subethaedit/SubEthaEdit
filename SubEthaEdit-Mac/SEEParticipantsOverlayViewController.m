@@ -16,10 +16,11 @@
 
 #import "SEEParticipantsOverlayViewController.h"
 #import "SEEParticipantViewController.h"
+#import "PlainTextWindowControllerTabContext.h"
 #import "PlainTextDocument.h"
 
 @interface SEEParticipantsOverlayViewController ()
-@property (nonatomic, weak) PlainTextDocument *document;
+@property (nonatomic, weak) PlainTextWindowControllerTabContext *tabContext;
 @property (nonatomic, strong) NSMutableArray *participantSubviewControllers;
 @property (nonatomic, strong) NSMutableArray *inviteeSubviewControllers;
 @property (nonatomic, strong) NSMutableArray *pendingSubviewControllers;
@@ -27,13 +28,13 @@
 
 @implementation SEEParticipantsOverlayViewController
 
-- (id)initWithDocument:(PlainTextDocument *)document
+- (id)initWithTabContext:(PlainTextWindowControllerTabContext *)aTabContext
 {
     self = [super initWithNibName:@"SEEParticipantsOverlay" bundle:[NSBundle mainBundle]];
     if (self) {
-		self.document = document;
+		self.tabContext = aTabContext;
 
-		TCMMMSession *documentSession = document.session;
+		TCMMMSession *documentSession = aTabContext.document.session;
 
 		[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(documentSessionDidChange:) name:TCMMMSessionParticipantsDidChangeNotification object:documentSession];
 		[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(documentSessionDidChange:) name:TCMMMSessionPendingInvitationsDidChange object:documentSession];
@@ -65,7 +66,7 @@
 
 
 - (void)documentSessionDidChange:(NSNotification *)notification {
-	if (self.document.session == notification.object) {
+	if (self.tabContext.document.session == notification.object) {
 		[self update];
 	}
 }
@@ -81,14 +82,14 @@
 
 	// install new subviews for all allContributors
 	NSView *view = self.view;
-	TCMMMSession *session = self.document.session;
+	TCMMMSession *session = self.tabContext.document.session;
 
 	// Participants working on the document
 	{
 		NSMutableArray *allParticipants = [[session.participants objectForKey:TCMMMSessionReadWriteGroupName] mutableCopy];
 		[allParticipants addObjectsFromArray:[session.participants objectForKey:TCMMMSessionReadOnlyGroupName]];
 		for (TCMMMUser *user in allParticipants) {
-			SEEParticipantViewController *participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:user inDocument:self.document];
+			SEEParticipantViewController *participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:user tabContext:self.tabContext];
 
 			NSView *lastUserView = [self.participantSubviewControllers.lastObject view];
 			NSLayoutAttribute lastUserViewLayoutAttribute = NSLayoutAttributeRight;
@@ -173,7 +174,7 @@
 		for (TCMMMUser *user in allInvitees) {
 			NSString *stateOfInvitee = [session stateOfInvitedUserById:user.userID];
 			if ([stateOfInvitee isEqualToString:TCMMMSessionInvitedUserStateAwaitingResponse]) {
-				SEEParticipantViewController *participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:user inDocument:self.document];
+				SEEParticipantViewController *participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:user tabContext:self.tabContext];
 
 				NSView *lastUserView = [self.inviteeSubviewControllers.lastObject view];
 				if (!lastUserView) {
@@ -209,7 +210,7 @@
 				NSUserNotification *userNotification = [[NSUserNotification alloc] init];
 				userNotification.hasActionButton = NO;
 				userNotification.title = NSLocalizedString(@"User declined invitation.", @"User Notification title if a invited user declines your invitation.");
-				userNotification.subtitle = [NSString stringWithFormat:NSLocalizedString(@"%@ did not join %@.", @"User Notification subtitle if a invited user declines your invitation."), user.name, self.document.displayName];
+				userNotification.subtitle = [NSString stringWithFormat:NSLocalizedString(@"%@ did not join %@.", @"User Notification subtitle if a invited user declines your invitation."), user.name, self.tabContext.document.displayName];
 				[[NSUserNotificationCenter defaultUserNotificationCenter] deliverNotification:userNotification];
 
 				// Let's do it async for now, because the old drawer causes crashes if the user is removed before it updates.
@@ -264,7 +265,7 @@
 	{
 		NSArray *allPendingUsers = session.pendingUsers;
 		for (TCMMMUser *user in allPendingUsers) {
-			SEEParticipantViewController *participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:user inDocument:self.document];
+			SEEParticipantViewController *participantViewController = [[SEEParticipantViewController alloc] initWithParticipant:user tabContext:self.tabContext];
 
 			NSView *lastUserView = [self.pendingSubviewControllers.lastObject view];
 			if (!lastUserView) {

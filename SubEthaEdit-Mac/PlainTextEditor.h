@@ -12,6 +12,8 @@
 #import "PlainTextWindowControllerTabContext.h"
 #import "PopUpButton.h"
 
+extern NSString * const PlainTextEditorDidFollowUserNotification;
+
 @class PlainTextWindowControllerTabContext,PlainTextDocument,SEEPlainTextEditorScrollView,PopUpButton,RadarScroller,TCMMMUser, SEETextView, BorderedTextField;
 
 @interface PlainTextEditor : NSResponder <NSTextViewDelegate, PopUpButtonDelegate> {
