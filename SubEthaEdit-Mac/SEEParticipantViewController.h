@@ -8,14 +8,14 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class PlainTextDocument, TCMMMUser;
+@class PlainTextWindowControllerTabContext, TCMMMUser;
 
 @interface SEEParticipantViewController : NSViewController
 
 @property (nonatomic, readonly, strong) TCMMMUser *participant;
 @property (nonatomic, assign) BOOL isParticipantFollowed;
 
-- (id)initWithParticipant:(TCMMMUser *)aParticipant inDocument:(PlainTextDocument *)document;
+- (id)initWithParticipant:(TCMMMUser *)aParticipant tabContext:(PlainTextWindowControllerTabContext *)aTabContext;
 
 - (void)updateForParticipantUserState;
 - (void)updateForPendingUserState;

@@ -218,7 +218,6 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 
 - (PlainTextEditor *)activePlainTextEditor;
 - (NSArray *)plainTextEditors;
-- (BOOL)isAnyPlainTextEditorFollowingUser:(TCMMMUser *)aUser;
 
 - (NSString *)lineEndingString;
 - (LineEnding)lineEnding;

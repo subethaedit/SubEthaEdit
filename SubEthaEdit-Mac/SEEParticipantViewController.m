@@ -13,15 +13,18 @@
 #endif
 
 #import "SEEParticipantViewController.h"
-#import "PlainTextDocument.h"
-#import "PlainTextWindowController.h"
+
 #import "PlainTextEditor.h"
+#import "PlainTextWindowControllerTabContext.h"
+#import "PlainTextWindowController.h"
+#import "PlainTextDocument.h"
+
 #import "TCMMMUser.h"
 #import "TCMMMUserSEEAdditions.h"
 
 @interface SEEParticipantViewController ()
 @property (nonatomic, readwrite, strong) TCMMMUser *participant;
-@property (nonatomic, readwrite, weak) PlainTextDocument *document;
+@property (nonatomic, readwrite, weak) PlainTextWindowControllerTabContext *tabContext;
 
 @property (nonatomic, strong) IBOutlet NSView *participantViewOutlet;
 @property (nonatomic, weak) IBOutlet NSTextField *nameLabelOutlet;
@@ -43,18 +46,33 @@
 @property (nonatomic, weak) IBOutlet NSImageView *hasFollowerOverlayImageOutlet;
 @property (nonatomic, weak) IBOutlet NSImageView *readOnlyOverlayImageOutlet;
 
+@property (nonatomic, weak) id plainTextEditorFollowUserNotificationHandler;
+
 @end
 
 @implementation SEEParticipantViewController
 
-- (id)initWithParticipant:(TCMMMUser *)aParticipant inDocument:(PlainTextDocument *)document
+- (id)initWithParticipant:(TCMMMUser *)aParticipant tabContext:(PlainTextWindowControllerTabContext *)aTabContext
 {
     self = [super initWithNibName:@"SEEParticipantView" bundle:nil];
     if (self) {
 		self.participant = aParticipant;
-		self.document = document;
+		self.tabContext = aTabContext;
+
+		__weak __typeof__(self) weakSelf = self;
+		self.plainTextEditorFollowUserNotificationHandler =
+		[[NSNotificationCenter defaultCenter] addObserverForName:PlainTextEditorDidFollowUserNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+			__typeof__(self) strongSelf = weakSelf;
+			if ([strongSelf.tabContext.plainTextEditors containsObject:note.object])
+			[strongSelf updateParticipantFollowed];
+		}];
     }
     return self;
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self.plainTextEditorFollowUserNotificationHandler];
 }
 
 - (void)loadView {
@@ -120,6 +138,7 @@
 }
 
 - (void)mouseEntered:(NSEvent *)theEvent {
+	[self updateParticipantFollowed];
 	self.participantActionOverlayOutlet.hidden = NO;
 }
 
@@ -131,7 +150,7 @@
 #pragma mark Actions
 
 - (IBAction)closeConnection:(id)sender {
-	TCMMMSession *documentSession = self.document.session;
+	TCMMMSession *documentSession = self.tabContext.document.session;
 	if (documentSession.isServer) {
 		NSDictionary *participants = documentSession.participants;
         NSDictionary *invitedUsers = documentSession.invitedUsers;
@@ -156,7 +175,7 @@
 }
 
 - (IBAction)toggleEditMode:(id)sender {
-	TCMMMSession *documentSession = self.document.session;
+	TCMMMSession *documentSession = self.tabContext.document.session;
 	if (documentSession.isServer) {
 		NSDictionary *participants = documentSession.participants;
 		TCMMMUser *user = self.participant;
@@ -182,13 +201,12 @@
 			[activeEditor setFollowUserID:user.userID];
 		}
 
-		self.toggleFollowButtonOutlet.state = activeEditorIsFollowing?NSOffState:NSOnState;
-		self.isParticipantFollowed = [self.document isAnyPlainTextEditorFollowingUser:self.participant];
+		[self updateParticipantFollowed];
 	}
 }
 
 - (IBAction)chooseReadOnlyMode:(id)sender {
-	TCMMMSession *documentSession = self.document.session;
+	TCMMMSession *documentSession = self.tabContext.document.session;
 	if (documentSession.isServer) {
 		NSDictionary *participants = documentSession.participants;
 		NSArray *pendingUsers = documentSession.pendingUsers;
@@ -203,7 +221,7 @@
 }
 
 - (IBAction)chooseReadWriteMode:(id)sender {
-	TCMMMSession *documentSession = self.document.session;
+	TCMMMSession *documentSession = self.tabContext.document.session;
 	if (documentSession.isServer) {
 		NSDictionary *participants = documentSession.participants;
 		NSArray *pendingUsers = documentSession.pendingUsers;
@@ -224,19 +242,15 @@
 	if (self.participant.isMe) {
 		self.participantActionOverlayOutlet = nil;
 	} else {
-		PlainTextWindowController *windowController = self.view.window.windowController;
-		PlainTextEditor *activeEditor = windowController.activePlainTextEditor;
 		TCMMMUser *user = self.participant;
-		BOOL activeEditorIsFollowing = [activeEditor.followUserID isEqualToString:user.userID];
-		self.toggleFollowButtonOutlet.state = activeEditorIsFollowing?NSOnState:NSOffState;
 
-		self.isParticipantFollowed = [self.document isAnyPlainTextEditorFollowingUser:user];
+		[self updateParticipantFollowed];
 
-		BOOL userCanEditDocument = [self.document.session isEditableByUser:user];
+		BOOL userCanEditDocument = [self.tabContext.document.session isEditableByUser:user];
 		self.toggleEditModeButtonOutlet.state = userCanEditDocument?NSOffState:NSOnState;
 		self.readOnlyOverlayImageOutlet.hidden = userCanEditDocument;
 
-		if (! self.document.session.isServer) {
+		if (! self.tabContext.document.session.isServer) {
 			[self.closeConnectionButtonOutlet removeFromSuperview];
 			[self.toggleEditModeButtonOutlet removeFromSuperview];
 		}
@@ -269,12 +283,34 @@
 		// add double click target for follow action
 		[self.userViewButtonOutlet setAction:@selector(userViewButtonDoubleClicked:)];
 		[self.userViewButtonOutlet setTarget:self];
-
 	}
 }
 
+- (void)updateParticipantFollowed
+{
+	// update hidden of status view
+	BOOL isFollowing = NO;
+	NSArray *editors = self.tabContext.plainTextEditors;
+	for (PlainTextEditor *currentEditor in editors) {
+		isFollowing = [[currentEditor followUserID] isEqualToString:self.participant.userID];
+		if (isFollowing) {
+			break;
+		}
+	}
+	self.isParticipantFollowed = isFollowing;
+
+	// update action button state
+	PlainTextWindowController *windowController = self.view.window.windowController;
+	PlainTextEditor *activeEditor = windowController.activePlainTextEditor;
+	TCMMMUser *user = self.participant;
+
+	BOOL activeEditorIsFollowing = [activeEditor.followUserID isEqualToString:user.userID];
+	self.toggleFollowButtonOutlet.state = activeEditorIsFollowing?NSOnState:NSOffState;
+}
+
+
 - (void)updateForPendingUserState {
-	if (self.document.session.isServer) {
+	if (self.tabContext.document.session.isServer) {
 		NSView *userView = self.participantViewOutlet;
 		NSView *overlayView = self.pendingUserActionOverlayOutlet;
 		overlayView.hidden = NO;
@@ -310,7 +346,7 @@
 	self.userViewButtonOutlet.alphaValue = 0.6;
 	self.userViewButtonOutlet.enabled = NO;
 
-	if (! self.document.session.isServer) {
+	if (! self.tabContext.document.session.isServer) {
 		self.participantActionOverlayOutlet = nil;
 	} else {
 		[self.toggleEditModeButtonOutlet removeFromSuperview];

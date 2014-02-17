@@ -8,8 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
-@class PlainTextDocument;
+@class PlainTextWindowControllerTabContext;
 
 @interface SEEParticipantsOverlayViewController : NSViewController
-- (id)initWithDocument:(PlainTextDocument *)document;
+- (id)initWithTabContext:(PlainTextWindowControllerTabContext *)aTabContext;
 @end

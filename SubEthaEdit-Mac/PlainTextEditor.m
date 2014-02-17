@@ -42,6 +42,8 @@
 #import <objc/objc-runtime.h>
 
 
+NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDidFollowUserNotification";
+
 @interface NSTextView (PrivateAdditions)
 - (BOOL)	_isUnmarking;
 @end
@@ -1695,6 +1697,8 @@
         I_followUserID = [userID copy];
         [self scrollToUserWithID:userID];
         [self TCM_updateStatusBar];
+
+		[[NSNotificationCenter defaultCenter] postNotificationName:PlainTextEditorDidFollowUserNotification object:self];
 
         id windowController = [[self.O_editorView window] windowController];
         if ([windowController respondsToSelector:@selector(validateButtons)])
