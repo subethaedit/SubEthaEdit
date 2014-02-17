@@ -6000,18 +6000,6 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     return result;
 }
 
-- (BOOL)isAnyPlainTextEditorFollowingUser:(TCMMMUser *)aUser
-{
-	BOOL result = NO;
-	NSArray *plainTextEditors = [self plainTextEditors];
-	for (PlainTextEditor *editor in plainTextEditors) {
-		if ([editor.followUserID isEqualToString:aUser.userID]) {
-			result = YES;
-		}
-	}
-	return result;
-}
-
 - (BOOL)handleOperation:(TCMMMOperation *)aOperation {
     if ([[aOperation operationID] isEqualToString:[TextOperation operationID]]) {
         TextOperation *operation=(TextOperation *)aOperation;
