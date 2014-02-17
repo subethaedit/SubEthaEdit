@@ -146,7 +146,7 @@ static NSMenu *S_defaultMenu=nil;
     NSRange blockeditRange,tempRange;
 
     currentPoint = [self convertPoint:[aEvent locationInWindow] fromView:nil];
-	currentPoint.y -= self.textContainerInset.height;
+	currentPoint.y -= self.textContainerOrigin.y;
 
     glyphIndex = [layoutManager glyphIndexForPoint:currentPoint
                                    inTextContainer:[self textContainer]];
@@ -209,7 +209,7 @@ static NSMenu *S_defaultMenu=nil;
 			break;
         } else {
             currentPoint = [self convertPoint:[leftMouseDraggedEvent locationInWindow] fromView:nil];
-			currentPoint.y -= self.textContainerInset.height;
+			currentPoint.y -= self.textContainerOrigin.y;
 
             glyphIndex =[layoutManager glyphIndexForPoint:currentPoint
                                           inTextContainer:[self textContainer]]; 
@@ -1054,11 +1054,11 @@ static NSMenu *S_defaultMenu=nil;
     if ([textStorageString length]==0) return;
     NSLayoutManager *layoutManager = [self layoutManager];
     NSTextContainer *textContainer = [self textContainer];
-    NSPoint point = [self convertPoint:[anEvent locationInWindow] fromView:nil];
-    point.x=5;
-	point.y -= self.textContainerInset.height;
+    NSPoint currentPoint = [self convertPoint:[anEvent locationInWindow] fromView:nil];
+    currentPoint.x=5;
+	currentPoint.y -= self.textContainerOrigin.y;
     unsigned glyphIndex,endCharacterIndex,startCharacterIndex;
-    glyphIndex=[layoutManager glyphIndexForPoint:point 
+    glyphIndex=[layoutManager glyphIndexForPoint:currentPoint 
                                  inTextContainer:textContainer];
     endCharacterIndex = startCharacterIndex = [layoutManager characterIndexForGlyphAtIndex:glyphIndex];
     if (wasShift) {
@@ -1082,16 +1082,16 @@ static NSMenu *S_defaultMenu=nil;
                 if (autoscrollEvent) [self autoscroll:autoscrollEvent];
                 event = autoscrollEvent;           
             case NSLeftMouseDragged:
-                point = [self convertPoint:[event locationInWindow] fromView:nil];
-				point.y -= self.textContainerInset.height;
-                glyphIndex = [layoutManager glyphIndexForPoint:point
+                currentPoint = [self convertPoint:[event locationInWindow] fromView:nil];
+				currentPoint.y -= self.textContainerOrigin.y;
+                glyphIndex = [layoutManager glyphIndexForPoint:currentPoint
                                                inTextContainer:textContainer];
                 endCharacterIndex = [layoutManager characterIndexForGlyphAtIndex:glyphIndex];
                 selectedRange = [textStorageString lineRangeForRange:SPANNINGRANGE(startCharacterIndex, endCharacterIndex)];
                 if (!NSEqualRanges([self selectedRange], selectedRange)) {
                     [self setSelectedRange:selectedRange];
                 }
-                if ([self mouse:point inRect:[self visibleRect]]) {
+                if ([self mouse:currentPoint inRect:[self visibleRect]]) {
                     if (timerOn) {
                         [NSEvent stopPeriodicEvents];
                         timerOn = NO;
