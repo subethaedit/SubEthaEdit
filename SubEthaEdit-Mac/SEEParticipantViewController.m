@@ -87,8 +87,10 @@
 	userViewButton.layer.cornerRadius = NSHeight(userViewButtonFrame) / 2.0;
 	userViewButton.layer.borderWidth = 3.0;
 
-	CGFloat hueValue = [[self.participant.properties objectForKey:@"Hue"] doubleValue] / 255.0;
-	userViewButton.layer.borderColor = [[NSColor colorWithCalibratedHue:hueValue saturation:0.8 brightness:1.0 alpha:0.8] CGColor];
+	
+	NSColor *changeColor = [self.participant changeColor];
+	userViewButton.layer.borderColor = // [[changeColor colorWithAlphaComponent:0.8] CGColor];
+									   [[NSColor colorWithCalibratedHue:changeColor.hueComponent saturation:0.85 brightness:1.0 alpha:1.0] CGColor];
 
 	NSTextField *nameLabel = self.nameLabelOutlet;
 	nameLabel.stringValue = self.participant.name;
