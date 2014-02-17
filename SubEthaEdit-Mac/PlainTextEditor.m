@@ -1645,6 +1645,7 @@
 
 		[self.O_topStatusBarView setHidden:!I_flags.showTopStatusBar];
         [self.O_topStatusBarView setNeedsDisplay:YES];
+		[[O_scrollView verticalRulerView] setNeedsDisplay:YES];
         [[self document] setShowsTopStatusBar:aFlag];
     }
 }
