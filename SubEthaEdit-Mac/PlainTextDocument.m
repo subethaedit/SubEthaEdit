@@ -4449,25 +4449,6 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 	}
 }
 
-
-
-- (BOOL)validateToolbarItem:(NSToolbarItem *)toolbarItem {
-    NSString *itemIdentifier = [toolbarItem itemIdentifier];
-
-    if ([itemIdentifier isEqualToString:ToggleAnnouncementToolbarItemIdentifier]) {
-        BOOL isAnnounced=[self isAnnounced];
-        [toolbarItem setImage:isAnnounced
-                              ?[NSImage imageNamed: @"Conceal"]
-                              :[NSImage imageNamed: @"Announce"]];
-        [toolbarItem setLabel:isAnnounced?
-                         NSLocalizedString(@"Conceal",@"Menu/Toolbar Title for concealing the Document"):
-                         NSLocalizedString(@"Announce",@"Menu/Toolbar Title for announcing the Document")];
-        return [[self session] isServer];
-    }
-
-    return YES;
-}
-
 - (NSString *)lineEndingString {
     return I_lineEndingString;
 }

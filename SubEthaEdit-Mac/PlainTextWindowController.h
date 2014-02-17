@@ -12,16 +12,8 @@
 
 @class ParticipantsView, PlainTextEditor, PSMTabBarControl, PlainTextDocument,URLImageView;
 
-extern NSString * const PlainTextWindowToolbarIdentifier;
-extern NSString * const ParticipantsToolbarItemIdentifier;
-extern NSString * const ShiftLeftToolbarItemIdentifier;
-extern NSString * const ShiftRightToolbarItemIdentifier;
-extern NSString * const RendezvousToolbarItemIdentifier;
-extern NSString * const InternetToolbarItemIdentifier;
-extern NSString * const ToggleChangeMarksToolbarItemIdentifier;
-extern NSString * const ToggleAnnouncementToolbarItemIdentifier;
 
-@interface PlainTextWindowController : NSWindowController <NSSplitViewDelegate,NSMenuDelegate,NSToolbarDelegate,PSMTabBarControlDelegate>
+@interface PlainTextWindowController : NSWindowController <NSSplitViewDelegate,NSMenuDelegate,PSMTabBarControlDelegate>
  {
     // Participants drawer views
     IBOutlet NSDrawer            *O_participantsDrawer;

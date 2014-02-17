@@ -226,8 +226,6 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         
 #ifdef SUBETHAEDIT
-
-
         // Load scripts
         I_scriptsByFilename = [NSMutableDictionary new];
         NSString *scriptFolder = [[aBundle resourcePath] stringByAppendingPathComponent:@"Scripts"];
@@ -282,35 +280,6 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
                 if ([[[settingsDictionary objectForKey:ScriptWrapperInDefaultToolbarSettingsKey] lowercaseString] isEqualToString:@"yes"]) {
                     [I_defaultToolbarItemIdentifiers addObject:[toolbarItem itemIdentifier]];
                 }
-            }
-        }
-
-        // ToolbarHandling
-        NSString *toolbarDefaultKey=[NSString stringWithFormat:@"NSToolbar Configuration %@",[self documentModeIdentifier]];
-        if (![defaults objectForKey:toolbarDefaultKey]) {
-            NSDictionary *oldDefaultToolbar=[defaults objectForKey:@"NSToolbar Configuration " BASEMODEIDENTIFIER];
-            if (!oldDefaultToolbar) {
-                oldDefaultToolbar = [defaults objectForKey:@"NSToolbar Configuration PlainTextWindowToolbarIdentifier"];
-            }
-            if (oldDefaultToolbar) {
-                NSMutableDictionary *newModeToolbar=[NSMutableDictionary dictionaryWithDictionary:oldDefaultToolbar];
-                NSMutableArray *shownItemIdentifiers=[NSMutableArray arrayWithArray:[newModeToolbar objectForKey:@"TB Item Identifiers"]];
-                NSEnumerator *itemIdentifiers=[[[AppController sharedInstance] toolbarDefaultItemIdentifiers:nil] objectEnumerator];
-                NSString     *itemIdentifier = nil;
-                while ((itemIdentifier=[itemIdentifiers nextObject])) {
-                    if (![shownItemIdentifiers containsObject:itemIdentifier]) {
-                        [shownItemIdentifiers addObject:itemIdentifier];
-                    }
-                }
-                itemIdentifiers=[I_defaultToolbarItemIdentifiers objectEnumerator];
-                itemIdentifier = nil;
-                while ((itemIdentifier=[itemIdentifiers nextObject])) {
-                    if (![shownItemIdentifiers containsObject:itemIdentifier]) {
-                        [shownItemIdentifiers addObject:itemIdentifier];
-                    }
-                }
-                [newModeToolbar setObject:shownItemIdentifiers forKey:@"TB Item Identifiers"];
-                [defaults setObject:newModeToolbar forKey:toolbarDefaultKey];
             }
         }
 #endif

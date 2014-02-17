@@ -1071,20 +1071,6 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     }
 }
 
-#pragma mark - Toolbar
-
-- (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdentifier willBeInsertedIntoToolbar:(BOOL)willBeInserted {
-    return [[[I_toolbarItemsByIdentifier objectForKey:itemIdentifier] copy] autorelease];
-}
-
-- (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar {
-    return I_toolbarItemIdentifiers;
-}
-
-- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar {
-    return I_defaultToolbarItemIdentifiers;
-}
-
 #pragma mark - Menu validation
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {

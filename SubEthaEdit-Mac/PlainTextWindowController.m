@@ -23,7 +23,6 @@
 #import "GeneralPreferences.h"
 #import "TCMMMSession.h"
 #import "AppController.h"
-#import "Toolbar.h"
 #import "SEEDocumentDialog.h"
 #import "EncodingDoctorDialog.h"
 #import "DocumentController.h"
@@ -37,31 +36,6 @@
 #import "SEETabStyle.h"
 #import <objc/objc-runtime.h>			// for objc_msgSend
 
-
-NSString * const PlainTextWindowToolbarIdentifier = 
-               @"PlainTextWindowToolbarIdentifier";
-NSString * const ParticipantsToolbarItemIdentifier = 
-               @"ParticipantsToolbarItemIdentifier";
-NSString * const ShiftLeftToolbarItemIdentifier = 
-               @"ShiftLeftToolbarItemIdentifier";
-NSString * const ShiftRightToolbarItemIdentifier = 
-               @"ShiftRightToolbarItemIdentifier";
-NSString * const NextSymbolToolbarItemIdentifier = 
-               @"NextSymbolToolbarItemIdentifier";
-NSString * const PreviousSymbolToolbarItemIdentifier = 
-               @"PreviousSymbolToolbarItemIdentifier";
-NSString * const NextChangeToolbarItemIdentifier = 
-               @"NextChangeToolbarItemIdentifier";
-NSString * const PreviousChangeToolbarItemIdentifier = 
-               @"PreviousChangeToolbarItemIdentifier";
-NSString * const InternetToolbarItemIdentifier = 
-               @"InternetToolbarItemIdentifier";
-NSString * const ToggleChangeMarksToolbarItemIdentifier = 
-               @"ToggleChangeMarksToolbarItemIdentifier";
-NSString * const ToggleAnnouncementToolbarItemIdentifier = 
-               @"ToggleAnnouncementToolbarItemIdentifier";
-NSString * const ToggleShowInvisibleCharactersToolbarItemIdentifier = 
-               @"ToggleShowInvisibleCharactersToolbarItemIdentifier";
 
 static NSPoint S_cascadePoint = {0.0,0.0};
 
@@ -87,7 +61,7 @@ enum {
 
 static NSAttributedString *S_dragString = nil;
 
-@interface PlainTextWindowController (PlainTextWindowControllerPrivateAdditions)
+@interface PlainTextWindowController ()
 
 - (void)validateUpperDrawer;
 
@@ -200,15 +174,6 @@ static NSAttributedString *S_dragString = nil;
     }
 }
 
-- (void)adjustToolbarToDocumentMode {
-    NSToolbar *toolbar = [[[Toolbar alloc] initWithIdentifier:
-        [[(PlainTextDocument *)[self document] documentMode] documentModeIdentifier]] autorelease];
-    [toolbar setAllowsUserCustomization:YES];
-    [toolbar setAutosavesConfiguration:YES];
-    [toolbar setDelegate:self];
-    [[self window] setToolbar:toolbar];
-}
-
 - (void)windowDidLoad {
     NSSize drawerSize = [O_participantsDrawer contentSize];
     drawerSize.width = 170;
@@ -246,11 +211,6 @@ static NSAttributedString *S_dragString = nil;
                                                  name:TCMMMPresenceManagerAnnouncedSessionsDidChangeNotification 
                                                object:nil];
     
-    [[NSNotificationCenter defaultCenter] addObserver:self 
-                                             selector:@selector(adjustToolbarToDocumentMode)
-                                                 name:GlobalScriptsDidReloadNotification 
-                                               object:nil];
-
     [[[self window] contentView] setAutoresizesSubviews:YES];
 
 	NSRect contentFrame = [[[self window] contentView] frame];
@@ -1004,205 +964,7 @@ static NSAttributedString *S_dragString = nil;
 }
 
 #pragma mark -
-#pragma mark ### Toolbar ###
 
-- (NSToolbarItem *)toolbar:(NSToolbar *)toolbar itemForItemIdentifier:(NSString *)itemIdent willBeInsertedIntoToolbar:(BOOL)willBeInserted {
-
-    NSToolbarItem *toolbarItem = [[[NSToolbarItem alloc] initWithItemIdentifier:itemIdent] autorelease];
-    
-    if ([itemIdent isEqualToString:ParticipantsToolbarItemIdentifier]) {
-        [toolbarItem setLabel:NSLocalizedString(@"Participants", @"Participants toolbar label")];
-        [toolbarItem setPaletteLabel:NSLocalizedString(@"Participants", @"Participants toolbar label")];
-        [toolbarItem setToolTip:NSLocalizedString(@"ParticipantsToolTip", @"Participants tool tip")];
-        [toolbarItem setImage:[NSImage imageNamed:@"Participants"]];
-        [toolbarItem setTarget:self];
-        [toolbarItem setAction:@selector(toggleParticipantsOverlay:)];
-    } else if ([itemIdent isEqual:InternetToolbarItemIdentifier]) { 
-        [toolbarItem setPaletteLabel:NSLocalizedString(@"Connections", nil)];
-        [toolbarItem setLabel:NSLocalizedString(@"Connections", nil)];
-        [toolbarItem setToolTip:NSLocalizedString(@"Open Connections Browser", nil)];
-        [toolbarItem setImage:[NSImage imageNamed: @"ToolbarIconConnectionBrowser"]];
-        [toolbarItem setTarget:[ConnectionBrowserController sharedInstance]];
-        [toolbarItem setAction:@selector(showWindow:)];
-    } else if ([itemIdent isEqual:ShiftRightToolbarItemIdentifier]) {
-        [toolbarItem setToolTip:NSLocalizedString(@"Shift Selection Right", nil)];
-        [toolbarItem setLabel:NSLocalizedString(@"Shift Right", nil)];
-        [toolbarItem setPaletteLabel:NSLocalizedString(@"Shift Right", nil)];
-        [toolbarItem setImage:([NSImage imageNamed: @"ShiftRight"])];
-        [toolbarItem setTarget:nil];
-        [toolbarItem setAction:@selector(shiftRight:)];    
-    } else if ([itemIdent isEqual:ShiftLeftToolbarItemIdentifier]) {
-        [toolbarItem setToolTip:NSLocalizedString(@"Shift Selection Left", nil)];
-        [toolbarItem setLabel:NSLocalizedString(@"Shift Left", nil)];
-        [toolbarItem setPaletteLabel:NSLocalizedString(@"Shift Left", nil)];
-        [toolbarItem setImage:([NSImage imageNamed: @"ShiftLeft"])];
-        [toolbarItem setTarget:nil];
-        [toolbarItem setAction:@selector(shiftLeft:)];    
-    } else if ([itemIdent isEqual:ToggleChangeMarksToolbarItemIdentifier]) {
-        [toolbarItem setToolTip:NSLocalizedString(@"Toggle Change Marks", nil)];
-        [toolbarItem setLabel:NSLocalizedString(@"Toggle Changes", nil)];
-        [toolbarItem setPaletteLabel:NSLocalizedString(@"Toggle Changes", nil)];
-        [toolbarItem setImage:([NSImage imageNamed: @"ShowChangeMarks"])];
-        [toolbarItem setTarget:self];
-        [toolbarItem setAction:@selector(toggleShowsChangeMarks:)];    
-    } else if ([itemIdent isEqual:ToggleShowInvisibleCharactersToolbarItemIdentifier]) {
-        [toolbarItem setToolTip:NSLocalizedString(@"Toggle Invisible Characters", nil)];
-        [toolbarItem setLabel:NSLocalizedString(@"Show Invisibles", nil)];
-        [toolbarItem setPaletteLabel:NSLocalizedString(@"Toggle Invisibles", nil)];
-        [toolbarItem setImage:([NSImage imageNamed: @"InvisibleCharactersShow"])];
-        [toolbarItem setTarget:self];
-        [toolbarItem setAction:@selector(toggleShowInvisibleCharacters:)];    
-    } else if ([itemIdent isEqual:PreviousSymbolToolbarItemIdentifier]) {
-        [toolbarItem setToolTip:NSLocalizedString(@"Goto Previous Symbol", nil)];
-        [toolbarItem setLabel:NSLocalizedString(@"Previous Symbol", nil)];
-        [toolbarItem setPaletteLabel:NSLocalizedString(@"Previous Symbol", nil)];
-        [toolbarItem setImage:[NSImage imageNamed: @"PreviousSymbol"]];
-        [toolbarItem setTarget:self];
-        [toolbarItem setAction:@selector(jumpToPreviousSymbol:)];    
-    } else if ([itemIdent isEqual:NextSymbolToolbarItemIdentifier]) {
-        [toolbarItem setToolTip:NSLocalizedString(@"Goto Next Symbol", nil)];
-        [toolbarItem setLabel:NSLocalizedString(@"Next Symbol", nil)];
-        [toolbarItem setPaletteLabel:NSLocalizedString(@"Next Symbol", nil)];
-        [toolbarItem setImage:[NSImage imageNamed:@"NextSymbol"]];
-        [toolbarItem setTarget:self];
-        [toolbarItem setAction:@selector(jumpToNextSymbol:)];    
-    } else if ([itemIdent isEqual:PreviousChangeToolbarItemIdentifier]) {
-        [toolbarItem setToolTip:NSLocalizedString(@"Goto Previous Change", nil)];
-        [toolbarItem setLabel:NSLocalizedString(@"Previous Change", nil)];
-        [toolbarItem setPaletteLabel:NSLocalizedString(@"Previous Change", nil)];
-        [toolbarItem setImage:[NSImage imageNamed: @"PreviousChange"]];
-        [toolbarItem setTarget:self];
-        [toolbarItem setAction:@selector(jumpToPreviousChange:)];    
-    } else if ([itemIdent isEqual:NextChangeToolbarItemIdentifier]) {
-        [toolbarItem setToolTip:NSLocalizedString(@"Goto Next Change", nil)];
-        [toolbarItem setLabel:NSLocalizedString(@"Next Change", nil)];
-        [toolbarItem setPaletteLabel:NSLocalizedString(@"Next Change", nil)];
-        [toolbarItem setImage:[NSImage imageNamed:@"NextChange"]];
-        [toolbarItem setTarget:self];
-        [toolbarItem setAction:@selector(jumpToNextChange:)];    
-    } else if ([itemIdent isEqual:ToggleAnnouncementToolbarItemIdentifier]) {
-        [toolbarItem setToolTip:NSLocalizedString(@"Announce/Conceal Document", nil)];
-        [toolbarItem setLabel:NSLocalizedString(@"Announce/Conceal", nil)];
-        [toolbarItem setPaletteLabel:NSLocalizedString(@"Announce/Conceal", nil)];
-        [toolbarItem setImage:([NSImage imageNamed: @"Announce"])];
-        [toolbarItem setTarget:[self document]];
-        [toolbarItem setAction:@selector(toggleIsAnnounced:)];    
-    } else {
-        toolbarItem=[[(PlainTextDocument *)[self document] documentMode] 
-                                        toolbar:toolbar 
-                          itemForItemIdentifier:itemIdent 
-                      willBeInsertedIntoToolbar:willBeInserted];
-    }
-    if (!toolbarItem) {
-        toolbarItem=[[AppController sharedInstance] 
-                                        toolbar:toolbar 
-                          itemForItemIdentifier:itemIdent 
-                      willBeInsertedIntoToolbar:willBeInserted];
-    }
-    return toolbarItem;
-}
-
-- (NSArray *)toolbarDefaultItemIdentifiers:(NSToolbar *)toolbar {
-    NSMutableArray *result=
-        [NSMutableArray arrayWithObjects:
-                ParticipantsToolbarItemIdentifier,
-                ToggleAnnouncementToolbarItemIdentifier,
-                NSToolbarSeparatorItemIdentifier,
-                PreviousSymbolToolbarItemIdentifier,
-                NextSymbolToolbarItemIdentifier,
-                PreviousChangeToolbarItemIdentifier,
-                NextChangeToolbarItemIdentifier,
-                ToggleChangeMarksToolbarItemIdentifier,
-                NSToolbarFlexibleSpaceItemIdentifier,
-                InternetToolbarItemIdentifier,
-                nil];
-    [result addObjectsFromArray:
-        [[AppController sharedInstance] 
-            toolbarDefaultItemIdentifiers:toolbar]];
-    [result addObjectsFromArray:
-        [[(PlainTextDocument *)[self document] documentMode] 
-            toolbarDefaultItemIdentifiers:toolbar]];
-    
-    return result;
-}
-
-- (NSArray *)toolbarAllowedItemIdentifiers:(NSToolbar *)toolbar {
-    return [[[NSArray arrayWithObjects:
-                InternetToolbarItemIdentifier,
-                ShiftLeftToolbarItemIdentifier,
-                ShiftRightToolbarItemIdentifier,
-                PreviousSymbolToolbarItemIdentifier,
-                NextSymbolToolbarItemIdentifier,
-                ParticipantsToolbarItemIdentifier,
-                PreviousChangeToolbarItemIdentifier,
-                NextChangeToolbarItemIdentifier,
-                ToggleChangeMarksToolbarItemIdentifier,
-                ToggleAnnouncementToolbarItemIdentifier,
-                ToggleShowInvisibleCharactersToolbarItemIdentifier,
-                NSToolbarPrintItemIdentifier,
-                NSToolbarCustomizeToolbarItemIdentifier,
-                NSToolbarSeparatorItemIdentifier,
-                NSToolbarSpaceItemIdentifier,
-                NSToolbarFlexibleSpaceItemIdentifier,
-                nil] 
-                arrayByAddingObjectsFromArray:
-                    [[(PlainTextDocument *)[self document] documentMode] 
-                        toolbarAllowedItemIdentifiers:toolbar]]
-                arrayByAddingObjectsFromArray:[[AppController sharedInstance] 
-                                        toolbarAllowedItemIdentifiers:toolbar]];
-}
-
-- (void)checkToolbarForUnallowedItems {
-    NSToolbar *toolbar=[[self window] toolbar];
-    NSArray *itemArray=[toolbar items];
-    NSArray *allowedIdentifiers=[self toolbarAllowedItemIdentifiers:toolbar];
-    NSInteger i = [itemArray count];
-    for (--i;i>=0;i--) {
-        if (![allowedIdentifiers containsObject:[[itemArray objectAtIndex:i] itemIdentifier]]) {
-            [toolbar removeItemAtIndex:i];
-        }
-    }
-}
-
-
-
-- (void)toolbarWillAddItem:(NSNotification *)aNotification {
-    // to show all items correctly validated
-    NSToolbarItem *item=[[aNotification userInfo] objectForKey:@"item"];
-    id target=[item target];
-    if ([target respondsToSelector:@selector(validateToolbarItem:)]) {
-        [item setEnabled:[target validateToolbarItem:item]];
-    }
-}
-
-- (BOOL)validateToolbarItem:(NSToolbarItem *)toolbarItem {
-    NSString *itemIdentifier = [toolbarItem itemIdentifier];
-    if ([itemIdentifier isEqualToString:ParticipantsToolbarItemIdentifier]) {
-        return YES;
-    } else if ([itemIdentifier isEqualToString:ToggleChangeMarksToolbarItemIdentifier]) {
-        PlainTextEditor *editor=[self activePlainTextEditor];
-        BOOL showsChangeMarks=[(LayoutManager *)[[editor textView] layoutManager] showsChangeMarks];
-        if (!editor) showsChangeMarks=[[self document] showsChangeMarks];
-        [toolbarItem setImage:showsChangeMarks
-                              ?[NSImage imageNamed: @"HideChangeMarks"]
-                              :[NSImage imageNamed: @"ShowChangeMarks"]  ];
-        [toolbarItem setLabel:showsChangeMarks
-                              ?NSLocalizedString(@"Hide Changes", nil)
-                              :NSLocalizedString(@"Show Changes", nil)];
-        return YES;
-    } else if ([itemIdentifier isEqualToString:ToggleShowInvisibleCharactersToolbarItemIdentifier]) {
-        BOOL showsInvisibleCharacters = [[self activePlainTextEditor] showsInvisibleCharacters];
-        [toolbarItem setImage:showsInvisibleCharacters
-                              ?[NSImage imageNamed: @"InvisibleCharactersHide"]
-                              :[NSImage imageNamed: @"InvisibleCharactersShow"]];
-        [toolbarItem setLabel:showsInvisibleCharacters
-                              ?NSLocalizedString(@"Hide Invisibles", nil)
-                              :NSLocalizedString(@"Show Invisibles", nil)];
-        return YES;
-    }
-    
-    return YES;
-}
 
 - (IBAction)toggleShowInvisibleCharacters:(id)aSender {
     [[self activePlainTextEditor] setShowsInvisibleCharacters:![[self activePlainTextEditor] showsInvisibleCharacters]];
@@ -2516,7 +2278,6 @@ static NSAttributedString *S_dragString = nil;
             [(PlainTextDocument *)document adjustModeMenu];
             [[DocumentController sharedInstance] updateTabMenu];
         }
-        [self adjustToolbarToDocumentMode];
         [self refreshDisplay];
         [self validateUpperDrawer];
         [O_participantsView reloadData];
@@ -2568,10 +2329,6 @@ static NSAttributedString *S_dragString = nil;
                                                      name:PlainTextDocumentDidChangeDisplayNameNotification 
                                                    object:[self document]];
 
-        [center addObserver:self 
-                                                 selector:@selector(adjustToolbarToDocumentMode)
-                                                     name:PlainTextDocumentDidChangeDocumentModeNotification 
-                                                   object:[self document]];
         [center postNotificationName:@"PlainTextWindowControllerDocumentDidChangeNotification" object:self];
     }
 }
@@ -2739,25 +2496,6 @@ static NSAttributedString *S_dragString = nil;
 	return viewImage;
 }
 
-CGFloat ToolbarHeightForWindow(NSWindow *window)
-{
-    NSToolbar *toolbar;
-    CGFloat toolbarHeight = 0.0;
-    NSRect windowFrame;
- 
-    toolbar = [window toolbar];
- 
-    if(toolbar && [toolbar isVisible])
-    {
-        windowFrame = [NSWindow contentRectForFrameRect:[window frame]
-                                styleMask:[window styleMask]];
-        toolbarHeight = NSHeight(windowFrame)
-                        - NSHeight([[window contentView] frame]);
-    }
- 
-    return toolbarHeight;
-}
-
 - (PSMTabBarControl *)tabView:(NSTabView *)aTabView newTabBarForDraggedTabViewItem:(NSTabViewItem *)tabViewItem atPoint:(NSPoint)point
 {
 	//create a new window controller with no tab items
@@ -2767,7 +2505,7 @@ CGFloat ToolbarHeightForWindow(NSWindow *window)
     BOOL hideForSingleTab = [(PSMTabBarControl *)[aTabView delegate] hideForSingleTab];
 	
 	NSRect windowFrame = [[controller window] frame];
-	point.y += windowFrame.size.height - [[[controller window] contentView] frame].size.height + ToolbarHeightForWindow([self window]);
+	point.y += windowFrame.size.height - [[[controller window] contentView] frame].size.height;
 	point.x -= [style leftMarginForTabBarControl:tabBarControl];
 	
     NSRect contentRect = [[self window] contentRectForFrameRect:[[self window] frame]];
