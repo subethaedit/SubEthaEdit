@@ -1699,12 +1699,6 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
         [self TCM_updateStatusBar];
 
 		[[NSNotificationCenter defaultCenter] postNotificationName:PlainTextEditorDidFollowUserNotification object:self];
-
-        id windowController = [[self.O_editorView window] windowController];
-        if ([windowController respondsToSelector:@selector(validateButtons)])
-        {
-            [windowController performSelector:@selector(validateButtons)];
-        }
     }
 }
 

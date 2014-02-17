@@ -24,7 +24,6 @@
 #import "TCMMMSession.h"
 #import "SelectionOperation.h"
 #import "FindReplaceController.h"
-#import "ParticipantsView.h"
 #import "PlainTextWindowController.h"
 #import "PlainTextEditor.h"
 #import "AppController.h"
@@ -828,11 +827,6 @@ static NSMenu *S_defaultMenu=nil;
             return NSDragOperationGeneric;
         }
     } else if ([[pboard types] containsObject:@"ParticipantDrag"]) {
-        if ([[sender draggingSource] isKindOfClass:[ParticipantsView class]] && 
-            [[sender draggingSource] windowController]==[[self window] windowController]) {
-            [self setIsDragTarget:YES];
-            return NSDragOperationGeneric;
-        }
     } else if ([[pboard types] containsObject:@"PresentityNames"] ||
 			   [[pboard types] containsObject:@"IMHandleNames"]) {
         BOOL shouldDrag=[[self.document session] isServer];
@@ -859,11 +853,6 @@ static NSMenu *S_defaultMenu=nil;
             return NSDragOperationGeneric;
         }
     } else if ([[pboard types] containsObject:@"ParticipantDrag"]) {
-        if ([[sender draggingSource] isKindOfClass:[ParticipantsView class]] && 
-            [[sender draggingSource] windowController]==[[self window] windowController]) {
-            [self setIsDragTarget:YES];
-            return NSDragOperationGeneric;
-        }
     } else if ([[pboard types] containsObject:@"PresentityNames"] ||
 			   [[pboard types] containsObject:@"IMHandleNames"]) {
         // perform this by selector to not create dependency on TCMPortMapper
@@ -886,10 +875,6 @@ static NSMenu *S_defaultMenu=nil;
         [self setIsDragTarget:shouldDrag];
         return shouldDrag;
     } else if ([[pboard types] containsObject:@"ParticipantDrag"]) {
-        if ([[sender draggingSource] isKindOfClass:[ParticipantsView class]] && 
-            [[[sender draggingSource] window] windowController]==[[self window]  windowController]) {
-            return YES;
-        }
     } else if ([[pboard types] containsObject:@"PresentityNames"] ||
 			   [[pboard types] containsObject:@"IMHandleNames"]) {
         BOOL shouldDrag=[[(PlainTextDocument *)[self document] session] isServer];
@@ -923,13 +908,6 @@ static NSMenu *S_defaultMenu=nil;
         [self setIsDragTarget:NO];
         return YES;
     } else if ([[pboard types] containsObject:@"ParticipantDrag"]) {
-        if ([[sender draggingSource] isKindOfClass:[ParticipantsView class]] && 
-            [[sender draggingSource] windowController]==[[self window] windowController]) {
-            PlainTextWindowController *controller=[[self window] windowController];
-            [controller performSelector:@selector(followUser:) withObject:self];
-            [self setIsDragTarget:NO];
-            return YES;
-        }
     } else if ([[pboard types] containsObject:@"PresentityNames"] ||
 			   [[pboard types] containsObject:@"IMHandleNames"]) {
         BOOL shouldDrag=[[(PlainTextDocument *)[self document] session] isServer];

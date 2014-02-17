@@ -155,7 +155,6 @@
 		1428944709575B3400D14688 /* FindAllTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428944109575B3400D14688 /* FindAllTableView.m */; };
 		1428944809575B3400D14688 /* GutterRulerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428944309575B3400D14688 /* GutterRulerView.m */; };
 		1428944909575B3400D14688 /* LayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428944509575B3400D14688 /* LayoutManager.m */; };
-		1428946209575B9700D14688 /* ParticipantsView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428944B09575B9700D14688 /* ParticipantsView.m */; };
 		1428946309575B9700D14688 /* PlainTextDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428944D09575B9700D14688 /* PlainTextDocument.m */; };
 		1428946409575B9700D14688 /* PlainTextEditor.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428944F09575B9700D14688 /* PlainTextEditor.m */; };
 		1428946509575B9700D14688 /* PlainTextWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945109575B9700D14688 /* PlainTextWindowController.m */; };
@@ -869,8 +868,6 @@
 		1428944309575B3400D14688 /* GutterRulerView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GutterRulerView.m; sourceTree = "<group>"; };
 		1428944409575B3400D14688 /* LayoutManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = LayoutManager.h; sourceTree = "<group>"; };
 		1428944509575B3400D14688 /* LayoutManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LayoutManager.m; sourceTree = "<group>"; };
-		1428944A09575B9700D14688 /* ParticipantsView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ParticipantsView.h; sourceTree = "<group>"; };
-		1428944B09575B9700D14688 /* ParticipantsView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ParticipantsView.m; sourceTree = "<group>"; };
 		1428944C09575B9700D14688 /* PlainTextDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = PlainTextDocument.h; sourceTree = "<group>"; };
 		1428944D09575B9700D14688 /* PlainTextDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = PlainTextDocument.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		1428944E09575B9700D14688 /* PlainTextEditor.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = PlainTextEditor.h; sourceTree = "<group>"; };
@@ -1798,8 +1795,6 @@
 				5E28E28E0972FB8E00099B13 /* InsetTextFieldCell.m */,
 				1428944409575B3400D14688 /* LayoutManager.h */,
 				1428944509575B3400D14688 /* LayoutManager.m */,
-				1428944A09575B9700D14688 /* ParticipantsView.h */,
-				1428944B09575B9700D14688 /* ParticipantsView.m */,
 				1428944C09575B9700D14688 /* PlainTextDocument.h */,
 				1428944D09575B9700D14688 /* PlainTextDocument.m */,
 				4CD3CFF11887FE2E00908506 /* SEEOpenPanelAccessoryViewController.h */,
@@ -3125,7 +3120,6 @@
 				1428944709575B3400D14688 /* FindAllTableView.m in Sources */,
 				1428944809575B3400D14688 /* GutterRulerView.m in Sources */,
 				1428944909575B3400D14688 /* LayoutManager.m in Sources */,
-				1428946209575B9700D14688 /* ParticipantsView.m in Sources */,
 				1428946309575B9700D14688 /* PlainTextDocument.m in Sources */,
 				1428946409575B9700D14688 /* PlainTextEditor.m in Sources */,
 				1428946509575B9700D14688 /* PlainTextWindowController.m in Sources */,

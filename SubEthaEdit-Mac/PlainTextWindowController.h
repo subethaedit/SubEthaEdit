@@ -10,32 +10,17 @@
 #import <TCMPortMapper/TCMPortMapper.h>
 #import <PSMTabBarControl/PSMTabBarControl.h>
 
-@class ParticipantsView, PlainTextEditor, PSMTabBarControl, PlainTextDocument,URLImageView;
+@class PlainTextEditor, PSMTabBarControl, PlainTextDocument,URLImageView;
 
 
 @interface PlainTextWindowController : NSWindowController <NSSplitViewDelegate,NSMenuDelegate,PSMTabBarControlDelegate>
  {
-    // Participants drawer views
-    IBOutlet NSDrawer            *O_participantsDrawer;
-    IBOutlet NSScrollView        *O_participantsScrollView;
-    IBOutlet ParticipantsView    *O_participantsView;
-    IBOutlet NSPopUpButton       *O_actionPullDown;
-    IBOutlet NSPopUpButton       *O_pendingUsersAccessPopUpButton;
-    IBOutlet NSButton            *O_kickButton;
-    IBOutlet NSButton            *O_readOnlyButton;
-    IBOutlet NSButton            *O_readWriteButton;
-    IBOutlet NSButton            *O_followButton;
-    
-    IBOutlet URLImageView         *O_URLImageView;
-    IBOutlet NSTextField          *O_URLTextField;
-    
     // Pointers to the current instances
     NSSplitView *I_editorSplitView;
     NSSplitView *I_dialogSplitView;
     id I_documentDialog;
     NSMutableArray *I_plainTextEditors;
     
-    NSMenu *I_contextMenu;
     struct {
         BOOL zoomFix_defaultFrameHadEqualWidth;
     } I_flags;
@@ -63,14 +48,6 @@
 - (IBAction)openParticipantsOverlay:(id)aSender;
 - (IBAction)closeParticipantsOverlay:(id)aSender;
 
-- (void)validateButtons;
-
-- (IBAction)kickButtonAction:(id)aSender;
-- (IBAction)readOnlyButtonAction:(id)aSender;
-- (IBAction)readWriteButtonAction:(id)aSender;
-- (IBAction)followUser:(id)aSender;
-- (IBAction)toggleFollowUser:(id)aSender;
- 
 - (IBAction)openInSeparateWindow:(id)sender;
 
 - (void)gotoLine:(unsigned)aLine;
