@@ -117,7 +117,6 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
     NSLayoutManager    *layoutManager=[textView layoutManager];
     NSRect visibleRect=[scrollView documentVisibleRect];
 	CGFloat textContainerInsetTopY = [textView textContainerOrigin].y;
-	//	visibleRect.origin.y = [textView convertPoint:[textView textContainerOrigin] toView:scrollView].y;
 
     NSPoint point=visibleRect.origin;
     point.y+=aRect.origin.y+1.;
@@ -266,10 +265,10 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 			if (lineRange.length) {
 				[textStorage attribute:NSAttachmentAttributeName atIndex:lineRange.location longestEffectiveRange:&longestEffectiveAttachmentRange inRange:lineRange];
 				if (!NSEqualRanges(lineRange,longestEffectiveAttachmentRange)) {
-					BOOL isHighlighted = (!NSEqualPoints(I_lastMouseDownPoint,NSZeroPoint) && I_lastMouseDownPoint.y + visibleRect.origin.y >= boundingRect.origin.y && I_lastMouseDownPoint.y  + visibleRect.origin.y + textContainerInsetTopY <= NSMaxY(boundingRect));
+					BOOL isHighlighted = (!NSEqualPoints(I_lastMouseDownPoint,NSZeroPoint) && I_lastMouseDownPoint.y + visibleRect.origin.y - textContainerInsetTopY >= boundingRect.origin.y && I_lastMouseDownPoint.y  + visibleRect.origin.y - textContainerInsetTopY <= NSMaxY(boundingRect));
 					// there is an attachment of some kind in our line. so show it
 //					NSLog(@"%s mouseDown:%@ boundingRect:%@",__FUNCTION__,NSStringFromPoint(I_lastMouseDownPoint),NSStringFromRect(boundingRect));
-					NSBezierPath *trianglePath = [NSBezierPath trianglePathInRect:NSMakeRect(foldingAreaRect.origin.x+1, NSMaxY(boundingRect)-visibleRect.origin.y - FOLDING_BAR_WIDTH - (boundingRect.size.height-FOLDING_BAR_WIDTH - 3)/2. ,FOLDING_BAR_WIDTH - 4,FOLDING_BAR_WIDTH - 2) arrowPoint:NSMaxXEdge];
+					NSBezierPath *trianglePath = [NSBezierPath trianglePathInRect:NSMakeRect(foldingAreaRect.origin.x+1, NSMaxY(boundingRect)-visibleRect.origin.y + textContainerInsetTopY - FOLDING_BAR_WIDTH - (boundingRect.size.height-FOLDING_BAR_WIDTH - 3)/2. ,FOLDING_BAR_WIDTH - 4,FOLDING_BAR_WIDTH - 2) arrowPoint:NSMaxXEdge];
 					[(isHighlighted ? triangleHighlightColor : triangleColor) set];
 					[trianglePath fill];
 					[(isHighlighted ? triangleHighlightStrokeColor : triangleStrokeColor) set];
@@ -300,17 +299,20 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 		NSString                    *text=[textView string];
 		NSScrollView          *scrollView=[textView enclosingScrollView];
 		NSRect visibleRect=[scrollView documentVisibleRect];
-		//		visibleRect.origin.y = [textView textContainerOrigin].y;
+		CGFloat textContainerInsetTopY = [textView textContainerOrigin].y;
 
 		NSLayoutManager    *layoutManager=[textView layoutManager];
-        unsigned glyphIndex=[layoutManager glyphIndexForPoint:NSMakePoint(0.0,point.y + visibleRect.origin.y) 
-                                     inTextContainer:[textView textContainer]];
+        unsigned glyphIndex=[layoutManager glyphIndexForPoint:NSMakePoint(0.0,point.y + visibleRect.origin.y - textContainerInsetTopY)
+                                     inTextContainer:[textView textContainer] fractionOfDistanceThroughGlyph:NULL];
         unsigned characterIndex=[layoutManager characterIndexForGlyphAtIndex:glyphIndex];
         NSRect boundingRect  =[layoutManager lineFragmentRectForGlyphAtIndex:glyphIndex 
                                                        effectiveRange:nil];
         NSRange lineRange=[text lineRangeForRange:NSMakeRange(characterIndex,0)];
         NSRange attributeRange = NSMakeRange(lineRange.location,0);
 
+		// transform bounding rect to point coordinates
+		boundingRect = NSOffsetRect(boundingRect, 0, visibleRect.origin.y + textContainerInsetTopY);
+		
 
 //		NSLog(@"%s bounds:%@ documentVisibleRect:%@",__FUNCTION__,NSStringFromRect([self bounds]),NSStringFromRect(visibleRect));
 
