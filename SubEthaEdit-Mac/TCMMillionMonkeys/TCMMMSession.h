@@ -161,6 +161,7 @@ typedef enum TCMMMSessionClientState {
 - (NSArray *)contributors;
 
 - (BOOL)isEditable;
+- (BOOL)isEditableByUser:(TCMMMUser *)aUser;
 
 - (NSString *)invitationTokenForGroup:(NSString *)aGroup;
 - (void)setGroup:(NSString *)aGroup forParticipantsWithUserIDs:(NSArray *)aUserIDs;

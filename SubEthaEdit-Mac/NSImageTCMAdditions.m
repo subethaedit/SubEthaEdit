@@ -94,9 +94,9 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
 		
 		NSInteger pointWidth = [[parts objectAtIndex:1] integerValue];
 		
-		NSColor *selectedColor = [NSColor selectedMenuItemColor];
 		NSColor *normalColor   = [NSColor darkGrayColor];
-		NSColor *highlightColor = [[NSColor selectedMenuItemColor] blendedColorWithFraction:0.25 ofColor:[NSColor blackColor]];
+		NSColor *selectedColor = [NSColor selectedMenuItemColor];
+		NSColor *highlightColor = [NSColor whiteColor];
 		
 		if (parts.count > 3) {
 			normalColor = [NSColor colorForHTMLString:parts[2]];
@@ -107,7 +107,6 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
 		if (parts.count > 5) {
 			highlightColor = [NSColor colorForHTMLString:parts[4]];
 		}
-
 		
 		NSColor *fillColor = normalColor;
 		NSString *pdfName = parts.firstObject;
@@ -121,6 +120,7 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
 		if (disabled) {
 			fillColor = [fillColor blendedColorWithFraction:0.25 ofColor:[NSColor colorWithCalibratedWhite:0.856 alpha:1.000]];
 		}
+
 		NSURL *url = [[NSBundle mainBundle] URLForResource:pdfName withExtension:@"pdf"];
 		CGDataProviderRef dataProvider = CGDataProviderCreateWithURL((__bridge CFURLRef)url);
 		CGPDFDocumentRef pdfDocument = CGPDFDocumentCreateWithProvider(dataProvider);
@@ -158,15 +158,16 @@ const void *TCMImageAdditionsPDFAssociationKey = &TCMImageAdditionsPDFAssociatio
 			CGContextSetFillColorWithColor(layerContext, [fillColor CGColor]);
 			CGContextFillRect(layerContext, layerRect);
 
-			CGContextSetShadowWithColor(context, CGSizeMake(0, -1.0), 0.5, [[NSColor colorWithCalibratedWhite:1.0 alpha:1.0/3.0] CGColor]);
-//			CGContextSetShadow(context, CGSizeMake(0, -1.0), 1.0);
 			CGContextScaleCTM(context, 1/layerScale.width, 1/layerScale.height);
+			CGContextSetShadowWithColor(context, CGSizeMake(0, -1.0), 0.5, [[NSColor colorWithCalibratedWhite:0.85 alpha:1.000] CGColor]);
 			if (disabled) {
 				CGContextSetAlpha(context, 0.9);
 			}
 			CGContextDrawLayerAtPoint(context, CGPointZero, layer);
 			CGLayerRelease(layer);
-/*			CGContextSetBlendMode(context, kCGBlendModeNormal);
+
+/*			
+			CGContextSetBlendMode(context, kCGBlendModeNormal);
 			[[NSColor clearColor] set];
 			NSRectFill(dstRect);
 			CGContextClipToMask(context, fullRect, maskImage);

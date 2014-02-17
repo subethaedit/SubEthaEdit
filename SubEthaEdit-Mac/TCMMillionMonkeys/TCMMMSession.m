@@ -43,14 +43,11 @@ NSString * const TCMMMSessionInvitedUserStateAwaitingResponse = @"AwaitingRespon
 NSString * const TCMMMSessionInvitedUserStateInvitationDeclined = @"DeclinedInvitation";
 
 
-@interface TCMMMSession (TCMMMSessionPrivateAdditions)
-
+@interface TCMMMSession ()
 - (NSDictionary *)TCM_sessionInformationForUserID:(NSString *)aUserID;
 - (NSArray *)TCM_setSessionParticipants:(NSDictionary *)aParticipants  forProfile:(SessionProfile *)profile;
 - (void)triggerPerformRoundRobin;
-- (void)processRoundRobinMessageProcessing;
 - (void)validateSecurity;
-
 @end
 
 #pragma mark -
@@ -420,6 +417,10 @@ NSString * const TCMMMSessionInvitedUserStateInvitationDeclined = @"DeclinedInvi
 
 - (BOOL)isEditable {
     return [[I_groupByUserID objectForKey:[TCMMMUserManager myUserID]] isEqualToString:TCMMMSessionReadWriteGroupName];
+}
+
+- (BOOL)isEditableByUser:(TCMMMUser *)aUser {
+    return [[I_groupByUserID objectForKey:[aUser userID]] isEqualToString:TCMMMSessionReadWriteGroupName];
 }
 
 - (void)presenceManagerDidReceiveToken:(NSNotification *)aNotification {

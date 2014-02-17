@@ -1694,8 +1694,8 @@
         I_followUserID = [userID copy];
         [self scrollToUserWithID:userID];
         [self TCM_updateStatusBar];
-        id windowController = [[self.O_editorView window] windowController];
 
+        id windowController = [[self.O_editorView window] windowController];
         if ([windowController respondsToSelector:@selector(validateButtons)])
         {
             [windowController performSelector:@selector(validateButtons)];

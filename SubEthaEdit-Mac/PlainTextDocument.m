@@ -1898,7 +1898,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 }
 
 
-#pragma mark -
+#pragma mark - Proxy Window
 
 - (BOOL)isProxyDocument {
     return ((I_documentProxyWindowController != nil) || I_flags.isReceivingContent);
@@ -1946,6 +1946,9 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 - (DocumentProxyWindowController *)proxyWindowController {
     return I_documentProxyWindowController;
 }
+
+
+#pragma mark -
 
 - (void)TCM_validateLineEndings {
     DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"validating line endings");
@@ -5995,6 +5998,18 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 		[result addObjectsFromArray:[windowController plainTextEditorsForDocument:self]];
 	}
     return result;
+}
+
+- (BOOL)isAnyPlainTextEditorFollowingUser:(TCMMMUser *)aUser
+{
+	BOOL result = NO;
+	NSArray *plainTextEditors = [self plainTextEditors];
+	for (PlainTextEditor *editor in plainTextEditors) {
+		if ([editor.followUserID isEqualToString:aUser.userID]) {
+			result = YES;
+		}
+	}
+	return result;
 }
 
 - (BOOL)handleOperation:(TCMMMOperation *)aOperation {

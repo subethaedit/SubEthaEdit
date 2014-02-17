@@ -40,6 +40,9 @@
 @property (nonatomic, weak) IBOutlet NSButton *chooseReadOnlyModeButtonOutlet;
 @property (nonatomic, weak) IBOutlet NSTextField *pendingUserQuestionMarkOutlet;
 
+@property (nonatomic, weak) IBOutlet NSImageView *hasFollowerOverlayImageOutlet;
+@property (nonatomic, weak) IBOutlet NSImageView *readOnlyOverlayImageOutlet;
+
 @end
 
 @implementation SEEParticipantViewController
@@ -88,6 +91,16 @@
 		button.alternateImage = [NSImage pdfBasedImageNamed:@"SharingIconEye"TCM_PDFIMAGE_SEP@"16"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_SELECTED];
 	}
 
+	{
+		NSImageView *imageView = self.hasFollowerOverlayImageOutlet;
+		imageView.image = [NSImage pdfBasedImageNamed:@"SharingIconEye"TCM_PDFIMAGE_SEP@"20"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_NORMAL];
+	}
+	{
+		NSImageView *imageView = self.readOnlyOverlayImageOutlet;
+		imageView.image = [NSImage pdfBasedImageNamed:@"SharingIconReadOnly"TCM_PDFIMAGE_SEP@"20"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_NORMAL];
+		imageView.hidden = YES;
+	}
+
 
 	// pending users action overlay
 	{
@@ -111,6 +124,9 @@
 - (void)mouseExited:(NSEvent *)theEvent {
 	self.participantActionOverlayOutlet.hidden = YES;
 }
+
+
+#pragma mark Actions
 
 - (IBAction)closeConnection:(id)sender {
 	TCMMMSession *documentSession = self.document.session;
@@ -157,11 +173,15 @@
 		PlainTextWindowController *windowController = self.view.window.windowController;
 		PlainTextEditor *activeEditor = windowController.activePlainTextEditor;
 
-		if ([activeEditor.followUserID isEqualToString:user.userID]) {
+		BOOL activeEditorIsFollowing = [activeEditor.followUserID isEqualToString:user.userID];
+		if (activeEditorIsFollowing) {
 			[activeEditor setFollowUserID:nil];
 		} else {
 			[activeEditor setFollowUserID:user.userID];
 		}
+
+		self.toggleFollowButtonOutlet.state = activeEditorIsFollowing?NSOffState:NSOnState;
+		self.isParticipantFollowed = [self.document isAnyPlainTextEditorFollowingUser:self.participant];
 	}
 }
 
@@ -195,10 +215,25 @@
 	}
 }
 
+
+#pragma mark - Preparing Views
+
 - (void)updateForParticipantUserState {
 	if (self.participant.isMe) {
 		self.participantActionOverlayOutlet = nil;
 	} else {
+		PlainTextWindowController *windowController = self.view.window.windowController;
+		PlainTextEditor *activeEditor = windowController.activePlainTextEditor;
+		TCMMMUser *user = self.participant;
+		BOOL activeEditorIsFollowing = [activeEditor.followUserID isEqualToString:user.userID];
+		self.toggleFollowButtonOutlet.state = activeEditorIsFollowing?NSOnState:NSOffState;
+
+		self.isParticipantFollowed = [self.document isAnyPlainTextEditorFollowingUser:user];
+
+		BOOL userCanEditDocument = [self.document.session isEditableByUser:user];
+		self.toggleEditModeButtonOutlet.state = userCanEditDocument?NSOffState:NSOnState;
+		self.readOnlyOverlayImageOutlet.hidden = userCanEditDocument;
+
 		if (! self.document.session.isServer) {
 			[self.closeConnectionButtonOutlet removeFromSuperview];
 			[self.toggleEditModeButtonOutlet removeFromSuperview];

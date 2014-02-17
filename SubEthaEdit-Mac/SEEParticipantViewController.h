@@ -13,6 +13,7 @@
 @interface SEEParticipantViewController : NSViewController
 
 @property (nonatomic, readonly, strong) TCMMMUser *participant;
+@property (nonatomic, assign) BOOL isParticipantFollowed;
 
 - (id)initWithParticipant:(TCMMMUser *)aParticipant inDocument:(PlainTextDocument *)document;
 
