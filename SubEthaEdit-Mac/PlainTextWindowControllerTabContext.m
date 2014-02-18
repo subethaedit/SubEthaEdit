@@ -10,6 +10,11 @@
 #import "PlainTextWindowController.h"
 #import "PlainTextLoadProgress.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
 
 @implementation PlainTextWindowControllerTabContext
 
@@ -30,109 +35,13 @@
     return self;
 }
 
-
-- (void)dealloc
-{
-    _document = nil;
+- (void)dealloc {
     [_plainTextEditors makeObjectsPerformSelector:@selector(setWindowControllerTabContext:) withObject:nil];
-    [_plainTextEditors release];
-    [_editorSplitView release];
-    [_dialogSplitView release];
-    [_documentDialog release];
-    [_loadProgress release];
-    
-    [_icon release];
-    [_iconName release];
-    
-    [super dealloc];
 }
 
-
-- (NSString *)description
-{
-    return [NSString stringWithFormat:@"%@, document: %@", [super description], _document];
+- (NSString *)description {
+    return [NSString stringWithFormat:@"%@, document: %@", [super description], self.document];
 }
-
-
-- (NSMutableArray *)plainTextEditors
-{
-    return _plainTextEditors;
-}
-
-
-- (void)setEditorSplitView:(NSSplitView *)splitView
-{
-    [splitView retain];
-    [_editorSplitView release];
-    _editorSplitView = splitView;
-}
-
-
-- (NSSplitView *)editorSplitView
-{
-    return _editorSplitView;
-}
-
-
-- (void)setDialogSplitView:(NSSplitView *)splitView
-{
-    [splitView retain];
-    [_dialogSplitView release];
-    _dialogSplitView = splitView;
-}
-
-
-- (NSSplitView *)dialogSplitView
-{
-    return _dialogSplitView;
-}
-
-
-- (void)setDocumentDialog:(id)dialog
-{
-    [dialog retain];
-    [_documentDialog release];
-    _documentDialog = dialog;
-}
-
-
-- (id)documentDialog
-{
-    return _documentDialog;
-}
-
-- (void)setDocument:(PlainTextDocument *)document
-{
-    _document = document;
-}
-
-- (PlainTextDocument *)document
-{
-    return _document;
-}
-
-- (void)setLoadProgress:(PlainTextLoadProgress *)loadProgress
-{
-    [loadProgress retain];
-    [_loadProgress release];
-    _loadProgress = loadProgress;   
-}
-
-- (PlainTextLoadProgress *)loadProgress
-{
-    return _loadProgress;
-}
-
-- (void)setIsReceivingContent:(BOOL)flag
-{
-    _isReceivingContent = flag;
-}
-
-- (BOOL)isReceivingContent
-{
-    return _isReceivingContent;
-}
-
 
 - (void)setIsAlertScheduled:(BOOL)flag
 {
@@ -144,67 +53,6 @@
         [self setIconName:@""];
     }
     _isAlertScheduled = flag;
-}
-
-- (BOOL)isAlertScheduled
-{
-    return _isAlertScheduled;
-}
-
-#pragma mark -
-
-- (BOOL)isProcessing
-{
-    return _isProcessing;
-}
-
-- (void)setIsProcessing:(BOOL)value
-{
-    _isProcessing = value;
-}
-
-- (NSImage *)icon
-{
-    return _icon;
-}
-
-- (void)setIcon:(NSImage *)icon
-{
-    [icon retain];
-    [_icon release];
-    _icon = icon;
-}
-
-- (NSString *)iconName
-{
-    return _iconName;
-}
-
-- (void)setIconName:(NSString *)iconName
-{
-    [iconName retain];
-    [_iconName release];
-    _iconName = iconName;
-}
-
-- (int)objectCount
-{
-    return _objectCount;
-}
-
-- (void)setObjectCount:(int)value
-{
-    _objectCount = value;
-}
-
-- (BOOL)isEdited
-{
-    return _isEdited;
-}
-
-- (void)setIsEdited:(BOOL)value
-{
-    _isEdited = value;
 }
 
 @end
