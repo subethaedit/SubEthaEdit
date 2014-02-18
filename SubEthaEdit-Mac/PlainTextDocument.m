@@ -2593,47 +2593,6 @@ struct SelectionRange
     return YES;
 }
 
-//- (NSString *)panel:(id)sender userEnteredFilename:(NSString *)filename confirmed:(BOOL)okFlag
-//{
-//    if (okFlag) {
-//        NSString *panelFileName = [sender filename];
-//        NSFileManager *fileManager = [NSFileManager defaultManager];
-//        NSWorkspace *workspace = [NSWorkspace sharedWorkspace];
-//        BOOL isDir;
-//        if ([fileManager fileExistsAtPath:panelFileName isDirectory:&isDir] && isDir && ![workspace isFilePackageAtPath:panelFileName]) {
-//            NSAlert *alert = [[NSAlert alloc] init];
-//            [alert setAlertStyle:NSInformationalAlertStyle];
-//            [alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"The document can not be saved with the name \"%@\" because a folder with the same name already exists.", nil), filename]];
-//            [alert setInformativeText:NSLocalizedString(@"Try choosing a different name for the document.", nil)];
-//            [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
-//            (void)[alert runModal];
-//            [[alert window] orderOut:self];
-//            [alert release];
-//            return nil;
-//        }
-//    }
-//    
-//    return filename;
-//}
-//
-//- (void)setTemporarySavePanel:(NSSavePanel *)aPanel {
-//	if (aPanel != I_savePanel) {
-//		if (I_savePanel && [I_savePanel delegate] == (id)self) {
-//			[I_savePanel setDelegate:nil];
-//		}
-//		[I_savePanel autorelease];
-//		 I_savePanel = [aPanel retain];
-//	}
-//}
-//
-//- (void) _savePanelWasPresented:(id)aPanel withResult:(int)aResult inContext:(void*) aContext; {
-//	[I_savePanel setDelegate:nil];
-//	if (aResult == NSCancelButton) {	
-//		[self setTemporarySavePanel:nil];
-//	}
-//	[super _savePanelWasPresented:aPanel withResult:aResult inContext:aContext];
-//}
-
 const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 - (BOOL)prepareSavePanel:(NSSavePanel *)savePanel {
