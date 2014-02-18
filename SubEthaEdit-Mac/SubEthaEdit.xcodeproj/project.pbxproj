@@ -214,6 +214,7 @@
 		31D2C7000CA7C9C8003CC5C9 /* PrecedenceRuleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2C6E50CA7C7A7003CC5C9 /* PrecedenceRuleCell.m */; };
 		31FFC93D104E97A000E08256 /* NSErrorTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */; };
 		424CA988189058C000B2D333 /* SymbolMark.png in Resources */ = {isa = PBXBuildFile; fileRef = 424CA987189058C000B2D333 /* SymbolMark.png */; };
+		4C0C4A0118B366EC00E6049E /* PlainTextWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0C4A0018B366EC00E6049E /* PlainTextWindow.xib */; };
 		4C0D3D6417FB12F700AAFB38 /* SEEStyleSheetEditorWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D6317FB12F700AAFB38 /* SEEStyleSheetEditorWindowController.xib */; };
 		4C0D3D6617FB133600AAFB38 /* ServerConnection.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D6517FB133600AAFB38 /* ServerConnection.xib */; };
 		4C0D3D6817FB145600AAFB38 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D6717FB145600AAFB38 /* Preferences.xib */; };
@@ -271,7 +272,6 @@
 		4CD5F80617FB0D5B00F49E31 /* OpenPanelAccessory.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F80417FB0D5B00F49E31 /* OpenPanelAccessory.xib */; };
 		4CD5F80A17FB0D7000F49E31 /* PlainTextEditor.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F80817FB0D7000F49E31 /* PlainTextEditor.xib */; };
 		4CD5F81117FB0DC100F49E31 /* PlainTextLoadProgress.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F80F17FB0DC100F49E31 /* PlainTextLoadProgress.xib */; };
-		4CD5F81517FB0DD700F49E31 /* PlainTextWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F81317FB0DD700F49E31 /* PlainTextWindow.xib */; };
 		4CD5F81917FB0DF900F49E31 /* PrecedencePrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F81717FB0DF900F49E31 /* PrecedencePrefs.xib */; };
 		4CD5F81D17FB0E1900F49E31 /* PrecedenceRules.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F81B17FB0E1800F49E31 /* PrecedenceRules.xib */; };
 		4CD5F82117FB0E2B00F49E31 /* PrintOptions.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F81F17FB0E2B00F49E31 /* PrintOptions.xib */; };
@@ -959,6 +959,7 @@
 		31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSErrorTCMAdditions.m; sourceTree = "<group>"; };
 		32DBCF750370BD2300C91783 /* SubEthaEdit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubEthaEdit_Prefix.pch; sourceTree = "<group>"; };
 		424CA987189058C000B2D333 /* SymbolMark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SymbolMark.png; path = artwork/SymbolMark.png; sourceTree = "<group>"; };
+		4C0C4A0018B366EC00E6049E /* PlainTextWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlainTextWindow.xib; sourceTree = "<group>"; };
 		4C0D3D6317FB12F700AAFB38 /* SEEStyleSheetEditorWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEEStyleSheetEditorWindowController.xib; sourceTree = "<group>"; };
 		4C0D3D6517FB133600AAFB38 /* ServerConnection.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ServerConnection.xib; sourceTree = "<group>"; };
 		4C0D3D6717FB145600AAFB38 /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
@@ -1033,8 +1034,6 @@
 		4CD5F80B17FB0D7600F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/PlainTextEditor.xib; sourceTree = "<group>"; };
 		4CD5F81017FB0DC100F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PlainTextLoadProgress.xib; sourceTree = "<group>"; };
 		4CD5F81217FB0DC500F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/PlainTextLoadProgress.xib; sourceTree = "<group>"; };
-		4CD5F81417FB0DD700F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PlainTextWindow.xib; sourceTree = "<group>"; };
-		4CD5F81617FB0DDB00F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/PlainTextWindow.xib; sourceTree = "<group>"; };
 		4CD5F81817FB0DF900F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PrecedencePrefs.xib; sourceTree = "<group>"; };
 		4CD5F81A17FB0E0400F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/PrecedencePrefs.xib; sourceTree = "<group>"; };
 		4CD5F81C17FB0E1900F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/PrecedenceRules.xib; sourceTree = "<group>"; };
@@ -2177,9 +2176,9 @@
 				4CD5F7F817FB0D0C00F49E31 /* GeneralPrefs.xib */,
 				4CD5F80017FB0D3700F49E31 /* MainMenu.xib */,
 				4CD5F80417FB0D5B00F49E31 /* OpenPanelAccessory.xib */,
+				4C0C4A0018B366EC00E6049E /* PlainTextWindow.xib */,
 				4CD5F80817FB0D7000F49E31 /* PlainTextEditor.xib */,
 				4CD5F80F17FB0DC100F49E31 /* PlainTextLoadProgress.xib */,
-				4CD5F81317FB0DD700F49E31 /* PlainTextWindow.xib */,
 				4C0D3D6717FB145600AAFB38 /* Preferences.xib */,
 				4CD5F81717FB0DF900F49E31 /* PrecedencePrefs.xib */,
 				4CD5F81B17FB0E1800F49E31 /* PrecedenceRules.xib */,
@@ -2857,7 +2856,6 @@
 				4CD5F80617FB0D5B00F49E31 /* OpenPanelAccessory.xib in Resources */,
 				F2D3E53E189941F50096425B /* AW InactiveTabCloseRollover@2x.png in Resources */,
 				4C6BDC601889858A0088CBFC /* folded@2x.png in Resources */,
-				4CD5F81517FB0DD700F49E31 /* PlainTextWindow.xib in Resources */,
 				4CD5F83517FB0EB500F49E31 /* URLBubbleWindow.xib in Resources */,
 				F2D3E534189941F50096425B /* AW ActiveTabRightCap@2x.png in Resources */,
 				F2D5FF480CB266C700407399 /* ToolbarIconColorChooser.icns in Resources */,
@@ -2878,6 +2876,7 @@
 				F2D3E568189941F50096425B /* IW InactiveTabRightCap@2x.png in Resources */,
 				F2D3E565189941F50096425B /* IW InactiveTabLeftCap.png in Resources */,
 				F2C6D3760D6DB131002B401D /* URLIconOK.tiff in Resources */,
+				4C0C4A0118B366EC00E6049E /* PlainTextWindow.xib in Resources */,
 				4CD5F7E217FB0C4D00F49E31 /* DocumentProxy.xib in Resources */,
 				F2D3E54A189941F50096425B /* AW SingleTabAddButton@2x.png in Resources */,
 				F2FEE7141892A747000E6BC8 /* SharingIconEye.pdf in Resources */,
@@ -3432,15 +3431,6 @@
 				4CD5F81217FB0DC500F49E31 /* German */,
 			);
 			name = PlainTextLoadProgress.xib;
-			sourceTree = "<group>";
-		};
-		4CD5F81317FB0DD700F49E31 /* PlainTextWindow.xib */ = {
-			isa = PBXVariantGroup;
-			children = (
-				4CD5F81417FB0DD700F49E31 /* English */,
-				4CD5F81617FB0DDB00F49E31 /* German */,
-			);
-			name = PlainTextWindow.xib;
 			sourceTree = "<group>";
 		};
 		4CD5F81717FB0DF900F49E31 /* PrecedencePrefs.xib */ = {
