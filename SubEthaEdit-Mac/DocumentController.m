@@ -25,20 +25,17 @@
 #import <PSMTabBarControl/PSMTabBarControl.h>
 #import <objc/objc-runtime.h>			// for objc_msgSend
 
+#import "SEENetworkBrowser.h"
 
-@interface DocumentController (DocumentControllerPrivateAdditions)
 
+@interface DocumentController ()
 - (void)setModeIdentifierFromLastRunOpenPanel:(NSString *)modeIdentifier;
 - (void)setEncodingFromLastRunOpenPanel:(NSStringEncoding)stringEncoding;
 - (void)setLocationForNextOpenPanel:(NSURL*)anURL;
 - (NSURL *)locationForNextOpenPanel;
-
-
 @end
 
-
-@implementation DocumentController (DocumentControllerPrivateAdditions)
-
+@implementation DocumentController
 
 // for directory drags for which we open an open panel so the user can select the (multiple) files he wants to open
 - (void)setLocationForNextOpenPanel:(NSURL*)anURL {
@@ -48,7 +45,6 @@
 - (NSURL *)locationForNextOpenPanel {
     return I_locationForNextOpenPanel;
 }
-
 
 - (void)setEncodingFromLastRunOpenPanel:(NSStringEncoding)stringEncoding {
     I_encodingFromLastRunOpenPanel = stringEncoding;
@@ -261,12 +257,8 @@ static NSString *tempFileName() {
     return name;
 }
 
-@end
-
-
 #pragma mark -
 
-@implementation DocumentController
 
 + (DocumentController *)sharedInstance {
     return (DocumentController *)[NSDocumentController sharedDocumentController];
@@ -1068,7 +1060,10 @@ static NSString *tempFileName() {
 
 - (IBAction)newDocument:(id)aSender
 {
-    [self newDocumentWithModeMenuItem:[aSender representedObject]];
+	SEENetworkBrowser *networkBrowser = [[SEENetworkBrowser alloc] initWithWindowNibName:@"SEENetworkBrowser"];
+	[networkBrowser showWindow:aSender];
+
+//    [self newDocumentWithModeMenuItem:[aSender representedObject]];
 }
 
 - (IBAction)newDocumentWithModeMenuItemFromDock:(id)aSender {
