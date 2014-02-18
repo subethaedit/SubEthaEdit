@@ -91,7 +91,7 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 @property (nonatomic, strong) NSArray *bottomStatusBarViewBackgroundFilters;
 @property (nonatomic, assign) IBOutlet NSButton *shareInviteUsersButtonOutlet;
 @property (nonatomic, assign) IBOutlet NSButton *shareAnnounceButtonOutlet;
-
+@property (nonatomic, assign) IBOutlet NSObjectController *ownerController;
 @property (nonatomic, strong) NSArray *topLevelNibObjects;
 @property (nonatomic, strong) NSViewController *bottomOverlayViewController;
 
@@ -106,8 +106,7 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 {
     self = [super init];
 
-    if (self)
-    {
+    if (self) {
         I_windowControllerTabContext = aWindowControllerTabContext;
         I_flags.hasSplitButton = aFlag;
         I_flags.showTopStatusBar = YES;
@@ -130,6 +129,13 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
     return self;
 }
 
+- (void)prepareForDealloc {
+    [[NSNotificationCenter defaultCenter] removeObserver:[I_windowControllerTabContext document] name:NSTextViewDidChangeSelectionNotification object:I_textView];
+    [[NSNotificationCenter defaultCenter] removeObserver:[I_windowControllerTabContext document] name:NSTextDidChangeNotification object:I_textView];
+	// release the objects that are bound so we get dealloced later
+	self.ownerController.content = nil;
+	self.topLevelNibObjects = nil;
+}
 
 - (void)dealloc
 {

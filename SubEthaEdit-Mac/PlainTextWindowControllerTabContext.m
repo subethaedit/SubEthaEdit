@@ -23,14 +23,6 @@
     self = [super init];
     if (self) {
         _plainTextEditors = [[NSMutableArray alloc] init];
-        _isReceivingContent = NO;
-        _isAlertScheduled = NO;
-        
-        _isProcessing = NO;
-        _icon = nil;
-        _iconName = nil;
-        _objectCount = 0;
-        _isEdited = NO;
     }
     return self;
 }

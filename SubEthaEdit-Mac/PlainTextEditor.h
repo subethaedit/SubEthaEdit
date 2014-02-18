@@ -51,7 +51,7 @@ extern NSString * const PlainTextEditorDidFollowUserNotification;
 
 @property (nonatomic, strong) NSImage *alternateAnnounceImage;
 
-
+- (void)prepareForDealloc; // because of programatic bindings to the top level object
 
 - (id)initWithWindowControllerTabContext:(PlainTextWindowControllerTabContext *)aWindowControllerTabContext splitButton:(BOOL)aFlag;
 - (NSView *)editorView;
