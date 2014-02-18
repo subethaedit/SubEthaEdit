@@ -1707,13 +1707,12 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 			[I_tabView removeTabViewItem:tabViewItem];
 		}
         [self setDocument:nil];
-        
-		[contextToClose.plainTextEditors makeObjectsPerformSelector:@selector(prepareForDealloc)];
-		[contextToClose release];
 		
         [[DocumentController sharedDocumentController] removeWindowController:self];
         [super close];
     }
+	[contextToClose.plainTextEditors makeObjectsPerformSelector:@selector(prepareForDealloc)];
+	[contextToClose release];
 }
 
 #pragma mark PSMTabBarControl Delegate
