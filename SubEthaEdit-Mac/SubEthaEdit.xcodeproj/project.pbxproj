@@ -383,7 +383,6 @@
 		F298693E0D338B0F0031C9F3 /* ServerManagementProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F298693C0D338B0F0031C9F3 /* ServerManagementProfile.m */; };
 		F29940600C0C7F3400A53189 /* NSScreenTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F299405E0C0C7F3400A53189 /* NSScreenTCMAdditions.m */; };
 		F29AD8670CA3391B0097D04E /* Bonjour13.png in Resources */ = {isa = PBXBuildFile; fileRef = F29AD8660CA3391B0097D04E /* Bonjour13.png */; };
-		F2A093510C9EA923000AD27A /* DocumentSharedMethods.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A0934E0C9EA923000AD27A /* DocumentSharedMethods.m */; };
 		F2A707BB0BF89F4200482EFC /* LoginSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A707B90BF89F4200482EFC /* LoginSheetController.m */; };
 		F2ABC4D60C799775007437A2 /* TCMMMLoggingState.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC4D40C799775007437A2 /* TCMMMLoggingState.m */; };
 		F2ABC4E30C799CCD007437A2 /* TCMMMLoggedOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC4E10C799CCD007437A2 /* TCMMMLoggedOperation.m */; };
@@ -1189,8 +1188,6 @@
 		F299405F0C0C7F3400A53189 /* NSScreenTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NSScreenTCMAdditions.h; sourceTree = "<group>"; };
 		F29940780C0C806600A53189 /* See_Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; name = See_Info.plist; path = see/See_Info.plist; sourceTree = "<group>"; };
 		F29AD8660CA3391B0097D04E /* Bonjour13.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Bonjour13.png; path = artwork/Bonjour13.png; sourceTree = "<group>"; };
-		F2A0934D0C9EA923000AD27A /* DocumentSharedMethods.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DocumentSharedMethods.h; sourceTree = "<group>"; };
-		F2A0934E0C9EA923000AD27A /* DocumentSharedMethods.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentSharedMethods.m; sourceTree = "<group>"; };
 		F2A707960BF8935400482EFC /* LoginButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LoginButton.png; path = artwork/LoginButton.png; sourceTree = "<group>"; };
 		F2A707AF0BF89A4300482EFC /* LoginButtonIn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LoginButtonIn.png; path = artwork/LoginButtonIn.png; sourceTree = "<group>"; };
 		F2A707B80BF89F4200482EFC /* LoginSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = LoginSheetController.h; sourceTree = "<group>"; };
@@ -1766,8 +1763,6 @@
 			isa = PBXGroup;
 			children = (
 				F281D3480F38754100AD7DE1 /* TextSystem */,
-				F2A0934D0C9EA923000AD27A /* DocumentSharedMethods.h */,
-				F2A0934E0C9EA923000AD27A /* DocumentSharedMethods.m */,
 				F27B2EEF0B52968E00679CF2 /* HUDButton.h */,
 				F27B2EEE0B52968E00679CF2 /* HUDButton.m */,
 				F27B2EEC0B52968E00679CF2 /* HUDButtonCell.h */,
@@ -3179,7 +3174,6 @@
 				F2ABC5400C79D9AB007437A2 /* DebugHistoryController.m in Sources */,
 				F20948BC0C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m in Sources */,
 				F20948EE0C7B4C7100E78EBA /* UserStatisticsController.m in Sources */,
-				F2A093510C9EA923000AD27A /* DocumentSharedMethods.m in Sources */,
 				F2BB09EB0CA0186400258EC7 /* NSBezierPath-Arrow.m in Sources */,
 				F2BB09F90CA018B600258EC7 /* NSImage-States.m in Sources */,
 				F2BB09FF0CA018CA00258EC7 /* PCRolloverImageView.m in Sources */,
