@@ -8,6 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface SEENetworkBrowser : NSWindowController
-
+@interface SEENetworkBrowser : NSWindowController <NSCollectionViewDelegate>
+@property (nonatomic, strong) NSMutableArray *availableDocumentSessions;
 @end

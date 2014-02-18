@@ -215,8 +215,9 @@
 		31FFC93D104E97A000E08256 /* NSErrorTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */; };
 		424CA988189058C000B2D333 /* SymbolMark.png in Resources */ = {isa = PBXBuildFile; fileRef = 424CA987189058C000B2D333 /* SymbolMark.png */; };
 		4C0C4A0118B366EC00E6049E /* PlainTextWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0C4A0018B366EC00E6049E /* PlainTextWindow.xib */; };
-		4C0C4A1C18B3768500E6049E /* SEENetworkBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0C4A1A18B3768500E6049E /* SEENetworkBrowser.m */; };
+		4C0C4A1C18B3768500E6049E /* SEENetworkBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0C4A1A18B3768500E6049E /* SEENetworkBrowser.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C0C4A1D18B3768500E6049E /* SEENetworkBrowser.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0C4A1B18B3768500E6049E /* SEENetworkBrowser.xib */; };
+		4C0C4A2018B3BA5600E6049E /* SEENetworkDocumentRepresentation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0C4A1F18B3BA5600E6049E /* SEENetworkDocumentRepresentation.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C0D3D6417FB12F700AAFB38 /* SEEStyleSheetEditorWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D6317FB12F700AAFB38 /* SEEStyleSheetEditorWindowController.xib */; };
 		4C0D3D6617FB133600AAFB38 /* ServerConnection.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D6517FB133600AAFB38 /* ServerConnection.xib */; };
 		4C0D3D6817FB145600AAFB38 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D6717FB145600AAFB38 /* Preferences.xib */; };
@@ -965,6 +966,8 @@
 		4C0C4A1918B3768500E6049E /* SEENetworkBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEENetworkBrowser.h; sourceTree = "<group>"; };
 		4C0C4A1A18B3768500E6049E /* SEENetworkBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEENetworkBrowser.m; sourceTree = "<group>"; };
 		4C0C4A1B18B3768500E6049E /* SEENetworkBrowser.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEENetworkBrowser.xib; sourceTree = "<group>"; };
+		4C0C4A1E18B3BA5600E6049E /* SEENetworkDocumentRepresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEENetworkDocumentRepresentation.h; sourceTree = "<group>"; };
+		4C0C4A1F18B3BA5600E6049E /* SEENetworkDocumentRepresentation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEENetworkDocumentRepresentation.m; sourceTree = "<group>"; };
 		4C0D3D6317FB12F700AAFB38 /* SEEStyleSheetEditorWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEEStyleSheetEditorWindowController.xib; sourceTree = "<group>"; };
 		4C0D3D6517FB133600AAFB38 /* ServerConnection.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ServerConnection.xib; sourceTree = "<group>"; };
 		4C0D3D6717FB145600AAFB38 /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
@@ -1944,8 +1947,6 @@
 			isa = PBXGroup;
 			children = (
 				14289310095756D800D14688 /* TCMMillionMonkeys.h */,
-				142D1B990BAEE04900B9EF1C /* TCMMMUserManagerKitAdditions.h */,
-				142D1B9A0BAEE04900B9EF1C /* TCMMMUserManagerKitAdditions.m */,
 				14289311095756D800D14688 /* TCMMMBEEPSessionManager.h */,
 				14289312095756D800D14688 /* TCMMMBEEPSessionManager.m */,
 				14289313095756D800D14688 /* TCMMMBrowserListView.h */,
@@ -1982,6 +1983,8 @@
 				14289326095756D800D14688 /* TCMMMUser.m */,
 				14289327095756D800D14688 /* TCMMMUserManager.h */,
 				14289328095756D800D14688 /* TCMMMUserManager.m */,
+				142D1B990BAEE04900B9EF1C /* TCMMMUserManagerKitAdditions.h */,
+				142D1B9A0BAEE04900B9EF1C /* TCMMMUserManagerKitAdditions.m */,
 			);
 			name = TCMMillionMonkeys;
 			sourceTree = "<group>";
@@ -2106,6 +2109,8 @@
 				F234E0FF0BE0F1E100504A7C /* ServerConnectionWindowController.m */,
 				4C0C4A1918B3768500E6049E /* SEENetworkBrowser.h */,
 				4C0C4A1A18B3768500E6049E /* SEENetworkBrowser.m */,
+				4C0C4A1E18B3BA5600E6049E /* SEENetworkDocumentRepresentation.h */,
+				4C0C4A1F18B3BA5600E6049E /* SEENetworkDocumentRepresentation.m */,
 				4C0C4A1B18B3768500E6049E /* SEENetworkBrowser.xib */,
 			);
 			name = Classes;
@@ -3094,6 +3099,7 @@
 				142893B1095758FD00D14688 /* SelectionOperation.m in Sources */,
 				142893B2095758FD00D14688 /* TextOperation.m in Sources */,
 				142893B3095758FD00D14688 /* UserChangeOperation.m in Sources */,
+				4C0C4A2018B3BA5600E6049E /* SEENetworkDocumentRepresentation.m in Sources */,
 				142893C50957594500D14688 /* DocumentMode.m in Sources */,
 				142893C60957594500D14688 /* DocumentModeManager.m in Sources */,
 				142893C70957594500D14688 /* RegexSymbolDefinition.m in Sources */,
