@@ -6074,11 +6074,11 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 		for (TCMMMUser *user in connectedUsers) {
 			NSString *sharingServiceTitle = [NSString stringWithFormat:NSLocalizedString(@"Invite %@", @"Invitation format string used in sharing service picker. %@ will be replaced with the user name."), [user name]];
 			NSImage *userImage = [user image];
-			NSSharingService *customSharingService = [[NSSharingService alloc] initWithTitle:sharingServiceTitle image:userImage alternateImage:nil handler:^{
+			NSSharingService *customSharingService = [[[NSSharingService alloc] initWithTitle:sharingServiceTitle image:userImage alternateImage:nil handler:^{
 				TCMBEEPSession *BEEPSession = [[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:[user userID]];// peerAddressData:[userDescription objectForKey:@"PeerAddressData"]];
 				[self setPlainTextEditorsShowChangeMarksOnInvitation];
 				[self.session inviteUser:user intoGroup:TCMMMSessionReadWriteGroupName usingBEEPSession:BEEPSession];
-			}];
+			}] autorelease];
 
 			[sharingServices insertObject:customSharingService atIndex:0];
 		}

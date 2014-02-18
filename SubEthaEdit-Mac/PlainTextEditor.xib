@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13C59" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13B3116" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1090" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
@@ -21,6 +21,7 @@
                 <outlet property="O_waitPipeStatusImageView" destination="68" id="69"/>
                 <outlet property="O_windowWidthTextField" destination="15" id="21"/>
                 <outlet property="O_writtenByTextField" destination="25" id="31"/>
+                <outlet property="ownerController" destination="UOY-gY-y9M" id="sBN-7j-yXB"/>
                 <outlet property="shareAnnounceButtonOutlet" destination="7Mi-Cu-bLB" id="XN5-mI-pJm"/>
                 <outlet property="shareInviteUsersButtonOutlet" destination="bv6-mv-CIq" id="hQV-kB-VvW"/>
             </connections>
@@ -155,7 +156,7 @@
                             </buttonCell>
                             <connections>
                                 <action selector="toggleIsAnnounced:" target="-1" id="IJN-40-Y5s"/>
-                                <binding destination="-2" name="alternateImage" keyPath="self.alternateAnnounceImage" id="9C3-Qh-Q6v"/>
+                                <binding destination="UOY-gY-y9M" name="alternateImage" keyPath="selection.alternateAnnounceImage" id="uCe-pm-U4H"/>
                                 <outlet property="menu" destination="eH3-RU-uKl" id="H3t-Aa-F1C"/>
                             </connections>
                         </button>
@@ -168,8 +169,8 @@
                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                             </textFieldCell>
                             <connections>
-                                <binding destination="-2" name="value" keyPath="self.numberOfActiveParticipants" id="MvO-Wx-x95"/>
-                                <binding destination="-2" name="hidden" keyPath="self.showsNumberOfActiveParticipants" id="vrO-w6-O41">
+                                <binding destination="UOY-gY-y9M" name="value" keyPath="selection.numberOfActiveParticipants" id="fVh-cW-zcy"/>
+                                <binding destination="UOY-gY-y9M" name="hidden" keyPath="selection.showsNumberOfActiveParticipants" id="3lD-7H-ULp">
                                     <dictionary key="options">
                                         <string key="NSValueTransformerName">NSNegateBoolean</string>
                                     </dictionary>
@@ -230,21 +231,31 @@
                 </customView>
             </subviews>
         </customView>
+        <objectController objectClassName="PlainTextEditor" editable="NO" id="UOY-gY-y9M">
+            <declaredKeys>
+                <string>showsNumberOfActiveParticipants</string>
+                <string>numberOfActiveParticipants</string>
+                <string>alternateAnnounceImage</string>
+            </declaredKeys>
+            <connections>
+                <outlet property="content" destination="-2" id="YSU-zI-rHp"/>
+            </connections>
+        </objectController>
         <menu id="eH3-RU-uKl" userLabel="Announce Context Menu">
             <items>
-                <menuItem title="Read / Write" tag="2" id="KIH-pg-Ei8">
+                <menuItem title="&lt;r/w>" tag="2" id="KIH-pg-Ei8">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="changePendingUsersAccess:" target="-1" id="Axd-3F-CbN"/>
                     </connections>
                 </menuItem>
-                <menuItem title="Read only" tag="1" id="83X-QV-Pku">
+                <menuItem title="&lt;r/o>" tag="1" id="83X-QV-Pku">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="changePendingUsersAccess:" target="-1" id="Inv-Si-3OU"/>
                     </connections>
                 </menuItem>
-                <menuItem title="Locked" id="Dhd-iR-fKx">
+                <menuItem title="&lt;locked>" id="Dhd-iR-fKx">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
                         <action selector="changePendingUsersAccess:" target="-1" id="EGO-3D-nSQ"/>
