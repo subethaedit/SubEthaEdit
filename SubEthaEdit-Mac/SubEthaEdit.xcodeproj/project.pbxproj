@@ -215,6 +215,8 @@
 		31FFC93D104E97A000E08256 /* NSErrorTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */; };
 		424CA988189058C000B2D333 /* SymbolMark.png in Resources */ = {isa = PBXBuildFile; fileRef = 424CA987189058C000B2D333 /* SymbolMark.png */; };
 		4C0C4A0118B366EC00E6049E /* PlainTextWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0C4A0018B366EC00E6049E /* PlainTextWindow.xib */; };
+		4C0C4A1C18B3768500E6049E /* SEENetworkBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0C4A1A18B3768500E6049E /* SEENetworkBrowser.m */; };
+		4C0C4A1D18B3768500E6049E /* SEENetworkBrowser.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0C4A1B18B3768500E6049E /* SEENetworkBrowser.xib */; };
 		4C0D3D6417FB12F700AAFB38 /* SEEStyleSheetEditorWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D6317FB12F700AAFB38 /* SEEStyleSheetEditorWindowController.xib */; };
 		4C0D3D6617FB133600AAFB38 /* ServerConnection.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D6517FB133600AAFB38 /* ServerConnection.xib */; };
 		4C0D3D6817FB145600AAFB38 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D6717FB145600AAFB38 /* Preferences.xib */; };
@@ -960,6 +962,9 @@
 		32DBCF750370BD2300C91783 /* SubEthaEdit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubEthaEdit_Prefix.pch; sourceTree = "<group>"; };
 		424CA987189058C000B2D333 /* SymbolMark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SymbolMark.png; path = artwork/SymbolMark.png; sourceTree = "<group>"; };
 		4C0C4A0018B366EC00E6049E /* PlainTextWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlainTextWindow.xib; sourceTree = "<group>"; };
+		4C0C4A1918B3768500E6049E /* SEENetworkBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEENetworkBrowser.h; sourceTree = "<group>"; };
+		4C0C4A1A18B3768500E6049E /* SEENetworkBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEENetworkBrowser.m; sourceTree = "<group>"; };
+		4C0C4A1B18B3768500E6049E /* SEENetworkBrowser.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEENetworkBrowser.xib; sourceTree = "<group>"; };
 		4C0D3D6317FB12F700AAFB38 /* SEEStyleSheetEditorWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEEStyleSheetEditorWindowController.xib; sourceTree = "<group>"; };
 		4C0D3D6517FB133600AAFB38 /* ServerConnection.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ServerConnection.xib; sourceTree = "<group>"; };
 		4C0D3D6717FB145600AAFB38 /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
@@ -2099,6 +2104,9 @@
 				F234E0FA0BE0F1C500504A7C /* ServerConnectionManager.m */,
 				F234E0FE0BE0F1E100504A7C /* ServerConnectionWindowController.h */,
 				F234E0FF0BE0F1E100504A7C /* ServerConnectionWindowController.m */,
+				4C0C4A1918B3768500E6049E /* SEENetworkBrowser.h */,
+				4C0C4A1A18B3768500E6049E /* SEENetworkBrowser.m */,
+				4C0C4A1B18B3768500E6049E /* SEENetworkBrowser.xib */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -2854,6 +2862,7 @@
 				F2D5FF3E0CB2666000407399 /* Rendezvous.icns in Resources */,
 				F2D5FF400CB2667A00407399 /* StylePrefs.icns in Resources */,
 				4CD5F80617FB0D5B00F49E31 /* OpenPanelAccessory.xib in Resources */,
+				4C0C4A1D18B3768500E6049E /* SEENetworkBrowser.xib in Resources */,
 				F2D3E53E189941F50096425B /* AW InactiveTabCloseRollover@2x.png in Resources */,
 				4C6BDC601889858A0088CBFC /* folded@2x.png in Resources */,
 				4CD5F83517FB0EB500F49E31 /* URLBubbleWindow.xib in Resources */,
@@ -3019,6 +3028,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D15AC320486D014006FF6A4 /* main.m in Sources */,
+				4C0C4A1C18B3768500E6049E /* SEENetworkBrowser.m in Sources */,
 				14289110095744C100D14688 /* MoreCFQ.c in Sources */,
 				14289111095744C100D14688 /* MoreSecurity.c in Sources */,
 				14289112095744C100D14688 /* MoreUNIX.c in Sources */,
