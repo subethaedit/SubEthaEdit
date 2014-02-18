@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13C59" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13B3116" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
+        <deployment defaultVersion="1090" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
     </dependencies>
     <objects>
@@ -13,15 +14,16 @@
                 <outlet property="O_modePopUpButton" destination="75" id="76"/>
                 <outlet property="O_positionTextField" destination="13" id="14"/>
                 <outlet property="O_scrollView" destination="6" id="11"/>
-                <outlet property="O_splitButton" destination="Vf8-MP-UD0" id="04q-QH-545"/>
+                <outlet property="O_splitButton" destination="cPs-Ka-upO" id="WZ3-I4-keW"/>
                 <outlet property="O_symbolPopUpButton" destination="61" id="62"/>
                 <outlet property="O_tabStatusPopUpButton" destination="84" id="86"/>
                 <outlet property="O_topStatusBarView" destination="27" id="30"/>
                 <outlet property="O_waitPipeStatusImageView" destination="68" id="69"/>
                 <outlet property="O_windowWidthTextField" destination="15" id="21"/>
                 <outlet property="O_writtenByTextField" destination="25" id="31"/>
-                <outlet property="shareAnnounceButtonOutlet" destination="vfj-iQ-rwb" id="ge8-jo-Kkf"/>
-                <outlet property="shareInviteUsersButtonOutlet" destination="SB3-zK-zNn" id="7K3-em-bX7"/>
+                <outlet property="ownerController" destination="UOY-gY-y9M" id="sBN-7j-yXB"/>
+                <outlet property="shareAnnounceButtonOutlet" destination="7Mi-Cu-bLB" id="XN5-mI-pJm"/>
+                <outlet property="shareInviteUsersButtonOutlet" destination="bv6-mv-CIq" id="hQV-kB-VvW"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>
@@ -34,8 +36,8 @@
                     <rect key="frame" x="0.0" y="0.0" width="600" height="400"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                     <subviews>
-                        <customView id="A2n-hn-i1e">
-                            <rect key="frame" x="0.0" y="304" width="163" height="96"/>
+                        <customView id="y0Q-OD-MNN">
+                            <rect key="frame" x="0.0" y="284" width="163" height="96"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         </customView>
                     </subviews>
@@ -66,13 +68,13 @@
                         <textField verticalHuggingPriority="750" id="25">
                             <rect key="frame" x="401" y="-1" width="181" height="17"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="&lt;Geschrieben von ...>" id="91">
+                            <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="right" title="&lt;written by ....>" id="91">
                                 <font key="font" metaFont="smallSystem"/>
                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                             </textFieldCell>
                         </textField>
-                        <textField toolTip="Position der Eingabemarke" verticalHuggingPriority="750" id="13" customClass="BorderedTextField">
+                        <textField toolTip="Cursor position" verticalHuggingPriority="750" id="13" customClass="BorderedTextField">
                             <rect key="frame" x="0.0" y="0.0" width="179" height="17"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                             <textFieldCell key="cell" sendsActionOnEndEditing="YES" alignment="center" title="&lt;Position>" id="90">
@@ -84,19 +86,22 @@
                                 <action selector="positionClick:" target="-2" id="88"/>
                             </connections>
                         </textField>
-                        <button id="Vf8-MP-UD0">
-                            <rect key="frame" x="583" y="0.0" width="17" height="17"/>
-                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
-                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="EditorAddSplit" imagePosition="only" alignment="center" alternateImage="EditorRemoveSplit" transparent="YES" imageScaling="proportionallyDown" inset="2" id="DlZ-2M-ymd">
-                                <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
-                                <font key="font" metaFont="system"/>
-                            </buttonCell>
-                        </button>
-                        <imageView hidden="YES" toolTip="See-Befehl wartet bis das Dokument geschlossen wird." id="68">
+                        <imageView hidden="YES" toolTip="see command is waiting for the document to be closed" id="68">
                             <rect key="frame" x="1" y="1" width="16" height="16"/>
                             <autoresizingMask key="autoresizingMask"/>
                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="WaitPipe" id="92"/>
                         </imageView>
+                        <button id="cPs-Ka-upO">
+                            <rect key="frame" x="583" y="0.0" width="17" height="17"/>
+                            <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMinY="YES"/>
+                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="EditorAddSplit" imagePosition="only" alignment="center" alternateImage="EditorRemoveSplit" transparent="YES" imageScaling="proportionallyDown" inset="2" id="wd5-GI-xyx">
+                                <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
+                                <font key="font" metaFont="system"/>
+                            </buttonCell>
+                            <connections>
+                                <action selector="toggleSplitView:" target="-1" id="7FJ-Xy-kDn"/>
+                            </connections>
+                        </button>
                     </subviews>
                     <backgroundFilters>
                         <ciFilter name="CIColorControls">
@@ -115,86 +120,86 @@
                         </ciFilter>
                     </backgroundFilters>
                 </customView>
-                <customView id="28" userLabel="Bottom Blurred View" customClass="SEEOverlayView">
+                <customView wantsLayer="YES" id="28" userLabel="Bottom Blurred View" customClass="SEEOverlayView">
                     <rect key="frame" x="0.0" y="0.0" width="600" height="17"/>
                     <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                     <subviews>
                         <box verticalHuggingPriority="750" title="Box" boxType="separator" titlePosition="noTitle" id="7">
-                            <rect key="frame" x="0.0" y="14" width="600" height="5"/>
+                            <rect key="frame" x="0.0" y="14" width="598" height="5"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                             <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                             <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                             <font key="titleFont" metaFont="system"/>
                         </box>
-                        <customView toolTip="Dokument-Modus" id="75" customClass="PopUpButton">
+                        <customView toolTip="Document mode" id="75" customClass="PopUpButton">
                             <rect key="frame" x="-5" y="0.0" width="95" height="17"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </customView>
-                        <customView toolTip="Tabulator-Einstellung" id="84" customClass="PopUpButton">
+                        <customView toolTip="Tab settings" id="84" customClass="PopUpButton">
                             <rect key="frame" x="87" y="0.0" width="85" height="17"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </customView>
-                        <customView toolTip="Zeilenenden" id="81" customClass="PopUpButton">
+                        <customView toolTip="Line endings" id="81" customClass="PopUpButton">
                             <rect key="frame" x="170" y="0.0" width="49" height="17"/>
                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                         </customView>
-                        <customView toolTip="Datei-Codierung" id="77" customClass="PopUpButton">
+                        <customView toolTip="File encoding" id="77" customClass="PopUpButton">
                             <rect key="frame" x="217" y="0.0" width="243" height="17"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMaxY="YES"/>
                         </customView>
-                        <button id="vfj-iQ-rwb">
+                        <button wantsLayer="YES" id="7Mi-Cu-bLB">
                             <rect key="frame" x="459" y="0.0" width="21" height="17"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="BottomBarSharingIconAnnounce_Inactive" imagePosition="only" alignment="center" alternateImage="BottomBarSharingIconAnnounce" controlSize="mini" imageScaling="proportionallyDown" inset="2" id="EuY-O1-ng9">
+                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="BottomBarSharingIconAnnounce_Inactive" imagePosition="only" alignment="center" alternateImage="BottomBarSharingIconAnnounce" controlSize="mini" imageScaling="proportionallyDown" inset="2" id="4l5-Nu-6M1">
                                 <behavior key="behavior" pushIn="YES" changeContents="YES" lightByContents="YES"/>
                                 <font key="font" metaFont="miniSystem"/>
                             </buttonCell>
                             <connections>
-                                <action selector="toggleIsAnnounced:" target="-1" id="dJy-9I-9EC"/>
-                                <binding destination="-2" name="alternateImage" keyPath="self.alternateAnnounceImage" id="w7t-yq-6Qh"/>
-                                <outlet property="menu" destination="vSJ-Jc-3sH" id="o2Y-0X-qCr"/>
+                                <action selector="toggleIsAnnounced:" target="-1" id="IJN-40-Y5s"/>
+                                <binding destination="UOY-gY-y9M" name="alternateImage" keyPath="selection.alternateAnnounceImage" id="uCe-pm-U4H"/>
+                                <outlet property="menu" destination="eH3-RU-uKl" id="H3t-Aa-F1C"/>
                             </connections>
                         </button>
-                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="Bxr-vi-sJO" userLabel="Participant Count Label">
+                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" id="Icy-2O-9Qz" userLabel="Participant Count Label">
                             <rect key="frame" x="481" y="1" width="18" height="14"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" alignment="right" title="1" id="573-DP-OWo">
+                            <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" alignment="right" title="1" id="ak1-Tg-g3g">
                                 <font key="font" metaFont="smallSystem"/>
                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                             </textFieldCell>
                             <connections>
-                                <binding destination="-2" name="value" keyPath="self.numberOfActiveParticipants" id="dl3-Du-8Gx"/>
-                                <binding destination="-2" name="hidden" keyPath="self.showsNumberOfActiveParticipants" id="uIi-xh-191">
+                                <binding destination="UOY-gY-y9M" name="value" keyPath="selection.numberOfActiveParticipants" id="fVh-cW-zcy"/>
+                                <binding destination="UOY-gY-y9M" name="hidden" keyPath="selection.showsNumberOfActiveParticipants" id="3lD-7H-ULp">
                                     <dictionary key="options">
                                         <string key="NSValueTransformerName">NSNegateBoolean</string>
                                     </dictionary>
                                 </binding>
                             </connections>
                         </textField>
-                        <button id="cAx-05-r3z">
+                        <button id="OwG-YH-zbO">
                             <rect key="frame" x="493" y="0.0" width="27" height="17"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="BottomBarSharingIconGroup" imagePosition="only" alignment="center" controlSize="mini" imageScaling="proportionallyDown" inset="2" id="5vb-nB-sgY">
+                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="BottomBarSharingIconGroup" imagePosition="only" alignment="center" controlSize="mini" imageScaling="proportionallyDown" inset="2" id="tKL-KY-Fjg">
                                 <behavior key="behavior" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
-                                <font key="font" metaFont="miniSystem"/>
+                                <font key="font" metaFont="smallSystem"/>
                             </buttonCell>
                             <connections>
-                                <action selector="toggleParticipantsOverlay:" target="-1" id="v2r-kw-9sC"/>
+                                <action selector="toggleParticipantsOverlay:" target="-1" id="YXe-qQ-ERB"/>
                             </connections>
                         </button>
-                        <button id="SB3-zK-zNn">
+                        <button id="bv6-mv-CIq">
                             <rect key="frame" x="523" y="0.0" width="26" height="17"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
-                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="BottomBarSharingIconAdd" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="fEi-Tl-UsW">
+                            <buttonCell key="cell" type="square" bezelStyle="shadowlessSquare" image="BottomBarSharingIconAdd" imagePosition="only" alignment="center" imageScaling="proportionallyDown" inset="2" id="HOp-Np-jFU">
                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES" changeBackground="YES" changeGray="YES"/>
                                 <font key="font" metaFont="system"/>
                             </buttonCell>
                             <connections>
-                                <action selector="inviteUsersToDocumentViaSharingService:" target="-1" id="bxt-K3-1HA"/>
+                                <action selector="inviteUsersToDocumentViaSharingService:" target="-1" id="Wdv-mH-git"/>
                             </connections>
                         </button>
-                        <textField toolTip="Fensterbreite und Tabulator-Einstellung" verticalHuggingPriority="750" id="15" customClass="BorderedTextField">
+                        <textField toolTip="Window width and wrap settings" verticalHuggingPriority="750" id="15" customClass="BorderedTextField">
                             <rect key="frame" x="550" y="0.0" width="40" height="16"/>
                             <autoresizingMask key="autoresizingMask" flexibleMinX="YES" flexibleMaxY="YES"/>
                             <textFieldCell key="cell" controlSize="small" sendsActionOnEndEditing="YES" alignment="right" title="999w" id="93">
@@ -226,24 +231,34 @@
                 </customView>
             </subviews>
         </customView>
-        <menu id="vSJ-Jc-3sH" userLabel="Announce Context Menu">
+        <objectController objectClassName="PlainTextEditor" editable="NO" id="UOY-gY-y9M">
+            <declaredKeys>
+                <string>showsNumberOfActiveParticipants</string>
+                <string>numberOfActiveParticipants</string>
+                <string>alternateAnnounceImage</string>
+            </declaredKeys>
+            <connections>
+                <outlet property="content" destination="-2" id="YSU-zI-rHp"/>
+            </connections>
+        </objectController>
+        <menu id="eH3-RU-uKl" userLabel="Announce Context Menu">
             <items>
-                <menuItem title="Lesen &amp; Schreiben" tag="2" id="H7X-FD-SmG">
+                <menuItem title="&lt;r/w>" tag="2" id="KIH-pg-Ei8">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
-                        <action selector="changePendingUsersAccess:" target="-1" id="6fi-eI-ebx"/>
+                        <action selector="changePendingUsersAccess:" target="-1" id="Axd-3F-CbN"/>
                     </connections>
                 </menuItem>
-                <menuItem title="Nur Lesen" tag="1" id="EXN-s9-Ktc">
+                <menuItem title="&lt;r/o>" tag="1" id="83X-QV-Pku">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
-                        <action selector="changePendingUsersAccess:" target="-1" id="sRd-sn-Suc"/>
+                        <action selector="changePendingUsersAccess:" target="-1" id="Inv-Si-3OU"/>
                     </connections>
                 </menuItem>
-                <menuItem title="Geschützt" id="kT5-HM-c5H">
+                <menuItem title="&lt;locked>" id="Dhd-iR-fKx">
                     <modifierMask key="keyEquivalentModifierMask"/>
                     <connections>
-                        <action selector="changePendingUsersAccess:" target="-1" id="chH-EU-GwP"/>
+                        <action selector="changePendingUsersAccess:" target="-1" id="EGO-3D-nSQ"/>
                     </connections>
                 </menuItem>
             </items>

@@ -53,6 +53,8 @@ extern NSString * const GlobalScriptsDidReloadNotification;
     IBOutlet NSWindow *O_licenseWindow;
 }
 
+@property (nonatomic, assign) IBOutlet NSMenuItem *accessControlMenuItem;
+
 + (AppController *)sharedInstance;
 
 - (BOOL)lastShouldOpenUntitledFile;

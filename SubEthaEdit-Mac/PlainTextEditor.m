@@ -124,6 +124,21 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 			[O_splitButton removeFromSuperview];
 			O_splitButton = nil;
 		}
+		
+		// localize the announce status menu - take from main menu
+		NSMenuItem *accessMenuItem = [[AppController sharedInstance] accessControlMenuItem];
+		NSMenu *accessPopUpMenu = self.shareAnnounceButtonOutlet.menu;
+		NSInteger menuItemIndex = 0;
+		for (NSMenuItem *item in [accessMenuItem.submenu itemArray]) {
+			if (!item.isAlternate) {
+				NSMenuItem *targetMenuItem = accessPopUpMenu.itemArray[menuItemIndex++];
+				targetMenuItem.title = item.title;
+				targetMenuItem.keyEquivalent = item.keyEquivalent;
+				targetMenuItem.keyEquivalentModifierMask = item.keyEquivalentModifierMask;
+			}
+			if (menuItemIndex >= accessPopUpMenu.itemArray.count) break;
+		}
+		
     }
 
     return self;
