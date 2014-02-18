@@ -12,55 +12,23 @@
 
 
 @interface PlainTextWindowControllerTabContext : NSObject {
-    @private
-    NSMutableArray *_plainTextEditors;
-    NSSplitView *_editorSplitView;
-    NSSplitView *_dialogSplitView;
-    id _documentDialog;
-    BOOL _isReceivingContent;
-    PlainTextDocument *_document;
-    BOOL _isAlertScheduled;
-    PlainTextLoadProgress *_loadProgress;
-    
-    BOOL _isProcessing;
-    NSImage *_icon;
-    NSString *_iconName;
-    int _objectCount;
-    BOOL _isEdited;
 }
 
-- (NSMutableArray *)plainTextEditors;
+@property (nonatomic, strong) NSMutableArray *plainTextEditors;
+@property (nonatomic, strong) NSSplitView *editorSplitView;
+@property (nonatomic, strong) NSSplitView *dialogSplitView;
+@property (nonatomic, strong) PlainTextDocument *document;
+@property (nonatomic, strong) id documentDialog;
 
-- (void)setEditorSplitView:(NSSplitView *)splitView;
-- (NSSplitView *)editorSplitView;
+@property (nonatomic) BOOL isReceivingContent;
+@property (nonatomic) BOOL isAlertScheduled;
+@property (nonatomic, strong) PlainTextLoadProgress *loadProgress;
 
-- (void)setDialogSplitView:(NSSplitView *)splitView;
-- (NSSplitView *)dialogSplitView;
 
-- (void)setDocumentDialog:(id)dialog;
-- (id)documentDialog;
-
-- (void)setDocument:(PlainTextDocument *)document;
-- (PlainTextDocument *)document;
-
-- (void)setIsReceivingContent:(BOOL)flag;
-- (BOOL)isReceivingContent;
-
-- (void)setIsAlertScheduled:(BOOL)flag;
-- (BOOL)isAlertScheduled;
-
-- (void)setLoadProgress:(PlainTextLoadProgress *)loadProgress;
-- (PlainTextLoadProgress *)loadProgress;
-
-- (BOOL)isProcessing;
-- (void)setIsProcessing:(BOOL)value;
-- (NSImage *)icon;
-- (void)setIcon:(NSImage *)icon;
-- (NSString *)iconName;
-- (void)setIconName:(NSString *)iconName;
-- (int)objectCount;
-- (void)setObjectCount:(int)value;
-- (BOOL)isEdited;
-- (void)setIsEdited:(BOOL)value;
+@property (nonatomic) BOOL isProcessing;
+@property (nonatomic) BOOL isEdited;
+@property (nonatomic, strong) NSImage *icon;
+@property (nonatomic, strong) NSString *iconName;
+@property (nonatomic) int objectCount;
 
 @end

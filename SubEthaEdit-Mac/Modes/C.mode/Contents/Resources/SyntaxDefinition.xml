@@ -78,7 +78,7 @@
                 <end><regex>(\\'')|(.')</regex></end>
             </state>
     
-            <state id="Preprocessor" scope="meta.tag.preprocessor">
+            <state id="Preprocessor" scope="language.preprocessor">
                 <begin><regex>#</regex></begin>
                 <end><regex>(?&lt;![\\])[\n\r]</regex></end>
                 <keywords id="Numbers" useforautocomplete="no" scope="language.constant.numeric.preprocessor">

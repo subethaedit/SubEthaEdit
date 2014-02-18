@@ -97,6 +97,9 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 
 - (void)drawHashMarksAndLabelsInRect:(NSRect)aRect {
     
+	[[NSColor colorWithWhite:0.9 alpha:1.0] set];
+	NSRectFill(aRect);
+	
     static NSDictionary *attributes=nil;
     static float linenumberFontSize=9.;
     static NSSize sizeOfZero;
@@ -144,6 +147,8 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 	[delimiterLineColor set];
 	[NSBezierPath strokeLineFromPoint:NSMakePoint(foldingAreaRect.origin.x-1.5,bounds.origin.y) 
 							  toPoint:NSMakePoint(foldingAreaRect.origin.x-1.5,NSMaxY(bounds))];
+	[NSBezierPath strokeLineFromPoint:NSMakePoint(CGRectGetMaxX(foldingAreaRect)+1.5,bounds.origin.y)
+							  toPoint:NSMakePoint(CGRectGetMaxX(foldingAreaRect)+1.5,NSMaxY(bounds))];
 	NSRect fullFoldingAreaRect = [self bounds];
 	fullFoldingAreaRect.origin.x = foldingAreaRect.origin.x;
 	fullFoldingAreaRect.size.width = foldingAreaRect.size.width;

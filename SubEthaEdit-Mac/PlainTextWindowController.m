@@ -990,14 +990,17 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 			[[tabViewItem identifier] setEditorSplitView:nil];
 		}
 
+		PlainTextEditor *editorToClose = [I_plainTextEditors objectAtIndex:1];
+		
 		// show participant overlay if split gets toggled
- 		if ([[I_plainTextEditors objectAtIndex:1] hasBottomOverlayView]) {
-			[[I_plainTextEditors objectAtIndex:1] displayViewControllerInBottomArea:nil];
+ 		if ([editorToClose hasBottomOverlayView]) {
+			[editorToClose displayViewControllerInBottomArea:nil];
 			SEEParticipantsOverlayViewController *participantsOverlay = [[[SEEParticipantsOverlayViewController alloc] initWithTabContext:[tabViewItem identifier]] autorelease];
 			[[I_plainTextEditors objectAtIndex:0] displayViewControllerInBottomArea:participantsOverlay];
 		}
 
-		[[I_plainTextEditors objectAtIndex:0] setShowsBottomStatusBar:[[I_plainTextEditors objectAtIndex:1] showsBottomStatusBar]];
+		[[I_plainTextEditors objectAtIndex:0] setShowsBottomStatusBar:[editorToClose showsBottomStatusBar]];
+		[editorToClose prepareForDealloc];
         [I_plainTextEditors removeObjectAtIndex:1];
         I_editorSplitView = nil;
 
@@ -1659,9 +1662,15 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     // A document is being closed, and trying to close this window controller. Is it the last document for this window controller?
     NSArray *documents = [self documents];
     NSUInteger oldDocumentCount = [documents count];
+	
+	PlainTextWindowControllerTabContext *contextToClose = nil;
+	
     if (I_documentBeingClosed && oldDocumentCount > 1) {
         NSTabViewItem *tabViewItem = [self tabViewItemForDocument:(PlainTextDocument *)I_documentBeingClosed];
-        if (tabViewItem) [I_tabView removeTabViewItem:tabViewItem];
+        if (tabViewItem) {
+			contextToClose = [(PlainTextWindowControllerTabContext *)tabViewItem.identifier retain];
+			[I_tabView removeTabViewItem:tabViewItem];
+		}
 
         id document = nil;
         BOOL keepCurrentDocument = ![[self document] isEqual:I_documentBeingClosed];
@@ -1692,12 +1701,18 @@ static NSPoint S_cascadePoint = {0.0,0.0};
             [[I_documents objectAtIndex:0] removeWindowController:self];
             [self removeObjectFromDocumentsAtIndex:0];
         }
-        if ([I_tabView numberOfTabViewItems] > 0) [I_tabView removeTabViewItem:[I_tabView tabViewItemAtIndex:0]];
+        if ([I_tabView numberOfTabViewItems] > 0) {
+			NSTabViewItem *tabViewItem = [I_tabView tabViewItemAtIndex:0];
+			contextToClose = [(PlainTextWindowControllerTabContext *)tabViewItem.identifier retain];
+			[I_tabView removeTabViewItem:tabViewItem];
+		}
         [self setDocument:nil];
-        
+		
         [[DocumentController sharedDocumentController] removeWindowController:self];
         [super close];
     }
+	[contextToClose.plainTextEditors makeObjectsPerformSelector:@selector(prepareForDealloc)];
+	[contextToClose release];
 }
 
 #pragma mark PSMTabBarControl Delegate
