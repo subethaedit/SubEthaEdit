@@ -7,9 +7,8 @@
     <key>CFBundleName</key>
     <string>ActionScript</string>
     <key>NSHumanReadableCopyright</key>
-    <string>© 2009 TheCodingMonkeys
-http://www.codingmonkeys.de,
-Thanks to ash (http://www.actionscripthero.com)</string>
+    <string>© 2014 TheCodingMonkeys
+http://www.codingmonkeys.de</string>
     <key>CFBundleGetInfoString</key>
     <string>4.0, Copyright TheCodingMonkeys 2014</string>
     <key>CFBundleShortVersionString</key>
