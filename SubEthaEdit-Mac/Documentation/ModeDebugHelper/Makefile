@@ -116,6 +116,7 @@ help:
             " $${bold}make sort-plist$${normal} generates sorted plist in results folder - removing unknown keys                              \n" \
             "                                                                                                                                 \n" \
             " $${bold}make plist-values key=<key>$${normal} generates a list of the values used for the given key                             \n" \
+            " $${bold}make all-plist-values$${normal} generates a list of the values used for all the keys                                    \n" \
             "                                                                                                                                 \n" \
             " $${bold}make find-scope scope=<scope>$${normal} generates a xml files containing all the uses of <scope>                        \n" \
             " $${bold}make all-scopes-one-mode mode=<mode>$${normal} generates an annotated txt with scopes used by a mode                    \n" \
@@ -173,7 +174,17 @@ all-scopes-uniqued:
 plist-values:
 	@ find $(mode_directory) -name $(plist) -exec $(xsltproc) --param key "'$(key)'" --novalid PlistValueForKey.xslt \{\} \; | see
 
-
+all-plist-values:
+	@ find $(mode_directory) -name $(plist) -exec $(xsltproc) --param key "'CFBundleIdentifier'" --novalid PlistValueForKey.xslt \{\} \; | see;
+	@ find $(mode_directory) -name $(plist) -exec $(xsltproc) --param key "'CFBundleName'" --novalid PlistValueForKey.xslt \{\} \; | see;
+	@ find $(mode_directory) -name $(plist) -exec $(xsltproc) --param key "'NSHumanReadableCopyright'" --novalid PlistValueForKey.xslt \{\} \; | see;
+	@ find $(mode_directory) -name $(plist) -exec $(xsltproc) --param key "'CFBundleGetInfoString'" --novalid PlistValueForKey.xslt \{\} \; | see;
+	@ find $(mode_directory) -name $(plist) -exec $(xsltproc) --param key "'CFBundleShortVersionString'" --novalid PlistValueForKey.xslt \{\} \; | see;
+	@ find $(mode_directory) -name $(plist) -exec $(xsltproc) --param key "'CFBundleVersion'" --novalid PlistValueForKey.xslt \{\} \; | see;
+	@ find $(mode_directory) -name $(plist) -exec $(xsltproc) --param key "'SEEMinimumEngineVersion'" --novalid PlistValueForKey.xslt \{\} \; | see;
+	@ find $(mode_directory) -name $(plist) -exec $(xsltproc) --param key "'CFBundlePackageType'" --novalid PlistValueForKey.xslt \{\} \; | see;
+	@ find $(mode_directory) -name $(plist) -exec $(xsltproc) --param key "'CFBundleInfoDictionaryVersion'" --novalid PlistValueForKey.xslt \{\} \; | see;
+	
 ### cleanup - delete style and result files
 clean:
 	@ for file in $(style_files); do \
