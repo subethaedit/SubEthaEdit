@@ -20,6 +20,16 @@ extern NSString * const TCMMMPresenceManagerAnnouncedSessionsDidChangeNotificati
 extern NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification;
 extern NSString * const TCMMMPresenceManagerDidReceiveTokenNotification;
 
+extern NSString * const TCMMMPresenceStatusKey;
+extern NSString * const TCMMMPresenceUnknownStatusValue;
+extern NSString * const TCMMMPresenceKnownStatusValue;
+extern NSString * const TCMMMPresenceUserIDKey;
+extern NSString * const TCMMMPresenceSessionsKey;
+extern NSString * const TCMMMPresenceOrderedSessionsKey;
+extern NSString * const TCMMMPresenceNetServicesKey;
+extern NSString * const TCMMMPresenceStatusProfileKey;
+
+
 @interface TCMMMPresenceManager : NSObject <NSNetServiceDelegate, TCMBEEPProfileDelegate>
 {
     NSNetService *I_netService;

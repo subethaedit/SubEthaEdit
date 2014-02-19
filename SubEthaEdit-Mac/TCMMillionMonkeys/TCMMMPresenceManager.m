@@ -34,7 +34,17 @@ NSString * const TCMMMPresenceManagerServiceAnnouncementDidChangeNotification=
                @"TCMMMPresenceManagerServiceAnnouncementDidChangeNotification";
 NSString * const TCMMMPresenceManagerDidReceiveTokenNotification=
                @"TCMMMPresenceManagerDidReceiveTokenNotification";
-               
+
+
+NSString * const TCMMMPresenceStatusKey = @"Status";
+NSString * const TCMMMPresenceUnknownStatusValue = @"NoStatus";
+NSString * const TCMMMPresenceKnownStatusValue = @"GotStatus";
+NSString * const TCMMMPresenceUserIDKey = @"UserID";
+NSString * const TCMMMPresenceSessionsKey = @"Sessions";
+NSString * const TCMMMPresenceOrderedSessionsKey = @"OrderedSessions";
+NSString * const TCMMMPresenceNetServicesKey = @"NetServices";
+NSString * const TCMMMPresenceStatusProfileKey = @"StatusProfile";
+
 
 @interface TCMMMPresenceManager (TCMMMPresenceManagerPrivateAdditions)
 
@@ -125,7 +135,7 @@ NSString * const TCMMMPresenceManagerDidReceiveTokenNotification=
     NSString *userID=nil;
     for (userID in I_foundUserIDs) {
         NSMutableDictionary *status=[self statusOfUserID:userID];
-        [[status objectForKey:@"NetServices"] removeAllObjects];
+        [[status objectForKey:TCMMMPresenceNetServicesKey] removeAllObjects];
     }
     [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMPresenceManagerUserRendezvousStatusDidChangeNotification object:self userInfo:[NSDictionary dictionaryWithObject:[I_foundUserIDs allObjects] forKey:@"UserIDs"]];
     I_browser=nil;
@@ -195,23 +205,22 @@ NSString * const TCMMMPresenceManagerDidReceiveTokenNotification=
     NSMutableDictionary *status = [self statusOfUserID:aUserID];
     if (aFlag) {
         [status setObject:[NSNumber numberWithBool:YES] forKey:@"shouldAutoConnect"];
-        [[status objectForKey:@"StatusProfile"] requestReachability];
+        [[status objectForKey:TCMMMPresenceStatusProfileKey] requestReachability];
     } else {
         [status removeObjectForKey:@"shouldAutoConnect"];
     }
 }
-
 
 - (NSMutableDictionary *)statusOfUserID:(NSString *)aUserID {
     if (!aUserID) return nil;
     NSMutableDictionary *statusOfUserID=[I_statusOfUserIDs objectForKey:aUserID];
     if (!statusOfUserID) {
         statusOfUserID=[NSMutableDictionary dictionary];
-        [statusOfUserID setObject:@"NoStatus" forKey:@"Status"];
-        [statusOfUserID setObject:aUserID     forKey:@"UserID"];
-        [statusOfUserID setObject:[NSMutableDictionary dictionary] forKey:@"Sessions"];
-        [statusOfUserID setObject:[NSArray array] forKey:@"OrderedSessions"];
-        [statusOfUserID setObject:[NSMutableSet set] forKey:@"NetServices"];
+        [statusOfUserID setObject:TCMMMPresenceUnknownStatusValue forKey:TCMMMPresenceStatusKey];
+        [statusOfUserID setObject:aUserID     forKey:TCMMMPresenceUserIDKey];
+        [statusOfUserID setObject:[NSMutableDictionary dictionary] forKey:TCMMMPresenceSessionsKey];
+        [statusOfUserID setObject:[NSArray array] forKey:TCMMMPresenceOrderedSessionsKey];
+        [statusOfUserID setObject:[NSMutableSet set] forKey:TCMMMPresenceNetServicesKey];
         [I_statusOfUserIDs setObject:statusOfUserID forKey:aUserID];
     }
     return statusOfUserID;
@@ -219,8 +228,8 @@ NSString * const TCMMMPresenceManagerDidReceiveTokenNotification=
 
 - (TCMMMStatusProfile *)statusProfileForUserID:(NSString *)aUserID {
     NSDictionary *status=[self statusOfUserID:aUserID];
-    if ([[status objectForKey:@"Status"] isEqualToString:@"GotStatus"]) {
-        return [status objectForKey:@"StatusProfile"];
+    if ([[status objectForKey:TCMMMPresenceStatusKey] isEqualToString:TCMMMPresenceKnownStatusValue]) {
+        return [status objectForKey:TCMMMPresenceStatusProfileKey];
     } else {
         return nil;
     }
@@ -338,9 +347,9 @@ NSString * const TCMMMPresenceManagerDidReceiveTokenNotification=
     BOOL currentVisibility=([status objectForKey:@"isVisible"]!=nil);
     BOOL shouldSendNotification = [[status objectForKey:@"shouldSendVisibilityChangeNotification"] boolValue];
     [status removeObjectForKey:@"shouldSendVisibilityChangeNotification"];
-    if ([[status objectForKey:@"Status"] isEqualToString:@"NoStatus"])
+    if ([[status objectForKey:TCMMMPresenceStatusKey] isEqualToString:TCMMMPresenceUnknownStatusValue])
         [status removeObjectForKey:@"InternalIsVisible"];
-    BOOL newVisibility=(([status objectForKey:@"InternalIsVisible"]!=nil) || ([[status objectForKey:@"Sessions"] count] > 0));
+    BOOL newVisibility=(([status objectForKey:@"InternalIsVisible"]!=nil) || ([[status objectForKey:TCMMMPresenceSessionsKey] count] > 0));
     if (newVisibility!=currentVisibility) {
         if (newVisibility) {
             [status setObject:[NSNumber numberWithBool:YES] forKey:@"isVisible"];
@@ -351,7 +360,7 @@ NSString * const TCMMMPresenceManagerDidReceiveTokenNotification=
     }
     if (shouldSendNotification) {
         [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMPresenceManagerUserVisibilityDidChangeNotification object:self 
-            userInfo:[NSDictionary dictionaryWithObjectsAndKeys:aUserID,@"UserID",[NSNumber numberWithBool:newVisibility],@"isVisible",nil]];
+            userInfo:[NSDictionary dictionaryWithObjectsAndKeys:aUserID,TCMMMPresenceUserIDKey,[NSNumber numberWithBool:newVisibility],@"isVisible",nil]];
     }
 }
 
@@ -467,7 +476,7 @@ NSString * const TCMMMPresenceManagerDidReceiveTokenNotification=
                 // TODO: if we connected to that user manually
                 if (![[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:aUserID]) {
                     // we have no session for this userID so let's connect
-                    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:anURLString,@"URLString",aUserID,@"UserID",[NSNumber numberWithBool:YES],@"isAutoConnect",nil];
+                    NSDictionary *userInfo = [NSDictionary dictionaryWithObjectsAndKeys:anURLString,@"URLString",aUserID,TCMMMPresenceUserIDKey,[NSNumber numberWithBool:YES],@"isAutoConnect",nil];
                     NSURL *URL = [NSURL URLWithString:anURLString];
                     NSData *addressData=nil;
                     [TCMMMBEEPSessionManager reducedURL:URL addressData:&addressData documentRequest:nil];
@@ -510,7 +519,7 @@ NSString * const TCMMMPresenceManagerDidReceiveTokenNotification=
 - (void)profile:(TCMMMStatusProfile *)aProfile didReceiveToken:(NSString *)aToken {
     NSString *userID=[[[aProfile session] userInfo] objectForKey:@"peerUserID"];
     if (userID && aToken) {
-        [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMPresenceManagerDidReceiveTokenNotification object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:userID,@"userID",aToken,@"token",nil]];
+        [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMPresenceManagerDidReceiveTokenNotification object:self userInfo:[NSDictionary dictionaryWithObjectsAndKeys:userID,TCMMMPresenceUserIDKey,aToken,@"token",nil]];
     }
 }
 
@@ -520,7 +529,7 @@ NSString * const TCMMMPresenceManagerDidReceiveTokenNotification=
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"didReceiveAnnouncedSession: %@",[aSession description]);
     NSString *userID=[[[aProfile session] userInfo] objectForKey:@"peerUserID"];
     NSMutableDictionary *status=[self statusOfUserID:userID];
-    NSMutableDictionary *sessions=[status objectForKey:@"Sessions"];
+    NSMutableDictionary *sessions=[status objectForKey:TCMMMPresenceSessionsKey];
     TCMMMSession *session=[self referenceSessionForSession:aSession];
     if (![session isServer]) {
         if (![sessions objectForKey:[session sessionID]]) {
@@ -531,11 +540,11 @@ NSString * const TCMMMPresenceManagerDidReceiveTokenNotification=
 			{
 				NSSortDescriptor *filenameSortDescriptor = [[[NSSortDescriptor alloc] initWithKey:@"filename" ascending:YES] autorelease];
 				NSArray * orderedSessions = [sessionValues sortedArrayUsingDescriptors:@[filenameSortDescriptor]];
-				[status setObject:orderedSessions forKey:@"OrderedSessions"];
+				[status setObject:orderedSessions forKey:TCMMMPresenceOrderedSessionsKey];
 			}
             [self TCM_validateVisibilityOfUserID:userID];
         }
-        NSMutableDictionary *userInfo=[NSMutableDictionary dictionaryWithObjectsAndKeys:userID,@"UserID",sessions,@"Sessions",nil];
+        NSMutableDictionary *userInfo=[NSMutableDictionary dictionaryWithObjectsAndKeys:userID,TCMMMPresenceUserIDKey,sessions,TCMMMPresenceSessionsKey,nil];
         [userInfo setObject:aSession forKey:@"AnnouncedSession"];
         [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMPresenceManagerUserSessionsDidChangeNotification object:self 
                 userInfo:userInfo];
@@ -547,14 +556,14 @@ NSString * const TCMMMPresenceManagerDidReceiveTokenNotification=
     DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"didReceiveConcealSessionID: %@",anID);
     NSString *userID=[[[aProfile session] userInfo] objectForKey:@"peerUserID"];
     NSMutableDictionary *status=[self statusOfUserID:userID];
-    NSMutableDictionary *sessions=[status objectForKey:@"Sessions"];
+    NSMutableDictionary *sessions=[status objectForKey:TCMMMPresenceSessionsKey];
     TCMMMSession *session=[sessions objectForKey:anID];
     if (session) {
         [sessions removeObjectForKey:anID];
-        [status setObject:[[sessions allValues] sortedArrayUsingDescriptors:[NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"filename" ascending:YES] autorelease]]] forKey:@"OrderedSessions"];
+        [status setObject:[[sessions allValues] sortedArrayUsingDescriptors:[NSArray arrayWithObject:[[[NSSortDescriptor alloc] initWithKey:@"filename" ascending:YES] autorelease]]] forKey:TCMMMPresenceOrderedSessionsKey];
         [self unregisterSession:session];
     }
-    NSMutableDictionary *userInfo=[NSMutableDictionary dictionaryWithObjectsAndKeys:userID,@"UserID",sessions,@"Sessions",nil];
+    NSMutableDictionary *userInfo=[NSMutableDictionary dictionaryWithObjectsAndKeys:userID,TCMMMPresenceUserIDKey,sessions,TCMMMPresenceSessionsKey,nil];
     [userInfo setObject:anID forKey:@"ConcealedSessionID"];
     [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMPresenceManagerUserSessionsDidChangeNotification object:self 
             userInfo:userInfo];
@@ -570,22 +579,22 @@ NSString * const TCMMMPresenceManagerDidReceiveTokenNotification=
         [I_statusProfilesInServerRole removeObject:aProfile];
     } else {
         NSMutableDictionary *status=[self statusOfUserID:userID];
-        [status removeObjectForKey:@"StatusProfile"];
-        [status setObject:@"NoStatus" forKey:@"Status"];
-        NSEnumerator *sessions=[[status objectForKey:@"Sessions"] objectEnumerator];
+        [status removeObjectForKey:TCMMMPresenceStatusProfileKey];
+        [status setObject:TCMMMPresenceUnknownStatusValue forKey:TCMMMPresenceStatusKey];
+        NSEnumerator *sessions=[[status objectForKey:TCMMMPresenceSessionsKey] objectEnumerator];
         TCMMMSession *session=nil;
         while ((session=[sessions nextObject])) {
             [self unregisterSession:session];
         }
-        [status setObject:[NSMutableDictionary dictionary] forKey:@"Sessions"];
-        [status setObject:[NSArray array] forKey:@"OrderedSessions"];
+        [status setObject:[NSMutableDictionary dictionary] forKey:TCMMMPresenceSessionsKey];
+        [status setObject:[NSArray array] forKey:TCMMMPresenceOrderedSessionsKey];
         [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMPresenceManagerUserSessionsDidChangeNotification object:self 
-                userInfo:[NSDictionary dictionaryWithObjectsAndKeys:userID,@"UserID",[status objectForKey:@"Sessions"],@"Sessions",nil]];
+                userInfo:[NSDictionary dictionaryWithObjectsAndKeys:userID,TCMMMPresenceUserIDKey,[status objectForKey:TCMMMPresenceSessionsKey],TCMMMPresenceSessionsKey,nil]];
         TCMBEEPSession *beepSession=[[TCMMMBEEPSessionManager sharedInstance] sessionForUserID:userID];
         if (beepSession) {
             [beepSession startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"] andData:[NSArray arrayWithObject:[TCMMMStatusProfile defaultInitializationData]] sender:self];
         } else {
-            if ([[status objectForKey:@"NetServices"] count]) {
+            if ([[status objectForKey:TCMMMPresenceNetServicesKey] count]) {
                 [self performSelector:@selector(connectToRendezvousUserID:) withObject:userID afterDelay:0.3];
             }
         }
@@ -595,10 +604,10 @@ NSString * const TCMMMPresenceManagerDidReceiveTokenNotification=
 
 - (void)connectToRendezvousUserID:(NSString *)aUserID {
     NSDictionary *status=[self statusOfUserID:aUserID];
-    NSEnumerator *netServices = [[status objectForKey:@"NetServices"] objectEnumerator];
+    NSEnumerator *netServices = [[status objectForKey:TCMMMPresenceNetServicesKey] objectEnumerator];
     id netService = nil;
     while ((netService=[netServices nextObject])) {
-        if (![[status objectForKey:@"Status"] isEqualToString:@"GotStatus"]) {
+        if (![[status objectForKey:TCMMMPresenceStatusKey] isEqualToString:TCMMMPresenceKnownStatusValue]) {
             [[TCMMMBEEPSessionManager sharedInstance] connectToNetService:netService];
         }
     }
@@ -613,7 +622,7 @@ NSString * const TCMMMPresenceManagerDidReceiveTokenNotification=
     TCMBEEPSession *session=[[aNotification userInfo] objectForKey:@"Session"];
     NSString *userID=[[session userInfo] objectForKey:@"peerUserID"];
     NSMutableDictionary *statusOfUserID=[self statusOfUserID:userID];
-    if ([[statusOfUserID objectForKey:@"Status"] isEqualToString:@"NoStatus"]) {
+    if ([[statusOfUserID objectForKey:TCMMMPresenceStatusKey] isEqualToString:TCMMMPresenceUnknownStatusValue]) {
         DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"starting StatusProfile with: %@", userID);
         [session startChannelWithProfileURIs:[NSArray arrayWithObject:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"] andData:[NSArray arrayWithObject:[TCMMMStatusProfile defaultInitializationData]] sender:self];
     }
@@ -639,13 +648,13 @@ NSString * const TCMMMPresenceManagerDidReceiveTokenNotification=
         NSString *userID=[[[aProfile session] userInfo] objectForKey:@"peerUserID"];
         NSMutableDictionary *statusOfUserID=[self statusOfUserID:userID];
         
-        if ([[statusOfUserID objectForKey:@"Status"] isEqualToString:@"GotStatus"]) {
+        if ([[statusOfUserID objectForKey:TCMMMPresenceStatusKey] isEqualToString:TCMMMPresenceKnownStatusValue]) {
             DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Got status profile albeit having one for User: %@",userID);
         } else {
             DEBUGLOG(@"MillionMonkeysLogDomain", DetailedLogLevel, @"Got status profile without trying to connect to User: %@",userID);
         }
-        [statusOfUserID setObject:@"GotStatus" forKey:@"Status"];
-        [statusOfUserID setObject:aProfile forKey:@"StatusProfile"];
+        [statusOfUserID setObject:TCMMMPresenceKnownStatusValue forKey:TCMMMPresenceStatusKey];
+        [statusOfUserID setObject:aProfile forKey:TCMMMPresenceStatusProfileKey];
     }
 }
 
@@ -675,13 +684,13 @@ NSString * const TCMMMPresenceManagerDidReceiveTokenNotification=
 
 - (void)rendezvousBrowser:(TCMRendezvousBrowser *)aBrowser didResolveService:(NSNetService *)aNetService {
 //    [I_data addObject:[NSMutableDictionary dictionaryWithObject:[NSString stringWithFormat:@"resolved %@%@",[aNetService name],[aNetService domain]] forKey:@"serviceName"]];
-    NSString *userID = [[aNetService TXTRecordDictionary] objectForKey:@"userid"];
+    NSString *userID = [[aNetService TXTRecordDictionary] objectForKey:TCMMMPresenceUserIDKey];
     if (userID && ![userID isEqualTo:[TCMMMUserManager myUserID]]) {
         [I_foundUserIDs addObject:userID];
         NSMutableDictionary *status=[self statusOfUserID:userID];
-        [[status objectForKey:@"NetServices"] addObject:aNetService];
+        [[status objectForKey:TCMMMPresenceNetServicesKey] addObject:aNetService];
         [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMPresenceManagerUserRendezvousStatusDidChangeNotification object:self userInfo:[NSDictionary dictionaryWithObject:[NSArray arrayWithObject:userID] forKey:@"UserIDs"]];
-        if (![[status objectForKey:@"Status"] isEqualToString:@"GotStatus"]) {
+        if (![[status objectForKey:TCMMMPresenceStatusKey] isEqualToString:TCMMMPresenceKnownStatusValue]) {
             [self performSelector:@selector(connectToRendezvousUserID:) withObject:userID afterDelay:0.3];
         }
     }
@@ -691,8 +700,8 @@ NSString * const TCMMMPresenceManagerDidReceiveTokenNotification=
     NSString *userID = nil;
     for (userID in I_foundUserIDs) {
         NSMutableDictionary *status=[self statusOfUserID:userID];
-        if (![[status objectForKey:@"Status"] isEqualToString:@"GotStatus"]) {
-            NSEnumerator *netServices = [[status objectForKey:@"NetServices"] objectEnumerator];
+        if (![[status objectForKey:TCMMMPresenceStatusKey] isEqualToString:TCMMMPresenceKnownStatusValue]) {
+            NSEnumerator *netServices = [[status objectForKey:TCMMMPresenceNetServicesKey] objectEnumerator];
             id netService = nil;
             while ((netService=[netServices nextObject])) {
                 [netService resolveWithTimeout:15.];
@@ -706,11 +715,11 @@ NSString * const TCMMMPresenceManagerDidReceiveTokenNotification=
     DEBUGLOG(@"RendezvousLogDomain", AllLogLevel, @"ChangedCountOfService: %@",aNetService);
     if (wasResolved) {
 //        NSLog(@"Was resolved");
-        NSString *userID = [[aNetService TXTRecordDictionary] objectForKey:@"userid"];
+        NSString *userID = [[aNetService TXTRecordDictionary] objectForKey:TCMMMPresenceUserIDKey];
         if (userID && ![userID isEqualTo:[TCMMMUserManager myUserID]]) {
 //            NSLog(@"has userID:%@",userID);
             NSMutableDictionary *status=[self statusOfUserID:userID];
-            if (![[status objectForKey:@"Status"] isEqualToString:@"GotStatus"]) {
+            if (![[status objectForKey:TCMMMPresenceStatusKey] isEqualToString:TCMMMPresenceKnownStatusValue]) {
                 [self performSelector:@selector(connectToRendezvousUserID:) withObject:userID afterDelay:0.3];
             }
         }
@@ -721,11 +730,11 @@ NSString * const TCMMMPresenceManagerDidReceiveTokenNotification=
 - (void)rendezvousBrowser:(TCMRendezvousBrowser *)aBrowser didRemoveResolved:(BOOL)wasResolved service:(NSNetService *)aNetService {
     DEBUGLOG(@"RendezvousLogDomain", AllLogLevel, @"Removed Service: %@",aNetService);
     if (wasResolved) {
-        NSString *userID = [[aNetService TXTRecordDictionary] objectForKey:@"userid"];
+        NSString *userID = [[aNetService TXTRecordDictionary] objectForKey:TCMMMPresenceUserIDKey];
         if (userID){
             [I_foundUserIDs removeObject:userID];
             NSMutableDictionary *status=[self statusOfUserID:userID];
-            [[status objectForKey:@"NetServices"] removeObject:aNetService];
+            [[status objectForKey:TCMMMPresenceNetServicesKey] removeObject:aNetService];
             [[NSNotificationCenter defaultCenter] postNotificationName:TCMMMPresenceManagerUserRendezvousStatusDidChangeNotification object:self userInfo:[NSDictionary dictionaryWithObject:[NSArray arrayWithObject:userID] forKey:@"UserIDs"]];
         }
     }

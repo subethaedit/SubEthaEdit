@@ -61,7 +61,7 @@
 		[self.availableDocumentSessions removeAllObjects];
 		NSArray *allUserStatusDicts = [[TCMMMPresenceManager sharedInstance] allUsers];
 		for (NSMutableDictionary *statusDict in allUserStatusDicts) {
-			NSArray *sessions = [statusDict objectForKey:@"OrderedSessions"];
+			NSArray *sessions = [statusDict objectForKey:TCMMMPresenceOrderedSessionsKey];
 			for (TCMMMSession *session in sessions) {
 				SEENetworkDocumentRepresentation *documentRepresentation = [[SEENetworkDocumentRepresentation alloc] init];
 				documentRepresentation.representedObject = session;
