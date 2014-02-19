@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13B3116" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13C62" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1090" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
@@ -89,6 +89,12 @@
                             <menuItem title="Open…" keyEquivalent="o" id="72">
                                 <connections>
                                     <action selector="openNormalDocument:" target="252" id="654"/>
+                                </connections>
+                            </menuItem>
+                            <menuItem title="Open Network…" id="Oid-NA-S13">
+                                <modifierMask key="keyEquivalentModifierMask"/>
+                                <connections>
+                                    <action selector="showDocumentNetworkBrowser:" target="-1" id="TGa-PC-eH4"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Open in New Window…" keyEquivalent="o" id="651">
@@ -1229,15 +1235,15 @@ DQ
                         <rect key="frame" x="0.0" y="0.0" width="387" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" id="YLv-eZ-yXB">
-                            <rect key="frame" x="0.0" y="0.0" width="372" height="480"/>
+                            <rect key="frame" x="0.0" y="0.0" width="387" height="480"/>
                             <autoresizingMask key="autoresizingMask"/>
                             <subviews>
                                 <textView editable="NO" selectable="NO" importsGraphics="NO" richText="NO" baseWritingDirection="leftToRight" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" spellingCorrection="YES" smartInsertDelete="YES" id="590">
-                                    <rect key="frame" x="0.0" y="0.0" width="372" height="1159"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="387" height="1159"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="372" height="480"/>
+                                    <size key="minSize" width="387" height="480"/>
                                     <size key="maxSize" width="759" height="10000000"/>
                                     <attributedString key="textStorage">
                                         <fragment>
@@ -2060,7 +2066,7 @@ Cg
                                         </fragment>
                                     </attributedString>
                                     <color key="insertionPointColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="372" height="480"/>
+                                    <size key="minSize" width="387" height="480"/>
                                     <size key="maxSize" width="759" height="10000000"/>
                                 </textView>
                             </subviews>

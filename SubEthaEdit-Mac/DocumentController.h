@@ -54,6 +54,7 @@
 - (IBAction)cancelModeInstallation:(id)sender;
 - (IBAction)openNormalDocument:(id)aSender;
 - (IBAction)openAlternateDocument:(id)aSender;
+- (IBAction)showDocumentNetworkBrowser:(id)sender;
 
 - (void)addProxyDocumentWithSession:(TCMMMSession *)aSession;
 

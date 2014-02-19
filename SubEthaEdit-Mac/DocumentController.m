@@ -1060,10 +1060,7 @@ static NSString *tempFileName() {
 
 - (IBAction)newDocument:(id)aSender
 {
-	SEENetworkBrowser *networkBrowser = [[SEENetworkBrowser alloc] initWithWindowNibName:@"SEENetworkBrowser"];
-	[networkBrowser showWindow:aSender];
-
-//    [self newDocumentWithModeMenuItem:[aSender representedObject]];
+    [self newDocumentWithModeMenuItem:[aSender representedObject]];
 }
 
 - (IBAction)newDocumentWithModeMenuItemFromDock:(id)aSender {
@@ -1117,6 +1114,13 @@ static NSString *tempFileName() {
     [alert release];
 }
 
+
+#pragma mark -
+
+- (IBAction)showDocumentNetworkBrowser:(id)sender {
+	SEENetworkBrowser *networkBrowser = [[SEENetworkBrowser alloc] initWithWindowNibName:@"SEENetworkBrowser"];
+	[networkBrowser showWindow:sender];
+}
 
 #pragma mark -
 
