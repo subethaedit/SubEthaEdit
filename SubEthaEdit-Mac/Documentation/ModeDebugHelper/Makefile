@@ -113,6 +113,7 @@ help:
             " $${bold}make rename from=<scope> to=<scope>$${normal} generates new xml in results folder with renamed scopes                   \n" \
             "                                                                                                                                 \n" \
             " $${bold}make update-plist key=<key> to=<value>$${normal} generates new plist in results folder with changed value               \n" \
+            " $${bold}make sort-plist$${normal} generates sorted plist in results folder - removing unknown keys                              \n" \
             "                                                                                                                                 \n" \
             " $${bold}make plist-values key=<key>$${normal} generates a list of the values used for the given key                             \n" \
             "                                                                                                                                 \n" \
@@ -143,6 +144,10 @@ style-extraction: create-style-sheet remove-styles
 
 update-plist:
 	@ make -f make_update-plist.makefile key=$(key) to=$(to) plist_files="$(plist_files)" plist_result_files="$(plist_result_files)" \
+	xsltproc=$(xsltproc) mode_directory=$(mode_directory) plist_result_directory=$(plist_result_directory) mode_plist_suffix=$(mode_plist_suffix)
+
+sort-plist:
+	@ make -f make_sort-plist.makefile plist_files="$(plist_files)" plist_result_files="$(plist_result_files)" \
 	xsltproc=$(xsltproc) mode_directory=$(mode_directory) plist_result_directory=$(plist_result_directory) mode_plist_suffix=$(mode_plist_suffix)
 
 ################################################################ Helper Recipes	
