@@ -14,6 +14,8 @@
     <string>4.0</string>
     <key>CFBundleVersion</key>
     <string>4.0</string>
+    <key>SEEMinimumEngineVersion</key>
+    <string>4.0</string>
     <key>CFBundlePackageType</key>
     <string>BNDL</string>
     <key>CFBundleInfoDictionaryVersion</key>
