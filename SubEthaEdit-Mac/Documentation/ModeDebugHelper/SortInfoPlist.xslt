@@ -20,15 +20,14 @@
 		<xsl:apply-templates select="plist/dict/key[text()='CFBundleName']/following-sibling::string[1]"/>
 		
 		<xsl:apply-templates select="plist/dict/key[text()='NSHumanReadableCopyright']/following-sibling::string[1]"/>
+		<xsl:apply-templates select="plist/dict/key[text()='CFBundleGetInfoString']/following-sibling::string[1]"/>
 
 		<xsl:apply-templates select="plist/dict/key[text()='CFBundleShortVersionString']/following-sibling::string[1]"/>
 		<xsl:apply-templates select="plist/dict/key[text()='CFBundleVersion']/following-sibling::string[1]"/>
-		<xsl:apply-templates select="plist/dict/key[text()='CFBundleGetInfoString']/following-sibling::string[1]"/>
+		<xsl:apply-templates select="plist/dict/key[text()='SEEMinimumEngineVersion']/following-sibling::string[1]"/>
 		
 		<xsl:apply-templates select="plist/dict/key[text()='CFBundlePackageType']/following-sibling::string[1]"/>
 		<xsl:apply-templates select="plist/dict/key[text()='CFBundleInfoDictionaryVersion']/following-sibling::string[1]"/>
-
-		<xsl:apply-templates select="plist/dict/key[text()='SEEMinimumEngineVersion']/following-sibling::string[1]"/>
 	</xsl:template>
  
 	<xsl:template match="string">
@@ -39,30 +38,16 @@
 </xsl:stylesheet>
 
 <!-- 
-REALITY
  CFBundleIdentifier
  CFBundleName
 
  NSHumanReadableCopyright
+ CFBundleGetInfoString
 
  CFBundleShortVersionString
  CFBundleVersion
- CFBundleGetInfoString
+ SEEMinimumEngineVersion
 
  CFBundlePackageType
  CFBundleInfoDictionaryVersion
-
- SEEMinimumEngineVersion
-
-PLAN
- CFBundleIdentifier
- CFBundleName
- CFBundleVersion
- CFBundleShortVersionString
- CFBundleGetInfoString
- NSHumanReadableCopyright
- SEEMinimumEngineVersion
- CFBundlePackageType
- CFBundleInfoDictionaryVersion
-
 -->

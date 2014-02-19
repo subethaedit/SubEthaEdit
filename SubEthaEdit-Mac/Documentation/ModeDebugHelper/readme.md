@@ -95,13 +95,13 @@ Renaming a scope (*eg. `meta.default`*) in a single Mode (*eg. `PHP-HTML`*) (_op
 Bringing the known plist keys into the following order:  
 `CFBundleIdentifier`  
 `CFBundleName`  
-`CFBundleVersion`  
-`CFBundleShortVersionString`  
-`CFBundleGetInfoString`  
 `NSHumanReadableCopyright`  
+`CFBundleGetInfoString`  
+`CFBundleShortVersionString`  
+`CFBundleVersion`  
 `SEEMinimumEngineVersion`  
 `CFBundlePackageType`  
-`CFBundleInfoDictionaryVersion`
+`CFBundleInfoDictionaryVersion`  
 
 The `TCMModeExtensions` key-array pair will be deleted by this and should be moved to the ModeSettings.xml.
 
