@@ -7,10 +7,10 @@
     <key>CFBundleName</key>
     <string>LassoScript-HTML</string>
     <key>NSHumanReadableCopyright</key>
-    <string>© 2007 Xaren Consulting, changes by TheCodingMonkeys
-  http://www.xaren.net</string>
+    <string>© 2014 TheCodingMonkeys
+http://www.codingmonkeys.de</string>
     <key>CFBundleGetInfoString</key>
-    <string>3.5, Copyright Xaren Consulting 2007</string>
+    <string>4.0, Copyright TheCodingMonkeys 2014</string>
     <key>CFBundleShortVersionString</key>
     <string>4.0</string>
     <key>CFBundleVersion</key>

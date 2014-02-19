@@ -1,3 +1,9 @@
+########################################## NB
+Hat tip to Xaren Consulting
+http://www.xaren.net
+for LassoScript-HTML Mode 3.5 from 2007!
+##########################################
+ 
 Changes with Version 4.0 (SEE 4.0)
 	*) SYNTAX: updated for syntax scopes
 	*) SYNTAX: markup cleanup
