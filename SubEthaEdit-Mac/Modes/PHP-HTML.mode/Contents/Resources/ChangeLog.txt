@@ -1,5 +1,6 @@
 Changes with Version 4.0 (SEE 4.0)
-   *) updated for syntax scopes
+	*) SYNTAX: updated for syntax scopes
+	*) SYNTAX: markup cleanup
 
 Changes with Version 3.5  (SEE 3.5.1)
 	 *) fixed issues with wonky coloring of class member variables
@@ -42,6 +43,5 @@ Changes with Version 1.2
     *) fixed double appeareance of functions if indented 3 spaces
 
 Changes with Version 1.1
-    
     *) EXTENSIONS: Added uppercase variants where appropriate.
     *) BUNDLE: Changed Bundle Identifier to PHP-HTML (was Objective-C)
