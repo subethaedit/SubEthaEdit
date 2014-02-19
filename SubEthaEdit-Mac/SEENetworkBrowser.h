@@ -10,4 +10,8 @@
 
 @interface SEENetworkBrowser : NSWindowController <NSCollectionViewDelegate>
 @property (nonatomic, strong) NSMutableArray *availableDocumentSessions;
+@property (nonatomic, assign) BOOL shouldCloseWhenOpeningDocument;
+
+- (NSInteger)runModal;
+
 @end

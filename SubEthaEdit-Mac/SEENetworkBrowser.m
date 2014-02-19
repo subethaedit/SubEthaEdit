@@ -55,6 +55,19 @@
 }
 
 
+- (void)windowWillClose:(NSNotification *)notification {
+	if ([NSApp modalWindow] == notification.object) {
+		[NSApp stopModalWithCode:NSModalResponseCancel];
+	}
+}
+
+
+- (NSInteger)runModal {
+	NSInteger result = [NSApp runModalForWindow:self.window];
+	return result;
+}
+
+
 - (void)reloadAllDocumentSessions
 {
 	[self willChangeValueForKey:@"availableDocumentSessions"];
@@ -80,7 +93,22 @@
 }
 
 
-- (IBAction)joinSelectedDocument:(id)sender {
+- (IBAction)newDocument:(id)sender {
+	if ([NSApp modalWindow] == self.window) {
+		[NSApp stopModalWithCode:NSModalResponseCancel];
+	}
+	[self close];
+
+	[[NSDocumentController sharedDocumentController] newDocument:sender];
+}
+
+
+- (IBAction)joinDocument:(id)sender {
+	if ([NSApp modalWindow] == self.window) {
+		[NSApp stopModalWithCode:NSModalResponseOK];
+	}
+	[self close];
+
 	SEENetworkDocumentRepresentation *documentRepresentation = self.collectionViewArrayController.selectedObjects.firstObject;
 	[documentRepresentation joinDocument:sender];
 }
