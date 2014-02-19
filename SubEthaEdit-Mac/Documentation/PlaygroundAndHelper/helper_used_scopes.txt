@@ -285,3 +285,5 @@ style.value.string
 *string.angle -> meta.state?
 
 *make the localizable strings examples into ScopeDoc.xml examples
+
+* Maybe add localized mode version: Mode and Modus

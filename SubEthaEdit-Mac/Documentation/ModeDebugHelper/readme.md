@@ -214,3 +214,10 @@ Modes - Coda2 - relative path in repository: `Coda2Modes/`
 * Examples for **SortInfoPlist.xslt**
 
 		xsltproc --novalid SortInfoPlist.xslt ../../Modes/XML.mode/Contents/Info.plist | see --mode xml
+		
+* Random other helper calls:
+
+		find  ../../Modes/ -name "InfoPlist.strings" -exec cat \{\} \; | see
+		find  ../../Modes/ -name "InfoPlist.strings" -exec see \{\} \;
+		
+
