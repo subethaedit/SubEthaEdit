@@ -78,7 +78,7 @@
                         </buttonCell>
                         <connections>
                             <action selector="joinSelectedDocument:" target="-2" id="YsQ-Rn-U66"/>
-                            <binding destination="uFK-2L-HLP" name="enabled" keyPath="selection.representedObject" id="egI-YN-aHF">
+                            <binding destination="uFK-2L-HLP" name="enabled" keyPath="selection.documentSession" id="H8S-6u-Ss4">
                                 <dictionary key="options">
                                     <string key="NSValueTransformerName">NSIsNotNil</string>
                                 </dictionary>

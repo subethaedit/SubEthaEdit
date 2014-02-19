@@ -15,6 +15,7 @@
 
 #import "TCMMMPresenceManager.h"
 #import "TCMMMSession.h"
+#import "TCMMMUserManager.h"
 #import "TCMMMUser.h"
 
 @interface SEENetworkBrowser ()
@@ -64,7 +65,12 @@
 			NSArray *sessions = [statusDict objectForKey:TCMMMPresenceOrderedSessionsKey];
 			for (TCMMMSession *session in sessions) {
 				SEENetworkDocumentRepresentation *documentRepresentation = [[SEENetworkDocumentRepresentation alloc] init];
-				documentRepresentation.representedObject = session;
+				documentRepresentation.documentSession = session;
+				
+				NSString *userID = [statusDict objectForKey:TCMMMPresenceUserIDKey];
+				TCMMMUser *user = [[TCMMMUserManager sharedInstance] userForUserID:userID];
+				documentRepresentation.documentOwner = user;
+
 				documentRepresentation.fileName = session.filename;
 				[self.availableDocumentSessions addObject:documentRepresentation];
 			}
@@ -73,11 +79,10 @@
 	[self didChangeValueForKey:@"availableDocumentSessions"];
 }
 
+
 - (IBAction)joinSelectedDocument:(id)sender {
 	SEENetworkDocumentRepresentation *documentRepresentation = self.collectionViewArrayController.selectedObjects.firstObject;
-
-	if (documentRepresentation) {
-		
-	}
+	[documentRepresentation joinDocument:sender];
 }
+
 @end
