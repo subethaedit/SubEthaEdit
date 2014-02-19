@@ -19,10 +19,6 @@ http://www.codingmonkeys.de</string>
 	<string>BNDL</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
-	<key>TCMModeExtensions</key>
-	<array>
-		<string>txt</string>
-	</array>
 	<key>SEEMinimumEngineVersion</key>
 	<string>4.0</string>
 </dict>
