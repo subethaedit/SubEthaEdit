@@ -115,7 +115,7 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
 
 - (void)reloadAnnouncedSessions {
     [_announcedSessions autorelease];
-     _announcedSessions = [[[[TCMMMPresenceManager sharedInstance] statusOfUserID:[self userID]] objectForKey:@"OrderedSessions"] copy];
+     _announcedSessions = [[[[TCMMMPresenceManager sharedInstance] statusOfUserID:[self userID]] objectForKey:TCMMMPresenceOrderedSessionsKey] copy];
     // check if we need to connect to any of them
     [self checkDocumentRequests];
 }
