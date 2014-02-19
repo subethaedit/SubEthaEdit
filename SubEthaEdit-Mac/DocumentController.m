@@ -267,7 +267,7 @@ static NSString *tempFileName() {
 - (id)init {
     self = [super init];
     if (self) {
-        I_isOpeningUntitledDocument = NO;
+//        I_isOpeningUntitledDocument = NO;
         I_fileNamesFromLastRunOpenPanel = [NSMutableArray new];
         I_propertiesForOpenedFiles = [NSMutableDictionary new];
         I_suspendedSeeScriptCommands = [NSMutableDictionary new];
@@ -565,21 +565,21 @@ static NSString *tempFileName() {
     }
 }
 
-- (id)openUntitledDocumentAndDisplay:(BOOL)displayDocument error:(NSError **)outError {
-    NSAppleEventDescriptor *eventDesc = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
-    if ([eventDesc eventClass] == 'Hdra' && [eventDesc eventID] == 'See ') {
-        I_isOpeningUntitledDocument = NO;
-    } else {
-        I_isOpeningUntitledDocument = YES;
-    }
-    NSDocument *document = [super openUntitledDocumentAndDisplay:displayDocument error:outError];
-    I_isOpeningUntitledDocument = NO;
-    return document;
-}
-
-- (BOOL)isOpeningUntitledDocument {
-    return I_isOpeningUntitledDocument;
-}
+//- (id)openUntitledDocumentAndDisplay:(BOOL)displayDocument error:(NSError **)outError {
+//    NSAppleEventDescriptor *eventDesc = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
+//    if ([eventDesc eventClass] == 'Hdra' && [eventDesc eventID] == 'See ') {
+//        I_isOpeningUntitledDocument = NO;
+//    } else {
+//        I_isOpeningUntitledDocument = YES;
+//    }
+//    NSDocument *document = [super openUntitledDocumentAndDisplay:displayDocument error:outError];
+//    I_isOpeningUntitledDocument = NO;
+//    return document;
+//}
+//
+//- (BOOL)isOpeningUntitledDocument {
+//    return I_isOpeningUntitledDocument;
+//}
 
 - (void)removeDocument:(NSDocument *)document {
     int i;

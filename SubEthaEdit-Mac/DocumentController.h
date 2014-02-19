@@ -22,7 +22,7 @@
     IBOutlet NSMatrix *O_modeInstallerDomainMatrix;
     IBOutlet NSTextField *O_modeInstallerInformativeTextField;
         
-    BOOL I_isOpeningUntitledDocument;
+//    BOOL I_isOpeningUntitledDocument;
     BOOL I_isOpeningUsingAlternateMenuItem;
     
     NSStringEncoding I_encodingFromLastRunOpenPanel;
@@ -69,7 +69,7 @@
 
 - (PlainTextDocument *)frontmostPlainTextDocument;
 
-- (BOOL)isOpeningUntitledDocument;
+//- (BOOL)isOpeningUntitledDocument;
 - (void)setIsOpeningUsingAlternateMenuItem:(BOOL)aFlag;
 - (BOOL)isOpeningUsingAlternateMenuItem;
 

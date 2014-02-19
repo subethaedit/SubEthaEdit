@@ -198,7 +198,6 @@ static AppController *sharedInstance = nil;
 
 - (void)awakeFromNib {
     sharedInstance = self;
-    I_lastShouldOpenUntitledFile = NO;
 }
 
 - (void)registerTransformers {
@@ -699,12 +698,10 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)theApplication {
     BOOL result = [[[NSUserDefaults standardUserDefaults] objectForKey:OpenDocumentOnStartPreferenceKey] boolValue];
-    I_lastShouldOpenUntitledFile = result;
     return result;
 }
 
 - (BOOL)lastShouldOpenUntitledFile {
-    return I_lastShouldOpenUntitledFile;
 }
 
 - (NSMenu *)applicationDockMenu:(NSApplication *)sender {
