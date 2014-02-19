@@ -1060,7 +1060,11 @@ static NSString *tempFileName() {
 
 - (IBAction)newDocument:(id)aSender
 {
-    [self newDocumentWithModeMenuItem:[aSender representedObject]];
+	if ([aSender respondsToSelector:@selector(representedObject)]) {
+		[self newDocumentWithModeMenuItem:[aSender representedObject]];
+	} else {
+		[super newDocument:aSender];
+	}
 }
 
 - (IBAction)newDocumentWithModeMenuItemFromDock:(id)aSender {

@@ -23,6 +23,8 @@
 #import "UndoManager.h"
 #import "GenericSASLProfile.h"
 
+#import "SEENetworkBrowser.h"
+
 #import "AdvancedPreferences.h"
 #import "EditPreferences.h"
 #import "GeneralPreferences.h"
@@ -701,7 +703,12 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     return result;
 }
 
-- (BOOL)lastShouldOpenUntitledFile {
+- (BOOL)applicationOpenUntitledFile:(NSApplication *)sender {
+	SEENetworkBrowser *networkBrowser = [[SEENetworkBrowser alloc] initWithWindowNibName:@"SEENetworkBrowser"];
+	networkBrowser.shouldCloseWhenOpeningDocument = YES;
+	[networkBrowser showWindow:sender];
+
+	return YES; // Avoids Untitled Document path of DocumentController
 }
 
 - (NSMenu *)applicationDockMenu:(NSApplication *)sender {
