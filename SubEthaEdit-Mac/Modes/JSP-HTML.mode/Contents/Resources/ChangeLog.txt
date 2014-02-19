@@ -1,3 +1,8 @@
+######################### NB
+Hat tip to Panic Inc. 
+for JSP-HTML Mode 3.5!
+#########################
+
 Changes with Version 4.0 (SEE 4.0)
 	*) added ChangeLog
 	*) SYNTAX: updated for syntax scopes

@@ -1,7 +1,7 @@
-############################################### NB
+######################### NB
 Hat tip to Panic Inc. 
-for the original ASP-HTML Mode 1.0 from 2008!
-###############################################
+for ASP-HTML Mode 3.6!
+#########################
 
 Changes with Version 4.0 (SEE 4.0)
 	*) added ChangeLog
