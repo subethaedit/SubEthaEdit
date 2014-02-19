@@ -16,10 +16,6 @@
 	<string>4.0</string>
 	<key>CFBundleVersion</key>
 	<string>4.0</string>
-	<key>TCMModeExtensions</key>
-	<array>
-		<string>wiki</string>
-	</array>
 	<key>SEEMinimumEngineVersion</key>
 	<string>4.0</string>
 </dict>
