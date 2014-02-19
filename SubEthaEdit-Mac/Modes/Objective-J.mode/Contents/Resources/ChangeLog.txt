@@ -1,3 +1,8 @@
+###################################### NB
+Hat tip to Arcaeum, LLC
+for Objective-J Mode 1.0 from 2004!
+#####################################
+
 Changes with Version 4.0  (SEE 4.0)
 	*) SYNTAX: updated for syntax scopes
 	*) SYNTAX: markup cleanup

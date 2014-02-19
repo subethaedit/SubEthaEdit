@@ -7,10 +7,10 @@
     <key>CFBundleName</key>
     <string>Objective-J</string>
     <key>NSHumanReadableCopyright</key>
-    <string>© 2006 Arcaeum, LLC
+    <string>© 2014 TheCodingMonkeys
 http://www.codingmonkeys.de</string>
     <key>CFBundleGetInfoString</key>
-    <string>3.5, Copyright Arcaeum, LLC, changes by TheCodingMonkeys</string>
+    <string>4.0, Copyright TheCodingMonkeys 2014</string>
     <key>CFBundleShortVersionString</key>
     <string>4.0</string>
     <key>CFBundleVersion</key>
