@@ -143,7 +143,8 @@ Getting textfile with the value for a plist key (*eg. `CFBundleShortVersionStrin
 
 `make rename from=<scope> to=<scope>` : generates new xml in results folder with renamed scopes  
 
-`make update-plist key=<key> to=<value>` : generates new plist in results folder with changed value
+`make update-plist key=<key> to=<value>` : generates new plist in results folder with changed value  
+`make sort-plist` generates sorted plist in results folder - removing unknown keys
 
 `make plist-values key=<key>` : generates a list of the values used for the given key 
 
