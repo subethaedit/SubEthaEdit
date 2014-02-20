@@ -2423,6 +2423,9 @@
 				<key>public.filename-extension</key>
 				<array>
 					<string>cfm</string>
+					<string>cfc</string>
+					<string>cfr</string>
+					<string>cfml</string>
 				</array>
 			</dict>
 		</dict>
