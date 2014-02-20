@@ -132,24 +132,6 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
-			<string>pp Source File</string>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>LSHandlerRank</key>
-			<string>Owner</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>de.codingmonkeys.subethaedit.pp-source</string>
-			</array>
-			<key>LSTypeIsPackage</key>
-			<false/>
-			<key>NSDocumentClass</key>
-			<string>PlainTextDocument</string>
-		</dict>
-		<dict>
-			<key>CFBundleTypeIconFile</key>
-			<string>SubEthaEditFiles</string>
-			<key>CFBundleTypeName</key>
 			<string>java Source File</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
@@ -1263,6 +1245,7 @@
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>public.pascal-source</string>
+				<string>de.codingmonkeys.subethaedit.pascal-source</string>
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
@@ -1335,24 +1318,6 @@
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>public.ruby-script</string>
-			</array>
-			<key>LSTypeIsPackage</key>
-			<false/>
-			<key>NSDocumentClass</key>
-			<string>PlainTextDocument</string>
-		</dict>
-		<dict>
-			<key>CFBundleTypeIconFile</key>
-			<string>SubEthaEditFiles</string>
-			<key>CFBundleTypeName</key>
-			<string>p Source File</string>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>LSHandlerRank</key>
-			<string>Owner</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>de.codingmonkeys.subethaedit.p-source</string>
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
@@ -2472,12 +2437,14 @@
 			<key>UTTypeDescription</key>
 			<string>p Source File</string>
 			<key>UTTypeIdentifier</key>
-			<string>de.codingmonkeys.subethaedit.p-source</string>
+			<string>de.codingmonkeys.subethaedit.pascal-source</string>
 			<key>UTTypeTagSpecification</key>
 			<dict>
 				<key>public.filename-extension</key>
 				<array>
+					<string>pas</string>
 					<string>p</string>
+					<string>pp</string>
 				</array>
 			</dict>
 		</dict>
@@ -2852,23 +2819,6 @@
 				<key>public.filename-extension</key>
 				<array>
 					<string>brainfuck</string>
-				</array>
-			</dict>
-		</dict>
-		<dict>
-			<key>UTTypeConformsTo</key>
-			<array>
-				<string>public.source-code</string>
-			</array>
-			<key>UTTypeDescription</key>
-			<string>pp Source File</string>
-			<key>UTTypeIdentifier</key>
-			<string>de.codingmonkeys.subethaedit.pp-source</string>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<array>
-					<string>pp</string>
 				</array>
 			</dict>
 		</dict>
