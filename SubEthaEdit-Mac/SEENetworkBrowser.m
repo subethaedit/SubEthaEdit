@@ -13,10 +13,16 @@
 #import "SEENetworkBrowser.h"
 #import "SEENetworkDocumentRepresentation.h"
 
+#import "DocumentController.h"
+#import "DocumentModeManager.h"
+
 #import "TCMMMPresenceManager.h"
 #import "TCMMMSession.h"
 #import "TCMMMUserManager.h"
 #import "TCMMMUser.h"
+
+extern int const FileMenuTag;
+extern int const FileNewMenuItemTag;
 
 @interface SEENetworkBrowser ()
 @property (assign) IBOutlet NSArrayController *collectionViewArrayController;
@@ -113,7 +119,13 @@
 		}
 		[self close];
 	}
-	[[NSDocumentController sharedDocumentController] newDocument:sender];
+
+	NSMenu *menu=[[[NSApp mainMenu] itemWithTag:FileMenuTag] submenu];
+    NSMenuItem *menuItem=[menu itemWithTag:FileNewMenuItemTag];
+    menu = [menuItem submenu];
+    NSMenuItem *item = (NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] tagForDocumentModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]]];
+
+	[[NSDocumentController sharedDocumentController] newDocumentWithModeMenuItem:item];
 }
 
 
