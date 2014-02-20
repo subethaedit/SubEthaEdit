@@ -65,6 +65,8 @@ extern int const FileNewMenuItemTag;
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self.userSessionsDidChangeObserver];
     [[NSNotificationCenter defaultCenter] removeObserver:self.otherWindowsBecomeKeyNotifivationObserver];
+
+	[self close];
 }
 
 

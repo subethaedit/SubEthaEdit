@@ -110,7 +110,9 @@ NSString * const GlobalScriptsDidReloadNotification = @"GlobalScriptsDidReloadNo
 
 
     
-@interface AppController (AppControllerPrivateAdditions)
+@interface AppController ()
+
+@property (nonatomic, strong) SEENetworkBrowser *networkBrowser;
 
 - (void)setupFileEncodingsSubmenu;
 - (void)setupScriptMenu;
@@ -707,6 +709,8 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 	SEENetworkBrowser *networkBrowser = [[SEENetworkBrowser alloc] initWithWindowNibName:@"SEENetworkBrowser"];
 	networkBrowser.shouldCloseWhenOpeningDocument = YES;
 	[networkBrowser showWindow:sender];
+	self.networkBrowser = networkBrowser;
+	[networkBrowser release];
 
 	return YES; // Avoids Untitled Document path of DocumentController
 }
@@ -1073,6 +1077,15 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     } else {
 		[[editorWindowController window] performClose:self];
     }
+}
+
+#pragma mark -
+
+- (IBAction)showDocumentNetworkBrowser:(id)sender {
+	SEENetworkBrowser *networkBrowser = [[SEENetworkBrowser alloc] initWithWindowNibName:@"SEENetworkBrowser"];
+	[networkBrowser showWindow:sender];
+	self.networkBrowser = networkBrowser;
+	[networkBrowser release];
 }
 
 #pragma mark - Menu validation

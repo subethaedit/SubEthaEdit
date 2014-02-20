@@ -1119,13 +1119,6 @@ static NSString *tempFileName() {
 
 #pragma mark -
 
-- (IBAction)showDocumentNetworkBrowser:(id)sender {
-	SEENetworkBrowser *networkBrowser = [[SEENetworkBrowser alloc] initWithWindowNibName:@"SEENetworkBrowser"];
-	[networkBrowser showWindow:sender];
-}
-
-#pragma mark -
-
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
