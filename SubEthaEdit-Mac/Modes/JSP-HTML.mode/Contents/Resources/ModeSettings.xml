@@ -4,7 +4,5 @@
     <recognition>
         <extension>jsp</extension>
         <extension>sqljsp</extension>
-        <extension>JSP</extension>
-        <extension>SQLJSP</extension>
     </recognition>
 </settings>
