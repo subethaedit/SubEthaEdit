@@ -785,24 +785,6 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
-			<string>postgresql Source File</string>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>LSHandlerRank</key>
-			<string>Owner</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>de.codingmonkeys.subethaedit.postgresql-source</string>
-			</array>
-			<key>LSTypeIsPackage</key>
-			<false/>
-			<key>NSDocumentClass</key>
-			<string>PlainTextDocument</string>
-		</dict>
-		<dict>
-			<key>CFBundleTypeIconFile</key>
-			<string>SubEthaEditFiles</string>
-			<key>CFBundleTypeName</key>
 			<string>xsl Source File</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
@@ -2969,7 +2951,9 @@
 			<dict>
 				<key>public.filename-extension</key>
 				<array>
-					<string>SQL</string>
+					<string>sql</string>
+					<string>mysql</string>
+					<string>postgresql</string>
 				</array>
 			</dict>
 		</dict>
@@ -3319,23 +3303,6 @@
 				<key>public.filename-extension</key>
 				<array>
 					<string>rxp</string>
-				</array>
-			</dict>
-		</dict>
-		<dict>
-			<key>UTTypeConformsTo</key>
-			<array>
-				<string>public.source-code</string>
-			</array>
-			<key>UTTypeDescription</key>
-			<string>postgresql Source File</string>
-			<key>UTTypeIdentifier</key>
-			<string>de.codingmonkeys.subethaedit.postgresql-source</string>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<array>
-					<string>postgresql</string>
 				</array>
 			</dict>
 		</dict>
