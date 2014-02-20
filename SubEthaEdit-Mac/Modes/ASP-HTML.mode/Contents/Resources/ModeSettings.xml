@@ -3,10 +3,7 @@
 <settings>
     <recognition>
         <extension>asp</extension>
-        <extension>ASP</extension>
         <extension>vbs</extension>
-        <extension>VBS</extension>
         <extension>aspx</extension>
-        <extension>ASPX</extension>
     </recognition>
 </settings>

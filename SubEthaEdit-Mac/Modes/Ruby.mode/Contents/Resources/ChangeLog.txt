@@ -1,5 +1,6 @@
 ############################################## NB
 Hat tip to Jeff Reinecke
+jeff@paploo.net
 for the improvements over the original Mode!
 ##############################################
 

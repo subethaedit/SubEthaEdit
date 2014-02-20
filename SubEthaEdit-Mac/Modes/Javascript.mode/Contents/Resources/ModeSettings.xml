@@ -3,6 +3,7 @@
     <recognition>
         <extension>js</extension>
         <extension>javascript</extension>
+        <extension>jscript</extension>
         <extension>jsx</extension>
         <extension>json</extension>
     </recognition>

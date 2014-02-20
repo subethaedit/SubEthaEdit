@@ -2,5 +2,6 @@
 <settings>
     <recognition>
         <extension>txt</extension>
+        <extension>text</extension>
     </recognition>
 </settings>

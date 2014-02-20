@@ -6,6 +6,8 @@
         <extension>php4</extension>
         <extension>php5</extension>
         <extension>phtml</extension>
+        <extension>ph3</extension>
+        <extension>ph4</extension>
         <extension>inc</extension>
         <regex>\A#!/usr/bin/php</regex>
         <regex>\A#!/usr/bin/env php</regex>
