@@ -1456,24 +1456,6 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
-			<string>rjs Source File</string>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>LSHandlerRank</key>
-			<string>Owner</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>de.codingmonkeys.subethaedit.rjs-source</string>
-			</array>
-			<key>LSTypeIsPackage</key>
-			<false/>
-			<key>NSDocumentClass</key>
-			<string>PlainTextDocument</string>
-		</dict>
-		<dict>
-			<key>CFBundleTypeIconFile</key>
-			<string>SubEthaEditFiles</string>
-			<key>CFBundleTypeName</key>
 			<string>pl Source File</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
@@ -1988,24 +1970,6 @@
 			<array>
 				<string>de.codingmonkeys.subethaedit.erb-source</string>
 				<string>org.ruby-lang.eruby</string>
-			</array>
-			<key>LSTypeIsPackage</key>
-			<false/>
-			<key>NSDocumentClass</key>
-			<string>PlainTextDocument</string>
-		</dict>
-		<dict>
-			<key>CFBundleTypeIconFile</key>
-			<string>SubEthaEditFiles</string>
-			<key>CFBundleTypeName</key>
-			<string>builder Source File</string>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>LSHandlerRank</key>
-			<string>Owner</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>de.codingmonkeys.subethaedit.builder-source</string>
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
@@ -2845,23 +2809,6 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>rjs Source File</string>
-			<key>UTTypeIdentifier</key>
-			<string>de.codingmonkeys.subethaedit.rjs-source</string>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<array>
-					<string>rjs</string>
-				</array>
-			</dict>
-		</dict>
-		<dict>
-			<key>UTTypeConformsTo</key>
-			<array>
-				<string>public.source-code</string>
-			</array>
-			<key>UTTypeDescription</key>
 			<string>rsp Source File</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.rsp-source</string>
@@ -3078,6 +3025,8 @@
 					<string>ruby</string>
 					<string>rbx</string>
 					<string>rxml</string>
+					<string>rjs</string>
+					<string>builder</string>
 				</array>
 			</dict>
 		</dict>
@@ -3506,23 +3455,6 @@
 				<key>public.filename-extension</key>
 				<array>
 					<string>spss</string>
-				</array>
-			</dict>
-		</dict>
-		<dict>
-			<key>UTTypeConformsTo</key>
-			<array>
-				<string>public.source-code</string>
-			</array>
-			<key>UTTypeDescription</key>
-			<string>builder Source File</string>
-			<key>UTTypeIdentifier</key>
-			<string>de.codingmonkeys.subethaedit.builder-source</string>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<array>
-					<string>builder</string>
 				</array>
 			</dict>
 		</dict>
