@@ -11,7 +11,10 @@ Overview:
 4. [Simple Style Sheet for all style attributes](#allStyleAttributes)
 5. [Remove style attributes from Mode](#removeStyleAttributes)
 6. [Rename Scope](#renameScope)
-7. [Style Extraction Makefile](#makefile)
+7. [Sort Plist](#sortPlist)
+8. [Update Plist](#updatePlist)
+9. [List Plist Values](#plistValues)
+10. [Style Extraction Makefile](#makefile)
 
 ---
 ## [All XML-Nodes using a Scope](id:xmlForScope)
@@ -86,6 +89,43 @@ Renaming a scope (*eg. `meta.default`*) in a single Mode (*eg. `PHP-HTML`*) (_op
 	xsltproc --param from "'<scope-value>'" --param to "'<new-scope-value>'" --novalid RenameScope.xslt <path>/<mode-name>.mode/Contents/Resources/SyntaxDefinition.xml | see --mode xml
 
 ---
+## [Sort Plist](id:sortPlist)
+**SortInfoPlist.xslt**
+
+Bringing the known plist keys into the following order:  
+`CFBundleIdentifier`  
+`CFBundleName`  
+`NSHumanReadableCopyright`  
+`CFBundleGetInfoString`  
+`CFBundleShortVersionString`  
+`CFBundleVersion`  
+`SEEMinimumEngineVersion`  
+`CFBundlePackageType`  
+`CFBundleInfoDictionaryVersion`  
+
+The `TCMModeExtensions` key-array pair will be deleted by this and should be moved to the ModeSettings.xml.
+
+	xsltproc --novalid SortInfoPlist.xslt <path>/<mode-name>.mode/Contents/Info.plist | see --mode xml
+		
+---
+## [Update Plist](id:updatePlist)
+**RenameScope.xslt**
+
+Changing a plist key (*eg. `CFBundleShortVersionString`*) value to something else in a single Mode (*eg. `PHP-HTML`*) (_opened in SubEthaEdit in XML-Mode_):
+
+	xsltproc --param key "'<key>'" --param to "'<to>'" --novalid UpdateInfoPlist.xslt <path>/<mode-name>.mode/Contents/Info.plist | see --mode xml
+	
+---
+## [List Plist Values](id:plistValues)
+**PlistValueForKey.xslt**
+
+Getting textfile with the value for a plist key (*eg. `CFBundleShortVersionString`*) in a single Mode (*eg. `PHP-HTML`*):
+
+		xsltproc --param key "'<key>'" --novalid PlistValueForKey.xslt <path>/<mode-name>.mode/Contents/Info.plist | see
+
+
+
+---
 ## [Style Extraction and Mode Helper Makefile](id:makefile)
 **Makefile**
 
@@ -102,6 +142,12 @@ Renaming a scope (*eg. `meta.default`*) in a single Mode (*eg. `PHP-HTML`*) (_op
 `make style-extraction` : calls both create-style-sheet and remove-styles for one step extraction
 
 `make rename from=<scope> to=<scope>` : generates new xml in results folder with renamed scopes  
+
+`make update-plist key=<key> to=<value>` : generates new plist in results folder with changed value  
+`make sort-plist` generates sorted plist in results folder - removing unknown keys
+
+`make plist-values key=<key>` : generates a list of the values used for the given key  
+`make all-plist-values key=<key>` : generates a list of the values used for all the keys 
 
 `make find-scope scope=<scope>` : generates a xml files containing all the uses of <scope>  
 `make all-scopes-one-mode mode=<mode>` : generates an annotated txt with scopes used by a mode  
@@ -156,4 +202,22 @@ Modes - Coda2 - relative path in repository: `Coda2Modes/`
 * Examples for **RenameScope.xslt**
  
 		xsltproc --param from "'meta.default'" --param to "'magic.bullet'" --novalid RenameScope.xslt ../../Modes/PHP-HTML.mode/Contents/Resources/SyntaxDefinition.xml | see --mode xml
+
+* Examples for **UpdateInfoPlist.xslt**
+
+		xsltproc --param key "'CFBundleShortVersionString'" --param to "'4.0'" --novalid UpdateInfoPlist.xslt ../../Modes/XML.mode/Contents/Info.plist | see --mode xml
+		
+* Examples for **PlistValueForKey.xslt**
+		
+		xsltproc --param key "'CFBundleShortVersionString'" --novalid PlistValueForKey.xslt ../../Modes/XML.mode/Contents/Info.plist | see --mode xml
+		
+* Examples for **SortInfoPlist.xslt**
+
+		xsltproc --novalid SortInfoPlist.xslt ../../Modes/XML.mode/Contents/Info.plist | see --mode xml
+		
+* Random other helper calls:
+
+		find  ../../Modes/ -name "InfoPlist.strings" -exec cat \{\} \; | see
+		find  ../../Modes/ -name "InfoPlist.strings" -exec see \{\} \;
+		
 

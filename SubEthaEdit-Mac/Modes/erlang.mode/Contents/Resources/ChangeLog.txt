@@ -1,0 +1,9 @@
+####################################### NB
+Hat tip to Olivier Sambourg
+for the Erlang Mode 1.0 from 2004!
+#######################################
+
+Changes with Version 4.0 (SEE 4.0)
+	*) added ChangeLog
+	*) SYNTAX: updated for syntax scopes
+	*) SYNTAX: markup cleanup

@@ -1,7 +1,7 @@
 ################################# NB
-Hat tip to Panic Inc. 
+Hat tip to Panic Inc.
 http://panic.com
-for ASP-HTML Mode 3.6 from 2008!
+for JSP-HTML Mode 3.5 from 2008!
 #################################
 
 Changes with Version 4.0 (SEE 4.0)

@@ -1,13 +1,14 @@
-Changes with Version 4.0  (SEE 4.0)
-	 *) removed Style information
+Changes with Version 4.0 (SEE 4.0)
+	*) SYNTAX: updated for syntax scopes
+	*) SYNTAX: removed style information
+	*) SYNTAX: markup cleanup
+	*) added ModeSettings.xml
 
 Changes with Version 3.5  (SEE 3.5)
 	 *) added URL state
 
-Changes with Version 1.2 (SEE 2.3)
-    
+Changes with Version 1.2 (SEE 2.3)    
     *) Enabled system dictionary completion.
 
 Changes with Version 1.1
-    
     *) EXTENSIONS: Added uppercase variants where appropriate.
