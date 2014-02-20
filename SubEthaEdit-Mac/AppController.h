@@ -41,7 +41,6 @@ extern int const ScriptMenuTag;
 extern NSString * const GlobalScriptsDidReloadNotification;
 
 @interface AppController : NSObject <NSApplicationDelegate, NSMenuDelegate, BITHockeyManagerDelegate > {
-    BOOL I_lastShouldOpenUntitledFile;
     NSMutableDictionary *I_scriptsByFilename;
     NSMutableDictionary *I_scriptSettingsByFilename;
     NSMutableArray      *I_scriptOrderArray;
@@ -56,8 +55,6 @@ extern NSString * const GlobalScriptsDidReloadNotification;
 @property (nonatomic, assign) IBOutlet NSMenuItem *accessControlMenuItem;
 
 + (AppController *)sharedInstance;
-
-- (BOOL)lastShouldOpenUntitledFile;
 
 - (void)reportAppleScriptError:(NSDictionary *)anErrorDictionary;
 

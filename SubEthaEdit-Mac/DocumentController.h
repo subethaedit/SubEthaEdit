@@ -22,7 +22,7 @@
     IBOutlet NSMatrix *O_modeInstallerDomainMatrix;
     IBOutlet NSTextField *O_modeInstallerInformativeTextField;
         
-    BOOL I_isOpeningUntitledDocument;
+//    BOOL I_isOpeningUntitledDocument;
     BOOL I_isOpeningUsingAlternateMenuItem;
     
     NSStringEncoding I_encodingFromLastRunOpenPanel;
@@ -54,7 +54,6 @@
 - (IBAction)cancelModeInstallation:(id)sender;
 - (IBAction)openNormalDocument:(id)aSender;
 - (IBAction)openAlternateDocument:(id)aSender;
-- (IBAction)showDocumentNetworkBrowser:(id)sender;
 
 - (void)addProxyDocumentWithSession:(TCMMMSession *)aSession;
 
@@ -69,7 +68,7 @@
 
 - (PlainTextDocument *)frontmostPlainTextDocument;
 
-- (BOOL)isOpeningUntitledDocument;
+//- (BOOL)isOpeningUntitledDocument;
 - (void)setIsOpeningUsingAlternateMenuItem:(BOOL)aFlag;
 - (BOOL)isOpeningUsingAlternateMenuItem;
 
@@ -83,5 +82,5 @@
 
 - (void)updateTabMenu;
 
-
+- (void)newDocumentWithModeMenuItem:(id)aSender;
 @end

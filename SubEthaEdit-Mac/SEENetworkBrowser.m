@@ -13,14 +13,21 @@
 #import "SEENetworkBrowser.h"
 #import "SEENetworkDocumentRepresentation.h"
 
+#import "DocumentController.h"
+#import "DocumentModeManager.h"
+
 #import "TCMMMPresenceManager.h"
 #import "TCMMMSession.h"
 #import "TCMMMUserManager.h"
 #import "TCMMMUser.h"
 
+extern int const FileMenuTag;
+extern int const FileNewMenuItemTag;
+
 @interface SEENetworkBrowser ()
 @property (assign) IBOutlet NSArrayController *collectionViewArrayController;
 @property (nonatomic, weak) id userSessionsDidChangeObserver;
+@property (nonatomic, weak) id otherWindowsBecomeKeyNotifivationObserver;
 @end
 
 @implementation SEENetworkBrowser
@@ -38,6 +45,17 @@
 			__typeof__(self) strongSelf = weakSelf;
 			[strongSelf reloadAllDocumentSessions];
 		}];
+
+		self.otherWindowsBecomeKeyNotifivationObserver =
+		[[NSNotificationCenter defaultCenter] addObserverForName:NSWindowDidBecomeKeyNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+			__typeof__(self) strongSelf = weakSelf;
+			if (note.object != strongSelf.window && strongSelf.shouldCloseWhenOpeningDocument) {
+				if ([NSApp modalWindow] == strongSelf.window) {
+					[NSApp stopModalWithCode:NSModalResponseAbort];
+				}
+				[self close];
+			}
+		}];
     }
     return self;
 }
@@ -46,12 +64,28 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self.userSessionsDidChangeObserver];
+    [[NSNotificationCenter defaultCenter] removeObserver:self.otherWindowsBecomeKeyNotifivationObserver];
+
+	[self close];
 }
 
 
 - (void)windowDidLoad
 {
     [super windowDidLoad];
+}
+
+
+- (void)windowWillClose:(NSNotification *)notification {
+	if ([NSApp modalWindow] == notification.object) {
+		[NSApp stopModalWithCode:NSModalResponseAbort];
+	}
+}
+
+
+- (NSInteger)runModal {
+	NSInteger result = [NSApp runModalForWindow:self.window];
+	return result;
 }
 
 
@@ -80,7 +114,30 @@
 }
 
 
-- (IBAction)joinSelectedDocument:(id)sender {
+- (IBAction)newDocument:(id)sender {
+	if (self.shouldCloseWhenOpeningDocument) {
+		if ([NSApp modalWindow] == self.window) {
+			[NSApp stopModalWithCode:NSModalResponseCancel];
+		}
+		[self close];
+	}
+
+	NSMenu *menu=[[[NSApp mainMenu] itemWithTag:FileMenuTag] submenu];
+    NSMenuItem *menuItem=[menu itemWithTag:FileNewMenuItemTag];
+    menu = [menuItem submenu];
+    NSMenuItem *item = (NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] tagForDocumentModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]]];
+
+	[[NSDocumentController sharedDocumentController] newDocumentWithModeMenuItem:item];
+}
+
+
+- (IBAction)joinDocument:(id)sender {
+	if (self.shouldCloseWhenOpeningDocument) {
+		if ([NSApp modalWindow] == self.window) {
+			[NSApp stopModalWithCode:NSModalResponseOK];
+		}
+		[self close];
+	}
 	SEENetworkDocumentRepresentation *documentRepresentation = self.collectionViewArrayController.selectedObjects.firstObject;
 	[documentRepresentation joinDocument:sender];
 }

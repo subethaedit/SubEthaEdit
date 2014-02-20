@@ -23,6 +23,8 @@
 #import "UndoManager.h"
 #import "GenericSASLProfile.h"
 
+#import "SEENetworkBrowser.h"
+
 #import "AdvancedPreferences.h"
 #import "EditPreferences.h"
 #import "GeneralPreferences.h"
@@ -108,7 +110,9 @@ NSString * const GlobalScriptsDidReloadNotification = @"GlobalScriptsDidReloadNo
 
 
     
-@interface AppController (AppControllerPrivateAdditions)
+@interface AppController ()
+
+@property (nonatomic, strong) SEENetworkBrowser *networkBrowser;
 
 - (void)setupFileEncodingsSubmenu;
 - (void)setupScriptMenu;
@@ -198,7 +202,6 @@ static AppController *sharedInstance = nil;
 
 - (void)awakeFromNib {
     sharedInstance = self;
-    I_lastShouldOpenUntitledFile = NO;
 }
 
 - (void)registerTransformers {
@@ -699,12 +702,17 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 
 - (BOOL)applicationShouldOpenUntitledFile:(NSApplication *)theApplication {
     BOOL result = [[[NSUserDefaults standardUserDefaults] objectForKey:OpenDocumentOnStartPreferenceKey] boolValue];
-    I_lastShouldOpenUntitledFile = result;
     return result;
 }
 
-- (BOOL)lastShouldOpenUntitledFile {
-    return I_lastShouldOpenUntitledFile;
+- (BOOL)applicationOpenUntitledFile:(NSApplication *)sender {
+	SEENetworkBrowser *networkBrowser = [[SEENetworkBrowser alloc] initWithWindowNibName:@"SEENetworkBrowser"];
+	networkBrowser.shouldCloseWhenOpeningDocument = YES;
+	[networkBrowser showWindow:sender];
+	self.networkBrowser = networkBrowser;
+	[networkBrowser release];
+
+	return YES; // Avoids Untitled Document path of DocumentController
 }
 
 - (NSMenu *)applicationDockMenu:(NSApplication *)sender {
@@ -1069,6 +1077,15 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     } else {
 		[[editorWindowController window] performClose:self];
     }
+}
+
+#pragma mark -
+
+- (IBAction)showDocumentNetworkBrowser:(id)sender {
+	SEENetworkBrowser *networkBrowser = [[SEENetworkBrowser alloc] initWithWindowNibName:@"SEENetworkBrowser"];
+	[networkBrowser showWindow:sender];
+	self.networkBrowser = networkBrowser;
+	[networkBrowser release];
 }
 
 #pragma mark - Menu validation
