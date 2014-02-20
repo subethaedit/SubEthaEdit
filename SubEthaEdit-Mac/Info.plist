@@ -556,6 +556,7 @@
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>public.python-script</string>
+				<string>de.codingmonkeys.subethaedit.python-source</string>
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
@@ -901,42 +902,6 @@
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>de.codingmonkeys.subethaedit.wmk-source</string>
-			</array>
-			<key>LSTypeIsPackage</key>
-			<false/>
-			<key>NSDocumentClass</key>
-			<string>PlainTextDocument</string>
-		</dict>
-		<dict>
-			<key>CFBundleTypeIconFile</key>
-			<string>SubEthaEditFiles</string>
-			<key>CFBundleTypeName</key>
-			<string>pyw Source File</string>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>LSHandlerRank</key>
-			<string>Owner</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>de.codingmonkeys.subethaedit.pyw-source</string>
-			</array>
-			<key>LSTypeIsPackage</key>
-			<false/>
-			<key>NSDocumentClass</key>
-			<string>PlainTextDocument</string>
-		</dict>
-		<dict>
-			<key>CFBundleTypeIconFile</key>
-			<string>SubEthaEditFiles</string>
-			<key>CFBundleTypeName</key>
-			<string>python Source File</string>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>LSHandlerRank</key>
-			<string>Owner</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>de.codingmonkeys.subethaedit.python-source</string>
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
@@ -2846,23 +2811,6 @@
 				<string>public.source-code</string>
 			</array>
 			<key>UTTypeDescription</key>
-			<string>pyw Source File</string>
-			<key>UTTypeIdentifier</key>
-			<string>de.codingmonkeys.subethaedit.pyw-source</string>
-			<key>UTTypeTagSpecification</key>
-			<dict>
-				<key>public.filename-extension</key>
-				<array>
-					<string>pyw</string>
-				</array>
-			</dict>
-		</dict>
-		<dict>
-			<key>UTTypeConformsTo</key>
-			<array>
-				<string>public.source-code</string>
-			</array>
-			<key>UTTypeDescription</key>
 			<string>verilog Source File</string>
 			<key>UTTypeIdentifier</key>
 			<string>de.codingmonkeys.subethaedit.verilog-source</string>
@@ -3296,6 +3244,9 @@
 				<key>public.filename-extension</key>
 				<array>
 					<string>python</string>
+					<string>py</string>
+					<string>pyw</string>
+					<string>pw</string>
 				</array>
 			</dict>
 		</dict>
