@@ -332,24 +332,6 @@
 			<key>CFBundleTypeIconFile</key>
 			<string>SubEthaEditFiles</string>
 			<key>CFBundleTypeName</key>
-			<string>ruby Source File</string>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>LSHandlerRank</key>
-			<string>Owner</string>
-			<key>LSItemContentTypes</key>
-			<array>
-				<string>de.codingmonkeys.subethaedit.ruby-source</string>
-			</array>
-			<key>LSTypeIsPackage</key>
-			<false/>
-			<key>NSDocumentClass</key>
-			<string>PlainTextDocument</string>
-		</dict>
-		<dict>
-			<key>CFBundleTypeIconFile</key>
-			<string>SubEthaEditFiles</string>
-			<key>CFBundleTypeName</key>
 			<string>m4 Source File</string>
 			<key>CFBundleTypeRole</key>
 			<string>Editor</string>
@@ -1283,6 +1265,7 @@
 			<key>LSItemContentTypes</key>
 			<array>
 				<string>public.ruby-script</string>
+				<string>de.codingmonkeys.subethaedit.ruby-source</string>
 			</array>
 			<key>LSTypeIsPackage</key>
 			<false/>
@@ -3090,7 +3073,11 @@
 			<dict>
 				<key>public.filename-extension</key>
 				<array>
+					<string>rb</string>
+					<string>rbw</string>
 					<string>ruby</string>
+					<string>rbx</string>
+					<string>rxml</string>
 				</array>
 			</dict>
 		</dict>
