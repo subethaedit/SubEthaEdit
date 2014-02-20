@@ -11,7 +11,7 @@
 #import "LoginSheetController.h"
 #import "URLImageView.h"
 
-@class TCMMMBrowserListView, ConnectionBrowserEntry, LoginSheetController,PlainTextDocument;
+@class TCMMMBrowserListView, ConnectionBrowserEntry, LoginSheetController, PlainTextDocument;
 
 @interface ConnectionBrowserController : NSWindowController <NSMenuDelegate,NSComboBoxDataSource>
 {

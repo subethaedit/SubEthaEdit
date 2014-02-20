@@ -19,7 +19,6 @@
 #import "PullDownButtonCell.h"
 #import "TexturedButtonCell.h"
 #import "NSWorkspaceTCMAdditions.h"
-#import "ServerConnectionManager.h"
 #import "ConnectionBrowserEntry.h"
 #import "PlainTextDocument.h"
 #import <AddressBook/AddressBook.h>
@@ -126,19 +125,7 @@ static NSPredicate *S_joinableSessionPredicate = nil;
         [item setTarget:self];
         [item setTag:BrowserContextMenuTagPeerExchange];
 
-//        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuLogIn", @"Log In entry for Browser context menu") action:@selector(login:) keyEquivalent:@""];
-//        [item setTarget:self];
-//        [item setTag:BrowserContextMenuTagLogIn];
-//
-//
-//
-//
-//        item = (NSMenuItem *)[I_contextMenu addItemWithTitle:NSLocalizedString(@"BrowserContextMenuManageFiles", @"Manage files entry for Browser context menu") action:@selector(openServerConnection:) keyEquivalent:@""];
-//        [item setTarget:[ServerConnectionManager sharedInstance]];
-//        [item setTag:BrowserContextMenuTagManageFiles];
-
-        [I_contextMenu setDelegate:self];        
-
+        [I_contextMenu setDelegate:self];
 
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChangeVisibility:) name:TCMMMPresenceManagerUserVisibilityDidChangeNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(userDidChangeAnnouncedDocuments:) name:TCMMMPresenceManagerUserSessionsDidChangeNotification object:nil];
