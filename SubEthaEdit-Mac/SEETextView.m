@@ -33,7 +33,6 @@
 #import <OgreKit/OgreKit.h>
 #import "NSCursorSEEAdditions.h"
 #import "DocumentModeManager.h"
-#import "ConnectionBrowserController.h"
 #import "PlainTextDocument.h"
 #import "SEEPlainTextEditorScrollView.h"
 
@@ -913,7 +912,7 @@ static NSMenu *S_defaultMenu=nil;
         BOOL shouldDrag=[[(PlainTextDocument *)[self document] session] isServer];
         [self setIsDragTarget:YES];
         if (shouldDrag) {
-            [ConnectionBrowserController invitePeopleFromPasteboard:pboard intoDocument:[self document] group:TCMMMSessionReadWriteGroupName];
+//            [ConnectionBrowserController invitePeopleFromPasteboard:pboard intoDocument:[self document] group:TCMMMSessionReadWriteGroupName];
             [self setIsDragTarget:NO];
             return YES;
         }
