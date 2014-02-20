@@ -2885,6 +2885,7 @@
 				<key>public.filename-extension</key>
 				<array>
 					<string>rhtml</string>
+					<string>erb</string>
 				</array>
 			</dict>
 		</dict>
