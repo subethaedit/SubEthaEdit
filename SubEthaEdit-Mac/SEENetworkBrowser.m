@@ -21,6 +21,7 @@
 @interface SEENetworkBrowser ()
 @property (assign) IBOutlet NSArrayController *collectionViewArrayController;
 @property (nonatomic, weak) id userSessionsDidChangeObserver;
+@property (nonatomic, weak) id otherWindowsBecomeKeyNotifivationObserver;
 @end
 
 @implementation SEENetworkBrowser
@@ -38,6 +39,17 @@
 			__typeof__(self) strongSelf = weakSelf;
 			[strongSelf reloadAllDocumentSessions];
 		}];
+
+		self.otherWindowsBecomeKeyNotifivationObserver =
+		[[NSNotificationCenter defaultCenter] addObserverForName:NSWindowDidBecomeKeyNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
+			__typeof__(self) strongSelf = weakSelf;
+			if (note.object != strongSelf.window && strongSelf.shouldCloseWhenOpeningDocument) {
+				if ([NSApp modalWindow] == strongSelf.window) {
+					[NSApp stopModalWithCode:NSModalResponseAbort];
+				}
+				[self close];
+			}
+		}];
     }
     return self;
 }
@@ -46,6 +58,7 @@
 - (void)dealloc
 {
     [[NSNotificationCenter defaultCenter] removeObserver:self.userSessionsDidChangeObserver];
+    [[NSNotificationCenter defaultCenter] removeObserver:self.otherWindowsBecomeKeyNotifivationObserver];
 }
 
 
@@ -57,7 +70,7 @@
 
 - (void)windowWillClose:(NSNotification *)notification {
 	if ([NSApp modalWindow] == notification.object) {
-		[NSApp stopModalWithCode:NSModalResponseCancel];
+		[NSApp stopModalWithCode:NSModalResponseAbort];
 	}
 }
 
@@ -94,21 +107,23 @@
 
 
 - (IBAction)newDocument:(id)sender {
-	if ([NSApp modalWindow] == self.window) {
-		[NSApp stopModalWithCode:NSModalResponseCancel];
+	if (self.shouldCloseWhenOpeningDocument) {
+		if ([NSApp modalWindow] == self.window) {
+			[NSApp stopModalWithCode:NSModalResponseCancel];
+		}
+		[self close];
 	}
-	[self close];
-
 	[[NSDocumentController sharedDocumentController] newDocument:sender];
 }
 
 
 - (IBAction)joinDocument:(id)sender {
-	if ([NSApp modalWindow] == self.window) {
-		[NSApp stopModalWithCode:NSModalResponseOK];
+	if (self.shouldCloseWhenOpeningDocument) {
+		if ([NSApp modalWindow] == self.window) {
+			[NSApp stopModalWithCode:NSModalResponseOK];
+		}
+		[self close];
 	}
-	[self close];
-
 	SEENetworkDocumentRepresentation *documentRepresentation = self.collectionViewArrayController.selectedObjects.firstObject;
 	[documentRepresentation joinDocument:sender];
 }
