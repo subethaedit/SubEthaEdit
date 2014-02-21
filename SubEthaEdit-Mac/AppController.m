@@ -18,6 +18,7 @@
 #import "TCMMMSession.h"
 #import "AppController.h"
 #import "TCMPreferenceController.h"
+#import "ConnectionBrowserController.h"
 #import "PlainTextDocument.h"
 #import "UndoManager.h"
 #import "GenericSASLProfile.h"
@@ -609,8 +610,8 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 
     [[TCMMMPresenceManager sharedInstance] startRendezvousBrowsing];
 
-//    [ConnectionBrowserController sharedInstance];
-
+    [ConnectionBrowserController sharedInstance];
+    
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateApplicationIcon) name:TCMMMSessionPendingInvitationsDidChange object:nil];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateApplicationIcon) name:TCMMMSessionPendingUsersDidChangeNotification object:nil];
 

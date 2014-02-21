@@ -7,6 +7,8 @@
 //
 
 #import "GetURLCommand.h"
+#import "ConnectionBrowserController.h"
+
 
 @implementation GetURLCommand
 
@@ -16,8 +18,8 @@
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"command: %@", [[self commandDescription] commandName]);
     NSString *address = [self directParameter];
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"address: %@", address);
-//    [[ConnectionBrowserController sharedInstance] connectToAddress:address];
-
+    [[ConnectionBrowserController sharedInstance] connectToAddress:address];
+    
     return nil;
 }
 

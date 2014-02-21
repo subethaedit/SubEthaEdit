@@ -85,6 +85,7 @@
 		142891570957475E00D14688 /* TCMBEEPSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428914F0957475E00D14688 /* TCMBEEPSession.m */; };
 		142891DD09574E5B00D14688 /* ImagePopUpButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891D609574E5B00D14688 /* ImagePopUpButtonCell.m */; };
 		142891DE09574E5B00D14688 /* TCMHost.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891D809574E5B00D14688 /* TCMHost.m */; };
+		142891E009574E5B00D14688 /* TCMListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891DC09574E5B00D14688 /* TCMListView.m */; };
 		1428920E095751CB00D14688 /* NSColorTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289207095751CB00D14688 /* NSColorTCMAdditions.m */; };
 		1428920F095751CB00D14688 /* NSImageTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289209095751CB00D14688 /* NSImageTCMAdditions.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		14289210095751CB00D14688 /* NSStringSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428920B095751CB00D14688 /* NSStringSEEAdditions.m */; };
@@ -95,6 +96,7 @@
 		1428922D0957523300D14688 /* DebugPresenceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 142892230957523300D14688 /* DebugPresenceController.m */; };
 		1428922E0957523300D14688 /* DebugUserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 142892250957523300D14688 /* DebugUserController.m */; };
 		14289329095756D800D14688 /* TCMMMBEEPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289312095756D800D14688 /* TCMMMBEEPSessionManager.m */; };
+		1428932A095756D800D14688 /* TCMMMBrowserListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289314095756D800D14688 /* TCMMMBrowserListView.m */; };
 		1428932B095756D800D14688 /* TCMMMMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289316095756D800D14688 /* TCMMMMessage.m */; };
 		1428932C095756D800D14688 /* TCMMMNoOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289318095756D800D14688 /* TCMMMNoOperation.m */; };
 		1428932D095756D800D14688 /* TCMMMOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428931A095756D800D14688 /* TCMMMOperation.m */; };
@@ -260,6 +262,7 @@
 		4CD168EC182A5A5C007E3B26 /* SEEFolderDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD168EA182A5A5C007E3B26 /* SEEFolderDocument.xib */; };
 		4CD3CFF31887FE2E00908506 /* SEEOpenPanelAccessoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CD3CFF21887FE2E00908506 /* SEEOpenPanelAccessoryViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4CD5F7DA17FB0BF200F49E31 /* AdvancedPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F7D817FB0BF200F49E31 /* AdvancedPrefs.xib */; };
+		4CD5F7DE17FB0C2800F49E31 /* ConnectionBrowser.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F7DC17FB0C2800F49E31 /* ConnectionBrowser.xib */; };
 		4CD5F7E217FB0C4D00F49E31 /* DocumentProxy.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F7E017FB0C4D00F49E31 /* DocumentProxy.xib */; };
 		4CD5F7E617FB0C7B00F49E31 /* EditPrefs.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F7E417FB0C7B00F49E31 /* EditPrefs.xib */; };
 		4CD5F7EA17FB0C8E00F49E31 /* EncodingDoctor.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F7E817FB0C8E00F49E31 /* EncodingDoctor.xib */; };
@@ -393,6 +396,7 @@
 		F2B18CEB0C4BB550000BB062 /* GlassButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F2B18CE70C4BB550000BB062 /* GlassButtonCell.m */; };
 		F2B18CEE0C4BB550000BB062 /* GlassButton.m in Sources */ = {isa = PBXBuildFile; fileRef = F2B18CEA0C4BB550000BB062 /* GlassButton.m */; };
 		F2B91DA00D7EEE3400626BBC /* FriendCast13None.png in Resources */ = {isa = PBXBuildFile; fileRef = F2B91D9F0D7EEE3400626BBC /* FriendCast13None.png */; };
+		F2B91DBC0D7EF93000626BBC /* FriendcastingConnection.png in Resources */ = {isa = PBXBuildFile; fileRef = F2B91DBB0D7EF93000626BBC /* FriendcastingConnection.png */; };
 		F2BB09EB0CA0186400258EC7 /* NSBezierPath-Arrow.m in Sources */ = {isa = PBXBuildFile; fileRef = F2BB09E80CA0186400258EC7 /* NSBezierPath-Arrow.m */; };
 		F2BB09F90CA018B600258EC7 /* NSImage-States.m in Sources */ = {isa = PBXBuildFile; fileRef = F2BB09F40CA018B100258EC7 /* NSImage-States.m */; };
 		F2BB09FF0CA018CA00258EC7 /* PCRolloverImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2BB09FC0CA018CA00258EC7 /* PCRolloverImageView.m */; };
@@ -402,9 +406,12 @@
 		F2CA79A50CA04BAC008BEA38 /* HUDStatisticGraphView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CA79A30CA04BAC008BEA38 /* HUDStatisticGraphView.m */; };
 		F2CA7CE60CA11FC9008BEA38 /* StatusLock.png in Resources */ = {isa = PBXBuildFile; fileRef = F2CA7CE50CA11FC9008BEA38 /* StatusLock.png */; };
 		F2CA7CE80CA11FDA008BEA38 /* Internet13.png in Resources */ = {isa = PBXBuildFile; fileRef = F2CA7CE70CA11FDA008BEA38 /* Internet13.png */; };
+		F2CA7CEA0CA11FFB008BEA38 /* ToolbarIconConnectionBrowser.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2CA7CE90CA11FFB008BEA38 /* ToolbarIconConnectionBrowser.tiff */; };
 		F2CA7D2F0CA142B1008BEA38 /* HUDStatisticPersonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CA7D2D0CA142B0008BEA38 /* HUDStatisticPersonCell.m */; };
 		F2CEAAA7100B3A350036B3F7 /* MAAttachedWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CEAAA6100B3A350036B3F7 /* MAAttachedWindow.m */; };
 		F2CEAAF1100B46150036B3F7 /* URLBubbleWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CEAAF0100B46150036B3F7 /* URLBubbleWindow.m */; };
+		F2D129FC0BF0B64A00A776CC /* ConnectionBrowserController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D129F80BF0B64700A776CC /* ConnectionBrowserController.m */; };
+		F2D12A1D0BF0B8DF00A776CC /* ConnectionBrowserEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D12A1B0BF0B8DF00A776CC /* ConnectionBrowserEntry.m */; };
 		F2D22CB40EE9C5E3004B8E33 /* SeeTextImporter.mdimporter in Copy Importers */ = {isa = PBXBuildFile; fileRef = F2D22CB30EE9C5DE004B8E33 /* SeeTextImporter.mdimporter */; };
 		F2D2CDB20D73043D000E3812 /* FriendCast16Active.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D2CDAE0D73043D000E3812 /* FriendCast16Active.png */; };
 		F2D2CDB30D73043D000E3812 /* FriendCast16.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D2CDAF0D73043D000E3812 /* FriendCast16.png */; };
@@ -718,6 +725,8 @@
 		142891D609574E5B00D14688 /* ImagePopUpButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImagePopUpButtonCell.m; sourceTree = "<group>"; };
 		142891D709574E5B00D14688 /* TCMHost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = TCMHost.h; sourceTree = "<group>"; };
 		142891D809574E5B00D14688 /* TCMHost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMHost.m; sourceTree = "<group>"; };
+		142891DB09574E5B00D14688 /* TCMListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = TCMListView.h; sourceTree = "<group>"; };
+		142891DC09574E5B00D14688 /* TCMListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMListView.m; sourceTree = "<group>"; };
 		14289206095751CB00D14688 /* NSColorTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NSColorTCMAdditions.h; sourceTree = "<group>"; };
 		14289207095751CB00D14688 /* NSColorTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSColorTCMAdditions.m; sourceTree = "<group>"; };
 		14289208095751CB00D14688 /* NSImageTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NSImageTCMAdditions.h; sourceTree = "<group>"; };
@@ -739,6 +748,8 @@
 		14289310095756D800D14688 /* TCMMillionMonkeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = TCMMillionMonkeys.h; path = TCMMillionMonkeys/TCMMillionMonkeys.h; sourceTree = "<group>"; };
 		14289311095756D800D14688 /* TCMMMBEEPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = TCMMMBEEPSessionManager.h; path = TCMMillionMonkeys/TCMMMBEEPSessionManager.h; sourceTree = "<group>"; };
 		14289312095756D800D14688 /* TCMMMBEEPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMMMBEEPSessionManager.m; path = TCMMillionMonkeys/TCMMMBEEPSessionManager.m; sourceTree = "<group>"; };
+		14289313095756D800D14688 /* TCMMMBrowserListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = TCMMMBrowserListView.h; path = TCMMillionMonkeys/TCMMMBrowserListView.h; sourceTree = "<group>"; };
+		14289314095756D800D14688 /* TCMMMBrowserListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMMMBrowserListView.m; path = TCMMillionMonkeys/TCMMMBrowserListView.m; sourceTree = "<group>"; };
 		14289315095756D800D14688 /* TCMMMMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = TCMMMMessage.h; path = TCMMillionMonkeys/TCMMMMessage.h; sourceTree = "<group>"; };
 		14289316095756D800D14688 /* TCMMMMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMMMMessage.m; path = TCMMillionMonkeys/TCMMMMessage.m; sourceTree = "<group>"; };
 		14289317095756D800D14688 /* TCMMMNoOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = TCMMMNoOperation.h; path = TCMMillionMonkeys/TCMMMNoOperation.h; sourceTree = "<group>"; };
@@ -1000,6 +1011,8 @@
 		4CD3CFF21887FE2E00908506 /* SEEOpenPanelAccessoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEOpenPanelAccessoryViewController.m; sourceTree = "<group>"; };
 		4CD5F7D917FB0BF200F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/AdvancedPrefs.xib; sourceTree = "<group>"; };
 		4CD5F7DB17FB0C0F00F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/AdvancedPrefs.xib; sourceTree = "<group>"; };
+		4CD5F7DD17FB0C2800F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/ConnectionBrowser.xib; sourceTree = "<group>"; };
+		4CD5F7DF17FB0C2E00F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/ConnectionBrowser.xib; sourceTree = "<group>"; };
 		4CD5F7E117FB0C4D00F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/DocumentProxy.xib; sourceTree = "<group>"; };
 		4CD5F7E317FB0C5200F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/DocumentProxy.xib; sourceTree = "<group>"; };
 		4CD5F7E517FB0C7B00F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/EditPrefs.xib; sourceTree = "<group>"; };
@@ -1191,6 +1204,7 @@
 		F2B18CEA0C4BB550000BB062 /* GlassButton.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GlassButton.m; sourceTree = "<group>"; };
 		F2B6CCC20EE9C6390077417E /* SeeTextImporter.mdimporter */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = SeeTextImporter.mdimporter; sourceTree = BUILT_PRODUCTS_DIR; };
 		F2B91D9F0D7EEE3400626BBC /* FriendCast13None.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FriendCast13None.png; path = artwork/FriendCast13None.png; sourceTree = "<group>"; };
+		F2B91DBB0D7EF93000626BBC /* FriendcastingConnection.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FriendcastingConnection.png; path = artwork/FriendcastingConnection.png; sourceTree = "<group>"; };
 		F2BB09E80CA0186400258EC7 /* NSBezierPath-Arrow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSBezierPath-Arrow.m"; path = "Panic/NSBezierPath-Arrow.m"; sourceTree = "<group>"; };
 		F2BB09E90CA0186400258EC7 /* NSBezierPath-Arrow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = "NSBezierPath-Arrow.h"; path = "Panic/NSBezierPath-Arrow.h"; sourceTree = "<group>"; };
 		F2BB09F40CA018B100258EC7 /* NSImage-States.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = "NSImage-States.m"; path = "Panic/NSImage-States.m"; sourceTree = "<group>"; };
@@ -1204,12 +1218,17 @@
 		F2CA79A30CA04BAC008BEA38 /* HUDStatisticGraphView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; path = HUDStatisticGraphView.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
 		F2CA7CE50CA11FC9008BEA38 /* StatusLock.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = StatusLock.png; path = artwork/StatusLock.png; sourceTree = "<group>"; };
 		F2CA7CE70CA11FDA008BEA38 /* Internet13.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Internet13.png; path = artwork/Internet13.png; sourceTree = "<group>"; };
+		F2CA7CE90CA11FFB008BEA38 /* ToolbarIconConnectionBrowser.tiff */ = {isa = PBXFileReference; lastKnownFileType = image.tiff; name = ToolbarIconConnectionBrowser.tiff; path = artwork/ToolbarIconConnectionBrowser.tiff; sourceTree = "<group>"; };
 		F2CA7D2C0CA142B0008BEA38 /* HUDStatisticPersonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HUDStatisticPersonCell.h; sourceTree = "<group>"; };
 		F2CA7D2D0CA142B0008BEA38 /* HUDStatisticPersonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HUDStatisticPersonCell.m; sourceTree = "<group>"; };
 		F2CEAAA5100B3A320036B3F7 /* MAAttachedWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MAAttachedWindow.h; sourceTree = "<group>"; };
 		F2CEAAA6100B3A350036B3F7 /* MAAttachedWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAAttachedWindow.m; sourceTree = "<group>"; };
 		F2CEAAEF100B46150036B3F7 /* URLBubbleWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = URLBubbleWindow.h; sourceTree = "<group>"; };
 		F2CEAAF0100B46150036B3F7 /* URLBubbleWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLBubbleWindow.m; sourceTree = "<group>"; };
+		F2D129F80BF0B64700A776CC /* ConnectionBrowserController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionBrowserController.m; sourceTree = "<group>"; };
+		F2D129F90BF0B64700A776CC /* ConnectionBrowserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ConnectionBrowserController.h; sourceTree = "<group>"; };
+		F2D12A1A0BF0B8DF00A776CC /* ConnectionBrowserEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ConnectionBrowserEntry.h; sourceTree = "<group>"; };
+		F2D12A1B0BF0B8DF00A776CC /* ConnectionBrowserEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionBrowserEntry.m; sourceTree = "<group>"; };
 		F2D22CAE0EE9C5DE004B8E33 /* SeeTextImporter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SeeTextImporter.xcodeproj; path = SeeTextImporter/SeeTextImporter.xcodeproj; sourceTree = "<group>"; };
 		F2D2CDAE0D73043D000E3812 /* FriendCast16Active.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FriendCast16Active.png; path = artwork/FriendCast16Active.png; sourceTree = "<group>"; };
 		F2D2CDAF0D73043D000E3812 /* FriendCast16.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = FriendCast16.png; path = artwork/FriendCast16.png; sourceTree = "<group>"; };
@@ -1457,6 +1476,7 @@
 				F2D2CDAF0D73043D000E3812 /* FriendCast16.png */,
 				F2D2CDB00D73043D000E3812 /* FriendCastBlue.tiff */,
 				F2D2CDB10D73043D000E3812 /* FriendCastBlack.tiff */,
+				F2B91DBB0D7EF93000626BBC /* FriendcastingConnection.png */,
 				5E67DB870ABF21270013562D /* glass-normal-cap-left.tiff */,
 				5E67DB880ABF21270013562D /* glass-normal-pressed-cap-right.tiff */,
 				5E67DB890ABF21270013562D /* glass-normal-fill.tiff */,
@@ -1539,6 +1559,7 @@
 				5EFF54390A21D293005DC26B /* ToolbarIconBuildAndRun.tiff */,
 				5E6AEEE209FE7C5700276D7C /* ToolbarIconColorChooser.tiff */,
 				F2D5FF470CB266C700407399 /* ToolbarIconColorChooser.icns */,
+				F2CA7CE90CA11FFB008BEA38 /* ToolbarIconConnectionBrowser.tiff */,
 				5EFF5C4B0A22EE7F005DC26B /* ToolbarIconGenericScript.tiff */,
 				5E7E7FE70A1B71EE00B8F2A5 /* ToolbarIconOpenURL.png */,
 				5EB51B260A179E9B00AE2E17 /* ToolbarIconRun.tiff */,
@@ -1708,6 +1729,8 @@
 				142891D609574E5B00D14688 /* ImagePopUpButtonCell.m */,
 				142891D709574E5B00D14688 /* TCMHost.h */,
 				142891D809574E5B00D14688 /* TCMHost.m */,
+				142891DB09574E5B00D14688 /* TCMListView.h */,
+				142891DC09574E5B00D14688 /* TCMListView.m */,
 			);
 			name = TCMBase;
 			sourceTree = "<group>";
@@ -1908,6 +1931,8 @@
 				14289310095756D800D14688 /* TCMMillionMonkeys.h */,
 				14289311095756D800D14688 /* TCMMMBEEPSessionManager.h */,
 				14289312095756D800D14688 /* TCMMMBEEPSessionManager.m */,
+				14289313095756D800D14688 /* TCMMMBrowserListView.h */,
+				14289314095756D800D14688 /* TCMMMBrowserListView.m */,
 				14289315095756D800D14688 /* TCMMMMessage.h */,
 				14289316095756D800D14688 /* TCMMMMessage.m */,
 				14289317095756D800D14688 /* TCMMMNoOperation.h */,
@@ -2039,6 +2064,10 @@
 				142893DD09575A3000D14688 /* AboutPanelController.m */,
 				142893DE09575A3000D14688 /* AppController.h */,
 				142893DF09575A3000D14688 /* AppController.m */,
+				F2D129F90BF0B64700A776CC /* ConnectionBrowserController.h */,
+				F2D129F80BF0B64700A776CC /* ConnectionBrowserController.m */,
+				F2D12A1A0BF0B8DF00A776CC /* ConnectionBrowserEntry.h */,
+				F2D12A1B0BF0B8DF00A776CC /* ConnectionBrowserEntry.m */,
 				142893E009575A3000D14688 /* EncodingManager.h */,
 				142893E109575A3000D14688 /* EncodingManager.m */,
 				142893E209575A3000D14688 /* FindReplaceController.h */,
@@ -2123,6 +2152,7 @@
 			children = (
 				4C1D39DA17FB085800B1CF5C /* AboutPanel.xib */,
 				4CD5F7D817FB0BF200F49E31 /* AdvancedPrefs.xib */,
+				4CD5F7DC17FB0C2800F49E31 /* ConnectionBrowser.xib */,
 				4C0C4A1B18B3768500E6049E /* SEENetworkBrowser.xib */,
 				4CD5F7E017FB0C4D00F49E31 /* DocumentProxy.xib */,
 				4CD5F7E417FB0C7B00F49E31 /* EditPrefs.xib */,
@@ -2737,6 +2767,7 @@
 				F2D3E556189941F50096425B /* IW ActiveTabFill@2x.png in Resources */,
 				F2D3E569189941F50096425B /* IW SingleTabAddButton.png in Resources */,
 				1493A8590A10DABB004ECE6A /* SystemVersionCheck.strings in Resources */,
+				4CD5F7DE17FB0C2800F49E31 /* ConnectionBrowser.xib in Resources */,
 				144483970A15F68F00F36B34 /* SubEthaEditSuite.scriptSuite in Resources */,
 				4C6BDC5F1889858A0088CBFC /* folded.png in Resources */,
 				F2D3E562189941F50096425B /* IW InactiveTabClosePressed@2x.png in Resources */,
@@ -2797,6 +2828,7 @@
 				F2CA7CE80CA11FDA008BEA38 /* Internet13.png in Resources */,
 				F2257CFA189673AA005EF9B1 /* BottomBarSharingIconAnnounce_Inactive@2x.png in Resources */,
 				4CD5F82D17FB0E6000F49E31 /* SelectEncodingsPanel.xib in Resources */,
+				F2CA7CEA0CA11FFB008BEA38 /* ToolbarIconConnectionBrowser.tiff in Resources */,
 				F2D3E55F189941F50096425B /* IW InactiveTabClose.png in Resources */,
 				F2D3E566189941F50096425B /* IW InactiveTabLeftCap@2x.png in Resources */,
 				F2D3E529189941F50096425B /* AW ActiveTabClose.png in Resources */,
@@ -2854,6 +2886,7 @@
 				F2D3E53D189941F50096425B /* AW InactiveTabCloseRollover.png in Resources */,
 				F2B91DA00D7EEE3400626BBC /* FriendCast13None.png in Resources */,
 				F2D3E549189941F50096425B /* AW SingleTabAddButton.png in Resources */,
+				F2B91DBC0D7EF93000626BBC /* FriendcastingConnection.png in Resources */,
 				F291D1A10FCECD22008BC286 /* FoldingBubbleText.rtf in Resources */,
 				F291D1B10FCECF33008BC286 /* FoldingBubbleBig.png in Resources */,
 				4CD5F80217FB0D3700F49E31 /* MainMenu.xib in Resources */,
@@ -3005,6 +3038,7 @@
 				142891570957475E00D14688 /* TCMBEEPSession.m in Sources */,
 				142891DD09574E5B00D14688 /* ImagePopUpButtonCell.m in Sources */,
 				142891DE09574E5B00D14688 /* TCMHost.m in Sources */,
+				142891E009574E5B00D14688 /* TCMListView.m in Sources */,
 				1428920E095751CB00D14688 /* NSColorTCMAdditions.m in Sources */,
 				1428920F095751CB00D14688 /* NSImageTCMAdditions.m in Sources */,
 				14289210095751CB00D14688 /* NSStringSEEAdditions.m in Sources */,
@@ -3016,6 +3050,7 @@
 				1428922E0957523300D14688 /* DebugUserController.m in Sources */,
 				4C123002180BE4A60069253E /* TCMBEEPSessionXMLParser.m in Sources */,
 				14289329095756D800D14688 /* TCMMMBEEPSessionManager.m in Sources */,
+				1428932A095756D800D14688 /* TCMMMBrowserListView.m in Sources */,
 				1428932B095756D800D14688 /* TCMMMMessage.m in Sources */,
 				4CDC272318969A600060B044 /* SEEParticipantViewController.m in Sources */,
 				4CCD4DD21811703D00FE6134 /* SEESavePanelAccessoryViewController.m in Sources */,
@@ -3124,6 +3159,8 @@
 				14584B2F0BE0C6E000EB6D15 /* TCMBEEPBencodedMessage.m in Sources */,
 				14584B300BE0C6E300EB6D15 /* TCMBEEPBencodingProfile.m in Sources */,
 				F234E4590BE2592300504A7C /* NSWorkspaceTCMAdditions.m in Sources */,
+				F2D129FC0BF0B64A00A776CC /* ConnectionBrowserController.m in Sources */,
+				F2D12A1D0BF0B8DF00A776CC /* ConnectionBrowserEntry.m in Sources */,
 				F2A707BB0BF89F4200482EFC /* LoginSheetController.m in Sources */,
 				F29940600C0C7F3400A53189 /* NSScreenTCMAdditions.m in Sources */,
 				F2B18CEB0C4BB550000BB062 /* GlassButtonCell.m in Sources */,
@@ -3283,6 +3320,15 @@
 				4CD5F7DB17FB0C0F00F49E31 /* German */,
 			);
 			name = AdvancedPrefs.xib;
+			sourceTree = "<group>";
+		};
+		4CD5F7DC17FB0C2800F49E31 /* ConnectionBrowser.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				4CD5F7DD17FB0C2800F49E31 /* English */,
+				4CD5F7DF17FB0C2E00F49E31 /* German */,
+			);
+			name = ConnectionBrowser.xib;
 			sourceTree = "<group>";
 		};
 		4CD5F7E017FB0C4D00F49E31 /* DocumentProxy.xib */ = {
