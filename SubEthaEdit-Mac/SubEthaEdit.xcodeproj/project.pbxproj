@@ -85,7 +85,6 @@
 		142891570957475E00D14688 /* TCMBEEPSession.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428914F0957475E00D14688 /* TCMBEEPSession.m */; };
 		142891DD09574E5B00D14688 /* ImagePopUpButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891D609574E5B00D14688 /* ImagePopUpButtonCell.m */; };
 		142891DE09574E5B00D14688 /* TCMHost.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891D809574E5B00D14688 /* TCMHost.m */; };
-		142891E009574E5B00D14688 /* TCMListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891DC09574E5B00D14688 /* TCMListView.m */; };
 		1428920E095751CB00D14688 /* NSColorTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289207095751CB00D14688 /* NSColorTCMAdditions.m */; };
 		1428920F095751CB00D14688 /* NSImageTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289209095751CB00D14688 /* NSImageTCMAdditions.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		14289210095751CB00D14688 /* NSStringSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428920B095751CB00D14688 /* NSStringSEEAdditions.m */; };
@@ -96,7 +95,6 @@
 		1428922D0957523300D14688 /* DebugPresenceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 142892230957523300D14688 /* DebugPresenceController.m */; };
 		1428922E0957523300D14688 /* DebugUserController.m in Sources */ = {isa = PBXBuildFile; fileRef = 142892250957523300D14688 /* DebugUserController.m */; };
 		14289329095756D800D14688 /* TCMMMBEEPSessionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289312095756D800D14688 /* TCMMMBEEPSessionManager.m */; };
-		1428932A095756D800D14688 /* TCMMMBrowserListView.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289314095756D800D14688 /* TCMMMBrowserListView.m */; };
 		1428932B095756D800D14688 /* TCMMMMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289316095756D800D14688 /* TCMMMMessage.m */; };
 		1428932C095756D800D14688 /* TCMMMNoOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 14289318095756D800D14688 /* TCMMMNoOperation.m */; };
 		1428932D095756D800D14688 /* TCMMMOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428931A095756D800D14688 /* TCMMMOperation.m */; };
@@ -718,8 +716,6 @@
 		142891D609574E5B00D14688 /* ImagePopUpButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ImagePopUpButtonCell.m; sourceTree = "<group>"; };
 		142891D709574E5B00D14688 /* TCMHost.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = TCMHost.h; sourceTree = "<group>"; };
 		142891D809574E5B00D14688 /* TCMHost.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMHost.m; sourceTree = "<group>"; };
-		142891DB09574E5B00D14688 /* TCMListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = TCMListView.h; sourceTree = "<group>"; };
-		142891DC09574E5B00D14688 /* TCMListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMListView.m; sourceTree = "<group>"; };
 		14289206095751CB00D14688 /* NSColorTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NSColorTCMAdditions.h; sourceTree = "<group>"; };
 		14289207095751CB00D14688 /* NSColorTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSColorTCMAdditions.m; sourceTree = "<group>"; };
 		14289208095751CB00D14688 /* NSImageTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NSImageTCMAdditions.h; sourceTree = "<group>"; };
@@ -741,8 +737,6 @@
 		14289310095756D800D14688 /* TCMMillionMonkeys.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = TCMMillionMonkeys.h; path = TCMMillionMonkeys/TCMMillionMonkeys.h; sourceTree = "<group>"; };
 		14289311095756D800D14688 /* TCMMMBEEPSessionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = TCMMMBEEPSessionManager.h; path = TCMMillionMonkeys/TCMMMBEEPSessionManager.h; sourceTree = "<group>"; };
 		14289312095756D800D14688 /* TCMMMBEEPSessionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMMMBEEPSessionManager.m; path = TCMMillionMonkeys/TCMMMBEEPSessionManager.m; sourceTree = "<group>"; };
-		14289313095756D800D14688 /* TCMMMBrowserListView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = TCMMMBrowserListView.h; path = TCMMillionMonkeys/TCMMMBrowserListView.h; sourceTree = "<group>"; };
-		14289314095756D800D14688 /* TCMMMBrowserListView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMMMBrowserListView.m; path = TCMMillionMonkeys/TCMMMBrowserListView.m; sourceTree = "<group>"; };
 		14289315095756D800D14688 /* TCMMMMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = TCMMMMessage.h; path = TCMMillionMonkeys/TCMMMMessage.h; sourceTree = "<group>"; };
 		14289316095756D800D14688 /* TCMMMMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMMMMessage.m; path = TCMMillionMonkeys/TCMMMMessage.m; sourceTree = "<group>"; };
 		14289317095756D800D14688 /* TCMMMNoOperation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = TCMMMNoOperation.h; path = TCMMillionMonkeys/TCMMMNoOperation.h; sourceTree = "<group>"; };
@@ -1709,8 +1703,6 @@
 				142891D609574E5B00D14688 /* ImagePopUpButtonCell.m */,
 				142891D709574E5B00D14688 /* TCMHost.h */,
 				142891D809574E5B00D14688 /* TCMHost.m */,
-				142891DB09574E5B00D14688 /* TCMListView.h */,
-				142891DC09574E5B00D14688 /* TCMListView.m */,
 			);
 			name = TCMBase;
 			sourceTree = "<group>";
@@ -1911,8 +1903,6 @@
 				14289310095756D800D14688 /* TCMMillionMonkeys.h */,
 				14289311095756D800D14688 /* TCMMMBEEPSessionManager.h */,
 				14289312095756D800D14688 /* TCMMMBEEPSessionManager.m */,
-				14289313095756D800D14688 /* TCMMMBrowserListView.h */,
-				14289314095756D800D14688 /* TCMMMBrowserListView.m */,
 				14289315095756D800D14688 /* TCMMMMessage.h */,
 				14289316095756D800D14688 /* TCMMMMessage.m */,
 				14289317095756D800D14688 /* TCMMMNoOperation.h */,
@@ -3008,7 +2998,6 @@
 				142891570957475E00D14688 /* TCMBEEPSession.m in Sources */,
 				142891DD09574E5B00D14688 /* ImagePopUpButtonCell.m in Sources */,
 				142891DE09574E5B00D14688 /* TCMHost.m in Sources */,
-				142891E009574E5B00D14688 /* TCMListView.m in Sources */,
 				1428920E095751CB00D14688 /* NSColorTCMAdditions.m in Sources */,
 				1428920F095751CB00D14688 /* NSImageTCMAdditions.m in Sources */,
 				14289210095751CB00D14688 /* NSStringSEEAdditions.m in Sources */,
@@ -3020,7 +3009,6 @@
 				1428922E0957523300D14688 /* DebugUserController.m in Sources */,
 				4C123002180BE4A60069253E /* TCMBEEPSessionXMLParser.m in Sources */,
 				14289329095756D800D14688 /* TCMMMBEEPSessionManager.m in Sources */,
-				1428932A095756D800D14688 /* TCMMMBrowserListView.m in Sources */,
 				1428932B095756D800D14688 /* TCMMMMessage.m in Sources */,
 				4CDC272318969A600060B044 /* SEEParticipantViewController.m in Sources */,
 				4CCD4DD21811703D00FE6134 /* SEESavePanelAccessoryViewController.m in Sources */,

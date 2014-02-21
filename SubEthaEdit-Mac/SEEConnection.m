@@ -11,7 +11,6 @@
 #import "AppController.h"
 #import "TCMMMUserManager.h"
 #import "TCMMMUserSEEAdditions.h"
-#import "TCMMMBrowserListView.h"
 #import "NSWorkspaceTCMAdditions.h"
 #import <netdb.h>       // getaddrinfo, struct addrinfo, AI_NUMERICHOST
 
