@@ -11,7 +11,6 @@
 #import "TCMMMUserManager.h"
 #import "TCMMMUserSEEAdditions.h"
 #import "TCMMMBrowserListView.h"
-#import "TCMHost.h"
 #import "NSWorkspaceTCMAdditions.h"
 #import <netdb.h>       // getaddrinfo, struct addrinfo, AI_NUMERICHOST
 
@@ -36,10 +35,6 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
 
 - (void)sendStatusDidChangeNotification {
     [[NSNotificationCenter defaultCenter] postNotificationName:ConnectionBrowserEntryStatusDidChangeNotification object:self];
-}
-
-- (void)initHelper {
-    _isDisclosed = YES;
 }
 
 - (void)checkURLForToken:(NSURL *)anURL {
@@ -82,7 +77,6 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
             return self;
         }
 
-        [self initHelper];
         _hostStatus = HostEntryStatusSessionAtEnd;
         _pendingDocumentRequests = [NSMutableArray new];
         _tokensToSend = [NSMutableArray new];
@@ -105,7 +99,6 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
 
 - (id)initWithBEEPSession:(TCMBEEPSession *)aSession {
     if ((self=[super init])) {
-        [self initHelper];
         _creationDate = [NSDate new];
         _BEEPSession = aSession;
         _hostStatus = HostEntryStatusSessionOpen;
@@ -194,9 +187,6 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
         } else {
             return [NSImage imageNamed:@"Internet13"];
         }
-    }
-    if (aTag == TCMMMBrowserItemIsDisclosedTag) {
-        return [NSNumber numberWithBool:_isDisclosed];
     }
     BOOL showUser = [self isVisible] && (_hostStatus == HostEntryStatusSessionOpen) && user;
     if (aTag == TCMMMBrowserItemStatusImageOverlayTag) {
@@ -350,14 +340,6 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
 
 - (BOOL)isVisible {
     return [[[[TCMMMPresenceManager sharedInstance] statusOfUserID:[self userID]] objectForKey:@"isVisible"] boolValue];
-}
-
-- (void)toggleDisclosure {
-    _isDisclosed = !_isDisclosed;
-}
-
-- (BOOL)isDisclosed {
-    return _isDisclosed;
 }
 
 - (NSString *)hostStatus {
