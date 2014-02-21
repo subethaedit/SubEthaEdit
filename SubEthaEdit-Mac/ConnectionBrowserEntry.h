@@ -34,8 +34,6 @@ extern NSString * const ConnectionStatusNoConnection;
 - (BOOL)handleURL:(NSURL *)anURL;
 - (BOOL)handleSession:(TCMBEEPSession *)aSession;
 - (BOOL)handleSessionDidEnd:(TCMBEEPSession *)aSession;
-- (id)itemObjectValueForTag:(int)aTag;
-- (id)objectValueForTag:(int)aTag atChildIndex:(int)aChildIndex;
 - (TCMBEEPSession *)BEEPSession;
 - (NSString *)userID;
 - (TCMMMUser *)user;
