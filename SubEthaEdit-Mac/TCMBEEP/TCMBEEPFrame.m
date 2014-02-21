@@ -105,7 +105,7 @@
 			error = YES;
 		}
         if (error) {
-            [super dealloc];
+            [self release];
             self = nil;
         }
     }

@@ -73,18 +73,19 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
 
 - (id)initWithURL:(NSURL *)anURL {
     if ((self=[super init])) {
+		NSURL *documentRequest = nil;
+        NSData *addressData = nil;
+       _URL = [[TCMMMBEEPSessionManager reducedURL:anURL addressData:&addressData documentRequest:&documentRequest] retain];
+        if (!_URL) {
+            [self release];
+			self = nil;
+            return self;
+        }
+
         [self initHelper];
         _hostStatus = HostEntryStatusSessionAtEnd;
         _pendingDocumentRequests = [NSMutableArray new];
         _tokensToSend = [NSMutableArray new];
-        NSURL *documentRequest = nil;
-        NSData *addressData = nil;
-        _URL = [[TCMMMBEEPSessionManager reducedURL:anURL addressData:&addressData documentRequest:&documentRequest] retain];
-        if (!_URL) {
-            [_pendingDocumentRequests release];
-            [super dealloc];
-            return nil;
-        }
         if (documentRequest) {
             [_pendingDocumentRequests addObject:documentRequest];
             [self checkURLForToken:documentRequest];

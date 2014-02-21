@@ -34,8 +34,9 @@ NSString * const ScriptWrapperDidRunScriptNotification =@"ScriptWrapperDidRunScr
         NSDictionary *errorDictionary=nil;
         I_appleScript = [[NSAppleScript alloc] initWithContentsOfURL:anURL error:&errorDictionary];
         if (!I_appleScript || errorDictionary) {
-            [super dealloc];
-            return nil;
+            [self release];
+			self = nil;
+            return self;
         }
         I_URL = [anURL copy];
     }

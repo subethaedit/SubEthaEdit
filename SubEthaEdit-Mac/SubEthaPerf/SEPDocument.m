@@ -32,8 +32,8 @@
 		} else {
 			[SEPLogger logWithFormat:@"%s loading failed with error:%@", __FUNCTION__, error];
 			self.textStorage = nil;
-			[super dealloc];
-			return nil;
+			[self release];
+			self = nil;
 		}
 	}
 	

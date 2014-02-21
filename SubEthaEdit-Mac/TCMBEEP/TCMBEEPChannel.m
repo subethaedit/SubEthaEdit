@@ -87,8 +87,8 @@ static NSMutableDictionary *profileURIToClassMapping;
             I_channelStatus = TCMBEEPChannelStatusOpen;
             I_preemptedMessageNumbers = [NSMutableIndexSet new];
         } else {
-            [super dealloc];
-            return nil;
+            [self release];
+            self = nil;
         }
     }
     

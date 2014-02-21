@@ -36,6 +36,7 @@ static FindReplaceController *sharedInstance=nil;
 - (id)init {
     if (sharedInstance) {
         [super dealloc];
+		self = nil;
         return sharedInstance;
     }
     
@@ -51,8 +52,8 @@ static FindReplaceController *sharedInstance=nil;
 - (void) dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationDidBecomeActiveNotification object:[NSApplication sharedApplication]];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationWillResignActiveNotification object:[NSApplication sharedApplication]];
-    [I_findHistory dealloc];
-    [I_replaceHistory dealloc];
+    [I_findHistory release];
+    [I_replaceHistory release];
 	self.topLevelNibObjects = nil;
     [super dealloc];
 }

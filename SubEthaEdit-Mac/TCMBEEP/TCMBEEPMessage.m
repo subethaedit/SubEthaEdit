@@ -37,7 +37,7 @@
     self = [super init];
     if (self) {
         if ([aQueue count] == 0) {
-            [super dealloc];
+            [self release];
             self = nil;
         } else {
             TCMBEEPFrame *frame = [aQueue objectAtIndex:0];
