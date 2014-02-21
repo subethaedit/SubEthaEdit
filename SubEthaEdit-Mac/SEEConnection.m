@@ -1,12 +1,13 @@
 //
-//  ConnectionBrowserEntry.m
+//  SEEConnection.m
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on 08.05.07.
-//  Copyright 2007 TheCodingMonkeys. All rights reserved.
+//	Updated by Michael Ehrmann on Fri Feb 21 2014.
+//  Copyright 2007-2014 TheCodingMonkeys. All rights reserved.
 //
 
-#import "ConnectionBrowserEntry.h"
+#import "SEEConnection.h"
 #import "AppController.h"
 #import "TCMMMUserManager.h"
 #import "TCMMMUserSEEAdditions.h"
@@ -28,13 +29,13 @@ NSString * const ConnectionStatusConnected    = @"ConnectionStatusConnected";
 NSString * const ConnectionStatusInProgress   = @"ConnectionStatusInProgress";
 NSString * const ConnectionStatusNoConnection = @"ConnectionStatusNoConnection";
 
-NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"ConnectionBrowserEntryStatusDidChangeNotification";
+NSString * const SEEConnectionStatusDidChangeNotification = @"SEEConnectionStatusDidChangeNotification";
 
-@implementation ConnectionBrowserEntry
+@implementation SEEConnection
 
 
 - (void)sendStatusDidChangeNotification {
-    [[NSNotificationCenter defaultCenter] postNotificationName:ConnectionBrowserEntryStatusDidChangeNotification object:self];
+    [[NSNotificationCenter defaultCenter] postNotificationName:SEEConnectionStatusDidChangeNotification object:self];
 }
 
 - (void)checkURLForToken:(NSURL *)anURL {

@@ -14,7 +14,7 @@
 #import "TCMFoundation.h"
 #import "TCMMMUserSEEAdditions.h"
 #import "NSWorkspaceTCMAdditions.h"
-#import "ConnectionBrowserEntry.h"
+#import "SEEConnection.h"
 #import "PlainTextDocument.h"
 #import <AddressBook/AddressBook.h>
 
@@ -50,7 +50,7 @@
 
 		[defaultCenter addObserver:self selector:@selector(userDidChangeVisibility:) name:TCMMMPresenceManagerUserVisibilityDidChangeNotification object:nil];
         [defaultCenter addObserver:self selector:@selector(userDidChangeAnnouncedDocuments:) name:TCMMMPresenceManagerUserSessionsDidChangeNotification object:nil];
-        [defaultCenter addObserver:self selector:@selector(connectionEntryDidChange:) name:ConnectionBrowserEntryStatusDidChangeNotification object:nil];
+        [defaultCenter addObserver:self selector:@selector(connectionEntryDidChange:) name:SEEConnectionStatusDidChangeNotification object:nil];
         [defaultCenter addObserver:self selector:@selector(connectionEntryDidChange:) name:TCMBEEPSessionAuthenticationInformationDidChangeNotification object:nil];
         [defaultCenter addObserver:self selector:@selector(TCM_didAcceptSession:) name:TCMMMBEEPSessionManagerDidAcceptSessionNotification object:manager];
         [defaultCenter addObserver:self selector:@selector(TCM_sessionDidEnd:) name:TCMMMBEEPSessionManagerSessionDidEndNotification object:manager];
@@ -129,15 +129,15 @@
     }
 }
 
-- (ConnectionBrowserEntry *)connectionEntryForURL:(NSURL *)anURL {
+- (SEEConnection *)connectionEntryForURL:(NSURL *)anURL {
     NSEnumerator *entries = [self.entries objectEnumerator];
-    ConnectionBrowserEntry *entry = nil;
+    SEEConnection *entry = nil;
     while ((entry=[entries nextObject])) {
         if ([entry handleURL:anURL]) {
             return entry;
         }
     }
-    entry = [[[ConnectionBrowserEntry alloc] initWithURL:anURL] autorelease];
+    entry = [[[SEEConnection alloc] initWithURL:anURL] autorelease];
     [self.entries addObject:entry];
     return entry;
 }
@@ -146,7 +146,7 @@
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"Connect to URL: %@", [anURL description]);
     NSParameterAssert(anURL != nil && [anURL host] != nil);
     
-    ConnectionBrowserEntry *entry = [self connectionEntryForURL:anURL];
+    SEEConnection *entry = [self connectionEntryForURL:anURL];
     [entry connect];
 }
 
@@ -157,7 +157,7 @@
     if (returnCode == NSAlertFirstButtonReturn) {
         DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"abort connection");
         NSSet *set = [alertContext objectForKey:@"items"];
-        ConnectionBrowserEntry *entry=nil;
+        SEEConnection *entry=nil;
         for (entry in set) {
             [entry cancel];
         }
@@ -178,7 +178,7 @@
     TCMBEEPSession *session = [[notification userInfo] objectForKey:@"Session"];
     
     NSEnumerator *entries = [self.entries objectEnumerator];
-    ConnectionBrowserEntry *entry = nil;
+    SEEConnection *entry = nil;
     BOOL sessionWasHandled = NO;
     while ((entry=[entries nextObject])) {
         if ([entry handleSession:session]) {
@@ -187,7 +187,7 @@
         }
     }
     if (!sessionWasHandled) {
-        ConnectionBrowserEntry *entry = [[[ConnectionBrowserEntry alloc] initWithBEEPSession:session] autorelease];
+        SEEConnection *entry = [[[SEEConnection alloc] initWithBEEPSession:session] autorelease];
         [self.entries addObject:entry];
     }
 }
@@ -195,9 +195,9 @@
 - (void)TCM_sessionDidEnd:(NSNotification *)notification {
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"TCM_sessionDidEnd: %@", notification);
     TCMBEEPSession *session = [[notification userInfo] objectForKey:@"Session"];
-    ConnectionBrowserEntry *concernedEntry = nil;
+    SEEConnection *concernedEntry = nil;
     NSEnumerator *entries = [self.entries objectEnumerator];
-    ConnectionBrowserEntry *entry = nil;
+    SEEConnection *entry = nil;
     while ((entry=[entries nextObject])) {
         if ([entry BEEPSession] == session) {
             concernedEntry = entry;

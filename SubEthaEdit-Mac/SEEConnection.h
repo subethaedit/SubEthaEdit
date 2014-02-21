@@ -1,24 +1,26 @@
 //
-//  ConnectionBrowserEntry.h
+//  SEEConnection.h
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on 08.05.07.
-//  Copyright 2007 TheCodingMonkeys. All rights reserved.
+//	Updated by Michael Ehrmann on Fri Feb 21 2014.
+//  Copyright 2007-2014 TheCodingMonkeys. All rights reserved.
 //
+
 
 #import <Cocoa/Cocoa.h>
 #import "TCMBEEP.h"
 #import "TCMMillionMonkeys.h"
 #import "TCMHost.h"
 
-extern NSString * const ConnectionBrowserEntryStatusDidChangeNotification;
+extern NSString * const SEEConnectionStatusDidChangeNotification;
 
 extern NSString * const ConnectionStatusConnected   ;
 extern NSString * const ConnectionStatusInProgress  ;
 extern NSString * const ConnectionStatusNoConnection;
 
 
-@interface ConnectionBrowserEntry : NSObject {
+@interface SEEConnection : NSObject {
     TCMBEEPSession *_BEEPSession;
     NSURL *_URL;
     NSString *_hostStatus;
