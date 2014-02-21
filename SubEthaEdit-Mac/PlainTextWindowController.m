@@ -143,16 +143,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     [self updateForPortMapStatus];
 }
 
-- (NSURL*)URLForURLImageView:(URLImageView *)anImageView {
-    BOOL isAnnounced = [(PlainTextDocument *)[self document] isAnnounced];
-    BOOL isServer = [[(PlainTextDocument *)[self document] session] isServer];
-    if (!isAnnounced && isServer) {
-        return nil;
-    }
-    return [[self document] documentURL];
-}
-
-
 - (void)takeSettingsFromDocument {
     [self setShowsBottomStatusBar:[(PlainTextDocument *)[self document] showsBottomStatusBar]];
     [[self plainTextEditors] makeObjectsPerformSelector:@selector(takeSettingsFromDocument)];

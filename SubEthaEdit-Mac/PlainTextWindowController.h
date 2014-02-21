@@ -10,7 +10,7 @@
 #import <TCMPortMapper/TCMPortMapper.h>
 #import <PSMTabBarControl/PSMTabBarControl.h>
 
-@class PlainTextEditor, PSMTabBarControl, PlainTextDocument,URLImageView;
+@class PlainTextEditor, PSMTabBarControl, PlainTextDocument;
 
 
 @interface PlainTextWindowController : NSWindowController <NSSplitViewDelegate,NSMenuDelegate,PSMTabBarControlDelegate>

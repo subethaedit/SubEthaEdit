@@ -143,7 +143,6 @@
 		1428940009575A3000D14688 /* PullDownButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893ED09575A3000D14688 /* PullDownButtonCell.m */; };
 		1428940309575A3000D14688 /* TexturedButtonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893F309575A3000D14688 /* TexturedButtonCell.m */; };
 		1428940409575A3000D14688 /* UndoManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893F509575A3000D14688 /* UndoManager.m */; };
-		1428940509575A3000D14688 /* URLImageView.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893F709575A3000D14688 /* URLImageView.m */; };
 		1428942F09575AE600D14688 /* BorderedTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428941609575AE600D14688 /* BorderedTextField.m */; };
 		1428943009575AE600D14688 /* SEEPlainTextEditorScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428941809575AE600D14688 /* SEEPlainTextEditorScrollView.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1428943109575AE600D14688 /* CandyBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428941A09575AE600D14688 /* CandyBarView.m */; };
@@ -833,8 +832,6 @@
 		142893F309575A3000D14688 /* TexturedButtonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TexturedButtonCell.m; sourceTree = "<group>"; };
 		142893F409575A3000D14688 /* UndoManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = UndoManager.h; sourceTree = "<group>"; };
 		142893F509575A3000D14688 /* UndoManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UndoManager.m; sourceTree = "<group>"; };
-		142893F609575A3000D14688 /* URLImageView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = URLImageView.h; sourceTree = "<group>"; };
-		142893F709575A3000D14688 /* URLImageView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLImageView.m; sourceTree = "<group>"; };
 		1428941509575AE600D14688 /* BorderedTextField.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = BorderedTextField.h; sourceTree = "<group>"; };
 		1428941609575AE600D14688 /* BorderedTextField.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BorderedTextField.m; sourceTree = "<group>"; };
 		1428941709575AE600D14688 /* SEEPlainTextEditorScrollView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SEEPlainTextEditorScrollView.h; sourceTree = "<group>"; };
@@ -2034,10 +2031,6 @@
 				142893DD09575A3000D14688 /* AboutPanelController.m */,
 				142893DE09575A3000D14688 /* AppController.h */,
 				142893DF09575A3000D14688 /* AppController.m */,
-				F2D129F90BF0B64700A776CC /* SEEConnectionManager.h */,
-				F2D129F80BF0B64700A776CC /* SEEConnectionManager.m */,
-				F2D12A1A0BF0B8DF00A776CC /* SEEConnection.h */,
-				F2D12A1B0BF0B8DF00A776CC /* SEEConnection.m */,
 				142893E009575A3000D14688 /* EncodingManager.h */,
 				142893E109575A3000D14688 /* EncodingManager.m */,
 				142893E209575A3000D14688 /* FindReplaceController.h */,
@@ -2052,8 +2045,6 @@
 				F2FB96E10CBE68ED000B85AE /* UKXattrMetadataStore.m */,
 				142893F409575A3000D14688 /* UndoManager.h */,
 				142893F509575A3000D14688 /* UndoManager.m */,
-				142893F609575A3000D14688 /* URLImageView.h */,
-				142893F709575A3000D14688 /* URLImageView.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -2190,6 +2181,10 @@
 		4C84D17918B63F83008C4FDC /* Network DocumentBrowser */ = {
 			isa = PBXGroup;
 			children = (
+				F2D129F90BF0B64700A776CC /* SEEConnectionManager.h */,
+				F2D129F80BF0B64700A776CC /* SEEConnectionManager.m */,
+				F2D12A1A0BF0B8DF00A776CC /* SEEConnection.h */,
+				F2D12A1B0BF0B8DF00A776CC /* SEEConnection.m */,
 				4C0C4A1918B3768500E6049E /* SEENetworkBrowser.h */,
 				4C0C4A1A18B3768500E6049E /* SEENetworkBrowser.m */,
 				4C0C4A1E18B3BA5600E6049E /* SEENetworkDocumentRepresentation.h */,
@@ -3062,7 +3057,6 @@
 				1428940009575A3000D14688 /* PullDownButtonCell.m in Sources */,
 				1428940309575A3000D14688 /* TexturedButtonCell.m in Sources */,
 				1428940409575A3000D14688 /* UndoManager.m in Sources */,
-				1428940509575A3000D14688 /* URLImageView.m in Sources */,
 				1428942F09575AE600D14688 /* BorderedTextField.m in Sources */,
 				1428943009575AE600D14688 /* SEEPlainTextEditorScrollView.m in Sources */,
 				1428943109575AE600D14688 /* CandyBarView.m in Sources */,
