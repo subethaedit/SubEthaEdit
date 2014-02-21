@@ -23,9 +23,6 @@
 
 @interface ConnectionBrowserController ()
 @property (strong) NSMutableArray *entries;
-
-- (void)connectToURL:(NSURL *)anURL retry:(BOOL)isRetrying;
-
 @end
 
 
@@ -124,7 +121,7 @@
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"scheme: %@\nhost: %@\nport: %@\npath: %@\nparameterString: %@\nquery: %@", [url scheme], [url host],  [url port], [url path], [url parameterString], [url query]);
     
     if (url != nil && [url host] != nil) {
-        [self connectToURL:url retry:NO];
+        [self connectToURL:url];
     } else {
         DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"Entered invalid URI");
         NSBeep();
@@ -144,7 +141,7 @@
     return entry;
 }
 
-- (void)connectToURL:(NSURL *)anURL retry:(BOOL)isRetrying {
+- (void)connectToURL:(NSURL *)anURL {
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"Connect to URL: %@", [anURL description]);
     NSParameterAssert(anURL != nil && [anURL host] != nil);
     

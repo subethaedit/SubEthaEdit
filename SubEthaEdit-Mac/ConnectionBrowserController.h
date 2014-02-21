@@ -17,6 +17,7 @@
 + (BOOL)invitePeopleFromPasteboard:(NSPasteboard *)aPasteboard withURL:(NSURL *)aURL;
 + (BOOL)invitePeopleFromPasteboard:(NSPasteboard *)aPasteboard intoDocument:(PlainTextDocument *)aDocument group:(NSString *)aGroup;
 
+- (void)connectToURL:(NSURL *)anURL;
 - (void)connectToAddress:(NSString *)address;
 
 @end
