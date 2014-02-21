@@ -12,20 +12,12 @@
 #import "TCMHost.h"
 #import "TCMBEEP.h"
 #import "TCMFoundation.h"
-#import "TCMMMUserSEEAdditions.h"
-#import "NSWorkspaceTCMAdditions.h"
 #import "SEEConnection.h"
-#import "PlainTextDocument.h"
-#import <AddressBook/AddressBook.h>
-
-#import <netdb.h>       // getaddrinfo, struct addrinfo, AI_NUMERICHOST
 #import <TCMPortMapper/TCMPortMapper.h>
-
 
 @interface SEEConnectionManager ()
 @property (strong) NSMutableArray *entries;
 @end
-
 
 #pragma mark -
 

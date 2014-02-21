@@ -9,8 +9,6 @@
 
 #import <Foundation/Foundation.h>
 
-@class PlainTextDocument;
-
 @interface SEEConnectionManager : NSObject
 
 + (SEEConnectionManager *)sharedInstance;
