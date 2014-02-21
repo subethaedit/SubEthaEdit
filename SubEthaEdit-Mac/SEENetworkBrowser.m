@@ -20,11 +20,13 @@
 #import "TCMMMSession.h"
 #import "TCMMMUserManager.h"
 #import "TCMMMUser.h"
+#import "TCMMMUserSEEAdditions.h"
 
 extern int const FileMenuTag;
 extern int const FileNewMenuItemTag;
 
-@interface SEENetworkBrowser ()
+@interface SEENetworkBrowser () <NSTableViewDelegate>
+@property (assign) IBOutlet NSObjectController *filesOwnerProxy;
 @property (assign) IBOutlet NSArrayController *collectionViewArrayController;
 @property (nonatomic, weak) id userSessionsDidChangeObserver;
 @property (nonatomic, weak) id otherWindowsBecomeKeyNotifivationObserver;
@@ -73,21 +75,28 @@ extern int const FileNewMenuItemTag;
 - (void)windowDidLoad
 {
     [super windowDidLoad];
+	self.filesOwnerProxy.content = self;
 }
 
 
-- (void)windowWillClose:(NSNotification *)notification {
+- (void)windowWillClose:(NSNotification *)notification
+{
 	if ([NSApp modalWindow] == notification.object) {
 		[NSApp stopModalWithCode:NSModalResponseAbort];
 	}
+
+	self.filesOwnerProxy.content = nil;
 }
 
 
-- (NSInteger)runModal {
+- (NSInteger)runModal
+{
 	NSInteger result = [NSApp runModalForWindow:self.window];
 	return result;
 }
 
+
+#pragma mark Content management
 
 - (void)reloadAllDocumentSessions
 {
@@ -96,15 +105,21 @@ extern int const FileNewMenuItemTag;
 		[self.availableDocumentSessions removeAllObjects];
 		NSArray *allUserStatusDicts = [[TCMMMPresenceManager sharedInstance] allUsers];
 		for (NSMutableDictionary *statusDict in allUserStatusDicts) {
+			NSString *userID = [statusDict objectForKey:TCMMMPresenceUserIDKey];
+			TCMMMUser *user = [[TCMMMUserManager sharedInstance] userForUserID:userID];
+
+			// fake document for user...
+			SEENetworkDocumentRepresentation *documentRepresentation = [[SEENetworkDocumentRepresentation alloc] init];
+			documentRepresentation.documentOwner = user;
+			documentRepresentation.fileName = user.name;
+			documentRepresentation.fileIcon = user.image;
+			[self.availableDocumentSessions addObject:documentRepresentation];
+
 			NSArray *sessions = [statusDict objectForKey:TCMMMPresenceOrderedSessionsKey];
 			for (TCMMMSession *session in sessions) {
 				SEENetworkDocumentRepresentation *documentRepresentation = [[SEENetworkDocumentRepresentation alloc] init];
 				documentRepresentation.documentSession = session;
-				
-				NSString *userID = [statusDict objectForKey:TCMMMPresenceUserIDKey];
-				TCMMMUser *user = [[TCMMMUserManager sharedInstance] userForUserID:userID];
 				documentRepresentation.documentOwner = user;
-
 				documentRepresentation.fileName = session.filename;
 				[self.availableDocumentSessions addObject:documentRepresentation];
 			}
@@ -114,7 +129,10 @@ extern int const FileNewMenuItemTag;
 }
 
 
-- (IBAction)newDocument:(id)sender {
+#pragma mark IBActions
+
+- (IBAction)newDocument:(id)sender
+{
 	if (self.shouldCloseWhenOpeningDocument) {
 		if ([NSApp modalWindow] == self.window) {
 			[NSApp stopModalWithCode:NSModalResponseCancel];
@@ -131,15 +149,29 @@ extern int const FileNewMenuItemTag;
 }
 
 
-- (IBAction)joinDocument:(id)sender {
+- (IBAction)joinDocument:(id)sender
+{
 	if (self.shouldCloseWhenOpeningDocument) {
 		if ([NSApp modalWindow] == self.window) {
 			[NSApp stopModalWithCode:NSModalResponseOK];
 		}
 		[self close];
 	}
-	SEENetworkDocumentRepresentation *documentRepresentation = self.collectionViewArrayController.selectedObjects.firstObject;
-	[documentRepresentation joinDocument:sender];
+
+	NSArray *selectedDocuments = self.collectionViewArrayController.selectedObjects;
+	[selectedDocuments makeObjectsPerformSelector:@selector(joinDocument:) withObject:sender];
 }
+
+
+#pragma mark - NSTableViewDelegate
+
+//- (BOOL)tableView:(NSTableView *)tableView isGroupRow:(NSInteger)row
+//{
+//	if (row == 0) {
+//		return YES;
+//	}
+//	return NO;
+//}
+
 
 @end

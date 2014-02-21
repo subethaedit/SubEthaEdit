@@ -7,6 +7,7 @@
         <customObject id="-2" userLabel="File's Owner" customClass="SEENetworkBrowser">
             <connections>
                 <outlet property="collectionViewArrayController" destination="uFK-2L-HLP" id="f9J-wa-LLI"/>
+                <outlet property="filesOwnerProxy" destination="iXX-4h-P4x" id="yJ9-JU-HvF"/>
                 <outlet property="window" destination="1" id="3"/>
             </connections>
         </customObject>
@@ -16,6 +17,7 @@
             <windowStyleMask key="styleMask" titled="YES" closable="YES" resizable="YES"/>
             <rect key="contentRect" x="196" y="240" width="300" height="400"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1178"/>
+            <value key="minSize" type="size" width="180" height="140"/>
             <view key="contentView" id="2">
                 <rect key="frame" x="0.0" y="0.0" width="300" height="400"/>
                 <autoresizingMask key="autoresizingMask"/>
@@ -27,7 +29,7 @@
                             <rect key="frame" x="1" y="1" width="298" height="338"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="firstColumnOnly" selectionHighlightStyle="sourceList" columnReordering="NO" columnSelection="YES" columnResizing="NO" multipleSelection="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="btu-v5-80w">
+                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="firstColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="btu-v5-80w">
                                     <rect key="frame" x="0.0" y="0.0" width="298" height="338"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
@@ -83,6 +85,7 @@
                                     <connections>
                                         <binding destination="uFK-2L-HLP" name="content" keyPath="arrangedObjects" id="Avm-qz-QPh"/>
                                         <binding destination="uFK-2L-HLP" name="selectionIndexes" keyPath="selectionIndexes" previousBinding="Avm-qz-QPh" id="EGA-vt-KpN"/>
+                                        <outlet property="delegate" destination="-2" id="wv4-fw-bTL"/>
                                     </connections>
                                 </tableView>
                             </subviews>
@@ -106,14 +109,14 @@
                         </buttonCell>
                         <connections>
                             <action selector="joinDocument:" target="-2" id="jJT-AD-1UL"/>
-                            <binding destination="uFK-2L-HLP" name="enabled" keyPath="selection.documentSession" id="H8S-6u-Ss4">
+                            <binding destination="uFK-2L-HLP" name="enabled" keyPath="selection" id="cYe-XR-mxI">
                                 <dictionary key="options">
                                     <string key="NSValueTransformerName">NSIsNotNil</string>
                                 </dictionary>
                             </binding>
                         </connections>
                     </button>
-                    <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0yq-G0-zEs">
+                    <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="0yq-G0-zEs">
                         <rect key="frame" x="14" y="13" width="67" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="New" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="ETQ-H6-mTg">
@@ -126,12 +129,14 @@
                     </button>
                 </subviews>
                 <constraints>
-                    <constraint firstAttribute="trailing" secondItem="jUb-G5-9UV" secondAttribute="trailing" constant="20" symbolic="YES" id="7SO-R7-dPf"/>
-                    <constraint firstItem="qRg-fN-a9P" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="TH1-9f-OYm"/>
-                    <constraint firstItem="qRg-fN-a9P" firstAttribute="top" secondItem="2" secondAttribute="top" id="fKj-XN-IGi"/>
-                    <constraint firstAttribute="bottom" secondItem="jUb-G5-9UV" secondAttribute="bottom" constant="20" symbolic="YES" id="j1n-cS-gvO"/>
-                    <constraint firstItem="jUb-G5-9UV" firstAttribute="top" secondItem="qRg-fN-a9P" secondAttribute="bottom" constant="19" id="upx-pt-eOx"/>
-                    <constraint firstAttribute="trailing" secondItem="qRg-fN-a9P" secondAttribute="trailing" id="xFr-Hx-juv"/>
+                    <constraint firstItem="0yq-G0-zEs" firstAttribute="top" secondItem="qRg-fN-a9P" secondAttribute="bottom" constant="19" id="8Gb-CH-shm"/>
+                    <constraint firstItem="qRg-fN-a9P" firstAttribute="leading" secondItem="2" secondAttribute="leading" id="KIe-Ll-FKQ"/>
+                    <constraint firstItem="jUb-G5-9UV" firstAttribute="baseline" secondItem="0yq-G0-zEs" secondAttribute="baseline" id="Xxj-BA-1JV"/>
+                    <constraint firstItem="0yq-G0-zEs" firstAttribute="leading" secondItem="2" secondAttribute="leading" constant="20" symbolic="YES" id="aym-aU-dJu"/>
+                    <constraint firstAttribute="trailing" secondItem="jUb-G5-9UV" secondAttribute="trailing" constant="20" symbolic="YES" id="bAH-9h-Zd0"/>
+                    <constraint firstItem="qRg-fN-a9P" firstAttribute="top" secondItem="2" secondAttribute="top" id="jBo-Qk-pl7"/>
+                    <constraint firstAttribute="bottom" secondItem="0yq-G0-zEs" secondAttribute="bottom" constant="20" symbolic="YES" id="jRr-hr-Awt"/>
+                    <constraint firstItem="qRg-fN-a9P" firstAttribute="centerX" secondItem="2" secondAttribute="centerX" id="tjI-WR-oun"/>
                 </constraints>
             </view>
             <connections>
