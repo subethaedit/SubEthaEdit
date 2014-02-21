@@ -36,6 +36,7 @@ static DebugController * sharedInstance = nil;
 - (id)init {
     if (sharedInstance) {
         [self release];
+		self = nil;
     } else if ((self = [super init])) {
         sharedInstance = self;
         if ([[NSUserDefaults standardUserDefaults] boolForKey:@"DebugSaveUsersInCache"]) {

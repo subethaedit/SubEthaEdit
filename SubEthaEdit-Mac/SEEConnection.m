@@ -1,17 +1,16 @@
 //
-//  ConnectionBrowserEntry.m
+//  SEEConnection.m
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on 08.05.07.
-//  Copyright 2007 TheCodingMonkeys. All rights reserved.
+//	Updated by Michael Ehrmann on Fri Feb 21 2014.
+//  Copyright 2007-2014 TheCodingMonkeys. All rights reserved.
 //
 
-#import "ConnectionBrowserEntry.h"
+#import "SEEConnection.h"
 #import "AppController.h"
 #import "TCMMMUserManager.h"
 #import "TCMMMUserSEEAdditions.h"
-#import "TCMMMBrowserListView.h"
-#import "TCMHost.h"
 #import "NSWorkspaceTCMAdditions.h"
 #import <netdb.h>       // getaddrinfo, struct addrinfo, AI_NUMERICHOST
 
@@ -29,17 +28,13 @@ NSString * const ConnectionStatusConnected    = @"ConnectionStatusConnected";
 NSString * const ConnectionStatusInProgress   = @"ConnectionStatusInProgress";
 NSString * const ConnectionStatusNoConnection = @"ConnectionStatusNoConnection";
 
-NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"ConnectionBrowserEntryStatusDidChangeNotification";
+NSString * const SEEConnectionStatusDidChangeNotification = @"SEEConnectionStatusDidChangeNotification";
 
-@implementation ConnectionBrowserEntry
+@implementation SEEConnection
 
 
 - (void)sendStatusDidChangeNotification {
-    [[NSNotificationCenter defaultCenter] postNotificationName:ConnectionBrowserEntryStatusDidChangeNotification object:self];
-}
-
-- (void)initHelper {
-    _isDisclosed = YES;
+    [[NSNotificationCenter defaultCenter] postNotificationName:SEEConnectionStatusDidChangeNotification object:self];
 }
 
 - (void)checkURLForToken:(NSURL *)anURL {
@@ -82,7 +77,6 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
             return self;
         }
 
-        [self initHelper];
         _hostStatus = HostEntryStatusSessionAtEnd;
         _pendingDocumentRequests = [NSMutableArray new];
         _tokensToSend = [NSMutableArray new];
@@ -105,7 +99,6 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
 
 - (id)initWithBEEPSession:(TCMBEEPSession *)aSession {
     if ((self=[super init])) {
-        [self initHelper];
         _creationDate = [NSDate new];
         _BEEPSession = aSession;
         _hostStatus = HostEntryStatusSessionOpen;
@@ -183,165 +176,6 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
     return NO;
 }
 
-
-- (id)itemObjectValueForTag:(int)aTag {
-    TCMMMUser *user = [self user];
-    if (aTag == TCMMMBrowserItemImageInFrontOfNameTag) {
-        if ([self isBonjour]) {
-            return [NSImage imageNamed:@"Bonjour13"];
-        } else  if ([[_BEEPSession userInfo] objectForKey:@"isAutoConnect"]) {
-            return [NSImage imageNamed:@"FriendcastingConnection"];
-        } else {
-            return [NSImage imageNamed:@"Internet13"];
-        }
-    }
-    if (aTag == TCMMMBrowserItemIsDisclosedTag) {
-        return [NSNumber numberWithBool:_isDisclosed];
-    }
-    BOOL showUser = [self isVisible] && (_hostStatus == HostEntryStatusSessionOpen) && user;
-    if (aTag == TCMMMBrowserItemStatusImageOverlayTag) {
-        if (_BEEPSession && ![_BEEPSession isTLSEnabled]) {
-            return [NSImage imageNamed:@"ssllock18"];
-        } else {
-            return nil;
-        }
-    } else
-    if (aTag == TCMMMBrowserItemImageTag) {
-        if (showUser) {
-            return [user image32];
-        } else {
-            if (_hostStatus == HostEntryStatusSessionInvisible) {
-                return [NSImage imageNamed:@"DefaultPerson32"];
-            } else {
-                return [NSImage imageNamed:@"UnknownPerson32"];
-            }
-        }
-//    } else if (aTag == TCMMMBrowserItemImageNextToNameTag) {
-//        if ([[_BEEPSession availableSASLProfileURIs] count]) {
-//            if ([_BEEPSession authenticationInformation]) {
-//                return [NSImage imageNamed:@"LoginButtonIn"];
-//            } else {
-//                return [NSImage imageNamed:@"LoginButton"];
-//            }
-//        } else {
-//            if (showUser) {
-//                return [user colorImage];
-//            } else {
-//                return nil;
-//            }
-//        }
-    }  else if (aTag == TCMMMBrowserItemStatusImageTag) {
-        NSDictionary *status = [[TCMMMPresenceManager sharedInstance] statusOfUserID:[user userID]];
-        if ([[status objectForKey:@"hasFriendCast"] boolValue] && showUser) {
-            if ([[status objectForKey:@"shouldAutoConnect"] boolValue] && 
-                [[NSUserDefaults standardUserDefaults] boolForKey:AutoconnectPrefKey]) {
-                return [NSImage imageNamed:@"FriendCast13"]; 
-            } else {
-                return [NSImage imageNamed:@"FriendCast13Off"]; 
-            }
-        } else {
-            return [NSImage imageNamed:@"FriendCast13None"];
-        }
-
-    } else 
-    if (aTag == TCMMMBrowserItemNameTag) {
-        if (showUser) {
-            return [user name];
-        } else {
-            if (user) {
-                return NSLocalizedString(@"Invisible User",@"User name for invisible users in Connection Browser");
-            } else if (_URL) {
-                return [_URL absoluteString];
-            } else {
-                return [NSString stringWithFormat:NSLocalizedString(@"Inbound Connection from %@", @"Inbound Connection ToolTip With Address"), [NSString stringWithAddressData:[_BEEPSession peerAddressData]]];
-            }
-        }
-    } else
-//  if (aTag == TCMMMBrowserItemUserNameTag) {
-//      if (showUser) {
-//          return [user name];
-//      }
-//  } else
-    if (aTag == TCMMMBrowserItemStatusTag) {
-        if (showUser || ([self connectionStatus] == ConnectionStatusConnected)) {
-            NSString *reachabilityURLString = [[TCMMMPresenceManager sharedInstance] reachabilityURLStringOfUserID:[user userID]];
-            if ([self isBonjour]) {
-                return @"Bonjour";
-            } else if (_URL) {
-                return [_URL absoluteString];
-            } else if (reachabilityURLString) {
-                return reachabilityURLString;
-            } else if ([[_BEEPSession userInfo] objectForKey:@"isAutoConnect"]) {
-                return NSLocalizedString(@"Friend of a Friend",@"Connection browser subtitle for friendcasting connections");
-            } else {
-                return NSLocalizedString(@"Internet connection",@"Connection browser subtitle for internet connections");
-            }
-
-            NSString *documentString = NSLocalizedString(@"None announced",@"Status string showing the number of documents when none are announced");
-            unsigned int count = [[self announcedSessions] count];
-            if (count == 1) {
-                documentString = NSLocalizedString(@"1 Document",@"Status string showing the number of documents when one is announced");
-            } else if (count > 1) {
-                documentString = [NSString stringWithFormat:NSLocalizedString(@"%d Documents",@"Status string showing the number of documents The browser when there are multiple documents announced"), count];
-            }
-            return documentString;
-        } else {
-            // (void)NSLocalizedString(@"HostEntryStatusResolving", @"Resolving");
-            // (void)NSLocalizedString(@"HostEntryStatusResolveFailed", @"Could not resolve");
-            // (void)NSLocalizedString(@"HostEntryStatusContacting", @"Contacting");
-            // (void)NSLocalizedString(@"HostEntryStatusContactFailed", @"Could not contact");
-            // (void)NSLocalizedString(@"HostEntryStatusSessionOpen", @"Connected");
-            // (void)NSLocalizedString(@"HostEntryStatusSessionInvisible", @"Invisible");
-            // (void)NSLocalizedString(@"HostEntryStatusSessionAtEnd", @"Connection Lost");
-            // (void)NSLocalizedString(@"HostEntryStatusCancelling", @"Cancelling");
-            // (void)NSLocalizedString(@"HostEntryStatusCancelled", @"Cancelled");
-            return NSLocalizedString([self hostStatus], @"<do not localize>");
-        }
-    } else
-    if (aTag == TCMMMBrowserItemActionImageTag) {
-        if ([self isBonjour]) {
-            return nil;
-        } else {
-            NSString *connectionStatus = [self connectionStatus];
-            if (connectionStatus == ConnectionStatusNoConnection && _URL) {
-                return [NSImage imageNamed:@"InternetResume"];
-            } else if (_hostStatus == HostEntryStatusCancelling) {
-                return nil;
-            } else {
-                return [NSImage imageNamed:@"InternetStop"];
-            }
-        }
-    }
-    return nil;
-}
-
-- (id)objectValueForTag:(int)aTag atChildIndex:(int)aChildIndex {
-    NSArray *sessions = [self announcedSessions];
-    if (aChildIndex >= 0 && aChildIndex < [sessions count]) {
-        TCMMMSession *session = [sessions objectAtIndex:aChildIndex];
-        if (aTag == TCMMMBrowserChildNameTag) {
-            return [session filename];
-        } else if (aTag==TCMMMBrowserChildClientStatusTag) {
-            return [NSNumber numberWithInt:[session clientState]];
-        }else if (aTag == TCMMMBrowserChildIconImageTag) {
-            NSString *extension = [[session filename] pathExtension];
-            return [[NSWorkspace sharedWorkspace] iconForFileType:extension size:16];
-        } else if (aTag == TCMMMBrowserChildStatusImageTag) {
-            switch ([session accessState]) {
-                case TCMMMSessionAccessLockedState:
-                    return [NSImage imageNamed:@"StatusLock"];
-                case TCMMMSessionAccessReadOnlyState:
-                    return [NSImage imageNamed:@"StatusReadOnly"];
-                case TCMMMSessionAccessReadWriteState:
-                    return [NSImage imageNamed:@"StatusReadWrite"];
-            }            
-        } else if (aTag == TCMMMBrowserChildInsetTag) {
-            return [NSNumber numberWithInt:0];
-        }
-    }
-    return nil;
-}
-
 - (TCMBEEPSession *)BEEPSession {
     return _BEEPSession;
 }
@@ -364,14 +198,6 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
 
 - (BOOL)isVisible {
     return [[[[TCMMMPresenceManager sharedInstance] statusOfUserID:[self userID]] objectForKey:@"isVisible"] boolValue];
-}
-
-- (void)toggleDisclosure {
-    _isDisclosed = !_isDisclosed;
-}
-
-- (BOOL)isDisclosed {
-    return _isDisclosed;
 }
 
 - (NSString *)hostStatus {

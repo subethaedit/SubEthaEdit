@@ -18,7 +18,6 @@
 #import "LayoutManager.h"
 #import "SEETextView.h"
 #import "SplitView.h"
-#import "ConnectionBrowserController.h"
 #import "GeneralPreferences.h"
 #import "TCMMMSession.h"
 #import "AppController.h"
