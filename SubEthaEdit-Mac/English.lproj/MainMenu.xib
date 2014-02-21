@@ -1021,12 +1021,12 @@
                             </menuItem>
                             <menuItem title="Connections" keyEquivalent="k" id="231">
                                 <connections>
-                                    <action selector="showWindow:" target="631" id="634"/>
+                                    <action selector="showDocumentNetworkBrowser:" target="-1" id="exy-BA-bUA"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Connections" alternate="YES" keyEquivalent="K" id="640">
                                 <connections>
-                                    <action selector="showWindow:" target="631" id="641"/>
+                                    <action selector="showDocumentNetworkBrowser:" target="-1" id="mvS-D9-2fB"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="User Statistics" keyEquivalent="i" id="635">
@@ -2084,7 +2084,6 @@ Cg
                 </subviews>
             </view>
         </window>
-        <customObject id="631" userLabel="ConnectionBrowserController" customClass="ConnectionBrowserController"/>
     </objects>
     <resources>
         <image name="NSApplicationIcon" width="128" height="128"/>

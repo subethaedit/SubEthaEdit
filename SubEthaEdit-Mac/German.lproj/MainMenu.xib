@@ -1009,12 +1009,12 @@
                             </menuItem>
                             <menuItem title="Verbindungen" keyEquivalent="k" id="231">
                                 <connections>
-                                    <action selector="showWindow:" target="631" id="634"/>
+                                    <action selector="showDocumentNetworkBrowser:" target="-1" id="R98-fO-Mtn"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Verbindungen" alternate="YES" keyEquivalent="K" id="640">
                                 <connections>
-                                    <action selector="showWindow:" target="631" id="641"/>
+                                    <action selector="showDocumentNetworkBrowser:" target="-1" id="SD6-GI-jcD"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Statistik" keyEquivalent="i" id="635">
@@ -2072,7 +2072,6 @@ Cg
                 </subviews>
             </view>
         </window>
-        <customObject id="631" userLabel="ConnectionBrowserController" customClass="ConnectionBrowserController"/>
     </objects>
     <resources>
         <image name="NSApplicationIcon" width="128" height="128"/>
