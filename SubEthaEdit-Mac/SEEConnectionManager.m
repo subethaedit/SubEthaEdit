@@ -1,13 +1,14 @@
 //
-//  InternetBrowserController.m
+//  SEEConnectionManager.m
 //  SubEthaEdit
 //
-//  Created by Martin Ott on Wed Mar 03 2004.
-//  Copyright (c) 2004-2007 TheCodingMonkeys. All rights reserved.
+//  Original (ConnectionBrowserController.h) by Martin Ott on Wed Mar 03 2004.
+//	Updated by Michael Ehrmann on Fri Feb 21 2014.
+//  Copyright (c) 2004-2014 TheCodingMonkeys. All rights reserved.
 //
 
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
-#import "ConnectionBrowserController.h"
+#import "SEEConnectionManager.h"
 #import "TCMHost.h"
 #import "TCMBEEP.h"
 #import "TCMFoundation.h"
@@ -21,17 +22,17 @@
 #import <TCMPortMapper/TCMPortMapper.h>
 
 
-@interface ConnectionBrowserController ()
+@interface SEEConnectionManager ()
 @property (strong) NSMutableArray *entries;
 @end
 
 
 #pragma mark -
 
-@implementation ConnectionBrowserController
+@implementation SEEConnectionManager
 
-+ (ConnectionBrowserController *)sharedInstance {
-	static ConnectionBrowserController *sSharedInstance = nil;
++ (SEEConnectionManager *)sharedInstance {
+	static SEEConnectionManager *sSharedInstance = nil;
 	static dispatch_once_t onceToken = 0;
 	dispatch_once(&onceToken, ^{
 		sSharedInstance = [[[self class] alloc] init];
@@ -267,36 +268,20 @@
     [script performSelector:@selector(executeAndReturnError:) withObject:nil afterDelay:0.1];
 }
 
-+ (BOOL)invitePeopleFromPasteboard:(NSPasteboard *)aPasteboard intoDocument:(PlainTextDocument *)aDocument group:(NSString *)aGroup {
++ (BOOL)invitePeopleFromPasteboard:(NSPasteboard *)aPasteboard intoDocumentGroupURL:(NSURL *)aURL {
     BOOL success = NO;
     if ([[aPasteboard types] containsObject:@"PresentityNames"] ||
 		[[aPasteboard types] containsObject:@"IMHandleNames"]) {
         NSArray *presentityNames=[[aPasteboard types] containsObject:@"PresentityNames"] ? [aPasteboard propertyListForType:@"PresentityNames"] : [aPasteboard propertyListForType:@"IMHandleNames"]; 
         NSUInteger i=0;
         for (i=0;i<[presentityNames count];i+=4) {
-            [self sendInvitationToServiceWithID:[presentityNames objectAtIndex:i] buddy:[presentityNames objectAtIndex:i+1] url:[aDocument documentURLForGroup:aGroup]];
+            [self sendInvitationToServiceWithID:[presentityNames objectAtIndex:i] buddy:[presentityNames objectAtIndex:i+1] url:aURL];
         }
         success = YES;
     }
 
     return success;
 }
-
-+ (BOOL)invitePeopleFromPasteboard:(NSPasteboard *)aPasteboard withURL:(NSURL *)aDocumentURL{
-    BOOL success = NO;
-    if ([[aPasteboard types] containsObject:@"PresentityNames"] ||
-		[[aPasteboard types] containsObject:@"IMHandleNames"]) {
-        NSArray *presentityNames=[[aPasteboard types] containsObject:@"PresentityNames"] ? [aPasteboard propertyListForType:@"PresentityNames"] : [aPasteboard propertyListForType:@"IMHandleNames"]; 
-        NSUInteger i=0;
-        for (i=0;i<[presentityNames count];i+=4) {
-            [self sendInvitationToServiceWithID:[presentityNames objectAtIndex:i] buddy:[presentityNames objectAtIndex:i+1] url:aDocumentURL];
-        }
-        success = YES;
-    }
-
-    return success;
-}
-
 
 @end
 

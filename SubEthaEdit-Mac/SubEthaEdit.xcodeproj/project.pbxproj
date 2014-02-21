@@ -406,7 +406,7 @@
 		F2CA7D2F0CA142B1008BEA38 /* HUDStatisticPersonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CA7D2D0CA142B0008BEA38 /* HUDStatisticPersonCell.m */; };
 		F2CEAAA7100B3A350036B3F7 /* MAAttachedWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CEAAA6100B3A350036B3F7 /* MAAttachedWindow.m */; };
 		F2CEAAF1100B46150036B3F7 /* URLBubbleWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CEAAF0100B46150036B3F7 /* URLBubbleWindow.m */; };
-		F2D129FC0BF0B64A00A776CC /* ConnectionBrowserController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D129F80BF0B64700A776CC /* ConnectionBrowserController.m */; };
+		F2D129FC0BF0B64A00A776CC /* SEEConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D129F80BF0B64700A776CC /* SEEConnectionManager.m */; };
 		F2D12A1D0BF0B8DF00A776CC /* ConnectionBrowserEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D12A1B0BF0B8DF00A776CC /* ConnectionBrowserEntry.m */; };
 		F2D22CB40EE9C5E3004B8E33 /* SeeTextImporter.mdimporter in Copy Importers */ = {isa = PBXBuildFile; fileRef = F2D22CB30EE9C5DE004B8E33 /* SeeTextImporter.mdimporter */; };
 		F2D2CDB20D73043D000E3812 /* FriendCast16Active.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D2CDAE0D73043D000E3812 /* FriendCast16Active.png */; };
@@ -1216,8 +1216,8 @@
 		F2CEAAA6100B3A350036B3F7 /* MAAttachedWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAAttachedWindow.m; sourceTree = "<group>"; };
 		F2CEAAEF100B46150036B3F7 /* URLBubbleWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = URLBubbleWindow.h; sourceTree = "<group>"; };
 		F2CEAAF0100B46150036B3F7 /* URLBubbleWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = URLBubbleWindow.m; sourceTree = "<group>"; };
-		F2D129F80BF0B64700A776CC /* ConnectionBrowserController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionBrowserController.m; sourceTree = "<group>"; };
-		F2D129F90BF0B64700A776CC /* ConnectionBrowserController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ConnectionBrowserController.h; sourceTree = "<group>"; };
+		F2D129F80BF0B64700A776CC /* SEEConnectionManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEConnectionManager.m; sourceTree = "<group>"; };
+		F2D129F90BF0B64700A776CC /* SEEConnectionManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SEEConnectionManager.h; sourceTree = "<group>"; };
 		F2D12A1A0BF0B8DF00A776CC /* ConnectionBrowserEntry.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ConnectionBrowserEntry.h; sourceTree = "<group>"; };
 		F2D12A1B0BF0B8DF00A776CC /* ConnectionBrowserEntry.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ConnectionBrowserEntry.m; sourceTree = "<group>"; };
 		F2D22CAE0EE9C5DE004B8E33 /* SeeTextImporter.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = SeeTextImporter.xcodeproj; path = SeeTextImporter/SeeTextImporter.xcodeproj; sourceTree = "<group>"; };
@@ -2053,8 +2053,8 @@
 				142893DD09575A3000D14688 /* AboutPanelController.m */,
 				142893DE09575A3000D14688 /* AppController.h */,
 				142893DF09575A3000D14688 /* AppController.m */,
-				F2D129F90BF0B64700A776CC /* ConnectionBrowserController.h */,
-				F2D129F80BF0B64700A776CC /* ConnectionBrowserController.m */,
+				F2D129F90BF0B64700A776CC /* SEEConnectionManager.h */,
+				F2D129F80BF0B64700A776CC /* SEEConnectionManager.m */,
 				F2D12A1A0BF0B8DF00A776CC /* ConnectionBrowserEntry.h */,
 				F2D12A1B0BF0B8DF00A776CC /* ConnectionBrowserEntry.m */,
 				142893E009575A3000D14688 /* EncodingManager.h */,
@@ -3142,7 +3142,7 @@
 				14584B2F0BE0C6E000EB6D15 /* TCMBEEPBencodedMessage.m in Sources */,
 				14584B300BE0C6E300EB6D15 /* TCMBEEPBencodingProfile.m in Sources */,
 				F234E4590BE2592300504A7C /* NSWorkspaceTCMAdditions.m in Sources */,
-				F2D129FC0BF0B64A00A776CC /* ConnectionBrowserController.m in Sources */,
+				F2D129FC0BF0B64A00A776CC /* SEEConnectionManager.m in Sources */,
 				F2D12A1D0BF0B8DF00A776CC /* ConnectionBrowserEntry.m in Sources */,
 				F29940600C0C7F3400A53189 /* NSScreenTCMAdditions.m in Sources */,
 				F2B18CEB0C4BB550000BB062 /* GlassButtonCell.m in Sources */,
