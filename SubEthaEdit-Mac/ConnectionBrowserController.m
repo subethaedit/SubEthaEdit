@@ -73,6 +73,10 @@ static NSPredicate *S_joinableSessionPredicate = nil;
 }
 
 + (ConnectionBrowserController *)sharedInstance {
+	static dispatch_once_t onceToken = 0;
+	dispatch_once(&onceToken, ^{
+		sharedInstance = [[[self class] alloc] init];
+	});
     return sharedInstance;
 }
 
@@ -170,12 +174,6 @@ static NSPredicate *S_joinableSessionPredicate = nil;
         [O_toggleFriendcastButton setEnabled:NO];
     }
 }
-
-// on application launch (mainmenu.nib)
-- (void)awakeFromNib {
-    sharedInstance = self;
-}
-
 
 // on window load (Internet.nib)
 - (void)windowWillLoad {
