@@ -220,7 +220,6 @@
 		4C0C4A2018B3BA5600E6049E /* SEENetworkDocumentRepresentation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0C4A1F18B3BA5600E6049E /* SEENetworkDocumentRepresentation.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C0D3D6417FB12F700AAFB38 /* SEEStyleSheetEditorWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D6317FB12F700AAFB38 /* SEEStyleSheetEditorWindowController.xib */; };
 		4C0D3D6817FB145600AAFB38 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D6717FB145600AAFB38 /* Preferences.xib */; };
-		4C0D3D6A17FB149200AAFB38 /* LoginSheet.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D6917FB149200AAFB38 /* LoginSheet.xib */; };
 		4C0D3D6C17FB165700AAFB38 /* DebugAttributesInspector.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D6B17FB165700AAFB38 /* DebugAttributesInspector.xib */; };
 		4C0D3D6E17FB165C00AAFB38 /* DebugBEEP.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D6D17FB165C00AAFB38 /* DebugBEEP.xib */; };
 		4C0D3D7017FB166200AAFB38 /* DebugHistory.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D6F17FB166200AAFB38 /* DebugHistory.xib */; };
@@ -359,8 +358,6 @@
 		F247D74F0CB147F100908450 /* ParticipantFollowActive.png in Resources */ = {isa = PBXBuildFile; fileRef = F247D74E0CB147F100908450 /* ParticipantFollowActive.png */; };
 		F25A19B60C8C79CA00147E4C /* ssllock.png in Resources */ = {isa = PBXBuildFile; fileRef = F25A19B50C8C79CA00147E4C /* ssllock.png */; };
 		F26B7D880CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F26B7D850CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m */; };
-		F272F94E0D1A786400647928 /* LoginButton.png in Resources */ = {isa = PBXBuildFile; fileRef = F2A707960BF8935400482EFC /* LoginButton.png */; };
-		F272F94F0D1A786400647928 /* LoginButtonIn.png in Resources */ = {isa = PBXBuildFile; fileRef = F2A707AF0BF89A4300482EFC /* LoginButtonIn.png */; };
 		F27B2E800B5271AE00679CF2 /* hud_titlebar-close.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2E7F0B5271AE00679CF2 /* hud_titlebar-close.tiff */; };
 		F27B2EE30B52957800679CF2 /* hud_buttonLeft-N.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2EDD0B52957800679CF2 /* hud_buttonLeft-N.tiff */; };
 		F27B2EE40B52957800679CF2 /* hud_buttonRight-N.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F27B2EDE0B52957800679CF2 /* hud_buttonRight-N.tiff */; };
@@ -381,7 +378,6 @@
 		F291D1B10FCECF33008BC286 /* FoldingBubbleBig.png in Resources */ = {isa = PBXBuildFile; fileRef = F291D1B00FCECF33008BC286 /* FoldingBubbleBig.png */; };
 		F29940600C0C7F3400A53189 /* NSScreenTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F299405E0C0C7F3400A53189 /* NSScreenTCMAdditions.m */; };
 		F29AD8670CA3391B0097D04E /* Bonjour13.png in Resources */ = {isa = PBXBuildFile; fileRef = F29AD8660CA3391B0097D04E /* Bonjour13.png */; };
-		F2A707BB0BF89F4200482EFC /* LoginSheetController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2A707B90BF89F4200482EFC /* LoginSheetController.m */; };
 		F2ABC4D60C799775007437A2 /* TCMMMLoggingState.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC4D40C799775007437A2 /* TCMMMLoggingState.m */; };
 		F2ABC4E30C799CCD007437A2 /* TCMMMLoggedOperation.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC4E10C799CCD007437A2 /* TCMMMLoggedOperation.m */; };
 		F2ABC5400C79D9AB007437A2 /* DebugHistoryController.m in Sources */ = {isa = PBXBuildFile; fileRef = F2ABC5300C79D898007437A2 /* DebugHistoryController.m */; };
@@ -964,7 +960,6 @@
 		4C0C4A1F18B3BA5600E6049E /* SEENetworkDocumentRepresentation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEENetworkDocumentRepresentation.m; sourceTree = "<group>"; };
 		4C0D3D6317FB12F700AAFB38 /* SEEStyleSheetEditorWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEEStyleSheetEditorWindowController.xib; sourceTree = "<group>"; };
 		4C0D3D6717FB145600AAFB38 /* Preferences.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = Preferences.xib; sourceTree = "<group>"; };
-		4C0D3D6917FB149200AAFB38 /* LoginSheet.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = LoginSheet.xib; sourceTree = "<group>"; };
 		4C0D3D6B17FB165700AAFB38 /* DebugAttributesInspector.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DebugAttributesInspector.xib; path = Debug/DebugAttributesInspector.xib; sourceTree = "<group>"; };
 		4C0D3D6D17FB165C00AAFB38 /* DebugBEEP.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DebugBEEP.xib; path = Debug/DebugBEEP.xib; sourceTree = "<group>"; };
 		4C0D3D6F17FB166200AAFB38 /* DebugHistory.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; name = DebugHistory.xib; path = Debug/DebugHistory.xib; sourceTree = "<group>"; };
@@ -1180,10 +1175,6 @@
 		F299405F0C0C7F3400A53189 /* NSScreenTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NSScreenTCMAdditions.h; sourceTree = "<group>"; };
 		F29940780C0C806600A53189 /* See_Info.plist */ = {isa = PBXFileReference; fileEncoding = 30; lastKnownFileType = text.plist.xml; name = See_Info.plist; path = see/See_Info.plist; sourceTree = "<group>"; };
 		F29AD8660CA3391B0097D04E /* Bonjour13.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Bonjour13.png; path = artwork/Bonjour13.png; sourceTree = "<group>"; };
-		F2A707960BF8935400482EFC /* LoginButton.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LoginButton.png; path = artwork/LoginButton.png; sourceTree = "<group>"; };
-		F2A707AF0BF89A4300482EFC /* LoginButtonIn.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LoginButtonIn.png; path = artwork/LoginButtonIn.png; sourceTree = "<group>"; };
-		F2A707B80BF89F4200482EFC /* LoginSheetController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = LoginSheetController.h; sourceTree = "<group>"; };
-		F2A707B90BF89F4200482EFC /* LoginSheetController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = LoginSheetController.m; sourceTree = "<group>"; };
 		F2ABC4D30C799775007437A2 /* TCMMMLoggingState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = TCMMMLoggingState.h; path = TCMMillionMonkeys/TCMMMLoggingState.h; sourceTree = "<group>"; };
 		F2ABC4D40C799775007437A2 /* TCMMMLoggingState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMMMLoggingState.m; path = TCMMillionMonkeys/TCMMMLoggingState.m; sourceTree = "<group>"; };
 		F2ABC4E10C799CCD007437A2 /* TCMMMLoggedOperation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; lineEnding = 0; name = TCMMMLoggedOperation.m; path = TCMMillionMonkeys/TCMMMLoggedOperation.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objc; };
@@ -1503,8 +1494,6 @@
 				5EB51AF60A177CF500AE2E17 /* InvisibleCharactersShow.png */,
 				5EB51AF70A177CF500AE2E17 /* InvisibleCharactersHide.png */,
 				5EF31E420A7E437C00D777F5 /* InvertedIBeam.tiff */,
-				F2A707960BF8935400482EFC /* LoginButton.png */,
-				F2A707AF0BF89A4300482EFC /* LoginButtonIn.png */,
 				F2406F0B0C8EE481000DC9FF /* LockTitlebar.png */,
 				14289072095743F200D14688 /* LibraryFolderIcon.tiff */,
 				14289075095743F200D14688 /* NamedLogo2.tiff */,
@@ -2072,8 +2061,6 @@
 				142893E109575A3000D14688 /* EncodingManager.m */,
 				142893E209575A3000D14688 /* FindReplaceController.h */,
 				142893E309575A3000D14688 /* FindReplaceController.m */,
-				F2A707B80BF89F4200482EFC /* LoginSheetController.h */,
-				F2A707B90BF89F4200482EFC /* LoginSheetController.m */,
 				142893EA09575A3000D14688 /* PullDownButton.h */,
 				142893EB09575A3000D14688 /* PullDownButton.m */,
 				142893EC09575A3000D14688 /* PullDownButtonCell.h */,
@@ -2161,7 +2148,6 @@
 				4CD5F7F017FB0CBF00F49E31 /* FindAll.xib */,
 				4CD5F7F417FB0CD200F49E31 /* FindReplace.xib */,
 				4CD5F7F817FB0D0C00F49E31 /* GeneralPrefs.xib */,
-				4C0D3D6917FB149200AAFB38 /* LoginSheet.xib */,
 				4CD5F80017FB0D3700F49E31 /* MainMenu.xib */,
 				4CD5F80417FB0D5B00F49E31 /* OpenPanelAccessory.xib */,
 				F2C7672618B3AEAC00763B40 /* PlainTextEditor.xib */,
@@ -2649,7 +2635,6 @@
 				1428904B0957427100D14688 /* Modes in Resources */,
 				F2D3E56A189941F50096425B /* IW SingleTabAddButton@2x.png in Resources */,
 				5E4DA73D09E15C6800D91CFC /* Scripts in Resources */,
-				4C0D3D6A17FB149200AAFB38 /* LoginSheet.xib in Resources */,
 				F2D3E539189941F50096425B /* AW InactiveTabClose.png in Resources */,
 				4CFAABAF18A3ECE4009DB5C3 /* EditorSplitHorizontal.pdf in Resources */,
 				4C6BDC6A18898F850088CBFC /* ScriptMenuItemIcon@2x.png in Resources */,
@@ -2866,8 +2851,6 @@
 				4CD5F7F217FB0CBF00F49E31 /* FindAll.xib in Resources */,
 				4CD5F81D17FB0E1900F49E31 /* PrecedenceRules.xib in Resources */,
 				F2D5FF520CB26EA800407399 /* ToolbarIconTerminal.icns in Resources */,
-				F272F94E0D1A786400647928 /* LoginButton.png in Resources */,
-				F272F94F0D1A786400647928 /* LoginButtonIn.png in Resources */,
 				4C6BDC5218896DCC0088CBFC /* SubEthaEdit.iconset in Resources */,
 				F2C6D3750D6DB131002B401D /* URLIconNotOK.tiff in Resources */,
 				4CFAABB218A3ECE4009DB5C3 /* EditorRemoveSplit.pdf in Resources */,
@@ -3161,7 +3144,6 @@
 				F234E4590BE2592300504A7C /* NSWorkspaceTCMAdditions.m in Sources */,
 				F2D129FC0BF0B64A00A776CC /* ConnectionBrowserController.m in Sources */,
 				F2D12A1D0BF0B8DF00A776CC /* ConnectionBrowserEntry.m in Sources */,
-				F2A707BB0BF89F4200482EFC /* LoginSheetController.m in Sources */,
 				F29940600C0C7F3400A53189 /* NSScreenTCMAdditions.m in Sources */,
 				F2B18CEB0C4BB550000BB062 /* GlassButtonCell.m in Sources */,
 				F2B18CEE0C4BB550000BB062 /* GlassButton.m in Sources */,

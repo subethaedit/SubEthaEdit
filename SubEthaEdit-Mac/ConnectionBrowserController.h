@@ -8,7 +8,6 @@
 
 #import <AppKit/AppKit.h>
 
-#import "LoginSheetController.h"
 #import "URLImageView.h"
 
 @class TCMMMBrowserListView, ConnectionBrowserEntry, LoginSheetController, PlainTextDocument;

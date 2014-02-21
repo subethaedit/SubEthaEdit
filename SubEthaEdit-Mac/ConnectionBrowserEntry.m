@@ -216,20 +216,6 @@ NSString * const ConnectionBrowserEntryStatusDidChangeNotification = @"Connectio
                 return [NSImage imageNamed:@"UnknownPerson32"];
             }
         }
-//    } else if (aTag == TCMMMBrowserItemImageNextToNameTag) {
-//        if ([[_BEEPSession availableSASLProfileURIs] count]) {
-//            if ([_BEEPSession authenticationInformation]) {
-//                return [NSImage imageNamed:@"LoginButtonIn"];
-//            } else {
-//                return [NSImage imageNamed:@"LoginButton"];
-//            }
-//        } else {
-//            if (showUser) {
-//                return [user colorImage];
-//            } else {
-//                return nil;
-//            }
-//        }
     }  else if (aTag == TCMMMBrowserItemStatusImageTag) {
         NSDictionary *status = [[TCMMMPresenceManager sharedInstance] statusOfUserID:[user userID]];
         if ([[status objectForKey:@"hasFriendCast"] boolValue] && showUser) {
