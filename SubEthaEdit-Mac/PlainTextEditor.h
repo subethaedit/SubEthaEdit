@@ -45,6 +45,7 @@ extern NSString * const PlainTextEditorDidFollowUserNotification;
 }
 
 @property (nonatomic, readonly) BOOL hasBottomOverlayView;
+@property (nonatomic, readonly) BOOL hasTopOverlayView;
 // bottom status bar binding values
 @property (nonatomic, assign) BOOL showsNumberOfActiveParticipants;
 @property (nonatomic, strong) NSNumber *numberOfActiveParticipants;
@@ -104,6 +105,10 @@ extern NSString * const PlainTextEditorDidFollowUserNotification;
 #pragma mark ### Actions ###
 - (IBAction)toggleWrap:(id)aSender;
 - (IBAction)toggleShowsChangeMarks:(id)aSender;
+
+- (IBAction)toggleFindAndReplace:(id)aSender;
+- (IBAction)showFindAndReplace:(id)aSender;
+- (IBAction)hideFindAndReplace:(id)aSender;
 
 - (IBAction)shiftRight:(id)aSender;
 - (IBAction)shiftLeft:(id)aSender;

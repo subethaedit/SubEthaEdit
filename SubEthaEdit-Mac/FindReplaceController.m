@@ -230,8 +230,12 @@ static FindReplaceController *sharedInstance=nil;
 
 - (id)targetToFindIn
 {
-    id obj = [[NSApp mainWindow] firstResponder];
-    return (obj && [obj isKindOfClass:[NSTextView class]]) ? obj : nil;
+	NSWindowController *windowController = [[NSApp mainWindow] windowController];
+	id result = nil;
+	if (windowController && [windowController respondsToSelector:@selector(activePlainTextEditor)]) {
+		result = [[(PlainTextWindowController *)windowController activePlainTextEditor] textView];
+	}
+    return result;
 }
 
 - (void)saveStateToPreferences

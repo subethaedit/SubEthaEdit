@@ -484,6 +484,10 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 		SEEParticipantsOverlayViewController *participantsOverlay = [[[SEEParticipantsOverlayViewController alloc] initWithTabContext:context] autorelease];
 		[editor displayViewControllerInBottomArea:participantsOverlay];
 	}
+	
+	// just for now
+	editor = self.activePlainTextEditor;
+	[editor toggleFindAndReplace:self];
 }
 
 - (IBAction)closeParticipantsOverlay:(id)aSender {

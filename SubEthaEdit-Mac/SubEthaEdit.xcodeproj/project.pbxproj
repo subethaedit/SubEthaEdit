@@ -339,6 +339,8 @@
 		F20E1FAE0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.m in Sources */ = {isa = PBXBuildFile; fileRef = F20E1FAC0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.m */; };
 		F212908B0F8EC56F0076B6B1 /* NSDictionaryTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142891240957457500D14688 /* NSDictionaryTCMAdditions.m */; };
 		F21290980F8EC5870076B6B1 /* NSMutableAttributedStringSEEAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142D18B30BAEDBBE00B9EF1C /* NSMutableAttributedStringSEEAdditions.m */; };
+		F21DAFE618BB75E1002B3C41 /* SEEFindAndReplaceViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = F21DAFE518BB75E1002B3C41 /* SEEFindAndReplaceViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		F21DAFE818BB77AA002B3C41 /* SEEFindAndReplaceView.xib in Resources */ = {isa = PBXBuildFile; fileRef = F21DAFE718BB77AA002B3C41 /* SEEFindAndReplaceView.xib */; };
 		F2257CF9189673AA005EF9B1 /* BottomBarSharingIconAnnounce_Inactive.png in Resources */ = {isa = PBXBuildFile; fileRef = F2257CF1189673AA005EF9B1 /* BottomBarSharingIconAnnounce_Inactive.png */; };
 		F2257CFA189673AA005EF9B1 /* BottomBarSharingIconAnnounce_Inactive@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2257CF2189673AA005EF9B1 /* BottomBarSharingIconAnnounce_Inactive@2x.png */; };
 		F2257CFB189673AA005EF9B1 /* BottomBarSharingIconAnnounce.png in Resources */ = {isa = PBXBuildFile; fileRef = F2257CF3189673AA005EF9B1 /* BottomBarSharingIconAnnounce.png */; };
@@ -1107,6 +1109,9 @@
 		F20948EB0C7B4C7100E78EBA /* UserStatisticsController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = UserStatisticsController.m; sourceTree = "<group>"; };
 		F20E1FAB0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = ThousandSeparatorValueTransformer.h; sourceTree = "<group>"; };
 		F20E1FAC0CACFC75005DEAF5 /* ThousandSeparatorValueTransformer.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ThousandSeparatorValueTransformer.m; sourceTree = "<group>"; };
+		F21DAFE418BB75E1002B3C41 /* SEEFindAndReplaceViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEFindAndReplaceViewController.h; sourceTree = "<group>"; };
+		F21DAFE518BB75E1002B3C41 /* SEEFindAndReplaceViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEFindAndReplaceViewController.m; sourceTree = "<group>"; };
+		F21DAFE718BB77AA002B3C41 /* SEEFindAndReplaceView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEEFindAndReplaceView.xib; sourceTree = "<group>"; };
 		F2230A450BE0243100437D55 /* TCMBEEPBencodedMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = TCMBEEPBencodedMessage.h; path = TCMBEEP/TCMBEEPBencodedMessage.h; sourceTree = "<group>"; };
 		F2230A460BE0243100437D55 /* TCMBEEPBencodedMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TCMBEEPBencodedMessage.m; path = TCMBEEP/TCMBEEPBencodedMessage.m; sourceTree = "<group>"; };
 		F2230A470BE0243100437D55 /* TCMBEEPBencodingProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; name = TCMBEEPBencodingProfile.h; path = TCMBEEP/TCMBEEPBencodingProfile.h; sourceTree = "<group>"; };
@@ -1736,10 +1741,7 @@
 				1428942C09575AE600D14688 /* DocumentController.m */,
 				1428942D09575AE600D14688 /* DocumentProxyWindowController.h */,
 				1428942E09575AE600D14688 /* DocumentProxyWindowController.m */,
-				1428943E09575B3400D14688 /* FindAllController.h */,
-				1428943F09575B3400D14688 /* FindAllController.m */,
-				1428944009575B3400D14688 /* FindAllTableView.h */,
-				1428944109575B3400D14688 /* FindAllTableView.m */,
+				F21DAFE318BB7591002B3C41 /* Find and Replace */,
 				F2061D660B4C152600E6631F /* FirstClickCustomView.h */,
 				F2061D670B4C152600E6631F /* FirstClickCustomView.m */,
 				1428944209575B3400D14688 /* GutterRulerView.h */,
@@ -2033,8 +2035,6 @@
 				142893DF09575A3000D14688 /* AppController.m */,
 				142893E009575A3000D14688 /* EncodingManager.h */,
 				142893E109575A3000D14688 /* EncodingManager.m */,
-				142893E209575A3000D14688 /* FindReplaceController.h */,
-				142893E309575A3000D14688 /* FindReplaceController.m */,
 				142893EA09575A3000D14688 /* PullDownButton.h */,
 				142893EB09575A3000D14688 /* PullDownButton.m */,
 				142893EC09575A3000D14688 /* PullDownButtonCell.h */,
@@ -2137,6 +2137,7 @@
 				4CD5F83317FB0EB500F49E31 /* URLBubbleWindow.xib */,
 				4CD5F83717FB0ECB00F49E31 /* UserStatistics.xib */,
 				4CD5F83B17FB0EE000F49E31 /* WebPreview.xib */,
+				F21DAFE718BB77AA002B3C41 /* SEEFindAndReplaceView.xib */,
 			);
 			name = XIBs;
 			sourceTree = "<group>";
@@ -2261,6 +2262,21 @@
 				14E2944F0A0CBFB0007C0065 /* SelectCommand.m */,
 			);
 			name = Scripting;
+			sourceTree = "<group>";
+		};
+		F21DAFE318BB7591002B3C41 /* Find and Replace */ = {
+			isa = PBXGroup;
+			children = (
+				142893E209575A3000D14688 /* FindReplaceController.h */,
+				142893E309575A3000D14688 /* FindReplaceController.m */,
+				1428943E09575B3400D14688 /* FindAllController.h */,
+				1428943F09575B3400D14688 /* FindAllController.m */,
+				1428944009575B3400D14688 /* FindAllTableView.h */,
+				1428944109575B3400D14688 /* FindAllTableView.m */,
+				F21DAFE418BB75E1002B3C41 /* SEEFindAndReplaceViewController.h */,
+				F21DAFE518BB75E1002B3C41 /* SEEFindAndReplaceViewController.m */,
+			);
+			name = "Find and Replace";
 			sourceTree = "<group>";
 		};
 		F281D3480F38754100AD7DE1 /* TextSystem */ = {
@@ -2810,6 +2826,7 @@
 				F2D5FF400CB2667A00407399 /* StylePrefs.icns in Resources */,
 				4CD5F80617FB0D5B00F49E31 /* OpenPanelAccessory.xib in Resources */,
 				4C0C4A1D18B3768500E6049E /* SEENetworkBrowser.xib in Resources */,
+				F21DAFE818BB77AA002B3C41 /* SEEFindAndReplaceView.xib in Resources */,
 				F2D3E53E189941F50096425B /* AW InactiveTabCloseRollover@2x.png in Resources */,
 				4C6BDC601889858A0088CBFC /* folded@2x.png in Resources */,
 				4CD5F83517FB0EB500F49E31 /* URLBubbleWindow.xib in Resources */,
@@ -3096,6 +3113,7 @@
 				311717F40A0E8C3600A9DA18 /* ModeSettings.m in Sources */,
 				5EF31B220A7E2E2100D777F5 /* NSCursorSEEAdditions.m in Sources */,
 				5E754EA40AB5648F00C5119E /* EncodingDoctorDialog.m in Sources */,
+				F21DAFE618BB75E1002B3C41 /* SEEFindAndReplaceViewController.m in Sources */,
 				5E754EAC0AB564BD00C5119E /* SEEDocumentDialog.m in Sources */,
 				5E0F01C30AB573A100A5DE33 /* DialogBackgroundView.m in Sources */,
 				141F50ED0AE51B66001B73D2 /* PlainTextWindowControllerTabContext.m in Sources */,

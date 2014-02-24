@@ -39,6 +39,7 @@
 #import "FoldableTextStorage.h"
 #import "FoldedTextAttachment.h"
 #import "URLBubbleWindow.h"
+#import "SEEFindAndReplaceViewController.h"
 #import <objc/objc-runtime.h>
 
 
@@ -82,7 +83,7 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 @end
 
 
-@interface PlainTextEditor ()
+@interface PlainTextEditor () <SEEFindAndReplaceViewControllerDelegate>
 
 @property (nonatomic, strong) IBOutlet NSView *O_editorView;
 @property (nonatomic, assign) IBOutlet NSView *O_topStatusBarView;
@@ -94,6 +95,8 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 @property (nonatomic, assign) IBOutlet NSObjectController *ownerController;
 @property (nonatomic, strong) NSArray *topLevelNibObjects;
 @property (nonatomic, strong) NSViewController *bottomOverlayViewController;
+@property (nonatomic, strong) NSViewController *topOverlayViewController;
+@property (nonatomic, strong) SEEFindAndReplaceViewController *findAndReplaceController;
 
 - (void)	TCM_updateStatusBar;
 - (void)	TCM_updateBottomStatusBar;
@@ -1278,6 +1281,64 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 	[I_textView adjustContainerInsetToScrollView];
 }
 
+- (BOOL)hasTopOverlayView {
+	return (self.topOverlayViewController != nil);
+}
+
+- (void)displayViewControllerInTopArea:(NSViewController *)aViewController {
+	NSViewController *displayedViewController = self.topOverlayViewController;
+	if (displayedViewController != aViewController) {
+		if (displayedViewController) {
+			NSView *overlayView = displayedViewController.view;
+			NSRect overlayFrame = overlayView.frame;
+			[overlayView removeFromSuperview];
+			self.topOverlayViewController = nil;
+			
+			O_scrollView.topOverlayHeight -= NSHeight(overlayFrame);
+		}
+		
+		if (aViewController) {
+			NSView *overlayView = aViewController.view;
+			overlayView.autoresizingMask = NSViewWidthSizable | NSViewMinYMargin;
+			
+			NSRect frame = overlayView.frame;
+			frame.size.width = NSWidth(self.O_editorView.frame);
+			frame.origin.y = NSMaxY(self.O_editorView.bounds) - O_scrollView.topOverlayHeight - NSHeight(frame);
+			overlayView.frame = frame;
+			[self.O_editorView addSubview:overlayView];
+			O_scrollView.topOverlayHeight += NSHeight(overlayView.frame);
+			
+			self.topOverlayViewController = aViewController;
+		}
+	}
+	[I_textView adjustContainerInsetToScrollView];
+}
+
+- (IBAction)toggleFindAndReplace:(id)aSender {
+	BOOL isDisplayed = (self.topOverlayViewController && self.findAndReplaceController == self.topOverlayViewController);
+	if (isDisplayed) {
+		[self hideFindAndReplace:aSender];
+	} else {
+		[self showFindAndReplace:aSender];
+	}
+}
+
+- (IBAction)showFindAndReplace:(id)aSender {
+	SEEFindAndReplaceViewController *viewController = [[SEEFindAndReplaceViewController alloc] init];
+	viewController.delegate = self;
+	self.findAndReplaceController = viewController;
+	[viewController release];
+	[self displayViewControllerInTopArea:viewController];
+}
+
+- (IBAction)hideFindAndReplace:(id)aSender {
+	if (self.findAndReplaceController &&
+		self.findAndReplaceController == self.topOverlayViewController) {
+		[self displayViewControllerInTopArea:nil];
+	}
+}
+
+
 
 #pragma mark -
 #pragma mark First Responder Actions
@@ -2155,6 +2216,21 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
     [[EncodingManager sharedInstance] showWindow:aSender];
 }
 
+
+#pragma mark -
+#pragma mark ### SEEFindAndReplaceViewController delegate methods ###
+
+- (void)findAndReplaceViewControllerDidPressDismiss:(SEEFindAndReplaceViewController *)aViewController {
+	[self hideFindAndReplace:self];
+}
+
+- (void)findAndReplaceViewControllerDidPressFindNext:(SEEFindAndReplaceViewController *)aViewController {
+	[[FindReplaceController sharedInstance] find:aViewController.findTextField.stringValue forward:YES];
+}
+
+- (void)findAndReplaceViewControllerDidPressFindPrevious:(SEEFindAndReplaceViewController *)aViewController {
+	[[FindReplaceController sharedInstance] find:aViewController.findTextField.stringValue forward:NO];
+}
 
 #pragma mark -
 #pragma mark ### NSTextView delegate methods ###
