@@ -8,6 +8,8 @@
             <connections>
                 <outlet property="collectionViewArrayController" destination="uFK-2L-HLP" id="f9J-wa-LLI"/>
                 <outlet property="filesOwnerProxy" destination="iXX-4h-P4x" id="yJ9-JU-HvF"/>
+                <outlet property="tableView" destination="btu-v5-80w" id="CHf-jn-2LM"/>
+                <outlet property="userImageViewPrototype" destination="0Rh-MB-7TX" id="u9n-Bw-jaS"/>
                 <outlet property="window" destination="1" id="3"/>
             </connections>
         </customObject>
@@ -18,22 +20,22 @@
             <rect key="contentRect" x="196" y="240" width="300" height="400"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1178"/>
             <value key="minSize" type="size" width="180" height="140"/>
-            <view key="contentView" id="2">
+            <view key="contentView" wantsLayer="YES" id="2">
                 <rect key="frame" x="0.0" y="0.0" width="300" height="400"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <scrollView autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qRg-fN-a9P">
+                    <scrollView autohidesScrollers="YES" horizontalLineScroll="38" horizontalPageScroll="10" verticalLineScroll="38" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qRg-fN-a9P">
                         <rect key="frame" x="0.0" y="60" width="300" height="340"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <clipView key="contentView" id="wIJ-zF-6Fn">
                             <rect key="frame" x="1" y="1" width="298" height="338"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="firstColumnOnly" alternatingRowBackgroundColors="YES" columnReordering="NO" columnResizing="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="btu-v5-80w">
+                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="firstColumnOnly" columnReordering="NO" columnResizing="NO" autosaveColumns="NO" rowHeight="36" rowSizeStyle="automatic" viewBased="YES" id="btu-v5-80w">
                                     <rect key="frame" x="0.0" y="0.0" width="298" height="338"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
-                                    <color key="backgroundColor" name="_sourceListBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                     <color key="gridColor" name="gridColor" catalog="System" colorSpace="catalog"/>
                                     <tableColumns>
                                         <tableColumn editable="NO" width="295" minWidth="40" maxWidth="1000" id="dhM-EY-VHb">
@@ -49,8 +51,54 @@
                                             </textFieldCell>
                                             <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                             <prototypeCellViews>
-                                                <tableCellView id="l0C-OX-d9H">
-                                                    <rect key="frame" x="1" y="1" width="295" height="17"/>
+                                                <tableCellView identifier="Group" wantsLayer="YES" id="7GF-iT-703">
+                                                    <rect key="frame" x="1" y="1" width="295" height="36"/>
+                                                    <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                                                    <subviews>
+                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="99d-xq-E7k">
+                                                            <rect key="frame" x="3" y="10" width="232" height="17"/>
+                                                            <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                                                            <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="qbm-n8-qcN">
+                                                                <font key="font" metaFont="system"/>
+                                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                            <connections>
+                                                                <binding destination="7GF-iT-703" name="value" keyPath="objectValue.fileName" id="OpA-rz-52D"/>
+                                                            </connections>
+                                                        </textField>
+                                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="0Rh-MB-7TX">
+                                                            <rect key="frame" x="230" y="-32" width="64" height="64"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                            <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSUserGuest" id="D2v-Nd-6Ob"/>
+                                                            <connections>
+                                                                <binding destination="7GF-iT-703" name="value" keyPath="objectValue.fileIcon" id="ZgP-UC-ZIQ"/>
+                                                            </connections>
+                                                        </imageView>
+                                                    </subviews>
+                                                    <backgroundFilters>
+                                                        <ciFilter name="CIGaussianBlur">
+                                                            <configuration>
+                                                                <null key="inputImage"/>
+                                                                <real key="inputRadius" value="10"/>
+                                                            </configuration>
+                                                        </ciFilter>
+                                                        <ciFilter name="CIColorControls">
+                                                            <configuration>
+                                                                <real key="inputBrightness" value="0.0"/>
+                                                                <real key="inputContrast" value="1"/>
+                                                                <null key="inputImage"/>
+                                                                <real key="inputSaturation" value="4"/>
+                                                            </configuration>
+                                                        </ciFilter>
+                                                    </backgroundFilters>
+                                                    <connections>
+                                                        <outlet property="imageView" destination="0Rh-MB-7TX" id="zvU-lA-c31"/>
+                                                        <outlet property="textField" destination="99d-xq-E7k" id="QnQ-Yw-dNe"/>
+                                                    </connections>
+                                                </tableCellView>
+                                                <tableCellView identifier="Document" id="l0C-OX-d9H">
+                                                    <rect key="frame" x="1" y="39" width="295" height="17"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qp7-Vm-djo">
@@ -163,5 +211,6 @@
     </objects>
     <resources>
         <image name="NSActionTemplate" width="14" height="14"/>
+        <image name="NSUserGuest" width="32" height="32"/>
     </resources>
 </document>

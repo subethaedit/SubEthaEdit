@@ -11,6 +11,7 @@
 #endif
 
 #import "SEENetworkBrowser.h"
+#import "SEENetworkBrowserGroupTableRowView.h"
 #import "SEENetworkDocumentRepresentation.h"
 
 #import "DocumentController.h"
@@ -26,8 +27,12 @@ extern int const FileMenuTag;
 extern int const FileNewMenuItemTag;
 
 @interface SEENetworkBrowser () <NSTableViewDelegate>
-@property (assign) IBOutlet NSObjectController *filesOwnerProxy;
-@property (assign) IBOutlet NSArrayController *collectionViewArrayController;
+
+@property (nonatomic, weak) IBOutlet NSImageView *userImageViewPrototype;
+
+@property (nonatomic, weak) IBOutlet NSObjectController *filesOwnerProxy;
+@property (nonatomic, weak) IBOutlet NSArrayController *collectionViewArrayController;
+
 @property (nonatomic, weak) id userSessionsDidChangeObserver;
 @property (nonatomic, weak) id otherWindowsBecomeKeyNotifivationObserver;
 @end
@@ -75,6 +80,7 @@ extern int const FileNewMenuItemTag;
 - (void)windowDidLoad
 {
     [super windowDidLoad];
+
 	self.filesOwnerProxy.content = self;
 }
 
@@ -165,13 +171,66 @@ extern int const FileNewMenuItemTag;
 
 #pragma mark - NSTableViewDelegate
 
-//- (BOOL)tableView:(NSTableView *)tableView isGroupRow:(NSInteger)row
+- (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
+	NSView *result = nil;
+	if (tableColumn == nil) {
+		result = [tableView makeViewWithIdentifier:@"Group" owner:self];
+	} else {
+		result = [tableView makeViewWithIdentifier:@"Document" owner:self];
+	}
+	return result;
+}
+
+//- (NSTableRowView *)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row
 //{
-//	if (row == 0) {
-//		return YES;
+//	NSTableRowView * rowView = nil;
+//	NSArray *availableDocumentSession = self.availableDocumentSessions;
+//	SEENetworkDocumentRepresentation *documentRepresentation = [availableDocumentSession objectAtIndex:row];
+//	if (documentRepresentation && !documentRepresentation.documentSession) {
+//		rowView = [[SEENetworkBrowserGroupTableRowView alloc] init];
+////		rowView.backgroundColor = [NSColor yellowColor];
 //	}
-//	return NO;
+//	return rowView;
 //}
+
+- (void)tableView:(NSTableView *)tableView didAddRowView:(NSTableRowView *)rowView forRow:(NSInteger)row {
+	NSArray *availableDocumentSession = self.availableDocumentSessions;
+	SEENetworkDocumentRepresentation *documentRepresentation = [availableDocumentSession objectAtIndex:row];
+	if (documentRepresentation && !documentRepresentation.documentSession) {
+		rowView.layer.masksToBounds = NO;
+		NSImageView *userImageView = [[[rowView.subviews objectAtIndex:0] subviews] objectAtIndex:1];
+		CALayer *userViewLayer = userImageView.layer;
+		userViewLayer.borderColor = [[NSColor yellowColor] CGColor];
+		userViewLayer.borderWidth = NSHeight(userImageView.frame) / 16.0;
+		userViewLayer.cornerRadius = NSHeight(userImageView.frame) / 2.0;
+	}
+}
+
+- (void)tableView:(NSTableView *)tableView didRemoveRowView:(NSTableRowView *)rowView forRow:(NSInteger)row {
+
+}
+
+- (BOOL)tableView:(NSTableView *)tableView isGroupRow:(NSInteger)row
+{
+	BOOL result = NO;
+	NSArray *availableDocumentSession = self.availableDocumentSessions;
+	SEENetworkDocumentRepresentation *documentRepresentation = [availableDocumentSession objectAtIndex:row];
+	if (documentRepresentation && !documentRepresentation.documentSession) {
+		result = YES;
+	}
+	return result;
+}
+
+- (CGFloat)tableView:(NSTableView *)aTableView heightOfRow:(NSInteger)row {
+	CGFloat result = 24.0;
+	NSArray *availableDocumentSession = self.availableDocumentSessions;
+	SEENetworkDocumentRepresentation *documentRepresentation = [availableDocumentSession objectAtIndex:row];
+	if (documentRepresentation && !documentRepresentation.documentSession) {
+		result = 36.0;
+	}
+	return result;
+}
+
 
 
 @end
