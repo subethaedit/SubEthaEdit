@@ -1,1 +1,7 @@
 // LassoScript-HTML Example Syntax File
+
+<?lasso 'Hello World!' ?>
+
+['Hello world!']
+
+Hello world!

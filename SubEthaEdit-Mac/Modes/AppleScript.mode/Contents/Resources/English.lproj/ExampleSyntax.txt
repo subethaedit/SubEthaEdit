@@ -1,1 +1,3 @@
-// AppleScript Example Syntax File
+-- AppleScript Example Syntax File
+
+display dialog "Hello World"

@@ -1,1 +1,5 @@
-// ASP-HTML Example Syntax File
+<!-- ASP-HTML Example Syntax File -->
+
+<!-- Hello World for ASP.NET using C# -->
+<% @ Page Language="C#" %>
+<% ="Hello World!" %>

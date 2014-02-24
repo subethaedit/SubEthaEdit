@@ -1,1 +1,3 @@
-// bash Example Syntax File
+# bash Example Syntax File
+
+echo 'Hello, world!'

@@ -1,1 +1,5 @@
-// LaTeX Example Syntax File
+% LaTeX Example Syntax File
+\documentclass{article}
+\begin{document}
+Hello World!
+\end{document}

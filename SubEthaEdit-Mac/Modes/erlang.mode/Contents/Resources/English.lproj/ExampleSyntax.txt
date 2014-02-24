@@ -1,1 +1,8 @@
-// erlang Example Syntax File
+%% Erlang Example Syntax File
+
+-module(hello).
+
+-export([hello/0]).
+
+hello() ->
+   io:format("Hello World!~n", []).

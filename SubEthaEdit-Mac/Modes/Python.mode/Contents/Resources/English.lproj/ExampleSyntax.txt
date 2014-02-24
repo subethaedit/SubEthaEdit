@@ -1,1 +1,3 @@
-// Python Example Syntax File
+# Python Example Syntax File
+
+print "Hello World"
