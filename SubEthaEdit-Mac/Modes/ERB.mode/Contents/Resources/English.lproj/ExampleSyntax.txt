@@ -1,0 +1,1 @@
+// ERB Example Syntax File
