@@ -1,1 +1,0 @@
-// Smarty Example Syntax File
