@@ -11,6 +11,7 @@
 #endif
 
 #import "SEENetworkBrowser.h"
+#import "SEENetworkBrowserGroupTableRowView.h"
 #import "SEENetworkDocumentRepresentation.h"
 
 #import "DocumentController.h"
@@ -20,12 +21,18 @@
 #import "TCMMMSession.h"
 #import "TCMMMUserManager.h"
 #import "TCMMMUser.h"
+#import "TCMMMUserSEEAdditions.h"
 
 extern int const FileMenuTag;
 extern int const FileNewMenuItemTag;
 
-@interface SEENetworkBrowser ()
-@property (assign) IBOutlet NSArrayController *collectionViewArrayController;
+@interface SEENetworkBrowser () <NSTableViewDelegate>
+
+@property (nonatomic, weak) IBOutlet NSImageView *userImageViewPrototype;
+
+@property (nonatomic, weak) IBOutlet NSObjectController *filesOwnerProxy;
+@property (nonatomic, weak) IBOutlet NSArrayController *collectionViewArrayController;
+
 @property (nonatomic, weak) id userSessionsDidChangeObserver;
 @property (nonatomic, weak) id otherWindowsBecomeKeyNotifivationObserver;
 @end
@@ -73,21 +80,29 @@ extern int const FileNewMenuItemTag;
 - (void)windowDidLoad
 {
     [super windowDidLoad];
+
+	self.filesOwnerProxy.content = self;
 }
 
 
-- (void)windowWillClose:(NSNotification *)notification {
+- (void)windowWillClose:(NSNotification *)notification
+{
 	if ([NSApp modalWindow] == notification.object) {
 		[NSApp stopModalWithCode:NSModalResponseAbort];
 	}
+
+	self.filesOwnerProxy.content = nil;
 }
 
 
-- (NSInteger)runModal {
+- (NSInteger)runModal
+{
 	NSInteger result = [NSApp runModalForWindow:self.window];
 	return result;
 }
 
+
+#pragma mark Content management
 
 - (void)reloadAllDocumentSessions
 {
@@ -96,15 +111,21 @@ extern int const FileNewMenuItemTag;
 		[self.availableDocumentSessions removeAllObjects];
 		NSArray *allUserStatusDicts = [[TCMMMPresenceManager sharedInstance] allUsers];
 		for (NSMutableDictionary *statusDict in allUserStatusDicts) {
+			NSString *userID = [statusDict objectForKey:TCMMMPresenceUserIDKey];
+			TCMMMUser *user = [[TCMMMUserManager sharedInstance] userForUserID:userID];
+
+			// fake document for user...
+			SEENetworkDocumentRepresentation *documentRepresentation = [[SEENetworkDocumentRepresentation alloc] init];
+			documentRepresentation.documentOwner = user;
+			documentRepresentation.fileName = user.name;
+			documentRepresentation.fileIcon = user.image;
+			[self.availableDocumentSessions addObject:documentRepresentation];
+
 			NSArray *sessions = [statusDict objectForKey:TCMMMPresenceOrderedSessionsKey];
 			for (TCMMMSession *session in sessions) {
 				SEENetworkDocumentRepresentation *documentRepresentation = [[SEENetworkDocumentRepresentation alloc] init];
 				documentRepresentation.documentSession = session;
-				
-				NSString *userID = [statusDict objectForKey:TCMMMPresenceUserIDKey];
-				TCMMMUser *user = [[TCMMMUserManager sharedInstance] userForUserID:userID];
 				documentRepresentation.documentOwner = user;
-
 				documentRepresentation.fileName = session.filename;
 				[self.availableDocumentSessions addObject:documentRepresentation];
 			}
@@ -114,7 +135,10 @@ extern int const FileNewMenuItemTag;
 }
 
 
-- (IBAction)newDocument:(id)sender {
+#pragma mark IBActions
+
+- (IBAction)newDocument:(id)sender
+{
 	if (self.shouldCloseWhenOpeningDocument) {
 		if ([NSApp modalWindow] == self.window) {
 			[NSApp stopModalWithCode:NSModalResponseCancel];
@@ -131,15 +155,72 @@ extern int const FileNewMenuItemTag;
 }
 
 
-- (IBAction)joinDocument:(id)sender {
+- (IBAction)joinDocument:(id)sender
+{
+	// make sure we get the selection before cosing the window... because it will reset the selection.
+	NSArray *selectedDocuments = self.collectionViewArrayController.selectedObjects;
+
 	if (self.shouldCloseWhenOpeningDocument) {
 		if ([NSApp modalWindow] == self.window) {
 			[NSApp stopModalWithCode:NSModalResponseOK];
 		}
 		[self close];
 	}
-	SEENetworkDocumentRepresentation *documentRepresentation = self.collectionViewArrayController.selectedObjects.firstObject;
-	[documentRepresentation joinDocument:sender];
+
+	[selectedDocuments makeObjectsPerformSelector:@selector(joinDocument:) withObject:sender];
+}
+
+
+#pragma mark - NSTableViewDelegate
+
+- (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
+	NSView *result = nil;
+	if (tableColumn == nil) {
+		result = [tableView makeViewWithIdentifier:@"Group" owner:self];
+	} else {
+		result = [tableView makeViewWithIdentifier:@"Document" owner:self];
+	}
+	return result;
+}
+
+- (NSTableRowView *)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row
+{
+	NSTableRowView * rowView = nil;
+	NSArray *availableDocumentSession = self.availableDocumentSessions;
+	SEENetworkDocumentRepresentation *documentRepresentation = [availableDocumentSession objectAtIndex:row];
+	if (documentRepresentation && !documentRepresentation.documentSession) {
+		rowView = [[SEENetworkBrowserGroupTableRowView alloc] init];
+	}
+	return rowView;
+}
+
+- (void)tableView:(NSTableView *)tableView didAddRowView:(NSTableRowView *)rowView forRow:(NSInteger)row {
+	NSArray *availableDocumentSession = self.availableDocumentSessions;
+	SEENetworkDocumentRepresentation *documentRepresentation = [availableDocumentSession objectAtIndex:row];
+	if (documentRepresentation && !documentRepresentation.documentSession) {
+		rowView.wantsLayer = YES; // this wantsLayer is needed. without it the content of all layer backed subviews will be scrolled out of group view.
+
+		NSTableCellView *tableCellView = [rowView.subviews objectAtIndex:0];
+
+		NSImageView *userImageView = [[tableCellView subviews] objectAtIndex:1];
+
+		userImageView.wantsLayer = YES;
+		CALayer *userViewLayer = userImageView.layer;
+		userViewLayer.borderColor = [[NSColor yellowColor] CGColor];
+		userViewLayer.borderWidth = NSHeight(userImageView.frame) / 16.0;
+		userViewLayer.cornerRadius = NSHeight(userImageView.frame) / 2.0;
+	}
+}
+
+- (BOOL)tableView:(NSTableView *)tableView isGroupRow:(NSInteger)row
+{
+	BOOL result = NO;
+	NSArray *availableDocumentSession = self.availableDocumentSessions;
+	SEENetworkDocumentRepresentation *documentRepresentation = [availableDocumentSession objectAtIndex:row];
+	if (documentRepresentation && !documentRepresentation.documentSession) {
+		result = YES;
+	}
+	return result;
 }
 
 @end

@@ -12,20 +12,12 @@
 #import "TCMHost.h"
 #import "TCMBEEP.h"
 #import "TCMFoundation.h"
-#import "TCMMMUserSEEAdditions.h"
-#import "NSWorkspaceTCMAdditions.h"
 #import "SEEConnection.h"
-#import "PlainTextDocument.h"
-#import <AddressBook/AddressBook.h>
-
-#import <netdb.h>       // getaddrinfo, struct addrinfo, AI_NUMERICHOST
 #import <TCMPortMapper/TCMPortMapper.h>
-
 
 @interface SEEConnectionManager ()
 @property (strong) NSMutableArray *entries;
 @end
-
 
 #pragma mark -
 
@@ -56,9 +48,23 @@
         [defaultCenter addObserver:self selector:@selector(TCM_sessionDidEnd:) name:TCMMMBEEPSessionManagerSessionDidEndNotification object:manager];
 
 		// not sure if needed
+		[defaultCenter addObserver:self selector:@selector(announcedSessionsDidChange:) name:TCMMMPresenceManagerAnnouncedSessionsDidChangeNotification object:[TCMMMPresenceManager sharedInstance]];
+		[defaultCenter addObserver:self selector:@selector(announcedSessionsDidChange:) name:TCMMMPresenceManagerServiceAnnouncementDidChangeNotification object:[TCMMMPresenceManager sharedInstance]];
+
 		[defaultCenter addObserver:self selector:@selector(userDidChange:) name:TCMMMUserManagerUserDidChangeNotification object:nil];
-    }
-    return self;    
+
+
+	    // Port Mappings
+		TCMPortMapper *pm = [TCMPortMapper sharedInstance];
+		[defaultCenter addObserver:self selector:@selector(portMapperDidStartWork:) name:TCMPortMapperDidStartWorkNotification object:pm];
+		[defaultCenter addObserver:self selector:@selector(portMapperDidFinishWork:) name:TCMPortMapperDidFinishWorkNotification object:pm];
+		if ([pm isAtWork]) {
+			[self portMapperDidStartWork:nil];
+		} else {
+			[self portMapperDidFinishWork:nil];
+		}
+	}
+    return self;
 }
 
 - (void)dealloc {
@@ -81,22 +87,6 @@
         NSLog(NSLocalizedString(@"see://%@:%d",@"Connection Browser URL display"), [pm externalIPAddress],[mapping externalPort]);
     } else {
         NSLog(NSLocalizedString(@"No public mapping.",@"Connection Browser Display when not reachable"));
-    }
-}
-
-
-- (void)windowDidLoad {
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(announcedSessionsDidChange:) name:TCMMMPresenceManagerAnnouncedSessionsDidChangeNotification object:[TCMMMPresenceManager sharedInstance]];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(announcedSessionsDidChange:) name:TCMMMPresenceManagerServiceAnnouncementDidChangeNotification object:[TCMMMPresenceManager sharedInstance]];
-
-    // Port Mappings
-    TCMPortMapper *pm = [TCMPortMapper sharedInstance];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(portMapperDidStartWork:) name:TCMPortMapperDidStartWorkNotification object:pm];
-    [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(portMapperDidFinishWork:) name:TCMPortMapperDidFinishWorkNotification object:pm];
-    if ([pm isAtWork]) {
-        [self portMapperDidStartWork:nil];
-    } else {
-        [self portMapperDidFinishWork:nil];
     }
 }
 
