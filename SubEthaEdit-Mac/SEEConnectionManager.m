@@ -37,20 +37,22 @@
     if (self) {
 		self.entries = [NSMutableArray new];
 
-		TCMMMBEEPSessionManager *manager = [TCMMMBEEPSessionManager sharedInstance];
 		NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
 
-		[defaultCenter addObserver:self selector:@selector(userDidChangeVisibility:) name:TCMMMPresenceManagerUserVisibilityDidChangeNotification object:nil];
-        [defaultCenter addObserver:self selector:@selector(userDidChangeAnnouncedDocuments:) name:TCMMMPresenceManagerUserSessionsDidChangeNotification object:nil];
-        [defaultCenter addObserver:self selector:@selector(connectionEntryDidChange:) name:SEEConnectionStatusDidChangeNotification object:nil];
-        [defaultCenter addObserver:self selector:@selector(connectionEntryDidChange:) name:TCMBEEPSessionAuthenticationInformationDidChangeNotification object:nil];
+		TCMMMBEEPSessionManager *manager = [TCMMMBEEPSessionManager sharedInstance];
         [defaultCenter addObserver:self selector:@selector(TCM_didAcceptSession:) name:TCMMMBEEPSessionManagerDidAcceptSessionNotification object:manager];
         [defaultCenter addObserver:self selector:@selector(TCM_sessionDidEnd:) name:TCMMMBEEPSessionManagerSessionDidEndNotification object:manager];
 
-		// not sure if needed
-		[defaultCenter addObserver:self selector:@selector(announcedSessionsDidChange:) name:TCMMMPresenceManagerAnnouncedSessionsDidChangeNotification object:[TCMMMPresenceManager sharedInstance]];
-		[defaultCenter addObserver:self selector:@selector(announcedSessionsDidChange:) name:TCMMMPresenceManagerServiceAnnouncementDidChangeNotification object:[TCMMMPresenceManager sharedInstance]];
+		TCMMMPresenceManager *presenceManager = [TCMMMPresenceManager sharedInstance];
+		[defaultCenter addObserver:self selector:@selector(userDidChangeVisibility:) name:TCMMMPresenceManagerUserVisibilityDidChangeNotification object:presenceManager];
+        [defaultCenter addObserver:self selector:@selector(userDidChangeAnnouncedDocuments:) name:TCMMMPresenceManagerUserSessionsDidChangeNotification object:presenceManager];
+		[defaultCenter addObserver:self selector:@selector(announcedSessionsDidChange:) name:TCMMMPresenceManagerAnnouncedSessionsDidChangeNotification object:presenceManager];
+		[defaultCenter addObserver:self selector:@selector(announcedSessionsDidChange:) name:TCMMMPresenceManagerServiceAnnouncementDidChangeNotification object:presenceManager];
 
+        [defaultCenter addObserver:self selector:@selector(connectionEntryDidChange:) name:SEEConnectionStatusDidChangeNotification object:nil];
+        [defaultCenter addObserver:self selector:@selector(connectionEntryDidChange:) name:TCMBEEPSessionAuthenticationInformationDidChangeNotification object:nil];
+
+		// not sure if needed
 		[defaultCenter addObserver:self selector:@selector(userDidChange:) name:TCMMMUserManagerUserDidChangeNotification object:nil];
 
 

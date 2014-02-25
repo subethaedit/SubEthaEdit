@@ -55,10 +55,12 @@ static DebugController * sharedInstance = nil;
     if (![user isEqual:[TCMMMUserManager me]]) {
         NSString *saveName = [NSString stringWithFormat:@"%@ - %@", [user name], [user userID]];
         NSData *vcard = [[user vcfRepresentation] dataUsingEncoding:NSUnicodeStringEncoding];
-        [vcard writeToFile:[[NSString stringWithFormat:@"~/Library/Caches/SubEthaEdit/%@.vcf", saveName] stringByExpandingTildeInPath] atomically:YES];
+		NSURL *cachesURL = [[NSFileManager defaultManager] URLForDirectory:NSCachesDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:nil];
+		NSString *cachesPath = [cachesURL path];
+        [vcard writeToFile:[cachesPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.vcf", saveName]] atomically:YES];
         NSData *image = [[user properties] objectForKey:@"ImageAsPNG"];
         if (image) {
-            [image writeToFile:[[NSString stringWithFormat:@"~/Library/Caches/SubEthaEdit/%@.png", saveName] stringByExpandingTildeInPath] atomically:YES];
+            [image writeToFile:[cachesPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", saveName]] atomically:YES];
         }
     }
 }
