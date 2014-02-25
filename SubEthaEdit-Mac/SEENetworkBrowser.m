@@ -206,9 +206,12 @@ extern int const FileNewMenuItemTag;
 	NSArray *availableDocumentSession = self.availableDocumentSessions;
 	SEENetworkDocumentRepresentation *documentRepresentation = [availableDocumentSession objectAtIndex:row];
 	if (documentRepresentation && !documentRepresentation.documentSession) {
-		rowView.wantsLayer = YES; // this wantsLayer is needed. without it the content of all layer backed subviews will be scrolled out of group view.
-
 		NSTableCellView *tableCellView = [rowView.subviews objectAtIndex:0];
+
+//		CIFilter *gaussianBlur = [CIFilter filterWithName:@"CIGaussianBlur"];
+//		[gaussianBlur setDefaults];
+//		tableCellView.layerUsesCoreImageFilters = YES;
+//		[tableCellView setBackgroundFilters:@[gaussianBlur]];
 
 		NSImageView *userImageView = [[tableCellView subviews] objectAtIndex:1];
 
