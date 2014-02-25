@@ -23,12 +23,14 @@
 #import "TCMMMUser.h"
 #import "TCMMMUserSEEAdditions.h"
 
+#import <QuartzCore/QuartzCore.h>
+
 extern int const FileMenuTag;
 extern int const FileNewMenuItemTag;
 
 @interface SEENetworkBrowser () <NSTableViewDelegate>
 
-@property (nonatomic, weak) IBOutlet NSImageView *userImageViewPrototype;
+@property (nonatomic, weak) IBOutlet NSScrollView *scrollView;
 
 @property (nonatomic, weak) IBOutlet NSObjectController *filesOwnerProxy;
 @property (nonatomic, weak) IBOutlet NSArrayController *collectionViewArrayController;
@@ -80,6 +82,12 @@ extern int const FileNewMenuItemTag;
 - (void)windowDidLoad
 {
     [super windowDidLoad];
+
+	NSScrollView *scrollView = self.scrollView;
+	scrollView.contentView.layer = [CAScrollLayer layer];
+	scrollView.contentView.wantsLayer = YES;
+	scrollView.contentView.layerContentsRedrawPolicy = NSViewLayerContentsRedrawNever;
+	scrollView.wantsLayer = YES;
 
 	self.filesOwnerProxy.content = self;
 }
@@ -183,16 +191,16 @@ extern int const FileNewMenuItemTag;
 	return result;
 }
 
-- (NSTableRowView *)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row
-{
-	NSTableRowView * rowView = nil;
-	NSArray *availableDocumentSession = self.availableDocumentSessions;
-	SEENetworkDocumentRepresentation *documentRepresentation = [availableDocumentSession objectAtIndex:row];
-	if (documentRepresentation && !documentRepresentation.documentSession) {
-		rowView = [[SEENetworkBrowserGroupTableRowView alloc] init];
-	}
-	return rowView;
-}
+//- (NSTableRowView *)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row
+//{
+//	NSTableRowView * rowView = nil;
+//	NSArray *availableDocumentSession = self.availableDocumentSessions;
+//	SEENetworkDocumentRepresentation *documentRepresentation = [availableDocumentSession objectAtIndex:row];
+//	if (documentRepresentation && !documentRepresentation.documentSession) {
+//		rowView = [[SEENetworkBrowserGroupTableRowView alloc] init];
+//	}
+//	return rowView;
+//}
 
 - (void)tableView:(NSTableView *)tableView didAddRowView:(NSTableRowView *)rowView forRow:(NSInteger)row {
 	NSArray *availableDocumentSession = self.availableDocumentSessions;
@@ -221,6 +229,16 @@ extern int const FileNewMenuItemTag;
 		result = YES;
 	}
 	return result;
+}
+
+- (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row {
+	CGFloat rowHeight = 28.0;
+	NSArray *availableDocumentSession = self.availableDocumentSessions;
+	SEENetworkDocumentRepresentation *documentRepresentation = [availableDocumentSession objectAtIndex:row];
+	if (documentRepresentation && !documentRepresentation.documentSession) {
+		rowHeight = 46.0;
+	}
+	return rowHeight;
 }
 
 @end
