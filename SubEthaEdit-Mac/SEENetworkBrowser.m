@@ -157,6 +157,9 @@ extern int const FileNewMenuItemTag;
 
 - (IBAction)joinDocument:(id)sender
 {
+	// make sure we get the selection before cosing the window... because it will reset the selection.
+	NSArray *selectedDocuments = self.collectionViewArrayController.selectedObjects;
+
 	if (self.shouldCloseWhenOpeningDocument) {
 		if ([NSApp modalWindow] == self.window) {
 			[NSApp stopModalWithCode:NSModalResponseOK];
@@ -164,7 +167,6 @@ extern int const FileNewMenuItemTag;
 		[self close];
 	}
 
-	NSArray *selectedDocuments = self.collectionViewArrayController.selectedObjects;
 	[selectedDocuments makeObjectsPerformSelector:@selector(joinDocument:) withObject:sender];
 }
 
@@ -181,33 +183,33 @@ extern int const FileNewMenuItemTag;
 	return result;
 }
 
-//- (NSTableRowView *)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row
-//{
-//	NSTableRowView * rowView = nil;
-//	NSArray *availableDocumentSession = self.availableDocumentSessions;
-//	SEENetworkDocumentRepresentation *documentRepresentation = [availableDocumentSession objectAtIndex:row];
-//	if (documentRepresentation && !documentRepresentation.documentSession) {
-//		rowView = [[SEENetworkBrowserGroupTableRowView alloc] init];
-////		rowView.backgroundColor = [NSColor yellowColor];
-//	}
-//	return rowView;
-//}
+- (NSTableRowView *)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row
+{
+	NSTableRowView * rowView = nil;
+	NSArray *availableDocumentSession = self.availableDocumentSessions;
+	SEENetworkDocumentRepresentation *documentRepresentation = [availableDocumentSession objectAtIndex:row];
+	if (documentRepresentation && !documentRepresentation.documentSession) {
+		rowView = [[SEENetworkBrowserGroupTableRowView alloc] init];
+	}
+	return rowView;
+}
 
 - (void)tableView:(NSTableView *)tableView didAddRowView:(NSTableRowView *)rowView forRow:(NSInteger)row {
 	NSArray *availableDocumentSession = self.availableDocumentSessions;
 	SEENetworkDocumentRepresentation *documentRepresentation = [availableDocumentSession objectAtIndex:row];
 	if (documentRepresentation && !documentRepresentation.documentSession) {
-		rowView.layer.masksToBounds = NO;
-		NSImageView *userImageView = [[[rowView.subviews objectAtIndex:0] subviews] objectAtIndex:1];
+		rowView.wantsLayer = YES; // this wantsLayer is needed. without it the content of all layer backed subviews will be scrolled out of group view.
+
+		NSTableCellView *tableCellView = [rowView.subviews objectAtIndex:0];
+
+		NSImageView *userImageView = [[tableCellView subviews] objectAtIndex:1];
+
+		userImageView.wantsLayer = YES;
 		CALayer *userViewLayer = userImageView.layer;
 		userViewLayer.borderColor = [[NSColor yellowColor] CGColor];
 		userViewLayer.borderWidth = NSHeight(userImageView.frame) / 16.0;
 		userViewLayer.cornerRadius = NSHeight(userImageView.frame) / 2.0;
 	}
-}
-
-- (void)tableView:(NSTableView *)tableView didRemoveRowView:(NSTableRowView *)rowView forRow:(NSInteger)row {
-
 }
 
 - (BOOL)tableView:(NSTableView *)tableView isGroupRow:(NSInteger)row
@@ -220,17 +222,5 @@ extern int const FileNewMenuItemTag;
 	}
 	return result;
 }
-
-- (CGFloat)tableView:(NSTableView *)aTableView heightOfRow:(NSInteger)row {
-	CGFloat result = 24.0;
-	NSArray *availableDocumentSession = self.availableDocumentSessions;
-	SEENetworkDocumentRepresentation *documentRepresentation = [availableDocumentSession objectAtIndex:row];
-	if (documentRepresentation && !documentRepresentation.documentSession) {
-		result = 36.0;
-	}
-	return result;
-}
-
-
 
 @end
