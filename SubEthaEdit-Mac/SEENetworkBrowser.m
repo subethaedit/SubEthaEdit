@@ -220,6 +220,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	NSArray *availableDocumentSession = self.availableDocumentSessions;
 	id documentRepresentation = [availableDocumentSession objectAtIndex:row];
 	if ([documentRepresentation isKindOfClass:SEENetworkConnectionRepresentation.class]) {
+		SEENetworkConnectionRepresentation *connectionRepresentation = (SEENetworkConnectionRepresentation *)documentRepresentation;
 		NSTableCellView *tableCellView = [rowView.subviews objectAtIndex:0];
 
 //		CIFilter *gaussianBlur = [CIFilter filterWithName:@"CIGaussianBlur"];
@@ -231,7 +232,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 
 		userImageView.wantsLayer = YES;
 		CALayer *userViewLayer = userImageView.layer;
-		userViewLayer.borderColor = [[NSColor yellowColor] CGColor];
+		NSColor *changeColor = connectionRepresentation.connection.user.changeColor;
+		userViewLayer.borderColor = [[NSColor colorWithCalibratedHue:changeColor.hueComponent saturation:0.85 brightness:1.0 alpha:1.0] CGColor];
 		userViewLayer.borderWidth = NSHeight(userImageView.frame) / 16.0;
 		userViewLayer.cornerRadius = NSHeight(userImageView.frame) / 2.0;
 	}
