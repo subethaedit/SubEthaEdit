@@ -30,6 +30,25 @@ static FindReplaceController *sharedInstance=nil;
 
 @interface FindReplaceController ()
 @property (nonatomic, strong) NSArray *topLevelNibObjects;
+
+@property (nonatomic, strong) NSMutableArray *findHistory;
+@property (nonatomic, strong) NSMutableArray *replaceHistory;
+
+@property (nonatomic, strong) NSString *replaceAllFindString;
+@property (nonatomic, strong) NSString *replaceAllReplaceString;
+@property (nonatomic) NSRange replaceAllPosRange;
+@property (nonatomic) NSRange replaceAllRange;
+@property (nonatomic, strong) NSArray *replaceAllMatchArray;
+@property (nonatomic, strong) NSDictionary *replaceAllAttributes;
+@property (nonatomic, strong) NSMutableString *replaceAllText;
+@property (nonatomic, strong) NSTextView *replaceAllTarget;
+@property (nonatomic, strong) OGReplaceExpression *replaceAllRepex;
+@property (nonatomic, strong) OGRegularExpression *replaceAllRegex;
+@property (nonatomic) int replaceAllReplaced;
+@property (nonatomic) int replaceAllArrayIndex;
+@property (nonatomic) unsigned replaceAllOptions;
+@property (nonatomic, strong) SelectionOperation *replaceAllSelectionOperation;
+
 @end
 
 @implementation FindReplaceController
@@ -48,8 +67,8 @@ static FindReplaceController *sharedInstance=nil;
     self = [super init];
     if (self) {
         sharedInstance = self;
-        I_findHistory = [NSMutableArray new];
-        I_replaceHistory = [NSMutableArray new];
+        _findHistory = [NSMutableArray new];
+        _replaceHistory = [NSMutableArray new];
     }
     return self;
 }
@@ -259,10 +278,10 @@ static FindReplaceController *sharedInstance=nil;
 	
 	[prefs setObject:[NSNumber numberWithBool:YES] forKey:@"Confirmed Longest Match Option"];
 	
-    if (I_findHistory) {
-        [prefs setObject:I_findHistory forKey:@"FindHistory"];
+    if (_findHistory) {
+        [prefs setObject:_findHistory forKey:@"FindHistory"];
     }
-    if (I_replaceHistory) [prefs setObject:I_replaceHistory forKey:@"ReplaceHistory"];
+    if (_replaceHistory) [prefs setObject:_replaceHistory forKey:@"ReplaceHistory"];
     [[NSUserDefaults standardUserDefaults] setObject:prefs forKey:@"Find Panel Preferences"];
 }
 
@@ -295,10 +314,10 @@ static FindReplaceController *sharedInstance=nil;
         [O_regexCaptureGroupsCheckbox setState:[[prefs objectForKey:@"Capture"] intValue]];
     }
     if ([prefs objectForKey:@"FindHistory"]) {
-        I_findHistory = [[prefs objectForKey:@"FindHistory"] mutableCopy];
+        _findHistory = [[prefs objectForKey:@"FindHistory"] mutableCopy];
     }
     if ([prefs objectForKey:@"ReplaceHistory"]) {
-        I_replaceHistory = [[prefs objectForKey:@"ReplaceHistory"] mutableCopy];
+        _replaceHistory = [[prefs objectForKey:@"ReplaceHistory"] mutableCopy];
     }
 }
 
@@ -440,7 +459,7 @@ static FindReplaceController *sharedInstance=nil;
             return;
         }
         if (target) {
-            [self addString:findString toHistory:I_findHistory];
+            [self addString:findString toHistory:_findHistory];
             OGRegularExpression *regex = nil;
             @try{
             regex = [OGRegularExpression regularExpressionWithString:[O_findComboBox stringValue]
@@ -473,8 +492,8 @@ static FindReplaceController *sharedInstance=nil;
         }
         NSString *findString = [O_findComboBox stringValue];
         NSString *replaceString = [O_replaceComboBox stringValue];
-        [self addString:findString toHistory:I_findHistory];
-        [self addString:replaceString toHistory:I_replaceHistory];
+        [self addString:findString toHistory:_findHistory];
+        [self addString:replaceString toHistory:_replaceHistory];
         NSMutableString *text = [[target textStorage] mutableString];
         NSRange selection = [target selectedRange];
         if (selection.length==0) {
@@ -566,50 +585,50 @@ static FindReplaceController *sharedInstance=nil;
     int i = replacePerCycle;
     TCMMMTransformator *transformator=[TCMMMTransformator sharedInstance];
 
-    [[I_replaceAllTarget textStorage] beginEditing];
-    if (I_replaceAllReplaced>0) 
-        [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%d replaced.",@"Number of replaced strings"), I_replaceAllReplaced]];
+    [[_replaceAllTarget textStorage] beginEditing];
+    if (_replaceAllReplaced>0) 
+        [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%d replaced.",@"Number of replaced strings"), _replaceAllReplaced]];
  
     while (YES) {
         i--;
         if (i<0) break;
         
         
-        NSRange foundRange = [I_replaceAllText findString:I_replaceAllFindString selectedRange:I_replaceAllPosRange options:I_replaceAllOptions wrap:NO];
+        NSRange foundRange = [_replaceAllText findString:_replaceAllFindString selectedRange:_replaceAllPosRange options:_replaceAllOptions wrap:NO];
         if (foundRange.length) {
-            if (foundRange.location < I_replaceAllRange.location) {
-                I_replaceAllPosRange = NSMakeRange(0,0);
+            if (foundRange.location < _replaceAllRange.location) {
+                _replaceAllPosRange = NSMakeRange(0,0);
                 break;
             }
-            if (I_replaceAllReplaced==0) {
-                PlainTextDocument *aDocument = (PlainTextDocument *)[[[I_replaceAllTarget window] windowController] document];
+            if (_replaceAllReplaced==0) {
+                PlainTextDocument *aDocument = (PlainTextDocument *)[[[_replaceAllTarget window] windowController] document];
                 [[aDocument session] pauseProcessing];
                 [self lockDocument:aDocument];
                 [[aDocument documentUndoManager] beginUndoGrouping];
             }
-            [I_replaceAllText replaceCharactersInRange:foundRange withString:I_replaceAllReplaceString];
+            [_replaceAllText replaceCharactersInRange:foundRange withString:_replaceAllReplaceString];
 
-            [transformator transformOperation:I_replaceAllSelectionOperation serverOperation:[TextOperation textOperationWithAffectedCharRange:foundRange replacementString:I_replaceAllReplaceString userID:[TCMMMUserManager myUserID]]];
+            [transformator transformOperation:_replaceAllSelectionOperation serverOperation:[TextOperation textOperationWithAffectedCharRange:foundRange replacementString:_replaceAllReplaceString userID:[TCMMMUserManager myUserID]]];
 
-            [[I_replaceAllTarget textStorage] addAttributes:I_replaceAllAttributes range:NSMakeRange(foundRange.location, [I_replaceAllReplaceString length])];
-            I_replaceAllReplaced++;
-            I_replaceAllPosRange.location = foundRange.location;
+            [[_replaceAllTarget textStorage] addAttributes:_replaceAllAttributes range:NSMakeRange(foundRange.location, [_replaceAllReplaceString length])];
+            _replaceAllReplaced++;
+            _replaceAllPosRange.location = foundRange.location;
         }
 
         if (!foundRange.length) {
-            [[I_replaceAllTarget textStorage] endEditing];
-            I_replaceAllFindString = nil;
-            I_replaceAllReplaceString = nil;
-            I_replaceAllTarget = nil;
-            I_replaceAllText = nil;
-            I_replaceAllAttributes = nil;
+            [[_replaceAllTarget textStorage] endEditing];
+            _replaceAllFindString = nil;
+            _replaceAllReplaceString = nil;
+            _replaceAllTarget = nil;
+            _replaceAllText = nil;
+            _replaceAllAttributes = nil;
             
-            PlainTextDocument *aDocument = (PlainTextDocument *)[[[I_replaceAllTarget window] windowController] document];
+            PlainTextDocument *aDocument = (PlainTextDocument *)[[[_replaceAllTarget window] windowController] document];
             
-            [aDocument selectRange:[I_replaceAllSelectionOperation selectedRange]];
-            I_replaceAllSelectionOperation = nil;
+            [aDocument selectRange:[_replaceAllSelectionOperation selectedRange]];
+            _replaceAllSelectionOperation = nil;
             
-            if (I_replaceAllReplaced==0) {
+            if (_replaceAllReplaced==0) {
                 if ([[O_scopePopup selectedItem] tag]==1) {
                     [O_statusTextField setStringValue:NSLocalizedString(@"Not found in selection.",@"Find string not found in selection")];
                 } else {
@@ -617,17 +636,17 @@ static FindReplaceController *sharedInstance=nil;
                 }
                 NSBeep();
             } else {
-                [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%d replaced.",@"Number of replaced strings"), I_replaceAllReplaced]];
+                [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%d replaced.",@"Number of replaced strings"), _replaceAllReplaced]];
                 [[aDocument documentUndoManager] endUndoGrouping];
                 [[aDocument session] startProcessing];
                 [self unlockDocument:aDocument];
             }
-            I_replaceAllTarget = nil;
+            _replaceAllTarget = nil;
             return;
         }
     }
     
-    [[I_replaceAllTarget textStorage] endEditing];    
+    [[_replaceAllTarget textStorage] endEditing];    
     [self performSelector:@selector(replaceAFewPlainMatches) withObject:nil afterDelay:0.1];
 }
 
@@ -635,52 +654,52 @@ static FindReplaceController *sharedInstance=nil;
 {
     const int replacePerCycle = 50;
     int i;
-    int index = I_replaceAllArrayIndex;
+    int index = _replaceAllArrayIndex;
     TCMMMTransformator *transformator=[TCMMMTransformator sharedInstance];
 
-    [[I_replaceAllTarget textStorage] beginEditing];
+    [[_replaceAllTarget textStorage] beginEditing];
         
     for (i = index; i >= MAX(index-replacePerCycle,0); i--) {
-        OGRegularExpressionMatch *aMatch = [I_replaceAllMatchArray objectAtIndex:i];
+        OGRegularExpressionMatch *aMatch = [_replaceAllMatchArray objectAtIndex:i];
         NSRange matchedRange = [aMatch rangeOfMatchedString];
-        NSString *replaceWith = [I_replaceAllRepex replaceMatchedStringOf:aMatch];
+        NSString *replaceWith = [_replaceAllRepex replaceMatchedStringOf:aMatch];
 
-        if (I_replaceAllReplaced==0) {
-            PlainTextDocument *aDocument = (PlainTextDocument *)[[[I_replaceAllTarget window] windowController] document];
+        if (_replaceAllReplaced==0) {
+            PlainTextDocument *aDocument = (PlainTextDocument *)[[[_replaceAllTarget window] windowController] document];
             [[aDocument session] pauseProcessing];
             [self lockDocument:aDocument];
             [[aDocument documentUndoManager] beginUndoGrouping];
         }
 
-        [I_replaceAllText replaceCharactersInRange:matchedRange withString:replaceWith];
+        [_replaceAllText replaceCharactersInRange:matchedRange withString:replaceWith];
 
-        [transformator transformOperation:I_replaceAllSelectionOperation serverOperation:[TextOperation textOperationWithAffectedCharRange:matchedRange replacementString:replaceWith userID:[TCMMMUserManager myUserID]]];
+        [transformator transformOperation:_replaceAllSelectionOperation serverOperation:[TextOperation textOperationWithAffectedCharRange:matchedRange replacementString:replaceWith userID:[TCMMMUserManager myUserID]]];
 
         
         NSRange newRange = NSMakeRange(matchedRange.location, [replaceWith length]);
-        [[I_replaceAllTarget textStorage] addAttributes:I_replaceAllAttributes range:newRange];
-        I_replaceAllReplaced++;
-        [O_progressIndicatorDet setDoubleValue:(double)I_replaceAllReplaced];
+        [[_replaceAllTarget textStorage] addAttributes:_replaceAllAttributes range:newRange];
+        _replaceAllReplaced++;
+        [O_progressIndicatorDet setDoubleValue:(double)_replaceAllReplaced];
     }
     
-    I_replaceAllArrayIndex = i;
+    _replaceAllArrayIndex = i;
     
-    if (I_replaceAllArrayIndex > 0) { // Not ready yet
+    if (_replaceAllArrayIndex > 0) { // Not ready yet
         [self performSelector:@selector(replaceAFewMatches) withObject:nil afterDelay:0.02];
     } else { // Ready.
-        [[I_replaceAllTarget textStorage] endEditing];
-        I_replaceAllMatchArray = nil;
-        I_replaceAllText = nil;
-        I_replaceAllRepex = nil;
-        I_replaceAllRegex = nil;
-        I_replaceAllAttributes = nil;
+        [[_replaceAllTarget textStorage] endEditing];
+        _replaceAllMatchArray = nil;
+        _replaceAllText = nil;
+        _replaceAllRepex = nil;
+        _replaceAllRegex = nil;
+        _replaceAllAttributes = nil;
         
-        PlainTextDocument *aDocument = (PlainTextDocument *)[[[I_replaceAllTarget window] windowController] document];
+        PlainTextDocument *aDocument = (PlainTextDocument *)[[[_replaceAllTarget window] windowController] document];
         
-        [aDocument selectRange:[I_replaceAllSelectionOperation selectedRange]];
-        I_replaceAllSelectionOperation = nil;
+        [aDocument selectRange:[_replaceAllSelectionOperation selectedRange]];
+        _replaceAllSelectionOperation = nil;
         
-        if (I_replaceAllReplaced==0) {
+        if (_replaceAllReplaced==0) {
             if ([[O_scopePopup selectedItem] tag]==1) {
                 [O_statusTextField setStringValue:NSLocalizedString(@"Not found in selection.",@"Find string not found in selection")];
             } else {
@@ -691,7 +710,7 @@ static FindReplaceController *sharedInstance=nil;
             [[aDocument documentUndoManager] endUndoGrouping];
             [self unlockDocument:aDocument];
             [[aDocument session] startProcessing];
-            [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%d replaced.",@"Number of replaced strings"), I_replaceAllReplaced]];
+            [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%d replaced.",@"Number of replaced strings"), _replaceAllReplaced]];
         }
         [O_progressIndicatorDet stopAnimation:nil];
         [O_progressIndicatorDet setHidden:YES];
@@ -700,17 +719,17 @@ static FindReplaceController *sharedInstance=nil;
         [O_statusTextField setHidden:NO];
         return;
     }
-    [[I_replaceAllTarget textStorage] endEditing];
+    [[_replaceAllTarget textStorage] endEditing];
 }
 
 - (void) replaceAllInRange:(NSRange)aRange
 {
-    I_replaceAllReplaced = 0;
+    _replaceAllReplaced = 0;
     NSTextView *target = [self targetToFindIn];
     NSString *findString = [O_findComboBox stringValue];
     NSString *replaceString = [O_replaceComboBox stringValue];
-    [self addString:findString toHistory:I_findHistory];
-    [self addString:replaceString toHistory:I_replaceHistory];
+    [self addString:findString toHistory:_findHistory];
+    [self addString:replaceString toHistory:_replaceHistory];
 
     if (target) {
         if ((![target isEditable])||(aRange.length==0)) {
@@ -722,23 +741,23 @@ static FindReplaceController *sharedInstance=nil;
         PlainTextDocument *aDocument = (PlainTextDocument *)[[[target window] windowController] document];
         NSDictionary *attributes = [aDocument typingAttributes];
         
-        I_replaceAllAttributes = attributes;
+        _replaceAllAttributes = attributes;
         
-        I_replaceAllSelectionOperation = [SelectionOperation new];
-        [I_replaceAllSelectionOperation setSelectedRange:[target selectedRange]];
+        _replaceAllSelectionOperation = [SelectionOperation new];
+        [_replaceAllSelectionOperation setSelectedRange:[target selectedRange]];
         
         if ([self currentOgreSyntax]==OgreSimpleMatchingSyntax) {
             [self saveFindStringToPasteboard];
             unsigned options = NSLiteralSearch|NSBackwardsSearch;
             if ([O_ignoreCaseCheckbox state]==NSOnState) options |= NSCaseInsensitiveSearch;
             
-            I_replaceAllOptions = options;
-            I_replaceAllPosRange = NSMakeRange(NSMaxRange(aRange),0);
-            I_replaceAllFindString = findString;
-            I_replaceAllReplaceString = replaceString;
-            I_replaceAllRange = aRange;
-            I_replaceAllText = text;
-            I_replaceAllTarget = target;
+            _replaceAllOptions = options;
+            _replaceAllPosRange = NSMakeRange(NSMaxRange(aRange),0);
+            _replaceAllFindString = findString;
+            _replaceAllReplaceString = replaceString;
+            _replaceAllRange = aRange;
+            _replaceAllText = text;
+            _replaceAllTarget = target;
 
 
             [O_statusTextField setStringValue:@""];
@@ -774,14 +793,14 @@ static FindReplaceController *sharedInstance=nil;
 			unsigned ogreoptions = [self currentOgreOptions];
             NSArray *matchArray = [regex allMatchesInString:text options:ogreoptions range:aRange];
             
-            I_replaceAllRepex = repex;
-            I_replaceAllRegex = regex;
-            I_replaceAllMatchArray = matchArray;
-            I_replaceAllText = text;
-            I_replaceAllTarget = target;
+            _replaceAllRepex = repex;
+            _replaceAllRegex = regex;
+            _replaceAllMatchArray = matchArray;
+            _replaceAllText = text;
+            _replaceAllTarget = target;
             
             int count = [matchArray count];
-            I_replaceAllArrayIndex = count - 1;
+            _replaceAllArrayIndex = count - 1;
             [O_progressIndicatorDet setMaxValue:count];
             [O_progressIndicatorDet setMinValue:0];
             [O_progressIndicatorDet setDoubleValue:0];
@@ -819,7 +838,7 @@ static FindReplaceController *sharedInstance=nil;
 - (BOOL)find:(NSString*)findString forward:(BOOL)forward
 {
     BOOL found = NO;
-    [self addString:findString toHistory:I_findHistory];
+    [self addString:findString toHistory:_findHistory];
 	@autoreleasepool {
 		[O_progressIndicator startAnimation:nil];
 		
@@ -1016,25 +1035,25 @@ static FindReplaceController *sharedInstance=nil;
 - (NSInteger)numberOfItemsInComboBox:(NSComboBox*)aComboBox
 {
 	if (aComboBox == O_replaceComboBox) {
-		return [I_replaceHistory count];
+		return [_replaceHistory count];
 	}
-	return [I_findHistory count];
+	return [_findHistory count];
 }
 
 - (id)comboBox:(NSComboBox*)aComboBox objectValueForItemAtIndex:(NSInteger)index
 {
 	if (aComboBox == O_replaceComboBox) {
-		return [I_replaceHistory objectAtIndex:index];
+		return [_replaceHistory objectAtIndex:index];
 	}
-	return [I_findHistory objectAtIndex:index];
+	return [_findHistory objectAtIndex:index];
 }
 
 - (NSUInteger)comboBox:(NSComboBox*)aComboBox indexOfItemWithStringValue:(NSString*)string
 {
 	if (aComboBox == O_replaceComboBox) {
-		return [I_replaceHistory indexOfObject:string];
+		return [_replaceHistory indexOfObject:string];
 	}
-	return [I_findHistory indexOfObject:string];
+	return [_findHistory indexOfObject:string];
 }
 
 - (void)addString:(NSString*)aString toHistory:(NSMutableArray *)anArray
