@@ -122,15 +122,17 @@
 }
 
 - (SEEConnection *)connectionEntryForURL:(NSURL *)anURL {
-    NSEnumerator *entries = [self.entries objectEnumerator];
-    SEEConnection *entry = nil;
-    while ((entry=[entries nextObject])) {
+	SEEConnection *entry = nil;
+    for (entry in self.entries) {
         if ([entry handleURL:anURL]) {
             return entry;
         }
     }
+
     entry = [[[SEEConnection alloc] initWithURL:anURL] autorelease];
-    [self.entries addObject:entry];
+	[self willChangeValueForKey:@"entries"];
+	[self.entries addObject:entry];
+	[self didChangeValueForKey:@"entries"];
     return entry;
 }
 
@@ -167,12 +169,10 @@
 
 - (void)TCM_didAcceptSession:(NSNotification *)notification {
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"TCM_didAcceptSession: %@", notification);
+
     TCMBEEPSession *session = [[notification userInfo] objectForKey:@"Session"];
-    
-    NSEnumerator *entries = [self.entries objectEnumerator];
-    SEEConnection *entry = nil;
     BOOL sessionWasHandled = NO;
-    while ((entry=[entries nextObject])) {
+    for (SEEConnection *entry in self.entries) {
         if ([entry handleSession:session]) {
             sessionWasHandled = YES;
             break;
@@ -180,17 +180,18 @@
     }
     if (!sessionWasHandled) {
         SEEConnection *entry = [[[SEEConnection alloc] initWithBEEPSession:session] autorelease];
+		[self willChangeValueForKey:@"entries"];
         [self.entries addObject:entry];
+		[self didChangeValueForKey:@"entries"];
     }
 }
 
 - (void)TCM_sessionDidEnd:(NSNotification *)notification {
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"TCM_sessionDidEnd: %@", notification);
+
     TCMBEEPSession *session = [[notification userInfo] objectForKey:@"Session"];
     SEEConnection *concernedEntry = nil;
-    NSEnumerator *entries = [self.entries objectEnumerator];
-    SEEConnection *entry = nil;
-    while ((entry=[entries nextObject])) {
+    for (SEEConnection *entry in self.entries) {
         if ([entry BEEPSession] == session) {
             concernedEntry = entry;
             break;
@@ -198,8 +199,10 @@
     }
     if (concernedEntry) {
         if (![concernedEntry handleSessionDidEnd:session]) {
+			[self willChangeValueForKey:@"entries"];
             [self.entries removeObject:concernedEntry];
-        } 
+			[self didChangeValueForKey:@"entries"];
+        }
     }
 }
 
