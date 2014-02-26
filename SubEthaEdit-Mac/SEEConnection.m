@@ -7,6 +7,10 @@
 //  Copyright 2007-2014 TheCodingMonkeys. All rights reserved.
 //
 
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
 #import "SEEConnection.h"
 #import "AppController.h"
 #import "TCMMMUserManager.h"
@@ -41,8 +45,7 @@ NSString * const SEEConnectionStatusDidChangeNotification = @"SEEConnectionStatu
     NSString *urlQuery = [anURL query];
     NSString *query;
     if (urlQuery != nil) {
-        query = (NSString *)CFURLCreateStringByReplacingPercentEscapes(kCFAllocatorDefault, (CFStringRef)urlQuery, CFSTR(""));
-        [query autorelease];
+        query = (NSString *)CFBridgingRelease(CFURLCreateStringByReplacingPercentEscapes(kCFAllocatorDefault, (CFStringRef)urlQuery, CFSTR("")));
         NSArray *components = [query componentsSeparatedByString:@"&"];
         NSString *token = nil;
         NSString *sessionID = nil;
@@ -70,9 +73,8 @@ NSString * const SEEConnectionStatusDidChangeNotification = @"SEEConnectionStatu
     if ((self=[super init])) {
 		NSURL *documentRequest = nil;
         NSData *addressData = nil;
-       _URL = [[TCMMMBEEPSessionManager reducedURL:anURL addressData:&addressData documentRequest:&documentRequest] retain];
+       _URL = [TCMMMBEEPSessionManager reducedURL:anURL addressData:&addressData documentRequest:&documentRequest];
         if (!_URL) {
-            [self release];
 			self = nil;
             return self;
         }
@@ -108,21 +110,13 @@ NSString * const SEEConnectionStatusDidChangeNotification = @"SEEConnectionStatu
 }
 
 - (void)reloadAnnouncedSessions {
-    [_announcedSessions autorelease];
      _announcedSessions = [[[[TCMMMPresenceManager sharedInstance] statusOfUserID:[self userID]] objectForKey:TCMMMPresenceOrderedSessionsKey] copy];
     // check if we need to connect to any of them
     [self checkDocumentRequests];
 }
 
 - (void)dealloc {
-    [_announcedSessions release];
-    [_creationDate release];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [_host release];
-    [_pendingDocumentRequests release];
-    [_tokensToSend release];
-    [_URL release];
-    [super dealloc];
 }
 
 - (NSDate *)creationDate {
@@ -370,7 +364,6 @@ NSString * const SEEConnectionStatusDidChangeNotification = @"SEEConnectionStatu
         _hostStatus = HostEntryStatusCancelled;
         [self sendStatusDidChangeNotification];
     }
-//    [self TCM_validateClearButton];
 }
 
 

@@ -7,6 +7,10 @@
 //  Copyright (c) 2004-2014 TheCodingMonkeys. All rights reserved.
 //
 
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "SEEConnectionManager.h"
 #import "TCMHost.h"
@@ -53,13 +57,9 @@
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-
-	self.entries = nil;
-
-	[super dealloc];
 }
 
-- (NSURL*)applicationConnectionURL {
+- (NSURL *)applicationConnectionURL {
     TCMPortMapper *pm = [TCMPortMapper sharedInstance];
     NSString *URLString = [NSString stringWithFormat:@"see://%@:%d", [pm localIPAddress],[[TCMMMBEEPSessionManager sharedInstance] listeningPort]];
     TCMPortMapping *mapping = [[pm portMappings] anyObject];
@@ -97,7 +97,7 @@
         }
     }
 
-    entry = [[[SEEConnection alloc] initWithURL:anURL] autorelease];
+    entry = [[SEEConnection alloc] initWithURL:anURL];
 	[self.entries addObject:entry];
 	[self didChangeValueForKey:@"entries"];
     return entry;
@@ -109,22 +109,6 @@
     
     SEEConnection *entry = [self connectionEntryForURL:anURL];
     [entry connect];
-}
-
-- (void)alertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-    DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"alertDidEnd:");
-    
-    NSDictionary *alertContext = (NSDictionary *)contextInfo;
-    if (returnCode == NSAlertFirstButtonReturn) {
-        DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"abort connection");
-        NSSet *set = [alertContext objectForKey:@"items"];
-        SEEConnection *entry=nil;
-        for (entry in set) {
-            [entry cancel];
-        }
-    }
-    
-    [alertContext autorelease];
 }
 
 - (NSArray *)clearableEntries {
@@ -148,7 +132,7 @@
 			}
 		}
 		if (!sessionWasHandled) {
-			SEEConnection *entry = [[[SEEConnection alloc] initWithBEEPSession:session] autorelease];
+			SEEConnection *entry = [[SEEConnection alloc] initWithBEEPSession:session];
 			[self.entries addObject:entry];
 		}
 	}
@@ -209,7 +193,7 @@
 
 	[self willChangeValueForKey:@"entries"];
 	{
-		NSArray *entries = [[self.entries copy] autorelease];
+		NSArray *entries = [self.entries copy];
 		[entries makeObjectsPerformSelector:@selector(reloadAnnouncedSessions)];
 		[entries makeObjectsPerformSelector:@selector(checkDocumentRequests)];
 	}
@@ -229,7 +213,7 @@
 #pragma mark -
 
 + (NSString *)quoteEscapedStringWithString:(NSString *)aString {
-    NSMutableString *string = [[aString mutableCopy] autorelease];
+    NSMutableString *string = [aString mutableCopy];
     [string replaceOccurrencesOfString:@"\"" withString:@"\\\"" options:NSLiteralSearch range:NSMakeRange(0,[aString length])];
     return (NSString *)string;
 }
@@ -238,7 +222,7 @@
     // format is service id, id in that service, onlinestatus (0=offline),groupname
     NSString *message = [NSString stringWithFormat:NSLocalizedString(@"Please join me in SubEthaEdit:\n%@\n\n(You can download SubEthaEdit from http://www.codingmonkeys.de/subethaedit )",@"iChat invitation String with Placeholder for actual URL"),[anURL absoluteString]];
     NSString *applescriptString = [NSString stringWithFormat:@"tell application \"iChat\" to send \"%@\" to buddy id \"%@:%@\"",[self quoteEscapedStringWithString:message],aServiceID,aBuddy];
-    NSAppleScript *script = [[[NSAppleScript alloc] initWithSource:applescriptString] autorelease];
+    NSAppleScript *script = [[NSAppleScript alloc] initWithSource:applescriptString];
     // need to delay the sending so we don't try to send while in the dragging event
     [script performSelector:@selector(executeAndReturnError:) withObject:nil afterDelay:0.1];
 }

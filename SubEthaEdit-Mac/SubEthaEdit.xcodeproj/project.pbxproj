@@ -401,8 +401,8 @@
 		F2CA7D2F0CA142B1008BEA38 /* HUDStatisticPersonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CA7D2D0CA142B0008BEA38 /* HUDStatisticPersonCell.m */; };
 		F2CEAAA7100B3A350036B3F7 /* MAAttachedWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CEAAA6100B3A350036B3F7 /* MAAttachedWindow.m */; };
 		F2CEAAF1100B46150036B3F7 /* URLBubbleWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CEAAF0100B46150036B3F7 /* URLBubbleWindow.m */; };
-		F2D129FC0BF0B64A00A776CC /* SEEConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D129F80BF0B64700A776CC /* SEEConnectionManager.m */; };
-		F2D12A1D0BF0B8DF00A776CC /* SEEConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D12A1B0BF0B8DF00A776CC /* SEEConnection.m */; };
+		F2D129FC0BF0B64A00A776CC /* SEEConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D129F80BF0B64700A776CC /* SEEConnectionManager.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		F2D12A1D0BF0B8DF00A776CC /* SEEConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D12A1B0BF0B8DF00A776CC /* SEEConnection.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		F2D22CB40EE9C5E3004B8E33 /* SeeTextImporter.mdimporter in Copy Importers */ = {isa = PBXBuildFile; fileRef = F2D22CB30EE9C5DE004B8E33 /* SeeTextImporter.mdimporter */; };
 		F2D2CDB20D73043D000E3812 /* FriendCast16Active.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D2CDAE0D73043D000E3812 /* FriendCast16Active.png */; };
 		F2D2CDB30D73043D000E3812 /* FriendCast16.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D2CDAF0D73043D000E3812 /* FriendCast16.png */; };
