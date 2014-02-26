@@ -24,16 +24,34 @@ typedef enum {
 @end
 
 @interface FindReplaceController : NSObject <NSWindowDelegate> {
-    IBOutlet NSPanel *O_findPanel;
-    IBOutlet NSPanel *O_gotoPanel;
-    IBOutlet NSPanel *O_tabWidthPanel;
+
+	// tab width panel (whyever this is managed by us)
+	IBOutlet NSPanel *O_tabWidthPanel;
     IBOutlet NSTextField *O_tabWidthTextField;
+
+	// goto line panel
+	IBOutlet NSPanel *O_gotoPanel;
     IBOutlet NSTextField *O_gotoLineTextField;
+
+	// old find panel
+	IBOutlet NSPanel *O_findPanel;
     IBOutlet NSComboBox *O_findComboBox;
     IBOutlet NSComboBox *O_replaceComboBox;
     IBOutlet NSButton *O_ignoreCaseCheckbox;
     IBOutlet NSProgressIndicator *O_progressIndicator;
     IBOutlet NSProgressIndicator *O_progressIndicatorDet;
+
+	IBOutlet NSTextField *O_statusTextField;
+    IBOutlet NSButton *O_wrapAroundCheckbox;
+	
+    IBOutlet NSButton *O_FindAllButton;
+    IBOutlet NSButton *O_NextButton;
+    IBOutlet NSButton *O_PrevButton;
+    IBOutlet NSButton *O_ReplaceButton;
+    IBOutlet NSButton *O_ReplaceAllButton;
+    IBOutlet NSButton *O_ReplaceFindButton;
+
+	// old find panel regex options section
     IBOutlet NSDrawer *O_regexDrawer;
     IBOutlet NSButton *O_regexCheckbox;
     IBOutlet NSButton *O_regexCaptureGroupsCheckbox;
@@ -48,15 +66,6 @@ typedef enum {
     IBOutlet NSButton *O_regexSinglelineCheckbox;
     IBOutlet NSPopUpButton *O_regexSyntaxPopup;
     IBOutlet NSPopUpButton *O_scopePopup;
-    IBOutlet NSTextField *O_statusTextField;
-    IBOutlet NSButton *O_wrapAroundCheckbox;
-
-    IBOutlet NSButton *O_FindAllButton;
-    IBOutlet NSButton *O_NextButton;
-    IBOutlet NSButton *O_PrevButton;
-    IBOutlet NSButton *O_ReplaceButton;
-    IBOutlet NSButton *O_ReplaceAllButton;
-    IBOutlet NSButton *O_ReplaceFindButton;
 
 }
 
