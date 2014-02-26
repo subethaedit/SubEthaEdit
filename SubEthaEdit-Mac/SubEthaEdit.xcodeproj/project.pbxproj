@@ -136,7 +136,7 @@
 		142893F809575A3000D14688 /* AboutPanelController.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893DD09575A3000D14688 /* AboutPanelController.m */; };
 		142893F909575A3000D14688 /* AppController.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893DF09575A3000D14688 /* AppController.m */; };
 		142893FA09575A3000D14688 /* EncodingManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893E109575A3000D14688 /* EncodingManager.m */; };
-		142893FB09575A3000D14688 /* FindReplaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893E309575A3000D14688 /* FindReplaceController.m */; };
+		142893FB09575A3000D14688 /* FindReplaceController.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893E309575A3000D14688 /* FindReplaceController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		142893FC09575A3000D14688 /* GetURLCommand.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893E509575A3000D14688 /* GetURLCommand.m */; };
 		142893FE09575A3000D14688 /* NSApplicationTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893E909575A3000D14688 /* NSApplicationTCMAdditions.m */; };
 		142893FF09575A3000D14688 /* PullDownButton.m in Sources */ = {isa = PBXBuildFile; fileRef = 142893EB09575A3000D14688 /* PullDownButton.m */; };

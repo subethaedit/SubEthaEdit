@@ -12,8 +12,9 @@
 
 #import "FoldedTextAttachment.h"
 #import "AbstractFoldingTextStorage.h"
+@class FoldableTextStorage;
 
-@class FullTextStorage;
+#import "FullTextStorage.h"
 
 @protocol FoldableTextStorageDelegate;
 @protocol TextStorageBlockeditDelegate;
