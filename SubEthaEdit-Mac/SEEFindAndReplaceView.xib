@@ -22,7 +22,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="b8n-nP-ifa">
-                    <rect key="frame" x="34" y="7" width="170" height="22"/>
+                    <rect key="frame" x="34" y="7" width="146" height="22"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="GMg-up-LgK"/>
@@ -37,7 +37,7 @@
                     </connections>
                 </textField>
                 <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gqM-vr-cXm">
-                    <rect key="frame" x="279" y="7" width="170" height="22"/>
+                    <rect key="frame" x="303" y="7" width="146" height="22"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="MR8-tP-lEc"/>
@@ -58,7 +58,7 @@
                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="SmallGrowBoxRight3" id="Gt4-3V-Vpx"/>
                 </imageView>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hhy-Ph-Tf4">
-                    <rect key="frame" x="212" y="8" width="28" height="19"/>
+                    <rect key="frame" x="188" y="8" width="28" height="19"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="28" id="vOl-MX-0vS"/>
@@ -72,7 +72,7 @@
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Zld-nz-CsD">
-                    <rect key="frame" x="244" y="8" width="27" height="19"/>
+                    <rect key="frame" x="220" y="8" width="27" height="19"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="roundRect" bezelStyle="roundedRect" image="NSRightFacingTriangleTemplate" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="kxu-dk-QbG">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -110,6 +110,20 @@
                         <action selector="replaceAllAction:" target="-2" id="gaf-ai-To7"/>
                     </connections>
                 </button>
+                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Un5-SX-sFi">
+                    <rect key="frame" x="255" y="8" width="40" height="19"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="40" id="TDq-im-nsI"/>
+                    </constraints>
+                    <buttonCell key="cell" type="roundRect" title="All" bezelStyle="roundedRect" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="YXR-QR-Jyz">
+                        <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                        <font key="font" metaFont="titleBar" size="12"/>
+                    </buttonCell>
+                    <connections>
+                        <action selector="replaceAllAction:" target="-2" id="xNF-Wl-HEP"/>
+                    </connections>
+                </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="adi-Uu-d9V">
                     <rect key="frame" x="562" y="12" width="10" height="13"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
@@ -129,6 +143,7 @@
             <constraints>
                 <constraint firstAttribute="bottom" secondItem="2h9-Xo-WpS" secondAttribute="bottom" constant="4" id="2kg-vY-zfu"/>
                 <constraint firstAttribute="bottom" secondItem="b8n-nP-ifa" secondAttribute="bottom" constant="7" id="7oL-hK-hHY"/>
+                <constraint firstItem="gqM-vr-cXm" firstAttribute="leading" secondItem="Un5-SX-sFi" secondAttribute="trailing" constant="8" id="8AM-dd-ptY"/>
                 <constraint firstItem="b8n-nP-ifa" firstAttribute="top" secondItem="1" secondAttribute="top" constant="5" id="8sT-No-hFQ"/>
                 <constraint firstItem="39E-pR-j5M" firstAttribute="height" secondItem="Odd-5d-NOn" secondAttribute="height" id="CB6-Le-GrW"/>
                 <constraint firstItem="gqM-vr-cXm" firstAttribute="height" secondItem="b8n-nP-ifa" secondAttribute="height" id="CjK-Wk-sSF"/>
@@ -145,8 +160,9 @@
                 <constraint firstAttribute="trailing" secondItem="adi-Uu-d9V" secondAttribute="trailing" constant="11" id="rnS-Xe-gcm"/>
                 <constraint firstItem="39E-pR-j5M" firstAttribute="leading" secondItem="Odd-5d-NOn" secondAttribute="trailing" constant="3" id="rnz-or-Cpg"/>
                 <constraint firstItem="gqM-vr-cXm" firstAttribute="width" secondItem="b8n-nP-ifa" secondAttribute="width" id="uwX-Eg-c8V"/>
-                <constraint firstItem="gqM-vr-cXm" firstAttribute="leading" secondItem="Zld-nz-CsD" secondAttribute="trailing" constant="8" id="vAy-nE-xCw"/>
                 <constraint firstItem="adi-Uu-d9V" firstAttribute="leading" secondItem="39E-pR-j5M" secondAttribute="trailing" constant="5" id="vfb-ba-yhe"/>
+                <constraint firstItem="Un5-SX-sFi" firstAttribute="leading" secondItem="Zld-nz-CsD" secondAttribute="trailing" constant="8" id="vfg-ej-WZI"/>
+                <constraint firstItem="Zld-nz-CsD" firstAttribute="centerY" secondItem="Un5-SX-sFi" secondAttribute="centerY" id="wbr-ws-9tf"/>
                 <constraint firstItem="Zld-nz-CsD" firstAttribute="top" secondItem="Odd-5d-NOn" secondAttribute="top" id="xJH-3W-4ee"/>
                 <constraint firstItem="b8n-nP-ifa" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="34" id="xJY-AN-Aec"/>
             </constraints>
