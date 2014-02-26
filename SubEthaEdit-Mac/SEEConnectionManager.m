@@ -48,17 +48,6 @@
 
 		// not sure if needed
 		[defaultCenter addObserver:self selector:@selector(userDidChange:) name:TCMMMUserManagerUserDidChangeNotification object:nil];
-
-
-	    // Port Mappings
-		TCMPortMapper *pm = [TCMPortMapper sharedInstance];
-		[defaultCenter addObserver:self selector:@selector(portMapperDidStartWork:) name:TCMPortMapperDidStartWorkNotification object:pm];
-		[defaultCenter addObserver:self selector:@selector(portMapperDidFinishWork:) name:TCMPortMapperDidFinishWorkNotification object:pm];
-		if ([pm isAtWork]) {
-			[self portMapperDidStartWork:nil];
-		} else {
-			[self portMapperDidFinishWork:nil];
-		}
 	}
     return self;
 }
@@ -69,21 +58,6 @@
 	self.entries = nil;
 
 	[super dealloc];
-}
-
-- (void)portMapperDidStartWork:(NSNotification *)aNotification {
-	NSLog(NSLocalizedString(@"Checking port status...",@"Status of port mapping while trying"));
-}
-
-- (void)portMapperDidFinishWork:(NSNotification *)aNotification {
-    TCMPortMapper *pm = [TCMPortMapper sharedInstance];
-    // since we only have one mapping this is fine
-    TCMPortMapping *mapping = [[pm portMappings] anyObject];
-    if ([mapping mappingStatus]==TCMPortMappingStatusMapped) {
-        NSLog(NSLocalizedString(@"see://%@:%d",@"Connection Browser URL display"), [pm externalIPAddress],[mapping externalPort]);
-    } else {
-        NSLog(NSLocalizedString(@"No public mapping.",@"Connection Browser Display when not reachable"));
-    }
 }
 
 - (NSURL*)applicationConnectionURL {
@@ -209,18 +183,15 @@
 #pragma mark ### update notification handling ###
 
 - (void)userDidChange:(NSNotification *)aNotification {
+    DEBUGLOG(@"InternetLogDomain", AllLogLevel, @"userDidChange: %@", aNotification);
+
 	[self willChangeValueForKey:@"entries"];
 	[self didChangeValueForKey:@"entries"];
-
-    DEBUGLOG(@"InternetLogDomain", AllLogLevel, @"userDidChange: %@", aNotification);
-    if ([[[aNotification userInfo] objectForKey:@"User"] isMe]) {
-
-    } else {
-
-    }
 }
 
 - (void)announcedSessionsDidChange:(NSNotification *)aNotification {
+    DEBUGLOG(@"InternetLogDomain", AllLogLevel, @"announcedSessionsDidChange: %@", aNotification);
+
 	[self willChangeValueForKey:@"entries"];
 	[self didChangeValueForKey:@"entries"];
 }
@@ -229,18 +200,20 @@
 
 - (void)userDidChangeVisibility:(NSNotification *)aNotification {
     DEBUGLOG(@"InternetLogDomain", AllLogLevel, @"userDidChangeVisibility: %@", aNotification);
-//    NSDictionary *userInfo = [aNotification userInfo];
-//    NSString *userID = [userInfo objectForKey:@"UserID"];
+
+	[self willChangeValueForKey:@"entries"];
+	[self didChangeValueForKey:@"entries"];
 }
 
 - (void)userDidChangeAnnouncedDocuments:(NSNotification *)aNotification {
-	[self willChangeValueForKey:@"entries"];
     DEBUGLOG(@"InternetLogDomain", AllLogLevel, @"userDidChangeAnnouncedDocuments: %@", aNotification);
-//    NSDictionary *userInfo = [aNotification userInfo];
-//    NSString *userID = [userInfo objectForKey:@"UserID"];
-	NSArray *entries = [[self.entries copy] autorelease];
-    [entries makeObjectsPerformSelector:@selector(reloadAnnouncedSessions)];
-    [entries makeObjectsPerformSelector:@selector(checkDocumentRequests)];
+
+	[self willChangeValueForKey:@"entries"];
+	{
+		NSArray *entries = [[self.entries copy] autorelease];
+		[entries makeObjectsPerformSelector:@selector(reloadAnnouncedSessions)];
+		[entries makeObjectsPerformSelector:@selector(checkDocumentRequests)];
+	}
 	[self didChangeValueForKey:@"entries"];
 
 }
@@ -248,6 +221,8 @@
 #pragma mark -
 
 - (void)connectionEntryDidChange:(NSNotification *)aNotification {
+    DEBUGLOG(@"InternetLogDomain", AllLogLevel, @"connectionEntryDidChange: %@", aNotification);
+
 	[self willChangeValueForKey:@"entries"];
 	[self didChangeValueForKey:@"entries"];
 }
