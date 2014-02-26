@@ -1,0 +1,3 @@
+# Lua Example Syntax File
+
+print "Hello world"

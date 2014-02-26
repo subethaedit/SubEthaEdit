@@ -1,0 +1,4 @@
+<!-- JSP-HTML Example Syntax File -->
+
+<%@ page language='java' %>
+<%="Hello World!" %>

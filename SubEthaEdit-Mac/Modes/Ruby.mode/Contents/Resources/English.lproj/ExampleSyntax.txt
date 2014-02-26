@@ -590,9 +590,9 @@ str = "\\\\"
 :$abc
 :'hallo'
 
-%s|symbšaspoi#{@@foobar+@asdf}3p2804nasdofnt|
-%s{symbšaspoi3p2804nasdofnt}
-%s(symbšaspoi3p2804nasdofnt)
-%s<symbšaspoi3p2804nasdofnt>
-%s[symbšaspoi3p2804nasdofnt]
+%s|symbÅ¡aspoi#{@@foobar+@asdf}3p2804nasdofnt|
+%s{symbÅ¡aspoi3p2804nasdofnt}
+%s(symbÅ¡aspoi3p2804nasdofnt)
+%s<symbÅ¡aspoi3p2804nasdofnt>
+%s[symbÅ¡aspoi3p2804nasdofnt]
 

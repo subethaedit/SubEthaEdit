@@ -1,0 +1,5 @@
+// Objective-J Example Syntax File
+
+var myString = "hello world",
+    reversed = "dlrow olleh";
+alert(reversed);
