@@ -248,6 +248,17 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	return result;
 }
 
+- (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row
+{
+	BOOL result = YES;
+	NSArray *availableDocumentSession = self.availableDocumentSessions;
+	id documentRepresentation = [availableDocumentSession objectAtIndex:row];
+	if ([documentRepresentation isKindOfClass:SEENetworkConnectionRepresentation.class]) {
+		result = NO;
+	}
+	return result;
+}
+
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row {
 	CGFloat rowHeight = 28.0;
 	NSArray *availableDocumentSession = self.availableDocumentSessions;
