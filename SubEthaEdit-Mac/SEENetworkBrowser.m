@@ -138,6 +138,10 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	{
 		[self.availableDocumentSessions removeAllObjects];
 
+		SEENetworkConnectionRepresentation *me = [[SEENetworkConnectionRepresentation alloc] init];
+		me.user = [[TCMMMUserManager sharedInstance] me];
+		[self.availableDocumentSessions addObject:me];
+
 		NSArray *allConnections = [[SEEConnectionManager sharedInstance] entries];
 		for (SEEConnection *connection in allConnections) {
 

@@ -8,11 +8,12 @@
 
 #import <Foundation/Foundation.h>
 
-@class SEEConnection;
+@class SEEConnection, TCMMMUser;
 
 @interface SEENetworkConnectionRepresentation : NSObject
 
-@property (nonatomic, weak) SEEConnection *connection;
+@property (nonatomic, weak) SEEConnection *connection; // also overrides user
+@property (nonatomic, weak) TCMMMUser *user;
 
 @property (nonatomic, readonly, strong) NSString *name;
 @property (nonatomic, readonly, strong) NSImage *image;
