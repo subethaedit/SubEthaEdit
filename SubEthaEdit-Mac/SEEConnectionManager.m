@@ -29,7 +29,7 @@
 - (id)init {
 	self = [super init];
     if (self) {
-		self.entries = [NSMutableArray new];
+		self.entries = [NSMutableArray array];
 
 		NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
 
@@ -46,7 +46,6 @@
         [defaultCenter addObserver:self selector:@selector(connectionEntryDidChange:) name:SEEConnectionStatusDidChangeNotification object:nil];
         [defaultCenter addObserver:self selector:@selector(connectionEntryDidChange:) name:TCMBEEPSessionAuthenticationInformationDidChangeNotification object:nil];
 
-		// not sure if needed
 		[defaultCenter addObserver:self selector:@selector(userDidChange:) name:TCMMMUserManagerUserDidChangeNotification object:nil];
 	}
     return self;
