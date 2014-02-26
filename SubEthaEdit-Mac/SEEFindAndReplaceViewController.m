@@ -23,6 +23,15 @@
 	return self;
 }
 
+- (void)loadView {
+	[super loadView];
+	NSView *view = self.view;
+	view.layer.borderColor = [[NSColor lightGrayColor] CGColor];
+	view.layer.borderWidth = 0.5;
+	
+	view.layer.backgroundColor = [[NSColor colorWithCalibratedWhite:0.893 alpha:0.750] CGColor];
+}
+
 - (IBAction)findTextFieldAction:(id)sender {
 	[self.delegate findAndReplaceViewControllerDidPressFindNext:self];
 }
