@@ -12,6 +12,7 @@
 
 #import "SEENetworkBrowser.h"
 #import "SEENetworkBrowserGroupTableRowView.h"
+#import "SEENetworkConnectionRepresentation.h"
 #import "SEENetworkDocumentRepresentation.h"
 
 #import "DocumentController.h"
@@ -139,21 +140,15 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 
 		NSArray *allConnections = [[SEEConnectionManager sharedInstance] entries];
 		for (SEEConnection *connection in allConnections) {
-			TCMMMUser *user = connection.user;
 
-			// fake document for user...
-			SEENetworkDocumentRepresentation *documentRepresentation = [[SEENetworkDocumentRepresentation alloc] init];
-			documentRepresentation.documentOwner = user;
-			documentRepresentation.fileName = user.name;
-			documentRepresentation.fileIcon = user.image;
-			[self.availableDocumentSessions addObject:documentRepresentation];
+			SEENetworkConnectionRepresentation *connectionRepresentation = [[SEENetworkConnectionRepresentation alloc] init];
+			connectionRepresentation.connection = connection;
+			[self.availableDocumentSessions addObject:connectionRepresentation];
 
 			NSArray *sessions = connection.announcedSessions;
 			for (TCMMMSession *session in sessions) {
 				SEENetworkDocumentRepresentation *documentRepresentation = [[SEENetworkDocumentRepresentation alloc] init];
 				documentRepresentation.documentSession = session;
-				documentRepresentation.documentOwner = user;
-				documentRepresentation.fileName = session.filename;
 				[self.availableDocumentSessions addObject:documentRepresentation];
 			}
 		}
@@ -223,8 +218,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 
 - (void)tableView:(NSTableView *)tableView didAddRowView:(NSTableRowView *)rowView forRow:(NSInteger)row {
 	NSArray *availableDocumentSession = self.availableDocumentSessions;
-	SEENetworkDocumentRepresentation *documentRepresentation = [availableDocumentSession objectAtIndex:row];
-	if (documentRepresentation && !documentRepresentation.documentSession) {
+	id documentRepresentation = [availableDocumentSession objectAtIndex:row];
+	if ([documentRepresentation isKindOfClass:SEENetworkConnectionRepresentation.class]) {
 		NSTableCellView *tableCellView = [rowView.subviews objectAtIndex:0];
 
 //		CIFilter *gaussianBlur = [CIFilter filterWithName:@"CIGaussianBlur"];
@@ -246,8 +241,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 {
 	BOOL result = NO;
 	NSArray *availableDocumentSession = self.availableDocumentSessions;
-	SEENetworkDocumentRepresentation *documentRepresentation = [availableDocumentSession objectAtIndex:row];
-	if (documentRepresentation && !documentRepresentation.documentSession) {
+	id documentRepresentation = [availableDocumentSession objectAtIndex:row];
+	if ([documentRepresentation isKindOfClass:SEENetworkConnectionRepresentation.class]) {
 		result = YES;
 	}
 	return result;
@@ -256,8 +251,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row {
 	CGFloat rowHeight = 28.0;
 	NSArray *availableDocumentSession = self.availableDocumentSessions;
-	SEENetworkDocumentRepresentation *documentRepresentation = [availableDocumentSession objectAtIndex:row];
-	if (documentRepresentation && !documentRepresentation.documentSession) {
+	id documentRepresentation = [availableDocumentSession objectAtIndex:row];
+	if ([documentRepresentation isKindOfClass:SEENetworkConnectionRepresentation.class]) {
 		rowHeight = 46.0;
 	}
 	return rowHeight;

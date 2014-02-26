@@ -12,9 +12,13 @@
 
 #import "SEENetworkDocumentRepresentation.h"
 #import "TCMMMSession.h"
-#import "TCMMMUser.h"
 
-void * const SEENetworkDocumentRepresentationFileNameObservingContext = (void *)&SEENetworkDocumentRepresentationFileNameObservingContext;
+void * const SEENetworkDocumentRepresentationSessionObservingContext = (void *)&SEENetworkDocumentRepresentationSessionObservingContext;
+
+@interface SEENetworkDocumentRepresentation ()
+@property (nonatomic, readwrite, strong) NSString *name;
+@property (nonatomic, readwrite, strong) NSImage *image;
+@end
 
 @implementation SEENetworkDocumentRepresentation
 
@@ -22,8 +26,8 @@ void * const SEENetworkDocumentRepresentationFileNameObservingContext = (void *)
 {
     self = [super init];
     if (self) {
-        self.fileIcon = [NSImage imageNamed:@"NSApplicationIcon"];
-		self.fileName = @"Unknown";
+		self.name = @"Unknown";
+        self.image = [[NSWorkspace sharedWorkspace] iconForFileType:@"public.item"];
 
 		[self installKVO];
     }
@@ -36,30 +40,29 @@ void * const SEENetworkDocumentRepresentationFileNameObservingContext = (void *)
 }
 
 - (void)installKVO {
-	[self addObserver:self forKeyPath:@"fileName" options:0 context:SEENetworkDocumentRepresentationFileNameObservingContext];
+	[self addObserver:self forKeyPath:@"documentSession" options:0 context:SEENetworkDocumentRepresentationSessionObservingContext];
 }
 
 - (void)removeKVO {
-	[self removeObserver:self forKeyPath:@"fileName" context:SEENetworkDocumentRepresentationFileNameObservingContext];
+	[self removeObserver:self forKeyPath:@"documentSession" context:SEENetworkDocumentRepresentationSessionObservingContext];
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
 {
-    if (context == SEENetworkDocumentRepresentationFileNameObservingContext) {
-		[self updateFileIcon];
+    if (context == SEENetworkDocumentRepresentationSessionObservingContext) {
+		self.name = self.documentSession.filename;
+		[self updateImage];
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
 }
 
-
-- (void)updateFileIcon {
-	NSString *fileExtension = self.fileName.pathExtension;
+- (void)updateImage {
+	NSString *fileExtension = self.name.pathExtension;
 	NSString *fileType = (CFBridgingRelease(UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef)fileExtension, nil)));
-	NSImage *fileIcon = [[NSWorkspace sharedWorkspace] iconForFileType:fileType];
-	self.fileIcon = fileIcon;
+	NSImage *image = [[NSWorkspace sharedWorkspace] iconForFileType:fileType];
+	self.image = image;
 }
-
 
 - (IBAction)joinDocument:(id)aSender {
 	TCMMMSession *session = self.documentSession;

@@ -8,14 +8,14 @@
 
 #import <Foundation/Foundation.h>
 
-@class  TCMMMSession, TCMMMUser;
+@class TCMMMSession, TCMMMUser;
 
 @interface SEENetworkDocumentRepresentation : NSObject
-@property (nonatomic, weak) TCMMMUser *documentOwner;
+
 @property (nonatomic, weak) TCMMMSession *documentSession;
 
-@property (nonatomic, strong) NSString *fileName;
-@property (nonatomic, strong) NSImage *fileIcon;
+@property (nonatomic, readonly, strong) NSString *name;
+@property (nonatomic, readonly, strong) NSImage *image;
 
 - (IBAction)joinDocument:(id)sender;
 
