@@ -1,0 +1,12 @@
+// LassoScript-HTML Example Syntax File
+
+<html>
+ <head>
+  <title>My Lasso Page</title>
+ </head>
+
+<body>
+ <p><?= 'The current date is ' + date ?>.</p>
+ <p><?lasso 'Hello World!' ?></p>
+</body>
+</html>

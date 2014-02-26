@@ -1,0 +1,83 @@
+<!-- Wiki Example Syntax File -->
+
+{{Redirect|Hello World|other uses|Hello World (disambiguation)}}
+
+[[Image:Hello World Perl GTk2 2012-12-04.png|thumb|right|A [[Graphical user interface|GUI]] "Hello World" program, written in [[Perl]]]]
+[[Image:CNC Hello World.jpg|thumb|right|[[CNC]] machining test in [[Perspex]]]]
+
+A '''"Hello world" program''' is a [[computer program]] that outputs "Hello, world" on a [[display device]]. Because it is typically one of the simplest programs possible in most [[programming language]]s, it is by tradition often used to illustrate to beginners the most basic syntax of a programming language. It is also used to verify that a language or system is operating correctly.
+
+In a device that does not display text, a simple program to produce a signal, such as turning on an [[light-emitting diode|LED]], is often substituted for "Hello world" as the introductory program.
+
+==Purpose==
+A "Hello World" program has become the traditional first program that many people learn. In general, it is simple enough so that people who have no experience with computer programming can easily understand it, especially with the guidance of a teacher or a written guide. Using this simple program as a basis, [[computer science]] principles or elements of a specific programming language can be explained to novice programmers. Experienced programmers learning new languages can also gain a lot of information about a given language's syntax and structure from a hello world program.
+
+In addition, hello world can be a useful [[sanity test]] to make sure that a language's [[compiler]], [[Development environment (software development process)|development environment]], and [[run-time environment]] are correctly installed. Configuring a complete programming [[toolchain]] from scratch to the point where even trivial programs can be compiled and run can involve substantial amounts of work. For this reason, a simple program is used first when testing a new tool chain.
+
+[[Image:PSP-Homebrew.jpeg|thumb|right|A "Hello World" program running on Sony's [[PlayStation Portable homebrew|PlayStation Portable]] as a proof of concept.]]
+"Hello world" is also used by computer hackers as a [[proof of concept]] that arbitrary code can be executed through an [[Exploit (computer security)|exploit]] where the system designers did not intend code to be executed—for example, on Sony's [[PlayStation Portable]]. This is the first step in using homemade content ("[[Homebrew (video games)|home brew]]") on such a device.
+
+<!--
+
+**************************************
+Editor's Note: We do not need to have an example for every programming language ever created. Wikipedia is an encyclopedia. Please refrain from adding examples just because we can. If you think a particular example adds something unique and valuable to the article, bring it up on the talk page, first. Thanks. (User:DragonHawk)
+
+Addendum: there are large repositories of Hello, World programs all over the net, in every conceivable language, and there is no need to list them all here. In fact, there is now a very comprehensive Wikibooks link: if you want to add a version for your language, do so there (you'll likely find it already exists). HERE IS NOT THE PLACE. The C version (which is not even correct modern C) is here because it is the first in a non-obscure language, and the B example because it is the first known. There is no reason to have any others here. DO NOT ADD ANY MORE!
+
+**************************************
+
+-->
+
+<!-- DO NOT ADD A NEWLINE, HEADER FILE OR INT DATA TYPE TO THIS CODE, AS THE ORIGINAL IN 1974 DIDN'T HAVE ONE, THANKS -->
+<!-- See http://cm.bell-labs.com/cm/cs/who/dmr/ctut.pdf for original.-->
+<source lang="c" style="overflow:auto">
+ main()
+ {
+        printf("hello, world");
+ }
+</source>
+
+==Variations==
+There are many variations on the punctuation and casing of the phrase. Variations include the presence or absence of the comma and exclamation mark, and the capitalization of the 'H', both the 'H' and the 'W', or neither. Some languages are forced to implement different forms, such as "<code>HELLO WORLD!</code>", on systems that support only capital letters, while many "hello world" programs in [[Esoteric programming language|esoteric languages]] print out a slightly modified string. For example, the first non-trivial [[Malbolge]] program printed "HEllO WORld", this having been determined to be [[Principle of good enough|good enough]].
+
+==Examples==
+{{More|List of Hello world program examples}}
+The Hello World program can be executed in [[Hello_world_program_examples|many different programming languages]], and in many different ways. The simplest ways are generally to just create a print line, or a String containing the words "Hello World!", however, one can use substrings and many other variations of programming in order to execute the Hello World program creation. Some languages such as [[Java (programming language)|Java]] may require several lines of code, while others such as [[Python (programming language)|Python]] or [[Ruby (programming language)|Ruby]] may need only a single statement.
+
+In [[Io (programming language)|Io]]:
+<syntaxhighlight lang="io">
+"Hello World!" println
+</syntaxhighlight>
+
+Alternatively, if the screen does not have a textual output, a flash or blink of the device's light can be used as a different method, with the same meaning behind it. This is often used for [[Arduino]] devices, where pin 13 typically has a board-mounted [[LED]] fitted as standard.
+
+== See also ==
+{{portal|Computer Science|Computing|Computer programming}}
+{{Div col|2}}
+*[[List of Hello world program examples]]
+*[[99 Bottles of Beer#References in science|"99 Bottles Of Beer" as used in computer science]]
+*[[Foobar]]
+*[[Just another Perl hacker]]
+*[[List of basic computer science topics]]
+*[[Trabb Pardo-Knuth algorithm]]
+*At [[Wikibooks]]:
+**[[b:Algorithm Implementation/Mathematics/Fibonacci Number Program|Algorithm Implementation/Mathematics/Fibonacci Number Program]]
+**[[b:Computer Programming/Hello world|Computer Programming/Hello world]]
+{{Div col end}}
+{{Clear}}
+
+==References==
+{{reflist}}
+
+== External links ==
+{{wiktionary|Hello World}}
+{{Commons category|Hello World}}
+*[http://www.helloworldexample.net/ Hello World Examples] Hello World examples in many different programming languages.
+
+{{Standard test item}}
+
+{{DEFAULTSORT:Hello World Program}}
+[[Category:Computer programming]]
+[[Category:Articles with example code]]
+[[Category:Test items]]
+

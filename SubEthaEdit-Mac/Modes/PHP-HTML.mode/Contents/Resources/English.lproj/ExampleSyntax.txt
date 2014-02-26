@@ -1,3 +1,4 @@
+<!-- PHP-HTML Example Syntax File -->
 <html>
 	<head>
 		<style type="text/css">

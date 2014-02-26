@@ -1,0 +1,37 @@
+<!-- SDEF Example Syntax File -->
+
+<?xml version="1.0"?>
+<!DOCTYPE dictionary SYSTEM "file://localhost/System/Library/DTDs/sdef.dtd">
+<!--
+	This is Foundation Kit's NSCoreSuite terminology recast as an sdef.  NSCoreSuite
+	is itself AppleScript's Standard Suite recast as a plist instead of the original
+	aete.  There are several differences between the original Standard Suite and
+	Cocoa's version of it, and not all of them are correct: these places are noted
+	with "supposed to" comments.
+-->
+<dictionary title="Standard Terminology">
+	<suite name="Standard Suite" code="????" description="Common classes and commands for most applications.">
+		<cocoa name="NSCoreSuite"/>
+		<enumeration name="save options" code="savo">
+			<enumerator name="yes" code="yes " description="Save the file."/>
+			<enumerator name="no" code="no  " description="Do not save the file."/>
+			<enumerator name="ask" code="ask " description="Ask the user whether or not to save the file."/>
+		</enumeration>
+		<class name="item" code="cobj" description="A scriptable object.">
+			<cocoa class="AbstractObject"/>
+			<property name="class" code="pcls" type="type" access="r" description="The class of the object.">
+				<cocoa key="classCode"/>
+			</property>
+			<property name="properties" code="pALL" type="record" description="All of the object's properties.">
+				<cocoa key="scriptingProperties"/>
+			</property>
+<!--
+						The blank method declarations are needed to emulate the existing
+						NSCoreSuite.scriptSuite.framework.  Ordinarily, you wouldn't do this.
+					-->
+			<responds-to name="count">
+				<cocoa method=""/>
+			</responds-to>
+		</class>
+	</suite>
+</dictionary>

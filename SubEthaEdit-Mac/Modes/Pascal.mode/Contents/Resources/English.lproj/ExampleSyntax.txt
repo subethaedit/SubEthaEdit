@@ -1,0 +1,9 @@
+// Pascal Example Syntax File
+{ Pascal 
+(* Example *) }  
+(* Syntax { File } *)  
+
+program HelloWorld(output);
+begin
+  WriteLn('Hello World!');
+end.
