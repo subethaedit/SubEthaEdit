@@ -15,12 +15,6 @@
 #import "SEEConnection.h"
 #import <TCMPortMapper/TCMPortMapper.h>
 
-@interface SEEConnectionManager ()
-@property (strong) NSMutableArray *entries;
-@end
-
-#pragma mark -
-
 @implementation SEEConnectionManager
 
 + (SEEConnectionManager *)sharedInstance {
@@ -122,6 +116,7 @@
 }
 
 - (SEEConnection *)connectionEntryForURL:(NSURL *)anURL {
+	[self willChangeValueForKey:@"entries"];
 	SEEConnection *entry = nil;
     for (entry in self.entries) {
         if ([entry handleURL:anURL]) {
@@ -130,7 +125,6 @@
     }
 
     entry = [[[SEEConnection alloc] initWithURL:anURL] autorelease];
-	[self willChangeValueForKey:@"entries"];
 	[self.entries addObject:entry];
 	[self didChangeValueForKey:@"entries"];
     return entry;
@@ -170,40 +164,44 @@
 - (void)TCM_didAcceptSession:(NSNotification *)notification {
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"TCM_didAcceptSession: %@", notification);
 
-    TCMBEEPSession *session = [[notification userInfo] objectForKey:@"Session"];
-    BOOL sessionWasHandled = NO;
-    for (SEEConnection *entry in self.entries) {
-        if ([entry handleSession:session]) {
-            sessionWasHandled = YES;
-            break;
-        }
-    }
-    if (!sessionWasHandled) {
-        SEEConnection *entry = [[[SEEConnection alloc] initWithBEEPSession:session] autorelease];
-		[self willChangeValueForKey:@"entries"];
-        [self.entries addObject:entry];
-		[self didChangeValueForKey:@"entries"];
-    }
+	[self willChangeValueForKey:@"entries"];
+	{
+		TCMBEEPSession *session = [[notification userInfo] objectForKey:@"Session"];
+		BOOL sessionWasHandled = NO;
+		for (SEEConnection *entry in self.entries) {
+			if ([entry handleSession:session]) {
+				sessionWasHandled = YES;
+				break;
+			}
+		}
+		if (!sessionWasHandled) {
+			SEEConnection *entry = [[[SEEConnection alloc] initWithBEEPSession:session] autorelease];
+			[self.entries addObject:entry];
+		}
+	}
+	[self didChangeValueForKey:@"entries"];
 }
 
 - (void)TCM_sessionDidEnd:(NSNotification *)notification {
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"TCM_sessionDidEnd: %@", notification);
 
-    TCMBEEPSession *session = [[notification userInfo] objectForKey:@"Session"];
-    SEEConnection *concernedEntry = nil;
-    for (SEEConnection *entry in self.entries) {
-        if ([entry BEEPSession] == session) {
-            concernedEntry = entry;
-            break;
-        }
-    }
-    if (concernedEntry) {
-        if (![concernedEntry handleSessionDidEnd:session]) {
-			[self willChangeValueForKey:@"entries"];
-            [self.entries removeObject:concernedEntry];
-			[self didChangeValueForKey:@"entries"];
-        }
-    }
+	[self willChangeValueForKey:@"entries"];
+	{
+		TCMBEEPSession *session = [[notification userInfo] objectForKey:@"Session"];
+		SEEConnection *concernedEntry = nil;
+		for (SEEConnection *entry in self.entries) {
+			if ([entry BEEPSession] == session) {
+				concernedEntry = entry;
+				break;
+			}
+		}
+		if (concernedEntry) {
+			if (![concernedEntry handleSessionDidEnd:session]) {
+				[self.entries removeObject:concernedEntry];
+			}
+		}
+	}
+	[self didChangeValueForKey:@"entries"];
 }
 
 
@@ -211,6 +209,9 @@
 #pragma mark ### update notification handling ###
 
 - (void)userDidChange:(NSNotification *)aNotification {
+	[self willChangeValueForKey:@"entries"];
+	[self didChangeValueForKey:@"entries"];
+
     DEBUGLOG(@"InternetLogDomain", AllLogLevel, @"userDidChange: %@", aNotification);
     if ([[[aNotification userInfo] objectForKey:@"User"] isMe]) {
 
@@ -220,7 +221,8 @@
 }
 
 - (void)announcedSessionsDidChange:(NSNotification *)aNotification {
-
+	[self willChangeValueForKey:@"entries"];
+	[self didChangeValueForKey:@"entries"];
 }
 
 #pragma mark -
@@ -232,18 +234,22 @@
 }
 
 - (void)userDidChangeAnnouncedDocuments:(NSNotification *)aNotification {
+	[self willChangeValueForKey:@"entries"];
     DEBUGLOG(@"InternetLogDomain", AllLogLevel, @"userDidChangeAnnouncedDocuments: %@", aNotification);
 //    NSDictionary *userInfo = [aNotification userInfo];
 //    NSString *userID = [userInfo objectForKey:@"UserID"];
 	NSArray *entries = [[self.entries copy] autorelease];
     [entries makeObjectsPerformSelector:@selector(reloadAnnouncedSessions)];
     [entries makeObjectsPerformSelector:@selector(checkDocumentRequests)];
+	[self didChangeValueForKey:@"entries"];
+
 }
 
 #pragma mark -
 
 - (void)connectionEntryDidChange:(NSNotification *)aNotification {
-
+	[self willChangeValueForKey:@"entries"];
+	[self didChangeValueForKey:@"entries"];
 }
 
 #pragma mark -

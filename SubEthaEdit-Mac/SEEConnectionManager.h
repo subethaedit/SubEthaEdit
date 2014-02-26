@@ -11,6 +11,8 @@
 
 @interface SEEConnectionManager : NSObject
 
+@property (nonatomic, strong) NSMutableArray *entries;
+
 + (SEEConnectionManager *)sharedInstance;
 
 + (BOOL)invitePeopleFromPasteboard:(NSPasteboard *)aPasteboard intoDocumentGroupURL:(NSURL *)aURL;
