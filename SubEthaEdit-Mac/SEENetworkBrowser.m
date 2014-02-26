@@ -23,10 +23,15 @@
 #import "TCMMMUser.h"
 #import "TCMMMUserSEEAdditions.h"
 
+#import "SEEConnectionManager.h"
+#import "SEEConnection.h"
+
 #import <QuartzCore/QuartzCore.h>
 
 extern int const FileMenuTag;
 extern int const FileNewMenuItemTag;
+
+static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetworkDocumentBrowserEntriesObservingContext;
 
 @interface SEENetworkBrowser () <NSTableViewDelegate>
 
@@ -35,8 +40,8 @@ extern int const FileNewMenuItemTag;
 @property (nonatomic, weak) IBOutlet NSObjectController *filesOwnerProxy;
 @property (nonatomic, weak) IBOutlet NSArrayController *collectionViewArrayController;
 
-@property (nonatomic, weak) id userSessionsDidChangeObserver;
 @property (nonatomic, weak) id otherWindowsBecomeKeyNotifivationObserver;
+
 @end
 
 @implementation SEENetworkBrowser
@@ -47,14 +52,9 @@ extern int const FileNewMenuItemTag;
     if (self) {
 		self.availableDocumentSessions = [NSMutableArray array];
 		[self reloadAllDocumentSessions];
+		[self installKVO];
 
 		__weak __typeof__(self) weakSelf = self;
-		self.userSessionsDidChangeObserver =
-		[[NSNotificationCenter defaultCenter] addObserverForName:TCMMMPresenceManagerUserSessionsDidChangeNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
-			__typeof__(self) strongSelf = weakSelf;
-			[strongSelf reloadAllDocumentSessions];
-		}];
-
 		self.otherWindowsBecomeKeyNotifivationObserver =
 		[[NSNotificationCenter defaultCenter] addObserverForName:NSWindowDidBecomeKeyNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
 			__typeof__(self) strongSelf = weakSelf;
@@ -72,10 +72,29 @@ extern int const FileNewMenuItemTag;
 
 - (void)dealloc
 {
-    [[NSNotificationCenter defaultCenter] removeObserver:self.userSessionsDidChangeObserver];
+	[self removeKVO];
+
     [[NSNotificationCenter defaultCenter] removeObserver:self.otherWindowsBecomeKeyNotifivationObserver];
 
 	[self close];
+}
+
+
+- (void)installKVO {
+	[[SEEConnectionManager sharedInstance] addObserver:self forKeyPath:@"entries" options:0 context:SEENetworkDocumentBrowserEntriesObservingContext];
+}
+
+- (void)removeKVO {
+	[[SEEConnectionManager sharedInstance] removeObserver:self forKeyPath:@"entries" context:SEENetworkDocumentBrowserEntriesObservingContext];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if (context == SEENetworkDocumentBrowserEntriesObservingContext) {
+		[self reloadAllDocumentSessions];
+    } else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
 }
 
 
@@ -117,10 +136,10 @@ extern int const FileNewMenuItemTag;
 	[self willChangeValueForKey:@"availableDocumentSessions"];
 	{
 		[self.availableDocumentSessions removeAllObjects];
-		NSArray *allUserStatusDicts = [[TCMMMPresenceManager sharedInstance] allUsers];
-		for (NSMutableDictionary *statusDict in allUserStatusDicts) {
-			NSString *userID = [statusDict objectForKey:TCMMMPresenceUserIDKey];
-			TCMMMUser *user = [[TCMMMUserManager sharedInstance] userForUserID:userID];
+
+		NSArray *allConnections = [[SEEConnectionManager sharedInstance] entries];
+		for (SEEConnection *connection in allConnections) {
+			TCMMMUser *user = connection.user;
 
 			// fake document for user...
 			SEENetworkDocumentRepresentation *documentRepresentation = [[SEENetworkDocumentRepresentation alloc] init];
@@ -129,7 +148,7 @@ extern int const FileNewMenuItemTag;
 			documentRepresentation.fileIcon = user.image;
 			[self.availableDocumentSessions addObject:documentRepresentation];
 
-			NSArray *sessions = [statusDict objectForKey:TCMMMPresenceOrderedSessionsKey];
+			NSArray *sessions = connection.announcedSessions;
 			for (TCMMMSession *session in sessions) {
 				SEENetworkDocumentRepresentation *documentRepresentation = [[SEENetworkDocumentRepresentation alloc] init];
 				documentRepresentation.documentSession = session;
