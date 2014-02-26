@@ -17,6 +17,6 @@
 @property (nonatomic, readonly, strong) NSString *name;
 @property (nonatomic, readonly, strong) NSImage *image;
 
-- (IBAction)joinDocument:(id)sender;
+- (IBAction)openDocument:(id)sender;
 
 @end

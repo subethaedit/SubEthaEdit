@@ -142,6 +142,9 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		me.user = [[TCMMMUserManager sharedInstance] me];
 		[self.availableDocumentSessions addObject:me];
 
+		SEENetworkDocumentRepresentation *newDocumentRepresentation = [[SEENetworkDocumentRepresentation alloc] init];
+		[self.availableDocumentSessions addObject:newDocumentRepresentation];
+
 		NSArray *allConnections = [[SEEConnectionManager sharedInstance] entries];
 		for (SEEConnection *connection in allConnections) {
 
@@ -181,9 +184,9 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 }
 
 
-- (IBAction)joinDocument:(id)sender
+- (IBAction)openDocument:(id)sender
 {
-	// make sure we get the selection before cosing the window... because it will reset the selection.
+	// make sure we get the selection before closing the window... because it will reset the selection.
 	NSArray *selectedDocuments = self.collectionViewArrayController.selectedObjects;
 
 	if (self.shouldCloseWhenOpeningDocument) {
@@ -193,7 +196,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		[self close];
 	}
 
-	[selectedDocuments makeObjectsPerformSelector:@selector(joinDocument:) withObject:sender];
+	[selectedDocuments makeObjectsPerformSelector:@selector(openDocument:) withObject:sender];
 }
 
 

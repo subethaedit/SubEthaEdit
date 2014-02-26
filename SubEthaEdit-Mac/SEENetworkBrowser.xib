@@ -150,7 +150,7 @@
                             <font key="font" metaFont="system"/>
                         </buttonCell>
                         <connections>
-                            <action selector="joinDocument:" target="-2" id="jJT-AD-1UL"/>
+                            <action selector="openDocument:" target="-2" id="S0U-Bq-6Ii"/>
                             <binding destination="uFK-2L-HLP" name="enabled" keyPath="selection" id="cYe-XR-mxI">
                                 <dictionary key="options">
                                     <string key="NSValueTransformerName">NSIsNotNil</string>

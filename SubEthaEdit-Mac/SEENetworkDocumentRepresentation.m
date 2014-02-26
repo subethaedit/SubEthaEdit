@@ -13,7 +13,13 @@
 #import "SEENetworkDocumentRepresentation.h"
 #import "TCMMMSession.h"
 
+#import "DocumentController.h"
+#import "DocumentModeManager.h"
+
 void * const SEENetworkDocumentRepresentationSessionObservingContext = (void *)&SEENetworkDocumentRepresentationSessionObservingContext;
+
+extern int const FileMenuTag;
+extern int const FileNewMenuItemTag;
 
 @interface SEENetworkDocumentRepresentation ()
 @property (nonatomic, readwrite, strong) NSString *name;
@@ -26,8 +32,8 @@ void * const SEENetworkDocumentRepresentationSessionObservingContext = (void *)&
 {
     self = [super init];
     if (self) {
-		self.name = @"Unknown";
-        self.image = [[NSWorkspace sharedWorkspace] iconForFileType:@"public.item"];
+		self.name = @"New Document";
+        self.image = [NSImage imageNamed:@"EditorAddSplit"];
 
 		[self installKVO];
     }
@@ -64,9 +70,20 @@ void * const SEENetworkDocumentRepresentationSessionObservingContext = (void *)&
 	self.image = image;
 }
 
-- (IBAction)joinDocument:(id)aSender {
+- (IBAction)openDocument:(id)aSender {
 	TCMMMSession *session = self.documentSession;
-	[session joinUsingBEEPSession:nil];
+	if (session) {
+		[session joinUsingBEEPSession:nil];
+	}
+	else
+	{
+		NSMenu *menu = [[[NSApp mainMenu] itemWithTag:FileMenuTag] submenu];
+		NSMenuItem *menuItem = [menu itemWithTag:FileNewMenuItemTag];
+		menu = [menuItem submenu];
+		NSMenuItem *item = (NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] tagForDocumentModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]]];
+
+		[[NSDocumentController sharedDocumentController] newDocumentWithModeMenuItem:item];
+	}
 }
 
 @end
