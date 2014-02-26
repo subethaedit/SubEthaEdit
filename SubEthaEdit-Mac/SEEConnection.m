@@ -13,6 +13,7 @@
 
 #import "SEEConnection.h"
 #import "AppController.h"
+#import "TCMHost.h"
 #import "TCMMMUserManager.h"
 #import "TCMMMUserSEEAdditions.h"
 #import "NSWorkspaceTCMAdditions.h"
@@ -34,8 +35,21 @@ NSString * const ConnectionStatusNoConnection = @"ConnectionStatusNoConnection";
 
 NSString * const SEEConnectionStatusDidChangeNotification = @"SEEConnectionStatusDidChangeNotification";
 
-@implementation SEEConnection
+@interface SEEConnection ()
+@property (nonatomic, readwrite, strong) TCMBEEPSession *BEEPSession;
+@property (nonatomic, readwrite, strong) NSURL *URL;
 
+@property (nonatomic, readwrite, strong) TCMHost *host;
+@property (nonatomic, readwrite, strong) NSString *hostStatus;
+
+@property (nonatomic, readwrite, strong) NSMutableArray *pendingDocumentRequests;
+@property (nonatomic, readwrite, strong) NSMutableArray *tokensToSend;
+@property (nonatomic, readwrite, strong) NSArray *announcedSessions;
+
+
+@end
+
+@implementation SEEConnection
 
 - (void)sendStatusDidChangeNotification {
     [[NSNotificationCenter defaultCenter] postNotificationName:SEEConnectionStatusDidChangeNotification object:self];
@@ -56,7 +70,7 @@ NSString * const SEEConnectionStatusDidChangeNotification = @"SEEConnectionStatu
                 if ([[keyValue objectAtIndex:0] isEqualToString:@"token"]) {
                     token = [keyValue objectAtIndex:1];
                     if (token) {
-                        [_tokensToSend addObject:token];
+                        [self.tokensToSend addObject:token];
                     }
                 } else if ([[keyValue objectAtIndex:0] isEqualToString:@"sessionID"]) {
                     sessionID = [keyValue objectAtIndex:1];
@@ -73,44 +87,44 @@ NSString * const SEEConnectionStatusDidChangeNotification = @"SEEConnectionStatu
     if ((self=[super init])) {
 		NSURL *documentRequest = nil;
         NSData *addressData = nil;
-       _URL = [TCMMMBEEPSessionManager reducedURL:anURL addressData:&addressData documentRequest:&documentRequest];
-        if (!_URL) {
+       NSURL *url = [TCMMMBEEPSessionManager reducedURL:anURL addressData:&addressData documentRequest:&documentRequest];
+        if (url == nil) {
 			self = nil;
             return self;
         }
 
-        _hostStatus = HostEntryStatusSessionAtEnd;
-        _pendingDocumentRequests = [NSMutableArray new];
-        _tokensToSend = [NSMutableArray new];
+		self.URL = url;
+
+        self.hostStatus = HostEntryStatusSessionAtEnd;
+        self.pendingDocumentRequests = [NSMutableArray new];
+        self.tokensToSend = [NSMutableArray new];
         if (documentRequest) {
-            [_pendingDocumentRequests addObject:documentRequest];
+            [self.pendingDocumentRequests addObject:documentRequest];
             [self checkURLForToken:documentRequest];
         }
-        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[_URL absoluteString] forKey:@"URLString"];
+        NSDictionary *userInfo = [NSDictionary dictionaryWithObject:[url absoluteString] forKey:@"URLString"];
         if (addressData) {
-            _host = [[TCMHost alloc] initWithAddressData:addressData port:[[_URL port] intValue] userInfo:userInfo];
+            self.host = [[TCMHost alloc] initWithAddressData:addressData port:[[url port] intValue] userInfo:userInfo];
         } else {
-            _host = [[TCMHost alloc] initWithName:[_URL host] port:[[_URL port] intValue] userInfo:userInfo];
+            self.host = [[TCMHost alloc] initWithName:[url host] port:[[url port] intValue] userInfo:userInfo];
         }
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TCM_connectToHostDidFail:) name:TCMMMBEEPSessionManagerConnectToHostDidFailNotification object:nil];
         [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(TCM_connectToHostCancelled:) name:TCMMMBEEPSessionManagerConnectToHostCancelledNotification object:nil];
-        _creationDate = [NSDate new];
     }
     return self;
 }
 
 - (id)initWithBEEPSession:(TCMBEEPSession *)aSession {
     if ((self=[super init])) {
-        _creationDate = [NSDate new];
-        _BEEPSession = aSession;
-        _hostStatus = HostEntryStatusSessionOpen;
+        self.BEEPSession = aSession;
+        self.hostStatus = HostEntryStatusSessionOpen;
         [self reloadAnnouncedSessions];
     }
     return self;
 }
 
 - (void)reloadAnnouncedSessions {
-     _announcedSessions = [[[[TCMMMPresenceManager sharedInstance] statusOfUserID:[self userID]] objectForKey:TCMMMPresenceOrderedSessionsKey] copy];
+     self.announcedSessions = [[[[TCMMMPresenceManager sharedInstance] statusOfUserID:[self userID]] objectForKey:TCMMMPresenceOrderedSessionsKey] copy];
     // check if we need to connect to any of them
     [self checkDocumentRequests];
 }
@@ -119,17 +133,14 @@ NSString * const SEEConnectionStatusDidChangeNotification = @"SEEConnectionStatu
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
-- (NSDate *)creationDate {
-    return _creationDate;
-}
-
 - (BOOL)handleURL:(NSURL *)anURL {
-    if (_URL) {
+	NSURL *url = self.URL;
+    if (url) {
         NSURL *request=nil;
         NSURL *reducedURL = [TCMMMBEEPSessionManager reducedURL:anURL addressData:nil documentRequest:&request];
-        if ([_URL isEqualTo:reducedURL]) {
+        if ([url isEqualTo:reducedURL]) {
             if (request) {
-                [_pendingDocumentRequests addObject:request];
+                [self.pendingDocumentRequests addObject:request];
                 [self checkURLForToken:anURL];
             }
             return YES;
@@ -139,13 +150,14 @@ NSString * const SEEConnectionStatusDidChangeNotification = @"SEEConnectionStatu
 }
 
 - (BOOL)handleSession:(TCMBEEPSession *)aSession {
-    if (_URL && !_BEEPSession) {
-        if ([[[aSession userInfo] objectForKey:@"URLString"] isEqualToString:[_URL absoluteString]]) {
-            if ( (_hostStatus==HostEntryStatusCancelling ||  _hostStatus==HostEntryStatusCancelled) && ![[aSession userInfo] objectForKey:@"isAutoConnect"]) {
-                _hostStatus = HostEntryStatusCancelled;
+ 	NSURL *url = self.URL;
+   if (url && !self.BEEPSession) {
+        if ([[[aSession userInfo] objectForKey:@"URLString"] isEqualToString:[url absoluteString]]) {
+            if ( (self.hostStatus==HostEntryStatusCancelling ||  self.hostStatus==HostEntryStatusCancelled) && ![[aSession userInfo] objectForKey:@"isAutoConnect"]) {
+                self.hostStatus = HostEntryStatusCancelled;
             } else {
-                _BEEPSession = aSession;
-                _hostStatus = HostEntryStatusSessionOpen;
+                self.BEEPSession = aSession;
+                self.hostStatus = HostEntryStatusSessionOpen;
                 if (![[aSession userInfo] objectForKey:@"isAutoConnect"]) {
                     [[TCMMMPresenceManager sharedInstance] setShouldAutoconnect:YES forUserID:[self userID]];
                 }
@@ -158,11 +170,12 @@ NSString * const SEEConnectionStatusDidChangeNotification = @"SEEConnectionStatu
 }
 
 - (BOOL)handleSessionDidEnd:(TCMBEEPSession *)aSession {
-    if (_URL && _BEEPSession == aSession) {
-        _BEEPSession = nil;
-        if (_hostStatus == HostEntryStatusCancelling) _hostStatus = HostEntryStatusCancelled;
+	NSURL *url = self.URL;
+    if (url && self.BEEPSession == aSession) {
+        self.BEEPSession = nil;
+        if (self.hostStatus == HostEntryStatusCancelling) self.hostStatus = HostEntryStatusCancelled;
         if ([self connectionStatus] != ConnectionStatusNoConnection) {
-            _hostStatus = HostEntryStatusSessionAtEnd;
+            self.hostStatus = HostEntryStatusSessionAtEnd;
         }
         [self reloadAnnouncedSessions];
         return YES;
@@ -170,74 +183,59 @@ NSString * const SEEConnectionStatusDidChangeNotification = @"SEEConnectionStatu
     return NO;
 }
 
-- (TCMBEEPSession *)BEEPSession {
-    return _BEEPSession;
-}
-
 - (NSString *)userID {
-    return [[_BEEPSession userInfo] objectForKey:@"peerUserID"];
+    return [[self.BEEPSession userInfo] objectForKey:@"peerUserID"];
 }
 
 - (TCMMMUser *)user {
     return [[TCMMMUserManager sharedInstance] userForUserID:[self userID]];
 }
 
-- (NSArray *)announcedSessions {
-    return _announcedSessions;
-}
-
 - (BOOL)isBonjour {
-    return [[_BEEPSession userInfo] objectForKey:@"isRendezvous"]!=nil;
+    return [[self.BEEPSession userInfo] objectForKey:@"isRendezvous"]!=nil;
 }
 
 - (BOOL)isVisible {
     return [[[[TCMMMPresenceManager sharedInstance] statusOfUserID:[self userID]] objectForKey:@"isVisible"] boolValue];
 }
 
-- (NSString *)hostStatus {
-    return _hostStatus; // only the constants are allowed here so == does work
-}
-
 - (NSString *)connectionStatus {
-    if (_hostStatus == HostEntryStatusSessionOpen || 
-        _hostStatus == HostEntryStatusSessionInvisible) {
+	NSString *hostStatus = self.hostStatus;
+    if (hostStatus == HostEntryStatusSessionOpen ||
+        hostStatus == HostEntryStatusSessionInvisible) {
         return ConnectionStatusConnected;
-    } else if (_hostStatus == HostEntryStatusCancelled ||
-               _hostStatus == HostEntryStatusContactFailed ||
-               _hostStatus == HostEntryStatusResolveFailed ||
-               _hostStatus == HostEntryStatusSessionAtEnd) {
+    } else if (hostStatus == HostEntryStatusCancelled ||
+               hostStatus == HostEntryStatusContactFailed ||
+               hostStatus == HostEntryStatusResolveFailed ||
+               hostStatus == HostEntryStatusSessionAtEnd) {
         return ConnectionStatusNoConnection;
     } else {
         return ConnectionStatusInProgress;
     }
 }
 
-- (NSURL *)URL {
-    return _URL;
-}
-
 - (void)checkDocumentRequests {
-    if (_BEEPSession && _pendingDocumentRequests && [[self announcedSessions] count]) {
-        int count = [_pendingDocumentRequests count];
+    if (self.BEEPSession && self.pendingDocumentRequests && [[self announcedSessions] count]) {
+        int count = [self.pendingDocumentRequests count];
         while (count-- > 0) {
-            NSURL *url = [_pendingDocumentRequests objectAtIndex:count];
+            NSURL *url = [self.pendingDocumentRequests objectAtIndex:count];
             NSEnumerator *enumerator = [[self announcedSessions] objectEnumerator];
             TCMMMSession *session;
             while ((session = [enumerator nextObject])) {
                 if ([session isAddressedByURL:url]) {
-                    [session joinUsingBEEPSession:_BEEPSession];
-                    [_pendingDocumentRequests removeObjectAtIndex:count];
+                    [session joinUsingBEEPSession:self.BEEPSession];
+                    [self.pendingDocumentRequests removeObjectAtIndex:count];
                     break;
                 }
             }
         }
     }
     TCMMMStatusProfile *statusProfile = [[TCMMMPresenceManager sharedInstance] statusProfileForUserID:[self userID]];
-    if (statusProfile && [_tokensToSend count] && _BEEPSession && _pendingDocumentRequests) {
-        int count = [_tokensToSend count];
+    if (statusProfile && [self.tokensToSend count] && self.BEEPSession && self.pendingDocumentRequests) {
+        int count = [self.tokensToSend count];
         while (count-- > 0) {
-            if ([statusProfile sendToken:[_tokensToSend objectAtIndex:count]]) {
-                [_tokensToSend removeObjectAtIndex:count];
+            if ([statusProfile sendToken:[self.tokensToSend objectAtIndex:count]]) {
+                [self.tokensToSend removeObjectAtIndex:count];
             }
         }
     }
@@ -246,13 +244,13 @@ NSString * const SEEConnectionStatusDidChangeNotification = @"SEEConnectionStatu
 - (void)connect {
     // check if Address data is there
     if ([self connectionStatus] == ConnectionStatusNoConnection) {
-        if ([[_host addresses] count] > 0) {
-            _hostStatus = HostEntryStatusContacting;
-            [[TCMMMBEEPSessionManager sharedInstance] connectToHost:_host];
+        if ([[self.host addresses] count] > 0) {
+            self.hostStatus = HostEntryStatusContacting;
+            [[TCMMMBEEPSessionManager sharedInstance] connectToHost:self.host];
         } else {
-            _hostStatus = HostEntryStatusResolving;
-            [_host setDelegate:self];
-            [_host resolve];
+            self.hostStatus = HostEntryStatusResolving;
+            [self.host setDelegate:self];
+            [self.host resolve];
         }
         [self sendStatusDidChangeNotification];
     } else if ([self connectionStatus] == ConnectionStatusConnected) {
@@ -261,13 +259,13 @@ NSString * const SEEConnectionStatusDidChangeNotification = @"SEEConnectionStatu
 }
 
 - (void)cancel {
-    if (_hostStatus == HostEntryStatusContacting) {
-        _hostStatus = HostEntryStatusCancelling;
-        [[TCMMMBEEPSessionManager sharedInstance] cancelConnectToHost:_host];
+    if (self.hostStatus == HostEntryStatusContacting) {
+        self.hostStatus = HostEntryStatusCancelling;
+        [[TCMMMBEEPSessionManager sharedInstance] cancelConnectToHost:self.host];
     } else { 
-        if (_BEEPSession) {
-            _hostStatus = HostEntryStatusCancelling;
-            [_BEEPSession terminate];
+        if (self.BEEPSession) {
+            self.hostStatus = HostEntryStatusCancelling;
+            [self.BEEPSession terminate];
         }
     }
 }
@@ -277,11 +275,11 @@ NSString * const SEEConnectionStatusDidChangeNotification = @"SEEConnectionStatu
     
     NSString *addressDataString = nil, *userAgent=nil;
     BOOL isInbound = NO;
-    if (_BEEPSession) {
-        addressDataString = [NSString stringWithAddressData:[_BEEPSession peerAddressData]];
-        userAgent = [[_BEEPSession userInfo] objectForKey:@"userAgent"];
+    if (self.BEEPSession) {
+        addressDataString = [NSString stringWithAddressData:[self.BEEPSession peerAddressData]];
+        userAgent = [[self.BEEPSession userInfo] objectForKey:@"userAgent"];
         if (!userAgent) userAgent = @"SubEthaEdit/2.x";
-        isInbound = ![_BEEPSession isInitiator];
+        isInbound = ![self.BEEPSession isInitiator];
     }
     
     TCMMMUser *user = [self user];
@@ -298,21 +296,22 @@ NSString * const SEEConnectionStatusDidChangeNotification = @"SEEConnectionStatu
         [toolTipArray addObject:userAgent];
     }
     
-    if (_URL) {
-        [toolTipArray addObject:[_URL absoluteString]];
+ 	NSURL *url = self.URL;
+   if (url) {
+        [toolTipArray addObject:[url absoluteString]];
     } else if (addressDataString) {
         [toolTipArray addObject:addressDataString];
     }
     
-    if (_BEEPSession) {
-        if ([_BEEPSession isTLSEnabled]) {
-            [toolTipArray addObject:[NSString stringWithFormat:NSLocalizedString(@"Connection is TLS/SSL encrypted using %@",@"SSL Encryption Connection Tooltip Text Encrypted"),[_BEEPSession isTLSAnon] ? @"DH" : @"RSA"]];
+    if (self.BEEPSession) {
+        if ([self.BEEPSession isTLSEnabled]) {
+            [toolTipArray addObject:[NSString stringWithFormat:NSLocalizedString(@"Connection is TLS/SSL encrypted using %@",@"SSL Encryption Connection Tooltip Text Encrypted"),[self.BEEPSession isTLSAnon] ? @"DH" : @"RSA"]];
         } else {
             [toolTipArray addObject:NSLocalizedString(@"Connection is NOT encrypted",@"SSL Encryption Connection Tooltip Text NOT Encrypted")];
         }
     }
     
-    if ([[_BEEPSession userInfo] objectForKey:@"isAutoConnect"]) {
+    if ([[self.BEEPSession userInfo] objectForKey:@"isAutoConnect"]) {
         if (isInbound) {
             [toolTipArray addObject:NSLocalizedString(@"Inbound Friendcast Connection", @"Inbound Friendcast Connection ToolTip")];
         } else {
@@ -330,8 +329,8 @@ NSString * const SEEConnectionStatusDidChangeNotification = @"SEEConnectionStatu
 
 - (void)hostDidResolveAddress:(TCMHost *)sender {
     DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"hostDidResolveAddress:");
-    if (_hostStatus == HostEntryStatusCancelled) return;
-    _hostStatus = HostEntryStatusContacting;
+    if (self.hostStatus == HostEntryStatusCancelled) return;
+    self.hostStatus = HostEntryStatusContacting;
     [sender setDelegate:nil];
     [[TCMMMBEEPSessionManager sharedInstance] connectToHost:sender];
     [self sendStatusDidChangeNotification];
@@ -339,8 +338,8 @@ NSString * const SEEConnectionStatusDidChangeNotification = @"SEEConnectionStatu
 
 - (void)host:(TCMHost *)sender didNotResolve:(NSError *)error {
     DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"host: %@, didNotResolve: %@", sender, error);
-    if (_hostStatus == HostEntryStatusCancelled) return;
-    _hostStatus = HostEntryStatusResolveFailed;
+    if (self.hostStatus == HostEntryStatusCancelled) return;
+    self.hostStatus = HostEntryStatusResolveFailed;
     [sender setDelegate:nil];
     [self sendStatusDidChangeNotification];
 }
@@ -350,8 +349,8 @@ NSString * const SEEConnectionStatusDidChangeNotification = @"SEEConnectionStatu
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"TCM_connectToHostDidFail: %@", notification);
     
     TCMHost *host = [[notification userInfo] objectForKey:@"host"];
-    if ([host isEqualTo:_host]) {
-        _hostStatus = HostEntryStatusContactFailed;
+    if ([host isEqualTo:self.host]) {
+        self.hostStatus = HostEntryStatusContactFailed;
         [self sendStatusDidChangeNotification];
     }
 }
@@ -360,8 +359,8 @@ NSString * const SEEConnectionStatusDidChangeNotification = @"SEEConnectionStatu
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"TCM_connectToHostCancelled: %@", notification);
     
     TCMHost *host = [[notification userInfo] objectForKey:@"host"];
-    if ([host isEqualTo:_host]) {
-        _hostStatus = HostEntryStatusCancelled;
+    if ([host isEqualTo:self.host]) {
+        self.hostStatus = HostEntryStatusCancelled;
         [self sendStatusDidChangeNotification];
     }
 }
