@@ -114,21 +114,24 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 }
 
 - (void)windowDidLoad {
-    [[[self window] contentView] setAutoresizesSubviews:YES];
+	NSWindow *window = self.window;
+    [[window contentView] setAutoresizesSubviews:YES];
 
-	NSRect contentFrame = [[[self window] contentView] frame];
+	[window setMinSize:NSMakeSize(500,370)];
+	
+	NSRect contentFrame = [[window contentView] frame];
 	 
 	I_tabBar = [[PSMTabBarControl alloc] initWithFrame:NSMakeRect(0.0, NSHeight(contentFrame) - [SEETabStyle desiredTabBarControlHeight], NSWidth(contentFrame), [SEETabStyle desiredTabBarControlHeight])];
     [I_tabBar setAutoresizingMask:NSViewWidthSizable | NSViewMinYMargin];
     [I_tabBar setStyleNamed:@"SubEthaEdit"];
 	[I_tabBar setShowAddTabButton:YES];
-    [[[self window] contentView] addSubview:I_tabBar];
+    [[window contentView] addSubview:I_tabBar];
 
     I_tabView = [[NSTabView alloc] initWithFrame:NSMakeRect(0.0, 0.0, NSWidth(contentFrame), NSHeight(contentFrame) - [SEETabStyle desiredTabBarControlHeight])];
     [I_tabView setAutoresizingMask:NSViewHeightSizable | NSViewWidthSizable];
     [I_tabView setTabViewType:NSNoTabsNoBorder];
 
-    [[[self window] contentView] addSubview:I_tabView];
+    [[window contentView] addSubview:I_tabView];
     [I_tabBar setTabView:I_tabView];
     [I_tabView setDelegate:I_tabBar];
     [I_tabBar setDelegate:self];
