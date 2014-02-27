@@ -224,14 +224,14 @@ static NSData *dhparamData = nil;
 			beepDirectoryURL = [beepDirectoryURL URLByAppendingPathComponent:@"TCMBEEP"];  // .*/Library/Logs/de.codingmonkeys.SubEthaEdit.Mac/TCMBEEP
 			[fileManager createDirectoryAtURL:beepDirectoryURL withIntermediateDirectories:YES attributes:nil error:nil];
 			
-			NSString *origPath = [[beepDirectoryURL URLByAppendingPathComponent:@"Session"] path]; // .*/Library/Logs/de.codingmonkeys.SubEthaEdit.Mac/TCMBEEP/Session
+			NSString *origPath = [beepDirectoryURL path]; // .*/Library/Logs/de.codingmonkeys.SubEthaEdit.Mac/TCMBEEP
 		
 			static int sequenceNumber = 0;
 			NSString *name;
 			do {
 				sequenceNumber++;
 				name = [NSString stringWithFormat:@"%@-p%d-s%d", [NSDate date], [[NSProcessInfo processInfo] processIdentifier], sequenceNumber];
-				name = [[origPath stringByDeletingLastPathComponent] stringByAppendingPathComponent:name];
+				name = [origPath stringByAppendingPathComponent:name];
 			} while ([fileManager fileExistsAtPath:name]);
 		
 			logDirectory = [name retain];
