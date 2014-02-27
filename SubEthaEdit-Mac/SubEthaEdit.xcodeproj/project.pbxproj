@@ -212,8 +212,8 @@
 		31FFC93D104E97A000E08256 /* NSErrorTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */; };
 		424CA988189058C000B2D333 /* SymbolMark.png in Resources */ = {isa = PBXBuildFile; fileRef = 424CA987189058C000B2D333 /* SymbolMark.png */; };
 		4C0C4A0118B366EC00E6049E /* PlainTextWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0C4A0018B366EC00E6049E /* PlainTextWindow.xib */; };
-		4C0C4A1C18B3768500E6049E /* SEENetworkBrowser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0C4A1A18B3768500E6049E /* SEENetworkBrowser.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
-		4C0C4A1D18B3768500E6049E /* SEENetworkBrowser.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0C4A1B18B3768500E6049E /* SEENetworkBrowser.xib */; };
+		4C0C4A1C18B3768500E6049E /* SEEDocumentListWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0C4A1A18B3768500E6049E /* SEEDocumentListWindowController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		4C0C4A1D18B3768500E6049E /* SEEDocumentListWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0C4A1B18B3768500E6049E /* SEEDocumentListWindowController.xib */; };
 		4C0C4A2018B3BA5600E6049E /* SEENetworkDocumentRepresentation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0C4A1F18B3BA5600E6049E /* SEENetworkDocumentRepresentation.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C0D3D6417FB12F700AAFB38 /* SEEStyleSheetEditorWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D6317FB12F700AAFB38 /* SEEStyleSheetEditorWindowController.xib */; };
 		4C0D3D6817FB145600AAFB38 /* Preferences.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0D3D6717FB145600AAFB38 /* Preferences.xib */; };
@@ -946,9 +946,9 @@
 		32DBCF750370BD2300C91783 /* SubEthaEdit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubEthaEdit_Prefix.pch; sourceTree = "<group>"; };
 		424CA987189058C000B2D333 /* SymbolMark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SymbolMark.png; path = artwork/SymbolMark.png; sourceTree = "<group>"; };
 		4C0C4A0018B366EC00E6049E /* PlainTextWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlainTextWindow.xib; sourceTree = "<group>"; };
-		4C0C4A1918B3768500E6049E /* SEENetworkBrowser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEENetworkBrowser.h; sourceTree = "<group>"; };
-		4C0C4A1A18B3768500E6049E /* SEENetworkBrowser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEENetworkBrowser.m; sourceTree = "<group>"; };
-		4C0C4A1B18B3768500E6049E /* SEENetworkBrowser.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEENetworkBrowser.xib; sourceTree = "<group>"; };
+		4C0C4A1918B3768500E6049E /* SEEDocumentListWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEDocumentListWindowController.h; sourceTree = "<group>"; };
+		4C0C4A1A18B3768500E6049E /* SEEDocumentListWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEDocumentListWindowController.m; sourceTree = "<group>"; };
+		4C0C4A1B18B3768500E6049E /* SEEDocumentListWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEEDocumentListWindowController.xib; sourceTree = "<group>"; };
 		4C0C4A1E18B3BA5600E6049E /* SEENetworkDocumentRepresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEENetworkDocumentRepresentation.h; sourceTree = "<group>"; };
 		4C0C4A1F18B3BA5600E6049E /* SEENetworkDocumentRepresentation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEENetworkDocumentRepresentation.m; sourceTree = "<group>"; };
 		4C0D3D6317FB12F700AAFB38 /* SEEStyleSheetEditorWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEEStyleSheetEditorWindowController.xib; sourceTree = "<group>"; };
@@ -2011,7 +2011,7 @@
 				4CAA423618157A4C00457B2A /* Configuration */,
 				142891780957483200D14688 /* Additions */,
 				2A37F4ABFDCFA73011CA2CEA /* Classes */,
-				4C84D17918B63F83008C4FDC /* Network DocumentBrowser */,
+				4C84D17918B63F83008C4FDC /* Document List */,
 				142892490957526300D14688 /* Document */,
 				1428924C0957526E00D14688 /* Mode */,
 				1428924F0957527300D14688 /* Operations */,
@@ -2193,16 +2193,16 @@
 			name = Retina;
 			sourceTree = "<group>";
 		};
-		4C84D17918B63F83008C4FDC /* Network DocumentBrowser */ = {
+		4C84D17918B63F83008C4FDC /* Document List */ = {
 			isa = PBXGroup;
 			children = (
 				F2D129F90BF0B64700A776CC /* SEEConnectionManager.h */,
 				F2D129F80BF0B64700A776CC /* SEEConnectionManager.m */,
 				F2D12A1A0BF0B8DF00A776CC /* SEEConnection.h */,
 				F2D12A1B0BF0B8DF00A776CC /* SEEConnection.m */,
-				4C0C4A1918B3768500E6049E /* SEENetworkBrowser.h */,
-				4C0C4A1A18B3768500E6049E /* SEENetworkBrowser.m */,
-				4C0C4A1B18B3768500E6049E /* SEENetworkBrowser.xib */,
+				4C0C4A1918B3768500E6049E /* SEEDocumentListWindowController.h */,
+				4C0C4A1A18B3768500E6049E /* SEEDocumentListWindowController.m */,
+				4C0C4A1B18B3768500E6049E /* SEEDocumentListWindowController.xib */,
 				4C71D0C018BF796500EA66FA /* SEENetworkBrowserItem.h */,
 				4C71D0C118BF7C2900EA66FA /* SEEBrowserConnectItem.h */,
 				4C71D0C218BF7C2900EA66FA /* SEEBrowserConnectItem.m */,
@@ -2217,7 +2217,7 @@
 				4C77B24018BB83620066BDB2 /* SEENetworkBrowserGroupTableRowView.h */,
 				4C77B24118BB83620066BDB2 /* SEENetworkBrowserGroupTableRowView.m */,
 			);
-			name = "Network DocumentBrowser";
+			name = "Document List";
 			sourceTree = "<group>";
 		};
 		4CAA423618157A4C00457B2A /* Configuration */ = {
@@ -2836,7 +2836,7 @@
 				F2D5FF3E0CB2666000407399 /* Rendezvous.icns in Resources */,
 				F2D5FF400CB2667A00407399 /* StylePrefs.icns in Resources */,
 				4CD5F80617FB0D5B00F49E31 /* OpenPanelAccessory.xib in Resources */,
-				4C0C4A1D18B3768500E6049E /* SEENetworkBrowser.xib in Resources */,
+				4C0C4A1D18B3768500E6049E /* SEEDocumentListWindowController.xib in Resources */,
 				F2D3E53E189941F50096425B /* AW InactiveTabCloseRollover@2x.png in Resources */,
 				4C6BDC601889858A0088CBFC /* folded@2x.png in Resources */,
 				4CD5F83517FB0EB500F49E31 /* URLBubbleWindow.xib in Resources */,
@@ -2999,7 +2999,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				8D15AC320486D014006FF6A4 /* main.m in Sources */,
-				4C0C4A1C18B3768500E6049E /* SEENetworkBrowser.m in Sources */,
+				4C0C4A1C18B3768500E6049E /* SEEDocumentListWindowController.m in Sources */,
 				14289110095744C100D14688 /* MoreCFQ.c in Sources */,
 				14289111095744C100D14688 /* MoreSecurity.c in Sources */,
 				14289112095744C100D14688 /* MoreUNIX.c in Sources */,

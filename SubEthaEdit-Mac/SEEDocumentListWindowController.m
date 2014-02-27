@@ -1,5 +1,5 @@
 //
-//  SEENetworkBrowser.m
+//  SEEDocumentListWindowController.m
 //  SubEthaEdit
 //
 //  Created by Michael Ehrmann on 18.02.14.
@@ -10,7 +10,7 @@
 #error ARC must be enabled!
 #endif
 
-#import "SEENetworkBrowser.h"
+#import "SEEDocumentListWindowController.h"
 #import "SEENetworkBrowserGroupTableRowView.h"
 
 #import "SEENetworkConnectionRepresentation.h"
@@ -38,7 +38,7 @@ extern int const FileNewMenuItemTag;
 
 static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetworkDocumentBrowserEntriesObservingContext;
 
-@interface SEENetworkBrowser () <NSTableViewDelegate>
+@interface SEEDocumentListWindowController () <NSTableViewDelegate>
 
 @property (nonatomic, weak) IBOutlet NSScrollView *scrollViewOutlet;
 @property (nonatomic, weak) IBOutlet NSTableView *tableViewOutlet;
@@ -50,7 +50,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 
 @end
 
-@implementation SEENetworkBrowser
+@implementation SEEDocumentListWindowController
 
 - (id)initWithWindow:(NSWindow *)window
 {
