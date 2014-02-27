@@ -2658,7 +2658,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 }
 
 - (void)autosaveDocumentWithDelegate:(id)delegate didAutosaveSelector:(SEL)didAutosaveSelector contextInfo:(void *)aContext {
-    // autosave to @"~/Library/Autosave Information/UUID.seetext"
+    // autosave to .*/Autosave Information/de.codingmonkeys.SubEthaEdit.Mac/%@.seetext // UUID
     NSURL *autosaveURL = [self autosavedContentsFileURL];
     if ([self isDocumentEdited]) { 
         if (!autosaveURL) {
@@ -2671,6 +2671,9 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 				autosaveInfoDirectory = [possibleURLs objectAtIndex:0];
 			}
 			if (autosaveInfoDirectory) {
+				NSString* appBundleID = [[NSBundle mainBundle] bundleIdentifier];
+				autosaveInfoDirectory = [autosaveInfoDirectory URLByAppendingPathComponent:appBundleID];
+
 				NSString *documentName = [NSString stringWithFormat:@"%@.seetext", [NSString UUIDString]];
 				autosaveURL = [autosaveInfoDirectory URLByAppendingPathComponent:documentName];
 			}
