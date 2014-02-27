@@ -7,6 +7,10 @@
 //  Copyright (c) 2004-2014 TheCodingMonkeys. All rights reserved.
 //
 
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "SEEConnectionManager.h"
 #import "TCMHost.h"
@@ -14,12 +18,6 @@
 #import "TCMFoundation.h"
 #import "SEEConnection.h"
 #import <TCMPortMapper/TCMPortMapper.h>
-
-@interface SEEConnectionManager ()
-@property (strong) NSMutableArray *entries;
-@end
-
-#pragma mark -
 
 @implementation SEEConnectionManager
 
@@ -35,62 +33,33 @@
 - (id)init {
 	self = [super init];
     if (self) {
-		self.entries = [NSMutableArray new];
+		self.entries = [NSMutableArray array];
 
-		TCMMMBEEPSessionManager *manager = [TCMMMBEEPSessionManager sharedInstance];
 		NSNotificationCenter *defaultCenter = [NSNotificationCenter defaultCenter];
 
-		[defaultCenter addObserver:self selector:@selector(userDidChangeVisibility:) name:TCMMMPresenceManagerUserVisibilityDidChangeNotification object:nil];
-        [defaultCenter addObserver:self selector:@selector(userDidChangeAnnouncedDocuments:) name:TCMMMPresenceManagerUserSessionsDidChangeNotification object:nil];
-        [defaultCenter addObserver:self selector:@selector(connectionEntryDidChange:) name:SEEConnectionStatusDidChangeNotification object:nil];
-        [defaultCenter addObserver:self selector:@selector(connectionEntryDidChange:) name:TCMBEEPSessionAuthenticationInformationDidChangeNotification object:nil];
+		TCMMMBEEPSessionManager *manager = [TCMMMBEEPSessionManager sharedInstance];
         [defaultCenter addObserver:self selector:@selector(TCM_didAcceptSession:) name:TCMMMBEEPSessionManagerDidAcceptSessionNotification object:manager];
         [defaultCenter addObserver:self selector:@selector(TCM_sessionDidEnd:) name:TCMMMBEEPSessionManagerSessionDidEndNotification object:manager];
 
-		// not sure if needed
-		[defaultCenter addObserver:self selector:@selector(announcedSessionsDidChange:) name:TCMMMPresenceManagerAnnouncedSessionsDidChangeNotification object:[TCMMMPresenceManager sharedInstance]];
-		[defaultCenter addObserver:self selector:@selector(announcedSessionsDidChange:) name:TCMMMPresenceManagerServiceAnnouncementDidChangeNotification object:[TCMMMPresenceManager sharedInstance]];
+		TCMMMPresenceManager *presenceManager = [TCMMMPresenceManager sharedInstance];
+		[defaultCenter addObserver:self selector:@selector(userDidChangeVisibility:) name:TCMMMPresenceManagerUserVisibilityDidChangeNotification object:presenceManager];
+        [defaultCenter addObserver:self selector:@selector(userDidChangeAnnouncedDocuments:) name:TCMMMPresenceManagerUserSessionsDidChangeNotification object:presenceManager];
+		[defaultCenter addObserver:self selector:@selector(announcedSessionsDidChange:) name:TCMMMPresenceManagerAnnouncedSessionsDidChangeNotification object:presenceManager];
+		[defaultCenter addObserver:self selector:@selector(announcedSessionsDidChange:) name:TCMMMPresenceManagerServiceAnnouncementDidChangeNotification object:presenceManager];
+
+        [defaultCenter addObserver:self selector:@selector(connectionEntryDidChange:) name:SEEConnectionStatusDidChangeNotification object:nil];
+        [defaultCenter addObserver:self selector:@selector(connectionEntryDidChange:) name:TCMBEEPSessionAuthenticationInformationDidChangeNotification object:nil];
 
 		[defaultCenter addObserver:self selector:@selector(userDidChange:) name:TCMMMUserManagerUserDidChangeNotification object:nil];
-
-
-	    // Port Mappings
-		TCMPortMapper *pm = [TCMPortMapper sharedInstance];
-		[defaultCenter addObserver:self selector:@selector(portMapperDidStartWork:) name:TCMPortMapperDidStartWorkNotification object:pm];
-		[defaultCenter addObserver:self selector:@selector(portMapperDidFinishWork:) name:TCMPortMapperDidFinishWorkNotification object:pm];
-		if ([pm isAtWork]) {
-			[self portMapperDidStartWork:nil];
-		} else {
-			[self portMapperDidFinishWork:nil];
-		}
 	}
     return self;
 }
 
 - (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-
-	self.entries = nil;
-
-	[super dealloc];
 }
 
-- (void)portMapperDidStartWork:(NSNotification *)aNotification {
-	NSLog(NSLocalizedString(@"Checking port status...",@"Status of port mapping while trying"));
-}
-
-- (void)portMapperDidFinishWork:(NSNotification *)aNotification {
-    TCMPortMapper *pm = [TCMPortMapper sharedInstance];
-    // since we only have one mapping this is fine
-    TCMPortMapping *mapping = [[pm portMappings] anyObject];
-    if ([mapping mappingStatus]==TCMPortMappingStatusMapped) {
-        NSLog(NSLocalizedString(@"see://%@:%d",@"Connection Browser URL display"), [pm externalIPAddress],[mapping externalPort]);
-    } else {
-        NSLog(NSLocalizedString(@"No public mapping.",@"Connection Browser Display when not reachable"));
-    }
-}
-
-- (NSURL*)applicationConnectionURL {
+- (NSURL *)applicationConnectionURL {
     TCMPortMapper *pm = [TCMPortMapper sharedInstance];
     NSString *URLString = [NSString stringWithFormat:@"see://%@:%d", [pm localIPAddress],[[TCMMMBEEPSessionManager sharedInstance] listeningPort]];
     TCMPortMapping *mapping = [[pm portMappings] anyObject];
@@ -120,15 +89,17 @@
 }
 
 - (SEEConnection *)connectionEntryForURL:(NSURL *)anURL {
-    NSEnumerator *entries = [self.entries objectEnumerator];
-    SEEConnection *entry = nil;
-    while ((entry=[entries nextObject])) {
+	[self willChangeValueForKey:@"entries"];
+	SEEConnection *entry = nil;
+    for (entry in self.entries) {
         if ([entry handleURL:anURL]) {
             return entry;
         }
     }
-    entry = [[[SEEConnection alloc] initWithURL:anURL] autorelease];
-    [self.entries addObject:entry];
+
+    entry = [[SEEConnection alloc] initWithURL:anURL];
+	[self.entries addObject:entry];
+	[self didChangeValueForKey:@"entries"];
     return entry;
 }
 
@@ -140,22 +111,6 @@
     [entry connect];
 }
 
-- (void)alertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
-    DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"alertDidEnd:");
-    
-    NSDictionary *alertContext = (NSDictionary *)contextInfo;
-    if (returnCode == NSAlertFirstButtonReturn) {
-        DEBUGLOG(@"InternetLogDomain", SimpleLogLevel, @"abort connection");
-        NSSet *set = [alertContext objectForKey:@"items"];
-        SEEConnection *entry=nil;
-        for (entry in set) {
-            [entry cancel];
-        }
-    }
-    
-    [alertContext autorelease];
-}
-
 - (NSArray *)clearableEntries {
     return [self.entries filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"connectionStatus = %@",ConnectionStatusNoConnection]];
 }
@@ -165,40 +120,45 @@
 
 - (void)TCM_didAcceptSession:(NSNotification *)notification {
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"TCM_didAcceptSession: %@", notification);
-    TCMBEEPSession *session = [[notification userInfo] objectForKey:@"Session"];
-    
-    NSEnumerator *entries = [self.entries objectEnumerator];
-    SEEConnection *entry = nil;
-    BOOL sessionWasHandled = NO;
-    while ((entry=[entries nextObject])) {
-        if ([entry handleSession:session]) {
-            sessionWasHandled = YES;
-            break;
-        }
-    }
-    if (!sessionWasHandled) {
-        SEEConnection *entry = [[[SEEConnection alloc] initWithBEEPSession:session] autorelease];
-        [self.entries addObject:entry];
-    }
+
+	[self willChangeValueForKey:@"entries"];
+	{
+		TCMBEEPSession *session = [[notification userInfo] objectForKey:@"Session"];
+		BOOL sessionWasHandled = NO;
+		for (SEEConnection *entry in self.entries) {
+			if ([entry handleSession:session]) {
+				sessionWasHandled = YES;
+				break;
+			}
+		}
+		if (!sessionWasHandled) {
+			SEEConnection *entry = [[SEEConnection alloc] initWithBEEPSession:session];
+			[self.entries addObject:entry];
+		}
+	}
+	[self didChangeValueForKey:@"entries"];
 }
 
 - (void)TCM_sessionDidEnd:(NSNotification *)notification {
     DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"TCM_sessionDidEnd: %@", notification);
-    TCMBEEPSession *session = [[notification userInfo] objectForKey:@"Session"];
-    SEEConnection *concernedEntry = nil;
-    NSEnumerator *entries = [self.entries objectEnumerator];
-    SEEConnection *entry = nil;
-    while ((entry=[entries nextObject])) {
-        if ([entry BEEPSession] == session) {
-            concernedEntry = entry;
-            break;
-        }
-    }
-    if (concernedEntry) {
-        if (![concernedEntry handleSessionDidEnd:session]) {
-            [self.entries removeObject:concernedEntry];
-        } 
-    }
+
+	[self willChangeValueForKey:@"entries"];
+	{
+		TCMBEEPSession *session = [[notification userInfo] objectForKey:@"Session"];
+		SEEConnection *concernedEntry = nil;
+		for (SEEConnection *entry in self.entries) {
+			if ([entry BEEPSession] == session) {
+				concernedEntry = entry;
+				break;
+			}
+		}
+		if (concernedEntry) {
+			if (![concernedEntry handleSessionDidEnd:session]) {
+				[self.entries removeObject:concernedEntry];
+			}
+		}
+	}
+	[self didChangeValueForKey:@"entries"];
 }
 
 
@@ -207,44 +167,53 @@
 
 - (void)userDidChange:(NSNotification *)aNotification {
     DEBUGLOG(@"InternetLogDomain", AllLogLevel, @"userDidChange: %@", aNotification);
-    if ([[[aNotification userInfo] objectForKey:@"User"] isMe]) {
 
-    } else {
-
-    }
+	[self willChangeValueForKey:@"entries"];
+	[self didChangeValueForKey:@"entries"];
 }
 
 - (void)announcedSessionsDidChange:(NSNotification *)aNotification {
+    DEBUGLOG(@"InternetLogDomain", AllLogLevel, @"announcedSessionsDidChange: %@", aNotification);
 
+	[self willChangeValueForKey:@"entries"];
+	[self didChangeValueForKey:@"entries"];
 }
 
 #pragma mark -
 
 - (void)userDidChangeVisibility:(NSNotification *)aNotification {
     DEBUGLOG(@"InternetLogDomain", AllLogLevel, @"userDidChangeVisibility: %@", aNotification);
-//    NSDictionary *userInfo = [aNotification userInfo];
-//    NSString *userID = [userInfo objectForKey:@"UserID"];
+
+	[self willChangeValueForKey:@"entries"];
+	[self didChangeValueForKey:@"entries"];
 }
 
 - (void)userDidChangeAnnouncedDocuments:(NSNotification *)aNotification {
     DEBUGLOG(@"InternetLogDomain", AllLogLevel, @"userDidChangeAnnouncedDocuments: %@", aNotification);
-//    NSDictionary *userInfo = [aNotification userInfo];
-//    NSString *userID = [userInfo objectForKey:@"UserID"];
-	NSArray *entries = [[self.entries copy] autorelease];
-    [entries makeObjectsPerformSelector:@selector(reloadAnnouncedSessions)];
-    [entries makeObjectsPerformSelector:@selector(checkDocumentRequests)];
+
+	[self willChangeValueForKey:@"entries"];
+	{
+		NSArray *entries = [self.entries copy];
+		[entries makeObjectsPerformSelector:@selector(reloadAnnouncedSessions)];
+		[entries makeObjectsPerformSelector:@selector(checkDocumentRequests)];
+	}
+	[self didChangeValueForKey:@"entries"];
+
 }
 
 #pragma mark -
 
 - (void)connectionEntryDidChange:(NSNotification *)aNotification {
+    DEBUGLOG(@"InternetLogDomain", AllLogLevel, @"connectionEntryDidChange: %@", aNotification);
 
+	[self willChangeValueForKey:@"entries"];
+	[self didChangeValueForKey:@"entries"];
 }
 
 #pragma mark -
 
 + (NSString *)quoteEscapedStringWithString:(NSString *)aString {
-    NSMutableString *string = [[aString mutableCopy] autorelease];
+    NSMutableString *string = [aString mutableCopy];
     [string replaceOccurrencesOfString:@"\"" withString:@"\\\"" options:NSLiteralSearch range:NSMakeRange(0,[aString length])];
     return (NSString *)string;
 }
@@ -253,7 +222,7 @@
     // format is service id, id in that service, onlinestatus (0=offline),groupname
     NSString *message = [NSString stringWithFormat:NSLocalizedString(@"Please join me in SubEthaEdit:\n%@\n\n(You can download SubEthaEdit from http://www.codingmonkeys.de/subethaedit )",@"iChat invitation String with Placeholder for actual URL"),[anURL absoluteString]];
     NSString *applescriptString = [NSString stringWithFormat:@"tell application \"iChat\" to send \"%@\" to buddy id \"%@:%@\"",[self quoteEscapedStringWithString:message],aServiceID,aBuddy];
-    NSAppleScript *script = [[[NSAppleScript alloc] initWithSource:applescriptString] autorelease];
+    NSAppleScript *script = [[NSAppleScript alloc] initWithSource:applescriptString];
     // need to delay the sending so we don't try to send while in the dragging event
     [script performSelector:@selector(executeAndReturnError:) withObject:nil afterDelay:0.1];
 }

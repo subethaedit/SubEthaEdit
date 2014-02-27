@@ -22,6 +22,7 @@
 #import "UndoManager.h"
 #import "GenericSASLProfile.h"
 
+#import "SEEConnectionManager.h"
 #import "SEENetworkBrowser.h"
 
 #import "AdvancedPreferences.h"
@@ -607,6 +608,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/TCMMMStatus"          forGreetingInMode:kTCMMMBEEPSessionManagerTLSMode];
     [sm registerProfileURI:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"   forGreetingInMode:kTCMMMBEEPSessionManagerTLSMode];
 
+	[SEEConnectionManager sharedInstance];
     [[TCMMMPresenceManager sharedInstance] startRendezvousBrowsing];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(updateApplicationIcon) name:TCMMMSessionPendingInvitationsDidChange object:nil];

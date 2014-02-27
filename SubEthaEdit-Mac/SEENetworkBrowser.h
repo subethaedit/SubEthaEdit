@@ -7,9 +7,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "SEENetworkBrowserItem.h"
 
-@interface SEENetworkBrowser : NSWindowController <NSCollectionViewDelegate>
-@property (nonatomic, strong) NSMutableArray *availableDocumentSessions;
+@interface SEENetworkBrowser : NSWindowController <NSTableViewDelegate>
+@property (nonatomic, strong) NSMutableArray *availableItems;
 @property (nonatomic, assign) BOOL shouldCloseWhenOpeningDocument;
 
 - (NSInteger)runModal;

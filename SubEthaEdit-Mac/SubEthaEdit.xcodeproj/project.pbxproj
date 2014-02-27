@@ -247,8 +247,12 @@
 		4C6BDC6618898E1E0088CBFC /* ScriptMenu.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC6518898E1E0088CBFC /* ScriptMenu.pdf */; };
 		4C6BDC6918898F850088CBFC /* ScriptMenuItemIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC6718898F850088CBFC /* ScriptMenuItemIcon.png */; };
 		4C6BDC6A18898F850088CBFC /* ScriptMenuItemIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC6818898F850088CBFC /* ScriptMenuItemIcon@2x.png */; };
-		4C77B24218BB83620066BDB2 /* SEENetworkBrowserGroupTableRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C77B24118BB83620066BDB2 /* SEENetworkBrowserGroupTableRowView.m */; };
+		4C71D0C318BF7C2900EA66FA /* SEEBrowserConnectItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C71D0C218BF7C2900EA66FA /* SEEBrowserConnectItem.m */; };
+		4C71D0C618BF8B2200EA66FA /* SEEBrowserOpenOtherItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C71D0C518BF8B2200EA66FA /* SEEBrowserOpenOtherItem.m */; };
+		4C71D0C918BF997500EA66FA /* SEEBrowserNewDocumentItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C71D0C818BF997500EA66FA /* SEEBrowserNewDocumentItem.m */; };
+		4C77B24218BB83620066BDB2 /* SEENetworkBrowserGroupTableRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C77B24118BB83620066BDB2 /* SEENetworkBrowserGroupTableRowView.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C97D504188D42FA000B4999 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C97D503188D42FA000B4999 /* QuartzCore.framework */; };
+		4C9CCDC918BE413E00959EF2 /* SEENetworkConnectionRepresentation.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C9CCDC818BE413E00959EF2 /* SEENetworkConnectionRepresentation.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4CB8EE4D180FD8FE0051AB6B /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CB8EE4C180FD8FE0051AB6B /* XCTest.framework */; };
 		4CB8EE4F180FD9A40051AB6B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CB8EE4E180FD9A40051AB6B /* libz.dylib */; };
 		4CB8EE50180FDF160051AB6B /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */; };
@@ -401,8 +405,8 @@
 		F2CA7D2F0CA142B1008BEA38 /* HUDStatisticPersonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CA7D2D0CA142B0008BEA38 /* HUDStatisticPersonCell.m */; };
 		F2CEAAA7100B3A350036B3F7 /* MAAttachedWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CEAAA6100B3A350036B3F7 /* MAAttachedWindow.m */; };
 		F2CEAAF1100B46150036B3F7 /* URLBubbleWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CEAAF0100B46150036B3F7 /* URLBubbleWindow.m */; };
-		F2D129FC0BF0B64A00A776CC /* SEEConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D129F80BF0B64700A776CC /* SEEConnectionManager.m */; };
-		F2D12A1D0BF0B8DF00A776CC /* SEEConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D12A1B0BF0B8DF00A776CC /* SEEConnection.m */; };
+		F2D129FC0BF0B64A00A776CC /* SEEConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D129F80BF0B64700A776CC /* SEEConnectionManager.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		F2D12A1D0BF0B8DF00A776CC /* SEEConnection.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D12A1B0BF0B8DF00A776CC /* SEEConnection.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		F2D22CB40EE9C5E3004B8E33 /* SeeTextImporter.mdimporter in Copy Importers */ = {isa = PBXBuildFile; fileRef = F2D22CB30EE9C5DE004B8E33 /* SeeTextImporter.mdimporter */; };
 		F2D2CDB20D73043D000E3812 /* FriendCast16Active.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D2CDAE0D73043D000E3812 /* FriendCast16Active.png */; };
 		F2D2CDB30D73043D000E3812 /* FriendCast16.png in Resources */ = {isa = PBXBuildFile; fileRef = F2D2CDAF0D73043D000E3812 /* FriendCast16.png */; };
@@ -979,9 +983,18 @@
 		4C6BDC6518898E1E0088CBFC /* ScriptMenu.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; name = ScriptMenu.pdf; path = artwork/ScriptMenu.pdf; sourceTree = "<group>"; };
 		4C6BDC6718898F850088CBFC /* ScriptMenuItemIcon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = ScriptMenuItemIcon.png; path = artwork/ScriptMenuItemIcon.png; sourceTree = "<group>"; };
 		4C6BDC6818898F850088CBFC /* ScriptMenuItemIcon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "ScriptMenuItemIcon@2x.png"; path = "artwork/ScriptMenuItemIcon@2x.png"; sourceTree = "<group>"; };
+		4C71D0C018BF796500EA66FA /* SEENetworkBrowserItem.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SEENetworkBrowserItem.h; sourceTree = "<group>"; };
+		4C71D0C118BF7C2900EA66FA /* SEEBrowserConnectItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEBrowserConnectItem.h; sourceTree = "<group>"; };
+		4C71D0C218BF7C2900EA66FA /* SEEBrowserConnectItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEBrowserConnectItem.m; sourceTree = "<group>"; };
+		4C71D0C418BF8B2200EA66FA /* SEEBrowserOpenOtherItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEBrowserOpenOtherItem.h; sourceTree = "<group>"; };
+		4C71D0C518BF8B2200EA66FA /* SEEBrowserOpenOtherItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEBrowserOpenOtherItem.m; sourceTree = "<group>"; };
+		4C71D0C718BF997500EA66FA /* SEEBrowserNewDocumentItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEBrowserNewDocumentItem.h; sourceTree = "<group>"; };
+		4C71D0C818BF997500EA66FA /* SEEBrowserNewDocumentItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEBrowserNewDocumentItem.m; sourceTree = "<group>"; };
 		4C77B24018BB83620066BDB2 /* SEENetworkBrowserGroupTableRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEENetworkBrowserGroupTableRowView.h; sourceTree = "<group>"; };
 		4C77B24118BB83620066BDB2 /* SEENetworkBrowserGroupTableRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEENetworkBrowserGroupTableRowView.m; sourceTree = "<group>"; };
 		4C97D503188D42FA000B4999 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
+		4C9CCDC718BE413E00959EF2 /* SEENetworkConnectionRepresentation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEENetworkConnectionRepresentation.h; sourceTree = "<group>"; };
+		4C9CCDC818BE413E00959EF2 /* SEENetworkConnectionRepresentation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEENetworkConnectionRepresentation.m; sourceTree = "<group>"; };
 		4CAA423718157B1000457B2A /* TCMReleaseInfo.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = TCMReleaseInfo.xcconfig; sourceTree = "<group>"; };
 		4CAA423818157EAB00457B2A /* TCMAppConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = TCMAppConfig.xcconfig; sourceTree = "<group>"; };
 		4CB8EE4C180FD8FE0051AB6B /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
@@ -2114,7 +2127,6 @@
 			children = (
 				4C1D39DA17FB085800B1CF5C /* AboutPanel.xib */,
 				4CD5F7D817FB0BF200F49E31 /* AdvancedPrefs.xib */,
-				4C0C4A1B18B3768500E6049E /* SEENetworkBrowser.xib */,
 				4CD5F7E017FB0C4D00F49E31 /* DocumentProxy.xib */,
 				4CD5F7E417FB0C7B00F49E31 /* EditPrefs.xib */,
 				4CD5F7E817FB0C8E00F49E31 /* EncodingDoctor.xib */,
@@ -2190,8 +2202,18 @@
 				F2D12A1B0BF0B8DF00A776CC /* SEEConnection.m */,
 				4C0C4A1918B3768500E6049E /* SEENetworkBrowser.h */,
 				4C0C4A1A18B3768500E6049E /* SEENetworkBrowser.m */,
+				4C0C4A1B18B3768500E6049E /* SEENetworkBrowser.xib */,
+				4C71D0C018BF796500EA66FA /* SEENetworkBrowserItem.h */,
+				4C71D0C118BF7C2900EA66FA /* SEEBrowserConnectItem.h */,
+				4C71D0C218BF7C2900EA66FA /* SEEBrowserConnectItem.m */,
+				4C71D0C718BF997500EA66FA /* SEEBrowserNewDocumentItem.h */,
+				4C71D0C818BF997500EA66FA /* SEEBrowserNewDocumentItem.m */,
+				4C71D0C418BF8B2200EA66FA /* SEEBrowserOpenOtherItem.h */,
+				4C71D0C518BF8B2200EA66FA /* SEEBrowserOpenOtherItem.m */,
 				4C0C4A1E18B3BA5600E6049E /* SEENetworkDocumentRepresentation.h */,
 				4C0C4A1F18B3BA5600E6049E /* SEENetworkDocumentRepresentation.m */,
+				4C9CCDC718BE413E00959EF2 /* SEENetworkConnectionRepresentation.h */,
+				4C9CCDC818BE413E00959EF2 /* SEENetworkConnectionRepresentation.m */,
 				4C77B24018BB83620066BDB2 /* SEENetworkBrowserGroupTableRowView.h */,
 				4C77B24118BB83620066BDB2 /* SEENetworkBrowserGroupTableRowView.m */,
 			);
@@ -2989,6 +3011,7 @@
 				142891370957457500D14688 /* NSStringTCMAdditions.m in Sources */,
 				142891380957457500D14688 /* TCMBencodingUtilities.m in Sources */,
 				142891390957457500D14688 /* TCMRendezvousBrowser.m in Sources */,
+				4C9CCDC918BE413E00959EF2 /* SEENetworkConnectionRepresentation.m in Sources */,
 				142891510957475E00D14688 /* TCMBEEPChannel.m in Sources */,
 				142891520957475E00D14688 /* TCMBEEPFrame.m in Sources */,
 				142891530957475E00D14688 /* TCMBEEPListener.m in Sources */,
@@ -3007,6 +3030,7 @@
 				1428922A0957523300D14688 /* DebugPreferences.m in Sources */,
 				1428922D0957523300D14688 /* DebugPresenceController.m in Sources */,
 				1428922E0957523300D14688 /* DebugUserController.m in Sources */,
+				4C71D0C618BF8B2200EA66FA /* SEEBrowserOpenOtherItem.m in Sources */,
 				4C123002180BE4A60069253E /* TCMBEEPSessionXMLParser.m in Sources */,
 				14289329095756D800D14688 /* TCMMMBEEPSessionManager.m in Sources */,
 				1428932B095756D800D14688 /* TCMMMMessage.m in Sources */,
@@ -3134,6 +3158,7 @@
 				F2CA7D2F0CA142B1008BEA38 /* HUDStatisticPersonCell.m in Sources */,
 				F26B7D880CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m in Sources */,
 				31D2C7000CA7C9C8003CC5C9 /* PrecedenceRuleCell.m in Sources */,
+				4C71D0C318BF7C2900EA66FA /* SEEBrowserConnectItem.m in Sources */,
 				4C77B24218BB83620066BDB2 /* SEENetworkBrowserGroupTableRowView.m in Sources */,
 				F2F2B5A70CA7F7B80045C189 /* PrecedencePreferences.m in Sources */,
 				F2F2B6100CA811240045C189 /* TCMMMLogStatisticsDataPoint.m in Sources */,
@@ -3153,6 +3178,7 @@
 				F2CEAAF1100B46150036B3F7 /* URLBubbleWindow.m in Sources */,
 				31FFC93D104E97A000E08256 /* NSErrorTCMAdditions.m in Sources */,
 				3170E46112846C670096089C /* SEEStyleSheet.m in Sources */,
+				4C71D0C918BF997500EA66FA /* SEEBrowserNewDocumentItem.m in Sources */,
 				F280ABC4131E6ED50091D145 /* SEEStyleSheetEditorWindowController.m in Sources */,
 				F2D56993133B880900CEC841 /* SEEStyleSheetSettings.m in Sources */,
 			);
