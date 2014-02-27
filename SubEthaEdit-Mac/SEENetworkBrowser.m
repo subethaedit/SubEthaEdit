@@ -36,7 +36,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 
 @interface SEENetworkBrowser () <NSTableViewDelegate>
 
-@property (nonatomic, weak) IBOutlet NSScrollView *scrollView;
+@property (nonatomic, weak) IBOutlet NSScrollView *scrollViewOutlet;
+@property (nonatomic, weak) IBOutlet NSTableView *tableViewOutlet;
 
 @property (nonatomic, weak) IBOutlet NSObjectController *filesOwnerProxy;
 @property (nonatomic, weak) IBOutlet NSArrayController *collectionViewArrayController;
@@ -103,11 +104,15 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 {
     [super windowDidLoad];
 
-	NSScrollView *scrollView = self.scrollView;
+	NSScrollView *scrollView = self.scrollViewOutlet;
 	scrollView.contentView.layer = [CAScrollLayer layer];
 	scrollView.contentView.wantsLayer = YES;
 	scrollView.contentView.layerContentsRedrawPolicy = NSViewLayerContentsRedrawNever;
 	scrollView.wantsLayer = YES;
+
+	NSTableView *tableView = self.tableViewOutlet;
+	[tableView setTarget:self];
+	[tableView setDoubleAction:@selector(openDocument:)];
 
 	self.filesOwnerProxy.content = self;
 }

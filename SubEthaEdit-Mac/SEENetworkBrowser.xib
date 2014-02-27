@@ -8,7 +8,8 @@
             <connections>
                 <outlet property="collectionViewArrayController" destination="uFK-2L-HLP" id="f9J-wa-LLI"/>
                 <outlet property="filesOwnerProxy" destination="iXX-4h-P4x" id="yJ9-JU-HvF"/>
-                <outlet property="scrollView" destination="qRg-fN-a9P" id="5dr-ee-h5V"/>
+                <outlet property="scrollViewOutlet" destination="qRg-fN-a9P" id="TM4-68-dsZ"/>
+                <outlet property="tableViewOutlet" destination="btu-v5-80w" id="sDv-vX-AT3"/>
                 <outlet property="window" destination="1" id="3"/>
             </connections>
         </customObject>
