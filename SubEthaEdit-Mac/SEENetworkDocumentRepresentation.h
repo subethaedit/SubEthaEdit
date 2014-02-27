@@ -7,16 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "SEENetworkBrowserItem.h"
 
 @class TCMMMSession, TCMMMUser;
 
-@interface SEENetworkDocumentRepresentation : NSObject
-
+@interface SEENetworkDocumentRepresentation : NSObject <SEENetworkBrowserItem>
 @property (nonatomic, weak) TCMMMSession *documentSession;
-
-@property (nonatomic, readonly, strong) NSString *name;
-@property (nonatomic, readonly, strong) NSImage *image;
-
-- (IBAction)openDocument:(id)sender;
-
 @end

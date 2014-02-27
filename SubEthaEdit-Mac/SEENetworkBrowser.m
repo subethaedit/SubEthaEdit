@@ -12,8 +12,12 @@
 
 #import "SEENetworkBrowser.h"
 #import "SEENetworkBrowserGroupTableRowView.h"
+
 #import "SEENetworkConnectionRepresentation.h"
 #import "SEENetworkDocumentRepresentation.h"
+#import "SEEBrowserNewDocumentItem.h"
+#import "SEEBrowserOpenOtherItem.h"
+#import "SEEBrowserConnectItem.h"
 
 #import "DocumentController.h"
 #import "DocumentModeManager.h"
@@ -52,7 +56,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 {
     self = [super initWithWindow:window];
     if (self) {
-		self.availableDocumentSessions = [NSMutableArray array];
+		self.availableItems = [NSMutableArray array];
 		[self reloadAllDocumentSessions];
 		[self installKVO];
 
@@ -82,23 +86,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 }
 
 
-- (void)installKVO {
-	[[SEEConnectionManager sharedInstance] addObserver:self forKeyPath:@"entries" options:0 context:SEENetworkDocumentBrowserEntriesObservingContext];
-}
-
-- (void)removeKVO {
-	[[SEEConnectionManager sharedInstance] removeObserver:self forKeyPath:@"entries" context:SEENetworkDocumentBrowserEntriesObservingContext];
-}
-
-- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
-{
-    if (context == SEENetworkDocumentBrowserEntriesObservingContext) {
-		[self reloadAllDocumentSessions];
-    } else {
-        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
-    }
-}
-
+#pragma mark -
 
 - (void)windowDidLoad
 {
@@ -112,7 +100,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 
 	NSTableView *tableView = self.tableViewOutlet;
 	[tableView setTarget:self];
-	[tableView setDoubleAction:@selector(openDocument:)];
+	[tableView setDoubleAction:@selector(triggerItemAction:)];
 
 	self.filesOwnerProxy.content = self;
 }
@@ -135,41 +123,65 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 }
 
 
-#pragma mark Content management
+#pragma mark - KVO
+
+- (void)installKVO {
+	[[SEEConnectionManager sharedInstance] addObserver:self forKeyPath:@"entries" options:0 context:SEENetworkDocumentBrowserEntriesObservingContext];
+}
+
+- (void)removeKVO {
+	[[SEEConnectionManager sharedInstance] removeObserver:self forKeyPath:@"entries" context:SEENetworkDocumentBrowserEntriesObservingContext];
+}
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
+{
+    if (context == SEENetworkDocumentBrowserEntriesObservingContext) {
+		[self reloadAllDocumentSessions];
+    } else {
+        [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
+    }
+}
+
+#pragma mark - Content management
 
 - (void)reloadAllDocumentSessions
 {
-	[self willChangeValueForKey:@"availableDocumentSessions"];
+	[self willChangeValueForKey:@"availableItems"];
 	{
-		[self.availableDocumentSessions removeAllObjects];
+		[self.availableItems removeAllObjects];
 
 		SEENetworkConnectionRepresentation *me = [[SEENetworkConnectionRepresentation alloc] init];
 		me.user = [[TCMMMUserManager sharedInstance] me];
-		[self.availableDocumentSessions addObject:me];
+		[self.availableItems addObject:me];
 
-		SEENetworkDocumentRepresentation *newDocumentRepresentation = [[SEENetworkDocumentRepresentation alloc] init];
-		[self.availableDocumentSessions addObject:newDocumentRepresentation];
+		SEEBrowserNewDocumentItem *newDocumentRepresentation = [[SEEBrowserNewDocumentItem alloc] init];
+		[self.availableItems addObject:newDocumentRepresentation];
+
+		SEEBrowserOpenOtherItem *openOtherItem = [[SEEBrowserOpenOtherItem alloc] init];
+		[self.availableItems addObject:openOtherItem];
 
 		NSArray *allConnections = [[SEEConnectionManager sharedInstance] entries];
 		for (SEEConnection *connection in allConnections) {
 
 			SEENetworkConnectionRepresentation *connectionRepresentation = [[SEENetworkConnectionRepresentation alloc] init];
 			connectionRepresentation.connection = connection;
-			[self.availableDocumentSessions addObject:connectionRepresentation];
+			[self.availableItems addObject:connectionRepresentation];
 
 			NSArray *sessions = connection.announcedSessions;
 			for (TCMMMSession *session in sessions) {
 				SEENetworkDocumentRepresentation *documentRepresentation = [[SEENetworkDocumentRepresentation alloc] init];
 				documentRepresentation.documentSession = session;
-				[self.availableDocumentSessions addObject:documentRepresentation];
+				[self.availableItems addObject:documentRepresentation];
 			}
 		}
+
+		[self.availableItems addObject:[[SEEBrowserConnectItem alloc] init]];
 	}
-	[self didChangeValueForKey:@"availableDocumentSessions"];
+	[self didChangeValueForKey:@"availableItems"];
 }
 
 
-#pragma mark IBActions
+#pragma mark - Actions
 
 - (IBAction)newDocument:(id)sender
 {
@@ -189,19 +201,31 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 }
 
 
-- (IBAction)openDocument:(id)sender
+- (IBAction)triggerItemAction:(id)sender
 {
-	// make sure we get the selection before closing the window... because it will reset the selection.
-	NSArray *selectedDocuments = self.collectionViewArrayController.selectedObjects;
-
-	if (self.shouldCloseWhenOpeningDocument) {
-		if ([NSApp modalWindow] == self.window) {
-			[NSApp stopModalWithCode:NSModalResponseOK];
-		}
-		[self close];
+	NSTableView *tableView = self.tableViewOutlet;
+	id <SEENetworkBrowserItem> clickedItem = nil;
+	if (sender == tableView) {
+		NSInteger row = tableView.clickedRow;
+		NSInteger column = tableView.clickedColumn;
+		NSTableCellView *tableCell = [tableView viewAtColumn:column row:row makeIfNecessary:NO];
+		clickedItem = tableCell.objectValue;
 	}
 
-	[selectedDocuments makeObjectsPerformSelector:@selector(openDocument:) withObject:sender];
+	// make sure we get the selection before closing the window... because it will reset the selection.
+	NSArray *selectedDocuments = self.collectionViewArrayController.selectedObjects;
+	if ([selectedDocuments containsObject:clickedItem]) {
+//		if (self.shouldCloseWhenOpeningDocument) {
+//			if ([NSApp modalWindow] == self.window) {
+//				[NSApp stopModalWithCode:NSModalResponseOK];
+//			}
+//			[self close];
+//		}
+
+		[selectedDocuments makeObjectsPerformSelector:@selector(itemAction:) withObject:sender];
+	} else {
+		[clickedItem itemAction:sender];
+	}
 }
 
 
@@ -209,8 +233,16 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 
 - (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
 	NSView *result = nil;
-	if (tableColumn == nil) {
+
+	NSArray *rowItems = self.availableItems;
+	id rowItem = [rowItems objectAtIndex:row];
+
+	if (tableColumn == nil && [rowItem isKindOfClass:SEENetworkConnectionRepresentation.class]) {
 		result = [tableView makeViewWithIdentifier:@"Group" owner:self];
+	} else if (tableColumn == nil && [rowItem isKindOfClass:SEEBrowserConnectItem.class]) {
+		result = [tableView makeViewWithIdentifier:@"Connect" owner:self];
+	} else if ([rowItem isKindOfClass:SEEBrowserOpenOtherItem.class] || [rowItem isKindOfClass:SEEBrowserNewDocumentItem.class]) {
+		result = [tableView makeViewWithIdentifier:@"OtherItems" owner:self];
 	} else {
 		result = [tableView makeViewWithIdentifier:@"Document" owner:self];
 	}
@@ -229,7 +261,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 //}
 
 - (void)tableView:(NSTableView *)tableView didAddRowView:(NSTableRowView *)rowView forRow:(NSInteger)row {
-	NSArray *availableDocumentSession = self.availableDocumentSessions;
+	NSArray *availableDocumentSession = self.availableItems;
 	id documentRepresentation = [availableDocumentSession objectAtIndex:row];
 	if ([documentRepresentation isKindOfClass:SEENetworkConnectionRepresentation.class]) {
 		SEENetworkConnectionRepresentation *connectionRepresentation = (SEENetworkConnectionRepresentation *)documentRepresentation;
@@ -254,9 +286,10 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 - (BOOL)tableView:(NSTableView *)tableView isGroupRow:(NSInteger)row
 {
 	BOOL result = NO;
-	NSArray *availableDocumentSession = self.availableDocumentSessions;
+	NSArray *availableDocumentSession = self.availableItems;
 	id documentRepresentation = [availableDocumentSession objectAtIndex:row];
-	if ([documentRepresentation isKindOfClass:SEENetworkConnectionRepresentation.class]) {
+	if ([documentRepresentation isKindOfClass:SEENetworkConnectionRepresentation.class] ||
+		[documentRepresentation isKindOfClass:SEEBrowserConnectItem.class]) {
 		result = YES;
 	}
 	return result;
@@ -264,18 +297,19 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 
 - (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row
 {
-	BOOL result = YES;
-	NSArray *availableDocumentSession = self.availableDocumentSessions;
+	BOOL result = NO;
+	NSArray *availableDocumentSession = self.availableItems;
 	id documentRepresentation = [availableDocumentSession objectAtIndex:row];
-	if ([documentRepresentation isKindOfClass:SEENetworkConnectionRepresentation.class]) {
-		result = NO;
+	if ([documentRepresentation isKindOfClass:SEENetworkDocumentRepresentation.class]) {
+		result = YES;
 	}
 	return result;
 }
 
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row {
 	CGFloat rowHeight = 28.0;
-	NSArray *availableDocumentSession = self.availableDocumentSessions;
+
+	NSArray *availableDocumentSession = self.availableItems;
 	id documentRepresentation = [availableDocumentSession objectAtIndex:row];
 	if ([documentRepresentation isKindOfClass:SEENetworkConnectionRepresentation.class]) {
 		rowHeight = 46.0;

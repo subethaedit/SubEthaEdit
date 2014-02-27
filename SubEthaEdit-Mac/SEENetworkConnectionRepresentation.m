@@ -18,12 +18,10 @@
 void * const SEENetworkConnectionRepresentationConnectionObservingContext = (void *)&SEENetworkConnectionRepresentationConnectionObservingContext;
 void * const SEENetworkConnectionRepresentationUserObservingContext = (void *)&SEENetworkConnectionRepresentationUserObservingContext;
 
-@interface SEENetworkConnectionRepresentation ()
-@property (nonatomic, readwrite, strong) NSString *name;
-@property (nonatomic, readwrite, strong) NSImage *image;
-@end
-
 @implementation SEENetworkConnectionRepresentation
+
+@synthesize name = _name;
+@synthesize image = _image;
 
 - (id)init
 {
@@ -64,6 +62,10 @@ void * const SEENetworkConnectionRepresentationUserObservingContext = (void *)&S
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
+}
+
+- (IBAction)itemAction:(id)sender {
+
 }
 
 @end
