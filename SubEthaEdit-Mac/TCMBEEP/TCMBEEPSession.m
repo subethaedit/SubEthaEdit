@@ -208,28 +208,38 @@ static NSData *dhparamData = nil;
 	if (!isLogging) {
 		return;
 	}
-    	
-    if (!logDirectory) {
-        NSString *appName = [[[[NSBundle mainBundle] bundlePath] lastPathComponent] stringByDeletingPathExtension];
-        NSString *appDir = [[@"~/Library/Logs/" stringByExpandingTildeInPath] stringByAppendingPathComponent:appName];
-        [[NSFileManager defaultManager] createDirectoryAtPath:appDir withIntermediateDirectories:YES attributes:nil error:NO];
-        NSString *beepDir = [appDir stringByAppendingPathComponent:@"TCMBEEP"];
-        [[NSFileManager defaultManager] createDirectoryAtPath:beepDir withIntermediateDirectories:YES attributes:nil error:NO];
-        NSString *origPath = [beepDir stringByAppendingPathComponent:@"Session"];
-        
-        static int sequenceNumber = 0;
-        NSString *name;
-        do {
-            sequenceNumber++;
-            name = [NSString stringWithFormat:@"%@-p%d-s%d", [NSDate date], [[NSProcessInfo processInfo] processIdentifier], sequenceNumber];
-            name = [[origPath stringByDeletingLastPathComponent] stringByAppendingPathComponent:name];
-        } while ([[NSFileManager defaultManager] fileExistsAtPath:name]);
 
-        logDirectory = [name retain];
-        [[NSFileManager defaultManager] createDirectoryAtPath:logDirectory withIntermediateDirectories:YES attributes:nil error:NO];    
+	if (!logDirectory) {
+		NSFileManager *fileManager = [NSFileManager defaultManager];
+		NSArray *possibleURLs = [fileManager URLsForDirectory:NSLibraryDirectory inDomains:NSUserDomainMask];
+		NSURL *beepDirectoryURL = nil;
+		
+		if ([possibleURLs count] >= 1) { // Use the first directory (if multiple are returned)
+			beepDirectoryURL = [possibleURLs objectAtIndex:0]; // .*/Library
+		}
+		if (beepDirectoryURL) {
+			beepDirectoryURL = [beepDirectoryURL URLByAppendingPathComponent:@"Logs"];     // .*/Library/Logs
+			NSString *appBundleID = [[NSBundle mainBundle] bundleIdentifier];
+			beepDirectoryURL = [beepDirectoryURL URLByAppendingPathComponent:appBundleID]; // .*/Library/Logs/de.codingmonkeys.SubEthaEdit.Mac
+			beepDirectoryURL = [beepDirectoryURL URLByAppendingPathComponent:@"TCMBEEP"];  // .*/Library/Logs/de.codingmonkeys.SubEthaEdit.Mac/TCMBEEP
+			[fileManager createDirectoryAtURL:beepDirectoryURL withIntermediateDirectories:YES attributes:nil error:nil];
+			
+			NSString *origPath = [beepDirectoryURL path]; // .*/Library/Logs/de.codingmonkeys.SubEthaEdit.Mac/TCMBEEP
+		
+			static int sequenceNumber = 0;
+			NSString *name;
+			do {
+				sequenceNumber++;
+				name = [NSString stringWithFormat:@"%@-p%d-s%d", [NSDate date], [[NSProcessInfo processInfo] processIdentifier], sequenceNumber];
+				name = [origPath stringByAppendingPathComponent:name];
+			} while ([fileManager fileExistsAtPath:name]);
+		
+			logDirectory = [name retain];
+			[fileManager createDirectoryAtPath:logDirectory withIntermediateDirectories:YES attributes:nil error:nil];
+		}
     }
-    
-    int fileNumber = numberOfLogs++;
+
+	int fileNumber = numberOfLogs++;
 
     NSString *headerString = [NSString stringWithFormat:@"[%@] %@\n\n", [[NSDate date] description], [NSString stringWithAddressData:[self peerAddressData]]];
     NSData *headerData = [headerString dataUsingEncoding:NSASCIIStringEncoding];

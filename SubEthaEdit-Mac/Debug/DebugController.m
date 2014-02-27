@@ -49,20 +49,32 @@ static DebugController * sharedInstance = nil;
     return sharedInstance;
 }
 
-- (void)userDidChange:(NSNotification *)notification
-{
-    TCMMMUser *user = [[notification userInfo] objectForKey:@"User"];
+- (void)userDidChange:(NSNotification *)aNotification { // save user to : .*/Caches/de.codingmonkeys.SubEthaEdit.Mac/%@.vcf and %@.png
+    TCMMMUser *user = [[aNotification userInfo] objectForKey:@"User"];
     if (![user isEqual:[TCMMMUserManager me]]) {
-        NSString *saveName = [NSString stringWithFormat:@"%@ - %@", [user name], [user userID]];
-        NSData *vcard = [[user vcfRepresentation] dataUsingEncoding:NSUnicodeStringEncoding];
-		NSURL *cachesURL = [[NSFileManager defaultManager] URLForDirectory:NSCachesDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:YES error:nil];
-		NSString *cachesPath = [cachesURL path];
-        [vcard writeToFile:[cachesPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.vcf", saveName]] atomically:YES];
-        NSData *image = [[user properties] objectForKey:@"ImageAsPNG"];
-        if (image) {
-            [image writeToFile:[cachesPath stringByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", saveName]] atomically:YES];
-        }
-    }
+		NSFileManager *fileManager = [NSFileManager defaultManager];
+		NSArray *possibleURLs = [fileManager URLsForDirectory:NSCachesDirectory inDomains:NSUserDomainMask];
+		NSURL *cachesDirectory = nil;
+
+		if ([possibleURLs count] >= 1) { // Use the first directory (if multiple are returned)
+			cachesDirectory = [possibleURLs objectAtIndex:0];
+		}
+		if (cachesDirectory) {
+			NSString *appBundleID = [[NSBundle mainBundle] bundleIdentifier];
+			cachesDirectory = [cachesDirectory URLByAppendingPathComponent:appBundleID];
+
+			NSString *saveName = [NSString stringWithFormat:@"%@ - %@", [user name], [user userID]];
+			NSURL *vCardURL = [cachesDirectory URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.vcf", saveName]];
+			NSData *vcard = [[user vcfRepresentation] dataUsingEncoding:NSUnicodeStringEncoding];
+			[vcard writeToURL:vCardURL atomically:YES];
+
+			NSData *image = [[user properties] objectForKey:@"ImageAsPNG"];
+			if (image) {
+				NSURL *imageURL = [cachesDirectory URLByAppendingPathComponent:[NSString stringWithFormat:@"%@.png", saveName]];
+				[image writeToURL:imageURL atomically:YES];
+			}
+		}
+	}
 }
 
 - (void)enableDebugMenu:(BOOL)flag
