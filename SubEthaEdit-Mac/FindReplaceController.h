@@ -11,8 +11,8 @@
 #import "SelectionOperation.h"
 
 typedef enum {
-    TCMFindPanelActionFindAll = 1001,
-    TCMFindPanelSetReplaceString = 1002,
+    TCMTextFinderActionFindAll = 1001,
+    TCMTextFinderActionSetReplaceString = 1002,
 } TCMFindPanelAction;
 
 @interface NSString (NSStringTextFinding)
@@ -87,7 +87,7 @@ typedef enum {
 - (unsigned) currentOgreOptions;
 - (OgreSyntax) currentOgreSyntax;
 - (NSString*)currentOgreEscapeCharacter;
-- (void)performFindPanelAction:(id)sender forTextView:(NSTextView *)aTextView;
+- (void)performFindPanelAction:(id)sender inTargetTextView:(NSTextView *)aTextView;
 - (void)performFindPanelAction:(id)sender;
 - (IBAction)updateRegexDrawer:(id)aSender;
 - (BOOL) find:(NSString*)findString forward:(BOOL)forward;

@@ -10,11 +10,8 @@
 @class SEEFindAndReplaceViewController;
 
 @protocol SEEFindAndReplaceViewControllerDelegate
-@optional
+@property (nonatomic, readonly) NSTextView *textView;
 - (void)findAndReplaceViewControllerDidPressDismiss:(SEEFindAndReplaceViewController *)aViewController;
-- (void)findAndReplaceViewControllerDidPressFindNext:(SEEFindAndReplaceViewController *)aViewController;
-- (void)findAndReplaceViewControllerDidPressFindPrevious:(SEEFindAndReplaceViewController *)aViewController;
-
 @end
 
 @interface SEEFindAndReplaceViewController : NSViewController

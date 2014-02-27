@@ -7,6 +7,7 @@
 //
 
 #import "SEEFindAndReplaceViewController.h"
+#import "FindReplaceController.h"
 
 // this file needs arc - add -fobjc-arc in the compile build phase
 #if !__has_feature(objc_arc)
@@ -33,15 +34,15 @@
 }
 
 - (IBAction)findTextFieldAction:(id)sender {
-	[self.delegate findAndReplaceViewControllerDidPressFindNext:self];
+	FindReplaceController *findReplaceController = [FindReplaceController sharedInstance];
 }
 
 - (IBAction)findPreviousAction:(id)sender {
-	[self.delegate findAndReplaceViewControllerDidPressFindPrevious:self];
+	//	[self.delegate findAndReplaceViewControllerDidPressFindPrevious:self];
 }
 
 - (IBAction)findNextAction:(id)sender {
-	[self.delegate findAndReplaceViewControllerDidPressFindNext:self];
+	//[self.delegate findAndReplaceViewControllerDidPressFindNext:self];
 }
 
 - (IBAction)replaceAction:(id)sender {

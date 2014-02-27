@@ -370,7 +370,7 @@ static NSMenu *S_defaultMenu=nil;
 
 - (void)performFindPanelAction:(id)sender 
 {
-    [[FindReplaceController sharedInstance] performFindPanelAction:sender forTextView:self];
+    [[FindReplaceController sharedInstance] performFindPanelAction:sender inTargetTextView:self];
 }
 
 -(BOOL)validateMenuItem:(NSMenuItem*)menuItem 

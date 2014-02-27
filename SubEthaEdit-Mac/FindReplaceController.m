@@ -138,7 +138,7 @@ static FindReplaceController *sharedInstance=nil;
 }
 
 - (IBAction)orderFrontTabWidthPanel:(id)aSender {
-        PlainTextDocument *document=(PlainTextDocument *)[[[[self textViewToSearchIn] window] windowController] document];
+	PlainTextDocument *document=(PlainTextDocument *)[[[[self textViewToSearchIn] window] windowController] document];
     if (document) {
         NSPanel *panel = [self tabWidthPanel];
         [O_tabWidthTextField setIntValue:[document tabWidth]];
@@ -189,6 +189,8 @@ static FindReplaceController *sharedInstance=nil;
 
     //If in the future you add a potential key view to the drawer, or a toolbar to the window, you should remove this code to allow the tabbing to include those areas again.
 }
+
+#pragma mark -
 
 - (IBAction)gotoLine:(id)aSender {
     NSTextView *textView = [self textViewToSearchIn];
@@ -243,10 +245,6 @@ static FindReplaceController *sharedInstance=nil;
 {
     if ([O_regexEscapeCharacter tag]==1) return OgreGUIYenCharacter;
     else return OgreBackslashCharacter;
-}
-
-- (void)performFindPanelAction:(id)sender forTextView:(NSTextView *)aTextView {
-    [self performFindPanelAction:sender];
 }
 
 - (id)targetToFindIn
@@ -344,18 +342,67 @@ static FindReplaceController *sharedInstance=nil;
     }
 }
 
-- (void)performFindPanelAction:(id)sender 
-{
-    [O_statusTextField setStringValue:@""];
+- (NSString *)currentFindString {
+	NSString *result = [O_findComboBox stringValue];
+	return result;
+}
+
+- (void)setCurrentFindString:(NSString *)aString {
+	[self findPanel]; // ensure ui is loaded
+	[O_findComboBox setStringValue:aString];
+	[self saveFindStringToPasteboard];
+}
+
+- (void)performFindPanelAction:(id)sender {
+	id targetTextView = [self targetToFindIn];
+    [self performFindPanelAction:sender inTargetTextView:targetTextView];
+}
+
+
+
+- (void)performFindPanelAction:(id)sender inTargetTextView:(NSTextView *)aTargetTextView {
+	
+	// clear UI
+	[O_statusTextField setStringValue:@""];
     [O_statusTextField setHidden:YES];
     [O_statusTextField display];
     [O_findPanel display];
-    NSString *findString = [O_findComboBox stringValue];
+
+	
+	// first the actions that don't need anything
+	if ([sender tag]==NSTextFinderActionShowFindInterface) {
+        [self orderFrontFindPanel:self];
+        [self updateRegexDrawer:self];
+		return;
+    }
+	
+    id target = aTargetTextView;
+	FoldableTextStorage *foldableTextStorage = nil;
+	NSTextStorage *textStorage = [target textStorage];
+	NSRange selection = [target selectedRange];
+	if ([textStorage isKindOfClass:[FoldableTextStorage class]]) {
+		foldableTextStorage = (FoldableTextStorage *)textStorage;
+		textStorage = [foldableTextStorage fullTextStorage];
+		selection = [foldableTextStorage fullRangeForFoldedRange:selection];
+	}
+	NSString *text = [textStorage string];
+	
+	if ([sender tag]==NSTextFinderActionSetSearchString) {
+        [self findPanel];
+        if (target) {
+			[self setCurrentFindString:[text substringWithRange:selection]];
+        } else NSBeep();
+		return;
+    } else if ([sender tag]==TCMTextFinderActionSetReplaceString) {
+        [self findPanel];
+        if (target) {
+            [O_replaceComboBox setStringValue:[text substringWithRange:selection]];
+        } else NSBeep();
+    }
+	
+	
+    NSString *findString = [self currentFindString];
     NSRange scope = {NSNotFound, 0};
-    id target = [self targetToFindIn];
-	FoldableTextStorage *textStorage = (FoldableTextStorage *)[target textStorage];
-	NSString *text = [[textStorage fullTextStorage] string];
-	NSRange selection = [textStorage fullRangeForFoldedRange:[target selectedRange]];        
 
     if (target) {
         if ([[O_scopePopup selectedItem] tag]==1) scope = selection;
@@ -419,35 +466,21 @@ static FindReplaceController *sharedInstance=nil;
         }
     }
     
-    if ([sender tag]==NSFindPanelActionShowFindPanel) {
-        [self orderFrontFindPanel:self];
-        [self updateRegexDrawer:self];
-    } else if ([sender tag]==NSFindPanelActionNext) {
+	if ([sender tag]==NSTextFinderActionNextMatch) {
         if (![findString isEqualToString:@""]) [self find:findString forward:YES];
         else NSBeep();
-    } else if ([sender tag]==NSFindPanelActionPrevious) {
+    } else if ([sender tag]==NSTextFinderActionPreviousMatch) {
         if ((![findString isEqualToString:@""])&&(findString)) [self find:findString forward:NO];
         else NSBeep();
-    } else if ([sender tag]==NSFindPanelActionReplaceAll) {
+    } else if ([sender tag]==NSTextFinderActionReplaceAll) {
         [self replaceAllInRange:scope];
-    } else if ([sender tag]==NSFindPanelActionReplace) {
+    } else if ([sender tag]==NSTextFinderActionReplace) {
         [self replaceSelection];
-    } else if ([sender tag]==NSFindPanelActionReplaceAndFind) {
+    } else if ([sender tag]==NSTextFinderActionReplaceAndFind) {
         [self replaceSelection];
         if (![findString isEqualToString:@""]) [self find:findString forward:YES ];
         else NSBeep();
-    } else if ([sender tag]==NSFindPanelActionSetFindString) {
-        [self findPanel];
-        if (target) {
-            [O_findComboBox setStringValue:[text substringWithRange:selection]];
-            [self saveFindStringToPasteboard];
-        } else NSBeep();
-    } else if ([sender tag]==TCMFindPanelSetReplaceString) {
-        [self findPanel];
-        if (target) {
-            [O_replaceComboBox setStringValue:[text substringWithRange:selection]];
-        } else NSBeep();
-    } else if ([sender tag]==TCMFindPanelActionFindAll) {
+    } else if ([sender tag]==TCMTextFinderActionFindAll) {
         if ([findString isEqualToString:@""]) {
             NSBeep();
             return;
@@ -462,7 +495,7 @@ static FindReplaceController *sharedInstance=nil;
             [self addString:findString toHistory:_findHistory];
             OGRegularExpression *regex = nil;
             @try{
-            regex = [OGRegularExpression regularExpressionWithString:[O_findComboBox stringValue]
+            regex = [OGRegularExpression regularExpressionWithString:[self currentFindString]
                                          options:[self currentOgreOptions]
                                          syntax:[self currentOgreSyntax]
                                          escapeCharacter:[self currentOgreEscapeCharacter]];
@@ -490,7 +523,7 @@ static FindReplaceController *sharedInstance=nil;
             NSBeep();
             return;
         }
-        NSString *findString = [O_findComboBox stringValue];
+        NSString *findString = [self currentFindString];
         NSString *replaceString = [O_replaceComboBox stringValue];
         [self addString:findString toHistory:_findHistory];
         [self addString:replaceString toHistory:_replaceHistory];
@@ -726,7 +759,7 @@ static FindReplaceController *sharedInstance=nil;
 {
     _replaceAllReplaced = 0;
     NSTextView *target = [self targetToFindIn];
-    NSString *findString = [O_findComboBox stringValue];
+    NSString *findString = [self currentFindString];
     NSString *replaceString = [O_replaceComboBox stringValue];
     [self addString:findString toHistory:_findHistory];
     [self addString:replaceString toHistory:_replaceHistory];
@@ -823,7 +856,7 @@ static FindReplaceController *sharedInstance=nil;
     // Action does get sent on click, but not on pressing enter in history dropdown...
     NSEvent *currentEvent = [NSApp currentEvent];
     if ([currentEvent type]==NSKeyDown) {
-        if([self find:[O_findComboBox stringValue] forward:YES]) [[self findPanel] orderOut:self];
+        if([self find:[self currentFindString] forward:YES]) [[self findPanel] orderOut:self];
         else [O_findComboBox selectText:nil];
     } else [O_findComboBox selectText:nil];
     [self saveStateToPreferences];
@@ -1012,21 +1045,30 @@ static FindReplaceController *sharedInstance=nil;
 	[self saveFindStringToPasteboard];
 }
 
-- (void)loadFindStringFromPasteboard {
+- (NSString *)pasteboardFindString {
+	NSString *result = nil;
     NSPasteboard *pasteboard = [NSPasteboard pasteboardWithName:NSFindPboard];
     if ([[pasteboard types] containsObject:NSStringPboardType]) {
-        NSString *string = [pasteboard stringForType:NSStringPboardType];
-        if (string && [string length]) {
-            [self findPanel];
-            [O_findComboBox setStringValue:string];
-        }
-    }
+        result = [pasteboard stringForType:NSStringPboardType];
+	}
+	return result;
+}
+
+- (void)loadFindStringFromPasteboard {
+	NSString *findString = [self pasteboardFindString];
+	if (findString && findString.length > 0) {
+		[self setCurrentFindString:findString];
+	}
 }
 
 - (void)saveFindStringToPasteboard {
-    NSPasteboard *pasteboard = [NSPasteboard pasteboardWithName:NSFindPboard];
-    [pasteboard declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
-    [pasteboard setString:[O_findComboBox stringValue] forType:NSStringPboardType];
+	NSString *currentFindString = [self currentFindString];
+	NSString *pasteboardFindString = [self pasteboardFindString];
+	if (currentFindString && ![currentFindString isEqualToString:pasteboardFindString]) {
+		NSPasteboard *pasteboard = [NSPasteboard pasteboardWithName:NSFindPboard];
+		[pasteboard declareTypes:[NSArray arrayWithObject:NSStringPboardType] owner:nil];
+		[pasteboard setString:currentFindString forType:NSStringPboardType];
+	}
 }
 
 #pragma mark -
