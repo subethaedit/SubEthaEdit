@@ -54,6 +54,8 @@
 - (void)selectRange:(NSRange)aRange;
 - (void)selectRangeInBackground:(NSRange)aRange;
 
+- (IBAction)showFindAndReplaceInterface:(id)aSender;
+
 - (IBAction)jumpToNextSymbol:(id)aSender;
 - (IBAction)jumpToPreviousSymbol:(id)aSender;
 

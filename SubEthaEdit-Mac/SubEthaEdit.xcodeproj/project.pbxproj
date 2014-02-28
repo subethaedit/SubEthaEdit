@@ -401,6 +401,7 @@
 		F2CA7CE60CA11FC9008BEA38 /* StatusLock.png in Resources */ = {isa = PBXBuildFile; fileRef = F2CA7CE50CA11FC9008BEA38 /* StatusLock.png */; };
 		F2CA7CE80CA11FDA008BEA38 /* Internet13.png in Resources */ = {isa = PBXBuildFile; fileRef = F2CA7CE70CA11FDA008BEA38 /* Internet13.png */; };
 		F2CA7D2F0CA142B1008BEA38 /* HUDStatisticPersonCell.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CA7D2D0CA142B0008BEA38 /* HUDStatisticPersonCell.m */; };
+		F2CA91EE18C08FF7006B098A /* SEEFindAndReplaceState.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CA91ED18C08FF7006B098A /* SEEFindAndReplaceState.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		F2CEAAA7100B3A350036B3F7 /* MAAttachedWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CEAAA6100B3A350036B3F7 /* MAAttachedWindow.m */; };
 		F2CEAAF1100B46150036B3F7 /* URLBubbleWindow.m in Sources */ = {isa = PBXBuildFile; fileRef = F2CEAAF0100B46150036B3F7 /* URLBubbleWindow.m */; };
 		F2D129FC0BF0B64A00A776CC /* SEEConnectionManager.m in Sources */ = {isa = PBXBuildFile; fileRef = F2D129F80BF0B64700A776CC /* SEEConnectionManager.m */; };
@@ -1204,6 +1205,8 @@
 		F2CA7CE70CA11FDA008BEA38 /* Internet13.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = Internet13.png; path = artwork/Internet13.png; sourceTree = "<group>"; };
 		F2CA7D2C0CA142B0008BEA38 /* HUDStatisticPersonCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = HUDStatisticPersonCell.h; sourceTree = "<group>"; };
 		F2CA7D2D0CA142B0008BEA38 /* HUDStatisticPersonCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = HUDStatisticPersonCell.m; sourceTree = "<group>"; };
+		F2CA91EC18C08FF7006B098A /* SEEFindAndReplaceState.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEFindAndReplaceState.h; sourceTree = "<group>"; };
+		F2CA91ED18C08FF7006B098A /* SEEFindAndReplaceState.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEFindAndReplaceState.m; sourceTree = "<group>"; };
 		F2CEAAA5100B3A320036B3F7 /* MAAttachedWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = MAAttachedWindow.h; sourceTree = "<group>"; };
 		F2CEAAA6100B3A350036B3F7 /* MAAttachedWindow.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MAAttachedWindow.m; sourceTree = "<group>"; };
 		F2CEAAEF100B46150036B3F7 /* URLBubbleWindow.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = URLBubbleWindow.h; sourceTree = "<group>"; };
@@ -2280,6 +2283,8 @@
 				1428944109575B3400D14688 /* FindAllTableView.m */,
 				F21DAFE418BB75E1002B3C41 /* SEEFindAndReplaceViewController.h */,
 				F21DAFE518BB75E1002B3C41 /* SEEFindAndReplaceViewController.m */,
+				F2CA91EC18C08FF7006B098A /* SEEFindAndReplaceState.h */,
+				F2CA91ED18C08FF7006B098A /* SEEFindAndReplaceState.m */,
 			);
 			name = "Find and Replace";
 			sourceTree = "<group>";
@@ -2997,6 +3002,7 @@
 				4C0C4A1C18B3768500E6049E /* SEENetworkBrowser.m in Sources */,
 				14289110095744C100D14688 /* MoreCFQ.c in Sources */,
 				14289111095744C100D14688 /* MoreSecurity.c in Sources */,
+				F2CA91EE18C08FF7006B098A /* SEEFindAndReplaceState.m in Sources */,
 				14289112095744C100D14688 /* MoreUNIX.c in Sources */,
 				142891330957457500D14688 /* NSDateTCMAdditions.m in Sources */,
 				142891340957457500D14688 /* NSDataTCMAdditions.m in Sources */,

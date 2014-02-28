@@ -21,7 +21,7 @@
             <rect key="frame" x="0.0" y="0.0" width="583" height="34"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
-                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="b8n-nP-ifa">
+                <textField verticalHuggingPriority="750" misplaced="YES" tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="b8n-nP-ifa">
                     <rect key="frame" x="34" y="7" width="146" height="22"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
@@ -33,10 +33,11 @@
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
                     <connections>
-                        <action selector="findTextFieldAction:" target="-2" id="4Dc-5F-0cO"/>
+                        <action selector="findAndReplaceAction:" target="-2" id="W0E-C2-wWO"/>
+                        <outlet property="nextKeyView" destination="gqM-vr-cXm" id="J4O-d8-vAs"/>
                     </connections>
                 </textField>
-                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gqM-vr-cXm">
+                <textField verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gqM-vr-cXm">
                     <rect key="frame" x="303" y="7" width="146" height="22"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
@@ -47,6 +48,9 @@
                         <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                         <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
                     </textFieldCell>
+                    <connections>
+                        <outlet property="nextKeyView" destination="b8n-nP-ifa" id="xl6-eW-1E4"/>
+                    </connections>
                 </textField>
                 <imageView translatesAutoresizingMaskIntoConstraints="NO" id="2h9-Xo-WpS">
                     <rect key="frame" x="568" y="4" width="11" height="11"/>
@@ -57,7 +61,7 @@
                     </constraints>
                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="SmallGrowBoxRight3" id="Gt4-3V-Vpx"/>
                 </imageView>
-                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="hhy-Ph-Tf4">
+                <button verticalHuggingPriority="750" misplaced="YES" tag="3" translatesAutoresizingMaskIntoConstraints="NO" id="hhy-Ph-Tf4">
                     <rect key="frame" x="188" y="8" width="28" height="19"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
@@ -68,10 +72,10 @@
                         <font key="font" metaFont="cellTitle"/>
                     </buttonCell>
                     <connections>
-                        <action selector="findPreviousAction:" target="-2" id="dgh-0J-nPn"/>
+                        <action selector="findAndReplaceAction:" target="-2" id="1Xz-8w-3bf"/>
                     </connections>
                 </button>
-                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Zld-nz-CsD">
+                <button verticalHuggingPriority="750" misplaced="YES" tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="Zld-nz-CsD">
                     <rect key="frame" x="220" y="8" width="27" height="19"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="roundRect" bezelStyle="roundedRect" image="NSRightFacingTriangleTemplate" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="kxu-dk-QbG">
@@ -79,10 +83,10 @@
                         <font key="font" metaFont="cellTitle"/>
                     </buttonCell>
                     <connections>
-                        <action selector="findNextAction:" target="-2" id="5Kx-CM-bpn"/>
+                        <action selector="findAndReplaceAction:" target="-2" id="cd9-xm-NN6"/>
                     </connections>
                 </button>
-                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Odd-5d-NOn">
+                <button verticalHuggingPriority="750" tag="6" translatesAutoresizingMaskIntoConstraints="NO" id="Odd-5d-NOn">
                     <rect key="frame" x="455" y="8" width="59" height="19"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
@@ -93,10 +97,10 @@
                         <font key="font" metaFont="cellTitle"/>
                     </buttonCell>
                     <connections>
-                        <action selector="replaceAction:" target="-2" id="D2K-pr-vbf"/>
+                        <action selector="findAndReplaceAction:" target="-2" id="X2b-ek-7m2"/>
                     </connections>
                 </button>
-                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="39E-pR-j5M">
+                <button verticalHuggingPriority="750" tag="4" translatesAutoresizingMaskIntoConstraints="NO" id="39E-pR-j5M">
                     <rect key="frame" x="517" y="8" width="40" height="19"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
@@ -107,10 +111,10 @@
                         <font key="font" metaFont="cellTitle"/>
                     </buttonCell>
                     <connections>
-                        <action selector="replaceAllAction:" target="-2" id="gaf-ai-To7"/>
+                        <action selector="findAndReplaceAction:" target="-2" id="l66-ef-38f"/>
                     </connections>
                 </button>
-                <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="Un5-SX-sFi">
+                <button verticalHuggingPriority="750" misplaced="YES" tag="1001" translatesAutoresizingMaskIntoConstraints="NO" id="Un5-SX-sFi">
                     <rect key="frame" x="255" y="8" width="40" height="19"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
@@ -118,10 +122,10 @@
                     </constraints>
                     <buttonCell key="cell" type="roundRect" title="All" bezelStyle="roundedRect" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="YXR-QR-Jyz">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                        <font key="font" metaFont="titleBar" size="12"/>
+                        <font key="font" metaFont="cellTitle"/>
                     </buttonCell>
                     <connections>
-                        <action selector="replaceAllAction:" target="-2" id="xNF-Wl-HEP"/>
+                        <action selector="findAndReplaceAction:" target="-2" id="6V4-v6-hHm"/>
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="adi-Uu-d9V">

@@ -146,6 +146,11 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     [self updateForPortMapStatus];
 }
 
+- (IBAction)showFindAndReplaceInterface:(id)aSender {
+	[[self activePlainTextEditor] showFindAndReplace:aSender];
+}
+
+
 - (void)takeSettingsFromDocument {
     [self setShowsBottomStatusBar:[(PlainTextDocument *)[self document] showsBottomStatusBar]];
     [[self plainTextEditors] makeObjectsPerformSelector:@selector(takeSettingsFromDocument)];

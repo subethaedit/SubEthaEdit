@@ -1324,11 +1324,15 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 }
 
 - (IBAction)showFindAndReplace:(id)aSender {
-	SEEFindAndReplaceViewController *viewController = [[SEEFindAndReplaceViewController alloc] init];
-	viewController.delegate = self;
-	self.findAndReplaceController = viewController;
-	[viewController release];
-	[self displayViewControllerInTopArea:viewController];
+	if (![self.topOverlayViewController isKindOfClass:[SEEFindAndReplaceViewController class]]) {
+		SEEFindAndReplaceViewController *viewController = [[SEEFindAndReplaceViewController alloc] init];
+		viewController.delegate = self;
+		self.findAndReplaceController = viewController;
+		[viewController release];
+		[self displayViewControllerInTopArea:viewController];
+	}
+	[[self.textView window] makeFirstResponder:self.findAndReplaceController.findTextField];
+	[[O_scrollView verticalRulerView] setNeedsDisplay:YES];
 }
 
 - (IBAction)hideFindAndReplace:(id)aSender {
@@ -1336,6 +1340,7 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 		self.findAndReplaceController == self.topOverlayViewController) {
 		[self displayViewControllerInTopArea:nil];
 	}
+	[[O_scrollView verticalRulerView] setNeedsDisplay:YES];
 }
 
 

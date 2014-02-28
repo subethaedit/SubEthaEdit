@@ -24,11 +24,8 @@
 @property (nonatomic,strong) IBOutlet NSButton *findNextButton;
 @property (nonatomic,strong) IBOutlet NSButton *replaceButton;
 @property (nonatomic,strong) IBOutlet NSButton *replaceAllButton;
+@property (nonatomic,readonly) NSObjectController *findAndReplaceStateObjectController;
 
-- (IBAction)findTextFieldAction:(id)sender;
-- (IBAction)findPreviousAction:(id)sender;
-- (IBAction)findNextAction:(id)sender;
-- (IBAction)replaceAction:(id)sender;
-- (IBAction)replaceAllAction:(id)sender;
+- (IBAction)findAndReplaceAction:(id)sender;
 - (IBAction)dismissAction:(id)sender;
 @end

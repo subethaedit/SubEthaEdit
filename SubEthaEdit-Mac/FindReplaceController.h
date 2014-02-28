@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import <OgreKit/OgreKit.h>
 #import "SelectionOperation.h"
+#import "SEEFindAndReplaceState.h"
 
 typedef enum {
     TCMTextFinderActionFindAll = 1001,
@@ -66,10 +67,11 @@ typedef enum {
     IBOutlet NSButton *O_regexSinglelineCheckbox;
     IBOutlet NSPopUpButton *O_regexSyntaxPopup;
     IBOutlet NSPopUpButton *O_scopePopup;
-
 }
 
 + (FindReplaceController *)sharedInstance;
+
+@property (nonatomic, strong) NSObjectController *globalFindAndReplaceStateController;
 
 - (NSPanel *)findPanel;
 - (NSPanel *)gotoPanel;
@@ -87,8 +89,11 @@ typedef enum {
 - (unsigned) currentOgreOptions;
 - (OgreSyntax) currentOgreSyntax;
 - (NSString*)currentOgreEscapeCharacter;
+
+/*! the tag of the sender actually defines what search action is triggered - which is a weird design */
 - (void)performFindPanelAction:(id)sender inTargetTextView:(NSTextView *)aTextView;
 - (void)performFindPanelAction:(id)sender;
+
 - (IBAction)updateRegexDrawer:(id)aSender;
 - (BOOL) find:(NSString*)findString forward:(BOOL)forward;
 - (void) findNextAndOrderOut:(id)sender;

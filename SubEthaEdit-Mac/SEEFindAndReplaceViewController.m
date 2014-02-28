@@ -31,27 +31,21 @@
 	view.layer.borderWidth = 0.5;
 	
 	view.layer.backgroundColor = [[NSColor colorWithCalibratedWhite:0.893 alpha:0.750] CGColor];
+	
+	// add bindings
+	[self.findTextField bind:@"value" toObject:self.findAndReplaceStateObjectController withKeyPath:@"content.findString" options:@{NSContinuouslyUpdatesValueBindingOption : @YES}];
+	[self.replaceTextField bind:@"value" toObject:self.findAndReplaceStateObjectController withKeyPath:@"content.replaceString" options:@{NSContinuouslyUpdatesValueBindingOption : @YES}];
+	
 }
 
-- (IBAction)findTextFieldAction:(id)sender {
-	FindReplaceController *findReplaceController = [FindReplaceController sharedInstance];
+- (NSObjectController *)findAndReplaceStateObjectController {
+	return [FindReplaceController sharedInstance].globalFindAndReplaceStateController;
 }
 
-- (IBAction)findPreviousAction:(id)sender {
-	//	[self.delegate findAndReplaceViewControllerDidPressFindPrevious:self];
+- (IBAction)findAndReplaceAction:(id)aSender {
+	[[FindReplaceController sharedInstance] performFindPanelAction:aSender inTargetTextView:self.delegate.textView];
 }
 
-- (IBAction)findNextAction:(id)sender {
-	//[self.delegate findAndReplaceViewControllerDidPressFindNext:self];
-}
-
-- (IBAction)replaceAction:(id)sender {
-	NSLog(@"%s",__FUNCTION__);
-}
-
-- (IBAction)replaceAllAction:(id)sender {
-	NSLog(@"%s",__FUNCTION__);
-}
 
 - (IBAction)dismissAction:(id)sender {
 	[self.delegate findAndReplaceViewControllerDidPressDismiss:self];

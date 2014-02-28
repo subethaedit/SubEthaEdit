@@ -49,6 +49,8 @@ static FindReplaceController *sharedInstance=nil;
 @property (nonatomic) unsigned replaceAllOptions;
 @property (nonatomic, strong) SelectionOperation *replaceAllSelectionOperation;
 
+@property (nonatomic, strong) SEEFindAndReplaceState *globalFindAndReplaceState;
+
 @end
 
 @implementation FindReplaceController
@@ -69,6 +71,9 @@ static FindReplaceController *sharedInstance=nil;
         sharedInstance = self;
         _findHistory = [NSMutableArray new];
         _replaceHistory = [NSMutableArray new];
+		self.globalFindAndReplaceState = [SEEFindAndReplaceState new];
+		[self readGlobalFindAndReplaceStateFromPreferences];
+		self.globalFindAndReplaceStateController = [[NSObjectController alloc] initWithContent:self.globalFindAndReplaceState];
     }
     return self;
 }
@@ -290,11 +295,6 @@ static FindReplaceController *sharedInstance=nil;
         if ([prefs objectForKey:@"Syntax2"]) {
             NSMenuItem *item = [[O_regexSyntaxPopup menu] itemWithTag:[[prefs objectForKey:@"Syntax2"] intValue]];
             if (item) [O_regexSyntaxPopup selectItem:item];
-        } else {
-            if ([prefs objectForKey:@"Syntax"]) {
-                NSMenuItem *item = [[O_regexSyntaxPopup menu] itemWithTag:[[prefs objectForKey:@"Syntax"] intValue] + 1];
-                if (item) [O_regexSyntaxPopup selectItem:item];
-            }
         }
 
         [O_regexEscapeCharacter selectItemAtIndex:[[prefs objectForKey:@"Escape"] intValue]];
@@ -317,6 +317,20 @@ static FindReplaceController *sharedInstance=nil;
     if ([prefs objectForKey:@"ReplaceHistory"]) {
         _replaceHistory = [[prefs objectForKey:@"ReplaceHistory"] mutableCopy];
     }
+}
+
+- (void)readGlobalFindAndReplaceStateFromPreferences {
+	NSDictionary *prefs = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"Find Panel Preferences"];
+	SEEFindAndReplaceState *globalState = self.globalFindAndReplaceState;
+	if (prefs) {
+		globalState.regexOptions = [prefs[@"Syntax2"] intValue];
+		globalState.regularExpressionEscapeCharacter = [prefs[@"Escape"] intValue] == 0 ? OgreBackslashCharacter : OgreGUIYenCharacter;
+		
+		globalState.scope = [prefs[@"Scope"] intValue] == 0 ? kSEEFindAndReplaceScopeDocument : kSEEFindAndReplaceScopeSelection;
+
+		globalState.shouldWrap = [prefs[@"Wrap"] boolValue];
+		globalState.useRegex = [prefs[@"RegEx"] boolValue];
+	}
 }
 
 - (void)alertForReadonlyDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
@@ -342,14 +356,28 @@ static FindReplaceController *sharedInstance=nil;
     }
 }
 
+- (NSString *)currentReplaceString {
+	NSString *result;// = [O_replaceComboBox stringValue];
+	result = self.globalFindAndReplaceState.replaceString;
+	return result;
+}
+
+- (void)setCurrentReplaceString:(NSString *)aString {
+	[self findPanel]; // ensure ui is loaded
+	[O_replaceComboBox setStringValue:aString];
+	[self.globalFindAndReplaceStateController setValue:aString forKeyPath:@"content.replaceString"];
+}
+
 - (NSString *)currentFindString {
-	NSString *result = [O_findComboBox stringValue];
+	NSString *result;// = [O_findComboBox stringValue];
+	result = self.globalFindAndReplaceState.findString;
 	return result;
 }
 
 - (void)setCurrentFindString:(NSString *)aString {
 	[self findPanel]; // ensure ui is loaded
 	[O_findComboBox setStringValue:aString];
+	[self.globalFindAndReplaceStateController setValue:aString forKeyPath:@"content.findString"];
 	[self saveFindStringToPasteboard];
 }
 
@@ -408,7 +436,7 @@ static FindReplaceController *sharedInstance=nil;
 		result = NO;
 	} else {
 		
-		NSString *replacementString = [O_replaceComboBox stringValue];
+		NSString *replacementString = [self currentReplaceString];
 		if (![replacementString canBeConvertedToEncoding:[document fileEncoding]]) {
 			TCMMMSession *session=[document session];
 			if ([session isServer] && [session participantCount]<=1) {
@@ -460,7 +488,6 @@ static FindReplaceController *sharedInstance=nil;
     [O_statusTextField display];
     [O_findPanel display];
 
-	
 	// first the actions that don't need anything
 	if ([aSender tag]==NSTextFinderActionShowFindInterface) {
         [self orderFrontFindPanel:self];
@@ -484,21 +511,26 @@ static FindReplaceController *sharedInstance=nil;
 	
 	if ([aSender tag]==NSTextFinderActionSetSearchString) {
         [self findPanel];
-        if (target) {
-			[self setCurrentFindString:[text substringWithRange:selection]];
-        } else {
-			[self signalErrorWithDescription:nil];
-		}
-		return;
+		[self setCurrentFindString:[text substringWithRange:selection]];
+ 		return;
     } else if ([aSender tag]==TCMTextFinderActionSetReplaceString) {
         [self findPanel];
-        if (target) {
-            [O_replaceComboBox setStringValue:[text substringWithRange:selection]];
-        } else {
-			[self signalErrorWithDescription:nil];
-		}
+		[self setCurrentReplaceString:[text substringWithRange:selection]];
+		return;
     }
-	
+
+	/*
+	id firstResponder = [[[NSApplication sharedApplication] mainWindow] firstResponder];
+	if ([firstResponder isKindOfClass:[NSTextView class]]) {
+		NSTextView *responderView = firstResponder;
+		if (responderView.isFieldEditor) {
+			if ([responderView.delegate isKindOfClass:[NSTextField class]]) {
+				NSTextField *textField = (NSTextField *)responderView.delegate;
+				textField.stringValue = responderView.string;
+			}
+		}
+	}
+	*/
 	
     NSString *findString = [self currentFindString];
 	BOOL isFindStringNotZeroLength = (findString.length > 0);
@@ -557,8 +589,10 @@ static FindReplaceController *sharedInstance=nil;
 															 options:[self currentOgreOptions]
 															  syntax:[self currentOgreSyntax]
 													 escapeCharacter:[self currentOgreEscapeCharacter]];
-		} @catch (NSException *exception) { [self signalErrorWithDescription:NSLocalizedString(@"Invalid regex",@"InvalidRegex")]; }
-		if (regex){
+		} @catch (NSException *exception) {
+			[self signalErrorWithDescription:NSLocalizedString(@"Invalid regex",@"InvalidRegex")];
+		}
+		if (regex) {
 			if ([[O_scopePopup selectedItem] tag]!=1) scope = NSMakeRange (NSNotFound, 0);
 			FindAllController *findall = [[FindAllController alloc] initWithRegex:regex andRange:scope];
 			[(PlainTextDocument *)[[target editor] document] addFindAllController:findall];
@@ -581,7 +615,7 @@ static FindReplaceController *sharedInstance=nil;
             return;
         }
         NSString *findString = [self currentFindString];
-        NSString *replaceString = [O_replaceComboBox stringValue];
+        NSString *replaceString = [self currentReplaceString];
         [self addString:findString toHistory:_findHistory];
         [self addString:replaceString toHistory:_replaceHistory];
         NSMutableString *text = [[target textStorage] mutableString];
@@ -817,7 +851,7 @@ static FindReplaceController *sharedInstance=nil;
     _replaceAllReplaced = 0;
     NSTextView *target = [self targetToFindIn];
     NSString *findString = [self currentFindString];
-    NSString *replaceString = [O_replaceComboBox stringValue];
+    NSString *replaceString = [self currentReplaceString];
     [self addString:findString toHistory:_findHistory];
     [self addString:replaceString toHistory:_replaceHistory];
 
