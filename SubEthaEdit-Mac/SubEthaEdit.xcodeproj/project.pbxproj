@@ -247,9 +247,9 @@
 		4C6BDC6618898E1E0088CBFC /* ScriptMenu.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC6518898E1E0088CBFC /* ScriptMenu.pdf */; };
 		4C6BDC6918898F850088CBFC /* ScriptMenuItemIcon.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC6718898F850088CBFC /* ScriptMenuItemIcon.png */; };
 		4C6BDC6A18898F850088CBFC /* ScriptMenuItemIcon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = 4C6BDC6818898F850088CBFC /* ScriptMenuItemIcon@2x.png */; };
-		4C71D0C318BF7C2900EA66FA /* SEEConnectDocumentListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C71D0C218BF7C2900EA66FA /* SEEConnectDocumentListItem.m */; };
-		4C71D0C618BF8B2200EA66FA /* SEEOpenOtherDocumentListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C71D0C518BF8B2200EA66FA /* SEEOpenOtherDocumentListItem.m */; };
-		4C71D0C918BF997500EA66FA /* SEENewDocumentListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C71D0C818BF997500EA66FA /* SEENewDocumentListItem.m */; };
+		4C71D0C318BF7C2900EA66FA /* SEEConnectDocumentListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C71D0C218BF7C2900EA66FA /* SEEConnectDocumentListItem.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		4C71D0C618BF8B2200EA66FA /* SEEOpenOtherDocumentListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C71D0C518BF8B2200EA66FA /* SEEOpenOtherDocumentListItem.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		4C71D0C918BF997500EA66FA /* SEENewDocumentListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C71D0C818BF997500EA66FA /* SEENewDocumentListItem.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C77B24218BB83620066BDB2 /* SEEDocumentListGroupTableRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C77B24118BB83620066BDB2 /* SEEDocumentListGroupTableRowView.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C97D504188D42FA000B4999 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C97D503188D42FA000B4999 /* QuartzCore.framework */; };
 		4C9CCDC918BE413E00959EF2 /* SEENetworkConnectionDocumentListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C9CCDC818BE413E00959EF2 /* SEENetworkConnectionDocumentListItem.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -284,6 +284,8 @@
 		4CD5F83D17FB0EE000F49E31 /* WebPreview.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD5F83B17FB0EE000F49E31 /* WebPreview.xib */; };
 		4CDC272018967D990060B044 /* SEEParticipantView.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CDC271F18967D990060B044 /* SEEParticipantView.xib */; };
 		4CDC272318969A600060B044 /* SEEParticipantViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CDC272218969A600060B044 /* SEEParticipantViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		4CDF05A518C0A3D4004A49E5 /* SEEConnectionAddingWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CDF05A318C0A3D4004A49E5 /* SEEConnectionAddingWindowController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		4CDF05A618C0A3D4004A49E5 /* SEEConnectionAddingWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CDF05A418C0A3D4004A49E5 /* SEEConnectionAddingWindowController.xib */; };
 		4CE6C99D18AA905500AB45D1 /* SEEOverlayView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CE6C99C18AA905500AB45D1 /* SEEOverlayView.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4CE9CF381802F4E900F5BC56 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; };
 		4CE9CF391802F4F100F5BC56 /* OgreKit.framework in Copy Frameworks */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; };
@@ -1055,6 +1057,9 @@
 		4CDC271F18967D990060B044 /* SEEParticipantView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEEParticipantView.xib; sourceTree = "<group>"; };
 		4CDC272118969A600060B044 /* SEEParticipantViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEParticipantViewController.h; sourceTree = "<group>"; };
 		4CDC272218969A600060B044 /* SEEParticipantViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEParticipantViewController.m; sourceTree = "<group>"; };
+		4CDF05A218C0A3D4004A49E5 /* SEEConnectionAddingWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEConnectionAddingWindowController.h; sourceTree = "<group>"; };
+		4CDF05A318C0A3D4004A49E5 /* SEEConnectionAddingWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEConnectionAddingWindowController.m; sourceTree = "<group>"; };
+		4CDF05A418C0A3D4004A49E5 /* SEEConnectionAddingWindowController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEEConnectionAddingWindowController.xib; sourceTree = "<group>"; };
 		4CE6C99B18AA905500AB45D1 /* SEEOverlayView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEOverlayView.h; sourceTree = "<group>"; };
 		4CE6C99C18AA905500AB45D1 /* SEEOverlayView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEOverlayView.m; sourceTree = "<group>"; };
 		4CF06A2E1816A7D800B35DF8 /* HelperTool_Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = HelperTool_Info.plist; sourceTree = "<group>"; };
@@ -2205,24 +2210,11 @@
 		4C84D17918B63F83008C4FDC /* Document List */ = {
 			isa = PBXGroup;
 			children = (
-				F2D129F90BF0B64700A776CC /* SEEConnectionManager.h */,
-				F2D129F80BF0B64700A776CC /* SEEConnectionManager.m */,
-				F2D12A1A0BF0B8DF00A776CC /* SEEConnection.h */,
-				F2D12A1B0BF0B8DF00A776CC /* SEEConnection.m */,
 				4C0C4A1918B3768500E6049E /* SEEDocumentListWindowController.h */,
 				4C0C4A1A18B3768500E6049E /* SEEDocumentListWindowController.m */,
 				4C0C4A1B18B3768500E6049E /* SEEDocumentListWindowController.xib */,
-				4C71D0C018BF796500EA66FA /* SEEDocumentListItemProtocol.h */,
-				4C71D0C118BF7C2900EA66FA /* SEEConnectDocumentListItem.h */,
-				4C71D0C218BF7C2900EA66FA /* SEEConnectDocumentListItem.m */,
-				4C71D0C718BF997500EA66FA /* SEENewDocumentListItem.h */,
-				4C71D0C818BF997500EA66FA /* SEENewDocumentListItem.m */,
-				4C71D0C418BF8B2200EA66FA /* SEEOpenOtherDocumentListItem.h */,
-				4C71D0C518BF8B2200EA66FA /* SEEOpenOtherDocumentListItem.m */,
-				4C0C4A1E18B3BA5600E6049E /* SEENetworkDocumentListItem.h */,
-				4C0C4A1F18B3BA5600E6049E /* SEENetworkDocumentListItem.m */,
-				4C9CCDC718BE413E00959EF2 /* SEENetworkConnectionDocumentListItem.h */,
-				4C9CCDC818BE413E00959EF2 /* SEENetworkConnectionDocumentListItem.m */,
+				4CDF059F18C0A217004A49E5 /* Items */,
+				4CDF05A118C0A23E004A49E5 /* Connection Management */,
 				4C77B24018BB83620066BDB2 /* SEEDocumentListGroupTableRowView.h */,
 				4C77B24118BB83620066BDB2 /* SEEDocumentListGroupTableRowView.m */,
 			);
@@ -2237,6 +2229,38 @@
 			);
 			name = Configuration;
 			path = ../BuildConfig;
+			sourceTree = "<group>";
+		};
+		4CDF059F18C0A217004A49E5 /* Items */ = {
+			isa = PBXGroup;
+			children = (
+				4C71D0C018BF796500EA66FA /* SEEDocumentListItemProtocol.h */,
+				4C71D0C718BF997500EA66FA /* SEENewDocumentListItem.h */,
+				4C71D0C818BF997500EA66FA /* SEENewDocumentListItem.m */,
+				4C71D0C418BF8B2200EA66FA /* SEEOpenOtherDocumentListItem.h */,
+				4C71D0C518BF8B2200EA66FA /* SEEOpenOtherDocumentListItem.m */,
+				4C9CCDC718BE413E00959EF2 /* SEENetworkConnectionDocumentListItem.h */,
+				4C9CCDC818BE413E00959EF2 /* SEENetworkConnectionDocumentListItem.m */,
+				4C0C4A1E18B3BA5600E6049E /* SEENetworkDocumentListItem.h */,
+				4C0C4A1F18B3BA5600E6049E /* SEENetworkDocumentListItem.m */,
+				4C71D0C118BF7C2900EA66FA /* SEEConnectDocumentListItem.h */,
+				4C71D0C218BF7C2900EA66FA /* SEEConnectDocumentListItem.m */,
+			);
+			name = Items;
+			sourceTree = "<group>";
+		};
+		4CDF05A118C0A23E004A49E5 /* Connection Management */ = {
+			isa = PBXGroup;
+			children = (
+				F2D129F90BF0B64700A776CC /* SEEConnectionManager.h */,
+				F2D129F80BF0B64700A776CC /* SEEConnectionManager.m */,
+				F2D12A1A0BF0B8DF00A776CC /* SEEConnection.h */,
+				F2D12A1B0BF0B8DF00A776CC /* SEEConnection.m */,
+				4CDF05A218C0A3D4004A49E5 /* SEEConnectionAddingWindowController.h */,
+				4CDF05A318C0A3D4004A49E5 /* SEEConnectionAddingWindowController.m */,
+				4CDF05A418C0A3D4004A49E5 /* SEEConnectionAddingWindowController.xib */,
+			);
+			name = "Connection Management";
 			sourceTree = "<group>";
 		};
 		5E754EA60AB5649C00C5119E /* Dialogs */ = {
@@ -2890,6 +2914,7 @@
 				F2FEE7141892A747000E6BC8 /* SharingIconEye.pdf in Resources */,
 				F2D2CDB20D73043D000E3812 /* FriendCast16Active.png in Resources */,
 				4CFAABB118A3ECE4009DB5C3 /* EditorAddSplit.pdf in Resources */,
+				4CDF05A618C0A3D4004A49E5 /* SEEConnectionAddingWindowController.xib in Resources */,
 				F2D2CDB30D73043D000E3812 /* FriendCast16.png in Resources */,
 				F2D2CDCB0D730C3C000E3812 /* FriendCast13.png in Resources */,
 				F2D2CDCC0D730C3C000E3812 /* FriendCast13Off.png in Resources */,
@@ -3122,6 +3147,7 @@
 				1428944609575B3400D14688 /* FindAllController.m in Sources */,
 				1428944709575B3400D14688 /* FindAllTableView.m in Sources */,
 				1428944809575B3400D14688 /* GutterRulerView.m in Sources */,
+				4CDF05A518C0A3D4004A49E5 /* SEEConnectionAddingWindowController.m in Sources */,
 				1428944909575B3400D14688 /* LayoutManager.m in Sources */,
 				1428946309575B9700D14688 /* PlainTextDocument.m in Sources */,
 				1428946409575B9700D14688 /* PlainTextEditor.m in Sources */,
