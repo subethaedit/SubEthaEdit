@@ -27,9 +27,6 @@ void * const SEENetworkConnectionRepresentationUserObservingContext = (void *)&S
 {
     self = [super init];
     if (self) {
-		self.name = @"Unknown";
-        self.image = [NSImage imageNamed:NSImageNameUserGuest];
-
 		[self installKVO];
     }
     return self;
@@ -42,7 +39,7 @@ void * const SEENetworkConnectionRepresentationUserObservingContext = (void *)&S
 
 - (void)installKVO {
 	[self addObserver:self forKeyPath:@"connection" options:0 context:SEENetworkConnectionRepresentationConnectionObservingContext];
-	[self addObserver:self forKeyPath:@"user" options:0 context:SEENetworkConnectionRepresentationUserObservingContext];
+	[self addObserver:self forKeyPath:@"user" options:NSKeyValueObservingOptionInitial context:SEENetworkConnectionRepresentationUserObservingContext];
 }
 
 - (void)removeKVO {
@@ -64,6 +61,9 @@ void * const SEENetworkConnectionRepresentationUserObservingContext = (void *)&S
 		} else if (connection) {
 			self.name = connection.URL.description;
 			self.image = [NSImage imageNamed:NSImageNameNetwork];
+		} else {
+			self.name = NSLocalizedString(@"Unknown Person", @"");
+			self.image = [NSImage imageNamed:NSImageNameUserGuest];
 		}
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
