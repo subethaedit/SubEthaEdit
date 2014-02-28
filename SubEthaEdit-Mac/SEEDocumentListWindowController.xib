@@ -177,7 +177,6 @@
                                                             </buttonCell>
                                                             <connections>
                                                                 <binding destination="pIc-iJ-JHp" name="image" keyPath="objectValue.image" id="VNY-JE-1Lm"/>
-                                                                <binding destination="pIc-iJ-JHp" name="target" keyPath="objectValue.image" id="igb-O4-QkI"/>
                                                             </connections>
                                                         </button>
                                                     </subviews>

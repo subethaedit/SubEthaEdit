@@ -65,10 +65,12 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		[[NSNotificationCenter defaultCenter] addObserverForName:NSWindowDidBecomeKeyNotification object:nil queue:nil usingBlock:^(NSNotification *note) {
 			__typeof__(self) strongSelf = weakSelf;
 			if (note.object != strongSelf.window && strongSelf.shouldCloseWhenOpeningDocument) {
-				if ([NSApp modalWindow] == strongSelf.window) {
-					[NSApp stopModalWithCode:NSModalResponseAbort];
+				if (((NSWindow *)note.object).sheetParent != strongSelf.window) {
+					if ([NSApp modalWindow] == strongSelf.window) {
+						[NSApp stopModalWithCode:NSModalResponseAbort];
+					}
+					[self close];
 				}
-				[self close];
 			}
 		}];
     }
@@ -100,7 +102,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 
 	NSTableView *tableView = self.tableViewOutlet;
 	[tableView setTarget:self];
-	[tableView setDoubleAction:@selector(triggerItemAction:)];
+	[tableView setAction:@selector(triggerItemClickAction:)];
+	[tableView setDoubleAction:@selector(triggerItemDoubleClickAction:)];
 
 	self.filesOwnerProxy.content = self;
 }
@@ -201,7 +204,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 }
 
 
-- (IBAction)triggerItemAction:(id)sender
+- (IBAction)triggerItemClickAction:(id)sender
 {
 	NSTableView *tableView = self.tableViewOutlet;
 	id <SEEDocumentListItem> clickedItem = nil;
@@ -212,19 +215,27 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		clickedItem = tableCell.objectValue;
 	}
 
-	// make sure we get the selection before closing the window... because it will reset the selection.
+	NSArray *selectedDocuments = self.collectionViewArrayController.selectedObjects;
+	if (! [selectedDocuments containsObject:clickedItem]) {
+		[clickedItem itemAction:sender];
+	}
+}
+
+
+- (IBAction)triggerItemDoubleClickAction:(id)sender
+{
+	NSTableView *tableView = self.tableViewOutlet;
+	id <SEEDocumentListItem> clickedItem = nil;
+	if (sender == tableView) {
+		NSInteger row = tableView.clickedRow;
+		NSInteger column = tableView.clickedColumn;
+		NSTableCellView *tableCell = [tableView viewAtColumn:column row:row makeIfNecessary:NO];
+		clickedItem = tableCell.objectValue;
+	}
+
 	NSArray *selectedDocuments = self.collectionViewArrayController.selectedObjects;
 	if ([selectedDocuments containsObject:clickedItem]) {
-//		if (self.shouldCloseWhenOpeningDocument) {
-//			if ([NSApp modalWindow] == self.window) {
-//				[NSApp stopModalWithCode:NSModalResponseOK];
-//			}
-//			[self close];
-//		}
-
 		[selectedDocuments makeObjectsPerformSelector:@selector(itemAction:) withObject:sender];
-	} else {
-		[clickedItem itemAction:sender];
 	}
 }
 

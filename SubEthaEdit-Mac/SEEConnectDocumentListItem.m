@@ -11,6 +11,10 @@
 #endif
 
 #import "SEEConnectDocumentListItem.h"
+#import "SEEConnectionAddingWindowController.h"
+
+@interface SEEConnectDocumentListItem ()
+@end
 
 @implementation SEEConnectDocumentListItem
 
@@ -27,7 +31,12 @@
 }
 
 - (IBAction)itemAction:(id)sender {
-	NSLog(@"%s not implemented.", __FUNCTION__);
+	SEEConnectionAddingWindowController *windowController = [[SEEConnectionAddingWindowController alloc] initWithWindowNibName:@"SEEConnectionAddingWindowController"];
+	NSWindow *window = [windowController window];
+	NSWindow *parentWindow = ((NSView *)sender).window;
+	[parentWindow beginSheet:window completionHandler:^(NSModalResponse returnCode) {
+		[windowController close];
+	}];
 }
 
 @end

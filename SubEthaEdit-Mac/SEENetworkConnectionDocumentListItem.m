@@ -57,8 +57,14 @@ void * const SEENetworkConnectionRepresentationUserObservingContext = (void *)&S
 		self.user = connection.user;
 	} else if (context == SEENetworkConnectionRepresentationUserObservingContext) {
 		TCMMMUser *user = self.user;
-		self.name = user.name;
-		self.image = user.image;
+		SEEConnection *connection = self.connection;
+		if (user) {
+			self.name = user.name;
+			self.image = user.image;
+		} else if (connection) {
+			self.name = connection.URL.description;
+			self.image = [NSImage imageNamed:NSImageNameNetwork];
+		}
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
