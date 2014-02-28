@@ -2196,24 +2196,11 @@
 		4C84D17918B63F83008C4FDC /* Document List */ = {
 			isa = PBXGroup;
 			children = (
-				F2D129F90BF0B64700A776CC /* SEEConnectionManager.h */,
-				F2D129F80BF0B64700A776CC /* SEEConnectionManager.m */,
-				F2D12A1A0BF0B8DF00A776CC /* SEEConnection.h */,
-				F2D12A1B0BF0B8DF00A776CC /* SEEConnection.m */,
 				4C0C4A1918B3768500E6049E /* SEEDocumentListWindowController.h */,
 				4C0C4A1A18B3768500E6049E /* SEEDocumentListWindowController.m */,
 				4C0C4A1B18B3768500E6049E /* SEEDocumentListWindowController.xib */,
-				4C71D0C018BF796500EA66FA /* SEEDocumentListItemProtocol.h */,
-				4C71D0C118BF7C2900EA66FA /* SEEConnectDocumentListItem.h */,
-				4C71D0C218BF7C2900EA66FA /* SEEConnectDocumentListItem.m */,
-				4C71D0C718BF997500EA66FA /* SEENewDocumentListItem.h */,
-				4C71D0C818BF997500EA66FA /* SEENewDocumentListItem.m */,
-				4C71D0C418BF8B2200EA66FA /* SEEOpenOtherDocumentListItem.h */,
-				4C71D0C518BF8B2200EA66FA /* SEEOpenOtherDocumentListItem.m */,
-				4C0C4A1E18B3BA5600E6049E /* SEENetworkDocumentListItem.h */,
-				4C0C4A1F18B3BA5600E6049E /* SEENetworkDocumentListItem.m */,
-				4C9CCDC718BE413E00959EF2 /* SEENetworkConnectionDocumentListItem.h */,
-				4C9CCDC818BE413E00959EF2 /* SEENetworkConnectionDocumentListItem.m */,
+				4CDF059F18C0A217004A49E5 /* Items */,
+				4CDF05A118C0A23E004A49E5 /* Connection Management */,
 				4C77B24018BB83620066BDB2 /* SEEDocumentListGroupTableRowView.h */,
 				4C77B24118BB83620066BDB2 /* SEEDocumentListGroupTableRowView.m */,
 			);
@@ -2228,6 +2215,35 @@
 			);
 			name = Configuration;
 			path = ../BuildConfig;
+			sourceTree = "<group>";
+		};
+		4CDF059F18C0A217004A49E5 /* Items */ = {
+			isa = PBXGroup;
+			children = (
+				4C71D0C018BF796500EA66FA /* SEEDocumentListItemProtocol.h */,
+				4C71D0C118BF7C2900EA66FA /* SEEConnectDocumentListItem.h */,
+				4C71D0C218BF7C2900EA66FA /* SEEConnectDocumentListItem.m */,
+				4C71D0C718BF997500EA66FA /* SEENewDocumentListItem.h */,
+				4C71D0C818BF997500EA66FA /* SEENewDocumentListItem.m */,
+				4C71D0C418BF8B2200EA66FA /* SEEOpenOtherDocumentListItem.h */,
+				4C71D0C518BF8B2200EA66FA /* SEEOpenOtherDocumentListItem.m */,
+				4C0C4A1E18B3BA5600E6049E /* SEENetworkDocumentListItem.h */,
+				4C0C4A1F18B3BA5600E6049E /* SEENetworkDocumentListItem.m */,
+				4C9CCDC718BE413E00959EF2 /* SEENetworkConnectionDocumentListItem.h */,
+				4C9CCDC818BE413E00959EF2 /* SEENetworkConnectionDocumentListItem.m */,
+			);
+			name = Items;
+			sourceTree = "<group>";
+		};
+		4CDF05A118C0A23E004A49E5 /* Connection Management */ = {
+			isa = PBXGroup;
+			children = (
+				F2D129F90BF0B64700A776CC /* SEEConnectionManager.h */,
+				F2D129F80BF0B64700A776CC /* SEEConnectionManager.m */,
+				F2D12A1A0BF0B8DF00A776CC /* SEEConnection.h */,
+				F2D12A1B0BF0B8DF00A776CC /* SEEConnection.m */,
+			);
+			name = "Connection Management";
 			sourceTree = "<group>";
 		};
 		5E754EA60AB5649C00C5119E /* Dialogs */ = {
