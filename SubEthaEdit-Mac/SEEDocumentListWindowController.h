@@ -1,5 +1,5 @@
 //
-//  SEENetworkBrowser.h
+//  SEEDocumentListWindowController.h
 //  SubEthaEdit
 //
 //  Created by Michael Ehrmann on 18.02.14.
@@ -7,9 +7,9 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "SEENetworkBrowserItem.h"
+#import "SEEDocumentListItemProtocol.h"
 
-@interface SEENetworkBrowser : NSWindowController <NSTableViewDelegate>
+@interface SEEDocumentListWindowController : NSWindowController <NSTableViewDelegate>
 @property (nonatomic, strong) NSMutableArray *availableItems;
 @property (nonatomic, assign) BOOL shouldCloseWhenOpeningDocument;
 

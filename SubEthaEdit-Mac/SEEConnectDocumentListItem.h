@@ -7,8 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SEENetworkBrowserItem.h"
+#import "SEEDocumentListItemProtocol.h"
 
-@interface SEEBrowserConnectItem : NSObject <SEENetworkBrowserItem>
+@interface SEEConnectDocumentListItem : NSObject <SEEDocumentListItem>
 
 @end

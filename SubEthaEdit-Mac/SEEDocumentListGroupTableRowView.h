@@ -8,6 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 
-@interface SEENetworkBrowserGroupTableRowView : NSTableRowView
+@interface SEEDocumentListGroupTableRowView : NSTableRowView
 
 @end

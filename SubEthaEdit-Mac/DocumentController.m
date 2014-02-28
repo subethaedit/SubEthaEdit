@@ -25,7 +25,7 @@
 #import <PSMTabBarControl/PSMTabBarControl.h>
 #import <objc/objc-runtime.h>			// for objc_msgSend
 
-#import "SEENetworkBrowser.h"
+#import "SEEDocumentListWindowController.h"
 
 
 @interface DocumentController ()

@@ -7,10 +7,10 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SEENetworkBrowserItem.h"
+#import "SEEDocumentListItemProtocol.h"
 
 @class TCMMMSession, TCMMMUser;
 
-@interface SEENetworkDocumentRepresentation : NSObject <SEENetworkBrowserItem>
+@interface SEENetworkDocumentListItem : NSObject <SEEDocumentListItem>
 @property (nonatomic, weak) TCMMMSession *documentSession;
 @end

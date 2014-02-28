@@ -23,7 +23,7 @@
 #import "GenericSASLProfile.h"
 
 #import "SEEConnectionManager.h"
-#import "SEENetworkBrowser.h"
+#import "SEEDocumentListWindowController.h"
 
 #import "AdvancedPreferences.h"
 #import "EditPreferences.h"
@@ -111,7 +111,7 @@ NSString * const GlobalScriptsDidReloadNotification = @"GlobalScriptsDidReloadNo
     
 @interface AppController ()
 
-@property (nonatomic, strong) SEENetworkBrowser *networkBrowser;
+@property (nonatomic, strong) SEEDocumentListWindowController *networkBrowser;
 
 - (void)setupFileEncodingsSubmenu;
 - (void)setupScriptMenu;
@@ -703,7 +703,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 }
 
 - (BOOL)applicationOpenUntitledFile:(NSApplication *)sender {
-	SEENetworkBrowser *networkBrowser = [[SEENetworkBrowser alloc] initWithWindowNibName:@"SEENetworkBrowser"];
+	SEEDocumentListWindowController *networkBrowser = [[SEEDocumentListWindowController alloc] initWithWindowNibName:@"SEEDocumentListWindowController"];
 	networkBrowser.shouldCloseWhenOpeningDocument = YES;
 	[networkBrowser showWindow:sender];
 	self.networkBrowser = networkBrowser;
@@ -1079,7 +1079,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 #pragma mark -
 
 - (IBAction)showDocumentNetworkBrowser:(id)sender {
-	SEENetworkBrowser *networkBrowser = [[SEENetworkBrowser alloc] initWithWindowNibName:@"SEENetworkBrowser"];
+	SEEDocumentListWindowController *networkBrowser = [[SEEDocumentListWindowController alloc] initWithWindowNibName:@"SEEDocumentListWindowController"];
 	[networkBrowser showWindow:sender];
 	self.networkBrowser = networkBrowser;
 	[networkBrowser release];

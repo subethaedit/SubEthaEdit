@@ -1,14 +1,14 @@
 //
-//  SEEBrowserOpenOtherItem.m
+//  SEEBrowserConnectItem.m
 //  SubEthaEdit
 //
 //  Created by Michael Ehrmann on 27.02.14.
 //  Copyright (c) 2014 TheCodingMonkeys. All rights reserved.
 //
 
-#import "SEEBrowserOpenOtherItem.h"
+#import "SEEConnectDocumentListItem.h"
 
-@implementation SEEBrowserOpenOtherItem
+@implementation SEEConnectDocumentListItem
 
 @synthesize name = _name;
 @synthesize image = _image;
@@ -16,14 +16,14 @@
 - (id)init {
     self = [super init];
     if (self) {
-        self.name = NSLocalizedString(@"Open Other…", @"");
-		self.image = [NSImage imageNamed:NSImageNamePathTemplate];
+        self.name = NSLocalizedString(@"Connect…", @"");
+		self.image = [NSImage imageNamed:NSImageNameAddTemplate];
     }
     return self;
 }
 
 - (IBAction)itemAction:(id)sender {
-	[NSApp sendAction:@selector(openNormalDocument:) to:nil from:sender];
+	NSLog(@"%s not implemented.", __FUNCTION__);
 }
 
 @end

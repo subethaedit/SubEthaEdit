@@ -6,9 +6,9 @@
 //  Copyright (c) 2014 TheCodingMonkeys. All rights reserved.
 //
 
-#import "SEENetworkBrowserGroupTableRowView.h"
+#import "SEEDocumentListGroupTableRowView.h"
 
-@implementation SEENetworkBrowserGroupTableRowView
+@implementation SEEDocumentListGroupTableRowView
 
 - (id)initWithFrame:(NSRect)frame
 {

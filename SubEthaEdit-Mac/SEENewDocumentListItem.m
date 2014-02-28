@@ -6,7 +6,7 @@
 //  Copyright (c) 2014 TheCodingMonkeys. All rights reserved.
 //
 
-#import "SEEBrowserNewDocumentItem.h"
+#import "SEENewDocumentListItem.h"
 
 #import "DocumentController.h"
 #import "DocumentModeManager.h"
@@ -14,7 +14,7 @@
 extern int const FileMenuTag;
 extern int const FileNewMenuItemTag;
 
-@implementation SEEBrowserNewDocumentItem
+@implementation SEENewDocumentListItem
 
 @synthesize name = _name;
 @synthesize image = _image;
