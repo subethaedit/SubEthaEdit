@@ -10,7 +10,7 @@
 #error ARC must be enabled!
 #endif
 
-#import "SEENetworkConnectionRepresentation.h"
+#import "SEENetworkConnectionDocumentListItem.h"
 #import "SEEConnection.h"
 #import "TCMMMUser.h"
 #import "TCMMMUserSEEAdditions.h"
@@ -18,7 +18,7 @@
 void * const SEENetworkConnectionRepresentationConnectionObservingContext = (void *)&SEENetworkConnectionRepresentationConnectionObservingContext;
 void * const SEENetworkConnectionRepresentationUserObservingContext = (void *)&SEENetworkConnectionRepresentationUserObservingContext;
 
-@implementation SEENetworkConnectionRepresentation
+@implementation SEENetworkConnectionDocumentListItem
 
 @synthesize name = _name;
 @synthesize image = _image;

@@ -7,11 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "SEENetworkBrowserItem.h"
+#import "SEEDocumentListItemProtocol.h"
 
 @class SEEConnection, TCMMMUser;
 
-@interface SEENetworkConnectionRepresentation : NSObject <SEENetworkBrowserItem>
+@interface SEENetworkConnectionDocumentListItem : NSObject <SEEDocumentListItem>
 @property (nonatomic, weak) SEEConnection *connection; // also overrides user
 @property (nonatomic, weak) TCMMMUser *user;
 @end

@@ -10,7 +10,7 @@
 #error ARC must be enabled!
 #endif
 
-#import "SEENetworkDocumentRepresentation.h"
+#import "SEENetworkDocumentListItem.h"
 #import "TCMMMSession.h"
 
 #import "DocumentController.h"
@@ -21,7 +21,7 @@ void * const SEENetworkDocumentRepresentationSessionObservingContext = (void *)&
 extern int const FileMenuTag;
 extern int const FileNewMenuItemTag;
 
-@implementation SEENetworkDocumentRepresentation
+@implementation SEENetworkDocumentListItem
 
 @synthesize name = _name;
 @synthesize image = _image;

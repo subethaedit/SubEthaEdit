@@ -7,7 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
-#import "SEENetworkBrowserItem.h"
+#import "SEEDocumentListItemProtocol.h"
 
 @interface SEEDocumentListWindowController : NSWindowController <NSTableViewDelegate>
 @property (nonatomic, strong) NSMutableArray *availableItems;
