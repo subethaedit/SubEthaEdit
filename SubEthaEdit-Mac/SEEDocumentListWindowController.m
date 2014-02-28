@@ -306,15 +306,26 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	return result;
 }
 
-- (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row
+//- (BOOL)tableView:(NSTableView *)tableView shouldSelectRow:(NSInteger)row
+//{
+//	BOOL result = NO;
+//	NSArray *availableDocumentSession = self.availableItems;
+//	id documentRepresentation = [availableDocumentSession objectAtIndex:row];
+//	if ([documentRepresentation isKindOfClass:SEENetworkDocumentListItem.class]) {
+//		result = YES;
+//	}
+//	return result;
+//}
+
+- (void)tableViewSelectionDidChange:(NSNotification *)notification
 {
-	BOOL result = NO;
-	NSArray *availableDocumentSession = self.availableItems;
-	id documentRepresentation = [availableDocumentSession objectAtIndex:row];
-	if ([documentRepresentation isKindOfClass:SEENetworkDocumentListItem.class]) {
-		result = YES;
-	}
-	return result;
+	NSIndexSet *selectedIndices = self.tableViewOutlet.selectedRowIndexes;
+	[selectedIndices enumerateIndexesUsingBlock:^(NSUInteger row, BOOL *stop) {
+		id documentRepresentation = [self.availableItems objectAtIndex:row];
+		if (! [documentRepresentation isKindOfClass:SEENetworkDocumentListItem.class]) {
+			[self.tableViewOutlet deselectRow:row];
+		}
+	}];
 }
 
 - (CGFloat)tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row {
