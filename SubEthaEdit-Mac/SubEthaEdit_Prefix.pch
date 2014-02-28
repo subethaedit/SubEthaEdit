@@ -11,7 +11,8 @@
     #import "NSStringSEEAdditions.h"
     #import "NSScreenTCMAdditions.h"
 	#import "PCDebug.h"
-        
+	#import "NSObject+TCMArcLifecycleAdditions.h"
+
     extern NSString * const AddressHistory;
 
 #endif //__OBJC__

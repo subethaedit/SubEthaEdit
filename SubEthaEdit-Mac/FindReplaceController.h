@@ -9,10 +9,11 @@
 #import <Cocoa/Cocoa.h>
 #import <OgreKit/OgreKit.h>
 #import "SelectionOperation.h"
+#import "SEEFindAndReplaceState.h"
 
 typedef enum {
-    TCMFindPanelActionFindAll = 1001,
-    TCMFindPanelSetReplaceString = 1002,
+    TCMTextFinderActionFindAll = 1001,
+    TCMTextFinderActionSetReplaceString = 1002,
 } TCMFindPanelAction;
 
 @interface NSString (NSStringTextFinding)
@@ -24,16 +25,34 @@ typedef enum {
 @end
 
 @interface FindReplaceController : NSObject <NSWindowDelegate> {
-    IBOutlet NSPanel *O_findPanel;
-    IBOutlet NSPanel *O_gotoPanel;
-    IBOutlet NSPanel *O_tabWidthPanel;
+
+	// tab width panel (whyever this is managed by us)
+	IBOutlet NSPanel *O_tabWidthPanel;
     IBOutlet NSTextField *O_tabWidthTextField;
+
+	// goto line panel
+	IBOutlet NSPanel *O_gotoPanel;
     IBOutlet NSTextField *O_gotoLineTextField;
+
+	// old find panel
+	IBOutlet NSPanel *O_findPanel;
     IBOutlet NSComboBox *O_findComboBox;
     IBOutlet NSComboBox *O_replaceComboBox;
     IBOutlet NSButton *O_ignoreCaseCheckbox;
     IBOutlet NSProgressIndicator *O_progressIndicator;
     IBOutlet NSProgressIndicator *O_progressIndicatorDet;
+
+	IBOutlet NSTextField *O_statusTextField;
+    IBOutlet NSButton *O_wrapAroundCheckbox;
+	
+    IBOutlet NSButton *O_FindAllButton;
+    IBOutlet NSButton *O_NextButton;
+    IBOutlet NSButton *O_PrevButton;
+    IBOutlet NSButton *O_ReplaceButton;
+    IBOutlet NSButton *O_ReplaceAllButton;
+    IBOutlet NSButton *O_ReplaceFindButton;
+
+	// old find panel regex options section
     IBOutlet NSDrawer *O_regexDrawer;
     IBOutlet NSButton *O_regexCheckbox;
     IBOutlet NSButton *O_regexCaptureGroupsCheckbox;
@@ -48,35 +67,11 @@ typedef enum {
     IBOutlet NSButton *O_regexSinglelineCheckbox;
     IBOutlet NSPopUpButton *O_regexSyntaxPopup;
     IBOutlet NSPopUpButton *O_scopePopup;
-    IBOutlet NSTextField *O_statusTextField;
-    IBOutlet NSButton *O_wrapAroundCheckbox;
-
-    IBOutlet NSButton *O_FindAllButton;
-    IBOutlet NSButton *O_NextButton;
-    IBOutlet NSButton *O_PrevButton;
-    IBOutlet NSButton *O_ReplaceButton;
-    IBOutlet NSButton *O_ReplaceAllButton;
-    IBOutlet NSButton *O_ReplaceFindButton;
-
-    NSMutableArray *I_findHistory;
-    NSMutableArray *I_replaceHistory;   
-    //BOOL ignoreNextComboBoxEvent;
-    NSString *I_replaceAllFindString;
-    NSString *I_replaceAllReplaceString;
-    NSRange I_replaceAllPosRange;
-    NSRange I_replaceAllRange;
-    NSArray *I_replaceAllMatchArray;
-    NSDictionary *I_replaceAllAttributes;
-    NSMutableString *I_replaceAllText;
-    NSTextView *I_replaceAllTarget;
-    OGReplaceExpression *I_replaceAllRepex;
-    OGRegularExpression *I_replaceAllRegex;
-    int I_replaceAllReplaced;
-    int I_replaceAllArrayIndex;
-    unsigned I_replaceAllOptions;
-    SelectionOperation *I_replaceAllSelectionOperation;
 }
+
 + (FindReplaceController *)sharedInstance;
+
+@property (nonatomic, strong) NSObjectController *globalFindAndReplaceStateController;
 
 - (NSPanel *)findPanel;
 - (NSPanel *)gotoPanel;
@@ -94,8 +89,11 @@ typedef enum {
 - (unsigned) currentOgreOptions;
 - (OgreSyntax) currentOgreSyntax;
 - (NSString*)currentOgreEscapeCharacter;
-- (void)performFindPanelAction:(id)sender forTextView:(NSTextView *)aTextView;
+
+/*! the tag of the sender actually defines what search action is triggered - which is a weird design */
+- (void)performFindPanelAction:(id)sender inTargetTextView:(NSTextView *)aTextView;
 - (void)performFindPanelAction:(id)sender;
+
 - (IBAction)updateRegexDrawer:(id)aSender;
 - (BOOL) find:(NSString*)findString forward:(BOOL)forward;
 - (void) findNextAndOrderOut:(id)sender;
