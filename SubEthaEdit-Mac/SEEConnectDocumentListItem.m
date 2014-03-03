@@ -18,6 +18,7 @@
 
 @implementation SEEConnectDocumentListItem
 
+@dynamic uid;
 @synthesize name = _name;
 @synthesize image = _image;
 
@@ -28,6 +29,10 @@
 		self.image = [NSImage imageNamed:NSImageNameAddTemplate];
     }
     return self;
+}
+
+- (NSString *)uid {
+	return [NSString stringWithFormat:@"com.subethaedit.%@", NSStringFromClass(self.class)];
 }
 
 - (IBAction)itemAction:(id)sender {

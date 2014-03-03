@@ -6,7 +6,7 @@
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="SEEDocumentListWindowController">
             <connections>
-                <outlet property="collectionViewArrayController" destination="uFK-2L-HLP" id="f9J-wa-LLI"/>
+                <outlet property="documentListItemsArrayController" destination="uFK-2L-HLP" id="kuw-vi-3gR"/>
                 <outlet property="filesOwnerProxy" destination="iXX-4h-P4x" id="yJ9-JU-HvF"/>
                 <outlet property="scrollViewOutlet" destination="qRg-fN-a9P" id="TM4-68-dsZ"/>
                 <outlet property="tableViewOutlet" destination="btu-v5-80w" id="sDv-vX-AT3"/>
@@ -64,8 +64,8 @@
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                                                             </textFieldCell>
                                                             <connections>
-                                                                <binding destination="7GF-iT-703" name="value" keyPath="objectValue.name" id="mHh-wn-wlH"/>
                                                                 <binding destination="7GF-iT-703" name="toolTip" keyPath="objectValue.connection.toolTipString" id="ZdK-TK-nYH"/>
+                                                                <binding destination="7GF-iT-703" name="value" keyPath="objectValue.name" id="mHh-wn-wlH"/>
                                                             </connections>
                                                         </textField>
                                                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0Rh-MB-7TX">
@@ -76,8 +76,8 @@
                                                             </constraints>
                                                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSUserGuest" id="D2v-Nd-6Ob"/>
                                                             <connections>
-                                                                <binding destination="7GF-iT-703" name="value" keyPath="objectValue.image" id="iaf-Pj-YUc"/>
                                                                 <binding destination="7GF-iT-703" name="toolTip" keyPath="objectValue.connection.toolTipString" id="dMB-N5-VnP"/>
+                                                                <binding destination="7GF-iT-703" name="value" keyPath="objectValue.image" id="iaf-Pj-YUc"/>
                                                             </connections>
                                                         </imageView>
                                                     </subviews>
@@ -219,15 +219,15 @@
                 <outlet property="delegate" destination="-2" id="4"/>
             </connections>
         </window>
-        <objectController objectClassName="SEENetworkBrowser" editable="NO" id="iXX-4h-P4x" userLabel="File's OwnerProxy">
+        <objectController objectClassName="SEEDocumentListWindowController" editable="NO" id="iXX-4h-P4x" userLabel="File's OwnerProxy">
             <declaredKeys>
-                <string>availableDocumentSessions</string>
+                <string>availableItems</string>
             </declaredKeys>
             <connections>
                 <outlet property="content" destination="-2" id="aD4-a5-eUi"/>
             </connections>
         </objectController>
-        <arrayController objectClassName="SEENetworkDocumentRepresentation" editable="NO" selectsInsertedObjects="NO" avoidsEmptySelection="NO" automaticallyRearrangesObjects="YES" id="uFK-2L-HLP" userLabel="Available Documents">
+        <arrayController objectClassName="SEEDocumentListItem" editable="NO" selectsInsertedObjects="NO" avoidsEmptySelection="NO" automaticallyRearrangesObjects="YES" id="uFK-2L-HLP" userLabel="DocumentListItems">
             <declaredKeys>
                 <string>name</string>
                 <string>image</string>
