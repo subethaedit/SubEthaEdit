@@ -45,7 +45,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 @property (nonatomic, weak) IBOutlet NSTableView *tableViewOutlet;
 
 @property (nonatomic, weak) IBOutlet NSObjectController *filesOwnerProxy;
-@property (nonatomic, weak) IBOutlet NSArrayController *collectionViewArrayController;
+@property (nonatomic, weak) IBOutlet NSArrayController *documentListItemsArrayController;
 
 @property (nonatomic, weak) id otherWindowsBecomeKeyNotifivationObserver;
 
@@ -152,40 +152,106 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 {
 	[self willChangeValueForKey:@"availableItems"];
 	{
+		NSMutableDictionary *lookupDictionary = [NSMutableDictionary dictionaryWithObjects:self.availableItems forKeys:[self.availableItems valueForKey:@"uid"]];
+
 		[self.availableItems removeAllObjects];
 
-		SEENetworkConnectionDocumentListItem *me = [[SEENetworkConnectionDocumentListItem alloc] init];
-		me.user = [[TCMMMUserManager sharedInstance] me];
-		[self.availableItems addObject:me];
-
-		SEENewDocumentListItem *newDocumentRepresentation = [[SEENewDocumentListItem alloc] init];
-		[self.availableItems addObject:newDocumentRepresentation];
-
-		NSArray *recentDocumentURLs = [[NSDocumentController sharedDocumentController] recentDocumentURLs];
-		for (NSURL *url in recentDocumentURLs) {
-			SEERecentDocumentListItem *recentDocumentItem = [[SEERecentDocumentListItem alloc] init];
-			recentDocumentItem.fileURL = url;
-			[self.availableItems addObject:recentDocumentItem];
-		}
-
-		SEEOpenOtherDocumentListItem *openOtherItem = [[SEEOpenOtherDocumentListItem alloc] init];
-		[self.availableItems addObject:openOtherItem];
-
-		NSArray *allConnections = [[SEEConnectionManager sharedInstance] entries];
-		for (SEEConnection *connection in allConnections) {
-			SEENetworkConnectionDocumentListItem *connectionRepresentation = [[SEENetworkConnectionDocumentListItem alloc] init];
-			connectionRepresentation.connection = connection;
-			[self.availableItems addObject:connectionRepresentation];
-
-			NSArray *sessions = connection.announcedSessions;
-			for (TCMMMSession *session in sessions) {
-				SEENetworkDocumentListItem *documentRepresentation = [[SEENetworkDocumentListItem alloc] init];
-				documentRepresentation.documentSession = session;
-				[self.availableItems addObject:documentRepresentation];
+		{
+			SEENetworkConnectionDocumentListItem *me = [[SEENetworkConnectionDocumentListItem alloc] init];
+			me.user = [[TCMMMUserManager sharedInstance] me];
+			NSString *cachedItemID = me.uid;
+			id <SEEDocumentListItem> cachedItem = [lookupDictionary objectForKey:cachedItemID];
+			if (cachedItem) {
+				[self.availableItems addObject:cachedItem];
+				[lookupDictionary removeObjectForKey:cachedItemID];
+			} else {
+				[self.availableItems addObject:me];
 			}
 		}
 
-		[self.availableItems addObject:[[SEEConnectDocumentListItem alloc] init]];
+		{
+			SEENewDocumentListItem *newDocumentRepresentation = [[SEENewDocumentListItem alloc] init];
+			NSString *cachedItemID = newDocumentRepresentation.uid;
+			id <SEEDocumentListItem> cachedItem = [lookupDictionary objectForKey:cachedItemID];
+			if (cachedItem) {
+				[self.availableItems addObject:cachedItem];
+				[lookupDictionary removeObjectForKey:cachedItemID];
+			} else {
+				[self.availableItems addObject:newDocumentRepresentation];
+			}
+		}
+
+		{
+			NSArray *recentDocumentURLs = [[NSDocumentController sharedDocumentController] recentDocumentURLs];
+			for (NSURL *url in recentDocumentURLs) {
+				SEERecentDocumentListItem *recentDocumentItem = [[SEERecentDocumentListItem alloc] init];
+				recentDocumentItem.fileURL = url;
+				NSString *cachedItemID = recentDocumentItem.uid;
+				id <SEEDocumentListItem> cachedItem = [lookupDictionary objectForKey:cachedItemID];
+				if (cachedItem) {
+					[self.availableItems addObject:cachedItem];
+					[lookupDictionary removeObjectForKey:cachedItemID];
+				} else {
+					[self.availableItems addObject:recentDocumentItem];
+				}
+			}
+		}
+
+		{
+			SEEOpenOtherDocumentListItem *openOtherItem = [[SEEOpenOtherDocumentListItem alloc] init];
+			NSString *cachedItemID = openOtherItem.uid;
+			id <SEEDocumentListItem> cachedItem = [lookupDictionary objectForKey:cachedItemID];
+			if (cachedItem) {
+				[self.availableItems addObject:cachedItem];
+				[lookupDictionary removeObjectForKey:cachedItemID];
+			} else {
+				[self.availableItems addObject:openOtherItem];
+			}
+		}
+
+		{
+			NSArray *allConnections = [[SEEConnectionManager sharedInstance] entries];
+			for (SEEConnection *connection in allConnections) {
+				{
+					SEENetworkConnectionDocumentListItem *connectionRepresentation = [[SEENetworkConnectionDocumentListItem alloc] init];
+					connectionRepresentation.connection = connection;
+					NSString *cachedItemID = connectionRepresentation.uid;
+					id <SEEDocumentListItem> cachedItem = [lookupDictionary objectForKey:cachedItemID];
+					if (cachedItem) {
+						[self.availableItems addObject:cachedItem];
+						[lookupDictionary removeObjectForKey:cachedItemID];
+					} else {
+						[self.availableItems addObject:connectionRepresentation];
+					}
+				}
+
+				NSArray *sessions = connection.announcedSessions;
+				for (TCMMMSession *session in sessions) {
+					SEENetworkDocumentListItem *documentRepresentation = [[SEENetworkDocumentListItem alloc] init];
+					documentRepresentation.documentSession = session;
+					NSString *cachedItemID = documentRepresentation.uid;
+					id <SEEDocumentListItem> cachedItem = [lookupDictionary objectForKey:cachedItemID];
+					if (cachedItem) {
+						[self.availableItems addObject:cachedItem];
+						[lookupDictionary removeObjectForKey:cachedItemID];
+					} else {
+						[self.availableItems addObject:documentRepresentation];
+					}
+				}
+			}
+		}
+
+		{
+			SEEConnectDocumentListItem *connectItem = [[SEEConnectDocumentListItem alloc] init];
+			NSString *cachedItemID = connectItem.uid;
+			id <SEEDocumentListItem> cachedItem = [lookupDictionary objectForKey:cachedItemID];
+			if (cachedItem) {
+				[self.availableItems addObject:cachedItem];
+				[lookupDictionary removeObjectForKey:cachedItemID];
+			} else {
+				[self.availableItems addObject:connectItem];
+			}
+		}
 	}
 	[self didChangeValueForKey:@"availableItems"];
 }
@@ -222,7 +288,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		clickedItem = tableCell.objectValue;
 	}
 
-	NSArray *selectedDocuments = self.collectionViewArrayController.selectedObjects;
+	NSArray *selectedDocuments = self.documentListItemsArrayController.selectedObjects;
 	if (! [selectedDocuments containsObject:clickedItem]) {
 		[clickedItem itemAction:sender];
 	}
@@ -240,7 +306,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		clickedItem = tableCell.objectValue;
 	}
 
-	NSArray *selectedDocuments = self.collectionViewArrayController.selectedObjects;
+	NSArray *selectedDocuments = self.documentListItemsArrayController.selectedObjects;
 	if ([selectedDocuments containsObject:clickedItem]) {
 		[selectedDocuments makeObjectsPerformSelector:@selector(itemAction:) withObject:sender];
 	}
