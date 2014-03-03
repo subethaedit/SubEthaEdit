@@ -65,6 +65,7 @@
                                                             </textFieldCell>
                                                             <connections>
                                                                 <binding destination="7GF-iT-703" name="value" keyPath="objectValue.name" id="mHh-wn-wlH"/>
+                                                                <binding destination="7GF-iT-703" name="toolTip" keyPath="objectValue.connection.toolTipString" id="ZdK-TK-nYH"/>
                                                             </connections>
                                                         </textField>
                                                         <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="0Rh-MB-7TX">
@@ -76,6 +77,7 @@
                                                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSUserGuest" id="D2v-Nd-6Ob"/>
                                                             <connections>
                                                                 <binding destination="7GF-iT-703" name="value" keyPath="objectValue.image" id="iaf-Pj-YUc"/>
+                                                                <binding destination="7GF-iT-703" name="toolTip" keyPath="objectValue.connection.toolTipString" id="dMB-N5-VnP"/>
                                                             </connections>
                                                         </imageView>
                                                     </subviews>
