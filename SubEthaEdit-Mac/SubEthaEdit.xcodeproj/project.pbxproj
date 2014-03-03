@@ -233,6 +233,7 @@
 		4C4EFE47181AA3B00072176F /* HockeySDK.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 4C4EFE44181AA3400072176F /* HockeySDK.framework */; };
 		4C5EC97E1897F6FC0094D850 /* SEEParticipantsOverlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5EC97C1897F6FC0094D850 /* SEEParticipantsOverlayViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C5EC97F1897F6FC0094D850 /* SEEParticipantsOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C5EC97D1897F6FC0094D850 /* SEEParticipantsOverlay.xib */; };
+		4C63F8EE18C4930A00A588FD /* SEERecentDocumentListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C63F8ED18C4930A00A588FD /* SEERecentDocumentListItem.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C6AE8741802E8810089D489 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; };
 		4C6AE8751802E8AC0089D489 /* PSMTabBarControl.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 4CF3490017FC6EAF005D0D4F /* PSMTabBarControl.framework */; };
 		4C6AE8761802E8AC0089D489 /* OgreKit.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; };
@@ -977,6 +978,8 @@
 		4C5EC97B1897F6FC0094D850 /* SEEParticipantsOverlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEParticipantsOverlayViewController.h; sourceTree = "<group>"; };
 		4C5EC97C1897F6FC0094D850 /* SEEParticipantsOverlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEParticipantsOverlayViewController.m; sourceTree = "<group>"; };
 		4C5EC97D1897F6FC0094D850 /* SEEParticipantsOverlay.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEEParticipantsOverlay.xib; sourceTree = "<group>"; };
+		4C63F8EC18C4930A00A588FD /* SEERecentDocumentListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEERecentDocumentListItem.h; sourceTree = "<group>"; };
+		4C63F8ED18C4930A00A588FD /* SEERecentDocumentListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEERecentDocumentListItem.m; sourceTree = "<group>"; };
 		4C6AE8731802E8810089D489 /* OgreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OgreKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C6BDC4C18896DCC0088CBFC /* SubEthaEdit.iconset */ = {isa = PBXFileReference; lastKnownFileType = folder.iconset; name = SubEthaEdit.iconset; path = artwork/SubEthaEdit.iconset; sourceTree = "<group>"; };
 		4C6BDC4D18896DCC0088CBFC /* SubEthaEditFiles.iconset */ = {isa = PBXFileReference; lastKnownFileType = folder.iconset; name = SubEthaEditFiles.iconset; path = artwork/SubEthaEditFiles.iconset; sourceTree = "<group>"; };
@@ -2239,6 +2242,8 @@
 				4C71D0C818BF997500EA66FA /* SEENewDocumentListItem.m */,
 				4C71D0C418BF8B2200EA66FA /* SEEOpenOtherDocumentListItem.h */,
 				4C71D0C518BF8B2200EA66FA /* SEEOpenOtherDocumentListItem.m */,
+				4C63F8EC18C4930A00A588FD /* SEERecentDocumentListItem.h */,
+				4C63F8ED18C4930A00A588FD /* SEERecentDocumentListItem.m */,
 				4C9CCDC718BE413E00959EF2 /* SEENetworkConnectionDocumentListItem.h */,
 				4C9CCDC818BE413E00959EF2 /* SEENetworkConnectionDocumentListItem.m */,
 				4C0C4A1E18B3BA5600E6049E /* SEENetworkDocumentListItem.h */,
@@ -3232,6 +3237,7 @@
 				F2CEAAA7100B3A350036B3F7 /* MAAttachedWindow.m in Sources */,
 				F2CEAAF1100B46150036B3F7 /* URLBubbleWindow.m in Sources */,
 				31FFC93D104E97A000E08256 /* NSErrorTCMAdditions.m in Sources */,
+				4C63F8EE18C4930A00A588FD /* SEERecentDocumentListItem.m in Sources */,
 				3170E46112846C670096089C /* SEEStyleSheet.m in Sources */,
 				4C71D0C918BF997500EA66FA /* SEENewDocumentListItem.m in Sources */,
 				F280ABC4131E6ED50091D145 /* SEEStyleSheetEditorWindowController.m in Sources */,

@@ -16,6 +16,7 @@
 #import "SEENetworkConnectionDocumentListItem.h"
 #import "SEENetworkDocumentListItem.h"
 #import "SEENewDocumentListItem.h"
+#import "SEERecentDocumentListItem.h"
 #import "SEEOpenOtherDocumentListItem.h"
 #import "SEEConnectDocumentListItem.h"
 
@@ -160,12 +161,18 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		SEENewDocumentListItem *newDocumentRepresentation = [[SEENewDocumentListItem alloc] init];
 		[self.availableItems addObject:newDocumentRepresentation];
 
+		NSArray *recentDocumentURLs = [[NSDocumentController sharedDocumentController] recentDocumentURLs];
+		for (NSURL *url in recentDocumentURLs) {
+			SEERecentDocumentListItem *recentDocumentItem = [[SEERecentDocumentListItem alloc] init];
+			recentDocumentItem.fileURL = url;
+			[self.availableItems addObject:recentDocumentItem];
+		}
+
 		SEEOpenOtherDocumentListItem *openOtherItem = [[SEEOpenOtherDocumentListItem alloc] init];
 		[self.availableItems addObject:openOtherItem];
 
 		NSArray *allConnections = [[SEEConnectionManager sharedInstance] entries];
 		for (SEEConnection *connection in allConnections) {
-
 			SEENetworkConnectionDocumentListItem *connectionRepresentation = [[SEENetworkConnectionDocumentListItem alloc] init];
 			connectionRepresentation.connection = connection;
 			[self.availableItems addObject:connectionRepresentation];
@@ -322,7 +329,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	NSIndexSet *selectedIndices = self.tableViewOutlet.selectedRowIndexes;
 	[selectedIndices enumerateIndexesUsingBlock:^(NSUInteger row, BOOL *stop) {
 		id documentRepresentation = [self.availableItems objectAtIndex:row];
-		if (! [documentRepresentation isKindOfClass:SEENetworkDocumentListItem.class]) {
+		if (! ([documentRepresentation isKindOfClass:SEENetworkDocumentListItem.class] || [documentRepresentation isKindOfClass:SEERecentDocumentListItem.class])) {
 			[self.tableViewOutlet deselectRow:row];
 		}
 	}];
