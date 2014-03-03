@@ -16,6 +16,7 @@ void * const SEERecentDocumentURLObservingContext = (void *)&SEERecentDocumentUR
 
 @implementation SEERecentDocumentListItem
 
+@dynamic uid;
 @synthesize name = _name;
 @synthesize image = _image;
 
@@ -59,6 +60,10 @@ void * const SEERecentDocumentURLObservingContext = (void *)&SEERecentDocumentUR
 	NSString *fileType = (CFBridgingRelease(UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef)fileExtension, nil)));
 	NSImage *image = [[NSWorkspace sharedWorkspace] iconForFileType:fileType];
 	self.image = image;
+}
+
+- (NSString *)uid {
+	return self.fileURL.absoluteString;
 }
 
 - (IBAction)itemAction:(id)aSender {

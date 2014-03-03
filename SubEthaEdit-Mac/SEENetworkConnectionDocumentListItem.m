@@ -20,6 +20,7 @@ void * const SEENetworkConnectionRepresentationUserObservingContext = (void *)&S
 
 @implementation SEENetworkConnectionDocumentListItem
 
+@dynamic uid;
 @synthesize name = _name;
 @synthesize image = _image;
 
@@ -68,6 +69,10 @@ void * const SEENetworkConnectionRepresentationUserObservingContext = (void *)&S
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
+}
+
+- (NSString *)uid {
+	return self.user.userID;
 }
 
 - (IBAction)itemAction:(id)sender {

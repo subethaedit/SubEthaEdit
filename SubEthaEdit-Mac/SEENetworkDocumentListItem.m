@@ -23,6 +23,7 @@ extern int const FileNewMenuItemTag;
 
 @implementation SEENetworkDocumentListItem
 
+@dynamic uid;
 @synthesize name = _name;
 @synthesize image = _image;
 
@@ -66,6 +67,10 @@ extern int const FileNewMenuItemTag;
 	NSString *fileType = (CFBridgingRelease(UTTypeCreatePreferredIdentifierForTag(kUTTagClassFilenameExtension, (__bridge CFStringRef)fileExtension, nil)));
 	NSImage *image = [[NSWorkspace sharedWorkspace] iconForFileType:fileType];
 	self.image = image;
+}
+
+- (NSString *)uid {
+	return self.documentSession.sessionID;
 }
 
 - (IBAction)itemAction:(id)aSender {

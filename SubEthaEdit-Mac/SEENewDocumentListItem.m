@@ -20,6 +20,7 @@ extern int const FileNewMenuItemTag;
 
 @implementation SEENewDocumentListItem
 
+@dynamic uid;
 @synthesize name = _name;
 @synthesize image = _image;
 
@@ -30,6 +31,10 @@ extern int const FileNewMenuItemTag;
 		self.image = [NSImage imageNamed:@"EditorAddSplit"];
     }
     return self;
+}
+
+- (NSString *)uid {
+	return [NSString stringWithFormat:@"com.subethaedit.%@", NSStringFromClass(self.class)];
 }
 
 - (IBAction)itemAction:(id)sender {
