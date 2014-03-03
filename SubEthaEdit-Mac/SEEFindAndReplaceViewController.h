@@ -18,14 +18,17 @@
 
 @property (nonatomic, weak) id <SEEFindAndReplaceViewControllerDelegate> delegate;
 
+@property (nonatomic,strong) IBOutlet NSTextField *feedbackTextField;
 @property (nonatomic,strong) IBOutlet NSTextField *findTextField;
 @property (nonatomic,strong) IBOutlet NSTextField *replaceTextField;
 @property (nonatomic,strong) IBOutlet NSButton *findPreviousButton;
 @property (nonatomic,strong) IBOutlet NSButton *findNextButton;
 @property (nonatomic,strong) IBOutlet NSButton *replaceButton;
 @property (nonatomic,strong) IBOutlet NSButton *replaceAllButton;
+@property (nonatomic,strong) IBOutlet NSButton *searchOptionsButton;
 @property (nonatomic,readonly) NSObjectController *findAndReplaceStateObjectController;
 
 - (IBAction)findAndReplaceAction:(id)sender;
 - (IBAction)dismissAction:(id)sender;
+- (IBAction)searchOptionsDropdownAction:(id)sender;
 @end
