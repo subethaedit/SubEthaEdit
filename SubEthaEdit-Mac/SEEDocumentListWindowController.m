@@ -152,7 +152,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 {
 	[self willChangeValueForKey:@"availableItems"];
 	{
-		NSMutableDictionary *lookupDictionary = [NSMutableDictionary dictionaryWithObjects:self.availableItems forKeys:[self.availableItems valueForKey:@"uid"]];
+		NSDictionary *lookupDictionary = [NSDictionary dictionaryWithObjects:self.availableItems forKeys:[self.availableItems valueForKey:@"uid"]];
 
 		[self.availableItems removeAllObjects];
 
@@ -163,7 +163,6 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 			id <SEEDocumentListItem> cachedItem = [lookupDictionary objectForKey:cachedItemID];
 			if (cachedItem) {
 				[self.availableItems addObject:cachedItem];
-				[lookupDictionary removeObjectForKey:cachedItemID];
 			} else {
 				[self.availableItems addObject:me];
 			}
@@ -175,7 +174,6 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 			id <SEEDocumentListItem> cachedItem = [lookupDictionary objectForKey:cachedItemID];
 			if (cachedItem) {
 				[self.availableItems addObject:cachedItem];
-				[lookupDictionary removeObjectForKey:cachedItemID];
 			} else {
 				[self.availableItems addObject:newDocumentRepresentation];
 			}
@@ -190,7 +188,6 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 				id <SEEDocumentListItem> cachedItem = [lookupDictionary objectForKey:cachedItemID];
 				if (cachedItem) {
 					[self.availableItems addObject:cachedItem];
-					[lookupDictionary removeObjectForKey:cachedItemID];
 				} else {
 					[self.availableItems addObject:recentDocumentItem];
 				}
@@ -203,7 +200,6 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 			id <SEEDocumentListItem> cachedItem = [lookupDictionary objectForKey:cachedItemID];
 			if (cachedItem) {
 				[self.availableItems addObject:cachedItem];
-				[lookupDictionary removeObjectForKey:cachedItemID];
 			} else {
 				[self.availableItems addObject:openOtherItem];
 			}
@@ -219,7 +215,6 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 					id <SEEDocumentListItem> cachedItem = [lookupDictionary objectForKey:cachedItemID];
 					if (cachedItem) {
 						[self.availableItems addObject:cachedItem];
-						[lookupDictionary removeObjectForKey:cachedItemID];
 					} else {
 						[self.availableItems addObject:connectionRepresentation];
 					}
@@ -233,7 +228,6 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 					id <SEEDocumentListItem> cachedItem = [lookupDictionary objectForKey:cachedItemID];
 					if (cachedItem) {
 						[self.availableItems addObject:cachedItem];
-						[lookupDictionary removeObjectForKey:cachedItemID];
 					} else {
 						[self.availableItems addObject:documentRepresentation];
 					}
@@ -247,7 +241,6 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 			id <SEEDocumentListItem> cachedItem = [lookupDictionary objectForKey:cachedItemID];
 			if (cachedItem) {
 				[self.availableItems addObject:cachedItem];
-				[lookupDictionary removeObjectForKey:cachedItemID];
 			} else {
 				[self.availableItems addObject:connectItem];
 			}
