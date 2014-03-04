@@ -224,6 +224,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 				for (TCMMMSession *session in sessions) {
 					SEENetworkDocumentListItem *documentRepresentation = [[SEENetworkDocumentListItem alloc] init];
 					documentRepresentation.documentSession = session;
+					documentRepresentation.beepSession = connection.BEEPSession;
 					NSString *cachedItemID = documentRepresentation.uid;
 					id <SEEDocumentListItem> cachedItem = [lookupDictionary objectForKey:cachedItemID];
 					if (cachedItem) {

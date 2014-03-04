@@ -75,7 +75,7 @@ extern int const FileNewMenuItemTag;
 
 - (IBAction)itemAction:(id)aSender {
 	TCMMMSession *session = self.documentSession;
-	[session joinUsingBEEPSession:nil];
+	[session joinUsingBEEPSession:self.beepSession];
 }
 
 @end
