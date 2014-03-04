@@ -119,7 +119,7 @@ void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClea
 
 - (NSString *)uid {
 	if (self.connection) {
-		return self.connection.BEEPSession.description;
+		return [self.connection.BEEPSession.userInfo objectForKey:@"ReachabilityURL"];
 	}
 	return self.user.userID;
 }
