@@ -37,5 +37,11 @@ typedef NS_ENUM(int8_t, SEEFindAndReplaceScope) {
 
 // TODO: helper accessors for regex options
 
+@property (nonatomic) BOOL regularExpressionOptionCaptureGroups;
+@property (nonatomic) BOOL regularExpressionOptionLineContext;
+@property (nonatomic) BOOL regularExpressionOptionMultiline;
+@property (nonatomic) BOOL regularExpressionOptionExtended;
+@property (nonatomic) BOOL regularExpressionOptionIgnoreEmptyMatches;
+@property (nonatomic) BOOL regularExpressionOptionOnlyLongestMatch;
 
 @end

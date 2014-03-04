@@ -18,6 +18,7 @@ enum OptionsMenuTags {
 	kOptionMenuIgnoreCaseTag = 10001,
 	kOptionMenuWrapAroundTag,
 	kOptionMenuSetScopeToSelectionTag,
+	kOptionMenuUseRegularExpressionsTag,
 
 	kOptionMenuSelectedLanguageDialectTag,
 	kOptionMenuSwitchLanguageDialectTag,
@@ -35,10 +36,18 @@ enum OptionsMenuTags {
 
 static NSString * const kOptionKeyPathCaseSensitive = @"content.caseSensitive";
 static NSString * const kOptionKeyPathWrapsAround   = @"content.shouldWrap";
-static NSString * const kOptionKeypathRegexDialectString = @"content.regularExpressionSyntaxString";
+static NSString * const kOptionKeyPathUseRegularExpressions   = @"content.useRegex";
+static NSString * const kOptionKeyPathRegexDialectString = @"content.regularExpressionSyntaxString";
 static NSString * const kOptionKeyPathRegexDialect = @"content.regularExpressionSyntax";
 static NSString * const kOptionKeyPathRegexEscapeCharacter = @"content.regularExpressionEscapeCharacter";
 
+
+static NSString * const kOptionKeyPathRegexOptionCaptureGroups = @"content.regularExpressionOptionCaptureGroups";
+static NSString * const kOptionKeyPathRegexOptionLineContext = @"content.regularExpressionOptionLineContext";
+static NSString * const kOptionKeyPathRegexOptionMultiline = @"content.regularExpressionOptionMultiline";
+static NSString * const kOptionKeyPathRegexOptionExtended = @"content.regularExpressionOptionExtended";
+static NSString * const kOptionKeyPathRegexOptionIgnoreEmptyMatches = @"content.regularExpressionOptionIgnoreEmptyMatches";
+static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.regularExpressionOptionOnlyLongestMatch";
 
 
 @interface SEEFindAndReplaceViewController () <NSMenuDelegate>
@@ -55,8 +64,16 @@ static NSString * const kOptionKeyPathRegexEscapeCharacter = @"content.regularEx
 	return self;
 }
 
+- (void)dealloc {
+	[self.findAndReplaceStateObjectController removeObserver:self forKeyPath:kOptionKeyPathUseRegularExpressions];
+}
+
 - (void)updateSearchOptionsButton {
-	[self.searchOptionsButton setImage:[NSImage pdfBasedImageNamed:@"SearchLoupeNormal"TCM_PDFIMAGE_SEP@"36"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_NORMAL]];
+	NSImage *image = [NSImage pdfBasedImageNamed:@"SearchLoupeNormal"TCM_PDFIMAGE_SEP@"36"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_NORMAL];
+	if ([[self.findAndReplaceStateObjectController valueForKeyPath:kOptionKeyPathUseRegularExpressions] boolValue]) {
+		image = [NSImage pdfBasedImageNamed:@"SearchLoupeRE"TCM_PDFIMAGE_SEP@"36"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_NORMAL];
+	}
+	[self.searchOptionsButton setImage:image];
 }
 
 - (void)loadView {
@@ -73,6 +90,9 @@ static NSString * const kOptionKeyPathRegexEscapeCharacter = @"content.regularEx
 	// add bindings
 	[self.findTextField bind:@"value" toObject:self.findAndReplaceStateObjectController withKeyPath:@"content.findString" options:@{NSContinuouslyUpdatesValueBindingOption : @YES}];
 	[self.replaceTextField bind:@"value" toObject:self.findAndReplaceStateObjectController withKeyPath:@"content.replaceString" options:@{NSContinuouslyUpdatesValueBindingOption : @YES}];
+	
+	// add observation
+	[self.findAndReplaceStateObjectController addObserver:self forKeyPath:kOptionKeyPathUseRegularExpressions options:0 context:kOptionMenuUseRegularExpressionsTag];
 	
 }
 
@@ -116,9 +136,16 @@ static NSString * const kOptionKeyPathRegexEscapeCharacter = @"content.regularEx
 	[self.findAndReplaceStateObjectController setValue:@(!currentValue.boolValue) forKeyPath:keyPath];
 }
 
-- (IBAction)switchEscapeCharacter:(id)sender {
+- (IBAction)toggleUseRegex:(id)aSender {
+	NSString *keyPath = kOptionKeyPathUseRegularExpressions;
+	NSNumber *currentValue = [self.findAndReplaceStateObjectController valueForKeyPath:keyPath];
+	[self.findAndReplaceStateObjectController setValue:@(!currentValue.boolValue) forKeyPath:keyPath];
+}
+
+
+- (IBAction)switchEscapeCharacter:(id)aSender {
 	NSString *keyPath = kOptionKeyPathRegexEscapeCharacter;
-	NSString *value = ([sender tag] == kOptionMenuEscapeCharacterYenTag ? OgreGUIYenCharacter : OgreBackslashCharacter);
+	NSString *value = ([aSender tag] == kOptionMenuEscapeCharacterYenTag ? OgreGUIYenCharacter : OgreBackslashCharacter);
 	[self.findAndReplaceStateObjectController setValue:value forKeyPath:keyPath];
 }
 
@@ -127,16 +154,52 @@ static NSString * const kOptionKeyPathRegexEscapeCharacter = @"content.regularEx
 	
 }
 
+- (NSString *)keyPathForRegexOption:(NSInteger)aRegexOption {
+	switch (aRegexOption) {
+		case kOptionMenuCaptureGroupsTag:
+			return kOptionKeyPathRegexOptionCaptureGroups;
+		case kOptionMenuLineContextTag:
+			return kOptionKeyPathRegexOptionLineContext;
+		case kOptionMenuMultilineTag:
+			return kOptionKeyPathRegexOptionMultiline;
+		case kOptionMenuExtendedTag:
+			return kOptionKeyPathRegexOptionExtended;
+		case kOptionMenuIgnoreEmptyMatchesTag:
+			return kOptionKeyPathRegexOptionIgnoreEmptyMatches;
+		case kOptionMenuOnlyLongestMatchTag:
+			return kOptionKeyPathRegexOptionOnlyLongestMatch;
+			
+		default:
+			return nil;
+	}
+}
+
+- (IBAction)toggleRegexOption:(id)aSender {
+	NSInteger tag = [aSender tag];
+	NSString *keyPath = [self keyPathForRegexOption:tag];
+	NSNumber *currentValue = [self.findAndReplaceStateObjectController valueForKeyPath:keyPath];
+	[self.findAndReplaceStateObjectController setValue:@(!currentValue.boolValue) forKeyPath:keyPath];
+}
+
 #pragma mark - Options Menu Handling
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
 	NSLog(@"%s menuItem:%@",__FUNCTION__,menuItem);
+	
+	BOOL useRegex = [[self.findAndReplaceStateObjectController valueForKeyPath:kOptionKeyPathUseRegularExpressions] boolValue];
+	BOOL validationResultForRegexOptions = useRegex;
+	
 	if (menuItem.action == @selector(switchRegexSyntaxDialect:)) {
 		BOOL isOn = ([[self.findAndReplaceStateObjectController valueForKeyPath:kOptionKeyPathRegexDialect] integerValue] == menuItem.tag);
 		[menuItem setState:isOn ? NSOnState : NSOffState];
+	} else if (menuItem.action == @selector(toggleRegexOption:)) {
+		NSInteger tag = [menuItem tag];
+		NSString *keyPath = [self keyPathForRegexOption:tag];
+		NSNumber *currentValue = [self.findAndReplaceStateObjectController valueForKeyPath:keyPath];
+		[menuItem setState:currentValue.boolValue ? NSOnState : NSOffState];
+		return validationResultForRegexOptions;
 	} else {
-		
-		
+
 		switch (menuItem.tag) {
 			case kOptionMenuIgnoreCaseTag:
 				[menuItem setState:[[self.findAndReplaceStateObjectController valueForKeyPath:kOptionKeyPathCaseSensitive] boolValue] ? NSOffState : NSOnState];
@@ -144,18 +207,21 @@ static NSString * const kOptionKeyPathRegexEscapeCharacter = @"content.regularEx
 			case kOptionMenuWrapAroundTag:
 				[menuItem setState:[[self.findAndReplaceStateObjectController valueForKeyPath:kOptionKeyPathWrapsAround] boolValue] ? NSOnState : NSOffState];
 				break;
+			case kOptionMenuUseRegularExpressionsTag:
+				[menuItem setState:useRegex ? NSOnState	: NSOffState];
+				break;
 			
 			case kOptionMenuSelectedLanguageDialectTag:
-				[menuItem setTitle:[self.findAndReplaceStateObjectController valueForKeyPath:kOptionKeypathRegexDialectString]];
-				break;
+				[menuItem setTitle:[self.findAndReplaceStateObjectController valueForKeyPath:kOptionKeyPathRegexDialectString]];
+				return validationResultForRegexOptions;
 			
 			case kOptionMenuEscapeCharacterSlashTag:
 				[menuItem setState:[[self.findAndReplaceStateObjectController valueForKeyPath:kOptionKeyPathRegexEscapeCharacter] isEqualToString:OgreBackslashCharacter] ? NSOnState : NSOffState];
-				break;
+				return validationResultForRegexOptions;
 
 			case kOptionMenuEscapeCharacterYenTag:
 				[menuItem setState:[[self.findAndReplaceStateObjectController valueForKeyPath:kOptionKeyPathRegexEscapeCharacter] isEqualToString:OgreGUIYenCharacter] ? NSOnState : NSOffState];
-				break;
+				return validationResultForRegexOptions;
 
 			default:
 				break;
@@ -179,8 +245,8 @@ static NSString * const kOptionKeyPathRegexEscapeCharacter = @"content.regularEx
 			
 			// Ignore case
 			// Wrap around
-			// Use Regular Expressions
 			// Set Scope to current selection
+			// Use Regular Expressions
 			// -
 			// Regular Expression Dialect
 			// Ruby
@@ -200,9 +266,11 @@ static NSString * const kOptionKeyPathRegexEscapeCharacter = @"content.regularEx
 			// Open Regex Help
 			
 			
+			[self addItemToMenu:menu title:@"Set Scope to current selection" action:@selector(takeScopeFromCurrentSelection:) tag:kOptionMenuSetScopeToSelectionTag];
 			[self addItemToMenu:menu title:@"Ignore case" action:@selector(toggleIgnoreCase:) tag:kOptionMenuIgnoreCaseTag];
 			[self addItemToMenu:menu title:@"Wrap around" action:@selector(toggleWrapAround:) tag:kOptionMenuWrapAroundTag];
-			[self addItemToMenu:menu title:@"Set Scope to current selection" action:@selector(takeScopeFromCurrentSelection:) tag:kOptionMenuSetScopeToSelectionTag];
+
+			[self addItemToMenu:menu title:@"Use Regular Expressions" action:@selector(toggleUseRegex:) tag:kOptionMenuUseRegularExpressionsTag];
 
 			[menu addItem:[NSMenuItem separatorItem]];
 			[self addItemToMenu:menu title:@"Regular Expression Dialect" action:NULL tag:0];
@@ -243,6 +311,14 @@ static NSString * const kOptionKeyPathRegexEscapeCharacter = @"content.regularEx
 
 - (BOOL)menu:(NSMenu *)menu updateItem:(NSMenuItem *)item atIndex:(NSInteger)index shouldCancel:(BOOL)shouldCancel {
 	return YES;
+}
+
+#pragma mark - key value observing
+
+- (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
+	if (context == kOptionMenuUseRegularExpressionsTag) {
+		[self updateSearchOptionsButton];
+	}
 }
 
 @end
