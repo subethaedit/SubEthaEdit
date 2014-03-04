@@ -23,6 +23,7 @@ extern NSString * const ConnectionStatusNoConnection;
 
 @property (nonatomic, readonly) BOOL isBonjour;
 @property (nonatomic, readonly) BOOL isVisible;
+@property (nonatomic, readonly) BOOL isClearable;
 
 @property (nonatomic, readonly, strong) TCMBEEPSession *BEEPSession;
 @property (nonatomic, readonly) NSString *userID;
