@@ -88,19 +88,19 @@
                                                                 <font key="font" metaFont="systemBold" size="12"/>
                                                             </buttonCell>
                                                             <connections>
+                                                                <binding destination="7GF-iT-703" name="argument" keyPath="self" id="RQ7-zJ-mZH">
+                                                                    <dictionary key="options">
+                                                                        <string key="NSSelectorName">disconnect:</string>
+                                                                    </dictionary>
+                                                                </binding>
                                                                 <binding destination="7GF-iT-703" name="hidden" keyPath="objectValue.showsDisconnect" id="D3s-QG-ao9">
                                                                     <dictionary key="options">
                                                                         <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                                     </dictionary>
                                                                 </binding>
-                                                                <binding destination="7GF-iT-703" name="target" keyPath="objectValue.connection" previousBinding="q8K-wt-Z3D" id="aDS-yh-yPF">
+                                                                <binding destination="7GF-iT-703" name="target" keyPath="objectValue" previousBinding="RQ7-zJ-mZH" id="Yot-8j-rsn">
                                                                     <dictionary key="options">
-                                                                        <string key="NSSelectorName">cancel</string>
-                                                                    </dictionary>
-                                                                </binding>
-                                                                <binding destination="7GF-iT-703" name="argument" keyPath="self" id="q8K-wt-Z3D">
-                                                                    <dictionary key="options">
-                                                                        <string key="NSSelectorName">cancel</string>
+                                                                        <string key="NSSelectorName">disconnect:</string>
                                                                     </dictionary>
                                                                 </binding>
                                                             </connections>
