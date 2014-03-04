@@ -12,6 +12,7 @@
 @class SEEConnection, TCMMMUser;
 
 @interface SEENetworkConnectionDocumentListItem : NSObject <SEEDocumentListItem>
-@property (nonatomic, weak) SEEConnection *connection; // also overrides user
-@property (nonatomic, weak) TCMMMUser *user;
+@property (nonatomic, readonly, assign) BOOL showsDisconnect;
+@property (nonatomic, strong) SEEConnection *connection; // also overrides user
+@property (nonatomic, strong) TCMMMUser *user;
 @end

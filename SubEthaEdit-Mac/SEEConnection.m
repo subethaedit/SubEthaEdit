@@ -203,7 +203,7 @@ NSString * const SEEConnectionStatusDidChangeNotification = @"SEEConnectionStatu
     return [[[[TCMMMPresenceManager sharedInstance] statusOfUserID:[self userID]] objectForKey:@"isVisible"] boolValue];
 }
 
-+ (NSSet *)keyPathsForValuesAffectingIsClearable{
++ (NSSet *)keyPathsForValuesAffectingIsClearable {
     return [NSSet setWithObjects:@"connectionStatus", nil];
 }
 

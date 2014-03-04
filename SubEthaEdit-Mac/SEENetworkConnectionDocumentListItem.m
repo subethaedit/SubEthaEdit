@@ -17,6 +17,7 @@
 
 void * const SEENetworkConnectionRepresentationConnectionObservingContext = (void *)&SEENetworkConnectionRepresentationConnectionObservingContext;
 void * const SEENetworkConnectionRepresentationUserObservingContext = (void *)&SEENetworkConnectionRepresentationUserObservingContext;
+void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClearableObservingContext;
 
 @implementation SEENetworkConnectionDocumentListItem
 
@@ -69,6 +70,19 @@ void * const SEENetworkConnectionRepresentationUserObservingContext = (void *)&S
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
+}
+
++ (NSSet *)keyPathsForValuesAffectingShowsDisconnect;
+{
+    return [NSSet setWithObjects:@"connection", @"connection.isBonjour", nil];
+}
+
+- (BOOL)showsDisconnect
+{
+	if (self.connection) {
+		return ! self.connection.isBonjour;
+	}
+	return NO;
 }
 
 - (NSString *)uid {

@@ -80,12 +80,40 @@
                                                                 <binding destination="7GF-iT-703" name="value" keyPath="objectValue.image" id="iaf-Pj-YUc"/>
                                                             </connections>
                                                         </imageView>
+                                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="sLz-ta-X1G">
+                                                            <rect key="frame" x="209" y="13" width="22" height="19"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                            <buttonCell key="cell" type="recessed" title="x" bezelStyle="recessed" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dLp-rQ-RhB">
+                                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                <font key="font" metaFont="systemBold" size="12"/>
+                                                            </buttonCell>
+                                                            <connections>
+                                                                <binding destination="7GF-iT-703" name="hidden" keyPath="objectValue.showsDisconnect" id="D3s-QG-ao9">
+                                                                    <dictionary key="options">
+                                                                        <string key="NSValueTransformerName">NSNegateBoolean</string>
+                                                                    </dictionary>
+                                                                </binding>
+                                                                <binding destination="7GF-iT-703" name="target" keyPath="objectValue.connection" previousBinding="q8K-wt-Z3D" id="aDS-yh-yPF">
+                                                                    <dictionary key="options">
+                                                                        <string key="NSSelectorName">cancel</string>
+                                                                    </dictionary>
+                                                                </binding>
+                                                                <binding destination="7GF-iT-703" name="argument" keyPath="self" id="q8K-wt-Z3D">
+                                                                    <dictionary key="options">
+                                                                        <string key="NSSelectorName">cancel</string>
+                                                                    </dictionary>
+                                                                </binding>
+                                                            </connections>
+                                                        </button>
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstItem="0Rh-MB-7TX" firstAttribute="top" secondItem="7GF-iT-703" secondAttribute="top" constant="2" id="6d6-ua-HIo"/>
                                                         <constraint firstItem="0Rh-MB-7TX" firstAttribute="leading" secondItem="99d-xq-E7k" secondAttribute="trailing" constant="12" id="7P3-Eo-Ni4"/>
+                                                        <constraint firstItem="sLz-ta-X1G" firstAttribute="centerY" secondItem="0Rh-MB-7TX" secondAttribute="centerY" id="Coo-R6-5j5"/>
                                                         <constraint firstItem="99d-xq-E7k" firstAttribute="top" secondItem="7GF-iT-703" secondAttribute="top" constant="17" id="Onn-yg-SHe"/>
+                                                        <constraint firstItem="sLz-ta-X1G" firstAttribute="top" secondItem="7GF-iT-703" secondAttribute="top" constant="14" id="d4r-Bk-1D3"/>
                                                         <constraint firstAttribute="trailing" secondItem="0Rh-MB-7TX" secondAttribute="trailing" constant="12" id="dZt-Kr-fIw"/>
+                                                        <constraint firstItem="0Rh-MB-7TX" firstAttribute="leading" secondItem="sLz-ta-X1G" secondAttribute="trailing" constant="8" symbolic="YES" id="fk9-ZP-9K0"/>
                                                         <constraint firstItem="99d-xq-E7k" firstAttribute="leading" secondItem="7GF-iT-703" secondAttribute="leading" constant="16" id="g36-71-4D0"/>
                                                         <constraint firstItem="0Rh-MB-7TX" firstAttribute="centerY" secondItem="7GF-iT-703" secondAttribute="centerY" id="yOd-r4-3rW"/>
                                                     </constraints>
