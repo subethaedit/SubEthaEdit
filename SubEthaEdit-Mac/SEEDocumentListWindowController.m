@@ -277,13 +277,17 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	if (sender == tableView) {
 		NSInteger row = tableView.clickedRow;
 		NSInteger column = tableView.clickedColumn;
-		NSTableCellView *tableCell = [tableView viewAtColumn:column row:row makeIfNecessary:NO];
-		clickedItem = tableCell.objectValue;
+		if (row > -1 && column > -1) {
+			NSTableCellView *tableCell = [tableView viewAtColumn:column row:row makeIfNecessary:NO];
+			clickedItem = tableCell.objectValue;
+		}
 	}
 
-	NSArray *selectedDocuments = self.documentListItemsArrayController.selectedObjects;
-	if (! [selectedDocuments containsObject:clickedItem]) {
-		[clickedItem itemAction:sender];
+	if (clickedItem) {
+		NSArray *selectedDocuments = self.documentListItemsArrayController.selectedObjects;
+		if (! [selectedDocuments containsObject:clickedItem]) {
+			[clickedItem itemAction:sender];
+		}
 	}
 }
 
@@ -295,13 +299,17 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	if (sender == tableView) {
 		NSInteger row = tableView.clickedRow;
 		NSInteger column = tableView.clickedColumn;
-		NSTableCellView *tableCell = [tableView viewAtColumn:column row:row makeIfNecessary:NO];
-		clickedItem = tableCell.objectValue;
+		if (row > -1 && column > -1) {
+			NSTableCellView *tableCell = [tableView viewAtColumn:column row:row makeIfNecessary:NO];
+			clickedItem = tableCell.objectValue;
+		}
 	}
 
-	NSArray *selectedDocuments = self.documentListItemsArrayController.selectedObjects;
-	if ([selectedDocuments containsObject:clickedItem]) {
-		[selectedDocuments makeObjectsPerformSelector:@selector(itemAction:) withObject:sender];
+	if (clickedItem) {
+		NSArray *selectedDocuments = self.documentListItemsArrayController.selectedObjects;
+		if ([selectedDocuments containsObject:clickedItem]) {
+			[selectedDocuments makeObjectsPerformSelector:@selector(itemAction:) withObject:sender];
+		}
 	}
 }
 
