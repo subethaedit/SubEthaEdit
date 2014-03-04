@@ -281,12 +281,14 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 			NSTableCellView *tableCell = [tableView viewAtColumn:column row:row makeIfNecessary:NO];
 			clickedItem = tableCell.objectValue;
 		}
+	} else if ([sender conformsToProtocol:@protocol(SEEDocumentListItem)]) {
+		clickedItem = sender;
 	}
 
 	if (clickedItem) {
 		NSArray *selectedDocuments = self.documentListItemsArrayController.selectedObjects;
 		if (! [selectedDocuments containsObject:clickedItem]) {
-			[clickedItem itemAction:sender];
+			[clickedItem itemAction:self.tableViewOutlet];
 		}
 	}
 }
@@ -303,12 +305,14 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 			NSTableCellView *tableCell = [tableView viewAtColumn:column row:row makeIfNecessary:NO];
 			clickedItem = tableCell.objectValue;
 		}
+	} else if ([sender conformsToProtocol:@protocol(SEEDocumentListItem)]) {
+		clickedItem = sender;
 	}
 
 	if (clickedItem) {
 		NSArray *selectedDocuments = self.documentListItemsArrayController.selectedObjects;
 		if ([selectedDocuments containsObject:clickedItem]) {
-			[selectedDocuments makeObjectsPerformSelector:@selector(itemAction:) withObject:sender];
+			[selectedDocuments makeObjectsPerformSelector:@selector(itemAction:) withObject:self.tableViewOutlet];
 		}
 	}
 }

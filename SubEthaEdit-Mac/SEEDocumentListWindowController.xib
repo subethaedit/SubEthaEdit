@@ -178,7 +178,17 @@
                                                                 <font key="font" metaFont="systemBold" size="12"/>
                                                             </buttonCell>
                                                             <connections>
+                                                                <binding destination="pIc-iJ-JHp" name="argument" keyPath="objectValue" id="QBO-Wp-OvW">
+                                                                    <dictionary key="options">
+                                                                        <string key="NSSelectorName">triggerItemClickAction:</string>
+                                                                    </dictionary>
+                                                                </binding>
                                                                 <binding destination="pIc-iJ-JHp" name="image" keyPath="objectValue.image" id="VNY-JE-1Lm"/>
+                                                                <binding destination="-2" name="target" keyPath="self" previousBinding="QBO-Wp-OvW" id="bwz-Zh-wq2">
+                                                                    <dictionary key="options">
+                                                                        <string key="NSSelectorName">triggerItemClickAction:</string>
+                                                                    </dictionary>
+                                                                </binding>
                                                             </connections>
                                                         </button>
                                                     </subviews>
