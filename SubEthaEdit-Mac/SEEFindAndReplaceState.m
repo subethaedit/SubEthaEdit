@@ -32,4 +32,43 @@
 	return self;
 }
 
+/* 	OgreSimpleMatchingSyntax = 0,
+ OgrePOSIXBasicSyntax,
+ OgrePOSIXExtendedSyntax,
+ OgreEmacsSyntax,
+ OgreGrepSyntax,
+ OgreGNURegexSyntax,
+ OgreJavaSyntax,
+ OgrePerlSyntax,
+ OgreRubySyntax
+*/
+
++ (NSString *)regularExpressionSyntaxStringForSyntax:(OgreSyntax)aSyntax {
+	switch (aSyntax) {
+		case OgreRubySyntax:
+			return @"Ruby";
+		case OgrePerlSyntax:
+			return @"Perl";
+		case OgreJavaSyntax:
+			return @"Java";
+		case OgreGNURegexSyntax:
+			return @"GNU Regex";
+		case OgreGrepSyntax:
+			return @"Grep";
+		case OgreEmacsSyntax:
+			return @"Emacs";
+		case OgrePOSIXExtendedSyntax:
+			return @"POSIX extended";
+		case OgrePOSIXBasicSyntax:
+			return @"POSIX basic";
+		case OgreSimpleMatchingSyntax:
+			return @"Ogre simple";
+	}
+}
+
+- (NSString *)regularExpressionSyntaxString {
+	NSString *result = [self.class regularExpressionSyntaxStringForSyntax:self.regularExpressionSyntax];
+	return result;
+}
+
 @end

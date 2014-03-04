@@ -26,9 +26,14 @@ typedef NS_ENUM(int8_t, SEEFindAndReplaceScope) {
 @property (nonatomic) BOOL shouldWrap;
 /*! currently used OGRE dialect. */
 @property (nonatomic) OgreSyntax regularExpressionSyntax;
+
+@property (nonatomic, readonly) NSString *regularExpressionSyntaxString;
+
 /*! default is OgreBackslashCharacter (@"\\"), only other option is OgreGUIYenCharacter (@"\xc2\xa5") */
 @property (nonatomic, strong) NSString *regularExpressionEscapeCharacter;
 
+
++ (NSString *)regularExpressionSyntaxStringForSyntax:(OgreSyntax)aSyntax;
 
 // TODO: helper accessors for regex options
 
