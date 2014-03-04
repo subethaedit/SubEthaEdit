@@ -20,4 +20,6 @@
 - (void)connectToURL:(NSURL *)anURL;
 - (void)connectToAddress:(NSString *)address;
 
+- (void)clear;
+
 @end
