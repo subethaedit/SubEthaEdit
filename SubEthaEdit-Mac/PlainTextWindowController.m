@@ -1120,6 +1120,13 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 // This method is called only if customWindowsToExitFullScreenForWindow: returns non-nil.
 */
 
+// Returns the presentation options the window uses when transitioning to full-screen mode.
+// - (NSApplicationPresentationOptions)window:(NSWindow *)aWindow willUseFullScreenPresentationOptions:(NSApplicationPresentationOptions)aProposedOptions {
+//	 return aProposedOptions;
+// }
+// The proposed options. See NSApplicationPresentationOptions for the possible values.
+// The options the window should use when transitioning to full-screen mode. These may be the same as the proposedOptions or may be modified.
+
 /* fullscreen notifications - not used for now - maybe delete once fullscreen is given ok (SEE 4.0)
  // The window just entered full-screen mode.
  - (void)windowDidEnterFullScreen:(NSNotification *)aNotification {}
