@@ -336,6 +336,10 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		result = [tableView makeViewWithIdentifier:@"Connect" owner:self];
 	} else if ([rowItem isKindOfClass:SEEOpenOtherDocumentListItem.class] || [rowItem isKindOfClass:SEENewDocumentListItem.class]) {
 		result = [tableView makeViewWithIdentifier:@"OtherItems" owner:self];
+	} else if ([rowItem isKindOfClass:SEERecentDocumentListItem.class]) {
+		result = [tableView makeViewWithIdentifier:@"Document" owner:self];
+	} else if ([rowItem isKindOfClass:SEENetworkDocumentListItem.class]) {
+		result = [tableView makeViewWithIdentifier:@"NetworkDocument" owner:self];
 	} else {
 		result = [tableView makeViewWithIdentifier:@"Document" owner:self];
 	}
