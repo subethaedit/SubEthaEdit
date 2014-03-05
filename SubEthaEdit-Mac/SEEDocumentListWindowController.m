@@ -212,8 +212,9 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 					SEENetworkConnectionDocumentListItem *connectionRepresentation = [[SEENetworkConnectionDocumentListItem alloc] init];
 					connectionRepresentation.connection = connection;
 					NSString *cachedItemID = connectionRepresentation.uid;
-					id <SEEDocumentListItem> cachedItem = [lookupDictionary objectForKey:cachedItemID];
+					SEENetworkConnectionDocumentListItem *cachedItem = [lookupDictionary objectForKey:cachedItemID];
 					if (cachedItem) {
+						cachedItem.connection = connection;
 						[self.availableItems addObject:cachedItem];
 					} else {
 						[self.availableItems addObject:connectionRepresentation];
@@ -226,8 +227,10 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 					documentRepresentation.documentSession = session;
 					documentRepresentation.beepSession = connection.BEEPSession;
 					NSString *cachedItemID = documentRepresentation.uid;
-					id <SEEDocumentListItem> cachedItem = [lookupDictionary objectForKey:cachedItemID];
+					SEENetworkDocumentListItem *cachedItem = [lookupDictionary objectForKey:cachedItemID];
 					if (cachedItem) {
+						cachedItem.documentSession = session;
+						cachedItem.beepSession = connection.BEEPSession;
 						[self.availableItems addObject:cachedItem];
 					} else {
 						[self.availableItems addObject:documentRepresentation];
