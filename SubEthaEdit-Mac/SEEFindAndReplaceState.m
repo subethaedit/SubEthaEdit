@@ -30,6 +30,7 @@
 		self.useRegex = NO;
 		self.regularExpressionEscapeCharacter = OgreBackslashCharacter;
 		self.shouldWrap = YES;
+		self.statusString = @"";
 	}
 	return self;
 }

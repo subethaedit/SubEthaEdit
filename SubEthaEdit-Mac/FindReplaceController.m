@@ -458,23 +458,35 @@ static FindReplaceController *sharedInstance=nil;
 	return result;
 }
 
+- (NSString *)statusString {
+	return [self.globalFindAndReplaceStateController valueForKeyPath:@"content.statusString"];
+}
+
+- (void)setStatusString:(NSString *)aString {
+	[self.globalFindAndReplaceStateController setValue:aString forKeyPath:@"content.statusString"];
+	if (aString && aString.length) {
+		[O_statusTextField setStringValue:aString];
+		[O_statusTextField setHidden:NO];
+		[O_statusTextField display];
+	} else {
+		[O_statusTextField setStringValue:@""];
+		[O_statusTextField setHidden:YES];
+		[O_statusTextField display];
+	}
+	[O_findPanel display]; // because we might be in a blocking loop
+}
+
 - (void)signalErrorWithDescription:(NSString *)aDescription {
 	NSBeep();
 	if (aDescription) {
-		[O_statusTextField setStringValue:aDescription];
-		[O_statusTextField display];
-		[O_statusTextField setHidden:NO];
-		[O_findPanel display];
+		[self setStatusString:aDescription];
 	}
 }
 
 - (void)performFindPanelAction:(id)aSender inTargetTextView:(NSTextView *)aTargetTextView {
 	
 	// clear UI
-	[O_statusTextField setStringValue:@""];
-    [O_statusTextField setHidden:YES];
-    [O_statusTextField display];
-    [O_findPanel display];
+	[self setStatusString:@""];
 
 	// first the actions that don't need anything
 	if ([aSender tag]==NSTextFinderActionShowFindInterface) {
@@ -698,9 +710,9 @@ static FindReplaceController *sharedInstance=nil;
     TCMMMTransformator *transformator=[TCMMMTransformator sharedInstance];
 
     [[_replaceAllTarget textStorage] beginEditing];
-    if (_replaceAllReplaced>0) 
-        [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%d replaced.",@"Number of replaced strings"), _replaceAllReplaced]];
- 
+    if (_replaceAllReplaced>0) {
+        [self setStatusString:[NSString stringWithFormat:NSLocalizedString(@"%d replaced.",@"Number of replaced strings"), _replaceAllReplaced]];
+	}
     while (YES) {
         i--;
         if (i<0) break;
@@ -742,13 +754,13 @@ static FindReplaceController *sharedInstance=nil;
             
             if (_replaceAllReplaced==0) {
                 if ([[O_scopePopup selectedItem] tag]==1) {
-                    [O_statusTextField setStringValue:NSLocalizedString(@"Not found in selection.",@"Find string not found in selection")];
+                    [self setStatusString:NSLocalizedString(@"Not found in selection.",@"Find string not found in selection")];
                 } else {
-                    [O_statusTextField setStringValue:NSLocalizedString(@"Not found.",@"Find string not found")];
+                    [self setStatusString:NSLocalizedString(@"Not found.",@"Find string not found")];
                 }
                 NSBeep();
             } else {
-                [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%d replaced.",@"Number of replaced strings"), _replaceAllReplaced]];
+                [self setStatusString:[NSString stringWithFormat:NSLocalizedString(@"%d replaced.",@"Number of replaced strings"), _replaceAllReplaced]];
                 [[aDocument documentUndoManager] endUndoGrouping];
                 [[aDocument session] startProcessing];
                 [self unlockDocument:aDocument];
@@ -813,16 +825,16 @@ static FindReplaceController *sharedInstance=nil;
         
         if (_replaceAllReplaced==0) {
             if ([[O_scopePopup selectedItem] tag]==1) {
-                [O_statusTextField setStringValue:NSLocalizedString(@"Not found in selection.",@"Find string not found in selection")];
+                [self setStatusString:NSLocalizedString(@"Not found in selection.",@"Find string not found in selection")];
             } else {
-                [O_statusTextField setStringValue:NSLocalizedString(@"Not found.",@"Find string not found")];
+                [self setStatusString:NSLocalizedString(@"Not found.",@"Find string not found")];
             }
             NSBeep();
         } else {
             [[aDocument documentUndoManager] endUndoGrouping];
             [self unlockDocument:aDocument];
             [[aDocument session] startProcessing];
-            [O_statusTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"%d replaced.",@"Number of replaced strings"), _replaceAllReplaced]];
+            [self setStatusString:[NSString stringWithFormat:NSLocalizedString(@"%d replaced.",@"Number of replaced strings"), _replaceAllReplaced]];
         }
         [O_progressIndicatorDet stopAnimation:nil];
         [O_progressIndicatorDet setHidden:YES];
@@ -872,7 +884,7 @@ static FindReplaceController *sharedInstance=nil;
             _replaceAllTarget = target;
 
 
-            [O_statusTextField setStringValue:@""];
+            [self setStatusString:@""];
             [O_statusTextField setHidden:NO];
             [self replaceAFewPlainMatches];
 
@@ -886,7 +898,7 @@ static FindReplaceController *sharedInstance=nil;
             if (![OGRegularExpression isValidExpressionString:findString]) {
                 [O_progressIndicator stopAnimation:nil];
                 [O_findComboBox selectText:nil];
-                [O_statusTextField setStringValue:NSLocalizedString(@"Invalid regex",@"InvalidRegex")];
+                [self setStatusString:NSLocalizedString(@"Invalid regex",@"InvalidRegex")];
                 [O_statusTextField setHidden:NO];
                 [O_progressIndicator stopAnimation:nil];
                 [O_progressIndicatorDet setHidden:YES];
@@ -959,7 +971,7 @@ static FindReplaceController *sharedInstance=nil;
 		// Check for invalid RegEx
 		if (useRegex && (![OGRegularExpression isValidExpressionString:findString])) {
 			[O_progressIndicator stopAnimation:nil];
-			[O_statusTextField setStringValue:NSLocalizedString(@"Invalid regex",@"InvalidRegex")];
+			[self setStatusString:NSLocalizedString(@"Invalid regex",@"InvalidRegex")];
 			[O_statusTextField setHidden:NO];
 			NSBeep();
 			return NO;
@@ -1103,9 +1115,9 @@ static FindReplaceController *sharedInstance=nil;
 		[O_progressIndicator stopAnimation:nil];
 		if (!found){
 			if ([[O_scopePopup selectedItem] tag]==1) {
-				[O_statusTextField setStringValue:NSLocalizedString(@"Not found in selection.",@"Find string not found in selection")];
+				[self setStatusString:NSLocalizedString(@"Not found in selection.",@"Find string not found in selection")];
 			} else {
-				[O_statusTextField setStringValue:NSLocalizedString(@"Not found.",@"Find string not found")];
+				[self setStatusString:NSLocalizedString(@"Not found.",@"Find string not found")];
 			}
 			[O_statusTextField setHidden:NO];
 		}
