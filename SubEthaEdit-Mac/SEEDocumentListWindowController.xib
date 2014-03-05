@@ -24,14 +24,14 @@
                 <rect key="frame" x="0.0" y="0.0" width="300" height="400"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
-                    <scrollView borderType="groove" autohidesScrollers="YES" horizontalLineScroll="19" horizontalPageScroll="10" verticalLineScroll="19" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qRg-fN-a9P">
+                    <scrollView borderType="groove" autohidesScrollers="YES" horizontalLineScroll="30" horizontalPageScroll="10" verticalLineScroll="30" verticalPageScroll="10" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qRg-fN-a9P">
                         <rect key="frame" x="0.0" y="0.0" width="300" height="400"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <clipView key="contentView" id="wIJ-zF-6Fn">
                             <rect key="frame" x="2" y="2" width="296" height="396"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
-                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="firstColumnOnly" columnReordering="NO" columnResizing="NO" autosaveColumns="NO" rowSizeStyle="automatic" viewBased="YES" id="btu-v5-80w">
+                                <tableView verticalHuggingPriority="750" allowsExpansionToolTips="YES" columnAutoresizingStyle="firstColumnOnly" columnReordering="NO" columnResizing="NO" autosaveColumns="NO" rowHeight="28" rowSizeStyle="automatic" viewBased="YES" id="btu-v5-80w">
                                     <rect key="frame" x="0.0" y="0.0" width="296" height="396"/>
                                     <autoresizingMask key="autoresizingMask"/>
                                     <size key="intercellSpacing" width="3" height="2"/>
@@ -56,7 +56,7 @@
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="99d-xq-E7k">
-                                                            <rect key="frame" x="14" y="12" width="215" height="17"/>
+                                                            <rect key="frame" x="14" y="12" width="201" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="AUsers Name" id="qbm-n8-qcN">
                                                                 <font key="font" metaFont="system"/>
@@ -81,14 +81,14 @@
                                                             </connections>
                                                         </imageView>
                                                         <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="sLz-ta-X1G">
-                                                            <rect key="frame" x="209" y="13" width="22" height="19"/>
+                                                            <rect key="frame" x="208" y="13" width="23" height="19"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                            <buttonCell key="cell" type="recessed" title="x" bezelStyle="recessed" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dLp-rQ-RhB">
+                                                            <buttonCell key="cell" type="recessed" title="×" bezelStyle="recessed" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="dLp-rQ-RhB">
                                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
-                                                                <font key="font" metaFont="systemBold" size="12"/>
+                                                                <font key="font" metaFont="smallSystemBold"/>
                                                             </buttonCell>
                                                             <connections>
-                                                                <binding destination="7GF-iT-703" name="argument" keyPath="self" id="RQ7-zJ-mZH">
+                                                                <binding destination="7GF-iT-703" name="target" keyPath="objectValue" previousBinding="RQ7-zJ-mZH" id="Yot-8j-rsn">
                                                                     <dictionary key="options">
                                                                         <string key="NSSelectorName">disconnect:</string>
                                                                     </dictionary>
@@ -98,7 +98,7 @@
                                                                         <string key="NSValueTransformerName">NSNegateBoolean</string>
                                                                     </dictionary>
                                                                 </binding>
-                                                                <binding destination="7GF-iT-703" name="target" keyPath="objectValue" previousBinding="RQ7-zJ-mZH" id="Yot-8j-rsn">
+                                                                <binding destination="7GF-iT-703" name="argument" keyPath="self" id="RQ7-zJ-mZH">
                                                                     <dictionary key="options">
                                                                         <string key="NSSelectorName">disconnect:</string>
                                                                     </dictionary>
@@ -108,7 +108,7 @@
                                                     </subviews>
                                                     <constraints>
                                                         <constraint firstItem="0Rh-MB-7TX" firstAttribute="top" secondItem="7GF-iT-703" secondAttribute="top" constant="2" id="6d6-ua-HIo"/>
-                                                        <constraint firstItem="0Rh-MB-7TX" firstAttribute="leading" secondItem="99d-xq-E7k" secondAttribute="trailing" constant="12" id="7P3-Eo-Ni4"/>
+                                                        <constraint firstItem="0Rh-MB-7TX" firstAttribute="leading" secondItem="99d-xq-E7k" secondAttribute="trailing" constant="26" id="7P3-Eo-Ni4"/>
                                                         <constraint firstItem="sLz-ta-X1G" firstAttribute="centerY" secondItem="0Rh-MB-7TX" secondAttribute="centerY" id="Coo-R6-5j5"/>
                                                         <constraint firstItem="99d-xq-E7k" firstAttribute="top" secondItem="7GF-iT-703" secondAttribute="top" constant="17" id="Onn-yg-SHe"/>
                                                         <constraint firstItem="sLz-ta-X1G" firstAttribute="top" secondItem="7GF-iT-703" secondAttribute="top" constant="14" id="d4r-Bk-1D3"/>
@@ -126,15 +126,18 @@
                                                     <rect key="frame" x="1" y="49" width="293" height="28"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
-                                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gvx-Sa-6EV">
+                                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="gvx-Sa-6EV">
                                                             <rect key="frame" x="3" y="5" width="17" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="17" id="EjS-fo-2mU"/>
+                                                            </constraints>
                                                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSPathTemplate" id="Igp-4B-zMe"/>
                                                             <connections>
                                                                 <binding destination="8bn-dY-eZx" name="value" keyPath="objectValue.image" id="rBR-5z-U9Q"/>
                                                             </connections>
                                                         </imageView>
-                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="hiF-tx-CmA">
+                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="hiF-tx-CmA">
                                                             <rect key="frame" x="25" y="5" width="268" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Open Other…" id="7iR-t9-q7q">
@@ -147,6 +150,14 @@
                                                             </connections>
                                                         </textField>
                                                     </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="gvx-Sa-6EV" firstAttribute="leading" secondItem="8bn-dY-eZx" secondAttribute="leading" constant="3" id="CN5-mh-PfA"/>
+                                                        <constraint firstAttribute="trailing" secondItem="hiF-tx-CmA" secondAttribute="trailing" constant="2" id="gOm-xg-uZ2"/>
+                                                        <constraint firstItem="gvx-Sa-6EV" firstAttribute="bottom" secondItem="hiF-tx-CmA" secondAttribute="bottom" id="kTw-Do-P3B"/>
+                                                        <constraint firstItem="gvx-Sa-6EV" firstAttribute="top" secondItem="8bn-dY-eZx" secondAttribute="top" constant="6" id="o7R-oo-GAo"/>
+                                                        <constraint firstItem="hiF-tx-CmA" firstAttribute="leading" secondItem="gvx-Sa-6EV" secondAttribute="trailing" constant="7" id="pQs-uo-GpG"/>
+                                                        <constraint firstItem="gvx-Sa-6EV" firstAttribute="top" secondItem="hiF-tx-CmA" secondAttribute="top" id="uyv-Rl-nhI"/>
+                                                    </constraints>
                                                     <connections>
                                                         <outlet property="imageView" destination="gvx-Sa-6EV" id="WrQ-wh-aj2"/>
                                                         <outlet property="textField" destination="hiF-tx-CmA" id="hdT-Ut-c9M"/>
@@ -156,15 +167,18 @@
                                                     <rect key="frame" x="1" y="79" width="293" height="28"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
-                                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qp7-Vm-djo">
+                                                        <imageView horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Qp7-Vm-djo">
                                                             <rect key="frame" x="3" y="3" width="22" height="22"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                            <constraints>
+                                                                <constraint firstAttribute="width" constant="22" id="3aE-2c-GI6"/>
+                                                            </constraints>
                                                             <imageCell key="cell" refusesFirstResponder="YES" alignment="left" imageScaling="proportionallyDown" image="NSActionTemplate" id="LM5-yn-0zM"/>
                                                             <connections>
                                                                 <binding destination="l0C-OX-d9H" name="value" keyPath="objectValue.image" id="UtF-Du-rjH"/>
                                                             </connections>
                                                         </imageView>
-                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3Bt-0B-b5J">
+                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="3Bt-0B-b5J">
                                                             <rect key="frame" x="25" y="6" width="268" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="DocumentName.txt" id="4t0-UR-tOR">
@@ -177,6 +191,14 @@
                                                             </connections>
                                                         </textField>
                                                     </subviews>
+                                                    <constraints>
+                                                        <constraint firstAttribute="bottom" secondItem="Qp7-Vm-djo" secondAttribute="bottom" constant="3" id="566-QR-baV"/>
+                                                        <constraint firstItem="Qp7-Vm-djo" firstAttribute="top" secondItem="l0C-OX-d9H" secondAttribute="top" constant="3" id="8WN-jR-rWp"/>
+                                                        <constraint firstItem="Qp7-Vm-djo" firstAttribute="centerY" secondItem="3Bt-0B-b5J" secondAttribute="centerY" id="JpE-nD-5Ke"/>
+                                                        <constraint firstItem="Qp7-Vm-djo" firstAttribute="leading" secondItem="l0C-OX-d9H" secondAttribute="leading" constant="3" id="Z9z-x0-HFT"/>
+                                                        <constraint firstItem="3Bt-0B-b5J" firstAttribute="leading" secondItem="Qp7-Vm-djo" secondAttribute="trailing" constant="2" id="lxw-HV-3Tx"/>
+                                                        <constraint firstAttribute="trailing" secondItem="3Bt-0B-b5J" secondAttribute="trailing" constant="2" id="xiB-8U-sls"/>
+                                                    </constraints>
                                                     <connections>
                                                         <outlet property="imageView" destination="Qp7-Vm-djo" id="Hj5-rh-hyl"/>
                                                         <outlet property="textField" destination="3Bt-0B-b5J" id="pLy-md-RhF"/>
@@ -186,7 +208,7 @@
                                                     <rect key="frame" x="1" y="109" width="293" height="28"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
-                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xlp-Jr-Hfh">
+                                                        <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" translatesAutoresizingMaskIntoConstraints="NO" id="xlp-Jr-Hfh">
                                                             <rect key="frame" x="14" y="5" width="293" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                             <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Connect…" id="JFZ-Hh-hom">
@@ -198,7 +220,7 @@
                                                                 <binding destination="pIc-iJ-JHp" name="value" keyPath="objectValue.name" id="mDT-Tl-4HY"/>
                                                             </connections>
                                                         </textField>
-                                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="joQ-3F-OLu">
+                                                        <button verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="joQ-3F-OLu">
                                                             <rect key="frame" x="263" y="4" width="18" height="19"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                                             <buttonCell key="cell" type="recessed" bezelStyle="recessed" image="NSAddTemplate" imagePosition="only" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="LDe-0O-301">
@@ -220,6 +242,13 @@
                                                             </connections>
                                                         </button>
                                                     </subviews>
+                                                    <constraints>
+                                                        <constraint firstItem="xlp-Jr-Hfh" firstAttribute="leading" secondItem="pIc-iJ-JHp" secondAttribute="leading" constant="16" id="Ciz-64-Tb9"/>
+                                                        <constraint firstAttribute="trailing" secondItem="xlp-Jr-Hfh" secondAttribute="trailing" constant="-12" id="GBZ-53-GWW"/>
+                                                        <constraint firstItem="joQ-3F-OLu" firstAttribute="centerY" secondItem="pIc-iJ-JHp" secondAttribute="centerY" id="LiM-hq-q4n"/>
+                                                        <constraint firstItem="joQ-3F-OLu" firstAttribute="bottom" secondItem="xlp-Jr-Hfh" secondAttribute="bottom" id="kfT-DW-fzo"/>
+                                                        <constraint firstAttribute="trailing" secondItem="joQ-3F-OLu" secondAttribute="trailing" constant="12" id="v65-6V-fha"/>
+                                                    </constraints>
                                                     <connections>
                                                         <outlet property="textField" destination="xlp-Jr-Hfh" id="oR5-yD-72q"/>
                                                     </connections>
