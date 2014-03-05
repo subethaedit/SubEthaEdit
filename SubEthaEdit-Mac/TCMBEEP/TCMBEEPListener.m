@@ -102,6 +102,7 @@ static void acceptConnection(CFSocketRef aSocketRef, CFSocketCallBackType aType,
 
 - (BOOL)listen
 {
+	BOOL success = NO;
     CFDataRef addressData = NULL;
     CFDataRef addressData6 = NULL;
     
@@ -158,7 +159,7 @@ static void acceptConnection(CFSocketRef aSocketRef, CFSocketCallBackType aType,
         CFRunLoopAddSource(currentRunLoop, runLoopSource6, kCFRunLoopCommonModes);
         CFRelease(runLoopSource6);
         
-        return YES;
+        success = YES;
     } while (0);
     
     
@@ -168,7 +169,7 @@ static void acceptConnection(CFSocketRef aSocketRef, CFSocketCallBackType aType,
     if (addressData6)
         CFRelease(addressData6);
     
-    return NO;
+    return success;
 }
 
 - (void)close

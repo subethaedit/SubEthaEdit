@@ -581,12 +581,9 @@ static NSMutableDictionary *defaultablePreferenceKeys = nil;
         NSString *defaultKey=[defaultablePreferenceKeys objectForKey:aKey];
         if (!defaultKey || ![[I_defaults objectForKey:defaultKey] boolValue]) {
             id result=[I_defaults objectForKey:aKey];
-            if (result) {
-            	return result;
-            } else {
+            if (! result) {
             	result = [defaultDefaults objectForKey:aKey];
             	if (result) [I_defaults setObject:result forKey:aKey];
-            	return result;
             }
             return result?result:[defaultDefaults objectForKey:aKey];
         }

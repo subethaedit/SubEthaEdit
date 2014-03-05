@@ -857,9 +857,13 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 			self.alternateAnnounceImage = [announceImage imageTintedWithColor:[NSColor blueColor] invert:YES];
 			break;
 
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunreachable-code"
 		default:
 			self.alternateAnnounceImage = announceImage;
 			break;
+#pragma clang diagnostic pop
+
 	}
 
 	NSInteger buttonState = document.isAnnounced?NSOnState:NSOffState;

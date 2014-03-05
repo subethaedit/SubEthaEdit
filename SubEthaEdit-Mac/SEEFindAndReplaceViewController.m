@@ -331,7 +331,7 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 #pragma mark - key value observing
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context {
-	if (context == kOptionMenuUseRegularExpressionsTag) {
+	if (context == (void *)kOptionMenuUseRegularExpressionsTag) {
 		[self updateSearchOptionsButton];
 	}
 }

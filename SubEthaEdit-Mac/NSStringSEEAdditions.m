@@ -116,8 +116,11 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
         return sUnicodeLSEP;
     case LineEndingUnicodeParagraphSeparator:
         return sUnicodePSEP;
+#pragma clang diagnostic push
+#pragma clang diagnostic ignored "-Wunreachable-code"
     default:
         return @"\n";
+#pragma clang diagnostic pop
     }
 }
 
