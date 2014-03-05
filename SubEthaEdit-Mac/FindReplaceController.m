@@ -219,37 +219,25 @@ static FindReplaceController *sharedInstance=nil;
 
 }
 
-- (unsigned) currentOgreOptions 
-{
-    unsigned options = OgreNoneOption;
-    if ([O_regexSinglelineCheckbox state]==NSOnState) options |= OgreSingleLineOption; else options |= OgreNegateSingleLineOption;
-    if ([O_regexMultilineCheckbox state]==NSOnState) options |= OgreMultilineOption;
-    if ([O_ignoreCaseCheckbox state]==NSOnState) options |= OgreIgnoreCaseOption;
-    if ([O_regexExtendedCheckbox state]==NSOnState) options |= OgreExtendOption;
-    if ([O_regexFindLongestCheckbox state]==NSOnState) options |= OgreFindLongestOption;
-    if ([O_regexIgnoreEmptyCheckbox state]==NSOnState) options |= OgreFindNotEmptyOption;
-    if ([O_regexCaptureGroupsCheckbox state]==NSOnState) options |= OgreCaptureGroupOption; else options |= OgreDontCaptureGroupOption;
+- (unsigned)currentOgreOptions {
+	unsigned options = [self.globalFindAndReplaceStateController.content regexOptions];
+	if (![self.globalFindAndReplaceStateController.content isCaseSensitive]) {
+		options = ONIG_OPTION_ON(options, ONIG_OPTION_IGNORECASE);
+	}
     return options;
 }
 
-- (OgreSyntax) currentOgreSyntax
-{
-    int syntax = [[O_regexSyntaxPopup selectedItem] tag];
-    if([O_regexCheckbox state]==NSOffState) return OgreSimpleMatchingSyntax;
-    else if(syntax==1) return OgrePOSIXBasicSyntax;
-    else if(syntax==2) return OgrePOSIXExtendedSyntax;
-    else if(syntax==3) return OgreEmacsSyntax;
-    else if(syntax==4) return OgreGrepSyntax;
-    else if(syntax==5) return OgreGNURegexSyntax;
-    else if(syntax==6) return OgreJavaSyntax;
-    else if(syntax==7) return OgrePerlSyntax;
-    else return OgreRubySyntax;
+// returns OgreSimpleMatchingSyntax if no regex should be used
+- (OgreSyntax)currentOgreSyntax {
+	OgreSyntax result = [self.globalFindAndReplaceStateController.content useRegex] ?
+		[self.globalFindAndReplaceStateController.content regularExpressionSyntax] :
+		OgreSimpleMatchingSyntax;
+	return result;
 }
 
-- (NSString*)currentOgreEscapeCharacter
-{
-    if ([O_regexEscapeCharacter tag]==1) return OgreGUIYenCharacter;
-    else return OgreBackslashCharacter;
+- (NSString *)currentOgreEscapeCharacter {
+	NSString *result = [self.globalFindAndReplaceStateController.content regularExpressionEscapeCharacter];
+	return result;
 }
 
 - (id)targetToFindIn
@@ -966,8 +954,10 @@ static FindReplaceController *sharedInstance=nil;
 	@autoreleasepool {
 		[O_progressIndicator startAnimation:nil];
 		
+		BOOL useRegex = ([self currentOgreSyntax] != OgreSimpleMatchingSyntax);
+		
 		// Check for invalid RegEx
-		if ((![OGRegularExpression isValidExpressionString:findString])&&(![self currentOgreSyntax]==OgreSimpleMatchingSyntax)) {
+		if (useRegex && (![OGRegularExpression isValidExpressionString:findString])) {
 			[O_progressIndicator stopAnimation:nil];
 			[O_statusTextField setStringValue:NSLocalizedString(@"Invalid regex",@"InvalidRegex")];
 			[O_statusTextField setHidden:NO];
