@@ -14,4 +14,7 @@
 @interface SEENetworkDocumentListItem : NSObject <SEEDocumentListItem>
 @property (nonatomic, strong) TCMBEEPSession *beepSession;
 @property (nonatomic, strong) TCMMMSession *documentSession;
+
+@property (nonatomic, strong) NSImage *documentAccessStateImage;
+
 @end

@@ -33,6 +33,7 @@ extern int const FileNewMenuItemTag;
     if (self) {
 		self.name = NSLocalizedString(@"Unknown Name", @"");
         self.image = [NSImage imageNamed:NSImageNameMultipleDocuments];
+		self.documentAccessStateImage = [NSImage imageNamed:@"StatusPending"];
 
 		[self installKVO];
     }
@@ -56,10 +57,30 @@ extern int const FileNewMenuItemTag;
 {
     if (context == SEENetworkDocumentRepresentationSessionObservingContext) {
 		self.name = self.documentSession.filename;
+
+		[self updateAccessStateImage];
 		[self updateImage];
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
+}
+
+- (void)updateAccessStateImage {
+	NSImage *accessStateImage = nil;
+	switch (self.documentSession.accessState) {
+		case TCMMMSessionAccessLockedState:
+			accessStateImage = [NSImage imageNamed:@"StatusPending"];
+			break;
+
+		case TCMMMSessionAccessReadOnlyState:
+			accessStateImage = [NSImage imageNamed:@"StatusReadOnly"];
+			break;
+
+		case TCMMMSessionAccessReadWriteState:
+			accessStateImage = [NSImage imageNamed:@"StatusReadWrite"];
+			break;
+	}
+	self.documentAccessStateImage = accessStateImage;
 }
 
 - (void)updateImage {
