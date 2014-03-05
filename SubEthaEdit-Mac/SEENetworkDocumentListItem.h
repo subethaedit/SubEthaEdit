@@ -12,5 +12,6 @@
 @class TCMMMSession, TCMMMUser;
 
 @interface SEENetworkDocumentListItem : NSObject <SEEDocumentListItem>
-@property (nonatomic, weak) TCMMMSession *documentSession;
+@property (nonatomic, strong) TCMBEEPSession *beepSession;
+@property (nonatomic, strong) TCMMMSession *documentSession;
 @end

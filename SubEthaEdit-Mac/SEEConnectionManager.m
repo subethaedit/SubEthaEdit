@@ -115,6 +115,16 @@
     return [self.entries filteredArrayUsingPredicate:[NSPredicate predicateWithFormat:@"connectionStatus = %@",ConnectionStatusNoConnection]];
 }
 
+- (void)clear {
+	[self willChangeValueForKey:@"entries"];
+	{
+		NSArray *entriesToDelete = [self clearableEntries];
+		[self.entries removeObjectsInArray:entriesToDelete];
+	}
+	[self didChangeValueForKey:@"entries"];
+}
+
+
 #pragma mark -
 #pragma mark ### Entry lifetime management ###
 

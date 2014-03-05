@@ -70,12 +70,12 @@ extern int const FileNewMenuItemTag;
 }
 
 - (NSString *)uid {
-	return self.documentSession.sessionID;
+	return [self.beepSession.sessionID stringByAppendingString:self.documentSession.sessionID];
 }
 
 - (IBAction)itemAction:(id)aSender {
 	TCMMMSession *session = self.documentSession;
-	[session joinUsingBEEPSession:nil];
+	[session joinUsingBEEPSession:self.beepSession];
 }
 
 @end

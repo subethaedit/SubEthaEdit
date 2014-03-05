@@ -673,6 +673,17 @@ static NSData *dhparamData = nil;
     I_managementChannel = nil;
 }
 
+- (NSString *)sessionID {
+	NSString *result = nil;
+	NSDictionary *userInfo = self.userInfo;
+	if ([userInfo objectForKey:@"isRendezvous"]) {
+		result = [userInfo objectForKey:@"peerUserID"];
+	} else {
+		result = [userInfo objectForKey:@"URLString"];
+	}
+	return result;
+}
+
 - (void)terminate
 {
     [self invalidateTerminator];
@@ -911,110 +922,113 @@ static NSData *dhparamData = nil;
     }
     return certArrayRef; // shortcut for now
 
-	char 				kcPath[MAXPATHLEN + 1];
-	UInt32 				kcPathLen = MAXPATHLEN + 1;
-	SecKeychainRef 		kcRef = nil;
-	OSStatus			ortn;
-
-	/* pick a keychain */
-	if(kcName) {
-		char *userHome = getenv("HOME");
-
-		if(userHome == NULL) {
-			/* well, this is probably not going to work */
-			userHome = "";
-		}
-		sprintf(kcPath, "%s/%s/%s", userHome, KC_DB_PATH, kcName);
-	}
-	else {
-		/* use default keychain */
-		ortn = SecKeychainCopyDefault(&kcRef);
-		if(ortn) {
-			printf("SecKeychainCopyDefault returned %d; aborting.\n",
-				   (int)ortn);
-			return NULL;
-		}
-		ortn = SecKeychainGetPath(kcRef, &kcPathLen, kcPath);
-		if(ortn) {
-			printf("SecKeychainGetPath returned %d; aborting.\n",
-				   (int)ortn);
-
-			CFRelease(kcRef);
-
-			return NULL;
-		}
-
-		/*
-		 * OK, we have a path, we have to release the first KC ref,
-		 * then get another one by opening it
-		 */
-		CFRelease(kcRef);
-	}
-
-	ortn = SecKeychainOpen(kcPath, &kcRef);
-	if(ortn) {
-		printf("SecKeychainOpen returned %d.\n",
-			   (int)ortn);
-		printf("Cannot open keychain at %s. Aborting.\n", kcPath);
-		return NULL;
-	}
-	if (pKcRef != NULL)
-	{
-		*pKcRef = kcRef;
-	}
-
-	/* search for "any" identity matching specified key use;
-	 * in this app, we expect there to be exactly one. */
-
-    CFMutableDictionaryRef settings = CFDictionaryCreateMutable(NULL, 0, &kCFCopyStringDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
-    CFDictionaryAddValue(settings, kSecClass, kSecClassIdentity);
-    CFDictionaryAddValue(settings, kSecAttrCanSign, encryptOnly ? kCFBooleanFalse : kCFBooleanTrue);
-    CFDictionaryAddValue(settings, kSecAttrCanDecrypt, encryptOnly ? kCFBooleanTrue : kCFBooleanFalse);
-	CFDictionaryAddValue(settings, kSecMatchItemList, kcRef);
-	CFDictionaryAddValue(settings, kSecMatchLimit, kSecMatchLimitAll);
-    CFDictionaryAddValue(settings, kSecReturnRef, kCFBooleanTrue);
-
-	SecIdentityRef identity = NULL;
-	CFTypeRef foundSecItems = NULL;
-	ortn = SecItemCopyMatching(settings, &foundSecItems);
-	CFRelease(settings);
-
-	if (ortn) {
-		printf("SecItemCopyMatching returned %d.\n", ortn);
-		printf("Cannot find valid identiy at in %s. Aborting.\n", kcPath);
-		return nil;
-	}
-
-	CFArrayRef identities = (CFArrayRef)foundSecItems;
-	if (CFArrayGetCount(identities) > 0) {
-		identity = (SecIdentityRef)CFArrayGetValueAtIndex(identities, 0);
-		if(CFGetTypeID(identity) != SecIdentityGetTypeID()) {
-			printf("SecIdentitySearchCopyNext CFTypeID failure!\n");
-
-			if (foundSecItems) {
-				CFRelease(foundSecItems);
-				foundSecItems = NULL;
-			}
-			return NULL;
-		}
-	} else {
-		if (foundSecItems) {
-			CFRelease(foundSecItems);
-			foundSecItems = NULL;
-		}
-		return NULL;
-	}
-
-	/*
-	 * TBD: snag other (non-identity) certs from keychain and add them
-	 * to array as well.
-	 */
-
-	if (pKcRef == NULL && kcRef != NULL)
-	{
-		CFRelease(kcRef);
-	}
-	return identities;
+	// this part of code was never executed, so commenting it for now - MEH
+//	{
+//		char 				kcPath[MAXPATHLEN + 1];
+//		UInt32 				kcPathLen = MAXPATHLEN + 1;
+//		SecKeychainRef 		kcRef = nil;
+//		OSStatus			ortn;
+//
+//		/* pick a keychain */
+//		if(kcName) {
+//			char *userHome = getenv("HOME");
+//
+//			if(userHome == NULL) {
+//				/* well, this is probably not going to work */
+//				userHome = "";
+//			}
+//			sprintf(kcPath, "%s/%s/%s", userHome, KC_DB_PATH, kcName);
+//		}
+//		else {
+//			/* use default keychain */
+//			ortn = SecKeychainCopyDefault(&kcRef);
+//			if(ortn) {
+//				printf("SecKeychainCopyDefault returned %d; aborting.\n",
+//					   (int)ortn);
+//				return NULL;
+//			}
+//			ortn = SecKeychainGetPath(kcRef, &kcPathLen, kcPath);
+//			if(ortn) {
+//				printf("SecKeychainGetPath returned %d; aborting.\n",
+//					   (int)ortn);
+//
+//				CFRelease(kcRef);
+//
+//				return NULL;
+//			}
+//
+//			/*
+//			 * OK, we have a path, we have to release the first KC ref,
+//			 * then get another one by opening it
+//			 */
+//			CFRelease(kcRef);
+//		}
+//
+//		ortn = SecKeychainOpen(kcPath, &kcRef);
+//		if(ortn) {
+//			printf("SecKeychainOpen returned %d.\n",
+//				   (int)ortn);
+//			printf("Cannot open keychain at %s. Aborting.\n", kcPath);
+//			return NULL;
+//		}
+//		if (pKcRef != NULL)
+//		{
+//			*pKcRef = kcRef;
+//		}
+//
+//		/* search for "any" identity matching specified key use;
+//		 * in this app, we expect there to be exactly one. */
+//
+//		CFMutableDictionaryRef settings = CFDictionaryCreateMutable(NULL, 0, &kCFCopyStringDictionaryKeyCallBacks, &kCFTypeDictionaryValueCallBacks);
+//		CFDictionaryAddValue(settings, kSecClass, kSecClassIdentity);
+//		CFDictionaryAddValue(settings, kSecAttrCanSign, encryptOnly ? kCFBooleanFalse : kCFBooleanTrue);
+//		CFDictionaryAddValue(settings, kSecAttrCanDecrypt, encryptOnly ? kCFBooleanTrue : kCFBooleanFalse);
+//		CFDictionaryAddValue(settings, kSecMatchItemList, kcRef);
+//		CFDictionaryAddValue(settings, kSecMatchLimit, kSecMatchLimitAll);
+//		CFDictionaryAddValue(settings, kSecReturnRef, kCFBooleanTrue);
+//
+//		SecIdentityRef identity = NULL;
+//		CFTypeRef foundSecItems = NULL;
+//		ortn = SecItemCopyMatching(settings, &foundSecItems);
+//		CFRelease(settings);
+//
+//		if (ortn) {
+//			printf("SecItemCopyMatching returned %d.\n", ortn);
+//			printf("Cannot find valid identiy at in %s. Aborting.\n", kcPath);
+//			return nil;
+//		}
+//
+//		CFArrayRef identities = (CFArrayRef)foundSecItems;
+//		if (CFArrayGetCount(identities) > 0) {
+//			identity = (SecIdentityRef)CFArrayGetValueAtIndex(identities, 0);
+//			if(CFGetTypeID(identity) != SecIdentityGetTypeID()) {
+//				printf("SecIdentitySearchCopyNext CFTypeID failure!\n");
+//
+//				if (foundSecItems) {
+//					CFRelease(foundSecItems);
+//					foundSecItems = NULL;
+//				}
+//				return NULL;
+//			}
+//		} else {
+//			if (foundSecItems) {
+//				CFRelease(foundSecItems);
+//				foundSecItems = NULL;
+//			}
+//			return NULL;
+//		}
+//
+//		/*
+//		 * TBD: snag other (non-identity) certs from keychain and add them
+//		 * to array as well.
+//		 */
+//		
+//		if (pKcRef == NULL && kcRef != NULL)
+//		{
+//			CFRelease(kcRef);
+//		}
+//		return identities;
+//	}
 }
 
 - (void)TCM_listenForTLSHandshake

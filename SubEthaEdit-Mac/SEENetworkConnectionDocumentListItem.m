@@ -11,12 +11,14 @@
 #endif
 
 #import "SEENetworkConnectionDocumentListItem.h"
+#import "SEEConnectionManager.h"
 #import "SEEConnection.h"
 #import "TCMMMUser.h"
 #import "TCMMMUserSEEAdditions.h"
 
 void * const SEENetworkConnectionRepresentationConnectionObservingContext = (void *)&SEENetworkConnectionRepresentationConnectionObservingContext;
 void * const SEENetworkConnectionRepresentationUserObservingContext = (void *)&SEENetworkConnectionRepresentationUserObservingContext;
+void * const SEEConnectionClearableObservingContext = (void *)&SEEConnectionClearableObservingContext;
 
 @implementation SEENetworkConnectionDocumentListItem
 
@@ -71,7 +73,54 @@ void * const SEENetworkConnectionRepresentationUserObservingContext = (void *)&S
     }
 }
 
++ (NSSet *)keyPathsForValuesAffectingShowsDisconnect;
+{
+    return [NSSet setWithObjects:@"connection", @"connection.isBonjour", nil];
+}
+
+- (BOOL)showsDisconnect
+{
+	if (self.connection) {
+		return ! self.connection.isBonjour;
+	}
+	return NO;
+}
+
+- (IBAction)disconnect:(id)sender {
+	SEEConnection *connection = self.connection;
+	if(connection) {
+		DEBUGLOG(@"InternetLogDomain", DetailedLogLevel, @"cancel");
+		BOOL abort = NO;
+				if ([[[connection BEEPSession] valueForKeyPath:@"channels.@unionOfObjects.profileURI"] containsObject:@"http://www.codingmonkeys.de/BEEP/SubEthaEditSession"]) {
+					abort = YES;
+				}
+
+		if (abort) {
+			NSAlert *alert = [[NSAlert alloc] init];
+			[alert setAlertStyle:NSWarningAlertStyle];
+			[alert setMessageText:NSLocalizedString(@"OpenChannels", @"Sheet message text when user has open document connections")];
+			[alert setInformativeText:NSLocalizedString(@"AbortChannels", @"Sheet informative text when user has open document connections")];
+			[alert addButtonWithTitle:NSLocalizedString(@"Abort", @"Button title")];
+			[alert addButtonWithTitle:NSLocalizedString(@"Keep Connection", @"Button title")];
+			[[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
+
+			[alert beginSheetModalForWindow:[NSApp keyWindow] completionHandler:^(NSModalResponse returnCode) {
+				if (returnCode == NSAlertFirstButtonReturn) {
+					[connection cancel];
+					[[SEEConnectionManager sharedInstance] clear];
+				}
+			}];
+		} else {
+			[connection cancel];
+			[[SEEConnectionManager sharedInstance] clear];
+		}
+	}
+}
+
 - (NSString *)uid {
+	if (self.connection) {
+		return self.connection.BEEPSession.sessionID;
+	}
 	return self.user.userID;
 }
 

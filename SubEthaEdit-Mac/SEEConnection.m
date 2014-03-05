@@ -51,6 +51,10 @@ NSString * const SEEConnectionStatusDidChangeNotification = @"SEEConnectionStatu
 
 @implementation SEEConnection
 
+@dynamic isBonjour;
+@dynamic isVisible;
+@dynamic isClearable;
+
 - (void)sendStatusDidChangeNotification {
     [[NSNotificationCenter defaultCenter] postNotificationName:SEEConnectionStatusDidChangeNotification object:self];
 }
@@ -197,6 +201,18 @@ NSString * const SEEConnectionStatusDidChangeNotification = @"SEEConnectionStatu
 
 - (BOOL)isVisible {
     return [[[[TCMMMPresenceManager sharedInstance] statusOfUserID:[self userID]] objectForKey:@"isVisible"] boolValue];
+}
+
++ (NSSet *)keyPathsForValuesAffectingIsClearable {
+    return [NSSet setWithObjects:@"connectionStatus", nil];
+}
+
+- (BOOL)isClearable {
+	return self.connectionStatus == ConnectionStatusNoConnection;
+}
+
++ (NSSet *)keyPathsForValuesAffectingConnectionStatus {
+    return [NSSet setWithObjects:@"hostStatus", nil];
 }
 
 - (NSString *)connectionStatus {
