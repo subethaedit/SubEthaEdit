@@ -184,7 +184,7 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 #pragma mark - Options Menu Handling
 
 - (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
-	NSLog(@"%s menuItem:%@",__FUNCTION__,menuItem);
+	//	NSLog(@"%s menuItem:%@",__FUNCTION__,menuItem);
 	
 	BOOL useRegex = [[self.findAndReplaceStateObjectController valueForKeyPath:kOptionKeyPathUseRegularExpressions] boolValue];
 	BOOL validationResultForRegexOptions = useRegex;
@@ -212,8 +212,19 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 				break;
 			
 			case kOptionMenuSelectedLanguageDialectTag:
-				[menuItem setTitle:[self.findAndReplaceStateObjectController valueForKeyPath:kOptionKeyPathRegexDialectString]];
+			{
+				NSMutableArray *array = [@[[self.findAndReplaceStateObjectController valueForKeyPath:kOptionKeyPathRegexDialectString],[self.findAndReplaceStateObjectController valueForKeyPath:kOptionKeyPathRegexEscapeCharacter]] mutableCopy];
+				if ([[self.findAndReplaceStateObjectController valueForKeyPath:kOptionKeyPathRegexOptionExtended] boolValue]) {
+					[array addObject:@"Extended"];
+				}
+				array[1] = [NSString stringWithFormat:@"(%@)", [[array subarrayWithRange:NSMakeRange(1, array.count - 1)] componentsJoinedByString:@", "]];
+				if (array.count > 2) {
+					[array removeObjectsInRange:NSMakeRange(2, array.count - 2)];
+				}
+				
+				[menuItem setTitle:[array componentsJoinedByString:@" "]];
 				return validationResultForRegexOptions;
+			}
 			
 			case kOptionMenuEscapeCharacterSlashTag:
 				[menuItem setState:[[self.findAndReplaceStateObjectController valueForKeyPath:kOptionKeyPathRegexEscapeCharacter] isEqualToString:OgreBackslashCharacter] ? NSOnState : NSOffState];
@@ -281,6 +292,13 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 					OgreSyntax syntax = syntaxOptionNumber.integerValue;
 					[self addItemToMenu:submenu title:[SEEFindAndReplaceState regularExpressionSyntaxStringForSyntax:syntax] action:@selector(switchRegexSyntaxDialect:) tag:syntax];
 				}
+				[submenu addItem:[NSMenuItem separatorItem]];
+				[self addItemToMenu:submenu title:@"Extended" action:@selector(toggleRegexOption:) tag:kOptionMenuExtendedTag];
+				[submenu addItem:[NSMenuItem separatorItem]];
+				[self addItemToMenu:submenu title:@"Escape Character: \\" action:@selector(switchEscapeCharacter:) tag:kOptionMenuEscapeCharacterSlashTag];
+				[self addItemToMenu:submenu title:@"Escape Character: ¥" action:@selector(switchEscapeCharacter:) tag:kOptionMenuEscapeCharacterYenTag];
+
+				
 				submenu;
 			})];
 			
@@ -290,16 +308,12 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 			[self addItemToMenu:menu title:@"Capture unnamed groups" action:@selector(toggleRegexOption:) tag:kOptionMenuCaptureGroupsTag];
 			[self addItemToMenu:menu title:@"Line context" action:@selector(toggleRegexOption:) tag:kOptionMenuLineContextTag];
 			[self addItemToMenu:menu title:@"Multiline" action:@selector(toggleRegexOption:) tag:kOptionMenuMultilineTag];
-			[self addItemToMenu:menu title:@"Extended" action:@selector(toggleRegexOption:) tag:kOptionMenuExtendedTag];
 			
 
 			[menu addItem:[NSMenuItem separatorItem]];
 			[self addItemToMenu:menu title:@"Find only longest match" action:@selector(toggleRegexOption:) tag:kOptionMenuOnlyLongestMatchTag];
 			[self addItemToMenu:menu title:@"Ignore empty matches" action:@selector(toggleRegexOption:) tag:kOptionMenuIgnoreEmptyMatchesTag];
 
-			[menu addItem:[NSMenuItem separatorItem]];
-			[self addItemToMenu:menu title:@"Escape Character: /" action:@selector(switchEscapeCharacter:) tag:kOptionMenuEscapeCharacterSlashTag];
-			[self addItemToMenu:menu title:@"Escape Character: ¥" action:@selector(switchEscapeCharacter:) tag:kOptionMenuEscapeCharacterYenTag];
 
 			[menu addItem:[NSMenuItem separatorItem]];
 			[self addItemToMenu:menu title:@"Open Regular Expression Help" action:@selector(openRegExHelp:) tag:0];

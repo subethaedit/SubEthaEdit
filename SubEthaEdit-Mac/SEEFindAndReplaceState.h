@@ -35,8 +35,6 @@ typedef NS_ENUM(int8_t, SEEFindAndReplaceScope) {
 
 + (NSString *)regularExpressionSyntaxStringForSyntax:(OgreSyntax)aSyntax;
 
-// TODO: helper accessors for regex options
-
 @property (nonatomic) BOOL regularExpressionOptionCaptureGroups;
 @property (nonatomic) BOOL regularExpressionOptionLineContext;
 @property (nonatomic) BOOL regularExpressionOptionMultiline;
