@@ -70,7 +70,7 @@ extern int const FileNewMenuItemTag;
 }
 
 - (NSString *)uid {
-	return self.documentSession.sessionID;
+	return [self.beepSession.sessionID stringByAppendingString:self.documentSession.sessionID];
 }
 
 - (IBAction)itemAction:(id)aSender {
