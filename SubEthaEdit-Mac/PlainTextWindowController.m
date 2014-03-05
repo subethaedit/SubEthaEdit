@@ -1088,6 +1088,37 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     }
 }
 
+#pragma mark - NSWindow Delegate
+#pragma mark Fullscreen
+/* not used for now - maybe delete once fullscreen is given ok (SEE 4.0)
+- (NSArray *)customWindowsToEnterFullScreenForWindow:(NSWindow *)aWindow {}
+// An array of windows to use for the animation to full-screen mode for window; otherwise nil.
+// This method lets a window delegate customize the animation when the window is about to enter full-screen mode by providing a custom window or windows containing layers or other effects. If you don’t want to perform custom animation, you can omit the implementation of this method, or it can return nil.
+ 
+ - (NSArray *)customWindowsToEnterFullScreenForWindow:(NSWindow *)aWindow onScreen:(NSScreen *)aScreen {}
+//  An array of windows to use for the animation to full-screen mode for window; otherwise nil.
+// This method lets a window delegate customize the animation when the window is about to enter full-screen mode by providing a custom window or windows containing layers or other effects. If you don’t want to perform custom animation, you can omit the implementation of this method, or it can return nil.
+// If this method and customWindowsToEnterFullScreenForWindow: are both implemented, this method is called.
+ 
+ - (NSArray *)customWindowsToExitFullScreenForWindow:(NSWindow *)aWindow {}
+// An array of windows involved in the animation out of full-screen mode for window; otherwise nil.
+// This method lets the window delegate customize the animation when the window is about to exit full-screen mode by providing a custom window or windows containing layers or other effects. If an you do not want to perform custom animation, you can omit the implementation of this method, or it can return nil.
+ 
+// This method is called to start the window animation into full-screen mode, including transitioning to a new space.
+ - (void)window:(NSWindow *)aWindow startCustomAnimationToEnterFullScreenOnScreen:(NSScreen *)aScreen withDuration:(NSTimeInterval)aDuration {}
+// You can implement this method to perform custom animation with the given duration to be in sync with the system animation.
+//  This method is called only if customWindowsToEnterFullScreenForWindow: returns non-nil. If window:startCustomAnimationToEnterFullScreenWithDuration: and this method are both implemented, this method is called.
+ 
+// This method is called to start the window animation into full-screen mode, including transitioning to a new space.
+ - (void)window:(NSWindow *)aWindow startCustomAnimationToEnterFullScreenWithDuration:(NSTimeInterval)aDuration {}
+// You can implement this method to perform custom animation with the given duration to be in sync with the system animation.
+// This method is called only if customWindowsToEnterFullScreenForWindow: returns non-nil.
+ 
+// This method is called to start the window animation out of full-screen mode, including transitioning back to the desktop space.
+ - (void)window:(NSWindow *)aWindow startCustomAnimationToExitFullScreenWithDuration:(NSTimeInterval)aDuration {}
+//  You can implement this method to perform custom animation with the given duration to be in sync with the system animation.
+// This method is called only if customWindowsToExitFullScreenForWindow: returns non-nil.
+*/
 #pragma mark -
 
 - (void)cascadeWindow {
