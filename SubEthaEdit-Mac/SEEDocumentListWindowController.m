@@ -278,7 +278,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	if (sender == tableView) {
 		NSInteger row = tableView.clickedRow;
 		NSInteger column = tableView.clickedColumn;
-		if (row > -1 && column > -1) {
+		if (row > -1) {
 			NSTableCellView *tableCell = [tableView viewAtColumn:column row:row makeIfNecessary:NO];
 			clickedItem = tableCell.objectValue;
 		}
@@ -302,7 +302,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	if (sender == tableView) {
 		NSInteger row = tableView.clickedRow;
 		NSInteger column = tableView.clickedColumn;
-		if (row > -1 && column > -1) {
+		if (row > -1) {
 			NSTableCellView *tableCell = [tableView viewAtColumn:column row:row makeIfNecessary:NO];
 			clickedItem = tableCell.objectValue;
 		}
