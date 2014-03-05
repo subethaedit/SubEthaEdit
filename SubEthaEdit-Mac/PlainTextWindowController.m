@@ -1100,6 +1100,83 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     }
 }
 
+#pragma mark - NSWindow Delegate
+#pragma mark Fullscreen
+/* not used for now - maybe delete once fullscreen is given ok (SEE 4.0)
+- (NSArray *)customWindowsToEnterFullScreenForWindow:(NSWindow *)aWindow {}
+// An array of windows to use for the animation to full-screen mode for window; otherwise nil.
+// This method lets a window delegate customize the animation when the window is about to enter full-screen mode by providing a custom window or windows containing layers or other effects. If you don’t want to perform custom animation, you can omit the implementation of this method, or it can return nil.
+ 
+ - (NSArray *)customWindowsToEnterFullScreenForWindow:(NSWindow *)aWindow onScreen:(NSScreen *)aScreen {}
+//  An array of windows to use for the animation to full-screen mode for window; otherwise nil.
+// This method lets a window delegate customize the animation when the window is about to enter full-screen mode by providing a custom window or windows containing layers or other effects. If you don’t want to perform custom animation, you can omit the implementation of this method, or it can return nil.
+// If this method and customWindowsToEnterFullScreenForWindow: are both implemented, this method is called.
+ 
+ - (NSArray *)customWindowsToExitFullScreenForWindow:(NSWindow *)aWindow {}
+// An array of windows involved in the animation out of full-screen mode for window; otherwise nil.
+// This method lets the window delegate customize the animation when the window is about to exit full-screen mode by providing a custom window or windows containing layers or other effects. If an you do not want to perform custom animation, you can omit the implementation of this method, or it can return nil.
+ 
+// This method is called to start the window animation into full-screen mode, including transitioning to a new space.
+ - (void)window:(NSWindow *)aWindow startCustomAnimationToEnterFullScreenOnScreen:(NSScreen *)aScreen withDuration:(NSTimeInterval)aDuration {}
+// You can implement this method to perform custom animation with the given duration to be in sync with the system animation.
+//  This method is called only if customWindowsToEnterFullScreenForWindow: returns non-nil. If window:startCustomAnimationToEnterFullScreenWithDuration: and this method are both implemented, this method is called.
+ 
+// This method is called to start the window animation into full-screen mode, including transitioning to a new space.
+ - (void)window:(NSWindow *)aWindow startCustomAnimationToEnterFullScreenWithDuration:(NSTimeInterval)aDuration {}
+// You can implement this method to perform custom animation with the given duration to be in sync with the system animation.
+// This method is called only if customWindowsToEnterFullScreenForWindow: returns non-nil.
+ 
+// This method is called to start the window animation out of full-screen mode, including transitioning back to the desktop space.
+ - (void)window:(NSWindow *)aWindow startCustomAnimationToExitFullScreenWithDuration:(NSTimeInterval)aDuration {}
+//  You can implement this method to perform custom animation with the given duration to be in sync with the system animation.
+// This method is called only if customWindowsToExitFullScreenForWindow: returns non-nil.
+*/
+
+// Called to allow the delegate to modify the full-screen content size.
+// The window size to use when displaying content size.
+- (NSSize)window:(NSWindow *)aWindow willUseFullScreenContentSize:(NSSize)aProposedSize {
+//	if (!([[NSApp currentEvent] modifierFlags] & NSShiftKeyMask)) { // this code resizes the window in the current width - old behaviour
+//		NSRect windowFrame = [[self window] frame];
+//		aProposedSize.width = windowFrame.size.width;
+//	}
+	return aProposedSize;
+}
+
+// Returns the presentation options the window uses when transitioning to full-screen mode.
+// - (NSApplicationPresentationOptions)window:(NSWindow *)aWindow willUseFullScreenPresentationOptions:(NSApplicationPresentationOptions)aProposedOptions {
+//	 return aProposedOptions;
+// }
+// The proposed options. See NSApplicationPresentationOptions for the possible values.
+// The options the window should use when transitioning to full-screen mode. These may be the same as the proposedOptions or may be modified.
+
+/* fullscreen notifications - not used for now - maybe delete once fullscreen is given ok (SEE 4.0)
+ // The window just entered full-screen mode.
+ - (void)windowDidEnterFullScreen:(NSNotification *)aNotification {}
+// A notification named NSWindowDidEnterFullScreenNotification.
+
+// The window is about to enter full-screen mode.
+ - (void)windowDidExitFullScreen:(NSNotification *)aNotification {}
+//  A notification named NSWindowDidExitFullScreenNotification.
+
+// Called if the window failed to enter full-screen mode.
+ - (void)windowDidFailToEnterFullScreen:(NSWindow *)aWindow {}
+//  In some cases, the transition to enter full-screen mode can fail, due to being in the midst of handling some other animation or user gesture. This method indicates that there was an error, and you should clean up any work you may have done to prepare to enter full-screen mode.
+ // This message is sent whether or not the delegate indicated a custom animation by returning non-nil from customWindowsToEnterFullScreenForWindow:.
+ 
+// Called if the window failed to exit full-screen mode.
+ - (void)windowDidFailToExitFullScreen:(NSWindow *)aWindow {}
+// In some cases, the transition to exit full-screen mode can fail, due to being in the midst of handling some other animation or user gesture. This method indicates that there was an error, and you should clean up any work you may have done to prepare to exit full-screen mode.
+ // This message is sent whether or not the delegate indicated a custom animation by returning non-nil from customWindowsToExitFullScreenForWindow:.
+ 
+// The window is about to enter full-screen mode.
+ - (void)windowWillEnterFullScreen:(NSNotification *)aNotification {}
+// A notification named NSWindowWillEnterFullScreenNotification.
+
+// The window is about to exit full-screen mode.
+ - (void)windowWillExitFullScreen:(NSNotification *)aNotification {}
+// A notification named NSWindowWillExitFullScreenNotification.
+// */
+
 #pragma mark -
 
 - (void)cascadeWindow {
@@ -1403,7 +1480,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     
     // if we get to here, either cont was YES and we reviewed all documents, or cont was NO and we don't want to quit
 }
-
 
 #pragma mark -
 #pragma mark  A Method That PlainTextDocument Invokes 

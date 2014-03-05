@@ -852,6 +852,15 @@
                                     <action selector="runToolbarCustomizationPalette:" target="-1" id="225"/>
                                 </connections>
                             </menuItem>
+                            <menuItem isSeparatorItem="YES" id="Od9-qm-tic">
+                                <modifierMask key="keyEquivalentModifierMask" command="YES"/>
+                            </menuItem>
+                            <menuItem title="Vollbild ein" keyEquivalent="f" id="gFa-k5-CJO">
+                                <modifierMask key="keyEquivalentModifierMask" control="YES" command="YES"/>
+                                <connections>
+                                    <action selector="toggleFullScreen:" target="-1" id="SmH-LM-MTs"/>
+                                </connections>
+                            </menuItem>
                         </items>
                     </menu>
                 </menuItem>
