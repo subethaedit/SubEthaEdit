@@ -1120,6 +1120,16 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 // This method is called only if customWindowsToExitFullScreenForWindow: returns non-nil.
 */
 
+// Called to allow the delegate to modify the full-screen content size.
+// The window size to use when displaying content size.
+- (NSSize)window:(NSWindow *)aWindow willUseFullScreenContentSize:(NSSize)aProposedSize {
+//	if (!([[NSApp currentEvent] modifierFlags] & NSShiftKeyMask)) { // this code resizes the window in the current width - old behaviour
+//		NSRect windowFrame = [[self window] frame];
+//		aProposedSize.width = windowFrame.size.width;
+//	}
+	return aProposedSize;
+}
+
 // Returns the presentation options the window uses when transitioning to full-screen mode.
 // - (NSApplicationPresentationOptions)window:(NSWindow *)aWindow willUseFullScreenPresentationOptions:(NSApplicationPresentationOptions)aProposedOptions {
 //	 return aProposedOptions;
@@ -1458,7 +1468,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     
     // if we get to here, either cont was YES and we reviewed all documents, or cont was NO and we don't want to quit
 }
-
 
 #pragma mark -
 #pragma mark  A Method That PlainTextDocument Invokes 
