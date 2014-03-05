@@ -901,7 +901,7 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 {
     if (I_flags.hasSplitButton)
     {
-        [O_splitButton setState:aFlag ? NSOnState:NSOffState];
+        [O_splitButton setState:aFlag?NSOffState:NSOnState];
     }
 }
 
