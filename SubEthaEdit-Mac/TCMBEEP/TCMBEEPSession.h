@@ -170,6 +170,7 @@ enum {
 - (BOOL)isTLSEnabled;
 - (BOOL)isTLSAnon;
 
+- (NSString *)sessionID;
 - (void)open;
 - (void)terminate;
 - (void)activateChannel:(TCMBEEPChannel *)aChannel;
