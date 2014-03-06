@@ -236,8 +236,8 @@ NSString * const TCMMMPresenceStatusProfileKey = @"StatusProfile";
 }
 
 
-- (NSDictionary *)announcedSessions {
-    return I_announcedSessions;
+- (NSArray *)announcedSessions {
+    return [I_announcedSessions allValues];
 }
 
 - (void)announcedSessionDidChange:(NSNotification *)aNotification {
