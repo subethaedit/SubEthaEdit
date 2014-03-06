@@ -153,6 +153,10 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 {
     if (context == SEENetworkDocumentBrowserEntriesObservingContext) {
 		[self reloadAllDocumentSessions];
+
+		if (self.toggleRecentItem) {
+			[[NSUserDefaults standardUserDefaults] setBool:@(self.toggleRecentItem.showRecentDocuments) forKey:@"DocumentListShowRecent"];
+		}
     } else {
         [super observeValueForKeyPath:keyPath ofObject:object change:change context:context];
     }
