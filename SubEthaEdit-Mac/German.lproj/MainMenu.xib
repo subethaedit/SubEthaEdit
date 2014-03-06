@@ -91,12 +91,6 @@
                                     <action selector="openDocument:" target="-1" id="195"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Vom Netzwerk öffnen…" id="IXd-dq-0FO">
-                                <modifierMask key="keyEquivalentModifierMask"/>
-                                <connections>
-                                    <action selector="showDocumentNetworkBrowser:" target="-1" id="I4T-dX-bos"/>
-                                </connections>
-                            </menuItem>
                             <menuItem title="In neuem Fenster öffnen" keyEquivalent="o" id="653">
                                 <modifierMask key="keyEquivalentModifierMask" option="YES" command="YES"/>
                                 <connections>
@@ -1016,12 +1010,12 @@
                             <menuItem isSeparatorItem="YES" id="612">
                                 <modifierMask key="keyEquivalentModifierMask" command="YES"/>
                             </menuItem>
-                            <menuItem title="Verbindungen" keyEquivalent="k" id="231">
+                            <menuItem title="Dokumentenliste" keyEquivalent="k" id="231">
                                 <connections>
                                     <action selector="showDocumentNetworkBrowser:" target="-1" id="R98-fO-Mtn"/>
                                 </connections>
                             </menuItem>
-                            <menuItem title="Verbindungen" alternate="YES" keyEquivalent="K" id="640">
+                            <menuItem title="Dokumentenliste" alternate="YES" keyEquivalent="K" id="640">
                                 <connections>
                                     <action selector="showDocumentNetworkBrowser:" target="-1" id="SD6-GI-jcD"/>
                                 </connections>
@@ -1232,15 +1226,15 @@ DQ
                         <rect key="frame" x="0.0" y="0.0" width="387" height="480"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <clipView key="contentView" id="FRN-eC-kYD">
-                            <rect key="frame" x="0.0" y="0.0" width="372" height="480"/>
+                            <rect key="frame" x="0.0" y="0.0" width="387" height="480"/>
                             <autoresizingMask key="autoresizingMask"/>
                             <subviews>
                                 <textView editable="NO" selectable="NO" importsGraphics="NO" richText="NO" baseWritingDirection="leftToRight" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" quoteSubstitution="YES" dashSubstitution="YES" textReplacement="YES" spellingCorrection="YES" smartInsertDelete="YES" id="590">
-                                    <rect key="frame" x="0.0" y="0.0" width="372" height="1159"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="387" height="1159"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="372" height="480"/>
+                                    <size key="minSize" width="387" height="480"/>
                                     <size key="maxSize" width="417" height="10000000"/>
                                     <attributedString key="textStorage">
                                         <fragment>
@@ -2063,7 +2057,7 @@ Cg
                                         </fragment>
                                     </attributedString>
                                     <color key="insertionPointColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="372" height="480"/>
+                                    <size key="minSize" width="387" height="480"/>
                                     <size key="maxSize" width="417" height="10000000"/>
                                 </textView>
                             </subviews>
