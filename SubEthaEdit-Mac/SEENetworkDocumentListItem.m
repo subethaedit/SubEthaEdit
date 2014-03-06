@@ -91,12 +91,20 @@ extern int const FileNewMenuItemTag;
 }
 
 - (NSString *)uid {
-	return [self.beepSession.sessionID stringByAppendingString:self.documentSession.sessionID];
+	if (self.beepSession) {
+		return [self.beepSession.sessionID stringByAppendingString:self.documentSession.sessionID];
+	}
+	return self.documentSession.sessionID;
 }
 
 - (IBAction)itemAction:(id)aSender {
 	TCMMMSession *session = self.documentSession;
-	[session joinUsingBEEPSession:self.beepSession];
+	if (session.isServer) {
+		NSDocument *document = (NSDocument *)session.document;
+		[document showWindows];
+	} else {
+		[session joinUsingBEEPSession:self.beepSession];
+	}
 }
 
 @end
