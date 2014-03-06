@@ -169,14 +169,32 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		[self.availableItems removeAllObjects];
 
 		{
-			SEENetworkConnectionDocumentListItem *me = [[SEENetworkConnectionDocumentListItem alloc] init];
-			me.user = [[TCMMMUserManager sharedInstance] me];
-			NSString *cachedItemID = me.uid;
-			id <SEEDocumentListItem> cachedItem = [lookupDictionary objectForKey:cachedItemID];
-			if (cachedItem) {
-				[self.availableItems addObject:cachedItem];
-			} else {
-				[self.availableItems addObject:me];
+			{
+				SEENetworkConnectionDocumentListItem *me = [[SEENetworkConnectionDocumentListItem alloc] init];
+				me.user = [[TCMMMUserManager sharedInstance] me];
+				NSString *cachedItemID = me.uid;
+				id <SEEDocumentListItem> cachedItem = [lookupDictionary objectForKey:cachedItemID];
+				if (cachedItem) {
+					[self.availableItems addObject:cachedItem];
+				} else {
+					[self.availableItems addObject:me];
+				}
+			}
+
+			{
+				NSArray *sessions = [TCMMMPresenceManager sharedInstance].announcedSessions;
+				for (TCMMMSession *session in sessions) {
+					SEENetworkDocumentListItem *documentRepresentation = [[SEENetworkDocumentListItem alloc] init];
+					documentRepresentation.documentSession = session;
+					NSString *cachedItemID = documentRepresentation.uid;
+					SEENetworkDocumentListItem *cachedItem = [lookupDictionary objectForKey:cachedItemID];
+					if (cachedItem) {
+						cachedItem.documentSession = session;
+						[self.availableItems addObject:cachedItem];
+					} else {
+						[self.availableItems addObject:documentRepresentation];
+					}
+				}
 			}
 		}
 
