@@ -211,6 +211,7 @@
 		31D2C7000CA7C9C8003CC5C9 /* PrecedenceRuleCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 31D2C6E50CA7C7A7003CC5C9 /* PrecedenceRuleCell.m */; };
 		31FFC93D104E97A000E08256 /* NSErrorTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = 31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */; };
 		424CA988189058C000B2D333 /* SymbolMark.png in Resources */ = {isa = PBXBuildFile; fileRef = 424CA987189058C000B2D333 /* SymbolMark.png */; };
+		4C0B4C6118C8B3E300048335 /* SEEToggleRecentDocumentListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0B4C6018C8B3E300048335 /* SEEToggleRecentDocumentListItem.m */; };
 		4C0C4A0118B366EC00E6049E /* PlainTextWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0C4A0018B366EC00E6049E /* PlainTextWindow.xib */; };
 		4C0C4A1C18B3768500E6049E /* SEEDocumentListWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C0C4A1A18B3768500E6049E /* SEEDocumentListWindowController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C0C4A1D18B3768500E6049E /* SEEDocumentListWindowController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C0C4A1B18B3768500E6049E /* SEEDocumentListWindowController.xib */; };
@@ -954,6 +955,8 @@
 		31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSErrorTCMAdditions.m; sourceTree = "<group>"; };
 		32DBCF750370BD2300C91783 /* SubEthaEdit_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SubEthaEdit_Prefix.pch; sourceTree = "<group>"; };
 		424CA987189058C000B2D333 /* SymbolMark.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = SymbolMark.png; path = artwork/SymbolMark.png; sourceTree = "<group>"; };
+		4C0B4C5F18C8B3E300048335 /* SEEToggleRecentDocumentListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEToggleRecentDocumentListItem.h; sourceTree = "<group>"; };
+		4C0B4C6018C8B3E300048335 /* SEEToggleRecentDocumentListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEToggleRecentDocumentListItem.m; sourceTree = "<group>"; };
 		4C0C4A0018B366EC00E6049E /* PlainTextWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = PlainTextWindow.xib; sourceTree = "<group>"; };
 		4C0C4A1918B3768500E6049E /* SEEDocumentListWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEDocumentListWindowController.h; sourceTree = "<group>"; };
 		4C0C4A1A18B3768500E6049E /* SEEDocumentListWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEDocumentListWindowController.m; sourceTree = "<group>"; };
@@ -2248,6 +2251,8 @@
 				4C71D0C818BF997500EA66FA /* SEENewDocumentListItem.m */,
 				4C71D0C418BF8B2200EA66FA /* SEEOpenOtherDocumentListItem.h */,
 				4C71D0C518BF8B2200EA66FA /* SEEOpenOtherDocumentListItem.m */,
+				4C0B4C5F18C8B3E300048335 /* SEEToggleRecentDocumentListItem.h */,
+				4C0B4C6018C8B3E300048335 /* SEEToggleRecentDocumentListItem.m */,
 				4C63F8EC18C4930A00A588FD /* SEERecentDocumentListItem.h */,
 				4C63F8ED18C4930A00A588FD /* SEERecentDocumentListItem.m */,
 				4C9CCDC718BE413E00959EF2 /* SEENetworkConnectionDocumentListItem.h */,
@@ -3168,6 +3173,7 @@
 				1428946609575B9700D14688 /* PopUpButton.m in Sources */,
 				1428946709575B9700D14688 /* PopUpButtonCell.m in Sources */,
 				1428946809575B9700D14688 /* RadarScroller.m in Sources */,
+				4C0B4C6118C8B3E300048335 /* SEEToggleRecentDocumentListItem.m in Sources */,
 				1428946909575B9700D14688 /* SplitView.m in Sources */,
 				1428946B09575B9700D14688 /* SEETextView.m in Sources */,
 				1428946C09575B9700D14688 /* URLDataProtocol.m in Sources */,
