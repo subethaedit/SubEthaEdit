@@ -374,16 +374,21 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	return result;
 }
 
-//- (NSTableRowView *)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row
-//{
-//	NSTableRowView * rowView = nil;
-//	NSArray *availableDocumentSession = self.availableDocumentSessions;
-//	SEENetworkDocumentRepresentation *documentRepresentation = [availableDocumentSession objectAtIndex:row];
-//	if (documentRepresentation && !documentRepresentation.documentSession) {
-//		rowView = [[SEENetworkBrowserGroupTableRowView alloc] init];
-//	}
-//	return rowView;
-//}
+- (NSTableRowView *)tableView:(NSTableView *)tableView rowViewForRow:(NSInteger)row
+{
+	NSTableRowView * rowView = nil;
+	NSArray *availableItems = self.availableItems;
+	id <SEEDocumentListItem> itemRepresentation = [availableItems objectAtIndex:row];
+	if ([itemRepresentation isKindOfClass:[SEENetworkConnectionDocumentListItem class]]) {
+		rowView = [[SEEDocumentListGroupTableRowView alloc] init];
+
+		if (row > 1) {
+			BOOL drawTopLine = ! [[availableItems objectAtIndex:row - 1] isKindOfClass:[SEENetworkConnectionDocumentListItem class]];
+			((SEEDocumentListGroupTableRowView *)rowView).drawTopLine = drawTopLine;
+		}
+	}
+	return rowView;
+}
 
 - (void)tableView:(NSTableView *)tableView didAddRowView:(NSTableRowView *)rowView forRow:(NSInteger)row {
 	NSArray *availableDocumentSession = self.availableItems;
@@ -391,11 +396,6 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	if ([documentRepresentation isKindOfClass:SEENetworkConnectionDocumentListItem.class]) {
 		SEENetworkConnectionDocumentListItem *connectionRepresentation = (SEENetworkConnectionDocumentListItem *)documentRepresentation;
 		NSTableCellView *tableCellView = [rowView.subviews objectAtIndex:0];
-
-//		CIFilter *gaussianBlur = [CIFilter filterWithName:@"CIGaussianBlur"];
-//		[gaussianBlur setDefaults];
-//		tableCellView.layerUsesCoreImageFilters = YES;
-//		[tableCellView setBackgroundFilters:@[gaussianBlur]];
 
 		NSImageView *userImageView = [[tableCellView subviews] objectAtIndex:1];
 
