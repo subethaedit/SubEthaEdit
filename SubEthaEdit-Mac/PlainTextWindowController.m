@@ -493,9 +493,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 		[editor displayViewControllerInBottomArea:participantsOverlay];
 	}
 	
-	// just for now
-	editor = self.activePlainTextEditor;
-	[editor toggleFindAndReplace:self];
 }
 
 - (IBAction)closeParticipantsOverlay:(id)aSender {
