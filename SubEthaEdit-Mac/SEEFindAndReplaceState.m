@@ -181,12 +181,14 @@ self.regexOptions = options
 }
 
 + (OgreSyntax)syntaxForRegularExpressionSyntaxString:(NSString *)aSyntaxString {
-	OgreSyntax result = OgreRubySyntax;
+	__block OgreSyntax result = OgreRubySyntax;
 	NSDictionary *dictionary = [self TCMSyntaxToStringDictionary];
-	NSNumber *syntaxNumber = [dictionary allKeysForObject:aSyntaxString].lastObject;
-	if (syntaxNumber) {
-		result = syntaxNumber.integerValue;
-	}
+	[dictionary enumerateKeysAndObjectsUsingBlock:^(NSNumber *syntaxNumber, NSString *syntaxName, BOOL *stop) {
+		if ([syntaxName caseInsensitiveCompare:aSyntaxString] == NSOrderedSame) {
+			*stop = YES;
+			result = syntaxNumber.integerValue;
+		}
+	}];
 	return result;
 }
 
@@ -223,8 +225,45 @@ self.regexOptions = options
 	return result;
 }
 
+/*! @param aPropertyKey key string for the property to be set
+	@param aValue the value to be set
+	@param aDefaultValue default value to be set if aValue is nil. if this is also nil, the property is not set */
+- (void)TCM_setValue:(id)aValue forKey:(NSString *)aPropertyKey defaultValue:(id)aDefaultValue {
+	id value = aValue ? aValue : aDefaultValue;
+	if (value) {
+		[self setValue:value forKey:aPropertyKey];
+	} else {
+		// just for debugging
+	}
+}
+
 - (void)takeValuesFromDictionaryRepresentation:(NSDictionary *)aDictionaryRepresentation {
+	[self TCM_setValue:aDictionaryRepresentation[kFindAndReplaceKeyFindString]
+				forKey:@"findString" defaultValue:@""];
+	[self TCM_setValue:aDictionaryRepresentation[kFindAndReplaceKeyReplaceString]
+				forKey:@"replaceString" defaultValue:@""];
+	[@{
+	   kFindAndReplaceKeyCaseSensitive : @"caseSensitive",
+	   kFindAndReplaceKeyUseRegex : @"useRegex",
+	   kFindAndReplaceKeyShouldWrap : @"shouldWrap",
+	   } enumerateKeysAndObjectsUsingBlock:^(id dictionaryKey, id propertyKey, BOOL *stop) {
+		[self TCM_setValue:aDictionaryRepresentation[dictionaryKey] forKey:propertyKey defaultValue:nil];
+	}];
 	
+	NSDictionary *regexOptions = aDictionaryRepresentation[kFindAndReplaceKeyRegexOptions];
+	[self TCM_setValue:@([self.class syntaxForRegularExpressionSyntaxString:regexOptions[kFindAndReplaceKeySyntax]])
+				forKey:@"regularExpressionSyntax" defaultValue:nil];
+	[@{
+	   kFindAndReplaceKeyEscapeCharacter : @"regularExpressionEscapeCharacter",
+	   kFindAndReplaceKeyExtended : @"regularExpressionOptionExtended",
+	   kFindAndReplaceKeyLineContext : @"regularExpressionOptionLineContext",
+	   kFindAndReplaceKeyMultiline : @"regularExpressionOptionMultiline",
+	   kFindAndReplaceKeyCaptureGroups : @"regularExpressionOptionCaptureGroups",
+	   kFindAndReplaceKeyIgnoreEmptyMatches : @"regularExpressionOptionIgnoreEmptyMatches",
+	   kFindAndReplaceKeyOnlyLongestMatch : @"regularExpressionOptionOnlyLongestMatch",
+	   } enumerateKeysAndObjectsUsingBlock:^(id dictionaryKey, id propertyKey, BOOL *stop) {
+		   [self TCM_setValue:regexOptions[dictionaryKey] forKey:propertyKey defaultValue:nil];
+	   }];
 }
 
 
