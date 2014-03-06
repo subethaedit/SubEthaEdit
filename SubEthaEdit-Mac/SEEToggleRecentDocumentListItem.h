@@ -7,7 +7,10 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "SEEDocumentListItemProtocol.h"
 
 @interface SEEToggleRecentDocumentListItem : NSObject <SEEDocumentListItem>
+
+@property (nonatomic, assign) BOOL showRecentDocuments;
 
 @end

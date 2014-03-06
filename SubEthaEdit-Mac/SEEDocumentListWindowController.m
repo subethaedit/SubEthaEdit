@@ -16,6 +16,7 @@
 #import "SEENetworkConnectionDocumentListItem.h"
 #import "SEENetworkDocumentListItem.h"
 #import "SEENewDocumentListItem.h"
+#import "SEEToggleRecentDocumentListItem.h"
 #import "SEERecentDocumentListItem.h"
 #import "SEEOpenOtherDocumentListItem.h"
 #import "SEEConnectDocumentListItem.h"
@@ -48,10 +49,17 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 @property (nonatomic, weak) IBOutlet NSArrayController *documentListItemsArrayController;
 
 @property (nonatomic, weak) id otherWindowsBecomeKeyNotifivationObserver;
+@property (nonatomic, strong) SEEToggleRecentDocumentListItem *toggleRecentItem;
 
 @end
 
 @implementation SEEDocumentListWindowController
+
++ (void)initialize {
+	if (self == [SEEDocumentListWindowController class]) {
+		[[NSUserDefaults standardUserDefaults] registerDefaults:@{@"DocumentListShowRecent": @(YES)}];
+	}
+}
 
 - (id)initWithWindow:(NSWindow *)window
 {
@@ -135,6 +143,10 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 
 - (void)removeKVO {
 	[[SEEConnectionManager sharedInstance] removeObserver:self forKeyPath:@"entries" context:SEENetworkDocumentBrowserEntriesObservingContext];
+
+	if (self.toggleRecentItem) {
+		[self.toggleRecentItem removeObserver:self forKeyPath:@"showRecentDocuments"];
+	}
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary *)change context:(void *)context
@@ -180,21 +192,6 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		}
 
 		{
-			NSArray *recentDocumentURLs = [[NSDocumentController sharedDocumentController] recentDocumentURLs];
-			for (NSURL *url in recentDocumentURLs) {
-				SEERecentDocumentListItem *recentDocumentItem = [[SEERecentDocumentListItem alloc] init];
-				recentDocumentItem.fileURL = url;
-				NSString *cachedItemID = recentDocumentItem.uid;
-				id <SEEDocumentListItem> cachedItem = [lookupDictionary objectForKey:cachedItemID];
-				if (cachedItem) {
-					[self.availableItems addObject:cachedItem];
-				} else {
-					[self.availableItems addObject:recentDocumentItem];
-				}
-			}
-		}
-
-		{
 			SEEOpenOtherDocumentListItem *openOtherItem = [[SEEOpenOtherDocumentListItem alloc] init];
 			NSString *cachedItemID = openOtherItem.uid;
 			id <SEEDocumentListItem> cachedItem = [lookupDictionary objectForKey:cachedItemID];
@@ -204,6 +201,35 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 				[self.availableItems addObject:openOtherItem];
 			}
 		}
+
+		{
+			SEEToggleRecentDocumentListItem *toggleRecentDocumentsItem = [[SEEToggleRecentDocumentListItem alloc] init];
+			NSString *cachedItemID = toggleRecentDocumentsItem.uid;
+			SEEToggleRecentDocumentListItem *cachedItem = [lookupDictionary objectForKey:cachedItemID];
+			if (cachedItem) {
+				[self.availableItems addObject:cachedItem];
+			} else {
+				toggleRecentDocumentsItem.showRecentDocuments = [[NSUserDefaults standardUserDefaults] boolForKey:@"DocumentListShowRecent"];
+				[toggleRecentDocumentsItem addObserver:self forKeyPath:@"showRecentDocuments" options:0 context:SEENetworkDocumentBrowserEntriesObservingContext];
+				self.toggleRecentItem = toggleRecentDocumentsItem;
+				[self.availableItems addObject:toggleRecentDocumentsItem];
+			}
+			if (cachedItem.showRecentDocuments) {
+				NSArray *recentDocumentURLs = [[NSDocumentController sharedDocumentController] recentDocumentURLs];
+				for (NSURL *url in recentDocumentURLs) {
+					SEERecentDocumentListItem *recentDocumentItem = [[SEERecentDocumentListItem alloc] init];
+					recentDocumentItem.fileURL = url;
+					NSString *cachedItemID = recentDocumentItem.uid;
+					id <SEEDocumentListItem> cachedItem = [lookupDictionary objectForKey:cachedItemID];
+					if (cachedItem) {
+						[self.availableItems addObject:cachedItem];
+					} else {
+						[self.availableItems addObject:recentDocumentItem];
+					}
+				}
+			}
+		}
+
 
 		{
 			NSArray *allConnections = [[SEEConnectionManager sharedInstance] entries];
@@ -336,6 +362,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 		result = [tableView makeViewWithIdentifier:@"Connect" owner:self];
 	} else if ([rowItem isKindOfClass:SEEOpenOtherDocumentListItem.class] || [rowItem isKindOfClass:SEENewDocumentListItem.class]) {
 		result = [tableView makeViewWithIdentifier:@"OtherItems" owner:self];
+	} else if ([rowItem isKindOfClass:SEEToggleRecentDocumentListItem.class]) {
+		result = [tableView makeViewWithIdentifier:@"ToggleRecent" owner:self];
 	} else if ([rowItem isKindOfClass:SEERecentDocumentListItem.class]) {
 		result = [tableView makeViewWithIdentifier:@"Document" owner:self];
 	} else if ([rowItem isKindOfClass:SEENetworkDocumentListItem.class]) {
@@ -421,6 +449,10 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	id documentRepresentation = [availableDocumentSession objectAtIndex:row];
 	if ([documentRepresentation isKindOfClass:SEENetworkConnectionDocumentListItem.class]) {
 		rowHeight = 46.0;
+	} else if ([documentRepresentation isKindOfClass:SEEToggleRecentDocumentListItem.class]) {
+		rowHeight = 28.0;
+	} else if ([documentRepresentation isKindOfClass:SEEConnectDocumentListItem.class]) {
+		rowHeight = 42.0;
 	}
 	return rowHeight;
 }
