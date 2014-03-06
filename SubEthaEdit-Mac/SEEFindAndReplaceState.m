@@ -13,6 +13,20 @@
 #error ARC must be enabled!
 #endif
 
+NSString * const kFindAndReplaceKeyFindString = @"find";
+NSString * const kFindAndReplaceKeyReplaceString = @"replace";
+NSString * const kFindAndReplaceKeyShouldWrap = @"wraps";
+NSString * const kFindAndReplaceKeyCaseSensitive = @"caseSensitive";
+NSString * const kFindAndReplaceKeyUseRegex = @"useRegex";
+NSString * const kFindAndReplaceKeyRegexOptions = @"regexOptions";
+NSString * const kFindAndReplaceKeySyntax = @"syntax";
+NSString * const kFindAndReplaceKeyEscapeCharacter = @"escapeCharacter";
+NSString * const kFindAndReplaceKeyCaptureGroups = @"captureGroups";
+NSString * const kFindAndReplaceKeyLineContext = @"lineContext";
+NSString * const kFindAndReplaceKeyMultiline = @"multiline";
+NSString * const kFindAndReplaceKeyExtended = @"extended";
+NSString * const kFindAndReplaceKeyIgnoreEmptyMatches = @"ignoreEmptyMatches";
+NSString * const kFindAndReplaceKeyOnlyLongestMatch = @"onlyLongestMatch";
 
 @implementation SEEFindAndReplaceState
 
@@ -26,7 +40,6 @@
 		self.regexOptions = OgreSingleLineOption | OgreMultilineOption | OgreFindNotEmptyOption | OgreCaptureGroupOption;
 		self.caseSensitive = NO;
 		self.regularExpressionSyntax = OgreRubySyntax;
-		self.scope = kSEEFindAndReplaceScopeDocument;
 		self.useRegex = NO;
 		self.regularExpressionEscapeCharacter = OgreBackslashCharacter;
 		self.shouldWrap = YES;
@@ -141,32 +154,79 @@ self.regexOptions = options
  OgreRubySyntax
 */
 
-+ (NSString *)regularExpressionSyntaxStringForSyntax:(OgreSyntax)aSyntax {
-	switch (aSyntax) {
-		case OgreRubySyntax:
-			return @"Ruby";
-		case OgrePerlSyntax:
-			return @"Perl";
-		case OgreJavaSyntax:
-			return @"Java";
-		case OgreGNURegexSyntax:
-			return @"GNU Regex";
-		case OgreGrepSyntax:
-			return @"Grep";
-		case OgreEmacsSyntax:
-			return @"Emacs";
-		case OgrePOSIXExtendedSyntax:
-			return @"POSIX extended";
-		case OgrePOSIXBasicSyntax:
-			return @"POSIX basic";
-		case OgreSimpleMatchingSyntax:
-			return @"Ogre simple";
++ (NSDictionary *)TCMSyntaxToStringDictionary {
+	static NSDictionary *s_dictionary = nil;
+	if (!s_dictionary) {
+		s_dictionary = @{
+		   @(OgreRubySyntax):@"Ruby",
+		   @(OgrePerlSyntax):@"Perl",
+		   @(OgreJavaSyntax):@"Java",
+		   @(OgreGNURegexSyntax):@"GNU Regex",
+		   @(OgreGrepSyntax):@"Grep",
+		   @(OgreEmacsSyntax):@"Emacs",
+		   @(OgrePOSIXExtendedSyntax):@"POSIX extended",
+		   @(OgrePOSIXBasicSyntax):@"POSIX basic",
+		   @(OgreSimpleMatchingSyntax):@"Ogre simple",
+		   };
 	}
+	return s_dictionary;
 }
+
++ (NSString *)regularExpressionSyntaxStringForSyntax:(OgreSyntax)aSyntax {
+	NSString *result = [self TCMSyntaxToStringDictionary][@(aSyntax)];
+	if (!result) {
+		result = @"Ruby";
+	}
+	return result;
+}
+
++ (OgreSyntax)syntaxForRegularExpressionSyntaxString:(NSString *)aSyntaxString {
+	OgreSyntax result = OgreRubySyntax;
+	NSDictionary *dictionary = [self TCMSyntaxToStringDictionary];
+	NSNumber *syntaxNumber = [dictionary allKeysForObject:aSyntaxString].lastObject;
+	if (syntaxNumber) {
+		result = syntaxNumber.integerValue;
+	}
+	return result;
+}
+
 
 - (NSString *)regularExpressionSyntaxString {
 	NSString *result = [self.class regularExpressionSyntaxStringForSyntax:self.regularExpressionSyntax];
 	return result;
 }
+
+#pragma mark - serialization
+
+- (NSDictionary *)dictionaryRepresentation {
+	NSDictionary *result =
+	@{
+	  kFindAndReplaceKeyFindString : self.findString ?: @"",
+	  kFindAndReplaceKeyReplaceString : self.replaceString ?: @"",
+	  kFindAndReplaceKeyCaseSensitive : @(self.caseSensitive),
+	  kFindAndReplaceKeyShouldWrap : @(self.shouldWrap),
+	  kFindAndReplaceKeyUseRegex : @(self.useRegex),
+	  kFindAndReplaceKeyRegexOptions :
+		  @{
+			  kFindAndReplaceKeySyntax : self.regularExpressionSyntaxString,
+			  kFindAndReplaceKeyEscapeCharacter : self.regularExpressionEscapeCharacter,
+			  kFindAndReplaceKeyExtended : @(self.regularExpressionOptionExtended),
+			  kFindAndReplaceKeyLineContext : @(self.regularExpressionOptionLineContext),
+			  kFindAndReplaceKeyMultiline : @(self.regularExpressionOptionMultiline),
+			  kFindAndReplaceKeyCaptureGroups : @(self.regularExpressionOptionCaptureGroups),
+			  kFindAndReplaceKeyIgnoreEmptyMatches : @(self.regularExpressionOptionIgnoreEmptyMatches),
+			  kFindAndReplaceKeyOnlyLongestMatch : @(self.regularExpressionOptionOnlyLongestMatch),
+		},
+	  
+	};
+	
+	return result;
+}
+
+- (void)takeValuesFromDictionaryRepresentation:(NSDictionary *)aDictionaryRepresentation {
+	
+}
+
+
 
 @end

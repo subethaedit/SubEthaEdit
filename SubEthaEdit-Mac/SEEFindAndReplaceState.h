@@ -10,16 +10,10 @@
 #import "OgreKit/OgreKit.h"
 /*! Model object to hold all the necessary information regarding the search and replace state */
 
-typedef NS_ENUM(int8_t, SEEFindAndReplaceScope) {
-	kSEEFindAndReplaceScopeDocument = 0,
-	kSEEFindAndReplaceScopeSelection = 1,
-};
-
 @interface SEEFindAndReplaceState : NSObject
 
 @property (nonatomic, strong) NSString *findString;
 @property (nonatomic, strong) NSString *replaceString;
-@property (nonatomic) SEEFindAndReplaceScope scope;
 @property (nonatomic) unsigned regexOptions;
 @property (nonatomic, getter=isCaseSensitive) BOOL caseSensitive;
 @property (nonatomic) BOOL useRegex;
@@ -35,6 +29,8 @@ typedef NS_ENUM(int8_t, SEEFindAndReplaceScope) {
 
 
 + (NSString *)regularExpressionSyntaxStringForSyntax:(OgreSyntax)aSyntax;
++ (OgreSyntax)syntaxForRegularExpressionSyntaxString:(NSString *)aSyntaxString;
+
 
 @property (nonatomic) BOOL regularExpressionOptionCaptureGroups;
 @property (nonatomic) BOOL regularExpressionOptionLineContext;
@@ -42,5 +38,10 @@ typedef NS_ENUM(int8_t, SEEFindAndReplaceScope) {
 @property (nonatomic) BOOL regularExpressionOptionExtended;
 @property (nonatomic) BOOL regularExpressionOptionIgnoreEmptyMatches;
 @property (nonatomic) BOOL regularExpressionOptionOnlyLongestMatch;
+
+
+/* serialization */
+@property (nonatomic, readonly) NSDictionary *dictionaryRepresentation;
+- (void)takeValuesFromDictionaryRepresentation:(NSDictionary *)aDictionaryRepresentation;
 
 @end

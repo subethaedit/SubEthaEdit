@@ -26,6 +26,8 @@
 #import "TextOperation.h"
 #import <objc/objc-runtime.h>
 
+NSString * const kSEEGlobalFindAndReplaceStateDefaultsKey = @"GlobalFindAndReplaceState";
+
 static FindReplaceController *sharedInstance=nil;
 
 @interface FindReplaceController ()
@@ -110,7 +112,6 @@ static FindReplaceController *sharedInstance=nil;
     if (!O_findPanel) {
         [self loadUI];
         [O_findPanel setFloatingPanel:NO];
-        [self loadStateFromPreferences];
         [O_findComboBox reloadData];
         [O_replaceComboBox reloadData];
         [O_findPanel setDelegate:self];
@@ -250,74 +251,15 @@ static FindReplaceController *sharedInstance=nil;
     return result;
 }
 
-- (void)saveStateToPreferences
-{
-    NSMutableDictionary *prefs = [NSMutableDictionary dictionary];
-    [prefs setObject:[NSNumber numberWithInt:[[O_regexSyntaxPopup selectedItem] tag]] forKey:@"Syntax2"];
-    [prefs setObject:[NSNumber numberWithInt:[O_regexEscapeCharacter indexOfSelectedItem]] forKey:@"Escape"];
-    [prefs setObject:[NSNumber numberWithInt:[O_scopePopup indexOfSelectedItem]] forKey:@"Scope"];
-    
-    [prefs setObject:[NSNumber numberWithInt:[O_wrapAroundCheckbox state]] forKey:@"Wrap"];
-    [prefs setObject:[NSNumber numberWithInt:[O_regexCheckbox state]] forKey:@"RegEx"];   
-    [prefs setObject:[NSNumber numberWithInt:[O_regexSinglelineCheckbox state]] forKey:@"Singleline"];
-    [prefs setObject:[NSNumber numberWithInt:[O_regexMultilineCheckbox state]] forKey:@"Multiline"];
-    [prefs setObject:[NSNumber numberWithInt:[O_ignoreCaseCheckbox state]] forKey:@"IgnoreCase"];
-    [prefs setObject:[NSNumber numberWithInt:[O_regexExtendedCheckbox state]] forKey:@"Extended"];
-    [prefs setObject:[NSNumber numberWithInt:[O_regexFindLongestCheckbox state]] forKey:@"FindLongest"];
-    [prefs setObject:[NSNumber numberWithInt:[O_regexIgnoreEmptyCheckbox state]] forKey:@"IgnoreEmpty"];
-    [prefs setObject:[NSNumber numberWithInt:[O_regexCaptureGroupsCheckbox state]] forKey:@"Capture"];
-	
-	[prefs setObject:[NSNumber numberWithBool:YES] forKey:@"Confirmed Longest Match Option"];
-	
-    if (_findHistory) {
-        [prefs setObject:_findHistory forKey:@"FindHistory"];
-    }
-    if (_replaceHistory) [prefs setObject:_replaceHistory forKey:@"ReplaceHistory"];
-    [[NSUserDefaults standardUserDefaults] setObject:prefs forKey:@"Find Panel Preferences"];
-}
-
-- (void)loadStateFromPreferences
-{
-    NSDictionary *prefs = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"Find Panel Preferences"];
-    if (prefs) {
-        if ([prefs objectForKey:@"Syntax2"]) {
-            NSMenuItem *item = [[O_regexSyntaxPopup menu] itemWithTag:[[prefs objectForKey:@"Syntax2"] intValue]];
-            if (item) [O_regexSyntaxPopup selectItem:item];
-        }
-
-        [O_regexEscapeCharacter selectItemAtIndex:[[prefs objectForKey:@"Escape"] intValue]];
-        [O_scopePopup selectItemAtIndex:[[prefs objectForKey:@"Scope"] intValue]];
-    
-        [O_wrapAroundCheckbox setState:[[prefs objectForKey:@"Wrap"] intValue]];
-        [O_regexCheckbox setState:[[prefs objectForKey:@"RegEx"] intValue]];
-        [O_regexSinglelineCheckbox setState:[[prefs objectForKey:@"Singleline"] intValue]];
-        [O_regexMultilineCheckbox setState:[[prefs objectForKey:@"Multiline"] intValue]];
-        [O_ignoreCaseCheckbox setState:[[prefs objectForKey:@"IgnoreCase"] intValue]];
-        [O_regexExtendedCheckbox setState:[[prefs objectForKey:@"Extended"] intValue]];
-        [O_regexFindLongestCheckbox setState:[[prefs objectForKey:@"FindLongest"] intValue]];
-		if (![prefs objectForKey:@"Confirmed Longest Match Option"]) [O_regexFindLongestCheckbox setState:NO];
-        [O_regexIgnoreEmptyCheckbox setState:[[prefs objectForKey:@"IgnoreEmpty"] intValue]];
-        [O_regexCaptureGroupsCheckbox setState:[[prefs objectForKey:@"Capture"] intValue]];
-    }
-    if ([prefs objectForKey:@"FindHistory"]) {
-        _findHistory = [[prefs objectForKey:@"FindHistory"] mutableCopy];
-    }
-    if ([prefs objectForKey:@"ReplaceHistory"]) {
-        _replaceHistory = [[prefs objectForKey:@"ReplaceHistory"] mutableCopy];
-    }
+- (void)saveGlobalFindAndReplaceStateToPreferences {
+    [[NSUserDefaults standardUserDefaults] setObject:self.globalFindAndReplaceState.dictionaryRepresentation forKey:kSEEGlobalFindAndReplaceStateDefaultsKey];
 }
 
 - (void)readGlobalFindAndReplaceStateFromPreferences {
-	NSDictionary *prefs = [[NSUserDefaults standardUserDefaults] dictionaryForKey:@"Find Panel Preferences"];
+	NSDictionary *prefs = [[NSUserDefaults standardUserDefaults] dictionaryForKey:kSEEGlobalFindAndReplaceStateDefaultsKey];
 	SEEFindAndReplaceState *globalState = self.globalFindAndReplaceState;
 	if (prefs) {
-		globalState.regexOptions = [prefs[@"Syntax2"] intValue];
-		globalState.regularExpressionEscapeCharacter = [prefs[@"Escape"] intValue] == 0 ? OgreBackslashCharacter : OgreGUIYenCharacter;
-		
-		globalState.scope = [prefs[@"Scope"] intValue] == 0 ? kSEEFindAndReplaceScopeDocument : kSEEFindAndReplaceScopeSelection;
-
-		globalState.shouldWrap = [prefs[@"Wrap"] boolValue];
-		globalState.useRegex = [prefs[@"RegEx"] boolValue];
+		[globalState takeValuesFromDictionaryRepresentation:prefs];
 	}
 }
 
@@ -601,7 +543,7 @@ static FindReplaceController *sharedInstance=nil;
 		}
     }
     
-    [self saveStateToPreferences];
+    [self saveGlobalFindAndReplaceStateToPreferences];
 }
 
 - (void) replaceSelection
@@ -950,7 +892,7 @@ static FindReplaceController *sharedInstance=nil;
         if([self find:[self currentFindString] forward:YES]) [[self findPanel] orderOut:self];
         else [O_findComboBox selectText:nil];
     } else [O_findComboBox selectText:nil];
-    [self saveStateToPreferences];
+    [self saveGlobalFindAndReplaceStateToPreferences];
 }
 
 // ranges always refer to the fulltextstorage so we need to convert here or use the views editor
