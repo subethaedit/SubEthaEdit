@@ -17,7 +17,7 @@
 - (id)init {
     self = [super init];
     if (self) {
-        self.name = NSLocalizedString(@"Recent Documents:", @"");
+        self.name = NSLocalizedString(@"Recent Documents", @"");
     }
     return self;
 }

@@ -62,7 +62,7 @@ extern NSString * const TCMMMPresenceStatusProfileKey;
 - (void)setVisible:(BOOL)aFlag;
 - (void)setShouldAutoconnect:(BOOL)aFlag forUserID:(NSString *)aUserID;
 
-- (NSDictionary *)announcedSessions;
+- (NSArray *)announcedSessions;
 - (void)announceSession:(TCMMMSession *)aSession;
 - (void)concealSession:(TCMMMSession *)aSession;
 - (NSString *)reachabilityURLStringOfUserID:(NSString *)aUserID;
