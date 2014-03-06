@@ -132,7 +132,7 @@ static AppController *sharedInstance = nil;
 		[NSURLProtocol registerClass:[URLDataProtocol class]];
 		NSMutableDictionary *defaults = [NSMutableDictionary dictionary];
 		[defaults setObject:[NSNumber numberWithInt:SUBETHAEDIT_DEFAULT_PORT] forKey:DefaultPortNumber];
-		[defaults setObject:[NSNumber numberWithInt:10] forKey:@"NSRecentDocumentsLimit"];
+		[defaults setObject:[NSNumber numberWithInt:[[DocumentController sharedDocumentController] maximumRecentDocumentCount]] forKey:@"NSRecentDocumentsLimit"];
 		[defaults setObject:[NSMutableArray array] forKey:AddressHistory];
 		[defaults setObject:[NSNumber numberWithBool:NO] forKey:ProhibitInboundInternetSessions];
 		[defaults setObject:[NSNumber numberWithDouble:60.] forKey:NetworkTimeoutPreferenceKey];
