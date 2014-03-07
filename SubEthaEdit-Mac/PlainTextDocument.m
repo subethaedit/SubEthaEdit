@@ -3049,7 +3049,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
                 nil
             ]
         ];
-        DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"filetype not supported %@",*outError);
+        DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"filetype not supported %@",outError?*outError:@"");
         I_flags.isReadingFile = NO;
         return NO;
     }
