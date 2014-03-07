@@ -675,8 +675,7 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 }
 
 
-- (void)TCM_updateStatusBar
-{
+- (void)TCM_updateStatusBar {
     if (I_flags.showTopStatusBar)
     {
         NSRange selection = [I_textView selectedRange];
@@ -760,9 +759,12 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 
         [self TCM_adjustTopStatusBarFrames];
     }
-	[I_textView adjustContainerInsetToScrollView];
 }
 
+- (void)adjustToScrollViewInsets {
+	[I_textView adjustContainerInsetToScrollView];
+	[[[O_scrollView window] windowController] updateWindowMinSize];
+}
 
 - (float)pageGuidePositionForColumns:(int)aColumns
 {
@@ -818,8 +820,15 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 }
 
 
-- (void)TCM_updateBottomStatusBar
-{
+- (CGFloat)desiredMinHeight {
+	CGFloat result = 50.0;
+	SEEPlainTextEditorScrollView *scrollView = O_scrollView;
+	result += scrollView.topOverlayHeight + scrollView.bottomOverlayHeight;
+	return result;
+}
+
+
+- (void)TCM_updateBottomStatusBar {
     if (I_flags.showBottomStatusBar)
     {
         PlainTextDocument *document = [self document];
@@ -857,7 +866,6 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
         }
         [O_lineEndingPopUpButton setTitle:lineEndingStatusString];
     }
-	[I_textView adjustContainerInsetToScrollView];
 }
 
 - (void)updateAnnounceButton {
@@ -1303,7 +1311,7 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 			self.bottomOverlayViewController = viewController;
 		}
 	}
-	[I_textView adjustContainerInsetToScrollView];
+	[self adjustToScrollViewInsets];
 }
 
 - (BOOL)hasTopOverlayView {
@@ -1333,7 +1341,7 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 		}
 		[self TCM_adjustTopStatusBarFrames];
 	}
-	[I_textView adjustContainerInsetToScrollView];
+	[self adjustToScrollViewInsets];
 }
 
 - (IBAction)toggleFindAndReplace:(id)aSender {

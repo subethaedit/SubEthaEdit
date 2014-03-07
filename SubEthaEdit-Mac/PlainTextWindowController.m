@@ -117,8 +117,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 	NSWindow *window = self.window;
     [[window contentView] setAutoresizesSubviews:YES];
 
-	[window setMinSize:NSMakeSize(500,370)];
-	
 	NSRect contentFrame = [[window contentView] frame];
 	 
 	I_tabBar = [[PSMTabBarControl alloc] initWithFrame:NSMakeRect(0.0, NSHeight(contentFrame) - [SEETabStyle desiredTabBarControlHeight], NSWidth(contentFrame), [SEETabStyle desiredTabBarControlHeight])];
@@ -144,6 +142,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     [I_tabBar setCellMinWidth:140];
 
     [self updateForPortMapStatus];
+	[self updateWindowMinSize];
 }
 
 - (IBAction)showFindAndReplaceInterface:(id)aSender {
@@ -730,7 +729,54 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 #pragma mark -
 
 #define SPLITMINHEIGHTTEXT   46.
-#define SPLITMINHEIGHTDIALOG 95.
+#define SPLITMINHEIGHTDIALOG 130.
+
+- (void)updateWindowMinSize {
+	CGFloat minHeight = 0;
+	if (I_dialogSplitView) {
+		minHeight += SPLITMINHEIGHTDIALOG;
+		minHeight += [I_dialogSplitView dividerThickness];
+	}
+	
+	for (PlainTextEditor *editor in self.plainTextEditors) {
+		minHeight += editor.desiredMinHeight;
+	}
+	if (self.plainTextEditors.count > 1) {
+		minHeight += [I_editorSplitView dividerThickness];
+	}
+	
+	NSSize minSize = NSMakeSize(480,MAX(minHeight, 230.));
+	[self.window setContentMinSize:minSize];
+	
+	BOOL needsResizing = NO;
+	NSRect contentRect = [self.window contentRectForFrameRect:self.window.frame];
+	if (NSHeight(contentRect) < minSize.height) {
+		contentRect.size.height = minSize.height;
+		needsResizing = YES;
+	}
+	if (NSWidth(contentRect) < minSize.width) {
+		contentRect.size.width = minSize.width;
+		needsResizing = YES;
+	}
+	
+	if (needsResizing) {
+		NSRect newFrame = [self.window frameRectForContentRect:contentRect];
+		
+		newFrame.origin.y = NSMaxY(self.window.frame) - NSHeight(newFrame);
+		
+		newFrame = [self.window constrainFrameRect:newFrame toScreen:self.window.screen];
+		[self.window setFrame:newFrame display:YES];
+		if (I_editorSplitView) {
+			[I_editorSplitView setPosition:NSHeight([I_editorSplitView.subviews.firstObject frame]) ofDividerAtIndex:0];
+		}
+		if (I_dialogSplitView) {
+			[I_dialogSplitView setPosition:NSHeight([I_dialogSplitView.subviews.firstObject frame]) ofDividerAtIndex:0];
+		}
+
+	}
+}
+
+
 
 -(void)splitView:(NSSplitView *)aSplitView resizeSubviewsWithOldSize:(NSSize)oldSize {
     CGFloat splitminheight = (aSplitView==I_dialogSplitView) ? SPLITMINHEIGHTDIALOG : SPLITMINHEIGHTTEXT;
@@ -769,6 +815,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
         [view2 setFrameSize:frameSize];
         [aSplitView adjustSubviews];
     }
+	[aSplitView setPosition:NSHeight([aSplitView.subviews.firstObject frame]) ofDividerAtIndex:0];
 }
 
 - (BOOL)splitView:(NSSplitView *)aSplitView canCollapseSubview:(NSView *)aView {
@@ -776,17 +823,40 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 }
 
 - (CGFloat)splitView:(NSSplitView *)aSplitView constrainSplitPosition:(CGFloat)proposedPosition 
-       ofSubviewAt:(NSInteger)offset {
+       ofSubviewAt:(NSInteger)aDividerIndex {
 
-    CGFloat height=[aSplitView frame].size.height;
-    CGFloat minHeight=(aSplitView==I_dialogSplitView) ? SPLITMINHEIGHTDIALOG : SPLITMINHEIGHTTEXT;;
-    if (proposedPosition<minHeight) {
-        return minHeight;
-    } else if (proposedPosition+minHeight+[aSplitView dividerThickness]>height) {
-        return height-minHeight-[aSplitView dividerThickness];
+	BOOL isDialogSplitView = (aSplitView==I_dialogSplitView);
+	CGFloat minHeightTop = SPLITMINHEIGHTDIALOG;
+	CGFloat minHeightBottom = SPLITMINHEIGHTTEXT;
+	
+	if (isDialogSplitView) {
+		minHeightBottom = 0;
+		for (PlainTextEditor *editor in self.plainTextEditors) {
+			minHeightBottom += editor.desiredMinHeight;
+		}
+		if (self.plainTextEditors.count > 1) {
+			minHeightBottom += [I_editorSplitView dividerThickness];
+		}
+	} else {
+		minHeightTop = [self.plainTextEditors.firstObject desiredMinHeight];
+		minHeightBottom = [self.plainTextEditors.lastObject desiredMinHeight];
+	}
+	
+	
+    CGFloat totalHeight=[aSplitView frame].size.height;
+
+	CGFloat result = proposedPosition;
+	
+    if (proposedPosition < minHeightTop) {
+        result = minHeightTop;
     } else {
-        return proposedPosition;
+		CGFloat maxPosition = totalHeight - minHeightBottom - [aSplitView dividerThickness];
+		if (proposedPosition > maxPosition) {
+			result = maxPosition;
+		}
     }
+	
+	return result;
 }
 
 - (id)documentDialog {
@@ -829,10 +899,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
             
             if (tabViewItem) [[tabViewItem identifier] setDialogSplitView:nil];
 
-            NSSize minSize = [[self window] contentMinSize];
-            minSize.height -= 100;
-            minSize.width -= 63;
-            [[self window] setContentMinSize:minSize];
             if (tabViewItem) [[tabViewItem identifier] setDocumentDialog:nil];
             I_documentDialog = nil;
             [[self window] makeFirstResponder:[[self activePlainTextEditor] textView]];
@@ -843,6 +909,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
         [I_dialogAnimationTimer invalidate];
         [I_dialogAnimationTimer autorelease];
         I_dialogAnimationTimer = nil;
+		[self updateWindowMinSize];
     }
 }
 
@@ -874,13 +941,12 @@ static NSPoint S_cascadePoint = {0.0,0.0};
             mainFrame.size.height = 0;
             [dialogView setAutoresizesSubviews:NO];
             [dialogView setFrame:mainFrame];
-            //[I_dialogSplitView addSubview:[contentView autorelease]];
+
             [I_dialogSplitView addSubview:[tabItemView autorelease]];
-            NSSize minSize = [[self window] contentMinSize];
-            minSize.height+=100;
-            minSize.width+=63;
-            [[self window] setContentMinSize:minSize];
-            I_dialogAnimationTimer = [[NSTimer scheduledTimerWithTimeInterval:0.01 
+
+			[self updateWindowMinSize];
+            
+			I_dialogAnimationTimer = [[NSTimer scheduledTimerWithTimeInterval:0.01
                 target:self 
                 selector:@selector(documentDialogFadeInTimer:) 
                 userInfo:[NSMutableDictionary dictionaryWithObjectsAndKeys:
@@ -895,6 +961,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
             [I_dialogSplitView addSubview:[aDocumentDialog mainView] positioned:NSWindowBelow relativeTo:[[I_dialogSplitView subviews] objectAtIndex:0]];
             [[aDocumentDialog mainView] setFrame:frame];
             [I_dialogSplitView setNeedsDisplay:YES];
+			[self updateWindowMinSize];
         }
         //[I_documentDialog autorelease];
         //I_documentDialog = [aDocumentDialog retain];
@@ -1017,6 +1084,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     if ([I_plainTextEditors count] == 2) {
         [[[I_plainTextEditors objectAtIndex:1] textView] scrollRangeToVisible:selectedRange];
     }
+	
+	[self updateWindowMinSize];
     [[self window] makeFirstResponder:textView];
 }
 
@@ -1246,11 +1315,9 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     }
 }
 
-- (void)moveAllTabsToWindowController:(PlainTextWindowController *)windowController
-{
-    PlainTextDocument *document;
-    for (document in I_documents)
-    {
+- (void)moveAllTabsToWindowController:(PlainTextWindowController *)windowController {
+
+    for (PlainTextDocument *document in I_documents) {
         NSUInteger documentIndex = [[self documents] indexOfObject:document];
         NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
         
