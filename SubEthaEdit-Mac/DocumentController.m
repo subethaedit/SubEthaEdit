@@ -25,8 +25,6 @@
 #import <PSMTabBarControl/PSMTabBarControl.h>
 #import <objc/objc-runtime.h>			// for objc_msgSend
 
-#import "SEEDocumentListWindowController.h"
-
 
 @interface DocumentController ()
 - (void)setModeIdentifierFromLastRunOpenPanel:(NSString *)modeIdentifier;

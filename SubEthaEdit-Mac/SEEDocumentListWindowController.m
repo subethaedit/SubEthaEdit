@@ -113,8 +113,12 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 	[tableView setTarget:self];
 	[tableView setAction:@selector(triggerItemClickAction:)];
 	[tableView setDoubleAction:@selector(triggerItemDoubleClickAction:)];
+}
 
+
+- (IBAction)showWindow:(id)sender {
 	self.filesOwnerProxy.content = self;
+	[super showWindow:sender];
 }
 
 
@@ -130,6 +134,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 
 - (NSInteger)runModal
 {
+	self.filesOwnerProxy.content = self;
 	NSInteger result = [NSApp runModalForWindow:self.window];
 	return result;
 }

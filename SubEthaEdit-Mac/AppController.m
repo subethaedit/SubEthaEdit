@@ -703,12 +703,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 }
 
 - (BOOL)applicationOpenUntitledFile:(NSApplication *)sender {
-	SEEDocumentListWindowController *networkBrowser = [[SEEDocumentListWindowController alloc] initWithWindowNibName:@"SEEDocumentListWindowController"];
-	networkBrowser.shouldCloseWhenOpeningDocument = YES;
-	[networkBrowser showWindow:sender];
-	self.networkBrowser = networkBrowser;
-	[networkBrowser release];
-
+	[self showDocumentNetworkBrowser:sender];
 	return YES; // Avoids Untitled Document path of DocumentController
 }
 
@@ -1079,10 +1074,17 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 #pragma mark -
 
 - (IBAction)showDocumentNetworkBrowser:(id)sender {
-	SEEDocumentListWindowController *networkBrowser = [[SEEDocumentListWindowController alloc] initWithWindowNibName:@"SEEDocumentListWindowController"];
-	[networkBrowser showWindow:sender];
-	self.networkBrowser = networkBrowser;
-	[networkBrowser release];
+	if (!self.networkBrowser) {
+		SEEDocumentListWindowController *networkBrowser = [[SEEDocumentListWindowController alloc] initWithWindowNibName:@"SEEDocumentListWindowController"];
+		self.networkBrowser = networkBrowser;
+		[networkBrowser release];
+	}
+	if (sender == NSApp) {
+		self.networkBrowser.shouldCloseWhenOpeningDocument = YES;
+	} else {
+		self.networkBrowser.shouldCloseWhenOpeningDocument = NO;
+	}
+	[self.networkBrowser showWindow:sender];
 }
 
 #pragma mark - Menu validation
