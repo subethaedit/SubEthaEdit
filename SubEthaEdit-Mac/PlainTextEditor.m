@@ -580,14 +580,34 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 
 #define SPACING 5.
 
-- (void)TCM_adjustTopStatusBarFrames
-{
+- (void)TCM_adjustTopStatusBarFrames {
     static CGFloat s_initialXPosition = NAN;
     if (isnan(s_initialXPosition)) {
         s_initialXPosition = [O_positionTextField frame].origin.x;
     }
 
+	NSRect remainingLayoutRect = O_scrollView.frame;
+	
+	if (self.topOverlayViewController) {
+		NSView *overlayView = self.topOverlayViewController.view;
+		NSRect topOverlayRect = [overlayView frame];
+		topOverlayRect.origin.y = NSMaxY(remainingLayoutRect) - NSHeight(topOverlayRect);
+		topOverlayRect.origin.x = remainingLayoutRect.origin.x;
+		topOverlayRect.size.width = NSWidth(remainingLayoutRect);
+		overlayView.frame = topOverlayRect;
+		remainingLayoutRect.size.height -= NSHeight(topOverlayRect);
+	}
+	
+	
+	
     if (I_flags.showTopStatusBar) {
+		NSRect frame = self.O_topStatusBarView.frame;
+		frame.origin.x = NSMinX(remainingLayoutRect);
+		frame.size.width = NSWidth(remainingLayoutRect);
+		frame.origin.y = NSMaxY(remainingLayoutRect) - NSHeight(frame);
+		self.O_topStatusBarView.frame = frame;
+		remainingLayoutRect.size.height -= NSHeight(frame);
+		
         NSRect bounds = [self.O_topStatusBarView bounds];
 
 		PlainTextDocument *document = [self document];
@@ -651,6 +671,7 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 
 		[self.O_topStatusBarView setNeedsDisplay:YES];
     }
+	
 }
 
 
@@ -1305,15 +1326,12 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 			NSView *overlayView = aViewController.view;
 			overlayView.autoresizingMask = NSViewWidthSizable | NSViewMinYMargin;
 			
-			NSRect frame = overlayView.frame;
-			frame.size.width = NSWidth(self.O_editorView.frame);
-			frame.origin.y = NSMaxY(self.O_editorView.bounds) - O_scrollView.topOverlayHeight - NSHeight(frame);
-			overlayView.frame = frame;
 			[self.O_editorView addSubview:overlayView];
 			O_scrollView.topOverlayHeight += NSHeight(overlayView.frame);
 			
 			self.topOverlayViewController = aViewController;
 		}
+		[self TCM_adjustTopStatusBarFrames];
 	}
 	[I_textView adjustContainerInsetToScrollView];
 }

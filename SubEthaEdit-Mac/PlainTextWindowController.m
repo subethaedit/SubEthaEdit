@@ -147,7 +147,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 }
 
 - (IBAction)showFindAndReplaceInterface:(id)aSender {
-	[[self activePlainTextEditor] showFindAndReplace:aSender];
+	[self.plainTextEditors.firstObject showFindAndReplace:aSender];
 }
 
 
