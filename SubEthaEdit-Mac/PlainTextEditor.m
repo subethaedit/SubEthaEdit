@@ -194,16 +194,7 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 
 - (void)participantsDidChange:(NSNotification *)aNotification
 {
-    NSLayoutManager *layoutManager = [I_textView layoutManager];
-    if ([layoutManager respondsToSelector:@selector(setAllowsNonContiguousLayout:)])
-    {
-		NSUInteger participantCount = [[[self document] session] participantCount];
-		self.numberOfActiveParticipants = @(participantCount);
-		self.showsNumberOfActiveParticipants = participantCount > 1;
-		
-        ((void (
-		  *)(id, SEL, BOOL))objc_msgSend)(layoutManager, @selector(setAllowsNonContiguousLayout:), (participantCount == 1));
-    }
+	[self TCM_updateNumberOfActiveParticipants];
 }
 
 
@@ -822,7 +813,6 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
     return columns;
 }
 
-
 - (CGFloat)desiredMinHeight {
 	CGFloat result = 50.0;
 	SEEPlainTextEditorScrollView *scrollView = O_scrollView;
@@ -830,6 +820,18 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 	return result;
 }
 
+- (void)TCM_updateNumberOfActiveParticipants {
+    NSLayoutManager *layoutManager = [I_textView layoutManager];
+    if ([layoutManager respondsToSelector:@selector(setAllowsNonContiguousLayout:)])
+    {
+		NSUInteger participantCount = [[[self document] session] participantCount];
+		self.numberOfActiveParticipants = @(participantCount);
+		self.showsNumberOfActiveParticipants = participantCount > 1;
+		
+        ((void (
+		  *)(id, SEL, BOOL))objc_msgSend)(layoutManager, @selector(setAllowsNonContiguousLayout:), (participantCount == 1));
+    }
+}
 
 - (void)TCM_updateBottomStatusBar {
     if (I_flags.showBottomStatusBar)
