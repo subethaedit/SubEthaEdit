@@ -94,6 +94,8 @@
 
 - (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName document:(PlainTextDocument *)document;
 
+- (void)updateWindowMinSize;
+
 - (PSMTabBarControl *)tabBar;
 - (NSTabView *)tabView;
 

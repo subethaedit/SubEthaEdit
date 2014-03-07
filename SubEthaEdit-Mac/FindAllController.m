@@ -102,7 +102,8 @@
         
         NSString *statusString = [NSString stringWithFormat:NSLocalizedString(@"%d found.",@"Entries Found in FindAll Panel"),count];
         
-        NSString *scopeString = [[[[FindReplaceController sharedInstance] scopePopup] itemAtIndex:(I_scopeSelectionOperation)?1:0] title];
+        NSString *scopeString = I_scopeSelectionOperation ? NSLocalizedStringWithDefaultValue(@"SELECTION_SCOPE_DESCRIPTION", nil, [NSBundle mainBundle], @"Selection", @"string describing the selection find scope") :
+NSLocalizedStringWithDefaultValue(@"SELECTION_SCOPE_DOCUMENT", nil,[NSBundle mainBundle], @"Document", @"string describing the document find scope");
                 
         [O_findResultsTextField setStringValue:[NSString stringWithFormat:@"%@ (%@)",statusString,scopeString]];
         
