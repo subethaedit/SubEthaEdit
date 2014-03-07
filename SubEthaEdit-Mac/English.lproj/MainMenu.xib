@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13C64" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13D12" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1090" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
@@ -1024,12 +1024,12 @@
                             </menuItem>
                             <menuItem title="Document List" keyEquivalent="k" id="231">
                                 <connections>
-                                    <action selector="showDocumentNetworkBrowser:" target="-1" id="exy-BA-bUA"/>
+                                    <action selector="showDocumentListWindow:" target="-1" id="KbU-OD-k6L"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="Document List" alternate="YES" keyEquivalent="K" id="640">
                                 <connections>
-                                    <action selector="showDocumentNetworkBrowser:" target="-1" id="mvS-D9-2fB"/>
+                                    <action selector="showDocumentListWindow:" target="-1" id="lmF-HU-bMB"/>
                                 </connections>
                             </menuItem>
                             <menuItem title="User Statistics" keyEquivalent="i" id="635">

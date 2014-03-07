@@ -111,7 +111,7 @@ NSString * const GlobalScriptsDidReloadNotification = @"GlobalScriptsDidReloadNo
     
 @interface AppController ()
 
-@property (nonatomic, strong) SEEDocumentListWindowController *networkBrowser;
+@property (nonatomic, strong) SEEDocumentListWindowController *documentListWindowController;
 
 - (void)setupFileEncodingsSubmenu;
 - (void)setupScriptMenu;
@@ -703,7 +703,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 }
 
 - (BOOL)applicationOpenUntitledFile:(NSApplication *)sender {
-	[self showDocumentNetworkBrowser:sender];
+	[self showDocumentListWindow:sender];
 	return YES; // Avoids Untitled Document path of DocumentController
 }
 
@@ -1073,18 +1073,18 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 
 #pragma mark -
 
-- (IBAction)showDocumentNetworkBrowser:(id)sender {
-	if (!self.networkBrowser) {
+- (IBAction)showDocumentListWindow:(id)sender {
+	if (!self.documentListWindowController) {
 		SEEDocumentListWindowController *networkBrowser = [[SEEDocumentListWindowController alloc] initWithWindowNibName:@"SEEDocumentListWindowController"];
-		self.networkBrowser = networkBrowser;
+		self.documentListWindowController = networkBrowser;
 		[networkBrowser release];
 	}
 	if (sender == NSApp) {
-		self.networkBrowser.shouldCloseWhenOpeningDocument = YES;
+		self.documentListWindowController.shouldCloseWhenOpeningDocument = YES;
 	} else {
-		self.networkBrowser.shouldCloseWhenOpeningDocument = NO;
+		self.documentListWindowController.shouldCloseWhenOpeningDocument = NO;
 	}
-	[self.networkBrowser showWindow:sender];
+	[self.documentListWindowController showWindow:sender];
 }
 
 #pragma mark - Menu validation
