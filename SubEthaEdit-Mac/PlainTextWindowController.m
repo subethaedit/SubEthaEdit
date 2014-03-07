@@ -1787,6 +1787,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
         [center postNotificationName:@"PlainTextWindowControllerDocumentDidChangeNotification" object:self];
     }
+	[self updateWindowMinSize];
 }
 
 
