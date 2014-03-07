@@ -218,6 +218,9 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 
 - (void)sessionDidChange:(NSNotification *)aNotification
 {
+	BOOL isServer = [[[self document] session] isServer];
+	self.canAnnounceAndShare = isServer;
+
     [[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(participantsDidChange:)
 												 name:TCMMMSessionParticipantsDidChangeNotification

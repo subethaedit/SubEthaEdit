@@ -52,6 +52,7 @@ extern NSString * const PlainTextEditorDidFollowUserNotification;
 @property (nonatomic, strong) NSNumber *numberOfActiveParticipants;
 
 @property (nonatomic, strong) NSImage *alternateAnnounceImage;
+@property (nonatomic) BOOL canAnnounceAndShare;
 
 @property (nonatomic, readonly) CGFloat desiredMinHeight;
 
