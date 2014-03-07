@@ -1214,4 +1214,13 @@ static NSMenu *S_defaultMenu=nil;
     }    
 }
 
+
+- (BOOL)becomeFirstResponder {
+	BOOL result = [super becomeFirstResponder];
+	if (result) {
+		[[self.window windowController] setActivePlainTextEditor:self.editor];
+	}
+	return result;
+}
+
 @end

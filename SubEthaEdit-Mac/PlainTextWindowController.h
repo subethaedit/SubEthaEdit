@@ -9,6 +9,8 @@
 #import <AppKit/AppKit.h>
 #import <TCMPortMapper/TCMPortMapper.h>
 #import <PSMTabBarControl/PSMTabBarControl.h>
+@class PlainTextWindowController;
+#import "PlainTextWindowControllerTabContext.h"
 
 @class PlainTextEditor, PSMTabBarControl, PlainTextDocument;
 
@@ -40,7 +42,9 @@
 
 - (IBAction)changePendingUsersAccess:(id)aSender;
 - (NSArray *)plainTextEditors;
-- (PlainTextEditor *)activePlainTextEditor;
+
+@property (nonatomic, weak) PlainTextEditor *activePlainTextEditor;
+
 - (PlainTextEditor *)activePlainTextEditorForDocument:(PlainTextDocument *)aDocument;
 
 - (void)refreshDisplay;
@@ -98,6 +102,8 @@
 
 - (PSMTabBarControl *)tabBar;
 - (NSTabView *)tabView;
+@property (nonatomic, readonly) PlainTextWindowControllerTabContext *selectedTabContext;
+@property (nonatomic, readonly) NSTabViewItem *selectedTabViewItem;
 
 - (NSRect)dissolveToFrame;
 - (void)cascadeWindow;

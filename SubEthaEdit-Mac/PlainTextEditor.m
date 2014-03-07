@@ -1369,6 +1369,8 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 	if (self.findAndReplaceController &&
 		self.findAndReplaceController == self.topOverlayViewController) {
 		[self displayViewControllerInTopArea:nil];
+		PlainTextEditor *editorToActivate = I_windowControllerTabContext.activePlainTextEditor;
+		[self.textView.window makeFirstResponder:editorToActivate.textView];
 	}
 	[[O_scrollView verticalRulerView] setNeedsDisplay:YES];
 }

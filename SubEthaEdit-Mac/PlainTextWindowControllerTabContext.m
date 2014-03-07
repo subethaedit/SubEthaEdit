@@ -18,8 +18,9 @@
 
 @implementation PlainTextWindowControllerTabContext
 
-- (id)init
-{
+@synthesize activePlainTextEditor = _activePlainTextEditor;
+
+- (id)init {
     self = [super init];
     if (self) {
         _plainTextEditors = [[NSMutableArray alloc] init];
@@ -35,8 +36,7 @@
     return [NSString stringWithFormat:@"%@, document: %@", [super description], self.document];
 }
 
-- (void)setIsAlertScheduled:(BOOL)flag
-{
+- (void)setIsAlertScheduled:(BOOL)flag {
     if (flag) {
         [self setIcon:[NSImage imageNamed:@"SymbolWarn"]];
         [self setIconName:@"Alert"];
@@ -45,6 +45,20 @@
         [self setIconName:@""];
     }
     _isAlertScheduled = flag;
+}
+
+- (void)setActivePlainTextEditor:(PlainTextEditor *)activePlainTextEditor {
+	if ([self.plainTextEditors containsObject:activePlainTextEditor]) {
+		_activePlainTextEditor = activePlainTextEditor;
+	}
+}
+
+- (PlainTextEditor *)activePlainTextEditor {
+	PlainTextEditor *result = _activePlainTextEditor;
+	if (!result) {
+		result = self.plainTextEditors.firstObject;
+	}
+	return result;
 }
 
 @end

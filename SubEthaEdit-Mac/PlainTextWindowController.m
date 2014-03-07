@@ -169,6 +169,17 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     return nil;
 }
 
+- (PlainTextWindowControllerTabContext *)selectedTabContext {
+	PlainTextWindowControllerTabContext *result = self.selectedTabViewItem.identifier;
+	return result;
+}
+
+- (NSTabViewItem *)selectedTabViewItem {
+	NSTabViewItem *result = self.tabView.selectedTabViewItem;
+	return result;
+}
+
+
 - (void)document:(PlainTextDocument *)document isReceivingContent:(BOOL)flag;
 {
     if (![[self documents] containsObject:document])
@@ -359,39 +370,18 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 }
 
 - (PlainTextEditor *)activePlainTextEditor {
-    if ([I_plainTextEditors count]!=1) {
-        id responder=[[self window] firstResponder];
-        if ([responder isKindOfClass:[NSTextView class]]) {
-            if ([[I_plainTextEditors objectAtIndex:1] textView] == responder) {
-                return [I_plainTextEditors objectAtIndex:1];
-            }
-        }
-    } 
-    if ([I_plainTextEditors count]>0) {
-        return [I_plainTextEditors objectAtIndex:0];
-    }
-    return nil;
+	PlainTextEditor *result = self.selectedTabContext.activePlainTextEditor;
+	return result;
 }
 
 - (PlainTextEditor *)activePlainTextEditorForDocument:(PlainTextDocument *)aDocument {
+	PlainTextEditor *result = nil;
 	NSTabViewItem *tabViewItem = [self tabViewItemForDocument:aDocument];
     if (tabViewItem) {
         PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
-        NSArray *plainTextEditors = [tabContext plainTextEditors];
-//        if ([plainTextEditors count] != 1) {
-//            id responder = [tabViewItem initialFirstResponder];
-//            NSLog(@"%s %@ responder:%@",__FUNCTION__,aDocument,responder);
-//            if ([responder isKindOfClass:[NSTextView class]]) {
-//                if ([[plainTextEditors objectAtIndex:1] textView] == responder) {
-//                    return [plainTextEditors objectAtIndex:1];
-//                }
-//            }
-//        }
-        if ([plainTextEditors count] > 0) {
-            return [plainTextEditors objectAtIndex:0];
-        }
+		result = tabContext.activePlainTextEditor;
     }
-	return nil;
+	return result;
 }
 
 
@@ -776,9 +766,11 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 	}
 }
 
+- (void)setActivePlainTextEditor:(PlainTextEditor *)activePlainTextEditor {
+	[self.selectedTabContext setActivePlainTextEditor:activePlainTextEditor];
+}
 
-
--(void)splitView:(NSSplitView *)aSplitView resizeSubviewsWithOldSize:(NSSize)oldSize {
+- (void)splitView:(NSSplitView *)aSplitView resizeSubviewsWithOldSize:(NSSize)oldSize {
     CGFloat splitminheight = (aSplitView==I_dialogSplitView) ? SPLITMINHEIGHTDIALOG : SPLITMINHEIGHTTEXT;
     if (aSplitView != I_dialogSplitView) {
         NSRect frame=[aSplitView bounds];
@@ -1354,13 +1346,11 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     return [[self documents] count] > 1;
 }
 
-- (PSMTabBarControl *)tabBar
-{
+- (PSMTabBarControl *)tabBar {
 	return I_tabBar;
 }
 
-- (NSTabView *)tabView
-{
+- (NSTabView *)tabView {
     return I_tabView;
 }
 

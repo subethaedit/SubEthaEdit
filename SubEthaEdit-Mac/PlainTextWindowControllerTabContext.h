@@ -7,7 +7,8 @@
 //
 
 #import <Cocoa/Cocoa.h>
-
+@class PlainTextWindowControllerTabContext;
+#import "PlainTextEditor.h"
 @class PlainTextWindowController, PlainTextDocument, PlainTextLoadProgress;
 
 
@@ -19,6 +20,7 @@
 @property (nonatomic, strong) NSSplitView *dialogSplitView;
 @property (nonatomic, strong) PlainTextDocument *document;
 @property (nonatomic, strong) id documentDialog;
+@property (nonatomic, weak) PlainTextEditor *activePlainTextEditor;
 
 @property (nonatomic) BOOL isReceivingContent;
 @property (nonatomic) BOOL isAlertScheduled;

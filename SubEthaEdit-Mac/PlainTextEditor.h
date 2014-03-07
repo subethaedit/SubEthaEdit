@@ -7,6 +7,7 @@
 //
 
 #import <AppKit/AppKit.h>
+@class PlainTextEditor;
 #import "TCMMMOperation.h"
 #import "SelectionOperation.h"
 #import "PlainTextWindowControllerTabContext.h"
