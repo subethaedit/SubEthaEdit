@@ -45,6 +45,10 @@ NSString * const TCMMMPresenceOrderedSessionsKey = @"OrderedSessions";
 NSString * const TCMMMPresenceNetServicesKey = @"NetServices";
 NSString * const TCMMMPresenceStatusProfileKey = @"StatusProfile";
 
+NSString * const TCMMMPresenceTXTRecordUserIDKey = @"userid";
+NSString * const TCMMMPresenceTXTRecordNameKey = @"name";
+
+
 
 @interface TCMMMPresenceManager (TCMMMPresenceManagerPrivateAdditions)
 
@@ -166,8 +170,8 @@ NSString * const TCMMMPresenceStatusProfileKey = @"StatusProfile";
         [I_netService setTXTRecordByArray:
             [NSArray arrayWithObjects:
                 @"txtvers=1",
-                [NSString stringWithFormat:@"userid=%@",[me userID]],
-                [NSString stringWithFormat:@"name=%@",[me name]],
+                [NSString stringWithFormat:@"%@=%@",TCMMMPresenceTXTRecordUserIDKey,[me userID]],
+                [NSString stringWithFormat:@"%@=%@",TCMMMPresenceTXTRecordNameKey,[me name]],
                 @"version=2",
                 nil]];
 //        [I_netService setProtocolSpecificInformation:[NSString stringWithFormat:@"txtvers=1\001name=%@\001userid=%@\001version=2",[me name],[me userID]]];
@@ -684,7 +688,7 @@ NSString * const TCMMMPresenceStatusProfileKey = @"StatusProfile";
 
 - (void)rendezvousBrowser:(TCMRendezvousBrowser *)aBrowser didResolveService:(NSNetService *)aNetService {
 //    [I_data addObject:[NSMutableDictionary dictionaryWithObject:[NSString stringWithFormat:@"resolved %@%@",[aNetService name],[aNetService domain]] forKey:@"serviceName"]];
-    NSString *userID = [[aNetService TXTRecordDictionary] objectForKey:TCMMMPresenceUserIDKey];
+    NSString *userID = [[aNetService TXTRecordDictionary] objectForKey:TCMMMPresenceTXTRecordUserIDKey];
     if (userID && ![userID isEqualTo:[TCMMMUserManager myUserID]]) {
         [I_foundUserIDs addObject:userID];
         NSMutableDictionary *status=[self statusOfUserID:userID];
@@ -715,7 +719,7 @@ NSString * const TCMMMPresenceStatusProfileKey = @"StatusProfile";
     DEBUGLOG(@"RendezvousLogDomain", AllLogLevel, @"ChangedCountOfService: %@",aNetService);
     if (wasResolved) {
 //        NSLog(@"Was resolved");
-        NSString *userID = [[aNetService TXTRecordDictionary] objectForKey:TCMMMPresenceUserIDKey];
+        NSString *userID = [[aNetService TXTRecordDictionary] objectForKey:TCMMMPresenceTXTRecordUserIDKey];
         if (userID && ![userID isEqualTo:[TCMMMUserManager myUserID]]) {
 //            NSLog(@"has userID:%@",userID);
             NSMutableDictionary *status=[self statusOfUserID:userID];
@@ -730,7 +734,7 @@ NSString * const TCMMMPresenceStatusProfileKey = @"StatusProfile";
 - (void)rendezvousBrowser:(TCMRendezvousBrowser *)aBrowser didRemoveResolved:(BOOL)wasResolved service:(NSNetService *)aNetService {
     DEBUGLOG(@"RendezvousLogDomain", AllLogLevel, @"Removed Service: %@",aNetService);
     if (wasResolved) {
-        NSString *userID = [[aNetService TXTRecordDictionary] objectForKey:TCMMMPresenceUserIDKey];
+        NSString *userID = [[aNetService TXTRecordDictionary] objectForKey:TCMMMPresenceTXTRecordUserIDKey];
         if (userID){
             [I_foundUserIDs removeObject:userID];
             NSMutableDictionary *status=[self statusOfUserID:userID];

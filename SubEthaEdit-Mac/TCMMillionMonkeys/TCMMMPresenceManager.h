@@ -29,6 +29,9 @@ extern NSString * const TCMMMPresenceOrderedSessionsKey;
 extern NSString * const TCMMMPresenceNetServicesKey;
 extern NSString * const TCMMMPresenceStatusProfileKey;
 
+extern NSString * const TCMMMPresenceTXTRecordUserIDKey;
+extern NSString * const TCMMMPresenceTXTRecordNameKey;
+
 
 @interface TCMMMPresenceManager : NSObject <NSNetServiceDelegate, TCMBEEPProfileDelegate>
 {

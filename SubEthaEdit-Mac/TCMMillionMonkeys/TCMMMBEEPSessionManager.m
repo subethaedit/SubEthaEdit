@@ -21,6 +21,7 @@
 #import "NSWorkspaceTCMAdditions.h"
 #import "PreferenceKeys.h"
 #import <netdb.h>       // getaddrinfo, struct addrinfo, AI_NUMERICHOST
+#import "TCMMMPresenceManager.h"
 
 #define PORTRANGELENGTH 10
 NSString * const DefaultPortNumber = @"port";
@@ -398,8 +399,7 @@ static TCMMMBEEPSessionManager *sharedInstance;
 }
 
 - (void)connectToNetService:(NSNetService *)aNetService {
-
-    NSString *userID = [[aNetService TXTRecordDictionary] objectForKey:@"userid"];
+    NSString *userID = [[aNetService TXTRecordDictionary] objectForKey:TCMMMPresenceTXTRecordUserIDKey];
     if (userID) {
         NSMutableDictionary *sessionInformation = [self sessionInformationForUserID:userID];
         NSString *status = [sessionInformation objectForKey:@"RendezvousStatus"];

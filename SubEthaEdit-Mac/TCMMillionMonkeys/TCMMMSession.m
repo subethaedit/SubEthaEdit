@@ -428,7 +428,7 @@ NSString * const TCMMMSessionInvitedUserStateInvitationDeclined = @"DeclinedInvi
     NSString *token = [userInfo objectForKey:@"token"];
     NSString *group = [I_groupByToken objectForKey:token];
     if (group) {
-        NSString *userID = [userInfo objectForKey:@"userID"];
+        NSString *userID = [userInfo objectForKey:TCMMMPresenceUserIDKey];
         TCMMMUser *user = [[TCMMMUserManager sharedInstance] userForUserID:userID];
         if (user) {
             [self inviteUser:user intoGroup:group usingBEEPSession:nil];
