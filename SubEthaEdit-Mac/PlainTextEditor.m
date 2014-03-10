@@ -1280,6 +1280,21 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 	[self updateAnnounceButton];
 }
 
+#pragma mark - Editor Button Tooltips
+- (NSString *)localizedToolTipAnnounceButton {
+	NSString *string = NSLocalizedStringWithDefaultValue(@"DEFAULT_ANNOUNCE_BUTTON_TOOL_TIP", nil, [NSBundle mainBundle], @"Announce Document", @"Editor Tool Tip Announce Button");
+	return string;
+}
+
+- (NSString *)localizedToolTipShareInviteButton {
+	NSString *string = NSLocalizedStringWithDefaultValue(@"DEFAULT_SHARE_BUTTON_TOOL_TIP", nil, [NSBundle mainBundle], @"Share Document", @"Editor Tool Tip Share Invite Button");
+	return string;
+}
+
+- (NSString *)localizedToolTipToggleParticipantsButton {
+	NSString *string = NSLocalizedStringWithDefaultValue(@"DEFAULT_PARTICIPANTS_BUTTON_TOOL_TIP", nil, [NSBundle mainBundle], @"Toggle Participants", @"Editor Tool Tip Participants Button");
+	return string;
+}
 
 #pragma mark - Overlay view support
 
