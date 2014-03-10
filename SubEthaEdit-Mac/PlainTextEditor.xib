@@ -157,6 +157,8 @@
                             <connections>
                                 <action selector="toggleIsAnnounced:" target="-1" id="IJN-40-Y5s"/>
                                 <binding destination="UOY-gY-y9M" name="alternateImage" keyPath="selection.alternateAnnounceImage" id="uCe-pm-U4H"/>
+                                <binding destination="UOY-gY-y9M" name="enabled" keyPath="selection.canAnnounceAndShare" id="KZE-0T-PPN"/>
+                                <binding destination="UOY-gY-y9M" name="toolTip" keyPath="selection.localizedToolTipAnnounceButton" previousBinding="uCe-pm-U4H" id="Rv2-bz-lYg"/>
                                 <outlet property="menu" destination="eH3-RU-uKl" id="H3t-Aa-F1C"/>
                             </connections>
                         </button>
@@ -175,6 +177,7 @@
                                         <string key="NSValueTransformerName">NSNegateBoolean</string>
                                     </dictionary>
                                 </binding>
+                                <binding destination="UOY-gY-y9M" name="toolTip" keyPath="selection.localizedToolTipToggleParticipantsButton" id="9KJ-o0-HP2"/>
                             </connections>
                         </textField>
                         <button id="OwG-YH-zbO">
@@ -186,6 +189,7 @@
                             </buttonCell>
                             <connections>
                                 <action selector="toggleParticipantsOverlay:" target="-1" id="YXe-qQ-ERB"/>
+                                <binding destination="UOY-gY-y9M" name="toolTip" keyPath="selection.localizedToolTipToggleParticipantsButton" id="n70-vI-Phh"/>
                             </connections>
                         </button>
                         <button id="bv6-mv-CIq">
@@ -197,6 +201,8 @@
                             </buttonCell>
                             <connections>
                                 <action selector="inviteUsersToDocumentViaSharingService:" target="-1" id="Wdv-mH-git"/>
+                                <binding destination="UOY-gY-y9M" name="enabled" keyPath="selection.canAnnounceAndShare" id="pYl-6X-ILh"/>
+                                <binding destination="UOY-gY-y9M" name="toolTip" keyPath="selection.localizedToolTipShareInviteButton" id="gFK-S4-jPF"/>
                             </connections>
                         </button>
                         <textField toolTip="Window width and wrap settings" verticalHuggingPriority="750" id="15" customClass="BorderedTextField">

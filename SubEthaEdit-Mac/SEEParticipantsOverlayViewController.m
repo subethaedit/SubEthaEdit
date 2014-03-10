@@ -34,12 +34,13 @@
     if (self) {
 		self.tabContext = aTabContext;
 
-		TCMMMSession *documentSession = aTabContext.document.session;
-
-		[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(documentSessionDidChange:) name:TCMMMSessionParticipantsDidChangeNotification object:documentSession];
-		[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(documentSessionDidChange:) name:TCMMMSessionPendingInvitationsDidChange object:documentSession];
-		[NSNotificationCenter.defaultCenter addObserver:self selector:@selector(documentSessionDidChange:) name:TCMMMSessionPendingUsersDidChangeNotification object:documentSession];
-
+		[self sessionDidChange:nil];
+		
+		PlainTextDocument *document = self.tabContext.document;
+		NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+		[center addObserver:self selector:@selector(sessionWillChange:) name:PlainTextDocumentSessionWillChangeNotification object:document];
+		[center addObserver:self selector:@selector(sessionDidChange:) name:PlainTextDocumentSessionDidChangeNotification object:document];
+		
 		self.participantSubviewControllers = [NSMutableArray array];
 		self.inviteeSubviewControllers = [NSMutableArray array];
 		self.pendingSubviewControllers = [NSMutableArray array];
@@ -64,7 +65,30 @@
 	[self update];
 }
 
+#pragma mark
+- (void)sessionWillChange:(NSNotification *)aNotification {
+	TCMMMSession *documentSession = self.tabContext.document.session;
+	
+	NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+	[center removeObserver:self name:TCMMMSessionParticipantsDidChangeNotification object:documentSession];
+	[center removeObserver:self name:TCMMMSessionPendingInvitationsDidChange object:documentSession];
+	[center removeObserver:self name:TCMMMSessionPendingUsersDidChangeNotification object:documentSession];
+}
 
+- (void)sessionDidChange:(NSNotification *)aNotification {
+	TCMMMSession *documentSession = self.tabContext.document.session;
+	
+	NSNotificationCenter *center = [NSNotificationCenter defaultCenter];
+	[center addObserver:self selector:@selector(documentSessionDidChange:) name:TCMMMSessionParticipantsDidChangeNotification object:documentSession];
+	[center addObserver:self selector:@selector(documentSessionDidChange:) name:TCMMMSessionPendingInvitationsDidChange object:documentSession];
+	[center addObserver:self selector:@selector(documentSessionDidChange:) name:TCMMMSessionPendingUsersDidChangeNotification object:documentSession];
+
+	if (self.tabContext.document == aNotification.object) {
+		[self update];
+	}
+}
+
+#pragma mark
 - (void)documentSessionDidChange:(NSNotification *)notification {
 	if (self.tabContext.document.session == notification.object) {
 		[self update];

@@ -52,6 +52,11 @@ extern NSString * const PlainTextEditorDidFollowUserNotification;
 @property (nonatomic, strong) NSNumber *numberOfActiveParticipants;
 
 @property (nonatomic, strong) NSImage *alternateAnnounceImage;
+@property (nonatomic) BOOL canAnnounceAndShare;
+
+@property (nonatomic, copy) NSString *localizedToolTipAnnounceButton;
+@property (nonatomic, copy) NSString *localizedToolTipShareInviteButton;
+@property (nonatomic, copy) NSString *localizedToolTipToggleParticipantsButton;
 
 @property (nonatomic, readonly) CGFloat desiredMinHeight;
 
