@@ -212,6 +212,7 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 	BOOL isServer = [[[self document] session] isServer];
 	self.canAnnounceAndShare = isServer;
 	
+	[self TCM_updateLocalizedToolTips];
 	[self TCM_updateNumberOfActiveParticipants];
 
     [[NSNotificationCenter defaultCenter] addObserver:self
@@ -227,6 +228,7 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 
 
 - (void)documentSessionPropertysDidUpdate:(NSNotification *)aNotification {
+	[self TCM_updateLocalizedToolTips];
 	[self updateAnnounceButton];
 }
 
@@ -1316,6 +1318,7 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 {
     [self TCM_adjustTopStatusBarFrames];
     [self TCM_updateBottomStatusBar];
+	[self TCM_updateLocalizedToolTips];
 	[self updateAnnounceButton];
 }
 
@@ -1356,6 +1359,7 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 			self.bottomOverlayViewController = viewController;
 		}
 	}
+	[self TCM_updateLocalizedToolTips];
 	[self adjustToScrollViewInsets];
 }
 
