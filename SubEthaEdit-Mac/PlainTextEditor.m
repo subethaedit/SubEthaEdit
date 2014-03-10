@@ -822,6 +822,45 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 	return result;
 }
 
+#pragma mark - Editor Button Tooltips
+- (void)TCM_updateLocalizedToolTips {
+	self.localizedToolTipToggleParticipantsButton = ({
+		NSString *string;
+		if (self.hasBottomOverlayView) {
+			string = NSLocalizedStringWithDefaultValue(@"TOOL_TIP_PARTICIPANTS_BUTTON_HIDE", nil, [NSBundle mainBundle], @"Hide Participants", @"Editor Tool Tip Participants Button - Hide");
+		} else {
+			string = NSLocalizedStringWithDefaultValue(@"TOOL_TIP_PARTICIPANTS_BUTTON_SHOW", nil, [NSBundle mainBundle], @"Show Participants", @"Editor Tool Tip Participants Button - Show");
+		}
+		string;
+	});
+	
+	BOOL isServer = [[[self document] session] isServer];
+	self.localizedToolTipShareInviteButton = ({
+		NSString *string;
+		if (isServer) {
+			string = NSLocalizedStringWithDefaultValue(@"TOOL_TIP_SHARE_BUTTON_DEFAULT", nil, [NSBundle mainBundle], @"Share Document", @"Editor Tool Tip Share Invite Button - Share");
+		} else {
+			string = NSLocalizedStringWithDefaultValue(@"TOOL_TIP_SHARE_BUTTON_DISABLED", nil, [NSBundle mainBundle], @"Share Document (Disabled)", @"Editor Tool Tip Share Invite Button - Cannot share");
+		}
+		string;
+	});
+	
+	self.localizedToolTipAnnounceButton = ({
+		NSString *string;
+		if (isServer) {
+			if ([self.document isAnnounced]) {
+				string = NSLocalizedStringWithDefaultValue(@"TOOL_TIP_ANNOUNCE_BUTTON_CONCEAL", nil, [NSBundle mainBundle], @"Conceal Document", @"Editor Tool Tip Announce Button - Conceal");
+				
+			} else {
+				string = NSLocalizedStringWithDefaultValue(@"TOOL_TIP_ANNOUNCE_BUTTON_ANNOUNCE", nil, [NSBundle mainBundle], @"Announce Document", @"Editor Tool Tip Announce Button - Announce");
+			}
+		} else {
+			string = NSLocalizedStringWithDefaultValue(@"TOOL_TIP_ANNOUNCE_BUTTON_DISABLED", nil, [NSBundle mainBundle], @"Announce Document (Disabled)", @"Editor Tool Tip Announce Button - Disabled");
+		}
+		string;
+	});
+}
+
 - (void)TCM_updateNumberOfActiveParticipants {
     NSLayoutManager *layoutManager = [I_textView layoutManager];
     if ([layoutManager respondsToSelector:@selector(setAllowsNonContiguousLayout:)])
@@ -1278,22 +1317,6 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
     [self TCM_adjustTopStatusBarFrames];
     [self TCM_updateBottomStatusBar];
 	[self updateAnnounceButton];
-}
-
-#pragma mark - Editor Button Tooltips
-- (NSString *)localizedToolTipAnnounceButton {
-	NSString *string = NSLocalizedStringWithDefaultValue(@"DEFAULT_ANNOUNCE_BUTTON_TOOL_TIP", nil, [NSBundle mainBundle], @"Announce Document", @"Editor Tool Tip Announce Button");
-	return string;
-}
-
-- (NSString *)localizedToolTipShareInviteButton {
-	NSString *string = NSLocalizedStringWithDefaultValue(@"DEFAULT_SHARE_BUTTON_TOOL_TIP", nil, [NSBundle mainBundle], @"Share Document", @"Editor Tool Tip Share Invite Button");
-	return string;
-}
-
-- (NSString *)localizedToolTipToggleParticipantsButton {
-	NSString *string = NSLocalizedStringWithDefaultValue(@"DEFAULT_PARTICIPANTS_BUTTON_TOOL_TIP", nil, [NSBundle mainBundle], @"Toggle Participants", @"Editor Tool Tip Participants Button");
-	return string;
 }
 
 #pragma mark - Overlay view support
