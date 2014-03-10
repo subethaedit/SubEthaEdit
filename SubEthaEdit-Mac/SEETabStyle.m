@@ -119,6 +119,10 @@
 }
 
 - (NSRect)closeButtonRectForBounds:(NSRect)theRect ofTabCell:(PSMTabBarCell *)cell {
+    if ([cell shouldDrawCloseButton] == NO) {
+        return NSZeroRect;
+    }
+
 	NSRect result = theRect;
 	result.size = NSMakeSize(12, 13);
 	result.origin.x += 11;
