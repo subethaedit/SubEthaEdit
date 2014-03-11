@@ -191,9 +191,9 @@ static AppController *sharedInstance = nil;
         self = [super init];
         if (self) {
 #if BETA
-            [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"f6d8d69c0803df397e1a47872ffc2348" companyName:@"TheCodingMonkeys" delegate:self];
+            [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"f6d8d69c0803df397e1a47872ffc2348" delegate:self];
 #else
-            [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"893da3588e5f78e26b48286f3b15e8d7" companyName:@"TheCodingMonkeys" delegate:self];
+            [[BITHockeyManager sharedHockeyManager] configureWithIdentifier:@"893da3588e5f78e26b48286f3b15e8d7" delegate:self];
 #endif
         }
         return self;
