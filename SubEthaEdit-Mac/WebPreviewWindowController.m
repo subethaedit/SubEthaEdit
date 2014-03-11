@@ -12,6 +12,11 @@
 #import "FoldableTextStorage.h"
 #import "DocumentMode.h"
 
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
 int const kWebPreviewRefreshAutomatic=1;
 int const kWebPreviewRefreshOnSave   =2;
 int const kWebPreviewRefreshManually =3;
@@ -58,7 +63,6 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
     [oWebView setPolicyDelegate:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[self window] orderOut:self];
-    [super dealloc];
 }
 
 - (void)setPlainTextDocument:(PlainTextDocument *)aDocument {
@@ -266,7 +270,7 @@ NSScrollView * firstScrollView(NSView *aView) {
 -(NSURLRequest *)webView:(WebView *)sender resource:(id)identifier willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse fromDataSource:(WebDataSource *)dataSource {
 //    NSLog(@"Got request:%@ withPolicy:%d",[request URL],[request cachePolicy]);
      if (![request valueForHTTPHeaderField:@"LocalContentAndThisIsTheEncoding"]) {
-         NSMutableURLRequest *mutableRequest=[[request mutableCopy] autorelease];
+         NSMutableURLRequest *mutableRequest=[request mutableCopy];
          [mutableRequest setCachePolicy:_shallCache?
             NSURLRequestReturnCacheDataElseLoad:NSURLRequestReloadIgnoringCacheData];
          return mutableRequest;
@@ -327,7 +331,7 @@ NSScrollView * firstScrollView(NSView *aView) {
     for (NSMenuItem *defaultItem in defaultMenuItems) {
         int tag=[defaultItem tag];
         if (tag == WebMenuItemTagOpenLinkInNewWindow) {
-            NSMenuItem *item=[[defaultItem copy] autorelease];
+            NSMenuItem *item=[defaultItem copy];
             [item setTitle:NSLocalizedString(@"Open Link in Browser",@"Web preview open link in browser contextual menu item")];
             [item setAction:@selector(openInBrowser:)];
             [item setTarget:nil];

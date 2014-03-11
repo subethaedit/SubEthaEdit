@@ -161,7 +161,7 @@
 		1428946909575B9700D14688 /* SplitView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945909575B9700D14688 /* SplitView.m */; };
 		1428946B09575B9700D14688 /* SEETextView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945D09575B9700D14688 /* SEETextView.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1428946C09575B9700D14688 /* URLDataProtocol.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428945F09575B9700D14688 /* URLDataProtocol.m */; };
-		1428946D09575B9700D14688 /* WebPreviewWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428946109575B9700D14688 /* WebPreviewWindowController.m */; };
+		1428946D09575B9700D14688 /* WebPreviewWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428946109575B9700D14688 /* WebPreviewWindowController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		142894A409575FF200D14688 /* TextFieldCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 142894A309575FF200D14688 /* TextFieldCell.m */; };
 		142894AF0957609300D14688 /* MoreCFQ.c in Sources */ = {isa = PBXBuildFile; fileRef = 14289109095744C100D14688 /* MoreCFQ.c */; };
 		142894B00957609300D14688 /* MoreSecurity.c in Sources */ = {isa = PBXBuildFile; fileRef = 1428910B095744C100D14688 /* MoreSecurity.c */; };
