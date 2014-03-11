@@ -194,16 +194,7 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 
 - (void)participantsDidChange:(NSNotification *)aNotification
 {
-    NSLayoutManager *layoutManager = [I_textView layoutManager];
-    if ([layoutManager respondsToSelector:@selector(setAllowsNonContiguousLayout:)])
-    {
-		NSUInteger participantCount = [[[self document] session] participantCount];
-		self.numberOfActiveParticipants = @(participantCount);
-		self.showsNumberOfActiveParticipants = participantCount > 1;
-		
-        ((void (
-		  *)(id, SEL, BOOL))objc_msgSend)(layoutManager, @selector(setAllowsNonContiguousLayout:), (participantCount == 1));
-    }
+	[self TCM_updateNumberOfActiveParticipants];
 }
 
 
@@ -218,6 +209,12 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 
 - (void)sessionDidChange:(NSNotification *)aNotification
 {
+	BOOL isServer = [[[self document] session] isServer];
+	self.canAnnounceAndShare = isServer;
+	
+	[self TCM_updateLocalizedToolTips];
+	[self TCM_updateNumberOfActiveParticipants];
+
     [[NSNotificationCenter defaultCenter] addObserver:self
 											 selector:@selector(participantsDidChange:)
 												 name:TCMMMSessionParticipantsDidChangeNotification
@@ -231,6 +228,7 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 
 
 - (void)documentSessionPropertysDidUpdate:(NSNotification *)aNotification {
+	[self TCM_updateLocalizedToolTips];
 	[self updateAnnounceButton];
 }
 
@@ -819,7 +817,6 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
     return columns;
 }
 
-
 - (CGFloat)desiredMinHeight {
 	CGFloat result = 50.0;
 	SEEPlainTextEditorScrollView *scrollView = O_scrollView;
@@ -827,6 +824,57 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 	return result;
 }
 
+#pragma mark - Editor Button Tooltips
+- (void)TCM_updateLocalizedToolTips {
+	self.localizedToolTipToggleParticipantsButton = ({
+		NSString *string;
+		if (self.hasBottomOverlayView) {
+			string = NSLocalizedStringWithDefaultValue(@"TOOL_TIP_PARTICIPANTS_BUTTON_HIDE", nil, [NSBundle mainBundle], @"Hide Participants", @"Editor Tool Tip Participants Button - Hide");
+		} else {
+			string = NSLocalizedStringWithDefaultValue(@"TOOL_TIP_PARTICIPANTS_BUTTON_SHOW", nil, [NSBundle mainBundle], @"Show Participants", @"Editor Tool Tip Participants Button - Show");
+		}
+		string;
+	});
+	
+	BOOL isServer = [[[self document] session] isServer];
+	self.localizedToolTipShareInviteButton = ({
+		NSString *string;
+		if (isServer) {
+			string = NSLocalizedStringWithDefaultValue(@"TOOL_TIP_SHARE_BUTTON_DEFAULT", nil, [NSBundle mainBundle], @"Share Document", @"Editor Tool Tip Share Invite Button - Share");
+		} else {
+			string = NSLocalizedStringWithDefaultValue(@"TOOL_TIP_SHARE_BUTTON_DISABLED", nil, [NSBundle mainBundle], @"Share Document (Disabled)", @"Editor Tool Tip Share Invite Button - Cannot share");
+		}
+		string;
+	});
+	
+	self.localizedToolTipAnnounceButton = ({
+		NSString *string;
+		if (isServer) {
+			if ([self.document isAnnounced]) {
+				string = NSLocalizedStringWithDefaultValue(@"TOOL_TIP_ANNOUNCE_BUTTON_CONCEAL", nil, [NSBundle mainBundle], @"Conceal Document", @"Editor Tool Tip Announce Button - Conceal");
+				
+			} else {
+				string = NSLocalizedStringWithDefaultValue(@"TOOL_TIP_ANNOUNCE_BUTTON_ANNOUNCE", nil, [NSBundle mainBundle], @"Announce Document", @"Editor Tool Tip Announce Button - Announce");
+			}
+		} else {
+			string = NSLocalizedStringWithDefaultValue(@"TOOL_TIP_ANNOUNCE_BUTTON_DISABLED", nil, [NSBundle mainBundle], @"Announce Document (Disabled)", @"Editor Tool Tip Announce Button - Disabled");
+		}
+		string;
+	});
+}
+
+- (void)TCM_updateNumberOfActiveParticipants {
+    NSLayoutManager *layoutManager = [I_textView layoutManager];
+    if ([layoutManager respondsToSelector:@selector(setAllowsNonContiguousLayout:)])
+    {
+		NSUInteger participantCount = [[[self document] session] participantCount];
+		self.numberOfActiveParticipants = @(participantCount);
+		self.showsNumberOfActiveParticipants = participantCount > 1;
+		
+        ((void (
+		  *)(id, SEL, BOOL))objc_msgSend)(layoutManager, @selector(setAllowsNonContiguousLayout:), (participantCount == 1));
+    }
+}
 
 - (void)TCM_updateBottomStatusBar {
     if (I_flags.showBottomStatusBar)
@@ -1270,9 +1318,9 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 {
     [self TCM_adjustTopStatusBarFrames];
     [self TCM_updateBottomStatusBar];
+	[self TCM_updateLocalizedToolTips];
 	[self updateAnnounceButton];
 }
-
 
 #pragma mark - Overlay view support
 
@@ -1311,6 +1359,7 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 			self.bottomOverlayViewController = viewController;
 		}
 	}
+	[self TCM_updateLocalizedToolTips];
 	[self adjustToScrollViewInsets];
 }
 
