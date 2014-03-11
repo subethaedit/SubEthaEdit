@@ -38,7 +38,11 @@ extern NSString * const PlainTextDocumentDidChangeDocumentModeNotification;
 
 extern NSString * const WrittenByUserIDAttributeName;
 extern NSString * const ChangedByUserIDAttributeName;
+extern NSString * const SEESearchScopeAttributeName;
+
 extern NSString * const PlainTextDocumentDidSaveNotification;
+
+
 
 @interface PlainTextDocument : NSDocument <SEEDocument, NSTextViewDelegate, NSTextStorageDelegate, NSOpenSavePanelDelegate, NSSharingServicePickerDelegate, NSSharingServiceDelegate>
 {

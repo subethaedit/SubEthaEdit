@@ -138,6 +138,9 @@ extern NSString * const PlainTextEditorDidFollowUserNotification;
 - (void)gotoLineInBackground:(unsigned)aLine;
 
 
+- (IBAction)takeFindAndReplaceScopeFromCurrentSelection:(id)aSender;
+- (IBAction)clearFindAndReplaceScope:(id)aSender;
+
 // funnel point for all our internal pointers for additional text checking
 - (void)scheduleTextCheckingForRange:(NSRange)aRange;
 

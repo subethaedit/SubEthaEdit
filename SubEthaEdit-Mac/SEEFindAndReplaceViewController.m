@@ -8,6 +8,8 @@
 
 #import "SEEFindAndReplaceViewController.h"
 #import "FindReplaceController.h"
+#import "PlainTextWindowController.h"
+#import "PlainTextEditor.h"
 
 // this file needs arc - add -fobjc-arc in the compile build phase
 #if !__has_feature(objc_arc)
@@ -119,6 +121,11 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 }
 
 #pragma mark - Options Menu methods
+
+- (IBAction)takeFindAndReplaceScopeFromCurrentSelection:(id)aSender {
+	PlainTextEditor *editor = [self.view.window.windowController activePlainTextEditor];
+	[editor takeFindAndReplaceScopeFromCurrentSelection:aSender];
+}
 
 - (IBAction)switchRegexSyntaxDialect:(id)aSender {
 	NSString *keyPath = kOptionKeyPathRegexDialect;
@@ -278,7 +285,7 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 			// Open Regex Help
 			
 			
-			[self addItemToMenu:menu title:@"Set Scope to current selection" action:@selector(takeScopeFromCurrentSelection:) tag:kOptionMenuSetScopeToSelectionTag];
+			[self addItemToMenu:menu title:@"Set Scope to current selection" action:@selector(takeFindAndReplaceScopeFromCurrentSelection:) tag:kOptionMenuSetScopeToSelectionTag];
 			[self addItemToMenu:menu title:@"Ignore case" action:@selector(toggleIgnoreCase:) tag:kOptionMenuIgnoreCaseTag];
 			[self addItemToMenu:menu title:@"Wrap around" action:@selector(toggleWrapAround:) tag:kOptionMenuWrapAroundTag];
 

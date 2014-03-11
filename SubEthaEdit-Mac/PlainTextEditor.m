@@ -2043,42 +2043,33 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 }
 
 
-- (void)gotoLine:(unsigned)aLine
-{
+- (void)gotoLine:(unsigned)aLine {
     NSRange range = [[(FoldableTextStorage *)[I_textView textStorage] fullTextStorage] findLine:aLine];
-
     [self selectRangeInBackground:range];
 }
 
 
-- (void)gotoLineInBackground:(unsigned)aLine
-{
+- (void)gotoLineInBackground:(unsigned)aLine {
     NSRange range = [[(FoldableTextStorage *)[I_textView textStorage] fullTextStorage] findLine:aLine];
-
     [self selectRangeInBackground:range];
 }
 
 
-- (void)selectRange:(NSRange)aRange
-{
+- (void)selectRange:(NSRange)aRange {
     [[I_textView window] makeKeyAndOrderFront:self];
     [self selectRangeInBackground:aRange];
 }
 
 
-- (void)selectRangeInBackground:(NSRange)aRange
-{
+- (void)selectRangeInBackground:(NSRange)aRange {
     [self selectRangeInBackgroundWithoutIndication:aRange expandIfFolded:YES];
-
-    if ([I_textView respondsToSelector:@selector(showFindIndicatorForRange:)])
-    {
+    if ([I_textView respondsToSelector:@selector(showFindIndicatorForRange:)]) {
         [I_textView showFindIndicatorForRange:[I_textView selectedRange]];
     }
 }
 
 
-- (void)selectRangeInBackgroundWithoutIndication:(NSRange)aRange expandIfFolded:(BOOL)aFlag
-{
+- (void)selectRangeInBackgroundWithoutIndication:(NSRange)aRange expandIfFolded:(BOOL)aFlag {
     FoldableTextStorage *ts = (FoldableTextStorage *)[I_textView textStorage];
 
     aRange = [ts foldedRangeForFullRange:aRange expandIfFolded:aFlag];
@@ -2089,9 +2080,35 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
     if (!NSEqualRanges(range, aRange)) NSBeep();
 }
 
+- (NSValue *)searchScopeValue {
+	NSValue *result = [NSValue valueWithPointer:self.textView];
+	return result;
+}
 
-- (void)keyDown:(NSEvent *)aEvent
-{
+- (IBAction)takeFindAndReplaceScopeFromCurrentSelection:(id)aSender {
+	SEETextView *textView = I_textView;
+	NSRange selectedRange = [textView selectedRange];
+    FoldableTextStorage *ts = (FoldableTextStorage *)[textView textStorage];
+	FullTextStorage *fts = [ts fullTextStorage];
+    NSRange fullRange = [ts foldedRangeForFullRange:selectedRange];
+	[fts addAttribute:SEESearchScopeAttributeName value:[self searchScopeValue] range:fullRange];
+}
+
+- (IBAction)clearFindAndReplaceScope:(id)aSender {
+	SEETextView *textView = I_textView;
+    FoldableTextStorage *ts = (FoldableTextStorage *)[textView textStorage];
+	FullTextStorage *fts = [ts fullTextStorage];
+	NSValue *searchScopeValue = [self searchScopeValue];
+	[fts enumerateAttribute:SEESearchScopeAttributeName inRange:[fts TCM_fullLengthRange] options:NSAttributedStringEnumerationLongestEffectiveRangeNotRequired usingBlock:^(id value, NSRange range, BOOL *stop) {
+		if ([value isEqual:searchScopeValue]) {
+			[fts removeAttribute:SEESearchScopeAttributeName range:range];
+		}
+	}];
+}
+
+
+
+- (void)keyDown:(NSEvent *)aEvent {
     //    NSLog(@"aEvent: %@",[aEvent description]);
     int flags = [aEvent modifierFlags];
 
