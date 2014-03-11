@@ -163,7 +163,7 @@ static FindReplaceController *sharedInstance=nil;
 - (unsigned)currentOgreOptions {
 	unsigned options = [self.globalFindAndReplaceStateController.content regexOptions];
 	if (![self.globalFindAndReplaceStateController.content isCaseSensitive]) {
-		options = ONIG_OPTION_ON(options, ONIG_OPTION_IGNORECASE);
+		ONIG_OPTION_ON(options, ONIG_OPTION_IGNORECASE);
 	}
     return options;
 }

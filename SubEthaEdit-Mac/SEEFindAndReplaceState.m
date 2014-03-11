@@ -62,9 +62,9 @@ NSString * const kFindAndReplaceKeyOnlyLongestMatch = @"onlyLongestMatch";
 
 #define REGEXOPTION_SET_OPTION(OPTION,VALUE) 	unsigned options = self.regexOptions; \
 if (VALUE) { \
-	options = ONIG_OPTION_ON(options, OPTION); \
+	ONIG_OPTION_ON(options, OPTION); \
 } else { \
-	options = ONIG_OPTION_OFF(options, OPTION); \
+	ONIG_OPTION_OFF(options, OPTION); \
 } \
 self.regexOptions = options
 
@@ -78,11 +78,11 @@ self.regexOptions = options
 - (void)setRegularExpressionOptionCaptureGroups:(BOOL)anOption {
 	unsigned options = self.regexOptions;
 	if (anOption) {
-		options = ONIG_OPTION_ON(options, ONIG_OPTION_CAPTURE_GROUP);
-		options = ONIG_OPTION_OFF(options, ONIG_OPTION_DONT_CAPTURE_GROUP);
+		ONIG_OPTION_ON(options, ONIG_OPTION_CAPTURE_GROUP);
+		ONIG_OPTION_OFF(options, ONIG_OPTION_DONT_CAPTURE_GROUP);
 	} else {
-		options = ONIG_OPTION_OFF(options, ONIG_OPTION_CAPTURE_GROUP);
-		options = ONIG_OPTION_ON(options, ONIG_OPTION_DONT_CAPTURE_GROUP);
+		ONIG_OPTION_OFF(options, ONIG_OPTION_CAPTURE_GROUP);
+		ONIG_OPTION_ON(options, ONIG_OPTION_DONT_CAPTURE_GROUP);
 	}
 	self.regexOptions = options;
 }
@@ -96,11 +96,11 @@ self.regexOptions = options
 - (void)setRegularExpressionOptionLineContext:(BOOL)anOption {
 	unsigned options = self.regexOptions;
 	if (anOption) {
-		options = ONIG_OPTION_ON(options, ONIG_OPTION_SINGLELINE);
-		options = ONIG_OPTION_OFF(options, ONIG_OPTION_NEGATE_SINGLELINE);
+		ONIG_OPTION_ON(options, ONIG_OPTION_SINGLELINE);
+		ONIG_OPTION_OFF(options, ONIG_OPTION_NEGATE_SINGLELINE);
 	} else {
-		options = ONIG_OPTION_OFF(options, ONIG_OPTION_SINGLELINE);
-		options = ONIG_OPTION_ON(options, ONIG_OPTION_NEGATE_SINGLELINE);
+		ONIG_OPTION_OFF(options, ONIG_OPTION_SINGLELINE);
+		ONIG_OPTION_ON(options, ONIG_OPTION_NEGATE_SINGLELINE);
 	}
 	self.regexOptions = options;
 }
