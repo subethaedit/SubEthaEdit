@@ -121,6 +121,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 	 
 	I_tabBar = [[PSMTabBarControl alloc] initWithFrame:NSMakeRect(0.0, NSHeight(contentFrame) - [SEETabStyle desiredTabBarControlHeight], NSWidth(contentFrame), [SEETabStyle desiredTabBarControlHeight])];
     [I_tabBar setAutoresizingMask:NSViewWidthSizable | NSViewMinYMargin];
+//	[I_tabBar setTearOffStyle:PSMTabBarTearOffMiniwindow];
     [I_tabBar setStyleNamed:@"SubEthaEdit"];
 	[I_tabBar setShowAddTabButton:YES];
     [[window contentView] addSubview:I_tabBar];
@@ -1897,7 +1898,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
             return NO;
         }
     }
-        
 	return YES;
 }
 
@@ -1957,23 +1957,45 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
 - (PSMTabBarControl *)tabView:(NSTabView *)aTabView newTabBarForDraggedTabViewItem:(NSTabViewItem *)tabViewItem atPoint:(NSPoint)point
 {
+	BOOL shouldCreateFullscreenWindow = NO;
+
+	if ([aTabView isEqual:I_tabView] && (aTabView.window.styleMask & NSFullScreenWindowMask) == NSFullScreenWindowMask) {
+		NSWindow *window = aTabView.window;
+		NSPoint windowMousePoint = [window convertScreenToBase:point];
+		NSView *hitView = [window.contentView hitTest:windowMousePoint];
+		if (hitView != nil) {
+			if (aTabView.tabViewItems.count > 1) {
+				shouldCreateFullscreenWindow = YES;
+			} else {
+				[window setAlphaValue:1.0];
+				return nil;
+			}
+		}
+	}
+
 	//create a new window controller with no tab items
 	PlainTextWindowController *controller = [[[PlainTextWindowController alloc] init] autorelease];
 	PSMTabBarControl *tabBarControl = (PSMTabBarControl *)[aTabView delegate];
     id <PSMTabStyle> style = [tabBarControl style];
-    BOOL hideForSingleTab = [(PSMTabBarControl *)[aTabView delegate] hideForSingleTab];
-	
-	NSRect windowFrame = [[controller window] frame];
-	point.y += windowFrame.size.height - [[[controller window] contentView] frame].size.height;
-	point.x -= [style leftMarginForTabBarControl:tabBarControl];
-	
-    NSRect contentRect = [[self window] contentRectForFrameRect:[[self window] frame]];
-    NSRect frame = [[controller window] frameRectForContentRect:contentRect];
-    [[controller window] setFrame:frame display:NO];
-            
-    [[controller window] setFrameTopLeftPoint:point];
+
+	NSWindow *newWindow = [controller window];
+	if (shouldCreateFullscreenWindow) {
+		newWindow.styleMask = self.window.styleMask;
+		[newWindow setFrame:self.window.frame display:NO];
+	} else {
+		NSRect windowFrame = [newWindow frame];
+		point.y += windowFrame.size.height - [[newWindow contentView] frame].size.height;
+		point.x -= [style leftMarginForTabBarControl:tabBarControl];
+
+		NSRect contentRect = [[self window] contentRectForFrameRect:[[self window] frame]];
+		NSRect frame = [newWindow frameRectForContentRect:contentRect];
+		[newWindow setFrame:frame display:NO];
+		[newWindow setFrameTopLeftPoint:point];
+	}
 	[[controller tabBar] setStyle:style];
-    [[controller tabBar] setHideForSingleTab:hideForSingleTab];
+
+	BOOL hideForSingleTab = [(PSMTabBarControl *)[aTabView delegate] hideForSingleTab];
+	[[controller tabBar] setHideForSingleTab:hideForSingleTab];
 	
     [[DocumentController sharedInstance] addWindowController:controller];
 
