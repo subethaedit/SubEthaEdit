@@ -2610,7 +2610,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				CLASSPREFIX = SEE;
-				LastUpgradeCheck = 0500;
+				LastUpgradeCheck = 0510;
 				ORGANIZATIONNAME = TheCodingMonkeys;
 				TargetAttributes = {
 					8D15AC270486D014006FF6A4 = {
