@@ -21,7 +21,7 @@
 #import "TCMMMUserSEEAdditions.h"
 #import "DocumentController.h"
 #import "DebugAttributeInspectorController.h"
-
+#import "AppController.h"
 
 static DebugController * sharedInstance = nil;
 
@@ -102,6 +102,13 @@ static DebugController * sharedInstance = nil;
         
         [menu addItem:[NSMenuItem separatorItem]];
 
+		NSMenuItem *styleEditorItem = [[NSMenuItem alloc] initWithTitle:@"Style Sheet Editor" action:@selector(showStyleSheetEditorWindow:) keyEquivalent:@""];
+        [styleEditorItem setTarget:[AppController sharedInstance]];
+        [menu addItem:styleEditorItem];
+        [styleEditorItem release];
+
+        [menu addItem:[NSMenuItem separatorItem]];
+
         NSMenuItem *sendOperationItem = [[NSMenuItem alloc] initWithTitle:@"Show Send Operation..." action:@selector(showSendOperation:) keyEquivalent:@""];
         [sendOperationItem setTarget:self];
         [menu addItem:sendOperationItem];
@@ -166,8 +173,7 @@ static DebugController * sharedInstance = nil;
         [blahItem setTarget:self];
         [menu addItem:blahItem];
         [blahItem release];
-
-
+	
         blahItem = [[NSMenuItem alloc] initWithTitle:@"Show Attribute Inspector..." action:@selector(showAttributeInspector:) keyEquivalent:@"a"];
 		[blahItem setKeyEquivalentModifierMask:NSAlternateKeyMask | NSControlKeyMask];
         [blahItem setTarget:self];
