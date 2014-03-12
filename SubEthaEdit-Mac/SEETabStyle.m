@@ -119,15 +119,45 @@
 }
 
 - (NSRect)closeButtonRectForBounds:(NSRect)theRect ofTabCell:(PSMTabBarCell *)cell {
+
     if ([cell shouldDrawCloseButton] == NO) {
         return NSZeroRect;
     }
 
-	NSRect result = theRect;
-	result.size = NSMakeSize(12, 13);
-	result.origin.x += 11;
-	result.origin.y += 6;
-	return result;
+    // ask style for image
+    NSImage *image = [cell closeButtonImageOfType:PSMCloseButtonImageTypeRollover];
+    if (!image)
+        return NSZeroRect;
+
+    // calculate rect
+    NSRect drawingRect = [cell drawingRectForBounds:theRect];
+
+    NSSize imageSize = [image size];
+
+    NSSize scaledImageSize = [cell scaleImageWithSize:imageSize toFitInSize:NSMakeSize(imageSize.width, drawingRect.size.height - 5.0) scalingType:NSImageScaleProportionallyDown];
+
+
+	NSInteger selectedCellIndex = 0;
+	for (PSMTabBarCell *tabBarCell in [cell.controlView cells]) {
+		if (tabBarCell.tabState & PSMTab_SelectedMask) {
+			break;
+		}
+		selectedCellIndex++;
+	};
+	NSInteger myIndex = [[cell.controlView cells] indexOfObject:cell];
+
+	CGFloat leftTabCapWidth = kPSMTabBarCellPadding + 2.0;
+	if (myIndex > selectedCellIndex) {
+		leftTabCapWidth = 0.0;
+	}
+
+    NSRect result = NSMakeRect(NSMinX(drawingRect) + leftTabCapWidth, drawingRect.origin.y , scaledImageSize.width, scaledImageSize.height);
+
+    if(scaledImageSize.height < drawingRect.size.height) {
+        result.origin.y += ceil((drawingRect.size.height - scaledImageSize.height) / 2.0);
+    }
+
+    return NSIntegralRect(result);
 }
 
 
@@ -205,9 +235,69 @@
 	}
 }
 
-- (void)drawTitleOfTabCell:(PSMTabBarCell *)cell withFrame:(NSRect)frame inTabBarControl:(PSMTabBarControl *)tabBarControl {
+- (NSRect)titleRectForBounds:(NSRect)theRect ofTabCell:(PSMTabBarCell *)cell {
+    //Don't bother calculating anything if we don't have a string
+    NSAttributedString *attrString = [cell attributedStringValue];
+    if ([attrString length] == 0)
+        return NSZeroRect;
+
+    NSRect drawingRect = [cell drawingRectForBounds:theRect];
+    NSRect constrainedDrawingRect = drawingRect;
+
+    NSRect closeButtonRect = [cell closeButtonRectForBounds:theRect];
+	if (!NSEqualRects(closeButtonRect, NSZeroRect)) {
+		CGFloat closeButtonWidth = NSWidth(closeButtonRect);
+		constrainedDrawingRect.origin.x += closeButtonWidth + kPSMTabBarCellPadding;
+		constrainedDrawingRect.size.width -= closeButtonWidth + kPSMTabBarCellPadding;
+
+	    //Make sure there's enough padding between the close button and the text
+		if (NSMinX(constrainedDrawingRect) - NSMaxX(closeButtonRect) <= kPSMTabBarCellPadding) {
+			CGFloat missingGap = ABS(NSMinX(constrainedDrawingRect) - NSMaxX(closeButtonRect) - kPSMTabBarCellPadding);
+			constrainedDrawingRect.origin.x += missingGap;
+			constrainedDrawingRect.size.width -= missingGap;
+		}
+	} else {
+		constrainedDrawingRect.origin.x += 11.0;
+		constrainedDrawingRect.size.width -= 11.0;
+	}
+
+	NSInteger selectedCellIndex = 0;
+	for (PSMTabBarCell *tabBarCell in [cell.controlView cells]) {
+		if (tabBarCell.tabState & PSMTab_SelectedMask) {
+			break;
+		}
+		selectedCellIndex++;
+	};
+	NSInteger myIndex = [[cell.controlView cells] indexOfObject:cell];
+
+	if (myIndex >= selectedCellIndex) {
+		constrainedDrawingRect.size.width -= 11.0;
+	}
+
+    //Don't show a title if there's only enough space for a character
+    if (constrainedDrawingRect.size.width <= 2)
+        return NSZeroRect;
+
+    NSSize stringSize = [attrString size];
+    NSRect result = NSMakeRect(constrainedDrawingRect.origin.x, drawingRect.origin.y+ceil((drawingRect.size.height-stringSize.height)/2), constrainedDrawingRect.size.width, stringSize.height);
+
+    return NSIntegralRect(result);
+}
+
+- (NSAttributedString *)attributedStringValueForTabCell:(PSMTabBarCell *)cell {
 	NSString *titleString = cell.title;
-	[titleString drawWithRect:CGRectOffset(frame,0,16) options:NSStringDrawingDisableScreenFontSubstitution attributes:[SEETabStyle tabTitleAttributesForWindowActive:[tabBarControl.window TCM_isActive]]];
+	NSDictionary *attributesDict = [SEETabStyle tabTitleAttributesForWindowActive:[cell.controlView.window TCM_isActive]];
+	return [[NSAttributedString alloc] initWithString:titleString attributes:attributesDict];
+}
+
+- (void)drawTitleOfTabCell:(PSMTabBarCell *)cell withFrame:(NSRect)frame inTabBarControl:(PSMTabBarControl *)tabBarControl {
+    NSRect titleRect = [cell titleRectForBounds:frame];
+    [NSGraphicsContext saveGraphicsState];
+
+    // draw title
+    [[cell attributedStringValue] drawInRect:titleRect];
+
+    [NSGraphicsContext restoreGraphicsState];
 }
 
 @end
