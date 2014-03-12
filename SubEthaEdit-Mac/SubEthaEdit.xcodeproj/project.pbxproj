@@ -1061,7 +1061,6 @@
 		4CD5F83817FB0ECB00F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/UserStatistics.xib; sourceTree = "<group>"; };
 		4CD5F83A17FB0ECF00F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/UserStatistics.xib; sourceTree = "<group>"; };
 		4CD5F83C17FB0EE000F49E31 /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/WebPreview.xib; sourceTree = "<group>"; };
-		4CD5F83E17FB0EE600F49E31 /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/WebPreview.xib; sourceTree = "<group>"; };
 		4CDC271F18967D990060B044 /* SEEParticipantView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEEParticipantView.xib; sourceTree = "<group>"; };
 		4CDC272118969A600060B044 /* SEEParticipantViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEParticipantViewController.h; sourceTree = "<group>"; };
 		4CDC272218969A600060B044 /* SEEParticipantViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEParticipantViewController.m; sourceTree = "<group>"; };
@@ -3547,7 +3546,6 @@
 			isa = PBXVariantGroup;
 			children = (
 				4CD5F83C17FB0EE000F49E31 /* English */,
-				4CD5F83E17FB0EE600F49E31 /* German */,
 			);
 			name = WebPreview.xib;
 			sourceTree = "<group>";
