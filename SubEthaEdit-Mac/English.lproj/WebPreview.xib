@@ -56,6 +56,7 @@
                         </buttonCell>
                         <connections>
                             <action selector="refreshAndEmptyCache:" target="-2" id="42"/>
+                            <binding destination="-2" name="toolTip" keyPath="self.localizedManualRefreshButtonToolTip" id="6eC-xK-c6b"/>
                         </connections>
                     </button>
                     <textField verticalHuggingPriority="750" id="23">
@@ -66,6 +67,9 @@
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
+                        <connections>
+                            <binding destination="-2" name="value" keyPath="self.localizedRefreshLabelText" id="Xh8-jT-cPw"/>
+                        </connections>
                     </textField>
                     <textField verticalHuggingPriority="750" id="24">
                         <rect key="frame" x="7" y="354" width="129" height="14"/>
@@ -77,6 +81,9 @@
                             <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                             <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
                         </textFieldCell>
+                        <connections>
+                            <binding destination="-2" name="value" keyPath="self.localizedBaseURLLabelText" id="8Y8-ar-EWl"/>
+                        </connections>
                     </textField>
                     <textField toolTip="Set the base url for relative URLs." verticalHuggingPriority="750" id="25">
                         <rect key="frame" x="67" y="351" width="227" height="20"/>

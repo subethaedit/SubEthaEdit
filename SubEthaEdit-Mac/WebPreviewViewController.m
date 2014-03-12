@@ -38,6 +38,13 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
 @property (nonatomic) BOOL hasSavedVisibleRect;
 @property (nonatomic) int refreshType;
 @property (nonatomic) BOOL shallCache;
+
+
+// Localized XIB
+@property (nonatomic, readonly) NSString *localizedBaseURLLabelText;
+@property (nonatomic, readonly) NSString *localizedRefreshLabelText;
+@property (nonatomic, readonly) NSString *localizedManualRefreshButtonToolTip;
+
 @end
 
 @implementation WebPreviewViewController
@@ -83,6 +90,7 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
     [[self window] orderOut:self];
 }
 
+#pragma mark
 - (void)setPlainTextDocument:(PlainTextDocument *)aDocument {
     _plainTextDocument = aDocument;
     if (!aDocument) {
@@ -95,6 +103,7 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
     return _plainTextDocument;
 }
 
+#pragma mark
 - (NSURL *)baseURL {
     return [NSURL URLWithString:[self.oBaseUrlTextField stringValue]];
 }
@@ -112,6 +121,7 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
     } 
 }
 
+#pragma mark
 void logSubViews(NSArray *aSubviewsArray) {
     if (aSubviewsArray) NSLog(@"---");
     for (NSView *subview in aSubviewsArray) {
@@ -179,6 +189,7 @@ NSScrollView * firstScrollView(NSView *aView) {
     [[self.oWebView mainFrame] loadHTMLString:@"" baseURL:nil];
 }
 
+#pragma mark
 -(IBAction)refreshAndEmptyCache:(id)aSender {
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
     [self reloadWebViewCachingAllowed:NO];
@@ -205,11 +216,29 @@ NSScrollView * firstScrollView(NSView *aView) {
     }
 }
 
-
 -(IBAction)changeRefreshType:(id)aSender {
     [self setRefreshType:[[aSender selectedItem] tag]];
 }
 
+#pragma mark - Localized Xib
+- (NSString *)localizedBaseURLLabelText {
+	NSString *string = NSLocalizedStringWithDefaultValue(@"WEB_PREVIEW_BASE_URL_LABEL", nil, [NSBundle mainBundle], @"Base URL:", @"Web Preview - Label for the Base URL");
+	return string;
+}
+
+
+- (NSString *)localizedRefreshLabelText {
+	NSString *string = NSLocalizedStringWithDefaultValue(@"WEB_PREVIEW_REFRESH_LABEL", nil, [NSBundle mainBundle], @"Refresh:", @"Web Preview - Label for the Refresh Popup");
+	return string;
+}
+
+- (NSString *)localizedManualRefreshButtonToolTip {
+	NSString *string = NSLocalizedStringWithDefaultValue(@"WEB_PREVIEW_MANUAL_REFRESH_TOOL_TIP", nil, [NSBundle mainBundle], @"Refresh", @"Web Preview - Tool Tip for the Manual Refresh Button");
+	return string;
+}
+
+
+#pragma mark
 -(void)windowDidLoad {
     [super windowDidLoad];
     [self.oWebView setFrameLoadDelegate:self];
