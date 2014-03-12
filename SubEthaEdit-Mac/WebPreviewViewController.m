@@ -7,7 +7,7 @@
 //
 
 #import "TCMMMSession.h"
-#import "WebPreviewWindowController.h"
+#import "WebPreviewViewController.h"
 #import "PlainTextDocument.h"
 #import "FoldableTextStorage.h"
 #import "DocumentMode.h"

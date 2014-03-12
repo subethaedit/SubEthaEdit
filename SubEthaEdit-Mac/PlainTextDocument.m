@@ -17,7 +17,7 @@
 #import "PlainTextDocument.h"
 #import "PlainTextWindowController.h"
 #import "PlainTextWindowControllerTabContext.h"
-#import "WebPreviewWindowController.h"
+#import "WebPreviewViewController.h"
 #import "DocumentProxyWindowController.h"
 #import "UndoManager.h"
 #import "TCMMMUserSEEAdditions.h"
