@@ -17,24 +17,16 @@ extern int const kWebPreviewRefreshDelayed  ;
 
 @class PlainTextDocument;
 
-@interface WebPreviewWindowController : NSWindowController {
-    IBOutlet WebView       *oWebView;
-    IBOutlet NSTextField   *oBaseUrlTextField;
-    IBOutlet NSPopUpButton *oRefreshButton;
-    IBOutlet NSTextField   *oStatusTextField;
-    PlainTextDocument *_plainTextDocument;
-    NSRect _documentVisibleRect;
-    BOOL   _hasSavedVisibleRect;
-    int    _refreshType;
-    BOOL   _shallCache;
-}
+@interface WebPreviewWindowController : NSWindowController
 
 - (id)initWithPlainTextDocument:(PlainTextDocument *)aDocument;
 
 - (void)setPlainTextDocument:(PlainTextDocument *)aDocument;
 - (PlainTextDocument *)plainTextDocument;
+
 - (int)refreshType;
 - (void)setRefreshType:(int)aRefreshType;
+
 - (void)updateBaseURL;
 
 - (NSURL *)baseURL;

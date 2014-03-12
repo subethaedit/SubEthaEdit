@@ -25,7 +25,24 @@ int const kWebPreviewRefreshDelayed  =4;
 static NSString *WebPreviewWindowSizePreferenceKey =@"WebPreviewWindowSize";
 static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
 
+@interface WebPreviewWindowController ()
+@property (nonatomic, strong) IBOutlet WebView *oWebView;
+@property (nonatomic, strong) IBOutlet NSTextField *oBaseUrlTextField;
+@property (nonatomic, strong) IBOutlet NSPopUpButton *oRefreshButton;
+@property (nonatomic, strong) IBOutlet NSTextField *oStatusTextField;
+
+@property (nonatomic, strong) PlainTextDocument *plainTextDocument;
+
+@property (nonatomic) NSRect documentVisibleRect;
+@property (nonatomic) BOOL hasSavedVisibleRect;
+@property (nonatomic) int refreshType;
+@property (nonatomic) BOOL shallCache;
+@end
+
 @implementation WebPreviewWindowController
+
+@synthesize plainTextDocument=_plainTextDocument;
+@synthesize refreshType=_refreshType;
 
 - (id)initWithPlainTextDocument:(PlainTextDocument *)aDocument {
     self=[super initWithWindowNibName:@"WebPreview"];
@@ -57,10 +74,10 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
 }
 
 - (void)dealloc {
-    [oWebView setFrameLoadDelegate:nil];
-    [oWebView setUIDelegate:nil];
-    [oWebView setResourceLoadDelegate:nil];
-    [oWebView setPolicyDelegate:nil];
+    [self.oWebView setFrameLoadDelegate:nil];
+    [self.oWebView setUIDelegate:nil];
+    [self.oWebView setResourceLoadDelegate:nil];
+    [self.oWebView setPolicyDelegate:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[self window] orderOut:self];
 }
@@ -68,7 +85,7 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
 - (void)setPlainTextDocument:(PlainTextDocument *)aDocument {
     _plainTextDocument = aDocument;
     if (!aDocument) {
-        [oWebView stopLoading:self];
+        [self.oWebView stopLoading:self];
     }
 }
 
@@ -78,18 +95,18 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
 }
 
 - (NSURL *)baseURL {
-    return [NSURL URLWithString:[oBaseUrlTextField stringValue]];
+    return [NSURL URLWithString:[self.oBaseUrlTextField stringValue]];
 }
 
 - (void)setBaseURL:(NSURL *)aBaseURL {
-    [oBaseUrlTextField setStringValue:[aBaseURL absoluteString]];
+    [self.oBaseUrlTextField setStringValue:[aBaseURL absoluteString]];
 }
 
 - (void)updateBaseURL {
     NSURL *fileURL;
     if ((fileURL=[[self plainTextDocument] fileURL])) {
         if ([[NSFileManager defaultManager] fileExistsAtPath:[fileURL path]]) {
-            [oBaseUrlTextField setStringValue:[fileURL absoluteString]];
+            [self.oBaseUrlTextField setStringValue:[fileURL absoluteString]];
         }
     } 
 }
@@ -119,7 +136,7 @@ NSScrollView * firstScrollView(NSView *aView) {
 
 -(void)reloadWebViewCachingAllowed:(BOOL)aFlag {
     _shallCache=aFlag;
-    NSScrollView *scrollView=firstScrollView(oWebView);
+    NSScrollView *scrollView=firstScrollView(self.oWebView);
     // NSLog(@"found scrollview: %@",[scrollView description]);
     if (scrollView && !_hasSavedVisibleRect) {
         _documentVisibleRect=[scrollView documentVisibleRect];
@@ -127,7 +144,7 @@ NSScrollView * firstScrollView(NSView *aView) {
     }
     
     NSURL *baseURL=[NSURL URLWithString:@"http://localhost/"];
-    NSString *potentialURLString = [oBaseUrlTextField stringValue];
+    NSString *potentialURLString = [self.oBaseUrlTextField stringValue];
     if ([potentialURLString length] > 0) {
     	NSURL *tryURL = [NSURL URLWithString:potentialURLString];
 //    	NSLog(@"%s %@ %@",__FUNCTION__,[tryURL debugDescription],[tryURL standardizedURL]);
@@ -139,7 +156,7 @@ NSScrollView * firstScrollView(NSView *aView) {
     	} else {
     		tryURL = [NSURL URLWithString:[@"http://" stringByAppendingString:potentialURLString]];
     		baseURL = tryURL;
-    		[oBaseUrlTextField setStringValue:[tryURL absoluteString]];
+    		[self.oBaseUrlTextField setStringValue:[tryURL absoluteString]];
     	}
     }
 
@@ -153,12 +170,12 @@ NSScrollView * firstScrollView(NSView *aView) {
     [request setHTTPBody:[string dataUsingEncoding:encoding]];
     NSString *IANACharSetName=(NSString *)CFStringConvertEncodingToIANACharSetName(
                 CFStringConvertNSStringEncodingToEncoding(encoding));
-    [[oWebView mainFrame] loadData:[string dataUsingEncoding:encoding] MIMEType:@"text/html" textEncodingName:IANACharSetName baseURL:baseURL];
+    [[self.oWebView mainFrame] loadData:[string dataUsingEncoding:encoding] MIMEType:@"text/html" textEncodingName:IANACharSetName baseURL:baseURL];
 }
 
 - (void)windowWillClose:(NSNotification *)aNotification {
 	// when we see our window closing, we empty the contents so no javascript will run in background
-    [[oWebView mainFrame] loadHTMLString:@"" baseURL:nil];
+    [[self.oWebView mainFrame] loadHTMLString:@"" baseURL:nil];
 }
 
 -(IBAction)refreshAndEmptyCache:(id)aSender {
@@ -177,10 +194,10 @@ NSScrollView * firstScrollView(NSView *aView) {
 - (void)setRefreshType:(int)aRefreshType {
     [[[[self plainTextDocument] documentMode] defaults] setObject:[NSNumber numberWithInt:aRefreshType] forKey:WebPreviewRefreshModePreferenceKey];
     if ([self isWindowLoaded]) {
-        int index=[oRefreshButton indexOfItemWithTag:aRefreshType];
+        int index=[self.oRefreshButton indexOfItemWithTag:aRefreshType];
         if (index!=-1) {
             _refreshType=aRefreshType;
-            [oRefreshButton selectItemAtIndex:index];
+            [self.oRefreshButton selectItemAtIndex:index];
         }
     } else {
         _refreshType=aRefreshType;
@@ -194,18 +211,18 @@ NSScrollView * firstScrollView(NSView *aView) {
 
 -(void)windowDidLoad {
     [super windowDidLoad];
-    [oWebView setFrameLoadDelegate:self];
-    [oWebView setUIDelegate:self];
-    [oWebView setResourceLoadDelegate:self];
-	[oWebView setPolicyDelegate:self];
+    [self.oWebView setFrameLoadDelegate:self];
+    [self.oWebView setUIDelegate:self];
+    [self.oWebView setResourceLoadDelegate:self];
+	[self.oWebView setPolicyDelegate:self];
 
-    [oWebView setPreferencesIdentifier:@"WebPreviewPreferences"];
-    WebPreferences *prefs = [oWebView preferences];
+    [self.oWebView setPreferencesIdentifier:@"WebPreviewPreferences"];
+    WebPreferences *prefs = [self.oWebView preferences];
     [prefs setLoadsImagesAutomatically:YES];
     [prefs setJavaEnabled:YES];
     [prefs setJavaScriptEnabled:YES];
     [prefs setPlugInsEnabled:YES];
-    [oStatusTextField setStringValue:@""];
+    [self.oStatusTextField setStringValue:@""];
     NSString *frameString=[[NSUserDefaults standardUserDefaults] 
                             stringForKey:WebPreviewWindowSizePreferenceKey];
     if (frameString) {
@@ -215,7 +232,7 @@ NSScrollView * firstScrollView(NSView *aView) {
 }
 
 - (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName {
-    NSString *title=[[[oWebView mainFrame] dataSource] pageTitle];
+    NSString *title=[[[self.oWebView mainFrame] dataSource] pageTitle];
     
     title=title?[title stringByAppendingFormat:@" [%@]",displayName]:
                 [NSString stringWithFormat:@"[%@]",displayName];
@@ -285,7 +302,7 @@ NSScrollView * firstScrollView(NSView *aView) {
 #pragma mark -
 #pragma mark ### FrameLoadDelegate ###
 
-- (void)        webView:(WebView *)aSender 
+- (void) webView:(WebView *)aSender
         didReceiveTitle:(NSString *)title 
                forFrame:(WebFrame *)frame {
     if ([[aSender mainFrame] isEqualTo:frame]) {
@@ -294,8 +311,8 @@ NSScrollView * firstScrollView(NSView *aView) {
 }
 
 - (void)webView:(WebView *)aSender didFinishLoadForFrame:(WebFrame *)aFrame {
-    if ([aFrame isEqualTo:[oWebView mainFrame]]) {
-        NSScrollView *scrollView=firstScrollView(oWebView);
+    if ([aFrame isEqualTo:[self.oWebView mainFrame]]) {
+        NSScrollView *scrollView=firstScrollView(self.oWebView);
         if (scrollView && _hasSavedVisibleRect) {
             [(NSView *)[scrollView documentView] scrollRectToVisible:_documentVisibleRect];
             _hasSavedVisibleRect=NO;
@@ -318,10 +335,10 @@ NSScrollView * firstScrollView(NSView *aView) {
         NSImage *image  =[elementInformation objectForKey:WebElementImageKey];
         if (alt)           [string appendFormat:@"'%@' ",alt];
         if (image)         [string appendFormat:@"%@ ",NSStringFromSize([image size])];
-        [oStatusTextField setStringValue:string];
+        [self.oStatusTextField setStringValue:string];
     } else {
-        if (![[oStatusTextField stringValue] isEqualToString:@""]) {
-            [oStatusTextField setStringValue:@""];
+        if (![[self.oStatusTextField stringValue] isEqualToString:@""]) {
+            [self.oStatusTextField setStringValue:@""];
         }
     }
 }
