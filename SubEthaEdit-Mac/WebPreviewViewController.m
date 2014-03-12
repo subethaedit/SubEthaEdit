@@ -39,11 +39,14 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
 @property (nonatomic) int refreshType;
 @property (nonatomic) BOOL shallCache;
 
-
 // Localized XIB
 @property (nonatomic, readonly) NSString *localizedBaseURLLabelText;
 @property (nonatomic, readonly) NSString *localizedRefreshLabelText;
 @property (nonatomic, readonly) NSString *localizedManualRefreshButtonToolTip;
+@property (nonatomic, readonly) NSString *localizedManualRefreshPopupItemAutomatic;
+@property (nonatomic, readonly) NSString *localizedManualRefreshPopupItemDelayed;
+@property (nonatomic, readonly) NSString *localizedManualRefreshPopupItemOnSave;
+@property (nonatomic, readonly) NSString *localizedManualRefreshPopupItemManual;
 
 @end
 
@@ -237,6 +240,27 @@ NSScrollView * firstScrollView(NSView *aView) {
 	return string;
 }
 
+// PopUp Refresh Menu Items
+
+- (NSString *)localizedManualRefreshPopupItemAutomatic {
+	NSString *string = NSLocalizedStringWithDefaultValue(@"WEB_PREVIEW_REFRESH_POPUP_AUTOMATIC", nil, [NSBundle mainBundle], @"automatic", @"Web Preview - Refresh Popup Item - Automatic");
+	return string;
+}
+
+- (NSString *)localizedManualRefreshPopupItemDelayed {
+	NSString *string = NSLocalizedStringWithDefaultValue(@"WEB_PREVIEW_REFRESH_POPUP_DELAYED", nil, [NSBundle mainBundle], @"delayed", @"Web Preview - Refresh Popup Item - Delayed");
+	return string;
+}
+
+- (NSString *)localizedManualRefreshPopupItemOnSave {
+	NSString *string = NSLocalizedStringWithDefaultValue(@"WEB_PREVIEW_REFRESH_POPUP_ON_SAVE", nil, [NSBundle mainBundle], @"on save", @"Web Preview - Refresh Popup Item - On Save");
+	return string;
+}
+
+- (NSString *)localizedManualRefreshPopupItemManual {
+	NSString *string = NSLocalizedStringWithDefaultValue(@"WEB_PREVIEW_REFRESH_POPUP_MANUAL", nil, [NSBundle mainBundle], @"manually", @"Web Preview - Refresh Popup Item - Manual");
+	return string;
+}
 
 #pragma mark
 -(void)windowDidLoad {

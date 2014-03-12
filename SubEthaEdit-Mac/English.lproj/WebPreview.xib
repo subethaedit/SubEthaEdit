@@ -36,10 +36,26 @@
                             <font key="font" metaFont="smallSystem"/>
                             <menu key="menu" title="OtherViews" id="20">
                                 <items>
-                                    <menuItem title="automatic" tag="1" id="17"/>
-                                    <menuItem title="delayed" state="on" tag="4" id="43"/>
-                                    <menuItem title="on save" tag="2" id="19"/>
-                                    <menuItem title="manually" tag="3" id="18"/>
+                                    <menuItem title="automatic" state="on" tag="1" id="17">
+                                        <connections>
+                                            <binding destination="-2" name="title" keyPath="self.localizedManualRefreshPopupItemAutomatic" id="wCz-g9-LVh"/>
+                                        </connections>
+                                    </menuItem>
+                                    <menuItem title="delayed" tag="4" id="43">
+                                        <connections>
+                                            <binding destination="-2" name="title" keyPath="self.localizedManualRefreshPopupItemDelayed" id="pnZ-JZ-HJp"/>
+                                        </connections>
+                                    </menuItem>
+                                    <menuItem title="on save" tag="2" id="19">
+                                        <connections>
+                                            <binding destination="-2" name="title" keyPath="self.localizedManualRefreshPopupItemOnSave" id="3fu-8L-9D6"/>
+                                        </connections>
+                                    </menuItem>
+                                    <menuItem title="manually" tag="3" id="18">
+                                        <connections>
+                                            <binding destination="-2" name="title" keyPath="self.localizedManualRefreshPopupItemManual" id="LPm-UQ-lfd"/>
+                                        </connections>
+                                    </menuItem>
                                 </items>
                             </menu>
                         </popUpButtonCell>
