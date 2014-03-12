@@ -205,9 +205,20 @@
 	}
 }
 
-- (void)drawTitleOfTabCell:(PSMTabBarCell *)cell withFrame:(NSRect)frame inTabBarControl:(PSMTabBarControl *)tabBarControl {
+- (NSAttributedString *)attributedStringValueForTabCell:(PSMTabBarCell *)cell {
 	NSString *titleString = cell.title;
-	[titleString drawWithRect:CGRectOffset(frame,0,16) options:NSStringDrawingDisableScreenFontSubstitution attributes:[SEETabStyle tabTitleAttributesForWindowActive:[tabBarControl.window TCM_isActive]]];
+	NSDictionary *attributesDict = [SEETabStyle tabTitleAttributesForWindowActive:[cell.controlView.window TCM_isActive]];
+	return [[NSAttributedString alloc] initWithString:titleString attributes:attributesDict];
+}
+
+- (void)drawTitleOfTabCell:(PSMTabBarCell *)cell withFrame:(NSRect)frame inTabBarControl:(PSMTabBarControl *)tabBarControl {
+    NSRect titleRect = [cell titleRectForBounds:frame];
+    [NSGraphicsContext saveGraphicsState];
+
+    // draw title
+    [[cell attributedStringValue] drawInRect:titleRect];
+
+    [NSGraphicsContext restoreGraphicsState];
 }
 
 @end
