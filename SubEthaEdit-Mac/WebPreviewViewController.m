@@ -1,10 +1,11 @@
 //
-//  WebPreviewWindowController.m
+//  WebPreviewViewController.m
+//  was : WebPreviewWindowController.m
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Mon Jul 07 2003.
 //  Copyright (c) 2003 TheCodingMonkeys. All rights reserved.
-//
+//  refactored to be a ViewController by liz
 
 #import "TCMMMSession.h"
 #import "WebPreviewViewController.h"
@@ -25,7 +26,7 @@ int const kWebPreviewRefreshDelayed  =4;
 static NSString *WebPreviewWindowSizePreferenceKey =@"WebPreviewWindowSize";
 static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
 
-@interface WebPreviewWindowController ()
+@interface WebPreviewViewController ()
 @property (nonatomic, strong) IBOutlet WebView *oWebView;
 @property (nonatomic, strong) IBOutlet NSTextField *oBaseUrlTextField;
 @property (nonatomic, strong) IBOutlet NSPopUpButton *oRefreshButton;
@@ -39,7 +40,7 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
 @property (nonatomic) BOOL shallCache;
 @end
 
-@implementation WebPreviewWindowController
+@implementation WebPreviewViewController
 
 @synthesize plainTextDocument=_plainTextDocument;
 @synthesize refreshType=_refreshType;

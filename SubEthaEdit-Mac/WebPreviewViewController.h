@@ -1,10 +1,11 @@
 //
-//  WebPreviewWindowController.h
+//  WebPreviewViewController.h
+//  was : WebPreviewWindowController.h
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Mon Jul 07 2003.
 //  Copyright (c) 2003 TheCodingMonkeys. All rights reserved.
-//
+//  refactored to be a ViewController by liz
 
 #import <AppKit/AppKit.h>
 #import <WebKit/WebKit.h>
@@ -17,7 +18,7 @@ extern int const kWebPreviewRefreshDelayed  ;
 
 @class PlainTextDocument;
 
-@interface WebPreviewWindowController : NSWindowController
+@interface WebPreviewViewController : NSWindowController
 
 - (id)initWithPlainTextDocument:(PlainTextDocument *)aDocument;
 
