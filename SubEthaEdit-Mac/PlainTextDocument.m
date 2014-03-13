@@ -17,7 +17,7 @@
 #import "PlainTextDocument.h"
 #import "PlainTextWindowController.h"
 #import "PlainTextWindowControllerTabContext.h"
-#import "WebPreviewWindowController.h"
+#import "WebPreviewViewController.h"
 #import "DocumentProxyWindowController.h"
 #import "UndoManager.h"
 #import "TCMMMUserSEEAdditions.h"
@@ -938,8 +938,9 @@ static NSString *tempFileName(NSString *origPath) {
     [[TCMMMPresenceManager sharedInstance] unregisterSession:[self session]];
     [I_textStorage setDelegate:nil];
     [I_textStorage release];
-    [I_webPreviewWindowController setPlainTextDocument:nil];
-    [I_webPreviewWindowController release];
+    [I_webPreviewViewController setPlainTextDocument:nil];
+    [I_webPreviewViewController release];
+	[I_webPreviewWindowController release];
     [I_documentProxyWindowController release];
     [I_session release];
     [I_plainTextAttributes release];
@@ -1430,17 +1431,20 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (void)ensureWebPreview {
-    if (!I_webPreviewWindowController) {
-        I_webPreviewWindowController=[[WebPreviewWindowController alloc] initWithPlainTextDocument:self];
-        [I_webPreviewWindowController window];
+    if (!I_webPreviewViewController) {
+        I_webPreviewViewController=[[WebPreviewViewController alloc] initWithPlainTextDocument:self];
+		I_webPreviewWindowController = [[NSWindowController alloc] initWithWindow:I_webPreviewViewController.view.window];
+
+        [I_webPreviewViewController view];
     }
 }
 
-- (IBAction)showWebPreview:(id)aSender {
-    [self ensureWebPreview];
+- (IBAction)showWebPreview:(id)aSender {// TODO: WebPreview - removed/change to split view
+   [self ensureWebPreview];
     if (![[I_webPreviewWindowController window] isVisible]) {
         [I_webPreviewWindowController showWindow:self];
-        [I_webPreviewWindowController refreshAndEmptyCache:self];
+		
+        [I_webPreviewViewController refreshAndEmptyCache:self];
     } else {
         [[I_webPreviewWindowController window] orderFront:self];
     }
@@ -1491,17 +1495,17 @@ static NSString *tempFileName(NSString *origPath) {
 
 
 - (IBAction)refreshWebPreview:(id)aSender {
-    if (!I_webPreviewWindowController) {
+    if (!I_webPreviewViewController) {
         [self showWebPreview:self];
     } else {
-        [I_webPreviewWindowController refresh:self];
+        [I_webPreviewViewController refresh:self];
     }
 }
 
 #define WEBPREVIEWDELAYEDREFRESHINTERVAL 1.2
 
 - (void)triggerDelayedWebPreviewRefresh {
-    if (I_webPreviewWindowController) {
+    if (I_webPreviewViewController) {
         if ([I_webPreviewDelayedRefreshTimer isValid]) {
             [I_webPreviewDelayedRefreshTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:WEBPREVIEWDELAYEDREFRESHINTERVAL]];
         } else {
@@ -1521,18 +1525,19 @@ static NSString *tempFileName(NSString *origPath) {
 
 
 - (void)TCM_webPreviewRefreshNotification:(NSNotification *)aNotification {
-    if ([I_webPreviewWindowController refreshType] == kWebPreviewRefreshAutomatic) {
+    if ([I_webPreviewViewController refreshType] == kWebPreviewRefreshAutomatic) {
         [self refreshWebPreview:self];
-    } else if ([I_webPreviewWindowController refreshType] == kWebPreviewRefreshDelayed) {
+    } else if ([I_webPreviewViewController refreshType] == kWebPreviewRefreshDelayed) {
         [self triggerDelayedWebPreviewRefresh];
     }
 }
 
 - (void)TCM_webPreviewOnSaveRefresh {
-    if (I_webPreviewWindowController) {
+	// TODO: WebPreview - removed/change to split view
+    if (I_webPreviewViewController) {
         if ([[I_webPreviewWindowController window] isVisible] &&
-            [I_webPreviewWindowController refreshType] == kWebPreviewRefreshOnSave) {
-            [I_webPreviewWindowController refreshAndEmptyCache:self];
+            [I_webPreviewViewController refreshType] == kWebPreviewRefreshOnSave) {
+            [I_webPreviewViewController refreshAndEmptyCache:self];
         }
     }
 }
@@ -6187,11 +6192,12 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 
 
+// TODO: WebPreview - removed/change to split view
 // WebPreview
-    if (I_webPreviewWindowController &&
+    if (I_webPreviewViewController &&
         [[I_webPreviewWindowController window] isVisible] &&
-        ([I_webPreviewWindowController refreshType]==kWebPreviewRefreshAutomatic ||
-         [I_webPreviewWindowController refreshType]==kWebPreviewRefreshDelayed)) {
+        ([I_webPreviewViewController refreshType]==kWebPreviewRefreshAutomatic ||
+         [I_webPreviewViewController refreshType]==kWebPreviewRefreshDelayed)) {
         [[NSNotificationQueue defaultQueue]
     enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentRefreshWebPreviewNotification object:self]
            postingStyle:NSPostWhenIdle
@@ -6786,7 +6792,10 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 - (void)handleShowWebPreviewCommand:(NSScriptCommand *)command {
     [self showWebPreview:self];
-    if ([[I_webPreviewWindowController window] isVisible]) [self refreshWebPreview:self];
+	// TODO: WebPreview - removed/change to split view
+    if ([[I_webPreviewWindowController window] isVisible]) {
+		[self refreshWebPreview:self];
+	}
 }
 
 - (void)replaceTextInRange:(NSRange)aRange withString:(NSString *)aString {
@@ -6996,13 +7005,15 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 - (NSString *)scriptedWebPreviewBaseURL {
     [self ensureWebPreview];
-    return [[I_webPreviewWindowController baseURL] absoluteString];
+    return [[I_webPreviewViewController baseURL] absoluteString];
 }
 
 - (void)setScriptedWebPreviewBaseURL:(NSString *)aString {
     [self ensureWebPreview];
-    [I_webPreviewWindowController setBaseURL:[NSURL URLWithString:aString]];
-    if ([[I_webPreviewWindowController window] isVisible]) [self refreshWebPreview:self];
+    [I_webPreviewViewController setBaseURL:[NSURL URLWithString:aString]];
+    if ([[I_webPreviewWindowController window] isVisible]) {
+		[self refreshWebPreview:self];
+	}
 }
 
 - (void)scriptWrapperWillRunScriptNotification:(NSNotification *)aNotification {

@@ -1,29 +1,57 @@
 //
-//  WebPreviewWindowController.m
+//  WebPreviewViewController.m
+//  was : WebPreviewWindowController.m
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Mon Jul 07 2003.
 //  Copyright (c) 2003 TheCodingMonkeys. All rights reserved.
-//
+//  refactored to be a ViewController by liz
 
 #import "TCMMMSession.h"
-#import "WebPreviewWindowController.h"
+#import "WebPreviewViewController.h"
 #import "PlainTextDocument.h"
 #import "FoldableTextStorage.h"
 #import "DocumentMode.h"
 
-int const kWebPreviewRefreshAutomatic=1;
-int const kWebPreviewRefreshOnSave   =2;
-int const kWebPreviewRefreshManually =3;
-int const kWebPreviewRefreshDelayed  =4;
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
 
 static NSString *WebPreviewWindowSizePreferenceKey =@"WebPreviewWindowSize";
 static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
 
-@implementation WebPreviewWindowController
+@interface WebPreviewViewController ()
+@property (nonatomic, strong) IBOutlet WebView *oWebView;
+@property (nonatomic, strong) IBOutlet NSTextField *oBaseUrlTextField;
+@property (nonatomic, strong) IBOutlet NSPopUpButton *oRefreshButton;
+@property (nonatomic, strong) IBOutlet NSTextField *oStatusTextField;
+
+@property (nonatomic, strong) PlainTextDocument *plainTextDocument;
+
+@property (nonatomic) NSRect documentVisibleRect;
+@property (nonatomic) BOOL hasSavedVisibleRect;
+@property (nonatomic) SEEWebPreviewRefreshType refreshType;
+@property (nonatomic) BOOL shallCache;
+
+// Localized XIB
+@property (nonatomic, readonly) NSString *localizedBaseURLLabelText;
+@property (nonatomic, readonly) NSString *localizedRefreshLabelText;
+@property (nonatomic, readonly) NSString *localizedManualRefreshButtonToolTip;
+@property (nonatomic, readonly) NSString *localizedManualRefreshPopupItemAutomatic;
+@property (nonatomic, readonly) NSString *localizedManualRefreshPopupItemDelayed;
+@property (nonatomic, readonly) NSString *localizedManualRefreshPopupItemOnSave;
+@property (nonatomic, readonly) NSString *localizedManualRefreshPopupItemManual;
+
+@end
+
+@implementation WebPreviewViewController
+
+@synthesize plainTextDocument=_plainTextDocument;
+@synthesize refreshType=_refreshType;
 
 - (id)initWithPlainTextDocument:(PlainTextDocument *)aDocument {
-    self=[super initWithWindowNibName:@"WebPreview"];
+    self=[super initWithNibName:@"WebPreview" bundle:nil];
     _plainTextDocument=aDocument;
     [self updateBaseURL];
     _hasSavedVisibleRect=NO;
@@ -52,19 +80,18 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
 }
 
 - (void)dealloc {
-    [oWebView setFrameLoadDelegate:nil];
-    [oWebView setUIDelegate:nil];
-    [oWebView setResourceLoadDelegate:nil];
-    [oWebView setPolicyDelegate:nil];
+    [self.oWebView setFrameLoadDelegate:nil];
+    [self.oWebView setUIDelegate:nil];
+    [self.oWebView setResourceLoadDelegate:nil];
+    [self.oWebView setPolicyDelegate:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [[self window] orderOut:self];
-    [super dealloc];
 }
 
+#pragma mark
 - (void)setPlainTextDocument:(PlainTextDocument *)aDocument {
     _plainTextDocument = aDocument;
     if (!aDocument) {
-        [oWebView stopLoading:self];
+        [self.oWebView stopLoading:self];
     }
 }
 
@@ -73,23 +100,25 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
     return _plainTextDocument;
 }
 
+#pragma mark
 - (NSURL *)baseURL {
-    return [NSURL URLWithString:[oBaseUrlTextField stringValue]];
+    return [NSURL URLWithString:[self.oBaseUrlTextField stringValue]];
 }
 
 - (void)setBaseURL:(NSURL *)aBaseURL {
-    [oBaseUrlTextField setStringValue:[aBaseURL absoluteString]];
+    [self.oBaseUrlTextField setStringValue:[aBaseURL absoluteString]];
 }
 
 - (void)updateBaseURL {
     NSURL *fileURL;
     if ((fileURL=[[self plainTextDocument] fileURL])) {
         if ([[NSFileManager defaultManager] fileExistsAtPath:[fileURL path]]) {
-            [oBaseUrlTextField setStringValue:[fileURL absoluteString]];
+            [self.oBaseUrlTextField setStringValue:[fileURL absoluteString]];
         }
     } 
 }
 
+#pragma mark
 void logSubViews(NSArray *aSubviewsArray) {
     if (aSubviewsArray) NSLog(@"---");
     for (NSView *subview in aSubviewsArray) {
@@ -115,7 +144,7 @@ NSScrollView * firstScrollView(NSView *aView) {
 
 -(void)reloadWebViewCachingAllowed:(BOOL)aFlag {
     _shallCache=aFlag;
-    NSScrollView *scrollView=firstScrollView(oWebView);
+    NSScrollView *scrollView=firstScrollView(self.oWebView);
     // NSLog(@"found scrollview: %@",[scrollView description]);
     if (scrollView && !_hasSavedVisibleRect) {
         _documentVisibleRect=[scrollView documentVisibleRect];
@@ -123,7 +152,7 @@ NSScrollView * firstScrollView(NSView *aView) {
     }
     
     NSURL *baseURL=[NSURL URLWithString:@"http://localhost/"];
-    NSString *potentialURLString = [oBaseUrlTextField stringValue];
+    NSString *potentialURLString = [self.oBaseUrlTextField stringValue];
     if ([potentialURLString length] > 0) {
     	NSURL *tryURL = [NSURL URLWithString:potentialURLString];
 //    	NSLog(@"%s %@ %@",__FUNCTION__,[tryURL debugDescription],[tryURL standardizedURL]);
@@ -135,7 +164,7 @@ NSScrollView * firstScrollView(NSView *aView) {
     	} else {
     		tryURL = [NSURL URLWithString:[@"http://" stringByAppendingString:potentialURLString]];
     		baseURL = tryURL;
-    		[oBaseUrlTextField setStringValue:[tryURL absoluteString]];
+    		[self.oBaseUrlTextField setStringValue:[tryURL absoluteString]];
     	}
     }
 
@@ -149,14 +178,15 @@ NSScrollView * firstScrollView(NSView *aView) {
     [request setHTTPBody:[string dataUsingEncoding:encoding]];
     NSString *IANACharSetName=(NSString *)CFStringConvertEncodingToIANACharSetName(
                 CFStringConvertNSStringEncodingToEncoding(encoding));
-    [[oWebView mainFrame] loadData:[string dataUsingEncoding:encoding] MIMEType:@"text/html" textEncodingName:IANACharSetName baseURL:baseURL];
+    [[self.oWebView mainFrame] loadData:[string dataUsingEncoding:encoding] MIMEType:@"text/html" textEncodingName:IANACharSetName baseURL:baseURL];
 }
 
-- (void)windowWillClose:(NSNotification *)aNotification {
-	// when we see our window closing, we empty the contents so no javascript will run in background
-    [[oWebView mainFrame] loadHTMLString:@"" baseURL:nil];
-}
+//- (void)windowWillClose:(NSNotification *)aNotification {
+//	// when we see our window closing, we empty the contents so no javascript will run in background
+//    [[self.oWebView mainFrame] loadHTMLString:@"" baseURL:nil];
+//}
 
+#pragma mark
 -(IBAction)refreshAndEmptyCache:(id)aSender {
     [[NSURLCache sharedURLCache] removeAllCachedResponses];
     [self reloadWebViewCachingAllowed:NO];
@@ -166,52 +196,92 @@ NSScrollView * firstScrollView(NSView *aView) {
     [self reloadWebViewCachingAllowed:YES];
 }
 
-- (int)refreshType {
+- (SEEWebPreviewRefreshType)refreshType {
     return _refreshType;
 }
 
-- (void)setRefreshType:(int)aRefreshType {
+- (void)setRefreshType:(SEEWebPreviewRefreshType)aRefreshType {
     [[[[self plainTextDocument] documentMode] defaults] setObject:[NSNumber numberWithInt:aRefreshType] forKey:WebPreviewRefreshModePreferenceKey];
-    if ([self isWindowLoaded]) {
-        int index=[oRefreshButton indexOfItemWithTag:aRefreshType];
+    if ([self view]) {
+        int index=[self.oRefreshButton indexOfItemWithTag:aRefreshType];
         if (index!=-1) {
             _refreshType=aRefreshType;
-            [oRefreshButton selectItemAtIndex:index];
+            [self.oRefreshButton selectItemAtIndex:index];
         }
     } else {
         _refreshType=aRefreshType;
     }
 }
 
-
 -(IBAction)changeRefreshType:(id)aSender {
     [self setRefreshType:[[aSender selectedItem] tag]];
 }
 
--(void)windowDidLoad {
-    [super windowDidLoad];
-    [oWebView setFrameLoadDelegate:self];
-    [oWebView setUIDelegate:self];
-    [oWebView setResourceLoadDelegate:self];
-	[oWebView setPolicyDelegate:self];
+#pragma mark - Localized Xib
+- (NSString *)localizedBaseURLLabelText {
+	NSString *string = NSLocalizedStringWithDefaultValue(@"WEB_PREVIEW_BASE_URL_LABEL", nil, [NSBundle mainBundle], @"Base URL:", @"Web Preview - Label for the Base URL");
+	return string;
+}
 
-    [oWebView setPreferencesIdentifier:@"WebPreviewPreferences"];
-    WebPreferences *prefs = [oWebView preferences];
+
+- (NSString *)localizedRefreshLabelText {
+	NSString *string = NSLocalizedStringWithDefaultValue(@"WEB_PREVIEW_REFRESH_LABEL", nil, [NSBundle mainBundle], @"Refresh:", @"Web Preview - Label for the Refresh Popup");
+	return string;
+}
+
+- (NSString *)localizedManualRefreshButtonToolTip {
+	NSString *string = NSLocalizedStringWithDefaultValue(@"WEB_PREVIEW_MANUAL_REFRESH_TOOL_TIP", nil, [NSBundle mainBundle], @"Refresh", @"Web Preview - Tool Tip for the Manual Refresh Button");
+	return string;
+}
+
+// PopUp Refresh Menu Items
+
+- (NSString *)localizedManualRefreshPopupItemAutomatic {
+	NSString *string = NSLocalizedStringWithDefaultValue(@"WEB_PREVIEW_REFRESH_POPUP_AUTOMATIC", nil, [NSBundle mainBundle], @"automatic", @"Web Preview - Refresh Popup Item - Automatic");
+	return string;
+}
+
+- (NSString *)localizedManualRefreshPopupItemDelayed {
+	NSString *string = NSLocalizedStringWithDefaultValue(@"WEB_PREVIEW_REFRESH_POPUP_DELAYED", nil, [NSBundle mainBundle], @"delayed", @"Web Preview - Refresh Popup Item - Delayed");
+	return string;
+}
+
+- (NSString *)localizedManualRefreshPopupItemOnSave {
+	NSString *string = NSLocalizedStringWithDefaultValue(@"WEB_PREVIEW_REFRESH_POPUP_ON_SAVE", nil, [NSBundle mainBundle], @"on save", @"Web Preview - Refresh Popup Item - On Save");
+	return string;
+}
+
+- (NSString *)localizedManualRefreshPopupItemManual {
+	NSString *string = NSLocalizedStringWithDefaultValue(@"WEB_PREVIEW_REFRESH_POPUP_MANUAL", nil, [NSBundle mainBundle], @"manually", @"Web Preview - Refresh Popup Item - Manual");
+	return string;
+}
+
+#pragma mark
+-(void)loadView {
+    [super loadView];
+	
+    [self.oWebView setFrameLoadDelegate:self];
+    [self.oWebView setUIDelegate:self];
+    [self.oWebView setResourceLoadDelegate:self];
+	[self.oWebView setPolicyDelegate:self];
+
+    [self.oWebView setPreferencesIdentifier:@"WebPreviewPreferences"];
+    WebPreferences *prefs = [self.oWebView preferences];
     [prefs setLoadsImagesAutomatically:YES];
     [prefs setJavaEnabled:YES];
     [prefs setJavaScriptEnabled:YES];
     [prefs setPlugInsEnabled:YES];
-    [oStatusTextField setStringValue:@""];
-    NSString *frameString=[[NSUserDefaults standardUserDefaults] 
-                            stringForKey:WebPreviewWindowSizePreferenceKey];
-    if (frameString) {
-        [[self window] setFrameFromString:frameString];
-    }
+    [self.oStatusTextField setStringValue:@""];
+//    NSString *frameString=[[NSUserDefaults standardUserDefaults] 
+//                            stringForKey:WebPreviewWindowSizePreferenceKey];
+//    if (frameString) {
+//        [[self window] setFrameFromString:frameString];
+//    }
     [self setRefreshType:_refreshType];
 }
 
 - (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName {
-    NSString *title=[[[oWebView mainFrame] dataSource] pageTitle];
+    NSString *title=[[[self.oWebView mainFrame] dataSource] pageTitle];
     
     title=title?[title stringByAppendingFormat:@" [%@]",displayName]:
                 [NSString stringWithFormat:@"[%@]",displayName];
@@ -222,7 +292,7 @@ NSScrollView * firstScrollView(NSView *aView) {
 - (void)synchronizeWindowTitleWithDocumentName {
     NSString *displayName=[[self plainTextDocument] displayName];
     if (!displayName) displayName=@"";
-    [[self window] setTitle:[self windowTitleForDocumentDisplayName:displayName]];
+    [self setTitle:[self windowTitleForDocumentDisplayName:displayName]];
 }
 
 #pragma mark -
@@ -240,25 +310,25 @@ NSScrollView * firstScrollView(NSView *aView) {
 #pragma mark -
 #pragma mark ### Actions ###
 
-- (IBAction)showWindow:(id)aSender {
-    [super showWindow:aSender];
-    [self updateBaseURL];
-    [self refresh:aSender];
-    [self synchronizeWindowTitleWithDocumentName];
-}
+//- (IBAction)showWindow:(id)aSender {
+//    [super showWindow:aSender];
+//    [self updateBaseURL];
+//    [self refresh:aSender];
+//    [self synchronizeWindowTitleWithDocumentName];
+//}
 
 #pragma mark -
 #pragma mark ### First Responder Actions ###
 
-- (IBAction)saveWindowSize:(id)aSender {
-    [[NSUserDefaults standardUserDefaults] 
-        setObject:[[self window] stringWithSavedFrame] 
-           forKey:WebPreviewWindowSizePreferenceKey];
-}
-
-- (void)windowDidResize:(NSNotification *)aNotification {
-    [self saveWindowSize:self];
-}
+//- (IBAction)saveWindowSize:(id)aSender {
+//    [[NSUserDefaults standardUserDefaults] 
+//        setObject:[[self window] stringWithSavedFrame] 
+//           forKey:WebPreviewWindowSizePreferenceKey];
+//}
+//
+//- (void)windowDidResize:(NSNotification *)aNotification {
+//    [self saveWindowSize:self];
+//}
 
 #pragma mark -
 #pragma mark ### ResourceLoadDelegate ###
@@ -266,7 +336,7 @@ NSScrollView * firstScrollView(NSView *aView) {
 -(NSURLRequest *)webView:(WebView *)sender resource:(id)identifier willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse fromDataSource:(WebDataSource *)dataSource {
 //    NSLog(@"Got request:%@ withPolicy:%d",[request URL],[request cachePolicy]);
      if (![request valueForHTTPHeaderField:@"LocalContentAndThisIsTheEncoding"]) {
-         NSMutableURLRequest *mutableRequest=[[request mutableCopy] autorelease];
+         NSMutableURLRequest *mutableRequest=[request mutableCopy];
          [mutableRequest setCachePolicy:_shallCache?
             NSURLRequestReturnCacheDataElseLoad:NSURLRequestReloadIgnoringCacheData];
          return mutableRequest;
@@ -281,7 +351,7 @@ NSScrollView * firstScrollView(NSView *aView) {
 #pragma mark -
 #pragma mark ### FrameLoadDelegate ###
 
-- (void)        webView:(WebView *)aSender 
+- (void) webView:(WebView *)aSender
         didReceiveTitle:(NSString *)title 
                forFrame:(WebFrame *)frame {
     if ([[aSender mainFrame] isEqualTo:frame]) {
@@ -290,8 +360,8 @@ NSScrollView * firstScrollView(NSView *aView) {
 }
 
 - (void)webView:(WebView *)aSender didFinishLoadForFrame:(WebFrame *)aFrame {
-    if ([aFrame isEqualTo:[oWebView mainFrame]]) {
-        NSScrollView *scrollView=firstScrollView(oWebView);
+    if ([aFrame isEqualTo:[self.oWebView mainFrame]]) {
+        NSScrollView *scrollView=firstScrollView(self.oWebView);
         if (scrollView && _hasSavedVisibleRect) {
             [(NSView *)[scrollView documentView] scrollRectToVisible:_documentVisibleRect];
             _hasSavedVisibleRect=NO;
@@ -314,10 +384,10 @@ NSScrollView * firstScrollView(NSView *aView) {
         NSImage *image  =[elementInformation objectForKey:WebElementImageKey];
         if (alt)           [string appendFormat:@"'%@' ",alt];
         if (image)         [string appendFormat:@"%@ ",NSStringFromSize([image size])];
-        [oStatusTextField setStringValue:string];
+        [self.oStatusTextField setStringValue:string];
     } else {
-        if (![[oStatusTextField stringValue] isEqualToString:@""]) {
-            [oStatusTextField setStringValue:@""];
+        if (![[self.oStatusTextField stringValue] isEqualToString:@""]) {
+            [self.oStatusTextField setStringValue:@""];
         }
     }
 }
@@ -327,7 +397,7 @@ NSScrollView * firstScrollView(NSView *aView) {
     for (NSMenuItem *defaultItem in defaultMenuItems) {
         int tag=[defaultItem tag];
         if (tag == WebMenuItemTagOpenLinkInNewWindow) {
-            NSMenuItem *item=[[defaultItem copy] autorelease];
+            NSMenuItem *item=[defaultItem copy];
             [item setTitle:NSLocalizedString(@"Open Link in Browser",@"Web preview open link in browser contextual menu item")];
             [item setAction:@selector(openInBrowser:)];
             [item setTarget:nil];
