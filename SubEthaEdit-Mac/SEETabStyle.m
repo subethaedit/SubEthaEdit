@@ -358,10 +358,6 @@
 #pragma mark - Drawing
 
 - (void)drawBezelOfTabBarControl:(PSMTabBarControl *)tabBarControl inRect:(NSRect)rect {
-	[[NSColor redColor] set];
-	NSRectFill(rect);
-	[[NSColor greenColor] set];
-	[[NSBezierPath bezierPathWithRect:rect] stroke];
 	NSImage *backgroundImage = [SEETabStyle imageForWindowActive:[tabBarControl.window TCM_isActive] name:@"InactiveTabBG"];
 	NSDrawThreePartImage(rect, nil, backgroundImage, nil, NO, NSCompositeSourceOver, 1.0, tabBarControl.isFlipped);
 }
