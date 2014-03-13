@@ -1027,6 +1027,20 @@ static NSString *tempFileName() {
     return nil;
 }
 
+- (void)newDocumentInTab:(id)sender {
+	BOOL flag = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
+    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:OpenNewDocumentInTabKey];
+
+	NSMenu *menu = [[[NSApp mainMenu] itemWithTag:FileMenuTag] submenu];
+	NSMenuItem *menuItem = [menu itemWithTag:FileNewMenuItemTag];
+	menu = [menuItem submenu];
+	NSMenuItem *item = (NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] tagForDocumentModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]]];
+
+	[[NSDocumentController sharedDocumentController] newDocumentWithModeMenuItem:item];
+
+	[[NSUserDefaults standardUserDefaults] setBool:flag forKey:OpenNewDocumentInTabKey];
+}
+
 - (void)newDocumentWithModeMenuItem:(id)aSender {
     DocumentModeManager *modeManager=[DocumentModeManager sharedInstance];
     NSString *identifier=[modeManager documentModeIdentifierForTag:[aSender tag]];

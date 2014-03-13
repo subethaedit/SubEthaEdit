@@ -82,5 +82,6 @@
 
 - (void)updateTabMenu;
 
+- (void)newDocumentInTab:(id)sender;
 - (void)newDocumentWithModeMenuItem:(id)aSender;
 @end

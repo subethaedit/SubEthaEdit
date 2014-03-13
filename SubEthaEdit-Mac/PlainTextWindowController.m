@@ -124,6 +124,11 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 //	[I_tabBar setTearOffStyle:PSMTabBarTearOffMiniwindow];
     [I_tabBar setStyleNamed:@"SubEthaEdit"];
 	[I_tabBar setShowAddTabButton:YES];
+
+	// hook up add tab button
+	[[I_tabBar addTabButton] setTarget:nil];
+	[[I_tabBar addTabButton] setAction:@selector(newDocumentInTab:)];
+
     [[window contentView] addSubview:I_tabBar];
 
     I_tabView = [[NSTabView alloc] initWithFrame:NSMakeRect(0.0, 0.0, NSWidth(contentFrame), NSHeight(contentFrame) - [SEETabStyle desiredTabBarControlHeight])];
