@@ -137,9 +137,13 @@ extern NSString * const PlainTextEditorDidFollowUserNotification;
 - (void)gotoLine:(unsigned)aLine;
 - (void)gotoLineInBackground:(unsigned)aLine;
 
+@property (nonatomic, readonly) NSValue *searchScopeValue;
+- (BOOL)hasSearchScopeInFullRange:(NSRange)aRange;
+- (BOOL)hasSearchScope;
+- (IBAction)addCurrentSelectionToSearchScope:(id)aSender;
+- (IBAction)clearSearchScope:(id)aSender;
 
-- (IBAction)takeFindAndReplaceScopeFromCurrentSelection:(id)aSender;
-- (IBAction)clearFindAndReplaceScope:(id)aSender;
+@property (nonatomic, readonly) BOOL isShowingFindAndReplaceOverlay;
 
 // funnel point for all our internal pointers for additional text checking
 - (void)scheduleTextCheckingForRange:(NSRange)aRange;

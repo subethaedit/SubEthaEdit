@@ -672,6 +672,10 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 	
 }
 
+- (BOOL)isShowingFindAndReplaceOverlay {
+	BOOL result = self.findAndReplaceController && [self.topOverlayViewController isEqual:self.findAndReplaceController];
+	return result;
+}
 
 - (void)TCM_updateStatusBar {
     if (I_flags.showTopStatusBar)
@@ -2080,21 +2084,43 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
     if (!NSEqualRanges(range, aRange)) NSBeep();
 }
 
+
+- (BOOL)hasSearchScopeInFullRange:(NSRange)aRange {
+	FullTextStorage *ts = [(FoldableTextStorage *)I_textView.textStorage fullTextStorage];
+	__block BOOL result = NO;
+	NSValue *searchValue = self.searchScopeValue;
+	[ts enumerateAttribute:SEESearchScopeAttributeName inRange:aRange options:NSAttributedStringEnumerationLongestEffectiveRangeNotRequired usingBlock:^(id value, NSRange range, BOOL *stop) {
+		if ([searchValue isEqual:value]) {
+			*stop = YES;
+			result = YES;
+		}
+	}];
+	return result;
+}
+
+- (BOOL)hasSearchScope {
+	BOOL result = NO;
+	FullTextStorage *ts = [(FoldableTextStorage *)I_textView.textStorage fullTextStorage];
+	result = [self hasSearchScopeInFullRange:[ts TCM_fullLengthRange]];
+	return result;
+}
+
 - (NSValue *)searchScopeValue {
 	NSValue *result = [NSValue valueWithPointer:self.textView];
 	return result;
 }
 
-- (IBAction)takeFindAndReplaceScopeFromCurrentSelection:(id)aSender {
+- (IBAction)addCurrentSelectionToSearchScope:(id)aSender {
 	SEETextView *textView = I_textView;
 	NSRange selectedRange = [textView selectedRange];
     FoldableTextStorage *ts = (FoldableTextStorage *)[textView textStorage];
 	FullTextStorage *fts = [ts fullTextStorage];
     NSRange fullRange = [ts foldedRangeForFullRange:selectedRange];
 	[fts addAttribute:SEESearchScopeAttributeName value:[self searchScopeValue] range:fullRange];
+	[[O_scrollView verticalRulerView] setNeedsDisplay:YES];
 }
 
-- (IBAction)clearFindAndReplaceScope:(id)aSender {
+- (IBAction)clearSearchScope:(id)aSender {
 	SEETextView *textView = I_textView;
     FoldableTextStorage *ts = (FoldableTextStorage *)[textView textStorage];
 	FullTextStorage *fts = [ts fullTextStorage];
@@ -2104,6 +2130,7 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 			[fts removeAttribute:SEESearchScopeAttributeName range:range];
 		}
 	}];
+	[[O_scrollView verticalRulerView] setNeedsDisplay:YES];
 }
 
 

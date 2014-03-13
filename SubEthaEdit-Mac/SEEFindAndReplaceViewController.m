@@ -19,7 +19,8 @@
 enum OptionsMenuTags {
 	kOptionMenuIgnoreCaseTag = 10001,
 	kOptionMenuWrapAroundTag,
-	kOptionMenuSetScopeToSelectionTag,
+	kOptionMenuClearScopeTag,
+	kOptionMenuAddSelectionToSearchScopeTag,
 	kOptionMenuUseRegularExpressionsTag,
 
 	kOptionMenuSelectedLanguageDialectTag,
@@ -75,7 +76,24 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 	if ([[self.findAndReplaceStateObjectController valueForKeyPath:kOptionKeyPathUseRegularExpressions] boolValue]) {
 		image = [NSImage pdfBasedImageNamed:@"SearchLoupeRE"TCM_PDFIMAGE_SEP@"36"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_NORMAL];
 	}
+
 	[self.searchOptionsButton setImage:image];
+
+	NSShadow *shadow = nil;
+	if (self.hasSearchScope) {
+		shadow = [NSShadow new];
+		[shadow setShadowColor:[NSColor searchScopeBaseColor]];
+		[shadow setShadowOffset:NSMakeSize(0, 0)];
+		[shadow setShadowBlurRadius:10.0];
+	}
+	[self.searchOptionsButton setShadow:shadow];
+}
+
+- (BOOL)hasSearchScope {
+	BOOL result = nil;
+	PlainTextEditor *activeEditor = [self.view.window.windowController activePlainTextEditor];
+	result = [activeEditor hasSearchScope];
+	return result;
 }
 
 - (void)loadView {
@@ -122,9 +140,14 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 
 #pragma mark - Options Menu methods
 
-- (IBAction)takeFindAndReplaceScopeFromCurrentSelection:(id)aSender {
+- (IBAction)clearSearchScope:(id)aSender {
 	PlainTextEditor *editor = [self.view.window.windowController activePlainTextEditor];
-	[editor takeFindAndReplaceScopeFromCurrentSelection:aSender];
+	[editor clearSearchScope:aSender];
+}
+
+- (IBAction)addCurrentSelectionToSearchScope:(id)aSender {
+	PlainTextEditor *editor = [self.view.window.windowController activePlainTextEditor];
+	[editor addCurrentSelectionToSearchScope:aSender];
 }
 
 - (IBAction)switchRegexSyntaxDialect:(id)aSender {
@@ -285,7 +308,8 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 			// Open Regex Help
 			
 			
-			[self addItemToMenu:menu title:@"Set Scope to current selection" action:@selector(takeFindAndReplaceScopeFromCurrentSelection:) tag:kOptionMenuSetScopeToSelectionTag];
+			[self addItemToMenu:menu title:@"Clear Scope" action:@selector(clearSearchScope:) tag:kOptionMenuClearScopeTag];
+			[self addItemToMenu:menu title:@"Set Scope to current selection" action:@selector(addCurrentSelectionToSearchScope:) tag:kOptionMenuAddSelectionToSearchScopeTag];
 			[self addItemToMenu:menu title:@"Ignore case" action:@selector(toggleIgnoreCase:) tag:kOptionMenuIgnoreCaseTag];
 			[self addItemToMenu:menu title:@"Wrap around" action:@selector(toggleWrapAround:) tag:kOptionMenuWrapAroundTag];
 

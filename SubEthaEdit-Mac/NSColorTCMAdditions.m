@@ -10,6 +10,11 @@
 
 @implementation NSColor (NSColorTCMAdditions)
 
++ (NSColor *)searchScopeBaseColor {
+    return [NSColor colorWithCalibratedHue:0.131 saturation:0.963 brightness:0.996 alpha:1.000];
+}
+
+
 + (NSColor *)insertionsStatisticsColor {
     return [NSColor colorWithCalibratedRed:117./255. green:243./255. blue:68./255. alpha:1.0];
 }
