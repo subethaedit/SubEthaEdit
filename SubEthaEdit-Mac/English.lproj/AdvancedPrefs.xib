@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13B42" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="5053" systemVersion="13C64" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none">
     <dependencies>
         <deployment defaultVersion="1090" identifier="macosx"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="5053"/>
     </dependencies>
     <objects>
         <customObject id="-2" userLabel="File's Owner" customClass="AdvancedPreferences">
@@ -23,14 +23,14 @@
         <window title="Window" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" visibleAtLaunch="NO" animationBehavior="default" id="6" userLabel="Window">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="88" y="301" width="332" height="506"/>
+            <rect key="contentRect" x="88" y="301" width="332" height="437"/>
             <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1178"/>
             <view key="contentView" id="5">
-                <rect key="frame" x="0.0" y="0.0" width="332" height="506"/>
+                <rect key="frame" x="0.0" y="0.0" width="332" height="437"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <box title="Command Line Tool" id="11">
-                        <rect key="frame" x="17" y="417" width="298" height="69"/>
+                        <rect key="frame" x="17" y="348" width="298" height="69"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                         <view key="contentView">
                             <rect key="frame" x="2" y="2" width="294" height="52"/>
@@ -106,31 +106,8 @@
                         <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </box>
-                    <box title="Software Update" id="54">
-                        <rect key="frame" x="17" y="124" width="298" height="61"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
-                        <view key="contentView">
-                            <rect key="frame" x="2" y="2" width="294" height="44"/>
-                            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                            <subviews>
-                                <button id="56">
-                                    <rect key="frame" x="13" y="14" width="224" height="18"/>
-                                    <autoresizingMask key="autoresizingMask"/>
-                                    <buttonCell key="cell" type="check" title="Check for updates on startup" bezelStyle="regularSquare" imagePosition="left" alignment="left" controlSize="small" inset="2" id="178">
-                                        <behavior key="behavior" changeContents="YES" doesNotDimImage="YES" lightByContents="YES"/>
-                                        <font key="font" metaFont="smallSystem"/>
-                                    </buttonCell>
-                                    <connections>
-                                        <binding destination="59" name="value" keyPath="values.SUCheckAtStartup" id="60"/>
-                                    </connections>
-                                </button>
-                            </subviews>
-                        </view>
-                        <color key="borderColor" white="0.0" alpha="0.41999999999999998" colorSpace="calibratedWhite"/>
-                        <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
-                    </box>
                     <box title="Collaboration" id="61">
-                        <rect key="frame" x="17" y="266" width="298" height="147"/>
+                        <rect key="frame" x="17" y="197" width="298" height="147"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                         <view key="contentView">
                             <rect key="frame" x="2" y="2" width="294" height="130"/>
@@ -231,7 +208,7 @@
                         <color key="fillColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
                     </box>
                     <box title="Saving and Loading" id="166">
-                        <rect key="frame" x="17" y="193" width="298" height="69"/>
+                        <rect key="frame" x="17" y="124" width="298" height="69"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES"/>
                         <view key="contentView">
                             <rect key="frame" x="2" y="2" width="294" height="52"/>
