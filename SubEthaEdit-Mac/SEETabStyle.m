@@ -141,7 +141,39 @@
 }
 
 - (CGFloat)desiredWidthOfTabCell:(PSMTabBarCell *)cell {
-	return 300.;
+    CGFloat resultWidth = 0.0;
+
+    // left margin
+    resultWidth = MARGIN_X;
+
+    // close button?
+    if ([cell shouldDrawCloseButton]) {
+        NSImage *image = [cell closeButtonImageOfType:PSMCloseButtonImageTypePressed];
+        resultWidth += [image size].width + kPSMTabBarCellPadding;
+    }
+
+    // icon?
+    if([cell hasIcon]) {
+        resultWidth += kPSMTabBarIconWidth + kPSMTabBarCellPadding;
+    }
+
+    // the label
+    resultWidth += [[cell attributedStringValue] size].width;
+
+    // object counter?
+    if([cell count] > 0) {
+        resultWidth += [cell objectCounterSize].width + kPSMTabBarCellPadding;
+    }
+
+    // indicator?
+    if([[cell indicator] isHidden] == NO) {
+        resultWidth += kPSMTabBarCellPadding + kPSMTabBarIndicatorWidth;
+    }
+
+    // right margin
+    resultWidth += MARGIN_X;
+
+    return ceil(resultWidth);
 }
 
 
@@ -167,7 +199,7 @@
 	BOOL isActive = [cell.controlView.window TCM_isActive];
 	switch (type) {
 		case PSMCloseButtonImageTypeStandard:
-			if (cell.tabState & PSMTab_SelectedMask) {
+			if ((cell.tabState & PSMTab_SelectedMask) == PSMTab_SelectedMask) {
 				return [SEETabStyle imageForWindowActive:isActive name:@"ActiveTabClose"];
 			} else {
 				return nil;
@@ -217,7 +249,7 @@
 
 	NSInteger selectedCellIndex = 0;
 	for (PSMTabBarCell *tabBarCell in [cell.controlView cells]) {
-		if (tabBarCell.tabState & PSMTab_SelectedMask) {
+		if ((tabBarCell.tabState & PSMTab_SelectedMask) == PSMTab_SelectedMask) {
 			break;
 		}
 		selectedCellIndex++;
@@ -259,7 +291,7 @@
 
 	NSInteger selectedCellIndex = 0;
 	for (PSMTabBarCell *tabBarCell in [cell.controlView cells]) {
-		if (tabBarCell.tabState & PSMTab_SelectedMask) {
+		if ((tabBarCell.tabState & PSMTab_SelectedMask) == PSMTab_SelectedMask) {
 			break;
 		}
 		selectedCellIndex++;
@@ -336,15 +368,16 @@
 
 - (void)drawBezelOfTabCell:(PSMTabBarCell *)cell withFrame:(NSRect)frame inTabBarControl:(PSMTabBarControl *)tabBarControl {
 	BOOL isWindowActive = [tabBarControl.window TCM_isActive];
-	BOOL isActive = [cell tabState] & PSMTab_SelectedMask;
+	BOOL isActive = ((cell.tabState & PSMTab_SelectedMask) == PSMTab_SelectedMask);
 	
 	NSInteger selectedCellIndex = 0;
 	for (PSMTabBarCell *tabBarCell in [tabBarControl cells]) {
-		if (tabBarCell.tabState & PSMTab_SelectedMask) {
+		if ((tabBarCell.tabState & PSMTab_SelectedMask) == PSMTab_SelectedMask) {
 			break;
 		}
 		selectedCellIndex++;
 	};
+
 	NSInteger myIndex = [[tabBarControl cells] indexOfObject:cell];
 	
 //	BOOL isLeftOfSelected  = [cell tabState] & PSMTab_RightIsSelectedMask;
@@ -363,11 +396,13 @@
 	}
 	
 	NSDrawThreePartImage(CGRectInset(frame,8,0), nil, fill, nil, NO, NSCompositeSourceOver, 1.0, tabBarControl.isFlipped);
+
 	NSRect leftRect = frame;
 	leftRect.size.width = leftCap.size.width;
 	if (isActive || isLeftOfSelected) {
 		[leftCap drawInRect:leftRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 	}
+
 	NSRect rightRect = frame;
 	rightRect.size.width = rightCap.size.width;
 	rightRect.origin.x = CGRectGetMaxX(frame) - rightRect.size.width;
