@@ -18,11 +18,6 @@
 #error ARC must be enabled!
 #endif
 
-int const kWebPreviewRefreshAutomatic=1;
-int const kWebPreviewRefreshOnSave   =2;
-int const kWebPreviewRefreshManually =3;
-int const kWebPreviewRefreshDelayed  =4;
-
 static NSString *WebPreviewWindowSizePreferenceKey =@"WebPreviewWindowSize";
 static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
 
@@ -36,7 +31,7 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
 
 @property (nonatomic) NSRect documentVisibleRect;
 @property (nonatomic) BOOL hasSavedVisibleRect;
-@property (nonatomic) int refreshType;
+@property (nonatomic) SEEWebPreviewRefreshType refreshType;
 @property (nonatomic) BOOL shallCache;
 
 // Localized XIB
@@ -202,11 +197,11 @@ NSScrollView * firstScrollView(NSView *aView) {
     [self reloadWebViewCachingAllowed:YES];
 }
 
-- (int)refreshType {
+- (SEEWebPreviewRefreshType)refreshType {
     return _refreshType;
 }
 
-- (void)setRefreshType:(int)aRefreshType {
+- (void)setRefreshType:(SEEWebPreviewRefreshType)aRefreshType {
     [[[[self plainTextDocument] documentMode] defaults] setObject:[NSNumber numberWithInt:aRefreshType] forKey:WebPreviewRefreshModePreferenceKey];
     if ([self isWindowLoaded]) {
         int index=[self.oRefreshButton indexOfItemWithTag:aRefreshType];

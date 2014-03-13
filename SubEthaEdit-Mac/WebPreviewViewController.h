@@ -10,13 +10,14 @@
 #import <AppKit/AppKit.h>
 #import <WebKit/WebKit.h>
 
-
-extern int const kWebPreviewRefreshAutomatic;
-extern int const kWebPreviewRefreshOnSave   ;
-extern int const kWebPreviewRefreshManually ;
-extern int const kWebPreviewRefreshDelayed  ;
-
 @class PlainTextDocument;
+
+typedef NS_ENUM(int8_t, SEEWebPreviewRefreshType) {
+	kWebPreviewRefreshAutomatic = 1,
+	kWebPreviewRefreshOnSave    = 2,
+	kWebPreviewRefreshManually  = 3,
+	kWebPreviewRefreshDelayed   = 4
+};
 
 @interface WebPreviewViewController : NSWindowController
 
@@ -25,8 +26,8 @@ extern int const kWebPreviewRefreshDelayed  ;
 - (void)setPlainTextDocument:(PlainTextDocument *)aDocument;
 - (PlainTextDocument *)plainTextDocument;
 
-- (int)refreshType;
-- (void)setRefreshType:(int)aRefreshType;
+- (SEEWebPreviewRefreshType)refreshType;
+- (void)setRefreshType:(SEEWebPreviewRefreshType)aRefreshType;
 
 - (void)updateBaseURL;
 
