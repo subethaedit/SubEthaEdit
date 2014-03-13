@@ -145,6 +145,11 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 	[self updateWindowMinSize];
 }
 
+- (BOOL)isShowingFindAndReplaceInterface {
+	BOOL result = [self.plainTextEditors.firstObject isShowingFindAndReplaceInterface];
+	return result;
+}
+
 - (IBAction)showFindAndReplaceInterface:(id)aSender {
 	[self.plainTextEditors.firstObject showFindAndReplace:aSender];
 }

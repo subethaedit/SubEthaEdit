@@ -55,6 +55,7 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 
 @interface SEEFindAndReplaceViewController () <NSMenuDelegate>
 @property (nonatomic, strong) NSMenu *optionsPopupMenu;
+@property (nonatomic, strong) NSMutableSet *registeredNotifications;
 @end
 
 @implementation SEEFindAndReplaceViewController
@@ -62,13 +63,16 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 - (instancetype)init {
 	self = [super initWithNibName:@"SEEFindAndReplaceView" bundle:nil];
 	if (self) {
-		
+		self.registeredNotifications = [NSMutableSet new];
 	}
 	return self;
 }
 
 - (void)dealloc {
 	[self.findAndReplaceStateObjectController removeObserver:self forKeyPath:kOptionKeyPathUseRegularExpressions];
+	for (id notificationReference in self.registeredNotifications) {
+		[[NSNotificationCenter defaultCenter] removeObserver:notificationReference];
+	}
 }
 
 - (void)updateSearchOptionsButton {
@@ -114,6 +118,11 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 	
 	// add observation
 	[self.findAndReplaceStateObjectController addObserver:self forKeyPath:kOptionKeyPathUseRegularExpressions options:0 context:kOptionMenuUseRegularExpressionsTag];
+	
+	__weak __typeof__(self) weakSelf = self;
+	[self.registeredNotifications addObject:[[NSNotificationCenter defaultCenter] addObserverForName:PlainTextEditorDidChangeSearchScopeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+		[weakSelf updateSearchOptionsButton];
+	}]];
 	
 }
 

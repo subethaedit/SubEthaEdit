@@ -280,7 +280,7 @@ static NSString *S_specialGlyphs[17];
 		[(SEETextView *)[container textView] editor] :
 		nil;
 	NSValue *searchScopeValue = editor.searchScopeValue;
-	BOOL shouldShowSearchScope = [(PlainTextEditor *)[(PlainTextWindowController *)editor.textView.window.windowController plainTextEditors].firstObject isShowingFindAndReplaceOverlay];
+	BOOL shouldShowSearchScope = [(PlainTextWindowController *)editor.textView.window.windowController isShowingFindAndReplaceInterface];
 	if (searchScopeValue && shouldShowSearchScope) {
         NSUInteger position = charRange.location;
         NSRange attributeRange;

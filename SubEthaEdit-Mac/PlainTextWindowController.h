@@ -58,6 +58,7 @@
 - (void)selectRange:(NSRange)aRange;
 - (void)selectRangeInBackground:(NSRange)aRange;
 
+@property (readonly) BOOL isShowingFindAndReplaceInterface;
 - (IBAction)showFindAndReplaceInterface:(id)aSender;
 
 - (IBAction)jumpToNextSymbol:(id)aSender;

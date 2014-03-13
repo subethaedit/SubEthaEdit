@@ -203,7 +203,7 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
         foldingAreaRect.size.height = NSMaxY(lineFragmentRectForLastCharacter) - boundingRect.origin.y;
        	
        	int foldingDepth = [textStorage foldingDepthForLine:lineNumber];
-		BOOL shouldShowSearchScope = [(PlainTextEditor *)[(PlainTextWindowController *)editor.textView.window.windowController plainTextEditors].firstObject isShowingFindAndReplaceOverlay];
+		BOOL shouldShowSearchScope = [(PlainTextWindowController *)editor.textView.window.windowController isShowingFindAndReplaceInterface];
 		BOOL isSearchScope = shouldShowSearchScope &&
 		[editor hasSearchScopeInFullRange:[textStorage fullRangeForFoldedRange:lineRange]];
        	DrawIndicatorForDepthInRect(foldingDepth, foldingAreaRect,isSearchScope);

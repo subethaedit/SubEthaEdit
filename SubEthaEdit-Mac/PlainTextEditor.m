@@ -44,6 +44,7 @@
 
 
 NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDidFollowUserNotification";
+NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEditorDidChangeSearchScopeNotification";
 
 @interface NSTextView (PrivateAdditions)
 - (BOOL)	_isUnmarking;
@@ -672,7 +673,7 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 	
 }
 
-- (BOOL)isShowingFindAndReplaceOverlay {
+- (BOOL)isShowingFindAndReplaceInterface {
 	BOOL result = self.findAndReplaceController && [self.topOverlayViewController isEqual:self.findAndReplaceController];
 	return result;
 }
@@ -2117,7 +2118,7 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
 	FullTextStorage *fts = [ts fullTextStorage];
     NSRange fullRange = [ts foldedRangeForFullRange:selectedRange];
 	[fts addAttribute:SEESearchScopeAttributeName value:[self searchScopeValue] range:fullRange];
-	[[O_scrollView verticalRulerView] setNeedsDisplay:YES];
+	[self adjustToChangesInSearchScope];
 }
 
 - (IBAction)clearSearchScope:(id)aSender {
@@ -2125,15 +2126,28 @@ NSString * const PlainTextEditorDidFollowUserNotification = @"PlainTextEditorDid
     FoldableTextStorage *ts = (FoldableTextStorage *)[textView textStorage];
 	FullTextStorage *fts = [ts fullTextStorage];
 	NSValue *searchScopeValue = [self searchScopeValue];
+	[fts beginEditing];
 	[fts enumerateAttribute:SEESearchScopeAttributeName inRange:[fts TCM_fullLengthRange] options:NSAttributedStringEnumerationLongestEffectiveRangeNotRequired usingBlock:^(id value, NSRange range, BOOL *stop) {
 		if ([value isEqual:searchScopeValue]) {
 			[fts removeAttribute:SEESearchScopeAttributeName range:range];
 		}
 	}];
-	[[O_scrollView verticalRulerView] setNeedsDisplay:YES];
+	[fts endEditing];
+	[self adjustToChangesInSearchScope];
 }
 
+- (void)adjustToChangesInSearchScope {
+	[[O_scrollView verticalRulerView] setNeedsDisplay:YES];
+	[[NSNotificationCenter defaultCenter] postNotificationName:PlainTextEditorDidChangeSearchScopeNotification object:self userInfo:nil];
+}
 
+- (PlainTextWindowController *)plainTextWindowController {
+	PlainTextWindowController *result = self.textView.window.windowController;
+	if (![result isKindOfClass:[PlainTextWindowController class]]) {
+		result = nil;
+	}
+	return result;
+}
 
 - (void)keyDown:(NSEvent *)aEvent {
     //    NSLog(@"aEvent: %@",[aEvent description]);

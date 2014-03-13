@@ -11,9 +11,11 @@
 #import "TCMMMOperation.h"
 #import "SelectionOperation.h"
 #import "PlainTextWindowControllerTabContext.h"
+#import "PlainTextWindowController.h"
 #import "PopUpButton.h"
 
 extern NSString * const PlainTextEditorDidFollowUserNotification;
+extern NSString * const PlainTextEditorDidChangeSearchScopeNotification;
 
 @class PlainTextWindowControllerTabContext,PlainTextDocument,SEEPlainTextEditorScrollView,PopUpButton,RadarScroller,TCMMMUser, SEETextView, BorderedTextField;
 
@@ -137,13 +139,14 @@ extern NSString * const PlainTextEditorDidFollowUserNotification;
 - (void)gotoLine:(unsigned)aLine;
 - (void)gotoLineInBackground:(unsigned)aLine;
 
+@property (nonatomic, readonly) PlainTextWindowController *plainTextWindowController;
 @property (nonatomic, readonly) NSValue *searchScopeValue;
 - (BOOL)hasSearchScopeInFullRange:(NSRange)aRange;
 - (BOOL)hasSearchScope;
 - (IBAction)addCurrentSelectionToSearchScope:(id)aSender;
 - (IBAction)clearSearchScope:(id)aSender;
 
-@property (nonatomic, readonly) BOOL isShowingFindAndReplaceOverlay;
+@property (nonatomic, readonly) BOOL isShowingFindAndReplaceInterface;
 
 // funnel point for all our internal pointers for additional text checking
 - (void)scheduleTextCheckingForRange:(NSRange)aRange;
