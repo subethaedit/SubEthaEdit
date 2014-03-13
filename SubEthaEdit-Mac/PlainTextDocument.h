@@ -141,7 +141,9 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
     
     DocumentProxyWindowController *I_documentProxyWindowController;
     
+	NSWindowController *I_webPreviewWindowController;
     WebPreviewViewController *I_webPreviewViewController;
+	
     NSMutableArray *I_rangesToInvalidate;
     NSMutableArray *I_findAllControllers;
     

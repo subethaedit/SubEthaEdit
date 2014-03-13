@@ -10,7 +10,7 @@
                 <outlet property="oRefreshButton" destination="16" id="28"/>
                 <outlet property="oStatusTextField" destination="36" id="37"/>
                 <outlet property="oWebView" destination="9" id="26"/>
-                <outlet property="window" destination="7" id="30"/>
+                <outlet property="view" destination="8" id="B6p-WK-I5v"/>
             </connections>
         </customObject>
         <customObject id="-1" userLabel="First Responder" customClass="FirstResponder"/>

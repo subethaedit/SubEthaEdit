@@ -940,6 +940,7 @@ static NSString *tempFileName(NSString *origPath) {
     [I_textStorage release];
     [I_webPreviewViewController setPlainTextDocument:nil];
     [I_webPreviewViewController release];
+	[I_webPreviewWindowController release];
     [I_documentProxyWindowController release];
     [I_session release];
     [I_plainTextAttributes release];
@@ -1432,17 +1433,20 @@ static NSString *tempFileName(NSString *origPath) {
 - (void)ensureWebPreview {
     if (!I_webPreviewViewController) {
         I_webPreviewViewController=[[WebPreviewViewController alloc] initWithPlainTextDocument:self];
-        [I_webPreviewViewController window];
+		I_webPreviewWindowController = [[NSWindowController alloc] initWithWindow:I_webPreviewViewController.view.window];
+
+        [I_webPreviewViewController view];
     }
 }
 
-- (IBAction)showWebPreview:(id)aSender {
-    [self ensureWebPreview];
-    if (![[I_webPreviewViewController window] isVisible]) {
-        [I_webPreviewViewController showWindow:self];
+- (IBAction)showWebPreview:(id)aSender {// TODO: WebPreview - removed/change to split view
+   [self ensureWebPreview];
+    if (![[I_webPreviewWindowController window] isVisible]) {
+        [I_webPreviewWindowController showWindow:self];
+		
         [I_webPreviewViewController refreshAndEmptyCache:self];
     } else {
-        [[I_webPreviewViewController window] orderFront:self];
+        [[I_webPreviewWindowController window] orderFront:self];
     }
 }
 
@@ -1529,8 +1533,9 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (void)TCM_webPreviewOnSaveRefresh {
+	// TODO: WebPreview - removed/change to split view
     if (I_webPreviewViewController) {
-        if ([[I_webPreviewViewController window] isVisible] &&
+        if ([[I_webPreviewWindowController window] isVisible] &&
             [I_webPreviewViewController refreshType] == kWebPreviewRefreshOnSave) {
             [I_webPreviewViewController refreshAndEmptyCache:self];
         }
@@ -6187,9 +6192,10 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 
 
+// TODO: WebPreview - removed/change to split view
 // WebPreview
     if (I_webPreviewViewController &&
-        [[I_webPreviewViewController window] isVisible] &&
+        [[I_webPreviewWindowController window] isVisible] &&
         ([I_webPreviewViewController refreshType]==kWebPreviewRefreshAutomatic ||
          [I_webPreviewViewController refreshType]==kWebPreviewRefreshDelayed)) {
         [[NSNotificationQueue defaultQueue]
@@ -6786,7 +6792,10 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 - (void)handleShowWebPreviewCommand:(NSScriptCommand *)command {
     [self showWebPreview:self];
-    if ([[I_webPreviewViewController window] isVisible]) [self refreshWebPreview:self];
+	// TODO: WebPreview - removed/change to split view
+    if ([[I_webPreviewWindowController window] isVisible]) {
+		[self refreshWebPreview:self];
+	}
 }
 
 - (void)replaceTextInRange:(NSRange)aRange withString:(NSString *)aString {
@@ -7002,7 +7011,9 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 - (void)setScriptedWebPreviewBaseURL:(NSString *)aString {
     [self ensureWebPreview];
     [I_webPreviewViewController setBaseURL:[NSURL URLWithString:aString]];
-    if ([[I_webPreviewViewController window] isVisible]) [self refreshWebPreview:self];
+    if ([[I_webPreviewWindowController window] isVisible]) {
+		[self refreshWebPreview:self];
+	}
 }
 
 - (void)scriptWrapperWillRunScriptNotification:(NSNotification *)aNotification {

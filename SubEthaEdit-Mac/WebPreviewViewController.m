@@ -51,7 +51,7 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
 @synthesize refreshType=_refreshType;
 
 - (id)initWithPlainTextDocument:(PlainTextDocument *)aDocument {
-    self=[super initWithWindowNibName:@"WebPreview"];
+    self=[super initWithNibName:@"WebPreview" bundle:nil];
     _plainTextDocument=aDocument;
     [self updateBaseURL];
     _hasSavedVisibleRect=NO;
@@ -85,7 +85,6 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
     [self.oWebView setResourceLoadDelegate:nil];
     [self.oWebView setPolicyDelegate:nil];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
-    [[self window] orderOut:self];
 }
 
 #pragma mark
@@ -182,10 +181,10 @@ NSScrollView * firstScrollView(NSView *aView) {
     [[self.oWebView mainFrame] loadData:[string dataUsingEncoding:encoding] MIMEType:@"text/html" textEncodingName:IANACharSetName baseURL:baseURL];
 }
 
-- (void)windowWillClose:(NSNotification *)aNotification {
-	// when we see our window closing, we empty the contents so no javascript will run in background
-    [[self.oWebView mainFrame] loadHTMLString:@"" baseURL:nil];
-}
+//- (void)windowWillClose:(NSNotification *)aNotification {
+//	// when we see our window closing, we empty the contents so no javascript will run in background
+//    [[self.oWebView mainFrame] loadHTMLString:@"" baseURL:nil];
+//}
 
 #pragma mark
 -(IBAction)refreshAndEmptyCache:(id)aSender {
@@ -203,7 +202,7 @@ NSScrollView * firstScrollView(NSView *aView) {
 
 - (void)setRefreshType:(SEEWebPreviewRefreshType)aRefreshType {
     [[[[self plainTextDocument] documentMode] defaults] setObject:[NSNumber numberWithInt:aRefreshType] forKey:WebPreviewRefreshModePreferenceKey];
-    if ([self isWindowLoaded]) {
+    if ([self view]) {
         int index=[self.oRefreshButton indexOfItemWithTag:aRefreshType];
         if (index!=-1) {
             _refreshType=aRefreshType;
@@ -258,8 +257,9 @@ NSScrollView * firstScrollView(NSView *aView) {
 }
 
 #pragma mark
--(void)windowDidLoad {
-    [super windowDidLoad];
+-(void)loadView {
+    [super loadView];
+	
     [self.oWebView setFrameLoadDelegate:self];
     [self.oWebView setUIDelegate:self];
     [self.oWebView setResourceLoadDelegate:self];
@@ -272,11 +272,11 @@ NSScrollView * firstScrollView(NSView *aView) {
     [prefs setJavaScriptEnabled:YES];
     [prefs setPlugInsEnabled:YES];
     [self.oStatusTextField setStringValue:@""];
-    NSString *frameString=[[NSUserDefaults standardUserDefaults] 
-                            stringForKey:WebPreviewWindowSizePreferenceKey];
-    if (frameString) {
-        [[self window] setFrameFromString:frameString];
-    }
+//    NSString *frameString=[[NSUserDefaults standardUserDefaults] 
+//                            stringForKey:WebPreviewWindowSizePreferenceKey];
+//    if (frameString) {
+//        [[self window] setFrameFromString:frameString];
+//    }
     [self setRefreshType:_refreshType];
 }
 
@@ -292,7 +292,7 @@ NSScrollView * firstScrollView(NSView *aView) {
 - (void)synchronizeWindowTitleWithDocumentName {
     NSString *displayName=[[self plainTextDocument] displayName];
     if (!displayName) displayName=@"";
-    [[self window] setTitle:[self windowTitleForDocumentDisplayName:displayName]];
+    [self setTitle:[self windowTitleForDocumentDisplayName:displayName]];
 }
 
 #pragma mark -
@@ -310,25 +310,25 @@ NSScrollView * firstScrollView(NSView *aView) {
 #pragma mark -
 #pragma mark ### Actions ###
 
-- (IBAction)showWindow:(id)aSender {
-    [super showWindow:aSender];
-    [self updateBaseURL];
-    [self refresh:aSender];
-    [self synchronizeWindowTitleWithDocumentName];
-}
+//- (IBAction)showWindow:(id)aSender {
+//    [super showWindow:aSender];
+//    [self updateBaseURL];
+//    [self refresh:aSender];
+//    [self synchronizeWindowTitleWithDocumentName];
+//}
 
 #pragma mark -
 #pragma mark ### First Responder Actions ###
 
-- (IBAction)saveWindowSize:(id)aSender {
-    [[NSUserDefaults standardUserDefaults] 
-        setObject:[[self window] stringWithSavedFrame] 
-           forKey:WebPreviewWindowSizePreferenceKey];
-}
-
-- (void)windowDidResize:(NSNotification *)aNotification {
-    [self saveWindowSize:self];
-}
+//- (IBAction)saveWindowSize:(id)aSender {
+//    [[NSUserDefaults standardUserDefaults] 
+//        setObject:[[self window] stringWithSavedFrame] 
+//           forKey:WebPreviewWindowSizePreferenceKey];
+//}
+//
+//- (void)windowDidResize:(NSNotification *)aNotification {
+//    [self saveWindowSize:self];
+//}
 
 #pragma mark -
 #pragma mark ### ResourceLoadDelegate ###
