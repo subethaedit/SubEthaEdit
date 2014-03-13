@@ -255,8 +255,9 @@
 		selectedCellIndex++;
 	};
 	NSInteger myIndex = [[cell.controlView cells] indexOfObject:cell];
+	BOOL isLastVisibleCell = ([cell tabState] & PSMTab_PositionRightMask) == PSMTab_PositionRightMask;
 
-	if (myIndex >= selectedCellIndex) {
+	if (myIndex >= selectedCellIndex || isLastVisibleCell) {
 		constrainedDrawingRect.size.width -= 11.0;
 	}
 
@@ -378,6 +379,7 @@
 	
 //	BOOL isLeftOfSelected  = [cell tabState] & PSMTab_RightIsSelectedMask;
 //	BOOL isRightOfSelected  = [cell tabState] & PSMTab_LeftIsSelectedMask;
+	BOOL isLastVisibleCell = ([cell tabState] & PSMTab_PositionRightMask) == PSMTab_PositionRightMask;
 	BOOL isLeftOfSelected = myIndex < selectedCellIndex;
 	BOOL isRightOfSelected = myIndex > selectedCellIndex;
 	
@@ -402,7 +404,7 @@
 	NSRect rightRect = frame;
 	rightRect.size.width = rightCap.size.width;
 	rightRect.origin.x = CGRectGetMaxX(frame) - rightRect.size.width;
-	if (isActive || isRightOfSelected) {
+	if (isActive || isRightOfSelected || isLastVisibleCell) {
 		[rightCap drawInRect:rightRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 	}
 }
