@@ -371,7 +371,7 @@
 
 		NSRect rightRect = lastVisibleTab.frame;
 		rightRect.size.width = rightCap.size.width;
-		rightRect.origin.x = NSMaxX([lastVisibleTab frame]) + NSWidth(overflowButtonRect) + kPSMTabBarCellPadding;
+		rightRect.origin.x = NSMaxX([lastVisibleTab frame]) + NSWidth(overflowButtonRect);
 		[rightCap drawInRect:rightRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 	}
 }
