@@ -255,8 +255,9 @@
 		selectedCellIndex++;
 	};
 	NSInteger myIndex = [[cell.controlView cells] indexOfObject:cell];
+	BOOL isLastVisibleCell = ([cell tabState] & PSMTab_PositionRightMask) == PSMTab_PositionRightMask;
 
-	if (myIndex >= selectedCellIndex) {
+	if (myIndex >= selectedCellIndex  || isLastVisibleCell ) {
 		constrainedDrawingRect.size.width -= 11.0;
 	}
 
@@ -347,6 +348,7 @@
 	PSMTabBarCell *lastVisibleTab = [tabBarControl lastVisibleTab];
 	if (lastVisibleTab) {
 		xOffset += NSMaxX([lastVisibleTab frame]);
+//		xOffset = NSMaxX([lastVisibleTab frame]) - buttonSize.width - kPSMTabBarCellPadding;
 	}
 
 	theRect = NSMakeRect(xOffset, NSMinY(bounds), buttonSize.width, buttonSize.height);
@@ -360,6 +362,18 @@
 - (void)drawBezelOfTabBarControl:(PSMTabBarControl *)tabBarControl inRect:(NSRect)rect {
 	NSImage *backgroundImage = [SEETabStyle imageForWindowActive:[tabBarControl.window TCM_isActive] name:@"InactiveTabBG"];
 	NSDrawThreePartImage(rect, nil, backgroundImage, nil, NO, NSCompositeSourceOver, 1.0, tabBarControl.isFlipped);
+
+	NSRect overflowButtonRect = tabBarControl.overflowButtonRect;
+	if (! NSEqualRects(overflowButtonRect, NSZeroRect)) {
+		PSMTabBarCell *lastVisibleTab = tabBarControl.lastVisibleTab;
+		BOOL isWindowActive = [tabBarControl.window TCM_isActive];
+		NSImage *rightCap = [SEETabStyle imageForWindowActive:isWindowActive name:@"InactiveTabRightCap"];
+
+		NSRect rightRect = lastVisibleTab.frame;
+		rightRect.size.width = rightCap.size.width;
+		rightRect.origin.x = NSMaxX([lastVisibleTab frame]) + NSWidth(overflowButtonRect);
+		[rightCap drawInRect:rightRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	}
 }
 
 - (void)drawBezelOfTabCell:(PSMTabBarCell *)cell withFrame:(NSRect)frame inTabBarControl:(PSMTabBarControl *)tabBarControl {
@@ -376,8 +390,9 @@
 
 	NSInteger myIndex = [[tabBarControl cells] indexOfObject:cell];
 	
-//	BOOL isLeftOfSelected  = [cell tabState] & PSMTab_RightIsSelectedMask;
-//	BOOL isRightOfSelected  = [cell tabState] & PSMTab_LeftIsSelectedMask;
+//	BOOL isLeftOfSelected  = ([cell tabState] & PSMTab_RightIsSelectedMask) == PSMTab_RightIsSelectedMask;
+//	BOOL isRightOfSelected  = ([cell tabState] & PSMTab_LeftIsSelectedMask) == PSMTab_LeftIsSelectedMask;
+	BOOL isLastVisibleCell = ([cell tabState] & PSMTab_PositionRightMask) == PSMTab_PositionRightMask;
 	BOOL isLeftOfSelected = myIndex < selectedCellIndex;
 	BOOL isRightOfSelected = myIndex > selectedCellIndex;
 	
@@ -402,7 +417,7 @@
 	NSRect rightRect = frame;
 	rightRect.size.width = rightCap.size.width;
 	rightRect.origin.x = CGRectGetMaxX(frame) - rightRect.size.width;
-	if (isActive || isRightOfSelected) {
+	if (isActive || isRightOfSelected || isLastVisibleCell) {
 		[rightCap drawInRect:rightRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 	}
 }

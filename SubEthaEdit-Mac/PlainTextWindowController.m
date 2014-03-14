@@ -123,6 +123,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     [I_tabBar setAutoresizingMask:NSViewWidthSizable | NSViewMinYMargin];
 //	[I_tabBar setTearOffStyle:PSMTabBarTearOffMiniwindow];
     [I_tabBar setStyleNamed:@"SubEthaEdit"];
+	[I_tabBar setAlwaysShowActiveTab:YES];
 	[I_tabBar setShowAddTabButton:YES];
 
 	// hook up add tab button
