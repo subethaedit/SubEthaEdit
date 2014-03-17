@@ -778,86 +778,86 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 	[self.selectedTabContext setActivePlainTextEditor:activePlainTextEditor];
 }
 
-- (void)splitView:(NSSplitView *)aSplitView resizeSubviewsWithOldSize:(NSSize)oldSize {
-    CGFloat splitminheight = (aSplitView==I_dialogSplitView) ? SPLITMINHEIGHTDIALOG : SPLITMINHEIGHTTEXT;
-    if (aSplitView != I_dialogSplitView) {
-        NSRect frame=[aSplitView bounds];
-        NSArray *subviews=[aSplitView subviews];
-        NSRect frametop=[[subviews objectAtIndex:0] frame];
-        NSRect framebottom=[[subviews objectAtIndex:1] frame];
-        CGFloat newHeight1=frame.size.height-[aSplitView dividerThickness];
-        CGFloat topratio=frametop.size.height/(oldSize.height-[aSplitView dividerThickness]);
-        frametop.size.height=(CGFloat)((int)(newHeight1*topratio));
-        if (frametop.size.height<splitminheight) {
-            frametop.size.height=splitminheight;
-        } else if (newHeight1-frametop.size.height<splitminheight) {
-            frametop.size.height=newHeight1-splitminheight;
-        }
-    
-        framebottom.size.height=newHeight1-frametop.size.height;
-        framebottom.size.width=frametop.size.width=frame.size.width;
-        
-        frametop.origin.x=framebottom.origin.x=frame.origin.x;
-        frametop.origin.y=frame.origin.y;
-        framebottom.origin.y=frame.origin.y+[aSplitView dividerThickness]+frametop.size.height;
-        
-        [[subviews objectAtIndex:0] setFrame:frametop];
-        [[subviews objectAtIndex:1] setFrame:framebottom];
-    } else {
-        // just keep the height of the first view (dialog)
-        NSView *view2 = [[aSplitView subviews] objectAtIndex:1];
-        NSSize newSize = [aSplitView bounds].size;
-        NSSize frameSize = [view2 frame].size;
-        frameSize.height += newSize.height - oldSize.height;
-        if (frameSize.height <= splitminheight) {
-            frameSize.height = splitminheight;
-        }
-        [view2 setFrameSize:frameSize];
-        [aSplitView adjustSubviews];
-    }
-	[aSplitView setPosition:NSHeight([aSplitView.subviews.firstObject frame]) ofDividerAtIndex:0];
-}
+//- (void)splitView:(NSSplitView *)aSplitView resizeSubviewsWithOldSize:(NSSize)oldSize {
+//    CGFloat splitminheight = (aSplitView==I_dialogSplitView) ? SPLITMINHEIGHTDIALOG : SPLITMINHEIGHTTEXT;
+//    if (aSplitView != I_dialogSplitView) {
+//        NSRect frame=[aSplitView bounds];
+//        NSArray *subviews=[aSplitView subviews];
+//        NSRect frametop=[[subviews objectAtIndex:0] frame];
+//        NSRect framebottom=[[subviews objectAtIndex:1] frame];
+//        CGFloat newHeight1=frame.size.height-[aSplitView dividerThickness];
+//        CGFloat topratio=frametop.size.height/(oldSize.height-[aSplitView dividerThickness]);
+//        frametop.size.height=(CGFloat)((int)(newHeight1*topratio));
+//        if (frametop.size.height<splitminheight) {
+//            frametop.size.height=splitminheight;
+//        } else if (newHeight1-frametop.size.height<splitminheight) {
+//            frametop.size.height=newHeight1-splitminheight;
+//        }
+//    
+//        framebottom.size.height=newHeight1-frametop.size.height;
+//        framebottom.size.width=frametop.size.width=frame.size.width;
+//        
+//        frametop.origin.x=framebottom.origin.x=frame.origin.x;
+//        frametop.origin.y=frame.origin.y;
+//        framebottom.origin.y=frame.origin.y+[aSplitView dividerThickness]+frametop.size.height;
+//        
+//        [[subviews objectAtIndex:0] setFrame:frametop];
+//        [[subviews objectAtIndex:1] setFrame:framebottom];
+//    } else {
+//        // just keep the height of the first view (dialog)
+//        NSView *view2 = [[aSplitView subviews] objectAtIndex:1];
+//        NSSize newSize = [aSplitView bounds].size;
+//        NSSize frameSize = [view2 frame].size;
+//        frameSize.height += newSize.height - oldSize.height;
+//        if (frameSize.height <= splitminheight) {
+//            frameSize.height = splitminheight;
+//        }
+//        [view2 setFrameSize:frameSize];
+//        [aSplitView adjustSubviews];
+//    }
+//	[aSplitView setPosition:NSHeight([aSplitView.subviews.firstObject frame]) ofDividerAtIndex:0];
+//}
 
 - (BOOL)splitView:(NSSplitView *)aSplitView canCollapseSubview:(NSView *)aView {
     return NO;
 }
 
-- (CGFloat)splitView:(NSSplitView *)aSplitView constrainSplitPosition:(CGFloat)proposedPosition 
-       ofSubviewAt:(NSInteger)aDividerIndex {
-
-	BOOL isDialogSplitView = (aSplitView==I_dialogSplitView);
-	CGFloat minHeightTop = SPLITMINHEIGHTDIALOG;
-	CGFloat minHeightBottom = SPLITMINHEIGHTTEXT;
-	
-	if (isDialogSplitView) {
-		minHeightBottom = 0;
-		for (PlainTextEditor *editor in self.plainTextEditors) {
-			minHeightBottom += editor.desiredMinHeight;
-		}
-		if (self.plainTextEditors.count > 1) {
-			minHeightBottom += [I_editorSplitView dividerThickness];
-		}
-	} else {
-		minHeightTop = [self.plainTextEditors.firstObject desiredMinHeight];
-		minHeightBottom = [self.plainTextEditors.lastObject desiredMinHeight];
-	}
-	
-	
-    CGFloat totalHeight=[aSplitView frame].size.height;
-
-	CGFloat result = proposedPosition;
-	
-    if (proposedPosition < minHeightTop) {
-        result = minHeightTop;
-    } else {
-		CGFloat maxPosition = totalHeight - minHeightBottom - [aSplitView dividerThickness];
-		if (proposedPosition > maxPosition) {
-			result = maxPosition;
-		}
-    }
-	
-	return result;
-}
+//- (CGFloat)splitView:(NSSplitView *)aSplitView constrainSplitPosition:(CGFloat)proposedPosition 
+//       ofSubviewAt:(NSInteger)aDividerIndex {
+//
+//	BOOL isDialogSplitView = (aSplitView==I_dialogSplitView);
+//	CGFloat minHeightTop = SPLITMINHEIGHTDIALOG;
+//	CGFloat minHeightBottom = SPLITMINHEIGHTTEXT;
+//	
+//	if (isDialogSplitView) {
+//		minHeightBottom = 0;
+//		for (PlainTextEditor *editor in self.plainTextEditors) {
+//			minHeightBottom += editor.desiredMinHeight;
+//		}
+//		if (self.plainTextEditors.count > 1) {
+//			minHeightBottom += [I_editorSplitView dividerThickness];
+//		}
+//	} else {
+//		minHeightTop = [self.plainTextEditors.firstObject desiredMinHeight];
+//		minHeightBottom = [self.plainTextEditors.lastObject desiredMinHeight];
+//	}
+//	
+//	
+//    CGFloat totalHeight=[aSplitView frame].size.height;
+//
+//	CGFloat result = proposedPosition;
+//	
+//    if (proposedPosition < minHeightTop) {
+//        result = minHeightTop;
+//    } else {
+//		CGFloat maxPosition = totalHeight - minHeightBottom - [aSplitView dividerThickness];
+//		if (proposedPosition > maxPosition) {
+//			result = maxPosition;
+//		}
+//    }
+//	
+//	return result;
+//}
 
 - (id)documentDialog {
     return I_documentDialog;
