@@ -1894,7 +1894,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 	[contextToClose release];
 }
 
-#pragma mark PSMTabBarControl Delegate
+#pragma mark PSMTabBarControlDelegate
 
 - (void)tabView:(NSTabView *)tabView didSelectTabViewItem:(NSTabViewItem *)tabViewItem
 {
