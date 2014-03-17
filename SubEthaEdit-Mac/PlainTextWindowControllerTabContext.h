@@ -9,17 +9,19 @@
 #import <Cocoa/Cocoa.h>
 @class PlainTextWindowControllerTabContext;
 #import "PlainTextEditor.h"
-@class PlainTextWindowController, PlainTextDocument, PlainTextLoadProgress;
+@class PlainTextWindowController, WebPreviewViewController, PlainTextDocument, PlainTextLoadProgress;
 
 
-@interface PlainTextWindowControllerTabContext : NSObject {
+@interface PlainTextWindowControllerTabContext : NSObject <NSSplitViewDelegate> {
 }
 
 @property (nonatomic, strong) NSMutableArray *plainTextEditors;
 @property (nonatomic, strong) NSSplitView *editorSplitView;
 @property (nonatomic, strong) NSSplitView *dialogSplitView;
+@property (nonatomic, strong) NSSplitView *webPreviewSplitView;
 @property (nonatomic, strong) PlainTextDocument *document;
 @property (nonatomic, strong) id documentDialog;
+@property (nonatomic, strong) WebPreviewViewController *webPreviewViewController;
 @property (nonatomic, weak) PlainTextEditor *activePlainTextEditor;
 
 @property (nonatomic) BOOL isReceivingContent;

@@ -32,6 +32,7 @@
 #import "URLBubbleWindow.h"
 #import "SEEParticipantsOverlayViewController.h"
 #import "SEETabStyle.h"
+#import "WebPreviewViewController.h"
 #import <objc/objc-runtime.h>			// for objc_msgSend
 
 
@@ -1086,6 +1087,52 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 	
 	[self updateWindowMinSize];
     [[self window] makeFirstResponder:textView];
+}
+
+
+#pragma mark - web preview
+
+- (IBAction)toggleWebPreview:(id)sender {
+	NSTabViewItem *tabViewItem = self.selectedTabViewItem;
+	NSView *viewRepresentedByTab = [[[tabViewItem view] retain] autorelease];
+	PlainTextWindowControllerTabContext *tabContext = [self selectedTabContext];
+
+	if (viewRepresentedByTab == tabContext.webPreviewSplitView) {
+		NSView *editorView = [[viewRepresentedByTab.subviews.firstObject retain] autorelease];
+		[editorView removeFromSuperview];
+		editorView.frame = viewRepresentedByTab.frame;
+		[viewRepresentedByTab removeFromSuperview];
+
+		tabContext.webPreviewSplitView.delegate = nil;
+		tabContext.webPreviewSplitView = nil;
+
+		tabContext.webPreviewViewController = nil;
+
+		editorView.autoresizesSubviews = YES;
+		editorView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+		[tabViewItem setView:editorView];
+	} else {
+		[viewRepresentedByTab removeFromSuperview];
+
+		NSSplitView *webPreviewSplitView = [[[NSSplitView alloc] initWithFrame:viewRepresentedByTab.frame] autorelease];
+		webPreviewSplitView.vertical = YES;
+		webPreviewSplitView.dividerStyle = NSSplitViewDividerStyleThin;
+		webPreviewSplitView.delegate = self;
+		webPreviewSplitView.autoresizesSubviews = YES;
+		webPreviewSplitView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+		[tabViewItem setView:webPreviewSplitView];
+
+		WebPreviewViewController *webPreviewViewController = [[[WebPreviewViewController alloc] initWithPlainTextDocument:tabContext.document] autorelease];
+
+		[webPreviewSplitView addSubview:viewRepresentedByTab];
+		[webPreviewSplitView addSubview:webPreviewViewController.view];
+		[webPreviewSplitView adjustSubviews];
+
+		[webPreviewViewController refreshAndEmptyCache:sender];
+
+		tabContext.webPreviewViewController = webPreviewViewController;
+		tabContext.webPreviewSplitView = webPreviewSplitView;
+	}
 }
 
 #pragma mark -

@@ -53,7 +53,6 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
 - (id)initWithPlainTextDocument:(PlainTextDocument *)aDocument {
     self=[super initWithNibName:@"WebPreview" bundle:nil];
     _plainTextDocument=aDocument;
-    [self updateBaseURL];
     _hasSavedVisibleRect=NO;
     _shallCache=YES;
     NSNumber *refreshTypeNumber=[[[aDocument documentMode] defaults] objectForKey:WebPreviewRefreshModePreferenceKey];
@@ -277,6 +276,8 @@ NSScrollView * firstScrollView(NSView *aView) {
 //    if (frameString) {
 //        [[self window] setFrameFromString:frameString];
 //    }
+	
+	[self updateBaseURL];
     [self setRefreshType:_refreshType];
 }
 
