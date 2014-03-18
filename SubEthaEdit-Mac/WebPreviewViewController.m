@@ -45,6 +45,7 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
 @property (nonatomic, readonly) NSString *localizedManualRefreshPopupItemManual;
 
 @property (nonatomic, weak) id documentDidChangeObserver;
+@property (nonatomic, weak) id documentDidSaveObserver;
 
 @end
 
@@ -77,7 +78,15 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
 			[strongSelf triggerDelayedWebPreviewRefresh];
 		}
 	}];
+	
+	self.documentDidSaveObserver = [[NSNotificationCenter defaultCenter] addObserverForName:PlainTextDocumentDidSaveShouldReloadWebPreviewNotification object:aDocument queue:nil usingBlock:^(NSNotification *note) {
+		__typeof__(self) strongSelf = weakSelf;
 
+		if ([strongSelf refreshType] == kWebPreviewRefreshOnSave) {
+			[strongSelf refreshAndEmptyCache:strongSelf];
+		}
+	}];
+	
     [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(synchronizeWindowTitleWithDocumentName)
                                                  name:TCMMMSessionDidChangeNotification 
@@ -98,6 +107,7 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
     [self.oWebView setUIDelegate:nil];
     [self.oWebView setResourceLoadDelegate:nil];
 	[self.oWebView setPolicyDelegate:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self.documentDidSaveObserver];
     [[NSNotificationCenter defaultCenter] removeObserver:self.documentDidChangeObserver];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
@@ -439,6 +449,8 @@ NSScrollView * firstScrollView(NSView *aView) {
     }
 }
 
+#pragma mark - Refresh timer
+
 #define WEBPREVIEWDELAYEDREFRESHINTERVAL 1.2
 
 - (void)triggerDelayedWebPreviewRefresh {
@@ -461,17 +473,5 @@ NSScrollView * firstScrollView(NSView *aView) {
 - (void)delayedWebPreviewRefreshAction:(NSTimer *)aTimer {
     [self refresh:self];
 }
-
-//- (void)TCM_webPreviewOnSaveRefresh {
-//	// TODO: WebPreview - removed/change to split view
-//    if (I_webPreviewViewController) {
-//        if ([[I_webPreviewWindowController window] isVisible] &&
-//            [I_webPreviewViewController refreshType] == kWebPreviewRefreshOnSave) {
-//            [I_webPreviewViewController refreshAndEmptyCache:self];
-//        }
-//    }
-//}
-
-
 
 @end

@@ -94,7 +94,9 @@ NSString * const PlainTextDocumentDidChangeTextStorageNotification =
 NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification =
                @"PlainTextDocumentDefaultParagraphStyleDidChangeNotification";
 NSString * const PlainTextDocumentDidSaveNotification =
-               @"PlainTextDocumentDidSaveNotification";
+@"PlainTextDocumentDidSaveNotification";
+NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotification =
+@"PlainTextDocumentDidSaveShouldReloadWebPreviewNotification";
 NSString * const WrittenByUserIDAttributeName = @"WrittenByUserID";
 NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 
@@ -4112,7 +4114,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
             [self setShouldChangeChangeCount:YES];
         }
         if (saveOperationType != NSAutosaveOperation) {
-            [self TCM_webPreviewOnSaveRefresh];
+			[[NSNotificationCenter defaultCenter] postNotificationName:PlainTextDocumentDidSaveShouldReloadWebPreviewNotification object:self];
         }
         [self setTemporaryDisplayName:nil];
     }

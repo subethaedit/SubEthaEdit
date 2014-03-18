@@ -34,7 +34,6 @@ typedef NS_ENUM(int8_t, SEEWebPreviewRefreshType) {
 - (NSURL *)baseURL;
 - (void)setBaseURL:(NSURL *)aBaseURL;
 
-
 -(IBAction)refreshAndEmptyCache:(id)aSender;
 -(IBAction)refresh:(id)aSender;
 -(IBAction)changeRefreshType:(id)aSender;
