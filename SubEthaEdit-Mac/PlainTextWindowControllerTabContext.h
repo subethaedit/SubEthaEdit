@@ -7,32 +7,36 @@
 //
 
 #import <Cocoa/Cocoa.h>
-@class PlainTextWindowControllerTabContext;
+#import "SEEEditorSplitViewDelegate.h"
+#import "SEEDialogSplitViewDelegate.h"
+#import "SEEWebPreviewSplitViewDelegate.h"
 #import "PlainTextEditor.h"
+
 @class PlainTextWindowController, WebPreviewViewController, PlainTextDocument, PlainTextLoadProgress;
 
-
-@interface PlainTextWindowControllerTabContext : NSObject <NSSplitViewDelegate> {
-}
-
-@property (nonatomic, strong) NSMutableArray *plainTextEditors;
-@property (nonatomic, strong) NSSplitView *editorSplitView;
-@property (nonatomic, strong) NSSplitView *dialogSplitView;
-@property (nonatomic, strong) NSSplitView *webPreviewSplitView;
+@interface PlainTextWindowControllerTabContext : NSObject
 @property (nonatomic, strong) PlainTextDocument *document;
-@property (nonatomic, strong) id documentDialog;
-@property (nonatomic, strong) WebPreviewViewController *webPreviewViewController;
-@property (nonatomic, weak) PlainTextEditor *activePlainTextEditor;
 
-@property (nonatomic) BOOL isReceivingContent;
-@property (nonatomic) BOOL isAlertScheduled;
+@property (nonatomic, strong) NSSplitView *editorSplitView;
+@property (nonatomic, strong) SEEEditorSplitViewDelegate *editorSplitViewDelegate;
+@property (nonatomic, strong) NSMutableArray *plainTextEditors;
+@property (nonatomic,   weak) PlainTextEditor *activePlainTextEditor;
+
+@property (nonatomic, strong) NSSplitView *dialogSplitView;
+@property (nonatomic, strong) SEEDialogSplitViewDelegate *dialogSplitViewDelegate;
+@property (nonatomic, strong) id documentDialog;
+
+@property (nonatomic, strong) NSSplitView *webPreviewSplitView;
+@property (nonatomic, strong) SEEWebPreviewSplitViewDelegate *webPreviewSplitViewDelegate;
+@property (nonatomic, strong) WebPreviewViewController *webPreviewViewController;
+
+@property (nonatomic, assign) BOOL isReceivingContent;
+@property (nonatomic, assign) BOOL isAlertScheduled;
 @property (nonatomic, strong) PlainTextLoadProgress *loadProgress;
 
-
-@property (nonatomic) BOOL isProcessing;
-@property (nonatomic) BOOL isEdited;
+@property (nonatomic, assign) BOOL isProcessing;
+@property (nonatomic, assign) BOOL isEdited;
 @property (nonatomic, strong) NSImage *icon;
 @property (nonatomic, strong) NSString *iconName;
-@property (nonatomic) int objectCount;
 
 @end

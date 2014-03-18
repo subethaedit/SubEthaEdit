@@ -457,8 +457,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
     [tabViewItem release];
     [document release];
-    [[[tabViewItem identifier] dialogSplitView] setDelegate:windowController];
-    [[[tabViewItem identifier] editorSplitView] setDelegate:windowController];
     [windowController setDocument:document];
     [windowController showWindow:self];
 
@@ -726,21 +724,22 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
 #pragma mark -
 
-#define SPLITMINHEIGHTTEXT   46.
-#define SPLITMINHEIGHTDIALOG 130.
-
 - (void)updateWindowMinSize {
 	CGFloat minHeight = 0;
-	if (I_dialogSplitView) {
+	PlainTextWindowControllerTabContext *tabContext = self.selectedTabContext;
+	NSSplitView *editorSplitView = tabContext.editorSplitView;
+	NSSplitView *dialogSplitView = tabContext.dialogSplitView;
+
+	if (dialogSplitView) {
 		minHeight += SPLITMINHEIGHTDIALOG;
-		minHeight += [I_dialogSplitView dividerThickness];
+		minHeight += [dialogSplitView dividerThickness];
 	}
 	
-	for (PlainTextEditor *editor in self.plainTextEditors) {
+	for (PlainTextEditor *editor in tabContext.plainTextEditors) {
 		minHeight += editor.desiredMinHeight;
 	}
-	if (self.plainTextEditors.count > 1) {
-		minHeight += [I_editorSplitView dividerThickness];
+	if (tabContext.plainTextEditors.count > 1) {
+		minHeight += [editorSplitView dividerThickness];
 	}
 	
 	NSSize minSize = NSMakeSize(480,MAX(minHeight, 230.));
@@ -764,13 +763,12 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 		
 		newFrame = [self.window constrainFrameRect:newFrame toScreen:self.window.screen];
 		[self.window setFrame:newFrame display:YES];
-		if (I_editorSplitView) {
-			[I_editorSplitView setPosition:NSHeight([I_editorSplitView.subviews.firstObject frame]) ofDividerAtIndex:0];
+		if (editorSplitView) {
+			[editorSplitView setPosition:NSHeight([editorSplitView.subviews.firstObject frame]) ofDividerAtIndex:0];
 		}
-		if (I_dialogSplitView) {
-			[I_dialogSplitView setPosition:NSHeight([I_dialogSplitView.subviews.firstObject frame]) ofDividerAtIndex:0];
+		if (dialogSplitView) {
+			[dialogSplitView setPosition:NSHeight([dialogSplitView.subviews.firstObject frame]) ofDividerAtIndex:0];
 		}
-
 	}
 }
 
@@ -778,86 +776,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 	[self.selectedTabContext setActivePlainTextEditor:activePlainTextEditor];
 }
 
-//- (void)splitView:(NSSplitView *)aSplitView resizeSubviewsWithOldSize:(NSSize)oldSize {
-//    CGFloat splitminheight = (aSplitView==I_dialogSplitView) ? SPLITMINHEIGHTDIALOG : SPLITMINHEIGHTTEXT;
-//    if (aSplitView != I_dialogSplitView) {
-//        NSRect frame=[aSplitView bounds];
-//        NSArray *subviews=[aSplitView subviews];
-//        NSRect frametop=[[subviews objectAtIndex:0] frame];
-//        NSRect framebottom=[[subviews objectAtIndex:1] frame];
-//        CGFloat newHeight1=frame.size.height-[aSplitView dividerThickness];
-//        CGFloat topratio=frametop.size.height/(oldSize.height-[aSplitView dividerThickness]);
-//        frametop.size.height=(CGFloat)((int)(newHeight1*topratio));
-//        if (frametop.size.height<splitminheight) {
-//            frametop.size.height=splitminheight;
-//        } else if (newHeight1-frametop.size.height<splitminheight) {
-//            frametop.size.height=newHeight1-splitminheight;
-//        }
-//    
-//        framebottom.size.height=newHeight1-frametop.size.height;
-//        framebottom.size.width=frametop.size.width=frame.size.width;
-//        
-//        frametop.origin.x=framebottom.origin.x=frame.origin.x;
-//        frametop.origin.y=frame.origin.y;
-//        framebottom.origin.y=frame.origin.y+[aSplitView dividerThickness]+frametop.size.height;
-//        
-//        [[subviews objectAtIndex:0] setFrame:frametop];
-//        [[subviews objectAtIndex:1] setFrame:framebottom];
-//    } else {
-//        // just keep the height of the first view (dialog)
-//        NSView *view2 = [[aSplitView subviews] objectAtIndex:1];
-//        NSSize newSize = [aSplitView bounds].size;
-//        NSSize frameSize = [view2 frame].size;
-//        frameSize.height += newSize.height - oldSize.height;
-//        if (frameSize.height <= splitminheight) {
-//            frameSize.height = splitminheight;
-//        }
-//        [view2 setFrameSize:frameSize];
-//        [aSplitView adjustSubviews];
-//    }
-//	[aSplitView setPosition:NSHeight([aSplitView.subviews.firstObject frame]) ofDividerAtIndex:0];
-//}
-
-- (BOOL)splitView:(NSSplitView *)aSplitView canCollapseSubview:(NSView *)aView {
-    return NO;
-}
-
-//- (CGFloat)splitView:(NSSplitView *)aSplitView constrainSplitPosition:(CGFloat)proposedPosition 
-//       ofSubviewAt:(NSInteger)aDividerIndex {
-//
-//	BOOL isDialogSplitView = (aSplitView==I_dialogSplitView);
-//	CGFloat minHeightTop = SPLITMINHEIGHTDIALOG;
-//	CGFloat minHeightBottom = SPLITMINHEIGHTTEXT;
-//	
-//	if (isDialogSplitView) {
-//		minHeightBottom = 0;
-//		for (PlainTextEditor *editor in self.plainTextEditors) {
-//			minHeightBottom += editor.desiredMinHeight;
-//		}
-//		if (self.plainTextEditors.count > 1) {
-//			minHeightBottom += [I_editorSplitView dividerThickness];
-//		}
-//	} else {
-//		minHeightTop = [self.plainTextEditors.firstObject desiredMinHeight];
-//		minHeightBottom = [self.plainTextEditors.lastObject desiredMinHeight];
-//	}
-//	
-//	
-//    CGFloat totalHeight=[aSplitView frame].size.height;
-//
-//	CGFloat result = proposedPosition;
-//	
-//    if (proposedPosition < minHeightTop) {
-//        result = minHeightTop;
-//    } else {
-//		CGFloat maxPosition = totalHeight - minHeightBottom - [aSplitView dividerThickness];
-//		if (proposedPosition > maxPosition) {
-//			result = maxPosition;
-//		}
-//    }
-//	
-//	return result;
-//}
 
 - (id)documentDialog {
     return I_documentDialog;
@@ -918,21 +836,28 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     if (aDocumentDialog) {
         if (!I_dialogSplitView) {
             NSTabViewItem *tab = [self tabViewItemForDocument:[self document]];
+			PlainTextWindowControllerTabContext *tabContext = [self selectedTabContext];
 
-            //NSView *contentView = [[[self window] contentView] retain];
             NSView *tabItemView = [[tab view] retain];
             NSView *dialogView = [aDocumentDialog mainView];
-            //I_dialogSplitView = [[SplitView alloc] initWithFrame:[contentView frame]];
+
             I_dialogSplitView = [[[SplitView alloc] initWithFrame:[tabItemView frame]] autorelease];
-            
-            [[tab identifier] setDialogSplitView:I_dialogSplitView];
+            I_dialogSplitView.delegate = [[[SEEDialogSplitViewDelegate alloc] initWithTabContext:tab.identifier] autorelease];
+
+            [tabContext setDialogSplitView:I_dialogSplitView];
+			tabContext.dialogSplitViewDelegate = I_dialogSplitView.delegate;
 
             [(SplitView *)I_dialogSplitView setDividerThickness:3.];
             NSRect mainFrame = [dialogView frame];
-            //[[self window] setContentView:I_dialogSplitView];
-            [tab setView:I_dialogSplitView];
 
-            [I_dialogSplitView setDelegate:self];
+
+			NSSplitView *webPreviewSplitView = tabContext.webPreviewSplitView;
+			if (webPreviewSplitView) {
+				[webPreviewSplitView addSubview:I_dialogSplitView positioned:NSWindowAbove relativeTo:[[webPreviewSplitView subviews] objectAtIndex:1]];
+			} else {
+				[tab setView:I_dialogSplitView];
+			}
+
             [I_dialogSplitView addSubview:dialogView];
             mainFrame.size.width = [I_dialogSplitView frame].size.width;
             [dialogView setFrame:mainFrame];
@@ -990,47 +915,53 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 }
 
 - (IBAction)toggleSplitView:(id)aSender {
-    if ([I_plainTextEditors count] == 1) {
-        NSTabViewItem *tab = [I_tabView selectedTabViewItem];
+	NSTabViewItem *tab = [I_tabView selectedTabViewItem];
+	PlainTextWindowControllerTabContext *tabContext = (PlainTextWindowControllerTabContext *)[tab identifier];
+	NSMutableArray *plainTextEditors = tabContext.plainTextEditors;
 
-        PlainTextWindowControllerTabContext *context = (PlainTextWindowControllerTabContext *)[tab identifier];
-        PlainTextEditor *plainTextEditor = [[PlainTextEditor alloc] initWithWindowControllerTabContext:context splitButton:NO];
-        [I_plainTextEditors addObject:plainTextEditor];
+    if ([plainTextEditors count] == 1) {
+        PlainTextEditor *plainTextEditor = [[PlainTextEditor alloc] initWithWindowControllerTabContext:tabContext splitButton:NO];
+        [plainTextEditors addObject:plainTextEditor];
         [plainTextEditor release];
 
         I_editorSplitView = [[[SplitView alloc] initWithFrame:[[[I_plainTextEditors objectAtIndex:0] editorView] frame]] autorelease];
-        [context setEditorSplitView:I_editorSplitView];
+        I_editorSplitView.delegate = [[[SEEEditorSplitViewDelegate alloc] initWithTabContext:tabContext] autorelease];
+        tabContext.editorSplitView = I_editorSplitView;
+		tabContext.editorSplitViewDelegate = I_editorSplitView.delegate;
 
-        if (!I_dialogSplitView) {
-            [tab setView:I_editorSplitView];
+		NSSplitView *dialogSplitView = tabContext.dialogSplitView;
+		NSSplitView *webPreviewSplitView = tabContext.webPreviewSplitView;
+        if (dialogSplitView) {
+            [dialogSplitView addSubview:I_editorSplitView positioned:NSWindowBelow relativeTo:[[dialogSplitView subviews] objectAtIndex:1]];
+        } else if (webPreviewSplitView) {
+            [webPreviewSplitView addSubview:I_editorSplitView positioned:NSWindowAbove relativeTo:[[webPreviewSplitView subviews] objectAtIndex:1]];
         } else {
-            [I_dialogSplitView addSubview:I_editorSplitView positioned:NSWindowBelow relativeTo:[[I_dialogSplitView subviews] objectAtIndex:1]];
+            [tab setView:I_editorSplitView];
         }
 
         NSSize splitSize = [I_editorSplitView frame].size;
         splitSize.height = splitSize.height / 2.;
 
-        [[[I_plainTextEditors objectAtIndex:0] editorView] setFrameSize:splitSize];
-        [[[I_plainTextEditors objectAtIndex:1] editorView] setFrameSize:splitSize];
+        [[[plainTextEditors objectAtIndex:0] editorView] setFrameSize:splitSize];
+        [[[plainTextEditors objectAtIndex:1] editorView] setFrameSize:splitSize];
 
-        [I_editorSplitView addSubview:[[I_plainTextEditors objectAtIndex:0] editorView]];
-        [I_editorSplitView addSubview:[[I_plainTextEditors objectAtIndex:1] editorView]];
-        [I_editorSplitView setDelegate:self];
+        [I_editorSplitView addSubview:[[plainTextEditors objectAtIndex:0] editorView]];
+        [I_editorSplitView addSubview:[[plainTextEditors objectAtIndex:1] editorView]];
 
-		[[I_plainTextEditors objectAtIndex:1] setShowsBottomStatusBar: [[I_plainTextEditors objectAtIndex:0] showsBottomStatusBar]];
-        [[I_plainTextEditors objectAtIndex:0] setShowsBottomStatusBar:NO];
-		[[I_plainTextEditors objectAtIndex:1] setShowsGutter:[[I_plainTextEditors objectAtIndex:0] showsGutter]];
+		[[plainTextEditors objectAtIndex:1] setShowsBottomStatusBar: [[I_plainTextEditors objectAtIndex:0] showsBottomStatusBar]];
+        [[plainTextEditors objectAtIndex:0] setShowsBottomStatusBar:NO];
+		[[plainTextEditors objectAtIndex:1] setShowsGutter:[[I_plainTextEditors objectAtIndex:0] showsGutter]];
 
 		[self setInitialRadarStatusForPlainTextEditor:[I_plainTextEditors objectAtIndex:1]];
 
 		// show participant overlay if split gets toggled
-		if ([[I_plainTextEditors objectAtIndex:0] hasBottomOverlayView]) {
-			[[I_plainTextEditors objectAtIndex:0] displayViewControllerInBottomArea:nil];
-			SEEParticipantsOverlayViewController *participantsOverlay = [[[SEEParticipantsOverlayViewController alloc] initWithTabContext:context] autorelease];
-			[[I_plainTextEditors objectAtIndex:1] displayViewControllerInBottomArea:participantsOverlay];
+		if ([[plainTextEditors objectAtIndex:0] hasBottomOverlayView]) {
+			[[plainTextEditors objectAtIndex:0] displayViewControllerInBottomArea:nil];
+			SEEParticipantsOverlayViewController *participantsOverlay = [[[SEEParticipantsOverlayViewController alloc] initWithTabContext:tabContext] autorelease];
+			[[plainTextEditors objectAtIndex:1] displayViewControllerInBottomArea:participantsOverlay];
 		}
 
-    } else if ([I_plainTextEditors count] == 2) {
+    } else if ([plainTextEditors count] == 2) {
 		//Preserve scroll position of second editor, if it is currently the selected one.
         id fr = [[self window] firstResponder];
         NSRect visibleRect = NSZeroRect;
@@ -1055,34 +986,34 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 			[[tabViewItem identifier] setEditorSplitView:nil];
 		}
 
-		PlainTextEditor *editorToClose = [I_plainTextEditors objectAtIndex:1];
+		PlainTextEditor *editorToClose = [plainTextEditors objectAtIndex:1];
 		
 		// show participant overlay if split gets toggled
  		if ([editorToClose hasBottomOverlayView]) {
 			[editorToClose displayViewControllerInBottomArea:nil];
 			SEEParticipantsOverlayViewController *participantsOverlay = [[[SEEParticipantsOverlayViewController alloc] initWithTabContext:[tabViewItem identifier]] autorelease];
-			[[I_plainTextEditors objectAtIndex:0] displayViewControllerInBottomArea:participantsOverlay];
+			[[plainTextEditors objectAtIndex:0] displayViewControllerInBottomArea:participantsOverlay];
 		}
 
-		[[I_plainTextEditors objectAtIndex:0] setShowsBottomStatusBar:[editorToClose showsBottomStatusBar]];
+		[[plainTextEditors objectAtIndex:0] setShowsBottomStatusBar:[editorToClose showsBottomStatusBar]];
 		[editorToClose prepareForDealloc];
-        [I_plainTextEditors removeObjectAtIndex:1];
+        [plainTextEditors removeObjectAtIndex:1];
         I_editorSplitView = nil;
 
 		// restore scroll position of second editor if it was the selected one
         if (!NSEqualRects(NSZeroRect,visibleRect)) {
-            [[[I_plainTextEditors objectAtIndex:0] textView] scrollRectToVisible:visibleRect];
+            [[[plainTextEditors objectAtIndex:0] textView] scrollRectToVisible:visibleRect];
         }
     }
 
-    [[I_plainTextEditors objectAtIndex:0] setIsSplit:[I_plainTextEditors count] != 1];
+    [[plainTextEditors objectAtIndex:0] setIsSplit:[I_plainTextEditors count] != 1];
 
-    NSTextView *textView = [[I_plainTextEditors objectAtIndex:0] textView];
+    NSTextView *textView = [[plainTextEditors objectAtIndex:0] textView];
     NSRange selectedRange = [textView selectedRange];
     [textView scrollRangeToVisible:selectedRange];
 
-    if ([I_plainTextEditors count] == 2) {
-        [[[I_plainTextEditors objectAtIndex:1] textView] scrollRangeToVisible:selectedRange];
+    if ([plainTextEditors count] == 2) {
+        [[[plainTextEditors objectAtIndex:1] textView] scrollRangeToVisible:selectedRange];
     }
 	
 	[self updateWindowMinSize];
@@ -1104,6 +1035,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 		[viewRepresentedByTab removeFromSuperview];
 
 		tabContext.webPreviewSplitView.delegate = nil;
+		tabContext.webPreviewSplitViewDelegate = nil;
 		tabContext.webPreviewSplitView = nil;
 
 		tabContext.webPreviewViewController = nil;
@@ -1115,9 +1047,9 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 		[viewRepresentedByTab removeFromSuperview];
 
 		NSSplitView *webPreviewSplitView = [[[NSSplitView alloc] initWithFrame:viewRepresentedByTab.frame] autorelease];
+		webPreviewSplitView.delegate = [[[SEEWebPreviewSplitViewDelegate alloc] initWithTabContext:tabContext] autorelease];
 		webPreviewSplitView.vertical = YES;
 		webPreviewSplitView.dividerStyle = NSSplitViewDividerStyleThin;
-		webPreviewSplitView.delegate = self;
 		webPreviewSplitView.autoresizesSubviews = YES;
 		webPreviewSplitView.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
 		[tabViewItem setView:webPreviewSplitView];
@@ -1131,6 +1063,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 		[webPreviewViewController refreshAndEmptyCache:sender];
 
 		tabContext.webPreviewViewController = webPreviewViewController;
+		tabContext.webPreviewSplitViewDelegate = webPreviewSplitView.delegate;
 		tabContext.webPreviewSplitView = webPreviewSplitView;
 	}
 }
@@ -1378,8 +1311,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
             [windowController insertObject:document inDocumentsAtIndex:[[windowController documents] count]];
             [document addWindowController:windowController];
             [[windowController tabView] addTabViewItem:tabViewItem];
-            [[[tabViewItem identifier] dialogSplitView] setDelegate:windowController];
-            [[[tabViewItem identifier] editorSplitView] setDelegate:windowController];
         }
 
         [tabViewItem release];
@@ -2083,8 +2014,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 	    [document setKeepUndoManagerOnZeroWindowControllers:NO];
 
         [document release];
-        [[[tabViewItem identifier] dialogSplitView] setDelegate:windowController];
-        [[[tabViewItem identifier] editorSplitView] setDelegate:windowController];
         [windowController setDocument:document];
         
 		PlainTextEditor *editor = [[self plainTextEditors] lastObject];

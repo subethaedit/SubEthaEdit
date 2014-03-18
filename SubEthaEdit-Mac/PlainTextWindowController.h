@@ -15,7 +15,7 @@
 @class PlainTextEditor, PSMTabBarControl, PlainTextDocument;
 
 
-@interface PlainTextWindowController : NSWindowController <NSSplitViewDelegate,NSMenuDelegate,PSMTabBarControlDelegate>
+@interface PlainTextWindowController : NSWindowController <NSMenuDelegate,PSMTabBarControlDelegate>
  {
     // Pointers to the current instances
     NSSplitView *I_editorSplitView;

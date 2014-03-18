@@ -13,8 +13,6 @@
 #import "SEEEditorSplitViewDelegate.h"
 #import "PlainTextWindowControllerTabContext.h"
 
-#define SPLITMINHEIGHTTEXT   46.0
-
 @interface SEEEditorSplitViewDelegate ()
 @property (nonatomic, weak) PlainTextWindowControllerTabContext *tabContext;
 @end

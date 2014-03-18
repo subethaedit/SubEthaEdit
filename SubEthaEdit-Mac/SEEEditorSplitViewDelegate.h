@@ -8,6 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+#define SPLITMINHEIGHTTEXT   46.0
+
 @class PlainTextWindowControllerTabContext;
 
 @interface SEEEditorSplitViewDelegate : NSObject <NSSplitViewDelegate>

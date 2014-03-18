@@ -15,8 +15,6 @@
 #import "PlainTextEditor.h"
 #import "PlainTextWindowControllerTabContext.h"
 
-#define SPLITMINHEIGHTDIALOG 130.
-
 @interface SEEDialogSplitViewDelegate ()
 @property (nonatomic, weak) PlainTextWindowControllerTabContext *tabContext;
 @end

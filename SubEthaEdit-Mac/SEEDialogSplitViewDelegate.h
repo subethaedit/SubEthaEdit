@@ -8,6 +8,8 @@
 
 #import <Cocoa/Cocoa.h>
 
+#define SPLITMINHEIGHTDIALOG 130.0
+
 @class PlainTextWindowControllerTabContext;
 
 @interface SEEDialogSplitViewDelegate : NSObject <NSSplitViewDelegate>
