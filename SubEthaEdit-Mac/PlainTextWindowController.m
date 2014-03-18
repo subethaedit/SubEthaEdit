@@ -1099,6 +1099,15 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     [[self window] makeFirstResponder:oldFirstResponder];
 }
 
+- (IBAction)refreshWebPreview:(id)aSender {
+	PlainTextWindowControllerTabContext *tabContext = [self selectedTabContext];
+    if (!tabContext.webPreviewViewController) {
+        [self toggleWebPreview:self];
+    } else {
+        [tabContext.webPreviewViewController refresh:self];
+    }
+}
+
 #pragma mark -
 #pragma mark ### window delegation  ###
 

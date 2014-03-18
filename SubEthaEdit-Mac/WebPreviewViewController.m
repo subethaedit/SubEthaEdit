@@ -28,6 +28,7 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
 @property (nonatomic, strong) IBOutlet NSTextField *oStatusTextField;
 
 @property (nonatomic, strong) PlainTextDocument *plainTextDocument;
+@property (nonatomic, weak) NSTimer *delayedRefreshTimer;
 
 @property (nonatomic) NSRect documentVisibleRect;
 @property (nonatomic) BOOL hasSavedVisibleRect;
@@ -42,6 +43,8 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
 @property (nonatomic, readonly) NSString *localizedManualRefreshPopupItemDelayed;
 @property (nonatomic, readonly) NSString *localizedManualRefreshPopupItemOnSave;
 @property (nonatomic, readonly) NSString *localizedManualRefreshPopupItemManual;
+
+@property (nonatomic, weak) id documentDidChangeObserver;
 
 @end
 
@@ -63,7 +66,19 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
             _refreshType=refreshType;
         }
     }
-    [[NSNotificationCenter defaultCenter] addObserver:self 
+
+	__weak __typeof__(self) weakSelf = self;
+	self.documentDidChangeObserver = [[NSNotificationCenter defaultCenter] addObserverForName:PlainTextDocumentDidChangeTextStorageNotification object:aDocument queue:nil usingBlock:^(NSNotification *note) {
+		__typeof__(self) strongSelf = weakSelf;
+
+		if ([strongSelf refreshType] == kWebPreviewRefreshAutomatic) {
+			[strongSelf refresh:strongSelf];
+		} else if ([strongSelf refreshType] == kWebPreviewRefreshDelayed) {
+			[strongSelf triggerDelayedWebPreviewRefresh];
+		}
+	}];
+
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(synchronizeWindowTitleWithDocumentName)
                                                  name:TCMMMSessionDidChangeNotification 
                                                object:[_plainTextDocument session]];
@@ -82,7 +97,8 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
     [self.oWebView setFrameLoadDelegate:nil];
     [self.oWebView setUIDelegate:nil];
     [self.oWebView setResourceLoadDelegate:nil];
-    [self.oWebView setPolicyDelegate:nil];
+	[self.oWebView setPolicyDelegate:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self.documentDidChangeObserver];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -422,5 +438,40 @@ NSScrollView * firstScrollView(NSView *aView) {
         [[NSWorkspace sharedWorkspace] openURL:url];
     }
 }
+
+#define WEBPREVIEWDELAYEDREFRESHINTERVAL 1.2
+
+- (void)triggerDelayedWebPreviewRefresh {
+	NSTimer *timer = self.delayedRefreshTimer;
+	if ([timer isValid]) {
+		[timer setFireDate:[NSDate dateWithTimeIntervalSinceNow:WEBPREVIEWDELAYEDREFRESHINTERVAL]];
+	} else {
+		timer = [NSTimer timerWithTimeInterval:WEBPREVIEWDELAYEDREFRESHINTERVAL
+										target:self
+									  selector:@selector(delayedWebPreviewRefreshAction:)
+									  userInfo:nil
+									   repeats:NO];
+		timer.tolerance = 0.5;
+
+		[[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
+		self.delayedRefreshTimer = timer;
+	}
+}
+
+- (void)delayedWebPreviewRefreshAction:(NSTimer *)aTimer {
+    [self refresh:self];
+}
+
+//- (void)TCM_webPreviewOnSaveRefresh {
+//	// TODO: WebPreview - removed/change to split view
+//    if (I_webPreviewViewController) {
+//        if ([[I_webPreviewWindowController window] isVisible] &&
+//            [I_webPreviewViewController refreshType] == kWebPreviewRefreshOnSave) {
+//            [I_webPreviewViewController refreshAndEmptyCache:self];
+//        }
+//    }
+//}
+
+
 
 @end
