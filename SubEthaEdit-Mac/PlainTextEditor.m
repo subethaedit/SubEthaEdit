@@ -2091,7 +2091,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	__block BOOL result = NO;
 	NSValue *searchValue = self.searchScopeValue;
 	[ts enumerateAttribute:SEESearchScopeAttributeName inRange:aRange options:NSAttributedStringEnumerationLongestEffectiveRangeNotRequired usingBlock:^(id value, NSRange range, BOOL *stop) {
-		if ([searchValue isEqual:value]) {
+		if ([value containsObject:searchValue]) { // TODO: move down to full text storage
 			*stop = YES;
 			result = YES;
 		}
@@ -2117,7 +2117,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     FoldableTextStorage *ts = (FoldableTextStorage *)[textView textStorage];
 	FullTextStorage *fts = [ts fullTextStorage];
     NSRange fullRange = [ts foldedRangeForFullRange:selectedRange];
-	[fts addAttribute:SEESearchScopeAttributeName value:[self searchScopeValue] range:fullRange];
+	[fts addSearchScopeAttributeValue:self.searchScopeValue inRange:fullRange];
 	[self adjustToChangesInSearchScope];
 }
 
@@ -2126,13 +2126,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     FoldableTextStorage *ts = (FoldableTextStorage *)[textView textStorage];
 	FullTextStorage *fts = [ts fullTextStorage];
 	NSValue *searchScopeValue = [self searchScopeValue];
-	[fts beginEditing];
-	[fts enumerateAttribute:SEESearchScopeAttributeName inRange:[fts TCM_fullLengthRange] options:NSAttributedStringEnumerationLongestEffectiveRangeNotRequired usingBlock:^(id value, NSRange range, BOOL *stop) {
-		if ([value isEqual:searchScopeValue]) {
-			[fts removeAttribute:SEESearchScopeAttributeName range:range];
-		}
-	}];
-	[fts endEditing];
+	[fts removeSearchScopeAttributeValue:searchScopeValue fromRange:fts.TCM_fullLengthRange];
 	[self adjustToChangesInSearchScope];
 }
 

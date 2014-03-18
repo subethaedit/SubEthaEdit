@@ -286,7 +286,7 @@ static NSString *S_specialGlyphs[17];
         NSRange attributeRange;
         while (position < NSMaxRange(charRange)) {
             id foundSearchScopeValue = [textStorage attribute:SEESearchScopeAttributeName atIndex:position longestEffectiveRange:&attributeRange inRange:charRange];
-            if (foundSearchScopeValue && [foundSearchScopeValue isEqual:searchScopeValue]) {
+            if (foundSearchScopeValue && [foundSearchScopeValue containsObject:searchScopeValue]) {
                 NSColor *searchScopeColor = [NSColor searchScopeBaseColor];
                 NSColor *searchScopeBackgroundColor = [backgroundColor blendedColorWithFraction:30./100.
 																			   ofColor:searchScopeColor];

@@ -444,15 +444,57 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 }
 
 #pragma mark - SearchScopes
-- (void)addSearchScopeAttributeValue:(id)aValue inRange:(NSRange)aRange {
+- (void)TCM_changeSearchScopeAttributeValue:(id)aValue inRange:(NSRange)aRange shouldRemove:(BOOL)shouldRemove {
+	NSRange rangeToTraverse = aRange;
+	NSRange foundRange;
+	[self beginEditing];
+	[self beginLinearAttributeChanges];
+	while (rangeToTraverse.length > 0) {
+		NSSet *set = [self attribute:SEESearchScopeAttributeName atIndex:rangeToTraverse.location
+			   longestEffectiveRange:&foundRange
+							 inRange:rangeToTraverse];
+		if (!shouldRemove) {
+			if (!set) {
+				set = [NSSet setWithObject:aValue];
+			} else {
+				set = [set setByAddingObject:aValue];
+			}
+			[self addAttribute:SEESearchScopeAttributeName value:set range:foundRange];
+		} else {
+			if (set) {
+				if ([set containsObject:aValue]) {
+					if (set.count > 1) {
+						NSMutableSet *newSet = [set mutableCopy];
+						[newSet removeObject:aValue];
+						[self addAttribute:SEESearchScopeAttributeName value:[newSet copy] range:foundRange];
+					} else {
+						[self removeAttribute:SEESearchScopeAttributeName range:foundRange];
+					}
+				}
+			}
+		}
+		
+		NSUInteger newStartIndex = NSMaxRange(foundRange);
+		rangeToTraverse = NSMakeRange(newStartIndex, NSMaxRange(rangeToTraverse)-newStartIndex);
+	}
+	[self endLinearAttributeChanges];
+	[self endEditing];
+}
 
+- (void)addSearchScopeAttributeValue:(id)aValue inRange:(NSRange)aRange {
+	[self TCM_changeSearchScopeAttributeValue:aValue inRange:aRange shouldRemove:NO];
 }
 - (void)removeSearchScopeAttributeValue:(id)aValue fromRange:(NSRange)aRange {
-	
+	[self TCM_changeSearchScopeAttributeValue:aValue inRange:aRange shouldRemove:YES];
 }
+
 - (NSArray *)searchScopeRangesForAttributeValue:(id)aValue {
 	NSMutableArray *result = [NSMutableArray new];
-	
+	[self enumerateAttribute:SEESearchScopeAttributeName inRange:[self TCM_fullLengthRange] options:0 usingBlock:^(NSSet *valueSet, NSRange range, BOOL *stop) {
+		if (valueSet && [valueSet containsObject:aValue]) {
+			[result addObject:[NSValue valueWithRange:range]];
+		}
+	}];
 	return result;
 }
 
@@ -490,8 +532,8 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 #pragma mark -
 // performance optimization
 - (void)beginEditing {
-	[I_foldableTextStorage beginEditing];
 	[super beginEditing];
+	[I_foldableTextStorage beginEditing];
 }
 
 - (void)endEditing {
