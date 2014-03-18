@@ -725,10 +725,19 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 #pragma mark -
 
 - (void)updateWindowMinSize {
-	CGFloat minHeight = 0;
+	CGFloat minHeight = 0.0;
+	CGFloat minWidth = 0.0;
+
 	PlainTextWindowControllerTabContext *tabContext = self.selectedTabContext;
 	NSSplitView *editorSplitView = tabContext.editorSplitView;
 	NSSplitView *dialogSplitView = tabContext.dialogSplitView;
+	NSSplitView *webPreviewSplitView = tabContext.webPreviewSplitView;
+
+	if (webPreviewSplitView) {
+		minWidth += webPreviewSplitView.dividerThickness;
+		minWidth += 480.0; // editor width
+		minWidth += 200.0; // preview
+	}
 
 	if (dialogSplitView) {
 		minHeight += SPLITMINHEIGHTDIALOG;
@@ -742,7 +751,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 		minHeight += [editorSplitView dividerThickness];
 	}
 	
-	NSSize minSize = NSMakeSize(480,MAX(minHeight, 230.));
+	NSSize minSize = NSMakeSize(MAX(480., minWidth), MAX(minHeight, 230.));
 	[self.window setContentMinSize:minSize];
 	
 	BOOL needsResizing = NO;
