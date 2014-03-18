@@ -248,6 +248,8 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (void)TCM_initHelper {
+	self.persistentDocumentScopedBookmarkURLs = [NSMutableArray array];
+
     I_flags.isAutosavingForRestart=NO;
     I_flags.isHandlingUndoManually=NO;
     I_flags.shouldSelectModeOnSave=YES;
@@ -3390,6 +3392,51 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     return YES;
 }
 
+- (BOOL)readSecurityScopedBookmarksFromURL:(NSURL *)anURL error:(NSError **)outError {
+	return YES;
+}
+
+- (BOOL)writeSecurityScopedBookmarksToURL:(NSURL *)anURL error:(NSError **)outError {
+	BOOL result = YES;
+	if (outError) {
+		*outError = nil;
+	}
+
+	NSMutableArray *bookmarks = [NSMutableArray array];
+	for (NSURL *bookmarkURL in self.persistentDocumentScopedBookmarkURLs) {
+		NSError *bookmarkGenerationError = nil;
+		NSData *persistentBookmarkData = [bookmarkURL bookmarkDataWithOptions:NSURLBookmarkCreationSecurityScopeAllowOnlyReadAccess includingResourceValuesForKeys:@[] relativeToURL:self.fileURL error:&bookmarkGenerationError];
+
+		if (persistentBookmarkData) {
+			[bookmarks addObject:persistentBookmarkData];
+		} else {
+			if (outError) {
+				*outError = bookmarkGenerationError;
+				result = NO;
+				break;
+			}
+		}
+	}
+
+	if (result) {
+		NSError *bookmarkSerialisationError = nil;
+		NSData *bookmarksData = [NSPropertyListSerialization dataWithPropertyList:bookmarks format:NSPropertyListBinaryFormat_v1_0 options:0 error:&bookmarkSerialisationError];
+
+		if (bookmarksData) {
+			[UKXattrMetadataStore setData:bookmarksData
+								   forKey:@"de.codingmonkeys.subethaedit.security.scopedBookmarks"
+								   atPath:[anURL path]
+							 traverseLink:YES];
+		} else {
+			if (outError) {
+				*outError = bookmarkSerialisationError;
+				result = NO;
+			}
+		}
+	}
+	return result;
+}
+
 - (BOOL)readFromURL:(NSURL *)anURL ofType:(NSString *)docType error:(NSError **)outError {
     NSDictionary *properties = [[DocumentController sharedDocumentController] propertiesForOpenedFile:[anURL path]];
     return [self TCM_readFromURL:anURL ofType:docType properties:properties error:outError];
@@ -3500,7 +3547,12 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
             // let us write using NSStrings write methods so the encoding is added to the extended attributes
             result = [[[(FoldableTextStorage *)[self textStorage] fullTextStorage] string] writeToURL:absoluteURL atomically:NO encoding:[self fileEncoding] error:outError];
         }
-        NSData *stateData = [self stateData];
+
+		//security scoped bookmarks
+		[self writeSecurityScopedBookmarksToURL:absoluteURL error:nil];
+
+		// state data
+		NSData *stateData = [self stateData];
         if (stateData && ![[NSUserDefaults standardUserDefaults] boolForKey:DontSaveDocumentStateInXattrsKey]) {
 			[UKXattrMetadataStore setData:stateData forKey:@"de.codingmonkeys.seestate" atPath:[absoluteURL path] traverseLink:YES];
 		} else {

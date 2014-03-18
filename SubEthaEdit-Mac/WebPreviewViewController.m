@@ -381,12 +381,15 @@ NSScrollView * firstScrollView(NSView *aView) {
 					openPanel.title = @"Allow resource access";
 
 					NSInteger result = [openPanel runModal];
+					if (result == NSFileHandlingPanelOKButton) {
+						NSMutableArray *bookmarks = self.plainTextDocument.persistentDocumentScopedBookmarkURLs;
 
-//					[openPanel beginSheetModalForWindow:self.view.window completionHandler:^(NSInteger result) {
-						if (result == NSFileHandlingPanelOKButton) {
+						NSArray *URLs = openPanel.URLs;
 
+						for (NSURL *choosenURL in URLs) {
+							[bookmarks addObject:choosenURL];
 						}
-//					}];
+					}
 				}
 			}
 		}
