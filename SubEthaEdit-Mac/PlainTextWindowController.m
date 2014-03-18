@@ -819,15 +819,23 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     
     if (timeSinceStart >= timeInterval) {
         NSTabViewItem *tabViewItem = [self tabViewItemForDocument:[self document]];
-        if (![[info objectForKey:@"type"] isEqualToString:@"BlindDown"]) {
-            NSTabViewItem *tab = [I_tabView selectedTabViewItem];
-            [tab setView:[[I_dialogSplitView subviews] objectAtIndex:1]];
-            I_dialogSplitView = nil;
-            
-            if (tabViewItem) [[tabViewItem identifier] setDialogSplitView:nil];
+		PlainTextWindowControllerTabContext *tabContext = tabViewItem.identifier;
 
-            if (tabViewItem) [[tabViewItem identifier] setDocumentDialog:nil];
+        if (![[info objectForKey:@"type"] isEqualToString:@"BlindDown"]) {
+
+			NSSplitView *webPreviewSplitView = tabContext.webPreviewSplitView;
+			if (webPreviewSplitView) {
+				[webPreviewSplitView addSubview:[[I_dialogSplitView subviews] objectAtIndex:1] positioned:NSWindowAbove relativeTo:[[webPreviewSplitView subviews] objectAtIndex:0]];
+			} else {
+				[tabViewItem setView:[[I_dialogSplitView subviews] objectAtIndex:1]];
+			}
+
+			[I_dialogSplitView removeFromSuperview];
+            [tabContext setDialogSplitView:nil];
+            [tabContext setDocumentDialog:nil];
+            I_dialogSplitView = nil;
             I_documentDialog = nil;
+
             [[self window] makeFirstResponder:[[self activePlainTextEditor] textView]];
         } else {
             if (tabViewItem) [[self window] makeFirstResponder:[[self documentDialog] initialFirstResponder]];
@@ -858,15 +866,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
             [(SplitView *)I_dialogSplitView setDividerThickness:3.];
             NSRect mainFrame = [dialogView frame];
-
-
-			NSSplitView *webPreviewSplitView = tabContext.webPreviewSplitView;
-			if (webPreviewSplitView) {
-				[webPreviewSplitView addSubview:I_dialogSplitView positioned:NSWindowAbove relativeTo:[[webPreviewSplitView subviews] objectAtIndex:1]];
-			} else {
-				[tab setView:I_dialogSplitView];
-			}
-
             [I_dialogSplitView addSubview:dialogView];
             mainFrame.size.width = [I_dialogSplitView frame].size.width;
             [dialogView setFrame:mainFrame];
@@ -876,7 +875,15 @@ static NSPoint S_cascadePoint = {0.0,0.0};
             [dialogView setAutoresizesSubviews:NO];
             [dialogView setFrame:mainFrame];
 
-            [I_dialogSplitView addSubview:[tabItemView autorelease]];
+			NSSplitView *webPreviewSplitView = tabContext.webPreviewSplitView;
+			if (webPreviewSplitView) {
+				NSView *editorView = [webPreviewSplitView.subviews objectAtIndex:1];
+				[webPreviewSplitView addSubview:I_dialogSplitView positioned:NSWindowAbove relativeTo:[[webPreviewSplitView subviews] objectAtIndex:0]];
+				[I_dialogSplitView addSubview:editorView];
+			} else {
+				[tab setView:I_dialogSplitView];
+				[I_dialogSplitView addSubview:[tabItemView autorelease]];
+			}
 
 			[self updateWindowMinSize];
             
@@ -897,9 +904,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
             [I_dialogSplitView setNeedsDisplay:YES];
 			[self updateWindowMinSize];
         }
-        //[I_documentDialog autorelease];
-        //I_documentDialog = [aDocumentDialog retain];
-    
+
         NSTabViewItem *tabViewItem = [self tabViewItemForDocument:[self document]];
          if (tabViewItem) {
             [[tabViewItem identifier] setDocumentDialog:aDocumentDialog];
@@ -943,7 +948,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
         if (dialogSplitView) {
             [dialogSplitView addSubview:I_editorSplitView positioned:NSWindowBelow relativeTo:[[dialogSplitView subviews] objectAtIndex:1]];
         } else if (webPreviewSplitView) {
-            [webPreviewSplitView addSubview:I_editorSplitView positioned:NSWindowAbove relativeTo:[[webPreviewSplitView subviews] objectAtIndex:1]];
+            [webPreviewSplitView addSubview:I_editorSplitView positioned:NSWindowAbove relativeTo:[[webPreviewSplitView subviews] objectAtIndex:0]];
         } else {
             [tab setView:I_editorSplitView];
         }
@@ -979,15 +984,21 @@ static NSPoint S_cascadePoint = {0.0,0.0};
             [[[I_plainTextEditors objectAtIndex:0] textView] setSelectedRange:[[[I_plainTextEditors objectAtIndex:1] textView] selectedRange]];
         }
 
-        if (! I_dialogSplitView) {
-            NSTabViewItem *tab = [I_tabView selectedTabViewItem];
-            [tab setView:[[I_plainTextEditors objectAtIndex:0] editorView]];
-            [tab setInitialFirstResponder:[[I_plainTextEditors objectAtIndex:0] editorView]];
-        } else {
+		NSSplitView *dialogSplitView = tabContext.dialogSplitView;
+		NSSplitView *webPreviewSplitView = tabContext.webPreviewSplitView;
+        if (dialogSplitView) {
             NSView *editorView = [[I_plainTextEditors objectAtIndex:0] editorView];
             [editorView setFrame:[I_editorSplitView frame]];
-            [I_dialogSplitView addSubview:[[I_plainTextEditors objectAtIndex:0] editorView] positioned:NSWindowBelow relativeTo:I_editorSplitView];
+            [dialogSplitView addSubview:editorView positioned:NSWindowBelow relativeTo:I_editorSplitView];
             [I_editorSplitView removeFromSuperview];
+		} else if (webPreviewSplitView) {
+			NSView *editorView = [[I_plainTextEditors objectAtIndex:0] editorView];
+            [editorView setFrame:[I_editorSplitView frame]];
+            [webPreviewSplitView addSubview:editorView positioned:NSWindowBelow relativeTo:I_editorSplitView];
+            [I_editorSplitView removeFromSuperview];
+        } else {
+            [tab setView:[[I_plainTextEditors objectAtIndex:0] editorView]];
+            [tab setInitialFirstResponder:[[I_plainTextEditors objectAtIndex:0] editorView]];
         }
 
         NSTabViewItem *tabViewItem = [self tabViewItemForDocument:[self document]];
@@ -1033,12 +1044,19 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 #pragma mark - web preview
 
 - (IBAction)toggleWebPreview:(id)sender {
+	NSResponder *oldFirstResponder = self.window.firstResponder;
+
 	NSTabViewItem *tabViewItem = self.selectedTabViewItem;
 	NSView *viewRepresentedByTab = [[[tabViewItem view] retain] autorelease];
 	PlainTextWindowControllerTabContext *tabContext = [self selectedTabContext];
 
 	if (viewRepresentedByTab == tabContext.webPreviewSplitView) {
-		NSView *editorView = [[viewRepresentedByTab.subviews.firstObject retain] autorelease];
+		NSView *webView = [[viewRepresentedByTab.subviews.firstObject retain] autorelease];
+		if ([oldFirstResponder isKindOfClass:[NSView class]] && [((NSView *)oldFirstResponder) isDescendantOf:webView]) {
+			oldFirstResponder = tabContext.activePlainTextEditor.textView;
+		}
+
+		NSView *editorView = [[viewRepresentedByTab.subviews.lastObject retain] autorelease];
 		[editorView removeFromSuperview];
 		editorView.frame = viewRepresentedByTab.frame;
 		[viewRepresentedByTab removeFromSuperview];
@@ -1065,8 +1083,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
 		WebPreviewViewController *webPreviewViewController = [[[WebPreviewViewController alloc] initWithPlainTextDocument:tabContext.document] autorelease];
 
-		[webPreviewSplitView addSubview:viewRepresentedByTab];
 		[webPreviewSplitView addSubview:webPreviewViewController.view];
+		[webPreviewSplitView addSubview:viewRepresentedByTab];
 		[webPreviewSplitView adjustSubviews];
 
 		[webPreviewViewController refreshAndEmptyCache:sender];
@@ -1075,6 +1093,10 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 		tabContext.webPreviewSplitViewDelegate = webPreviewSplitView.delegate;
 		tabContext.webPreviewSplitView = webPreviewSplitView;
 	}
+
+	[self updateWindowMinSize];
+
+    [[self window] makeFirstResponder:oldFirstResponder];
 }
 
 #pragma mark -
