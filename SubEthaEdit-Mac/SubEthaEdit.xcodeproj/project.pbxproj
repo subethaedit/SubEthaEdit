@@ -235,6 +235,8 @@
 		4C5EC97E1897F6FC0094D850 /* SEEParticipantsOverlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5EC97C1897F6FC0094D850 /* SEEParticipantsOverlayViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C5EC97F1897F6FC0094D850 /* SEEParticipantsOverlay.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C5EC97D1897F6FC0094D850 /* SEEParticipantsOverlay.xib */; };
 		4C63F8EE18C4930A00A588FD /* SEERecentDocumentListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C63F8ED18C4930A00A588FD /* SEERecentDocumentListItem.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		4C65D60718D8528900A03E65 /* SEEDialogSplitViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C65D60618D8528900A03E65 /* SEEDialogSplitViewDelegate.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		4C65D60A18D852AB00A03E65 /* SEEWebPreviewSplitViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C65D60918D852AB00A03E65 /* SEEWebPreviewSplitViewDelegate.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C6AE8741802E8810089D489 /* OgreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; };
 		4C6AE8751802E8AC0089D489 /* PSMTabBarControl.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 4CF3490017FC6EAF005D0D4F /* PSMTabBarControl.framework */; };
 		4C6AE8761802E8AC0089D489 /* OgreKit.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 4C6AE8731802E8810089D489 /* OgreKit.framework */; };
@@ -255,6 +257,7 @@
 		4C77B24218BB83620066BDB2 /* SEEDocumentListGroupTableRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C77B24118BB83620066BDB2 /* SEEDocumentListGroupTableRowView.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C97D504188D42FA000B4999 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C97D503188D42FA000B4999 /* QuartzCore.framework */; };
 		4C9CCDC918BE413E00959EF2 /* SEENetworkConnectionDocumentListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C9CCDC818BE413E00959EF2 /* SEENetworkConnectionDocumentListItem.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		4CB36C3218D84BF4000219DA /* SEEEditorSplitViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CB36C3118D84BF4000219DA /* SEEEditorSplitViewDelegate.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4CB8EE4D180FD8FE0051AB6B /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CB8EE4C180FD8FE0051AB6B /* XCTest.framework */; };
 		4CB8EE4F180FD9A40051AB6B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CB8EE4E180FD9A40051AB6B /* libz.dylib */; };
 		4CB8EE50180FDF160051AB6B /* AppKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A37F4C4FDCFA73011CA2CEA /* AppKit.framework */; };
@@ -985,6 +988,10 @@
 		4C5EC97D1897F6FC0094D850 /* SEEParticipantsOverlay.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEEParticipantsOverlay.xib; sourceTree = "<group>"; };
 		4C63F8EC18C4930A00A588FD /* SEERecentDocumentListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEERecentDocumentListItem.h; sourceTree = "<group>"; };
 		4C63F8ED18C4930A00A588FD /* SEERecentDocumentListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEERecentDocumentListItem.m; sourceTree = "<group>"; };
+		4C65D60518D8528900A03E65 /* SEEDialogSplitViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEDialogSplitViewDelegate.h; sourceTree = "<group>"; };
+		4C65D60618D8528900A03E65 /* SEEDialogSplitViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEDialogSplitViewDelegate.m; sourceTree = "<group>"; };
+		4C65D60818D852AB00A03E65 /* SEEWebPreviewSplitViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEWebPreviewSplitViewDelegate.h; sourceTree = "<group>"; };
+		4C65D60918D852AB00A03E65 /* SEEWebPreviewSplitViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEWebPreviewSplitViewDelegate.m; sourceTree = "<group>"; };
 		4C6AE8731802E8810089D489 /* OgreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = OgreKit.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C6BDC4C18896DCC0088CBFC /* SubEthaEdit.iconset */ = {isa = PBXFileReference; lastKnownFileType = folder.iconset; name = SubEthaEdit.iconset; path = artwork/SubEthaEdit.iconset; sourceTree = "<group>"; };
 		4C6BDC4D18896DCC0088CBFC /* SubEthaEditFiles.iconset */ = {isa = PBXFileReference; lastKnownFileType = folder.iconset; name = SubEthaEditFiles.iconset; path = artwork/SubEthaEditFiles.iconset; sourceTree = "<group>"; };
@@ -1011,6 +1018,8 @@
 		4C9CCDC818BE413E00959EF2 /* SEENetworkConnectionDocumentListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEENetworkConnectionDocumentListItem.m; sourceTree = "<group>"; };
 		4CAA423718157B1000457B2A /* TCMReleaseInfo.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = TCMReleaseInfo.xcconfig; sourceTree = "<group>"; };
 		4CAA423818157EAB00457B2A /* TCMAppConfig.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = TCMAppConfig.xcconfig; sourceTree = "<group>"; };
+		4CB36C3018D84BF4000219DA /* SEEEditorSplitViewDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEEditorSplitViewDelegate.h; sourceTree = "<group>"; };
+		4CB36C3118D84BF4000219DA /* SEEEditorSplitViewDelegate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEEditorSplitViewDelegate.m; sourceTree = "<group>"; };
 		4CB8EE4C180FD8FE0051AB6B /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		4CB8EE4E180FD9A40051AB6B /* libz.dylib */ = {isa = PBXFileReference; lastKnownFileType = "compiled.mach-o.dylib"; name = libz.dylib; path = usr/lib/libz.dylib; sourceTree = SDKROOT; };
 		4CB8EE53181032340051AB6B /* SEEPrintOptionsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEPrintOptionsViewController.h; sourceTree = "<group>"; };
@@ -1812,6 +1821,7 @@
 				1428945109575B9700D14688 /* PlainTextWindowController.m */,
 				141F50EA0AE51B65001B73D2 /* PlainTextWindowControllerTabContext.h */,
 				141F50EB0AE51B65001B73D2 /* PlainTextWindowControllerTabContext.m */,
+				4CB36C2E18D84BC3000219DA /* SplitView Delegates */,
 				1428945209575B9700D14688 /* PopUpButton.h */,
 				1428945309575B9700D14688 /* PopUpButton.m */,
 				1428945409575B9700D14688 /* PopUpButtonCell.h */,
@@ -2240,6 +2250,19 @@
 			);
 			name = Configuration;
 			path = ../BuildConfig;
+			sourceTree = "<group>";
+		};
+		4CB36C2E18D84BC3000219DA /* SplitView Delegates */ = {
+			isa = PBXGroup;
+			children = (
+				4CB36C3018D84BF4000219DA /* SEEEditorSplitViewDelegate.h */,
+				4CB36C3118D84BF4000219DA /* SEEEditorSplitViewDelegate.m */,
+				4C65D60518D8528900A03E65 /* SEEDialogSplitViewDelegate.h */,
+				4C65D60618D8528900A03E65 /* SEEDialogSplitViewDelegate.m */,
+				4C65D60818D852AB00A03E65 /* SEEWebPreviewSplitViewDelegate.h */,
+				4C65D60918D852AB00A03E65 /* SEEWebPreviewSplitViewDelegate.m */,
+			);
+			name = "SplitView Delegates";
 			sourceTree = "<group>";
 		};
 		4CDF059F18C0A217004A49E5 /* Items */ = {
@@ -3182,6 +3205,8 @@
 				5E28E2900972FB8E00099B13 /* InsetTextFieldCell.m in Sources */,
 				5E685D5309D82BBB00E41973 /* NSAppleScriptTCMAdditions.m in Sources */,
 				4CD168EB182A5A5C007E3B26 /* SEEFolderDocument.m in Sources */,
+				4C65D60718D8528900A03E65 /* SEEDialogSplitViewDelegate.m in Sources */,
+				4C65D60A18D852AB00A03E65 /* SEEWebPreviewSplitViewDelegate.m in Sources */,
 				5E685DB409D8438800E41973 /* NSMenuTCMAdditions.m in Sources */,
 				5EA1258A09E2B4190055965D /* ScriptWrapper.m in Sources */,
 				5E57298F09F514FB00D3746B /* Toolbar.m in Sources */,
@@ -3222,6 +3247,7 @@
 				F2ABC4D60C799775007437A2 /* TCMMMLoggingState.m in Sources */,
 				F2ABC4E30C799CCD007437A2 /* TCMMMLoggedOperation.m in Sources */,
 				F2ABC5400C79D9AB007437A2 /* DebugHistoryController.m in Sources */,
+				4CB36C3218D84BF4000219DA /* SEEEditorSplitViewDelegate.m in Sources */,
 				F20948BC0C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m in Sources */,
 				F20948EE0C7B4C7100E78EBA /* UserStatisticsController.m in Sources */,
 				F2BB09EB0CA0186400258EC7 /* NSBezierPath-Arrow.m in Sources */,
