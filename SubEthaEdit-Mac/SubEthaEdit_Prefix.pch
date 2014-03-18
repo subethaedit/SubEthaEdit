@@ -10,7 +10,7 @@
     #import "NSImageTCMAdditions.h"
     #import "NSStringSEEAdditions.h"
     #import "NSScreenTCMAdditions.h"
-	#import "PCDebug.h"
+	#import "NSRangeTCMAdditions.h"
 	#import "NSObject+TCMArcLifecycleAdditions.h"
 
     extern NSString * const AddressHistory;
