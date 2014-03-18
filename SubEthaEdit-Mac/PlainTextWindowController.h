@@ -99,6 +99,7 @@
 - (NSString *)windowTitleForDocumentDisplayName:(NSString *)displayName document:(PlainTextDocument *)document;
 
 - (void)updateWindowMinSize;
+- (IBAction)toggleWebPreview:(id)sender;
 
 - (PSMTabBarControl *)tabBar;
 - (NSTabView *)tabView;
