@@ -28,6 +28,7 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
 @property (nonatomic, strong) IBOutlet NSTextField *oStatusTextField;
 
 @property (nonatomic, strong) PlainTextDocument *plainTextDocument;
+@property (nonatomic, weak) NSTimer *delayedRefreshTimer;
 
 @property (nonatomic) NSRect documentVisibleRect;
 @property (nonatomic) BOOL hasSavedVisibleRect;
@@ -43,6 +44,9 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
 @property (nonatomic, readonly) NSString *localizedManualRefreshPopupItemOnSave;
 @property (nonatomic, readonly) NSString *localizedManualRefreshPopupItemManual;
 
+@property (nonatomic, weak) id documentDidChangeObserver;
+@property (nonatomic, weak) id documentDidSaveObserver;
+
 @end
 
 @implementation WebPreviewViewController
@@ -53,7 +57,6 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
 - (id)initWithPlainTextDocument:(PlainTextDocument *)aDocument {
     self=[super initWithNibName:@"WebPreview" bundle:nil];
     _plainTextDocument=aDocument;
-    [self updateBaseURL];
     _hasSavedVisibleRect=NO;
     _shallCache=YES;
     NSNumber *refreshTypeNumber=[[[aDocument documentMode] defaults] objectForKey:WebPreviewRefreshModePreferenceKey];
@@ -64,7 +67,27 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
             _refreshType=refreshType;
         }
     }
-    [[NSNotificationCenter defaultCenter] addObserver:self 
+
+	__weak __typeof__(self) weakSelf = self;
+	self.documentDidChangeObserver = [[NSNotificationCenter defaultCenter] addObserverForName:PlainTextDocumentDidChangeTextStorageNotification object:aDocument queue:nil usingBlock:^(NSNotification *note) {
+		__typeof__(self) strongSelf = weakSelf;
+
+		if ([strongSelf refreshType] == kWebPreviewRefreshAutomatic) {
+			[strongSelf refresh:strongSelf];
+		} else if ([strongSelf refreshType] == kWebPreviewRefreshDelayed) {
+			[strongSelf triggerDelayedWebPreviewRefresh];
+		}
+	}];
+	
+	self.documentDidSaveObserver = [[NSNotificationCenter defaultCenter] addObserverForName:PlainTextDocumentDidSaveShouldReloadWebPreviewNotification object:aDocument queue:nil usingBlock:^(NSNotification *note) {
+		__typeof__(self) strongSelf = weakSelf;
+
+		if ([strongSelf refreshType] == kWebPreviewRefreshOnSave) {
+			[strongSelf refreshAndEmptyCache:strongSelf];
+		}
+	}];
+	
+    [[NSNotificationCenter defaultCenter] addObserver:self
                                              selector:@selector(synchronizeWindowTitleWithDocumentName)
                                                  name:TCMMMSessionDidChangeNotification 
                                                object:[_plainTextDocument session]];
@@ -83,7 +106,9 @@ static NSString *WebPreviewRefreshModePreferenceKey=@"WebPreviewRefreshMode";
     [self.oWebView setFrameLoadDelegate:nil];
     [self.oWebView setUIDelegate:nil];
     [self.oWebView setResourceLoadDelegate:nil];
-    [self.oWebView setPolicyDelegate:nil];
+	[self.oWebView setPolicyDelegate:nil];
+    [[NSNotificationCenter defaultCenter] removeObserver:self.documentDidSaveObserver];
+    [[NSNotificationCenter defaultCenter] removeObserver:self.documentDidChangeObserver];
     [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 
@@ -277,6 +302,8 @@ NSScrollView * firstScrollView(NSView *aView) {
 //    if (frameString) {
 //        [[self window] setFrameFromString:frameString];
 //    }
+	
+	[self updateBaseURL];
     [self setRefreshType:_refreshType];
 }
 
@@ -420,6 +447,31 @@ NSScrollView * firstScrollView(NSView *aView) {
     if (url) {
         [[NSWorkspace sharedWorkspace] openURL:url];
     }
+}
+
+#pragma mark - Refresh timer
+
+#define WEBPREVIEWDELAYEDREFRESHINTERVAL 1.2
+
+- (void)triggerDelayedWebPreviewRefresh {
+	NSTimer *timer = self.delayedRefreshTimer;
+	if ([timer isValid]) {
+		[timer setFireDate:[NSDate dateWithTimeIntervalSinceNow:WEBPREVIEWDELAYEDREFRESHINTERVAL]];
+	} else {
+		timer = [NSTimer timerWithTimeInterval:WEBPREVIEWDELAYEDREFRESHINTERVAL
+										target:self
+									  selector:@selector(delayedWebPreviewRefreshAction:)
+									  userInfo:nil
+									   repeats:NO];
+		timer.tolerance = 0.5;
+
+		[[NSRunLoop currentRunLoop] addTimer:timer forMode:NSDefaultRunLoopMode];
+		self.delayedRefreshTimer = timer;
+	}
+}
+
+- (void)delayedWebPreviewRefreshAction:(NSTimer *)aTimer {
+    [self refresh:self];
 }
 
 @end

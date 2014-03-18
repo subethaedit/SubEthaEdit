@@ -39,6 +39,7 @@ extern NSString * const PlainTextDocumentDidChangeDocumentModeNotification;
 extern NSString * const WrittenByUserIDAttributeName;
 extern NSString * const ChangedByUserIDAttributeName;
 extern NSString * const PlainTextDocumentDidSaveNotification;
+extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotification;
 
 @interface PlainTextDocument : NSDocument <SEEDocument, NSTextViewDelegate, NSTextStorageDelegate, NSOpenSavePanelDelegate, NSSharingServicePickerDelegate, NSSharingServiceDelegate>
 {
@@ -141,9 +142,6 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
     
     DocumentProxyWindowController *I_documentProxyWindowController;
     
-	NSWindowController *I_webPreviewWindowController;
-    WebPreviewViewController *I_webPreviewViewController;
-	
     NSMutableArray *I_rangesToInvalidate;
     NSMutableArray *I_findAllControllers;
     
@@ -185,7 +183,6 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 //- (IBAction)goIntoBundles:(id)sender;
 //- (IBAction)showHiddenFiles:(id)sender;
 //- (IBAction)selectFileFormat:(id)aSender;
-- (IBAction)showWebPreview:(id)aSender;
 - (BOOL)isProxyDocument;
 - (BOOL)isPendingInvitation;
 - (void)makeProxyWindowController;

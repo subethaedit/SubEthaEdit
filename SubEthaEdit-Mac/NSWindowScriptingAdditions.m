@@ -10,6 +10,8 @@
 #import "PlainTextWindowController.h"
 #import "PlainTextEditor.h"
 #import "PlainTextDocument.h"
+#import "PlainTextWindowControllerTabContext.h"
+#import "WebPreviewViewController.h"
 
 @implementation NSWindow (NSWindowScriptingAdditions)
 - (id)scriptSelection {
@@ -36,7 +38,14 @@
 }
 
 - (void)handleShowWebPreviewCommand:(NSScriptCommand *)command {
-    [[[self windowController] document] showWebPreview:self];
+	PlainTextWindowController *windowController = self.windowController;
+	PlainTextWindowControllerTabContext *tabContext = [windowController selectedTabContext];
+
+	if (! tabContext.webPreviewViewController) {
+		[windowController toggleWebPreview:self];
+	} else {
+		[tabContext.webPreviewViewController refresh:self];
+	}
 }
 
 - (int)scriptedColumns {

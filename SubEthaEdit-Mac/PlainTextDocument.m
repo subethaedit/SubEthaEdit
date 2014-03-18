@@ -77,8 +77,6 @@ NSString * const PlainTextDocumentSessionWillChangeNotification =
 NSString * const PlainTextDocumentSessionDidChangeNotification =
                @"PlainTextDocumentSessionDidChangeNotification";
 
-NSString * const PlainTextDocumentRefreshWebPreviewNotification =
-               @"PlainTextDocumentRefreshWebPreviewNotification";
 NSString * const PlainTextDocumentDidChangeSymbolsNotification =
                @"PlainTextDocumentDidChangeSymbolsNotification";
 NSString * const PlainTextDocumentDidChangeEditStatusNotification =
@@ -96,7 +94,9 @@ NSString * const PlainTextDocumentDidChangeTextStorageNotification =
 NSString * const PlainTextDocumentDefaultParagraphStyleDidChangeNotification =
                @"PlainTextDocumentDefaultParagraphStyleDidChangeNotification";
 NSString * const PlainTextDocumentDidSaveNotification =
-               @"PlainTextDocumentDidSaveNotification";
+@"PlainTextDocumentDidSaveNotification";
+NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotification =
+@"PlainTextDocumentDidSaveShouldReloadWebPreviewNotification";
 NSString * const WrittenByUserIDAttributeName = @"WrittenByUserID";
 NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 
@@ -255,8 +255,6 @@ static NSString *tempFileName(NSString *origPath) {
     I_rangesToInvalidate = [NSMutableArray new];
     I_findAllControllers = [NSMutableArray new];
     NSNotificationCenter *center=[NSNotificationCenter defaultCenter];
-    [center addObserver:self selector:@selector(TCM_webPreviewRefreshNotification:)
-        name:PlainTextDocumentRefreshWebPreviewNotification object:self];
     [center addObserver:self selector:@selector(performHighlightSyntax)
         name:PlainTextDocumentSyntaxColorizeNotification object:self];
     [center addObserver:self
@@ -938,9 +936,6 @@ static NSString *tempFileName(NSString *origPath) {
     [[TCMMMPresenceManager sharedInstance] unregisterSession:[self session]];
     [I_textStorage setDelegate:nil];
     [I_textStorage release];
-    [I_webPreviewViewController setPlainTextDocument:nil];
-    [I_webPreviewViewController release];
-	[I_webPreviewWindowController release];
     [I_documentProxyWindowController release];
     [I_session release];
     [I_plainTextAttributes release];
@@ -1430,26 +1425,6 @@ static NSString *tempFileName(NSString *origPath) {
     return I_flags.isRemotelyEditingTextStorage;
 }
 
-- (void)ensureWebPreview {
-    if (!I_webPreviewViewController) {
-        I_webPreviewViewController=[[WebPreviewViewController alloc] initWithPlainTextDocument:self];
-		I_webPreviewWindowController = [[NSWindowController alloc] initWithWindow:I_webPreviewViewController.view.window];
-
-        [I_webPreviewViewController view];
-    }
-}
-
-- (IBAction)showWebPreview:(id)aSender {// TODO: WebPreview - removed/change to split view
-   [self ensureWebPreview];
-    if (![[I_webPreviewWindowController window] isVisible]) {
-        [I_webPreviewWindowController showWindow:self];
-		
-        [I_webPreviewViewController refreshAndEmptyCache:self];
-    } else {
-        [[I_webPreviewWindowController window] orderFront:self];
-    }
-}
-
 - (void)setContentUsingXMLDocument:(NSXMLDocument *)inDocument {
 	NSString *xmlString = [inDocument XMLStringWithOptions:NSXMLNodePrettyPrint|NSXMLNodePreserveEmptyElements];
 	if ([self tabWidth] != 4 || [self usesTabs]) {
@@ -1492,56 +1467,6 @@ static NSString *tempFileName(NSString *origPath) {
         [self presentError:(NSError *)error modalForWindow:[self windowForSheet] delegate:nil didPresentSelector:NULL contextInfo:nil];
     }
 }
-
-
-- (IBAction)refreshWebPreview:(id)aSender {
-    if (!I_webPreviewViewController) {
-        [self showWebPreview:self];
-    } else {
-        [I_webPreviewViewController refresh:self];
-    }
-}
-
-#define WEBPREVIEWDELAYEDREFRESHINTERVAL 1.2
-
-- (void)triggerDelayedWebPreviewRefresh {
-    if (I_webPreviewViewController) {
-        if ([I_webPreviewDelayedRefreshTimer isValid]) {
-            [I_webPreviewDelayedRefreshTimer setFireDate:[NSDate dateWithTimeIntervalSinceNow:WEBPREVIEWDELAYEDREFRESHINTERVAL]];
-        } else {
-            [I_webPreviewDelayedRefreshTimer release];
-            I_webPreviewDelayedRefreshTimer=[[NSTimer timerWithTimeInterval:WEBPREVIEWDELAYEDREFRESHINTERVAL
-                                                    target:self
-                                                  selector:@selector(delayedWebPreviewRefreshAction:)
-                                                  userInfo:nil repeats:NO] retain];
-            [[NSRunLoop currentRunLoop] addTimer:I_webPreviewDelayedRefreshTimer forMode:NSDefaultRunLoopMode]; //(NSString *)kCFRunLoopCommonModes];
-        }
-    }
-}
-
-- (void)delayedWebPreviewRefreshAction:(NSTimer *)aTimer {
-    [self refreshWebPreview:self];
-}
-
-
-- (void)TCM_webPreviewRefreshNotification:(NSNotification *)aNotification {
-    if ([I_webPreviewViewController refreshType] == kWebPreviewRefreshAutomatic) {
-        [self refreshWebPreview:self];
-    } else if ([I_webPreviewViewController refreshType] == kWebPreviewRefreshDelayed) {
-        [self triggerDelayedWebPreviewRefresh];
-    }
-}
-
-- (void)TCM_webPreviewOnSaveRefresh {
-	// TODO: WebPreview - removed/change to split view
-    if (I_webPreviewViewController) {
-        if ([[I_webPreviewWindowController window] isVisible] &&
-            [I_webPreviewViewController refreshType] == kWebPreviewRefreshOnSave) {
-            [I_webPreviewViewController refreshAndEmptyCache:self];
-        }
-    }
-}
-
 
 - (IBAction)newView:(id)aSender {
     if (!I_flags.isReceivingContent && [[self windowControllers] count] > 0) {
@@ -4189,7 +4114,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
             [self setShouldChangeChangeCount:YES];
         }
         if (saveOperationType != NSAutosaveOperation) {
-            [self TCM_webPreviewOnSaveRefresh];
+			[[NSNotificationCenter defaultCenter] postNotificationName:PlainTextDocumentDidSaveShouldReloadWebPreviewNotification object:self];
         }
         [self setTemporaryDisplayName:nil];
     }
@@ -6190,21 +6115,6 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         }
     }
 
-
-
-// TODO: WebPreview - removed/change to split view
-// WebPreview
-    if (I_webPreviewViewController &&
-        [[I_webPreviewWindowController window] isVisible] &&
-        ([I_webPreviewViewController refreshType]==kWebPreviewRefreshAutomatic ||
-         [I_webPreviewViewController refreshType]==kWebPreviewRefreshDelayed)) {
-        [[NSNotificationQueue defaultQueue]
-    enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentRefreshWebPreviewNotification object:self]
-           postingStyle:NSPostWhenIdle
-           coalesceMask:NSNotificationCoalescingOnName | NSNotificationCoalescingOnSender
-               forModes:[NSArray arrayWithObject:NSDefaultRunLoopMode]];
-
-    }
     [[NSNotificationQueue defaultQueue]
     enqueueNotification:[NSNotification notificationWithName:PlainTextDocumentDidChangeTextStorageNotification object:self]
            postingStyle:NSPostWhenIdle
@@ -6791,10 +6701,13 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 }
 
 - (void)handleShowWebPreviewCommand:(NSScriptCommand *)command {
-    [self showWebPreview:self];
-	// TODO: WebPreview - removed/change to split view
-    if ([[I_webPreviewWindowController window] isVisible]) {
-		[self refreshWebPreview:self];
+	PlainTextWindowController *windowController = self.topmostWindowController;
+	PlainTextWindowControllerTabContext *tabContext = [windowController selectedTabContext];
+
+	if (! tabContext.webPreviewViewController) {
+		[windowController toggleWebPreview:self];
+	} else {
+		[tabContext.webPreviewViewController refresh:self];
 	}
 }
 
@@ -7004,16 +6917,28 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 }
 
 - (NSString *)scriptedWebPreviewBaseURL {
-    [self ensureWebPreview];
-    return [[I_webPreviewViewController baseURL] absoluteString];
+	NSString *result = nil;
+	PlainTextWindowController *windowController = self.topmostWindowController;
+	PlainTextWindowControllerTabContext *tabContext = [windowController selectedTabContext];
+
+	if (! tabContext.webPreviewViewController) {
+		result = [[self fileURL] absoluteString];
+	} else {
+		result = tabContext.webPreviewViewController.baseURL.absoluteString;
+	}
+    return result;
 }
 
 - (void)setScriptedWebPreviewBaseURL:(NSString *)aString {
-    [self ensureWebPreview];
-    [I_webPreviewViewController setBaseURL:[NSURL URLWithString:aString]];
-    if ([[I_webPreviewWindowController window] isVisible]) {
-		[self refreshWebPreview:self];
+	PlainTextWindowController *windowController = self.topmostWindowController;
+	PlainTextWindowControllerTabContext *tabContext = [windowController selectedTabContext];
+
+	if (! tabContext.webPreviewViewController) {
+		[windowController toggleWebPreview:self];
 	}
+
+	tabContext.webPreviewViewController.baseURL = [NSURL URLWithString:aString];
+	[tabContext.webPreviewViewController refresh:self];
 }
 
 - (void)scriptWrapperWillRunScriptNotification:(NSNotification *)aNotification {
