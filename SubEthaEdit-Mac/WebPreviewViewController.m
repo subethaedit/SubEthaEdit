@@ -358,16 +358,43 @@ NSScrollView * firstScrollView(NSView *aView) {
 //}
 
 #pragma mark -
-#pragma mark ### ResourceLoadDelegate ###
+#pragma mark ### WebResourceLoadDelegate ###
 
 -(NSURLRequest *)webView:(WebView *)sender resource:(id)identifier willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse fromDataSource:(WebDataSource *)dataSource {
-//    NSLog(@"Got request:%@ withPolicy:%d",[request URL],[request cachePolicy]);
-     if (![request valueForHTTPHeaderField:@"LocalContentAndThisIsTheEncoding"]) {
-         NSMutableURLRequest *mutableRequest=[request mutableCopy];
-         [mutableRequest setCachePolicy:_shallCache?
-            NSURLRequestReturnCacheDataElseLoad:NSURLRequestReloadIgnoringCacheData];
-         return mutableRequest;
-     }
+	//    NSLog(@"Got request:%@ withPolicy:%d",[request URL],[request cachePolicy]);
+	if (![request valueForHTTPHeaderField:@"LocalContentAndThisIsTheEncoding"]) {
+
+		NSURL *url = request.URL;
+		if (url.isFileURL) {
+			if ([url checkResourceIsReachableAndReturnError:nil]) {
+				NSError *error = nil;
+				NSData *data = [NSData dataWithContentsOfURL:url options:NSDataReadingMappedAlways error:&error];
+				if (!data) {
+					NSLog(@"Error: %@", error);
+
+					NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+					openPanel.canChooseDirectories = YES;
+					openPanel.canChooseFiles = YES;
+					openPanel.directoryURL = [url URLByDeletingLastPathComponent];
+					openPanel.allowsMultipleSelection = YES;
+					openPanel.prompt = @"Allow";
+					openPanel.title = @"Allow resource access";
+
+					NSInteger result = [openPanel runModal];
+
+//					[openPanel beginSheetModalForWindow:self.view.window completionHandler:^(NSInteger result) {
+						if (result == NSFileHandlingPanelOKButton) {
+
+						}
+//					}];
+				}
+			}
+		}
+
+		NSMutableURLRequest *mutableRequest = [request mutableCopy];
+		[mutableRequest setCachePolicy:_shallCache ? NSURLRequestReturnCacheDataElseLoad : NSURLRequestReloadIgnoringCacheData];
+		return mutableRequest;
+	}
     return request;
 }
 
