@@ -255,6 +255,7 @@
 		4C71D0C618BF8B2200EA66FA /* SEEOpenOtherDocumentListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C71D0C518BF8B2200EA66FA /* SEEOpenOtherDocumentListItem.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C71D0C918BF997500EA66FA /* SEENewDocumentListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C71D0C818BF997500EA66FA /* SEENewDocumentListItem.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C77B24218BB83620066BDB2 /* SEEDocumentListGroupTableRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C77B24118BB83620066BDB2 /* SEEDocumentListGroupTableRowView.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		4C7F5E0B18D9D4C500F33CCD /* SEEScopedBookmarkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C7F5E0A18D9D4C500F33CCD /* SEEScopedBookmarkManager.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C97D504188D42FA000B4999 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C97D503188D42FA000B4999 /* QuartzCore.framework */; };
 		4C9CCDC918BE413E00959EF2 /* SEENetworkConnectionDocumentListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C9CCDC818BE413E00959EF2 /* SEENetworkConnectionDocumentListItem.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4CB36C3218D84BF4000219DA /* SEEEditorSplitViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CB36C3118D84BF4000219DA /* SEEEditorSplitViewDelegate.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -1013,6 +1014,8 @@
 		4C71D0C818BF997500EA66FA /* SEENewDocumentListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEENewDocumentListItem.m; sourceTree = "<group>"; };
 		4C77B24018BB83620066BDB2 /* SEEDocumentListGroupTableRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEDocumentListGroupTableRowView.h; sourceTree = "<group>"; };
 		4C77B24118BB83620066BDB2 /* SEEDocumentListGroupTableRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEDocumentListGroupTableRowView.m; sourceTree = "<group>"; };
+		4C7F5E0918D9D4C500F33CCD /* SEEScopedBookmarkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEScopedBookmarkManager.h; sourceTree = "<group>"; };
+		4C7F5E0A18D9D4C500F33CCD /* SEEScopedBookmarkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEScopedBookmarkManager.m; sourceTree = "<group>"; };
 		4C97D503188D42FA000B4999 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		4C9CCDC718BE413E00959EF2 /* SEENetworkConnectionDocumentListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEENetworkConnectionDocumentListItem.h; sourceTree = "<group>"; };
 		4C9CCDC818BE413E00959EF2 /* SEENetworkConnectionDocumentListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEENetworkConnectionDocumentListItem.m; sourceTree = "<group>"; };
@@ -2095,6 +2098,8 @@
 				F2FB96E10CBE68ED000B85AE /* UKXattrMetadataStore.m */,
 				142893F409575A3000D14688 /* UndoManager.h */,
 				142893F509575A3000D14688 /* UndoManager.m */,
+				4C7F5E0918D9D4C500F33CCD /* SEEScopedBookmarkManager.h */,
+				4C7F5E0A18D9D4C500F33CCD /* SEEScopedBookmarkManager.m */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -3134,6 +3139,7 @@
 				1428932E095756D800D14688 /* TCMMMPresenceManager.m in Sources */,
 				1428932F095756D800D14688 /* TCMMMSession.m in Sources */,
 				14289330095756D800D14688 /* TCMMMState.m in Sources */,
+				4C7F5E0B18D9D4C500F33CCD /* SEEScopedBookmarkManager.m in Sources */,
 				14289331095756D800D14688 /* TCMMMStatusProfile.m in Sources */,
 				14289332095756D800D14688 /* TCMMMTransformator.m in Sources */,
 				14289333095756D800D14688 /* TCMMMUser.m in Sources */,
