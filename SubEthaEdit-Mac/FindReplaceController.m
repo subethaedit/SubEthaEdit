@@ -1,16 +1,13 @@
-//
 //  FindReplaceController.m
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Fri Apr 23 2004.
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
-//
 
 // this file needs arc - add -fobjc-arc in the compile build phase
 #if !__has_feature(objc_arc)
 #error ARC must be enabled!
 #endif
-
 
 #import "OgreKit/OgreKit.h"
 #import "FindReplaceController.h"
@@ -111,13 +108,8 @@ static FindReplaceController *sharedInstance=nil;
     return O_tabWidthPanel;
 }
 
-- (NSTextView *)textViewToSearchIn {
-    id obj = [[NSApp mainWindow] firstResponder];
-    return (obj && [obj isKindOfClass:[NSTextView class]]) ? obj : nil;
-}
-
 - (IBAction)orderFrontTabWidthPanel:(id)aSender {
-	PlainTextDocument *document=(PlainTextDocument *)[[[[self textViewToSearchIn] window] windowController] document];
+	PlainTextDocument *document=(PlainTextDocument *)[[[[self targetToFindIn] window] windowController] document];
     if (document) {
         NSPanel *panel = [self tabWidthPanel];
         [O_tabWidthTextField setIntValue:[document tabWidth]];
@@ -127,11 +119,12 @@ static FindReplaceController *sharedInstance=nil;
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)anItem {
-    return [[[[self textViewToSearchIn] window] windowController] document]!=nil;
+	BOOL result = ([self targetDocument] != nil);
+    return result;
 }
 
 - (IBAction)chooseTabWidth:(id)aSender {
-    PlainTextDocument *document=(PlainTextDocument *)[[[[self textViewToSearchIn] window] windowController] document];
+    PlainTextDocument *document = [self targetDocument];
     int tabWidth=[O_tabWidthTextField intValue];
     if (tabWidth>0) {
         [document setTabWidth:tabWidth];
@@ -150,7 +143,7 @@ static FindReplaceController *sharedInstance=nil;
 #pragma mark -
 
 - (IBAction)gotoLine:(id)aSender {
-    NSTextView *textView = [self textViewToSearchIn];
+    NSTextView *textView = [self targetToFindIn];
     [(PlainTextWindowController *)[[textView window] windowController] gotoLine:[O_gotoLineTextField intValue]];
 
 }
@@ -181,14 +174,22 @@ static FindReplaceController *sharedInstance=nil;
 	return result;
 }
 
-- (id)targetToFindIn
-{
+- (SEETextView *)targetToFindIn {
 	NSWindowController *windowController = [[NSApp mainWindow] windowController];
-	id result = nil;
+	SEETextView *result = nil;
 	if (windowController && [windowController respondsToSelector:@selector(activePlainTextEditor)]) {
-		result = [[(PlainTextWindowController *)windowController activePlainTextEditor] textView];
+		result = (SEETextView *)[[(PlainTextWindowController *)windowController activePlainTextEditor] textView];
 	}
     return result;
+}
+
+- (PlainTextDocument *)targetDocument {
+	NSWindowController *windowController = [[NSApp mainWindow] windowController];
+	PlainTextDocument *result = [windowController document];
+	if (result && ![result isKindOfClass:[PlainTextDocument class]]) {
+		result = nil;
+	}
+	return result;
 }
 
 - (void)saveGlobalFindAndReplaceStateToPreferences {
