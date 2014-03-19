@@ -96,14 +96,22 @@
 				NSError *error = nil;
 				NSData *data = [NSData dataWithContentsOfURL:aURL options:NSDataReadingMappedAlways error:&error];
 
-				if (!data) {
+				if (data) {
+					// file is readable in this session via a different opening mechanism
+					// the next time is is used after app relaunch the user might get asked for permission
+					result = YES;
+
+				} else {
 					NSLog(@"Error: %@", error);
 
+					// the file is not readable and we assume that it is because of permissions,
+					// so we ask the user to allow us to use the file
 					NSOpenPanel *openPanel = [NSOpenPanel openPanel];
 					openPanel.canChooseDirectories = YES;
 					openPanel.canChooseFiles = YES;
 					openPanel.directoryURL = aURL;
-					openPanel.prompt = @"Allow"; // TODO: localize and write proper text
+					// TODO: localize and write proper text
+					openPanel.prompt = @"Allow";
 					openPanel.title = @"Allow resource access";
 
 					NSInteger openPanelResult = [openPanel runModal];
@@ -112,6 +120,7 @@
 						NSURL *choosenURL = openPanel.URL;
 						result = [choosenURL startAccessingSecurityScopedResource];
 
+						// checking if the selected url helps with opening permissions of our file
 						data = [NSData dataWithContentsOfURL:aURL options:NSDataReadingMappedAlways error:&error];
 						if (!data) {
 							[choosenURL stopAccessingSecurityScopedResource];
@@ -122,8 +131,6 @@
 							[self.lookupDict setObject:choosenURL forKey:aURL];
 						}
 					}
-				} else {
-					result = YES;
 				}
 			}
 		}
@@ -135,9 +142,9 @@
 	if (aURL) {
 		NSUInteger foundIndex = [self.accessingURLs indexOfObject:aURL];
 		if (foundIndex != NSNotFound) {
-			NSURL *accessedURL = [self.lookupDict objectForKey:aURL];
-			NSAssert(accessedURL != nil, @"There should aways be an URL in the lookup table");
-			[accessedURL stopAccessingSecurityScopedResource];
+			NSURL *accessedBookmarkURL = [self.lookupDict objectForKey:aURL];
+			NSAssert(accessedBookmarkURL != nil, @"There should aways be an URL in the lookup table");
+			[accessedBookmarkURL stopAccessingSecurityScopedResource];
 			[self.accessingURLs removeObjectAtIndex:foundIndex];
 		}
 	}
