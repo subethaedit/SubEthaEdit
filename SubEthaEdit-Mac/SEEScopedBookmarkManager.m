@@ -84,13 +84,14 @@
 		}
 
 		if (parentURL) {
-			[self.accessingURLs addObject:aURL];
-			[self.lookupDict setObject:parentURL forKey:aURL];
-
 			result = [parentURL startAccessingSecurityScopedResource];
 		}
 
-		if (!result) {
+		if (result) {
+			[self.accessingURLs addObject:aURL];
+			[self.lookupDict setObject:parentURL forKey:aURL];
+
+		} else {
 			if ([aURL checkResourceIsReachableAndReturnError:nil]) {
 				NSError *error = nil;
 				NSData *data = [NSData dataWithContentsOfURL:aURL options:NSDataReadingMappedAlways error:&error];
