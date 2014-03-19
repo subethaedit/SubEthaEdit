@@ -26,27 +26,87 @@
 
 #import "SEETabStyle.h"
 
+#import <PSMTabBarControl/PSMRolloverButton.h>
+#import <PSMTabBarControl/PSMOverflowPopUpButton.h>
+
 @implementation SEETabStyle
 
-+ (CGFloat)desiredTabBarControlHeight {
-	return 24.0;
-}
+#pragma mark - PSMTabStyle protocol
 
 + (NSString *)name {
     return @"SubEthaEdit";
 }
 
+- (NSString *)name {
+	return [[self class] name];
+}
+
+
+#pragma mark - Add tab button
+
+- (NSImage *)addTabButtonImage {
+	return [SEETabStyle imageForWindowActive:YES name:@"AddTabButton"];
+}
+- (NSImage *)addTabButtonPressedImage {
+	NSImage *image = [NSImage imageWithSize:NSMakeSize(27.0, 24.0) flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
+//		NSImage *rolloverBackground = [SEETabStyle imageForWindowActive:YES name:@"AddTabButtonRolloverBG_Pressed"];
+		NSImage *rollover = [SEETabStyle imageForWindowActive:YES name:@"AddTabButtonRollover_Pressed"];
+		NSImage *rolloverPlus = [SEETabStyle imageForWindowActive:YES name:@"AddTabButtonPushed"];
+
+//		[rolloverBackground drawInRect:dstRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
+		[rollover drawInRect:NSInsetRect(dstRect, 3.5, 1.0) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
+		[rolloverPlus drawInRect:NSInsetRect(dstRect, 2.5, 0.5) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
+
+		return YES;
+	}];
+	return image;
+}
+
+- (NSImage *)addTabButtonRolloverImage {
+	NSImage *image = [NSImage imageWithSize:NSMakeSize(27.0, 24.0) flipped:NO drawingHandler:^BOOL(NSRect dstRect) {
+//		NSImage *rolloverBackground = [SEETabStyle imageForWindowActive:YES name:@"AddTabButtonRolloverBG"];
+		NSImage *rollover = [SEETabStyle imageForWindowActive:YES name:@"AddTabButtonRollover"];
+		NSImage *rolloverPlus = [SEETabStyle imageForWindowActive:YES name:@"AddTabButtonRolloverPlus"];
+
+//		[rolloverBackground drawInRect:dstRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
+		[rollover drawInRect:NSInsetRect(dstRect, 3.5, 1.0) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
+		[rolloverPlus drawInRect:NSInsetRect(dstRect, 2.5, 0.5) fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0];
+
+		return YES;
+	}];
+	return image;
+}
+
+
+#pragma mark - Tab bar margins
+
+- (CGFloat)leftMarginForTabBarControl:(PSMTabBarControl *)tabBarControl {
+	return 0;
+}
+- (CGFloat)rightMarginForTabBarControl:(PSMTabBarControl *)tabBarControl {
+	return 0;
+}
+- (CGFloat)topMarginForTabBarControl:(PSMTabBarControl *)tabBarControl {
+	return 0;
+}
+- (CGFloat)bottomMarginForTabBarControl:(PSMTabBarControl *)tabBarControl {
+	return 0;
+}
+
+
+#pragma mark - Cell values
+
 + (NSDictionary *)tabTitleAttributesForWindowActive:(BOOL)isActive {
 	static NSDictionary *attributes = nil;
 	if (!attributes) {
 		NSShadow *shadow = [[NSShadow alloc] init];
-		[shadow setShadowColor:[[NSColor whiteColor] colorWithAlphaComponent:0.4]];
-		[shadow setShadowBlurRadius:1.0];
+		[shadow setShadowColor:[[NSColor whiteColor] colorWithAlphaComponent:0.6]];
+		[shadow setShadowBlurRadius:0.0];
 		[shadow setShadowOffset:NSMakeSize(0.0, -1.0)];
-		
+
 		NSMutableDictionary *baseAttributes = [NSMutableDictionary new];
 		baseAttributes[NSFontAttributeName] = [NSFont fontWithName:@"LucidaGrande-Bold" size:11];
-		baseAttributes[NSForegroundColorAttributeName] = [NSColor blackColor];
+		baseAttributes[NSForegroundColorAttributeName] = [NSColor colorWithWhite:0.3 alpha:1.0];
 		baseAttributes[NSShadowAttributeName] = shadow;
 
 		NSMutableParagraphStyle *paragraphStyle = [NSMutableParagraphStyle new];
@@ -54,18 +114,70 @@
 		[paragraphStyle setLineBreakMode:NSLineBreakByTruncatingMiddle];
 		baseAttributes[NSParagraphStyleAttributeName] = paragraphStyle;
 
-		
-		NSMutableDictionary *inactiveAttributes = [baseAttributes mutableCopy];
-		inactiveAttributes[NSForegroundColorAttributeName] = [NSColor colorWithWhite:0.3 alpha:1.0];
 
-		
+		NSMutableDictionary *inactiveAttributes = [baseAttributes mutableCopy];
+		inactiveAttributes[NSForegroundColorAttributeName] = [NSColor colorWithWhite:0.5 alpha:1.0];
 		attributes = @{@"AW" : [baseAttributes copy], @"IW" : [inactiveAttributes copy]};
-	
 	};
 	NSString *isActivePrefix = isActive ? @"AW" : @"IW";
 	NSDictionary *result = attributes[isActivePrefix];
 	return result;
 }
+
+- (NSAttributedString *)attributedStringValueForTabCell:(PSMTabBarCell *)cell {
+	NSString *titleString = cell.title;
+	NSDictionary *attributesDict = [SEETabStyle tabTitleAttributesForWindowActive:[cell.controlView.window TCM_isActive]];
+	return [[NSAttributedString alloc] initWithString:titleString attributes:attributesDict];
+}
+
+#pragma mark - Tab bar constraints
+
++ (CGFloat)desiredTabBarControlHeight {
+	return 24.0;
+}
+
+- (CGFloat)minimumWidthOfTabCell:(PSMTabBarCell *)cell {
+	return 140.;
+}
+
+- (CGFloat)desiredWidthOfTabCell:(PSMTabBarCell *)cell {
+    CGFloat resultWidth = 0.0;
+
+    // left margin
+    resultWidth = MARGIN_X;
+
+    // close button?
+    if ([cell shouldDrawCloseButton]) {
+        NSImage *image = [cell closeButtonImageOfType:PSMCloseButtonImageTypePressed];
+        resultWidth += [image size].width + kPSMTabBarCellPadding;
+    }
+
+    // icon?
+    if([cell hasIcon]) {
+        resultWidth += kPSMTabBarIconWidth + kPSMTabBarCellPadding;
+    }
+
+    // the label
+    resultWidth += [[cell attributedStringValue] size].width;
+
+    // object counter?
+    if([cell count] > 0) {
+        resultWidth += [cell objectCounterSize].width + kPSMTabBarCellPadding;
+    }
+
+    // indicator?
+    if([[cell indicator] isHidden] == NO) {
+        resultWidth += kPSMTabBarCellPadding + kPSMTabBarIndicatorWidth;
+    }
+
+    // right margin
+    resultWidth += MARGIN_X;
+
+    return ceil(resultWidth);
+}
+
+
+#pragma mark - Providing images
 
 + (NSImage *)imageForWindowActive:(BOOL)isActive name:(NSString *)aName {
 	static NSDictionary *images = nil;
@@ -82,73 +194,12 @@
 	return result;
 }
 
-- (NSString *)name {
-	return [[self class] name];
-}
-
-- (NSImage *)addTabButtonImage {
-	return [SEETabStyle imageForWindowActive:YES name:@"AddTabButton"];
-}
-- (NSImage *)addTabButtonPressedImage {
-	return [SEETabStyle imageForWindowActive:YES name:@"AddTabButtonPushed"];
-}
-- (NSImage *)addTabButtonRolloverImage {
-	return [SEETabStyle imageForWindowActive:YES name:@"AddTabButton"];
-}
-
-- (CGFloat)leftMarginForTabBarControl:(PSMTabBarControl *)tabBarControl {
-	return 0;
-}
-- (CGFloat)rightMarginForTabBarControl:(PSMTabBarControl *)tabBarControl {
-	return 0;
-}
-- (CGFloat)topMarginForTabBarControl:(PSMTabBarControl *)tabBarControl {
-	return 0;
-}
-- (CGFloat)bottomMarginForTabBarControl:(PSMTabBarControl *)tabBarControl {
-	return 0;
-}
-
-// Constraints
-- (CGFloat)minimumWidthOfTabCell:(PSMTabBarCell *)cell {
-	return 140.;
-}
-
-- (CGFloat)desiredWidthOfTabCell:(PSMTabBarCell *)cell {
-	return 300.;
-}
-
-- (NSRect)closeButtonRectForBounds:(NSRect)theRect ofTabCell:(PSMTabBarCell *)cell {
-    if ([cell shouldDrawCloseButton] == NO) {
-        return NSZeroRect;
-    }
-
-	NSRect result = theRect;
-	result.size = NSMakeSize(12, 13);
-	result.origin.x += 11;
-	result.origin.y += 6;
-	return result;
-}
-
-
-- (CGFloat)heightOfTabCellsForTabBarControl:(PSMTabBarControl *)tabBarControl {
-	return [SEETabStyle desiredTabBarControlHeight];
-}
-
-- (void)drawBezelOfTabBarControl:(PSMTabBarControl *)tabBarControl inRect:(NSRect)rect {
-	[[NSColor redColor] set];
-	NSRectFill(rect);
-	[[NSColor greenColor] set];
-	[[NSBezierPath bezierPathWithRect:rect] stroke];
-	NSImage *backgroundImage = [SEETabStyle imageForWindowActive:[tabBarControl.window TCM_isActive] name:@"InactiveTabBG"];
-	NSDrawThreePartImage(rect, nil, backgroundImage, nil, NO, NSCompositeSourceOver, 1.0, tabBarControl.isFlipped);
-}
 
 - (NSImage *)closeButtonImageOfType:(PSMCloseButtonImageType)type forTabCell:(PSMTabBarCell *)cell {
 	BOOL isActive = [cell.controlView.window TCM_isActive];
 	switch (type) {
 		case PSMCloseButtonImageTypeStandard:
-			if (cell.tabState & PSMTab_SelectedMask) {
+			if ((cell.tabState & PSMTab_SelectedMask) == PSMTab_SelectedMask) {
 				return [SEETabStyle imageForWindowActive:isActive name:@"ActiveTabClose"];
 			} else {
 				return nil;
@@ -163,21 +214,185 @@
 	}
 }
 
-- (void)drawBezelOfTabCell:(PSMTabBarCell *)cell withFrame:(NSRect)frame inTabBarControl:(PSMTabBarControl *)tabBarControl {
-	BOOL isWindowActive = [tabBarControl.window TCM_isActive];
-	BOOL isActive = [cell tabState] & PSMTab_SelectedMask;
-	
+
+#pragma mark - Cell drawing rects
+
+- (CGFloat)heightOfTabCellsForTabBarControl:(PSMTabBarControl *)tabBarControl {
+	return [SEETabStyle desiredTabBarControlHeight];
+}
+
+- (NSRect)titleRectForBounds:(NSRect)theRect ofTabCell:(PSMTabBarCell *)cell {
+    //Don't bother calculating anything if we don't have a string
+    NSAttributedString *attrString = [cell attributedStringValue];
+    if ([attrString length] == 0)
+        return NSZeroRect;
+
+    NSRect drawingRect = [cell drawingRectForBounds:theRect];
+    NSRect constrainedDrawingRect = drawingRect;
+
+    NSRect closeButtonRect = [cell closeButtonRectForBounds:theRect];
+	if (!NSEqualRects(closeButtonRect, NSZeroRect)) {
+		CGFloat closeButtonWidth = NSWidth(closeButtonRect);
+		constrainedDrawingRect.origin.x += closeButtonWidth + kPSMTabBarCellPadding;
+		constrainedDrawingRect.size.width -= closeButtonWidth + kPSMTabBarCellPadding;
+
+	    //Make sure there's enough padding between the close button and the text
+		if (NSMinX(constrainedDrawingRect) - NSMaxX(closeButtonRect) <= kPSMTabBarCellPadding) {
+			CGFloat missingGap = ABS(NSMinX(constrainedDrawingRect) - NSMaxX(closeButtonRect) - kPSMTabBarCellPadding);
+			constrainedDrawingRect.origin.x += missingGap;
+			constrainedDrawingRect.size.width -= missingGap;
+		}
+	} else {
+		constrainedDrawingRect.origin.x += 11.0;
+		constrainedDrawingRect.size.width -= 11.0;
+	}
+
 	NSInteger selectedCellIndex = 0;
-	for (PSMTabBarCell *tabBarCell in [tabBarControl cells]) {
-		if (tabBarCell.tabState & PSMTab_SelectedMask) {
+	for (PSMTabBarCell *tabBarCell in [cell.controlView cells]) {
+		if ((tabBarCell.tabState & PSMTab_SelectedMask) == PSMTab_SelectedMask) {
 			break;
 		}
 		selectedCellIndex++;
 	};
+	NSInteger myIndex = [[cell.controlView cells] indexOfObject:cell];
+	BOOL isLastVisibleCell = ([cell tabState] & PSMTab_PositionRightMask) == PSMTab_PositionRightMask;
+
+	if (myIndex >= selectedCellIndex  || isLastVisibleCell ) {
+		constrainedDrawingRect.size.width -= 11.0;
+	}
+
+    //Don't show a title if there's only enough space for a character
+    if (constrainedDrawingRect.size.width <= 2)
+        return NSZeroRect;
+
+    NSSize stringSize = [attrString size];
+    NSRect result = NSMakeRect(constrainedDrawingRect.origin.x, drawingRect.origin.y+ceil((drawingRect.size.height-stringSize.height)/2), constrainedDrawingRect.size.width, stringSize.height);
+
+    return NSIntegralRect(result);
+}
+
+- (NSRect)closeButtonRectForBounds:(NSRect)theRect ofTabCell:(PSMTabBarCell *)cell {
+
+    if ([cell shouldDrawCloseButton] == NO) {
+        return NSZeroRect;
+    }
+
+    // ask style for image
+    NSImage *image = [cell closeButtonImageOfType:PSMCloseButtonImageTypeRollover];
+    if (!image)
+        return NSZeroRect;
+
+    // calculate rect
+    NSRect drawingRect = [cell drawingRectForBounds:theRect];
+
+    NSSize imageSize = [image size];
+
+    NSSize scaledImageSize = [cell scaleImageWithSize:imageSize toFitInSize:NSMakeSize(imageSize.width, drawingRect.size.height - 5.0) scalingType:NSImageScaleProportionallyDown];
+
+
+	NSInteger selectedCellIndex = 0;
+	for (PSMTabBarCell *tabBarCell in [cell.controlView cells]) {
+		if ((tabBarCell.tabState & PSMTab_SelectedMask) == PSMTab_SelectedMask) {
+			break;
+		}
+		selectedCellIndex++;
+	};
+	NSInteger myIndex = [[cell.controlView cells] indexOfObject:cell];
+
+	CGFloat leftTabCapWidth = kPSMTabBarCellPadding + 2.0;
+	if (myIndex > selectedCellIndex) {
+		leftTabCapWidth = 0.0;
+	}
+
+    NSRect result = NSMakeRect(NSMinX(drawingRect) + leftTabCapWidth, drawingRect.origin.y , scaledImageSize.width, scaledImageSize.height);
+
+    if(scaledImageSize.height < drawingRect.size.height) {
+        result.origin.y += ceil((drawingRect.size.height - scaledImageSize.height) / 2.0);
+    }
+
+    return NSIntegralRect(result);
+}
+
+- (NSSize)addTabButtonSizeForTabBarControl:(PSMTabBarControl *)tabBarControl {
+	NSRect bounds = tabBarControl.bounds;
+	return NSMakeSize(NSHeight(bounds), NSHeight(bounds));
+}
+
+- (NSRect)addTabButtonRectForTabBarControl:(PSMTabBarControl *)tabBarControl {
+    if ([[tabBarControl addTabButton] isHidden])
+        return NSZeroRect;
+
+    NSRect theRect = NSZeroRect;
+	NSRect bounds = tabBarControl.bounds;
+    NSSize buttonSize = [tabBarControl addTabButtonSize];
+
+	theRect = NSMakeRect(NSMaxX(bounds) - [tabBarControl rightMargin] - buttonSize.width -kPSMTabBarCellPadding, NSMinY(bounds), buttonSize.width, buttonSize.height);
+
+    return theRect;
+}
+
+- (NSSize)overflowButtonSizeForTabBarControl:(PSMTabBarControl *)tabBarControl {
+	NSRect bounds = tabBarControl.bounds;
+	return NSMakeSize(NSHeight(bounds), NSHeight(bounds));
+}
+
+- (NSRect)overflowButtonRectForTabBarControl:(PSMTabBarControl *)tabBarControl {
+    if ([[tabBarControl overflowPopUpButton] isHidden])
+        return NSZeroRect;
+
+    NSRect theRect = NSZeroRect;
+	NSRect bounds = tabBarControl.bounds;
+    NSSize buttonSize = [tabBarControl overflowButtonSize];
+
+	CGFloat xOffset = kPSMTabBarCellPadding;
+	PSMTabBarCell *lastVisibleTab = [tabBarControl lastVisibleTab];
+	if (lastVisibleTab) {
+		xOffset += NSMaxX([lastVisibleTab frame]);
+//		xOffset = NSMaxX([lastVisibleTab frame]) - buttonSize.width - kPSMTabBarCellPadding;
+	}
+
+	theRect = NSMakeRect(xOffset, NSMinY(bounds), buttonSize.width, buttonSize.height);
+
+	return theRect;
+}
+
+
+#pragma mark - Drawing
+
+- (void)drawBezelOfTabBarControl:(PSMTabBarControl *)tabBarControl inRect:(NSRect)rect {
+	NSImage *backgroundImage = [SEETabStyle imageForWindowActive:[tabBarControl.window TCM_isActive] name:@"InactiveTabBG"];
+	NSDrawThreePartImage(rect, nil, backgroundImage, nil, NO, NSCompositeSourceOver, 1.0, tabBarControl.isFlipped);
+
+	NSRect overflowButtonRect = tabBarControl.overflowButtonRect;
+	if (! NSEqualRects(overflowButtonRect, NSZeroRect)) {
+		PSMTabBarCell *lastVisibleTab = tabBarControl.lastVisibleTab;
+		BOOL isWindowActive = [tabBarControl.window TCM_isActive];
+		NSImage *rightCap = [SEETabStyle imageForWindowActive:isWindowActive name:@"InactiveTabRightCap"];
+
+		NSRect rightRect = lastVisibleTab.frame;
+		rightRect.size.width = rightCap.size.width;
+		rightRect.origin.x = NSMaxX([lastVisibleTab frame]) + NSWidth(overflowButtonRect);
+		[rightCap drawInRect:rightRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
+	}
+}
+
+- (void)drawBezelOfTabCell:(PSMTabBarCell *)cell withFrame:(NSRect)frame inTabBarControl:(PSMTabBarControl *)tabBarControl {
+	BOOL isWindowActive = [tabBarControl.window TCM_isActive];
+	BOOL isActive = ((cell.tabState & PSMTab_SelectedMask) == PSMTab_SelectedMask);
+	
+	NSInteger selectedCellIndex = 0;
+	for (PSMTabBarCell *tabBarCell in [tabBarControl cells]) {
+		if ((tabBarCell.tabState & PSMTab_SelectedMask) == PSMTab_SelectedMask) {
+			break;
+		}
+		selectedCellIndex++;
+	};
+
 	NSInteger myIndex = [[tabBarControl cells] indexOfObject:cell];
 	
-//	BOOL isLeftOfSelected  = [cell tabState] & PSMTab_RightIsSelectedMask;
-//	BOOL isRightOfSelected  = [cell tabState] & PSMTab_LeftIsSelectedMask;
+//	BOOL isLeftOfSelected  = ([cell tabState] & PSMTab_RightIsSelectedMask) == PSMTab_RightIsSelectedMask;
+//	BOOL isRightOfSelected  = ([cell tabState] & PSMTab_LeftIsSelectedMask) == PSMTab_LeftIsSelectedMask;
+	BOOL isLastVisibleCell = ([cell tabState] & PSMTab_PositionRightMask) == PSMTab_PositionRightMask;
 	BOOL isLeftOfSelected = myIndex < selectedCellIndex;
 	BOOL isRightOfSelected = myIndex > selectedCellIndex;
 	
@@ -192,22 +407,25 @@
 	}
 	
 	NSDrawThreePartImage(CGRectInset(frame,8,0), nil, fill, nil, NO, NSCompositeSourceOver, 1.0, tabBarControl.isFlipped);
+
 	NSRect leftRect = frame;
 	leftRect.size.width = leftCap.size.width;
 	if (isActive || isLeftOfSelected) {
 		[leftCap drawInRect:leftRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 	}
+
 	NSRect rightRect = frame;
 	rightRect.size.width = rightCap.size.width;
 	rightRect.origin.x = CGRectGetMaxX(frame) - rightRect.size.width;
-	if (isActive || isRightOfSelected) {
+	if (isActive || isRightOfSelected || isLastVisibleCell) {
 		[rightCap drawInRect:rightRect fromRect:NSZeroRect operation:NSCompositeSourceOver fraction:1.0 respectFlipped:YES hints:nil];
 	}
 }
 
 - (void)drawTitleOfTabCell:(PSMTabBarCell *)cell withFrame:(NSRect)frame inTabBarControl:(PSMTabBarControl *)tabBarControl {
-	NSString *titleString = cell.title;
-	[titleString drawWithRect:CGRectOffset(frame,0,16) options:NSStringDrawingDisableScreenFontSubstitution attributes:[SEETabStyle tabTitleAttributesForWindowActive:[tabBarControl.window TCM_isActive]]];
+    NSRect titleRect = [cell titleRectForBounds:frame];
+    // draw title
+    [[cell attributedStringValue] drawInRect:titleRect];
 }
 
 @end

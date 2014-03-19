@@ -21,7 +21,7 @@ enum {
 
 
 @class FoldableTextStorage, TCMMMSession, TCMMMOperation, DocumentMode, EncodingPopUpButton, 
-       PlainTextWindowController, WebPreviewWindowController,
+       PlainTextWindowController, WebPreviewViewController,
        DocumentProxyWindowController, FindAllController, UndoManager, TextOperation, TCMMMLoggingState, FontForwardingTextField, PlainTextEditor;
 
 extern NSString * const PlainTextDocumentSessionWillChangeNotification;
@@ -40,6 +40,7 @@ extern NSString * const WrittenByUserIDAttributeName;
 extern NSString * const ChangedByUserIDAttributeName;
 
 extern NSString * const PlainTextDocumentDidSaveNotification;
+extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotification;
 
 
 
@@ -144,7 +145,6 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
     
     DocumentProxyWindowController *I_documentProxyWindowController;
     
-    WebPreviewWindowController *I_webPreviewWindowController;
     NSMutableArray *I_rangesToInvalidate;
     NSMutableArray *I_findAllControllers;
     
@@ -186,7 +186,6 @@ extern NSString * const PlainTextDocumentDidSaveNotification;
 //- (IBAction)goIntoBundles:(id)sender;
 //- (IBAction)showHiddenFiles:(id)sender;
 //- (IBAction)selectFileFormat:(id)aSender;
-- (IBAction)showWebPreview:(id)aSender;
 - (BOOL)isProxyDocument;
 - (BOOL)isPendingInvitation;
 - (void)makeProxyWindowController;
