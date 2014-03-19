@@ -116,19 +116,25 @@
 
 					NSInteger openPanelResult = [openPanel runModal];
 					if (openPanelResult == NSFileHandlingPanelOKButton) {
-
 						NSURL *choosenURL = openPanel.URL;
-						result = [choosenURL startAccessingSecurityScopedResource];
+
+						// creating the security scoped bookmark url so that accessing works <3
+						// TODO: nice error handling like before
+						NSData *bookmarkData = [choosenURL bookmarkDataWithOptions:NSURLBookmarkCreationWithSecurityScope includingResourceValuesForKeys:nil relativeToURL:nil error:nil];
+						NSURL *bookmarkURL = [NSURL URLByResolvingBookmarkData:bookmarkData options:NSURLBookmarkResolutionWithSecurityScope relativeToURL:nil bookmarkDataIsStale:nil error:nil];
+
+						result = [bookmarkURL startAccessingSecurityScopedResource];
 
 						// checking if the selected url helps with opening permissions of our file
 						data = [NSData dataWithContentsOfURL:aURL options:NSDataReadingMappedAlways error:&error];
 						if (!data) {
-							[choosenURL stopAccessingSecurityScopedResource];
+							[bookmarkURL stopAccessingSecurityScopedResource];
 							result = NO;
 
 						} else {
 							[self.accessingURLs addObject:aURL];
-							[self.lookupDict setObject:choosenURL forKey:aURL];
+							[self.lookupDict setObject:bookmarkURL forKey:aURL];
+							[self.bookmarkURLs addObject:bookmarkURL];
 						}
 					}
 				}
