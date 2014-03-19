@@ -12,6 +12,7 @@
 #import "PlainTextDocument.h"
 #import "FoldableTextStorage.h"
 #import "DocumentMode.h"
+#import "SEEScopedBookmarkManager.h"
 
 // this file needs arc - add -fobjc-arc in the compile build phase
 #if !__has_feature(objc_arc)
@@ -359,39 +360,20 @@ NSScrollView * firstScrollView(NSView *aView) {
 
 #pragma mark -
 #pragma mark ### WebResourceLoadDelegate ###
+- (id)webView:(WebView *)sender identifierForInitialRequest:(NSURLRequest *)request fromDataSource:(WebDataSource *)dataSource {
+	NSURL *url = request.URL;
+	return url;
+}
+// Delegates might implement this method to begin tracking the progress of loading an individual resource. Note that this method is invoked once per load where as the webView:resource:willSendRequest:redirectResponse:fromDataSource: method may be invoked multiple times.
+#warning will send request might be called multiple times?!
 
--(NSURLRequest *)webView:(WebView *)sender resource:(id)identifier willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse fromDataSource:(WebDataSource *)dataSource {
+- (NSURLRequest *)webView:(WebView *)sender resource:(id)identifier willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse fromDataSource:(WebDataSource *)dataSource {
 	//    NSLog(@"Got request:%@ withPolicy:%d",[request URL],[request cachePolicy]);
 	if (![request valueForHTTPHeaderField:@"LocalContentAndThisIsTheEncoding"]) {
 
 		NSURL *url = request.URL;
 		if (url.isFileURL) {
-			if ([url checkResourceIsReachableAndReturnError:nil]) {
-				NSError *error = nil;
-				NSData *data = [NSData dataWithContentsOfURL:url options:NSDataReadingMappedAlways error:&error];
-				if (!data) {
-					NSLog(@"Error: %@", error);
-
-					NSOpenPanel *openPanel = [NSOpenPanel openPanel];
-//					openPanel.canChooseDirectories = YES;
-					openPanel.canChooseFiles = YES;
-					openPanel.directoryURL = url;
-					openPanel.allowsMultipleSelection = YES;
-					openPanel.prompt = @"Allow";
-					openPanel.title = @"Allow resource access";
-
-					NSInteger result = [openPanel runModal];
-					if (result == NSFileHandlingPanelOKButton) {
-						NSMutableArray *bookmarks = self.plainTextDocument.persistentDocumentScopedBookmarkURLs;
-
-						NSArray *URLs = openPanel.URLs;
-
-						for (NSURL *choosenURL in URLs) {
-							[bookmarks addObject:choosenURL];
-						}
-					}
-				}
-			}
+			[[SEEScopedBookmarkManager sharedManager] startAccessingURL:url];
 		}
 
 		NSMutableURLRequest *mutableRequest = [request mutableCopy];
@@ -401,12 +383,19 @@ NSScrollView * firstScrollView(NSView *aView) {
     return request;
 }
 
+- (void)webView:(WebView *)sender resource:(id)identifier didFinishLoadingFromDataSource:(WebDataSource *)dataSource {
+	if ([identifier isKindOfClass:[NSURL class]]) {
+		NSURL *url = identifier;
+		[[SEEScopedBookmarkManager sharedManager] stopAccessingURL:url];
+	}
+}
+
 - (void)webView:(WebView *)webView decidePolicyForMIMEType:(NSString *)type request:(NSURLRequest *)request frame:(WebFrame *)frame decisionListener:(id < WebPolicyDecisionListener >)listener {
 	[listener use];
 }
 
 #pragma mark -
-#pragma mark ### FrameLoadDelegate ###
+#pragma mark ### WebFrameLoadDelegate ###
 
 - (void) webView:(WebView *)aSender
         didReceiveTitle:(NSString *)title 
