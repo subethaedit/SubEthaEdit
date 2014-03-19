@@ -100,6 +100,8 @@ NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotification =
 NSString * const WrittenByUserIDAttributeName = @"WrittenByUserID";
 NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 
+static NSString * const SEEPlainTextDocumentScopedBookmarksMetadataKey = @"de.codingmonkeys.subethaedit.security.scopedBookmarks";
+
 
 // Something that's used by our override of -shouldCloseWindowController:delegate:shouldCloseSelector:contextInfo: down below.
 @interface PlainTextDocumentShouldCloseContext : NSObject {
@@ -3146,6 +3148,8 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
             success = [textStorage readFromData:fileData encoding:encoding];
         }
 
+		[self readSecurityScopedBookmarksFromURL:anURL error:nil];
+
 //        NSArray *xattrKeys = [UKXattrMetadataStore allKeysAtPath:[anURL path] traverseLink:YES];
 //        NSLog(@"%s xattrKeys:%@",__FUNCTION__,xattrKeys);
         if (!success) {
@@ -3393,7 +3397,52 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 }
 
 - (BOOL)readSecurityScopedBookmarksFromURL:(NSURL *)anURL error:(NSError **)outError {
-	return YES;
+	BOOL result = YES;
+
+	NSData *plistData = [UKXattrMetadataStore dataForKey:SEEPlainTextDocumentScopedBookmarksMetadataKey
+												  atPath:[anURL path]
+											traverseLink:YES];
+
+	if (plistData) {
+		NSError *bookmarkSerialisationError = nil;
+		NSArray *scopedBookmarks = [NSPropertyListSerialization propertyListWithData:plistData options:NSPropertyListImmutable format:nil error:&bookmarkSerialisationError];
+
+		if (bookmarkSerialisationError) {
+			if (outError) {
+				*outError = bookmarkSerialisationError;
+			} else {
+				DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Error deserializing security scoped bookmarks: %@", bookmarkSerialisationError);
+			}
+			result = NO;
+		}
+
+		if (result) {
+			NSMutableArray *bookmarkURLs = [NSMutableArray array];
+			for (NSData *bookmarkData in scopedBookmarks) {
+				NSError *bookmarkResolvingError = nil;
+				BOOL bookmarkIsStale = NO;
+
+				NSURL *url = [NSURL URLByResolvingBookmarkData:bookmarkData
+													   options:NSURLBookmarkResolutionWithSecurityScope
+												 relativeToURL:self.fileURL
+										   bookmarkDataIsStale:&bookmarkIsStale
+														 error:&bookmarkResolvingError];
+
+				[url startAccessingSecurityScopedResource];
+
+				if (bookmarkResolvingError) {
+					DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Error resolving security scoped bookmark: %@", bookmarkResolvingError);
+				}
+
+				if (url) {
+					[bookmarkURLs addObject:url];
+				}
+			}
+
+			self.persistentDocumentScopedBookmarkURLs = bookmarkURLs;
+		}
+	}
+	return result;
 }
 
 - (BOOL)writeSecurityScopedBookmarksToURL:(NSURL *)anURL error:(NSError **)outError {
@@ -3407,15 +3456,16 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 		NSMutableArray *bookmarks = [NSMutableArray array];
 		for (NSURL *bookmarkURL in bookmarkURLs) {
 			NSError *bookmarkGenerationError = nil;
-			NSData *persistentBookmarkData = [bookmarkURL bookmarkDataWithOptions:NSURLBookmarkCreationSecurityScopeAllowOnlyReadAccess includingResourceValuesForKeys:@[] relativeToURL:self.fileURL error:&bookmarkGenerationError];
+			NSData *persistentBookmarkData = [bookmarkURL bookmarkDataWithOptions:NSURLBookmarkCreationWithSecurityScope
+												   includingResourceValuesForKeys:nil
+																	relativeToURL:self.fileURL
+																			error:&bookmarkGenerationError];
 
 			if (persistentBookmarkData) {
 				[bookmarks addObject:persistentBookmarkData];
 			} else {
-				if (outError) {
-					*outError = bookmarkGenerationError;
-					result = NO;
-					break;
+				if (bookmarkGenerationError) {
+					DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Error generating security scoped bookmark: %@", bookmarkGenerationError);
 				}
 			}
 		}
@@ -3426,7 +3476,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 
 			if (bookmarksData) {
 				[UKXattrMetadataStore setData:bookmarksData
-									   forKey:@"de.codingmonkeys.subethaedit.security.scopedBookmarks"
+									   forKey:SEEPlainTextDocumentScopedBookmarksMetadataKey
 									   atPath:[anURL path]
 								 traverseLink:YES];
 			} else {
@@ -3437,7 +3487,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 			}
 		}
 	} else {
-		[UKXattrMetadataStore removeDataForKey:@"de.codingmonkeys.subethaedit.security.scopedBookmarks"
+		[UKXattrMetadataStore removeDataForKey:SEEPlainTextDocumentScopedBookmarksMetadataKey
 										atPath:[anURL path]
 								  traverseLink:YES];
 	}

@@ -373,9 +373,9 @@ NSScrollView * firstScrollView(NSView *aView) {
 					NSLog(@"Error: %@", error);
 
 					NSOpenPanel *openPanel = [NSOpenPanel openPanel];
-					openPanel.canChooseDirectories = YES;
+//					openPanel.canChooseDirectories = YES;
 					openPanel.canChooseFiles = YES;
-					openPanel.directoryURL = [url URLByDeletingLastPathComponent];
+					openPanel.directoryURL = url;
 					openPanel.allowsMultipleSelection = YES;
 					openPanel.prompt = @"Allow";
 					openPanel.title = @"Allow resource access";
