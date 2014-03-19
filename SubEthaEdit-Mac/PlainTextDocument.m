@@ -3402,38 +3402,46 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 		*outError = nil;
 	}
 
-	NSMutableArray *bookmarks = [NSMutableArray array];
-	for (NSURL *bookmarkURL in self.persistentDocumentScopedBookmarkURLs) {
-		NSError *bookmarkGenerationError = nil;
-		NSData *persistentBookmarkData = [bookmarkURL bookmarkDataWithOptions:NSURLBookmarkCreationSecurityScopeAllowOnlyReadAccess includingResourceValuesForKeys:@[] relativeToURL:self.fileURL error:&bookmarkGenerationError];
+	NSArray * bookmarkURLs = self.persistentDocumentScopedBookmarkURLs;
+	if (bookmarkURLs.count > 0) {
+		NSMutableArray *bookmarks = [NSMutableArray array];
+		for (NSURL *bookmarkURL in bookmarkURLs) {
+			NSError *bookmarkGenerationError = nil;
+			NSData *persistentBookmarkData = [bookmarkURL bookmarkDataWithOptions:NSURLBookmarkCreationSecurityScopeAllowOnlyReadAccess includingResourceValuesForKeys:@[] relativeToURL:self.fileURL error:&bookmarkGenerationError];
 
-		if (persistentBookmarkData) {
-			[bookmarks addObject:persistentBookmarkData];
-		} else {
-			if (outError) {
-				*outError = bookmarkGenerationError;
-				result = NO;
-				break;
+			if (persistentBookmarkData) {
+				[bookmarks addObject:persistentBookmarkData];
+			} else {
+				if (outError) {
+					*outError = bookmarkGenerationError;
+					result = NO;
+					break;
+				}
 			}
 		}
-	}
 
-	if (result) {
-		NSError *bookmarkSerialisationError = nil;
-		NSData *bookmarksData = [NSPropertyListSerialization dataWithPropertyList:bookmarks format:NSPropertyListBinaryFormat_v1_0 options:0 error:&bookmarkSerialisationError];
+		if (result) {
+			NSError *bookmarkSerialisationError = nil;
+			NSData *bookmarksData = [NSPropertyListSerialization dataWithPropertyList:bookmarks format:NSPropertyListBinaryFormat_v1_0 options:0 error:&bookmarkSerialisationError];
 
-		if (bookmarksData) {
-			[UKXattrMetadataStore setData:bookmarksData
-								   forKey:@"de.codingmonkeys.subethaedit.security.scopedBookmarks"
-								   atPath:[anURL path]
-							 traverseLink:YES];
-		} else {
-			if (outError) {
-				*outError = bookmarkSerialisationError;
-				result = NO;
+			if (bookmarksData) {
+				[UKXattrMetadataStore setData:bookmarksData
+									   forKey:@"de.codingmonkeys.subethaedit.security.scopedBookmarks"
+									   atPath:[anURL path]
+								 traverseLink:YES];
+			} else {
+				if (outError) {
+					*outError = bookmarkSerialisationError;
+					result = NO;
+				}
 			}
 		}
+	} else {
+		[UKXattrMetadataStore removeDataForKey:@"de.codingmonkeys.subethaedit.security.scopedBookmarks"
+										atPath:[anURL path]
+								  traverseLink:YES];
 	}
+
 	return result;
 }
 
