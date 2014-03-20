@@ -11,6 +11,7 @@
 #endif
 
 #import "SEEScopedBookmarkManager.h"
+#import "SEEScopedBookmarkAccessoryViewController.h"
 #import "UKXattrMetadataStore.h"
 
 
@@ -285,9 +286,19 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
 					openPanel.canChooseFiles = YES;
 					openPanel.directoryURL = aURL;
 					// TODO: localize and write proper text
-					openPanel.prompt = @"Allow";
-					openPanel.title = @"Allow resource access";
+					openPanel.prompt = NSLocalizedStringWithDefaultValue(@"ScopedBookmarkAllowFilePrompt", nil, [NSBundle mainBundle], @"Allow", @"Default button title of the allow open panel");
+					openPanel.title = NSLocalizedStringWithDefaultValue(@"ScopedBookmarkAllowFileTitle", nil, [NSBundle mainBundle], @"Allow File Access", @"Window title of the allow open panel");
 
+					{
+						SEEScopedBookmarkAccessoryViewController *viewController = [[SEEScopedBookmarkAccessoryViewController alloc] initWithNibName:@"SEEScopedBookmarkAccessoryViewController" bundle:nil];
+
+						NSView *view = viewController.view;
+						view.layer.backgroundColor = [[NSColor redColor] CGColor];
+						view.autoresizingMask = NSViewWidthSizable | NSViewHeightSizable;
+						openPanel.accessoryView = viewController.view;
+						[openPanel TCM_setAssociatedValue:viewController forKey:@"accessoryViewController"];
+					}
+					
 					NSInteger openPanelResult = [openPanel runModal];
 					if (openPanelResult == NSFileHandlingPanelOKButton) {
 						NSURL *choosenURL = openPanel.URL;
