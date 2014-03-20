@@ -403,6 +403,7 @@ NSScrollView * firstScrollView(NSView *aView) {
     }
 }
 
+
 - (void)webView:(WebView *)aSender didFinishLoadForFrame:(WebFrame *)aFrame {
     if ([aFrame isEqualTo:[self.oWebView mainFrame]]) {
         NSScrollView *scrollView=firstScrollView(self.oWebView);
