@@ -278,8 +278,6 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
 					result = YES;
 
 				} else {
-					NSLog(@"Error: %@", error);
-
 					// the file is not readable and we assume that it is because of permissions,
 					// so we ask the user to allow us to use the file
 					NSOpenPanel *openPanel = [NSOpenPanel openPanel];
