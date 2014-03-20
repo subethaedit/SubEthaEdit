@@ -362,13 +362,15 @@ NSScrollView * firstScrollView(NSView *aView) {
 #pragma mark ### WebResourceLoadDelegate ###
 - (id)webView:(WebView *)sender identifierForInitialRequest:(NSURLRequest *)request fromDataSource:(WebDataSource *)dataSource {
 	NSURL *url = request.URL;
+	if (![request valueForHTTPHeaderField:@"LocalContentAndThisIsTheEncoding"]) {
+		if (url.isFileURL) {
+			[[SEEScopedBookmarkManager sharedManager] startAccessingURL:url];
+		}
+	}
 	return url;
 }
-// Delegates might implement this method to begin tracking the progress of loading an individual resource. Note that this method is invoked once per load where as the webView:resource:willSendRequest:redirectResponse:fromDataSource: method may be invoked multiple times.
-#warning will send request might be called multiple times?!
 
 - (NSURLRequest *)webView:(WebView *)sender resource:(id)identifier willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse fromDataSource:(WebDataSource *)dataSource {
-	//    NSLog(@"Got request:%@ withPolicy:%d",[request URL],[request cachePolicy]);
 	if (![request valueForHTTPHeaderField:@"LocalContentAndThisIsTheEncoding"]) {
 
 		NSURL *url = request.URL;
@@ -386,7 +388,9 @@ NSScrollView * firstScrollView(NSView *aView) {
 - (void)webView:(WebView *)sender resource:(id)identifier didFinishLoadingFromDataSource:(WebDataSource *)dataSource {
 	if ([identifier isKindOfClass:[NSURL class]]) {
 		NSURL *url = identifier;
-		[[SEEScopedBookmarkManager sharedManager] stopAccessingURL:url];
+		if (url.isFileURL) {
+			[[SEEScopedBookmarkManager sharedManager] stopAccessingURL:url];
+		}
 	}
 }
 
