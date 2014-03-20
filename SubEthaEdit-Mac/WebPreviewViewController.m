@@ -372,12 +372,6 @@ NSScrollView * firstScrollView(NSView *aView) {
 
 - (NSURLRequest *)webView:(WebView *)sender resource:(id)identifier willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse fromDataSource:(WebDataSource *)dataSource {
 	if (![request valueForHTTPHeaderField:@"LocalContentAndThisIsTheEncoding"]) {
-
-		NSURL *url = request.URL;
-		if (url.isFileURL) {
-			[[SEEScopedBookmarkManager sharedManager] startAccessingURL:url];
-		}
-
 		NSMutableURLRequest *mutableRequest = [request mutableCopy];
 		[mutableRequest setCachePolicy:_shallCache ? NSURLRequestReturnCacheDataElseLoad : NSURLRequestReloadIgnoringCacheData];
 		return mutableRequest;
