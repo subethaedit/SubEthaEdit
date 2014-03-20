@@ -100,8 +100,6 @@ NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotification =
 NSString * const WrittenByUserIDAttributeName = @"WrittenByUserID";
 NSString * const ChangedByUserIDAttributeName = @"ChangedByUserID";
 
-static NSString * const SEEPlainTextDocumentScopedBookmarksMetadataKey = @"de.codingmonkeys.subethaedit.security.scopedBookmarks";
-
 
 // Something that's used by our override of -shouldCloseWindowController:delegate:shouldCloseSelector:contextInfo: down below.
 @interface PlainTextDocumentShouldCloseContext : NSObject {
