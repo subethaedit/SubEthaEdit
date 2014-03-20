@@ -3148,8 +3148,6 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
             success = [textStorage readFromData:fileData encoding:encoding];
         }
 
-		[self readSecurityScopedBookmarksFromURL:anURL error:nil];
-
 //        NSArray *xattrKeys = [UKXattrMetadataStore allKeysAtPath:[anURL path] traverseLink:YES];
 //        NSLog(@"%s xattrKeys:%@",__FUNCTION__,xattrKeys);
         if (!success) {
@@ -3396,105 +3394,6 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     return YES;
 }
 
-- (BOOL)readSecurityScopedBookmarksFromURL:(NSURL *)anURL error:(NSError **)outError {
-	BOOL result = YES;
-
-	NSData *plistData = [UKXattrMetadataStore dataForKey:SEEPlainTextDocumentScopedBookmarksMetadataKey
-												  atPath:[anURL path]
-											traverseLink:YES];
-
-	if (plistData) {
-		NSError *bookmarkSerialisationError = nil;
-		NSArray *scopedBookmarks = [NSPropertyListSerialization propertyListWithData:plistData options:NSPropertyListImmutable format:nil error:&bookmarkSerialisationError];
-
-		if (bookmarkSerialisationError) {
-			if (outError) {
-				*outError = bookmarkSerialisationError;
-			} else {
-				DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Error deserializing security scoped bookmarks: %@", bookmarkSerialisationError);
-			}
-			result = NO;
-		}
-
-		if (result) {
-			NSMutableArray *bookmarkURLs = [NSMutableArray array];
-			for (NSData *bookmarkData in scopedBookmarks) {
-				NSError *bookmarkResolvingError = nil;
-				BOOL bookmarkIsStale = NO;
-
-				NSURL *url = [NSURL URLByResolvingBookmarkData:bookmarkData
-													   options:NSURLBookmarkResolutionWithSecurityScope
-												 relativeToURL:self.fileURL
-										   bookmarkDataIsStale:&bookmarkIsStale
-														 error:&bookmarkResolvingError];
-
-				[url startAccessingSecurityScopedResource];
-
-				if (bookmarkResolvingError) {
-					DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Error resolving security scoped bookmark: %@", bookmarkResolvingError);
-				}
-
-				if (url) {
-					[bookmarkURLs addObject:url];
-				}
-			}
-
-			self.persistentDocumentScopedBookmarkURLs = bookmarkURLs;
-		}
-	}
-	return result;
-}
-
-- (BOOL)writeSecurityScopedBookmarksToURL:(NSURL *)anURL error:(NSError **)outError {
-	BOOL result = YES;
-	if (outError) {
-		*outError = nil;
-	}
-
-	NSArray * bookmarkURLs = self.persistentDocumentScopedBookmarkURLs;
-	if (bookmarkURLs.count > 0) {
-		NSMutableArray *bookmarks = [NSMutableArray array];
-		for (NSURL *bookmarkURL in bookmarkURLs) {
-			NSError *bookmarkGenerationError = nil;
-			NSData *persistentBookmarkData = [bookmarkURL bookmarkDataWithOptions:NSURLBookmarkCreationWithSecurityScope
-												   includingResourceValuesForKeys:nil
-																	relativeToURL:self.fileURL
-																			error:&bookmarkGenerationError];
-
-			if (persistentBookmarkData) {
-				[bookmarks addObject:persistentBookmarkData];
-			} else {
-				if (bookmarkGenerationError) {
-					DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Error generating security scoped bookmark: %@", bookmarkGenerationError);
-				}
-			}
-		}
-
-		if (result) {
-			NSError *bookmarkSerialisationError = nil;
-			NSData *bookmarksData = [NSPropertyListSerialization dataWithPropertyList:bookmarks format:NSPropertyListBinaryFormat_v1_0 options:0 error:&bookmarkSerialisationError];
-
-			if (bookmarksData) {
-				[UKXattrMetadataStore setData:bookmarksData
-									   forKey:SEEPlainTextDocumentScopedBookmarksMetadataKey
-									   atPath:[anURL path]
-								 traverseLink:YES];
-			} else {
-				if (outError) {
-					*outError = bookmarkSerialisationError;
-					result = NO;
-				}
-			}
-		}
-	} else {
-		[UKXattrMetadataStore removeDataForKey:SEEPlainTextDocumentScopedBookmarksMetadataKey
-										atPath:[anURL path]
-								  traverseLink:YES];
-	}
-
-	return result;
-}
-
 - (BOOL)readFromURL:(NSURL *)anURL ofType:(NSString *)docType error:(NSError **)outError {
     NSDictionary *properties = [[DocumentController sharedDocumentController] propertiesForOpenedFile:[anURL path]];
     return [self TCM_readFromURL:anURL ofType:docType properties:properties error:outError];
@@ -3605,9 +3504,6 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
             // let us write using NSStrings write methods so the encoding is added to the extended attributes
             result = [[[(FoldableTextStorage *)[self textStorage] fullTextStorage] string] writeToURL:absoluteURL atomically:NO encoding:[self fileEncoding] error:outError];
         }
-
-		//security scoped bookmarks
-		[self writeSecurityScopedBookmarksToURL:absoluteURL error:nil];
 
 		// state data
 		NSData *stateData = [self stateData];
