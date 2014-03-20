@@ -11,6 +11,11 @@
 #endif
 
 #import "SEEScopedBookmarkManager.h"
+#import "UKXattrMetadataStore.h"
+
+
+static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.security.scopedBookmarks";
+
 
 @interface SEEScopedBookmarkManager ()
 @property (nonatomic, strong) NSMutableDictionary *lookupDict;
@@ -68,10 +73,181 @@
     self = [super init];
     if (self) {
         self.lookupDict = [NSMutableDictionary dictionary];
-		self.bookmarkURLs = [NSMutableArray array];
 		self.accessingURLs = [NSMutableArray array];
+
+		[self readBookmarksFromUserDefaults];
     }
     return self;
+}
+
+
+- (NSArray *)readSecurityScopedBookmarksAttachedToDocument:(NSDocument *)document error:(NSError **)outError {
+	if (outError) {
+		*outError = nil;
+	}
+
+	NSMutableArray *bookmarkURLs = nil;
+	NSURL *documentURL = document.fileURL;
+
+	NSData *plistData = [UKXattrMetadataStore dataForKey:SEEScopedBookmarksKey
+												  atPath:[documentURL path]
+											traverseLink:YES];
+
+	if (plistData) {
+		NSError *bookmarkSerialisationError = nil;
+		NSArray *scopedBookmarks = [NSPropertyListSerialization propertyListWithData:plistData options:NSPropertyListImmutable format:nil error:&bookmarkSerialisationError];
+
+		if (bookmarkSerialisationError) {
+			if (outError) {
+				*outError = bookmarkSerialisationError;
+			} else {
+				DEBUGLOG(@"FileIOLogDomain", AlwaysLogLevel, @"Error deserializing security scoped bookmarks: %@", bookmarkSerialisationError);
+			}
+		} else {
+			bookmarkURLs = [NSMutableArray array];
+			for (NSData *bookmarkData in scopedBookmarks) {
+				NSError *bookmarkResolvingError = nil;
+				BOOL bookmarkIsStale = NO;
+
+				NSURL *url = [NSURL URLByResolvingBookmarkData:bookmarkData
+													   options:NSURLBookmarkResolutionWithSecurityScope
+												 relativeToURL:documentURL
+										   bookmarkDataIsStale:&bookmarkIsStale
+														 error:&bookmarkResolvingError];
+
+				if (bookmarkResolvingError) {
+					DEBUGLOG(@"FileIOLogDomain", AlwaysLogLevel, @"Error resolving security scoped bookmark: %@", bookmarkResolvingError);
+				}
+
+				if (url) {
+					[bookmarkURLs addObject:url];
+
+					if (bookmarkIsStale) {
+						DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Bookmark was stale for URL: %@", url);
+					}
+				}
+			}
+		}
+	}
+	return bookmarkURLs;
+}
+
+
+- (BOOL)writeSecurityScopedBookmarks:(NSArray *)bookmarkURLs toURL:(NSURL *)anURL attachedToDocument:(NSDocument *)document error:(NSError **)outError {
+	if (outError) {
+		*outError = nil;
+	}
+
+	BOOL result = YES;
+
+	NSURL *documentURL = document.fileURL;
+
+	if (!anURL) {
+		anURL = documentURL;
+	}
+
+	if (bookmarkURLs.count > 0) {
+		NSMutableArray *bookmarks = [NSMutableArray array];
+		for (NSURL *bookmarkURL in bookmarkURLs) {
+			NSError *bookmarkGenerationError = nil;
+			NSData *persistentBookmarkData = [bookmarkURL bookmarkDataWithOptions:NSURLBookmarkCreationWithSecurityScope
+												   includingResourceValuesForKeys:@[NSURLLocalizedNameKey]
+																	relativeToURL:documentURL
+																			error:&bookmarkGenerationError];
+
+			if (persistentBookmarkData) {
+				[bookmarks addObject:persistentBookmarkData];
+			} else {
+				if (bookmarkGenerationError) {
+					DEBUGLOG(@"FileIOLogDomain", AlwaysLogLevel, @"Error generating security scoped bookmark: %@", bookmarkGenerationError);
+				}
+			}
+		}
+
+		if (result) {
+			NSError *bookmarkSerialisationError = nil;
+			NSData *bookmarksData = [NSPropertyListSerialization dataWithPropertyList:bookmarks format:NSPropertyListBinaryFormat_v1_0 options:0 error:&bookmarkSerialisationError];
+
+			if (bookmarksData) {
+				[UKXattrMetadataStore setData:bookmarksData
+									   forKey:SEEScopedBookmarksKey
+									   atPath:[anURL path]
+								 traverseLink:YES];
+			} else {
+				if (outError) {
+					*outError = bookmarkSerialisationError;
+					result = NO;
+				}
+			}
+		}
+	} else {
+		[UKXattrMetadataStore removeDataForKey:SEEScopedBookmarksKey
+										atPath:[anURL path]
+								  traverseLink:YES];
+	}
+	
+	return result;
+}
+
+
+
+- (void)readBookmarksFromUserDefaults {
+	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+	NSArray *readBookmarks = [userDefaults objectForKey:SEEScopedBookmarksKey];
+	NSMutableArray *bookmarkURLs = [NSMutableArray array];
+
+	for (NSData *bookmarkData in readBookmarks) {
+		NSError *bookmarkResolvingError = nil;
+		BOOL bookmarkIsStale = NO;
+
+		NSURL *url = [NSURL URLByResolvingBookmarkData:bookmarkData
+											   options:NSURLBookmarkResolutionWithSecurityScope
+										 relativeToURL:nil
+								   bookmarkDataIsStale:&bookmarkIsStale
+												 error:&bookmarkResolvingError];
+
+		if (bookmarkResolvingError) {
+			DEBUGLOG(@"FileIOLogDomain", AlwaysLogLevel, @"Error resolving security scoped bookmark: %@", bookmarkResolvingError);
+		}
+
+		if (url) {
+			[bookmarkURLs addObject:url];
+
+			if (bookmarkIsStale) {
+				DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Bookmark was stale for URL: %@", url);
+			}
+		}
+	}
+	self.bookmarkURLs = bookmarkURLs;
+}
+
+
+- (void)writeBookmarksToUserDefaults {
+	NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
+	NSArray *bookmarkURLs = self.bookmarkURLs.copy;
+
+	if (bookmarkURLs.count > 0) {
+		NSMutableArray *bookmarks = [NSMutableArray array];
+		for (NSURL *bookmarkURL in bookmarkURLs) {
+			NSError *bookmarkGenerationError = nil;
+			NSData *persistentBookmarkData = [bookmarkURL bookmarkDataWithOptions:NSURLBookmarkCreationWithSecurityScope
+												   includingResourceValuesForKeys:@[NSURLLocalizedNameKey]
+																	relativeToURL:nil
+																			error:&bookmarkGenerationError];
+
+			if (persistentBookmarkData) {
+				[bookmarks addObject:persistentBookmarkData];
+			} else {
+				if (bookmarkGenerationError) {
+					DEBUGLOG(@"FileIOLogDomain", AlwaysLogLevel, @"Error generating security scoped bookmark: %@", bookmarkGenerationError);
+				}
+			}
+		}
+		[userDefaults setObject:bookmarks forKey:SEEScopedBookmarksKey];
+	} else {
+		[userDefaults removeObjectForKey:SEEScopedBookmarksKey];
+	}
+
 }
 
 
@@ -119,7 +295,6 @@
 						NSURL *choosenURL = openPanel.URL;
 
 						// creating the security scoped bookmark url so that accessing works <3
-						// TODO: nice error handling like before
 						NSData *bookmarkData = [choosenURL bookmarkDataWithOptions:NSURLBookmarkCreationWithSecurityScope includingResourceValuesForKeys:nil relativeToURL:nil error:nil];
 						NSURL *bookmarkURL = [NSURL URLByResolvingBookmarkData:bookmarkData options:NSURLBookmarkResolutionWithSecurityScope relativeToURL:nil bookmarkDataIsStale:nil error:nil];
 
@@ -135,6 +310,8 @@
 							[self.accessingURLs addObject:aURL];
 							[self.lookupDict setObject:bookmarkURL forKey:aURL];
 							[self.bookmarkURLs addObject:bookmarkURL];
+
+							[self writeBookmarksToUserDefaults];
 						}
 					}
 				}
