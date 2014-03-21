@@ -31,6 +31,62 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
 
 @end
 
+
+@implementation NSString ( TCMNSStringPathAddition )
+
+/**
+ @param aPaths must be absolute paths.
+ @return the longest common sub path of self with inPath.
+ */
+
+- (NSString *)TCM_commonSubPathWithPath:(NSString *)aPath
+{
+    if (!aPath || self.length == 0 || aPath.length == 0) return nil;
+
+    NSArray *pathComponents1 = [self pathComponents];
+    NSArray *pathComponents2 = [aPath pathComponents];
+
+    __block NSInteger lastIdenticalComponentNumber = -1;
+
+    // Determine last identical component
+    [pathComponents1 enumerateObjectsUsingBlock:^(id pathComponent1, NSUInteger index, BOOL *stop) {
+        if ([pathComponents2 count] > index) {
+            NSString *pathComponent2 = (NSString *)[pathComponents2 objectAtIndex:index];
+
+            if ([pathComponent1 isEqualToString:pathComponent2]) {
+                lastIdenticalComponentNumber = index;
+            } else {
+                *stop = YES;
+            }
+        } else {
+            *stop = YES;
+        }
+    }];
+
+    // Create sub path
+    if (lastIdenticalComponentNumber >= 0) {
+        NSRange subRange = NSMakeRange(0, lastIdenticalComponentNumber + 1);
+        NSArray *subPathComponents = [pathComponents1 subarrayWithRange:subRange];
+        return [NSString pathWithComponents:subPathComponents];
+    }
+
+    return @"/";
+}
+
+
+/**
+ Whether aPath is a path prefix of self. Both strings must be absolute paths.
+ @param aPath must be an absolute path and should be standartised
+ @return Whether aPath is a path prefix of self. Both strings must be absolute paths.
+ */
+
+- (BOOL)hasPathPrefix:(NSString *)aPath {
+    return [[aPath TCM_commonSubPathWithPath:self] isEqualToString:aPath];
+}
+
+@end
+
+
 @implementation NSURL (TCMNSURLAddition)
 
 // can also return self
@@ -82,6 +138,8 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
 }
 
 
+// to use this 2 methods include com.apple.security.files.bookmarks.document-scope YES in the entitlements. This is disabled for now, because methods are not used
+/*
 - (NSArray *)readSecurityScopedBookmarksAttachedToDocument:(NSDocument *)document error:(NSError **)outError {
 	if (outError) {
 		*outError = nil;
@@ -189,7 +247,7 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
 	
 	return result;
 }
-
+*/
 
 
 - (void)readBookmarksFromUserDefaults {
@@ -249,6 +307,17 @@ static NSString * const SEEScopedBookmarksKey = @"de.codingmonkeys.subethaedit.s
 		[userDefaults removeObjectForKey:SEEScopedBookmarksKey];
 	}
 
+}
+
+
+- (BOOL)hasBookmarkForURL:(NSURL *)aURL {
+	NSString* path = [aURL path];
+	for (NSURL* bookmarkURL in self.bookmarkURLs) {
+		if ([path hasPathPrefix:[bookmarkURL path]]) {
+			return YES;
+		}
+	}
+	return NO;
 }
 
 

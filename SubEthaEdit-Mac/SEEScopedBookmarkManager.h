@@ -12,6 +12,8 @@
 
 + (instancetype)sharedManager;
 
+- (BOOL)hasBookmarkForURL:(NSURL *)aURL;
+
 - (BOOL)startAccessingURL:(NSURL *)aURL;
 - (void)stopAccessingURL:(NSURL *)aURL;
 
