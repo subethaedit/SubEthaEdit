@@ -118,6 +118,10 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 
 - (IBAction)showWindow:(id)sender {
 	self.filesOwnerProxy.content = self;
+
+	// if window is in auto close mode it should not be restored on app restart.
+	self.window.restorable = !self.shouldCloseWhenOpeningDocument;
+
 	[super showWindow:sender];
 }
 
