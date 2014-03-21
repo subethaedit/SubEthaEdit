@@ -9,6 +9,9 @@
 #import "SEEStyleSheet.h"
 #import "SyntaxDefinition.h"
 #import "PreferenceKeys.h"
+
+#import "DocumentModeManager.h"
+
 /*
  
  Every mode can has multiple style sheets encapsulating 
@@ -155,10 +158,46 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 		[self.scopeStyleDictionary setObject:scopeDictionary forKey:scope];
 	
 	}
+	
+	// Check for Coda 2 mode / style scopes
+	[self convertPreviouslyUsedScopesToUpdatedScopes];
+	
 	//Clear Cache
 	[self clearCache];
 }
 
+#pragma mark - Coda 2 Convert/Scope Rename
+- (void)convertPreviouslyUsedScopesToUpdatedScopes {
+	BOOL didConvertScope = NO;
+	
+	NSArray *usedScopeNames = [self.scopeStyleDictionary allKeys]; // scopes used in the current sheet
+
+	NSDictionary *changedScopesDictionary = [[DocumentModeManager sharedInstance] changedScopeNameDict];
+	NSMutableDictionary *mutableChangedScopesDictionary = [changedScopesDictionary mutableCopy];
+		
+	for (NSString *key in changedScopesDictionary) {
+		if ([usedScopeNames containsObject:key]) {
+			NSString *changedScopeName = [changedScopesDictionary objectForKey:key];
+			if (![usedScopeNames containsObject:changedScopeName]) {
+				didConvertScope = YES;
+				// TODO: make a new entry for the renamed scope duplicating the old scope
+				
+			} else {
+				// there is already an entry for that other scope - don't overwrite that
+				[mutableChangedScopesDictionary removeObjectForKey:key];
+			}
+		} else {
+			[mutableChangedScopesDictionary removeObjectForKey:key];
+		}
+	}
+	
+	if (didConvertScope) { // TODO: save changed style sheet
+		// move the original style sheet to another folder
+		// save the changed style sheet instead of the original one - comments are lost that way :/
+	}
+}
+
+#pragma mark
 - (NSString *)styleSheetSnippetForScope:(NSString *)aScope {
 	NSMutableArray *attributes = [NSMutableArray array];
 	NSDictionary *style = [self styleAttributesForExactScope:aScope];
