@@ -248,6 +248,8 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (void)TCM_initHelper {
+	self.persistentDocumentScopedBookmarkURLs = [NSMutableArray array];
+
     I_flags.isAutosavingForRestart=NO;
     I_flags.isHandlingUndoManually=NO;
     I_flags.shouldSelectModeOnSave=YES;
@@ -3500,7 +3502,9 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
             // let us write using NSStrings write methods so the encoding is added to the extended attributes
             result = [[[(FoldableTextStorage *)[self textStorage] fullTextStorage] string] writeToURL:absoluteURL atomically:NO encoding:[self fileEncoding] error:outError];
         }
-        NSData *stateData = [self stateData];
+
+		// state data
+		NSData *stateData = [self stateData];
         if (stateData && ![[NSUserDefaults standardUserDefaults] boolForKey:DontSaveDocumentStateInXattrsKey]) {
 			[UKXattrMetadataStore setData:stateData forKey:@"de.codingmonkeys.seestate" atPath:[absoluteURL path] traverseLink:YES];
 		} else {

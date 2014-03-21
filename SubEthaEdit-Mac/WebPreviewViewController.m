@@ -12,6 +12,7 @@
 #import "PlainTextDocument.h"
 #import "FoldableTextStorage.h"
 #import "DocumentMode.h"
+#import "SEEScopedBookmarkManager.h"
 
 // this file needs arc - add -fobjc-arc in the compile build phase
 #if !__has_feature(objc_arc)
@@ -358,17 +359,33 @@ NSScrollView * firstScrollView(NSView *aView) {
 //}
 
 #pragma mark -
-#pragma mark ### ResourceLoadDelegate ###
+#pragma mark ### WebResourceLoadDelegate ###
+- (id)webView:(WebView *)sender identifierForInitialRequest:(NSURLRequest *)request fromDataSource:(WebDataSource *)dataSource {
+	NSURL *url = request.URL;
+	if (![request valueForHTTPHeaderField:@"LocalContentAndThisIsTheEncoding"]) {
+		if (url.isFileURL) {
+			[[SEEScopedBookmarkManager sharedManager] startAccessingURL:url];
+		}
+	}
+	return url;
+}
 
--(NSURLRequest *)webView:(WebView *)sender resource:(id)identifier willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse fromDataSource:(WebDataSource *)dataSource {
-//    NSLog(@"Got request:%@ withPolicy:%d",[request URL],[request cachePolicy]);
-     if (![request valueForHTTPHeaderField:@"LocalContentAndThisIsTheEncoding"]) {
-         NSMutableURLRequest *mutableRequest=[request mutableCopy];
-         [mutableRequest setCachePolicy:_shallCache?
-            NSURLRequestReturnCacheDataElseLoad:NSURLRequestReloadIgnoringCacheData];
-         return mutableRequest;
-     }
+- (NSURLRequest *)webView:(WebView *)sender resource:(id)identifier willSendRequest:(NSURLRequest *)request redirectResponse:(NSURLResponse *)redirectResponse fromDataSource:(WebDataSource *)dataSource {
+	if (![request valueForHTTPHeaderField:@"LocalContentAndThisIsTheEncoding"]) {
+		NSMutableURLRequest *mutableRequest = [request mutableCopy];
+		[mutableRequest setCachePolicy:_shallCache ? NSURLRequestReturnCacheDataElseLoad : NSURLRequestReloadIgnoringCacheData];
+		return mutableRequest;
+	}
     return request;
+}
+
+- (void)webView:(WebView *)sender resource:(id)identifier didFinishLoadingFromDataSource:(WebDataSource *)dataSource {
+	if ([identifier isKindOfClass:[NSURL class]]) {
+		NSURL *url = identifier;
+		if (url.isFileURL) {
+			[[SEEScopedBookmarkManager sharedManager] stopAccessingURL:url];
+		}
+	}
 }
 
 - (void)webView:(WebView *)webView decidePolicyForMIMEType:(NSString *)type request:(NSURLRequest *)request frame:(WebFrame *)frame decisionListener:(id < WebPolicyDecisionListener >)listener {
@@ -376,7 +393,7 @@ NSScrollView * firstScrollView(NSView *aView) {
 }
 
 #pragma mark -
-#pragma mark ### FrameLoadDelegate ###
+#pragma mark ### WebFrameLoadDelegate ###
 
 - (void) webView:(WebView *)aSender
         didReceiveTitle:(NSString *)title 

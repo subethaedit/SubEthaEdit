@@ -164,6 +164,7 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
 
 @property (readwrite, strong) IBOutlet NSWindow *O_exportSheet;
 @property (readwrite, strong) IBOutlet NSObjectController *O_exportSheetController;
+@property (nonatomic, strong) NSMutableArray *persistentDocumentScopedBookmarkURLs;
 
 //+ (PlainTextDocument *)transientDocument;
 

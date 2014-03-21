@@ -255,6 +255,7 @@
 		4C71D0C618BF8B2200EA66FA /* SEEOpenOtherDocumentListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C71D0C518BF8B2200EA66FA /* SEEOpenOtherDocumentListItem.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C71D0C918BF997500EA66FA /* SEENewDocumentListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C71D0C818BF997500EA66FA /* SEENewDocumentListItem.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C77B24218BB83620066BDB2 /* SEEDocumentListGroupTableRowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C77B24118BB83620066BDB2 /* SEEDocumentListGroupTableRowView.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		4C7F5E0B18D9D4C500F33CCD /* SEEScopedBookmarkManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C7F5E0A18D9D4C500F33CCD /* SEEScopedBookmarkManager.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C97D504188D42FA000B4999 /* QuartzCore.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C97D503188D42FA000B4999 /* QuartzCore.framework */; };
 		4C9CCDC918BE413E00959EF2 /* SEENetworkConnectionDocumentListItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C9CCDC818BE413E00959EF2 /* SEENetworkConnectionDocumentListItem.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4CB36C3218D84BF4000219DA /* SEEEditorSplitViewDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CB36C3118D84BF4000219DA /* SEEEditorSplitViewDelegate.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -264,6 +265,8 @@
 		4CB8EE51180FDF790051AB6B /* libz.dylib in Frameworks */ = {isa = PBXBuildFile; fileRef = 4CB8EE4E180FD9A40051AB6B /* libz.dylib */; };
 		4CB8EE55181032340051AB6B /* SEEPrintOptionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CB8EE54181032340051AB6B /* SEEPrintOptionsViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4CCD4DD21811703D00FE6134 /* SEESavePanelAccessoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CCD4DD01811703D00FE6134 /* SEESavePanelAccessoryViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
+		4CCD790018DB3F9E00A8B457 /* SEEScopedBookmarkAccessoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CCD78FE18DB3F9E00A8B457 /* SEEScopedBookmarkAccessoryViewController.m */; };
+		4CCD790118DB3F9E00A8B457 /* SEEScopedBookmarkAccessoryViewController.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CCD78FF18DB3F9E00A8B457 /* SEEScopedBookmarkAccessoryViewController.xib */; };
 		4CD168EB182A5A5C007E3B26 /* SEEFolderDocument.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CD168E9182A5A5C007E3B26 /* SEEFolderDocument.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4CD168EC182A5A5C007E3B26 /* SEEFolderDocument.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4CD168EA182A5A5C007E3B26 /* SEEFolderDocument.xib */; };
 		4CD3CFF31887FE2E00908506 /* SEEOpenPanelAccessoryViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4CD3CFF21887FE2E00908506 /* SEEOpenPanelAccessoryViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -1013,6 +1016,8 @@
 		4C71D0C818BF997500EA66FA /* SEENewDocumentListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEENewDocumentListItem.m; sourceTree = "<group>"; };
 		4C77B24018BB83620066BDB2 /* SEEDocumentListGroupTableRowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEDocumentListGroupTableRowView.h; sourceTree = "<group>"; };
 		4C77B24118BB83620066BDB2 /* SEEDocumentListGroupTableRowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEDocumentListGroupTableRowView.m; sourceTree = "<group>"; };
+		4C7F5E0918D9D4C500F33CCD /* SEEScopedBookmarkManager.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEScopedBookmarkManager.h; sourceTree = "<group>"; };
+		4C7F5E0A18D9D4C500F33CCD /* SEEScopedBookmarkManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEScopedBookmarkManager.m; sourceTree = "<group>"; };
 		4C97D503188D42FA000B4999 /* QuartzCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = QuartzCore.framework; path = System/Library/Frameworks/QuartzCore.framework; sourceTree = SDKROOT; };
 		4C9CCDC718BE413E00959EF2 /* SEENetworkConnectionDocumentListItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEENetworkConnectionDocumentListItem.h; sourceTree = "<group>"; };
 		4C9CCDC818BE413E00959EF2 /* SEENetworkConnectionDocumentListItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEENetworkConnectionDocumentListItem.m; sourceTree = "<group>"; };
@@ -1026,6 +1031,9 @@
 		4CB8EE54181032340051AB6B /* SEEPrintOptionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEPrintOptionsViewController.m; sourceTree = "<group>"; };
 		4CCD4DCF1811703D00FE6134 /* SEESavePanelAccessoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEESavePanelAccessoryViewController.h; sourceTree = "<group>"; };
 		4CCD4DD01811703D00FE6134 /* SEESavePanelAccessoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEESavePanelAccessoryViewController.m; sourceTree = "<group>"; };
+		4CCD78FD18DB3F9E00A8B457 /* SEEScopedBookmarkAccessoryViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEScopedBookmarkAccessoryViewController.h; sourceTree = "<group>"; };
+		4CCD78FE18DB3F9E00A8B457 /* SEEScopedBookmarkAccessoryViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEScopedBookmarkAccessoryViewController.m; sourceTree = "<group>"; };
+		4CCD78FF18DB3F9E00A8B457 /* SEEScopedBookmarkAccessoryViewController.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEEScopedBookmarkAccessoryViewController.xib; sourceTree = "<group>"; };
 		4CD168E8182A5A5C007E3B26 /* SEEFolderDocument.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEFolderDocument.h; sourceTree = "<group>"; };
 		4CD168E9182A5A5C007E3B26 /* SEEFolderDocument.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEFolderDocument.m; sourceTree = "<group>"; };
 		4CD168EA182A5A5C007E3B26 /* SEEFolderDocument.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = SEEFolderDocument.xib; sourceTree = "<group>"; };
@@ -2095,6 +2103,11 @@
 				F2FB96E10CBE68ED000B85AE /* UKXattrMetadataStore.m */,
 				142893F409575A3000D14688 /* UndoManager.h */,
 				142893F509575A3000D14688 /* UndoManager.m */,
+				4C7F5E0918D9D4C500F33CCD /* SEEScopedBookmarkManager.h */,
+				4C7F5E0A18D9D4C500F33CCD /* SEEScopedBookmarkManager.m */,
+				4CCD78FD18DB3F9E00A8B457 /* SEEScopedBookmarkAccessoryViewController.h */,
+				4CCD78FE18DB3F9E00A8B457 /* SEEScopedBookmarkAccessoryViewController.m */,
+				4CCD78FF18DB3F9E00A8B457 /* SEEScopedBookmarkAccessoryViewController.xib */,
 			);
 			name = Classes;
 			sourceTree = "<group>";
@@ -2784,6 +2797,7 @@
 				4CD5F7F617FB0CD200F49E31 /* FindReplace.xib in Resources */,
 				F2257CFE189673AA005EF9B1 /* BottomBarSharingIconAdd@2x.png in Resources */,
 				4CD5F83117FB0E8D00F49E31 /* StylePrefs.xib in Resources */,
+				4CCD790118DB3F9E00A8B457 /* SEEScopedBookmarkAccessoryViewController.xib in Resources */,
 				142890D7095743F200D14688 /* ShiftRight.png in Resources */,
 				142890D9095743F200D14688 /* ShowChangeMarks.png in Resources */,
 				142890DD095743F200D14688 /* StatusButtonKick.tiff in Resources */,
@@ -3099,6 +3113,7 @@
 				142891330957457500D14688 /* NSDateTCMAdditions.m in Sources */,
 				142891340957457500D14688 /* NSDataTCMAdditions.m in Sources */,
 				142891350957457500D14688 /* NSDictionaryTCMAdditions.m in Sources */,
+				4CCD790018DB3F9E00A8B457 /* SEEScopedBookmarkAccessoryViewController.m in Sources */,
 				4CD3CFF31887FE2E00908506 /* SEEOpenPanelAccessoryViewController.m in Sources */,
 				142891360957457500D14688 /* NSNetServiceTCMAdditions.m in Sources */,
 				142891370957457500D14688 /* NSStringTCMAdditions.m in Sources */,
@@ -3134,6 +3149,7 @@
 				1428932E095756D800D14688 /* TCMMMPresenceManager.m in Sources */,
 				1428932F095756D800D14688 /* TCMMMSession.m in Sources */,
 				14289330095756D800D14688 /* TCMMMState.m in Sources */,
+				4C7F5E0B18D9D4C500F33CCD /* SEEScopedBookmarkManager.m in Sources */,
 				14289331095756D800D14688 /* TCMMMStatusProfile.m in Sources */,
 				14289332095756D800D14688 /* TCMMMTransformator.m in Sources */,
 				14289333095756D800D14688 /* TCMMMUser.m in Sources */,
