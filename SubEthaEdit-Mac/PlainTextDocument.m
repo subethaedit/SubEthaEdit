@@ -175,6 +175,10 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 	return NO;
 }
 
++ (BOOL)preservesVersions {
+	return YES;
+}
+
 - (void)setFileType:(NSString *)aString {
     [self willChangeValueForKey:@"documentIcon"];
     I_flags.isSEEText = UTTypeConformsTo((CFStringRef)aString, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext");
