@@ -13,7 +13,11 @@
 #import "SyntaxDefinition.h"
 #import <OgreKit/OgreKit.h>
 
-@interface DocumentModeManager (DocumentModeManagerPrivateAdditions)
+@interface DocumentModeManager ()
+@property (nonatomic, readwrite, retain) NSDictionary *changedScopeNameDict;
+@end
+
+	@interface DocumentModeManager (DocumentModeManagerPrivateAdditions)
 - (void)TCM_findModes;
 - (void)TCM_findStyles;
 - (NSMutableArray *)reloadPrecedences;
@@ -114,6 +118,7 @@
 static DocumentModeManager *S_sharedInstance=nil;
 
 @implementation DocumentModeManager
+@synthesize changedScopeNameDict;
 
 + (DocumentModeManager *)sharedInstance {
     if (!S_sharedInstance) {
@@ -163,6 +168,7 @@ static DocumentModeManager *S_sharedInstance=nil;
             [I_modeIdentifiersTagArray addObject:@"-"];
             [I_modeIdentifiersTagArray addObject:AUTOMATICMODEIDENTIFIER];
             [I_modeIdentifiersTagArray addObject:BASEMODEIDENTIFIER];
+			[self TCM_loadScopeNameChanges];
             [self TCM_findStyles];
             [self TCM_findModes];
             [self setModePrecedenceArray:[self reloadPrecedences]];
@@ -182,6 +188,7 @@ static DocumentModeManager *S_sharedInstance=nil;
     [I_documentModesByName release];
     [I_documentModesByIdentifier release];
 	[I_documentModesByIdentifierLock release]; // ifc - experimental locking... awaiting real fix from TCM
+	self.changedScopeNameDict = nil;
     [super dealloc];
 }
 
@@ -446,7 +453,17 @@ static DocumentModeManager *S_sharedInstance=nil;
     return [[fullPath stringByAppendingPathComponent:aStyleSheetName] stringByAppendingPathExtension:SEEStyleSheetFileExtension];
 }
 
-- (void)TCM_findStyles { 
+- (void)TCM_loadScopeNameChanges {
+	NSURL *url = [[NSBundle mainBundle] URLForResource:@"Modes/ScopeChanges" withExtension:@"json"];
+	NSData *data = [NSData dataWithContentsOfURL:url];
+	NSError *error = nil;
+	NSDictionary *renamedScopesDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+	if (renamedScopesDict && !error) {
+		[self setChangedScopeNameDict:renamedScopesDict];
+	}
+}
+
+- (void)TCM_findStyles {
 	[self createUserApplicationSupportDirectory];
 
     NSURL *url = nil;
