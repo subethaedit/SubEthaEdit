@@ -2172,30 +2172,24 @@
 		4C6BDC5718896DFF0088CBFC /* XIBs */ = {
 			isa = PBXGroup;
 			children = (
+				4CE8E4E818DC84B10029BF95 /* Prefs */,
 				4C1D39DA17FB085800B1CF5C /* AboutPanel.xib */,
-				4CD5F7D817FB0BF200F49E31 /* AdvancedPrefs.xib */,
 				4CD5F7E017FB0C4D00F49E31 /* DocumentProxy.xib */,
-				4CD5F7E417FB0C7B00F49E31 /* EditPrefs.xib */,
 				4CD5F7E817FB0C8E00F49E31 /* EncodingDoctor.xib */,
 				4CD5F7EC17FB0CA300F49E31 /* Export.xib */,
 				4CD5F7F017FB0CBF00F49E31 /* FindAll.xib */,
 				4CD5F7F417FB0CD200F49E31 /* FindReplace.xib */,
-				4CD5F7F817FB0D0C00F49E31 /* GeneralPrefs.xib */,
 				4CD5F80017FB0D3700F49E31 /* MainMenu.xib */,
 				4CD5F80417FB0D5B00F49E31 /* OpenPanelAccessory.xib */,
 				F2C7672618B3AEAC00763B40 /* PlainTextEditor.xib */,
 				4CD5F80F17FB0DC100F49E31 /* PlainTextLoadProgress.xib */,
 				4C0C4A0018B366EC00E6049E /* PlainTextWindow.xib */,
-				4CD5F81717FB0DF900F49E31 /* PrecedencePrefs.xib */,
-				4CD5F81B17FB0E1800F49E31 /* PrecedenceRules.xib */,
-				4C0D3D6717FB145600AAFB38 /* Preferences.xib */,
 				4CD5F82717FB0E4F00F49E31 /* SavePanelAccessory.xib */,
 				4CD168EA182A5A5C007E3B26 /* SEEFolderDocument.xib */,
 				4C5EC97D1897F6FC0094D850 /* SEEParticipantsOverlay.xib */,
 				4CDC271F18967D990060B044 /* SEEParticipantView.xib */,
 				4C0D3D6317FB12F700AAFB38 /* SEEStyleSheetEditorWindowController.xib */,
 				4CD5F82B17FB0E6000F49E31 /* SelectEncodingsPanel.xib */,
-				4CD5F82F17FB0E8D00F49E31 /* StylePrefs.xib */,
 				4CD5F83317FB0EB500F49E31 /* URLBubbleWindow.xib */,
 				4CD5F83717FB0ECB00F49E31 /* UserStatistics.xib */,
 				4CD5F83B17FB0EE000F49E31 /* WebPreview.xib */,
@@ -2312,6 +2306,20 @@
 				4CDF05A418C0A3D4004A49E5 /* SEEConnectionAddingWindowController.xib */,
 			);
 			name = "Connection Management";
+			sourceTree = "<group>";
+		};
+		4CE8E4E818DC84B10029BF95 /* Prefs */ = {
+			isa = PBXGroup;
+			children = (
+				4C0D3D6717FB145600AAFB38 /* Preferences.xib */,
+				4CD5F7F817FB0D0C00F49E31 /* GeneralPrefs.xib */,
+				4CD5F7E417FB0C7B00F49E31 /* EditPrefs.xib */,
+				4CD5F82F17FB0E8D00F49E31 /* StylePrefs.xib */,
+				4CD5F81717FB0DF900F49E31 /* PrecedencePrefs.xib */,
+				4CD5F81B17FB0E1800F49E31 /* PrecedenceRules.xib */,
+				4CD5F7D817FB0BF200F49E31 /* AdvancedPrefs.xib */,
+			);
+			name = Prefs;
 			sourceTree = "<group>";
 		};
 		5E754EA60AB5649C00C5119E /* Dialogs */ = {
