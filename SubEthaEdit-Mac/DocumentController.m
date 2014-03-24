@@ -418,7 +418,7 @@
 		[self setEncodingFromLastRunOpenPanel:[[openPanelAccessoryViewController.encodingPopUpButtonOutlet selectedItem] tag]];
 
 		if (result == NSFileHandlingPanelCancelButton) {
-			[self setIsOpeningUsingAlternateMenuItem:NO];
+			self.isOpeningUsingAlternateMenuItem = NO;
 		}
 	}
     return result;
@@ -440,7 +440,7 @@
             } else if ([[NSFileManager defaultManager] fileExistsAtPath:fileName isDirectory:&isDir] && isDir && !isFilePackage) {
                 [self openDirectory:fileName];
             } else {
-                if ([self isOpeningUsingAlternateMenuItem] && [self documentForURL:URL]) {
+                if (self.isOpeningUsingAlternateMenuItem && [self documentForURL:URL]) {
                     // do nothing to not accidently put a window in front and distribute the new files
                 } else {
                     [I_fileNamesFromLastRunOpenPanel addObject:fileName];
@@ -599,21 +599,13 @@
 
 #pragma mark - Open existing documents
 
-- (void)setIsOpeningUsingAlternateMenuItem:(BOOL)aFlag {
-    I_isOpeningUsingAlternateMenuItem = aFlag;
-}
-
-- (BOOL)isOpeningUsingAlternateMenuItem {
-    return I_isOpeningUsingAlternateMenuItem;
-}
-
 - (IBAction)openNormalDocument:(id)aSender {
-    [self setIsOpeningUsingAlternateMenuItem:NO];
+	self.isOpeningUsingAlternateMenuItem = NO;
     [self openDocument:(id)aSender];
 }
 
 - (IBAction)openAlternateDocument:(id)aSender {
-    [self setIsOpeningUsingAlternateMenuItem:YES];
+	self.isOpeningUsingAlternateMenuItem = YES;
     [self openDocument:(id)aSender];
 }
 
@@ -634,8 +626,8 @@
 
 
 - (id)openDocumentWithContentsOfURL:(NSURL *)anURL display:(BOOL)flag error:(NSError **)outError {
-    if ([I_fileNamesFromLastRunOpenPanel count]==0) {
-        [self setIsOpeningUsingAlternateMenuItem:NO];
+    if ([I_fileNamesFromLastRunOpenPanel count] == 0) { // Discuss: Why that??? - MEH
+        self.isOpeningUsingAlternateMenuItem = NO;
     }
     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"openDocumentWithContentsOfFile:display");
     

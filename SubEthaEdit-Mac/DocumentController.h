@@ -21,10 +21,7 @@
     IBOutlet NSTextField *O_modeInstallerMessageTextField;
     IBOutlet NSMatrix *O_modeInstallerDomainMatrix;
     IBOutlet NSTextField *O_modeInstallerInformativeTextField;
-        
-//    BOOL I_isOpeningUntitledDocument;
-    BOOL I_isOpeningUsingAlternateMenuItem;
-    
+	
     NSStringEncoding I_encodingFromLastRunOpenPanel;
     NSString *I_modeIdentifierFromLastRunOpenPanel;
     NSMutableArray *I_fileNamesFromLastRunOpenPanel;
@@ -70,9 +67,7 @@
 
 - (PlainTextDocument *)frontmostPlainTextDocument;
 
-//- (BOOL)isOpeningUntitledDocument;
-- (void)setIsOpeningUsingAlternateMenuItem:(BOOL)aFlag;
-- (BOOL)isOpeningUsingAlternateMenuItem;
+@property (nonatomic, assign) BOOL isOpeningUsingAlternateMenuItem;
 
 - (id)handleOpenScriptCommand:(NSScriptCommand *)command;
 - (id)handlePrintScriptCommand:(NSScriptCommand *)command;

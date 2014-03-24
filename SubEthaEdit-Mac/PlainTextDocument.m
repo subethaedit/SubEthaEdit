@@ -1634,9 +1634,9 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 - (void)makeWindowControllers {
     BOOL shouldOpenInTab = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
     DocumentController *controller = [DocumentController sharedInstance];
-    if ([controller isOpeningUsingAlternateMenuItem]) {
+    if (controller.isOpeningUsingAlternateMenuItem) {
         if (shouldOpenInTab) { // if so we just open one new window
-            [controller setIsOpeningUsingAlternateMenuItem:NO];
+            controller.isOpeningUsingAlternateMenuItem = NO;
         }
         shouldOpenInTab = !shouldOpenInTab;
     }
