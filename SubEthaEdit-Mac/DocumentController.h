@@ -44,6 +44,8 @@
 
 + (DocumentController *)sharedInstance;
 
+- (IBAction)showDocumentListWindow:(id)sender;
+
 - (NSMenu *)documentMenu;
 
 - (IBAction)alwaysShowTabBar:(id)sender;

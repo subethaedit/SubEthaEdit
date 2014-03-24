@@ -111,8 +111,6 @@ NSString * const GlobalScriptsDidReloadNotification = @"GlobalScriptsDidReloadNo
     
 @interface AppController ()
 
-@property (nonatomic, strong) SEEDocumentListWindowController *documentListWindowController;
-
 - (void)setupFileEncodingsSubmenu;
 - (void)setupScriptMenu;
 - (void)setupDocumentModeSubmenu;
@@ -703,7 +701,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 }
 
 - (BOOL)applicationOpenUntitledFile:(NSApplication *)sender {
-	[self showDocumentListWindow:sender];
+	[[DocumentController sharedDocumentController] showDocumentListWindow:sender];
 	return YES; // Avoids Untitled Document path of DocumentController
 }
 
@@ -1069,22 +1067,6 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     } else {
 		[[editorWindowController window] performClose:self];
     }
-}
-
-#pragma mark -
-
-- (IBAction)showDocumentListWindow:(id)sender {
-	if (!self.documentListWindowController) {
-		SEEDocumentListWindowController *networkBrowser = [[SEEDocumentListWindowController alloc] initWithWindowNibName:@"SEEDocumentListWindowController"];
-		self.documentListWindowController = networkBrowser;
-		[networkBrowser release];
-	}
-	if (sender == NSApp) {
-		self.documentListWindowController.shouldCloseWhenOpeningDocument = YES;
-	} else {
-		self.documentListWindowController.shouldCloseWhenOpeningDocument = NO;
-	}
-	[self.documentListWindowController showWindow:sender];
 }
 
 #pragma mark - Menu validation

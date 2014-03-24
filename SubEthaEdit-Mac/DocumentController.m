@@ -22,11 +22,16 @@
 #import "MoreSecurity.h"
 #import "PlainTextWindowController.h"
 #import "SEEOpenPanelAccessoryViewController.h"
+#import "SEEDocumentListWindowController.h"
+
 #import <PSMTabBarControl/PSMTabBarControl.h>
 #import <objc/objc-runtime.h>			// for objc_msgSend
 
 
 @interface DocumentController ()
+
+@property (nonatomic, strong) SEEDocumentListWindowController *documentListWindowController;
+
 - (void)setModeIdentifierFromLastRunOpenPanel:(NSString *)modeIdentifier;
 - (void)setEncodingFromLastRunOpenPanel:(NSStringEncoding)stringEncoding;
 - (void)setLocationForNextOpenPanel:(NSURL*)anURL;
@@ -258,6 +263,24 @@ static NSString *tempFileName() {
 #pragma mark -
 
 
++ (void)restoreWindowWithIdentifier:(NSString *)identifier state:(NSCoder *)state completionHandler:(void (^)(NSWindow *, NSError *))completionHandler {
+	if ([identifier isEqualToString:@"DocumentList"]) {
+		DocumentController *documentController = [[self class] sharedDocumentController];
+		[documentController showDocumentListWindow:self];
+
+		if (completionHandler) {
+			completionHandler(documentController.documentListWindowController.window, nil);
+		}
+	} else {
+		[super restoreWindowWithIdentifier:identifier state:state completionHandler:completionHandler];
+	}
+}
+
+- (void)reopenDocumentForURL:(NSURL *)urlOrNil withContentsOfURL:(NSURL *)contentsURL display:(BOOL)displayDocument completionHandler:(void (^)(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error))completionHandler
+{
+	[super reopenDocumentForURL:urlOrNil withContentsOfURL:contentsURL display:displayDocument completionHandler:completionHandler];
+}
+
 + (DocumentController *)sharedInstance {
     return (DocumentController *)[NSDocumentController sharedDocumentController];
 }
@@ -291,6 +314,27 @@ static NSString *tempFileName() {
     
     [super dealloc];
 }
+
+
+#pragma mark - DocumentList window
+
+- (IBAction)showDocumentListWindow:(id)sender {
+	if (!self.documentListWindowController) {
+		SEEDocumentListWindowController *networkBrowser = [[SEEDocumentListWindowController alloc] initWithWindowNibName:@"SEEDocumentListWindowController"];
+		self.documentListWindowController = networkBrowser;
+		[networkBrowser release];
+	}
+	if (sender == NSApp) {
+		self.documentListWindowController.shouldCloseWhenOpeningDocument = YES;
+	} else {
+		self.documentListWindowController.shouldCloseWhenOpeningDocument = NO;
+	}
+	[self.documentListWindowController showWindow:sender];
+}
+
+
+
+#pragma mark -
 
 - (NSString *)typeForContentsOfURL:(NSURL *)url error:(NSError **)outError
 {
