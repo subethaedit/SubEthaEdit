@@ -567,8 +567,6 @@
 		if (completionHandler) {
 			completionHandler(result);
 		}
-
-		self.isOpeningUsingAlternateMenuItem = NO;
 	}];
 }
 
@@ -636,6 +634,18 @@
 			 }
 		 }];
 	}
+}
+
+
+- (id)makeDocumentWithContentsOfURL:(NSURL *)url ofType:(NSString *)typeName error:(NSError **)outError {
+	id result = [super makeDocumentWithContentsOfURL:url ofType:typeName error:outError];
+
+	if ([result isKindOfClass:PlainTextDocument.class]) {
+		PlainTextDocument *plainTextDocument = (PlainTextDocument *)result;
+		plainTextDocument.useAlternateMakeWindowControllerBehaviour = self.isOpeningUsingAlternateMenuItem;
+	}
+
+	return result;
 }
 
 
