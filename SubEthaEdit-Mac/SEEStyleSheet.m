@@ -168,32 +168,27 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 
 #pragma mark - Coda 2 Convert/Scope Rename
 - (void)convertPreviouslyUsedScopesToUpdatedScopes {
-	BOOL didConvertScope = NO;
-	
 	NSArray *usedScopeNames = [self.scopeStyleDictionary allKeys]; // scopes used in the current sheet
+	NSDictionary *changedScopesDictionary = [[DocumentModeManager sharedInstance] changedScopeNameDict]; // from the CHANGE json
 
-	NSDictionary *changedScopesDictionary = [[DocumentModeManager sharedInstance] changedScopeNameDict];
-	NSMutableDictionary *mutableChangedScopesDictionary = [changedScopesDictionary mutableCopy];
-		
+	NSMutableDictionary *changesDictionary = [[NSMutableDictionary alloc] init];
+	
 	for (NSString *key in changedScopesDictionary) {
 		if ([usedScopeNames containsObject:key]) {
+			// the original scope name is in use
 			NSString *changedScopeName = [changedScopesDictionary objectForKey:key];
 			if (![usedScopeNames containsObject:changedScopeName]) {
-				didConvertScope = YES;
-				// TODO: make a new entry for the renamed scope duplicating the old scope
+				// and the changed scope name does not exist
+				[changesDictionary setObject:changedScopeName forKey:key];
 				
-			} else {
-				// there is already an entry for that other scope - don't overwrite that
-				[mutableChangedScopesDictionary removeObjectForKey:key];
-			}
-		} else {
-			[mutableChangedScopesDictionary removeObjectForKey:key];
-		}
+			} //  else -  there is already an entry for that other scope - don't overwrite that
+		} // else - that key is not used by this sheet
 	}
 	
-	if (didConvertScope) { // TODO: save changed style sheet
-		// move the original style sheet to another folder
-		// save the changed style sheet instead of the original one - comments are lost that way :/
+	if ([changesDictionary count] > 0) {
+		// TODO: make a new entry for the renamed scope duplicating the old scope
+		// TODO: save changed style sheet for each key
+		// append to the original style sheet with explanation comment so that comments etc are not lost!
 	}
 }
 
