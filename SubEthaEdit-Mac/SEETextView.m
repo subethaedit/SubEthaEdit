@@ -474,6 +474,15 @@ static NSMenu *S_defaultMenu=nil;
 	}
 }
 
+- (NSArray *)searchScopeRanges {
+	FullTextStorage *fullTextStorage = [(FoldableTextStorage *)[self textStorage] fullTextStorage];
+	NSArray *result = [fullTextStorage searchScopeRangesForAttributeValue:self.editor.searchScopeValue];
+	if (result.count == 0) {
+		result = @[[NSValue valueWithRange:fullTextStorage.TCM_fullLengthRange]];
+	}
+	return result;
+}
+
 - (IBAction)foldCurrentBlock:(id)aSender {
 	FoldableTextStorage *textStorage = (FoldableTextStorage *)[self textStorage];
 	NSRange mySelectedRange = [self selectedRange];

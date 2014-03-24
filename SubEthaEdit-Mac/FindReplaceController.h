@@ -63,7 +63,9 @@ typedef enum {
 - (void)loadFindStringFromPasteboard;
 - (void)saveFindStringToPasteboard;
 - (void) replaceSelection;
-- (void) replaceAllInRange:(NSRange)aRange;
+
+
+- (void)signalErrorWithDescription:(NSString *)aDescription;
 
 @end
 

@@ -1,0 +1,43 @@
+//  SEEFindAndReplaceContext.h
+//  SubEthaEdit
+//
+//  Created by Dominik Wagner on 24.03.14.
+//  Copyright (c) 2014 TheCodingMonkeys. All rights reserved.
+
+#import <Foundation/Foundation.h>
+
+@class SEEFindAndReplaceContext;
+
+#import "SEEFindAndReplaceState.h"
+#import "PlainTextEditor.h"
+#import "SEETextView.h"
+#import "FindReplaceController.h"
+
+/*!
+	Class to store a search and replace context in for all find and replace operations, including find all windows
+ */
+
+@interface SEEFindAndReplaceContext : NSObject
+@property (nonatomic, readonly) PlainTextEditor *targetPlainTextEditor;
+@property (nonatomic, strong) SEEFindAndReplaceState *findAndReplaceState;
+@property (nonatomic, strong) SEETextView *targetTextView;
+@property (nonatomic) NSInteger currentTextFinderActionType;
+
+@property (nonatomic, copy) NSString *localizedErrorDescriptionString;
+
++ (instancetype)contextWithTextView:(NSTextView *)aTextView state:(SEEFindAndReplaceState *)aState;
+
+@property (nonatomic, readonly) BOOL textFinderActionWantsToReplaceText;
+
+/*! derived and cached properties */
+@property (nonatomic, strong) OGRegularExpression *findExpression;
+
+/*! actions that can be performed with a find and replace context */
+
+/*! dispatch method */
+- (BOOL)performCurrentTextFinderAction;
+
+/*! actual action methods */
+- (BOOL)findNextForward:(BOOL)isForward;
+
+@end

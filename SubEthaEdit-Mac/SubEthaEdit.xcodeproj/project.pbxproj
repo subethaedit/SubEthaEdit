@@ -362,6 +362,7 @@
 		F2257CFE189673AA005EF9B1 /* BottomBarSharingIconAdd@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2257CF6189673AA005EF9B1 /* BottomBarSharingIconAdd@2x.png */; };
 		F2257CFF189673AA005EF9B1 /* BottomBarSharingIconGroup.png in Resources */ = {isa = PBXBuildFile; fileRef = F2257CF7189673AA005EF9B1 /* BottomBarSharingIconGroup.png */; };
 		F2257D00189673AA005EF9B1 /* BottomBarSharingIconGroup@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2257CF8189673AA005EF9B1 /* BottomBarSharingIconGroup@2x.png */; };
+		F2308E6718E06FA00096E0C1 /* SEEFindAndReplaceContext.m in Sources */ = {isa = PBXBuildFile; fileRef = F2308E6618E06FA00096E0C1 /* SEEFindAndReplaceContext.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		F234E4590BE2592300504A7C /* NSWorkspaceTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F234E4570BE2592300504A7C /* NSWorkspaceTCMAdditions.m */; };
 		F2406F0C0C8EE481000DC9FF /* LockTitlebar.png in Resources */ = {isa = PBXBuildFile; fileRef = F2406F0B0C8EE481000DC9FF /* LockTitlebar.png */; };
 		F24280C60D16CFCC0083AE21 /* GenericSASLProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F24280C50D16CFCC0083AE21 /* GenericSASLProfile.m */; };
@@ -1167,6 +1168,8 @@
 		F2257CF6189673AA005EF9B1 /* BottomBarSharingIconAdd@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "BottomBarSharingIconAdd@2x.png"; path = "artwork/BottomBarSharingIconAdd@2x.png"; sourceTree = "<group>"; };
 		F2257CF7189673AA005EF9B1 /* BottomBarSharingIconGroup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BottomBarSharingIconGroup.png; path = artwork/BottomBarSharingIconGroup.png; sourceTree = "<group>"; };
 		F2257CF8189673AA005EF9B1 /* BottomBarSharingIconGroup@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "BottomBarSharingIconGroup@2x.png"; path = "artwork/BottomBarSharingIconGroup@2x.png"; sourceTree = "<group>"; };
+		F2308E6518E06FA00096E0C1 /* SEEFindAndReplaceContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEFindAndReplaceContext.h; sourceTree = "<group>"; };
+		F2308E6618E06FA00096E0C1 /* SEEFindAndReplaceContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEFindAndReplaceContext.m; sourceTree = "<group>"; };
 		F234E4560BE2592300504A7C /* NSWorkspaceTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NSWorkspaceTCMAdditions.h; sourceTree = "<group>"; };
 		F234E4570BE2592300504A7C /* NSWorkspaceTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSWorkspaceTCMAdditions.m; sourceTree = "<group>"; };
 		F2406F0B0C8EE481000DC9FF /* LockTitlebar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LockTitlebar.png; path = artwork/LockTitlebar.png; sourceTree = "<group>"; };
@@ -2374,6 +2377,8 @@
 				F21DAFE518BB75E1002B3C41 /* SEEFindAndReplaceViewController.m */,
 				F2CA91EC18C08FF7006B098A /* SEEFindAndReplaceState.h */,
 				F2CA91ED18C08FF7006B098A /* SEEFindAndReplaceState.m */,
+				F2308E6518E06FA00096E0C1 /* SEEFindAndReplaceContext.h */,
+				F2308E6618E06FA00096E0C1 /* SEEFindAndReplaceContext.m */,
 			);
 			name = "Find and Replace";
 			sourceTree = "<group>";
@@ -3198,6 +3203,7 @@
 				4C0B4C6118C8B3E300048335 /* SEEToggleRecentDocumentListItem.m in Sources */,
 				1428946909575B9700D14688 /* SplitView.m in Sources */,
 				1428946B09575B9700D14688 /* SEETextView.m in Sources */,
+				F2308E6718E06FA00096E0C1 /* SEEFindAndReplaceContext.m in Sources */,
 				1428946C09575B9700D14688 /* URLDataProtocol.m in Sources */,
 				4CE6C99D18AA905500AB45D1 /* SEEOverlayView.m in Sources */,
 				1428946D09575B9700D14688 /* WebPreviewViewController.m in Sources */,

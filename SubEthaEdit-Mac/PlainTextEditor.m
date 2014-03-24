@@ -967,8 +967,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 }
 
 
-- (PlainTextDocument *)document
-{
+- (PlainTextDocument *)document {
     return (PlainTextDocument *)[I_windowControllerTabContext document];
 }
 
