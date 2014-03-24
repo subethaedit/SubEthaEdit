@@ -32,6 +32,7 @@
 
 @property (nonatomic, strong) SEEDocumentListWindowController *documentListWindowController;
 
+
 - (void)setModeIdentifierFromLastRunOpenPanel:(NSString *)modeIdentifier;
 - (void)setEncodingFromLastRunOpenPanel:(NSStringEncoding)stringEncoding;
 - (void)setLocationForNextOpenPanel:(NSURL*)anURL;
@@ -428,8 +429,8 @@
     NSArray *URLsFromRunningOpenPanel = [super URLsFromRunningOpenPanel];
     NSMutableArray *URLs = [NSMutableArray array];
     [I_fileNamesFromLastRunOpenPanel removeAllObjects];
-    NSURL *URL;
-    for (URL in URLsFromRunningOpenPanel) {
+
+    for (NSURL *URL in URLsFromRunningOpenPanel) {
         if ([URL isFileURL]) {
             NSString *fileName = [URL path];
             BOOL isDir = NO;
@@ -612,59 +613,41 @@
 
 - (void)openDocumentWithContentsOfURL:(NSURL *)url display:(BOOL)displayDocument completionHandler:(void (^)(NSDocument *, BOOL, NSError *))completionHandler
 {
-    NSAppleEventDescriptor *eventDesc = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
-	[super openDocumentWithContentsOfURL:url display:displayDocument completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error)
-	 {
-		 if (document && [document isKindOfClass:PlainTextDocument.class] && displayDocument) {
-			 [(PlainTextDocument *)document handleOpenDocumentEvent:eventDesc];
-		 }
-		 if (completionHandler) {
-			 completionHandler(document, displayDocument, error);
-		 }
-	 }];
-}
+    DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"%s", __FUNCTION__);
 
-
-- (id)openDocumentWithContentsOfURL:(NSURL *)anURL display:(BOOL)flag error:(NSError **)outError {
     if ([I_fileNamesFromLastRunOpenPanel count] == 0) { // Discuss: Why that??? - MEH
         self.isOpeningUsingAlternateMenuItem = NO;
     }
-    DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"openDocumentWithContentsOfFile:display");
-    
-    NSString *filename = [anURL path];
+
+    NSString *filename = [url path];
     BOOL isFilePackage = [[NSWorkspace sharedWorkspace] isFilePackageAtPath:filename];
     NSString *extension = [filename pathExtension];
     BOOL isDirectory = NO;
-    [[NSFileManager defaultManager] fileExistsAtPath:[anURL path] isDirectory:&isDirectory];
+    [[NSFileManager defaultManager] fileExistsAtPath:[url path] isDirectory:&isDirectory];
     if (isFilePackage && [extension isEqualToString:@"mode"]) {
         [self openModeFile:filename];
-        // have to return something that is not nil so no error turns up
-        return [NSNumber numberWithBool:YES];
+		if (completionHandler) {
+			completionHandler(nil, NO, nil);
+		}
     } else if (!isFilePackage && isDirectory) {
-        [self setLocationForNextOpenPanel:anURL];
-        [self performSelector:@selector(openDocument:) withObject:nil afterDelay:0];
-        return [NSNumber numberWithBool:YES];        
+        [self setLocationForNextOpenPanel:url];
+        [self performSelector:@selector(openDocument:) withObject:nil afterDelay:0.0];
+		if (completionHandler) {
+			completionHandler(nil, NO, nil);
+		}
     } else {
-        NSDocument *document = [super openDocumentWithContentsOfURL:anURL display:flag error:outError];
-        return document;
-    }
+		[super openDocumentWithContentsOfURL:url display:displayDocument completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error)
+		 {
+			 NSAppleEventDescriptor *eventDesc = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
+			 if (document && [document isKindOfClass:PlainTextDocument.class] && displayDocument) {
+				 [(PlainTextDocument *)document handleOpenDocumentEvent:eventDesc];
+			 }
+			 if (completionHandler) {
+				 completionHandler(document, displayDocument, error);
+			 }
+		 }];
+	}
 }
-
-//- (id)openUntitledDocumentAndDisplay:(BOOL)displayDocument error:(NSError **)outError {
-//    NSAppleEventDescriptor *eventDesc = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
-//    if ([eventDesc eventClass] == 'Hdra' && [eventDesc eventID] == 'See ') {
-//        I_isOpeningUntitledDocument = NO;
-//    } else {
-//        I_isOpeningUntitledDocument = YES;
-//    }
-//    NSDocument *document = [super openUntitledDocumentAndDisplay:displayDocument error:outError];
-//    I_isOpeningUntitledDocument = NO;
-//    return document;
-//}
-//
-//- (BOOL)isOpeningUntitledDocument {
-//    return I_isOpeningUntitledDocument;
-//}
 
 
 #pragma mark - Apple Script support
