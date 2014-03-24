@@ -42,6 +42,7 @@
 		[openPanel setShowsHiddenFiles:showsHiddenFiles];
 		[self.showHiddenFilesCheckboxOutlet setState:showsHiddenFiles ? NSOnState : NSOffState];
 
+		[openPanel TCM_setAssociatedValue:self forKey:@"OpenPanelAccessoryViewController"];
 		self.openPanel = openPanel;
 	}
 	return self;
