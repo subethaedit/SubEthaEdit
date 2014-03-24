@@ -401,80 +401,6 @@
 }
 
 
-#pragma mark - NSOpenPanel
-
-- (NSInteger)runModalOpenPanel:(NSOpenPanel *)openPanel forTypes:(NSArray *)extensions {
-	NSInteger result = NSCancelButton;
-	SEEOpenPanelAccessoryViewController *openPanelAccessoryViewController = [SEEOpenPanelAccessoryViewController openPanelAccessoryControllerForOpenPanel:openPanel];
-
-	if (openPanelAccessoryViewController) {
-		if ([self locationForNextOpenPanel]) {
-			[openPanel setDirectoryURL:[self locationForNextOpenPanel]];
-			[self setLocationForNextOpenPanel:nil];
-		}
-		
-		result = [super runModalOpenPanel:openPanel forTypes:extensions];
-
-		[self setModeIdentifierFromLastRunOpenPanel:[openPanelAccessoryViewController.modePopUpButtonOutlet selectedModeIdentifier]];
-		[self setEncodingFromLastRunOpenPanel:[[openPanelAccessoryViewController.encodingPopUpButtonOutlet selectedItem] tag]];
-
-		if (result == NSFileHandlingPanelCancelButton) {
-			self.isOpeningUsingAlternateMenuItem = NO;
-		}
-	}
-    return result;
-}
-
-- (NSArray *)URLsFromRunningOpenPanel {
-    NSArray *URLsFromRunningOpenPanel = [super URLsFromRunningOpenPanel];
-    NSMutableArray *URLs = [NSMutableArray array];
-    [I_fileNamesFromLastRunOpenPanel removeAllObjects];
-
-    for (NSURL *URL in URLsFromRunningOpenPanel) {
-        if ([URL isFileURL]) {
-            NSString *fileName = [URL path];
-            BOOL isDir = NO;
-            BOOL isFilePackage = [[NSWorkspace sharedWorkspace] isFilePackageAtPath:fileName];
-            NSString *extension = [fileName pathExtension];
-            if (isFilePackage && [extension isEqualToString:@"mode"]) {
-                [self openModeFile:fileName];
-            } else if ([[NSFileManager defaultManager] fileExistsAtPath:fileName isDirectory:&isDir] && isDir && !isFilePackage) {
-                [self openDirectory:fileName];
-            } else {
-                if (self.isOpeningUsingAlternateMenuItem && [self documentForURL:URL]) {
-                    // do nothing to not accidently put a window in front and distribute the new files
-                } else {
-                    [I_fileNamesFromLastRunOpenPanel addObject:fileName];
-                    [URLs addObject:URL];
-                }
-            }        
-        }
-    }
-        
-    return URLs;
-}
-
-- (NSStringEncoding)encodingFromLastRunOpenPanel {
-    return I_encodingFromLastRunOpenPanel;
-}
-
-- (NSString *)modeIdentifierFromLastRunOpenPanel {
-    return I_modeIdentifierFromLastRunOpenPanel;
-}
-
-- (BOOL)isDocumentFromLastRunOpenPanel:(NSDocument *)aDocument {
-    NSInteger index = [I_fileNamesFromLastRunOpenPanel indexOfObject:[[aDocument fileURL] path]];
-    if (index == NSNotFound) {
-        return NO;
-    }
-    [I_fileNamesFromLastRunOpenPanel removeObjectAtIndex:index];
-    return YES;
-}
-
-- (NSDictionary *)propertiesForOpenedFile:(NSString *)fileName {
-    return [I_propertiesForOpenedFiles objectForKey:fileName];
-}
-
 #pragma mark - Handling Window Controllers
 
 - (PlainTextDocument *)frontmostPlainTextDocument {
@@ -600,6 +526,74 @@
 
 #pragma mark - Open existing documents
 
+- (void)beginOpenPanel:(NSOpenPanel *)openPanel forTypes:(NSArray *)inTypes completionHandler:(void (^)(NSInteger result))completionHandler
+{
+	SEEOpenPanelAccessoryViewController *openPanelAccessoryViewController = [SEEOpenPanelAccessoryViewController openPanelAccessoryControllerForOpenPanel:openPanel];
+	if ([self locationForNextOpenPanel]) {
+		[openPanel setDirectoryURL:[self locationForNextOpenPanel]];
+		[self setLocationForNextOpenPanel:nil];
+	}
+
+	[I_fileNamesFromLastRunOpenPanel removeAllObjects];
+
+	[super beginOpenPanel:openPanel forTypes:inTypes completionHandler:^(NSInteger result) {
+		[self setModeIdentifierFromLastRunOpenPanel:[openPanelAccessoryViewController.modePopUpButtonOutlet selectedModeIdentifier]];
+		[self setEncodingFromLastRunOpenPanel:[[openPanelAccessoryViewController.encodingPopUpButtonOutlet selectedItem] tag]];
+
+		if (result == NSFileHandlingPanelOKButton) {
+			for (NSURL *URL in openPanel.URLs) {
+				if ([URL isFileURL]) {
+					NSString *fileName = [URL path];
+					BOOL isDir = NO;
+					BOOL isFilePackage = [[NSWorkspace sharedWorkspace] isFilePackageAtPath:fileName];
+					NSString *extension = [fileName pathExtension];
+					if (isFilePackage && [extension isEqualToString:@"mode"]) {
+						// this is done in openDocumentWithContentsOfURL:display:completionHandler:
+						//[self openModeFile:fileName];
+					} else if ([[NSFileManager defaultManager] fileExistsAtPath:fileName isDirectory:&isDir] && isDir && !isFilePackage) {
+						// this is done in openDocumentWithContentsOfURL:display:completionHandler:
+						//[self openDirectory:fileName];
+					} else {
+						if (self.isOpeningUsingAlternateMenuItem && [self documentForURL:URL]) {
+							// do nothing to not accidently put a window in front and distribute the new files
+						} else {
+							[I_fileNamesFromLastRunOpenPanel addObject:fileName];
+						}
+					}
+				}
+			}
+		}
+
+		if (completionHandler) {
+			completionHandler(result);
+		}
+
+		self.isOpeningUsingAlternateMenuItem = NO;
+	}];
+}
+
+
+- (NSStringEncoding)encodingFromLastRunOpenPanel {
+    return I_encodingFromLastRunOpenPanel;
+}
+
+- (NSString *)modeIdentifierFromLastRunOpenPanel {
+    return I_modeIdentifierFromLastRunOpenPanel;
+}
+
+- (BOOL)isDocumentFromLastRunOpenPanel:(NSDocument *)aDocument {
+    NSInteger index = [I_fileNamesFromLastRunOpenPanel indexOfObject:[[aDocument fileURL] path]];
+    if (index == NSNotFound) {
+        return NO;
+    }
+    [I_fileNamesFromLastRunOpenPanel removeObjectAtIndex:index];
+    return YES;
+}
+
+- (NSDictionary *)propertiesForOpenedFile:(NSString *)fileName {
+    return [I_propertiesForOpenedFiles objectForKey:fileName];
+}
+
 - (IBAction)openNormalDocument:(id)aSender {
 	self.isOpeningUsingAlternateMenuItem = NO;
     [self openDocument:(id)aSender];
@@ -610,14 +604,9 @@
     [self openDocument:(id)aSender];
 }
 
-
 - (void)openDocumentWithContentsOfURL:(NSURL *)url display:(BOOL)displayDocument completionHandler:(void (^)(NSDocument *, BOOL, NSError *))completionHandler
 {
     DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"%s", __FUNCTION__);
-
-    if ([I_fileNamesFromLastRunOpenPanel count] == 0) { // Discuss: Why that??? - MEH
-        self.isOpeningUsingAlternateMenuItem = NO;
-    }
 
     NSString *filename = [url path];
     BOOL isFilePackage = [[NSWorkspace sharedWorkspace] isFilePackageAtPath:filename];
