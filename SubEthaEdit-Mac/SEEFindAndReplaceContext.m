@@ -121,11 +121,7 @@ typedef NS_ENUM(uint8_t, SEESearchRangeDirection) {
 	return YES;
 }
 
-- (SEEFindAndReplaceSubRange *)nextSubrange:(SEEFindAndReplaceSubRange *)aPreviousSubrange direction:(SEESearchRangeDirection)aDirection startSubRange:(SEEFindAndReplaceSubRange **)aStartSubrange {
-	// remember the startSubrange if empty
-	if (aPreviousSubrange && aStartSubrange && !*aStartSubrange) {
-		*aStartSubrange = aPreviousSubrange;
-	}
+- (SEEFindAndReplaceSubRange *)nextSubrange:(SEEFindAndReplaceSubRange *)aPreviousSubrange direction:(SEESearchRangeDirection)aDirection {
 	
 	SEEFindAndReplaceSubRange *result = nil;
 	
@@ -245,43 +241,74 @@ if (aTextFinderActionType==NSTextFinderActionNextMatch) {
 		}
 		
 		SEEFindAndReplaceSubRange *subrange = [SEEFindAndReplaceSubRange subRangeWithCurrentSelectionOfTextView:self.targetTextView];
-		SEEFindAndReplaceSubRange *startRange = nil;
+		SEEFindAndReplaceSubRange *startSubRange = subrange;
 		
 		SEESearchRangeDirection direction = isForward ? kSEESearchRangeDirectionForward : kSEESearchRangeDirectionBackward;
 		NSRange fullFoundRange = {NSNotFound,0};
 		
-		while ((subrange = [self nextSubrange:subrange direction:direction startSubRange:&startRange])) {
-			unsigned searchTimeOptions = subrange.isRangeLocationAtBeginningOfLine ? 0 : OgreNotBOLOption;
-			if (!subrange.isRangeMaxAtEndOfLine) {
-				searchTimeOptions |= OgreNotEOLOption;
-			}
-			
-			// get all the matches we can find in that range
-			NSEnumerator *enumerator = nil;
-			@try{
-				enumerator=[self.findExpression matchEnumeratorInString:subrange.textStorage.string options:searchTimeOptions range:subrange.range];
-			} @catch (NSException *exception) {
-				[self signalErrorWithDescription:nil];
-				NSLog(@"%s exception while finding:%@",__FUNCTION__,exception);
-				return NO;
-			}
-			
-			OGRegularExpressionMatch *match = nil;
-			match = [enumerator nextObject];
-			if (!isForward) {
-				OGRegularExpressionMatch *nextMatch = nil;
-				while ((nextMatch = [enumerator nextObject])) {
-					match = nextMatch;
+		BOOL isWrapRun = NO;
+		BOOL shouldStop = YES;
+		if (self.findAndReplaceState.shouldWrap) {
+			shouldStop = NO;
+		}
+		while (YES) {
+			while ((subrange = [self nextSubrange:subrange direction:direction])) {
+				unsigned searchTimeOptions = subrange.isRangeLocationAtBeginningOfLine ? 0 : OgreNotBOLOption;
+				if (!subrange.isRangeMaxAtEndOfLine) {
+					searchTimeOptions |= OgreNotEOLOption;
 				}
+				
+				// get all the matches we can find in that range
+				NSEnumerator *enumerator = nil;
+				@try{
+					enumerator=[self.findExpression matchEnumeratorInString:subrange.textStorage.string options:searchTimeOptions range:subrange.range];
+				} @catch (NSException *exception) {
+					[self signalErrorWithDescription:nil];
+					NSLog(@"%s exception while finding:%@",__FUNCTION__,exception);
+					return NO;
+				}
+				
+				OGRegularExpressionMatch *match = nil;
+				match = [enumerator nextObject];
+				if (!isForward) {
+					OGRegularExpressionMatch *nextMatch = nil;
+					while ((nextMatch = [enumerator nextObject])) {
+						match = nextMatch;
+					}
+				}
+				
+				if (match) {
+					// we found something
+					fullFoundRange = [match rangeOfMatchedString];
+					[self.targetPlainTextEditor selectRangeInBackground:fullFoundRange];
+					return YES;
+				}
+				
+				// break wrapping run if we run over the original start position
+				if (isWrapRun) {
+					if (isForward) {
+						if (NSMaxRange(subrange.range) > NSMaxRange(startSubRange.range)) {
+							break; // do not run over again
+						}
+					} else {
+						if (subrange.range.location < startSubRange.range.location) {
+							break;
+						}
+					}
+				}
+				
 			}
 			
-			if (match) {
-				// we found something
-				fullFoundRange = [match rangeOfMatchedString];
-				[self.targetPlainTextEditor selectRangeInBackground:fullFoundRange];
-				return YES;
+			// exit or wrap
+			if (shouldStop) {
+				break;
+			} else { // wrap
+				FullTextStorage *fullTextStorage = [(FoldableTextStorage *)self.targetTextView.textStorage fullTextStorage];
+				NSRange range = isForward ? NSMakeRange(0, 0) : NSMakeRange(fullTextStorage.length, 0);
+				subrange = [SEEFindAndReplaceSubRange subRangeWithTextStorage:fullTextStorage range:range];
+				isWrapRun = YES;
+				shouldStop = YES;
 			}
-			
 		}
 		
 		// if we arrive here we failed
