@@ -175,9 +175,9 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 	return NO;
 }
 
-+ (BOOL)preservesVersions {
-	return YES;
-}
+//+ (BOOL)preservesVersions {
+//	return YES;
+//}
 
 - (void)setFileType:(NSString *)aString {
     [self willChangeValueForKey:@"documentIcon"];
@@ -1630,6 +1630,7 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 #pragma mark Overrides of NSDocument Methods to Support MultiDocument Windows
+
 
 static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 
