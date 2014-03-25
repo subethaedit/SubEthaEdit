@@ -13,6 +13,7 @@
 #import "SEEFindAndReplaceContext.h"
 #import "FullTextStorage.h"
 #import "FoldableTextStorage.h"
+#import "PlainTextDocument.h"
 
 typedef NS_ENUM(uint8_t, SEESearchRangeDirection) {
 	kSEESearchRangeDirectionForward,
@@ -26,7 +27,9 @@ typedef NS_ENUM(uint8_t, SEESearchRangeDirection) {
 + (instancetype)subRangeWithCurrentSelectionOfTextView:(SEETextView *)aTextView;
 @property (nonatomic, readonly) BOOL isRangeLocationAtBeginningOfLine;
 @property (nonatomic, readonly) BOOL isRangeMaxAtEndOfLine;
+@property (nonatomic, readonly) unsigned ogreSearchTimeOptions;
 @end
+
 
 @interface SEEFindAndReplaceContext ()
 
@@ -45,6 +48,11 @@ typedef NS_ENUM(uint8_t, SEESearchRangeDirection) {
 
 - (PlainTextEditor *)targetPlainTextEditor {
 	PlainTextEditor *result = self.targetTextView.editor;
+	return result;
+}
+
+- (FullTextStorage *)targetFullTextStorage {
+	FullTextStorage *result = [(FoldableTextStorage *)self.targetTextView.textStorage fullTextStorage];
 	return result;
 }
 
@@ -93,30 +101,59 @@ typedef NS_ENUM(uint8_t, SEESearchRangeDirection) {
 	
 	// compile search regex
 	SEEFindAndReplaceState *state = self.findAndReplaceState;
+	
+	BOOL shouldBuildRegex = NO;
+	BOOL shouldBuildReplaceExpression = NO;
+	switch (self.currentTextFinderActionType) {
+		case NSTextFinderActionReplaceAll:
+			shouldBuildReplaceExpression = YES;
+		case NSTextFinderActionNextMatch:
+		case NSTextFinderActionPreviousMatch:
+		case TCMTextFinderActionFindAll:
+			shouldBuildRegex = YES;
+			break;
+		case NSTextFinderActionReplace:
+			if (state.useRegex) {
+				shouldBuildReplaceExpression = YES;
+				shouldBuildRegex = YES;
+			}
+			break;
+		default:
+			break;
+	}
+	
+	
+	
 	OgreSyntax regexSyntax = state.useRegex ? state.regularExpressionSyntax : OgreSimpleMatchingSyntax;
-	if (![OGRegularExpression isValidExpressionString:state.findString
-											  options:state.regexOptions
-											   syntax:regexSyntax
-									  escapeCharacter:state.regularExpressionEscapeCharacter]) {
-		NSString *errorString = state.useRegex ? NSLocalizedString(@"Invalid regex",@"InvalidRegex") : NSLocalizedString(@"FIND_REPLACE_ERROR_INVALID_FIND_STRING", @"invalid find string, (e.g. zero length find strings)");
-		[self signalErrorWithDescription:errorString];
-		return NO;
+	if (shouldBuildRegex) {
+		if (![OGRegularExpression isValidExpressionString:state.findString
+												  options:state.regexOptions
+												   syntax:regexSyntax
+										  escapeCharacter:state.regularExpressionEscapeCharacter]) {
+			NSString *errorString = state.useRegex ? NSLocalizedString(@"Invalid regex",@"InvalidRegex") : NSLocalizedString(@"FIND_REPLACE_ERROR_INVALID_FIND_STRING", @"invalid find string, (e.g. zero length find strings)");
+			[self signalErrorWithDescription:errorString];
+			return NO;
+		}
+		
+		OGRegularExpression *regex = nil;
+		@try{
+			regex = [OGRegularExpression regularExpressionWithString:state.findString
+															 options:state.regexOptions
+															  syntax:regexSyntax
+													 escapeCharacter:state.regularExpressionEscapeCharacter];
+		} @catch (NSException *exception) {
+			NSString *errorString = state.useRegex ? NSLocalizedString(@"Invalid regex",@"InvalidRegex") : NSLocalizedString(@"FIND_REPLACE_ERROR_INVALID_FIND_STRING", @"invalid find string, (e.g. zero length find strings)");
+			[self signalErrorWithDescription:errorString];
+			NSLog(@"%s exception during regex build:%@",__FUNCTION__,exception);
+			return NO;
+		}
+		self.findExpression = regex;
 	}
 	
-	OGRegularExpression *regex = nil;
-	@try{
-		regex = [OGRegularExpression regularExpressionWithString:state.findString
-														 options:state.regexOptions
-														  syntax:regexSyntax
-												 escapeCharacter:state.regularExpressionEscapeCharacter];
-	} @catch (NSException *exception) {
-		NSString *errorString = state.useRegex ? NSLocalizedString(@"Invalid regex",@"InvalidRegex") : NSLocalizedString(@"FIND_REPLACE_ERROR_INVALID_FIND_STRING", @"invalid find string, (e.g. zero length find strings)");
-		[self signalErrorWithDescription:errorString];
-		NSLog(@"%s exception during regex build:%@",__FUNCTION__,exception);
-		return NO;
+	if (shouldBuildReplaceExpression) {
+		OGReplaceExpression *replaceExpression = [OGReplaceExpression replaceExpressionWithString:state.replaceString syntax:regexSyntax escapeCharacter:state.regularExpressionEscapeCharacter];
+		self.replaceExpression = replaceExpression;
 	}
-	self.findExpression = regex;
-	
 	
 	return YES;
 }
@@ -175,6 +212,14 @@ typedef NS_ENUM(uint8_t, SEESearchRangeDirection) {
 		result = [self findNextForward:YES];
 	} else if (textFinderActionType == NSTextFinderActionPreviousMatch) {
 		result = [self findNextForward:NO];
+	}
+	else if (textFinderActionType == NSTextFinderActionReplace) {
+		result = [self replaceSelection];
+	} else if (textFinderActionType == NSTextFinderActionReplaceAndFind) {
+		result = [self replaceSelection];
+		if (result) {
+			result = [self findNextForward:YES];
+		}
 	}
 	/*
 if (aTextFinderActionType==NSTextFinderActionNextMatch) {
@@ -253,15 +298,11 @@ if (aTextFinderActionType==NSTextFinderActionNextMatch) {
 		}
 		while (YES) {
 			while ((subrange = [self nextSubrange:subrange direction:direction])) {
-				unsigned searchTimeOptions = subrange.isRangeLocationAtBeginningOfLine ? 0 : OgreNotBOLOption;
-				if (!subrange.isRangeMaxAtEndOfLine) {
-					searchTimeOptions |= OgreNotEOLOption;
-				}
-				
+
 				// get all the matches we can find in that range
 				NSEnumerator *enumerator = nil;
 				@try{
-					enumerator=[self.findExpression matchEnumeratorInString:subrange.textStorage.string options:searchTimeOptions range:subrange.range];
+					enumerator=[self.findExpression matchEnumeratorInString:subrange.textStorage.string options:subrange.ogreSearchTimeOptions range:subrange.range];
 				} @catch (NSException *exception) {
 					[self signalErrorWithDescription:nil];
 					NSLog(@"%s exception while finding:%@",__FUNCTION__,exception);
@@ -303,7 +344,7 @@ if (aTextFinderActionType==NSTextFinderActionNextMatch) {
 			if (shouldStop) {
 				break;
 			} else { // wrap
-				FullTextStorage *fullTextStorage = [(FoldableTextStorage *)self.targetTextView.textStorage fullTextStorage];
+				FullTextStorage *fullTextStorage = self.targetFullTextStorage;
 				NSRange range = isForward ? NSMakeRange(0, 0) : NSMakeRange(fullTextStorage.length, 0);
 				subrange = [SEEFindAndReplaceSubRange subRangeWithTextStorage:fullTextStorage range:range];
 				isWrapRun = YES;
@@ -318,6 +359,57 @@ if (aTextFinderActionType==NSTextFinderActionNextMatch) {
 	
 	return result;
 }
+
+- (BOOL)replaceSelection {
+	self.currentTextFinderActionType = NSTextFinderActionReplace;
+	BOOL result = [self validityCheckAndPrepare];
+	if (result) {
+		NSString *replaceString = self.findAndReplaceState.replaceString;
+		if (self.findAndReplaceState.useRegex) {
+			// to make look aheads and look behinds work in most cases we search again in the line range
+			SEEFindAndReplaceSubRange *subrange = [SEEFindAndReplaceSubRange subRangeWithCurrentSelectionOfTextView:self.targetTextView];
+			NSString *contentString = [subrange.textStorage string];
+			SEEFindAndReplaceSubRange *lineSubrange = [SEEFindAndReplaceSubRange subRangeWithTextStorage:subrange.textStorage range:[contentString lineRangeForRange:subrange.range]];
+
+			// get all the matches we can find in that range
+			NSEnumerator *enumerator = nil;
+			@try{
+				enumerator=[self.findExpression matchEnumeratorInString:contentString options:lineSubrange.ogreSearchTimeOptions range:lineSubrange.range];
+			} @catch (NSException *exception) {
+				[self signalErrorWithDescription:nil];
+				NSLog(@"%s exception while finding:%@",__FUNCTION__,exception);
+				return NO;
+			}
+			
+			OGRegularExpressionMatch *match = nil;
+			while ((match = [enumerator nextObject])) {
+				if (NSEqualRanges(subrange.range, match.rangeOfMatchedString)) {
+					break;
+				}
+			}
+			if (!match) {
+				// this should not happen, but might
+				[self signalErrorWithDescription:nil];
+				return NO;
+			}
+			
+			replaceString = [self.replaceExpression replaceMatchedStringOf:match];
+		}
+		
+		PlainTextDocument *document = self.targetPlainTextEditor.document;
+		//		FullTextStorage *fullTextStorage = self.targetFullTextStorage;
+        [[document session] pauseProcessing];
+		[[document documentUndoManager] beginUndoGrouping];
+
+		[self.targetTextView insertText:replaceString];
+		
+		[[document documentUndoManager] endUndoGrouping];
+        [[document session] startProcessing];
+		
+	}
+	return result;
+}
+
 
 @end
 
@@ -373,6 +465,14 @@ if (aTextFinderActionType==NSTextFinderActionNextMatch) {
 			default:
 				result = NO;
 		}
+	}
+	return result;
+}
+
+- (unsigned)ogreSearchTimeOptions {
+	unsigned result = self.isRangeLocationAtBeginningOfLine ? 0 : OgreNotBOLOption;
+	if (!self.isRangeMaxAtEndOfLine) {
+		result |= OgreNotEOLOption;
 	}
 	return result;
 }

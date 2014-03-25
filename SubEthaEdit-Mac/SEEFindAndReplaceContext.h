@@ -12,13 +12,13 @@
 #import "PlainTextEditor.h"
 #import "SEETextView.h"
 #import "FindReplaceController.h"
+#import "FullTextStorage.h"
 
 /*!
 	Class to store a search and replace context in for all find and replace operations, including find all windows
  */
 
 @interface SEEFindAndReplaceContext : NSObject
-@property (nonatomic, readonly) PlainTextEditor *targetPlainTextEditor;
 @property (nonatomic, strong) SEEFindAndReplaceState *findAndReplaceState;
 @property (nonatomic, strong) SEETextView *targetTextView;
 @property (nonatomic) NSInteger currentTextFinderActionType;
@@ -31,6 +31,9 @@
 
 /*! derived and cached properties */
 @property (nonatomic, strong) OGRegularExpression *findExpression;
+@property (nonatomic, strong) OGReplaceExpression *replaceExpression;
+@property (nonatomic, readonly) PlainTextEditor *targetPlainTextEditor;
+@property (nonatomic, readonly) FullTextStorage *targetFullTextStorage;
 
 /*! actions that can be performed with a find and replace context */
 
@@ -39,5 +42,6 @@
 
 /*! actual action methods */
 - (BOOL)findNextForward:(BOOL)isForward;
+- (BOOL)replaceSelection;
 
 @end
