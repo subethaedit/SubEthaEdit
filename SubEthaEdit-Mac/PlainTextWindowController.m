@@ -1108,6 +1108,32 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     }
 }
 
+
+#pragma mark - Window restoration
+
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
+	[super encodeRestorableStateWithCoder:coder];
+
+	NSMutableArray *tabNames = [NSMutableArray array];
+	for (PlainTextDocument *tabDocument in self.orderedDocuments) {
+		NSTabViewItem *tabItem = [self tabViewItemForDocument:tabDocument];
+		PlainTextWindowControllerTabContext *tabContext = tabItem.identifier;
+
+		NSString *tabName = [[tabContext.document fileURL] lastPathComponent];
+
+		if (! tabName) {
+			tabName = tabContext.document.displayName;
+		}
+		[tabNames addObject:tabName];
+	}
+
+	[coder encodeObject:tabNames forKey:@"PlainTextWindowOpenTabNames"];
+}
+
+- (void)restoreStateWithCoder:(NSCoder *)coder {
+	[super restoreStateWithCoder:coder];
+}
+
 #pragma mark -
 #pragma mark ### window delegation  ###
 
@@ -1877,6 +1903,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
             [document presentScheduledAlertForWindow:[self window]];
             [tabContext setIsAlertScheduled:NO];
         }
+
+		[self invalidateRestorableState];
     }
 }
 
