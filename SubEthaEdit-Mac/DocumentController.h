@@ -24,7 +24,6 @@
 	
     NSStringEncoding I_encodingFromLastRunOpenPanel;
     NSString *I_modeIdentifierFromLastRunOpenPanel;
-    NSMutableArray *I_fileNamesFromLastRunOpenPanel;
     
     NSMutableDictionary *I_propertiesForOpenedFiles;
     NSMutableDictionary *I_suspendedSeeScriptCommands;
@@ -67,7 +66,9 @@
 
 - (PlainTextDocument *)frontmostPlainTextDocument;
 
-@property (nonatomic, assign) BOOL isOpeningUsingAlternateMenuItem;
+@property (assign) BOOL isOpeningInTab;
+@property (assign) NSUInteger filesToOpenCount;
+@property (assign) BOOL isOpeningUsingAlternateMenuItem;
 
 - (id)handleOpenScriptCommand:(NSScriptCommand *)command;
 - (id)handlePrintScriptCommand:(NSScriptCommand *)command;

@@ -31,7 +31,7 @@
 @interface DocumentController ()
 
 @property (nonatomic, strong) SEEDocumentListWindowController *documentListWindowController;
-
+@property (nonatomic, strong) NSMutableArray *filenamesFromLastRunOpenPanel;
 
 - (void)setModeIdentifierFromLastRunOpenPanel:(NSString *)modeIdentifier;
 - (void)setEncodingFromLastRunOpenPanel:(NSStringEncoding)stringEncoding;
@@ -48,7 +48,7 @@
     self = [super init];
     if (self) {
 //        I_isOpeningUntitledDocument = NO;
-        I_fileNamesFromLastRunOpenPanel = [NSMutableArray new];
+        self.filenamesFromLastRunOpenPanel = [NSMutableArray new];
         I_propertiesForOpenedFiles = [NSMutableDictionary new];
         I_suspendedSeeScriptCommands = [NSMutableDictionary new];
         I_waitingDocuments = [NSMutableDictionary new];
@@ -62,7 +62,7 @@
 // actually never gets called - as any other top level nib object isn't dealloced...
 - (void)dealloc {
     [I_modeIdentifierFromLastRunOpenPanel release];
-    [I_fileNamesFromLastRunOpenPanel release];
+    self.filenamesFromLastRunOpenPanel = nil;
     [I_propertiesForOpenedFiles release];
     [I_suspendedSeeScriptCommands release];
     [I_waitingDocuments release];
@@ -74,27 +74,6 @@
     [super dealloc];
 }
 
-
-#pragma mark - NSWindowRestoration
-
-+ (void)restoreWindowWithIdentifier:(NSString *)identifier state:(NSCoder *)state completionHandler:(void (^)(NSWindow *, NSError *))completionHandler {
-	if ([identifier isEqualToString:@"DocumentList"]) {
-		DocumentController *documentController = [[self class] sharedDocumentController];
-		[documentController showDocumentListWindow:self];
-
-		if (completionHandler) {
-			completionHandler(documentController.documentListWindowController.window, nil);
-		}
-	} else {
-		[super restoreWindowWithIdentifier:identifier state:state completionHandler:completionHandler];
-	}
-}
-
-
-- (void)reopenDocumentForURL:(NSURL *)urlOrNil withContentsOfURL:(NSURL *)contentsURL display:(BOOL)displayDocument completionHandler:(void (^)(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error))completionHandler
-{
-	[super reopenDocumentForURL:urlOrNil withContentsOfURL:contentsURL display:displayDocument completionHandler:completionHandler];
-}
 
 #pragma mark - Actions
 
@@ -448,34 +427,22 @@
 
 #pragma mark - Open new document
 
-- (void)newDocumentInTab:(id)sender {
-	BOOL flag = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:OpenNewDocumentInTabKey];
-
-	NSMenu *menu = [[[NSApp mainMenu] itemWithTag:FileMenuTag] submenu];
-	NSMenuItem *menuItem = [menu itemWithTag:FileNewMenuItemTag];
-	menu = [menuItem submenu];
-	NSMenuItem *item = (NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] tagForDocumentModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]]];
-
-	[[NSDocumentController sharedDocumentController] newDocumentWithModeMenuItem:item];
-
-	[[NSUserDefaults standardUserDefaults] setBool:flag forKey:OpenNewDocumentInTabKey];
-}
-
-- (void)newDocumentWithModeMenuItem:(id)aSender {
-    DocumentModeManager *modeManager=[DocumentModeManager sharedInstance];
-    NSString *identifier=[modeManager documentModeIdentifierForTag:[aSender tag]];
-    if (identifier) {
-        DocumentMode *newMode=[modeManager documentModeForIdentifier:identifier];
+- (void)newDocumentWithModeIdentifier:(NSString *)aModeIdentifier {
+    if (aModeIdentifier) {
+		DocumentModeManager *modeManager = [DocumentModeManager sharedInstance];
+        DocumentMode *newMode = [modeManager documentModeForIdentifier:aModeIdentifier];
         if (!newMode) return;
+		
         PlainTextDocument *document = (PlainTextDocument *)[self openUntitledDocumentAndDisplay:YES error:nil];
         [document setDocumentMode:newMode];
         [document resizeAccordingToDocumentMode];
         [document showWindows];
+
         NSStringEncoding encoding = [[newMode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
         if (encoding < SmallestCustomStringEncoding) {
             [document setFileEncoding:encoding];
         }
+
         NSString *templateFileContent=[newMode templateFileContent];
         if (templateFileContent && ![templateFileContent canBeConvertedToEncoding:[document fileEncoding]]) {
             templateFileContent=[[[NSString alloc]
@@ -483,6 +450,7 @@
 								  encoding:[document fileEncoding]]
 								 autorelease];
         }
+
         if (templateFileContent) {
             FoldableTextStorage *textStorage=(FoldableTextStorage *)[document textStorage];
             [textStorage replaceCharactersInRange:NSMakeRange(0,[textStorage length]) withString:templateFileContent];
@@ -491,36 +459,108 @@
     }
 }
 
+
 - (IBAction)newDocument:(id)aSender
 {
+	self.isOpeningInTab = NO;
+	self.isOpeningUsingAlternateMenuItem = NO;
+
 	if ([aSender respondsToSelector:@selector(representedObject)]) {
-		[self newDocumentWithModeMenuItem:[aSender representedObject]];
+		DocumentModeManager *modeManager = [DocumentModeManager sharedInstance];
+		NSString *identifier = [modeManager documentModeIdentifierForTag:[[aSender representedObject] tag]];
+		[self newDocumentWithModeIdentifier:identifier];
+	} else {
+		[self newDocumentWithModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]];
 	}
 }
 
+- (IBAction)newAlternateDocument:(id)sender {
+	self.isOpeningInTab = NO;
+	self.isOpeningUsingAlternateMenuItem = YES;
+
+	DocumentModeManager *modeManager=[DocumentModeManager sharedInstance];
+    NSString *identifier = [modeManager documentModeIdentifierForTag:[[sender representedObject] tag]];
+	[self newDocumentWithModeIdentifier:identifier];
+}
+
+
+- (IBAction)newDocumentInTab:(id)sender {
+	self.isOpeningInTab = YES;
+	self.isOpeningUsingAlternateMenuItem = NO;
+	
+	[self newDocumentWithModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]];
+}
+
+
+- (IBAction)newDocumentWithModeMenuItem:(id)aSender {
+	self.isOpeningInTab = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
+	self.isOpeningUsingAlternateMenuItem = NO;
+
+    DocumentModeManager *modeManager=[DocumentModeManager sharedInstance];
+    NSString *identifier = [modeManager documentModeIdentifierForTag:[aSender tag]];
+	[self newDocumentWithModeIdentifier:identifier];
+}
+
+
+- (IBAction)newAlternateDocumentWithModeMenuItem:(id)sender {
+	self.isOpeningInTab = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
+	self.isOpeningUsingAlternateMenuItem = YES;
+
+	DocumentModeManager *modeManager=[DocumentModeManager sharedInstance];
+    NSString *identifier = [modeManager documentModeIdentifierForTag:[sender tag]];
+	[self newDocumentWithModeIdentifier:identifier];
+}
+
+
 - (IBAction)newDocumentWithModeMenuItemFromDock:(id)aSender {
-	[self newDocumentWithModeMenuItem:aSender];
+	self.isOpeningInTab = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
+	self.isOpeningUsingAlternateMenuItem = NO;
+
+    DocumentModeManager *modeManager=[DocumentModeManager sharedInstance];
+    NSString *identifier = [modeManager documentModeIdentifierForTag:[aSender tag]];
+	[self newDocumentWithModeIdentifier:identifier];
+
 	[NSApp activateIgnoringOtherApps:YES];
 }
 
+
 - (IBAction)newDocumentFromDock:(id)aSender {
-	[self newDocumentWithModeMenuItemFromDock:[aSender representedObject]];
+	self.isOpeningInTab = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
+	self.isOpeningUsingAlternateMenuItem = NO;
+
+	DocumentModeManager *modeManager=[DocumentModeManager sharedInstance];
+    NSString *identifier=[modeManager documentModeIdentifierForTag:[[aSender representedObject] tag]];
+	[self newDocumentWithModeIdentifier:identifier];
+
+	[NSApp activateIgnoringOtherApps:YES];
 }
 
-- (IBAction)newAlternateDocument:(id)sender
-{
-    BOOL flag = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
-    [[NSUserDefaults standardUserDefaults] setBool:!flag forKey:OpenNewDocumentInTabKey];
-    [self newDocumentWithModeMenuItem:[sender representedObject]];
-    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:OpenNewDocumentInTabKey];
+
+- (id)openUntitledDocumentAndDisplay:(BOOL)displayDocument error:(NSError **)outError {
+	id result = [super openUntitledDocumentAndDisplay:displayDocument error:outError];
+
+	self.isOpeningUsingAlternateMenuItem = NO;
+	self.isOpeningInTab = NO;
+
+	return result;
 }
 
-- (void)newAlternateDocumentWithModeMenuItem:(id)sender
-{
-    BOOL flag = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
-    [[NSUserDefaults standardUserDefaults] setBool:!flag forKey:OpenNewDocumentInTabKey];
-    [self newDocumentWithModeMenuItem:sender];
-    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:OpenNewDocumentInTabKey];
+
+- (id)makeUntitledDocumentOfType:(NSString *)typeName error:(NSError **)outError {
+	id result = [super makeUntitledDocumentOfType:typeName error:outError];
+
+	if ([result isKindOfClass:PlainTextDocument.class]) {
+		PlainTextDocument *plainTextDocument = (PlainTextDocument *)result;
+		plainTextDocument.shouldOpenInTab = self.isOpeningInTab;
+		plainTextDocument.useAlternateMakeWindowControllerBehaviour = self.isOpeningUsingAlternateMenuItem;
+
+		// if should open in tabs is enabled we like to open all of them in one new window. so only the first document should be opened in a new window in this case
+		if (self.isOpeningInTab) {
+			self.isOpeningUsingAlternateMenuItem = NO;
+		}
+	}
+
+	return result;
 }
 
 
@@ -534,7 +574,7 @@
 		[self setLocationForNextOpenPanel:nil];
 	}
 
-	[I_fileNamesFromLastRunOpenPanel removeAllObjects];
+	[self.filenamesFromLastRunOpenPanel removeAllObjects];
 
 	[super beginOpenPanel:openPanel forTypes:inTypes completionHandler:^(NSInteger result) {
 		[self setModeIdentifierFromLastRunOpenPanel:[openPanelAccessoryViewController.modePopUpButtonOutlet selectedModeIdentifier]];
@@ -557,12 +597,14 @@
 						if (self.isOpeningUsingAlternateMenuItem && [self documentForURL:URL]) {
 							// do nothing to not accidently put a window in front and distribute the new files
 						} else {
-							[I_fileNamesFromLastRunOpenPanel addObject:fileName];
+							[self.filenamesFromLastRunOpenPanel addObject:fileName];
 						}
 					}
 				}
 			}
 		}
+
+		self.filesToOpenCount = openPanel.URLs.count;
 
 		if (completionHandler) {
 			completionHandler(result);
@@ -580,11 +622,11 @@
 }
 
 - (BOOL)isDocumentFromLastRunOpenPanel:(NSDocument *)aDocument {
-    NSInteger index = [I_fileNamesFromLastRunOpenPanel indexOfObject:[[aDocument fileURL] path]];
+    NSInteger index = [self.filenamesFromLastRunOpenPanel indexOfObject:[[aDocument fileURL] path]];
     if (index == NSNotFound) {
         return NO;
     }
-    [I_fileNamesFromLastRunOpenPanel removeObjectAtIndex:index];
+    [self.filenamesFromLastRunOpenPanel removeObjectAtIndex:index];
     return YES;
 }
 
@@ -593,14 +635,18 @@
 }
 
 - (IBAction)openNormalDocument:(id)aSender {
+	self.isOpeningInTab = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
 	self.isOpeningUsingAlternateMenuItem = NO;
     [self openDocument:(id)aSender];
 }
 
 - (IBAction)openAlternateDocument:(id)aSender {
+	self.isOpeningInTab = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
 	self.isOpeningUsingAlternateMenuItem = YES;
     [self openDocument:(id)aSender];
 }
+
+#pragma mark *** Document Opening ***
 
 - (void)openDocumentWithContentsOfURL:(NSURL *)url display:(BOOL)displayDocument completionHandler:(void (^)(NSDocument *, BOOL, NSError *))completionHandler
 {
@@ -613,12 +659,18 @@
     [[NSFileManager defaultManager] fileExistsAtPath:[url path] isDirectory:&isDirectory];
     if (isFilePackage && [extension isEqualToString:@"mode"]) {
         [self openModeFile:filename];
+
+		self.filesToOpenCount--;
+
 		if (completionHandler) {
 			completionHandler(nil, NO, nil);
 		}
     } else if (!isFilePackage && isDirectory) {
         [self setLocationForNextOpenPanel:url];
         [self performSelector:@selector(openDocument:) withObject:nil afterDelay:0.0];
+
+		self.filesToOpenCount--;
+
 		if (completionHandler) {
 			completionHandler(nil, NO, nil);
 		}
@@ -629,10 +681,23 @@
 			 if (document && [document isKindOfClass:PlainTextDocument.class] && displayDocument) {
 				 [(PlainTextDocument *)document handleOpenDocumentEvent:eventDesc];
 			 }
+
+			 self.filesToOpenCount--;
+
 			 if (completionHandler) {
 				 completionHandler(document, displayDocument, error);
 			 }
+
+			 if (self.filesToOpenCount == 0) {
+				 self.isOpeningUsingAlternateMenuItem = NO;
+				 self.isOpeningInTab = NO;
+			 }
 		 }];
+	}
+
+	if (self.filesToOpenCount == 0) {
+		self.isOpeningUsingAlternateMenuItem = NO;
+		self.isOpeningInTab = NO;
 	}
 }
 
@@ -642,6 +707,68 @@
 
 	if ([result isKindOfClass:PlainTextDocument.class]) {
 		PlainTextDocument *plainTextDocument = (PlainTextDocument *)result;
+		plainTextDocument.shouldOpenInTab = self.isOpeningInTab;
+		plainTextDocument.useAlternateMakeWindowControllerBehaviour = self.isOpeningUsingAlternateMenuItem;
+
+		// if should open in tabs is enabled we like to open all of them in one new window. so only the first document should be opened in a new window in this case
+		if (self.isOpeningInTab) {
+			self.isOpeningUsingAlternateMenuItem = NO;
+		}
+	}
+
+	return result;
+}
+
+#pragma mark *** Document Reopening ***
+
+#pragma mark - NSWindowRestoration
+
++ (void)restoreWindowWithIdentifier:(NSString *)identifier state:(NSCoder *)state completionHandler:(void (^)(NSWindow *, NSError *))completionHandler {
+	if ([identifier isEqualToString:@"DocumentList"]) {
+		DocumentController *documentController = [[self class] sharedDocumentController];
+		[documentController showDocumentListWindow:self];
+
+		if (completionHandler) {
+			completionHandler(documentController.documentListWindowController.window, nil);
+		}
+	} else {
+		[super restoreWindowWithIdentifier:identifier state:state completionHandler:^(NSWindow *window, NSError *inError) {
+
+			// we also may have to restore tabs in this window
+			NSArray *tabs = [state decodeObjectForKey:@"PlainTextWindowOpenTabNames"];
+			if (tabs) {
+				NSLog(@"%@", tabs);
+			}
+
+			if (completionHandler) {
+				completionHandler(window, inError);
+			}
+		}];
+	}
+}
+
+
+- (void)reopenDocumentForURL:(NSURL *)urlOrNil withContentsOfURL:(NSURL *)contentsURL display:(BOOL)displayDocument completionHandler:(void (^)(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error))completionHandler
+{
+	[self.filenamesFromLastRunOpenPanel removeAllObjects];
+
+	[super reopenDocumentForURL:urlOrNil withContentsOfURL:contentsURL display:displayDocument completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
+		if (completionHandler) {
+			completionHandler(document, documentWasAlreadyOpen, error);
+		}
+
+		self.isOpeningUsingAlternateMenuItem = NO;
+		self.isOpeningInTab = NO;
+	}];
+}
+
+
+- (id)makeDocumentForURL:(NSURL *)urlOrNil withContentsOfURL:(NSURL *)contentsURL ofType:(NSString *)typeName error:(NSError **)outError {
+	id result = [super makeDocumentForURL:urlOrNil withContentsOfURL:contentsURL ofType:typeName error:outError];
+
+	if ([result isKindOfClass:PlainTextDocument.class]) {
+		PlainTextDocument *plainTextDocument = (PlainTextDocument *)result;
+		plainTextDocument.shouldOpenInTab = self.isOpeningInTab;
 		plainTextDocument.useAlternateMakeWindowControllerBehaviour = self.isOpeningUsingAlternateMenuItem;
 	}
 
