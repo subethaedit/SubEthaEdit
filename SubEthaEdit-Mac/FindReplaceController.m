@@ -331,7 +331,7 @@ static FindReplaceController *sharedInstance=nil;
 }
 
 - (void)setStatusString:(NSString *)aString {
-	[self.globalFindAndReplaceStateController setValue:aString forKeyPath:@"content.statusString"];
+	[self.globalFindAndReplaceStateController setValue:[aString copy] forKeyPath:@"content.statusString"];
 }
 
 - (void)signalErrorWithDescription:(NSString *)aDescription {

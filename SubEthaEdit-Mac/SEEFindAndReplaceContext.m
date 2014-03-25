@@ -28,16 +28,28 @@ typedef NS_ENUM(uint8_t, SEESearchRangeDirection) {
 @property (nonatomic, readonly) BOOL isRangeLocationAtBeginningOfLine;
 @property (nonatomic, readonly) BOOL isRangeMaxAtEndOfLine;
 @property (nonatomic, readonly) unsigned ogreSearchTimeOptions;
+
+
 @end
 
 
 @interface SEEFindAndReplaceContext ()
-
++ (dispatch_queue_t)findAndReplaceBackroundQueue;
 - (void)signalErrorWithDescription:(NSString *)aDescription;
+/* replace all state */
+@property (nonatomic) NSInteger replaceCountForReplaceAll;
 
 @end
 
 @implementation SEEFindAndReplaceContext
+
++ (dispatch_queue_t)findAndReplaceBackroundQueue {
+	static dispatch_queue_t background_queue;
+	if (!background_queue) {
+		background_queue = dispatch_queue_create("find and replace background queue", DISPATCH_QUEUE_SERIAL);
+	}
+	return background_queue;
+}
 
 + (instancetype)contextWithTextView:(NSTextView *)aTextView state:(SEEFindAndReplaceState *)aState {
 	SEEFindAndReplaceContext *result = [SEEFindAndReplaceContext new];
@@ -221,31 +233,11 @@ typedef NS_ENUM(uint8_t, SEESearchRangeDirection) {
 			result = [self findNextForward:YES];
 		}
 	}
+	else if (textFinderActionType == NSTextFinderActionReplaceAll) {
+		result = [self replaceAll];
+	}
 	/*
-if (aTextFinderActionType==NSTextFinderActionNextMatch) {
-	if (isFindStringNotZeroLength) {
-		[self find:findString forward:YES];
-	} else {
-		[self signalErrorWithDescription:nil];
-	}
-} else if (aTextFinderActionType==NSTextFinderActionPreviousMatch) {
-	if (isFindStringNotZeroLength) {
-		[self find:findString forward:NO];
-	} else {
-		[self signalErrorWithDescription:nil];
-	}
-} else if (aTextFinderActionType==NSTextFinderActionReplaceAll) {
-	[self replaceAllInTextView:target findAndReplaceState:self.globalFindAndReplaceState ranges:searchScopeRanges];
-} else if (aTextFinderActionType==NSTextFinderActionReplace) {
-	[self replaceSelection];
-} else if (aTextFinderActionType==NSTextFinderActionReplaceAndFind) {
-	[self replaceSelection];
-	if (isFindStringNotZeroLength) {
-		[self find:findString forward:YES ];
-	} else {
-		[self signalErrorWithDescription:nil];
-	}
-} else if (aTextFinderActionType==TCMTextFinderActionFindAll) {
+	else if (aTextFinderActionType==TCMTextFinderActionFindAll) {
 	if (!isFindStringNotZeroLength) {
 		[self signalErrorWithDescription:nil];
 		return;
@@ -410,6 +402,86 @@ if (aTextFinderActionType==NSTextFinderActionNextMatch) {
 	return result;
 }
 
+- (void)lockDocument:(PlainTextDocument *)aDocument {
+    NSEnumerator *plainTextEditors=[[aDocument plainTextEditors] objectEnumerator];
+    PlainTextEditor *editor=nil;
+    while ((editor=[plainTextEditors nextObject])) {
+        [[editor textView] setEditable:NO];
+    }
+	[[aDocument session] pauseProcessing];
+	[aDocument.undoManager beginUndoGrouping];
+}
+
+- (void)unlockDocument:(PlainTextDocument *)aDocument {
+	[aDocument.undoManager endUndoGrouping];
+	[[aDocument session] startProcessing];
+    NSEnumerator *plainTextEditors=[[aDocument plainTextEditors] objectEnumerator];
+    PlainTextEditor *editor=nil;
+    while ((editor=[plainTextEditors nextObject])) {
+        [[editor textView] setEditable:YES];
+    }
+}
+
+
+- (void)startLongTextReplaceOperation {
+	[self lockDocument:self.targetPlainTextEditor.document];
+}
+
+- (void)stopLongTextReplaceOperation {
+	[self unlockDocument:self.targetPlainTextEditor.document];
+	[[FindReplaceController sharedInstance] setStatusString:[NSString stringWithFormat:NSLocalizedString(@"%d replaced.",@"Number of replaced strings"), self.replaceCountForReplaceAll]];
+
+}
+
+- (BOOL)replaceAll {
+	self.currentTextFinderActionType = NSTextFinderActionReplaceAll;
+	BOOL result = [self validityCheckAndPrepare];
+	if (result) {
+		__block NSMutableArray *subranges = [NSMutableArray new];
+		FullTextStorage *fullTextStorage = self.targetFullTextStorage;
+		NSMutableString *fullTextStorageString = fullTextStorage.mutableString;
+		NSDictionary *typingAttributes = [self.targetPlainTextEditor.document typingAttributes];
+		for (NSValue *rangeValue in self.targetTextView.searchScopeRanges) {
+			SEEFindAndReplaceSubRange *subrange = [SEEFindAndReplaceSubRange subRangeWithTextStorage:fullTextStorage range:rangeValue.rangeValue];
+			[subranges addObject:subrange];
+		}
+		[self startLongTextReplaceOperation];
+		self.replaceCountForReplaceAll = 0;
+		OGRegularExpression *findExpression = self.findExpression;
+		OGReplaceExpression *replaceExpression = self.replaceExpression;
+		dispatch_async([SEEFindAndReplaceContext findAndReplaceBackroundQueue], ^{
+			NSInteger replaceCount = 0;
+			NSRange lastMatchAfterRange = NSMakeRange(0, 0);
+			@try {
+				[fullTextStorage beginEditing];
+				for (SEEFindAndReplaceSubRange *subrange in subranges.reverseObjectEnumerator) {
+					NSEnumerator *matchesEnumerator = nil;
+					matchesEnumerator=[findExpression matchEnumeratorInString:subrange.textStorage.string options:subrange.ogreSearchTimeOptions range:subrange.range];
+					for (OGRegularExpressionMatch *match in matchesEnumerator.allObjects.reverseObjectEnumerator) {
+						NSString *replaceString = [replaceExpression replaceMatchedStringOf:match];
+						NSRange replaceRange = match.rangeOfMatchedString;
+						lastMatchAfterRange = replaceRange;
+						lastMatchAfterRange.length = replaceString.length;
+						[fullTextStorageString replaceCharactersInRange:replaceRange withString:replaceString];
+						[fullTextStorage addAttributes:typingAttributes range:lastMatchAfterRange];
+						replaceCount++;
+					}
+				}
+			} @catch (NSException *exception) {
+				[self signalErrorWithDescription:nil];
+				NSLog(@"%s exception while finding:%@",__FUNCTION__,exception);
+			} @finally {
+				[[NSOperationQueue mainQueue] addOperationWithBlock:^{
+					[fullTextStorage endEditing];
+					self.replaceCountForReplaceAll = replaceCount;
+					[self.targetTextView setSelectedRange:lastMatchAfterRange];
+					[self stopLongTextReplaceOperation];
+				}];
+			}
+		});
+	}
+	return result;
+}
 
 @end
 

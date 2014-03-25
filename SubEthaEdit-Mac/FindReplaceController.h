@@ -67,6 +67,8 @@ typedef enum {
 
 - (void)signalErrorWithDescription:(NSString *)aDescription;
 
+@property (nonatomic, copy) NSString *statusString;
+
 @end
 
 
