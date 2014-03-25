@@ -646,7 +646,7 @@
     [self openDocument:(id)aSender];
 }
 
-#pragma mark *** Document Opening ***
+#pragma mark - Document Opening
 
 - (void)openDocumentWithContentsOfURL:(NSURL *)url display:(BOOL)displayDocument completionHandler:(void (^)(NSDocument *, BOOL, NSError *))completionHandler
 {
@@ -660,7 +660,9 @@
     if (isFilePackage && [extension isEqualToString:@"mode"]) {
         [self openModeFile:filename];
 
-		self.filesToOpenCount--;
+		if (self.filesToOpenCount > 0) {
+			self.filesToOpenCount--;
+		}
 
 		if (completionHandler) {
 			completionHandler(nil, NO, nil);
@@ -669,7 +671,9 @@
         [self setLocationForNextOpenPanel:url];
         [self performSelector:@selector(openDocument:) withObject:nil afterDelay:0.0];
 
-		self.filesToOpenCount--;
+		if (self.filesToOpenCount > 0) {
+			self.filesToOpenCount--;
+		}
 
 		if (completionHandler) {
 			completionHandler(nil, NO, nil);
@@ -682,7 +686,9 @@
 				 [(PlainTextDocument *)document handleOpenDocumentEvent:eventDesc];
 			 }
 
-			 self.filesToOpenCount--;
+			 if (self.filesToOpenCount > 0) {
+				 self.filesToOpenCount--;
+			 }
 
 			 if (completionHandler) {
 				 completionHandler(document, displayDocument, error);
@@ -707,8 +713,11 @@
 
 	if ([result isKindOfClass:PlainTextDocument.class]) {
 		PlainTextDocument *plainTextDocument = (PlainTextDocument *)result;
-		plainTextDocument.shouldOpenInTab = self.isOpeningInTab;
-		plainTextDocument.useAlternateMakeWindowControllerBehaviour = self.isOpeningUsingAlternateMenuItem;
+
+		if (self.filesToOpenCount > 0) {
+			plainTextDocument.shouldOpenInTab = self.isOpeningInTab;
+			plainTextDocument.useAlternateMakeWindowControllerBehaviour = self.isOpeningUsingAlternateMenuItem;
+		}
 
 		// if should open in tabs is enabled we like to open all of them in one new window. so only the first document should be opened in a new window in this case
 		if (self.isOpeningInTab) {
@@ -719,7 +728,6 @@
 	return result;
 }
 
-#pragma mark *** Document Reopening ***
 
 #pragma mark - NSWindowRestoration
 
