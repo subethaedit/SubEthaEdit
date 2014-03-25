@@ -254,6 +254,8 @@ static NSString *tempFileName(NSString *origPath) {
 - (void)TCM_initHelper {
 	self.persistentDocumentScopedBookmarkURLs = [NSMutableArray array];
 
+	self.shouldOpenInTab = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
+
     I_flags.isAutosavingForRestart=NO;
     I_flags.isHandlingUndoManually=NO;
     I_flags.shouldSelectModeOnSave=YES;
@@ -1632,10 +1634,11 @@ static NSString *tempFileName(NSString *origPath) {
 static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 
 - (void)makeWindowControllers {
-    BOOL shouldOpenInTab = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
+    BOOL shouldOpenInTab = self.shouldOpenInTab;
     if (self.useAlternateMakeWindowControllerBehaviour) {
         shouldOpenInTab = !shouldOpenInTab;
     }
+
     PlainTextWindowController *windowController = nil;
     if (shouldOpenInTab) {
         windowController = [[DocumentController sharedDocumentController] activeWindowController];
@@ -5537,9 +5540,11 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     [self setTemporaryDisplayName:[aSession filename]];
 
     // this is slightly modified make window controllers code ...
+	self.shouldOpenInTab = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
+	self.useAlternateMakeWindowControllerBehaviour = NO;
     [self makeWindowControllers]; 
     PlainTextWindowController *windowController=[[self windowControllers] lastObject];
-    I_flags.isReceivingContent=YES;
+    I_flags.isReceivingContent = YES;
     [windowController document:self isReceivingContent:YES];
     
 	if (![[windowController window] isVisible]) {
