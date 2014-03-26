@@ -6,6 +6,12 @@
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
 //
 
+
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
 #import "FindAllController.h"
 #import <OgreKit/OgreKit.h>
 #import "FoldableTextStorage.h"
@@ -13,35 +19,27 @@
 #import "FindReplaceController.h"
 
 
+
 @implementation FindAllController
 
-- (id)initWithRegex:(OGRegularExpression*)regex andRange:(NSRange)aRange {
+- (instancetype)initWithFindAndReplaceContext:(SEEFindAndReplaceContext *)aFindAndReplaceContext {
+
     self = [super initWithWindowNibName:@"FindAll"];
     if (self) {
-        I_regularExpression = [regex copy];
-        // A non-scoped search is indicated by NSNotFound
-        if (aRange.location != NSNotFound) {
-            I_scopeSelectionOperation = [SelectionOperation new];
-            [I_scopeSelectionOperation setSelectedRange:aRange];
-        } 
+		self.findAndReplaceContext = aFindAndReplaceContext;
     }
     return self;
 }
 
-- (void)dealloc 
-{
+- (void)dealloc  {
     [[self window] orderOut:self];
-    [I_regularExpression release];
-    [I_scopeSelectionOperation release];
-    [super dealloc];
 }
 
 - (void)windowWillClose:(NSNotification *)aNotification {
-    //NSLog(@"close");
     [I_document removeFindAllController:self];
 }
 
-- (NSArray*) arrangedObjects
+- (NSArray*)arrangedObjects
 {
     return [O_resultsController arrangedObjects];
 }
@@ -52,60 +50,38 @@
 }
 
 - (void)windowDidLoad {
-    [((NSPanel *)[self window]) setFloatingPanel:NO];
-    [[self window] setHidesOnDeactivate:NO];
-    [[self window] setDelegate:self];
-    [O_findRegexTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Find: %@",@"FindRegexPrefix"),[I_regularExpression expressionString]]];
+	NSPanel *panel = (NSPanel *)self.window;
+    [panel setFloatingPanel:NO];
+    [panel setHidesOnDeactivate:NO];
+    [panel setDelegate:self];
+    [O_findRegexTextField setStringValue:[NSString stringWithFormat:NSLocalizedString(@"Find: %@",@"FindRegexPrefix"),self.findAndReplaceContext.findAndReplaceState.findString]];
     [O_resultsTableView setDoubleAction:@selector(jumpToSelection:)];
     [O_resultsTableView setTarget:self];
 }
 
-- (void)findAll:(id)sender
-{
+- (void)findAll:(id)sender {
+
     [O_resultsTableView setDelegate:nil];
 
     [O_progressIndicator startAnimation:nil];
     [self showWindow:self];
+
     [O_resultsController removeObjects:[O_resultsController arrangedObjects]]; //Clear arraycontroller
-    OGRegularExpression *regex = I_regularExpression;
 
     if (I_document) {
-        NSString *text = [[(FoldableTextStorage *)[I_document textStorage] fullTextStorage] string];
-                
-        if ([regex syntax]==OgreSimpleMatchingSyntax) {
-            unsigned options = OgreNoneOption;
-            if ([regex options]&OgreIgnoreCaseOption) options = options | OgreIgnoreCaseOption;
-            OGRegularExpression *simpleregex = [OGRegularExpression regularExpressionWithString:[regex expressionString]
-                                                 options:options
-                                                 syntax:OgreSimpleMatchingSyntax
-                                                 escapeCharacter:[regex escapeCharacter]];
-            regex = simpleregex;
-        }
         
-        NSRange scope;
-        if (I_scopeSelectionOperation) 
-            scope = [I_scopeSelectionOperation selectedRange];
-        else 
-            scope = NSMakeRange(0,[text length]);
-        
-        NSArray *matchArray = nil;
-        
-        @try{
-            matchArray = [regex allMatchesInString:text options:[regex options] range:scope];
-        } @catch (NSException *exception) {
-            NSBeep();
-        }
+        NSArray *matchArray = [self.findAndReplaceContext allMatches];
         
         int count = [matchArray count];
         NSTableColumn* stringCol = [[O_resultsTableView tableColumns] objectAtIndex:1];
         int longestCol = 150;
         
         NSString *statusString = [NSString stringWithFormat:NSLocalizedString(@"%d found.",@"Entries Found in FindAll Panel"),count];
-        
+/*
         NSString *scopeString = I_scopeSelectionOperation ? NSLocalizedStringWithDefaultValue(@"SELECTION_SCOPE_DESCRIPTION", nil, [NSBundle mainBundle], @"Selection", @"string describing the selection find scope") :
 NSLocalizedStringWithDefaultValue(@"SELECTION_SCOPE_DOCUMENT", nil,[NSBundle mainBundle], @"Document", @"string describing the document find scope");
-                
-        [O_findResultsTextField setStringValue:[NSString stringWithFormat:@"%@ (%@)",statusString,scopeString]];
+*/                
+        [O_findResultsTextField setStringValue:[NSString stringWithFormat:@"%@",statusString]];
         
         for (OGRegularExpressionMatch *aMatch in matchArray) {
             NSRange matchRange = [aMatch rangeOfMatchedString];
@@ -133,7 +109,7 @@ NSLocalizedStringWithDefaultValue(@"SELECTION_SCOPE_DOCUMENT", nil,[NSBundle mai
                 } else break;
             }
             
-            SelectionOperation *selOp = [[SelectionOperation new] autorelease];
+            SelectionOperation *selOp = [SelectionOperation new];
             [selOp setSelectedRange:matchRange];
             
             [O_resultsController addObject:[NSDictionary dictionaryWithObjectsAndKeys:
@@ -147,7 +123,6 @@ NSLocalizedStringWithDefaultValue(@"SELECTION_SCOPE_DOCUMENT", nil,[NSBundle mai
                 longestCol = stringSize.width;
             }
 
-            [aString release];
         }
         [O_resultsTableView tile];
         if ([[self arrangedObjects] count] > 0) {

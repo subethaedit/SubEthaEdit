@@ -40,8 +40,14 @@
 /*! dispatch method */
 - (BOOL)performCurrentTextFinderAction;
 
+/*! */
+- (NSArray *)allMatches;
+
 /*! actual action methods */
 - (BOOL)findNextForward:(BOOL)isForward;
 - (BOOL)replaceSelection;
+- (BOOL)replaceAll;
+- (BOOL)showFindAllResults;
+
 
 @end

@@ -14,6 +14,7 @@
 #import "FullTextStorage.h"
 #import "FoldableTextStorage.h"
 #import "PlainTextDocument.h"
+#import "FindAllController.h"
 
 typedef NS_ENUM(uint8_t, SEESearchRangeDirection) {
 	kSEESearchRangeDirectionForward,
@@ -28,7 +29,6 @@ typedef NS_ENUM(uint8_t, SEESearchRangeDirection) {
 @property (nonatomic, readonly) BOOL isRangeLocationAtBeginningOfLine;
 @property (nonatomic, readonly) BOOL isRangeMaxAtEndOfLine;
 @property (nonatomic, readonly) unsigned ogreSearchTimeOptions;
-
 
 @end
 
@@ -236,36 +236,10 @@ typedef NS_ENUM(uint8_t, SEESearchRangeDirection) {
 	else if (textFinderActionType == NSTextFinderActionReplaceAll) {
 		result = [self replaceAll];
 	}
-	/*
-	else if (aTextFinderActionType==TCMTextFinderActionFindAll) {
-	if (!isFindStringNotZeroLength) {
-		[self signalErrorWithDescription:nil];
-		return;
-	}
-	if ((![OGRegularExpression isValidExpressionString:findString])&&
-		(![self currentOgreSyntax]==OgreSimpleMatchingSyntax)) {
-		[self signalErrorWithDescription:NSLocalizedString(@"Invalid regex",@"InvalidRegex")];
-		return;
+	else if (textFinderActionType == TCMTextFinderActionFindAll) {
+		[self showFindAllResults];
 	}
 	
-	OGRegularExpression *regex = nil;
-	@try{
-		regex = [OGRegularExpression regularExpressionWithString:[self currentFindString]
-														 options:[self currentOgreOptions]
-														  syntax:[self currentOgreSyntax]
-												 escapeCharacter:[self currentOgreEscapeCharacter]];
-	} @catch (NSException *exception) {
-		[self signalErrorWithDescription:NSLocalizedString(@"Invalid regex",@"InvalidRegex")];
-	}
-	if (regex) {
-		NSRange scope = [searchScopeRanges.firstObject rangeValue];
-		FindAllController *findall = [[FindAllController alloc] initWithRegex:regex andRange:scope];
-		[(PlainTextDocument *)[[target editor] document] addFindAllController:findall];
-		if ([self currentOgreSyntax]==OgreSimpleMatchingSyntax) [self saveFindStringToPasteboard];
-		[findall findAll:self];
-	}
-}
-	 */
 	return result;
 }
 
@@ -438,18 +412,24 @@ typedef NS_ENUM(uint8_t, SEESearchRangeDirection) {
 #define CHECK_END_MATCHES_INTERVAL 50
 #define CHECK_END_MIN_TIME_ELAPSED 0.6
 
+- (NSArray *)allSubranges {
+	NSMutableArray *subranges = [NSMutableArray new];
+	FullTextStorage *fullTextStorage = self.targetFullTextStorage;
+	for (NSValue *rangeValue in self.targetTextView.searchScopeRanges) {
+		SEEFindAndReplaceSubRange *subrange = [SEEFindAndReplaceSubRange subRangeWithTextStorage:fullTextStorage range:rangeValue.rangeValue];
+		[subranges addObject:subrange];
+	}
+	return subranges;
+}
+
 - (BOOL)replaceAll {
 	self.currentTextFinderActionType = NSTextFinderActionReplaceAll;
 	BOOL result = [self validityCheckAndPrepare];
 	if (result) {
-		NSMutableArray *subranges = [NSMutableArray new];
+		NSArray *subranges = [self allSubranges];
 		FullTextStorage *fullTextStorage = self.targetFullTextStorage;
 		NSMutableString *fullTextStorageString = fullTextStorage.mutableString;
 		NSDictionary *typingAttributes = [self.targetPlainTextEditor.document typingAttributes];
-		for (NSValue *rangeValue in self.targetTextView.searchScopeRanges) {
-			SEEFindAndReplaceSubRange *subrange = [SEEFindAndReplaceSubRange subRangeWithTextStorage:fullTextStorage range:rangeValue.rangeValue];
-			[subranges addObject:subrange];
-		}
 		[self startLongTextReplaceOperation];
 		self.replaceCountForReplaceAll = 0;
 		OGRegularExpression *findExpression = self.findExpression;
@@ -518,6 +498,33 @@ typedef NS_ENUM(uint8_t, SEESearchRangeDirection) {
 		weakReplaceSomeBlock = replaceSomeBlock;
 		dispatch_async(main_queue, replaceSomeBlock);
 		
+	}
+	return result;
+}
+
+- (NSArray *)allMatches {
+	if (!self.findExpression) {
+		self.currentTextFinderActionType = TCMTextFinderActionFindAll;
+		if (![self validityCheckAndPrepare]) {
+			return nil;
+		}
+	}
+	
+	NSMutableArray *result = [NSMutableArray new];
+	for (SEEFindAndReplaceSubRange *subrange in [self allSubranges]) {
+		[result addObjectsFromArray:[self.findExpression matchEnumeratorInString:subrange.textStorage.string options:subrange.ogreSearchTimeOptions range:subrange.range].allObjects];
+	}
+	return result;
+}
+
+- (BOOL)	showFindAllResults {
+	self.currentTextFinderActionType = TCMTextFinderActionFindAll;
+	BOOL result = [self validityCheckAndPrepare];
+	
+	if (result) {
+		FindAllController *findall = [[FindAllController alloc] initWithFindAndReplaceContext:self];
+		[(PlainTextDocument *)self.targetPlainTextEditor.document addFindAllController:findall];
+		[findall findAll:self];
 	}
 	return result;
 }

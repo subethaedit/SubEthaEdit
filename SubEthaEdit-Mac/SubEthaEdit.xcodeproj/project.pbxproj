@@ -148,7 +148,7 @@
 		1428943109575AE600D14688 /* CandyBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428941A09575AE600D14688 /* CandyBarView.m */; };
 		1428943C09575AE600D14688 /* DocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428942C09575AE600D14688 /* DocumentController.m */; };
 		1428943D09575AE600D14688 /* DocumentProxyWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428942E09575AE600D14688 /* DocumentProxyWindowController.m */; };
-		1428944609575B3400D14688 /* FindAllController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428943F09575B3400D14688 /* FindAllController.m */; };
+		1428944609575B3400D14688 /* FindAllController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428943F09575B3400D14688 /* FindAllController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1428944709575B3400D14688 /* FindAllTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428944109575B3400D14688 /* FindAllTableView.m */; };
 		1428944809575B3400D14688 /* GutterRulerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428944309575B3400D14688 /* GutterRulerView.m */; };
 		1428944909575B3400D14688 /* LayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428944509575B3400D14688 /* LayoutManager.m */; };
