@@ -19,7 +19,6 @@
 #import "FindReplaceController.h"
 
 
-
 @implementation FindAllController
 
 - (instancetype)initWithFindAndReplaceContext:(SEEFindAndReplaceContext *)aFindAndReplaceContext {

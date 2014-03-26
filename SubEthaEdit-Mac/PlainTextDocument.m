@@ -4778,6 +4778,11 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     if (I_findAllControllers) [I_findAllControllers removeObject:aController];
 }
 
+- (NSArray *)findAllControllers {
+	NSArray *result = [[I_findAllControllers copy] autorelease];
+	return result;
+}
+
 - (NSURL *)documentURLForGroup:(NSString *)aGroup {
     if (![[self session] isServer]) {
         return nil;

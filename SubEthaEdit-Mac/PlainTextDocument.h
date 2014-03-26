@@ -220,7 +220,8 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
 - (void)validateEditability;
 
 - (PlainTextEditor *)activePlainTextEditor;
-- (NSArray *)plainTextEditors;
+@property (nonatomic, readonly) NSArray *plainTextEditors;
+@property (nonatomic, readonly) NSArray *findAllControllers;
 
 - (NSString *)lineEndingString;
 - (LineEnding)lineEnding;
