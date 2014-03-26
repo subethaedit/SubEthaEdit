@@ -13,7 +13,11 @@
 #import "SyntaxDefinition.h"
 #import <OgreKit/OgreKit.h>
 
-@interface DocumentModeManager (DocumentModeManagerPrivateAdditions)
+@interface DocumentModeManager ()
+@property (nonatomic, readwrite, retain) NSDictionary *changedScopeNameDict;
+@end
+
+	@interface DocumentModeManager (DocumentModeManagerPrivateAdditions)
 - (void)TCM_findModes;
 - (void)TCM_findStyles;
 - (NSMutableArray *)reloadPrecedences;
@@ -114,6 +118,7 @@
 static DocumentModeManager *S_sharedInstance=nil;
 
 @implementation DocumentModeManager
+@synthesize changedScopeNameDict;
 
 + (DocumentModeManager *)sharedInstance {
     if (!S_sharedInstance) {
@@ -163,6 +168,7 @@ static DocumentModeManager *S_sharedInstance=nil;
             [I_modeIdentifiersTagArray addObject:@"-"];
             [I_modeIdentifiersTagArray addObject:AUTOMATICMODEIDENTIFIER];
             [I_modeIdentifiersTagArray addObject:BASEMODEIDENTIFIER];
+			[self TCM_loadScopeNameChanges];
             [self TCM_findStyles];
             [self TCM_findModes];
             [self setModePrecedenceArray:[self reloadPrecedences]];
@@ -182,6 +188,7 @@ static DocumentModeManager *S_sharedInstance=nil;
     [I_documentModesByName release];
     [I_documentModesByIdentifier release];
 	[I_documentModesByIdentifierLock release]; // ifc - experimental locking... awaiting real fix from TCM
+	self.changedScopeNameDict = nil;
     [super dealloc];
 }
 
@@ -446,7 +453,17 @@ static DocumentModeManager *S_sharedInstance=nil;
     return [[fullPath stringByAppendingPathComponent:aStyleSheetName] stringByAppendingPathExtension:SEEStyleSheetFileExtension];
 }
 
-- (void)TCM_findStyles { 
+- (void)TCM_loadScopeNameChanges {
+	NSURL *url = [[NSBundle mainBundle] URLForResource:@"Modes/ScopeChanges" withExtension:@"json"];
+	NSData *data = [NSData dataWithContentsOfURL:url];
+	NSError *error = nil;
+	NSDictionary *renamedScopesDict = [NSJSONSerialization JSONObjectWithData:data options:0 error:&error];
+	if (renamedScopesDict && !error) {
+		[self setChangedScopeNameDict:renamedScopesDict];
+	}
+}
+
+- (void)TCM_findStyles {
 	[self createUserApplicationSupportDirectory];
 
     NSURL *url = nil;
@@ -479,7 +496,33 @@ static DocumentModeManager *S_sharedInstance=nil;
 		if (path) {
 			result = [[SEEStyleSheet new] autorelease];
 			result.styleSheetName = aStyleSheetName;
-			[result importStyleSheetAtPath:[NSURL fileURLWithPath:path]];
+			NSURL *url = [NSURL fileURLWithPath:path];
+			[result importStyleSheetAtPath:url];
+			
+			// check for coda changes - if coda changes -> update and save
+			NSArray *changes = [result updateScopesWithChangesDictionary:self.changedScopeNameDict];
+			if (changes) {
+				// check if we can write files here
+				if ([[NSFileManager defaultManager] isWritableFileAtPath:path]) {
+					[result appendStyleSheetSnippetsForScopes:changes toSheetAtURL:url];
+
+				} else {
+					// if not: safe a copy to the application folder
+					NSString *changedPath = [self pathForWritingStyleSheetWithName:aStyleSheetName];
+					NSURL *changedURL = [NSURL fileURLWithPath:changedPath];
+
+					NSError *readingError = nil;
+					NSError *writingError = nil;
+
+					NSData *data = [NSData dataWithContentsOfURL:url options:NSDataReadingMappedIfSafe error:&readingError];
+					[data writeToURL:changedURL options:0 error:&writingError];
+					
+					if (!readingError && !writingError) {
+						[result appendStyleSheetSnippetsForScopes:changes toSheetAtURL:changedURL];
+					}
+				}
+			}
+
 			[result markCurrentStateAsPersistent];
 			[I_styleSheetsByName setObject:result forKey:aStyleSheetName];
 		}
@@ -501,12 +544,14 @@ static DocumentModeManager *S_sharedInstance=nil;
 		i++;
 	}
 	[aStyleSheet exportStyleSheetToPath:[NSURL fileURLWithPath:newPath]];
+	// this looses all the comments etc in the style sheet!
 	[self TCM_findStyles];
 	return [self styleSheetForName:sheetName];
 }
 
 - (void)saveStyleSheet:(SEEStyleSheet *)aStyleSheet {
 	NSString *newPath = [self pathForWritingStyleSheetWithName:[aStyleSheet styleSheetName]];
+	// this looses all the comments etc in the style sheet!
 	[aStyleSheet exportStyleSheetToPath:[NSURL fileURLWithPath:newPath]];
 	[I_styleSheetPathsByName setObject:newPath forKey:[aStyleSheet styleSheetName]];
 	[aStyleSheet markCurrentStateAsPersistent];
