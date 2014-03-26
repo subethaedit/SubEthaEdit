@@ -409,11 +409,11 @@ typedef NS_ENUM(uint8_t, SEESearchRangeDirection) {
         [[editor textView] setEditable:NO];
     }
 	[[aDocument session] pauseProcessing];
-	[aDocument.undoManager beginUndoGrouping];
+	[aDocument.documentUndoManager beginUndoGrouping];
 }
 
 - (void)unlockDocument:(PlainTextDocument *)aDocument {
-	[aDocument.undoManager endUndoGrouping];
+	[aDocument.documentUndoManager endUndoGrouping];
 	[[aDocument session] startProcessing];
     NSEnumerator *plainTextEditors=[[aDocument plainTextEditors] objectEnumerator];
     PlainTextEditor *editor=nil;
@@ -425,6 +425,8 @@ typedef NS_ENUM(uint8_t, SEESearchRangeDirection) {
 
 - (void)startLongTextReplaceOperation {
 	[self lockDocument:self.targetPlainTextEditor.document];
+	[[FindReplaceController sharedInstance] setStatusString:[NSString stringWithFormat:NSLocalizedString(@"FIND_REPLACE_REPLACE_ALL_IN_PROGRESS",@"Status string indicating a replace all is in progress"), self.replaceCountForReplaceAll]];
+	[self.targetTextView.window displayIfNeeded];
 }
 
 - (void)stopLongTextReplaceOperation {
@@ -449,7 +451,11 @@ typedef NS_ENUM(uint8_t, SEESearchRangeDirection) {
 		self.replaceCountForReplaceAll = 0;
 		OGRegularExpression *findExpression = self.findExpression;
 		OGReplaceExpression *replaceExpression = self.replaceExpression;
-		dispatch_async([SEEFindAndReplaceContext findAndReplaceBackroundQueue], ^{
+		
+		
+		dispatch_queue_t main_queue = dispatch_get_main_queue();
+		__weak __block dispatch_block_t weakReplaceSomeBlock = nil;
+		dispatch_block_t replaceSomeBlock = ^{
 			NSInteger replaceCount = 0;
 			NSRange lastMatchAfterRange = NSMakeRange(0, 0);
 			@try {
@@ -478,7 +484,10 @@ typedef NS_ENUM(uint8_t, SEESearchRangeDirection) {
 					[self stopLongTextReplaceOperation];
 				}];
 			}
-		});
+		};
+		weakReplaceSomeBlock = replaceSomeBlock;
+		dispatch_async(main_queue, replaceSomeBlock);
+		
 	}
 	return result;
 }

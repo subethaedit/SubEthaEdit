@@ -42,6 +42,7 @@
 @interface SEETextView () 
 @property (nonatomic, readonly) PlainTextDocument *document;
 @property (nonatomic, assign) CGFloat additionalFrameHeight;
+@property (nonatomic) NSPoint cachedTextContainerOrigin;
 @end
 
 @interface NSTextView (NSTextViewTCMPrivateAdditions) 
@@ -81,7 +82,11 @@
 
 - (NSPoint)textContainerOrigin {
 	SEEPlainTextEditorScrollView *enclosingScrollView = (SEEPlainTextEditorScrollView *)self.enclosingScrollView;
-    NSPoint origin = [super textContainerOrigin];
+	// doing this to not cause havoc if the textstorage is being edited during the resize
+	if (self.textStorage.editedMask != 0) {
+		self.cachedTextContainerOrigin = [super textContainerOrigin];
+	}
+    NSPoint origin = self.cachedTextContainerOrigin;
 	if ([enclosingScrollView isKindOfClass:[SEEPlainTextEditorScrollView class]]) {
 		origin = NSMakePoint(origin.x, enclosingScrollView.topOverlayHeight);
 	}
