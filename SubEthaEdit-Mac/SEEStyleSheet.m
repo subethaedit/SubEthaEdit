@@ -198,6 +198,32 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 	}
 }
 
+- (void)appendStyleSheetSnippetsForScopes:(NSArray *)aScopeArray toSheetAtURL:(NSURL *)aURL {
+	if (aURL) {
+		NSMutableString *appendString = [[NSMutableString alloc] init];
+		[appendString appendString:@"\n/* The following Scopes were added automatically to accommodate scope-name changes for SEE 4.0 */\n\n"];
+		NSString *styleString;
+		for (NSString *scope in aScopeArray) {
+			styleString = [self styleSheetSnippetForScope:scope];
+			if (styleString) {
+				[appendString appendString:styleString];
+			} // else: something went wrong somewhere
+		}
+		
+		NSError *error = nil;
+		NSFileHandle *fileHandle = [NSFileHandle fileHandleForWritingToURL:aURL error:&error];
+		if (!error && fileHandle) {
+			@try {
+				[fileHandle seekToEndOfFile];
+				[fileHandle writeData:[appendString dataUsingEncoding:NSUTF8StringEncoding]];
+			}
+			@catch (NSException *exception) {
+				NSLog(@"%@", exception);
+			}
+		}
+	}
+}
+
 #pragma mark
 - (NSString *)styleSheetSnippetForScope:(NSString *)aScope {
 	NSMutableArray *attributes = [NSMutableArray array];
