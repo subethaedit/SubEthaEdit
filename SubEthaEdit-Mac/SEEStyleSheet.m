@@ -192,6 +192,15 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 	}
 }
 
+- (void)addUpdatedScopesToStyleSheet:(NSDictionary *)aChangesDictionary {
+	NSDictionary *styleDictForOriginalKey;
+	for (NSString *originalScope in aChangesDictionary) {
+		NSString *changedScope = [aChangesDictionary objectForKey:originalScope];
+		styleDictForOriginalKey = [self styleAttributesForExactScope:originalScope];
+		[self setStyleAttributes:styleDictForOriginalKey forScope:changedScope];
+ 	}
+ }
+
 #pragma mark
 - (NSString *)styleSheetSnippetForScope:(NSString *)aScope {
 	NSMutableArray *attributes = [NSMutableArray array];
@@ -204,7 +213,7 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 	return [NSString stringWithFormat:@"%@ {\n  %@\n}\n\n", aScope, [attributes componentsJoinedByString:@"\n  "]];
 }
 
-- (void)exportStyleSheetToPath:(NSURL *)aPath{
+- (void)exportStyleSheetToPath:(NSURL *)aPath {
 	
 	NSMutableString *exportString = [NSMutableString string];
 	for (NSString *scope in self.allScopes) {
@@ -383,6 +392,7 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 	return I_allScopesWithExamples;
 }
 
+#pragma mark - Color Accessors
 // convenience accesors for special values
 - (NSColor *)documentBackgroundColor {
 	return [[self styleAttributesForScope:SEEStyleSheetMetaDefaultScopeName] objectForKey:SEEStyleSheetFontBackgroundColorKey];
@@ -392,6 +402,7 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 	return [[self styleAttributesForScope:SEEStyleSheetMetaDefaultScopeName] objectForKey:SEEStyleSheetFontForegroundColorKey];
 }
 
+#pragma mark - Persisted State
 - (BOOL)hasChanges {
 	return ![I_scopeStyleDictionary isEqual:I_scopeStyleDictionaryPersistentState];
 }
