@@ -164,29 +164,29 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 }
 
 #pragma mark - Coda 2 Convert/Scope Rename
-- (void)convertPreviouslyUsedScopesToUpdatedScopes {
-	NSArray *usedScopeNames = [self.scopeStyleDictionary allKeys]; // scopes used in the current sheet
-	NSDictionary *changedScopesDictionary = [[DocumentModeManager sharedInstance] changedScopeNameDict]; // from the CHANGE json
+- (NSArray *)updateScopesWithChangesDictionary:(NSDictionary *)aChangesDictionary {
+	NSArray *result = nil;
 
-	NSMutableDictionary *changesDictionary = [[NSMutableDictionary alloc] init];
+	NSArray *usedScopeNames = [self.scopeStyleDictionary allKeys]; // scopes used in the current sheet
+	NSMutableDictionary *neededChangesDictionary = [[NSMutableDictionary alloc] init];
 	
-	for (NSString *key in changedScopesDictionary) {
+	for (NSString *key in aChangesDictionary) {
 		if ([usedScopeNames containsObject:key]) {
 			// the original scope name is in use
-			NSString *changedScopeName = [changedScopesDictionary objectForKey:key];
+			NSString *changedScopeName = [aChangesDictionary objectForKey:key];
 			if (![usedScopeNames containsObject:changedScopeName]) {
 				// and the changed scope name does not exist
-				[changesDictionary setObject:changedScopeName forKey:key];
+				[neededChangesDictionary setObject:changedScopeName forKey:key];
 				
 			} //  else -  there is already an entry for that other scope - don't overwrite that
 		} // else - that key is not used by this sheet
 	}
 	
-	if ([changesDictionary count] > 0) {
-		// TODO: make a new entry for the renamed scope duplicating the old scope
-		// TODO: save changed style sheet for each key
-		// append to the original style sheet with explanation comment so that comments etc are not lost!
+	if ([neededChangesDictionary count] > 0) {
+		[self addUpdatedScopesToStyleSheet:neededChangesDictionary];
+		result = [neededChangesDictionary allValues];
 	}
+	return result;
 }
 
 - (void)addUpdatedScopesToStyleSheet:(NSDictionary *)aChangesDictionary {
@@ -195,8 +195,8 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 		NSString *changedScope = [aChangesDictionary objectForKey:originalScope];
 		styleDictForOriginalKey = [self styleAttributesForExactScope:originalScope];
 		[self setStyleAttributes:styleDictForOriginalKey forScope:changedScope];
- 	}
- }
+	}
+}
 
 #pragma mark
 - (NSString *)styleSheetSnippetForScope:(NSString *)aScope {
