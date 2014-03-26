@@ -12,7 +12,8 @@
     #import "NSScreenTCMAdditions.h"
 	#import "NSRangeTCMAdditions.h"
 	#import "NSObject+TCMArcLifecycleAdditions.h"
+	#import "NSOperationQueue+TCMAdditions.h"
 
-    extern NSString * const AddressHistory;
+	extern NSString * const AddressHistory;
 
 #endif //__OBJC__

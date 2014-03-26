@@ -435,11 +435,14 @@ typedef NS_ENUM(uint8_t, SEESearchRangeDirection) {
 
 }
 
+#define CHECK_END_MATCHES_INTERVAL 50
+#define CHECK_END_MIN_TIME_ELAPSED 0.6
+
 - (BOOL)replaceAll {
 	self.currentTextFinderActionType = NSTextFinderActionReplaceAll;
 	BOOL result = [self validityCheckAndPrepare];
 	if (result) {
-		__block NSMutableArray *subranges = [NSMutableArray new];
+		NSMutableArray *subranges = [NSMutableArray new];
 		FullTextStorage *fullTextStorage = self.targetFullTextStorage;
 		NSMutableString *fullTextStorageString = fullTextStorage.mutableString;
 		NSDictionary *typingAttributes = [self.targetPlainTextEditor.document typingAttributes];
@@ -453,17 +456,29 @@ typedef NS_ENUM(uint8_t, SEESearchRangeDirection) {
 		OGReplaceExpression *replaceExpression = self.replaceExpression;
 		
 		
+		NSMutableArray *subrangesLeft = [subranges mutableCopy];
+		NSMutableArray *matchesLeft = [NSMutableArray new];
+		
 		dispatch_queue_t main_queue = dispatch_get_main_queue();
 		__weak __block dispatch_block_t weakReplaceSomeBlock = nil;
 		dispatch_block_t replaceSomeBlock = ^{
 			NSInteger replaceCount = 0;
 			NSRange lastMatchAfterRange = NSMakeRange(0, 0);
+			NSDate *startDate = [NSDate date];
+			BOOL shouldStop = NO;
 			@try {
 				[fullTextStorage beginEditing];
-				for (SEEFindAndReplaceSubRange *subrange in subranges.reverseObjectEnumerator) {
-					NSEnumerator *matchesEnumerator = nil;
-					matchesEnumerator=[findExpression matchEnumeratorInString:subrange.textStorage.string options:subrange.ogreSearchTimeOptions range:subrange.range];
-					for (OGRegularExpressionMatch *match in matchesEnumerator.allObjects.reverseObjectEnumerator) {
+				while (matchesLeft.count > 0 || subrangesLeft.count > 0) {
+					if (matchesLeft.count == 0) {
+						// grab next subrange and generate matches
+						SEEFindAndReplaceSubRange *subrange = subrangesLeft.lastObject;
+						[subrangesLeft removeLastObject];
+						[matchesLeft addObjectsFromArray:[findExpression matchEnumeratorInString:subrange.textStorage.string options:subrange.ogreSearchTimeOptions range:subrange.range].allObjects];
+					}
+					
+					OGRegularExpressionMatch *match = nil;
+					while ((match = matchesLeft.lastObject)) {
+						[matchesLeft removeLastObject];
 						NSString *replaceString = [replaceExpression replaceMatchedStringOf:match];
 						NSRange replaceRange = match.rangeOfMatchedString;
 						lastMatchAfterRange = replaceRange;
@@ -471,18 +486,33 @@ typedef NS_ENUM(uint8_t, SEESearchRangeDirection) {
 						[fullTextStorageString replaceCharactersInRange:replaceRange withString:replaceString];
 						[fullTextStorage addAttributes:typingAttributes range:lastMatchAfterRange];
 						replaceCount++;
+						
+						if (replaceCount % CHECK_END_MATCHES_INTERVAL == 0) {
+							if ([startDate timeIntervalSinceNow] < -CHECK_END_MIN_TIME_ELAPSED) {
+								shouldStop = YES;
+								break;
+							}
+						}
+					}
+					if (shouldStop) {
+						break;
 					}
 				}
 			} @catch (NSException *exception) {
 				[self signalErrorWithDescription:nil];
 				NSLog(@"%s exception while finding:%@",__FUNCTION__,exception);
 			} @finally {
-				[[NSOperationQueue mainQueue] addOperationWithBlock:^{
-					[fullTextStorage endEditing];
-					self.replaceCountForReplaceAll = replaceCount;
+				BOOL finished = (matchesLeft.count == 0 && subrangesLeft.count == 0);
+				self.replaceCountForReplaceAll += replaceCount;
+				[fullTextStorage endEditing];
+				if (finished) {
 					[self.targetTextView setSelectedRange:lastMatchAfterRange];
 					[self stopLongTextReplaceOperation];
-				}];
+				} else {
+					[[FindReplaceController sharedInstance] setStatusString:[NSString stringWithFormat:NSLocalizedString(@"FIND_REPLACE_REPLACE_ALL_IN_PROGRESS_COUNT",@"intermediate string displayed for long replace all operations, has %@ placeholder"), @(self.replaceCountForReplaceAll)]];
+					[self.targetTextView.window displayIfNeeded];
+					[NSOperationQueue TCM_performBlockOnMainQueue:weakReplaceSomeBlock afterDelay:0.3];
+				}
 			}
 		};
 		weakReplaceSomeBlock = replaceSomeBlock;
