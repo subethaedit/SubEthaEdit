@@ -496,7 +496,33 @@ static DocumentModeManager *S_sharedInstance=nil;
 		if (path) {
 			result = [[SEEStyleSheet new] autorelease];
 			result.styleSheetName = aStyleSheetName;
-			[result importStyleSheetAtPath:[NSURL fileURLWithPath:path]];
+			NSURL *url = [NSURL fileURLWithPath:path];
+			[result importStyleSheetAtPath:url];
+			
+			// check for coda changes - if coda changes -> update and save
+			NSArray *changes = [result updateScopesWithChangesDictionary:self.changedScopeNameDict];
+			if (changes) {
+				// check if we can write files here
+				if ([[NSFileManager defaultManager] isWritableFileAtPath:path]) {
+					[result appendStyleSheetSnippetsForScopes:changes toSheetAtURL:url];
+
+				} else {
+					// if not: safe a copy to the application folder
+					NSString *changedPath = [self pathForWritingStyleSheetWithName:aStyleSheetName];
+					NSURL *changedURL = [NSURL fileURLWithPath:changedPath];
+
+					NSError *readingError = nil;
+					NSError *writingError = nil;
+
+					NSData *data = [NSData dataWithContentsOfURL:url options:NSDataReadingMappedIfSafe error:&readingError];
+					[data writeToURL:changedURL options:0 error:&writingError];
+					
+					if (!readingError && !writingError) {
+						[result appendStyleSheetSnippetsForScopes:changes toSheetAtURL:changedURL];
+					}
+				}
+			}
+
 			[result markCurrentStateAsPersistent];
 			[I_styleSheetsByName setObject:result forKey:aStyleSheetName];
 		}
@@ -518,12 +544,14 @@ static DocumentModeManager *S_sharedInstance=nil;
 		i++;
 	}
 	[aStyleSheet exportStyleSheetToPath:[NSURL fileURLWithPath:newPath]];
+	// this looses all the comments etc in the style sheet!
 	[self TCM_findStyles];
 	return [self styleSheetForName:sheetName];
 }
 
 - (void)saveStyleSheet:(SEEStyleSheet *)aStyleSheet {
 	NSString *newPath = [self pathForWritingStyleSheetWithName:[aStyleSheet styleSheetName]];
+	// this looses all the comments etc in the style sheet!
 	[aStyleSheet exportStyleSheetToPath:[NSURL fileURLWithPath:newPath]];
 	[I_styleSheetPathsByName setObject:newPath forKey:[aStyleSheet styleSheetName]];
 	[aStyleSheet markCurrentStateAsPersistent];
