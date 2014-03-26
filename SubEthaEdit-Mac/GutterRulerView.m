@@ -9,6 +9,8 @@
 #import "GutterRulerView.h"
 #import "SyntaxHighlighter.h"
 #import "FoldableTextStorage.h"
+#import "SEETextView.h"
+#import "PlainTextEditor.h"
 
 #define FOLDING_BAR_WIDTH 11.
 #define RIGHT_INSET  4.
@@ -16,9 +18,10 @@
 #define COLOR_FOR_DEPTH(depth) [NSColor colorWithCalibratedWhite:MAX(1.0 - ((MAX((depth), 0.0) - 0) / MAX_FOLDING_DEPTH), 0.0) alpha:1.0]
 
 static NSColor *S_colorForDepth[MAX_FOLDING_DEPTH];
+static NSColor *S_searchScopeColorForDepth[MAX_FOLDING_DEPTH];
 
-FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRect) {
-	[S_colorForDepth[MIN(aDepth,(MAX_FOLDING_DEPTH - 1))] set];
+FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRect, BOOL isSearchScope) {
+	[(isSearchScope ? S_searchScopeColorForDepth : S_colorForDepth)[MIN(aDepth,(MAX_FOLDING_DEPTH - 1))] set];
 	NSRectFill(aRect); 
 	if (aDepth >= MAX_FOLDING_DEPTH) {
 		[S_colorForDepth[MAX(MAX_FOLDING_DEPTH - (aDepth - MAX_FOLDING_DEPTH) - 2,0)] set];
@@ -72,6 +75,8 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 			NSColor *color = nil;
 			color = [NSColor colorWithCalibratedWhite:MAX(1.0 - ((MAX((i+0.5), 0.0) - 0) / (double)MAX_FOLDING_DEPTH), 0.0) alpha:1.0];
 			S_colorForDepth[i]=[color retain];
+			
+			S_searchScopeColorForDepth[i]=[[color blendedColorWithFraction:0.5 ofColor:[NSColor searchScopeBaseColor]] retain];
 		}
 	}
 }
@@ -115,6 +120,7 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 
     NSTextView              *textView=(NSTextView *)[self clientView];
     FoldableTextStorage  *textStorage=(FoldableTextStorage *)[textView textStorage];
+	PlainTextEditor           *editor=[(SEETextView *)textView editor];
     NSString                    *text=[textView string];
     NSScrollView          *scrollView=[textView enclosingScrollView];
     NSLayoutManager    *layoutManager=[textView layoutManager];
@@ -155,7 +161,7 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 	[[NSColor whiteColor] set];
 	NSRectFill(fullFoldingAreaRect);
 	
-
+	
     if ([textStorage length]) {
     
 
@@ -197,8 +203,11 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
         foldingAreaRect.size.height = NSMaxY(lineFragmentRectForLastCharacter) - boundingRect.origin.y;
        	
        	int foldingDepth = [textStorage foldingDepthForLine:lineNumber];
-       	DrawIndicatorForDepthInRect(foldingDepth, foldingAreaRect);
-
+		BOOL shouldShowSearchScope = [(PlainTextWindowController *)editor.textView.window.windowController isShowingFindAndReplaceInterface];
+		BOOL isSearchScope = shouldShowSearchScope &&
+		[editor hasSearchScopeInFullRange:[textStorage fullRangeForFoldedRange:lineRange]];
+       	DrawIndicatorForDepthInRect(foldingDepth, foldingAreaRect,isSearchScope);
+		
 		if (lineRange.length) {
 			[textStorage attribute:NSAttachmentAttributeName atIndex:lineRange.location longestEffectiveRange:&longestEffectiveAttachmentRange inRange:lineRange];
 			if (!NSEqualRanges(lineRange,longestEffectiveAttachmentRange)) {
@@ -261,7 +270,9 @@ FOUNDATION_STATIC_INLINE void DrawIndicatorForDepthInRect(int aDepth, NSRect aRe
 
 			if (lineRange.length > 0) {
 				foldingDepth = [textStorage foldingDepthForLine:lineNumber];
-		       	DrawIndicatorForDepthInRect(foldingDepth, foldingAreaRect);
+				BOOL isSearchScope = shouldShowSearchScope &&
+				[editor hasSearchScopeInFullRange:[textStorage fullRangeForFoldedRange:lineRange]];
+				DrawIndicatorForDepthInRect(foldingDepth, foldingAreaRect,isSearchScope);
 			} else {
 				[[NSColor whiteColor] set];
 				NSRectFill(foldingAreaRect);

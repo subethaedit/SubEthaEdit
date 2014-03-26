@@ -148,7 +148,7 @@
 		1428943109575AE600D14688 /* CandyBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428941A09575AE600D14688 /* CandyBarView.m */; };
 		1428943C09575AE600D14688 /* DocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428942C09575AE600D14688 /* DocumentController.m */; };
 		1428943D09575AE600D14688 /* DocumentProxyWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428942E09575AE600D14688 /* DocumentProxyWindowController.m */; };
-		1428944609575B3400D14688 /* FindAllController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428943F09575B3400D14688 /* FindAllController.m */; };
+		1428944609575B3400D14688 /* FindAllController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428943F09575B3400D14688 /* FindAllController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1428944709575B3400D14688 /* FindAllTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428944109575B3400D14688 /* FindAllTableView.m */; };
 		1428944809575B3400D14688 /* GutterRulerView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428944309575B3400D14688 /* GutterRulerView.m */; };
 		1428944909575B3400D14688 /* LayoutManager.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428944509575B3400D14688 /* LayoutManager.m */; };
@@ -346,7 +346,7 @@
 		8D15AC2F0486D014006FF6A4 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165FFE840EACC02AAC07 /* InfoPlist.strings */; };
 		8D15AC320486D014006FF6A4 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 2A37F4B0FDCFA73011CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D15AC340486D014006FF6A4 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A7FEA54F5311CA2CBB /* Cocoa.framework */; };
-		F20396F60F8A707700BEB377 /* FullTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D34B0F38756100AD7DE1 /* FullTextStorage.m */; };
+		F20396F60F8A707700BEB377 /* FullTextStorage.m in Sources */ = {isa = PBXBuildFile; fileRef = F281D34B0F38756100AD7DE1 /* FullTextStorage.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		F2061D590B4C13AF00E6631F /* SmallGrowBoxRight3.tiff in Resources */ = {isa = PBXBuildFile; fileRef = F2061D570B4C13AF00E6631F /* SmallGrowBoxRight3.tiff */; };
 		F2061D690B4C152600E6631F /* FirstClickCustomView.m in Sources */ = {isa = PBXBuildFile; fileRef = F2061D670B4C152600E6631F /* FirstClickCustomView.m */; };
 		F20948BC0C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m in Sources */ = {isa = PBXBuildFile; fileRef = F20948B90C7B3DED00E78EBA /* TCMMMLogStatisticsEntry.m */; };
@@ -365,7 +365,9 @@
 		F2257CFE189673AA005EF9B1 /* BottomBarSharingIconAdd@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2257CF6189673AA005EF9B1 /* BottomBarSharingIconAdd@2x.png */; };
 		F2257CFF189673AA005EF9B1 /* BottomBarSharingIconGroup.png in Resources */ = {isa = PBXBuildFile; fileRef = F2257CF7189673AA005EF9B1 /* BottomBarSharingIconGroup.png */; };
 		F2257D00189673AA005EF9B1 /* BottomBarSharingIconGroup@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F2257CF8189673AA005EF9B1 /* BottomBarSharingIconGroup@2x.png */; };
+		F2308E6718E06FA00096E0C1 /* SEEFindAndReplaceContext.m in Sources */ = {isa = PBXBuildFile; fileRef = F2308E6618E06FA00096E0C1 /* SEEFindAndReplaceContext.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		F234E4590BE2592300504A7C /* NSWorkspaceTCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F234E4570BE2592300504A7C /* NSWorkspaceTCMAdditions.m */; };
+		F23966D618E2FE6800CEC9AD /* NSOperationQueue+TCMAdditions.m in Sources */ = {isa = PBXBuildFile; fileRef = F23966D518E2FE6800CEC9AD /* NSOperationQueue+TCMAdditions.m */; };
 		F2406F0C0C8EE481000DC9FF /* LockTitlebar.png in Resources */ = {isa = PBXBuildFile; fileRef = F2406F0B0C8EE481000DC9FF /* LockTitlebar.png */; };
 		F24280C60D16CFCC0083AE21 /* GenericSASLProfile.m in Sources */ = {isa = PBXBuildFile; fileRef = F24280C50D16CFCC0083AE21 /* GenericSASLProfile.m */; };
 		F247D74A0CB140AD00908450 /* ParticipantFollowEmpty.png in Resources */ = {isa = PBXBuildFile; fileRef = F247D7490CB140AD00908450 /* ParticipantFollowEmpty.png */; };
@@ -1175,8 +1177,12 @@
 		F2257CF6189673AA005EF9B1 /* BottomBarSharingIconAdd@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "BottomBarSharingIconAdd@2x.png"; path = "artwork/BottomBarSharingIconAdd@2x.png"; sourceTree = "<group>"; };
 		F2257CF7189673AA005EF9B1 /* BottomBarSharingIconGroup.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = BottomBarSharingIconGroup.png; path = artwork/BottomBarSharingIconGroup.png; sourceTree = "<group>"; };
 		F2257CF8189673AA005EF9B1 /* BottomBarSharingIconGroup@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "BottomBarSharingIconGroup@2x.png"; path = "artwork/BottomBarSharingIconGroup@2x.png"; sourceTree = "<group>"; };
+		F2308E6518E06FA00096E0C1 /* SEEFindAndReplaceContext.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEFindAndReplaceContext.h; sourceTree = "<group>"; };
+		F2308E6618E06FA00096E0C1 /* SEEFindAndReplaceContext.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEFindAndReplaceContext.m; sourceTree = "<group>"; };
 		F234E4560BE2592300504A7C /* NSWorkspaceTCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = NSWorkspaceTCMAdditions.h; sourceTree = "<group>"; };
 		F234E4570BE2592300504A7C /* NSWorkspaceTCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = NSWorkspaceTCMAdditions.m; sourceTree = "<group>"; };
+		F23966D418E2FE6800CEC9AD /* NSOperationQueue+TCMAdditions.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSOperationQueue+TCMAdditions.h"; sourceTree = "<group>"; };
+		F23966D518E2FE6800CEC9AD /* NSOperationQueue+TCMAdditions.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSOperationQueue+TCMAdditions.m"; sourceTree = "<group>"; };
 		F2406F0B0C8EE481000DC9FF /* LockTitlebar.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = LockTitlebar.png; path = artwork/LockTitlebar.png; sourceTree = "<group>"; };
 		F24280C40D16CFCC0083AE21 /* GenericSASLProfile.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = GenericSASLProfile.h; sourceTree = "<group>"; };
 		F24280C50D16CFCC0083AE21 /* GenericSASLProfile.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GenericSASLProfile.m; sourceTree = "<group>"; };
@@ -1719,6 +1725,8 @@
 				F26B7D850CA3F7680039C8A1 /* NSBezierPathTCMAdditions.m */,
 				31FFC93B104E97A000E08256 /* NSErrorTCMAdditions.h */,
 				31FFC93C104E97A000E08256 /* NSErrorTCMAdditions.m */,
+				F23966D418E2FE6800CEC9AD /* NSOperationQueue+TCMAdditions.h */,
+				F23966D518E2FE6800CEC9AD /* NSOperationQueue+TCMAdditions.m */,
 				F214C1D918BE180300908826 /* NSObject+TCMArcLifecycleAdditions.h */,
 				F214C1DA18BE180300908826 /* NSObject+TCMArcLifecycleAdditions.m */,
 			);
@@ -2395,6 +2403,8 @@
 				F21DAFE518BB75E1002B3C41 /* SEEFindAndReplaceViewController.m */,
 				F2CA91EC18C08FF7006B098A /* SEEFindAndReplaceState.h */,
 				F2CA91ED18C08FF7006B098A /* SEEFindAndReplaceState.m */,
+				F2308E6518E06FA00096E0C1 /* SEEFindAndReplaceContext.h */,
+				F2308E6618E06FA00096E0C1 /* SEEFindAndReplaceContext.m */,
 			);
 			name = "Find and Replace";
 			sourceTree = "<group>";
@@ -3169,6 +3179,7 @@
 				142893800957580F00D14688 /* PrintTypesetter.m in Sources */,
 				1428938A0957585600D14688 /* FontAttributesToStringValueTransformer.m in Sources */,
 				1428938B0957585600D14688 /* HueToColorValueTransformer.m in Sources */,
+				F23966D618E2FE6800CEC9AD /* NSOperationQueue+TCMAdditions.m in Sources */,
 				1428938C0957585600D14688 /* PointsToDisplayValueTransformer.m in Sources */,
 				1428938D0957585600D14688 /* SaturationToColorValueTransformer.m in Sources */,
 				142893A1095758C200D14688 /* AdvancedPreferences.m in Sources */,
@@ -3222,6 +3233,7 @@
 				4C0B4C6118C8B3E300048335 /* SEEToggleRecentDocumentListItem.m in Sources */,
 				1428946909575B9700D14688 /* SplitView.m in Sources */,
 				1428946B09575B9700D14688 /* SEETextView.m in Sources */,
+				F2308E6718E06FA00096E0C1 /* SEEFindAndReplaceContext.m in Sources */,
 				1428946C09575B9700D14688 /* URLDataProtocol.m in Sources */,
 				4CE6C99D18AA905500AB45D1 /* SEEOverlayView.m in Sources */,
 				1428946D09575B9700D14688 /* WebPreviewViewController.m in Sources */,

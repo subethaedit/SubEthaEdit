@@ -8,6 +8,8 @@
 
 #import "SEEFindAndReplaceViewController.h"
 #import "FindReplaceController.h"
+#import "PlainTextWindowController.h"
+#import "PlainTextEditor.h"
 
 // this file needs arc - add -fobjc-arc in the compile build phase
 #if !__has_feature(objc_arc)
@@ -17,7 +19,8 @@
 enum OptionsMenuTags {
 	kOptionMenuIgnoreCaseTag = 10001,
 	kOptionMenuWrapAroundTag,
-	kOptionMenuSetScopeToSelectionTag,
+	kOptionMenuClearScopeTag,
+	kOptionMenuAddSelectionToSearchScopeTag,
 	kOptionMenuUseRegularExpressionsTag,
 
 	kOptionMenuSelectedLanguageDialectTag,
@@ -52,6 +55,7 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 
 @interface SEEFindAndReplaceViewController () <NSMenuDelegate>
 @property (nonatomic, strong) NSMenu *optionsPopupMenu;
+@property (nonatomic, strong) NSMutableSet *registeredNotifications;
 @end
 
 @implementation SEEFindAndReplaceViewController
@@ -59,13 +63,16 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 - (instancetype)init {
 	self = [super initWithNibName:@"SEEFindAndReplaceView" bundle:nil];
 	if (self) {
-		
+		self.registeredNotifications = [NSMutableSet new];
 	}
 	return self;
 }
 
 - (void)dealloc {
 	[self.findAndReplaceStateObjectController removeObserver:self forKeyPath:kOptionKeyPathUseRegularExpressions];
+	for (id notificationReference in self.registeredNotifications) {
+		[[NSNotificationCenter defaultCenter] removeObserver:notificationReference];
+	}
 }
 
 - (void)updateSearchOptionsButton {
@@ -73,7 +80,24 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 	if ([[self.findAndReplaceStateObjectController valueForKeyPath:kOptionKeyPathUseRegularExpressions] boolValue]) {
 		image = [NSImage pdfBasedImageNamed:@"SearchLoupeRE"TCM_PDFIMAGE_SEP@"36"TCM_PDFIMAGE_SEP@""TCM_PDFIMAGE_NORMAL];
 	}
+
 	[self.searchOptionsButton setImage:image];
+
+	NSShadow *shadow = nil;
+	if (self.hasSearchScope) {
+		shadow = [NSShadow new];
+		[shadow setShadowColor:[NSColor searchScopeBaseColor]];
+		[shadow setShadowOffset:NSMakeSize(0, 0)];
+		[shadow setShadowBlurRadius:10.0];
+	}
+	[self.searchOptionsButton setShadow:shadow];
+}
+
+- (BOOL)hasSearchScope {
+	BOOL result = nil;
+	PlainTextEditor *activeEditor = [self.view.window.windowController activePlainTextEditor];
+	result = [activeEditor hasSearchScope];
+	return result;
 }
 
 - (void)loadView {
@@ -94,6 +118,11 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 	
 	// add observation
 	[self.findAndReplaceStateObjectController addObserver:self forKeyPath:kOptionKeyPathUseRegularExpressions options:0 context:kOptionMenuUseRegularExpressionsTag];
+	
+	__weak __typeof__(self) weakSelf = self;
+	[self.registeredNotifications addObject:[[NSNotificationCenter defaultCenter] addObserverForName:PlainTextEditorDidChangeSearchScopeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+		[weakSelf updateSearchOptionsButton];
+	}]];
 	
 }
 
@@ -119,6 +148,16 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 }
 
 #pragma mark - Options Menu methods
+
+- (IBAction)clearSearchScope:(id)aSender {
+	PlainTextEditor *editor = [self.view.window.windowController activePlainTextEditor];
+	[editor clearSearchScope:aSender];
+}
+
+- (IBAction)addCurrentSelectionToSearchScope:(id)aSender {
+	PlainTextEditor *editor = [self.view.window.windowController activePlainTextEditor];
+	[editor addCurrentSelectionToSearchScope:aSender];
+}
 
 - (IBAction)switchRegexSyntaxDialect:(id)aSender {
 	NSString *keyPath = kOptionKeyPathRegexDialect;
@@ -278,7 +317,8 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 			// Open Regex Help
 			
 			
-			[self addItemToMenu:menu title:@"Set Scope to current selection" action:@selector(takeScopeFromCurrentSelection:) tag:kOptionMenuSetScopeToSelectionTag];
+			[self addItemToMenu:menu title:@"Clear Scope" action:@selector(clearSearchScope:) tag:kOptionMenuClearScopeTag];
+			[self addItemToMenu:menu title:@"Set Scope to current selection" action:@selector(addCurrentSelectionToSearchScope:) tag:kOptionMenuAddSelectionToSearchScopeTag];
 			[self addItemToMenu:menu title:@"Ignore case" action:@selector(toggleIgnoreCase:) tag:kOptionMenuIgnoreCaseTag];
 			[self addItemToMenu:menu title:@"Wrap around" action:@selector(toggleWrapAround:) tag:kOptionMenuWrapAroundTag];
 

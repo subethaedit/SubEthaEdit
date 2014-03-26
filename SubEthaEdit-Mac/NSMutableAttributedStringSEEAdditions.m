@@ -15,7 +15,7 @@
 	#import "TCMMMUserManager.h"
 	#import "TCMMMUser.h"
 	#import "TCMMMUserSEEAdditions.h"
-extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeName;
+extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeName, *SEESearchScopeAttributeName;
 #endif
 
 
@@ -398,6 +398,10 @@ extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
 
 - (NSDictionary *)attributeDictionaryByAddingStyleAttributesForInsertLocation:(unsigned int)inLocation toDictionary:(NSDictionary *)inBaseStyle
 {
+	static NSArray *attributeNamesToCopy = nil;
+	if (!attributeNamesToCopy) {
+		attributeNamesToCopy = [@[NSForegroundColorAttributeName,kSyntaxHighlightingFoldingDepthAttributeName,SEESearchScopeAttributeName] copy];
+	}
 	unsigned int length = [self length];
 	if (inLocation > length || inLocation < 1) return inBaseStyle; // do nothing if document is empty, or the proposed insertion point is beyond the current size
 	
@@ -408,12 +412,17 @@ extern NSString * const WrittenByUserIDAttributeName, *ChangedByUserIDAttributeN
 	
 	// currently visual style means font and color so copy these
 	NSFont *font = [attributes objectForKey:NSFontAttributeName];
-	if (font && [[[resultDictionary objectForKey:NSFontAttributeName] familyName] isEqualToString:[font familyName]]) [resultDictionary setObject:font forKey:NSFontAttributeName];
-	NSColor *foregroundColor = [attributes objectForKey:NSForegroundColorAttributeName];
-	if (foregroundColor) [resultDictionary setObject:foregroundColor forKey:NSForegroundColorAttributeName];
-	NSNumber *foldingDepth = [attributes objectForKey:kSyntaxHighlightingFoldingDepthAttributeName];
-	if (foldingDepth) [resultDictionary setObject:foldingDepth forKey:kSyntaxHighlightingFoldingDepthAttributeName];
+	if (font && [[[resultDictionary objectForKey:NSFontAttributeName] familyName] isEqualToString:[font familyName]]) {
+		[resultDictionary setObject:font forKey:NSFontAttributeName];
+	}
 	
+	for (NSString *attributeName in attributeNamesToCopy) {
+		id value = attributes[attributeName];
+		if (value) {
+			resultDictionary[attributeName] = value;
+		}
+	}
+		
 	return resultDictionary;
 }
 

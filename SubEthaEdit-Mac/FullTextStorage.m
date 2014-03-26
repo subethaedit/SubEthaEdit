@@ -1,10 +1,13 @@
-//
+
 //  FullTextStorage.m
-//  TextEdit
-//
 //  Created by Dominik Wagner on 04.01.09.
 //  Copyright 2009 TheCodingMonkeys. All rights reserved.
-//
+
+
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
 
 
 #import "FoldableTextStorage.h"
@@ -13,6 +16,8 @@
 #import "SyntaxHighlighter.h"
 #import "SelectionOperation.h"
 #import "TCMMMUserManager.h"
+
+NSString * const SEESearchScopeAttributeName = @"SEESearchScope";
 
 NSString * const TextStorageLineEndingDidChange =
                @"TextStorageLineEndingDidChange";
@@ -33,7 +38,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 
 @implementation NSArray (NSArrayTextStorageAdditions) 
 - (NSArray *)arrayByRemovingObject:(id)anObject {
-    NSMutableArray *result=[[self mutableCopy] autorelease];
+    NSMutableArray *result=[self mutableCopy];
     [result removeObject:anObject];
     return (NSArray *)result;
 }
@@ -53,8 +58,8 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 			unichar seps[2];
 			seps[0]=0x2028;
 			seps[1]=0x2029;
-			sUnicodeLSEP=[[NSString stringWithCharacters:seps   length:1] retain];
-			sUnicodePSEP=[[NSString stringWithCharacters:seps+1 length:1] retain];
+			sUnicodeLSEP=[NSString stringWithCharacters:seps   length:1];
+			sUnicodePSEP=[NSString stringWithCharacters:seps+1 length:1];
 		}
 		S_LineEndingLFRegExPart = @"(?:(?<!\r)\n)";
 		S_LineEndingCRRegExPart = @"(?:\r(?!\n))";
@@ -71,28 +76,28 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
             static OGRegularExpression *sWrong;
             if (!sWrong)
                 sWrong=
-                    [[[S_AllLineEndingRegexPartsArray arrayByRemovingObject:S_LineEndingCRRegExPart] combinedRegex] retain];
+                    [[S_AllLineEndingRegexPartsArray arrayByRemovingObject:S_LineEndingCRRegExPart] combinedRegex];
             return sWrong;
         }
         case LineEndingCRLF: {
             static OGRegularExpression *sWrong;
             if (!sWrong)
                 sWrong=
-                    [[[S_AllLineEndingRegexPartsArray arrayByRemovingObject:S_LineEndingCRLFRegExPart] combinedRegex] retain];
+                    [[S_AllLineEndingRegexPartsArray arrayByRemovingObject:S_LineEndingCRLFRegExPart] combinedRegex];
             return sWrong;
         }
         case LineEndingUnicodeLineSeparator: {
             static OGRegularExpression *sWrong;
             if (!sWrong)
                 sWrong=
-                    [[[S_AllLineEndingRegexPartsArray arrayByRemovingObject:S_LineEndingUnicodeLineSeparatorRegExPart] combinedRegex] retain];
+                    [[S_AllLineEndingRegexPartsArray arrayByRemovingObject:S_LineEndingUnicodeLineSeparatorRegExPart] combinedRegex];
             return sWrong;
         }
         case LineEndingUnicodeParagraphSeparator:{
             static OGRegularExpression *sWrong;
             if (!sWrong)
                 sWrong=
-                    [[[S_AllLineEndingRegexPartsArray arrayByRemovingObject:S_LineEndingUnicodeParagraphSeparatorRegExPart] combinedRegex] retain];
+                    [[S_AllLineEndingRegexPartsArray arrayByRemovingObject:S_LineEndingUnicodeParagraphSeparatorRegExPart] combinedRegex];
             return sWrong;
         }
         case LineEndingLF: 
@@ -100,7 +105,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
             static OGRegularExpression *sWrong;
             if (!sWrong)
                 sWrong=
-                    [[[S_AllLineEndingRegexPartsArray arrayByRemovingObject:S_LineEndingLFRegExPart] combinedRegex] retain];
+                    [[S_AllLineEndingRegexPartsArray arrayByRemovingObject:S_LineEndingLFRegExPart] combinedRegex];
             return sWrong;
         }
     }
@@ -131,12 +136,8 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 
 
 - (void)dealloc {
-
     [[NSNotificationCenter defaultCenter] removeObserver:self];
     [[EncodingManager sharedInstance] unregisterEncoding:I_encoding];
-	[I_lineStarts  release];
-	[I_internalAttributedString release];
-	[super dealloc];
 }
 
 - (NSMutableAttributedString *)internalMutableAttributedString {
@@ -276,7 +277,7 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     if (I_numberOfWords == 0 && limit>[self length]) {
         static OGRegularExpression *s_wordCountRegex = nil;
         if (!s_wordCountRegex) {
-            s_wordCountRegex = [[OGRegularExpression regularExpressionWithString:@"[\\w']+"] retain];
+            s_wordCountRegex = [OGRegularExpression regularExpressionWithString:@"[\\w']+"];
         }
         I_numberOfWords  = [[s_wordCountRegex allMatchesInString:[self string]] count];
     }
@@ -443,6 +444,62 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
     [[EncodingManager sharedInstance] registerEncoding:anEncoding];
 }
 
+#pragma mark - SearchScopes
+- (void)TCM_changeSearchScopeAttributeValue:(id)aValue inRange:(NSRange)aRange shouldRemove:(BOOL)shouldRemove {
+	NSRange rangeToTraverse = aRange;
+	NSRange foundRange;
+	[self beginEditing];
+	[self beginLinearAttributeChanges];
+	while (rangeToTraverse.length > 0) {
+		NSSet *set = [self attribute:SEESearchScopeAttributeName atIndex:rangeToTraverse.location
+			   longestEffectiveRange:&foundRange
+							 inRange:rangeToTraverse];
+		if (!shouldRemove) {
+			if (!set) {
+				set = [NSSet setWithObject:aValue];
+			} else {
+				set = [set setByAddingObject:aValue];
+			}
+			[self addAttribute:SEESearchScopeAttributeName value:set range:foundRange];
+		} else {
+			if (set) {
+				if ([set containsObject:aValue]) {
+					if (set.count > 1) {
+						NSMutableSet *newSet = [set mutableCopy];
+						[newSet removeObject:aValue];
+						[self addAttribute:SEESearchScopeAttributeName value:[newSet copy] range:foundRange];
+					} else {
+						[self removeAttribute:SEESearchScopeAttributeName range:foundRange];
+					}
+				}
+			}
+		}
+		
+		NSUInteger newStartIndex = NSMaxRange(foundRange);
+		rangeToTraverse = NSMakeRange(newStartIndex, NSMaxRange(rangeToTraverse)-newStartIndex);
+	}
+	[self endLinearAttributeChanges];
+	[self endEditing];
+}
+
+- (void)addSearchScopeAttributeValue:(id)aValue inRange:(NSRange)aRange {
+	[self TCM_changeSearchScopeAttributeValue:aValue inRange:aRange shouldRemove:NO];
+}
+- (void)removeSearchScopeAttributeValue:(id)aValue fromRange:(NSRange)aRange {
+	[self TCM_changeSearchScopeAttributeValue:aValue inRange:aRange shouldRemove:YES];
+}
+
+- (NSArray *)searchScopeRangesForAttributeValue:(id)aValue {
+	NSMutableArray *result = [NSMutableArray new];
+	[self enumerateAttribute:SEESearchScopeAttributeName inRange:[self TCM_fullLengthRange] options:0 usingBlock:^(NSSet *valueSet, NSRange range, BOOL *stop) {
+		if (valueSet && [valueSet containsObject:aValue]) {
+			[result addObject:[NSValue valueWithRange:range]];
+		}
+	}];
+	return result;
+}
+
+
 
 #pragma mark -
 #pragma mark ### Dictionary Representation ###
@@ -476,8 +533,8 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
 #pragma mark -
 // performance optimization
 - (void)beginEditing {
-	[I_foldableTextStorage beginEditing];
 	[super beginEditing];
+	[I_foldableTextStorage beginEditing];
 }
 
 - (void)endEditing {
@@ -703,7 +760,6 @@ static NSArray  * S_AllLineEndingRegexPartsArray;
         if (![charString canBeConvertedToEncoding:encoding]) {
             [array addObject:[SelectionOperation selectionOperationWithRange:NSMakeRange(i, 1) userID:myUserID]];
         }
-        [charString release];
     }
     
     // combine adjacent selection operations

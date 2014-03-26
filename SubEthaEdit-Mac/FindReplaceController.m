@@ -1,16 +1,13 @@
-//
 //  FindReplaceController.m
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Fri Apr 23 2004.
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
-//
 
 // this file needs arc - add -fobjc-arc in the compile build phase
 #if !__has_feature(objc_arc)
 #error ARC must be enabled!
 #endif
-
 
 #import "OgreKit/OgreKit.h"
 #import "FindReplaceController.h"
@@ -25,6 +22,7 @@
 #import "time.h"
 #import "TextOperation.h"
 #import <objc/objc-runtime.h>
+#import "SEEFindAndReplaceContext.h"
 
 NSString * const kSEEGlobalFindAndReplaceStateDefaultsKey = @"GlobalFindAndReplaceState";
 
@@ -111,13 +109,8 @@ static FindReplaceController *sharedInstance=nil;
     return O_tabWidthPanel;
 }
 
-- (NSTextView *)textViewToSearchIn {
-    id obj = [[NSApp mainWindow] firstResponder];
-    return (obj && [obj isKindOfClass:[NSTextView class]]) ? obj : nil;
-}
-
 - (IBAction)orderFrontTabWidthPanel:(id)aSender {
-	PlainTextDocument *document=(PlainTextDocument *)[[[[self textViewToSearchIn] window] windowController] document];
+	PlainTextDocument *document=(PlainTextDocument *)[[[[self targetToFindIn] window] windowController] document];
     if (document) {
         NSPanel *panel = [self tabWidthPanel];
         [O_tabWidthTextField setIntValue:[document tabWidth]];
@@ -127,11 +120,12 @@ static FindReplaceController *sharedInstance=nil;
 }
 
 - (BOOL)validateMenuItem:(NSMenuItem *)anItem {
-    return [[[[self textViewToSearchIn] window] windowController] document]!=nil;
+	BOOL result = ([self targetDocument] != nil);
+    return result;
 }
 
 - (IBAction)chooseTabWidth:(id)aSender {
-    PlainTextDocument *document=(PlainTextDocument *)[[[[self textViewToSearchIn] window] windowController] document];
+    PlainTextDocument *document = [self targetDocument];
     int tabWidth=[O_tabWidthTextField intValue];
     if (tabWidth>0) {
         [document setTabWidth:tabWidth];
@@ -150,7 +144,7 @@ static FindReplaceController *sharedInstance=nil;
 #pragma mark -
 
 - (IBAction)gotoLine:(id)aSender {
-    NSTextView *textView = [self textViewToSearchIn];
+    NSTextView *textView = [self targetToFindIn];
     [(PlainTextWindowController *)[[textView window] windowController] gotoLine:[O_gotoLineTextField intValue]];
 
 }
@@ -181,14 +175,22 @@ static FindReplaceController *sharedInstance=nil;
 	return result;
 }
 
-- (id)targetToFindIn
-{
+- (SEETextView *)targetToFindIn {
 	NSWindowController *windowController = [[NSApp mainWindow] windowController];
-	id result = nil;
+	SEETextView *result = nil;
 	if (windowController && [windowController respondsToSelector:@selector(activePlainTextEditor)]) {
-		result = [[(PlainTextWindowController *)windowController activePlainTextEditor] textView];
+		result = (SEETextView *)[[(PlainTextWindowController *)windowController activePlainTextEditor] textView];
 	}
     return result;
+}
+
+- (PlainTextDocument *)targetDocument {
+	NSWindowController *windowController = [[NSApp mainWindow] windowController];
+	PlainTextDocument *result = [windowController document];
+	if (result && ![result isKindOfClass:[PlainTextDocument class]]) {
+		result = nil;
+	}
+	return result;
 }
 
 - (void)saveGlobalFindAndReplaceStateToPreferences {
@@ -206,23 +208,25 @@ static FindReplaceController *sharedInstance=nil;
 - (void)alertForReadonlyDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
     if (returnCode == NSAlertFirstButtonReturn) {
         NSDictionary *alertContext = (__bridge NSDictionary *)contextInfo;
-        PlainTextDocument *document = [alertContext objectForKey:@"Document"];
+		SEEFindAndReplaceContext *context = [alertContext objectForKey:@"FindAndReplaceContext"];
+		PlainTextDocument *document = context.targetPlainTextEditor.document;
         [document setEditAnyway:YES];
-        [self performFindPanelAction:[alertContext objectForKey:@"Sender"]];
+        [self performTextFinderAction:context.currentTextFinderActionType context:context];
     }
 }
 
 - (void)alertForEncodingDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
     NSDictionary *alertContext = (__bridge NSDictionary *)contextInfo;
-    PlainTextDocument *document = [alertContext objectForKey:@"Document"];
+	SEEFindAndReplaceContext *context = [alertContext objectForKey:@"FindAndReplaceContext"];
+    PlainTextDocument *document = context.targetPlainTextEditor.document;
     if (returnCode == NSAlertThirdButtonReturn) {
         [document setFileEncoding:NSUnicodeStringEncoding];
         [[document documentUndoManager] removeAllActions];
-        [self performFindPanelAction:[alertContext objectForKey:@"Sender"]];
+        [self performTextFinderAction:context.currentTextFinderActionType context:context];
     } else if (returnCode == NSAlertSecondButtonReturn) {
         [document setFileEncoding:NSUTF8StringEncoding];
         [[document documentUndoManager] removeAllActions];
-        [self performFindPanelAction:[alertContext objectForKey:@"Sender"]];
+        [self performTextFinderAction:context.currentTextFinderActionType context:context];
     }
 }
 
@@ -252,39 +256,27 @@ static FindReplaceController *sharedInstance=nil;
     [self performFindPanelAction:sender inTargetTextView:targetTextView];
 }
 
-- (BOOL)scopeIsSelection {
-	// TODO: check in the affected text view if there is a search range
-	return NO;
-}
-
-- (NSRange)rangeForScopeInTextView:(NSTextView *)aTextView {
-	NSRange result;
-	FoldableTextStorage *foldableTextStorage = nil;
-	NSTextStorage *textStorage = [aTextView textStorage];
-	NSRange selection = [aTextView selectedRange];
-	if ([textStorage isKindOfClass:[FoldableTextStorage class]]) {
-		foldableTextStorage = (FoldableTextStorage *)textStorage;
-		textStorage = [foldableTextStorage fullTextStorage];
-		selection = [foldableTextStorage fullRangeForFoldedRange:selection];
-	}
-	if ([self scopeIsSelection]) {
-		result = selection;
+/*! @return an array of full ranges of the search area*/
+- (NSArray *)rangesForScopeInTextView:(NSTextView *)aTextView {
+	NSArray *result = nil;
+	if ([aTextView isKindOfClass:[SEETextView class]]) {
+		result = [(SEETextView *)aTextView searchScopeRanges];
 	} else {
-		result = NSMakeRange(0, textStorage.length);
+		result = @[[NSValue valueWithRange:NSMakeRange(0, aTextView.textStorage.length)]];
 	}
 	return result;
 }
 
 /*! @return YES if the replacement can be done - e.g. the document is writable and the encoding allowes for all the replacement characters, NO otherwise */
-- (BOOL)testValidityOfReplacementAndReportToUserForDocument:(PlainTextDocument *)aDocument textView:(NSTextView *)aTextView sender:(id)aSender {
+- (BOOL)testValidityOfReplacementAndReportToUserForContext:(SEEFindAndReplaceContext *)aFindAndReplaceContext {
 	BOOL result = YES;
-	PlainTextDocument *document = aDocument;
+	PlainTextDocument *document = aFindAndReplaceContext.targetPlainTextEditor.document;
+	NSWindow *sheetWindow = aFindAndReplaceContext.targetTextView.window;
 	if (document && ![document isFileWritable] && ![document editAnyway]) {
 		// Call sheet
 		NSDictionary *contextInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 									 @"EditAnywayAlert", @"Alert",
-									 aSender, @"Sender",
-									 document, @"Document",
+									 aFindAndReplaceContext, @"FindAndReplaceContext",
 									 nil];
 		
 		NSAlert *alert = [[NSAlert alloc] init];
@@ -295,7 +287,7 @@ static FindReplaceController *sharedInstance=nil;
 		[alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
 		[[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
 		[alert TCM_setContextObject:contextInfo];
-		[alert beginSheetModalForWindow:[aTextView window]
+		[alert beginSheetModalForWindow:sheetWindow
 						  modalDelegate:self
 						 didEndSelector:@selector(alertForReadonlyDidEnd:returnCode:contextInfo:)
 							contextInfo:(__bridge void *)contextInfo];
@@ -308,9 +300,7 @@ static FindReplaceController *sharedInstance=nil;
 			if ([session isServer] && [session participantCount]<=1) {
 				NSDictionary *contextInfo = [NSDictionary dictionaryWithObjectsAndKeys:
 											 @"ShouldPromoteAlert", @"Alert",
-											 aSender, @"Sender",
-											 document, @"Document",
-											 aTextView, @"TextView",
+											 aFindAndReplaceContext, @"FindAndReplaceContext",
 											 nil];
 				
 				NSAlert *alert = [[NSAlert alloc] init];
@@ -322,7 +312,7 @@ static FindReplaceController *sharedInstance=nil;
 				[alert addButtonWithTitle:NSLocalizedString(@"Promote to Unicode", nil)];
 				[[[alert buttons] objectAtIndex:0] setKeyEquivalent:@"\r"];
 				[alert TCM_setContextObject:contextInfo];
-				[alert beginSheetModalForWindow:[aTextView window]
+				[alert beginSheetModalForWindow:sheetWindow
 								  modalDelegate:self
 								 didEndSelector:@selector(alertForEncodingDidEnd:returnCode:contextInfo:)
 									contextInfo:(__bridge void *)contextInfo];
@@ -341,7 +331,7 @@ static FindReplaceController *sharedInstance=nil;
 }
 
 - (void)setStatusString:(NSString *)aString {
-	[self.globalFindAndReplaceStateController setValue:aString forKeyPath:@"content.statusString"];
+	[self.globalFindAndReplaceStateController setValue:[aString copy] forKeyPath:@"content.statusString"];
 }
 
 - (void)signalErrorWithDescription:(NSString *)aDescription {
@@ -396,75 +386,28 @@ static FindReplaceController *sharedInstance=nil;
 	}
 	*/
 	
-    NSString *findString = [self currentFindString];
-	BOOL isFindStringNotZeroLength = (findString.length > 0);
-    NSRange scope = [self rangeForScopeInTextView:target];
+	// the textfinder action now at least contains a search, maybe also a replace
+	// TODO: safe this context and mabe reuse it if possible on the next action (therefore we could reuse compiled regexes and more)
+	SEEFindAndReplaceContext *context = [SEEFindAndReplaceContext contextWithTextView:aTargetTextView state:self.globalFindAndReplaceState];
+	context.currentTextFinderActionType = [aSender tag];
+	[self performTextFinderAction:context.currentTextFinderActionType context:context];
+}
+
+- (void)performTextFinderAction:(NSInteger)aTextFinderActionType context:(SEEFindAndReplaceContext *)aContext {
 	
-	BOOL wantsToReplaceText = (([aSender tag]==NSFindPanelActionReplace)||([aSender tag]==NSFindPanelActionReplaceAndFind)||([aSender tag]==NSFindPanelActionReplaceAll));
-	
-	// Check for replace operation in case it's a read-only file.
-	if (wantsToReplaceText) {
-		if ([target isKindOfClass:[SEETextView class]]) {
-			PlainTextDocument *document = [(SEETextView *)target editor].document;
-			if (![self testValidityOfReplacementAndReportToUserForDocument:document textView:target sender:aSender]) {
-				return;
-			}
+	aContext.currentTextFinderActionType = aTextFinderActionType; // seems redundant in the current flow, but needs to be set here so this method might be called from other places as well. all a little crufty refactoring in progress
+	// Check for replace operation in case it's a read-only file or the insertion text needs the encoding to be promoted first.
+	if (aContext.textFinderActionWantsToReplaceText) {
+		if (![self testValidityOfReplacementAndReportToUserForContext:aContext]) {
+			return;
 		}
 	}
     
-	if ([aSender tag]==NSTextFinderActionNextMatch) {
-        if (isFindStringNotZeroLength) {
-			[self find:findString forward:YES];
-		} else {
-			[self signalErrorWithDescription:nil];
-		}
-    } else if ([aSender tag]==NSTextFinderActionPreviousMatch) {
-        if (isFindStringNotZeroLength) {
-			[self find:findString forward:NO];
-		} else {
-			[self signalErrorWithDescription:nil];
-		}
-    } else if ([aSender tag]==NSTextFinderActionReplaceAll) {
-        [self replaceAllInRange:scope];
-    } else if ([aSender tag]==NSTextFinderActionReplace) {
-        [self replaceSelection];
-    } else if ([aSender tag]==NSTextFinderActionReplaceAndFind) {
-        [self replaceSelection];
-        if (isFindStringNotZeroLength) {
-			[self find:findString forward:YES ];
-		} else {
-			[self signalErrorWithDescription:nil];
-		}
-    } else if ([aSender tag]==TCMTextFinderActionFindAll) {
-        if (!isFindStringNotZeroLength) {
-			[self signalErrorWithDescription:nil];
-			return;
-        }
-        if ((![OGRegularExpression isValidExpressionString:findString])&&
-			(![self currentOgreSyntax]==OgreSimpleMatchingSyntax)) {
-            [self signalErrorWithDescription:NSLocalizedString(@"Invalid regex",@"InvalidRegex")];
-            return;
-        }
-
-		OGRegularExpression *regex = nil;
-		@try{
-			regex = [OGRegularExpression regularExpressionWithString:[self currentFindString]
-															 options:[self currentOgreOptions]
-															  syntax:[self currentOgreSyntax]
-													 escapeCharacter:[self currentOgreEscapeCharacter]];
-		} @catch (NSException *exception) {
-			[self signalErrorWithDescription:NSLocalizedString(@"Invalid regex",@"InvalidRegex")];
-		}
-		if (regex) {
-			if (![self scopeIsSelection]) scope = NSMakeRange (NSNotFound, 0);
-			FindAllController *findall = [[FindAllController alloc] initWithRegex:regex andRange:scope];
-			[(PlainTextDocument *)[[target editor] document] addFindAllController:findall];
-			if ([self currentOgreSyntax]==OgreSimpleMatchingSyntax) [self saveFindStringToPasteboard];
-			[findall findAll:self];
-		}
-    }
-    
-    [self saveGlobalFindAndReplaceStateToPreferences];
+	// now let us deal with the different search and replace actions possible
+	BOOL result = [aContext performCurrentTextFinderAction];
+    if (result) {
+		[self saveGlobalFindAndReplaceStateToPreferences];
+	}
 }
 
 - (void) replaceSelection
@@ -599,12 +542,7 @@ static FindReplaceController *sharedInstance=nil;
             _replaceAllSelectionOperation = nil;
             
             if (_replaceAllReplaced==0) {
-                if ([self scopeIsSelection]) {
-                    [self setStatusString:NSLocalizedString(@"Not found in selection.",@"Find string not found in selection")];
-                } else {
-                    [self setStatusString:NSLocalizedString(@"Not found.",@"Find string not found")];
-                }
-                NSBeep();
+				[self signalErrorWithDescription:NSLocalizedString(@"Not found.",@"Find string not found")];
             } else {
                 [self setStatusString:[NSString stringWithFormat:NSLocalizedString(@"%d replaced.",@"Number of replaced strings"), _replaceAllReplaced]];
                 [[aDocument documentUndoManager] endUndoGrouping];
@@ -670,11 +608,7 @@ static FindReplaceController *sharedInstance=nil;
         _replaceAllSelectionOperation = nil;
         
         if (_replaceAllReplaced==0) {
-            if ([self scopeIsSelection]) {
-                [self setStatusString:NSLocalizedString(@"Not found in selection.",@"Find string not found in selection")];
-            } else {
-                [self setStatusString:NSLocalizedString(@"Not found.",@"Find string not found")];
-            }
+			[self signalErrorWithDescription:NSLocalizedString(@"Not found.",@"Find string not found")];
             NSBeep();
         } else {
             [[aDocument documentUndoManager] endUndoGrouping];
@@ -690,20 +624,29 @@ static FindReplaceController *sharedInstance=nil;
     [[_replaceAllTarget textStorage] endEditing];
 }
 
-- (void) replaceAllInRange:(NSRange)aRange {
+- (void)replaceAllInTextView:(NSTextView *)aTarget findAndReplaceState:(SEEFindAndReplaceState *)aFindAndReplaceState ranges:(NSArray *)aRangesArray {
     _replaceAllReplaced = 0;
-    NSTextView *target = [self targetToFindIn];
-    NSString *findString = [self currentFindString];
-    NSString *replaceString = [self currentReplaceString];
+    NSTextView *target = aTarget;
+    NSString *findString = aFindAndReplaceState.findString;
+    NSString *replaceString = aFindAndReplaceState.replaceString;
 
+	// TODO: remove - is temporary
+	NSRange aRange = [aRangesArray.firstObject rangeValue];
+	
     if (target) {
-        if ((![target isEditable])||(aRange.length==0)) {
+		[self setStatusString:@""];
+		if ((![target isEditable])||([aRangesArray.firstObject rangeValue].length==0)) {
             [O_progressIndicator stopAnimation:nil];
             NSBeep();
             return;
         }
-        NSMutableString *text = [[target textStorage] mutableString];
-        PlainTextDocument *aDocument = (PlainTextDocument *)[[[target window] windowController] document];
+		NSTextStorage *textStorageToEdit = [aTarget textStorage];
+		if ([textStorageToEdit isKindOfClass:[FoldableTextStorage class]]) {
+			textStorageToEdit = [(FoldableTextStorage *)textStorageToEdit fullTextStorage];
+		}
+		
+        NSMutableString *text = [textStorageToEdit mutableString];
+        PlainTextDocument *aDocument = (PlainTextDocument *)[[(SEETextView *)target editor] document];
         NSDictionary *attributes = [aDocument typingAttributes];
         
         _replaceAllAttributes = attributes;
@@ -723,9 +666,6 @@ static FindReplaceController *sharedInstance=nil;
             _replaceAllRange = aRange;
             _replaceAllText = text;
             _replaceAllTarget = target;
-
-
-            [self setStatusString:@""];
 
             [self replaceAFewPlainMatches];
 
@@ -831,8 +771,12 @@ static FindReplaceController *sharedInstance=nil;
 			NSRange selection = [textStorage fullRangeForFoldedRange:[target selectedRange]];
 			
 			
-			if ([self scopeIsSelection]) scope = selection;
-			else scope = NSMakeRange(0,[text length]);
+			if (NO) { // TODO: make it work in scopes
+				scope = selection;
+			}
+			else {
+				scope = NSMakeRange(0,[text length]);
+			}
 			
 			
 			OGRegularExpressionMatch *aMatch = nil;
@@ -848,7 +792,7 @@ static FindReplaceController *sharedInstance=nil;
 					NSRange foundRange;
 					// Check for scoping, as findString:selectedRange:options:wrap:
 					// only makes sense for scope:document.
-					if ([self scopeIsSelection]) {
+					if (NO) { // TODO: make it work in scopes
 						foundRange = [text rangeOfString:findString options:options range:scope];
 					} else foundRange = [text findString:findString selectedRange:selection options:options wrap:wrap];
 					
@@ -860,7 +804,8 @@ static FindReplaceController *sharedInstance=nil;
 				} else {
 					NSRange findRange;
 					unsigned searchTimeOptions = 0;
-					if ([self scopeIsSelection]) { // selection scope
+					if (NO) { // selection scope
+							  // TODO: make it work in scopes
 						findRange = scope;
 					} else {
 						findRange = NSMakeRange(NSMaxRange(selection), [text length] - NSMaxRange(selection));
@@ -886,8 +831,7 @@ static FindReplaceController *sharedInstance=nil;
 						found = YES;
 						NSRange foundRange = [aMatch rangeOfMatchedString];
 						[self selectAndHighlightRange:foundRange inTarget:target];
-					} else if (self.globalFindAndReplaceState.shouldWrap &&
-							   ![self scopeIsSelection]) {
+					} else if (self.globalFindAndReplaceState.shouldWrap) {
 						@try{
 							enumerator = [regex matchEnumeratorInString:text options:[self currentOgreOptions] range:NSMakeRange(0,NSMaxRange(selection))];
 						} @catch (NSException *exception) { NSBeep(); }
@@ -911,7 +855,7 @@ static FindReplaceController *sharedInstance=nil;
 					NSRange foundRange;
 					// Check for scoping, as findString:selectedRange:options:wrap:
 					// only makes sense for scope:document.
-					if ([self scopeIsSelection]) {
+					if (NO) { // TODO: make it work in scopes
 						foundRange = [text rangeOfString:findString options:options range:scope];
 					} else foundRange = [text findString:findString selectedRange:selection options:options wrap:wrap];
 					if (foundRange.length) {
@@ -920,7 +864,7 @@ static FindReplaceController *sharedInstance=nil;
 					} else {NSBeep();}
 				} else {
 					NSRange findRange;
-					if ([self scopeIsSelection]) {
+					if (NO) { // TODO: make it work in scopes
 						findRange = scope;
 					} else {
 						findRange = NSMakeRange(0, selection.location);
@@ -944,21 +888,16 @@ static FindReplaceController *sharedInstance=nil;
 							found = YES;
 							NSRange foundRange = [aMatch rangeOfMatchedString];
 							[self selectAndHighlightRange:foundRange inTarget:target];
-						} else {NSBeep();}
-					} else {NSBeep();}
+						}
+					}
+					
 				}
 			}
-		} else {
-			NSBeep(); // No target
 		}
 		
 		[O_progressIndicator stopAnimation:nil];
 		if (!found){
-			if ([self scopeIsSelection]) {
-				[self setStatusString:NSLocalizedString(@"Not found in selection.",@"Find string not found in selection")];
-			} else {
-				[self setStatusString:NSLocalizedString(@"Not found.",@"Find string not found")];
-			}
+			[self signalErrorWithDescription:NSLocalizedString(@"Not found.",@"Find string not found")];
 		}
 	}
     return found;

@@ -16,7 +16,9 @@
 
 + (SelectionOperation *)selectionOperationWithRange:(NSRange)aRange userID:(NSString *)aUserID;
 
-- (NSRange)selectedRange;
-- (void)setSelectedRange:(NSRange)aRange;
+@property (nonatomic) NSRange selectedRange;
+
+#pragma mark - methods to conform with the same semantics NSTextView's selectedRanges work
+- (NSRange)rangeValue;
 
 @end

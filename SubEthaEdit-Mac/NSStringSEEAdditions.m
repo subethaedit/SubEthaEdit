@@ -680,6 +680,11 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
 	return [escapingExpression replaceAllMatchesInString:self withString:@"\\\\\\0" options:OgreNoneOption];
 }
 
+- (NSRange)TCM_fullLengthRange {
+	NSRange result = NSMakeRange(0, self.length);
+	return result;
+}
+
 @end
 
 @implementation NSAttributedString (NSAttributedStringSEEAdditions)
@@ -776,6 +781,12 @@ static void convertLineEndingsInString(NSMutableString *string, NSString *newLin
     [stateStack release];
     [state release];
     return result;
+}
+
+
+- (NSRange)TCM_fullLengthRange {
+	NSRange result = NSMakeRange(0, self.length);
+	return result;
 }
 
 @end

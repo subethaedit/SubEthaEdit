@@ -15,6 +15,8 @@
 #import "GeneralPreferences.h"
 #import "FoldableTextStorage.h"
 #import "SelectionOperation.h"
+#import "SEETextView.h"
+#import "PlainTextEditor.h"
 
 enum {
     u_false=0,
@@ -205,9 +207,9 @@ static NSString *S_specialGlyphs[17];
     NSRange charRange = [self characterRangeForGlyphRange:aGlyphRange actualGlyphRange:nil];
     NSColor *backgroundColor = [[container textView] backgroundColor];
     NSPoint containerOrigin = [[container textView] textContainerOrigin];
+	NSTextStorage *textStorage = [self textStorage];
+	NSString *textStorageString=[textStorage string];
     if (I_flags.showsChangeMarks) {
-        NSTextStorage *textStorage = [self textStorage];
-        NSString *textStorageString=[textStorage string];
         NSUInteger position = charRange.location;
         NSRange attributeRange;
         while (position < NSMaxRange(charRange)) {
@@ -273,6 +275,44 @@ static NSString *S_specialGlyphs[17];
         }
     }
 
+	// search scope if any
+	PlainTextEditor *editor = [[container textView] isKindOfClass:[SEETextView class]] ?
+		[(SEETextView *)[container textView] editor] :
+		nil;
+	NSValue *searchScopeValue = editor.searchScopeValue;
+	BOOL shouldShowSearchScope = [(PlainTextWindowController *)editor.textView.window.windowController isShowingFindAndReplaceInterface];
+	if (searchScopeValue && shouldShowSearchScope) {
+        NSUInteger position = charRange.location;
+        NSRange attributeRange;
+        while (position < NSMaxRange(charRange)) {
+            id foundSearchScopeValue = [textStorage attribute:SEESearchScopeAttributeName atIndex:position longestEffectiveRange:&attributeRange inRange:charRange];
+            if (foundSearchScopeValue && [foundSearchScopeValue containsObject:searchScopeValue]) {
+                NSColor *searchScopeColor = [NSColor searchScopeBaseColor];
+                NSColor *searchScopeBackgroundColor = [backgroundColor blendedColorWithFraction:30./100.
+																			   ofColor:searchScopeColor];
+                [searchScopeBackgroundColor set];
+                
+                NSUInteger startIndex, lineEndIndex, contentsEndIndex;
+                NSUInteger innerPosition = attributeRange.location;
+                while (innerPosition < NSMaxRange(attributeRange)) {
+                    [textStorageString getLineStart:&startIndex end:&lineEndIndex contentsEnd:&contentsEndIndex forRange:NSMakeRange(innerPosition,0)];
+                    innerPosition=lineEndIndex;
+                    if (startIndex<attributeRange.location) startIndex=attributeRange.location;
+                    if (contentsEndIndex>NSMaxRange(attributeRange)) contentsEndIndex=NSMaxRange(attributeRange);
+                    NSUInteger rectCount;
+                    NSRectArray rectArray = [self rectArrayForCharacterRange:NSMakeRange(startIndex,contentsEndIndex-startIndex) withinSelectedCharacterRange:NSMakeRange(NSNotFound,0) inTextContainer:container rectCount:&rectCount];
+                    if (!NSEqualPoints(containerOrigin,NSZeroPoint)) {
+                        unsigned rectIndex = rectCount;
+                        while (rectIndex--) {
+                            rectArray[rectIndex]=NSOffsetRect(rectArray[rectIndex],containerOrigin.x,containerOrigin.y);
+                        }
+                    }
+                    NSRectFillList(rectArray,rectCount);
+                }
+            }
+            position=NSMaxRange(attributeRange);
+		}
+	}
 
     [super drawBackgroundForGlyphRange:aGlyphRange atPoint:anOrigin];
 }

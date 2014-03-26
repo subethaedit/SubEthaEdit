@@ -104,6 +104,10 @@
     I_selectedRange = aRange;
 }
 
+- (NSRange)rangeValue {
+	return I_selectedRange;
+}
+
 - (NSString *)description {
     return [NSString stringWithFormat:@"selectedRange: %@; byUser: %@", NSStringFromRange([self selectedRange]), [self userID]];
 }

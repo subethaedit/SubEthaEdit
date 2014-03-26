@@ -31,4 +31,7 @@
 - (IBAction)findAndReplaceAction:(id)sender;
 - (IBAction)dismissAction:(id)sender;
 - (IBAction)searchOptionsDropdownAction:(id)sender;
+
+
+- (void)updateSearchOptionsButton;
 @end
