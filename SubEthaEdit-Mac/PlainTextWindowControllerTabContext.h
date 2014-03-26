@@ -14,7 +14,7 @@
 
 @class PlainTextWindowController, WebPreviewViewController, PlainTextDocument, PlainTextLoadProgress;
 
-@interface PlainTextWindowControllerTabContext : NSObject
+@interface PlainTextWindowControllerTabContext : NSResponder
 @property (nonatomic, strong) PlainTextDocument *document;
 
 @property (nonatomic, strong) NSSplitView *editorSplitView;

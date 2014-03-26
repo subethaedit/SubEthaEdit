@@ -1112,6 +1112,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 #pragma mark - Window restoration
 
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
+	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
 	[super encodeRestorableStateWithCoder:coder];
 
 	NSMutableArray *tabNames = [NSMutableArray array];
@@ -1125,12 +1126,20 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 			tabName = tabContext.document.displayName;
 		}
 		[tabNames addObject:tabName];
+
+		NSMutableData *tabData = [NSMutableData data];
+		NSKeyedArchiver *tabCoder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:tabData];
+		[tabCoder setOutputFormat:NSPropertyListXMLFormat_v1_0];
+		[tabContext encodeRestorableStateWithCoder:tabCoder];
+		[tabCoder finishEncoding];
+		[coder encodeObject:tabData forKey:tabName];
 	}
 
 	[coder encodeObject:tabNames forKey:@"PlainTextWindowOpenTabNames"];
 }
 
 - (void)restoreStateWithCoder:(NSCoder *)coder {
+	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
 	[super restoreStateWithCoder:coder];
 }
 

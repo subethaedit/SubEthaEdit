@@ -7,6 +7,7 @@
 //
 
 #import "PlainTextWindowControllerTabContext.h"
+#import "PlainTextDocument.h"
 #import "PlainTextWindowController.h"
 #import "PlainTextLoadProgress.h"
 
@@ -59,6 +60,41 @@
 		result = self.plainTextEditors.firstObject;
 	}
 	return result;
+}
+
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
+	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
+	[super encodeRestorableStateWithCoder:coder];
+
+	NSURL *documentURL = self.document.fileURL;
+	NSURL *documentAutosaveURL = self.document.autosavedContentsFileURL;
+
+	NSData *documentURLBookmark = [documentURL bookmarkDataWithOptions:NSURLBookmarkCreationWithSecurityScope
+										includingResourceValuesForKeys:nil
+														 relativeToURL:nil
+																 error:nil];
+	
+	NSData *documentAutosaveURLBookmark = [documentAutosaveURL bookmarkDataWithOptions:NSURLBookmarkCreationWithSecurityScope
+														includingResourceValuesForKeys:nil
+																		 relativeToURL:nil
+																				 error:nil];
+
+	[coder encodeObject:documentURLBookmark forKey:@"SEETabContextDocumentURLBookmark"];
+	[coder encodeObject:documentAutosaveURLBookmark forKey:@"SEETabContextDocumentAutosaveURLBookmark"];
+
+	if (self.plainTextEditors.count > 0) {
+		[coder encodeBool:YES forKey:@"SEETabContextShowsEditorSplit"];
+		// TODO: store split frames...
+	} else {
+		[coder encodeBool:NO forKey:@"SEETabContextShowsEditorSplit"];
+	}
+
+	[self. document encodeRestorableStateWithCoder:coder];
+}
+
+- (void)restoreStateWithCoder:(NSCoder *)coder {
+	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
+	[super restoreStateWithCoder:coder];
 }
 
 @end

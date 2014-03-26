@@ -732,6 +732,7 @@
 #pragma mark - NSWindowRestoration
 
 + (void)restoreWindowWithIdentifier:(NSString *)identifier state:(NSCoder *)state completionHandler:(void (^)(NSWindow *, NSError *))completionHandler {
+	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
 	if ([identifier isEqualToString:@"DocumentList"]) {
 		DocumentController *documentController = [[self class] sharedDocumentController];
 		[documentController showDocumentListWindow:self];
@@ -741,11 +742,46 @@
 		}
 	} else {
 		[super restoreWindowWithIdentifier:identifier state:state completionHandler:^(NSWindow *window, NSError *inError) {
+			NSLog(@"%s - %d", __FUNCTION__, __LINE__);
 
 			// we also may have to restore tabs in this window
 			NSArray *tabs = [state decodeObjectForKey:@"PlainTextWindowOpenTabNames"];
-			if (tabs) {
-				NSLog(@"%@", tabs);
+			for (NSString *tabName in tabs) {
+				NSData *tabData = [state decodeObjectForKey:tabName];
+				NSKeyedUnarchiver *tabState = [[NSKeyedUnarchiver alloc] initForReadingWithData:tabData];
+
+				if (tabState) {
+					NSData *documentURLBookmark = [tabState decodeObjectForKey:@"SEETabContextDocumentURLBookmark"];
+					NSURL *documentURL = [NSURL URLByResolvingBookmarkData:documentURLBookmark
+																   options:NSURLBookmarkResolutionWithSecurityScope
+															 relativeToURL:nil
+													   bookmarkDataIsStale:NULL
+																	 error:NULL];
+					[documentURL startAccessingSecurityScopedResource];
+
+					NSData *documentAutosaveURLBookmark = [tabState decodeObjectForKey:@"SEETabContextDocumentAutosaveURLBookmark"];
+					NSURL *documentAutosaveURL = [NSURL URLByResolvingBookmarkData:documentAutosaveURLBookmark
+																		   options:NSURLBookmarkResolutionWithSecurityScope
+																	 relativeToURL:nil
+															   bookmarkDataIsStale:NULL
+																			 error:NULL];
+					[documentAutosaveURL startAccessingSecurityScopedResource];
+
+					DocumentController *documentController = [[self class] sharedDocumentController];
+					documentController.isOpeningUsingAlternateMenuItem = NO;
+					documentController.isOpeningInTab = YES;
+
+					[NSApp extendStateRestoration];
+					[documentController reopenDocumentForURL:documentURL withContentsOfURL:documentAutosaveURL display:YES completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
+						if ([document isKindOfClass:[PlainTextDocument class]]) {
+							PlainTextWindowController *windowController = [[document windowControllers] firstObject];
+							NSTabViewItem *tabViewItem = [windowController tabViewItemForDocument:document];
+							PlainTextWindowControllerTabContext *tabContext = tabViewItem.identifier;
+							[tabContext restoreStateWithCoder:tabState];
+						}
+						[NSApp completeStateRestoration];
+					}];
+				}
 			}
 
 			if (completionHandler) {
@@ -758,9 +794,11 @@
 
 - (void)reopenDocumentForURL:(NSURL *)urlOrNil withContentsOfURL:(NSURL *)contentsURL display:(BOOL)displayDocument completionHandler:(void (^)(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error))completionHandler
 {
+	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
 	[self.filenamesFromLastRunOpenPanel removeAllObjects];
 
 	[super reopenDocumentForURL:urlOrNil withContentsOfURL:contentsURL display:displayDocument completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
+		NSLog(@"%s - %d", __FUNCTION__, __LINE__);
 		if (completionHandler) {
 			completionHandler(document, documentWasAlreadyOpen, error);
 		}
@@ -772,6 +810,7 @@
 
 
 - (id)makeDocumentForURL:(NSURL *)urlOrNil withContentsOfURL:(NSURL *)contentsURL ofType:(NSString *)typeName error:(NSError **)outError {
+	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
 	id result = [super makeDocumentForURL:urlOrNil withContentsOfURL:contentsURL ofType:typeName error:outError];
 
 	if ([result isKindOfClass:PlainTextDocument.class]) {
