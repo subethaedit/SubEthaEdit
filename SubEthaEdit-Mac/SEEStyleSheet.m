@@ -159,9 +159,6 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 	
 	}
 	
-	// Check for Coda 2 mode / style scopes
-	[self convertPreviouslyUsedScopesToUpdatedScopes];
-	
 	//Clear Cache
 	[self clearCache];
 }
