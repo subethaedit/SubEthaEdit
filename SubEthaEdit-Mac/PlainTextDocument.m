@@ -252,9 +252,6 @@ static NSString *tempFileName(NSString *origPath) {
 
 - (void)TCM_initHelper {
 	self.persistentDocumentScopedBookmarkURLs = [NSMutableArray array];
-
-	self.shouldOpenInTab = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
-
     I_flags.isAutosavingForRestart=NO;
     I_flags.isHandlingUndoManually=NO;
     I_flags.shouldSelectModeOnSave=YES;
@@ -1643,14 +1640,26 @@ static NSString *tempFileName(NSString *origPath) {
 static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 
 - (void)makeWindowControllers {
-    BOOL shouldOpenInTab = self.shouldOpenInTab;
-    if (self.useAlternateMakeWindowControllerBehaviour) {
-        shouldOpenInTab = !shouldOpenInTab;
-    }
+    BOOL shouldOpenInTab = NO;
+	NSWindowController *tabWindowController = nil;
+
+	SEEDocumentCreationFlags *creationFlags = self.attachedCreationFlags;
+	if (creationFlags) {
+		shouldOpenInTab = creationFlags.openInTab;
+	} else {
+		shouldOpenInTab = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
+	}
+
+	if (shouldOpenInTab) {
+		tabWindowController = creationFlags.tabWindow.windowController;
+		if (!tabWindowController) {
+			tabWindowController = [[SEEDocumentController sharedDocumentController] activeWindowController];
+		}
+	}
 
     PlainTextWindowController *windowController = nil;
     if (shouldOpenInTab) {
-        windowController = [[SEEDocumentController sharedDocumentController] activeWindowController];
+        windowController = (PlainTextWindowController *)tabWindowController;
         [self addWindowController:windowController];
         [[windowController tabBar] setHideForSingleTab:![[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey]];
     } else {
@@ -1659,8 +1668,9 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
         [[SEEDocumentController sharedInstance] addWindowController:windowController];
         [windowController release];
     }
-	self.useAlternateMakeWindowControllerBehaviour = NO;
 
+	// reset document creation flags
+	self.attachedCreationFlags = nil;
     
 	if (I_stateDictionaryFromLoading) {
 		NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
@@ -5559,9 +5569,8 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     [self setTemporaryDisplayName:[aSession filename]];
 
     // this is slightly modified make window controllers code ...
-	self.shouldOpenInTab = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
-	self.useAlternateMakeWindowControllerBehaviour = NO;
-    [self makeWindowControllers]; 
+    [self makeWindowControllers];
+
     PlainTextWindowController *windowController=[[self windowControllers] lastObject];
     I_flags.isReceivingContent = YES;
     [windowController document:self isReceivingContent:YES];
