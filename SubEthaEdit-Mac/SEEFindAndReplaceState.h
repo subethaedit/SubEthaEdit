@@ -20,6 +20,7 @@
 @property (nonatomic) BOOL shouldWrap;
 /*! currently used OGRE dialect. */
 @property (nonatomic) OgreSyntax regularExpressionSyntax;
+@property (nonatomic, readonly) unsigned regexOptionsForExpressionBuilding;
 
 @property (nonatomic, readonly) NSString *regularExpressionSyntaxString;
 @property (nonatomic, copy) NSString *statusString;
