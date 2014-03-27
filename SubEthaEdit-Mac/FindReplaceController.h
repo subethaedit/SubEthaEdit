@@ -58,11 +58,8 @@ typedef enum {
 - (void)performFindPanelAction:(id)sender inTargetTextView:(NSTextView *)aTextView;
 - (void)performFindPanelAction:(id)sender;
 
-- (BOOL) find:(NSString*)findString forward:(BOOL)forward;
-- (void) findNextAndOrderOut:(id)sender;
 - (void)loadFindStringFromPasteboard;
 - (void)saveFindStringToPasteboard;
-- (void) replaceSelection;
 
 
 - (void)signalErrorWithDescription:(NSString *)aDescription;

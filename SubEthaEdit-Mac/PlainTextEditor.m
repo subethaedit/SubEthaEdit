@@ -2361,14 +2361,6 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	[self hideFindAndReplace:self];
 }
 
-- (void)findAndReplaceViewControllerDidPressFindNext:(SEEFindAndReplaceViewController *)aViewController {
-	[[FindReplaceController sharedInstance] find:aViewController.findTextField.stringValue forward:YES];
-}
-
-- (void)findAndReplaceViewControllerDidPressFindPrevious:(SEEFindAndReplaceViewController *)aViewController {
-	[[FindReplaceController sharedInstance] find:aViewController.findTextField.stringValue forward:NO];
-}
-
 #pragma mark -
 #pragma mark ### NSTextView delegate methods ###
 
