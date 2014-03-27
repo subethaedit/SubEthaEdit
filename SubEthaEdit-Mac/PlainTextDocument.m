@@ -1786,7 +1786,12 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     for (NSWindowController *windowController in windowControllers) {
         [(PlainTextWindowController *)windowController documentWillClose:self];
     }
-    
+	
+	for (FindAllController *findAllController in I_findAllControllers) {
+		[findAllController close];
+	}
+    [I_findAllControllers removeAllObjects];
+	
     // terminate syntax coloring
     I_flags.highlightSyntax = NO;
     [I_symbolUpdateTimer invalidate];

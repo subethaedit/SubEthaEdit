@@ -8,15 +8,11 @@
 
 #import <Cocoa/Cocoa.h>
 @class SEEFindAndReplaceViewController;
-
-@protocol SEEFindAndReplaceViewControllerDelegate
-@property (nonatomic, readonly) NSTextView *textView;
-- (void)findAndReplaceViewControllerDidPressDismiss:(SEEFindAndReplaceViewController *)aViewController;
-@end
+#import "PlainTextWindowControllerTabContext.h"
 
 @interface SEEFindAndReplaceViewController : NSViewController
 
-@property (nonatomic, weak) id <SEEFindAndReplaceViewControllerDelegate> delegate;
+@property (nonatomic, weak) PlainTextWindowControllerTabContext *plainTextWindowControllerTabContext;
 
 @property (nonatomic,strong) IBOutlet NSTextField *feedbackTextField;
 @property (nonatomic,strong) IBOutlet NSTextField *findTextField;

@@ -10,6 +10,8 @@
 #import "FindReplaceController.h"
 #import "PlainTextWindowController.h"
 #import "PlainTextEditor.h"
+#import "PlainTextWindowControllerTabContext.h"
+#import "SEETextView.h"
 
 // this file needs arc - add -fobjc-arc in the compile build phase
 #if !__has_feature(objc_arc)
@@ -56,6 +58,8 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 @interface SEEFindAndReplaceViewController () <NSMenuDelegate>
 @property (nonatomic, strong) NSMenu *optionsPopupMenu;
 @property (nonatomic, strong) NSMutableSet *registeredNotifications;
+@property (nonatomic, readonly) SEETextView *targetTextView;
+@property (nonatomic, readonly) PlainTextEditor *targetPlainTextEditor;
 @end
 
 @implementation SEEFindAndReplaceViewController
@@ -73,6 +77,16 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 	for (id notificationReference in self.registeredNotifications) {
 		[[NSNotificationCenter defaultCenter] removeObserver:notificationReference];
 	}
+}
+
+- (SEETextView *)targetTextView {
+	SEETextView *result = (SEETextView *)self.targetPlainTextEditor.textView;
+	return result;
+}
+
+- (PlainTextEditor *)targetPlainTextEditor {
+	PlainTextEditor *result = self.plainTextWindowControllerTabContext.activePlainTextEditor;
+	return result;
 }
 
 - (void)updateSearchOptionsButton {
@@ -95,8 +109,8 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 
 - (BOOL)hasSearchScope {
 	BOOL result = nil;
-	PlainTextEditor *activeEditor = [self.view.window.windowController activePlainTextEditor];
-	result = [activeEditor hasSearchScope];
+	PlainTextEditor *targetEditor = self.targetPlainTextEditor;
+	result = [targetEditor hasSearchScope];
 	return result;
 }
 
@@ -123,7 +137,11 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 	[self.registeredNotifications addObject:[[NSNotificationCenter defaultCenter] addObserverForName:PlainTextEditorDidChangeSearchScopeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
 		[weakSelf updateSearchOptionsButton];
 	}]];
-	
+
+	[self.registeredNotifications addObject:[[NSNotificationCenter defaultCenter] addObserverForName:SEEPlainTextWindowControllerTabContextActiveEditorDidChangeNotification object:nil queue:[NSOperationQueue mainQueue] usingBlock:^(NSNotification *note) {
+		[note.object isEqual:self.plainTextWindowControllerTabContext];
+		[weakSelf updateSearchOptionsButton];
+	}]];
 }
 
 - (NSObjectController *)findAndReplaceStateObjectController {
@@ -131,12 +149,13 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 }
 
 - (IBAction)findAndReplaceAction:(id)aSender {
-	[[FindReplaceController sharedInstance] performFindPanelAction:aSender inTargetTextView:self.delegate.textView];
+	[[FindReplaceController sharedInstance] performFindPanelAction:aSender inTargetTextView:self.targetTextView];
 }
 
 
 - (IBAction)dismissAction:(id)sender {
-	[self.delegate findAndReplaceViewControllerDidPressDismiss:self];
+	// this is a little bit bad because it knows about the first plain text editor being the one displaying us
+	[self.plainTextWindowControllerTabContext.plainTextEditors.firstObject findAndReplaceViewControllerDidPressDismiss:self];
 }
 
 - (IBAction)searchOptionsDropdownAction:(id)sender {
@@ -150,12 +169,12 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 #pragma mark - Options Menu methods
 
 - (IBAction)clearSearchScope:(id)aSender {
-	PlainTextEditor *editor = [self.view.window.windowController activePlainTextEditor];
+	PlainTextEditor *editor = self.targetPlainTextEditor;
 	[editor clearSearchScope:aSender];
 }
 
 - (IBAction)addCurrentSelectionToSearchScope:(id)aSender {
-	PlainTextEditor *editor = [self.view.window.windowController activePlainTextEditor];
+	PlainTextEditor *editor = self.targetPlainTextEditor;
 	[editor addCurrentSelectionToSearchScope:aSender];
 }
 
@@ -229,7 +248,11 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 	BOOL useRegex = [[self.findAndReplaceStateObjectController valueForKeyPath:kOptionKeyPathUseRegularExpressions] boolValue];
 	BOOL validationResultForRegexOptions = useRegex;
 	
-	if (menuItem.action == @selector(switchRegexSyntaxDialect:)) {
+	if (menuItem.action == @selector(clearSearchScope:)) {
+		if (![self hasSearchScope]) {
+			return NO;
+		}
+	} else if (menuItem.action == @selector(switchRegexSyntaxDialect:)) {
 		BOOL isOn = ([[self.findAndReplaceStateObjectController valueForKeyPath:kOptionKeyPathRegexDialect] integerValue] == menuItem.tag);
 		[menuItem setState:isOn ? NSOnState : NSOffState];
 	} else if (menuItem.action == @selector(toggleRegexOption:)) {
@@ -318,10 +341,12 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 			
 			
 			[self addItemToMenu:menu title:@"Clear Scope" action:@selector(clearSearchScope:) tag:kOptionMenuClearScopeTag];
-			[self addItemToMenu:menu title:@"Set Scope to current selection" action:@selector(addCurrentSelectionToSearchScope:) tag:kOptionMenuAddSelectionToSearchScopeTag];
+			[self addItemToMenu:menu title:@"Add current selection to Scope" action:@selector(addCurrentSelectionToSearchScope:) tag:kOptionMenuAddSelectionToSearchScopeTag];
+			[menu addItem:[NSMenuItem separatorItem]];
 			[self addItemToMenu:menu title:@"Ignore case" action:@selector(toggleIgnoreCase:) tag:kOptionMenuIgnoreCaseTag];
 			[self addItemToMenu:menu title:@"Wrap around" action:@selector(toggleWrapAround:) tag:kOptionMenuWrapAroundTag];
 
+			[menu addItem:[NSMenuItem separatorItem]];
 			[self addItemToMenu:menu title:@"Use Regular Expressions" action:@selector(toggleUseRegex:) tag:kOptionMenuUseRegularExpressionsTag];
 
 			[menu addItem:[NSMenuItem separatorItem]];

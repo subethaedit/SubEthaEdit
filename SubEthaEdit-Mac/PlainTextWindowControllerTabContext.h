@@ -7,10 +7,15 @@
 //
 
 #import <Cocoa/Cocoa.h>
+
+@class PlaintextWindowControllerTabContext;
+
 #import "SEEEditorSplitViewDelegate.h"
 #import "SEEDialogSplitViewDelegate.h"
 #import "SEEWebPreviewSplitViewDelegate.h"
 #import "PlainTextEditor.h"
+
+extern NSString * const SEEPlainTextWindowControllerTabContextActiveEditorDidChangeNotification;
 
 @class PlainTextWindowController, WebPreviewViewController, PlainTextDocument, PlainTextLoadProgress;
 

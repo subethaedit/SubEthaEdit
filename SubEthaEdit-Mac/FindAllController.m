@@ -38,8 +38,7 @@
     [I_document removeFindAllController:self];
 }
 
-- (NSArray*)arrangedObjects
-{
+- (NSArray*)arrangedObjects {
     return [O_resultsController arrangedObjects];
 }
 
@@ -136,23 +135,27 @@ NSLocalizedStringWithDefaultValue(@"SELECTION_SCOPE_DOCUMENT", nil,[NSBundle mai
 
 }
 
-- (void)jumpToSelection:(id)sender
-{
+- (void)jumpToSelection:(id)sender {
     if (I_document) {
         if ([[O_resultsController selectedObjects]count]>1) return;
         NSRange range = [[[[O_resultsController selectedObjects] lastObject] objectForKey:@"selectionOperation"] selectedRange];
         if (([[NSApp currentEvent] modifierFlags] & NSAlternateKeyMask)) {
             [I_document newView:self];
-        }
-        [I_document selectRange:range];   
-    } 
+			[I_document selectRange:range];
+        } else {
+			[self.findAndReplaceContext.targetPlainTextEditor selectRange:range];
+		}
+    }
 }
 
 - (void)tableViewSelectionDidChange:(NSNotification *)aNotification {
 	if ([[O_resultsController selectedObjects]count]==1) {
         NSRange range = [[[[O_resultsController selectedObjects] lastObject] objectForKey:@"selectionOperation"] selectedRange];
-        [I_document selectRangeInBackground:range];
-//        [O_findAllPanel makeKeyAndOrderFront:self]; 
+		if (self.findAndReplaceContext.targetPlainTextEditor) {
+			[self.findAndReplaceContext.targetPlainTextEditor selectRangeInBackground:range];
+		} else {
+			[I_document selectRangeInBackground:range];
+		}
     }
 }
 
