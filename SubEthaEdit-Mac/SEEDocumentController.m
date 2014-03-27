@@ -73,16 +73,6 @@
     self.filenamesFromLastRunOpenPanel = nil;
     self.documentCreationFlagsLookupDict = nil;
 	self.locationForNextOpenPanel = nil;
-
-    [I_propertiesForOpenedFiles release];
-    [I_suspendedSeeScriptCommands release];
-    [I_waitingDocuments release];
-    [I_refCountsOfSeeScriptCommands release];
-    [I_pipingSeeScriptCommands release];
-    
-    [I_windowControllers release];
-    
-    [super dealloc];
 }
 
 
@@ -111,7 +101,6 @@
         }
         [targetWindowController setDocument:document];
     }
-    [alert release];
 }
 
 - (IBAction)alwaysShowTabBar:(id)sender
@@ -207,7 +196,6 @@
 	if (!self.documentListWindowController) {
 		SEEDocumentListWindowController *networkBrowser = [[SEEDocumentListWindowController alloc] initWithWindowNibName:@"SEEDocumentListWindowController"];
 		self.documentListWindowController = networkBrowser;
-		[networkBrowser release];
 	}
 	if (sender == NSApp) {
 		self.documentListWindowController.shouldCloseWhenOpeningDocument = YES;
@@ -283,7 +271,7 @@
                         [prototypeMenuItem setKeyEquivalent:@""];
                     }
                 }
-                NSMenuItem *itemToAdd = [[prototypeMenuItem copy] autorelease];
+                NSMenuItem *itemToAdd = [prototypeMenuItem copy];
                 [aMenu addItem:itemToAdd];
 //				NSLog(@"%@",itemToAdd);
                 [itemToAdd setMark:[document isDocumentEdited]?kBulletCharCode:noMark];
@@ -291,7 +279,6 @@
             }
             firstWC = NO;
         }
-        [prototypeMenuItem release];
         [menusCurrentlyUpdating removeObject:aMenu];
     }
 }
@@ -365,7 +352,7 @@
 
 
 - (NSMenu *)documentMenu {
-    NSMenu *documentMenu = [[NSMenu new] autorelease];
+    NSMenu *documentMenu = [NSMenu new];
     [self updateMenuWithTabMenuItems:documentMenu shortcuts:NO];
     return documentMenu;
 }
@@ -375,7 +362,6 @@
     [document makeProxyWindowController];
     [self addDocument:document];
     [document showWindows];
-    [document release];
 }
 
 - (NSArray *)documentsInMode:(DocumentMode *)aDocumentMode {
@@ -409,7 +395,6 @@
     if (count == 0) {
         PlainTextWindowController *controller = [[PlainTextWindowController alloc] init];
         [I_windowControllers addObject:controller];
-        [controller release];
         count++;
     }
     PlainTextWindowController *activeWindowController = nil;
@@ -423,7 +408,6 @@
     if (!activeWindowController) {
         activeWindowController = [[PlainTextWindowController alloc] init];
         [I_windowControllers addObject:activeWindowController];
-        [activeWindowController release];
     }
     return activeWindowController;
 }
@@ -433,7 +417,7 @@
 }
 
 - (void)removeWindowController:(id)aWindowController {
-    [I_windowControllers removeObject:[[aWindowController retain] autorelease]];
+    [I_windowControllers removeObject:aWindowController];
 }
 
 #pragma mark - Open new document
@@ -456,10 +440,9 @@
 
         NSString *templateFileContent=[newMode templateFileContent];
         if (templateFileContent && ![templateFileContent canBeConvertedToEncoding:[document fileEncoding]]) {
-            templateFileContent=[[[NSString alloc]
+            templateFileContent=[[NSString alloc]
 								  initWithData:[templateFileContent dataUsingEncoding:[document fileEncoding] allowLossyConversion:YES]
-								  encoding:[document fileEncoding]]
-								 autorelease];
+								  encoding:[document fileEncoding]];
         }
 
         if (templateFileContent) {
@@ -1286,10 +1269,8 @@ struct ModificationInfo
 - (void)closeDocumentsStartingWith:(PlainTextDocument *)doc shouldClose:(BOOL)shouldClose closeAllContext:(void *)closeAllContext
 {
     // Iterate over unsaved documents, preserve closeAllContext to invoke it after the last document
-    
-    NSArray *windows = [[[NSApp orderedWindows] copy] autorelease];
-    NSWindow *window;
-    for (window in windows) {
+    NSArray *windows = [[NSApp orderedWindows] copy];
+    for (NSWindow *window in windows) {
         NSWindowController *controller = [window windowController];
         if ([controller isKindOfClass:[PlainTextWindowController class]]) {
             NSArray *documents = [(PlainTextWindowController *)controller documents];
@@ -1312,8 +1293,7 @@ struct ModificationInfo
 
     // Invoke invocation after reviewing all documents
     if (closeAllContext) {
-        NSInvocation *invocation = (NSInvocation *)closeAllContext;
-        [invocation autorelease];
+        NSInvocation *invocation = (__bridge NSInvocation *)closeAllContext;
         [invocation invoke];
     }
 }
@@ -1345,14 +1325,16 @@ struct ModificationInfo
     if (delegate != nil && didCloseAllSelector != NULL) {
         NSMethodSignature *methodSignature = [delegate methodSignatureForSelector:didCloseAllSelector];
         unsigned numberOfArguments = [methodSignature numberOfArguments];
-        invocation = [[NSInvocation invocationWithMethodSignature:methodSignature] retain];
+
+		__unsafe_unretained id unsaveSelf = self;
+        invocation = [NSInvocation invocationWithMethodSignature:methodSignature];
         [invocation setSelector:didCloseAllSelector];
         [invocation setTarget:delegate];
-        if (numberOfArguments > 2) [invocation setArgument:&self atIndex:2];
+        if (numberOfArguments > 2) [invocation setArgument:&unsaveSelf atIndex:2];
         if (numberOfArguments > 3) { BOOL flag = YES; [invocation setArgument:&flag atIndex:3]; }
         if (numberOfArguments > 4) [invocation setArgument:&contextInfo atIndex:4];
     }
-    [self closeDocumentsStartingWith:nil shouldClose:YES closeAllContext:invocation];
+    [self closeDocumentsStartingWith:nil shouldClose:YES closeAllContext:(void *)CFBridgingRetain(invocation)];
 }
 
 - (void)removeDocument:(NSDocument *)document {
@@ -1489,7 +1471,7 @@ struct ModificationInfo
 				CFURLRef tool = NULL;
 				AuthorizationRef auth = NULL;
 				NSDictionary *request = nil;
-				NSDictionary *response = nil;
+				CFDictionaryRef response = nil;
 
 				err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &auth);
 				if (err == noErr) {
@@ -1550,7 +1532,7 @@ struct ModificationInfo
 				// Go go gadget helper tool!
 
 				if (err == noErr) {
-					err = MoreSecExecuteRequestInHelperTool(tool, auth, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
+					err = MoreSecExecuteRequestInHelperTool(tool, auth, (__bridge CFDictionaryRef)request, &response);
 				}
 
 				// Extract information from the response.
@@ -1566,7 +1548,7 @@ struct ModificationInfo
 
 				// Clean up after second call of helper tool.
 				if (response) {
-					[response release];
+					CFRelease(response);
 				}
 
 
@@ -1590,7 +1572,6 @@ struct ModificationInfo
         }
         [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
         (void)[alert runModal];
-        [alert release];
     }
 }
 

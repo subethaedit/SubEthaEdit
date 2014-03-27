@@ -2119,7 +2119,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
         
         if ([[self documents] count] == 0) {
             [[self retain] autorelease];
-            [[SEEDocumentController sharedInstance] removeWindowController:self];
+            [[SEEDocumentController sharedInstance] removeWindowController:[[self retain] autorelease]];
         } else {
             [self setDocument:[[[[self tabView] selectedTabViewItem] identifier] document]];
         } 
