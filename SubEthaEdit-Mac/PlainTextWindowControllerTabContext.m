@@ -16,6 +16,8 @@
 #error ARC must be enabled!
 #endif
 
+NSString * const SEEPlainTextWindowControllerTabContextActiveEditorDidChangeNotification = @"SEEPlainTextWindowControllerTabContextActiveEditorDidChangeNotification";
+
 
 @implementation PlainTextWindowControllerTabContext
 
@@ -51,6 +53,7 @@
 - (void)setActivePlainTextEditor:(PlainTextEditor *)activePlainTextEditor {
 	if ([self.plainTextEditors containsObject:activePlainTextEditor]) {
 		_activePlainTextEditor = activePlainTextEditor;
+		[[NSNotificationCenter defaultCenter] postNotificationName:SEEPlainTextWindowControllerTabContextActiveEditorDidChangeNotification object:self];
 	}
 }
 

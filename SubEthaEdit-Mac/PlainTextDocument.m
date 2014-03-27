@@ -1799,7 +1799,12 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
     for (NSWindowController *windowController in windowControllers) {
         [(PlainTextWindowController *)windowController documentWillClose:self];
     }
-    
+	
+	for (FindAllController *findAllController in I_findAllControllers) {
+		[findAllController close];
+	}
+    [I_findAllControllers removeAllObjects];
+	
     // terminate syntax coloring
     I_flags.highlightSyntax = NO;
     [I_symbolUpdateTimer invalidate];
@@ -4789,6 +4794,11 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 - (void)removeFindAllController:(FindAllController *)aController
 {
     if (I_findAllControllers) [I_findAllControllers removeObject:aController];
+}
+
+- (NSArray *)findAllControllers {
+	NSArray *result = [[I_findAllControllers copy] autorelease];
+	return result;
 }
 
 - (NSURL *)documentURLForGroup:(NSString *)aGroup {

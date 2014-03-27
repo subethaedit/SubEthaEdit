@@ -84,7 +84,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 @end
 
 
-@interface PlainTextEditor () <SEEFindAndReplaceViewControllerDelegate>
+@interface PlainTextEditor ()
 
 @property (nonatomic, strong) IBOutlet NSView *O_editorView;
 @property (nonatomic, assign) IBOutlet NSView *O_topStatusBarView;
@@ -1409,7 +1409,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 - (IBAction)showFindAndReplace:(id)aSender {
 	if (![self.topOverlayViewController isKindOfClass:[SEEFindAndReplaceViewController class]]) {
 		SEEFindAndReplaceViewController *viewController = [[SEEFindAndReplaceViewController alloc] init];
-		viewController.delegate = self;
+		viewController.plainTextWindowControllerTabContext = I_windowControllerTabContext;
 		self.findAndReplaceController = viewController;
 		[viewController release];
 		[self displayViewControllerInTopArea:viewController];
@@ -2061,6 +2061,8 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
 - (void)selectRange:(NSRange)aRange {
     [[I_textView window] makeKeyAndOrderFront:self];
+	[[I_textView window] makeFirstResponder:I_textView];
+	[I_windowControllerTabContext setActivePlainTextEditor:self];
     [self selectRangeInBackground:aRange];
 }
 
@@ -2347,26 +2349,17 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 #pragma mark -
 #pragma mark ### display fixes for bottom status bar pop up buttons ###
 // proxy method for status bar encoding dropdown to reset state on selection
-- (IBAction)showCustomizeEncodingPanel:(id)aSender
-{
+- (IBAction)showCustomizeEncodingPanel:(id)aSender {
     [self performSelector:@selector(TCM_updateBottomStatusBar) withObject:nil afterDelay:0.0001];
     [[EncodingManager sharedInstance] showWindow:aSender];
 }
 
 
 #pragma mark -
-#pragma mark ### SEEFindAndReplaceViewController delegate methods ###
+#pragma mark ### SEEFindAndReplaceViewController methods ###
 
 - (void)findAndReplaceViewControllerDidPressDismiss:(SEEFindAndReplaceViewController *)aViewController {
 	[self hideFindAndReplace:self];
-}
-
-- (void)findAndReplaceViewControllerDidPressFindNext:(SEEFindAndReplaceViewController *)aViewController {
-	[[FindReplaceController sharedInstance] find:aViewController.findTextField.stringValue forward:YES];
-}
-
-- (void)findAndReplaceViewControllerDidPressFindPrevious:(SEEFindAndReplaceViewController *)aViewController {
-	[[FindReplaceController sharedInstance] find:aViewController.findTextField.stringValue forward:NO];
 }
 
 #pragma mark -

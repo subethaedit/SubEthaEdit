@@ -34,23 +34,7 @@ static FindReplaceController *sharedInstance=nil;
 @property (nonatomic, strong) NSMutableArray *findHistory;
 @property (nonatomic, strong) NSMutableArray *replaceHistory;
 
-@property (nonatomic, strong) NSString *replaceAllFindString;
-@property (nonatomic, strong) NSString *replaceAllReplaceString;
-@property (nonatomic) NSRange replaceAllPosRange;
-@property (nonatomic) NSRange replaceAllRange;
-@property (nonatomic, strong) NSArray *replaceAllMatchArray;
-@property (nonatomic, strong) NSDictionary *replaceAllAttributes;
-@property (nonatomic, strong) NSMutableString *replaceAllText;
-@property (nonatomic, strong) NSTextView *replaceAllTarget;
-@property (nonatomic, strong) OGReplaceExpression *replaceAllRepex;
-@property (nonatomic, strong) OGRegularExpression *replaceAllRegex;
-@property (nonatomic) int replaceAllReplaced;
-@property (nonatomic) int replaceAllArrayIndex;
-@property (nonatomic) unsigned replaceAllOptions;
-@property (nonatomic, strong) SelectionOperation *replaceAllSelectionOperation;
-
 @property (nonatomic, strong) SEEFindAndReplaceState *globalFindAndReplaceState;
-
 @end
 
 @implementation FindReplaceController
@@ -59,7 +43,7 @@ static FindReplaceController *sharedInstance=nil;
     return sharedInstance;
 }
 
-- (id)init {
+- (instancetype)init {
     if (sharedInstance) {
  		self = nil;
         return sharedInstance;
@@ -77,7 +61,7 @@ static FindReplaceController *sharedInstance=nil;
     return self;
 }
 
-- (void) dealloc {
+- (void)dealloc {
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationDidBecomeActiveNotification object:[NSApplication sharedApplication]];
     [[NSNotificationCenter defaultCenter] removeObserver:self name:NSApplicationWillResignActiveNotification object:[NSApplication sharedApplication]];
 	self.topLevelNibObjects = nil;
@@ -152,27 +136,6 @@ static FindReplaceController *sharedInstance=nil;
 - (IBAction)gotoLineAndClosePanel:(id)aSender {
     [self gotoLine:aSender];
     [[self gotoPanel] orderOut:self];   
-}
-
-- (unsigned)currentOgreOptions {
-	unsigned options = [self.globalFindAndReplaceStateController.content regexOptions];
-	if (![self.globalFindAndReplaceStateController.content isCaseSensitive]) {
-		ONIG_OPTION_ON(options, ONIG_OPTION_IGNORECASE);
-	}
-    return options;
-}
-
-// returns OgreSimpleMatchingSyntax if no regex should be used
-- (OgreSyntax)currentOgreSyntax {
-	OgreSyntax result = [self.globalFindAndReplaceStateController.content useRegex] ?
-		[self.globalFindAndReplaceStateController.content regularExpressionSyntax] :
-		OgreSimpleMatchingSyntax;
-	return result;
-}
-
-- (NSString *)currentOgreEscapeCharacter {
-	NSString *result = [self.globalFindAndReplaceStateController.content regularExpressionEscapeCharacter];
-	return result;
 }
 
 - (SEETextView *)targetToFindIn {
@@ -342,7 +305,6 @@ static FindReplaceController *sharedInstance=nil;
 }
 
 - (void)performFindPanelAction:(id)aSender inTargetTextView:(NSTextView *)aTargetTextView {
-	
 	// clear UI
 	[self setStatusString:@""];
 
@@ -351,13 +313,11 @@ static FindReplaceController *sharedInstance=nil;
 		return;
     }
 	
-    id target = aTargetTextView;
-	
-	if (!target) return; // no target nothing to do later on if no target
+	if (!aTargetTextView) return; // no target nothing to do later on if no target
 	
 	FoldableTextStorage *foldableTextStorage = nil;
-	NSTextStorage *textStorage = [target textStorage];
-	NSRange selection = [target selectedRange];
+	NSTextStorage *textStorage = [aTargetTextView textStorage];
+	NSRange selection = [aTargetTextView selectedRange];
 	if ([textStorage isKindOfClass:[FoldableTextStorage class]]) {
 		foldableTextStorage = (FoldableTextStorage *)textStorage;
 		textStorage = [foldableTextStorage fullTextStorage];
@@ -373,19 +333,6 @@ static FindReplaceController *sharedInstance=nil;
 		return;
     }
 
-	/*
-	id firstResponder = [[[NSApplication sharedApplication] mainWindow] firstResponder];
-	if ([firstResponder isKindOfClass:[NSTextView class]]) {
-		NSTextView *responderView = firstResponder;
-		if (responderView.isFieldEditor) {
-			if ([responderView.delegate isKindOfClass:[NSTextField class]]) {
-				NSTextField *textField = (NSTextField *)responderView.delegate;
-				textField.stringValue = responderView.string;
-			}
-		}
-	}
-	*/
-	
 	// the textfinder action now at least contains a search, maybe also a replace
 	// TODO: safe this context and mabe reuse it if possible on the next action (therefore we could reuse compiled regexes and more)
 	SEEFindAndReplaceContext *context = [SEEFindAndReplaceContext contextWithTextView:aTargetTextView state:self.globalFindAndReplaceState];
@@ -410,497 +357,10 @@ static FindReplaceController *sharedInstance=nil;
 	}
 }
 
-- (void) replaceSelection
-{
-    BOOL found = YES;
-
-    NSTextView *target = [self targetToFindIn];
-    if (target) {
-        if (![target isEditable]) {
-            NSBeep();
-            return;
-        }
-        NSString *findString = [self currentFindString];
-        NSString *replaceString = [self currentReplaceString];
-
-        NSMutableString *text = [[target textStorage] mutableString];
-        NSRange selection = [target selectedRange];
-        if (selection.length==0) {
-            NSBeep();
-            return;
-        }
-        
-        PlainTextDocument *aDocument = (PlainTextDocument *)[[[target window] windowController] document];
-        NSDictionary *attributes = [aDocument typingAttributes];
-        
-        [[aDocument session] pauseProcessing];
-        [[target textStorage] beginEditing];
-        
-        if ([self currentOgreSyntax]==OgreSimpleMatchingSyntax) {
-            [[aDocument documentUndoManager] beginUndoGrouping];
-            [self saveFindStringToPasteboard];
-            [text replaceCharactersInRange:selection withString:replaceString];
-            [[target textStorage] addAttributes:attributes range:NSMakeRange(selection.location, [replaceString length])];
-            selection.location = selection.location + [replaceString length];
-            selection.length = 0;
-        } else {
-            // This might not work for lookahead etc.
-            OGRegularExpression *regex = nil;
-            @try{
-            regex = [OGRegularExpression regularExpressionWithString:findString
-                                            options:[self currentOgreOptions]
-                                            syntax:[self currentOgreSyntax]
-                                            escapeCharacter:[self currentOgreEscapeCharacter]];
-            } @catch (NSException *exception) {NSBeep();}
-            OGRegularExpressionMatch * aMatch = [regex matchInString:text options:[self currentOgreOptions] range:selection];
-            if (aMatch != nil) {
-                [[aDocument documentUndoManager] beginUndoGrouping];
-                OGReplaceExpression *repex = [OGReplaceExpression replaceExpressionWithString:replaceString];
-                NSRange matchedRange = [aMatch rangeOfMatchedString];
-                NSString *replaceWith = [repex replaceMatchedStringOf:aMatch];
-                [text replaceCharactersInRange:matchedRange withString:replaceWith];
-                [[target textStorage] addAttributes:attributes range:NSMakeRange(matchedRange.location, [replaceWith length])];
-                selection.location = selection.location + [replaceWith length];
-                selection.length = 0;
-            } else {
-                NSBeep();
-                found=NO;
-            }
-        }
-        
-        [[target textStorage] endEditing];
-        if (found) [[aDocument documentUndoManager] endUndoGrouping];
-        [[aDocument session] startProcessing];
-        
-        [target setSelectedRange:selection];
-    }
-}
-
-- (void)lockDocument:(PlainTextDocument *)aDocument {
-    NSEnumerator *plainTextEditors=[[aDocument plainTextEditors] objectEnumerator];
-    PlainTextEditor *editor=nil;
-    while ((editor=[plainTextEditors nextObject])) {
-        [[editor textView] setEditable:NO];
-    }
-}
-
-- (void)unlockDocument:(PlainTextDocument *)aDocument {
-    NSEnumerator *plainTextEditors=[[aDocument plainTextEditors] objectEnumerator];
-    PlainTextEditor *editor=nil;
-    while ((editor=[plainTextEditors nextObject])) {
-        [[editor textView] setEditable:YES];
-    }
-}
-
-- (void) replaceAFewPlainMatches
-{
-    const int replacePerCycle = 100;
-    int i = replacePerCycle;
-    TCMMMTransformator *transformator=[TCMMMTransformator sharedInstance];
-
-    [[_replaceAllTarget textStorage] beginEditing];
-    if (_replaceAllReplaced>0) {
-        [self setStatusString:[NSString stringWithFormat:NSLocalizedString(@"%d replaced.",@"Number of replaced strings"), _replaceAllReplaced]];
-	}
-    while (YES) {
-        i--;
-        if (i<0) break;
-        
-        
-        NSRange foundRange = [_replaceAllText findString:_replaceAllFindString selectedRange:_replaceAllPosRange options:_replaceAllOptions wrap:NO];
-        if (foundRange.length) {
-            if (foundRange.location < _replaceAllRange.location) {
-                _replaceAllPosRange = NSMakeRange(0,0);
-                break;
-            }
-            if (_replaceAllReplaced==0) {
-                PlainTextDocument *aDocument = (PlainTextDocument *)[[[_replaceAllTarget window] windowController] document];
-                [[aDocument session] pauseProcessing];
-                [self lockDocument:aDocument];
-                [[aDocument documentUndoManager] beginUndoGrouping];
-            }
-            [_replaceAllText replaceCharactersInRange:foundRange withString:_replaceAllReplaceString];
-
-            [transformator transformOperation:_replaceAllSelectionOperation serverOperation:[TextOperation textOperationWithAffectedCharRange:foundRange replacementString:_replaceAllReplaceString userID:[TCMMMUserManager myUserID]]];
-
-            [[_replaceAllTarget textStorage] addAttributes:_replaceAllAttributes range:NSMakeRange(foundRange.location, [_replaceAllReplaceString length])];
-            _replaceAllReplaced++;
-            _replaceAllPosRange.location = foundRange.location;
-        }
-
-        if (!foundRange.length) {
-            [[_replaceAllTarget textStorage] endEditing];
-            _replaceAllFindString = nil;
-            _replaceAllReplaceString = nil;
-            _replaceAllTarget = nil;
-            _replaceAllText = nil;
-            _replaceAllAttributes = nil;
-            
-            PlainTextDocument *aDocument = (PlainTextDocument *)[[[_replaceAllTarget window] windowController] document];
-            
-            [aDocument selectRange:[_replaceAllSelectionOperation selectedRange]];
-            _replaceAllSelectionOperation = nil;
-            
-            if (_replaceAllReplaced==0) {
-				[self signalErrorWithDescription:NSLocalizedString(@"Not found.",@"Find string not found")];
-            } else {
-                [self setStatusString:[NSString stringWithFormat:NSLocalizedString(@"%d replaced.",@"Number of replaced strings"), _replaceAllReplaced]];
-                [[aDocument documentUndoManager] endUndoGrouping];
-                [[aDocument session] startProcessing];
-                [self unlockDocument:aDocument];
-            }
-            _replaceAllTarget = nil;
-            return;
-        }
-    }
-    
-    [[_replaceAllTarget textStorage] endEditing];    
-    [self performSelector:@selector(replaceAFewPlainMatches) withObject:nil afterDelay:0.1];
-}
-
-- (void) replaceAFewMatches
-{
-    const int replacePerCycle = 50;
-    int i;
-    int index = _replaceAllArrayIndex;
-    TCMMMTransformator *transformator=[TCMMMTransformator sharedInstance];
-
-    [[_replaceAllTarget textStorage] beginEditing];
-        
-    for (i = index; i >= MAX(index-replacePerCycle,0); i--) {
-        OGRegularExpressionMatch *aMatch = [_replaceAllMatchArray objectAtIndex:i];
-        NSRange matchedRange = [aMatch rangeOfMatchedString];
-        NSString *replaceWith = [_replaceAllRepex replaceMatchedStringOf:aMatch];
-
-        if (_replaceAllReplaced==0) {
-            PlainTextDocument *aDocument = (PlainTextDocument *)[[[_replaceAllTarget window] windowController] document];
-            [[aDocument session] pauseProcessing];
-            [self lockDocument:aDocument];
-            [[aDocument documentUndoManager] beginUndoGrouping];
-        }
-
-        [_replaceAllText replaceCharactersInRange:matchedRange withString:replaceWith];
-
-        [transformator transformOperation:_replaceAllSelectionOperation serverOperation:[TextOperation textOperationWithAffectedCharRange:matchedRange replacementString:replaceWith userID:[TCMMMUserManager myUserID]]];
-
-        
-        NSRange newRange = NSMakeRange(matchedRange.location, [replaceWith length]);
-        [[_replaceAllTarget textStorage] addAttributes:_replaceAllAttributes range:newRange];
-        _replaceAllReplaced++;
-        [O_progressIndicatorDet setDoubleValue:(double)_replaceAllReplaced];
-    }
-    
-    _replaceAllArrayIndex = i;
-    
-    if (_replaceAllArrayIndex > 0) { // Not ready yet
-        [self performSelector:@selector(replaceAFewMatches) withObject:nil afterDelay:0.02];
-    } else { // Ready.
-        [[_replaceAllTarget textStorage] endEditing];
-        _replaceAllMatchArray = nil;
-        _replaceAllText = nil;
-        _replaceAllRepex = nil;
-        _replaceAllRegex = nil;
-        _replaceAllAttributes = nil;
-        
-        PlainTextDocument *aDocument = (PlainTextDocument *)[[[_replaceAllTarget window] windowController] document];
-        
-        [aDocument selectRange:[_replaceAllSelectionOperation selectedRange]];
-        _replaceAllSelectionOperation = nil;
-        
-        if (_replaceAllReplaced==0) {
-			[self signalErrorWithDescription:NSLocalizedString(@"Not found.",@"Find string not found")];
-            NSBeep();
-        } else {
-            [[aDocument documentUndoManager] endUndoGrouping];
-            [self unlockDocument:aDocument];
-            [[aDocument session] startProcessing];
-            [self setStatusString:[NSString stringWithFormat:NSLocalizedString(@"%d replaced.",@"Number of replaced strings"), _replaceAllReplaced]];
-        }
-        [O_progressIndicatorDet stopAnimation:nil];
-        [O_progressIndicatorDet setHidden:YES];
-        [O_progressIndicatorDet display];
-        return;
-    }
-    [[_replaceAllTarget textStorage] endEditing];
-}
-
-- (void)replaceAllInTextView:(NSTextView *)aTarget findAndReplaceState:(SEEFindAndReplaceState *)aFindAndReplaceState ranges:(NSArray *)aRangesArray {
-    _replaceAllReplaced = 0;
-    NSTextView *target = aTarget;
-    NSString *findString = aFindAndReplaceState.findString;
-    NSString *replaceString = aFindAndReplaceState.replaceString;
-
-	// TODO: remove - is temporary
-	NSRange aRange = [aRangesArray.firstObject rangeValue];
-	
-    if (target) {
-		[self setStatusString:@""];
-		if ((![target isEditable])||([aRangesArray.firstObject rangeValue].length==0)) {
-            [O_progressIndicator stopAnimation:nil];
-            NSBeep();
-            return;
-        }
-		NSTextStorage *textStorageToEdit = [aTarget textStorage];
-		if ([textStorageToEdit isKindOfClass:[FoldableTextStorage class]]) {
-			textStorageToEdit = [(FoldableTextStorage *)textStorageToEdit fullTextStorage];
-		}
-		
-        NSMutableString *text = [textStorageToEdit mutableString];
-        PlainTextDocument *aDocument = (PlainTextDocument *)[[(SEETextView *)target editor] document];
-        NSDictionary *attributes = [aDocument typingAttributes];
-        
-        _replaceAllAttributes = attributes;
-        
-        _replaceAllSelectionOperation = [SelectionOperation new];
-        [_replaceAllSelectionOperation setSelectedRange:[target selectedRange]];
-        
-        if ([self currentOgreSyntax]==OgreSimpleMatchingSyntax) {
-            [self saveFindStringToPasteboard];
-            unsigned options = NSLiteralSearch|NSBackwardsSearch;
-            if (!self.globalFindAndReplaceState.caseSensitive) options |= NSCaseInsensitiveSearch;
-            
-            _replaceAllOptions = options;
-            _replaceAllPosRange = NSMakeRange(NSMaxRange(aRange),0);
-            _replaceAllFindString = findString;
-            _replaceAllReplaceString = replaceString;
-            _replaceAllRange = aRange;
-            _replaceAllText = text;
-            _replaceAllTarget = target;
-
-            [self replaceAFewPlainMatches];
-
-        } else {
-        
-            [O_progressIndicatorDet setIndeterminate:YES];
-            [O_progressIndicatorDet setHidden:NO];
-            [O_progressIndicatorDet startAnimation:nil];
-    
-            
-            if (![OGRegularExpression isValidExpressionString:findString]) {
-                [O_progressIndicator stopAnimation:nil];
-                [self setStatusString:NSLocalizedString(@"Invalid regex",@"InvalidRegex")];
-                [O_progressIndicator stopAnimation:nil];
-                [O_progressIndicatorDet setHidden:YES];
-                NSBeep();
-                return;
-            }
-                
-            @try{
-            OGRegularExpression *regex = [OGRegularExpression regularExpressionWithString:findString
-                                     options:[self currentOgreOptions]
-                                     syntax:[self currentOgreSyntax]
-                                     escapeCharacter:[self currentOgreEscapeCharacter]];
-    
-            OGReplaceExpression *repex = [OGReplaceExpression replaceExpressionWithString:replaceString];
-            
-			unsigned ogreoptions = [self currentOgreOptions];
-            NSArray *matchArray = [regex allMatchesInString:text options:ogreoptions range:aRange];
-            
-            _replaceAllRepex = repex;
-            _replaceAllRegex = regex;
-            _replaceAllMatchArray = matchArray;
-            _replaceAllText = text;
-            _replaceAllTarget = target;
-            
-            int count = [matchArray count];
-            _replaceAllArrayIndex = count - 1;
-            [O_progressIndicatorDet setMaxValue:count];
-            [O_progressIndicatorDet setMinValue:0];
-            [O_progressIndicatorDet setDoubleValue:0];
-            [O_progressIndicatorDet setIndeterminate:NO];
-            
-                        
-            [self replaceAFewMatches];
-            } @catch (NSException *exception) {
-                NSBeep();
-            }
-
-            
-        }
-    }
-}
-
-- (void)findNextAndOrderOut:(id)sender  {
-    // NSComboBox's action sending behavior is very albern.
-    // Action does get sent on click, but not on pressing enter in history dropdown...
-    NSEvent *currentEvent = [NSApp currentEvent];
-    if ([currentEvent type]==NSKeyDown) {
-        if ([self find:[self currentFindString] forward:YES]) {
-			// TODO: order out the view
-		}
-    }
-	[self saveGlobalFindAndReplaceStateToPreferences];
-}
-
 // ranges always refer to the fulltextstorage so we need to convert here or use the views editor
 - (void)selectAndHighlightRange:(NSRange)aRange inTarget:(id)aTarget {
 	PlainTextEditor *editor = [aTarget editor];
 	[editor selectRangeInBackground:aRange];
-}
-
-- (BOOL)find:(NSString*)findString forward:(BOOL)forward {
-    BOOL found = NO;
-
-	@autoreleasepool {
-		[O_progressIndicator startAnimation:nil];
-		
-		BOOL useRegex = ([self currentOgreSyntax] != OgreSimpleMatchingSyntax);
-		
-		// Check for invalid RegEx
-		if (useRegex && (![OGRegularExpression isValidExpressionString:findString])) {
-			[O_progressIndicator stopAnimation:nil];
-			[self signalErrorWithDescription:NSLocalizedString(@"Invalid regex",@"InvalidRegex")];
-			return NO;
-		}
-		
-		
-		OGRegularExpression *regex = nil;
-		@try{
-			regex = [OGRegularExpression regularExpressionWithString:findString
-															 options:[self currentOgreOptions]
-															  syntax:[self currentOgreSyntax]
-													 escapeCharacter:[self currentOgreEscapeCharacter]];
-		} @catch (NSException *exception) { NSBeep(); }
-		
-		NSTextView *target = [self targetToFindIn];
-		if (target) {
-			NSRange scope = {NSNotFound, 0};
-			
-			FoldableTextStorage *textStorage = (FoldableTextStorage *)[target textStorage];
-			NSString *text = [[textStorage fullTextStorage] string];
-			NSRange selection = [textStorage fullRangeForFoldedRange:[target selectedRange]];
-			
-			
-			if (NO) { // TODO: make it work in scopes
-				scope = selection;
-			}
-			else {
-				scope = NSMakeRange(0,[text length]);
-			}
-			
-			
-			OGRegularExpressionMatch *aMatch = nil;
-			NSEnumerator *enumerator;
-			
-			if (forward) {
-				if ([self currentOgreSyntax]==OgreSimpleMatchingSyntax) {
-					[self saveFindStringToPasteboard];
-					unsigned options = NSLiteralSearch;
-					if (!self.globalFindAndReplaceState.caseSensitive) options |= NSCaseInsensitiveSearch;
-					BOOL wrap = self.globalFindAndReplaceState.shouldWrap;
-					
-					NSRange foundRange;
-					// Check for scoping, as findString:selectedRange:options:wrap:
-					// only makes sense for scope:document.
-					if (NO) { // TODO: make it work in scopes
-						foundRange = [text rangeOfString:findString options:options range:scope];
-					} else foundRange = [text findString:findString selectedRange:selection options:options wrap:wrap];
-					
-					if (foundRange.length) {
-						found = YES;
-						[self selectAndHighlightRange:foundRange inTarget:target];
-					} else {NSBeep();}
-					
-				} else {
-					NSRange findRange;
-					unsigned searchTimeOptions = 0;
-					if (NO) { // selection scope
-							  // TODO: make it work in scopes
-						findRange = scope;
-					} else {
-						findRange = NSMakeRange(NSMaxRange(selection), [text length] - NSMaxRange(selection));
-						if (findRange.location > 0) {
-							unichar previousCharacter = [text characterAtIndex:findRange.location - 1];
-							switch (previousCharacter) { // check if previous character is a newline characte
-								case 0x2028:
-								case 0x2029:
-								case '\n':
-								case '\r':
-									break;
-								default:
-									searchTimeOptions |= OgreNotBOLOption;
-							}
-						}
-					}
-					@try{
-						enumerator=[regex matchEnumeratorInString:text options:searchTimeOptions range:findRange];
-					} @catch (NSException *exception) { NSBeep(); }
-					
-					aMatch = [enumerator nextObject];
-					if (aMatch != nil) {
-						found = YES;
-						NSRange foundRange = [aMatch rangeOfMatchedString];
-						[self selectAndHighlightRange:foundRange inTarget:target];
-					} else if (self.globalFindAndReplaceState.shouldWrap) {
-						@try{
-							enumerator = [regex matchEnumeratorInString:text options:[self currentOgreOptions] range:NSMakeRange(0,NSMaxRange(selection))];
-						} @catch (NSException *exception) { NSBeep(); }
-						
-						aMatch = [enumerator nextObject];
-						if (aMatch != nil) {
-							found = YES;
-							NSRange foundRange = [aMatch rangeOfMatchedString];
-							[self selectAndHighlightRange:foundRange inTarget:target];
-						} else {NSBeep();}
-					} else {NSBeep();}
-				}
-			} else { // backwards
-				if ([self currentOgreSyntax]==OgreSimpleMatchingSyntax) {
-					// If we are just simple searching, use NSBackwardsSearch because Regex Searching is sloooow backwards.
-					[self saveFindStringToPasteboard];
-					unsigned options = NSLiteralSearch|NSBackwardsSearch;
-					if (!self.globalFindAndReplaceState.caseSensitive) options |= NSCaseInsensitiveSearch;
-					BOOL wrap = self.globalFindAndReplaceState.shouldWrap;
-					
-					NSRange foundRange;
-					// Check for scoping, as findString:selectedRange:options:wrap:
-					// only makes sense for scope:document.
-					if (NO) { // TODO: make it work in scopes
-						foundRange = [text rangeOfString:findString options:options range:scope];
-					} else foundRange = [text findString:findString selectedRange:selection options:options wrap:wrap];
-					if (foundRange.length) {
-						found = YES;
-						[self selectAndHighlightRange:foundRange inTarget:target];
-					} else {NSBeep();}
-				} else {
-					NSRange findRange;
-					if (NO) { // TODO: make it work in scopes
-						findRange = scope;
-					} else {
-						findRange = NSMakeRange(0, selection.location);
-					}
-					NSArray *matchArray = nil;
-                    @try{
-                        matchArray = [regex allMatchesInString:text options:[self currentOgreOptions] range:findRange];
-                    } @catch (NSException *exception) { NSBeep(); }
-					
-					if ([matchArray count] > 0) {
-						aMatch = [matchArray objectAtIndex:([matchArray count] - 1)];
-					}
-					if (aMatch != nil) {
-						found = YES;
-						NSRange foundRange = [aMatch rangeOfMatchedString];
-						[self selectAndHighlightRange:foundRange inTarget:target];
-					} else if (self.globalFindAndReplaceState.shouldWrap) {
-						NSArray *matchArray = [regex allMatchesInString:text options:[self currentOgreOptions] range:NSMakeRange(selection.location, [text length] - selection.location)];
-						if ([matchArray count] > 0) aMatch = [matchArray objectAtIndex:([matchArray count] - 1)];
-						if (aMatch != nil) {
-							found = YES;
-							NSRange foundRange = [aMatch rangeOfMatchedString];
-							[self selectAndHighlightRange:foundRange inTarget:target];
-						}
-					}
-					
-				}
-			}
-		}
-		
-		[O_progressIndicator stopAnimation:nil];
-		if (!found){
-			[self signalErrorWithDescription:NSLocalizedString(@"Not found.",@"Find string not found")];
-		}
-	}
-    return found;
 }
 
 #pragma mark -
