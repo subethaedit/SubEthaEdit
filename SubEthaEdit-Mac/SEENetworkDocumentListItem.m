@@ -13,7 +13,7 @@
 #import "SEENetworkDocumentListItem.h"
 #import "TCMMMSession.h"
 
-#import "DocumentController.h"
+#import "SEEDocumentController.h"
 #import "DocumentModeManager.h"
 
 void * const SEENetworkDocumentRepresentationSessionObservingContext = (void *)&SEENetworkDocumentRepresentationSessionObservingContext;

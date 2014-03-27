@@ -7,7 +7,7 @@
 //
 
 #import "PrecedencePreferences.h"
-#import "DocumentController.h"
+#import "SEEDocumentController.h"
 #import "GeneralPreferences.h"
 #import "PrecedenceRuleCell.h"
 #import "DocumentModeManager.h"

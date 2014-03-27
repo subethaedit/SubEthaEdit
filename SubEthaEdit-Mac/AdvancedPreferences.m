@@ -7,7 +7,7 @@
 //
 
 #import "AdvancedPreferences.h"
-#import "DocumentController.h"
+#import "SEEDocumentController.h"
 #import "GeneralPreferences.h"
 #import "TCMMMBEEPSessionManager.h"
 
@@ -375,7 +375,7 @@
 - (IBAction)changeSynthesiseFonts:(id)aSender {
     [[NSUserDefaults standardUserDefaults] setBool:[aSender state]==NSOnState forKey:SynthesiseFontsPreferenceKey];
     // trigger update
-    [[[DocumentController sharedInstance] documents] makeObjectsPerformSelector:@selector(applyStylePreferences)];
+    [[[SEEDocumentController sharedInstance] documents] makeObjectsPerformSelector:@selector(applyStylePreferences)];
 }
 
 

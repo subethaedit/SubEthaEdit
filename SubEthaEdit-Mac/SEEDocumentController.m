@@ -1,13 +1,20 @@
 //
-//  DocumentController.m
+//  SEEDocumentController.m
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Thu Mar 25 2004.
-//  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
+//	ARCified by Michael Ehrmann on Thu Mar 27 2014
+//  Copyright (c) 2004-2014 TheCodingMonkeys. All rights reserved.
 //
 
-#import "DocumentController.h"
+// this file needs arc - add -fobjc-arc in the compile build phase
+#if !__has_feature(objc_arc)
+#error ARC must be enabled!
+#endif
+
+#import "SEEDocumentController.h"
 #import "TCMMMSession.h"
+#import "SEEDocumentCreationFlags.h"
 #import "PlainTextDocument.h"
 #import "EncodingManager.h"
 #import "DocumentModeManager.h"
@@ -28,28 +35,36 @@
 #import <objc/objc-runtime.h>			// for objc_msgSend
 
 
-@interface DocumentController ()
+@interface SEEDocumentController ()
 
 @property (nonatomic, strong) SEEDocumentListWindowController *documentListWindowController;
+
+@property (assign) BOOL isOpeningInTab;
+@property (assign) NSUInteger filesToOpenCount;
+@property (assign) BOOL isOpeningUsingAlternateMenuItem;
+@property (nonatomic, strong) NSMutableDictionary *documentCreationFlagsLookupDict;
 @property (nonatomic, strong) NSMutableArray *filenamesFromLastRunOpenPanel;
 
-- (void)setModeIdentifierFromLastRunOpenPanel:(NSString *)modeIdentifier;
-- (void)setEncodingFromLastRunOpenPanel:(NSStringEncoding)stringEncoding;
-- (void)setLocationForNextOpenPanel:(NSURL*)anURL;
-- (NSURL *)locationForNextOpenPanel;
+@property (nonatomic, copy) NSURL *locationForNextOpenPanel;
+@property (nonatomic, readwrite, assign) NSStringEncoding encodingFromLastRunOpenPanel;
+@property (nonatomic, readwrite, copy) NSString *modeIdentifierFromLastRunOpenPanel;
+
 @end
 
-@implementation DocumentController
-+ (DocumentController *)sharedInstance {
-    return (DocumentController *)[NSDocumentController sharedDocumentController];
+
+@implementation SEEDocumentController
+
++ (SEEDocumentController *)sharedInstance {
+    return (SEEDocumentController *)[NSDocumentController sharedDocumentController];
 }
 
 - (id)init {
     self = [super init];
     if (self) {
-//        I_isOpeningUntitledDocument = NO;
-        self.filenamesFromLastRunOpenPanel = [NSMutableArray new];
-        I_propertiesForOpenedFiles = [NSMutableDictionary new];
+        self.filenamesFromLastRunOpenPanel = [NSMutableArray array];
+		self.documentCreationFlagsLookupDict = [NSMutableDictionary dictionary];
+
+		I_propertiesForOpenedFiles = [NSMutableDictionary new];
         I_suspendedSeeScriptCommands = [NSMutableDictionary new];
         I_waitingDocuments = [NSMutableDictionary new];
         I_refCountsOfSeeScriptCommands = [NSMutableDictionary new];
@@ -61,17 +76,10 @@
 
 // actually never gets called - as any other top level nib object isn't dealloced...
 - (void)dealloc {
-    [I_modeIdentifierFromLastRunOpenPanel release];
+    self.modeIdentifierFromLastRunOpenPanel = nil;
     self.filenamesFromLastRunOpenPanel = nil;
-    [I_propertiesForOpenedFiles release];
-    [I_suspendedSeeScriptCommands release];
-    [I_waitingDocuments release];
-    [I_refCountsOfSeeScriptCommands release];
-    [I_pipingSeeScriptCommands release];
-    
-    [I_windowControllers release];
-    
-    [super dealloc];
+    self.documentCreationFlagsLookupDict = nil;
+	self.locationForNextOpenPanel = nil;
 }
 
 
@@ -100,7 +108,6 @@
         }
         [targetWindowController setDocument:document];
     }
-    [alert release];
 }
 
 - (IBAction)alwaysShowTabBar:(id)sender
@@ -196,7 +203,6 @@
 	if (!self.documentListWindowController) {
 		SEEDocumentListWindowController *networkBrowser = [[SEEDocumentListWindowController alloc] initWithWindowNibName:@"SEEDocumentListWindowController"];
 		self.documentListWindowController = networkBrowser;
-		[networkBrowser release];
 	}
 	if (sender == NSApp) {
 		self.documentListWindowController.shouldCloseWhenOpeningDocument = YES;
@@ -272,7 +278,7 @@
                         [prototypeMenuItem setKeyEquivalent:@""];
                     }
                 }
-                NSMenuItem *itemToAdd = [[prototypeMenuItem copy] autorelease];
+                NSMenuItem *itemToAdd = [prototypeMenuItem copy];
                 [aMenu addItem:itemToAdd];
 //				NSLog(@"%@",itemToAdd);
                 [itemToAdd setMark:[document isDocumentEdited]?kBulletCharCode:noMark];
@@ -280,7 +286,6 @@
             }
             firstWC = NO;
         }
-        [prototypeMenuItem release];
         [menusCurrentlyUpdating removeObject:aMenu];
     }
 }
@@ -354,7 +359,7 @@
 
 
 - (NSMenu *)documentMenu {
-    NSMenu *documentMenu = [[NSMenu new] autorelease];
+    NSMenu *documentMenu = [NSMenu new];
     [self updateMenuWithTabMenuItems:documentMenu shortcuts:NO];
     return documentMenu;
 }
@@ -364,7 +369,6 @@
     [document makeProxyWindowController];
     [self addDocument:document];
     [document showWindows];
-    [document release];
 }
 
 - (NSArray *)documentsInMode:(DocumentMode *)aDocumentMode {
@@ -398,7 +402,6 @@
     if (count == 0) {
         PlainTextWindowController *controller = [[PlainTextWindowController alloc] init];
         [I_windowControllers addObject:controller];
-        [controller release];
         count++;
     }
     PlainTextWindowController *activeWindowController = nil;
@@ -412,7 +415,6 @@
     if (!activeWindowController) {
         activeWindowController = [[PlainTextWindowController alloc] init];
         [I_windowControllers addObject:activeWindowController];
-        [activeWindowController release];
     }
     return activeWindowController;
 }
@@ -422,7 +424,7 @@
 }
 
 - (void)removeWindowController:(id)aWindowController {
-    [I_windowControllers removeObject:[[aWindowController retain] autorelease]];
+    [I_windowControllers removeObject:aWindowController];
 }
 
 #pragma mark - Open new document
@@ -445,10 +447,9 @@
 
         NSString *templateFileContent=[newMode templateFileContent];
         if (templateFileContent && ![templateFileContent canBeConvertedToEncoding:[document fileEncoding]]) {
-            templateFileContent=[[[NSString alloc]
+            templateFileContent=[[NSString alloc]
 								  initWithData:[templateFileContent dataUsingEncoding:[document fileEncoding] allowLossyConversion:YES]
-								  encoding:[document fileEncoding]]
-								 autorelease];
+								  encoding:[document fileEncoding]];
         }
 
         if (templateFileContent) {
@@ -462,8 +463,11 @@
 
 - (IBAction)newDocument:(id)aSender
 {
-	self.isOpeningInTab = NO;
-	self.isOpeningUsingAlternateMenuItem = NO;
+	@synchronized(self.documentCreationFlagsLookupDict) {
+		SEEDocumentCreationFlags *creationFlags = [[SEEDocumentCreationFlags alloc] init];
+		creationFlags.openInTab = NO;
+		self.documentCreationFlagsLookupDict[@"MakeUntitledDocument"] = creationFlags;
+	}
 
 	if ([aSender respondsToSelector:@selector(representedObject)]) {
 		DocumentModeManager *modeManager = [DocumentModeManager sharedInstance];
@@ -475,8 +479,11 @@
 }
 
 - (IBAction)newAlternateDocument:(id)sender {
-	self.isOpeningInTab = NO;
-	self.isOpeningUsingAlternateMenuItem = YES;
+	@synchronized(self.documentCreationFlagsLookupDict) {
+		SEEDocumentCreationFlags *creationFlags = [[SEEDocumentCreationFlags alloc] init];
+		creationFlags.openInTab = YES;
+		self.documentCreationFlagsLookupDict[@"MakeUntitledDocument"] = creationFlags;
+	}
 
 	DocumentModeManager *modeManager=[DocumentModeManager sharedInstance];
     NSString *identifier = [modeManager documentModeIdentifierForTag:[[sender representedObject] tag]];
@@ -485,16 +492,22 @@
 
 
 - (IBAction)newDocumentInTab:(id)sender {
-	self.isOpeningInTab = YES;
-	self.isOpeningUsingAlternateMenuItem = NO;
-	
+	@synchronized(self.documentCreationFlagsLookupDict) {
+		SEEDocumentCreationFlags *creationFlags = [[SEEDocumentCreationFlags alloc] init];
+		creationFlags.openInTab = YES;
+		self.documentCreationFlagsLookupDict[@"MakeUntitledDocument"] = creationFlags;
+	}
+
 	[self newDocumentWithModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]];
 }
 
 
 - (IBAction)newDocumentWithModeMenuItem:(id)aSender {
-	self.isOpeningInTab = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
-	self.isOpeningUsingAlternateMenuItem = NO;
+	@synchronized(self.documentCreationFlagsLookupDict) {
+		SEEDocumentCreationFlags *creationFlags = [[SEEDocumentCreationFlags alloc] init];
+		creationFlags.openInTab = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
+		self.documentCreationFlagsLookupDict[@"MakeUntitledDocument"] = creationFlags;
+	}
 
     DocumentModeManager *modeManager=[DocumentModeManager sharedInstance];
     NSString *identifier = [modeManager documentModeIdentifierForTag:[aSender tag]];
@@ -503,8 +516,11 @@
 
 
 - (IBAction)newAlternateDocumentWithModeMenuItem:(id)sender {
-	self.isOpeningInTab = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
-	self.isOpeningUsingAlternateMenuItem = YES;
+	@synchronized(self.documentCreationFlagsLookupDict) {
+		SEEDocumentCreationFlags *creationFlags = [[SEEDocumentCreationFlags alloc] init];
+		creationFlags.openInTab = ![[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
+		self.documentCreationFlagsLookupDict[@"MakeUntitledDocument"] = creationFlags;
+	}
 
 	DocumentModeManager *modeManager=[DocumentModeManager sharedInstance];
     NSString *identifier = [modeManager documentModeIdentifierForTag:[sender tag]];
@@ -513,8 +529,11 @@
 
 
 - (IBAction)newDocumentWithModeMenuItemFromDock:(id)aSender {
-	self.isOpeningInTab = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
-	self.isOpeningUsingAlternateMenuItem = NO;
+	@synchronized(self.documentCreationFlagsLookupDict) {
+		SEEDocumentCreationFlags *creationFlags = [[SEEDocumentCreationFlags alloc] init];
+		creationFlags.openInTab = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
+		self.documentCreationFlagsLookupDict[@"MakeUntitledDocument"] = creationFlags;
+	}
 
     DocumentModeManager *modeManager=[DocumentModeManager sharedInstance];
     NSString *identifier = [modeManager documentModeIdentifierForTag:[aSender tag]];
@@ -525,8 +544,11 @@
 
 
 - (IBAction)newDocumentFromDock:(id)aSender {
-	self.isOpeningInTab = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
-	self.isOpeningUsingAlternateMenuItem = NO;
+	@synchronized(self.documentCreationFlagsLookupDict) {
+		SEEDocumentCreationFlags *creationFlags = [[SEEDocumentCreationFlags alloc] init];
+		creationFlags.openInTab = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
+		self.documentCreationFlagsLookupDict[@"MakeUntitledDocument"] = creationFlags;
+	}
 
 	DocumentModeManager *modeManager=[DocumentModeManager sharedInstance];
     NSString *identifier=[modeManager documentModeIdentifierForTag:[[aSender representedObject] tag]];
@@ -538,10 +560,6 @@
 
 - (id)openUntitledDocumentAndDisplay:(BOOL)displayDocument error:(NSError **)outError {
 	id result = [super openUntitledDocumentAndDisplay:displayDocument error:outError];
-
-	self.isOpeningUsingAlternateMenuItem = NO;
-	self.isOpeningInTab = NO;
-
 	return result;
 }
 
@@ -551,12 +569,16 @@
 
 	if ([result isKindOfClass:PlainTextDocument.class]) {
 		PlainTextDocument *plainTextDocument = (PlainTextDocument *)result;
-		plainTextDocument.shouldOpenInTab = self.isOpeningInTab;
-		plainTextDocument.useAlternateMakeWindowControllerBehaviour = self.isOpeningUsingAlternateMenuItem;
 
-		// if should open in tabs is enabled we like to open all of them in one new window. so only the first document should be opened in a new window in this case
-		if (self.isOpeningInTab) {
-			self.isOpeningUsingAlternateMenuItem = NO;
+		SEEDocumentCreationFlags *creationFlags = nil;
+		@synchronized(self.documentCreationFlagsLookupDict) {
+			creationFlags = self.documentCreationFlagsLookupDict[@"MakeUntitledDocument"];
+		}
+		if (creationFlags) {
+			plainTextDocument.attachedCreationFlags = creationFlags;
+			@synchronized(self.documentCreationFlagsLookupDict) {
+				[self.documentCreationFlagsLookupDict removeObjectForKey:@"MakeUntitledDocument"];
+			}
 		}
 	}
 
@@ -566,8 +588,8 @@
 
 #pragma mark - Open existing documents
 
-- (void)beginOpenPanel:(NSOpenPanel *)openPanel forTypes:(NSArray *)inTypes completionHandler:(void (^)(NSInteger result))completionHandler
-{
+- (void)beginOpenPanel:(NSOpenPanel *)openPanel forTypes:(NSArray *)inTypes completionHandler:(void (^)(NSInteger result))completionHandler {
+
 	SEEOpenPanelAccessoryViewController *openPanelAccessoryViewController = [SEEOpenPanelAccessoryViewController openPanelAccessoryControllerForOpenPanel:openPanel];
 	if ([self locationForNextOpenPanel]) {
 		[openPanel setDirectoryURL:[self locationForNextOpenPanel]];
@@ -601,7 +623,20 @@
 						}
 					}
 				}
+
+				@synchronized(self.documentCreationFlagsLookupDict) {
+					SEEDocumentCreationFlags *creationFlags = [[SEEDocumentCreationFlags alloc] init];
+					creationFlags.openInTab = self.isOpeningInTab;
+					creationFlags.isAlternateAction = self.isOpeningUsingAlternateMenuItem;
+					self.documentCreationFlagsLookupDict[URL] = creationFlags;
+				}
+
+				// if should open in tabs is enabled we like to open all of them in one new window. so only the first document should be opened in a new window in this case
+				if (self.isOpeningInTab) {
+					self.isOpeningUsingAlternateMenuItem = NO;
+				}
 			}
+			self.isOpeningInTab = NO;
 		}
 
 		self.filesToOpenCount = openPanel.URLs.count;
@@ -610,15 +645,6 @@
 			completionHandler(result);
 		}
 	}];
-}
-
-
-- (NSStringEncoding)encodingFromLastRunOpenPanel {
-    return I_encodingFromLastRunOpenPanel;
-}
-
-- (NSString *)modeIdentifierFromLastRunOpenPanel {
-    return I_modeIdentifierFromLastRunOpenPanel;
 }
 
 - (BOOL)isDocumentFromLastRunOpenPanel:(NSDocument *)aDocument {
@@ -646,6 +672,7 @@
     [self openDocument:(id)aSender];
 }
 
+
 #pragma mark - Document Opening
 
 - (void)openDocumentWithContentsOfURL:(NSURL *)url display:(BOOL)displayDocument completionHandler:(void (^)(NSDocument *, BOOL, NSError *))completionHandler
@@ -660,20 +687,12 @@
     if (isFilePackage && [extension isEqualToString:@"mode"]) {
         [self openModeFile:filename];
 
-		if (self.filesToOpenCount > 0) {
-			self.filesToOpenCount--;
-		}
-
 		if (completionHandler) {
 			completionHandler(nil, NO, nil);
 		}
     } else if (!isFilePackage && isDirectory) {
         [self setLocationForNextOpenPanel:url];
         [self performSelector:@selector(openDocument:) withObject:nil afterDelay:0.0];
-
-		if (self.filesToOpenCount > 0) {
-			self.filesToOpenCount--;
-		}
 
 		if (completionHandler) {
 			completionHandler(nil, NO, nil);
@@ -686,24 +705,10 @@
 				 [(PlainTextDocument *)document handleOpenDocumentEvent:eventDesc];
 			 }
 
-			 if (self.filesToOpenCount > 0) {
-				 self.filesToOpenCount--;
-			 }
-
 			 if (completionHandler) {
 				 completionHandler(document, displayDocument, error);
 			 }
-
-			 if (self.filesToOpenCount == 0) {
-				 self.isOpeningUsingAlternateMenuItem = NO;
-				 self.isOpeningInTab = NO;
-			 }
 		 }];
-	}
-
-	if (self.filesToOpenCount == 0) {
-		self.isOpeningUsingAlternateMenuItem = NO;
-		self.isOpeningInTab = NO;
 	}
 }
 
@@ -714,14 +719,15 @@
 	if ([result isKindOfClass:PlainTextDocument.class]) {
 		PlainTextDocument *plainTextDocument = (PlainTextDocument *)result;
 
-		if (self.filesToOpenCount > 0) {
-			plainTextDocument.shouldOpenInTab = self.isOpeningInTab;
-			plainTextDocument.useAlternateMakeWindowControllerBehaviour = self.isOpeningUsingAlternateMenuItem;
+		SEEDocumentCreationFlags *creationFlags = nil;
+		@synchronized(self.documentCreationFlagsLookupDict) {
+			creationFlags = self.documentCreationFlagsLookupDict[url];
 		}
-
-		// if should open in tabs is enabled we like to open all of them in one new window. so only the first document should be opened in a new window in this case
-		if (self.isOpeningInTab) {
-			self.isOpeningUsingAlternateMenuItem = NO;
+		if (creationFlags) {
+			plainTextDocument.attachedCreationFlags = creationFlags;
+			@synchronized(self.documentCreationFlagsLookupDict) {
+				[self.documentCreationFlagsLookupDict removeObjectForKey:url];
+			}
 		}
 	}
 
@@ -733,7 +739,7 @@
 
 + (void)restoreWindowWithIdentifier:(NSString *)identifier state:(NSCoder *)state completionHandler:(void (^)(NSWindow *, NSError *))completionHandler {
 	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
-	DocumentController *documentController = [[self class] sharedDocumentController];
+	SEEDocumentController *documentController = [[self class] sharedDocumentController];
 
 	if ([identifier isEqualToString:@"DocumentList"]) {
 		[documentController showDocumentListWindow:self];
@@ -782,7 +788,7 @@
 						documentController.isOpeningInTab = YES;
 
 						[NSApp extendStateRestoration];
-						[documentController reopenDocumentForURL:documentURL withContentsOfURL:documentAutosaveURL display:YES completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
+						[documentController reopenDocumentForURL:documentURL withContentsOfURL:documentAutosaveURL inWindow:window display:YES completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
 							if ([document isKindOfClass:[PlainTextDocument class]]) {
 								PlainTextWindowController *windowController = [[document windowControllers] firstObject];
 								NSTabViewItem *tabViewItem = [windowController tabViewItemForDocument:(PlainTextDocument *)document];
@@ -808,6 +814,34 @@
 	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
 	[self.filenamesFromLastRunOpenPanel removeAllObjects];
 
+	@synchronized(self.documentCreationFlagsLookupDict) {
+		SEEDocumentCreationFlags *creationFlags = [[SEEDocumentCreationFlags alloc] init];
+		creationFlags.openInTab = NO;
+		self.documentCreationFlagsLookupDict[contentsURL] = creationFlags;
+	}
+
+	[super reopenDocumentForURL:urlOrNil withContentsOfURL:contentsURL display:displayDocument completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
+		NSLog(@"%s - %d", __FUNCTION__, __LINE__);
+		if (completionHandler) {
+			completionHandler(document, documentWasAlreadyOpen, error);
+		}
+	}];
+}
+
+
+- (void)reopenDocumentForURL:(NSURL *)urlOrNil withContentsOfURL:(NSURL *)contentsURL inWindow:(NSWindow *)parentWindow display:(BOOL)displayDocument  completionHandler:(void (^)(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error))completionHandler
+{
+	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
+	[self.filenamesFromLastRunOpenPanel removeAllObjects];
+
+	@synchronized(self.documentCreationFlagsLookupDict) {
+		SEEDocumentCreationFlags *creationFlags = [[SEEDocumentCreationFlags alloc] init];
+		creationFlags.openInTab = YES;
+		creationFlags.tabWindow = parentWindow;
+
+		self.documentCreationFlagsLookupDict[contentsURL] = creationFlags;
+	}
+
 	[super reopenDocumentForURL:urlOrNil withContentsOfURL:contentsURL display:displayDocument completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
 		NSLog(@"%s - %d", __FUNCTION__, __LINE__);
 		if (completionHandler) {
@@ -819,12 +853,23 @@
 
 - (id)makeDocumentForURL:(NSURL *)urlOrNil withContentsOfURL:(NSURL *)contentsURL ofType:(NSString *)typeName error:(NSError **)outError {
 	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
+	NSAssert(contentsURL, @"ContentsURl should not be nil");
+
 	id result = [super makeDocumentForURL:urlOrNil withContentsOfURL:contentsURL ofType:typeName error:outError];
 
 	if ([result isKindOfClass:PlainTextDocument.class]) {
 		PlainTextDocument *plainTextDocument = (PlainTextDocument *)result;
-		plainTextDocument.shouldOpenInTab = self.isOpeningInTab;
-		plainTextDocument.useAlternateMakeWindowControllerBehaviour = self.isOpeningUsingAlternateMenuItem;
+
+		SEEDocumentCreationFlags *creationFlags = nil;
+		@synchronized(self.documentCreationFlagsLookupDict) {
+			creationFlags = self.documentCreationFlagsLookupDict[contentsURL];
+		}
+		if (creationFlags) {
+			plainTextDocument.attachedCreationFlags = creationFlags;
+			@synchronized(self.documentCreationFlagsLookupDict) {
+				[self.documentCreationFlagsLookupDict removeObjectForKey:contentsURL];
+			}
+		}
 	}
 
 	return result;
@@ -1284,10 +1329,8 @@ struct ModificationInfo
 - (void)closeDocumentsStartingWith:(PlainTextDocument *)doc shouldClose:(BOOL)shouldClose closeAllContext:(void *)closeAllContext
 {
     // Iterate over unsaved documents, preserve closeAllContext to invoke it after the last document
-    
-    NSArray *windows = [[[NSApp orderedWindows] copy] autorelease];
-    NSWindow *window;
-    for (window in windows) {
+    NSArray *windows = [[NSApp orderedWindows] copy];
+    for (NSWindow *window in windows) {
         NSWindowController *controller = [window windowController];
         if ([controller isKindOfClass:[PlainTextWindowController class]]) {
             NSArray *documents = [(PlainTextWindowController *)controller documents];
@@ -1310,8 +1353,7 @@ struct ModificationInfo
 
     // Invoke invocation after reviewing all documents
     if (closeAllContext) {
-        NSInvocation *invocation = (NSInvocation *)closeAllContext;
-        [invocation autorelease];
+        NSInvocation *invocation = (__bridge NSInvocation *)closeAllContext;
         [invocation invoke];
     }
 }
@@ -1343,14 +1385,16 @@ struct ModificationInfo
     if (delegate != nil && didCloseAllSelector != NULL) {
         NSMethodSignature *methodSignature = [delegate methodSignatureForSelector:didCloseAllSelector];
         unsigned numberOfArguments = [methodSignature numberOfArguments];
-        invocation = [[NSInvocation invocationWithMethodSignature:methodSignature] retain];
+
+		__unsafe_unretained id unsaveSelf = self;
+        invocation = [NSInvocation invocationWithMethodSignature:methodSignature];
         [invocation setSelector:didCloseAllSelector];
         [invocation setTarget:delegate];
-        if (numberOfArguments > 2) [invocation setArgument:&self atIndex:2];
+        if (numberOfArguments > 2) [invocation setArgument:&unsaveSelf atIndex:2];
         if (numberOfArguments > 3) { BOOL flag = YES; [invocation setArgument:&flag atIndex:3]; }
         if (numberOfArguments > 4) [invocation setArgument:&contextInfo atIndex:4];
     }
-    [self closeDocumentsStartingWith:nil shouldClose:YES closeAllContext:invocation];
+    [self closeDocumentsStartingWith:nil shouldClose:YES closeAllContext:(void *)CFBridgingRetain(invocation)];
 }
 
 - (void)removeDocument:(NSDocument *)document {
@@ -1406,25 +1450,6 @@ struct ModificationInfo
 
 
 #pragma mark -
-
-
-// for directory drags for which we open an open panel so the user can select the (multiple) files he wants to open
-- (void)setLocationForNextOpenPanel:(NSURL*)anURL {
-    [I_locationForNextOpenPanel autorelease];
-	I_locationForNextOpenPanel=[anURL copy];
-}
-- (NSURL *)locationForNextOpenPanel {
-    return I_locationForNextOpenPanel;
-}
-
-- (void)setEncodingFromLastRunOpenPanel:(NSStringEncoding)stringEncoding {
-    I_encodingFromLastRunOpenPanel = stringEncoding;
-}
-
-- (void)setModeIdentifierFromLastRunOpenPanel:(NSString *)modeIdentifier {
-    [I_modeIdentifierFromLastRunOpenPanel release];
-    I_modeIdentifierFromLastRunOpenPanel = [modeIdentifier copy];
-}
 
 - (void)openModeFile:(NSString *)fileName
 {
@@ -1506,7 +1531,7 @@ struct ModificationInfo
 				CFURLRef tool = NULL;
 				AuthorizationRef auth = NULL;
 				NSDictionary *request = nil;
-				NSDictionary *response = nil;
+				CFDictionaryRef response = nil;
 
 				err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &auth);
 				if (err == noErr) {
@@ -1567,7 +1592,7 @@ struct ModificationInfo
 				// Go go gadget helper tool!
 
 				if (err == noErr) {
-					err = MoreSecExecuteRequestInHelperTool(tool, auth, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
+					err = MoreSecExecuteRequestInHelperTool(tool, auth, (__bridge CFDictionaryRef)request, &response);
 				}
 
 				// Extract information from the response.
@@ -1583,7 +1608,7 @@ struct ModificationInfo
 
 				// Clean up after second call of helper tool.
 				if (response) {
-					[response release];
+					CFRelease(response);
 				}
 
 
@@ -1607,7 +1632,6 @@ struct ModificationInfo
         }
         [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
         (void)[alert runModal];
-        [alert release];
     }
 }
 

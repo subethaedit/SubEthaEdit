@@ -7,7 +7,7 @@
 //
 
 #import "NSApplicationTCMAdditions.h"
-#import "DocumentController.h"
+#import "SEEDocumentController.h"
 #import "DocumentMode.h"
 #import "DocumentModeManager.h"
 #import "ScriptTextSelection.h"
@@ -19,15 +19,15 @@
 @implementation NSApplication (NSApplicationTCMAdditions)
 
 - (id)TCM_handleOpenScriptCommand:(NSScriptCommand *)command {
-    return [[DocumentController sharedInstance] handleOpenScriptCommand:command];
+    return [[SEEDocumentController sharedInstance] handleOpenScriptCommand:command];
 }
 
 - (id)TCM_handlePrintScriptCommand:(NSScriptCommand *)command {
-    return [[DocumentController sharedInstance] handlePrintScriptCommand:command];
+    return [[SEEDocumentController sharedInstance] handlePrintScriptCommand:command];
 }
 
 - (id)TCM_handleSeeScriptCommand:(NSScriptCommand *)command {
-    return [[DocumentController sharedInstance] handleSeeScriptCommand:command];
+    return [[SEEDocumentController sharedInstance] handleSeeScriptCommand:command];
 }
 
 - (id)scriptSelection {
@@ -72,7 +72,7 @@
 
 - (IBAction)terminateForRestart:(id)aSender {
     [[NSUserDefaults standardUserDefaults] synchronize];
-    NSEnumerator *documents  =[[[DocumentController sharedInstance] documents] objectEnumerator];
+    NSEnumerator *documents  =[[[SEEDocumentController sharedInstance] documents] objectEnumerator];
     NSDocument *document = nil;
     while ((document=[documents nextObject])) {
         if ([document respondsToSelector:@selector(autosaveForRestart)]) {

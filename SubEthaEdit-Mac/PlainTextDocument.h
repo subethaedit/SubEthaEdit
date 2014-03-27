@@ -11,6 +11,7 @@
 #import <Security/Security.h>
 #import "EncodingManager.h"
 #import "TCMMMSession.h"
+#import "SEEDocumentCreationFlags.h"
 #import "UndoManager.h"
 
 enum {
@@ -169,8 +170,7 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
 @property (readwrite, strong) IBOutlet NSObjectController *O_exportSheetController;
 @property (nonatomic, strong) NSMutableArray *persistentDocumentScopedBookmarkURLs;
 
-@property (nonatomic, assign) BOOL shouldOpenInTab;
-@property (nonatomic, assign) BOOL useAlternateMakeWindowControllerBehaviour;
+@property (nonatomic, strong) SEEDocumentCreationFlags *attachedCreationFlags;
 
 //+ (PlainTextDocument *)transientDocument;
 

@@ -16,7 +16,7 @@
 #import "TCMMMLoggingState.h"
 #import "TCMMMOperation.h"
 #import "SessionProfile.h"
-#import "DocumentController.h"
+#import "SEEDocumentController.h"
 #import "SelectionOperation.h"
 #import "UserChangeOperation.h"
 #import "time.h"

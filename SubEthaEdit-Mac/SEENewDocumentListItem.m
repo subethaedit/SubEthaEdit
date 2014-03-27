@@ -12,7 +12,7 @@
 
 #import "SEENewDocumentListItem.h"
 
-#import "DocumentController.h"
+#import "SEEDocumentController.h"
 #import "DocumentModeManager.h"
 
 extern int const FileMenuTag;

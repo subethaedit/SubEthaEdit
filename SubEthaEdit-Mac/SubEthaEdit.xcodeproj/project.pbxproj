@@ -146,7 +146,7 @@
 		1428942F09575AE600D14688 /* BorderedTextField.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428941609575AE600D14688 /* BorderedTextField.m */; };
 		1428943009575AE600D14688 /* SEEPlainTextEditorScrollView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428941809575AE600D14688 /* SEEPlainTextEditorScrollView.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1428943109575AE600D14688 /* CandyBarView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428941A09575AE600D14688 /* CandyBarView.m */; };
-		1428943C09575AE600D14688 /* DocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428942C09575AE600D14688 /* DocumentController.m */; };
+		1428943C09575AE600D14688 /* SEEDocumentController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428942C09575AE600D14688 /* SEEDocumentController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1428943D09575AE600D14688 /* DocumentProxyWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428942E09575AE600D14688 /* DocumentProxyWindowController.m */; };
 		1428944609575B3400D14688 /* FindAllController.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428943F09575B3400D14688 /* FindAllController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		1428944709575B3400D14688 /* FindAllTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = 1428944109575B3400D14688 /* FindAllTableView.m */; };
@@ -230,6 +230,7 @@
 		4C123002180BE4A60069253E /* TCMBEEPSessionXMLParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C123001180BE4A60069253E /* TCMBEEPSessionXMLParser.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C123005180C01EF0069253E /* TCMBEEPMessageXMLPayloadParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C123004180C01EF0069253E /* TCMBEEPMessageXMLPayloadParser.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C1D39DC17FB085800B1CF5C /* AboutPanel.xib in Resources */ = {isa = PBXBuildFile; fileRef = 4C1D39DA17FB085800B1CF5C /* AboutPanel.xib */; };
+		4C43314418E4777C00592EC2 /* SEEDocumentCreationFlags.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C43314318E4777C00592EC2 /* SEEDocumentCreationFlags.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
 		4C4EFE45181AA3410072176F /* HockeySDK.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 4C4EFE44181AA3400072176F /* HockeySDK.framework */; };
 		4C4EFE47181AA3B00072176F /* HockeySDK.framework in Copy Files (Frameworks) */ = {isa = PBXBuildFile; fileRef = 4C4EFE44181AA3400072176F /* HockeySDK.framework */; };
 		4C5EC97E1897F6FC0094D850 /* SEEParticipantsOverlayViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 4C5EC97C1897F6FC0094D850 /* SEEParticipantsOverlayViewController.m */; settings = {COMPILER_FLAGS = "-fobjc-arc"; }; };
@@ -861,8 +862,8 @@
 		1428941809575AE600D14688 /* SEEPlainTextEditorScrollView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEPlainTextEditorScrollView.m; sourceTree = "<group>"; };
 		1428941909575AE600D14688 /* CandyBarView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = CandyBarView.h; sourceTree = "<group>"; };
 		1428941A09575AE600D14688 /* CandyBarView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CandyBarView.m; sourceTree = "<group>"; };
-		1428942B09575AE600D14688 /* DocumentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DocumentController.h; sourceTree = "<group>"; };
-		1428942C09575AE600D14688 /* DocumentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentController.m; sourceTree = "<group>"; };
+		1428942B09575AE600D14688 /* SEEDocumentController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = SEEDocumentController.h; sourceTree = "<group>"; };
+		1428942C09575AE600D14688 /* SEEDocumentController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEDocumentController.m; sourceTree = "<group>"; };
 		1428942D09575AE600D14688 /* DocumentProxyWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = DocumentProxyWindowController.h; sourceTree = "<group>"; };
 		1428942E09575AE600D14688 /* DocumentProxyWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DocumentProxyWindowController.m; sourceTree = "<group>"; };
 		1428943E09575B3400D14688 /* FindAllController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; lineEnding = 0; path = FindAllController.h; sourceTree = "<group>"; };
@@ -987,6 +988,8 @@
 		4C123004180C01EF0069253E /* TCMBEEPMessageXMLPayloadParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = TCMBEEPMessageXMLPayloadParser.m; sourceTree = "<group>"; };
 		4C1D39DB17FB085800B1CF5C /* English */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = English; path = English.lproj/AboutPanel.xib; sourceTree = "<group>"; };
 		4C1D39E917FB088200B1CF5C /* German */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = German; path = German.lproj/AboutPanel.xib; sourceTree = "<group>"; };
+		4C43314218E4777C00592EC2 /* SEEDocumentCreationFlags.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEDocumentCreationFlags.h; sourceTree = "<group>"; };
+		4C43314318E4777C00592EC2 /* SEEDocumentCreationFlags.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEDocumentCreationFlags.m; sourceTree = "<group>"; };
 		4C4EFE44181AA3400072176F /* HockeySDK.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = HockeySDK.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		4C5EC97B1897F6FC0094D850 /* SEEParticipantsOverlayViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEEParticipantsOverlayViewController.h; sourceTree = "<group>"; };
 		4C5EC97C1897F6FC0094D850 /* SEEParticipantsOverlayViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEEParticipantsOverlayViewController.m; sourceTree = "<group>"; };
@@ -1802,8 +1805,10 @@
 				1428941809575AE600D14688 /* SEEPlainTextEditorScrollView.m */,
 				1428941909575AE600D14688 /* CandyBarView.h */,
 				1428941A09575AE600D14688 /* CandyBarView.m */,
-				1428942B09575AE600D14688 /* DocumentController.h */,
-				1428942C09575AE600D14688 /* DocumentController.m */,
+				1428942B09575AE600D14688 /* SEEDocumentController.h */,
+				1428942C09575AE600D14688 /* SEEDocumentController.m */,
+				4C43314218E4777C00592EC2 /* SEEDocumentCreationFlags.h */,
+				4C43314318E4777C00592EC2 /* SEEDocumentCreationFlags.m */,
 				1428942D09575AE600D14688 /* DocumentProxyWindowController.h */,
 				1428942E09575AE600D14688 /* DocumentProxyWindowController.m */,
 				F21DAFE318BB7591002B3C41 /* Find and Replace */,
@@ -3222,6 +3227,7 @@
 				142893F809575A3000D14688 /* AboutPanelController.m in Sources */,
 				142893F909575A3000D14688 /* AppController.m in Sources */,
 				142893FA09575A3000D14688 /* EncodingManager.m in Sources */,
+				4C43314418E4777C00592EC2 /* SEEDocumentCreationFlags.m in Sources */,
 				142893FB09575A3000D14688 /* FindReplaceController.m in Sources */,
 				142893FC09575A3000D14688 /* GetURLCommand.m in Sources */,
 				4C5EC97E1897F6FC0094D850 /* SEEParticipantsOverlayViewController.m in Sources */,
@@ -3233,7 +3239,7 @@
 				1428942F09575AE600D14688 /* BorderedTextField.m in Sources */,
 				1428943009575AE600D14688 /* SEEPlainTextEditorScrollView.m in Sources */,
 				1428943109575AE600D14688 /* CandyBarView.m in Sources */,
-				1428943C09575AE600D14688 /* DocumentController.m in Sources */,
+				1428943C09575AE600D14688 /* SEEDocumentController.m in Sources */,
 				1428943D09575AE600D14688 /* DocumentProxyWindowController.m in Sources */,
 				1428944609575B3400D14688 /* FindAllController.m in Sources */,
 				1428944709575B3400D14688 /* FindAllTableView.m in Sources */,

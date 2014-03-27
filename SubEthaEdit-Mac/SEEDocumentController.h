@@ -1,5 +1,5 @@
 //
-//  DocumentController.h
+//  SEEDocumentController.h
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Thu Mar 25 2004.
@@ -16,15 +16,12 @@
 @class MAAttachedWindow;
 @class PlainTextDocument;
 
-@interface DocumentController : NSDocumentController {    
+@interface SEEDocumentController : NSDocumentController {    
     IBOutlet NSPanel *O_modeInstallerPanel;
     IBOutlet NSTextField *O_modeInstallerMessageTextField;
     IBOutlet NSMatrix *O_modeInstallerDomainMatrix;
     IBOutlet NSTextField *O_modeInstallerInformativeTextField;
 	
-    NSStringEncoding I_encodingFromLastRunOpenPanel;
-    NSString *I_modeIdentifierFromLastRunOpenPanel;
-    
     NSMutableDictionary *I_propertiesForOpenedFiles;
     NSMutableDictionary *I_suspendedSeeScriptCommands;
     NSMutableDictionary *I_refCountsOfSeeScriptCommands;
@@ -32,13 +29,15 @@
     NSMutableArray *I_pipingSeeScriptCommands;
     
     NSString *I_currentModeFileName;
-    NSURL *I_locationForNextOpenPanel;
         
     @private
     NSMutableArray *I_windowControllers;
 }
 
-+ (DocumentController *)sharedInstance;
+@property (nonatomic, readonly, assign) NSStringEncoding encodingFromLastRunOpenPanel;
+@property (nonatomic, readonly, copy) NSString *modeIdentifierFromLastRunOpenPanel;
+
++ (SEEDocumentController *)sharedInstance;
 
 - (IBAction)showDocumentListWindow:(id)sender;
 
@@ -59,16 +58,10 @@
 
 - (IBAction)menuValidationNoneAction:(id)aSender;
 
-- (NSStringEncoding)encodingFromLastRunOpenPanel;
-- (NSString *)modeIdentifierFromLastRunOpenPanel;
 - (BOOL)isDocumentFromLastRunOpenPanel:(NSDocument *)aDocument;
 - (NSDictionary *)propertiesForOpenedFile:(NSString *)fileName;
 
 - (PlainTextDocument *)frontmostPlainTextDocument;
-
-@property (assign) BOOL isOpeningInTab;
-@property (assign) NSUInteger filesToOpenCount;
-@property (assign) BOOL isOpeningUsingAlternateMenuItem;
 
 - (id)handleOpenScriptCommand:(NSScriptCommand *)command;
 - (id)handlePrintScriptCommand:(NSScriptCommand *)command;

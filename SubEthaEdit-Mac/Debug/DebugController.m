@@ -19,7 +19,7 @@
 #import "DocumentProxyWindowController.h"
 #import "TCMMillionMonkeys.h"
 #import "TCMMMUserSEEAdditions.h"
-#import "DocumentController.h"
+#import "SEEDocumentController.h"
 #import "DebugAttributeInspectorController.h"
 #import "AppController.h"
 
@@ -196,7 +196,7 @@ static DebugController * sharedInstance = nil;
                 nil]
             ];
     [testSession setClientState:TCMMMSessionClientInvitedState];
-    [[DocumentController sharedDocumentController] addProxyDocumentWithSession:testSession];
+    [[SEEDocumentController sharedDocumentController] addProxyDocumentWithSession:testSession];
 }
 
 - (IBAction)showPresence:(id)aSender {
