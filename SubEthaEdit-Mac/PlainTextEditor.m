@@ -1326,6 +1326,19 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	[self updateAnnounceButton];
 }
 
+#pragma mark - locking
+
+- (void)lock {
+	[self.findAndReplaceController setEnabled:NO];
+	[self.textView setEditable:NO];
+}
+
+- (void)unlock {
+	[self.findAndReplaceController setEnabled:YES];
+	[self.textView setEditable:YES];
+}
+
+
 #pragma mark - Overlay view support
 
 + (NSSet *)keyPathsForValuesAffectingHasBottomOverlayView
@@ -3087,6 +3100,5 @@ willChangeSelectionFromCharacterRange	:aOldSelectedCharRange
         [textView setSelectedRange:newRange];
     }
 }
-
 
 @end

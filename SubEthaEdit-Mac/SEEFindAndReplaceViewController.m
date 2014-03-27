@@ -79,6 +79,13 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 	}
 }
 
+- (void)setEnabled:(BOOL)isEnabled {
+	for (id element in @[self.findTextField, self.replaceTextField, self.findPreviousButton, self.findNextButton, self.replaceButton,self.replaceAllButton,self.searchOptionsButton, self.findAllButton]) {
+		[element setEnabled:isEnabled];
+	}
+}
+
+
 - (SEETextView *)targetTextView {
 	SEETextView *result = (SEETextView *)self.targetPlainTextEditor.textView;
 	return result;

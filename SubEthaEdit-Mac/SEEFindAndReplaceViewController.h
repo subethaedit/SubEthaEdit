@@ -19,6 +19,7 @@
 @property (nonatomic,strong) IBOutlet NSTextField *replaceTextField;
 @property (nonatomic,strong) IBOutlet NSButton *findPreviousButton;
 @property (nonatomic,strong) IBOutlet NSButton *findNextButton;
+@property (nonatomic,strong) IBOutlet NSButton *findAllButton;
 @property (nonatomic,strong) IBOutlet NSButton *replaceButton;
 @property (nonatomic,strong) IBOutlet NSButton *replaceAllButton;
 @property (nonatomic,strong) IBOutlet NSButton *searchOptionsButton;
@@ -30,4 +31,7 @@
 
 
 - (void)updateSearchOptionsButton;
+
+- (void)setEnabled:(BOOL)isEnabled;
+
 @end

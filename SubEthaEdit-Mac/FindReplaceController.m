@@ -105,6 +105,15 @@ static FindReplaceController *sharedInstance=nil;
 
 - (BOOL)validateMenuItem:(NSMenuItem *)anItem {
 	BOOL result = ([self targetDocument] != nil);
+	if (result) {
+		if (anItem.tag == NSTextFinderActionReplace ||
+			anItem.tag == NSTextFinderActionReplaceAndFind ||
+			anItem.tag == NSTextFinderActionReplaceAll) {
+			if (![self targetToFindIn].isEditable) {
+				result = NO;
+			}
+		}
+	}
     return result;
 }
 
