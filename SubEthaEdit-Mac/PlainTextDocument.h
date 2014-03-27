@@ -38,8 +38,11 @@ extern NSString * const PlainTextDocumentDidChangeDocumentModeNotification;
 
 extern NSString * const WrittenByUserIDAttributeName;
 extern NSString * const ChangedByUserIDAttributeName;
+
 extern NSString * const PlainTextDocumentDidSaveNotification;
 extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotification;
+
+
 
 @interface PlainTextDocument : NSDocument <SEEDocument, NSTextViewDelegate, NSTextStorageDelegate, NSOpenSavePanelDelegate, NSSharingServicePickerDelegate, NSSharingServiceDelegate>
 {

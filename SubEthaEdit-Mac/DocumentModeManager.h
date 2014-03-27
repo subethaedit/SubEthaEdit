@@ -69,6 +69,7 @@
 - (NSMutableArray *)reloadPrecedences;
 - (void)revalidatePrecedences;
 
+@property (readonly) NSDictionary *changedScopeNameDict;
 - (SEEStyleSheet *)styleSheetForName:(NSString *)aStyleSheetName;
 - (NSArray *)allStyleSheetNames;
 - (void)saveStyleSheet:(SEEStyleSheet *)aStyleSheet;

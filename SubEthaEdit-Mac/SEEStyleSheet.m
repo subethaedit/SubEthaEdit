@@ -9,6 +9,9 @@
 #import "SEEStyleSheet.h"
 #import "SyntaxDefinition.h"
 #import "PreferenceKeys.h"
+
+#import "DocumentModeManager.h"
+
 /*
  
  Every mode can has multiple style sheets encapsulating 
@@ -155,10 +158,73 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 		[self.scopeStyleDictionary setObject:scopeDictionary forKey:scope];
 	
 	}
+	
 	//Clear Cache
 	[self clearCache];
 }
 
+#pragma mark - Coda 2 Convert/Scope Rename
+- (NSArray *)updateScopesWithChangesDictionary:(NSDictionary *)aChangesDictionary {
+	NSArray *result = nil;
+
+	NSArray *usedScopeNames = [self.scopeStyleDictionary allKeys]; // scopes used in the current sheet
+	NSMutableDictionary *neededChangesDictionary = [[NSMutableDictionary alloc] init];
+	
+	for (NSString *key in aChangesDictionary) {
+		if ([usedScopeNames containsObject:key]) {
+			// the original scope name is in use
+			NSString *changedScopeName = [aChangesDictionary objectForKey:key];
+			if (![usedScopeNames containsObject:changedScopeName]) {
+				// and the changed scope name does not exist
+				[neededChangesDictionary setObject:changedScopeName forKey:key];
+				
+			} //  else -  there is already an entry for that other scope - don't overwrite that
+		} // else - that key is not used by this sheet
+	}
+	
+	if ([neededChangesDictionary count] > 0) {
+		[self addUpdatedScopesToStyleSheet:neededChangesDictionary];
+		result = [neededChangesDictionary allValues];
+	}
+	return result;
+}
+
+- (void)addUpdatedScopesToStyleSheet:(NSDictionary *)aChangesDictionary {
+	NSDictionary *styleDictForOriginalKey;
+	for (NSString *originalScope in aChangesDictionary) {
+		NSString *changedScope = [aChangesDictionary objectForKey:originalScope];
+		styleDictForOriginalKey = [self styleAttributesForExactScope:originalScope];
+		[self setStyleAttributes:styleDictForOriginalKey forScope:changedScope];
+	}
+}
+
+- (void)appendStyleSheetSnippetsForScopes:(NSArray *)aScopeArray toSheetAtURL:(NSURL *)aURL {
+	if (aURL) {
+		NSMutableString *appendString = [[NSMutableString alloc] init];
+		[appendString appendString:@"\n/* The following Scopes were added automatically to accommodate scope-name changes for SEE 4.0 */\n\n"];
+		NSString *styleString;
+		for (NSString *scope in aScopeArray) {
+			styleString = [self styleSheetSnippetForScope:scope];
+			if (styleString) {
+				[appendString appendString:styleString];
+			} // else: something went wrong somewhere
+		}
+		
+		NSError *error = nil;
+		NSFileHandle *fileHandle = [NSFileHandle fileHandleForWritingToURL:aURL error:&error];
+		if (!error && fileHandle) {
+			@try {
+				[fileHandle seekToEndOfFile];
+				[fileHandle writeData:[appendString dataUsingEncoding:NSUTF8StringEncoding]];
+			}
+			@catch (NSException *exception) {
+				NSLog(@"%@", exception);
+			}
+		}
+	}
+}
+
+#pragma mark
 - (NSString *)styleSheetSnippetForScope:(NSString *)aScope {
 	NSMutableArray *attributes = [NSMutableArray array];
 	NSDictionary *style = [self styleAttributesForExactScope:aScope];
@@ -170,7 +236,7 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 	return [NSString stringWithFormat:@"%@ {\n  %@\n}\n\n", aScope, [attributes componentsJoinedByString:@"\n  "]];
 }
 
-- (void)exportStyleSheetToPath:(NSURL *)aPath{
+- (void)exportStyleSheetToPath:(NSURL *)aPath {
 	
 	NSMutableString *exportString = [NSMutableString string];
 	for (NSString *scope in self.allScopes) {
@@ -349,6 +415,7 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 	return I_allScopesWithExamples;
 }
 
+#pragma mark - Color Accessors
 // convenience accesors for special values
 - (NSColor *)documentBackgroundColor {
 	return [[self styleAttributesForScope:SEEStyleSheetMetaDefaultScopeName] objectForKey:SEEStyleSheetFontBackgroundColorKey];
@@ -358,6 +425,7 @@ NSString * const SEEStyleSheetFileExtension = @"sss";
 	return [[self styleAttributesForScope:SEEStyleSheetMetaDefaultScopeName] objectForKey:SEEStyleSheetFontForegroundColorKey];
 }
 
+#pragma mark - Persisted State
 - (BOOL)hasChanges {
 	return ![I_scopeStyleDictionary isEqual:I_scopeStyleDictionaryPersistentState];
 }

@@ -1,10 +1,8 @@
-//
 //  FindReplaceController.h
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Fri Apr 23 2004.
 //  Copyright (c) 2004 TheCodingMonkeys. All rights reserved.
-//
 
 #import <Cocoa/Cocoa.h>
 #import <OgreKit/OgreKit.h>
@@ -46,8 +44,6 @@ typedef enum {
 - (NSPanel *)gotoPanel;
 - (NSPanel *)tabWidthPanel;
 
-- (NSTextView *)textViewToSearchIn;
-
 - (IBAction)orderFrontTabWidthPanel:(id)aSender;
 - (IBAction)chooseTabWidth:(id)aSender;
 - (IBAction)orderFrontGotoPanel:(id)aSender;
@@ -67,7 +63,11 @@ typedef enum {
 - (void)loadFindStringFromPasteboard;
 - (void)saveFindStringToPasteboard;
 - (void) replaceSelection;
-- (void) replaceAllInRange:(NSRange)aRange;
+
+
+- (void)signalErrorWithDescription:(NSString *)aDescription;
+
+@property (nonatomic, copy) NSString *statusString;
 
 @end
 

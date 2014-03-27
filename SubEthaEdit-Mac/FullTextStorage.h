@@ -1,16 +1,14 @@
-//
 //  FullTextStorage.h
-//  TextEdit
-//
 //  Created by Dominik Wagner on 04.01.09.
 //  Copyright 2009 TheCodingMonkeys. All rights reserved.
-//
 
 #import <Cocoa/Cocoa.h>
 #import <OgreKit/OgreKit.h>
 #import "AbstractFoldingTextStorage.h"
 
 @class FoldableTextStorage;
+
+extern NSString * const SEESearchScopeAttributeName;
 
 @interface FullTextStorage : AbstractFoldingTextStorage {
 	NSMutableAttributedString *I_internalAttributedString;
@@ -60,6 +58,12 @@
 - (void)reindentRange:(NSRange)aRange usingTabStringPerLevel:(NSString *)aTabString;
 - (NSRange)startRangeForStateAndIndex:(NSUInteger)aLocation;
 - (NSString *)autoendForIndex:(NSUInteger)aLocation;
+
+#pragma mark - SearchScopes
+- (void)addSearchScopeAttributeValue:(id)aValue inRange:(NSRange)aRange;
+- (void)removeSearchScopeAttributeValue:(id)aValue fromRange:(NSRange)aRange;
+- (NSArray *)searchScopeRangesForAttributeValue:(id)aValue;
+
 
 #pragma mark -
 //- (void)replaceCharactersInRange:(NSRange)inRange withAttributedString:(NSAttributedString *)inAttributedString synchronize:(BOOL)inSynchronizeFlag;

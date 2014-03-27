@@ -62,6 +62,10 @@ NSString * const SEEStyleSheetFileExtension;
 
 - (NSString *)exampleForScope:(NSString *)aScopeString;
 
+/* returns an array with added scope names, nil if it was not updated */
+- (NSArray *)updateScopesWithChangesDictionary:(NSDictionary *)aChangesDictionary;
+- (void)appendStyleSheetSnippetsForScopes:(NSArray *)aScopeArray toSheetAtURL:(NSURL *)aURL;
+
 - (BOOL)hasChanges;
 - (void)markCurrentStateAsPersistent;
 - (void)revertToPersistentState;
