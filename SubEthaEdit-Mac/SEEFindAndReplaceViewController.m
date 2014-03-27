@@ -252,6 +252,10 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 		if (![self hasSearchScope]) {
 			return NO;
 		}
+	} else if (menuItem.action == @selector(addCurrentSelectionToSearchScope:)) {
+		if ([self.targetTextView selectedRange].length == 0) {
+			return NO;
+		}
 	} else if (menuItem.action == @selector(switchRegexSyntaxDialect:)) {
 		BOOL isOn = ([[self.findAndReplaceStateObjectController valueForKeyPath:kOptionKeyPathRegexDialect] integerValue] == menuItem.tag);
 		[menuItem setState:isOn ? NSOnState : NSOffState];
@@ -316,29 +320,7 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 		self.optionsPopupMenu = ({
 			NSMenu *menu = [NSMenu new];
 			menu.delegate = self;
-			
-			// Ignore case
-			// Wrap around
-			// Set Scope to current selection
-			// Use Regular Expressions
-			// -
-			// Regular Expression Dialect
-			// Ruby
-			// Switch Dialect >
-			// -
-			// Capture Groups
-			// Line Context
-			// Multiline
-			// Extended
-			// -
-			// Only longest Match
-			// Ignore empty matches
-			// -
-			// Escape Character /
-			// Escape Character ¥
-			// -
-			// Open Regex Help
-			
+						
 			
 			[self addItemToMenu:menu title:@"Clear Scope" action:@selector(clearSearchScope:) tag:kOptionMenuClearScopeTag];
 			[self addItemToMenu:menu title:@"Add current selection to Scope" action:@selector(addCurrentSelectionToSearchScope:) tag:kOptionMenuAddSelectionToSearchScopeTag];
