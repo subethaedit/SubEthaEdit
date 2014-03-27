@@ -1,5 +1,5 @@
 //
-//  DocumentController.h
+//  SEEDocumentController.h
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Thu Mar 25 2004.
@@ -16,7 +16,7 @@
 @class MAAttachedWindow;
 @class PlainTextDocument;
 
-@interface DocumentController : NSDocumentController {    
+@interface SEEDocumentController : NSDocumentController {    
     IBOutlet NSPanel *O_modeInstallerPanel;
     IBOutlet NSTextField *O_modeInstallerMessageTextField;
     IBOutlet NSMatrix *O_modeInstallerDomainMatrix;
@@ -37,7 +37,7 @@
 @property (nonatomic, readonly, assign) NSStringEncoding encodingFromLastRunOpenPanel;
 @property (nonatomic, readonly, copy) NSString *modeIdentifierFromLastRunOpenPanel;
 
-+ (DocumentController *)sharedInstance;
++ (SEEDocumentController *)sharedInstance;
 
 - (IBAction)showDocumentListWindow:(id)sender;
 

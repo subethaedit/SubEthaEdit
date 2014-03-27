@@ -13,7 +13,7 @@
 #import <PSMTabBarControl/PSMTabBarControl.h>
 #import "TCMMillionMonkeys/TCMMillionMonkeys.h"
 #import "PlainTextEditor.h"
-#import "DocumentController.h"
+#import "SEEDocumentController.h"
 #import "PlainTextDocument.h"
 #import "PlainTextWindowController.h"
 #import "PlainTextWindowControllerTabContext.h"
@@ -1386,7 +1386,7 @@ static NSString *tempFileName(NSString *origPath) {
 
 - (IBAction)toggleIsAnnouncedOnAllDocuments:(id)aSender {
     BOOL targetSetting = ![self isAnnounced];
-    NSEnumerator *documents = [[[DocumentController sharedInstance] documents] objectEnumerator];
+    NSEnumerator *documents = [[[SEEDocumentController sharedInstance] documents] objectEnumerator];
     PlainTextDocument *document = nil;
     while ((document=[documents nextObject])) {
         [document setIsAnnounced:targetSetting];
@@ -1409,7 +1409,7 @@ static NSString *tempFileName(NSString *origPath) {
 }
 
 - (IBAction)changePendingUsersAccessOnAllDocuments:(id)aSender {
-    NSEnumerator *documents = [[[DocumentController sharedInstance] documents] objectEnumerator];
+    NSEnumerator *documents = [[[SEEDocumentController sharedInstance] documents] objectEnumerator];
     PlainTextDocument *document = nil;
     while ((document=[documents nextObject])) {
         [document changePendingUsersAccess:aSender];
@@ -1478,7 +1478,7 @@ static NSString *tempFileName(NSString *origPath) {
 - (IBAction)newView:(id)aSender {
     if (!I_flags.isReceivingContent && [[self windowControllers] count] > 0) {
         PlainTextWindowController *controller = [[PlainTextWindowController alloc] init];
-        [[DocumentController sharedInstance] addWindowController:controller];
+        [[SEEDocumentController sharedInstance] addWindowController:controller];
         [self addWindowController:controller];
         [controller showWindow:aSender];
         [controller release];
@@ -1650,13 +1650,13 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 
     PlainTextWindowController *windowController = nil;
     if (shouldOpenInTab) {
-        windowController = [[DocumentController sharedDocumentController] activeWindowController];
+        windowController = [[SEEDocumentController sharedDocumentController] activeWindowController];
         [self addWindowController:windowController];
         [[windowController tabBar] setHideForSingleTab:![[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey]];
     } else {
         windowController = [[PlainTextWindowController alloc] init];
         [self addWindowController:windowController];
-        [[DocumentController sharedInstance] addWindowController:windowController];
+        [[SEEDocumentController sharedInstance] addWindowController:windowController];
         [windowController release];
     }
 	self.useAlternateMakeWindowControllerBehaviour = NO;
@@ -1842,7 +1842,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
         } else {
             [session cancelJoin];
         }
-        [[DocumentController sharedInstance] removeDocument:[[self retain] autorelease]];
+        [[SEEDocumentController sharedInstance] removeDocument:[[self retain] autorelease]];
 
     } else {
         PlainTextWindowController *windowController=(PlainTextWindowController *)[[self windowControllers] objectAtIndex:0];
@@ -3033,7 +3033,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         if (wasAutosaved) fileName = self.fileURL.path;
     } else {
     
-        BOOL isDocumentFromOpenPanel = [(DocumentController *)[NSDocumentController sharedDocumentController] isDocumentFromLastRunOpenPanel:self];
+        BOOL isDocumentFromOpenPanel = [(SEEDocumentController *)[NSDocumentController sharedDocumentController] isDocumentFromLastRunOpenPanel:self];
         DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Document opened via open panel: %@", isDocumentFromOpenPanel ? @"YES" : @"NO");
 
         // load the data of the file
@@ -3091,7 +3091,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
                 NSString *modeName = [aProperties objectForKey:@"mode"];
                 mode = [[DocumentModeManager sharedInstance] documentModeForName:modeName];
             } else if (isDocumentFromOpenPanel) {
-                NSString *identifier = [(DocumentController *)[NSDocumentController sharedDocumentController] modeIdentifierFromLastRunOpenPanel];
+                NSString *identifier = [(SEEDocumentController *)[NSDocumentController sharedDocumentController] modeIdentifierFromLastRunOpenPanel];
                 if (![identifier isEqualToString:AUTOMATICMODEIDENTIFIER]) {
                     mode = [[DocumentModeManager sharedInstance] documentModeForIdentifier:identifier];
                 }
@@ -3129,7 +3129,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         
         if (encoding == NoStringEncoding) {
             if (isDocumentFromOpenPanel) {
-                DocumentController *documentController = (DocumentController *)[NSDocumentController sharedDocumentController];
+                SEEDocumentController *documentController = (SEEDocumentController *)[NSDocumentController sharedDocumentController];
                 encoding = [documentController encodingFromLastRunOpenPanel];
                 if (encoding == ModeStringEncoding) {
                     encoding = [[mode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
@@ -3405,7 +3405,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
 }
 
 - (BOOL)readFromURL:(NSURL *)anURL ofType:(NSString *)docType error:(NSError **)outError {
-    NSDictionary *properties = [[DocumentController sharedDocumentController] propertiesForOpenedFile:[anURL path]];
+    NSDictionary *properties = [[SEEDocumentController sharedDocumentController] propertiesForOpenedFile:[anURL path]];
     return [self TCM_readFromURL:anURL ofType:docType properties:properties error:outError];
 }
 
@@ -5379,7 +5379,7 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
         // do relaxed slow highlighting if not the front window
         // the highlighter takes up to 0.3 seconds so schedule the highlighting for background windows
         // corresponding to that but no longer than 3 seconds
-        float delay = MIN(3.,[[[DocumentController sharedInstance] documents] count]*0.3);
+        float delay = MIN(3.,[[[SEEDocumentController sharedInstance] documents] count]*0.3);
         if ([[[NSApp mainWindow] windowController] document] == self) {
             delay = 0.0;
             if (!I_flags.textDidChangeSinceLastSyntaxHighlighting) {

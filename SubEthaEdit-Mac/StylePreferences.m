@@ -9,7 +9,7 @@
 #import "StylePreferences.h"
 #import "SyntaxStyle.h"
 #import "DocumentModeManager.h"
-#import "DocumentController.h"
+#import "SEEDocumentController.h"
 #import "TableView.h"
 #import "TextFieldCell.h"
 #import "GeneralPreferences.h"
@@ -332,7 +332,7 @@
 #pragma mark Pref Module methods
 
 - (void)didSelect {
-	PlainTextDocument *frontmostDocument = [[DocumentController sharedInstance] frontmostPlainTextDocument];
+	PlainTextDocument *frontmostDocument = [[SEEDocumentController sharedInstance] frontmostPlainTextDocument];
 	if (frontmostDocument) {
 		[self selectMode:[frontmostDocument documentMode]];
 	} else {

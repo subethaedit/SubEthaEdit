@@ -23,7 +23,7 @@
 #import "AppController.h"
 #import "SEEDocumentDialog.h"
 #import "EncodingDoctorDialog.h"
-#import "DocumentController.h"
+#import "SEEDocumentController.h"
 #import "PlainTextWindowControllerTabContext.h"
 #import "NSMenuTCMAdditions.h"
 #import "PlainTextLoadProgress.h"
@@ -92,7 +92,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 	[I_tabBar release];
 	[I_tabView release];
 	 
-    [[DocumentController sharedInstance] updateTabMenu];
+    [[SEEDocumentController sharedInstance] updateTabMenu];
             
     [super dealloc];
 }
@@ -453,7 +453,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     }
     [[windowController window] setFrame:frame display:YES];
 
-    [[DocumentController sharedInstance] addWindowController:windowController];
+    [[SEEDocumentController sharedInstance] addWindowController:windowController];
     [windowController insertObject:document inDocumentsAtIndex:[[windowController documents] count]];
     [document addWindowController:windowController];
     [document setKeepUndoManagerOnZeroWindowControllers:NO];
@@ -1170,7 +1170,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     // switch mode menu on becoming main
     [(PlainTextDocument *)[self document] adjustModeMenu];
     // also make sure the tab menu is updated correctly
-    [[DocumentController sharedInstance] updateTabMenu];
+    [[SEEDocumentController sharedInstance] updateTabMenu];
     
     NSTabViewItem *tabViewItem = [I_tabView selectedTabViewItem];
     if (tabViewItem) {
@@ -1790,7 +1790,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     if (document) {
         if ([[self window] isKeyWindow]) {
             [(PlainTextDocument *)document adjustModeMenu];
-            [[DocumentController sharedInstance] updateTabMenu];
+            [[SEEDocumentController sharedInstance] updateTabMenu];
         }
         [self refreshDisplay];
 
@@ -1898,7 +1898,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 		}
         [self setDocument:nil];
 		
-        [[DocumentController sharedDocumentController] removeWindowController:self];
+        [[SEEDocumentController sharedDocumentController] removeWindowController:self];
         [super close];
     }
 	[contextToClose.plainTextEditors makeObjectsPerformSelector:@selector(prepareForDealloc)];
@@ -1934,7 +1934,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
             [doc close];
         }
         // updateTabMenu
-        [[DocumentController sharedInstance] updateTabMenu];
+        [[SEEDocumentController sharedInstance] updateTabMenu];
     }
 }
 
@@ -2063,7 +2063,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 	BOOL hideForSingleTab = [(PSMTabBarControl *)[aTabView delegate] hideForSingleTab];
 	[[controller tabBar] setHideForSingleTab:hideForSingleTab];
 	
-    [[DocumentController sharedInstance] addWindowController:controller];
+    [[SEEDocumentController sharedInstance] addWindowController:controller];
 
 	return [controller tabBar];
 }
@@ -2072,7 +2072,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 {
     if ([[self window] isMainWindow]) {
         // update window menu
-        [[DocumentController sharedInstance] updateTabMenu];
+        [[SEEDocumentController sharedInstance] updateTabMenu];
     }
     if (![tabBarControl isEqual:I_tabBar]) {
         
@@ -2086,7 +2086,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
         
         if ([[self documents] count] == 0) {
             [[self retain] autorelease];
-            [[DocumentController sharedInstance] removeWindowController:self];
+            [[SEEDocumentController sharedInstance] removeWindowController:self];
         } else {
             [self setDocument:[[[[self tabView] selectedTabViewItem] identifier] document]];
         } 

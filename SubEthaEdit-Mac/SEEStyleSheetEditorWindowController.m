@@ -9,7 +9,7 @@
 #import "SEEStyleSheetEditorWindowController.h"
 #import "SyntaxStyle.h"
 #import "DocumentModeManager.h"
-#import "DocumentController.h"
+#import "SEEDocumentController.h"
 #import "TableView.h"
 #import "TextFieldCell.h"
 #import "GeneralPreferences.h"
@@ -141,7 +141,7 @@
 }
 
 - (void)didSelect {
-	PlainTextDocument *frontmostDocument = [[DocumentController sharedInstance] frontmostPlainTextDocument];
+	PlainTextDocument *frontmostDocument = [[SEEDocumentController sharedInstance] frontmostPlainTextDocument];
 	if (frontmostDocument) {
 		[self selectMode:[frontmostDocument documentMode]];
 		// TODO: select a stylesheet from the mode's stylesheet settings (if not already the case)
@@ -555,7 +555,7 @@
 //        }
 //        [I_undoManager endUndoGrouping];
 //    } else if (aReturnCode == NSAlertThirdButtonReturn) {
-//        [[DocumentController sharedInstance] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[dictionary objectForKey:@"filename"]] display:YES error:nil];
+//        [[SEEDocumentController sharedInstance] openDocumentWithContentsOfURL:[NSURL fileURLWithPath:[dictionary objectForKey:@"filename"]] display:YES error:nil];
 //    }
 //}
 //

@@ -34,7 +34,7 @@
 #import "HandshakeProfile.h"
 #import "SessionProfile.h"
 #import "DocumentModeManager.h"
-#import "DocumentController.h"
+#import "SEEDocumentController.h"
 #import "PlainTextEditor.h"
 #import "TextOperation.h"
 #import "SelectionOperation.h"
@@ -130,7 +130,7 @@ static AppController *sharedInstance = nil;
 		[NSURLProtocol registerClass:[URLDataProtocol class]];
 		NSMutableDictionary *defaults = [NSMutableDictionary dictionary];
 		[defaults setObject:[NSNumber numberWithInt:SUBETHAEDIT_DEFAULT_PORT] forKey:DefaultPortNumber];
-		[defaults setObject:[NSNumber numberWithInt:[[DocumentController sharedDocumentController] maximumRecentDocumentCount]] forKey:@"NSRecentDocumentsLimit"];
+		[defaults setObject:[NSNumber numberWithInt:[[SEEDocumentController sharedDocumentController] maximumRecentDocumentCount]] forKey:@"NSRecentDocumentsLimit"];
 		[defaults setObject:[NSMutableArray array] forKey:AddressHistory];
 		[defaults setObject:[NSNumber numberWithBool:NO] forKey:ProhibitInboundInternetSessions];
 		[defaults setObject:[NSNumber numberWithDouble:60.] forKey:NetworkTimeoutPreferenceKey];
@@ -469,8 +469,8 @@ static AppController *sharedInstance = nil;
                                                         andEventID:kMOD];
                                                                                                                 
     [self setupTextViewContextMenu];
-    [NSApp setServicesProvider:[DocumentController sharedDocumentController]];
-    [[DocumentController sharedDocumentController] setAutosavingDelay:[[NSUserDefaults standardUserDefaults] floatForKey:@"AutoSavingDelay"]];
+    [NSApp setServicesProvider:[SEEDocumentController sharedDocumentController]];
+    [[SEEDocumentController sharedDocumentController] setAutosavingDelay:[[NSUserDefaults standardUserDefaults] floatForKey:@"AutoSavingDelay"]];
 }
     
 #ifndef __clang_analyzer__
@@ -701,7 +701,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 }
 
 - (BOOL)applicationOpenUntitledFile:(NSApplication *)sender {
-	[[DocumentController sharedDocumentController] showDocumentListWindow:sender];
+	[[SEEDocumentController sharedDocumentController] showDocumentListWindow:sender];
 	return YES; // Avoids Untitled Document path of DocumentController
 }
 
@@ -714,7 +714,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
         DocumentModeMenu *menu=[[DocumentModeMenu new] autorelease];
         [dockMenu addItem:item];
         [item setSubmenu:menu];
-        [item setTarget:[DocumentController sharedDocumentController]];
+        [item setTarget:[SEEDocumentController sharedDocumentController]];
         [item setAction:@selector(newDocumentFromDock:)];
         [menu configureWithAction:@selector(newDocumentWithModeMenuItemFromDock:) alternateDisplay:NO];
 
@@ -722,7 +722,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
         [dockMenu addItem:item];
         item = [[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"All Tabs",@"all tabs Dock Menu Item") action:NULL keyEquivalent:@""] autorelease];
         [item setSubmenu:[[NSMenu new] autorelease]];
-        [item setTarget:[DocumentController sharedDocumentController]];
+        [item setTarget:[SEEDocumentController sharedDocumentController]];
         [item setAction:@selector(menuValidationNoneAction:)];
         [item setTag:GotoTabMenuItemTag];
         [dockMenu addItem:item];

@@ -7,7 +7,7 @@
 //
 
 #import "TCMMMSessionAppKitHelper.h"
-#import "DocumentController.h"
+#import "SEEDocumentController.h"
 
 
 @implementation TCMMMSessionAppKitHelper
@@ -24,7 +24,7 @@
 
 - (void)addProxyDocumentWithSession:(TCMMMSession *)session
 {
-    [[DocumentController sharedInstance] addProxyDocumentWithSession:session];
+    [[SEEDocumentController sharedInstance] addProxyDocumentWithSession:session];
 }
 
 @end

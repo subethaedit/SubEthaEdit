@@ -616,7 +616,7 @@ Index: DocumentModeManager.m
  
  #import "ModeSettings.h"
  #import "DocumentModeManager.h"
--#import "DocumentController.h"
+-#import "SEEDocumentController.h"
 -#import "PlainTextDocument.h"
  #import "GeneralPreferences.h"
  #import "SyntaxStyle.h"
@@ -626,7 +626,7 @@ Index: DocumentModeManager.m
      [[NSNotificationCenter defaultCenter] postNotificationName:@"DocumentModeListChanged" object:self];
      
 -    // replace the DocumentModes in the documents
--    NSEnumerator      *documents = [[[DocumentController sharedDocumentController] documents] objectEnumerator];
+-    NSEnumerator      *documents = [[[SEEDocumentController sharedDocumentController] documents] objectEnumerator];
 -    PlainTextDocument *document = nil;
 -    while ((document=[documents nextObject])) {
 -        DocumentMode *oldMode = [document documentMode];

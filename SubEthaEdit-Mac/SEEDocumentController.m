@@ -1,12 +1,12 @@
 //
-//  DocumentController.m
+//  SEEDocumentController.m
 //  SubEthaEdit
 //
 //  Created by Dominik Wagner on Thu Mar 25 2004.
 //  Copyright (c) 2004-2006 TheCodingMonkeys. All rights reserved.
 //
 
-#import "DocumentController.h"
+#import "SEEDocumentController.h"
 #import "TCMMMSession.h"
 #import "PlainTextDocument.h"
 #import "EncodingManager.h"
@@ -28,7 +28,7 @@
 #import <objc/objc-runtime.h>			// for objc_msgSend
 
 
-@interface DocumentController ()
+@interface SEEDocumentController ()
 
 @property (nonatomic, strong) SEEDocumentListWindowController *documentListWindowController;
 
@@ -45,10 +45,10 @@
 @end
 
 
-@implementation DocumentController
+@implementation SEEDocumentController
 
-+ (DocumentController *)sharedInstance {
-    return (DocumentController *)[NSDocumentController sharedDocumentController];
++ (SEEDocumentController *)sharedInstance {
+    return (SEEDocumentController *)[NSDocumentController sharedDocumentController];
 }
 
 - (id)init {
@@ -735,7 +735,7 @@
 
 + (void)restoreWindowWithIdentifier:(NSString *)identifier state:(NSCoder *)state completionHandler:(void (^)(NSWindow *, NSError *))completionHandler {
 	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
-	DocumentController *documentController = [[self class] sharedDocumentController];
+	SEEDocumentController *documentController = [[self class] sharedDocumentController];
 
 	if ([identifier isEqualToString:@"DocumentList"]) {
 		[documentController showDocumentListWindow:self];

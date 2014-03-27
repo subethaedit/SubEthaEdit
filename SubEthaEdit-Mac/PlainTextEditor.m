@@ -7,7 +7,7 @@
 //
 
 #import "FindReplaceController.h"
-#import "DocumentController.h"
+#import "SEEDocumentController.h"
 #import "PlainTextEditor.h"
 #import "PlainTextDocument.h"
 #import "PlainTextWindowController.h"
@@ -2170,7 +2170,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
                 [s_cell setFont:[NSFont systemFontOfSize:[NSFont systemFontSizeForControlSize:NSSmallControlSize]]];
             }
 
-            [s_cell setMenu:[[DocumentController sharedInstance] documentMenu]];
+            [s_cell setMenu:[[SEEDocumentController sharedInstance] documentMenu]];
             NSEnumerator *menuItems = [[[s_cell menu] itemArray] objectEnumerator];
             NSMenuItem *menuItem  = nil;
             PlainTextWindowController *wc = [[I_textView window] windowController];
@@ -2961,7 +2961,7 @@ willChangeSelectionFromCharacterRange	:aOldSelectedCharRange
 
     // add suggestions from all other open documents
     NSMutableDictionary *otherDictionaryOfResultStrings = [NSMutableDictionary new];
-    NSEnumerator *documents = [[[DocumentController sharedInstance] documents] objectEnumerator];
+    NSEnumerator *documents = [[[SEEDocumentController sharedInstance] documents] objectEnumerator];
     PlainTextDocument *document = nil;
 
     while ((document = [documents nextObject]))

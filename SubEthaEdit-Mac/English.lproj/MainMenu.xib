@@ -1113,7 +1113,7 @@
             </connections>
         </customObject>
         <customObject id="212" userLabel="TCMPreferenceController" customClass="TCMPreferenceController"/>
-        <customObject id="252" userLabel="DocumentController" customClass="DocumentController">
+        <customObject id="252" userLabel="DocumentController" customClass="SEEDocumentController">
             <connections>
                 <outlet property="O_modeInstallerDomainMatrix" destination="579" id="584"/>
                 <outlet property="O_modeInstallerInformativeTextField" destination="583" id="585"/>

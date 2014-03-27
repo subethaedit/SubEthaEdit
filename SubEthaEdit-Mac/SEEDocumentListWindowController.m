@@ -21,7 +21,7 @@
 #import "SEEOpenOtherDocumentListItem.h"
 #import "SEEConnectDocumentListItem.h"
 
-#import "DocumentController.h"
+#import "SEEDocumentController.h"
 #import "DocumentModeManager.h"
 
 #import "TCMMMPresenceManager.h"
@@ -103,7 +103,7 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 {
     [super windowDidLoad];
 
-	[self.window setRestorationClass:NSClassFromString(@"DocumentController")];
+	[self.window setRestorationClass:NSClassFromString(@"SEEDocumentController")];
 
 	NSScrollView *scrollView = self.scrollViewOutlet;
 	scrollView.contentView.layer = [CAScrollLayer layer];
