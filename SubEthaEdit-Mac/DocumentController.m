@@ -31,19 +31,22 @@
 @interface DocumentController ()
 
 @property (nonatomic, strong) SEEDocumentListWindowController *documentListWindowController;
-@property (nonatomic, strong) NSMutableArray *filenamesFromLastRunOpenPanel;
 
 @property (assign) BOOL isOpeningInTab;
 @property (assign) NSUInteger filesToOpenCount;
 @property (assign) BOOL isOpeningUsingAlternateMenuItem;
+@property (nonatomic, strong) NSMutableDictionary *documentCreationFlagsLookupDict;
+@property (nonatomic, strong) NSMutableArray *filenamesFromLastRunOpenPanel;
 
-- (void)setModeIdentifierFromLastRunOpenPanel:(NSString *)modeIdentifier;
-- (void)setEncodingFromLastRunOpenPanel:(NSStringEncoding)stringEncoding;
-- (void)setLocationForNextOpenPanel:(NSURL*)anURL;
-- (NSURL *)locationForNextOpenPanel;
+@property (nonatomic, copy) NSURL *locationForNextOpenPanel;
+@property (nonatomic, readwrite, assign) NSStringEncoding encodingFromLastRunOpenPanel;
+@property (nonatomic, readwrite, copy) NSString *modeIdentifierFromLastRunOpenPanel;
+
 @end
 
+
 @implementation DocumentController
+
 + (DocumentController *)sharedInstance {
     return (DocumentController *)[NSDocumentController sharedDocumentController];
 }
@@ -51,9 +54,10 @@
 - (id)init {
     self = [super init];
     if (self) {
-//        I_isOpeningUntitledDocument = NO;
-        self.filenamesFromLastRunOpenPanel = [NSMutableArray new];
-        I_propertiesForOpenedFiles = [NSMutableDictionary new];
+        self.filenamesFromLastRunOpenPanel = [NSMutableArray array];
+		self.documentCreationFlagsLookupDict = [NSMutableDictionary dictionary];
+
+		I_propertiesForOpenedFiles = [NSMutableDictionary new];
         I_suspendedSeeScriptCommands = [NSMutableDictionary new];
         I_waitingDocuments = [NSMutableDictionary new];
         I_refCountsOfSeeScriptCommands = [NSMutableDictionary new];
@@ -65,8 +69,11 @@
 
 // actually never gets called - as any other top level nib object isn't dealloced...
 - (void)dealloc {
-    [I_modeIdentifierFromLastRunOpenPanel release];
+    self.modeIdentifierFromLastRunOpenPanel = nil;
     self.filenamesFromLastRunOpenPanel = nil;
+    self.documentCreationFlagsLookupDict = nil;
+	self.locationForNextOpenPanel = nil;
+
     [I_propertiesForOpenedFiles release];
     [I_suspendedSeeScriptCommands release];
     [I_waitingDocuments release];
@@ -614,15 +621,6 @@
 			completionHandler(result);
 		}
 	}];
-}
-
-
-- (NSStringEncoding)encodingFromLastRunOpenPanel {
-    return I_encodingFromLastRunOpenPanel;
-}
-
-- (NSString *)modeIdentifierFromLastRunOpenPanel {
-    return I_modeIdentifierFromLastRunOpenPanel;
 }
 
 - (BOOL)isDocumentFromLastRunOpenPanel:(NSDocument *)aDocument {
@@ -1410,25 +1408,6 @@ struct ModificationInfo
 
 
 #pragma mark -
-
-
-// for directory drags for which we open an open panel so the user can select the (multiple) files he wants to open
-- (void)setLocationForNextOpenPanel:(NSURL*)anURL {
-    [I_locationForNextOpenPanel autorelease];
-	I_locationForNextOpenPanel=[anURL copy];
-}
-- (NSURL *)locationForNextOpenPanel {
-    return I_locationForNextOpenPanel;
-}
-
-- (void)setEncodingFromLastRunOpenPanel:(NSStringEncoding)stringEncoding {
-    I_encodingFromLastRunOpenPanel = stringEncoding;
-}
-
-- (void)setModeIdentifierFromLastRunOpenPanel:(NSString *)modeIdentifier {
-    [I_modeIdentifierFromLastRunOpenPanel release];
-    I_modeIdentifierFromLastRunOpenPanel = [modeIdentifier copy];
-}
 
 - (void)openModeFile:(NSString *)fileName
 {

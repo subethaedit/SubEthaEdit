@@ -22,9 +22,6 @@
     IBOutlet NSMatrix *O_modeInstallerDomainMatrix;
     IBOutlet NSTextField *O_modeInstallerInformativeTextField;
 	
-    NSStringEncoding I_encodingFromLastRunOpenPanel;
-    NSString *I_modeIdentifierFromLastRunOpenPanel;
-    
     NSMutableDictionary *I_propertiesForOpenedFiles;
     NSMutableDictionary *I_suspendedSeeScriptCommands;
     NSMutableDictionary *I_refCountsOfSeeScriptCommands;
@@ -32,11 +29,13 @@
     NSMutableArray *I_pipingSeeScriptCommands;
     
     NSString *I_currentModeFileName;
-    NSURL *I_locationForNextOpenPanel;
         
     @private
     NSMutableArray *I_windowControllers;
 }
+
+@property (nonatomic, readonly, assign) NSStringEncoding encodingFromLastRunOpenPanel;
+@property (nonatomic, readonly, copy) NSString *modeIdentifierFromLastRunOpenPanel;
 
 + (DocumentController *)sharedInstance;
 
@@ -59,8 +58,6 @@
 
 - (IBAction)menuValidationNoneAction:(id)aSender;
 
-- (NSStringEncoding)encodingFromLastRunOpenPanel;
-- (NSString *)modeIdentifierFromLastRunOpenPanel;
 - (BOOL)isDocumentFromLastRunOpenPanel:(NSDocument *)aDocument;
 - (NSDictionary *)propertiesForOpenedFile:(NSString *)fileName;
 
