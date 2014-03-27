@@ -419,8 +419,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
 #pragma mark -
 
-- (IBAction)openInSeparateWindow:(id)sender
-{
+- (IBAction)openInSeparateWindow:(id)sender {
     PlainTextDocument *document = [self document];
     NSUInteger documentIndex = [[self documents] indexOfObject:document];
     NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];

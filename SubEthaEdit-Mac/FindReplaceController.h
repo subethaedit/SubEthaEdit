@@ -23,7 +23,6 @@ typedef enum {
 @end
 
 @interface FindReplaceController : NSObject <NSWindowDelegate> {
-
 	// tab width panel (whyever this is managed by us)
 	IBOutlet NSPanel *O_tabWidthPanel;
     IBOutlet NSTextField *O_tabWidthTextField;
@@ -41,18 +40,15 @@ typedef enum {
 
 @property (nonatomic, strong) NSObjectController *globalFindAndReplaceStateController;
 
-- (NSPanel *)gotoPanel;
-- (NSPanel *)tabWidthPanel;
 
+- (NSPanel *)tabWidthPanel;
 - (IBAction)orderFrontTabWidthPanel:(id)aSender;
 - (IBAction)chooseTabWidth:(id)aSender;
-- (IBAction)orderFrontGotoPanel:(id)aSender;
 
+- (NSPanel *)gotoPanel;
+- (IBAction)orderFrontGotoPanel:(id)aSender;
 - (IBAction)gotoLine:(id)aSender;
 - (IBAction)gotoLineAndClosePanel:(id)aSender;
-- (unsigned) currentOgreOptions;
-- (OgreSyntax) currentOgreSyntax;
-- (NSString*)currentOgreEscapeCharacter;
 
 /*! the tag of the sender actually defines what search action is triggered - which is a weird design */
 - (void)performFindPanelAction:(id)sender inTargetTextView:(NSTextView *)aTextView;
