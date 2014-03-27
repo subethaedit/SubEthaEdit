@@ -66,10 +66,6 @@
 
 - (PlainTextDocument *)frontmostPlainTextDocument;
 
-@property (assign) BOOL isOpeningInTab;
-@property (assign) NSUInteger filesToOpenCount;
-@property (assign) BOOL isOpeningUsingAlternateMenuItem;
-
 - (id)handleOpenScriptCommand:(NSScriptCommand *)command;
 - (id)handlePrintScriptCommand:(NSScriptCommand *)command;
 - (id)handleSeeScriptCommand:(NSScriptCommand *)command;

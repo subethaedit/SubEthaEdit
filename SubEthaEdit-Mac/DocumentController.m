@@ -33,6 +33,10 @@
 @property (nonatomic, strong) SEEDocumentListWindowController *documentListWindowController;
 @property (nonatomic, strong) NSMutableArray *filenamesFromLastRunOpenPanel;
 
+@property (assign) BOOL isOpeningInTab;
+@property (assign) NSUInteger filesToOpenCount;
+@property (assign) BOOL isOpeningUsingAlternateMenuItem;
+
 - (void)setModeIdentifierFromLastRunOpenPanel:(NSString *)modeIdentifier;
 - (void)setEncodingFromLastRunOpenPanel:(NSStringEncoding)stringEncoding;
 - (void)setLocationForNextOpenPanel:(NSURL*)anURL;
