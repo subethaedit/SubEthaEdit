@@ -13,6 +13,7 @@
 #import "PlainTextWindowControllerTabContext.h"
 #import "PlainTextWindowController.h"
 #import "PopUpButton.h"
+#import "SEEFindAndReplaceViewController.h"
 
 extern NSString * const PlainTextEditorDidFollowUserNotification;
 extern NSString * const PlainTextEditorDidChangeSearchScopeNotification;
@@ -147,6 +148,7 @@ extern NSString * const PlainTextEditorDidChangeSearchScopeNotification;
 - (IBAction)clearSearchScope:(id)aSender;
 
 @property (nonatomic, readonly) BOOL isShowingFindAndReplaceInterface;
+- (void)findAndReplaceViewControllerDidPressDismiss:(SEEFindAndReplaceViewController *)aViewController;
 
 // funnel point for all our internal pointers for additional text checking
 - (void)scheduleTextCheckingForRange:(NSRange)aRange;

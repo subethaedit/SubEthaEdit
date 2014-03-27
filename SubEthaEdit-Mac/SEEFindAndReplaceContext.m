@@ -139,7 +139,7 @@ typedef NS_ENUM(uint8_t, SEESearchRangeDirection) {
 	OgreSyntax regexSyntax = state.useRegex ? state.regularExpressionSyntax : OgreSimpleMatchingSyntax;
 	if (shouldBuildRegex) {
 		if (![OGRegularExpression isValidExpressionString:state.findString
-												  options:state.regexOptions
+												  options:state.regexOptionsForExpressionBuilding
 												   syntax:regexSyntax
 										  escapeCharacter:state.regularExpressionEscapeCharacter]) {
 			NSString *errorString = state.useRegex ? NSLocalizedString(@"Invalid regex",@"InvalidRegex") : NSLocalizedString(@"FIND_REPLACE_ERROR_INVALID_FIND_STRING", @"invalid find string, (e.g. zero length find strings)");
@@ -150,7 +150,7 @@ typedef NS_ENUM(uint8_t, SEESearchRangeDirection) {
 		OGRegularExpression *regex = nil;
 		@try{
 			regex = [OGRegularExpression regularExpressionWithString:state.findString
-															 options:state.regexOptions
+															 options:state.regexOptionsForExpressionBuilding
 															  syntax:regexSyntax
 													 escapeCharacter:state.regularExpressionEscapeCharacter];
 		} @catch (NSException *exception) {

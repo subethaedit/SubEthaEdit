@@ -68,6 +68,16 @@ if (VALUE) { \
 } \
 self.regexOptions = options
 
+- (unsigned int)regexOptionsForExpressionBuilding {
+	unsigned int result = 0;
+	if (self.useRegex) {
+		result = self.regexOptions;
+	}
+	if (!self.caseSensitive) {
+		ONIG_OPTION_ON(result, ONIG_OPTION_IGNORECASE);
+	}
+	return result;
+}
 
 - (BOOL)regularExpressionOptionCaptureGroups {
 	BOOL result = (!ONIG_IS_OPTION_ON(self.regexOptions,ONIG_OPTION_DONT_CAPTURE_GROUP)) &&

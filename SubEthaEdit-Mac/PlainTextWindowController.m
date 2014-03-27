@@ -33,6 +33,7 @@
 #import "SEEParticipantsOverlayViewController.h"
 #import "SEETabStyle.h"
 #import "WebPreviewViewController.h"
+#import "FindAllController.h"
 #import <objc/objc-runtime.h>			// for objc_msgSend
 
 
@@ -418,8 +419,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
 #pragma mark -
 
-- (IBAction)openInSeparateWindow:(id)sender
-{
+- (IBAction)openInSeparateWindow:(id)sender {
     PlainTextDocument *document = [self document];
     NSUInteger documentIndex = [[self documents] indexOfObject:document];
     NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
@@ -1227,6 +1227,39 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
 #pragma mark - NSWindow Delegate
 #pragma mark Fullscreen
+
+- (NSArray *)allMyFindAllWindowControllers {
+	NSMutableArray *result = [NSMutableArray new];
+	for (PlainTextDocument *document in self.documents) {
+		for (FindAllController *findAllController in document.findAllControllers) {
+			if ([self isEqual:findAllController.findAndReplaceContext.targetTextView.window.windowController]) {
+				[result addObject:findAllController];
+			}
+		}
+	}
+	return result;
+}
+
+- (void)windowWillEnterFullScreen:(NSNotification *)aNotification {
+	for (FindAllController *findAllController in [self allMyFindAllWindowControllers]) {
+		[(NSPanel *)findAllController.window setFloatingPanel:YES];
+	}
+}
+
+- (void)windowDidEnterFullScreen:(NSNotification *)aNotification {
+	for (FindAllController *findAllController in [self allMyFindAllWindowControllers]) {
+		[(NSPanel *)findAllController.window setFloatingPanel:NO];
+		[findAllController.window setLevel:NSFloatingWindowLevel];
+	}
+}
+
+- (void)windowDidExitFullScreen:(NSNotification *)aNotification {
+	for (FindAllController *findAllController in [self allMyFindAllWindowControllers]) {
+		[findAllController.window setLevel:NSNormalWindowLevel];
+	}
+}
+
+
 /* not used for now - maybe delete once fullscreen is given ok (SEE 4.0)
 - (NSArray *)customWindowsToEnterFullScreenForWindow:(NSWindow *)aWindow {}
 // An array of windows to use for the animation to full-screen mode for window; otherwise nil.
