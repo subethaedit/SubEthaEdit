@@ -174,6 +174,10 @@ static NSDictionary *plainSymbolAttributes=nil, *italicSymbolAttributes=nil, *bo
 	return NO;
 }
 
+//+ (BOOL)preservesVersions {
+//	return YES;
+//}
+
 - (void)setFileType:(NSString *)aString {
     [self willChangeValueForKey:@"documentIcon"];
     I_flags.isSEEText = UTTypeConformsTo((CFStringRef)aString, (CFStringRef)@"de.codingmonkeys.subethaedit.seetext");
@@ -248,6 +252,8 @@ static NSString *tempFileName(NSString *origPath) {
 
 - (void)TCM_initHelper {
 	self.persistentDocumentScopedBookmarkURLs = [NSMutableArray array];
+
+	self.shouldOpenInTab = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
 
     I_flags.isAutosavingForRestart=NO;
     I_flags.isHandlingUndoManually=NO;
@@ -1624,17 +1630,24 @@ static NSString *tempFileName(NSString *origPath) {
 
 #pragma mark Overrides of NSDocument Methods to Support MultiDocument Windows
 
+- (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
+	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
+	[super encodeRestorableStateWithCoder:coder];
+}
+
+- (void)restoreStateWithCoder:(NSCoder *)coder {
+	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
+	[super restoreStateWithCoder:coder];
+}
+
 static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 
 - (void)makeWindowControllers {
-    BOOL shouldOpenInTab = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
-    DocumentController *controller = [DocumentController sharedInstance];
-    if ([controller isOpeningUsingAlternateMenuItem]) {
-        if (shouldOpenInTab) { // if so we just open one new window
-            [controller setIsOpeningUsingAlternateMenuItem:NO];
-        }
+    BOOL shouldOpenInTab = self.shouldOpenInTab;
+    if (self.useAlternateMakeWindowControllerBehaviour) {
         shouldOpenInTab = !shouldOpenInTab;
     }
+
     PlainTextWindowController *windowController = nil;
     if (shouldOpenInTab) {
         windowController = [[DocumentController sharedDocumentController] activeWindowController];
@@ -1646,7 +1659,7 @@ static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
         [[DocumentController sharedInstance] addWindowController:windowController];
         [windowController release];
     }
-
+	self.useAlternateMakeWindowControllerBehaviour = NO;
 
     
 	if (I_stateDictionaryFromLoading) {
@@ -5536,9 +5549,11 @@ const void *SEESavePanelAssociationKey = &SEESavePanelAssociationKey;
     [self setTemporaryDisplayName:[aSession filename]];
 
     // this is slightly modified make window controllers code ...
+	self.shouldOpenInTab = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
+	self.useAlternateMakeWindowControllerBehaviour = NO;
     [self makeWindowControllers]; 
     PlainTextWindowController *windowController=[[self windowControllers] lastObject];
-    I_flags.isReceivingContent=YES;
+    I_flags.isReceivingContent = YES;
     [windowController document:self isReceivingContent:YES];
     
 	if (![[windowController window] isVisible]) {

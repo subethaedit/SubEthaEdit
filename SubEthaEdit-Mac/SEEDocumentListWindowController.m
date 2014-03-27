@@ -103,6 +103,8 @@ static void *SEENetworkDocumentBrowserEntriesObservingContext = (void *)&SEENetw
 {
     [super windowDidLoad];
 
+	[self.window setRestorationClass:NSClassFromString(@"DocumentController")];
+
 	NSScrollView *scrollView = self.scrollViewOutlet;
 	scrollView.contentView.layer = [CAScrollLayer layer];
 	scrollView.contentView.wantsLayer = YES;

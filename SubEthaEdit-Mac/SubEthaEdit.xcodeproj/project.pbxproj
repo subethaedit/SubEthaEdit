@@ -1817,16 +1817,6 @@
 				1428944509575B3400D14688 /* LayoutManager.m */,
 				1428944C09575B9700D14688 /* PlainTextDocument.h */,
 				1428944D09575B9700D14688 /* PlainTextDocument.m */,
-				4CD3CFF11887FE2E00908506 /* SEEOpenPanelAccessoryViewController.h */,
-				4CD3CFF21887FE2E00908506 /* SEEOpenPanelAccessoryViewController.m */,
-				4CCD4DCF1811703D00FE6134 /* SEESavePanelAccessoryViewController.h */,
-				4CCD4DD01811703D00FE6134 /* SEESavePanelAccessoryViewController.m */,
-				4C5EC97B1897F6FC0094D850 /* SEEParticipantsOverlayViewController.h */,
-				4C5EC97C1897F6FC0094D850 /* SEEParticipantsOverlayViewController.m */,
-				4CE6C99B18AA905500AB45D1 /* SEEOverlayView.h */,
-				4CE6C99C18AA905500AB45D1 /* SEEOverlayView.m */,
-				4CDC272118969A600060B044 /* SEEParticipantViewController.h */,
-				4CDC272218969A600060B044 /* SEEParticipantViewController.m */,
 				1428944E09575B9700D14688 /* PlainTextEditor.h */,
 				1428944F09575B9700D14688 /* PlainTextEditor.m */,
 				149774150B5E159F004A546C /* PlainTextLoadProgress.h */,
@@ -1838,6 +1828,8 @@
 				141F50EA0AE51B65001B73D2 /* PlainTextWindowControllerTabContext.h */,
 				141F50EB0AE51B65001B73D2 /* PlainTextWindowControllerTabContext.m */,
 				4CB36C2E18D84BC3000219DA /* SplitView Delegates */,
+				4CC9634818E033B4007ACE7A /* ParticipantOverlay */,
+				4CC9634A18E033D6007ACE7A /* Open / Save Panel Accessory */,
 				1428945209575B9700D14688 /* PopUpButton.h */,
 				1428945309575B9700D14688 /* PopUpButton.m */,
 				1428945409575B9700D14688 /* PopUpButtonCell.h */,
@@ -2278,6 +2270,30 @@
 				4C65D60918D852AB00A03E65 /* SEEWebPreviewSplitViewDelegate.m */,
 			);
 			name = "SplitView Delegates";
+			sourceTree = "<group>";
+		};
+		4CC9634818E033B4007ACE7A /* ParticipantOverlay */ = {
+			isa = PBXGroup;
+			children = (
+				4C5EC97B1897F6FC0094D850 /* SEEParticipantsOverlayViewController.h */,
+				4C5EC97C1897F6FC0094D850 /* SEEParticipantsOverlayViewController.m */,
+				4CE6C99B18AA905500AB45D1 /* SEEOverlayView.h */,
+				4CE6C99C18AA905500AB45D1 /* SEEOverlayView.m */,
+				4CDC272118969A600060B044 /* SEEParticipantViewController.h */,
+				4CDC272218969A600060B044 /* SEEParticipantViewController.m */,
+			);
+			name = ParticipantOverlay;
+			sourceTree = "<group>";
+		};
+		4CC9634A18E033D6007ACE7A /* Open / Save Panel Accessory */ = {
+			isa = PBXGroup;
+			children = (
+				4CD3CFF11887FE2E00908506 /* SEEOpenPanelAccessoryViewController.h */,
+				4CD3CFF21887FE2E00908506 /* SEEOpenPanelAccessoryViewController.m */,
+				4CCD4DCF1811703D00FE6134 /* SEESavePanelAccessoryViewController.h */,
+				4CCD4DD01811703D00FE6134 /* SEESavePanelAccessoryViewController.m */,
+			);
+			name = "Open / Save Panel Accessory";
 			sourceTree = "<group>";
 		};
 		4CDF059F18C0A217004A49E5 /* Items */ = {

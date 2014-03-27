@@ -169,6 +169,9 @@ extern NSString * const PlainTextDocumentDidSaveShouldReloadWebPreviewNotificati
 @property (readwrite, strong) IBOutlet NSObjectController *O_exportSheetController;
 @property (nonatomic, strong) NSMutableArray *persistentDocumentScopedBookmarkURLs;
 
+@property (nonatomic, assign) BOOL shouldOpenInTab;
+@property (nonatomic, assign) BOOL useAlternateMakeWindowControllerBehaviour;
+
 //+ (PlainTextDocument *)transientDocument;
 
 //- (void)setTemporarySavePanel:(NSSavePanel *)aPanel;

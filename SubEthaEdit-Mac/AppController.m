@@ -111,8 +111,6 @@ NSString * const GlobalScriptsDidReloadNotification = @"GlobalScriptsDidReloadNo
     
 @interface AppController ()
 
-@property (nonatomic, strong) SEEDocumentListWindowController *documentListWindowController;
-
 - (void)setupFileEncodingsSubmenu;
 - (void)setupScriptMenu;
 - (void)setupDocumentModeSubmenu;
@@ -703,7 +701,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
 }
 
 - (BOOL)applicationOpenUntitledFile:(NSApplication *)sender {
-	[self showDocumentListWindow:sender];
+	[[DocumentController sharedDocumentController] showDocumentListWindow:sender];
 	return YES; // Avoids Untitled Document path of DocumentController
 }
 
@@ -711,6 +709,7 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     static NSMenu *dockMenu=nil;
     if (!dockMenu) {
         dockMenu=[NSMenu new];
+		
         NSMenuItem *item=[[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"New File",@"New File Dock Menu Item") action:@selector(newDocument:) keyEquivalent:@""] autorelease];
         DocumentModeMenu *menu=[[DocumentModeMenu new] autorelease];
         [dockMenu addItem:item];
@@ -718,7 +717,8 @@ static OSStatus AuthorizationRightSetWithWorkaround(
         [item setTarget:[DocumentController sharedDocumentController]];
         [item setAction:@selector(newDocumentFromDock:)];
         [menu configureWithAction:@selector(newDocumentWithModeMenuItemFromDock:) alternateDisplay:NO];
-        item=[[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Open File...",@"Open File Dock Menu Item") action:@selector(openDocument:) keyEquivalent:@""] autorelease];
+
+        item=[[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"Open File...",@"Open File Dock Menu Item") action:@selector(openNormalDocument:) keyEquivalent:@""] autorelease];
         [dockMenu addItem:item];
         item = [[[NSMenuItem alloc] initWithTitle:NSLocalizedString(@"All Tabs",@"all tabs Dock Menu Item") action:NULL keyEquivalent:@""] autorelease];
         [item setSubmenu:[[NSMenu new] autorelease]];
@@ -1069,22 +1069,6 @@ static OSStatus AuthorizationRightSetWithWorkaround(
     } else {
 		[[editorWindowController window] performClose:self];
     }
-}
-
-#pragma mark -
-
-- (IBAction)showDocumentListWindow:(id)sender {
-	if (!self.documentListWindowController) {
-		SEEDocumentListWindowController *networkBrowser = [[SEEDocumentListWindowController alloc] initWithWindowNibName:@"SEEDocumentListWindowController"];
-		self.documentListWindowController = networkBrowser;
-		[networkBrowser release];
-	}
-	if (sender == NSApp) {
-		self.documentListWindowController.shouldCloseWhenOpeningDocument = YES;
-	} else {
-		self.documentListWindowController.shouldCloseWhenOpeningDocument = NO;
-	}
-	[self.documentListWindowController showWindow:sender];
 }
 
 #pragma mark - Menu validation

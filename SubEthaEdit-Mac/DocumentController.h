@@ -21,13 +21,9 @@
     IBOutlet NSTextField *O_modeInstallerMessageTextField;
     IBOutlet NSMatrix *O_modeInstallerDomainMatrix;
     IBOutlet NSTextField *O_modeInstallerInformativeTextField;
-        
-//    BOOL I_isOpeningUntitledDocument;
-    BOOL I_isOpeningUsingAlternateMenuItem;
-    
+	
     NSStringEncoding I_encodingFromLastRunOpenPanel;
     NSString *I_modeIdentifierFromLastRunOpenPanel;
-    NSMutableArray *I_fileNamesFromLastRunOpenPanel;
     
     NSMutableDictionary *I_propertiesForOpenedFiles;
     NSMutableDictionary *I_suspendedSeeScriptCommands;
@@ -43,6 +39,8 @@
 }
 
 + (DocumentController *)sharedInstance;
+
+- (IBAction)showDocumentListWindow:(id)sender;
 
 - (NSMenu *)documentMenu;
 
@@ -68,9 +66,9 @@
 
 - (PlainTextDocument *)frontmostPlainTextDocument;
 
-//- (BOOL)isOpeningUntitledDocument;
-- (void)setIsOpeningUsingAlternateMenuItem:(BOOL)aFlag;
-- (BOOL)isOpeningUsingAlternateMenuItem;
+@property (assign) BOOL isOpeningInTab;
+@property (assign) NSUInteger filesToOpenCount;
+@property (assign) BOOL isOpeningUsingAlternateMenuItem;
 
 - (id)handleOpenScriptCommand:(NSScriptCommand *)command;
 - (id)handlePrintScriptCommand:(NSScriptCommand *)command;

@@ -22,11 +22,17 @@
 #import "MoreSecurity.h"
 #import "PlainTextWindowController.h"
 #import "SEEOpenPanelAccessoryViewController.h"
+#import "SEEDocumentListWindowController.h"
+
 #import <PSMTabBarControl/PSMTabBarControl.h>
 #import <objc/objc-runtime.h>			// for objc_msgSend
 
 
 @interface DocumentController ()
+
+@property (nonatomic, strong) SEEDocumentListWindowController *documentListWindowController;
+@property (nonatomic, strong) NSMutableArray *filenamesFromLastRunOpenPanel;
+
 - (void)setModeIdentifierFromLastRunOpenPanel:(NSString *)modeIdentifier;
 - (void)setEncodingFromLastRunOpenPanel:(NSStringEncoding)stringEncoding;
 - (void)setLocationForNextOpenPanel:(NSURL*)anURL;
@@ -34,230 +40,6 @@
 @end
 
 @implementation DocumentController
-
-// for directory drags for which we open an open panel so the user can select the (multiple) files he wants to open
-- (void)setLocationForNextOpenPanel:(NSURL*)anURL {
-    [I_locationForNextOpenPanel autorelease];
-     I_locationForNextOpenPanel=[anURL copy];
-}
-- (NSURL *)locationForNextOpenPanel {
-    return I_locationForNextOpenPanel;
-}
-
-- (void)setEncodingFromLastRunOpenPanel:(NSStringEncoding)stringEncoding {
-    I_encodingFromLastRunOpenPanel = stringEncoding;
-}
-
-- (void)setModeIdentifierFromLastRunOpenPanel:(NSString *)modeIdentifier {
-    [I_modeIdentifierFromLastRunOpenPanel release];
-    I_modeIdentifierFromLastRunOpenPanel = [modeIdentifier copy];
-}
-
-- (void)openModeFile:(NSString *)fileName
-{
-    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Opening mode file: %@", fileName);
-    NSBundle *modeBundle = [NSBundle bundleWithPath:fileName];
-    NSString *versionString = [modeBundle objectForInfoDictionaryKey:@"CFBundleVersion"];
-    NSString *name = [NSString stringWithFormat:@"%@ (%@)", [fileName lastPathComponent], versionString];
-    [O_modeInstallerMessageTextField setObjectValue:[NSString stringWithFormat:NSLocalizedString(@"Do you want to install the mode \"%@\"?", nil), name]];
-    [O_modeInstallerDomainMatrix selectCellAtRow:0 column:0];
-
-    NSString *modeIdentifier = [modeBundle objectForInfoDictionaryKey:@"CFBundleIdentifier"];
-    DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForIdentifier:modeIdentifier];
-    if (mode) {
-        NSBundle *installedModeBundle = [mode bundle];
-        NSString *versionStringOfInstalledMode = [installedModeBundle objectForInfoDictionaryKey:@"CFBundleVersion"];
-        NSString *installedModeFileName = [installedModeBundle bundlePath];
-
-        NSString *userDomainPath = [[[[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil] URLByStandardizingPath] path];
-        NSString *localDomainPath = [[[[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory inDomain:NSLocalDomainMask appropriateForURL:nil create:NO error:nil] URLByStandardizingPath] path];
-        NSString *networkDomainPath = [[[[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory inDomain:NSNetworkDomainMask appropriateForURL:nil create:NO error:nil] URLByStandardizingPath] path];
-
-		NSSearchPathDomainMask domain = 0;
-        BOOL isKnownDomain = YES;
-        if (userDomainPath != nil && [installedModeFileName hasPrefix:userDomainPath]) {
-            domain = NSUserDomainMask;
-        } else if (localDomainPath != nil && [installedModeFileName hasPrefix:localDomainPath]) {
-            domain = NSLocalDomainMask;
-        } else if (networkDomainPath != nil && [installedModeFileName hasPrefix:networkDomainPath]) {
-            domain = NSNetworkDomainMask;
-        } else {
-            isKnownDomain = NO;
-        }
-        
-        NSString *installedModeName = [NSString stringWithFormat:@"%@ (%@)", [installedModeFileName lastPathComponent], versionStringOfInstalledMode];
-        NSString *informativeText = [NSString stringWithFormat:NSLocalizedString(@"Mode \"%@\" is already installed in \"%@\".", nil), installedModeName, installedModeFileName];
-
-        if (!isKnownDomain || domain == NSNetworkDomainMask || domain == NSLocalDomainMask) {
-            informativeText = [informativeText stringByAppendingFormat:@" %@", NSLocalizedString(@"You will override the installed mode.", nil)];
-        } else if (domain == NSUserDomainMask) {
-            informativeText = [informativeText stringByAppendingFormat:@" %@", NSLocalizedString(@"You will replace the installed mode.", nil)];
-        }
-
-        [O_modeInstallerInformativeTextField setObjectValue:informativeText];
-    } else {
-        [O_modeInstallerInformativeTextField setObjectValue:@""];
-    }
-
-    I_currentModeFileName = fileName;
-    int result = [NSApp runModalForWindow:O_modeInstallerPanel];
-    [O_modeInstallerPanel orderOut:self];
-    I_currentModeFileName = nil;
-    if (result == NSRunStoppedResponse) {
-        BOOL success = NO;
-
-        NSSearchPathDomainMask domain = 0;
-        int tag = [[O_modeInstallerDomainMatrix selectedCell] tag];
-        if (tag == 0) {
-            domain = NSUserDomainMask;
-        } else if (tag == 1) {
-            domain = NSLocalDomainMask;
-        }
-
-		NSURL *appSupportURL = [[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory inDomain:domain appropriateForURL:nil create:NO error:nil];
-		NSURL *destinationURL = [appSupportURL URLByAppendingPathComponent:@"SubEthaEdit"];
-		destinationURL = [destinationURL URLByAppendingPathComponent:@"Modes"];
-		destinationURL = [destinationURL URLByAppendingPathComponent:[fileName lastPathComponent]];
-		NSString *destination  = [destinationURL path];
-
-		if (![fileName isEqualToString:destination]) {
-			if (domain == NSUserDomainMask) {
-				// TODO: check errors here and present alert which is currently in fileManager:shouldProceedAfterError:
-				NSFileManager *fileManager = [NSFileManager defaultManager];
-				if ([fileManager fileExistsAtPath:destination]) {
-					(void)[fileManager removeItemAtPath:destination error:nil];
-				}
-				success = [fileManager copyItemAtPath:fileName toPath:destination error:nil];
-			} else {
-				OSStatus err;
-				CFURLRef tool = NULL;
-				AuthorizationRef auth = NULL;
-				NSDictionary *request = nil;
-				NSDictionary *response = nil;
-
-				err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &auth);
-				if (err == noErr) {
-					static const char *kRightName = "de.codingmonkeys.SubEthaEdit.HelperTool";
-					static const AuthorizationFlags kAuthFlags = kAuthorizationFlagDefaults
-					| kAuthorizationFlagInteractionAllowed
-					| kAuthorizationFlagExtendRights
-					| kAuthorizationFlagPreAuthorize;
-					AuthorizationItem   right  = { kRightName, 0, NULL, 0 };
-					AuthorizationRights rights = { 1, &right };
-
-					err = AuthorizationCopyRights(auth, &rights, kAuthorizationEmptyEnvironment, kAuthFlags, NULL);
-				}
-
-				if (err == noErr) {
-					err = MoreSecCopyHelperToolURLAndCheckBundled(
-																  CFBundleGetMainBundle(),
-																  CFSTR("SubEthaEditHelperToolTemplate"),
-																  kApplicationSupportFolderType,
-																  CFSTR("SubEthaEdit"),
-																  CFSTR("SubEthaEditHelperTool"),
-																  &tool);
-
-					// If the home directory is on an volume that doesn't support
-					// setuid root helper tools, ask the user whether they want to use
-					// a temporary tool.
-
-					if (err == kMoreSecFolderInappropriateErr) {
-						err = MoreSecCopyHelperToolURLAndCheckBundled(
-																	  CFBundleGetMainBundle(),
-																	  CFSTR("SubEthaEditHelperToolTemplate"),
-																	  kTemporaryFolderType,
-																	  CFSTR("SubEthaEdit"),
-																	  CFSTR("SubEthaEditHelperTool"),
-																	  &tool);
-					}
-				}
-
-				// Create the request dictionary for copying the mode
-
-				if (err == noErr) {
-
-                    NSNumber *filePermissions = [NSNumber numberWithUnsignedShort:(S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH)];
-                    NSDictionary *targetAttrs = [NSDictionary dictionaryWithObjectsAndKeys:
-												 filePermissions, NSFilePosixPermissions,
-												 @"root", NSFileOwnerAccountName,
-												 @"admin", NSFileGroupOwnerAccountName,
-												 nil];
-
-					request = [NSDictionary dictionaryWithObjectsAndKeys:
-							   @"CopyFiles", @"CommandName",
-							   fileName, @"SourceFile",
-							   destination, @"TargetFile",
-							   targetAttrs, @"TargetAttributes",
-							   nil];
-				}
-
-				// Go go gadget helper tool!
-
-				if (err == noErr) {
-					err = MoreSecExecuteRequestInHelperTool(tool, auth, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
-				}
-
-				// Extract information from the response.
-
-				if (err == noErr) {
-					//NSLog(@"response: %@", response);
-
-					err = MoreSecGetErrorFromResponse((CFDictionaryRef)response);
-					if (err == noErr) {
-						success = YES;
-					}
-				}
-
-				// Clean up after second call of helper tool.
-				if (response) {
-					[response release];
-				}
-
-
-				if (tool) CFRelease(tool);
-				if (auth != NULL) {
-					(void)AuthorizationFree(auth, kAuthorizationFlagDestroyRights);
-				}
-			}
-		} else {
-			success = YES;
-		}
-
-        [[DocumentModeManager sharedInstance] reloadDocumentModes:self];
-
-        NSAlert *alert = [[NSAlert alloc] init];
-        [alert setAlertStyle:NSInformationalAlertStyle];
-        if (success) {
-            [alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"The mode \"%@\" has been installed successfully.", nil), name]];
-        } else {
-            [alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"Installation of mode \"%@\" failed.", nil), name]];
-        }
-        [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
-        (void)[alert runModal];
-        [alert release];
-    }
-}
-
-- (void)openDirectory:(NSString *)fileName
-{
-    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Opening directory: %@", fileName);
-}
-
-static NSString *tempFileName() {
-    static int sequenceNumber = 0;
-    NSString *origPath = [@"/tmp" stringByAppendingPathComponent:@"see"];
-    NSString *name;
-    do {
-        sequenceNumber++;
-        name = [NSString stringWithFormat:@"SEE-%d-%d-%d", [[NSProcessInfo processInfo] processIdentifier], (int)[NSDate timeIntervalSinceReferenceDate], sequenceNumber];
-        name = [[origPath stringByDeletingLastPathComponent] stringByAppendingPathComponent:name];
-    } while ([[NSFileManager defaultManager] fileExistsAtPath:name]);
-    return name;
-}
-
-#pragma mark -
-
-
 + (DocumentController *)sharedInstance {
     return (DocumentController *)[NSDocumentController sharedDocumentController];
 }
@@ -266,7 +48,7 @@ static NSString *tempFileName() {
     self = [super init];
     if (self) {
 //        I_isOpeningUntitledDocument = NO;
-        I_fileNamesFromLastRunOpenPanel = [NSMutableArray new];
+        self.filenamesFromLastRunOpenPanel = [NSMutableArray new];
         I_propertiesForOpenedFiles = [NSMutableDictionary new];
         I_suspendedSeeScriptCommands = [NSMutableDictionary new];
         I_waitingDocuments = [NSMutableDictionary new];
@@ -280,7 +62,7 @@ static NSString *tempFileName() {
 // actually never gets called - as any other top level nib object isn't dealloced...
 - (void)dealloc {
     [I_modeIdentifierFromLastRunOpenPanel release];
-    [I_fileNamesFromLastRunOpenPanel release];
+    self.filenamesFromLastRunOpenPanel = nil;
     [I_propertiesForOpenedFiles release];
     [I_suspendedSeeScriptCommands release];
     [I_waitingDocuments release];
@@ -292,11 +74,148 @@ static NSString *tempFileName() {
     [super dealloc];
 }
 
+
+#pragma mark - Actions
+
+- (IBAction)mergeAllWindows:(id)sender
+{
+    NSAlert *alert = [[NSAlert alloc] init];
+    [alert setAlertStyle:NSInformationalAlertStyle];
+    [alert setMessageText:NSLocalizedString(@"Are you sure you want to merge all windows?", nil)];
+    [alert setInformativeText:NSLocalizedString(@"Merging windows moves all open tabs and windows into a single, tabbed editor window. This cannot be undone.", nil)];
+    [alert addButtonWithTitle:NSLocalizedString(@"Merge", nil)];
+    [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
+    int response = [alert runModal];
+    if (NSAlertFirstButtonReturn == response) {
+        PlainTextWindowController *targetWindowController = [self activeWindowController];
+        id document = [targetWindowController document];
+        int count = [I_windowControllers count];
+        while (--count >= 0) {
+            PlainTextWindowController *sourceWindowController = [I_windowControllers objectAtIndex:count];
+            if (sourceWindowController != targetWindowController) {
+                [sourceWindowController moveAllTabsToWindowController:targetWindowController];
+                [sourceWindowController close];
+                [self removeWindowController:sourceWindowController];
+            }
+        }
+        [targetWindowController setDocument:document];
+    }
+    [alert release];
+}
+
+- (IBAction)alwaysShowTabBar:(id)sender
+{
+    BOOL flag = ([sender state] == NSOnState) ? NO : YES;
+    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:AlwaysShowTabBarKey];
+
+    PlainTextWindowController *windowController;
+    for (windowController in I_windowControllers) {
+        PSMTabBarControl *tabBar = [windowController tabBar];
+        if (![windowController hasManyDocuments]) {
+            [tabBar setHideForSingleTab:!flag];
+            [tabBar hideTabBar:!flag animate:YES];
+        } else {
+            [tabBar setHideForSingleTab:!flag];
+        }
+    }
+
+}
+
+- (IBAction)installMode:(id)sender {
+    [NSApp stopModal];
+}
+
+- (IBAction)changeModeInstallationDomain:(id)sender {
+    int tag = [[O_modeInstallerDomainMatrix selectedCell] tag];
+    NSString *informativeText = @"";
+    NSBundle *modeBundle = [NSBundle bundleWithPath:I_currentModeFileName];
+    NSString *modeIdentifier = [modeBundle objectForInfoDictionaryKey:@"CFBundleIdentifier"];
+    DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForIdentifier:modeIdentifier];
+    if (mode) {
+        NSBundle *installedModeBundle = [mode bundle];
+        NSString *versionStringOfInstalledMode = [installedModeBundle objectForInfoDictionaryKey:@"CFBundleVersion"];
+        NSString *installedModeFileName = [installedModeBundle bundlePath];
+        NSString *installedModeName = [NSString stringWithFormat:@"%@ (%@)", [installedModeFileName lastPathComponent], versionStringOfInstalledMode];
+        informativeText = [NSString stringWithFormat:NSLocalizedString(@"Mode \"%@\" is already installed in \"%@\".", nil), installedModeName, installedModeFileName];
+
+        short domain;
+        BOOL isKnownDomain = YES;
+        if ([installedModeFileName hasPrefix:@"/Users/"]) {
+            domain = kUserDomain;
+        } else if ([installedModeFileName hasPrefix:@"/Library/"]) {
+            domain = kLocalDomain;
+        } else if ([installedModeFileName hasPrefix:@"/Network/"]) {
+            domain = kNetworkDomain;
+        } else {
+            isKnownDomain = NO;
+        }
+
+        if (tag == 0) {
+            if (!isKnownDomain || domain == kNetworkDomain || domain == kLocalDomain) {
+                informativeText = [informativeText stringByAppendingFormat:@" %@", NSLocalizedString(@"You will override the installed mode.", nil)];
+            } else if (domain == kUserDomain) {
+                informativeText = [informativeText stringByAppendingFormat:@" %@", NSLocalizedString(@"You will replace the installed mode.", nil)];
+            }
+        } else if (tag == 1) {
+            if (!isKnownDomain || domain == kNetworkDomain) {
+                informativeText = [informativeText stringByAppendingFormat:@" %@", NSLocalizedString(@"You will override the installed mode.", nil)];
+            } else if (domain == kLocalDomain) {
+                informativeText = [informativeText stringByAppendingFormat:@" %@", NSLocalizedString(@"You will replace the installed mode.", nil)];
+            } else if (domain == kUserDomain) {
+                informativeText = [informativeText stringByAppendingFormat:@" %@", NSLocalizedString(@"The installed mode will override your new mode.", nil)];
+            }
+        }
+    }
+
+    if (tag == 1) {
+        if ([informativeText length] > 0)
+            informativeText = [informativeText stringByAppendingString:@" "];
+        informativeText = [informativeText stringByAppendingString:NSLocalizedString(@"When you click Install, you'll be asked to enter the name and password for an administrator of this computer.", nil)];
+    }
+    [O_modeInstallerInformativeTextField setObjectValue:informativeText];
+}
+
+- (IBAction)cancelModeInstallation:(id)sender {
+    [NSApp abortModal];
+}
+
+- (IBAction)concealAllDocuments:(id)aSender {
+    PlainTextDocument *document=nil;
+    NSEnumerator *documents = [[self documents] objectEnumerator];
+    while ((document=[documents nextObject])) {
+        if ([document isAnnounced]) {
+            [document setIsAnnounced:NO];
+        }
+    }
+}
+
+
+#pragma mark - DocumentList window
+
+- (IBAction)showDocumentListWindow:(id)sender {
+	if (!self.documentListWindowController) {
+		SEEDocumentListWindowController *networkBrowser = [[SEEDocumentListWindowController alloc] initWithWindowNibName:@"SEEDocumentListWindowController"];
+		self.documentListWindowController = networkBrowser;
+		[networkBrowser release];
+	}
+	if (sender == NSApp) {
+		self.documentListWindowController.shouldCloseWhenOpeningDocument = YES;
+	} else {
+		self.documentListWindowController.shouldCloseWhenOpeningDocument = NO;
+	}
+	[self.documentListWindowController showWindow:sender];
+}
+
+
+
+#pragma mark - DocumentTypes
+
 - (NSString *)typeForContentsOfURL:(NSURL *)url error:(NSError **)outError
 {
 	NSString *result = [super typeForContentsOfURL:url error:outError];
 	return result;
 }
+
 
 - (Class)documentClassForType:(NSString *)typeName
 {
@@ -309,6 +228,9 @@ static NSString *tempFileName() {
 
 	return  documentClass;
 }
+
+
+#pragma mark - Tab menu
 
 - (void)updateMenuWithTabMenuItems:(NSMenu *)aMenu shortcuts:(BOOL)withShortcuts {
     // NSLog(@"%s",__FUNCTION__);
@@ -363,6 +285,74 @@ static NSString *tempFileName() {
     }
 }
 
+- (void)menuNeedsUpdate:(NSMenu *)aMenu {
+    [self updateMenuWithTabMenuItems:aMenu shortcuts:YES];
+}
+
+- (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
+    SEL selector = [menuItem action];
+
+    if (selector == @selector(concealAllDocuments:)) {
+        return [[[TCMMMPresenceManager sharedInstance] announcedSessions] count]>0;
+    } else if (selector == @selector(alwaysShowTabBar:)) {
+        BOOL isChecked = [[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey];
+        [menuItem setState:(isChecked ? NSOnState : NSOffState)];
+        return YES;
+    } else if (selector == @selector(newAlternateDocument:)) {
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey]) {
+            [menuItem setTitle:NSLocalizedString(@"New Window", nil)];
+        } else {
+            [menuItem setTitle:NSLocalizedString(@"New Tab", nil)];
+        }
+        return YES;
+    } else if (selector == @selector(openAlternateDocument:)) {
+        if ([[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey]) {
+            [menuItem setTitle:NSLocalizedString(@"Open in New Window...", @"Menu Entry for opening files in a new window.")];
+        } else {
+            [menuItem setTitle:NSLocalizedString(@"Open in Front Window...", @"Menu Entry for opening files in the front window.")];
+        }
+        return YES;
+    } else if ([menuItem tag] == GotoTabMenuItemTag) {
+        if ([[self documents] count] >0) {
+            [self updateMenuWithTabMenuItems:[menuItem submenu] shortcuts:YES];
+            return YES;
+        } else {
+            [[menuItem submenu] removeAllItems];
+            return NO;
+        };
+    } else if (selector == @selector(mergeAllWindows:)) {
+        BOOL hasSheet = NO;
+        PlainTextWindowController *controller;
+        for (controller in I_windowControllers) {
+            if ([[controller window] attachedSheet] != nil) {
+                hasSheet = YES;
+                break;
+            }
+        }
+        return (([I_windowControllers count] > 1) && !hasSheet);
+    }
+    return [super validateMenuItem:menuItem];
+}
+
+- (void)updateTabMenu {
+    NSMenuItem *menuItem = [[[[NSApp mainMenu] itemWithTag:WindowMenuTag] submenu] itemWithTag:GotoTabMenuItemTag];
+    if (menuItem)
+    {
+        if ([[self documents] count] >0) {
+            [self updateMenuWithTabMenuItems:[menuItem submenu] shortcuts:YES];
+        } else {
+            [[menuItem submenu] removeAllItems];
+        }
+    }
+}
+
+
+- (IBAction)menuValidationNoneAction:(id)aSender {
+
+}
+
+
+
 - (NSMenu *)documentMenu {
     NSMenu *documentMenu = [[NSMenu new] autorelease];
     [self updateMenuWithTabMenuItems:documentMenu shortcuts:NO];
@@ -389,77 +379,8 @@ static NSString *tempFileName() {
     return result;
 }
 
-- (NSInteger)runModalOpenPanel:(NSOpenPanel *)openPanel forTypes:(NSArray *)extensions {
-	NSInteger result = NSCancelButton;
-	SEEOpenPanelAccessoryViewController *openPanelAccessoryViewController = [SEEOpenPanelAccessoryViewController openPanelAccessoryControllerForOpenPanel:openPanel];
 
-	if (openPanelAccessoryViewController) {
-		if ([self locationForNextOpenPanel]) {
-			[openPanel setDirectoryURL:[self locationForNextOpenPanel]];
-			[self setLocationForNextOpenPanel:nil];
-		}
-		
-		result = [super runModalOpenPanel:openPanel forTypes:extensions];
-
-		[self setModeIdentifierFromLastRunOpenPanel:[openPanelAccessoryViewController.modePopUpButtonOutlet selectedModeIdentifier]];
-		[self setEncodingFromLastRunOpenPanel:[[openPanelAccessoryViewController.encodingPopUpButtonOutlet selectedItem] tag]];
-
-		if (result == NSFileHandlingPanelCancelButton) {
-			[self setIsOpeningUsingAlternateMenuItem:NO];
-		}
-	}
-    return result;
-}
-
-- (NSArray *)URLsFromRunningOpenPanel {
-    NSArray *URLsFromRunningOpenPanel = [super URLsFromRunningOpenPanel];
-    NSMutableArray *URLs = [NSMutableArray array];
-    [I_fileNamesFromLastRunOpenPanel removeAllObjects];
-    NSURL *URL;
-    for (URL in URLsFromRunningOpenPanel) {
-        if ([URL isFileURL]) {
-            NSString *fileName = [URL path];
-            BOOL isDir = NO;
-            BOOL isFilePackage = [[NSWorkspace sharedWorkspace] isFilePackageAtPath:fileName];
-            NSString *extension = [fileName pathExtension];
-            if (isFilePackage && [extension isEqualToString:@"mode"]) {
-                [self openModeFile:fileName];
-            } else if ([[NSFileManager defaultManager] fileExistsAtPath:fileName isDirectory:&isDir] && isDir && !isFilePackage) {
-                [self openDirectory:fileName];
-            } else {
-                if ([self isOpeningUsingAlternateMenuItem] && [self documentForURL:URL]) {
-                    // do nothing to not accidently put a window in front and distribute the new files
-                } else {
-                    [I_fileNamesFromLastRunOpenPanel addObject:fileName];
-                    [URLs addObject:URL];
-                }
-            }        
-        }
-    }
-        
-    return URLs;
-}
-
-- (NSStringEncoding)encodingFromLastRunOpenPanel {
-    return I_encodingFromLastRunOpenPanel;
-}
-
-- (NSString *)modeIdentifierFromLastRunOpenPanel {
-    return I_modeIdentifierFromLastRunOpenPanel;
-}
-
-- (BOOL)isDocumentFromLastRunOpenPanel:(NSDocument *)aDocument {
-    NSInteger index = [I_fileNamesFromLastRunOpenPanel indexOfObject:[[aDocument fileURL] path]];
-    if (index == NSNotFound) {
-        return NO;
-    }
-    [I_fileNamesFromLastRunOpenPanel removeObjectAtIndex:index];
-    return YES;
-}
-
-- (NSDictionary *)propertiesForOpenedFile:(NSString *)fileName {
-    return [I_propertiesForOpenedFiles objectForKey:fileName];
-}
+#pragma mark - Handling Window Controllers
 
 - (PlainTextDocument *)frontmostPlainTextDocument {
     NSWindow *window = nil;
@@ -504,131 +425,413 @@ static NSString *tempFileName() {
     [I_windowControllers removeObject:[[aWindowController retain] autorelease]];
 }
 
-- (void)setIsOpeningUsingAlternateMenuItem:(BOOL)aFlag {
-    I_isOpeningUsingAlternateMenuItem = aFlag;
+#pragma mark - Open new document
+
+- (void)newDocumentWithModeIdentifier:(NSString *)aModeIdentifier {
+    if (aModeIdentifier) {
+		DocumentModeManager *modeManager = [DocumentModeManager sharedInstance];
+        DocumentMode *newMode = [modeManager documentModeForIdentifier:aModeIdentifier];
+        if (!newMode) return;
+		
+        PlainTextDocument *document = (PlainTextDocument *)[self openUntitledDocumentAndDisplay:YES error:nil];
+        [document setDocumentMode:newMode];
+        [document resizeAccordingToDocumentMode];
+        [document showWindows];
+
+        NSStringEncoding encoding = [[newMode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
+        if (encoding < SmallestCustomStringEncoding) {
+            [document setFileEncoding:encoding];
+        }
+
+        NSString *templateFileContent=[newMode templateFileContent];
+        if (templateFileContent && ![templateFileContent canBeConvertedToEncoding:[document fileEncoding]]) {
+            templateFileContent=[[[NSString alloc]
+								  initWithData:[templateFileContent dataUsingEncoding:[document fileEncoding] allowLossyConversion:YES]
+								  encoding:[document fileEncoding]]
+								 autorelease];
+        }
+
+        if (templateFileContent) {
+            FoldableTextStorage *textStorage=(FoldableTextStorage *)[document textStorage];
+            [textStorage replaceCharactersInRange:NSMakeRange(0,[textStorage length]) withString:templateFileContent];
+            [document updateChangeCount:NSChangeCleared];
+        }
+    }
 }
 
-- (BOOL)isOpeningUsingAlternateMenuItem {
-    return I_isOpeningUsingAlternateMenuItem;
+
+- (IBAction)newDocument:(id)aSender
+{
+	self.isOpeningInTab = NO;
+	self.isOpeningUsingAlternateMenuItem = NO;
+
+	if ([aSender respondsToSelector:@selector(representedObject)]) {
+		DocumentModeManager *modeManager = [DocumentModeManager sharedInstance];
+		NSString *identifier = [modeManager documentModeIdentifierForTag:[[aSender representedObject] tag]];
+		[self newDocumentWithModeIdentifier:identifier];
+	} else {
+		[self newDocumentWithModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]];
+	}
+}
+
+- (IBAction)newAlternateDocument:(id)sender {
+	self.isOpeningInTab = NO;
+	self.isOpeningUsingAlternateMenuItem = YES;
+
+	DocumentModeManager *modeManager=[DocumentModeManager sharedInstance];
+    NSString *identifier = [modeManager documentModeIdentifierForTag:[[sender representedObject] tag]];
+	[self newDocumentWithModeIdentifier:identifier];
+}
+
+
+- (IBAction)newDocumentInTab:(id)sender {
+	self.isOpeningInTab = YES;
+	self.isOpeningUsingAlternateMenuItem = NO;
+	
+	[self newDocumentWithModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]];
+}
+
+
+- (IBAction)newDocumentWithModeMenuItem:(id)aSender {
+	self.isOpeningInTab = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
+	self.isOpeningUsingAlternateMenuItem = NO;
+
+    DocumentModeManager *modeManager=[DocumentModeManager sharedInstance];
+    NSString *identifier = [modeManager documentModeIdentifierForTag:[aSender tag]];
+	[self newDocumentWithModeIdentifier:identifier];
+}
+
+
+- (IBAction)newAlternateDocumentWithModeMenuItem:(id)sender {
+	self.isOpeningInTab = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
+	self.isOpeningUsingAlternateMenuItem = YES;
+
+	DocumentModeManager *modeManager=[DocumentModeManager sharedInstance];
+    NSString *identifier = [modeManager documentModeIdentifierForTag:[sender tag]];
+	[self newDocumentWithModeIdentifier:identifier];
+}
+
+
+- (IBAction)newDocumentWithModeMenuItemFromDock:(id)aSender {
+	self.isOpeningInTab = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
+	self.isOpeningUsingAlternateMenuItem = NO;
+
+    DocumentModeManager *modeManager=[DocumentModeManager sharedInstance];
+    NSString *identifier = [modeManager documentModeIdentifierForTag:[aSender tag]];
+	[self newDocumentWithModeIdentifier:identifier];
+
+	[NSApp activateIgnoringOtherApps:YES];
+}
+
+
+- (IBAction)newDocumentFromDock:(id)aSender {
+	self.isOpeningInTab = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
+	self.isOpeningUsingAlternateMenuItem = NO;
+
+	DocumentModeManager *modeManager=[DocumentModeManager sharedInstance];
+    NSString *identifier=[modeManager documentModeIdentifierForTag:[[aSender representedObject] tag]];
+	[self newDocumentWithModeIdentifier:identifier];
+
+	[NSApp activateIgnoringOtherApps:YES];
+}
+
+
+- (id)openUntitledDocumentAndDisplay:(BOOL)displayDocument error:(NSError **)outError {
+	id result = [super openUntitledDocumentAndDisplay:displayDocument error:outError];
+
+	self.isOpeningUsingAlternateMenuItem = NO;
+	self.isOpeningInTab = NO;
+
+	return result;
+}
+
+
+- (id)makeUntitledDocumentOfType:(NSString *)typeName error:(NSError **)outError {
+	id result = [super makeUntitledDocumentOfType:typeName error:outError];
+
+	if ([result isKindOfClass:PlainTextDocument.class]) {
+		PlainTextDocument *plainTextDocument = (PlainTextDocument *)result;
+		plainTextDocument.shouldOpenInTab = self.isOpeningInTab;
+		plainTextDocument.useAlternateMakeWindowControllerBehaviour = self.isOpeningUsingAlternateMenuItem;
+
+		// if should open in tabs is enabled we like to open all of them in one new window. so only the first document should be opened in a new window in this case
+		if (self.isOpeningInTab) {
+			self.isOpeningUsingAlternateMenuItem = NO;
+		}
+	}
+
+	return result;
+}
+
+
+#pragma mark - Open existing documents
+
+- (void)beginOpenPanel:(NSOpenPanel *)openPanel forTypes:(NSArray *)inTypes completionHandler:(void (^)(NSInteger result))completionHandler
+{
+	SEEOpenPanelAccessoryViewController *openPanelAccessoryViewController = [SEEOpenPanelAccessoryViewController openPanelAccessoryControllerForOpenPanel:openPanel];
+	if ([self locationForNextOpenPanel]) {
+		[openPanel setDirectoryURL:[self locationForNextOpenPanel]];
+		[self setLocationForNextOpenPanel:nil];
+	}
+
+	[self.filenamesFromLastRunOpenPanel removeAllObjects];
+
+	[super beginOpenPanel:openPanel forTypes:inTypes completionHandler:^(NSInteger result) {
+		[self setModeIdentifierFromLastRunOpenPanel:[openPanelAccessoryViewController.modePopUpButtonOutlet selectedModeIdentifier]];
+		[self setEncodingFromLastRunOpenPanel:[[openPanelAccessoryViewController.encodingPopUpButtonOutlet selectedItem] tag]];
+
+		if (result == NSFileHandlingPanelOKButton) {
+			for (NSURL *URL in openPanel.URLs) {
+				if ([URL isFileURL]) {
+					NSString *fileName = [URL path];
+					BOOL isDir = NO;
+					BOOL isFilePackage = [[NSWorkspace sharedWorkspace] isFilePackageAtPath:fileName];
+					NSString *extension = [fileName pathExtension];
+					if (isFilePackage && [extension isEqualToString:@"mode"]) {
+						// this is done in openDocumentWithContentsOfURL:display:completionHandler:
+						//[self openModeFile:fileName];
+					} else if ([[NSFileManager defaultManager] fileExistsAtPath:fileName isDirectory:&isDir] && isDir && !isFilePackage) {
+						// this is done in openDocumentWithContentsOfURL:display:completionHandler:
+						//[self openDirectory:fileName];
+					} else {
+						if (self.isOpeningUsingAlternateMenuItem && [self documentForURL:URL]) {
+							// do nothing to not accidently put a window in front and distribute the new files
+						} else {
+							[self.filenamesFromLastRunOpenPanel addObject:fileName];
+						}
+					}
+				}
+			}
+		}
+
+		self.filesToOpenCount = openPanel.URLs.count;
+
+		if (completionHandler) {
+			completionHandler(result);
+		}
+	}];
+}
+
+
+- (NSStringEncoding)encodingFromLastRunOpenPanel {
+    return I_encodingFromLastRunOpenPanel;
+}
+
+- (NSString *)modeIdentifierFromLastRunOpenPanel {
+    return I_modeIdentifierFromLastRunOpenPanel;
+}
+
+- (BOOL)isDocumentFromLastRunOpenPanel:(NSDocument *)aDocument {
+    NSInteger index = [self.filenamesFromLastRunOpenPanel indexOfObject:[[aDocument fileURL] path]];
+    if (index == NSNotFound) {
+        return NO;
+    }
+    [self.filenamesFromLastRunOpenPanel removeObjectAtIndex:index];
+    return YES;
+}
+
+- (NSDictionary *)propertiesForOpenedFile:(NSString *)fileName {
+    return [I_propertiesForOpenedFiles objectForKey:fileName];
 }
 
 - (IBAction)openNormalDocument:(id)aSender {
-    [self setIsOpeningUsingAlternateMenuItem:NO];
+	self.isOpeningInTab = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
+	self.isOpeningUsingAlternateMenuItem = NO;
     [self openDocument:(id)aSender];
 }
 
 - (IBAction)openAlternateDocument:(id)aSender {
-    [self setIsOpeningUsingAlternateMenuItem:YES];
+	self.isOpeningInTab = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
+	self.isOpeningUsingAlternateMenuItem = YES;
     [self openDocument:(id)aSender];
 }
 
+#pragma mark - Document Opening
 
 - (void)openDocumentWithContentsOfURL:(NSURL *)url display:(BOOL)displayDocument completionHandler:(void (^)(NSDocument *, BOOL, NSError *))completionHandler
 {
-    NSAppleEventDescriptor *eventDesc = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
-	[super openDocumentWithContentsOfURL:url display:displayDocument completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error)
-	 {
-		 if (document && [document isKindOfClass:PlainTextDocument.class] && displayDocument) {
-			 [(PlainTextDocument *)document handleOpenDocumentEvent:eventDesc];
-		 }
-		 if (completionHandler) {
-			 completionHandler(document, displayDocument, error);
-		 }
-	 }];
-}
+    DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"%s", __FUNCTION__);
 
-
-- (id)openDocumentWithContentsOfURL:(NSURL *)anURL display:(BOOL)flag error:(NSError **)outError {
-    if ([I_fileNamesFromLastRunOpenPanel count]==0) {
-        [self setIsOpeningUsingAlternateMenuItem:NO];
-    }
-    DEBUGLOG(@"FileIOLogDomain", DetailedLogLevel, @"openDocumentWithContentsOfFile:display");
-    
-    NSString *filename = [anURL path];
+    NSString *filename = [url path];
     BOOL isFilePackage = [[NSWorkspace sharedWorkspace] isFilePackageAtPath:filename];
     NSString *extension = [filename pathExtension];
     BOOL isDirectory = NO;
-    [[NSFileManager defaultManager] fileExistsAtPath:[anURL path] isDirectory:&isDirectory];
+    [[NSFileManager defaultManager] fileExistsAtPath:[url path] isDirectory:&isDirectory];
     if (isFilePackage && [extension isEqualToString:@"mode"]) {
         [self openModeFile:filename];
-        // have to return something that is not nil so no error turns up
-        return [NSNumber numberWithBool:YES];
+
+		if (self.filesToOpenCount > 0) {
+			self.filesToOpenCount--;
+		}
+
+		if (completionHandler) {
+			completionHandler(nil, NO, nil);
+		}
     } else if (!isFilePackage && isDirectory) {
-        [self setLocationForNextOpenPanel:anURL];
-        [self performSelector:@selector(openDocument:) withObject:nil afterDelay:0];
-        return [NSNumber numberWithBool:YES];        
+        [self setLocationForNextOpenPanel:url];
+        [self performSelector:@selector(openDocument:) withObject:nil afterDelay:0.0];
+
+		if (self.filesToOpenCount > 0) {
+			self.filesToOpenCount--;
+		}
+
+		if (completionHandler) {
+			completionHandler(nil, NO, nil);
+		}
     } else {
-        NSDocument *document = [super openDocumentWithContentsOfURL:anURL display:flag error:outError];
-        return document;
-    }
+		[super openDocumentWithContentsOfURL:url display:displayDocument completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error)
+		 {
+			 NSAppleEventDescriptor *eventDesc = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
+			 if (document && [document isKindOfClass:PlainTextDocument.class] && displayDocument) {
+				 [(PlainTextDocument *)document handleOpenDocumentEvent:eventDesc];
+			 }
+
+			 if (self.filesToOpenCount > 0) {
+				 self.filesToOpenCount--;
+			 }
+
+			 if (completionHandler) {
+				 completionHandler(document, displayDocument, error);
+			 }
+
+			 if (self.filesToOpenCount == 0) {
+				 self.isOpeningUsingAlternateMenuItem = NO;
+				 self.isOpeningInTab = NO;
+			 }
+		 }];
+	}
+
+	if (self.filesToOpenCount == 0) {
+		self.isOpeningUsingAlternateMenuItem = NO;
+		self.isOpeningInTab = NO;
+	}
 }
 
-//- (id)openUntitledDocumentAndDisplay:(BOOL)displayDocument error:(NSError **)outError {
-//    NSAppleEventDescriptor *eventDesc = [[NSAppleEventManager sharedAppleEventManager] currentAppleEvent];
-//    if ([eventDesc eventClass] == 'Hdra' && [eventDesc eventID] == 'See ') {
-//        I_isOpeningUntitledDocument = NO;
-//    } else {
-//        I_isOpeningUntitledDocument = YES;
-//    }
-//    NSDocument *document = [super openUntitledDocumentAndDisplay:displayDocument error:outError];
-//    I_isOpeningUntitledDocument = NO;
-//    return document;
-//}
-//
-//- (BOOL)isOpeningUntitledDocument {
-//    return I_isOpeningUntitledDocument;
-//}
 
-- (void)removeDocument:(NSDocument *)document {
-    int i;
-    NSArray *keys = [I_waitingDocuments allKeys];
-    int count = [keys count];
-    for (i = count - 1; i >=0; i--) {
-        NSString *key = [keys objectAtIndex:i];
-        NSMutableArray *documents = [I_waitingDocuments objectForKey:key];
-        if ([documents containsObject:document]) {
-            BOOL isPiping = [I_pipingSeeScriptCommands containsObject:key];
-            int refCount = [[I_refCountsOfSeeScriptCommands objectForKey:key] intValue];
-            refCount--;
-            if (refCount < 1) {
-                NSMutableArray *fileNames = [NSMutableArray array];
-                NSEnumerator *enumerator = [documents objectEnumerator];
-                NSDocument *doc;
-                while ((doc = [enumerator nextObject])) {
-                    if (isPiping) {
-                        NSString *fileName = tempFileName();
-                        NSError *error = nil;
-                        BOOL result = [doc writeToURL:[NSURL fileURLWithPath:fileName] ofType:@"PlainTextType" error:&error];
-                        if (result) {
-                            [fileNames addObject:fileName];
-                        } else {
-                            NSLog(@"%s %@",__FUNCTION__,error);
-                        }
-                    }
-                }
-                NSScriptCommand *command = [I_suspendedSeeScriptCommands objectForKey:key];
-                [command resumeExecutionWithResult:fileNames];
-                [I_suspendedSeeScriptCommands removeObjectForKey:key];
-                [I_waitingDocuments removeObjectForKey:key];
-                [I_refCountsOfSeeScriptCommands removeObjectForKey:key];
-                [I_pipingSeeScriptCommands removeObject:key];
-            } else {
-                [I_refCountsOfSeeScriptCommands setObject:[NSNumber numberWithInt:refCount] forKey:key];
-            }
-        }
-    }
-    
-    [super removeDocument:document];
-    if ([[self documents] count]==0) {
-        NSMenu *modeMenu=[[[NSApp mainMenu] itemWithTag:ModeMenuTag] submenu];
-        // remove all items that don't belong here anymore
-        int index = [modeMenu indexOfItemWithTag:HighlightSyntaxMenuTag];
-        index+=1; 
-        while (index < [modeMenu numberOfItems]) {
-            [modeMenu removeItemAtIndex:index];
-        }
-    }
+- (id)makeDocumentWithContentsOfURL:(NSURL *)url ofType:(NSString *)typeName error:(NSError **)outError {
+	id result = [super makeDocumentWithContentsOfURL:url ofType:typeName error:outError];
+
+	if ([result isKindOfClass:PlainTextDocument.class]) {
+		PlainTextDocument *plainTextDocument = (PlainTextDocument *)result;
+
+		if (self.filesToOpenCount > 0) {
+			plainTextDocument.shouldOpenInTab = self.isOpeningInTab;
+			plainTextDocument.useAlternateMakeWindowControllerBehaviour = self.isOpeningUsingAlternateMenuItem;
+		}
+
+		// if should open in tabs is enabled we like to open all of them in one new window. so only the first document should be opened in a new window in this case
+		if (self.isOpeningInTab) {
+			self.isOpeningUsingAlternateMenuItem = NO;
+		}
+	}
+
+	return result;
 }
+
+
+#pragma mark - NSWindowRestoration
+
++ (void)restoreWindowWithIdentifier:(NSString *)identifier state:(NSCoder *)state completionHandler:(void (^)(NSWindow *, NSError *))completionHandler {
+	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
+	DocumentController *documentController = [[self class] sharedDocumentController];
+
+	if ([identifier isEqualToString:@"DocumentList"]) {
+		[documentController showDocumentListWindow:self];
+
+		if (completionHandler) {
+			completionHandler(documentController.documentListWindowController.window, nil);
+		}
+	} else {
+		documentController.isOpeningUsingAlternateMenuItem = NO;
+		documentController.isOpeningInTab = NO;
+
+		[super restoreWindowWithIdentifier:identifier state:state completionHandler:^(NSWindow *window, NSError *inError) {
+			NSLog(@"%s - %d", __FUNCTION__, __LINE__);
+
+			// we also may have to restore tabs in this window
+			NSArray *tabs = [state decodeObjectForKey:@"PlainTextWindowOpenTabNames"];
+			for (NSString *tabName in tabs) {
+				NSData *tabData = [state decodeObjectForKey:tabName];
+				NSKeyedUnarchiver *tabState = [[NSKeyedUnarchiver alloc] initForReadingWithData:tabData];
+
+				if (tabState) {
+					NSData *documentURLBookmark = [tabState decodeObjectForKey:@"SEETabContextDocumentURLBookmark"];
+					NSURL *documentURL = [NSURL URLByResolvingBookmarkData:documentURLBookmark
+																   options:NSURLBookmarkResolutionWithSecurityScope
+															 relativeToURL:nil
+													   bookmarkDataIsStale:NULL
+																	 error:NULL];
+					[documentURL startAccessingSecurityScopedResource];
+
+					NSData *documentAutosaveURLBookmark = [tabState decodeObjectForKey:@"SEETabContextDocumentAutosaveURLBookmark"];
+					NSURL *documentAutosaveURL = [NSURL URLByResolvingBookmarkData:documentAutosaveURLBookmark
+																		   options:NSURLBookmarkResolutionWithSecurityScope
+																	 relativeToURL:nil
+															   bookmarkDataIsStale:NULL
+																			 error:NULL];
+					[documentURL startAccessingSecurityScopedResource];
+
+					if (! documentAutosaveURL) { // if there is no autosave file make sure to read from original URL
+						documentAutosaveURL = documentURL;
+					} else {
+						[documentAutosaveURL startAccessingSecurityScopedResource];
+					}
+
+					if (documentAutosaveURL) {
+						documentController.isOpeningUsingAlternateMenuItem = NO;
+						documentController.isOpeningInTab = YES;
+
+						[NSApp extendStateRestoration];
+						[documentController reopenDocumentForURL:documentURL withContentsOfURL:documentAutosaveURL display:YES completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
+							if ([document isKindOfClass:[PlainTextDocument class]]) {
+								PlainTextWindowController *windowController = [[document windowControllers] firstObject];
+								NSTabViewItem *tabViewItem = [windowController tabViewItemForDocument:(PlainTextDocument *)document];
+								PlainTextWindowControllerTabContext *tabContext = tabViewItem.identifier;
+								[tabContext restoreStateWithCoder:tabState];
+							}
+							[NSApp completeStateRestoration];
+						}];
+					}
+				}
+			}
+
+			if (completionHandler) {
+				completionHandler(window, inError);
+			}
+		}];
+	}
+}
+
+
+- (void)reopenDocumentForURL:(NSURL *)urlOrNil withContentsOfURL:(NSURL *)contentsURL display:(BOOL)displayDocument completionHandler:(void (^)(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error))completionHandler
+{
+	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
+	[self.filenamesFromLastRunOpenPanel removeAllObjects];
+
+	[super reopenDocumentForURL:urlOrNil withContentsOfURL:contentsURL display:displayDocument completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
+		NSLog(@"%s - %d", __FUNCTION__, __LINE__);
+		if (completionHandler) {
+			completionHandler(document, documentWasAlreadyOpen, error);
+		}
+	}];
+}
+
+
+- (id)makeDocumentForURL:(NSURL *)urlOrNil withContentsOfURL:(NSURL *)contentsURL ofType:(NSString *)typeName error:(NSError **)outError {
+	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
+	id result = [super makeDocumentForURL:urlOrNil withContentsOfURL:contentsURL ofType:typeName error:outError];
+
+	if ([result isKindOfClass:PlainTextDocument.class]) {
+		PlainTextDocument *plainTextDocument = (PlainTextDocument *)result;
+		plainTextDocument.shouldOpenInTab = self.isOpeningInTab;
+		plainTextDocument.useAlternateMakeWindowControllerBehaviour = self.isOpeningUsingAlternateMenuItem;
+	}
+
+	return result;
+}
+
+
+#pragma mark - Apple Script support
 
 - (id)handleOpenScriptCommand:(NSScriptCommand *)command {
     DEBUGLOG(@"FileIOLogDomain", AllLogLevel, @"command: %@", [command description]);
@@ -1027,110 +1230,6 @@ static NSString *tempFileName() {
     return nil;
 }
 
-- (void)newDocumentInTab:(id)sender {
-	BOOL flag = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
-    [[NSUserDefaults standardUserDefaults] setBool:YES forKey:OpenNewDocumentInTabKey];
-
-	NSMenu *menu = [[[NSApp mainMenu] itemWithTag:FileMenuTag] submenu];
-	NSMenuItem *menuItem = [menu itemWithTag:FileNewMenuItemTag];
-	menu = [menuItem submenu];
-	NSMenuItem *item = (NSMenuItem *)[menu itemWithTag:[[DocumentModeManager sharedInstance] tagForDocumentModeIdentifier:[[[DocumentModeManager sharedInstance] modeForNewDocuments] documentModeIdentifier]]];
-
-	[[NSDocumentController sharedDocumentController] newDocumentWithModeMenuItem:item];
-
-	[[NSUserDefaults standardUserDefaults] setBool:flag forKey:OpenNewDocumentInTabKey];
-}
-
-- (void)newDocumentWithModeMenuItem:(id)aSender {
-    DocumentModeManager *modeManager=[DocumentModeManager sharedInstance];
-    NSString *identifier=[modeManager documentModeIdentifierForTag:[aSender tag]];
-    if (identifier) {
-        DocumentMode *newMode=[modeManager documentModeForIdentifier:identifier];
-        if (!newMode) return;
-        PlainTextDocument *document = (PlainTextDocument *)[self openUntitledDocumentAndDisplay:YES error:nil];
-        [document setDocumentMode:newMode];
-        [document resizeAccordingToDocumentMode];
-        [document showWindows];
-        NSStringEncoding encoding = [[newMode defaultForKey:DocumentModeEncodingPreferenceKey] unsignedIntValue];
-        if (encoding < SmallestCustomStringEncoding) {
-            [document setFileEncoding:encoding];
-        }
-        NSString *templateFileContent=[newMode templateFileContent];
-        if (templateFileContent && ![templateFileContent canBeConvertedToEncoding:[document fileEncoding]]) {
-            templateFileContent=[[[NSString alloc] 
-                            initWithData:[templateFileContent dataUsingEncoding:[document fileEncoding] allowLossyConversion:YES] 
-                            encoding:[document fileEncoding]] 
-                              autorelease];
-        }
-        if (templateFileContent) {
-            FoldableTextStorage *textStorage=(FoldableTextStorage *)[document textStorage];
-            [textStorage replaceCharactersInRange:NSMakeRange(0,[textStorage length]) withString:templateFileContent];
-            [document updateChangeCount:NSChangeCleared];
-        }
-    }
-}
-
-- (IBAction)newDocument:(id)aSender
-{
-	if ([aSender respondsToSelector:@selector(representedObject)]) {
-		[self newDocumentWithModeMenuItem:[aSender representedObject]];
-	}
-}
-
-- (IBAction)newDocumentWithModeMenuItemFromDock:(id)aSender {
-	[self newDocumentWithModeMenuItem:aSender];
-	[NSApp activateIgnoringOtherApps:YES];
-}
-
-- (IBAction)newDocumentFromDock:(id)aSender {
-	[self newDocumentWithModeMenuItemFromDock:[aSender representedObject]];
-}
-
-- (IBAction)newAlternateDocument:(id)sender
-{
-    BOOL flag = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
-    [[NSUserDefaults standardUserDefaults] setBool:!flag forKey:OpenNewDocumentInTabKey];
-    [self newDocumentWithModeMenuItem:[sender representedObject]];
-    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:OpenNewDocumentInTabKey];
-}
-
-- (void)newAlternateDocumentWithModeMenuItem:(id)sender
-{
-    BOOL flag = [[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey];
-    [[NSUserDefaults standardUserDefaults] setBool:!flag forKey:OpenNewDocumentInTabKey];
-    [self newDocumentWithModeMenuItem:sender];
-    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:OpenNewDocumentInTabKey];
-}
-
-- (void)mergeAllWindows:(id)sender
-{
-    NSAlert *alert = [[NSAlert alloc] init];
-    [alert setAlertStyle:NSInformationalAlertStyle];
-    [alert setMessageText:NSLocalizedString(@"Are you sure you want to merge all windows?", nil)];
-    [alert setInformativeText:NSLocalizedString(@"Merging windows moves all open tabs and windows into a single, tabbed editor window. This cannot be undone.", nil)];
-    [alert addButtonWithTitle:NSLocalizedString(@"Merge", nil)];
-    [alert addButtonWithTitle:NSLocalizedString(@"Cancel", nil)];
-    int response = [alert runModal];
-    if (NSAlertFirstButtonReturn == response) {
-        PlainTextWindowController *targetWindowController = [self activeWindowController];
-        id document = [targetWindowController document];
-        int count = [I_windowControllers count];
-        while (--count >= 0) {
-            PlainTextWindowController *sourceWindowController = [I_windowControllers objectAtIndex:count];
-            if (sourceWindowController != targetWindowController) {
-                [sourceWindowController moveAllTabsToWindowController:targetWindowController];
-                [sourceWindowController close];
-                [self removeWindowController:sourceWindowController];
-            }
-        }
-        [targetWindowController setDocument:document];
-    }
-    [alert release];
-}
-
-
-#pragma mark -
-
 
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Wdeprecated-declarations"
@@ -1176,161 +1275,7 @@ struct ModificationInfo
 #pragma clang diagnostic pop
 
 
-- (void)menuNeedsUpdate:(NSMenu *)aMenu {
-    [self updateMenuWithTabMenuItems:aMenu shortcuts:YES];
-}
-
-- (BOOL)validateMenuItem:(NSMenuItem *)menuItem {
-    SEL selector = [menuItem action];
-    
-    if (selector == @selector(concealAllDocuments:)) {
-        return [[[TCMMMPresenceManager sharedInstance] announcedSessions] count]>0;
-    } else if (selector == @selector(alwaysShowTabBar:)) {
-        BOOL isChecked = [[NSUserDefaults standardUserDefaults] boolForKey:AlwaysShowTabBarKey];
-        [menuItem setState:(isChecked ? NSOnState : NSOffState)];
-        return YES;
-    } else if (selector == @selector(newAlternateDocument:)) {
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey]) {
-            [menuItem setTitle:NSLocalizedString(@"New Window", nil)];
-        } else {
-            [menuItem setTitle:NSLocalizedString(@"New Tab", nil)];
-        }
-        return YES;
-    } else if (selector == @selector(openAlternateDocument:)) {
-        if ([[NSUserDefaults standardUserDefaults] boolForKey:OpenNewDocumentInTabKey]) {
-            [menuItem setTitle:NSLocalizedString(@"Open in New Window...", @"Menu Entry for opening files in a new window.")];
-        } else {
-            [menuItem setTitle:NSLocalizedString(@"Open in Front Window...", @"Menu Entry for opening files in the front window.")];
-        }
-        return YES;
-    } else if ([menuItem tag] == GotoTabMenuItemTag) {
-        if ([[self documents] count] >0) {
-            [self updateMenuWithTabMenuItems:[menuItem submenu] shortcuts:YES];
-            return YES;
-        } else {
-            [[menuItem submenu] removeAllItems];
-            return NO;
-        };
-    } else if (selector == @selector(mergeAllWindows:)) {
-        BOOL hasSheet = NO;
-        PlainTextWindowController *controller;
-        for (controller in I_windowControllers) {
-            if ([[controller window] attachedSheet] != nil) {
-                hasSheet = YES;
-                break;
-            }
-        }
-        return (([I_windowControllers count] > 1) && !hasSheet);
-    }
-    return [super validateMenuItem:menuItem];
-}
-
-- (void)updateTabMenu {
-    NSMenuItem *menuItem = [[[[NSApp mainMenu] itemWithTag:WindowMenuTag] submenu] itemWithTag:GotoTabMenuItemTag];
-    if (menuItem)
-    {
-        if ([[self documents] count] >0) {
-            [self updateMenuWithTabMenuItems:[menuItem submenu] shortcuts:YES];
-        } else {
-            [[menuItem submenu] removeAllItems];
-        }
-    }
-}
-
-
-- (IBAction)menuValidationNoneAction:(id)aSender {
-
-}
-
-
-
-#pragma mark -
-
-- (IBAction)alwaysShowTabBar:(id)sender
-{
-    BOOL flag = ([sender state] == NSOnState) ? NO : YES;
-    [[NSUserDefaults standardUserDefaults] setBool:flag forKey:AlwaysShowTabBarKey];
-    
-    PlainTextWindowController *windowController;
-    for (windowController in I_windowControllers) {
-        PSMTabBarControl *tabBar = [windowController tabBar];
-        if (![windowController hasManyDocuments]) {
-            [tabBar setHideForSingleTab:!flag];
-            [tabBar hideTabBar:!flag animate:YES];
-        } else {
-            [tabBar setHideForSingleTab:!flag];
-        }
-    }
-    
-}
-
-- (IBAction)installMode:(id)sender {
-    [NSApp stopModal];
-}
-
-- (IBAction)changeModeInstallationDomain:(id)sender {
-    int tag = [[O_modeInstallerDomainMatrix selectedCell] tag];
-    NSString *informativeText = @"";
-    NSBundle *modeBundle = [NSBundle bundleWithPath:I_currentModeFileName];
-    NSString *modeIdentifier = [modeBundle objectForInfoDictionaryKey:@"CFBundleIdentifier"];
-    DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForIdentifier:modeIdentifier];
-    if (mode) {
-        NSBundle *installedModeBundle = [mode bundle];
-        NSString *versionStringOfInstalledMode = [installedModeBundle objectForInfoDictionaryKey:@"CFBundleVersion"];
-        NSString *installedModeFileName = [installedModeBundle bundlePath];
-        NSString *installedModeName = [NSString stringWithFormat:@"%@ (%@)", [installedModeFileName lastPathComponent], versionStringOfInstalledMode];
-        informativeText = [NSString stringWithFormat:NSLocalizedString(@"Mode \"%@\" is already installed in \"%@\".", nil), installedModeName, installedModeFileName];
-        
-        short domain;
-        BOOL isKnownDomain = YES;
-        if ([installedModeFileName hasPrefix:@"/Users/"]) {
-            domain = kUserDomain;
-        } else if ([installedModeFileName hasPrefix:@"/Library/"]) {
-            domain = kLocalDomain;
-        } else if ([installedModeFileName hasPrefix:@"/Network/"]) {
-            domain = kNetworkDomain;
-        } else {
-            isKnownDomain = NO;
-        }
-
-        if (tag == 0) {
-            if (!isKnownDomain || domain == kNetworkDomain || domain == kLocalDomain) {
-                informativeText = [informativeText stringByAppendingFormat:@" %@", NSLocalizedString(@"You will override the installed mode.", nil)];
-            } else if (domain == kUserDomain) {
-                informativeText = [informativeText stringByAppendingFormat:@" %@", NSLocalizedString(@"You will replace the installed mode.", nil)];
-            }
-        } else if (tag == 1) {
-            if (!isKnownDomain || domain == kNetworkDomain) {
-                informativeText = [informativeText stringByAppendingFormat:@" %@", NSLocalizedString(@"You will override the installed mode.", nil)];
-            } else if (domain == kLocalDomain) {
-                informativeText = [informativeText stringByAppendingFormat:@" %@", NSLocalizedString(@"You will replace the installed mode.", nil)];
-            } else if (domain == kUserDomain) {
-                informativeText = [informativeText stringByAppendingFormat:@" %@", NSLocalizedString(@"The installed mode will override your new mode.", nil)];
-            }
-        }
-    }
-    
-    if (tag == 1) { 
-        if ([informativeText length] > 0)
-            informativeText = [informativeText stringByAppendingString:@" "];
-        informativeText = [informativeText stringByAppendingString:NSLocalizedString(@"When you click Install, you'll be asked to enter the name and password for an administrator of this computer.", nil)];
-    }
-    [O_modeInstallerInformativeTextField setObjectValue:informativeText];
-}
-
-- (IBAction)cancelModeInstallation:(id)sender {
-    [NSApp abortModal];
-}
-
-- (IBAction)concealAllDocuments:(id)aSender {
-    PlainTextDocument *document=nil;
-    NSEnumerator *documents = [[self documents] objectEnumerator];
-    while ((document=[documents nextObject])) {
-        if ([document isAnnounced]) {
-            [document setIsAnnounced:NO];
-        }
-    }
-}
+#pragma mark - Closing documents
 
 - (IBAction)closeAllDocuments:(id)sender {
     [self closeAllDocumentsWithDelegate:nil didCloseAllSelector:NULL contextInfo:NULL];
@@ -1408,7 +1353,283 @@ struct ModificationInfo
     [self closeDocumentsStartingWith:nil shouldClose:YES closeAllContext:invocation];
 }
 
+- (void)removeDocument:(NSDocument *)document {
+    int i;
+    NSArray *keys = [I_waitingDocuments allKeys];
+    int count = [keys count];
+    for (i = count - 1; i >=0; i--) {
+        NSString *key = [keys objectAtIndex:i];
+        NSMutableArray *documents = [I_waitingDocuments objectForKey:key];
+        if ([documents containsObject:document]) {
+            BOOL isPiping = [I_pipingSeeScriptCommands containsObject:key];
+            int refCount = [[I_refCountsOfSeeScriptCommands objectForKey:key] intValue];
+            refCount--;
+            if (refCount < 1) {
+                NSMutableArray *fileNames = [NSMutableArray array];
+                NSEnumerator *enumerator = [documents objectEnumerator];
+                NSDocument *doc;
+                while ((doc = [enumerator nextObject])) {
+                    if (isPiping) {
+                        NSString *fileName = tempFileName();
+                        NSError *error = nil;
+                        BOOL result = [doc writeToURL:[NSURL fileURLWithPath:fileName] ofType:@"PlainTextType" error:&error];
+                        if (result) {
+                            [fileNames addObject:fileName];
+                        } else {
+                            NSLog(@"%s %@",__FUNCTION__,error);
+                        }
+                    }
+                }
+                NSScriptCommand *command = [I_suspendedSeeScriptCommands objectForKey:key];
+                [command resumeExecutionWithResult:fileNames];
+                [I_suspendedSeeScriptCommands removeObjectForKey:key];
+                [I_waitingDocuments removeObjectForKey:key];
+                [I_refCountsOfSeeScriptCommands removeObjectForKey:key];
+                [I_pipingSeeScriptCommands removeObject:key];
+            } else {
+                [I_refCountsOfSeeScriptCommands setObject:[NSNumber numberWithInt:refCount] forKey:key];
+            }
+        }
+    }
+
+    [super removeDocument:document];
+    if ([[self documents] count]==0) {
+        NSMenu *modeMenu=[[[NSApp mainMenu] itemWithTag:ModeMenuTag] submenu];
+        // remove all items that don't belong here anymore
+        int index = [modeMenu indexOfItemWithTag:HighlightSyntaxMenuTag];
+        index+=1;
+        while (index < [modeMenu numberOfItems]) {
+            [modeMenu removeItemAtIndex:index];
+        }
+    }
+}
+
+
 #pragma mark -
+
+
+// for directory drags for which we open an open panel so the user can select the (multiple) files he wants to open
+- (void)setLocationForNextOpenPanel:(NSURL*)anURL {
+    [I_locationForNextOpenPanel autorelease];
+	I_locationForNextOpenPanel=[anURL copy];
+}
+- (NSURL *)locationForNextOpenPanel {
+    return I_locationForNextOpenPanel;
+}
+
+- (void)setEncodingFromLastRunOpenPanel:(NSStringEncoding)stringEncoding {
+    I_encodingFromLastRunOpenPanel = stringEncoding;
+}
+
+- (void)setModeIdentifierFromLastRunOpenPanel:(NSString *)modeIdentifier {
+    [I_modeIdentifierFromLastRunOpenPanel release];
+    I_modeIdentifierFromLastRunOpenPanel = [modeIdentifier copy];
+}
+
+- (void)openModeFile:(NSString *)fileName
+{
+    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Opening mode file: %@", fileName);
+    NSBundle *modeBundle = [NSBundle bundleWithPath:fileName];
+    NSString *versionString = [modeBundle objectForInfoDictionaryKey:@"CFBundleVersion"];
+    NSString *name = [NSString stringWithFormat:@"%@ (%@)", [fileName lastPathComponent], versionString];
+    [O_modeInstallerMessageTextField setObjectValue:[NSString stringWithFormat:NSLocalizedString(@"Do you want to install the mode \"%@\"?", nil), name]];
+    [O_modeInstallerDomainMatrix selectCellAtRow:0 column:0];
+
+    NSString *modeIdentifier = [modeBundle objectForInfoDictionaryKey:@"CFBundleIdentifier"];
+    DocumentMode *mode = [[DocumentModeManager sharedInstance] documentModeForIdentifier:modeIdentifier];
+    if (mode) {
+        NSBundle *installedModeBundle = [mode bundle];
+        NSString *versionStringOfInstalledMode = [installedModeBundle objectForInfoDictionaryKey:@"CFBundleVersion"];
+        NSString *installedModeFileName = [installedModeBundle bundlePath];
+
+        NSString *userDomainPath = [[[[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory inDomain:NSUserDomainMask appropriateForURL:nil create:NO error:nil] URLByStandardizingPath] path];
+        NSString *localDomainPath = [[[[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory inDomain:NSLocalDomainMask appropriateForURL:nil create:NO error:nil] URLByStandardizingPath] path];
+        NSString *networkDomainPath = [[[[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory inDomain:NSNetworkDomainMask appropriateForURL:nil create:NO error:nil] URLByStandardizingPath] path];
+
+		NSSearchPathDomainMask domain = 0;
+        BOOL isKnownDomain = YES;
+        if (userDomainPath != nil && [installedModeFileName hasPrefix:userDomainPath]) {
+            domain = NSUserDomainMask;
+        } else if (localDomainPath != nil && [installedModeFileName hasPrefix:localDomainPath]) {
+            domain = NSLocalDomainMask;
+        } else if (networkDomainPath != nil && [installedModeFileName hasPrefix:networkDomainPath]) {
+            domain = NSNetworkDomainMask;
+        } else {
+            isKnownDomain = NO;
+        }
+
+        NSString *installedModeName = [NSString stringWithFormat:@"%@ (%@)", [installedModeFileName lastPathComponent], versionStringOfInstalledMode];
+        NSString *informativeText = [NSString stringWithFormat:NSLocalizedString(@"Mode \"%@\" is already installed in \"%@\".", nil), installedModeName, installedModeFileName];
+
+        if (!isKnownDomain || domain == NSNetworkDomainMask || domain == NSLocalDomainMask) {
+            informativeText = [informativeText stringByAppendingFormat:@" %@", NSLocalizedString(@"You will override the installed mode.", nil)];
+        } else if (domain == NSUserDomainMask) {
+            informativeText = [informativeText stringByAppendingFormat:@" %@", NSLocalizedString(@"You will replace the installed mode.", nil)];
+        }
+
+        [O_modeInstallerInformativeTextField setObjectValue:informativeText];
+    } else {
+        [O_modeInstallerInformativeTextField setObjectValue:@""];
+    }
+
+    I_currentModeFileName = fileName;
+    int result = [NSApp runModalForWindow:O_modeInstallerPanel];
+    [O_modeInstallerPanel orderOut:self];
+    I_currentModeFileName = nil;
+    if (result == NSRunStoppedResponse) {
+        BOOL success = NO;
+
+        NSSearchPathDomainMask domain = 0;
+        int tag = [[O_modeInstallerDomainMatrix selectedCell] tag];
+        if (tag == 0) {
+            domain = NSUserDomainMask;
+        } else if (tag == 1) {
+            domain = NSLocalDomainMask;
+        }
+
+		NSURL *appSupportURL = [[NSFileManager defaultManager] URLForDirectory:NSApplicationSupportDirectory inDomain:domain appropriateForURL:nil create:NO error:nil];
+		NSURL *destinationURL = [appSupportURL URLByAppendingPathComponent:@"SubEthaEdit"];
+		destinationURL = [destinationURL URLByAppendingPathComponent:@"Modes"];
+		destinationURL = [destinationURL URLByAppendingPathComponent:[fileName lastPathComponent]];
+		NSString *destination  = [destinationURL path];
+
+		if (![fileName isEqualToString:destination]) {
+			if (domain == NSUserDomainMask) {
+				// TODO: check errors here and present alert which is currently in fileManager:shouldProceedAfterError:
+				NSFileManager *fileManager = [NSFileManager defaultManager];
+				if ([fileManager fileExistsAtPath:destination]) {
+					(void)[fileManager removeItemAtPath:destination error:nil];
+				}
+				success = [fileManager copyItemAtPath:fileName toPath:destination error:nil];
+			} else {
+				OSStatus err;
+				CFURLRef tool = NULL;
+				AuthorizationRef auth = NULL;
+				NSDictionary *request = nil;
+				NSDictionary *response = nil;
+
+				err = AuthorizationCreate(NULL, kAuthorizationEmptyEnvironment, kAuthorizationFlagDefaults, &auth);
+				if (err == noErr) {
+					static const char *kRightName = "de.codingmonkeys.SubEthaEdit.HelperTool";
+					static const AuthorizationFlags kAuthFlags = kAuthorizationFlagDefaults
+					| kAuthorizationFlagInteractionAllowed
+					| kAuthorizationFlagExtendRights
+					| kAuthorizationFlagPreAuthorize;
+					AuthorizationItem   right  = { kRightName, 0, NULL, 0 };
+					AuthorizationRights rights = { 1, &right };
+
+					err = AuthorizationCopyRights(auth, &rights, kAuthorizationEmptyEnvironment, kAuthFlags, NULL);
+				}
+
+				if (err == noErr) {
+					err = MoreSecCopyHelperToolURLAndCheckBundled(
+																  CFBundleGetMainBundle(),
+																  CFSTR("SubEthaEditHelperToolTemplate"),
+																  kApplicationSupportFolderType,
+																  CFSTR("SubEthaEdit"),
+																  CFSTR("SubEthaEditHelperTool"),
+																  &tool);
+
+					// If the home directory is on an volume that doesn't support
+					// setuid root helper tools, ask the user whether they want to use
+					// a temporary tool.
+
+					if (err == kMoreSecFolderInappropriateErr) {
+						err = MoreSecCopyHelperToolURLAndCheckBundled(
+																	  CFBundleGetMainBundle(),
+																	  CFSTR("SubEthaEditHelperToolTemplate"),
+																	  kTemporaryFolderType,
+																	  CFSTR("SubEthaEdit"),
+																	  CFSTR("SubEthaEditHelperTool"),
+																	  &tool);
+					}
+				}
+
+				// Create the request dictionary for copying the mode
+
+				if (err == noErr) {
+
+                    NSNumber *filePermissions = [NSNumber numberWithUnsignedShort:(S_IRWXU | S_IRWXG | S_IROTH | S_IXOTH)];
+                    NSDictionary *targetAttrs = [NSDictionary dictionaryWithObjectsAndKeys:
+												 filePermissions, NSFilePosixPermissions,
+												 @"root", NSFileOwnerAccountName,
+												 @"admin", NSFileGroupOwnerAccountName,
+												 nil];
+
+					request = [NSDictionary dictionaryWithObjectsAndKeys:
+							   @"CopyFiles", @"CommandName",
+							   fileName, @"SourceFile",
+							   destination, @"TargetFile",
+							   targetAttrs, @"TargetAttributes",
+							   nil];
+				}
+
+				// Go go gadget helper tool!
+
+				if (err == noErr) {
+					err = MoreSecExecuteRequestInHelperTool(tool, auth, (CFDictionaryRef)request, (CFDictionaryRef *)(&response));
+				}
+
+				// Extract information from the response.
+
+				if (err == noErr) {
+					//NSLog(@"response: %@", response);
+
+					err = MoreSecGetErrorFromResponse((CFDictionaryRef)response);
+					if (err == noErr) {
+						success = YES;
+					}
+				}
+
+				// Clean up after second call of helper tool.
+				if (response) {
+					[response release];
+				}
+
+
+				if (tool) CFRelease(tool);
+				if (auth != NULL) {
+					(void)AuthorizationFree(auth, kAuthorizationFlagDestroyRights);
+				}
+			}
+		} else {
+			success = YES;
+		}
+
+        [[DocumentModeManager sharedInstance] reloadDocumentModes:self];
+
+        NSAlert *alert = [[NSAlert alloc] init];
+        [alert setAlertStyle:NSInformationalAlertStyle];
+        if (success) {
+            [alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"The mode \"%@\" has been installed successfully.", nil), name]];
+        } else {
+            [alert setMessageText:[NSString stringWithFormat:NSLocalizedString(@"Installation of mode \"%@\" failed.", nil), name]];
+        }
+        [alert addButtonWithTitle:NSLocalizedString(@"OK", nil)];
+        (void)[alert runModal];
+        [alert release];
+    }
+}
+
+- (void)openDirectory:(NSString *)fileName
+{
+    DEBUGLOG(@"FileIOLogDomain", SimpleLogLevel, @"Opening directory: %@", fileName);
+}
+
+static NSString *tempFileName() {
+    static int sequenceNumber = 0;
+    NSString *origPath = [@"/tmp" stringByAppendingPathComponent:@"see"];
+    NSString *name;
+    do {
+        sequenceNumber++;
+        name = [NSString stringWithFormat:@"SEE-%d-%d-%d", [[NSProcessInfo processInfo] processIdentifier], (int)[NSDate timeIntervalSinceReferenceDate], sequenceNumber];
+        name = [[origPath stringByDeletingLastPathComponent] stringByAppendingPathComponent:name];
+    } while ([[NSFileManager defaultManager] fileExistsAtPath:name]);
+    return name;
+}
+
+
+#pragma mark - NSServicesHandling
 
 // note the "setServicesProvider:" in the applicationWillFinishLaunching method
 
