@@ -733,14 +733,18 @@
 
 + (void)restoreWindowWithIdentifier:(NSString *)identifier state:(NSCoder *)state completionHandler:(void (^)(NSWindow *, NSError *))completionHandler {
 	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
+	DocumentController *documentController = [[self class] sharedDocumentController];
+
 	if ([identifier isEqualToString:@"DocumentList"]) {
-		DocumentController *documentController = [[self class] sharedDocumentController];
 		[documentController showDocumentListWindow:self];
 
 		if (completionHandler) {
 			completionHandler(documentController.documentListWindowController.window, nil);
 		}
 	} else {
+		documentController.isOpeningUsingAlternateMenuItem = NO;
+		documentController.isOpeningInTab = NO;
+
 		[super restoreWindowWithIdentifier:identifier state:state completionHandler:^(NSWindow *window, NSError *inError) {
 			NSLog(@"%s - %d", __FUNCTION__, __LINE__);
 
@@ -765,22 +769,29 @@
 																	 relativeToURL:nil
 															   bookmarkDataIsStale:NULL
 																			 error:NULL];
-					[documentAutosaveURL startAccessingSecurityScopedResource];
+					[documentURL startAccessingSecurityScopedResource];
 
-					DocumentController *documentController = [[self class] sharedDocumentController];
-					documentController.isOpeningUsingAlternateMenuItem = NO;
-					documentController.isOpeningInTab = YES;
+					if (! documentAutosaveURL) { // if there is no autosave file make sure to read from original URL
+						documentAutosaveURL = documentURL;
+					} else {
+						[documentAutosaveURL startAccessingSecurityScopedResource];
+					}
 
-					[NSApp extendStateRestoration];
-					[documentController reopenDocumentForURL:documentURL withContentsOfURL:documentAutosaveURL display:YES completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
-						if ([document isKindOfClass:[PlainTextDocument class]]) {
-							PlainTextWindowController *windowController = [[document windowControllers] firstObject];
-							NSTabViewItem *tabViewItem = [windowController tabViewItemForDocument:document];
-							PlainTextWindowControllerTabContext *tabContext = tabViewItem.identifier;
-							[tabContext restoreStateWithCoder:tabState];
-						}
-						[NSApp completeStateRestoration];
-					}];
+					if (documentAutosaveURL) {
+						documentController.isOpeningUsingAlternateMenuItem = NO;
+						documentController.isOpeningInTab = YES;
+
+						[NSApp extendStateRestoration];
+						[documentController reopenDocumentForURL:documentURL withContentsOfURL:documentAutosaveURL display:YES completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
+							if ([document isKindOfClass:[PlainTextDocument class]]) {
+								PlainTextWindowController *windowController = [[document windowControllers] firstObject];
+								NSTabViewItem *tabViewItem = [windowController tabViewItemForDocument:(PlainTextDocument *)document];
+								PlainTextWindowControllerTabContext *tabContext = tabViewItem.identifier;
+								[tabContext restoreStateWithCoder:tabState];
+							}
+							[NSApp completeStateRestoration];
+						}];
+					}
 				}
 			}
 
@@ -802,9 +813,6 @@
 		if (completionHandler) {
 			completionHandler(document, documentWasAlreadyOpen, error);
 		}
-
-		self.isOpeningUsingAlternateMenuItem = NO;
-		self.isOpeningInTab = NO;
 	}];
 }
 

@@ -65,6 +65,7 @@
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
 	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
 	[super encodeRestorableStateWithCoder:coder];
+	[self.document encodeRestorableStateWithCoder:coder];
 
 	NSURL *documentURL = self.document.fileURL;
 	NSURL *documentAutosaveURL = self.document.autosavedContentsFileURL;
@@ -88,13 +89,13 @@
 	} else {
 		[coder encodeBool:NO forKey:@"SEETabContextShowsEditorSplit"];
 	}
-
-	[self. document encodeRestorableStateWithCoder:coder];
 }
 
 - (void)restoreStateWithCoder:(NSCoder *)coder {
 	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
 	[super restoreStateWithCoder:coder];
+	[self.document restoreStateWithCoder:coder];
+
 }
 
 @end
