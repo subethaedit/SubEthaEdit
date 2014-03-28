@@ -744,9 +744,12 @@
 	if ([identifier isEqualToString:@"DocumentList"]) {
 		[documentController showDocumentListWindow:self];
 
-		if (completionHandler) {
-			completionHandler(documentController.documentListWindowController.window, nil);
-		}
+		[self finishRestoreWindowWithIdentifier:identifier
+										  state:state
+									   document:nil
+										 window:documentController.documentListWindowController.window
+										  error:nil
+							  completionHandler:completionHandler];
 	} else {
 		SEEDocumentCreationFlags *creationFlags = [[SEEDocumentCreationFlags alloc] init];
 		creationFlags.openInTab = NO;
@@ -754,6 +757,8 @@
 
 		[super restoreWindowWithIdentifier:identifier state:state completionHandler:^(NSWindow *window, NSError *inError) {
 //			NSLog(@"%s - %d", __FUNCTION__, __LINE__);
+
+			NSDocument *selectedDocument = [[window windowController] document];
 
 			// we also may have to restore tabs in this window
 			NSArray *tabs = [state decodeObjectForKey:@"PlainTextWindowOpenTabNames"];
@@ -787,7 +792,7 @@
 						}
 
 						if (documentAutosaveURL) {
-							if (! (documentURL == [[[window windowController] document ] fileURL] || (documentAutosaveURL == [[[window windowController] document ] autosavedContentsFileURL]))) {
+							if (! ((documentURL && [[selectedDocument fileURL] isEqual:documentURL]) || [[selectedDocument autosavedContentsFileURL] isEqual:documentAutosaveURL])) {
 
 								[NSApp extendStateRestoration];
 								[documentController reopenDocumentForURL:documentURL withContentsOfURL:documentAutosaveURL inWindow:window display:YES completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
@@ -799,13 +804,14 @@
 									}
 									[NSApp completeStateRestoration];
 
-									@synchronized (window) {
-										restoredTabsCount++;
-										if (restoredTabsCount == tabs.count) {
-											if (completionHandler) {
-												completionHandler(window, inError);
-											}
-										}
+									restoredTabsCount++;
+									if (restoredTabsCount == tabs.count) {
+										[self finishRestoreWindowWithIdentifier:identifier
+																		  state:state
+																	   document:selectedDocument
+																		 window:window
+																		  error:inError
+															  completionHandler:completionHandler];
 									}
 								}];
 							} else {
@@ -814,14 +820,15 @@
 								restoredTabsCount++;
 							}
 						} else {
-							// untitled document tab
-							SEEDocumentCreationFlags *creationFlags = [[SEEDocumentCreationFlags alloc] init];
-							creationFlags.openInTab = YES;
-							creationFlags.tabWindow = window;
-							documentController.documentCreationFlagsLookupDict[@"MakeUntitledDocument"] = creationFlags;
+							if (! (tabName && [[selectedDocument displayName] isEqualToString:tabName])) {
+								// untitled document tab
+								SEEDocumentCreationFlags *creationFlags = [[SEEDocumentCreationFlags alloc] init];
+								creationFlags.openInTab = YES;
+								creationFlags.tabWindow = window;
+								documentController.documentCreationFlagsLookupDict[@"MakeUntitledDocument"] = creationFlags;
 
-							[documentController openUntitledDocumentAndDisplay:YES error:nil];
-
+								[documentController openUntitledDocumentAndDisplay:YES error:nil];
+							}
 							restoredTabsCount++;
 						}
 					} else {
@@ -831,17 +838,43 @@
 					}
 
 					if (restoredTabsCount == tabs.count) {
-						if (completionHandler) {
-							completionHandler(window, inError);
-						}
+						[self finishRestoreWindowWithIdentifier:identifier
+														  state:state
+													   document:selectedDocument
+														 window:window
+														  error:inError
+											  completionHandler:completionHandler];
 					}
 				}
 			} else {
-				if (completionHandler) {
-					completionHandler(window, inError);
-				}
+				[self finishRestoreWindowWithIdentifier:identifier
+												  state:state
+											   document:selectedDocument
+												 window:window
+												  error:inError
+									  completionHandler:completionHandler];
 			}
 		}];
+	}
+}
+
+
++ (void)finishRestoreWindowWithIdentifier:(NSString *)identifier state:(NSCoder *)state document:(NSDocument *)document window:(NSWindow *)window error:(NSError *)inError completionHandler:(void (^)(NSWindow *, NSError *))completionHandler {
+
+	NSWindowController *windowController = window.windowController;
+	if ([windowController isKindOfClass:[PlainTextWindowController class]]) {
+		PlainTextWindowController *plainTextWindowController = (PlainTextWindowController *)windowController;
+
+//		NSArray *tabNames = [plainTextWindowController.tabView.tabViewItems valueForKey:@"label"];
+//		NSArray *tabs = [state decodeObjectForKey:@"PlainTextWindowOpenTabNames"];
+//
+//		NSLog(@"\n%@\n%@", tabNames, tabs);
+
+		[plainTextWindowController selectTabForDocument:document];
+	}
+
+	if (completionHandler) {
+		completionHandler(window, inError);
 	}
 }
 
