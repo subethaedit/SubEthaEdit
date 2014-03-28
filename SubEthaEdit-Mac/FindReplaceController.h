@@ -6,6 +6,8 @@
 
 #import <Cocoa/Cocoa.h>
 #import <OgreKit/OgreKit.h>
+@class FindReplaceController;
+#import "SEETextView.h"
 #import "SelectionOperation.h"
 #import "SEEFindAndReplaceState.h"
 
@@ -53,6 +55,7 @@ typedef enum {
 /*! the tag of the sender actually defines what search action is triggered - which is a weird design */
 - (void)performFindPanelAction:(id)sender inTargetTextView:(NSTextView *)aTextView;
 - (void)performFindPanelAction:(id)sender;
+- (void)performTextFinderAction:(NSInteger)aTextFinderActionType textView:(SEETextView *)aTextView;
 
 - (void)loadFindStringFromPasteboard;
 - (void)saveFindStringToPasteboard;

@@ -12,6 +12,7 @@
 #import "PlainTextEditor.h"
 #import "PlainTextWindowControllerTabContext.h"
 #import "SEETextView.h"
+#import "TCMDragImageView.h"
 
 // this file needs arc - add -fobjc-arc in the compile build phase
 #if !__has_feature(objc_arc)
@@ -55,11 +56,13 @@ static NSString * const kOptionKeyPathRegexOptionIgnoreEmptyMatches = @"content.
 static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.regularExpressionOptionOnlyLongestMatch";
 
 
-@interface SEEFindAndReplaceViewController () <NSMenuDelegate>
+@interface SEEFindAndReplaceViewController () <NSMenuDelegate, TCMDragImageDelegate>
 @property (nonatomic, strong) NSMenu *optionsPopupMenu;
 @property (nonatomic, strong) NSMutableSet *registeredNotifications;
 @property (nonatomic, readonly) SEETextView *targetTextView;
 @property (nonatomic, readonly) PlainTextEditor *targetPlainTextEditor;
+
+@property (nonatomic) NSInteger startHeightBeforeDrag;
 @end
 
 @implementation SEEFindAndReplaceViewController
@@ -78,6 +81,13 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 		[[NSNotificationCenter defaultCenter] removeObserver:notificationReference];
 	}
 }
+
+- (void)setEnabled:(BOOL)isEnabled {
+	for (id element in @[self.findTextField, self.replaceTextField,self.findPreviousNextSegmentedControl, self.replaceButton,self.replaceAllButton,self.searchOptionsButton, self.findAllButton]) {
+		[element setEnabled:isEnabled];
+	}
+}
+
 
 - (SEETextView *)targetTextView {
 	SEETextView *result = (SEETextView *)self.targetPlainTextEditor.textView;
@@ -142,6 +152,27 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 		[note.object isEqual:self.plainTextWindowControllerTabContext];
 		[weakSelf updateSearchOptionsButton];
 	}]];
+	
+	// localize and fix layout correspondingly
+	self.replaceButton.title = NSLocalizedString(@"FIND_REPLACE_PANEL_REPLACE", @"'Replace' in find panel");
+	self.replaceAllButton.title = NSLocalizedString(@"FIND_REPLACE_PANEL_REPLACEALL", @"'Replace All' in find panel");
+	self.findAllButton.title = NSLocalizedString(@"FIND_REPLACE_PANEL_FINDALL", @"'Find all' in find panel");
+
+	// have the labels have a little more width than intended by the framework
+	CGFloat extraButtonPadding = 8.0;
+	self.findAllWidthConstraint.constant = self.findAllButton.intrinsicContentSize.width + extraButtonPadding;
+	self.replaceAllWidthConstraint.constant = self.replaceAllButton.intrinsicContentSize.width + extraButtonPadding;
+	CGFloat buttonSegmentDifference = 5.0;
+	CGFloat totalWidth = self.findAllWidthConstraint.constant - buttonSegmentDifference;
+	CGFloat segmentWidth1 = round(totalWidth / 2.0);
+	CGFloat segmentWidth2 = totalWidth - segmentWidth1;
+	[self.findPreviousNextSegmentedControl setWidth:segmentWidth1 forSegment:0];
+	[self.findPreviousNextSegmentedControl setWidth:segmentWidth2 forSegment:1];
+	
+	NSNumber *defaultHeight = [[NSUserDefaults standardUserDefaults] objectForKey:@"SEEFindAndReplaceOverlayDefaultHeight"];
+	if (defaultHeight) {
+		self.mainViewHeightConstraint.constant = defaultHeight.integerValue;
+	}
 }
 
 - (NSObjectController *)findAndReplaceStateObjectController {
@@ -164,6 +195,17 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 		result.y = NSMaxY(self.searchOptionsButton.bounds);
 		result;}) inView:self.searchOptionsButton];
 	
+}
+
+- (IBAction)findPreviousNextSegmentedControlAction:(id)aSender {
+	NSSegmentedControl *control = (NSSegmentedControl *)aSender;
+	if (control.selectedSegment == 0) {
+		
+	}
+	NSInteger actionType = (control.selectedSegment == 0) ?
+			NSTextFinderActionPreviousMatch :
+				NSTextFinderActionNextMatch;
+	[[FindReplaceController sharedInstance] performTextFinderAction:actionType textView:self.targetTextView];
 }
 
 #pragma mark - Options Menu methods
@@ -373,6 +415,34 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 
 - (BOOL)menu:(NSMenu *)menu updateItem:(NSMenuItem *)item atIndex:(NSInteger)index shouldCancel:(BOOL)shouldCancel {
 	return YES;
+}
+
+#pragma mark - resize dragging
+
+- (void)setOverlayViewHeight:(CGFloat)aDesiredHeight {
+	aDesiredHeight = MIN(aDesiredHeight,176);
+	aDesiredHeight = MAX(aDesiredHeight,51);
+	
+	if (self.mainViewHeightConstraint.constant != aDesiredHeight) {
+		self.mainViewHeightConstraint.constant = aDesiredHeight;
+		[[NSUserDefaults standardUserDefaults] setObject:@(aDesiredHeight) forKey:@"SEEFindAndReplaceOverlayDefaultHeight"];
+	}
+}
+
+- (void)dragImage:(TCMDragImageView *)aDragImageView mouseDown:(NSEvent *)anEvent {
+	self.startHeightBeforeDrag = self.mainViewHeightConstraint.constant;
+}
+
+- (void)dragImage:(TCMDragImageView *)aDragImageView mouseDragged:(NSEvent *)anEvent {
+	CGFloat newHeight = self.startHeightBeforeDrag - aDragImageView.dragDelta.y;
+	[self setOverlayViewHeight:newHeight];
+}
+
+- (void)dragImage:(TCMDragImageView *)aDragImageView mouseUp:(NSEvent *)anEvent {
+	[self dragImage:aDragImageView mouseDragged:anEvent]; // take the last bit of movement too
+	PlainTextEditor *topEditor = self.plainTextWindowControllerTabContext.plainTextEditors.firstObject;
+	[topEditor updateTopScrollViewInset];
+	[topEditor adjustToScrollViewInsets];
 }
 
 #pragma mark - key value observing

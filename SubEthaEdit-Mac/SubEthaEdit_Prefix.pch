@@ -13,6 +13,7 @@
 	#import "NSRangeTCMAdditions.h"
 	#import "NSObject+TCMArcLifecycleAdditions.h"
 	#import "NSOperationQueue+TCMAdditions.h"
+	#import "TCMCGGeometryAdditions.h"
 
 	extern NSString * const AddressHistory;
 

@@ -380,7 +380,7 @@ typedef NS_ENUM(uint8_t, SEESearchRangeDirection) {
     NSEnumerator *plainTextEditors=[[aDocument plainTextEditors] objectEnumerator];
     PlainTextEditor *editor=nil;
     while ((editor=[plainTextEditors nextObject])) {
-        [[editor textView] setEditable:NO];
+        [editor lock];
     }
 	[[aDocument session] pauseProcessing];
 	[aDocument.documentUndoManager beginUndoGrouping];
@@ -392,7 +392,7 @@ typedef NS_ENUM(uint8_t, SEESearchRangeDirection) {
     NSEnumerator *plainTextEditors=[[aDocument plainTextEditors] objectEnumerator];
     PlainTextEditor *editor=nil;
     while ((editor=[plainTextEditors nextObject])) {
-        [[editor textView] setEditable:YES];
+        [editor unlock];
     }
 }
 

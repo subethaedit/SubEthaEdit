@@ -17,17 +17,26 @@
 @property (nonatomic,strong) IBOutlet NSTextField *feedbackTextField;
 @property (nonatomic,strong) IBOutlet NSTextField *findTextField;
 @property (nonatomic,strong) IBOutlet NSTextField *replaceTextField;
-@property (nonatomic,strong) IBOutlet NSButton *findPreviousButton;
-@property (nonatomic,strong) IBOutlet NSButton *findNextButton;
+@property (nonatomic,strong) IBOutlet NSSegmentedControl *findPreviousNextSegmentedControl;
+
+@property (nonatomic,strong) IBOutlet NSButton *findAllButton;
 @property (nonatomic,strong) IBOutlet NSButton *replaceButton;
 @property (nonatomic,strong) IBOutlet NSButton *replaceAllButton;
 @property (nonatomic,strong) IBOutlet NSButton *searchOptionsButton;
 @property (nonatomic,readonly) NSObjectController *findAndReplaceStateObjectController;
 
+@property (nonatomic, strong) IBOutlet NSLayoutConstraint *findAllWidthConstraint;
+@property (nonatomic, strong) IBOutlet NSLayoutConstraint *replaceAllWidthConstraint;
+@property (nonatomic, strong) IBOutlet NSLayoutConstraint *mainViewHeightConstraint;
+
 - (IBAction)findAndReplaceAction:(id)sender;
 - (IBAction)dismissAction:(id)sender;
 - (IBAction)searchOptionsDropdownAction:(id)sender;
 
+- (IBAction)findPreviousNextSegmentedControlAction:(id)sender;
 
 - (void)updateSearchOptionsButton;
+
+- (void)setEnabled:(BOOL)isEnabled;
+
 @end
