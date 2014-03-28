@@ -299,8 +299,8 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     I_radarScroller = [RadarScroller new];
     [O_scrollView setHasVerticalScroller:YES];
     [O_scrollView setVerticalScroller:I_radarScroller];
-    NSRect frame;
-    frame.origin = NSMakePoint(0., 0.);
+
+    NSRect frame = NSZeroRect;
     frame.size  = [O_scrollView contentSize];
 
 	[self.shareInviteUsersButtonOutlet sendActionOn:NSLeftMouseDownMask];
@@ -327,10 +327,6 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     [I_textView setSmartInsertDeleteEnabled:NO];
     [I_textView turnOffLigatures:self];
     [I_textView setLinkTextAttributes:[NSDictionary dictionaryWithObjectsAndKeys:[NSCursor pointingHandCursor], NSCursorAttributeName, nil]];
-    //	if ([I_textView respondsToSelector:@selector(setAutomaticLinkDetectionEnabled:)]) {
-    //		[I_textView setAutomaticLinkDetectionEnabled:YES];
-    //	}
-
     [I_textView setDelegate:self];
     [I_textContainer setHeightTracksTextView:NO];
     [I_textContainer setWidthTracksTextView:YES];

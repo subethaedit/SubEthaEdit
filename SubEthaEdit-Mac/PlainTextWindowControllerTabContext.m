@@ -69,6 +69,7 @@ NSString * const SEEPlainTextWindowControllerTabContextActiveEditorDidChangeNoti
 //	NSLog(@"%s - %d : %@", __FUNCTION__, __LINE__, self.document.displayName);
 	[super encodeRestorableStateWithCoder:coder];
 
+	// The bookmarks are used by SEEDocumentController to restore the tab documents.
 	NSURL *documentURL = self.document.fileURL;
 	NSURL *documentAutosaveURL = self.document.autosavedContentsFileURL;
 
@@ -85,7 +86,7 @@ NSString * const SEEPlainTextWindowControllerTabContextActiveEditorDidChangeNoti
 	[coder encodeObject:documentURLBookmark forKey:@"SEETabContextDocumentURLBookmark"];
 	[coder encodeObject:documentAutosaveURLBookmark forKey:@"SEETabContextDocumentAutosaveURLBookmark"];
 
-	if (self.plainTextEditors.count > 0) {
+	if (self.plainTextEditors.count > 1) {
 		[coder encodeBool:YES forKey:@"SEETabContextShowsEditorSplit"];
 		// TODO: store split frames...
 	} else {
