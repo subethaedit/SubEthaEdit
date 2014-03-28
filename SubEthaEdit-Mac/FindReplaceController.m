@@ -345,10 +345,16 @@ static FindReplaceController *sharedInstance=nil;
 	// the textfinder action now at least contains a search, maybe also a replace
 	// TODO: safe this context and mabe reuse it if possible on the next action (therefore we could reuse compiled regexes and more)
 	SEEFindAndReplaceContext *context = [SEEFindAndReplaceContext contextWithTextView:aTargetTextView state:self.globalFindAndReplaceState];
-	context.currentTextFinderActionType = [aSender tag];
-	[self performTextFinderAction:context.currentTextFinderActionType context:context];
+	[self performTextFinderAction:[aSender tag] context:context];
 }
 
+- (void)performTextFinderAction:(NSInteger)aTextFinderActionType textView:(SEETextView *)aTextView {
+	SEEFindAndReplaceContext *context = [SEEFindAndReplaceContext contextWithTextView:aTextView state:self.globalFindAndReplaceState];
+	[self performTextFinderAction:aTextFinderActionType context:context];
+}
+
+
+/*! funnel point for all search and replace actions */
 - (void)performTextFinderAction:(NSInteger)aTextFinderActionType context:(SEEFindAndReplaceContext *)aContext {
 	
 	aContext.currentTextFinderActionType = aTextFinderActionType; // seems redundant in the current flow, but needs to be set here so this method might be called from other places as well. all a little crufty refactoring in progress

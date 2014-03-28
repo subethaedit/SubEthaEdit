@@ -1399,8 +1399,15 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 		if (aViewController) {
 			NSView *overlayView = aViewController.view;
 			overlayView.autoresizingMask = NSViewWidthSizable | NSViewMinYMargin;
-			
+			NSView *superview = self.O_editorView;
+			NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(overlayView,superview);
 			[self.O_editorView addSubview:overlayView];
+			
+			// width
+			[superview addConstraint:[NSLayoutConstraint constraintWithItem:overlayView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeWidth multiplier:1 constant:0]];
+			// pin to top
+			[superview addConstraint:[NSLayoutConstraint constraintWithItem:overlayView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
+			
 			O_scrollView.topOverlayHeight += NSHeight(overlayView.frame);
 			
 			self.topOverlayViewController = aViewController;

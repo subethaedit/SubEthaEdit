@@ -80,7 +80,7 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 }
 
 - (void)setEnabled:(BOOL)isEnabled {
-	for (id element in @[self.findTextField, self.replaceTextField, self.findPreviousButton, self.findNextButton, self.replaceButton,self.replaceAllButton,self.searchOptionsButton, self.findAllButton]) {
+	for (id element in @[self.findTextField, self.replaceTextField,self.findPreviousNextSegmentedControl, self.replaceButton,self.replaceAllButton,self.searchOptionsButton, self.findAllButton]) {
 		[element setEnabled:isEnabled];
 	}
 }
@@ -171,6 +171,17 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 		result.y = NSMaxY(self.searchOptionsButton.bounds);
 		result;}) inView:self.searchOptionsButton];
 	
+}
+
+- (IBAction)findPreviousNextSegmentedControlAction:(id)aSender {
+	NSSegmentedControl *control = (NSSegmentedControl *)aSender;
+	if (control.selectedSegment == 0) {
+		
+	}
+	NSInteger actionType = (control.selectedSegment == 0) ?
+			NSTextFinderActionPreviousMatch :
+				NSTextFinderActionNextMatch;
+	[[FindReplaceController sharedInstance] performTextFinderAction:actionType textView:self.targetTextView];
 }
 
 #pragma mark - Options Menu methods
