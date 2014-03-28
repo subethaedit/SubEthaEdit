@@ -27,7 +27,7 @@
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
             <subviews>
                 <textField verticalHuggingPriority="750" tag="2" translatesAutoresizingMaskIntoConstraints="NO" id="b8n-nP-ifa" userLabel="SearchTextField">
-                    <rect key="frame" x="48" y="24" width="168" height="22"/>
+                    <rect key="frame" x="48" y="24" width="169" height="22"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="GMg-up-LgK"/>
@@ -42,8 +42,8 @@
                         <outlet property="nextKeyView" destination="gqM-vr-cXm" id="J4O-d8-vAs"/>
                     </connections>
                 </textField>
-                <textField verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gqM-vr-cXm" userLabel="ReplaceTextField">
-                    <rect key="frame" x="299" y="24" width="168" height="22"/>
+                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gqM-vr-cXm" userLabel="ReplaceTextField">
+                    <rect key="frame" x="300" y="24" width="169" height="22"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="80" id="MR8-tP-lEc"/>
@@ -57,7 +57,7 @@
                         <outlet property="nextKeyView" destination="b8n-nP-ifa" id="xl6-eW-1E4"/>
                     </connections>
                 </textField>
-                <imageView translatesAutoresizingMaskIntoConstraints="NO" id="2h9-Xo-WpS">
+                <imageView translatesAutoresizingMaskIntoConstraints="NO" id="2h9-Xo-WpS" customClass="TCMDragImageView">
                     <rect key="frame" x="568" y="4" width="11" height="11"/>
                     <autoresizingMask key="autoresizingMask"/>
                     <constraints>
@@ -65,6 +65,9 @@
                         <constraint firstAttribute="height" constant="11" id="TMi-mK-7rD"/>
                     </constraints>
                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="SmallGrowBoxRight3" id="Gt4-3V-Vpx"/>
+                    <connections>
+                        <outlet property="dragDelegate" destination="-2" id="d6v-gL-lfw"/>
+                    </connections>
                 </imageView>
                 <button verticalHuggingPriority="750" tag="6" translatesAutoresizingMaskIntoConstraints="NO" id="Odd-5d-NOn" userLabel="ReplaceButton">
                     <rect key="frame" x="475" y="27" width="88" height="19"/>
@@ -92,7 +95,7 @@
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" tag="1001" translatesAutoresizingMaskIntoConstraints="NO" id="Un5-SX-sFi" userLabel="FindAllButton">
-                    <rect key="frame" x="222" y="4" width="70" height="19"/>
+                    <rect key="frame" x="223" y="4" width="70" height="19"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="70" id="vde-Dg-aDB"/>
@@ -112,7 +115,7 @@
                         <constraint firstAttribute="width" constant="10" id="P4b-Si-2lE"/>
                         <constraint firstAttribute="height" constant="13" id="n45-p4-Q1d"/>
                     </constraints>
-                    <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="EditorRemoveSplit" imagePosition="only" alignment="center" state="on" imageScaling="proportionallyDown" inset="2" id="Css-xD-qG9">
+                    <buttonCell key="cell" type="bevel" bezelStyle="rounded" image="EditorRemoveSplit" imagePosition="only" alignment="center" state="on" inset="2" id="Css-xD-qG9">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                         <font key="font" metaFont="system"/>
                     </buttonCell>
@@ -121,7 +124,7 @@
                     </connections>
                 </button>
                 <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="uFk-KV-jTR">
-                    <rect key="frame" x="48" y="5" width="136" height="16"/>
+                    <rect key="frame" x="48" y="5" width="137" height="16"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="&lt;feedback label>" id="m8A-jd-4bL">
                         <font key="font" size="12" name="LucidaGrande"/>
@@ -144,8 +147,8 @@
                         <action selector="searchOptionsDropdownAction:" target="-2" id="QbY-ef-vwk"/>
                     </connections>
                 </button>
-                <segmentedControl verticalHuggingPriority="750" misplaced="YES" mirrorLayoutDirectionWhenInternationalizing="never" translatesAutoresizingMaskIntoConstraints="NO" id="j2o-G0-HdP" userLabel="BackwardForwardSegment">
-                    <rect key="frame" x="221" y="27" width="71" height="20"/>
+                <segmentedControl verticalHuggingPriority="750" mirrorLayoutDirectionWhenInternationalizing="never" translatesAutoresizingMaskIntoConstraints="NO" id="j2o-G0-HdP" userLabel="BackwardForwardSegment">
+                    <rect key="frame" x="222" y="27" width="71" height="20"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <segmentedCell key="cell" alignment="left" style="roundRect" trackingMode="momentary" id="H5y-L8-NDU">
                         <font key="font" metaFont="cellTitle"/>
@@ -173,6 +176,7 @@
                 <constraint firstItem="j2o-G0-HdP" firstAttribute="width" secondItem="Un5-SX-sFi" secondAttribute="width" id="QAf-X3-BBW"/>
                 <constraint firstItem="uFk-KV-jTR" firstAttribute="top" secondItem="b8n-nP-ifa" secondAttribute="bottom" constant="3" id="SpI-1h-9Hf"/>
                 <constraint firstAttribute="trailing" secondItem="2h9-Xo-WpS" secondAttribute="trailing" constant="4" id="UY3-H7-xbr"/>
+                <constraint firstAttribute="bottom" secondItem="b8n-nP-ifa" secondAttribute="bottom" constant="24" id="V3o-Nc-G1N"/>
                 <constraint firstItem="Odd-5d-NOn" firstAttribute="leading" secondItem="gqM-vr-cXm" secondAttribute="trailing" constant="6" id="WGM-sl-bVr"/>
                 <constraint firstAttribute="height" constant="51" id="Z8j-S7-uh6"/>
                 <constraint firstItem="j2o-G0-HdP" firstAttribute="leading" secondItem="Un5-SX-sFi" secondAttribute="leading" id="ZKq-Sy-Ief"/>

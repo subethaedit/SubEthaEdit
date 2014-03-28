@@ -12,6 +12,7 @@
 #import "PlainTextEditor.h"
 #import "PlainTextWindowControllerTabContext.h"
 #import "SEETextView.h"
+#import "TCMDragImageView.h"
 
 // this file needs arc - add -fobjc-arc in the compile build phase
 #if !__has_feature(objc_arc)
@@ -55,11 +56,13 @@ static NSString * const kOptionKeyPathRegexOptionIgnoreEmptyMatches = @"content.
 static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.regularExpressionOptionOnlyLongestMatch";
 
 
-@interface SEEFindAndReplaceViewController () <NSMenuDelegate>
+@interface SEEFindAndReplaceViewController () <NSMenuDelegate, TCMDragImageDelegate>
 @property (nonatomic, strong) NSMenu *optionsPopupMenu;
 @property (nonatomic, strong) NSMutableSet *registeredNotifications;
 @property (nonatomic, readonly) SEETextView *targetTextView;
 @property (nonatomic, readonly) PlainTextEditor *targetPlainTextEditor;
+
+@property (nonatomic) NSInteger startHeightBeforeDrag;
 @end
 
 @implementation SEEFindAndReplaceViewController
@@ -408,6 +411,19 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 - (BOOL)menu:(NSMenu *)menu updateItem:(NSMenuItem *)item atIndex:(NSInteger)index shouldCancel:(BOOL)shouldCancel {
 	return YES;
 }
+
+#pragma mark - resize dragging
+- (void)dragImage:(TCMDragImageView *)aDragImageView mouseDown:(NSEvent *)anEvent {
+	self.startHeightBeforeDrag = self.mainViewHeightConstraint.constant;
+}
+
+- (void)dragImage:(TCMDragImageView *)aDragImageView mouseDragged:(NSEvent *)anEvent {
+	CGFloat newHeight = self.startHeightBeforeDrag - aDragImageView.dragDelta.y;
+	newHeight = MIN(newHeight,250);
+	newHeight = MAX(newHeight,51);
+	self.mainViewHeightConstraint.constant = newHeight;
+}
+
 
 #pragma mark - key value observing
 
