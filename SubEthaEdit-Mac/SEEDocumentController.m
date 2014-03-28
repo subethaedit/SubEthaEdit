@@ -796,14 +796,6 @@
 
 								[NSApp extendStateRestoration];
 								[documentController reopenDocumentForURL:documentURL withContentsOfURL:documentAutosaveURL inWindow:window display:YES completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
-									if ([document isKindOfClass:[PlainTextDocument class]]) {
-										PlainTextWindowController *windowController = [[document windowControllers] firstObject];
-										NSTabViewItem *tabViewItem = [windowController tabViewItemForDocument:(PlainTextDocument *)document];
-										PlainTextWindowControllerTabContext *tabContext = tabViewItem.identifier;
-										[tabContext restoreStateWithCoder:tabState];
-									}
-									[NSApp completeStateRestoration];
-
 									restoredTabsCount++;
 									if (restoredTabsCount == tabs.count) {
 										[self finishRestoreWindowWithIdentifier:identifier
@@ -813,6 +805,7 @@
 																		  error:inError
 															  completionHandler:completionHandler];
 									}
+									[NSApp completeStateRestoration];
 								}];
 							} else {
 								// this was the selected tab of the window so it's aready restored...
@@ -873,6 +866,7 @@
 		[plainTextWindowController selectTabForDocument:document];
 	}
 
+	// completion handler will trigger -(void)restoreStateWithCoder: on the window
 	if (completionHandler) {
 		completionHandler(window, inError);
 	}

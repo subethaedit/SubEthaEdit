@@ -1126,7 +1126,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 		PlainTextWindowControllerTabContext *tabContext = tabItem.identifier;
 
 		NSString *tabName = [[tabContext.document fileURL] lastPathComponent];
-
 		if (! tabName) {
 			tabName = tabContext.document.displayName;
 		}
@@ -1136,8 +1135,13 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 		NSKeyedArchiver *tabCoder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:tabData];
 		[tabCoder setOutputFormat:NSPropertyListXMLFormat_v1_0];
 		[tabContext encodeRestorableStateWithCoder:tabCoder];
+		[tabDocument encodeRestorableStateWithCoder:tabCoder];
 		[tabCoder finishEncoding];
 		[coder encodeObject:tabData forKey:tabName];
+
+		if (tabDocument == self.document) {
+			[coder encodeObject:tabName forKey:@"PlainTextWindowSelectedTabName"];
+		}
 	}
 
 	[coder encodeObject:tabNames forKey:@"PlainTextWindowOpenTabNames"];
@@ -1146,6 +1150,30 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 - (void)restoreStateWithCoder:(NSCoder *)coder {
 //	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
 	[super restoreStateWithCoder:coder];
+
+	PlainTextDocument *selectedDocument = self.document;
+
+	for (PlainTextDocument *tabDocument in self.orderedDocuments) {
+		NSTabViewItem *tabItem = [self tabViewItemForDocument:tabDocument];
+		PlainTextWindowControllerTabContext *tabContext = tabItem.identifier;
+		NSString *tabName = [[tabContext.document fileURL] lastPathComponent];
+		if (! tabName) {
+			tabName = tabContext.document.displayName;
+		}
+
+		NSData *tabData = [coder decodeObjectForKey:tabName];
+		NSKeyedUnarchiver *tabCoder = [[NSKeyedUnarchiver alloc] initForReadingWithData:tabData];
+		if (tabCoder) {
+			[tabContext restoreStateWithCoder:tabCoder];
+
+			// -restoreStateWithCoder on the selected document will be called by the window default implementation afterwards
+			if (tabDocument != selectedDocument) {
+				[tabDocument restoreStateWithCoder:tabCoder];
+			}
+		}
+		[tabCoder finishDecoding];
+		[tabCoder release];
+	}
 }
 
 #pragma mark -
