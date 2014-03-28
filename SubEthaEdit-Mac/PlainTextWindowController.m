@@ -1522,13 +1522,9 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     }
 }
 
-- (NSArray *)plainTextEditorsForDocument:(id)aDocument
-{
+- (NSArray *)plainTextEditorsForDocument:(id)aDocument {
     NSMutableArray *editors = [NSMutableArray array];
-    unsigned count = [[self documents] count];
-    unsigned i;
-    for (i = 0; i < count; i++) {
-        PlainTextDocument *document = [[self documents] objectAtIndex:i];
+    for (PlainTextDocument *document in self.documents) {
         if ([document isEqual:aDocument]) {
             NSTabViewItem *tabViewItem = [self tabViewItemForDocument:document];
             if (tabViewItem) {
@@ -1551,13 +1547,11 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     }
 }
 
-- (IBAction)closeTab:(id)sender
-{
+- (IBAction)closeTab:(id)sender {
     [[self document] canCloseDocumentWithDelegate:self shouldCloseSelector:@selector(document:shouldClose:contextInfo:) contextInfo:nil];
 }
 
-- (void)closeAllTabsAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo
-{
+- (void)closeAllTabsAlertDidEnd:(NSAlert *)alert returnCode:(int)returnCode contextInfo:(void *)contextInfo {
     [[alert window] orderOut:self];
 
     if (returnCode == NSAlertFirstButtonReturn) {
@@ -1573,8 +1567,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     }
 }
 
-- (void)closeAllTabs
-{
+- (void)closeAllTabs {
     NSArray *documents = [self documents];
     unsigned count = [documents count];
     unsigned needsSaving = 0;
@@ -2192,19 +2185,6 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
 - (BOOL)tabView:(NSTabView *)aTabView validateOverflowMenuItem:(NSMenuItem *)menuItem forTabViewItem:(NSTabViewItem *)tabViewItem
 {
-/* TODO: compatiblity fix
-    int offset = floor(NSAppKitVersionNumber)>NSAppKitVersionNumber10_4 ? 1 : 0 ;//NSAppKitVersionNumber10_4 - need an offset for leopard
-    PlainTextWindowControllerTabContext *tabContext = [tabViewItem identifier];
-    PlainTextDocument *document = [tabContext document];
-    if ([document isDocumentEdited]) {
-        SetItemMark(_NSGetCarbonMenu([menuItem menu]), [[menuItem menu] indexOfItem:menuItem]+offset, kBulletCharCode);
-    } else {
-        SetItemMark(_NSGetCarbonMenu([menuItem menu]), [[menuItem menu] indexOfItem:menuItem]+offset, noMark);
-    }
-
-    if ([I_tabView selectedTabViewItem] == tabViewItem)
-        SetItemMark(_NSGetCarbonMenu([menuItem menu]), [[menuItem menu] indexOfItem:menuItem]+offset, checkMark);
-*/
     return YES;
 }
 
