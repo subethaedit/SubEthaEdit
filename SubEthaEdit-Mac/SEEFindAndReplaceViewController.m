@@ -168,6 +168,11 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 	CGFloat segmentWidth2 = totalWidth - segmentWidth1;
 	[self.findPreviousNextSegmentedControl setWidth:segmentWidth1 forSegment:0];
 	[self.findPreviousNextSegmentedControl setWidth:segmentWidth2 forSegment:1];
+	
+	NSNumber *defaultHeight = [[NSUserDefaults standardUserDefaults] objectForKey:@"SEEFindAndReplaceOverlayDefaultHeight"];
+	if (defaultHeight) {
+		self.mainViewHeightConstraint.constant = defaultHeight.integerValue;
+	}
 }
 
 - (NSObjectController *)findAndReplaceStateObjectController {
@@ -413,17 +418,32 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 }
 
 #pragma mark - resize dragging
+
+- (void)setOverlayViewHeight:(CGFloat)aDesiredHeight {
+	aDesiredHeight = MIN(aDesiredHeight,176);
+	aDesiredHeight = MAX(aDesiredHeight,51);
+	
+	if (self.mainViewHeightConstraint.constant != aDesiredHeight) {
+		self.mainViewHeightConstraint.constant = aDesiredHeight;
+		[[NSUserDefaults standardUserDefaults] setObject:@(aDesiredHeight) forKey:@"SEEFindAndReplaceOverlayDefaultHeight"];
+	}
+}
+
 - (void)dragImage:(TCMDragImageView *)aDragImageView mouseDown:(NSEvent *)anEvent {
 	self.startHeightBeforeDrag = self.mainViewHeightConstraint.constant;
 }
 
 - (void)dragImage:(TCMDragImageView *)aDragImageView mouseDragged:(NSEvent *)anEvent {
 	CGFloat newHeight = self.startHeightBeforeDrag - aDragImageView.dragDelta.y;
-	newHeight = MIN(newHeight,250);
-	newHeight = MAX(newHeight,51);
-	self.mainViewHeightConstraint.constant = newHeight;
+	[self setOverlayViewHeight:newHeight];
 }
 
+- (void)dragImage:(TCMDragImageView *)aDragImageView mouseUp:(NSEvent *)anEvent {
+	[self dragImage:aDragImageView mouseDragged:anEvent]; // take the last bit of movement too
+	PlainTextEditor *topEditor = self.plainTextWindowControllerTabContext.plainTextEditors.firstObject;
+	[topEditor updateTopScrollViewInset];
+	[topEditor adjustToScrollViewInsets];
+}
 
 #pragma mark - key value observing
 

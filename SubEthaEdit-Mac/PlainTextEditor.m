@@ -99,6 +99,8 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 @property (nonatomic, strong) NSViewController *topOverlayViewController;
 @property (nonatomic, strong) SEEFindAndReplaceViewController *findAndReplaceController;
 
+@property (nonatomic, strong) NSLayoutConstraint *topStatusBarPinConstraint;
+
 - (void)	TCM_updateStatusBar;
 - (void)	TCM_updateBottomStatusBar;
 - (float)pageGuidePositionForColumns:(int)aColumns;
@@ -141,6 +143,21 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 				targetMenuItem.keyEquivalentModifierMask = item.keyEquivalentModifierMask;
 			}
 			if (menuItemIndex >= accessPopUpMenu.itemArray.count) break;
+		}
+		
+		// change the top status bar to use constraints
+		{
+			NSView *statusBarView = self.O_topStatusBarView;
+		NSView *containerView = statusBarView.superview;
+		[statusBarView removeFromSuperview];
+		
+		[statusBarView setTranslatesAutoresizingMaskIntoConstraints:NO];
+		[containerView addSubview:statusBarView];
+			[containerView addConstraints:@[
+											[NSLayoutConstraint constraintWithItem:statusBarView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:containerView attribute:NSLayoutAttributeWidth multiplier:1.0 constant:0.0],
+											[NSLayoutConstraint constraintWithItem:statusBarView attribute:NSLayoutAttributeHeight relatedBy:NSLayoutRelationEqual toItem:nil attribute:NSLayoutAttributeWidth multiplier:1.0 constant:CGRectGetHeight(statusBarView.bounds)],
+											]];
+			[self updateTopPinConstraints];
 		}
 		
     }
@@ -584,29 +601,8 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     if (isnan(s_initialXPosition)) {
         s_initialXPosition = [O_positionTextField frame].origin.x;
     }
-
-	NSRect remainingLayoutRect = O_scrollView.frame;
-	
-	if (self.topOverlayViewController) {
-		NSView *overlayView = self.topOverlayViewController.view;
-		NSRect topOverlayRect = [overlayView frame];
-		topOverlayRect.origin.y = NSMaxY(remainingLayoutRect) - NSHeight(topOverlayRect);
-		topOverlayRect.origin.x = remainingLayoutRect.origin.x;
-		topOverlayRect.size.width = NSWidth(remainingLayoutRect);
-		overlayView.frame = topOverlayRect;
-		remainingLayoutRect.size.height -= NSHeight(topOverlayRect);
-	}
-	
-	
-	
-    if (I_flags.showTopStatusBar) {
-		NSRect frame = self.O_topStatusBarView.frame;
-		frame.origin.x = NSMinX(remainingLayoutRect);
-		frame.size.width = NSWidth(remainingLayoutRect);
-		frame.origin.y = NSMaxY(remainingLayoutRect) - NSHeight(frame);
-		self.O_topStatusBarView.frame = frame;
-		remainingLayoutRect.size.height -= NSHeight(frame);
 		
+    if (I_flags.showTopStatusBar) {
         NSRect bounds = [self.O_topStatusBarView bounds];
 
 		PlainTextDocument *document = [self document];
@@ -766,6 +762,7 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
 - (void)adjustToScrollViewInsets {
 	[I_textView adjustContainerInsetToScrollView];
+	[[O_scrollView verticalRulerView] setNeedsDisplay:YES];
 	[[[O_scrollView window] windowController] updateWindowMinSize];
 }
 
@@ -1384,6 +1381,17 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 	return (self.topOverlayViewController != nil);
 }
 
+- (void)updateTopPinConstraints {
+	NSView *topStatusBarView = self.O_topStatusBarView;
+	NSView *containerView = topStatusBarView.superview;
+	NSView *topOverlayView = self.topOverlayViewController.view;
+	if (self.topStatusBarPinConstraint) {
+		[containerView removeConstraint:self.topStatusBarPinConstraint];
+	}
+	self.topStatusBarPinConstraint = [NSLayoutConstraint constraintWithItem:topStatusBarView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:(topOverlayView ?: containerView) attribute:topOverlayView ? NSLayoutAttributeBottom : NSLayoutAttributeTop multiplier:1.0 constant:0.0];
+	[containerView addConstraint:self.topStatusBarPinConstraint];
+}
+
 - (void)displayViewControllerInTopArea:(NSViewController *)aViewController {
 	NSViewController *displayedViewController = self.topOverlayViewController;
 	if (displayedViewController != aViewController) {
@@ -1392,25 +1400,22 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 			NSRect overlayFrame = overlayView.frame;
 			[overlayView removeFromSuperview];
 			self.topOverlayViewController = nil;
-			
-			O_scrollView.topOverlayHeight -= NSHeight(overlayFrame);
 		}
 		
 		if (aViewController) {
 			NSView *overlayView = aViewController.view;
-			overlayView.autoresizingMask = NSViewWidthSizable | NSViewMinYMargin;
-			NSView *superview = self.O_editorView;
-			[self.O_editorView addSubview:overlayView];
+			NSView *superview = self.O_topStatusBarView.superview;
+			[superview addSubview:overlayView];
 
 			// width
 			[superview addConstraint:[NSLayoutConstraint constraintWithItem:overlayView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeWidth multiplier:1 constant:0]];
 			// pin to top
 			[superview addConstraint:[NSLayoutConstraint constraintWithItem:overlayView attribute:NSLayoutAttributeTop relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeTop multiplier:1 constant:0]];
 			
-			O_scrollView.topOverlayHeight += NSHeight(overlayView.frame);
-			
 			self.topOverlayViewController = aViewController;
 		}
+		[self updateTopPinConstraints];
+		[self updateTopScrollViewInset];
 		[self TCM_adjustTopStatusBarFrames];
 	}
 	[self adjustToScrollViewInsets];
@@ -1434,7 +1439,6 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 		[self displayViewControllerInTopArea:viewController];
 	}
 	[[self.textView window] makeFirstResponder:self.findAndReplaceController.findTextField];
-	[[O_scrollView verticalRulerView] setNeedsDisplay:YES];
 }
 
 - (IBAction)hideFindAndReplace:(id)aSender {
@@ -1444,7 +1448,6 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 		PlainTextEditor *editorToActivate = I_windowControllerTabContext.activePlainTextEditor;
 		[self.textView.window makeFirstResponder:editorToActivate.textView];
 	}
-	[[O_scrollView verticalRulerView] setNeedsDisplay:YES];
 }
 
 
@@ -1812,6 +1815,17 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 
 #define STATUSBARSIZE 17.
 
+- (void)updateTopScrollViewInset {
+	CGFloat result = 0.0;
+	if (self.showsTopStatusBar) {
+		result += NSHeight(self.O_topStatusBarView.frame);
+	}
+	if (self.topOverlayViewController.view) {
+		result += NSHeight(self.topOverlayViewController.view.frame);
+	}
+	O_scrollView.topOverlayHeight = result;
+}
+
 - (BOOL)showsTopStatusBar
 {
     return I_flags.showTopStatusBar;
@@ -1824,16 +1838,14 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
     {
         I_flags.showTopStatusBar = !I_flags.showTopStatusBar;
 
-		if (! I_flags.showTopStatusBar) {
+		if (!I_flags.showTopStatusBar) {
 			self.topStatusBarViewBackgroundFilters = self.O_topStatusBarView.layer.backgroundFilters;
 			self.O_topStatusBarView.layer.backgroundFilters = nil;
-			O_scrollView.topOverlayHeight -= NSHeight(self.O_topStatusBarView.frame);
 		} else {
 			self.O_topStatusBarView.layer.backgroundFilters = self.topStatusBarViewBackgroundFilters;
 			self.topStatusBarViewBackgroundFilters = nil;
-			O_scrollView.topOverlayHeight += NSHeight(self.O_topStatusBarView.frame);
 		}
-
+		[self updateTopScrollViewInset];
 		[self TCM_updateStatusBar];
 
 		[self.O_topStatusBarView setHidden:!I_flags.showTopStatusBar];
