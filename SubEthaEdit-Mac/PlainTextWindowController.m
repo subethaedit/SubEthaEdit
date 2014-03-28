@@ -480,6 +480,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
     if (showsBottomStatusBar!=aFlag) {
         [[I_plainTextEditors lastObject] setShowsBottomStatusBar:aFlag];
         [[self document] setShowsBottomStatusBar:aFlag];
+		[self invalidateRestorableState];
     }
 }
 
@@ -513,6 +514,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 			SEEParticipantsOverlayViewController *participantsOverlay = [[[SEEParticipantsOverlayViewController alloc] initWithTabContext:context] autorelease];
 			[editor displayViewControllerInBottomArea:participantsOverlay];
 		}
+		[self invalidateRestorableState];
 	}
 }
 
@@ -523,6 +525,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 - (IBAction)toggleBottomStatusBar:(id)aSender {
     [self setShowsBottomStatusBar:![self showsBottomStatusBar]];
     [(PlainTextDocument *)[self document] setShowsBottomStatusBar:[self showsBottomStatusBar]];
+	[self invalidateRestorableState];
 }
 
 - (BOOL)showsGutter {
@@ -534,10 +537,12 @@ static NSPoint S_cascadePoint = {0.0,0.0};
         [loopItem setShowsGutter:aFlag];
     }
     [[self document] setShowsGutter:aFlag];
+	[self invalidateRestorableState];
 }
 
 - (IBAction)toggleLineNumbers:(id)aSender {
     [self setShowsGutter:![self showsGutter]];
+	[self invalidateRestorableState];
 }
 
 
@@ -788,6 +793,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
 - (void)setActivePlainTextEditor:(PlainTextEditor *)activePlainTextEditor {
 	[self.selectedTabContext setActivePlainTextEditor:activePlainTextEditor];
+	[self invalidateRestorableState];
 }
 
 
@@ -1043,6 +1049,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 	
 	[self updateWindowMinSize];
     [[self window] makeFirstResponder:textView];
+	[self invalidateRestorableState];
 }
 
 
@@ -1100,8 +1107,8 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 	}
 
 	[self updateWindowMinSize];
-
     [[self window] makeFirstResponder:oldFirstResponder];
+	[self invalidateRestorableState];
 }
 
 - (IBAction)refreshWebPreview:(id)aSender {
@@ -1117,8 +1124,10 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 #pragma mark - Window restoration
 
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
-//	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
+//	NSLog(@"%s - %d : %@", __FUNCTION__, __LINE__, [self.document displayName]);
 	[super encodeRestorableStateWithCoder:coder];
+
+	PlainTextDocument *selectedDocument = self.document;
 
 	NSMutableArray *tabNames = [NSMutableArray array];
 	for (PlainTextDocument *tabDocument in self.orderedDocuments) {
@@ -1135,7 +1144,10 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 		NSKeyedArchiver *tabCoder = [[NSKeyedArchiver alloc] initForWritingWithMutableData:tabData];
 		[tabCoder setOutputFormat:NSPropertyListXMLFormat_v1_0];
 		[tabContext encodeRestorableStateWithCoder:tabCoder];
-		[tabDocument encodeRestorableStateWithCoder:tabCoder];
+		if (tabDocument != selectedDocument) {
+			[tabItem.view encodeRestorableStateWithCoder:tabCoder];
+			[tabDocument encodeRestorableStateWithCoder:tabCoder];
+		}
 		[tabCoder finishEncoding];
 		[coder encodeObject:tabData forKey:tabName];
 
@@ -1148,7 +1160,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 }
 
 - (void)restoreStateWithCoder:(NSCoder *)coder {
-//	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
+	NSLog(@"%s - %d : %@", __FUNCTION__, __LINE__, [self.document displayName]);
 	[super restoreStateWithCoder:coder];
 
 	PlainTextDocument *selectedDocument = self.document;
@@ -1168,6 +1180,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 
 			// -restoreStateWithCoder on the selected document will be called by the window default implementation afterwards
 			if (tabDocument != selectedDocument) {
+				[tabItem.view restoreStateWithCoder:tabCoder];
 				[tabDocument restoreStateWithCoder:tabCoder];
 			}
 		}

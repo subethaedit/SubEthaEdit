@@ -1625,17 +1625,21 @@ static NSString *tempFileName(NSString *origPath) {
     }
 }
 
-#pragma mark Overrides of NSDocument Methods to Support MultiDocument Windows
+
+#pragma mark - Restorable State
 
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
-//	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
+//	NSLog(@"%s - %d : %@", __FUNCTION__, __LINE__, [self displayName]);
 	[super encodeRestorableStateWithCoder:coder];
 }
 
 - (void)restoreStateWithCoder:(NSCoder *)coder {
-//	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
+	NSLog(@"%s - %d : %@", __FUNCTION__, __LINE__, [self displayName]);
 	[super restoreStateWithCoder:coder];
 }
+
+
+#pragma mark - Overrides of NSDocument Methods to Support MultiDocument Windows
 
 static BOOL PlainTextDocumentIgnoreRemoveWindowController = NO;
 

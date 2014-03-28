@@ -66,7 +66,7 @@ NSString * const SEEPlainTextWindowControllerTabContextActiveEditorDidChangeNoti
 }
 
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
-//	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
+//	NSLog(@"%s - %d : %@", __FUNCTION__, __LINE__, self.document.displayName);
 	[super encodeRestorableStateWithCoder:coder];
 
 	NSURL *documentURL = self.document.fileURL;
@@ -94,8 +94,7 @@ NSString * const SEEPlainTextWindowControllerTabContextActiveEditorDidChangeNoti
 }
 
 - (void)restoreStateWithCoder:(NSCoder *)coder {
-//	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
-
+	NSLog(@"%s - %d : %@", __FUNCTION__, __LINE__, self.document.displayName);
 	[super restoreStateWithCoder:coder];
 }
 
