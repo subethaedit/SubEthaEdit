@@ -865,10 +865,10 @@
 	if ([windowController isKindOfClass:[PlainTextWindowController class]]) {
 		PlainTextWindowController *plainTextWindowController = (PlainTextWindowController *)windowController;
 
-		NSArray *tabNames = [plainTextWindowController.tabView.tabViewItems valueForKey:@"label"];
-		NSArray *tabs = [state decodeObjectForKey:@"PlainTextWindowOpenTabNames"];
-
-		NSLog(@"\n%@\n%@", tabNames, tabs);
+//		NSArray *tabNames = [plainTextWindowController.tabView.tabViewItems valueForKey:@"label"];
+//		NSArray *tabs = [state decodeObjectForKey:@"PlainTextWindowOpenTabNames"];
+//
+//		NSLog(@"\n%@\n%@", tabNames, tabs);
 
 		[plainTextWindowController selectTabForDocument:document];
 	}
