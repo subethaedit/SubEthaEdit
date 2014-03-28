@@ -42,7 +42,7 @@
                         <outlet property="nextKeyView" destination="gqM-vr-cXm" id="J4O-d8-vAs"/>
                     </connections>
                 </textField>
-                <textField verticalHuggingPriority="750" translatesAutoresizingMaskIntoConstraints="NO" id="gqM-vr-cXm" userLabel="ReplaceTextField">
+                <textField verticalHuggingPriority="750" misplaced="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gqM-vr-cXm" userLabel="ReplaceTextField">
                     <rect key="frame" x="299" y="24" width="168" height="22"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
@@ -67,7 +67,7 @@
                     <imageCell key="cell" refusesFirstResponder="YES" alignment="left" animates="YES" imageScaling="proportionallyDown" image="SmallGrowBoxRight3" id="Gt4-3V-Vpx"/>
                 </imageView>
                 <button verticalHuggingPriority="750" tag="6" translatesAutoresizingMaskIntoConstraints="NO" id="Odd-5d-NOn" userLabel="ReplaceButton">
-                    <rect key="frame" x="473" y="27" width="88" height="19"/>
+                    <rect key="frame" x="475" y="27" width="88" height="19"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <buttonCell key="cell" type="roundRect" title="Replace" bezelStyle="roundedRect" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="hZh-tC-bOy">
                         <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -78,7 +78,7 @@
                     </connections>
                 </button>
                 <button verticalHuggingPriority="750" tag="4" translatesAutoresizingMaskIntoConstraints="NO" id="39E-pR-j5M" userLabel="ReplaceAllButton">
-                    <rect key="frame" x="473" y="4" width="88" height="19"/>
+                    <rect key="frame" x="475" y="4" width="88" height="19"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="88" id="Sxt-zE-lWr"/>
@@ -106,7 +106,7 @@
                     </connections>
                 </button>
                 <button translatesAutoresizingMaskIntoConstraints="NO" id="adi-Uu-d9V" userLabel="CloseButton">
-                    <rect key="frame" x="567" y="31" width="10" height="13"/>
+                    <rect key="frame" x="569" y="31" width="10" height="13"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="10" id="P4b-Si-2lE"/>
@@ -144,7 +144,7 @@
                         <action selector="searchOptionsDropdownAction:" target="-2" id="QbY-ef-vwk"/>
                     </connections>
                 </button>
-                <segmentedControl verticalHuggingPriority="750" mirrorLayoutDirectionWhenInternationalizing="never" translatesAutoresizingMaskIntoConstraints="NO" id="j2o-G0-HdP" userLabel="BackwardForwardSegment">
+                <segmentedControl verticalHuggingPriority="750" misplaced="YES" mirrorLayoutDirectionWhenInternationalizing="never" translatesAutoresizingMaskIntoConstraints="NO" id="j2o-G0-HdP" userLabel="BackwardForwardSegment">
                     <rect key="frame" x="221" y="27" width="71" height="20"/>
                     <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                     <segmentedCell key="cell" alignment="left" style="roundRect" trackingMode="momentary" id="H5y-L8-NDU">
@@ -184,7 +184,7 @@
                 <constraint firstItem="j2o-G0-HdP" firstAttribute="leading" secondItem="b8n-nP-ifa" secondAttribute="trailing" constant="6" id="fxB-6y-KGE"/>
                 <constraint firstItem="x9b-yD-DHi" firstAttribute="top" secondItem="1" secondAttribute="top" constant="4" id="nbE-16-SI7"/>
                 <constraint firstItem="Odd-5d-NOn" firstAttribute="width" secondItem="39E-pR-j5M" secondAttribute="width" id="r5V-au-yDu"/>
-                <constraint firstAttribute="trailing" secondItem="adi-Uu-d9V" secondAttribute="trailing" constant="6" id="rnS-Xe-gcm"/>
+                <constraint firstAttribute="trailing" secondItem="adi-Uu-d9V" secondAttribute="trailing" constant="4" id="rnS-Xe-gcm"/>
                 <constraint firstItem="x9b-yD-DHi" firstAttribute="leading" secondItem="1" secondAttribute="leading" constant="4" id="t8p-TT-fKz"/>
                 <constraint firstItem="gqM-vr-cXm" firstAttribute="width" secondItem="b8n-nP-ifa" secondAttribute="width" id="uwX-Eg-c8V"/>
                 <constraint firstItem="uFk-KV-jTR" firstAttribute="trailing" secondItem="b8n-nP-ifa" secondAttribute="trailing" constant="-34" id="xBd-NT-EJZ"/>

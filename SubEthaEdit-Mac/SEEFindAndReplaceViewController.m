@@ -149,6 +149,22 @@ static NSString * const kOptionKeyPathRegexOptionOnlyLongestMatch = @"content.re
 		[note.object isEqual:self.plainTextWindowControllerTabContext];
 		[weakSelf updateSearchOptionsButton];
 	}]];
+	
+	// localize and fix layout correspondingly
+	self.replaceButton.title = NSLocalizedString(@"FIND_REPLACE_PANEL_REPLACE", @"'Replace' in find panel");
+	self.replaceAllButton.title = NSLocalizedString(@"FIND_REPLACE_PANEL_REPLACEALL", @"'Replace All' in find panel");
+	self.findAllButton.title = NSLocalizedString(@"FIND_REPLACE_PANEL_FINDALL", @"'Find all' in find panel");
+
+	// have the labels have a little more width than intended by the framework
+	CGFloat extraButtonPadding = 8.0;
+	self.findAllWidthConstraint.constant = self.findAllButton.intrinsicContentSize.width + extraButtonPadding;
+	self.replaceAllWidthConstraint.constant = self.replaceAllButton.intrinsicContentSize.width + extraButtonPadding;
+	CGFloat buttonSegmentDifference = 5.0;
+	CGFloat totalWidth = self.findAllWidthConstraint.constant - buttonSegmentDifference;
+	CGFloat segmentWidth1 = round(totalWidth / 2.0);
+	CGFloat segmentWidth2 = totalWidth - segmentWidth1;
+	[self.findPreviousNextSegmentedControl setWidth:segmentWidth1 forSegment:0];
+	[self.findPreviousNextSegmentedControl setWidth:segmentWidth2 forSegment:1];
 }
 
 - (NSObjectController *)findAndReplaceStateObjectController {

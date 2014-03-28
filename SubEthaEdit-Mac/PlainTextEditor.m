@@ -1400,9 +1400,8 @@ NSString * const PlainTextEditorDidChangeSearchScopeNotification = @"PlainTextEd
 			NSView *overlayView = aViewController.view;
 			overlayView.autoresizingMask = NSViewWidthSizable | NSViewMinYMargin;
 			NSView *superview = self.O_editorView;
-			NSDictionary *viewsDictionary = NSDictionaryOfVariableBindings(overlayView,superview);
 			[self.O_editorView addSubview:overlayView];
-			
+
 			// width
 			[superview addConstraint:[NSLayoutConstraint constraintWithItem:overlayView attribute:NSLayoutAttributeWidth relatedBy:NSLayoutRelationEqual toItem:superview attribute:NSLayoutAttributeWidth multiplier:1 constant:0]];
 			// pin to top
