@@ -744,9 +744,11 @@
 	if ([identifier isEqualToString:@"DocumentList"]) {
 		[documentController showDocumentListWindow:self];
 
-		if (completionHandler) {
-			completionHandler(documentController.documentListWindowController.window, nil);
-		}
+		[self finishRestoreWindowWithIdentifier:identifier
+										  state:state
+										 window:documentController.documentListWindowController.window
+										  error:nil
+							  completionHandler:completionHandler];
 	} else {
 		SEEDocumentCreationFlags *creationFlags = [[SEEDocumentCreationFlags alloc] init];
 		creationFlags.openInTab = NO;
@@ -801,9 +803,11 @@
 
 									restoredTabsCount++;
 									if (restoredTabsCount == tabs.count) {
-										if (completionHandler) {
-											completionHandler(window, inError);
-										}
+										[self finishRestoreWindowWithIdentifier:identifier
+																		  state:state
+																		 window:window
+																		  error:inError
+															  completionHandler:completionHandler];
 									}
 								}];
 							} else {
@@ -829,17 +833,39 @@
 					}
 
 					if (restoredTabsCount == tabs.count) {
-						if (completionHandler) {
-							completionHandler(window, inError);
-						}
+						[self finishRestoreWindowWithIdentifier:identifier
+														  state:state
+														 window:window
+														  error:inError
+											  completionHandler:completionHandler];
 					}
 				}
 			} else {
-				if (completionHandler) {
-					completionHandler(window, inError);
-				}
+				[self finishRestoreWindowWithIdentifier:identifier
+												  state:state
+												 window:window
+												  error:inError
+									  completionHandler:completionHandler];
 			}
 		}];
+	}
+}
+
+
++ (void)finishRestoreWindowWithIdentifier:(NSString *)identifier state:(NSCoder *)state window:(NSWindow *)window error:(NSError *)inError completionHandler:(void (^)(NSWindow *, NSError *))completionHandler {
+
+	NSWindowController *windowController = window.windowController;
+	if ([windowController isKindOfClass:[PlainTextWindowController class]]) {
+		PlainTextWindowController *plainTextWindowController = (PlainTextWindowController *)windowController;
+
+		NSArray *tabNames = [plainTextWindowController.tabView.tabViewItems valueForKey:@"label"];
+		NSArray *tabs = [state decodeObjectForKey:@"PlainTextWindowOpenTabNames"];
+
+		NSLog(@"\n%@\n%@", tabNames, tabs);
+	}
+
+	if (completionHandler) {
+		completionHandler(window, inError);
 	}
 }
 
