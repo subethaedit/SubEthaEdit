@@ -738,7 +738,7 @@
 #pragma mark - NSWindowRestoration
 
 + (void)restoreWindowWithIdentifier:(NSString *)identifier state:(NSCoder *)state completionHandler:(void (^)(NSWindow *, NSError *))completionHandler {
-	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
+//	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
 	SEEDocumentController *documentController = [[self class] sharedDocumentController];
 
 	if ([identifier isEqualToString:@"DocumentList"]) {
@@ -748,11 +748,8 @@
 			completionHandler(documentController.documentListWindowController.window, nil);
 		}
 	} else {
-		documentController.isOpeningUsingAlternateMenuItem = NO;
-		documentController.isOpeningInTab = NO;
-
 		[super restoreWindowWithIdentifier:identifier state:state completionHandler:^(NSWindow *window, NSError *inError) {
-			NSLog(@"%s - %d", __FUNCTION__, __LINE__);
+//			NSLog(@"%s - %d", __FUNCTION__, __LINE__);
 
 			// we also may have to restore tabs in this window
 			NSArray *tabs = [state decodeObjectForKey:@"PlainTextWindowOpenTabNames"];
@@ -775,7 +772,6 @@
 																	 relativeToURL:nil
 															   bookmarkDataIsStale:NULL
 																			 error:NULL];
-					[documentURL startAccessingSecurityScopedResource];
 
 					if (! documentAutosaveURL) { // if there is no autosave file make sure to read from original URL
 						documentAutosaveURL = documentURL;
@@ -784,9 +780,6 @@
 					}
 
 					if (documentAutosaveURL) {
-						documentController.isOpeningUsingAlternateMenuItem = NO;
-						documentController.isOpeningInTab = YES;
-
 						[NSApp extendStateRestoration];
 						[documentController reopenDocumentForURL:documentURL withContentsOfURL:documentAutosaveURL inWindow:window display:YES completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
 							if ([document isKindOfClass:[PlainTextDocument class]]) {
@@ -811,7 +804,7 @@
 
 - (void)reopenDocumentForURL:(NSURL *)urlOrNil withContentsOfURL:(NSURL *)contentsURL display:(BOOL)displayDocument completionHandler:(void (^)(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error))completionHandler
 {
-	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
+//	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
 	[self.filenamesFromLastRunOpenPanel removeAllObjects];
 
 	@synchronized(self.documentCreationFlagsLookupDict) {
@@ -821,7 +814,7 @@
 	}
 
 	[super reopenDocumentForURL:urlOrNil withContentsOfURL:contentsURL display:displayDocument completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
-		NSLog(@"%s - %d", __FUNCTION__, __LINE__);
+//		NSLog(@"%s - %d", __FUNCTION__, __LINE__);
 		if (completionHandler) {
 			completionHandler(document, documentWasAlreadyOpen, error);
 		}
@@ -831,7 +824,7 @@
 
 - (void)reopenDocumentForURL:(NSURL *)urlOrNil withContentsOfURL:(NSURL *)contentsURL inWindow:(NSWindow *)parentWindow display:(BOOL)displayDocument  completionHandler:(void (^)(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error))completionHandler
 {
-	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
+//	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
 	[self.filenamesFromLastRunOpenPanel removeAllObjects];
 
 	@synchronized(self.documentCreationFlagsLookupDict) {
@@ -843,7 +836,7 @@
 	}
 
 	[super reopenDocumentForURL:urlOrNil withContentsOfURL:contentsURL display:displayDocument completionHandler:^(NSDocument *document, BOOL documentWasAlreadyOpen, NSError *error) {
-		NSLog(@"%s - %d", __FUNCTION__, __LINE__);
+//		NSLog(@"%s - %d", __FUNCTION__, __LINE__);
 		if (completionHandler) {
 			completionHandler(document, documentWasAlreadyOpen, error);
 		}
@@ -852,8 +845,8 @@
 
 
 - (id)makeDocumentForURL:(NSURL *)urlOrNil withContentsOfURL:(NSURL *)contentsURL ofType:(NSString *)typeName error:(NSError **)outError {
-	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
-	NSAssert(contentsURL, @"ContentsURl should not be nil");
+//	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
+	NSAssert(contentsURL, @"%s - contentsURL can't be nil.", __FUNCTION__);
 
 	id result = [super makeDocumentForURL:urlOrNil withContentsOfURL:contentsURL ofType:typeName error:outError];
 

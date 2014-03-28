@@ -66,7 +66,7 @@ NSString * const SEEPlainTextWindowControllerTabContextActiveEditorDidChangeNoti
 }
 
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
-	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
+//	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
 	[super encodeRestorableStateWithCoder:coder];
 	[self.document encodeRestorableStateWithCoder:coder];
 
@@ -95,7 +95,7 @@ NSString * const SEEPlainTextWindowControllerTabContextActiveEditorDidChangeNoti
 }
 
 - (void)restoreStateWithCoder:(NSCoder *)coder {
-	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
+//	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
 	[super restoreStateWithCoder:coder];
 	[self.document restoreStateWithCoder:coder];
 

@@ -1117,7 +1117,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 #pragma mark - Window restoration
 
 - (void)encodeRestorableStateWithCoder:(NSCoder *)coder {
-	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
+//	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
 	[super encodeRestorableStateWithCoder:coder];
 
 	NSMutableArray *tabNames = [NSMutableArray array];
@@ -1144,7 +1144,7 @@ static NSPoint S_cascadePoint = {0.0,0.0};
 }
 
 - (void)restoreStateWithCoder:(NSCoder *)coder {
-	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
+//	NSLog(@"%s - %d", __FUNCTION__, __LINE__);
 	[super restoreStateWithCoder:coder];
 }
 
