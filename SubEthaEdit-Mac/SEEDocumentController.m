@@ -799,12 +799,10 @@
 									}
 									[NSApp completeStateRestoration];
 
-									@synchronized (window) {
-										restoredTabsCount++;
-										if (restoredTabsCount == tabs.count) {
-											if (completionHandler) {
-												completionHandler(window, inError);
-											}
+									restoredTabsCount++;
+									if (restoredTabsCount == tabs.count) {
+										if (completionHandler) {
+											completionHandler(window, inError);
 										}
 									}
 								}];
