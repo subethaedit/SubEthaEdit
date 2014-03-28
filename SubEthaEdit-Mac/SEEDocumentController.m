@@ -790,6 +790,7 @@
 						} else {
 							[documentAutosaveURL startAccessingSecurityScopedResource];
 						}
+						[tabState finishDecoding];
 
 						if (documentAutosaveURL) {
 							if (! ((documentURL && [[selectedDocument fileURL] isEqual:documentURL]) || [[selectedDocument autosavedContentsFileURL] isEqual:documentAutosaveURL])) {
